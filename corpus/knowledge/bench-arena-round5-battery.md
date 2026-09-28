@@ -14,7 +14,7 @@ Ex-ante record: `/tmp/bench-r5/predictions.md` (written before first request).
 | Level | Predicted | Observed | Hit? |
 |---|---|---|---|
 | Aggregate | 20/33 PASS (range 17–22) | **20/33 PASS** | exact |
-| Per-task | 1 flip off v2 (21 P→F) | **8 status flips** (4 P→F, 3 F→P, 1 F→HARNESS_DEFECT) | 9/33 tasks mis-called |
+| Per-task | 1 flip off v2 (21 P→F) | **8 status deltas** (4 P→F, 3 F→P, 1 F→HARNESS_DEFECT = 06) | 9/33 tasks mis-called |
 | 03-repeat | (implicit) noisy | FAIL again — 2× FAIL on direct-API vs PASS on opencode v2 | consistent |
 
 The aggregate was exactly right for the wrong reason: win-set churned by
@@ -33,7 +33,7 @@ of the win-set rotates. Supports `local-bench-arena.md`'s diff-win-sets rule.
 | 13-stack-min | PASS | FAIL | |
 | 20-csv-group-sum | PASS | FAIL | v2's NULL-telemetry row also failed-ish; now clean FAIL |
 | 31-mutable-default-arg | FAIL | PASS | predict-output task, sha differs from v2 |
-| 06-balanced-html-regex | FAIL | HARNESS_DEFECT | not a flip — see below |
+| 06-balanced-html-regex | FAIL | HARNESS_DEFECT | status delta (in the count of 8), not a PASS/FAIL flip — truncation, see below |
 
 ## Harness / generation events
 

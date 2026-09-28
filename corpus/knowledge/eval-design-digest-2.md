@@ -44,8 +44,8 @@ Rules extracted, ranked by how directly they change how this domain runs evals:
 
 ## Eval as a product/architecture surface
 
-6. **Autonomy is continuous and task-varying** — `philosophy-and-concepts/partial-autonomy.md:32,69,81`
-   (slider table + jagged-intelligence rationale). The eval-design consequence:
+6. **Autonomy is continuous and task-varying** — `philosophy-and-concepts/partial-autonomy.md`
+   (slider table at :56–65; optimal-per-task rationale :67; trust calibration :81). The eval-design consequence:
    scoring autonomy as binary agentic/not-agentic misses the real variable —
    the *optimal slider position per task class*. τ²-bench (shared control) is
    the only shortlist benchmark touching this axis; SKILL.md's decision table
@@ -79,9 +79,10 @@ Rules extracted, ranked by how directly they change how this domain runs evals:
   drift/chunking/retrieval-miss are the failure modes removed. Corpus
   consequence (already obeyed): this corpus's README index *is* the retrieval
   layer; do not build a vector index for ~25 entries.
-- **DDL (daydreaming) loop** — `gwern-essays/ai-daydreaming.md:36-39`: random
-  concept pair → generator pass → critic filter → memory writeback; ~20:1
-  compute overhead. The critic-filter stage is an LLM-as-judge instance with
+- **DDL (daydreaming) loop** — `gwern-essays/ai-daydreaming.md` (loop stages
+  :36–39; "~20:1 compute overhead" figure at :45): random
+  concept pair → generator pass → critic filter → memory writeback.
+  The critic-filter stage is an LLM-as-judge instance with
   the same RLHF-proxy caveat as any scalar judge (`eval-theory-notes.md`).
 - **Turing test measures the apparatus, not the mind** — `ai/books/how-we-became-posthuman.md:35-43`:
   the observer is inside the circuit being measured. Soft warning for
@@ -105,5 +106,6 @@ modes are maintenance discipline, not eval), `thousand-brains.md`
 (neuroscience theory, out of eval scope).
 
 Sweep command used (for the "no durable rule" claim):
-`grep -inE 'eval|benchmark|test|measur|metric|verif|correct|fail' <each file>`
-then `sed` reads on hits — run 2026-09-28 against the 22 files listed above.
+then `sed` reads on hits — run 2026-09-28 against the **25** files listed
+above (corrected round 7: the count was written as 22; the enumeration
+above contains 25 distinct wiki files).

@@ -17,14 +17,14 @@ request).
 |---|---|---|---|---|
 | 01-reverse-words | PASS | PASS | P P P | stable PASS (sha identical ×3) |
 | 02-parse-log-line | FAIL | FAIL | F F F | stable FAIL |
-| 03-extract-isodatetimes | PASS | FAIL | F F F | **scaffold-determined** (direct-API now 5/5 FAIL incl. r4; PASS only via opencode) |
+| 03-extract-isodatetimes | PASS | FAIL | F F F | ~~scaffold-determined~~ → r7: noise (v2's PASS was lucky draw; 0/9 scaffolded replay recovered it) — `bench-arena-round7-scaffold-ablation.md` |
 | 06-balanced-html-regex | FAIL | HARNESS_DEFECT | HD F F | strategy-bound failure family (see below) |
-| 08-sql-group-window | FAIL | PASS | P P P | **scaffold-determined** |
-| 09-sql-top-n-per-group | PASS | FAIL | P P P | sampling noise |
-| 12-knapsack-reconstruct | FAIL | PASS | P P P | **scaffold-determined** |
-| 13-stack-min | FAIL→P | FAIL | F F F | **scaffold-determined** |
-| 20-csv-group-sum | PASS | FAIL | P P P | sampling noise |
-| 31-mutable-default-arg | FAIL | PASS | P P P | **scaffold-determined** (sha identical ×3) |
+| 08-sql-group-window | FAIL | PASS | P P P | ~~scaffold-determined~~ → r7: noise (v2's FAIL was a subtly-wrong SQL draw) — `bench-arena-round7-scaffold-ablation.md` |
+| 09-sql-top-n-per-group | PASS | FAIL | P P P | sampling noise — r7 n=25: PASS-tilted p̂=0.68, single FAIL mode (window-fn-in-WHERE); `bench-arena-round7-noise-n25.md` |
+| 12-knapsack-reconstruct | FAIL | PASS | P P P | ~~scaffold-determined~~ → r7: weak scaffold pull / mostly noise — `bench-arena-round7-scaffold-ablation.md` |
+| 13-stack-min | FAIL→P | FAIL | F F F | **scaffold-determined — CONFIRMED r7** (system-prompt presence flips strategy sorted-stack→monotone-stack, 9/9) |
+| 20-csv-group-sum | PASS | FAIL | P P P | sampling noise — r7 n=25: FAIL-tilted p̂=0.32 (r6 3/3 was lucky); see `bench-arena-round7-noise-n25.md` |
+| 31-mutable-default-arg | FAIL | PASS | P P P | ~~scaffold-determined~~ → r7: borderline noise (mixed under every scaffolded condition) — `bench-arena-round7-scaffold-ablation.md` |
 | 33-metaclass-shadowing | FAIL | FAIL | F F F | stable FAIL (sha identical ×3, same as v2/r5) |
 
 ## Verdict
@@ -76,8 +76,8 @@ a bimodal failure distribution.
 | Deterministic PASS (status+sha stable) | 01 |
 | Deterministic FAIL, identical sha | 33; add 13 (identical-wrong sha ×3 in r6, though sha differs across pipelines) |
 | Stable FAIL, varying sha | 02 (capability gap, fresh wrong answer each gen) |
-| Scaffold-determined | 03 (API=FAIL), 08 (API=PASS), 12 (API=PASS), 31 (API=PASS) |
-| Sampling noise | 09, 20 |
+| Scaffold-determined | 13 only — r7 ablation reclassified 03/08/12/31 (see `bench-arena-round7-scaffold-ablation.md`) |
+| Sampling noise | 09 (PASS-tilted p̂=0.68), 20 (FAIL-tilted p̂=0.32) — tilts + non-iid draws at n=25, `bench-arena-round7-noise-n25.md` |
 | Strategy-bound bimodal | 06 |
 | Semantically broken + hidden-contract hang | 27 (see `bench-arena-task27-timeout-anatomy.md`) |
 

@@ -35,7 +35,8 @@ digest record in `corpus/knowledge/eval-design-digest-2.md`.
    a capability gap with zero sampling variance. Distinguish from boundary
    tasks (which flip) before deciding what to re-probe.
 6. **Second digest pass closes by grep+sweep discipline.** The "remaining
-   karpathy branches" gap covered 22 files; scanning all for eval keywords
+   karpathy branches" gap covered 25 files (count corrected round 7 — was
+   written as 22); scanning all for eval keywords
    then deep-reading ~8 yielded the corpus-usable rules (sampling-proves-
    presence, worst-case reference-class, autonomy slider, planning-not-
    execution bottleneck, spec-ability tiers). Full sequential reading would

@@ -176,11 +176,44 @@ Parsing rules learned on real files:
   stable FAIL: deterministic wrong answer = capability gap, not noise).
   Round 6 adds: identical *status* ≠ identical sha — 08 passed 3/3 with two
   shas; sha-identity at temp 0.2 is reserved for the smallest output spaces.
-- **n≥2 rule (r6):** a one-shot status flip between harnesses is usually
-  *scaffold-determined*, not sampling noise — 5/8 flip tasks were unanimous
-  across 3 fresh direct-API gens (r6: 03, 08, 12, 13, 31); only 2/8 were
-  true noise (09, 20 — wide-shallow SQL solution spaces). Quote per-task
-  status with the scaffold tag.
+- **Unanimity ≠ attribution (r7 correction of the r6 "n≥2 rule"):** a
+  one-shot status flip between harnesses that stays unanimous across n=3
+  direct-API reps is *stable under that API* — it is not yet attributed to
+  the scaffold. r7 ablated the 5 "scaffold-determined" tasks component-
+  wise (E1 full replay / E2 −system / E3 −tools / E4 +temp0.2): only
+  13-stack-min is genuinely scaffold-caused; 03, 08, 31 decomposed to
+  sampling noise, 12 weakly scaffold-pulled. Attribute flips only after a
+  component ablation, not after endpoint re-runs.
+- **Draws are non-iid; n≤5 unanimity is weak evidence (r7, n=25):**
+  consecutive identical-request reps at temp 0.2 are order/state-coupled
+  (lag-1 autocorr +0.26/+0.32, permutation p≈0.01, ~5–10 request
+  horizon). 09-sql went 5/5 identical-sha PASS then 8 FAILs in the next
+  20 (p̂=0.68, single discrete FAIL mode: window-fn-in-WHERE, 8/8 regex
+  match); 20-csv is FAIL-tilted (p̂=0.32, 5 contract-handling modes —
+  r6's 3/3 PASS was lucky). For interior-p̂ tasks report pass-rate with
+  block-robust intervals, not per-draw Wilson; a "noise" label needs
+  tilt + mode census, not just non-unanimity.
+- **Tools-without-system is a trap condition (r7):** forwarding `tools` +
+  `tool_choice:auto` while stripping the system prompt produced
+  `finish=tool_calls` in 14/15 cells (13/15 with empty content; one
+  emitted unfenced prose; observed call on repeat probe:
+  `skill(name="min_stack")` — temp-0.2 repro held 9/9, trap is
+  temperature-invariant). A bare-API probe must strip `tools`/
+  `tool_choice` too, or keep the output-contract system text; never
+  compare "API no-system" against "harness with-system+tools" and read
+  the delta as model behavior.
+- **Context mass shifts solution strategy; temperature is a bare-prompt
+  lever (r7, factorial on 13-stack-min):** bare@0.2 → sorted-stack
+  attractor 5/5 (byte-identical sha); bare@0.8 → 1/3 escapes to
+  canonical; scaffold@0.8 and @0.2 → canonical 10/10. The +4.7K-token
+  opencode envelope (~4.3K system text: skills catalog + env +
+  powered-by; +0.4K tool-format block) dominates family selection;
+  temperature only moves it when the envelope is absent. "Same model,
+  same prompt" claims require same envelope AND same decode params.
+- **`enable_thinking` is a no-op on this host's endpoint (r7):**
+  `qwen-coder-godspeed.jinja` has no think branch; r5/r6 "thinking off"
+  described the template, not the flag. Verify template branches before
+  crediting request parameters.
 - `finish=length` that recurs at a **doubled** cap is strategy-bounded, not
   budget-bounded: 06 truncated at 4096 and again at 8192 (exponential
   regex expansion); raising max_tokens only doubles wall-clock.
@@ -199,11 +232,16 @@ Parsing rules learned on real files:
    at `localhost:8080` (now Jitsi — listening but wrong); the live
    llama-server is `127.0.0.1:34113` via `qwen-coder.service`.
    Listening-but-wrong beats closed-port for silent breakage.
-2. Two transport paths: `loop.sh` (opencode `--agent raw`, system prompt,
-   `/metrics`→journal fallback) or direct `POST /v1/chat/completions`
-   (minimal, deterministic-ish). Grade identically:
-   `BENCH_ROOT=<scratch> bash ~/bench-arena/grade.sh <label>` consumes any
-   `out/<label>/<task>.txt` — runner and grader are separable.
+2. Two transport paths: `loop.sh` (opencode `--agent raw` — sends the
+   raw-agent system prompt + `<env>` + skills catalog ~4.3K tok, plus
+   `tools:[janitor_auth,skill]`/`tool_choice:auto` ~400 tok, and NO
+   temperature → server default 0.8) or direct `POST
+   /v1/chat/completions` (minimal, deterministic-ish, temp 0.2). Grade
+   identically: `BENCH_ROOT=<scratch> bash ~/bench-arena/grade.sh <label>`
+   consumes any `out/<label>/<task>.txt` — runner and grader are
+   separable. Verbatim request captured once via a proxy provider
+   (`/tmp/bench-r7/capture/`); see
+   `corpus/knowledge/bench-arena-round7-scaffold-ablation.md`.
 3. n=1 per task flips near the boundary: `03-extract-isodatetimes` went
    PASS→FAIL across pipelines at temp 0.2. Status claims need repeats or
    pinned seed. Stable canaries: 01 (PASS×2), 02 (FAIL×2), 05 (both-fail).
@@ -269,5 +307,6 @@ Detail: `corpus/knowledge/open-model-catalogs.md`.
 - `~/Projects/webzites/repos/llm-wiki/wiki/karpathy/**` + `wiki/ai/{foundations/bitter-lesson,alignment-and-training/rlhf}.md` — eval-first thesis, diversity blindness, TrueSkill judge/aggregator split, RLHF proxy mechanics (digested 2026-09-28 → `corpus/knowledge/eval-theory-notes.md`)
 - `https://huggingface.co/api/models`, `https://openrouter.ai/api/v1/models` — live catalog schemas (probed 2026-09-28 → `corpus/knowledge/open-model-catalogs.md`)
 - `127.0.0.1:34113` llama-server + `~/bench-arena/grade.sh` — authored 4-task slice, 1/4 PASS vs predicted 2/4, `03` flip PASS→FAIL (run + graded 2026-09-28 → `corpus/knowledge/bench-arena-fresh-run.md`)
+- `/tmp/bench-r7/` scaffold-delta ablation — verbatim opencode `raw` wire request captured via proxy provider, 5-task × 5-condition ablation (E1/E2/E3/E4 × n=3 + E0 anchor), graded 2026-09-28 → `corpus/knowledge/bench-arena-round7-scaffold-ablation.md`
 - `~/bench-arena/` round-5 battery — full 33-task direct-API re-run: 20/33 PASS, 8 status flips vs v2, 5 byte-identical sol_sha, 06 truncation (`finish=length` @4096 tok), FAIL slower on wall+tokens (run + graded 2026-09-28 → `corpus/knowledge/bench-arena-round5-battery.md`)
 - `~/Projects/webzites/repos/llm-wiki/wiki/karpathy/{talks,projects-and-tools,standards-and-specifications}/**` + remaining `philosophy-and-concepts/`, `gwern-essays/`, `ai/foundations/complexity.md`, `ai/books/` — second digest: sampling-proves-presence, reference-class, autonomy slider, spec-ability tiers (swept+read 2026-09-28 → `corpus/knowledge/eval-design-digest-2.md`)
