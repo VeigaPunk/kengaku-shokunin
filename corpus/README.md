@@ -13,7 +13,10 @@ marked opinion.
 | `knowledge/godspeed-eval-findings.md` | Iteration-2 empirical results: K2 split, variant multiplier, calibration asymmetry, cost | `llm-wiki/wiki/ai/agents-and-engineering/godspeed-umwelt-iteration-2.md` |
 | `knowledge/telemetry-run-design.md` | Per-run telemetry fields, artifact set, phase gates, run-count floor | `llm-wiki/wiki/ai/agents-and-engineering/godspeed-umwelt-iteration-3-alpha-shittycodex.md` |
 | `knowledge/local-model-index.md` | Bailian structured model index layout and field semantics | `~/.bailian/skills/bailian-docs-llm-wiki/models/index.md`, `models.jsonl` |
-| `lessons/round-1.md` | Path-correction lesson, citation-vs-generic lesson, non-ASCII write hazard | LOG.md round 1, commit `90a5ce8` |
+| `knowledge/local-bench-arena.md` | On-host 33-task battery: schema, two-model results, complementarity split | `~/bench-arena/` CSVs, analyzed 2026-09-28 |
+| `knowledge/ledger-route-telemetry.md` | Live lane-routing corpus: event taxonomy, reroute signatures, model×lane counts | `~/Projects/bounties/ledger/telemetry.jsonl` (7,218 lines), profiled 2026-09-28 |
+| `lessons/round-1.md` | Path-correction, replace-don't-append, zero-width char hazard | LOG.md round 1, commit `90a5ce8` |
+| `lessons/round-3.md` | Filename-judging missed on-host surfaces; complementarity vs pass-rate; NULL parsing; FAIL-latency signature | LOG.md round 3, this round's analysis |
 
 ## Coverage map
 
@@ -25,6 +28,5 @@ marked opinion.
 ## Known gaps (aggregator: file as lessons if still open next round)
 
 - No pages digested from `wiki/ai/alignment-and-training/`, `wiki/ai/foundations/`, `wiki/karpathy/` — eval-relevant pages likely exist there (e.g. `karpathy/creative-benchmark`, `ai/books/are-we-smart-enough`).
-- No executed benchmark run in this repo yet — all evidence is second-hand from wiki notes (SHONEN.md promotion item still open).
-- Route-telemetry section in SKILL.md interprets *agent run* telemetry; no local provider-route telemetry corpus found (`find -iname "*telemetry*"` hits were unrelated harness/CLI files, e.g. `~/.bailian/telemetry.jsonl` unexamined).
+- Route-telemetry gap closed: `~/Projects/bounties/ledger/telemetry.jsonl` profiled (knowledge/ledger-route-telemetry.md); `~/bench-arena/` two-model battery analyzed (knowledge/local-bench-arena.md). Note: evidence is analysis of existing artifacts — a fresh benchmark execution authored in this repo remains open (SHONEN.md promotion item).
 - `llm-wiki-site` / `llm-wiki-public` siblings uninspected — may hold generated/index layers over the working copy.

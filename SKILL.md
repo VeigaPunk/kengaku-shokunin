@@ -132,6 +132,39 @@ Cost reading: normalize gains per dollar — +50% tool calls and +75%
 wall-clock are acceptable only if information gain (variants, unique
 findings, reframe discoveries) scales comparably.
 
+### Local telemetry surfaces (verified on this host, 2026-09-28)
+
+Two distinct corpora exist — do not conflate:
+
+1. **Lane-routing ledger**: `~/Projects/bounties/ledger/telemetry.jsonl`
+   (7,218 lines). Event taxonomy: `dispatcher_tick` (3,680),
+   `mission_parked` (1,188), `mission_dispatched` (1,167),
+   `fleet_synced`, `freshness_check`, `binding_verified`,
+   `lease_claimed`, `attempt_reset` (68), `operator_decree` (58),
+   `mission_done` (26), `lane_degraded`, `mission_failed` (21),
+   `claim_rejected`. A lane's model is a **sequence** — replay
+   `lane_parked`/`reroute` chains per `run_id`; `usage_limit*` causes
+   are provider-meter events, not model failures; `local degrade (I3)`
+   = bucket walk exhausted, lane identity preserved.
+   Detail: `corpus/knowledge/ledger-route-telemetry.md`.
+2. **Eval battery**: `~/bench-arena/telemetry-qwenlocal-v2.csv` (33
+   rows). Schema: `task,status,opencode_rc,closed_fence,output_sha256,
+   prompt_tokens,predicted_tokens,inference_latency_ms,tokens_per_sec,
+   test_runtime_ns,telemetry_source,telemetry_available`.
+   Detail: `corpus/knowledge/local-bench-arena.md`.
+
+Parsing rules learned on real files:
+
+- `telemetry_available=n` rows carry literal `"NULL"` strings in
+  numeric fields — treat as a first-class row state, never `float()`
+  blindly (observed: `20-csv-group-sum`).
+- FAIL rows return **faster** than PASS (median 60.9 vs 79.5 ms on
+  qwenlocal) — early-bail signature; split latency by status before
+  reading cost.
+- Aggregate pass rates hide complementary win-sets: grok45 19/33 vs
+  qwenlocal 21/33 with near-disjoint per-task wins (8 vs 10). Always
+  diff win-sets by task class before ranking models.
+
 ## Production checklist — running an eval
 
 1. Write ex-ante predictions for every condition before runs.
@@ -158,3 +191,5 @@ findings, reframe discoveries) scales comparably.
 - `~/Projects/webzites/repos/llm-wiki/Home.md` — wiki branch/index conventions (read 2026-09-28)
 - `~/.bailian/skills/bailian-docs-llm-wiki/models/index.md` + `models.jsonl` — 180 families / 413 models structured index; `contextWindow`, `QPM`, pricing, `profile` (oneLinePositioning, scenes, notSuitableFor, familyTier) for model selection (verified 2026-09-28; index generated 2026-09-11)
 - `find`/`grep` output this session — `~/wikillm/llm-wiki` absent; wiki at `~/Projects/webzites/repos/llm-wiki`
+- `~/Projects/bounties/ledger/telemetry.jsonl` — live lane-routing corpus, 7,218 events; taxonomy + reroute signatures in `corpus/knowledge/ledger-route-telemetry.md` (profiled 2026-09-28)
+- `~/bench-arena/` (`tasks/`, `report-grok45.csv`, `report-qwenlocal-v2.v2.csv`, `telemetry-qwenlocal-v2.csv`) — executed 33-task two-model battery; results in `corpus/knowledge/local-bench-arena.md` (analyzed 2026-09-28)
