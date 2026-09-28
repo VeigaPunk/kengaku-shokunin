@@ -174,6 +174,23 @@ Parsing rules learned on real files:
 - Byte-identical `sol_sha256` across pipelines marks scaffold-insensitive
   tasks (r5: 16, 25, 28, 32, 33 — all tiny deterministic tasks, incl. one
   stable FAIL: deterministic wrong answer = capability gap, not noise).
+  Round 6 adds: identical *status* ≠ identical sha — 08 passed 3/3 with two
+  shas; sha-identity at temp 0.2 is reserved for the smallest output spaces.
+- **n≥2 rule (r6):** a one-shot status flip between harnesses is usually
+  *scaffold-determined*, not sampling noise — 5/8 flip tasks were unanimous
+  across 3 fresh direct-API gens (r6: 03, 08, 12, 13, 31); only 2/8 were
+  true noise (09, 20 — wide-shallow SQL solution spaces). Quote per-task
+  status with the scaffold tag.
+- `finish=length` that recurs at a **doubled** cap is strategy-bounded, not
+  budget-bounded: 06 truncated at 4096 and again at 8192 (exponential
+  regex expansion); raising max_tokens only doubles wall-clock.
+- `test_rc=124` after bounded joins ⇒ suspect **crashed worker threads**,
+  not slow code: exceptions in `threading.Thread` fail open toward hang
+  (r5 task 27: six readers died on `rw._active` AttributeError, main
+  blocked forever on `Barrier(7)` — the 60 s timeout was an exception
+  deadlock, and `_active` is a hidden contract absent from prompt.md).
+  Instrument with `faulthandler.dump_traceback_later`; diff test attribute
+  accesses vs prompt API before crediting/blaming the model.
 
 ### Running a battery against the local model (verified 2026-09-28)
 

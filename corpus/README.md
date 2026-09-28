@@ -20,6 +20,8 @@ marked opinion.
 | `knowledge/gemini-benchmark-suite.md` | Four-signal godspeed test suite: reframe traps, variant multiplication, discovery widening, calibration meta-test | `llm-wiki/.../gemini-3.1-pro-godspeed-{benchmarks,test-battery}.md`, read 2026-09-28 |
 | `knowledge/bailian-cli-telemetry.md` | Client-side CLI telemetry: 4,274 records, quota-vs-auth failure split, poll-verb rule | `~/.bailian/telemetry.jsonl`, profiled 2026-09-28 |
 | `knowledge/bench-arena-round5-battery.md` | Full 33-task re-run under fixed endpoint: 20/33, 8 status flips, truncation class, sha-identical set | `/tmp/bench-r5/` run vs `127.0.0.1:34113`, graded 2026-09-28 |
+| `knowledge/bench-arena-round6-stability.md` | Flip-set stability probe: n=3 per task → 5/8 scaffold-determined, 2/8 noise, 06 strategy-bound | `/tmp/bench-r6/` 33-run battery vs `127.0.0.1:34113`, graded 2026-09-28 |
+| `knowledge/bench-arena-task27-timeout-anatomy.md` | `test_rc=124` root cause: `_active` hidden contract → thread-exception deadlock; r5 sol also semantically broken | instrumented `test.sh` + faulthandler probe, 2026-09-28 |
 | `knowledge/eval-design-digest-2.md` | Second digest: sampling-proves-presence, reference-class, autonomy slider, spec-ability tiers | 22 remaining wiki files, swept+read 2026-09-28 |
 | `lessons/round-1.md` | Path-correction, replace-don't-append, zero-width char hazard | LOG.md round 1, commit `90a5ce8` |
 | `lessons/round-3.md` | Filename-judging missed on-host surfaces; complementarity vs pass-rate; NULL parsing; FAIL-latency signature | LOG.md round 3, this round's analysis |
@@ -36,12 +38,12 @@ marked opinion.
 - **Eval theory**: covered at digest depth — autonomy/IID assumptions, diversity blindness, judge-vs-aggregator split (knowledge/eval-theory-notes.md).
 - **Executed eval**: covered at battery depth — authored 4-task slice (r4) + full 33-task re-run under fixed endpoint (knowledge/bench-arena-round5-battery.md).
 
-
 - **Wiki branch digest**: karpathy subtree + ai/foundations + ai/books fully swept (knowledge/eval-design-digest-2.md); remaining open surface = non-karpathy `ai/` topics beyond eval scope.
-- **Cross-pipeline stability**: byte-identical solution set identified (16, 25, 28, 32, 33); flip-capable probe set is 03, 06, 08, 09, 12, 13, 20, 31.
+- **Cross-pipeline stability**: byte-identical solution set identified (16, 25, 28, 32, 33); flip-set classified at n=3 — scaffold-determined {03, 08, 12, 13, 31}, sampling noise {09, 20}, strategy-bound {06} (`knowledge/bench-arena-round6-stability.md`).
 
 ## Open gaps
 
-- **n≥2 on flip-capable tasks**: 8 tasks flipped between v2 and r5 at n=1 each; which flips are sampling vs pipeline needs repeats on the probe set above.
+- **n≥2 on flip-capable tasks**: CLOSED round 6 — 8 flip tasks + 3 controls at n=3; flips decompose to scaffold (5), noise (2), strategy-bound (1). See `knowledge/bench-arena-round6-stability.md`.
 - **Planning-horizon coverage**: bench-arena is single-step; the deployed-agent bottleneck (agent-engineering note) is unmeasured locally.
-- **27 test-timeout**: `test_rc=124` at 60 s in both pipelines — unclear whether solvable-but-slow or algorithmically wrong; needs a relaxed-timeout probe.
+- **27 test-timeout**: CLOSED round 6 — hidden-contract thread-exception deadlock + semantically-broken sol, not slowness. See `knowledge/bench-arena-task27-timeout-anatomy.md`.
+- **Scaffold-delta mechanism** (new, round 6): the 5 scaffold-determined flips show *which* harness won, not *why* — no prompt-diff or scaffold-variant ablation exists yet to isolate the causal surface (system prompt? tool surface? stop conditions?).

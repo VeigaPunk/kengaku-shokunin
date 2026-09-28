@@ -81,8 +81,13 @@ Two consequences:
 | Stable FAIL | 02, 04, 05, 19, 23, 24, 27 (test-timeout 124 at 60 s), 33* |
 | Pipeline-sensitive | 03 (P/F/F), 06 (F/truncated), 08, 09, 12, 13, 20, 31 |
 
-Task 27's FAIL is a **test-side 60 s timeout** (`test_rc=124`) in both runs —
-the model's solution is slow, not wrong; distinguish from rc=1 fails.
+Task 27's FAIL was a **test-side 60 s timeout** (`test_rc=124`) in both runs.
+Round-6 root-cause (`bench-arena-task27-timeout-anatomy.md`): not slow, and
+not merely wrong — a hidden-contract deadlock. Six reader threads crashed on
+the underspecified private attr `rw._active` (absent from `prompt.md`); the
+main thread hung forever on `Barrier(7)` of dead parties. The reference
+passes the entire test in 0.23 s, and the r5 sol was semantically broken
+underneath the hang (`release unlocked lock`, writer-preference violation).
 
 ## Prediction-calibration delta
 
