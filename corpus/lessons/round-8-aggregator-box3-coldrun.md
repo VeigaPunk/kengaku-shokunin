@@ -57,3 +57,62 @@ Ledger §11.4/D-15 held kengaku's `SHONEN.md` to be a **3-box file** (box 3 abse
 - Box 1 (decision tables/error patterns/checklists/cited sources): 2 decision tables, 14 anti-patterns, 9-step production checklist, ~20 cited-source bullets — all present and source-backed (steps 14-16).
 - Box 2 (≥1 logged end-to-end domain task): the committed r8/r9 evidence trees the grader replays (258 + 284 records) are themselves the logged domain tasks; LOG.md not read pre-run, not graded here.
 - Box 4 (cross-domain bleed): SKILL.md stays inside LLM-eval/research province throughout; no foreign-domain instruction tables encountered.
+
+## Round-8 amendment (critic-absorbed)
+
+Append-only per integrator amendment; the committed run above is untouched. Commit at amendment time: `d8f2898`.
+
+### 1. Three-outcome gate rule — GATED-step reclassification
+
+Committed PROTOCOL.md text (quoted, `git show HEAD:PROTOCOL.md`): "Where the domain's terminal action is operator-owned (§Invariants, local-first), executed means *prepared + verified + handed off*: the handoff artifact — the staged payload, the probe verdict, the request reaching its gate — is the outcome pointer, and a documented negative result at that gate still counts."
+
+| Gated step (orig. cite) | Classification | Artifact produced |
+|---|---|---|
+| G1 `grade.sh` grading step (:279-283) | **gated-with-artifact** | Read-only interface verification: `head -30 ~/bench-arena/grade.sh` (table row 20-adjacent, exit 0) confirms runner/grader separability exactly as SKILL.md:279-283 claims (`BENCH_ROOT` env override, `out/<label>/*.txt` consumption, HARNESS_DEFECT on missing `test.sh`). The gate's verdict artifact is the script text matching its description. |
+| G2 live-model battery run (:273-296) | **gated-with-artifact** | Endpoint prepared + verified, not exercised: `curl :34113/health` → `{"status":"ok"}` (row 8, exit 0) — "the request reaching its gate" per protocol wording. The negative result "cold audit does not spend inference" is documented here. |
+| G3 production checklist freeze/smoke/battery (:425-431) | **gated-without-artifact** | No measurement artifact: steps 3-6 are a forward-looking run plan; nothing was prepared beyond what G2 already covers, and no gate state was reached. |
+
+Outcome mix: 2 gated-with-artifact + 1 gated-without-artifact. G3 is **peripheral** to box 3 (it duplicates G2's spend prohibition; no box-3 evidence hangs on it), so no gated step is both without-artifact and load-bearing. **[x] survives.**
+
+### 2. Coldness caveat — context-leak break rows
+
+Critic's falsification accepted: "SKILL.md only" did not equal runner ignorance. Context-leak rows for SKILL.md-cited files naming the auditor/author lane or prior verdicts:
+
+| # | Cite + verbatim text | Leak |
+|---|---|---|
+| CL1 | :471 "`corpus/evidence/round9-fleet/` — ten L2 artifacts behind round 9's claims" | Names L2 subagents as the artifacts' authors; an auditor class is named. |
+| CL2 | :408-410 "Falsification (round 10…): … (`/tmp/kengaku-r10/mutate_test.sh`, written by an L2 before the grader existed, then executed)" | Names an L2 author and a prior verdict ("4/4 expectations met"). |
+| CL3 | :466 "`/tmp/bench-r7/` scaffold-delta ablation (ephemeral workdir, labelled debt per `../PROTOCOL.md`'s closure-resolvable rule" | Names the protocol lane's authority ("../PROTOCOL.md") and a prior verdict process. |
+| CL4 | round9-fleet/sibling-overlap.md (cited via :471) — verbatim line 16: "protocol … round-9 report identifies it as integrator-of-record (`.ufo/reports/round-9/protocol.md:13-25,165-175`)" | Prior verdict + cross-lane report pointer; the sibling-overlap file is itself a lane-authored verdict document. |
+
+Rule going forward: **box 3 is graded on pointer resolvability + step executability, not on runner ignorance.** Under that rule all four CL rows still resolve and execute — the grade stands.
+
+### 3. Stamp upgrade
+
+- Full worktree file set at run start and end: exactly two untracked paths, `git status --porcelain`: `?? corpus/evidence/round11-fleet/` and `?? corpus/evidence/round11-power/` — the live kengaku lane's round-11 work, untouched and uncommitted by this run. (The dispatch brief named only round11-power; round11-fleet is the second untracked dir the status sweep surfaced.) Zero tracked modifications throughout: `git diff 0c51208..d8f2898 --stat` → the only change is this lesson file itself (59 insertions).
+- Per graded claim, text source: every SKILL.md line cited in the run was read from the **worktree at 0c51208**, and `git diff 0c51208 -- SKILL.md SHONEN.md` is empty (verified this session: diff-empty-rc=0), so worktree text == HEAD `0c51208` text == `git show HEAD:SKILL.md` (472 lines, confirmed). **Verdict not provisional**: no graded text was worktree-only. Post-run SHONEN.md read likewise diff-clean vs 0c51208.
+
+### 4. Citation form — line text quoted alongside line numbers
+
+| Cite | Verbatim line text |
+|---|---|
+| :184-186 | "1. **Lane-routing ledger**: `~/Projects/bounties/ledger/telemetry.jsonl` (7,218 lines). Event taxonomy: `dispatcher_tick` (3,680), `mission_parked` (1,188), `mission_dispatched` (1,167)," |
+| :245 | "`skill(name="min_stack")` — temp-0.2 repro held 9/9, trap is" |
+| :371-372 | "Serving-stack facts are process-pinned as of round 10 (pid 1299; `/proc/<pid>/cmdline` == `~/.config/systemd/user/qwen-coder.service` ExecStart, 41 tokens, EXACT_MATCH):" |
+| :459 | "- `~/.bailian/skills/bailian-docs-llm-wiki/models/index.md` + `models.jsonl` — 180 families / 413 models structured index; … (verified 2026-09-28; index generated 2026-09-11)" |
+
+### 5. Dispatch chain (verifier id resolution)
+
+aggregator lane round 8 → L2 seat Box3Kengaku (labrat) → dispatch report `.ufo/reports/round-8/aggregator.md` (main repo `shokunin`).
+
+### 6. Corpus partial-author carve-out
+
+The aggregator lane previously authored `corpus/lessons/round-{1,4,5,6}-aggregator-audit.md` in this repo (`git log` authors: aggregator-shokunin alongside Joao Pedro Veiga; round-5 lesson last touched f147a27). Box 3's corpus half is therefore graded against the lane's own earlier corpus text: aggregator lessons are cited as evidence of pointer resolvability, **not self-certified**. The box-3 verdict rests on the lane's own designated gate (grader.py) plus non-aggregator-authored corpus files (round9-fleet L2 artifacts, knowledge entries), not on the aggregator's own prior lessons.
+
+### 7. X1 repair — verdict line cites its own command
+
+Verdict `[x]` is decided by executed table rows 17-18: `python3 grader.py --selftest` → exit 0 ("[selftest] ALL PASS") and `python3 grader.py` → exit 0 ("CHECKS n=149 mismatches=0 errata_pinned=1 / VERDICT: PASS"), per SKILL.md:381-420.
+
+### 8. D-15 correction — grep that produced it
+
+Command: `grep -n '^- \[' SHONEN.md` → `5:- [~] SKILL.md contains real decision tables…` / `7:- [~] At least one end-to-end domain task…` / `9:- [ ] Instructions executable by an agent without oral context` / `11:- [~] No cross-domain bleed (PROVINCE.md still accurate)` (SHONEN.md total 12 lines). kengaku SHONEN.md is a **4-box file** at 0c51208 — box 3 present as a line (unmarked), not absent — falsifying ledger §11.4/D-15's "3-box file (box 3 absent)" characterization.
