@@ -111,6 +111,15 @@ agency, tool orchestration, off-path web pressure, mechanism proof.
    graders against synthetic adversarial inputs before trusting a SUMMARY
    (round 9: 50 cases → 12 defect candidates, 1 live).
    (`corpus/evidence/round9-fleet/harness-mutation.md`)
+14. **A stored SUMMARY no one can re-derive is a claim, not a measurement.**
+    Round 8's SUMMARY spent a round un-recomputable from the repo — the run
+    artifact was uncommitted and `raw`-stripped, so ack compliance could not
+    be re-audited until round 9 re-landed the bytes; round 10 found a stored
+    failure-class count (12/32) that no one had ever recomputed — the
+    committed bytes give **24/32**. Commit the bytes, then commit the command
+    that recomputes every number from them, and prove it can fail.
+    (`python3 grader.py --selftest`;
+    `corpus/evidence/round9-fleet/harness-mutation.md`)
 
 ## Research-note structure
 
@@ -359,6 +368,55 @@ Scope limit: every number from these probes is a **sub-3-bit (UD-IQ2_XXS) +
 llama.cpp serving-stack** observation, not a Qwen3-Coder-30B-A3B capability
 measurement (published safe bands: W8A8/W4A16 ≈ lossless, 4-bit up to −59%;
 `corpus/knowledge/eval-prior-art-calibration.md` §cross-cutting).
+Serving-stack facts are process-pinned as of round 10 (pid 1299; `/proc/<pid>/cmdline`
+== `~/.config/systemd/user/qwen-coder.service` ExecStart, 41 tokens, EXACT_MATCH):
+the stack also carries `--cache-type-k/v q4_0` (4-bit KV cache — an unstated premise
+of every r8/r9 number), `--kv-unified` with `--parallel 2` (each of 2 slots reports
+the full 16384 ctx; slot draws do not share a halved context), `--no-context-shift`
+(long transcripts hard-stop rather than slide — relevant to truncation semantics),
+and a custom non-upstream chat template (`--jinja --chat-template-file
+~/.config/llama/qwen-coder-godspeed.jinja`). `PROVINCE.md` §Surfaces records the pin;
+a hermetic gate must never read `/proc` — pin committed bytes instead.
+
+## Hermetic grader (operability gate) — `grader.py`
+
+`grader.py` (repo root; stdlib only; no network, no endpoint) replays the two
+committed probe trees against their own stored bytes and recomputes every
+number their SUMMARYs assert. Deterministic and PYTHONHASHSEED-independent —
+never iterate a set where the result is order-sensitive.
+
+| Tree | Recomputed from committed bytes |
+|---|---|
+| `corpus/evidence/round8-horizon/` | `meta` regenerated from seeds `700 + pid*13` (incl. the `+977` retry chain) and matched field-for-field; each of the 258 non-meta `raw` strings re-parsed through the shipped `extract_json_block` (fenced block first, brace-regex fallback — 2 r9 records only parse via the fallback) and re-graded against `meta`'s `truth`; B cells re-scored to `outcome` ∈ {corrected, propagated, other} incl. the historical-value `corrupt_from` rule; C cells re-graded via `grade_c` / `valid_latin`; all 11 `run.log` SUMMARY lines |
+| `corpus/evidence/round9-replication/` | `meta` from seeds `2000 + pid*29`; the 4-cell table incl. mean final `nwrong` (4/8 · 0.500, 2/8 · 0.875, 2/8 · 1.375, 0/8 · 2.250); the 284-record census (8 `meta` / 248 scored / 28 `filler`); sign tests (math.comb exact binomial), onset ladder, failure classes, ack compliance (32/56 = 57.1%, 48/64 = 75.0%), cross-round table, prediction-scoring table vs `predictions-r9.md`, prediction sha256 chain and the ordering proof (hash time ≤ first `request_ts`) |
+
+| Exit | Meaning |
+|---|---|
+| `0` | every recomputed value equals the stored one |
+| `1` | ≥1 mismatch, each printed `MISMATCH <check-id>: stored=<x> recomputed=<y>` |
+| `2` | a required input file is missing or unreadable |
+
+Run `python3 grader.py` (defaults resolve beside the script); inputs overridable
+via `--r8-jsonl/--r8-runlog/--r9-jsonl/--r9-md`; md5 pins on the four evidence
+files fire only on the default paths, so mutated copies grade without pin
+noise. `--selftest` corrupts temp copies only — one flipped stored `ok`, one
+edited `run.log` SUMMARY number, one bumped digit inside a `raw` fenced block —
+and exits 0 only if all three are caught (exit 1 each) **with their expected
+check-ids** (kagi `drift-pins.sh` convention: assert code *and* diagnostic): a
+gate that cannot fail on a deliberately broken copy is not a gate.
+
+Falsification (round 10, both runs recorded in `LOG.md`): committed tree →
+**exit 0**, `CHECKS n=149 mismatches=0`; independent mutation battery
+(`/tmp/kengaku-r10/mutate_test.sh`, written by an L2 before the grader
+existed, then executed) → M0 control exit 0; M1 `ok`-flip exit 1 with exactly
+`r8.replay.A-INC.ok` (layer isolation proven: the flip is summary-insensitive
+because SUMMARY counts last-graded-turn oks); M2 SUMMARY edit exit 1
+(`r8.summary.A-INC` + 2 cross-round checks); M3 `raw` corruption exit 1
+(7 mismatches) — 4/4 expectations met. One stored value is
+adjudicated-defective and pinned as an erratum pair (`ERRATA` in `grader.py` +
+`corpus/evidence/round9-replication/replication.md` §Errata): the r9
+final-turn state-error count, stored 12/32, recomputes to **24/32**; editing
+either side without a recorded ruling fails the gate.
 
 ## Production checklist — running an eval
 

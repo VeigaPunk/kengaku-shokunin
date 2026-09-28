@@ -87,3 +87,21 @@ under the same `BENCH_ROOT`. 0 HARNESS_DEFECT in all 50 headline reps.
   audit (`corpus/lessons/round-6-aggregator-audit.md` defect 1, rule 4 — a count
   must carry its counting command) and corrected here in appended form per
   `../PROTOCOL.md`'s "corpus corrections are new entries" rule.
+
+## Errata (appended round 10, never an in-place edit)
+
+- **`:8` "97 label dirs" — stale count.** Round-10 re-derivation (scout L2,
+  `local://r10-scout-bench.md` claim B adjuncts): `ls
+  /tmp/bench-r7-l2-executor/graded | wc -l` → **125** (`out/` also 125, 128
+  `.sol` files); 50 of the dirs are the headline `n09-rep1..25`/`n20-rep1..25`
+  set. Non-load-bearing: the 0/17 errata above and the task-20 row re-derive
+  exactly from the same matrix (`8 PASS / 17 FAIL`, windows `A 4/5, B 1/10,
+  C 3/5, D 0/5`, distinct sol_sha 22 — all REPRODUCE).
+- **"(ephemeral)" provenance label — inaccurate at round-10 observation
+  time.** `/tmp/bench-r7-l2-executor/` was still on disk (`REPORT.md`,
+  `matrix.md`, `summary.json`, `graded/` 125, mtime max 2026-09-28 17:12), so
+  the round-9 re-derivation ran against live bytes, not a memory of them. Its
+  `REPORT.md:38` still reads `0/12 PASSes` while `:24`/`:147` say `17/25` —
+  the source artifact remains internally inconsistent; the corpus errata, not
+  the `/tmp` copy, is the corrected record. The directory remains `/tmp`-born
+  and will vanish on host cleanup; nothing here rests on it alone.

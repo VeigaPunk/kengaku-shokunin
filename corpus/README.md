@@ -52,9 +52,25 @@ run artifacts are committed:
 | `evidence/round8-horizon/` | `horizon.py` (349-line probe, md5 `1c157e2a…`), `results.jsonl` (268 records **with `raw`**, md5 `df154cb5…`), `run.log` (78/78 jobs + SUMMARY, md5 `fc3b232f…`), `critic-defects.md` (16 design defects) |
 | `evidence/round9-replication/` | `predictions-r9.md` + `.sha256` + `.sha256.repo`, `ordering.log`, `run_r9.py`, `replicate.py`, `results-r9.jsonl` (284 records), `replication.md` |
 | `evidence/round9-fleet/` | 10 L2 artifacts + their scripts: `probeA.md`, `probeB.md`, `probeC.md`, `critic.md`, `harness-mutation.md` + `test_harness.py` (50 cases, exit 0), `prior-art.md`, `sibling-overlap.md`, `review.md`, analysis `.py`/`.out` |
+| `evidence/round10-fleet/` | 11 L2 fleet artifacts (`r10-*.md`) + their independent scripts (`mutate_test.sh` sha256 `ad0511f2…`, `probe_ref.py`, `schema_probe.py`, `recompute_r8.py`, `recompute_r9.py`), raw endpoint captures (`models-34113.json`, `props.json`, `slots.json`), `final-harness.log`, `url-status.txt`, and `INTEGRATOR-NOTES.md` (fleet map, grader first-version defect + fix, connector adoption ruling, erratum adjudication) |
 
 Re-verify the round-9 ordering proof without `/tmp`:
 `cd corpus/evidence/round9-replication && sha256sum -c predictions-r9.sha256.repo` → `OK`.
+
+In-repo gate (round 10): `grader.py` (repo root) replays both run trees above
+offline and recomputes every stored number — `python3 grader.py` → exit 0
+(all-match), exit 1 per mismatch (`MISMATCH <check-id>: stored=… recomputed=…`),
+exit 2 when an input is missing/unreadable; `python3 grader.py --selftest`
+corrupts temp copies and exits 0 only if all three seeded corruptions (flipped
+`ok`, edited SUMMARY number, bumped `raw` digit) are caught with their expected
+check-ids. Stdlib only, no endpoint, deterministic. It also subsumes the
+ordering-proof check above hermetically (`r9.ordering.prediction_sha256` +
+`r9.ordering.hash_precedes_first_request`) — note that `sha256sum -c
+predictions-r9.sha256.repo` itself only works from inside
+`corpus/evidence/round9-replication/` (the `.repo` file names a bare relative
+path; from the repo root it exits 1 — round-10 critic finding F2). One stored
+value is pinned as an adjudicated erratum (`replication.md` §Errata: r9
+final-turn state errors, stored 12/32, recomputed 24/32).
 
 ## Coverage map
 

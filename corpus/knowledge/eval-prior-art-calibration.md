@@ -66,3 +66,17 @@ is mis-scoped and must be re-worded (sweep performed round 9: see
    (pair with the Thinking Machines post) — falsifies residual novelty on
    finding 4 and names the serving flags that make an experimental unit
    defensible.
+
+## Status note (appended round 10)
+
+- **llama.cpp #7052 issue state is contested between two round-10 fetches.**
+  The scout L2 fetch saw header `state=closed` while this corpus elsewhere
+  describes it as reopened 2026-05-21 (comment-only reopen); the critic L2
+  live fetch confirms the quoted *content* verbatim (title "Non-deterministic
+  output of the llama.cpp server when using multiple slots"; body "5 and 8
+  unique completion texts when using 8 slots") — the prior-art ruling on
+  finding 4 stands on the content, which is unaffected. Discipline: cite the
+  issue's content with a fetch date, never its open/closed state, without a
+  same-round re-fetch; GitHub issue state flips on comments and is not part
+  of the evidentiary claim. All 23 URLs across this corpus re-resolved HTTP
+  200 at round 10 (reviewer L2, `local://r10-review-cites.md`).

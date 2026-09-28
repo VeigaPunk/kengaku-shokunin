@@ -83,3 +83,20 @@ Output:
 - Sign tests: **high** — exact combinatorial calculation; many pairs have six/eight ties.
 - Ack compliance: **high** — directly counted from ack raw fields.
 - Scaffold/dose interpretation: **medium** — directional replication is clear, but n=8 leaves wide uncertainty and checkpoint pass-rate dose is tied.
+
+## Errata (round 10)
+
+- The failure-classes sentence in §Onset and failures stores a defective
+  state-error numerator (12 over the 32-record all-cells denominator).
+  Recomputation from the committed `results-r9.jsonl` bytes — `grader.py`
+  check id `r9.failure_classes.state_error`, run `python3 grader.py` at the
+  repo root — gives final graded-turn passes A-INC 4 + A-CKPT4710 2 +
+  A-CKPT710 2 + A-MONO 0 = 8 of 32 with 0 parse failures, hence state
+  errors **24 of 32**. The stored 12 equals the two checkpoint cells'
+  final failures (6 + 6) over the all-cells denominator; that provenance is
+  conjectural, the corrected value is arithmetic on committed bytes. The
+  original sentence stays unrevised per the append-only convention;
+  `grader.py` pins the adjudicated (stored-defective, corrected) pair, so
+  editing either side without a ruling fails the gate. Ruling recorded in
+  `LOG.md` round-10 entry; parse-fail (0 of 32), finish=length (0 of 32)
+  and the MONO audit sentence re-derive exactly and are unaffected.

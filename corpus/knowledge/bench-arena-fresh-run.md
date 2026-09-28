@@ -68,3 +68,31 @@ cd ~/bench-arena && BENCH_ROOT=/tmp/X bash grade.sh <label>
 ```
 
 Artifacts (ephemeral): `/tmp/bench-r4/{run.py,telemetry-kq-r4.csv,out/,graded/,report-kq-r4.v2.csv,predictions.md}`.
+
+## Errata (appended round 10, never an in-place edit)
+
+- **§Harness-facts causal chain "metrics fallback degrades silently → origin of
+  the `telemetry_available=n`/NULL rows" — FALSIFIED by round-10 re-derivation**
+  (scout L2, `local://r10-scout-bench.md` claim C; commands re-run on this
+  host). The port facts reproduce exactly (8080 is Jitsi JVB — `curl
+  -s -m3 http://127.0.0.1:8080/metrics` → HTTP 200, 27461 B,
+  `application/openmetrics-text`, body `jitsi_jvb_bytes_sent_total`;
+  llama-server live on 34113; `opencode.json:158` baseURL
+  `http://localhost:8080/v1`). But the mechanism is a **field-count bug in
+  `loop.sh`**: `:32` emits 5 comma fields while `:63` reads 6 vars
+  (`read -r pt et pms em tps mok`) → `tps=[1] mok=[]` → `BRANCH=journal`
+  **unconditionally**, whatever `METRICS_URL` answers (proved with
+  `bash -c 'IFS=, read -r pt et pms em tps mok <<< "0,0,0.000,0.000,1"; …'`
+  and by running loop.sh's own `metric_snapshot`+`metric_delta` verbatim vs
+  live 8080). Hence v2's `telemetry_source=journal` on 33/33 rows
+  (`awk -F, 'NR>1{print $11}' telemetry-qwenlocal-v2.csv | sort | uniq -c` →
+  `33 journal`) is this bug, **not** the 8080/34113 mismatch; and the premise
+  "the metrics scrape fails" is false today — `curl -fsS --max-time 2
+  http://127.0.0.1:8080/metrics` exits 0 (with `grep -icE 'prompt|eval'` = 0
+  over the body, so a *corrected* reader pointed at 8080 would silently log
+  zeros rather than fall back). NULL detail: exactly **1** row carries
+  `telemetry_available=n` (`20-csv-group-sum`, 4 NULL cells); 32/33 are `y`
+  — "rows" (plural) and the attribution to port drift were both imprecise.
+  The `loop.sh` fix belongs to the bench-arena tooling owner; recorded here
+  and reported out, not patched in-place (operator rule: domain surfaces
+  read-only for this lane mid-round).

@@ -28,14 +28,18 @@ Measurement proxies (fixed so before→after is re-derivable, per
 
 - **calibration proxy** — three counts: (a) probes run in the round with
   predictions filed *before the first request* **and** scored at close
-  (r8: 0/1; r9: 1/1); (b) artifacts produced in the round that are committed
-  **and** indexed **and** logged at round close (r8: 0/4 files; r9: see
-  `git show --stat` for the round-9 commit); (c) `SCORECARD.md` rows whose
+  (r8: 0/1; r9: 1/1; r10: 0/0 — hermetic round, no probe ran); (b) artifacts
+  produced in the round that are committed **and** indexed **and** logged at
+  round close (r8: 0/4 files; r9: see `git show --stat` for the round-9
+  commit; r10: `grader.py` + 22 files under `corpus/evidence/round10-fleet/`,
+  all indexed in `corpus/README.md` and logged — see the round-10 commit stat);
+  (c) `SCORECARD.md` rows whose
   evidence pointer re-runs (target 7/7).
 - **novelty proxy** — fraction of the round's headline claims carrying a
   prior-art verdict with a fetched URL (r9: 4/4, see
-  `corpus/knowledge/eval-prior-art-calibration.md`), split into
-  phenomenon-new vs instrument-new (r9: 0/4 phenomena, 2/4 instruments).
+  `corpus/knowledge/eval-prior-art-calibration.md`; r10: 0/0 — a hermetic
+  round made no model-behaviour claims), split into
+  phenomenon-new vs instrument-new (r9: 0/4 phenomena, 2/4 instruments; r10: n/a).
 
 ## Round 9 — pre-move (measured against `HEAD` `f147a27` "round-7")
 
@@ -61,6 +65,66 @@ Measurement proxies (fixed so before→after is re-derivable, per
 | freshness | 4 → 5 | The round-9 LOG entry carries re-verification results for every claim it touches: endpoint identity (`/v1/models`, `/health` 200), evidence md5s, the r8↔r9 SUMMARY recomputation from committed bytes, and citation counts. The r8 hole is closed retrospectively rather than left as a silent gap. **Ceiling:** still no in-repo drift pin — a silent `:34113` model swap between rounds would be caught only by the next manual probe. | `LOG.md` round-8/round-9 entries; `corpus/evidence/round9-fleet/review.md` §3 |
 | adjacency | 7 → 8 | Contested scope mapped with named owners and three report-outs filed instead of absorbed: prompt-format craft implications → kotoba; ledger semantics split (mission-state → kasegi, route resolution/failure taxonomy → kumitate) → those lanes; Janitor consumer endpoint config → kagi, with the serving plane escalated as unowned. Kengaku keeps model/endpoint capability interpretation and eval design. **Ceiling:** the ruling is this lane's reading of sibling provinces plus the round-3/4 aggregator precedents; the integrator has not arbitrated it in round 9. | `corpus/evidence/round9-fleet/sibling-overlap.md`; `PROVINCE.md` §Reported out |
 
+## Round 10 — errata to round-9 rows (measured against `HEAD` `1bd17ec`; critic L2 adversarial re-run)
+
+The round-10 critic re-ran 35 backticked pointers/numbers from the round-9
+tables: **30 REPRODUCE, 3 falsified** (2 full + 1 partial). All three are
+recorded here as errata, never patched in place
+(`corpus/evidence/round10-fleet/r10-critic.md`):
+
+- **F1 — operability row "Runnable files in-repo went 0 → 11".**
+  `find . \( -name '*.py' -o -name '*.sh' \) -not -path './.git/*' | wc -l` →
+  **12** at HEAD *and* at the round-9 commit `2575be6`
+  (`git ls-tree -r 2575be6 --name-only | grep -cE '\.(py|sh)$'` → 12; → 0 at
+  `f147a27`, so the row's *before* half was right). Wrong at birth: `2575be6`
+  committed `replicate.py` + `run_r9.py` in the same commit as this scorecard;
+  which file was the 12th past the "11" measurement is unrecorded.
+  Consequence: the `≥ 12` half of the old §Planned target was satisfied before
+  round 10 began; the binding half was the exit-code pair.
+- **F2 — operability evidence cell
+  `sha256sum -c corpus/evidence/round9-replication/predictions-r9.sha256.repo`**
+  exits **1** from the repo root (`predictions-r9.md: FAILED open or read`) —
+  the `.repo` file names a bare relative path and `sha256sum -c` resolves
+  against the caller's cwd. From `corpus/evidence/round9-replication/` it
+  exits 0 (the README documents that invocation; this file's cell was the one
+  wrong statement of it). Bytes were never in doubt (sha256 `2a4f62ef…`
+  matches). The check is now hermetic and cwd-independent inside `grader.py`
+  (`r9.ordering.prediction_sha256`).
+- **F3 (partial) — freshness row "the round-9 LOG entry carries … evidence
+  md5s, the r8↔r9 SUMMARY recomputation".** LOG.md L14 carries the endpoint
+  identity and citation counts, but the evidence md5s sit in L13 and
+  `recomput*` has 0 hits in all of LOG.md (the SUMMARY recomputation lives in
+  `corpus/evidence/round9-fleet/review.md` §4) — the row over-claimed *where*
+  the re-verification lived. The round-10 LOG entry carries the recomputation
+  itself (grader checks `r8.summary.*`, `r9.observed.*`).
+- **Path drift in the same cell**: the old §Planned named the grader source as
+  `corpus/evidence/analyze.py` — `test -e` → absent; the analyzer on disk is
+  `corpus/evidence/round9-fleet/analyze.py`, and the promoted gate landed at
+  repo root as `grader.py` (lineage in its docstring).
+- **Adjudicated evidence erratum found while building the grader**:
+  `replication.md` §Onset-and-failures stores state errors "12/32" at the r9
+  final graded turn; recomputation from the committed `results-r9.jsonl` gives
+  **24/32** (final passes 4+2+2+0 = 8/32, parse failures 0/32). `grader.py`
+  pins the pair as `ERRATA["r9.failure_classes.state_error"]` — the check
+  passes iff the stored text still shows 12/32 AND the recomputation equals
+  24/32, so editing either side without a recorded ruling fails the gate.
+  `replication.md` gained an appended §Errata; its md5 pin moved
+  `a70980a5…` → `d9235e41…` (appendix-only change, recorded in LOG). The "12"
+  provenance (checkpoint cells' 6+6 over the all-cells denominator) is
+  conjectural; the corrected value is arithmetic on committed bytes.
+
+## Round 10 — post-move (operability axis-move landed)
+
+| Axis | Before → After | What moved | Evidence |
+|---|---|---|---|
+| **operability** | 4 → **6** | The repo now produces verdicts. `grader.py` (repo root, 936 lines, sha256 `ce64f16a…`, stdlib only, no endpoint, byte-identical output under `PYTHONHASHSEED` 1/99/unset) replays both committed probe trees offline: metas regenerate from their seeds (r8 `700+pid*13` 10/10; r9 `2000+pid*29` 8/8, incl. the `+977` retry chain); every graded record (r8: 140 A + 32 B + 16 C; r9: 128 A) is re-parsed from its stored `raw` through the shipped `extract_json_block` — including the brace-regex fallback that 2 r9 records need — and re-graded against meta-derived truth (A/B/C graders ported verbatim from `horizon.py`); all 11 `run.log` SUMMARY lines and every stored number in `replication.md` recompute (observed table, 284-record census, exact-binomial sign tests, onset ladder, failure classes, ack compliance, cross-round table, prediction-scoring table vs `predictions-r9.md`, sha256 chain, ordering proof). `python3 grader.py` → **exit 0, `CHECKS n=149 mismatches=0`**; `--selftest` → 4/4 PASS asserting exit code **and** expected check-id (kagi convention per the connector survey); the independent mutation battery (written by an L2 *before* the grader existed, `mutate_test.sh` sha256 `ad0511f2…`) → M0 control exit 0, M1 stored-`ok` flip exit 1 with exactly `r8.replay.A-INC.ok` firing (layer isolation proven: the flip is summary-insensitive because SUMMARY counts last-graded-turn oks), M2 SUMMARY edit exit 1, M3 `raw` corruption exit 1 → **4/4**. md5 pins on the 4 evidence files fire on default paths only. **Ceiling:** the gate covers the two *committed* runs, not future probes — nothing yet forces a new run to land gradeable; `test_harness.py`'s 12 defect candidates stay open; the probes themselves still need the live endpoint. | `grader.py`; `corpus/evidence/round10-fleet/{final-harness.log,mutate_test.sh,r10-critic.md,r10-connector.md,INTEGRATOR-NOTES.md}`; `LOG.md` round-10 entry |
+| **calibration** | 6 → **7** | The loop bit its own tail honestly. (a) The critic re-run falsified 3 round-9 pointers (F1/F2/F3 above) and all three were filed as errata in-round instead of patched in place; 30/35 reproduced, including every r9 SUMMARY cell, sign test, onset 5.8, ordering proof, r8 SUMMARY, FIX-O blast radius (=1 flip), and md5 identity with the live `/tmp/bench-r8` bytes. (b) The grader's *first landed version failed its own M0 control* (a bogus `predicted_vs_observed` equality check treating a predicted miss as a mismatch) — caught by the independent harness, failing-before evidence committed (`r10-mutation-sh.md` §7.1, `INTEGRATOR-NOTES.md` §2), fixed by replacing it with a preregistration-anchor check. (c) A stored number no one had ever recomputed (state error 12/32) was recomputed, adjudicated defective, appended as `replication.md` §Errata and pinned as an erratum pair that cannot silently drift in either direction. (d) No probe ran, so the ex-ante-prediction proxy is 0/0 — vacuous, not virtuous. **Ceiling:** proxies (a)/(b) only bite on probe-running rounds; the ±1 rubric is two rounds old and still judgement-anchored. | `corpus/evidence/round10-fleet/{r10-critic.md,r10-mutation-sh.md,INTEGRATOR-NOTES.md}`; `grader.py` `ERRATA`; `replication.md` §Errata |
+| freshness | 5 → **6** | Every surface re-verified **with committed captures**: endpoint `/v1/models` + `/health` 200 plus the first process-level pin (pid 1299, `/proc/<pid>/cmdline` == `qwen-coder.service` ExecStart, 41 tokens EXACT_MATCH; `--cache-type-k/v q4_0`, `--kv-unified`, `--parallel 2`, `--no-context-shift`, custom non-upstream chat template — closing the PROVINCE "documented from behaviour, never from the process cmdline" ceiling); bench-arena frozen since 2026-08-29 (`find -newermt '2026-09-28 18:00'` → empty) with its 3 load-bearing claims re-derived — 2 REPRODUCE, the telemetry-NULL causal chain DRIFTED (`loop.sh` 5-fields-into-6-vars bug makes `source=journal` unconditional; `curl -fsS :8080/metrics` exits 0 today) and the "97 label dirs" count stale (125) → errata appended to both knowledge files; llm-wiki unchanged (git `e66e614`; mtimes wholesale-touched, unusable); 23/23 corpus URLs HTTP 200; expected values now pinned **in-repo** (`grader.py` `PINS`) — closing the "expected values pinned outside the repo" cap. **Ceiling:** pins cover the 4 evidence files, not surface states; no automatic re-run schedule exists. | `corpus/evidence/round10-fleet/{r10-scout-endpoint.md,models-34113.json,props.json,slots.json,r10-scout-bench.md,r10-scout-wiki.md,url-status.txt}`; `PROVINCE.md` served-model row; knowledge-file errata |
+| coverage | 6 → **7** | `PROVINCE.md` enumerates **9 surfaces** (new In-repo-gate row) and all resolve; the served-model row carries the process-level pin; the round-10 fleet dir is indexed (README evidence table, 4th row: 22 files). The digest-queue ceiling was reclassified by evidence, not by work: the 3 queued sources are **external** (arXiv 2505.06120, arXiv 2307.13702, llama.cpp #7052), already fetched-and-cited in `eval-prior-art-calibration.md` (zero-trace grep proves they were never llm-wiki-resident), and llm-wiki itself gained no eval-relevant file since round 9 — so the queue is "fetched, partially digested, precisely classed", not "named-but-unread in the wiki". **Ceiling:** non-karpathy `wiki/ai/` topics beyond eval scope remain undigested; the queue's full digestion is still owed. | `PROVINCE.md`; `corpus/README.md` evidence rows; `corpus/evidence/round10-fleet/r10-scout-wiki.md` |
+| **novelty** | 5 → **5** | No move — deliberately. A hermetic round measures the corpus, not the model: the grader is instrument *infrastructure* (it makes future novel measurements auditable and caught one real defective number), but adds no new construct and no prior-art verdicts (proxy 0/0). Stays the table's floor and the next move. | this table; §Planned |
+| depth | 8 → **8** | Held, no bump — anti-double-count ruling: SKILL.md grew 414 → **472** lines (§Hermetic grader, anti-pattern **14**, serving-stack process-pin paragraph), but those bytes document this round's operability artifact; counting them under depth too would reward the same landing twice. Citation resolution re-measured **91.2% strict / 98.0% repo-convention — the ≥90% rubric floor holds** (20 cited-source bullets reproduce; the "14 distinct paths" figure ruled convention-bound: 58 distinct local paths under the finer extractor, 57 resolve, 1 documented-absent). Two knowledge entries lack a first-line source (`bench-arena-round7-scaffold-ablation.md`, `eval-design-digest-3.md`) — named, unfixed. **Ceiling:** the depth rubric's +1 wants new *sourced claims*; round 11's probe should supply them. | `corpus/evidence/round10-fleet/r10-review-cites.md`; `SKILL.md` |
+| adjacency | 8 → **8** | The connector survey ruled the gate space: **no sibling owns an evidence-replay gate** (kagi `drift-pins.sh`/`transcript-scan.sh` = live-host drift + runtime hygiene; kotoba `verify_harness_claims.py` = live-baseline; kumitate `scripts/cite-check.mjs` = citation pins — adjacent, different data, ruled non-duplicate); a fleet-wide gate *standard* would belong to protocol/integrator — referred in the round report, not imposed. Three round-10 report-outs filed (`PROVINCE.md` tail): serving-plane config facts (q4_0 KV, `--kv-unified`, `--no-context-shift`) → integrator, unowned plane; `loop.sh` telemetry-source semantics → kumitate (informational; fix stays in-lane backlog); operator read-only rule for domain repos re-confirmed and absorbed. **Ceiling:** the integrator has still arbitrated neither the round-9 nor the round-10 rulings. | `corpus/evidence/round10-fleet/r10-connector.md`; `PROVINCE.md` tail |
+
 ## Scoring rubric
 
 A move is ±1 per axis-move; the anchors below are what make a pointer true or
@@ -78,24 +142,35 @@ false, fixed here so later rounds score the same way instead of drifting.
 
 ## Planned (next axis-move)
 
-Lowest post-move axis is **operability (4)**: nothing in this repo produces a
-verdict. The move is a hermetic in-repo grader —
-`corpus/evidence/analyze.py` promoted to a committed script that (a) replays
-the stored `results.jsonl` / `results-r9.jsonl` through the parser and graders
-offline (no endpoint), (b) recomputes every SUMMARY count, and (c) exits 1
-when a recomputed count disagrees with the stored one. Falsifiable target:
-`find . \( -name '*.py' -o -name '*.sh' \) -not -path './.git/*' | wc -l` ≥ 12
-**and** the grader exits 0 on the committed files while exiting 1 on a
-deliberately corrupted copy (one flipped `ok` field), with both runs recorded
-in `LOG.md`.
+Lowest post-move axis is **novelty (5)** — unmoved for a second round and now
+the table's floor. The move: one powered, priced measurement of the construct
+this lane's instrument set can uniquely see. Concretely (design fixed here;
+preregistration before any request): (a) re-run the emission-granularity
+ladder — r9's `A-CKPT4710` vs `A-CKPT710` tie (2/8 = 2/8) with the severity
+differential (`nwrong` 0.875 → 1.375) — at an n sized by a **filed power
+analysis** (binomial, effect size stated, hashed with the predictions and
+ordering-proven before the first `request_ts`), so the novelty rubric's
+"below its own critic's pre-registered power ask" cap cannot fire; (b) carry
+the round-10 serving-stack pin (q4_0 KV cache, `--kv-unified`, custom
+template) as explicit experimental-unit descriptors in the probe plan and in
+every derived claim, and price the granularity-severity reading against public
+literature with fetched-URL prior-art verdicts; (c) land the run bytes in a
+shape `grader.py` can grade — extend the gate's SUMMARY coverage in the same
+round so the new numbers are recomputable at landing, not a round later.
+Falsifiable target: `ordering.log` predates the first `request_ts`; the
+predictions file states the n and effect size that would falsify the
+granularity-severity claim; `python3 grader.py` exits 0 on the extended tree
+and its `--selftest` still passes; prior-art verdicts carry fetched URLs.
 
 ## Retired
 
-None. No cell scores 10 (the saturation floor) and no axis is a wrong fit:
-calibration sits at 6 with three named ceilings, novelty was *lowered* by
-evidence this round (7→5) rather than retired, and operability at 4 is the
-next move. Retiring an axis here would hide the round-8 debt that motivated
-round 9.
+None. No cell scores 10 (the saturation floor) and no axis is a wrong fit.
+Round-10 movement: operability 4→6 (the gate landed), calibration 6→7,
+freshness 5→6, coverage 6→7; depth and adjacency measured but **held at 8**
+with recorded no-bump rulings (anti-double-count; no new arbitration), and
+novelty held at 5 because a hermetic round adds no construct. Retiring
+novelty would be exactly wrong: it is an owned axis, it is the floor, and it
+is the next move.
 
 ## Confidence
 
@@ -126,3 +201,24 @@ round 9.
 - **"kama mint rests partly on this lane's r4 evidence"** — medium. Quoted from
   `../ROADMAP.md`; the mint decision is integrator-pending, so it is adjacency
   evidence, not a ruling.
+- **Grader PASS means the corpus agrees with itself, not that the model was
+  good** — high. All 149 checks recompute stored-vs-derived from committed
+  bytes; no check touches the endpoint or re-runs the model.
+- **Erratum 12/32 → 24/32** — high for the arithmetic (passes 8/32, parse
+  failures 0/32; reproduced independently by the critic's `recompute_r9.py`
+  and by `grader.py`), conjectural for the *provenance* of the stored 12
+  (checkpoint-cells 6+6 hypothesis, labelled conjectural in both pin sites).
+- **Process-level endpoint pin** — high at capture time (argv == unit
+  ExecStart EXACT_MATCH; `ss -ltnp` listener ownership). It is host state: a
+  restart changes the pid; the committed captures are a round-10 fact, not a
+  live guarantee, and the gate deliberately never reads `/proc`.
+- **F1's cause ("wrong at birth; which file was 12th is unrecorded")** —
+  medium. The count 12 at `2575be6` is git-verifiable; the instant the "11"
+  was measured is not reconstructible from any record.
+- **Bench-arena causal-chain erratum** — high for the mechanism (the `mok`
+  field-count bug proven by running `loop.sh`'s own functions verbatim; 33/33
+  journal rows; scrape exits 0 today); the *historical* state of port 8080 at
+  r4 run time is not re-derivable, and the erratum claims only today's facts.
+- **Unverified, carried open**: the endpoint scout's gguf-size Δ (on-disk
+  10,333,691,040 B vs `meta.size` 10,327,717,888 B, Δ 5,973,152 B) — cause
+  not proven, no 10 GB hash run (`r10-scout-endpoint.md` gaps).
