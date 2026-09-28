@@ -158,14 +158,22 @@ Parsing rules learned on real files:
 - `telemetry_available=n` rows carry literal `"NULL"` strings in
   numeric fields — treat as a first-class row state, never `float()`
   blindly (observed: `20-csv-group-sum`).
-- FAIL rows returned **faster** than PASS on the 33-row qwenlocal battery
-  (median 60.9 vs 79.5 ms) — early-bail signature. Population statistic,
-  not per-task law: the round-4 slice inverted it locally (fastest = PASS
-  1.2 s, slowest = FAIL 14.7 s). Split latency by status before reading
-  cost; read the signature at aggregate level only.
+- FAIL rows returned **faster** than PASS on the 33-row qwenlocal-v2 battery
+  (median 60.9 vs 79.5 ms inference latency) — early-bail signature, that
+  pipeline only. Round-5 direct-API run inverted it on wall-clock *and*
+  tokens (FAIL 1.71 s/260 tok vs PASS 0.84 s/128 tok): wrong solutions are
+  long. Population statistic, never a per-task law; quote with pipeline tag.
 - Aggregate pass rates hide complementary win-sets: grok45 19/33 vs
-  qwenlocal 21/33 with near-disjoint per-task wins (8 vs 10). Always
-  diff win-sets by task class before ranking models.
+  qwenlocal 21/33 with near-disjoint per-task wins (8 vs 10). Round-5 adds
+  the temporal twin: 20/33 vs v2's 21/33 headline hid **8/33 status flips** —
+  a stable aggregate can rotate a quarter of the win-set. Always diff
+  win-sets by task, both across models and across runs.
+- `fence_found=0` splits by `finish_reason`: `length` = truncation (model
+  outran max_tokens mid-generation — 06 at 4096 tok, r5), `stop` = real
+  format/harness defect. Check finish before filing harness bugs.
+- Byte-identical `sol_sha256` across pipelines marks scaffold-insensitive
+  tasks (r5: 16, 25, 28, 32, 33 — all tiny deterministic tasks, incl. one
+  stable FAIL: deterministic wrong answer = capability gap, not noise).
 
 ### Running a battery against the local model (verified 2026-09-28)
 
@@ -244,3 +252,5 @@ Detail: `corpus/knowledge/open-model-catalogs.md`.
 - `~/Projects/webzites/repos/llm-wiki/wiki/karpathy/**` + `wiki/ai/{foundations/bitter-lesson,alignment-and-training/rlhf}.md` — eval-first thesis, diversity blindness, TrueSkill judge/aggregator split, RLHF proxy mechanics (digested 2026-09-28 → `corpus/knowledge/eval-theory-notes.md`)
 - `https://huggingface.co/api/models`, `https://openrouter.ai/api/v1/models` — live catalog schemas (probed 2026-09-28 → `corpus/knowledge/open-model-catalogs.md`)
 - `127.0.0.1:34113` llama-server + `~/bench-arena/grade.sh` — authored 4-task slice, 1/4 PASS vs predicted 2/4, `03` flip PASS→FAIL (run + graded 2026-09-28 → `corpus/knowledge/bench-arena-fresh-run.md`)
+- `~/bench-arena/` round-5 battery — full 33-task direct-API re-run: 20/33 PASS, 8 status flips vs v2, 5 byte-identical sol_sha, 06 truncation (`finish=length` @4096 tok), FAIL slower on wall+tokens (run + graded 2026-09-28 → `corpus/knowledge/bench-arena-round5-battery.md`)
+- `~/Projects/webzites/repos/llm-wiki/wiki/karpathy/{talks,projects-and-tools,standards-and-specifications}/**` + remaining `philosophy-and-concepts/`, `gwern-essays/`, `ai/foundations/complexity.md`, `ai/books/` — second digest: sampling-proves-presence, reference-class, autonomy slider, spec-ability tiers (swept+read 2026-09-28 → `corpus/knowledge/eval-design-digest-2.md`)
