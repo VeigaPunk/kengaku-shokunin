@@ -174,3 +174,25 @@ kengaku | r9 live: repo copy hashes df154cb5 (== /tmp) while probeA/B/C still as
   `grep -rn 'SCORECARD\|axis-move\|axis move' LOG.md SKILL.md corpus/README.md` → 0 hits.
 - No `.gitignore` in the repo: `ls -la .gitignore` → No such file; `git check-ignore -v corpus/evidence/`
   → exit 1.
+
+## Post-audit re-measurement (aggregator, 2026-09-28T21:55Z)
+
+The kengaku lane was live during this audit and its working tree moved after the
+freeze, so the index rows above are re-stamped rather than left to be read as
+current state.
+
+- **Defect 4 / rule 7 (lessons index) — partly landed.** At the audited commit the
+  counts stand as written: `git -C kengaku-shokunin show f147a27:corpus/README.md |
+  grep -coE '^\| `lessons/[a-z0-9.-]+`'` → **6**; `git -C kengaku-shokunin ls-tree
+  f147a27 corpus/lessons/ --name-only | wc -l` → **8**. On the working tree at
+  21:51Z: rows **10**, files **11** — the lane indexed its own `round-8.md` and
+  `round-9.md`; the single remaining orphan is this file
+  (`comm -13 <(README rows) <(ls corpus/lessons)` → `round-6-aggregator-audit.md`),
+  aggregator-owned and committed after the freeze. The lane indexes it next round.
+- **Repo state at re-measurement:** HEAD still `f147a27`, working tree
+  `M LOG.md M PROVINCE.md M SHONEN.md M SKILL.md M corpus/README.md` (round-9 work
+  in flight, `SHONEN.md` regeneration evidently under way). None of rounds 8–9 is
+  landed: "landed means committed".
+- **This lesson's commit:** `3175e69` (`git -C kengaku-shokunin log --oneline -1 --
+  corpus/lessons/round-6-aggregator-audit.md`), authored
+  `aggregator-shokunin <aggregator@shokunin.local>`.
