@@ -42,3 +42,14 @@ digest record in `corpus/knowledge/eval-design-digest-2.md`.
    execution bottleneck, spec-ability tiers). Full sequential reading would
    have taken ~3× longer for the same rule yield — the sweep command is
    itself part of the evidence trail per CORPUS.md's negative-claim rule.
+
+## Errata (appended round 9)
+
+- **`:8` "8/33 tasks flipped status" — terminology, not count.** The round-5
+  battery entry (`corpus/knowledge/bench-arena-round5-battery.md:17,36`) settles
+  on **8 status deltas** because one of the eight (task 06) is
+  FAIL→HARNESS_DEFECT via `finish=length`, not a PASS↔FAIL flip. Count 8 stands;
+  "flipped" is the superseded word. Swept round 9 in `corpus/README.md:22`,
+  `SKILL.md:204,409`; recorded in `LOG.md`'s round-9 correction entry per the
+  round-6 aggregator audit (`corpus/lessons/round-6-aggregator-audit.md`
+  defect 6).

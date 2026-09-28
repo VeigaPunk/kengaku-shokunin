@@ -75,6 +75,42 @@ agency, tool orchestration, off-path web pressure, mechanism proof.
 8. **Contamination blindness.** Memorized-data benchmarks understate
    empirical-search gains (SWE-Bench Private > Public for
    frontier-walking claims, `gemini-3.1-pro-godspeed-test-battery.md`).
+9. **Reading a multi-turn advantage as planning ability.** Emitting the full
+   state every turn beat sparse checkpoints and one-shot chaining on
+   *identical* problems (r8 7/10 > 1/10 ≈ 0/10; r9 fresh seeds 4/8 > 2/8 =
+   2/8 > 0/8). The gap is largely **self-copy scaffold** — each turn re-reads
+   the model's own previous answer — not horizon maintenance. Ablate emission
+   granularity (INC ⊃ CKPT-dense ⊃ CKPT-sparse ⊃ MONO) before claiming
+   planning; the phenomenon is publicly anticipated (Laban et al. ICLR 2026
+   SNOWBALL +15–20%; induction heads).
+   (`corpus/knowledge/bench-arena-round8-horizon.md`,
+   `corpus/knowledge/eval-prior-art-calibration.md`)
+10. **One strictness level for state-match grading.** Of 19 failing r8 `A-INC`
+   records (each `nwrong=1`), **15** were the MOV-zero convention (9 dropped a
+   zero-valued key, 6 left the MOV source at its pre-MOV value) and only **4**
+   were genuine value drift; strict 7/10 vs convention-tolerant 9/10. Grade
+   both, report the composition, or a spec-convention miss masquerades as a
+   capability failure. (`corpus/knowledge/bench-arena-round8-horizon.md` §A)
+11. **Trusting a manipulation because the design says so.** r8's injected
+   corruption was structurally inert in 4/8 problems (tail ops `DEL`/`SET`/
+   clobbered the key), fabricated `true_mid+5` in 2/8, and landed on a key the
+   tail never touched in 1/8 → **well-formed in 2/8**; corrupt and clean arms
+   were byte-identical in 3/8 problems per arm. Pre-flight: simulate the
+   treatment through the remaining ops and assert the final state differs from
+   truth. (`corpus/knowledge/bench-arena-round8-horizon.md` §B)
+12. **A control arm that is not the control.** Checkpoint cells measure latent
+   maintenance only if ack turns actually ack. r8 leaked 0 states beyond the
+   harness-demanded turn 1; r9 leaked full states in **16/48** (`CKPT4710`)
+   and **8/56** (`CKPT710`) non-turn-1 ack turns, across all 8 problems. Audit
+   compliance per problem, then filter — a leaky checkpoint cell is a partial
+   INC cell. (`corpus/knowledge/bench-arena-round9-replication.md`)
+13. **Assuming a grader's `ok` is the conjunction your claim needs.** r8's
+   `grade_c` computed `over_repair` and then left it out of `ok`
+   (`horizon.py:288`), and derived `preserved` from the model's *self-declared*
+   violations (`:277-279`) → `C-benign` 1/4 was really 0/4. Mutation-test
+   graders against synthetic adversarial inputs before trusting a SUMMARY
+   (round 9: 50 cases → 12 defect candidates, 1 live).
+   (`corpus/evidence/round9-fleet/harness-mutation.md`)
 
 ## Research-note structure
 
@@ -165,7 +201,7 @@ Parsing rules learned on real files:
   long. Population statistic, never a per-task law; quote with pipeline tag.
 - Aggregate pass rates hide complementary win-sets: grok45 19/33 vs
   qwenlocal 21/33 with near-disjoint per-task wins (8 vs 10). Round-5 adds
-  the temporal twin: 20/33 vs v2's 21/33 headline hid **8/33 status flips** —
+  the temporal twin: 20/33 vs v2's 21/33 headline hid **8/33 status deltas** —
   a stable aggregate can rotate a quarter of the win-set. Always diff
   win-sets by task, both across models and across runs.
 - `fence_found=0` splits by `finish_reason`: `length` = truncation (model
@@ -271,10 +307,72 @@ Detail: `corpus/knowledge/open-model-catalogs.md`.
 - RLHF proxy gap: every scalar judge is a reward model without a KL
   penalty — re-ground in primary evidence instead of trusting the score.
 
+## Planning-horizon & transcript-shape probes (verified 2026-09-28)
+
+Cell semantics for the r8/r9 instruments (`corpus/evidence/round8-horizon/horizon.py`,
+`corpus/evidence/round9-replication/run_r9.py`); record schemas are in
+`corpus/knowledge/bench-arena-round8-horizon.md` §Design.
+
+| Cell | Protocol | Graded turns | What it isolates |
+|---|---|---|---|
+| `A-INC` | full state emitted every turn | all 10 | incremental tracking **with** self-copy scaffold |
+| `A-CKPT4710` | `ok` acks except turns 4,7,10 | 4,7,10 | ≤3-op latent gaps |
+| `A-CKPT710` | `ok` acks except turns 7,10 | 7,10 | ≤6-op latent gaps (r9 dose cell) |
+| `A-*-ack` | ungraded ack turns | – | compliance audit input (`raw` truncated to 80 chars in r8) |
+| `A-MONO` | all 10 ops in one prompt, final state only | 1 | pure latent chaining |
+| `B-{corrupt,clean}-{plain,hint}` | fabricated transcript with a corrupted mid state; optional "correct, don't propagate" hint | 1 | error propagation vs recovery vs capability ceiling |
+| `C-{conflict,benign,norule,MONO}` | 4×4 grid, fabricated rows, late rule that binds / is vacuous / is absent / one-shot | 1 | rule-integration cost vs transcript-shape cost |
+| `meta` / `filler` | problem definition (init, ops, truth, tail_touched) / burst-decorrelation request | – | reproduction input; `request_ts` ordering evidence |
+
+Measurement rules (all four were violated at least once in r8; each cites the
+round that established it):
+
+1. **Unit = problem/seed, never request.** Draws on this server are non-iid
+   (lag-1 +0.26/+0.32, 5–10-request burst horizon,
+   `corpus/knowledge/bench-arena-round7-noise-n25.md`).
+2. **Discount power for ESS.** At ρ≈0.3, ESS≈0.54·n: a sign test at α=0.05
+   needs **n≥10** unanimous pairs or **n≥17** with one discordance
+   (`corpus/evidence/round9-fleet/critic.md` §4). Report exact binomial p as an
+   *upper bound* and say so.
+3. **Interleave cells per problem AND insert filler requests** between
+   consecutive same-cell draws; r8 did the first only, which left each
+   problem's three A-cells back-to-back (`horizon.py:314`).
+4. **Separate failure classes, never merge them**: parse failure (`got` null /
+   non-dict), `finish=length` truncation, output-convention miss (MOV-zero),
+   genuine state error. r8: 0 parse failures, 0 truncations at max_tokens 8192,
+   15/19 INC failures convention-class.
+5. **Grade twice** (strict + convention-tolerant) and report both.
+6. **Pre-flight the manipulation**: assert the injected error survives the
+   remaining ops and changes the truth final state (r8: 2/8 well-formed).
+7. **Audit the control**: count ack-turn compliance per problem before treating
+   a checkpoint cell as latent maintenance (r9: 16/48 and 8/56 leaks).
+8. **Pre-register a decision rule with three outcomes** — blocks / survives /
+   **indeterminate** — and report which fired. r9's replication returned
+   indeterminate (INC 4/8 vs a ≥5/8 survival threshold); rounding that to
+   "replicated" is the calibration failure the rule exists to prevent.
+9. **Land the run bytes.** Strip nothing from a committed `results.jsonl`; the
+   `raw` field is the only evidence for compliance, byte-identity and
+   failure-mode audits (r8's landed copy had it stripped — see
+   `corpus/knowledge/bench-arena-round8-horizon.md` §provenance).
+
+Scope limit: every number from these probes is a **sub-3-bit (UD-IQ2_XXS) +
+llama.cpp serving-stack** observation, not a Qwen3-Coder-30B-A3B capability
+measurement (published safe bands: W8A8/W4A16 ≈ lossless, 4-bit up to −59%;
+`corpus/knowledge/eval-prior-art-calibration.md` §cross-cutting).
+
 ## Production checklist — running an eval
 
 1. Write ex-ante predictions for every condition before runs — per-task
-   *and* aggregate; they calibrate separately.
+   *and* aggregate; they calibrate separately. **Make the ordering provable:**
+   write the predictions file, `sha256sum` it into a sibling `.sha256`, log
+   `date -u +%FT%TZ` before and after into `ordering.log`, stamp every request
+   record with `request_ts`, and commit all four (round 9:
+   `corpus/evidence/round9-replication/` — hash `2a4f62ef…` at 21:17:48Z,
+   first request 21:17:58Z). Score them at close: `|predicted−observed|/n` for
+   point forecasts, Brier for probabilities — prefer **per-problem
+   probabilities**, because point counts cannot be calibration-scored. Report
+   the pre-registered decision rule's verdict even when it is *indeterminate*
+   (round 9: INC 4/8 missed its own ≥5/8 survival threshold by one problem).
 2. Probe every endpoint before freeze (`/v1/models`, `/health`); a
    listening-but-wrong service degrades telemetry silently (Jitsi on
    :8080 vs llama on :34113, 2026-09-28).
@@ -307,6 +405,10 @@ Detail: `corpus/knowledge/open-model-catalogs.md`.
 - `~/Projects/webzites/repos/llm-wiki/wiki/karpathy/**` + `wiki/ai/{foundations/bitter-lesson,alignment-and-training/rlhf}.md` — eval-first thesis, diversity blindness, TrueSkill judge/aggregator split, RLHF proxy mechanics (digested 2026-09-28 → `corpus/knowledge/eval-theory-notes.md`)
 - `https://huggingface.co/api/models`, `https://openrouter.ai/api/v1/models` — live catalog schemas (probed 2026-09-28 → `corpus/knowledge/open-model-catalogs.md`)
 - `127.0.0.1:34113` llama-server + `~/bench-arena/grade.sh` — authored 4-task slice, 1/4 PASS vs predicted 2/4, `03` flip PASS→FAIL (run + graded 2026-09-28 → `corpus/knowledge/bench-arena-fresh-run.md`)
-- `/tmp/bench-r7/` scaffold-delta ablation — verbatim opencode `raw` wire request captured via proxy provider, 5-task × 5-condition ablation (E1/E2/E3/E4 × n=3 + E0 anchor), graded 2026-09-28 → `corpus/knowledge/bench-arena-round7-scaffold-ablation.md`
-- `~/bench-arena/` round-5 battery — full 33-task direct-API re-run: 20/33 PASS, 8 status flips vs v2, 5 byte-identical sol_sha, 06 truncation (`finish=length` @4096 tok), FAIL slower on wall+tokens (run + graded 2026-09-28 → `corpus/knowledge/bench-arena-round5-battery.md`)
+- `/tmp/bench-r7/` scaffold-delta ablation (ephemeral workdir, labelled debt per `../PROTOCOL.md`'s closure-resolvable rule — decisive numbers pasted into the knowledge entry) — verbatim opencode `raw` wire request captured via proxy provider, 5-task × 5-condition ablation (E1/E2/E3/E4 × n=3 + E0 anchor), graded 2026-09-28 → `corpus/knowledge/bench-arena-round7-scaffold-ablation.md`
+- `~/bench-arena/` round-5 battery — full 33-task direct-API re-run: 20/33 PASS, 8 status deltas vs v2 (4 P→F, 3 F→P, 1 F→HARNESS_DEFECT), 5 byte-identical sol_sha, 06 truncation (`finish=length` @4096 tok), FAIL slower on wall+tokens (run + graded 2026-09-28 → `corpus/knowledge/bench-arena-round5-battery.md`)
 - `~/Projects/webzites/repos/llm-wiki/wiki/karpathy/{talks,projects-and-tools,standards-and-specifications}/**` + remaining `philosophy-and-concepts/`, `gwern-essays/`, `ai/foundations/complexity.md`, `ai/books/` — second digest: sampling-proves-presence, reference-class, autonomy slider, spec-ability tiers (swept+read 2026-09-28 → `corpus/knowledge/eval-design-digest-2.md`)
+- `corpus/evidence/round8-horizon/` — round-8 planning-horizon probe, run to completion 78/78 jobs: `horizon.py` (349 lines, md5 `1c157e2a…`), `results.jsonl` (268 records, md5 `df154cb5…`, `raw` restored round 9), `run.log` (SUMMARY block, md5 `fc3b232f…`), `critic-defects.md` (16 design defects) — analyzed 2026-09-28 → `corpus/knowledge/bench-arena-round8-horizon.md`
+- `corpus/evidence/round9-replication/` — pre-registered probe-A replication + checkpoint-dose cell: `predictions-r9.md` (sha256 `2a4f62ef…`, hashed before the first request), `ordering.log`, `run_r9.py`, `results-r9.jsonl` (284 records: 8 meta / 248 scored / 28 filler), `replication.md` — run + scored 2026-09-28 → `corpus/knowledge/bench-arena-round9-replication.md`
+- `corpus/evidence/round9-fleet/` — ten L2 artifacts behind round 9's claims: `probeA.md`/`probeB.md`/`probeC.md` (+ their scripts), `critic.md` (16-defect fix-landing audit, claim triage), `harness-mutation.md` + `test_harness.py` (50 cases, exit 0), `prior-art.md`, `sibling-overlap.md`, `review.md` (citation/state audit)
+- Public prior art fetched 2026-09-28 for novelty calibration → `corpus/knowledge/eval-prior-art-calibration.md`: `arxiv.org/abs/2505.06120` (Laban et al., *LLMs Get Lost In Multi-Turn Conversation*, ICLR 2026), `2310.01798` (Huang et al., self-correction), `2307.13702` (Lanham et al., CoT faithfulness), `2309.06275` (Re²), `2210.01296` (RECITE), `2209.11895` (induction heads), `2305.18654` (Faith and Fate), `2205.10625` (least-to-most), `2310.20410` (FollowBench), `2410.15553` (Multi-IF), `2501.17399` (MultiChallenge), `2507.05257` (MemoryAgentBench), `2406.10149` (BABILong), `2406.12045` (τ-bench `pass^k`), `2504.04823` + `2409.11055` + `aclanthology.org/2025.emnlp-main.479` (quantization bands), `github.com/ggml-org/llama.cpp/issues/7052` (multi-slot non-determinism — the public antecedent of this lane's non-iid finding), `docs.vllm.ai/en/latest/features/batch_invariance/`, `thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/`

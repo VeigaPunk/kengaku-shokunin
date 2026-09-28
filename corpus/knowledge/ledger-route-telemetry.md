@@ -55,3 +55,18 @@ plus long tail. Named lanes: `mission_l1`, `executor`, `scout`,
    `mission_dispatched` (1,167) to `mission_parked` (1,188) ≈ 1.018 —
    parking and dispatch are near-symmetric, i.e. congestion, not
    starvation, dominates throughput.
+
+## Errata + drift note (appended round 9)
+
+- **`:3` "7,218 lines" is a point-in-time count of a live, growing surface.**
+  Re-counted round 9 (2026-09-28): `wc -l < ~/Projects/bounties/ledger/telemetry.jsonl`
+  → **7,224** (+6 since profiling). The taxonomy and routing counts below are
+  frozen at the 7,218-line snapshot and are *not* re-derived; treat every number
+  here as snapshot-scoped and re-run the counting command before citing a total.
+  Routed by the round-6 aggregator audit
+  (`corpus/lessons/round-6-aggregator-audit.md` defect 7: a count needs a
+  re-runnable command, and this surface drifts).
+- Ownership reminder (round 9 sibling map,
+  `corpus/evidence/round9-fleet/sibling-overlap.md`): this lane reads the ledger
+  for **model×lane and reroute inference** only; mission-state/dispatcher
+  semantics belong to kasegi and route-resolution/failure taxonomy to kumitate.

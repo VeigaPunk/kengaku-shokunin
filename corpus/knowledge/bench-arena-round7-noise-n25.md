@@ -74,3 +74,16 @@ under the same `BENCH_ROOT`. 0 HARNESS_DEFECT in all 50 headline reps.
   (0.32)**; and the draws are order-coupled, so n=3 unanimity was weaker
   evidence than credited.
 - SKILL.md parsing rules: add the non-iid correction (see SKILL).
+
+## Errata (appended round 9, never an in-place edit)
+
+- **`:23-24` "matches 8/8 FAILs and 0/12 PASSes (discordance 0/25)" — the PASS
+  denominator is wrong: `0/12` → `0/17`.** This entry's own status table
+  (`:15`) fixes task 09 at **17/25 PASS**, so the regex
+  `WHERE[^;]*(DENSE_RANK|RANK)\s*\(\s*\)\s*OVER` matches 8/8 FAILs and 0/**17**
+  PASSes; the `0/25` discordance figure is consistent and unchanged. Source of
+  the count: the same n=25 graded matrix in `/tmp/bench-r7-l2-executor/`
+  (ephemeral) as summarized in the `:15` table. Found by the round-6 aggregator
+  audit (`corpus/lessons/round-6-aggregator-audit.md` defect 1, rule 4 — a count
+  must carry its counting command) and corrected here in appended form per
+  `../PROTOCOL.md`'s "corpus corrections are new entries" rule.
