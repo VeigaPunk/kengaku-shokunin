@@ -17,8 +17,9 @@ Source: `~/Projects/webzites/repos/llm-wiki/wiki/ai/agents-and-engineering/godsp
 9. token usage
 10. framer prediction error
 
-Artifact set per run dir (iteration-3 note): `response.md` +
-`telemetry.json` + `judge.json` adjacent.
+Artifact set per run dir (`godspeed-umwelt-iteration-3.md:156`, NOT the
+alpha plan note — audit defect fixed round 4): `response.md` +
+`telemetry.json` + `judge.json` adjacent; 1200 runs × 3 files.
 
 ## Phase gates (hard stops)
 

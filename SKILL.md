@@ -158,27 +158,75 @@ Parsing rules learned on real files:
 - `telemetry_available=n` rows carry literal `"NULL"` strings in
   numeric fields — treat as a first-class row state, never `float()`
   blindly (observed: `20-csv-group-sum`).
-- FAIL rows return **faster** than PASS (median 60.9 vs 79.5 ms on
-  qwenlocal) — early-bail signature; split latency by status before
-  reading cost.
+- FAIL rows returned **faster** than PASS on the 33-row qwenlocal battery
+  (median 60.9 vs 79.5 ms) — early-bail signature. Population statistic,
+  not per-task law: the round-4 slice inverted it locally (fastest = PASS
+  1.2 s, slowest = FAIL 14.7 s). Split latency by status before reading
+  cost; read the signature at aggregate level only.
 - Aggregate pass rates hide complementary win-sets: grok45 19/33 vs
   qwenlocal 21/33 with near-disjoint per-task wins (8 vs 10). Always
   diff win-sets by task class before ranking models.
 
+### Running a battery against the local model (verified 2026-09-28)
+
+1. Probe the endpoint, not the config: `GET /v1/models` + `/health` on the
+   configured port. `~/.config/opencode` provider `qwen-local` still points
+   at `localhost:8080` (now Jitsi — listening but wrong); the live
+   llama-server is `127.0.0.1:34113` via `qwen-coder.service`.
+   Listening-but-wrong beats closed-port for silent breakage.
+2. Two transport paths: `loop.sh` (opencode `--agent raw`, system prompt,
+   `/metrics`→journal fallback) or direct `POST /v1/chat/completions`
+   (minimal, deterministic-ish). Grade identically:
+   `BENCH_ROOT=<scratch> bash ~/bench-arena/grade.sh <label>` consumes any
+   `out/<label>/<task>.txt` — runner and grader are separable.
+3. n=1 per task flips near the boundary: `03-extract-isodatetimes` went
+   PASS→FAIL across pipelines at temp 0.2. Status claims need repeats or
+   pinned seed. Stable canaries: 01 (PASS×2), 02 (FAIL×2), 05 (both-fail).
+4. Record ex-ante per-task *and* aggregate predictions — they calibrate
+   separately (round 4: per-task 3/4, aggregate miss).
+
+### Model catalogs (non-Bailian)
+
+Verified live 2026-09-28, no auth: HF `api/models` (search/filter=gguf/
+sort=trendingScore; `sha`, `siblings`, `pipeline_tag`); OpenRouter
+`api/v1/models` (460 entries; `context_length`, `knowledge_cutoff`,
+string `pricing` per token, `hugging_face_id` open-weight twin link).
+Detail: `corpus/knowledge/open-model-catalogs.md`.
+
+### Eval-theory rules (digest: corpus/knowledge/eval-theory-notes.md)
+
+- Second-half thesis (Yao): recipe saturated; frontier is eval design —
+  break the autonomy assumption (measure collaboration) and IID
+  assumption (record run order; sequence-aware tasks reward memory).
+- Diversity blindness (Gwern): RLHF collapses output variance; no
+  mainstream benchmark scores it. Probe = k samples × pairwise embedding
+  spread. Use best-of-N with dissimilarity selection, not just
+  temperature.
+- Judge/aggregator split (Thariq): never ask an LLM for a global order
+  over large sets — batch-compare ~10 items, aggregate with TrueSkill
+  (μ−3σ sort key, ~1–2 matches/item); pairwise > absolute scoring.
+- RLHF proxy gap: every scalar judge is a reward model without a KL
+  penalty — re-ground in primary evidence instead of trusting the score.
+
 ## Production checklist — running an eval
 
-1. Write ex-ante predictions for every condition before runs.
-2. Freeze: prompt text, judge schema, telemetry capture. (Phase 0)
-3. Smoke: 2 tasks × 2 conditions = 4 runs. Gate on telemetry validity,
+1. Write ex-ante predictions for every condition before runs — per-task
+   *and* aggregate; they calibrate separately.
+2. Probe every endpoint before freeze (`/v1/models`, `/health`); a
+   listening-but-wrong service degrades telemetry silently (Jitsi on
+   :8080 vs llama on :34113, 2026-09-28).
+3. Freeze: prompt text, judge schema, telemetry capture. (Phase 0)
+4. Smoke: 2 tasks × 2 conditions = 4 runs. Gate on telemetry validity,
    shape difference, correctness. (Phase 1)
-4. Core battery: ≥4 tasks per mechanism class (K2-reframe, frontier
+5. Core battery: ≥4 tasks per mechanism class (K2-reframe, frontier
    enumeration, discovery) × 2 conditions. (Phase 2)
-5. Public transfer slice only after mechanism visible. (Phase 3)
-6. Record all 10 telemetry fields per run; keep `response.md` +
-   `telemetry.json` + `judge.json` adjacent.
-7. Analysis: deltas on correctness, reframes, skyline size, axis
+6. Public transfer slice only after mechanism visible. (Phase 3)
+7. Record all 10 telemetry fields per run; keep `response.md` +
+   `telemetry.json` + `judge.json` adjacent. Repeat near-boundary tasks
+   (n≥2) — single-run status flips on sampling (`03` PASS→FAIL, round 4).
+8. Analysis: deltas on correctness, reframes, skyline size, axis
    vocabulary, unique findings, tool calls, wall-clock, prediction error.
-8. Expansion rule: keep a benchmark family only if it adds a new axis of
+9. Expansion rule: keep a benchmark family only if it adds a new axis of
    signal without harness drag.
 
 ## Cited local sources
@@ -193,3 +241,6 @@ Parsing rules learned on real files:
 - `find`/`grep` output this session — `~/wikillm/llm-wiki` absent; wiki at `~/Projects/webzites/repos/llm-wiki`
 - `~/Projects/bounties/ledger/telemetry.jsonl` — live lane-routing corpus, 7,218 events; taxonomy + reroute signatures in `corpus/knowledge/ledger-route-telemetry.md` (profiled 2026-09-28)
 - `~/bench-arena/` (`tasks/`, `report-grok45.csv`, `report-qwenlocal-v2.v2.csv`, `telemetry-qwenlocal-v2.csv`) — executed 33-task two-model battery; results in `corpus/knowledge/local-bench-arena.md` (analyzed 2026-09-28)
+- `~/Projects/webzites/repos/llm-wiki/wiki/karpathy/**` + `wiki/ai/{foundations/bitter-lesson,alignment-and-training/rlhf}.md` — eval-first thesis, diversity blindness, TrueSkill judge/aggregator split, RLHF proxy mechanics (digested 2026-09-28 → `corpus/knowledge/eval-theory-notes.md`)
+- `https://huggingface.co/api/models`, `https://openrouter.ai/api/v1/models` — live catalog schemas (probed 2026-09-28 → `corpus/knowledge/open-model-catalogs.md`)
+- `127.0.0.1:34113` llama-server + `~/bench-arena/grade.sh` — authored 4-task slice, 1/4 PASS vs predicted 2/4, `03` flip PASS→FAIL (run + graded 2026-09-28 → `corpus/knowledge/bench-arena-fresh-run.md`)
