@@ -5,18 +5,18 @@
 **Owns:** the domain knowledge, playbooks, error patterns, and checklists above.
 **Refuses:** anything outside this domain; report cross-domain evidence back to the orchestrator rather than absorbing it.
 
-## Surfaces (all resolve on this host; re-verified round 10, 2026-09-28)
+## Surfaces (re-verified round 11, 2026-09-28; all resolve EXCEPT route telemetry, which went absent mid-round — see its row and round-11 report-out 4)
 
 | Surface | Path / endpoint | What this lane does with it |
 |---|---|---|
 | Research notes (SSOT for eval craft) | `~/Projects/webzites/repos/llm-wiki` — `wiki/ai/agents-and-engineering/`, `wiki/karpathy/`, `wiki/ai/{foundations,alignment-and-training,books,scaling-and-forecasting}/`, `Home.md`, `raw/` | digest into `corpus/knowledge/eval-*` entries; the `~/wikillm/llm-wiki` path does **not** exist here (`test -e` → absent) |
 | Local benchmark battery | `~/bench-arena/` — `tasks/`, `grade.sh`, `loop.sh`, `report-grok45.csv`, `report-qwenlocal*.csv`, `telemetry-qwenlocal-v2.csv` | authored runs, status-flip and truncation taxonomy |
 | Served local model | `http://127.0.0.1:34113` — `/v1/models`, `/health`, `/v1/chat/completions` (Qwen3-Coder-30B-A3B-Instruct **UD-IQ2_XXS**, `owned_by=llamacpp`, `n_ctx=16384`). **Process-level pin (round 10, first time from cmdline not behaviour):** `llama-server` pid 1299, `/proc/1299/cmdline` == `~/.config/systemd/user/qwen-coder.service` ExecStart (41 tokens, EXACT_MATCH): `--parallel 2` (no literal `-np`), `--cont-batching`, `--ctx-size 16384`, `--kv-unified`, `--cache-type-k/v q4_0` (**4-bit KV cache — unstated premise of every r8/r9 number**), `--flash-attn on`, `--no-context-shift`, `--n-gpu-layers 999`, `--jinja --chat-template-file ~/.config/llama/qwen-coder-godspeed.jinja` (custom non-upstream template). Evidence: `corpus/evidence/round10-fleet/r10-scout-endpoint.md` + raw captures `models-34113.json`, `props.json`, `slots.json`; identity re-probed via `/v1/models` + `/health` 200 each round | every probe in `corpus/evidence/`; identity re-probed each round; hermetic gates pin committed bytes, never `/proc` |
-| Route telemetry | `~/Projects/bounties/ledger/telemetry.jsonl` | model×lane and reroute-chain **inference about model service** only |
+| Route telemetry | `~/Projects/bounties/ledger/telemetry.jsonl` — **ABSENT as of round 11** (resolved 23:32Z mid-round: aggregator box-3 cold run counted 7,226 lines; whole `~/Projects/bounties/` tree gone minutes later, no relocation found) | model×lane and reroute-chain **inference about model service** only; derived counts stay cited as historical |
 | Client CLI telemetry | `~/.bailian/telemetry.jsonl`, `~/.bailian/wiki-sync-state.json` | quota-vs-auth failure split, poll-verb rule |
 | Model catalogs | `~/.bailian/skills/bailian-docs-llm-wiki/models/{index.md,models.jsonl}`, `https://huggingface.co/api/models`, `https://openrouter.ai/api/v1/models` | selection fields, open-weight twins |
-| Own probe artifacts | `corpus/evidence/round8-horizon/`, `corpus/evidence/round9-replication/`, `corpus/evidence/round9-fleet/`, `corpus/evidence/round10-fleet/` | durable run bytes + analyses + L2 fleet artifacts; nothing cited from `/tmp` or session `local://` alone |
-| In-repo gate | `grader.py` (repo root; `python3 grader.py` → exit 0/1/2, `--selftest`) | hermetic offline replay of both probe trees: recomputes every stored SUMMARY number from committed bytes, md5-pins the four evidence files, pins one adjudicated erratum pair (`replication.md` §Errata) |
+| Own probe artifacts | `corpus/evidence/round8-horizon/`, `corpus/evidence/round9-replication/`, `corpus/evidence/round9-fleet/`, `corpus/evidence/round10-fleet/`, `corpus/evidence/round11-power/`, `corpus/evidence/round11-fleet/` | durable run bytes + analyses + L2 fleet artifacts; nothing cited from `/tmp` or session `local://` alone |
+| In-repo gate | `grader.py` (repo root; `python3 grader.py` → exit 0/1/2, `--selftest` S0–S6) | hermetic offline replay of **three** probe trees (r8/r9/r11): recomputes every stored SUMMARY/analysis number from committed bytes, md5-pins seven evidence files, pins one adjudicated erratum pair, re-verifies both ordering proofs (r9 + r11 prereg bundle hash chain); 280 checks after the round-11 extension |
 | Public literature | arXiv / ACL Anthology / ICLR proceedings / vLLM docs / GitHub issues (URLs in `corpus/knowledge/eval-prior-art-calibration.md`) | novelty pricing of local findings |
 
 ## Refusals and reported-out scope (round 9, `corpus/evidence/round9-fleet/sibling-overlap.md`)
@@ -54,3 +54,28 @@ operational failure taxonomy kumitate owns — recorded so the taxonomy does not
 treat `source=journal` rows as scraper outages. (3) Operator rule re-confirmed
 mid-round: domain source repos (webzites/llm-wiki, bounties, ufo-fsd-alpha) are
 read-only for this lane; upstream-bound findings travel in the round report.
+
+Round-11 report-outs (evidence sent, not absorbed): (1) **protocol** — the
+preregistration standard (hashed predictions + filed power analysis + Brier
+scoring + ordering proof + hermetic replay gate) has no sibling owner per
+`corpus/evidence/round11-fleet/r11-connector.md`; a fleet-wide *standard*
+would belong to protocol/integrator — referred, not imposed. (2) **kotoba** —
+ack compliance under checkpoint schedules is 49–65% (the model emits
+unrequested full states on ack turns; the r9-verbatim post-checkpoint
+spillover ask inflates this by design): prompt-craft evidence for benchmark
+authors who treat "Reply 'ok'" turns as free
+(`corpus/knowledge/bench-arena-round11-power.md`). (3) **integrator / unowned
+serving plane** — the r11 `descriptors` record re-pins the same stack as
+round 10 (pid 1299, 41-token argv, q4_0 KV, `--kv-unified`); ScoutPrereg
+fetched public evidence that q4_0-KV measurably perturbs outputs (llama.cpp
+PR #21038 tables), making the KV-quantization level material to ANY
+cross-model number drawn from :34113 — flag-change authority remains unowned.
+
+Round-11 report-out addition: (4) **kasegi** — the bounty-ledger tree
+`~/Projects/bounties/` (their namesake surface, incl. `ledger/telemetry.jsonl`)
+went absent from this host mid-round-11; last observed resolving 23:32Z
+(`corpus/lessons/round-8-aggregator-box3-coldrun.md` command 3, live count
+7,226). `find ~ -maxdepth 4 -name 'telemetry.jsonl' -path '*ledger*'` → 0
+hits; `~/Projects/the-bounty-hunter/` exists but carries no
+`ledger/telemetry.jsonl`. Cause is operator-side host state, not lane state;
+this lane marks its surface ABSENT and keeps its historical citations.

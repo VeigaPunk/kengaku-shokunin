@@ -28,18 +28,26 @@ Measurement proxies (fixed so before→after is re-derivable, per
 
 - **calibration proxy** — three counts: (a) probes run in the round with
   predictions filed *before the first request* **and** scored at close
-  (r8: 0/1; r9: 1/1; r10: 0/0 — hermetic round, no probe ran); (b) artifacts
-  produced in the round that are committed **and** indexed **and** logged at
-  round close (r8: 0/4 files; r9: see `git show --stat` for the round-9
-  commit; r10: `grader.py` + 22 files under `corpus/evidence/round10-fleet/`,
-  all indexed in `corpus/README.md` and logged — see the round-10 commit stat);
-  (c) `SCORECARD.md` rows whose
-  evidence pointer re-runs (target 7/7).
+  (r8: 0/1; r9: 1/1; r10: 0/0 — hermetic round, no probe ran; r11: **1/1** —
+  bundle hashed 23:10:20Z, run scripts hashed post-fix 23:28:37Z, first
+  `request_ts` 23:28:57Z; scored at close: point abs-errors 0.219/0.125/0.002,
+  Brier 0.153); (b) artifacts produced in the round that are committed
+  **and** indexed **and** logged at round close (r8: 0/4 files; r9: see
+  `git show --stat` for the round-9 commit; r10: `grader.py` + 22 files under
+  `corpus/evidence/round10-fleet/`; r11: `round11-power/` (12 files) +
+  `round11-fleet/` (17 files) + 2 corpus entries + the extended `grader.py`,
+  all indexed in `corpus/README.md` and logged — see the round-11 commit
+  stat); (c) `SCORECARD.md` rows whose evidence pointer re-runs (target 7/7;
+  r10 critic: 30/35 → 3 errata filed; r11 wave-2 critic: landed numbers
+  10/10 REPRODUCE).
 - **novelty proxy** — fraction of the round's headline claims carrying a
   prior-art verdict with a fetched URL (r9: 4/4, see
   `corpus/knowledge/eval-prior-art-calibration.md`; r10: 0/0 — a hermetic
-  round made no model-behaviour claims), split into
-  phenomenon-new vs instrument-new (r9: 0/4 phenomena, 2/4 instruments; r10: n/a).
+  round made no model-behaviour claims; r11: **7/7** — C1–C4 + M1–M3,
+  `corpus/evidence/round11-fleet/r11-prior-art-{granularity,prereg}.md`),
+  split into phenomenon-new vs instrument-new (r9: 0/4 phenomena, 2/4
+  instruments; r10: n/a; r11: 0/4 phenomena, **1/4 instruments novel** — C3
+  density-ablation instrument; C4 prereg+gate composition INCREMENTAL).
 
 ## Round 9 — pre-move (measured against `HEAD` `f147a27` "round-7")
 
@@ -125,6 +133,18 @@ recorded here as errata, never patched in place
 | depth | 8 → **8** | Held, no bump — anti-double-count ruling: SKILL.md grew 414 → **472** lines (§Hermetic grader, anti-pattern **14**, serving-stack process-pin paragraph), but those bytes document this round's operability artifact; counting them under depth too would reward the same landing twice. Citation resolution re-measured **91.2% strict / 98.0% repo-convention — the ≥90% rubric floor holds** (20 cited-source bullets reproduce; the "14 distinct paths" figure ruled convention-bound: 58 distinct local paths under the finer extractor, 57 resolve, 1 documented-absent). Two knowledge entries lack a first-line source (`bench-arena-round7-scaffold-ablation.md`, `eval-design-digest-3.md`) — named, unfixed. **Ceiling:** the depth rubric's +1 wants new *sourced claims*; round 11's probe should supply them. | `corpus/evidence/round10-fleet/r10-review-cites.md`; `SKILL.md` |
 | adjacency | 8 → **8** | The connector survey ruled the gate space: **no sibling owns an evidence-replay gate** (kagi `drift-pins.sh`/`transcript-scan.sh` = live-host drift + runtime hygiene; kotoba `verify_harness_claims.py` = live-baseline; kumitate `scripts/cite-check.mjs` = citation pins — adjacent, different data, ruled non-duplicate); a fleet-wide gate *standard* would belong to protocol/integrator — referred in the round report, not imposed. Three round-10 report-outs filed (`PROVINCE.md` tail): serving-plane config facts (q4_0 KV, `--kv-unified`, `--no-context-shift`) → integrator, unowned plane; `loop.sh` telemetry-source semantics → kumitate (informational; fix stays in-lane backlog); operator read-only rule for domain repos re-confirmed and absorbed. **Ceiling:** the integrator has still arbitrated neither the round-9 nor the round-10 rulings. | `corpus/evidence/round10-fleet/r10-connector.md`; `PROVINCE.md` tail |
 
+## Round 11 — post-move (novelty axis-move landed)
+
+| Axis | Before → After | What moved | Evidence |
+|---|---|---|---|
+| **novelty** | 5 → **6** | The floor moved for the first time. r9's indeterminate granularity reading (pass-rate tie 2/8=2/8, weak severity signal, underpowered by its own report) is now a **powered, preregistered, priced** result: the emission-granularity severity dose is **ESTABLISHED** — paired Δ mean `nwrong` at shared checkpoints {7,10} = **+0.352** (sd 0.820, n=64), t=+3.431, df=63, two-sided p=0.0011, 95% CI [+0.147, +0.556]; exact sign test 26W/7L/31T p=0.0013 (direction agrees → mechanical verdict-rule branch 1, no downgrade). All three novelty-rubric +1 legs: a construct r9 could only call indeterminate, now measured at the filed power (n=64, MDE d=0.35); the instrument inspectable in-repo (`probe_r11.py`, `run_r11.py`, `recompute_r11.py`, grader extension); prior-art verdicts with fetched URLs for every headline claim (proxy 7/7 — C1 severity-only dose INCREMENTAL-low: no source FOUND in the search set manipulates emission density with severity as the response; C3 instrument NOVEL ruling stands strengthened; C4 INCREMENTAL). Pass-rate dose **not** established (McNemar b=13 c=5, exact p=0.0963 — reported as the honest null). **Ceiling:** one instrument family (third-generation ladder), one served stack (q4_0 KV + custom template, descriptors-pinned in-band), one task family (inventory ledger); the phenomenon stays adjacent to published decoupling results (StageIF 2609.08589); "no published density manipulation" is a search-set verdict, not an exhaustive negative. | `corpus/evidence/round11-power/analysis_r11.md` (`PREREGISTERED VERDICT: ESTABLISHED`); `python3 grader.py` → exit 0, n=280; `round11-fleet/r11-{critic-landed,prior-art-granularity,prior-art-prereg}.md` |
+| **calibration** | 7 → **8** | The full loop ran under its own gate. (a) Predictions filed before the first request and scored at close: bundle (plan+power+predictions) hashed **23:10:20Z**, run scripts hashed post-fix **23:28:37Z**, first `request_ts` **23:28:57Z** — the ordering chain covers the code that ran, not just the text. (b) Probabilistic predictions filed for the first time, lifting the rubric's "point forecasts where probabilities are feasible" cap: 3 events, **Brier 0.153**, dominated by the honest 0.50 on significance (outcome 1 → 0.25 term). (c) The shrunk primary-endpoint point prediction landed near-exact (+0.350 predicted → +0.352 observed, abs err **0.002**); pass-level predictions missed high (0.219/0.125) and the miss is filed as a lesson (levels are batch-variable, contrasts travel). (d) Defects recorded, not hidden: the runner's missing `import json` (mock-smoke caught it pre-run; failing-before evidence preserved), the draft ordering check's over-strict first-request form (failed on real bytes; granularity-independent fix adjudicated in INTEGRATOR-NOTES delta 2), and six critic design-MINORs ruled as errata instead of editing the hashed bundle (incl. the power-table ceil breach: exact n=64.07, power at 64 = 0.7996 not ≥0.80). (e) Landed bytes `cmp`-identical to the run bytes, md5-pinned in `PINS`. Conditional-MAJOR contingency (error-record rule) never materialized: 0 errors. **Ceiling:** Brier over only 3 events; 0–10 anchors remain medium-confidence; P(significance)=0.50 was underconfident against p=0.0011. | `round11-power/{ordering.log,predictions-r11.md,analysis_r11.md}`; `round11-fleet/{INTEGRATOR-NOTES.md,r11-critic-design.md,r11-mock-smoke.md,r11-critic-landed.md}` |
+| operability | 6 → **7** | The gate tripled scope in the same round the new bytes landed (closing round-10 §Planned clause (c) — recomputable AT landing, not a round later): `grader.py` 936 → **1709** lines, 149 → **280** checks, replaying **three** trees. r11 adds: meta regeneration 64/64 seeds (`3000+pid*41`), raw re-parse/re-grade of all 320 graded records (want==truth[turn−1]), the §4 census (1473/1409/0-errors), both `run.log` SUMMARY lines, every stored `analysis_r11.md` line (observed table, paired diff/sd, t/p via NR betai, CI, exact sign + McNemar, verdict-rule consistency incl. the downgrade clause, Brier, scoring table), descriptors serving-stack pins, and the bundle sha256 chain + ordering proof. `--selftest` grew S0–S3 → **S0–S6** (r11 ok-flip, r11 SUMMARY edit, stats anchors) → exit 0. Independent mutation battery: **11/11 killed**, incl. cross-tree isolation (r9-only mutation fires r9 ids, zero r11 ids) and guarded in-place swaps with md5-verified restore; stdout byte-identical under PYTHONHASHSEED unset/42. A committed mock server (`round11-fleet/mock_server_r11.py`) lets a stranger schema-smoke the probe with no endpoint. **Ceiling:** new data still requires the live endpoint; the gate grades committed bytes only. | `python3 grader.py` → `CHECKS n=280 mismatches=0 errata_pinned=1`; `--selftest` → S0–S6 ALL PASS; `round11-fleet/{r11-mutation.md,mutate_r11.sh,mock_server_r11.py}` |
+| depth | 8 → **9** | New sourced, actionable content beyond this round's probe bytes: measurement rule **10** (report paired contrasts, never raw levels across batches — derived from committed r8/r9/r11 numbers on an unchanged stack), anti-pattern **15** (causal-order checks keyed on timestamp uniqueness false-fail at second resolution), checklist item 1 extended (filed power analysis + mock-smoked runner + in-band descriptors), §Hermetic grader rewritten for three trees/280 checks/S0–S6, cited-source bullets 20 → **23**; two new corpus entries (powered-rerun knowledge, round-11 lessons); three of the aggregator cold-run's four break points closed in SKILL (B1 cite path `models/models.jsonl`, B3 durable-descriptors pin note, B4 `min_stack` defined). Citation resolution **92.9%** under the round-10 convention (13/14; the 1 = documented-absent ledger path) — ≥90% floor holds; strict count 71.4% (convention-bound per the round-10 ruling). **Ceiling:** two knowledge entries still lack a first-line source (named r10, unfixed); strict-vs-convention spread persists. | `SKILL.md` (518 lines, 15 anti-patterns, 23 bullets, 10 measurement rules); `round11-fleet/r11-review-index.md` §5 |
+| coverage | 7 → **7** | Held, no bump — a maintenance round with one honest negative. Index both-directions completed/extended: knowledge 22 rows = 22 files, lessons **13 rows = 13 files** (the missing 13th was the aggregator's box-3 cold-run lesson, committed `06cdc98` without an index row — this lane writes only the row, per the round-6 convention), evidence dirs 6 = 6; the stale "No in-repo gate" open-gap line (landed r10, never closed in README) fixed. PROVINCE enumerates both round-11 dirs. BUT the route-telemetry surface **no longer resolves**: `~/Projects/bounties/` went absent mid-round (resolved 23:32Z with a live count of 7,226 lines; gone by the review pass; no relocation found). A declared-but-unresolvable surface is a coverage cap — marking it ABSENT and routing it to kasegi keeps the file truthful, not covered. | `round11-fleet/r11-review-index.md` §1/§4; `corpus/README.md` rows; `PROVINCE.md` surfaces + report-out (4) |
+| freshness | 6 → **7** | Every claim this round touched carries a re-verification: endpoint identity at round start AND **in-band at run time** (the `descriptors` record pins model id + pid 1299 + 41-token argv + temp/maxtok/system prompt inside committed bytes — the durable form of the r10 process pin, closing cold-run break B3); ReviewerBaseline re-ran **41 committed pointers → BASELINE GREEN** pre-landing (grader n=149 control, r9 ordering chain incl. the F2 cwd caveat, pid/argv EXACT_MATCH, bench-arena frozen); the ledger surface's mid-round disappearance was caught **within minutes** (23:32Z resolving → absent), documented with its timeline, and routed instead of left stale; landed md5s recorded at copy time and pinned. **Ceiling:** the disappearance is un-root-caused (operator-side host state, outside the province); bench-arena/llm-wiki drift checks remain manual per round. | `round11-power/results-r11.jsonl` descriptors record; `round11-fleet/r11-review-{baseline,index}.md`; `PROVINCE.md` row 15 |
+| adjacency | 8 → **8** | Held, no bump — the mechanism ran, nothing was newly arbitrated. Connector re-verified the r10 no-duplicate ruling at current sibling HEADs (no sibling operates a hashed preregistration, power analysis, or Brier scoring; no sibling owns an evidence-replay gate). Four report-outs filed, evidence sent not absorbed: protocol (fleet preregistration-standard referral), kotoba (ack-compliance 49–65% under checkpoint schedules + spillover-ask craft evidence), integrator (q4_0-KV materiality for ANY cross-model number from :34113, with fetched PR #21038 tables), kasegi (bounty-ledger tree absence). **Ceiling:** the integrator has arbitrated none of the standing referrals (unchanged since r10). | `round11-fleet/r11-connector.md`; `PROVINCE.md` round-11 report-outs (1)–(4) |
+
 ## Scoring rubric
 
 A move is ±1 per axis-move; the anchors below are what make a pointer true or
@@ -142,35 +162,36 @@ false, fixed here so later rounds score the same way instead of drifting.
 
 ## Planned (next axis-move)
 
-Lowest post-move axis is **novelty (5)** — unmoved for a second round and now
-the table's floor. The move: one powered, priced measurement of the construct
-this lane's instrument set can uniquely see. Concretely (design fixed here;
-preregistration before any request): (a) re-run the emission-granularity
-ladder — r9's `A-CKPT4710` vs `A-CKPT710` tie (2/8 = 2/8) with the severity
-differential (`nwrong` 0.875 → 1.375) — at an n sized by a **filed power
-analysis** (binomial, effect size stated, hashed with the predictions and
-ordering-proven before the first `request_ts`), so the novelty rubric's
-"below its own critic's pre-registered power ask" cap cannot fire; (b) carry
-the round-10 serving-stack pin (q4_0 KV cache, `--kv-unified`, custom
-template) as explicit experimental-unit descriptors in the probe plan and in
-every derived claim, and price the granularity-severity reading against public
-literature with fetched-URL prior-art verdicts; (c) land the run bytes in a
-shape `grader.py` can grade — extend the gate's SUMMARY coverage in the same
-round so the new numbers are recomputable at landing, not a round later.
-Falsifiable target: `ordering.log` predates the first `request_ts`; the
-predictions file states the n and effect size that would falsify the
-granularity-severity claim; `python3 grader.py` exits 0 on the extended tree
-and its `--selftest` still passes; prior-art verdicts carry fetched URLs.
+Lowest post-move axis is **novelty (6)** — moved, but still the floor. The
+move: turn the single powered contrast into a **powered full ladder** and test
+its transport. Concretely (design fixed in a hashed bundle before any
+request; lesson 7 — the error-record contingency rule goes INSIDE the bundle):
+(a) all four arms on the same problems — A-INC, A-CKPT4710, A-CKPT710,
+A-MONO — at an n sized by a filed power analysis against the observed r11
+effects, primary paired contrasts INC−4710 and 710−MONO on the same
+shared-checkpoint severity endpoint, testing the full ladder direction
+(r9 could only call it directional; r11 priced only the middle contrast);
+(b) **per-problem probabilistic predictions** (Brier over 64 problems, not 3
+events) — closing the checklist's own "prefer per-problem probabilities"
+preference; (c) one external-validity arm: the same density contrast over a
+second task family (e.g. the C-probe Latin-square state or a bench-arena
+regex task) so the severity dose is not inventory-ledger-only, priced with
+fetched-URL prior-art verdicts; (d) grader coverage for the r12 tree extended
+IN the same round (280 → more, selftest grown accordingly).
+Falsifiable target: `ordering.log` + bundle hash (incl. the contingency rule)
+predate the first `request_ts`; a per-problem probability file exists and is
+scored at close; `python3 grader.py` exits 0 on the extended tree and
+`--selftest` passes; prior-art verdicts carry fetched URLs.
 
 ## Retired
 
 None. No cell scores 10 (the saturation floor) and no axis is a wrong fit.
-Round-10 movement: operability 4→6 (the gate landed), calibration 6→7,
-freshness 5→6, coverage 6→7; depth and adjacency measured but **held at 8**
-with recorded no-bump rulings (anti-double-count; no new arbitration), and
-novelty held at 5 because a hermetic round adds no construct. Retiring
-novelty would be exactly wrong: it is an owned axis, it is the floor, and it
-is the next move.
+Round-11 movement: novelty 5→6 (the axis-move landed — severity dose
+ESTABLISHED at the filed power and priced 7/7), calibration 7→8,
+operability 6→7, depth 8→9, freshness 6→7; coverage **held at 7** (the
+declared-but-unresolvable-surface cap fired: the ledger tree went absent
+mid-round) and adjacency **held at 8** (report-outs filed, no new integrator
+arbitration) — both with recorded no-bump rulings above.
 
 ## Confidence
 
@@ -222,3 +243,22 @@ is the next move.
 - **Unverified, carried open**: the endpoint scout's gguf-size Δ (on-disk
   10,333,691,040 B vs `meta.size` 10,327,717,888 B, Δ 5,973,152 B) — cause
   not proven, no 10 GB hash run (`r10-scout-endpoint.md` gaps).
+- **r11 severity-dose ESTABLISHED verdict** — high. Three independent
+  recomputations agree: the landed `recompute_r11.py`, the `grader.py` replay
+  (280 checks, exit 0), and CriticLanded's fresh implementation (10/10
+  REPRODUCE incl. a 40/40 raw re-parse spot check). The verdict is the
+  mechanical application of the pre-request rule to the recomputed numbers.
+- **Pass-level batch variability (r8 1/10, r9 2/8+2/8, r11 29/64+21/64 on the
+  same pid-1299 stack)** — high for the observation (committed bytes, argv
+  re-pinned in-band); medium for the attribution (burst/sampling state vs
+  unmodeled drift; the stack's argv is identical across all three).
+- **"No published density→severity manipulation" (C1/C3)** — medium. A
+  search-set verdict (~45 queries, ~50 fetched sources across two scouts),
+  not an exhaustive negative; wording scoped accordingly post-critic.
+- **Brier 0.153** — high as arithmetic, low as a calibration measure: 3
+  events, one term (the honest 0.50 on significance) dominates.
+- **Ledger-tree absence** — high (`test -e` × paths + `find ~ -maxdepth 4`
+  sweep, both this round); cause unknown — operator-side host state.
+- **Novelty 6 anchor** — medium: it rests on the scouts' verdict taxonomy and
+  the powered ESTABLISHED result, both single-round instruments.
+

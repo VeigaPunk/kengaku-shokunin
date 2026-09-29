@@ -120,6 +120,15 @@ agency, tool orchestration, off-path web pressure, mechanism proof.
     that recomputes every number from them, and prove it can fail.
     (`python3 grader.py --selftest`;
     `corpus/evidence/round9-fleet/harness-mutation.md`)
+15. **A causal-order check keyed on timestamp uniqueness.** `request_ts` is
+    second-resolution and a fast local server issues ~5 requests/s, so the
+    first filler/ack share the descriptors record's second (r11: three cells
+    at `23:28:57Z`). A gate that asserts "all records at min `request_ts` are
+    the first-injected one" FALSE-FAILS on clean bytes. Order causal proofs by
+    **file position** in the append-ordered JSONL, not by timestamp
+    uniqueness; use the timestamp only for the coarser hash-before-first-request
+    bound. (`corpus/evidence/round11-fleet/INTEGRATOR-NOTES.md` delta 2;
+    `grader.py` `check_r11_ordering`)
 
 ## Research-note structure
 
@@ -242,7 +251,10 @@ Parsing rules learned on real files:
   `tool_choice:auto` while stripping the system prompt produced
   `finish=tool_calls` in 14/15 cells (13/15 with empty content; one
   emitted unfenced prose; observed call on repeat probe:
-  `skill(name="min_stack")` — temp-0.2 repro held 9/9, trap is
+  `skill(name="min_stack")`, `min_stack` being the emitted tool-call name of
+  the minimal-stack skill in the captured r7 wire probe (semantics:
+  `corpus/knowledge/bench-arena-round7-scaffold-ablation.md`) — temp-0.2
+  repro held 9/9, trap is
   temperature-invariant). A bare-API probe must strip `tools`/
   `tool_choice` too, or keep the output-contract system text; never
   compare "API no-system" against "harness with-system+tools" and read
@@ -363,6 +375,14 @@ round that established it):
    `raw` field is the only evidence for compliance, byte-identity and
    failure-mode audits (r8's landed copy had it stripped — see
    `corpus/knowledge/bench-arena-round8-horizon.md` §provenance).
+10. **Report paired contrasts, never raw levels, across batches.** Absolute
+   pass rates on the *same unchanged serving stack* (pid 1299, argv re-pinned
+   every round) swung across rounds — r8 CKPT 1/10, r9 2/8+2/8, r11 29/64+21/64
+   — but the *paired* severity contrast (same problem, both schedules) replicated
+   at +0.352. Batch is a nuisance factor; the within-problem paired difference
+   is the transportable quantity. Shrink the planning effect size from the
+   prior small-n estimate (r9 d=0.52 → r11 MDE d=0.35), size n for it, and let
+   the verdict rule fire. (`corpus/knowledge/bench-arena-round11-power.md`)
 
 Scope limit: every number from these probes is a **sub-3-bit (UD-IQ2_XXS) +
 llama.cpp serving-stack** observation, not a Qwen3-Coder-30B-A3B capability
@@ -377,18 +397,25 @@ the full 16384 ctx; slot draws do not share a halved context), `--no-context-shi
 and a custom non-upstream chat template (`--jinja --chat-template-file
 ~/.config/llama/qwen-coder-godspeed.jinja`). `PROVINCE.md` §Surfaces records the pin;
 a hermetic gate must never read `/proc` — pin committed bytes instead.
+Round 11 landed the durable form of this pin: the r11 `descriptors` record
+(first line of `corpus/evidence/round11-power/results-r11.jsonl`) re-captures
+pid + full argv + served-model id **inside committed bytes** — a service
+restart invalidates the live pid but never the record (box-3 break B3).
 
 ## Hermetic grader (operability gate) — `grader.py`
 
-`grader.py` (repo root; stdlib only; no network, no endpoint) replays the two
+`grader.py` (repo root; stdlib only; no network, no endpoint) replays the three
 committed probe trees against their own stored bytes and recomputes every
 number their SUMMARYs assert. Deterministic and PYTHONHASHSEED-independent —
-never iterate a set where the result is order-sensitive.
+never iterate a set where the result is order-sensitive. Round 11 extended it
+from 149 to **280 checks** (added the r11 tree) and grew `--selftest` from 4 to
+**7 scenarios (S0–S6)**; byte-identical stdout under PYTHONHASHSEED 1/99/unset.
 
 | Tree | Recomputed from committed bytes |
 |---|---|
 | `corpus/evidence/round8-horizon/` | `meta` regenerated from seeds `700 + pid*13` (incl. the `+977` retry chain) and matched field-for-field; each of the 258 non-meta `raw` strings re-parsed through the shipped `extract_json_block` (fenced block first, brace-regex fallback — 2 r9 records only parse via the fallback) and re-graded against `meta`'s `truth`; B cells re-scored to `outcome` ∈ {corrected, propagated, other} incl. the historical-value `corrupt_from` rule; C cells re-graded via `grade_c` / `valid_latin`; all 11 `run.log` SUMMARY lines |
 | `corpus/evidence/round9-replication/` | `meta` from seeds `2000 + pid*29`; the 4-cell table incl. mean final `nwrong` (4/8 · 0.500, 2/8 · 0.875, 2/8 · 1.375, 0/8 · 2.250); the 284-record census (8 `meta` / 248 scored / 28 `filler`); sign tests (math.comb exact binomial), onset ladder, failure classes, ack compliance (32/56 = 57.1%, 48/64 = 75.0%), cross-round table, prediction-scoring table vs `predictions-r9.md`, prediction sha256 chain and the ordering proof (hash time ≤ first `request_ts`) |
+| `corpus/evidence/round11-power/` | `meta` from seeds `3000 + pid*41` (pids 201–264); the 1473-record census (1 descriptors / 64 meta / 320 graded / 960 ack / 128 filler / 0 error) and 1409-request count; each graded `raw` re-parsed and re-graded against `meta`'s `truth`; both `run.log` SUMMARY lines (29/64, 21/64); every `analysis_r11.md` stored line — observed table (both mean columns), paired diff +0.352 / sd 0.820, `t=+3.431`/`p=0.0011` (NR betai t-CDF, df=63), CI, exact sign (26/7/31, `math.comb`) + McNemar (b=13 c=5), verdict-rule consistency incl. the sign-agreement downgrade, Brier 0.153, point-scoring table; descriptors serving-stack pins; the preregistration-bundle sha256 chain and the ordering proof (bundle-hash time ≤ first `request_ts`, descriptors first in file order) |
 
 | Exit | Meaning |
 |---|---|
@@ -397,13 +424,16 @@ never iterate a set where the result is order-sensitive.
 | `2` | a required input file is missing or unreadable |
 
 Run `python3 grader.py` (defaults resolve beside the script); inputs overridable
-via `--r8-jsonl/--r8-runlog/--r9-jsonl/--r9-md`; md5 pins on the four evidence
-files fire only on the default paths, so mutated copies grade without pin
-noise. `--selftest` corrupts temp copies only — one flipped stored `ok`, one
-edited `run.log` SUMMARY number, one bumped digit inside a `raw` fenced block —
-and exits 0 only if all three are caught (exit 1 each) **with their expected
-check-ids** (kagi `drift-pins.sh` convention: assert code *and* diagnostic): a
-gate that cannot fail on a deliberately broken copy is not a gate.
+via `--r8-jsonl/--r8-runlog/--r9-jsonl/--r9-md/--r11-jsonl/--r11-md/--r11-runlog`;
+md5 pins on the seven evidence files fire only on the default paths, so mutated
+copies grade without pin noise. `--selftest` corrupts temp copies only — S0
+control (clean copies → exit 0), S1 flipped stored `ok`, S2 edited `run.log`
+SUMMARY number, S3 bumped digit inside a `raw` fenced block, S4 flipped r11
+stored `ok`, S5 edited the r11 SUMMARY number, S6 the analytic stats anchors
+(betai t-CDF known values + `t_crit(63)`) — and exits 0 only if every corruption
+is caught (exit 1 each) **with its expected check-id** (kagi `drift-pins.sh`
+convention: assert code *and* diagnostic): a gate that cannot fail on a
+deliberately broken copy is not a gate.
 
 Falsification (round 10, both runs recorded in `LOG.md`): committed tree →
 **exit 0**, `CHECKS n=149 mismatches=0`; independent mutation battery
@@ -431,12 +461,25 @@ either side without a recorded ruling fails the gate.
    probabilities**, because point counts cannot be calibration-scored. Report
    the pre-registered decision rule's verdict even when it is *indeterminate*
    (round 9: INC 4/8 missed its own ≥5/8 survival threshold by one problem).
+   **Size the run before requesting it:** derive the planning effect size from
+   committed prior bytes (with the derivation command), shrink it for
+   selection bias, file a power analysis fixing n and the MDE, and hash it
+   with the predictions (round 11: r9 d=0.52 → MDE d=0.35 → n=64, all inside
+   the pre-request bundle). **Mock-smoke the runner before the first real
+   request** — a stdlib mock server catches runtime defects (`py_compile`
+   cannot) without spending a live draw or breaking the ordering window
+   (round 11: LabratMock's mock caught a missing `import json`; fix hashed
+   into `ordering.log` pre-launch). Carry the serving-stack descriptors
+   (model id, KV quant, `--parallel`, template) as an in-band run record so
+   every derived claim names its experimental unit (round 11: the
+   `descriptors` jsonl record).
 2. Probe every endpoint before freeze (`/v1/models`, `/health`); a
    listening-but-wrong service degrades telemetry silently (Jitsi on
    :8080 vs llama on :34113, 2026-09-28).
 3. Freeze: prompt text, judge schema, telemetry capture. (Phase 0)
-4. Smoke: 2 tasks × 2 conditions = 4 runs. Gate on telemetry validity,
-   shape difference, correctness. (Phase 1)
+4. Smoke: 2 tasks × 2 conditions = 4 runs against a **mock endpoint first**
+   (schema/census/ordering), then the live endpoint. Gate on telemetry
+   validity, shape difference, correctness. (Phase 1)
 5. Core battery: ≥4 tasks per mechanism class (K2-reframe, frontier
    enumeration, discovery) × 2 conditions. (Phase 2)
 6. Public transfer slice only after mechanism visible. (Phase 3)
@@ -456,9 +499,9 @@ either side without a recorded ruling fails the gate.
 - `~/Projects/webzites/repos/llm-wiki/wiki/ai/agents-and-engineering/gemini-3.1-pro-godspeed-benchmarks.md` — four-signal test suite design (off-path reframe / variant multiplication / discovery widening / calibration asymmetry)
 - `~/Projects/webzites/repos/llm-wiki/wiki/ai/agents-and-engineering/gemini-3.1-pro-godspeed-test-battery.md` — external benchmark tier, SWE-bench contamination paradox, predictive calibration
 - `~/Projects/webzites/repos/llm-wiki/Home.md` — wiki branch/index conventions (read 2026-09-28)
-- `~/.bailian/skills/bailian-docs-llm-wiki/models/index.md` + `models.jsonl` — 180 families / 413 models structured index; `contextWindow`, `QPM`, pricing, `profile` (oneLinePositioning, scenes, notSuitableFor, familyTier) for model selection (verified 2026-09-28; index generated 2026-09-11)
+- `~/.bailian/skills/bailian-docs-llm-wiki/models/index.md` + `models/models.jsonl` — 180 families / 413 models structured index; `contextWindow`, `QPM`, pricing, `profile` (oneLinePositioning, scenes, notSuitableFor, familyTier) for model selection (verified 2026-09-28; index generated 2026-09-11; cite path fixed round 11 per box-3 break B1 — `models.jsonl` lives one level deeper)
 - `find`/`grep` output this session — `~/wikillm/llm-wiki` absent; wiki at `~/Projects/webzites/repos/llm-wiki`
-- `~/Projects/bounties/ledger/telemetry.jsonl` — live lane-routing corpus, 7,218 events; taxonomy + reroute signatures in `corpus/knowledge/ledger-route-telemetry.md` (profiled 2026-09-28)
+- `~/Projects/bounties/ledger/telemetry.jsonl` — live lane-routing corpus, 7,218 events; taxonomy + reroute signatures in `corpus/knowledge/ledger-route-telemetry.md` (profiled 2026-09-28). **Path ABSENT as of round 11** (resolved at 23:32Z mid-round — aggregator box-3 cold run counted 7,226 live lines — and was gone minutes later; whole `~/Projects/bounties/` tree absent, no relocation found): counts are historical, routed to kasegi in `PROVINCE.md` round-11 report-outs
 - `~/bench-arena/` (`tasks/`, `report-grok45.csv`, `report-qwenlocal-v2.v2.csv`, `telemetry-qwenlocal-v2.csv`) — executed 33-task two-model battery; results in `corpus/knowledge/local-bench-arena.md` (analyzed 2026-09-28)
 - `~/Projects/webzites/repos/llm-wiki/wiki/karpathy/**` + `wiki/ai/{foundations/bitter-lesson,alignment-and-training/rlhf}.md` — eval-first thesis, diversity blindness, TrueSkill judge/aggregator split, RLHF proxy mechanics (digested 2026-09-28 → `corpus/knowledge/eval-theory-notes.md`)
 - `https://huggingface.co/api/models`, `https://openrouter.ai/api/v1/models` — live catalog schemas (probed 2026-09-28 → `corpus/knowledge/open-model-catalogs.md`)
@@ -470,3 +513,6 @@ either side without a recorded ruling fails the gate.
 - `corpus/evidence/round9-replication/` — pre-registered probe-A replication + checkpoint-dose cell: `predictions-r9.md` (sha256 `2a4f62ef…`, hashed before the first request), `ordering.log`, `run_r9.py`, `results-r9.jsonl` (284 records: 8 meta / 248 scored / 28 filler), `replication.md` — run + scored 2026-09-28 → `corpus/knowledge/bench-arena-round9-replication.md`
 - `corpus/evidence/round9-fleet/` — ten L2 artifacts behind round 9's claims: `probeA.md`/`probeB.md`/`probeC.md` (+ their scripts), `critic.md` (16-defect fix-landing audit, claim triage), `harness-mutation.md` + `test_harness.py` (50 cases, exit 0), `prior-art.md`, `sibling-overlap.md`, `review.md` (citation/state audit)
 - Public prior art fetched 2026-09-28 for novelty calibration → `corpus/knowledge/eval-prior-art-calibration.md`: `arxiv.org/abs/2505.06120` (Laban et al., *LLMs Get Lost In Multi-Turn Conversation*, ICLR 2026), `2310.01798` (Huang et al., self-correction), `2307.13702` (Lanham et al., CoT faithfulness), `2309.06275` (Re²), `2210.01296` (RECITE), `2209.11895` (induction heads), `2305.18654` (Faith and Fate), `2205.10625` (least-to-most), `2310.20410` (FollowBench), `2410.15553` (Multi-IF), `2501.17399` (MultiChallenge), `2507.05257` (MemoryAgentBench), `2406.10149` (BABILong), `2406.12045` (τ-bench `pass^k`), `2504.04823` + `2409.11055` + `aclanthology.org/2025.emnlp-main.479` (quantization bands), `github.com/ggml-org/llama.cpp/issues/7052` (multi-slot non-determinism — the public antecedent of this lane's non-iid finding), `docs.vllm.ai/en/latest/features/batch_invariance/`, `thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/`
+- `corpus/evidence/round11-power/` — powered preregistered emission-granularity rerun (n=64, pids 201–264, seeds `3000+pid*41`): `probe_plan_r11.md` + `power_analysis_r11.md` + `predictions-r11.md` (bundle sha256 hashed 23:10:20Z, `ordering.log`), `probe_r11.py` (= `replicate.py` copy) + `run_r11.py`, `results-r11.jsonl` (1473 records, md5 `c42fe3d1…`), `run.log` (md5 `281cb530…`), generated `analysis_r11.md` (md5 `14663359…`), `recompute_r11.py` — severity dose **ESTABLISHED** (paired +0.352, p=0.0011) 2026-09-28 → `corpus/knowledge/bench-arena-round11-power.md`
+- `corpus/evidence/round11-fleet/` — twelve L2 artifacts behind round 11: `r11-critic-design.md` (0 FATAL design gate), `r11-prior-art-{granularity,prereg}.md` (C1–C4 + M1–M3 fetched-URL verdicts), `r11-connector.md`, `r11-review-baseline.md` (BASELINE GREEN), `r11-mock-smoke.md` + `mock_server_r11.py` (caught the runner's missing `import json`), `grader_r11_draft.py` + `recompute_r11_draft.py`, `r11-{critic-landed,mutation,review-index}.md` (wave 2), `INTEGRATOR-NOTES.md`
+- Public prior art fetched 2026-09-28 for round-11 novelty/method pricing → `corpus/evidence/round11-fleet/r11-prior-art-{granularity,prereg}.md`: `arxiv.org/abs/2411.00640` (Miller, *Adding Error Bars to Evals* — paired inference, power), `2503.01747` (Bowyer et al., CLT CI under-coverage at small n), `2606.11217` + `2603.10044` (agent-experiment preregistration template + at-scale execution), `2609.08589` (StageIF layered reporting-failure scoring), `2605.30233` (last-token state aggregation), `github.com/ggml-org/llama.cpp/issues/7052` (closed-stale; multi-slot non-determinism class unfixed) + PR #21038 (q4_0-KV PPL/KLD perturbation tables)
