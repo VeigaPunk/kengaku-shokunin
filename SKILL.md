@@ -129,6 +129,39 @@ agency, tool orchestration, off-path web pressure, mechanism proof.
     uniqueness; use the timestamp only for the coarser hash-before-first-request
     bound. (`corpus/evidence/round11-fleet/INTEGRATOR-NOTES.md` delta 2;
     `grader.py` `check_r11_ordering`)
+16. **A two-mechanism arm read as a one-mechanism finding.** r8's `A-MONO 0/10`
+    (vs `A-INC 7/10`, `A-CKPT 1/10`) spent eight rounds as emission-granularity
+    evidence, but MONO differs from every incremental arm on **two** axes at
+    once: all ten operations are listed up front *and* only one state is ever
+    emitted. Any arm that differs from its comparator on more than one axis
+    needs a third arm holding one axis fixed — round 12 adds `A-CKPT10`
+    (incremental ops, exactly one forced emission) so the contrast
+    `A-MONO − A-CKPT10` isolates batching. (`corpus/evidence/round8-horizon/run.log:81-83`;
+    `corpus/evidence/round12-ladder/probe_plan_r12.md` §1 C3, §2.1)
+17. **An asserted power floor.** The r12 draft plan filed "family 1 n ≥ 56,
+    family 2 n ≥ 42" as its underpowered-verdict trigger with no derivation;
+    the design critic recomputed it — 42 pairs do **not** reach 80% power at
+    the filed dz (MC: n=42 → 0.791, n=44 → 0.810). A floor is a measurement:
+    compute it with a committed, seeded script and cite the number
+    (`corpus/evidence/round12-ladder/power_r12.py` → `power_analysis_r12.md` §2;
+    `r12-critic-design.md` D3).
+18. **Pooling heterogeneous forecast events into one skill score.** Round 12
+    scores three event classes — 416 per-problem pass events (fitted
+    predictor), 304 per-problem sign events (mostly an uninformative 0.50),
+    7 run-level judgement events. One Brier-skill number over all 727 mixes
+    reference classes and is uninterpretable; report per set and per subgroup
+    (replicate arms / novel arms / new family) and label the pooled figure with
+    what it actually measures (`persistence + arm-rate transport`).
+    (`r12-critic-design.md` D6; `probe_plan_r12.md` §2.3 E6)
+19. **A probability tilt that breaks its own marginals.** Fitting a difficulty
+    slope on prior per-problem outcomes gave c = −5.03; applied raw, the
+    sigmoid saturated and the arm-mean predicted probability drifted off the
+    arm base rate (A-MONO mean p 0.372 against a 0.143 base rate, i.e. 23.8
+    predicted passes instead of 9.1). Any per-item tilt must be renormalized so
+    each group's mean predicted probability equals that group's base rate
+    (round 12: a per-arm logit offset solved by bisection with the clip inside
+    the target), or the point predictions and the probabilities contradict each
+    other. (`corpus/evidence/round12-fleet/INTEGRATOR-NOTES.md` §2 L1-tilt)
 
 ## Research-note structure
 
@@ -201,7 +234,7 @@ Two distinct corpora exist — do not conflate:
    are provider-meter events, not model failures; `local degrade (I3)`
    = bucket walk exhausted, lane identity preserved.
    Detail: `corpus/knowledge/ledger-route-telemetry.md`.
-2. **Eval battery**: `~/bench-arena/telemetry-qwenlocal-v2.csv` (33
+2. **Eval battery**: `~/archive/bench-arena/telemetry-qwenlocal-v2.csv` (33
    rows). Schema: `task,status,opencode_rc,closed_fence,output_sha256,
    prompt_tokens,predicted_tokens,inference_latency_ms,tokens_per_sec,
    test_runtime_ns,telemetry_source,telemetry_available`.
@@ -294,7 +327,7 @@ Parsing rules learned on real files:
    `tools:[janitor_auth,skill]`/`tool_choice:auto` ~400 tok, and NO
    temperature → server default 0.8) or direct `POST
    /v1/chat/completions` (minimal, deterministic-ish, temp 0.2). Grade
-   identically: `BENCH_ROOT=<scratch> bash ~/bench-arena/grade.sh <label>`
+   identically: `BENCH_ROOT=<scratch> bash ~/archive/bench-arena/grade.sh <label>`
    consumes any `out/<label>/<task>.txt` — runner and grader are
    separable. Verbatim request captured once via a proxy provider
    (`/tmp/bench-r7/capture/`); see
@@ -383,6 +416,32 @@ round that established it):
    is the transportable quantity. Shrink the planning effect size from the
    prior small-n estimate (r9 d=0.52 → r11 MDE d=0.35), size n for it, and let
    the verdict rule fire. (`corpus/knowledge/bench-arena-round11-power.md`)
+11. **An ordered alternative gets an ordered test.** For a k-arm dose ladder on
+    the same problems, one **Page's trend test** on within-block ranks
+    (midranks for ties; per-block null variance `[Σj² − (Σj)²/k]·S²_block`,
+    = `5·S²_block` at k=4; `L = Σ_j (j+1)·R_j`; direction ≡ `L > E_L`) beats
+    k−1 paired t-tests (multiplicity) and Friedman + post-hoc (discards the
+    ordering). Seeded MC on this lane's anchored alternative: power 1.000 at
+    n=44–64, 0.989 at n=48 even with the effect halved, minimum n for 80%
+    power = 12 — so at n=64 the binding risk is **anchor validity, not power**
+    (the anchor's densest leg came from r8 at n=10). (`probe_plan_r12.md` §2.3 E1;
+    `power_analysis_r12.md` §3)
+12. **Repeatability is not replication on a non-deterministic server.** A later
+    run over the *same* problems, seeds and served unit re-measures; it does not
+    independently replicate. llama.cpp documents multi-slot draws as not
+    bit-reproducible (issue #7052: 5–8 unique completions from 8 slots at
+    temp 0; maintainer: "results for multiple slots are still not 100%
+    deterministic"), vLLM's docs say the same, and this lane measured the
+    batch-level swing itself (r8 1/10, r9 2/8+2/8, r11 29/64+21/64 on an
+    unchanged argv). Name it *within-run/later-run repeatability*, cite the
+    source, and never write "replicated". (`corpus/evidence/round12-fleet/r12-prior-art-ladder.md` §2.2, §7 C2)
+13. **Absorb critic defects pre-hash and log them inside the hashed document.**
+    When the design critic lands before the first bundle hash, fix in place and
+    add a numbered amendment log (§9) to the document being hashed: the hash
+    then covers the corrections and there is no v2 chain for a later round to
+    reconstruct. Round 12: 1 FATAL + 5 MAJOR + 4 MINOR from the critic, plus 5
+    L1-found defects, all recorded with their disposition before
+    `prereg-bundle.sha256` was written. (`probe_plan_r12.md` §6 step 4, §9)
 
 Scope limit: every number from these probes is a **sub-3-bit (UD-IQ2_XXS) +
 llama.cpp serving-stack** observation, not a Qwen3-Coder-30B-A3B capability
@@ -404,18 +463,19 @@ restart invalidates the live pid but never the record (box-3 break B3).
 
 ## Hermetic grader (operability gate) — `grader.py`
 
-`grader.py` (repo root; stdlib only; no network, no endpoint) replays the three
-committed probe trees against their own stored bytes and recomputes every
-number their SUMMARYs assert. Deterministic and PYTHONHASHSEED-independent —
-never iterate a set where the result is order-sensitive. Round 11 extended it
-from 149 to **280 checks** (added the r11 tree) and grew `--selftest` from 4 to
-**7 scenarios (S0–S6)**; byte-identical stdout under PYTHONHASHSEED 1/99/unset.
+`grader.py` (repo root; stdlib only; no network, no endpoint) replays four
+committed probe trees against their stored bytes and recomputes every asserted
+SUMMARY/analysis value. Deterministic and PYTHONHASHSEED-independent — never
+iterate a set where output order matters. Round 12 extended the gate from 280
+to 732 checks by adding its two-family tree; round-14 landing added the missing
+analysis-byte pin, yielding **733 checks**. `--selftest` is S0–S7.
 
 | Tree | Recomputed from committed bytes |
 |---|---|
 | `corpus/evidence/round8-horizon/` | `meta` regenerated from seeds `700 + pid*13` (incl. the `+977` retry chain) and matched field-for-field; each of the 258 non-meta `raw` strings re-parsed through the shipped `extract_json_block` (fenced block first, brace-regex fallback — 2 r9 records only parse via the fallback) and re-graded against `meta`'s `truth`; B cells re-scored to `outcome` ∈ {corrected, propagated, other} incl. the historical-value `corrupt_from` rule; C cells re-graded via `grade_c` / `valid_latin`; all 11 `run.log` SUMMARY lines |
 | `corpus/evidence/round9-replication/` | `meta` from seeds `2000 + pid*29`; the 4-cell table incl. mean final `nwrong` (4/8 · 0.500, 2/8 · 0.875, 2/8 · 1.375, 0/8 · 2.250); the 284-record census (8 `meta` / 248 scored / 28 `filler`); sign tests (math.comb exact binomial), onset ladder, failure classes, ack compliance (32/56 = 57.1%, 48/64 = 75.0%), cross-round table, prediction-scoring table vs `predictions-r9.md`, prediction sha256 chain and the ordering proof (hash time ≤ first `request_ts`) |
 | `corpus/evidence/round11-power/` | `meta` from seeds `3000 + pid*41` (pids 201–264); the 1473-record census (1 descriptors / 64 meta / 320 graded / 960 ack / 128 filler / 0 error) and 1409-request count; each graded `raw` re-parsed and re-graded against `meta`'s `truth`; both `run.log` SUMMARY lines (29/64, 21/64); every `analysis_r11.md` stored line — observed table (both mean columns), paired diff +0.352 / sd 0.820, `t=+3.431`/`p=0.0011` (NR betai t-CDF, df=63), CI, exact sign (26/7/31, `math.comb`) + McNemar (b=13 c=5), verdict-rule consistency incl. the sign-agreement downgrade, Brier 0.153, point-scoring table; descriptors serving-stack pins; the preregistration-bundle sha256 chain and the ordering proof (bundle-hash time ≤ first `request_ts`, descriptors first in file order) |
+| `corpus/evidence/round12-ladder/` | family-1 metas from `3000 + pid*41` and family-2 metas from `5000 + pid*37` (including retry chains); 4,114-record census; all 1,328 graded raws re-parsed/re-graded; seven run-log SUMMARY cells; E1 Page trend, E2–E5 paired/sign/McNemar statistics, E6 Brier/BSS/calibration/reliability tables, R1–R5 branch consistency; all 727 forecast events and three prediction-file hashes; descriptor start/end equality; bundle/run-script ordering chain; md5 pins for results, run log, and generated analysis |
 
 | Exit | Meaning |
 |---|---|
@@ -423,17 +483,17 @@ from 149 to **280 checks** (added the r11 tree) and grew `--selftest` from 4 to
 | `1` | ≥1 mismatch, each printed `MISMATCH <check-id>: stored=<x> recomputed=<y>` |
 | `2` | a required input file is missing or unreadable |
 
-Run `python3 grader.py` (defaults resolve beside the script); inputs overridable
-via `--r8-jsonl/--r8-runlog/--r9-jsonl/--r9-md/--r11-jsonl/--r11-md/--r11-runlog`;
-md5 pins on the seven evidence files fire only on the default paths, so mutated
-copies grade without pin noise. `--selftest` corrupts temp copies only — S0
-control (clean copies → exit 0), S1 flipped stored `ok`, S2 edited `run.log`
-SUMMARY number, S3 bumped digit inside a `raw` fenced block, S4 flipped r11
-stored `ok`, S5 edited the r11 SUMMARY number, S6 the analytic stats anchors
-(betai t-CDF known values + `t_crit(63)`) — and exits 0 only if every corruption
-is caught (exit 1 each) **with its expected check-id** (kagi `drift-pins.sh`
-convention: assert code *and* diagnostic): a gate that cannot fail on a
-deliberately broken copy is not a gate.
+Run `python3 grader.py` (defaults resolve beside the script); inputs are
+overridable via `--r8-jsonl/--r8-runlog/--r9-jsonl/--r9-md`,
+`--r11-jsonl/--r11-md/--r11-runlog`, and
+`--r12-jsonl/--r12-md/--r12-runlog`. Ten md5 pins fire only on default paths,
+so deliberate copies grade without pin noise. `--selftest` uses temp copies:
+S0 clean control; S1/S4 stored-`ok` flips; S2/S5 SUMMARY edits; S3 raw-digit
+corruption; S6 known-value t/Beta anchors; S7 r12 Page/sequence/Brier/Newton
+anchors. It exits 0 only when every corruption is caught with the expected
+check-id (assert code **and** diagnostic). Round-14 mutation verification also
+killed 4/4 fresh r12 corruptions: SUMMARY count, stored raw, probability hash,
+and missing ordering sidecar.
 
 Falsification (round 10, both runs recorded in `LOG.md`): committed tree →
 **exit 0**, `CHECKS n=149 mismatches=0`; independent mutation battery
@@ -502,12 +562,12 @@ either side without a recorded ruling fails the gate.
 - `~/.bailian/skills/bailian-docs-llm-wiki/models/index.md` + `models/models.jsonl` — 180 families / 413 models structured index; `contextWindow`, `QPM`, pricing, `profile` (oneLinePositioning, scenes, notSuitableFor, familyTier) for model selection (verified 2026-09-28; index generated 2026-09-11; cite path fixed round 11 per box-3 break B1 — `models.jsonl` lives one level deeper)
 - `find`/`grep` output this session — `~/wikillm/llm-wiki` absent; wiki at `~/Projects/webzites/repos/llm-wiki`
 - `~/Projects/bounties/ledger/telemetry.jsonl` — live lane-routing corpus, 7,218 events; taxonomy + reroute signatures in `corpus/knowledge/ledger-route-telemetry.md` (profiled 2026-09-28). **Path ABSENT as of round 11** (resolved at 23:32Z mid-round — aggregator box-3 cold run counted 7,226 live lines — and was gone minutes later; whole `~/Projects/bounties/` tree absent, no relocation found): counts are historical, routed to kasegi in `PROVINCE.md` round-11 report-outs
-- `~/bench-arena/` (`tasks/`, `report-grok45.csv`, `report-qwenlocal-v2.v2.csv`, `telemetry-qwenlocal-v2.csv`) — executed 33-task two-model battery; results in `corpus/knowledge/local-bench-arena.md` (analyzed 2026-09-28)
+- `~/archive/bench-arena/` (relocated intact from `~/bench-arena/` in round 14; `tasks/`, `report-grok45.csv`, `report-qwenlocal-v2.v2.csv`, `telemetry-qwenlocal-v2.csv`) — executed 33-task two-model battery; results in `corpus/knowledge/local-bench-arena.md` (analyzed 2026-09-28)
 - `~/Projects/webzites/repos/llm-wiki/wiki/karpathy/**` + `wiki/ai/{foundations/bitter-lesson,alignment-and-training/rlhf}.md` — eval-first thesis, diversity blindness, TrueSkill judge/aggregator split, RLHF proxy mechanics (digested 2026-09-28 → `corpus/knowledge/eval-theory-notes.md`)
 - `https://huggingface.co/api/models`, `https://openrouter.ai/api/v1/models` — live catalog schemas (probed 2026-09-28 → `corpus/knowledge/open-model-catalogs.md`)
-- `127.0.0.1:34113` llama-server + `~/bench-arena/grade.sh` — authored 4-task slice, 1/4 PASS vs predicted 2/4, `03` flip PASS→FAIL (run + graded 2026-09-28 → `corpus/knowledge/bench-arena-fresh-run.md`)
+- `127.0.0.1:34113` llama-server + `~/archive/bench-arena/grade.sh` — authored 4-task slice, 1/4 PASS vs predicted 2/4, `03` flip PASS→FAIL (run + graded 2026-09-28 → `corpus/knowledge/bench-arena-fresh-run.md`)
 - `/tmp/bench-r7/` scaffold-delta ablation (ephemeral workdir, labelled debt per `../PROTOCOL.md`'s closure-resolvable rule — decisive numbers pasted into the knowledge entry) — verbatim opencode `raw` wire request captured via proxy provider, 5-task × 5-condition ablation (E1/E2/E3/E4 × n=3 + E0 anchor), graded 2026-09-28 → `corpus/knowledge/bench-arena-round7-scaffold-ablation.md`
-- `~/bench-arena/` round-5 battery — full 33-task direct-API re-run: 20/33 PASS, 8 status deltas vs v2 (4 P→F, 3 F→P, 1 F→HARNESS_DEFECT), 5 byte-identical sol_sha, 06 truncation (`finish=length` @4096 tok), FAIL slower on wall+tokens (run + graded 2026-09-28 → `corpus/knowledge/bench-arena-round5-battery.md`)
+- `~/archive/bench-arena/` round-5 battery (then located at `~/bench-arena/`) — full 33-task direct-API re-run: 20/33 PASS, 8 status deltas vs v2 (4 P→F, 3 F→P, 1 F→HARNESS_DEFECT), 5 byte-identical sol_sha, 06 truncation (`finish=length` @4096 tok), FAIL slower on wall+tokens (run + graded 2026-09-28 → `corpus/knowledge/bench-arena-round5-battery.md`)
 - `~/Projects/webzites/repos/llm-wiki/wiki/karpathy/{talks,projects-and-tools,standards-and-specifications}/**` + remaining `philosophy-and-concepts/`, `gwern-essays/`, `ai/foundations/complexity.md`, `ai/books/` — second digest: sampling-proves-presence, reference-class, autonomy slider, spec-ability tiers (swept+read 2026-09-28 → `corpus/knowledge/eval-design-digest-2.md`)
 - `corpus/evidence/round8-horizon/` — round-8 planning-horizon probe, run to completion 78/78 jobs: `horizon.py` (349 lines, md5 `1c157e2a…`), `results.jsonl` (268 records, md5 `df154cb5…`, `raw` restored round 9), `run.log` (SUMMARY block, md5 `fc3b232f…`), `critic-defects.md` (16 design defects) — analyzed 2026-09-28 → `corpus/knowledge/bench-arena-round8-horizon.md`
 - `corpus/evidence/round9-replication/` — pre-registered probe-A replication + checkpoint-dose cell: `predictions-r9.md` (sha256 `2a4f62ef…`, hashed before the first request), `ordering.log`, `run_r9.py`, `results-r9.jsonl` (284 records: 8 meta / 248 scored / 28 filler), `replication.md` — run + scored 2026-09-28 → `corpus/knowledge/bench-arena-round9-replication.md`

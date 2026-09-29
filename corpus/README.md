@@ -13,9 +13,9 @@ marked opinion.
 | `knowledge/godspeed-eval-findings.md` | Iteration-2 empirical results: K2 split, variant multiplier, calibration asymmetry, cost | `llm-wiki/wiki/ai/agents-and-engineering/godspeed-umwelt-iteration-2.md` |
 | `knowledge/telemetry-run-design.md` | Per-run telemetry fields, artifact set, phase gates, run-count floor | `llm-wiki/wiki/ai/agents-and-engineering/godspeed-umwelt-iteration-3-alpha-shittycodex.md` |
 | `knowledge/local-model-index.md` | Bailian structured model index layout and field semantics | `~/.bailian/skills/bailian-docs-llm-wiki/models/index.md`, `models.jsonl` |
-| `knowledge/local-bench-arena.md` | On-host 33-task battery: schema, two-model results, complementarity split | `~/bench-arena/` CSVs, analyzed 2026-09-28 |
-| `knowledge/ledger-route-telemetry.md` | Live lane-routing corpus: event taxonomy, reroute signatures, model×lane counts | `~/Projects/bounties/ledger/telemetry.jsonl` (7,218 lines), profiled 2026-09-28 |
-| `knowledge/bench-arena-fresh-run.md` | Round-4 authored run: endpoint drift finding, 4-task reproduction slice, prediction error | `~/bench-arena/` + `127.0.0.1:34113` live run 2026-09-28 |
+| `knowledge/local-bench-arena.md` | On-host 33-task battery: schema, two-model results, complementarity split | `~/archive/bench-arena/` CSVs (relocated from `~/bench-arena` in round 14), analyzed 2026-09-28 |
+| `knowledge/ledger-route-telemetry.md` | Live lane-routing corpus: event taxonomy, reroute signatures, model×lane counts | `~/Projects/bounties/ledger/telemetry.jsonl` (7,218 lines; now absent), profiled 2026-09-28 |
+| `knowledge/bench-arena-fresh-run.md` | Round-4 authored run: endpoint drift finding, 4-task reproduction slice, prediction error | `~/archive/bench-arena/` (then `~/bench-arena`) + `127.0.0.1:34113` live run 2026-09-28 |
 | `knowledge/eval-theory-notes.md` | Digest: yao-second-half, creative-benchmark, trueskill-sorting, rlhf, bitter-lesson | `llm-wiki/wiki/karpathy/*` + `ai/{foundations,alignment-and-training}/`, read 2026-09-28 |
 | `knowledge/gemini-benchmark-suite.md` | Four-signal godspeed test suite: reframe traps, variant multiplication, discovery widening, calibration meta-test | `llm-wiki/.../gemini-3.1-pro-godspeed-{benchmarks,test-battery}.md`, read 2026-09-28 |
 | `knowledge/bailian-cli-telemetry.md` | Client-side CLI telemetry: 4,274 records, quota-vs-auth failure split, poll-verb rule | `~/.bailian/telemetry.jsonl`, profiled 2026-09-28 |
@@ -31,6 +31,7 @@ marked opinion.
 | `knowledge/bench-arena-round9-replication.md` | Pre-registered replication on fresh seeds + new checkpoint-dose cell: INC 4/8 > CKPT4710 2/8 = CKPT710 2/8 > MONO 0/8; predictions hashed before the first request and scored (2/4 cell hits, MAE 0.094, 4/4 directional falsifiers unfired); pre-registered decision rule → **indeterminate**; ack leakage 16/48 + 8/56 | `corpus/evidence/round9-replication/` (284 records, `predictions-r9.sha256.repo`), run 2026-09-28 |
 | `knowledge/eval-prior-art-calibration.md` | Novelty pricing of the 4 local findings against fetched public primaries: 3 known/incremental, 1 a direct replication (llama.cpp #7052); surviving novelty is instrument-level (emission-granularity ablation, vacuous-rule triple control); sub-3-bit scope limit | 40+ fetched URLs → `corpus/evidence/round9-fleet/prior-art.md`, 2026-09-28 |
 | `knowledge/bench-arena-round11-power.md` | Powered preregistered rerun (n=64, MDE d=0.35): emission-granularity severity dose **ESTABLISHED** — paired diff +0.352 (t=+3.431, p=0.0011, CI [+0.147,+0.556], sign 26/7/31 p=0.0013); passes 29/64 vs 21/64 (McNemar p=0.0963, no pass-rate dose); Brier 0.153; C1–C4 prior-art verdicts | `corpus/evidence/round11-power/` (1473 records, bundle `prereg-bundle.sha256`, verdict in `analysis_r11.md`), run 2026-09-28 |
+| `knowledge/bench-arena-round12-ladder.md` | Powered four-point emission-density ladder + batching/emission dissociation + second-family transport + 416 per-problem forecasts: `LADDER ESTABLISHED`, `DISSOCIATION ESTABLISHED`, `TRANSPORT DIRECTIONAL`, Brier `0.1288` / BSS `+0.0447` | `corpus/evidence/round12-ladder/` (4,114 records, hashed preregistration bundle, 733-check gate), run 2026-09-29 |
 | `lessons/round-1.md` | Path-correction, replace-don't-append, zero-width char hazard | LOG.md round 1, commit `90a5ce8` |
 | `lessons/round-3.md` | Filename-judging missed on-host surfaces; complementarity vs pass-rate; NULL parsing; FAIL-latency signature | LOG.md round 3, this round's analysis |
 | `lessons/round-4.md` | Endpoint-drift trap; n=1 flip on 03; FAIL-latency is subset-level not per-task | LOG.md round 4, `/tmp/bench-r4` run |
@@ -44,6 +45,10 @@ marked opinion.
 | `lessons/round-11.md` | Mock-smoke before ordering-sensitive runs; second-resolution ts breaks unique-first-record checks; shrinkage works on paired contrasts not levels; small-n null ≠ equivalence; Brier honesty cost; hashed bundles freeze typos; contingency rules belong inside the bundle | LOG.md round-11, `corpus/evidence/round11-{power,fleet}/` |
 | `lessons/round-6-aggregator-audit.md` | Aggregator audit of the rounds 5–7 tree (`f147a27`): **NOT conformant** — 5 majors (falsified `0/12` PASS denominator; `LOG.md:9` rewritten in place; orphaned `85b22e3` citation, now dangling; 2 missing lessons index rows; `SCORECARD.md` absent while `MISSION.md` assigns an axis `AXES.md` does not define) + 7 minors; cited-hash ancestry sweep via `git merge-base --is-ancestor` | aggregator lane (non-author), 2026-09-28 — **aggregator-owned file: committed by the aggregator per `../PROTOCOL.md`; this lane writes only this index row** |
 | `lessons/round-8-aggregator-box3-coldrun.md` | Aggregator non-author cold run of `SKILL.md` (SHONEN box 3): 20/20 executed commands reproduced at `0c51208` (23:31–23:33Z), incl. grader n=149 pre-extension; break points + gated steps recorded; caught `models.jsonl` cite-path break B1 and live ledger drift 7,218→7,226 minutes before the tree went absent | aggregator lane (non-author), committed by the aggregator `06cdc98` per `../PROTOCOL.md`; this lane writes only this index row |
+| `lessons/round-12.md` | Ordered alternative → ordered test; measured power floors; heterogeneous forecast classes; mean-preserving probability tilts; repeatability ≠ replication; a floor is a result; pin landed bytes | LOG.md round 12, `corpus/evidence/round12-{ladder,fleet}/` |
+| `lessons/round-13.md` | Storage labels are not prompt intent; schedule-derived denominators; cap-aware bounds; state fidelity and response-contract compliance are separate | LOG.md round 13, `corpus/evidence/round13-ack-state/` |
+| `lessons/round-14.md` | An uncommitted round is not durable; index parity, landing-time pins, and the replay gate are closure conditions | LOG.md round 14, `corpus/evidence/round14-fleet/` |
+| `lessons/round-9-aggregator-corpus-verdict.md` | Aggregator corpus-verdict lesson (rule-10 re-emitted at `f09ff1f`, canonical-form + rule-8 literal findings, routed rows); aggregator-owned file, indexed here only | aggregator lane, committed `e171cdf` |
 
 ### `evidence/` — durable run bytes and L2 analyses
 
@@ -58,24 +63,29 @@ run artifacts are committed:
 | `evidence/round10-fleet/` | 11 L2 fleet artifacts (`r10-*.md`) + their independent scripts (`mutate_test.sh` sha256 `ad0511f2…`, `probe_ref.py`, `schema_probe.py`, `recompute_r8.py`, `recompute_r9.py`), raw endpoint captures (`models-34113.json`, `props.json`, `slots.json`), `final-harness.log`, `url-status.txt`, and `INTEGRATOR-NOTES.md` (fleet map, grader first-version defect + fix, connector adoption ruling, erratum adjudication) |
 | `evidence/round11-power/` | preregistration bundle (`probe_plan_r11.md`, `power_analysis_r11.md`, `predictions-r11.md`, `prereg-bundle.sha256`, `ordering.log`, `prereg-precheck.log`), probe machinery + runner (`probe_r11.py`, `run_r11.py`), run bytes (`results-r11.jsonl` md5 `c42fe3d1…`, `run.log` md5 `281cb530…`), generated `analysis_r11.md` (md5 `14663359…`), promoted `recompute_r11.py` |
 | `evidence/round11-fleet/` | wave-1 L2 artifacts (`r11-critic-design.md`, `r11-prior-art-{granularity,prereg}.md`, `r11-connector.md`, `r11-review-baseline.md`, `r11-mock-smoke.md` + `mock_server_r11.py` + mock run copies, `grader_r11_draft.py`, `recompute_r11_draft.py`, `r11-log-draft.md`), wave-2 artifacts, `INTEGRATOR-NOTES.md` (integration deltas + critic adjudications + landing record) |
+| `evidence/round12-ladder/` | 9-file preregistration bundle + ordering proof; probe/prediction/power machinery; 4,114-record run (`results-r12.jsonl` md5 `9dd8aa2b…`, `run.log` `700d1ddd…`); generated `analysis_r12.md` md5 `029c3bcd…`; 18 files |
+| `evidence/round12-fleet/` | 16-agent design/prior-art/replay/mutation/review fleet; 22 files including `INTEGRATOR-NOTES.md`; drafts retained verbatim, with round-14 errata recorded rather than silently rewritten |
+| `evidence/round13-ack-state/` | Two stdlib audit scripts: schedule-derived ack denominators (`--selftest` 4/4) and truth-aware capped-raw analysis (`--selftest` 8/8); no endpoint traffic |
+| `evidence/round14-fleet/` | Nine-agent landing verification: independent recomputation (28 claims), prior-art re-fetch, live-surface drift, sibling overlap, mutation battery, round-13 reconstruction, corpus drafts, bookkeeping drafts, landing gate, and L1 adjudications |
 
 Re-verify the round-9 ordering proof without `/tmp`:
 `cd corpus/evidence/round9-replication && sha256sum -c predictions-r9.sha256.repo` → `OK`.
 
-In-repo gate (round 10): `grader.py` (repo root) replays both run trees above
-offline and recomputes every stored number — `python3 grader.py` → exit 0
-(all-match), exit 1 per mismatch (`MISMATCH <check-id>: stored=… recomputed=…`),
-exit 2 when an input is missing/unreadable; `python3 grader.py --selftest`
-corrupts temp copies and exits 0 only if all three seeded corruptions (flipped
-`ok`, edited SUMMARY number, bumped `raw` digit) are caught with their expected
-check-ids. Stdlib only, no endpoint, deterministic. It also subsumes the
-ordering-proof check above hermetically (`r9.ordering.prediction_sha256` +
-`r9.ordering.hash_precedes_first_request`) — note that `sha256sum -c
-predictions-r9.sha256.repo` itself only works from inside
-`corpus/evidence/round9-replication/` (the `.repo` file names a bare relative
-path; from the repo root it exits 1 — round-10 critic finding F2). One stored
-value is pinned as an adjudicated erratum (`replication.md` §Errata: r9
-final-turn state errors, stored 12/32, recomputed 24/32).
+In-repo gate (round 10, extended rounds 11–12 and pinned at round-14
+landing): `grader.py` replays four committed probe trees (r8/r9/r11/r12)
+offline. `python3 grader.py` → `CHECKS n=733 mismatches=0 errata_pinned=1`,
+exit 0; mismatch exits 1 and unreadable input exits 2. The r12 layer
+regenerates both problem families, re-parses/re-grades all 1,328 graded
+records, recomputes E1–E6 and every stored verdict/forecast line, verifies the
+bundle/ordering chain, and md5-pins `results-r12.jsonl`, `run.log`, and
+`analysis_r12.md`. `python3 grader.py --selftest` exercises S0–S7; the
+round-14 mutation pass killed 4/4 fresh r12 mutations. Stdlib only, no
+endpoint. It also subsumes the r9 ordering proof hermetically; the standalone
+`predictions-r9.sha256.repo` check still must run from
+`corpus/evidence/round9-replication/` because its path is cwd-relative
+(round-10 critic F2). One stored value remains pinned as an adjudicated
+erratum (`replication.md`: r9 final-turn state errors, stored 12/32,
+recomputed 24/32).
 
 ## Coverage map
 
@@ -88,9 +98,9 @@ final-turn state errors, stored 12/32, recomputed 24/32).
 
 - **Wiki branch digest**: karpathy subtree + ai/foundations + ai/books fully swept (knowledge/eval-design-digest-2.md); remaining open surface = non-karpathy `ai/` topics beyond eval scope.
 - **Cross-pipeline stability**: byte-identical solution set identified (16, 25, 28, 32, 33); flip-set classified at n=3 (`knowledge/bench-arena-round6-stability.md`) and **component-ablated at r7** — of 5 "scaffold-determined" tasks only 13 is genuinely scaffold-caused; tools-without-system → `finish=tool_calls` 14/15; temp not the lever (`knowledge/bench-arena-round7-scaffold-ablation.md`).
-- **Multi-turn state tracking / planning horizon**: instrument built (r8, 3 probes), replicated on fresh seeds (r9), **severity dose ESTABLISHED at preregistered power (r11)** — paired diff +0.352, p=0.0011, verdict mechanical; pass-rate dose not established (McNemar p=0.0963); absolute pass levels batch-variable (`knowledge/bench-arena-round11-power.md`). Still open: probe B with a binding manipulation, probe C at n≥12, the r8 arithmetic covariate.
-- **Novelty pricing**: r9 4/4 findings priced (0 phenomena, 2 instruments novel); r11 C1–C4 + M1–M3 priced with fetched URLs — severity-dose construct INCREMENTAL-low (no density-manipulation source FOUND in the ~50-source search set), instrument NOVEL ruling stands strengthened, preregistration-gate composition INCREMENTAL (`knowledge/eval-prior-art-calibration.md`, `evidence/round11-fleet/r11-prior-art-*.md`).
-- **Evidence durability**: run bytes + all 10 L2 analyses committed under `evidence/` (no claim rests on a `/tmp` pointer alone); the r8 `raw`-stripping incident is documented in `knowledge/bench-arena-round8-horizon.md` §provenance.
+- **Multi-turn state tracking / planning horizon**: r8 built the instrument; r9 replicated probe A; r11 powered the middle contrast (+0.352, p=0.0011); r12 established the ordered four-point ladder (Page `L=1773.0`, `z=+9.452`), repeated the middle contrast (+0.297), dissociated batching from emission sparsity (+0.656), and tested a second task family (+0.177, directional at a 2/48 floor). See `knowledge/bench-arena-round12-ladder.md`.
+- **Novelty pricing**: r9 priced 4/4 findings; r11 priced C1–C4 + M1–M3; r12 prices C1–C6 with fetched URLs — C1/C2/C4/C5/C6 INCREMENTAL, C3 NOVEL-instrument, phenomenon-new 0 / instrument-new 1. Round-14 reviewer re-fetched 14 load-bearing URLs and reproduced every verdict (`evidence/round14-fleet/r14-review-priorart.md`).
+- **Evidence durability**: every run byte and verification artifact through round 14 is committed and indexed. The r12/r13 one-round landing debt and the r8 raw-stripping incident remain documented; no headline claim rests solely on `/tmp`.
 
 ## Open gaps
 
@@ -99,7 +109,10 @@ final-turn state errors, stored 12/32, recomputed 24/32).
 - **27 test-timeout**: CLOSED round 6 — hidden-contract thread-exception deadlock + semantically-broken sol, not slowness. See `knowledge/bench-arena-task27-timeout-anatomy.md`.
 - **Scaffold-delta mechanism**: CLOSED round 7 — verbatim wire capture (temporary proxy provider) + component ablation. Causal inventory: system prompt (context mass) drives strategy choice; `tools`+`tool_choice:auto` without system = `finish=tool_calls` harness defect; temperature absent→0.8 not causal; `enable_thinking` no-op (template has no think branch). See `knowledge/bench-arena-round7-scaffold-ablation.md`.
 - **v2-vs-today scaffold drift** (new, round 7): the captured skills catalog may differ from v2's (v2 ran 1mo ago); E1 replay reproduced v2 direction on 13 but not 03 (v2's lone 03-PASS was a lucky draw — see r7 knowledge). Exact replay fidelity vs 1-month-old scaffold is unverified — attribute v2-side drift before citing v2 sols.
-- **Probabilistic forecasts**: CLOSED round 11 — 3 probabilistic predictions filed pre-run and Brier-scored at close (0.153); point predictions scored alongside (`knowledge/bench-arena-round11-power.md` §Calibration outcomes).
-- **No in-repo gate**: CLOSED round 10 — `grader.py` (repo root) replays all three probe trees offline: exit 0/1/2, `--selftest` S0–S6, 280 checks after the round-11 extension.
-- **Cold-agent executability untested** (new, round 9): `SHONEN.md` box 3 stays `[ ]` — no agent without oral context has ever executed `SKILL.md`/`corpus/` end to end and reported back.
-- **Prior-art digest queue** (new, round 9): Laban et al. ICLR 2026 (`arxiv.org/abs/2505.06120`), Lanham et al. (`2307.13702`), llama.cpp #7052 — named in `knowledge/eval-prior-art-calibration.md`, none read yet; they supply the RECAP/SNOWBALL controls and the serving flags (`-np 1`, fixed `-b`/`-ub`) this lane's ESS argument needs.
+- **Probabilistic forecasts**: CLOSED round 11 at event level (3 predictions, Brier 0.153) and round 12 at per-problem level (416 pass events filed pre-request; Brier `0.1288`, BSS `+0.0447`, slope `+0.8427`). Caveat: persistence skill dominates; family-2 base-rate transport failed (`2/48` both arms, BSS `-3.1474`).
+- **No in-repo gate**: CLOSED round 10; extended round 11 to 280 checks/three trees, round 12 to 732 checks/four trees, and round-14 landing to **733** by pinning `analysis_r12.md`. S0–S7 all pass; 4/4 fresh r12 mutations killed.
+- **Cold-agent executability**: CLOSED round 11 — aggregator non-author cold run reproduced 20/20 read-only commands; see `lessons/round-8-aggregator-box3-coldrun.md` and SHONEN box 3.
+- **Ack metric denominators** (round 13): `-ack` storage labels mix ack-only and full-state prompts. Future rates must use schedule-derived intent denominators; r11 CKPT710 is 85.9% prefix / 84.4% bare on 384 true ack prompts, not 64.5% over 512 label rows.
+- **Analysis regeneration** (round 14): `analysis_r12.md` is now md5-pinned, but regeneration remains path-dependent by one absolute `Generator source` line; every statistic independently reproduces. Make future generated reports path-insensitive.
+- **Bench-arena path drift** (round 14): live tree relocated from `~/bench-arena` to `~/archive/bench-arena` with content hashes unchanged and no files newer than 2026-09-28. Living surface pointers use the archive path; frozen evidence retains its historical path.
+- **Prior-art digest queue**: Laban et al. ICLR 2026 (`arxiv.org/abs/2505.06120`), Lanham et al. (`2307.13702`), and llama.cpp #7052 are fetched and used in pricing artifacts; synthesis into standalone corpus digests remains open.

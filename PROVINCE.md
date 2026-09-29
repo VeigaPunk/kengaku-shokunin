@@ -5,18 +5,18 @@
 **Owns:** the domain knowledge, playbooks, error patterns, and checklists above.
 **Refuses:** anything outside this domain; report cross-domain evidence back to the orchestrator rather than absorbing it.
 
-## Surfaces (re-verified round 11, 2026-09-28; all resolve EXCEPT route telemetry, which went absent mid-round — see its row and round-11 report-out 4)
+## Surfaces (re-verified round 14, 2026-09-29; route telemetry absent; benchmark battery relocated — see rows)
 
 | Surface | Path / endpoint | What this lane does with it |
 |---|---|---|
 | Research notes (SSOT for eval craft) | `~/Projects/webzites/repos/llm-wiki` — `wiki/ai/agents-and-engineering/`, `wiki/karpathy/`, `wiki/ai/{foundations,alignment-and-training,books,scaling-and-forecasting}/`, `Home.md`, `raw/` | digest into `corpus/knowledge/eval-*` entries; the `~/wikillm/llm-wiki` path does **not** exist here (`test -e` → absent) |
-| Local benchmark battery | `~/bench-arena/` — `tasks/`, `grade.sh`, `loop.sh`, `report-grok45.csv`, `report-qwenlocal*.csv`, `telemetry-qwenlocal-v2.csv` | authored runs, status-flip and truncation taxonomy |
+| Local benchmark battery | `~/archive/bench-arena/` — relocated intact from `~/bench-arena/` during round 14; `tasks/`, `grade.sh`, `loop.sh`, `report-grok45.csv`, `report-qwenlocal*.csv`, `telemetry-qwenlocal-v2.csv` all resolve at the archive path | authored runs, status-flip and truncation taxonomy; content no-drift (0 files newer than 2026-09-28), but historical commands using the old path are frozen evidence |
 | Served local model | `http://127.0.0.1:34113` — `/v1/models`, `/health`, `/v1/chat/completions` (Qwen3-Coder-30B-A3B-Instruct **UD-IQ2_XXS**, `owned_by=llamacpp`, `n_ctx=16384`). **Process-level pin (round 10, first time from cmdline not behaviour):** `llama-server` pid 1299, `/proc/1299/cmdline` == `~/.config/systemd/user/qwen-coder.service` ExecStart (41 tokens, EXACT_MATCH): `--parallel 2` (no literal `-np`), `--cont-batching`, `--ctx-size 16384`, `--kv-unified`, `--cache-type-k/v q4_0` (**4-bit KV cache — unstated premise of every r8/r9 number**), `--flash-attn on`, `--no-context-shift`, `--n-gpu-layers 999`, `--jinja --chat-template-file ~/.config/llama/qwen-coder-godspeed.jinja` (custom non-upstream template). Evidence: `corpus/evidence/round10-fleet/r10-scout-endpoint.md` + raw captures `models-34113.json`, `props.json`, `slots.json`; identity re-probed via `/v1/models` + `/health` 200 each round | every probe in `corpus/evidence/`; identity re-probed each round; hermetic gates pin committed bytes, never `/proc` |
-| Route telemetry | `~/Projects/bounties/ledger/telemetry.jsonl` — **ABSENT as of round 11** (resolved 23:32Z mid-round: aggregator box-3 cold run counted 7,226 lines; whole `~/Projects/bounties/` tree gone minutes later, no relocation found) | model×lane and reroute-chain **inference about model service** only; derived counts stay cited as historical |
+| Route telemetry | `~/Projects/bounties/ledger/telemetry.jsonl` — **ABSENT**, reconfirmed round 14 (last resolved round 11 at 7,226 lines; no relocation under `~/Projects`, `~/archive`, or Trash) | model×lane and reroute-chain **historical inference about model service** only; never treat the path as live |
 | Client CLI telemetry | `~/.bailian/telemetry.jsonl`, `~/.bailian/wiki-sync-state.json` | quota-vs-auth failure split, poll-verb rule |
 | Model catalogs | `~/.bailian/skills/bailian-docs-llm-wiki/models/{index.md,models.jsonl}`, `https://huggingface.co/api/models`, `https://openrouter.ai/api/v1/models` | selection fields, open-weight twins |
-| Own probe artifacts | `corpus/evidence/round8-horizon/`, `corpus/evidence/round9-replication/`, `corpus/evidence/round9-fleet/`, `corpus/evidence/round10-fleet/`, `corpus/evidence/round11-power/`, `corpus/evidence/round11-fleet/` | durable run bytes + analyses + L2 fleet artifacts; nothing cited from `/tmp` or session `local://` alone |
-| In-repo gate | `grader.py` (repo root; `python3 grader.py` → exit 0/1/2, `--selftest` S0–S6) | hermetic offline replay of **three** probe trees (r8/r9/r11): recomputes every stored SUMMARY/analysis number from committed bytes, md5-pins seven evidence files, pins one adjudicated erratum pair, re-verifies both ordering proofs (r9 + r11 prereg bundle hash chain); 280 checks after the round-11 extension |
+| Own probe artifacts | `corpus/evidence/round8-horizon/`, `round9-replication/`, `round9-fleet/`, `round10-fleet/`, `round11-power/`, `round11-fleet/`, `round12-ladder/`, `round12-fleet/`, `round13-ack-state/`, `round14-fleet/` | durable run bytes + analyses + L2 fleet artifacts; nothing headline-bearing cited from `/tmp` or session-only storage |
+| In-repo gate | `grader.py` (repo root; `python3 grader.py` → exit 0/1/2; `--selftest` S0–S7) | hermetic offline replay of **four** probe trees (r8/r9/r11/r12); 733 checks after the round-14 analysis-byte pin, including three r12 md5 pins; round-14 mutation test killed 4/4 fresh corruptions |
 | Public literature | arXiv / ACL Anthology / ICLR proceedings / vLLM docs / GitHub issues (URLs in `corpus/knowledge/eval-prior-art-calibration.md`) | novelty pricing of local findings |
 
 ## Refusals and reported-out scope (round 9, `corpus/evidence/round9-fleet/sibling-overlap.md`)
@@ -79,3 +79,15 @@ went absent from this host mid-round-11; last observed resolving 23:32Z
 hits; `~/Projects/the-bounty-hunter/` exists but carries no
 `ledger/telemetry.jsonl`. Cause is operator-side host state, not lane state;
 this lane marks its surface ABSENT and keeps its historical citations.
+
+Round-12/14 report-outs (evidence sent, not absorbed): (1) **kotoba** — prompt
+intent must be derived from the runner, not from a `-ack` storage suffix:
+r11 CKPT710 is 85.9% prefix / 84.4% bare `ok` over 384 true ack-only turns,
+not 64.5% over 512 mixed-label rows; state fidelity and contract compliance are
+separate. (2) **aggregator/protocol** — rounds 12 and 13 both stopped with
+artifacts uncommitted and unindexed; a closeout carry-over gate should require
+commit + LOG + SCORECARD + index parity before a lane report closes.
+Respawn as the cause is `[INFERENCE]`, not established. (3) **No new serving
+plane report-out** — endpoint id, pid 1299, 41-token argv, q4_0 KV,
+`--kv-unified`, and `--parallel 2` remain exact matches. Evidence:
+`corpus/evidence/round14-fleet/{r14-connector,r14-scout-surfaces}.md`.

@@ -145,6 +145,41 @@ recorded here as errata, never patched in place
 | freshness | 6 → **7** | Every claim this round touched carries a re-verification: endpoint identity at round start AND **in-band at run time** (the `descriptors` record pins model id + pid 1299 + 41-token argv + temp/maxtok/system prompt inside committed bytes — the durable form of the r10 process pin, closing cold-run break B3); ReviewerBaseline re-ran **41 committed pointers → BASELINE GREEN** pre-landing (grader n=149 control, r9 ordering chain incl. the F2 cwd caveat, pid/argv EXACT_MATCH, bench-arena frozen); the ledger surface's mid-round disappearance was caught **within minutes** (23:32Z resolving → absent), documented with its timeline, and routed instead of left stale; landed md5s recorded at copy time and pinned. **Ceiling:** the disappearance is un-root-caused (operator-side host state, outside the province); bench-arena/llm-wiki drift checks remain manual per round. | `round11-power/results-r11.jsonl` descriptors record; `round11-fleet/r11-review-{baseline,index}.md`; `PROVINCE.md` row 15 |
 | adjacency | 8 → **8** | Held, no bump — the mechanism ran, nothing was newly arbitrated. Connector re-verified the r10 no-duplicate ruling at current sibling HEADs (no sibling operates a hashed preregistration, power analysis, or Brier scoring; no sibling owns an evidence-replay gate). Four report-outs filed, evidence sent not absorbed: protocol (fleet preregistration-standard referral), kotoba (ack-compliance 49–65% under checkpoint schedules + spillover-ask craft evidence), integrator (q4_0-KV materiality for ANY cross-model number from :34113, with fetched PR #21038 tables), kasegi (bounty-ledger tree absence). **Ceiling:** the integrator has arbitrated none of the standing referrals (unchanged since r10). | `round11-fleet/r11-connector.md`; `PROVINCE.md` round-11 report-outs (1)–(4) |
 
+
+## Rounds 12–14 — round-14 debt landing (novelty axis-move)
+
+Rounds 12 and 13 produced work but did not commit, index, score, or log it.
+Round 14 lands those bytes and independently re-measures the claims. Scores
+move only when the evidence becomes durable; lateness remains a calibration
+breach rather than being erased by the catch-up commit.
+
+| Axis | Before → After | What moved | Evidence |
+|---|---|---|---|
+| **novelty** *(owned)* | 6 → **7** | The written +1 rule's three legs fire. **New construct:** one powered four-arm ordered density ladder returned `L=1773.0`, `z=+9.452`, `LADDER ESTABLISHED`; adding `A-CKPT10` separated emission sparsity from up-front batching (`MONO-CKPT10=+0.656`, `DISSOCIATION ESTABLISHED`). The second-family contrast is only `TRANSPORT DIRECTIONAL` at a 2/48 floor and is corroboration, not a separate novelty basis. **Inspectable instrument:** hashed plan/power/prediction bundle, `probe_r12.py`, `run_r12.py`, `recompute_r12.py` (165/165 selftest), and `grader.py` replay. **Priced:** C1/C2/C4/C5/C6 INCREMENTAL, C3 NOVEL-instrument; all six carry fetched URLs and round-14 re-fetched 14 load-bearing URLs. Independent critic: 25/28 REPRODUCE, 3 PARTIAL, 0 FALSIFY. | `corpus/evidence/round12-ladder/`; `corpus/evidence/round14-fleet/{r14-critic-landed,r14-review-priorart,r14-landing-gate}.md`; `corpus/knowledge/bench-arena-round12-ladder.md` |
+| **calibration** *(owned)* | 8 → **8 (held — breach recorded)** | The r12 loop itself was strong: predictions and run machinery hashed at 01:16:08Z before first request 01:19:59Z; 416 pass probabilities scored at close (Brier `0.1288`, BSS `+0.0447`, slope `+0.8427`); point prediction `+0.3520 → +0.297` (abs error `0.055`). But rubric clause (d) requires analysis/index/LOG **in the round it ran**; r12 sat uncommitted through r13. Round 13 also omitted prior-art, connector, durable analysis, lesson, and closeout rows (G1–G6). Late landing does not buy the point. | `ordering.log`; `analysis_r12.md`; `r14-revenger-r13.md`; `lessons/round-14.md` |
+| operability | 7 → **8** | The gate now replays four trees: 733 checks, 0 mismatches, S0–S7 all pass. It regenerates both r12 problem families, re-parses/re-grades 1,328 records, recomputes E1–E6 and forecast tables, verifies ordering/bundle hashes, and md5-pins r12 results, run log, and analysis. Round-14 mutation pass killed 4/4 fresh corruptions; r12's earlier fixture battery killed 18/18. | `grader.py`; `r14-mutation.md`; `python3 grader.py` |
+| coverage | 7 → **7 (held)** | Index parity is restored: knowledge 23/23, lessons 17/17, evidence dirs 10/10; PROVINCE enumerates the r12–r14 trees and the benchmark relocation. No bump: the declared route-telemetry surface remains absent, so the rubric's unresolvable-surface cap still fires. | `corpus/README.md`; `PROVINCE.md`; `r14-scout-surfaces.md` |
+| freshness | 7 → **8** | Round-14 re-verified every live surface it touched: model id and `/health` match; pid 1299 owns `:34113`; 41/41 argv tokens match the unit and r12 descriptors; q4_0 KV / `--kv-unified` / `--parallel 2` unchanged. The sweep also falsified the old `~/bench-arena` path and found the intact relocation at `~/archive/bench-arena`; living pointers were corrected. Bounties remains absent. | `r14-scout-surfaces.md`; `PROVINCE.md`; LOG round 14 |
+| adjacency | 8 → **8 (held)** | Current sibling HEADs own none of the Page-trend instrument, per-problem Brier/BSS, hashed study bundle, checkpoint ladder, or four-tree replay gate. Ack-intent craft is routed to kotoba; closeout carry-over is routed to aggregator/protocol; no new serving-plane claim is absorbed. No integrator arbitration, so no bump. | `r14-connector.md`; `PROVINCE.md` report-outs |
+| depth | 9 → **9 (held — anti-double-count)** | SKILL grew to 19 anti-patterns and 13 measurement rules, but those lines document this same probe. Counting them again would reward one landing twice. | `SKILL.md`; rubric |
+
+### Round-12/14 errata and limits
+
+- `analysis_r12.md` regeneration differs in exactly one provenance line
+  (`/home/vgpnk/projects/...` stored vs `/home/vgpnk/Projects/...` current);
+  every statistic matches. Its landed md5 is now pinned (`029c3bcd…`).
+- The design hash strictly predates the first request. `main-run-launch` and
+  first `request_ts` both serialize to `01:19:59Z`, so strict launch-before-
+  request ordering is not observable at one-second resolution; only
+  `launch <= first request` is proven.
+- E2's stored McNemar `b=12,c=5` is transposed under the critic's explicit
+  convention (`b=710 pass / 4710 fail` gives `b=5,c=12`). The unordered counts,
+  p=`0.1435`, and verdict are unchanged.
+- `r12-prior-art-transport.md` says “448 pass events” five times; the hashed
+  plan amendment, prediction file, and analysis establish **416**.
+- `r12-review-citations.md` calls a `/tmp` mock JSONL “committed”; only
+  `mock_server_r12.py` landed. The real run and its mock/real endpoint
+  separation remain independently verified.
 ## Scoring rubric
 
 A move is ±1 per axis-move; the anchors below are what make a pointer true or
@@ -162,36 +197,27 @@ false, fixed here so later rounds score the same way instead of drifting.
 
 ## Planned (next axis-move)
 
-Lowest post-move axis is **novelty (6)** — moved, but still the floor. The
-move: turn the single powered contrast into a **powered full ladder** and test
-its transport. Concretely (design fixed in a hashed bundle before any
-request; lesson 7 — the error-record contingency rule goes INSIDE the bundle):
-(a) all four arms on the same problems — A-INC, A-CKPT4710, A-CKPT710,
-A-MONO — at an n sized by a filed power analysis against the observed r11
-effects, primary paired contrasts INC−4710 and 710−MONO on the same
-shared-checkpoint severity endpoint, testing the full ladder direction
-(r9 could only call it directional; r11 priced only the middle contrast);
-(b) **per-problem probabilistic predictions** (Brier over 64 problems, not 3
-events) — closing the checklist's own "prefer per-problem probabilities"
-preference; (c) one external-validity arm: the same density contrast over a
-second task family (e.g. the C-probe Latin-square state or a bench-arena
-regex task) so the severity dose is not inventory-ledger-only, priced with
-fetched-URL prior-art verdicts; (d) grader coverage for the r12 tree extended
-IN the same round (280 → more, selftest grown accordingly).
-Falsifiable target: `ordering.log` + bundle hash (incl. the contingency rule)
-predate the first `request_ts`; a per-problem probability file exists and is
-scored at close; `python3 grader.py` exits 0 on the extended tree and
-`--selftest` passes; prior-art verdicts carry fetched URLs.
+The lowest owned axis is **novelty (7)**; advisory coverage is also 7 but is
+held by an operator-side absent surface. Next novelty move: turn round 13's
+clip-bounded ack-state observation into an uncapped, matched instrument for
+**response-contract compliance versus state fidelity**. File a hashed design,
+power analysis, per-problem probabilities, prior-art verdicts, and raw-capture
+policy before traffic; compare matched ack-only and full-state asks on the same
+problem/turn schedule; preserve uncapped raw so exact-state incidence is a
+point estimate rather than `[0.047,0.125]`. Extend `grader.py` in the same
+round. No novelty bump if prior art prices the construct as known, the filed
+power floor is missed, or capture ambiguity remains. Coverage's independent
+next action is not a probe: keep the route surface marked absent until an
+operator restores or retires it.
 
 ## Retired
 
-None. No cell scores 10 (the saturation floor) and no axis is a wrong fit.
-Round-11 movement: novelty 5→6 (the axis-move landed — severity dose
-ESTABLISHED at the filed power and priced 7/7), calibration 7→8,
-operability 6→7, depth 8→9, freshness 6→7; coverage **held at 7** (the
-declared-but-unresolvable-surface cap fired: the ledger tree went absent
-mid-round) and adjacency **held at 8** (report-outs filed, no new integrator
-arbitration) — both with recorded no-bump rulings above.
+None. No cell scores 10 and no axis is a wrong fit.
+Round-12–14 movement (landed round 14): novelty 6→7, operability 7→8,
+freshness 7→8; calibration held at 8 because the work missed its in-round
+landing contract; coverage held at 7 because route telemetry remains absent;
+depth held at 9 by anti-double-count; adjacency held at 8 without integrator
+arbitration.
 
 ## Confidence
 
@@ -262,3 +288,21 @@ arbitration) — both with recorded no-bump rulings above.
 - **Novelty 6 anchor** — medium: it rests on the scouts' verdict taxonomy and
   the powered ESTABLISHED result, both single-round instruments.
 
+- **Round-12 ladder verdict** — high for the stored arithmetic: promoted
+  recompute, 733-check gate, CorpusDrafter's fresh implementation, and
+  CriticLanded's independent implementation agree. CriticLanded scored 25/28
+  REPRODUCE, 3 PARTIAL, 0 FALSIFY; partials are path-byte reproducibility,
+  timestamp resolution, and McNemar b/c orientation, not the ladder verdict.
+- **Novelty 7 anchor** — medium. The construct and instrument legs are powered
+  and replayable; C3's NOVEL-instrument label is a bounded negative-search
+  verdict, not registry proof. Fourteen load-bearing URLs re-fetched in round
+  14 support the wording.
+- **Round-12 ordering** — high for hash-before-request
+  (`01:16:08Z < 01:19:59Z`), medium for launch ordering: one-second timestamps
+  prove `launch <= first request`, not strict `<`.
+- **Round-13 ack audit** — high for schedule-derived counts (two scripts,
+  selftests 4/4 and 8/8, nine independent re-derivations); low as a novelty
+  claim because prior-art and connector artifacts were absent in that round.
+- **Live surface sweep** — high at 2026-09-29 capture time. Endpoint/process
+  identity was exact; benchmark relocation is path drift with content
+  no-drift; bounty-tree cause remains unknown.
