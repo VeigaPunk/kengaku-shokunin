@@ -180,6 +180,56 @@ breach rather than being erased by the catch-up commit.
 - `r12-review-citations.md` calls a `/tmp` mock JSONL “committed”; only
   `mock_server_r12.py` landed. The real run and its mock/real endpoint
   separation remain independently verified.
+
+## Round 15 — OMP/ufo-fsd re-census (hermetic round, no axis-move)
+
+The OMP/ufo-fsd substrate relocated (`~/Projects/origin-work/ufo-fsd-alpha` →
+`~/Projects/ufo-fsd-alpha`, new HEAD `964f443e`, ~50 upstream files deleted).
+This lane's census: **the drift never reached us**. `grader.py` replays four
+committed probe trees from in-repo bytes only — no `--src`, no origin-tree I/O —
+so there is nothing to re-derive and nothing to repair.
+
+| Check | Before → After | Verdict line |
+|---|---|---|
+| `python3 grader.py` (repo root) | PASS → PASS | `CHECKS n=733 mismatches=0 errata_pinned=1` / `VERDICT: PASS — stored evidence fully re-derives offline`, exit 0 |
+| `python3 grader.py --selftest` | PASS → PASS | `[selftest] ALL PASS` (S0–S7), exit 0 |
+| `grep -rln 'origin-work' . --exclude-dir=.git` | — | 1 hit: `corpus/evidence/round14-fleet/r14-scout-surfaces.md`, which names `~/Projects/origin-work/` as a *directory-neighbour observation* and `origin-work/open-bug-bounties/` as a distinct Next.js codebase — not a ufo-fsd citation. Historical record; preserved verbatim per append-only, now marked historical below. |
+
+Classification counts (mission taxonomy): (a) stale `--src`/default path —
+**0**; (b) citation to an upstream-deleted file — **0**; (c) moved-file line
+drift — **0**; (d) genuine lane defect — **0**.
+
+**Round-15 host sweep (re-verification, two new ABSENT surfaces — both
+external/operator-side, not lane defects):**
+
+- `~/Projects/origin-work/` — **ABSENT** (`test -d` → false). The r14 scout's
+  two `origin-work/` mentions are now historical pointers; erratum appended
+  below rather than rewritten.
+- Served model `http://127.0.0.1:34113` — **ABSENT**: `curl -s -m5 /health` →
+  connection failure (000); `pgrep -a llama-server` → no rows; `systemctl
+  --user status qwen-coder.service` → "could not be found". The r10/r11/r14
+  process-level pins (pid 1299, 41-token argv, q4_0 KV) remain high-confidence
+  historical facts, per the scorecard's own rule that they are capture-time
+  host state. **Carried debt, named:** `:34113` serving plane — unblock action
+  = operator restores the `qwen-coder.service` unit + llama-server; until then
+  the freshness/coverage rubric treats this as a declared-but-unresolvable
+  surface, joining the already-absent route-telemetry row.
+- `~/Projects/ufo-fsd-alpha` — **resolves** (present at new location);
+  `~/archive/bench-arena` — resolves; `~/Projects/webzites/repos/llm-wiki` —
+  resolves; `~/Projects/bounties/ledger/telemetry.jsonl` — still ABSENT.
+
+**Erratum (append-only) for `corpus/evidence/round14-fleet/r14-scout-surfaces.md`
+§4 V12/V14:** `~/Projects/origin-work/` and `origin-work/open-bug-bounties/`
+resolved on 2026-09-29; the whole `origin-work/` directory is now gone
+(observed 2026-10-14). Both lines were accurate at capture time; they are
+preserved as historical pointers.
+
+**No axis-move:** operability held 8 (gate still green, unchanged); freshness
+held 8 (re-verification ran, but two surfaces moved to ABSENT — operator-side);
+coverage held 7 (a second declared surface is now unresolvable — rubric cap,
+same as telemetry); calibration/depth/adjacency/novelty unchanged (hermetic
+round, no probe, no new sourced content).
+
 ## Scoring rubric
 
 A move is ±1 per axis-move; the anchors below are what make a pointer true or
