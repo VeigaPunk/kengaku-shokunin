@@ -70,3 +70,14 @@ Full round detail: `corpus/lessons/round-16-recensus.md`. Advisory inventories:
   No push. Report, receipt applicability and a fresh-session continuation
   handoff are published under `.ufo/round-17/`; no Sighting completion without
   an applicable minted and validated receipt.
+
+### Round-17 blocked-attempt delivery
+
+Owned record work landed in
+`85de57175f09d64a34b747fdb1039f68fdaf6e22` under the lane identity.
+Report path: `.ufo/reports/round-17/kengaku.md`; sidecars and the fresh-session
+handoff remain in `.ufo/round-17/`. This clarifies the preceding shorthand
+"report ... under .ufo/round-17/" and the same shorthand in SCORECARD: the
+report itself uses the canonical lane-local `.ufo/reports/round-17/` path.
+The report cites the existing work commit and is committed afterward, without
+amending it. No inherited domain change is claimed or swept.
