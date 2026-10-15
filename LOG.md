@@ -27,3 +27,46 @@
 
 Full round detail: `corpus/lessons/round-16-recensus.md`. Advisory inventories:
 `../.ufo/waves/shokunin12h-20261014-p1-repair/members/`.
+
+## 17 — interactive attempt blocked at route admission
+
+2026-10-15 · attempted axis: coverage · starting commit
+`3f31e54c6e7aeddef13db11985b3c7a9dad9e0cf`.
+
+- Reconciled round-16 LOG/SCORECARD history with the stopped worker's
+  non-authoritative launch counter 13. Preserved inherited domain edits,
+  `corpus/evidence/round13-coverage/` and its lesson unclaimed and uncommitted.
+  Initial file hashes and exclusions: `.ufo/round-17/initial-state.json`.
+  Native transcript/session bodies, credential material, raw journals and
+  environment values were not read or committed.
+- Wrote `plans/wwkd-round-17-coverage.md` before work. The exact 32-scope audit
+  spec is `.ufo/round-17/wave/spec.json`; canonical validator `plan` and `run`
+  each exited 0. Full outputs: `wave/plan-execution.json` and
+  `wave/run-execution.json` beneath that round directory. All 32 rendered
+  tasks have the leading Godspeed invocation; registry agent IDs are null.
+- **Native dispatch count 0; no specialists running; integration blocked.**
+  `cfg://task/agentModelOverrides` reports global defaults, not the requested
+  role aliases: reviewer/connector `@m_mid`, critic `@m_strong`;
+  `m_antigravity` has no `@m_zfl` fallback. The canonical existing mission
+  overlay supplies no missing binding. Exact required/actual bindings and
+  the concrete operator unblock: `.ufo/round-17/route-blocker.json`.
+  No substitute route, new overlay or global configuration write.
+- Parent's local gate: `python3 grader.py` exited 0,
+  `CHECKS n=733 mismatches=0 errata_pinned=1`,
+  `VERDICT: PASS — stored evidence fully re-derives offline`.
+  `python3 grader.py --selftest` exited 0, S0–S7 PASS,
+  `[selftest] ALL PASS`. Full commands/stdout/stderr/exit codes and measured
+  dirty-tree boundary: `.ufo/round-17/gates.json`. Validator CLI invocation
+  exercised the actual changed work surface (the saved wave); no software or
+  domain changes were integrated. Previously reported UFO Phase-0/self-iter
+  failures were not rerun.
+- Every axis and all three learning trends are **unchanged** in SCORECARD's
+  round-17 record. This is blocked/non-admitted work: **zero verified-round
+  credit**, no native judgment, no promotion, no outside spot-check, no
+  source-restoration claim. `corpus/QUALITY.md` remains absent named debt.
+  The inherited nine-seat dispatch is not relabelled a 32-seat execution.
+- Only this attempt's explicit record paths are eligible for local lane-
+  identity commits; inherited SCORECARD edits are excluded from staging.
+  No push. Report, receipt applicability and a fresh-session continuation
+  handoff are published under `.ufo/round-17/`; no Sighting completion without
+  an applicable minted and validated receipt.

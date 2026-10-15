@@ -362,3 +362,50 @@ arbitration.
 | Round | Axis | Before | After | Evidence |
 |---|---|---|---|---|
 | 16 | freshness | measured at HEAD (see lesson) | verdicts recorded per gate, no scalar | `corpus/lessons/round-16-recensus.md` |
+
+## Round 17 attempt — blocked before native dispatch (2026-10-15)
+
+Starting commit: `3f31e54c6e7aeddef13db11985b3c7a9dad9e0cf`.
+Round 16 is the latest recorded lane round; headless launch counter 13 is
+not a verified-round count. The inherited source-status changes and nine-seat
+round-13 re-dispatch artifacts remain unclaimed and uncommitted by this
+attempt. Their presence does not satisfy the current 32-seat contract.
+
+Selected axis: **coverage**, tied with novelty at the lowest legacy anchor.
+Plan: `plans/wwkd-round-17-coverage.md`. Exactly 32 distinct audit scopes were
+validated and rendered; both commands exited 0, with 32 Godspeed prefixes.
+**Native task calls: 0; assigned agents: 0; domain integration: blocked.**
+Effective reviewer/critic/connector routing and the missing connector fallback
+are recorded in `.ufo/round-17/route-blocker.json`. No routing mutation or
+substitution was made. A valid rendered payload is not an executed round.
+
+| Axis | Verdict | Evidence / limit |
+|---|---|---|
+| coverage | unchanged | No admitted integration; inherited annotations/index work remains dirty. Lowest-axis work stays LIVE. |
+| novelty | unchanged | No model experiment, external source fetch or new construct. |
+| calibration | unchanged | No new assessment result; blocked attempt and inherited ownership are explicit. |
+| depth | unchanged | No new domain knowledge admitted. |
+| operability | unchanged | Parent replay remains `CHECKS n=733 mismatches=0 errata_pinned=1`; gate exit 0, selftest exit 0. |
+| freshness | unchanged | Offline replay is not a current external-source or endpoint verification. |
+| adjacency | unchanged | Route admission is operator/kumitate-owned; serving restoration stays outside kengaku. No external fix landed. |
+
+Learning trends: **expansion unchanged; quality unchanged; discernment
+unchanged**. No outside non-author admit/reject spot-check was performed.
+`corpus/QUALITY.md` is absent and remains named inherited debt; this blocked
+attempt does not create a substitute quality claim or change promotion marks.
+
+Parent verification, measured on the inherited dirty working tree at the
+starting HEAD: `python3 grader.py` exited 0 with full verdict
+`VERDICT: PASS — stored evidence fully re-derives offline`;
+`python3 grader.py --selftest` exited 0 with `[selftest] ALL PASS` (S0–S7).
+Full stdout/stderr, commands, timestamps, grader digest and exit codes:
+`.ufo/round-17/gates.json`. No native judge or rerun of the already-reported
+UFO Phase-0/self-iter failure.
+
+**Admission: blocked / not admitted; verified-round increment: 0.**
+No saturation claim; this is one blocked attempt, not evidence of three
+consecutive blocked rounds. Unblock: supply authorized effective role bindings
+to the existing requested aliases and connector fallback, then continue in a
+fresh interactive L1 session. Preserve historical reports and inherited dirty
+work; revalidate the prepared spec before its one complete native task batch.
+Report and receipt applicability are filed under `.ufo/round-17/`.
