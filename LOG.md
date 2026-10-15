@@ -81,3 +81,55 @@ handoff remain in `.ufo/round-17/`. This clarifies the preceding shorthand
 report itself uses the canonical lane-local `.ufo/reports/round-17/` path.
 The report cites the existing work commit and is committed afterward, without
 amending it. No inherited domain change is claimed or swept.
+
+## 18 — kimi secondary-model routing round: digest landing
+
+2026-10-15 · digest landing (no axis-move claimed) · source: parent-fleet
+round 18, six merged missions.
+
+The parent repo (`../`) executed round 18 on 2026-10-15 — census (M1),
+definitions audit (M2), n=2 TTFT/TPS battery over the live 17-entry
+`[secondary_model.models]` pool (M3), codex fast-mode probe (M5),
+opencode-go/deepseek-v4.1-flash probe (M6), routing table + apply guide +
+fleet report (M4). This lane lands the digest; the bytes stay in the parent
+repo.
+
+- `corpus/knowledge/kimi-model-routing-round18.md` — digest: operator
+  directives (test new models/providers, TTFT/TPS headline, the assigned
+  17-model pool, codex fast mode, the opencode-go gap, the lane-policy
+  revision), headline TTFT/TPS/pass table (17 M3 rows + the M6 row), key
+  defects (token-plan keys 2/3 quota-dead until 10-23/10-28 16:00Z; dead
+  client fields `off_effort`/`max_input_size`; unclamped global effort
+  override; `reasoning_key` DEF-9/DEF-10; 42 of 143 entries on unservable
+  lanes at audit time), routing outcome (13 entries: 11 retained incl. 2
+  demoted, 4 quarantined, 2 dropped, 2 verify-first; opencode-go reserved
+  for `deepseek-v4.1-flash` only; glm-5.3-flash zai-primary →
+  devin-secondary; codex fast mode accepted-not-confirmed no-go + conditional
+  protocol), and parent-repo pointers with merge commits.
+- `corpus/evidence/round18-kimi-routing/README.md` — index of the six parent
+  artifact trees: contents, file counts (`find` re-counted: census 68,
+  definitions 25, battery 402, battery-opencode 44, fastmode 14, routing 6)
+  and hygiene-gate results (all six 0 hits / exit 0).
+- `corpus/README.md` — two index rows added (knowledge + evidence), staged
+  with the inherited round-17 hunks excluded (index entry built as HEAD + the
+  two rows only; verified with `git diff --cached` before commit). Index
+  parity at close: knowledge 24/24, evidence 11/11.
+- `LOG.md` — this entry.
+
+Source verification (2026-10-15): merges present in
+`git -C ../ log --oneline` — M1 `4738fee`, M2 `7e2c473`, M3 `c2174a5`,
+M5 `db82042`, M6 `bd0c690`, M4 `fbae972`; `diff -q`
+`../.ufo/reports/round-18/kengaku.md`
+`research/round-18-kimi-model-routing/routing/kengaku-round18-report.md` →
+identical (exit 0); report committed at `389ede4`. **Number note:** the
+round brief said "41 of 143" for unservable lanes; the artifacts say **42**
+(`definitions/ANALYSIS.md:394`, `routing/kengaku-round18-report.md` §3 —
+4 `managed:kimi-code` + 19 `alibaba-token-plan-2` + 19
+`alibaba-token-plan-3`); the artifact figure landed. No SCORECARD change
+(inherited WIP there left untouched); no axis-move claimed.
+
+The inherited round-17 WIP (modified SKILL/SCORECARD/SHONEN/corpus README and
+knowledge entries; untracked round13-coverage tree/lesson/interactive
+sessions) was not staged or committed; the only change made inside an
+inherited-dirty file is the two appended `corpus/README.md` index rows, and
+only those rows were staged.
