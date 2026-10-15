@@ -356,3 +356,9 @@ arbitration.
 - **Live surface sweep** — high at 2026-09-29 capture time. Endpoint/process
   identity was exact; benchmark relocation is path drift with content
   no-drift; bounty-tree cause remains unknown.
+
+## Move log
+
+| Round | Axis | Before | After | Evidence |
+|---|---|---|---|---|
+| 16 | freshness | measured at HEAD (see lesson) | verdicts recorded per gate, no scalar | `corpus/lessons/round-16-recensus.md` |
