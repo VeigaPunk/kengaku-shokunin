@@ -28,3 +28,7 @@ The admissible baseline is the parent-run receipt above.
   owns endpoint identity. Reported, not absorbed.
 - Round-15 "resolves" sentences for wiki/archive have no saved transcript;
   historical accuracy unresolved, current truth negative. Do not re-pin.
+
+## Independent audit erratum (appended 2026-10-14)
+
+Independent audit: grader re-ran green (n=733 mismatches=0; selftest ALL PASS); identity/pathspec/record confirmed. Dead-path sweep found **61 live citations** to deleted paths (369 token-hits: 61 live / 14 labelled / 294 marked-historical / 0 unclassified), including `SHONEN.md:12`, `corpus/README.md`, `SCORECARD.md:3`/`:218`, `LOG.md:22`, 17 knowledge source lines, and 8 evidence-script defaults opening `/home/vgpnk/projects/...`. `grader.py` has zero hits. Named debt, owner kengaku, unblock: mark the live lines absent and repoint the script defaults. Also: `corpus/README.md` does not index the round-16 lesson.
