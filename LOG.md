@@ -26,4 +26,4 @@
 2026-10-14 · steered round 16 · axis: freshness · 32-lane fleet wave + parent integration.
 
 Full round detail: `corpus/lessons/round-16-recensus.md`. Advisory inventories:
-`.ufo/waves/shokunin12h-20261014-p1-repair/members/`.
+`../.ufo/waves/shokunin12h-20261014-p1-repair/members/`.

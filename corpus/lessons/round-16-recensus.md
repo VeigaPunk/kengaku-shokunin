@@ -1,7 +1,7 @@
 # round-16 re-census — grader is hermetic; host surfaces are gone
 
 2026-10-14. Steered round 16. Advisory inventories:
-`.ufo/waves/shokunin12h-20261014-p1-repair/members/Kengaku*.md`.
+`../.ufo/waves/shokunin12h-20261014-p1-repair/members/Kengaku*.md`.
 
 ## Verdict lines (measured)
 
