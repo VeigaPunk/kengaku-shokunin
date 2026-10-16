@@ -8,7 +8,13 @@ reading the shim journal at request time. Round-22 extension: a leg-forcing
 mode (`force-trials`) drives the ds cascade onto its never-naturally-served
 legs (hyper, opencode-go) so they get ground-truth trials; it scores against
 the extended v2 table in plans/attrib-r22-frozen.md. Honest limit, frozen
-there: FORCED coverage is a different claim than natural coverage.
+there: FORCED coverage is a different claim than natural coverage. Round-23
+extension: a STREAM-path mode (`stream-trials`) drives the ds cascade with
+stream:true forcing bodies (the shim picks the leg from response HEADERS on
+the stream path and never scans a 200 body for FAIL markers, shim.py:270-278
+vs :291-294) and captures per-chunk SSE frame shapes; it scores against the
+v3 table in plans/attrib-r23-frozen.md (v2's feature set unchanged — see the
+r23 freeze for why).
 
 Blind rule (enforced in code): no ground-truth source is read outside
 cmd_score — the unit journal is read only there, after all trials; the string
@@ -21,7 +27,8 @@ frozen doc inside the fenced block
 
 whose exact byte range is sha256-pinned by the FROZEN line that follows it.
 The trials commands refuse to send anything unless that pin verifies
-(force-trials additionally requires table version attrib-feature-table-v2).
+(force-trials additionally requires table version attrib-feature-table-v2;
+stream-trials requires attrib-feature-table-v3 with a stream_forcing section).
 
 Stdlib only. No credentials are read; no Authorization header is sent; all
 traffic is localhost shim traffic (ds-flash-shim :8791, glm-flash-shim :8793).
@@ -39,6 +46,7 @@ from http.client import HTTPConnection
 
 FROZEN_DEFAULT = "plans/attrib-r21-frozen.md"
 FROZEN_R22 = "plans/attrib-r22-frozen.md"
+FROZEN_R23 = "plans/attrib-r23-frozen.md"
 BLOCK_START_RE = re.compile(r"^```attrib-feature-table-v(\d+)\n", re.M)
 BLOCK_END = "\n```\n"
 FROZEN_LINE_RE = re.compile(r"^FROZEN: (\S+) sha256:([0-9a-f]{64})\s*$", re.M)
@@ -93,6 +101,20 @@ FORCE2_PROMPT = ("Briefly discuss the historical origins and modern cultural "
 # relay-last: leg-3 opencode-go serves the caller (shim.py:22-23, 420-449).
 FORCE3_PROMPT = ("Reply with exactly this sentence and no other text: "
                  "You have reached your usage limit for this period.")
+
+
+def stream_body(model, cfg):
+    """r23 stream forcing body from a frozen stream_forcing.bodies row.
+
+    The row carries the prompt, max_tokens and (for the hint arm) client
+    headers. stream is forced True here — the stream path is the r23 surface."""
+    return {
+        "model": model,
+        "messages": [{"role": "user", "content": cfg["content"]}],
+        "max_tokens": cfg.get("max_tokens", 16),
+        "stream": True,
+        "stream_options": {"include_usage": True},
+    }
 
 
 def force_body(model, target, table=None):
@@ -176,8 +198,12 @@ def verify_frozen(path, double_read=False):
 REDACT_HEADERS = {"set-cookie"}
 
 
-def capture(shim, body_bytes, timeout_s, stream=None):
-    """One POST through the shim. Returns an observation dict; no GT access."""
+def capture(shim, body_bytes, timeout_s, stream=None, extra_headers=None):
+    """One POST through the shim. Returns an observation dict; no GT access.
+
+    extra_headers: optional client headers for the r23 stream-hint candidate —
+    a leg-selection hint the shim is expected to ignore (measured, not assumed;
+    the shim builds its own upstream headers and never reads the caller's)."""
     s = SHIMS[shim]
     t0 = time.time()
     conn = HTTPConnection("127.0.0.1", s["port"], timeout=timeout_s)
@@ -186,11 +212,14 @@ def capture(shim, body_bytes, timeout_s, stream=None):
            "body_len": len(body_bytes), "status": None, "headers": {},
            "wall_s": None, "ttfb_s": None, "sse_events": 0, "body_text": "",
            "first_data_s": None, "last_data_s": None, "error": None,
-           "stream": stream}
+           "stream": stream, "chunk_meta": [],
+           "hint_headers": sorted((extra_headers or {}).keys())}
+    hdrs = {"Content-Type": "application/json", "Accept": "text/event-stream"}
+    if extra_headers:
+        hdrs.update(extra_headers)
     try:
         conn.request("POST", "/v1/chat/completions", body=body_bytes,
-                     headers={"Content-Type": "application/json",
-                              "Accept": "text/event-stream"})
+                     headers=hdrs)
         send_done = time.time()
         resp = conn.getresponse()
         obs["ttfb_s"] = round(time.time() - send_done, 4)
@@ -204,6 +233,18 @@ def capture(shim, body_bytes, timeout_s, stream=None):
             for raw in resp:
                 line = raw.decode("utf-8", "replace").strip()
                 now = time.time() - send_done
+                if len(obs["chunk_meta"]) < 300:
+                    if line.startswith("data:"):
+                        kind = "data"
+                    elif line.startswith("event:"):
+                        kind = "event"
+                    elif not line:
+                        kind = "blank"
+                    else:
+                        kind = "other"
+                    obs["chunk_meta"].append({"i": len(obs["chunk_meta"]),
+                                              "kind": kind, "bytes": len(raw),
+                                              "t_ms": round(now * 1000.0, 1)})
                 if line.startswith("data:"):
                     payload = line[5:].strip()
                     if payload == "[DONE]":
@@ -315,6 +356,25 @@ def extract_features(obs, requested_model):
     else:
         f["stream_span_ms"] = None
         f["stream_span_class"] = None
+
+    # r23 per-chunk stream metrics (SSE frame shapes + cadence). These are
+    # CAPTURED for the record and NOT scored: the frozen table's weights carry
+    # no key for them, so they contribute 0 to every leg. The r23 freeze
+    # documents the ruling — no pre-trial per-leg evidence exists to freeze a
+    # cadence profile for hyper/opencode-go, so adding one would be a guess.
+    cm = obs.get("chunk_meta") or []
+    data_frames = [c for c in cm if c["kind"] == "data"]
+    f["stream_frames"] = len(cm)
+    f["stream_data_frames"] = len(data_frames)
+    if len(data_frames) >= 2:
+        gaps = [round(data_frames[i + 1]["t_ms"] - data_frames[i]["t_ms"], 1)
+                for i in range(len(data_frames) - 1)]
+        sizes = [c["bytes"] for c in data_frames]
+        f["stream_gap_ms_median"] = sorted(gaps)[len(gaps) // 2]
+        f["stream_frame_bytes_mean"] = round(sum(sizes) / len(sizes), 1)
+    else:
+        f["stream_gap_ms_median"] = None
+        f["stream_frame_bytes_mean"] = None
 
     # id class
     oid = None
@@ -658,6 +718,131 @@ def cmd_force_trials(args):
     return 0
 
 
+# ------------------------------------------------------- stream trials (r23) ----
+
+def cmd_stream_trials(args):
+    """r23 stream-path trials: small stream:true requests through the ds cascade.
+
+    The r23 coverage surface is the shim's STREAM path (shim.py:270-278), where
+    the serving leg is chosen from the response HEADERS before any body byte and
+    the FAIL-marker scan at shim.py:291-294 is never reached. This command sends
+    the frozen `stream_forcing` bodies (stream:true) and captures SSE frame
+    shapes, header timing and first-byte latency per trial, blind (no GT read).
+    It scores nothing; cmd_score appends the journal GT after all trials.
+
+    Blind rule identical to cmd_trials/cmd_force_trials: the unit journal is
+    read only in cmd_score, after every trial of the run."""
+    shim = SHIMS[args.shim]
+    if args.shim != "ds":
+        print("stream-trials: the stream-path forcing is defined for the ds "
+              "cascade only (alibaba->hyper->opencode-go); refusing shim %r "
+              "(exit 2)" % args.shim)
+        return 2
+    fr = verify_frozen(args.frozen, double_read=False)
+    table = fr["table"]
+    if table.get("version") != "attrib-feature-table-v3":
+        print("stream-trials: table version %r is not attrib-feature-table-v3 "
+              "— no request sent (exit 2)" % table.get("version"))
+        return 2
+    sf = table.get("stream_forcing")
+    if not sf:
+        print("stream-trials: table carries no stream_forcing section (exit 2)")
+        return 2
+    proto = table["trial_protocol"]
+    spacing = proto["planned_spacing_s"]
+    timeout = proto["client_timeout_s"]
+    budgets = sf["budgets_per_body"]
+    bodies_cfg = sf["bodies"]
+    meta = {"kind": "meta", "mode": "stream-trials", "shim": args.shim,
+            "unit": shim["unit"], "port": shim["port"], "model": shim["model"],
+            "frozen_sha256_at_start": fr["sha"], "frozen_utc": fr["frozen_utc"],
+            "budgets": budgets, "target": sf.get("target"),
+            "stream_forcing_mechanism": sf["mechanism"],
+            "shim_code_sha256": sf["shim_code_sha256"],
+            "instrument": "plans/attrib_probe.py",
+            "instrument_sha256": hashlib.sha256(
+                open(__file__, "rb").read()).hexdigest(),
+            "blind_rule": "no journal read in this phase (the unit journal is read only in cmd_score)"}
+    out = open(args.out, "a")
+    recpt = open(args.receipt, "a")
+    def emit(line):
+        print(line)
+        out.write(line + "\n")
+        recpt.write(line + "\n")
+        out.flush()
+        recpt.flush()
+    emit("# attrib-r23-stream-trials — stream-impl seat, kengaku round 23")
+    emit("# Target: 127.0.0.1:%d %s (STREAM path, stream:true; target leg %s)"
+         % (shim["port"], shim["unit"], sf.get("target")))
+    emit("# Instrument: plans/attrib_probe.py sha256 %s" % meta["instrument_sha256"])
+    emit("# Shim code pin (disclosed, read-only): %s" % sf["shim_code_sha256"])
+    emit("# Frozen table: %s anchor sha256 %s (FROZEN %s) — verified before first request"
+         % (args.frozen, fr["sha"], fr["frozen_utc"]))
+    emit("# Blind rule: no journal/GT read during trials; the score phase appends below AFTER all trials.")
+    emit("# No Authorization header sent; no credential material read. Executions begin after this line.")
+    emit(json.dumps(meta))
+    # round-robin interleave across bodies so a transient weather window cannot
+    # consume one body's whole budget before another body fires (r21 defect 7).
+    plan = []
+    counts = {b: 0 for b in bodies_cfg}
+    order = sorted(bodies_cfg)
+    while any(counts[b] < budgets.get(b, 0) for b in order):
+        for b in order:
+            if counts[b] < budgets.get(b, 0):
+                plan.append(b)
+                counts[b] += 1
+    total = len(plan)
+    trials = []
+    tid = 0
+    for name in plan:
+        tid += 1
+        cfg = bodies_cfg[name]
+        body = json.dumps(stream_body(shim["model"], cfg)).encode()
+        hint = cfg.get("hint_headers") or None
+        obs = capture(args.shim, body, timeout, stream=True, extra_headers=hint)
+        feats = extract_features(obs, shim["model"])
+        scores, pred, conf, _ = score_obs(table, args.shim, feats, weights=None)
+        rec = {"kind": "trial", "trial_id": tid, "class": "stream-%s" % name,
+               "obs": obs, "features": feats, "scores": scores,
+               "prediction": pred, "confidence": conf}
+        trials.append(rec)
+        emit("=== [T%02d/stream-%s] %s POST /v1/chat/completions (stream:true)"
+             % (tid, name, obs["t0_utc"]))
+        if obs["error"]:
+            emit("    ERROR: %s (recorded, not retried; excluded from accuracy denominator)"
+                 % obs["error"])
+        else:
+            emit("    status=%s wall=%.3fs ttfb=%.3fs events=%d echo=%s id_class=%s "
+                 "pt=%s span_ms=%s frames=%d data_frames=%d gap_med_ms=%s frame_bytes_mean=%s"
+                 % (obs["status"], obs["wall_s"], obs["ttfb_s"] or -1,
+                    obs["sse_events"], feats["model_echo"], feats["id_class"],
+                    feats["prompt_tokens"], feats["stream_span_ms"],
+                    feats["stream_frames"], feats["stream_data_frames"],
+                    feats["stream_gap_ms_median"], feats["stream_frame_bytes_mean"]))
+            emit("    hdr_tells: %s" % (",".join(feats["hdr_tells"]) or "(none)"))
+            if hint:
+                emit("    hint_headers sent (expected ignored): %s" % ",".join(sorted(hint)))
+            if feats["error_tells"]:
+                emit("    error_tells: %s" % ",".join(feats["error_tells"]))
+            emit("    body: %s" % obs["body_text"][:300].replace("\n", " "))
+        emit("    prediction=%s confidence=%.3f scores=%s"
+             % (pred, conf, json.dumps({k: round(v, 2) for k, v in scores.items()})))
+        emit(json.dumps({"kind": "record", "trial_id": tid,
+                         "class": "stream-%s" % name, "features": feats,
+                         "prediction": pred, "confidence": conf,
+                         "t0_epoch": obs["t0_epoch"], "t0_utc": obs["t0_utc"],
+                         "body_len": obs["body_len"], "status": obs["status"],
+                         "error": obs["error"]}))
+        if tid < total:
+            time.sleep(spacing)
+    emit("# stream-trials done: n=%d (bodies=%s) last_request_utc=%s — journal GT intentionally NOT read"
+         % (len(trials), json.dumps({b: budgets.get(b, 0) for b in order}),
+            datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")))
+    out.close()
+    recpt.close()
+    return 0
+
+
 # ----------------------------------------------------------------- score ----
 
 TS_RE = re.compile(r"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})([+-]\d{4})")
@@ -857,6 +1042,49 @@ def cmd_score(args):
                      "natural coverage — these trials landed on the target legs "
                      "because the forcing bodies made the earlier legs fail, "
                      "not because route weather sent traffic there.")
+    if meta.get("mode") == "stream-trials":
+        # r23: stream-path coverage. The target leg is meta["target"]; each
+        # body's trials are reported by where they actually landed (blind
+        # prediction vs post-trial GT). The verdict is the r23 claim's clause:
+        # >=10 on-target GT trials for the target leg at accuracy >= bar.min.
+        target = meta.get("target")
+        body_stats = {}
+        for name in sorted(b for b in meta.get("budgets", {})):
+            sub = [t for t in scored if t["class"] == "stream-%s" % name]
+            hit = [t for t in sub if t["gt"] == target]
+            ok = sum(1 for t in hit if t["prediction"] == t["gt"])
+            n = len(hit)
+            acc_t = ok / n if n else 0.0
+            body_stats[name] = {"scored": len(sub), "gt_on_target": n,
+                                "correct": ok, "accuracy": round(acc_t, 3),
+                                "gt_distribution": dict(sorted(
+                                    {g: sum(1 for t in sub if t["gt"] == g)
+                                     for g in {t["gt"] for t in sub}}.items()))}
+            lines.append("BODY %s: scored n=%d, on-target(%s) n=%d, correct %d/%d = %.3f | GT dist %s"
+                         % (name, len(sub), target, n, ok, n, acc_t,
+                            body_stats[name]["gt_distribution"]))
+        all_hit = [t for t in scored if t["gt"] == target]
+        all_ok = sum(1 for t in all_hit if t["prediction"] == t["gt"])
+        n_hit = len(all_hit)
+        acc_hit = all_ok / n_hit if n_hit else 0.0
+        v = "PASS" if (n_hit >= 10 and acc_hit >= bar["min"]) else "FAIL"
+        lines.append("STREAM TARGET %s: on-target GT n=%d, correct %d/%d = %.3f "
+                     "(bar %.2f, min on-target n 10) -> %s"
+                     % (target, n_hit, all_ok, n_hit, acc_hit, bar["min"], v))
+        # r23 frozen rule (decision_rule): the shim-level bar does not apply to
+        # a stream-trials run — the verdict is the target clause. Reflect it in
+        # the process verdict so the gate exits 1 when the clause fails. This is
+        # a scoring/verdict-path edit (r21 defect-2 precedent, disclosed); the
+        # blind prediction path (capture -> extract_features -> score_obs) is
+        # untouched, so no trial-time prediction can be affected.
+        verdict = v
+        lines.append("HONEST LIMIT (r23): on the STREAM path the shim picks the "
+                     "leg from response HEADERS and never scans a 200 body for "
+                     "FAIL markers (shim.py:270-278 vs :291-294), so the only "
+                     "client-controllable advance is a leg-local non-200 "
+                     "(shim.py:249-268); the client's chosen body therefore "
+                     "SELF-SELECTS the serving leg — this is coverage of a "
+                     "client-influenced route, not of natural route weather.")
     lines.append("")
     lines.append("Mimicry/ablation accuracies (frozen protocol §mimicry):")
     for name, (ok, n) in ablations.items():
@@ -869,6 +1097,13 @@ def cmd_score(args):
     if meta.get("mode") == "force-trials":
         summary["mode"] = "force-trials"
         summary["target_stats"] = tgt_stats
+    if meta.get("mode") == "stream-trials":
+        summary["mode"] = "stream-trials"
+        summary["stream_target"] = target
+        summary["stream_on_target"] = n_hit
+        summary["stream_body_stats"] = body_stats
+        summary["shim_level_verdict"] = ("PASS" if (base_n >= bar["min_scored_trials_per_shim"]
+                                                    and acc >= bar["min"]) else "FAIL")
     lines.append(json.dumps(summary))
     text = "\n".join(lines) + "\n"
     with open(args.receipt, "a") as f:
@@ -905,6 +1140,11 @@ def main():
     p.add_argument("--frozen", default=FROZEN_R22)
     p.add_argument("--out", required=True, help="JSONL scratch (kengaku-tmp)")
     p.add_argument("--receipt", required=True, help="corpus/evidence receipt log")
+    p = sub.add_parser("stream-trials")
+    p.add_argument("--shim", required=True, choices=sorted(SHIMS))
+    p.add_argument("--frozen", default=FROZEN_R23)
+    p.add_argument("--out", required=True, help="JSONL scratch (kengaku-tmp)")
+    p.add_argument("--receipt", required=True, help="corpus/evidence receipt log")
     p = sub.add_parser("score")
     p.add_argument("--shim", required=True, choices=sorted(SHIMS))
     p.add_argument("--frozen", default=FROZEN_DEFAULT)
@@ -921,6 +1161,8 @@ def main():
         return cmd_trials(args)
     if args.cmd == "force-trials":
         return cmd_force_trials(args)
+    if args.cmd == "stream-trials":
+        return cmd_stream_trials(args)
     if args.cmd == "score":
         return cmd_score(args)
     return 1

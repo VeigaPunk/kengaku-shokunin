@@ -481,3 +481,177 @@ untouched.
 - **Battery fold:** probe-type P10 (attribution health-check) landed in
   `plans/probe-battery-TEMPLATE.md` + this battery's §11.
 
+## Round-23 addendum — stream-path leg coverage (scorer-r23, 2026-10-16T13:52Z)
+
+Standalone scorer seat of the r23 wave (deepseek flash bucket,
+`cascade/deepseek-v4.1-flash`). This seat sent **no request**; its only
+privileged read is the post-trials journal (three captures: 1792157834–1792158036,
+1792158318–1792158630, union 1792157834–1792158630, all after the last trial
+request of every r23 run). Every number below is quoted from a landed receipt's
+authoritative block or recomputed by this seat's independent re-implementation
+of the frozen rule (`/tmp/kengaku-r23-scorer/score_r23.py`, forked from the r22
+scorer seat's verified tool that reproduced the r22 blocks 40/40, plus
+`join_audit_r23.py` for the twin-join audit). Scratch only — this addendum is
+the seat's sole lane write. The r21 and r22 numbers above stand untouched.
+
+### The round's clause, checked
+
+- **Stream-path mechanism pinned from shim source (quoted): YES.** The selector
+  is the per-leg HTTP status: for `stream:true` a 200 returns success from the
+  response HEADERS before any body byte — `shim.py:270-278` (`return {"ok":
+  True, ...}` after `if stream:`), so the FAIL-marker scan (`_marker_in`, called
+  only at `shim.py:291`, non-stream branch) is unreachable on the stream path.
+  Only a non-terminal non-200 advances the cascade (`shim.py:249-268`):
+  FAIL_STATUSES {402,403,429}, 5xx, connect/timeout, and the one body-forced
+  case, a 400 carrying `data_inspection_failed` (leg-1 alibaba). The shim builds
+  its own upstream headers and never reads the caller's (`shim.py:210-217`) and
+  `run_cascade` iterates the fixed `LEGS` list (`shim.py:299-315`), so no client
+  header hint selects a leg. Three candidate levers were pre-registered and two
+  falsified by code, one bounded: (1) marker bait on stream — FALSIFIED
+  (scan unreachable); (2) client hint — FALSIFIED (headers ignored); (3)
+  deterministic leg-3 — reachable only probabilistically (a transient leg-2
+  failure). Empirically confirmed: the falsifier seat's stream-marker probe
+  recorded alibaba serving a streamed body that literally contained `usage
+  limit` (raw-SSE offset 1889 of 7336 bytes) with **no** fallthrough
+  (`~/.cache/kengaku-tmp/falsifier-r23/p1b.out`, `p1c.out`), and the
+  `stream-hint` control (headers `X-Shim-Leg`, `X-Cascade-Leg`) landed leg-1
+  alibaba 3/3.
+- **≥10 on-target opencode-go GT trials: NOT MET — 0 across all 104 r23 stream
+  trials.** Scored: batch 1 (14) 0/14; batch 2 impl (30) 0/30; batch 2 twin
+  (30) 0/30; verifier (30, unscored; blind leg distribution identical, alibaba 6
+  / hyper 24). The 24-trial `stream-inspection` arm landed **hyper 24/24** — the
+  probabilistic leg-2 failure that produced r22's single opencode-go serve
+  (run-1 T03, 1/20) did **not** reproduce (0/24). The frozen verdict line,
+  quoted verbatim from the twin run's block: `STREAM TARGET opencode-go:
+  on-target GT n=0, correct 0/0 = 0.000 (bar 0.80, min on-target n 10) -> FAIL`.
+- **Per-chunk features captured: YES, and deliberately unscored.** The r23
+  instrument captures `stream_frames`, `stream_data_frames`,
+  `stream_gap_ms_median`, `stream_frame_bytes_mean` per trial; the v3
+  `feature_extension_ruling` freezes them as captured-but-weightless (no
+  pre-trial per-leg cadence evidence exists to freeze a discriminating profile,
+  so adding one would be a guess). No feature or weight changed from v2.
+- **v3 re-freeze BEFORE trials: YES for the instrument-native run; a pre-v3
+  deviation batch also exists.** v3 (`plans/attrib-r23-frozen.md`, FROZEN
+  2026-10-16T13:45:47Z block `1b2d6a01…`; instrument at freeze `cce53a16…`)
+  gates `stream-trials` (v3 + `stream_forcing` required, else exit 2, nothing
+  sent). The runner seat's 14-trial batch 1 ran **before** v3 landed, on the v2
+  table with instrument `bb6bd919…`, and disclosed the deviation in its receipt
+  header. Both batches are scored below.
+
+### Scored results (post-trials journal GT; every block cites its bytes)
+
+| run | trials | instrument | accuracy | GT distribution | opencode-go on-target | source |
+|---|---|---|---|---|---|---|
+| batch 1 (runner, v2 deviation) | 14 | `bb6bd919…` | 14/14 = 1.000 | hyper 10 / alibaba 4 | 0 | `attrib-r23-stream-trials.log` L1–226, block 13:41:01Z |
+| batch 2 (impl, v3 stream mode) | 30 | `cce53a16…` | 30/30 = 1.000 | hyper 24 / alibaba 6 | 0 | same file L227+ (this seat's score block 13:50Z) |
+| batch 2 (twin seat, v3) | 30 | `cce53a16…` | 30/30 = 1.000 | hyper 24 / alibaba 6 | 0 | `attrib-r23-stream.log`, self-scored 13:49:42Z |
+| verifier (v3, unscored) | 30 | `cce53a16…` | — | blind pred alibaba 6 / hyper 24 | 0 | `/tmp/vfy-y.log` (gate check sent unexpectedly) |
+| combined main receipt (b1+b2) | 44 | — | 44/44 = 1.000 | hyper 34 / alibaba 10 | 0 | this seat, Wilson [0.920, 1.000] |
+
+- Batch 1 (`bb6bd919…`) independent re-score: 14/14 = 1.000, Wilson
+  [0.785, 1.000]; 0 ambiguous joins over 185 journal REQUEST lines; prediction
+  re-derivation 14/14; natural 4 / forced 10. The instrument's own block prints
+  `ACCURACY: 14/14 = 1.000 … -> FAIL` — the FAIL is the frozen shim-level bar's
+  **min-n 20** refusing a 14-trial denominator, not a miss (the r23 verdict
+  frame is per-target, below).
+- Batch 2 impl (`cce53a16…`) independent re-score: 30/30 = 1.000, Wilson
+  [0.886, 1.000]; per-body `stream-inspection` 24 → hyper 24, `stream-marker` 3
+  → alibaba 3, `stream-hint` 3 → alibaba 3; natural 6 / forced 24;
+  re-derivation 30/30.
+- Batch 2 twin: independently reproduced by this seat (30/30 = 1.000, Wilson
+  [0.886, 1.000], GT hyper 24 / alibaba 6 — identical to its own block);
+  ablations `loo:hdr_tells` **14/30 = 0.467**, every other LOO and all three mimicry arms 1.000 — header relaying is
+  the load-bearing feature on this stream population (batch 1: `hdr_tells` LOO
+  10/14). The v2-table shim-level `ACCURACY … PASS` line is the pre-patch
+  verdict; the target clause below is the r23 clause.
+
+### Stream-path features vs `stream:false` (which carried, which abstained)
+
+| feature | `stream:false` (r22 forced runs) | `stream:true` (r23) | read |
+|---|---|---|---|
+| `body_schema` | fired (`chat.completion`) | **abstains** (null) | mode-partitioned; contributes 0 on stream |
+| `id_in_body` | fired (true) | **abstains** (null) | same |
+| `stream_span_class` | abstains (null) | fires: alibaba `burst` (matches its frozen profile); hyper `burst` on short serves / `incremental` on long (frozen profile says `incremental`) | fires; hyper's frozen value is **stale for short stream serves** — a measured profile drift that never decided a trial (sensitivity patch of hyper→`burst`: batch 1 14/14, batch 2 30/30, zero prediction flips) |
+| `hdr_tells` | relayed response headers | relayed response headers | carried and **load-bearing** (LOO 10/14, 14/30); note hyper's frozen `transfer-encoding:chunked` item is unreachable — the shim strips hop-by-hop headers (`shim.py:337`) |
+| `usage_tells` | from the body JSON | from the SSE final chunk | carried; same families (alibaba `text_tokens`+`cached_tokens`; hyper `cost`) |
+| `model_echo` | body `model` | first chunk `model` | carried (`requested`) |
+| `prompt_tokens` | body `usage` | chunk `usage` | carried (alibaba 48–50; hyper 52) |
+| `id_class` | body `id` vs headers | chunk `id` | carried for alibaba (`chatcmpl-uuid`); hyper's frozen `id_class` is `[]`, so it abstains |
+| `wall_s` / bands | carried | carried | carried (hyper's long serves exceed the frozen [0.7, 3.0] band) |
+| per-chunk metrics | impossible | new: frames / data-frames / median gap / mean frame bytes | captured, unscored (v3 ruling) |
+
+### Legs table (honest)
+
+- **opencode-go — still UNTESTED; the r22 gap carries forward.** r22: 0
+  on-target on both runs; r23 stream path: 0 across 104 trials. The stream path
+  is **not a new lever** — it removes the marker lever (unreachable on stream)
+  and admits only the leg-1 inspection lever, which lands hyper. Reaching leg-3
+  needs leg-2 to fail, which no client body forces (weather-only; 0/24 today).
+- **hyper — now characterized on BOTH paths.** r22 `stream:false`: 10/10
+  on-target = 1.000; r23 `stream:true`: 24/24 on-target = 1.000 in each of the
+  impl and twin runs. Its short stream serves arrive as a single burst.
+- **alibaba — +10 stream-mode natural trials at 1.000** (batch-1 std/marker and
+  batch-2 marker/hint; leg-1 `OK` with no fallthrough).
+- The score phase prints the round's honest limit verbatim: on the stream path
+  the client's chosen body **SELF-SELECTS** the serving leg, so a landed leg is
+  coverage of a client-influenced route, not of natural route weather. For
+  opencode-go there is no client influence at all — hence 0.
+
+### Defects and limits (recorded, not patched)
+
+1. **The round's central clause is NOT MET — a falsified premise, not a
+   measurement failure.** The mechanism admits no client-controllable leg-3
+   advance; the only probabilistic branch (leg-2 timeout) did not fire.
+2. **Instrument bytes floated through the round.** `bb6bd919…` (batch-1 trials,
+   receipt-pinned) → `7b009655…` (batch-1 score block) → `cb2388d0…`/`51cc7d4c…`
+   → `cce53a16…` (v3 freeze + batch-2 trials and scoring) → `489f938a…`
+   (post-freeze verdict-path patch at 13:51:06, disclosed in-code: it sets the
+   process verdict to the target clause and adds `shim_level_verdict`; the
+   blind-prediction path is untouched). The r21 defect-2 family recurs: score
+   blocks record the code sha that scored, and it differs from the trials sha.
+3. **Triple execution of the stream protocol.** The impl run, a twin seat's run,
+   and a verifier whose gate-check unexpectedly **passed and sent** 30 trials
+   (`/tmp/vfy-y.log`) ran concurrently against :8791 — 104 lane stream trials
+   this round against r22's 44-call scale. The r21 defect-1 / r22 twin family,
+   third recurrence; a dispatch ledger or per-seat join nonce is still unpaid.
+4. **Twin-traffic ambiguity (quantified).** 17 of 30 batch-2 windows carried
+   2–3 same-class candidates (identical bodies). The frozen greedy join and an
+   independent min-|dt| monotone alignment agree on **every GT value** (both
+   30/30) because same-class twins are GT-equivalent here; rid-level provenance
+   is MIXED where the runs overlap. Adjudication rule carried from the r22
+   scorer: a feature-contradicted join is a JOIN-DEFECT, never an attribution
+   miss — no such case arose.
+5. **Batch 1 ran on the v2 table despite material stream-feature differences**
+   (mode-partitioned features; hyper's span-class drift). The deviation is
+   disclosed in the runner's receipt header; v3 froze after it, and the runner's
+   own predictions (`0 opencode-go on-target`) were confirmed.
+6. **Serving-plane observations (routed to the integrator, not absorbed):**
+   hyper quota headers at 13:37Z `x-ratelimit-limit-day 10000 /
+   remaining-day 8322`; alibaba's inspection filter fired 24/24 on the bait;
+   no hyper header-timeout was observed this round (r22's single 15 s timeout
+   did not reproduce). Nothing was fixed.
+
+### Sources (all working-tree; commit/index/LOG parent-owned)
+
+- `plans/attrib-r23-frozen.md` (v3) — block `1b2d6a01bfa431ec4e78bf89fd989f9ad500d10bb78634362a3c0e3bce794f87`
+  (FROZEN 2026-10-16T13:45:47Z), file sha `6a0254dd…7d0e4d`; extends v2
+  (`77b8d4a0…`) and v1 (`9f0244bb…`), both re-verified byte-stable this round.
+- `plans/attrib_probe.py` — instrument `bb6bd919…` (batch-1 trials),
+  `cce53a16…` (v3 freeze + batch-2 trials/scoring), `489f938a…` (working-tree
+  bytes at this addendum; post-freeze verdict-path patch).
+- `corpus/evidence/attrib-r23-stream-trials.log` (sha `5ce762aa…e2112fb`) —
+  runner batch 1 (14 trials, blind predictions sha `8b26166d…`, driver sha
+  `6b91d3f3…`) + impl batch 2 (30 trials, `stream_forcing` mechanism quoted).
+- `corpus/evidence/attrib-r23-stream.log` (sha `16d8ab8f…5e06e1e`) — twin run,
+  30 trials + its self-scored block (13:49:42Z) + ablations.
+- `/tmp/vfy-y.log` (verifier, 30 trials, unscored), `/tmp/kengaku-tmp/r23-stream/`
+  (driver, predictions, JSONL scratches), `/tmp/kengaku-r23-scorer/` (this
+  seat's captures, score blocks, audit JSON).
+- `corpus/lessons/2026-10-16-round23-stream-surface.md` — the design-time
+  stream-surface lessons (mechanism + feature-abstention + GT-surface asymmetry).
+- Falsifier probes `~/.cache/kengaku-tmp/falsifier-r23/p1b.out` / `p1c.out`
+  (marker-in-streamed-body with no fallthrough) and the operator shim
+  `~/.local/share/ds-flash-shim/shim.py` sha
+  `42d86d99d42658214e362c2759ecab88a03de005e9ed93e9c1804cbf8c15a386`
+  (read-only, never executed).
+
