@@ -133,3 +133,23 @@ knowledge entries; untracked round13-coverage tree/lesson/interactive
 sessions) was not staged or committed; the only change made inside an
 inherited-dirty file is the two appended `corpus/README.md` index rows, and
 only those rows were staged.
+
+## Round 19 — probe battery (goal wave; operator stopped the run here)
+
+**Round 19 (2026-10-16).** Motivating evidence: calibration proxy
+intermittency (r8-r11 0/1, 1/1, 0/0, 1/1); no standing battery. Landed
+(evidence commit `0671bb0`): frozen 9-probe battery (FROZEN 07:55:58Z
+`e1a86777…`), 5 executed + 15 receipts, scored at close in-round (mean Brier
+0.1836/11; seat pool 0.0617/26), reusable template, note. Corrections folded:
+BR-1 freeze TOCTOU breached-and-repaired (re-freeze after stability check;
+stale-window runs adjudicated unaffected); runner-leg-opencode DEFECT-0
+(pre-battery requests, self-filed, excluded); bookkeeping defects recorded;
+premise correction — operator reordered both cascades post-r18, P4/P5
+re-based pre-freeze. The operator cancelled the 10-round goal after this
+round; rounds 20-28 do not run. Wave: 32 seats, zai flash bucket per the
+operator routing directive.
+
+**Boundaries held.** Small probes only; credentials untouched; corpus
+sources cited; seats committed nothing; parent integrated under the kengaku
+lane identity.
+

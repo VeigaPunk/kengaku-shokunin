@@ -412,3 +412,44 @@ to the existing requested aliases and connector fallback, then continue in a
 fresh interactive L1 session. Preserve historical reports and inherited dirty
 work; revalidate the prepared spec before its one complete native task batch.
 Report and receipt applicability are filed under `.ufo/round-17/`.
+
+## Round 19 — probe battery (calibration axis-move, 2026-10-16)
+
+One 32-seat flash wave (operator routing: zai bucket). Claim: the calibration
+proxy's pre-registered-probe discipline was intermittent (r8-r11: 0/1, 1/1,
+0/0, 1/1) with no standing battery; after: a frozen >=6-probe battery with
+receipts, scored at close, plus a reusable template. Landed (evidence commit `0671bb0`): `plans/probe-battery-r19.md` — 9 falsifiable probes / 30 scored
+components, FROZEN 2026-10-16T07:55:58Z sha256 `e1a86777…` (predictions
+hashed before any dependent request); 5 probes executed (P2/P3/P8/P9 UNRUN —
+named, not hidden), 15 receipts; scored at close in-round (first since r11):
+mean Brier 0.1836 over 11 gate-passing binaries (9 hit / 2 miss — the two
+zai misses carry the mass; seat-pool mean 0.0617 over 26); reliability bands
+6/8, 2/2, 1/1. `plans/probe-battery-TEMPLATE.md` = the standing instrument;
+`corpus/knowledge/probe-battery-r19.md` = design + scored tables + limits.
+
+Corrections folded at admission: (1) BR-1 — the registrar's first freeze
+(07:52:04Z `e3f08a09…`) raced the author's P4/P5 re-base (compute-then-write
+TOCTOU); detected by the critic + receipts-auditor, repaired by a re-freeze
+at 07:55:58Z after a double-read stability check; five seats ran inside the
+stale window but none ran P4/P5 before the valid freeze — adjudicated
+mechanically by the scorer's ordering gate. (2) runner-leg-opencode DEFECT-0:
+two live requests pre-battery (07:45Z), self-filed with receipts, excluded
+from scoring. (3) Bookkeeping defects (v1/v2 probe numbering in one receipt,
+frozen-hash field naming) — recorded, not scoring-relevant. (4) Material
+premise correction: the operator reordered both cascades post-r18
+(ds: alibaba->hyper->opencode-go, devin removed; glm: zai->devin->hyper) —
+P4/P5 re-based before freeze, r18 numbers kept as drift contrast.
+
+Axis verdicts: calibration **improved** (standing battery + template +
+frozen-before-request discipline + in-round scored close); depth **improved**
+(the note + the TOCTOU lesson); coverage **improved narrowly** (9 probes over
+the live route surface, incl. the listing-vs-chat mismatch probe
+operationalized); freshness **improved narrowly** (15 receipts + frozen
+timestamps); operability **unchanged** (no tool change this round);
+novelty **unchanged**; adjacency **unchanged** (all probes in-province, small
+requests only, credentials untouched). Admission: **ADMIT-with-correction**
+(none harmed). Learning trends: expansion/quality **improved**, discernment
+**unchanged** (no outside spot-check exists). Goal note: the operator
+stopped the 10-round run after this round; this section closes it at one
+round.
+
