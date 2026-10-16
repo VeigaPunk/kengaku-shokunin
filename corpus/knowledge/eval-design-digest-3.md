@@ -10,6 +10,16 @@ Sources read in full 2026-09-28:
 - `wiki/ai/agents-and-engineering/papers/react-reasoning-acting.md`
   (ReAct paper note, compiled 2026-04-08)
 
+**Source availability annotation (round-13 re-dispatch, additive only — lines above preserve the historical read):**
+
+```
+source-status: historical-unavailable
+original-source: ~/Projects/webzites/repos/llm-wiki/wiki/ai/scaling-and-forecasting/scaling-hypothesis-revisited.md and ~/Projects/webzites/repos/llm-wiki/wiki/ai/agents-and-engineering/papers/react-reasoning-acting.md (read in full 2026-09-28)
+availability-evidence: corpus/evidence/round13-coverage/surface-receipt.json observed 2026-10-15T04:49:50Z — ~/Projects/webzites/repos/llm-wiki root absent (exact-path scope)
+retained-evidence: baseline 3f31e54 digest of this entry sha256=7b6feb1afbe287bd65666550421a6e84576572a4360ccb146ce7e97026d58fed; quoted L-numbers transcribe the historical read; no original wiki bytes retained in-corpus
+recheck: test -e ~/Projects/webzites/repos/llm-wiki/wiki/ai/scaling-and-forecasting/scaling-hypothesis-revisited.md && echo present || echo absent; test -e ~/Projects/webzites/repos/llm-wiki/wiki/ai/agents-and-engineering/papers/react-reasoning-acting.md && echo present || echo absent
+```
+
 ## Scaling retrospective — eval-relevant extractions
 
 1. **Construct-validity gap, quantified by history**: GPT-3 was called

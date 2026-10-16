@@ -3,6 +3,16 @@
 First end-to-end eval executed by this domain (2026-09-28), against
 `~/bench-arena/` tasks. Not an analysis of prior artifacts — an authored run.
 
+**Source availability annotation (round-13 re-dispatch, additive only — historical run, claims not re-verified):**
+
+```
+source-status: historical-unavailable
+original-source: ~/bench-arena/ (tasks/, loop.sh, grade.sh, reports; run executed 2026-09-28; the round-14 record's ~/archive/bench-arena/ relocation stays historical — receipt observed both roots absent)
+availability-evidence: corpus/evidence/round13-coverage/surface-receipt.json observed 2026-10-15T04:49:50Z — ~/bench-arena and ~/archive/bench-arena absent, ~/.config/systemd/user/qwen-coder.service and ~/.config/llama/qwen-coder-godspeed.jinja absent, http://127.0.0.1:34113/health connection refused (exact-path scope only)
+retained-evidence: baseline 3f31e54 digest of this entry sha256=b17665c24447549fceb37c5e6cdd998ea6ef73f73c5ee1cdbdb0996c67459f0e; retained raw r10 endpoint capture corpus/evidence/round10-fleet/models-34113.json (historical, not a live model); no task/CSV bytes retained; /tmp/bench-r4 predictions not retained — no original bytes recovered
+recheck: test -e ~/bench-arena/loop.sh && echo present || echo absent; test -e ~/archive/bench-arena/loop.sh && echo present || echo absent
+```
+
 ## Harness facts (verified live)
 
 - `~/bench-arena/loop.sh` runs `opencode run --agent raw --model "$MODEL"` per

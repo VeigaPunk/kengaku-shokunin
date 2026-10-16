@@ -1,10 +1,14 @@
 # kengaku-shokunin — Scorecard
 
-Domain: LLM/model research & evaluation (`~/Projects/webzites/repos/llm-wiki`,
-route telemetry, local eval harnesses). Lane axes per `../MISSION.md`:
-**novelty + calibration**. The six `../AXES.md` axes are scored in the same
-table because every round-move so far has been an eval-artifact move; the owned
-pair is listed first and drives the round.
+Domain: LLM/model research & evaluation. The historical wiki
+(`~/Projects/webzites/repos/llm-wiki`), telemetry and benchmark originals are
+unavailable at the exact paths in
+`corpus/evidence/round13-coverage/surface-receipt.json`; retained corpus
+digests and response bytes are distinct from those originals. Lane axes per
+`../MISSION.md`: **novelty + calibration**. The six `../AXES.md` axes are
+also scored below. For this explicit round-13 re-dispatch, coverage and
+novelty tie at 7; coverage wins the most-falsifiable-claim tie-break while
+the sources needed for a new model probe remain unavailable.
 
 **Recorded sub-axis mapping** (required because `grep -n novelty ../AXES.md` →
 0 hits while `../MISSION.md:14` assigns it, per
@@ -247,18 +251,17 @@ false, fixed here so later rounds score the same way instead of drifting.
 
 ## Planned (next axis-move)
 
-The lowest owned axis is **novelty (7)**; advisory coverage is also 7 but is
-held by an operator-side absent surface. Next novelty move: turn round 13's
-clip-bounded ack-state observation into an uncapped, matched instrument for
-**response-contract compliance versus state fidelity**. File a hashed design,
-power analysis, per-problem probabilities, prior-art verdicts, and raw-capture
-policy before traffic; compare matched ack-only and full-state asks on the same
-problem/turn schedule; preserve uncapped raw so exact-state incidence is a
-point estimate rather than `[0.047,0.125]`. Extend `grader.py` in the same
-round. No novelty bump if prior art prices the construct as known, the filed
-power floor is missed, or capture ambiguity remains. Coverage's independent
-next action is not a probe: keep the route surface marked absent until an
-operator restores or retires it.
+The round-13 re-dispatch selects **coverage (7)**, tied with novelty (7),
+because unavailable-source annotations and index membership can be measured
+locally. The historical uncapped matched-model proposal remains unexecuted;
+this correction does not claim a new model result or novelty instrument.
+The coverage score remains capped while declared originals are unavailable.
+Next coverage move: broaden the explicitly fixed source-availability
+inventory to the other living claims identified by the round-16 audit,
+using a separately recorded denominator and revision. Do not subtract the
+twelve-document census from that audit's 61 citation occurrences or rewrite
+archival scripts to make the count fall. Model-probe work requires a restored,
+identity-verified endpoint and a newly filed design before traffic.
 
 ## Retired
 

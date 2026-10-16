@@ -4,6 +4,16 @@ Source: `llm-wiki/wiki/ai/agents-and-engineering/gemini-3.1-pro-godspeed-benchma
 + `gemini-3.1-pro-godspeed-test-battery.md` (read 2026-09-28; audit gap:
 pages were cited in SKILL.md round 1 but never digested into corpus).
 
+**Source availability annotation (round-13 re-dispatch, additive only — lines above preserve the historical read):**
+
+```
+source-status: historical-unavailable
+original-source: ~/Projects/webzites/repos/llm-wiki/wiki/ai/agents-and-engineering/gemini-3.1-pro-godspeed-benchmarks.md and gemini-3.1-pro-godspeed-test-battery.md (read 2026-09-28)
+availability-evidence: corpus/evidence/round13-coverage/surface-receipt.json observed 2026-10-15T04:49:50Z — ~/Projects/webzites/repos/llm-wiki root absent (exact-path scope; the in-repo SKILL.md citation above is separate in-repo evidence, not affected by this status)
+retained-evidence: baseline 3f31e54 digest of this entry sha256=ea81dece718ec452866c281e4a71bb56932c39073b513940e327325e1930a5f2; no original wiki bytes retained in-corpus — digest + digest-transcription are NOT source recovery
+recheck: test -e ~/Projects/webzites/repos/llm-wiki/wiki/ai/agents-and-engineering/gemini-3.1-pro-godspeed-benchmarks.md && echo present || echo absent; test -e ~/Projects/webzites/repos/llm-wiki/wiki/ai/agents-and-engineering/gemini-3.1-pro-godspeed-test-battery.md && echo present || echo absent
+```
+
 ## The four-signal suite
 
 Each task pairs a **control expectation** (vanilla model) with a

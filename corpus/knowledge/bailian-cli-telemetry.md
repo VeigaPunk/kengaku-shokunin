@@ -5,6 +5,16 @@ Source: `~/.bailian/telemetry.jsonl` — 4,274 JSONL records, span
 route/provider telemetry entry; distinct from the bounties ledger —
 this is **client-side CLI telemetry**, not lane routing).
 
+**Source availability annotation (round-13 re-dispatch, additive only — original path and read date above are historical):**
+
+```
+source-status: historical-unavailable
+original-source: ~/.bailian/telemetry.jsonl (client CLI telemetry, 4,274 records; profiled 2026-09-28 under the absent ~/.bailian root)
+availability-evidence: corpus/evidence/round13-coverage/surface-receipt.json observed 2026-10-15T04:49:50Z — ~/.bailian absent (exact-path scope; entry claims not re-verified here)
+retained-evidence: baseline 3f31e54 digest of this entry sha256=3a95b8e49ffc3253c65275803530631138ee27afddbd2b008cb3a0804d9b08c6; no raw telemetry bytes retained in-corpus — retained digest and transcription are NOT recovered original bytes
+recheck: test -e ~/.bailian/telemetry.jsonl && echo present || echo absent
+```
+
 ## Record shape
 
 Flat per-invocation record: `command`, `timestamp`, `durationMs`,

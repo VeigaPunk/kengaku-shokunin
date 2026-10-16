@@ -6,6 +6,16 @@ the host's live **lane-routing** corpus (the "route telemetry" named in
 PROVINCE.md), distinct from per-run eval telemetry
 (`telemetry-run-design.md`).
 
+**Source availability annotation (round-13 re-dispatch, additive only — historical profile, claims not re-verified):**
+
+```
+source-status: historical-unavailable
+original-source: ~/Projects/bounties/ledger/telemetry.jsonl (7,218 lines profiled 2026-09-28 with json.loads + Counter)
+availability-evidence: corpus/evidence/round13-coverage/surface-receipt.json observed 2026-10-15T04:49:50Z — ~/Projects/bounties/ledger/telemetry.jsonl absent (exact-path scope; per PROVINCE.md the tree went absent mid-round-11 — historical, never treat this path as live)
+retained-evidence: baseline 3f31e54 digest of this entry sha256=76f6d2855c035521266dbc2c3969772a6f47fd52d4d437d58824995dc6856ae3; no raw ledger bytes retained in-corpus — retained digest and Counter-transcription are NOT recovered original bytes
+recheck: test -e ~/Projects/bounties/ledger/telemetry.jsonl && echo present || echo absent
+```
+
 ## Event taxonomy (top, n=7,202 events)
 
 `dispatcher_tick` 3,680 · `mission_parked` 1,188 · `mission_dispatched`

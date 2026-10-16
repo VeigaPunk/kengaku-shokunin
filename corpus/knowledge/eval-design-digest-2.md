@@ -6,6 +6,16 @@ unread `philosophy-and-concepts/` and `gwern-essays/` pages, `ai/foundations/com
 `ai/books/`. Read 2026-09-28 via targeted `grep -n` + `sed` against the working copy
 (`~/Projects/webzites/repos/llm-wiki/wiki/`). Line numbers below are from that read.
 
+**Source availability annotation (round-13 re-dispatch, additive only — historical read, claims not re-verified):**
+
+```
+source-status: historical-unavailable
+original-source: ~/Projects/webzites/repos/llm-wiki/wiki/ (karpathy talks/projects/standards, philosophy-and-concepts, gwern-essays, ai/foundations/complexity.md, ai/books; read via targeted grep -n + sed 2026-09-28)
+availability-evidence: corpus/evidence/round13-coverage/surface-receipt.json observed 2026-10-15T04:49:50Z — ~/Projects/webzites/repos/llm-wiki root absent (exact-path scope)
+retained-evidence: baseline 3f31e54 digest of this entry sha256=6549758ee5d10bac6b41d5fbc30761fb93753420b6d2c16652da8291813cb268; quoted wiki line numbers transcribe that historical read; no original wiki bytes retained in-corpus
+recheck: test -e ~/Projects/webzites/repos/llm-wiki/wiki && echo present || echo absent
+```
+
 Rules extracted, ranked by how directly they change how this domain runs evals:
 
 ## Epistemics of failure claims

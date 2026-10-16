@@ -2,6 +2,16 @@
 
 Source: `~/.bailian/skills/bailian-docs-llm-wiki/models/` — `index.md` header states: 180 model families, 413 backbone models, generated 2026-09-11 (verified `head` 2026-09-28). Sync state: `~/.bailian/wiki-sync-state.json` (`lastChecked` epoch ms + contentHash).
 
+**Source availability annotation (round-13 re-dispatch, additive only — historical head-verification, claims not re-verified):**
+
+```
+source-status: historical-unavailable
+original-source: ~/.bailian/skills/bailian-docs-llm-wiki/models/ (index.md generated 2026-09-11, verified by head 2026-09-28) and ~/.bailian/wiki-sync-state.json — both under the absent ~/.bailian root
+availability-evidence: corpus/evidence/round13-coverage/surface-receipt.json observed 2026-10-15T04:49:50Z — ~/.bailian absent (exact-path scope; the public HF/OpenRouter catalog endpoints in knowledge/open-model-catalogs.md are separate sources and NOT covered or labelled by this annotation)
+retained-evidence: baseline 3f31e54 digest of this entry sha256=342d15ed12e57651ede44ef89c0d42d5a47dc5489afe00c73782ccb89a153319; no index/models.jsonl bytes retained in-corpus — schema + profile description is transcription, not recovered original bytes
+recheck: test -e ~/.bailian/skills/bailian-docs-llm-wiki/models/index.md && echo present || echo absent; test -e ~/.bailian/wiki-sync-state.json && echo present || echo absent
+```
+
 ## Files and join
 
 - `index.json` — global stats + capability/vendor distribution + lightweight family list.

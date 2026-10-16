@@ -2,6 +2,16 @@
 
 Source: `~/Projects/webzites/repos/llm-wiki/wiki/ai/agents-and-engineering/godspeed-umwelt-iteration-3-alpha-shittycodex.md` (read 2026-09-28; dated 2026-04-09, status: plan).
 
+**Source availability annotation (round-13 re-dispatch, additive only — plan text above is historical, not re-verified):**
+
+```
+source-status: historical-unavailable
+original-source: ~/Projects/webzites/repos/llm-wiki/wiki/ai/agents-and-engineering/godspeed-umwelt-iteration-3-alpha-shittycodex.md (read 2026-09-28; dated 2026-04-09, status: plan) — the godspeed-umwelt-iteration-3.md cited below sits under the same absent root
+availability-evidence: corpus/evidence/round13-coverage/surface-receipt.json observed 2026-10-15T04:49:50Z — ~/Projects/webzites/repos/llm-wiki root absent (exact-path scope)
+retained-evidence: baseline 3f31e54 digest of this entry sha256=f5f49ae1403ab922b2235f84f5667ca1094275d74068bee8df122a0d74284394; no original note bytes retained in-corpus — transcription is not source recovery
+recheck: test -e ~/Projects/webzites/repos/llm-wiki/wiki/ai/agents-and-engineering/godspeed-umwelt-iteration-3-alpha-shittycodex.md && echo present || echo absent
+```
+
 ## Per-run artifacts and fields
 
 10 telemetry fields per run (Phase 0 "Artifacts to record"):

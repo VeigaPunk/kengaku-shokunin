@@ -2,6 +2,16 @@
 
 Source: `~/Projects/webzites/repos/llm-wiki/wiki/ai/agents-and-engineering/benchmark-shortlist-for-godspeed-research.md` (read 2026-09-28; note dated 2026-04-09).
 
+**Source availability annotation (round-13 re-dispatch, additive only — historical read, claims not re-verified):**
+
+```
+source-status: historical-unavailable
+original-source: ~/Projects/webzites/repos/llm-wiki/wiki/ai/agents-and-engineering/benchmark-shortlist-for-godspeed-research.md (read 2026-09-28; note dated 2026-04-09)
+availability-evidence: corpus/evidence/round13-coverage/surface-receipt.json observed 2026-10-15T04:49:50Z — ~/Projects/webzites/repos/llm-wiki root absent (public URLs inside the cited note were not re-fetched)
+retained-evidence: baseline 3f31e54 digest of this entry sha256=df1f059bf60ba869cab6b407cb9816ce3761f25556587eb8df814dc5a33154e9; this transcription is NOT recovered original wiki bytes
+recheck: test -e ~/Projects/webzites/repos/llm-wiki/wiki/ai/agents-and-engineering/benchmark-shortlist-for-godspeed-research.md && echo present || echo absent
+```
+
 ## Facts
 
 - SWE-Bench **Verified** is deprecated as a primary: OpenAI recommends Pro over Verified as of 2026-02-23 because Verified is "increasingly contaminated" (note, Add Now #2). Keep Verified only for historical continuity.

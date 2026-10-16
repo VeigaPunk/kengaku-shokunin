@@ -1,22 +1,35 @@
 ---
 name: kengaku-shokunin
-description: Domain specialist — LLM/model research & evaluation — scopes llm-wiki (~/Projects/webzites/repos/llm-wiki), route telemetry. Rank: shonen.
+description: Domain specialist — LLM/model research & evaluation — scopes llm-wiki (~/Projects/webzites/repos/llm-wiki — original absent 2026-10-15, digests retained in corpus/knowledge/), route telemetry (historical; ledger + CLI corpora absent 2026-10-15). Rank: shonen.
 ---
 
 # kengaku-shokunin
 
-LLM/model research & evaluation. Source of truth: `~/Projects/webzites/repos/llm-wiki`
-(the `~/wikillm/llm-wiki` path in PROVINCE.md does not exist on this host —
-verified `find -maxdepth 3` 2026-09-28; the working copy lives under
-`Projects/webzites/repos/llm-wiki` with siblings `llm-wiki-site` and
-`llm-wiki-public`).
+LLM/model research & evaluation. The 2026-09-28 source of truth was
+`~/Projects/webzites/repos/llm-wiki` (the `~/wikillm/llm-wiki` path never
+existed on this host — verified `find -maxdepth 3` 2026-09-28, when the
+working copy resolved under `Projects/webzites/repos/llm-wiki` with siblings
+`llm-wiki-site` and `llm-wiki-public`). **Status 2026-10-15: that wiki path
+is ABSENT** (`corpus/evidence/round13-coverage/surface-receipt.json`) — every
+wiki citation below is a dated historical observation; what this lane retains
+is the digest set in `corpus/knowledge/` (derived evidence, not original wiki
+bytes) plus the rules in this file. Current offline entry point for the lane's
+numbers: `python3 grader.py` (§Hermetic grader; row in §Gate/probe registry).
 
-Every claim below cites a local file, a command, or a named source. No
+Every claim below cites a local file, a command, or a named source — host-absolute
+paths are dated historical since the 2026-10-15 receipt (§Cited local sources). No
 oral tradition.
 
 ## Decision table — benchmark selection
 
 Task class → first benchmark family → what it actually measures:
+
+Source status (2026-10-15): the wiki notes named in the Source column live under
+the ABSENT `~/Projects/webzites/repos/llm-wiki` tree (receipt:
+`corpus/evidence/round13-coverage/surface-receipt.json`); the selections are
+retained as in-repo digests — `corpus/knowledge/benchmark-selection.md`
+(shortlist note) and `corpus/knowledge/godspeed-eval-findings.md` (iteration-2
+note). Read this table against those digests, not against the originals.
 
 | Task class | Benchmark | Measures | Source |
 |---|---|---|---|
@@ -165,9 +178,11 @@ agency, tool orchestration, off-path web pressure, mechanism proof.
 
 ## Research-note structure
 
-Wiki convention (verified across `godspeed-umwelt-iteration-2.md`,
+Wiki convention (verified 2026-09-28 across `godspeed-umwelt-iteration-2.md`,
 `benchmark-shortlist-for-godspeed-research.md`,
-`godspeed-umwelt-iteration-3-alpha-shittycodex.md`):
+`godspeed-umwelt-iteration-3-alpha-shittycodex.md` in the llm-wiki tree — ABSENT
+since 2026-10-15, so the originals cannot be re-checked; the convention below is
+retained in-repo knowledge):
 
 ```yaml
 ---
@@ -219,12 +234,13 @@ Cost reading: normalize gains per dollar — +50% tool calls and +75%
 wall-clock are acceptable only if information gain (variants, unique
 findings, reframe discoveries) scales comparably.
 
-### Local telemetry surfaces (verified on this host, 2026-09-28)
+### Local telemetry surfaces (profiled on this host 2026-09-28 — HISTORICAL: both corpora absent as of the 2026-10-15 receipt)
 
-Two distinct corpora exist — do not conflate:
+Two distinct corpora existed when profiled — do not conflate their retained digests:
 
 1. **Lane-routing ledger**: `~/Projects/bounties/ledger/telemetry.jsonl`
-   (7,218 lines). Event taxonomy: `dispatcher_tick` (3,680),
+   (7,218 lines at the 2026-09-28 profile; path ABSENT 2026-10-15, reconfirming
+   the round-11 loss). Event taxonomy: `dispatcher_tick` (3,680),
    `mission_parked` (1,188), `mission_dispatched` (1,167),
    `fleet_synced`, `freshness_check`, `binding_verified`,
    `lease_claimed`, `attempt_reset` (68), `operator_decree` (58),
@@ -235,7 +251,7 @@ Two distinct corpora exist — do not conflate:
    = bucket walk exhausted, lane identity preserved.
    Detail: `corpus/knowledge/ledger-route-telemetry.md`.
 2. **Eval battery**: `~/archive/bench-arena/telemetry-qwenlocal-v2.csv` (33
-   rows). Schema: `task,status,opencode_rc,closed_fence,output_sha256,
+   rows at profile time; both bench-arena paths ABSENT 2026-10-15). Schema: `task,status,opencode_rc,closed_fence,output_sha256,
    prompt_tokens,predicted_tokens,inference_latency_ms,tokens_per_sec,
    test_runtime_ns,telemetry_source,telemetry_available`.
    Detail: `corpus/knowledge/local-bench-arena.md`.
@@ -315,19 +331,24 @@ Parsing rules learned on real files:
   Instrument with `faulthandler.dump_traceback_later`; diff test attribute
   accesses vs prompt API before crediting/blaming the model.
 
-### Running a battery against the local model (verified 2026-09-28)
+### Running a battery against the local model (historical procedure — verified 2026-09-28; **not runnable as written since 2026-10-15**: endpoint, battery tree, unit and template absent per `corpus/evidence/round13-coverage/surface-receipt.json`; the current offline entry point for everything this section produced is `python3 grader.py`)
 
 1. Probe the endpoint, not the config: `GET /v1/models` + `/health` on the
-   configured port. `~/.config/opencode` provider `qwen-local` still points
-   at `localhost:8080` (now Jitsi — listening but wrong); the live
-   llama-server is `127.0.0.1:34113` via `qwen-coder.service`.
+   configured port. Historical: the 2026-10-15 receipt found `:34113/health`
+   refusing connections and the unit deleted (serving-plane health/detection:
+   kama, `../kama-shokunin/PROVINCE.md`; restoration: operator-owned). At
+   profile time `~/.config/opencode` provider `qwen-local` still pointed at
+   `localhost:8080` (Jitsi then — listening but wrong); the llama-server
+   live at the time served `127.0.0.1:34113` via `qwen-coder.service`.
    Listening-but-wrong beats closed-port for silent breakage.
 2. Two transport paths: `loop.sh` (opencode `--agent raw` — sends the
    raw-agent system prompt + `<env>` + skills catalog ~4.3K tok, plus
    `tools:[janitor_auth,skill]`/`tool_choice:auto` ~400 tok, and NO
    temperature → server default 0.8) or direct `POST
    /v1/chat/completions` (minimal, deterministic-ish, temp 0.2). Grade
-   identically: `BENCH_ROOT=<scratch> bash ~/archive/bench-arena/grade.sh <label>`
+   identically (historical command — `~/archive/bench-arena/` ABSENT 2026-10-15;
+   archived scripts keep their bytes in `corpus/evidence/`, this is a citation,
+   not a runnable entry point): `BENCH_ROOT=<scratch> bash ~/archive/bench-arena/grade.sh <label>`
    consumes any `out/<label>/<task>.txt` — runner and grader are
    separable. Verbatim request captured once via a proxy provider
    (`/tmp/bench-r7/capture/`); see
@@ -340,7 +361,8 @@ Parsing rules learned on real files:
 
 ### Model catalogs (non-Bailian)
 
-Verified live 2026-09-28, no auth: HF `api/models` (search/filter=gguf/
+Verified live 2026-09-28, no auth (public URLs not re-fetched by the 2026-10-15
+receipt — dated observation): HF `api/models` (search/filter=gguf/
 sort=trendingScore; `sha`, `siblings`, `pipeline_tag`); OpenRouter
 `api/v1/models` (460 entries; `context_length`, `knowledge_cutoff`,
 string `pricing` per token, `hugging_face_id` open-weight twin link).
@@ -456,6 +478,14 @@ the full 16384 ctx; slot draws do not share a halved context), `--no-context-shi
 and a custom non-upstream chat template (`--jinja --chat-template-file
 ~/.config/llama/qwen-coder-godspeed.jinja`). `PROVINCE.md` §Surfaces records the pin;
 a hermetic gate must never read `/proc` — pin committed bytes instead.
+
+**Currency 2026-10-15:** the pin above is historical process identity, not a live
+process — `/proc/1299/cmdline`, the unit, the chat template and the `:34113`
+endpoint are unavailable per `corpus/evidence/round13-coverage/surface-receipt.json`,
+and kama's snapshot `20261014T124232Z` independently records the unit deleted
+with no listener (`../kama-shokunin/PROVINCE.md`). Serving-plane health and
+detection belong to kama; restoration is operator-owned. The durable copy of
+the pin is the committed `descriptors` record named below.
 Round 11 landed the durable form of this pin: the r11 `descriptors` record
 (first line of `corpus/evidence/round11-power/results-r11.jsonl`) re-captures
 pid + full argv + served-model id **inside committed bytes** — a service
@@ -508,6 +538,21 @@ adjudicated-defective and pinned as an erratum pair (`ERRATA` in `grader.py` +
 final-turn state-error count, stored 12/32, recomputes to **24/32**; editing
 either side without a recorded ruling fails the gate.
 
+## Gate/probe registry (PROTOCOL §Gate standard)
+
+| name | kind | entry | verdict map | self-test | pinned values | write scope | owner |
+|---|---|---|---|---|---|---|---|
+| `hermetic-grader` | gate | `python3 grader.py` (repo root; `--r8-*`/`--r9-*`/`--r11-*`/`--r12-*` overrides) | `0` clean · `1` failed (`MISMATCH <check-id>`) · `2` could-not-evaluate (required input missing/unreadable) | `python3 grader.py --selftest` (S0–S7, temp copies) | committed trees `corpus/evidence/round8-horizon/`, `round9-replication/`, `round11-power/`, `round12-ladder/` + md5/sha pins inside `grader.py` | none — repo bytes only; no network, no endpoint, never `/proc` | kengaku |
+| `coverage-census` | probe | `python3 corpus/evidence/round13-coverage/coverage_census.py [--revision REV]` | `0` census completed even with gaps · `2` could-not-evaluate | none declared at write time (spelling owned by the census seat) | fixed candidate paths from `corpus/evidence/round13-coverage/surface-receipt.json` | none — read-only path/index census | kengaku |
+
+The `coverage-census` row records the interface declared in the round-13
+re-dispatch (parent, 2026-10-15); the script lands with the census seat's
+artifact in this wave and the parent verifies it before commit — this row does
+not assert it has run. No entry here claims a live host probe: since 2026-10-15
+these entries read only committed in-repo bytes; every external surface (model
+endpoint, wiki, bench-arena battery, Bailian directory, bounties ledger,
+systemd unit, chat template) is absent per the receipt (§Cited local sources).
+
 ## Production checklist — running an eval
 
 1. Write ex-ante predictions for every condition before runs — per-task
@@ -553,19 +598,36 @@ either side without a recorded ruling fails the gate.
 
 ## Cited local sources
 
+Status note (2026-10-15 re-dispatch census — evidence:
+`corpus/evidence/round13-coverage/surface-receipt.json`, `observed_at`
+`2026-10-15T04:49:50Z`, method `Path.expanduser().exists()` + `urlopen`
+`/health` timeout 3 s): every host-absolute `~/…` path and `/proc` entry in
+this section is a **dated historical observation**. The receipt found absent:
+`~/Projects/webzites/repos/llm-wiki`, `~/archive/bench-arena`,
+`~/bench-arena`, `~/.bailian`, `~/Projects/bounties/ledger/telemetry.jsonl`,
+`~/.config/systemd/user/qwen-coder.service`,
+`~/.config/llama/qwen-coder-godspeed.jinja`, `/proc/1299/cmdline`; and
+`http://127.0.0.1:34113/health` refused the connection (ECONNREFUSED).
+In-repo pointers (`corpus/knowledge/`, `corpus/evidence/`, `grader.py`)
+resolve and carry the retained evidence — a digest is derived evidence, not
+the original bytes, and a committed response is run history, not a live
+model. Public URLs cited here were not re-fetched by the receipt and are not
+claimed current. Current offline entry point for the numbers in this section:
+`python3 grader.py` (§Hermetic grader; registry row §Gate/probe registry).
+
 - `~/Projects/webzites/repos/llm-wiki/wiki/ai/agents-and-engineering/benchmark-shortlist-for-godspeed-research.md` — benchmark shortlist, anti-patterns, minimal stack (read 2026-09-28)
 - `~/Projects/webzites/repos/llm-wiki/wiki/ai/agents-and-engineering/godspeed-umwelt-iteration-2.md` — 125 agents / 21 experiments; K2 clean split, calibration asymmetry, variant multiplier, effect-size table
 - `~/Projects/webzites/repos/llm-wiki/wiki/ai/agents-and-engineering/godspeed-umwelt-iteration-3-alpha-shittycodex.md` — telemetry fields, Phase 0–3 gates, judging schema, run counts
 - `~/Projects/webzites/repos/llm-wiki/wiki/ai/agents-and-engineering/gemini-3.1-pro-godspeed-benchmarks.md` — four-signal test suite design (off-path reframe / variant multiplication / discovery widening / calibration asymmetry)
 - `~/Projects/webzites/repos/llm-wiki/wiki/ai/agents-and-engineering/gemini-3.1-pro-godspeed-test-battery.md` — external benchmark tier, SWE-bench contamination paradox, predictive calibration
 - `~/Projects/webzites/repos/llm-wiki/Home.md` — wiki branch/index conventions (read 2026-09-28)
-- `~/.bailian/skills/bailian-docs-llm-wiki/models/index.md` + `models/models.jsonl` — 180 families / 413 models structured index; `contextWindow`, `QPM`, pricing, `profile` (oneLinePositioning, scenes, notSuitableFor, familyTier) for model selection (verified 2026-09-28; index generated 2026-09-11; cite path fixed round 11 per box-3 break B1 — `models.jsonl` lives one level deeper)
-- `find`/`grep` output this session — `~/wikillm/llm-wiki` absent; wiki at `~/Projects/webzites/repos/llm-wiki`
-- `~/Projects/bounties/ledger/telemetry.jsonl` — live lane-routing corpus, 7,218 events; taxonomy + reroute signatures in `corpus/knowledge/ledger-route-telemetry.md` (profiled 2026-09-28). **Path ABSENT as of round 11** (resolved at 23:32Z mid-round — aggregator box-3 cold run counted 7,226 live lines — and was gone minutes later; whole `~/Projects/bounties/` tree absent, no relocation found): counts are historical, routed to kasegi in `PROVINCE.md` round-11 report-outs
-- `~/archive/bench-arena/` (relocated intact from `~/bench-arena/` in round 14; `tasks/`, `report-grok45.csv`, `report-qwenlocal-v2.v2.csv`, `telemetry-qwenlocal-v2.csv`) — executed 33-task two-model battery; results in `corpus/knowledge/local-bench-arena.md` (analyzed 2026-09-28)
+- `~/.bailian/skills/bailian-docs-llm-wiki/models/index.md` + `models/models.jsonl` — 180 families / 413 models structured index; `contextWindow`, `QPM`, pricing, `profile` (oneLinePositioning, scenes, notSuitableFor, familyTier) for model selection (verified 2026-09-28; index generated 2026-09-11; cite path fixed round 11 per box-3 break B1 — `models.jsonl` lives one level deeper; `~/.bailian` **ABSENT 2026-10-15** — index bytes not retained here, so the counts are historical; shape digest: `corpus/knowledge/local-model-index.md`)
+- `find`/`grep` output of the 2026-09-28 session — `~/wikillm/llm-wiki` absent then and still; wiki resolved at `~/Projects/webzites/repos/llm-wiki` — that path itself **ABSENT 2026-10-15** (receipt path 1)
+- `~/Projects/bounties/ledger/telemetry.jsonl` — lane-routing corpus (live when profiled), 7,218 events; taxonomy + reroute signatures in `corpus/knowledge/ledger-route-telemetry.md` (profiled 2026-09-28). **Path ABSENT as of round 11** (resolved at 23:32Z mid-round — aggregator box-3 cold run counted 7,226 live lines — and was gone minutes later; whole `~/Projects/bounties/` tree absent, no relocation found): counts are historical, routed to kasegi in `PROVINCE.md` round-11 report-outs; absence reconfirmed by the 2026-10-15 receipt (path 5)
+- `~/archive/bench-arena/` (relocated intact from `~/bench-arena/` in round 14; `tasks/`, `report-grok45.csv`, `report-qwenlocal-v2.v2.csv`, `telemetry-qwenlocal-v2.csv` — frozen round-14 inventory; **both paths ABSENT 2026-10-15**, receipt paths 2–3) — executed 33-task two-model battery; results in `corpus/knowledge/local-bench-arena.md` (analyzed 2026-09-28)
 - `~/Projects/webzites/repos/llm-wiki/wiki/karpathy/**` + `wiki/ai/{foundations/bitter-lesson,alignment-and-training/rlhf}.md` — eval-first thesis, diversity blindness, TrueSkill judge/aggregator split, RLHF proxy mechanics (digested 2026-09-28 → `corpus/knowledge/eval-theory-notes.md`)
 - `https://huggingface.co/api/models`, `https://openrouter.ai/api/v1/models` — live catalog schemas (probed 2026-09-28 → `corpus/knowledge/open-model-catalogs.md`)
-- `127.0.0.1:34113` llama-server + `~/archive/bench-arena/grade.sh` — authored 4-task slice, 1/4 PASS vs predicted 2/4, `03` flip PASS→FAIL (run + graded 2026-09-28 → `corpus/knowledge/bench-arena-fresh-run.md`)
+- `127.0.0.1:34113` llama-server (historical identity — endpoint refuses connections since 2026-10-15) + `~/archive/bench-arena/grade.sh` (ABSENT 2026-10-15) — authored 4-task slice, 1/4 PASS vs predicted 2/4, `03` flip PASS→FAIL (run + graded 2026-09-28, frozen result → `corpus/knowledge/bench-arena-fresh-run.md`)
 - `/tmp/bench-r7/` scaffold-delta ablation (ephemeral workdir, labelled debt per `../PROTOCOL.md`'s closure-resolvable rule — decisive numbers pasted into the knowledge entry) — verbatim opencode `raw` wire request captured via proxy provider, 5-task × 5-condition ablation (E1/E2/E3/E4 × n=3 + E0 anchor), graded 2026-09-28 → `corpus/knowledge/bench-arena-round7-scaffold-ablation.md`
 - `~/archive/bench-arena/` round-5 battery (then located at `~/bench-arena/`) — full 33-task direct-API re-run: 20/33 PASS, 8 status deltas vs v2 (4 P→F, 3 F→P, 1 F→HARNESS_DEFECT), 5 byte-identical sol_sha, 06 truncation (`finish=length` @4096 tok), FAIL slower on wall+tokens (run + graded 2026-09-28 → `corpus/knowledge/bench-arena-round5-battery.md`)
 - `~/Projects/webzites/repos/llm-wiki/wiki/karpathy/{talks,projects-and-tools,standards-and-specifications}/**` + remaining `philosophy-and-concepts/`, `gwern-essays/`, `ai/foundations/complexity.md`, `ai/books/` — second digest: sampling-proves-presence, reference-class, autonomy slider, spec-ability tiers (swept+read 2026-09-28 → `corpus/knowledge/eval-design-digest-2.md`)

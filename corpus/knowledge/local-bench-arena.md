@@ -5,6 +5,16 @@ Source: `~/bench-arena/` — files verified by `ls`, `csv.DictReader` on
 `report-qwenlocal.csv`, `report-qwenlocal-v2.v2.csv`, `report-grok45.csv`,
 `telemetry-qwenlocal-v2.csv`.
 
+**Source availability annotation (round-13 re-dispatch, additive only — historical ls/DictReader verification, claims not re-verified):**
+
+```
+source-status: historical-unavailable
+original-source: ~/bench-arena/ (tasks/01…33, grade.sh, loop.sh, report/telemetry CSVs; verified by ls + csv.DictReader 2026-09-28; round-14 record's relocation to ~/archive/bench-arena/ stays historical — receipt observed both roots absent)
+availability-evidence: corpus/evidence/round13-coverage/surface-receipt.json observed 2026-10-15T04:49:50Z — ~/bench-arena and ~/archive/bench-arena absent (exact-path scope)
+retained-evidence: baseline 3f31e54 digest of this entry sha256=c6a47b4e82fd12beefd85b7ea218a2bb4f6dde03b14498f80d5dbd4e71e4cd1a; no task/CSV bytes retained in-corpus; committed run-byte trees (corpus/evidence/round8-horizon/, round9-replication/, round11-power/, round12-ladder/) are historical responses replayed offline by grader.py, not battery files
+recheck: test -e ~/bench-arena && echo present || echo absent; test -e ~/archive/bench-arena && echo present || echo absent
+```
+
 ## Corpus shape
 
 33 single-file tasks covering: string ops (01–06 incl. regex/log-parse),

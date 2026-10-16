@@ -5,6 +5,16 @@ Primary sources: `yao-second-half.md`, `creative-benchmark.md`,
 `llm-trueskill-sorting.md`, `rlhf.md`, `bitter-lesson.md` under
 `~/Projects/webzites/repos/llm-wiki/wiki/`.
 
+**Source availability annotation (round-13 re-dispatch, additive only — lines above preserve the historical read):**
+
+```
+source-status: historical-unavailable
+original-source: ~/Projects/webzites/repos/llm-wiki/wiki/ — yao-second-half.md, creative-benchmark.md, llm-trueskill-sorting.md, rlhf.md, bitter-lesson.md (read 2026-09-28)
+availability-evidence: corpus/evidence/round13-coverage/surface-receipt.json observed 2026-10-15T04:49:50Z — ~/Projects/webzites/repos/llm-wiki root absent (exact-path scope; entry claims not re-verified)
+retained-evidence: baseline 3f31e54 digest of this entry sha256=5d2dd69b6aa8435810e3d3a3a8769548796463b635f2a02478ca8ec8ad568165; no original wiki bytes retained in-corpus — transcription + digest are not source recovery
+recheck: test -e ~/Projects/webzites/repos/llm-wiki/wiki && echo present || echo absent
+```
+
 ## The eval-first thesis (yao-second-half)
 
 - Post-ReAct recipe (pretrain + scale + reasoning/acting) saturated: task-
