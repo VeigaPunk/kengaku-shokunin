@@ -16,6 +16,7 @@ per round from that round's own knowledge lands.
 | Per-component prediction table (binary p / numeric point+range), hit-miss-unprovable scoring, aggregate hit-rate read | r18 parent battery | `../research/round-18-kimi-model-routing/battery/predictions/PREDICTIONS.{md,json,sha256}`, `battery/ANALYSIS.md` §7 |
 | Standing multi-probe battery with registrar freeze gate, per-probe runner logs, quota etiquette | r19 (first instantiation of this template) | `plans/probe-battery-r19.md` (freeze-1 2026-10-16T07:52:04Z sha256 `e3f08a09…` superseded mid-window — BR-1; freeze-2 07:55:58Z `e1a86777…a00a1` valid; §7.1 freeze record), `corpus/evidence/probe-r19-*.log` (15 receipts; P2/P3/P8/P9 named UNRUN at close) |
 | Freeze-after-last-edit guard (decoy scan + double-read + post-write recompute), UNRUN-probe completion gate, multi-round provenance table | r20 (template hardening from the r19 freeze record) | `corpus/knowledge/probe-battery-r19.md` §6 defects 2/3/11 + this template §5 step 3, §7 rules 1/5/6 |
+| Blind leg-attribution probe-type P10 (frozen feature table, blind trials, GT-after-trials accuracy vs bar, re-freeze policy) | r21 (folded standing, r22) | `plans/attrib-r21-frozen.md` (FROZEN 2026-10-16T10:20:08Z sha256 `9f0244bb…`), `plans/attrib_probe.py`, `corpus/evidence/attrib-r21-*.log` (4 receipts), `corpus/knowledge/attrib-r21.md` |
 | Calibration proxy this battery feeds (predictions before first request + scored at close) | SCORECARD | `SCORECARD.md:33-46` (proxy (a)-(c)) |
 
 **Hard rule that never varies:** no outcome may precede its prediction. A breach
@@ -354,9 +355,9 @@ seat can re-run or at least re-verify.
    freshness probe over an ABSENT/DECLARED-DEAD surface so its restore is
    caught by the battery rather than by accident (r19 P9); a 200 there is a
    freshness event — report to the integrator, don't absorb a re-pin.
-2. **Copy §0–§10, fill the placeholders:** round number, scope, budget,
+2. **Copy §0–§11, fill the placeholders:** round number, scope, budget,
    probes, prediction table. Delete nothing from §5/§7/§8 — they are the
-   instrument.
+   instrument; §11 binds when the instantiation runs attribution probes.
 3. **Draft → disclose → freeze → run → score → land → close the grid:**
    battery file (DRAFT), registrar freeze (§5), runner logs (§6), scorer's
    knowledge entry `corpus/knowledge/probe-battery-r<NN>.md` (§7), lessons
@@ -369,7 +370,9 @@ seat can re-run or at least re-verify.
    prompt text, and ranges come from the instantiating round's own lands —
    never from this file. If a future host has no shims, the probe classes
    (meter-state, auth-state, latency-hold, transport-stability,
-   freshness-of-absence) still instantiate against whatever routes exist.
+   freshness-of-absence, attribution-health per §11 — that one needs chat
+   shims and a frozen feature table) still instantiate against whatever
+   routes exist.
 6. **Close the loop:** every probe scored at close **in the round it ran**
    (the r12 breach — scored only in r14 — bought no calibration credit,
    `SCORECARD.md:163`); landed bytes match run bytes or carry a recorded
@@ -435,3 +438,86 @@ seat can re-run or at least re-verify.
   freeze hash and v1 budget until the r20 revision: knowledge note defect
   11). When instantiating, re-derive every example from the round's own
   lands; when revising, sweep every hash/figure against the landed record.
+
+## 11. Probe-type P10 — attribution health-check (the r21 instrument, standing)
+
+**What it is:** the blind cascade-leg attribution instrument
+(`plans/attrib_probe.py` + its frozen feature table) runs as a battery
+probe-type alongside the meter/auth/latency/transport/freshness classes of
+§3. It answers a question the other probe types cannot: *which cascade leg
+served each response*, blind, with the shim journal read only after the
+trials. Lineage: r21 (first instantiation, 100% on the legs that naturally
+served — `corpus/knowledge/attrib-r21.md` §3; freeze `9f0244bb…`,
+`plans/attrib-r21-frozen.md` §6).
+
+**Schema (each P10 probe carries, on top of §3's fields):**
+
+- **Frozen feature-table ref:** the probe cites the table's FROZEN line
+  (anchor sha256) and the runner verifies it before the first request
+  (`attrib_probe.py freeze-check` / `trials` enforces the pin in code —
+  mismatch exits 2 with nothing sent). The table is the probe's
+  pre-registration; §5's file-anchor freeze does not substitute for it.
+- **Trials per shim: ≥10 scored** (r21 froze 20 standard per shim + error
+  path where forceable). Below 10 scored trials the probe is UNPROVABLE,
+  not FAIL — the r21 precedent is the frozen bar itself refusing a
+  shrunken denominator (18/18 = 1.000 → FAIL because min scored n 20;
+  `attrib-r21.md` §3).
+- **Bar: accuracy ≥ 0.80** against journal GT, scored per shim, with
+  per-leg GT counts reported and 0-GT legs named UNTESTED — never averaged
+  away (r21: hyper and opencode-go took 0 GT trials; the 1.000 was a
+  served-legs accuracy, `attrib-r21.md` §8.3).
+- **GT-post-trials ordering:** the journal read happens only after ALL
+  trials of ALL shims in the instantiation; the blind rule is enforced in
+  code (`journalctl` occurs only in the score command). An instantiation
+  running P10 across multiple shims sequences: freeze verified → all
+  trials → one journal read per shim unit → scoring.
+
+**Etiquette (the r21 scale, binding):** the r21 instantiation spent 44
+frozen requests (21 ds + 23 glm: 1 zero-quota setup GET + 20 standard
+trials + error-path trials where forceable) — that is the scale ceiling for
+a P10 arm, not a floor to grow. One request per trial step, **≥2.5 s
+spacing** (P10 tightens §8's ≥2 s: the trial protocol froze 2.5 s planned),
+60 s client timeout, no retries — a transport error is recorded as the
+outcome and excluded from the accuracy denominator. No Authorization
+header, no credential file read, localhost shims only. An instantiation
+adding a P10 arm states its request budget as the battery budget plus the
+P10 arm's enumerated trials, before the freeze.
+
+**Re-freeze policy:** the feature table is per-instantiation data, not a
+standing constant — it freezes the legs' observed profiles (header tells,
+bands, echo classes) of a specific day. **Any feature-table change = a new
+freeze = drift-noted:** the new FROZEN line names the superseded hash and
+states what moved (a band widened, a tell added, a leg re-rostered), and
+trials run only under the new pin. Never edit a table that already has
+trials against it; if the profiles have drifted, that drift is a finding
+(r18→r19 moved TTFTs and prompt taxes on unchanged-looking lanes), not
+something to patch in place. The instrument *code* is pinned beside the
+table in every receipt (`instrument_sha256_at_start` at trials,
+`instrument_sha256_at_scoring` in every score block) — r21 defect 2: the
+trials ran under one code sha and the scoring under another, and the score
+blocks recorded only the table sha; the mitigation is the note's own named
+one, adopted here as schema.
+
+**Honest limits (price these in every instantiation):**
+
+- **FORCED coverage is a different claim than natural coverage.** r21's GT
+  came from legs that naturally served (zai 429 windows produced the only
+  leg diversity). A leg can be exercised *forced* — by holding the
+  upstream legs dead so the cascade must fall through to it — and passing
+  the bar on forced trials validates the *feature table against that
+  leg's serve path*, not that the instrument discriminates it under
+  natural traffic. An instantiation using forced fallbacks says so in the
+  probe's Frame field and reports per-leg GT counts split natural/forced.
+- **Confidence outputs are not calibrated probabilities.** The
+  instrument's confidence is a ratio of additive scores, not a forecast;
+  it is not scored with Brier terms and must not be entered in §4's
+  binary rows (attrib-r21.md §8.7 — no retro-fitted scoring idiom).
+- **The mimicry ablations are an information-dependence lower bound, not
+  a padding adversary** (r21 §4: removing evidence ≠ injecting misleading
+  evidence; the legs are operator-side and cannot be padded by a client
+  seat). Report them as ablation rows, never as robustness.
+- **The GT join can confuse twin traffic.** Two seats trialing the same
+  shim in overlapping windows share indistinguishable journal lines (r21
+  defect 7); serialize P10 trial windows across seats or tag the join
+  (nonce in the body / seat-tagged journal lines) — the dispatch-ledger
+  lesson, applied to this probe type.

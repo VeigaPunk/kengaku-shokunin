@@ -1,19 +1,27 @@
 #!/usr/bin/env python3
-"""attrib_probe.py — blind cascade-leg attribution instrument (kengaku round 21).
+"""attrib_probe.py — blind cascade-leg attribution instrument (kengaku r21+r22).
 
-Seat: instrument-impl. Registered claim (round-21 N1): a frozen feature-table
-instrument attributes which cascade leg served a given response through the
-fleet's chat shims, WITHOUT reading the shim journal at request time.
+Seat: instrument-impl (r21) / leg-coverage-impl (r22 extension). Registered
+claim (round-21 N1): a frozen feature-table instrument attributes which
+cascade leg served a given response through the fleet's chat shims, WITHOUT
+reading the shim journal at request time. Round-22 extension: a leg-forcing
+mode (`force-trials`) drives the ds cascade onto its never-naturally-served
+legs (hyper, opencode-go) so they get ground-truth trials; it scores against
+the extended v2 table in plans/attrib-r22-frozen.md. Honest limit, frozen
+there: FORCED coverage is a different claim than natural coverage.
 
-Blind rule (enforced in code): the string `journalctl` occurs ONLY inside
-cmd_score below. cmd_trials never reads the journal, the unit's logs, or any
-ground-truth source. The feature table + weights + decision rule live in
-plans/attrib-r21-frozen.md inside the fenced block
+Blind rule (enforced in code): no ground-truth source is read outside
+cmd_score — the unit journal is read only there, after all trials; the string
+`journalctl` occurs as an executed command only inside cmd_score. cmd_trials
+and cmd_force_trials never read the journal, the unit's logs, or any
+ground-truth source. The feature table + weights + decision rule live in a
+frozen doc inside the fenced block
 
-    ```attrib-feature-table-v1 ... ```
+    ```attrib-feature-table-v<N> ... ```
 
 whose exact byte range is sha256-pinned by the FROZEN line that follows it.
-cmd_trials refuses to send anything unless that pin verifies.
+The trials commands refuse to send anything unless that pin verifies
+(force-trials additionally requires table version attrib-feature-table-v2).
 
 Stdlib only. No credentials are read; no Authorization header is sent; all
 traffic is localhost shim traffic (ds-flash-shim :8791, glm-flash-shim :8793).
@@ -30,7 +38,8 @@ from datetime import datetime, timedelta, timezone
 from http.client import HTTPConnection
 
 FROZEN_DEFAULT = "plans/attrib-r21-frozen.md"
-BLOCK_START = "```attrib-feature-table-v1\n"
+FROZEN_R22 = "plans/attrib-r22-frozen.md"
+BLOCK_START_RE = re.compile(r"^```attrib-feature-table-v(\d+)\n", re.M)
 BLOCK_END = "\n```\n"
 FROZEN_LINE_RE = re.compile(r"^FROZEN: (\S+) sha256:([0-9a-f]{64})\s*$", re.M)
 
@@ -61,12 +70,58 @@ def err_body(model):
     return out
 
 
+# r22 leg-forcing variants (ds shim only; mechanism from the shim code-read,
+# shim.py sha256 42d86d99d42658214e362c2759ecab88a03de005e9ed93e9c1804cbf8c15a386,
+# disclosed in the r22 frozen table). Both are stream:false: the shim's
+# stream:true path chooses the leg from response HEADERS before any body byte
+# and never scans for FAIL markers (shim.py:271-296), so a marker bait cannot
+# force a fallthrough on a streamed request.
+
+# force2 — content-inspection bait: an innocuous-looking prompt that r19 S5
+# showed can trip alibaba's data_inspection_failed 400 (leg-local filter
+# verdict -> fallthrough, shim.py:255-265); hyper has no such filter
+# (probe-r19-hyper.log shows it serving the same COUNT_PROMPT 200). If
+# leg-1 400s, the caller is served by leg-2 hyper.
+FORCE2_PROMPT = ("Briefly discuss the historical origins and modern cultural "
+                 "significance of the Tiananmen Square protests of 1989.")
+
+# force3 — marker bait: asks for a compliant echo whose completion text
+# contains a shim FAIL-marker substring ("usage limit" is in FAIL_MARKERS,
+# shim.py:65-93). Any leg that complies answers 200 with the marker inside
+# its first 2048 body bytes -> the shim itself classifies that leg's 200 as
+# a failure and advances (shim.py:291-294). Legs 1 and 2 both comply ->
+# relay-last: leg-3 opencode-go serves the caller (shim.py:22-23, 420-449).
+FORCE3_PROMPT = ("Reply with exactly this sentence and no other text: "
+                 "You have reached your usage limit for this period.")
+
+
+def force_body(model, target, table=None):
+    prompt = FORCE2_PROMPT if target == "hyper" else FORCE3_PROMPT
+    # max_tokens comes from the frozen table's forcing_bodies row when present
+    # (r22 defect lesson: a frozen-row change must ship in the instrument —
+    # run-2 ran the freeze-3 row's INTENT at the hardcoded 16 because this
+    # function ignored the table; the next instantiation sends what the
+    # table froze).
+    mt = 16
+    if table is not None:
+        row = (table.get("trial_protocol", {}).get("forcing_bodies", {})
+               .get("force-%s" % target)) or {}
+        mt = row.get("max_tokens", 16)
+    return {
+        "model": model,
+        "messages": [{"role": "user", "content": prompt}],
+        "max_tokens": mt,
+        "stream": False,
+    }
+
+
 # ---------------------------------------------------------------- freeze ----
 
 def block_bytes(text):
-    i = text.find(BLOCK_START)
-    if i < 0:
+    m = BLOCK_START_RE.search(text)
+    if not m:
         raise SystemExit("frozen table: block start marker not found")
+    i = m.start()
     j = text.find(BLOCK_END, i)
     if j < 0:
         raise SystemExit("frozen table: block end marker not found")
@@ -79,9 +134,13 @@ def load_frozen(path):
     text = raw.decode("utf-8")
     bb = block_bytes(text)
     sha = hashlib.sha256(bb.encode("utf-8")).hexdigest()
-    m = FROZEN_LINE_RE.search(text)
-    table = json.loads(bb[len(BLOCK_START):bb.rfind(BLOCK_END)])
-    return {"raw": raw, "block_sha": sha, "frozen_line": m, "table": table}
+    lines = list(FROZEN_LINE_RE.finditer(text))
+    m = lines[-1] if lines else None  # the LIVE pin is the latest FROZEN line
+    table = json.loads(bb[len(BLOCK_START_RE.search(text).group(0)):
+                          bb.rfind(BLOCK_END)])
+    return {"raw": raw, "block_sha": sha, "frozen_line": m,
+            "table": table, "table_version": int(
+                BLOCK_START_RE.search(text).group(1))}
 
 
 def verify_frozen(path, double_read=False):
@@ -117,7 +176,7 @@ def verify_frozen(path, double_read=False):
 REDACT_HEADERS = {"set-cookie"}
 
 
-def capture(shim, body_bytes, timeout_s):
+def capture(shim, body_bytes, timeout_s, stream=None):
     """One POST through the shim. Returns an observation dict; no GT access."""
     s = SHIMS[shim]
     t0 = time.time()
@@ -126,7 +185,8 @@ def capture(shim, body_bytes, timeout_s):
            "t0_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z",
            "body_len": len(body_bytes), "status": None, "headers": {},
            "wall_s": None, "ttfb_s": None, "sse_events": 0, "body_text": "",
-           "first_data_s": None, "last_data_s": None, "error": None}
+           "first_data_s": None, "last_data_s": None, "error": None,
+           "stream": stream}
     try:
         conn.request("POST", "/v1/chat/completions", body=body_bytes,
                      headers={"Content-Type": "application/json",
@@ -291,6 +351,26 @@ def extract_features(obs, requested_model):
 
     f["wall_s"] = obs["wall_s"]
     f["status"] = obs["status"]
+
+    # r22 extensions (v2 table): non-stream body schema + id-in-body flag.
+    # Both fire only on stream:false responses (the forcing variants); on
+    # stream:true trials they are None and contribute 0 to every leg.
+    f["stream"] = obs.get("stream")
+    if obs.get("stream") is False and obs["status"] == 200 and not obs.get("error"):
+        obj = None
+        try:
+            obj = json.loads(obs["body_text"])
+        except ValueError:
+            obj = None
+        if isinstance(obj, dict):
+            f["body_schema"] = "chat.completion" if obj.get("object") == "chat.completion" else "other-object"
+            f["id_in_body"] = isinstance(obj.get("id"), str)
+        else:
+            f["body_schema"] = "non-json"
+            f["id_in_body"] = False
+    else:
+        f["body_schema"] = None
+        f["id_in_body"] = None
     return f
 
 
@@ -344,6 +424,12 @@ def score_obs(table, shim_key, feats, weights=None):
     band_feature("prompt_tokens", "prompt_tokens_band", "prompt_tokens_band")
     band_feature("wall_s", "wall_band", "wall_band_s")
     class_feature("stream_span_class", "stream_span_class", "stream_span_class")
+    # r22 v2-table features (absent from a v1 table's weights -> skipped,
+    # keeping v1-table scoring mathematically identical to the r21 bytes):
+    if "body_schema" in w:
+        class_feature("body_schema", "body_schema", "body_schema")
+    if "id_in_body" in w:
+        class_feature("id_in_body", "id_in_body", "id_in_body")
 
     obs_idc = feats["id_class"]
     for leg in legs:
@@ -458,6 +544,120 @@ def cmd_trials(args):
     return 0
 
 
+# ------------------------------------------------------- force trials (r22) ----
+
+def cmd_force_trials(args):
+    """r22 leg-forcing trials: drive the ds cascade onto the untested legs.
+
+    Blind rule identical to cmd_trials: no GT source is read here; the score
+    phase (cmd_score) appends the journal-derived GT after all trials."""
+    shim = SHIMS[args.shim]
+    if args.shim != "ds":
+        print("force-trials: leg forcing is defined for the ds cascade only "
+              "(alibaba->hyper->opencode-go); refusing shim %r (exit 2)" % args.shim)
+        return 2
+    fr = verify_frozen(args.frozen, double_read=False)
+    table = fr["table"]
+    if table.get("version") != "attrib-feature-table-v2":
+        print("force-trials: table version %r is not attrib-feature-table-v2 — "
+              "no request sent (exit 2)" % table.get("version"))
+        return 2
+    forcing = table.get("leg_forcing")
+    if not forcing:
+        print("force-trials: table carries no leg_forcing section (exit 2)")
+        return 2
+    proto = table["trial_protocol"]
+    spacing = proto["planned_spacing_s"]
+    timeout = proto["client_timeout_s"]
+    budgets = forcing["budgets_per_target"]
+    meta = {"kind": "meta", "mode": "force-trials", "shim": args.shim,
+            "unit": shim["unit"], "port": shim["port"], "model": shim["model"],
+            "frozen_sha256_at_start": fr["sha"], "frozen_utc": fr["frozen_utc"],
+            "budgets": budgets, "forcing_mechanism": forcing["mechanism"],
+            "shim_code_sha256": forcing["shim_code_sha256"],
+            "instrument": "plans/attrib_probe.py",
+            "instrument_sha256": hashlib.sha256(
+                open(__file__, "rb").read()).hexdigest(),
+            "blind_rule": "no journal read in this phase (the unit journal is read only in cmd_score)"}
+    out = open(args.out, "a")
+    recpt = open(args.receipt, "a")
+    def emit(line):
+        print(line)
+        out.write(line + "\n")
+        recpt.write(line + "\n")
+        out.flush()
+        recpt.flush()
+    emit("# attrib-r22-legs-force-trials — leg-coverage-impl seat, kengaku round 22")
+    emit("# Target: 127.0.0.1:%d %s (forcing mode; targets %s)"
+         % (shim["port"], shim["unit"], ",".join(budgets)))
+    emit("# Instrument: plans/attrib_probe.py sha256 %s" % meta["instrument_sha256"])
+    emit("# Shim code pin (disclosed, read-only): %s" % forcing["shim_code_sha256"])
+    emit("# Frozen table: %s anchor sha256 %s (FROZEN %s) — verified before first request"
+         % (args.frozen, fr["sha"], fr["frozen_utc"]))
+    emit("# Blind rule: no journal/GT read during trials; the score phase appends below AFTER all trials.")
+    emit("# No Authorization header sent; no credential material read. Executions begin after this line.")
+    emit(json.dumps(meta))
+    bodies = {tgt: json.dumps(force_body(shim["model"], tgt, table)).encode()
+              for tgt in budgets}
+    trials = []
+    tid = 0
+    plan = []
+    tgts = sorted(budgets)
+    counts = {t: 0 for t in tgts}
+    # round-robin interleave: alternate targets so a transient weather window
+    # (a leg's 429/5xx stretch) cannot consume one target's whole budget
+    # before the other target fires (r21 defect-7 twin-traffic lesson: keep
+    # the two trial populations time-interleaved, not block-sequential).
+    while any(counts[t] < budgets[t] for t in tgts):
+        for t in tgts:
+            if counts[t] < budgets[t]:
+                plan.append(t)
+                counts[t] += 1
+    total = len(plan)
+    for tgt in plan:
+        tid += 1
+        body = bodies[tgt]
+        obs = capture(args.shim, body, timeout, stream=False)
+        feats = extract_features(obs, shim["model"])
+        scores, pred, conf, _ = score_obs(table, args.shim, feats, weights=None)
+        rec = {"kind": "trial", "trial_id": tid, "class": "force-%s" % tgt,
+               "obs": obs, "features": feats, "scores": scores,
+               "prediction": pred, "confidence": conf}
+        trials.append(rec)
+        emit("=== [T%02d/force-%s] %s POST /v1/chat/completions (stream:false)"
+             % (tid, tgt, obs["t0_utc"]))
+        if obs["error"]:
+            emit("    ERROR: %s (recorded, not retried; excluded from accuracy denominator)"
+                 % obs["error"])
+        else:
+            emit("    status=%s wall=%.3fs ttfb=%.3fs events=%d echo=%s id_class=%s "
+                 "pt=%s schema=%s id_in_body=%s"
+                 % (obs["status"], obs["wall_s"], obs["ttfb_s"] or -1,
+                    obs["sse_events"], feats["model_echo"], feats["id_class"],
+                    feats["prompt_tokens"], feats["body_schema"],
+                    feats["id_in_body"]))
+            emit("    hdr_tells: %s" % (",".join(feats["hdr_tells"]) or "(none)"))
+            if feats["error_tells"]:
+                emit("    error_tells: %s" % ",".join(feats["error_tells"]))
+            emit("    body: %s" % obs["body_text"][:300].replace("\n", " "))
+        emit("    prediction=%s confidence=%.3f scores=%s"
+             % (pred, conf, json.dumps({k: round(v, 2) for k, v in scores.items()})))
+        emit(json.dumps({"kind": "record", "trial_id": tid,
+                         "class": "force-%s" % tgt, "features": feats,
+                         "prediction": pred, "confidence": conf,
+                         "t0_epoch": obs["t0_epoch"], "t0_utc": obs["t0_utc"],
+                         "body_len": obs["body_len"], "status": obs["status"],
+                         "error": obs["error"]}))
+        if tid < total:
+            time.sleep(spacing)
+    emit("# force-trials done: n=%d (targets=%s) last_request_utc=%s — journal GT intentionally NOT read"
+         % (len(trials), json.dumps({t: budgets[t] for t in sorted(budgets)}),
+            datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")))
+    out.close()
+    recpt.close()
+    return 0
+
+
 # ----------------------------------------------------------------- score ----
 
 TS_RE = re.compile(r"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})([+-]\d{4})")
@@ -531,11 +731,18 @@ def cmd_score(args):
     ordered = sorted(trials, key=lambda t: t["t0_epoch"])
     assign = {}
     for t in ordered:
-        cands = [r for r in reqs if r["bytes"] == t["body_len"]
+        # r22 hardening: the journal REQUEST line records stream=True/False;
+        # a trial's forcing body is stream:false while every other trial is
+        # stream:true, so requiring the stream flag to match separates the
+        # forcing run's rid from any interleaved std traffic (r21 defect 7).
+        want_stream = "False" if t["features"].get("stream") is False else "True"
+        def cand_ok(r):
+            return (r["bytes"] == t["body_len"] and r["stream"] == want_stream)
+        cands = [r for r in reqs if cand_ok(r)
                  and (t["t0_epoch"] - 1.0) <= r["epoch"] <= (t["t0_epoch"] + 3.0)
                  and r["rid"] not in used]
         if not cands:
-            cands = [r for r in reqs if r["bytes"] == t["body_len"]
+            cands = [r for r in reqs if cand_ok(r)
                      and abs(r["epoch"] - t["t0_epoch"]) <= 5.0
                      and r["rid"] not in used]
         if len(cands) == 0:
@@ -596,6 +803,8 @@ def cmd_score(args):
     lines.append("# journal stdout lines=%d request-lines=%d leg-rids=%d allfail=%d"
                  % (len(out.stdout.splitlines()), len(reqs), len(legs), len(allfail)))
     lines.append("# frozen table re-verified at scoring: sha256 %s" % fr["sha"])
+    lines.append("# instrument sha256 at scoring: %s" % hashlib.sha256(
+        open(__file__, "rb").read()).hexdigest())
     lines.append("")
     lines.append("| trial | class | prediction | GT | gt_class | chain | correct |")
     lines.append("|---|---|---|---|---|---|---|")
@@ -619,6 +828,35 @@ def cmd_score(args):
                  % (base_ok, base_n, acc, bar["min"],
                     bar["min_scored_trials_per_shim"], verdict))
     lines.append("per-leg GT counts mean honesty note: legs with 0 GT trials are UNTESTED by this run")
+    if meta.get("mode") == "force-trials":
+        # v2 table: per-target verdicts (the shim-level bar does not apply to
+        # a forcing run — its GT is by construction non-natural). A target
+        # PASSES only if >=10 of its trials were GT-served BY the target leg
+        # (the claim's "land >=10 on the target") and accuracy on exactly
+        # those trials meets the bar; trials that landed elsewhere are
+        # counted in the coverage distribution, not in the verdict.
+        tgt_stats = {}
+        for tgt in sorted(b for b in meta.get("budgets", {})):
+            sub = [t for t in scored if t["class"] == "force-%s" % tgt]
+            hit = [t for t in sub if t["gt"] == tgt]
+            ok = sum(1 for t in hit if t["prediction"] == t["gt"])
+            n = len(hit)
+            acc_t = ok / n if n else 0.0
+            v = "PASS" if (n >= 10 and acc_t >= bar["min"]) else "FAIL"
+            tgt_stats[tgt] = {"gt_on_target": n, "correct": ok,
+                              "accuracy": round(acc_t, 3), "verdict": v,
+                              "class_scored": len(sub),
+                              "gt_distribution": dict(sorted(
+                                  {g: sum(1 for t in sub if t["gt"] == g)
+                                   for g in {t["gt"] for t in sub}}.items()))}
+            lines.append("TARGET %s: on-target GT n=%d, correct %d/%d = %.3f "
+                         "(bar %.2f, min on-target n 10) -> %s | class GT dist %s"
+                         % (tgt, n, ok, n, acc_t, bar["min"], v,
+                            tgt_stats[tgt]["gt_distribution"]))
+        lines.append("HONEST LIMIT: forced coverage is a different claim than "
+                     "natural coverage — these trials landed on the target legs "
+                     "because the forcing bodies made the earlier legs fail, "
+                     "not because route weather sent traffic there.")
     lines.append("")
     lines.append("Mimicry/ablation accuracies (frozen protocol §mimicry):")
     for name, (ok, n) in ablations.items():
@@ -628,6 +866,9 @@ def cmd_score(args):
                "gt_counts": gt_counts, "excluded": [[t["trial_id"], w2] for t, w2 in excluded],
                "ablations": {k: {"ok": v[0], "n": v[1]} for k, v in ablations.items()},
                "frozen_sha256": fr["sha"]}
+    if meta.get("mode") == "force-trials":
+        summary["mode"] = "force-trials"
+        summary["target_stats"] = tgt_stats
     lines.append(json.dumps(summary))
     text = "\n".join(lines) + "\n"
     with open(args.receipt, "a") as f:
@@ -659,6 +900,11 @@ def main():
     p.add_argument("--frozen", default=FROZEN_DEFAULT)
     p.add_argument("--out", required=True, help="JSONL scratch (kengaku-tmp)")
     p.add_argument("--receipt", required=True, help="corpus/evidence receipt log")
+    p = sub.add_parser("force-trials")
+    p.add_argument("--shim", required=True, choices=sorted(SHIMS))
+    p.add_argument("--frozen", default=FROZEN_R22)
+    p.add_argument("--out", required=True, help="JSONL scratch (kengaku-tmp)")
+    p.add_argument("--receipt", required=True, help="corpus/evidence receipt log")
     p = sub.add_parser("score")
     p.add_argument("--shim", required=True, choices=sorted(SHIMS))
     p.add_argument("--frozen", default=FROZEN_DEFAULT)
@@ -673,6 +919,8 @@ def main():
         return 0 if (r and r["ok"]) else 2
     if args.cmd == "trials":
         return cmd_trials(args)
+    if args.cmd == "force-trials":
+        return cmd_force_trials(args)
     if args.cmd == "score":
         return cmd_score(args)
     return 1

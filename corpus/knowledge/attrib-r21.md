@@ -450,3 +450,34 @@ Verdict: **INSTRUMENT-NOVEL, PHENOMENON-INCREMENTAL** (search-set verdict:
   `corpus/knowledge/kimi-model-routing-round18.md` (leg roster history).
 - Boundary: `../mori-shokunin/PROVINCE.md`; scorecard proxies: SCORECARD.md
   §novelty proxy; starting commit `3688f76`.
+
+## Round-22 addendum — forced-fallback leg coverage (parent-integrated 2026-10-16T13:10Z)
+
+The standalone scorer seat of the r22 wave failed on a provider empty
+response; this addendum is integrator-written from the instrument's
+authoritative score blocks in `corpus/evidence/attrib-r22-legs.log` (runs 1-2,
+adjudicated) and the ablation seat's handoff. The r21 numbers above stand
+untouched.
+
+- **hyper: COVERED.** Run-2 forced-fallback trials: on-target GT n=10,
+  correct 10/10 = 1.000 (bar 0.80) — PASS. Run-1 was 9/9 on-target but n<10,
+  so run-2 closed the count. Forcing mechanism: leg-1 content-inspection bait
+  (400 `data_inspection_failed`) reliably cascades to leg-2.
+- **opencode-go: NOT COVERED — named gap.** 0 on-target trials in both runs:
+  the compliant-echo marker bait starves against this reasoning-model class
+  (the model declines to echo the FAIL marker). The mechanism was proven
+  reachable once (T03: a real opencode-go serve, blind-predicted correctly).
+  An instrument fix shipped (v2 `body_schema`/`id_in_body` features,
+  stream-flag GT join); the next forcing mechanism is r23's registered claim.
+- **v2 table discipline:** three freeze pins — `124ade67…` (defective,
+  superseded BEFORE any request), `3d7861f8…` (run-1), `77b8d4a0…` (live,
+  freeze-3). The supersede-before-request path is the r19/r21 discipline
+  working under table evolution.
+- **Ablations (seat handoff):** `hdr_tells` LOO 17/20 and 19/20 — header
+  relaying is load-bearing on this GT; header-strip mimicry 19/20 and 20/20.
+- **Honest limit (critic):** forced coverage is a DIFFERENT claim than
+  natural coverage — hyper is now validated on forced serves; natural hyper
+  serves remain unmeasured.
+- **Battery fold:** probe-type P10 (attribution health-check) landed in
+  `plans/probe-battery-TEMPLATE.md` + this battery's §11.
+
