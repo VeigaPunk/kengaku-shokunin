@@ -453,3 +453,30 @@ requests only, credentials untouched). Admission: **ADMIT-with-correction**
 stopped the 10-round run after this round; this section closes it at one
 round.
 
+## Round 20 — battery grid closure (calibration axis-move, 2026-10-16)
+
+One 32-seat zai-flash wave. Claim: close the r19 battery's 4 named-UNRUN
+probes (P2/P3/P8/P9) against the SAME frozen predictions. Landed (evidence
+commit `af0e3e6`): all 4 executed — 9 requests total, zero retries, receipts
+`probe-r19-P2-servicetier.log` / `P3` / `P8-kimi-code-auth` / `P9-absent-port`;
+grid 9/9 with per-round provenance; combined aggregate recomputed across all
+executed binaries (r19+r20: mean Brier 0.0998 over 46 terms; the 20 binaries
+scored this run 0.1495; reliability 9/12, 7/7, 1/1). **3c FALSIFIED** — frozen
+`used-percent <= 2`, observed 7 (route-state drift, recorded as a MISS: the
+battery working as intended). Template gained the freeze-after-last-edit
+guard + unrun-completion checklist; lesson `round20-grid-closure` landed.
+Etiquette audit: clean (one benign out-of-scope file disclosed; a defect
+pointer numbering fix in-note).
+
+Axis verdicts: calibration **improved** (grid closed against frozen
+predictions; the 3c falsification is a calibration finding — the instrument
+now shows WHERE the route drifted); coverage **improved narrowly** (service-
+tier acceptance set, echo/quota signals, auth-endpoint state, absent-port
+now measured); depth **improved** (template guard + lesson); freshness
+**improved narrowly** (4 receipts, freeze-verified); operability **unchanged**
+(no tool change); novelty **unchanged** (the r21 scout priced the latency-
+fingerprint example OUT of novelty — crowded published space — and proposed
+three candidates); adjacency **unchanged** (9/9 requests in-province,
+credentials never read). Admission: **ADMIT** (none harmed). Learning trends:
+expansion/quality **improved**, discernment **unchanged**.
+

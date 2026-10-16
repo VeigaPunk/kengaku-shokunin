@@ -153,3 +153,14 @@ operator routing directive.
 sources cited; seats committed nothing; parent integrated under the kengaku
 lane identity.
 
+## Round 20 — battery grid closure (goal wave)
+
+**Round 20 (2026-10-16).** Motivating evidence: r19 left P2/P3/P8/P9 UNRUN.
+Landed (evidence commit `af0e3e6`): all four executed (9 requests, zero
+retries, freeze-verified against `e1a86777…`), grid 9/9, combined mean Brier
+0.0998/46; **3c falsified** (used-percent 7 > frozen <=2 — route-state drift,
+a miss by design). Template guard + grid-closure lesson landed. Novelty scout
+priced the latency-fingerprint example out of novelty (crowded prior art) and
+proposed three r21 candidates; N1 (blind cascade-leg attribution with shim-
+journal ground truth) registered for r21. Wave: 32 seats, zai flash.
+
