@@ -181,3 +181,19 @@ r20 provenance). r22 registered: attribution coverage of the untested legs
 (hyper/opencode-go) + a battery-fold (attrib as a standing probe type).
 Wave: 32 seats, zai flash.
 
+## Round 22 — forced-fallback coverage (goal wave)
+
+**Round 22 (2026-10-16).** Motivating evidence: r21's UNTESTED hyper/
+opencode-go legs. Landed (evidence commit `8a08483`): instrument v2 with
+leg-forcing (content-inspection bait reliably cascades to hyper: run-2 10/10
+= 1.000 PASS); opencode-go 0 on-target — the echo-marker bait starves vs
+reasoning models (named gap; mechanism proven reachable via T03); v2 table
+three-pin freeze (one defective pin superseded pre-request); battery probe-
+type P10 fold; critic's forced-vs-natural limit named. 4 seats lost to
+provider empty responses (scorer/reviewer/scribe/determinism) — scoring
+covered by the instrument's authoritative blocks + ablation seat; the attrib
+note's r22 addendum was integrator-written. OPERATOR ROUTING: after this wave
+the operator switched the swarm fleet back to the deepseek bucket (zai
+parked) — r23 dispatches on `cascade/deepseek-v4.1-flash`. r23 registered:
+opencode-go forcing via the stream-path header leg-selection.
+

@@ -516,3 +516,31 @@ the failed scorer seat's remit was covered by two independent scorings —
 named, not hidden). Learning trends: expansion/quality **improved**,
 discernment **unchanged**.
 
+## Round 22 — forced-fallback leg coverage + battery fold (operability/coverage, 2026-10-16)
+
+One 32-seat zai-flash wave (22/26 seats reported; 4 provider-loss failures —
+scorer/reviewer/scribe/determinism — with scoring independently covered by the
+instrument's authoritative receipt blocks + the ablation seat; the r22
+addendum to the attrib note was integrator-written from those). Claim: cover
+the r21-UNTESTED legs (hyper/opencode-go) and fold the instrument into the
+standing battery. Landed (evidence commit `8a08483`): instrument v2
+(`bb6bd919…` — leg-forcing mode, v2 features, stream-flag GT join) + v2 table
+(`77b8d4a0…` live; one defective pin superseded BEFORE any request) +
+hyper **COVERED** (run-2: 10/10 on-target = 1.000, bar 0.80) + opencode-go
+**named gap** (0 on-target — the echo-marker bait starves against reasoning
+models; mechanism proven reachable once via T03; fix shipped) + battery
+probe-type P10 fold (template + battery §11) + forced-vs-natural limit named
+by the critic.
+
+Axis verdicts: operability **improved** (the instrument now forces fallback
+coverage and survives table evolution under the freeze discipline); coverage
+**improved** (hyper validated; opencode-go gap precisely characterized —
+starvation, not instrument failure); depth **improved** (the addendum +
+three-pin freeze history); calibration **unchanged** (freeze discipline
+extended, not moved); freshness **improved narrowly** (3 receipts); novelty
+**unchanged**; adjacency **unchanged**. Admission: **ADMIT-with-correction**
+(opencode-go gap + 4 failed seats named; none harmed). Learning trends:
+expansion/quality **improved**, discernment **unchanged**. r23 registered:
+opencode-go forcing via the stream-path header leg-selection (the v2 note
+documents why stream:false was chosen and what stream:true changes).
+
