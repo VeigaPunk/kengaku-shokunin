@@ -9,6 +9,13 @@ receipts `corpus/evidence/probe-r19-*.log`. Scorer seat, round-19 flash wave
 scalar axis verdicts. Close timestamp: 2026-10-16T08:23:33Z (last log sweep;
 P2/P3/P8/P9 had no runner logs at close).
 
+Extended by the round-20 scorer seat 2026-10-16T09:21:55Z (battery
+completion): §10 scores the four completion probes (P2/P3/P8/P9) against
+the SAME frozen predictions (freeze-2 re-verified byte-unmodified before
+scoring) and recomputes the aggregate across all executed binaries — the
+grid closes 9/9. §1–§9 stand unedited as the r19-close record; the four
+new receipts bring the inventory to 19 (`corpus/evidence/probe-r19-*.log`).
+
 Finalized by the note-writer seat 2026-10-16T08:29:50Z, on top of the
 scorer's numbers: every §2/§4 aggregate was recomputed from the §2 tables
 and the receipts (battery 2.0197/11 = 0.1836; seat pool 1.6030/26 = 0.0617;
@@ -414,3 +421,176 @@ them, which is the instrument working.
   (`:34113` absence).
 - Prior scoring idioms: `corpus/evidence/round11-power/analysis_r11.md`,
   `corpus/evidence/round12-ladder/analysis_r12.md` §Prediction scoring.
+
+## 10. Round-20 extension — battery completion (scored 2026-10-16T09:21:55Z)
+
+Round-20's one axis-move (calibration): close the grid. The four probes
+named UNRUN at r19 close (P2, P3, P8, P9) executed in the round-20 flash
+wave against the SAME frozen prediction set — no prediction edits. Premise
+verified before scoring: freeze-2 hash recomputed 2026-10-16T09:14:31Z over
+battery §0–§6 (`sed -n '1,/FROZEN-PREDICTIONS-ANCHO[R]/p'
+plans/probe-battery-r19.md | sha256sum`) = `e1a867773ef14ce457a0d560180587324dd07b4deea1ec76d0c2adf65aaa00a1`,
+byte-identical to the FROZEN line (battery line 415); battery file mtime
+2026-10-16T08:06:37Z, i.e. untouched since the r19 freeze record. The four
+new receipts (19 total now): `probe-r19-P2-servicetier.log`,
+`probe-r19-P3.log`, `probe-r19-P8-kimi-code-auth.log`,
+`probe-r19-P9-absent-port.log`.
+
+### 10.1 Ordering gate on the four completion receipts (§4 rule 1)
+
+| run (seat) | verified hash | first request | gate |
+|---|---|---|---|
+| P8 (P8-executor) | e1a86777 (recompute 09:14:36/37Z, double-read stable) | 09:14:49Z | PASS (freeze-2 live) |
+| P9 (runner-p9) | e1a86777 (recompute 09:14:47Z) | 09:15:04Z | PASS (freeze-2 live) |
+| P2 (P2-executor) | e1a86777 (recompute at run) | 09:18:22Z | PASS (freeze-2 live) |
+| P3 (P3-executor) | e1a86777 (recompute 09:19:25Z) | none (zero-request derived probe; scores P2's gate-passing bytes) | PASS |
+
+All four record `battery_sha256_at_start == e1a86777…` verified pre-request;
+`frozen_utc 07:55:58Z < first_request_utc` in every case. No ordering
+breach; no new defects. P2's 7 POSTs ran 09:18:22–39Z with 2–4 s gaps
+(§2 rule 4 met), one attempt per variant, no retries; P8/P9 one request
+each (dead/absent lanes, single confirming call per §2 rule 3); P3 is
+zero-request by design (battery §3 P3), reading P2's captured responses.
+Completion-wave request spend: 9 HTTP requests (P2 7 + P8 1 + P9 1, P3 0)
+— every one inside the battery's enumerated per-probe sets. Provenance
+note: P2's 7 requests exceed the wave's generic ≤2-requests-per-probe
+rule; the frozen pre-registered battery set governs (the battery IS the
+round's pre-registration — §2 rule 5 forbids widening it, and 2a's
+7-element vector is unscoreable without all 7); the seat disclosed the
+supersession in-receipt (probe-r19-P2-servicetier.log line 10). No
+retries anywhere; P2/P3/P8/P9-executors' own component observations in
+the receipts reproduce exactly in the tables below.
+
+### 10.2 Newly scored components (same rules as §2)
+
+Binary (Brier `(p − o)²`):
+
+| id | prediction | p | observed | o | Brier | verdict |
+|---|---|---|---|---|---|---|
+| 2a | status vector [200,200,400,200,400,400,400] (omit,default,flex,priority,fast,auto,r19-invalid-tier) | 0.90 | exact vector (P2 [1/7]–[7/7]: 200/200/400/200/400/400/400) | 1 | 0.0100 | HIT |
+| 2b | all four 400 bodies name `Unsupported service_tier: <value>` | 0.85 | flex/fast/auto/r19-invalid-tier all `{"detail":"Unsupported service_tier: <value>"}` (43/43/43/55 bytes) | 1 | 0.0225 | HIT |
+| 3a | final tier echo `default` on all 3 serviced | 0.85 | `default`/`default`/`default`; `priority` never echoed; sequences byte-identical | 1 | 0.0225 | HIT |
+| 3b | `x-codex-credits-balance` = 62500.0000000000 on all serviced | 0.85 | 62500.0000000000 ×3 (+ has-credits=True, unlimited=False) | 1 | 0.0225 | HIT |
+| 3c | `x-codex-primary-used-percent` ≤ 2 on all serviced | 0.90 | **7 / 7 / 7** | 0 | 0.8100 | MISS |
+| 3d | usage input_tokens identical across the 3 serviced | 0.90 | 7/7/7 (output 5/5/5, total 12/12/12) | 1 | 0.0100 | HIT |
+| 8a | `managed:kimi-code` no-auth GET → 401 | 0.90 | 401 (583 ms, cloudflare) | 1 | 0.0100 | HIT |
+| 8b | body contains `invalid_authentication_error` or `Invalid Authentication` | 0.85 | both — type `invalid_authentication_error`, message `"Invalid Authentication"` (84-byte body) | 1 | 0.0225 | HIT |
+| 9a | `:34113/health` connection refused / timeout | 0.80 | curl exit 7, http 000, 3 ms — refusal in 3 ms | 1 | 0.0400 | HIT |
+
+Numeric: none — the four completion probes contribute no numeric §6 rows
+(1c/1d/4e/4f/6c/7c/7d all scored or UNPROVABLE at r19 close). Range/band
+hit-rate unchanged at 5/5 scoreable (7 hit observations of 7).
+
+UNPROVABLE: none added. The four receipts record `outcome:
+all-components-recorded`; every frozen row of P2/P3/P8/P9 is now scored.
+The r19 UNPROVABLE set (4a, 4b, 4e, 5a, 6c) is unchanged — no new evidence
+re-opens those adjudications (the devinleg exclusion and the pre-freeze-2
+P4/P5 outcomes stand as ruled in §2/§6 defect 6; no r20 seat re-ran those
+probes).
+
+### 10.3 Probe verdicts after completion (§4 rule 3)
+
+| probe | verdict | basis |
+|---|---|---|
+| P2 | PASS | 2/2 hit (7/7 legs on the predicted vector; all four 400 bodies exact) |
+| P3 | FAIL | 3a/3b/3d hit; **3c miss** — used-percent 7 > 2 on all three serviced legs |
+| P8 | PASS | 2/2 hit |
+| P9 | PASS | 1/1 hit; freshness clause NOT triggered (no HTTP status returned — surface stays absent) |
+
+Full-grid tally: **7 PASS, 2 FAIL, 0 UNRUN** (P1, P2, P4, P5, P7, P8, P9
+pass; P6, P3 fail; P5 keeps its r19 caveat). P3's miss is the only new
+falsification of the round-20 completion, and it is a threshold-drift
+miss, not a mechanism miss: the r18 basis read used-percent=1 on
+2026-10-15; by 09:18Z on 2026-10-16 the weekly plan window
+(`x-codex-primary-window-minutes=10080`, reset-at 1792649629 =
+2026-10-22T06:13:49Z) had consumed 7%. The inertness claim itself held —
+7/7/7 identical across the three tiers spanning 09:18:23–32Z, no
+per-request movement (the countdown fields DO move per response:
+reset-after-seconds 507327/507323/507318); the frozen "≤2" carried a
+same-day-plus-one level forward across a plan-window boundary. Route-state
+drift, not a tier effect. A standing battery should re-pin such thresholds
+per instantiation rather than freeze absolute level predictions across
+days (template material for the next instantiation; recorded here, not
+patched — the frozen row stays as frozen).
+
+### 10.4 Aggregate recomputed across all executed binaries (n shown)
+
+(i) **Mean Brier, battery layer, all executed binaries: 0.1495** over
+**n = 20** scored binaries (sum 2.9897 = r19's 2.0197/11 + r20's
+0.9700/9), always-0.5 reference 0.25 beside it as comparison, not a grade.
+17 hits / 3 misses; the three misses (6a+6b zai rate-limit, 3c
+used-percent drift) carry **83.1% of the total Brier mass** (2.4849 of
+2.9897); the 17 hit components average 0.0297. Per-wave split: r19-close
+0.1836/11 → r20 completion 0.1078/9 (the completion wave's four
+receipts were cleaner forecasts than the r19 battery layer, which carried
+the stale-premise zai rows).
+
+(ii) **Mean abs-error by unit** (unchanged from §4 ii — the completion
+probes add no numeric rows): implied-reset offsets 0.725 s mean over 4
+observations; prompt_tokens 0 (4f) and +3 (7c); TTFT −2276 ms (7d).
+Range/band hit-rate 5/5 scoreable.
+
+(iii) **Reliability points** (all 20 battery binaries; still too few
+events for a fitted slope): pred ≥0.9: predicted 0.9075, observed 9/12 =
+0.750 (n=12); pred 0.8–0.9: predicted 0.8429, observed 7/7 = 1.000 (n=7);
+pred 0.50: observed 1/1 (n=1). Overall predicted mean 0.8645 vs observed
+frequency 0.8500 — near-flat overall; the residual overconfidence remains
+concentrated in the p≥0.9 band (the two zai rows plus 3c's p=0.90).
+
+(iv) **Probe counts**: 7 PASS, 2 FAIL, 0 UNRUN — grid **9/9 executed with
+per-round provenance**: P1, P4, P5, P6, P7 executed in r19 (receipts
+08:23Z close, §1–§3); P2, P3, P8, P9 executed in r20 (receipts
+09:14:49–09:19:25Z, §10.1). The r19 §0 claim's "all executed" is now met
+in full — the r19-close record above stands as the honest partial (4/9
+then), and this §10 is the completion.
+
+**Seat-level layer unchanged**: pooled seat layer 26 terms, sum 1.6030,
+mean 0.0617 (§4). Combined battery+seat (descriptive only): **46 Brier
+terms, sum 4.5927, mean 0.0998.**
+
+### 10.5 Findings added by the completion (measurements; routed, not absorbed)
+
+1. **The codex `service_tier` acceptance set reproduces exactly**
+   (priority in, everything else out; byte-stable error string) — the M5
+   no-go verdict survives a day-plus re-test on the live lane
+   (probe-r19-P2-servicetier.log [1/7]–[7/7]).
+2. **Priority stays accepted-but-inert** — final echo `default` never
+   `priority`, credits 62500.0000000000, usage identical across tiers —
+   with one drift: `x-codex-primary-used-percent` moved 1 → 7 between
+   2026-10-15 and 2026-10-16 (plan-window consumption; §10.3). The
+   countdown fields move per response; the used-percent/credits fields
+   are the static ones, as r18 read them.
+3. **`managed:kimi-code` is still auth-dead** (401
+   `invalid_authentication_error` / "Invalid Authentication", no auth
+   header) — distinct failure class from P1's meter-dead keys, re-confirmed
+   same-day (probe-r19-P8-kimi-code-auth.log [1/1]).
+4. **`:34113` absence re-confirmed with a same-day receipt** — curl exit
+   7 / http 000 in 3 ms, corroborated by zero-traffic reads (`ss -ltn`
+   count 0, no llama-server process, 09:15:14Z; probe-r19-P9-absent-port.log
+   corroboration section). The r19 finding 7 gap (P9 never ran) is closed;
+   the freshness value is realized as a re-confirmation, not a restore.
+5. **Threshold-carrying predictions across plan-window boundaries are a
+   calibration hazard** (3c): the battery's binary/abs-error/range idiom
+   handled route-state drift well everywhere except the one frozen
+   absolute-level threshold (≤2) that a meter was guaranteed to move.
+   Next instantiation: pin levels per-run or predict deltas, not absolute
+   thresholds carried across days.
+
+### 10.6 Inputs for the SCORECARD calibration proxy (parent's row, r20)
+
+- (a) probes run in-round with predictions filed before the first request
+  **and** scored at close: **9 executed / 9 scored** (5 in r19 + 4 in
+  r20), all against the freeze-2 prediction set — the proxy's
+  "predictions filed before the first request" clause is met by the
+  frozen battery itself for all 20 scored binaries. Battery-layer mean
+  Brier 0.1495/20 (r19-close 0.1836/11; completion 0.1078/9); seat pool
+  0.0617/26 unchanged; combined 0.0998/46.
+- (b) artifacts added by the completion: 4 evidence receipts
+  (`probe-r19-P2-servicetier.log`, `probe-r19-P3.log`,
+  `probe-r19-P8-kimi-code-auth.log`, `probe-r19-P9-absent-port.log`) +
+  this §10 extension. Template hardening (freeze-after-last-edit guard +
+  UNRUN-completion gate) is the template-reviser seat's land in
+  `plans/probe-battery-TEMPLATE.md` (§8 completion gate, line 260; line
+  18 provenance row) — verified present at scoring time, not this seat's
+  write. Commit/index/LOG remains the parent's landing step.
+- (c) not re-run by this seat (scorecard rows are parent-owned).
