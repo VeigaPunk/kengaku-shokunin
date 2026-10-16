@@ -480,3 +480,39 @@ three candidates); adjacency **unchanged** (9/9 requests in-province,
 credentials never read). Admission: **ADMIT** (none harmed). Learning trends:
 expansion/quality **improved**, discernment **unchanged**.
 
+## Round 21 — blind leg-attribution instrument (novelty axis-move, 2026-10-16)
+
+One 32-seat zai-flash wave (31/32; the standalone scorer seat failed but the
+instrument's receipts carry authoritative adjudicated scoring, independently
+recounted by the trial-auditor). Claim: no instrument could attribute which
+cascade leg served a response without operator ground truth; after: a frozen
+feature-table instrument (`plans/attrib_probe.py` + `plans/attrib-r21-frozen.md`,
+FROZEN 10:20:08Z `9f0244bb…`, double-read guard) attributes the serving leg
+blind over >=20 trials per shim against the journal GT read ONLY post-trials.
+Landed (evidence commit `0d23c61`): **100% accuracy both shims** — ds 20/20
+(GT: alibaba 20), glm 22/22 (GT: zai 13 / devin 9 — the zai 429-fallback
+windows produced natural leg diversity, so the fallback path is covered too);
+all 11 frozen ablations (8 LOO + 3 mimicry: header-strip, latency-pad,
+echo-spoof) at 1.000; ordering chain clean (frozen < trials < first journal
+read); 44 small localhost requests, no credentials, three matcher defects
+fixed pre-adjudication and recorded. The prior-art note (`attrib-prior-art-r21.md`)
+prices the novelty honestly: model fingerprinting is crowded published space
+(cited), so the claim is INSTRUMENT + GROUND-TRUTH PROTOCOL, phenomenon-
+incremental; the critic's adjacency pass (mori owns observability) is answered
+by the note's boundary wording — measurement of model-serving behavior, read-
+only journal use, no remediation.
+
+Axis verdicts: novelty **improved** (the lane now produces a measurement no
+other province produces — blind leg attribution validated against operator-
+journal GT — with the instrument inspectable in-repo and the prior-art check
+on record); calibration **unchanged** (the instrument was built under the r19
+freeze discipline, extending it rather than moving the axis); depth
+**improved** (design + ablation + adjudication records); coverage **improved
+narrowly** (hyper/opencode-go legs UNTESTED — 0 GT trials — named as the r22
+candidate); freshness **improved narrowly** (4 receipts + frozen table);
+operability **improved narrowly** (a stdlib-only reusable tool); adjacency
+**unchanged** (boundary wording recorded). Admission: **ADMIT** (none harmed;
+the failed scorer seat's remit was covered by two independent scorings —
+named, not hidden). Learning trends: expansion/quality **improved**,
+discernment **unchanged**.
+

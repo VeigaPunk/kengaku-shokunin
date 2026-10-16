@@ -164,3 +164,20 @@ priced the latency-fingerprint example out of novelty (crowded prior art) and
 proposed three r21 candidates; N1 (blind cascade-leg attribution with shim-
 journal ground truth) registered for r21. Wave: 32 seats, zai flash.
 
+## Round 21 — blind leg attribution (goal wave)
+
+**Round 21 (2026-10-16).** Motivating evidence: the r20 scout's N1 candidate
+(latency fingerprinting priced out of novelty — crowded prior art). Landed
+(evidence commit `0d23c61`): `plans/attrib_probe.py` + frozen feature table
+(`9f0244bb…`, freeze-before-trials, journal GT read only post-trials) — 100%
+accuracy on both shims (ds 20/20; glm 22/22 with natural zai/devin diversity),
+11/11 ablations, 3 matcher defects fixed pre-adjudication and recorded; prior-
+art note scopes the novelty as instrument+GT-protocol; critic's adjacency pass
+answered in-note. One seat (scorer) failed; its remit covered by the
+instrument's adjudicated scoring + an independent recount — named. Round-20
+evidence backfill `96b8962` (a git-add pathspec error had left the scorer's
+§10 + template + lesson uncommitted — honest repair, content timestamps prove
+r20 provenance). r22 registered: attribution coverage of the untested legs
+(hyper/opencode-go) + a battery-fold (attrib as a standing probe type).
+Wave: 32 seats, zai flash.
+
