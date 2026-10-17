@@ -204,3 +204,9 @@ Fields already present as real sections before this change: the axes score table
 Fields added by this rollout: `## Capabilities` (empty repertoire-table scaffold; rows enter only via a round that demonstrates the capability running) and `## Saturation` (saturation line + stagnation window N deferred to the lane's next round per `AXES.md` §The stagnation nudge).
 No axis claim was made and no score moved; no verdict was changed.
 
+## 2026-10-17 — repository README
+
+- **Trigger.** The repository root had no `README.md`.
+- **Evidence.** Surface table and refusals are `PROVINCE.md`. Wiki-path absence as of 2026-10-15 is the opening of `SKILL.md`, citing `corpus/evidence/round13-coverage/surface-receipt.json` (file exists). Grader contract is the docstring of `grader.py`. Ran `python3 grader.py --selftest` on 2026-10-17: `[selftest] ALL PASS`, exit 0.
+- **Action.** Added `README.md`. `corpus/README.md` was not edited. No Devin wiki URL was added; historical llm-wiki paths inside the corpus stay as they are.
+- **Outcome.** No axis claim; no score moved.
