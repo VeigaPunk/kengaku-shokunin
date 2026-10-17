@@ -204,3 +204,15 @@ Fields already present as real sections before this change: the axes score table
 Fields added by this rollout: `## Capabilities` (empty repertoire-table scaffold; rows enter only via a round that demonstrates the capability running) and `## Saturation` (saturation line + stagnation window N deferred to the lane's next round per `AXES.md` §The stagnation nudge).
 No axis claim was made and no score moved; no verdict was changed.
 
+
+## 2026-10-17 — readable front door
+
+Root README was absent. The start command is the `grader.py` docstring (`python3 grader.py`, `--selftest`, exits 0/1/2). Refusals are the PROVINCE.md report-outs. SHONEN.md boxes are `[~]`.
+
+Corpus index: `corpus/README.md` is line-cited from the round-10 and round-23 drafts and was not edited. `corpus/knowledge/`, `corpus/lessons/`, evidence, fixtures, and earlier LOG entries were not rewrapped.
+
+Lint fixes: none. Human-legible Markdown in this repo had no unpinned same-line defect.
+
+Lint left in place: none in the human-legible set (README, PROVINCE, SKILL, SHONEN, MINT, AGENTS, corpus/README, corpus/QUALITY, plans/*.md).
+
+Devin: a search for `devin.ai` in this repo found no URL to edit. No wiki URL was added.
