@@ -197,3 +197,10 @@ the operator switched the swarm fleet back to the deepseek bucket (zai
 parked) — r23 dispatches on `cascade/deepseek-v4.1-flash`. r23 registered:
 opencode-go forcing via the stream-path header leg-selection.
 
+## 2026-10-16 — protocol conformance: SCORECARD contract fields
+
+Operator rollout of the 2026-10-16 fleet protocol amendment (fleet-root commit `84bade0`), adopting the `AXES.md` §SCORECARD.md contract fields additively.
+Fields already present as real sections before this change: the axes score tables, `## Planned (next axis-move)`, `## Retired`.
+Fields added by this rollout: `## Capabilities` (empty repertoire-table scaffold; rows enter only via a round that demonstrates the capability running) and `## Saturation` (saturation line + stagnation window N deferred to the lane's next round per `AXES.md` §The stagnation nudge).
+No axis claim was made and no score moved; no verdict was changed.
+
