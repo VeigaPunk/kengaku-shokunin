@@ -204,3 +204,11 @@ Fields already present as real sections before this change: the axes score table
 Fields added by this rollout: `## Capabilities` (empty repertoire-table scaffold; rows enter only via a round that demonstrates the capability running) and `## Saturation` (saturation line + stagnation window N deferred to the lane's next round per `AXES.md` §The stagnation nudge).
 No axis claim was made and no score moved; no verdict was changed.
 
+
+## 2026-10-17 — root README
+
+Motivating evidence: no root `README.md`. The page points at `grader.py`
+(offline replay, exits 0/1/2, from its docstring), `SKILL.md` (wiki path
+absent 2026-10-15; digests retained), `PROVINCE.md` refusals, and
+`corpus/README.md` for historical-unavailable originals. `SHONEN.md` `[~]`
+marks are not described as promotion. No Devin wiki URL exists here.
