@@ -204,3 +204,8 @@ Fields already present as real sections before this change: the axes score table
 Fields added by this rollout: `## Capabilities` (empty repertoire-table scaffold; rows enter only via a round that demonstrates the capability running) and `## Saturation` (saturation line + stagnation window N deferred to the lane's next round per `AXES.md` §The stagnation nudge).
 No axis claim was made and no score moved; no verdict was changed.
 
+## 2026-10-17 — root README added
+
+- **Trigger.** Operator request for a repository front door. This checkout had no root `README.md`. Corpus `README.md` historical wiki paths were left as written.
+- **Action.** Added `README.md` from `PROVINCE.md` (surfaces and refusals), `grader.py` docstring (offline replay, exit 0/1/2, `--selftest`), and the `SCORECARD.md` banner on unavailable originals plus the novelty-axis mapping note.
+- **Non-claims.** No Devin wiki URL was added. No `app.devin.ai` link exists in this repo's README. No axis claim, no score change, grader untouched. Not a craft round.
