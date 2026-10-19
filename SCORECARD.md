@@ -263,6 +263,8 @@ twelve-document census from that audit's 61 citation occurrences or rewrite
 archival scripts to make the count fall. Model-probe work requires a restored,
 identity-verified endpoint and a newly filed design before traffic.
 
+Superseded (round 24): this round-13 plan is historical text; the active plan is §Planned (round 25).
+
 ## Retired
 
 None. No cell scores 10 and no axis is a wrong fit.
@@ -365,6 +367,8 @@ arbitration.
 | Round | Axis | Before | After | Evidence |
 |---|---|---|---|---|
 | 16 | freshness | measured at HEAD (see lesson) | verdicts recorded per gate, no scalar | `corpus/lessons/round-16-recensus.md` |
+| 24 | coverage | 7 | 7 (held by cap; counts moved) | `plans/round24_census.sh`; §Round 24 |
+| 24 | calibration | 8 | 8 (held; counts moved) | `plans/round24_census.sh`; §Round 24 |
 
 ## Round 17 attempt — blocked before native dispatch (2026-10-15)
 
@@ -548,11 +552,87 @@ documents why stream:false was chosen and what stream:true changes).
 
 | Capability | What it can now do | Evidence pointer | First-working round |
 |---|---|---|---|
-| — none yet — | | | |
+| offline-replay-gate | re-derive every stored probe number from committed bytes, offline, and exit 0/1/2 with a verdict | `python3 grader.py` → `CHECKS n=733 mismatches=0 errata_pinned=1`, `VERDICT: PASS`, exit 0 (re-run 2026-10-19, round 24) | 10 (re-demonstrated 24) |
+| frozen-table-pin-check | prove an attribution feature table is byte-stable against its FROZEN pin before any trial | `python3 plans/attrib_probe.py freeze-check --frozen plans/attrib-r23-frozen.md` → `block_sha=1b2d6a01bfa431ec pinned=1b2d6a01bfa431ec stable=True -> OK`, exit 0 (round 24) | 21 (instrument `0d23c61`; re-demonstrated 24) |
+| sources-registry | keep a tiered, opened, census-clean registry of where the lane learns, with study paths and a search log | `corpus/SOURCES.md` + the SOURCES contract v1 census (rows 25, malformed 0, `A=24 C=1`, `mined=18 queued=5 rejected=2`, dup/enum/mined-path checks print nothing); receipts `corpus/evidence/round24-sources/gate.md` | 24 |
 
 Rows enter this table only through a round that demonstrates the capability running (`AXES.md` §Capabilities); none enter through this rollout.
+Round 24: the three rows above entered by demonstration in round 24 (commands re-run that round; output in `corpus/evidence/round24-census/after.txt`). The placeholder row was the scaffold, not a claim.
 
 ## Saturation
 
 The lane's saturation line + stagnation window N are to be declared by the lane on its next round per `AXES.md` §The stagnation nudge; not asserted by this conformance change.
 
+Round 24 declaration — saturation line: 8 (every owned axis at ≥8); stagnation window N: 4 rounds (no capability row entering within 4 completed rounds). Basis: owned axes are novelty 7 / calibration 8, so the nudge is inactive while novelty sits below 8; four rounds matches r19–r22, the last stretch of verdict-only movement with demonstrated-but-unrecorded capabilities (RoundPlanner-3 proposal, round 24).
+
+
+## Round 23 — stream-path leg forcing (executed 2026-10-16; NOT-ADMITTED; recorded round 24)
+
+| Claim | Axis | Verdict | Evidence |
+|---|---|---|---|
+| opencode-go on-target coverage via the shim stream path (≥10 on-target GT trials at ≥0.80) | coverage | **FAIL** — 0 on-target trials | `corpus/evidence/attrib-r23-stream.log:239` `STREAM TARGET opencode-go: on-target GT n=0 … -> FAIL` |
+| (characterization, not a claim) stream-path attribution accuracy | — | 30/30 = 1.000 over GT `{"alibaba-token-plan": 6, "hyper": 24}` | `:233-234`; table pin `plans/attrib-r23-frozen.md:214` |
+
+Admission: **NOT-ADMITTED** (the one declared claim failed). Scores: no axis
+moves for r23. Calibration debt: executed 2026-10-16, recorded 2026-10-19 —
+the same late-landing breach rubric clause (d) recorded for r12/r13; no credit
+is taken for the late record. WIP commits `a2ff634`, `f9337d5`, `6f31d23` stay
+as unverified history. Mined in `corpus/lessons/round-24.md` (M13, M14).
+
+## Round 24 — sources registry + sourced expansion (coverage) and learning from the lane's own mistakes (calibration), 2026-10-19
+
+Steered round 24 (kaika). Lowest non-retired axis: coverage 7, tied with
+novelty 7; tie-break: novelty +1 needs a new probe construct and no probe runs
+this round, so coverage carries the lowest-axis claim. No stagnation waiver.
+Pre-registration: `plans/round-24-claims.md` (+ Amendment 1). Counting
+command for every number: `sh plans/round24_census.sh` (base receipt
+`corpus/evidence/round24-census/base-99cf615.txt`; after receipt
+`corpus/evidence/round24-census/after.txt`, run after the round-24 commit
+with that commit checked out — its `HEAD` line names it — and landed in a
+follow-up receipt commit).
+
+| Claim | Axis / type | Before → after (census key) | Score | Self-verdict (pending non-author check) |
+|---|---|---|---|---|
+| C1 sources registry + 5 sourced knowledge entries on uncovered ground + index parity + province map | coverage (lowest) + capability `sources-registry` | expansion_entries_on_mined_rows 0 → 5; knowledge_unindexed 3 → 0; lessons_unindexed_excl_round24 5 → 0; root_logs_indexed 0/28 → 28/28; plans_indexed 0/8 → 10/10; dead_index_rows 0 → 0; coverage_map_rows 11 → 16; frontier_rows 0 → 5; province_map_sections 0 → 4; SOURCES rows absent → 25 (census clean) | 7 → **7 (held by the unresolvable-surface cap)** | improved (counts); capability row entered |
+| C2 mistakes mined into round-closure criteria; SCORECARD made to match repo state; round 23 recorded | calibration | lesson_mistake_rows absent → 20; closure_criteria_citing_round24 absent → 10; scorecard_state_defects_open 6/6 → 0/6; round23_sections 0 0 → 1 1 | 8 → **8 (held)** | counts moved (closeout and SCORECARD state accuracy, not demonstrated discernment); score held — rubric +1 needs an in-round scored probe; late recording buys nothing |
+
+Dissent on record (lane L2, advisory): ClaimCritic-3 ruled coverage must hold
+at 7 (adopted) and judged C2 "honest closeout bookkeeping", not a calibration
+axis-move; RoundPlanner-3 concurred that "improved" is unsupported for the
+score. The counts are reported as measured; the operator rules on whether C2
+admits.
+
+Re-derived axis state, round 24 (closes D10: each axis is a number with a
+basis, or marked verdict-only):
+
+| Axis | Round-24 value | Basis |
+|---|---|---|
+| novelty | 7 | numeric anchor r14 (`:162`); r21 "improved" verdict was never converted to a number — verdict-only, unconverted; conversion needs a rubric ruling, not a late bump |
+| calibration | 8 | held r14; r19/r20 "improved" verdicts verdict-only; r24 held (C2) |
+| depth | 9 | held (anti-double-count); r24 adds one 2-line SKILL pointer, no new rule counted |
+| coverage | 7 | held by the declared-but-unresolvable-surface cap (route telemetry, wiki, bench-arena absent — `PROVINCE.md` §Historical) |
+| operability | 8 | `python3 grader.py` PASS re-run 2026-10-19; `freeze-check` OK; no new gate |
+| freshness | 8 | r24 re-verified every PROVINCE surface (`test -e`/`ss`/`sha256sum`, §Province map) and re-opened 23 public sources; no claim |
+| adjacency | 8 | SiblingConnector-3 report-outs to kotoba, tameshi, chousa (named in the round report); no integrator arbitration |
+
+- **D14 errata (round 24).** `SCORECARD.md:305` "All 149 checks" is stale;
+  the gate today prints `CHECKS n=733 mismatches=0 errata_pinned=1`
+  (`python3 grader.py`, 2026-10-19). The old line stays as written; this row
+  supersedes it.
+- Round 23 recorded NOT-ADMITTED above (§Round 23); no credit taken.
+
+## Planned (round 25)
+
+- **C1 — calibration / discernment:** fold the orchestrator's non-author
+  spot-check of round 24 (≥1 admit, ≥1 reject) into `corpus/lessons/round-25.md`
+  as `agree`/`disagree` with reasons; every disagreement becomes a grounded
+  `corpus/QUALITY.md` row. Before: 0 recorded non-author gate checks; after: ≥2.
+  Count: `grep -cE '^- Spot-check — (admit|reject): (agree|disagree)' corpus/lessons/round-25.md`.
+- **C2 — novelty (tied lowest, 7):** judge calibration applied inward — apply
+  the S011 sensitivity/specificity correction to the attribution instrument's
+  committed r21–r23 receipts (GT exists, no endpoint needed) and price it
+  against S009–S012 with fetched URLs. Before: 0 calibrated-accuracy intervals
+  for the instrument; after: 1, with an in-repo script and a prior-art verdict.
+  The +1 fires only if the rubric's three legs hold.
+- Coverage stays capped until an operator ruling on retired surfaces (L0) or a
+  restored source.

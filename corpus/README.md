@@ -50,6 +50,14 @@ candidates fixed in the receipt, not the wider round-16 citation audit.
 | `knowledge/bench-arena-round11-power.md` | Powered preregistered rerun (n=64, MDE d=0.35): emission-granularity severity dose **ESTABLISHED** — paired diff +0.352 (t=+3.431, p=0.0011, CI [+0.147,+0.556], sign 26/7/31 p=0.0013); passes 29/64 vs 21/64 (McNemar p=0.0963, no pass-rate dose); Brier 0.153; C1–C4 prior-art verdicts | `corpus/evidence/round11-power/` (1473 records, bundle `prereg-bundle.sha256`, verdict in `analysis_r11.md`), run 2026-09-28 |
 | `knowledge/bench-arena-round12-ladder.md` | Powered four-point emission-density ladder + batching/emission dissociation + second-family transport + 416 per-problem forecasts: `LADDER ESTABLISHED`, `DISSOCIATION ESTABLISHED`, `TRANSPORT DIRECTIONAL`, Brier `0.1288` / BSS `+0.0447` | `corpus/evidence/round12-ladder/` (4,114 records, hashed preregistration bundle, 733-check gate), run 2026-09-29 |
 | `knowledge/kimi-model-routing-round18.md` | Round-18 kimi model-routing digest: 17-model n=2 TTFT/TPS/pass battery + M6 opencode-go row; defects (token-plan key-2/3 quota dead, dead client fields, unclamped global effort, reasoning_key DEF-9/10, 42 of 143 entries on unservable lanes); 13-entry table outcome (opencode-go = deepseek-v4.1-flash only, zai→devin glm policy, codex fast-mode no-go) | Parent repo `research/round-18-kimi-model-routing/` merges `4738fee`+`7e2c473`+`c2174a5`+`db82042`+`bd0c690`+`fbae972`; local index `corpus/evidence/round18-kimi-routing/README.md` |
+| `knowledge/probe-battery-r19.md` | Scored close-out of the standing battery's first run: 9-probe grid (23 binary + 7 numeric), freeze-1 superseded BR-1 / freeze-2 `e1a86777…a00a1`, §10 completion closes the grid 9/9 | `plans/probe-battery-r19.md` (FROZEN ×2) + 19 receipts `evidence/probe-r19-*.log`, scored 2026-10-16 |
+| `knowledge/attrib-prior-art-r21.md` | Round-21 prior-art pricing of blind cascade-leg attribution (claim N1) against fetched arXiv primaries (9/9 HTTP 200) | fetched public primaries receipt in-entry + `knowledge/probe-battery-r19.md` anchors, 2026-10-16 |
+| `knowledge/attrib-r21.md` | Blind cascade-leg attribution instrument: design, scored results, limits — frozen feature table vs floating probe code, ≥20 blind trials/shim, GT-after-trials | `plans/attrib-r21-frozen.md` + `plans/attrib_probe.py` + `evidence/attrib-r21-*.log` (4 receipts), 2026-10-16 |
+| `knowledge/contamination-detection-and-transparency.md` | Contamination tiers and detector families: detector-negative ≠ uncontaminated; transparency record of detector access and scope | S001, S002, S004 (S003 rejected) — `corpus/SOURCES.md` contract-v1 rows, round 24 |
+| `knowledge/llm-judge-calibration.md` | Judge scoring bias vs calibrated accuracy: sensitivity/specificity correction with test + calibration-sample uncertainty; rubric/position perturbation audits | S009–S012 — `corpus/SOURCES.md` rows, round 24 |
+| `knowledge/benchmark-saturation-and-lifecycle.md` | Saturation as loss of top-model discrimination near an empirical ceiling, not a high score; lifecycle/retirement signals and construct-validity pairing | S007, S008 — `corpus/SOURCES.md` rows, round 24 |
+| `knowledge/agent-time-horizon-and-task-validity.md` | METR human-duration time horizon (task difficulty at a stated success probability, not wall-clock or job automation) + coding-benchmark task/test validity audits | S013, S014, S005, S006 — `corpus/SOURCES.md` rows, round 24 |
+| `knowledge/paired-eval-uncertainty-reporting.md` | Reporting recipe for shared-item evals: paired differences, MDE/resolution, clustering, multiplicity, adaptive-selection inference | S015–S019 — `corpus/SOURCES.md` rows, round 24 |
 | `lessons/round-1.md` | Path-correction, replace-don't-append, zero-width char hazard | LOG.md round 1, commit `90a5ce8` |
 | `lessons/round-3.md` | Filename-judging missed on-host surfaces; complementarity vs pass-rate; NULL parsing; FAIL-latency signature | LOG.md round 3, this round's analysis |
 | `lessons/round-4.md` | Endpoint-drift trap; n=1 flip on 03; FAIL-latency is subset-level not per-task | LOG.md round 4, `/tmp/bench-r4` run |
@@ -70,6 +78,24 @@ candidates fixed in the receipt, not the wider round-16 citation audit.
 | `lessons/round-16-recensus.md` | Hermetic replay survives host-source loss; unmarked dead paths and missing index row remain debt | LOG.md §16; the round-13 re-dispatch adds current availability annotations without rewriting this audit |
 | `lessons/round-13-coverage.md` | Source availability is coverage; original-byte absence differs from retained digests; bounded index census | LOG.md round-13 re-dispatch; `evidence/round13-coverage/` |
 
+### `lessons/` — round lessons and audits (index)
+
+| Entry | Covers | Evidence |
+|---|---|---|
+| `lessons/2026-10-16-round19-freeze-chain.md` | The freeze is the contract: what a 32-seat preregistration battery stressed | `plans/probe-battery-r19.md` §7/§7.1, `evidence/probe-r19-*.log` (15 receipts), `plans/probe-battery-TEMPLATE.md` |
+| `lessons/2026-10-16-round20-grid-closure.md` | A battery with unrun probes is an open battery: what closing the grid bought | P2/P3/P8/P9 completion receipts `evidence/probe-r19-{P2-servicetier,P3,P8-kimi-code-auth,P9-absent-port}.log` |
+| `lessons/2026-10-16-round21-attribution-freeze-surface.md` | The freeze held the table and let the code float: first live-GT read of the attribution instrument | `plans/attrib-r21-frozen.md`, `plans/attrib_probe.py`, `evidence/attrib-r21-*.log` |
+| `lessons/2026-10-16-round22-leg-coverage-forcing.md` | Natural coverage is weather, forced coverage is design: closing untested legs must not claim what it did not measure | `plans/attrib-r22-frozen.md`, `evidence/attrib-r22-*.log`, battery TEMPLATE P10 fold |
+| `lessons/2026-10-16-round23-stream-surface.md` | The request flag is an instrument surface: what the shim's stream path changes about forcing and features | `plans/attrib-r23-frozen.md`, `evidence/attrib-r23-stream*.log` (30/30 accuracy, target clause FAIL) |
+| `lessons/round-24.md` | Round-24 lesson: mistakes mined from rejected candidates + `## Gate` (admission records) | round-24 wave receipts; `plans/round-24-claims.md` |
+
+Supporting corpus files:
+
+| File | Covers |
+|---|---|
+| `QUALITY.md` | Admission bar for knowledge entries (Q1–Q8) + round-closure criteria appended round 24; every criterion cites the lesson that produced it |
+| `SOURCES.md` | Contract-v1 registry: where the lane learns — `S###` rows with scoped tier/anchor/status/recheck and `used-by` pointers (rows S001–S019 drafted in the ART dossier) |
+
 ### `evidence/` — durable run bytes and L2 analyses
 
 `../PROTOCOL.md`'s evidence standard rejects `/tmp` pointers at closure, so the
@@ -89,6 +115,62 @@ run artifacts are committed:
 | `evidence/round14-fleet/` | Nine-agent landing verification: independent recomputation (28 claims), prior-art re-fetch, live-surface drift, sibling overlap, mutation battery, round-13 reconstruction, corpus drafts, bookkeeping drafts, landing gate, and L1 adjudications |
 | `evidence/round13-coverage/` | Round-13 re-dispatch: exact-path availability receipt, fixed-candidate revision-aware census, baseline/after measurements, nine-seat advisory batch and verification receipts; no model traffic |
 | `evidence/round18-kimi-routing/` | Digest index for parent round 18 (census/definitions/battery/battery-opencode/fastmode/routing trees): contents, file counts, hygiene-gate results; bytes stay in the parent repo (`research/round-18-kimi-model-routing/`) |
+
+Root-level receipt logs — runner/instrument receipts from the r19–r23 live-route
+battery rounds (each carries its freeze sha, seat, and blind rule in-file):
+
+| File | Round/probe | What it records |
+|---|---|---|
+| `probe-r19-P1-key1-quota.log` | r19/r20 P1 addendum | key-1 quota probe (parent-dispatched addendum, not in battery §6): runner seat, battery sha, prediction-filed stamp |
+| `probe-r19-P2-servicetier.log` | r20 P2 completion | service-tier probe: freeze-2 re-verified before the first request (§7 step-2 method) |
+| `probe-r19-P3.log` | r20 P3 completion | P3 probe: freeze re-verified at analysis 09:19:25Z against `plans/probe-battery-r19.md:415` |
+| `probe-r19-P4-devinleg.log` | r19 P4 + P5 timing | devin leg of P4 request (i): warm-up [1/3] excluded from metrics per battery §3 |
+| `probe-r19-P4-glm.log` | r19 P4-glm | glm-flash-cascade `prompt_tokens` billing: shim unit identity (MainPID, ExecStart time) and request receipt |
+| `probe-r19-P5-glm.log` | r19 P5(a) | glm burst transport: zero extra requests by design — timing read from P4's two streams |
+| `probe-r19-P6-zai.log` | r19 P6 | zai leg probe: battery sha at start, frozen line, first-request UTC |
+| `probe-r19-P8-kimi-code-auth.log` | r20 P8 completion | kimi-code auth probe: freeze-2 re-verified, first request 09:14:49Z |
+| `probe-r19-P9-absent-port.log` | r20 P9 completion | absent-port probe closing the r19 UNRUN cell: step-2 freeze recompute reproduced before first request |
+| `probe-r19-devin-shim-seat.log` | r19 recon | devin shim (:8787) seat-filed recon receipt — read-only, filed before any request to that port |
+| `probe-r19-hyper-predictions.log` | r19 hyper leg | hyper-lane forecasts for `deepseek-v4.1-flash` (probe) + `hyper/qwen3.8-flash` (config read only, no request) |
+| `probe-r19-hyper.log` | r19 hyper leg | runner receipt for the hyper endpoint leg: dispatch, health, and responses |
+| `probe-r19-opencode-health.log` | r19 opencode leg | opencode-go endpoint health (200 + model listing) on `opencode-go/deepseek-v4.1-flash`; §DEFECT 0 records two pre-freeze requests excluded from scoring |
+| `probe-r19-p1-listing-mismatch.log` | r19 P1 | listing-mismatch probe: §0–§6 hash re-verified == FROZEN line; runner script sha and receipt command pinned |
+| `probe-r19-quota23.log` | r19 P1 | runner-quota-23 seat: battery sha, frozen UTC, first-request UTC |
+| `probe-r19-shim-ds-predictions.log` | r19 shim-ds | ds-flash shim (:8791) forecasts filed before any request; cited hypothesis sources |
+| `probe-r19-shim-ds-run.log` | r19 shim-ds | execution receipt vs predictions block sha `78de64d9…`; shim code pin `42d86d99…` verified pre-run; every entry stamped |
+| `probe-r19-shim-glm-predictions.log` | r19 shim-glm | glm-flash shim (:8793) forecasts for probes P4-glm + P5-glm; battery freeze `e3f08a09…` |
+| `probe-r19-shim-glm-run.log` | r19 shim-glm | execution receipt vs prereg sha `a1674cfc…` filed 07:55:05Z; battery freeze pinned |
+| `attrib-r21-ds-trials.log` | r21 trials | ≥20 blind trials vs the ds shim (:8791); instrument sha `b3e18c78…`, frozen table `9f0244bb…`; score appended after all trials |
+| `attrib-r21-glm-trials.log` | r21 trials | ≥20 blind trials vs the glm shim (:8793); same instrument/freeze pins |
+| `attrib-r21-impl-ds-trials.log` | r21 trials | instrument-impl seat copy of the ds-shim trial series; identical freeze and blind rule |
+| `attrib-r21-impl-glm-trials.log` | r21 trials | instrument-impl seat copy of the glm-shim trial series; identical freeze and blind rule |
+| `attrib-r22-legs.log` | r22 legs | leg-coverage forcing vs the ds shim (targets hyper, opencode-go); instrument `05da8927…`, shim pin `42d86d99…`, table `3d7861f8…` |
+| `attrib-r22-legs-hyper.log` | r22 legs | hyper-target leg of the same forcing series (identical pins) |
+| `attrib-r22-opencode-trials.log` | r22 legs | opencode-go-target trials (instrument `34c4fa67…`): forcing mode, target opencode-go |
+| `attrib-r23-stream-trials.log` | r23 stream | stream:true path trials; blind predictions `/tmp/…/predictions.md` sha `8b26166d…` filed before first request (ephemeral path retained as record) |
+| `attrib-r23-stream.log` | r23 stream | stream-path forcing series: instrument `cce53a16…`, table `1b2d6a01…` — ACCURACY 30/30, `STREAM TARGET opencode-go` clause FAIL (GT n=0) |
+
+Round-24 additions:
+
+| Dir | Contents |
+|---|---|
+| `evidence/round24-sources/` | Gate receipts for the `SOURCES.md` contract-v1 rows (per-source open receipts for the S001–S019 registry) |
+| `evidence/round24-census/` | Round-24 census receipts: `base-99cf615.txt` (v2 census on a `git archive 99cf615` tree) and `after.txt` (census + SOURCES contract census on the round-24 commit) |
+
+### `plans/` — plans, frozen instruments, and templates
+
+| File | Covers |
+|---|---|
+| `plans/attrib_probe.py` | Live attribution probe instrument (sha256 floats between trials and landing per the r21 freeze-surface lesson; current `489f938a…16e06b`) |
+| `plans/attrib-r21-frozen.md` | Frozen r21 feature table (anchor sha256 `9f0244bb…`, FROZEN 2026-10-16T10:20:08Z) |
+| `plans/attrib-r22-frozen.md` | Frozen r22 extended feature table + forcing protocol (anchor `3d7861f8…`, FROZEN 2026-10-16T11:49:01Z) |
+| `plans/attrib-r23-frozen.md` | Frozen r23 table + stream-path protocol (anchor `1b2d6a01…`, FROZEN 2026-10-16T13:45:47Z) |
+| `plans/probe-battery-r19.md` | Standing battery r19 instantiation: 9 probes, 23 binary + 7 numeric components, 19-request budget; freeze record §7/§7.1 (freeze-1 `e3f08a09…` superseded mid-window, freeze-2 `e1a86777…a00a1` valid) |
+| `plans/probe-battery-TEMPLATE.md` | Host-agnostic reusable battery spec; P10 attribution probe folded in (r22); lineage table cites every established practice |
+| `plans/round-24-claims.md` | Round-24 pre-registered claims; before-values measured at base `99cf615` |
+| `plans/round24_census.sh` | Counting script for every claimed number — run `sh plans/round24_census.sh` from the lane root |
+| `plans/wwkd-round-16-recensus.md` | WWKD round-16 dispatch: independent freshness re-census plan (base `d84e48d5…`) |
+| `plans/wwkd-round-17-coverage.md` | WWKD round-17 dispatch: coverage continuation plan (base `3f31e54c…`) |
 
 Re-verify the round-9 ordering proof without `/tmp`:
 `cd corpus/evidence/round9-replication && sha256sum -c predictions-r9.sha256.repo` → `OK`.
@@ -123,6 +205,11 @@ recomputed 24/32).
 - **Multi-turn state tracking / planning horizon**: r8 built the instrument; r9 replicated probe A; r11 powered the middle contrast (+0.352, p=0.0011); r12 established the ordered four-point ladder (Page `L=1773.0`, `z=+9.452`), repeated the middle contrast (+0.297), dissociated batching from emission sparsity (+0.656), and tested a second task family (+0.177, directional at a 2/48 floor). See `knowledge/bench-arena-round12-ladder.md`.
 - **Novelty pricing**: r9 priced 4/4 findings; r11 priced C1–C4 + M1–M3; r12 prices C1–C6 with fetched URLs — C1/C2/C4/C5/C6 INCREMENTAL, C3 NOVEL-instrument, phenomenon-new 0 / instrument-new 1. Round-14 reviewer re-fetched 14 load-bearing URLs and reproduced every verdict (`evidence/round14-fleet/r14-review-priorart.md`).
 - **Evidence durability**: every run byte and verification artifact through round 14 is committed and indexed. The r12/r13 one-round landing debt and the r8 raw-stripping incident remain documented; no headline claim rests solely on `/tmp`.
+- **Contamination detection and transparency**: covered at source-digest depth (round 24) — knowledge/contamination-detection-and-transparency.md; sources S001, S002, S004 (S003 rejected as a general score-correction).
+- **Judge calibration**: covered at source-digest depth (round 24) — knowledge/llm-judge-calibration.md; sources S009–S012.
+- **Benchmark saturation and lifecycle**: covered at source-digest depth (round 24) — knowledge/benchmark-saturation-and-lifecycle.md; sources S007, S008.
+- **Agentic time horizon and task validity**: covered at source-digest depth (round 24) — knowledge/agent-time-horizon-and-task-validity.md; sources S013, S014, S005, S006. Extends the *Multi-turn state tracking / planning horizon* row with external task-duration and task-validity methodology; the lane's local horizon instrument is unchanged.
+- **Statistical reporting for paired evals**: covered at source-digest depth (round 24) — knowledge/paired-eval-uncertainty-reporting.md; sources S015–S019.
 
 ## Open gaps
 
@@ -138,3 +225,14 @@ recomputed 24/32).
 - **Analysis regeneration** (round 14): `analysis_r12.md` is now md5-pinned, but regeneration remains path-dependent by one absolute `Generator source` line; every statistic independently reproduces. Make future generated reports path-insensitive.
 - **Bench-arena availability**: round 14 recorded relocation from `~/bench-arena` to `~/archive/bench-arena`; both exact paths are now unavailable (`evidence/round13-coverage/surface-receipt.json`). Historical hashes and the retained digest do not recover the benchmark tree.
 - **Prior-art digest queue**: Laban et al. ICLR 2026 (`arxiv.org/abs/2505.06120`), Lanham et al. (`2307.13702`), and llama.cpp #7052 are fetched and used in pricing artifacts; synthesis into standalone corpus digests remains open.
+
+## Frontier
+
+Unexplored ground named round 24 — each item carries why and the next
+source/instrument (ART dossier §Leads; nothing below is admitted knowledge yet):
+
+- **Agentic benchmark task-spec audits**: why — S005/S006 show lab self-audits finding task-level validity defects *after* publication; the lane has no instrument that audits a benchmark's task specs, graders, and contamination separately. Next source/instrument: the primary specs and scoring code for Terminal-Bench 2.0, Toolathlon, and SWE-bench Pro (unopened leads in the ART dossier), turned into a per-benchmark task-validity checklist.
+- **Contamination transparency cards**: why — `knowledge/contamination-detection-and-transparency.md` establishes the tier/access vocabulary but the lane has no standard card format recording detector access, tier tested, and what a negative cannot rule out. Next source/instrument: current benchmark-maintainer releases on hidden-test governance and contamination-transparency cards (unopened lead); draft a card template and gate a knowledge entry on Q1–Q8.
+- **Judge calibration applied inward**: why — the lane's own grader/attribution outputs (`grader.py`, `plans/attrib_probe.py` verdicts) are judged artifacts that have never been through the S009–S012 calibration protocol the new entry describes. Next source/instrument: port the S011 sensitivity/specificity correction + S010 perturbation audit onto the r21–r23 trial receipts (`evidence/attrib-r2*-*.log`).
+- **Identity-verified endpoint for novelty probes**: why — `:34113` is absent (`ss -ltn 'sport = :34113'` → no listener, 2026-10-19); only the read-only ds-flash-shim (`:8791`, sha-pinned) resolves, so no new live capability/novelty probe can run. Next source/instrument: an identity-verified endpoint (kama-owned serving plane, operator-owned restoration) plus the standing `plans/probe-battery-TEMPLATE.md` to re-instantiate the battery.
+- **Non-karpathy wiki topics**: why — `ai/` subtrees outside karpathy remain undigested and the source is absent (`~/Projects/webzites/repos/llm-wiki` → `test -e` absent). Next source/instrument: none available on-host; the row stays frontier until the wiki path resolves again (round-13/16 receipts record it absent).

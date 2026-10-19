@@ -614,6 +614,8 @@ the original bytes, and a committed response is run history, not a live
 model. Public URLs cited here were not re-fetched by the receipt and are not
 claimed current. Current offline entry point for the numbers in this section:
 `python3 grader.py` (§Hermetic grader; registry row §Gate/probe registry).
+Where to learn next (round 24): `corpus/SOURCES.md` (tiered, opened sources and
+study paths); admission bar: `corpus/QUALITY.md`.
 
 - `~/Projects/webzites/repos/llm-wiki/wiki/ai/agents-and-engineering/benchmark-shortlist-for-godspeed-research.md` — benchmark shortlist, anti-patterns, minimal stack (read 2026-09-28)
 - `~/Projects/webzites/repos/llm-wiki/wiki/ai/agents-and-engineering/godspeed-umwelt-iteration-2.md` — 125 agents / 21 experiments; K2 clean split, calibration asymmetry, variant multiplier, effect-size table

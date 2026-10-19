@@ -204,3 +204,64 @@ Fields already present as real sections before this change: the axes score table
 Fields added by this rollout: `## Capabilities` (empty repertoire-table scaffold; rows enter only via a round that demonstrates the capability running) and `## Saturation` (saturation line + stagnation window N deferred to the lane's next round per `AXES.md` §The stagnation nudge).
 No axis claim was made and no score moved; no verdict was changed.
 
+
+## Round 23 — stream-path leg forcing (executed 2026-10-16; NOT-ADMITTED, recorded round 24)
+
+**Round 23 (2026-10-16, recorded 2026-10-19 in round 24).** Registered at r22
+close as "opencode-go forcing via the stream-path header leg-selection"
+(`SCORECARD.md` §Round 22). Executed: v3 table `plans/attrib-r23-frozen.md:214`
+`FROZEN: 2026-10-16T13:45:47Z sha256:1b2d6a01…`; 30 stream trials scored in
+`corpus/evidence/attrib-r23-stream.log` — `:233` `GT counts: {"alibaba-token-plan": 6, "hyper": 24}`,
+`:234` `ACCURACY: 30/30 = 1.000 … -> PASS`, `:239` `STREAM TARGET opencode-go: on-target GT n=0, correct 0/0 = 0.000 (bar 0.80, min on-target n 10) -> FAIL`.
+The round's one claim was the opencode-go coverage clause; it failed. The
+dispatch then aborted: WIP commits `a2ff634` / `f9337d5` / `6f31d23` (2026-10-16
+11:22–11:25 -0300) carry the instrument draft, receipts and v3 table, each
+self-labelled unverified; drafts under `.ufo/rounds/round-23/goal-wave/` still
+hold 17 `[PARENT:` slots (1 + 6 + 10). No LOG, SCORECARD, index row or report
+was written until now.
+
+**Disposition: NOT-ADMITTED.** `AXES.md`: "A round is admitted only if every
+claim verifies"; the coverage clause did not. The attribution accuracy
+(30/30) stands as a characterization of the stream path, not as coverage.
+The gap stays named: opencode-go has 0 on-target GT trials across r21–r23.
+No score moves for r23. The late record does not buy calibration credit
+(rubric clause (d), round-14 precedent). Mining of this miss:
+`corpus/lessons/round-24.md` (M13, M14). No re-run in round 24.
+
+## Round 24 — sources registry + sourced expansion; learning from the lane's own mistakes (kaika, 2026-10-19)
+
+**Round 24 (2026-10-19, kaika campaign, steered).** Lowest axis: coverage 7,
+tied with novelty 7; tie-break to coverage because a novelty +1 needs a new
+probe and none runs; no stagnation waiver. Motivating evidence: W1 STATE
+dossier §4–§5 (18 mined mistakes, D01–D19 contract defects; round 23 executed
+but never recorded) and W1 ART dossier (19 leads on contamination, judge
+calibration, saturation, agentic horizon, paired uncertainty; `QUALITY.md`
+absent, so nothing could be admitted). Pre-registered claims:
+`plans/round-24-claims.md` (+ Amendment 1 after the reviewer/critic seats).
+
+Landed: `corpus/QUALITY.md` (admission bar Q1–Q8, written before any
+admission; round-closure criteria R1–R10 from the mined mistakes);
+`corpus/SOURCES.md` (25 rows re-opened today, `A=24 C=1`,
+`mined=18 queued=5 rejected=2`, contract census clean; receipts with quotes and
+sha256 in `corpus/evidence/round24-sources/gate.md`); five knowledge entries
+on uncovered ground, each opening with the source/verified-at/recheck triad;
+index parity both directions (knowledge 3→0 unindexed, lessons 5→0, root
+logs 0/28→28/28, plans 0/8→10/10, dead rows 0); `## Frontier` (5) and five
+coverage-map rows in `corpus/README.md`; `PROVINCE.md` §Province map round 24
+(Core/Frontier/Adjacent/Historical, every surface re-verified by `test -e` /
+`ss` / `sha256sum`); `corpus/lessons/round-24.md` (20 mistakes, classes,
+round-23 disposition, `## Gate`); SCORECARD round-24 section (re-derived axis
+table, capabilities ×3, saturation line 8 / window 4, D14 errata, planned
+round 25); the Round 23 NOT-ADMITTED record above.
+
+Verdicts (self, pending non-author verification): C1 coverage 7 → 7 held by
+the unresolvable-surface cap (critic's binding ruling), counts improved,
+capability `sources-registry` entered; C2 calibration 8 → 8 held, counts
+improved (`scorecard_state_defects_open` 6/6 → 0/6), critic dissent recorded.
+Re-verification: `python3 grader.py` → `CHECKS n=733 mismatches=0
+errata_pinned=1` PASS; `attrib_probe.py freeze-check` on the v3 table → OK;
+shim sha256 `42d86d99…` matches the pin; `:34113` no listener. Provider
+exhaustion: the first executor seats for KnowledgeB and SourcesRegistry
+stalled on a rate-limited route and were re-dispatched (KnowledgeB twice; one
+re-spawn failed `turn_rate_limit_exceeded`). Census: `sh plans/round24_census.sh`;
+receipts `corpus/evidence/round24-census/{base-99cf615,after}.txt`.

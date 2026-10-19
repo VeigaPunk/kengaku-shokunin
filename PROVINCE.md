@@ -91,3 +91,72 @@ Respawn as the cause is `[INFERENCE]`, not established. (3) **No new serving
 plane report-out** — endpoint id, pid 1299, 41-token argv, q4_0 KV,
 `--kv-unified`, and `--parallel 2` remain exact matches. Evidence:
 `corpus/evidence/round14-fleet/{r14-connector,r14-scout-surfaces}.md`.
+
+## Province map — round 24 (2026-10-19)
+
+*Correction note (appended, append-only): the header's "re-verified round 14,
+2026-09-29" on `## Surfaces` is superseded by this section — several rows there
+no longer resolve. The old table is retained verbatim as the historical record;
+the current state is below.*
+
+### Core
+
+Surfaces that resolve today, each with the check actually run and its result:
+
+| Surface | Check run today | Result |
+|---|---|---|
+| In-repo verdict gate | `test -e grader.py && sha256sum grader.py` | present; `90c87c88…ae941f` (replay tree r8/r9/r11/r12; `python3 grader.py` is the offline entry point) |
+| Own probe artifacts | `for d in round8-horizon round9-replication round9-fleet round10-fleet round11-power round11-fleet round12-ladder round12-fleet round13-ack-state round13-coverage round14-fleet round18-kimi-routing; do test -d corpus/evidence/$d || echo missing $d; done` (prints nothing) | all present; plus 28 root receipt logs indexed in `corpus/README.md` |
+| Attribution instrument + frozen tables | `test -e plans/attrib_probe.py && sha256sum plans/attrib_probe.py`; `test -e plans/attrib-r21-frozen.md` / `-r22-` / `-r23-` | all present; probe sha256 today `489f938a…16e06b` (floats between trials and landing per the r21 lesson — frozen anchors live in the `-frozen.md` files) |
+| Corpus gate docs | `test -e corpus/QUALITY.md` | present (admission bar Q1–Q8 + round-closure criteria, created round 24) |
+| Public-literature registry | `test -e corpus/SOURCES.md` | present; 25 rows, contract-v1 census clean (`corpus/evidence/round24-census/after.txt`); receipts `corpus/evidence/round24-sources/gate.md` |
+| ds-flash-shim source (read-only) | `sha256sum ~/.local/share/ds-flash-shim/shim.py` | present; `42d86d99…15a386` — identical to the disclosed pin in `evidence/attrib-r22-*.log` / `attrib-r23-stream.log` |
+| Live probe endpoint | `ss -ltn 'sport = :8791'` | LISTEN on `127.0.0.1:8791` (ds-flash-shim, read-only shim; `:8793` not probed this round) |
+| Public literature | URLs cited in `knowledge/eval-prior-art-calibration.md`, `attrib-prior-art-r21.md`, and the ART dossier | reachable-by-citation only — documentation reads only this round, no live model/endpoint traffic |
+
+### Frontier
+
+The ground named in `corpus/README.md` §Frontier: agentic benchmark task-spec
+audits (Terminal-Bench 2.0 / Toolathlon / SWE-bench Pro primary specs —
+unopened leads), contamination transparency cards, judge calibration applied
+to this lane's own grader/attribution outputs, an identity-verified endpoint
+for novelty probes, and non-karpathy wiki topics (source absent).
+
+### Adjacent
+
+Owner lanes and what is routed to them (grounded in existing PROVINCE/lesson
+text, not renegotiated this round):
+
+| Owner | What is routed |
+|---|---|
+| **kama** | serving plane + endpoint identity — `SKILL.md` and `lessons/round-16-recensus.md` record that kama is rostered and owns serving-plane health/detection and endpoint identity; kengaku keeps *interpretation* evidence and never remediates flags (`--kv-unified`, q4_0 KV, `--parallel`) — flag-change authority is unowned/integrator |
+| **chousa** | research method — `corpus/QUALITY.md` and the SOURCES contract both state the question → source-hierarchy → citation-chain → claim-vs-source method stays chousa's (`chousa-shokunin/SKILL.md`); this lane holds neither method nor duplicates it |
+| **kotoba** | prompt- and skill-craft rules — measured capability effects of prompt format stay here; reusable craft implications route out (r7 tools-without-system, r11/r12 ack-intent findings) |
+| **protocol / aggregator** | fleet process — a fleet-wide preregistration/replay-gate standard and closeout carry-over gates were referred round 11/12–14, not imposed; `SOURCES.md` contract-v1 is fleet-frozen |
+| **kagi** | Janitor consumer-side endpoint/credential config (round-9 routing) |
+| **kumitate** | OMP route resolution, fallback policy, operational failure taxonomy (`loop.sh` telemetry-source semantics, informational) |
+| **kasegi** | bounty-ledger mission-state / dispatcher semantics — plus the round-11 report that `~/Projects/bounties/` went absent operator-side |
+| **kake** | web properties; the shared word "probe" carries no scope |
+
+### Historical — absent, not governed
+
+Every path in the `## Surfaces` table that does not resolve today. `test -e`
+was run on each; the port was checked with `ss` only (no HTTP traffic):
+
+| Surface | Check | Result today | Last resolved |
+|---|---|---|---|
+| `~/Projects/webzites/repos/llm-wiki` | `test -e` | absent | wiki reads recorded rounds 8–12 (2026-09-28/29); absent since round-13 coverage receipt |
+| `~/wikillm/llm-wiki` | `test -e` | absent | never existed on this host (noted in the table itself) |
+| `~/archive/bench-arena` | `test -e` | absent | round 14 (2026-09-29, relocated from `~/bench-arena`); absent per round-13 receipt |
+| `~/bench-arena` | `test -e` | absent | round 13; superseded by the archive path, now also absent |
+| `http://127.0.0.1:34113` | `ss -ltn 'sport = :34113'` | no listener | endpoint 200 + identity re-probed through round 14 (2026-09-29); refusal recorded at the round-13 re-dispatch (2026-10-15) |
+| `/proc/1299/cmdline`, `~/.config/systemd/user/qwen-coder.service`, `~/.config/llama/qwen-coder-godspeed.jinja` | `test -e` | absent | process-level pin rounds 10–14 (pid 1299, 41-token argv EXACT_MATCH) |
+| `~/Projects/bounties/ledger/telemetry.jsonl` | `test -e` (whole `~/Projects/bounties` tree absent) | absent | round 11 at 7,226 lines, live count 23:32Z 2026-09-29; went absent mid-round-11 |
+| `~/Projects/the-bounty-hunter` | `test -e` | absent | recorded round 11 as existing-but-no-telemetry.jsonl; the tree itself is now gone |
+| `~/.bailian/telemetry.jsonl`, `~/.bailian/wiki-sync-state.json` | `test -e` (whole `~/.bailian` absent) | absent | profiled 2026-09-28 (4,274-record digest) |
+| `~/.bailian/skills/bailian-docs-llm-wiki/models/{index.md,models.jsonl}` | `test -e` (whole `~/.bailian` absent) | absent | read 2026-09-28 (Bailian model index digest) |
+| `/tmp/bench-r{4,5,6,7,7-l2-executor}` run trees | `test -e` | absent (ephemeral by design) | graded runs of 2026-09-28; durable numbers are pasted in-entry per the evidence standard |
+| HF + OpenRouter catalog endpoints | not probed this round (docs-reads-only policy) | unverified | probed 2026-09-28 (`knowledge/open-model-catalogs.md`) |
+
+Nothing in this section is governed: these are historical sources whose
+digests and receipts are retained in `corpus/`, not current dependencies.
