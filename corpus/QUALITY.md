@@ -64,6 +64,21 @@ An entry is admitted only when every row below passes; the round lesson's
   Lesson: `corpus/lessons/round-13-coverage.md` §Gate (the rejected moves are
   recorded beside the admitted ones).
 
+- **Q9 — a rejection's reason follows from its evidence.** The source cited
+  against a rejected claim must address the same property the claim asserts
+  (contamination evidence against a contamination claim, task-validity evidence
+  against a validity claim); otherwise the reason is rewritten as a superseding
+  row. A correct verdict with a wrong reason is a gate failure.
+  Lesson: `corpus/lessons/round-24.md` M21 (S023 rejected Scale's
+  contamination claim by citing S006's task-validity audit; caught only by the
+  non-author spot-check).
+- **Q10 — locations and numbers are re-read by a second seat.** Before admission,
+  a seat other than the entry's writer re-opens each cited source and confirms
+  every quote location and every number against it (exact cells or a stated
+  range, never an approximation such as "~45–48%").
+  Lesson: `corpus/lessons/round-24.md` M22 (five location slips and one
+  unreproduced range in four sources passed the lane's own Q1–Q8 self-check).
+
 ## Round-closure criteria
 
 A round closes only when every row below holds; a row that cannot be shown is an open item, not a waiver. Each row cites the mistake it closes in `corpus/lessons/round-24.md`; checks are file or command tests, not prose.

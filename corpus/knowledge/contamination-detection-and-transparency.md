@@ -81,3 +81,20 @@ transparency`.
   admit the framework is "not yet adaptable to generative tasks such as machine
   translation and summarization" (Limitations). Flip: validation on frontier
   models and generative tasks with the adjustment tied to recovered accuracy.
+
+## Corrections (round 24 post-review, 2026-10-19)
+
+Appended after the orchestrator's non-author spot-check; the lines above stay as
+landed in `94da19e`. Re-opened https://arxiv.org/html/2510.02386v1 today.
+
+- §Evidence "RL post-training hides contamination": the near-random AUROC after
+  156 GRPO steps is shown in **Figure 2** (§3.1, "As shown in Fig. 2, AUROC
+  consistently decreases across all detection methods and benchmarks as the
+  number of GRPO steps increases"), not Table 2. Table 2 reports the clean-vs-
+  contaminated GRPO comparison.
+- §Evidence "CoT contamination … nearly invisible": the quoted sentence
+  ("almost all the detection approaches consistently perform near random guess
+  in all the benchmarks") is in **§1 Introduction**, not §4; §4 / Table 5 carry
+  the supporting results.
+- The `source:` line's anchor "§3.1 Table 2, §4 Table 5" therefore reads, for
+  these two claims, "§3.1 Figure 2; §1 (Stage II summary), §4 Table 5".

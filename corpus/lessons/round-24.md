@@ -28,6 +28,8 @@ Line drift is corrected inline and marked `(dossier said …)`; a pointer that n
 | M18 | PROC | `SHONEN.md` evidence blocks are multi-line prose; canonical form allows one indented evidence line per box; 0 `[x]` (`SHONEN.md:5-12`; `../PROTOCOL.md:417` — dossier said `PROTOCOL.md`) | none in SKILL/QUALITY — PROTOCOL.md:417 form | Regenerate verbatim; one evidence line per box. |
 | M19 | LAND | the round-23 lesson's premise "no round-23 artifact has landed" (`corpus/lessons/2026-10-16-round23-stream-surface.md:9-11`) was left unmarked after the receipts landed (`corpus/evidence/attrib-r23-stream.log:233-239`); the file was committed `3358c4d` at 14:23:19Z, after the 13:49:42Z score block | none | A superseded premise gets a dated erratum in the same file; the old sentence is not left as current. |
 | M20 | MEAS | the census Gate count reads 2 vs the true 1: `grep -lE '^## Gate' corpus/lessons/*.md` also matches `## Gated steps` at `corpus/lessons/round-8-aggregator-box3-coldrun.md:33` (true Gate: `corpus/lessons/round-13-coverage.md:24`; `plans/round24_census.sh` v1 key `C2.lessons_with_gate`, dropped in v2) | none | Anchor census regexes with `$`; a prefix match is not a count. |
+| M21 | DISC | the S023 rejection reason cited S006 (Pro task validity, ~30% broken tasks) as refuting Scale's contamination-resistance claim — a different property; caught by the orchestrator's non-author spot-check, not by the lane's reviewer/critic (`corpus/SOURCES.md` S023 row; superseded by S026) | none (Q8 requires a reason, not that the reason follow from its evidence) | QUALITY Q9: a rejection's cited evidence must address the property the rejected claim asserts |
+| M22 | MEAS | quote locations and one number drifted between the source and the entry: S002 Table 2 (is Figure 2) and §4 (is §1); S012 'repetitive list' quote under Abstract (is §3.3); S005 summary quotes under section headings; S009 '~45–48%' (Table 3 cells are 35.40–45.54 / 40.53–48.58); the lane's LandedReviewer had caught only S015 (`corpus/knowledge/*` §Corrections, round 24) | partial: Q3 requires a location but nothing checks it | QUALITY Q10: every location and number is re-read from the opened source by a seat other than the entry's writer before admission |
 
 ## Classes
 
@@ -107,3 +109,33 @@ Full receipts with byte counts and census: `corpus/evidence/round24-sources/gate
 | S023 | https://scale.com/blog/swe-bench-pro | 2026-10-19 | “We use code that models haven't been trained on.” | A Benchmark to Meet Today’s Coding Needs → Data Contamination, The Solution | ee510e84ea4f2afea0d6ac38517ba9b184181d490f4560a5522d6d41292f756b (128,773 bytes) |
 | S024 | grader.py | 2026-10-19 | `"""kengaku hermetic evidence-replay grader — the operability gate (round 10;` / `def main(argv=None):` | grader.py:2; grader.py:5664 | 90c87c8865022681b1249a42ea580726932d2e97ec0de43e0c89efe0e5ae941f |
 | S025 | corpus/evidence/attrib-r23-stream.log | 2026-10-19 | “STREAM TARGET opencode-go: on-target GT n=0, correct 0/0 = 0.000 (bar 0.80, min on-target n 10) -> FAIL” | corpus/evidence/attrib-r23-stream.log:239 | afaae9ddaf4deda0095c2e7ad39c6cb63236d72c812ca2fcd9ab18c42eef8131 |
+
+## Post-review corrections (orchestrator non-author spot-check, 2026-10-19)
+
+Verdict received: non-author reviewer **return** (all 20 census keys reproduce at
+`99cf615`/`06872d4`; provenance, append-only and credentials pass); critic
+**reject**; the orchestrator ruled C2 a real calibration move (SCORECARD now
+matches observed repo state) and required the fixes below inside round 24.
+
+- **Spot-check, admit — `llm-judge-calibration.md`: disagree (partial).** The
+  claim stands, but the S009 range and the S012 location were wrong. Fixed by an
+  appended §Corrections in the entry; class M22 → `corpus/QUALITY.md` Q10.
+- **Spot-check, reject — S023: disagree.** The rejection is right (vendor
+  self-description, tier C), but its stated reason was a non-sequitur: S006 is
+  about task validity, not contamination. Superseded by the new row S026 (rule 2);
+  class M21 → `corpus/QUALITY.md` Q9.
+- **Other location slips** (S002 ×2, S005 ×2): appended §Corrections in
+  `contamination-detection-and-transparency.md` and
+  `agent-time-horizon-and-task-validity.md`.
+- **Registry `recheck` cells, in place (contract rule 2), old → new** — the fleet
+  validator (`sources-census.sh validate`, E09) accepts only an ISO date or a
+  cadence:
+  - S001, S002, S003, S004, S007, S008, S009, S010, S011, S012, S013, S015, S016,
+    S017, S018, S019, S020, S021, S022: `2027-01-17 (90d)` → `2027-01-17`
+  - S024, S025: `each round` → `90d`
+- **New row:** S026 (rejected, tier C, supersedes S023); receipt in
+  `corpus/evidence/round24-sources/gate.md`, quote “We use code that models
+  haven't been trained on. This is sourced from public codebases governed by
+  strong copyleft licenses (e.g., GPL)” — Data Contamination → The Solution.
+- **Validator after:** `TZ=UTC bash …/fleet-census/scripts/sources-census.sh
+  validate <worktree>` → `ok`, exit 0.

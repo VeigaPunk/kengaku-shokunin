@@ -31,6 +31,7 @@ Method: reopened all web URLs with read; streamed curl responses to sha256sum an
 | S023 | https://scale.com/blog/swe-bench-pro | 2026-10-19 | “We use code that models haven't been trained on.” | A Benchmark to Meet Today’s Coding Needs → Data Contamination, The Solution | ee510e84ea4f2afea0d6ac38517ba9b184181d490f4560a5522d6d41292f756b (128,773 bytes) |
 | S024 | grader.py | 2026-10-19 | `"""kengaku hermetic evidence-replay grader — the operability gate (round 10;` / `def main(argv=None):` | grader.py:2; grader.py:5664 | 90c87c8865022681b1249a42ea580726932d2e97ec0de43e0c89efe0e5ae941f |
 | S025 | corpus/evidence/attrib-r23-stream.log | 2026-10-19 | “STREAM TARGET opencode-go: on-target GT n=0, correct 0/0 = 0.000 (bar 0.80, min on-target n 10) -> FAIL” | corpus/evidence/attrib-r23-stream.log:239 | afaae9ddaf4deda0095c2e7ad39c6cb63236d72c812ca2fcd9ab18c42eef8131 |
+| S026 | https://scale.com/blog/swe-bench-pro | 2026-10-19 | “We use code that models haven't been trained on. This is sourced from public codebases governed by strong copyleft licenses (e.g., GPL)” | Data Contamination → The Solution | 171087c52dae062de9bca611a5b1e73bde45348a24ed9dd813db9a0ccf86783b (128,773 bytes) |
 
 ## Census
 

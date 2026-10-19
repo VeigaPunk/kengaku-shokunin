@@ -80,3 +80,18 @@ with a measured correction protocol. New coverage row: `Judge calibration`.
   corrected for position bias "can therefore still be biased through criterion
   order" (§5.5). Flip: paired-bootstrap evidence that a permutation protocol
   lifts human correlation for the specific judge in use.
+
+## Corrections (round 24 post-review, 2026-10-19)
+
+Appended after the orchestrator's non-author spot-check; the lines above stay as
+landed in `94da19e`. Re-opened S009 and S012 today.
+
+- §Evidence S009 "flip rates up to ~45–48% under the Ref-5 perturbation" is not
+  what Table 3 (§4.2) reports as a single range. Exact cells: Ref-5 FR on
+  **BiGGen Bench 35.40–45.54%** and on **FLASK 40.53–48.58%** across the five
+  judges (Ref-5 applied only to those two datasets). Read: Ref-5 flips roughly
+  35–49% of scores depending on judge and dataset.
+- §Evidence S012: "over 80% agreement, the same level of agreement between
+  humans" is in the Abstract (correct), but "cannot pass the more advanced
+  'repetitive list' attack" is in **§3.3 Limitations of LLM-as-a-Judge**
+  (verbosity bias), not the Abstract.

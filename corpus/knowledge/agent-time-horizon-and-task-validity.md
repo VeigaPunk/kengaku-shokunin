@@ -44,3 +44,19 @@ Extends the README coverage-map row “Multi-turn state tracking / planning hori
 
 - **SWE-bench Verified/Pro is an uncontested capability meter.** Rejected: S005 and S006 report task/test and contamination issues, and S006 retracts the recommendation to adopt Pro. Flip: independent, blinded audits of the current release find no material validity defects and clean held-out results track capability on the intended construct.
 - **The r8–r12 planning-horizon instrument measures METR time horizon.** Rejected: checkpoint/emission schedules are not human-time baselines. Flip: a new lane study directly times expert completion, fits success against human task duration, and reports a stated reliability threshold.
+
+## Corrections (round 24 post-review, 2026-10-19)
+
+Appended after the orchestrator's non-author spot-check; the lines above stay as
+landed in `94da19e`. Re-opened S005 today.
+
+- §Evidence S005: "at least 59.4% of the audited problems have flawed test cases
+  that reject functionally correct submissions" is in the post's **opening
+  summary, item 1 "Tests reject correct solutions"**, not in "Too narrow and too
+  wide tests". That section's own sentence is "We found that 59.4% of the 138
+  problems contained material issues in test design and/or problem
+  description" (the receipt in `corpus/evidence/round24-sources/gate.md`).
+- §Evidence S005 "Contamination": "all frontier models we tested were able to
+  reproduce the original, human-written bug fix …" is in the **opening summary,
+  item 2 "Training on solutions"**; the "Contamination" section carries the
+  red-teaming method and examples.
