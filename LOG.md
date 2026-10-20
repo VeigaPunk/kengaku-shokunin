@@ -265,3 +265,10 @@ exhaustion: the first executor seats for KnowledgeB and SourcesRegistry
 stalled on a rate-limited route and were re-dispatched (KnowledgeB twice; one
 re-spawn failed `turn_rate_limit_exceeded`). Census: `sh plans/round24_census.sh`;
 receipts `corpus/evidence/round24-census/{base-99cf615,after}.txt`.
+
+## 2026-10-17 — README: Devin wiki link
+
+- Operator directive (2026-10-17): insert the Devin wiki link into the README header of every repository with a generated wiki.
+- Change: `README.md` created (lane-header convention) with a `**Wiki:**` link to https://app.devin.ai/org/veigapunk/wiki/VeigaPunk/kengaku-shokunin?branch=master.
+- Evidence: the org's Devin wiki index lists this repo's generated wiki; sibling lane READMEs carry the same `**Wiki:**` header.
+- Documentation-only change; no round run, no axis moved, no verdict changed.
