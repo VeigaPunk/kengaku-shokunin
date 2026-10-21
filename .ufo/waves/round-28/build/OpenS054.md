@@ -81,3 +81,17 @@ The teaches wording "must match opening type/length" overstates the spec's lengt
 - Literal C2 coverage for S054 is complete, and no mutable-cell change is needed.
 
 This is not a C2-wide or round-28 PASS.
+
+## Erratum — 2026-10-21T14:38Z (appended; the bytes above are unchanged)
+
+Raised by KengakuR28 via FSourceS064. Pre-erratum file SHA-256: `86dfd4873f78fc658aa228150fa298676a1be563896a3f2fe9701e0e1fee64b6` (7631 bytes).
+
+I counted the curly-quoted strings in the report above programmatically (`re.finditer(r'“([^”]*)”')`, then `len(q.split())`):
+
+- Quote 1, “Closing code fences cannot have info strings”: 7 words.
+- Quote 2: **32** words. The report wrongly says "This passage is 25 words", so quote 2 exceeds the ≤25-word limit as written.
+- Quote 3, “The closing code fence must be at least as long as the opening fence”: 14 words.
+
+Replacement for quote 2 (12 words, the fragment the Gate already uses): “at least as many backticks or tildes as the opening code fence” — §4.5 definitional paragraph. I checked it by exact substring search on whitespace-normalized local scratch `.ufo/waves/round-28/scratch/OpenS054/s4.5.txt` (1 occurrence). I did not refetch the source. For the type half of the rule, a separate 13-word fragment also occurs exactly once: “of the same type as the code block began with (backticks or tildes)”.
+
+None of the conclusions above change. The length-wording observation still rests on the 12-word fragment and on quote 3. The S054 verdict, the C2 coverage result and the "no mutable-cell change" advice all stand. I made no refetch, ran no checker, and edited no production or candidate file.

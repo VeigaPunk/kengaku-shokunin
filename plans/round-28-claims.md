@@ -52,3 +52,36 @@ Author KengakuR28, 2026-10-21. Original preregistration bytes above remain histo
 4. CritCausalSeparation requires **row/cell-level** revert partitions for shared SOURCES/lesson files: C1 owns new source rows/new knowledge; C2 owns mutable cells of frozen rows and calibration corrections. C2 validates used-by liveness only for its13 IDs. New rows do not enter its verdict. The round28 lesson is outside frozen knowledge. Separate baseline exports demonstrate (a) original red, (b) S050-only literal-index correction leaving S038 red, (c) S038-only delta from(b) yielding clean, after source opening. This tests M65 without falsely pretending S038 alone fixes the original baseline.
 5. New C1 links never edit baseline35 knowledge paths. Calibration corrections to an existing knowledge entry are append-only, explicitly marked as errata and separate from C1. They add no new reference edge to any frozen13 ID. Separability compares claim counters/findings with the other claim's precise rows/files absent, not an indiscriminate shared-file revert.
 6. Q10 reviewers read a fully measured, byte-frozen L1-authored draft; each complete reread reports its sha256. Admission copies those exact bytes and checks the actual commit digest. Any changed candidate requires same-identity reread; presence in the Q13 gate alone is not source/number approval. No change to gate_timing_check.py is claimed.
+
+## Amendment 2 — returned falsification integrated (2026-10-21)
+
+All64 fresh falsifiers returned, no deaths/replacements; round total128 seats. Their findings, not a
+vote, drove the following bounded repairs. Candidate77e19d5b and build18b19226 remain historical.
+
+- C1 parses only the exact retained bytes it authenticated, closing the demonstrated hash/re-read
+  race. Missing AST declarations become a stable could-not-evaluate path; non-list results keep their
+  complete result shape. Raw per-task fields/presence are not invented; malformed type lists remain
+  visible while recognized string members still receive checks. URL notes distinguish raw/presence/
+  effective/default-origin, and URL alternatives are tested after the source's cleaning/base extraction.
+- The tool is an **expected-field schema inventory, not complete native equivalence or a vacuity
+  detector**. Empty string-reference maps and HTML target lists may be native-compatible/vacuous;
+  unknown operators and malformed types still fail declared shape checks. Dormant/unused fields are
+  retained, not silently converted into semantic task-validity findings. No new benchmark FAIL is claimed.
+- C1 selftest21→67 and C2 selftest12→15, observed exit0; hand-expected malformed/precedence cases,
+  retained-byte replacement controls and the uncited missing-row survivor are now permanent. C2's
+  parser validates shape/duplicates **only for its13 IDs**, so malformed/duplicate outside rows cannot
+  enter its verdict. Whole-registry conformance remains the separate fleet source census.
+- Partition correction: C1 owns S061–S063 plus their S068/S069 metadata qualifications, its new entry,
+  fixture/code and S005/S006 prior-art-reference bookkeeping. Calibration owns S064–S067 and append-only
+  corrections in older knowledge files, as well as S038/S050 mutable cells. Shared lesson/index changes
+  are bookkeeping, not cross-claim counter inputs. The frozen13/35 reference-edge set remains12.
+- S067 corrects S066's already-committed anchor by a new row (Discussion, not Conclusion); S068 corrects
+  S061's incomplete task0 anchor/folded quote; S069 limits S062's composition shorthand to composite
+  return values and states the N/A override. No immutable source cell is silently rewritten.
+- Primary S005/S006 were actually reopened for a bounded in-kind task/test-audit precedent check.
+  The earlier unsupported blanket rejection reason is superseded, not treated as evidence of a global
+  prior-art search. Their source use is self-report/context, not WebArena validity evidence.
+- Full fixed-package acceptance now exits0 with11 expected-exit stages, alternate metrics/projections
+  equal, two-way revert counts equal, all355 old verdict IDs unchanged, plus declared new OOP disclosures.
+  Separate prospective admission-source red/green checks cover the new entry's7 source links and do
+  not enter C2. Actual commit/digest binding still occurs only after eligible returned re-reads.

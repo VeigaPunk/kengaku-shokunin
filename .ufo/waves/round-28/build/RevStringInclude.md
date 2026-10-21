@@ -184,3 +184,7 @@ Model: `pred = clean(clean(last_action["answer"]))` (double-clean via line 132 +
 
 ---
 report-by: KengakuR28.RevStringInclude-2 — seat review, author-side advice, not outside non-author closure. Paths relative to lane root `/home/vgpnk/Projects/shokunin/kengaku-shokunin`. Sources: `plans/fixtures/r28/webarena/evaluation_harness/evaluators.py` (S062), `plans/fixtures/r28/webarena/config_files/test.raw.json` (S061), `plans/fixtures/r28/webarena/evaluation_harness/helper_functions.py` (S063), opened 2026-10-21 at pinned revision dce04686a56253aefba7b18a4fa0937cf1dc987b. Scratch evidence: `.ufo/waves/round-28/scratch/KengakuR28.RevStringInclude-2/must_include_census.json`.
+
+## Errata (2026-10-21, post-commit corrections; original report above preserved unchanged)
+
+- **E1 — source-anchor location, header S063 bullet:** the located quote *"if "different" in response: return 0.0 … else: assert "same" in response"* was cited at helper_functions.py **lines 215–217**; the actual location is **lines 204–208** (`if "different" in response:` 204, `return 0.0` 205, `else:` 206, `assert "same" in response` 207, `return 1.0` 208; `llm_ua_match` def at line 176). Re-verified against the hash-pinned snapshot 2026-10-21 (sha256 ec758da4…e275, manifest-conformant). The quote text itself and every contract claim derived from it (the `ua_match` 0.0/1.0 return convention feeding evaluators.py:159) are unaffected; only the line-location anchor was wrong. Flagged by FSourceS063 via KengakuR28.

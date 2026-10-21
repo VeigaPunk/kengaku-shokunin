@@ -90,3 +90,12 @@ Task 759's score depends only on two input-field substrings and one dropdown ind
 - No new source row and no knowledge admission.
 
 Verdict: **PASS** (scoped static case-759 mapping complete); task validity **UNDETERMINED** pending §6.
+
+## Erratum — round28, 2026-10-21 (KengakuR28.Task759-2, same-identity follow-up)
+
+The text above is preserved unchanged from commit 18b19226 (pre-erratum file sha256 `3603ec22b976c78fa0d8551ceb6beafe023643fe97d023d694fdcaff37c0e739`). Corrections:
+
+1. **Target block ranges in §4 are wrong.** The correct `test.raw.json` object ranges are T1 `27376–27382`, T2 `27383–27391` and T3 `27392–27400` (rechecked against the brace lines in the pinned file). The individual anchors were correct and are unchanged: T1 locator 27378 / `exact_match` 27380, T2 locator 27385 / "Boston" 27388, T3 locator 27394 / "New York" 27397.
+2. **The "Map (OpenStreetMap-style) front-end DOM" wording in §5 is not established by the pinned bytes.** The snapshot only shows the locator strings (`div#content select.routing_engines`, `[name="route_from"`, `[name="route_to"`) and the site key `map`. The platform's identity and styling are **unverified [INFERENCE]**. The dependency should read "the map site's front-end DOM". §5's other inferences and §6's runtime-evidence list are unaffected.
+
+Scope: report-only correction. No broader checks, no source re-fetch, no production or candidate edits. The verdict is unchanged: **PASS** (scoped static case-759 mapping), task validity **UNDETERMINED**.

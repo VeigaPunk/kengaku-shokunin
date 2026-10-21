@@ -79,3 +79,16 @@ None of this can be obtained without running the benchmark environment, which th
 Limitations: the analysis is static and covers one case. The index→mode reading and all browser behaviour are inference. Line numbers refer to the pinned files. This report is not endorsement of any source, and it adds no source row or knowledge.
 
 **Final verdict (scoped to the static case audit of task 356): PASS.** The intent→operator/target mapping, checked/unchecked properties, dependencies and anchors are complete. Whether task 356 is valid is left **undetermined**: no defect is claimed.
+
+## Erratum — 2026-10-21 (bounded source-anchor corrections)
+
+Writer/seat: KengakuR28.Task356-2. This appendix preserves the original report bytes above and supersedes the following inaccurate anchors/generalization, as identified by FTask356's source audit and relayed by L1:
+
+- The raw task's `intent` is at `config_files/test.raw.json:11047`, not 11046.
+- In `evaluation_harness/evaluators.py`, `HTMLContentEvaluator` spans lines 244–333; its exact-match branch is lines 305–310.
+- The HTML target-score products occur at lines 310 and 327. The evaluator-combination product is separately at lines 348–352; these are distinct aggregation levels.
+- Withdraw the universal sentence “The other routing tasks start from ‘Carnegie Mellon University’, not SCS.” Only tasks 737–741 (template 94) support that comparison. It does not describe tasks 757–767 or all other members of task 356's stratum. The narrower task-356 observation remains: its origin reference requires the literal “Gates and Hillman Centers” and “Pittsburgh”, while its intent says “SCS CMU in Pittsburgh”; whether that restriction rejects a reasonable alternative requires runtime/domain evidence.
+
+Observed action for this correction: read this report's tail and append this erratum only; no broader checks, source refetch, upstream execution, production edits or candidate edits. Source-audit corrections are attributed to FTask356/L1, not represented as a new independent source reread.
+
+Final scoped verdict after correction: **PASS for the static task-356 mapping, with the corrected anchors and narrowed comparison above; runtime task validity remains undetermined.** Candidate356 claims are unchanged.

@@ -136,3 +136,9 @@ S051 is a whole-output policy-class precedent, not identical exception handling:
 upstream JsonMatch catches ValueError, whereas the lane's `_loads` catches broader
 exceptions (`build/OpenS051.md`). No new behavior on the frozen response population is
 asserted by this disclosure. All original numeric results remain historical measurements.
+
+Round28 citation-scope clarification: the first-regex-hit behavior is directly anchored at
+`_pattern.py:77–79` in the existing source header's62–79 span. S058's registry anchor focuses on
+the no-match branch; it alone is not a line-level anchor for the earlier search call. The original
+S050 ordering observation remains true; only its blanket no-hit reason was superseded. Literal
+used-by discoverability does not endorse every sentence of a source row.

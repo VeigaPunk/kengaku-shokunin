@@ -91,3 +91,11 @@ None of this was gathered. Gathering it requires site contact or live tasks, whi
 This is a static trace only. The behavior shown in the operator table follows from the source text and Python semantics; it was not executed. The destination identity is an [INFERENCE]. No source row or knowledge was admitted.
 
 Final scoped verdict: **PARTIAL**. The case-97 static audit is complete and anchored to source lines. Whether the task is valid stays unresolved until the runtime evidence above exists. This is not a round-level PASS.
+
+## Erratum — 2026-10-21 (raised by KengakuR28; original text above left unchanged)
+
+1. **Overclaim narrowed.** The sentence "No `must_include` reference in the corpus uses a spaced unit" is false as written. Task 3 has `"Sprite Stasis Ball 65 cm"`, and task 6 has `"Sprite Yoga Strap 6 foot"` and `"Sprite Stasis Ball 65 cm"` (re-read from `test.raw.json`). The census regex only matched `\d (km|m|min|miles?)\b`, so it could not see `cm` or `foot`. Corrected statement: no `must_include` reference in the corpus uses a spaced **distance unit `km` or `m`**. The no-space `km`/`m` set is still tasks 32, 33, 97, 98, 99, 100 and 265. Task 97 is the only one of these whose raw annotation is spaced.
+2. **Word count.** The located quote of `evaluators.py` line 111, `return float(clean_ref in clean_pred)`, is **4** words, not 3.
+3. **Helper span.** `llm_fuzzy_match` and `llm_ua_match` occupy `helper_functions.py` lines **146–208**. Lines 209–210 are blank, and `class PseudoPage` starts at line 211.
+
+None of these change the case-97 claims: the scorer chain, the `"914km"` substring target, the spacing gap against the raw annotation (line 3126), the checked/unchecked mapping, the runtime-evidence list and the **PARTIAL** verdict all stand. Re-checked by reading `test.raw.json` tasks 3 and 6, `evaluators.py` line 111 and `helper_functions.py` lines 205–212. Nothing was refetched, and no production or candidate files were edited.

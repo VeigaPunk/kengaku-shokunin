@@ -322,3 +322,18 @@ only its root binding was relocated by L1, its replay logic is FEntryNumbers' re
 
 The candidate remains `../.ufo/waves/round-28/drafts/webarena-task-spec-audit.md`; no canonical knowledge
 row or frontier discharge is asserted before returned complete Q10 re-reads of its exact bytes.
+
+### Round28 admitted knowledge and partial frontier advance
+
+| Entry | Covers | Primary source |
+|---|---|---|
+| `knowledge/webarena-task-spec-audit.md` | Pinned WebArena static812-task inventory,16 source-audited cases and scorer-contract limits; not task validity or model performance | S061–S063/S068/S069; S005/S006 bounded precedent context; round28 Gate |
+
+| Coverage-map ground | Held now | Entry |
+|---|---|---|
+| Agentic benchmark task-spec/scorer observability | WebArena snapshot dce04686 static schema/predicate inventory and selected-case checked/unchecked mapping | `knowledge/webarena-task-spec-audit.md` |
+
+**Partly discharged round28:** the original Frontier task-spec-audit gap is closed only for this
+WebArena static surface. Terminal-Bench2.0, Toolathlon and SWE-bench Pro primary specifications,
+generated eval-time configs, runtime DOM/helper/judge validity and contamination checks remain open.
+The earlier deferred round28 index statement is superseded by the actual Gate admission and this row.

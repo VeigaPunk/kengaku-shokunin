@@ -147,3 +147,7 @@ Tier A covers only what this file's code itself does. Runtime claims (judge dete
 ## Verdict
 
 PASS for this assignment's scope: the pinned helper source was opened, its digest matches and the bytes equal the local snapshot, there is one located quote of 25 words or fewer dated 2026-10-21, the license was checked, the dependencies and limits are recorded, and the S063 draft row is proposed. PARTIAL for S061/S062, which are left to their own seats; supporting anchors only. This is not a round-28 PASS and not outside closure.
+
+## Dated clarification — 2026-10-21
+
+The located code quote at line 13 contains **18 whitespace-delimited words**, not the 19 stated at line 12. Counting the quoted text by whitespace gives: if(1), "partially(2), correct"(3), in(4), response(5), or(6), "incorrect"(7), in(8), response:(9), return(10), 0.0(11), else:(12), assert(13), "correct"(14), in(15), response(16), return(17), 1.0(18). It remains within the ≤25-word limit. This append-only clarification preserves the original report text; no source was refetched and no checker was run.

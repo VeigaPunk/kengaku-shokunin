@@ -508,3 +508,41 @@ preregistration f0ba09be0f3066daba2134b943d973ad1588f34a, followed by disclosed 
 Build measurements grade the prospective working tree, not falsely the detached Git HEAD. Fresh falsifiers
 will re-open source rows, independently replay final counts, attack code/gates and read the byte-frozen
 candidate before actual admission. Outside non-author closure remains separate from lane-dispatched advice.
+
+### Round28 — falsification-driven repairs and measured fixed package
+
+Wave2 returned64/64, dead0; total128 seats,5 build deaths,0 replacements. Distinct task/source/metric/
+schema/mutation attacks are preserved under `.ufo/waves/round-28/falsify/`, not treated as approval votes.
+
+- C1 now parses the same retained bytes it authenticated; raw/presence/effective URL-note fields and
+  invalid projections are explicit. New source-proof shapes, precedence and race controls take the
+  observed selftest21→67, exit0. C2's unconditional frozen-row-presence control and outside-row exclusion
+  take12→15, exit0. These are instrument repairs, not new model trials or new benchmark-invalidity counts.
+- `python3 plans/fixtures/r28/acceptance.py --root . --out corpus/evidence/round28-calibration/final-acceptance`
+  exits0:11 expected-exit command stages, complete alternate metric/projection agreement, two-way revert
+  counters unchanged,355 existing verdict IDs preserved. Historical checked329/318/0/6/5 unchanged;
+ 26 old OOP IDs retained plus2 round28 disclosures. Exact run: final-acceptance-run.txt.
+- Final counting commands: `python3 plans/benchmark_spec_audit.py --summary` still812/812 IDs,5 sets,
+  27 strata,16 cases,651 targets,0 findings; URL provenance205=196 explicit+9 defaulted. C2 summary
+  still13 rows/35 paths/12 links/0 mismatched rows. Source inventory60→69, malformed0,9 added A rows;
+  this is not9 new publications. `source-inventory-{before,after}.json` retain actual commands/exits.
+- Source metadata corrections append S067/S068/S069 rather than overwrite committed S066/S061/S062;
+  older knowledge entries receive named append-only clarifications. S005/S006 are reopened as bounded
+  task/test-audit precedents, not WebArena validity evidence. Whole-registry conformance is separate from
+  C2; new-entry source-use red/green fixture is separate too.
+- Original case writers appended corrections for bibliographic slips, false universal statements and
+  runtime assumptions. Original bytes and initial falsifications remain; task validity stays unobserved.
+  The falsifier's own S052 token-unit and Task377 column-order errors are also explicitly corrected.
+- Corrected candidate freeze v2 is `.ufo/waves/round-28/candidate-freeze-v2.json`, digest
+  3eb2afe5ddff41f322b7131bbc658583e5a8ee8e2dc8c68b974039fdc02ff182. Complete same-identity Q10
+  re-reads and targeted repair probes are requested against these exact bytes; no canonical admission
+  or non-author approval is preclaimed here.
+
+### Round28 — exact reviewed knowledge admission
+
+FContractEntry and FFullEntry returned complete v4 PASS judgments for
+50589759b82b26a7199d157035c852260ab1b10b59815f7b57e7534eccfd2ead.
+The canonical entry is copied byte-exact; index/coverage/partial-frontier rows, seven source-use links,
+specific SKILL workflow and PROVINCE boundaries ship together. V1–v3 findings/digests remain historical.
+Both demonstrated capabilities enter the round28 repertoire; scores stay7/8, no other axis changes.
+Actual commit-tree timing/byte proof and clean-lane measurement follow the lane helper's landed revision.

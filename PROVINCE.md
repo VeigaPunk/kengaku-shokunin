@@ -188,3 +188,15 @@ Exact-ID-set addendum (2026-10-21): Amendment 1's census also verifies the compl
 E7/E8's count-only restatements omit that new token; FxP3BInstruments caught the omission before entry admission.
 - **R26-E9 (2026-10-21)** supersedes `P3b.province.round25-correction.rows` — now `rows=42` `id_set=exact`
 - **R26-E10 (2026-10-21)** supersedes `P3b.province.public-literature-registry.rows` — now `rows=42` `id_set=exact`
+
+## Round28 partial frontier admission (2026-10-21)
+
+**Core addition:** pinned WebArena task-spec/scorer observability, via
+`plans/benchmark_spec_audit.py` and `corpus/knowledge/webarena-task-spec-audit.md`.
+This owns static LLM-evaluation interpretation, not the benchmark's web properties or runtime services.
+**Calibration addition:** `plans/registry_check.py`, a bounded frozen13-row/35-path literal-reference
+diagnostic, not semantic source truth or a whole-current-tree assertion census.
+
+The task-spec frontier is only partly advanced: named Terminal-Bench/Toolathlon/SWE-bench Pro specs,
+generated configs, runtime task validity, hosted judges and contamination remain open. Serving-plane
+restoration stays operator/kama-owned. Existing historical absent surfaces are not restored or re-scored.

@@ -97,3 +97,26 @@ None of these were collected, by design. No site contact.
 - No claim of actual task invalidity.
 
 Final scoped verdict: **PARTIAL**. The intent→evaluator mapping, anchors and checked/unchecked boundary are fully traced for case 377. Validity cannot be determined without runtime items 1–5. This verdict covers case 377 only. It is not a round-level PASS.
+
+## Erratum — 2026-10-21 (appended; text above preserved unchanged)
+
+Original receipts: this report as reviewed, sha256 `ecca67cd0fe0db3bf982aabbe9df80be2870fd816b42acd8e5cd30def04d82af`. Original probe `scratch/Task377/urlparse-probe.txt`, sha256 `34876e23faa99a4a4298636e0102faac6dfad0dc3bcb4ddd193164a55d3d0b0b` (unmodified).
+Trigger: `.ufo/waves/round-28/falsify/FTask377.md` §5 D1–D5 and §6 B1–B4. Falsifier controls: `scratch/FTask377/probe.py` `cd24ca8a…c8480f6`, `probe.out.txt` `3791b0c5…42bd6e7`.
+Fresh labelled controls: `scratch/Task377/erratum-probe.py` `487f3c0f9f821ab039c4cecd77554f1693699eab38452271641a77f7a0b16f06` and `erratum-probe.out.txt` `c4a14b6d89f1bc41a3ec3d514be6bfb4e8be9f3e96f274542d7b4d6970ecca21`. These are stdlib only, with no upstream import, no network and no refetch.
+
+Accepted corrections:
+- **D1.** Withdrawn: "Scheme, port position and fragment are ignored." The correct statement is that scheme and fragment are ignored, but host **and port** are part of the compared `netloc+path` substring (evaluators.py L195, L223). Controls: https gives 1; port 3001 gives 0; omitting the port gives 0.
+- **D2.** Withdrawn: "A correct search followed by any further navigation scores 0." Only the final `page.url` is read (L212). Navigation that keeps the `<host:port>/search` substring and the exact `query` value scores 1, e.g. `&zoom=12#map=…`. Navigation that loses either one scores 0, e.g. `/node/123`.
+- **D3.** Rephrased: L218 unpacks `(pred_base_paths, pred_query) = parse_url(pred)`. `parse_url` returns `tuple[str, dict]` (L192, L195–197), so `pred_base_paths` is the string used by the L223 `in` test.
+- **D4.** Cause corrected: no helper or LLM judge runs because the router appends only `URLEvaluator` for `eval_types: ["url_match"]` (L361–368). The cause is not that `reference_answers` is null. A routed `StringEvaluator` would raise at L137 on `None.items()`.
+
+D5 is partly accepted:
+- **Arithmetic: no error found.** The original heredoc printed `int(base*q), int(base), int(q)`, i.e. the column order is (product, base, query). Read in that order, row 17 `0 0 1` for `/prefix/search` is product 0, base 0, query 1. The labelled re-run gives the same row (`orig:17 prefix path 0 0 1`). The falsifier read the columns as (query, base, product). That reading agrees with mine on every row except this one, the only row where query ≠ product.
+- **Fidelity: withdrawn.** I withdraw the claim that `urlparse-probe.txt` replicates the L192–236 arithmetic, because the artifact lacks column labels and its source was not saved. Use `erratum-probe.py` / `erratum-probe.out.txt`, plus the falsifier's controls, as the probe evidence. Also note that the original probe's query loop used one `any` across keys rather than the L229–235 per-key product. That is equivalent only because this reference has a single key.
+
+Corrected L1 row cells:
+- **operator/target:** substring `<MAP host:port>/search` in the final netloc+path, AND `query` == `restaurants near CMU ArtPark Lab` exactly and case-sensitively (L212–236). Scheme and fragment are ignored.
+- **unchecked:** adds "navigation path; only the final URL counts".
+- **dynamic deps:** adds the exact `__MAP__` substitution form (host, port, trailing slash), which decides pass or fail (falsifier B4).
+
+Verdict unchanged: **PARTIAL** for case 377 only. Validity cannot be determined without runtime items 1–5. No production, candidate or pinned-input edits, and no installs.

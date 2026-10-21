@@ -103,3 +103,18 @@ Without items 1–5, static evidence supports only the scorer contract mapping a
 ## Final scoped verdict
 
 **PASS** for the case-552 static intent→scorer audit: the mapping, checked and unchecked properties, dependencies, anchors and limitation are all recorded. Whether task 552 is valid stays **UNRESOLVED**, and no defect is claimed. This is not a round-level PASS.
+
+## Erratum 2026-10-21 (appended; original bytes above unchanged, committed in 18b1922, sha256 `2c90d24c3eefbfd1fd49371627a1a7a2731c07b8a094f394c8b5a2ea0437a8c6`, 10428 bytes)
+
+Reported by `KengakuR28` and re-verified against the pinned `test.raw.json` by grepping the `task_id` and `intent_template_id` lines. No sources were refetched and no broader checks were run.
+
+1. **Template-84 family.** The task-spec table says siblings are "tasks 553–556 and the one at line 28811". That is wrong. Template-84 membership is **552, 553, 554, 555, 791**:
+   - 552 has `task_id` at line 17873 and `intent_template_id` 84 at line 17908.
+   - 553 is at 17915 / 17950.
+   - 554 is at 17957 / 17992.
+   - 555 is at 17999 / 18034.
+   - 791 is at 28786 / 28811.
+
+   Task 556 (`task_id` at 18041) is **template 87** (`intent_template_id` at 18082), not 84. Line 28811 is the template anchor of task 791, not a separate unnamed task. The cross-task line 28797 cited under "Dynamic state" is task 791's intent. The repo-write list there is unaffected, except that line 17926 is task 553, 17968 is 554 and 18010 is 555.
+2. **Session inheritance is a runtime inference.** The statement "the evaluator's page, which is the agent's own `page` and inherits the `storage_state` session" is downgraded to **[INFERENCE]**. The pinned `HTMLContentEvaluator.__call__` (`evaluators.py` 248–254, 271–272) only shows that it calls `page.goto` on the `page` argument it is passed. Whether that page carries the agent's context or the cookies from `./.auth/gitlab.reddit_state.json` depends on runner wiring that is not in the pinned snapshot. Runtime-evidence item 3 therefore also requires the runner's page and context construction.
+3. **Compact row and verdict are unchanged.** The scoped verdict stands: static mapping PASS for case 552 only, and task validity UNRESOLVED.

@@ -95,3 +95,15 @@ None of these were collected, because site contact and browser execution are for
 
 **PASS (scoped):** the static intent→evaluator mapping for task 424 is complete and source-anchored. The scorer path is fully determined: `program_html` → `HTMLContentEvaluator`, final page, the sidebar locator, case-insensitive substring `pittsburgh`, and no judge or helper.
 **Task validity: UNRESOLVED.** Runtime evidence items 1–4 are required first. The unclosed selector bracket and the city-level substring target are disclosed as potential limitations, not defects.
+
+## Errata — 2026-10-21 (appended; the original bytes above are unchanged, committed sha256 2822a273b9c80cf32a0218ea8d4a8a503c061e843d7a1495b011869df475d343 at 18b1922)
+
+Raised by falsify seat FTask424 (`.ufo/waves/round-28/falsify/FTask424.md`). These are provenance corrections only. The scorer mapping, checked/unchecked sets, and the scoped verdict are unchanged.
+
+1. **Record span.** The full task-424 record is raw L13312–13347 (`{` … `},`), not L13317–13346. The `sites` array is at L13313–13316, and L13317 is `task_id`.
+2. **Template anchors.** The template text "Find the page of {{description}} on the map." is at L13322 (`intent_template`). L13346 is only `intent_template_id: 371`. The "Template 371 (L13346): …" line above conflated the two.
+3. **Empty-result paths.** Table row 4 merged two separate branches. eval L290–291 is the falsy-result path: `if not selected_element: selected_element = ""`, for example an empty string. eval L292–294 is the exception path: `except Exception: selected_element = ""`, for a JS error, a null element, or a selector `SyntaxError`. Both give empty text and a score of 0. The unclosed-selector risk goes through L292–294 only.
+4. **Helper reading scope.** The source-openings row for helper_functions.py ("imports and PseudoPage only") was too narrow. I also read help L146 (`llm_fuzzy_match`) and L176–208 (`llm_ua_match`) to confirm that the judge paths are unreachable for task 424, as table row 10 states.
+5. **Bracket-scan provenance unsupported at the cited location.** The section "Task-specific potential validity limitation" says the rough bracket-count scan was "kept in scratch". The cited `.ufo/waves/round-28/scratch/Task424/census.txt` (sha256 3ba6f33692dfce30588950fc8572b2b0e3daa571fe1435a5b67128873bad440b) does not contain that scan, so the original provenance claim is unsupported. An independent reproduction is at `.ufo/waves/round-28/falsify/FTask424.md` and `.ufo/waves/round-28/scratch/FTask424/census.txt` (L26). It finds 209 unbalanced-bracket locator occurrences across 114 distinct task IDs, and 89 IDs / 143 occurrences under a stricter unclosed-attribute rule. Use that artifact, not this report's scratch, as the source of the count.
+
+No broader checks, source fetches, or production/candidate edits were made for these errata.

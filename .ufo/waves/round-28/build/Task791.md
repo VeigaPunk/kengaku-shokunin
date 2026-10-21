@@ -107,3 +107,16 @@ Context counts (from `jq` over the frozen JSON):
 **PARTIAL** for task validity: it is undetermined without the runtime evidence above.
 
 I make no claim of benchmark invalidity, I added no new source rows, and I admitted no knowledge.
+
+## Erratum — 2026-10-21 (author-side correction)
+
+This appendix preserves the original report bytes above and supersedes the following ancillary statements. Corrections are supplied by coordinator KengakuR28 from FTask791 review; no new broad checks, source refetch, execution, or site contact were performed for this appendix.
+
+- **Forum-name population:** 46 names refers only to reference strings. Across all file fields there are 47 names because `pics` additionally occurs in five `start_url` values. Do not treat 46 as an all-file-field census or site inventory.
+- **Other car mentions:** the claim that there is only one other car hit is false. Other task IDs include 36–40, 151–155, 287, 601, and 606, plus 643 with “racing cars”. The supported narrow absence statement concerns the literal `__REDDIT__/f/cars` forum path only; it does not establish absence of a live forum, nor absence of general car-related text.
+- **Reset/persistence:** `require_reset:false` is a pinned configuration fact. Persistence of mutations across runs is a runtime inference, not established by this scorer or the pinned configuration alone. The assertion “Any mutation persists” above is withdrawn.
+- **Provider boundary:** the helper calls `generate_from_openai_chat_completion` imported from `llms.providers.openai_utils`, with the shown model arguments. Actual external OpenAI API contact and endpoint behavior are runtime inferences because the provider implementation was not traced in this snapshot.
+- **Last-action contract:** the inspected evaluator indexes `trajectory[-1]` and its `answer` key. It does not itself validate a stop-action type; the statement that a stop action is required is an upstream/runtime-contract inference, not a demonstrated check in the pinned evaluator.
+- **Sibling achievability:** tasks 552–555 declare `program_html` checks rather than the `N/A` reference used by 791. Calling those siblings actually achievable, or 791 actually unachievable, requires runtime evidence. Their differing static scorer configuration is the supported observation.
+
+The task791 operator/target mapping and task-specific potential limitation remain supported. Final scoped verdict remains **PASS for the static mapping; PARTIAL for actual task validity**. This appendix supplies no benchmark-wide verdict and no new source or knowledge admission.

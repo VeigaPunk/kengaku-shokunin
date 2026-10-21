@@ -907,3 +907,23 @@ assertion wrongly rejected new disclosures; preserved red and corrected invarian
 No historical checker code change and no endpoint restoration. No other axis moves: depth9, coverage7
 capped, operability8, freshness8, adjacency8. Actual measured/pushed revision and capability demonstration
 are appended after fresh falsification and admission; no preclaimed capability row.
+
+### Round28 fixed-package outcomes and demonstrated repertoire
+
+Counting commands/receipts: `python3 plans/benchmark_spec_audit.py --summary` →
+812 tasks/812 IDs/5 type sets/27 strata/16 cases/651 targets/0 findings; `python3 plans/registry_check.py
+--summary` →13 rows/35 paths/12 links/0 mismatched rows. Both exit0; fixed selftests67/15 exit0.
+Identical checker on baseline export has2 mismatched rows, final0; staged only-delta and two-way
+revert evidence remain in round28-calibration/final-acceptance. Scores stay7/8; other axes unchanged.
+Current tests are bounded, not exhaustive mutation coverage. Actual measured/pushed revision follows.
+
+| Capability | What it can now do | Evidence / command | First-working round |
+|---|---|---|---|
+| benchmark-task-spec-audit | Inventory pinned WebArena specs and statically trace predicates/limits without executing upstream code or claiming runtime validity | `python3 plans/benchmark_spec_audit.py --summary`; final-acceptance/audit-current.stdout; round28 Gate |28|
+| frozen-reference-coverage | Check the declared13-row/35-path literal source-reference population and expose missing/status links | `python3 plans/registry_check.py --summary`; staged baseline/only-delta receipts |28|
+
+### Planned after round28 (not a new round claim)
+
+- Keep novelty7/coverage cap and calibration8 until independently justified; no retroactive conversion.
+- Frontier: generated task configurations/runtime evidence, additional benchmark specs and semantic
+  source-support checks require separately frozen populations; no all-current-tree or complete-test claim.

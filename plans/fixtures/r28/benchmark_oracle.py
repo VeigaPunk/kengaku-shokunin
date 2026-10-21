@@ -30,6 +30,7 @@ def main():
     histograms["reset_flags"] = Counter(str(task["require_reset"]).lower() for task in tasks)
     histograms["string_operators"] = Counter(operator for task in tasks if "string_match" in task["eval"]["eval_types"] for operator in task["eval"]["reference_answers"])
     histograms["url_rules"] = Counter(task["eval"].get("url_note", "GOLD in PRED") for task in tasks if "url_match" in task["eval"]["eval_types"])
+    histograms["url_note_origin"] = Counter("explicit" if "url_note" in task["eval"] else "defaulted" for task in tasks if "url_match" in task["eval"]["eval_types"])
     targets = [target for task in tasks if "program_html" in task["eval"]["eval_types"] for target in task["eval"]["program_html"]]
     histograms["html_operators"] = Counter("exact_match" if "exact_match" in target["required_contents"] else "must_include" for target in targets)
     histograms["locator_classes"] = Counter("full_page" if not target["locator"].strip() else "javascript" if target["locator"].startswith(("document.", "[...document.")) else "helper" if target["locator"].startswith("func:") else "unsupported" for target in targets)

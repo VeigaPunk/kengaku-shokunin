@@ -82,3 +82,7 @@ None of this was gathered (out of scope: no site contact).
 **PASS (scoped)** for the deliverable: the case-681 static intent→evaluator mapping is complete and anchored on hash-verified inputs.
 **Task validity: UNDETERMINED.** L1–L3 are potential limitations pending the runtime evidence above. This is not a defect finding and not a round-level PASS.
 Remaining unknowns: the placeholder generator is not pinned; site DOM, URL casing and GitLab inventory have not been observed.
+
+## Dated anchor clarification — 2026-10-21
+
+The cross-task anchors L9268 (task296) and L12289 (task395) above identify record locations, not their exact evaluator-value lines. The exact reference values are at `config_files/test.raw.json:9284` (task296 SSH clone target) and `:12308` (task395 program_html URL), per the coordinator's source-anchor correction. These other task specifications are not runtime inventory evidence. The exact task681 field name is `storage_state` (L23369), not the shorthand “storage” used above. Placeholder generation, runner behavior, canonical URL casing, rendered DOM and runtime inventory remain unobserved; this clarification does not change the scoped verdict.

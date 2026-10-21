@@ -97,3 +97,11 @@ These were read-only and run inside the scratch directory or as git reads: `rg`,
 - S056 is opened and consistent with no change needed.
 
 This is not a round-level PASS and not outside closure.
+
+## Clarification — 2026-10-21 (appended; earlier bytes unchanged)
+
+The Introduction quote at line 29 is **overlong**, and its "(25 words)" label is wrong. A programmatic count (`python3`, `str.split()` on the quoted text, no source re-fetch) gives **27** whitespace-separated tokens, or 26 if the two standalone `%` signs are not counted. Line 29 is therefore a broad located context quote and **not the Gate admission quote**.
+
+The Gate admission quote is the shorter exact fragment already in `corpus/lessons/round-28.md:77`: "actual coverage at a nominal level of 95 % can be as low as 60 %". That is 16 tokens (14 without `%`), and it is a substring of the line-29 text. The S066 scope quote at `corpus/lessons/round-28.md:45`, "the proposed methods assume that sensitivity and specificity are known exactly", is 11 words.
+
+The location, the opened copy and every other finding above are unchanged.

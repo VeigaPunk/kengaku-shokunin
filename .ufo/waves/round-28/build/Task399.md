@@ -85,3 +85,15 @@ Located quotes (≤25 words, from the pinned snapshot):
 
 **PASS (scoped):** the static intent→evaluator mapping for task 399 is complete, deterministic, and schema-compatible, with no judge dependency.
 **Task validity: UNDETERMINED.** It needs runtime items 1–6 above. This is not a blanket round PASS and not a benchmark-defect finding.
+
+## Erratum — 2026-10-21 (author-side anchor correction)
+
+Preserving the original report above, I withdraw its incorrect source ranges and the claim that the stated grep provenance established those ranges. Correct anchors supplied by the bounded independent reread are: task 399 record `test.raw.json` **12461–12493** (the original range extended into task 400); intent **12474**; eval **12476–12491**; `evaluators.py` exact-match operator gate **305** (304 is blank). All occurrences of the superseded ranges above, including the located intent quote and compact-table record range, must be read with these corrections.
+
+“Postmill” is unsourced in this report's opened evidence and is withdrawn as an established deployment identity; use “reddit site” instead. Rendering/markdown behaviour remains unobserved, not an established property of this deployment.
+
+The missing-element empty-string outcome concerns the caught locator-evaluation exception only. Navigation failure at `page.goto` is outside that local catch; runtime propagation and harness handling were not verified. Do not interpret the binary-score description as a guarantee that every invocation returns a score rather than raising.
+
+The original assertion that no LSP server applies was not established by a server-status inquiry; semantic-server availability remains unknown, and this report supplies only literal source evidence.
+
+The task-399 static operator/target mapping, aggregate counts and candidate-selection summary stand. **Final scoped verdict: PARTIAL for the original report's source-anchor/provenance quality, corrected by this erratum; static mapping supported; runtime task validity UNDETERMINED.** No refetch, broader check, execution, or production/candidate modification was performed for this erratum.

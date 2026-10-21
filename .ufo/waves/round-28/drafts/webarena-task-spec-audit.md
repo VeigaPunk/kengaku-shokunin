@@ -1,4 +1,4 @@
-source: S061 https://raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/config_files/test.raw.json task0:18–28 and selected task IDs below; S062 https://raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/evaluation_harness/evaluators.py StringEvaluator:71–170, URLEvaluator:173–241, HTMLContentEvaluator:244–333, combination/router:336–374; S063 https://raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/evaluation_harness/helper_functions.py fuzzy/UA:146–208 — byte-pinned snapshots plans/fixtures/r28/webarena/
+source: S061/S068 https://raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/config_files/test.raw.json task0 intent16 and eval18–29 (S068 corrects S061's anchor); S062/S069 https://raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/evaluation_harness/evaluators.py StringEvaluator71–170, URL173–241, HTML244–333, comb/router336–374 (S069 qualifies composition); S063 https://raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/evaluation_harness/helper_functions.py fuzzy/UA146–208; bounded prior-art context S005 https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/ Background and S006 https://openai.com/index/separating-signal-from-noise-coding-evaluations/ Methodology; snapshots plans/fixtures/r28/webarena/
 verified-at: 2026-10-21 — static source opening and frozen input census, not live benchmark execution
 recheck: on-release — python3 plans/benchmark_spec_audit.py --summary and --selftest; reopen the three source URLs at the pinned revision
 writer: KengakuR28
@@ -12,32 +12,39 @@ benchmark-selection recommendations and lab self-audit summaries, not a task-spe
 inventory for this repository. The acquired repertoire is **static task-spec observability**, not a new
 scientific method, task-validity seal, model capability result, contamination audit or benchmark run.
 
-The source is the **web-arena-x/webarena repository snapshot dce04686a56253aefba7b18a4fa0937cf1dc987b,
-committed2025-11-26**, not its2023-07-25 paper-era release and not WebArena-Verified. Paper-era or
-leaderboard performance numbers cannot be attached to these bytes. Build/CritClaimScope independently
-found changed scoring fields relative to the release; this entry does not import its comparison count
-as a new measured result.
+The source is **web-arena-x/webarena repository snapshot
+dce04686a56253aefba7b18a4fa0937cf1dc987b**. This entry does not audit a tagged release, paper version
+or leaderboard run, including earlier paper-era snapshots and WebArena-Verified. Performance-number
+comparability is **not established**; it requires that run's pinned revision and configuration, even
+if some files overlap. No historical-release comparison count is imported.
 
-S061 is authoritative for authored specs; S062/S063 for their own code behavior, **not** actual browser
-state or judge correctness. The pinned Apache-2.0 LICENSE is retained. Only fixture login-state path
-strings occur in the task data; no account/token/cookie values or auth-state files were opened. The
-instrument parses JSON and Python AST, never imports/executes upstream source or contacts benchmark sites.
+Task/test alignment auditing has primary precedents in the reopened S005 Background and S006 Methodology
+(OpenAI's self-reports, not independent WebArena verification). This is a bounded in-kind prior-art check,
+not an exhaustive literature/tool search and not a port of their agent-plus-human workflows. No distinct
+scientific method or novelty-score increase is demonstrated by inspecting the published S061–S063 artifacts.
+
+S061/S068 are authoritative for authored specs; S062/S063 for their code behavior, with S069 qualifying
+composition, **not** actual browser state or judge correctness. The pinned Apache-2.0 LICENSE is retained.
+Fixture login-state paths and public usernames occur as authored task data; no authentication-secret values,
+cookies or contents of auth-state files were opened. The instrument parses JSON and Python AST, never
+imports/executes upstream source or contacts benchmark sites.
 
 ## Authored predicates are narrower than natural-language intent
 
 | source contract | actual predicate (pinned source lines) | what a passing score does not by itself establish |
 |---|---|---|
 | String exact | S062:80–94 trims, strips one outer quote pair and lowercases before equality; the routed string path also pre-cleans pred at134, so prediction normalization is applied twice | semantic correctness, provenance, permitted side effects or equivalence to direct exact_match on a raw prediction |
-| String includes | S062:98–111,142–149 uses substring containment; tokenization only when its tokenize flag is true AND the cleaned reference is one character | semantic equivalence, absence of extra incorrect claims, intended unit or entity |
+| String includes | S062:98–111,142–149 uses substring containment except when tokenize is true, cleaned reference has one character, and word_tokenize returns one token | semantic equivalence, absence of extra incorrect claims, intended unit or entity |
 | String fuzzy | S062:150–169 invokes S063:146–173 for non-N/A references | judge validity, endpoint availability or reproducibility from temperature0 alone |
 | Unachievable answer | S062:152–163 accepts exact N/A first, otherwise calls S063:176–208 against string_note | actual impossibility of the task; no-action failure requires environment evidence |
 | URL | S062:187–239 strips trailing slash, uses netloc+path substring containment, ignores scheme/fragment and separately checks reference query values | correct rendered content, exact URL identity, task intent completeness or the agent's actions |
-| Page content | S062:258–333 selects configured page/locator, unescapes HTML, applies exact_match before must_include; targets multiply | whole-state correctness, action causality, runtime DOM compatibility or fixture freshness |
-| Composite | S062:348–352,361–374 executes declared evaluator types in list order and multiplies results; preserve order because page-content checks can navigate | that every intent clause is checked, or that reordering stateful evaluators is equivalent |
+| Page content | S062:258–333 selects page/locator, unescapes HTML, uses exact_match if present, otherwise must_include; targets multiply | whole-state correctness, action causality, runtime DOM compatibility or fixture freshness |
+| Composite | S062/S069:348–352,361–374 executes declared evaluator types in list order and multiplies results; preserve order because page-content checks can navigate | that every intent clause is checked, or that reordering stateful evaluators is equivalent |
 
 URL alternatives split on the exact OR delimiter; query values are pooled across reference alternatives,
 not paired with each alternative's base path (S062:199–235). This is source behavior, not a live task
-failure rate. HTML targets using `last` do not navigate; other URLs navigate and sleep a fixed interval.
+failure rate. When the resolved target_url equals `last`, the page-content check does not navigate;
+otherwise it navigates and sleeps a fixed interval, conditional on no propagated runtime error.
 JavaScript selector errors become empty selected text, while helper-call errors have different paths
 (S062:271–301). Unknown/missing runtime conditions are not silently reclassified as task failures here.
 
@@ -67,7 +74,7 @@ Each task has an author-side, source-anchored intent→predicate audit under .uf
 
 | cases | report paths | important boundary |
 |---|---|---|
-|389,590,132,173|Task389.md, Task590.md, Task132.md, Task173.md|comment/page state, date-key disagreement, tokenized numeric answer, hosted fuzzy judge|
+|389,590,132,173|Task389.md, Task590.md, Task132.md, Task173.md|comment/page state, date-year/value disagreement, tokenized numeric answer, hosted fuzzy judge|
 |44,552,681,791|Task044.md, Task552.md, Task681.md, Task791.md|URL-only navigation, fixed link set, cross-site literals, N/A exact/fallback branch|
 |556,356,7,377|Task556.md, Task356.md, Task007.md, Task377.md|README substrings, routing-field predicates, fixed exact address, literal search query|
 |759,424,97,399|Task759.md, Task424.md, Task097.md, Task399.md|route inputs not duration, sidebar text not place identity, unit spelling, final profile text|
@@ -88,13 +95,18 @@ Illustrative source disagreements, not observed runtime-invalid tasks:
 All cases separate “what the scorer checks” from “what the task means” and list required runtime
 observations before a validity verdict. Their potential limitations are not a collection of confirmed
 benchmark defects. No browser bypass, live site action or benchmark score is claimed.
+Task247 is outside the selected cases: its raw spec carries a nonempty reference_url while declaring
+only string_match. Such unread metadata is retained, not mistaken for a consumed predicate or a task
+validity defect (build/ConnectEvidence.md; falsify/FConnector.md).
 
 ## Observed static inventory (2026-10-21)
 
 Commands executed on the prospective package: `python3 plans/benchmark_spec_audit.py --summary`
-and `--json`; receipts `corpus/evidence/round28-calibration/audit-summary.txt` and
-`build-acceptance/audit-current.stdout`. This is a working-tree measurement; the admitting commit's
-exact-byte proof must name the shipped revision separately.
+and `--json`. Build receipts are `corpus/evidence/round28-calibration/audit-summary.txt` and
+`corpus/evidence/round28-calibration/build-acceptance/audit-current.stdout`; repaired-package receipts
+are under `corpus/evidence/round28-calibration/final-acceptance/`, with the repaired summary at
+`corpus/evidence/round28-calibration/audit-summary-final.txt`. Working-tree measurements are
+distinguished from the actual admitting commit by the later exact-byte proof.
 
 | observable | measured value |
 |---|---|
@@ -102,22 +114,31 @@ exact-byte proof must name the shipped revision separately.
 | evaluator-type sets |string_match325, program_html282, url_match66, string_match+url_match10, program_html+url_match129|
 | site/evaluator strata / selected case audits |27 /16; lexicographic rule, not random sampling|
 | string operator task counts |exact_match45, must_include176, fuzzy_match118; operators can coexist|
+| effective URL rules / provenance |205 GOLD in PRED;196 explicit url_note fields +9 defaulted|
 | page-content targets / effective operators |651 / exact_match188 + must_include463|
 | locator classes |full-page105, JavaScript524, helper22|
 | target URL classes |last238, navigation338, helper75|
-| schema findings |0, meaning pinned-source structural compatibility only|
+| schema findings |0 on pinned tasks under the declared expected-field schema; not full native equivalence or semantic/vacuity certification|
 
 The JSON preserves each complete raw task and explicit reference-approach order. Set histograms use
 sorted labels for grouping; ordered evaluator histograms and per-task lists preserve execution order.
-The AST-derived scorer-contract block records dispatch, ordered product, the N/A assignment override
-and distinct error phases; it is static evidence, not an executable scorer port.
+The scorer-contract block derives dispatch and product/N/A-override **statement locations** from AST.
+Operation/error-phase descriptions are hand-read annotations, **not** automatically checked by the
+AST or validated merely by the source hash. This is not an executable scorer port. Anchor names
+may repeat; identify them by file and line.
 
-`python3 plans/benchmark_spec_audit.py --selftest` executed21 hand-expected/CLI cases, exit0, including
-snapshot/manifest/missing-input rejection and a product-law AST mutation. The separately derived
+The build's `--selftest` passed 21 cases; the repaired package executes 67 named cases, exit0, adding
+malformed-shape, precedence, retained-verified-byte and missing-input controls. Exact output:
+`corpus/evidence/round28-calibration/final-acceptance/audit-selftest.stdout`. The separately derived
 `plans/fixtures/r28/benchmark_oracle.py` agrees on every metric and selected ID. That alternate code
 was also authored by KengakuR28 after the assigned oracle seat died: **independent logic, not independent
-authorship**. Build source/case seats supplied separate source censuses; fresh falsification must re-read
-these final candidate bytes and reproduce the final counters.
+authorship**. Returned fresh readers re-open the exact final candidate bytes and receipts before admission.
+
+The instrument emits **no vacuity advisories**. Schema compatibility can coexist with a vacuous native
+predicate; empty string-reference maps and empty HTML target lists are not labeled semantic successes
+or defects. Vacuity, shadowed-key and dead-field semantic classification are outside this instrument.
+Malformed eval-type projections retain the raw value and label invalid histogram buckets; raw and
+effective URL-note fields distinguish presence from defaulting. No dormant branch is called validated.
 
 ## Operational decision rule
 

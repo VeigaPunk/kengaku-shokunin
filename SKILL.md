@@ -670,3 +670,17 @@ study paths); admission bar: `corpus/QUALITY.md`.
 - `corpus/evidence/round11-power/` — powered preregistered emission-granularity rerun (n=64, pids 201–264, seeds `3000+pid*41`): `probe_plan_r11.md` + `power_analysis_r11.md` + `predictions-r11.md` (bundle sha256 hashed 23:10:20Z, `ordering.log`), `probe_r11.py` (= `replicate.py` copy) + `run_r11.py`, `results-r11.jsonl` (1473 records, md5 `c42fe3d1…`), `run.log` (md5 `281cb530…`), generated `analysis_r11.md` (md5 `14663359…`), `recompute_r11.py` — severity dose **ESTABLISHED** (paired +0.352, p=0.0011) 2026-09-28 → `corpus/knowledge/bench-arena-round11-power.md`
 - `corpus/evidence/round11-fleet/` — twelve L2 artifacts behind round 11: `r11-critic-design.md` (0 FATAL design gate), `r11-prior-art-{granularity,prereg}.md` (C1–C4 + M1–M3 fetched-URL verdicts), `r11-connector.md`, `r11-review-baseline.md` (BASELINE GREEN), `r11-mock-smoke.md` + `mock_server_r11.py` (caught the runner's missing `import json`), `grader_r11_draft.py` + `recompute_r11_draft.py`, `r11-{critic-landed,mutation,review-index}.md` (wave 2), `INTEGRATOR-NOTES.md`
 - Public prior art fetched 2026-09-28 for round-11 novelty/method pricing → `corpus/evidence/round11-fleet/r11-prior-art-{granularity,prereg}.md`: `arxiv.org/abs/2411.00640` (Miller, *Adding Error Bars to Evals* — paired inference, power), `2503.01747` (Bowyer et al., CLT CI under-coverage at small n), `2606.11217` + `2603.10044` (agent-experiment preregistration template + at-scale execution), `2609.08589` (StageIF layered reporting-failure scoring), `2605.30233` (last-token state aggregation), `github.com/ggml-org/llama.cpp/issues/7052` (closed-stale; multi-slot non-determinism class unfixed) + PR #21038 (q4_0-KV PPL/KLD perturbation tables)
+
+## Task-spec/scorer observability — round28
+
+For a pinned benchmark, separate authored task intent, consumed scorer predicates and unverified
+runtime state. `corpus/knowledge/webarena-task-spec-audit.md` records the source-anchored decision table.
+Run `python3 plans/benchmark_spec_audit.py --summary` (`--json` preserves raw per-task data).
+Exit0 certifies only the declared pinned schema inventory; it is not task validity, model accuracy
+or contamination freedom. Preserve evaluator order, distinguish raw/effective defaults, and treat
+helper/hosted-judge outcomes as unverified. Current source: dce04686, not an interchangeable release.
+
+For inward source-reference calibration run `python3 plans/registry_check.py --summary`:13 frozen
+source rows over35 baseline knowledge paths. Literal corrective mentions count; used-by is not
+endorsement of every source sentence. New files/rows stay outside that diagnostic. QUALITY Q17 and
+the round28 lesson name its red/green evidence and limits; whole-registry census remains separate.

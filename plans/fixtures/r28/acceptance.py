@@ -10,6 +10,7 @@ import io
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -17,6 +18,29 @@ import tarfile
 import tempfile
 
 BASE = "b9b24796277020d1b9b01923b45313d6a565e664"
+
+
+ENTRY = "corpus/knowledge/webarena-task-spec-audit.md"
+EXPECTED_ENTRY_SOURCES = {"S005", "S006", "S061", "S062", "S063", "S068", "S069"}
+
+
+def entry_source_links(source_text, entry_text):
+    """Separate admission fixture; not part of C2's frozen13-row measurement."""
+    cited = set(re.findall(r"(?<![A-Za-z0-9_])S[0-9]{3,}(?![A-Za-z0-9_])", entry_text))
+    rows = {}
+    for line in source_text.splitlines():
+        cells = [cell.strip() for cell in line.split("|")[1:-1]]
+        if len(cells) == 11 and cells[0] in cited:
+            rows[cells[0]] = cells
+    findings = []
+    for sid in sorted(cited):
+        if sid not in rows:
+            findings.append({"id": "admission_source_missing", "source": sid})
+        elif rows[sid][7] != "mined":
+            findings.append({"id": "admission_source_not_mined", "source": sid})
+        elif ENTRY not in [path.strip() for path in rows[sid][10].split(",")]:
+            findings.append({"id": "admission_used_by_missing", "source": sid})
+    return {"sources": sorted(cited), "findings": findings, "exit": int(bool(findings))}
 
 
 def main():
@@ -90,6 +114,32 @@ def main():
         c1_without_c2 = run("audit-without-c2", audit, "--root", base, "--json")
         assert c1_without_c2["metrics"] == current_c1["metrics"]
         assert c1_without_c2["selected_task_ids"] == current_c1["selected_task_ids"]
+    # Prospective C1 admission must not repeat the new-source used-by gap. The
+    # deliberate red state removes only that canonical link; its repair adds it.
+    draft = (root / ".ufo/waves/round-28/drafts/webarena-task-spec-audit.md").read_text()
+    source_text = (root / "corpus/SOURCES.md").read_text()
+    assert set(re.findall(r"(?<![A-Za-z0-9_])S[0-9]{3,}(?![A-Za-z0-9_])", draft)) == EXPECTED_ENTRY_SOURCES
+    red_lines, green_lines = [], []
+    for line in source_text.splitlines():
+        cells = [cell.strip() for cell in line.split("|")[1:-1]]
+        if len(cells) == 11 and cells[0] in EXPECTED_ENTRY_SOURCES:
+            used = [path.strip() for path in cells[10].split(",") if path.strip() not in ("", "—", ENTRY)]
+            cells[10] = ", ".join(used)
+            red_lines.append("| " + " | ".join(cells) + " |")
+            cells[10] = ", ".join(used + [ENTRY])
+            green_lines.append("| " + " | ".join(cells) + " |")
+        else:
+            red_lines.append(line)
+            green_lines.append(line)
+    red_links = entry_source_links("\n".join(red_lines), draft)
+    green_links = entry_source_links("\n".join(green_lines), draft)
+    assert red_links["exit"] == 1 and {value["source"] for value in red_links["findings"]} == EXPECTED_ENTRY_SOURCES
+    assert green_links["exit"] == 0
+    actual_admission = (root / ENTRY).is_file()
+    actual_links = entry_source_links(source_text, (root / ENTRY).read_text()) if actual_admission else None
+    if actual_admission:
+        assert actual_links["exit"] == 0
+    (out / "admission-source-links.json").write_text(json.dumps({"red": red_links, "green": green_links, "actual_admission_present": actual_admission, "actual": actual_links, "not_counted_in_c2": True}, indent=2) + "\n")
     state = run("historical-state-current", "plans/state_check.py", "--root", root, "--json")
     previous = json.loads((root / "corpus/evidence/round27-calibration/state-final-json.json").read_text())
     def keyed(result):

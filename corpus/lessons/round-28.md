@@ -149,3 +149,126 @@ No live auth values were read, no profile or credential-store files are committe
 Candidate freeze before fresh falsification: writerKengakuR28, SHA256
 `77e19d5b2683dbf36b87c8ca0ae36e5b19f281673c1c16e46abfb6ab08ac20a8`;
 `.ufo/waves/round-28/candidate-freeze.json` pins both candidate and measured instrument digests.
+
+## Falsification outcomes and repairs (2026-10-21)
+
+Fresh wave64 completed64, dead0, replacements0; round seats128. Roles:
+scout22/revenger14/reviewer12/critic11/mutation-tester4/connector1. Reports are author-side advice,
+not64 whole-round approvals. Frozen draft77e19d5b and its21-case/12-case instruments are historical.
+
+| id | class | evidence · captured-by | disposition / demonstrated repair |
+|---|---|---|---|
+| M70 | reference-drift | build/RevHTMLRequired rev1 OR-scope claim; Q10 source reread | Same-identity rev2 retracts it; plain OR remains controlling. No numeric candidate change. |
+| M71 | scope | build acceptance equal-entire-ID-set assertion; frozen-population boundary | Existing355 IDs retained; only new OOP records may grow. Corrected permanent harness exits0, old red retained. |
+| M72 | number-drift | CritSourceTruth's13 row-file pairs; Q17 denominator discipline | Actual12 links/13 rows/35 paths;33 paths are zero-reference controls. No population reinterpretation. |
+| M73 | scope | disposable OpenS038 Chromium profile; CORPUS no credential material | Runtime profile removed before build packaging; owned process confirmed exited, analytical PDF/text/HTML retained. |
+| M74 | attribution | falsify/FContractPopulationPin hash/re-read counterexample; PROTOCOL evidence identity | C1 retains authenticated bytes and parses only them. Permanent post-read-replacement controls cover raw JSON and scorer bytes; fixed selftest67 exits0. |
+| M75 | attribution | falsify/FContractURLSchema and FContractStringSchema invented defaults/projections; Q3 | Raw/presence/effective URL-note fields separated,196 explicit/9 defaulted; missing/raw type fields retained. Cleaned empty URL bases fail, metadata does not masquerade as authored data. |
+| M76 | survivor | FContractHTMLSchema/StringSchema/TaskSchema mutants and FMutMissing uncited-row survivor; gate selftest standard | Hand-expected malformed/precedence cases added; C1 selftest67 and C2 selftest15 pass. Uncited missing frozen row is now a permanent control. Original survivor receipts remain. |
+| M77 | reference-drift | FSourceS066/FBoundaryNoAxisHarm: caveat in Discussion, not listed Conclusion; Q10 | NewS067 supersedes S066 anchor after its build commit; old cells preserved. Scientific scope unchanged. |
+| M78 | reference-drift | FSourceS061 folded quote/incomplete object anchor; Q10 | NewS068 and corrected Gate opening record below use exact single-line quote and full task0 locations. Old source row is not silently rewritten. |
+| M79 | attribution | FContractAstAuthority fixed annotations called AST-derived; Q3 | Candidate distinguishes AST-derived dispatch/statement locations from hand-read operation/error-phase annotations, hash-bound but not AST-proven semantics. S069 qualifies composition scope. |
+| M80 | scope | FBoundaryLiteralScope/FConnector outside-row coupling; frozen13 contract | Parser shape/duplicate findings now apply only to13 IDs; permanent outside-malformed/duplicate controls pass. Fleet census still checks whole registry. |
+| M81 | reference-drift | FTask reports' citation ranges, false universals and runtime assumptions; Q10 | Original live build authors appended dated errata, preserving original report bytes; corrected-case evidence remains beside the falsification. Runtime validity stays unobserved. |
+| M82 | number-drift | FRegistryS052 counted all32 S-ID tokens as S052; FTask377 assumed unlabeled column order; Q10/Q17 units | S052 count corrected to2 with1 file-link; FTask377 retracts arithmetic accusation: columns are product/base/query, while probe provenance/fidelity remains limited. |
+| M83 | scope | FFrontierGate unsupported “established practice” rejection reason; Q9 | S005/S006 actually reopened for narrow task/test-audit precedents; property-matching reason below supersedes the blanket phrase. No exhaustive novelty search or score credit. |
+| M84 | number-drift | L1 prior-art quote counts manually overstated; CORPUS count command | prior-art-reopen.txt retains the correction: actual len(quote.split()) is21/22, both≤25; source text unchanged. |
+
+`corpus/evidence/round28-calibration/final-acceptance-run.txt` now records exit0:
+all11 command stages have expected exits; alternate C1 metrics/C2 projections and two-way revert
+counters agree; all355 existing verdict IDs persist;329 checked318/0/6/5, old26 OOP plus2 new.
+`final-acceptance/admission-source-links.json` separately proves7 missing canonical used-by links red1
+and allowed-cell link additions green0. It is **not** part of C2 and does not claim actual admission yet.
+
+Build recommendations disposition: adopt field-shape controls, explicit precedence, raw/effective
+provenance and retained-byte identity. A full vacuity/dead-field semantic classifier was not claimed:
+empty native-compatible containers can be schema-compatible, unused fields remain metadata, and
+`prep_actions` is checked only on the branch that consumes it. No hidden new benchmark FAILs.
+Task247 is an explicit out-of-sample unread-reference_url observation, not a17th selected case or
+task-validity verdict. The sample omissions (shopping, helpers, prep and content-OR paths) remain open.
+
+Partition correction to Amendment1: C1 owns S061–S063/S068/S069 and S005/S006 prior-art bookkeeping;
+calibration owns S064–S067 and older-entry append-only corrections plus S038/S050 cells. New source
+rows never enter the frozen13 C2 verdict. The whole-registry census is separate and still mandatory.
+
+Case-report fixes are append-only in build/Task044,Task097,Task132,Task173,Task356,Task377,Task389,
+Task399,Task424,Task552,Task556,Task681,Task759,Task791.md. No report becomes a runtime validity PASS.
+Small non-load-bearing broad source spans in other reports are explicitly bounded by their fresh
+falsifiers, not silently treated as exact quote boundaries.
+
+## Gate — post-falsification source corrections
+
+These records supersede the earlier abbreviated opening records where named, without rewriting filed
+source rows. All new rows were opened before addition; S067–S069 are metadata/scope corrections to
+already opened primaries, not new publications. Final new rowsS061–S069 are9 tierA rows.
+
+| row / corrective opening record | URL | accessed | exact located quote (≤25 words) |
+|---|---|---|---|
+| S067, corrects S066 location | https://doi.org/10.1017/S0950268810000385 | 2026-10-21 | “the proposed methods assume that sensitivity and specificity are known exactly” — Discussion p.1677, archived text243–245;11 words. No live publisher-success claim. |
+| S068, corrects S061 quote/anchor | https://raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/config_files/test.raw.json | 2026-10-21 | `\"eval_types\": [` — single source line19;2 words. Intent16, complete eval18–29, references22–24, program_html26. Original folded excerpt is not the final literal quote. |
+| S069, qualifies S062 composition | https://raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/evaluation_harness/evaluators.py | 2026-10-21 | `score = 1.0 * self.ua_match(` — source159;5 words. Composite return values multiply at351; not every within-string branch multiplies. |
+| S065 full-context supplement | https://docs.python.org/3/library/json.html#infinite-and-nan-number-values | 2026-10-21 | “Despite that, by default, this module accepts and outputs Infinity, -Infinity, and NaN as if they were valid JSON number literal values” — Infinite and NaN Number Values paragraph;22 words. |
+| S005 reopen, bounded prior art | https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/ | 2026-10-21 | “Many task statements were underspecified, which could lead to multiple valid interpretations - while the tests only covered a specific one.” — Background bullet;21 words, self-report. |
+| S006 reopen, bounded prior art | https://openai.com/index/separating-signal-from-noise-coding-evaluations/ | 2026-10-21 | “An initial automated filter reviews the instructions given to the model, attempts by the model to solve the task, and the tests” — Methodology paragraph after workflow image;22 words, self-report. |
+
+Counts/locations: source-correction-quotes.json and prior-art-reopen.txt in round28-calibration.
+S066's source scope remains right but its anchor is superseded byS067; the Gate and older-entry
+clarification correctly named Discussion from the start. S061's full-object range18–21 was not right;
+S068 supplies18–29. S062's true composite product does not imply uniform within-string multiplication.
+
+Mutable-cell changes after these reopens:
+
+| row | cell | old → new |
+|---|---|---|
+| S005 | used-by | corpus/knowledge/agent-time-horizon-and-task-validity.md → same, corpus/lessons/round-28.md |
+| S006 | used-by | corpus/knowledge/agent-time-horizon-and-task-validity.md → same, corpus/lessons/round-28.md |
+
+All existing opened/recheck/status cells remain unchanged at this step. S067 initially lists lesson
+and attribution-interval-calibration.md; S068/S069 initially list this lesson. Canonical-entry link
+changes are recorded only when the actual entry is admitted.
+
+Rejection-reason correction (supersedes the earlier “established evaluation practice” cell): new-method
+or novelty-score credit is rejected because this round demonstrates local instrumentation of already
+published S061–S063 artifacts, while reopened S005/S006 document in-kind task/test alignment audits.
+This is not an exact implementation-prior-art or exhaustive literature absence claim. Flip: a distinct
+registered construct plus property-matching papers/tooling evidence. F6 receives no independent
+calibration credit. WebArena was selected as accessible, pinned, inert task/scorer ground; it does not
+replace the frontier's still-unopened Terminal-Bench/Toolathlon/SWE-bench Pro specs or contamination work.
+
+Gate transcription erratum (same source opening, 2026-10-21): the literal backslashes in the
+S068 code span in the preceding table are presentation characters, not source characters. Its
+final exact located quote is **`"eval_types": [`**, source line19 (2 whitespace-delimited words),
+at https://raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/config_files/test.raw.json.
+This line supersedes only that escaped display; the S068 registry anchor and JSON evidence were right.
+
+### Final scope boundaries
+
+The current implementation passes the independent41 string-schema and43 task-shape probes, but the
+67-case stock selftest is not exhaustive mutation coverage. Additional test-only survivors include
+some missing/null-flag, reference-order and per-element-type regressions; the production checks and
+current pinned output are correct. These bounds are not presented as a complete general-input parser
+certificate or future regression-proof suite. Every concrete source/type repair claimed above has
+its named evidence; no claim that all possible validator mutants were killed is made.
+
+Earlier “no account values” wording means **no authentication-secret values or auth-state contents**,
+not absence of public usernames in the authored tasks. The final candidate states that distinction.
+The instruction to keep verified variants/successors separate is not a proven lineage claim about
+WebArena-Verified. Historical freeze-v1 and freeze-v2 remain evidence; final wording-only freeze-v3
+binds the final candidate and unchanged measured instruments. Outside non-author closure is still separate.
+
+### Final admission decision — v4 exact bytes
+
+| candidate | decision | reason |
+|---|---|---|
+| `knowledge/webarena-task-spec-audit.md` | admit | Complete corrected-entry judgments returned in `.ufo/waves/round-28/falsify/FContractEntry.md` and `.ufo/waves/round-28/falsify/FFullEntry.md`, both final VERDICT: PASS for SHA256 `50589759b82b26a7199d157035c852260ab1b10b59815f7b57e7534eccfd2ead`. Writer KengakuR28 differs from both registered reviewer identities. Canonical copy is byte-identical to the reviewed draft and candidate-freeze-v4.json; earlier PARTIAL sections name earlier digests and remain historical. Entry/index/coverage/source-use links and returned reports coexist in the admitting package. Q13 actual-commit result and report-byte pins are recorded after landing; structural presence is not endorsement. |
+
+Source-use cell changes at admission (all statuses/rechecks unchanged):
+
+| rows | used-by old → new |
+|---|---|
+| S005, S006 | corpus/knowledge/agent-time-horizon-and-task-validity.md, corpus/lessons/round-28.md → corpus/knowledge/agent-time-horizon-and-task-validity.md, corpus/lessons/round-28.md, corpus/knowledge/webarena-task-spec-audit.md |
+| S061, S062, S063, S068, S069 | corpus/lessons/round-28.md → corpus/lessons/round-28.md, corpus/knowledge/webarena-task-spec-audit.md |
+
+S061/S062 appearances include their corrective S068/S069 qualifications, not endorsement of superseded
+metadata shorthand. S005/S006 are bounded self-report precedent context. The new admission links are
+checked separately from C2's frozen13/35 population. Outside non-author verdict remains pending.

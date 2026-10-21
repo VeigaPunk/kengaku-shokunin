@@ -22,7 +22,7 @@ def safe_path(value):
     return bool(value) and not p.is_absolute() and ".." not in p.parts and "\\" not in value
 
 
-def parse_registry(text):
+def parse_registry(text, source_ids):
     rows, findings = {}, []
     active, fenced = False, False
     for number, line in enumerate(text.splitlines(), 1):
@@ -39,6 +39,8 @@ def parse_registry(text):
         if not cells or not SOURCE_ID.fullmatch(cells[0]):
             continue
         sid = cells[0]
+        if sid not in source_ids:
+            continue
         if len(cells) != 11:
             findings.append({"id": "malformed_source_row", "source": sid, "line": number})
             continue
@@ -50,7 +52,7 @@ def parse_registry(text):
 
 
 def check(root, population):
-    rows, findings = parse_registry((root / "corpus/SOURCES.md").read_text())
+    rows, findings = parse_registry((root / "corpus/SOURCES.md").read_text(), frozenset(population["source_ids"]))
     refs = {sid: set() for sid in population["source_ids"]}
     for relative in population["knowledge_paths"]:
         if not safe_path(relative):
@@ -110,9 +112,14 @@ def selftest():
         run("missing_used_by", row("S038", "mined", "—") + row("S049"), ["missing_used_by"])
         run("duplicate", row("S038") * 2 + row("S049"), ["duplicate_source_id"])
         run("source_missing", row("S038"), ["source_missing"])
+        (root / path).write_text("source: S038\n")
+        run("uncited_source_missing", row("S038"), ["source_missing"])
+        (root / path).write_text("source: S038\n```\nS049\n```\nXS038 S038x\n")
         run("unsafe_used_by", row("S038", used="../escape") + row("S049"), ["invalid_used_by", "missing_used_by"])
         run("bad_enum", row("S038", status="clean") + row("S049"), ["invalid_source_enum", "cited_not_mined"])
         run("extra_queued_source", row("S038") + row("S049") + row("S099", "queued", "—"), [])
+        run("outside_duplicate_excluded", row("S038") + row("S049") + row("S099") * 2, [])
+        run("outside_malformed_excluded", row("S038") + row("S049") + "| S099 | malformed |\n", [])
         (root / "corpus/knowledge/new.md").write_text("S038 S099")
         result = run("new_file_excluded", row("S038") + row("S049"), [])
         assert result["reference_links"] == 2

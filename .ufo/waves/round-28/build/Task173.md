@@ -68,3 +68,14 @@ Static evidence only, with no browser-level truth. The GitLab dataset state, the
 ## Verdict
 
 PASS for the scoped deliverable, a static case-173 intent→operator/target audit with anchors. Task 173's validity is NOT adjudicated; it is UNDETERMINED pending runtime evidence items 1–4.
+
+## Dated erratum — 2026-10-21
+
+Writer/seat: `KengakuR28.Task173-2`. Append-only correction following FTask173 review relayed by L1; original report bytes above are preserved.
+
+- Correct task 659 block anchor: `config_files/test.raw.json` lines **22394–22449**, not 22398–22430. Specific field anchors: title L22406, account L22407, `require_reset` L22411.
+- Correct raw-task SHA-256: `7b50386fd69163dbc05d615d834df4c6ed2c35596e97a1b10d17451c02537652`. The abbreviated suffix `0537652` in the input table is a transcription error; the observed command output and manifest have suffix `02537652`.
+- Task 659 could change which issue is the latest matching issue and thereby stale the fixed URL target, conditional on shared state, execution order and the meaning of “my.” It does **not** demonstrate that the gold answer “No, it is open” becomes stale: a newly created matching issue may also be open. Any implication above that 659 changes the correct open/closed answer is withdrawn. Runtime state and applicability remain unverified.
+- “Final stop-action answer” is not an enforced contract in the traced evaluator. `Evaluator.get_last_action` takes `trajectory[-1]`; `StringEvaluator` reads that element's `answer`. Stop-action identity is an unverified runtime assumption, not a checked property.
+
+No broader checks, refetch, upstream execution, or production/candidate edits performed for this erratum. Final scoped verdict remains **PASS** for the corrected static mapping; task validity remains **UNDETERMINED**, not a blanket round PASS.

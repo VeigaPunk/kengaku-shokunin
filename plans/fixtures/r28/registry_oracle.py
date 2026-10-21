@@ -16,7 +16,7 @@ def main():
     duplicates = []
     for line in table.splitlines():
         cells = [value.strip() for value in line.split("|")]
-        if len(cells) == 13 and re.fullmatch(r"S[0-9]{3,}", cells[1]):
+        if len(cells) == 13 and cells[1] in pop["source_ids"]:
             if cells[1] in rows:
                 duplicates.append(cells[1])
             rows[cells[1]] = cells

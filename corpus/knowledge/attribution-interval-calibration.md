@@ -203,3 +203,8 @@ Opening authority: `.ufo/waves/round-28/build/OpenS038.md`, authenticated archiv
 publisher PDF (2026-10-04 capture, reopened2026-10-21), not a successful live PDF
 download; live publisher requests returned429. This is a source-scope clarification,
 not new live attribution evidence or restoration of missing endpoints.
+
+Round28 anchor erratum: **S067 supersedes S066's registry location** for the known-exactly caveat:
+it is in Discussion p.1677 (archived text243–245), not the listed Conclusion. The scientific
+known-versus-estimated distinction above is unchanged. The Gate and this entry already named Discussion;
+the old row is preserved rather than silently repaired after its build commit.

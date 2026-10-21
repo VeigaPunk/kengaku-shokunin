@@ -92,3 +92,7 @@ None of this was gathered: site contact and execution are forbidden in this roun
 The task's runtime validity is **undetermined**: it is neither valid nor invalid, pending the runtime evidence listed above. This verdict covers case 44 only and is not a round-level PASS.
 
 Observed commands: one `python3` stdlib JSON read of the raw file (task 44, template-303 siblings, `dashboard/todos` matches, gitlab strata counts); `sha256sum` of the three inputs; `sed -n 1408,1432p`; `grep` for `__GITLAB__`, `storage_state`, `require_login`, and `GITLAB` in the harness; and the stdlib `urllib.parse` probe above. No installs or updates.
+
+## Clarification (2026-10-21, appended on KengakuR28 request; original bytes above unchanged)
+
+Correction to the wording in the case table, row 1, and in "Observed operator semantics". `parse_url` (`evaluators.py:192-197`) returns a tuple `(base_path, query)`, not "one `str`". At L218, `pred_base_paths, pred_query = parse_url(pred)` unpacks that tuple, so `pred_base_paths` is bound to the `str` `base_path`. Because of that binding, `ref_base_path in pred_base_paths` (L223) is a substring test. The operator semantics, the probe results, and the scoped verdict are unchanged. No new checks were run and no sources were fetched for this clarification.

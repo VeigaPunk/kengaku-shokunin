@@ -113,3 +113,13 @@ Only with items 1–5 could the reference `1` be called correct or incorrect. On
 ## Final scoped verdict
 
 **PARTIAL**, for case 132 only. The mapping from intent to evaluator, operator and target is complete and source-anchored, and the static inputs are hash-verified. Whether task 132 is valid remains undetermined until the runtime evidence above exists. No defect is asserted.
+
+## Bounded erratum — 2026-10-21
+
+Writer: `KengakuR28.Task132-2`. This append preserves the original report above and supersedes the following overstatements.
+
+- The examples `11` and `10` failing are **[INFERENCE]**, not direct code proof: their predicted tokens depend on NLTK tokenization, which this seat did not execute. The code proves membership testing against tokenizer output, not those particular outputs.
+- Withdraw the table's “all repos” gloss for tasks 205, 207 and 303 and the global “single Kilian commit in 2023” interpretation. Coordinator-provided source clarification says the `start_url` for tasks 205–207/303–307 scopes them to a11yproject. The sibling comparison is therefore only a project-scoped consistency observation; it establishes neither a global total nor reference correctness. No new source opening or broad check was performed for this erratum.
+- The raw object is not the generated per-task config actually opened by `evaluator_router` and `StringEvaluator.__call__`. That generated artifact is not pinned here. Preservation of raw task 132's fields into the eval-time config is **unverified**. The traced mapping is conditional on that preservation; runtime evidence must include the generated config, its provenance and a field-level comparison with raw task 132.
+
+Final scoped verdict remains **PARTIAL**: the pinned raw-spec/static scorer trace is bounded and conditional, while generated-config fidelity, tokenizer examples and runtime reference truth remain unverified. No task-invalidity or blanket round verdict is asserted. No checks, upstream execution or site contact were added.

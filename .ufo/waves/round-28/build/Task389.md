@@ -95,3 +95,16 @@ None of this was run by this seat; it would need a sanctioned isolated environme
 ## Verdict
 
 **PASS (scoped):** the static intent-to-scorer mapping for case 389 is complete and anchored to the hash-verified pinned sources. Benchmark task validity is **UNDETERMINED** pending the runtime evidence above. This is not a round-level PASS and makes no claim of an actual task defect.
+
+## Erratum — 2026-10-21 14:40 UTC (from KengakuR28 anchor review; original text above preserved unchanged)
+
+Re-verified with read-only `grep -n` / `sed -n` on the hash-pinned fixtures; no refetch, no broader checks, no production/candidate edits.
+
+1. **Record span.** The full task-389 JSON object spans `test.raw.json` **L12073–12109** (`{` at L12073, `sites` L12074–12076, `"task_id": 389` L12077, closing `}` L12109). "Task record (raw JSON lines 12077–12109)" above should read 12073–12109.
+2. **`html.unescape` anchor** is `evaluators.py` **L303**, not L302 (mapping step 4).
+3. **`HTMLContentEvaluator` class span** is **L244–333** (`class` L244, final `return score` L333), not L245–333 (case-row evaluator cell).
+4. **Sibling-locator qualification.** The siblings' locator (e.g. `test.raw.json` L12136, L12171) is `document.querySelector('[id="notes-list"')…`: the attribute selector is **unclosed** (no `]`). Whether it resolves depends on the browser's CSS parser recovery, which is not established from this snapshot. So "389 uses a weaker check than its siblings" holds only **if** that selector actually resolves to the last note in the runtime browser. It is not established universally. If it throws, L292–294 sets `selected_element = ""` and the siblings would score 0.
+5. **Exception paths are not always 0.** Only the JS-locator `page.evaluate` failure is caught, giving `""` (L292–294). For 389, a `page.goto` failure (L272) or a malformed `required_contents` would **raise**, not return 0.0. How a raised exception is scored is outside the pinned files. The "otherwise score = 0.0" in the net static contract is restricted to non-exceptional runs.
+6. **Imported helper dependencies exist.** `evaluators.py` L18–27 imports from `helper_functions`, which at module level imports `requests`, `browser_env.env_config` (ACCOUNTS, GITLAB, …) and `llms.providers.openai_utils` (`helper_functions.py` L6–20). These are load-time dependencies even though no helper is reached in scoring for 389. "No LLM judge / helper API dependency" means unreached in scoring, not absent from the import graph.
+
+Unaffected: the intent → operator/target mapping, the checked/unchecked lists, the stratum and selection figures (88 tasks, minimum ID 389; 63 of 117 targets), the runtime-evidence list, and the scoped verdict (static mapping PASS; validity UNDETERMINED). The sibling-comparison limitation is now explicitly conditional, per item 4.

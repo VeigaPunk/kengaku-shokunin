@@ -103,3 +103,17 @@ Without these, the case is **UNDETERMINED**, not valid and not invalid.
 ## Verdict
 
 **PASS (scoped):** the static mapping from task 556's intent to its evaluator operators and targets is complete and anchored, covering the checked and unchecked properties and the dynamic dependencies. Task validity itself remains **UNDETERMINED** pending the runtime evidence above. This is not a round-level PASS.
+
+## Dated erratum — 2026-10-21
+
+This appendix preserves the preceding report verbatim and corrects its scope:
+
+- The intent quote contains **15 words**, not 16.
+- `HTMLContentEvaluator.__call__` is defined at L248; its body relevant here runs L255–333, rather than L259–333.
+- The evaluator replaces both `__last_url__` (L265) and `__page__` (L298). Neither replacement handles `__GITLAB__`; generated-config substitution remains outside the pinned snapshot.
+- The within-list title overlap occurs in task **556 and 561**, not 557: task557 does not require “The Dark Knight Rises.” The earlier sibling557 overlap statement is withdrawn.
+- File readability alone is not the scoring predicate: scoring requires **all 12 substring tests** over the selected serialized document. A successful navigation is not an explicit existence/status check.
+- `require_reset: false` does not establish initial repository state or an actual leftover. A same-task prior state is only a conditional runtime concern; the earlier “sibling evaluation” mechanism is unsupported because tasks556–561 use distinct slugs and is withdrawn.
+- The instance-wide default-branch setting need not itself be `main`: the exact scored branch is `main`; whether the creation workflow produces that branch requires runtime evidence.
+
+These corrections leave the static twelve-test mapping intact. **Scoped verdict: PASS for the documented static mapping with this erratum; task validity remains UNDETERMINED.** No runtime probe, site contact, production/candidate edit, or additional verification was performed for this appendix.

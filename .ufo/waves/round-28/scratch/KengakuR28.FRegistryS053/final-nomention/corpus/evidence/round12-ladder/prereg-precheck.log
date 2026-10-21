@@ -1,0 +1,37 @@
+[PASS] family 1 generates — 64/64 pids
+[PASS] family 1 byte-identical to r11 metas — 64/64 match r11 committed metas (64 r11 metas present)
+[PASS] family 1 truth re-derivation matches r11 — 0 mismatches
+[PASS] family 2 generates — 48/48 pids
+[PASS] family 2 init length is 6 tokens
+[PASS] family 2 op count is 10
+[PASS] family 2 op-kind constraint holds — kinds observed: APP,DEL,INS,MOV,REV,SET,SWP
+       family 2 final-state lengths observed: [3, 4, 5, 6, 7, 8, 9, 10]
+[PASS] family 2 tail_positions >= 2 for every problem
+[PASS] family 1 has no duplicate (init,ops) — 64 distinct of 64
+[PASS] family 2 has no duplicate (init,ops) — 48 distinct of 48
+[PASS] no cross-family (init,ops) collision — 0 collisions
+       r8 metas loaded: 10
+       r9 metas loaded: 8
+[PASS] family 2 collides with no r8/r9 problem — 0 collisions
+[PASS] family 1 is disjoint from the r8/r9 problem sets — 0 collisions with 18 r8/r9 metas
+       realized arm-position counts (position 1..5):
+         A-INC        [13, 12, 13, 13, 13]
+         A-CKPT4710   [13, 13, 12, 13, 13]
+         A-CKPT710    [13, 13, 13, 12, 13]
+         A-CKPT10     [13, 13, 13, 13, 12]
+         A-MONO       [12, 13, 13, 13, 13]
+[PASS] rotation balances every arm across positions — min=12 max=13 sum=320
+[PASS] family 2 parity counterbalance is exact — {'T-DENSE': 24, 'T-SPARSE': 24}
+       seed+977 retries: family 1 56, family 2 112 (recursion terminated for all 112 seeds)
+[PASS] retry chain terminates for every seed — family1=56 family2=112 retries
+[PASS] family 2 generator is deterministic on re-run — 48/48 identical
+[PASS] family 1 generator is deterministic on re-run — 64/64 identical
+[PASS] prediction artifact exists: predictions-r12.md
+[PASS] prediction artifact exists: predictions-r12-perproblem.jsonl
+[PASS] prediction artifact exists: predictions-r12-signevents.jsonl
+[PASS] per-problem jsonl sha256 is pinned inside predictions-r12.md — bac550c7fc5e887d…
+[PASS] sign-event jsonl sha256 is pinned inside predictions-r12.md — 1d99040c39d59863…
+[PASS] per-problem pass events = 5*64 + 2*48 — 416
+[PASS] sign events = 4*64 + 48 — 304
+
+PRECHECK: PASS — all checks green; safe to hash the bundle

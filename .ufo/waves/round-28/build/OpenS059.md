@@ -70,3 +70,11 @@ Semantic side note, outside C2's literal contract: at knowledge line 52–53, "P
 **PASS (scoped)** for: the S059 reopening (URL live, .txt hash identical to round-27, anchor txt:377–378 exact, quote located), the RFC half of teaches, and C2 literal coverage for S059 (1 citing frozen file, covered, `mined`, no mutable-cell change needed).
 **PARTIAL** on the teaches cell's Python-default clause: it is true per the Python documentation (opened today), but it is not supported by S059's own source or anchor. I recommend disclosure only, with no cell change.
 This is not a round, C2-wide, or semantic-citation PASS.
+
+## Erratum — 2026-10-21 (appended; original report bytes above unchanged, original sha256 cb81656207a3846ca36be008c2a319d07d00fb80b88f1fac30af1f18c34861c5, 7737 bytes)
+
+Prompted by KengakuR28 relaying FSourceS065. Checked only against the existing scratch copy `scratch/OpenS059/pyjson.html` (sha256 `7197009d…f8fb`, unchanged); no refetch, no checker runs, no production/candidate edits.
+
+- **Word count:** the Python-docs quote in "Teaches/scope check" item 2 ("Despite that, by default, this module accepts and outputs Infinity, -Infinity, and NaN as if they were valid JSON number literal values") is **22 words**, not 19. Counted with `len(s.split())` on that exact existing string; it is still ≤25.
+- **Location:** `html:876–879` was wrong. Line 876 is the `<section id="infinite-and-nan-number-values">` opener, and the range stopped before the sentence ends. The quoted sentence spans **html:879–880**, inside the paragraph at **html:878–880** (878 holds the preceding "The RFC does not permit…" sentence). FSourceS065's 878–880 is the correct paragraph span.
+- **Unchanged conclusions:** The full 22-word sentence, not a shorter fragment, is what supports "by default". The 18-word RFC §6 quote (txt:377–378) is unaffected. The scoped verdict stays as stated: PASS for the S059 reopening and for its C2 literal coverage, and PARTIAL (disclosure only) for the Python-default clause in the teaches cell. Suggested mutable-cell changes remain none.
