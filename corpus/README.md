@@ -59,6 +59,7 @@ candidates fixed in the receipt, not the wider round-16 citation audit.
 | `knowledge/agent-time-horizon-and-task-validity.md` | METR human-duration time horizon (task difficulty at a stated success probability, not wall-clock or job automation) + coding-benchmark task/test validity audits | S013, S014, S005, S006 — `corpus/SOURCES.md` rows, round 24 |
 | `knowledge/paired-eval-uncertainty-reporting.md` | Reporting recipe for shared-item evals: paired differences, MDE/resolution, clustering, multiplicity, adaptive-selection inference | S015–S019 — `corpus/SOURCES.md` rows, round 24 |
 | `knowledge/attribution-interval-calibration.md` | Exact CP95 re-verdict of the r21–r23 attribution receipts: overall PASS holds on 4 unique samples (92/92), r22 TARGET hyper 10/10 PASS → INDETERMINATE, two 0/0 FAILs → UNTESTED; per-leg recall/specificity; Rogan–Gladen share bounds | S027–S030, S033, S034, S011; own-work S036/S037; `python3 plans/attrib_calibration.py --summary` |
+| `knowledge/grader-perturbation-audit.md` | Frozen-response grader audit: 15168 MP/MC comparisons, D1 policy capture separate; pooled PASS does not erase MULTI flips or pid-composite uncertainty | S044–S046, S048; `plans/grader_perturb.py`; independent oracle and round-26 Gate |
 | `lessons/round-1.md` | Path-correction, replace-don't-append, zero-width char hazard | LOG.md round 1, commit `90a5ce8` |
 | `lessons/round-3.md` | Filename-judging missed on-host surfaces; complementarity vs pass-rate; NULL parsing; FAIL-latency signature | LOG.md round 3, this round's analysis |
 | `lessons/round-4.md` | Endpoint-drift trap; n=1 flip on 03; FAIL-latency is subset-level not per-task | LOG.md round 4, `/tmp/bench-r4` run |
@@ -226,6 +227,7 @@ recomputed 24/32).
 - **Contamination detection and transparency**: covered at source-digest depth (round 24) — knowledge/contamination-detection-and-transparency.md; sources S001, S002, S004 (S003 rejected as a general score-correction).
 - **Judge calibration**: covered at source-digest depth (round 24) — knowledge/llm-judge-calibration.md; sources S009–S012.
 - **Instrument interval calibration**: covered at measured depth (round 25) — knowledge/attribution-interval-calibration.md; sources S027–S030, S033, S034, S011; own-work S036/S037. Extends the Judge calibration row inward.
+- **Grader robustness / response-format invariance**: covered at measured depth (round 26) — knowledge/grader-perturbation-audit.md; S044–S046, S048; frozen 1964-response audit. Extends Judge calibration inward; nine MP/MC metrics plus separate PC capture, not a new testing method (novelty held7).
 - **Benchmark saturation and lifecycle**: covered at source-digest depth (round 24) — knowledge/benchmark-saturation-and-lifecycle.md; sources S007, S008.
 - **Agentic time horizon and task validity**: covered at source-digest depth (round 24) — knowledge/agent-time-horizon-and-task-validity.md; sources S013, S014, S005, S006. Extends the *Multi-turn state tracking / planning horizon* row with external task-duration and task-validity methodology; the lane's local horizon instrument is unchanged.
 - **Statistical reporting for paired evals**: covered at source-digest depth (round 24) — knowledge/paired-eval-uncertainty-reporting.md; sources S015–S019.
@@ -255,6 +257,7 @@ source/instrument (ART dossier §Leads; nothing below is admitted knowledge yet)
 - **Judge calibration applied inward**: why — the lane's own grader/attribution outputs (`grader.py`, `plans/attrib_probe.py` verdicts) are judged artifacts that have never been through the S009–S012 calibration protocol the new entry describes. Next source/instrument: port the S011 sensitivity/specificity correction + S010 perturbation audit onto the r21–r23 trial receipts (`evidence/attrib-r2*-*.log`).
   - *Partly discharged round 25 (2026-10-20):* the attribution receipts now carry exact-interval verdicts (`knowledge/attribution-interval-calibration.md`); `grader.py` outputs and an S010-style perturbation audit remain frontier.
   - *Correction (round 25 falsify, 2026-10-20):* the discharge also landed a Rogan–Gladen share bound in S011's estimator form, but S011's own interval method was not ported and the landed bound was conditional (`rg_cond`); with the sampling arm (`rg90`) it is vacuous on P1 — see the entry's §Corrections.
+  - *Partly discharged round 26 (2026-10-21):* `knowledge/grader-perturbation-audit.md` covers the pinned `grader.py` response-format audit. This supersedes the round-25 “grader.py outputs … remain frontier” phrase only for this frozen population. New formats, future generalization and a separately designed parser-policy comparison remain open.
 - **Identity-verified endpoint for novelty probes**: why — `:34113` is absent (`ss -ltn 'sport = :34113'` → no listener, 2026-10-19); only the read-only ds-flash-shim (`:8791`, sha-pinned) resolves, so no new live capability/novelty probe can run. Next source/instrument: an identity-verified endpoint (kama-owned serving plane, operator-owned restoration) plus the standing `plans/probe-battery-TEMPLATE.md` to re-instantiate the battery.
 - **Non-karpathy wiki topics**: why — `ai/` subtrees outside karpathy remain undigested and the source is absent (`~/Projects/webzites/repos/llm-wiki` → `test -e` absent). Next source/instrument: none available on-host; the row stays frontier until the wiki path resolves again (round-13/16 receipts record it absent).
 
@@ -273,3 +276,10 @@ Appended inventory corrections: the `lessons/round-25.md` row above's M23–M30 
 landing; the completed lesson reaches M38. The `evidence/round25-sources/` row's S027–S037 range likewise
 describes its first landing; round-25 source rows end at S042. `QUALITY.md` now contains Q1–Q13 (not the
 supporting-files row's historical Q1–Q8); S047 supersedes S037's older selftest teaching.
+
+Round-26 closure addendum: the admission bar is Q1–Q14; Q14 refines Q13's reader-role/identity authority,
+not a second admission method. All new supporting files above are local artifacts, not live endpoint probes.
+
+Round-26 source-support correction: the supporting-artifact row's initial S043–S047 range is superseded
+by **S043–S048**; S048 corrects S043's quote location before knowledge admission
+(`lessons/round-26.md` §Source-location correction before admission).

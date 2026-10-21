@@ -25,11 +25,15 @@ D1 kind=PC n=909 k=909
 G1 kind=MC n=1021 k=1021
 G2 kind=MC n=1021 k=1021
 ```
-`k` is invariant count for MP, baseline-PASS-to-FAIL count for MC, and extraction-of-appended-previous-truth count for PC. Applied L1 Amendment 1: F1/F2 touch only the last matched answer fence; D1 is limited to baseline-PASS state/sequence operation records with `turn > 1`, excluding A-MONO/B/C and cases where previous truth equals `want`. For D1, `n=909` and every extracted value equals the appended previous truth (`k=909`). State/sequence baselines compare parsed answers with stored `want`, cross-checked against meta truth. C-cell baseline uses the response's stored `parse`/`viol_ok`/`square_valid`/`preserved` facts because the pre-registration does not spell out the C grader predicate; its G1/G2 mutations change the violation witness or invalidate/remove the square structure. No external model or endpoint was contacted.
+`k` means MP invariance, MC baseline-PASS-to-FAIL, or PC extraction of the appended previous truth. Applied L1 Amendment 1: F1/F2 touch only the last matched answer fence; D1 is limited to baseline-PASS state/sequence operation records with `turn > 1`, excluding A-MONO/B/C and cases where previous truth equals `want`. D1 has `n=909`, `k=909`.
+
+Post-output edge corrections: F1/F2 require a valid JSON last matched fence (not fallback extraction); F3 toggles indentation of the trimmed selected JSON span while preserving surrounding bytes; F4 requires a dict with at least two keys; F7 requires bare LF and preserves existing CRLF. Bounded controls: `python3 /tmp/kengaku-r26-KengakuR26-2.ExecPerturbOracle-4/plans/fixtures/r26/perturb_oracle.py --selftest` → `selftest: 13 checks, 0 failed`.
+
+State/sequence baselines compare parsed answers with stored `want`, cross-checked against meta truth. C-cell baseline uses stored `parse`/`viol_ok`/`square_valid`/`preserved` facts because the pre-registration does not spell out the C grader predicate; G1/G2 mutations change the violation witness or invalidate/remove square structure. No external model or endpoint was contacted.
 
 ## Changed files and handoff
-- Clone only: `plans/fixtures/r26/perturb_oracle.py` — SHA-256 `951c69905ebecabd5fa2591746984d518b7df191b23ee9ac59eb2b643661b31e`.
+- Clone only: `plans/fixtures/r26/perturb_oracle.py` — SHA-256 `df0edaec33070713317dc4b80f82eb284cfd825dfd701fbb25b4fec7bcce33be`.
 - Lane report only: `.ufo/waves/round-26/build/ExecPerturbOracle.md`.
 - Risks: C-cell parity depends on the recorded diagnostics described above; compare counts with the core implementation before using them as its validation. No tool installs.
 
-VERDICT: Amendment 1 oracle run completed; frozen four-file population confirmed with no exclusions.
+VERDICT: Updated oracle and 13 bounded edge controls ran; frozen population confirmed with counts unchanged and no exclusions.

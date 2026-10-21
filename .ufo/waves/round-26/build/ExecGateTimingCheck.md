@@ -1,14 +1,14 @@
 # ExecGateTimingCheck — Q13 implementation
 
 - **Scope:** `plans/gate_timing_check.py` in `/tmp/kengaku-r26-ExecGateTimingCheck-4`; clone base observed `e0037a8da26850fcf4c4b6ba40f14a017b3ecf2d`. No live lane code was edited.
-- **Behavior:** reads lesson and wave tree as of the supplied commit (`git show`, `git ls-tree`); parses every `## Gate` admit; handles arbitrary lesson basenames by round-path/heading inference and corpus-relative candidate paths. A cite qualifies only if it resolves to a nonempty regular second-wave report, registered as a wave member outside scribe/executor roles, naming the candidate, containing an anchored `VERDICT:` line to establish return, and not matching the candidate's committed `writer:`. Any generic reference or unresolved bare report cite fails the admit. Exit 1 for failed admissions; input/usage errors exit 2. Main logic: `plans/gate_timing_check.py:129-180,187-228,269-362,365-382,455-534,537-622`.
+- **Behavior:** reads lesson/tree at the supplied commit; handles arbitrary lesson basenames and corpus-relative candidates. Only second-wave reports registered with roles `reviewer`, `scout`, `critic`, `sentinel`, or `revenger` qualify. It rejects generic/unresolved citations, report `writer:`/`author:` declarations or registry `agentId` matching the candidate writer, and missing writer metadata on the candidate. If a report omits writer/author declarations, identity checks rely on seat name and registry `agentId`, not proof of human authorship. In-memory cases cover role and writer conflicts. Code: `plans/gate_timing_check.py`.
 - **Q10 source:** `corpus/lessons/round-25.md:27-29`; the admit reason cites only “by wave-2 seats”.
 
 ## Retained command evidence
 
 `python3 plans/gate_timing_check.py --selftest` — exit **0**:
 ```text
-[selftest] ALL PASS (arbitrary lesson basename, generic-only/variant red, explicit/bare citation, missing/unresolved citation, registry/mode/return/self-review/unknown-writer checks)
+[selftest] ALL PASS (five allowed roles; connector/mutation-tester/simplifier and unknown roles rejected; declared writer/author/agentId conflicts red; missing report identity with registered reader green)
 ```
 
 `python3 plans/gate_timing_check.py --lesson corpus/lessons/round-25.md --commit 8ea41f9` — exit **1**:
@@ -35,11 +35,11 @@ gate_timing_check: commit=9d8a00d lesson=corpus/lessons/round-25.md admissions=1
 
 ## Files, risks, blockers
 
-- **Private clone file:** `plans/gate_timing_check.py` — SHA-256 `4a270d3ca31ddd64b829a079f96aadfad088e97c9b197630d0c31ede0a138512`.
+- **Private clone file:** `plans/gate_timing_check.py` — SHA-256 `1b748e52a35a5bd900462cd34d0cc3660d06a770b8d06cf05e22b348c4b3f69d`.
 - **Lane report:** `.ufo/waves/round-26/build/ExecGateTimingCheck.md`.
-- **Risk:** round-25 tip remains red because its Gate cites generic seats and no report path. Its knowledge entry has no `writer:` field, so explicit report evidence fails closed; when present, the committed field remains self-asserted because no independent writer-identity authority is available. The checker does not decide whether a report's verdict is substantively resolved or enumerate uncited wave prompts; those exceed the frozen Q13 timing interface.
+- **Risk:** round-25 tip remains red because its Gate cites generic seats and no report path. Its knowledge entry has no `writer:` field, so explicit report evidence fails closed. When report writer/author metadata is absent, the checker uses committed seat name and `agentId`; this is not proof of human authorship. Verdict disposition and uncited-prompt completeness remain outside the timing interface.
 - **Blockers:** none for the requested implementation. LSP is not mounted; this new module introduces no existing-symbol refactor.
 
 Installs: none.
 
-VERDICT: Q13 checker implemented in the private clone; required selftest and red-before/tip commands produced the recorded outcomes.
+VERDICT: Q13 checker hardening complete; in-memory role and writer-conflict selftest passed.

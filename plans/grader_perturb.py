@@ -361,7 +361,7 @@ def _mutate_token(value: Any) -> tuple[Any, bool]:
         out = copy.deepcopy(value)
         for index, item in enumerate(value):
             if isinstance(item, str):
-                out[index] = "__perturbed_token__"
+                out[index] = "__perturbed_token__!" if item == "__perturbed_token__" else "__perturbed_token__"
                 return out, True
             changed, ok = _mutate_token(item)
             if ok:
@@ -592,6 +592,73 @@ def _selftest_check(fid: str, raw: str, changed: str, rec: Rec, simple: dict[str
         assert regrade(rec, changed) is False
 
 
+def _selftest_branch_cases() -> tuple[list[str], list[str]]:
+    """Cover CRLF, sequence, multi-fence, grade_c, and valid_latin branches."""
+    square = [
+        ["A", "B", "C", "D"],
+        ["B", "C", "D", "A"],
+        ["C", "D", "A", "B"],
+        ["D", "A", "B", "C"],
+    ]
+
+    def fenced(value, newline="\n"):
+        return "```json" + newline + json.dumps(value, separators=(",", ":")) + newline + "```"
+
+    f2_raw = "```json\r\n{\"x\":1}\r\n```"
+    f2_rec = Rec("selftest", 1, "A-INC", 1, 1, "state", f2_raw, {"x": 1}, True)
+    d1_raw = fenced(["a", "b"])
+    d1_rec = Rec("selftest", 1, "T-DENSE", 1, 2, "seq", d1_raw, ["a", "b"], True, ["a", "x"])
+    multi_raw = '```json\n{"x":0}\n```\n```json\n{"x":1}\n```'
+    g1_multi_rec = Rec("selftest", 1, "A-INC", 1, 1, "state", multi_raw, {"x": 1}, True)
+    seq_raw = fenced(["a", "b"])
+    g1_seq_rec = Rec("selftest", 1, "T-DENSE", 1, 1, "seq", seq_raw, ["a", "b"], True)
+    g2_seq_rec = Rec("selftest", 1, "T-DENSE", 1, 1, "seq", seq_raw, ["a", "b"], True)
+    collision_want = ["__perturbed_token__", "b"]
+    collision_raw = fenced(collision_want)
+    collision_rec = Rec("selftest", 1, "T-DENSE", 1, 1, "seq", collision_raw, collision_want, True)
+    c_raw = fenced({"violations": [3], "square": square})
+    c_g1_rec = Rec("selftest", 1, "C-conflict", None, 1, "c", c_raw, None, True, None, 0)
+    c_g2_rec = Rec("selftest", 1, "C-conflict", None, 1, "c", c_raw, None, True, None, 0)
+    mono_raw = fenced(square)
+    mono_g1_rec = Rec("selftest", 1, "C-MONO", None, 1, "c", mono_raw, None, True, None, 0)
+    mono_g2_rec = Rec("selftest", 1, "C-MONO", None, 1, "c", mono_raw, None, True, None, 0)
+    cases = [
+        ("F2-CRLF", "F2", f2_rec, f2_raw, {"x": 1}, True),
+        ("D1-SEQ", "D1", d1_rec, d1_raw, ["a", "x"], False),
+        ("G1-MULTI-LAST", "G1", g1_multi_rec, multi_raw, {"x": 2}, False),
+        ("G1-SEQ", "G1", g1_seq_rec, seq_raw, ["__perturbed_token__", "b"], False),
+        ("G1-SEQ-COLLISION", "G1", collision_rec, collision_raw, ["__perturbed_token__!", "b"], False),
+        ("G2-SEQ", "G2", g2_seq_rec, seq_raw, ["b"], False),
+        ("G1-GRADE-C", "G1", c_g1_rec, c_raw, {"violations": [4], "square": square}, False),
+        ("G2-GRADE-C", "G2", c_g2_rec, c_raw, {"violations": [3]}, False),
+        ("G1-VALID-LATIN", "G1", mono_g1_rec, mono_raw,
+         [["__perturbed_token__", "B", "C", "D"], *square[1:]], False),
+        ("G2-VALID-LATIN", "G2", mono_g2_rec, mono_raw, square[1:], False),
+    ]
+    passed, failed = [], []
+    for label, fid, rec, raw, expected, expected_ok in cases:
+        try:
+            changed = apply_family(fid, raw, _GRADER.extract_json_block(raw), rec)
+            assert changed is not None and changed != raw, "transform absent"
+            got = _GRADER.extract_json_block(changed)
+            if label == "F2-CRLF":
+                assert changed.startswith("```JSON\r\n") and "\r\n```" in changed
+            elif label == "D1-SEQ":
+                assert "For reference" in changed
+            elif label == "G1-MULTI-LAST":
+                blocks = list(FENCED_RE.finditer(changed))
+                assert len(blocks) == 2 and json.loads(blocks[0].group(1)) == {"x": 0}
+            assert got == expected, f"extracted {got!r}, expected {expected!r}"
+            if label == "D1-SEQ":
+                assert got == rec.previous and regrade(rec, changed) is False
+            else:
+                assert regrade(rec, changed) is expected_ok
+            passed.append(f"SELFTEST BRANCH {label} PASS")
+        except Exception as exc:
+            failed.append(f"SELFTEST BRANCH {label} FAIL: {type(exc).__name__}: {exc}")
+    return passed, failed
+
+
 def _selftest() -> tuple[list[str], list[str]]:
     """Exercise every transform and ensure no-op/all-block mutants are detected."""
     simple = {"x": 1, "y": 2}
@@ -646,6 +713,9 @@ def _selftest() -> tuple[list[str], list[str]]:
             passed.append(f"SELFTEST {fid} PASS")
         except Exception as exc:
             failed.append(f"SELFTEST {fid} FAIL: {type(exc).__name__}: {exc}")
+    branch_passed, branch_failed = _selftest_branch_cases()
+    passed.extend(branch_passed)
+    failed.extend(branch_failed)
     if mutation_caught != 12:
         failed.append(f"SELFTEST MUTATION-CATCH FAIL: caught={mutation_caught} expected=12")
     else:
@@ -763,7 +833,8 @@ def main(argv=None) -> int:
         if args.selftest:
             for line in selftest_passed + selftest_failed:
                 print(line)
-            print(f"SELFTEST TOTAL families={len(FAMILY_ORDER)} failed={len(selftest_failed)}")
+            branch_cases = sum(line.startswith("SELFTEST BRANCH ") for line in selftest_passed + selftest_failed)
+            print(f"SELFTEST TOTAL families={len(FAMILY_ORDER)} branch_cases={branch_cases} failed={len(selftest_failed)}")
     return 0 if not _LAST["errors"] and tests_ok else 1
 
 

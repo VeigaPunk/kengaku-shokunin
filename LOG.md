@@ -333,3 +333,40 @@ content-pinned P3 self-assertions. Pre-registration `e0037a8`; Amendment 1 expli
 - Re-verification at round start: `grader.py` 733 checks, 0 mismatches; v2 state check 235 assertions,
   mismatch=0 on its frozen P2 (round-25 additions outside); sources census exit 0, 42 rows, one W04 warning.
   End-of-round measurement and final evidence follow as appended entries after the falsify wave.
+
+### Round 26 — recovery and admission packaging (2026-10-21)
+
+- Replacement L1 KengakuR26 resumes the same held attempt, inheriting remote branch tip
+  `3a2aeb15e6494a695d1a950ceea69b0cc9a154f8`. Reused the pre-registration, repair-first integration,
+  two validated dispatched waves, returned reviews, source corrections and patched instruments;
+  no dead seat was replaced and no wave was replayed. Recovery ownership/census/misroot record:
+  `corpus/evidence/round26-calibration/recovery-start.txt`.
+- Falsify findings were resolved before the knowledge entry's admission: S048 supersedes S043's
+  page location; Q14 narrows Q13's qualifying roles and declared-writer handling; explicit branch
+  controls strengthen the perturbation and P3 selftests. Supporting findings and dispositions:
+  `corpus/lessons/round-26.md` M45–M52 and `.ufo/waves/round-26/falsify/`.
+- Discarded only inherited throwaway `plans/state_check.cover` (already removed by the earlier L1);
+  retained the superseded pretrim registry as evidence, never as active assignments. No inherited
+  operator/aggregator/outside-verifier file was edited. Round-25 rejection remains unchanged.
+- The final 64-seat wave has eleven recorded provider-capacity deaths, not replacements:
+  `.ufo/waves/round-26/falsify-dead-seats.json`. Three additional bounded read-only recovery seats
+  inspect timing, evidence inventory and wave accounting; they are author-lane advice, not outside
+  non-author spot-checks. L1 remains the planner and final measurement owner.
+
+### Round 26 — required final measurements before admission
+
+- Integrated the previously unlanded final state-check tail, SHA-256 `32a684ffcb3fb222b0360333f83c2e4654c19ec1c3ad6ed47016052401428089`;
+  `recovery/K26IntegrateStateTail.txt` records the reviewed delta and two zero-start job-cap refusals.
+- `python3 plans/grader_perturb.py --summary` reports population1964, exclusions0, audited15168,
+  interval families9, policy checks909; independent oracle agrees, synthetic cases278 fail0,
+  selftest catches12 mutants (`corpus/evidence/round26-calibration/*final.txt`).
+- `python3 plans/state_check.py --summary` v3 on frozen `f11bffbf` reports278 assertions,5 mismatches;
+  repaired tree reports278 assertions,0 mismatches,5 superseded,3 offline-unverifiable. P2's full
+  keyed assertion projection is unchanged; paired S048-source addition leaves P3b records unchanged.
+- Independent P3 oracle summary exits0 (63 registered,58 match,4 superseded,1 unverified);
+  its inherited selftest first failed three controls because valid corrections leaked into scratch
+  fixtures. The isolated fixture fix yields14/14, with both red and green receipts retained (M54).
+- Two-direction separability is UNCHANGED (C1 FAMILY/TOTAL records and C2 summary/exit);
+  `grader.py` retains733 checks,0 mismatches; Q13 selftest is green and r25 admission red reproduces.
+  Prospective scratch-commit Q13 passes with three returned qualifying readers before actual admission;
+  actual-commit measurement follows. Receipts are author-observed, never non-author closure.

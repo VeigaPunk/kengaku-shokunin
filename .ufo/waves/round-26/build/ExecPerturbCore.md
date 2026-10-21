@@ -1,10 +1,9 @@
 # Round 26 C1 — ExecPerturbCore
 
 - Clone base observed: `e0037a8da26850fcf4c4b6ba40f14a017b3ecf2d`; no live lane source, Git index, or jj state changed.
-- Clone deliverable: `/tmp/kengaku-r26-ExecPerturbCore/plans/grader_perturb.py`, SHA-256 `8d92314246b96c9e9dec29574f2824b42d87a8fccabf35cbacdd588588f1cc8b`.
-- Implements exact population pins, fail-closed count, format classes, per-family class strata, deduplicated raw/want report, and file+pid (C=file+cell+rep) worst-case composites.
-- F1/F2 edit only the last matched, parseable answer fence; D1 is PC and counts capture of appended previous truth, not model verdict failure. C-MONO uses grader.py `valid_latin`.
-- Four source SHA-256 pins matched; population=1964, excluded=0. CP95 is reported as nominal/descriptive only.
+- Clone deliverable: `/tmp/kengaku-r26-ExecPerturbCore/plans/grader_perturb.py`, SHA-256 `3e2c380d8081f30aef1e16383e0321fb19fe601b32774e29636e41cd3923df9a`.
+- Implements pinned 1964-record population, format-class strata, deduplicated raw/want and file+pid (C=file+cell+rep) worst-case composites.
+- F1/F2 edit only the last matched parseable fence; D1 is PC capture, not a grader verdict. C-MONO follows `valid_latin`; four source pins match, excluded=0; CP95 nominal/descriptive.
 
 ## `python3 plans/grader_perturb.py --summary`
 
@@ -36,25 +35,16 @@ COMMAND_EXIT_CODE=0
 
 ## `python3 plans/grader_perturb.py --selftest`
 
-The command repeated the identical summary above, then emitted:
-SELFTEST F1 PASS
-SELFTEST F2 PASS
-SELFTEST F3 PASS
-SELFTEST F4 PASS
-SELFTEST F5 PASS
-SELFTEST F6 PASS
-SELFTEST F7 PASS
-SELFTEST D1 PASS
-SELFTEST G1 PASS
-SELFTEST G2 PASS
+The command repeated the identical summary above, then reported:
+SELFTEST family cases PASS: F1, F2, F3, F4, F5, F6, F7, D1, G1, G2.
+SELFTEST branch cases PASS: F2-CRLF, D1-SEQ, G1-MULTI-LAST, G1-SEQ, G2-SEQ, G1-GRADE-C, G2-GRADE-C, G1-VALID-LATIN, G2-VALID-LATIN.
 SELFTEST MUTATION-CATCH PASS caught=12
-SELFTEST TOTAL families=10 failed=0
-COMMAND_EXIT_CODE=0
-
+SELFTEST TOTAL families=10 branch_cases=9 failed=0; RESTORED_RUN_EXIT_CODE=0
+RED `python3 plans/grader_perturb.py --selftest` exit=1: F2-CRLF, D1-SEQ (PC n 909→892), G1-MULTI-LAST (1004/1021; MULTI 0/17), G2-SEQ (1000/1021); G2-VALID-LATIN also caught the same list no-op mutant.
 ## Retained evidence and scope
 
 - Four source SHA-256 pins match; population candidate count and accepted count both equal 1964, with excluded=0 (otherwise exit 1).
 - LSP unavailable in the mounted tool inventory; source references were read with `grep`/`read`.
 - The separate oracle is being amended by its writer with the exact F1/F2 and D1 semantics sent to that seat. No tools installed.
 
-VERDICT: Amendment 1 implemented in the private clone; summary and all 10 family selftests exited 0.
+VERDICT: Summary/selftest green after restore; all four targeted mutants were killed, with G2 also caught on the valid_latin list case.

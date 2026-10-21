@@ -183,3 +183,8 @@ The `:112` "25 rows" cell stays superseded by `:119` and this line.*
 Parser-format addendum: E3b's extra inline command is not a value token. The v3 exact-token restatement is:
 - **R26-E7 (2026-10-21)** supersedes `P3b.province.round25-correction.rows` — now `rows=42`
 - **R26-E8 (2026-10-21)** supersedes `P3b.province.public-literature-registry.rows` — now `rows=42`
+
+Exact-ID-set addendum (2026-10-21): Amendment 1's census also verifies the complete S001–S042 identity set.
+E7/E8's count-only restatements omit that new token; FxP3BInstruments caught the omission before entry admission.
+- **R26-E9 (2026-10-21)** supersedes `P3b.province.round25-correction.rows` — now `rows=42` `id_set=exact`
+- **R26-E10 (2026-10-21)** supersedes `P3b.province.public-literature-registry.rows` — now `rows=42` `id_set=exact`

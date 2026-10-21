@@ -108,6 +108,18 @@ An entry is admitted only when every row below passes; the round lesson's
   Lesson: `corpus/lessons/round-26.md` M39; `corpus/lessons/round-25-verifier-spotcheck.md:36-39` and
   `.ufo/waves/round-26/build/CritQ13Mechanism.md` (a later tree or a placeholder is not a landing-time review).
 
+- **Q14 — supersedes Q13's “reviewer-like” ambiguity and clarifies identity authority.** Qualifying re-read
+  roles are exactly `reviewer`, `scout`, `critic`, `sentinel`, `revenger`; other, missing or malformed role
+  values do not count. A registered scout can re-open a source; a connector's overlap advice or a mutation
+  test is not the complete source/number re-read. Reject explicit report writer/author or registry identity
+  declarations that equal the candidate writer. Without report-author metadata, identity means the registered
+  seat, not independent proof of human authorship. The caller must supply the actual admission commit;
+  the checker grades the requested tree but does not discover that commit or interpret review conclusions.
+  Check: the Q13 CLI plus `--selftest` role/declared-writer controls; a late-report/same-commit sandbox pair
+  separates absent/present support using identical lesson bytes.
+  Lesson: `corpus/lessons/round-26.md` M49; `falsify/FxGatePlaceholder.md`, `FxGateGeneric.md`,
+  `FxGateWriter.md`, `FxGateCommit.md` under `.ufo/waves/round-26/`.
+
 ## Round-closure criteria
 
 A round closes only when every row below holds; a row that cannot be shown is an open item, not a waiver. Each row cites the mistake it closes in `corpus/lessons/round-24.md`; checks are file or command tests, not prose.

@@ -1,6 +1,6 @@
 #!/bin/sh
-# p3_oracle.sh — independent oracle for the round-26 C2 population P3a / P3b / P3e
-# (plans/round-26-claims.md §C2). POSIX sh + grep + awk; no python, no git, no network
+# p3_oracle.sh — independent oracle for round-26 C2 population P3a / P3b / P3e
+# (plans/round-26-claims.md §C2 + Amendment 1). POSIX sh + grep + awk; no python, no git, no network
 # (--selftest also uses mkdir/cp/mv/rm on a scratch copy). Written without reading plans/state_check.py.
 #
 # Population, enumerated by this oracle's author at base f11bffbf:
@@ -8,19 +8,17 @@
 #        digit-bearing token of the row against the round-25 v2 receipts in corpus/evidence/round25-calibration/;
 #        a coverage guard proves no digit-bearing token of either row is left unchecked or unclassified.
 #   P3b  PROVINCE §Province map rows :112 (Public-literature registry), :116, :117 and the :119 round-25 correction,
-#        against the SOURCES census at the measured tree (grep -cE '^\| *S[0-9]{3,} *\|' corpus/SOURCES.md)
-#        and the round-25 receipts.
+#        against exact dated SOURCES id-set S001–S042; S043+ do not affect this population.
 #   P3e  corpus/README index rows and corpus entries (knowledge/*.md, lessons/*.md, evidence/<dir>/) present at
 #        f11bffbf and absent at 6180e4f (`git diff --name-status 6180e4f f11bffbf -- corpus/`), both directions:
 #        row -> target exists, entry -> index row exists.
 #   X.*  oracle-only extension (numeric tokens inside the P3e rows); printed, excluded from totals and exit code.
-# Supersession (R25-E rule, widened): a stale assertion is SUPERSEDED only by a later line of the same file that
-# matches R2[5-9]-E[0-9], names the assertion's subject and carries the re-derived value.
+# Supersession requires a later R2[5-9]-E line carrying both the exact assertion id and its backticked value token.
 #
 # Usage: sh p3_oracle.sh [ROOT]              ROOT defaults to the lane root three levels above this file
 #        sh p3_oracle.sh --selftest [ROOT]   mutation red/green checks on a scratch copy of ROOT (base f11bffbf
-#                                            or a descendant whose only P3 drift is R26-E1..E3 + the P3e row)
-# Output: "<STATUS>: <id>:<line> — <detail>" per assertion, STATUS in MATCH|MISMATCH|SUPERSEDED|UNVERIFIED
+#                                            or a descendant whose only P3 drift is the registered corrections + P3e row)
+# Output: "<STATUS>: id:line — detail" per assertion, STATUS in MATCH|MISMATCH|SUPERSEDED|UNVERIFIED
 #         (UNVERIFIED = no committed receipt exhibits the claimed token; not a contradiction); "SKIP:" lines list
 #         digit-bearing tokens that are labels, names, dates or commit ids; then TOTAL and VERDICT lines.
 # Exit: 0 = no registered MISMATCH; 1 = >=1 registered MISMATCH or a selftest failure; 2 = usage / not a lane root.
@@ -92,8 +90,8 @@ trans() {  # TRANSITIONS KEY -> count
 word2num() {
   printf '%s\n' "$1" | awk '{ w=tolower($0); split("one two three four five six seven eight nine ten eleven twelve", a, " "); for (i=1; i<=12; i++) if (a[i] == w) print i }'
 }
-superseded_at() {  # FILE AFTER_LINE SUBJECT_ERE VALUE_ERE -> first later R2[5-9]-E line carrying both
-  awk -v a="$2" -v s="$3" -v v="$4" 'NR > a+0 && /R2[5-9]-E[0-9]/ && $0 ~ s && $0 ~ v { print NR; exit }' "$R/$1"
+superseded_at() {  # FILE AFTER_LINE SUBJECT VALUE -> last later R2[5-9]-E line containing both literal tokens
+  awk -v a="$2" -v s="$3" -v v="$4" 'NR > a+0 && /R2[5-9]-E[0-9]/ && index($0, s) && index($0, v) { last = NR } END { if (last) print last }' "$R/$1"
 }
 verdict() {  # ID LINE CLAIMED OBSERVED FILE SUBJECT_ERE VALUE_ERE DETAIL...
   _i=$1 _l=$2 _c=$3 _o=$4 _f=$5 _s=$6 _v=$7; shift 7
@@ -127,8 +125,21 @@ round_of() {  # CAPID ROWLINE -> N of the first "#.. Round N" section mentioning
 }
 exists_tok() { if [ -e "$R/$1" ]; then printf '%s' "$1"; fi; }
 
-CENSUS=$(grep -cE '^\| *S[0-9]{3,} *\|' "$R/corpus/SOURCES.md")
-printf '# p3_oracle root=%s sources_census=%s\n' "$R" "$CENSUS"
+frozen_census() {  # exact dated P3b ids S001-S042; later ids such as S043+ are outside this population
+  awk -F'|' '
+    /^[|][ \t]*S[0-9][0-9][0-9][ \t]*[|]/ {
+      id=$2; gsub(/[ \tS]/, "", id); n=id+0
+      if (n >= 1 && n <= 42) seen[n]++
+    }
+    END {
+      ok=1
+      for (i=1; i<=42; i++) if (seen[i] != 1) ok=0
+      if (ok) print 42; else print "INVALID-ID-SET"
+    }' "$R/corpus/SOURCES.md"
+}
+
+CENSUS=$(frozen_census)
+printf '# p3_oracle root=%s frozen_sources_ids=S001-S042 observed=%s (S043+ excluded)\n' "$R" "$CENSUS"
 
 # ---------- P3a: capability rows vs v2 receipts ----------
 SC=SCORECARD.md
@@ -144,7 +155,7 @@ if [ -z "$L" ]; then emit MISMATCH P3a.interval-reverdict.row - "row absent or n
   o=$(field "$SUM" mismatches); verdict $id.mismatches "$L" "$(nums "$(grab "$E" 'mismatches=[0-9]+')")" "$o" "$SC" "$subj" "mismatches=$o([^0-9]|\$)" "receipt=$SUM"
   o=$(field "$SUM" exit); verdict $id.summary-exit "$L" "$(nums "$(grab "$E" 'exit [0-9]+')")" "$o" "$SC" "$subj" "exit $o([^0-9]|\$)" "receipt=$SUM"
   o=$(awk '/^selftest: [0-9]+ checks, [0-9]+ failed/{print $2; exit}' "$R/$SLF" 2>/dev/null)
-  verdict $id.selftest-checks "$L" "$(nums "$(grab "$E" '[0-9]+ checks')")" "$o" "$SC" "$subj" "(^|[^0-9])$o checks" "receipt=$SLF"
+  val=$(printf '`%s checks`' "$o"); verdict $id.selftest-checks "$L" "$(nums "$(grab "$E" '[0-9]+ checks')")" "$o" "$SC" 'P3a.capability.interval-reverdict.selftest-checks' "$val" "receipt=$SLF; exact supersession is SCORECARD R26-E5"
   o=$(awk '/^selftest: [0-9]+ checks, [0-9]+ failed/{print $4; exit}' "$R/$SLF" 2>/dev/null)
   verdict $id.selftest-failed "$L" "$(nums "$(grab "$E" '[0-9]+ failed')")" "$o" "$SC" "$subj" "(^|[^0-9])$o failed" "receipt=$SLF"
   rr=$(nums "$(grab "$E" 'R[0-9]+–R[0-9]+')"); a=$(nth "$rr" 1); b=$(nth "$rr" 2); miss=''
@@ -174,7 +185,7 @@ if [ -z "$L" ]; then emit MISMATCH P3a.state-assertion-check.row - "row absent o
   SCB=$RC/state-check-before-$h-v2.txt
   if [ -n "$h" ] && [ -f "$R/$SCB" ]; then o=$h; else o=''; fi
   verdict $id.base-commit "$L" "$h" "$o" "$SC" '' '' "receipt=$SCB exists"
-  o=$(field "$SCB" mismatch); verdict $id.base-mismatch "$L" "$(nums "$(grab "$S1" 'mismatch=[0-9]+')")" "$o" "$SC" "$subj" "mismatch=$o([^0-9]|\$)|(^|[^0-9])$o mismatch" "receipt=$SCB"
+  o=$(field "$SCB" mismatch); val=$(printf '`mismatch=%s`' "$o"); verdict $id.base-mismatch "$L" "$(nums "$(grab "$S1" 'mismatch=[0-9]+')")" "$o" "$SC" 'P3a.capability.state-assertion-check.base-mismatch' "$val" "receipt=$SCB; exact supersession is SCORECARD R26-E6"
   o=$(field "$SCB" exit); verdict $id.base-exit "$L" "$(nums "$(grab "$S1" 'exit [0-9]+')")" "$o" "$SC" "$subj" "exit $o([^0-9]|\$)" "receipt=$SCB"
   o=$(field "$SCA" mismatch); verdict $id.landed-mismatch "$L" "$(nums "$(grab "$S2" 'mismatch=[0-9]+')")" "$o" "$SC" "$subj" "mismatch=$o([^0-9]|\$)" "receipt=$SCA"
   o=$(field "$SCA" superseded); verdict $id.landed-superseded "$L" "$(nums "$(grab "$S2" 'superseded=[0-9]+')")" "$o" "$SC" "$subj" "superseded=$o([^0-9]|\$)" "receipt=$SCA"
@@ -201,7 +212,8 @@ if [ -z "$L112" ]; then emit MISMATCH P3b.registry-row.row - "row absent or not 
   id=P3b.registry-row; T=$(textat "$PV" "$L112"); E=$(cell "$T" 3)
   C112=$(nums "$(grab "$E" '[0-9]+ rows')")
   rcpt=$(awk '/^rows: [0-9]+/{print $2; exit}' "$R/corpus/evidence/round24-census/after.txt" 2>/dev/null)
-  verdict $id.rows "$L112" "$C112" "$CENSUS" "$PV" 'registry|SOURCES' "$(numval "$CENSUS")" "observed=SOURCES census at measured tree; cited receipt round24-census/after.txt rows=${rcpt:-<absent>}"
+  if [ "$CENSUS" = 42 ]; then regsub='P3b.province.public-literature-registry.rows'; regval=$(printf '`rows=%s`' "$CENSUS"); else regsub=''; regval=''; fi
+  verdict $id.rows "$L112" "$C112" "$CENSUS" "$PV" "$regsub" "$regval" "observed=exact SOURCES id-set S001–S042; S043+ excluded; cited receipt round24-census/after.txt rows=${rcpt:-<absent>}"
   c=$(grab "$E" 'corpus/evidence/round24-census/after[.]txt'); verdict $id.census-receipt "$L112" "$c" "$(exists_tok "$c")" "$PV" '' '' "test -e"
   c=$(grab "$E" 'corpus/evidence/round24-sources/gate[.]md'); verdict $id.gate-receipt "$L112" "$c" "$(exists_tok "$c")" "$PV" '' '' "test -e"
   skip $id.contract-v1 "$L112" "contract version label"
@@ -257,7 +269,8 @@ if [ -z "$L" ]; then emit MISMATCH P3b.round25-correction.row - "line absent or 
   c=$(grab "$T" '[(]S[0-9]+,'); c=${c#(}; c=${c%,}
   verdict $id.base-last-id "$L" "$c" "$o" "$PV" '' '' "observed=id of SOURCES row number <receipt base rows> at measured tree"
   ra=$(field "$CA" sources_rows)
-  verdict $id.after-r25-rows "$L" "$(nums "$(grab "$T" 'holds [0-9]+ after round')")" "$CENSUS" "$PV" 'registry|SOURCES' "$(numval "$CENSUS")" "observed=SOURCES census at measured tree; receipt $CA sources_rows=${ra:-<absent>}"
+  if [ "$CENSUS" = 42 ]; then corrsub='P3b.province.round25-correction.rows'; corrval=$(printf '`rows=%s`' "$CENSUS"); else corrsub=''; corrval=''; fi
+  verdict $id.after-r25-rows "$L" "$(nums "$(grab "$T" 'holds [0-9]+ after round')")" "$CENSUS" "$PV" "$corrsub" "$corrval" "observed=exact SOURCES id-set S001–S042; S043+ excluded; receipt $CA sources_rows=${ra:-<absent>}"
   w=$(grab "$T" '[A-Za-z]+ `## Surfaces` rows'); w=${w%% *}
   o=$(awk '/^## /{ins = ($0 ~ /^## Surfaces/)} ins && /^[|]/ && /ABSENT [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/ {c++} END{print c+0}' "$R/$PV")
   verdict $id.absent-markers "$L" "$(word2num "$w")" "$o" "$PV" 'ABSENT' "$(numval "$o")" "claimed word '$w'; observed=## Surfaces table rows carrying 'ABSENT YYYY-MM-DD'"
@@ -357,12 +370,19 @@ for f in SCORECARD.md PROVINCE.md corpus/README.md corpus/SOURCES.md corpus/QUAL
   case $f in */*) mkdir -p "$TMPROOT/tpl/${f%/*}" ;; esac
   cp "$R/$f" "$TMPROOT/tpl/$f"
 done
+# A descendant lane already contains the repair this selftest is meant to vary.
+# Remove only that target's inherited correction rows from the scratch template;
+# otherwise R8/R9/R10 retain a valid later correction and are not red controls.
+awk '!(/R2[5-9]-E[0-9]/ && index($0, "`P3a.capability.interval-reverdict.selftest-checks`")) { print }' \
+  "$TMPROOT/tpl/SCORECARD.md" > "$TMPROOT/tpl/SCORECARD.md.tmp"
+mv "$TMPROOT/tpl/SCORECARD.md.tmp" "$TMPROOT/tpl/SCORECARD.md"
 mkdir -p "$TMPROOT/tpl/$RC"; cp "$R/$RC"/* "$TMPROOT/tpl/$RC/"
 ck=$(awk '/^selftest: [0-9]+ checks/{print $2; exit}' "$R/$SLF"); bm=$(field "$RC/state-check-before-6180e4f-v2.txt" mismatch)
-green() {  # DIR: append R26-E corrections carrying re-derived values + the missing P3e index row
-  printf '%s\n' "- **R26-E1 (selftest)** supersedes \`interval-reverdict\` — now \`--selftest\` $ck checks 0 failed" \
-    "- **R26-E2 (selftest)** supersedes \`state-assertion-check\` — now base \`mismatch=$bm\` exit 1" >> "$1/SCORECARD.md"
-  printf '%s\n' "*R26-E3 (selftest): the Public-literature registry holds $CENSUS rows.*" >> "$1/PROVINCE.md"
+green() {  # DIR: append final exact-token corrections + the P3e README row
+  printf '%s\n' "- **R26-E5 (selftest)** supersedes \`P3a.capability.interval-reverdict.selftest-checks\` — now \`$ck checks\`" \
+    "- **R26-E6 (selftest)** supersedes \`P3a.capability.state-assertion-check.base-mismatch\` — now \`mismatch=$bm\`" >> "$1/SCORECARD.md"
+  printf '%s\n' '- **R26-E7 (selftest)** supersedes `P3b.province.round25-correction.rows` — now `rows=42`' \
+    '- **R26-E8 (selftest)** supersedes `P3b.province.public-literature-registry.rows` — now `rows=42`' >> "$1/PROVINCE.md"
   grep -q '^| `lessons/round-25-verifier-spotcheck.md` |' "$1/corpus/README.md" || \
     printf '%s\n' '| `lessons/round-25-verifier-spotcheck.md` | selftest row | - |' >> "$1/corpus/README.md"
 }
@@ -388,8 +408,8 @@ d=$(fresh r1); green "$d"; mut "$d/$SLF" '/^selftest: [0-9]+ checks/{ $2 = $2 + 
 expect R1-selftest-count-drift "$d" 1 MISMATCH:P3a.interval-reverdict.selftest-checks
 d=$(fresh r2); green "$d"; mut "$d/$SCA" '{ sub(/superseded=1 /, "superseded=2 "); print }'
 expect R2-landed-superseded-drift "$d" 1 MISMATCH:P3a.state-assertion-check.landed-superseded
-d=$(fresh r3); green "$d"; printf '| S999 | selftest | - |\n' >> "$d/corpus/SOURCES.md"
-expect R3-registry-grows "$d" 1 MISMATCH:P3b.registry-row.rows MISMATCH:P3b.round25-correction.after-r25-rows
+d=$(fresh r3); green "$d"; printf '| S043 | selftest | - |\n' >> "$d/corpus/SOURCES.md"
+expect R3-new-S043-outside-frozen-population "$d" 0 SUPERSEDED:P3b.registry-row.rows SUPERSEDED:P3b.round25-correction.after-r25-rows
 d=$(fresh r4); green "$d"; mut "$d/PROVINCE.md" '!done && /^[|]/ && /ABSENT 2026-10-20/ { sub(/ABSENT 2026-10-20/, "absent"); done = 1 } { print }'
 expect R4-absent-marker-dropped "$d" 1 MISMATCH:P3b.round25-correction.absent-markers
 d=$(fresh r5); green "$d"; mut "$d/$RC/state-check-before-6180e4f-v2.txt" '{ sub(/ mismatch=10 /, " mismatch=9 "); print }'
@@ -410,6 +430,8 @@ d=$(fresh r11); green "$d"; mut "$d/SCORECARD.md" '/^[|] interval-reverdict [|]/
 expect R11-unchecked-token "$d" 1 MISMATCH:P3a.interval-reverdict.token-coverage
 d=$(fresh r12); green "$d"; printf '%s\n' 'unindexed' > "$d/$RC/extra-unnamed.txt"
 expect R12-extension-red-registered-green "$d" 0 MISMATCH:X.readme.round25-calibration.contents
+d=$(fresh r13); green "$d"; mut "$d/corpus/SOURCES.md" '/^[|] *S042 *[|]/ { sub(/S042/, "S041") } { print }'
+expect R13-frozen-id-set-drift "$d" 1 MISMATCH:P3b.registry-row.rows MISMATCH:P3b.round25-correction.after-r25-rows
 echo "selftest: $ST checks, $SF failed"
 [ "$SF" -eq 0 ] || exit 1
 exit 0

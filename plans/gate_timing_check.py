@@ -2,8 +2,10 @@
 """Check that Gate admits name returned second-seat reports in the landing tree.
 
 The lesson and every report are read from the requested Git commit, not the
-working tree. Generic seat references cannot support an admit. The checker is
-offline and uses read-only Git operations.
+working tree. Generic seat references cannot support an admit. When a report
+omits writer/author metadata, the committed seat registry is the available
+identity check, not proof of human authorship. The checker is offline and uses
+read-only Git operations.
 """
 
 from __future__ import annotations
@@ -16,6 +18,10 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Callable
+
+ALLOWED_REPORT_ROLES = frozenset({
+    "reviewer", "scout", "critic", "sentinel", "revenger",
+})
 
 FULL_REPORT_RE = re.compile(
     r"(?P<path>\.ufo/waves/round-(?P<round>\d+)/"
@@ -46,6 +52,7 @@ ROUND_REPORT_RE = re.compile(r"\.ufo/waves/round-(\d+)/")
 ROUND_LESSON_RE = re.compile(r"^round-(\d+)\.md$", re.IGNORECASE)
 WRITER_RE = re.compile(r"^writer:\s*`?([^`\s#]+)", re.IGNORECASE | re.MULTILINE)
 VERDICT_RE = re.compile(r"^VERDICT:\s*(\S.*?)\s*$", re.MULTILINE)
+REPORT_AUTHOR_RE = re.compile(r"^(?:writer|author):\s*`?([^`\s#]+)", re.IGNORECASE | re.MULTILINE)
 
 
 @dataclass(frozen=True)
@@ -70,6 +77,12 @@ class Citation:
 class TreeFile:
     mode: str
     size: int
+
+@dataclass(frozen=True)
+class SeatMember:
+    role: str
+    agent_id: str | None
+
 
 
 @dataclass(frozen=True)
@@ -267,12 +280,12 @@ def resolve_citations(citations: tuple[Citation, ...], round_number: int,
 
 
 def load_members(round_number: int, tree_files: dict[str, TreeFile],
-                 read_blob: Callable[[str], str | None]) -> dict[tuple[str, str], str]:
-    """Map (wave directory, registered seat name) to its declared role."""
+                 read_blob: Callable[[str], str | None]) -> dict[tuple[str, str], SeatMember]:
+    """Map wave seats to their declared role and agent identity."""
     wave_dirs = sorted({directory for path in tree_files
                         if (directory := wave_directory(path, round_number))
                         and is_second_wave(directory)})
-    members: dict[tuple[str, str], str] = {}
+    members: dict[tuple[str, str], SeatMember] = {}
     for directory in wave_dirs:
         path = f".ufo/waves/round-{round_number}/{directory}/swarm-registry.json"
         content = read_blob(path)
@@ -288,7 +301,11 @@ def load_members(round_number: int, tree_files: dict[str, TreeFile],
         for seat, member in entries.items():
             if isinstance(seat, str) and isinstance(member, dict):
                 role = member.get("role")
-                members[(directory, seat)] = role.casefold() if isinstance(role, str) else ""
+                agent_id = member.get("agentId")
+                members[(directory, seat)] = SeatMember(
+                    role=role.casefold() if isinstance(role, str) else "",
+                    agent_id=agent_id if isinstance(agent_id, str) else None,
+                )
     return members
 
 
@@ -302,7 +319,7 @@ def resolve_candidate_path(candidate: str, read_blob: Callable[[str], str | None
 
 def audit_admission(admission: GateAdmission, round_number: int,
                     tree_files: dict[str, TreeFile],
-                    members: dict[tuple[str, str], str],
+                    members: dict[tuple[str, str], SeatMember],
                     read_blob: Callable[[str], str | None]) -> AuditResult:
     citations = extract_citations(admission.reason)
     generic = extract_generic_references(admission.reason, citations)
@@ -317,20 +334,25 @@ def audit_admission(admission: GateAdmission, round_number: int,
         meta = tree_files.get(path)
         directory = wave_directory(path, round_number)
         seat = PurePosixPath(path).stem
-        role = members.get((directory or "", seat))
+        member = members.get((directory or "", seat))
+        role = member.role if member is not None else None
         content = read_blob(path) if meta is not None else None
         if meta is None:
             invalid[path] = "absent from commit tree"
         elif meta.mode != "100644" or meta.size <= 0:
             invalid[path] = f"not a nonempty regular report (mode={meta.mode}, size={meta.size})"
-        elif role is None:
+        elif member is None:
             invalid[path] = "seat is not in the committed wave registry"
-        elif role in {"scribe", "executor"}:
-            invalid[path] = f"seat role {role!r} is not an independent re-reader"
+        elif role not in ALLOWED_REPORT_ROLES:
+            invalid[path] = f"seat role {role!r} is not an allowed read-only reviewer"
         elif writer is None:
             invalid[path] = "candidate has no committed writer: field; self-review cannot be excluded"
         elif seat.casefold() == writer.casefold():
             invalid[path] = f"seat is the candidate writer {writer!r}"
+        elif member.agent_id == writer:
+            invalid[path] = f"registry agentId equals the candidate writer {writer!r}"
+        elif content is not None and writer in REPORT_AUTHOR_RE.findall(content):
+            invalid[path] = f"report writer/author declaration equals candidate writer {writer!r}"
         elif content is None or not any(form in content for form in (admission.candidate, entry_path or "")):
             invalid[path] = "report does not name the admitted candidate path"
         elif not VERDICT_RE.findall(content):
@@ -476,11 +498,11 @@ def run_selftest() -> int:
         symlink: TreeFile("120000", len(report_text)),
     }
     members = {
-        ("falsify", "SecondSeat"): "reviewer",
-        ("falsify", "EntryAuthor"): "reviewer",
-        ("falsify", "Stub"): "reviewer",
-        ("falsify", "Link"): "reviewer",
-        ("build", "BuildSeat"): "reviewer",
+        ("falsify", "SecondSeat"): SeatMember("reviewer", "KengakuR26.SecondSeat"),
+        ("falsify", "EntryAuthor"): SeatMember("reviewer", "KengakuR26.EntryAuthor"),
+        ("falsify", "Stub"): SeatMember("reviewer", "KengakuR26.Stub"),
+        ("falsify", "Link"): SeatMember("reviewer", "KengakuR26.Link"),
+        ("build", "BuildSeat"): SeatMember("reviewer", "KengakuR26.BuildSeat"),
     }
     blobs = {candidate: writer_text, report: report_text,
              build: f"Re-read {candidate}\nVERDICT: PASS\n",
@@ -490,7 +512,11 @@ def run_selftest() -> int:
 
     cases = [
         ("generic-only red", "Q10 checked by wave-2 seats", False, set(), None),
-        ("full path green", f"Q10 `{report}`", True, {report}, None),
+        ("registered reader without report identity green", f"Q10 `{report}`", True, {report}, None),
+        ("declared report writer conflict red", f"Q10 `{report}`", False, {report},
+         {report: f"writer: EntryAuthor\nRe-read {candidate}\nVERDICT: PASS\n"}),
+        ("declared report author conflict red", f"Q10 `{report}`", False, {report},
+         {report: f"author: EntryAuthor\nRe-read {candidate}\nVERDICT: PASS\n"}),
         ("bare unique path green", "Q10 `SecondSeat.md`", True, {report}, None),
         ("absent path red", f"Q10 `{other}`", False, {other}, None),
         ("explicit path plus generic red", f"Q10 `{report}` and wave-2 seats", False, {report}, None),
@@ -526,12 +552,53 @@ def run_selftest() -> int:
                   f"{'PASS' if result.ok else 'FAIL'}", file=sys.stderr)
             return 1
 
+    role_admission = GateAdmission(1, candidate, "admit", report, "")
+    def read_base_fixture(path: str) -> str | None:
+        return blobs.get(path)
+    for role in sorted(ALLOWED_REPORT_ROLES):
+        role_members = dict(members)
+        role_members[("falsify", "SecondSeat")] = SeatMember(role, "KengakuR26.SecondSeat")
+        role_result = audit_admission(role_admission, round_number, tree, role_members,
+                                      read_base_fixture)
+        if not role_result.ok:
+            print(f"selftest: allowed role {role!r} was rejected", file=sys.stderr)
+            return 1
+    for role in ("", "unsupportedrole", "scribe", "executor",
+                 "connector", "mutation-tester", "simplifier"):
+        role_members = dict(members)
+        role_members[("falsify", "SecondSeat")] = SeatMember(role, "KengakuR26.SecondSeat")
+        role_result = audit_admission(role_admission, round_number, tree, role_members,
+                                      read_base_fixture)
+        if role_result.ok:
+            print(f"selftest: disallowed role {role!r} was accepted", file=sys.stderr)
+            return 1
+    registry_conflict_members = dict(members)
+    registry_conflict_members[("falsify", "SecondSeat")] = SeatMember("reviewer", "EntryAuthor")
+    if audit_admission(role_admission, round_number, tree, registry_conflict_members,
+                       read_base_fixture).ok:
+        print("selftest: registry agentId equal to candidate writer was accepted", file=sys.stderr)
+        return 1
+    registry_path = ".ufo/waves/round-7/falsify/swarm-registry.json"
+    bad_registry = json.dumps({"members": {"SecondSeat": {"role": 17}}})
+    registry_tree = dict(tree)
+    registry_tree[registry_path] = TreeFile("100644", len(bad_registry))
+    def read_bad_registry_fixture(path: str) -> str | None:
+        return bad_registry if path == registry_path else read_base_fixture(path)
+    non_string_members = load_members(round_number, registry_tree, read_bad_registry_fixture)
+    if non_string_members.get(("falsify", "SecondSeat")) != SeatMember("", None):
+        print("selftest: non-string registry role was not normalized to an invalid blank", file=sys.stderr)
+        return 1
+    if audit_admission(role_admission, round_number, registry_tree, non_string_members,
+                       read_base_fixture).ok:
+        print("selftest: non-string registry role was accepted", file=sys.stderr)
+        return 1
+
     inferred = infer_round_number("plans/fixtures/r26/gate_timing/late-report.md", "# Q13 fixture\n")
     if inferred != 26:
         print(f"selftest: arbitrary lesson basename round inference failed: {inferred!r}", file=sys.stderr)
         return 1
-    print("[selftest] ALL PASS (arbitrary lesson basename, generic-only/variant red, explicit/bare citation, "
-          "missing/unresolved citation, registry/mode/return/self-review/unknown-writer checks)")
+    print("[selftest] ALL PASS (five allowed roles; connector/mutation-tester/simplifier and unknown roles rejected; "
+          "declared writer/author/agentId conflicts red; missing report identity with registered reader green)")
     return 0
 
 

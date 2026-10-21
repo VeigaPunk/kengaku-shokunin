@@ -44,20 +44,35 @@ class Rec:
     meta: dict[str, Any] | None
 
 
-def extract_json_block(text: str) -> Any:
-    """Return the last parsable fenced JSON block, else last parsable candidate."""
-    blocks = FENCE_RE.findall(text)
+def _locate_answer(text: str) -> tuple[Any, int, int, Any] | None:
+    """Find the same value/span selected by the independent extractor."""
+    blocks = list(FENCE_RE.finditer(text))
     if blocks:
+        match = blocks[-1]
+        body = match.group(1)
         try:
-            return json.loads(blocks[-1])
+            value = json.loads(body)
         except (TypeError, ValueError):
             pass
-    for candidate in reversed(CANDIDATE_RE.findall(text)):
+        else:
+            leading = len(body) - len(body.lstrip())
+            trailing = len(body) - len(body.rstrip())
+            start = match.start(1) + leading
+            end = match.end(1) - trailing
+            return value, start, end, match
+    for match in reversed(list(CANDIDATE_RE.finditer(text))):
         try:
-            return json.loads(candidate)
+            value = json.loads(match.group(0))
         except (TypeError, ValueError):
             continue
+        return value, match.start(), match.end(), None
     return None
+
+
+def extract_json_block(text: str) -> Any:
+    """Return the last parsable fenced JSON block, else last parsable candidate."""
+    answer = _locate_answer(text)
+    return answer[0] if answer is not None else None
 
 
 def _load_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -228,15 +243,24 @@ def _render(value: Any, indented: bool) -> str:
     return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
 
 
-def _replace_extracted(raw: str, value: Any) -> str:
-    blocks = list(FENCE_RE.finditer(raw))
-    if blocks:
-        match = blocks[-1]
-        old_body = match.group(1)
-        rendered = _render(value, "\n" in old_body)
-        return raw[:match.start(1)] + rendered + raw[match.end(1):]
-    return _render(value, "\n" in raw)
+def _replace_extracted(raw: str, value: Any, indented: bool | None = None) -> str | None:
+    answer = _locate_answer(raw)
+    if answer is None:
+        return None
+    _, start, end, _ = answer
+    old_body = raw[start:end]
+    if indented is None:
+        indented = "\n" in old_body
+    return raw[:start] + _render(value, indented) + raw[end:]
 
+
+def _toggle_indentation(raw: str, extracted: Any) -> str | None:
+    answer = _locate_answer(raw)
+    if answer is None:
+        return None
+    _, start, end, _ = answer
+    old_body = raw[start:end]
+    return _replace_extracted(raw, extracted, indented=("\n" not in old_body))
 
 def _mutate_one(value: Any) -> Any | None:
     """Increment one integer, else replace a list scalar by a distinct token."""
@@ -278,22 +302,24 @@ def _delete_one(value: Any) -> Any | None:
 
 def apply_family(fid: str, raw: str, extracted: Any, rec: Rec) -> str | None:
     if fid == "F1":
-        blocks = list(FENCE_RE.finditer(raw))
-        if not blocks:
+        answer = _locate_answer(raw)
+        if answer is None or answer[3] is None or answer[0] != extracted:
             return None
-        match = blocks[-1]
+        match = answer[3]
         return raw[:match.start()] + match.group(1) + raw[match.end():]
     if fid == "F2":
-        blocks = list(FENCE_RE.finditer(raw))
-        if not blocks or not blocks[-1].group(0).startswith("```json"):
+        answer = _locate_answer(raw)
+        if answer is None or answer[3] is None or answer[0] != extracted:
             return None
-        match = blocks[-1]
+        match = answer[3]
+        if not match.group(0).startswith("```json"):
+            return None
         block = match.group(0).replace("```json", "```JSON", 1)
         return raw[:match.start()] + block + raw[match.end():]
     if fid == "F3":
-        return _replace_extracted(raw, extracted) if isinstance(extracted, (dict, list)) else None
+        return _toggle_indentation(raw, extracted) if isinstance(extracted, (dict, list)) else None
     if fid == "F4":
-        if not isinstance(extracted, dict):
+        if not isinstance(extracted, dict) or len(extracted) < 2:
             return None
         reversed_object = dict(reversed(list(extracted.items())))
         return _replace_extracted(raw, reversed_object)
@@ -302,9 +328,9 @@ def apply_family(fid: str, raw: str, extracted: Any, rec: Rec) -> str | None:
     if fid == "F6":
         return raw + "\nThe response is complete."
     if fid == "F7":
-        if "\n" not in raw:
+        if not re.search(r"(?<!\r)\n", raw):
             return None
-        return raw.replace("\r\n", "\n").replace("\n", "\r\n")
+        return re.sub(r"(?<!\r)\n", "\r\n", raw)
     if fid == "D1":
         if not _d1_eligible(rec):
             return None
@@ -317,7 +343,6 @@ def apply_family(fid: str, raw: str, extracted: Any, rec: Rec) -> str | None:
         changed = _delete_one(extracted) if extracted is not None else None
         return _replace_extracted(raw, changed) if changed is not None else None
     raise ValueError(f"unknown family {fid}")
-
 
 def family_counts(population: list[Rec]) -> dict[str, tuple[int, int]]:
     counts: dict[str, tuple[int, int]] = {}
@@ -345,10 +370,74 @@ def family_counts(population: list[Rec]) -> dict[str, tuple[int, int]]:
     return counts
 
 
+
+def selftest() -> int:
+    dummy = Rec("test", 1, "A-INC", 1, 2, "state", "", {}, True, {}, None, None)
+    checks = 0
+
+    def require(condition: bool, description: str) -> None:
+        nonlocal checks
+        if not condition:
+            raise AssertionError(description)
+        checks += 1
+
+    invalid_last = '```json\n{"earlier":1}\n```\n```json\nnot-json\n```'
+    extracted = extract_json_block(invalid_last)
+    require(extracted == {"earlier": 1}, "fallback after invalid last fence")
+    require(apply_family("F1", invalid_last, extracted, dummy) is None, "F1 refuses invalid last fence")
+    require(apply_family("F2", invalid_last, extracted, dummy) is None, "F2 refuses invalid last fence")
+
+    first = '```json\n{"old":1}\n```'
+    second = '```json\n{"new":2}\n```'
+    fenced = first + "\n" + second
+    parsed = extract_json_block(fenced)
+    stripped = apply_family("F1", fenced, parsed, dummy)
+    relabeled = apply_family("F2", fenced, parsed, dummy)
+    require(stripped is not None and stripped.startswith(first) and '```json\n{"new":2}\n```' not in stripped, "F1 changes only last matched fence")
+    require(relabeled is not None and relabeled.startswith(first) and '```JSON\n{"new":2}\n```' in relabeled, "F2 changes only last matched fence")
+
+    compact_prefix = "lead \n```json\n  "
+    compact_suffix = " \t\n```\n tail"
+    compact = compact_prefix + '{"a":1,"b":2}' + compact_suffix
+    compact_result = apply_family("F3", compact, extract_json_block(compact), dummy)
+    compact_answer = _locate_answer(compact_result or "")
+    require(compact_result is not None and compact_result.startswith(compact_prefix) and compact_result.endswith(compact_suffix), "F3 preserves compact outer whitespace")
+    require(compact_answer is not None and "\n" in compact_result[compact_answer[1]:compact_answer[2]], "F3 indents compact JSON")
+
+    pretty_prefix = "lead\n```json\n \n  "
+    pretty_suffix = " \n```\n tail"
+    pretty = pretty_prefix + '{\n  "a": 1,\n  "b": 2\n}' + pretty_suffix
+    pretty_result = apply_family("F3", pretty, extract_json_block(pretty), dummy)
+    pretty_answer = _locate_answer(pretty_result or "")
+    require(pretty_result is not None and pretty_result.startswith(pretty_prefix) and pretty_result.endswith(pretty_suffix), "F3 preserves indented outer whitespace")
+    require(pretty_answer is not None and "\n" not in pretty_result[pretty_answer[1]:pretty_answer[2]], "F3 compacts indented JSON")
+
+    one_key = '```json\n{"only":1}\n```'
+    require(apply_family("F4", one_key, extract_json_block(one_key), dummy) is None, "F4 excludes one-key dictionaries")
+    two_key = '```json\n{"a":1,"b":2}\n```'
+    reversed_text = apply_family("F4", two_key, extract_json_block(two_key), dummy)
+    reversed_value = extract_json_block(reversed_text or "")
+    require(reversed_value is not None and list(reversed_value) == ["b", "a"] and reversed_value == {"a": 1, "b": 2}, "F4 reverses multi-key dictionary order")
+
+    all_crlf = "one\r\ntwo\r\n"
+    mixed = "one\r\ntwo\nthree"
+    require(apply_family("F7", all_crlf, None, dummy) is None, "F7 excludes all-CRLF text")
+    require(apply_family("F7", mixed, None, dummy) == "one\r\ntwo\r\nthree", "F7 normalizes bare LF only")
+    return checks
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[3])
+    parser.add_argument("--selftest", action="store_true")
     args = parser.parse_args(argv)
+    if args.selftest:
+        try:
+            checks = selftest()
+        except AssertionError as exc:
+            print(f"selftest: FAIL: {exc}", file=sys.stderr)
+            return 1
+        print(f"selftest: {checks} checks, 0 failed")
+        return 0
     try:
         population, candidate_count, excluded, reasons = build_population(args.root.resolve())
         counts = family_counts(population)

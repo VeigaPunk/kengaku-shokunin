@@ -28,7 +28,12 @@ commit() {
     git -C "$sandbox" rev-parse HEAD
 }
 
-base=$(commit base 2026-10-21T00:00:00Z "$marker")
+# All cases share registered reader identities; report presence is the changed variable.
+mkdir -p "$sandbox/.ufo/waves/round-26/falsify"
+printf '%s\n' '{"members":{"SecondSeatA":{"role":"reviewer"},"SecondSeatC":{"role":"reviewer"},"SameSeatD":{"role":"reviewer"}}}' \
+    > "$sandbox/.ufo/waves/round-26/falsify/swarm-registry.json"
+base=$(commit base 2026-10-21T00:00:00Z "$marker" \
+    .ufo/waves/round-26/falsify/swarm-registry.json)
 
 # (a) The lesson and candidate land first; its cited second-seat report is
 # introduced only by the next commit on this branch.
@@ -39,7 +44,7 @@ printf '# Candidate A\nwriter: ClaimWriterA\n' > "$sandbox/knowledge/case-a.md"
 a_landing=$(commit case-a-landing 2026-10-21T00:00:01Z \
     corpus/lessons/late-report.md knowledge/case-a.md)
 mkdir -p "$sandbox/.ufo/waves/round-26/falsify"
-printf '# Second-seat report\nseat: SecondSeatA\n' \
+printf '# Second-seat report\nseat: SecondSeatA\nReviewed knowledge/case-a.md.\nVERDICT: PASS\n' \
     > "$sandbox/.ufo/waves/round-26/falsify/SecondSeatA.md"
 a_report=$(commit case-a-report-later 2026-10-21T00:00:02Z \
     .ufo/waves/round-26/falsify/SecondSeatA.md)
@@ -60,7 +65,7 @@ mkdir -p "$sandbox/corpus/lessons" "$sandbox/knowledge" \
     "$sandbox/.ufo/waves/round-26/falsify"
 cp "$fixtures/same-commit-report.md" "$sandbox/corpus/lessons/same-commit-report.md"
 printf '# Candidate C\nwriter: ClaimWriterC\n' > "$sandbox/knowledge/case-c.md"
-printf '# Second-seat report\nseat: SecondSeatC\n' \
+printf '# Second-seat report\nseat: SecondSeatC\nReviewed knowledge/case-c.md.\nVERDICT: PASS\n' \
     > "$sandbox/.ufo/waves/round-26/falsify/SecondSeatC.md"
 c_same=$(commit case-c-same-commit 2026-10-21T00:00:04Z \
     corpus/lessons/same-commit-report.md knowledge/case-c.md \
@@ -72,7 +77,7 @@ mkdir -p "$sandbox/corpus/lessons" "$sandbox/knowledge" \
     "$sandbox/.ufo/waves/round-26/falsify"
 cp "$fixtures/same-writer-report.md" "$sandbox/corpus/lessons/same-writer-report.md"
 printf '# Candidate D\nwriter: SameSeatD\n' > "$sandbox/knowledge/case-d.md"
-printf '# Report by the candidate writer\nauthor: SameSeatD\nseat: SameSeatD\n' \
+printf '# Report by the candidate writer\nauthor: SameSeatD\nseat: SameSeatD\nReviewed knowledge/case-d.md.\nVERDICT: PASS\n' \
     > "$sandbox/.ufo/waves/round-26/falsify/SameSeatD.md"
 d_same=$(commit case-d-same-writer 2026-10-21T00:00:05Z \
     corpus/lessons/same-writer-report.md knowledge/case-d.md \

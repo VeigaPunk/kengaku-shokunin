@@ -247,6 +247,90 @@ P3E_FILE_PATHS = (
     "evidence/round25-calibration/",
 )
 
+# P3 corrections are append-only below each frozen document boundary. P2 keeps
+# its v2 lookup and its independent R2[5-9]-E token convention.
+P3_CORRECTION_FLOORS = {
+    "SCORECARD.md": 730,
+    "PROVINCE.md": 173,
+    "corpus/README.md": 257,
+}
+P3_CORRECTION_DOCS = tuple(P3_CORRECTION_FLOORS)
+P3_CORRECTION_ID_RE = re.compile(
+    r"^- \*\*(R2[5-9]-E\d+[A-Za-z]?)\b")
+P3_CORRECTION_LINE_RE = re.compile(
+    r"^- \*\*(R2[5-9]-E\d+[A-Za-z]?) \(\d{4}-\d{2}-\d{2}\)\*\* "
+    r"supersedes `([^`]+)` — now (`[^`]+`(?: `[^`]+`)*)\.?$")
+
+P3A_NUMERIC_TOKEN_RE = re.compile(r"(?<![A-Za-z0-9])\d+(?![A-Za-z0-9])")
+P3A_NUMERIC_FIELD_PATTERNS = (
+    r"unique_samples=(\d+)",
+    r"scored_trials=(\d+)\s+correct=(\d+)",
+    r"transitions=(FAIL>UNTESTED:\d+,PASS>INDETERMINATE:\d+,PASS>PASS:\d+)",
+    r"mismatches=(\d+)",
+    r"\bmismatch=(\d+)",
+    r"\bsuperseded=(\d+)",
+    r"exit\s+(\d+)",
+    r"--selftest`?\s+(\d+)\s+checks?\s+(\d+)\s+failed",
+)
+
+# Independent selftest oracle: changing/removing a registered comparison must
+# fail even if the production checker and its output population shrink together.
+P3_SELFTEST_ASSERTION_IDS = {
+    "P3a": (
+        "P3a.capability.interval-reverdict.unique-samples",
+        "P3a.capability.interval-reverdict.scored-trials",
+        "P3a.capability.interval-reverdict.transitions",
+        "P3a.capability.interval-reverdict.mismatches",
+        "P3a.capability.interval-reverdict.summary-exit",
+        "P3a.capability.interval-reverdict.selftest-checks",
+        "P3a.capability.interval-reverdict.selftest-red-runs",
+        "P3a.capability.interval-reverdict.numeric-token-audit",
+        "P3a.capability.state-assertion-check.base-mismatch",
+        "P3a.capability.state-assertion-check.base-exit",
+        "P3a.capability.state-assertion-check.landed-mismatch",
+        "P3a.capability.state-assertion-check.landed-superseded",
+        "P3a.capability.state-assertion-check.landed-exit",
+        "P3a.capability.state-assertion-check.numeric-token-audit",
+    ),
+    "P3b": (
+        "P3b.province.public-literature-registry.rows",
+        "P3b.province.round25-correction.rows",
+        "P3b.province.interval-reverdict.exits",
+        "P3b.province.interval-reverdict.unique-samples",
+        "P3b.province.interval-reverdict.scored-trials",
+        "P3b.province.interval-reverdict.transitions",
+        "P3b.province.state-assertion-check.landed-exits",
+        "P3b.province.state-assertion-check.base-exit",
+        "P3b.province.state-assertion-check.base-mismatch",
+    ),
+    "P3c": (
+        "P3c.box.1.pointer.1.needle.1",
+        "P3c.box.1.pointer.1.needle.2",
+        "P3c.box.1.pointer.1.needle.3",
+        "P3c.box.1.pointer.1.needle.4",
+        "P3c.box.2.pointer.1",
+        "P3c.box.3.pointer.1",
+        "P3c.box.4.pointer.1",
+    ),
+    "P3d": (
+        "P3d.axis-table.round24",
+        "P3d.axis-table.round25",
+        "P3d.axis.novelty.anchor.1.pin",
+    ),
+    "P3e": (
+        "P3e.row-to-file.knowledge/attribution-interval-calibration.md",
+        "P3e.row-to-file.lessons/round-24-verifier-spotcheck.md",
+        "P3e.row-to-file.lessons/round-25.md",
+        "P3e.row-to-file.evidence/round25-sources/",
+        "P3e.row-to-file.evidence/round25-calibration/",
+        "P3e.file-to-row.knowledge/attribution-interval-calibration.md",
+        "P3e.file-to-row.lessons/round-25-verifier-spotcheck.md",
+        "P3e.file-to-row.lessons/round-25.md",
+        "P3e.file-to-row.evidence/round25-sources/",
+        "P3e.file-to-row.evidence/round25-calibration/",
+    ),
+}
+
 CODE_RE = re.compile(r"`([^`]+)`")
 FILE_REF_RE = re.compile(
     r"(?<![A-Za-z0-9_./-])"
@@ -466,6 +550,47 @@ def superseding_tokens(
         if match and match.group(1) == assertion_id:
             found = (number, code_spans(match.group(2)))
     return found
+
+def p3_superseding_tokens(
+    root: Path, assertion_id: str, document: str,
+) -> tuple[int, list[str] | None] | None:
+    """Parse only unique, strict, post-freeze P3 corrections; never route around bad primary."""
+    primary = "SCORECARD.md" if document == "SHONEN.md" else document
+    if primary not in P3_CORRECTION_FLOORS:
+        primary = "SCORECARD.md"
+    candidates = [primary]
+    if primary != "SCORECARD.md":
+        candidates.append("SCORECARD.md")
+
+    texts = {name: read_repo_text(root, name) for name in P3_CORRECTION_DOCS}
+    id_counts: dict[str, int] = {}
+    for text in texts.values():
+        for line in (text or "").splitlines():
+            match = P3_CORRECTION_ID_RE.match(line)
+            if match:
+                correction_id = match.group(1)
+                id_counts[correction_id] = id_counts.get(correction_id, 0) + 1
+
+    for candidate in candidates:
+        text = texts.get(candidate)
+        if text is None:
+            continue
+        matching = []
+        for number, line in enumerate(text.splitlines(), 1):
+            match = SUPERSEDE_RE.match(line)
+            if match and match.group(1) == assertion_id:
+                matching.append((number, line))
+        if not matching:
+            continue
+        number, line = matching[-1]
+        parsed = P3_CORRECTION_LINE_RE.fullmatch(line)
+        if number <= P3_CORRECTION_FLOORS[candidate] or parsed is None:
+            return number, None
+        correction_id = parsed.group(1)
+        if parsed.group(2) != assertion_id or id_counts.get(correction_id) != 1:
+            return number, None
+        return number, code_spans(parsed.group(3))
+    return None
 
 
 def check_sources_registry(root: Path, out: list[Assertion], line_number: int) -> None:
@@ -1153,10 +1278,7 @@ def p3_record(
     verdict = "MATCH" if check else "MISMATCH"
     correction = None
     if not check and derived_tokens is not None:
-        correction_document = "SCORECARD.md" if document == "SHONEN.md" else document
-        correction = superseding_tokens(root, assertion_id, correction_document)
-        if correction is None and correction_document != "SCORECARD.md":
-            correction = superseding_tokens(root, assertion_id, "SCORECARD.md")
+        correction = p3_superseding_tokens(root, assertion_id, document)
         if correction is not None and correction[1] == derived_tokens:
             verdict = "SUPERSEDED"
     details = {
@@ -1176,6 +1298,22 @@ def regex_groups(text: str | None, pattern: str) -> tuple[str, ...] | None:
     match = re.search(pattern, text, re.MULTILINE)
     return tuple(match.groups()) if match else None
 
+def regex_group_matches(
+    text: str | None, pattern: str,
+) -> list[tuple[str, ...]]:
+    if text is None:
+        return []
+    return [tuple(match.groups()) for match in re.finditer(pattern, text, re.MULTILINE)]
+
+
+def p3_selftest_red_run_ids(text: str | None) -> tuple[int, ...] | None:
+    if text is None:
+        return None
+    return tuple(sorted({
+        int(match.group(1))
+        for match in re.finditer(r"(?m)^selftest ok\s+R(\d+)[A-Za-z]*:", text)
+    }))
+
 
 def p3_compare_groups(
     root: Path,
@@ -1190,8 +1328,10 @@ def p3_compare_groups(
     document: str,
     token_templates: tuple[str, ...] | None = None,
 ) -> None:
-    claim = regex_groups(claim_text, claim_pattern)
-    truth = regex_groups(receipt_text, receipt_pattern)
+    claim_occurrences = regex_group_matches(claim_text, claim_pattern)
+    receipt_occurrences = regex_group_matches(receipt_text, receipt_pattern)
+    claim = claim_occurrences[0] if len(claim_occurrences) == 1 else None
+    truth = receipt_occurrences[0] if len(receipt_occurrences) == 1 else None
     expected_tokens = (
         [template.format(value=value)
          for template, value in zip(token_templates, truth)]
@@ -1201,8 +1341,12 @@ def p3_compare_groups(
               if truth is not None and len(truth) == len(token_names) else None)
     )
     p3_record(root, out, assertion_id, source_line,
-              claim is not None and claim == truth,
-              {"claim": claim, "receipt": truth}, expected_tokens, document)
+              len(claim_occurrences) == 1 and len(receipt_occurrences) == 1
+              and claim == truth,
+              {"claim": claim, "receipt": truth,
+               "claim_occurrences": claim_occurrences,
+               "receipt_occurrences": receipt_occurrences},
+              expected_tokens, document)
 
 
 def capability_evidence_row(
@@ -1220,6 +1364,23 @@ def capability_evidence_row(
         return None
     line_number, cells = row
     return line_number, cells[2] if len(cells) > 2 else ""
+
+def p3a_unclassified_numeric_tokens(text: str | None) -> list[tuple[str, int]] | None:
+    if text is None:
+        return None
+    claimed_spans: set[tuple[int, int]] = set()
+    for pattern in P3A_NUMERIC_FIELD_PATTERNS:
+        for match in re.finditer(pattern, text):
+            for group_number in range(1, len(match.groups()) + 1):
+                start, end = match.span(group_number)
+                claimed_spans.update(
+                    number.span()
+                    for number in P3A_NUMERIC_TOKEN_RE.finditer(text, start, end))
+    return [
+        (number.group(), number.start())
+        for number in P3A_NUMERIC_TOKEN_RE.finditer(text)
+        if number.span() not in claimed_spans
+    ]
 
 
 def check_p3a(root: Path, out: list[Assertion]) -> None:
@@ -1255,6 +1416,25 @@ def check_p3a(root: Path, out: list[Assertion]) -> None:
         r"--selftest`?\s+(\d+)\s+checks?\s+(\d+)\s+failed",
         interval_selftest, r"selftest:\s*(\d+)\s+checks,\s*(\d+)\s+failed",
         ("checks", "failed"), "SCORECARD.md", ("{value} checks", "{value} failed"))
+    run_range_matches = regex_group_matches(
+        interval[1] if interval else "",
+        r"\bred runs R(\d+)[–-]R(\d+)\s+included\b")
+    receipt_red_runs = p3_selftest_red_run_ids(interval_selftest)
+    claimed_range = (tuple(int(value) for value in run_range_matches[0])
+                     if len(run_range_matches) == 1 else None)
+    expected_runs = (tuple(range(claimed_range[0], claimed_range[1] + 1))
+                     if claimed_range is not None and claimed_range[0] <= claimed_range[1]
+                     else None)
+    derived_tokens = (
+        [f"receipt_red_runs={','.join(f'R{i}' for i in receipt_red_runs) or 'none'}"]
+        if receipt_red_runs is not None else None)
+    p3_record(
+        root, out, "P3a.capability.interval-reverdict.selftest-red-runs",
+        interval[0] if interval else None,
+        len(run_range_matches) == 1 and expected_runs is not None
+        and expected_runs == receipt_red_runs,
+        {"claim_ranges": run_range_matches, "receipt_red_runs": receipt_red_runs},
+        derived_tokens, "SCORECARD.md")
     p3_compare_groups(
         root, out, "P3a.capability.state-assertion-check.base-mismatch",
         state[0] if state else None, state[1] if state else "",
@@ -1283,6 +1463,16 @@ def check_p3a(root: Path, out: list[Assertion]) -> None:
         state[0] if state else None, state[1] if state else "",
         r"landed tree.*?exit\s+(\d+)",
         state_after, r"(?m)^exit=(\d+)", ("exit",), "SCORECARD.md")
+    for assertion_id, row in (
+        ("P3a.capability.interval-reverdict.numeric-token-audit", interval),
+        ("P3a.capability.state-assertion-check.numeric-token-audit", state),
+    ):
+        evidence = row[1] if row else None
+        unclassified = p3a_unclassified_numeric_tokens(evidence)
+        add(out, assertion_id, row[0] if row else None,
+            "every semantic numeric token in this evidence cell is receipt-backed",
+            {"unclassified_numeric_tokens": unclassified},
+            "MATCH" if unclassified == [] else "MISMATCH")
 
 
 def p3_sources_census(root: Path) -> dict[str, Any] | None:
@@ -1698,7 +1888,7 @@ def write_p3_fixture(root: Path) -> None:
         "|---|---|---|---|",
         "| interval-reverdict | r | unique_samples=4; scored_trials=92 correct=92; "
         "transitions=FAIL>UNTESTED:2,PASS>INDETERMINATE:1,PASS>PASS:4; "
-        "mismatches=0; exit 0; --selftest 18 checks 0 failed | 25 |",
+        "mismatches=0; exit 0; --selftest 18 checks 0 failed (red runs R1–R6 included) | 25 |",
         "| state-assertion-check | r | base `6180e4f` mismatch=10 exit 1; "
         "landed tree mismatch=0 superseded=1 exit 0; --selftest ALL PASS | 25 |",
         "",
@@ -1719,6 +1909,8 @@ def write_p3_fixture(root: Path) -> None:
         "|---|---|---|",
         "| novelty | 7 | C1 above |",
     ])
+    while len(scorecard_lines) < P3_CORRECTION_FLOORS["SCORECARD.md"]:
+        scorecard_lines.append("fixture filler")
     (root / "SCORECARD.md").write_text("\n".join(scorecard_lines) + "\n", encoding="utf-8")
 
     source_rows = ["| id | source |", "|---|---|"]
@@ -1741,6 +1933,8 @@ def write_p3_fixture(root: Path) -> None:
     while len(province_lines) < 128:
         province_lines.append("")
     province_lines.append("### Adjacent")
+    while len(province_lines) < P3_CORRECTION_FLOORS["PROVINCE.md"]:
+        province_lines.append("")
     (root / "PROVINCE.md").write_text("\n".join(province_lines) + "\n", encoding="utf-8")
 
     (root / "corpus/evidence/round25-calibration/attrib-calibration-summary-v2.txt").write_text(
@@ -1748,7 +1942,11 @@ def write_p3_fixture(root: Path) -> None:
         "transitions=FAIL>UNTESTED:2,PASS>INDETERMINATE:1,PASS>PASS:4 mismatches=0\n"
         "exit=0\n", encoding="utf-8")
     (root / "corpus/evidence/round25-calibration/attrib-calibration-selftest-v2.txt").write_text(
-        "selftest: 18 checks, 0 failed\nexit=0\n", encoding="utf-8")
+        "selftest ok R1: fixture\nselftest ok R1b: fixture\n"
+        "selftest ok R2: fixture\nselftest ok R3: fixture\n"
+        "selftest ok R4: fixture\nselftest ok R5: fixture\n"
+        "selftest ok R6: fixture\nselftest: 18 checks, 0 failed\nexit=0\n",
+        encoding="utf-8")
     (root / "corpus/evidence/round25-calibration/state-check-before-6180e4f-v2.txt").write_text(
         "assertions=241 match=228 mismatch=10 superseded=0\nexit=1\n", encoding="utf-8")
     (root / "corpus/evidence/round25-calibration/state-check-after-v2.txt").write_text(
@@ -1952,6 +2150,15 @@ def run_selftest() -> int:
         write_p3_fixture(p3root)
         baseline: list[Assertion] = []
         check_p3(p3root, baseline)
+        for class_name, expected_ids in P3_SELFTEST_ASSERTION_IDS.items():
+            actual_ids = sorted(
+                item.id for item in baseline if item.id.startswith(class_name + "."))
+            if actual_ids != sorted(expected_ids):
+                missing = sorted(set(expected_ids) - set(actual_ids))
+                extra = sorted(set(actual_ids) - set(expected_ids))
+                print(f"selftest: frozen {class_name} assertion IDs differ; "
+                      f"missing={missing}, extra={extra}", file=sys.stderr)
+                return 1
         if any(item.verdict == "MISMATCH" for item in baseline):
             failures = [item.id for item in baseline if item.verdict == "MISMATCH"]
             print(f"selftest: P3 fixture baseline failed: {failures}", file=sys.stderr)
@@ -1971,10 +2178,15 @@ def run_selftest() -> int:
         got = []
         check_p3a(p3root, got)
         p3a_id = "P3a.capability.interval-reverdict.selftest-checks"
+        def p3a_verdict_for(text: str, assertion_id: str) -> str | None:
+            scorecard_path.write_text(text, encoding="utf-8")
+            checks: list[Assertion] = []
+            check_p3a(p3root, checks)
+            return p3_verdict(checks, assertion_id)
         if p3_verdict(got, p3a_id) != "MISMATCH":
             print("selftest: P3a selftest-count mutation survived", file=sys.stderr)
             return 1
-        partial = (p3a_mutated + "\n- **R26-E1 (test)** supersedes "
+        partial = (p3a_mutated + "\n- **R26-E1 (2026-10-21)** supersedes "
                    f"`{p3a_id}` — now `18 checks`\n")
         scorecard_path.write_text(partial, encoding="utf-8")
         got = []
@@ -1982,7 +2194,7 @@ def run_selftest() -> int:
         if p3_verdict(got, p3a_id) != "MISMATCH":
             print("selftest: partial R26-E token set superseded P3a", file=sys.stderr)
             return 1
-        full = (p3a_mutated + "\n- **R26-E1 (test)** supersedes "
+        full = (p3a_mutated + "\n- **R26-E1 (2026-10-21)** supersedes "
                 f"`{p3a_id}` — now `18 checks` `0 failed`\n")
         scorecard_path.write_text(full, encoding="utf-8")
         got = []
@@ -1991,10 +2203,105 @@ def run_selftest() -> int:
             print("selftest: complete R26-E token set did not supersede P3a", file=sys.stderr)
             return 1
         scorecard_path.write_text(scorecard_fixture, encoding="utf-8")
-        print(f"selftest ok   P3a: red mutation and full-token R26-E ({p3a_id})")
+        p3a_state_mutated = scorecard_fixture.replace(
+            "base `6180e4f` mismatch=10",
+            "base `6180e4f` mismatch=11", 1)
+        if p3a_state_mutated == scorecard_fixture:
+            print("selftest: P3a base mismatch mutation anchor missing", file=sys.stderr)
+            return 1
+        scorecard_path.write_text(p3a_state_mutated, encoding="utf-8")
+        got = []
+        check_p3a(p3root, got)
+        p3a_state_id = "P3a.capability.state-assertion-check.base-mismatch"
+        p3a_state_item = next((item for item in got if item.id == p3a_state_id), None)
+        if (p3a_state_item is None or p3a_state_item.verdict != "MISMATCH"
+                or p3a_state_item.observed.get("observed", {}).get("claim") != ("11",)
+                or p3a_state_item.observed.get("observed", {}).get("receipt") != ("10",)):
+            print("selftest: P3a base mismatch mutation did not compare 11 against 10",
+                  file=sys.stderr)
+            return 1
+        scorecard_path.write_text(scorecard_fixture, encoding="utf-8")
+        p3a_unique_id = "P3a.capability.interval-reverdict.unique-samples"
+        duplicate_unique = scorecard_fixture.replace(
+            "unique_samples=4", "unique_samples=4 duplicate unique_samples=999", 1)
+        if p3a_verdict_for(duplicate_unique, p3a_unique_id) != "MISMATCH":
+            print("selftest: contradictory duplicate unique_samples survived", file=sys.stderr)
+            return 1
+        range_id = "P3a.capability.interval-reverdict.selftest-red-runs"
+        short_range = scorecard_fixture.replace(
+            "red runs R1–R6 included", "red runs R1–R5 included", 1)
+        if p3a_verdict_for(short_range, range_id) != "MISMATCH":
+            print("selftest: P3a selftest red-run range mutation survived", file=sys.stderr)
+            return 1
+        interval_audit_id = "P3a.capability.interval-reverdict.numeric-token-audit"
+        unknown_interval_number = scorecard_fixture.replace(
+            "mismatches=0; exit 0", "mismatches=0 unregistered_metric=999; exit 0", 1)
+        if p3a_verdict_for(unknown_interval_number, interval_audit_id) != "MISMATCH":
+            print("selftest: P3a unregistered interval number survived", file=sys.stderr)
+            return 1
+        state_audit_id = "P3a.capability.state-assertion-check.numeric-token-audit"
+        unknown_state_number = scorecard_fixture.replace(
+            "landed tree mismatch=0", "landed tree mismatch=0 auxiliary=777", 1)
+        if p3a_verdict_for(unknown_state_number, state_audit_id) != "MISMATCH":
+            print("selftest: P3a unregistered state number survived", file=sys.stderr)
+            return 1
 
+        def correction(correction_id: str, target: str, tokens: str) -> str:
+            return (f"- **{correction_id} (2026-10-21)** supersedes "
+                    f"`{target}` — now {tokens}")
+
+        full_tokens = "`18 checks` `0 failed`"
+        early_lines = p3a_mutated.splitlines()
+        early_lines.insert(1, correction("R26-E5", p3a_id, full_tokens))
+        if p3a_verdict_for("\n".join(early_lines) + "\n", p3a_id) != "MISMATCH":
+            print("selftest: pre-freeze R26-E line superseded P3a", file=sys.stderr)
+            return 1
+        contradictory = (p3a_mutated + "\n"
+                         + correction("R26-E6", p3a_id,
+                                      "17 checks; unrelated `18 checks` `0 failed`") + "\n")
+        if p3a_verdict_for(contradictory, p3a_id) != "MISMATCH":
+            print("selftest: contradictory R26-E prose superseded P3a", file=sys.stderr)
+            return 1
+        duplicate_id = (p3a_mutated + "\n"
+                        + correction("R26-E7", p3a_id, full_tokens) + "\n"
+                        + correction("R26-E7", p3a_id, full_tokens) + "\n")
+        if p3a_verdict_for(duplicate_id, p3a_id) != "MISMATCH":
+            print("selftest: duplicate R26-E ID superseded P3a", file=sys.stderr)
+            return 1
+        distinct_ids = (p3a_mutated + "\n"
+                        + correction("R26-E1", p3a_id, full_tokens) + "\n"
+                        + correction("R26-E5", p3a_id, full_tokens) + ".\n")
+        if p3a_verdict_for(distinct_ids, p3a_id) != "SUPERSEDED":
+            print("selftest: latest distinct full R26-E did not supersede P3a",
+                  file=sys.stderr)
+            return 1
+        latest_invalid = (p3a_mutated + "\n"
+                          + correction("R26-E1", p3a_id, full_tokens) + "\n"
+                          + correction("R26-E5", p3a_id,
+                                       "`17 checks` `0 failed`") + "\n")
+        if p3a_verdict_for(latest_invalid, p3a_id) != "MISMATCH":
+            print("selftest: invalid latest R26-E fell back to older correction",
+                  file=sys.stderr)
+            return 1
+        scorecard_path.write_text(scorecard_fixture, encoding="utf-8")
+        print("selftest ok   P3a: duplicate metric, R1–R6, base mismatch and correction-parser reds")
         province_path = p3root / "PROVINCE.md"
         province_fixture = province_path.read_text(encoding="utf-8")
+        province_path.write_text(
+            province_fixture.replace("4 unique samples", "3 unique samples", 1),
+            encoding="utf-8")
+        got = []
+        check_p3b(p3root, got)
+        p3b_unique_id = "P3b.province.interval-reverdict.unique-samples"
+        p3b_unique_item = next(
+            (item for item in got if item.id == p3b_unique_id), None)
+        if (p3b_unique_item is None or p3b_unique_item.verdict != "MISMATCH"
+                or p3b_unique_item.observed.get("observed", {}).get("claim") != ("3",)
+                or p3b_unique_item.observed.get("observed", {}).get("receipt") != ("4",)):
+            print("selftest: P3b unique-samples mutation did not compare 3 against 4",
+                  file=sys.stderr)
+            return 1
+        province_path.write_text(province_fixture, encoding="utf-8")
         province_path.write_text(
             province_fixture.replace("92/92 correct", "91/92 correct", 1),
             encoding="utf-8")
@@ -2021,8 +2328,104 @@ def run_selftest() -> int:
             print("selftest: P3b same-count id-set mutation survived", file=sys.stderr)
             return 1
         sources_path.write_text(sources_fixture, encoding="utf-8")
-        print(f"selftest ok   P3b: instrument and exact-id-set red mutations ({p3b_id})")
+        print("selftest ok   P3b: unique-samples, scored-trials and frozen-id-set reds")
+        p3b_public_id = "P3b.province.public-literature-registry.rows"
+        p3b_round25_id = "P3b.province.round25-correction.rows"
+        stale_province = province_fixture.replace(
+            "present; 42 rows", "present; 25 rows", 1).replace(
+                "holds 42 after round 25", "holds 37 after round 25", 1)
+        full_province_corrections = (
+            stale_province + "\n"
+            + correction("R26-E9", p3b_public_id, "`rows=42` `id_set=exact`") + "\n"
+            + correction("R26-E10", p3b_round25_id, "`rows=42` `id_set=exact`") + "\n")
+        province_path.write_text(full_province_corrections, encoding="utf-8")
+        got = []
+        check_p3b(p3root, got)
+        if (p3_verdict(got, p3b_public_id) != "SUPERSEDED"
+                or p3_verdict(got, p3b_round25_id) != "SUPERSEDED"):
+            print("selftest: full P3b rows/id-set correction did not supersede both stale claims",
+                  file=sys.stderr)
+            return 1
 
+        partial_province_corrections = full_province_corrections.replace(
+            "`rows=42` `id_set=exact`", "`rows=42`", 1)
+        province_path.write_text(partial_province_corrections, encoding="utf-8")
+        got = []
+        check_p3b(p3root, got)
+        if (p3_verdict(got, p3b_public_id) != "MISMATCH"
+                or p3_verdict(got, p3b_round25_id) != "SUPERSEDED"):
+            print("selftest: partial P3b source correction did not fail independently",
+                  file=sys.stderr)
+            return 1
+
+        source_id_mutation = sources_fixture.replace(
+            "| S042 | source |", "| S041 | duplicate |", 1)
+        sources_path.write_text(source_id_mutation, encoding="utf-8")
+        province_path.write_text(full_province_corrections, encoding="utf-8")
+        got = []
+        check_p3b(p3root, got)
+        if (p3_verdict(got, p3b_public_id) != "MISMATCH"
+                or p3_verdict(got, p3b_round25_id) != "MISMATCH"):
+            print("selftest: full old P3b corrections overrode a changed id set",
+                  file=sys.stderr)
+            return 1
+        sources_path.write_text(sources_fixture, encoding="utf-8")
+
+        scorecard_fallback = (
+            scorecard_fixture + "\n"
+            + correction("R26-E11", p3b_public_id, "`rows=42` `id_set=exact`") + "\n"
+            + correction("R26-E12", p3b_round25_id, "`rows=42` `id_set=exact`") + "\n")
+        scorecard_path.write_text(scorecard_fallback, encoding="utf-8")
+        province_path.write_text(stale_province, encoding="utf-8")
+        got = []
+        check_p3b(p3root, got)
+        if (p3_verdict(got, p3b_public_id) != "SUPERSEDED"
+                or p3_verdict(got, p3b_round25_id) != "SUPERSEDED"):
+            print("selftest: SCORECARD fallback did not close absent-primary P3b rows",
+                  file=sys.stderr)
+            return 1
+
+        invalid_primary = (stale_province + "\n"
+                           + correction("R26-E13", p3b_public_id, "`rows=42`") + "\n")
+        scorecard_with_fallback = (
+            scorecard_fixture + "\n"
+            + correction("R26-E14", p3b_public_id, "`rows=42` `id_set=exact`") + "\n"
+            + correction("R26-E15", p3b_round25_id, "`rows=42` `id_set=exact`") + "\n")
+        province_path.write_text(invalid_primary, encoding="utf-8")
+        scorecard_path.write_text(scorecard_with_fallback, encoding="utf-8")
+        got = []
+        check_p3b(p3root, got)
+        if (p3_verdict(got, p3b_public_id) != "MISMATCH"
+                or p3_verdict(got, p3b_round25_id) != "SUPERSEDED"):
+            print("selftest: invalid primary P3b correction routed around via SCORECARD",
+                  file=sys.stderr)
+            return 1
+        province_path.write_text(province_fixture, encoding="utf-8")
+        scorecard_path.write_text(scorecard_fixture, encoding="utf-8")
+        print("selftest ok   P3b: strict source-first/fallback corrections and exact id set")
+
+        skill_path = p3root / "SKILL.md"
+        skill_fixture = skill_path.read_text(encoding="utf-8")
+        for _, _, _, token, needle_number in P3C_PINS[:4]:
+            pin_id = f"P3c.box.1.pointer.1.needle.{needle_number}"
+            mutations = (
+                ("missing", skill_fixture.replace(token, "", 1)),
+                ("duplicate", skill_fixture.replace(token, token + "\n" + token, 1)),
+            )
+            for mutation_name, mutated_skill in mutations:
+                if mutated_skill == skill_fixture:
+                    print(f"selftest: P3c Box-1 {mutation_name} anchor missing: {token}",
+                          file=sys.stderr)
+                    return 1
+                skill_path.write_text(mutated_skill, encoding="utf-8")
+                got = []
+                check_p3c(p3root, got)
+                if p3_verdict(got, pin_id) != "MISMATCH":
+                    print(f"selftest: P3c Box-1 {mutation_name} survived ({pin_id})",
+                          file=sys.stderr)
+                    return 1
+            skill_path.write_text(skill_fixture, encoding="utf-8")
+        print("selftest ok   P3c: all Box-1 headings red on missing and duplicate")
         cold_path = p3root / "corpus/lessons/round-8-aggregator-box3-coldrun.md"
         cold_fixture = cold_path.read_text(encoding="utf-8")
         cold_path.write_text(cold_fixture.replace(
@@ -2050,6 +2453,19 @@ def run_selftest() -> int:
 
         readme_path = p3root / "corpus/README.md"
         readme_fixture = readme_path.read_text(encoding="utf-8")
+        spotcheck_row = "| `lessons/round-25-verifier-spotcheck.md` | fixture |\n"
+        without_spotcheck = readme_fixture.replace(spotcheck_row, "", 1)
+        if without_spotcheck == readme_fixture:
+            print("selftest: P3e outside-spotcheck row fixture missing", file=sys.stderr)
+            return 1
+        readme_path.write_text(without_spotcheck, encoding="utf-8")
+        got = []
+        check_p3e(p3root, got)
+        spotcheck_id = "P3e.file-to-row.lessons/round-25-verifier-spotcheck.md"
+        if p3_verdict(got, spotcheck_id) != "MISMATCH":
+            print("selftest: P3e missing outside-spotcheck row survived", file=sys.stderr)
+            return 1
+        readme_path.write_text(readme_fixture, encoding="utf-8")
         readme_path.write_text(readme_fixture.replace(
             "| `lessons/round-25.md` | fixture |\n", "", 1), encoding="utf-8")
         got = []
@@ -2063,10 +2479,12 @@ def run_selftest() -> int:
         (p3root / "corpus/lessons/round-25.md").unlink()
         got = []
         check_p3e(p3root, got)
-        if p3_verdict(got, row_id) != "MISMATCH":
-            print("selftest: P3e missing-file mutation survived", file=sys.stderr)
+        if (p3_verdict(got, row_id) != "MISMATCH"
+                or p3_verdict(got, file_id) != "MISMATCH"):
+            print("selftest: P3e missing-file mutation did not fail both directions",
+                  file=sys.stderr)
             return 1
-        print(f"selftest ok   P3e: row and file mutations ({row_id}; {file_id})")
+        print(f"selftest ok   P3e: outside-spotcheck row, row/file mutations ({row_id}; {file_id})")
     print("[selftest] ALL PASS (canonical seed, pointers, out-of-population box, pointer-only, "
           "sources supersession, ABSENT rule, ABSENT word boundary, "
           "R25–R29-E exact-token supersession, P3a–P3e red mutations, anchor content)")

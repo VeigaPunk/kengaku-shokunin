@@ -28,3 +28,14 @@ PyPI free-text endpoint returned a challenge stub, so direct package JSON/releas
 it; this is not a complete registry search. Stop: a direct match was found; no global absence claim remains.
 No novelty +1. Full opened-source detail and rejects remain in build/Src*.md, never converted into invented
 source rows.
+
+## Pre-admission correction S048 (2026-10-21)
+
+Supersedes S043's initial location in the table above. URL https://aclanthology.org/2020.acl-main.442.pdf,
+reopened by FxSourceCheckList on 2026-10-21, HTTP200, same SHA-256 98d15d259acf15136feed5cd5d4921b60cf313704a629901d115fe910fdb00e1.
+Quote (21 words): “An Invariance test (INV) is when we apply label-preserving perturbations to inputs and expect the model prediction to remain the same.”
+Exact location: **§2.2, PDF p.3 / proceedings p.4904**, not PDF p.2 / p.4903.
+Evidence: `.ufo/waves/round-26/falsify/FxSourceCheckList.md:7-10`, whose page-specific text extraction
+found no quote on p.2 and the quote on p.3. TierA scope and teaching unchanged. S048 is a new mined row,
+used by the round-26 lesson; the knowledge draft cites S048 before admission. Round totals therefore gain
+one superseding source row (not one new external source). No old immutable source cell was rewritten.

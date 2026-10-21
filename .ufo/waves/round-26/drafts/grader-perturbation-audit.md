@@ -1,6 +1,6 @@
-source: S043 https://aclanthology.org/2020.acl-main.442/ §2.2; S044 https://arxiv.org/abs/2405.11874 v3 Abstract; S045 https://pypi.org/project/evalmut/ 0.1.0 README §The two ways an eval lies; S046 https://docs.python.org/3/library/re.html Regular expression syntax; own-work plans/grader_perturb.py and corpus/evidence/round26-calibration/
+source: S048 https://aclanthology.org/2020.acl-main.442/ §2.2 PDF p.3 / p.4904 (supersedes S043 location); S044 https://arxiv.org/abs/2405.11874 v3 Abstract; S045 https://pypi.org/project/evalmut/ 0.1.0 README §The two ways an eval lies, Blind spot and Brittle spot bullets (release operators.py:255–328 defect / :614–726 equivalent); S046 https://docs.python.org/3/library/re.html#regular-expression-syntax special sequence `\s` (Unicode whitespace including CR); own-work plans/grader_perturb.py and corpus/evidence/round26-calibration/
 verified-at: 2026-10-21 (public source openings and frozen-response replay; no live model request)
-recheck: 90d — rerun python3 plans/grader_perturb.py --summary and --selftest; compare independent oracle; reopen S043–S046 at the located quotes in lessons/round-26.md §Gate
+recheck: 90d — rerun python3 plans/grader_perturb.py --summary and --selftest; compare independent oracle; reopen S044–S046 and S048 at the located quotes in lessons/round-26.md §Gate
 writer: KengakuR26-2
 
 # Grader perturbation audit — response-format invariance is conditional on the extraction policy
@@ -11,10 +11,11 @@ A grader's reproducible replay is not a test of whether its verdict depends on i
 The lane's `grader.py` replays stored `raw` through a last-fenced-block extractor, then exact state/list
 comparison or the Latin-square constraints. A paired response perturbation can distinguish extraction
 policy from model correctness, provided its polarity is established against the original task contract.
-This entry extends `knowledge/llm-judge-calibration.md` and the coverage-map row **Grader robustness /
-response-format invariance**; the attribution interval entry covers a different instrument/population.
+This entry extends `knowledge/llm-judge-calibration.md` and the existing **Judge calibration** coverage-map
+row; it adds **Grader robustness / response-format invariance** as new measured ground at admission.
+The attribution interval entry covers a different instrument/population.
 
-This is **not a new method**: CheckList (S043, §2.2) defines invariance for model predictions after
+This is **not a new method**: CheckList (S048, §2.2, PDF p.3 / p.4904) defines invariance for model predictions after
 label-preserving input changes; evalmut 0.1.0 (S045) already ships equivalent-response and defect-response
 mutations against answer graders. xFinder (S044, Abstract) explains why RegEx-oriented evaluation can favor
 responses easily extracted by RegEx; it is adjacent extraction research, not evidence that this audit's
@@ -36,9 +37,10 @@ Baseline/pin inconsistency or a changed population exits 1; a failed audit famil
 
 ## Exact perturbation policy
 
-- **F1 / F2:** remove / uppercase the language label of **only the last matched answer fence**, leaving
-  earlier fences intact. Unmatched closing fences are not applicable. Removing every fence is a different
-  sensitivity, not this registered transform.
+- **F1:** strip the opening and closing fence markers of **only the last matched answer fence**, retaining
+  its JSON body and every earlier fence. **F2:** change only that fence's `json` language label to `JSON`,
+  keeping its markers/body and earlier fences. Unmatched closing fences are inapplicable. Removing every
+  fence is a different sensitivity, not F1.
 - **F3:** replace the extracted answer's JSON representation with compact versus indented serialization.
 - **F4:** reverse keys of the parsed dictionary (at least two keys); JSON duplicate keys have already been
   resolved by the decoder, so this is not reversal of duplicate key text.
@@ -57,18 +59,18 @@ Counts below follow Amendment 1 (post-build-output, disclosed in `plans/round-26
 oracle `python3 plans/fixtures/r26/perturb_oracle.py --root .` reports each n/k. MP k is unchanged verdict;
 MC k is correct rejection; PC k is captured appended block. Rate = k/n, not model accuracy.
 
-| family | kind | k/n | interpretation |
-|---|---|---|---|
-| F1 | MP | 1802/1819 | pooled invariance, 17 baseline-PASS responses flip |
-| F2 | MP | 1802/1819 | same 17 flips; these families are not independent discoveries |
-| F3 | MP | 1964/1964 | same parsed object survives serialization |
-| F4 | MP | 1720/1720 | dictionary key order does not affect comparison |
-| F5 | MP | 1964/1964 | prefix cannot add a parseable bracket candidate |
-| F6 | MP | 1964/1964 | suffix cannot add a parseable bracket candidate |
-| F7 | MP | 1876/1876 | CRLF preserves the observed parse |
-| G1 | MC | 1021/1021 | changed graded answer is rejected |
-| G2 | MC | 1021/1021 | deletion is rejected |
-| D1 | PC | 909/909 | appended wrong block is captured, as last-block policy specifies |
+| family | kind | k/n | nominal exact CP95 lower | interpretation |
+|---|---|---|---|---|
+| F1 | MP | 1802/1819 | 0.985079 | pooled invariance, 17 baseline-PASS responses flip |
+| F2 | MP | 1802/1819 | 0.985079 | same 17 flips; not independent discoveries |
+| F3 | MP | 1964/1964 | 0.998124 | same parsed object survives serialization |
+| F4 | MP | 1720/1720 | 0.997858 | dictionary key order does not affect comparison |
+| F5 | MP | 1964/1964 | 0.998124 | prefix cannot add a parseable bracket candidate |
+| F6 | MP | 1964/1964 | 0.998124 | suffix cannot add a parseable bracket candidate |
+| F7 | MP | 1876/1876 | 0.998036 | CRLF preserves the observed parse |
+| G1 | MC | 1021/1021 | 0.996394 | changed graded answer is rejected |
+| G2 | MC | 1021/1021 | 0.996394 | deletion is rejected |
+| D1 | PC | 909/909 | 0.995950 (NOT_SCORED) | appended block is captured, as last-block policy specifies |
 
 Nominal exact two-sided CP95 lower bounds compare with 0.95 for the **nine MP/MC families** (Q11/Q12);
 a zero-trial family is UNTESTED. All nine pooled rates clear that descriptive bar. D1 is NOT_SCORED,
@@ -77,6 +79,12 @@ with its capture interval shown separately. Output totals: 15168 audited verdict
 cluster by model/conversation. There are 1451 unique raw+want+grader inputs, 513 excess duplicates. For
 F1/F2, file+pid worst-case composites give **187/194**, nominal CP95 [0.927072,0.985372], INDETERMINATE
 against 0.95 — not pooled PASS. Inspect those outputs rather than only pooled FAMILY lines.
+
+D1's separate PC capture interval is nominal CP95 **[0.995950,1.000000]**, NOT_SCORED; file+pid capture
+is **129/129**, nominal **[0.971809,1.000000]**. Its format strata are FJ1 639/639, FJM 244/244,
+MULTI 0/0 (inapplicable), DANGLE 17/17 and BARE 9/9. The 26 DANGLE/BARE cases have no earlier matched
+fence, so they test capture of an appended block, not competition with a prior fence. These figures are
+independently re-derived in `.ufo/waves/round-26/falsify/FxFamilyD1.md`; no PC figure is a robustness PASS.
 
 **The concrete counterexample:** all 31 multi-fence responses are r8 B cells with operation-8/9/10 states.
 F1/F2 leave the operation-9 fence intact after changing the last answer fence; the extractor then grades
@@ -105,10 +113,16 @@ oracle on any family count; a transformation called MP that changes the task-def
 source quote that does not support the scope assigned above. These require marking/correcting the entry,
 not silently updating a receipt pin or excluding the disagreeing record.
 
-## Decision rule for use
+## Use for Kengaku's pinned grader only
 
-Run the audit when extraction policy changes or a new response-format class enters the corpus. Preserve
+For this lane's pinned response grader, run the audit when its extraction policy changes or a new
+response-format class enters this corpus. Preserve
 baseline truth, exact transform span, conditional denominator and inapplicable reasons. Report pooled and
 format-stratified results; do not turn an intentional policy stressor into a correctness defect. Reuse the
 existing instrument rather than duplicate the extractor. Reusable testing methodology stays tameshi's;
 this lane owns evaluation of its own grader, with evidence in `.ufo/waves/round-26/build/ConnTameshi.md`.
+
+Attributed primary/independent observations are retained in
+`corpus/evidence/round26-calibration/grader-perturb-build-observation.txt` and
+`corpus/evidence/round26-calibration/perturb-oracle-build-observation.txt`; these are actual seat runs,
+not an L1 rerun. The final L1 measurement receipt is separately attributed when filed.

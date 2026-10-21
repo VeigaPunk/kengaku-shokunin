@@ -1,4 +1,4 @@
-# Gate timing fixture — generic wave reference only
+# Round 26 — Gate timing fixture: generic wave reference only
 
 ## Gate
 

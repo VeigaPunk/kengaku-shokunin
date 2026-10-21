@@ -557,6 +557,7 @@ documents why stream:false was chosen and what stream:true changes).
 | sources-registry | keep a tiered, opened, census-clean registry of where the lane learns, with study paths and a search log | `corpus/SOURCES.md` + the SOURCES contract v1 census (rows 25, malformed 0, `A=24 C=1`, `mined=18 queued=5 rejected=2`, dup/enum/mined-path checks print nothing); receipts `corpus/evidence/round24-sources/gate.md` | 24 |
 | interval-reverdict | re-derive every stored attribution verdict from committed receipts and re-verdict it with exact CP95 intervals, per-leg recall/specificity and Rogan–Gladen share bounds, offline, receipts sha256-pinned | `python3 plans/attrib_calibration.py --summary` → `unique_samples=4 … scored_trials=92 correct=92 … transitions=FAIL>UNTESTED:2,PASS>INDETERMINATE:1,PASS>PASS:4 … mismatches=0`, exit 0; `--selftest` 14 checks 0 failed (red runs R1–R6 included); receipts `corpus/evidence/round25-calibration/` | 25 |
 | state-assertion-check | re-derive the lane's own current-state assertions (capability rows, axis basis anchors, SHONEN canonical form, PROVINCE surface rows, corpus index both directions) and exit 0/1/2 | `python3 plans/state_check.py --summary` → base `6180e4f` `mismatch=11` exit 1; landed tree `mismatch=0 superseded=1` exit 0; `--selftest` ALL PASS | 25 |
+| grader-perturbation-audit | audit pinned stored-response verdicts under exact response-format/negative-control transformations; stratify by format and pid, separate policy capture | `python3 plans/grader_perturb.py --summary`: population1964 excluded0, audited verdicts15168, nine MP/MC interval-verdict families plus909 NOT_SCORED PC checks; independent oracle and final receipts `corpus/evidence/round26-calibration/` | 26 |
 
 Rows enter this table only through a round that demonstrates the capability running (`AXES.md` §Capabilities); none enter through this rollout.
 Round 24: the three rows above entered by demonstration in round 24 (commands re-run that round; output in `corpus/evidence/round24-census/after.txt`). The placeholder row was the scaffold, not a claim.
@@ -747,3 +748,49 @@ The exact-token v3 parser compares the entire code-span list; the following mach
 supersede those rows' formatting, not their evidence or values. Commands and receipt pointers remain above.
 - **R26-E5 (2026-10-21)** supersedes `P3a.capability.interval-reverdict.selftest-checks` — now `18 checks` `0 failed`
 - **R26-E6 (2026-10-21)** supersedes `P3a.capability.state-assertion-check.base-mismatch` — now `mismatch=10`
+
+## Round 26 — grader perturbations and frozen P3 self-assertions (2026-10-21)
+
+Lowest non-retired: novelty7 tied with coverage7; novelty maps to canonical coverage/constructs in the C1
+row below. Coverage remains capped, no stagnation waiver. Repairs R26-E1–E11 preceded knowledge admission;
+pre-registration e0037a8 and disclosed post-output Amendments1/2 freeze the populations and interpretation.
+
+| Claim | Axis | Before → after and counting command | Score / verdict |
+|---|---|---|---|
+| C1 finite-corpus response-format audit | novelty → canonical coverage/constructs (lowest) | instrument absent at f11bffbf; 0 → 15168 audited verdicts across9 MP/MC interval-verdict families, plus909 NOT_SCORED policy captures; `python3 plans/grader_perturb.py --summary`, independent oracle, receipts corpus/evidence/round26-calibration/ | 7 → 7 held; observable improved, no method-novelty credit (evalmut S045) |
+| C2 content-pinned frozen self-assertions | calibration | v3 on f11bffbf reports5 P3 mismatches (four routed numeric repairs plus missing spotcheck index); final-tree count in state-check-final.txt; `python3 plans/state_check.py --summary` | 8 → 8 held; observability extension, not discovery credit for routed repairs |
+
+Measurement revision and final outcomes are appended after the final run. Nothing in this section claims
+all current assertions are checked: P2/P3 are frozen, and round26 additions remain outside that population.
+No other axis changes: depth9, coverage7 capped, operability8, freshness8, adjacency8.
+
+Capability demonstrated this round: **grader-perturbation-audit** — reproducibly audit pinned stored-response
+verdicts with exact transform spans, conditional denominators, format strata and pid-composites; command
+`python3 plans/grader_perturb.py --summary` plus selftest and independent oracle; first-working round26.
+The held score does not prevent a demonstrated capability entering the repertoire.
+
+### Round-26 capabilities table additions
+
+| Capability | What it can now do | Evidence / command | First-working round |
+|---|---|---|---|
+| grader-perturbation-audit | Audit the frozen stored-response population with exact transform spans, MP/MC denominators, format strata and pid composites; D1 policy capture is separate | `python3 plans/grader_perturb.py --summary`; `corpus/evidence/round26-calibration/grader-perturb-final.txt`; independent `plans/fixtures/r26/perturb_oracle.py` | 26 |
+
+### Planned after round 26 (not a new round claim)
+
+- Lowest novelty/coverage remains 7: separately freeze a comparison of extraction policies or audit a newly opened benchmark scoring specification; no new-method credit without tooling prior-art checks.
+- Calibration remains 8: extend current-assertion content pins only against an explicitly frozen population, preserving out-of-population disclosures.
+- Coverage/surfaces remains capped pending the operator's existing round-25 L0 question.
+
+### Round-26 final measured outcomes (self, pending outside closure)
+
+- **C1 improved observable, score7 held:** `python3 plans/grader_perturb.py --summary` → population1964,
+  excluded0, audited verdicts15168, policy checks909, nine MP/MC interval-verdict families. Independent
+  oracle agrees. Pooled F1/F2 1802/1819 does not erase MULTI14/31 or composite187/194 INDETERMINATE.
+- **C2 improved observable, score8 held:** the same v3 `python3 plans/state_check.py --summary` measures
+  frozen base `f11bffbf` mismatch5 → repaired tree mismatch0, superseded5 (278 assertions,3 offline
+  unverifiable). Four numeric defects were already routed; the new instrument does not claim to discover them.
+- Both claims' separability counters are unchanged under the other's revert; exact P2 keyed projection
+  matches v2. Instrument selftests and independent fixtures are green after M54's scratch-setup fix;
+  the failing pre-fix receipt remains. Evidence `corpus/evidence/round26-calibration/`.
+- These are worktree measurements before packaging, not falsely attributed to detached HEAD.
+  Actual admission revision, Q13 and frozen-commit census are appended after the lane helper lands it.
