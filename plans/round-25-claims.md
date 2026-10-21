@@ -149,3 +149,36 @@ Every change below tightens or clarifies; none loosens a frozen rule.
     not counted. P2c's seed is frozen into `plans/fixtures/r25/shonen-seed.txt` with the PROTOCOL.md sha256.
     A stale base assertion closed by an appended dated correction (QUALITY R1) is reported `superseded`
     (separately from match), and the correction's own value is re-checked.
+
+## Amendment 2 (2026-10-20 ~22:30 -03, AFTER instrument output — falsify-wave corrections; disclosed as post-output)
+
+Inputs: `.ufo/waves/round-25/falsify/*.md`. Each item tightens, narrows or corrects; none loosens a frozen rule or
+changes a stored-verdict re-verdict.
+
+1. **Non-firing specificity carries no verdict** (CritSpecificity): a leg the instrument never predicted has
+   specificity n/n by construction (the complement of its 0 share); its verdict is `-` (`non-firing`). PASS count
+   12 → 7; transitions unchanged.
+2. **Share bound relabelled** (CritRgBound): the round's `rg95` held the observed share fixed, so it was a
+   conditional sensitivity bound, not a 95% interval for the true share. It prints as `rg_cond`; a second bound
+   `rg90` adds the observed-share CP95 arm (≥ 90% by union bound under any dependence). `rg90` is vacuous or near
+   vacuous for every P1 leg — itself the finding: these samples cannot identify leg shares beyond the GT counts.
+3. **`bodies`/`iid-fragile` on every PASS** (CritBodiesFlag): computed per estimate; fragile when fewer distinct
+   request-body classes than `need_n(errors)` stand behind a PASS. `bodies` counts request-body classes (payloads),
+   not distinct prompt texts (impl-glm's two classes share one prompt).
+4. **Boundary anchors** (MutVerdictBoundary, MutRgBound, MutDedupManifest): selftest pins lo == bar → PASS,
+   hi == bar → not FAIL, Rogan–Gladen corners/clip/pole, Wilson both ends, CP vs the exact-rational table (1e-11),
+   and dedup-key sensitivity to predictions. SETUP exits (code 2) for empty or unreadable receipts.
+5. **C2 implementation brought to P2d as registered** (StateSelftestExec, CritPreregAdherence): an endpoint-first
+   surface row is offline-unverifiable (v1 had tested a `/proc/1299` pid pin inside it), so the base count is
+   10, not 11 (v2 receipt). ABSENT counts only as the declared `**ABSENT**`/`**ABSENT <date>**` marker; a frozen
+   capability row that loses its command is a mismatch; a correction supersedes only when it restates the full
+   census; the base registry population must be exactly S001–S026; a deleted frozen base file is a mismatch;
+   the SHONEN seed fixture is sha256-pinned and checked against the fleet PROTOCOL.md when present.
+6. **Novelty +1 withdrawn** (PriorArtWeb, confirmed by the L1 opening https://pypi.org/project/cigate/): CI-lower-
+   bound gating of LLM-judge rates with a Rogan–Gladen core and refusal at TPR + TNR ≤ 1 is published as tooling
+   (cigate 0.2.0; also sigeval, EvalGlass per PriorArtWeb). The rubric's "already published" cap applies to the
+   construct; novelty is held at 7 with the observable recorded. CritNoveltyFresh's dissent (+1 fires) is on record.
+7. **Display slip (M30):** line 43 above prints the n = 16 lower bound as 0.7940 (truncated); the exact value is
+   0.794093 (rounds to 0.7941). The verdict and the n = 17 power ask are unchanged.
+8. **P2 prediction:** scored 1 under the literal dedup key and 0 under its "same sample" wording (distinct
+   executions); all five predictions were derivable from bytes committed before filing (CritBrierHonesty).

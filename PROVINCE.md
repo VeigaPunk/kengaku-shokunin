@@ -114,7 +114,7 @@ Surfaces that resolve today, each with the check actually run and its result:
 | Live probe endpoint | `ss -ltn 'sport = :8791'` | LISTEN on `127.0.0.1:8791` (ds-flash-shim, read-only shim; `:8793` not probed this round) |
 | Public literature | URLs cited in `knowledge/eval-prior-art-calibration.md`, `attrib-prior-art-r21.md`, and the ART dossier | reachable-by-citation only — documentation reads only this round, no live model/endpoint traffic |
 | Interval re-verdict instrument (round 25) | `python3 plans/attrib_calibration.py --summary` and `--selftest` | exit 0 / exit 0; P1 receipts sha256-pinned; 4 unique samples, 92/92 correct, transitions FAIL>UNTESTED 2, PASS>INDETERMINATE 1 |
-| State-assertion check (round 25) | `python3 plans/state_check.py --summary` and `--selftest` | exit 0 / exit 0 on the landed tree (base `6180e4f`: exit 1, 11 mismatches) |
+| State-assertion check (round 25) | `python3 plans/state_check.py --summary` and `--selftest` | exit 0 / exit 0 on the landed tree (base `6180e4f`: exit 1, 10 mismatches) |
 
 *Round-25 correction (appended 2026-10-20): the "Public-literature registry" row above says 25 rows; the registry held 26 at base (S026, `e21f9ea`) and holds 37 after round 25 (`grep -cE '^\| *S[0-9]{3,} *\|' corpus/SOURCES.md`). Five `## Surfaces` rows now carry dated `ABSENT` markers (QUALITY R4).*
 
@@ -164,3 +164,10 @@ was run on each; the port was checked with `ss` only (no HTTP traffic):
 
 Nothing in this section is governed: these are historical sources whose
 digests and receipts are retained in `corpus/`, not current dependencies.
+
+Round-25 report-outs (evidence sent, not absorbed): (1) **kumitate** — the round-25 interval re-verdict
+(`corpus/knowledge/attribution-interval-calibration.md`) bounds attribution accuracy on the shim's upstream
+cascade legs over forced and natural P1 samples; its leg-share bounds are within-sample shares, never natural
+fallback rates or OMP route-resolution facts, which stay kumitate's (`falsify/ConnKumitateReportOut.md`).
+(2) **every citer of the r22 "hyper validated" reading** — that verdict is INDETERMINATE under the exact CP95 rule on
+the registered population (`corpus/knowledge/attrib-r21.md` §Erratum round 25).

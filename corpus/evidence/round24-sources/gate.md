@@ -111,3 +111,7 @@ pages are dynamic or challenge-served: same-day re-fetches return the same byte 
 (round-25 reviewer RevF10 re-fetched S005 twice 2 s apart: `e6f58c18…` then `1da6fa12…`; S006 `faec654e…`;
 scale.com `c7e50638…`). Re-verification of these rows is by quote and location; a hash mismatch alone is not a
 finding. (Closes kaika W3 F10.)
+- (appended round 25 falsify, CorrF10) The caveat above is not limited to the four named rows: on 2026-10-20 ten of
+  24 web rows re-hashed differently — also S004, S008, S020, S021, S022 (arXiv abstract pages grew 586–588 bytes, a
+  site template change) and S014 (metr.org). S005/S006 hashes are of a Cloudflare challenge page, not article text.
+  Every sha256 in this file is an access-time capture; re-verification is by quote and location for all rows.

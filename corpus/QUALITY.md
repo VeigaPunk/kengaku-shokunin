@@ -87,6 +87,13 @@ An entry is admitted only when every row below passes; the round lesson's
   four rounds on a point fraction; `python3 plans/attrib_calibration.py --summary` re-verdicts it
   INDETERMINATE).
 
+- **Q12 — supersedes Q11's second sentence.** A point fraction with errors can also FAIL (CP95 upper bound
+  below the bar); INDETERMINATE applies only when the interval straddles the bar, and the zero-error minimum
+  (17 at 0.80) is one row of `plans/fixtures/r25/power_table.tsv` (26 / 34 at 1 / 2 errors). A verdict on a leg
+  the instrument never predicted carries no PASS (non-firing). Q11 is enforced by
+  `python3 plans/attrib_calibration.py --selftest` (A3 boundary anchors), not by prose review.
+  Lesson: `corpus/lessons/round-25.md` M24, M31 (falsify seats RevQ11, CritSpecificity).
+
 ## Round-closure criteria
 
 A round closes only when every row below holds; a row that cannot be shown is an open item, not a waiver. Each row cites the mistake it closes in `corpus/lessons/round-24.md`; checks are file or command tests, not prose.
@@ -104,3 +111,5 @@ A round closes only when every row below holds; a row that cannot be shown is an
 - **R11 — a report's L0 questions reach the queue.** Every `kengaku | round-<N> |` question in the round report's `## L0 questions` is appended to `.ufo/l0-questions.md` before the report lands. Check: `sh plans/l0_filed_check.sh .ufo/reports/round-<N>/kengaku.md .ufo/l0-questions.md` (fleet paths) exits 0. Lesson: corpus/lessons/round-25.md M23.
 - **R12 — current-state assertions re-derive at close.** SCORECARD capabilities and axis basis, SHONEN canonical form, PROVINCE surface rows and the corpus index are re-derived by command, not by heading presence; a stale assertion is closed by an appended correction that itself re-derives. Check: `python3 plans/state_check.py --summary` exits 0 (superseded rows counted separately). Lesson: corpus/lessons/round-25.md M25, M26.
 - **R13 — one artifact, one claim.** No claim's counting command counts an artifact another claim of the same round creates; each claim's count is re-run with the other claim's paths reverted and must not move. Check: the round's pre-registration names each claim's population and its freeze commit, and the report states the revert test result. Lesson: corpus/lessons/round-25.md M27.
+- **R14 — supersedes R4's Check.** R4's awk reads field 2 of `## Surfaces`, which is the surface name, so it cannot see the table it governs. Check: `python3 plans/state_check.py --summary` reports every `## Surfaces` row with a missing first local path as MISMATCH unless the row carries `**ABSENT**` or `**ABSENT <date>**`; endpoint-first rows are offline-unverifiable. Lesson: corpus/lessons/round-25.md M35 (falsify seat RevProvinceAbsent).
+- **R15 — supersedes R11's Check.** Run from the fleet root: `sh kengaku-shokunin/plans/l0_filed_check.sh .ufo/reports/round-<N>/kengaku.md .ufo/l0-questions.md` exits 0 (the paths in R11 resolve from no single directory). When the round prompt makes the integrator the appender, an unfiled question is routed to the integrator, not mined as a lane mistake. Lesson: corpus/lessons/round-25.md M23 correction (falsify seat LessonM23).

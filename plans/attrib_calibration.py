@@ -175,6 +175,20 @@ def verdict(k, n, bar):
     return "INDETERMINATE"
 
 
+def rg_bound3(q_lo, q_hi, se_lo, sp_lo):
+    """Rogan-Gladen bound with the observed-share arm too (round-25 falsify CritRgBound).
+
+    (q + sp - 1)/(se + sp - 1) is increasing in q, so the extremes sit at the corners of
+    [q_lo, q_hi] x [se_lo, 1] x [sp_lo, 1]. With q from the two-sided CP95 interval and se_lo,
+    sp_lo one-sided 97.5% CP lower bounds, a union bound gives >= 90% coverage under any
+    dependence between the arms (same rows feed all three)."""
+    if se_lo + sp_lo - 1.0 <= 0.0:
+        return (0.0, 1.0)
+    lo = min(rg_bound(q_lo, se_lo, sp_lo)[0], rg_bound(q_hi, se_lo, sp_lo)[0])
+    hi = max(rg_bound(q_lo, se_lo, sp_lo)[1], rg_bound(q_hi, se_lo, sp_lo)[1])
+    return (lo, hi)
+
+
 def rg_bound(q, se_lo, sp_lo):
     """Rogan-Gladen true-share bound over se in [se_lo, 1], sp in [sp_lo, 1]."""
     if se_lo + sp_lo - 1.0 <= 0.0:
@@ -432,9 +446,6 @@ def block_estimates(block, roster):
     bar = float(m.group(4))
     n = len(scored)
     ests = [_estimate("accuracy", sum(1 for r in scored if r[2] == r[3]), n, bar, m.group(6), int(m.group(5)))]
-    bodies = len({r[1] for r in scored})
-    ests[0]["bodies"] = bodies
-    ests[0]["iid_fragile"] = ests[0]["interval"] == "PASS" and bodies < 17
     legs = sorted(set(roster) | {r[2] for r in scored} | {r[3] for r in scored})
     rec, spec = {}, {}
     for leg in legs:
@@ -443,7 +454,23 @@ def block_estimates(block, roster):
     for leg in legs:
         neg = [r for r in scored if r[3] != leg]
         spec[leg] = _estimate("specificity:" + leg, sum(1 for r in neg if r[2] != leg), len(neg), bar)
+        if not any(r[2] == leg for r in scored):
+            # Amendment 2 (round-25 falsify, CritSpecificity): a leg the instrument never predicted
+            # has specificity n/n by construction (the complement of its 0 share) - no verdict.
+            spec[leg]["interval"] = None
+            spec[leg]["non_firing"] = True
+            spec[leg].pop("need_n", None)
     ests += [rec[leg] for leg in legs] + [spec[leg] for leg in legs]
+    # bodies = distinct request-body classes behind each estimate (round-25 falsify CritBodiesFlag):
+    # a PASS is iid-fragile when fewer distinct bodies than need_n(errors) stand behind it.
+    def _mark(est, rows):
+        est["bodies"] = len({r[1] for r in rows})
+        est["iid_fragile"] = (est["interval"] == "PASS"
+                              and est["bodies"] < (need_n(est["n"] - est["k"], bar) or 10 ** 9))
+    _mark(ests[0], scored)
+    for leg in legs:
+        _mark(rec[leg], [r for r in scored if r[3] == leg])
+        _mark(spec[leg], [r for r in scored if r[3] != leg])
     for key in sorted(st):
         kind, _, leg = key.partition(":")
         if kind == "target":
@@ -460,7 +487,8 @@ def block_estimates(block, roster):
         se_lo, sp_lo = rec[leg]["cp95"][0], spec[leg]["cp95"][0]
         sh = _estimate("share:" + leg, kq, n, None)
         sh.update({"se_lo": se_lo, "sp_lo": sp_lo, "youden_lo": se_lo + sp_lo - 1.0,
-                   "rg95": list(rg_bound(kq / n, se_lo, sp_lo))})
+                   "rg_cond": list(rg_bound(kq / n, se_lo, sp_lo)),
+                   "rg90": list(rg_bound3(sh["cp95"][0], sh["cp95"][1], se_lo, sp_lo))})
         shares.append(sh)
     return ests, shares
 
@@ -484,7 +512,9 @@ P1_SHA256 = {
 def population(root):
     ev = os.path.join(root, "corpus", "evidence")
     if os.path.isdir(ev):
-        return sorted(glob.glob(os.path.join(ev, "attrib-r2[123]-*.log")))
+        # any attribution receipt, so a later one (r24+) is flagged by the frozen manifest
+        # (round-25 falsify SimplifyCalib F1), not silently ignored
+        return sorted(glob.glob(os.path.join(ev, "attrib-r[0-9]*.log")))
     return sorted(glob.glob(os.path.join(root, "*.log")))
 
 
@@ -564,13 +594,20 @@ def analyze(root, dedup=True):
             differ = [f for f in ("stamp", "journal", "frozen_sha256", "instrument_sha256") if b[f] != first[f]]
             out["duplicates"].append({"duplicate": "%s:%s" % (rel, _span(b)),
                                       "of": "%s:%s" % (first_rel, _span(first)), "header_fields_differ": differ})
-            if differ:
-                # Amendment 1 item 4: frozen rule counts once; if the two blocks are distinct
-                # executions the pooled estimate would be this (sensitivity only, no verdict).
-                sens = _estimate("sensitivity:pooled-if-distinct", 2 * sum(1 for r in _scored(b["rows"])
-                                 if r[2] == r[3]), 2 * len(_scored(b["rows"])), None)
-                sens.update({"file": rel, "lines": _span(b)})
-                out["shares"].append(sens)
+            if differ and "accuracy" in b["stored_lines"]:
+                # Amendment 1 item 4: the frozen rule counts the identical table once. If the two blocks are
+                # distinct executions, the pooled estimates would be these (sensitivity only, no verdict
+                # credit). Round-25 falsify (RevDedupSensitivity): print every verdict-bearing estimate.
+                pooled = dict(b, rows=list(b["rows"]) + [(r[0] + "b",) + tuple(r[1:]) for r in b["rows"]])
+                for e in block_estimates(pooled, roster)[0]:
+                    if e["estimate"] == "accuracy" or e["estimate"].startswith(("target:", "recall:")):
+                        sens = _estimate("sensitivity:pooled-if-distinct:" + e["estimate"], e["k"], e["n"],
+                                         e["bar"])
+                        sens["interval_if_pooled"] = sens.pop("interval")
+                        sens["interval"] = None
+                        sens.pop("need_n", None)
+                        sens.update({"file": rel, "lines": _span(b)})
+                        out["shares"].append(sens)
             continue
         if "accuracy" not in b["stored_lines"]:
             continue  # already a mismatch (rederive): no stated bar to verdict against
@@ -619,10 +656,17 @@ def estimate_line(e):
         e["file"], e["lines"], e["estimate"], e["k"], e["n"],
         "-" if e["point"] is None else _f(e["point"]), _f(e["cp95"][0]), _f(e["cp95"][1]),
         _f(e["wilson"][0]), _f(e["wilson"][1]), e["stored"] or "-", e["interval"] or "-")
-    if "rg95" in e:
-        line += " rg95=[%s,%s] J_lo=%+.6f" % (_f(e["rg95"][0]), _f(e["rg95"][1]), e["youden_lo"])
+    if "rg_cond" in e:
+        # rg_cond: given the observed share (no sampling arm) - a sensitivity bound, not an interval;
+        # rg90: with the observed-share CP95 arm, >= 90% by union bound.
+        line += " rg_cond=[%s,%s] rg90=[%s,%s] J_lo=%+.6f" % (
+            _f(e["rg_cond"][0]), _f(e["rg_cond"][1]), _f(e["rg90"][0]), _f(e["rg90"][1]), e["youden_lo"])
     if e.get("need_n") is not None:
         line += " need_n=%d" % e["need_n"]
+    if e.get("interval_if_pooled"):
+        line += " if_pooled=%s" % e["interval_if_pooled"]
+    if e.get("non_firing"):
+        line += " non-firing"
     if "bodies" in e:
         line += " bodies=%d%s" % (e["bodies"], " iid-fragile" if e["iid_fragile"] else "")
     return line
@@ -798,7 +842,7 @@ FX_EXPECT = {
     ("attrib-r21-fx-n16.log", "accuracy"): (16, 16, "PASS", "INDETERMINATE"),
     ("attrib-r21-fx-n17.log", "accuracy"): (17, 17, "PASS", "PASS"),
     ("attrib-r21-fx-n17.log", "recall:b"): (0, 0, None, "UNTESTED"),
-    ("attrib-r21-fx-n17.log", "specificity:b"): (17, 17, None, "PASS"),
+    ("attrib-r21-fx-n17.log", "specificity:b"): (17, 17, None, None),  # non-firing leg (Amendment 2)
     ("attrib-r22-fx-force.log", "accuracy"): (20, 20, "PASS", "PASS"),
     ("attrib-r22-fx-force.log", "target:b"): (10, 10, "PASS", "INDETERMINATE"),
     ("attrib-r22-fx-force.log", "target:c"): (0, 0, "FAIL", "UNTESTED"),
@@ -857,12 +901,42 @@ def selftest():
                 worst = max(worst, abs(_tail_le(k, n, hi) - ALPHA / 2))
     record("A2", worst < 1e-9, "betai-inverted CP bounds vs direct binomial tail sums, all 0<=k<=n<=40",
            "worst |tail-0.025| = %.2e" % worst)
-    vr = [verdict(0, 0, 0.8), verdict(16, 16, 0.8), verdict(17, 17, 0.8), verdict(10, 20, 0.8)]
-    record("A3", vr == ["UNTESTED", "INDETERMINATE", "PASS", "FAIL"], "verdict rule anchors", repr(vr))
+    vr = [verdict(0, 0, 0.8), verdict(16, 16, 0.8), verdict(17, 17, 0.8), verdict(10, 20, 0.8),
+          # equality boundaries (round-25 falsify MutVerdictBoundary): lo == bar is PASS, hi == bar is not FAIL
+          verdict(17, 17, clopper_pearson(17, 17)[0]), verdict(0, 17, clopper_pearson(0, 17)[1])]
+    record("A3", vr == ["UNTESTED", "INDETERMINATE", "PASS", "FAIL", "PASS", "INDETERMINATE"],
+           "verdict rule anchors incl. lo==bar and hi==bar", repr(vr))
     rg = [rg_bound(0.3, 1.0, 1.0), rg_bound(0.5, 0.9, 0.9), rg_bound(0.5, 0.4, 0.5), rg_bound(0.0, 0.9, 0.9)]
     want_rg = [(0.3, 0.3), (0.4 / 0.9, 0.5 / 0.9), (0.0, 1.0), (0.0, 0.0)]
     record("A4", all(abs(a - b) < 1e-12 for g, w in zip(rg, want_rg) for a, b in zip(g, w)),
            "Rogan-Gladen bound anchors (exact se/sp, interior box, vacuous J<=0, clip)", repr(rg))
+
+    # Round-25 falsify survivors (MutRgBound, MutDedupManifest): pin each branch they bent.
+    rg2 = [rg_bound(0.3, 0.8, 0.9), rg_bound(0.95, 0.9, 0.9), rg_bound(0.5, 0.5, 0.5)]
+    want2 = [(2.0 / 9.0, 0.375), (17.0 / 18.0, 1.0), (0.0, 1.0)]
+    record("A5", all(abs(a - b) < 1e-12 for g, w in zip(rg2, want2) for a, b in zip(g, w)),
+           "Rogan-Gladen asymmetric box, upper clip, pole se_lo+sp_lo==1", repr(rg2))
+    wl = wilson(7, 50)
+    record("A6", abs(wl[0] - 0.06950833427016294) < 1e-12 and abs(wl[1] - 0.2618619371058554) < 1e-12,
+           "Wilson 7/50 both endpoints (closed form)", repr(wl))
+    ref = os.path.join(HERE, "fixtures", "r25", "cp_reference.tsv")
+    worst_ref, rows_ref = 0.0, 0
+    with open(ref, encoding="utf-8") as fh:
+        for line in fh:
+            parts = line.split()
+            if not parts or parts[0] == "k":
+                continue
+            k_, n_, lo_, hi_ = int(parts[0]), int(parts[1]), float(parts[2]), float(parts[3])
+            lo, hi = clopper_pearson(k_, n_)
+            worst_ref = max(worst_ref, abs(lo - lo_), abs(hi - hi_))
+            rows_ref += 1
+    record("A7", rows_ref == 861 and worst_ref < 1e-11,
+           "CP vs exact-rational cp_reference.tsv, all 861 rows within 1e-11",
+           "rows %d worst %.2e" % (rows_ref, worst_ref))
+    row = lambda t, p, g: (t, "std", p, g, "served", "1/%s OK 200" % g, "YES" if p == g else "NO")
+    b1 = {"rows": [row("T01", "a", "a"), row("T02", "b", "b")]}
+    b2 = {"rows": [row("T01", "a", "a"), row("T02", "a", "b")]}
+    record("A8", _table_key(b1) != _table_key(b2), "dedup key separates tables that differ only in a prediction")
 
     with tempfile.TemporaryDirectory(prefix="attrib-cal-selftest-") as tmp:
         green = os.path.join(tmp, "green")
@@ -948,10 +1022,14 @@ def main(argv=None):
         print("attrib_calibration: --root %s is not a directory" % root, file=sys.stderr)
         return 2
     if not population(root):
-        print("attrib_calibration: no receipts under %s (corpus/evidence/attrib-r2[123]-*.log, or *.log "
+        print("attrib_calibration: SETUP: no receipts under %s (corpus/evidence/attrib-r2[123]-*.log, or *.log "
               "when it has no corpus/evidence)" % root, file=sys.stderr)
         return 2
-    res = analyze(root)
+    try:
+        res = analyze(root)
+    except (OSError, UnicodeError) as exc:
+        print("attrib_calibration: SETUP: unreadable receipt: %s" % exc, file=sys.stderr)
+        return 2
     if args.json:
         print(json.dumps(res, indent=1))
     elif args.summary:

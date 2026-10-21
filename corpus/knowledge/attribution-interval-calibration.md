@@ -125,3 +125,65 @@ lane's own instrument rather than a judge). New coverage-map row:
   entry: its scope is means, quantiles and regression coefficients, not
   classifier sensitivity/specificity. Flip: a PPI variant for misclassified
   multiclass labels.
+
+## Corrections (round 25 falsify wave, 2026-10-20)
+
+Appended; the text above stays as landed in `8ea41f9`. Evidence: `.ufo/waves/round-25/falsify/*.md`; instrument
+changes are `plans/round-25-claims.md` Amendment 2. Re-run: `python3 plans/attrib_calibration.py --summary` →
+`estimates=35 PASS=7 FAIL=0 INDETERMINATE=11 UNTESTED=12`, transitions unchanged
+(`FAIL>UNTESTED:2,PASS>INDETERMINATE:1,PASS>PASS:4`).
+
+- **Specificity PASSes were partly vacuous** (CritSpecificity). Five specificity "PASS" lines belonged to legs the
+  instrument never predicted (hyper and opencode-go in r21-ds, hyper in r21-glm, opencode-go in r22 and r23):
+  n/n by construction. They now carry no verdict (`non-firing`); PASS 12 → 7. No stored-verdict re-verdict moves.
+- **The share bound was not a 95% interval** (CritRgBound). The landed "Rogan–Gladen bound" held the observed
+  share fixed, so it was a conditional sensitivity bound (`rg_cond`), and calling it "conservative" was wrong:
+  simulated coverage was 73.7% at nominal 95% (CritRgBound.md). Adding the observed-share CP95 arm (`rg90`, ≥ 90% by
+  union bound) makes every P1 share bound vacuous or nearly so (r23 hyper [0.286783, 1]; r21-glm devin
+  [0, 0.958899]). Reading: at n = 20–30 with se/sp and share estimated from the same rows, leg shares are not
+  identified beyond the GT counts the receipts already print. S038 (Reiczigel et al. 2010, Introduction) warns the
+  naive adjusted interval can cover 60% at nominal 95%.
+- **The construct is published** (PriorArtWeb; L1 opened https://pypi.org/project/cigate/): cigate 0.2.0 gates CI
+  on "the confidence-interval lower bound of a bias-corrected LLM-judge score, per failure-mode axis", with a
+  Rogan–Gladen core and refusal when TPR + TNR ≤ 1 (S041). This entry's contribution is the lane-local re-verdict
+  of its own stored verdicts, not the method.
+- **The PPI rejection reason was wrong (QUALITY Q9)** (ReopenS035). S035 §4.2.2 "Label shift" (arXiv v4
+  pp.15–16) infers class proportions through the confusion matrix with binomial bands (Theorem 3) — structurally
+  the lane's share bound. The rejection "scope is means, quantiles and regression, not classifier
+  sensitivity/specificity" is superseded by S040; PPI is prior art for the share bound, still not adopted here.
+- **Last-block population set aside real evidence** (CritAuthoritativeBlock, LessonM24). `attrib-r22-legs.log`'s
+  own adjudication (`:376-378`) calls both of its score blocks authoritative; the frozen last-block rule dropped
+  run 1 (`:260`, freeze-2 pins), which holds the only GT = opencode-go trial in P1. Under the receipt's reading,
+  hyper recall pools 19/19 (CP95 lower 0.823533, PASS) and opencode-go has 1/1 (INDETERMINATE). The frozen rule
+  stands as registered; the r22 hyper INDETERMINATE is therefore population-dependent.
+- **Request bodies, not prompts** (CritBodiesFlag, ScoutBodies). `bodies=m` counts request-body classes; r21-glm's
+  two classes share one prompt (`err` adds `temperature: 0`). `iid-fragile` now applies to every PASS whose bodies
+  fall below `need_n(errors)` (7 of 7 PASSes are fragile).
+- **Wording slips** (RevEntryEvidence, ReopenS011): S029 recommends "the Wilson interval or the equal-tailed Jeffreys
+  prior interval for small n" (the landed "Wilson or Jeffreys" dropped "equal-tailed"); S027's quote reads
+  "‘exact’ : Use the Clopper-Pearson exact method [1]." with curly quotes; S011's eq. (5) sentence is in **§4.1**
+  (p.4), not §4.2; the request-line range 37–160 mixed the r22 duplicate in — over the four unique samples the
+  journal windows held 20, 99, 68 and 160 request lines for 20, 22, 20 and 30 trials. The falsifier sentence
+  overstated `--selftest`: R1/R1b show inconsistent stored lines exit 1; no fixture shows within-body YES/NO
+  heterogeneity moving a verdict.
+- **Shim-cascade legs, forced samples; shares are kumitate-adjacent** (ConnKumitateReportOut). The "leg" here is
+  the ds/glm shim's upstream cascade position, not an OMP route; 50 of the 92 scored trials were forced
+  (`force-hyper`, `force-opencode-go`, the r23 `stream-*` bodies), and the frozen protocol says "FORCED coverage is a
+  different claim than natural coverage" (`plans/attrib_probe.py:9-10`). Every share above is a share within P1's
+  forced or natural sample, never a natural fallback rate; fallback-rate and route-resolution conclusions belong to
+  kumitate and are reported out (`PROVINCE.md`, round-25 report-outs), not drawn here.
+- **The pooled sensitivity line showed the wrong estimate** (RevDedupSensitivity). The landed "pooled 40/40" covered
+  only overall accuracy, which PASSes either way. Pooled as two executions, r22 TARGET hyper is 20/20 (CP95 lower
+  0.831567, PASS) and both r22 recalls PASS; the instrument now prints `sensitivity:pooled-if-distinct:*` for every
+  verdict-bearing estimate with `if_pooled=`. The round's only PASS→INDETERMINATE re-verdict exists only under the
+  frozen dedup and last-block rules.
+- **Journal windows and the matcher** (ScoutJournalCaveat). Over the four unique samples the windows held 20, 99, 68
+  and 160 request lines (r21-ds was a clean 1:1 window); "37" came from the deduplicated r22 block. The r21-ds
+  receipt's four score blocks show the matcher re-fitted three times on one window (0/20, 0/20, 18/20, 20/20,
+  `attrib-r21-impl-ds-trials.log:314-330`), and no receipt keeps journal bytes: a GT join error is not just
+  invisible to the interval, it cannot be refuted offline.
+- **Rule-of-three reading** (RevRuleOfThree). "10/10 bounds the error rate near 0.30" misreads S030/S042: at n = 10
+  the exact one-sided 95% upper limit is 26% and 3/n = 30% is the rule's overestimate (printed p.1744, Table 2); the
+  lane's 0.308497 is the two-sided 97.5% tail. The rule-of-three false PASS at bar 0.95 is n = 60–71 (the landed
+  power table scanned only n ≤ 40 and printed "none"; regenerated). If one-sided bounds were ever ruled sufficient, the
+  exact one-sided interval (min n 14 at 0.80) — not the rule of three — would be the rule.

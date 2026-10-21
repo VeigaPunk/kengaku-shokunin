@@ -294,3 +294,21 @@ receipts `corpus/evidence/round24-census/{base-99cf615,after}.txt`.
   at round start and end; S011 re-opened (PDF sha256 `c1645e31…`), eq. (5) is the Rogan–Gladen form.
 - Swarm: wave 1 build 92 seats (one validated task call); wave 2 falsify recorded in the round report. Seat misroots (3) moved into
   the lane byte-exact and logged as M29.
+
+### Round 25 falsify-wave revision (appended 2026-10-20 ~23:25 -03; the entry above stays as landed in `8ea41f9`)
+
+- Wave 2 (87 seats, one validated task call, `.ufo/waves/round-25/falsify/`) attacked the landed tip. Breaks fixed by
+  appended corrections and instrument changes (`plans/round-25-claims.md` Amendment 2, disclosed as post-output):
+  five vacuous specificity PASSes now carry no verdict (PASS 12 → 7); the share bound was conditional (`rg_cond`) and is
+  vacuous with its sampling arm (`rg90`); boundary/RG/Wilson/CP/dedup selftest anchors killed the surviving mutants
+  (selftest 18/18); C2's P2d now follows the registered endpoint rule (base 10 mismatches, v2 receipt — the entry above
+  says 11 and stays as written), supersession requires a full-census restatement, the base id set is checked;
+  `l0_filed_check.sh` no longer counts prose mentions.
+- Novelty +1 withdrawn: the construct is published as tooling (cigate 0.2.0, S041). C1 records an observable move with
+  the score held at 7; C2 likewise holds calibration at 8.
+- The one PASS→INDETERMINATE re-verdict (r22 TARGET hyper) is population-dependent: PASS under the receipt's own
+  both-blocks reading (19/19) or with the r22 pair counted as two runs (20/20).
+- Two of the three round-24 report-only L0 questions were re-filed (coverage cap, novelty conversion); the third (C2
+  admission) had been ruled by the round-24 closure and was not re-filed — the entry above says "those questions".
+- Re-verification: `python3 plans/attrib_calibration.py --summary` exit 0 (TOTAL `PASS=7 … mismatches=0`); `--selftest`
+  18/18; `python3 plans/state_check.py --summary` exit 0 (`mismatch=0 superseded=1`), `--selftest` ALL PASS.

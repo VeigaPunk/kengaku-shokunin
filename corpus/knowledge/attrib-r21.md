@@ -655,3 +655,13 @@ the seat's sole lane write. The r21 and r22 numbers above stand untouched.
   `42d86d99d42658214e362c2759ecab88a03de005e9ed93e9c1804cbf8c15a386`
   (read-only, never executed).
 
+
+## Erratum (round 25, 2026-10-20 — interval re-verdict)
+
+Appended; the lines above stay as written. The point verdicts quoted in this entry are re-verdicted by
+`python3 plans/attrib_calibration.py --summary` under the exact two-sided CP95 rule
+(`corpus/knowledge/attribution-interval-calibration.md`): the r22 `TARGET hyper 10/10 -> PASS` and the reading
+"hyper is now validated" are **INDETERMINATE** (lower bound 0.691503; n ≥ 17 needed at zero errors) on the
+registered last-block population (19/19 pooled with run 1 would PASS — population-dependent); every `0/0 -> FAIL`
+target line is **UNTESTED**, not a failure. The overall-accuracy PASSes (20/20, 22/22, 20/20, 30/30) hold, as
+trial-level PASSes over 1–3 request bodies.

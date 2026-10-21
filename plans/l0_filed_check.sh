@@ -26,11 +26,13 @@ function norm(s) { gsub(/[[:space:]]+/, " ", s); sub(/^ /, "", s); sub(/ $/, "",
 function pipes(s) { gsub(/ ?[|] ?/, " | ", s); return s }
 function anchorable(k) { k = pipes(k); sub(/ $/, "", k); return k }
 function qline(p,   i) { for (i = nq; i > 1 && qoff[i] > p; i--) ; return i }
-# first occurrence of a in s not preceded by a lane-name character (so `xkengaku | ...` never counts)
-function anchored(s, a,   p, q) {
+# first occurrence of a in s that starts a queue row: only an optional list marker or backtick may
+# precede it on its line (round-25 falsify RevL0Check: a prose mention inside a line must not count)
+function anchored(s, a,   p, q, li, pre) {
   for (q = 0; (p = index(substr(s, q + 1), a)) > 0; ) {
     q += p
-    if (q == 1 || substr(s, q - 1, 1) !~ /[A-Za-z0-9_-]/) return q
+    li = qline(q); pre = substr(s, qoff[li], q - qoff[li])
+    if (pre ~ /^((([-*+]|[0-9]+[.)]) )?`?)$/) return q
   }
   return 0
 }

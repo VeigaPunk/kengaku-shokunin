@@ -242,9 +242,6 @@ def build():
         max_dev = max(max_dev, abs(float(HALF_ALPHA) ** (1 / n) - float(two.lo)))
         cp_bars = [bar for bar in BARS if cp_passes(n, n, bar)]
         r3_bars = [bar for bar in BARS if r3 >= bar]
-        for bar in r3_bars:
-            if bar not in cp_bars:
-                false_pass[bar].append(n)
         zero_rows.append((
             str(n), two.text, dec(r3), diff, one.text,
             ",".join(dec(b, 2) for b in cp_bars) or "none",
@@ -267,6 +264,13 @@ def build():
         extended.append(str(n_min))
     lo_prev, hi_prev = cp_lower_bracket(n0 - 1 - e0, n0 - 1)
     lo_at, hi_at = cp_lower_bracket(n0 - e0, n0)
+    # Round-25 falsify (RevRuleOfThree): scan the rule-of-three false PASS over 1..WINDOW, not only the
+    # 1..40 display rows (at bar 0.95 it falsely passes n = 60..71).
+    for n in range(1, WINDOW + 1):
+        r3n = 1 - Fraction(RULE3, n)
+        for bar in BARS:
+            if r3n >= bar and not cp_passes(n, n, bar):
+                false_pass[bar].append(n)
     derived = [
         ("power_ask_4dp", f"lower({n0 - 1 - e0}/{n0 - 1})={certify(lo_prev, hi_prev, 4)} "
                           f"lower({n0 - e0}/{n0})={certify(lo_at, hi_at, 4)} (half-even)"),
@@ -274,7 +278,7 @@ def build():
         ("tightest_crossing", min(gaps)[1]),
         ("rule3_exceeds_cp_e0_n", f"{spans(r3_above)} of 1-{ZERO_ERROR_NS[-1]} (1-3/n above 0.025^(1/n))"),
         ("rule3_false_PASS_e0_n", "; ".join(f"{dec(b, 2)}: {spans(false_pass[b])}" for b in BARS)
-         + " (1-3/n >= bar while the CP verdict is INDETERMINATE)"),
+         + f" of 1-{WINDOW} (1-3/n >= bar while the CP verdict is INDETERMINATE)"),
         ("rule3_below_1sided95_n", f"{spans(r3_under_one_sided)} of 1-{ZERO_ERROR_NS[-1]} "
                                    "(1-3/n below 0.05^(1/n): it approximates the one-sided 95% bound)"),
         ("wilson_exceeds_cp_e0_n", f"{spans(w_above)} of 1-{WINDOW} (n/(n+z^2) above 0.025^(1/n))"),

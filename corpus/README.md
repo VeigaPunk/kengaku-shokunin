@@ -159,8 +159,13 @@ Round-24 additions:
 |---|---|
 | `evidence/round24-sources/` | Gate receipts for the `SOURCES.md` contract-v1 rows (per-source open receipts for the S001–S019 registry) |
 | `evidence/round24-census/` | Round-24 census receipts: `base-99cf615.txt` (v2 census on a `git archive 99cf615` tree) and `after.txt` (census + SOURCES contract census on the round-24 commit) |
+
+Round-25 additions:
+
+| Dir | Contents |
+|---|---|
 | `evidence/round25-sources/` | Gate receipts for SOURCES rows S027–S037 and the S011 re-open (URL, access time, sha256, ≤25-word located quote) |
-| `evidence/round25-calibration/` | Round-25 receipts: `attrib-calibration-summary.txt` / `-selftest.txt` (C1 instrument), `attrib-oracle-intervals.txt` (independent sh+awk parser), `state-check-before-6180e4f.txt` / `state-check-after.txt` / `state-check-selftest.txt` (C2), `round25-census-*.txt` |
+| `evidence/round25-calibration/` | Round-25 receipts: `attrib-calibration-summary.txt` / `-selftest.txt` (C1 instrument), `attrib-oracle-intervals.txt` (independent sh+awk parser), `state-check-before-6180e4f.txt` / `state-check-after.txt` / `state-check-selftest.txt` (C2), `round25-census-*.txt`, `revert-test.txt` (QUALITY R13); falsify-wave revision receipts `*-v2.txt` (Amendment 2; v1 files kept as landed) |
 
 ### `plans/` — plans, frozen instruments, and templates
 
@@ -179,7 +184,7 @@ Round-24 additions:
 | `plans/state_check.py` | C2 instrument: re-derives frozen SCORECARD/SHONEN/PROVINCE/README current-state assertions; `--summary`, `--json`, `--selftest` (exit 0/1/2) |
 | `plans/l0_filed_check.sh` | QUALITY R11 check: every report L0 question reached `.ufo/l0-questions.md` (exit 0/1/2) |
 | `plans/round25_census.sh` | Round-25 counting script (SOURCES census, new rows, mistakes rows, SHONEN form, frontmatter triggers, both instruments' summaries) |
-| `plans/fixtures/r25/` | Round-25 fixtures: `cp_reference.{py,tsv}` (exact-rational CP table), `power_table.{py,tsv}`, `attrib_oracle.sh` (independent parser), `attrib-cal/` (C1 red fixtures), `l0_filed_check/`, `shonen-seed.txt` (PROTOCOL.md:439-448 seed, sha256 886e459b…) |
+| `plans/fixtures/r25/` | Round-25 fixtures: `cp_reference.{py,tsv}` (exact-rational CP table), `power_table.{py,tsv}`, `attrib_oracle.sh` (independent parser), `attrib-cal/` (C1 red fixtures), `l0_filed_check/`, `shonen-seed.txt` (PROTOCOL.md:439-448 verbatim; slice sha256 3962e6b8…, pinned in `plans/state_check.py`) |
 | `plans/wwkd-round-16-recensus.md` | WWKD round-16 dispatch: independent freshness re-census plan (base `d84e48d5…`) |
 | `plans/wwkd-round-17-coverage.md` | WWKD round-17 dispatch: coverage continuation plan (base `3f31e54c…`) |
 
@@ -247,5 +252,6 @@ source/instrument (ART dossier §Leads; nothing below is admitted knowledge yet)
 - **Contamination transparency cards**: why — `knowledge/contamination-detection-and-transparency.md` establishes the tier/access vocabulary but the lane has no standard card format recording detector access, tier tested, and what a negative cannot rule out. Next source/instrument: current benchmark-maintainer releases on hidden-test governance and contamination-transparency cards (unopened lead); draft a card template and gate a knowledge entry on Q1–Q8.
 - **Judge calibration applied inward**: why — the lane's own grader/attribution outputs (`grader.py`, `plans/attrib_probe.py` verdicts) are judged artifacts that have never been through the S009–S012 calibration protocol the new entry describes. Next source/instrument: port the S011 sensitivity/specificity correction + S010 perturbation audit onto the r21–r23 trial receipts (`evidence/attrib-r2*-*.log`).
   - *Partly discharged round 25 (2026-10-20):* the attribution receipts now carry exact-interval verdicts (`knowledge/attribution-interval-calibration.md`); `grader.py` outputs and an S010-style perturbation audit remain frontier.
+  - *Correction (round 25 falsify, 2026-10-20):* the discharge also landed a Rogan–Gladen share bound in S011's estimator form, but S011's own interval method was not ported and the landed bound was conditional (`rg_cond`); with the sampling arm (`rg90`) it is vacuous on P1 — see the entry's §Corrections.
 - **Identity-verified endpoint for novelty probes**: why — `:34113` is absent (`ss -ltn 'sport = :34113'` → no listener, 2026-10-19); only the read-only ds-flash-shim (`:8791`, sha-pinned) resolves, so no new live capability/novelty probe can run. Next source/instrument: an identity-verified endpoint (kama-owned serving plane, operator-owned restoration) plus the standing `plans/probe-battery-TEMPLATE.md` to re-instantiate the battery.
 - **Non-karpathy wiki topics**: why — `ai/` subtrees outside karpathy remain undigested and the source is absent (`~/Projects/webzites/repos/llm-wiki` → `test -e` absent). Next source/instrument: none available on-host; the row stays frontier until the wiki path resolves again (round-13/16 receipts record it absent).

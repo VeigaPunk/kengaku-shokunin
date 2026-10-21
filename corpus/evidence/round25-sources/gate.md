@@ -28,3 +28,25 @@ Not admitted as rows: Clopper & Pearson 1934 (publisher HTTP 403, JSTOR challeng
 Reiczigel, Földi & Ózsvári 2010 (seat not returned by integration time — not a row). Abstract-only rows S032–S034
 are scoped to their abstracts in the `scope` cell; S029, S030, S031 were read from repository/author copies, named
 in their `anchor` cells.
+
+## Addendum (appended 2026-10-20, after integration)
+
+| row | URL actually opened | sha256 (fetched bytes) | quote (≤25 words) | location |
+|---|---|---|---|---|
+| S038 | https://www.cambridge.org/core/services/aop-cambridge-core/content/view/0644C396D4364B292419FB0BA1A30BA2/S0950268810000385a.pdf/div-class-title-exact-confidence-limits-for-prevalence-of-a-disease-with-an-imperfect-diagnostic-test-div.pdf | 55baba7ba660298c34e95cf87f1957113324398e099cddc948397f1c1bd783b3 | "This method results in incorrect CIs, whose actual coverage at a nominal level of 95 % can be as low as 60 %, even for large samples." | journal p.1675, Introduction (PDF p.2, left column) |
+
+The "not a row" line above for Reiczigel 2010 is superseded by this addendum (seat `SrcReiczigelExact`, opened 21:47 -03).
+
+## Falsify-wave addendum (appended 2026-10-20, ~22:55 -03)
+
+| row | URL actually opened | sha256 (fetched bytes) | quote (≤25 words) | location |
+|---|---|---|---|---|
+| S039 | (as S034) | 50f5a105767d6b7ec9f66032a627c242d721254b2f092cd38b78237ad25f12dc | "we propose a new method to construct approximate confidence intervals for the true prevalence when sensitivity and specificity are estimated from independent samples" | Abstract (re-opened by ReopenS034, hash identical) |
+| S040 | https://arxiv.org/pdf/2301.09633 | a16bf2c108fea9f559d00708c731d29d673c1dcce5d4acfd65e64a694b7ae17a | "Central to our analysis will be the confusion matrix" | §4.2.2 Label shift, p.16 (ReopenS035) |
+| S041 | https://pypi.org/pypi/cigate/json (2026-10-21T00:55Z) | 318b81e582a65cab39e5f3011ba751875cbb143fe17c6aefe7e936d1e1bac151 | "gate merges on the confidence-interval lower bound of a bias-corrected LLM-judge score, per failure-mode axis." | PyPI summary, version 0.2.0 |
+| S042 | https://jhanley.biostat.mcgill.ca/c607/ch08/zero_numerator.pdf | e3150aecd069144dcd81004171348bb7a658852da6e52a2b4e257c23fd746d79 | "we can be 95% confident that the chance of this event is at most three in n (ie, 3/n)" | PDF p.2 of 4 (printed p.1744), The Rule of Three (ReopenS030) |
+
+Location corrections to rows above (falsify seats): S030's quote is on PDF p.2 / printed p.1744, not p.1 (row S042
+supersedes S030); S032's quote is the 4th of 5 abstract sentences, not the final one (ReopenS032); the first S011
+re-open quote sits in §4.1 (p.4, before eq. 5), not §4.2 (ReopenS011). S029, S031, S033, S028 and S027 re-opened
+with identical hashes (ReopenS029/S031/S033/S028/S027).

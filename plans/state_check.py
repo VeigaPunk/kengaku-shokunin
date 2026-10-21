@@ -3,8 +3,8 @@
 
 Population P2 (plans/round-25-claims.md §C2 + Amendment 1) is frozen at base
 6180e4f: SCORECARD capabilities (P2a) and round-24 axis table (P2b), SHONEN
-canonical form (P2c, seed frozen in plans/fixtures/r25/shonen-seed.txt from
-PROTOCOL.md:439-448 sha256 886e459b...), PROVINCE ## Surfaces rows (P2d) and
+canonical form (P2c, seed frozen in plans/fixtures/r25/shonen-seed.txt — PROTOCOL.md:439-448
+verbatim, slice sha256 3962e6b8...; whole-file PROTOCOL.md sha256 886e459b... at freeze), PROVINCE ## Surfaces rows (P2d) and
 corpus/README index rows both directions (P2e). A stale base assertion closed by
 an appended dated correction is reported SUPERSEDED only when the correction's
 own tokens re-derive. Exit 0 all comparable assertions match, 1 any mismatch,
@@ -192,6 +192,11 @@ AXIS_ANCHOR_CONTENT = {":162": ("**novelty**", "**7**")}
 SUPERSEDE_RE = re.compile(r"^- \*\*R25-E\d+[^*]*\*\* supersedes `([^`]+)`(.*)$")
 POINTER_ONLY_RE = re.compile(r"^[A-Za-z0-9_./-]+(?::\d+(?:-\d+)?)?$")
 SEED_FIXTURE = Path(__file__).resolve().parent / "fixtures" / "r25" / "shonen-seed.txt"
+SEED_FIXTURE_SHA256 = "3962e6b87c5412623416dfd8d10d3830f9ebc35d5dd093679104b03082cf0927"  # PROTOCOL.md:439-448 verbatim, frozen round 25
+# Frozen capability rows that named an offline command at base: losing it is a mismatch.
+COMMAND_CAPABILITIES = ("offline-replay-gate", "frozen-table-pin-check")
+# Only the declared marker counts (round-25 falsify CritPreregAdherence): **ABSENT** or **ABSENT <date>**.
+ABSENT_MARK_RE = re.compile(r"\*\*ABSENT(?: \d{4}-\d{2}-\d{2})?\*\*")
 
 CODE_RE = re.compile(r"`([^`]+)`")
 FILE_REF_RE = re.compile(
@@ -369,10 +374,12 @@ def sources_base_census(root: Path) -> str | None:
     rows = malformed = 0
     tiers: dict[str, int] = {}
     statuses: dict[str, int] = {}
+    ids: list[int] = []
     for line in text.splitlines():
         match = re.match(r"^\|\s*S(\d{3,})\s*\|", line)
         if not match or int(match.group(1)) > SOURCES_BASE_MAX_ID:
             continue
+        ids.append(int(match.group(1)))
         rows += 1
         fields = line.split("|")
         if len(fields) != 13:
@@ -384,7 +391,9 @@ def sources_base_census(root: Path) -> str | None:
     tier_text = " ".join(f"{k}={tiers[k]}" for k in sorted(tiers))
     status_text = " ".join(f"{k}={statuses[k]}" for k in ("mined", "queued", "rejected")
                            if k in statuses)
-    return f"rows {rows}; malformed {malformed}; {tier_text}; {status_text}"
+    # Round-25 falsify (RevSupersede): the base population must be exactly S001..S026 once each.
+    idset = "" if sorted(ids) == list(range(1, SOURCES_BASE_MAX_ID + 1)) else "; id-set-defect"
+    return f"rows {rows}; malformed {malformed}; {tier_text}; {status_text}{idset}"
 
 
 def superseding_tokens(root: Path, assertion_id: str) -> tuple[int, list[str]] | None:
@@ -415,12 +424,14 @@ def check_sources_registry(root: Path, out: list[Assertion], line_number: int) -
     correction = superseding_tokens(root, assertion_id)
     if correction is not None:
         correction_line, tokens = correction
-        still_missing = [token for token in tokens if token not in observed]
+        # Round-25 falsify (RevSupersede, CritC2Fresh): a correction supersedes only when its
+        # tokens restate the whole observed census exactly, never a cherry-picked fragment.
+        exact = "; ".join(tokens) == observed
         add(out, assertion_id, line_number,
-            "stale row superseded by an appended correction whose tokens re-derive",
+            "stale row superseded by an appended correction restating the full census",
             {"observed": observed, "stale_tokens": missing, "correction_line": correction_line,
-             "correction_tokens": tokens, "correction_missing": still_missing},
-            "SUPERSEDED" if tokens and not still_missing else "MISMATCH")
+             "correction_tokens": tokens, "correction_exact": exact},
+            "SUPERSEDED" if exact else "MISMATCH")
         return
     add(out, assertion_id, line_number, "hardcoded contract census on S001..S026",
         {"observed": observed, "missing_tokens": missing}, "MISMATCH")
@@ -462,7 +473,7 @@ def check_capabilities(root: Path, out: list[Assertion], runner: CommandRunner) 
             add(out, f"P2a.capability.{capability}", line_number,
                 "run frozen capability row command and compare its evidence tokens",
                 {"command": None, "reason": "evidence cell names no runnable offline command"},
-                "OFFLINE_UNVERIFIABLE")
+                "MISMATCH" if capability in COMMAND_CAPABILITIES else "OFFLINE_UNVERIFIABLE")
             continue
         command = normalize_command(command_text)
         if command is None:
@@ -908,7 +919,12 @@ def check_surfaces(root: Path, out: list[Assertion]) -> None:
         line_number, cells = row
         path_cell = cells[1] if len(cells) > 1 else ""
         row_text = " | ".join(cells)
-        candidate = first_local_path(path_cell)
+        spans = code_spans(path_cell)
+        # Pre-registration P2d: a row whose surface is a URL/endpoint (its first backticked
+        # span) is offline-unverifiable; a later /proc pid pin inside it is live process
+        # state, not a declared path (round-25 falsify finding, StateSelftestExec).
+        endpoint_row = bool(spans) and bool(re.match(r"https?://", spans[0], re.IGNORECASE))
+        candidate = None if endpoint_row else first_local_path(path_cell)
         has_url = bool(re.search(
             r"https?://|\b(?:endpoint|port|URLs?)\b", path_cell, re.IGNORECASE))
         if candidate is None:
@@ -921,7 +937,7 @@ def check_surfaces(root: Path, out: list[Assertion]) -> None:
         if not path.is_absolute():
             path = root / path
         exists = path.exists()
-        marked_absent = bool(re.search(r"\bABSENT\b", row_text))
+        marked_absent = bool(ABSENT_MARK_RE.search(row_text))
         ok = ((exists and not marked_absent) or (not exists and marked_absent))
         add(out, f"P2d.surface.{surface}.path", line_number,
             "first backticked local path agrees with test -e and ABSENT marker",
@@ -1038,10 +1054,11 @@ def check_readme_index(root: Path, out: list[Assertion]) -> None:
     for relative in README_FILE_PATHS:
         locs = row_locations.get(relative, [])
         source_line = locs[0] if locs else anchors.get(relative.split("/", 1)[0] + "/")
+        present = path_exists(root, relative)
         add(out, f"P2e.file-to-row.{relative}", source_line,
-            "frozen on-disk file/directory has a README index row",
-            {"path": relative, "indexed": bool(locs), "row_lines": locs},
-            "MATCH" if locs else "MISMATCH")
+            "frozen base file/directory still exists and has a README index row",
+            {"path": relative, "exists": present, "indexed": bool(locs), "row_lines": locs},
+            "MATCH" if (locs and present) else "MISMATCH")
     frozen_files = set(README_FILE_PATHS)
     for relative in actual_index_scope(root):
         if relative not in frozen_files:
@@ -1196,7 +1213,10 @@ def run_selftest() -> int:
                "| sources-registry | r | rows 25 | 24 |\n"
         for erratum, want in (("", "MISMATCH"),
                               ("- **R25-E1 (t)** supersedes `P2a.capability.sources-registry` — "
-                               "now `rows 26` `A=24 C=2`\n", "SUPERSEDED"),
+                               "now `rows 26` `A=24 C=2`\n", "MISMATCH"),
+                              ("- **R25-E1 (t)** supersedes `P2a.capability.sources-registry` — "
+                               "now `rows 26` `malformed 0` `A=24 C=2` `mined=18 queued=6 rejected=2`\n",
+                               "SUPERSEDED"),
                               ("- **R25-E1 (t)** supersedes `P2a.capability.sources-registry` — "
                                "now `rows 27` `A=24 C=2`\n", "MISMATCH")):
             (root / "SCORECARD.md").write_text(card + "\n" + erratum, encoding="utf-8")
@@ -1208,7 +1228,7 @@ def run_selftest() -> int:
                 return 1
 
         # P2d: a missing first path passes only when its row says ABSENT.
-        for marker, want in (("", "MISMATCH"), (" ABSENT 2026-10-20", "MATCH")):
+        for marker, want in (("", "MISMATCH"), (" **ABSENT 2026-10-20**", "MATCH"), (" ABSENT", "MISMATCH")):
             (root / "PROVINCE.md").write_text(
                 "## Surfaces\n\n| Surface | Path | Use |\n|---|---|---|\n"
                 f"| Research notes (SSOT for eval craft) | `~/nonexistent-r25-selftest/x` | r{marker} |\n",
@@ -1219,8 +1239,40 @@ def run_selftest() -> int:
             if verdict != want:
                 print(f"selftest: P2d ABSENT rule expected {want}, got {verdict}", file=sys.stderr)
                 return 1
+        # Round-25 falsify survivors (MutStateCheck): ABSENT must be a whole word; only an
+        # R25-E correction line supersedes; a :line anchor must show its frozen content.
+        (root / "PROVINCE.md").write_text(
+            "## Surfaces\n\n| Surface | Path | Use |\n|---|---|---|\n"
+            "| Research notes (SSOT for eval craft) | `~/nonexistent-r25-selftest/x` | NONABSENTX |\n",
+            encoding="utf-8")
+        got = []
+        check_surfaces(root, got)
+        if next(a.verdict for a in got if a.id.endswith(".path")) != "MISMATCH":
+            print("selftest: ABSENT matched inside another word", file=sys.stderr)
+            return 1
+        (root / "SCORECARD.md").write_text(
+            card + "\n- note: supersedes `P2a.capability.sources-registry` — now `rows 26` `A=24 C=2`\n",
+            encoding="utf-8")
+        got = []
+        check_sources_registry(root, got, 5)
+        if got[-1].verdict != "MISMATCH":
+            print("selftest: a non-R25 line superseded a stale row", file=sys.stderr)
+            return 1
+        filler = ["filler"] * 161
+        for line162, want in (("| **novelty** *(owned)* | 6 → **7** |", "MATCH"),
+                              ("| **depth** | 8 → **9** |", "MISMATCH")):
+            body = filler + [line162, "", "Re-derived axis state, round 24", "",
+                             "| Axis | Round-24 value | Basis |", "|---|---|---|",
+                             "| novelty | 7 | numeric anchor r14 (`:162`) |"]
+            (root / "SCORECARD.md").write_text("\n".join(body) + "\n", encoding="utf-8")
+            got = []
+            check_axis_table(root, got, CommandRunner(root))
+            verdict = next(a.verdict for a in got if a.id == "P2b.axis.novelty.anchor.1")
+            if verdict != want:
+                print(f"selftest: :162 anchor content expected {want}, got {verdict}", file=sys.stderr)
+                return 1
     print("[selftest] ALL PASS (canonical seed, pointers, out-of-population box, pointer-only, "
-          "sources supersession, ABSENT rule)")
+          "sources supersession, ABSENT rule, ABSENT word boundary, R25-E prefix, anchor content)")
     return 0
 
 
@@ -1246,10 +1298,24 @@ def main(argv: list[str] | None = None) -> int:
         print(f"state_check: INPUT ERROR: --root is not a directory: {root}", file=sys.stderr)
         return 2
     protocol = SEED_FIXTURE if SEED_FIXTURE.is_file() else find_protocol(root)
+    if protocol == SEED_FIXTURE:
+        import hashlib
+        digest = hashlib.sha256(SEED_FIXTURE.read_bytes()).hexdigest()
+        fleet = find_protocol(root)
+        drift = fleet is not None and SEED_FIXTURE.read_text(encoding="utf-8") not in fleet.read_text(encoding="utf-8")
+        if digest != SEED_FIXTURE_SHA256 or drift:
+            print(f"state_check: SETUP: SHONEN seed fixture pin broken (sha256 {digest[:16]}, "
+                  f"fleet PROTOCOL drift={drift})", file=sys.stderr)
+            return 2
     if protocol is None:
         print("state_check: INPUT ERROR: canonical PROTOCOL.md was not found; "
               "run from the fleet root or place the lane beside PROTOCOL.md",
               file=sys.stderr)
+        return 2
+    unreadable = [name for name in ("SCORECARD.md", "SHONEN.md", "PROVINCE.md", "corpus/README.md")
+                  if read_repo_text(root, name) is None]
+    if unreadable:
+        print(f"state_check: SETUP: unreadable lane file(s): {', '.join(unreadable)}", file=sys.stderr)
         return 2
     try:
         assertions = check_all(root, protocol)

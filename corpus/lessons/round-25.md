@@ -59,3 +59,48 @@ Spot-check: the outside non-author check of one admit and one reject belongs to 
 | F12 Extends target | open (RevF12) | correction appended to `paired-eval-uncertainty-reporting.md` |
 | F13 census TZ | fixed in the fleet tool (RevF13, RevengeCensusTZ) | none |
 | F14 placeholder | benign (RevF14) | none |
+
+## Falsify-wave corrections (appended 2026-10-20, ~23:00 -03)
+
+Wave 2 (87 seats, `.ufo/waves/round-25/falsify/`) attacked the landed tip `8ea41f9`. The rows above stay as written;
+these rows correct or extend them. Instrument changes: `plans/round-25-claims.md` Amendment 2.
+
+| id | class | mistake · evidence pointer | captured-by | fix (red run) |
+|---|---|---|---|---|
+| M31 | vacuous | five specificity "PASS" verdicts belonged to legs the instrument never predicted (n/n by construction); PASS=12 counted them (`falsify/CritSpecificity.md`) | none | non-firing legs carry no verdict; red: fixture `specificity:b` expectation in `--selftest` F1 fails if the rule is removed; PASS 12 → 7 |
+| M32 | survivor | the "Rogan–Gladen bound" held the observed share fixed and was called conservative; simulated coverage 73.7% at nominal 95% (`falsify/CritRgBound.md`) | none (Q3 checks quotes, not estimator coverage) | relabelled `rg_cond`; `rg90` adds the share arm (vacuous on P1 — the finding); selftest A5 pins corners/clip/pole |
+| M33 | attribution | the knowledge entry rejected PPI because it "does not cover classifier sensitivity/specificity"; its §4.2.2 label-shift theorem bounds class shares through the confusion matrix (`falsify/ReopenS035.md`) | QUALITY Q9 — caught by the outside-the-gate re-open, not by the gate | S040 supersedes S035; entry §Corrections supersedes the rejection reason |
+| M34 | reference-drift | three quote locations were wrong at admission: S030 (p.1 → printed p.1744), S032 (final → 4th sentence), S011 (§4.2 → §4.1); and S034's teaches cell called an approximate method "coverage-exact" (`falsify/ReopenS030.md`, `ReopenS032.md`, `ReopenS011.md`, `ReopenS034.md`) | QUALITY Q10 — the second-seat re-read ran after admission (wave 2), not before | superseding rows S039/S042, gate addendum; red: the wave-2 re-opens are the failing check that Q10 must run before admission next round |
+| M35 | vacuous | QUALITY R4's Check reads awk field 2 of `## Surfaces` (the surface name), so it never sees a path (`falsify/RevProvinceAbsent.md`); `plans/state_check.py` P2d also matched `ABSENT` anywhere in a row and tested a `/proc` pid pin inside an endpoint row (`CritPreregAdherence.md`, `StateSelftestExec.md`) | none | QUALITY R14; P2d uses the declared marker and P2d's registered endpoint rule; base count corrected 11 → 10 (v2 receipt); selftest red cases for the marker word boundary |
+| M36 | survivor | C2's supersession accepted any token fragment (a correction saying only `rows 2` could bless a regressed registry), did not check the base id set, and a deleted frozen file still counted as indexed (`falsify/RevSupersede.md`, `CritC2Fresh.md`) | none | full-census restatement required; id set S001–S026 checked; file→row also requires the file; selftest red cases |
+| M37 | landing | `plans/l0_filed_check.sh` (R11) counted a prose mention inside a queue line as a filed row (`falsify/RevL0Check.md`) | none | queue matches must start a row (optional list marker/backtick only); red: `plans/fixtures/r25/l0_filed_check/queue-prose-mention.md` → unfiled 3, exit 1 |
+| M38 | number-drift | the novelty +1 rested on a construct the lane had not prior-art-searched as tooling; cigate 0.2.0 implements CI-lower-bound gating of Rogan–Gladen-corrected judge rates (`falsify/PriorArtWeb.md`; S041) | SCORECARD rubric `:244` cap — applied only after the wave-2 search | novelty held at 7 (observable recorded); the prior-art search now names tooling registries (PyPI, GitHub) as well as papers |
+
+Corrections to rows above:
+- **F3 disposition** (`falsify/ReopenS009F3.md`): the round-24 correction "FLASK 40.53–48.58%" is **right** — S009 v4
+  Table 3 has FR/MAD pairs per dataset (FLASK FR: 45.58, 45.13, 44.58, 40.53, 48.58); the kaika W3 reading of an
+  "unlabelled 4th column" was colspan-blind. F3 is closed with no lane change; the "48.58% column unverified" entry
+  in the disposition table above is superseded.
+- **M24** (`falsify/LessonM24.md`, `CritAuthoritativeBlock.md`): the r22 INDETERMINATE is population-dependent —
+  pooled with run 1 (`attrib-r22-legs.log:260`, which the receipt also calls authoritative) hyper is 19/19 (CP95
+  lower 0.823533, PASS). The frozen last-block rule stands; the dependence is stated in the entry and SCORECARD.
+- **M28** red run as a runnable command (the table cell's escaped pipes made it inert, `falsify/LessonM28.md`):
+  `grep -rnE 'Clopper|Wilson|confidence interval' corpus/knowledge` hits `corpus/knowledge/attrib-r21.md`.
+- **M30**: the truncated 0.7940 is corrected in Amendment 2 item 7; no instrument compares plan prose to fixtures.
+- **Gate**: the `knowledge/attribution-interval-calibration.md` admit stands with its §Corrections; its admission
+  violated Q10's "before admission" timing (M34). The PPI reject reason is superseded (M33); the reject stands.
+- **S036 tier B** is the conservative reading of kaika W3 F7 ("downgrade to B or justify"); falsify seats
+  CorrF4F7 and RevS036S037 dissent (the original log is primary for its own scope, which would justify A).
+- **M25/M26 counts** (falsify RevLogR25, LessonM26, RevengeFirstLocalPath): under the registered P2d rule the base has
+  10 mismatches, not 11 (the 11th was a `/proc/1299` pid pin inside an endpoint row); PROVINCE contributes 4 path rows,
+  not 5. Without PROTOCOL.md:432's pointer-only form in P2c the base count is 6. SHONEN's prose evidence lines date
+  from round 9 (`2575be6`), not round 13. Receipt: `corpus/evidence/round25-calibration/state-check-before-6180e4f-v2.txt`.
+- **M27** red run (LessonM27): R13's check is paperwork; the discriminating test is the per-claim revert re-run recorded
+  in `corpus/evidence/round25-calibration/revert-test.txt` (counts unchanged both ways).
+- **M19 / R5** (CorrM19): R5's grep cannot see a sentence wrapped across lines; R5's reevaluation stays open for round 26.
+- **M23 captured-by** (LessonM23): the round-24 prompt §6.1 told the lane to put L0 lines in its report and "the
+  integrator appends them"; the lane complied and the integrator did not append. The miss is the integrator's, not a
+  lane rule; R11's check is still the right detector. Two of three were re-filed (the C2-admission question was ruled in
+  `round-24-verifier-spotcheck.md:17`); the re-filed queue lines are durable only once the fleet commit lands.
+- **Fleet citer** (ConnCitersOfHyper): `MANIFEST.json:2744` still states "hyper COVERED (run-2 10/10 = 1.000)";
+  MANIFEST is closure-owned, so the precision note is routed in the round report, not written by the lane.

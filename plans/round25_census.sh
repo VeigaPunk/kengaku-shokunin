@@ -21,10 +21,13 @@
 #                                  unindented line (`none` = no boxes)
 #   skill_frontmatter_triggers     quoted strings in the SKILL.md frontmatter `description`
 #                                  value after YAML unquoting (rules at the awk below)
-#   calib_summary, calib_exit      last non-empty stdout line and exit status of
+#   calib_summary, calib_exit      the TOTAL line and exit status of
 #                                  python3 plans/attrib_calibration.py --summary
 #   state_check_summary, state_check_exit
-#                                  the same for python3 plans/state_check.py --summary
+#                                  the assertions= line and exit status of python3 plans/state_check.py --summary
+#   Limits (round-25 falsify RevCensusScript): shonen_evidence_lines_per_box counts lines, not
+#   pointer-only form (state_check P2c checks the form); skill_frontmatter_triggers counts quoted
+#   strings even when the frontmatter is not valid YAML (parse it separately to show validity).
 set -u
 
 if [ "$#" -ne 0 ]; then

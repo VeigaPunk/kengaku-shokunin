@@ -692,3 +692,39 @@ Re-derived axis state, round 25:
 - **calibration:** pin content (not only range) for every SHONEN/axis-basis line anchor in `plans/state_check.py`
   (the kagi L17→L19 failure class), red-run first.
 - Coverage stays capped until the operator rules the coverage-cap L0 (re-filed round 25).
+
+### Round 25 — falsify-wave revision (appended 2026-10-20 ~23:20 -03; the rows above stay as landed in `8ea41f9`)
+
+Wave 2 (87 seats) attacked `8ea41f9`; instrument changes are `plans/round-25-claims.md` Amendment 2. This revision
+supersedes the C1/C2 rows, the Brier paragraph, the mapping paragraph, the round-25 axis table and the round-26 plan above.
+
+| Claim | Axis / type | Before → after (re-run on the revised tree) | Score | Verdict (pending non-author closure) |
+|---|---|---|---|---|
+| C1 exact-interval re-verdict of the r21–r23 attribution receipts | novelty (nominally → coverage) + capability `interval-reverdict` | interval-carrying verdicts 0 → 30 (35 estimates: PASS 7, INDETERMINATE 11, UNTESTED 12, 5 non-firing specificity lines without a verdict); stored verdicts re-verdicted 0/7 → 7/7, transitions FAIL>UNTESTED 2, PASS>INDETERMINATE 1, PASS>PASS 4 (`python3 plans/attrib_calibration.py --summary`) | **7 (held)** — the +1 is withdrawn: CI-lower-bound gating of Rogan–Gladen-corrected judge rates is published as tooling (cigate 0.2.0, S041; PriorArtWeb), so the rubric's `:244` "already published" cap applies to the construct. Dissent: CritNoveltyFresh (+1 fires) | improved (observable), score held |
+| C2 frozen current-state assertions re-derived by command | calibration | mismatches at base `6180e4f` **10** (v2 receipt `corpus/evidence/round25-calibration/state-check-before-6180e4f-v2.txt`; v1 counted 11 by testing a `/proc` pid pin inside an endpoint row, contrary to P2d) → 0 on the revised tree (1 superseded, full-census restatement); narrowest reading of the registered P2c (without PROTOCOL.md:432's pointer-only form) gives 6 → 0 (`python3 plans/state_check.py --summary`) | 8 (held) | improved (observable), score held |
+
+- **The one PASS→INDETERMINATE re-verdict is population-dependent** (CritAuthoritativeBlock, RevDedupSensitivity):
+  under the receipt's own reading of `attrib-r22-legs.log` (both blocks authoritative) hyper is 19/19, and counting
+  the deduplicated r22 pair as two executions gives 20/20 — either way CP95 lower > 0.80 (PASS). The frozen
+  last-block and dedup rules stand as registered; the sensitivity lines print the pooled values.
+- **Share bounds:** the landed `rg95` was conditional on the observed share; with the sampling arm (`rg90`) every P1
+  share bound is vacuous or nearly so (Amendment 2 item 2).
+- **Brier:** P2 scores 1 only under the literal dedup key; on its "same sample" wording it scores 0 (Brier 0.3025,
+  mean 0.0652). All five events were derivable from bytes committed before filing (CritBrierHonesty): zero genuine
+  forecasts; no calibration credit is taken.
+- **Mapping:** `novelty` is nominally mapped to canonical coverage (constructs) — a mapping, not an AXES.md split
+  (coverage is not saturated); the coverage row keeps its own number (7) and cap (CritMappingFresh).
+- **R25-E6 (2026-10-20)** supersedes §Round 22's "hyper validated" (`grep -n 'hyper validated' SCORECARD.md`): under
+  the exact CP95 rule the r22 TARGET hyper 10/10 is INDETERMINATE on the registered population (PASS if pooled, above).
+- **Capability `state-assertion-check`:** base `mismatch=10` exit 1 (v2), revised tree `mismatch=0 superseded=1` exit 0.
+
+Re-derived axis state, round 25 (revision): novelty 7 (held; observable recorded) · calibration 8 (held) · depth 9 ·
+coverage 7 (capped) · operability 8 · freshness 8 · adjacency 8 (kumitate report-out filed in `PROVINCE.md`).
+
+Planned (round 26), superseding the plan above:
+- **novelty (7, lowest, tied with coverage 7):** a construct not already published as tooling — e.g. a journal-join
+  GT audit of the attribution receipts (falsify seat ScoutJournalCaveat: GT is an unverifiable journal join), or the
+  S010-style perturbation audit on `grader.py` outputs, with a tooling-registry prior-art search before claiming.
+- **calibration:** content-pin every SHONEN and axis-basis line anchor in `plans/state_check.py` (the kagi L17→L19
+  class) and remove its dead branches (SimplifyStateCheck), red-run first.
+- Coverage stays capped until the operator rules the coverage-cap L0.

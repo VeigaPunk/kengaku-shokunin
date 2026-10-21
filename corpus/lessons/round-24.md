@@ -155,3 +155,13 @@ The lines above stay as written.
   its observation to its 13:33Z write and said later receipts supersede it, so it was not an unmarked current
   claim at write time. What stands is narrower — the note was committed (14:23:19Z) after the receipts existed
   without the dated, receipt-naming erratum R5 requires. The R5 erratum is added to that note in round 25.
+- (round 25 falsify, CorrF6) The `:569` re-point above was itself born stale: the same round-25 commit added two
+  capability rows above it. Resolve the round-23 header by content, not by line: `grep -nE '^## Round 23 ' SCORECARD.md`.
+  The "Round 23 disposition" sentence's `corpus/README.md:166` cite also pointed at the round-22 frozen-table row;
+  resolve README cites with `grep -n 'attrib-r23' corpus/README.md`.
+- (round 25 falsify, CorrF5) The Gate-supersession bullet above misstates the outside verdict: the kaika W3
+  spot-check recorded **agree (admit)** for `llm-judge-calibration.md` (`.ufo/waves/kaika-w3/kengaku-review.md:95`;
+  `round-24-verifier-spotcheck.md:12`); "disagree (partial)" was the lane's own wording. The Gate pass lines are
+  superseded only for the three entries that received §Corrections; the S009 range was imprecise, not unreproduced
+  (BiGGen 35.40–45.54, FLASK 40.53–48.58, S009 v4 Table 3); the outside reviewer found four location slips, the fifth
+  was the lane's own.
