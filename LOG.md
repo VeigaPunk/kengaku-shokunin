@@ -454,3 +454,17 @@ Receipts: `preservation-final.json`, `separability-final.json`.
 Prospective sandbox admission passes1/1,46 report files in tree (includes failed-seat partials, not46
 successful reviews); canonical candidate and exact two qualifying returned readers present. Sandbox
 hash is explicitly not a landed hash. Actual admitting revision and clean-revision census follow.
+
+### Round27 — actual admitting revision
+
+Landed/pushed **6356b0bab78ee9292b7c9e112e6a414d3679dd6c** admits the byte-exact reviewed entry,
+its index/coverage row and returned support together. Actual Q13 exits0: admissions1/passed1/failed0;
+46 report files includes43 completed original returns and3 failed partials, never46 successful readers.
+Actual byte proof equals the verified prospective code/candidate. Source census60/malformed0 and
+knowledge/index35/35; actual counters C1=15712/1089/five policies, C2=329/318/0/6/5, both exit0.
+
+Final census exposed M64: its P4a–e-only selector printed50 while JSON's full P4 inventory has51,
+including the population control. Changed only that selector to include `P4.population`; retained
+original50 receipt and red1 comparison, then repaired51/green0 (`census-selector-{red,green}.txt`).
+This corrects report units, not the checked population or metric result. Final bookkeeping/census
+revision is recorded in the scorecard/report; all actual checks remain in round27 evidence.

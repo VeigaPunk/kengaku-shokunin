@@ -215,3 +215,22 @@ Falsify43 initial successful returns plus3 failed-seat partial reports are retai
 seat's later follow-up failed separately (S050). Same-identity continuations add no fresh seats.
 All falsify critics/executors/sentinel/connector died; L1's residual checks and returned reviewers/mutators
 provide the exercised coverage, not an invented returned role mix. Outside closure remains the orchestrator.
+
+### Actual admission and final census erratum
+
+Admitting commit6356b0bab78ee9292b7c9e112e6a414d3679dd6c contains the corrected reviewed candidate,
+index/coverage row and all cited returned readers. Actual Gate exits0 (one admit/pass,zero failed).
+All measured code/candidate bytes match the exercised prospective tree; outside admission is still
+the orchestrator's judgment, not this structural check or the author-dispatched reader.
+
+M64 · number-drift · `round27-census-after.txt` printed50 P4a–e records but omitted the one
+P4.population control; direct final JSON and registered list contain51. Captured-by: main final census,
+not the earlier dead census seat. Fix: include the population control in the selector. Red comparison
+against the retained50 receipt exits1; identical repaired census returns51/exit0. P4 checker/ids/data
+are unchanged (`census-selector-red.txt`, `census-selector-green.txt`). Earlier receipts are not rewritten.
+
+Final source-validator exit0 with five scoped duplicate-URL warnings;60 rows,0 malformed,
+A54/B4/C2 and mined47/queued9/rejected4. Knowledge/index35/35. Build65 report files include63 completed
+original seats and2 failed partials; falsify46 report files include43 completed seats and3 failed partials.
+Both validated payloads/active registries preserve all146 dispatched identities and the40 original deaths.
+One later same-identity source reread failed separately. No dead seat was replaced.

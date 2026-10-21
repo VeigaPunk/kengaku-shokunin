@@ -868,3 +868,19 @@ Evidence: `corpus/lessons/round-27.md`; `.ufo/waves/round-27/falsify/{FMutPolicy
 - Calibration8: address the explicitly disclosed S038 source-use drift with an opened-source, bounded
   registry consistency population; do not reinterpret P4 as a whole-current-tree assertion census.
 - Existing L0 coverage-cap/novelty-conversion questions remain open; no retroactive numeric conversion.
+
+### Round27 — actual admission measurement
+
+Measured/pushed admission **6356b0bab78ee9292b7c9e112e6a414d3679dd6c**. Code and canonical entry
+are byte-equal to the exercised prospective package (`actual-admission-byte-proof.json`).
+`python3 plans/parser_policy_compare.py --summary`:15712 comparisons/1089 events/five policies, exit0.
+`python3 plans/state_check.py --json`:329 checked assertions,318 MATCH/0 MISMATCH/6 SUPERSEDED/5
+offline-unverifiable;51 P4 IDs (48 MATCH/1 SUPERSEDED/2 offline groups), exit0.
+Actual-commit Gate passes1/1; knowledge/index35/35; sources60/malformed0. Main full suite17 expected
+exits, independent full numeric replay,5/5 P4 class mutants,298-record P2/P3 preservation and two-way
+revert counters all verify. Scores7/8 held; no axis harmed in exercised scope, outside closure pending.
+
+M64 census-unit erratum: the original admitting-revision census printed50 because it excluded the
+P4.population control. Its receipt remains unchanged. The corrected selector prints51, with red1
+old-receipt-vs-JSON and green0 repaired-command evidence; the population and direct JSON counter never
+changed. The later final measured census revision is named in the report.

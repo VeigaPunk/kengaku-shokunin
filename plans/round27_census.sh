@@ -70,7 +70,7 @@ if [ -f "$C2" ]; then
   [ -n "$first" ] || first=none
   kv c2_state_check_first_line "$first"
   json_out=$(PYTHONDONTWRITEBYTECODE=1 python3 "$C2" --json 2>&1)
-  p4_counts=$(printf '%s\n' "$json_out" | PYTHONDONTWRITEBYTECODE=1 python3 -c 'import json, re, sys; d=json.load(sys.stdin); a=[x for x in d["assertions"] if re.match(r"^P4[a-e](?:\.|$)", x.get("id", ""))]; print(len(a), sum(x.get("verdict") == "MISMATCH" for x in a))' 2>/dev/null) || p4_counts=none
+  p4_counts=$(printf '%s\n' "$json_out" | PYTHONDONTWRITEBYTECODE=1 python3 -c 'import json, re, sys; d=json.load(sys.stdin); a=[x for x in d["assertions"] if re.match(r"^P4(?:[a-e])?(?:\.|$)", x.get("id", ""))]; print(len(a), sum(x.get("verdict") == "MISMATCH" for x in a))' 2>/dev/null) || p4_counts=none
   if [ "$p4_counts" = none ]; then
     p4_assertions=none
     p4_mismatch=none
