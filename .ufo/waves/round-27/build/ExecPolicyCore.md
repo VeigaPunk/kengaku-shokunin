@@ -4,14 +4,15 @@ Seat KengakuR27.ExecPolicyCore · base 11a7fc8c64dc (clone HEAD verified) · bra
 Clone /tmp/kengaku-r27-ExecPolicyCore · clone writes only · no lane, jj, git or index mutation.
 
 ## Files written
-- Clone: plans/parser_policy_compare.py, sha256 7dbc592b71654874210064b4a197c62828c227153b1f5a9c363e93501102149d, 580 lines.
-- Clone: plans/policy_cases.py, sha256 f3e9b57b80584721437358c7fa1d69146d9cf2588ca483c0bc3f1bf73b47417b, 84 lines, 58 hand-expected cases. No other clone files or bytecode.
+- Clone: plans/parser_policy_compare.py, sha256 c4296935ed40f4d12a5d3ad238a2d5b9c7ca98712e61a2caf206476f9b025a27, 595 lines.
+- Clone: plans/policy_cases.py, sha256 8484aeaf8a798290e7710032acbd15a7859bddfd54ce37e1dbcea2449246e50c, 85 lines, 59 hand-expected cases. No other clone files or bytecode.
 - Lane: this report only.
 
 ## Exercised verification (clone cwd, PYTHONDONTWRITEBYTECODE=1)
 - `--summary` → exit 0; unchanged frozen-population results (TOTAL below).
 - `--json | python3 -m json.tool >/dev/null` → pipeline status `0 0`.
-- `--selftest` → exit 0: 58/58 hand cases, 9/9 mutants killed, mutated-pin CLI rejection in both modes (`summary_rc=1`, `json_rc=1`, `policy_calls=0`).
+- `--selftest` → restored exit 0: 59/59 hand cases, 10/10 mutants killed, mutated-pin CLI rejection in both modes (`summary_rc=1`, `json_rc=1`, `policy_calls=0`).
+- Red/restored control: first-fence E6 mutation sha256 `3f33b6191e49476591bd047f89c4efff2ebe9303e0db2a6da7b6fb42e362f1c4` → selftest exit 1 (`policy=E6` and hand case fail); restored sha256 equals pristine `c4296935…f9b025a27`, selftest exit 0.
 - Pin-failure CLI summary and JSON rendering/serialization exercised in selftest. No separate manual `--root` invocation; exit-2 usage, POLICY-RAISE / GRADER-RAISE paths (none occurred), and oracle comparison (other seat) were not run.
 
 ## Design
@@ -23,8 +24,8 @@ Clone /tmp/kengaku-r27-ExecPolicyCore · clone writes only · no lane, jj, git o
 - Grader totality: `grade_c` calls `set(viol)` (grader.py:256) and `valid_latin` calls `set(r)` (grader.py:236). Both can raise TypeError on unhashable list elements. No such case occurred on the population.
 - CELLSHIFT is printed for E1..E8; E0 is the reference. Cell label is `<dir>/<file>:<cell>`. Ties go to the first cell in POPULATION_FILES order, then cell name.
 - MATRIX lines: one `MATRIX cols ...` header, then nine `MATRIX row <id> ...` lines.
-- Selftest probes are written from the table text, not from the implementation. Each policy has one seeded mutant: E0 no-bare-fallback, E1 last-fence swap, E2 fence leak, E3 order reversed, E4 strip omitted, E5 fallback leak, E6 label restricted, E7 bare-bounded spans, E8 contained-span reuse. All 9 are killed. Alone, `--selftest` runs only the selftest; with `--json` it writes to stderr.
-- Added `plans/policy_cases.py` with 58 table-derived expected cases, including E1 first-matched-fence fallback to raw BARE_RE, E2 non-overlapping raw findall, E5 last-fence-only, E6 exact token-label regex, and E8 crossing-span and adjacent-boundary cases. Selftest reports `hand_cases=58 failed=[]`.
+- Selftest probes remain separate from hand cases. E0's duplicate no-bare-fallback mutant now reuses `e5_fence_only`; E6 has a permanent first-vs-last any-label-fence mutant/control. All 10 mutants are killed. Alone, `--selftest` runs only the selftest; with `--json` it writes to stderr.
+- `plans/policy_cases.py` has 59 table-derived expected cases, including E1 matched-fence fallback, E2 non-overlapping raw findall, E5 last-fence-only, exact E6 token-label and two-distinct-fence last-selection controls, and E8 crossing/adjacent spans. Selftest: `hand_cases=59 failed=[]`.
 - Stratum, per-file and per-cell PASS rates are in `--json` only, so the STRATUM line keeps the pre-registered format.
 
 ## Observed (for close-out scoring; predictions are not scored here)
@@ -55,4 +56,4 @@ Clone /tmp/kengaku-r27-ExecPolicyCore · clone writes only · no lane, jj, git o
 
 Installs: none. Stdlib only; no tool installed or upgraded.
 
-VERDICT: C1 instrument and pin short-circuit implemented in clone (script sha256 7dbc592b…02149d; cases sha256 f3e9b57b…7417b, n=58); summary exit 0, JSON valid, selftest 9/9 killed and mutated-pin CLI 0 calls, 0 baseline defects on 1964 records.
+VERDICT: C1 instrument and pin short-circuit implemented in clone (script sha256 c4296935…f9b025a27; cases sha256 8484aeaf…246e50c, n=59); E6 first-fence mutant is red (exit 1), restored source hash is green (exit 0), all 10 mutants killed.

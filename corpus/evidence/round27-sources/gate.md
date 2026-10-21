@@ -33,3 +33,27 @@ unchanged. URL https://arxiv.org/pdf/2405.11874v3, accessed2026-10-21, §5.3 Set
 Opening receipt `.ufo/waves/round-27/build/SrcXFinderReopen.md`; §5.3 does not explicitly document item-level
 saved-response pairing, and some table denominators remain unresolved. Broad extractor-dependence prior art
 does not require claiming those unresolved details established. Nine new tierA rows total S049–S057.
+
+## Independent-reread corrections (opened 2026-10-21, before admission)
+
+- S058 supersedes S050's blanket no-hit reason, not its ordering scope. URL
+  https://raw.githubusercontent.com/UKGovernmentBEIS/inspect_ai/63e45cc52d39b873b944124613da21fdad6f6dcc/src/inspect_ai/scorer/_pattern.py,
+  no-match return branch:122: `reason="no_response" if empty else "invalid_response_format"`.
+  `scorer/_common.py:16–30` defines empty/whitespace via `not completion.strip()`.
+  Independent opening FSourceS050 plus L1 directly reopened pinned raw code; corrected draft states exception.
+- S059 extends S053's §2 anchor to the candidate's numeric-grammar statement. URL
+  https://www.rfc-editor.org/rfc/rfc8259 §6 Numbers, txt377–378:
+  “Numeric values that cannot be represented in the grammar below (such as Infinity and NaN) are not permitted.”
+  Opening RowRFC8259 plus independent FSourceS053; text SHA25661a5378f4255c720beb2a4b4a63b29540147c140f36988bf086291989b4cd2d7.
+- S049 default-selector declaration is extraction.py:25, not27; operative code47–49 and quote remain correct.
+  FSourceS049 independently located it. Earlier row retained; candidate provenance corrected to25.
+
+Total additions S049–S059:11 rows, all tierA. No source or quote is inferred from a planned/future reread.
+
+S060 retains the opened but rejected repair-policy candidate. URL https://pypi.org/project/json-repair/,
+accessed2026-10-21, version0.64.1, PyPI summary: “A package to repair broken json strings”.
+Opening/probes `.ufo/waves/round-27/build/SrcJsonRepair.md`; wheel SHA256
+1e1022f8d9b5a24433f7e28c2ee5c4ef42256e11ff0eef8abf7cad17fc8b9e0a.
+TierB tool self-description/probes, rejected only for this frozen stdlib policy set. Flip: preregistered
+pinned repair-specific experiment with truth-sensitive controls and separate oracle. It is not an E9.
+Final additions S049–S060:12 rows (11A/1B); earlier11-row snapshot is superseded.

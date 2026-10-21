@@ -414,3 +414,43 @@ Wave1:82 seats,19 provider deaths unreplaced (six connector quota failures, thir
 reports remain evidence, not successful completion. All seat-owned retained reports are committed.
 L1 is integration owner; private seat clones are not production edits. Reverification touched only the
 pinned offline response population, source openings and r26 assertions, never the absent model endpoint.
+
+### Round27 — corrected package and returned falsification
+
+- Build package `eeec929522aafde704333ab7b01a09a9fdf6e3b0` and frozen falsification candidate
+  `b5f62e5e637b34a1549e3475fc58b4227ed87e5a` landed through jj-lane. The candidate stayed outside corpus.
+- Falsify64 (reviewer29/mutation14/scout11/critic5/executor2/sentinel1/connector1/simplifier1) produced
+  43 completed original returns,21 provider deaths unreplaced, plus3 failed partial reports retained.
+  One later S050 follow-up failed; existing FEntryNumbers independently performed the complete corrected
+  source/number/contract reread and closed PARTIAL. No dispatched reader is called outside verification.
+- Genuine red controls forced E6 last-fence coverage (59 cases/10 mutants), P4 comparisons/denominators/
+  supersession/disclosure and historical authority, and Gate tree traversal/temp-write/--repo isolation.
+  QUALITY Q15/Q16 and lesson M55–M63 preserve failures and correction evidence. Earlier source-reason/
+  anchor rows stay as history; S058/S059 supersede them before admission.
+- C2 final observable0→51 frozen assertion/disclosure IDs; score8 held. Base/final both0 mismatches,
+  with score/adjacent-numeric limits explicitly offline-unverifiable (whole summary329/318/0/6/5).
+  P2/P3 keyed298 records preserved; the failed “base mismatch≥1” forecast is not relabeled true.
+- C1 remains15712 comparisons/1089 events; score7 held. Independent full numeric replay is retained at
+  `plans/fixtures/r27/independent_policy_recheck.py` (only root binding relocated); all old knowledge/
+  grader/input bytes remain unchanged. Candidate source/number rereads precede its admitting commit.
+- Sources final additions S049–S060:12 (11A/1B), including the opened/rejected json-repair policy lead.
+  Ten used-by changes are logged old→new in the lesson. Corpus knowledge/index moves34/34→35/35 with
+  entry+index+coverage row together. Final exact command outputs/actual admitting revision follow below.
+
+### Round27 — exercised final suite before packaging
+
+Main's final integrated suite ran17 commands; each exit matched its declared0/1/2 contract.
+`corpus/evidence/round27-calibration/final-suite.json` retains commands/stdout/stderr/exits:
+C1 total15712/1089/five policies,59 hand cases/10 mutants; separately implemented full replay matches
+all structures including9×9 matrix; C2 final/base329/318/0/6/5;5/5 independent class mutants red;
+P2/P3 all298 keyed records equal; Gate three mutation controls and requested-repo isolation green;
+grader733 checks/0 mismatches. Usage/missing-root failures are expected controls, not suppressed errors.
+
+Broad preservation: all34 old knowledge files,48 old source rows and original grader/audit/interval
+bytes unchanged; all base lines of six core docs remain in order. Bidirectional revert counters are
+unchanged (C1 entire summary, C2 checked summary and all51 P4 id/verdicts). Properly changing new-artifact
+OUT_OF_POPULATION disclosures is not counted as a checked-population change.
+Receipts: `preservation-final.json`, `separability-final.json`.
+Prospective sandbox admission passes1/1,46 report files in tree (includes failed-seat partials, not46
+successful reviews); canonical candidate and exact two qualifying returned readers present. Sandbox
+hash is explicitly not a landed hash. Actual admitting revision and clean-revision census follow.

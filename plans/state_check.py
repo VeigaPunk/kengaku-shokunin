@@ -29,16 +29,18 @@ corpus/evidence/round13-coverage/coverage_census.py (README both directions).
 from __future__ import annotations
 
 import argparse
+import contextlib
+import io
 import json
 import os
 import re
 import shlex
+import shutil
 import subprocess
 import sys
 import tempfile
 from dataclasses import asdict, dataclass
 from pathlib import Path
-import shutil
 from typing import Any
 
 LANE_NAME = "kengaku-shokunin"
@@ -351,6 +353,17 @@ P4A_ASSERTION_IDS = (
     "P4a.scorecard.revision.c2",
     "P4a.scorecard.revision.q13",
     "P4a.scorecard.revision.sources-index",
+    "P4a.scorecard.score-tokens-unverifiable",
+)
+
+P4A_C2_BASE_NUMERIC_IDS = (
+    "P3a.capability.interval-reverdict.selftest-checks",
+    "P3a.capability.state-assertion-check.base-mismatch",
+    "P3b.province.public-literature-registry.rows",
+    "P3b.province.round25-correction.rows",
+)
+P4A_C2_BASE_INDEX_IDS = (
+    "P3e.file-to-row.lessons/round-25-verifier-spotcheck.md",
 )
 P4B_ARTIFACT_PATHS = (
     "evidence/round26-sources/",
@@ -405,7 +418,12 @@ P4D_ASSERTION_IDS = (
     "P4d.population.files",
     "P4d.population.verdicts",
     "P4d.population.graders",
-) + tuple(f"P4d.family.{family}" for family in P4D_FAMILY_ORDER)
+) + tuple(f"P4d.family.{family}" for family in P4D_FAMILY_ORDER) + (
+    "P4d.unmapped-numerics",
+)
+P4D_R12_STATE_CELLS = ("A-INC", "A-CKPT4710", "A-CKPT710", "A-CKPT10", "A-MONO")
+P4D_UNVERIFIED_SECTION_START = "Nominal exact two-sided CP95 lower bounds compare"
+P4D_NUMBER_RE = re.compile(r"(?<![A-Za-z0-9])\d+(?:\.\d+)?(?![A-Za-z0-9])")
 P4E_SOURCE_IDS = tuple(f"S{number:03d}" for number in range(43, 49))
 P4E_CITATION_FILES = (
     "corpus/knowledge/grader-perturbation-audit.md",
@@ -1951,10 +1969,6 @@ class P4Evidence:
         return result
 
 
-P4_CORRECTION_LINE_RE = re.compile(
-    r"^- \*\*(R27-E\d+) \(\d{4}-\d{2}-\d{2}\)\*\* "
-    r"supersedes `([^`]+)` — now (`[^`]+`(?: `[^`]+`)*)\.?$"
-)
 
 
 def p4_superseding_tokens(
@@ -2048,22 +2062,6 @@ def p4_kv_receipt(text: str | None) -> dict[str, str]:
     }
 
 
-def p4_round24_scores(lines: list[str]) -> dict[str, int] | None:
-    marker = find_line(lines, lambda line: line.startswith("Re-derived axis state, round 24"))
-    if marker is None:
-        return None
-    header = find_line(lines, lambda line: line == "| Axis | Round-24 value | Basis |",
-                       marker + 1)
-    if header is None:
-        return None
-    scores: dict[str, int] = {}
-    for _, cells in table_rows(lines, header + 2, next_h2(lines, header)):
-        if len(cells) >= 2 and cells[0] in {"novelty", "calibration"}:
-            try:
-                scores[cells[0]] = int(cells[1])
-            except ValueError:
-                return None
-    return scores if set(scores) == {"novelty", "calibration"} else None
 
 
 def p4_word_number(value: str | None) -> int | None:
@@ -2122,7 +2120,6 @@ def check_p4a(root: Path, out: list[Assertion], evidence: P4Evidence) -> None:
     base_state = p4_receipt_summary(base_receipt)
     final_state = p4_receipt_summary(final_receipt)
     census = p4_kv_receipt(census_receipt)
-    axis_scores = p4_round24_scores(lines)
     start_is_absent = bool(
         start_receipt
         and "git cat-file -e f11bffbf:plans/grader_perturb.py" in start_receipt
@@ -2150,40 +2147,45 @@ def check_p4a(root: Path, out: list[Assertion], evidence: P4Evidence) -> None:
         str(summary["families"]) if summary else None,
         str(summary["policy_checks"]) if summary else None,
     )
-    c1_score_expected = (
-        str(axis_scores.get("novelty")) if axis_scores else None,
-        str(axis_scores.get("novelty")) if axis_scores else None,
-    )
     c1_ok = (
         start_is_absent and summary_result.get("returncode") == 0
-        and c1_claim == c1_expected and c1_score == c1_score_expected
+        and c1_claim == c1_expected
     )
     p4_record(
         root, out, P4A_ASSERTION_IDS[0], c1[0] if c1 else None, c1_ok,
-        {"claim": c1_claim, "score": c1_score, "receipt_baseline": 0,
+        {"claim": c1_claim, "score_tokens": c1_score, "receipt_baseline": 0,
          "grader_summary": summary, "command_exit": summary_result.get("returncode")},
         [f"baseline=0", f"audited_verdicts={c1_expected[1]}",
-         f"families={c1_expected[2]}", f"policy_checks={c1_expected[3]}",
-         f"novelty={c1_score_expected[0]}→{c1_score_expected[1]}"]
-        if summary and axis_scores else None,
+         f"families={c1_expected[2]}", f"policy_checks={c1_expected[3]}"]
+        if summary else None,
         "SCORECARD.md",
     )
 
     base_mismatch = base_state.get("mismatch") if base_state else None
-    c2_score_expected = (
-        str(axis_scores.get("calibration")) if axis_scores else None,
-        str(axis_scores.get("calibration")) if axis_scores else None,
+    base_mismatch_ids = sorted(set(re.findall(
+        r"(?m)^MISMATCH:\s+(P3[a-e][^:\s]+)", base_receipt or "")))
+    numeric_mismatch_ids = tuple(
+        item for item in base_mismatch_ids if item.startswith(("P3a.", "P3b.")))
+    index_mismatch_ids = tuple(item for item in base_mismatch_ids if item.startswith("P3e."))
+    c2_split_claim = bool(
+        c2 and re.search(r"four routed numeric repairs plus missing spotcheck index",
+                         c2[1], re.IGNORECASE)
+    )
+    c2_split_ok = (
+        numeric_mismatch_ids == P4A_C2_BASE_NUMERIC_IDS
+        and index_mismatch_ids == P4A_C2_BASE_INDEX_IDS
+        and c2_split_claim
     )
     c2_ok = (
         c2_claim == (str(base_mismatch),) if base_mismatch is not None else False
-    ) and c2_score == c2_score_expected
+    ) and c2_split_ok
     p4_record(
         root, out, P4A_ASSERTION_IDS[1], c2[0] if c2 else None, c2_ok,
         {"claim_base_mismatch": c2_claim, "receipt_base": base_state,
-         "claim_score": c2_score, "axis_scores": axis_scores},
-        [f"base_mismatch={base_mismatch}",
-         f"calibration={c2_score_expected[0]}→{c2_score_expected[1]}"]
-        if base_state and axis_scores else None,
+         "numeric_mismatch_ids": numeric_mismatch_ids,
+         "index_mismatch_ids": index_mismatch_ids, "split_claim": c2_split_claim},
+        [f"base_mismatch={base_mismatch}", "numeric_repairs=4",
+         "index_repairs=1"] if base_state else None,
         "SCORECARD.md",
     )
 
@@ -2254,26 +2256,23 @@ def check_p4a(root: Path, out: list[Assertion], evidence: P4Evidence) -> None:
     )
     c1_outcome_score = p4_groups(
         c1_outcome_line[1] if c1_outcome_line else None, r"score\s*(\d+)\s+held")
-    c1_score_value = int(c1_outcome_score[0]) if c1_outcome_score else None
-    c1_score_value_expected = axis_scores.get("novelty") if axis_scores else None
+    c1_claimed_score = int(c1_outcome_score[0]) if c1_outcome_score else None
     p4_record(
         root, out, P4A_ASSERTION_IDS[3],
         c1_outcome_line[0] if c1_outcome_line else None,
         summary_result.get("returncode") == 0
         and c1_claim_counts == c1_expected_counts
-        and c1_claim_family == c1_expected_family
-        and c1_score_value == c1_score_value_expected,
+        and c1_claim_family == c1_expected_family,
         {"claimed_counts": c1_claim_counts, "summary_counts": c1_expected_counts,
          "claimed_family": c1_claim_family, "summary_family": c1_expected_family,
-         "claimed_score": c1_score_value, "axis_score": c1_score_value_expected},
+         "unverified_score": c1_claimed_score},
         [f"population={summary['population']}", f"excluded={summary['excluded']}",
          f"audited_verdicts={summary['audited_verdicts']}",
          f"policy_checks={summary['policy_checks']}", f"families={summary['families']}",
          f"F1_k/n={summary['f1_k']}/{summary['f1_n']}",
          f"MULTI_k/n={summary['multi_k']}/{summary['multi_n']}",
-         f"composite_k/n={summary['composite_k']}/{summary['composite_n']}",
-         f"novelty_score={c1_score_value_expected}"]
-        if summary and c1_score_value_expected is not None else None,
+         f"composite_k/n={summary['composite_k']}/{summary['composite_n']}"]
+        if summary else None,
         "SCORECARD.md",
     )
 
@@ -2291,20 +2290,23 @@ def check_p4a(root: Path, out: list[Assertion], evidence: P4Evidence) -> None:
     c2_claim_values = tuple(int(value) for value in c2_outcome) if c2_outcome else None
     c2_outcome_score = p4_groups(
         c2_outcome_line[1] if c2_outcome_line else None, r"score\s*(\d+)\s+held")
-    c2_score_value = int(c2_outcome_score[0]) if c2_outcome_score else None
-    c2_score_value_expected = axis_scores.get("calibration") if axis_scores else None
+    c2_claimed_score = int(c2_outcome_score[0]) if c2_outcome_score else None
+    c2_split_outcome = bool(
+        outcomes and re.search(r"\bFour numeric defects were already routed\b",
+                               outcomes, re.IGNORECASE)
+    )
     p4_record(
         root, out, P4A_ASSERTION_IDS[4],
         c2_outcome_line[0] if c2_outcome_line else None,
-        c2_claim_values == c2_expected and c2_score_value == c2_score_value_expected,
+        c2_claim_values == c2_expected and c2_split_ok and c2_split_outcome,
         {"claimed": c2_claim_values, "base_receipt": base_state,
-         "final_receipt": final_state, "claimed_score": c2_score_value,
-         "axis_score": c2_score_value_expected},
+         "final_receipt": final_state, "numeric_mismatch_ids": numeric_mismatch_ids,
+         "index_mismatch_ids": index_mismatch_ids, "split_claim": c2_split_outcome,
+         "unverified_score": c2_claimed_score},
         [f"base_mismatch={c2_expected[0]}", f"final_mismatch={c2_expected[1]}",
          f"superseded={c2_expected[2]}", f"assertions={c2_expected[3]}",
-         f"offline_unverifiable={c2_expected[4]}",
-         f"calibration_score={c2_score_value_expected}"]
-        if c2_expected and c2_score_value_expected is not None else None,
+         f"offline_unverifiable={c2_expected[4]}", "numeric_repairs=4",
+         "index_repairs=1"] if c2_expected else None,
         "SCORECARD.md",
     )
 
@@ -2354,28 +2356,17 @@ def check_p4a(root: Path, out: list[Assertion], evidence: P4Evidence) -> None:
         if final_state and final_exit is not None else None
     )
     revision_scores = p4_groups(revision_text, r"Scores stay\s*(\d+)/(\d+)")
-    revision_score_values = (
-        tuple(int(value) for value in revision_scores) if revision_scores else None
-    )
-    revision_score_expected = (
-        (axis_scores["novelty"], axis_scores["calibration"])
-        if axis_scores else None
-    )
     p4_record(
         root, out, P4A_ASSERTION_IDS[6],
         c2_revision_line[0] if c2_revision_line else None,
         c2_revision is not None
-        and tuple(int(value) for value in c2_revision) == c2_revision_expected
-        and revision_score_values == revision_score_expected,
+        and tuple(int(value) for value in c2_revision) == c2_revision_expected,
         {"claimed": c2_revision, "final_receipt": final_state,
-         "receipt_exit": final_exit, "score_claim": revision_score_values,
-         "axis_scores": revision_score_expected},
+         "receipt_exit": final_exit, "unverified_score_tokens": revision_scores},
         [f"assertions={c2_revision_expected[0]}", f"match={c2_revision_expected[1]}",
          f"mismatch={c2_revision_expected[2]}", f"superseded={c2_revision_expected[3]}",
          f"offline_unverifiable={c2_revision_expected[4]}",
-         f"exit={c2_revision_expected[5]}",
-         f"scores={revision_score_expected[0]}/{revision_score_expected[1]}"]
-        if c2_revision_expected and revision_score_expected else None,
+         f"exit={c2_revision_expected[5]}"] if c2_revision_expected else None,
         "SCORECARD.md",
     )
 
@@ -2436,6 +2427,32 @@ def check_p4a(root: Path, out: list[Assertion], evidence: P4Evidence) -> None:
          f"source_validator_exit={source_expected[4]}"]
         if all(value is not None for value in source_expected) else None,
         "SCORECARD.md",
+    )
+    score_token_groups = (
+        ("C1 claim row", c1_score, 2),
+        ("C2 claim row", c2_score, 2),
+        ("C1 measured outcome", c1_outcome_score, 1),
+        ("C2 measured outcome", c2_outcome_score, 1),
+        ("measured revision", revision_scores, 2),
+    )
+    score_token_counts = {
+        name: len(groups) if groups is not None else 0
+        for name, groups, _expected in score_token_groups
+    }
+    score_token_values = {
+        name: list(groups) if groups is not None else None
+        for name, groups, _expected in score_token_groups
+    }
+    score_token_shape_ok = all(
+        groups is not None and len(groups) == expected
+        for _name, groups, expected in score_token_groups
+    )
+    add(
+        out, P4A_ASSERTION_IDS[9], c1[0] if c1 else None,
+        "score/verdict numbers have no independent receipt or command re-derivation",
+        {"status": "UNVERIFIABLE", "score_tokens": score_token_values,
+         "token_counts": score_token_counts, "token_total": sum(score_token_counts.values())},
+        "OFFLINE_UNVERIFIABLE" if score_token_shape_ok else "MISMATCH",
     )
 
 
@@ -2639,6 +2656,11 @@ def p4_assignment_names(value: dict[str, Any] | None) -> set[str] | None:
         return None
     return set(value)
 
+def p4_assignment_id_values(value: dict[str, Any] | None) -> list[str] | None:
+    if value is None or any(not isinstance(agent_id, str) for agent_id in value.values()):
+        return None
+    return list(value.values())
+
 
 def p4_report_names(root: Path, relative: str) -> set[str]:
     directory = root / relative
@@ -2718,6 +2740,14 @@ def check_p4c(root: Path, out: list[Assertion]) -> None:
     falsify_roles = p4_role_counts(falsify_spec.get("items") if falsify_spec else None)
     build_assignments = p4_assignment_names(build_assignments_json)
     falsify_assignments = p4_assignment_names(falsify_assignments_json)
+    build_id_values = p4_assignment_id_values(build_assignments_json)
+    falsify_id_values = p4_assignment_id_values(falsify_assignments_json)
+    build_ids = set(build_id_values) if build_id_values is not None else set()
+    falsify_ids = set(falsify_id_values) if falsify_id_values is not None else set()
+    build_ids_unique = (build_id_values is not None
+                        and len(build_id_values) == len(build_ids))
+    falsify_ids_unique = (falsify_id_values is not None
+                          and len(falsify_id_values) == len(falsify_ids))
     build_report_names = p4_report_names(root, ".ufo/waves/round-26/build")
     falsify_report_names = p4_report_names(root, ".ufo/waves/round-26/falsify")
     build_declared = build_roles[1] if build_roles else set()
@@ -2732,7 +2762,8 @@ def check_p4c(root: Path, out: list[Assertion]) -> None:
     build_spec_count = len(build_declared) if build_roles else None
     build_ok = (
         build_claim == ("72", "72") and build_count == 72 and build_spec_count == 72
-        and build_assignments == build_declared
+        and build_assignments == build_declared and build_ids_unique and falsify_ids_unique
+        and not (build_ids & falsify_ids)
     )
     p4_record(
         root, out, P4C_ASSERTION_IDS[0],
@@ -2796,7 +2827,8 @@ def check_p4c(root: Path, out: list[Assertion]) -> None:
     falsify_spec_count = len(falsify_declared) if falsify_roles else None
     falsify_ok = (
         falsify_claim == ("64",) and falsify_count == 64 and falsify_spec_count == 64
-        and falsify_assignments == falsify_declared
+        and falsify_assignments == falsify_declared and falsify_ids_unique and build_ids_unique
+        and not (build_ids & falsify_ids)
     )
     p4_record(
         root, out, P4C_ASSERTION_IDS[3],
@@ -2842,16 +2874,28 @@ def check_p4c(root: Path, out: list[Assertion]) -> None:
     )
 
     dead = dead_record.get("dead") if dead_record else None
-    dead_names = {
-        item.get("name") for item in dead
-        if isinstance(item, dict) and isinstance(item.get("name"), str)
-    } if isinstance(dead, list) else set()
+    dead_entries_valid = bool(
+        isinstance(dead, list)
+        and all(isinstance(item, dict) and isinstance(item.get("name"), str)
+                and isinstance(item.get("agentId"), str) for item in dead)
+    )
+    dead_map = ({item["name"]: item["agentId"] for item in dead}
+                if dead_entries_valid else {})
+    dead_names = set(dead_map)
+    dead_entries_valid = dead_entries_valid and isinstance(dead, list) and len(dead_map) == len(dead)
+    dead_agent_ids_match = bool(
+        dead_entries_valid and falsify_assignments_json is not None
+        and all(falsify_assignments_json.get(name) == agent_id
+                for name, agent_id in dead_map.items())
+    )
     dead_claim = p4_groups(lesson, r"\b(Eleven|\d+)\s+failed with the recorded")
     dead_claim_count = p4_word_number(dead_claim[0]) if dead_claim else None
     dead_ok = (
-        isinstance(dead, list) and dead_claim_count == len(dead) == 11
+        isinstance(dead, list) and dead_entries_valid and dead_claim_count == len(dead) == 11
         and dead_record.get("replaced") is False
         and falsify_assignments is not None and dead_names <= falsify_assignments
+        and dead_agent_ids_match and falsify_ids_unique and build_ids_unique
+        and not (build_ids & falsify_ids)
     )
     p4_record(
         root, out, P4C_ASSERTION_IDS[5],
@@ -2860,6 +2904,7 @@ def check_p4c(root: Path, out: list[Assertion]) -> None:
         dead_ok,
         {"lesson_dead": dead_claim_count, "dead_file_count": len(dead) if isinstance(dead, list) else None,
          "replaced": dead_record.get("replaced") if dead_record else None,
+         "dead_agent_ids_match_assignments": dead_agent_ids_match,
          "unassigned_dead_names": sorted(dead_names - falsify_assignments)
          if falsify_assignments is not None else None},
         ["dead=11", "replaced=false"] if isinstance(dead, list) else None,
@@ -2893,38 +2938,57 @@ def check_p4c(root: Path, out: list[Assertion]) -> None:
     totals_claim = p4_groups(
         lesson,
         r"two inherited waves total \*\*(\d+) unique dispatched seats\*\*; "
-        r"three\s+recovery\s+reviewers\s+bring\s+the round-wide total to \*\*(\d+)\*\*",
+        r"(Three|\d+)\s+recovery\s+reviewers\s+bring\s+the round-wide total to \*\*(\d+)\*\*",
         re.IGNORECASE | re.DOTALL,
     )
-    total_136 = (
-        len(build_assignments) + len(falsify_assignments)
-        if build_assignments is not None and falsify_assignments is not None else None
+    recovery_receipt = read_repo_text(
+        root, "corpus/evidence/round26-calibration/recovery-start.txt")
+    recovery_claim = p4_groups(
+        recovery_receipt,
+        r"(?m)^Inherited .*?\b(Three|\d+) bounded read-only recovery reviews dispatched separately\.$",
     )
-    total_139 = total_136 + 3 if total_136 is not None else None
+    recovery_count = p4_word_number(recovery_claim[0]) if recovery_claim else None
+    totals_line = p4_numbered_line(lines, lambda line: "two inherited waves total" in line)
+    ids_are_disjoint = (
+        build_ids_unique and falsify_ids_unique and not (build_ids & falsify_ids)
+    )
+    total_136 = (
+        len(build_ids) + len(falsify_ids)
+        if ids_are_disjoint and build_assignments is not None
+        and falsify_assignments is not None else None
+    )
+    total_139 = total_136 + recovery_count if total_136 is not None and recovery_count is not None else None
     p4_record(
         root, out, P4C_ASSERTION_IDS[7],
-        p4_numbered_line(lines, lambda line: "two inherited waves total" in line)[0]
-        if p4_numbered_line(lines, lambda line: "two inherited waves total" in line) else None,
+        totals_line[0] if totals_line else None,
         totals_claim is not None and int(totals_claim[0]) == total_136 == 136,
         {"lesson": totals_claim, "build": len(build_assignments)
          if build_assignments is not None else None,
          "falsify": len(falsify_assignments) if falsify_assignments is not None else None,
-         "derived_total": total_136},
+         "assignment_ids_unique_disjoint": ids_are_disjoint, "derived_total": total_136},
         [f"unique_dispatched={total_136}"] if total_136 is not None else None,
         "corpus/lessons/round-26.md",
     )
-    p4_record(
-        root, out, P4C_ASSERTION_IDS[8],
-        p4_numbered_line(lines, lambda line: "three recovery reviewers bring the round-wide total"
-                          in line)[0]
-        if p4_numbered_line(lines, lambda line: "three recovery reviewers bring the round-wide total"
-                            in line) else None,
-        totals_claim is not None and int(totals_claim[1]) == total_139 == 139,
-        {"lesson": totals_claim, "recovery_reviewers": 3, "derived_total": total_139},
-        [f"recovery_reviewers=3", f"round_total={total_139}"]
-        if total_139 is not None else None,
-        "corpus/lessons/round-26.md",
-    )
+    if recovery_count is None:
+        add(
+            out, P4C_ASSERTION_IDS[8], totals_line[0] if totals_line else None,
+            "round-wide total uses the committed recovery-start receipt",
+            {"status": "UNVERIFIABLE", "lesson": totals_claim,
+             "receipt": "missing, unreadable, or unparseable"},
+            "OFFLINE_UNVERIFIABLE",
+        )
+    else:
+        p4_record(
+            root, out, P4C_ASSERTION_IDS[8],
+            totals_line[0] if totals_line else None,
+            totals_claim is not None and int(totals_claim[2]) == total_139 == 139
+            and p4_word_number(totals_claim[1]) == recovery_count,
+            {"lesson": totals_claim, "recovery_receipt_reviewers": recovery_count,
+             "derived_total": total_139},
+            [f"recovery_reviewers={recovery_count}", f"round_total={total_139}"]
+            if total_139 is not None else None,
+            "corpus/lessons/round-26.md",
+        )
 
     raw_claim = p4_groups(
         lesson, r"raw tree entries\s+\*\*(\d+)/(\d+)/(\d+)\*\*")
@@ -2993,15 +3057,20 @@ def p4_population_manifest(
     if manifest is None:
         return None
     header, rows = manifest
-    required = {"file", "cell", "grader", "stored_ok", "baseline_ok", "disposition"}
+    required = {"file", "line", "cell", "pid", "turn", "grader",
+                "stored_ok", "baseline_ok", "disposition"}
     if not required <= set(header):
         return None
     file_counts: dict[str, int] = {}
+    by_file: dict[str, dict[str, int]] = {}
     grader_counts: dict[str, int] = {}
+    identities = []
     pass_count = fail_count = c_mono_count = included = excluded = 0
     for row in rows:
         file_name = row["file"]
         file_counts[file_name] = file_counts.get(file_name, 0) + 1
+        file_stats = by_file.setdefault(file_name, {"records": 0, "pass": 0, "fail": 0})
+        file_stats["records"] += 1
         grader = row["grader"]
         grader_counts[grader] = grader_counts.get(grader, 0) + 1
         if row["disposition"] == "include":
@@ -3010,25 +3079,102 @@ def p4_population_manifest(
             excluded += 1
         if row["stored_ok"] == "true":
             pass_count += 1
+            file_stats["pass"] += 1
         elif row["stored_ok"] == "false":
             fail_count += 1
+            file_stats["fail"] += 1
         else:
+            return None
+        if row["baseline_ok"] not in {"true", "false"} or not row["line"].isdecimal():
             return None
         if row["cell"] == "C-MONO":
             c_mono_count += 1
+        identities.append((file_name, row["line"], row["cell"], row["pid"],
+                           row["turn"], row["stored_ok"]))
     return {
-        "records": len(rows),
-        "included": included,
-        "excluded": excluded,
-        "files": file_counts,
-        "graders": grader_counts,
-        "pass": pass_count,
-        "fail": fail_count,
-        "c_mono": c_mono_count,
-        "baseline_replays": sum(
-            row["baseline_ok"] == row["stored_ok"] for row in rows
-        ),
+        "records": len(rows), "included": included, "excluded": excluded,
+        "files": file_counts, "by_file": by_file, "graders": grader_counts,
+        "pass": pass_count, "fail": fail_count, "c_mono": c_mono_count,
+        "baseline_replays": sum(row["baseline_ok"] == row["stored_ok"] for row in rows),
+        "identities": sorted(identities),
     }
+
+
+def p4_raw_population(root: Path) -> dict[str, Any] | None:
+    files: dict[str, int] = {}
+    by_file: dict[str, dict[str, int]] = {}
+    graders = {"state": 0, "seq": 0, "grade_c": 0, "valid_latin": 0}
+    identities = []
+    records = pass_count = fail_count = 0
+    for relative, _expected in P4D_FILE_COUNTS:
+        text = read_repo_text(root, relative)
+        if text is None:
+            return None
+        file_records = file_pass = file_fail = 0
+        for line_number, line in enumerate(text.splitlines(), 1):
+            try:
+                row = json.loads(line)
+            except json.JSONDecodeError:
+                return None
+            if not isinstance(row, dict):
+                return None
+            if "raw" not in row or "ok" not in row:
+                continue
+            if not isinstance(row["raw"], str) or type(row["ok"]) is not bool:
+                return None
+            cell = row.get("cell")
+            if not isinstance(cell, str):
+                return None
+            if relative.endswith("round8-horizon/results.jsonl"):
+                if cell == "C-MONO":
+                    grader = "valid_latin"
+                elif cell.startswith("C-"):
+                    grader = "grade_c"
+                elif ((cell.startswith("A-") and not cell.endswith("-ack"))
+                      or cell.startswith("B-")):
+                    grader = "state"
+                else:
+                    return None
+            elif relative.endswith("round9-replication/results-r9.jsonl"):
+                if not cell.startswith("A-") or cell.endswith("-ack"):
+                    return None
+                grader = "state"
+            elif relative.endswith("round11-power/results-r11.jsonl"):
+                if cell not in {"A-CKPT4710", "A-CKPT710"}:
+                    return None
+                grader = "state"
+            elif relative.endswith("round12-ladder/results-r12.jsonl"):
+                if cell in {"T-DENSE", "T-SPARSE"}:
+                    grader = "seq"
+                elif cell in P4D_R12_STATE_CELLS:
+                    grader = "state"
+                else:
+                    return None
+            else:
+                return None
+            pid = "-" if row.get("pid") is None else str(row.get("pid"))
+            turn = "-" if row.get("turn") is None else str(row.get("turn"))
+            identities.append((relative, str(line_number), cell, pid, turn,
+                               str(row["ok"]).lower()))
+            graders[grader] += 1
+            file_records += 1
+            if row["ok"]:
+                pass_count += 1
+                file_pass += 1
+            else:
+                fail_count += 1
+                file_fail += 1
+        files[relative] = file_records
+        by_file[relative] = {"records": file_records, "pass": file_pass, "fail": file_fail}
+        records += file_records
+    return {
+        "records": records, "files": files, "by_file": by_file,
+        "pass": pass_count, "fail": fail_count, "graders": graders,
+        "identities": sorted(identities),
+    }
+
+
+
 
 
 def p4_oracle_values(text: str | None) -> tuple[dict[str, Any] | None, dict[str, dict[str, Any]]]:
@@ -3076,9 +3222,45 @@ def p4_audit_family_rows(
     return result
 
 
+def p4d_unmapped_numeric_claims(
+    root: Path, family_rows: dict[str, tuple[int, list[str]]] | None,
+) -> list[dict[str, Any]] | None:
+    text = read_repo_text(root, "corpus/knowledge/grader-perturbation-audit.md")
+    lines = physical_lines(text) if text is not None else []
+    if text is None or family_rows is None:
+        return None
+    candidates: list[dict[str, Any]] = []
+    for family, (line_number, cells) in family_rows.items():
+        for column, field in ((3, "family_cp95_lower"), (4, "family_interpretation")):
+            if column >= len(cells):
+                return None
+            for match in P4D_NUMBER_RE.finditer(CODE_RE.sub(" ", cells[column])):
+                candidates.append(
+                    {"line": line_number, "field": f"{family}.{field}",
+                     "token": match.group()}
+                )
+    start = find_line(lines, lambda line: line.startswith(P4D_UNVERIFIED_SECTION_START))
+    if start is None:
+        return None
+    for index in range(start, next_h2(lines, start)):
+        content = CODE_RE.sub(" ", content_text(lines[index]))
+        for match in P4D_NUMBER_RE.finditer(content):
+            if match.group() in {"15168", "909"}:
+                continue
+            candidates.append({
+                "line": index + 1,
+                "field": "unregistered_observed_metric",
+                "token": match.group(),
+            })
+    return candidates
+
+
 def check_p4d(root: Path, out: list[Assertion], evidence: P4Evidence) -> None:
     audit = read_repo_text(root, "corpus/knowledge/grader-perturbation-audit.md")
+    audit_lines = physical_lines(audit) if audit is not None else []
+    audit_text = audit or ""
     manifest = p4_population_manifest(p4_manifest_rows(root))
+    raw = p4_raw_population(root)
     json_result = evidence.command("grader_json")
     oracle_result = evidence.command("oracle")
     try:
@@ -3093,10 +3275,9 @@ def check_p4d(root: Path, out: list[Assertion], evidence: P4Evidence) -> None:
         families = {}
     pins = grader.get("pins") if grader else None
     pins = pins if isinstance(pins, dict) else {}
+
     file_claims: dict[str, int] = {}
     file_claim_lines: list[int] = []
-    audit_lines = physical_lines(audit) if audit is not None else []
-    audit_text = audit or ""
     for relative, _ in P4D_FILE_COUNTS:
         short = relative.removeprefix("corpus/evidence/")
         matches = list(re.finditer(
@@ -3107,24 +3288,36 @@ def check_p4d(root: Path, out: list[Assertion], evidence: P4Evidence) -> None:
             match = matches[0]
             file_claim_lines.append(audit_text[:match.start()].count("\n") + 1)
             file_claims[relative] = int(match.group(1))
-    manifest_files = manifest["files"] if manifest else {}
     expected_file_counts = dict(P4D_FILE_COUNTS)
-    json_pin_paths = set(pins)
+    manifest_files = manifest["files"] if manifest else {}
+    raw_files = raw["files"] if raw else {}
+    pins_match = (
+        set(pins) == set(expected_file_counts)
+        and all(isinstance(value, dict) and value.get("match") is True
+                for value in pins.values())
+    )
+    identity_match = bool(
+        raw is not None and manifest is not None
+        and raw["identities"] == manifest["identities"]
+        and raw["by_file"] == manifest["by_file"]
+    )
     files_ok = (
         file_claims == expected_file_counts
-        and manifest_files == expected_file_counts
-        and json_pin_paths == set(expected_file_counts)
+        and raw_files == expected_file_counts
+        and manifest_files == raw_files
+        and identity_match and pins_match
         and json_result.get("returncode") == 0
     )
     p4_record(
         root, out, P4D_ASSERTION_IDS[1],
         min(file_claim_lines) if file_claim_lines else None,
         files_ok,
-        {"audit": file_claims, "manifest": manifest_files,
-         "json_pin_paths": sorted(json_pin_paths), "expected": expected_file_counts,
-         "grader_exit": json_result.get("returncode")},
+        {"audit": file_claims, "raw_jsonl": raw_files, "manifest": manifest_files,
+         "raw_manifest_identity_match": identity_match,
+         "json_pin_paths": sorted(pins), "pins_match": pins_match,
+         "expected": expected_file_counts, "grader_exit": json_result.get("returncode")},
         [f"{Path(path).name}={expected_file_counts[path]}"
-         for path, _ in P4D_FILE_COUNTS] if manifest else None,
+         for path, _ in P4D_FILE_COUNTS] if raw else None,
         "corpus/knowledge/grader-perturbation-audit.md",
     )
 
@@ -3133,54 +3326,56 @@ def check_p4d(root: Path, out: list[Assertion], evidence: P4Evidence) -> None:
         r"All\s+\*\*(\d+)\*\*\s+raw\+ok candidate records replay their stored verdict;\s*"
         r"\*\*(\d+) excluded\*\*,\s*\*\*(\d+) PASS / (\d+) FAIL\*\*",
     )
+    record_claim_values = tuple(int(value) for value in records_claim) if records_claim else None
     json_records = (
         (grader.get("population"), grader.get("population_expected"),
          grader.get("candidate_count"), grader.get("excluded"))
         if grader else None
     )
-    record_claim_values = tuple(int(value) for value in records_claim) if records_claim else None
-    record_expected = (
-        (manifest["records"], manifest["records"], manifest["records"], manifest["excluded"])
-        if manifest else None
+    raw_expected = (
+        (raw["records"], raw["records"], raw["records"], 0) if raw else None
     )
     records_ok = (
-        manifest is not None and grader is not None
+        raw is not None and manifest is not None and grader is not None
         and json_result.get("returncode") == 0 and oracle_result.get("returncode") == 0
         and json_records == (1964, 1964, 1964, 0)
+        and raw_expected == (1964, 1964, 1964, 0)
         and oracle_population == {"candidates": 1964, "included": 1964, "excluded": 0}
-        and record_claim_values is not None
-        and record_claim_values[0] == manifest["records"] == 1964
-        and record_claim_values[1] == manifest["excluded"] == 0
-        and record_claim_values[2:] == (manifest["pass"], manifest["fail"])
-        and manifest["baseline_replays"] == manifest["records"]
-        and manifest["included"] == manifest["records"]
+        and record_claim_values == (raw["records"], 0, raw["pass"], raw["fail"])
+        and manifest["records"] == raw["records"]
+        and manifest["included"] == raw["records"] and manifest["excluded"] == 0
+        and manifest["pass"] == raw["pass"] and manifest["fail"] == raw["fail"]
+        and identity_match and manifest["baseline_replays"] == raw["records"]
     )
     p4_record(
         root, out, P4D_ASSERTION_IDS[0],
         p4_numbered_line(audit_lines, lambda line: line.startswith("All **"))[0]
         if p4_numbered_line(audit_lines, lambda line: line.startswith("All **")) else None,
         records_ok,
-        {"audit": record_claim_values, "manifest": record_expected,
-         "grader_json": json_records, "oracle": oracle_population},
-        [f"population={manifest['records']}", f"excluded={manifest['excluded']}",
-         f"PASS={manifest['pass']}", f"FAIL={manifest['fail']}"]
-        if manifest else None,
+        {"audit": record_claim_values, "raw_jsonl": raw_expected,
+         "manifest": (manifest["records"], manifest["included"], manifest["excluded"],
+                      manifest["pass"], manifest["fail"]) if manifest else None,
+         "grader_json": json_records, "oracle": oracle_population,
+         "raw_manifest_identity_match": identity_match},
+        [f"population={raw['records']}", "excluded=0",
+         f"PASS={raw['pass']}", f"FAIL={raw['fail']}"] if raw else None,
         "corpus/knowledge/grader-perturbation-audit.md",
     )
+
     pass_claim = (record_claim_values[2], record_claim_values[3]) if record_claim_values else None
-    pass_expected = (manifest["pass"], manifest["fail"]) if manifest else None
     p4_record(
         root, out, P4D_ASSERTION_IDS[2],
         p4_numbered_line(audit_lines, lambda line: line.startswith("All **"))[0]
         if p4_numbered_line(audit_lines, lambda line: line.startswith("All **")) else None,
-        pass_claim == pass_expected == (1021, 943)
-        and manifest is not None and manifest["records"] == 1964,
-        {"audit_PASS_FAIL": pass_claim, "manifest_PASS_FAIL": pass_expected},
-        [f"PASS={pass_expected[0]}", f"FAIL={pass_expected[1]}"]
-        if pass_expected else None,
+        raw is not None and manifest is not None
+        and pass_claim == (raw["pass"], raw["fail"]) == (1021, 943)
+        and manifest["pass"] == raw["pass"] and manifest["fail"] == raw["fail"],
+        {"audit_PASS_FAIL": pass_claim,
+         "raw_jsonl_PASS_FAIL": (raw["pass"], raw["fail"]) if raw else None,
+         "manifest_PASS_FAIL": (manifest["pass"], manifest["fail"]) if manifest else None},
+        [f"PASS={raw['pass']}", f"FAIL={raw['fail']}"] if raw else None,
         "corpus/knowledge/grader-perturbation-audit.md",
     )
-
 
     grader_claim = p4_groups(
         audit,
@@ -3188,25 +3383,27 @@ def check_p4d(root: Path, out: list[Assertion], evidence: P4Evidence) -> None:
         r"`grade_c`\s+(\d+),\s*and\s*`valid_latin`\s*(\d+)\s+C-MONO records",
     )
     grader_claim_values = tuple(int(value) for value in grader_claim) if grader_claim else None
-    grader_counts = manifest["graders"] if manifest else {}
-    derived_grader_counts = (
-        (grader_counts.get("state"), grader_counts.get("seq"),
-         grader_counts.get("c", 0) - manifest["c_mono"], manifest["c_mono"])
+    raw_grader_values = (
+        tuple(raw["graders"][name] for name in ("state", "seq", "grade_c", "valid_latin"))
+        if raw else None
+    )
+    manifest_graders = manifest["graders"] if manifest else {}
+    manifest_grader_values = (
+        (manifest_graders.get("state"), manifest_graders.get("seq"),
+         manifest_graders.get("c", 0) - manifest["c_mono"], manifest["c_mono"])
         if manifest else None
     )
     p4_record(
         root, out, P4D_ASSERTION_IDS[3],
         p4_numbered_line(audit_lines, lambda line: "State grading covers" in line)[0]
         if p4_numbered_line(audit_lines, lambda line: "State grading covers" in line) else None,
-        grader_claim_values == derived_grader_counts
-        and derived_grader_counts == (1708, 240, 12, 4)
-        and manifest is not None and manifest["records"] == 1964,
-        {"audit": grader_claim_values, "manifest_derived": derived_grader_counts,
-         "manifest_graders": grader_counts},
-        [f"state={derived_grader_counts[0]}", f"seq={derived_grader_counts[1]}",
-         f"grade_c={derived_grader_counts[2]}",
-         f"valid_latin={derived_grader_counts[3]}"]
-        if derived_grader_counts else None,
+        grader_claim_values == raw_grader_values == manifest_grader_values
+        and raw_grader_values == (1708, 240, 12, 4),
+        {"audit": grader_claim_values, "raw_jsonl": raw_grader_values,
+         "manifest_crosscheck": manifest_grader_values},
+        [f"state={raw_grader_values[0]}", f"seq={raw_grader_values[1]}",
+         f"grade_c={raw_grader_values[2]}", f"valid_latin={raw_grader_values[3]}"]
+        if raw_grader_values else None,
         "corpus/knowledge/grader-perturbation-audit.md",
     )
 
@@ -3228,26 +3425,32 @@ def check_p4d(root: Path, out: list[Assertion], evidence: P4Evidence) -> None:
             if json_family else None
         )
         oracle_values = oracle_families.get(family)
-        family_ok = (
-            row is not None and claim_values is not None
-            and command_values is not None and oracle_values is not None
-            and json_result.get("returncode") == 0
-            and oracle_result.get("returncode") == 0
-            and claim_values["kind"] == command_values["kind"] == oracle_values["kind"]
-            and claim_values["n"] == command_values["n"] == oracle_values["n"]
-            and claim_values["k"] == command_values["k"] == oracle_values["k"]
+        authority_ok = (
+            command_values is not None and oracle_values is not None
+            and json_result.get("returncode") == 0 and oracle_result.get("returncode") == 0
+            and command_values == oracle_values
         )
+        family_ok = row is not None and claim_values == command_values == oracle_values
         p4_record(
             root, out, P4D_ASSERTION_IDS[index], row[0] if row else None,
             family_ok,
             {"claim": claim_values, "grader_json": command_values,
              "oracle": oracle_values},
             [f"family={family}", f"kind={command_values['kind']}",
-             f"k/n={command_values['k']}/{command_values['n']}"]
-            if family_ok else None,
+             f"k/n={command_values['k']}/{command_values['n']}"] if authority_ok else None,
             "corpus/knowledge/grader-perturbation-audit.md",
         )
 
+    unmapped_tokens = p4d_unmapped_numeric_claims(root, family_rows or None)
+    add(
+        out, P4D_ASSERTION_IDS[-1],
+        min((token["line"] for token in unmapped_tokens), default=None)
+        if unmapped_tokens is not None else None,
+        "unregistered adjacent audit numerics are disclosed, not silently counted as P4d matches",
+        {"status": "UNVERIFIABLE" if unmapped_tokens else "MISSING",
+         "unmapped_numeric_claims": unmapped_tokens},
+        "OFFLINE_UNVERIFIABLE" if unmapped_tokens else "MISMATCH",
+    )
 
 def p4_cited_source_numbers(line: str) -> set[int]:
     numbers: set[int] = set()
@@ -3646,6 +3849,27 @@ def run_p4_selftest() -> bool:
             lambda target, records: check_p4a(target, records, evidence),
             lambda: card.write_text(mutated, encoding="utf-8"),
         )
+        root = prepare("P4a-final-c2")
+        card = root / "SCORECARD.md"
+        original = card.read_text(encoding="utf-8")
+        mutated = original.replace(
+            "278 assertions,3 offline", "279 assertions,3 offline", 1)
+        all_passed &= red_case(
+            "P4a final C2", root, P4A_ASSERTION_IDS[4],
+            lambda target, records: check_p4a(target, records, evidence),
+            lambda: card.write_text(mutated, encoding="utf-8"),
+        )
+
+        dispatch_assertions: list[Assertion] = []
+        check_p4(root, dispatch_assertions, evidence)
+        dispatched_ids = {item.id for item in dispatch_assertions}
+        if (not set(P4B_ASSERTION_IDS) <= dispatched_ids
+                or p4_selftest_verdict(dispatch_assertions,
+                                       P4_ASSERTION_INVENTORY_ID) != "MATCH"):
+            print("selftest FAIL P4b: production aggregation omitted P4b assertions")
+            all_passed = False
+        else:
+            print("selftest ok P4b: production aggregation retains P4b ids and inventory")
 
         root = prepare("P4b")
         readme = root / "corpus/README.md"
@@ -3670,6 +3894,63 @@ def run_p4_selftest() -> bool:
             lambda: dead_path.write_text(json.dumps(dead_record, indent=2), encoding="utf-8"),
         )
 
+        root = prepare("P4c-dead-agent-identity")
+        dead_path = root / ".ufo/waves/round-26/falsify-dead-seats.json"
+        dead_record = json.loads(dead_path.read_text(encoding="utf-8"))
+        dead_agent_mutation = json.loads(json.dumps(dead_record))
+        dead_agent_mutation["dead"][0]["agentId"] = "unassigned-agent"
+        all_passed &= red_case(
+            "P4c dead agent identity", root, P4C_ASSERTION_IDS[5],
+            lambda target, records: check_p4c(target, records),
+            lambda: dead_path.write_text(
+                json.dumps(dead_agent_mutation, indent=2), encoding="utf-8"),
+        )
+
+        root = prepare("P4c-build-role")
+        lesson_path = root / "corpus/lessons/round-26.md"
+        lesson_text = lesson_path.read_text(encoding="utf-8")
+        role_mutation = lesson_text.replace("22 scout", "23 scout", 1)
+        all_passed &= red_case(
+            "P4c build role mix", root, P4C_ASSERTION_IDS[1],
+            lambda target, records: check_p4c(target, records),
+            lambda: lesson_path.write_text(role_mutation, encoding="utf-8"),
+        )
+
+        root = prepare("P4c-assignment-ids")
+        build_assignments_path = root / ".ufo/waves/round-26/build-assignments.json"
+        build_assignments = json.loads(build_assignments_path.read_text(encoding="utf-8"))
+        assignment_names = list(build_assignments)
+        duplicate_id_mutation = dict(build_assignments)
+        if len(assignment_names) < 2:
+            print("selftest FAIL P4c assignment ids: frozen assignment map too small")
+            all_passed = False
+        else:
+            duplicate_id_mutation[assignment_names[1]] = duplicate_id_mutation[assignment_names[0]]
+            all_passed &= red_case(
+                "P4c duplicate assignment ids", root, P4C_ASSERTION_IDS[0],
+                lambda target, records: check_p4c(target, records),
+                lambda: build_assignments_path.write_text(
+                    json.dumps(duplicate_id_mutation, indent=2), encoding="utf-8"),
+            )
+        root = prepare("P4c-cross-wave-ids")
+        falsify_assignments_path = root / ".ufo/waves/round-26/falsify-assignments.json"
+        falsify_assignments = json.loads(falsify_assignments_path.read_text(encoding="utf-8"))
+        cross_build_assignments_path = root / ".ufo/waves/round-26/build-assignments.json"
+        build_assignments = json.loads(cross_build_assignments_path.read_text(encoding="utf-8"))
+        falsify_names = list(falsify_assignments)
+        if not falsify_names or not build_assignments:
+            print("selftest FAIL P4c cross-wave ids: frozen assignment map is empty")
+            all_passed = False
+        else:
+            cross_wave_mutation = dict(falsify_assignments)
+            cross_wave_mutation[falsify_names[0]] = next(iter(build_assignments.values()))
+            all_passed &= red_case(
+                "P4c cross-wave assignment ids", root, P4C_ASSERTION_IDS[3],
+                lambda target, records: check_p4c(target, records),
+                lambda: falsify_assignments_path.write_text(
+                    json.dumps(cross_wave_mutation, indent=2), encoding="utf-8"),
+            )
+
         root = prepare("P4d")
         audit_path = root / "corpus/knowledge/grader-perturbation-audit.md"
         audit_text = audit_path.read_text(encoding="utf-8")
@@ -3680,6 +3961,53 @@ def run_p4_selftest() -> bool:
             lambda target, records: check_p4d(target, records, evidence),
             lambda: audit_path.write_text(audit_mutation, encoding="utf-8"),
         )
+
+        root = prepare("P4d-denominator")
+        audit_path = root / "corpus/knowledge/grader-perturbation-audit.md"
+        audit_text = audit_path.read_text(encoding="utf-8")
+        denominator_mutation = audit_text.replace(
+            "| F1 | MP | 1802/1819 |", "| F1 | MP | 1802/1818 |", 1)
+        all_passed &= red_case(
+            "P4d denominator", root, "P4d.family.F1",
+            lambda target, records: check_p4d(target, records, evidence),
+            lambda: audit_path.write_text(denominator_mutation, encoding="utf-8"),
+        )
+
+        root = prepare("P4d-correction")
+        audit_path = root / "corpus/knowledge/grader-perturbation-audit.md"
+        audit_text = audit_path.read_text(encoding="utf-8")
+        audit_mutation = audit_text.replace(
+            "| F1 | MP | 1802/1819 |", "| F1 | MP | 1801/1819 |", 1)
+        family_id = "P4d.family.F1"
+        correction_padding = "\n" * max(
+            1, P4_CORRECTION_FLOORS["corpus/knowledge/grader-perturbation-audit.md"]
+            - len(audit_mutation.splitlines()) + 1)
+
+        def family_correction_verdict(revision: str, tokens: str) -> str | None:
+            correction_line = (
+                f"- **{revision} (2026-10-21)** supersedes `{family_id}` — now {tokens}\n"
+            )
+            audit_path.write_text(audit_mutation + correction_padding + correction_line,
+                                  encoding="utf-8")
+            assertions: list[Assertion] = []
+            check_p4d(root, assertions, evidence)
+            return p4_selftest_verdict(assertions, family_id)
+
+        full_family_tokens = "`family=F1` `kind=MP` `k/n=1802/1819`"
+        if family_correction_verdict("R27-E1", full_family_tokens) != "SUPERSEDED":
+            print("selftest FAIL P4d supersession: full R27-E family correction refused")
+            all_passed = False
+        elif (
+            family_correction_verdict("R27-E1", "`family=F1` `kind=MP`")
+            != "MISMATCH"
+            or family_correction_verdict(
+                "R27-E1", "`family=F1` `kind=MP` `k/n=1802/1818`") != "MISMATCH"
+            or family_correction_verdict("R29-E1", full_family_tokens) != "MISMATCH"
+        ):
+            print("selftest FAIL P4d supersession: partial, wrong, or R29 correction accepted")
+            all_passed = False
+        else:
+            print("selftest ok P4d supersession: full R27-E accepted; partial/wrong/R29 refused")
 
         root = prepare("P4e")
         sources = root / "corpus/SOURCES.md"
@@ -3779,6 +4107,14 @@ def run_p4_selftest() -> bool:
             all_passed = False
         else:
             print("selftest ok OUT_OF_POPULATION: P3c pointer disclosure retained")
+        summary_output = io.StringIO()
+        with contextlib.redirect_stdout(summary_output):
+            print_summary(p2_oop)
+        if f"OUT_OF_POPULATION: {p2_oop_id}" not in summary_output.getvalue():
+            print("selftest FAIL OUT_OF_POPULATION: summary disclosure was removed")
+            all_passed = False
+        else:
+            print("selftest ok OUT_OF_POPULATION: summary renders disclosed entries")
     return all_passed
 
 def run_selftest() -> int:

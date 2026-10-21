@@ -837,3 +837,34 @@ Commands/revision: delivered checker SHA25629c5d716a53e77bf4a82d2155775dda3e9438
 `python3 plans/state_check.py --root <export-of-b5719440> --json` and current root; receipts
 `corpus/evidence/round27-calibration/state-v4-{base,build}.{json,txt}`. Exact48+1 IDs:
 `plans/fixtures/r27/p4_assertion_ids.txt`. This does not count every numeric token as an independent check.
+
+### Round-27 falsification outcome (supersedes the49-ID build snapshot)
+
+Delivered P4 now has **51 IDs**, adding honest score/adjacent-numeric disclosure groups rather than
+silently labeling unsupported claims MATCH. P4a10/P4b8/P4c11/P4d15/P4e6 plus inventory1:
+48 MATCH,1 SUPERSEDED,2 OFFLINE_UNVERIFIABLE. Whole checker author/independent working-copy replays:
+`assertions=329 match=318 mismatch=0 superseded=6 offline_unverifiable=5`, exit0.
+These values replace327/3 only as the extended diagnostic inventory, not a score or new-defect discovery.
+The before/after observable is **0→51 registered frozen assertion/disclosure IDs**; base and final both
+have0 mismatches under the final checker. Calibration8→8 held. Receipts/revision are appended at landing.
+
+Falsifiers forced actual repairs: E6 ordering witness (59 hand cases,10 mutants); P4 denominator/comparison/
+dispatch and full-token-supersession controls; summary disclosure; eight score tokens made explicitly
+unverifiable; actual JSONL breakdowns; four numeric repairs plus one index repair derived from receipt;
+recovery count from the committed receipt and distinct ID checks. Q16 extends the Gate fixture to two
+reports, complete traversal and isolated Git contexts. Original failures and follow-up rereads are retained.
+Evidence: `corpus/lessons/round-27.md`; `.ufo/waves/round-27/falsify/{FMutPolicyE6,FMutP4d,FP4Inventory,FDisclosure,FGateQ15}.md`.
+
+### Round-27 capability addition
+
+| Capability | What it can now do | Evidence / command | First-working round |
+|---|---|---|---|
+| extraction-policy-comparison | Re-score the fixed1964-response population under eight alternate JSON extraction policies, publish paired flips/strata/matrix and separate contract mismatch from accuracy | `python3 plans/parser_policy_compare.py --summary`; `plans/fixtures/r27/independent_policy_recheck.py`; returned full reread FEntryNumbers |27 |
+
+### Planned after round27 (not a new round claim)
+
+- Lowest legacy novelty/canonical coverage-constructs remains7: move to a sourced agentic benchmark
+  task-spec/scoring-validity audit, rather than claiming these known parser policies as a new method.
+- Calibration8: address the explicitly disclosed S038 source-use drift with an opened-source, bounded
+  registry consistency population; do not reinterpret P4 as a whole-current-tree assertion census.
+- Existing L0 coverage-cap/novelty-conversion questions remain open; no retroactive numeric conversion.

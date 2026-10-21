@@ -1,4 +1,4 @@
-source: S049 lm-evaluation-harness https://github.com/EleutherAI/lm-evaluation-harness/blob/d6de81643928d653435c431bae19945d41d32520/lm_eval/filters/extraction.py:27,47–49; S050 inspect_ai pattern() https://github.com/UKGovernmentBEIS/inspect_ai/blob/63e45cc52d39b873b944124613da21fdad6f6dcc/src/inspect_ai/scorer/_pattern.py:62–79,119–124; S051 openai/evals https://github.com/openai/evals/blob/main/evals/elsuite/basic/json_match.py:76–83; S052 https://docs.python.org/3/library/json.html#json.JSONDecoder.raw_decode; S053 https://www.rfc-editor.org/rfc/rfc8259 §2; S054 https://spec.commonmark.org/0.31.2/#fenced-code-blocks §4.5; S055 https://github.com/openai/simple-evals/tree/652c89d0ca9df547706735883097e9537d40dc47 math_eval.py:53; S056 own-work plans/parser_policy_compare.py; S057 xFinder https://arxiv.org/abs/2405.11874 v3 §5.1/§5.3
+source: S049 lm-evaluation-harness https://github.com/EleutherAI/lm-evaluation-harness/blob/d6de81643928d653435c431bae19945d41d32520/lm_eval/filters/extraction.py:25,47–49; S058 inspect_ai pattern() https://github.com/UKGovernmentBEIS/inspect_ai/blob/63e45cc52d39b873b944124613da21fdad6f6dcc/src/inspect_ai/scorer/_pattern.py:62–79,119–124 and scorer/_common.py:16–30; S051 openai/evals https://github.com/openai/evals/blob/main/evals/elsuite/basic/json_match.py:76–83; S052 https://docs.python.org/3/library/json.html#json.JSONDecoder.raw_decode; S053/S059 https://www.rfc-editor.org/rfc/rfc8259 §2/§6; S054 https://spec.commonmark.org/0.31.2/#fenced-code-blocks §4.5; S055 https://github.com/openai/simple-evals/tree/652c89d0ca9df547706735883097e9537d40dc47 math_eval.py:53; S056 own-work plans/parser_policy_compare.py; S057 xFinder https://arxiv.org/abs/2405.11874 v3 §5.1/§5.3
 verified-at: 2026-10-21 (source openings and offline byte-pinned response replay; no live model requests)
 recheck: 90d — rerun python3 plans/parser_policy_compare.py --summary and --selftest; reopen source anchors in lessons/round-27.md Gate
 writer: KengakuR27
@@ -15,10 +15,14 @@ future-response precision is claimed.
 
 This is a lane-specific measurement, **not a new method**. xFinder (S057, reopened this round) already measures
 extractor-dependent scores and rankings. lm-eval (S049) exposes first/last `group_select` over regex matches;
-inspect_ai `pattern()` (S050) uses a first regex hit and treats no hit as invalid response format; simple-evals
-(S055) uses first `Answer:` matches with task-specific fallback. These are ordering/selection precedents, not
-faithful implementations of our JSON policies. openai/evals JsonMatch (S051) parses the whole completion;
+inspect_ai `pattern()` (S058, correcting S050) takes a first regex hit; on no hit it reports
+`invalid_response_format` for nonempty output or `no_response` for empty/whitespace output. Simple-evals
+(S055 math_eval.py:53–54) uses a first `Answer:` match and returns None on no match. These are ordering precedents,
+not faithful implementations of our JSON policies. openai/evals JsonMatch (S051) parses the whole completion;
 E4 below is that policy class with a disclosed `strip()` difference. Novelty score stays 7.
+xFinder §5.3 does not explicitly document item-level saved-response pairing, and some aggregate denominators
+remain unresolved (S057). Its broad extractor-dependent outcome result is prior art; it is not treated as
+proof of this study's paired-record provenance, exact rule variants or comparable denominators in every table.
 
 ## Frozen population and policies
 
@@ -46,7 +50,7 @@ nesting pattern, not arbitrary JSON parsing. E7/E8 use Python's decoder primitiv
 selection rules are lane-defined. E6 is not a CommonMark parser: it omits valid info strings and fence-length
 rules (S054). E4's Unicode `strip()` is broader than RFC 8259 whitespace (S053); comparison with source-exact
 json.loads(raw) found no difference in the pinned population. Python also accepts NaN/Infinity by default,
-unlike RFC8259: “strict-whole” means whole-output Python decoding, not RFC-strict syntax. These policies are
+unlike RFC8259 §6 (S059): “strict-whole” means whole-output Python decoding, not RFC-strict syntax. These policies are
 research counterfactuals, not complete alternate harness implementations.
 
 ## Observed finite-population results

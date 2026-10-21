@@ -19,7 +19,7 @@ import sys
 import tempfile
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
-from typing import Callable
+from typing import Callable, Mapping
 
 ALLOWED_REPORT_ROLES = frozenset({
     "reviewer", "scout", "critic", "sentinel", "revenger",
@@ -406,6 +406,21 @@ def infer_round_number(lesson_path: str, lesson_text: str) -> int | None:
     return next(iter(report_rounds)) if len(report_rounds) == 1 else None
 
 
+def isolated_git_environment(source: Mapping[str, str] | None = None) -> dict[str, str]:
+    """Pass only safe runtime variables; never inherit Git repository selectors."""
+    source = os.environ if source is None else source
+    environment = {
+        name: source[name]
+        for name in ("PATH", "TMPDIR", "TEMP", "TMP", "LANG", "LC_ALL")
+        if name in source
+    }
+    environment.setdefault("PATH", os.defpath)
+    environment["PYTHONDONTWRITEBYTECODE"] = "1"
+    environment["GIT_CONFIG_NOSYSTEM"] = "1"
+    environment["GIT_CONFIG_GLOBAL"] = os.devnull
+    return environment
+
+
 def run_git(repo: Path, *args: str) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         ["git", "-C", str(repo), *args],
@@ -414,6 +429,7 @@ def run_git(repo: Path, *args: str) -> subprocess.CompletedProcess[str]:
         encoding="utf-8",
         errors="replace",
         check=False,
+        env=isolated_git_environment(),
     )
 
 
@@ -477,58 +493,134 @@ def safe_round_path(lesson: str) -> bool:
 
 
 def selftest_tree_inventory() -> bool:
-    """Exercise commit-tree inventory against an uncommitted working-copy report."""
+    """Check commit-tree inventory and isolate run_git from caller Git selectors."""
     with tempfile.TemporaryDirectory(prefix="gate-timing-selftest-") as tmp:
-        repo = Path(tmp) / "repo"
+        root = Path(tmp)
+        repo = root / "repo"
         repo.mkdir()
+        template = root / "empty-template"
+        template.mkdir()
+        caller_index = root / "caller-selected.index"
+        wrong_git_dir = root / "wrong-git-dir"
+        wrong_work_tree = root / "wrong-work-tree"
+        wrong_objects = root / "wrong-object-directory"
+        wrong_alternates = root / "wrong-alternates"
+        wrong_global = root / "wrong-global-config"
+        wrong_system = root / "wrong-system-config"
+        wrong_template = root / "wrong-template"
+        wrong_hooks = root / "wrong-hooks"
+        victim = root / "fresh-bare-victim.git"
+        object_sentinel = root / "caller-object-directory"
+        hostile_env = {
+            "PATH": os.environ.get("PATH", os.defpath),
+            "GIT_DIR": str(wrong_git_dir),
+            "GIT_WORK_TREE": str(wrong_work_tree),
+            "GIT_INDEX_FILE": str(caller_index),
+            "GIT_OBJECT_DIRECTORY": str(wrong_objects),
+            "GIT_ALTERNATE_OBJECT_DIRECTORIES": str(wrong_alternates),
+            "GIT_CONFIG_GLOBAL": str(wrong_global),
+            "GIT_CONFIG_SYSTEM": str(wrong_system),
+            "GIT_CONFIG_NOSYSTEM": "0",
+            "GIT_TEMPLATE_DIR": str(wrong_template),
+            "GIT_CONFIG_COUNT": "1",
+            "GIT_CONFIG_KEY_0": "core.hooksPath",
+            "GIT_CONFIG_VALUE_0": str(wrong_hooks),
+        }
+        unchanged_hostile_env = dict(hostile_env)
 
-        def git(*args: str) -> subprocess.CompletedProcess[str]:
-            result = run_git(repo, *args)
-            if result.returncode:
+        def check_isolated(environment: dict[str, str], label: str) -> None:
+            leaked = [
+                name for name, value in hostile_env.items()
+                if name.startswith("GIT_") and environment.get(name) == value
+            ]
+            if leaked:
+                raise RuntimeError(f"{label} inherited hostile Git variables: {', '.join(leaked)}")
+
+        def fixture_git(directory: Path, *args: str,
+                        required: bool = True) -> subprocess.CompletedProcess[str]:
+            environment = isolated_git_environment(hostile_env)
+            check_isolated(environment, "sandbox Git")
+            result = subprocess.run(
+                ["git", "-c", f"init.templateDir={template}",
+                 "-c", f"core.hooksPath={os.devnull}", "-c", "commit.gpgSign=false",
+                 "-C", str(directory), *args],
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                check=False,
+                env=environment,
+            )
+            if required and result.returncode:
                 raise RuntimeError(result.stderr.strip() or f"git {' '.join(args)} failed")
             return result
+
+        def git(*args: str, required: bool = True) -> subprocess.CompletedProcess[str]:
+            return fixture_git(repo, *args, required=required)
+
+        def snapshot(directory: Path) -> tuple[tuple[str, bytes | None], ...]:
+            return tuple(
+                (path.relative_to(directory).as_posix(),
+                 path.read_bytes() if path.is_file() else None)
+                for path in sorted(directory.rglob("*"))
+            )
 
         git("init", "-q")
         git("config", "user.name", "Gate Timing Selftest")
         git("config", "user.email", "gate-timing-selftest@example.invalid")
+        victim.mkdir()
+        fixture_git(victim, "init", "--bare", "-q")
+        object_sentinel.mkdir()
+        sentinel_marker = object_sentinel / "sentinel"
+        sentinel_marker.write_bytes(b"caller object-directory sentinel\n")
+        victim_before = snapshot(victim)
+        objects_before = snapshot(object_sentinel)
 
         lesson = "corpus/lessons/round-27.md"
         candidate = "corpus/knowledge/extraction-policy-comparison.md"
+        reports = (
+            ".ufo/waves/round-27/falsify/TimingSeatA.md",
+            ".ufo/waves/round-27/falsify/TimingSeatB.md",
+        )
         registry = ".ufo/waves/round-27/falsify/swarm-registry.json"
-        report = ".ufo/waves/round-27/falsify/TimingSeat.md"
         (repo / lesson).parent.mkdir(parents=True)
         (repo / candidate).parent.mkdir(parents=True)
         (repo / registry).parent.mkdir(parents=True)
         lesson_text = (
             "# Round 27 timing selftest\n\n## Gate\n\n"
             "| candidate | decision | reason |\n|---|---|---|\n"
-            f"| `{candidate}` | admit | Re-read `{report}`. |\n"
+            f"| `{candidate}` | admit | Re-read `{reports[0]}` and `{reports[1]}`. |\n"
         )
         (repo / lesson).write_text(lesson_text, encoding="utf-8")
         (repo / candidate).write_text(
             "writer: GateTimingSelftestWriter\n# Candidate\n", encoding="utf-8")
         (repo / registry).write_text(
-            '{"members":{"TimingSeat":{"role":"reviewer",'
-            '"agentId":"GateTimingSelftest.TimingSeat"}}}\n',
+            '{"members":{"TimingSeatA":{"role":"reviewer",'
+            '"agentId":"GateTimingSelftest.TimingSeatA"},'
+            '"TimingSeatB":{"role":"scout",'
+            '"agentId":"GateTimingSelftest.TimingSeatB"}}}\n',
             encoding="utf-8",
         )
         git("add", lesson, candidate, registry)
-        git("commit", "-q", "-m", "early admission without returned report")
+        git("commit", "-q", "-m", "early admission without returned reports")
         early_commit = git("rev-parse", "HEAD").stdout.strip()
 
-        (repo / report).write_text(
-            f"Re-read {candidate}\nVERDICT: PASS\n", encoding="utf-8")
-        early_report = run_git(repo, "show", f"{early_commit}:{report}")
-        if early_report.returncode == 0:
-            print("selftest: worktree report unexpectedly exists in the early commit",
-                  file=sys.stderr)
-            return False
+        for report in reports:
+            (repo / report).write_text(
+                f"Re-read {candidate}\nVERDICT: PASS\n", encoding="utf-8")
+            if git("show", f"{early_commit}:{report}", required=False).returncode == 0:
+                print(f"selftest: worktree report unexpectedly exists in early commit: {report}",
+                      file=sys.stderr)
+                return False
 
         script = str(Path(__file__).resolve())
-        env = dict(os.environ)
-        env["PYTHONDONTWRITEBYTECODE"] = "1"
 
-        def check(commit: str) -> subprocess.CompletedProcess[str]:
+        def checker_environment() -> dict[str, str]:
+            environment = isolated_git_environment(hostile_env)
+            check_isolated(environment, "checker subprocess")
+            return environment
+
+        def check(commit: str, environment: dict[str, str]) -> subprocess.CompletedProcess[str]:
             return subprocess.run(
                 [sys.executable, script, "--lesson", lesson, "--commit", commit,
                  "--repo", str(repo)],
@@ -537,54 +629,87 @@ def selftest_tree_inventory() -> bool:
                 encoding="utf-8",
                 errors="replace",
                 check=False,
-                env=env,
+                env=environment,
             )
 
-        early = check(early_commit)
-        git("add", report)
-        git("commit", "-q", "-m", "return the cited report")
+        early = check(early_commit, checker_environment())
+        git("add", *reports)
+        git("commit", "-q", "-m", "return both cited reports")
         late_commit = git("rev-parse", "HEAD").stdout.strip()
-        late = check(late_commit)
+        late = check(late_commit, checker_environment())
 
-        early_inventory = re.search(
-            r"^gate_timing_check: .*second-seat-reports=(\d+)$",
-            early.stdout, re.MULTILINE)
-        late_inventory = re.search(
-            r"^gate_timing_check: .*second-seat-reports=(\d+)$",
-            late.stdout, re.MULTILINE)
+        # Inject only these two caller selectors to prove production run_git
+        # still reads --repo rather than a separate bare repository/object store.
+        hostile_checker_env = checker_environment()
+        hostile_checker_env["GIT_DIR"] = str(victim)
+        hostile_checker_env["GIT_OBJECT_DIRECTORY"] = str(object_sentinel)
+        hostile_early = check(early_commit, hostile_checker_env)
+        hostile_late = check(late_commit, hostile_checker_env)
+
+        def inventory(result: subprocess.CompletedProcess[str]) -> str | None:
+            match = re.search(
+                r"^gate_timing_check: .*second-seat-reports=(\d+)$",
+                result.stdout, re.MULTILINE)
+            return match.group(1) if match else None
+
         early_lesson = git("show", f"{early_commit}:{lesson}").stdout
         late_lesson = git("show", f"{late_commit}:{lesson}").stdout
 
-        print("[selftest] worktree-only report at early commit:")
+        print("[selftest] worktree-only reports at early commit:")
         sys.stdout.write(early.stdout)
         if early.stderr:
             sys.stdout.write(early.stderr)
         print(f"exit={early.returncode}")
-        print("[selftest] committed report at later commit:")
+        print("[selftest] committed reports at later commit:")
         sys.stdout.write(late.stdout)
         if late.stderr:
             sys.stdout.write(late.stderr)
         print(f"exit={late.returncode}")
+        print("[selftest] production run_git with caller GIT_DIR/GIT_OBJECT_DIRECTORY, early:")
+        sys.stdout.write(hostile_early.stdout)
+        if hostile_early.stderr:
+            sys.stdout.write(hostile_early.stderr)
+        print(f"exit={hostile_early.returncode}")
+        print("[selftest] production run_git with caller GIT_DIR/GIT_OBJECT_DIRECTORY, late:")
+        sys.stdout.write(hostile_late.stdout)
+        if hostile_late.stderr:
+            sys.stdout.write(hostile_late.stderr)
+        print(f"exit={hostile_late.returncode}")
 
         failures: list[str] = []
-        if early.returncode != 1:
-            failures.append(f"early commit expected exit 1, got {early.returncode}")
-        if early_inventory is None or early_inventory.group(1) != "0":
-            found = early_inventory.group(1) if early_inventory else "missing"
-            failures.append(f"early commit expected second-seat-reports=0, got {found}")
-        if late.returncode != 0:
-            failures.append(f"later commit expected exit 0, got {late.returncode}")
-        if late_inventory is None or late_inventory.group(1) != "1":
-            found = late_inventory.group(1) if late_inventory else "missing"
-            failures.append(f"later commit expected second-seat-reports=1, got {found}")
+        for label, result in (("early", early), ("hostile early", hostile_early)):
+            if result.returncode != 1:
+                failures.append(f"{label} commit expected exit 1, got {result.returncode}")
+            if inventory(result) != "0":
+                failures.append(f"{label} commit expected second-seat-reports=0, got {inventory(result)}")
+        for label, result in (("later", late), ("hostile later", hostile_late)):
+            if result.returncode != 0:
+                failures.append(f"{label} commit expected exit 0, got {result.returncode}")
+            if inventory(result) != "2":
+                failures.append(f"{label} commit expected second-seat-reports=2, got {inventory(result)}")
         if early_lesson != late_lesson or early_lesson != lesson_text:
             failures.append("lesson bytes changed between early and later commits")
+        if caller_index.exists():
+            failures.append("sandbox Git wrote caller-selected GIT_INDEX_FILE")
+        for escaped in (wrong_git_dir, wrong_work_tree, wrong_objects, wrong_alternates):
+            if escaped.exists():
+                failures.append(f"sandbox Git escaped into {escaped.name}")
+        if snapshot(victim) != victim_before:
+            failures.append("production run_git changed the fresh bare GIT_DIR victim")
+        if snapshot(object_sentinel) != objects_before:
+            failures.append("production run_git changed the caller object-directory sentinel")
+        if hostile_env != unchanged_hostile_env:
+            failures.append("selftest mutated its synthetic caller environment")
         if failures:
             for failure in failures:
                 print(f"selftest: {failure}", file=sys.stderr)
             return False
-        print("[selftest] tree inventory matches requested commit (early=0, later=1; "
+        print("[selftest] tree inventory matches requested commit (early=0, later=2; "
               "lesson unchanged)")
+        print("[selftest] isolated sandbox Git leaves caller index untouched and hostile "
+              "GIT_DIR/WORK_TREE/config/template/hooks do not escape")
+        print("[selftest] production run_git ignores caller GIT_DIR/object directory; "
+              "fresh bare victim and object sentinel unchanged")
         return True
 
 
@@ -718,8 +843,8 @@ def run_selftest() -> int:
         print(f"selftest: tree inventory fixture failed: {exc}", file=sys.stderr)
         return 1
     print("[selftest] ALL PASS (five allowed roles; connector/mutation-tester/simplifier and unknown roles rejected; "
-          "declared writer/author/agentId conflicts red; missing report identity with registered reader green; "
-          "working-copy inventory leak rejected)")
+          "declared writer/author/agentId conflicts red; worktree/parser/run_git mutants red; "
+          "caller index and fresh bare victim unchanged)")
     return 0
 
 

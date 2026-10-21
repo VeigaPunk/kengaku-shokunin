@@ -63,6 +63,7 @@ CASES = (
     ("E6", "extended-info-not-matched", '```json title\n"scalar"\n```', None),
     ("E6", "tilde-fence-not-matched", '~~~json\n"scalar"\n~~~', None),
     ("E6", "invalid-recognized-fence-falls-back", '```text\ninvalid\n```\n{"v": 4}', {"v": 4}),
+    ("E6", "two-distinct-any-label-fences", '```python\n{"v": 1}\n```\n```json\n{"v": 2}\n```', {"v": 2}),
 
     # E7: scan only { and [ positions, return first successful raw_decode.
     ("E7", "deep-nesting-outer-value", 'prefix {"a": {"b": {"c": 1}}} suffix', {"a": {"b": {"c": 1}}}),

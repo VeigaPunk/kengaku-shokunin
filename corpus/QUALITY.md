@@ -129,6 +129,20 @@ An entry is admitted only when every row below passes; the round lesson's
   Lesson: `corpus/lessons/round-27.md` M55; `.ufo/waves/round-27/build/MutGateTiming.md` and
   `plans/fixtures/r27/gate-timing-worktree-{mutant,restored}.txt`.
 
+- **Q16 — extends Q15 to complete traversal and isolated fixture writes.** Q15's one-report example is
+  strengthened to two separately cited reports: identical lesson, early exit1/inventory0 while reports
+  exist only on disk, later exit0/inventory2. Both worktree-inventory and parse-tree early-break mutants
+  must fail the selftest. All Git writes in that selftest use a temporary repository and an isolated
+  environment: inherited repository/index/worktree/object/config/template/hook selectors cannot redirect
+  writes; a caller-selected sentinel index remains unwritten. This does not change read-only admission
+  truth or make structural support an endorsement. `python3 plans/gate_timing_check.py --selftest`.
+  Lesson: `corpus/lessons/round-27.md` M62; `falsify/FGateQ15.md`, `falsify/FGateMutant.md`;
+  `plans/fixtures/r27/gate-timing-v2-worktree-{mutant,restored}.txt` and
+  `plans/fixtures/r27/gate-timing-parse-tree-mutant.txt`. Earlier one-report receipts remain historical.
+  Production read-only Git calls also bind authority to the requested `--repo`, ignoring inherited
+  GIT_DIR/object-directory selectors; the hostile bare-victim probe must read the requested tree and
+  leave the victim/object sentinel unchanged. Final receipts: `plans/fixtures/r27/gate-timing-v3-*`.
+
 ## Round-closure criteria
 
 A round closes only when every row below holds; a row that cannot be shown is an open item, not a waiver. Each row cites the mistake it closes in `corpus/lessons/round-24.md`; checks are file or command tests, not prose.

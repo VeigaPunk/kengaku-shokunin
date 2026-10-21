@@ -389,6 +389,7 @@ PROBES = {
         ("any-label-fence-wins", '```python\n{"a": 1}\n```\n{"b": 2}', {"a": 1}),
         ("bad-label-fence-to-bare", '```text\nxx\n```\n{"b": 2}', {"b": 2}),
         ("json-fence", '```json\n{"a": 1}\n```', {"a": 1}),
+        ("two-distinct-any-label-fences", '```python\n{"a": 1}\n```\n```json\n{"a": 2}\n```', {"a": 2}),
     ],
     "E7": [
         ("deep-nesting-outermost", 'prefix {"a": {"b": {"c": {"d": 1}}}} tail',
@@ -406,18 +407,20 @@ PROBES = {
 }
 
 
-def _mutant_e0_no_bare_fallback(raw):
-    blocks = gp.FENCED_RE.findall(raw)
-    if blocks:
-        ok, value = _loads(blocks[-1])
-        if ok:
-            return value
-    return None
 
 
 def _mutant_e4_no_strip(raw):
     ok, value = _loads(raw)
     return value if ok else None
+def _mutant_e6_first_fence(raw):
+    blocks = FENCE_ANY.findall(raw)
+    if blocks:
+        ok, value = _loads(blocks[0])
+        if ok:
+            return value
+    return _bare_last(raw)
+
+
 
 
 def _mutant_e7_bare_bounded(raw):
@@ -441,7 +444,7 @@ def _mutant_e8_contained_reuse(raw):
 
 
 MUTANTS = OrderedDict([
-    ("E0", ("E0-no-bare-fallback", _mutant_e0_no_bare_fallback)),
+    ("E0", ("E0-no-bare-fallback", e5_fence_only)),
     ("E1", ("E1-swapped-to-last-fence", e0_lane)),
     ("E2", ("E2-fence-leak", e0_lane)),
     ("E3", ("E3-order-reversed", e2_bare_last)),
@@ -451,6 +454,9 @@ MUTANTS = OrderedDict([
     ("E7", ("E7-nesting-limited", _mutant_e7_bare_bounded)),
     ("E8", ("E8-contained-span-reuse", _mutant_e8_contained_reuse)),
 ])
+EXTRA_MUTANTS = [
+    ("E6", "E6-first-any-label-fence", _mutant_e6_first_fence),
+]
 
 
 def _differs(fn, raw, want):
@@ -540,10 +546,19 @@ def selftest(out):
         else:
             killed += 1
             print(f"SELFTEST KILLED {pid} mutant={mutant_name} by={by}", file=out)
+    for pid, mutant_name, mutant in EXTRA_MUTANTS:
+        by = next((name for name, raw, want in PROBES[pid] if _differs(mutant, raw, want)), None)
+        if by is None:
+            failures += 1
+            print(f"SELFTEST SURVIVED {pid} mutant={mutant_name}", file=out)
+        else:
+            killed += 1
+            print(f"SELFTEST KILLED {pid} mutant={mutant_name} by={by}", file=out)
     failures += len(_selftest_policy_cases(out))
     failures += int(not _selftest_pin_rejection(out))
+    mutants = len(MUTANTS) + len(EXTRA_MUTANTS)
     print(f"SELFTEST total policies={len(POLICIES)} cases={len(policy_cases.CASES)} "
-          f"killed={killed} failures={failures}", file=out)
+          f"mutants={mutants} killed={killed} failures={failures}", file=out)
     return 1 if failures else 0
 
 

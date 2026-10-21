@@ -188,3 +188,28 @@ This is a post-output clarification, not an ex-ante change or a rescore of the p
   CLI accepts only the byte-pinned population and rejects changed files before invoking these policies;
   pure policy helpers are research functions for bounded fixtures, not a production untrusted-input API.
   No arbitrary-input performance or parser-safety claim follows.
+
+## Amendment 2 — mutation-driven completion after falsify outputs (2026-10-21)
+
+Explicit post-output change: neither predictions nor the base population are retrospectively relabeled
+as newly sampled. E0–E8 semantics,1964 population,8 alternatives and15712 comparisons remain unchanged.
+
+- E6's first-versus-last mutant survived58 cases; the two-distinct-any-label-fences witness enters the
+  permanent hand table (now59), and an additional mutant/control makes10 killed seeds. No output count moves.
+- P4's named base-target classes remain fixed at b5719440;51 IDs replace the incomplete49-ID build
+  implementation by adding two required disclosure groups (score tokens and adjacent audit numerics).
+  The full existing48 comparable/grouped checks remain, one already-superseded source-range claim stays
+  superseded, and two groups explicitly report offline-unverifiable rather than unsupported MATCH.
+  Final class sizes P4a10/P4b8/P4c11/P4d15/P4e6 plus inventory1.
+- P4a's four-numeric/one-index repair split is derived from the named base receipt; P4c derives recovery
+  reviewer count from the committed recovery-start receipt and verifies assignment-ID uniqueness/disjointness.
+  P4d independently reads the pinned JSONL breakdowns alongside manifest/live command/oracle authority.
+  Correct full R27 family corrections work even when the original claim's denominator is false.
+- Permanent selftests now attack deleted production comparisons/dispatch, denominators, actual summary
+  disclosure rendering, exact prior erratum and R27 acceptance. Existing P2/P3 keyed records remain unchanged.
+- Q16 extends the mined timing fix to two reports, complete tree traversal and isolated temporary Git writes.
+  Its early0/later2 fixture supersedes the one-report example, preserving both generations' evidence.
+- S058/S059 correct the source-reason exception and RFC§6 anchor before admission; S060 retains the opened
+  json-repair rejection without adding an unfrozen policy. Final new-source set S049–S060 is12 rows,11A/1B.
+- C2 is0→51 registered frozen assertions/disclosures, not a fabricated new-mismatch reduction: delivered
+  checker sees0 mismatches at base and candidate; the p=.55 base-mismatch forecast is false. Scores stay7/8.
