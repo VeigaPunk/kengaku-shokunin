@@ -1,28 +1,42 @@
 # Round 26 C1 — ExecPerturbCore
 
-- Changed only `/tmp/kengaku-r26-ExecPerturbCore/plans/grader_perturb.py` in the private clone; no live lane source, index, or jj state changed.
-- Observed clone base: `e0037a8da26850fcf4c4b6ba40f14a017b3ecf2d` (`git clone --no-hardlinks ... && git switch -c r26-ExecPerturbCore e0037a8da268`).
-- Implements pinned four-file population, grader-derived meta truths and `want` cross-checks, exact baseline exclusion accounting, F1–F7/D1/G1/G2, CP95/bar verdicts, summary/JSON CLIs, and per-family transform selftests. Uses grader response functions and `plans/attrib_calibration.py` CP routine; C-MONO follows grader.py's `valid_latin` replay; no endpoint access.
-- Source replay references: `grader.py:121-134,221-225,247-268,367-398,482-505,1006-1038,2115-2121,2269-2275,2463-2505`.
+- Clone base observed: `e0037a8da26850fcf4c4b6ba40f14a017b3ecf2d`; no live lane source, Git index, or jj state changed.
+- Clone deliverable: `/tmp/kengaku-r26-ExecPerturbCore/plans/grader_perturb.py`, SHA-256 `8d92314246b96c9e9dec29574f2824b42d87a8fccabf35cbacdd588588f1cc8b`.
+- Implements exact population pins, fail-closed count, format classes, per-family class strata, deduplicated raw/want report, and file+pid (C=file+cell+rep) worst-case composites.
+- F1/F2 edit only the last matched, parseable answer fence; D1 is PC and counts capture of appended previous truth, not model verdict failure. C-MONO uses grader.py `valid_latin`.
+- Four source SHA-256 pins matched; population=1964, excluded=0. CP95 is reported as nominal/descriptive only.
 
-## `python3 plans/grader_perturb.py --summary` (clone)
+## `python3 plans/grader_perturb.py --summary`
 
-FAMILY F1 kind=MP n=1876 k=1876 rate=1.000000 cp95=[0.998036,1.000000] verdict=PASS
-FAMILY F2 kind=MP n=1819 k=1819 rate=1.000000 cp95=[0.997974,1.000000] verdict=PASS
-FAMILY F3 kind=MP n=1964 k=1964 rate=1.000000 cp95=[0.998124,1.000000] verdict=PASS
-FAMILY F4 kind=MP n=1720 k=1720 rate=1.000000 cp95=[0.997858,1.000000] verdict=PASS
-FAMILY F5 kind=MP n=1964 k=1964 rate=1.000000 cp95=[0.998124,1.000000] verdict=PASS
-FAMILY F6 kind=MP n=1964 k=1964 rate=1.000000 cp95=[0.998124,1.000000] verdict=PASS
-FAMILY F7 kind=MP n=1876 k=1876 rate=1.000000 cp95=[0.998036,1.000000] verdict=PASS
-FAMILY D1 kind=MP n=1948 k=931 rate=0.477926 cp95=[0.455535,0.500384] verdict=FAIL
-FAMILY G1 kind=MC n=1021 k=1021 rate=1.000000 cp95=[0.996394,1.000000] verdict=PASS
-FAMILY G2 kind=MC n=1021 k=1021 rate=1.000000 cp95=[0.996394,1.000000] verdict=PASS
-TOTAL population=1964 excluded=0 audited_verdicts=17173 families_with_interval_verdict=10
+FAMILY F1 kind=MP n=1819 k=1802 rate=0.990654 cp95_nominal=[0.985079,0.994547] verdict=PASS composite=194/187@0.963918 cp95_nominal=[0.927072,0.985372] unit=file+pid;C=file+cell+rep composite_verdict=INDETERMINATE
+CLASSES F1 FJ1=1296/1296@1.000[710/710;586/586]cp95_nominal=[0.997,1.000] FJM=492/492@1.000[268/268;224/224]cp95_nominal=[0.993,1.000] MULTI=31/14@0.452[17/0;14/14]cp95_nominal=[0.273,0.640] DANGLE=0/0@NA[0/0;0/0]cp95_nominal=[0.000,1.000] BARE=0/0@NA[0/0;0/0]cp95_nominal=[0.000,1.000]
+FAMILY F2 kind=MP n=1819 k=1802 rate=0.990654 cp95_nominal=[0.985079,0.994547] verdict=PASS composite=194/187@0.963918 cp95_nominal=[0.927072,0.985372] unit=file+pid;C=file+cell+rep composite_verdict=INDETERMINATE
+CLASSES F2 FJ1=1296/1296@1.000[710/710;586/586]cp95_nominal=[0.997,1.000] FJM=492/492@1.000[268/268;224/224]cp95_nominal=[0.993,1.000] MULTI=31/14@0.452[17/0;14/14]cp95_nominal=[0.273,0.640] DANGLE=0/0@NA[0/0;0/0]cp95_nominal=[0.000,1.000] BARE=0/0@NA[0/0;0/0]cp95_nominal=[0.000,1.000]
+FAMILY F3 kind=MP n=1964 k=1964 rate=1.000000 cp95_nominal=[0.998124,1.000000] verdict=PASS composite=210/210@1.000000 cp95_nominal=[0.982587,1.000000] unit=file+pid;C=file+cell+rep composite_verdict=PASS
+CLASSES F3 FJ1=1296/1296@1.000[710/710;586/586]cp95_nominal=[0.997,1.000] FJM=492/492@1.000[268/268;224/224]cp95_nominal=[0.993,1.000] MULTI=31/31@1.000[17/17;14/14]cp95_nominal=[0.888,1.000] DANGLE=57/57@1.000[17/17;40/40]cp95_nominal=[0.937,1.000] BARE=88/88@1.000[9/9;79/79]cp95_nominal=[0.959,1.000]
+FAMILY F4 kind=MP n=1720 k=1720 rate=1.000000 cp95_nominal=[0.997858,1.000000] verdict=PASS composite=158/158@1.000000 cp95_nominal=[0.976923,1.000000] unit=file+pid;C=file+cell+rep composite_verdict=PASS
+CLASSES F4 FJ1=1143/1143@1.000[703/703;440/440]cp95_nominal=[0.997,1.000] FJM=488/488@1.000[264/264;224/224]cp95_nominal=[0.992,1.000] MULTI=31/31@1.000[17/17;14/14]cp95_nominal=[0.888,1.000] DANGLE=54/54@1.000[16/16;38/38]cp95_nominal=[0.934,1.000] BARE=4/4@1.000[0/0;4/4]cp95_nominal=[0.398,1.000]
+FAMILY F5 kind=MP n=1964 k=1964 rate=1.000000 cp95_nominal=[0.998124,1.000000] verdict=PASS composite=210/210@1.000000 cp95_nominal=[0.982587,1.000000] unit=file+pid;C=file+cell+rep composite_verdict=PASS
+CLASSES F5 FJ1=1296/1296@1.000[710/710;586/586]cp95_nominal=[0.997,1.000] FJM=492/492@1.000[268/268;224/224]cp95_nominal=[0.993,1.000] MULTI=31/31@1.000[17/17;14/14]cp95_nominal=[0.888,1.000] DANGLE=57/57@1.000[17/17;40/40]cp95_nominal=[0.937,1.000] BARE=88/88@1.000[9/9;79/79]cp95_nominal=[0.959,1.000]
+FAMILY F6 kind=MP n=1964 k=1964 rate=1.000000 cp95_nominal=[0.998124,1.000000] verdict=PASS composite=210/210@1.000000 cp95_nominal=[0.982587,1.000000] unit=file+pid;C=file+cell+rep composite_verdict=PASS
+CLASSES F6 FJ1=1296/1296@1.000[710/710;586/586]cp95_nominal=[0.997,1.000] FJM=492/492@1.000[268/268;224/224]cp95_nominal=[0.993,1.000] MULTI=31/31@1.000[17/17;14/14]cp95_nominal=[0.888,1.000] DANGLE=57/57@1.000[17/17;40/40]cp95_nominal=[0.937,1.000] BARE=88/88@1.000[9/9;79/79]cp95_nominal=[0.959,1.000]
+FAMILY F7 kind=MP n=1876 k=1876 rate=1.000000 cp95_nominal=[0.998036,1.000000] verdict=PASS composite=194/194@1.000000 cp95_nominal=[0.981165,1.000000] unit=file+pid;C=file+cell+rep composite_verdict=PASS
+CLASSES F7 FJ1=1296/1296@1.000[710/710;586/586]cp95_nominal=[0.997,1.000] FJM=492/492@1.000[268/268;224/224]cp95_nominal=[0.993,1.000] MULTI=31/31@1.000[17/17;14/14]cp95_nominal=[0.888,1.000] DANGLE=57/57@1.000[17/17;40/40]cp95_nominal=[0.937,1.000] BARE=0/0@NA[0/0;0/0]cp95_nominal=[0.000,1.000]
+FAMILY D1 kind=PC n=909 k=909 capture_rate=1.000000 cp95_nominal=[0.995950,1.000000] verdict=NOT_SCORED composite=129/129@1.000000 cp95_nominal=[0.971809,1.000000] unit=file+pid;C=file+cell+rep composite_verdict=NOT_SCORED
+CLASSES D1 FJ1=639/639@1.000[639/639;0/0]cp95_nominal=[0.994,1.000] FJM=244/244@1.000[244/244;0/0]cp95_nominal=[0.985,1.000] MULTI=0/0@NA[0/0;0/0]cp95_nominal=[0.000,1.000] DANGLE=17/17@1.000[17/17;0/0]cp95_nominal=[0.805,1.000] BARE=9/9@1.000[9/9;0/0]cp95_nominal=[0.664,1.000]
+FAMILY G1 kind=MC n=1021 k=1021 rate=1.000000 cp95_nominal=[0.996394,1.000000] verdict=PASS composite=143/143@1.000000 cp95_nominal=[0.974534,1.000000] unit=file+pid;C=file+cell+rep composite_verdict=PASS
+CLASSES G1 FJ1=710/710@1.000[710/710;0/0]cp95_nominal=[0.995,1.000] FJM=268/268@1.000[268/268;0/0]cp95_nominal=[0.986,1.000] MULTI=17/17@1.000[17/17;0/0]cp95_nominal=[0.805,1.000] DANGLE=17/17@1.000[17/17;0/0]cp95_nominal=[0.805,1.000] BARE=9/9@1.000[9/9;0/0]cp95_nominal=[0.664,1.000]
+FAMILY G2 kind=MC n=1021 k=1021 rate=1.000000 cp95_nominal=[0.996394,1.000000] verdict=PASS composite=143/143@1.000000 cp95_nominal=[0.974534,1.000000] unit=file+pid;C=file+cell+rep composite_verdict=PASS
+CLASSES G2 FJ1=710/710@1.000[710/710;0/0]cp95_nominal=[0.995,1.000] FJM=268/268@1.000[268/268;0/0]cp95_nominal=[0.986,1.000] MULTI=17/17@1.000[17/17;0/0]cp95_nominal=[0.805,1.000] DANGLE=17/17@1.000[17/17;0/0]cp95_nominal=[0.805,1.000] BARE=9/9@1.000[9/9;0/0]cp95_nominal=[0.664,1.000]
+FORMATS FJ1=1296 FJM=492 MULTI=31 DANGLE=57 BARE=88
+DEDUP raw+want+grader unique_raw_want_grader=1451 duplicate_groups=294 records_in_duplicate_groups=807 excess_duplicate_records=513
+NOTE CP95 is nominal/descriptive; neither records nor pid-composites establish independent generalization.
+TOTAL population=1964 excluded=0 audited_verdicts=15168 policy_checks=909 families_with_interval_verdict=9
 COMMAND_EXIT_CODE=0
 
-## `python3 plans/grader_perturb.py --selftest` (clone)
+## `python3 plans/grader_perturb.py --selftest`
 
-The command repeated the same 10 FAMILY lines and TOTAL line shown above, then emitted:
+The command repeated the identical summary above, then emitted:
 SELFTEST F1 PASS
 SELFTEST F2 PASS
 SELFTEST F3 PASS
@@ -33,19 +47,14 @@ SELFTEST F7 PASS
 SELFTEST D1 PASS
 SELFTEST G1 PASS
 SELFTEST G2 PASS
-SELFTEST TOTAL checks=10 failed=0
+SELFTEST MUTATION-CATCH PASS caught=12
+SELFTEST TOTAL families=10 failed=0
 COMMAND_EXIT_CODE=0
 
-## Retained evidence
+## Retained evidence and scope
 
-- Clone file written: `plans/grader_perturb.py` sha256 `d94bc87aa45f5dceb046e102b1694332410ae87600f93d9d73d51de928d9656d`.
-- Frozen input pins verified by the successful runs:
-  - `corpus/evidence/round8-horizon/results.jsonl` `bd986e5e8c9b415aa2b0073fa8fed784282c9dbeb19055d34475e662792e2204`
-  - `corpus/evidence/round9-replication/results-r9.jsonl` `c20158bdef148b322501341e539b2383d84de4179618fd46b801379c11affbcb`
-  - `corpus/evidence/round11-power/results-r11.jsonl` `918bf7aa3030baa954c16a20830f078738147ce7cc002768e5ab922ad38f51ad`
-  - `corpus/evidence/round12-ladder/results-r12.jsonl` `ad9c88e79068fa2833c90f071ec6da4035ff37371ff95d84f581dd4e8db842f1`
-- LSP was unavailable: no LSP device/API is exposed in the mounted tool inventory; symbols and replay bodies were located with `grep`/`read`.
-- Risk/scope note: preregistration also calls for a separate independent oracle under `plans/fixtures/r26/`; that file was outside this seat's assigned implementation path. D1 FAIL is an observed last-block extraction sensitivity, not an execution failure.
-- Installs/updates: none.
+- Four source SHA-256 pins match; population candidate count and accepted count both equal 1964, with excluded=0 (otherwise exit 1).
+- LSP unavailable in the mounted tool inventory; source references were read with `grep`/`read`.
+- The separate oracle is being amended by its writer with the exact F1/F2 and D1 semantics sent to that seat. No tools installed.
 
-VERDICT: Scoped C1 instrument implemented in the private clone; summary and all ten family selftests exited 0.
+VERDICT: Amendment 1 implemented in the private clone; summary and all 10 family selftests exited 0.

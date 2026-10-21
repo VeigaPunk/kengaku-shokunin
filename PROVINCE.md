@@ -179,3 +179,7 @@ The `:112` "25 rows" cell stays superseded by `:119` and this line.*
 
 - **R26-E3a (2026-10-21)** supersedes `P3b.province.public-literature-registry.rows` — now `rows=42` (S001–S042 frozen round-25 population; count `SOURCES.md` ids ≤42, not future additions).
 - **R26-E3b (2026-10-21)** supersedes `P3b.province.round25-correction.rows` — now `rows=42` (same dated population; `git show f11bffbf:corpus/SOURCES.md`).
+
+Parser-format addendum: E3b's extra inline command is not a value token. The v3 exact-token restatement is:
+- **R26-E7 (2026-10-21)** supersedes `P3b.province.round25-correction.rows` — now `rows=42`
+- **R26-E8 (2026-10-21)** supersedes `P3b.province.public-literature-registry.rows` — now `rows=42`

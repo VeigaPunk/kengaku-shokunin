@@ -257,3 +257,19 @@ source/instrument (ART dossier §Leads; nothing below is admitted knowledge yet)
   - *Correction (round 25 falsify, 2026-10-20):* the discharge also landed a Rogan–Gladen share bound in S011's estimator form, but S011's own interval method was not ported and the landed bound was conditional (`rg_cond`); with the sampling arm (`rg90`) it is vacuous on P1 — see the entry's §Corrections.
 - **Identity-verified endpoint for novelty probes**: why — `:34113` is absent (`ss -ltn 'sport = :34113'` → no listener, 2026-10-19); only the read-only ds-flash-shim (`:8791`, sha-pinned) resolves, so no new live capability/novelty probe can run. Next source/instrument: an identity-verified endpoint (kama-owned serving plane, operator-owned restoration) plus the standing `plans/probe-battery-TEMPLATE.md` to re-instantiate the battery.
 - **Non-karpathy wiki topics**: why — `ai/` subtrees outside karpathy remain undigested and the source is absent (`~/Projects/webzites/repos/llm-wiki` → `test -e` absent). Next source/instrument: none available on-host; the row stays frontier until the wiki path resolves again (round-13/16 receipts record it absent).
+
+## Round-26 supporting artifacts (2026-10-21)
+
+| Path | Covers |
+|---|---|
+| `evidence/round26-sources/` | Located S043–S047 opening quotes, byte identities, bounded papers/PyPI/GitHub prior-art search; direct tooling prior art found |
+| `evidence/round26-calibration/` | Round-start receipts, Q13 red-before and final C1/C2 measurements |
+| `../plans/grader_perturb.py` | Byte-pinned finite-population response-format audit; MP/MC/PC denominators and interpretation per Amendment 1 |
+| `../plans/gate_timing_check.py` | Q13 commit-tree structural evidence support, not approval or admission-identity adjudication |
+| `../plans/round26_census.sh` | Round-26 count commands using lane master ref, not detached HEAD |
+| `../plans/fixtures/r26/` | Independent oracle, frozen population manifest, content pins, perturbation cases, state-check red mutations, timing fixtures and separability harness |
+
+Appended inventory corrections: the `lessons/round-25.md` row above's M23–M30 range describes its first
+landing; the completed lesson reaches M38. The `evidence/round25-sources/` row's S027–S037 range likewise
+describes its first landing; round-25 source rows end at S042. `QUALITY.md` now contains Q1–Q13 (not the
+supporting-files row's historical Q1–Q8); S047 supersedes S037's older selftest teaching.

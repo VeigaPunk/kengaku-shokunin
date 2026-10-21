@@ -474,6 +474,15 @@ round that established it):
     every bar this lane sets, not only the r8/r9 probe family above. Runnable:
     `python3 plans/attrib_calibration.py --summary`.
     (`corpus/knowledge/attribution-interval-calibration.md`; S027–S030, S011)
+15. **Audit the response grader, not only the model (round 26).** When extraction policy changes or a new
+    response format appears, run `python3 plans/grader_perturb.py --summary` and `--selftest`. FAMILY MP
+    counts verdict invariance; MC counts rejection of a provably changed graded answer; PC counts policy
+    conformance (D1 is not an MP defect). Require the frozen 1964-record baseline to replay with 0 exclusions.
+    Inspect format strata and pid-composite sensitivity: a pooled nominal CP95 PASS against 0.95 is not
+    a future-response guarantee and does not erase MULTI's 17 PASS→FAIL flips under F1/F2. Preserve the exact
+    transform span and task contract. The method already exists as tooling (evalmut 0.1.0, S045); this is a
+    lane-specific audit, not a novel testing method. (`plans/round-26-claims.md` Amendment 1; Q13 governs
+    admission evidence before landing; source-opening record `corpus/lessons/round-26.md`.)
 
 Scope limit: every number from these probes is a **sub-3-bit (UD-IQ2_XXS) +
 llama.cpp serving-stack** observation, not a Qwen3-Coder-30B-A3B capability
@@ -556,6 +565,8 @@ either side without a recorded ruling fails the gate.
 | `coverage-census` | probe | `python3 corpus/evidence/round13-coverage/coverage_census.py [--revision REV]` | `0` census completed even with gaps · `2` could-not-evaluate | none declared at write time (spelling owned by the census seat) | fixed candidate paths from `corpus/evidence/round13-coverage/surface-receipt.json` | none — read-only path/index census | kengaku |
 | `interval-reverdict` | gate | `python3 plans/attrib_calibration.py --summary` (lane root; `--root DIR`, `--json`) | `0` every stored line re-derives · `1` failed (`MISMATCH …`, incl. a P1 receipt whose sha256 left the frozen manifest) · `2` could-not-evaluate (`SETUP`: no or unreadable receipts) | `python3 plans/attrib_calibration.py --selftest` (18 checks incl. red runs R1–R6, temp copies) | nine r21–r23 receipts in `corpus/evidence/` pinned by sha256 in the script; `plans/fixtures/r25/cp_reference.tsv` | none — repo bytes only; imports `grader.py` betai, no network | kengaku |
 | `state-assertion-check` | gate | `python3 plans/state_check.py --summary` (lane root; `--root DIR`, `--json`) | `0` all comparable frozen assertions match (superseded counted apart) · `1` failed (`MISMATCH …`) · `2` could-not-evaluate (`SETUP`: unreadable lane file, empty population, broken seed pin) | `python3 plans/state_check.py --selftest` (mutation cases on temp trees) | frozen P2 population in the script (base `6180e4f`); SHONEN seed `plans/fixtures/r25/shonen-seed.txt` sha256-pinned | runs `python3 grader.py` and `freeze-check` as fixed argv (no shell); no network | kengaku |
+| `grader-perturb` | probe | `python3 plans/grader_perturb.py --summary` (`--root DIR`, `--json`) | `0` audit completed, including family FAIL findings · `1` population pin/baseline/selftest failure · `2` usage/setup | `python3 plans/grader_perturb.py --selftest` (family red mutations) | four r8/r9/r11/r12 result-file SHA-256 pins; 1964 raw+ok records, 0 exclusions | none — committed bytes, no endpoint | kengaku |
+| `gate-timing` | gate | `python3 plans/gate_timing_check.py --lesson corpus/lessons/round-26.md --commit REV` | `0` explicit returned report support present in requested tree · `1` missing/invalid support · `2` setup/usage | `python3 plans/gate_timing_check.py --selftest`; red `--lesson corpus/lessons/round-25.md --commit 8ea41f9` | commit-tree lesson, candidate writer and wave registries/reports; presence does not imply endorsement | none — read-only Git plumbing | kengaku |
 
 The `coverage-census` row records the interface declared in the round-13
 re-dispatch (parent, 2026-10-15); the script lands with the census seat's
@@ -564,6 +575,11 @@ not assert it has run. No entry here claims a live host probe: since 2026-10-15
 these entries read only committed in-repo bytes; every external surface (model
 endpoint, wiki, bench-arena battery, Bailian directory, bounties ledger,
 systemd unit, chat template) is absent per the receipt (§Cited local sources).
+
+Round-26 registry addendum: `state-assertion-check` now checks frozen **P2 + P3**, P3 enumerated at base
+`f11bffbf` (round-25 capability/PROVINCE assertions, SHONEN content pins, strict axis-table anchors and
+round-25 index additions). P3b uses exact S001–S042, not total later sources; new rows remain out of that
+population. The row's P2-only pin description is superseded, not a claim to cover every current assertion.
 
 ## Production checklist — running an eval
 

@@ -210,3 +210,13 @@ not a pre-output amendment; no prediction is retrospectively rescored as ex ante
 9. Base v3 has **5 mismatches** (two capability values, two dated PROVINCE row counts, unindexed round-25
    outside spot-check). The first four are routed repairs, not discoveries. C2 is an observability move,
    calibration score held **8**; it does not claim all current-state assertions are now covered.
+
+## Amendment 2 — metric accounting after Amendment-1 implementation (2026-10-21)
+
+The amended core and independent oracle agree on F1/F2 1802/1819 and D1 capture 909/909.
+Removing D1 from MP also removes it from the robustness-verdict denominator: C1 now measures
+**0 → 9 MP/MC interval-verdict families**, **0 → 15168 audited verdicts**, plus **909 separately
+NOT_SCORED policy checks**. This supersedes the original “0 → 10” interval-verdict target, not by
+dropping a failed family: D1 remains present as PC with its rate/interval, and its original FAIL is retained
+in build evidence. The construct separation was required by task-defined polarity (M42), not score gain.
+F1/F2 pooled PASS does not erase MULTI 14/31 or pid-composite 187/194 INDETERMINATE. C1 score held7.

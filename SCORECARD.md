@@ -741,3 +741,9 @@ not discoveries credited to the new instrument.
 R26-E3 corrects both PROVINCE registry assertions in PROVINCE itself; the dated round-25 population is
 S001–S042. R26-E4 (landing-time Gate evidence) is recorded in `corpus/lessons/round-26.md` M39 and Q13;
 it does not retroactively admit round 25 or reverse the outside verdict.
+
+Parser-format addendum (2026-10-21): R26-E1/E2's extra inline code citations are not value tokens.
+The exact-token v3 parser compares the entire code-span list; the following machine-readable restatements
+supersede those rows' formatting, not their evidence or values. Commands and receipt pointers remain above.
+- **R26-E5 (2026-10-21)** supersedes `P3a.capability.interval-reverdict.selftest-checks` — now `18 checks` `0 failed`
+- **R26-E6 (2026-10-21)** supersedes `P3a.capability.state-assertion-check.base-mismatch` — now `mismatch=10`

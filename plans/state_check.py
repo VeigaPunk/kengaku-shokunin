@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
-"""Re-derive the frozen round-24 current-state assertions offline (round 25, C2).
+"""Re-derive frozen P2/P3 current-state assertions offline (rounds 25/26).
 
 Population P2 (plans/round-25-claims.md §C2 + Amendment 1) is frozen at base
 6180e4f: SCORECARD capabilities (P2a) and round-24 axis table (P2b), SHONEN
 canonical form (P2c, seed frozen in plans/fixtures/r25/shonen-seed.txt — PROTOCOL.md:439-448
 verbatim, slice sha256 3962e6b8...; whole-file PROTOCOL.md sha256 886e459b... at freeze), PROVINCE ## Surfaces rows (P2d) and
 corpus/README index rows both directions (P2e). A stale base assertion closed by
-an appended dated correction is reported SUPERSEDED only when the correction's
-own tokens re-derive. Exit 0 all comparable assertions match, 1 any mismatch,
-2 usage / unreadable input / empty population (never a vacuous PASS).
+
+Population P3 is frozen at f11bffbf by plans/round-26-claims.md §C2: capability
+receipt values (P3a), PROVINCE census/instrument rows (P3b), SHONEN pointer
+content pins (P3c), round-24/25 axis-table anchors (P3d), and base
+out-of-population README rows/files in both directions (P3e).
+An appended dated correction is SUPERSEDED only when its complete tokens re-derive the observed value.
+Exit 0 means all comparable frozen assertions match; 1 means any mismatch; 2 means usage,
+unreadable input, or empty population (never a vacuous PASS).
 Precedents cited, not rebuilt: kaidoku .ufo/gates/c1-census-v10.py (exit map,
 silent-empty defect H1), souji citation-drift-probe.py (content-checked
 anchors), kotoba verify_corpus_integrity.py and kengaku
@@ -188,8 +193,8 @@ SOURCES_EXPECTED_TOKENS = ("rows 25", "malformed 0", "A=24 C=1",
 # P2b frozen anchor content: the line each backticked SCORECARD anchor must
 # still show (content-checked, never a bare in-range test).
 AXIS_ANCHOR_CONTENT = {":162": ("**novelty**", "**7**")}
-# Appended correction lines: "- **R25-E<n> (date)** supersedes `<assertion-id>` — now `tok` `tok` ..."
-SUPERSEDE_RE = re.compile(r"^- \*\*R25-E\d+[^*]*\*\* supersedes `([^`]+)`(.*)$")
+# Appended correction lines: "- **R2[5-9]-E<n> (date)** supersedes `<assertion-id>` — now `tok` `tok` ..."
+SUPERSEDE_RE = re.compile(r"^- \*\*R2[5-9]-E\d+[^*]*\*\* supersedes `([^`]+)`(.*)$")
 POINTER_ONLY_RE = re.compile(r"^[A-Za-z0-9_./-]+(?::\d+(?:-\d+)?)?$")
 SEED_FIXTURE = Path(__file__).resolve().parent / "fixtures" / "r25" / "shonen-seed.txt"
 SEED_FIXTURE_SHA256 = "3962e6b87c5412623416dfd8d10d3830f9ebc35d5dd093679104b03082cf0927"  # PROTOCOL.md:439-448 verbatim, frozen round 25
@@ -197,6 +202,50 @@ SEED_FIXTURE_SHA256 = "3962e6b87c5412623416dfd8d10d3830f9ebc35d5dd093679104b0308
 COMMAND_CAPABILITIES = ("offline-replay-gate", "frozen-table-pin-check")
 # Only the declared marker counts (round-25 falsify CritPreregAdherence): **ABSENT** or **ABSENT <date>**.
 ABSENT_MARK_RE = re.compile(r"\*\*ABSENT(?: \d{4}-\d{2}-\d{2})?\*\*")
+
+P3A_INTERVAL_SUMMARY = "corpus/evidence/round25-calibration/attrib-calibration-summary-v2.txt"
+P3A_INTERVAL_SELFTEST = "corpus/evidence/round25-calibration/attrib-calibration-selftest-v2.txt"
+P3A_STATE_BASE = "corpus/evidence/round25-calibration/state-check-before-6180e4f-v2.txt"
+P3A_STATE_AFTER = "corpus/evidence/round25-calibration/state-check-after-v2.txt"
+P3A_STATE_SELFTEST = "corpus/evidence/round25-calibration/state-check-selftest-v2.txt"
+
+# P3b's registry population is frozen before C1 additions: later S043+ rows
+# cannot change its census; the retained S001..S042 id set must remain exact.
+P3B_SOURCES_MAX_ID = 42
+
+# P3 is frozen at f11bffbf. These are only the round-25 assertions that the
+# round-25 v2 population reported OUT_OF_POPULATION or did not content-pin.
+P3C_PINS = (
+    (1, "SKILL.md", None, "## Decision table — benchmark selection", 1),
+    (1, "SKILL.md", None, "## Benchmark anti-patterns", 2),
+    (1, "SKILL.md", None, "## Production checklist — running an eval", 3),
+    (1, "SKILL.md", None, "## Cited local sources", 4),
+    (2, "LOG.md:7", 7, "round 4: executed first authored eval", None),
+    (3, "corpus/lessons/round-8-aggregator-box3-coldrun.md:48",
+     48, "## Box-3 verdict", None),
+    (4, "PROVINCE.md:129", 129, "### Adjacent", None),
+)
+P3D_TABLES = (
+    ("round24", "Re-derived axis state, round 24", "| Axis | Round-24 value | Basis |"),
+    ("round25", "Re-derived axis state, round 25:", "| Axis | Round-25 value | Basis |"),
+)
+P3D_ANCHORS = {
+    ("round24", ":162"): ("novelty", ("**novelty**", "**7**")),
+}
+P3E_ROW_PATHS = (
+    "knowledge/attribution-interval-calibration.md",
+    "lessons/round-24-verifier-spotcheck.md",
+    "lessons/round-25.md",
+    "evidence/round25-sources/",
+    "evidence/round25-calibration/",
+)
+P3E_FILE_PATHS = (
+    "knowledge/attribution-interval-calibration.md",
+    "lessons/round-25-verifier-spotcheck.md",
+    "lessons/round-25.md",
+    "evidence/round25-sources/",
+    "evidence/round25-calibration/",
+)
 
 CODE_RE = re.compile(r"`([^`]+)`")
 FILE_REF_RE = re.compile(
@@ -404,9 +453,11 @@ def sources_base_census(root: Path) -> str | None:
     return f"rows {rows}; malformed {malformed}; {tier_text}; {status_text}{idset}"
 
 
-def superseding_tokens(root: Path, assertion_id: str) -> tuple[int, list[str]] | None:
-    """Latest appended SCORECARD correction naming this assertion, with its tokens."""
-    text = read_repo_text(root, "SCORECARD.md")
+def superseding_tokens(
+    root: Path, assertion_id: str, document: str = "SCORECARD.md",
+) -> tuple[int, list[str]] | None:
+    """Latest appended correction in a source document, with its tokens."""
+    text = read_repo_text(root, document)
     if text is None:
         return None
     found = None
@@ -1078,6 +1129,491 @@ def check_readme_index(root: Path, out: list[Assertion]) -> None:
                 "on-disk index-scope path outside frozen 6180e4f population; not checked",
                 relative, "OUT_OF_POPULATION")
 
+
+def named_table_row(
+    lines: list[str], key: str, start: int = 0, end: int | None = None,
+) -> tuple[int, list[str]] | None:
+    stop = len(lines) if end is None else end
+    for line_number, cells in table_rows(lines, start, stop):
+        if cells and cells[0].strip().strip("`") == key:
+            return line_number, cells
+    return None
+
+
+def p3_record(
+    root: Path,
+    out: list[Assertion],
+    assertion_id: str,
+    source_line: int | None,
+    check: bool,
+    observed: Any,
+    derived_tokens: list[str] | None,
+    document: str,
+) -> None:
+    verdict = "MATCH" if check else "MISMATCH"
+    correction = None
+    if not check and derived_tokens is not None:
+        correction_document = "SCORECARD.md" if document == "SHONEN.md" else document
+        correction = superseding_tokens(root, assertion_id, correction_document)
+        if correction is None and correction_document != "SCORECARD.md":
+            correction = superseding_tokens(root, assertion_id, "SCORECARD.md")
+        if correction is not None and correction[1] == derived_tokens:
+            verdict = "SUPERSEDED"
+    details = {
+        "observed": observed,
+        "assertion_document": document,
+        "derived_tokens": derived_tokens,
+        "correction_line": correction[0] if correction else None,
+        "correction_tokens": correction[1] if correction else None,
+    }
+    add(out, assertion_id, source_line, "frozen P3 assertion and full-value supersession",
+        details, verdict)
+
+
+def regex_groups(text: str | None, pattern: str) -> tuple[str, ...] | None:
+    if text is None:
+        return None
+    match = re.search(pattern, text, re.MULTILINE)
+    return tuple(match.groups()) if match else None
+
+
+def p3_compare_groups(
+    root: Path,
+    out: list[Assertion],
+    assertion_id: str,
+    source_line: int | None,
+    claim_text: str,
+    claim_pattern: str,
+    receipt_text: str | None,
+    receipt_pattern: str,
+    token_names: tuple[str, ...],
+    document: str,
+    token_templates: tuple[str, ...] | None = None,
+) -> None:
+    claim = regex_groups(claim_text, claim_pattern)
+    truth = regex_groups(receipt_text, receipt_pattern)
+    expected_tokens = (
+        [template.format(value=value)
+         for template, value in zip(token_templates, truth)]
+        if truth is not None and token_templates is not None
+        and len(truth) == len(token_templates)
+        else ([f"{name}={value}" for name, value in zip(token_names, truth)]
+              if truth is not None and len(truth) == len(token_names) else None)
+    )
+    p3_record(root, out, assertion_id, source_line,
+              claim is not None and claim == truth,
+              {"claim": claim, "receipt": truth}, expected_tokens, document)
+
+
+def capability_evidence_row(
+    root: Path, capability: str,
+) -> tuple[int, str] | None:
+    text = read_repo_text(root, "SCORECARD.md")
+    if text is None:
+        return None
+    lines = physical_lines(text)
+    heading = find_line(lines, lambda line: line == "## Capabilities")
+    if heading is None:
+        return None
+    row = named_table_row(lines, capability, heading + 1, next_h2(lines, heading))
+    if row is None:
+        return None
+    line_number, cells = row
+    return line_number, cells[2] if len(cells) > 2 else ""
+
+
+def check_p3a(root: Path, out: list[Assertion]) -> None:
+    interval = capability_evidence_row(root, "interval-reverdict")
+    state = capability_evidence_row(root, "state-assertion-check")
+    summary = read_repo_text(root, P3A_INTERVAL_SUMMARY)
+    interval_selftest = read_repo_text(root, P3A_INTERVAL_SELFTEST)
+    state_base = read_repo_text(root, P3A_STATE_BASE)
+    state_after = read_repo_text(root, P3A_STATE_AFTER)
+
+    for metric, pattern, names in (
+        ("unique-samples", r"unique_samples=(\d+)", ("unique_samples",)),
+        ("scored-trials", r"scored_trials=(\d+)\s+correct=(\d+)",
+         ("scored_trials", "correct")),
+        ("transitions",
+         r"transitions=(FAIL>UNTESTED:\d+,PASS>INDETERMINATE:\d+,PASS>PASS:\d+)",
+         ("transitions",)),
+        ("mismatches", r"mismatches=(\d+)", ("mismatches",)),
+    ):
+        p3_compare_groups(
+            root, out, f"P3a.capability.interval-reverdict.{metric}",
+            interval[0] if interval else None, interval[1] if interval else "",
+            pattern, summary, pattern, names, "SCORECARD.md")
+    p3_compare_groups(
+        root, out, "P3a.capability.interval-reverdict.summary-exit",
+        interval[0] if interval else None, interval[1] if interval else "",
+        r"exit\s+(\d+)", summary, r"(?m)^exit=(\d+)",
+        ("exit",), "SCORECARD.md")
+
+    p3_compare_groups(
+        root, out, "P3a.capability.interval-reverdict.selftest-checks",
+        interval[0] if interval else None, interval[1] if interval else "",
+        r"--selftest`?\s+(\d+)\s+checks?\s+(\d+)\s+failed",
+        interval_selftest, r"selftest:\s*(\d+)\s+checks,\s*(\d+)\s+failed",
+        ("checks", "failed"), "SCORECARD.md", ("{value} checks", "{value} failed"))
+    p3_compare_groups(
+        root, out, "P3a.capability.state-assertion-check.base-mismatch",
+        state[0] if state else None, state[1] if state else "",
+        r"base\s+`?6180e4f`?.*?mismatch=(\d+)",
+        state_base, r"(?m)^assertions=.*?\bmismatch=(\d+)",
+        ("mismatch",), "SCORECARD.md")
+    p3_compare_groups(
+        root, out, "P3a.capability.state-assertion-check.base-exit",
+        state[0] if state else None, state[1] if state else "",
+        r"base\s+`?6180e4f`?.*?exit\s+(\d+)",
+        state_base, r"(?m)^exit=(\d+)", ("exit",), "SCORECARD.md")
+    p3_compare_groups(
+        root, out, "P3a.capability.state-assertion-check.landed-mismatch",
+        state[0] if state else None, state[1] if state else "",
+        r"landed tree\s+`?mismatch=(\d+)",
+        state_after, r"(?m)^assertions=.*?\bmismatch=(\d+)",
+        ("mismatch",), "SCORECARD.md")
+    p3_compare_groups(
+        root, out, "P3a.capability.state-assertion-check.landed-superseded",
+        state[0] if state else None, state[1] if state else "",
+        r"landed tree\s+`?mismatch=\d+\s+superseded=(\d+)",
+        state_after, r"(?m)^assertions=.*?\bsuperseded=(\d+)",
+        ("superseded",), "SCORECARD.md")
+    p3_compare_groups(
+        root, out, "P3a.capability.state-assertion-check.landed-exit",
+        state[0] if state else None, state[1] if state else "",
+        r"landed tree.*?exit\s+(\d+)",
+        state_after, r"(?m)^exit=(\d+)", ("exit",), "SCORECARD.md")
+
+
+def p3_sources_census(root: Path) -> dict[str, Any] | None:
+    text = read_repo_text(root, "corpus/SOURCES.md")
+    if text is None:
+        return None
+    ids = []
+    for line in text.splitlines():
+        match = re.match(r"^\|\s*S(\d{3,})\s*\|", line)
+        if match and int(match.group(1)) <= P3B_SOURCES_MAX_ID:
+            ids.append(int(match.group(1)))
+    expected_ids = set(range(1, P3B_SOURCES_MAX_ID + 1))
+    counts: dict[int, int] = {}
+    for source_id in ids:
+        counts[source_id] = counts.get(source_id, 0) + 1
+    missing = sorted(expected_ids - set(ids))
+    duplicates = sorted(source_id for source_id, count in counts.items() if count > 1)
+    unexpected = sorted(set(ids) - expected_ids)
+    return {
+        "rows": len(ids),
+        "ids": sorted(ids),
+        "exact_id_set": sorted(ids) == list(range(1, P3B_SOURCES_MAX_ID + 1)),
+        "missing_ids": missing,
+        "duplicate_ids": duplicates,
+        "unexpected_ids": unexpected,
+    }
+
+
+def p3_sources_tokens(census: dict[str, Any] | None) -> list[str] | None:
+    if census is None:
+        return None
+    if census["exact_id_set"]:
+        id_set = "exact"
+    else:
+        def ids_text(values: list[int]) -> str:
+            return ",".join(f"S{source_id:03d}" for source_id in values) or "none"
+        id_set = (f"missing:{ids_text(census['missing_ids'])};"
+                  f"duplicate:{ids_text(census['duplicate_ids'])};"
+                  f"unexpected:{ids_text(census['unexpected_ids'])}")
+    return [f"rows={census['rows']}", f"id_set={id_set}"]
+
+
+def province_row(
+    root: Path, key: str,
+) -> tuple[int, list[str]] | None:
+    text = read_repo_text(root, "PROVINCE.md")
+    if text is None:
+        return None
+    return named_table_row(physical_lines(text), key)
+
+
+def receipt_exit(text: str | None) -> str | None:
+    matches = re.findall(r"(?m)^exit=(\d+)\s*$", text or "")
+    return matches[-1] if matches else None
+
+
+def check_p3b(root: Path, out: list[Assertion]) -> None:
+    province_text = read_repo_text(root, "PROVINCE.md")
+    province_lines = physical_lines(province_text) if province_text is not None else []
+    census = p3_sources_census(root)
+    count = census["rows"] if census is not None else None
+    exact_id_set = census is not None and census["exact_id_set"]
+
+    registry_row = province_row(root, "Public-literature registry")
+    registry_text = " | ".join(registry_row[1]) if registry_row else ""
+    registry_count = regex_groups(registry_text, r"\b(\d+)\s+rows?\b")
+    derived_tokens = p3_sources_tokens(census)
+    p3_record(root, out, "P3b.province.public-literature-registry.rows",
+              registry_row[0] if registry_row else None,
+              count is not None and exact_id_set
+              and registry_count == (str(P3B_SOURCES_MAX_ID),),
+              {"claim": registry_count, "SOURCES_frozen_census": census},
+              derived_tokens, "PROVINCE.md")
+
+    correction_line = find_line(
+        province_lines,
+        lambda line: "Round-25 correction" in line and "Public-literature registry" in line)
+    correction_text = line_text(province_lines[correction_line]) if correction_line is not None else ""
+    correction_count = regex_groups(
+        correction_text, r"holds\s+(\d+)\s+after round 25")
+    p3_record(root, out, "P3b.province.round25-correction.rows",
+              correction_line + 1 if correction_line is not None else None,
+              count is not None and exact_id_set
+              and correction_count == (str(P3B_SOURCES_MAX_ID),),
+              {"claim": correction_count, "SOURCES_frozen_census": census},
+              derived_tokens, "PROVINCE.md")
+
+    interval_row = province_row(root, "Interval re-verdict instrument (round 25)")
+    interval_text = " | ".join(interval_row[1]) if interval_row else ""
+    interval_summary = read_repo_text(root, P3A_INTERVAL_SUMMARY)
+    interval_selftest = read_repo_text(root, P3A_INTERVAL_SELFTEST)
+    interval_exits = regex_groups(interval_text, r"exit\s+(\d+)\s*/\s*exit\s+(\d+)")
+    expected_exits = (receipt_exit(interval_summary), receipt_exit(interval_selftest))
+    p3_record(root, out, "P3b.province.interval-reverdict.exits",
+              interval_row[0] if interval_row else None,
+              interval_exits is not None and interval_exits == expected_exits
+              and None not in expected_exits,
+              {"claim": interval_exits, "receipts": expected_exits},
+              [f"summary_exit={expected_exits[0]}", f"selftest_exit={expected_exits[1]}"]
+              if None not in expected_exits else None,
+              "PROVINCE.md")
+    p3_compare_groups(
+        root, out, "P3b.province.interval-reverdict.unique-samples",
+        interval_row[0] if interval_row else None, interval_text,
+        r"(\d+)\s+unique samples", interval_summary,
+        r"unique_samples=(\d+)", ("unique_samples",), "PROVINCE.md")
+    p3_compare_groups(
+        root, out, "P3b.province.interval-reverdict.scored-trials",
+        interval_row[0] if interval_row else None, interval_text,
+        r"(\d+)/(\d+)\s+correct", interval_summary,
+        r"scored_trials=(\d+)\s+correct=(\d+)",
+        ("scored_trials", "correct"), "PROVINCE.md")
+    p3_compare_groups(
+        root, out, "P3b.province.interval-reverdict.transitions",
+        interval_row[0] if interval_row else None, interval_text,
+        r"transitions\s+FAIL>UNTESTED\s+(\d+),?\s*PASS>INDETERMINATE\s+(\d+)",
+        interval_summary,
+        r"transitions=FAIL>UNTESTED:(\d+),PASS>INDETERMINATE:(\d+)",
+        ("FAIL>UNTESTED", "PASS>INDETERMINATE"), "PROVINCE.md")
+
+    state_row = province_row(root, "State-assertion check (round 25)")
+    state_text = " | ".join(state_row[1]) if state_row else ""
+    state_base = read_repo_text(root, P3A_STATE_BASE)
+    state_after = read_repo_text(root, P3A_STATE_AFTER)
+    state_selftest = read_repo_text(root, P3A_STATE_SELFTEST)
+    state_exits = regex_groups(state_text, r"exit\s+(\d+)\s*/\s*exit\s+(\d+)")
+    landed_exits = (receipt_exit(state_after), receipt_exit(state_selftest))
+    p3_record(root, out, "P3b.province.state-assertion-check.landed-exits",
+              state_row[0] if state_row else None,
+              state_exits is not None and state_exits == landed_exits
+              and None not in landed_exits,
+              {"claim": state_exits, "receipts": landed_exits},
+              [f"summary_exit={landed_exits[0]}", f"selftest_exit={landed_exits[1]}"]
+              if None not in landed_exits else None,
+              "PROVINCE.md")
+    base_claim = regex_groups(state_text, r"base.*?exit\s+(\d+),\s*(\d+)\s+mismatches")
+    base_receipt_exit = receipt_exit(state_base)
+    base_receipt_mismatch = regex_groups(state_base, r"(?m)^assertions=.*?\bmismatch=(\d+)")
+    p3_record(root, out, "P3b.province.state-assertion-check.base-exit",
+              state_row[0] if state_row else None,
+              base_claim is not None and base_receipt_exit is not None
+              and base_claim[0] == base_receipt_exit,
+              {"claim": base_claim[0] if base_claim else None,
+               "receipt": base_receipt_exit},
+              [f"exit={base_receipt_exit}"] if base_receipt_exit is not None else None,
+              "PROVINCE.md")
+    p3_record(root, out, "P3b.province.state-assertion-check.base-mismatch",
+              state_row[0] if state_row else None,
+              base_claim is not None and base_receipt_mismatch is not None
+              and base_claim[1] == base_receipt_mismatch[0],
+              {"claim": base_claim[1] if base_claim else None,
+               "receipt": base_receipt_mismatch[0] if base_receipt_mismatch else None},
+              [f"{base_receipt_mismatch[0]} mismatches"]
+              if base_receipt_mismatch is not None else None,
+              "PROVINCE.md")
+
+
+def check_p3c(root: Path, out: list[Assertion]) -> None:
+    text = read_repo_text(root, "SHONEN.md")
+    lines = physical_lines(text) if text is not None else []
+    evidence_rows: list[tuple[int, int, list[str]]] = []
+    for index, line in enumerate(lines):
+        if not shonen_box_line(content_text(line)):
+            continue
+        cursor = index + 1
+        while cursor < len(lines):
+            evidence_text = content_text(lines[cursor])
+            if not evidence_text.startswith(("  ", "\t")) or not evidence_text.strip():
+                break
+            refs = [match.group(0) for match in FILE_REF_RE.finditer(evidence_text)]
+            evidence_rows.append((len(evidence_rows) + 1, cursor + 1, refs))
+            cursor += 1
+
+    for box_number, pointer, target_line, token, needle_number in P3C_PINS:
+        evidence = next((row for row in evidence_rows if row[0] == box_number), None)
+        source_line = evidence[1] if evidence else None
+        refs = evidence[2] if evidence else []
+        actual_pointer = refs[0] if refs else None
+        pointer_count = sum(
+            bool(row[2]) and row[2][0] == pointer for row in evidence_rows)
+        target_path = pointer.split(":", 1)[0]
+        target_text = read_repo_text(root, target_path)
+        target_lines = physical_lines(target_text) if target_text is not None else []
+        observed_line = (content_text(target_lines[target_line - 1])
+                         if target_line is not None and 1 <= target_line <= len(target_lines)
+                         else "")
+        token_hits = ((target_text or "").count(token) if target_line is None
+                      else observed_line.count(token))
+        target_ok = (target_text is not None and token_hits == 1
+                     if target_line is None
+                     else target_line <= len(target_lines) and token_hits == 1)
+        derived_tokens = [
+            f"pointer={actual_pointer or '<missing>'}",
+            f"pointer_count={pointer_count}",
+            f"target={target_path}:{target_line if target_line is not None else 'whole-file'}",
+            f"token={token}",
+            f"token_hits={token_hits}",
+        ]
+        if target_line is not None:
+            line_text = (observed_line if target_line <= len(target_lines)
+                         else "<missing>")
+            derived_tokens.append(f"line_text={line_text or '<blank>'}")
+        if actual_pointer != pointer:
+            derived_tokens = None
+        suffix = f".needle.{needle_number}" if needle_number is not None else ""
+        assertion_id = f"P3c.box.{box_number}.pointer.1{suffix}"
+        ok = actual_pointer == pointer and pointer_count == 1 and target_ok
+        p3_record(root, out, assertion_id, source_line, ok,
+                  {"pointer": actual_pointer, "pointer_count": pointer_count,
+                   "target_line": target_line, "target_text": observed_line,
+                   "token": token, "token_hits": token_hits},
+                  derived_tokens, "SHONEN.md")
+        for extra_pointer in refs[1:]:
+            add(out, f"P3c.out-of-population.pointer.{extra_pointer}@{source_line}",
+                source_line, "additional SHONEN evidence pointer outside frozen P3",
+                extra_pointer, "OUT_OF_POPULATION")
+    for box_number, source_line, refs in evidence_rows[4:]:
+        for pointer in refs:
+            add(out, f"P3c.out-of-population.pointer.{pointer}@{source_line}",
+                source_line, "SHONEN evidence pointer outside the frozen f11bffbf population",
+                pointer, "OUT_OF_POPULATION")
+
+
+def axis_anchor_inventory(
+    root: Path,
+) -> tuple[list[str], dict[tuple[str, str], list[tuple[str, int, int]]]]:
+    text = read_repo_text(root, "SCORECARD.md")
+    if text is None:
+        return [], {}
+    lines = physical_lines(text)
+    present: list[str] = []
+    anchors: dict[tuple[str, str], list[tuple[str, int, int]]] = {}
+    for table_id, marker, header_text in P3D_TABLES:
+        marker_line = find_line(lines, lambda line: marker in line)
+        if marker_line is None:
+            continue
+        header = find_line(lines, lambda line: line == header_text, marker_line + 1)
+        if header is None:
+            continue
+        present.append(table_id)
+        end = header + 2
+        while end < len(lines) and table_cells(content_text(lines[end])) is not None:
+            end += 1
+        axis_indices: dict[str, int] = {}
+        for line_number, cells in table_rows(lines, header + 2, end):
+            if len(cells) < 3:
+                continue
+            axis = cells[0].strip().strip("`")
+            for span in code_spans(cells[2]):
+                if re.fullmatch(r":\d+(?:-\d+)?", span):
+                    axis_indices[axis] = axis_indices.get(axis, 0) + 1
+                    anchors.setdefault((table_id, span), []).append(
+                        (axis, axis_indices[axis], line_number))
+    return present, anchors
+
+
+def check_p3d(root: Path, out: list[Assertion]) -> None:
+    text = read_repo_text(root, "SCORECARD.md")
+    lines = physical_lines(text) if text is not None else []
+    present, anchors = axis_anchor_inventory(root)
+    for table_id, _, _ in P3D_TABLES:
+        ok = table_id in present
+        p3_record(root, out, f"P3d.axis-table.{table_id}", None, ok,
+                  {"table": table_id, "present": ok},
+                  [f"table={table_id}", f"present={str(ok).lower()}"],
+                  "SCORECARD.md")
+    for (table_id, anchor), (axis, needles) in P3D_ANCHORS.items():
+        hits = anchors.get((table_id, anchor), [])
+        source_line = hits[0][2] if hits else None
+        match = re.fullmatch(r":(\d+)(?:-(\d+))?", anchor)
+        start = int(match.group(1)) if match else 0
+        stop = int(match.group(2) or start) if match else 0
+        in_range = 1 <= start <= stop <= len(lines)
+        anchored = content_text(lines[start - 1]) if in_range else ""
+        needle_hits = {needle: anchored.count(needle) for needle in needles}
+        ok = (len(hits) == 1 and hits[0][0] == axis and in_range
+              and all(count == 1 for count in needle_hits.values()))
+        actual_axis = hits[0][0] if hits else "<missing>"
+        line_text = (anchored if in_range and anchored else
+                     "<blank>" if in_range else "<missing>")
+        derived_tokens = [
+            f"table={table_id}", f"axis={actual_axis}", f"anchor={anchor}",
+            f"reference_count={len(hits)}", f"line={start}",
+            f"line_text={line_text}",
+            *[f"{needle}={count}" for needle, count in needle_hits.items()],
+        ]
+        p3_record(root, out, f"P3d.axis.{axis}.anchor.1.pin", source_line, ok,
+                  {"table": table_id, "anchor": anchor, "hits": hits,
+                   "anchored_line": anchored, "needle_hits": needle_hits},
+                  derived_tokens, "SCORECARD.md")
+    for key, hits in anchors.items():
+        if key in P3D_ANCHORS:
+            continue
+        for axis, occurrence, source_line in hits:
+            add(out, f"P3d.out-of-population.{key[0]}.{axis}.anchor.{occurrence}",
+                source_line, "axis-table anchor outside frozen f11bffbf population",
+                {"anchor": key[1], "axis": axis}, "OUT_OF_POPULATION")
+
+
+def check_p3e(root: Path, out: list[Assertion]) -> None:
+    rows, anchors = readme_index_rows(root)
+    row_locations: dict[str, list[int]] = {}
+    for relative, line_number in rows:
+        row_locations.setdefault(relative, []).append(line_number)
+    for relative in P3E_ROW_PATHS:
+        locs = row_locations.get(relative, [])
+        exists = path_exists(root, relative)
+        source_line = locs[0] if locs else anchors.get(relative.split("/", 1)[0] + "/")
+        expected = [f"path={relative}", f"exists={str(exists).lower()}",
+                    f"row_count={len(locs)}"]
+        observed = {"path": relative, "exists": exists, "row_lines": locs}
+        p3_record(root, out, f"P3e.row-to-file.{relative}", source_line,
+                  exists and len(locs) == 1, observed, expected, "corpus/README.md")
+    for relative in P3E_FILE_PATHS:
+        locs = row_locations.get(relative, [])
+        exists = path_exists(root, relative)
+        source_line = locs[0] if locs else anchors.get(relative.split("/", 1)[0] + "/")
+        expected = [f"path={relative}", f"exists={str(exists).lower()}",
+                    f"row_count={len(locs)}"]
+        observed = {"path": relative, "exists": exists, "row_lines": locs}
+        p3_record(root, out, f"P3e.file-to-row.{relative}", source_line,
+                  exists and len(locs) == 1, observed, expected, "corpus/README.md")
+
+
+def check_p3(root: Path, out: list[Assertion]) -> None:
+    check_p3a(root, out)
+    check_p3b(root, out)
+    check_p3c(root, out)
+    check_p3d(root, out)
+    check_p3e(root, out)
+
 def check_all(root: Path, protocol_path: Path) -> list[Assertion]:
     assertions: list[Assertion] = []
     DUPLICATE_ROWS.clear()
@@ -1090,6 +1626,7 @@ def check_all(root: Path, protocol_path: Path) -> list[Assertion]:
     for key, line_number in DUPLICATE_ROWS:
         add(assertions, f"P2.duplicate-row.{key}@{line_number}", line_number,
             "a frozen table key appears once", key, "MISMATCH")
+    check_p3(root, assertions)
     return assertions
 
 
@@ -1144,6 +1681,119 @@ def extract_seed_text_for_selftest() -> str:
         "\n"
         "Marks: described outside the seed.\n"
     )
+
+
+
+def write_p3_fixture(root: Path) -> None:
+    (root / "corpus").mkdir(parents=True, exist_ok=True)
+    (root / "corpus/evidence/round25-calibration").mkdir(parents=True, exist_ok=True)
+    (root / "corpus/evidence/round25-sources").mkdir(parents=True, exist_ok=True)
+    (root / "corpus/knowledge").mkdir(parents=True, exist_ok=True)
+    (root / "corpus/lessons").mkdir(parents=True, exist_ok=True)
+
+    scorecard_lines = [
+        "## Capabilities",
+        "",
+        "| Capability | What | Evidence | Round |",
+        "|---|---|---|---|",
+        "| interval-reverdict | r | unique_samples=4; scored_trials=92 correct=92; "
+        "transitions=FAIL>UNTESTED:2,PASS>INDETERMINATE:1,PASS>PASS:4; "
+        "mismatches=0; exit 0; --selftest 18 checks 0 failed | 25 |",
+        "| state-assertion-check | r | base `6180e4f` mismatch=10 exit 1; "
+        "landed tree mismatch=0 superseded=1 exit 0; --selftest ALL PASS | 25 |",
+        "",
+        "Re-derived axis state, round 24",
+        "",
+        "| Axis | Round-24 value | Basis |",
+        "|---|---|---|",
+        "| novelty | 7 | numeric anchor r14 (`:162`) |",
+    ]
+    while len(scorecard_lines) < 161:
+        scorecard_lines.append("fixture filler")
+    scorecard_lines.append("| **novelty** *(owned)* | 6 → **7** |")
+    scorecard_lines.extend([
+        "",
+        "Re-derived axis state, round 25:",
+        "",
+        "| Axis | Round-25 value | Basis |",
+        "|---|---|---|",
+        "| novelty | 7 | C1 above |",
+    ])
+    (root / "SCORECARD.md").write_text("\n".join(scorecard_lines) + "\n", encoding="utf-8")
+
+    source_rows = ["| id | source |", "|---|---|"]
+    source_rows.extend(f"| S{i:03d} | source |" for i in range(1, 44))
+    (root / "corpus/SOURCES.md").write_text(
+        "\n".join(source_rows) + "\n", encoding="utf-8")
+    province_lines = [
+        "## Province map",
+        "",
+        "| Surface | Check | Result |",
+        "|---|---|---|",
+        "| Public-literature registry | `test -e corpus/SOURCES.md` | present; 42 rows |",
+        "*Round-25 correction: Public-literature registry held 42 at base and holds 42 after round 25.*",
+        "| Interval re-verdict instrument (round 25) | `python3 plans/attrib_calibration.py` | "
+        "exit 0 / exit 0; 4 unique samples, 92/92 correct, "
+        "transitions FAIL>UNTESTED 2, PASS>INDETERMINATE 1 |",
+        "| State-assertion check (round 25) | `python3 plans/state_check.py` | "
+        "exit 0 / exit 0 on landed tree (base `6180e4f`: exit 1, 10 mismatches) |",
+    ]
+    while len(province_lines) < 128:
+        province_lines.append("")
+    province_lines.append("### Adjacent")
+    (root / "PROVINCE.md").write_text("\n".join(province_lines) + "\n", encoding="utf-8")
+
+    (root / "corpus/evidence/round25-calibration/attrib-calibration-summary-v2.txt").write_text(
+        "TOTAL unique_samples=4 scored_trials=92 correct=92 "
+        "transitions=FAIL>UNTESTED:2,PASS>INDETERMINATE:1,PASS>PASS:4 mismatches=0\n"
+        "exit=0\n", encoding="utf-8")
+    (root / "corpus/evidence/round25-calibration/attrib-calibration-selftest-v2.txt").write_text(
+        "selftest: 18 checks, 0 failed\nexit=0\n", encoding="utf-8")
+    (root / "corpus/evidence/round25-calibration/state-check-before-6180e4f-v2.txt").write_text(
+        "assertions=241 match=228 mismatch=10 superseded=0\nexit=1\n", encoding="utf-8")
+    (root / "corpus/evidence/round25-calibration/state-check-after-v2.txt").write_text(
+        "assertions=235 match=231 mismatch=0 superseded=1\nexit=0\n", encoding="utf-8")
+    (root / "corpus/evidence/round25-calibration/state-check-selftest-v2.txt").write_text(
+        "selftest: ALL PASS\nexit=0\n", encoding="utf-8")
+
+    (root / "SKILL.md").write_text(
+        "---\nname: kengaku-shokunin\ndescription: test\n---\n\n"
+        "# kengaku-shokunin\n## Decision table — benchmark selection\n"
+        "## Benchmark anti-patterns\n## Production checklist — running an eval\n"
+        "## Cited local sources\n", encoding="utf-8")
+    log_lines = ["fixture"] * 6 + ["2026-09-28 — round 4: executed first authored eval"]
+    (root / "LOG.md").write_text("\n".join(log_lines) + "\n", encoding="utf-8")
+    cold_lines = ["fixture"] * 47 + ["## Box-3 verdict"]
+    (root / "corpus/lessons/round-8-aggregator-box3-coldrun.md").write_text(
+        "\n".join(cold_lines) + "\n", encoding="utf-8")
+    shonen_text = (
+        "# SHONEN\n"
+        "- [~] skill\n  SKILL.md\n"
+        "- [~] log\n  LOG.md:7\n"
+        "- [~] cold run\n  corpus/lessons/round-8-aggregator-box3-coldrun.md:48\n"
+        "- [~] province\n  PROVINCE.md:129\n"
+    )
+    (root / "SHONEN.md").write_text(shonen_text, encoding="utf-8")
+
+    (root / "corpus/README.md").write_text(
+        "# Corpus\n\n## What's here\n\n| Path | Contents |\n|---|---|\n"
+        "| `knowledge/attribution-interval-calibration.md` | fixture |\n"
+        "### `lessons/`\n\n| Path | Contents |\n|---|---|\n"
+        "| `lessons/round-24-verifier-spotcheck.md` | fixture |\n"
+        "| `lessons/round-25.md` | fixture |\n"
+        "| `lessons/round-25-verifier-spotcheck.md` | fixture |\n"
+        "Supporting corpus files:\n\n### `evidence/`\n\n| Path | Contents |\n|---|---|\n"
+        "| `evidence/round25-sources/` | fixture |\n"
+        "| `evidence/round25-calibration/` | fixture |\n"
+        "### `plans/`\n",
+        encoding="utf-8")
+    for relative in dict.fromkeys((*P3E_ROW_PATHS, *P3E_FILE_PATHS)):
+        path = root / "corpus" / relative.rstrip("/")
+        if relative.endswith("/"):
+            path.mkdir(parents=True, exist_ok=True)
+        else:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("fixture\n", encoding="utf-8")
 
 
 def run_selftest() -> int:
@@ -1298,8 +1948,128 @@ def run_selftest() -> int:
         if not DUPLICATE_ROWS or next(a.verdict for a in got if a.id.endswith(".path")) != "MISMATCH":
             print("selftest: a duplicate surface row shadowed the frozen row", file=sys.stderr)
             return 1
+        p3root = root / "p3-fixture"
+        write_p3_fixture(p3root)
+        baseline: list[Assertion] = []
+        check_p3(p3root, baseline)
+        if any(item.verdict == "MISMATCH" for item in baseline):
+            failures = [item.id for item in baseline if item.verdict == "MISMATCH"]
+            print(f"selftest: P3 fixture baseline failed: {failures}", file=sys.stderr)
+            return 1
+
+        def p3_verdict(items: list[Assertion], assertion_id: str) -> str | None:
+            return next((item.verdict for item in items if item.id == assertion_id), None)
+
+        scorecard_path = p3root / "SCORECARD.md"
+        scorecard_fixture = scorecard_path.read_text(encoding="utf-8")
+        p3a_mutated = scorecard_fixture.replace(
+            "--selftest 18 checks 0 failed", "--selftest 14 checks 0 failed", 1)
+        if p3a_mutated == scorecard_fixture:
+            print("selftest: P3a cell mutation anchor missing", file=sys.stderr)
+            return 1
+        scorecard_path.write_text(p3a_mutated, encoding="utf-8")
+        got = []
+        check_p3a(p3root, got)
+        p3a_id = "P3a.capability.interval-reverdict.selftest-checks"
+        if p3_verdict(got, p3a_id) != "MISMATCH":
+            print("selftest: P3a selftest-count mutation survived", file=sys.stderr)
+            return 1
+        partial = (p3a_mutated + "\n- **R26-E1 (test)** supersedes "
+                   f"`{p3a_id}` — now `18 checks`\n")
+        scorecard_path.write_text(partial, encoding="utf-8")
+        got = []
+        check_p3a(p3root, got)
+        if p3_verdict(got, p3a_id) != "MISMATCH":
+            print("selftest: partial R26-E token set superseded P3a", file=sys.stderr)
+            return 1
+        full = (p3a_mutated + "\n- **R26-E1 (test)** supersedes "
+                f"`{p3a_id}` — now `18 checks` `0 failed`\n")
+        scorecard_path.write_text(full, encoding="utf-8")
+        got = []
+        check_p3a(p3root, got)
+        if p3_verdict(got, p3a_id) != "SUPERSEDED":
+            print("selftest: complete R26-E token set did not supersede P3a", file=sys.stderr)
+            return 1
+        scorecard_path.write_text(scorecard_fixture, encoding="utf-8")
+        print(f"selftest ok   P3a: red mutation and full-token R26-E ({p3a_id})")
+
+        province_path = p3root / "PROVINCE.md"
+        province_fixture = province_path.read_text(encoding="utf-8")
+        province_path.write_text(
+            province_fixture.replace("92/92 correct", "91/92 correct", 1),
+            encoding="utf-8")
+        got = []
+        check_p3b(p3root, got)
+        p3b_id = "P3b.province.interval-reverdict.scored-trials"
+        if p3_verdict(got, p3b_id) != "MISMATCH":
+            print("selftest: P3b instrument-count mutation survived", file=sys.stderr)
+            return 1
+        province_path.write_text(province_fixture, encoding="utf-8")
+        sources_path = p3root / "corpus/SOURCES.md"
+        sources_fixture = sources_path.read_text(encoding="utf-8")
+        sources_path.write_text(
+            sources_fixture.replace("| S042 | source |", "| S041 | duplicate |", 1),
+            encoding="utf-8")
+        got = []
+        check_p3b(p3root, got)
+        census_ids = (
+            "P3b.province.public-literature-registry.rows",
+            "P3b.province.round25-correction.rows",
+        )
+        if any(p3_verdict(got, assertion_id) != "MISMATCH"
+               for assertion_id in census_ids):
+            print("selftest: P3b same-count id-set mutation survived", file=sys.stderr)
+            return 1
+        sources_path.write_text(sources_fixture, encoding="utf-8")
+        print(f"selftest ok   P3b: instrument and exact-id-set red mutations ({p3b_id})")
+
+        cold_path = p3root / "corpus/lessons/round-8-aggregator-box3-coldrun.md"
+        cold_fixture = cold_path.read_text(encoding="utf-8")
+        cold_path.write_text(cold_fixture.replace(
+            "## Box-3 verdict", "## Wrong verdict", 1), encoding="utf-8")
+        got = []
+        check_p3c(p3root, got)
+        p3c_id = "P3c.box.3.pointer.1"
+        if p3_verdict(got, p3c_id) != "MISMATCH":
+            print("selftest: P3c target-content mutation survived", file=sys.stderr)
+            return 1
+        cold_path.write_text(cold_fixture, encoding="utf-8")
+        print(f"selftest ok   P3c: red mutation ({p3c_id})")
+
+        scorecard_path.write_text(scorecard_fixture.replace(
+            "| **novelty** *(owned)* | 6 → **7** |",
+            "| **depth** *(owned)* | 6 → **7** |", 1), encoding="utf-8")
+        got = []
+        check_p3d(p3root, got)
+        p3d_id = "P3d.axis.novelty.anchor.1.pin"
+        if p3_verdict(got, p3d_id) != "MISMATCH":
+            print("selftest: P3d anchor-content mutation survived", file=sys.stderr)
+            return 1
+        scorecard_path.write_text(scorecard_fixture, encoding="utf-8")
+        print(f"selftest ok   P3d: red mutation ({p3d_id})")
+
+        readme_path = p3root / "corpus/README.md"
+        readme_fixture = readme_path.read_text(encoding="utf-8")
+        readme_path.write_text(readme_fixture.replace(
+            "| `lessons/round-25.md` | fixture |\n", "", 1), encoding="utf-8")
+        got = []
+        check_p3e(p3root, got)
+        row_id = "P3e.row-to-file.lessons/round-25.md"
+        file_id = "P3e.file-to-row.lessons/round-25.md"
+        if p3_verdict(got, row_id) != "MISMATCH" or p3_verdict(got, file_id) != "MISMATCH":
+            print("selftest: P3e missing-index-row mutation survived", file=sys.stderr)
+            return 1
+        readme_path.write_text(readme_fixture, encoding="utf-8")
+        (p3root / "corpus/lessons/round-25.md").unlink()
+        got = []
+        check_p3e(p3root, got)
+        if p3_verdict(got, row_id) != "MISMATCH":
+            print("selftest: P3e missing-file mutation survived", file=sys.stderr)
+            return 1
+        print(f"selftest ok   P3e: row and file mutations ({row_id}; {file_id})")
     print("[selftest] ALL PASS (canonical seed, pointers, out-of-population box, pointer-only, "
-          "sources supersession, ABSENT rule, ABSENT word boundary, R25-E prefix, anchor content)")
+          "sources supersession, ABSENT rule, ABSENT word boundary, "
+          "R25–R29-E exact-token supersession, P3a–P3e red mutations, anchor content)")
     return 0
 
 
