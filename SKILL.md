@@ -1,6 +1,6 @@
 ---
 name: kengaku-shokunin
-description: Domain specialist — LLM/model research & evaluation — scopes llm-wiki (~/Projects/webzites/repos/llm-wiki — original absent 2026-10-15, digests retained in corpus/knowledge/), route telemetry (historical; ledger + CLI corpora absent 2026-10-15). Rank: shonen.
+description: "Domain specialist — LLM/model research & evaluation — eval design, benchmark selection, offline replay grading, blind route-leg attribution and interval-calibrated verdicts; llm-wiki (~/Projects/webzites/repos/llm-wiki) and route telemetry (~/Projects/bounties/ledger/telemetry.jsonl) are historical, absent since 2026-10-15, digests retained in corpus/knowledge/. Triggers: 'model evaluation', 'benchmark selection', 'eval calibration', 'benchmark grader', 'attribution probe', 'novelty pricing'. Anti-trigger: not serving-flag changes, endpoint remediation or model-serving config. Sibling arbitration: kotoba owns prompt and skill craft (kengaku keeps only measured capability effects); kumitate owns OMP route resolution and fallback policy; kama owns local endpoint health and identity; chousa owns research method; tameshi owns verification-fixture craft. Rank: shonen."
 ---
 
 # kengaku-shokunin
@@ -464,6 +464,16 @@ round that established it):
     reconstruct. Round 12: 1 FATAL + 5 MAJOR + 4 MINOR from the critic, plus 5
     L1-found defects, all recorded with their disposition before
     `prereg-bundle.sha256` was written. (`probe_plan_r12.md` §6 step 4, §9)
+14. **A pass bar on a binary rate is interval-gated (round 25; QUALITY Q11).**
+    PASS only when the exact two-sided 95% Clopper–Pearson lower bound reaches
+    the bar; with 0 / 1 / 2 errors at bar 0.80 that needs n ≥ 17 / 26 / 34
+    (`plans/fixtures/r25/power_table.tsv`). A target with 0 ground-truth trials
+    is UNTESTED, not FAIL; a leg share is reported as a Rogan–Gladen bound,
+    [0, 1] when the leg was never observed. Repeated sends of a few prompt
+    bodies make the interval trial-level only — print `bodies=m`. Applies to
+    every bar this lane sets, not only the r8/r9 probe family above. Runnable:
+    `python3 plans/attrib_calibration.py --summary`.
+    (`corpus/knowledge/attribution-interval-calibration.md`; S027–S030, S011)
 
 Scope limit: every number from these probes is a **sub-3-bit (UD-IQ2_XXS) +
 llama.cpp serving-stack** observation, not a Qwen3-Coder-30B-A3B capability

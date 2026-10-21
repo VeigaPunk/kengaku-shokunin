@@ -47,3 +47,11 @@ Extends the README “Statistical reporting” coverage row and the lane’s exi
 
 - **Temperature zero plus a fixed seed makes evaluation deterministic.** Rejected: S016 observed residual nondeterminism under those settings. Flip: repeated, independently launched runs of the exact pinned model/API/hardware/task configuration produce identical per-item outputs; that would support determinism only for that configuration.
 - **A nominally significant unadjusted gap proves a resolved ranking.** Rejected: S018 shows resolution depends on paired design, MDE, clustering and multiplicity. Flip: a pre-specified contrast meets the declared power/resolution target and its appropriately adjusted paired interval excludes zero under the actual design.
+
+## Corrections (round 25, 2026-10-20)
+
+Appended; the lines above stay as landed. The "Extends the README 'Statistical reporting' coverage row" claim
+is wrong in kind: that coverage-map row (`corpus/README.md`, "Statistical reporting for paired evals") was
+created in the same commit as this entry (`94da19e`), so the entry opened new coverage rather than extending a
+held row. The extension claim stands only for the lane's earlier paired work it names (r8/r11/r12 bench-arena
+entries). (Closes kaika W3 F12; reviewer RevF12, round 25.)

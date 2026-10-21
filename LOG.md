@@ -272,3 +272,25 @@ receipts `corpus/evidence/round24-census/{base-99cf615,after}.txt`.
 - Change: `README.md` created (lane-header convention) with a `**Wiki:**` link to https://app.devin.ai/org/veigapunk/wiki/VeigaPunk/kengaku-shokunin?branch=master.
 - Evidence: the org's Devin wiki index lists this repo's generated wiki; sibling lane READMEs carry the same `**Wiki:**` header.
 - Documentation-only change; no round run, no axis moved, no verdict changed.
+
+## Round 25 — interval-calibrated attribution verdicts; current-state assertions re-derived (hyaku, 2026-10-20)
+
+- Lowest axis: novelty 7, tied with coverage 7; tie-break: coverage is capped pending the operator's coverage-cap ruling, so
+  novelty carries the lowest-axis claim; no stagnation waiver. Base `6180e4f`; pre-registration `plans/round-25-claims.md`
+  (`3f371d2`, Amendment 1 `710409f`, both before instrument output).
+- C1 (novelty → coverage/constructs): `plans/attrib_calibration.py` re-derives all 119 stored lines of the 10 score blocks in the
+  nine sha256-pinned r21–r23 receipts (0 mismatches) and re-verdicts the 4 unique samples (92/92 correct) under exact CP95:
+  overall PASS holds; r22 `TARGET hyper 10/10 -> PASS` → INDETERMINATE (lower 0.691503, needs n=17); two `0/0 -> FAIL` → UNTESTED.
+  Independent sh+awk parser `plans/fixtures/r25/attrib_oracle.sh` agrees. Knowledge entry
+  `corpus/knowledge/attribution-interval-calibration.md` on new rows S027–S037 (receipts `corpus/evidence/round25-sources/gate.md`).
+- C2 (calibration): `plans/state_check.py` on frozen P2 — base `6180e4f` `mismatch=11` (exit 1) → landed tree `mismatch=0
+  superseded=1` (exit 0). Closed by: SHONEN regenerated to canonical pointer form (D17), dated ABSENT markers on five PROVINCE
+  surface rows, the round-24 spot-check lesson indexed, SCORECARD R25-E1 (registry counts re-derived on S001–S026).
+- Also landed: SKILL frontmatter carries quoted triggers, an anti-trigger and a sibling-arbitration note and now parses as YAML
+  (D18); SKILL measurement rule 14; QUALITY Q11, R11–R13; corrections appended for kaika W3 F4 residual, F5, F6, F7 (S036), F10,
+  F11, F12 and the disputed M19; `plans/l0_filed_check.sh` red on round 24 (3 unfiled L0) → those questions re-filed.
+- Re-verification (freshness line): `python3 grader.py` → `CHECKS n=733 mismatches=0 errata_pinned=1`, exit 0; `freeze-check
+  --frozen plans/attrib-r23-frozen.md` → `stable=True -> OK`; `scripts/sources-census.sh validate --root … kengaku` → `kengaku ok`
+  at round start and end; S011 re-opened (PDF sha256 `c1645e31…`), eq. (5) is the Rogan–Gladen form.
+- Swarm: wave 1 build 92 seats (one validated task call); wave 2 falsify recorded in the round report. Seat misroots (3) moved into
+  the lane byte-exact and logged as M29.

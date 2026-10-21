@@ -178,3 +178,10 @@ seat):
   plans/__pycache__/`). This is the r21-named "cited-but-uncommitted" family;
   the parent's landing sweep should track every cited path in the same commit.
   `plans/__pycache__/` should not land.
+
+## Erratum (appended round 25, 2026-10-20; QUALITY R5)
+
+The mid-flight premise above ("no round-23 artifact has landed", written 13:33Z) is superseded by the landed
+receipt `corpus/evidence/attrib-r23-stream.log:233-239` (score block 13:49:42Z; authoritative block
+`:258-320`): 30/30 attribution accuracy and STREAM TARGET opencode-go n=0. Round 25 re-verdicts that
+STREAM TARGET line UNTESTED (`plans/attrib_calibration.py`).

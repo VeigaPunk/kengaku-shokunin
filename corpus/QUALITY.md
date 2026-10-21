@@ -79,6 +79,14 @@ An entry is admitted only when every row below passes; the round lesson's
   Lesson: `corpus/lessons/round-24.md` M22 (five location slips and one
   unreproduced range in four sources passed the lane's own Q1–Q8 self-check).
 
+- **Q11 — a pass bar is interval-gated.** A knowledge entry or verdict that calls a binary rate a PASS
+  against a bar must show the exact two-sided 95% Clopper–Pearson lower bound at or above the bar; a point
+  fraction with a min-n gate is INDETERMINATE until n reaches the zero-error minimum (17 at 0.80), and a
+  target with 0 ground-truth trials is UNTESTED, never FAIL.
+  Lesson: `corpus/lessons/round-25.md` M24 (r22 `TARGET hyper 10/10 -> PASS` and "hyper validated" stood
+  four rounds on a point fraction; `python3 plans/attrib_calibration.py --summary` re-verdicts it
+  INDETERMINATE).
+
 ## Round-closure criteria
 
 A round closes only when every row below holds; a row that cannot be shown is an open item, not a waiver. Each row cites the mistake it closes in `corpus/lessons/round-24.md`; checks are file or command tests, not prose.
@@ -93,3 +101,6 @@ A round closes only when every row below holds; a row that cannot be shown is an
 - **R8 — the round header names the lowest axis and any waiver.** The `## Round <N>` header names the lowest-scoring non-retired axis and either the tie-break or the stagnation waiver that justifies the chosen axis. Check: `grep -nE 'lowest axis|tie-break|waiver' LOG.md` hits inside the `## Round <N>` section. Lesson: corpus/lessons/round-24.md M16; ../AXES.md:33-34.
 - **R9 — a coverage claim is pre-flighted against the target class.** Before claiming a target leg, record a forcing pre-flight (mechanism, request, observed result) and name lost seats; a starved pre-flight yields 0 on-target and zero credit, not a redefinition of coverage. Check: the receipt contains `pre-flight` and the on-target count, and the verdict line matches that count. Lesson: corpus/lessons/round-24.md M12; corpus/lessons/2026-10-16-round22-leg-coverage-forcing.md.
 - **R10 — census patterns are anchored.** Section censuses use `^## Gate$`, `^## Round <N>$` or an equivalent end-anchor; a prefix match is not a count. Check: `grep -lE '^## Gate$' corpus/lessons/*.md | wc -l` equals the reported number; if an unanchored rerun differs, the difference is named. Lesson: corpus/lessons/round-24.md M20; plans/round24_census.sh.
+- **R11 — a report's L0 questions reach the queue.** Every `kengaku | round-<N> |` question in the round report's `## L0 questions` is appended to `.ufo/l0-questions.md` before the report lands. Check: `sh plans/l0_filed_check.sh .ufo/reports/round-<N>/kengaku.md .ufo/l0-questions.md` (fleet paths) exits 0. Lesson: corpus/lessons/round-25.md M23.
+- **R12 — current-state assertions re-derive at close.** SCORECARD capabilities and axis basis, SHONEN canonical form, PROVINCE surface rows and the corpus index are re-derived by command, not by heading presence; a stale assertion is closed by an appended correction that itself re-derives. Check: `python3 plans/state_check.py --summary` exits 0 (superseded rows counted separately). Lesson: corpus/lessons/round-25.md M25, M26.
+- **R13 — one artifact, one claim.** No claim's counting command counts an artifact another claim of the same round creates; each claim's count is re-run with the other claim's paths reverted and must not move. Check: the round's pre-registration names each claim's population and its freeze commit, and the report states the revert test result. Lesson: corpus/lessons/round-25.md M27.

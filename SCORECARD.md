@@ -555,6 +555,8 @@ documents why stream:false was chosen and what stream:true changes).
 | offline-replay-gate | re-derive every stored probe number from committed bytes, offline, and exit 0/1/2 with a verdict | `python3 grader.py` → `CHECKS n=733 mismatches=0 errata_pinned=1`, `VERDICT: PASS`, exit 0 (re-run 2026-10-19, round 24) | 10 (re-demonstrated 24) |
 | frozen-table-pin-check | prove an attribution feature table is byte-stable against its FROZEN pin before any trial | `python3 plans/attrib_probe.py freeze-check --frozen plans/attrib-r23-frozen.md` → `block_sha=1b2d6a01bfa431ec pinned=1b2d6a01bfa431ec stable=True -> OK`, exit 0 (round 24) | 21 (instrument `0d23c61`; re-demonstrated 24) |
 | sources-registry | keep a tiered, opened, census-clean registry of where the lane learns, with study paths and a search log | `corpus/SOURCES.md` + the SOURCES contract v1 census (rows 25, malformed 0, `A=24 C=1`, `mined=18 queued=5 rejected=2`, dup/enum/mined-path checks print nothing); receipts `corpus/evidence/round24-sources/gate.md` | 24 |
+| interval-reverdict | re-derive every stored attribution verdict from committed receipts and re-verdict it with exact CP95 intervals, per-leg recall/specificity and Rogan–Gladen share bounds, offline, receipts sha256-pinned | `python3 plans/attrib_calibration.py --summary` → `unique_samples=4 … scored_trials=92 correct=92 … transitions=FAIL>UNTESTED:2,PASS>INDETERMINATE:1,PASS>PASS:4 … mismatches=0`, exit 0; `--selftest` 14 checks 0 failed (red runs R1–R6 included); receipts `corpus/evidence/round25-calibration/` | 25 |
+| state-assertion-check | re-derive the lane's own current-state assertions (capability rows, axis basis anchors, SHONEN canonical form, PROVINCE surface rows, corpus index both directions) and exit 0/1/2 | `python3 plans/state_check.py --summary` → base `6180e4f` `mismatch=11` exit 1; landed tree `mismatch=0 superseded=1` exit 0; `--selftest` ALL PASS | 25 |
 
 Rows enter this table only through a round that demonstrates the capability running (`AXES.md` §Capabilities); none enter through this rollout.
 Round 24: the three rows above entered by demonstration in round 24 (commands re-run that round; output in `corpus/evidence/round24-census/after.txt`). The placeholder row was the scaffold, not a claim.
@@ -636,3 +638,57 @@ basis, or marked verdict-only):
   The +1 fires only if the rubric's three legs hold.
 - Coverage stays capped until an operator ruling on retired surfaces (L0) or a
   restored source.
+
+## Corrections recorded in round 25 — current-state assertions (appended; superseded lines stay as written)
+
+Found by `python3 plans/state_check.py` (C2) and the round-25 wave-1 scouts. Each line names what it supersedes.
+
+- **R25-E1 (2026-10-20)** supersedes `P2a.capability.sources-registry` — now `rows 26` `malformed 0` `A=24 C=2` `mined=18 queued=5 rejected=3` (registry ids S001–S026; S026 was appended in e21f9ea after the §Capabilities sources-registry cell was written on the 25-row census; that cell's counts are stale, its capability claim stands — scripts/sources-census.sh validate exits 0).
+- **R25-E2 (2026-10-20)** supersedes the §Round 24 axis-table adjacency basis "no integrator arbitration": the orchestrator adjudicated round 24 (`corpus/lessons/round-24-verifier-spotcheck.md`, commit a42bb40, "ADMITTED … Orchestrator ruling on the lane's L0"); adjacency itself was ruled unchanged. Calibration's descriptor there reads "improved, score held 8" per the same adjudication.
+- **R25-E3 (2026-10-20)** supersedes the D14 erratum's anchor: the "All 149 checks" line is `SCORECARD.md:307`, not `:305` (`grep -n 'All 149 checks' SCORECARD.md`).
+- **R25-E4 (2026-10-20)** supersedes the novelty mapping-of-record pointer "`../MISSION.md:14` assigns it": the kengaku axes assignment is `../MISSION.md:24` (`grep -n kengaku ../MISSION.md`).
+- **R25-E5 (2026-10-20)** supersedes §Saturation's first sentence ("to be declared … on its next round"): the round-24 declaration (line 8, N = 4) directly below it is the declaration of record.
+
+## Round 25 — interval-calibrated attribution verdicts (novelty → coverage) and current-state assertions re-derived (calibration), 2026-10-20
+
+Hyaku block 25–34, L1 KengakuR25 (holds the planner seat). Lowest axis: novelty 7, tied with coverage 7; tie-break:
+coverage is capped at 7 by the unresolvable-surface clause pending the operator's coverage-cap ruling, so the lowest-axis
+claim is novelty. No stagnation waiver. Pre-registration `plans/round-25-claims.md` (landed `3f371d2`; Amendment 1 `710409f`,
+both before any instrument output). Counting command for the round: `sh plans/round25_census.sh` (base receipt
+`corpus/evidence/round25-calibration/round25-census-before-6180e4f.txt`).
+
+**Legacy-axis mapping (PROTOCOL.md "Fleet-2 conventions"; Amendment 1 item 2):** `novelty` is a recorded sub-axis of
+canonical **coverage** (coverage/constructs: an edge class the lane can now observe; coverage/surfaces keeps its own row
+and cap). It serves the distinct-axes rule and the expansion trend only and is scored by the novelty rubric (`:244`); the
+canonical coverage number is not moved by it. Dissent on record: CritAxisMapping (calibration would fit closer).
+
+| Claim | Axis / type | Before → after (counting command, measured against) | Score | Self-verdict (pending non-author check) |
+|---|---|---|---|---|
+| C1 exact-interval re-verdict of the r21–r23 attribution receipts + knowledge entry on sourced rows | novelty (→ coverage/constructs; lowest) + capability `interval-reverdict` | interval-carrying verdicts 0 → 35 estimates (PASS 12, INDETERMINATE 11, UNTESTED 12); stored verdicts re-verdicted 0/7 → 7/7 with transitions FAIL>UNTESTED 2, PASS>INDETERMINATE 1, PASS>PASS 4; independent sh+awk parser agrees (`python3 plans/attrib_calibration.py --summary`; before: instrument absent at `6180e4f`; after: landed round-25 tip) | 7 → **8 claimed** (rubric legs: new construct — 0 exact/per-leg/verdict-carrying intervals before, Amendment 1 item 1; instrument in-repo and offline; prior-art verdict with fetched URLs S027–S034, S011: method and the small-n phenomenon are published, the contribution is the lane-local measured construct and one overturned stored verdict; power ask met on all 4 overall-accuracy samples, n = 20–30 ≥ 17) | improved; +1 contested in advance by CritNoveltyLegit (leg c "already published" cap) — the non-author closure rules |
+| C2 frozen current-state assertions re-derived by command | calibration | mismatches on frozen P2 at base `6180e4f` 11 → 0 on the landed tree (1 superseded by R25-E1, re-derived) (`python3 plans/state_check.py --summary`; before receipt `corpus/evidence/round25-calibration/state-check-before-6180e4f.txt`) | 8 → **8 (held)**: the rubric +1 needs a scored probe; the observable AXES.md:15 names moved | improved (observable), score held |
+
+Separability (QUALITY R13): each count re-run with the other claim reverted is unchanged
+(`corpus/evidence/round25-calibration/revert-test.txt`). Predictions P1–P5 scored: outcomes (1, 1, 1, 1, 0); Brier
+P1 0.0025, P2 0.2025, P3 0.0100, P4 0.0009, P5 0.0100; mean 0.0452, of which P2 — the only forecast not derivable from
+committed bytes at filing — is 89.6%; the four derivable rows average 0.0059. No calibration credit is taken from this score.
+
+Re-derived axis state, round 25:
+
+| Axis | Round-25 value | Basis |
+|---|---|---|
+| novelty (→ coverage/constructs) | 8 claimed | C1 above; contested leg (c) named; held at 7 if the closure rules the cap applies |
+| calibration | 8 | C2 observable moved, score held (rubric +1 needs a scored probe) |
+| depth | 9 | held (anti-double-count): SKILL measurement rule 14 documents this round's instrument |
+| coverage (surfaces) | 7 | cap unchanged; five `## Surfaces` rows now carry dated ABSENT markers; cap ruling re-filed as L0 |
+| operability | 8 | two new offline gates with selftests; scored under the capabilities table, no operability claim |
+| freshness | 8 | round-start receipts (`.ufo/waves/round-25/build/BaseReceiptsExec.md`) and 10 sources re-opened; no claim |
+| adjacency | 8 | kumitate/kotoba/kagi/souji/kaidoku/tameshi/chousa overlaps ruled by wave-1 connectors; no claim |
+
+## Planned (round 26)
+
+- **novelty or coverage (lowest, 7 / 8 per the closure):** extend the interval rule to `grader.py`'s stored verdicts
+  (the remaining half of the "judge calibration applied inward" frontier) with a frozen population and an S010-style
+  perturbation audit; before = 0 interval verdicts on grader outputs.
+- **calibration:** pin content (not only range) for every SHONEN/axis-basis line anchor in `plans/state_check.py`
+  (the kagi L17→L19 failure class), red-run first.
+- Coverage stays capped until the operator rules the coverage-cap L0 (re-filed round 25).

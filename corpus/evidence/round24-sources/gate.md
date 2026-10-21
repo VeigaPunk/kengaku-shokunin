@@ -103,3 +103,11 @@ duplicate ids (must be empty): []
 enum/tier-inflation (must be empty): []
 mined used-by missing (must be empty): []
 ```
+
+## Access-time capture caveat (appended round 25, 2026-10-20)
+
+The sha256 values above are captures of the bytes fetched at access time. For S005, S006, S023 and S026 the
+pages are dynamic or challenge-served: same-day re-fetches return the same byte count but a different hash
+(round-25 reviewer RevF10 re-fetched S005 twice 2 s apart: `e6f58c18…` then `1da6fa12…`; S006 `faec654e…`;
+scale.com `c7e50638…`). Re-verification of these rows is by quote and location; a hash mismatch alone is not a
+finding. (Closes kaika W3 F10.)

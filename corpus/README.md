@@ -58,6 +58,7 @@ candidates fixed in the receipt, not the wider round-16 citation audit.
 | `knowledge/benchmark-saturation-and-lifecycle.md` | Saturation as loss of top-model discrimination near an empirical ceiling, not a high score; lifecycle/retirement signals and construct-validity pairing | S007, S008 — `corpus/SOURCES.md` rows, round 24 |
 | `knowledge/agent-time-horizon-and-task-validity.md` | METR human-duration time horizon (task difficulty at a stated success probability, not wall-clock or job automation) + coding-benchmark task/test validity audits | S013, S014, S005, S006 — `corpus/SOURCES.md` rows, round 24 |
 | `knowledge/paired-eval-uncertainty-reporting.md` | Reporting recipe for shared-item evals: paired differences, MDE/resolution, clustering, multiplicity, adaptive-selection inference | S015–S019 — `corpus/SOURCES.md` rows, round 24 |
+| `knowledge/attribution-interval-calibration.md` | Exact CP95 re-verdict of the r21–r23 attribution receipts: overall PASS holds on 4 unique samples (92/92), r22 TARGET hyper 10/10 PASS → INDETERMINATE, two 0/0 FAILs → UNTESTED; per-leg recall/specificity; Rogan–Gladen share bounds | S027–S030, S033, S034, S011; own-work S036/S037; `python3 plans/attrib_calibration.py --summary` |
 | `lessons/round-1.md` | Path-correction, replace-don't-append, zero-width char hazard | LOG.md round 1, commit `90a5ce8` |
 | `lessons/round-3.md` | Filename-judging missed on-host surfaces; complementarity vs pass-rate; NULL parsing; FAIL-latency signature | LOG.md round 3, this round's analysis |
 | `lessons/round-4.md` | Endpoint-drift trap; n=1 flip on 03; FAIL-latency is subset-level not per-task | LOG.md round 4, `/tmp/bench-r4` run |
@@ -88,6 +89,8 @@ candidates fixed in the receipt, not the wider round-16 citation audit.
 | `lessons/2026-10-16-round22-leg-coverage-forcing.md` | Natural coverage is weather, forced coverage is design: closing untested legs must not claim what it did not measure | `plans/attrib-r22-frozen.md`, `evidence/attrib-r22-*.log`, battery TEMPLATE P10 fold |
 | `lessons/2026-10-16-round23-stream-surface.md` | The request flag is an instrument surface: what the shim's stream path changes about forcing and features | `plans/attrib-r23-frozen.md`, `evidence/attrib-r23-stream*.log` (30/30 accuracy, target clause FAIL) |
 | `lessons/round-24.md` | Round-24 lesson: mistakes mined from rejected candidates + `## Gate` (admission records) | round-24 wave receipts; `plans/round-24-claims.md` |
+| `lessons/round-24-verifier-spotcheck.md` | Round-24 non-author verification and spot-check (integrator-authored, not lane-owned): admit/reject agree, S023 reason disagreement → S026 + Q9/Q10 | `a42bb40`; fleet `.ufo/waves/kaika-w3/kengaku-review.md` |
+| `lessons/round-25.md` | Round-25 lesson: mistakes M23–M30 (L0 filing, point-PASS survivor, stale state assertions, separability) + `## Gate` + kaika W3 F1–F14 disposition | `plans/round-25-claims.md`; `.ufo/waves/round-25/` |
 
 Supporting corpus files:
 
@@ -156,6 +159,8 @@ Round-24 additions:
 |---|---|
 | `evidence/round24-sources/` | Gate receipts for the `SOURCES.md` contract-v1 rows (per-source open receipts for the S001–S019 registry) |
 | `evidence/round24-census/` | Round-24 census receipts: `base-99cf615.txt` (v2 census on a `git archive 99cf615` tree) and `after.txt` (census + SOURCES contract census on the round-24 commit) |
+| `evidence/round25-sources/` | Gate receipts for SOURCES rows S027–S037 and the S011 re-open (URL, access time, sha256, ≤25-word located quote) |
+| `evidence/round25-calibration/` | Round-25 receipts: `attrib-calibration-summary.txt` / `-selftest.txt` (C1 instrument), `attrib-oracle-intervals.txt` (independent sh+awk parser), `state-check-before-6180e4f.txt` / `state-check-after.txt` / `state-check-selftest.txt` (C2), `round25-census-*.txt` |
 
 ### `plans/` — plans, frozen instruments, and templates
 
@@ -169,6 +174,12 @@ Round-24 additions:
 | `plans/probe-battery-TEMPLATE.md` | Host-agnostic reusable battery spec; P10 attribution probe folded in (r22); lineage table cites every established practice |
 | `plans/round-24-claims.md` | Round-24 pre-registered claims; before-values measured at base `99cf615` |
 | `plans/round24_census.sh` | Counting script for every claimed number — run `sh plans/round24_census.sh` from the lane root |
+| `plans/round-25-claims.md` | Round-25 pre-registration (frozen populations P1/P2, CP interval rule, power ask, predictions) + Amendment 1 |
+| `plans/attrib_calibration.py` | C1 instrument: offline exact-CP re-verdict of the frozen P1 attribution receipts (sha256-pinned); `--summary`, `--json`, `--selftest` (exit 0/1/2) |
+| `plans/state_check.py` | C2 instrument: re-derives frozen SCORECARD/SHONEN/PROVINCE/README current-state assertions; `--summary`, `--json`, `--selftest` (exit 0/1/2) |
+| `plans/l0_filed_check.sh` | QUALITY R11 check: every report L0 question reached `.ufo/l0-questions.md` (exit 0/1/2) |
+| `plans/round25_census.sh` | Round-25 counting script (SOURCES census, new rows, mistakes rows, SHONEN form, frontmatter triggers, both instruments' summaries) |
+| `plans/fixtures/r25/` | Round-25 fixtures: `cp_reference.{py,tsv}` (exact-rational CP table), `power_table.{py,tsv}`, `attrib_oracle.sh` (independent parser), `attrib-cal/` (C1 red fixtures), `l0_filed_check/`, `shonen-seed.txt` (PROTOCOL.md:439-448 seed, sha256 886e459b…) |
 | `plans/wwkd-round-16-recensus.md` | WWKD round-16 dispatch: independent freshness re-census plan (base `d84e48d5…`) |
 | `plans/wwkd-round-17-coverage.md` | WWKD round-17 dispatch: coverage continuation plan (base `3f31e54c…`) |
 
@@ -207,6 +218,7 @@ recomputed 24/32).
 - **Evidence durability**: every run byte and verification artifact through round 14 is committed and indexed. The r12/r13 one-round landing debt and the r8 raw-stripping incident remain documented; no headline claim rests solely on `/tmp`.
 - **Contamination detection and transparency**: covered at source-digest depth (round 24) — knowledge/contamination-detection-and-transparency.md; sources S001, S002, S004 (S003 rejected as a general score-correction).
 - **Judge calibration**: covered at source-digest depth (round 24) — knowledge/llm-judge-calibration.md; sources S009–S012.
+- **Instrument interval calibration**: covered at measured depth (round 25) — knowledge/attribution-interval-calibration.md; sources S027–S030, S033, S034, S011; own-work S036/S037. Extends the Judge calibration row inward.
 - **Benchmark saturation and lifecycle**: covered at source-digest depth (round 24) — knowledge/benchmark-saturation-and-lifecycle.md; sources S007, S008.
 - **Agentic time horizon and task validity**: covered at source-digest depth (round 24) — knowledge/agent-time-horizon-and-task-validity.md; sources S013, S014, S005, S006. Extends the *Multi-turn state tracking / planning horizon* row with external task-duration and task-validity methodology; the lane's local horizon instrument is unchanged.
 - **Statistical reporting for paired evals**: covered at source-digest depth (round 24) — knowledge/paired-eval-uncertainty-reporting.md; sources S015–S019.
@@ -234,5 +246,6 @@ source/instrument (ART dossier §Leads; nothing below is admitted knowledge yet)
 - **Agentic benchmark task-spec audits**: why — S005/S006 show lab self-audits finding task-level validity defects *after* publication; the lane has no instrument that audits a benchmark's task specs, graders, and contamination separately. Next source/instrument: the primary specs and scoring code for Terminal-Bench 2.0, Toolathlon, and SWE-bench Pro (unopened leads in the ART dossier), turned into a per-benchmark task-validity checklist.
 - **Contamination transparency cards**: why — `knowledge/contamination-detection-and-transparency.md` establishes the tier/access vocabulary but the lane has no standard card format recording detector access, tier tested, and what a negative cannot rule out. Next source/instrument: current benchmark-maintainer releases on hidden-test governance and contamination-transparency cards (unopened lead); draft a card template and gate a knowledge entry on Q1–Q8.
 - **Judge calibration applied inward**: why — the lane's own grader/attribution outputs (`grader.py`, `plans/attrib_probe.py` verdicts) are judged artifacts that have never been through the S009–S012 calibration protocol the new entry describes. Next source/instrument: port the S011 sensitivity/specificity correction + S010 perturbation audit onto the r21–r23 trial receipts (`evidence/attrib-r2*-*.log`).
+  - *Partly discharged round 25 (2026-10-20):* the attribution receipts now carry exact-interval verdicts (`knowledge/attribution-interval-calibration.md`); `grader.py` outputs and an S010-style perturbation audit remain frontier.
 - **Identity-verified endpoint for novelty probes**: why — `:34113` is absent (`ss -ltn 'sport = :34113'` → no listener, 2026-10-19); only the read-only ds-flash-shim (`:8791`, sha-pinned) resolves, so no new live capability/novelty probe can run. Next source/instrument: an identity-verified endpoint (kama-owned serving plane, operator-owned restoration) plus the standing `plans/probe-battery-TEMPLATE.md` to re-instantiate the battery.
 - **Non-karpathy wiki topics**: why — `ai/` subtrees outside karpathy remain undigested and the source is absent (`~/Projects/webzites/repos/llm-wiki` → `test -e` absent). Next source/instrument: none available on-host; the row stays frontier until the wiki path resolves again (round-13/16 receipts record it absent).

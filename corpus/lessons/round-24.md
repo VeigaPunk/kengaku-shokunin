@@ -139,3 +139,19 @@ matches observed repo state) and required the fixes below inside round 24.
   strong copyleft licenses (e.g., GPL)” — Data Contamination → The Solution.
 - **Validator after:** `TZ=UTC bash …/fleet-census/scripts/sources-census.sh
   validate <worktree>` → `ok`, exit 0.
+
+## Errata (appended round 25, 2026-10-20)
+
+The lines above stay as written.
+
+- M14 and "Round 23 disposition" cite `SCORECARD.md:567` for the round-23 header; that line was blank when
+  cited (born stale in `94da19e`, where the header already sat at `:569`). Read both cites as `SCORECARD.md:569`.
+  (Closes kaika W3 F6; reviewer RevF6, round 25.)
+- §Gate's per-entry "Q1–Q8 pass" lines are superseded by §Post-review corrections in this file: the outside
+  spot-check found five quote-location slips and one unreproduced range across four sources (M22), so the
+  judge-calibration entry's gate result is "disagree (partial), corrected", not a clean pass. (Closes kaika W3
+  F5's residual; reviewer RevF5, round 25.)
+- M19's evidence cell is narrowed (kaika W3 critic, reviewer RevM19Critic, round 25): the round-23 note dated
+  its observation to its 13:33Z write and said later receipts supersede it, so it was not an unmarked current
+  claim at write time. What stands is narrower — the note was committed (14:23:19Z) after the receipts existed
+  without the dated, receipt-naming erratum R5 requires. The R5 erratum is added to that note in round 25.

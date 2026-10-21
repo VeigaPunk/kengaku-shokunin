@@ -95,3 +95,13 @@ landed in `94da19e`. Re-opened S009 and S012 today.
   humans" is in the Abstract (correct), but "cannot pass the more advanced
   'repetitive list' attack" is in **§3.3 Limitations of LLM-as-a-Judge**
   (verbosity bias), not the Abstract.
+
+## Corrections (round 25, 2026-10-20)
+
+Appended; the lines above stay as landed. Source: round-25 reviewer RevF11 re-opened S010
+(https://arxiv.org/html/2602.02219, §5.4 and Table 4) on 2026-10-20.
+
+- §How kengaku applies it, "Choosing rubric granularity": the S010 pattern "extremes n=2 and n=9 carry the
+  highest Cramér's V" holds on **5 of 6 judges** (§5.4: "on 5 of 6 judge models the lowest V sits at an
+  intermediate scale"); GPT-OSS-20B peaks at n=5 (Table 4: V = 0.035, 0.035, 0.080, 0.036 at n = 2, 3, 5, 9).
+  Do not state the extremes pattern as universal. (Closes kaika W3 F11.)
