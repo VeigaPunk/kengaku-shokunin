@@ -108,3 +108,44 @@ so C1's new SCORECARD rows are outside P2. Each verifies with the other reverted
 D17 (`SHONEN.md` canonical form) and D18 (SKILL frontmatter triggers/anti-trigger/arbitration) are
 repaired as file-contract conformance, measured by C2's P2c check and a frontmatter grep respectively.
 D15 (missing r19–23 fleet reports) is not fabricated or retro-labelled.
+
+## Amendment 1 (2026-10-20 ~21:30 -03, after wave-1 read-only findings, BEFORE any instrument output was read)
+
+Inputs: `.ufo/waves/round-25/build/{CritNoveltyLegit,CritAxisMapping,CritPowerAsk,CritPredictions,CritIidCluster,CritC2Calibration,CritSeparability,DupR22Scout,FreezeShaScout,TrialVsImplScout,ConnKagiKama,ConnSoujiKaidoku}.md`.
+Every change below tightens or clarifies; none loosens a frozen rule.
+
+1. **C1 before-statement narrowed.** "0 interval estimates" was false: `corpus/knowledge/attrib-r21.md:139,154,156,374`
+   print descriptive Wilson 95% intervals for overall accuracy (no verdict, no per-leg, no CP). Before =
+   0 exact (CP) intervals, 0 per-leg recall/specificity intervals, 0 interval-carrying verdicts, 0 in-repo
+   instrument. Widened sweep: `grep -rnE 'Clopper|Wilson|confidence interval' corpus plans SKILL.md grader.py`.
+2. **Mapping is nominal and row-scoped.** `novelty` is recorded as a sub-axis of canonical coverage
+   (coverage/constructs vs coverage/surfaces). It serves the distinct-axes rule and the expansion trend only;
+   the novelty row is scored by the novelty rubric (`SCORECARD.md:244`) and the canonical coverage row keeps
+   its own number and cap. Dissent on record: CritAxisMapping argues calibration is the closer fit; rejected
+   because the instrument's accuracy is domain output, not the lane's self-assessment.
+3. **Power ask tightened (CritPowerAsk).** Interval PASS at bar 0.80 needs n >= N(e) with e errors:
+   N = 17, 26, 34, 41, 48, 55 for e = 0..5. ":45 legs below it are reported INDETERMINATE" is restated as
+   "never PASS" (a leg with failures can FAIL).
+4. **Dedup clarified, frozen rule kept.** The literal row-equality rule fires on `attrib-r22-legs.log:312` ≡
+   `attrib-r22-opencode-trials.log:204` although request windows/pins show two executions. The frozen rule is
+   applied as written (counted once, the conservative direction) and a pooled-if-distinct sensitivity line is
+   printed beside it; the verdict comes from the frozen rule.
+5. **Out-of-population blocks named.** Non-last blocks (`attrib-r21-impl-ds-trials.log:130,176,222`,
+   `attrib-r22-legs.log:260`, `attrib-r23-stream.log:194`) are listed as non-authoritative and never
+   re-verdicted. A stored `0/0 -> FAIL` re-verdicts UNTESTED (label migration, named as such).
+6. **P3 event pinned:** scored on `ACCURACY:` lines only (not the r23 `score_summary` shim-level `verdict`).
+7. **Brier honesty (CritPredictions).** P1, P3, P4, P5 were derivable from committed bytes at filing; P2
+   is the only genuine forecast. The close reports per-row `derivable-at-filing` flags and the Brier split;
+   no calibration credit is taken from this score.
+8. **Clustering caveat (CritIidCluster).** Each block's n counts repeated sends of 1-3 prompt bodies; the
+   CP interval is trial-level (iid) and is reported with `bodies=m` and an `iid-fragile` flag. Cluster-level
+   n (m <= 3) can never PASS; the knowledge entry carries this limit.
+9. **Instrument contract hardening.** Empty population or unreadable receipt -> exit 2 with a `SETUP` line
+   (no vacuous PASS). `rg_bound` handles se_lo + sp_lo <= 1 as unidentified -> [0,1].
+10. **C2 separability and grammar (CritSeparability, CritC2Calibration).** P2a sources-registry tokens are
+    re-derived on the base registry population (ids <= S026; the registry is append-only), so C1's new rows
+    cannot move C2. P2b anchors are resolved by content (the line's text) not absolute line number. P2e's
+    file->row direction is scoped to the base file manifest; files added this round are reported as `new`,
+    not counted. P2c's seed is frozen into `plans/fixtures/r25/shonen-seed.txt` with the PROTOCOL.md sha256.
+    A stale base assertion closed by an appended dated correction (QUALITY R1) is reported `superseded`
+    (separately from match), and the correction's own value is re-checked.
