@@ -389,3 +389,28 @@ content-pinned P3 self-assertions. Pre-registration `e0037a8`; Amendment 1 expli
   the orchestrator's duty; no author-lane reviewer is claimed independent. Round25 remains rejected.
 - Report will cite this measured revision and the subsequent receipt/bookkeeping commit; existing L0
   coverage-cap and novelty-conversion questions remain open, with no new operator decision needed.
+
+## Round 27 — extraction-policy comparison and frozen P4 (2026-10-21)
+
+Lowest axis: legacy novelty7 → canonical coverage/constructs, tied coverage7 capped; no waiver.
+Declared C1: fixed-response extraction-policy comparison; C2: calibration8 frozen P4 assertions. Both
+score-held observables, not two claims on one axis. Pre-registration11a7fc8 precedes the82-seat build.
+Round26 outside admission and its no-new-r26-assertions limitation motivate C2; four outside spotchecks
+agree, so no new disagreement is invented (`corpus/lessons/round-27.md`; fleet r26 closure evidence).
+
+C1 instrument absent at b5719440 →15712 paired verdict comparisons,1089 disagreement events over five
+policies; baseline1964/1964 reproduces. E1/E3/E7 each17PF, E4 1012PF, E5 26PF; all FP0. MULTI14/31
+and the75pp r8 B-clean-hint shift prevent a reassuring pooled-only interpretation. Prior art xFinder/
+harness choices already covers the method in kind: novelty7 held. Draft remains unadmitted pending Q10/Q13.
+Commands: `python3 plans/parser_policy_compare.py --summary`; base absence receipt
+`corpus/evidence/round27-calibration/round-start.txt`; output build/ExecPolicyCore.md.
+
+Eight tierA sources S049–S056 opened before registry insertion; lesson Gate records URLs/date/located
+quotes and the narrow policy mapping. No MCQ regex is claimed an exact JSON-policy implementation.
+M55 mines the commit-tree→working-copy surviving mutant; M56/M57/M58 expose schema/separability/
+supersession-disclosure pitfalls. Repairs need actual red/green receipts, not green-exit assertions.
+
+Wave1:82 seats,19 provider deaths unreplaced (six connector quota failures, thirteen Haiku429s). Partial
+reports remain evidence, not successful completion. All seat-owned retained reports are committed.
+L1 is integration owner; private seat clones are not production edits. Reverification touched only the
+pinned offline response population, source openings and r26 assertions, never the absent model endpoint.

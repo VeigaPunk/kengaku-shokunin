@@ -808,3 +808,18 @@ Receipts: `corpus/evidence/round26-calibration/round26-census-after.txt`,
 `gate-timing-actual-commit.txt`, `sources-census-final.txt`, `actual-commit-byte-check.json`.
 The actual commit retains the exact measured instrument and candidate bytes. Scores stay7/8;
 all other axis values stay as declared. These are author measurements, not outside admission.
+
+## Round 27 — fixed-response extraction policies and P4 (2026-10-21)
+
+Lowest legacy novelty7 → canonical coverage/constructs, tied coverage7 capped; no stagnation waiver.
+Base b5719440, preregistration11a7fc8 plus disclosed post-output Amendment1. C1/C2 are causally separate.
+
+| Claim | Axis | Before → observed | Score/verdict |
+|---|---|---|---|
+| C1 extraction-policy comparison | novelty → coverage/constructs (lowest) | `git cat-file -e b5719440:plans/parser_policy_compare.py` exit128, absent; `python3 plans/parser_policy_compare.py --summary` compares1964×8=15712 verdicts,1089 disagreement events over five policies | 7→7 held; observable improved, no method novelty (xFinder and public harness prior art) |
+| C2 frozen P4 assertions | calibration | v3 checks0 P4 assertions; v4 freezes round26's own assertions against their named historical evidence; final inventory/counter appended after integration | 8 held; pending final counter and mutation evidence, not preclaimed |
+
+C1's source row S056 and S049–S055 are opened this round; draft knowledge remains outside corpus until
+returned Q10 rereads. E4's large score fall is instruction-contract mismatch, not new model-error discovery.
+No other axis moves: depth9, coverage7 capped, operability8, freshness8, adjacency8. Final measured revision,
+capability demonstration, C2 outcomes and next frontier are appended after falsification.

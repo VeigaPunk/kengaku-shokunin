@@ -120,6 +120,15 @@ An entry is admitted only when every row below passes; the round lesson's
   Lesson: `corpus/lessons/round-26.md` M49; `falsify/FxGatePlaceholder.md`, `FxGateGeneric.md`,
   `FxGateWriter.md`, `FxGateCommit.md` under `.ufo/waves/round-26/`.
 
+- **Q15 — commit-tree authority includes report inventory, not just the final exit.** Q13/Q14 checks must
+  read the requested commit for both cited report support and total report inventory. A working-copy report
+  cannot make an early commit look reviewed, even when some other missing support already keeps exit1.
+  `python3 plans/gate_timing_check.py --selftest` includes an identical-lesson two-commit fixture: early
+  report present only on disk → exit1/inventory0; later committed report → exit0/inventory1. The worktree
+  inventory mutant must fail that fixture. This is structural timing, not source-truth endorsement.
+  Lesson: `corpus/lessons/round-27.md` M55; `.ufo/waves/round-27/build/MutGateTiming.md` and
+  `plans/fixtures/r27/gate-timing-worktree-{mutant,restored}.txt`.
+
 ## Round-closure criteria
 
 A round closes only when every row below holds; a row that cannot be shown is an open item, not a waiver. Each row cites the mistake it closes in `corpus/lessons/round-24.md`; checks are file or command tests, not prose.

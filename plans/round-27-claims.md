@@ -151,3 +151,40 @@ contains the cited returned falsify re-read reports).
 Wave 1 build (64–100 seats) and wave 2 falsify (64–100 seats, after wave 1 returns and the instruments are
 integrated); round total ≤ 200. Writers work only in private clones `/tmp/kengaku-r27-<Seat>`; KengakuR27 is the
 sole integrator.
+
+## Amendment 1 — after build outputs, before knowledge admission (2026-10-21)
+
+Timing disclosure: returned build seats and an L1 sanity computation have already revealed E-policy counts.
+This is a post-output clarification, not an ex-ante change or a rescore of the predictions.
+
+- E1 selects the first **matched**, not first parseable, fence; failed decode goes directly to the
+  whole-response bare-last fallback. Successful JSON null ends extraction (no fallback).
+- E2/E3 apply non-overlapping `re.findall(BARE_RE, raw)` to the original raw string as-is, including
+  candidates inside fences. They neither strip delimiters nor exclude fenced spans.
+- E5 tries only the last matched fence and has no fallback. E6 is the exact frozen regex, not a
+  CommonMark implementation. E7/E8 start only at braces/brackets; E8 skips nested starts in successfully
+  decoded spans. Policy equivalence on this corpus is not equivalence on arbitrary inputs.
+- E4 retains `raw.strip()` as frozen. openai/evals JsonMatch uses `json.loads(raw)` without that strip:
+  the source grounds the whole-output policy class, not source-exact implementation. Source probes find
+  zero population differences. None of these lane-defined JSON variants is described as an actual
+  end-to-end run of lm-eval, inspect_ai or simple-evals.
+- C1's published-in-kind verdict is **held 7** (xFinder and fixed-output rescoring precedents); no +1.
+  Q5 uses unrounded rates/counts, not a rounded `CELLSHIFT` token. Brier is descriptive bookkeeping only.
+- P4a compares historical round-26 numerical assertions with their committed round-26 receipts, not
+  live `round26_census.sh` totals or recursive live v4 output. A current source registry census would
+  conflate C1 additions with a claim about the historical admitting tree (RevSeparabilityPlan).
+- P4b treats a listed directory as recursively covering its base descendants; its reverse universe
+  is the frozen base table's three directory trees, not new round-27 paths. The S043–S047 range retains
+  the existing explicit S043–S048 erratum; do not manufacture an unresolved mismatch.
+- P4e follows the registry's knowledge/lessons teaching-use convention, not every literal identifier
+  in plans, receipts or source inventory. S043's supersession-only reference is not substantive use.
+  Newly written round-27 citations cannot expand the frozen citing-file population.
+- SOURCES contract has **11 content columns**, or **13 split fields including empty pipe edges**.
+  Build-context “13-column” wording was erroneous; existing contract-v1 shape wins.
+- Frozen P4 inventory must expose unmapped numeric assertions as offline-unverifiable, never silently
+  discard them. Score/version/source/commit identifiers are distinguished from measured numeric claims.
+  The inventory and its interpretation are delivered evidence, not a claim to check every current number.
+- Untrusted-input cost probe found E7/E8 superlinear on repeated unmatched brackets (200K takes ~285s).
+  CLI accepts only the byte-pinned population and rejects changed files before invoking these policies;
+  pure policy helpers are research functions for bounded fixtures, not a production untrusted-input API.
+  No arbitrary-input performance or parser-safety claim follows.

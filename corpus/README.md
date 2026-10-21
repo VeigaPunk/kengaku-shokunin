@@ -94,6 +94,7 @@ candidates fixed in the receipt, not the wider round-16 citation audit.
 | `lessons/round-25.md` | Round-25 lesson: mistakes M23–M30 (L0 filing, point-PASS survivor, stale state assertions, separability) + `## Gate` + kaika W3 F1–F14 disposition | `plans/round-25-claims.md`; `.ufo/waves/round-25/` |
 | `lessons/round-25-verifier-spotcheck.md` | Outside closure: round 25 rejected-honest-stop, expansion harmed at landing; routed number drift and future-dated Gate evidence | `f11bffbf`; round-26 repair R26-E1–E4 |
 | `lessons/round-26.md` | Repair-first lesson: Q13 evidence timing, frozen P3 self-assertions and grader perturbation interpretation | `plans/round-26-claims.md`; `.ufo/waves/round-26/` |
+| `lessons/round-27.md` | Extraction-policy comparison, frozen P4 assertions and commit-tree/working-copy mutation survivor | `plans/round-27-claims.md`; `.ufo/waves/round-27/` |
 
 Supporting corpus files:
 
@@ -283,3 +284,17 @@ not a second admission method. All new supporting files above are local artifact
 Round-26 source-support correction: the supporting-artifact row's initial S043–S047 range is superseded
 by **S043–S048**; S048 corrects S043's quote location before knowledge admission
 (`lessons/round-26.md` §Source-location correction before admission).
+
+## Round-27 supporting artifacts (2026-10-21)
+
+| Path | Covers |
+|---|---|
+| `evidence/round27-sources/` | S049–S056 located opening quotes and scoped source-to-policy mapping |
+| `evidence/round27-calibration/` | Round-start receipts and final counters/mutation/separability receipts |
+| `../plans/parser_policy_compare.py` | Fixed-response E0–E8 verdict agreement; parser-only counterfactual, not alternate complete harness runs |
+| `../plans/round27_census.sh` | Read-only round-27 counters with lane master revision |
+| `../plans/fixtures/r27/` | Policy oracle, synthetic edge cases, frozen P4 mutations and preservation checks |
+
+The new knowledge candidate is still outside corpus until Q10/Q13/Q14 rereads return; no coverage-map
+discharge is asserted by these supporting-artifact rows.
+

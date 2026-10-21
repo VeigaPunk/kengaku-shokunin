@@ -12,9 +12,11 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
+import tempfile
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Callable
@@ -474,6 +476,118 @@ def safe_round_path(lesson: str) -> bool:
         part in ("", ".", "..") for part in parsed.parts)
 
 
+def selftest_tree_inventory() -> bool:
+    """Exercise commit-tree inventory against an uncommitted working-copy report."""
+    with tempfile.TemporaryDirectory(prefix="gate-timing-selftest-") as tmp:
+        repo = Path(tmp) / "repo"
+        repo.mkdir()
+
+        def git(*args: str) -> subprocess.CompletedProcess[str]:
+            result = run_git(repo, *args)
+            if result.returncode:
+                raise RuntimeError(result.stderr.strip() or f"git {' '.join(args)} failed")
+            return result
+
+        git("init", "-q")
+        git("config", "user.name", "Gate Timing Selftest")
+        git("config", "user.email", "gate-timing-selftest@example.invalid")
+
+        lesson = "corpus/lessons/round-27.md"
+        candidate = "corpus/knowledge/extraction-policy-comparison.md"
+        registry = ".ufo/waves/round-27/falsify/swarm-registry.json"
+        report = ".ufo/waves/round-27/falsify/TimingSeat.md"
+        (repo / lesson).parent.mkdir(parents=True)
+        (repo / candidate).parent.mkdir(parents=True)
+        (repo / registry).parent.mkdir(parents=True)
+        lesson_text = (
+            "# Round 27 timing selftest\n\n## Gate\n\n"
+            "| candidate | decision | reason |\n|---|---|---|\n"
+            f"| `{candidate}` | admit | Re-read `{report}`. |\n"
+        )
+        (repo / lesson).write_text(lesson_text, encoding="utf-8")
+        (repo / candidate).write_text(
+            "writer: GateTimingSelftestWriter\n# Candidate\n", encoding="utf-8")
+        (repo / registry).write_text(
+            '{"members":{"TimingSeat":{"role":"reviewer",'
+            '"agentId":"GateTimingSelftest.TimingSeat"}}}\n',
+            encoding="utf-8",
+        )
+        git("add", lesson, candidate, registry)
+        git("commit", "-q", "-m", "early admission without returned report")
+        early_commit = git("rev-parse", "HEAD").stdout.strip()
+
+        (repo / report).write_text(
+            f"Re-read {candidate}\nVERDICT: PASS\n", encoding="utf-8")
+        early_report = run_git(repo, "show", f"{early_commit}:{report}")
+        if early_report.returncode == 0:
+            print("selftest: worktree report unexpectedly exists in the early commit",
+                  file=sys.stderr)
+            return False
+
+        script = str(Path(__file__).resolve())
+        env = dict(os.environ)
+        env["PYTHONDONTWRITEBYTECODE"] = "1"
+
+        def check(commit: str) -> subprocess.CompletedProcess[str]:
+            return subprocess.run(
+                [sys.executable, script, "--lesson", lesson, "--commit", commit,
+                 "--repo", str(repo)],
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                check=False,
+                env=env,
+            )
+
+        early = check(early_commit)
+        git("add", report)
+        git("commit", "-q", "-m", "return the cited report")
+        late_commit = git("rev-parse", "HEAD").stdout.strip()
+        late = check(late_commit)
+
+        early_inventory = re.search(
+            r"^gate_timing_check: .*second-seat-reports=(\d+)$",
+            early.stdout, re.MULTILINE)
+        late_inventory = re.search(
+            r"^gate_timing_check: .*second-seat-reports=(\d+)$",
+            late.stdout, re.MULTILINE)
+        early_lesson = git("show", f"{early_commit}:{lesson}").stdout
+        late_lesson = git("show", f"{late_commit}:{lesson}").stdout
+
+        print("[selftest] worktree-only report at early commit:")
+        sys.stdout.write(early.stdout)
+        if early.stderr:
+            sys.stdout.write(early.stderr)
+        print(f"exit={early.returncode}")
+        print("[selftest] committed report at later commit:")
+        sys.stdout.write(late.stdout)
+        if late.stderr:
+            sys.stdout.write(late.stderr)
+        print(f"exit={late.returncode}")
+
+        failures: list[str] = []
+        if early.returncode != 1:
+            failures.append(f"early commit expected exit 1, got {early.returncode}")
+        if early_inventory is None or early_inventory.group(1) != "0":
+            found = early_inventory.group(1) if early_inventory else "missing"
+            failures.append(f"early commit expected second-seat-reports=0, got {found}")
+        if late.returncode != 0:
+            failures.append(f"later commit expected exit 0, got {late.returncode}")
+        if late_inventory is None or late_inventory.group(1) != "1":
+            found = late_inventory.group(1) if late_inventory else "missing"
+            failures.append(f"later commit expected second-seat-reports=1, got {found}")
+        if early_lesson != late_lesson or early_lesson != lesson_text:
+            failures.append("lesson bytes changed between early and later commits")
+        if failures:
+            for failure in failures:
+                print(f"selftest: {failure}", file=sys.stderr)
+            return False
+        print("[selftest] tree inventory matches requested commit (early=0, later=1; "
+              "lesson unchanged)")
+        return True
+
+
 def run_selftest() -> int:
     round_number = 7
     report = ".ufo/waves/round-7/falsify/SecondSeat.md"
@@ -597,8 +711,15 @@ def run_selftest() -> int:
     if inferred != 26:
         print(f"selftest: arbitrary lesson basename round inference failed: {inferred!r}", file=sys.stderr)
         return 1
+    try:
+        if not selftest_tree_inventory():
+            return 1
+    except (OSError, RuntimeError, subprocess.SubprocessError) as exc:
+        print(f"selftest: tree inventory fixture failed: {exc}", file=sys.stderr)
+        return 1
     print("[selftest] ALL PASS (five allowed roles; connector/mutation-tester/simplifier and unknown roles rejected; "
-          "declared writer/author/agentId conflicts red; missing report identity with registered reader green)")
+          "declared writer/author/agentId conflicts red; missing report identity with registered reader green; "
+          "working-copy inventory leak rejected)")
     return 0
 
 
@@ -610,7 +731,7 @@ def main(argv: list[str] | None = None) -> int:
                         default=Path(__file__).resolve().parent.parent,
                         help="repository containing the commit (default: this repository)")
     parser.add_argument("--selftest", action="store_true",
-                        help="run local in-memory fixtures without repository writes")
+                        help="run local fixtures in an ephemeral repository without target repo writes")
     args = parser.parse_args(argv)
     if args.selftest:
         if args.lesson or args.commit:
