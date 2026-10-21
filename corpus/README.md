@@ -96,6 +96,7 @@ candidates fixed in the receipt, not the wider round-16 citation audit.
 | `lessons/round-25-verifier-spotcheck.md` | Outside closure: round 25 rejected-honest-stop, expansion harmed at landing; routed number drift and future-dated Gate evidence | `f11bffbf`; round-26 repair R26-E1–E4 |
 | `lessons/round-26.md` | Repair-first lesson: Q13 evidence timing, frozen P3 self-assertions and grader perturbation interpretation | `plans/round-26-claims.md`; `.ufo/waves/round-26/` |
 | `lessons/round-27.md` | Extraction-policy comparison, frozen P4 assertions and commit-tree/working-copy mutation survivor | `plans/round-27-claims.md`; `.ufo/waves/round-27/` |
+| `lessons/round-29-source-copy-containment.md` | Non-author containment correction: a five-path absence check missed a compressed copy; bounded current-tree removal without historical purge or admission | Baseline `6a2c2df788a4fdb216dd5790f9ae6dd326169f47`; opaque archive/member identities in the lesson; appended fleet-report erratum |
 
 Supporting corpus files:
 

@@ -609,3 +609,21 @@ Landed measurement revision6baa3090b6cf2d50e56b94b806a69f41220081df equals the p
 both exit0; source76, knowledge/index37/37, historical329/318/0/6/5, P4 unchanged. Corpus v5 exact digest
 c4412f67… binds both returned complete final re-reads in the admitting tree. Measurement receipt paths:
 corpus/evidence/round29-calibration/actual-*, trial-landed-tree-proof.json. No outside closure is claimed.
+
+### Round29 — current-tree source-copy containment correction (2026-10-21)
+
+The earlier safety follow-up proved absence of five loose paths only. A non-author opaque archive
+check found the same flagged module still compressed in the tracked scratch wheel
+`.ufo/waves/round-29/scratch/falsify/FCritNovelty/fetch/libwebarena-0.0.5-py3-none-any.whl`
+at baseline `6a2c2df788a4fdb216dd5790f9ae6dd326169f47`. Its archive SHA-256 is
+`5cfdf8abc2b40cc4442905a29af1c45c5fd0ed57bbfe8e3a6421a2e53cb6cb1b`; member
+`webarena/browser_env/env_config.py` has Git blob identity
+`81cf52de7d998c90abb3741416e2c8ab9b434758`, identical to the removed loose module.
+The parent integrated a single-file current-tree removal after exact identity/size/inode checks,
+with a sanitized lesson and index row. No production instrument or unique projection fixture
+depends on this fetched wheel; the fetch receipt stays as a receipt, not a presence claim.
+No module values were printed or used, no package or gate was executed, and no benchmark endpoint
+was contacted. This is not a history purge, credential rotation, outside admission or global-clean
+claim; retained history and other possible carriers remain unresolved under the operator hold.
+Full bounds and reproducible opaque identities: `corpus/lessons/round-29-source-copy-containment.md`.
+The appended fleet-report erratum identifies the actual landed containment commit.
