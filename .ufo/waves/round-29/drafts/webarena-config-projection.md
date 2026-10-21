@@ -28,7 +28,8 @@ score held). The three profiles are controlled sensitivity stimuli, not deployme
   `/admin`) and step 3 runs this script; it documents no replacement order or token inventory.
   S073: `prepare.sh` only creates `./.auth` and runs `auto_login.py`; it is not the generator call site.
 - S071: `json.loads` raises on an invalid document rather than repairing it; a value containing `"` or `\`
-  therefore breaks or re-escapes the projected JSON instead of being normalized.
+  therefore makes the projected JSON invalid or is decoded as a JSON escape (`\n` becomes a newline);
+  nothing is normalized or repaired.
 
 ## Observed projection of the pinned inputs (2026-10-21)
 
