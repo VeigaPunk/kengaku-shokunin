@@ -933,3 +933,15 @@ score or newly verifiable group. The production slice is now bounded to the froz
 permanent selftest red1→green0 and JSON329/318/0/6/5 restore the exact declared disclosure classes.
 Old/new checker pins: plans/fixtures/r28/state-check-scope-fix.json. New C1/C2 metrics and67/15 tests
 remain unchanged. Final corrected measured revision is appended after landing; no red result is hidden.
+
+### Round28 actual corrected measured revision
+
+Measured/pushed revision **78e6df8171edf8afbb85e7345aea97f6cb2c7228**:
+`python3 plans/round28_census.py --revision 78e6df8171edf8afbb85e7345aea97f6cb2c7228` exits0.
+C1=812/5/27/16/651, C2=13/35/12/0, source69/malformed0, knowledge/index36/36.
+Historical329/318/0/6/5, P4 exactly51 (48 MATCH/1 SUPERSEDED/2 offline),29 OOP disclosures
+(26 old+3 round28). Actual Gate1/1 passes at this revision; byte proof binds entry50589759…,
+both returned v4 reports and measured code. First df33fc83 red checks remain explicitly recorded.
+Complete acceptance after the bounded legacy fix also exits0 with11 expected-exit stages and actual
+new-entry source links clean. Receipts: round28-calibration/actual-*-corrected.txt,
+actual-final-byte-proof.json, complete-acceptance/. These are author measurements, not outside admission.

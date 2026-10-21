@@ -294,3 +294,13 @@ and red/green receipts are in plans/fixtures/r28/state-check-scope-fix.json. C1/
 candidate50589759…, source data and their67/15 selftests remain unchanged. The acceptance fixture
 pins this intentional scope-fix digest rather than silently dropping the old-code preservation guard.
 Final measured revision and both actual-commit checks are recorded after this corrective commit.
+
+### Final measured outcome
+
+Corrected pushed measurement revision78e6df8171edf8afbb85e7345aea97f6cb2c7228:
+actual Gate1/1/0 and census exit0; source69/malformed0, knowledge/index36/36.
+Complete acceptance exits0, actual new-entry source links clean, all355 existing verdict IDs retained;
+329/318/0/6/5 plus29 OOP, P4 exactly48 MATCH/1 SUPERSEDED/2 offline. The first df33fc83 red
+Gate/census and the legacy-scope red selftest remain; corrected results do not rewrite them.
+Final entry authority is freeze-v4/digest50589759…, not the superseded v1–v3 freezes. The only later
+code exception is the separately pinned historical-section scope fix. Outside non-author review is pending.

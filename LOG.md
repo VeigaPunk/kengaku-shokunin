@@ -557,3 +557,14 @@ The restored JSON is329/318/0/6/5, P4 two offline groups and one superseded ID r
 historical-scope-selftest-{red,green}.txt, historical-scope-restored.txt and state-check-scope-fix.json.
 This is an explicit, bounded exception to the prior state-check byte-preservation statement, not a
 numeric/data rewrite or a conversion of uncertainty into MATCH. Candidate and new C1/C2 code are unchanged.
+
+### Round28 — corrected measured revision and final evidence
+
+Landed/pushed measured revision **78e6df8171edf8afbb85e7345aea97f6cb2c7228** has actual Gate
+admissions1/passed1/failed0 and census exit0, with69 conformant source rows and36/36 knowledge/index.
+All old355 verdict IDs persist;329 checked318 MATCH/0 MISMATCH/6 SUPERSEDED/5 offline plus29 OOP;
+P4 retains48 MATCH/1 SUPERSEDED/2 offline. Exact candidate50589759… and review/code bytes are
+verified from that commit's tree (actual-final-byte-proof.json).
+Final complete acceptance exits0 with11 expected-exit stages, actual source-use links clean,
+alternate/revert equality and the intentional historical-scope code pin. No model/site execution or
+new-method score credit. Scores7/8 held; outside closure remains separate. All first-red evidence stays.
