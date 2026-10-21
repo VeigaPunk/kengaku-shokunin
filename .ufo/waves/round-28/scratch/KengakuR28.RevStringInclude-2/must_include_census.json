@@ -1,0 +1,52 @@
+{
+  "seat": "KengakuR28.RevStringInclude-2",
+  "date": "2026-10-21",
+  "input": "plans/fixtures/r28/webarena/config_files/test.raw.json",
+  "sha256_verified_against_manifest": true,
+  "method": "python3 stdlib json only; no upstream code imported/executed",
+  "n_tasks": 812,
+  "reference_answers": {
+    "key_present_all_tasks": true,
+    "null_count": 477,
+    "dict_count": 335,
+    "dict_iff_string_match_routed": true,
+    "operator_sets": {
+      "exact_match_only": 45,
+      "must_include_only": 172,
+      "fuzzy_match_only": 114,
+      "must_include_and_fuzzy_match": 4
+    },
+    "unknown_ra_keys_observed": 0,
+    "multi_key_tasks": [34, 35, 267, 268],
+    "multi_key_order": "must_include before fuzzy_match; fuzzy_match values are lists, not N/A",
+    "fuzzy_match_NA_tasks": 36,
+    "fuzzy_match_NA_all_single_key": true,
+    "fuzzy_match_NA_empty_string_note": 0
+  },
+  "must_include": {
+    "tasks_with_operator": 176,
+    "non_list_values": 0,
+    "non_string_items": 0,
+    "empty_lists": 0,
+    "list_length_distribution": {"1": 98, "2": 36, "3": 13, "4": 6, "5": 6, "6": 10, "7": 1, "8": 1, "9": 1, "10": 1, "11": 1, "14": 2},
+    "len1_lists_tokenize_true_passed": 98,
+    "tokenize_branch_actually_fires": {
+      "count": 31,
+      "criterion": "len(value)==1 AND len(clean(ref))==1",
+      "task_ids": [11, 12, 13, 14, 15, 27, 28, 29, 30, 31, 77, 79, 128, 132, 133, 134, 135, 136, 144, 205, 206, 207, 292, 303, 305, 306, 319, 329, 346, 348, 787],
+      "all_single_digits": true
+    },
+    "single_char_refs_in_multi_lists": 0,
+    "refs_containing_or_token": [{"task_id": 386, "ref": "65 |OR| 3"}],
+    "items_altered_by_clean_answer": 238,
+    "empty_after_clean_refs": 0
+  },
+  "selected_16_string_match": {
+    "132": {"must_include": ["1"], "tokenize_branch": "fires (len1 list, cleaned ref len 1)"},
+    "97": {"must_include": ["914km"], "tokenize_branch": "passed True but ref len>1 -> substring"},
+    "791": {"fuzzy_match": "N/A", "exercises": "N/A exact_match + ua_match arm"},
+    "173": {"fuzzy_match": "list arm (LLM)"},
+    "7": {"exact_match": "arm"},
+    "others": "no string_match routing"
+  }
+}

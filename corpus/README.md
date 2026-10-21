@@ -308,3 +308,17 @@ rejection). Q1–Q16 is the current admission bar; Q16 strengthens Q15 traversal
 The separately implemented full numeric witness is `../plans/fixtures/r27/independent_policy_recheck.py`;
 only its root binding was relocated by L1, its replay logic is FEntryNumbers' retained evidence.
 
+
+## Round28 supporting artifacts (2026-10-21; knowledge admission deferred)
+
+| Path | Covers |
+|---|---|
+| `lessons/round-28.md` | M65 literal-reference drift, corrected source locations/scope, source openings and source-cell old→new, deferred Gate |
+| `evidence/round28-calibration/` | Round-start census/absence evidence; observed C1/C2 counters, baseline/only-delta/revert experiments and historical-verdict preservation |
+| `../plans/benchmark_spec_audit.py` | Read-only pinned WebArena snapshot inventory and static scorer-contract facts, not task-validity certification |
+| `../plans/registry_check.py` | Frozen13-row literal-reference coverage across baseline35 knowledge paths; no semantic citation endorsement |
+| `../plans/fixtures/r28/` | Licensed/pinned source snapshots, declared populations, alternate L1-authored censuses and acceptance experiments |
+| `../plans/round28_census.py` | Claim/source/index counter command with explicit caller-supplied measured revision label |
+
+The candidate remains `../.ufo/waves/round-28/drafts/webarena-task-spec-audit.md`; no canonical knowledge
+row or frontier discharge is asserted before returned complete Q10 re-reads of its exact bytes.

@@ -468,3 +468,43 @@ including the population control. Changed only that selector to include `P4.popu
 original50 receipt and red1 comparison, then repaired51/green0 (`census-selector-{red,green}.txt`).
 This corrects report units, not the checked population or metric result. Final bookkeeping/census
 revision is recorded in the scorecard/report; all actual checks remain in round27 evidence.
+
+## Round 28 — WebArena task-spec observability and bounded reference consistency (2026-10-21)
+
+Lowest axis legacy novelty7 mapped to canonical coverage/constructs, tied capped coverage/surfaces7;
+tie-break new task-spec ground, no stagnation waiver. C1 static WebArena snapshot audit and C2 calibration8
+literal-reference check are causally separate; scores held. Base b9b24796277020d1b9b01923b45313d6a565e664;
+preregistration f0ba09be0f3066daba2134b943d973ad1588f34a, followed by disclosed Amendment1.
+
+- C1: absent instrument→812 structurally inventoried tasks/812 distinct IDs, five evaluator-type sets,
+  27 site/evaluator strata,16 separately source-audited deterministic cases,651 page targets.
+  `python3 plans/benchmark_spec_audit.py --summary` exit0; selftest21 cases exit0. Not task validity,
+  model ability, contamination freedom, paper-era release, WebArena-Verified or method novelty.
+  Sources S061–S063 opened before registry addition; canonical knowledge remains deferred outside corpus.
+  Evidence: corpus/evidence/round28-calibration/audit-summary.txt; build-acceptance/audit-current.stdout;
+  .ufo/waves/round-28/build/Task*.md and OpenTasks/OpenScorer/OpenHelpers.md.
+- C2: frozen13 source rows over35 baseline knowledge paths,12 literal row-file links in2 files;
+  same delivered checker on baseline export finds2 source rows mismatched (S038 andS050), final0.
+  Baseline+S050-only correction remains red onS038; adding onlyS038 status/used-by yields green0.
+  Sources reopened first. S050 addition indexes a corrective mention, explicitly reverses round27's
+  lesson-only indexing, never restores its superseded blanket reason. F5 misses.
+  Evidence: corpus/evidence/round28-calibration/build-acceptance/registry-only-delta.json and
+  registry-{baseline-red,s050-only-red,s038-only-delta-green}.stdout; registry-summary.txt.
+- Build64 seats returned59, provider deaths5, never replaced; L1 authored missing code/prose with actual
+  writer identity. Alternate oracles are independent logic, not independent authorship.
+  Specs/dispatch/registry/attempts/deaths: .ufo/waves/round-28/. First whole-batch refusal spawned none;
+  unchanged retry after180s succeeded. Unused isolated writer clones were removed after all3 writers died.
+- Main acceptance's11 command stages had expected exits; its initial final assertion was overbroad:
+  it rejected two newly disclosed OUT_OF_POPULATION records while all355 existing IDs and all329
+  checked verdicts remained unchanged. Red receipt and exact delta retained; corrected invariant applies
+  to unchanged captured output, not a duplicate state-check run. Checked tuple remains329/318/0/6/5;
+  original26 outside IDs retained plus2 new disclosures, not a hidden new checked population.
+  Evidence: build-acceptance-run.txt, build-preservation-delta.json, build-preservation-corrected.json.
+- Calibration-source errata append (not rewrite): S049 header27 corrects erroneous round27 reviewer25;
+  S064 clarifies minimum closing-fence length; S065 supplies Python-side numeric-extension authority;
+  S066 limits exact test inversion to known diagnostic properties. Historical numeric probe results and
+  state_check.py remain unchanged. Sources/lesson record every mutable-cell old→new.
+
+Build measurements grade the prospective working tree, not falsely the detached Git HEAD. Fresh falsifiers
+will re-open source rows, independently replay final counts, attack code/gates and read the byte-frozen
+candidate before actual admission. Outside non-author closure remains separate from lane-dispatched advice.

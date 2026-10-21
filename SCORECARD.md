@@ -884,3 +884,26 @@ M64 census-unit erratum: the original admitting-revision census printed50 becaus
 P4.population control. Its receipt remains unchanged. The corrected selector prints51, with red1
 old-receipt-vs-JSON and green0 repaired-command evidence; the population and direct JSON counter never
 changed. The later final measured census revision is named in the report.
+
+## Round 28 — pinned WebArena task specs and literal source references (2026-10-21)
+
+Lowest legacy novelty7→canonical coverage/constructs; tied coverage/surfaces7 remains capped, no waiver.
+Baseline b9b24796277020d1b9b01923b45313d6a565e664; prereg f0ba09be plus explicit post-recon Amendment1.
+
+| claim | axis | observed before → build after, counting command | score / verdict |
+|---|---|---|---|
+| C1 static benchmark task-spec audit | novelty → canonical coverage/constructs (lowest) | instrument absent at base (cat-file128); `python3 plans/benchmark_spec_audit.py --summary` inventories812 tasks/5 evaluator-type sets/27 strata/16 selected case audits/651 page targets, exit0 |7→7 held; local observability improved, no new-method/validity/leaderboard credit|
+| C2 frozen literal-reference coverage | calibration | no dedicated13-row diagnostic at base; delivered `python3 plans/registry_check.py --json --root <base-export>` mismatch_sources2→final0;13 rows/35 paths/12 reference links, selftest12 cases |8→8 held; repair knownS038 drift and corrective-indexS050 gap, not source-truth or whole-tree PASS|
+
+Evidence: corpus/evidence/round28-calibration/{audit-summary.txt,registry-summary.txt,build-acceptance/}.
+Only-delta experiment: baseline red(S038/S050), S050-only correction red(S038), S038 status/used-by-only
+delta green0. Two-way row/file-partitioned revert counters agree; alternate census matches but is
+L1-authored, not author-independent. F5 is false and never claimed as an independent calibration trial.
+
+All329 historical checked IDs preserve318 MATCH/0 MISMATCH/6 SUPERSEDED/5 offline; original26
+OUT_OF_POPULATION IDs retained, new disclosure IDs appear as round28 artifacts are added. In P4 the
+two offline groups and one superseded ID remain exactly that. Initial acceptance's equal-entire-ID-set
+assertion wrongly rejected new disclosures; preserved red and corrected invariant are explicit receipts.
+No historical checker code change and no endpoint restoration. No other axis moves: depth9, coverage7
+capped, operability8, freshness8, adjacency8. Actual measured/pushed revision and capability demonstration
+are appended after fresh falsification and admission; no preclaimed capability row.

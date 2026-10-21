@@ -143,6 +143,17 @@ An entry is admitted only when every row below passes; the round lesson's
   GIT_DIR/object-directory selectors; the hostile bare-victim probe must read the requested tree and
   leave the victim/object sentinel unchanged. Final receipts: `plans/fixtures/r27/gate-timing-v3-*`.
 
+- **Q17 — literal reference coverage is not source endorsement.** A calibration claim about source-use
+  consistency names its frozen source/path population, its exact lexical/semantic matching contract,
+  and both source-row and row-file-link denominators. A corrective/supersession mention indexed under
+  a literal contract remains explicitly corrective; it never revives the superseded teaching. Show
+  the identical checker failing on a committed baseline export and clearing the named finding with
+  only allowed-cell changes; if another finding remains, do not call that intermediate state clean.
+  Current bounded check: `python3 plans/registry_check.py --summary` / `--selftest`, population
+  `plans/fixtures/r28/registry/population.json`. It does not establish source truth or cover new files.
+  Lesson: `corpus/lessons/round-28.md` M65/M67/M72; failure-capable evidence
+  `corpus/evidence/round28-calibration/build-acceptance/registry-only-delta.json` and its red/green stdout.
+
 ## Round-closure criteria
 
 A round closes only when every row below holds; a row that cannot be shown is an open item, not a waiver. Each row cites the mistake it closes in `corpus/lessons/round-24.md`; checks are file or command tests, not prose.
