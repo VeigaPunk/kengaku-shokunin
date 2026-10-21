@@ -4,20 +4,20 @@ Seat KengakuR27.ExecPolicyCore · base 11a7fc8c64dc (clone HEAD verified) · bra
 Clone /tmp/kengaku-r27-ExecPolicyCore · clone writes only · no lane, jj, git or index mutation.
 
 ## Files written
-- Clone: plans/parser_policy_compare.py, sha256 6c8108442543d838a0f652336536d091839508bc9c3dce2e5c98378f1b7ce4b5, 582 lines.
-- Clone: plans/policy_cases.py, sha256 f3e9b57b80584721437358c7fa1d69146d9cf2588ca483c0bc3f1bf73b47417b, 58 hand-expected cases. No other clone files or bytecode.
+- Clone: plans/parser_policy_compare.py, sha256 7dbc592b71654874210064b4a197c62828c227153b1f5a9c363e93501102149d, 580 lines.
+- Clone: plans/policy_cases.py, sha256 f3e9b57b80584721437358c7fa1d69146d9cf2588ca483c0bc3f1bf73b47417b, 84 lines, 58 hand-expected cases. No other clone files or bytecode.
 - Lane: this report only.
 
 ## Exercised verification (clone cwd, PYTHONDONTWRITEBYTECODE=1)
 - `--summary` → exit 0; unchanged frozen-population results (TOTAL below).
 - `--json | python3 -m json.tool >/dev/null` → pipeline status `0 0`.
-- `--selftest` → exit 0: 58/58 hand cases, 9/9 mutants killed, mutated-pin rejection with poisoned policies (`policy_calls=0`).
-- Pin-failure rendering and JSON serialization exercised in selftest. CLI `--root` on a mutated tree, exit-2 usage, POLICY-RAISE / GRADER-RAISE paths (none occurred), and oracle comparison (other seat) were not run.
+- `--selftest` → exit 0: 58/58 hand cases, 9/9 mutants killed, mutated-pin CLI rejection in both modes (`summary_rc=1`, `json_rc=1`, `policy_calls=0`).
+- Pin-failure CLI summary and JSON rendering/serialization exercised in selftest. No separate manual `--root` invocation; exit-2 usage, POLICY-RAISE / GRADER-RAISE paths (none occurred), and oracle comparison (other seat) were not run.
 
 ## Design
 - Population and pins: `gp.build_population(root)` is reused unchanged. Pins and the 1964 / 0-excluded checks come from `gp._LAST`.
 - Per-record dispatch: `gp.regrade` runs verbatim. Only its extractor is swapped, via a wrapper on `gp._GRADER` restored in `finally`. `grader_perturb.py` is not edited.
-- Immediately after `build_population`, any `gp._LAST["errors"]` returns a structured exit-1 failure before any E-policy call. A blank-line-mutated pinned result file plus poisoned policy callables produced `exit=1 pin_error=True policy_calls=0`; summary has a TOTAL and JSON serializes.
+- Immediately after `build_population`, any `gp._LAST["errors"]` returns a structured exit-1 failure before any E-policy call. A blank-line-mutated pinned result file plus poisoned callables produced summary/json rc=1 and `policy_calls=0`; summary has a TOTAL and JSON serializes.
 - E0 is a self-contained transcription of the table. Extra check: `E0 == grader.extract_json_block` on all 1964 raws, else exit 1. Result: 0 BASELINE defects.
 - Exit 1 also covers grader exceptions. The pre-registration names only policy exceptions; the same defect rule was applied to graders. A defect is never counted as FAIL.
 - Grader totality: `grade_c` calls `set(viol)` (grader.py:256) and `valid_latin` calls `set(r)` (grader.py:236). Both can raise TypeError on unhashable list elements. No such case occurred on the population.
@@ -55,4 +55,4 @@ Clone /tmp/kengaku-r27-ExecPolicyCore · clone writes only · no lane, jj, git o
 
 Installs: none. Stdlib only; no tool installed or upgraded.
 
-VERDICT: C1 instrument and pin short-circuit implemented in clone (script sha256 6c810844…e4b5; cases sha256 f3e9b57b…7417b, n=58); summary exit 0, JSON valid, selftest 9/9 killed and poisoned-pin 0 calls, 0 baseline defects on 1964 records.
+VERDICT: C1 instrument and pin short-circuit implemented in clone (script sha256 7dbc592b…02149d; cases sha256 f3e9b57b…7417b, n=58); summary exit 0, JSON valid, selftest 9/9 killed and mutated-pin CLI 0 calls, 0 baseline defects on 1964 records.

@@ -45,6 +45,7 @@ resolved findings, and Q13/Q14 support coexist in the actual admitting tree.
 | S054 | https://spec.commonmark.org/0.31.2/#fenced-code-blocks | “Closing code fences cannot have info strings” — §4.5 |
 | S055 | https://github.com/openai/simple-evals/tree/652c89d0ca9df547706735883097e9537d40dc47 | `match = re.search(ANSWER_PATTERN, response_text)` — math_eval.py:53 |
 | S056 | plans/parser_policy_compare.py | `TOTAL population=1964 policies=8 compared_verdicts=15712 disagreements=1089 policies_with_flips=5` — --summary final line |
+| S057 | https://arxiv.org/pdf/2405.11874v3 | “we replicated only the RegEx methods on each framework and ensured consistency in other settings.” — §5.3 Setup, PDFp9, reopened2026-10-21 |
 
 Hashes and exact opening seats: `corpus/evidence/round27-sources/gate.md`. Eight new tierA rows initially
 enter mined with used-by solely this lesson. S049/S050/S055 establish ordering precedents, not JSON-policy
@@ -83,3 +84,57 @@ RowInspectPattern resolved inspect-ai0.3.282 via `uv run --with inspect-ai` (PyP
 RowInspectMatch installed inspect-ai0.3.282 in /tmp/r27-rim/venv via uv/PyPI to exercise match_str.
 SrcJsonRepair installed json-repair0.64.1 in a scratch venv via uv/PyPI to inspect its last-value/repair
 behavior (not added as an unfrozen E9 policy). No pacman/system upgrade or host-service change.
+
+## Build follow-up dispositions before falsification
+
+- M55 fix now exists: `plans/gate_timing_check.py --selftest` permanently exercises early0/late1 report
+  inventory under identical lesson bytes. `plans/fixtures/r27/gate-timing-worktree-mutant.txt` is red1;
+  restored receipt is green0. QUALITY Q15 records the invariant. The actual admission still needs Q13.
+- Updated policy audit rejects pin/population errors before any E-policy call. Its poisoned-policy
+  pin-rejection selftest observed calls0, exit1 in summary and JSON modes. `plans/policy_cases.py` contains
+  58 hand-expected policy cases, run by `parser_policy_compare.py --selftest`; nine seeded policy mutants
+  are killed. This table lives beside the instrument (not the initially proposed fixtures path).
+- RevR26ClosureMapping's remaining limitations are explicit: the three P2 offline-unverifiable surfaces
+  remain unverifiable; P4 is a frozen extension, not restoration of missing endpoints. New formats and
+  future generalization remain frontier. D1 stays policy conformance, never robustness PASS.
+- Existing round26 P3-oracle extension-only historical-range observations are outside P4. The claim that
+  README had their errata was not located by that reviewer; this round does not assert it as established.
+  Existing README source-support correction to S043–S048 is locatable; it is not proof of every oracle
+  extension finding. No historical outside verdict is rewritten on this basis.
+- P4 excludes LOG's round26 prose and surrounding PROVINCE/README admission-bar history. Old Q1–Q8/Q13
+  descriptions are superseded by explicit current Q1–Q15 here, not silently counted as frozen P4 successes.
+  Current checker FAIL=0 does not prove all current assertions or registry uses are complete (S038 lead).
+- CP calculation is independently checked by RevCPReuse (1964-scale Decimal reference) and will receive
+  a fresh falsify bound check. Reused interval code is not a second independent authority.
+- Outside verification is the orchestrator's roster-external closure, not any of these dispatched seats.
+  SHONEN stays four evidence-backed `[~]` boxes. No promotion is claimed.
+- Existing L0 coverage cap (:72) and novelty-conversion (:73) remain unruled; numbers stay7/8.
+  Connector deaths are provider failures, not replaced; the next wave keeps one connector seat.
+
+Source-inventory addendum before admission: S057 is the ninth added tierA row (S049–S057), not an extra
+publication. It extends S044's abstract-only scope to the reopened §5.1/§5.3 comparison and records the
+uncertain item-pairing/denominator limits. The earlier “eight” inventory is superseded by nine; rows57,
+tierA52/B3/C2, mined45/queued9/rejected3 before any later source-use changes.
+
+## Frozen P4 integration before falsification
+
+Final v4 registers49 IDs (48 grouped checks plus one assertion-inventory control),0 in v3.
+P4a9/P4b8/P4c11/P4d14/P4e6; exact list `plans/fixtures/r27/p4_assertion_ids.txt`.
+Delivered checker on b5719440 export and live candidate both exits0 with327 assertions,
+318 MATCH/0 MISMATCH/6 SUPERSEDED/3 offline-unverifiable; P4 contributes48 MATCH/1 SUPERSEDED.
+The old README source-range erratum is recognized, not falsely rediscovered as a current mismatch.
+An early v4 draft ignored it and was corrected before landing. C2's base mismatch≥1 forecast is false
+under the delivered instrument; no “one new defect fixed” credit is taken.
+
+P4a historical C2/census claims read committed receipts, not recursive current-checker outputs. P4e
+freezes the two base teaching-use files; new round27 mentions do not grow its expected citing-file set.
+P4c history-repository selection requires the exact b5719440 commit witness, preventing a fleet repo
+from pretending to be lane history. Missing lane Git authority is unverifiable, not zero tree counts.
+P2/P3 full keyed298-record projection is unchanged on base. Selftest includes exact existing-erratum
+remove/wrong/partial controls, R27 acceptance, P4 R29 rejection, inherited P2/P3 R27/R29 acceptance and
+population-disclosure retention. Build report retains original and corrected findings.
+
+The inventory seat's317 literal-token candidates are an **exploratory raw inventory**, not the delivered
+P4 register: they include source identifiers, serialized/report mentions and score tokens. No claim that
+all317 became independent assertions is made. The registered grouped comparisons and residual limits
+must be judged against the frozen pre-registration; the falsify inventory seat checks omitted promises.

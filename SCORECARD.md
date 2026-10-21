@@ -823,3 +823,17 @@ C1's source row S056 and S049–S055 are opened this round; draft knowledge rema
 returned Q10 rereads. E4's large score fall is instruction-contract mismatch, not new model-error discovery.
 No other axis moves: depth9, coverage7 capped, operability8, freshness8, adjacency8. Final measured revision,
 capability demonstration, C2 outcomes and next frontier are appended after falsification.
+
+### Round-27 build measured revision preparation
+
+C2 v4 registers **49 P4 assertion IDs** (P4a9/P4b8/P4c11/P4d14/P4e6 plus one inventory control),
+where v3 registered0. Delivered v4 on frozen base b5719440 and current candidate both report
+`assertions=327 match=318 mismatch=0 superseded=6 offline_unverifiable=3`, exit0. P4 specifically:
+48 MATCH,1 SUPERSEDED (the pre-existing exact README source-support erratum),0 MISMATCH.
+This is new **observability**, not a 1→0 newly discovered defect repair: the initial implementation
+wrongly ignored an already-landed erratum; that implementation defect was fixed before admission.
+The base-mismatch≥1 forecast (p=.55) is false under the delivered checker. Calibration8 stays held.
+Commands/revision: delivered checker SHA25629c5d716a53e77bf4a82d2155775dda3e94385e058b4700af54cb3a23d031f32,
+`python3 plans/state_check.py --root <export-of-b5719440> --json` and current root; receipts
+`corpus/evidence/round27-calibration/state-v4-{base,build}.{json,txt}`. Exact48+1 IDs:
+`plans/fixtures/r27/p4_assertion_ids.txt`. This does not count every numeric token as an independent check.

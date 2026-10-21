@@ -63,3 +63,32 @@ Keep logic in existing helpers; tables live beside `P3C_PINS` / `P3E_ROW_PATHS` 
 **Installs:** none.
 
 **VERDICT:** Add ~320–440 LOC by table-driving five `check_p4*` functions that call existing P3 comparison/supersession/README helpers; only P4c needs a small git ls-tree helper; avoid live command re-runs and full README index reuse.
+
+---
+
+## Append — scoped review `ExecStateCheckV4` clone (4342 LOC, +1789 vs lane v3)
+
+**Subprocess / recursion:** `P4Evidence.COMMANDS` (:1914–1918) runs only `grader_perturb.py --summary|--json` and `perturb_oracle.py`; **no** `state_check.py` subprocess — direct recursion absent. Cost: each full `--summary` run pays **3×** instrument work (P4a summary + P4d json + oracle) with cache (:1924–1950).
+
+**Historical vs live (main correctness risk):**
+- P4a C1 / outcomes / revision C1 audited* truth is **live** `grader_summary` stdout (:2119–2120, :2235–2264, :2325–2339), not `corpus/evidence/round26-calibration/grader-perturb-final.txt` (never read). SCORECARD pins are receipt-era; live replay can drift if instrument/population changes post-receipt.
+- P4a C2 / gate / sources / census kv use **frozen receipt files** (:2110–2118, :2348–2437) — consistent with content-pin intent.
+- P4d family counts truth is **live** json + oracle (:3066–3223), not final calibration receipts.
+- P4c wave seats/reports use **live** `.ufo/waves/round-26/*` (:2694–2706); falsify raw/md triples use **git ls-tree at named revs** (:2917–2953) — mixed model is intentional but `p4_git_repo` (:2649–2658) walking `cwd`/parents can attach to **fleet** `.git` when `--root` is a partial export → wrong tree counts or OFFLINE_UNVERIFIABLE.
+
+**Avoidable duplication:**
+- `P4_CORRECTION_LINE_RE` defined twice (:432–435, :1953–1956).
+- `p4_record` / `p4_superseding_tokens` (:1959–2011) parallel `p3_record` / `p3_superseding_tokens` (:1268–1293, :554–593) without SCORECARD fallback.
+- `p4_groups` (:2024–2028) duplicates `regex_groups` (:1295–1299).
+- Second subprocess wrapper `P4Evidence` vs `CommandRunner` (:432–487) — could extend allowlist + shared cache.
+- `p4_numbered_line(...)` invoked **twice** per assertion in P4d (:3144–3145, :3158–3159, :3183–3184) — redundant work.
+- `check_p4a` ~330 LOC monolith (:2106–2438) vs advisory table-driven loop; selftest copies full lane tree (:3502–3603) inflates file ~+800 LOC beyond checker need.
+
+**Other notes:**
+- `P4.population.assertion-inventory` (:3304–3308) uses `sorted()` equality — duplicate assertion ids would not be detected.
+- P4a score-held checks use `p4_round24_scores` novelty/calibration (:2050–2065, :2152–2158) not Round-26 axis prose — verify still 7/8 at base.
+- P4b source Covers SUPERSEDED path (:2598–2601) hardcodes base range `043–047` vs six-id derived tokens — correct for erratum story, easy to break if anchor text shifts.
+
+**Installs:** none.
+
+**VERDICT (clone):** No state_check recursion; fix **live-vs-receipt** split for P4a/P4d (prefer pinned `*-final.txt` or document live as authoritative); pin git to lane root; dedupe P3/P4 helpers before merge — else ~+1400 LOC vs ~400 LOC advisory.

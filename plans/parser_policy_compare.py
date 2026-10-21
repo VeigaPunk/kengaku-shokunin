@@ -15,17 +15,23 @@ CP95 is a descriptive exact interval over these records, not a guarantee for fut
 from __future__ import annotations
 
 import argparse
+import io
 import json
 import re
+import shutil
 import sys
+import tempfile
 from collections import OrderedDict
+from contextlib import redirect_stdout
 from pathlib import Path
 
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import grader_perturb as gp  # noqa: E402  pins, population, regrade dispatch, format_class
+import policy_cases  # noqa: E402  hand-expected bounded synthetic cases
 from attrib_calibration import clopper_pearson  # noqa: E402
+
 
 FENCE_ANY = re.compile(r"```[A-Za-z0-9_+-]*[ \t]*\r?\n(.*?)```", re.S)
 DECODER = json.JSONDecoder()
@@ -208,9 +214,37 @@ def tally(population, results, pid):
     return t
 
 
+def _population_failure(root, population):
+    """Structured failure report; changed/unpinned inputs never reach a policy."""
+    ids = list(POLICIES)
+    return {
+        "root": str(root),
+        "population": len(population),
+        "pins": gp._LAST["pins"],
+        "defects": [f"POPULATION {msg}" for msg in gp._LAST["errors"]],
+        "policies": [],
+        "strata": {},
+        "files": {},
+        "cells": {},
+        "cellshift": {pid: {"max_abs_pp": 0.0, "cell": None} for pid in ids if pid != "E0"},
+        "matrix": {"ids": ids, "rows": [[0] * len(ids) for _ in ids]},
+        "total": {
+            "population": len(population),
+            "policies": len(ids) - 1,
+            "compared_verdicts": 0,
+            "disagreements": 0,
+            "policies_with_flips": 0,
+        },
+        "exit": 1,
+    }
+
+
 def compute(root):
     population = gp.build_population(root)
-    defects = [f"POPULATION {msg}" for msg in gp._LAST["errors"]]
+    if gp._LAST["errors"]:
+        return _population_failure(root, population)
+
+    defects = []
     results = {pid: [None] * len(population) for pid in POLICIES}
     for idx, rec in enumerate(population):
         where = f"{rec.file}:{rec.line} cell={rec.cell}"
@@ -425,6 +459,71 @@ def _differs(fn, raw, want):
     except Exception:
         return True
 
+def _selftest_policy_cases(out):
+    failures = []
+    for pid, name, raw, expected in policy_cases.CASES:
+        try:
+            actual = POLICIES[pid](raw)
+            if _canon(actual) != _canon(expected):
+                failures.append(f"{pid}/{name}: got {actual!r}, expected {expected!r}")
+        except Exception as exc:
+            failures.append(f"{pid}/{name}: raised {type(exc).__name__}: {exc}")
+    print(f"SELFTEST {'FAIL' if failures else 'pass'} hand_cases={len(policy_cases.CASES)} "
+          f"failed={failures}", file=out)
+    return failures
+
+
+def _selftest_pin_rejection(out):
+    """Mutate a pinned file and prove both CLI modes reject before any policy runs."""
+    source = Path(__file__).resolve().parents[1]
+    poisoned_calls = []
+    saved_policies = POLICIES.copy()
+
+    def poisoned(_raw):
+        poisoned_calls.append(True)
+        raise AssertionError("policy ran before pin rejection")
+
+    try:
+        with tempfile.TemporaryDirectory(prefix="r27-policy-pin-") as temp:
+            root = Path(temp)
+            for rel in gp.POPULATION_FILES:
+                target = root / rel
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(source / rel, target)
+            for rel in ("grader.py", "plans/attrib_calibration.py"):
+                target = root / rel
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(source / rel, target)
+            with (root / gp.POPULATION_FILES[0]).open("ab") as stream:
+                stream.write(b"\n")
+
+            for pid in POLICIES:
+                POLICIES[pid] = poisoned
+            summary_stream = io.StringIO()
+            with redirect_stdout(summary_stream):
+                summary_rc = main(["--root", str(root), "--summary"])
+            json_stream = io.StringIO()
+            with redirect_stdout(json_stream):
+                json_rc = main(["--root", str(root), "--json"])
+    except Exception as exc:
+        print(f"SELFTEST FAIL pin-reject-before-policies raised={type(exc).__name__}: {exc}", file=out)
+        return False
+    finally:
+        POLICIES.clear()
+        POLICIES.update(saved_policies)
+
+    summary = summary_stream.getvalue().splitlines()
+    json_result = json.loads(json_stream.getvalue())
+    pin_error = any("sha256" in msg for msg in json_result["defects"])
+    ok = (summary_rc == 1 and json_rc == 1 and pin_error and not poisoned_calls
+          and not json_result["policies"] and summary
+          and summary[0].startswith("DEFECT POPULATION ")
+          and summary[-1].startswith("TOTAL population="))
+    print(f"SELFTEST {'pass' if ok else 'FAIL'} pin-reject-before-policies "
+          f"summary_rc={summary_rc} json_rc={json_rc} pin_error={pin_error} "
+          f"policy_calls={len(poisoned_calls)}", file=out)
+    return ok
+
 
 def selftest(out):
     failures = killed = 0
@@ -441,7 +540,10 @@ def selftest(out):
         else:
             killed += 1
             print(f"SELFTEST KILLED {pid} mutant={mutant_name} by={by}", file=out)
-    print(f"SELFTEST total policies={len(POLICIES)} killed={killed} failures={failures}", file=out)
+    failures += len(_selftest_policy_cases(out))
+    failures += int(not _selftest_pin_rejection(out))
+    print(f"SELFTEST total policies={len(POLICIES)} cases={len(policy_cases.CASES)} "
+          f"killed={killed} failures={failures}", file=out)
     return 1 if failures else 0
 
 

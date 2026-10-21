@@ -26,3 +26,10 @@ rankings. SrcPriorArtTooling found fixed-output rescoring and extractor sensitiv
 +1 is rejected; no exact nine-policy matrix match is required to recognize prior art. OLMES was opened by
 SrcOLMES: the paper defers answer-extraction standardization; later code is ordering precedent, not the full
 comparison. No new row is created solely for an unopened or inaccessible lead.
+
+S057 adds the narrower comparison scope for that reopened paper, leaving S044's original abstract-only row
+unchanged. URL https://arxiv.org/pdf/2405.11874v3, accessed2026-10-21, §5.3 Setup PDFp9:
+“we replicated only the RegEx methods on each framework and ensured consistency in other settings.”
+Opening receipt `.ufo/waves/round-27/build/SrcXFinderReopen.md`; §5.3 does not explicitly document item-level
+saved-response pairing, and some table denominators remain unresolved. Broad extractor-dependence prior art
+does not require claiming those unresolved details established. Nine new tierA rows total S049–S057.
