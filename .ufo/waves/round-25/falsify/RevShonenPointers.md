@@ -22,6 +22,7 @@ Axes: byte form · resolvability · per-box semantic fit · currency · drift ro
 ## Residual risk / gaps
 - Single-line anchors will rot silently with each mid-file correction until the r26 content pin lands. Box-3 `[~]` rests only on a historical pass.
 - Not checked: sibling lanes' reading of PROTOCOL.md:432 on ranges vs single lines. I1–I4 were tested on a tip copy only (P2c code is the same in the live tree; its live diff touches P2a/P2d/P2e only).
+- Live tree has uncommitted edits (SKILL.md:3 and an insert at :557; LOG.md appended at :297; PROVINCE.md:117 changed in place and appended at :167). Re-checked after those edits: all 4 anchors still land on the same text, so nothing has drifted yet.
 
 VERDICT: PARTIAL — the seed is byte-exact and all 4 pointers resolve (survives). Box 2 survives (weakest available evidence), boxes 1 and 4 are partial, and box 3 breaks (stale run, staleness caveat dropped). P2c MATCH cannot tell a line that evidences its box from one that does not (disclosed at SCORECARD.md:692).
 Installs: none.

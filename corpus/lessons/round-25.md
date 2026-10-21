@@ -104,3 +104,15 @@ Corrections to rows above:
   `round-24-verifier-spotcheck.md:17`); the re-filed queue lines are durable only once the fleet commit lands.
 - **Fleet citer** (ConnCitersOfHyper): `MANIFEST.json:2744` still states "hyper COVERED (run-2 10/10 = 1.000)";
   MANIFEST is closure-owned, so the precision note is routed in the round report, not written by the lane.
+- **SHONEN pointers** (RevShonenPointers): box 1 now points at the whole `SKILL.md` (tables, anti-patterns, checklist and
+  cited sources together); box 3 at the cold-run's verdict heading (`round-8-aggregator-box3-coldrun.md:48`), which graded
+  an older 472-line SKILL.md — historical, not a current executability review; P2c still checks only range, not content
+  (round-26 plan).
+- **M29** (LessonM29): the misroot rule sits in the round-25 prompt §6 item 2 (`kengaku-round-25.md:297-307`), not "§6.3";
+  the seats had the absolute-path rule, but every validator-rendered item carries a relative `Report:` trailer (92/92,
+  87/87), the mechanism the prompt predicts. No red run exists for this row: the fleet-root sweep
+  (`git -C /home/vgpnk/Projects/shokunin status --porcelain`, ScribeMisrootSweep) is the detector, and it was clean at round end.
+- **Gate rows** (RevGateSection): the "pooled r22 40/40 as a verdict" reject lacked a flip — flip: a pre-registered
+  population rule that treats distinct executions with identical tables as two samples. The "reject (not a row)" for
+  Reiczigel 2010 was true at `8ea41f9` and is superseded by S038 (seat returned 21:47 -03, after that landing).
+  "S027–S037" in the Gate is the first landing's range; the round's rows are S027–S042.

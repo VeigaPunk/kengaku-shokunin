@@ -354,6 +354,9 @@ class CommandRunner:
         return result
 
 
+DUPLICATE_ROWS: list[tuple[str, int]] = []
+
+
 def row_map(lines: list[str], start: int, end: int) -> dict[str, tuple[int, list[str]]]:
     rows: dict[str, tuple[int, list[str]]] = {}
     for line_number, cells in table_rows(lines, start, end):
@@ -362,6 +365,11 @@ def row_map(lines: list[str], start: int, end: int) -> dict[str, tuple[int, list
         }:
             continue
         key = cells[0].strip().strip("`")
+        if key in rows:
+            # Round-25 falsify (RevengeFirstLocalPath, RevP2Population): a second row with a frozen
+            # key must not silently shadow the first; the first stays, the duplicate is a finding.
+            DUPLICATE_ROWS.append((key, line_number))
+            continue
         rows[key] = (line_number, cells)
     return rows
 
@@ -417,6 +425,10 @@ def check_sources_registry(root: Path, out: list[Assertion], line_number: int) -
             "corpus/SOURCES.md missing or unreadable", "MISMATCH")
         return
     missing = [token for token in SOURCES_EXPECTED_TOKENS if token not in observed]
+    if "id-set-defect" in observed:
+        add(out, assertion_id, line_number, "base registry population is exactly S001..S026",
+            {"observed": observed}, "MISMATCH")
+        return
     if not missing:
         add(out, assertion_id, line_number, "hardcoded contract census on S001..S026",
             {"observed": observed, "expected": list(SOURCES_EXPECTED_TOKENS)}, "MATCH")
@@ -1068,12 +1080,16 @@ def check_readme_index(root: Path, out: list[Assertion]) -> None:
 
 def check_all(root: Path, protocol_path: Path) -> list[Assertion]:
     assertions: list[Assertion] = []
+    DUPLICATE_ROWS.clear()
     runner = CommandRunner(root)
     check_capabilities(root, assertions, runner)
     check_axis_table(root, assertions, runner)
     check_shonen(root, protocol_path, assertions)
     check_surfaces(root, assertions)
     check_readme_index(root, assertions)
+    for key, line_number in DUPLICATE_ROWS:
+        add(assertions, f"P2.duplicate-row.{key}@{line_number}", line_number,
+            "a frozen table key appears once", key, "MISMATCH")
     return assertions
 
 
@@ -1271,6 +1287,17 @@ def run_selftest() -> int:
             if verdict != want:
                 print(f"selftest: :162 anchor content expected {want}, got {verdict}", file=sys.stderr)
                 return 1
+        # duplicate surface row must not shadow the first (round-25 falsify)
+        (root / "PROVINCE.md").write_text(
+            "## Surfaces\n\n| Surface | Path | Use |\n|---|---|---|\n"
+            "| Research notes (SSOT for eval craft) | `~/nonexistent-r25-selftest/x` | r |\n"
+            "| Research notes (SSOT for eval craft) | `PROVINCE.md` | r |\n", encoding="utf-8")
+        DUPLICATE_ROWS.clear()
+        got = []
+        check_surfaces(root, got)
+        if not DUPLICATE_ROWS or next(a.verdict for a in got if a.id.endswith(".path")) != "MISMATCH":
+            print("selftest: a duplicate surface row shadowed the frozen row", file=sys.stderr)
+            return 1
     print("[selftest] ALL PASS (canonical seed, pointers, out-of-population box, pointer-only, "
           "sources supersession, ABSENT rule, ABSENT word boundary, R25-E prefix, anchor content)")
     return 0
