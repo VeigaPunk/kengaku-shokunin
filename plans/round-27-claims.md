@@ -1,0 +1,153 @@
+# Round 27 — pre-registration (frozen before wave 1, 2026-10-21)
+
+Base: lane `master` = `b5719440e5eee46c1886fddbdf7bdc1624829454` (jj-colocated; `jj-lane.sh state` →
+`ahead=0 behind=0 tracked=0` at readiness; receipts `corpus/evidence/round27-calibration/round-start.txt`).
+Round 26 closed ADMITTED by the outside non-author closure CloseKengaku26
+(`/home/vgpnk/Projects/shokunin/.ufo/reports/round-26/kengaku-closure-evidence.json`; four outside
+admit/reject agreements, no routed defect). Its first limitation reads: "Frozen P2/P3 assertions do not cover
+new round-26 assertions" — C2 below answers exactly that limitation. No `corpus/lessons/round-26-verifier-spotcheck.md`
+and no `corpus/lessons/operator-*.md` exist at base (round-start receipt).
+Author: KengakuR27 (L1; holds the frozen planner seat — the wave validator rejects `planner`).
+Amendments are appended below as `## Amendment N`, never edited in place.
+
+## Axis state at base (SCORECARD.md §Round 26)
+
+novelty 7 · coverage 7 (capped) · calibration 8 · operability 8 · freshness 8 · adjacency 8 · depth 9.
+Lowest non-retired: **novelty 7, tied with coverage 7**. No stagnation waiver (novelty < saturation line 8).
+Tie-break as in rounds 25–26: coverage stays capped by the declared-but-unresolvable-surface clause until the
+operator rules L0 `.ufo/l0-questions.md:72`; `novelty` keeps its recorded mapping → canonical
+coverage/constructs. This round makes no separate coverage claim.
+
+## C1 — novelty (→ coverage/constructs; lowest): frozen extraction-policy comparison on the pinned responses
+
+Construct (named open by `corpus/README.md:260`, "a separately designed parser-policy comparison remain[s]
+open"): **how much the lane's stored verdicts and reported pass rates depend on which answer-extraction policy
+reads the response**, holding the graders and truths fixed. Round 26 perturbed *responses* under one
+extractor; this round holds responses fixed and varies the *extractor* across policies that public evaluation
+harnesses actually implement (first vs last match, fence-aware vs fence-agnostic, strict whole-output vs lenient).
+
+Population: exactly the round-26 frozen population — the four sha256-pinned result files, **1964** raw+ok
+records, 0 excluded — loaded through `plans/grader_perturb.py:build_population` (pins unchanged). Graders
+unchanged: `grade_state`, `grade_seq`, `grade_c`, `valid_latin` per record exactly as `grader_perturb.regrade`.
+
+Frozen policies (each a total function `raw -> parsed value | None`; the record's grader then decides PASS):
+
+| id | policy | exact semantics |
+|---|---|---|
+| E0 | lane (reference) | `grader.extract_json_block`: last block of ```` ```(?:json)?\s*\n(.*?)``` ```` (re.S) if it parses, else last parseable `BARE_RE` candidate |
+| E1 | first-fence | E0 with the **first** fenced block instead of the last (then the same bare-last fallback) |
+| E2 | bare-last | ignore fences; last parseable `BARE_RE` candidate (fence-agnostic last match) |
+| E3 | bare-first | ignore fences; first parseable `BARE_RE` candidate (fence-agnostic first match) |
+| E4 | strict-whole | `json.loads(raw.strip())`, else None (whole output must be JSON) |
+| E5 | fence-only | last fenced block (E0's regex) if it parses, else None (no bare fallback) |
+| E6 | any-label-fence | E0 with the fence regex ```` ```[A-Za-z0-9_+-]*[ \t]*\r?\n(.*?)``` ```` (any language label) |
+| E7 | decode-first | scan left→right; at each `{`/`[` try `json.JSONDecoder().raw_decode`; first success (unbounded nesting) |
+| E8 | decode-last | the same scan; collect top-level decoded spans (skip starts inside an already-decoded span); last one |
+
+`BARE_RE` is the byte-identical pattern in `grader.py:128` / `plans/grader_perturb.py:36`. No policy may read
+`want`, `ok`, or the grader outcome. A policy that raises is a defect (exit 1), not a FAIL.
+
+Metrics per policy Ei (i=1..8), over all 1964 records: `agree` = records whose Ei verdict equals the stored
+verdict; `flip_pf` (stored PASS → FAIL), `flip_fp` (stored FAIL → PASS); `none` = extraction returned None;
+overall PASS rate and its difference from E0 in percentage points; exact two-sided CP95 on agree/n (reuse
+`clopper_pearson` from `plans/attrib_calibration.py`; nominal descriptive finite-population interval per
+`knowledge/grader-perturbation-audit.md` — **not** a future-response guarantee); per-format-stratum
+(`format_class`: FJ1/FJM/MULTI/DANGLE/BARE) and per-file/per-cell PASS rates and the largest absolute per-cell
+PASS-rate shift vs E0; the full 9×9 pairwise verdict-disagreement matrix. E0 must reproduce the stored verdict on
+all 1964 (sanity; otherwise exit 1).
+
+Instrument: `plans/parser_policy_compare.py` (stdlib only, offline). CLI
+`python3 plans/parser_policy_compare.py [--root DIR] [--summary|--json] [--selftest]`; exit 0 = ran, pins and E0
+baseline reproduce; 1 = pin/baseline inconsistency, policy exception, or selftest failure; 2 = usage. `--summary`
+ends with one line `TOTAL population=1964 policies=8 compared_verdicts=15712 disagreements=<sum flips> policies_with_flips=<n>`.
+Independent oracle `plans/fixtures/r27/policy_oracle.py`, written from this text only (never importing grader.py
+extract code or the instrument), must reproduce every per-policy agree/flip_pf/flip_fp/none count. `--selftest`
+must kill at least one seeded mutant per policy (e.g. E1↔E0 swap, E2 fence leak, E4 strip omitted, E7 nesting
+limit, E8 contained-span reuse).
+
+Counting command (C1). Before: `git cat-file -e b5719440:plans/parser_policy_compare.py` → exit 128 (absent);
+0 alternative extraction policies compared on the stored responses (`corpus/README.md:260` names it open).
+After: `python3 plans/parser_policy_compare.py --summary` → `compared_verdicts` 0 → 15712 (1964 × 8) and the
+per-policy disagreement counts; observable = policy-attributed verdict disagreements made visible.
+
+Prior art (searched over papers **and** tooling, round-25 M38 / round-26 S045 precedent, before any +1):
+xFinder (S044) already compares RegEx extraction against a learned extractor; harness filters
+(lm-evaluation-harness `regex` filter `group_select`, inspect_ai `match`/`pattern`, OpenAI simple-evals answer
+regexes) implement first/last-match policies. Expected verdict: the construct is published in kind →
+**novelty held at 7**, observable recorded; a +1 requires a prior-art search that finds no published
+cross-policy *verdict-agreement* measurement and the critic's agreement. No method credit is taken here.
+
+Sourced: the C1 knowledge entry `corpus/knowledge/extraction-policy-comparison.md` (drafted under
+`.ufo/waves/round-27/drafts/` until Q13/Q14 hold) cites SOURCES rows opened **this round** for each harness
+policy it names (each new row: URL, access date, ≤25-word located quote in
+`corpus/evidence/round27-sources/gate.md`).
+
+### Predictions (filed before any instrument output; scored at close by Brier)
+
+Code-derivable forecasts reasoned from `grader.py:121-134` and the round-26 format strata (MULTI 31 records
+known from `knowledge/grader-perturbation-audit.md`); recorded for calibration hygiene, no calibration credit
+taken from their score.
+
+| id | event (over the 1964 records) | p |
+|---|---|---|
+| Q1 | E1 first-fence has ≥1 disagreement with the stored verdict | 0.85 |
+| Q2 | E4 strict-whole agrees with the stored verdict on < 50% of records | 0.70 |
+| Q3 | E2 bare-last disagrees on ≤ 1% of records (≤ 19) | 0.60 |
+| Q4 | E7 decode-first has strictly more disagreements than E3 bare-first | 0.40 |
+| Q5 | at least one cell's PASS rate shifts by ≥ 10 points under some policy in {E1,E2,E3,E6,E7,E8} | 0.50 |
+| Q6 | E6 any-label-fence has 0 disagreements | 0.70 |
+| Q7 | max − min overall PASS rate across {E0,E1,E2,E3,E5,E6,E7,E8} ≥ 2 points | 0.45 |
+| Q8 | E5 fence-only has ≥ 1 flip_pf (a stored PASS that relied on the bare fallback) | 0.55 |
+
+## C2 — calibration: frozen P4 content pins over the round-26 landed self-assertions
+
+The round-26 closure's first limitation: P2/P3 do not cover round-26's own new assertions. Frozen population P4,
+enumerated at base `b5719440` (ids fixed in the instrument; anything added after base is out of population):
+
+- **P4a** `SCORECARD.md` §Round 26 (lines 752–810 at base): every numeric token in the C1/C2 claim rows,
+  the capability row, §final measured outcomes and §measured revision, compared with the committed receipt or
+  command it names (`corpus/evidence/round26-calibration/*.txt`, `grader_perturb.py --summary`,
+  `state_check.py --summary`, `round26_census.sh`).
+- **P4b** `corpus/README.md` §Round-26 supporting artifacts table (base lines 264–275): every path row exists,
+  every round-26 artifact path on disk under those dirs is listed (both directions), and its "Covers" count
+  tokens re-derive.
+- **P4c** `corpus/lessons/round-26.md` wave-record counts (build 72 seats and its role mix; falsify 64, role
+  mix, 11 dead; 136 / 139 totals; 0/82/87 and 0/83/88 report units) against `.ufo/waves/round-26/`
+  specs/assignments/dead-seats files and `git ls-tree` at the named revisions.
+- **P4d** `corpus/knowledge/grader-perturbation-audit.md` population numerics (1964; 188/128/320/1328;
+  1021/943; 1708/240/12/4; family n/k table) against `grader_perturb.py --json` and the oracle.
+- **P4e** `corpus/SOURCES.md` S043–S048 `used-by` cells against files that actually cite each id.
+
+Instrument: `plans/state_check.py` v4 — same CLI and exit map; P2/P3 keyed results byte-identical to v3 on the
+base tree (no silent re-scoping); adds ids `P4a.*`–`P4e.*`. Supersession: a stale P4 assertion closes only via
+an appended `R27-E*` correction carrying the full re-derived tokens (SUPERSEDE regex already `R2[5-9]-E`).
+`--selftest` must show each P4 class red on a mutated fixture.
+
+Counting command (C2): `python3 plans/state_check.py --summary`. Before = v4 on the base tree
+(`git archive b5719440 | tar -x -C /tmp/kengaku-r27-base`): P4 assertions registered and their mismatch count
+(v3 on base registers **0** P4 assertions — every round-26 row is OUT_OF_POPULATION or unregistered). After = v4
+on the landed tree: `mismatch=0`, each R27-E counted `SUPERSEDED`. Prediction: base P4 mismatch ≥ 1
+(p = 0.55). Score: held at 8 unless a scored-probe leg is met (it is not); the observable is the claim.
+
+## Separability (QUALITY R13)
+
+C1 counts only the four pinned result files through a new instrument; it changes no P4 location. C2's P4 is
+enumerated at base and touches SCORECARD/README/lesson/SOURCES **correction rows** and `plans/state_check.py`;
+C1's new files (instrument, fixtures, knowledge entry, new README/SOURCES rows) are out of P4 by construction.
+Revert test at close: each claim's counter re-run with the other claim's paths reverted must not move
+(`corpus/evidence/round27-calibration/revert-test.txt`).
+
+## Frontier step
+
+SOURCES rows only after opening (URL, access date, ≤25-word located quote in
+`corpus/evidence/round27-sources/gate.md`); census before/after via
+`/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku`
+(round start: `kengaku ok`, exit 0, two W04 warnings). One mistake mined into `corpus/lessons/round-27.md`
+`## Mistakes` with a fix shown able to fail. Knowledge admission under Q1–Q14 (Q13/Q14: the admitting commit
+contains the cited returned falsify re-read reports).
+
+## Waves
+
+Wave 1 build (64–100 seats) and wave 2 falsify (64–100 seats, after wave 1 returns and the instruments are
+integrated); round total ≤ 200. Writers work only in private clones `/tmp/kengaku-r27-<Seat>`; KengakuR27 is the
+sole integrator.
