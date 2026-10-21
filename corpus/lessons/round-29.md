@@ -137,3 +137,12 @@ These final controls supersede earlier20/28/30 and10-mutant counts, without chan
 Safety cleanup removes five duplicate downloaded source copies flagged by FSentinelSecrets; the earlier
 scratch commit accidentally retained one credential-bearing source. No history rewrite; final tree removes
 it and retains only path/hash/removal evidence. No claim that historical Git objects were purged.
+
+## Actual measured outcome
+
+Admission6baa3090b6cf2d50e56b94b806a69f41220081df has tree33d75ccd8be05c941045f00e05b12ce9ee0cd4af,
+byte-identical to the pre-landing isolated trial88d687df…. Actual Gate1/1/0 and exact-byte proof exit0.
+Sources76/malformed0, knowledge/index37/37, historical329/318/0/6/5 plus32OOP, P4 still48/1/2.
+Selftest31 and persisted12mutants pass; portable separate-logic oracle compares2436objects/4248leaves/
+1435provenance rows with0disagreements. Follow-up receipts name this measured revision; no code or
+candidate change is introduced by them. Outside closure is pending, not supplied by lane seats.

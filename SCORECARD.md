@@ -972,3 +972,13 @@ Round29 final-package correction: controls are31 selftest cases and12 persisted 
 28/10 build-stage counts. Final source rows76 (seven additions, all tierA), knowledge/index37/37.
 Independent portable oracle compares2436objects/4248changed leaves/1435provenance rows,0disagreements.
 The exact final candidate is freeze-v5 (c4412f67…); v1–v4 remain historical. No score changed.
+
+### Round29 actual measured revision
+
+Landed measurement revision **6baa3090b6cf2d50e56b94b806a69f41220081df** has tree33d75ccd… exactly equal
+to the pre-landing trial tree. Actual Gate1admission/1passed/0failed/77reports and exact-byte proof exit0.
+C1 remains812/812/3/2436; selftest31, persisted mutants12/12, independent oracle0disagreements across
+2436objects/4248changed leaves/1435provenance rows. Sources76/malformed0, knowledge/index37/37.
+Historical329/318/0/6/5 and P4's48MATCH/1SUPERSEDED/2offline remain; OOP32 is additive, not matched.
+Evidence: round29-calibration/{actual-gate.txt,actual-byte-proof.json,actual-census.json,trial-landed-tree-proof.json}.
+These are author-side measurements; separate non-author closure remains pending.

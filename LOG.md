@@ -601,3 +601,11 @@ hop. S075/S076 correct those locators append-only; entry v5 changes only that he
 FRevEnumerate source copies flagged by FSentinelSecrets were removed before final admission, including
 an accidental credential-bearing env_config snapshot in the earlier scratch commit. No history rewrite
 or claim of historical-object purge. Evidence: credential-copy-removal.txt, final source/safety re-reads.
+
+### Round29 — actual landed-tree evidence
+
+Landed measurement revision6baa3090b6cf2d50e56b94b806a69f41220081df equals the pre-landing trial tree
+33d75ccd8be05c941045f00e05b12ce9ee0cd4af. Actual structural Gate and separate digest/final-PASS checks
+both exit0; source76, knowledge/index37/37, historical329/318/0/6/5, P4 unchanged. Corpus v5 exact digest
+c4412f67… binds both returned complete final re-reads in the admitting tree. Measurement receipt paths:
+corpus/evidence/round29-calibration/actual-*, trial-landed-tree-proof.json. No outside closure is claimed.
