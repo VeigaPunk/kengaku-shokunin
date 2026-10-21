@@ -546,3 +546,14 @@ The canonical entry is copied byte-exact; index/coverage/partial-frontier rows, 
 specific SKILL workflow and PROVINCE boundaries ship together. V1–v3 findings/digests remain historical.
 Both demonstrated capabilities enter the round28 repertoire; scores stay7/8, no other axis changes.
 Actual commit-tree timing/byte proof and clean-lane measurement follow the lane helper's landed revision.
+
+### Round28 — actual-commit findings corrected without rerolling history
+
+Admission df33fc83764975fd808b0945097b5d0c7aca3901's actual Gate/census each exited1; receipts remain.
+FFullEntry appended its already-returned v4 PASS in the required plain marker format. The census exposed
+a real legacy scope bug: round26 revision_text ran through EOF and consumed round28 score prose.
+Bound it at the next H2; a permanent fixture is red1 before / green0 after that production-line change.
+The restored JSON is329/318/0/6/5, P4 two offline groups and one superseded ID retained. See
+historical-scope-selftest-{red,green}.txt, historical-scope-restored.txt and state-check-scope-fix.json.
+This is an explicit, bounded exception to the prior state-check byte-preservation statement, not a
+numeric/data rewrite or a conversion of uncertainty into MATCH. Candidate and new C1/C2 code are unchanged.

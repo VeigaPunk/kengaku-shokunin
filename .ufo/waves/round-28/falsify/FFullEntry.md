@@ -260,3 +260,8 @@ Earlier sections stay unchanged. v1 (`77e19d5b…`), v2 (`3eb2afe5…`) and v3 (
 Every location, number and claim in v4 is supported by the reopened sources and receipts. The v3→v4 delta is exact and limited to the five hunks above. The previously unchecked v2 sentences now check out, and the instruments, fixtures and counters are unchanged. This PASS gives Q13 support at actual admission only for these exact bytes; presence alone is not endorsement. The canonical copy is identical. Any byte change, including the N1 fixes, voids this PASS and needs a same-identity re-read.
 
 Installs or updates during this check: none.
+
+VERDICT: PASS
+candidate_version: v4
+candidate_sha256: 50589759b82b26a7199d157035c852260ab1b10b59815f7b57e7534eccfd2ead
+canonical_candidate: corpus/knowledge/webarena-task-spec-audit.md

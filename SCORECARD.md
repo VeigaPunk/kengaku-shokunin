@@ -927,3 +927,9 @@ Current tests are bounded, not exhaustive mutation coverage. Actual measured/pus
 - Keep novelty7/coverage cap and calibration8 until independently justified; no retroactive conversion.
 - Frontier: generated task configurations/runtime evidence, additional benchmark specs and semantic
   source-support checks require separately frozen populations; no all-current-tree or complete-test claim.
+
+Round28 actual-commit erratum: df33fc83's census first exposed a legacy P4a EOF-scope bug, not a changed
+score or newly verifiable group. The production slice is now bounded to the frozen round26 H2 section;
+permanent selftest red1→green0 and JSON329/318/0/6/5 restore the exact declared disclosure classes.
+Old/new checker pins: plans/fixtures/r28/state-check-scope-fix.json. New C1/C2 metrics and67/15 tests
+remain unchanged. Final corrected measured revision is appended after landing; no red result is hidden.

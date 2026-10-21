@@ -2311,7 +2311,7 @@ def check_p4a(root: Path, out: list[Assertion], evidence: P4Evidence) -> None:
     )
 
     revision_text = (
-        "\n".join(content_text(line) for line in lines[revision_start:])
+        "\n".join(content_text(line) for line in lines[revision_start:next_h2(lines, revision_start)])
         if revision_start is not None else None
     )
     c1_revision_line = p4_numbered_line(
@@ -3849,6 +3849,20 @@ def run_p4_selftest() -> bool:
             lambda target, records: check_p4a(target, records, evidence),
             lambda: card.write_text(mutated, encoding="utf-8"),
         )
+        root = prepare("P4a-later-round-scores")
+        card = root / "SCORECARD.md"
+        card.write_text(card.read_text(encoding="utf-8") +
+                        "\n## Round 28 — outside frozen population\nScores stay 7/8.\n",
+                        encoding="utf-8")
+        scoped: list[Assertion] = []
+        check_p4a(root, scoped, evidence)
+        if p4_selftest_verdict(scoped, P4A_ASSERTION_IDS[9]) != "OFFLINE_UNVERIFIABLE":
+            print("selftest FAIL P4a later-round score scope: outside population "
+                  "changed frozen offline disclosure")
+            all_passed = False
+        else:
+            print("selftest ok P4a later-round score scope: offline disclosure preserved")
+
         root = prepare("P4a-final-c2")
         card = root / "SCORECARD.md"
         original = card.read_text(encoding="utf-8")

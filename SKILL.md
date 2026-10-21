@@ -684,3 +684,8 @@ For inward source-reference calibration run `python3 plans/registry_check.py --s
 source rows over35 baseline knowledge paths. Literal corrective mentions count; used-by is not
 endorsement of every source sentence. New files/rows stay outside that diagnostic. QUALITY Q17 and
 the round28 lesson name its red/green evidence and limits; whole-registry census remains separate.
+
+Round28 historical-state scope correction: the P4a round26 revision parser ends at the next H2;
+later rounds' score prose cannot change a frozen offline disclosure. `python3 plans/state_check.py
+--selftest` includes the later-round-score witness. This repairs extraction scope only: P4 retains
+two offline groups and one superseded ID, never a whole-current-tree assertion guarantee.

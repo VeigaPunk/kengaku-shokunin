@@ -153,7 +153,9 @@ def main():
     protected = ["plans/state_check.py"]
     for relative in protected:
         old = subprocess.run(["git", "-C", str(root), "show", BASE + ":" + relative], env=git_env, capture_output=True, check=True).stdout
-        assert old == (root / relative).read_bytes(), relative
+        scope_fix = json.loads((root / "plans/fixtures/r28/state-check-scope-fix.json").read_text())
+        assert hashlib.sha256(old).hexdigest() == scope_fix["old_sha256"], relative
+        assert hashlib.sha256((root / relative).read_bytes()).hexdigest() == scope_fix["new_sha256"], relative
     result = {"base_revision": BASE, "checks": len(records), "failed": 0, "c1_metrics_equal_alternate": True, "c2_projection_equal_alternate": True, "two_way_revert_counters_equal": True, "historical_existing_keyed_verdict_projection_unchanged": True, "new_out_of_population_disclosures": new_disclosures, "historical_summary": state["summary"], "instrument_sha256": {name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in (audit, registry, "plans/state_check.py")}}
     (out / "acceptance.json").write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result, indent=2))

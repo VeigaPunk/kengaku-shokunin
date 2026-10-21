@@ -272,3 +272,25 @@ Source-use cell changes at admission (all statuses/rechecks unchanged):
 S061/S062 appearances include their corrective S068/S069 qualifications, not endorsement of superseded
 metadata shorthand. S005/S006 are bounded self-report precedent context. The new admission links are
 checked separately from C2's frozen13/35 population. Outside non-author verdict remains pending.
+
+### Actual-commit conformance correction
+
+First admitting commit df33fc83764975fd808b0945097b5d0c7aca3901 had two observed red checks,
+retained in actual-gate.txt and actual-census.txt. These are not represented as passes.
+
+- M85 · attribution · Q13: FFullEntry's real v4 PASS was heading-form, without an anchored plain
+  VERDICT line; one valid report was already present, but the invalid additional citation made Gate
+  exit1. Its same-identity formatting-only append now supplies plain `VERDICT: PASS`, v4 digest and
+  canonical path. Original returned bytes remain intact.
+- M86 · scope · frozen-population contract: check_p4a read the round26 revision section through EOF,
+  so legitimate round28 “Scores stay7/8” text made the historical score-token disclosure ambiguous
+  and converted one offline group to MISMATCH. The root cause is fixed by bounding the slice at the
+  next H2, not by changing round28 wording or suppressing the finding. A permanent later-round-score
+  fixture is red1 before that single production-line fix and green0 after; current JSON restores
+  329/318/0/6/5 and P4's48 MATCH/1 SUPERSEDED/2 offline groups.
+
+This narrowly supersedes earlier state_check.py byte-unchanged statements: its reviewed old/new digests
+and red/green receipts are in plans/fixtures/r28/state-check-scope-fix.json. C1/C2 new instruments,
+candidate50589759…, source data and their67/15 selftests remain unchanged. The acceptance fixture
+pins this intentional scope-fix digest rather than silently dropping the old-code preservation guard.
+Final measured revision and both actual-commit checks are recorded after this corrective commit.
