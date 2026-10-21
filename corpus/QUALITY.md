@@ -173,3 +173,10 @@ A round closes only when every row below holds; a row that cannot be shown is an
 - **R13 — one artifact, one claim.** No claim's counting command counts an artifact another claim of the same round creates; each claim's count is re-run with the other claim's paths reverted and must not move. Check: the round's pre-registration names each claim's population and its freeze commit, and the report states the revert test result. Lesson: corpus/lessons/round-25.md M27.
 - **R14 — supersedes R4's Check.** R4's awk reads field 2 of `## Surfaces`, which is the surface name, so it cannot see the table it governs. Check: `python3 plans/state_check.py --summary` reports every `## Surfaces` row with a missing first local path as MISMATCH unless the row carries `**ABSENT**` or `**ABSENT <date>**`; endpoint-first rows are offline-unverifiable. Lesson: corpus/lessons/round-25.md M35 (falsify seat RevProvinceAbsent).
 - **R15 — supersedes R11's Check.** Run from the fleet root: `sh kengaku-shokunin/plans/l0_filed_check.sh .ufo/reports/round-<N>/kengaku.md .ufo/l0-questions.md` exits 0 (the paths in R11 resolve from no single directory). When the round prompt makes the integrator the appender, an unfiled question is routed to the integrator, not mined as a lane mistake. Lesson: corpus/lessons/round-25.md M23 correction (falsify seat LessonM23).
+
+## Round29 criterion — forecast resolution scope
+
+- **Q18 — a forecast freezes its resolution criterion.** Before seeing output, name the measured unit,
+  population and category rule (e.g. JSON-path role versus URL-shaped value). If the frozen wording admits
+  incompatible outcomes, record the forecast UNSCORABLE; observed counts may still be reported but supply
+  no prospective calibration credit. Lesson: `corpus/lessons/round-29.md` M89; `.ufo/waves/round-29/falsify/FCritForecasts.md`.

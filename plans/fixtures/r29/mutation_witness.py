@@ -16,7 +16,7 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[3]
 TOOL = "plans/config_projection.py"
 COPY = [TOOL, "plans/fixtures/r29/manifest.json", "plans/fixtures/r29/generate_test_data.py", "plans/fixtures/r29/profiles.json",
-        "plans/fixtures/r28/webarena/config_files/test.raw.json", "plans/fixtures/r29/hand"]
+        "plans/fixtures/r28/webarena/config_files/test.raw.json", "plans/fixtures/r29/hand", "plans/fixtures/r29/projection_cases.json"]
 MUTANTS = {
     "wrong_order_reversed": ('    for name in ORDER:\n        token = "__%s__" % name\n        steps.append', '    for name in reversed(ORDER):\n        token = "__%s__" % name\n        steps.append'),
     "url_only_substitution": ("        text = text.replace(token, values[name])\n    return text, steps",
@@ -29,6 +29,8 @@ MUTANTS = {
     "runtime_marker_counted_as_token": ('"remaining_known_tokens_text": {token: projected_text.count(token) for token in tokens}}', '"remaining_known_tokens_text": {token: projected_text.count(token) for token in tokens + ["__last_url__"]}}'),
     "exact_contract_check_removed": ("    if rendered != EXPECTED_STATEMENTS:", "    if False:"),
     "unexpected_error_not_caught": ("        except Exception as error:", "        except (OSError, ValueError) as error:"),
+    "finding_exit_forced_zero": ("    return result, int(bool(findings))", "    return result, 0"),
+    "url_templates_narrowed": ('frozenset({"start_url", "eval.reference_url", "eval.program_html[].url"})', 'frozenset({"start_url"})'),
 }
 
 

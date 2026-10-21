@@ -134,4 +134,60 @@ Attack outcome: the frozen-domain equivalence claim survives; the boundary is ex
 quote/backslash (H1, H2, H2b) and later-token cascade (H3) as the demonstrated failure classes of
 the decoded-leaf alternative outside it.
 
+## Correction and re-run (appended 2026-10-21 after FCritClaimMet/FCritOracleIndependence; earlier bytes above unchanged)
+
+1. **test.json write-order correction.** The pinned generator bytes write `config_files/test.json`
+   (lines 17–18, `f.write(raw)`) BEFORE the line-20 `json.loads(raw)` (instrument `source_contract`
+   agrees: parse_line 20, enumerate_loop_line 21). So on a text-parse failure (quote/backslash
+   classes) upstream HAS already written the projected, invalid whole-file test.json; only the
+   per-task `{idx}.json` files are absent. My earlier phrasing "no output file at all upstream" was
+   wrong on that point. `oracle.py` `run_hands` wording corrected and `oracle_hands.out`
+   regenerated; the instrument itself still writes nothing real (prereg: stdout only).
+
+2. **Sequential leaf is the required oracle; single-pass is not.** Implemented
+   `seq_sub`/`leaf_project_sequential` (the six ordered replacements applied to every decoded
+   string, keys included — mirroring upstream order at leaf level); the single-pass variant stays
+   only as a labeled alternative with a docstring warning. Frozen re-run
+   (`oracle.py --out oracle_frozen.out`, rc=0): sequential leaf **2436/2436 == text == instrument**
+   (812/812 × 3 profiles) with the same projected-text digests, 1435-record provenance equality,
+   1416 changed-leaf agreement and 2436/2436 would-be-file-digest agreement as §A1; the single-pass
+   variant also scores 2436/2436 (`sp_eq_text`) on frozen input because D3 (no token inside any
+   profile value) and D4 (token disjointness) hold there — the two leaf flavors coincide only on
+   that benign slice.
+
+3. **Cascade description (observed).** Under sequential leaf, later-token cascade behaves exactly
+   like text: H3 and cases-file `cascade_later_token` both yield
+   `start_url = http://g.invalid:10101/http://m.invalid:10106` (leaf == text); the single-pass
+   variant instead leaves the literal `__MAP__` and is NOT the required oracle — `cascade_later_token`
+   is the only one of the 9 cases where single-pass differs from sequential leaf. Earlier-token
+   direction (`earlier_token_control`): sequential leaf, single-pass, and text all leave
+   `__GITLAB__` literal.
+
+4. **Hand-expected cases file:** `scratch/falsify/FOracleLeaf/projection_cases.json` (6644 bytes),
+   9 cases covering the 6 required classes — quote_invalid, quote_structural_injection,
+   backslash_decode, backslash_invalid_escape, backslash_trailing, escaped_token — plus
+   cascade_later_token, earlier_token_control, keys_too_benign; each case carries raw, six values,
+   expected_json, expected_error, expected_leaf_json. Verifier (`oracle.py --verify-cases`,
+   rc=0, `oracle_cases_verify.out`): 9/9 text-side expectations met — including exact error strings
+   `Expecting ',' delimiter: line 1 column 54 (char 53)`, `Invalid \escape: line 1 column 52 (char 51)`,
+   `Unterminated string starting at: line 1 column 29 (char 28)`, hand-checked to land inside the
+   injected value regions — and 9/9 sequential-leaf expectations met byte-value-exact.
+
+5. **Corrected equivalence domain.** Sequential decoded-leaf == sequential text iff **D1**
+   (escape-safety: raw token count == decoded token count — broken by `escaped_token`, where leaf
+   yields `http://g.invalid:10101` while text leaves `__GITLAB__`) AND **D2** (all six values
+   JSON-verbatim: no `"`, `\`, or control char — broken by the quote cases, including structural
+   injection where text still parses but gains an `injected` key, and by both backslash classes).
+   D3/D4 are NOT required for sequential-leaf equivalence (the order is mirrored); they gate only
+   the single-pass variant. §A3's D1–D5 list therefore describes the single-pass flavor; the
+   required oracle's domain is D1∧D2.
+
+6. **/tmp hygiene:** no /tmp copies were created at any point (experiments ran in-memory or in the
+   scratch dir); nothing to clean.
+
+Correction-scope files touched: `oracle.py` (sequential flavor, corrected write-order wording,
+`--verify-cases`/`--out`), `projection_cases.json` (new), `oracle_frozen.out`/`oracle_hands.out`
+(regenerated), `oracle_cases_verify.out` (new); `units.py`/`units.out` unchanged. No production,
+fixture, corpus, SOURCES, SCORECARD or candidate files touched.
+
 VERDICT: PASS

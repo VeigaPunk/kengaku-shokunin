@@ -945,3 +945,30 @@ both returned v4 reports and measured code. First df33fc83 red checks remain exp
 Complete acceptance after the bounded legacy fix also exits0 with11 expected-exit stages and actual
 new-entry source links clean. Receipts: round28-calibration/actual-*-corrected.txt,
 actual-final-byte-proof.json, complete-acceptance/. These are author measurements, not outside admission.
+
+## Round 29 — pinned WebArena generated-config projection (2026-10-21)
+
+Lowest legacy novelty7→canonical coverage/constructs; tied coverage/surfaces7 remains capped by the open
+round25 L0, no waiver, and C1 does not move the canonical coverage number. Baseline
+ed26bdf5d924755697cd6812129be2fa441c42a3; prereg 31934e5660f1814326c6472eefdfa0c41e642a2f (KengakuR28).
+Replacement L1 KengakuR29-2 after the host crash; build integrated at b98dcf31, falsify repairs at dbcecded.
+
+| claim | axis | observed before → after, counting command | score / verdict |
+|---|---|---|---|
+| C1 generated-config projection capability | novelty → canonical coverage/constructs (lowest) | instrument absent at base (`git cat-file -e ed26bdf5…:plans/config_projection.py` exit128) → `python3 plans/config_projection.py --summary` 812 tasks/812 IDs/3 profiles/2436 projections, 1435 occurrences, 1416 changed leaves (1355 URL-path/61 non-URL-path), 0 remaining tokens, index==task_id 812/812, exit0; four independent oracles agree on all 2436 objects | 7→7 held; local observability improved, no new-method/validity/deployment credit |
+
+Informed forecasts (prereg F1–F5; source-informed, not calibration trials, no calibration credit):
+F1 true (812×3 parse), F2 true (0 remaining), F3 unscorable (category criterion not frozen before
+observation; JSON-path 61, value-shape 0), F4 true (812/812 frozen, shuffled witness maps 0→1, 1→0),
+F5 true (novelty held). Calibration8 unchanged. Other axes unchanged: depth9, coverage7 capped,
+operability8, freshness8 (LOG round29 entry), adjacency8; r28 instruments byte-identical (FPreserveR28).
+Selftest28 cases and the persisted 10-mutant witness are bounded, not exhaustive mutation coverage.
+
+| Capability | What it can now do | Evidence / command | First-working round |
+|---|---|---|---|
+| generated-config-projection | Reproduce a pinned benchmark generator's serialized-text config projection offline, with occurrence provenance, changed-field census and output-ordinal mapping, without executing upstream code | `python3 plans/config_projection.py --summary`; `plans/fixtures/r29/mutation_witness.py`; round29-calibration/repair-*; round29 Gate | 29 |
+
+Round29 final-package correction: controls are31 selftest cases and12 persisted mutants, not the earlier
+28/10 build-stage counts. Final source rows76 (seven additions, all tierA), knowledge/index37/37.
+Independent portable oracle compares2436objects/4248changed leaves/1435provenance rows,0disagreements.
+The exact final candidate is freeze-v5 (c4412f67…); v1–v4 remain historical. No score changed.

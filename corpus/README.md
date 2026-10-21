@@ -349,3 +349,18 @@ The earlier deferred round28 index statement is superseded by the actual Gate ad
 
 The candidate remains `../.ufo/waves/round-29/drafts/webarena-config-projection.md`; no canonical knowledge
 row or frontier discharge is asserted before returned complete second-seat re-reads of its exact bytes.
+
+### Round29 admitted knowledge and partial frontier advance
+
+| Entry | Covers | Primary source |
+|---|---|---|
+| `knowledge/webarena-config-projection.md` | Offline pinned WebArena generator projection over812 tasks×3 synthetic profiles, occurrence/changed-field provenance and output-ordinal mapping; not deployment configs or task validity | S070–S074; S068 input pin; round29 Gate |
+
+| Coverage-map ground | Held now | Entry |
+|---|---|---|
+| Agentic benchmark generated-config observability | Source-faithful offline projection at dce04686 under three frozen synthetic profiles, with order/index witnesses and separate-logic oracles | `knowledge/webarena-config-projection.md` |
+
+**Partly discharged round29:** offline projection of generated configs is now held. Actual env_config-derived/
+deployment configs, runtime DOM/helper/judge/task validity and contamination remain open, as do the other
+named benchmark specifications. This narrows, not erases, the round28 gap line above and supersedes only
+the round29 deferred index statement after the Gate's exact-byte admission.

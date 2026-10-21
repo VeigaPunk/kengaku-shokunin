@@ -159,3 +159,108 @@ The referenced author receipt `corpus/evidence/round29-calibration/mutation-witn
 Tooling: existing `/usr/bin/python3` reports Python 3.14.8. No tool was installed or updated; no package transaction, service action, network access, REA device, subagent, formatter or linter was invoked. The assigned mutation probe and restoration are complete.
 
 VERDICT: FAIL
+
+## Re-check at dbcecded (follow-up)
+
+Follow-up writer: KengakuR29-2.FMutNormalize-2. Scope: the same trailing-slash normalization mutant against the repaired instrument, plus execution of the requested persisted mutation-witness runner. Earlier findings above are historical and remain unchanged.
+
+Observed checkout identity from `git rev-parse HEAD`: `dbcecded4a04247cf6fd12919327af973da10bdd` (exit 0). Production source was read for the mutation location and new assertion; this remains a mutation re-check, not an independent-oracle report.
+
+**Observed result: KILLED by repaired `--selftest`.** The repaired pristine detector passed, the same one-line mutant failed at the new literal-slash assertion, and the restored detector passed. Frozen-data `--summary` still exits 0 for this mutant; that remaining distinction is explicitly reported, not called a summary kill.
+
+### Copy, commands and exact exits
+
+Copied the complete repaired `plans/` tree with:
+
+```sh
+cp -a /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans /tmp/r29-FMutNormalize-dbcecded.66jCWc/plans
+```
+
+The only mutation was at `/tmp/r29-FMutNormalize-dbcecded.66jCWc/plans/config_projection.py:179`: add the same `.rstrip("/")` to the replacement value before substitution. No tests, inputs or lane files were changed.
+
+Identical bounded commands ran once per pristine/mutated/restored phase, using a 240-second per-process timeout and cwd `/tmp/r29-FMutNormalize-dbcecded.66jCWc`:
+
+```sh
+/usr/bin/python3 -B /tmp/r29-FMutNormalize-dbcecded.66jCWc/plans/config_projection.py --root /tmp/r29-FMutNormalize-dbcecded.66jCWc --selftest
+/usr/bin/python3 -B /tmp/r29-FMutNormalize-dbcecded.66jCWc/plans/config_projection.py --root /tmp/r29-FMutNormalize-dbcecded.66jCWc --summary
+```
+
+Capture invocations, each harness exit 0:
+
+```sh
+python3 -B /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-29/scratch/falsify/FMutNormalize-2/recheck-dbcecded/capture.py pristine
+python3 -B /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-29/scratch/falsify/FMutNormalize-2/recheck-dbcecded/capture.py mutated
+python3 -B /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-29/scratch/falsify/FMutNormalize-2/recheck-dbcecded/capture.py restored
+```
+
+| Phase | selftest exit | summary exit | selftest completed cases | selftest stdout bytes | selftest stderr bytes |
+|---|---:|---:|---|---:|---:|
+| Repaired pristine | 0 | 0 | 28 | 794 | 0 |
+| Normalization mutant | 1 | 0 | Aborted at line 534 | 0 | 648 |
+| Restored | 0 | 0 | 28 | 794 | 0 |
+
+The pristine/restored selftest output prefix is `SELFTEST clean cases=28`. The mutant traceback ends with `AssertionError` at `config_projection.py:534`, in the new case defined at lines 530-537. The recorded diagnosis used exactly that case's raw text and values through the same copied instrument; findings were an empty list, isolating the failed string equality:
+
+| Exact hand-case JSON Pointer | Required literal value | Observed mutant value |
+|---|---|---|
+| `/0/start_url` | `http://gitlab.invalid:1//a` | `http://gitlab.invalid:1/a` |
+| `/0/eval/program_html/0/required_contents/must_include/0` | `http://gitlab.invalid:1//b` | `http://gitlab.invalid:1/b` |
+
+Both fields matched their required values in pristine and restored diagnoses. The selftest fails on the first at line 534; the second is also wrong but its later assertion is not reached. Full traceback and both exact-value records are retained in `mutated.selftest.stderr.txt` and `mutated.capture.json`.
+
+All summary runs still finish with `TOTAL findings=0 exit=0` and empty stderr. The sole summary mismatch is line 45, `trailing_slash_sensitivity.projected_text_sha256`: expected `49bbee2e827791b79f42858ac78637704adaa7e36f1cb3a9268563e8df3e01b2`, mutant `fa983a913b7556c595eaf440d6451ac5ee7e9cddc5ef001450ca04bc5ae23057`. Its complete exact before/after line is recorded in the follow-up `analysis.json`. Thus the frozen population still exposes a byte-level difference, but the new hand-case selftest—not frozen-summary findings—kills this defect.
+
+### Requested mutation-witness receipt
+
+Executed the lane's persisted runner, which was read beforehand and creates its experiments only under `/tmp`:
+
+```sh
+/usr/bin/python3 -B /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/fixtures/r29/mutation_witness.py
+```
+
+The capture harness's `witness` mode ran that exact command concurrently with the repaired pristine capture, before this leaf mutated its separate copy. Runner exit: 0. Receipt stdout: 5131 bytes; stderr: 0 bytes. Receipt SHA-256: `8c5afbe6a8ef9d58303239a6c5f567cc7f454ced372165d92e6fd471ef63b815`. Runner source SHA-256: `70c36f7596f9fc5d3776a0b355769b18bdaa4ed6f6621b76263ff977871c8e25`.
+
+Observed receipt: control selftest exit 0 with 28 clean cases; control summary exit 0; 10 mutants enumerated and 10 reported killed. Exact exit matrix from that receipt:
+
+| Persisted mutant | selftest exit | summary exit | summary finding count | Receipt killed |
+|---|---:|---:|---:|---|
+| wrong_order_reversed | 1 | 0 | 0 | true |
+| url_only_substitution | 1 | 1 | 6 | true |
+| index_by_task_id | 1 | 0 | 0 | true |
+| value_normalized_rstrip | 1 | 0 | 0 | true |
+| category_by_value_shape | 1 | 0 | 0 | true |
+| hash_then_reread | 1 | 0 | 0 | true |
+| decoded_census_drops_wikipedia | 1 | 0 | 0 | true |
+| runtime_marker_counted_as_token | 1 | 1 | 3 | true |
+| exact_contract_check_removed | 1 | 0 | 0 | true |
+| unexpected_error_not_caught | 1 | 0 | 0 | true |
+
+The persisted runner's normalization row agrees with this leaf's independently executed one-line mutation probe: selftest exit 1, summary exit 0, killed true, frozen-summary-alone-detects false. The table reports the runner's receipt; this leaf did not expand its own assigned mutation set or claim exhaustive coverage.
+
+### Restoration, append-only history and cleanup
+
+| Copied instrument phase | SHA-256 |
+|---|---|
+| Repaired pristine | `135cc68283e76635df913a085e6c3fcf93b8e04e83af8e9b9aac5b14876aa142` |
+| Mutated | `38f993014ba47a8b2b4f9189cce78b8cdba1e33f425ddce41310cc985ea514e3` |
+| Restored before deletion | `135cc68283e76635df913a085e6c3fcf93b8e04e83af8e9b9aac5b14876aa142` |
+
+The runner independently reports its restored source hash as the same repaired-pristine hash. The lane instrument and every recorded input, hand fixture and runner hash remained unchanged throughout both experiments.
+
+Restored selftest and summary stdout were byte-identical to repaired pristine. Their respective SHA-256 values are `4dc3b86679000ef8a6c9802fbb09de3c4e570277371c58955c700a87ee16d3b4` and `9e074be313d7b15839fd82a39a038c9d0bfd0e32f281024830c3e0780ea2d7ba`. The mutant selftest stderr hash is `cabd218d9347c2defab4e39e2591332639c2d8e7d102e7fe681a6dca62654d88`.
+
+Before this append, the entire earlier report was 11912 bytes with SHA-256 `d28e0ec3c743570ac6c0acb59c850797adfaf3d6e3d1e3f6859625133bba9413`; this section is added only at EOF, leaving that historical FAIL intact.
+
+Both owned `/tmp` plan copies were deleted after restoration evidence was captured: `/tmp/r29-FMutNormalize-2.9YapCw` and `/tmp/r29-FMutNormalize-dbcecded.66jCWc`. The final deletion/check command returned exit 0, with both absence checks true; its exact command/output are in `cleanup.json`. The persisted runner removed its own temporary directory on normal context exit.
+
+Follow-up evidence directory: `/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-29/scratch/falsify/FMutNormalize-2/recheck-dbcecded/`.
+
+- `pristine.capture.json`, `mutated.capture.json`, `restored.capture.json` and their mode stdout/stderr files: exact commands, exits, source/input hashes, traceback and literal-value diagnosis.
+- `official-witness.stdout.txt`: full 10-mutant JSON receipt; `official-witness.receipt.json`: runner command, exit, output hashes and unchanged lane snapshots.
+- `analysis.json`: exact summary mismatch, exit matrix, restoration comparisons, witness receipt summary and programmatic count of the follow-up's code/output/value excerpts (11 whitespace words).
+- `prior-report-metadata.json`: hash/length of the historical report before appending; `cleanup.json`: owned-copy removal evidence.
+- `capture.py`, `summarize.py`: retained evidence-capture/analysis scripts, not production changes. No supplementary `--json` rerun was needed for this follow-up.
+
+No tools were installed or updated; no package transaction, service action, network access, REA device, subagent, formatter or linter was used. Scoped conclusion: the repaired selftest closes the observed rstrip-normalization survivor; the frozen-summary-only limitation remains disclosed.
+
+VERDICT: PASS

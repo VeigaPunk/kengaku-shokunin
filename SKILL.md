@@ -569,6 +569,7 @@ either side without a recorded ruling fails the gate.
 | `gate-timing` | gate | `python3 plans/gate_timing_check.py --lesson corpus/lessons/round-26.md --commit REV` | `0` explicit returned report support present in requested tree · `1` missing/invalid support · `2` setup/usage | `python3 plans/gate_timing_check.py --selftest`; red `--lesson corpus/lessons/round-25.md --commit 8ea41f9` | commit-tree lesson, candidate writer and wave registries/reports; presence does not imply endorsement | none — read-only Git plumbing | kengaku |
 | `benchmark-spec-audit` | gate | `python3 plans/benchmark_spec_audit.py --summary` (`--root DIR`, `--json`) | `0` pinned static schema inventory clean, NOT task validity · `1` structural finding · `2` could-not-evaluate, including missing/tampered snapshot/manifest/selection | `python3 plans/benchmark_spec_audit.py --selftest` (isolated miniature cases plus real CLI pin failures) | `plans/fixtures/r28/webarena/manifest.json`, selected-task-ids.json; both digests independently pinned in code, original upstream files retained with LICENSE | read-only; selftest uses temporary trees, no upstream execution/network | kengaku |
 | `registry-reference-check` | gate | `python3 plans/registry_check.py --summary` (`--root DIR`, `--json`) | `0` frozen literal-reference coverage clean, NOT source truth · `1` mismatch · `2` could-not-evaluate, including missing/tampered population | `python3 plans/registry_check.py --selftest` (isolated hand-expected references and CLI population controls) | `plans/fixtures/r28/registry/population.json` digest in code;13 rows and35 baseline knowledge paths, new files excluded | read-only; selftest uses temporary trees | kengaku |
+| `config-projection` | gate | `python3 plans/config_projection.py --summary` (`--root DIR`, `--json`) | `0` pinned 812×3 projection with expected structural identities, NOT deployment configs or task validity · `1` projection/invariant finding · `2` could-not-evaluate, including missing/tampered manifest/input, unrecognized generator contract, internal error or `python -O` | `python3 plans/config_projection.py --selftest` (hand cases, digest-pinned seat fixtures, isolated CLI pin failures); `python3 plans/fixtures/r29/mutation_witness.py` (12 persisted mutants) | `plans/fixtures/r29/manifest.json` digest and exact generator statements in code; hand-fixture digests in code | read-only; selftest and witness write only under /tmp; generator never imported or executed | kengaku |
 
 The `coverage-census` row records the interface declared in the round-13
 re-dispatch (parent, 2026-10-15); the script lands with the census seat's
@@ -689,3 +690,14 @@ Round28 historical-state scope correction: the P4a round26 revision parser ends 
 later rounds' score prose cannot change a frozen offline disclosure. `python3 plans/state_check.py
 --selftest` includes the later-round-score witness. This repairs extraction scope only: P4 retains
 two offline groups and one superseded ID, never a whole-current-tree assertion guarantee.
+
+## Generated-config projection — round29
+
+Before interpreting a WebArena run that consumes `generate_test_data.py` output by file index, run
+`python3 plans/config_projection.py --summary`: it projects the pinned raw specs by the generator's six
+ordered serialized-text replacements under three synthetic profiles. Exit0 means 812 tasks parse with zero
+remaining tokens and every changed leaf carries a token; it is not a deployment config, task validity or
+scoring result. Global replacement reaches non-URL fields (61 leaves); frozen data cannot reveal order or
+positional naming, so rely on the selftest's witnesses and `plans/fixtures/r29/mutation_witness.py`.
+`corpus/knowledge/webarena-config-projection.md` holds the decision rule; ID-selecting harnesses (S074)
+need no filename check.

@@ -315,3 +315,138 @@ divergence the invariant cannot see (F4); plus a live non-additivity hazard in t
 per-token buckets (F5). None of them changes a published pinned number.
 
 VERDICT: PARTIAL
+
+## Re-check at dbcecded (follow-up)
+
+Writer: KengakuR29-2.FReviewDiff-2. Scope: re-check of my findings **F1, F3, F4, F7** against the
+repaired instrument at lane master `dbcecded4a04247cf6fd12919327af973da10bdd`
+(`plans/config_projection.py` sha256 `135cc68283e76635df913a085e6c3fcf93b8e04e83af8e9b9aac5b14876aa142`).
+Earlier bytes of this report are unchanged; the verdict line of the preceding section belongs to the
+56fd949 review, and the final line of this file is the re-check verdict.
+
+Read-only leaf: no lane, corpus, fixture, SOURCES, SCORECARD or candidate edit; no Git/JJ
+operation beyond read-only `git log`/`git diff`/`git rev-parse`/`git status`; all experiments on
+`/tmp/fr29d2` copies of the script, plus my own scratch dir
+`.ufo/waves/round-29/scratch/falsify/FReviewDiff/`. My `/tmp/fr29d` and `/tmp/fr29d2` copies are
+deleted at the end of this re-check. No tooling installed or upgraded (python3 3.14.8 stdlib only).
+
+Repairs observed in `git diff 56fd949 dbcecded -- plans/config_projection.py`:
+`template()` now appends `[]` when no name part precedes a list index; `pointer()` now emits the
+empty string for the root; the carrier invariant is split into `leaf_change_unexplained` (only
+when `unexplained > 0`, payload `count`) and a new `token_leaf_unchanged`; a new
+`duplicate_json_key` finding plus `population.duplicate_object_keys` were added.
+
+### F1 — `template()` on list-shaped tasks: REPAIRED (verified)
+
+Repaired code: `template()` (now 236–244) appends `[]` instead of storing into `parts[-1]` of an
+empty list. Re-check on a `/tmp` copy, input `[["__GITLAB__"]]`:
+
+```
+findings: []
+changed_leaf_count: 1  changed_task_count: 1
+leaf /0/0 tmpl='[]' cat=non_url_field tokens=['__GITLAB__']
+```
+
+Deeper nesting `[[["__REDDIT__"]]]` → leaf `/0/0/0`, template `[][]`; mixed input
+`[["__GITLAB__"], {"z": "__MAP__", "a": 1}]` → leaves `/0/0` (`[]`) and `/1/z` (`z`), 0 findings.
+End-to-end CLI on a `/tmp` root (re-pinned manifest, raw `[["__GITLAB__"], {"z": "__MAP__"}]`):
+the previous `IndexError` / exit 2 / `input_invalid` is gone — the run now projects both tasks and
+reports only the population findings that the probe input genuinely raises:
+
+```
+findings: [{"id": "input_population_mismatch"}, {"id": "projection_population_changed", ...}, {"id": "projection_count_invalid"}]
+task0 changed_leaves: [{"json_pointer": "/0/0", "path_template": "[]", ...}]
+task1 changed_leaves: [{"json_pointer": "/1/z", "path_template": "z", ...}]
+```
+
+(The probe input holds 2 tasks, not 812, so `input_population_mismatch` /
+`projection_population_changed` / `projection_count_invalid` are correct for that input.) The
+repaired selftest also pins this shape (`duplicate_keys_list_tasks_key_order`, asserting
+`path_template == "[]"`). F1 is closed.
+
+### F3 — carrier invariant: REPAIRED (verified)
+
+The mislabelled finding no longer fires. Re-check, escaped-only token in a value
+(`[{"intent": "\u005f\u005fGITLAB__"}]`), previously `leaf_change_unexplained` with
+`unexplained: 0`:
+
+```
+findings: ["token_leaf_unchanged", "known_token_remaining"]
+detail: {"changed": 0, "id": "token_leaf_unchanged", "profile": "distinct_origins", "token_leaves": 1}
+```
+
+Same for the degenerate profile value equal to its own token (`GITLAB=__GITLAB__`): findings are
+`token_leaf_unchanged` + `known_token_remaining`, and the payload names the condition it reports
+(a token-bearing leaf did not change: `token_leaves` 1, `changed` 0). `leaf_change_unexplained`
+now fires only for `unexplained > 0` and carries `count` instead of the three-field payload.
+
+Residual note (not a defect): the `unexplained > 0` branch is still unreachable in practice for
+this projection family (substitution-only mutation ⇒ `unexplained ≡ 0`; 0 across 4000 + 3000
+fuzz cases). It is now correctly named and payloaded, so it reads as a defensive check rather than
+a false finding. F3 is closed.
+
+### F4 — duplicate JSON key: REPAIRED (verified)
+
+New finding `duplicate_json_key` with pointers and count, plus
+`population.duplicate_object_keys`. Re-check of the exact input that previously produced no
+finding at all (`[{"a": "__GITLAB__", "a": "__REDDIT__"}]`):
+
+```
+findings: ["duplicate_json_key"]
+detail: {"count": 1, "id": "duplicate_json_key", "pointers": ["/0/a"]}
+duplicate_object_keys: 1
+changed_leaves_by_token: {"__GITLAB__": 0, "__REDDIT__": 1, ...}
+```
+
+The text/object divergence is now reported instead of silently absorbed. Precision check
+(`dupkey.py`, 8 targeted cases + 400 randomised documents): every true duplicate inside one object
+is reported exactly once with the right pointer (`/0/a`, `/0/x/a`, `/0/x/0/a`; one pointer for a
+key repeated three times), the same key name in *different* objects is never reported
+(`[{"a": 1}, {"a": 2}]` → 0 findings; 400 randomised documents → 0 false positives), and the
+detection compares **decoded** member names, so `[{"a\u0062": 1, "ab": 2}]` is correctly reported
+as one collision — `json.loads` collapses that object to `{'ab': 2}`. F4 is closed.
+
+### F7 — pointer root: REPAIRED (verified)
+
+`pointer(())` now returns `''` (the RFC 6901 root) instead of `'/'`; non-root pointers are
+unchanged: `pointer((0,))` → `'/0'`, `pointer((0, 'a'))` → `'/0/a'`. F7 is closed.
+
+### Regression check at dbcecded (my area)
+
+- Pinned baseline: `python3 plans/config_projection.py --summary` → exit 0,
+  `TOTAL findings=0 exit=0`, `POPULATION {"distinct_task_ids": 812, "input_task_count": 812,
+  "profile_count": 3, "task_profile_projections": 2436, "tasks_with_any_token": 812}`,
+  `ORIGINAL_OCCURRENCES_BY_TOKEN` unchanged (385/336/281/300/0/133), `OCCURRENCE_ROLES {"value":
+  1435}`, `DUPLICATE_OBJECT_KEYS 0`, `INDEX {"unit": "input tasks",
+  "index_equals_task_id_count": 812, "index_task_id_mismatches": 0}`.
+- `python3 plans/config_projection.py --selftest` → exit 0, `SELFTEST clean cases=28` (was 20; the
+  new cases include `duplicate_keys_list_tasks_key_order` and `verbatim_slash_and_path_category`).
+- My independent leaf walk (unchanged oracle, `oracle.py`) vs the new `--json`: **0 mismatches**
+  on every published leaf metric and on all 812×3 per-task changed-leaf pointer sets, for all
+  three profiles: 812 parsed tasks, 10869 string leaves, 1416 changed leaves, 812 changed tasks,
+  13 multi-occurrence leaves, category 1355/61, per-token 385/323/275/300/0/133, both remaining
+  token censuses 0, identical `projected_text_sha256`. (My comparator now sorts both sides, so the
+  earlier 438-index artefact of my own comparator is gone; the instrument never had it.)
+- Differential fuzz against the repaired code: 4000 random documents → 0 count, 0 pointer,
+  0 per-token census, 0 structural-finding mismatches, 0 exceptions; 3000 escape/duplicate-key
+  documents → 0 serialized-text census mismatches, 0 decoded census mismatches, 0 missing and 0
+  spurious `known_token_remaining` findings, 0 exceptions. The 616 `occ_vs_decoded_disagree`
+  cases are the unchanged, documented text-literal vs decoded difference (an escaped token is
+  invisible to the occurrence provenance census but visible to the decoded census).
+
+### Residual notes for the coordinator (outside the four re-checked items)
+
+- Two earlier findings of mine are disclosed in the repaired output but were not in this
+  re-check's scope: the limitations list now states that per-token task counts are not additive
+  and that a changed leaf's tokens are the six tokens literally present in its ORIGINAL text, and
+  the summary line is renamed `TASKS_WITH_TOKEN_NOT_ADDITIVE` (my F5 reporting note and the F2
+  attribution rule are now stated in the tool's own output). The cascade attribution itself
+  (F2) is unchanged in the code.
+- The public `--json` keys `index_mapping.index_equals_task_id` and `index_mapping.violations`
+  were renamed to `index_equals_task_id_count` and `index_task_id_mismatches`; any other lane's
+  checker that reads the old names needs the same rename.
+- `string_spans()` now also accepts the non-standard literals `NaN`, `Infinity` and `-Infinity`
+  (line 218 area), which `json.loads` accepts by default; I did not re-test that path beyond the
+  pinned run, which contains none of them.
+
+VERDICT: PASS

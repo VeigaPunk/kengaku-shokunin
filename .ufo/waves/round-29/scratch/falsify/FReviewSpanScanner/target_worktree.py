@@ -28,6 +28,13 @@ GENERATOR = "plans/fixtures/r29/generate_test_data.py"
 RAW = "plans/fixtures/r28/webarena/config_files/test.raw.json"
 PROFILES = "plans/fixtures/r29/profiles.json"
 HAND = "plans/fixtures/r29/hand"
+# Seat-authored hand fixtures are authenticated before the selftest consumes them.
+HAND_SHA256 = {
+    "cascade-order.case.json": "4f957db3c3a8c19e951b6b225e9520cfc631fc09f864c9b4aad72464d9639fb3",
+    "index-shuffled-ids.fixture.json": "938771045ddbe6bdf6323858bc2c3204e38d028f1086bf83758b79a255fc9254",
+    "url-only.expected.json": "e68e7a0dd8719b85a8db143748989a36dbc955a23b67209b8d76add720f1f5e5",
+    "url-only.fixture.json": "2c78b19909c0c9b4b601f500301d1036c7e00d31454594ec4435c7d28407055e",
+}
 ORDER = ("GITLAB", "REDDIT", "SHOPPING", "SHOPPING_ADMIN", "WIKIPEDIA", "MAP")
 POPULATION = 812
 # Persisted stimulus classes, keyed by frozen profile name. They label the synthetic stimulus;
@@ -487,7 +494,9 @@ def selftest(root):
         else:
             raise AssertionError(name)
     cases.append("profile_map_errors")
-    # Seat-authored hand fixtures (independent writers), consumed unchanged.
+    # Seat-authored hand fixtures (independent writers), authenticated, then consumed unchanged.
+    assert {path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in sorted((root / HAND).iterdir())} == HAND_SHA256, "hand_fixture_tampered"
+    cases.append("hand_fixtures_authenticated")
     order_case = json.loads((root / HAND / "cascade-order.case.json").read_text(encoding="utf-8"))
     text, steps = project(order_case["raw_serialized_text"], order_case["values"])
     assert text == order_case["expected_projected_text"] and [s["applied_replacements"] for s in steps] == order_case["expected_dynamic_replacement_hits_by_source_step"]

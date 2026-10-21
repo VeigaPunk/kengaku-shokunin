@@ -6,6 +6,17 @@ pinned generator BYTES and the pinned raw/profile inputs. It NEVER reads or
 imports plans/config_projection.py; it only diffs its own result against the
 instrument's --json OUTPUT (via --diff).
 
+Root binding: --root explicit path, else script-ancestor discovery (walks up
+from this file's directory until plans/fixtures/r29/manifest.json exists), so
+the file works both from the wave scratch dir and adopted as
+plans/fixtures/r29/projection_oracle.py.
+
+index_mapping is reported in INPUT-TASK units (unit "input tasks
+(profile-invariant)"): a task counts only if index==task_id holds in EVERY
+profile; violations are never suppressed and carry the affected profiles. The
+record-unit total is kept as the oracle-only diagnostic
+index_equals_task_id_records.
+
 Domain boundary (explicit): offline textual substitution of the six generator
 tokens over the frozen synthetic *.invalid profiles; upstream code is parsed
 as inert text, never executed or imported; no env values, auth state or
@@ -18,21 +29,36 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import sys
 from collections import Counter
 
-ROOT = "/home/vgpnk/Projects/shokunin/kengaku-shokunin"
-PATHS = {
-    "manifest": f"{ROOT}/plans/fixtures/r29/manifest.json",
-    "generator": f"{ROOT}/plans/fixtures/r29/generate_test_data.py",
-    "profiles": f"{ROOT}/plans/fixtures/r29/profiles.json",
-    "raw": f"{ROOT}/plans/fixtures/r28/webarena/config_files/test.raw.json",
-}
+WS = " \t\r\n"
 # Persisted independently in the prereg text (round-29-claims.md).
 MANIFEST_SELF_SHA256 = "f6390b924c69f0cc8c47b2320b092060bb344b6a5e81c0075d3eb5aab817bf87"
 URL_FIELD_LAST_SEGMENTS = {"start_url", "url", "reference_url"}
-WS = " \t\r\n"
+FIXTURE = "plans/fixtures/r29/manifest.json"
+
+
+def discover_root() -> str:
+    d = os.path.dirname(os.path.abspath(__file__))
+    while True:
+        if os.path.isfile(os.path.join(d, FIXTURE)):
+            return d
+        parent = os.path.dirname(d)
+        if parent == d:
+            raise SystemExit(f"oracle: no ancestor of {__file__} contains {FIXTURE}; pass --root")
+        d = parent
+
+
+def paths_for(root: str) -> dict:
+    return {
+        "manifest": os.path.join(root, "plans/fixtures/r29/manifest.json"),
+        "generator": os.path.join(root, "plans/fixtures/r29/generate_test_data.py"),
+        "profiles": os.path.join(root, "plans/fixtures/r29/profiles.json"),
+        "raw": os.path.join(root, "plans/fixtures/r28/webarena/config_files/test.raw.json"),
+    }
 
 
 def sha256_text(t: str) -> str:
@@ -66,6 +92,15 @@ def last_string_segment(segs):
         if isinstance(s, str):
             return s
     return None
+
+
+def apply_steps(text: str, steps: list, values: dict) -> tuple[str, list[int]]:
+    counts: list[int] = []
+    for s in steps:
+        c = text.count(s["token"])
+        counts.append(c)
+        text = text.replace(s["token"], values[s["name"]])
+    return text, counts
 
 
 # ---------------------------------------------------------------- raw scanner
@@ -213,9 +248,10 @@ def extract_source_contract(src: str) -> dict:
 
 
 # ------------------------------------------------------------------- pipeline
-def build() -> tuple[dict, list, int]:
+def build(root: str) -> tuple[dict, list, int]:
     findings: list[dict] = []
-    blobs = {k: open(p, "rb").read() for k, p in PATHS.items()}  # each input read ONCE
+    paths = paths_for(root)
+    blobs = {k: open(p, "rb").read() for k, p in paths.items()}  # each input read ONCE
 
     manifest = json.loads(blobs["manifest"].decode("utf-8"))
     texts = {k: blobs[k].decode("utf-8") for k in ("generator", "profiles", "raw")}
@@ -260,12 +296,9 @@ def build() -> tuple[dict, list, int]:
         raw_tasks = []
     task_ids = [t.get("task_id") for t in raw_tasks if isinstance(t, dict)]
     tokens = [s["token"] for s in steps]
-    tok_by_name = {s["name"]: s["token"] for s in steps}
 
     # original-text token occurrences via own scanner (provenance)
-    tree = {}
-    for segs, val in iter_string_leaves(raw_tasks):
-        tree[pointer_of(segs)] = val
+    tree = {pointer_of(segs): val for segs, val in iter_string_leaves(raw_tasks)}
 
     provenance = []
     tok_followed_by_slash = 0
@@ -309,12 +342,11 @@ def build() -> tuple[dict, list, int]:
     task_blocks = {}
     for pname, pdef in profiles.items():
         vals = pdef["values"]
-        text = texts["raw"]
-        steps_out = []
-        for s in steps:
-            cnt = text.count(s["token"])
-            steps_out.append({"name": s["name"], "token": s["token"], "applied_replacements": cnt})
-            text = text.replace(s["token"], vals[s["name"]])
+        text, step_counts = apply_steps(texts["raw"], steps, vals)
+        steps_out = [
+            {"name": s["name"], "token": s["token"], "applied_replacements": c}
+            for s, c in zip(steps, step_counts)
+        ]
         proj_tasks = json.loads(text)
         proj_tree = {pointer_of(segs): v for segs, v in iter_string_leaves(proj_tasks)}
 
@@ -398,13 +430,38 @@ def build() -> tuple[dict, list, int]:
             })
         task_blocks[pname] = recs
 
-    index_equal = sum(1 for p in task_blocks.values() for r in p if r["index_equals_task_id"])
-    violations = [
-        {"profile": pn, "output_index": r["output_index"], "task_id": r["task_id"]}
-        for pn, rs in task_blocks.items() for r in rs if not r["index_equals_task_id"]
+    # --- index mapping in INPUT-TASK units (mismatches never suppressed) ----
+    mismatches = []
+    for i in range(len(raw_tasks)):
+        bad_profiles = sorted(
+            pn for pn, rs in task_blocks.items() if rs[i]["output_index"] != rs[i]["task_id"]
+        )
+        if bad_profiles:
+            mismatches.append({
+                "output_index": i,
+                "task_id": raw_tasks[i].get("task_id") if i < len(raw_tasks) else None,
+                "profiles": bad_profiles,
+            })
+    index_mapping = {
+        "output_index_rule": "enumerate position",
+        "unit": "input tasks (profile-invariant)",
+        "index_equals_task_id_count": len(raw_tasks) - len(mismatches),
+        "index_task_id_mismatches": mismatches,
+        "index_equals_task_id_records": sum(
+            1 for rs in task_blocks.values() for r in rs if r["index_equals_task_id"]
+        ),
+    }
+
+    # --- oracle-only shuffled-index self witness (upstream enumerate rule) --
+    self_wit_raw = '[{"task_id":7,"start_url":"__GITLAB__/w"},{"task_id":3,"start_url":"__REDDIT__/w"}]'
+    self_wit_proj, _ = apply_steps(self_wit_raw, steps, profiles[next(iter(profiles))]["values"])
+    self_witness = [
+        {"output_index": i, "task_id": t.get("task_id"), "index_equals_task_id": i == t.get("task_id")}
+        for i, t in enumerate(json.loads(self_wit_proj))
     ]
 
     result = {
+        "root": root,
         "manifest_sha256": sha256_text(blobs["manifest"].decode("utf-8")),
         "raw_text_sha256": sha256_text(texts["raw"]),
         "raw_is_ascii": raw_ascii,
@@ -415,6 +472,7 @@ def build() -> tuple[dict, list, int]:
             "plans/fixtures/r29/profiles.json": sha256_text(texts["profiles"]),
         },
         "source_contract": contract,
+        "profile_values": {p: pdef.get("values", {}) for p, pdef in profiles.items()},
         "population": {
             "input_task_count": len(raw_tasks),
             "distinct_task_ids": len(set(task_ids)),
@@ -427,14 +485,11 @@ def build() -> tuple[dict, list, int]:
             "other_double_underscore_markers": dict(sorted(other_markers.items())),
             "tokens_followed_by_slash": tok_followed_by_slash,
         },
-        "index_mapping": {
-            "output_index_rule": "enumerate position",
-            "index_equals_task_id": index_equal,
-            "violations": violations,
-        },
+        "index_mapping": index_mapping,
         "occurrence_provenance": provenance,
         "profiles": profile_blocks,
         "tasks": task_blocks,
+        "self_witnesses": {"shuffled_index": self_witness},
         "findings": findings,
     }
     exit_code = 2 if any(f["code"] in {"manifest_tampered", "snapshot_tampered", "source_contract_unrecognized",
@@ -474,12 +529,22 @@ def diff_against_instrument(mine: dict, inst_path: str):
     for k, v in mine["population"].items():
         if inst["population"].get(k) != v:
             dis.append((f"population.{k}", v, inst["population"].get(k)))
-    for k, v in mine["index_mapping"].items():
-        if k == "output_index_rule":
-            if inst["index_mapping"].get(k) != v:
-                notes.append(f"wording index_mapping.output_index_rule: oracle={v!r} instrument={inst['index_mapping'].get(k)!r}")
-        elif inst["index_mapping"].get(k) != v:
-            dis.append((f"index_mapping.{k}", v, inst["index_mapping"].get(k)))
+    im = inst.get("index_mapping", {})
+    # hard semantic comparison in the instrument's declared units
+    if mine["index_mapping"]["unit"] != im.get("unit"):
+        dis.append(("index_mapping.unit", mine["index_mapping"]["unit"], im.get("unit")))
+    if mine["index_mapping"]["index_equals_task_id_count"] != im.get("index_equals_task_id_count"):
+        dis.append(("index_mapping.index_equals_task_id_count",
+                    mine["index_mapping"]["index_equals_task_id_count"],
+                    im.get("index_equals_task_id_count")))
+    deep_diff(mine["index_mapping"]["index_task_id_mismatches"], im.get("index_task_id_mismatches"),
+              "index_mapping.index_task_id_mismatches", dis)
+    if im.get("output_index_rule") != mine["index_mapping"]["output_index_rule"]:
+        notes.append(f"wording index_mapping.output_index_rule: oracle={mine['index_mapping']['output_index_rule']!r} "
+                     f"instrument={im.get('output_index_rule')!r}")
+    notes.append(f"oracle-only diagnostic index_equals_task_id_records={mine['index_mapping']['index_equals_task_id_records']} "
+                 f"(record units, 2436)")
+
     sc = inst.get("source_contract", {})
     for s in mine["source_contract"]["replace_steps"]:
         want = {"line": s["line"], "name": s["name"], "token": s["token"]}
@@ -554,22 +619,60 @@ def diff_against_instrument(mine: dict, inst_path: str):
                 if Counter(a["tokens"]) != Counter(b.get("tokens", [])):
                     dis.append((f"tasks.{pname}[{i}].changed_leaves[{j}].tokens", a["tokens"], b.get("tokens")))
 
+    # witnesses: evaluate the instrument-declared vectors with the oracle engine
+    wit = inst.get("witnesses", {}) or {}
+    first_profile = next(iter(mine["profile_values"]))
+    vals0 = mine["profile_values"][first_profile]
+    steps = mine["source_contract"]["replace_steps"]
+    tpl = mine["source_contract"]["per_task_filename_template"]
+    if "index" in wit:
+        try:
+            wtasks = json.loads(wit["index"].get("raw", ""))
+        except Exception as e:
+            dis.append(("witnesses.index.raw", f"json decode failed: {e}", wit["index"].get("raw")))
+            wtasks = None
+        if isinstance(wtasks, list):
+            proj, _ = apply_steps(wit["index"]["raw"], steps, vals0)
+            pwt = json.loads(proj)
+            mine_recs = [
+                {"output_filename": tpl.format(idx=i), "task_id": t.get("task_id"),
+                 "index_equals_task_id": i == t.get("task_id")}
+                for i, t in enumerate(pwt)
+            ]
+            deep_diff(mine_recs, wit["index"].get("records"), "witnesses.index.records", dis)
+    if "order" in wit:
+        o = wit["order"]
+        ovals = o.get("values", {})
+        src, counts = apply_steps(o.get("raw", ""), steps, ovals)
+        rev = o.get("raw", "")
+        for s in reversed(steps):
+            rev = rev.replace(s["token"], ovals[s["name"]])
+        if counts != o.get("applied_replacements"):
+            dis.append(("witnesses.order.applied_replacements", counts, o.get("applied_replacements")))
+        if src != o.get("source_order_text"):
+            dis.append(("witnesses.order.source_order_text", src, o.get("source_order_text")))
+        if rev != o.get("mapping_order_text"):
+            dis.append(("witnesses.order.mapping_order_text", rev, o.get("mapping_order_text")))
+
     return dis, notes, {
         "task_records_compared": sum(len(v) for v in mine["tasks"].values()),
         "record_scalar_field_comparisons": cmp_records,
         "projected_tasks_deep_compared": cmp_proj,
         "changed_leaves_compared": cmp_leaves,
         "provenance_rows_compared": len(mine_rows),
+        "witness_vectors_evaluated": sorted(wit.keys()),
     }
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="independent oracle for round-29 C1")
+    ap.add_argument("--root", default=None, help="lane root (default: script-ancestor discovery)")
     ap.add_argument("--json", action="store_true", help="print oracle result JSON")
     ap.add_argument("--diff", metavar="INSTRUMENT_JSON", help="diff against instrument --json output")
     args = ap.parse_args()
 
-    result, findings, code = build()
+    root = args.root or discover_root()
+    result, findings, code = build(root)
     if args.json:
         print(json.dumps(result, indent=1))
     if args.diff:
@@ -584,11 +687,11 @@ def main() -> int:
             print(f"NOTE {nt}")
         print("TALLIES " + json.dumps(tallies))
         print(f"ORACLE_FINDINGS {json.dumps(findings)}")
+        print(f"SELF_WITNESS {json.dumps(result['self_witnesses'])}")
         return 0 if not dis else 1
-    if args.json:
-        pass
-    else:
-        print(json.dumps({"findings": findings, "population": result["population"]}, indent=1))
+    if not args.json:
+        print(json.dumps({"root": root, "findings": findings, "population": result["population"],
+                          "index_mapping": result["index_mapping"]}, indent=1))
     return code
 
 

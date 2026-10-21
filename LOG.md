@@ -584,3 +584,20 @@ accepted 14 semantically different generators (FReviewAstContract), python -O si
 unexpected errors exited 1 with no finding, and `--json` key-sorted projected tasks. After repair the persisted
 witness kills 10/10 mutants, the projections are object-equal to the pre-repair output, and the JSON digest is
 identical on CPython 3.9–3.15 (repair-*.txt). Candidate v1 was superseded by v2 on falsify findings.
+
+### Round29 — final negative controls and entry scope
+
+The second re-check exposed two more test survivors: narrowing URL_FIELD_TEMPLATES and forcing the real
+audit's exit to zero. Explicit URL-path and real-audit-finding fixtures now kill both (12 persisted mutants).
+The final entry v3 qualifies same-lane oracle independence, separates review-only task-count bridges,
+and records falsifiers. It does not change any projection count or promote an offline disclosure to MATCH.
+The admitting tree must contain returned exact-v3 PASS reviews, registry, source-use links, index/coverage,
+PROVINCE/SKILL boundaries and byte pins. Trial/actual commit receipts record that requirement separately.
+
+### Round29 — locator corrections and scratch safety
+
+Final source re-read found renderer-dependent Python-document coordinates, then the load/loads inheritance
+hop. S075/S076 correct those locators append-only; entry v5 changes only that header after v3. Downloaded
+FRevEnumerate source copies flagged by FSentinelSecrets were removed before final admission, including
+an accidental credential-bearing env_config snapshot in the earlier scratch commit. No history rewrite
+or claim of historical-object purge. Evidence: credential-copy-removal.txt, final source/safety re-reads.

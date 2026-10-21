@@ -225,3 +225,129 @@ No production, fixture, corpus, SOURCES, SCORECARD, candidate, lane Git index or
 was modified.
 
 VERDICT: FAIL
+
+---
+
+## Re-check at dbcecded (follow-up)
+
+writer: KengakuR29-2.FReviewAstContract-2 (same seat, same item)
+
+Coordinator follow-up (same seat, same item, not a new assignment): re-run my 14 well-formed
+generator mutants against the repaired `source_contract()` at lane master
+`dbcecded4a04247cf6fd12919327af973da10bdd`, and report accepted/rejected counts plus any remaining
+acceptance. All earlier rules held: read-only leaf, my own scratch only, experiments on `/tmp`
+copies, no lane/git/jj mutation, and my `/tmp` copies deleted afterwards. The `VERDICT: FAIL` line
+above is the original item verdict and is left byte-unchanged; the final line below is the
+re-check verdict.
+
+### What changed in the extractor
+
+The repaired `source_contract()` adds an exact module-statement whitelist on top of the earlier
+per-statement extraction:
+
+- `EXPECTED_STATEMENTS` — `plans/config_projection.py:54-61`: the pinned generator's module
+  statements as `ast.unparse` renders them, docstring excluded.
+- `plans/config_projection.py:117` — module statements are rendered with bare-string expressions
+  removed.
+- `plans/config_projection.py:118` — the 3.9/3.10 tuple-target parenthesisation is normalised.
+- `plans/config_projection.py:119-121` — the rendered list must equal `EXPECTED_STATEMENTS`
+  exactly, else `source_contract_unrecognized` with a `statement_index`.
+- `plans/config_projection.py:122` — the published authority string now ends with
+  `exact statement match`.
+
+Bytes checked: `git show dbcecded…:plans/config_projection.py` and the file on disk both hash to
+`135cc68283e76635df913a085e6c3fcf93b8e04e83af8e9b9aac5b14876aa142`; the pinned generator fixture is
+unchanged at `45ddba7be49096a18919b4122a8945ff74c292ba17e36892b16e176a8bd921cd`.
+
+### Re-run of the same 14 mutants
+
+Harness (copy in my scratch dir; the 14 mutant texts are byte-identical to the first run):
+`python3 probe4.py <copy of dbcecded plans/config_projection.py>`
+
+```
+SEMANTICS_CHANGING total=14 accepted=0 rejected=14
+ACCEPTED_SEMANTICS_CHANGING []
+CONTROL ["ACCEPT"]
+```
+
+The unmutated pinned generator is still ACCEPTed (`parse_line = 20`, `enumerate_loop_line = 21`,
+`env_config_star_import_line = 5`, `per_task_filename_template = config_files/{idx}.json`).
+
+Per-mutant result — every reject carries
+`detail = module statements differ from the persisted exact generator contract`:
+
+| mutant | change | statement_index | pre-repair |
+|---|---|---|---|
+| M01 | f-string is not an `open()` argument | 2 | ACCEPT |
+| M02 | all tasks written into one file | 2 | ACCEPT |
+| M03 | `raw = raw[:100]` before parse | 2 | ACCEPT |
+| M04 | `raw = raw.upper()` before parse | 2 | ACCEPT |
+| M05 | `raw = raw + " "` before parse | 2 | ACCEPT |
+| M06 | `raw` mutated after parse | 2 | ACCEPT |
+| M07 | `data` filtered before enumerate | 2 | ACCEPT |
+| M08 | `data` reversed before enumerate | 2 | ACCEPT |
+| M09 | relative star import | 1 | ACCEPT |
+| M10 | star import shadowed by a module binding | 2 | ACCEPT |
+| M11 | enumerate loop before `json.loads` | 2 | ACCEPT |
+| M12 | reads a different input file | 2 | ACCEPT |
+| M13 | `main()` never invoked | 3 | ACCEPT |
+| M14 | `data` reparsed from different text | 2 | ACCEPT |
+
+F1, F2, F3, F4, F5 and F6 of the original report are therefore closed by the extractor: every
+semantics-changing generator I could construct is now `source_contract_unrecognized` (exit 2).
+
+### Remaining acceptance — behaviour-preserving only
+
+Ten further variants were probed (nine distinct plus one no-op control):
+
+| case | change | result |
+|---|---|---|
+| S01 | comment added after `import json` | ACCEPT |
+| S02 | module docstring wording changed | ACCEPT |
+| S03 | blank line added | ACCEPT |
+| X01 | replace call parenthesised | ACCEPT |
+| X02 | token literal spelled with `\u004c` escapes, same string value | ACCEPT |
+| X03 | no-op text substitution (control) | ACCEPT |
+| X04 | extra prose inside the module docstring | ACCEPT |
+| X05 | trailing comment on the import | ACCEPT |
+| S04 | local variable renamed `raw` to `rawtext`, behaviour-preserving | REJECT |
+| X06 | semantics change hidden beside the parse | REJECT |
+
+Programmatic check: for every accepted case the rendered module statements equal the pinned
+generator's rendering (`same_rendered_statements_as_pinned = true` for all accepted cases; the set
+of accepted-but-differing cases is empty). The two rejects are the safe direction: a
+behaviour-preserving rename is refused, so a re-pin of a differently-spelled but equivalent
+generator yields exit 2 (could-not-evaluate) rather than a silent pass.
+
+### Repaired instrument on the pinned input — unchanged
+
+`python3 plans/config_projection.py --json` → exit 0, `findings = []`, `input_task_count = 812`,
+`profile_count = 3`, `task_profile_projections = 2436`, `index_equals_task_id_count = 812`,
+`index_task_id_mismatches = []`.
+
+Compared with the pre-repair run I captured earlier, the projection is bit-identical: per-profile
+`projected_text_sha256` equal for all three profiles, per-task projected objects equal for all
+2436 task/profile records, and the per-profile counts (`parsed_task_count`, `string_leaf_count`,
+`changed_leaf_count`, `changed_task_count`) equal. `population` gained one key
+(`duplicate_object_keys`); `index_mapping` keys were renamed (`index_equals_task_id_count`,
+`index_task_id_mismatches`); `limitations` grew from 7 to 10 entries.
+
+`python3 plans/config_projection.py --selftest` → exit 0, `SELFTEST clean cases=28`, now including
+`source_data_mutated`, `source_write_dropped` and `source_text_truncated` — three mutants in the
+family of my F1/F2/F3 findings. The extractor still only `ast.parse`s the generator bytes; no
+`exec`, `eval`, `__import__` or `importlib` of the generator exists at this commit.
+
+### Residual risk (unchanged by the repair)
+
+- [INFERENCE] `EXPECTED_STATEMENTS` is a hand-transcribed constant, not derived from the pinned
+  bytes at run time. A wrong constant fails closed — the pinned generator would be rejected with
+  exit 2 — and my control run shows the constant matches the pinned bytes today.
+- [INFERENCE] The exact-statement gate makes the instrument brittle to a future legitimate
+  re-pin: any upstream edit that changes a statement's rendered text yields exit 2 and needs a new
+  persisted constant, not a silent acceptance.
+- The manifest sha256 pins (`:24` for the manifest, `:112`/`:101` for the inputs) remain the
+  byte-identity guard; the statement gate adds the semantic guard on top.
+- My mutant set is constructed, not exhaustive; residual acceptance is characterised only for the
+  ten variants listed above.
+
+VERDICT: PASS

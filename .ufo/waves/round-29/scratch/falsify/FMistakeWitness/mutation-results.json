@@ -1,0 +1,68 @@
+[
+ {
+  "mutant": "control",
+  "label": "pristine",
+  "sha_before": "5673405e79a0445c76f3e67e2e30ccf7a89847e90de4a74488b995540cea12e3",
+  "selftest_exit": 0,
+  "selftest_last": "SELFTEST clean cases=20 six_tokens_and_non_url_field,units_not_pooled,codepoint_offsets_and_key_token,escaped_token_not_replaced,quote_backslash_decode_failure_and_escape_semantics,profile_map_errors,hand_cascade_order_R29_ORDER_CASCADE_01,hand_url_only_R29-URL-ONLY-UNREAD-METADATA-01,hand_index_r29_index_shuffled_ids_1_0,source_order_swap,source_literal_rhs,source_extra_step,source_id_filename,cli_snapshot_tampered,cli_input_missing,cli_coherent_rebinding,post_read_replacement_test.raw.json,post_read_replacement_generate_test_data.py,post_read_replacement_profiles.json,cli_manifest_tampered",
+  "summary_exit": 0,
+  "summary_total": [
+   "TOTAL findings=0 exit=0"
+  ]
+ },
+ {
+  "mutant": "wrong_order_reversed",
+  "label": "reversed(ORDER) in project()",
+  "sha_before": "5673405e79a0445c76f3e67e2e30ccf7a89847e90de4a74488b995540cea12e3",
+  "sha_mutant": "34cbba6e1137ef86ce7d4e3db03df50ab52517ba4687e6118b35f8158f3ff646",
+  "sha_restored": "5673405e79a0445c76f3e67e2e30ccf7a89847e90de4a74488b995540cea12e3",
+  "restored_identical": true,
+  "selftest_exit": 1,
+  "selftest_last": "AssertionError",
+  "selftest_exception_type": "AssertionError",
+  "summary_exit": 0,
+  "summary_total": [
+   "TOTAL findings=0 exit=0"
+  ],
+  "summary_findings_ids": []
+ },
+ {
+  "mutant": "index_by_task_id",
+  "label": "filename from task_id",
+  "sha_before": "5673405e79a0445c76f3e67e2e30ccf7a89847e90de4a74488b995540cea12e3",
+  "sha_mutant": "b859f1571717521bcbfe7ac8fc6e179d97f2d33e2e0830a9be5159c30ac48fed",
+  "sha_restored": "5673405e79a0445c76f3e67e2e30ccf7a89847e90de4a74488b995540cea12e3",
+  "restored_identical": true,
+  "selftest_exit": 1,
+  "selftest_last": "TypeError: %d format: a real number is required, not NoneType",
+  "selftest_exception_type": "TypeError",
+  "summary_exit": 0,
+  "summary_total": [
+   "TOTAL findings=0 exit=0"
+  ],
+  "summary_findings_ids": []
+ },
+ {
+  "mutant": "url_only_substitution",
+  "label": "key-name url-only leaf substitution",
+  "sha_before": "5673405e79a0445c76f3e67e2e30ccf7a89847e90de4a74488b995540cea12e3",
+  "sha_mutant": "f8d21057609df76e18a240c4a6220fa28c8feb52c396fcb09ec13c6feb8c50a6",
+  "sha_restored": "5673405e79a0445c76f3e67e2e30ccf7a89847e90de4a74488b995540cea12e3",
+  "restored_identical": true,
+  "selftest_exit": 1,
+  "selftest_last": "AssertionError",
+  "selftest_exception_type": "AssertionError",
+  "summary_exit": 1,
+  "summary_total": [
+   "TOTAL findings=6 exit=1"
+  ],
+  "summary_findings_ids": [
+   "FINDING {\"changed\": 1355, \"id\": \"leaf_change_unexplained\", \"profile\": \"distinct_origins\", \"token_leaves\": 1416, \"unexplained\": 0}",
+   "FINDING {\"id\": \"known_token_remaining\", \"profile\": \"distinct_origins\"}",
+   "FINDING {\"changed\": 1355, \"id\": \"leaf_change_unexplained\", \"profile\": \"path_prefix\", \"token_leaves\": 1416, \"unexplained\": 0}",
+   "FINDING {\"id\": \"known_token_remaining\", \"profile\": \"path_prefix\"}",
+   "FINDING {\"changed\": 1355, \"id\": \"leaf_change_unexplained\", \"profile\": \"trailing_slash_sensitivity\", \"token_leaves\": 1416, \"unexplained\": 0}",
+   "FINDING {\"id\": \"known_token_remaining\", \"profile\": \"trailing_slash_sensitivity\"}"
+  ]
+ }
+]

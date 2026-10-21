@@ -1,4 +1,4 @@
-source: S070 https://raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/scripts/generate_test_data.py main8–23, replacements11–16, parse20, enumerate-index21–23; S072 https://raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/README.md lines79,84–92,95,97–101; S073 https://raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/prepare.sh lines1–6; S071 https://docs.python.org/3/library/json.html Character Encodings §576-591, invalid-document402, duplicate names624-625; S074 https://raw.githubusercontent.com/ServiceNow/BrowserGym/4ccc72332ab9882bc9aed87264dbf60b16e426f0/browsergym/webarena/src/browsergym/webarena/task.py lines55–69,81–82; S068 raw-task input https://raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/config_files/test.raw.json manifest byte pin
+source: S070 https://raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/scripts/generate_test_data.py main8–23, replacements11–16, parse20, enumerate-index21–23; S072 https://raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/README.md lines79,84–92,95,97–101; S073 https://raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/prepare.sh lines1–6; S071/S075/S076 https://docs.python.org/3/library/json.html#character-encodings ensure_ascii paragraph, #json.load invalid-document exception inherited by #json.loads (Identical to load()), #repeated-names-within-an-object opening paragraph/example (S075 replaces renderer-dependent coordinates; S076 corrects load/loads inheritance location); S074 https://raw.githubusercontent.com/ServiceNow/BrowserGym/4ccc72332ab9882bc9aed87264dbf60b16e426f0/browsergym/webarena/src/browsergym/webarena/task.py lines55–69,81–82; S068 raw-task input https://raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/config_files/test.raw.json manifest byte pin
 verified-at: 2026-10-21 — source openings plus offline projection of pinned bytes; no upstream import/execution, live benchmark, env_config value or runtime config observed
 recheck: on-release — python3 plans/config_projection.py --summary and --selftest; python3 plans/fixtures/r29/mutation_witness.py; reopen S070/S072–S074 at their pinned revisions
 writer: KengakuR29-2
@@ -34,7 +34,7 @@ README's examples lack, so per-profile differences are stimulus effects, never t
 - S071: `json.loads` raises on an invalid document rather than repairing it, and duplicate names keep the
   last value. A value containing `"` can therefore make the projected JSON invalid **or** parse with altered
   structure (injected keys, a duplicated `task_id` overriding the original); a value containing `\` can make
-  it invalid or be decoded as a JSON escape (`\n` becomes a newline). Nothing is normalized or repaired.
+  it invalid or be interpreted as a JSON escape. Nothing is normalized or repaired.
 
 ## Observed projection of the pinned inputs (2026-10-21)
 
@@ -55,10 +55,19 @@ below except their text digests and the `//` junction row:
 
 Occurrence offsets are Unicode codepoints in the original input text; every occurrence is inside a string
 value, none in a key or structural text. The category is by JSON path, so all 61 non_url_field leaves hold
-URL-shaped strings under non-URL keys. Falsification: four independently written oracles reproduced every
-count, all 1435 provenance records and all 2436 projected objects and would-be file digests
-(`.ufo/waves/round-29/falsify/FOracleText.md`, `FOracleLeaf.md`, `FOracleProvenance.md`, `FOracleIndex.md`);
-the instrument author also wrote this entry. Receipts: `corpus/evidence/round29-calibration/`.
+URL-shaped strings under non-URL keys. Four oracles, separately written by distinct same-lane seats
+(independent logic, not independent identity), reproduced the instrument's population/profile metrics,
+all 1435 provenance records and all 2436 projected objects and would-be file digests:
+`.ufo/waves/round-29/falsify/FOracleText.md`, `FOracleLeaf.md`, `FOracleProvenance.md`, `FOracleIndex.md`.
+The task-unit bridges added to the table (790/22, 32, 55/9 and 462) were separately re-derived by the
+entry-review seats, not by those four oracle reports. The instrument author also wrote this entry.
+Receipts: `corpus/evidence/round29-calibration/repair-projection-equality.json` binds the repaired objects
+to the objects the oracles compared.
+
+**Falsifiers:** a changed pinned digest withdraws this snapshot's applicability; under unchanged pins,
+nonzero remaining six tokens, a changed 61/1355 path split, an index/task-ID mismatch on the frozen order,
+or disagreement with a separately derived projected object falsifies the corresponding observation.
+Agreement on this population alone does not establish general-input equivalence.
 
 ## What the numbers do and do not license
 

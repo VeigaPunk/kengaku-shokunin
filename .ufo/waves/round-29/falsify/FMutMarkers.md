@@ -109,3 +109,37 @@ I did not isolate which clause of lines 396 and 448 failed. I report the line.
 - Frozen-data conclusions cover the frozen raw population only. On that population, WIKIPEDIA has 0 occurrences, so no WIKIPEDIA-specific census change can alter a frozen finding by construction [INFERENCE from the observed counts].
 
 VERDICT: PARTIAL
+
+## Re-check at dbcecded (follow-up)
+
+Coordinator follow-up: re-run the three surviving WIKIPEDIA census mutants against the repaired instrument. Same rules as the main attack; every run was in a `/tmp` copy.
+
+Setup:
+- Lane master `dbcecded4a04` (`git rev-parse --short=12 HEAD`, read-only). Instrument sha256 `135cc68283e76635df913a085e6c3fcf93b8e04e83af8e9b9aac5b14876aa142` (was `5673405e...`); the file is 655 lines (was 548).
+- Fresh copies: `cp -a <lane>/plans /tmp/fmut-markers2/{control,m2c,m2d,m2f}/`. `diff -rq --exclude=__pycache__` of the lane `plans/` against the control copy: identical.
+- Control on the repaired instrument: `--selftest` exit 0 with 28 cases (new case names include hand_fixtures_authenticated, verbatim_slash_and_path_category, duplicate_keys_list_tasks_key_order, source_data_mutated, source_write_dropped, source_text_truncated, exit_mapping, cli_optimized_refused); `--summary` `TOTAL findings=0 exit=0`; `--json | sha256sum` = `a4fb5d6dd9b7d509be55ae9d5c779dccaf9e29a7727447a30c568a174579d851`.
+- The same one-line mutants were re-applied at the shifted lines: M2c line 335, M2d line 348, M2f line 369; the line texts are unchanged from the main attack. Interpreter unchanged: Python 3.14.8. No installs.
+
+Results (copy `--selftest`, then copy `--summary` on the frozen inputs):
+| mutant | selftest | failing line | summary |
+|---|---|---|---|
+| M2c (text census, line 335) | exit 1, AssertionError | 478 | exit 0, TOTAL findings=0 |
+| M2d (decoded census, line 348) | exit 1, AssertionError | 479 | exit 0, TOTAL findings=0 |
+| M2f (changed-leaves census, line 369) | exit 1, AssertionError | 459 | exit 0, TOTAL findings=0 |
+
+Failing assertions, exact text from the tracebacks:
+- Line 478: `assert [s["applied_replacements"] for s in record["steps"]] == [1] * 6 and list(record["remaining_known_tokens_text"].values()) == [0] * 6`
+- Line 479: `assert list(record["remaining_known_tokens_decoded"].values()) == [1] * 6 and {f["id"] for f in findings} == {"known_token_remaining"}`
+- Line 459: `assert list(record["changed_leaves_by_token"].values()) == [2] * 6 and list(record["changed_tasks_by_token"].values()) == [1] * 6`
+
+The repaired selftest now pins each census key count to six. The escaped case (line 476) builds all six names with escaped spellings, then line 478 pins the text census to six zero values and line 479 pins the decoded census to six one values; case one pins `changed_leaves_by_token` to six values at line 459. Each mutant's key set drops to five, so its assertion fails. This closes exactly the three gaps recorded in section 9 of the main attack.
+
+`--json | sha256sum` per mutant, all differing from control `a4fb5d6d...`: M2c `78f30910291279e12c8a0fea920b26150000fc0c8814e3272269134c1be04099`; M2d `d371c009aea06982bbc020cda6d5c147fb0c9904e99944d59d1cbe949f491bb8`; M2f `b4607997c669ae93170ecd3beff2834de93331c7e058ef805919dee11d4b767d`.
+
+Frozen data alone still detects none of the three: each mutant `--summary` is `TOTAL findings=0 exit=0`, because the frozen population has WIKIPEDIA count 0. Detection comes from the synthetic selftest cases, as designed.
+
+Kill-clause attribution remains at line level; the traceback carets span the whole assertion.
+
+Lane hygiene: no lane path was written; the instrument sha at copy time is above. Cleanup: `/tmp/fmut-markers2` deleted after the runs; `/tmp/fmut-markers` was already absent at re-check start. `/tmp/r29-fmut-followup` is another agent's scratch and was left untouched.
+
+VERDICT: PASS

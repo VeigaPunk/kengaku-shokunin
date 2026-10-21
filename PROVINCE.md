@@ -200,3 +200,12 @@ diagnostic, not semantic source truth or a whole-current-tree assertion census.
 The task-spec frontier is only partly advanced: named Terminal-Bench/Toolathlon/SWE-bench Pro specs,
 generated configs, runtime task validity, hosted judges and contamination remain open. Serving-plane
 restoration stays operator/kama-owned. Existing historical absent surfaces are not restored or re-scored.
+
+## Round29 partial frontier admission (2026-10-21)
+
+**Core addition:** an offline, source-faithful projection of the pinned WebArena generator
+(`scripts/generate_test_data.py` at dce04686) over the 812 raw tasks × 3 synthetic `*.invalid` profiles,
+via `plans/config_projection.py` and `corpus/knowledge/webarena-config-projection.md`. This owns static
+interpretation of how generated eval configs are derived, not the benchmark's sites, env_config values or
+any deployment. Actual env_config-derived/deployment configs, runtime task validity, hosted judges and
+contamination remain open. The round28 gap line above stays as written; this paragraph narrows it.

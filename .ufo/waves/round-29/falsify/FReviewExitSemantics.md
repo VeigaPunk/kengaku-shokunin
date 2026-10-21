@@ -312,3 +312,208 @@ selftest crash path, and a broken pipe (F1).
 plus captured stdout/stderr byte counts quoted above.
 
 VERDICT: FAIL
+
+## Re-check at dbcecded (follow-up)
+
+**writer: KengakuR29-2.FReviewExitSemantics-2** — follow-up re-check, same seat and same item; not a
+new assignment. Earlier bytes of this report are unchanged; the prior scoped verdict line
+(`VERDICT: FAIL`) stays where it was and this section carries its own final verdict.
+
+### Object of the re-check
+
+Lane master `dbcecded4a04247cf6fd12919327af973da10bdd` (`git rev-parse HEAD` → that value;
+`git log --oneline -1` → `dbcecde round-29: repair falsify findings, persist mutation witness, add
+S074, freeze candidate v2`). The repaired file was read again (production source read: YES — same
+review item as before). Repair delta inspected with `git show 56fd949:plans/config_projection.py`
+against the working-tree file (read-only git commands only; no git index, lane, jj or corpus
+mutation). Working tree at re-check time carried only untracked scratch entries
+(`git status --porcelain` shows `?? .ufo/waves/round-29/scratch/...` only), so the bytes reviewed
+are the committed bytes.
+
+Probes: read-only CLI runs of the committed file, plus an in-process driver that imports the module
+and replaces `cp.audit` (script kept as `recheck.py` in my scratch dir). No production, fixture,
+corpus or report byte was modified; /tmp copies were deleted after the run.
+
+### Status summary
+
+| finding | status at dbcecded | one-line basis |
+|---|---|---|
+| F1 exit 1 is also the crash code | **PARTIAL** | audit-internal crashes are now exit 2 `internal_error`; print, selftest and rendering failures still exit 1 with an empty stdout |
+| F2 catch-all masked internal bugs as `input_invalid` | **RESOLVED** | `except Exception` → `internal_error` exit 2 (645-646); `input_invalid` no longer exists |
+| F3 exit 2 carries three stdout contracts | **REMAINS** | usage error still stdout 0 bytes; exit-2 JSON still 2 keys vs 12 on success |
+| F4 `--summary` is an inert flag | **REMAINS** | `args.summary` still never read; `--summary --json` still a usage error |
+| F5 missing input reported as `input_invalid` | **RESOLVED** | `read_pinned` catches `OSError` → `input_missing` (131-132, 142-143) |
+| F6 `leaf_change_unexplained` mis-specified | **RESOLVED** | rule split into `leaf_change_unexplained` (count) and `token_leaf_unchanged` (357-360) |
+| F7 exit-1 path had zero coverage | **RESOLVED** | new selftest case `exit_mapping` (565-573) |
+| F8 most could-not-evaluate ids CLI-unreachable | **REMAINS** | `read_pinned` still precedes `source_contract`/`check_profiles` (403-406) |
+| F9 input-level defects split across exit 1/2 | **REMAINS** | id renamed `input_population_mismatch` (310) and still published as an ordinary finding → exit 1 |
+
+### F1 — PARTIALLY RESOLVED
+
+Resolved part: the closed exception tuple is gone. `main()` now has
+
+```
+641        try:
+642            result, code = audit(args.root)
+643        except Unevaluable as error:
+644            result, code = {"findings": [error.finding], "limitations": LIMITS}, 2
+645        except Exception as error:
+646            result, code = {"findings": [{"id": "internal_error", "detail": repr(error)}], "limitations": LIMITS}, 2
+```
+
+Measured (each class injected at the `audit()` boundary, real `main()` call, exception left to
+escape `audit()`):
+
+```
+RuntimeError       exit=2 ids=['internal_error'] stdout_bytes=1764 uncaught=None
+AttributeError     exit=2 ids=['internal_error'] stdout_bytes=1804 uncaught=None
+AssertionError     exit=2 ids=['internal_error'] stdout_bytes=1789 uncaught=None
+KeyError           exit=2 ids=['internal_error'] stdout_bytes=1773 uncaught=None
+ValueError         exit=2 ids=['internal_error'] stdout_bytes=1790 uncaught=None
+OSError            exit=2 ids=['internal_error'] stdout_bytes=1759 uncaught=None
+RecursionError     exit=2 ids=['internal_error'] stdout_bytes=1794 uncaught=None
+MemoryError        exit=2 ids=['internal_error'] stdout_bytes=1757 uncaught=None
+```
+
+No traceback, no exit 1, a machine-readable finding on stdout. That part of F1 is fixed.
+
+Residual part — the `try` still covers only lines 641-646, so three reachable paths still exit 1
+with an empty stdout and a raw traceback (i.e. exit 1 remains ambiguous with a finding):
+
+1. **Broken pipe.** `python3 config_projection.py --json | head -c 100 >/dev/null` →
+   `BrokenPipeError` at line 648 (the `print`), `PIPESTATUS[0]=1`, stderr 446 bytes.
+2. **Selftest that cannot run.** `--selftest --root /tmp/exitprobe/emptyroot` → exit 1, stdout
+   0 bytes, stderr 956 bytes, `FileNotFoundError` for `.../plans/fixtures/r29/hand`. `selftest()`
+   is called at line 639, outside the `try`.
+3. **Rendering failures after the `try`.** Injected results that the emitters cannot render:
+   `summary_lines` → `KeyError: 'distinct_task_ids'` → exit 1, stdout 0 bytes; `json.dumps` →
+   `TypeError: Object of type set is not JSON serializable` → exit 1, stdout 0 bytes. Lines 648 and
+   650 are outside the `try`.
+
+### F2 — RESOLVED
+
+`input_invalid` no longer exists. Every exception inside `audit()` is now `internal_error` exit 2
+(lines 645-646), so an internal fault is no longer published as a verdict about the input. The
+specific trigger from my first report is also gone: `string_spans` now accepts the non-standard
+literals (line 221 `for literal in ("true", "false", "null", "NaN", "Infinity", "-Infinity")`).
+Re-probe of the same inputs:
+
+```
+nan_literal       findings=['projection_structure_changed']   payload={"count":1,"id":"projection_structure_changed","paths":["/0/x"],"profile":"p"}
+infinity_literal  findings=[]
+```
+
+No `AssertionError`, no `input_invalid`.
+
+### F3 — REMAINS (untouched by the repair)
+
+- Usage error still exits 2 with a different stdout contract: `--summary --json` → exit 2,
+  stdout 0 bytes, stderr 191 bytes (argparse text).
+- The exit-2 JSON document is still not a subset of the success document. Measured key sets at
+  dbcecded: success `--json` → 12 keys `['findings','index_mapping','inputs','limitations',
+  'manifest_sha256','occurrence_provenance','population','profiles','raw_text_sha256',
+  'source_contract','upstream_revision','witnesses']`; error (`--root /tmp/nope`) → 2 keys
+  `['findings','limitations']`; `python -O` → 2 keys `['findings','limitations']`. A consumer that
+  reads `result["population"]` still raises `KeyError` on every exit-2 path.
+- The repair added a third exit-2 id (`assertions_disabled`, line 637) with the same 2-key shape,
+  so exit 2 is internally consistent but still does not determine the stdout shape.
+
+### F4 — REMAINS (untouched by the repair)
+
+`grep -c "args.summary"` over the repaired file → **0** matches: the flag is still never read;
+line 632 only adds the help string `human-readable lines (the default)`. Measured:
+no-flag run → exit 0, stdout 8068 bytes; `--summary` → exit 0, stdout 8068 bytes; `cmp` reports
+the two files identical. `--summary --json` → exit 2, stdout 0 bytes, stderr 191 bytes.
+
+### F5 — RESOLVED
+
+`read_pinned` now catches `OSError` on both pinned reads (lines 131-132 and 142-143) and raises
+`Unevaluable("input_missing", path=..., detail=type(error).__name__)`. Measured:
+
+```
+$ python3 config_projection.py --root /etc/hostname --json
+{"findings":[{"id":"input_missing","path":"plans/fixtures/r29/manifest.json","detail":"NotADirectoryError"}], ...}   exit=2
+```
+
+The prereg's stable `input_missing` id is now published for every filesystem failure on a pinned
+path, not only for `FileNotFoundError`.
+
+### F6 — RESOLVED
+
+The exit-1 rule is split (lines 357-360): `leaf_change_unexplained` now fires only on a non-zero
+`unexplained` count (payload `{"count": N}`), and the carriers/changed comparison moved to a
+separate finding `token_leaf_unchanged`. Re-probe of my exact degenerate case (profile value equal
+to the token):
+
+```
+degenerate_value_equals_token findings=['token_leaf_unchanged','known_token_remaining']
+   payload: {"changed":0,"id":"token_leaf_unchanged","profile":"p","token_leaves":1}
+   payload: {"id":"known_token_remaining","profile":"p"}
+```
+
+No finding now claims an unexplained change while its own counter reads 0.
+
+### F7 — RESOLVED
+
+New selftest case `exit_mapping` (lines 565-573) drives `main()` three ways: a findings-bearing
+audit → exit 1 with `findings[0].id == "x"`; `Unevaluable` → exit 2 with `snapshot_tampered`;
+`RuntimeError` → exit 2 with `internal_error`. Verified in the run: `--selftest` exit 0, stdout
+contains `exit_mapping` (and the new `cli_optimized_refused`). The exit-1 branch that my first
+report found uncovered is now covered.
+
+### F8 — REMAINS
+
+`audit()` still reads the pinned inputs first (line 403 `read_pinned`) and only then runs the
+contract checks (line 404 `source_contract`, line 406 `check_profiles`), so any change to the
+generator, the profiles or the raw file is still rejected by the digest layer before those checks
+run. `source_contract_unrecognized`, `manifest_contract_mismatch`, `profile_missing`,
+`profile_unexpected`, `profile_missing_key`, `profile_invalid_type` and `profile_unexpected_key`
+remain unreachable from the CLI.
+
+[INFERENCE] The repair made `source_contract` strictly stronger (exact statement match against
+`EXPECTED_STATEMENTS`), which raises the value of that check for direct callers, but it does not
+change its CLI reachability, so the prereg's "stable findings" list still overstates what the CLI
+can publish.
+
+### F9 — REMAINS, and is now sharper
+
+The input-level finding was renamed and is still published as an ordinary finding: line 310
+`findings.append({"id": "input_population_mismatch"})` → exit 1, while the equivalent profile
+contract defects stay `Unevaluable` → exit 2. Measured:
+
+```
+population_mismatch findings=['input_population_mismatch','projection_population_changed']
+   payload: {"id":"input_population_mismatch"}
+```
+
+The rename makes the input-level nature of the finding explicit while the exit code it carries is
+the one the prereg reserves for projection/invariant findings, so the taxonomy split my first
+report described is unchanged.
+
+### New observations from the repair (in scope)
+
+- **N1 — the `-O` refusal works and is a real mitigation.** `python3 -O config_projection.py --json`
+  → exit 2, stdout 1785 bytes, `{"findings":[{"id":"assertions_disabled","detail":"python -O strips
+  load-bearing checks"}], ...}`. The guard sits at line 636, after `parse_args`, so a usage error
+  under `-O` still exits 2 with argparse's stderr text — the same stdout-contract ambiguity as F3.
+- **N2 — `json.dumps` lost `sort_keys=True`.** Line 648 now uses `separators=(",", ":")` only. The
+  success JSON is still deterministic (dict insertion order), but its bytes changed relative to the
+  reviewed version, so the earlier build receipt `build-json-sha256.txt` no longer describes the
+  current output. Outside my item's scope; flagged for the receipt owner. [INFERENCE]
+- **N3 — isolation improvements do not close F1(b).** The selftest now runs its CLI child with
+  `-I -S` and an empty environment and writes only under `/tmp` (lines 576-583), and the hand
+  fixtures are authenticated by SHA-256 before use; the selftest's own top-level failure still
+  exits 1 with a traceback and an empty stdout.
+
+### Residual risk / verification gaps (re-check)
+
+- Exception-injection probes replace `cp.audit` in-process: they exercise `main()` lines 641-651 as
+  written, not `audit()`'s body.
+- F8's unreachability rests on the call order in `audit()` (403-406) plus the CLI-reachable id set,
+  not on exhaustive CLI enumeration.
+- F3's key-set counts are single runs of the committed file at dbcecded.
+- I did not re-derive the projection semantics; only the exit mapping and CLI surface are in scope.
+- Tooling: nothing installed or upgraded; `python3 3.14.8` preinstalled; no pacman transaction
+  attempted (host-wide pacman pause respected). /tmp copies deleted after the re-check.
+
+VERDICT: PARTIAL

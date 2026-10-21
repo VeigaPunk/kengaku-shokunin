@@ -256,8 +256,8 @@ def provenance(raw_text, spans):
             span = spans[index] if index >= 0 and spans[index][0] < at and at + len(token) <= spans[index][1] else None
             path = span[2] + ((span[4],) if span and span[3] == "key" else ()) if span else None
             records.append({"token": token, "original_input_codepoint_offset": at, "string_role": span[3] if span else "outside_string",
-                            "json_pointer": pointer(span[2]) if span else None, "task_index": path[0] if path else None,
-                            "path_template": template(span[2]) if span else None})
+                            "json_pointer": pointer(path) if span else None, "task_index": path[0] if path else None,
+                            "path_template": template(path) if span else None})
             at = raw_text.find(token, at + len(token))
     return records
 
@@ -416,6 +416,8 @@ def audit(root):
 
 def summary_lines(result, code):
     lines = ["LIMIT " + limit for limit in result.get("limitations", LIMITS)]
+    if "raw_text_sha256" in result:
+        lines.append("INPUT " + json.dumps({key: result[key] for key in ("raw_text_sha256", "manifest_sha256", "upstream_revision")}))
     lines += ["FINDING " + json.dumps(finding, sort_keys=True) for finding in result.get("findings", [])]
     population = result.get("population")
     if population:
@@ -424,7 +426,7 @@ def summary_lines(result, code):
         lines.append("TASKS_WITH_TOKEN_NOT_ADDITIVE " + json.dumps(population["tasks_with_token"]))
         lines.append("OCCURRENCE_ROLES " + json.dumps(population["occurrence_roles"], sort_keys=True))
         lines.append("OTHER_MARKERS_NOT_ENV_TOKENS " + json.dumps(population["other_double_underscore_markers"]))
-        lines.append("INDEX " + json.dumps({"unit": "input tasks", "index_equals_task_id_count": result["index_mapping"]["index_equals_task_id_count"], "index_task_id_mismatches": len(result["index_mapping"]["index_task_id_mismatches"])}))
+        lines.append("INDEX " + json.dumps({"unit": "input tasks", "index_equals_task_id_count": result["index_mapping"]["index_equals_task_id_count"], "index_task_id_mismatch_count": len(result["index_mapping"]["index_task_id_mismatches"])}))
         lines.append("DUPLICATE_OBJECT_KEYS %d" % population["duplicate_object_keys"])
         if "witnesses" in result:
             lines.append("INDEX_WITNESS hand " + json.dumps(result["witnesses"]["index"]["records"]))
@@ -497,6 +499,17 @@ def selftest(root):
     # Seat-authored hand fixtures (independent writers), authenticated, then consumed unchanged.
     assert {path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in sorted((root / HAND).iterdir())} == HAND_SHA256, "hand_fixture_tampered"
     cases.append("hand_fixtures_authenticated")
+    error_case_bytes = (root / "plans/fixtures/r29/projection_cases.json").read_bytes()
+    assert hashlib.sha256(error_case_bytes).hexdigest() == "d4c9ac5cacc2cad2f9839ffa179fdce050af830271d564e4bef8b69bf68e588d", "error_cases_tampered"
+    for case in json.loads(error_case_bytes)["cases"]:
+        text, _ = project(case["raw"], case["values"])
+        try:
+            parsed = json.loads(text)
+        except json.JSONDecodeError as error:
+            assert str(error) == case["expected_error"] and case["expected_json"] is None, case["name"]
+        else:
+            assert case["expected_error"] is None and parsed == case["expected_json"], case["name"]
+    cases.append("independent_nine_domain_error_cases")
     order_case = json.loads((root / HAND / "cascade-order.case.json").read_text(encoding="utf-8"))
     text, steps = project(order_case["raw_serialized_text"], order_case["values"])
     assert text == order_case["expected_projected_text"] and [s["applied_replacements"] for s in steps] == order_case["expected_dynamic_replacement_hits_by_source_step"]
@@ -535,6 +548,9 @@ def selftest(root):
     assert record["stimulus_observations"] == {"value_slash_then_raw_slash_junctions": 2}
     assert [(l["path_template"], l["category"], l["projected"]) for l in record["tasks"][0]["changed_leaves"]] == [("start_url", "url_field", "http://gitlab.invalid:1//a"), ("eval.program_html[].required_contents.must_include[]", "non_url_field", "http://gitlab.invalid:1//b")]
     cases.append("verbatim_slash_and_path_category")
+    result, findings = run('[{"eval":{"reference_url":"__MAP__/ref","program_html":[{"url":"__MAP__/html"}]}}]')
+    assert not findings and result["profiles"]["distinct_origins"]["changed_leaves_by_category"] == {"url_field": 2}
+    cases.append("all_url_path_categories")
     # Duplicate keys diverge text and object views; list-shaped tasks still get templates; source key order is kept.
     _, findings = run('[{"a": "__GITLAB__", "a": "__REDDIT__"}]')
     assert "duplicate_json_key" in {f["id"] for f in findings}
@@ -576,6 +592,11 @@ def selftest(root):
         for relative in (MANIFEST, GENERATOR, RAW, PROFILES):
             (scratch / relative).parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(root / relative, scratch / relative)
+        probe, _ = audit_text('[{"task_id":0,"x":"__MAP__"}]', {"hand": {"purpose": "hand", "values": values}})
+        with patch(__name__ + ".audit_text", return_value=(probe, [{"id": "projection_json_invalid"}])):
+            finding_result, finding_code = audit(scratch)
+        assert finding_code == 1 and finding_result["findings"][0]["id"] == "projection_json_invalid"
+        cases.append("real_audit_finding_exit_one")
         child = [sys.executable, "-I", "-S", str(Path(__file__).resolve())]
         command = child + ["--root", str(scratch), "--json"]
         optimized = subprocess.run([sys.executable, "-I", "-S", "-O"] + child[3:] + ["--root", str(scratch), "--summary"], capture_output=True, text=True, env={})
@@ -636,7 +657,10 @@ def main(argv=None):
     if not __debug__:
         result, code = {"findings": [{"id": "assertions_disabled", "detail": "python -O strips load-bearing checks"}], "limitations": LIMITS}, 2
     elif args.selftest:
-        return selftest(args.root)
+        try:
+            return selftest(args.root)
+        except OSError as error:
+            result, code = {"findings": [{"id": "selftest_could_not_run", "detail": repr(error)}], "limitations": LIMITS}, 2
     else:
         try:
             result, code = audit(args.root)
@@ -644,10 +668,15 @@ def main(argv=None):
             result, code = {"findings": [error.finding], "limitations": LIMITS}, 2
         except Exception as error:
             result, code = {"findings": [{"id": "internal_error", "detail": repr(error)}], "limitations": LIMITS}, 2
-    if args.json:
-        print(json.dumps(result, separators=(",", ":")))
-    else:
-        print("\n".join(summary_lines(result, code)))
+    try:
+        rendered = json.dumps(result, separators=(",", ":")) if args.json else "\n".join(summary_lines(result, code))
+    except Exception as error:
+        code = 2
+        rendered = json.dumps({"findings": [{"id": "internal_error", "detail": repr(error)}], "limitations": LIMITS})
+    try:
+        print(rendered)
+    except OSError:
+        return 2  # stdout unavailable: there is no destination for a structured finding
     return code
 
 

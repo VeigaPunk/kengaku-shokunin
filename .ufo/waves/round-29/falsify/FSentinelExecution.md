@@ -38,3 +38,21 @@ Read production source: yes, `plans/config_projection.py` (548 lines; SHA-256 `5
 - Tempfile implementation inspection: `python3 -c 'import tempfile, inspect, sys; print(sys.version); print(tempfile.__file__); print(inspect.getsource(tempfile._candidate_tempdir_list))'` → Python 3.14.8; `/usr/lib/python3.14/tempfile.py`; `_candidate_tempdir_list` reads `TMPDIR`, `TEMP`, and `TMP` with `os.getenv`.
 
 VERDICT: FAIL
+
+## Re-check at dbcecd (follow-up)
+
+### Finding 1 — child interpreter environment
+
+**Observed:** The repaired selftest constructs its child with `sys.executable`, `-I`, `-S`, and the resolved script path (`plans/config_projection.py:579-580`). Both subprocess launches pass `env={}` (`:581`, `:586`); the optimized child additionally uses `-O`. This closes the prior child-startup path through inherited Python environment and site initialization. No environment values were recorded.
+
+### Finding 2 — temporary directory environment lookup
+
+**Observed:** The selftest now calls `tempfile.TemporaryDirectory(prefix=..., dir="/tmp")` (`:574`). CPython's `_sanitize_params` uses `gettempdir()` only when `dir is None` (`/usr/lib/python3.14/tempfile.py:115-130`), so this call bypasses the earlier `TMPDIR`/`TEMP`/`TMP` lookup. The narrowed docstring at `config_projection.py:7-10` identifies the `/tmp` private-directory writes and isolated child.
+
+### Re-check command and result
+
+`python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/config_projection.py --selftest` → `SELFTEST clean cases=28`; all 28 listed cases completed without assertion failure.
+
+**Scoped result:** Both findings from this report are addressed in the repaired selftest. This re-check covers the instrument and its selftest child; it does not make a claim about interpreter startup before the outer script begins.
+
+VERDICT: PASS

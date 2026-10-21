@@ -211,3 +211,18 @@ Legend: output index equals task_id for every row. Pointers are shown in full. T
 - Lane integrity at end: `plans/config_projection.py` sha256 `5673405e...`; `plans/fixtures/r29/manifest.json` `f6390b92...`; `plans/fixtures/r29/generate_test_data.py` `45ddba7b...`; `plans/fixtures/r29/profiles.json` `90fdc34d...`; `plans/fixtures/r28/webarena/config_files/test.raw.json` `7b50386f...`. All unchanged from the start. `git status --porcelain -- plans` empty. HEAD `56fd949a...`.
 
 VERDICT: FAIL
+
+## Re-check at dbcecded (follow-up)
+
+- Requested by coordinator KengakuR29-2 (same seat, same item). Lane master `dbcecded4a04247cf6fd12919327af973da10bdd`. Repairs change `plans/config_projection.py` (sha256 `135cc68283e76635df913a085e6c3fcf93b8e04e83af8e9b9aac5b14876aa142`; 205 insertions, 49 deletions vs `56fd949a`) and add `plans/fixtures/r29/mutation_witness.py` (65 lines). Pinned fixtures unchanged; the section 12 fixture hashes still hold.
+- Method: fresh copies `/tmp/r29-fmut-followup/{base,mut}/plans`, both sha `135cc682...`. Control runs, then the same one-line M1 replacement applied at the new line 354 (diff saved as `fu-mutant-m1.diff`, one changed line), then mutant runs. Lane read-only throughout; the only lane writes are this report and the scratch dir.
+- Control on the repaired instrument: `--selftest` exit 0, `SELFTEST clean cases=28 ...` (794 bytes); `--summary` exit 0, census per profile `{"non_url_field": 61, "url_field": 1355}`, `TOTAL findings=0 exit=0`; `--json` exit 0, sha256 `a4fb5d6dd9b7d509be55ae9d5c779dccaf9e29a7727447a30c568a174579d851` (3,882,667 bytes).
+- **M1 is now KILLED.** `--selftest` exit 1. Failing assertion, `config_projection.py` line 520 in `selftest` (new in the `hand_url_only` case): `assert categories == {"/0/start_url": "url_field", "/0/intent": "non_url_field", "/0/eval/reference_answer_raw_annotation": "non_url_field"}`. Under M1 the third entry becomes `url_field`. This is exactly the category assertion whose absence section 6 flagged as an unasserted witness ([INFERENCE] there); the repair implements it.
+- `--summary` under M1 still exits 0 with `findings: []` and census `{"url_field": 1416}` in each profile: frozen real data alone still does not detect this mutant through the exit and finding contract.
+- Real-data `--json`: documents equal after removing `category` and `changed_leaves_by_category`; 183 category mismatches (61 locations x 3 profiles; `eval.reference_answer_raw_annotation` 3, `must_include[]` 180; all `non_url_field` to `url_field`), identical to the original register in section 7.
+- Corroboration: ran the lane's persisted witness, read-only on the lane with internal /tmp copies: `python3 plans/fixtures/r29/mutation_witness.py`, exit 0, `killed 10 of 10`. Its `category_by_value_shape` row persists my byte-identical replacement: `selftest_exit 1`, `summary_exit 0`, `summary_total "TOTAL findings=0 exit=0"`, `killed true`, `frozen_summary_alone_detects false`. Receipt saved as scratch `fu-witness-receipt.json`.
+- Cleanup: `/tmp/r29-fmut-followup` and the older `/tmp/r29-falsify-FMutCategoryShape-2` were deleted after the re-check; the JSON stdout files referenced in section 12 no longer exist on disk.
+- Scratch additions: `fu-base-selftest`, `fu-base-summary`, `fu-base-json` outputs and hash, `fu-m1-selftest`, `fu-m1-summary`, `fu-m1-json` outputs and hash, `fu-mutant-m1.diff`, `fu-witness-receipt.json` (all under `.ufo/waves/round-29/scratch/falsify/FMutCategoryShape/`).
+- Scope: this verdict covers only the re-check of M1 against the repaired instrument.
+
+VERDICT: PASS

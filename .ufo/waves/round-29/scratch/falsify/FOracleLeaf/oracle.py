@@ -14,13 +14,19 @@ contract explicitly allows ("compare against the instrument's --json/--summary
 OUTPUT only").
 
 Modes:
-  (default)      frozen-input audit: census + leaf-vs-text-vs-instrument
-                 comparison over all 812x3 = 2436 projections.
-  --hands        adversarial hand inputs where decoded-leaf substitution and
-                 text substitution provably differ (quote-in-value,
-                 backslash/escape, later-token cascade, trailing backslash).
-  --json-path F  path to captured instrument --json output (default: sibling
-                 instr_json.out in this script's directory).
+  (default)         frozen-input audit: census + sequential-leaf-vs-text-vs-instrument
+                    comparison over all 812x3 = 2436 projections (single-pass
+                    variant tracked separately).
+  --hands           adversarial hand inputs where decoded-leaf substitution and
+                    text substitution provably differ (quote-in-value,
+                    backslash/escape, later-token cascade, trailing backslash).
+  --verify-cases F  verify the hand-expected cases file F (projection_cases.json):
+                    each case's raw+values must reproduce expected_json /
+                    expected_error (text oracle) and expected_leaf_json
+                    (sequential leaf oracle) exactly.
+  --json-path F     path to captured instrument --json output (default: sibling
+                    instr_json.out in this script's directory).
+  --out F           write the full JSON result to F and print a one-line summary.
 
 Stdlib only. Read-only with respect to the lane root.
 """
@@ -78,6 +84,9 @@ def leaf_sub(s: str, values: dict[str, str]) -> tuple[str, list[str]]:
 
     Each decoded string is scanned exactly once; replacement text is never
     rescanned (no cascade). keys and values are both treated as strings.
+    LABELED ALTERNATIVE ONLY — the prereg-required decoded-leaf oracle is the
+    sequential flavor (seq_sub / leaf_project_sequential); on frozen input the
+    two coincide because D3/D4 hold there, but they differ under cascades.
     """
     hits: list[str] = []
 
@@ -110,6 +119,37 @@ def leaf_project(doc, values, key_collisions: list | None = None):
 
 
 # ---------------------------------------------------------------- text oracle
+
+def seq_sub(s: str, values: dict[str, str]) -> str:
+    """Sequential decoded-leaf substitution: the six token replacements in the
+    pinned order, applied to one decoded string (keys and values alike).
+    Mirrors the upstream per-token order at leaf level, so later-token
+    cascades behave exactly as in text mode. This is the prereg-required
+    decoded-leaf oracle flavor; the single-pass variant below is only a
+    labeled alternative."""
+    for name in TOKEN_NAMES:
+        s = s.replace(f"__{name}__", values[name])
+    return s
+
+
+def leaf_project_sequential(doc, values, key_collisions: list | None = None):
+    """Walk the decoded structure in document order; substitute tokens in every
+    decoded string (dict keys AND values) sequentially in the pinned order."""
+    if isinstance(doc, dict):
+        out = {}
+        for k, v in doc.items():
+            nk = seq_sub(k, values) if isinstance(k, str) else k
+            nv = leaf_project_sequential(v, values, key_collisions)
+            if key_collisions is not None and nk in out and nk != k:
+                key_collisions.append({"original_key": k, "projected_key": nk})
+            out[nk] = nv
+        return out
+    if isinstance(doc, list):
+        return [leaf_project_sequential(v, values, key_collisions) for v in doc]
+    if isinstance(doc, str):
+        return seq_sub(doc, values)
+    return doc
+
 
 def text_project(raw: str, values: dict[str, str]):
     """Own re-derivation of the upstream TEXT contract from the prereg text and
@@ -240,28 +280,33 @@ def run_frozen(instr_json_path: Path | None) -> dict:
         instr = json.loads(instr_json_path.read_text())
 
     results = {}
-    totals = {"objects_compared": 0, "leaf_eq_text": 0, "leaf_eq_instr": 0, "text_eq_instr": 0, "mismatches": []}
-    prov_multi = []
+    totals = {"objects_compared": 0, "leaf_eq_text": 0, "leaf_eq_instr": 0, "text_eq_instr": 0, "sp_eq_text": 0, "mismatches": []}
     for pname, p in profiles.items():
         vals = p["values"]
         ptext, pdoc = text_project(raw_text, vals)
-        leaf_doc = leaf_project(orig_doc, vals)
+        leaf_doc = leaf_project_sequential(orig_doc, vals)
+        leaf_sp = leaf_project(orig_doc, vals)
         prof_res = {
+            "leaf_mode": "sequential (six ordered replaces per decoded string)",
             "projected_text_sha256_mine": sha256_bytes(ptext.encode("utf-8")),
             "parsed_task_count_mine": len(pdoc),
             "objects": 0,
             "leaf_vs_text_equal": 0,
             "leaf_vs_instr_equal": 0,
             "text_vs_instr_equal": 0,
+            "single_pass_eq_text": 0,
             "changed_leaves_mine": 0,
             "changed_leaves_instr": None,
             "file_sha_mismatches": 0,
             "mismatches": [],
         }
-        for i, (o_item, l_item, t_item) in enumerate(zip(orig_doc, leaf_doc, pdoc)):
+        for i, (o_item, l_item, t_item, sp_item) in enumerate(zip(orig_doc, leaf_doc, pdoc, leaf_sp)):
             eq_lt = o_item is not None and l_item == t_item
             prof_res["objects"] += 1
             totals["objects_compared"] += 1
+            if sp_item == t_item:
+                prof_res["single_pass_eq_text"] += 1
+                totals["sp_eq_text"] += 1
             if eq_lt:
                 prof_res["leaf_vs_text_equal"] += 1
                 totals["leaf_eq_text"] += 1
@@ -422,28 +467,34 @@ def run_hands() -> dict:
 
     def run_case(name, raw_text, values, note):
         rec = {"note": note, "values": values, "raw": raw_text}
-        # leaf oracle
+        # leaf oracles (sequential = prereg-required; single-pass = labeled variant)
         try:
-            leaf_doc = leaf_project(json.loads(raw_text), values)
-            rec["leaf"] = {"ok": True, "doc": leaf_doc}
+            seed = json.loads(raw_text)
+            rec["leaf_sequential"] = {"ok": True, "doc": leaf_project_sequential(seed, values)}
+            rec["leaf_single_pass"] = {"ok": True, "doc": leaf_project(seed, values)}
         except json.JSONDecodeError as e:
-            rec["leaf"] = {"ok": False, "error": f"JSONDecodeError: {e}"}
-        # text oracle (upstream semantics)
+            rec["leaf_sequential"] = {"ok": False, "error": str(e)}
+            rec["leaf_single_pass"] = {"ok": False, "error": str(e)}
+        # text oracle (upstream semantics). NOTE: the pinned generator writes
+        # config_files/test.json (lines 17-18) BEFORE json.loads (line 20), so a
+        # parse failure still produces the projected (invalid) test.json; only
+        # the per-task {idx}.json files are then absent.
         try:
             ptext, tdoc = text_project(raw_text, values)
             rec["text"] = {"ok": True, "doc": tdoc, "text_sha256": sha256_bytes(ptext.encode())}
         except json.JSONDecodeError as e:
             rec["text"] = {"ok": False, "error": str(e).split("(")[0].strip(), "position": e.pos, "line": e.lineno, "col": e.colno}
-        # exact first difference
-        if rec["leaf"]["ok"] and rec["text"]["ok"]:
-            d = diff_leaves(rec["leaf"]["doc"], rec["text"]["doc"])
-            rec["first_differences_leaf_vs_text"] = [
-                {"pointer": p, "leaf": a, "text": b, "leaf_codepoints": [hex(ord(c)) for c in str(a)][:8] if isinstance(a, str) else None,
-                 "text_codepoints": [hex(ord(c)) for c in str(b)][:8] if isinstance(b, str) else None}
-                for p, a, b in d[:4]
+        # exact first difference (sequential leaf vs text)
+        if rec["leaf_sequential"]["ok"] and rec["text"]["ok"]:
+            d = diff_leaves(rec["leaf_sequential"]["doc"], rec["text"]["doc"])
+            rec["first_differences_sequential_leaf_vs_text"] = [
+                {"pointer": p, "leaf": a, "text": b} for p, a, b in d[:4]
             ]
-        elif rec["leaf"]["ok"] and not rec["text"]["ok"]:
-            rec["asymmetry"] = "leaf projection parses; text projection raises JSONDecodeError (no output file at all upstream)"
+        elif rec["leaf_sequential"]["ok"] and not rec["text"]["ok"]:
+            rec["asymmetry"] = ("sequential leaf parses; text parse fails after upstream already "
+                                "wrote the projected invalid config_files/test.json (per-task files absent)")
+        rec["sequential_leaf_eq_text"] = rec["leaf_sequential"]["ok"] and rec["text"]["ok"] and rec["leaf_sequential"]["doc"] == rec["text"]["doc"]
+        rec["single_pass_eq_text"] = rec["leaf_single_pass"]["ok"] and rec["text"]["ok"] and rec["leaf_single_pass"]["doc"] == rec["text"]["doc"]
         cases[name] = rec
         return rec
 
@@ -515,18 +566,78 @@ def run_hands() -> dict:
     return cases
 
 
+def verify_cases(path: Path) -> dict:
+    """Check a hand-expected cases file: text oracle must reproduce
+    expected_json/expected_error; sequential leaf oracle must reproduce
+    expected_leaf_json. Single-pass variant is reported, not asserted."""
+    blob = json.loads(path.read_text())
+    results = []
+    for case in blob["cases"]:
+        raw, values = case["raw"], case["values"]
+        res = {"name": case["name"]}
+        try:
+            _ptext, tdoc = text_project(raw, values)
+            res["text_ok"] = tdoc == case["expected_json"]
+            if not res["text_ok"]:
+                res["text_actual"] = tdoc
+        except json.JSONDecodeError as e:
+            res["text_ok"] = str(e) == case["expected_error"]
+            res["text_actual_error"] = str(e)
+        seed = json.loads(raw)
+        ldoc = leaf_project_sequential(seed, values)
+        res["leaf_sequential_ok"] = ldoc == case["expected_leaf_json"]
+        if not res["leaf_sequential_ok"]:
+            res["leaf_sequential_actual"] = ldoc
+        sp = leaf_project(seed, values)
+        if case["expected_error"] is None:
+            res["single_pass_eq_text"] = sp == case["expected_json"]
+        else:
+            res["single_pass_eq_text"] = None  # text did not parse; not comparable
+        res["single_pass_eq_sequential_leaf"] = sp == ldoc
+        results.append(res)
+    return {
+        "cases_file": str(path),
+        "case_count": len(results),
+        "all_expectations_met": all(r["text_ok"] and r["leaf_sequential_ok"] for r in results),
+        "results": results,
+    }
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--hands", action="store_true")
+    ap.add_argument("--verify-cases", type=Path, default=None)
     ap.add_argument("--json-path", type=Path, default=Path(__file__).resolve().parent / "instr_json.out")
+    ap.add_argument("--out", type=Path, default=None)
     args = ap.parse_args()
+    if args.verify_cases is not None:
+        out = verify_cases(args.verify_cases)
+    elif args.hands:
+        out = run_hands()
+    else:
+        out = run_frozen(args.json_path if args.json_path.exists() else None)
+    payload = json.dumps(out, indent=1, ensure_ascii=False)
+    if args.out is not None:
+        args.out.write_text(payload + "\n")
+        if args.verify_cases is not None:
+            print(f"verify-cases: {out['case_count']} cases, all_expectations_met={out['all_expectations_met']}")
+            return 0 if out["all_expectations_met"] else 1
+        if args.hands:
+            print(f"hands: {len(out)} cases written")
+            return 0
+        t = out["totals"]
+        print(
+            f"frozen: objects={t['objects_compared']} leaf_eq_text={t['leaf_eq_text']} "
+            f"leaf_eq_instr={t['leaf_eq_instr']} text_eq_instr={t['text_eq_instr']} "
+            f"sp_eq_text={t['sp_eq_text']} mismatches={len(t['mismatches'])}"
+        )
+        return 1 if (out["pin_findings"] or t["mismatches"]) else 0
+    print(payload)
+    if args.verify_cases is not None:
+        return 0 if out["all_expectations_met"] else 1
     if args.hands:
-        print(json.dumps(run_hands(), indent=1, ensure_ascii=False))
         return 0
-    out = run_frozen(args.json_path if args.json_path.exists() else None)
-    print(json.dumps(out, indent=1, ensure_ascii=False))
-    rc = 1 if (out["pin_findings"] or out["totals"]["mismatches"]) else 0
-    return rc
+    return 1 if (out["pin_findings"] or out["totals"]["mismatches"]) else 0
 
 
 if __name__ == "__main__":
