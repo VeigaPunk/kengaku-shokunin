@@ -5,7 +5,9 @@ Projects the pinned raw task file under three frozen synthetic `*.invalid` profi
 generator's six ordered global serialized-text replacements, then parses the projected text and
 maps enumerate output ordinals to task IDs. The generator is parsed as inert AST data and never
 imported or executed; host environment values, auth state, benchmark sites and the network are
-never read; no config_files/test.json or per-task file is ever written. Output is stdout only.
+never read; no config_files/test.json or per-task file is ever written. Audit output is stdout only;
+--selftest writes only inside a private directory under /tmp and runs its CLI child isolated (-I -S,
+empty environment). Assertions are load-bearing: under python -O every mode exits 2.
 """
 import argparse
 import ast
@@ -26,6 +28,13 @@ GENERATOR = "plans/fixtures/r29/generate_test_data.py"
 RAW = "plans/fixtures/r28/webarena/config_files/test.raw.json"
 PROFILES = "plans/fixtures/r29/profiles.json"
 HAND = "plans/fixtures/r29/hand"
+# Seat-authored hand fixtures are authenticated before the selftest consumes them.
+HAND_SHA256 = {
+    "cascade-order.case.json": "4f957db3c3a8c19e951b6b225e9520cfc631fc09f864c9b4aad72464d9639fb3",
+    "index-shuffled-ids.fixture.json": "938771045ddbe6bdf6323858bc2c3204e38d028f1086bf83758b79a255fc9254",
+    "url-only.expected.json": "e68e7a0dd8719b85a8db143748989a36dbc955a23b67209b8d76add720f1f5e5",
+    "url-only.fixture.json": "2c78b19909c0c9b4b601f500301d1036c7e00d31454594ec4435c7d28407055e",
+}
 ORDER = ("GITLAB", "REDDIT", "SHOPPING", "SHOPPING_ADMIN", "WIKIPEDIA", "MAP")
 POPULATION = 812
 # Persisted stimulus classes, keyed by frozen profile name. They label the synthetic stimulus;
@@ -39,14 +48,33 @@ STIMULUS = {
 URL_FIELD_TEMPLATES = frozenset({"start_url", "eval.reference_url", "eval.program_html[].url"})
 MARKER_RE = re.compile(r"__[A-Za-z0-9]+(?:_[A-Za-z0-9]+)*__")
 NUMBER_RE = re.compile(r"-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?(?:[eE][-+]?[0-9]+)?")
+# Exact module statements of the pinned generator (docstring excluded), as ast.unparse renders them
+# on Python 3.9+. Any semantically different generator, even one that keeps the six replace calls,
+# is source_contract_unrecognized.
+EXPECTED_STATEMENTS = [
+    "import json",
+    "from browser_env.env_config import *",
+    "def main() -> None:\n    with open('config_files/test.raw.json', 'r') as f:\n        raw = f.read()\n"
+    + "".join("    raw = raw.replace('__%s__', %s)\n" % (name, name) for name in ORDER)
+    + "    with open('config_files/test.json', 'w') as f:\n        f.write(raw)\n    data = json.loads(raw)\n"
+    "    for idx, item in enumerate(data):\n        with open(f'config_files/{idx}.json', 'w') as f:\n            json.dump(item, f, indent=2)",
+    "if __name__ == '__main__':\n    main()",
+]
+# Built-in hand witnesses (raw text byte-equal to the adopted seat-authored fixtures; selftest checks).
+INDEX_WITNESS_RAW = '[{"task_id":1,"intent":"ID 1 occurs first","start_url":"__GITLAB__/index-witness/first"},{"task_id":0,"intent":"ID 0 occurs second","start_url":"__REDDIT__/index-witness/second"}]'
+ORDER_WITNESS_RAW = '[{"task_id":0,"start_url":"__GITLAB__/probe"}]\n'
+ORDER_WITNESS_VALUES = {"MAP": "https://map.invalid/order", "WIKIPEDIA": "__MAP__", "SHOPPING_ADMIN": "__WIKIPEDIA__", "SHOPPING": "__SHOPPING_ADMIN__", "REDDIT": "__SHOPPING__", "GITLAB": "__REDDIT__"}
 LIMITS = [
     "scope: offline projection of one pinned generator over one pinned raw task file; not an actual deployment config, env_config value or observed endpoint",
     "profiles: three frozen synthetic *.invalid sensitivity stimuli, not deployment recommendations; their per-profile effects are stimulus observations, never model or task errors",
     "units: 2436 = 812 tasks x 3 synthetic profiles of one input; not independent trials, samples or files written",
-    "upstream also writes one whole test.json per profile (813 would-be artifacts per profile); only the 812 per-index task objects are counted as projections",
+    "upstream also writes one whole test.json per profile run (813 file writes per run to the same 813 paths); only the 812 per-index task objects are counted as projections",
     "offsets are Unicode codepoint offsets in the ORIGINAL raw input text, never byte offsets or step-input offsets",
     "upstream text-mode I/O uses the locale encoding and universal newlines; the pinned raw file is ASCII without carriage returns, so that difference is inert here",
     "no runtime evaluator, browser, helper, judge, task-validity, model-performance or contamination claim; unread metadata such as sites is not a consumed predicate",
+    "projected_task keeps source key order; would_be_file_sha256 = sha256 of json.dumps(task, indent=2), the bytes upstream json.dump writes; json_pointer is rooted at the parsed task array (/<output_index>/...)",
+    "per-token task counts are not additive (a task may carry several tokens); a changed leaf's tokens are the six tokens literally present in its ORIGINAL text; category is by JSON path, so non_url_field leaves may hold URL-shaped strings",
+    "frozen data cannot reveal replacement order (no profile value contains a token) or positional naming (index == task_id); the built-in order and index witnesses below show both",
 ]
 
 
@@ -86,7 +114,12 @@ def source_contract(source):
     filename = [ast.unparse(node) for node in ast.walk(loop) if isinstance(node, ast.JoinedStr)] if loop else []
     if parse_line is None or filename != ["f'config_files/{idx}.json'"]:
         raise Unevaluable("source_contract_unrecognized", detail="parse or enumerate-index output contract missing")
-    return {"authority": "inert AST facts of pinned generator bytes; never imported or executed", "env_config_star_import_line": star[0],
+    statements = [node for node in tree.body if not (isinstance(node, ast.Expr) and isinstance(node.value, ast.Constant) and isinstance(node.value.value, str))]
+    rendered = [ast.unparse(node).replace("for (idx, item) in", "for idx, item in") for node in statements]  # 3.9/3.10 parenthesize tuple targets
+    if rendered != EXPECTED_STATEMENTS:
+        index = next((i for i, (a, b) in enumerate(zip(rendered, EXPECTED_STATEMENTS)) if a != b), min(len(rendered), len(EXPECTED_STATEMENTS)))
+        raise Unevaluable("source_contract_unrecognized", detail="module statements differ from the persisted exact generator contract", statement_index=index)
+    return {"authority": "inert AST facts of pinned generator bytes; never imported or executed; exact statement match", "env_config_star_import_line": star[0],
             "replace_steps": steps, "parse_line": parse_line, "enumerate_loop_line": loop.lineno,
             "per_task_filename_template": "config_files/{idx}.json", "output_index": "enumerate position, not item task_id"}
 
@@ -95,8 +128,8 @@ def read_pinned(root):
     """Read every pinned input once and retain only authenticated bytes."""
     try:
         manifest_bytes = (root / MANIFEST).read_bytes()
-    except FileNotFoundError:
-        raise Unevaluable("input_missing", path=MANIFEST)
+    except OSError as error:
+        raise Unevaluable("input_missing", path=MANIFEST, detail=type(error).__name__)
     if hashlib.sha256(manifest_bytes).hexdigest() != MANIFEST_SHA256:
         raise Unevaluable("manifest_tampered")
     manifest = json.loads(manifest_bytes)
@@ -106,8 +139,8 @@ def read_pinned(root):
     for relative, pin in manifest["files"].items():
         try:
             data = (root / relative).read_bytes()
-        except FileNotFoundError:
-            raise Unevaluable("input_missing", path=relative)
+        except OSError as error:
+            raise Unevaluable("input_missing", path=relative, detail=type(error).__name__)
         if hashlib.sha256(data).hexdigest() != pin["sha256"]:
             raise Unevaluable("snapshot_tampered", path=relative)
         verified[relative] = data
@@ -185,7 +218,7 @@ def string_spans(text):
                     continue
                 assert text[i] == close
                 return i + 1
-        for literal in ("true", "false", "null"):
+        for literal in ("true", "false", "null", "NaN", "Infinity", "-Infinity"):
             if text.startswith(literal, i):
                 return i + len(literal)
         match = NUMBER_RE.match(text, i)
@@ -198,16 +231,18 @@ def string_spans(text):
 
 
 def pointer(path):
-    return "/" + "/".join(str(part).replace("~", "~0").replace("/", "~1") for part in path)
+    return "".join("/" + str(part).replace("~", "~0").replace("/", "~1") for part in path)
 
 
 def template(path):
     parts = []
     for part in path[1:]:
-        if isinstance(part, int):
-            parts[-1] = parts[-1] + "[]" if parts else "[]"
-        else:
+        if not isinstance(part, int):
             parts.append(part)
+        elif parts:
+            parts[-1] += "[]"
+        else:
+            parts.append("[]")
     return ".".join(parts)
 
 
@@ -272,7 +307,11 @@ def audit_text(raw_text, profiles, expected_population=None):
     tokens = ["__%s__" % name for name in ORDER]
     ids = [task.get("task_id") if isinstance(task, dict) else None for task in original] if isinstance(original, list) else []
     if not isinstance(original, list) or (expected_population is not None and (len(original) != expected_population or sorted(ids) != list(range(expected_population)))):
-        findings.append({"id": "task_population_invalid"})
+        findings.append({"id": "input_population_mismatch"})
+    key_paths = collections.Counter((span[2], span[4]) for span in spans if span[3] == "key")
+    duplicate_keys = sorted(pointer(path + (key,)) for (path, key), count in key_paths.items() if count > 1)
+    if duplicate_keys:
+        findings.append({"id": "duplicate_json_key", "pointers": duplicate_keys[:20], "count": len(duplicate_keys)})
     markers = collections.Counter(match.group() for match in MARKER_RE.finditer(raw_text) if match.group() not in tokens)
     population = {
         "input_task_count": len(original) if isinstance(original, list) else None, "distinct_task_ids": len(set(map(json.dumps, ids))),
@@ -282,12 +321,13 @@ def audit_text(raw_text, profiles, expected_population=None):
         "tasks_with_any_token": len({r["task_index"] for r in occurrences}),
         "other_double_underscore_markers": dict(sorted(markers.items())),
         "tokens_followed_by_slash": sum(raw_text.startswith("/", r["original_input_codepoint_offset"] + len(r["token"])) for r in occurrences),
+        "duplicate_object_keys": len(duplicate_keys),
     }
     if population["occurrence_roles"].get("key") or population["occurrence_roles"].get("outside_string"):
         findings.append({"id": "token_outside_string_value", "roles": population["occurrence_roles"]})
-    results, index_violations = {}, []
+    results, index_mismatches = {}, []
     if isinstance(original, list):
-        index_violations = [{"output_index": i, "task_id": task_id} for i, task_id in enumerate(ids) if task_id != i]
+        index_mismatches = [{"output_index": i, "task_id": task_id} for i, task_id in enumerate(ids) if task_id != i]
     for name, profile in profiles.items():
         projected_text, steps = project(raw_text, profile["values"])
         record = {"purpose": profile["purpose"], "stimulus_class": STIMULUS.get(name), "values": profile["values"], "steps": steps,
@@ -314,8 +354,10 @@ def audit_text(raw_text, profiles, expected_population=None):
                                      "category": "url_field" if template(path) in URL_FIELD_TEMPLATES else "non_url_field",
                                      "tokens": carried, "original": before, "projected": after})
         carriers = sum(1 for text in string_values(original) if any(token in text for token in tokens))
-        if unexplained or (not problems and carriers != len(changed)):
-            findings.append({"id": "leaf_change_unexplained", "profile": name, "unexplained": unexplained, "token_leaves": carriers, "changed": len(changed)})
+        if unexplained:
+            findings.append({"id": "leaf_change_unexplained", "profile": name, "count": unexplained})
+        if not problems and carriers != len(changed):
+            findings.append({"id": "token_leaf_unchanged", "profile": name, "token_leaves": carriers, "changed": len(changed)})
         leaves_flat = [leaf for items in by_task.values() for leaf in items]
         junctions = sum(1 for r in occurrences if raw_text.startswith("/", r["original_input_codepoint_offset"] + len(r["token"])) and profile["values"][r["token"][2:-2]].endswith("/"))
         record.update({
@@ -341,7 +383,20 @@ def audit_text(raw_text, profiles, expected_population=None):
     population["task_profile_projections"] = sum(len(r.get("tasks", [])) for r in results.values())
     population["profile_count"] = len(results)
     return {"population": population, "occurrence_provenance": occurrences, "profiles": results,
-            "index_mapping": {"output_index_rule": "enumerate position", "index_equals_task_id": len(ids) - len(index_violations), "violations": index_violations}}, findings
+            "index_mapping": {"output_index_rule": "enumerate position", "unit": "input tasks (profile-invariant)",
+                              "index_equals_task_id_count": len(ids) - len(index_mismatches), "index_task_id_mismatches": index_mismatches}}, findings
+
+
+def witnesses():
+    """Run the built-in hand witnesses through the same projection path; never pinned-data evidence."""
+    index, _ = audit_text(INDEX_WITNESS_RAW, {"hand": {"purpose": "hand witness", "values": {n: "http://%s.invalid:1" % n.lower().replace("_", "-") for n in ORDER}}})
+    order_text, order_steps = project(ORDER_WITNESS_RAW, ORDER_WITNESS_VALUES)
+    mapping_order = ORDER_WITNESS_RAW
+    for name in ORDER_WITNESS_VALUES:
+        mapping_order = mapping_order.replace("__%s__" % name, ORDER_WITNESS_VALUES[name])
+    return {"index": {"raw": INDEX_WITNESS_RAW, "records": [{"output_filename": t["output_filename"], "task_id": t["task_id"], "index_equals_task_id": t["index_equals_task_id"]} for t in index["profiles"]["hand"]["tasks"]]},
+            "order": {"raw": ORDER_WITNESS_RAW, "values": ORDER_WITNESS_VALUES, "applied_replacements": [s["applied_replacements"] for s in order_steps],
+                      "source_order_text": order_text, "mapping_order_text": mapping_order}}
 
 
 def audit(root):
@@ -355,7 +410,7 @@ def audit(root):
         findings.append({"id": "projection_count_invalid"})
     result.update(inputs={path: pin["sha256"] for path, pin in manifest["files"].items()}, manifest_sha256=MANIFEST_SHA256,
                   upstream_revision=manifest["upstream_revision"], source_contract=contract,
-                  raw_text_sha256=hashlib.sha256(verified[RAW]).hexdigest(), findings=findings, limitations=LIMITS)
+                  raw_text_sha256=hashlib.sha256(verified[RAW]).hexdigest(), witnesses=witnesses(), findings=findings, limitations=LIMITS)
     return result, int(bool(findings))
 
 
@@ -366,10 +421,15 @@ def summary_lines(result, code):
     if population:
         lines.append("POPULATION " + json.dumps({key: population[key] for key in ("input_task_count", "distinct_task_ids", "profile_count", "task_profile_projections", "tasks_with_any_token")}, sort_keys=True))
         lines.append("ORIGINAL_OCCURRENCES_BY_TOKEN " + json.dumps(population["original_occurrences_by_token"]))
-        lines.append("TASKS_WITH_TOKEN " + json.dumps(population["tasks_with_token"]))
+        lines.append("TASKS_WITH_TOKEN_NOT_ADDITIVE " + json.dumps(population["tasks_with_token"]))
         lines.append("OCCURRENCE_ROLES " + json.dumps(population["occurrence_roles"], sort_keys=True))
         lines.append("OTHER_MARKERS_NOT_ENV_TOKENS " + json.dumps(population["other_double_underscore_markers"]))
-        lines.append("INDEX " + json.dumps({"index_equals_task_id": result["index_mapping"]["index_equals_task_id"], "violations": len(result["index_mapping"]["violations"])}))
+        lines.append("INDEX " + json.dumps({"unit": "input tasks", "index_equals_task_id_count": result["index_mapping"]["index_equals_task_id_count"], "index_task_id_mismatches": len(result["index_mapping"]["index_task_id_mismatches"])}))
+        lines.append("DUPLICATE_OBJECT_KEYS %d" % population["duplicate_object_keys"])
+        if "witnesses" in result:
+            lines.append("INDEX_WITNESS hand " + json.dumps(result["witnesses"]["index"]["records"]))
+            order = result["witnesses"]["order"]
+            lines.append("ORDER_WITNESS hand applied_replacements=%s source_order_text=%s mapping_order_text=%s" % (json.dumps(order["applied_replacements"]), json.dumps(order["source_order_text"]), json.dumps(order["mapping_order_text"])))
         for name, record in result["profiles"].items():
             lines.append("PROFILE %s purpose=%s" % (name, json.dumps(record["purpose"])))
             lines.append("PROFILE %s stimulus=%s" % (name, json.dumps(record["stimulus_class"])))
@@ -396,6 +456,8 @@ def selftest(root):
     assert not findings and [s["applied_replacements"] for s in record["steps"]] == [2] * 6
     assert record["changed_leaf_count"] == 12 and record["changed_leaves_by_category"] == {"non_url_field": 6, "url_field": 6}
     assert record["tasks"][5]["projected_task"]["intent"] == "see http://map.invalid:1"
+    assert list(record["changed_leaves_by_token"].values()) == [2] * 6 and list(record["changed_tasks_by_token"].values()) == [1] * 6
+    assert list(result["population"]["original_occurrences_by_token"].values()) == [2] * 6 and list(result["population"]["tasks_with_token"].values()) == [1] * 6
     cases.append("six_tokens_and_non_url_field")
     # Two occurrences in one leaf: occurrence, leaf and task units stay separate.
     result, _ = run('[{"task_id": 0, "start_url": "__GITLAB__/a |OR| __GITLAB__/b", "x": ["__REDDIT__"]}]')
@@ -411,10 +473,10 @@ def selftest(root):
     assert prov["__GITLAB__"]["string_role"] == "key" and {f["id"] for f in findings} == {"token_outside_string_value", "projection_structure_changed"}
     cases.append("codepoint_offsets_and_key_token")
     # Escaped token spelling is not literal serialized text: raw projection leaves it, decoded census sees it.
-    result, findings = run('[{"intent": "\\u005f\\u005fGITLAB__ and __GITLAB__"}]')
+    result, findings = run(json.dumps([{"intent": "\\u005f\\u005f%s__ and __%s__" % (name, name)} for name in ORDER]).replace("\\\\u005f", "\\u005f"))
     record = result["profiles"]["distinct_origins"]
-    assert record["steps"][0]["applied_replacements"] == 1 and record["remaining_known_tokens_text"]["__GITLAB__"] == 0
-    assert record["remaining_known_tokens_decoded"]["__GITLAB__"] == 1 and {f["id"] for f in findings} == {"known_token_remaining"}
+    assert [s["applied_replacements"] for s in record["steps"]] == [1] * 6 and list(record["remaining_known_tokens_text"].values()) == [0] * 6
+    assert list(record["remaining_known_tokens_decoded"].values()) == [1] * 6 and {f["id"] for f in findings} == {"known_token_remaining"}
     cases.append("escaped_token_not_replaced")
     # Quote or backslash values break JSON instead of being repaired; a JSON escape is decoded, not kept literal.
     for bad in ('http://x"y', "http://x\\y"):
@@ -432,37 +494,64 @@ def selftest(root):
         else:
             raise AssertionError(name)
     cases.append("profile_map_errors")
-    # Seat-authored hand fixtures (independent writers), consumed unchanged.
-    order_case = json.loads((root / HAND / "cascade-order.case.json").read_text())
+    # Seat-authored hand fixtures (independent writers), authenticated, then consumed unchanged.
+    assert {path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in sorted((root / HAND).iterdir())} == HAND_SHA256, "hand_fixture_tampered"
+    cases.append("hand_fixtures_authenticated")
+    order_case = json.loads((root / HAND / "cascade-order.case.json").read_text(encoding="utf-8"))
     text, steps = project(order_case["raw_serialized_text"], order_case["values"])
     assert text == order_case["expected_projected_text"] and [s["applied_replacements"] for s in steps] == order_case["expected_dynamic_replacement_hits_by_source_step"]
     wrong = order_case["raw_serialized_text"]
     for name in order_case["mapping_insertion_order"]:
         wrong = wrong.replace("__%s__" % name, order_case["values"][name])
     assert wrong == order_case["predicted_mapping_order_mutant_text"] != text
+    assert order_case["raw_serialized_text"] == ORDER_WITNESS_RAW and order_case["values"] == ORDER_WITNESS_VALUES
+    built_in = witnesses()
+    assert built_in["order"]["source_order_text"] == text and built_in["order"]["mapping_order_text"] == wrong
     cases.append("hand_cascade_order_" + order_case["case_id"])
-    url_case = json.loads((root / HAND / "url-only.fixture.json").read_text())
-    url_expected = json.loads((root / HAND / "url-only.expected.json").read_text())
+    url_case = json.loads((root / HAND / "url-only.fixture.json").read_text(encoding="utf-8"))
+    url_expected = json.loads((root / HAND / "url-only.expected.json").read_text(encoding="utf-8"))
     result, findings = run(url_case["raw_text"], url_case["values"])
     record = result["profiles"]["distinct_origins"]
     assert [t["projected_task"] for t in record["tasks"]] == url_expected["projection"] and not findings
     assert sorted("$[%d]%s" % (int(l["json_pointer"].split("/")[1]), "".join("." + p for p in l["json_pointer"].split("/")[2:])) for t in record["tasks"] for l in t["changed_leaves"]) == url_expected["changed_string_leaf_paths"]
     assert {k: v for k, v in result["population"]["original_occurrences_by_token"].items()} == url_expected["raw_replacement_occurrences_by_token"]
     assert result["population"]["other_double_underscore_markers"] == {"__last_url__": 1, "__page__": 1}
+    categories = {l["json_pointer"]: l["category"] for t in record["tasks"] for l in t["changed_leaves"]}
+    assert categories == {"/0/start_url": "url_field", "/0/intent": "non_url_field", "/0/eval/reference_answer_raw_annotation": "non_url_field"}
     cases.append("hand_url_only_" + url_case["case_id"])
-    index_case = json.loads((root / HAND / "index-shuffled-ids.fixture.json").read_text())
+    index_case = json.loads((root / HAND / "index-shuffled-ids.fixture.json").read_text(encoding="utf-8"))
+    assert index_case["input_raw_text"] == INDEX_WITNESS_RAW
     result, findings = run(index_case["input_raw_text"], index_case["profile_values"])
     tasks = result["profiles"]["distinct_origins"]["tasks"]
     assert [{"task_id": t["task_id"], "output_ordinal": t["output_index"], "output_filename": t["output_filename"], "projected_task": t["projected_task"]} for t in tasks] == index_case["expected_records"]
-    assert [t["index_equals_task_id"] for t in tasks] == index_case["expected_index_equals_task_id"] and result["index_mapping"]["violations"] == [{"output_index": 0, "task_id": 1}, {"output_index": 1, "task_id": 0}]
+    assert [t["index_equals_task_id"] for t in tasks] == index_case["expected_index_equals_task_id"] and result["index_mapping"]["index_task_id_mismatches"] == [{"output_index": 0, "task_id": 1}, {"output_index": 1, "task_id": 0}]
+    assert built_in["index"]["records"] == [{"output_filename": "config_files/0.json", "task_id": 1, "index_equals_task_id": False}, {"output_filename": "config_files/1.json", "task_id": 0, "index_equals_task_id": False}]
     cases.append("hand_index_" + index_case["case_id"])
-    # Source contract: order swap, literal RHS and extra step are unrecognized, never silently accepted.
-    source = (root / GENERATOR).read_text()
+    # Trailing-slash values are substituted verbatim: '//' junctions are never normalized or repaired.
+    slash = dict(values, GITLAB="http://gitlab.invalid:1/")
+    result, findings = run('[{"start_url": "__GITLAB__/a", "eval": {"program_html": [{"required_contents": {"must_include": ["__GITLAB__/b"]}}]}}]', slash)
+    record = result["profiles"]["distinct_origins"]
+    assert not findings and record["tasks"][0]["projected_task"]["start_url"] == "http://gitlab.invalid:1//a"
+    assert record["stimulus_observations"] == {"value_slash_then_raw_slash_junctions": 2}
+    assert [(l["path_template"], l["category"], l["projected"]) for l in record["tasks"][0]["changed_leaves"]] == [("start_url", "url_field", "http://gitlab.invalid:1//a"), ("eval.program_html[].required_contents.must_include[]", "non_url_field", "http://gitlab.invalid:1//b")]
+    cases.append("verbatim_slash_and_path_category")
+    # Duplicate keys diverge text and object views; list-shaped tasks still get templates; source key order is kept.
+    _, findings = run('[{"a": "__GITLAB__", "a": "__REDDIT__"}]')
+    assert "duplicate_json_key" in {f["id"] for f in findings}
+    result, findings = run('[["__GITLAB__"], {"z": "__MAP__", "a": 1}]')
+    assert not findings and result["profiles"]["distinct_origins"]["tasks"][0]["changed_leaves"][0]["path_template"] == "[]"
+    assert list(result["profiles"]["distinct_origins"]["tasks"][1]["projected_task"]) == ["z", "a"]
+    cases.append("duplicate_keys_list_tasks_key_order")
+    # Source contract: order swap, literal RHS, extra step, filename, mutated data and dropped writes are unrecognized.
+    source = (root / GENERATOR).read_text(encoding="utf-8")
     assert [s["name"] for s in source_contract(source)["replace_steps"]] == list(ORDER)
     for name, mutated in (("order_swap", source.replace('raw = raw.replace("__GITLAB__", GITLAB)\n    raw = raw.replace("__REDDIT__", REDDIT)', 'raw = raw.replace("__REDDIT__", REDDIT)\n    raw = raw.replace("__GITLAB__", GITLAB)')),
                           ("literal_rhs", source.replace('"__MAP__", MAP)', '"__MAP__", "x")')),
                           ("extra_step", source.replace("    data = json.loads(raw)", '    raw = raw.replace("__X__", X)\n    data = json.loads(raw)')),
-                          ("id_filename", source.replace("{idx}.json", "{item['task_id']}.json"))):
+                          ("id_filename", source.replace("{idx}.json", "{item['task_id']}.json")),
+                          ("data_mutated", source.replace("    data = json.loads(raw)\n", "    data = json.loads(raw)\n    data = data[::2]\n")),
+                          ("write_dropped", source.replace("            json.dump(item, f, indent=2)", "            pass")),
+                          ("text_truncated", source.replace("    with open(\"config_files/test.json\"", "    raw = raw[:100]\n    with open(\"config_files/test.json\""))):
         assert mutated != source, name
         try:
             source_contract(mutated)
@@ -471,15 +560,30 @@ def selftest(root):
             cases.append("source_" + name)
         else:
             raise AssertionError(name)
-    with tempfile.TemporaryDirectory(prefix="kengaku-r29-projection-") as temp:
+    # Exit mapping: findings exit 1, could-not-evaluate and unexpected errors exit 2.
+    from unittest.mock import patch
+    for raised, expected_code, expected_id in ((None, 1, "x"), (Unevaluable("snapshot_tampered"), 2, "snapshot_tampered"), (RuntimeError("boom"), 2, "internal_error")):
+        def fake(_root, raised=raised):
+            if raised:
+                raise raised
+            return {"findings": [{"id": "x"}], "limitations": LIMITS}, 1
+        captured = []
+        with patch(__name__ + ".audit", fake), patch("builtins.print", lambda text: captured.append(text)):
+            assert main(["--json"]) == expected_code and json.loads(captured[0])["findings"][0]["id"] == expected_id
+    cases.append("exit_mapping")
+    with tempfile.TemporaryDirectory(prefix="kengaku-r29-projection-", dir="/tmp") as temp:
         scratch = Path(temp)
         for relative in (MANIFEST, GENERATOR, RAW, PROFILES):
             (scratch / relative).parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(root / relative, scratch / relative)
-        command = [sys.executable, str(Path(__file__).resolve()), "--root", str(scratch), "--json"]
+        child = [sys.executable, "-I", "-S", str(Path(__file__).resolve())]
+        command = child + ["--root", str(scratch), "--json"]
+        optimized = subprocess.run([sys.executable, "-I", "-S", "-O"] + child[3:] + ["--root", str(scratch), "--summary"], capture_output=True, text=True, env={})
+        assert optimized.returncode == 2 and "assertions_disabled" in optimized.stdout, optimized
+        cases.append("cli_optimized_refused")
 
         def cli(name, expected, code=2):
-            output = subprocess.run(command, capture_output=True, text=True)
+            output = subprocess.run(command, capture_output=True, text=True, env={})
             assert output.returncode == code and json.loads(output.stdout)["findings"][0]["id"] == expected, (name, output.returncode, output.stdout[:300], output.stderr[-300:])
             cases.append(name)
 
@@ -494,7 +598,7 @@ def selftest(root):
         target.write_bytes(target.read_bytes().replace(b'"task_id": 0,', b'"task_id": 0, "extra": "__MAP__",', 1))
         rebound = json.loads(manifest.read_bytes())
         rebound["files"][RAW]["sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
-        manifest.write_text(json.dumps(rebound, indent=2) + "\n")
+        manifest.write_text(json.dumps(rebound, indent=2) + "\n", encoding="utf-8")
         cli("cli_coherent_rebinding", "manifest_tampered")
         shutil.copyfile(root / RAW, target)
         shutil.copyfile(root / MANIFEST, manifest)
@@ -521,24 +625,27 @@ def selftest(root):
     return 0
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+def main(argv=None):
+    parser = argparse.ArgumentParser(description="Offline source-faithful projection of pinned WebArena generate_test_data.py.")
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
     mode = parser.add_mutually_exclusive_group()
-    mode.add_argument("--summary", action="store_true")
+    mode.add_argument("--summary", action="store_true", help="human-readable lines (the default)")
     mode.add_argument("--json", action="store_true")
     mode.add_argument("--selftest", action="store_true")
-    args = parser.parse_args()
-    if args.selftest:
+    args = parser.parse_args(argv)
+    if not __debug__:
+        result, code = {"findings": [{"id": "assertions_disabled", "detail": "python -O strips load-bearing checks"}], "limitations": LIMITS}, 2
+    elif args.selftest:
         return selftest(args.root)
-    try:
-        result, code = audit(args.root)
-    except Unevaluable as error:
-        result, code = {"findings": [error.finding], "limitations": LIMITS}, 2
-    except (OSError, ValueError, KeyError, TypeError, AssertionError, IndexError) as error:
-        result, code = {"findings": [{"id": "input_invalid", "detail": repr(error)}], "limitations": LIMITS}, 2
+    else:
+        try:
+            result, code = audit(args.root)
+        except Unevaluable as error:
+            result, code = {"findings": [error.finding], "limitations": LIMITS}, 2
+        except Exception as error:
+            result, code = {"findings": [{"id": "internal_error", "detail": repr(error)}], "limitations": LIMITS}, 2
     if args.json:
-        print(json.dumps(result, sort_keys=True, separators=(",", ":")))
+        print(json.dumps(result, separators=(",", ":")))
     else:
         print("\n".join(summary_lines(result, code)))
     return code

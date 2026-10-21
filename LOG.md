@@ -568,3 +568,19 @@ verified from that commit's tree (actual-final-byte-proof.json).
 Final complete acceptance exits0 with11 expected-exit stages, actual source-use links clean,
 alternate/revert equality and the intentional historical-scope code pin. No model/site execution or
 new-method score credit. Scores7/8 held; outside closure remains separate. All first-red evidence stays.
+
+## Round 29 — WebArena generated-config projection (2026-10-21)
+
+### Round29 — post-crash integration, falsification and repair
+
+The host session died during the build wave (23 of 64 seats dead, all three executors; build-dead-seats.json).
+Replacement L1 KengakuR29-2 integrated `plans/config_projection.py` from landed build reports and adopted
+three seat-authored hand fixtures byte-exact (b98dcf31). One fresh 77-seat post-crash falsify wave re-ran every
+counting command: four independent oracles reproduced all 2436 projected objects, 1435 provenance records and
+every count (812/812/3/2436; 1435 occurrences, 1416 changed leaves, 61 non-URL-path leaves, 697 `//` junctions).
+Re-verification result for C1's counts: unchanged. Survivors and defects were repaired, not hidden: value
+normalization and value-shape category mutants survived (FMutNormalize/FMutCategoryShape), the AST contract
+accepted 14 semantically different generators (FReviewAstContract), python -O silently stripped the selftest,
+unexpected errors exited 1 with no finding, and `--json` key-sorted projected tasks. After repair the persisted
+witness kills 10/10 mutants, the projections are object-equal to the pre-repair output, and the JSON digest is
+identical on CPython 3.9–3.15 (repair-*.txt). Candidate v1 was superseded by v2 on falsify findings.

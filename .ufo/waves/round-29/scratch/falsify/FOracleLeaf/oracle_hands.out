@@ -1,0 +1,227 @@
+{
+ "H1_quote_in_value": {
+  "note": "value contains U+0022; text injection terminates the JSON string early",
+  "values": {
+   "GITLAB": "http://gitlab.invalid:10101/\"q\"",
+   "REDDIT": "http://reddit.invalid:10102",
+   "SHOPPING": "http://shopping.invalid:10103",
+   "SHOPPING_ADMIN": "http://shopping-admin.invalid:10104",
+   "WIKIPEDIA": "http://wikipedia.invalid:10105",
+   "MAP": "http://map.invalid:10106"
+  },
+  "raw": "{\"task_id\": 0, \"start_url\": \"__GITLAB__\", \"eval\": {\"reference_url\": \"\"}}",
+  "leaf": {
+   "ok": true,
+   "doc": {
+    "task_id": 0,
+    "start_url": "http://gitlab.invalid:10101/\"q\"",
+    "eval": {
+     "reference_url": ""
+    }
+   }
+  },
+  "text": {
+   "ok": false,
+   "error": "Expecting ',' delimiter: line 1 column 59",
+   "position": 58,
+   "line": 1,
+   "col": 59
+  },
+  "asymmetry": "leaf projection parses; text projection raises JSONDecodeError (no output file at all upstream)"
+ },
+ "H2_backslash_n_escape": {
+  "note": "value contains backslash+n; JSON text layer consumes it as U+000A, leaf layer keeps two chars",
+  "values": {
+   "GITLAB": "http://gitlab.invalid:10101",
+   "REDDIT": "http://reddit.invalid:10102\\nfast",
+   "SHOPPING": "http://shopping.invalid:10103",
+   "SHOPPING_ADMIN": "http://shopping-admin.invalid:10104",
+   "WIKIPEDIA": "http://wikipedia.invalid:10105",
+   "MAP": "http://map.invalid:10106"
+  },
+  "raw": "{\"task_id\": 1, \"start_url\": \"__REDDIT__\"}",
+  "leaf": {
+   "ok": true,
+   "doc": {
+    "task_id": 1,
+    "start_url": "http://reddit.invalid:10102\\nfast"
+   }
+  },
+  "text": {
+   "ok": true,
+   "doc": {
+    "task_id": 1,
+    "start_url": "http://reddit.invalid:10102\nfast"
+   },
+   "text_sha256": "6ef65f3fd3460e599434a2317015a82ec8287ae84c910376009132a943a15a8a"
+  },
+  "first_differences_leaf_vs_text": [
+   {
+    "pointer": "/start_url",
+    "leaf": "http://reddit.invalid:10102\\nfast",
+    "text": "http://reddit.invalid:10102\nfast",
+    "leaf_codepoints": [
+     "0x68",
+     "0x74",
+     "0x74",
+     "0x70",
+     "0x3a",
+     "0x2f",
+     "0x2f",
+     "0x72"
+    ],
+    "text_codepoints": [
+     "0x68",
+     "0x74",
+     "0x74",
+     "0x70",
+     "0x3a",
+     "0x2f",
+     "0x2f",
+     "0x72"
+    ]
+   }
+  ]
+ },
+ "H2b_trailing_backslash": {
+  "note": "value ends with U+005C; text injection escapes the closing quote, string never terminates",
+  "values": {
+   "GITLAB": "http://gitlab.invalid:10101",
+   "REDDIT": "http://reddit.invalid:10102",
+   "SHOPPING": "http://shopping.invalid:10103",
+   "SHOPPING_ADMIN": "http://shopping-admin.invalid:10104",
+   "WIKIPEDIA": "http://wikipedia.invalid:10105",
+   "MAP": "http://map.invalid:10306/\\"
+  },
+  "raw": "{\"task_id\": 2, \"start_url\": \"__MAP__\"}",
+  "leaf": {
+   "ok": true,
+   "doc": {
+    "task_id": 2,
+    "start_url": "http://map.invalid:10306/\\"
+   }
+  },
+  "text": {
+   "ok": false,
+   "error": "Unterminated string starting at: line 1 column 29",
+   "position": 28,
+   "line": 1,
+   "col": 29
+  },
+  "asymmetry": "leaf projection parses; text projection raises JSONDecodeError (no output file at all upstream)"
+ },
+ "H3_later_token_cascade": {
+  "note": "later-token cascade: text step 1 injects __MAP__, step 6 substitutes it; single-pass leaf never rescans",
+  "values": {
+   "GITLAB": "http://gitlab.invalid:10101/__MAP__",
+   "REDDIT": "http://reddit.invalid:10102",
+   "SHOPPING": "http://shopping.invalid:10103",
+   "SHOPPING_ADMIN": "http://shopping-admin.invalid:10104",
+   "WIKIPEDIA": "http://wikipedia.invalid:10105",
+   "MAP": "http://map.invalid:10306"
+  },
+  "raw": "{\"task_id\": 3, \"start_url\": \"__GITLAB__\", \"alt\": \"__MAP__\"}",
+  "leaf": {
+   "ok": true,
+   "doc": {
+    "task_id": 3,
+    "start_url": "http://gitlab.invalid:10101/__MAP__",
+    "alt": "http://map.invalid:10306"
+   }
+  },
+  "text": {
+   "ok": true,
+   "doc": {
+    "task_id": 3,
+    "start_url": "http://gitlab.invalid:10101/http://map.invalid:10306",
+    "alt": "http://map.invalid:10306"
+   },
+   "text_sha256": "ecace82de0b9f04480fb44f8d7aa0bf9d5d8dd7a2090d79cc6200ce8d5447748"
+  },
+  "first_differences_leaf_vs_text": [
+   {
+    "pointer": "/start_url",
+    "leaf": "http://gitlab.invalid:10101/__MAP__",
+    "text": "http://gitlab.invalid:10101/http://map.invalid:10306",
+    "leaf_codepoints": [
+     "0x68",
+     "0x74",
+     "0x74",
+     "0x70",
+     "0x3a",
+     "0x2f",
+     "0x2f",
+     "0x67"
+    ],
+    "text_codepoints": [
+     "0x68",
+     "0x74",
+     "0x74",
+     "0x70",
+     "0x3a",
+     "0x2f",
+     "0x2f",
+     "0x67"
+    ]
+   }
+  ]
+ },
+ "H4_earlier_token_control": {
+  "note": "control: value containing an EARLIER token — both methods leave it literal (order asymmetry)",
+  "values": {
+   "GITLAB": "http://gitlab.invalid:10101",
+   "REDDIT": "http://reddit.invalid:10102",
+   "SHOPPING": "http://shopping.invalid:10103",
+   "SHOPPING_ADMIN": "http://shopping-admin.invalid:10104",
+   "WIKIPEDIA": "http://wikipedia.invalid:10105",
+   "MAP": "http://map.invalid:10306/__GITLAB__"
+  },
+  "raw": "{\"task_id\": 4, \"start_url\": \"__MAP__\"}",
+  "leaf": {
+   "ok": true,
+   "doc": {
+    "task_id": 4,
+    "start_url": "http://map.invalid:10306/__GITLAB__"
+   }
+  },
+  "text": {
+   "ok": true,
+   "doc": {
+    "task_id": 4,
+    "start_url": "http://map.invalid:10306/__GITLAB__"
+   },
+   "text_sha256": "63fdf9eceb682aa1a430d4a79e9f9508f0d0ccb1583b26e27d33931b3e8b93ce"
+  },
+  "first_differences_leaf_vs_text": []
+ },
+ "H5_escaped_text_adjacent": {
+  "note": "escaped source text (\\u2122) adjacent to tokens; probes D1 escape-straddle direction that DOES match",
+  "values": {
+   "GITLAB": "http://gitlab.invalid:10101",
+   "REDDIT": "http://reddit.invalid:10102",
+   "SHOPPING": "http://shopping.invalid:10103",
+   "SHOPPING_ADMIN": "http://shopping-admin.invalid:10104",
+   "WIKIPEDIA": "http://wikipedia.invalid:10105",
+   "MAP": "http://map.invalid:10106"
+  },
+  "raw": "{\"task_id\": 5, \"intent\": \"top __WIKIPEDIA__ \\u2122 item\", \"start_url\": \"__WIKIPEDIA__\"}",
+  "leaf": {
+   "ok": true,
+   "doc": {
+    "task_id": 5,
+    "intent": "top http://wikipedia.invalid:10105 ™ item",
+    "start_url": "http://wikipedia.invalid:10105"
+   }
+  },
+  "text": {
+   "ok": true,
+   "doc": {
+    "task_id": 5,
+    "intent": "top http://wikipedia.invalid:10105 ™ item",
+    "start_url": "http://wikipedia.invalid:10105"
+   },
+   "text_sha256": "86200abe8f2faf764f0baac55066aa41c904fe4b4123abc5e96b67eb496744d2"
+  },
+  "first_differences_leaf_vs_text": []
+ }
+}

@@ -337,3 +337,15 @@ row or frontier discharge is asserted before returned complete Q10 re-reads of i
 WebArena static surface. Terminal-Bench2.0, Toolathlon and SWE-bench Pro primary specifications,
 generated eval-time configs, runtime DOM/helper/judge validity and contamination checks remain open.
 The earlier deferred round28 index statement is superseded by the actual Gate admission and this row.
+
+## Round29 supporting artifacts (2026-10-21; knowledge admission deferred)
+
+| Path | Covers |
+|---|---|
+| `lessons/round-29.md` | M87 derived-control/source-unit mistake, crash and forecast-criterion rows, source openings, Gate |
+| `evidence/round29-calibration/` | Round-start absence/census receipts; build and post-falsify repair summaries, selftests, JSON digests, cross-Python runs, mutation witnesses, projection-equality proof |
+| `../plans/config_projection.py` | Offline source-faithful projection of the pinned WebArena generator over 812 raw tasks × 3 synthetic profiles; not deployment configs or task validity |
+| `../plans/fixtures/r29/` | Pinned generator/profile manifest, seat-authored hand fixtures (digest-pinned in the instrument) and the persisted mutate-run-revert witness |
+
+The candidate remains `../.ufo/waves/round-29/drafts/webarena-config-projection.md`; no canonical knowledge
+row or frontier discharge is asserted before returned complete second-seat re-reads of its exact bytes.

@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/tmp/fmut-reread/plans/config_projection.py", line 548, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/tmp/fmut-reread/plans/config_projection.py", line 533, in main
+    return selftest(args.root)
+  File "/tmp/fmut-reread/plans/config_projection.py", line 514, in selftest
+    retained, code = audit(scratch)
+                     ~~~~~^^^^^^^^^
+  File "/tmp/fmut-reread/plans/config_projection.py", line 351, in audit
+    check_profiles(profiles)
+    ~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/tmp/fmut-reread/plans/config_projection.py", line 122, in check_profiles
+    raise Unevaluable("profile_missing" if missing else "profile_unexpected", profiles=missing or extra)
+Unevaluable: profile_missing
