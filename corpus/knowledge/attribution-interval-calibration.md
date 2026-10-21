@@ -187,3 +187,19 @@ changes are `plans/round-25-claims.md` Amendment 2. Re-run: `python3 plans/attri
   lane's 0.308497 is the two-sided 97.5% tail. The rule-of-three false PASS at bar 0.95 is n = 60–71 (the landed
   power table scanned only n ≤ 40 and printed "none"; regenerated). If one-sided bounds were ever ruled sufficient, the
   exact one-sided interval (min n 14 at 0.80) — not the rule of three — would be the rule.
+
+## Round28 source-scope clarification (2026-10-21)
+
+S038's naive-adjusted-interval coverage warning above remains supported by the opened
+publisher text (Introduction p.1675); its old registry row is now indexed as mined because
+this file already cited it. **S066 supersedes the row's unqualified fix clause**:
+the paper's exact Blaker/Sterne test-inversion construction assumes sensitivity and
+specificity known exactly (Discussion p.1677). It is not an exact interval method for
+the lane's estimated sensitivity/specificity from the same small samples. No interval
+method was ported this round, and the historical “conservative” characterization remains
+superseded by the round25 correction above.
+
+Opening authority: `.ufo/waves/round-28/build/OpenS038.md`, authenticated archived
+publisher PDF (2026-10-04 capture, reopened2026-10-21), not a successful live PDF
+download; live publisher requests returned429. This is a source-scope clarification,
+not new live attribution evidence or restoration of missing endpoints.

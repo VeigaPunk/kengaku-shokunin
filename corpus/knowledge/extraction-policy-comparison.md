@@ -112,3 +112,27 @@ E7/E8 have superlinear work on repeated unmatched brackets (about 285s for 200K 
 The CLI is for the byte-pinned population; policy helpers are bounded research functions, not a production
 untrusted-input API. Do not deploy them as a network parser. A future parser comparison should register
 instruction-exact parsing and independently sampled formats rather than adding those after seeing scores.
+
+## Round28 source-location and authority errata (2026-10-21)
+
+The original provenance header's S049 `extraction.py:25` is superseded by **:27** for
+`group_select: int = 0`; the operative47–49 range remains correct. The pinned d6de8164
+bytes were reopened in `.ufo/waves/round-28/build/OpenS049.md`. This corrects round27
+M61's mistaken “25, not27” reviewer correction, not the original registry anchor.
+
+S050 occurs above only as the superseded reason corrected by S058. Round28 adds this
+file to S050's used-by for **literal corrective-reference discoverability**, explicitly
+superseding round27's lesson-only indexing decision; it does not revive S050 as support
+for the inaccurate blanket no-hit reason. S058 remains the authority for that behavior.
+
+S064 clarifies CommonMark's rule: same fence character type, closing length **at least**
+the opening length (not necessarily equal). This leaves the paragraph's “fence-length
+rules” limitation true while superseding S054's ambiguous shorthand. S065, Python3.15.1
+JSON docs “Infinite and NaN Number Values”, supplies the Python-side authority for default
+NaN/infinity acceptance; the RFC S059 supplies only the RFC-side prohibition. The Unicode
+strip comparison is a lane inference/runtime comparison, not a quotation from the RFC.
+
+S051 is a whole-output policy-class precedent, not identical exception handling:
+upstream JsonMatch catches ValueError, whereas the lane's `_loads` catches broader
+exceptions (`build/OpenS051.md`). No new behavior on the frozen response population is
+asserted by this disclosure. All original numeric results remain historical measurements.
