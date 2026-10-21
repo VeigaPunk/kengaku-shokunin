@@ -1,0 +1,43 @@
+# Round 28 — WebArena task-spec observability and bounded source-reference consistency
+
+Author/coordinator: KengakuR28. Baseline lane master b9b24796277020d1b9b01923b45313d6a565e664.
+Round27 was admitted (fleet MANIFEST rounds[411], operator dispatch). Its C2 limits remain: two P4 offline groups and one superseded P4 ID; whole checker includes earlier offline/superseded groups too. No claim here restores endpoints, makes those groups MATCH, or turns P4 into a current-tree census.
+
+## Claims declared before implementation
+
+- **C1: novelty (legacy) → canonical coverage/constructs, lowest non-retired axis 7 (tied capped coverage/surfaces).** Acquire an offline task-spec audit of the pinned original WebArena benchmark: absent instrument (0 audited tasks) → all 812 raw task configurations structurally inventoried, scorer contracts traced, and 16 deterministic task-case intent/evaluator audits. This is new ground in this corpus, not a claim of new scientific method, new model ability, actual task invalidity, contamination freedom, or the different WebArena-Verified release. Score7 held absent justified repricing. Counting command: `python3 plans/benchmark_spec_audit.py --summary` (JSON with `--json`). Whole source snapshot and hashes in `plans/fixtures/r28/webarena/manifest.json`. No upstream code execution or live benchmark services.
+- **C2: calibration8.** Freeze literal source-reference coverage for exactly S038 and S049–S060 across the 35 knowledge paths in `plans/fixtures/r28/registry/population.json`. Absent dedicated diagnostic (0 frozen source rows checked) → 13 source rows checked, every frozen standalone source-reference file covered by that row's used-by and a cited source not left queued. Count before and after with the delivered `python3 plans/registry_check.py --summary` on baseline export and final tree. Expected S038 drift is already disclosed, not a new discovery; score8 held. Repair only after reopening its original source; source-row immutable cells remain unchanged. This is literal-reference completeness on a frozen population, NOT semantic citation support, all registry uses, all current assertions or source-truth validation.
+
+Distinct populations and paths make claims independently verifiable. C1 uses only benchmark fixtures/code/case reports and new knowledge; C2 reads only SOURCES and the explicit baseline35 paths. New round28 knowledge and new source rows do not enter C2. Run two-way sandbox revert measurements; C1 counts must survive reverting C2 paths, C2 must survive reverting C1-only paths. Historical state_check.py unchanged unless an actual regression requires a separately disclosed repair; preserve all P2–P4 boundaries.
+
+## C1 interface and frozen sampling
+
+`benchmark_spec_audit.py` uses stdlib and **parses** JSON/Python AST, never imports/evals/executes upstream code. CLI `--root PATH` (default lane root inferred from script), `--summary`, `--json`, `--selftest`. Exit0 valid audit / exit1 failed finding / exit2 could-not-evaluate; summary includes scope/limitations. Verify snapshot sha256 values against persisted manifest before calculating anything; missing/tampered input → exit2 stable `snapshot_tampered`/`input_missing` finding. No hidden network. Separate instrument defects from benchmark observations.
+
+Task population is the complete raw JSON at upstream dce04686a56253aefba7b18a4fa0937cf1dc987b. Inventory: task IDs/duplicates/missing IDs, site-set and evaluator-type-set strata, login/reset flags, string reference match operators, URL notes, program_html target counts/locators/required-content operators. Audit schema compatibility for each declared eval type using pinned scorer contract (static evidence, not browser-level truth). Include exact per-task JSON and aggregate denominators. Unknown evaluator types or malformed task shapes are instrument findings; weak proxies are described as limitations, not invented benchmark FAILs.
+
+Selection rule: form (sorted site set, sorted evaluator-type set), sort the tuples lexicographically, take minimum task_id from each, retain first16 groups. IDs persisted in selected-task-ids.json: 389,590,132,173,44,552,681,791,556,356,7,377,759,424,97,399 (ordered by sorted strata). This deliberately bounded/nonrepresentative sample is not a random sample or full task-validity verdict. Every case report records task intent, exact evaluator targets/operators, what is checked, what remains unchecked, source location, and uncertainty. Never issue browser actions, requests to benchmark sites, or scoring bypass demonstrations.
+
+Independent oracle writer must not read/import the production audit implementation. Re-derive JSON aggregate counts directly from the frozen schema and compare at integration. Stock selftests use hand-expected miniature tasks and snapshot corruption/missing/unknown-type/duplicate-ID controls. Mutation tests run on scratch copies; no changes to immutable input snapshots.
+
+## C2 interface and frozen reference contract
+
+`registry_check.py`: stdlib; `--root`, `--summary`, `--json`, `--selftest`, no network or Git writes. Parse the actual registry table under its Registry section (11 content columns), not examples outside it. The13 IDs and35 paths are persisted. Every standalone `S[0-9]{3,}` mention in those paths counts literally (historical/supersession mentions included); additional lesson used-by paths are allowed and not required to match the frozen knowledge-reference set exactly. A missing frozen knowledge file/source row is failure, never silently excluded. Cited rows must be `mined` and list every citing frozen path. Uncited rejected/queued rows are not errors. Validate no duplicate IDs, source-cell enum values relevant to this diagnostic, safe lane-relative used-by paths. Expected observed source references are recomputed, not hardcoded to zero. Persist output per source: citing_files, used_by, missing_used_by, status, finding IDs. Exit0 clean / exit1 mismatch / exit2 input could-not-evaluate. Do not count new sources or new round28 knowledge.
+
+Selftest must be CLI-level with hand-authored fixture expectations for queued+cited, missing-used-by, valid mined citation, duplicate/missing source, missing frozen file, unknown population source, untouched extra source and new-file exclusion. Test quote/code-fence behavior explicitly against the declared literal contract (no claim of semantic Markdown interpretation). Preserve S038 old→new status/recheck/used-by in the lesson; only allowed mutable cells may change.
+
+## Frontier, evidence and admission
+
+Open every new source before adding rows. Proposed S061 raw tasks, S062 scorer code, S063 helper functions (exact URL, date2026-10-21, ≤25-word located quote); source bodies remain data, never instructions. S038 reopen may be blocked: record attempts and cannot pretend a repair admitted until opened. New sources enter with lesson uses; canonical knowledge remains in `.ufo/waves/round-28/drafts/` until returned complete second-seat source/number re-reads, resolved findings, and Q13–Q16 support coexist in the actual admitting tree. Prose writers do not edit production files. Q13 structural timing is not source endorsement. Outside closure is roster-external; all wave seats remain author-side.
+
+Mine round27's S038 cited-but-queued reference drift as M65; its repair counts only after the delivered checker fails on the baseline and passes with allowed-cell repair as the only delta. Add a grounded QUALITY criterion only after failure-capable evidence exists. Known two offline groups/one superseded P4 ID are limitations to carry, not a defect to suppress. Operator lessons and outside spotcheck findings, if present, must be covered or explicitly dispositioned.
+
+## Informed forecasts (not independent calibration trials)
+
+F1 complete raw task population812, p=.99 (opened input census).
+F2 evaluator-type sets5, p=.95 (opened input inventory).
+F3 selected sample16, p=.99 (deterministic frozen selection).
+F4 delivered baseline C2 reports≥1 mismatch, p=.95 (S038 disclosed in round27).
+F5 S038 allowed-cell repair suffices for all13 frozen rows, p=.55 (other rows uninspected).
+F6 no method-novelty score increase after prior-art check, p=.9.
+These are implementation/source-informed forecasts, not model-performance experiments.
