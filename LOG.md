@@ -312,3 +312,24 @@ receipts `corpus/evidence/round24-census/{base-99cf615,after}.txt`.
   admission) had been ruled by the round-24 closure and was not re-filed — the entry above says "those questions".
 - Re-verification: `python3 plans/attrib_calibration.py --summary` exit 0 (TOTAL `PASS=7 … mismatches=0`); `--selftest`
   18/18; `python3 plans/state_check.py --summary` exit 0 (`mismatch=0 superseded=1`), `--selftest` ALL PASS.
+
+## Round 26 — repair-first, then grader perturbations and frozen self-assertions (2026-10-21)
+
+Lowest axis: novelty 7 tied with coverage 7; tie-break coverage remains capped by the open L0; no stagnation
+waiver. Claims: C1 novelty (mapped coverage/constructs), finite-corpus grader perturbation audit; C2 calibration,
+content-pinned P3 self-assertions. Pre-registration `e0037a8`; Amendment 1 explicitly post-wave-output.
+
+- Repair-first integration: SCORECARD R26-E1/E2 supersede capability cells' 14 checks / mismatch=11 with
+  18 checks / mismatch=10; PROVINCE R26-E3a/b supersede 25/37 with the dated S001–S042 census 42.
+  `corpus/lessons/round-26.md` M39/R26-E4 corrects round-25's future-dated Gate evidence; Q13 and
+  `plans/gate_timing_check.py` add a failure-capable structural support check. Round 25 remains rejected.
+- Q13 red-before: `--lesson corpus/lessons/round-25.md --commit 8ea41f9` exits 1 (generic seat reference,
+  no named report; receipt `corpus/evidence/round26-calibration/gate-timing-red-before.txt`). Timing additionally
+  rests on commit-tree absence, not mutable report mtimes.
+- Build wave: 72 returned reports, no replacements; three 72-seat refusal attempts before unchanged
+  successful dispatch. Frozen planner L1; roles and actual ids in `.ufo/waves/round-26/build/swarm-registry.json`.
+- Sources opened/curated S043–S047; S045 evalmut establishes direct tooling prior art, so novelty stays 7.
+  S047 supersedes S037's stale 14-check teaching. Source receipts `corpus/evidence/round26-sources/gate.md`.
+- Re-verification at round start: `grader.py` 733 checks, 0 mismatches; v2 state check 235 assertions,
+  mismatch=0 on its frozen P2 (round-25 additions outside); sources census exit 0, 42 rows, one W04 warning.
+  End-of-round measurement and final evidence follow as appended entries after the falsify wave.

@@ -728,3 +728,16 @@ Planned (round 26), superseding the plan above:
 - **calibration:** content-pin every SHONEN and axis-basis line anchor in `plans/state_check.py` (the kagi L17→L19
   class) and remove its dead branches (SimplifyStateCheck), red-run first.
 - Coverage stays capped until the operator rules the coverage-cap L0.
+
+## Corrections recorded in round 26 — routed defects (appended 2026-10-21)
+
+The round-25 closure (`corpus/lessons/round-25-verifier-spotcheck.md:152-161`) routed these against new round-25
+text, outside P2. Old cells remain byte-identical. C2 extends observability to P3; these repairs were known,
+not discoveries credited to the new instrument.
+
+- **R26-E1 (2026-10-21)** supersedes `P3a.capability.interval-reverdict.selftest-checks` — now `18 checks` `0 failed` (`SCORECARD.md:558` said 14; `corpus/evidence/round25-calibration/attrib-calibration-selftest-v2.txt`; `python3 plans/attrib_calibration.py --selftest`).
+- **R26-E2 (2026-10-21)** supersedes `P3a.capability.state-assertion-check.base-mismatch` — now `mismatch=10` (base `6180e4f`, exit 1; `SCORECARD.md:559` said 11; v2 receipt `corpus/evidence/round25-calibration/state-check-before-6180e4f-v2.txt`).
+
+R26-E3 corrects both PROVINCE registry assertions in PROVINCE itself; the dated round-25 population is
+S001–S042. R26-E4 (landing-time Gate evidence) is recorded in `corpus/lessons/round-26.md` M39 and Q13;
+it does not retroactively admit round 25 or reverse the outside verdict.

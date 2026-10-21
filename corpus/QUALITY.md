@@ -94,6 +94,20 @@ An entry is admitted only when every row below passes; the round lesson's
   `python3 plans/attrib_calibration.py --selftest` (A3 boundary anchors), not by prose review.
   Lesson: `corpus/lessons/round-25.md` M24, M31 (falsify seats RevQ11, CritSpecificity).
 
+- **Q13 — an admit lands only after its second-seat re-read is on record (extends Q10).** The commit that
+  admits an entry must already contain, in its own tree, every second-seat (Q10) re-read report its `## Gate`
+  row cites; the Gate cell names each such report by repo-relative path, the report's seat is not the entry's
+  writer, and a generic reference ("wave-2 seats", "falsify seats", "by wave-N") supports nothing. A Gate cell
+  never cites a seat that has not returned. Check: `python3 plans/gate_timing_check.py --lesson
+  corpus/lessons/round-<N>.md --commit <admitting commit>` exits 0; red-before: on `--commit 8ea41f9 --lesson
+  corpus/lessons/round-25.md` it exits 1 because no second-seat report path is cited (also red at `9d8a00d`).
+  Timing is separately proved by the commit trees: 0 falsify reports at `8ea41f9`, first added at `8239a56`.
+  The check requires a nonempty regular report from a registered reviewer-like seat, a candidate mention and
+  a final verdict, and a candidate `writer:` different from that seat. Presence is not endorsement: Q9/Q10
+  still require all cited findings resolved; this check does not decide their truth.
+  Lesson: `corpus/lessons/round-26.md` M39; `corpus/lessons/round-25-verifier-spotcheck.md:36-39` and
+  `.ufo/waves/round-26/build/CritQ13Mechanism.md` (a later tree or a placeholder is not a landing-time review).
+
 ## Round-closure criteria
 
 A round closes only when every row below holds; a row that cannot be shown is an open item, not a waiver. Each row cites the mistake it closes in `corpus/lessons/round-24.md`; checks are file or command tests, not prose.

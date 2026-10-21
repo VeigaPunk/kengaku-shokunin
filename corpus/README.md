@@ -91,6 +91,8 @@ candidates fixed in the receipt, not the wider round-16 citation audit.
 | `lessons/round-24.md` | Round-24 lesson: mistakes mined from rejected candidates + `## Gate` (admission records) | round-24 wave receipts; `plans/round-24-claims.md` |
 | `lessons/round-24-verifier-spotcheck.md` | Round-24 non-author verification and spot-check (integrator-authored, not lane-owned): admit/reject agree, S023 reason disagreement → S026 + Q9/Q10 | `a42bb40`; fleet `.ufo/waves/kaika-w3/kengaku-review.md` |
 | `lessons/round-25.md` | Round-25 lesson: mistakes M23–M30 (L0 filing, point-PASS survivor, stale state assertions, separability) + `## Gate` + kaika W3 F1–F14 disposition | `plans/round-25-claims.md`; `.ufo/waves/round-25/` |
+| `lessons/round-25-verifier-spotcheck.md` | Outside closure: round 25 rejected-honest-stop, expansion harmed at landing; routed number drift and future-dated Gate evidence | `f11bffbf`; round-26 repair R26-E1–E4 |
+| `lessons/round-26.md` | Repair-first lesson: Q13 evidence timing, frozen P3 self-assertions and grader perturbation interpretation | `plans/round-26-claims.md`; `.ufo/waves/round-26/` |
 
 Supporting corpus files:
 

@@ -168,3 +168,45 @@ before/after via `/home/vgpnk/Projects/shokunin/scripts/sources-census.sh valida
 Wave 1 build (64–100 seats) and wave 2 falsify (64–100 seats, after wave 1 returns and the instruments are
 integrated); round total ≤ 200. Writers work only in private clones `/tmp/kengaku-r26-<Seat>`; KengakuR26-2 is
 the sole integrator.
+
+## Amendment 1 — after wave-1 output, before integration/admission (2026-10-21)
+
+**Timing disclosure:** build seats already ran competing implementations and reported their counts. This is
+not a pre-output amendment; no prediction is retrospectively rescored as ex ante. Motivating evidence:
+`build/ExecFamilyEdges.md`, `CritD1Validity.md`, `CritIndependence.md`, `ExecPopulationManifest.md`,
+`RevSeparability.md`, `CritPredictionsHonesty.md`, `SrcToolingPyPI.md`.
+
+1. Population remains the same four byte-pinned files, exactly **1964** raw+ok records, **0 excluded**;
+   mismatched baseline/pins or an unexpected exclusion exits 1. C-MONO uses `valid_latin`, labeled grader `c`
+   with an explicit cell-specific branch; all other C cells use `grade_c`. Meta-derived want is checked, not
+   accepted just because stored ok agrees.
+2. F1/F2 act on **only the last matched answer fence**, leaving earlier fences in place; unmatched closing
+   fences are not applicable. This is the informative narrow reading, not a move to maximize PASS. It
+   exposes 17 PASS→FAIL flips among multi-block responses. F3/F4 serialize the parsed object, so duplicate
+   JSON keys are resolved before key reversal. G1/G2 require baseline PASS and change an actually graded
+   value, not an ignored extra key or an equal-token swap.
+3. D1 is **PC (policy-conformance)**, not MP or evidence of a grader defect. Apply only to baseline-PASS
+   ordinary state/sequence operation records with turn>1, excluding A-MONO, B and C, where previous truth
+   differs from want. k counts the extractor capturing the appended previous truth, not invariance of
+   model correctness. A PASS says the last-block policy was followed; do not mix it into robustness.
+4. Keep nominal per-record CP95 against bar 0.95 as the registered descriptive reference, **not** an iid
+   generalization guarantee. Print format strata FJ1/FJM/MULTI/DANGLE/BARE and pid-composite worst-case
+   sensitivity (file+pid, C file+cell+rep), and raw+want duplication. Pooled PASS never erases a failing
+   stratum. F1/F2 on the MULTI stratum are a concrete observed counterexample, not proof about future inputs.
+5. P1–P10 are **code-derived expectations**, not blind forecasts. Preserve filed probabilities as history;
+   no Brier score, hit rate or calibration credit. The ten audit families measure scoped behavior, not ten
+   independent empirical discoveries.
+6. Prior art: evalmut 0.1.0 (S045; PyPI release and GitHub opened) directly ships equivalent and defect
+   response mutations against answer graders. Novelty held **7**, not +1. C1's finite-corpus observable
+   remains independently verifiable; this is a lane-specific instantiation, not a new method.
+7. P3b's dated census is **S001–S042 with exact id-set verification**, not total rows at round-26 tip.
+   New C1 sources S043+ are outside it. P3e is the exact base-frozen path list, never a live expanded glob.
+   Strict P3d means anchors **inside axis tables** (only `:162`); anchors in surrounding prose are listed
+   as outside this claim. The wider D14 `:305` drift is already corrected by R25-E3, not silently counted.
+8. Q13's red at `8ea41f9` is specifically missing named report support (also red at later round-25 tip);
+   tree counts and a controlled late-report/same-commit fixture establish timing. Require actual registered,
+   nonempty reviewer-like reports, candidate mentions, verdict lines and a candidate writer identity.
+   Q13 checks structural support only; it never interprets a contradictory review as approval.
+9. Base v3 has **5 mismatches** (two capability values, two dated PROVINCE row counts, unindexed round-25
+   outside spot-check). The first four are routed repairs, not discoveries. C2 is an observability move,
+   calibration score held **8**; it does not claim all current-state assertions are now covered.

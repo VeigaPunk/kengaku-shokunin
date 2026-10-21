@@ -171,3 +171,11 @@ cascade legs over forced and natural P1 samples; its leg-share bounds are within
 fallback rates or OMP route-resolution facts, which stay kumitate's (`falsify/ConnKumitateReportOut.md`).
 (2) **every citer of the r22 "hyper validated" reading** — that verdict is INDETERMINATE under the exact CP95 rule on
 the registered population (`corpus/knowledge/attrib-r21.md` §Erratum round 25).
+
+*Round-26 correction R26-E3 (appended 2026-10-21; supersedes the round-25 correction at `:119` "holds 37 after round 25"):
+the registry holds **42** rows after round 25 — S001–S042; the `:119` sentence was written before S038–S042 landed
+(`grep -cE '^\| *S[0-9]{3,} *\|' corpus/SOURCES.md` → 42 at `f11bffbf`; closure `corpus/lessons/round-25-verifier-spotcheck.md:103-104`).
+The `:112` "25 rows" cell stays superseded by `:119` and this line.*
+
+- **R26-E3a (2026-10-21)** supersedes `P3b.province.public-literature-registry.rows` — now `rows=42` (S001–S042 frozen round-25 population; count `SOURCES.md` ids ≤42, not future additions).
+- **R26-E3b (2026-10-21)** supersedes `P3b.province.round25-correction.rows` — now `rows=42` (same dated population; `git show f11bffbf:corpus/SOURCES.md`).
