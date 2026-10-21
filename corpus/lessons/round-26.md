@@ -185,3 +185,13 @@ receipt); its two extension-only historical-range findings are already marked by
 not silently included in the registered population. Separability compares C1 FAMILY/TOTAL records
 and C2 summary/exit, unchanged both directions. Full keyed P2 and P3b S048-addition controls pass.
 All receipts: `corpus/evidence/round26-calibration/`; no outside-admission verdict is claimed.
+
+### Actual admitting commit checked (2026-10-21)
+
+Admitting revision `d4dfdb016c45a332d308898511e3964655629cc5` contains entry+index+coverage row and
+all three named qualifying rereads. Q13 actual-commit command exits0, admissions1/passed1/failed0;
+the prospective check preceded this actual admission. The final clean-revision census re-runs C1/C2
+with exit0, SOURCES48/malformed0 and knowledge/index34/34. Full commands/output:
+`corpus/evidence/round26-calibration/round26-census-after.txt` and `gate-timing-actual-commit.txt`.
+This verifies structural timing/support, not an automatic truth/admission verdict. Current-round
+outside spot-check remains pending; r25's outside admit/reject disagreement is not erased.

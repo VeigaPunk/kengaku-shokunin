@@ -370,3 +370,22 @@ content-pinned P3 self-assertions. Pre-registration `e0037a8`; Amendment 1 expli
   `grader.py` retains733 checks,0 mismatches; Q13 selftest is green and r25 admission red reproduces.
   Prospective scratch-commit Q13 passes with three returned qualifying readers before actual admission;
   actual-commit measurement follows. Receipts are author-observed, never non-author closure.
+
+### Round 26 — measured admission revision and close
+
+- Admission package landed/pushed **`d4dfdb016c45a332d308898511e3964655629cc5`** through the lane helper.
+  Entry, index, new coverage row, returned readers and the Gate admit landed in that same tree.
+  Actual-commit Q13 exits0 (one admit, zero support failures, three qualifying cited reports).
+- Clean-revision `sh plans/round26_census.sh` re-measures C1 audited15168 / families9 / policy909
+  and C2 assertions278 / mismatch0 / superseded5, both exit0; SOURCES48, malformed0,
+  knowledge/index34/34. Source-validator exit0 retains two W04 cross-scope duplicate-URL warnings.
+  Pointers: `corpus/evidence/round26-calibration/{round26-census-after,gate-timing-actual-commit,sources-census-final}.txt`.
+- Broad preservation census compares all base knowledge bytes and old source rows unchanged,
+  and finds zero deleted/replaced base lines in LOG/SCORECARD/PROVINCE/SKILL/QUALITY/README
+  (`preservation-and-source-census.json`). No owned axis score falls.
+- Self trends: expansion improved (new covered finite-corpus grader construct), quality improved
+  (replayed/pinned evidence and routed assertion repairs; gate-timing fix red/green), discernment improved
+  (outside r25 disagreement mined into grounded Q13/Q14). Outside round26 admit/reject spot-check remains
+  the orchestrator's duty; no author-lane reviewer is claimed independent. Round25 remains rejected.
+- Report will cite this measured revision and the subsequent receipt/bookkeeping commit; existing L0
+  coverage-cap and novelty-conversion questions remain open, with no new operator decision needed.

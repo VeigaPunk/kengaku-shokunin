@@ -794,3 +794,17 @@ The held score does not prevent a demonstrated capability entering the repertoir
   the failing pre-fix receipt remains. Evidence `corpus/evidence/round26-calibration/`.
 - These are worktree measurements before packaging, not falsely attributed to detached HEAD.
   Actual admission revision, Q13 and frozen-commit census are appended after the lane helper lands it.
+
+### Round-26 measured revision and structural admission result
+
+Measured/pushed admission commit: **`d4dfdb016c45a332d308898511e3964655629cc5`**.
+`sh plans/round26_census.sh` at that clean revision re-runs both claim counters:
+C1 audited15168 / policy909 / families9, exit0; C2 assertions278 / match270 / mismatch0 /
+superseded5 / offline-unverifiable3, exit0. `python3 plans/gate_timing_check.py --lesson
+corpus/lessons/round-26.md --commit d4dfdb016c45a332d308898511e3964655629cc5` exits0:
+one admit, three cited qualifying returned reports, zero failed support checks.
+Knowledge/index parity34/34 and SOURCES48, malformed0; final source-validator exit0.
+Receipts: `corpus/evidence/round26-calibration/round26-census-after.txt`,
+`gate-timing-actual-commit.txt`, `sources-census-final.txt`, `actual-commit-byte-check.json`.
+The actual commit retains the exact measured instrument and candidate bytes. Scores stay7/8;
+all other axis values stay as declared. These are author measurements, not outside admission.
