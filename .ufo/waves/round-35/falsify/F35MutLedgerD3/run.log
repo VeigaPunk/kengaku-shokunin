@@ -1,0 +1,44 @@
+== landed tip state (read-only lane) ==
+sha256sum -c exit=1
+antibody.fasta: FAILED open or read
+pdb_ids.txt: FAILED open or read
+task.toml: FAILED open or read
+instruction.md: FAILED open or read
+test_outputs.py: FAILED open or read
+test.sh: FAILED open or read
+stderr: sha256sum: antibody.fasta: No such file or directory
+sha256sum: pdb_ids.txt: No such file or directory
+sha256sum: task.toml: No such file or directory
+sha256sum: instruction.md: No such file or directory
+sha256sum: test_outputs.py: No such file or directory
+sha256sum: test.sh: No such file or directory
+sha256sum: WARNING: 6 listed files could not be read
+
+== C2 counter at tip (lane-only) ==
+exit=0
+R34-D1 status=closed observed=pass agree=yes untracked=0
+R34-D2 status=closed observed=pass agree=yes committed_mirror_paths=0
+R34-D3 status=closed observed=pass agree=yes listed=6 evaluator_listed=True bad=0
+R34-D4 status=closed observed=pass agree=yes correction_lines=1
+R34-D5 status=closed observed=pass agree=yes erratum_lines=1 r35_mistake_row=True
+rows=5 closed=5 observed_pass=5 mismatches=0
+PREDICATE C2 pass
+
+=== baseline landed manifest (6 files) (clone k35F-D3-base-mrm448wu) rc=1
+R34-D3 status=closed observed=pass agree=yes listed=6 evaluator_listed=True bad=0
+
+=== M1 test.sh digest hex digit flipped (clone k35F-D3-m1-b653b9lp) rc=1
+R34-D3 status=closed observed=fail agree=NO listed=6 evaluator_listed=True bad=1
+
+=== M2 test_outputs.py line deleted (clone k35F-D3-m2-jh7dfyxc) rc=1
+R34-D3 status=closed observed=fail agree=NO listed=5 evaluator_listed=False bad=0
+
+=== M3 line appended for missing file (clone k35F-D3-m3-954k5ihr) rc=1
+R34-D3 status=closed observed=fail agree=NO listed=7 evaluator_listed=True bad=1
+
+
+SUMMARY
+baseline landed manifest (6 files)           rc=1  R34-D3 status=closed observed=pass agree=yes listed=6 evaluator_listed=True bad=0
+M1 test.sh digest hex digit flipped          rc=1  R34-D3 status=closed observed=fail agree=NO listed=6 evaluator_listed=True bad=1
+M2 test_outputs.py line deleted              rc=1  R34-D3 status=closed observed=fail agree=NO listed=5 evaluator_listed=False bad=0
+M3 line appended for missing file            rc=1  R34-D3 status=closed observed=fail agree=NO listed=7 evaluator_listed=True bad=1

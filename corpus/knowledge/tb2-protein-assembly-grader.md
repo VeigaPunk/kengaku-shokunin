@@ -129,3 +129,28 @@ the pinned raw files), each ≤25 words.
 | linker length requirement | “The GS linkers between different subproteins should be between 5 and 20 amino acids long.” | `instruction.md:29` |
 | GC requirement | “The GC content should be between 30 and 70% in any given 50 nucleotide window encoding the” | `instruction.md:30` |
 | required order | “The order of the subproteins from N to C terminus should be: antibody binder - donor - dhfr -” | `instruction.md:33` |
+
+## Errata (appended round 35, falsify wave, 2026-10-25)
+
+The findings above stay as written; these corrections narrow them (seat reports under
+`.ufo/waves/round-35/falsify/`, each re-run through the probe's own `run_grader` on the pinned grader).
+
+- **Finding 2, number wrong by 2 nt.** The longest passing gBlock is **2768 nt**, not 2766: the
+  translation drops a trailing partial codon, so 1–2 extra bases after the SNAP stop-less end still
+  pass (`F35MaxNt.md`: `append=2 nt=2768 observed=pass`; `append=3` fails). The receipt's
+  `max_passing_nt=2766` is the full-codon maximum. The conclusion stands: no passing gBlock reaches
+  the 3000-nt cap. New acceptance this exposes: a gBlock whose length is not a multiple of 3 passes.
+- **Finding 1, narrowed.** G-only linkers pass at every length 5–20 in every gap *when the construct
+  also meets the GC windows*; with all four linkers at 20 G-only residues no GC-safe encoding was
+  found in 3000 deterministic seeds (`F35GOnlyLinker.md`), so "a solution with G-only linkers scores
+  1" holds only for constructs that satisfy the other assertions.
+- **Finding 3, narrowed.** The order message holds for one-residue errors in the donor, DHFR,
+  acceptor and SNAP literals (26 rows), but a one-residue error in the first subprotein (the FLAG
+  literal) fails with `Start of gBlock must match flag protein.`: `flag_idx = -1` still satisfies the
+  order chain, and the next assertion fires (`F35GOnlyLinker.md`).
+- **Probe case `non-acgt-base` is confounded** as well as `donor-repeated`: the `n` sits in linker 1,
+  so it also breaks the linker alphabet; the alphabet assertion fires first (`F35IndepWindows.md`).
+- **Table header overstates.** "Instruction requirement → enforcing assertion (executed, 18 cases)"
+  maps cleanly only for file shape, linker alphabet and length, start/stop codons, terminal linkers
+  and order; donor PDB identity, N-terminal Met, the 3000-nt cap and the GC rule (high side only) are
+  partial or confounded, and three bullets are not exercised (listed above) (`F35CritC1.md` F3).

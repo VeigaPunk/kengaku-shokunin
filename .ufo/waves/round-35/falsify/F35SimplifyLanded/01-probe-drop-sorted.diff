@@ -1,0 +1,11 @@
+--- /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35SimplifyLanded/probe_old.py	2026-10-25 17:17:03.287277176 -0300
++++ /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35SimplifyLanded/probe_new.py	2026-10-25 17:17:14.265317987 -0300
+@@ -49,7 +49,7 @@
+     `high` takes the max-GC codon for every residue (used to force a GC-window violation)."""
+     out = ""
+     for res in aa:
+-        opts = sorted(CODONS[res])
++        opts = CODONS[res]
+         if mode == "high":
+             pick = max(opts, key=lambda c: (gc(c), c))
+         else:

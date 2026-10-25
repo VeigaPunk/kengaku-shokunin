@@ -1202,3 +1202,5 @@ landed lane and fails on each of five seat counterexamples
   by a critic seat BEFORE any data.
 - Coverage/novelty (tied 7): a second TB2 task grader, or the prior-art-checked instrument, chosen
   against the wave-1 scout reports; keep the frozen predicate and control the same sentence.
+
+- **Round-35 erratum (falsify wave, `F35LogDraft` E1):** the C2 row's "exit 0 at `dfcd294c`" is wrong — at `dfcd294c` R34-D5 is `observed=fail` because `corpus/lessons/round-35.md` was not yet committed; the frozen C2 predicate first holds on committed bytes at `4fe72a9a` and holds at the final tip.

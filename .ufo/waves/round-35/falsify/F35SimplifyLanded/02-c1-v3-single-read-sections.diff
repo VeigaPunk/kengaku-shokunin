@@ -1,0 +1,44 @@
+--- /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35SimplifyLanded/c1_old.py	2026-10-25 17:17:03.288277180 -0300
++++ /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35SimplifyLanded/c1_new.py	2026-10-25 17:17:29.053372897 -0300
+@@ -45,6 +45,10 @@
+ }
+ ROW_RE = re.compile(r"^ {0,3}\|\s*(S\d{3,})\s*\|")
+ 
++def section(text, heading):
++    m = re.search(rf"^## {heading}\n(.*?)(?=^## |\Z)", text, re.S | re.M)
++    return m.group(1) if m else None
++
+ 
+ def sha(p):
+     return hashlib.sha256(p.read_bytes()).hexdigest()
+@@ -103,8 +107,8 @@
+     p = lane / ENTRY
+     if not p.is_file():
+         return "entry absent"
+-    lines = p.read_text().splitlines()
+-    head = lines[:5]
++    text = p.read_text()
++    head = text.splitlines()[:5]
+     for i, rid in enumerate(FILES):
+         if not (len(head) > i and head[i].startswith(f"source: {rid} ") and RAW + FILES[rid][1] in head[i]):
+             return f"line {i + 1} is not the {rid} source line with its pinned URL"
+@@ -112,15 +116,14 @@
+         return "line 4 is not verified-at: 2026-10-25"
+     if not re.match(r"recheck: (\d{4}-\d{2}-\d{2}|\d+d|on-release)\b", head[4]):
+         return "line 5 recheck lacks date/cadence"
+-    text = p.read_text()
+-    neg = re.search(r"^## Negative space\n(.*?)(?=^## |\Z)", text, re.S | re.M)
+-    if not neg or "falsif" not in neg.group(1):
++    neg = section(text, "Negative space")
++    if not neg or "falsif" not in neg:
+         return "negative space absent or has no falsifier"
+-    sec = re.search(r"^## Located quotes\n(.*?)(?=^## |\Z)", text, re.S | re.M)
++    sec = section(text, "Located quotes")
+     if not sec:
+         return "located-quotes section absent"
+     n = 0
+-    for line in sec.group(1).splitlines():
++    for line in sec.splitlines():
+         m = re.match(r"^\|[^|]*\|\s*“(.+?)”\s*\|\s*`([^`:]+):(\d+)(?:-(\d+))?`\s*\|\s*$", line)
+         if not m:
+             continue

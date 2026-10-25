@@ -41,3 +41,16 @@ warning). Registry rows 97 → 100 (`grep -cE '^ {0,3}\|[[:space:]]*S[0-9]{3,}[[
 added by tier A/B/C = 3/0/0 (S105, S106, S107, all `mined`); rows touched old→new: none (no existing row's
 status/recheck/used-by changed); frontier rows advanced: 1 (README §Frontier task-spec item, "Terminal-Bench
 2.0's" scoring-code clause, for `protein-assembly` only).
+
+## Falsify-wave additions (appended)
+
+Further mistakes found by wave 2 (32 seats, `.ufo/waves/round-35/falsify/`):
+
+| class | evidence pointer | captured-by | fix |
+|---|---|---|---|
+| receipt attributed to a commit where it does not hold | LOG/SCORECARD said C2 green "at `dfcd294c`"; at that commit R34-D5 fails because the round-35 lesson was uncommitted (`F35LogDraft.md` E1) — the working-tree weakness `R35RevLedger` F1 predicted | Q22 (re-run a receipt at the revision it names) | errata appended to LOG.md and SCORECARD.md naming `4fe72a9a`; next-round ledger reads committed bytes (`git show <rev>:<path>`) instead of the working tree |
+| arithmetic ignores a partial codon | entry finding 2 said max passing gBlock 2766 nt; 2768 passes (`F35MaxNt.md`) | none — the probe's `max_passing_nt` is a formula, not a search | entry `## Errata`; next probe revision searches lengths instead of computing them |
+| overbroad finding wording | findings 1 and 3 hold only for GC-valid constructs and for non-FLAG subproteins (`F35GOnlyLinker.md`) | wave-2 falsifier | entry `## Errata` narrows both |
+
+Rows touched old→new (correction to the Census section above): S105 anchor "(9 words)" → "(11 words)";
+S107 anchor "(16 words)" → "(15 words)"; no status, recheck or used-by changed.

@@ -1,0 +1,11 @@
+--- /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35SimplifyLanded/ledger_old.py	2026-10-25 17:17:03.288277180 -0300
++++ /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35SimplifyLanded/ledger_new_d2.py	2026-10-25 17:17:14.275318024 -0300
+@@ -48,7 +48,7 @@
+     """Committed recursive corpus mirrors in round-34 scratch (spot-check D2): zero committed paths
+     under the three mirror roots at the lane branch tip."""
+     roots = [R34 + "mut-entries-scratch", R34 + "build/R34MutRegistry/mirror", R34 + "build/R34MutRegistry/mut"]
+-    n = len([x for x in git(lane, "ls-tree", "-r", "--name-only", BRANCH, "--", *roots).split("\n") if x])
++    n = len([x for x in git(lane, "ls-tree", "-r", "--name-only", BRANCH, "--", *roots).splitlines() if x])
+     return (n == 0, f"committed_mirror_paths={n}")
+ 
+ 

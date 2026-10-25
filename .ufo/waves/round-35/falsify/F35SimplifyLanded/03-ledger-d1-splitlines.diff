@@ -1,0 +1,16 @@
+--- /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35SimplifyLanded/ledger_old.py	2026-10-25 17:17:03.288277180 -0300
++++ /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35SimplifyLanded/ledger_new.py	2026-10-25 17:17:14.273318017 -0300
+@@ -37,10 +37,9 @@
+ def r34_d1(lane):
+     """Round-34 work left untracked (spot-check D1): nothing untracked under the round-34 wave
+     tree or at the three round-34 plan-tool paths."""
+-    left = git(lane, "ls-files", "--others", "--exclude-standard", "--",
+-               "plans/round34_c1_verify.py", "plans/round34_defects.py", "plans/round34_mutate.py",
+-               R34.rstrip("/")).split("\n")
+-    left = [x for x in left if x]
++    left = [x for x in git(lane, "ls-files", "--others", "--exclude-standard", "--",
++              "plans/round34_c1_verify.py", "plans/round34_defects.py", "plans/round34_mutate.py",
++              R34.rstrip("/")).splitlines() if x]
+     return (not left, f"untracked={len(left)}")
+ 
+ 

@@ -1,0 +1,306 @@
+{
+ "wave": "kengaku-r35-falsify",
+ "milestone": "kengaku round 35 wave 2: falsify landed C1/C2, sources, lesson, scope, harm",
+ "reportDir": ".ufo/waves/round-35/falsify",
+ "context": "# Goal\nkengaku round 35 (hyaku run 7, 2026-10-25), WAVE 2 of 2 — FALSIFY. Lane repo: /home/vgpnk/Projects/shokunin/kengaku-shokunin. The round's integration has LANDED at\nlane tip dfee6fff631ebc5f623ba4506e5c7992a215401c (branch master). Frozen claims: /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round-35-claims.md (freeze 11d64530). Wave-1 reports: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/build/.\n- C1 coverage: /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/tb2-protein-assembly-grader.md + rows S105/S106/S107 in /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md + probe /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/tb2_grader_probe.py + receipt\n  /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round35/tb2-grader-probe.txt. Frozen counter `python3 plans/round35_c1_verify.py --lane .` must print `checks=6 defects=0`, `PREDICATE C1 pass`.\n- C2 calibration: /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/defects.jsonl + /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/defect_ledger.py; `python3 plans/defect_ledger.py --lane .` must print\n  `rows=5 closed=5 observed_pass=5 mismatches=0`, `PREDICATE C2 pass`.\nYour job is to FALSIFY what landed: every item names what it attacks. A finding needs a reproducible command + output.\nAgreement is a valid result only with the evidence that would have shown disagreement.\n\n# Rules for every seat\n- Your tools start at the fleet root. EVERY path is absolute. Every `Report:` trailer path is relative to /home/vgpnk/Projects/shokunin/kengaku-shokunin — write it at\n  /home/vgpnk/Projects/shokunin/kengaku-shokunin/<that path>. Scratch goes under /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/<YourSeatName>/ or a mktemp dir under /tmp.\n- Write ONLY inside /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/ or /tmp. NEVER edit any other lane file (corpus/, plans/, SCORECARD.md, LOG.md, README.md, SKILL.md,\n  PROVINCE.md, SHONEN.md). Never write into /home/vgpnk/Projects/shokunin (fleet root), sibling lanes, the lane's jj state or Git\n  index; never run git add/commit/stash/checkout/reset/push or mutating jj in the lane. Counters run read-only in the lane are fine.\n- Fixture rule: D=$(mktemp -d /tmp/k35f-XXXX); git clone -q --no-checkout --shared /home/vgpnk/Projects/shokunin/kengaku-shokunin \"$D/lane\"; git -C \"$D/lane\" sparse-checkout set --no-cone <patterns>; git -C \"$D/lane\" checkout -q dfee6fff631ebc5f623ba4506e5c7992a215401c; verify `git -C \"$D/lane\" rev-parse --show-toplevel` equals \"$D/lane\" before any write; every git call names -C \"$D/lane\"; fixture commits only inside the clone with identity `fixture <fixture@invalid>`. rm -rf \"$D\" at the end.\n- /home/vgpnk/Projects/shokuknow is READ-ONLY; run no campaign tools there.\n- Tooling authorization (operator, 2026-10-19): you may install/upgrade tools that help the task — read\n  /home/vgpnk/.omp/agent/RULES.md first (official channels, update-safety gate; record tool/version/channel/reason).\n  pacman transactions are PAUSED host-wide: install via uv tool / npx / an official binary into ~/.local/bin, or file an\n  L0 question. Never run pacman -Sy/-Syu/-U/-R or name an already-installed package.\n- Leaf seat: no subagents, no background jobs, no `task` (an executor may spawn at most one read-only labrat).\n- Godspeed posture: name the axes, iterate cheap and in parallel, keep moves that improve any axis and harm none,\n  never stall in clarifying-question loops.\n- Evidence: every number carries its command and output; quotes carry locations. Never fabricate; say what could not run.\n- End your report with exactly one `VERDICT: <line>` terminal line.\n",
+ "items": [
+  {
+   "name": "F35RunC1",
+   "role": "executor",
+   "axes": [
+    "coverage",
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35RunC1 (executor).\n# Task\nRe-run `cd /home/vgpnk/Projects/shokunin/kengaku-shokunin && python3 plans/round35_c1_verify.py --lane .` twice and in a fixture clone at dfee6fff631ebc5f623ba4506e5c7992a215401c (copy nothing; the clone must pass on committed bytes alone — V6 uses --file there). Paste outputs/exit codes. Any difference between lane and clone is a finding (e.g. a check that depends on uncommitted files).\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35RunC1.md); end with VERDICT: c1-lane-<pass|fail>-clone-<pass|fail>.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35RunC2",
+   "role": "executor",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35RunC2 (executor).\n# Task\nRe-run `cd /home/vgpnk/Projects/shokunin/kengaku-shokunin && python3 plans/defect_ledger.py --lane .` and `git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin status --porcelain --untracked-files=all | wc -l`. Then in a fixture clone at dfee6fff631ebc5f623ba4506e5c7992a215401c (full checkout of corpus/ plans/ SCORECARD.md .ufo/waves/round-34/) run the checker: which rows pass on committed bytes alone? D1 is a working-tree check; say whether a closure re-deriving from a fresh clone would see the same result.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35RunC2.md); end with VERDICT: c2-lane-<pass|fail>-clone-<n>/5.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35PytestRunner",
+   "role": "executor",
+   "axes": [
+    "coverage",
+    "operability"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35PytestRunner (executor).\n# Task\nRun the grader the way /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round35/tb2-eval/test.sh does (uvx -p 3.13 -w pytest==8.4.1 -w biopython==1.85 -w pytest-json-ctrf==0.3.5 pytest ... -rA) for three probe cases (valid-balanced, linker-g-only, linker-4aa): the test reads /app/gblock.txt, so use a user/mount namespace (bwrap --bind <tmp> /app, or `unshare -rm` + mount --bind) — never write /app on the host and never use sudo. Generate case contents by importing build_cases from /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/tb2_grader_probe.py. Compare pytest exit → reward 1/0 with the receipt's observed column. If no namespace tool works without root, say so and stop.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35PytestRunner.md); end with VERDICT: pytest-agree-<n>/3-or-blocked.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35IndepWindows",
+   "role": "executor",
+   "axes": [
+    "coverage"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35IndepWindows (executor).\n# Task\nAttack the probe's construction: for every case content in build_cases (import from /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/tb2_grader_probe.py), independently compute (a) translation with your own codon table, (b) min/max GC over all 50-nt windows, (c) whether exactly ONE requirement is violated as the case label claims. A case whose failure is confounded by a second violation is a finding (report which).\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35IndepWindows.md); end with VERDICT: cases-isolated-<n>/18.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35MaxNt",
+   "role": "executor",
+   "axes": [
+    "coverage"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35MaxNt (executor).\n# Task\nFalsify the entry's finding 2 (/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/tb2-protein-assembly-grader.md: max passing gBlock = 3 × (842 + 80) = 2766 nt < 3000). Recompute component lengths from /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round35/tb2-eval/test_outputs.py literals; consider whether anything else could lengthen a passing gBlock (codons are 3 nt; linkers capped at 20; flag at 0, snap at end; could extra content hide anywhere?). Try to construct a passing gBlock > 2766 nt and run it through the probe's run_grader.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35MaxNt.md); end with VERDICT: maxnt-<confirmed|refuted>.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35GOnlyLinker",
+   "role": "executor",
+   "axes": [
+    "coverage"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35GOnlyLinker (executor).\n# Task\nFalsify the entry's finding 1 (a G-only linker passes) and finding 3 (a one-residue subprotein error fails with the order message): re-run those cases with fresh content (different codon choices, different substituted position, substitution in acceptor/snap instead of donor) through the probe's run_grader (uv run --with biopython==1.85). Paste observed outcomes and assertion messages.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35GOnlyLinker.md); end with VERDICT: findings13-<confirmed|refuted>.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35MutLedgerD1",
+   "role": "executor",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35MutLedgerD1 (executor).\n# Task\nMutation-test ledger check r34_d1 in a fixture clone at dfee6fff631ebc5f623ba4506e5c7992a215401c (sparse: /corpus/ /plans/ /SCORECARD.md /.ufo/waves/round-34/): run the checker (D1 green in a clean clone), then create an untracked file .ufo/waves/round-34/F35probe.tmp in the CLONE → D1 must go agree=NO, exit 1; an untracked plans/round34_defects.py → red; an ignored __pycache__/x.pyc → document. Never touch the lane working tree. Paste outputs.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35MutLedgerD1.md); end with VERDICT: d1-killed-<n>/<total>.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35MutLedgerD2",
+   "role": "executor",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35MutLedgerD2 (executor).\n# Task\nMutation-test r34_d2 in a fixture clone at dfee6fff631ebc5f623ba4506e5c7992a215401c: restore one mirror file from the parent of the D2 deletion commit (find it: git -C \"$D/lane\" log --diff-filter=D --format=%H -1 -- .ufo/waves/round-34/mut-entries-scratch) and fixture-commit it in the clone; D2 must go red. Also check: is any OTHER committed recursive mirror left under .ufo/waves/round-34 (paths containing /corpus/SOURCES.md or /.ufo/waves/ below a seat dir)?\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35MutLedgerD2.md); end with VERDICT: d2-killed-<yes|no>-residual-<n>.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35MutLedgerD3",
+   "role": "executor",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35MutLedgerD3 (executor).\n# Task\nMutation-test r34_d3 in a fixture clone at dfee6fff631ebc5f623ba4506e5c7992a215401c: flip one hex digit of the test.sh line in .ufo/waves/round-34/assimilation/captures/tb2-eval/SHA256SUMS → red; delete the test_outputs.py line → red; append a line for a missing file → red. Also `sha256sum -c` the landed manifest in the lane read-only.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35MutLedgerD3.md); end with VERDICT: d3-killed-<n>/3.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35MutLedgerD4D5",
+   "role": "executor",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35MutLedgerD4D5 (executor).\n# Task\nMutation-test r34_d4 and r34_d5 in a fixture clone at dfee6fff631ebc5f623ba4506e5c7992a215401c: D4 — remove `cases=10 failed=0` from the SCORECARD correction line; duplicate the line; change R34C2CounterDraft.md line 8. D5 — remove `present` from the erratum; move the S091 Mistakes row out of the table in corpus/lessons/round-35.md; corrupt the quote in nec-s091-reopen.html. Every mutant must go red; also try one FALSE but well-labelled D4 line (says the harness was green) — does it pass?\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35MutLedgerD4D5.md); end with VERDICT: d4d5-killed-<n>/<total>.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35Census",
+   "role": "executor",
+   "axes": [
+    "coverage",
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35Census (executor).\n# Task\nRun `/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku` (paste output + exit). Count rows before/after: `git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin show 58a19f37312e1b22fd2a7957bdfc6bb7832aadd0:corpus/SOURCES.md | grep -cE '^\\|[[:space:]]*S[0-9]{3,}[[:space:]]*\\|'` vs dfee6fff631ebc5f623ba4506e5c7992a215401c; tier/status histograms; every mined row's used-by paths exist; NF==13 for every row.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35Census.md); end with VERDICT: census-<exit>-rows-<before>-<after>.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35SeparabilityC1",
+   "role": "executor",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35SeparabilityC1 (executor).\n# Task\nCausal separability: in a fixture clone at dfee6fff631ebc5f623ba4506e5c7992a215401c, revert ONLY C2's surfaces to the freeze commit 11d64530 (corpus/defects.jsonl statuses, SCORECARD D4 line, round-34 lesson erratum, round-34 SHA256SUMS) and fixture-commit; run the C1 counter → must stay checks=6 defects=0. List exactly which files you reverted.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35SeparabilityC1.md); end with VERDICT: c1-separable-<yes|no>.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35SeparabilityC2",
+   "role": "executor",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35SeparabilityC2 (executor).\n# Task\nCausal separability: in a fixture clone at dfee6fff631ebc5f623ba4506e5c7992a215401c, remove ONLY C1's surfaces (entry file, S105–S107 rows, README rows, corpus/evidence/round35/) and fixture-commit; run the C2 ledger → must stay rows=5 closed=5 observed_pass=5 mismatches=0 (D1 in a clone is trivially green — say so). Report any cross-dependency.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35SeparabilityC2.md); end with VERDICT: c2-separable-<yes|no>.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35ReportEvidence",
+   "role": "scribe",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35ReportEvidence (scribe).\n# Task\nDraft the evidence table for the round report: for each claim, the before receipt (/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/claims/control-*-nothing.txt), the after command output at dfee6fff631ebc5f623ba4506e5c7992a215401c (run both counters read-only), the commit hashes from `git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin log --format='%H %s' 58a19f37..dfee6fff631ebc5f623ba4506e5c7992a215401c`, the census before/after, and the wave-1 seat ledger from /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/build-results.json (seat count, role histogram, dead seats with last error text). Write /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35ReportEvidence/table.md. Every number with its command.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35ReportEvidence.md); end with VERDICT: evidence-table-<n>-rows.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35LogDraft",
+   "role": "scribe",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35LogDraft (scribe).\n# Task\nCheck the LOG.md round-35 entry (/home/vgpnk/Projects/shokunin/kengaku-shokunin/LOG.md tail) and SCORECARD round-35 section against the landed state at dfee6fff631ebc5f623ba4506e5c7992a215401c: every number, hash and path must re-derive. Draft an appended errata block for anything wrong (never rewrite). Write /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35LogDraft/errata.md.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35LogDraft.md); end with VERDICT: log-errata-<n>.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35SimplifyLanded",
+   "role": "simplifier",
+   "axes": [
+    "operability"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35SimplifyLanded (simplifier).\n# Task\nReview the landed instruments /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/tb2_grader_probe.py, /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round35_c1_verify.py, /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/defect_ledger.py for dead code or needless complexity; propose diffs under /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35SimplifyLanded/ with old-vs-new output cmp proof. Flag bugs separately.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35SimplifyLanded.md); end with VERDICT: simplify-<n>-diffs-<n>-bugs.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35ReopenS105",
+   "role": "scout",
+   "axes": [
+    "coverage",
+    "freshness"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35ReopenS105 (scout).\n# Task\nRe-open S105 at https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/protein-assembly/tests/test_outputs.py yourself; sha256 vs /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round35/tb2-eval/SHA256SUMS; locate the row's anchor quote (line 42) and every quote of /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/tb2-protein-assembly-grader.md §Located quotes citing test_outputs.py at its line. Check the S105 row cells (scope, anchor, teaches) say nothing the file does not.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35ReopenS105.md); end with VERDICT: s105-<ok|defect>-quotes-<n_ok>/<n>.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35ReopenS106S107",
+   "role": "scout",
+   "axes": [
+    "coverage",
+    "freshness"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35ReopenS106S107 (scout).\n# Task\nRe-open S106 (https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/protein-assembly/tests/test.sh) and S107 (https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/protein-assembly/instruction.md); sha256 vs manifest; locate the rows' anchor quotes (test.sh:27, :21; instruction.md:29) and the entry's quotes citing them. Check S107's teaches cell ('fifteen requirement bullets') against the file.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35ReopenS106S107.md); end with VERDICT: s106s107-<ok|defect>.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35DanglingRefs",
+   "role": "scout",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35DanglingRefs (scout).\n# Task\nAfter the D2 deletion, which committed lane files cite paths that no longer exist at dfee6fff631ebc5f623ba4506e5c7992a215401c (e.g. .ufo/waves/round-34/build/R34MutRegistry/mirror/..., mut-entries-scratch/...)? `git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin grep -n` for those prefixes. Is each such citation still resolvable through history (name the commit)? Is any of them load-bearing for an admitted claim?\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35DanglingRefs.md); end with VERDICT: dangling-<n>-loadbearing-<n>.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35ConnFrontier",
+   "role": "connector",
+   "axes": [
+    "coverage",
+    "adjacency"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35ConnFrontier (connector).\n# Task\nFrontier walk: compare /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/README.md §Frontier and §Coverage map at 58a19f37 vs dfee6fff631ebc5f623ba4506e5c7992a215401c. Which frontier clause moved, by exactly how much (one TB2 task)? Propose round-36 frontier candidates from wave-1 reports (/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/build/R35ScoutPriorArt.md, R35ScoutTB2Oracle.md, R35ScoutMergePkg.md) with the source each needs.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35ConnFrontier.md); end with VERDICT: frontier-moved-<n>-candidates-<n>.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35ConnSiblingCheck",
+   "role": "connector",
+   "axes": [
+    "adjacency"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35ConnSiblingCheck (connector).\n# Task\nCross-lane check of the landed entry /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/tb2-protein-assembly-grader.md and ledger against sibling lanes' PROVINCE/corpus (read-only, /home/vgpnk/Projects/shokunin/*-shokunin): does any sibling already hold a TB2 task-grader reading or a routed-defect ledger the lane should cite? Compare with wave-1 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/build/R35ConnSibling.md.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35ConnSiblingCheck.md); end with VERDICT: sibling-<contested>-contested.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35RevEntryQ",
+   "role": "reviewer",
+   "axes": [
+    "coverage",
+    "depth"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35RevEntryQ (reviewer).\n# Task\nReview /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/tb2-protein-assembly-grader.md against corpus/QUALITY.md Q1–Q7 (/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/QUALITY.md). For every load-bearing sentence, name the quote or receipt line that supports it (Q3); flag any sentence wider than its source (e.g. claims about Harbor, the 88 other tasks, PDB literals).\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35RevEntryQ.md); end with VERDICT: entry-q-<n_pass>/7-<n>-overclaims.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35RevScorecard",
+   "role": "reviewer",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35RevScorecard (reviewer).\n# Task\nCalibration review: compare every round-35 statement in /home/vgpnk/Projects/shokunin/kengaku-shokunin/SCORECARD.md (round-35 section, capability rows, D4 correction) and /home/vgpnk/Projects/shokunin/kengaku-shokunin/SHONEN.md with observed state at dfee6fff631ebc5f623ba4506e5c7992a215401c (run the counters/commands each cites). Count mismatches between self-assessment and observation; each is a finding.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35RevScorecard.md); end with VERDICT: scorecard-mismatches-<n>.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35RevLesson",
+   "role": "reviewer",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35RevLesson (reviewer).\n# Task\nReview /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/lessons/round-35.md: Gate has ≥1 admit and ≥1 reject from the assimilation set; every new SOURCES row has URL, access date and ≤25-word located quote; Mistakes rows are class · evidence pointer · captured-by · fix, and each fix is shown able to fail; census before/after pasted with exit codes. Also check the round-34 erratum and Q23 in /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/QUALITY.md.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35RevLesson.md); end with VERDICT: lesson-<n>-defects.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35RevReadme",
+   "role": "reviewer",
+   "axes": [
+    "coverage"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35RevReadme (reviewer).\n# Task\nReview the README changes at dfee6fff631ebc5f623ba4506e5c7992a215401c (`git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin diff 58a19f37 dfee6fff631ebc5f623ba4506e5c7992a215401c -- corpus/README.md`): index row, coverage bullet, frontier sub-bullet, round-35 evidence list. Every path must exist; every sentence must match /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/tb2-protein-assembly-grader.md and the receipt; nothing claims more than one task.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35RevReadme.md); end with VERDICT: readme-<n>-defects.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35RevDiffScope",
+   "role": "reviewer",
+   "axes": [
+    "calibration",
+    "adjacency"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35RevDiffScope (reviewer).\n# Task\nReview the full round diff `git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin diff --stat 58a19f37 dfee6fff631ebc5f623ba4506e5c7992a215401c` and `git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin log 58a19f37..dfee6fff631ebc5f623ba4506e5c7992a215401c`: every changed path is inside the round's declared surfaces (claims file Separability section); no frozen counter/probe changed after freeze 11d64530 (git diff 11d64530 dfee6fff631ebc5f623ba4506e5c7992a215401c -- plans/round35_c1_verify.py plans/tb2_grader_probe.py plans/defect_ledger.py); deletions are only the round-34 mirror roots. Any post-freeze change to a frozen rule is a decisive finding.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35RevDiffScope.md); end with VERDICT: scope-<ok|violations-n>.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35CritC1",
+   "role": "critic",
+   "axes": [
+    "coverage",
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35CritC1 (critic).\n# Task\nAttack C1 as declared: is 'coverage' the honest axis (frontier → core for one task's scoring code + a new instrument) or is this re-reading round 34's captures (quality work)? Could a do-nothing control reach it (/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/claims/control-c1-*.txt)? Does V5's byte-equality make the receipt evidence or just self-consistency? Is the 18-case table enough to support 'instruction requirement → enforcing assertion'?\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35CritC1.md); end with VERDICT: c1-critic-<holds|falls>-<n>-findings.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35CritC2",
+   "role": "critic",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35CritC2 (critic).\n# Task\nAttack C2 as declared: does closing D1–D5 constitute a calibration move per addendum §9 (count mismatches between self-assessment and observed state)? Are D4/D5 checks still token co-occurrence (see wave-1 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/build/R35CritC2.md)? Is deleting 109,413 committed mirror paths from the tip an honest D2 close when history keeps them? Is there any axis harmed (e.g. operability lost by deleting round-34 evidence)?\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35CritC2.md); end with VERDICT: c2-critic-<holds|falls>-<n>-findings.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35CritHarm",
+   "role": "critic",
+   "axes": [
+    "calibration",
+    "adjacency"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35CritHarm (critic).\n# Task\nNo-harm audit across all six axes (depth, coverage, operability, freshness, calibration, adjacency) and novelty: compare SCORECARD axis rows, PROVINCE, SKILL.md, QUALITY.md, existing knowledge entries and gates at 58a19f37 vs dfee6fff631ebc5f623ba4506e5c7992a215401c. Does any landed change make an existing claim false, break an existing gate (`python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/grader.py`, `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/state_check.py --summary`, `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round33_defects.py --lane .` — run read-only), or remove evidence a prior admitted claim cites?\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35CritHarm.md); end with VERDICT: harm-<none|n>.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35MutEntryQuotes",
+   "role": "mutation-tester",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35MutEntryQuotes (mutation-tester).\n# Task\nIn a fixture clone at dfee6fff631ebc5f623ba4506e5c7992a215401c, mutate the LANDED entry corpus/knowledge/tb2-protein-assembly-grader.md: change one character inside each of 3 different quotes; shift one location by one line; drop the Negative space falsifier; remove the receipt summary line. Run the C1 counter after each (restore between). Report kill/survive.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35MutEntryQuotes.md); end with VERDICT: entry-mutants-killed-<n>/<total>.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35MutReceipt",
+   "role": "mutation-tester",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35MutReceipt (mutation-tester).\n# Task\nIn a fixture clone at dfee6fff631ebc5f623ba4506e5c7992a215401c: flip one `observed=` value in corpus/evidence/round35/tb2-grader-probe.txt; change the probe to skip a case; change one prediction in plans/tb2_grader_probe.py so it mismatches (receipt regenerated from the changed probe); replace the capture test_outputs.py with a one-line-different copy. Run the C1 counter each time. Which mutants survive?\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35MutReceipt.md); end with VERDICT: receipt-mutants-killed-<n>/<total>.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  },
+  {
+   "name": "F35MutRowsIndex",
+   "role": "mutation-tester",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 35 wave 2 (falsify) item F35MutRowsIndex (mutation-tester).\n# Task\nIn a fixture clone at dfee6fff631ebc5f623ba4506e5c7992a215401c: S106 row used-by gains a second path; S107 opened date changed; S105 URL gets `?raw=1`; README index row loses S107; coverage bullet renamed; a stub 43rd knowledge file added and indexed. Run the C1 counter and the census (`--file` mode) each time. Kill/survive per mutant.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/falsify/F35MutRowsIndex.md); end with VERDICT: rows-index-killed-<n>/<total>.\n",
+   "milestone": "kengaku r35 wave 2 (falsify the landed round)"
+  }
+ ]
+}

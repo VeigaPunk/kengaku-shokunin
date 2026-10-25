@@ -1018,3 +1018,16 @@ counters, probe case table with predictions, ledger rows open, four red controls
   execution of one grader function; not task validity).
 - Tool use: biopython 1.85 via `uv run --with` (ephemeral uv cache env; channel uv/PyPI; reason: the
   grader's own pinned dependency). No other installs.
+
+### Round 35 — errata (appended after the falsify wave)
+
+- E1 (`F35LogDraft`): the C2 green output is attributed above to `dfcd294c`; at that commit
+  `corpus/lessons/round-35.md` was not yet committed, so R34-D5 reads `observed=fail` there. The
+  frozen C2 predicate first holds on committed bytes at `4fe72a9a` (lesson landed), and holds at
+  the final tip.
+- Entry `## Errata` appended (max passing gBlock 2768 nt, not 2766; findings 1 and 3 narrowed;
+  `non-acgt-base` confounded; table header overstates) from `F35MaxNt`, `F35GOnlyLinker`,
+  `F35IndepWindows`, `F35CritC1`. README correction lines appended (`F35RevReadme` F1).
+- S105/S107 anchor word counts corrected in place in rows added this round: S105 "(9 words)" →
+  "(11 words)", S107 "(16 words)" → "(15 words)" (`F35ReopenS106S107`); quotes, locations and
+  digests unchanged.

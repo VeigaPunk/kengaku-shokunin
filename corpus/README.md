@@ -402,3 +402,5 @@ the round29 deferred index statement after the Gate's exact-byte admission.
 - `evidence/round35/tb2-eval/` — the six pinned `protein-assembly` files (re-fetched 2026-10-25, byte-identical to the round-34 captures) with `SHA256SUMS`.
 - `evidence/round35/tb2-grader-probe.txt` — receipt of `plans/tb2_grader_probe.py` (18 frozen cases; re-run and byte-compared by `plans/round35_c1_verify.py` V5).
 - `defects.jsonl` + `plans/defect_ledger.py` — the persistent routed-defect ledger (round-34 D1–D5), re-run at every tip.
+- Correction (round-35 falsify wave): the coverage-map bullet's "a one-residue subprotein error fails with the order message" holds for donor/DHFR/acceptor/SNAP only (a FLAG error fails the start assertion), and the longest passing gBlock is 2768 nt, not 2766; see the entry's `## Errata`.
+- Correction (round-35 falsify wave, `F35RevReadme` F1): the §Frontier round-35 sub-bullet's "reads and executes … `tests/test.sh`" overstates — only the `test_gblock` function from `tests/test_outputs.py` was executed; `tests/test.sh` was read, not run.
