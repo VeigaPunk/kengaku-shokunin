@@ -627,3 +627,66 @@ names the priced entry`, entry now
 whole "at item level — weakly for C, F and G…" clause, keeping only what the abstract supports (ABC publishes
 a per-task validity checklist; the construct overlaps this entry's axes); and attach the reproducing command
 to the 275/88 count. The three fixes it did land are correct and should stay.
+
+---
+
+## 15. Fifth pin `2cd9dca5…` — the Prior-art claims are NOT gone, and the canary count reconciles to 279
+
+HEAD `9df6226`, entry `2cd9dca5bf3d458a724a28e1636514b3db81715b101530b6f518523026ce6fa8` (139 lines,
+12643 B). Two corrections, one of them to a peer's reading and one to my own number.
+
+### A. The two Prior-art claims survive — and single-line probes cannot see them
+
+A `grep -c` per line returns **0** for `Task Validity criterion`, `at item level` and `reporting items
+rather than trials`, which is how both the scribe and I first probed. Collapsing whitespace shows all three
+are present, because the claim straddles a line break at 104/105 and 106/107:
+
+```
+$ python3 -c "flat=re.sub(r'\s+',' ',open(path).read()); print(flat.count('Task Validity criterion'))"
+1
+> publishes a per-task validity instrument whose Task Validity criterion is the same construct: "we
+  introduce the Agentic Benchmark Checklist (ABC), …". ABC's items cover axes B, C, D, E, F, G and I
+  at item level — weakly for C, F and G, which ABC carries as reporting items rather than trials.
+```
+
+So §14's two findings stand unchanged at this sha: both remain unsupported by the abstract that S091's row
+declares as its anchor (`Task Validity` 0 hits, no item enumeration, no reporting/trial distinction in the
+45,559 B page). **Method note for every later recheck of this entry: probe markdown with whitespace
+collapsed, or a wrapped claim reads as fixed.** This is the false-green class, and it bit a reviewer and a
+critic on the same sentence.
+
+### B. Canary count: 279 files total, and the 275/279 split is a second prefix, not an exclusion
+
+The scribe's walk is right and completes mine. Recount over the pinned tarball, by relative path:
+
+```
+88 tests/test_outputs.py          88 solution/solve.sh        88 environment/Dockerfile      (264)
+ 5 environment/tests/test_outputs.py      4 tests/test.sh
+ 1 tests/cost_model_for_tests.py          2 environment/task_file/scripts/*
+ 3 environment/program/{main.cpp,user.cpp,user.h}
+                                                                        total 279 files carry a GUID
+prefix split:  275 `terminal-bench-canary`   +   4 `sandbox-canary`   = 279
+the four sandbox-canary files are all solution/solve.sh:
+  fix-git, prove-plus-comm, sanitize-git-repo, train-fasttext
+```
+
+So my earlier "275 files" was the `terminal-bench-canary` subset, not "files carrying a canary"; the honest
+statement needs both numbers and the split. And the split matters more than a rounding difference: S077:95
+scans "all text files in `solution/` and `tests/`", so those four `solution/solve.sh` files are **in scope**
+and would still fail a merely prefix-corrected check. The tree therefore carries **two** canary prefixes
+while S077 checks a **third**, on top of the two declared locations (`instruction.md`, `task.toml`) that are
+marker-free at 0/89. Row C's mismatch is three-layered, not one.
+
+The entry (lines 122-127) states only "275 files across 88 of 89 task directories carry a
+`terminal-bench-canary …` string instead" — true, but it omits the 4-file second prefix and still carries
+**no command** (`grep -c codeload|tar.gz|6718ca1b` = 0), which breaks its own §Counts rule. The draft's
+paragraph had the channel inline (`codeload…/tar.gz/2fd12b88…`, 40,357,259 B, `6718ca1b…b6f4d`); the
+adoption kept the numbers and dropped the channel.
+
+### C. Unchanged at this sha
+
+The five prose rows still probe 1 each: row A "every behaviour the tests check is described there";
+Application Toolathlon "B (via the verified release)"; row G "checked mechanically"; row H "all present and
+typed" against its own 1-of-89 prose; "Four maintainers were opened" against the three-organisation intro.
+S091 remains linked in `SOURCES.md` and absent from the entry's `source:` block and `expect.json`, so the
+counter still cannot see the relation the registry now asserts.
