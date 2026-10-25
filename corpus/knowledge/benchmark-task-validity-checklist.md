@@ -84,8 +84,9 @@ it, and where that artefact lives".
   directories** (`curl -s "https://api.github.com/repos/hkust-nlp/Toolathlon/contents/tasks/finalpool?ref=9be8d8fe07a497b18ee61e3f2ae694e9797f39eb"`
   → 109 entries, 108 with `"type": "dir"`).
 
-Both counts correct the staged package, which said "92 top-level task directories" and
-"109 task directories". The package's *claims* were right; its *units* were off by the
+Both counts correct the staged package, whose two cells read 92 top-level task directories and
+109 task directories (quoted from `merge/kengaku/SOURCES.append.md`, deliberately not reproduced as
+this entry's own claim). The package's *claims* were right; its *units* were off by the
 file/directory split. A row that carries a count must carry the command that produced it.
 
 ## Application to the named benchmarks
