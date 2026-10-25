@@ -8,7 +8,7 @@ Baseline `112091c2d9`; frozen prereg `plans/round-33-claims.md` (freeze commits 
 
 | Candidate | Verdict | Reason and flip condition |
 |---|---|---|
-| `benchmark-grader-semantics.md` (admission patch of the round-32 draft) | **Admitted** | Re-grounded this round: staged S094 → **S103** (Toolathlon `tasks/finalpool/ab-testing/evaluation/main.py` @ `9be8d8fe`), staged S097 → **S104** (arXiv 2412.05579v2), both opened 2026-10-25; S093 (already `mined`) gains the entry in `used-by`. The four round-32 refusal rows (S094, S097, S101, S102) stand unchanged — ids never reused (CORPUS.md rule 2). Gate receipts: `plans/sources_adopt.py` collision/schema gate `collisions=0 defects=0` exit 0; quote gate 4/4 located, 0 overlong, `url-map` bound exit 0 (`.ufo/waves/round-33/assimilation/gate-receipts.txt`). |
+| `benchmark-grader-semantics.md` (admission patch of the round-32 draft) | **Admitted** | Re-grounded this round: staged S094 → **S103** (Toolathlon `tasks/finalpool/ab-testing/evaluation/main.py` @ `9be8d8fe`), staged S097 → **S104** (arXiv 2412.05579v2), both opened 2026-10-25; S093 (already `mined`) `used-by`: `corpus/knowledge/benchmark-verifier-execution-model.md` → `corpus/knowledge/benchmark-verifier-execution-model.md, corpus/knowledge/benchmark-grader-semantics.md`. The four round-32 refusal rows (S094, S097, S101, S102) stand unchanged — ids never reused (CORPUS.md rule 2). Gate receipts: `plans/sources_adopt.py` collision/schema gate `collisions=0 defects=0` exit 0; quote gate 8/8 located, 0 overlong, `url-map` bound exit 0 (`.ufo/waves/round-33/assimilation/gate-receipts.txt`). |
 | Staged catalog rows S101/S102 (SWE-bench locked replay + release map) | **Rejected** | Not cited by the admitted entry; CORPUS.md rule 4 forbids appending rows no admitted entry cites. Their round-32 refusal rows stand. Flip: a later entry that cites them re-grounds them under unused ids. |
 | Staged `judge-calibration-thresholds.md` (un-admitted kappa table) | **Rejected (carry-over)** | Still refused: its kappa figures (0.84/0.46/0.21) appear in no anchor cell (Q3); unchanged from rounds 29–30. |
 
@@ -49,8 +49,7 @@ both results files land.
 - The round-32 closure (`corpus/lessons/round-32-verifier-spotcheck.md`) routed 6 items;
   N1–N6 all re-derive green (`corpus/evidence/round33/defects-after.txt`, `checks=6
   defects=0`, exit 0, at the landing tip).
-- The four refusal rows at S094/S097/S101/S102 stand unchanged; the adopted rows are new
-  ids S103/S104 (append-only, CORPUS.md rule 2).
+- The four refusal rows at S094/S097/S101/S102 stand unchanged; adopted rows S103/S104 are new ids (append-only, CORPUS.md rule 2). S093 `used-by` changed old→new: `corpus/knowledge/benchmark-verifier-execution-model.md` → `corpus/knowledge/benchmark-verifier-execution-model.md, corpus/knowledge/benchmark-grader-semantics.md`.
 - `corpus/QUALITY.md` gains **Q22** (a receipt is only evidence if something re-runs it at the
   tip) — considerthese/2026-10-25 proposal 2's cheap half; the persistent `defects.jsonl`
   ledger it sketches stays unimplemented debt, named in the criterion.
