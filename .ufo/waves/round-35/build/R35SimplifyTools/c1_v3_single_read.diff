@@ -1,0 +1,21 @@
+--- /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/build/R35SimplifyTools/base_c1.py	2026-10-25 16:43:24.271922814 -0300
++++ /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-35/build/R35SimplifyTools/c1_step1.py	2026-10-25 16:43:24.282956697 -0300
+@@ -103,8 +103,8 @@
+     p = lane / ENTRY
+     if not p.is_file():
+         return "entry absent"
+-    lines = p.read_text().splitlines()
+-    head = lines[:5]
++    text = p.read_text()
++    head = text.splitlines()[:5]
+     for i, rid in enumerate(FILES):
+         if not (len(head) > i and head[i].startswith(f"source: {rid} ") and RAW + FILES[rid][1] in head[i]):
+             return f"line {i + 1} is not the {rid} source line with its pinned URL"
+@@ -112,7 +112,6 @@
+         return "line 4 is not verified-at: 2026-10-25"
+     if not re.match(r"recheck: (\d{4}-\d{2}-\d{2}|\d+d|on-release)\b", head[4]):
+         return "line 5 recheck lacks date/cadence"
+-    text = p.read_text()
+     neg = re.search(r"^## Negative space\n(.*?)(?=^## |\Z)", text, re.S | re.M)
+     if not neg or "falsif" not in neg.group(1):
+         return "negative space absent or has no falsifier"

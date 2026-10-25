@@ -1,0 +1,48 @@
+# R35ScoutQuarantine receipt — S091 staged-quote presence (D5 observation)
+# date: 2026-10-25T16:43:06-03:00
+
+$ sha256sum -c .ufo/waves/round-34/assimilation/captures/quarantine-SHA256SUMS
+.ufo/waves/round-34/assimilation/captures/nec-s091-reopen.html: OK
+.ufo/waves/round-34/assimilation/captures/geniac-s105-reopen.html: OK
+exit=0
+
+$ curl -sSL -A '<browser UA>' -o nec-s091-live.html https://jpn.nec.com/techrep/journal/g23/n02/230212.html
+http_code=200 size=60335
+985bd701349adee17801ebf2508e13a9f076fb9521d47f248ea9f582e4096e86  nec-s091-live.html
+
+$ python3 probe_s091.py <capture> corpus/lessons/round-34-verifier-spotcheck.md --raw-line
+html_path=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-34/assimilation/captures/nec-s091-reopen.html
+html_bytes=60314 raw_chars=50460
+spotcheck_row_line=64 staged_quotes=1
+  quote_len=70 present_in_stripped=True :: ただし、RAKUDAベンチマークは1ターンの対話かつ少数データでの評価のため、対話性能の一側面しか測れていないことには注
+    raw_lines_containing=[276] flat_offset=10745 approx_raw_line=275
+    approx_raw_line_from_hit=276
+
+$ python3 probe_s091.py nec-s091-live.html corpus/lessons/round-34-verifier-spotcheck.md --raw-line
+html_path=nec-s091-live.html
+html_bytes=60314 raw_chars=50460
+spotcheck_row_line=64 staged_quotes=1
+  quote_len=70 present_in_stripped=True :: ただし、RAKUDAベンチマークは1ターンの対話かつ少数データでの評価のため、対話性能の一側面しか測れていないことには注
+    raw_lines_containing=[276] flat_offset=10745 approx_raw_line=275
+    approx_raw_line_from_hit=276
+
+$ 12-request flakiness sample (browser UA)
+plain-UA: 200=7 403=5 of 12
+$ UA variants (3 requests each)
+Windows-Chrome UA 200_count=1/3
+Googlebot UA     200_count=0/3
+curl/8.6.0 UA    200_count=0/3
+
+$ diff capture live | grep -cE '^[0-9]'
+1  (line 82 only: Akamai clientnsv4 token)
+$ sha256sum nec-s091-live.html
+985bd701349adee17801ebf2508e13a9f076fb9521d47f248ea9f582e4096e86  nec-s091-live.html
+
+$ python3 plans/defect_ledger.py --lane .
+R34-D1 status=open observed=fail agree=yes untracked=5
+R34-D2 status=open observed=fail agree=yes committed_mirror_paths=109413
+R34-D3 status=open observed=pass agree=NO listed=6 evaluator_listed=True bad=0
+R34-D4 status=open observed=pass agree=NO correction_lines=1
+R34-D5 status=open observed=fail agree=yes erratum_lines=1 r35_mistake_row=False
+rows=5 closed=0 observed_pass=2 mismatches=2
+PREDICATE C2 fail
