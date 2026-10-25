@@ -37,11 +37,12 @@ This entry is an **amendment** to two things and a rival to neither:
   `benchmark-card-field-schema-2026-10-23.md` — package path
   `/home/vgpnk/Projects/shokuknow/merge/kengaku/knowledge/corpus/knowledge/benchmark-card-field-schema-2026-10-23.md`,
   sha256 `66651007989a7fb5df4671f5f86e69ab1436517025a821afe8c451641a3533b9`, read 2026-10-25.
-  That file is **staged, not lane-admitted**: it is not in this lane's `corpus/knowledge/`, and its
-  three source rows are not in this lane's registry (the GEM 2026 review it tabulates is the one
-  exception: this lane registers that review at tier A), so no load-bearing claim here rests on it
+  That file is **staged, not lane-admitted**: it is not in this lane's `corpus/knowledge/`, and two
+  of its three source rows are not in this lane's registry (the GEM 2026 review it tabulates is the
+  registered one: this lane carries that review at tier A as S001), so no load-bearing claim here
+  rests on it
   (QUALITY Q2). What the mapping below records is this entry's reading of a staged document;
-  adopting those three rows as registry entries is what would make the mapping lane-sourced — that
+  adopting those two rows as registry entries is what would make the mapping lane-sourced — that
   is open work, stated under §What this does not establish, never a claim of this entry. The union
   table is continued, not re-derived.
 
@@ -68,8 +69,11 @@ a column that already exists or an explicit delta.
 | S2 card integrity flag | (absent) | `unknown` / `not_controlled` are valid values | (absent) | **delta in field** — a state for the card itself |
 | R1 strata | (absent) | `strata_reported` | (absent) | **already a column in one of three** — see §What this does not establish for what the entry's own source measured about it |
 
-So the delta is one field, and the rest is not a delta at all. **S2's tri-state integrity flag is the
-only new field.** S1 is not a new field: the CTC v1.1 column beside it reads `type 5 recorded per run`,
+So the delta is one field, and the rest is not a delta at all. **The only field this entry adds to the
+union table is S2, and what it adds is the field — a state recorded for the card itself rather than for a
+contamination type. Its values are not new: the CTC v1.1 form already publishes `controlled` /
+`not_controlled` / `unknown` / `n/a` per type, and `unknown` / `not_controlled` as valid entries.**
+S1 is not a new field: the CTC v1.1 column beside it reads `type 5 recorded per run`,
 so the run-side fact is carried; whether that makes the record score-side is a question about *where*
 it is filed, and this lane cannot settle it without reading that form, which it has not admitted. R1's
 strata are carried by the CTC v1.1 form (`strata_reported`) and are absent from the other two tabulated
@@ -122,8 +126,7 @@ answers CG7 must say which of the two it does and with what qualifier.
 - **Agreement is not established.** S081's own abstract reports a test–retest ceiling "collapsing under
   the class skew the registration anticipated", with pooling raising it "through chance correction rather
   than better agreement" (arXiv abs page, abstract). Two coders filling this card need not agree; the
-  card records what each stated, not a reconciled truth. Two coders filling this card need not agree; the card records
-  what each stated, not a reconciled truth.
+  card records what each stated, not a reconciled truth.
 - **S085 cannot be used as evidence about anyone else.** It is the sponsoring body's own 2024
   description of its own programme: it carries programme numbers and score tables (p.38 prints its own
   figures), but no document number, no contamination measurement and no data release. It
@@ -135,8 +138,8 @@ answers CG7 must say which of the two it does and with what qualifier.
   is this entry's reading of that document. The entry's own load-bearing claims rest on S081–S086.
 - **Falsifier:** a benchmark release that publishes a card answering all eight CG questions while
   its own contamination audit shows the strata and acquired fields are *populated* (not "unknown")
-  and populated (not "unknown") would show that the fields this entry's sources measured as rare
-  (R1 strata, S1's acquired type) are common — a decision rule the CC0 card cannot supply on its own,
+  would show that the fields this entry's sources measured as rare
+  (R1 strata, S1's acquired type) are common — a decision rule the card design cannot supply on its own,
   which is why this bullet names the unit (one benchmark release), the population (its published card)
   and the observation (both fields populated and non-trivial) rather than a trend
   bullet above.

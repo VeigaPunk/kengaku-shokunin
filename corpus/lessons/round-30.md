@@ -185,3 +185,24 @@ detail is in the round report.
   commit or disclosed where they were not (the two C2 counter survivors, the C3 CJK cap, the
   unexercised 115 lines). No seat died; the wave-2 dispatch was refused twice at the host job limit
   and resent unchanged once a slot settled.
+
+## Errata (round 31, appended 2026-10-25 — this file is append-only, so the cells above stand as written)
+
+Three cells in this lesson are corrected here rather than rewritten. Round 30's non-author closure routed
+them (`corpus/lessons/round-30-verifier-spotcheck.md` §5 items 2, 3 and 8); the counter that re-derives
+them is `plans/round31_defects.py` (checks R2, R3, R10).
+
+- **Q6 basis (supersedes the `:66-67` cell).** The cell states the delta as "one field, one placement,
+  one value set". The admitted entry retracts that reading in its own bytes
+  (`corpus/knowledge/contamination-transparency-card.md:78-81`): the delta is **one field, and the rest
+  is not a delta at all** — S1 is a rename, R1 a value set inherited from two cited-or-tabulated
+  sources, and only the card-level integrity field is new. The Q6 **verdict** does not change (the entry
+  does name both objects it extends); the basis quoted above is what was wrong.
+- **Q2 tier cell (supersedes the `:60-61` cell).** The cell lists the Q2 tier set as "`S085 B, S086 A`".
+  The registry is `S085 B, S086 B` (`corpus/SOURCES.md`, S086 row, tier cell `B`), and this lesson's own
+  `:93` already counts "tier A 76 → 78, tier B 4 → 8". The Q2 verdict stands — a B clears the A-or-B
+  floor — and the cell, not the verdict, was wrong.
+- **Round shape (supersedes `:3`).** The header says "36 build, 34 falsify". The committed falsify
+  registry holds **33** members (`.ufo/waves/round-30/falsify/swarm-registry.json` → `len(members) = 33`),
+  the build registry holds 36, and the round report says 33; 33 falsify seats of 69 is the shape, with
+  16 of the 33 in attack roles. The `34` was a transcription slip, not a dispatch difference.

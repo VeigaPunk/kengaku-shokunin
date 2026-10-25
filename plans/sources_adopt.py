@@ -20,7 +20,10 @@ Capabilities (each separately exercised by `--selftest`):
      duplicate staged id, or a nonempty collision set;
   5. quote validation (`--quote-file`/`--artifact`): every quoted span in a supplied
      row's anchor cell is measured against the contract's <=25-word cap and located
-     as a byte substring of the named artifact, with its own exit codes.
+     as a byte substring of the named artifact, with its own exit codes;
+  6. capture-to-citation binding (`--url-map`): the artifact that located a quote must be
+     mapped to the URL that row's `source` cell cites, so a capture of some other document
+     cannot satisfy a row it happens to share a sentence with.
 
 Scope: registry row mechanics and quote presence only. Source truth, tier judgement
 and the census itself stay where they are (CORPUS.md contract v1; census is
@@ -29,6 +32,9 @@ fleet-owned).
 from __future__ import annotations
 
 import argparse
+import contextlib
+import io
+import json
 import re
 import sys
 import tempfile
@@ -48,6 +54,8 @@ EXIT_MALFORMED = 4
 EXIT_REQUEST = 5
 EXIT_QUOTE_TOO_LONG = 6
 EXIT_QUOTE_ABSENT = 7
+EXIT_URL_MISMATCH = 8  # the artifact that located the quote is mapped to a different document
+EXIT_URL_UNMAPPED = 9  # the artifact that located the quote has no --url-map entry
 
 
 class Row:
@@ -325,6 +333,70 @@ def load_artifact(path: Path) -> tuple[list[tuple[str, str]], str]:
     return loaded, ""
 
 
+# ------------------------------------------------------------------- citation binding
+
+# The anchor cell is not where a row cites its document: `source` (cell 1) carries
+# "title — URL". A row can therefore locate its quote in a capture of a *different*
+# document, which is the gap round 30 disclosed. `--url-map` closes it by naming the
+# document each artifact was fetched from.
+SOURCE_COLUMN = 1
+URL_RE = re.compile(r"https?://[^\s|]+")
+
+
+def cited_urls(cell: str) -> list[str]:
+    """Every http(s) URL the row's `source` cell carries, trailing punctuation trimmed."""
+    return [url.rstrip(".,;:)]}>") for url in URL_RE.findall(cell)]
+
+
+def normalize_url(url: str) -> str:
+    """Comparable form of a URL: no fragment, no trailing slash, scheme and host lowered.
+
+    Deliberately narrow. The path stays case-sensitive (GitHub paths are), a subpath is a
+    different document, and `http` is not `https`: those are the three cases a looser
+    normalisation would silently pass, and each of them is a wrong citation, not a
+    formatting difference.
+    """
+    text = url.strip().split("#", 1)[0]
+    match = re.match(r"^(https?)://([^/]*)(.*)$", text, re.IGNORECASE)
+    if not match:
+        return text
+    scheme, host, rest = match.group(1).lower(), match.group(2).lower(), match.group(3)
+    return f"{scheme}://{host}{rest}".rstrip("/")
+
+
+def load_url_map(path: Path) -> tuple[dict[str, str], str]:
+    """Return ({artifact name: url}, problem).
+
+    The map is a flat JSON object: `{"<artifact name>": "<url>"}` where the key is the
+    name `load_artifact` prints for that capture (a file artifact's basename, a directory
+    artifact's relative path). A nested shape is refused rather than guessed: a map the
+    gate half-understands is worse than no map.
+    """
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        return {}, f"--url-map is unreadable: {error}"
+    if not isinstance(data, dict):
+        return {}, "--url-map must be a JSON object of artifact name to URL"
+    mapping: dict[str, str] = {}
+    for key, value in data.items():
+        if not isinstance(key, str) or not isinstance(value, str):
+            return {}, "--url-map must map strings to strings"
+        mapping[key] = value
+    return mapping, ""
+
+
+def locating_artifacts(quote: str, loaded: list[tuple[str, str]]) -> list[str]:
+    """Every artifact whose bytes contain the quote, in the order `load_artifact` returned them.
+
+    `locates` answers "which document is this quote in" for the receipt line; binding needs
+    the whole set, because a capture that also contains the sentence must not be able to
+    refuse a row whose real capture is mapped correctly and happens to sort later.
+    """
+    needle = normalize_text(quote)
+    return [name for name, text in loaded if needle in text]
+
+
 def locates(quote: str, loaded: list[tuple[str, str]]) -> str:
     """Return the artifact name the quote occurs in, or "".
 
@@ -333,11 +405,36 @@ def locates(quote: str, loaded: list[tuple[str, str]]) -> str:
     byte substring of the normalised text, never a fuzzy or whitespace-insensitive
     match: a paraphrase must fail here.
     """
-    needle = normalize_text(quote)
-    return next((name for name, text in loaded if needle in text), "")
+    return next(iter(locating_artifacts(quote, loaded)), "")
 
 
-def quote_check(quote_file: Path, artifact: Path, cap: int = QUOTE_WORDS) -> tuple[int, dict[str, object]]:
+def bind_failure(row: Row, artifact_names: list[str], url_map: dict[str, str]) -> str:
+    """Return "" when some artifact holding the quote is the document this row cites.
+
+    `"unmapped"` is a distinct verdict from a mismatch: an unmapped artifact is a gap in
+    the caller's map, while a mismatch is a capture of a different document. Collapsing
+    them would let one bad map key read as a bad citation. The rule is *any* containing
+    artifact against *any* cited URL: a quote that also occurs in an unrelated capture must
+    not refuse a row whose own capture is mapped to the citation.
+    """
+    cited = cited_urls(row.cell(SOURCE_COLUMN))
+    if not cited:
+        return "cites-no-url"
+    cited_keys = {normalize_url(url) for url in cited}
+    mapped = [url_map[name] for name in artifact_names if name in url_map]
+    if not mapped:
+        return "unmapped"
+    if any(normalize_url(url) in cited_keys for url in mapped):
+        return ""
+    return "url-mismatch"
+
+
+def quote_check(
+    quote_file: Path,
+    artifact: Path,
+    cap: int = QUOTE_WORDS,
+    url_map: dict[str, str] | None = None,
+) -> tuple[int, dict[str, object]]:
     """Validate the quoted text each supplied row's anchor cell carries.
 
     Two refusals, deliberately separable: a span longer than `cap` words (exit 6)
@@ -345,8 +442,13 @@ def quote_check(quote_file: Path, artifact: Path, cap: int = QUOTE_WORDS) -> tup
     implies the other -- an over-long quote is refused even when it locates, and an
     absent quote is refused even when it is short. Structural problems (an
     unparsable row, a cell with no or an unbalanced quoted span) exit 4, and an
-    unreadable artifact exits 2. The first refusal in the order 2, 4, 6, 7 wins;
+    unreadable artifact exits 2. The first refusal in the order 2, 4, 6, 7, 8, 9 wins;
     every refused row is still named, so one run surfaces all of them.
+
+    When `url_map` is supplied, a located quote is also bound to its citation: the
+    artifact that contains it must be mapped to the URL that row's `source` cell cites
+    (exit 8 when it is mapped elsewhere or the row cites none, exit 9 when the artifact
+    has no entry). Without the map the check is byte-presence only, exactly as before.
     """
     loaded, problem = load_artifact(artifact)
     report: dict[str, object] = {
@@ -357,6 +459,8 @@ def quote_check(quote_file: Path, artifact: Path, cap: int = QUOTE_WORDS) -> tup
         "found": [],
         "overlong": [],
         "absent": [],
+        "mismatch": [],
+        "unmapped": [],
         "malformed": [],
         "artifacts": [name for name, _ in loaded],
         "problem": problem,
@@ -369,6 +473,8 @@ def quote_check(quote_file: Path, artifact: Path, cap: int = QUOTE_WORDS) -> tup
     found: list[str] = []
     overlong: list[str] = []
     absent: list[str] = []
+    mismatch: list[str] = []
+    unmapped: list[str] = []
     malformed = [f"{row_id}:{reason}" for _, row_id, reason in bad]
     details: list[tuple[str, str]] = []
     spans_total = 0
@@ -400,6 +506,18 @@ def quote_check(quote_file: Path, artifact: Path, cap: int = QUOTE_WORDS) -> tup
                 absent.append(row.row_id)
                 details.append(("REFUSED", f'{row.row_id} absent words={count} quote="{quote}"'))
             else:
+                if url_map is not None:
+                    refusal = bind_failure(row, locating_artifacts(quote, loaded), url_map)
+                    if refusal:
+                        bucket = unmapped if refusal == "unmapped" else mismatch
+                        bucket.append(row.row_id)
+                        details.append(
+                            (
+                                "REFUSED",
+                                f'{row.row_id} {refusal} words={count} at {where} quote="{quote}"',
+                            )
+                        )
+                        continue
                 located.append(row.row_id)
                 details.append(("ok", f'{row.row_id} words={count} at {where} quote="{quote}"'))
     report.update(
@@ -410,6 +528,8 @@ def quote_check(quote_file: Path, artifact: Path, cap: int = QUOTE_WORDS) -> tup
             "found": found,
             "overlong": overlong,
             "absent": absent,
+            "mismatch": mismatch,
+            "unmapped": unmapped,
             "malformed": malformed,
             "quotes": details,
         }
@@ -420,16 +540,26 @@ def quote_check(quote_file: Path, artifact: Path, cap: int = QUOTE_WORDS) -> tup
         return EXIT_QUOTE_TOO_LONG, report
     if absent:
         return EXIT_QUOTE_ABSENT, report
+    if mismatch:
+        return EXIT_URL_MISMATCH, report
+    if unmapped:
+        return EXIT_URL_UNMAPPED, report
     return EXIT_OK, report
 
 
-def print_quote_report(report: dict[str, object]) -> None:
+def print_quote_report(report: dict[str, object], url_map: dict[str, str] | None = None) -> None:
+    # The map is printed because a bound green and an unbound one otherwise read identically:
+    # mismatch=0 unmapped=0 is what a run with no map prints too (found by round 31's C3 critic).
+    # Without a map the summary line is byte-identical to the one round 30's receipts pin:
+    # the binding fields are added only when the caller asked for binding (round-31 regression
+    # seat measured the prefix break before this gate).
+    binding = "" if url_map is None else f" mismatch={len(report.get('mismatch', []))} unmapped={len(report.get('unmapped', []))} urlmap=entries={len(url_map)}"
     if report["problem"]:
         print(f"QUOTE cap={report['cap']} problem={report['problem']}")
         return
     print(
         "QUOTE rows={rows} spans={spans} located={loc} found={found} overlong={long} "
-        "absent={absent} malformed={mal} cap={cap} artifacts={arts}".format(
+        "absent={absent} malformed={mal} cap={cap} artifacts={arts}{binding}".format(
             rows=report["rows"],
             spans=report["spans"],
             loc=len(report["located"]),
@@ -439,6 +569,7 @@ def print_quote_report(report: dict[str, object]) -> None:
             mal=len(report["malformed"]),
             cap=report["cap"],
             arts=",".join(report["artifacts"]),
+            binding=binding,
         )
     )
     for label, detail in report["quotes"]:
@@ -715,6 +846,91 @@ def selftest() -> int:
             and qreport["cap"] == 25,
         )
 
+        # 15-17. the capture is bound to the row's citation. One artifact, one row, three
+        #     verdicts: mapped to the cited URL (accept), mapped to a different document
+        #     (8), and absent from the map (9). Case 15 also pins the normalisation the
+        #     binding relies on -- a trailing slash and a fragment are formatting, while
+        #     a subpath and http-vs-https are different documents.
+        bound_quote = "the verifier shares the agent's container unless a task opts out"
+        cited = "https://example.invalid/docs/verifier.html"
+        bind_row = (
+            GOOD_ROW.replace("S900", "S024")
+            .replace("fixture source — https://example.invalid/x", "fixture source — " + cited)
+            .replace("anchor text", f'p.4: "{bound_quote}"')
+        )
+        bind_art = write("artifact-bind.txt", f"intro\n{bound_quote}\n")
+        bind_file = write("quotes-bind.txt", HEADER + bind_row + "\n")
+        ok_code, ok_report = quote_check(
+            bind_file, bind_art, url_map={"artifact-bind.txt": cited + "/#section"}
+        )
+        wrong_code, wrong_report = quote_check(
+            bind_file, bind_art, url_map={"artifact-bind.txt": "https://example.invalid/docs/other.html"}
+        )
+        unmap_code, unmap_report = quote_check(
+            bind_file, bind_art, url_map={"some-other-capture.txt": cited}
+        )
+        # A directory artifact in which a decoy capture sorts BEFORE the real one: binding the
+        # first locating artifact refused this correct map (found by round 31's C3 critic and
+        # mutation-tester). The map names only the real capture.
+        decoy_dir = root / "artifact-decoy"
+        decoy_dir.mkdir()
+        (decoy_dir / "a-decoy.txt").write_text(f"another document quoting {bound_quote}\n", encoding="utf-8")
+        (decoy_dir / "b-real.txt").write_text(f"the cited document: {bound_quote}\n", encoding="utf-8")
+        decoy_code, decoy_report = quote_check(
+            bind_file, decoy_dir, url_map={"b-real.txt": cited}
+        )
+        # The CLI guard: --url-map without the quote pair must refuse, not be ignored.
+        stderr_sink = io.StringIO()
+        try:
+            with contextlib.redirect_stderr(stderr_sink):
+                main(["--url-map", str(root / "map-flat.json"), "--registry", str(reg), "--package", str(staged)])
+            guard_exit = 0
+        except SystemExit as error:
+            guard_exit = error.code if isinstance(error.code, int) else 1
+        # argparse prints its usage block before raising; a selftest that leaks it to stderr
+        # breaks every receipt that captures the run with 2>&1 (round-31 regression seat).
+        guard_stderr = stderr_sink.getvalue()
+        case(
+            "quote-url-bound-accepted",
+            ok_code == EXIT_OK
+            and ok_report["located"] == ["S024"]
+            and ok_report["mismatch"] == []
+            and ok_report["unmapped"] == []
+            # formatting is not a different document; a subpath and a scheme are
+            and normalize_url("https://Example.invalid/docs/verifier.html/#x")
+            == normalize_url(cited)
+            and normalize_url(cited + "/sub") != normalize_url(cited)
+            and normalize_url("http://example.invalid/docs/verifier.html") != normalize_url(cited)
+            and cited_urls(bind_row)[0] == cited
+            # `<url>` decoration is formatting; any containing artifact may carry the binding
+            and cited_urls("<" + cited + ">") == [cited]
+            and decoy_code == EXIT_OK
+            and decoy_report["located"] == ["S024"]
+            and decoy_report["unmapped"] == []
+            and guard_exit == 2
+            and "usage:" in guard_stderr,
+        )
+        case(
+            "quote-url-mismatch-refused",
+            wrong_code == EXIT_URL_MISMATCH
+            and wrong_report["mismatch"] == ["S024"]
+            and wrong_report["located"] == []
+            and wrong_report["unmapped"] == []
+            # the bytes do contain the quote: the refusal is the citation, not the text
+            and wrong_report["found"] == ["S024"],
+        )
+        case(
+            "quote-url-unmapped-refused",
+            unmap_code == EXIT_URL_UNMAPPED
+            and unmap_report["unmapped"] == ["S024"]
+            and unmap_report["mismatch"] == []
+            # an unmapped artifact is a gap in the caller's map, never a byte verdict
+            and unmap_report["found"] == ["S024"]
+            and load_url_map(write("map-nested.json", '{"a": {"b": "c"}}'))[1] != ""
+            and load_url_map(write("map-flat.json", '{"artifact-bind.txt": "' + cited + '"}'))[0]
+            == {"artifact-bind.txt": cited},
+        )
+
     failed = [name for name, passed in cases if not passed]
     print(f"SELFTEST cases={len(cases)} failed={len(failed)}")
     if failed:
@@ -748,6 +964,13 @@ def main(argv: list[str]) -> int:
         help="source file or directory the quotes must occur in (needs --quote-file)",
     )
     parser.add_argument(
+        "--url-map",
+        type=Path,
+        help="JSON object mapping artifact name to a URL that row cites -- for a capture of a "
+        "pinned file this is the citation (repo or file URL), not the raw fetch URL "
+        "(needs --quote-file and --artifact)",
+    )
+    parser.add_argument(
         "--attest-opened",
         action="store_true",
         help="assert the requested rows were opened on --access-date (re-dates their opened cell)",
@@ -767,9 +990,21 @@ def main(argv: list[str]) -> int:
         # work and exited 0 (found by the round-30 regression seat).
         if args.registry or args.package:
             parser.error("--quote-file/--artifact cannot be combined with --registry/--package")
-        code, report = quote_check(args.quote_file, args.artifact)
-        print_quote_report(report)
+        url_map = None
+        if args.url_map:
+            url_map, problem = load_url_map(args.url_map)
+            if problem:
+                print(f"QUOTE problem={problem}")
+                return EXIT_QUOTE_UNREADABLE
+        code, report = quote_check(args.quote_file, args.artifact, url_map=url_map)
+        print_quote_report(report, url_map=url_map)
         return code
+    # `--url-map` alone reached neither mode before this guard: given with --registry it was
+    # accepted and silently ignored (found by round 31's C3 critic). A flag the run ignores is
+    # worse than a refused one, so the pairing is enforced in both directions. It sits AFTER the
+    # quote-mode body on purpose: an `elif` on the block above swallowed that body once.
+    if args.url_map:
+        parser.error("--url-map needs --quote-file and --artifact")
     if not args.registry or not args.package:
         parser.error("--registry and --package are required unless --selftest")
     want = [item for item in args.admit_ids.split(",") if item]

@@ -3,10 +3,11 @@
 Seat: scribe, leaf. Lane: `/home/vgpnk/Projects/shokunin/kengaku-shokunin`. Access date 2026-10-25.
 No production edits: the only lane-tree file I write is this report.
 
-Draft: `/tmp/r30-DraftGate/gate.md`, 14 578 B, sha256 `2f1ac9dc…7dc6` (copy
+Draft: `/tmp/r30-DraftGate/gate.md`, 14 656 B, sha256 `1df94043…f44e` (copy
 `/tmp/r30-R30DraftGate/gate.md`, identical). Q13 has been measured as PASS by the reviewer's CLI
 three times: `be475eb` on the five-citation bytes, and lanes 3 and 4 (32 and 33 reports, live entry
-`ba0465d1…`) on `1a74b245`, each `admissions=1 passed=1 failed=0`. The bytes after the pass-6 run are `0821c7e1` → `2f1ac9dc`, and both revisions only touch text below
+`ba0465d1…`) on `1a74b245`, each `admissions=1 passed=1 failed=0`; and a fourth on `2f1ac9dc`
+(probe `29d4b99`, 33 reports) which found the admit row byte-identical to the `0821c7e1` row. The bytes after the pass-6 run are `0821c7e1` → `2f1ac9dc`, and both revisions only touch text below
 the table: the admit row was not edited, so its six citations and empty generic set are unchanged
 (re-measured after each edit). A size note for the record: my earlier "13 815 B" was a `len(str)`
 count, i.e. characters, and the file is 13 898 bytes at that hash — the reviewer's measurement was
@@ -133,23 +134,66 @@ carried in prose or the admission inherits it (Q9):
   "unverifiable" — while the paste table below covers `:17`, `:21`, `:22`, `:23` and the fifth
   column. On my bytes Q8/Q9/Q13 are otherwise clean.
 
-## Pass-7 residue, re-measured on the current entry (`a78eb18a`)
+## Pass-7 and pass-8 residue, re-measured on the current entry (`f51951d3`)
 
 The entry moved twice while this ran (`ba0465d1` → `a78eb18a`), so each cell below was re-read, not
 relayed:
 
-| cell | state now | owner |
+| cell | state now (`f51951d3`) | owner |
 |---|---|---|
-| entry Attribution `:148-150` | **repaired** — "S086 is a 言語処理学会 2025 paper that the society publishes **without peer review** (its own stamp on `anlp.jp/nlp2026/submit.html` says so and the 2025 pages carry no 査読)"; the seat's FAIL at `R30FxEntryQ4Q6.md:13` is answered in the entry | entry owner |
-| `corpus/lessons/round-30.md:66` | still "S083/S086 peer-reviewed" | lesson owner |
-| `R30FxRowsCensus.md:167` | still "peer-reviewed proceedings paper for its own method and caveat" — the seat I cite, which is why the block carries the label in prose | report owner |
-| entry `:41` vs `:158` | "three source rows are not in this lane's registry (the GEM 2026 review it tabulates is the one exception)" against "two of its three"; the exception is `corpus/SOURCES.md:23` = S001, GEM 2026 review, tier A, `mined` — so the **number** is the defect, not the exception | entry owner |
-| entry `:69` vs `:75` | `:69` records R1 strata as `strata_reported` in CTC v1.1 with the delta "already a column in one of three"; `:75` says "R1's strata are absent from all three *tabulated* designs" | entry owner |
-| entry `:124-125` | "not a reconciled truth" twice in consecutive lines, the second a fragment | entry owner |
-| entry `:120` doubled marker `- **- **` | **already fixed** — one marker, one occurrence of "Agreement is not established" | closed |
+| entry Attribution `:150-152` | **closed** — "S086 is a 言語処理学会 2025 paper that the society publishes **without peer review** (its own stamp on `anlp.jp/nlp2026/submit.html` says so and the 2025 pages carry no 査読)" | entry owner |
+| entry `:75` strata | **closed** — "strata are carried by the CTC v1.1 form (`strata_reported`) and are absent from the other two tabulated …" | entry owner |
+| entry `:120` doubled marker | **closed** — plain prose, one "Agreement is not established" | entry owner |
+| entry S085 "no measurements" | **closed** — no such phrase; `:150` carries the qualified "numbers and score tables, but no contamination measurement" | entry owner |
+| `corpus/lessons/round-30.md:66` | live — "S083/S086 peer-reviewed" | lesson owner |
+| `R30FxRowsCensus.md:167` | live — "peer-reviewed proceedings paper"; it is the seat I cite, which is why the block carries the label in prose | report owner |
+| entry `:41-43` vs `:160` | live — "three … one exception" against "two of its three"; the exception is `corpus/SOURCES.md:23` = S001, so the count is the defect | entry owner |
+| entry `:125-126` | live — "not a reconciled truth" twice in consecutive lines | entry owner |
+| `plans/round-30-claims.md:22-24` | live — "*core*", frozen text, lesson errata still owed | operator / lesson owner |
+
+Four of the seven items I carried at pass 7 are now closed by the entry's own repairs. The block cites
+neither `:41-43` nor `:125-126`, so its admit-row language is unaffected; both are carried as landing
+obligations with their drop-ins.
 
 My block now carries the label and the three entry cells as landing obligations, with the label's
 correct form quoted from the repaired entry rather than from my own reading of the venue.
+
+## Closing state and the rule for any further revision
+
+Final bytes: `/tmp/r30-DraftGate/gate.md`, 14 656 bytes, sha256
+`1df94043989020511d156e581e318df9654377804cbb63484d46159ff91df44e`; wave size 33 reports.
+The admit row is 2 754 characters, sha256 `651298ef48f0e28a…`, and its reason cell is 2 061
+characters, sha256 `a2396695d60e8445820a8bd7259a639778013137c28e1eb2c69cf3bf4c2c0799`. Those two
+digests are the proof a later revision has not moved the cell, and they are cheaper to compare than a
+CLI run.
+
+Both digests are taken over the **stripped** cells, which is the object `split_table_row`
+(`plans/gate_timing_check.py:110-135`) hands to `audit_admission`. Stated because the same cell is
+2 063 characters unstripped, sha256 `5aff5d51b521284d7550ab12afaa32bc07cb7d862eb37adf5ad825c061b164c9`
+— the two-character delta is the cell's own padding, and a seat that hashes the unstripped slice will
+"disagree" with a digest that is right. Compare like with like; the stripped form is the one the
+checker reads.
+
+The reviewer's closing rule, adopted here: a verdict is a function of the admit row's reason cell and
+the cited reports in the tree, so any further revision needs only (a) file hash and byte size, (b) the
+row and cell digests above, unchanged, (c) wave size — and a full `gate_timing_check.py` run only if
+(b) fails. Prose below the table is graded by Q8/Q9 once the lesson takes the row, which is why the
+obligations live there and not in the cell.
+
+Two bookkeeping slips of mine, both now closed and both the lane's M99 target-drift class — a value
+measured differently from the thing it is named as: the `len(str)` figure quoted as bytes, and a stale
+`1a74b245` left in the artifact list after the header moved. The standing fix is the one the reviewer
+names: keep the measuring command beside each number. Every figure in this report now names its
+command, its scope or its file:line.
+
+**Pass 9, recorded because it corrects a coverage seat's claim.** That seat reported the checker green
+on a lesson citing two reports absent from its tree (`R30FxEntryCompleteSet.md`, `R30FxRowsCensus.md`)
+"because it parses Gate rows only". The reviewer's re-measurement, and my own reading of
+`audit_admission`, agree on a narrower statement: a cited report absent from the tree **does** make the
+checker exit 1; what does not count is a report named in *prose outside the reason cell*, which is
+never parsed as a citation. The distinction matters for this block — it is why the five source seats
+and the census sit inside the cell, and why the failing and verdictless seats are discussed only
+below the table.
 
 ## Conflicts — verbatim, for the canonical Rust judge
 
@@ -194,6 +238,6 @@ correct form quoted from the repaired entry rather than from my own reading of t
 
 ## Artifact paths
 
-- `/tmp/r30-DraftGate/gate.md` — the block (sha256 `1a74b245…abe4`, 13 049 B).
+- `/tmp/r30-DraftGate/gate.md` — the block (sha256 `1df94043…f44e`, 14 656 B).
 - `/tmp/r30-R30DraftGate/gate.md` — byte-identical copy.
 - `.ufo/waves/round-30/build/R30DraftGate.md` — this report.

@@ -1,0 +1,14 @@
+url-map map-ok -> exit=0
+  QUOTE rows=1 spans=1 located=1 found=1 overlong=0 absent=0 mismatch=0 unmapped=0 malformed=0 cap=25 urlmap=entries=1 artifacts=cap.txt
+  ok S900 words=6 at cap.txt quote="the verifier shares the agent container"
+url-map map-bad -> exit=8
+  QUOTE rows=1 spans=1 located=0 found=1 overlong=0 absent=0 mismatch=1 unmapped=0 malformed=0 cap=25 urlmap=entries=1 artifacts=cap.txt
+  REFUSED S900 url-mismatch words=6 at cap.txt quote="the verifier shares the agent container"
+url-map map-unmapped -> exit=9
+  QUOTE rows=1 spans=1 located=0 found=1 overlong=0 absent=0 mismatch=0 unmapped=1 malformed=0 cap=25 urlmap=entries=1 artifacts=cap.txt
+  REFUSED S900 unmapped words=6 at cap.txt quote="the verifier shares the agent container"
+no map -> exit=0
+  QUOTE rows=1 spans=1 located=1 found=1 overlong=0 absent=0 mismatch=0 unmapped=0 malformed=0 cap=25 urlmap=none artifacts=cap.txt
+  ok S900 words=6 at cap.txt quote="the verifier shares the agent container"
+url-map on registry path -> exit=2
+  sources_adopt.py: error: --url-map needs --quote-file and --artifact

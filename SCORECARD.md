@@ -1041,3 +1041,42 @@ planted the wave file's eight-field line while the report quotes the seven-field
 S081/S082/S085 anchor quotes were respectively over the cap, pointed at a section that does not
 exist, and flattened fullwidth quotes. All four are in `corpus/lessons/round-30.md` §Mistakes and
 §Round 30 admission.
+
+## Round 31 (hyaku run 6, 2026-10-25): verifier execution model, round-30 routed-defect closure, capture-to-citation binding
+
+Baseline `0883e72ef8474ca42ac1a54eb0273079f1507035` (local = remote, `ahead=0`); frozen prereg
+`plans/round-31-claims.md`. Lowest non-retired axis: **coverage 7**, tied with novelty 7; tie-break is the
+frozen prereg's "most falsifiable with the sources an on-host tool can open", and no stagnation waiver is
+available (saturation line 8, novelty below it, a capability row entered at round 30). Round shape: two v1
+waves, 36 build + 32 falsify seats (68 total).
+
+| claim | axis | observed before → after, counting command | score / verdict |
+|---|---|---|---|
+| C1 shokuknow assimilation round 3 — the benchmark verifier execution model admitted | **coverage** (lowest non-retired, tie-break) | before: `python3 plans/adoption_check.py --expect .ufo/waves/round-31/adoption-expect.json --census` → `entries=0 indexed=0 cited_rows=0 rows_present=0 rows_mined=0 usedby_ok=0 census=ok` exit 1 (`.ufo/waves/round-31/claims/control-nothing.txt`, hardened with the expect digest) → after: same command → `entries=1 indexed=1 cited_rows=3 rows_present=3 rows_mined=3 usedby_ok=1 census=ok` exit 0 (`corpus/evidence/round31/adoption-after.txt`). Registry 88 → 91 rows (S092, S093, S100); knowledge 39 → 40; index 40 → 40; second receipt `python3 plans/round31_c1_verify.py --lane .` → `checks=6 defects=0` exit 0 (`corpus/evidence/round31/c1-verify-after.txt`), closing the frozen counter's content-blindness | **7 → 7 held — improved (counts)**; coverage *surfaces* did not move (no new `PROVINCE.md` section), so the row records the ledger delta, not a raised number |
+| C2 calibration — the ten routed defects R1–R10 closed | **calibration** | before: `python3 plans/round31_defects.py --lane .` → ten `DEFECT` lines, `checks=10 defects=10`, exit 1 (`.ufo/waves/round-31/claims/defects-before.txt`; re-derived from the `0883e72` blobs after R6's check was tightened, `corpus/evidence/round31/defects-before-tightened.txt`) → after: same command → `checks=10 defects=0`, exit 0 (`corpus/evidence/round31/defects-after.txt`) | **8 → 8 held** — ten self-assessment/repo mismatches closed; the counter itself was corrected four times (R2 wrap, R6 substring trap, R6 `.pdf` locator, R7 two-string guard) after seats proved each gap, and the corrections are disclosed in `corpus/lessons/round-31.md` §Mistakes rather than folded into the score |
+| C3 operability — the adoption gate binds a capture to the row's citation | **operability** | before: `git show 0883e72:plans/sources_adopt.py` has no `--url-map` (argparse exit 2) and its selftest prints `cases=14` (`.ufo/waves/round-31/claims/gate-before.txt`) → after: `python3 plans/sources_adopt.py --selftest` → `SELFTEST cases=17 failed=0` exit 0 (`corpus/evidence/round31/gate-selftest-after.txt`), with exit 8 for a capture mapped to a different document and exit 9 for an unmapped capture, proven end-to-end through the CLI (`corpus/evidence/round31/gate-cli-exits.txt`: 0 / 8 / 9 / 2) and failure-capable (`corpus/evidence/round31/gate-binding-neutered.txt`: the binding removed → `cases=17 failed=2`, exit 1) | **8 → 8 held**; capability row added. Scope, stated so the row cannot overclaim: the gate binds an artifact to *a URL the row cites* — it does not prove the capture was fetched from it, its map is caller-authored, and the frozen counter (`cases=17 failed=0`) is reachable by three vacuous `case(..., True)` lines, which is why the failure-capability receipt is the load-bearing evidence and not the tally |
+
+Other axes held: depth 9 (the entry adds a code-level finding plus a reproduced grader-mechanism result,
+no new instrument claim), novelty 7 (no prior-art or phenomenon claim; the finding is a reading of a
+published harness default), freshness 8 (census exit 0 at both ends; 15 `W04` after the append, the 15th
+being S100↔S079 disclosed below; the three sources re-opened at their pins on 2026-10-25), adjacency 8
+(the connector found no sibling contest and named two report-out slivers), coverage as above.
+
+| Capability | What it can now do | Evidence / command | First-working round |
+|---|---|---|---|
+| citation-bound adoption gate | Refuse a registry row whose located quote comes from a capture that is not the document the row cites — `--url-map` artifact→cited-URL, exit 8 on mismatch, exit 9 on unmapped, bound on any containing artifact against any cited URL, with the round-30 summary line left byte-identical when no map is supplied | `python3 plans/sources_adopt.py --selftest` (17 cases, exit 0); `--quote-file <rows> --artifact <capture> --url-map <map.json>` | 31 |
+| adoption second receipt | Re-derive an adoption's *content* literals the frozen counter cannot see — frozen entry path, access-date literal, per-row citation identity, pinned revisions, index-title substance, control-receipt digest | `python3 plans/round31_c1_verify.py --lane .` → `checks=6 defects=0`; `--selftest` | 31 |
+
+Calibration corrections carried this round rather than smoothed: the counter's R6 test first greened its
+own repair (a substring trap), then mis-credited the staged `.pdf` against the registry's landing URL; R7's
+first version was a two-string guard that greened while the mis-description survived; R2's first version
+compared unwrapped text against a wrapped sentence; C3's first landing put the quote-mode body inside an
+`elif`, making the CLI unreachable while the selftest stayed green. All five are in
+`corpus/lessons/round-31.md` §Mistakes with the seat that found each.
+
+**Corrections to earlier rows, appended (the superseded text stands as written).** (a) Round 30's C3 row
+says the gate "does not bind the artifact to the cited URL" — that gap is closed by this round's
+`--url-map`; the residual limits are the ones stated in the C3 row above. (b) Round 30's C1 row quotes
+"S2's tri-state flag is the only surviving field delta"; the entry's field is four-valued
+(`controlled`/`not_controlled`/`unknown`/`n/a`) and the surviving delta is the card-level *field*, not its
+vocabulary (`corpus/knowledge/contamination-transparency-card.md:72-75`).

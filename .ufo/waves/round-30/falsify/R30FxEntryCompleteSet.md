@@ -264,6 +264,51 @@ lands in the same commit" — true of the six `R30FxSrcS08x.md` files, which are
 of the row it replaced. So the admission's recorded Q10 state is "pass" while a returned complete-set
 seat says FAIL; QUALITY's own words apply — "Presence is not endorsement".
 
+## 5c. Live-only findings at the newest blob (`f51951d3…`, HEAD `caf1e2b`)
+
+Re-read at 2026-10-25T08:05Z, after the §6 table was written. Two §6 rows close here — H1's prose
+contradiction (`:75`–`:77` now "strata are carried by the CTC v1.1 form (`strata_reported`) and are
+absent from the other two tabulated designs", agreeing with the `strata_reported` cell) and H4
+(`:129` now "it carries programme numbers and score tables (p.38 prints its own figures), but … no
+contamination measurement", which matches my capture). Three findings are new or still open:
+
+**M7 (MEDIUM, live). "this lane cannot settle it without reading that form, which it has not admitted"
+(`:74`) sits two rows above CTC cells that could only come from reading it.** The S1 cell
+(`:67`) names `contamination_controls.acquired` "plus the run-side keys", the R1 cell names
+`strata_reported`, and the R4 cell names "a dedicated `regeneration:` block" — internal key names that
+exist only in the form's bytes. The sentence also concedes the settlement question is answerable
+*from* that form, so the entry both declines and performs the reading.
+
+**M8 (HIGH, live). The CTC column is now a load-bearing reading of an artefact this lane does not
+register — a provenance defect, not an accuracy one.** Three checks, all run by me:
+`grep -cE '^\| *S12[234] *\|' corpus/SOURCES.md` = **0**; the entry names neither the form's path nor its
+commit (`disclosure.yaml`, `4dba1ed`, `Jangulo7`, `raw.githubusercontent` → 0 hits); and the campaign
+table carries **none** of the three key names the repaired cells now use —
+`strata_reported` 0, `network_access_during_eval` 0, `regeneration` 0, `procedure_published` 0 (its only
+CTC-name hits are `contamination_controls` 1 and `evaluation_date` 1, both in its own cells). So the
+three cells that now carry the delta arithmetic — `:66` (a dedicated `regeneration:` block), `:67`
+(`contamination_controls.acquired` "plus the run-side keys"), `:69` (`strata_reported`) — can only come
+from `templates/disclosure.yaml` @ `4dba1ed` (2,181 B, sha256 `05131be9…`), for which the lane registers
+no row, while `:74` says it "cannot settle it without reading that form, which it has not admitted".
+
+The cells are **factually right** — my own fetch has every one of them (form `:16` `strata_reported`
+with six sub-keys, `:42`–`:46` the run-side keys, `:49`–`:53` `regeneration`). The defect is where they
+came from. Two repairs, either sufficient: (a) register the form as a `SOURCES.md` row (path +
+`4dba1ed…` + sha256 `05131be9…` + the located field names as the anchor, `used-by` this entry), which
+makes the mapping lane-sourced and retires the `:41`–`:46` caveat for the CTC column; or (b) mark that
+column "read from a staged artefact, not lane-admitted" in the table header and delete `:74`'s
+"which it has not admitted" clause, since the cells do exactly the reading it denies. Reverting the
+cells is the one repair that is wrong — they are the only correct part of the delta ledger.
+
+**M9 (LOW, live). Duplicated sentence.** `:125`–`:126`: "Two coders filling this card need not agree;
+the card records what each stated, not a reconciled truth." appears twice, consecutively, inside the
+Agreement bullet (the doubled bullet *marker* was fixed; the duplicated text was not).
+
+**H3 regressed between `a78eb18a` and `f51951d3`.** At `a78eb18a`, `:41`–`:42` read "three source rows
+… (the GEM 2026 review it tabulates is the one exception: this lane registers that review at tier A)".
+At `f51951d3` the exception clause is back at `:41` but `:160` now says "two of its three source rows
+are staged" — so the same file carries both counts. Still open.
+
 ## 6. Drift and live state (the lane moved during this read)
 
 Findings are pinned by blob hash, never by line, because the file was rewritten three times while I
@@ -295,6 +340,19 @@ read it and `corpus/SOURCES.md` was renumbered (S081 moved `:107` → `:105`).
 | registry: "CJK quotes count 1-13" | fail — `SOURCES.md:110` | repaired — "1-7" (`:108`), which matches my recomputation |
 | S086 line range, entry vs registry | entry 80–81 / registry 78–81 | **unchanged disagreement** — entry `:6` "text-layer lines 80-81", registry `:110` "lines 78-81" |
 | D2 doubled bullet (`- **- **`) | not present at pin | appeared in the 04:48Z blob `:120`, gone at live |
+
+**Later blob `f51951d3…` (HEAD `caf1e2b`, 2026-10-25T08:05Z)** — deltas only:
+
+| Change | State at `f51951d3…` |
+|---|---|
+| H1 | **closed** — `:75`–`:77` prose now agrees with the `strata_reported` cell |
+| H4 | **closed** — `:129` "carries programme numbers and score tables (p.38 prints its own figures), but … no contamination measurement" |
+| H3 | **open again / inconsistent** — `:41` "three source rows" vs `:160` "two of its three" |
+| M3 "CTC v1.1 form" header (`:59`) | open |
+| L1 "working paper" (`:2`, `:131`, `:146`) | open |
+| L3 "may be published at all" (`:22`) | open |
+| S086 line range, entry `:6` 80-81 vs registry `:110` 78-81 | open |
+| M7 / M8 / M9 (§5c) | new |
 
 ## 7. Residual risk and verification gaps
 
@@ -335,4 +393,4 @@ the same audit outcome in different words and does not print this sentence" pare
 `:36`–`:37`, `:1108`) **all reproduce on my own captures**. The failures are in the ledger the entry draws
 *from* those quotes, not in the quotes' arithmetic.
 
-VERDICT: FAIL — corpus/knowledge/contamination-transparency-card.md — admission candidate `623c1fc` blob `f01b7cd20cf4ebcaf3ee9f7af8b109ace8b86e69002ae53a213c2dc80ad1e6cd` (H1, H2, H3, H4, H5 plus M1/M2/M5/M6 and the Q10-evidence defect N1 unrepaired there), and still FAIL on the live blob `a78eb18a3095ac1d48bfef5f22d4740a748f73bdcacf0e7757229f281e57c957` (H4 “no measurements” at `:127`/`:184` contradicted by its own `:148`; H1 half-repaired, `:74` still denying `:69`).
+VERDICT: FAIL — corpus/knowledge/contamination-transparency-card.md — admission candidate `623c1fc` blob `f01b7cd20cf4ebcaf3ee9f7af8b109ace8b86e69002ae53a213c2dc80ad1e6cd` (H1, H2, H3, H4, H5, M1, M2, M5, M6 and the Q10-evidence defect N1 all unrepaired in those bytes), and still FAIL at the newest blob `f51951d327fa0d4e9ff4157f07b012f70e175b8501c388716746dd4bac8b86eb` (M8: the CTC column's cells are readings of `templates/disclosure.yaml` @ `4dba1ed`, sha256 `05131be9…`, an artefact this lane does not register, while `:74` says the form has not been admitted; H3's absence claim contradicts `:160`; M7, M9, M3, L1, L3 and the entry-vs-registry S086 line range open). H1 and H4, fail at the admission commit, are closed at `f51951d3…`.

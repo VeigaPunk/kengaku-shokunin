@@ -840,3 +840,29 @@ wave-2 dispatch was refused twice at the host job limit and resent unchanged onc
 **L0 questions:** none opened this round. **Safety:** no pacman transaction (host pause respected),
 no tool installed, no write outside the lane repo, the report and the round's own wave directory;
 `/home/vgpnk/Projects/shokuknow` read-only throughout.
+
+## Round 31 — correction to the round-30 C1 entry above (appended 2026-10-25, not rewritten)
+
+Superseded text, quoted from the round-30 entry above at `LOG.md:792-793` (this file is append-only, so
+those bytes stand as filed): the card entry "declared the delta (two new fields, one new value set)".
+Both halves of that parenthetical are wrong against the entry's own current bytes:
+
+- **"two new fields"** is the first reading the entry retracts, named as retracted at
+  `corpus/knowledge/contamination-transparency-card.md:82-84` ("Two earlier readings of this paragraph
+  (\"two new fields\", then \"one field, one placement, one value set\") overclaimed; this is the
+  corrected one").
+- **"one new value set"** is wrong for the same reason: the entry's strata value set is inherited, not new —
+  `contamination-transparency-card.md:78-81` ("strata is a value set this entry inherits from two
+  cited-or-tabulated sources, not a discovery").
+- **The admitted reading** is `contamination-transparency-card.md:72-75`: "So the delta is one field, and
+  the rest is not a delta at all. **The only field this entry adds to the union table is S2, and what it
+  adds is the field — a state recorded for the card itself rather than for a contamination type. Its values
+  are not new …**". S1 is carried by the CTC v1.1 form's run-side column and is a rename rather than a new
+  field, and this lane has not admitted that form, so the hedge in the entry (`:76-78`) travels with the
+  correction.
+
+Routed by round 30's non-author closure (`corpus/lessons/round-30-verifier-spotcheck.md` §5 item 1);
+re-derived by `plans/round31_defects.py` check R1. The same reading is corrected in
+`corpus/lessons/round-30.md` §Errata (Q6 basis) in this round. Locators above were re-read after the
+entry's own R4/R5/R7 repairs moved its line numbers, and after the R1 reviewer showed an earlier draft of
+this block cited a window that contained neither sentence.

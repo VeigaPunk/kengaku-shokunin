@@ -11,28 +11,30 @@ VERDICT: FAIL
 |---|---|---|
 | Q4 negative space | **FAIL** | the one falsifier was mis-pointed at the audit commit and no falsifier reached the Claim; at the tip commit it has been rewritten into a rule that infers "common" from one release, repeats a clause, names a licence the form does not carry ("the CC0 card"), and ends in an orphan fragment |
 | Q5 source labelling | **FAIL at `623c1fc`, CLOSED at tip `9af639c`** | S086 was labelled "a peer-reviewed 言語処理学会 paper" against the publisher's "published without peer review" stamp; the tip relabels it correctly — but the round-level record (lesson Gate cell, `R30FxRowsCensus.md:167`) still asserts the false label |
-| Q6 extends, never duplicates | **FAIL at `623c1fc`, live at tip** | the naming half holds; the mapping called three published CTC-v1.1 constructs new (R1 strata, S1 acquired, S2 integrity) — R1/S1 cells repaired, **S2's "only new field" survives**, and the tip now contradicts itself on R1 within one page (`:69` cell vs `:75` prose) |
+| Q6 extends, never duplicates | **FAIL at `623c1fc`, live at tip** | the naming half holds; the mapping called three published CTC-v1.1 constructs new (R1 strata, S1 acquired, S2 integrity) — the R1 and S1 cells are repaired at `caf1e2b`, **S2's "only new field" claim survives** against the same published form, and R5 still stands on the wrong cell |
 
 ## 0. Bytes audited, and the drift I watched
 
-The entry was rewritten under me while I audited it — six distinct hashes recorded, a commit in the
-middle of it, and further uncommitted edits after. Two objects matter, and I grade both:
+The entry was rewritten under me while I audited it — eight distinct hashes recorded across five commits, the last
+one repairing findings from this seat. Three objects matter, and I grade all three:
 
 | object | bytes | state |
 |---|---|---|
 | **admitted tree** — commit `623c1fc` ("round-30: assimilation round 2 …") | entry `sha256 f01b7cd20cf4ebcaf3ee9f7af8b109ace8b86e69002ae53a213c2dc80ad1e6cd`, 177 lines, blob `43001f5` | the tree the Gate's admission record points at; **this is what my verdicts are stated against** |
-| **tip** — commit `9af639c` ("round-30: S086 is not peer-reviewed … falsifier decision rule; Q4/Q5 corrections") | entry `sha256 a78eb18a3095ac1d48bfef5f22d4740a748f73bdcacf0e7757229f281e57c957`, 191 lines, clean tree | the entry as repaired in response to this seat: Q5 closed, Q4 falsifier rewritten (and broken differently), Q6 unchanged on S2. **Graded in §4** |
+| **tip** — commits `9af639c` → `a6a9b57` → `caf1e2b` | entry `sha256 f51951d327fa0d4e9ff4157f07b012f70e175b8501c388716746dd4bac8b86eb`, 194 lines, clean tree | the entry as repaired in response to this seat and its siblings: Q5 closed, R1 cell + prose closed, S085 wording closed; S2, the falsifier's four textual defects and the duplicated agreement sentence live. **Graded in §4** |
 | **intermediate worktree** (superseded) | `sha256 ba0465d1cbcbb0b62529343a7c4fe5c4c26e37db6fd462ac93a8e9d95f106d82`, `M` | the uncommitted state I first checked the repairs against |
 
 Hashes observed on the way: `0f2e1614…` (04:43:05 local, −0300; no sha256 pin, mapping said "exactly two
 fields are new as *fields* (S1, S2)"), `df0b6d41…` (04:44:02, pin + `grader integrity` row + "one new
 field / one new placement / one new value set"), `f01b7cd2…` (04:45:17, **committed** at `623c1fc`),
-`211e5bcd…`, `b29eac97…`, `ba0465d1…` (worktree repairs: R1/R4/S1 cells, rarity bullet, Extends caveat; checked at `ba0465d1`).
+`211e5bcd…`, `b29eac97…`, `ba0465d1…` (worktree repairs: R1/R4/S1 cells, rarity bullet, Extends caveat), `a78eb18a…` (tip, **committed** at `9af639c`: S086 relabel, falsifier rewrite, Q4/Q5 corrections).
 
-Consequence for the Gate, stated plainly: `corpus/lessons/round-30.md:64-66` scores Q4/Q5/Q6 **pass**
+Consequence for the Gate, stated plainly (lesson line numbers are as I read them at `2dcf06c`; the
+lesson is itself under edit, and the seat that owns it reports the Q5 cell at `:65-66` and the Q6 cell
+at `:67`): `corpus/lessons/round-30.md:64-66` scores Q4/Q5/Q6 **pass**
 ("Q4 pass (§What this does not establish, six bullets including the **two-delta-field** concession and
 a named falsifier) … Q6 pass (§Extends names both objects; the delta is stated as one field, one
-placement, one value set)") against a tree that has since been replaced three more times — and the two Gate
+placement, one value set)") against a tree that has since been replaced by four later states, the last being commit `9af639c` — and the two Gate
 phrases disagree with each other about the same entry, one counting two delta *fields* and the other
 one field plus a placement plus a value set. The lesson itself is uncommitted
 (`M corpus/lessons/round-30.md`). §4 records, finding by finding, which of my defects the later edits
@@ -198,7 +200,7 @@ S081's agreement), and the below-threshold pair is quoted rather than hidden. Th
 entirely in the falsifier and (in the admitted tree) in the one sentence that repurposed the
 negative.
 
-## 2. Q5 — every source is labelled for what it is — **FAIL**
+## 2. Q5 — every source is labelled for what it is — **FAIL at `623c1fc`; closed in the entry at `9af639c`, open in the round's record**
 
 ### 2.1 The three legs the task names, verified
 
@@ -238,6 +240,15 @@ and "peer-reviewed" is a provenance claim no artefact in this round supports, co
 nearest published statement of the series' policy. A tier-A conference paper stands on its own
 evidence; the badge buys nothing and risks the one section whose job is provenance.
 
+**The tier move has a second stale surface.** `corpus/SOURCES.md`'s S086 row now reads tier `B`
+(`awk -F'|' '/^\| S086 /' → cell 5 = `B`), and my own census of the registry is `A 78 / B 8 / C 2 =
+88` rows, matching `corpus/lessons/round-30.md:93` ("tier A 76 → 78, tier B 4 → 8"). The lesson's Q2
+cell at `:61` still prints "(S081 B, S082 B, S083 A, S084 A, S085 B, **S086 A**)" — one letter away
+from the registry it summarises. Q2 still passes on either letter (B clears the A-or-B floor), so
+nothing collapses; the cell is a record defect, not an admission defect. One further line correction
+from the lesson seat, verified here: the entry's "two non-GEM source rows" clause is at `:134`, not
+`:132` (`:132` is S082's "argument plus a wage-premium dataset" sentence).
+
 *Repair, and its state at the tip.* Commit `9af639c` ("round-30: S086 is not peer-reviewed (society
 stamp) — relabel and tier to B") carries exactly this repair in the entry: `:148-150` now reads
 "S086 is a 言語処理学会 2025 paper that the society publishes **without peer review** (its own stamp
@@ -264,7 +275,7 @@ that describe it.
   accurate, and is the distinction that matters for this entry (programme metrics ≠ contamination
   measurement).
 
-## 3. Q6 — extends, never duplicates or overwrites — **FAIL (admitted tree)**
+## 3. Q6 — extends, never duplicates or overwrites — **FAIL** (admitted tree; S2 and the R1 self-contradiction live at the tip)
 
 ### 3.1 The naming half holds (verified, not accepted)
 
@@ -294,13 +305,27 @@ Checks run:
 The tabulation's CTC column points at `templates/disclosure.yaml`, commit
 `4dba1ed9b2ace8b71a2edcd5fa6ce0337cf08ba6` (`benchmark-card-field-schema-2026-10-23.md:2`). I fetched
 that blob (`raw.githubusercontent.com/Jangulo7/contamination-disclosure-paper/4dba1ed…/templates/disclosure.yaml`,
-2 181 bytes, head `# Contamination Disclosure v1.1`, `disclosure_version: "1.1"`).
+HTTP 200, 2 181 bytes, `sha256 05131be9f72b333a479046a0df4510d48fd5389192d40c595869e718b5c90d0f`, head
+`# Contamination Disclosure v1.1`, `disclosure_version: "1.1"`). A second seat
+(`L1Kengaku30.R30RevLesson`, §Pass 13) fetched the same URL at the same commit and independently
+confirmed `:2` CC BY 4.0, `:36` the four-value enum, `:42-47` the run-side block and `:14`/`:49-51`
+the date/regeneration split — so this finding is corroborated, not single-seat, and a reader can
+re-derive it with one `curl`.
 
 | entry field | admitted-tree status | published CTC v1.1 bytes | verdict |
 |---|---|---|---|
 | **R1 strata** | cell `(absent)` in all three designs; prose "which **no design tabulates**" (`:73-74`) | `:16-22` — `strata_reported:` / `reported: true` ("false is an answer; make it visible") / `strata: []` / `aggregate_only: false` / `definition:` ("what defines a stratum") / `pre_registered: false` / `scores: {}` ("{stratum_name: {n: 0, score: 0.0, ci95: [0.0, 0.0]}}") | **mislabelled in the admitted tree.** A published design does tabulate strata *as a value set* — definition, pre-registration, aggregate-only flag, per-stratum CIs. Repaired in the worktree (CTC cell now `` `strata_reported` ``) |
 | **S1 acquired** | "**delta** — the run-side half" | `:40-47` — `# Type 5 is evaluation-time: a property of THIS run, not of the benchmark.` / `# No benchmark author can answer this for you.` / `acquired: "unknown"` / `network_access_during_eval` / `environment_sanitised` / `transcripts_reviewed` / `boundary_integrity_monitored` / `notes`; the form itself is per-run (`benchmark.name/version/doi` `:9-13`, `system_under_test`, `evaluation_date` `:13-14`) | **mislabelled in the admitted tree.** The staged S1's value list — "network access, environment sanitisation, transcript review or boundary monitoring — with the elements actually stated recorded in `notes`" (staged `:42`) — is a 5-of-5 restatement of those keys, and the form's own comment puts the block on the run side, not the release side. Repaired in the worktree (row now reads "**not a delta** — the CTC form already…", cell `contamination_controls.acquired` plus the run-side keys) |
 | **S2 integrity** | "**delta in field** — a state for the card itself"; cell "`unknown` / `not_controlled` are valid values" | `:38` declares the per-type value set `# controlled \| not_controlled \| unknown \| n/a`; `acquired: "unknown"` (`:42`) is the tri-state on the acquired claim; `boundary_integrity_monitored: ""` (`:46`) is the monitoring record the staged S2's rationale names ("a `controlled` claim for Type 5 without boundary monitoring is an assumption rather than a control", staged `:43`) | **still mislabelled, in the worktree too.** The worktree now says "**S2's tri-state integrity flag is the only new field**" — but the published form already declares that tri-state and the monitoring key. What S2 adds is a *name*, and the entry's own CTC cell names the published values |
+
+**The tip contradicts itself on R1 within one page.** At `9af639c` the R1 row was repaired exactly as
+this seat and two siblings asked — `:69` `| R1 strata | (absent) | \`strata_reported\` | (absent) |
+**already a column in one of three**` — but `:75` of the paragraph immediately below still reads
+"R1's strata are absent from all three *tabulated* designs but present in S081's own four-field
+protocol (F1, strata)". The word "tabulated" cannot rescue it: the table three lines above puts
+`strata_reported` in the CTC *design* column, and the released CTC v1.1 form is the published form of
+S081's four-field protocol (the tabulation's own S123 row: "the contamination-disclosure protocol is
+not prose … `templates/disclosure.yaml`"). A reader can falsify the paragraph using the row.
 
 Net for the admitted tree: against the pinned form the honest delta is **zero new fields** — R1, S1
 and S2 are all carried. Against the round-6 tabulation alone (which never had R1/R4/S2 rows) the
@@ -316,10 +341,21 @@ on those rows and the reader is never told.
   templates; few-shot example ordering and count; scoring procedure; multi-run variance; generation
   parameters", re-extracted from `2026.gem-main.50.pdf`) says nothing about regeneration. Both cells
   are now corrected in the worktree (`regeneration:` block; GEM `(absent — …)`).
-- **R5 instrument currency** ("the date of the benchmark's last substantive update") mapped CTC →
-  `evaluation_date`, which the form defines as the evaluation's date for a `system_under_test`; the
-  form has no benchmark-update field (only `benchmark.version`). R5's real home is the AI Alliance
-  "Release date"/"Change log". Unchanged in the worktree.
+- **R5 instrument currency** ("the date of the benchmark's last substantive update", staged `:36`)
+  mapped CTC → `evaluation_date`. The cell is **not empty and not missing** — `:14`
+  `evaluation_date: ""  # YYYY-MM-DD` exists — it is the **wrong property**: a run's evaluation date
+  for a named `system_under_test`, where R5 asks when the benchmark's instrument was last
+  substantively updated. The form has no benchmark-update date (only `benchmark.version`), and its
+  version/regeneration information sits elsewhere (`:49-51` `regeneration:`). Stating R5 as "a column
+  in two of three" therefore rests on a field that measures something else. R5's real home is the AI
+  Alliance "Release date"/"Change log". Still uncorrected at the settled tip.
+- **"R4 already covers it" does not rescue R5.** `grep -n 'date\|YYYY' templates/disclosure.yaml` over
+  the whole form returns exactly two hits: `:3` `# Validate with: …` and `:14` `evaluation_date`. The
+  `regeneration:` block (`:49-52`) is `procedure_published: false` / `procedure_url: ""` /
+  `artifact_only: true` / `notes: ""` — a *whether-published* status, **with no date field at all**. So
+  the form carries one date and it is the run's; neither the R4 column nor the R5 cell can supply R5's
+  "date of the benchmark's last substantive update", and a reader cannot repair the claim by pointing at
+  the block.
 
 Both were independently found by `falsify/R30FxEntryQ1Q3.md:206-211`; I record them as corroboration
 and as evidence that the admitted table's "already a column in two of three" counts were not safe.
@@ -335,6 +371,13 @@ entry's own reading of the three designs, which is legitimate — and is exactly
 table is re-derived on those rows. Three of the four were wrong (§3.2, §3.3), which is why the
 wording matters: "continued" tells the reader the cells were inherited and need no check.
 
+The entry is also internally split on how many of the tabulation's rows are unregistered: `:41` "its
+three source rows are not in this lane's registry (the GEM 2026 review it tabulates is the one
+exception…)" versus `:160` "two of its three source rows are staged and not in this lane's registry".
+The exception makes `:160` the right count and `:41` survivable only because of its own parenthesis;
+a reader who stops at the noun reads "three" and then meets "two" eleven lines later in the Extends
+section that Q6 grades.
+
 ### 3.5 What would turn Q6 green
 
 1. Land the worktree repairs **in a commit the Gate cites** (§3.2 R1/S1, §3.3 R4), and re-take the
@@ -345,22 +388,26 @@ wording matters: "continued" tells the reader the cells were inherited and need 
    round-6 cells; R1, R4 and S2 are cells this entry read out of the three designs, with key names
    cited per row.
 
-## 4. Live-state table (what the post-commit edits repaired, what is still live)
+## 4. Live-state table (admitted tree → tip, finding by finding)
 
-Against worktree `sha256 ba0465d1…` (uncommitted, `M`; the live defects below were re-located at this hash after two further edits):
+Graded at four states: the admitted commit `623c1fc` (sha `f01b7cd…`, my verdicts in §1–§3), the
+intermediate worktree `ba0465d1…`, commit `9af639c` (sha `a78eb18a…`), and the settled tip `caf1e2b`
+(sha `f51951d3…`, 194 lines, clean tree). Repairs are recorded as closed only where I re-located the
+new bytes myself.
 
-| finding | admitted tree `623c1fc` | worktree `ba0465d1…` |
-|---|---|---|
-| Q4-A falsifier points at the third bullet | present | **live** (`:135-136`) |
-| Q4-B "two delta fields" vs the mapping's field count | present | **live** (mapping says one field; falsifier still says two and names the pair it now calls non-delta) |
-| Q4-C reliability→prevalence laundering | present | repaired (population stated, "rare in practice" removed from the S081 restatement) |
-| Q4-D falsifier undecidable / no Claim falsifier | present | **live** |
-| Q4-E malformed bullet `- **- **Agreement…` | absent | **live** (`:120`, re-verified at `ba0465d1`) |
-| Q5 S086 "peer-reviewed" | present | **live** (`:144`, re-verified at `ba0465d1`); also Gate `:65` and `R30FxRowsCensus.md:167` |
-| Q6 R1 cell `(absent)` / "no design tabulates" | present | repaired in the table; the prose's new distinction ("absent from all three *tabulated* designs but present in S081's own four-field protocol") still separates S081's protocol from the released form of that protocol, which is the CTC v1.1 form — so the design still carries it |
-| Q6 S1 "delta…the run-side half" | present | repaired ("not a delta", with `contamination_controls.acquired` and the run-side keys named) — and the neighbouring sentence still says the lane "cannot settle it without reading that form, which it has not admitted", which is now inconsistent with a cell that names the form's keys |
-| Q6 S2 "only new field" | present | **live** (`:70-71`, re-verified at `ba0465d1`) |
-| Q6 R4/R5 cells | both wrong | R4 repaired; R5 unchanged |
+| finding | `623c1fc` | `ba0465d1` | tip `9af639c` (`a78eb18a`) |
+|---|---|---|---|
+| Q4-A falsifier points at the third bullet | present | **live** (`:135-136`) | pointer phrase gone; **orphan fragment "rather than a trend / bullet above." left** (`:139-140`) |
+| Q4-B "two delta fields" vs the mapping's field count | present | **live** | repaired: the falsifier now names "(R1 strata, S1's acquired type)", which the mapping marks already-columned / not-a-delta |
+| Q4-C reliability→prevalence laundering | present | repaired | repaired (§1.4 still records it against the audited commit) |
+| Q4-D falsifier undecidable / no Claim falsifier | present | **live** | **live at `caf1e2b`**: the rule infers "common" from one release, its clause is duplicated (`:137-138` "and populated (not \"unknown\")"), it names "the CC0 card" (the form is CC BY 4.0, `:139`) and the deleted pointer survives as the orphan "bullet above." (`:142`); the Claim still has no falsifier (§1.7) |
+| Q4-E malformed bullet `- **- **Agreement…` | absent | **live** (`:120`) | fixed — but the same edit **duplicated the bullet's closing sentence** (`:122-125`) |
+| Q5 S086 "peer-reviewed" | present | **live** (`:144`) | **fixed in the entry** (`:148-150`, tier → B); still false in `corpus/lessons/round-30.md` Q5 cell and `R30FxRowsCensus.md:167` |
+| Q6 R1 cell `(absent)` / "no design tabulates" | present | repaired in the table | **closed** at `caf1e2b`: cell `strata_reported` (`:69`) and prose "strata are carried by the CTC v1.1 form (`strata_reported`)" (`:75`) now agree; the contradiction I recorded against `9af639c` is historical |
+| Q6 S1 "delta…the run-side half" | present | repaired | repaired ("not a delta", CTC keys named) |
+| Q6 S2 "only new field" | present | **live** | **live** (`:68`, `:71-72`) — the published form declares the tri-state and carries `boundary_integrity_monitored` / `notes` |
+| Q6 R4/R5 cells | both wrong | R4 repaired; R5 unchanged | R4 repaired; **R5 still wrong** — `evaluation_date` exists (`:14`) but is the run's date, not the benchmark's currency; the form's regeneration block is `:49-51` |
+| S085 "no measurements" vs "carries programme numbers and score tables" | wrong in both sections | — | **closed** at `caf1e2b` (`:127-129` now "carries programme numbers and score tables (p.38 prints its own figures), but no document number, no contamination measurement and no data release") — consistent with §2.3's evidence |
 
 ## 5. Residual risk and verification gaps
 
@@ -383,6 +430,18 @@ Against worktree `sha256 ba0465d1…` (uncommitted, `M`; the live defects below 
   papers is produced that says otherwise, the S086 label becomes unsupported rather than
   contradicted — the Q5 verdict stands on either footing, because the round offers no evidence for
   it and the series' nearest published statement denies it.
+- **Repairs I verified at the settled tip `caf1e2b` (sha `f51951d3…`), not accepted from a commit
+  message.** Closed: S086's label (`9af639c`, tier A → B, which still clears Q2's A-or-B floor); the R1
+  cell and its prose (`caf1e2b`, cell `strata_reported` + "strata are carried by the CTC v1.1 form");
+  S085's measurement wording (`caf1e2b`). Still live at that tip: the S2 "only new field" claim
+  (`:68`, `:72`), the R5 `evaluation_date` cell (`:65`), and the Q4 falsifier with all four of its
+  defects — invalid n=1 inference, duplicated clause, "CC0" for a CC BY 4.0 form, orphan "bullet
+  above." (§1.7).
+- **Two defects at the tip are edit residue, not inherited:** the duplicated "not a reconciled truth"
+  sentence (`:125-126`, surviving the fix that removed the doubled bullet marker) and the "CC0"
+  licence name (`:139`). Both are the class this round's Q20 names as invisible to a count check (the
+  integer detects shrinkage, not a botched rewrite) — a falsify seat re-reading the bytes is still the
+  only detector here.
 - **Not my rows:** Q1/Q2/Q3 (Q1Q3 seat), Q7–Q9, Q10 quote re-reads (`R30FxQuotes.md`, per-source
   seats), Q13 timing. I did not score them and cite their results only where a finding of mine
   touches theirs.

@@ -7,12 +7,14 @@ Scratch: `/tmp/r30fx-coverage-axis-*`.
 
 Candidate: `corpus/knowledge/contamination-transparency-card.md`
 
-VERDICT: FAIL — the entry's amendment delta is still overstated against its own cited design: R1's
-CTC v1.1 cell reads `(absent)` and `:69` says "no design tabulates" strata, while the pinned CTC
-v1.1 template carries a `strata_reported` block, and S1's "release-side artefact" characterisation
-is contradicted by that form's own header. C1's counting command passes (re-run below) and the
-score 7 → 7 held is the honest number. Repair is two cells, one clause, and the SCORECARD wording
-in §"The exact SCORECARD wording".
+VERDICT: FAIL at the byte this seat attacked (`f01b7cd2…`, commit `623c1fc`) — the entry's amendment
+delta was overstated against its own cited design: R1's CTC v1.1 cell read `(absent)` and `:69` said
+"no design tabulates" strata, while the pinned CTC v1.1 template carries a `strata_reported` block, and
+S1's "release-side artefact" characterisation was contradicted by that form's own header. C1's counting
+command passed at that byte and still passes at the final pin. **Live status: those cells were repaired
+and the currency word was adopted; the report's residue at `caf1e2b` / entry `f51951d3…` is §Addendum 2
+(the CTC column's provenance), `:41` vs `:160`, M7/M9 and two SCORECARD one-liners.** The number the
+whole report turns on — 7 → 7 held, `improved (counts)`, cap open — was correct at every pin.
 
 **Bytes I attacked (they moved under this seat):** `corpus/knowledge/contamination-transparency-card.md`
 sha256 `f01b7cd20cf4ebcaf3ee9f7af8b109ace8b86e69002ae53a213c2dc80ad1e6cd`, mtime
@@ -304,65 +306,112 @@ usedby_ok=1 census=ok`, exit 0.
 | 3 sub-row in the verdict cell | **closed there, not in the axis cell** | the verdict cell names `coverage (surfaces)`; the axis cell is still `**coverage** (lowest non-retired, tie-break)`. Cosmetic, but the two cells now name different things. |
 | 3 depth-hold reason | **open** | `SCORECARD.md:1026` still reads "depth 9 (… no new instrument claim)" — an instrument criterion belongs to novelty, not to the depth rubric's legs |
 
-**New defect found on the repaired bytes (unrepaired).** `corpus/knowledge/contamination-transparency-card.md:120`
-renders as `- **- **Agreement is not established.**` — a doubled list marker left by the repair pass.
-One-character fix; it is in the committed entry.
+**Defect found on the mid-repair bytes, now fixed.** `corpus/knowledge/contamination-transparency-card.md:120`
+rendered as `- **- **Agreement is not established.**` from `706ed3f` through the `ba0465d1…`/`a78eb18a…`
+repairs; the marker is single again at the final pin (`f51951d3…`) and what the repair left behind is
+a duplicated *sentence* at `:125-126` (see §Addendum).
 
 **Net effect on my verdict.** The `VERDICT: FAIL` at the top of this report is the record of the byte
-this seat attacked (`f01b7cd2…`, `623c1fc`); on live bytes its two field falsifiers and the currency
-word are repaired, and what remains is two one-line wording items, one frozen-prereg errata line, and
-the malformed bullet. Nothing in the residue is a reason to refuse C1's admission or to move the
-coverage number off 7.
+this seat attacked (`f01b7cd2…`, `623c1fc`); its two field falsifiers and the currency word are
+repaired, and the residue — enumerated at the end of §Addendum against the final pin — is
+calibration-grade text inside the entry plus two SCORECARD one-liners and one frozen-prereg errata
+line. Nothing in it is a reason to refuse C1's admission or to move the coverage number off 7.
 
 ## Addendum — items the complete-set seat raised, re-verified on live bytes
 
 **Revision note (2026-10-25, appended in place because this report's own claims must be true of the
-byte it describes):** the entry moved three times after this seat wrote; the bullets below were first
-written against `ba0465d1…` (HEAD `bdcd7be`) and are now re-derived against `a78eb18a…` (HEAD
-`9af639c`), where two of them read differently. The counter re-runs at this byte:
+byte it describes):** the entry moved five times after this seat wrote. Final pin for this report:
+`caf1e2b:corpus/knowledge/contamination-transparency-card.md`, sha256
+`f51951d327fa0d4e9ff4157f07b012f70e175b8501c388716746dd4bac8b86eb`. I will not re-pin after this;
+later repairs are the owners' to verify. At this byte the counter still prints
 `entries=1 indexed=1 cited_rows=6 rows_present=6 rows_mined=6 usedby_ok=1 census=ok`, exit 0.
 
-The complete-set seat's fetch reproduces mine (same pinned form, same sha). Re-derived from bytes:
+The complete-set seat's fetch reproduces mine (same pinned form, same sha). Status of its items and
+mine at the final pin:
 
-- **`:75` contradicts `:69`.** `:75` reads "R1's strata are absent from all three *tabulated* designs
-  but present in S081's own four-field protocol", while the R1 row at `:69` carries `strata_reported`
-  in the CTC v1.1 column and its own status cell says "**already a column in one of three**". The
-  table cell is right (my `05131be9…` fetch of the pinned form has the block); `:75` is the leftover.
-  Smallest fix is the complete-set/lesson wording: "absent from two of the three (AI Alliance, GEM
-  § 7) but carried as `strata_reported` in CTC v1.1".
-- **`:41` (and `:158`-region) is now a number error, not an uncorrected claim.** Live `:41-43` reads
-  "its three source rows are not in this lane's registry (**the GEM 2026 review it tabulates is the
-  one exception**: this lane registers that review at tier A)" — the exception I reported is now
-  stated, so my earlier "simply false" is superseded. What remains is arithmetic: three-minus-one is
-  not three, and the entry's own later bullet says "two non-GEM source rows". The exception is
+- **R1 strata — closed.** `:75-77` now reads "strata are carried by the CTC v1.1 form
+  (`strata_reported`) and are absent from the other two tabulated designs …" — consistent with the
+  `:69` cell. My `05131be9…` fetch of the pinned form is what that sentence now states.
+- **S1 — closed** for the third time: `:67` "**not a delta** … it is a rename, not a relocation".
+  R4 — closed: `:66` "a dedicated `regeneration:` block".
+- **S085 "no measurements" — closed.** `:129` and `:186` now read "no contamination measurement"
+  (qualified), matching `:150` and the capture `/tmp/r30-R30SrcS085/caict.txt:1151` (25.8 / 51.8 with
+  a score table at `:1178`).
+- **`:41` still contradicts `:160`.** `:41` says "three source rows are not in this lane's registry
+  (the GEM 2026 review it tabulates is the one exception …)"; `:160` says "two of its three source
+  rows are staged". Three minus the one exception is not three. The exception is
   `corpus/SOURCES.md:23` **row S001** (GEM 2026 review, tier A, `mined`, `opened 2026-10-19`, teach
   cell "…the Contamination Transparency Card…", URL `…/2026.gem-main.50`; the staged table's S124 is
-  `…/2026.gem-main.50.pdf`, the same document). This still touches my axis, in the weaker form: one
-  tabulated design **was already lane-held**, so "ground the lane did not hold" is true of the card
-  *format* only, not of the designs.
-- **S085 "no measurements" is unqualified-false.** `:127` ("no document number, no measurements, no
-  data release") and `:184` ("self-description with no measurements") contradict the same entry's
-  `:148` ("numbers and score tables, but no contamination measurement") and the round's own capture:
-  `/tmp/r30-R30SrcS085/caict.txt:1151` prints "25.8 分，但 Qwen1.5-7B 的分数却显著提升至 51.8 分" with a
-  score table at `:1178`. `:148`'s qualified form is the honest one.
-- **`:124-125` duplicates a sentence.** "Two coders filling this card need not agree; the card
-  records what each stated, not a reconciled truth." appears twice in consecutive lines. The doubled
-  list marker I reported at `:120` is fixed on this byte; the duplicate is what the repair left.
-- **`:74` leaves open what the entry's own table settles.** "…whether that makes the record score-side
-  is a question about *where* it is filed, and this lane cannot settle it without reading that form"
-  sits two rows above a table whose CTC cells (`contamination_controls.acquired`, `regeneration:`,
-  `strata_reported`, `evaluation_date`) can only have come from reading that form, and the form's
-  top-level `system_under_test` / `evaluation_date` answer the placement question. Either the lane
-  read the form (then the cells stand and the caution is moot) or it did not (then the cells are not
-  evidenced). One of the two sentences is wrong.
-- **R4 is repaired on live bytes** — `:66` now cells "a dedicated `regeneration:` block", so the
-  complete-set seat's R4 finding applies to the pre-repair blob (`f01b7cd2…`) only. Its R1 finding
-  and its per-run reading of the form stand.
+  `…/2026.gem-main.50.pdf`, the same document). **This is the residue that touches my axis:** one
+  tabulated design was already lane-held, so "ground the lane did not hold" is true of the card
+  *format*, not of the designs or the card idea.
+- **`:125-126` duplicates a sentence** — "Two coders filling this card need not agree; the card
+  records what each stated, not a reconciled truth." twice in a row.
+- **`:74` leaves open what the entry's table settles.** "…whether that makes the record score-side is
+  a question about *where* it is filed, and this lane cannot settle it without reading that form"
+  sits two rows above CTC cells (`contamination_controls.acquired`, `strata_reported`,
+  `regeneration:`, `evaluation_date`) that can only come from reading that form, and the form's own
+  top-level `system_under_test` / `evaluation_date` answer the placement question. Reading it is what
+  the table already did.
 
-**Revised net effect on live bytes.** The number is right (7 → 7 held, `improved (counts)`, cap open)
-and the row's currency wording is honest. Inside the entry the residue is: `:75` contradicting its own
-table, `:41`'s three-vs-two arithmetic, `:127`/`:184` unqualified S085 claims, the `:124-125`
-duplicate, and the `:74`/table tension. None of these moves a score; every one is a calibration item
-on an admitted entry, so this report's `VERDICT: FAIL` remains the accurate reading of the live byte —
-as a calibration finding on the entry's text, not a recommendation to refuse C1's admission and not a
-reason to move coverage off 7 (the number, the cap citation and the currency word are all correct).
+**Axis-adjacent integrity item verified here (not the complete-set seat's alone).** At the admitting
+commit `623c1fc`, `corpus/lessons/round-30.md` `:31`/`:35` cited `.ufo/waves/round-30/falsify/
+R30FxEntryCompleteSet.md` and `…/R30FxRowsCensus.md`, and neither path is in that commit's tree:
+
+```
+git cat-file -e 623c1fc:.ufo/waves/round-30/falsify/R30FxEntryCompleteSet.md
+ → fatal: … exists on disk, but not in '623c1fc'
+```
+
+`python3 plans/gate_timing_check.py --lesson corpus/lessons/round-30.md --commit 623c1fc` exits 0
+anyway (`PASS line 17 Gate admit … second-seat-reports=28`) because the tool parses Gate rows only,
+not the Q10 row. This is the round-26 Q13 class reappearing on a side surface: a coverage claim whose
+supporting second-seat set is time-shifted relative to the commit that carries it. The live lesson no
+longer cites either path (`grep` → 0 hits at `caf1e2b`), so it is a historical byte fact, not a
+present defect; it belongs in the lesson as a Q13 note, not in the SCORECARD row.
+
+**Net effect at the final pin.** The number is right (7 → 7 held, `improved (counts)`, cap open, no
+PROVINCE leg) and the row's currency wording is honest. Inside the entry three items remain — `:41`'s
+three-vs-two arithmetic, the `:125-126` duplicate, and the `:74`/table tension — all calibration-grade,
+none score-moving. This report's `VERDICT: FAIL` therefore remains the accurate reading of the entry's
+text (as a calibration finding, not a refusal of the admission); the axis answer is unchanged from
+§Attack 1-3: the label and the number are correct, the magnitude of "expansion" was overstated and is
+now mostly corrected.
+
+### Addendum 2 — the CTC column's provenance (verified, and the largest axis item left)
+
+The complete-set seat calls this M8; I re-derived it from bytes rather than taking it:
+
+| check | result |
+|---|---|
+| `grep -cE '^\| *S12[234] *\|' corpus/SOURCES.md` | `0` — no row for the AI Alliance template, the CTC v1.1 form, or the GEM § 7 table beyond S001 |
+| `grep -c 'disclosure.yaml\|4dba1ed\|Jangulo7\|raw.githubusercontent' corpus/knowledge/contamination-transparency-card.md` | `0` — the entry names neither the form's path nor its commit |
+| `grep -c 'strata_reported\|network_access_during_eval\|regeneration' benchmark-card-field-schema-2026-10-23.md` | `0` — the campaign staging table does not carry any of them (its six CTC cells are `contamination_controls`, `unknown/not_controlled`, "type 5 recorded per run", `elicitation_budget`, `evaluation_date`, —) |
+
+So three cells that are now load-bearing for the entry's delta arithmetic — `strata_reported` (`:69`),
+the run-side key names (`:67`), "a dedicated `regeneration:` block" (`:66`) — can only come from
+`templates/disclosure.yaml` at `4dba1ed…` (2,181 B, sha256 `05131be9…`), an artefact this lane holds
+no registry row for and the entry never cites by path. The `:41-46` shelter covers only the campaign
+staging file; `:74` then says the lane "cannot settle it without reading that form, **which it has not
+admitted**".
+
+This is the coverage question in its exact form, and it cuts both ways:
+
+- the cells are **factually right** — my own fetch of the pinned form contains every one of them, which
+  is why H1/H2's repairs hold;
+- their **provenance is unsheltered** — the lane's Q2 discipline says a load-bearing reading names an
+  artefact it holds. Right now the entry both depends on the form and says it has not admitted it, so
+  a reader cannot tell whether the CTC column is a reading or an inheritance from the campaign table
+  (which does not contain those cells, so it cannot be the latter).
+
+Smallest safe fix, in preference order: (a) register the form as a registry row (path + commit
+`4dba1ed…` + sha256 `05131be9…` + located field names as the anchor) and add its `used-by` — this
+makes the whole mapping lane-sourced and retires the caveat; or (b) if registering is out of round-30
+scope, mark the CTC column "read from a staged artefact, not admitted" in the table header and delete
+`:74`'s "cannot settle it without reading" clause, which is false given the cells above it. Either way
+the axis claim should read "the mapping's CTC column is a reading of an unregistered artefact" rather
+than "ground the lane did not hold".
+
+No score moves: 7 → 7 held, cap open, currency `improved (counts)` — the ledger delta is the same
+either way. This is a Q2/provenance defect on the entry, and it is the item I would not let past the
+Gate.

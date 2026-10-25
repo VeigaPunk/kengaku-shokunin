@@ -1021,3 +1021,261 @@ checks item 4 or 6 against the entry can falsify the "pass" without leaving the 
 a verdict whose reason does not follow from the evidence — applies to the round's own gate as much
 as to a rejection. Q13's checker is green either way, which is exactly why the errata have to be
 written down rather than inferred.
+
+---
+
+# Pass 8 — sixth revision (`2f1ac9dc…7dc6`) and a re-measured residue table
+
+## Q13: PASS, third consecutive revision
+
+`/tmp/r30-DraftGate/gate.md`, sha256 `2f1ac9dcb4296f26778f…`, 14 578 B (the seat's earlier 13 815 B
+was `len(str)` — characters, not bytes; the 83-byte gap is the cell's CJK). The admit row compares
+byte-identical to the `0821c7e1` row; probe `/tmp/r30-RevLesson/lane6`, commit `29d4b99`:
+
+```
+gate_timing_check: … admissions=1 passed=1 failed=0 second-seat-reports=33
+```
+
+## Residue table, re-measured on the entry as it now stands (`f51951d3…`)
+
+The entry has moved three times during this review (`ba0465d1` → `a78eb18a` → `f51951d3`), so the
+seats' residue lists are stale in both directions. Measured now:
+
+| previous item | state | bytes |
+|---|---|---|
+| label, entry surface | **CLOSED** | `:150` — `S086 is a 言語処理学会 2025 paper that the society publishes **without peer review** (its own stamp on …`; `:152` — `non-peer-reviewed proceedings paper, not a peer-reviewed result` |
+| strata (`:75` vs `:69`) | **CLOSED** | `:75` — `strata are carried by the CTC v1.1 form (`strata_reported`) and are absent from the other two tabulated …` |
+| `:120` doubled marker | **CLOSED** | the line is ordinary prose now (`one genuinely new field (S2) is *not* one its source validated …`) |
+| S085 "no measurements" | **CLOSED** | `grep -n 'no measurements'` → no match; `:150` carries the qualified form `numbers and score tables, but no contamination measurement, no document number and no data release` |
+| label, lesson + census | **LIVE** | lesson `:66` `S083/S086 peer-reviewed`; `R30FxRowsCensus.md:167` `peer-reviewed proceedings paper …` |
+| registry count `:41` vs `:160` | **LIVE** | `:41-43` `three source rows are not in this lane's registry (the GEM 2026 review it tabulates is the one exception: this lane registers that review at tier A)` against `:160` `two of its three source rows are staged and not in this …` — the exception clause and "three" cannot both stand; `corpus/SOURCES.md:23` is S001, tier A, `mined` |
+| duplicated clause | **LIVE, moved one line** | `:125-126` — `… the card records what each stated, not a reconciled truth. Two coders filling this card need not agree; the card records` / `what each stated, not a reconciled truth.` |
+| `plans/round-30-claims.md:22-24` "*core*" | **LIVE** | frozen text; lesson errata still owed (pass 3 wording) |
+
+Residue count therefore drops from seven to four, and the entry's own surface is down to two cells
+(`:41` and `:125-126`). The Gate block is unaffected: it cites no cell from that list, and its
+admit-row language ("it discharges both round-29 flips", the counts, the six citations) is supported
+by bytes I measured.
+
+**Drop-in for `:41` (now the only numeric contradiction left):**
+`two of its three source rows are not in this lane's registry (the GEM 2026 review it tabulates is the exception: this lane registers that review at tier A, corpus/SOURCES.md:23)`
+
+---
+
+# Pass 9 — a historical Q13 claim re-measured and corrected in mechanism
+
+The coverage-axis seat's final report states: "at `623c1fc` the lesson cited two reports absent from
+that tree, and `gate_timing_check.py` exits 0 because it parses Gate rows only." The count is right;
+the mechanism is wrong, and the difference is the whole point of Q13.
+
+Re-measured against the commit itself (`--commit` reads that tree, not the worktree):
+
+```
+$ python3 plans/gate_timing_check.py --lesson corpus/lessons/round-30.md --commit 623c1fc
+PASS line 17 Gate admit: candidate='corpus/knowledge/contamination-transparency-card.md'
+  cited seat-report paths: …/R30FxSrcS081.md … …/R30FxSrcS086.md   (six)
+  existing returned second-seat report(s): … (the same six)
+gate_timing_check: commit=623c1fc lesson=corpus/lessons/round-30.md admissions=1 passed=1 failed=0 second-seat-reports=28
+```
+
+and the citation/tree comparison at that commit:
+
+| | count |
+|---|---|
+| `R30Fx*.md` names cited anywhere in the lesson | 12 |
+| reports present in `623c1fc:.ufo/waves/round-30/falsify/` | 28 |
+| cited names absent from the tree | **2** — `R30FxEntryCompleteSet.md`, `R30FxRowsCensus.md` |
+
+So the two absences are real, and the checker is green because **those two names sit in the prose**
+(`## Round 30 admission` bullets), while the admit row's reason cell cites six files that all exist.
+`audit_admission` (`:328-370`) reads one cell, not the section. A report absent *from the cell* does
+make it exit 1 — proved in pass 1 (probes B/E/I/J/M) and measured on real bytes in pass 2
+(`absent from commit tree`, exit 1).
+
+**Corrected statement for any lesson or report citing this:** at `623c1fc` the lesson cited two
+reports absent from its own tree, and the checker was green because those citations were in prose —
+the gate audits only the admit row's reason cell, so a citation outside that cell is not a citation
+at all. Not "because it parses Gate rows only": parsing Gate rows is the precondition that makes a
+missing in-cell report fail.
+
+This is the same defect class as `R30FxDeadSeats.md:210` (A7), and it is why the pass-2 fix — move
+the citation into the reason cell — was the only fix that mattered. It also means a lesson can carry
+prose citations to reports that do not exist and still print a green gate; Q10's substance, not the
+checker, is what catches that.
+
+---
+
+# Pass 10 — seventh revision (`1df94043…f44e`) and a closing rule
+
+`/tmp/r30-DraftGate/gate.md`, sha256 `1df94043989020511d15…`, 14 656 B. The admit row is again
+byte-identical to the previous revision's (compared programmatically; 2 754 characters), so the run
+is the same probe with a new tree (`/tmp/r30-RevLesson/lane7`, commit `2606d27`):
+
+```
+gate_timing_check: … admissions=1 passed=1 failed=0 second-seat-reports=33
+```
+
+Live entry unchanged at `f51951d3…`, so the two entry cells stay live as pass 8 recorded: `:41`
+("three source rows … (the GEM 2026 review … is the one exception …)" against `:160` "two of its
+three") and `:125-126` (duplicated "not a reconciled truth"). Wave 33 reports; the six cited ones
+still qualify.
+
+**Closing rule for this review.** Three consecutive revisions (`2f1ac9dc`, `1df94043`, and the one
+before) changed only text below the Gate table. My verdict is a function of two objects — the admit
+row's reason cell and the cited reports in the tree — so any further revision needs from this seat
+only: (a) the file hash and byte size, (b) proof that the reason cell is byte-identical, (c) the wave
+size. If (b) fails, it needs a full CLI run. That is what Q13 grades; the prose below the table is
+graded by Q8/Q9 against the lesson once it takes the row.
+
+One bookkeeping note, since it recurred twice in this thread: the seat's stale `1a74b245` in its
+artifact list and its `len(str)` size were both values measured differently from what they were
+named as (bytes vs characters; current vs earlier revision). That is the lane's M99/target-drift
+class, not a Gate defect — the fix is to record the measurement command beside each number, which is
+what this review does for every figure it states.
+
+---
+
+# Pass 11 — identity triple verified; review closed
+
+The draft seat closed with three identifiers and offered the cell digest as the cheaper identity
+proof. I recomputed all three rather than accepting them:
+
+```
+$ sha256sum /tmp/r30-DraftGate/gate.md
+1df94043989020511d156e581e318df9654377804cbb63484d46159ff91df44e  gate.md
+row  chars 2754  sha256 651298ef48f0e28a…
+cell chars 2061  sha256 a2396695d60e8445820a8bd7259a639778013137c28e1eb2c69cf3bf4c2c0799
+```
+
+All three match. The cell digest is comparable to the checker's own reading for a precise reason:
+`split_table_row` (`plans/gate_timing_check.py:110-135`) strips each cell, so the digest must be
+taken over the stripped cell — my unstripped extraction is 2 063 characters, two more, and a future
+seat comparing against 2 061 without stripping would "disagree" with a digest that is right.
+
+**Review closed for this seat.** Final state, in the terms my criteria use:
+
+| criterion | state at close |
+|---|---|
+| **Q13** | PASS on the draft's admit row: live-byte probes at `069d545`, `2e0b35a`, `29d4b99`, `2606d27`, six citations (SrcS081–S085, RowsCensus) valid, no generic reference, no bare name, candidate a valid repo path, `writer: KengakuR30` in the entry |
+| **Q8** | the draft's table is the correct shape (five columns, flips on all nine rows, counts 175−6=169 and 65−1−4=60 with the 61-note); the committed lesson still holds the pass-2 four-column table and `:21` = 63 |
+| **Q9** | draft green except what it cannot fix from where it sits: lesson `:21`/`:23`/`:66`, `R30FxRowsCensus.md:167`, claims `:22-24` "*core*", and the entry's `:41` / `:125-126` |
+
+Two things this review established that no checker could: a cited report with an anchored
+`VERDICT: FAIL` cannot be presented as a re-read (Q13's own "presence is not endorsement"), and a
+report named only in prose is never parsed as a citation — the second is why the pass-2 fix had to be
+"move it into the reason cell", not "name it somewhere".
+
+---
+
+# Pass 12 — digest pair verified, entry status at `f51951d3`, one new lesson cell, one self-correction
+
+## Identity pair, both verified
+
+```
+unstripped reason-cell slice  2 063 chars  sha256 5aff5d51b521284d7550ab12afaa32bc07cb7d862eb37adf5ad825c061b164c9
+stripped   reason cell        2 061 chars  sha256 a2396695d60e8445820a8bd7259a639778013137c28e1eb2c69cf3bf4c2c0799
+```
+
+The 2 061 / `a2396695…` object is the one `split_table_row` (`:110-135`) passes to
+`audit_admission`; the 2 063 / `5aff5d51…` slice is the same cell with the two padding spaces. Both
+digests reproduce, so a future seat can tell a moved cell from its own padding.
+
+## Entry status at the settled tip (`f51951d3…`, 194 lines)
+
+| errata item | state | bytes |
+|---|---|---|
+| #4 strata | **CLOSED** | `:75` "strata are carried by the CTC v1.1 form (`strata_reported`) and are absent from the other two tabulated …" |
+| #5 S085 "no measurements" | **CLOSED** | `:127-129` "carries programme numbers and score tables (p.38 prints its own figures), but no document number, no contamination measurement and no data release" |
+| #7 `- **- **` marker | **CLOSED** | `:120` is ordinary prose |
+| #2 review label, entry side | **CLOSED** | `:150-152` "… the society publishes **without peer review** … labelled a non-peer-reviewed proceedings paper"; the row's tier moved A → **B**, which still clears Q2's A-or-B floor |
+| #3 registry count | softened, entry owner's call | `:41-42` carries the exception inline ("its three source rows are not in this lane's registry (the GEM 2026 review it tabulates is the one exception …)"); the "two non-GEM source rows" clause is at `:134`, not `:132` as reported |
+| #6 duplicated clause | **LIVE** | `:125-126` repeats "Two coders filling this card need not agree; the card records what each stated, not a reconciled truth." |
+| #1 claims "*core*" | **LIVE** | frozen text; lesson errata still owed |
+
+## New lesson cell defect, and a correction to my own pass-3 figure
+
+The lesson's Q2 cell, `:60-61`, lists the six tiers as `(S081 B, S082 B, S083 A, S084 A, S085 B,
+S086 A)`. The registry says S086 is **B**:
+
+```
+$ for id in S081..S086: row tier cell
+S081 B  S082 B  S083 A  S084 A  S085 B  S086 B
+```
+
+and the same lesson says so itself at `:93` — "tier A 76 → 78, tier B 4 → 8". Q2 still passes (tier
+B clears the A-or-B floor), so nothing collapses; but a cell whose evidence list contradicts both the
+registry and the lesson's own count sentence is a Q9 defect, and it is the kind a reader spots first.
+
+**Drop-in (lesson `:61`):** `S085 B, S086 B)` replacing `S085 B, S086 A)`.
+
+**Self-correction:** my pass-3 table records "registry 88 rows (tier A 79, B 7, C 2) — all
+reproduce". That was measured before S086 was re-tiered and is no longer true; the current split is
+**A 78 / B 8 / C 2 = 88**, which `:93` matches exactly. The coverage-axis seat's message carried the
+same pre-re-tier figures (A79/B7/C2); the measurement was right when taken, the tree moved after it.
+My pass-3 verdict (that the replacement wording's numbers reproduce) is unaffected — files 39 and
+index rows 39 both still hold.
+
+---
+
+# Pass 13 — the Q6 FAIL, verified first-hand from the form
+
+The entry's Q4/Q6 seat reports **Q6 FAIL** on two claims (S2 "only new field"; R5's mapped column)
+and states its four verdicts hold. I re-derived the form evidence myself rather than crediting it:
+
+```
+$ curl -sSL https://raw.githubusercontent.com/Jangulo7/contamination-disclosure-paper/\
+4dba1ed9b2ace8b71a2edcd5fa6ce0337cf08ba6/templates/disclosure.yaml
+http=200 bytes=2181        # the commit the package's S123 cites
+```
+
+| form line | bytes | what it settles |
+|---|---|---|
+| `:2` | `# CC BY 4.0. Filled-in forms are yours; no attribution required …` | the form is **CC BY 4.0**, not CC0 — a "CC0 card" label is wrong on the artefact's own header |
+| `:14` | `evaluation_date: ""  # YYYY-MM-DD` | the field R5 maps to exists, but it is the **run** date; benchmark currency is a different property |
+| `:36` | `direct: "unknown"  # controlled \| not_controlled \| unknown \| n/a` | the four-value enum the entry calls "valid values" |
+| `:46-47` | `boundary_integrity_monitored: ""` / `notes: ""` | the run-side integrity state is a published field |
+| `:49-51` | `regeneration:` … `procedure_published: false` | R4's regeneration block exists as R4 says |
+| `:38-45` | `acquired`, `network_access_during_eval`, `environment_sanitised`, `transcripts_reviewed` | the "card integrity" surface is carried by four declared fields plus a free-text `notes` |
+
+Consequences for the lesson's cells (mine to word):
+
+- **`:67` `Q6 pass (§Extends names both objects; the delta is stated as one field, one placement, one
+  value set)`** — the §Extends half is true (entry `:126-133` for the earlier revision's numbering,
+  `:158-160` now), but "one field" is the claim the form falsifies: `boundary_integrity_monitored`,
+  `notes`, `acquired`, `network_access_during_eval`, `environment_sanitised`, `transcripts_reviewed`
+  are all declared, and `evaluation_date` is not a currency date. Narrowing drop-in:
+  `Q6 pass on the extension property (§Extends names both objects); the delta claim is narrowed to S2's tri-state reading of a run-side integrity state, which the CTC v1.1 form already declares via `boundary_integrity_monitored` + `notes` — no new field is claimed`
+- **`:65` R5** — "already a column in two of three" is true of the *table* (AI Alliance carries release
+  date / change log; GEM's cell is absent), but the CTC cell is populated with a **run** date
+  (`evaluation_date`), so the row reads as currency when it is not. The distinction matters and I keep
+  it separate from R4: the R4 row (`:66`) maps to the dedicated `regeneration:` block and is correct;
+  R5's defect is the property of a populated cell, not a missing column. The artefact settles it —
+  `grep -n 'date\|YYYY'` over the form returns exactly two lines, `:3` (a "Validate with" comment) and
+  `:14` (`evaluation_date: ""  # YYYY-MM-DD`), and the `regeneration:` block (`:49-52`:
+  `procedure_published`, `procedure_url`, `artifact_only`, `notes`) carries **no date field at all**.
+  So neither R4's block nor R5's cell can supply "the date of the benchmark's last substantive
+  update", and the "R4 already covers it" reply fails on the artefact. Entry-side wording, owner's
+  call; I record the byte.
+- **`:61` S086 A → B** from pass 12 stands; nothing here changes admission (S086 is tier B, Q2's
+  floor is A-or-B).
+
+**Blob identity, two independent fetches.** The Q4/Q6 seat fetched the same form and recorded the
+digest; mine reproduces it exactly:
+
+```
+$ sha256sum ctc-disclosure.yaml
+05131be9f72b333a479046a0df4510d48fd5389192d40c595869e718b5c90d0f   (2 181 bytes)
+```
+
+So the Q6 finding now rests on two seats against one artefact, not one seat's measurement — the same
+standard I applied to the anlp label (pass 5).
+
+**Citation addresses in this report are pinned.** Lesson and entry line numbers move between reviews
+(the entry went `ba0465d1` → `a78eb18a` → `f51951d3` inside this thread). Every lesson/entry cell
+quoted above is *as read at* commit `2dcf06c` (entry `f51951d3…`); where a later tip renumbers a cell,
+the quote is the identity, not the line.
+
+Nothing in this pass touches the Gate block: the admit row cites none of the FAIL reports, which is
+correct, and its own claims are the flip discharge, the counts and the six citations — all measured.
+The Q6/Q5 substance lives in the lesson's per-criterion cells, which is where the paste table already
+sends corrections.
