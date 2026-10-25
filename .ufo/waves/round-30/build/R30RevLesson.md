@@ -870,7 +870,21 @@ The three pass-4 items are closed, verified against the tree rather than the des
 ## Q9-14 — the newly cited census repeats a false label about S086
 
 Raised by the entry's Q4/Q6 falsify seat (`R30FxEntryQ4Q6.md` §2.2). I verified the in-tree
-surfaces; the external evidence is that seat's and I did not re-fetch the anlp pages.
+surfaces below, and re-fetched the external byte myself rather than quoting the seat:
+
+```
+$ curl -sSL -w 'http=%{http_code} bytes=%{size_download}\n' https://www.anlp.jp/nlp2026/submit.html
+http=200 bytes=31923
+$ grep -c 'This work is published without peer review' …/anlp2026-submit.html
+1
+```
+
+tag-stripped text, char offset 4 754 — "This work is published without peer review and is licensed
+by the author(s) under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)." The negative side
+also reproduces first-hand: `curl -sSL https://www.anlp.jp/nlp2025/submit.html | grep -c '査読'` →
+`0`, and the same for `https://www.anlp.jp/proceedings/annual_meeting/2025/` → `0`. (The seat
+reported char offset 8 970 for the same sentence; 4 754 is the tag-stripped-text offset and 16 012
+is the raw-byte offset, so the three numbers differ by normalisation, not content.)
 
 | surface | bytes |
 |---|---|

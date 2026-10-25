@@ -90,7 +90,7 @@ Access date 2026-10-25 for all six; every row is `mined` with `opened=2026-10-25
 | S086 | https://www.anlp.jp/proceedings/annual_meeting/2025/pdf_dir/Q2-11.pdf | 一致したものを一律に混入とみなして除去することには疑問が残る (1 token / 30 CJK chars, p.1 = printed 797, text-layer lines 80-81); title Code LLM 事前学習時の評価データ混入への対策 | 371155 B sha256 `c3706aca…` |
 
 Cell transitions: S081–S086 did not exist before this round (`git show <baseline>:corpus/SOURCES.md`
-→ 82 rows, last ids S077–S080, S090, S091); they enter `mined`, tier A 76 → 79, tier B 4 → 7,
+→ 82 rows, last ids S077–S080, S090, S091); they enter `mined`, tier A 76 → 78, tier B 4 → 8,
 `used-by` exactly `corpus/knowledge/contamination-transparency-card.md`. No existing row changed
 (`git diff --numstat <baseline> -- corpus/SOURCES.md` → 6 insertions, 0 deletions). Census: exit 0,
 the same 14 `W04` duplicate-URL warnings as at baseline (`.ufo/waves/round-30/assimilation/`,

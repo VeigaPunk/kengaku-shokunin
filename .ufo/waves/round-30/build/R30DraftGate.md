@@ -3,10 +3,12 @@
 Seat: scribe, leaf. Lane: `/home/vgpnk/Projects/shokunin/kengaku-shokunin`. Access date 2026-10-25.
 No production edits: the only lane-tree file I write is this report.
 
-Draft: `/tmp/r30-DraftGate/gate.md`, 13 049 B, sha256 `1a74b245…abe4` (copy
-`/tmp/r30-R30DraftGate/gate.md`, identical). Supersedes `d9699050`, which the reviewer's CLI measured
-as Q13 PASS in a throwaway repo (commit `be475eb`: admissions=1 passed=1 failed=0); the three
-corrections below changed the cell after that run, so the current bytes need the same re-run.
+Draft: `/tmp/r30-DraftGate/gate.md`, 13 815 B, sha256 `0821c7e1…237d` (copy
+`/tmp/r30-R30DraftGate/gate.md`, identical). Q13 has been measured as PASS by the reviewer's CLI
+three times: `be475eb` on the five-citation bytes, and lanes 3 and 4 (32 and 33 reports, live entry
+`ba0465d1…`) on `1a74b245`, each `admissions=1 passed=1 failed=0`. This revision adds one obligation
+paragraph and no citation inside the admit reason cell; my own import-based check still returns six
+valid citations, `generic: ()`, candidate a valid repo path.
 
 ## Behavior
 

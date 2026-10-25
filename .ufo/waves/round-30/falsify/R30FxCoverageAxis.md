@@ -271,7 +271,9 @@ axes: freshness, operability.
   (`falsify/R30FxSrcS08{1,2,4,6}.md` are landed; I read their verdict lines, not their evidence).
   My S081 fetch is an independent byte-identity cross-check (`4c81bd3c…` matches the seat's), not a
   re-admission.
-- `S123` is not in this lane's registry (the entry says so and cites it by document); my CTC read is
+- `S123` is not in this lane's registry; the union table's **third** design is — the GEM 2026 review
+  is `corpus/SOURCES.md:23` row S001, so the entry's "three source rows are not in this lane's
+  registry" (`:41`, `:131`) is false and its own `:153` ("two of its three") is right. My CTC read is
   against the commit the entry's own union table pins, fetched today, sha `05131be9…`, retained in
   scratch only.
 - The round landed commit `623c1fc` while this seat ran; the attacked entry byte is identical in
@@ -343,5 +345,7 @@ and the row's currency wording is now honest. What is still wrong is inside the 
 self-contradicting sentence (`:74`), two false provenance sentences (`:41`, `:131`) that narrow the
 "ground the lane did not hold" claim because S001 already carried a pointer to the card, one
 unqualified S085 claim (`:126`, `:179`), and the doubled list marker (`:120`). None of these moves a
-score; every one of them is a calibration item on an admitted entry, so `VERDICT: FAIL` stands for the
-live byte as well, with the repair list above.
+score; every one of them is a calibration item on an admitted entry, so this report's
+`VERDICT: FAIL` remains the accurate reading of the live byte — as a calibration finding on the
+entry's text, not a recommendation to refuse C1's admission and not a reason to move coverage off 7
+(the number, the cap citation and the currency word are all correct).

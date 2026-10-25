@@ -133,8 +133,10 @@ answers CG7 must say which of the two it does and with what qualifier.
   is this entry's reading of that document. The entry's own load-bearing claims rest on S081–S086.
 - **Falsifier:** a benchmark release that publishes a card answering all eight CG questions while
   its own contamination audit shows the strata and acquired fields are *populated* (not "unknown")
-  and non-trivial would show that the fields this entry's sources measured as rare (R1 strata, S1's
-  acquired type) are in fact common, narrowing the corresponding bullet above
+  and populated (not "unknown") would show that the fields this entry's sources measured as rare
+  (R1 strata, S1's acquired type) are common — a decision rule the CC0 card cannot supply on its own,
+  which is why this bullet names the unit (one benchmark release), the population (its published card)
+  and the observation (both fields populated and non-trivial) rather than a trend
   bullet above.
 
 ## Attribution
@@ -143,8 +145,9 @@ S081 and S082 are arXiv preprints (a taxonomy paper and a working paper); S083 i
 Findings of EACL 2026 paper; S084 is vendor documentation for OpenCompass 0.4.0 (a self-description
 of two procedures, not an evaluation of any model); S085 is a self-report by the China Academy of
 Information and Communications Technology about its own benchmark programme: it carries programme
-numbers and score tables, but no contamination measurement, no document number and no data release; S086 is a peer-reviewed
-言語処理学会 paper on code-corpus contamination. Where a source describes its own artefact, this
+numbers and score tables, but no contamination measurement, no document number and no data release; S086 is a 言語処理学会 2025 paper that the society publishes **without peer review** (its own stamp on
+`anlp.jp/nlp2026/submit.html` says so and the 2025 pages carry no 査読), so it is labelled a
+non-peer-reviewed proceedings paper, not a peer-reviewed result. Where a source describes its own artefact, this
 entry labels it a self-report and takes no independent-replication weight from it.
 
 ## Extends
