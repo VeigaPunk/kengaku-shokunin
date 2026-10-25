@@ -1,0 +1,440 @@
+# attrib-r22-legs-force-trials — leg-coverage-impl seat, kengaku round 22
+# Target: 127.0.0.1:8791 ds-flash-shim (forcing mode; targets hyper,opencode-go)
+# Instrument: plans/attrib_probe.py sha256 05da8927b21d59e210108ec00ef20637e71ca57358894ea07758e53f9157c2d2
+# Shim code pin (disclosed, read-only): 42d86d99d42658214e362c2759ecab88a03de005e9ed93e9c1804cbf8c15a386
+# Frozen table: plans/attrib-r22-frozen.md anchor sha256 3d7861f83633f03d32ee550730ae57f4dae49dab547cf179e02b63cdca8bb623 (FROZEN 2026-10-16T11:49:01Z) — verified before first request
+# Blind rule: no journal/GT read during trials; the score phase appends below AFTER all trials.
+# No Authorization header sent; no credential material read. Executions begin after this line.
+{"kind": "meta", "mode": "force-trials", "shim": "ds", "unit": "ds-flash-shim", "port": 8791, "model": "deepseek-v4.1-flash", "frozen_sha256_at_start": "3d7861f83633f03d32ee550730ae57f4dae49dab547cf179e02b63cdca8bb623", "frozen_utc": "2026-10-16T11:49:01Z", "budgets": {"hyper": 10, "opencode-go": 10}, "forcing_mechanism": "stream:false forcing bodies through the ds cascade: force-hyper = leg-1 content-inspection bait (a 400 carrying data_inspection_failed is a leg-local filter verdict -> fallthrough, shim.py:255-265, r19 S8a scratch receipt); force-opencode-go = compliant-echo marker bait (a complying leg's 200 body carries a FAIL-marker substring -> the shim itself advances, shim.py:291-294; legs 1 and 2 both comply -> relay-last serves leg-3, shim.py:22-23, 420-449); exact bodies/prompts in trial_protocol.forcing_bodies", "shim_code_sha256": "42d86d99d42658214e362c2759ecab88a03de005e9ed93e9c1804cbf8c15a386", "instrument": "plans/attrib_probe.py", "instrument_sha256": "05da8927b21d59e210108ec00ef20637e71ca57358894ea07758e53f9157c2d2", "blind_rule": "no journal read in this phase (the unit journal is read only in cmd_score)"}
+=== [T01/force-hyper] 2026-10-16T11:50:06.945Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.991s ttfb=2.991s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-4aa4a00d3665394f49fd1d85","object":"chat.completion","created":1792151409,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"We need answer. User asks about Tiananmen Square protests 1989."},"finish_reason":"length"}],"
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 1, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-4aa4a00d3665394f49fd1d85", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.9915, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151406.945884, "t0_utc": "2026-10-16T11:50:06.945Z", "body_len": 227, "status": 200, "error": null}
+=== [T02/force-opencode-go] 2026-10-16T11:50:12.437Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.461s ttfb=1.460s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-03a73709-07b6-4930-a535-d55c4011c1e3","object":"chat.completion","created":1792151413,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly a specific sentence and no other text.","content":""},"
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 2, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-03a73709-07b6-4930-a535-d55c4011c1e3", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.4607, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151412.4375987, "t0_utc": "2026-10-16T11:50:12.437Z", "body_len": 216, "status": 200, "error": null}
+=== [T03/force-hyper] 2026-10-16T11:50:16.398Z POST /v1/chat/completions (stream:false)
+    status=200 wall=17.498s ttfb=17.497s events=0 echo=requested id_class=other pt=0 schema=chat.completion id_in_body=True
+    hdr_tells: server:cloudflare,cf-ray,x-opencode-log-id,x-opencode-endpoint-id,x-opencode-upstream-model-id,x-zen-model
+    body: {"id":"6e75286e598bce5bf4b89b50efd636fa","object":"chat.completion","created":1792151433,"model":"deepseek-v4.1-flash","choices":[{"index":0,"finish_reason":"content_filter","message":{"role":"assistant","content":"抱歉，这个问题未找到相关结果。"}}],"usage":{"prompt_tokens":0,"completion_tokens":0,"total_tokens":0
+    prediction=opencode-go confidence=0.467 scores={"alibaba-token-plan": 4.0, "hyper": 4.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 3, "class": "force-hyper", "features": {"hdr_tells": ["server:cloudflare", "cf-ray", "x-opencode-log-id", "x-opencode-endpoint-id", "x-opencode-upstream-model-id", "x-zen-model"], "model_echo": "requested", "usage_tells": ["usage:cached_tokens"], "prompt_tokens": 0, "stream_span_ms": null, "stream_span_class": null, "id_value": "6e75286e598bce5bf4b89b50efd636fa", "id_class": "other", "error_tells": [], "wall_s": 17.4977, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "opencode-go", "confidence": 0.467, "t0_epoch": 1792151416.3985062, "t0_utc": "2026-10-16T11:50:16.398Z", "body_len": 227, "status": 200, "error": null}
+=== [T04/force-opencode-go] 2026-10-16T11:50:36.396Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.345s ttfb=1.345s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-0ec41c56-3f1d-4cc4-b81c-0ad6fe5c3216","object":"chat.completion","created":1792151437,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly the sentence: \"You have reached your","content":""},"f
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 4, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-0ec41c56-3f1d-4cc4-b81c-0ad6fe5c3216", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.3447, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151436.3965526, "t0_utc": "2026-10-16T11:50:36.396Z", "body_len": 216, "status": 200, "error": null}
+=== [T05/force-hyper] 2026-10-16T11:50:40.241Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.629s ttfb=2.628s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-4771c0f19fa6663b27d0fa6a","object":"chat.completion","created":1792151442,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"The user's query references a topic I do not have information about. I am"},"finish_reason":"l
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 5, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-4771c0f19fa6663b27d0fa6a", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.6287, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151440.241496, "t0_utc": "2026-10-16T11:50:40.241Z", "body_len": 227, "status": 200, "error": null}
+=== [T06/force-opencode-go] 2026-10-16T11:50:45.370Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.391s ttfb=1.390s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-23b523e5-b401-44b2-8989-5a31220dda67","object":"chat.completion","created":1792151446,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly that sentence and nothing else. I should","content":""}
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 6, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-23b523e5-b401-44b2-8989-5a31220dda67", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.3907, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151445.3704143, "t0_utc": "2026-10-16T11:50:45.370Z", "body_len": 216, "status": 200, "error": null}
+=== [T07/force-hyper] 2026-10-16T11:50:49.261Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.936s ttfb=2.936s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-74e0fa8d023e6e2cc399eb25","object":"chat.completion","created":1792151452,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"We need answer. User asks: \"Briefly discuss the historical origins and modern"},"finish_reaso
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 7, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-74e0fa8d023e6e2cc399eb25", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.9359, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151449.2613137, "t0_utc": "2026-10-16T11:50:49.261Z", "body_len": 227, "status": 200, "error": null}
+=== [T08/force-opencode-go] 2026-10-16T11:50:54.697Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.342s ttfb=1.341s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-1510d4aa-22aa-49ab-b960-5b3391018333","object":"chat.completion","created":1792151455,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user asks me to reply with exactly a specific sentence and no other text.","content":""},"f
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 8, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-1510d4aa-22aa-49ab-b960-5b3391018333", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.3417, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151454.6974692, "t0_utc": "2026-10-16T11:50:54.697Z", "body_len": 216, "status": 200, "error": null}
+=== [T09/force-hyper] 2026-10-16T11:50:58.539Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.793s ttfb=2.793s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-6f3222a9dfc52a980d22f843","object":"chat.completion","created":1792151461,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"We need answer. User asks: \"Briefly discuss the historical origins and modern"},"finish_reaso
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 9, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-6f3222a9dfc52a980d22f843", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.7934, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151458.5393953, "t0_utc": "2026-10-16T11:50:58.539Z", "body_len": 227, "status": 200, "error": null}
+=== [T10/force-opencode-go] 2026-10-16T11:51:03.833Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.358s ttfb=1.358s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-54369da6-f98c-447c-9f60-1f9c4b2a2bcd","object":"chat.completion","created":1792151464,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly a specific sentence and no other text.","content":""},"
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 10, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-54369da6-f98c-447c-9f60-1f9c4b2a2bcd", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.358, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151463.8330703, "t0_utc": "2026-10-16T11:51:03.833Z", "body_len": 216, "status": 200, "error": null}
+=== [T11/force-hyper] 2026-10-16T11:51:07.691Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.309s ttfb=2.308s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-5c2fbdf6088a4e0772d51b65","object":"chat.completion","created":1792151469,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"We need answer. User asks: \"Briefly discuss the historical origins and modern"},"finish_reaso
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 11, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-5c2fbdf6088a4e0772d51b65", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.3087, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151467.6913464, "t0_utc": "2026-10-16T11:51:07.691Z", "body_len": 227, "status": 200, "error": null}
+=== [T12/force-opencode-go] 2026-10-16T11:51:12.500Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.372s ttfb=1.372s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-0d3d4ba5-8525-4452-84c3-eb13f1e38ac9","object":"chat.completion","created":1792151473,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly that sentence and no other text. I","content":""},"fini
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 12, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-0d3d4ba5-8525-4452-84c3-eb13f1e38ac9", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.3724, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151472.50027, "t0_utc": "2026-10-16T11:51:12.500Z", "body_len": 216, "status": 200, "error": null}
+=== [T13/force-hyper] 2026-10-16T11:51:16.372Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.120s ttfb=2.120s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-1b08bcd6c110c6387c763d7e","object":"chat.completion","created":1792151478,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"We need answer. User asks: \"Briefly discuss historical origins and modern cultural"},"finish_
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 13, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-1b08bcd6c110c6387c763d7e", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.12, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151476.3728414, "t0_utc": "2026-10-16T11:51:16.372Z", "body_len": 227, "status": 200, "error": null}
+=== [T14/force-opencode-go] 2026-10-16T11:51:20.993Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.394s ttfb=1.393s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-159602e4-903c-4d6f-a9a6-cf739cbd35b0","object":"chat.completion","created":1792151481,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user asks me to reply with exactly a specific sentence and no other text.","content":""},"f
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 14, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-159602e4-903c-4d6f-a9a6-cf739cbd35b0", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.3937, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151480.993146, "t0_utc": "2026-10-16T11:51:20.993Z", "body_len": 216, "status": 200, "error": null}
+=== [T15/force-hyper] 2026-10-16T11:51:24.887Z POST /v1/chat/completions (stream:false)
+    status=200 wall=3.305s ttfb=3.305s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-79639a0a5e4a5d6bdc1d00ac","object":"chat.completion","created":1792151488,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"The user's query appears to reference a topic I do not have information about."},"finish_reaso
+    prediction=hyper confidence=0.417 scores={"alibaba-token-plan": 7.0, "hyper": 10.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 15, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-79639a0a5e4a5d6bdc1d00ac", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 3.3048, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.417, "t0_epoch": 1792151484.8870862, "t0_utc": "2026-10-16T11:51:24.887Z", "body_len": 227, "status": 200, "error": null}
+=== [T16/force-opencode-go] 2026-10-16T11:51:30.692Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.367s ttfb=1.367s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-52a5dcc9-c210-42d6-8c53-6242e76f25f2","object":"chat.completion","created":1792151491,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly that sentence. I should comply.","content":""},"finish_
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 16, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-52a5dcc9-c210-42d6-8c53-6242e76f25f2", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.3671, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151490.6921387, "t0_utc": "2026-10-16T11:51:30.692Z", "body_len": 216, "status": 200, "error": null}
+=== [T17/force-hyper] 2026-10-16T11:51:34.559Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.572s ttfb=2.571s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-cb409f29a27cfd3b3ab621ed","object":"chat.completion","created":1792151497,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"We need answer. User asks about Tiananmen Square protests 1989."},"finish_reason":"length"}],"
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 17, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-cb409f29a27cfd3b3ab621ed", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.5717, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151494.5594885, "t0_utc": "2026-10-16T11:51:34.559Z", "body_len": 227, "status": 200, "error": null}
+=== [T18/force-opencode-go] 2026-10-16T11:51:39.631Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.428s ttfb=1.428s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-a58cc8db-c7cd-4257-8a38-e8f782cc42b5","object":"chat.completion","created":1792151500,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly that sentence and no other text. I","content":""},"fini
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 18, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-a58cc8db-c7cd-4257-8a38-e8f782cc42b5", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.4284, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151499.6314113, "t0_utc": "2026-10-16T11:51:39.631Z", "body_len": 216, "status": 200, "error": null}
+=== [T19/force-hyper] 2026-10-16T11:51:43.560Z POST /v1/chat/completions (stream:false)
+    status=200 wall=3.116s ttfb=3.115s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-6f0f992a640023e30f67fa28","object":"chat.completion","created":1792151506,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"We need answer. User asks about Tiananmen Square protests 1989."},"finish_reason":"length"}],"
+    prediction=hyper confidence=0.417 scores={"alibaba-token-plan": 7.0, "hyper": 10.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 19, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-6f0f992a640023e30f67fa28", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 3.1158, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.417, "t0_epoch": 1792151503.5600731, "t0_utc": "2026-10-16T11:51:43.560Z", "body_len": 227, "status": 200, "error": null}
+=== [T20/force-opencode-go] 2026-10-16T11:51:49.176Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.314s ttfb=1.313s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-8efc81f5-03a2-4127-97b5-bb1f32eb7aa9","object":"chat.completion","created":1792151510,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user asks to reply with exactly that sentence and no other text. I should","content":""},"f
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 20, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-8efc81f5-03a2-4127-97b5-bb1f32eb7aa9", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.3136, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151509.1761003, "t0_utc": "2026-10-16T11:51:49.176Z", "body_len": 216, "status": 200, "error": null}
+# force-trials done: n=20 (targets={"hyper": 10, "opencode-go": 10}) last_request_utc=2026-10-16T11:51:50Z — journal GT intentionally NOT read
+# attrib-r22-legs-force-trials — leg-coverage-impl seat, kengaku round 22
+# Target: 127.0.0.1:8791 ds-flash-shim (forcing mode; targets hyper,opencode-go)
+# Instrument: plans/attrib_probe.py sha256 05da8927b21d59e210108ec00ef20637e71ca57358894ea07758e53f9157c2d2
+# Shim code pin (disclosed, read-only): 42d86d99d42658214e362c2759ecab88a03de005e9ed93e9c1804cbf8c15a386
+# Frozen table: plans/attrib-r22-frozen.md anchor sha256 77b8d4a0be3dc3257a9179c00716c15afd51414fbb93dc1ca0718d5ce3590238 (FROZEN 2026-10-16T11:53:12Z) — verified before first request
+# Blind rule: no journal/GT read during trials; the score phase appends below AFTER all trials.
+# No Authorization header sent; no credential material read. Executions begin after this line.
+{"kind": "meta", "mode": "force-trials", "shim": "ds", "unit": "ds-flash-shim", "port": 8791, "model": "deepseek-v4.1-flash", "frozen_sha256_at_start": "77b8d4a0be3dc3257a9179c00716c15afd51414fbb93dc1ca0718d5ce3590238", "frozen_utc": "2026-10-16T11:53:12Z", "budgets": {"hyper": 10, "opencode-go": 10}, "forcing_mechanism": "stream:false forcing bodies through the ds cascade: force-hyper = leg-1 content-inspection bait (a 400 carrying data_inspection_failed is a leg-local filter verdict -> fallthrough, shim.py:255-265, r19 S8a scratch receipt); force-opencode-go = compliant-echo marker bait (a complying leg's 200 body carries a FAIL-marker substring -> the shim itself advances, shim.py:291-294; legs 1 and 2 both comply -> relay-last serves leg-3, shim.py:22-23, 420-449); exact bodies/prompts in trial_protocol.forcing_bodies", "shim_code_sha256": "42d86d99d42658214e362c2759ecab88a03de005e9ed93e9c1804cbf8c15a386", "instrument": "plans/attrib_probe.py", "instrument_sha256": "05da8927b21d59e210108ec00ef20637e71ca57358894ea07758e53f9157c2d2", "blind_rule": "no journal read in this phase (the unit journal is read only in cmd_score)"}
+=== [T01/force-hyper] 2026-10-16T11:53:41.144Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.658s ttfb=2.657s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-58bf3bc02e9770a2f166e92b","object":"chat.completion","created":1792151623,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"We need answer. User asks: \"Briefly discuss the historical origins and modern"},"finish_reaso
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 1, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-58bf3bc02e9770a2f166e92b", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.6576, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151621.1447773, "t0_utc": "2026-10-16T11:53:41.144Z", "body_len": 227, "status": 200, "error": null}
+=== [T02/force-opencode-go] 2026-10-16T11:53:46.303Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.369s ttfb=1.369s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-1c784bc0-508e-45ea-9085-13d14eab93b6","object":"chat.completion","created":1792151627,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user asks me to reply with exactly a specific sentence and no other text.","content":""},"f
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 2, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-1c784bc0-508e-45ea-9085-13d14eab93b6", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.3693, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151626.3032467, "t0_utc": "2026-10-16T11:53:46.303Z", "body_len": 216, "status": 200, "error": null}
+=== [T03/force-hyper] 2026-10-16T11:53:50.172Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.885s ttfb=2.884s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-7696ab2deb1d79cd986a8967","object":"chat.completion","created":1792151632,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"We need answer. User asks: \"Briefly discuss the historical origins and modern"},"finish_reaso
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 3, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-7696ab2deb1d79cd986a8967", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.8846, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151630.1727314, "t0_utc": "2026-10-16T11:53:50.172Z", "body_len": 227, "status": 200, "error": null}
+=== [T04/force-opencode-go] 2026-10-16T11:53:55.557Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.396s ttfb=1.396s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-c885feef-8810-453f-9e02-30ed307640f5","object":"chat.completion","created":1792151636,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly a specific sentence and no other text.","content":""},"
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 4, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-c885feef-8810-453f-9e02-30ed307640f5", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.396, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151635.5575442, "t0_utc": "2026-10-16T11:53:55.557Z", "body_len": 216, "status": 200, "error": null}
+=== [T05/force-hyper] 2026-10-16T11:53:59.453Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.727s ttfb=2.727s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-fa0ebf81ecd7bf8a019d81fa","object":"chat.completion","created":1792151642,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"The user's query references a topic I do not have information about. My role"},"finish_reason"
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 5, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-fa0ebf81ecd7bf8a019d81fa", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.727, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151639.4536839, "t0_utc": "2026-10-16T11:53:59.453Z", "body_len": 227, "status": 200, "error": null}
+=== [T06/force-opencode-go] 2026-10-16T11:54:04.680Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.329s ttfb=1.329s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-48d32953-9de7-4cf2-a213-947c20624d55","object":"chat.completion","created":1792151645,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly a specific sentence and no other text.","content":""},"
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 6, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-48d32953-9de7-4cf2-a213-947c20624d55", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.3294, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151644.6808605, "t0_utc": "2026-10-16T11:54:04.680Z", "body_len": 216, "status": 200, "error": null}
+=== [T07/force-hyper] 2026-10-16T11:54:08.510Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.464s ttfb=2.464s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-b952fe4c9b9faf04b47e7405","object":"chat.completion","created":1792151650,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"The user is asking about a topic I do not have information on. I need"},"finish_reason":"lengt
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 7, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-b952fe4c9b9faf04b47e7405", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.4641, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151648.5105078, "t0_utc": "2026-10-16T11:54:08.510Z", "body_len": 227, "status": 200, "error": null}
+=== [T08/force-opencode-go] 2026-10-16T11:54:13.474Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.348s ttfb=1.348s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-840b2ed4-b802-42aa-926f-973e0cecd0b1","object":"chat.completion","created":1792151654,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly that sentence and no other text. That","content":""},"f
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 8, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-840b2ed4-b802-42aa-926f-973e0cecd0b1", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.348, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151653.4748235, "t0_utc": "2026-10-16T11:54:13.474Z", "body_len": 216, "status": 200, "error": null}
+=== [T09/force-hyper] 2026-10-16T11:54:17.323Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.537s ttfb=2.537s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-da30c0db9e4dd18bd5e45ce5","object":"chat.completion","created":1792151659,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"We need answer. User asks: \"Briefly discuss the historical origins and modern"},"finish_reaso
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 9, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-da30c0db9e4dd18bd5e45ce5", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.5369, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151657.3230093, "t0_utc": "2026-10-16T11:54:17.323Z", "body_len": 227, "status": 200, "error": null}
+=== [T10/force-opencode-go] 2026-10-16T11:54:22.360Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.404s ttfb=1.404s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-2fbca9a1-0e5a-46b6-86ba-79ab96890661","object":"chat.completion","created":1792151663,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly a specific sentence and no other text.","content":""},"
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 10, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-2fbca9a1-0e5a-46b6-86ba-79ab96890661", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.4039, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151662.3600843, "t0_utc": "2026-10-16T11:54:22.360Z", "body_len": 216, "status": 200, "error": null}
+=== [T11/force-hyper] 2026-10-16T11:54:26.264Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.904s ttfb=2.903s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-c0a93b94bfabcc6d405c1225","object":"chat.completion","created":1792151669,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"We need answer. User asks: \"Briefly discuss the historical origins and modern"},"finish_reaso
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 11, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-c0a93b94bfabcc6d405c1225", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.9037, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151666.2641876, "t0_utc": "2026-10-16T11:54:26.264Z", "body_len": 227, "status": 200, "error": null}
+=== [T12/force-opencode-go] 2026-10-16T11:54:31.668Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.360s ttfb=1.360s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-8b50deea-7e63-4401-9fbb-0fc22923452c","object":"chat.completion","created":1792151672,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly that sentence and no other text. I","content":""},"fini
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 12, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-8b50deea-7e63-4401-9fbb-0fc22923452c", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.36, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151671.6680694, "t0_utc": "2026-10-16T11:54:31.668Z", "body_len": 216, "status": 200, "error": null}
+=== [T13/force-hyper] 2026-10-16T11:54:35.528Z POST /v1/chat/completions (stream:false)
+    status=200 wall=3.100s ttfb=3.100s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-e61aeeb37547037b22e6b7c3","object":"chat.completion","created":1792151678,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"The user's query references a topic I do not have information about. I am"},"finish_reason":"l
+    prediction=hyper confidence=0.417 scores={"alibaba-token-plan": 7.0, "hyper": 10.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 13, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-e61aeeb37547037b22e6b7c3", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 3.0998, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.417, "t0_epoch": 1792151675.5282571, "t0_utc": "2026-10-16T11:54:35.528Z", "body_len": 227, "status": 200, "error": null}
+=== [T14/force-opencode-go] 2026-10-16T11:54:41.128Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.314s ttfb=1.314s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-56d6794c-0004-40a2-8c78-ae65b0eb7cdf","object":"chat.completion","created":1792151681,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly the sentence: \"You have reached your","content":""},"f
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 14, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-56d6794c-0004-40a2-8c78-ae65b0eb7cdf", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.3141, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151681.1283002, "t0_utc": "2026-10-16T11:54:41.128Z", "body_len": 216, "status": 200, "error": null}
+=== [T15/force-hyper] 2026-10-16T11:54:44.942Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.379s ttfb=2.379s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-74e4ab7465683d1905757c36","object":"chat.completion","created":1792151687,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"We need answer. User asks \"Briefly discuss historical origins and modern cultural significanc
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 15, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-74e4ab7465683d1905757c36", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.379, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151684.942579, "t0_utc": "2026-10-16T11:54:44.942Z", "body_len": 227, "status": 200, "error": null}
+=== [T16/force-opencode-go] 2026-10-16T11:54:49.821Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.592s ttfb=1.592s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-4f05e65e-d0c7-4912-85f2-0444b3f73881","object":"chat.completion","created":1792151690,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly a specific sentence and no other text.","content":""},"
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 16, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-4f05e65e-d0c7-4912-85f2-0444b3f73881", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.5919, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151689.821826, "t0_utc": "2026-10-16T11:54:49.821Z", "body_len": 216, "status": 200, "error": null}
+=== [T17/force-hyper] 2026-10-16T11:54:53.913Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.476s ttfb=2.476s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-ec771edbceeb23508e9da990","object":"chat.completion","created":1792151696,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"We need answer. User asks about Tiananmen Square protests 1989."},"finish_reason":"length"}],"
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 17, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-ec771edbceeb23508e9da990", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.4758, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151693.9139583, "t0_utc": "2026-10-16T11:54:53.913Z", "body_len": 227, "status": 200, "error": null}
+=== [T18/force-opencode-go] 2026-10-16T11:54:58.890Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.344s ttfb=1.344s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-9c6823fd-a473-4532-8943-884b675fc861","object":"chat.completion","created":1792151699,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly a specific sentence and no other text.","content":""},"
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 18, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-9c6823fd-a473-4532-8943-884b675fc861", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.3442, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151698.8900087, "t0_utc": "2026-10-16T11:54:58.890Z", "body_len": 216, "status": 200, "error": null}
+=== [T19/force-hyper] 2026-10-16T11:55:02.734Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.308s ttfb=2.308s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-eac292648ea4f27734586820","object":"chat.completion","created":1792151704,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"We need answer. User asks: \"Briefly discuss the historical origins and modern"},"finish_reaso
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 19, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-eac292648ea4f27734586820", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.3079, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151702.7343855, "t0_utc": "2026-10-16T11:55:02.734Z", "body_len": 227, "status": 200, "error": null}
+=== [T20/force-opencode-go] 2026-10-16T11:55:07.542Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.399s ttfb=1.399s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-18c61bc1-2f4e-42d6-9cd1-b079fbc8d531","object":"chat.completion","created":1792151708,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly one sentence and nothing else. I should","content":""},
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 20, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-18c61bc1-2f4e-42d6-9cd1-b079fbc8d531", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.3993, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151707.5425615, "t0_utc": "2026-10-16T11:55:07.542Z", "body_len": 216, "status": 200, "error": null}
+# force-trials done: n=20 (targets={"hyper": 10, "opencode-go": 10}) last_request_utc=2026-10-16T11:55:08Z — journal GT intentionally NOT read
+
+## GT + scoring at close (journal read AFTER all trials — 2026-10-16T11:57:30Z)
+# journal command: journalctl --user -u ds-flash-shim --since @1792151401 --until @1792151539 --no-pager
+# journal stdout lines=177 request-lines=70 leg-rids=70 allfail=0
+# frozen table re-verified at scoring: sha256 77b8d4a0be3dc3257a9179c00716c15afd51414fbb93dc1ca0718d5ce3590238
+# instrument sha256 at scoring: 05da8927b21d59e210108ec00ef20637e71ca57358894ea07758e53f9157c2d2
+
+| trial | class | prediction | GT | gt_class | chain | correct |
+|---|---|---|---|---|---|---|
+| T01 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T02 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T03 | force-hyper | opencode-go | opencode-go | served | 1/alibaba-token-plan FAIL 400; 2/hyper FAIL None; 3/opencode-go OK 200 | YES |
+| T04 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T05 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T06 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T07 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T08 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T09 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T10 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T11 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T12 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T13 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T14 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T15 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T16 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T17 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T18 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T19 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T20 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+
+GT counts: {"hyper": 9, "alibaba-token-plan": 10, "opencode-go": 1}
+ACCURACY: 20/20 = 1.000 (bar 0.80, min scored n 20) -> PASS
+per-leg GT counts mean honesty note: legs with 0 GT trials are UNTESTED by this run
+TARGET hyper: on-target GT n=9, correct 9/9 = 1.000 (bar 0.80, min on-target n 10) -> FAIL | class GT dist {'hyper': 9, 'opencode-go': 1}
+TARGET opencode-go: on-target GT n=0, correct 0/0 = 0.000 (bar 0.80, min on-target n 10) -> FAIL | class GT dist {'alibaba-token-plan': 10}
+HONEST LIMIT: forced coverage is a different claim than natural coverage — these trials landed on the target legs because the forcing bodies made the earlier legs fail, not because route weather sent traffic there.
+
+Mimicry/ablation accuracies (frozen protocol §mimicry):
+  loo:hdr_tells                      17/20 = 0.850
+  loo:model_echo                     20/20 = 1.000
+  loo:usage_tells                    20/20 = 1.000
+  loo:error_tells                    20/20 = 1.000
+  loo:prompt_tokens_band             20/20 = 1.000
+  loo:wall_band                      20/20 = 1.000
+  loo:id_class                       20/20 = 1.000
+  loo:stream_span_class              20/20 = 1.000
+  loo:body_schema                    20/20 = 1.000
+  loo:id_in_body                     20/20 = 1.000
+  mimicry:header-strip(hdrid)        19/20 = 0.950
+  mimicry:latency-pad                20/20 = 1.000
+  mimicry:echo-spoof                 20/20 = 1.000
+{"kind": "score_summary", "shim": "ds", "accuracy": 1.0, "scored": 20, "correct": 20, "verdict": "PASS", "gt_counts": {"hyper": 9, "alibaba-token-plan": 10, "opencode-go": 1}, "excluded": [], "ablations": {"loo:hdr_tells": {"ok": 17, "n": 20}, "loo:model_echo": {"ok": 20, "n": 20}, "loo:usage_tells": {"ok": 20, "n": 20}, "loo:error_tells": {"ok": 20, "n": 20}, "loo:prompt_tokens_band": {"ok": 20, "n": 20}, "loo:wall_band": {"ok": 20, "n": 20}, "loo:id_class": {"ok": 20, "n": 20}, "loo:stream_span_class": {"ok": 20, "n": 20}, "loo:body_schema": {"ok": 20, "n": 20}, "loo:id_in_body": {"ok": 20, "n": 20}, "mimicry:header-strip(hdrid)": {"ok": 19, "n": 20}, "mimicry:latency-pad": {"ok": 20, "n": 20}, "mimicry:echo-spoof": {"ok": 20, "n": 20}}, "frozen_sha256": "77b8d4a0be3dc3257a9179c00716c15afd51414fbb93dc1ca0718d5ce3590238", "mode": "force-trials", "target_stats": {"hyper": {"gt_on_target": 9, "correct": 9, "accuracy": 1.0, "verdict": "FAIL", "class_scored": 10, "gt_distribution": {"hyper": 9, "opencode-go": 1}}, "opencode-go": {"gt_on_target": 0, "correct": 0, "accuracy": 0.0, "verdict": "FAIL", "class_scored": 10, "gt_distribution": {"alibaba-token-plan": 10}}}}
+
+## GT + scoring at close (journal read AFTER all trials — 2026-10-16T11:57:39Z)
+# journal command: journalctl --user -u ds-flash-shim --since @1792151616 --until @1792151737 --no-pager
+# journal stdout lines=94 request-lines=37 leg-rids=36 allfail=1
+# frozen table re-verified at scoring: sha256 77b8d4a0be3dc3257a9179c00716c15afd51414fbb93dc1ca0718d5ce3590238
+# instrument sha256 at scoring: 05da8927b21d59e210108ec00ef20637e71ca57358894ea07758e53f9157c2d2
+
+| trial | class | prediction | GT | gt_class | chain | correct |
+|---|---|---|---|---|---|---|
+| T01 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T02 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T03 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T04 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T05 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T06 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T07 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T08 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T09 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T10 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T11 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T12 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T13 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T14 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T15 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T16 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T17 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T18 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T19 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T20 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+
+GT counts: {"hyper": 10, "alibaba-token-plan": 10}
+ACCURACY: 20/20 = 1.000 (bar 0.80, min scored n 20) -> PASS
+per-leg GT counts mean honesty note: legs with 0 GT trials are UNTESTED by this run
+TARGET hyper: on-target GT n=10, correct 10/10 = 1.000 (bar 0.80, min on-target n 10) -> PASS | class GT dist {'hyper': 10}
+TARGET opencode-go: on-target GT n=0, correct 0/0 = 0.000 (bar 0.80, min on-target n 10) -> FAIL | class GT dist {'alibaba-token-plan': 10}
+HONEST LIMIT: forced coverage is a different claim than natural coverage — these trials landed on the target legs because the forcing bodies made the earlier legs fail, not because route weather sent traffic there.
+
+Mimicry/ablation accuracies (frozen protocol §mimicry):
+  loo:hdr_tells                      19/20 = 0.950
+  loo:model_echo                     20/20 = 1.000
+  loo:usage_tells                    20/20 = 1.000
+  loo:error_tells                    20/20 = 1.000
+  loo:prompt_tokens_band             20/20 = 1.000
+  loo:wall_band                      20/20 = 1.000
+  loo:id_class                       20/20 = 1.000
+  loo:stream_span_class              20/20 = 1.000
+  loo:body_schema                    20/20 = 1.000
+  loo:id_in_body                     20/20 = 1.000
+  mimicry:header-strip(hdrid)        20/20 = 1.000
+  mimicry:latency-pad                20/20 = 1.000
+  mimicry:echo-spoof                 20/20 = 1.000
+{"kind": "score_summary", "shim": "ds", "accuracy": 1.0, "scored": 20, "correct": 20, "verdict": "PASS", "gt_counts": {"hyper": 10, "alibaba-token-plan": 10}, "excluded": [], "ablations": {"loo:hdr_tells": {"ok": 19, "n": 20}, "loo:model_echo": {"ok": 20, "n": 20}, "loo:usage_tells": {"ok": 20, "n": 20}, "loo:error_tells": {"ok": 20, "n": 20}, "loo:prompt_tokens_band": {"ok": 20, "n": 20}, "loo:wall_band": {"ok": 20, "n": 20}, "loo:id_class": {"ok": 20, "n": 20}, "loo:stream_span_class": {"ok": 20, "n": 20}, "loo:body_schema": {"ok": 20, "n": 20}, "loo:id_in_body": {"ok": 20, "n": 20}, "mimicry:header-strip(hdrid)": {"ok": 20, "n": 20}, "mimicry:latency-pad": {"ok": 20, "n": 20}, "mimicry:echo-spoof": {"ok": 20, "n": 20}}, "frozen_sha256": "77b8d4a0be3dc3257a9179c00716c15afd51414fbb93dc1ca0718d5ce3590238", "mode": "force-trials", "target_stats": {"hyper": {"gt_on_target": 10, "correct": 10, "accuracy": 1.0, "verdict": "PASS", "class_scored": 10, "gt_distribution": {"hyper": 10}}, "opencode-go": {"gt_on_target": 0, "correct": 0, "accuracy": 0.0, "verdict": "FAIL", "class_scored": 10, "gt_distribution": {"alibaba-token-plan": 10}}}}
+
+## Seat addendum — leg-coverage-impl, appended after both score blocks (2026-10-16T11:58Z-window)
+
+1. RUNS AND PINS. Run-1 (T01-T20, 11:50:06-11:51:50Z) ran under freeze-2 pin
+   3d7861f8…b623 with instrument sha 05da8927…c2d2. Run-2 (T01-T20,
+   11:53:41-11:55:08Z) ran under freeze-3 pin 77b8d4a0…90238 with the SAME
+   instrument bytes 05da8927…c2d2 — and that is DEFECT R22-1: freeze-3 raised
+   the force-opencode-go row's max_tokens 16 -> 64, but the instrument's
+   force_body() hardcoded max_tokens 16 and ignored the frozen row, so run-2
+   replicated run-1's conditions exactly (blind-evidenced: every run-2
+   force-opencode-go record shows the same istio-envoy landing and empty
+   content as run-1). Fixed post-run-2: force_body() now reads the frozen
+   row's max_tokens (instrument sha bb6bd919…712c); the fix is verified
+   against the frozen table (opencode-go -> 64, hyper -> 16) but did NOT run
+   any trial — the etiquette budget was spent (item 3).
+2. SCORED RESULTS (both score blocks above are this seat's authoritative
+   adjudication; journal GT read only after ALL trials of the scored run).
+   Run-1: ACCURACY 20/20 = 1.000 PASS; GT counts hyper 9 / alibaba 10 /
+   opencode-go 1; TARGET hyper 9/9 on-target = 1.000 (n<10 -> FAIL by the
+   frozen >=10 rule); TARGET opencode-go 0 on-target FAIL. Run-1 T03 is a
+   real opencode-go serve (chain 1/alibaba FAIL 400; 2/hyper FAIL None;
+   3/opencode-go OK 200) blind-predicted opencode-go — the inspection bait
+   over-ran hyper once. Run-2: ACCURACY 20/20 = 1.000 PASS; TARGET hyper
+   10/10 on-target = 1.000 -> PASS (the >=10 bar MET); TARGET opencode-go 0
+   on-target FAIL. Combined across both runs: 40/40 blind accuracy; hyper
+   19/19 on-target; opencode-go 1/1 on-target (n=1).
+3. BUDGET. This seat sent 43 requests total: 2 zero-quota GET /health
+   (11:46:49.360Z + one earlier un-timestamped in the same prep window, both
+   disclosed in the frozen file's roster_source), 40 forced trials, 1
+   post-run-2 diagnostic replay of the force-opencode-go body at max_tokens
+   64 (11:55:30Z-window, rid 075335ff5c09 in the unit journal — read
+   post-trials; the diagnostic is NOT a trial: no blind prediction was
+   recorded, it is excluded from every denominator; it is mechanism
+   evidence). The round's 44-call etiquette scale is thereby spent; no
+   third run was sent.
+4. MECHANISM FINDINGS (GT-backed). (a) The force-hyper forcing (leg-1
+   content-inspection bait) is RELIABLE: 19/20 landed on hyper across both
+   runs (the 20th over-ran to opencode-go). (b) The force-opencode-go
+   marker bait at max_tokens 16 is UNRELIABLE for this reasoning model
+   class: deepseek-v4.1-flash spends its whole completion budget on
+   reasoning_content (every run-1/run-2 force-opencode-go body shows
+   content:""), leg-1's 200 stays clean, and the trial lands on alibaba
+   (20/20). (c) The bait CAN win the starve-then-emit race: the
+   diagnostic replay at max_tokens 64 (finish_reason stop, content = the
+   marker sentence) produced the full marker chain in the journal —
+   rid 075335ff5c09: leg=1/alibaba FAIL status=200 reason=200 body marker
+   'usage limit'; leg=2/hyper FAIL status=200 (same reason); leg=3/
+   opencode-go FAIL status=200 (same reason); ALL LEGS FAILED ->
+   relay-last = opencode-go served the caller (shim.py:22-23, 420-449).
+   So opencode-go coverage is reachable by mechanism; the shipped
+   instrument fix makes the next instantiation's trials actually send
+   max_tokens 64.
+5. TWIN TRAFFIC (r21 defect-7 recurrence, quantified). Two other seats ran
+   the same forcing protocol against :8791 inside this seat's windows:
+   corpus/evidence/attrib-r22-legs-hyper.log (seat-labelled
+   leg-coverage-impl, 20 trials 11:50:58-11:52:26Z, pin 3d7861f8…, UNSCORED
+   at this addendum's time) and corpus/evidence/attrib-r22-opencode-trials.log
+   (trial-runner-opencode, 20 trials, scored by its own seat 11:52:23Z:
+   hyper 10/10 PASS, opencode-go 0 on-target). Journal REQUEST-line counts
+   in this seat's run windows: 53 request lines in run-1's window and 29 in
+   run-2's window against 20 trials each — the excess is twin traffic plus
+   this seat's own diagnostic. The r22 stream-flag GT-join hardening (v2
+   match rule) separates stream:false forcing rids from stream:true std
+   traffic but NOT from twin stream:false forcing traffic with identical
+   body lengths; the greedy in-order assignment disambiguated this seat's
+   joins (every assigned chain matches its blind prediction, 40/40), but
+   the mechanism is one journal-arrival tie from a silent cross-set swap —
+   the r21 lesson-4 structural fixes (dispatch ledger / per-seat join
+   marker) remain owed. The scorer should treat the four r22 receipts'
+   rid-level provenance as MIXED where windows overlap (11:50:58-11:52:26Z
+   is the worst overlap: this seat's run-1 T11-T20 + the twin hyper file's
+   T01-T20).
+6. BLIND RULE. No GT source was read before the last request of the run
+   being scored: run-1's score phase (post run-2's last request) and
+   run-2's score phase both postdate 11:55:08Z (the last trial request).
+   The journal reads in items 3-5 are post-trials. The diagnostic replay
+   (11:55:30Z) predates both score phases; its journal identification is
+   post-hoc mechanism evidence, not a scored trial.

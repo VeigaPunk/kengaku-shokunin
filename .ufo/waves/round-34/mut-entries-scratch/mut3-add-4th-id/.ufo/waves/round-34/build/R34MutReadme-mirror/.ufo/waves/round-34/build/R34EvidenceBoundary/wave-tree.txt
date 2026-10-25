@@ -1,0 +1,26 @@
+R34 evidence-boundary receipt — N1-class wave-tree trackedness at tip (C2 N1 support)
+Date: 2026-10-25
+Lane: /home/vgpnk/Projects/shokunin/kengaku-shokunin
+
+Command (verbatim):
+for d in .ufo/waves/round-32 .ufo/waves/round-33; do echo $d; find /home/vgpnk/Projects/shokunin/kengaku-shokunin/$d -type f | wc -l; git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin ls-files $d | wc -l; git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin status --porcelain $d; done
+
+Output:
+.ufo/waves/round-32
+89
+89
+.ufo/waves/round-33
+129
+129
+
+(For both dirs, `git status --porcelain` printed zero lines: no untracked,
+no modified, no staged entries.)
+
+git --version output:
+git version 2.56.0
+
+Summary:
+- round-32: 89 files on disk, 89 tracked by git -> untracked 0
+- round-33: 129 files on disk, 129 tracked by git -> untracked 0
+- porcelain: empty for both dirs
+- git version 2.56.0

@@ -1,0 +1,20 @@
+# Red-before receipt: naive token co-occurrence false-green
+
+Sandbox source: `/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-31/falsify/R31FxC2Survivors.md`.
+The source describes multiple unrelated route results; it does not assert an erratum relation between `a44b5a8` and `ae95fe0`.
+
+Sandbox fixture (both tokens present in unrelated sentences, separated by >300 characters):
+
+`a44b5a8` is an unrelated identifier mentioned in this sentence.
+
+This is intervening unrelated text deliberately exceeding the naive proximity window. It makes no claim connecting either identifier to an erratum or to one another. The distance is greater than 300 characters.
+
+`ae95fe0` is a different unrelated identifier mentioned in this sentence.
+
+Command:
+`python3 -c 's="a44b5a8 is an unrelated identifier mentioned in this sentence.\\n\\n" + ("This is intervening unrelated text deliberately exceeding the naive proximity window. It makes no claim connecting either identifier to an erratum or to one another. The distance is greater than 300 characters. " * 3) + "\\n\\nae95fe0 is a different unrelated identifier mentioned in this sentence."; near=lambda a,b,w=300: any(a in s[max(0,i-w):i+w+len(a)] for i in [s.find(b)] if i>=0) and any(b in s[max(0,j-w):j+w+len(b)] for j in [s.find(a)] if j>=0); print("found" if near("a44b5a8","ae95fe0") else "not found"); print("distance", s.find("ae95fe0")-s.find("a44b5a8"))'`
+Output:
+`found`
+`distance 638`
+
+Interpretation: the token-presence/proximity probe is green although the tokens occur in unrelated sentences and there is no erratum relation. This is a false-green demonstration, not evidence of an erratum.

@@ -1,0 +1,53 @@
+{
+  "mutant_id": "R29_M_ORDER_01",
+  "author": "KengakuR28.R29MutOrder-2",
+  "scope": "Design only. No production edit, source execution, behavioral detector run, or killed-mutant claim.",
+  "fixture_path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-29/scratch/R29MutOrder-2/cascade-order.case.json",
+  "mutation": {
+    "plausible_defect": "Use profile mapping iteration order as substitution order instead of the six source-prescribed names.",
+    "smallest_behavior_point": "Only the serialized substitution loop iterator; preserve replacement calls, JSON parse, validation, counts, and output handling.",
+    "pristine_iterator_pseudocode": "for name in SOURCE_ORDER:",
+    "mutant_iterator_pseudocode": "for name in values:",
+    "unchanged_body_pseudocode": "raw = raw.replace('__' + name + '__', values[name])",
+    "actual_implementation_file_and_line": null,
+    "binding_boundary": "A fresh falsifier must bind this conceptual iterator mutation to the actual delivered implementation in its own isolated scratch. This design does not assert an implementation layout or introduce a production API."
+  },
+  "detector": {
+    "logical_adapter": "Call the actual serialized substitution behavior with the fixture raw text and six string values, constructed in mapping_insertion_order; do not replace the system under test with a test-owned transform.",
+    "fixture_loading": "Read case bytes once and retain them. Parse JSON as data. Construct the values dictionary in the explicit mapping_insertion_order, independent of JSON object ordering assumptions.",
+    "checks": [
+      "Require the produced serialized text to equal expected_projected_text exactly, including its terminal LF; compare against the hand-authored literal, not a freshly computed replacement oracle.",
+      "Parse that actual produced text with JSON and require exact equality with expected_parsed_value.",
+      "Require zero occurrences of the six exact known placeholder spellings in actual projected text; runtime markers outside those six names are not this detector's target."
+    ],
+    "bounded_work": "One input task, one string leaf, six names, one invocation per pristine/mutated/restored phase; no corpus run, benchmark output file, network request, or upstream import.",
+    "proposed_process_exit_contract": {"pass": 0, "behavior_mismatch": 1, "cannot_bind_or_evaluate": 2},
+    "proposed_pass_output": "R29_ORDER_CASCADE_01 PASS",
+    "proposed_mutant_output": "R29_ORDER_CASCADE_01 FAIL projected_text_mismatch expected=https://map.invalid/order/probe actual=__REDDIT__/probe",
+    "proposed_cannot_evaluate_output": "R29_ORDER_CASCADE_01 INCONCLUSIVE cannot_evaluate",
+    "process_output_is_observed": false,
+    "entrypoint_boundary": "Use the implementation's actual hand-case/selftest seam if available. Do not edit a frozen manifest/profile or bypass authentication in the production CLI to inject this case. The frozen-profile summary alone is not this detector."
+  },
+  "reasoning": {
+    "pristine_hand_expected": "Each replacement introduces the next later token; the sixth replacement produces https://map.invalid/order/probe.",
+    "mutant_hand_expected": "Reverse mapping order processes MAP through REDDIT before GITLAB introduces __REDDIT__; that new token remains and the projected JSON still parses.",
+    "simultaneous_alternative_not_a_second_assigned_probe": "A single pass over matches in the original serialized text also inserts __REDDIT__ without rescanning it. It must fail the same expected-text detector, but no second mutation experiment is assigned or claimed here.",
+    "permutation_boundary": "With each of the six names applied exactly once, the cascade reaches the endpoint only if all five predecessor-before-successor relations hold, which uniquely fixes the source order. An unordered implementation that happens to choose that order can pass; reverse insertion makes the selected mapping-order mutant deterministic."
+  },
+  "later_experiment_protocol": [
+    "Retain and hash the pristine implementation bytes, fixed detector bytes, and fixed case bytes inside the fresh falsifier's own scratch; record actual adapter and command.",
+    "Run the fixed bounded detector on pristine bytes. A nonzero baseline is INCONCLUSIVE, never a killed mutant.",
+    "Apply only the specified iterator defect to that isolated implementation and record the changed file's hash and exact edit.",
+    "Run the same command and fixed detector/case bytes on mutated implementation bytes; retain exact stdout, stderr, and exit status.",
+    "In finally-style cleanup, restore exact retained implementation bytes even after errors; compare restored bytes directly with pristine bytes and record the restored hash.",
+    "Run the same fixed detector on restored bytes. A passing baseline, behavioral mismatch from the mutant, passing restored run, and exact byte restoration support KILLED. Passing mutant supports SURVIVED. Binding failures, exceptions, baseline failure, or restoration problems are INCONCLUSIVE, not behavioral kills."
+  ],
+  "observed_experiment_status": {
+    "pristine": "NOT RUN",
+    "mutated": "NOT RUN",
+    "restored": "NOT RUN",
+    "mutation_verdict": "INCONCLUSIVE: design-only assignment; no mutation experiment executed",
+    "implementation_bytes_changed": false,
+    "restoration": "Not required: no implementation bytes were mutated."
+  }
+}

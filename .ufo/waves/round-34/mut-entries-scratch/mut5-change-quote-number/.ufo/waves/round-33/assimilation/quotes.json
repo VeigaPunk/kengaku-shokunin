@@ -1,0 +1,55 @@
+{
+  "round": 33,
+  "lane": "kengaku",
+  "access_date": "2026-10-25",
+  "gate": {
+    "tool": "plans/sources_adopt.py",
+    "note": "--quote-file parses markdown 11-cell rows (ROW_RE ^( {0,3})\\|[ \\t]*(S\\d{3,})[ \\t]*\\|), so the gate-consumable quote file is append-rows.md, whose anchor cells carry exactly these spans. This JSON is the same spans in structured form; passing it as --quote-file would parse zero rows.",
+    "command": "python3 plans/sources_adopt.py --quote-file .ufo/waves/round-33/assimilation/append-rows.md --artifact .ufo/waves/round-33/assimilation/captures --url-map .ufo/waves/round-33/assimilation/url-map.json",
+    "cap_words": 25,
+    "refusal_exits": {"2": "unreadable artifact or quote file", "4": "malformed row", "6": "quote over 25 words", "7": "quote absent from bytes", "8": "capture mapped to a URL the row does not cite", "9": "capture unmapped"}
+  },
+  "rows": [
+    {
+      "id": "S103",
+      "staged_as": "S094",
+      "capture": "toolathlon-ab-testing-evaluation-main.py",
+      "capture_sha256": "3bad26b61448f1f0c91808435e3239c3f7a6735ab865f0c27523fb6312a9b9ad",
+      "capture_bytes": 14138,
+      "capture_lines": 297,
+      "cited_url": "https://github.com/hkust-nlp/Toolathlon/blob/9be8d8fe07a497b18ee61e3f2ae694e9797f39eb/tasks/finalpool/ab-testing/evaluation/main.py",
+      "pin": "9be8d8fe07a497b18ee61e3f2ae694e9797f39eb",
+      "path": "tasks/finalpool/ab-testing/evaluation/main.py",
+      "fetch_check": "re-fetched https://raw.githubusercontent.com/hkust-nlp/Toolathlon/9be8d8fe07a497b18ee61e3f2ae694e9797f39eb/tasks/finalpool/ab-testing/evaluation/main.py on 2026-10-25; sha256 3bad26b6… matches the capture byte for byte",
+      "quotes": [
+        {"line": 58, "words": 11, "role": "signature default (declared, NOT executed)", "text": "def validate_record_data(actual_records: dict, expected_records: dict, tolerance_pct: float = 0.1) -> None:"},
+        {"line": 279, "words": 5, "role": "call-site comment", "text": "# Validate with 0.05% tolerance"},
+        {"line": 280, "words": 3, "role": "the sole call, so the executed tolerance is 0.05", "text": "validate_record_data(actual_records, expected_records, tolerance_pct=0.05)"},
+        {"line": 218, "words": 11, "role": "caught-exception path fails open", "text": "return True  # Don't fail evaluation if we can't check logs"},
+        {"line": 234, "words": 4, "role": "absent credentials fall through to implicit None, which fails the task", "text": "if not check_abtesting_logging_bucket_clean(task_launch_time, task_eval_time):"}
+      ]
+    },
+    {
+      "id": "S104",
+      "staged_as": "S097",
+      "capture": "arxiv-2412.05579v2-abs.html",
+      "capture_sha256": "44195c5f4c8e0ff915f5894a78e88f22a121d87d908e9ad211d611799d17a660",
+      "capture_bytes": 43661,
+      "capture_lines": 617,
+      "cited_url": "https://arxiv.org/abs/2412.05579v2",
+      "pin": "2412.05579v2",
+      "path": "abs page",
+      "fetch_check": "captured 2026-10-25 from https://arxiv.org/abs/2412.05579v2; the page identifies itself as arXiv:2412.05579v2 at line 109",
+      "quotes": [
+        {"line": 41, "words": 8, "role": "title, the survey's own spelling (three Ls)", "text": "LLMs-as-Judges: A Comprehensive Survey on LLM-based Evaluation Methods"},
+        {"line": 124, "words": 20, "role": "abstract, the five-part structure", "text": "This paper presents a comprehensive survey of the LLMs-as-judges paradigm from five key perspectives: Functionality, Methodology, Applications, Meta-evaluation, and Limitations."},
+        {"line": 131, "words": 6, "role": "comments field", "text": "60 pages, comprehensive and continuously updated"}
+      ]
+    }
+  ],
+  "uncited_capture": {
+    "capture": "toolathlon-utils-evaluation-retry.py",
+    "capture_sha256": "db11e66ec241e1c5d00327b0bf7209c20323c4582c827e62b7a261235c17f69e",
+    "note": "present in the captures dir and mapped in url-map.json (utils/evaluation/retry.py at the same pin) but no quote in this file's rows locates there; it belongs to the entry's retry paragraph, not to these two rows"
+  }
+}

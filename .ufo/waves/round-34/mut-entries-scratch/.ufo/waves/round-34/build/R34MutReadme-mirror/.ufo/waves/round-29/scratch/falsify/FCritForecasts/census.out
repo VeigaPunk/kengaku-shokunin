@@ -1,0 +1,41 @@
+GEN_STEPS [('__GITLAB__', 'GITLAB'), ('__REDDIT__', 'REDDIT'), ('__SHOPPING__', 'SHOPPING'), ('__SHOPPING_ADMIN__', 'SHOPPING_ADMIN'), ('__WIKIPEDIA__', 'WIKIPEDIA'), ('__MAP__', 'MAP')]
+RAW sha256 7b50386fd69163dbc05d615d834df4c6ed2c35596e97a1b10d17451c02537652 ascii True CR False
+F1_ALPHABET distinct_origins json-breaking chars: none
+F1_ALPHABET path_prefix json-breaking chars: none
+F1_ALPHABET trailing_slash_sensitivity json-breaking chars: none
+TOKENS_IN_KEYS 0
+F1 distinct_origins parsed 812 | F2 text 0 decoded 0 | value-side token risk none
+F1 path_prefix parsed 812 | F2 text 0 decoded 0 | value-side token risk none
+F1 trailing_slash_sensitivity parsed 812 | F2 text 0 decoded 0 | value-side token risk none
+F4 index==task_id 812 of 812 | ids distinct 812
+F4 hand fixture keys ['case_id', 'writer', 'kind', 'scope', 'profile_name', 'replacement_order', 'profile_values', 'input_raw_text', 'expected_projected_raw_text', 'expected_counts', 'expected_input_task_ids', 'expected_output_ordinals']
+F3 changed leaves 1416
+F3 READINGS (count of changed leaves satisfying 'non-URL-valued field' under each reading): {'A_key_role_nonurl': 61, 'B_value_not_single_url': 13, 'C_value_contains_no_url': 0, 'D_value_not_starting_with_token_or_scheme': 0}
+F3 changed by template {'start_url': 812, 'eval.reference_url': 205, 'eval.reference_answer_raw_annotation': 1, 'eval.program_html[].url': 338, 'eval.program_html[].required_contents.must_include[]': 60}
+F3 non-role-or-non-single-url leaves: 73
+   ('eval.program_html[].required_contents.must_include[]', True, True) n= 60 example: $[552].eval.program_html[0].required_contents.must_include[0] '__REDDIT__/f/space/134164/scientists-erupt-at-nasa-gutting-funding-for-crucial-venus' -> 'http://reddit.invalid:10102/f/space/134164/scientists-erupt-at-nasa-gutting-funding-for-crucial-venus'
+   ('eval.reference_answer_raw_annotation', False, True) n= 1 example: $[66].eval.reference_answer_raw_annotation '__REDDIT__/f/books/59396/apple-books-has-a-free-audiobook-of-a-christmas-carol, __REDDIT__/f/books/17445/i-just-finished-reading-the-hobbit -> 'http://reddit.invalid:10102/f/books/59396/apple-books-has-a-free-audiobook-of-a-christmas-carol, http://reddit.invalid:10102/f/books/17445/i-just-finished-read
+   ('eval.reference_url', False, True) n= 7 example: $[604].eval.reference_url '__REDDIT__/f/deeplearning |OR| __REDDIT__/f/MachineLearning |OR| __REDDIT__/f/singularity' -> 'http://reddit.invalid:10102/f/deeplearning |OR| http://reddit.invalid:10102/f/MachineLearning |OR| http://reddit.invalid:10102/f/singularity'
+   ('start_url', False, True) n= 5 example: $[431].start_url '__SHOPPING__/tall-pink-taper-candles-4-piece-orange-colored-tapered-candles-gradient-candles-10-6-inches-tall-tie-dye-candle-set-large-drip -> 'http://shopping.invalid:10103/tall-pink-taper-candles-4-piece-orange-colored-tapered-candles-gradient-candles-10-6-inches-tall-tie-dye-candle-set-large-driples
+F3 URL-role leaves whose projected value is not a single absolute URL: 12
+    $[431].start_url 'http://shopping.invalid:10103/tall-pink-taper-candles-4-piece-orange-colored-tapered-candles-gradient-candles-10-6-inches-tall-tie-dye-candle-set-large-dripless-long-burning-candl
+    $[432].start_url 'http://shopping.invalid:10103/ciclon-energy-drink-regular-24-cans-8-3oz.html |AND| http://shopping.invalid:10103/v8-energy-healthy-energy-drink-steady-energy-from-black-and-green-
+    $[433].start_url 'http://shopping.invalid:10103/tazrigo-5pcs-white-dental-resin-brush-pens-dental-shaping-silicone-tooth-tool.html |AND| http://shopping.invalid:10103/stylus-pens-for-touch-screens-
+    $[434].start_url 'http://shopping.invalid:10103/3-pairs-ruffle-socks-lace-ankle-socks-for-girls-frilly-socks-women-decorative.html |AND| http://shopping.invalid:10103/viviki-women-glitter-socks-ult
+    $[435].start_url 'http://shopping.invalid:10103/35-ft-hdmi-cable-gearit-pro-series-hdmi-cable-35-feet-high-speed-ethernet-4k-resolution-3d-video-and-arc-audio-return-channel-hdmi-cable-white.html |
+    $[604].eval.reference_url 'http://reddit.invalid:10102/f/deeplearning |OR| http://reddit.invalid:10102/f/MachineLearning |OR| http://reddit.invalid:10102/f/singularity'
+CMP distinct_origins parsed 812 812 | cat inst {'non_url_field': 61, 'url_field': 1355} mine {'url_field': 1355, 'non_url_field': 61} | rem_text inst 0 | rem_dec inst 0
+CMP path_prefix parsed 812 812 | cat inst {'non_url_field': 61, 'url_field': 1355} mine {'url_field': 1355, 'non_url_field': 61} | rem_text inst 0 | rem_dec inst 0
+CMP trailing_slash_sensitivity parsed 812 812 | cat inst {'non_url_field': 61, 'url_field': 1355} mine {'url_field': 1355, 'non_url_field': 61} | rem_text inst 0 | rem_dec inst 0
+CMP index inst 812 violations 0
+CMP inst task[66] keys ['changed_leaves', 'index_equals_task_id', 'output_filename', 'output_index', 'projected_task', 'task_id', 'would_be_file_sha256']
+    changed_leaves [{"category": "url_field", "json_pointer": "/66/start_url", "original": "__REDDIT__", "path_template": "start_url", "projected": "http://reddit.invalid:10102", "tokens": ["__REDDIT__"]}, {"category": "non_url_field", "json_pointer": "/66/eval/reference_answer_raw_annotation", "original": "__REDDIT__/f/books/59396/apple-books-has-a-free-audiobook-of-a-christmas-carol, __REDDIT__/f/books/17445/i-just-finished-reading-the-hobbit-to-my-6-year-old-daughter", "path_template": "eval.reference_answer_raw_annotation", "projected": "http://reddit.invalid:10102/f/books/59396/apple-books-has-a-free-audiobook-of-a-christmas-carol, http://reddit.invalid:10102/f/books/17445/i-just-finished-reading-the-hobb
+    index_equals_task_id true
+    output_filename "config_files/66.json"
+    output_index 66
+    task_id 66
+    would_be_file_sha256 "59c3f4be74f15eb7c4b8af8480723d9db77e6264cd425726a4e03c2252cff6d3"
+CMP inst per-leaf (category, template) census {('url_field', 'start_url'): 812, ('url_field', 'eval.reference_url'): 205, ('non_url_field', 'eval.reference_answer_raw_annotation'): 1, ('url_field', 'eval.program_html[].url'): 338, ('non_url_field', 'eval.program_html[].required_contents.must_include[]'): 60}
+CMP 'category' rule text anywhere in output: []
+F3 multi-occurrence changed leaves 13 equal to not-single-url set: True
+CMP inst top-level text mentions 'category' def? False | limitations: ['scope: offline projection of one pinned generator over one pinned raw task file; not an actual deployment config, env_config value or observed endpoint', 'profiles: three frozen synthetic *.invalid sensitivity stimuli, not deployment recommendations; their per-profile effects are stimulus observations, never model or task errors', 'units: 2436 = 812 tasks x 3 synthetic profiles of one input; not independent trials, samples or files written', 'upstream also writes one whole test.json per profile (813 would-be artifacts per profile); only the 812 per-index task objects are counted as projections', 'offsets are Unicode codepoint offsets in the ORIGINAL raw input text, never byte offsets or step-input offsets', 'upstream text-mode I/O uses the locale encoding and universal newlines; the pinned raw file is ASCII without carriage returns, so that difference is inert here', 'no runtime evaluator, browser, helper, judge, task-validity, model-performance or contamination claim; unread metadata such as sites is not a consumed predicate']

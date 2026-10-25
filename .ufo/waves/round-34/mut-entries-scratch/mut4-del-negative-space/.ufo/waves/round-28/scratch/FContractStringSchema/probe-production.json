@@ -1,0 +1,956 @@
+{
+ "cases": {
+  "A01_exact_ok": {
+   "actual": [],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [],
+   "record_approach_order": [
+    "exact_match"
+   ],
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": {
+    "exact_match": "answer"
+   },
+   "schema_status": "SCHEMA_COMPATIBLE",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {
+    "exact_match": 1
+   },
+   "why": "scorer exact_match(ref: str)"
+  },
+  "A02_exact_int": {
+   "actual": [
+    "string_operator_invalid"
+   ],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [
+    "string_operator_invalid"
+   ],
+   "record_approach_order": [
+    "exact_match"
+   ],
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": {
+    "exact_match": 5
+   },
+   "schema_status": "FAILED",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {
+    "exact_match": 1
+   },
+   "why": "beartype rejects int ref"
+  },
+  "A03_exact_list": {
+   "actual": [
+    "string_operator_invalid"
+   ],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [
+    "string_operator_invalid"
+   ],
+   "record_approach_order": [
+    "exact_match"
+   ],
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": {
+    "exact_match": [
+     "a"
+    ]
+   },
+   "schema_status": "FAILED",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {
+    "exact_match": 1
+   },
+   "why": "beartype rejects list ref"
+  },
+  "A04_must_str": {
+   "actual": [
+    "string_operator_invalid"
+   ],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [
+    "string_operator_invalid"
+   ],
+   "record_approach_order": [
+    "must_include"
+   ],
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": {
+    "must_include": "a"
+   },
+   "schema_status": "FAILED",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {
+    "must_include": 1
+   },
+   "why": "assert isinstance(value, list) at :143"
+  },
+  "A05_must_mixed": {
+   "actual": [
+    "string_operator_invalid"
+   ],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [
+    "string_operator_invalid"
+   ],
+   "record_approach_order": [
+    "must_include"
+   ],
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": {
+    "must_include": [
+     "a",
+     3
+    ]
+   },
+   "schema_status": "FAILED",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {
+    "must_include": 1
+   },
+   "why": "beartype rejects int element"
+  },
+  "A06_fuzzy_lower_na": {
+   "actual": [
+    "string_operator_invalid"
+   ],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [
+    "string_operator_invalid"
+   ],
+   "record_approach_order": [
+    "fuzzy_match"
+   ],
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": {
+    "fuzzy_match": "n/a"
+   },
+   "schema_status": "FAILED",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {
+    "fuzzy_match": 1
+   },
+   "why": "non-N/A str hits assert list at :165"
+  },
+  "A07_fuzzy_dict": {
+   "actual": [
+    "string_operator_invalid"
+   ],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [
+    "string_operator_invalid"
+   ],
+   "record_approach_order": [
+    "fuzzy_match"
+   ],
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": {
+    "fuzzy_match": {
+     "a": "b"
+    }
+   },
+   "schema_status": "FAILED",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {
+    "fuzzy_match": 1
+   },
+   "why": "assert list"
+  },
+  "A08_na_no_note": {
+   "actual": [
+    "string_note_invalid"
+   ],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [
+    "string_note_invalid"
+   ],
+   "record_approach_order": [
+    "fuzzy_match"
+   ],
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": {
+    "fuzzy_match": "N/A"
+   },
+   "schema_status": "FAILED",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {
+    "fuzzy_match": 1
+   },
+   "why": "KeyError at :161 when score!=1"
+  },
+  "A09_na_none_note": {
+   "actual": [
+    "string_note_invalid"
+   ],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [
+    "string_note_invalid"
+   ],
+   "record_approach_order": [
+    "fuzzy_match"
+   ],
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": {
+    "fuzzy_match": "N/A"
+   },
+   "schema_status": "FAILED",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {
+    "fuzzy_match": 1
+   },
+   "why": "beartype ua_match(ref: str)"
+  },
+  "A10_na_note_ok": {
+   "actual": [],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [],
+   "record_approach_order": [
+    "fuzzy_match"
+   ],
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": {
+    "fuzzy_match": "N/A"
+   },
+   "schema_status": "SCHEMA_COMPATIBLE",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {
+    "fuzzy_match": 1
+   },
+   "why": "compatible"
+  },
+  "A11_refs_none": {
+   "actual": [
+    "reference_answers_invalid"
+   ],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [
+    "reference_answers_invalid"
+   ],
+   "record_approach_order": null,
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": null,
+   "schema_status": "FAILED",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {},
+   "why": "None.items() AttributeError"
+  },
+  "A12_refs_list": {
+   "actual": [
+    "reference_answers_invalid"
+   ],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [
+    "reference_answers_invalid"
+   ],
+   "record_approach_order": null,
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": [
+    "a"
+   ],
+   "schema_status": "FAILED",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {},
+   "why": "list.items() AttributeError"
+  },
+  "A13_refs_absent": {
+   "actual": [
+    "reference_answers_invalid"
+   ],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [
+    "reference_answers_invalid"
+   ],
+   "record_approach_order": [],
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": {},
+   "schema_status": "FAILED",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {},
+   "why": "KeyError at :137"
+  },
+  "A14_refs_empty_dict": {
+   "actual": [
+    "reference_answers_invalid"
+   ],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [
+    "reference_answers_invalid"
+   ],
+   "record_approach_order": [],
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": {},
+   "schema_status": "FAILED",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {},
+   "why": "audit's own vacuity rule (scorer returns 1.0)"
+  },
+  "A15_unknown_op_alone": {
+   "actual": [
+    "string_operator_invalid"
+   ],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [
+    "string_operator_invalid"
+   ],
+   "record_approach_order": [
+    "bogus"
+   ],
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": {
+    "bogus": "x"
+   },
+   "schema_status": "FAILED",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {
+    "bogus": 1
+   },
+   "why": "no case _: silent no-op, vacuous 1.0"
+  },
+  "A16_unknown_op_mixed": {
+   "actual": [
+    "string_operator_invalid"
+   ],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [
+    "string_operator_invalid"
+   ],
+   "record_approach_order": [
+    "exact_match",
+    "bogus"
+   ],
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": {
+    "bogus": "x",
+    "exact_match": "a"
+   },
+   "schema_status": "FAILED",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {
+    "bogus": 1,
+    "exact_match": 1
+   },
+   "why": "silent no-op op"
+  },
+  "A17_fuzzy_mixed": {
+   "actual": [
+    "string_operator_invalid"
+   ],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [
+    "string_operator_invalid"
+   ],
+   "record_approach_order": [
+    "fuzzy_match"
+   ],
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": {
+    "fuzzy_match": [
+     "a",
+     3
+    ]
+   },
+   "schema_status": "FAILED",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {
+    "fuzzy_match": 1
+   },
+   "why": "beartype fuzzy_match(ref: str)"
+  },
+  "E01_duplicate": {
+   "actual": [
+    "duplicate_eval_type"
+   ],
+   "eval_type_sets": {
+    "string_match,string_match": 1
+   },
+   "expected": [
+    "duplicate_eval_type"
+   ],
+   "record_approach_order": [
+    "exact_match"
+   ],
+   "record_eval_types": [
+    "string_match",
+    "string_match"
+   ],
+   "record_reference_answers": {
+    "exact_match": "answer"
+   },
+   "schema_status": "FAILED",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {
+    "exact_match": 1
+   },
+   "why": "two StringEvaluators, product"
+  },
+  "E02_unknown_plus_string": {
+   "actual": [
+    "unknown_eval_type"
+   ],
+   "eval_type_sets": {
+    "bogus,string_match": 1
+   },
+   "expected": [
+    "unknown_eval_type"
+   ],
+   "record_approach_order": [
+    "exact_match"
+   ],
+   "record_eval_types": [
+    "string_match",
+    "bogus"
+   ],
+   "record_reference_answers": {
+    "exact_match": "answer"
+   },
+   "schema_status": "FAILED",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {
+    "exact_match": 1
+   },
+   "why": "router ValueError at :372"
+  },
+  "E03_case_variant": {
+   "actual": [
+    "unknown_eval_type"
+   ],
+   "eval_type_sets": {
+    "String_Match": 1
+   },
+   "expected": [
+    "unknown_eval_type"
+   ],
+   "record_approach_order": [
+    "exact_match"
+   ],
+   "record_eval_types": [
+    "String_Match"
+   ],
+   "record_reference_answers": {
+    "exact_match": "answer"
+   },
+   "schema_status": "FAILED",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {},
+   "why": "match is exact"
+  },
+  "E04_eval_types_str": {
+   "actual": [
+    "eval_types_invalid"
+   ],
+   "eval_type_sets": {
+    "": 1
+   },
+   "expected": [
+    "eval_types_invalid"
+   ],
+   "record_approach_order": [
+    "exact_match"
+   ],
+   "record_eval_types": [],
+   "record_reference_answers": {
+    "exact_match": "answer"
+   },
+   "schema_status": "FAILED",
+   "selected": [],
+   "strata": 0,
+   "string_operators": {},
+   "why": "iterates chars -> ValueError"
+  },
+  "E05_eval_types_empty": {
+   "actual": [
+    "eval_types_invalid"
+   ],
+   "eval_type_sets": {
+    "": 1
+   },
+   "expected": [
+    "eval_types_invalid"
+   ],
+   "record_approach_order": [
+    "exact_match"
+   ],
+   "record_eval_types": [],
+   "record_reference_answers": {
+    "exact_match": "answer"
+   },
+   "schema_status": "FAILED",
+   "selected": [],
+   "strata": 0,
+   "string_operators": {},
+   "why": "audit rule; scorer returns empty comb 1.0"
+  },
+  "E06_eval_types_nonstr_masks": {
+   "actual": [
+    "eval_types_invalid"
+   ],
+   "eval_type_sets": {
+    "": 1
+   },
+   "expected": [
+    "eval_types_invalid",
+    "string_operator_invalid"
+   ],
+   "record_approach_order": [
+    "exact_match"
+   ],
+   "record_eval_types": [],
+   "record_reference_answers": {
+    "exact_match": 3
+   },
+   "schema_status": "FAILED",
+   "selected": [],
+   "strata": 0,
+   "string_operators": {},
+   "why": "both defects present in task"
+  },
+  "E07_eval_types_absent": {
+   "actual": [
+    "eval_types_invalid"
+   ],
+   "eval_type_sets": {
+    "": 1
+   },
+   "expected": [
+    "eval_types_invalid"
+   ],
+   "record_approach_order": [
+    "exact_match"
+   ],
+   "record_eval_types": [],
+   "record_reference_answers": {
+    "exact_match": "answer"
+   },
+   "schema_status": "FAILED",
+   "selected": [],
+   "strata": 0,
+   "string_operators": {},
+   "why": "KeyError at :361"
+  },
+  "E08_unknown_only_malformed_refs": {
+   "actual": [
+    "unknown_eval_type"
+   ],
+   "eval_type_sets": {
+    "bogus": 1
+   },
+   "expected": [
+    "unknown_eval_type"
+   ],
+   "record_approach_order": [
+    "exact_match"
+   ],
+   "record_eval_types": [
+    "bogus"
+   ],
+   "record_reference_answers": {
+    "exact_match": 3
+   },
+   "schema_status": "FAILED",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {},
+   "why": "string not active; refs unread"
+  },
+  "E09_dup_and_unknown": {
+   "actual": [
+    "duplicate_eval_type",
+    "unknown_eval_type"
+   ],
+   "eval_type_sets": {
+    "bogus,bogus": 1
+   },
+   "expected": [
+    "duplicate_eval_type",
+    "unknown_eval_type"
+   ],
+   "record_approach_order": [
+    "exact_match"
+   ],
+   "record_eval_types": [
+    "bogus",
+    "bogus"
+   ],
+   "record_reference_answers": {
+    "exact_match": "answer"
+   },
+   "schema_status": "FAILED",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {},
+   "why": "both"
+  },
+  "N01_nonactive_none": {
+   "actual": [],
+   "eval_type_sets": {
+    "url_match": 1
+   },
+   "expected": [],
+   "record_approach_order": null,
+   "record_eval_types": [
+    "url_match"
+   ],
+   "record_reference_answers": null,
+   "schema_status": "SCHEMA_COMPATIBLE",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {},
+   "why": "refs unread"
+  },
+  "N02_nonactive_malformed": {
+   "actual": [],
+   "eval_type_sets": {
+    "url_match": 1
+   },
+   "expected": [],
+   "record_approach_order": [
+    "exact_match"
+   ],
+   "record_eval_types": [
+    "url_match"
+   ],
+   "record_reference_answers": {
+    "exact_match": 3
+   },
+   "schema_status": "SCHEMA_COMPATIBLE",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {},
+   "why": "refs unread"
+  },
+  "N03_nonactive_absent": {
+   "actual": [],
+   "eval_type_sets": {
+    "url_match": 1
+   },
+   "expected": [],
+   "record_approach_order": [],
+   "record_eval_types": [
+    "url_match"
+   ],
+   "record_reference_answers": {},
+   "schema_status": "SCHEMA_COMPATIBLE",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {},
+   "why": "refs unread"
+  },
+  "N04_na_combined_after_exact": {
+   "actual": [],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [],
+   "record_approach_order": [
+    "exact_match",
+    "fuzzy_match"
+   ],
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": {
+    "exact_match": "a",
+    "fuzzy_match": "N/A"
+   },
+   "schema_status": "SCHEMA_COMPATIBLE",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {
+    "exact_match": 1,
+    "fuzzy_match": 1
+   },
+   "why": "crash-free; overwrite semantics are contract, not schema"
+  },
+  "V01_must_empty_list": {
+   "actual": [],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [
+    "VACUOUS"
+   ],
+   "record_approach_order": [
+    "must_include"
+   ],
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": {
+    "must_include": []
+   },
+   "schema_status": "SCHEMA_COMPATIBLE",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {
+    "must_include": 1
+   },
+   "why": "loop over [] -> 1.0, like A14"
+  },
+  "V02_fuzzy_empty_list": {
+   "actual": [],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [
+    "VACUOUS"
+   ],
+   "record_approach_order": [
+    "fuzzy_match"
+   ],
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": {
+    "fuzzy_match": []
+   },
+   "schema_status": "SCHEMA_COMPATIBLE",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {
+    "fuzzy_match": 1
+   },
+   "why": "loop over [] -> 1.0, like A14"
+  },
+  "V03_must_empty_string": {
+   "actual": [],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [
+    "VACUOUS"
+   ],
+   "record_approach_order": [
+    "must_include"
+   ],
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": {
+    "must_include": [
+     ""
+    ]
+   },
+   "schema_status": "SCHEMA_COMPATIBLE",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {
+    "must_include": 1
+   },
+   "why": "'' in pred always true"
+  },
+  "V04_must_blank_string": {
+   "actual": [],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [
+    "VACUOUS"
+   ],
+   "record_approach_order": [
+    "must_include"
+   ],
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": {
+    "must_include": [
+     "   "
+    ]
+   },
+   "schema_status": "SCHEMA_COMPATIBLE",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {
+    "must_include": 1
+   },
+   "why": "clean_answer strips ref to ''"
+  },
+  "V05_must_quote_pair": {
+   "actual": [],
+   "eval_type_sets": {
+    "string_match": 1
+   },
+   "expected": [
+    "VACUOUS"
+   ],
+   "record_approach_order": [
+    "must_include"
+   ],
+   "record_eval_types": [
+    "string_match"
+   ],
+   "record_reference_answers": {
+    "must_include": [
+     "\"\""
+    ]
+   },
+   "schema_status": "SCHEMA_COMPATIBLE",
+   "selected": [
+    0
+   ],
+   "strata": 1,
+   "string_operators": {
+    "must_include": 1
+   },
+   "why": "clean_answer strips quote pair to ''"
+  }
+ },
+ "mismatch": [
+  "V01_must_empty_list",
+  "V02_fuzzy_empty_list",
+  "V03_must_empty_string",
+  "V04_must_blank_string",
+  "V05_must_quote_pair",
+  "E06_eval_types_nonstr_masks"
+ ],
+ "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/benchmark_spec_audit.py"
+}

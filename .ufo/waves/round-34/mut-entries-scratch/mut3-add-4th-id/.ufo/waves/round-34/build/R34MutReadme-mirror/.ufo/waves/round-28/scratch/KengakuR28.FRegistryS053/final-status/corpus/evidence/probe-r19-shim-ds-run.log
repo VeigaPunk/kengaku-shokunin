@@ -1,0 +1,172 @@
+# probe-r19-shim-ds-run — runner-shim-ds, kengaku round 19
+# Companion to: probe-r19-shim-ds-predictions.log (block sha256 78de64d930c3c7e80b6e98efe4b8f4418168365093a23f589c3422d508e1e264, filed 2026-10-16T07:44:02Z)
+# Target: 127.0.0.1:8791 ds-flash-shim (MainPID 1292854, active since 2026-10-15 14:16:22 -03)
+# Code pin pre-run: sha256 42d86d99d42658214e362c2759ecab88a03de005e9ed93e9c1804cbf8c15a386
+# Executions begin after this line. Every entry: UTC stamp, exact command, exit, excerpt.
+# NOTE (hygiene): no credential values in this log. A hyper-leg key embedded at
+# shim.py:126 was exposed once in the seat session during masked code reading
+# (mask threshold 48 chars; key shape sk-hyper-<uuid> is 44) — reported
+# shape-only to the operator/mori lane, never reproduced here.
+# battery_sha256_at_start: e3f08a0981a9dc1fe37adb0fe0e49f109a2d162459fa3857dccd56cc69598943
+# frozen_utc: 2026-10-16T07:52:04Z (verified by recomputation at 2026-10-16T07:52:45Z: match)
+# seat predictions hashed pre-freeze: 78de64d930c3c7e80b6e98efe4b8f4418168365093a23f589c3422d508e1e264 (filed 07:44:02Z)
+probe: S1-S8 (seat-level battery, ds-flash cascade shim :8791)
+runner-seat: runner-shim-ds
+first_request_utc: 2026-10-16T07:52:48Z
+last_request_utc: 2026-10-16T07:53:29Z
+outcome: all-components-recorded
+
+=== [S7] 2026-10-16T07:52:48Z UTC — GET /health
+{"ok": true, "service": "ds-flash-shim", "port": 8791, "legs": ["alibaba-token-plan", "hyper", "opencode-go"]}
+curl_exit_marker=0 http=200 time_total=0.003312s
+curl exit: 0
+Oct 16 04:21:26 plazir27 python3[1292854]: 2026-10-16T04:21:26-0300 rid=80bc9a8d3f26 leg=2/hyper OK status=200 stream=True 3.335s
+Oct 16 04:21:34 plazir27 python3[1292854]: 2026-10-16T04:21:34-0300 rid=7585f0af0c92 REQUEST model='deepseek-v4.1-flash' stream=True bytes=602544
+Oct 16 04:21:37 plazir27 python3[1292854]: 2026-10-16T04:21:37-0300 rid=7585f0af0c92 leg=1/alibaba-token-plan OK status=200 stream=True 3.409s
+
+=== [S6] 2026-10-16T07:52:51Z UTC — GET /v1/models
+{"object": "list", "data": [{"id": "deepseek-v4.1-flash", "object": "model", "created": 0, "owned_by": "ds-flash-shim"}]}
+curl_exit_marker=0 http=200 time_total=0.003129s
+curl exit: 0
+
+=== [S1] 2026-10-16T07:52:53Z UTC — POST non-stream trivial chat (max_tokens 16)
+curl_exit_marker=0 http=200 time_total=1.816235s ttfb=1.816191s
+curl exit: 0
+--- response headers (relay; credential-shaped values stripped at landing):
+HTTP/1.1 200 OK
+content-type: application/json; charset=utf-8
+grpc-encoding: identity
+grpc-accept-encoding: gzip
+x-envoy-upstream-service-time: 790
+date: Fri, 16 Oct 2026 07:52:55 GMT
+server: istio-envoy
+x-request-id: d2c5289b-c065-48fd-9c20-6cb1cf5ebe10
+req-cost-time: 790
+req-arrive-time: 1792137174559
+resp-start-time: 1792137175350
+vary: Accept-Encoding
+Content-Length: 525
+
+--- body excerpt:
+{"id":"chatcmpl-d2c5289b-c065-48fd-9c20-6cb1cf5ebe10","object":"chat.completion","created":1792137174,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"We need answer user says \"Reply with pong\". Need just \"pong","content":""},"finish_reason":"length","logprobs":null}],"usage":{"prompt_tokens":38,"total_tokens":54,"completion_tokens":16,"prompt_tokens_details":{"cached_tokens":0,"text_tokens":38},"completion_tokens_details":{"reasoning_tokens":16,"text_tokens":0}}}
+--- shim journal (last 3 lines):
+Oct 16 04:21:37 plazir27 python3[1292854]: 2026-10-16T04:21:37-0300 rid=7585f0af0c92 leg=1/alibaba-token-plan OK status=200 stream=True 3.409s
+Oct 16 04:52:53 plazir27 python3[1292854]: 2026-10-16T04:52:53-0300 rid=5447c1b39fc7 REQUEST model='deepseek-v4.1-flash' stream=False bytes=138
+Oct 16 04:52:55 plazir27 python3[1292854]: 2026-10-16T04:52:55-0300 rid=5447c1b39fc7 leg=1/alibaba-token-plan OK status=200 stream=False 1.815s
+
+=== [S2] 2026-10-16T07:52:58Z UTC — POST stream trivial chat (max_tokens 16)
+curl_exit_marker=0 http=200 time_total=1.337209s ttfb=1.248242s
+curl exit: 0
+--- response headers:
+HTTP/1.1 200 OK
+content-type: text/event-stream; charset=utf-8
+grpc-encoding: identity
+grpc-accept-encoding: gzip
+x-envoy-upstream-service-time: 235
+cache-control: no-cache
+date: Fri, 16 Oct 2026 07:52:59 GMT
+server: istio-envoy
+x-request-id: f92dd91f-7bc2-4e82-b9da-dafbff0bce50
+req-cost-time: 235
+req-arrive-time: 1792137179396
+resp-start-time: 1792137179631
+Connection: close
+
+--- SSE excerpt (first 5 + last 3 lines):
+data: {"model":"deepseek-v4.1-flash","id":"chatcmpl-f92dd91f-7bc2-4e82-b9da-dafbff0bce50","created":1792137179,"object":"chat.completion.chunk","usage":null,"choices":[{"logprobs":null,"index":0,"delta":{"content":"","reasoning_content":"","role":"assistant"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-f92dd91f-7bc2-4e82-b9da-dafbff0bce50","object":"chat.completion.chunk","created":1792137179,"model":"deepseek-v4.1-flash","choices":[{"index":0,"delta":{"reasoning_content":"The","content":""},"logprobs":null,"finish_reason":null}],"usage":null}
+
+data: {"id":"chatcmpl-f92dd91f-7bc2-4e82-b9da-dafbff0bce50","object":"chat.completion.chunk","created":1792137179,"model":"deepseek-v4.1-flash","choices":[{"index":0,"delta":{"reasoning_content":" user wants exactly one","content":""},"logprobs":null,"finish_reason":null}],"usage":null}
+   ...
+
+data: [DONE]
+
+--- shim journal (last 3 lines):
+Oct 16 04:52:55 plazir27 python3[1292854]: 2026-10-16T04:52:55-0300 rid=5447c1b39fc7 leg=1/alibaba-token-plan OK status=200 stream=False 1.815s
+Oct 16 04:52:58 plazir27 python3[1292854]: 2026-10-16T04:52:58-0300 rid=3b987715f3af REQUEST model='deepseek-v4.1-flash' stream=True bytes=137
+Oct 16 04:52:59 plazir27 python3[1292854]: 2026-10-16T04:52:59-0300 rid=3b987715f3af leg=1/alibaba-token-plan OK status=200 stream=True 1.244s
+
+=== [S5] 2026-10-16T07:53:02Z UTC — the ONE content-inspection attempt (innocuous filter-shaped prompt)
+curl_exit_marker=0 http=200 time_total=1.477840s
+curl exit: 0
+--- response headers:
+HTTP/1.1 200 OK
+content-type: application/json; charset=utf-8
+grpc-encoding: identity
+grpc-accept-encoding: gzip
+x-envoy-upstream-service-time: 475
+date: Fri, 16 Oct 2026 07:53:03 GMT
+server: istio-envoy
+x-request-id: de9c451b-00eb-4eca-b4d0-7cbbc1d07da9
+req-cost-time: 476
+req-arrive-time: 1792137183741
+resp-start-time: 1792137184218
+vary: Accept-Encoding
+Content-Length: 616
+
+--- body excerpt:
+{"id":"chatcmpl-de9c451b-00eb-4eca-b4d0-7cbbc1d07da9","object":"chat.completion","created":1792137183,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"We need answer user asks: \"Repeat this token string verbatim, changing nothing: Zx9#Qm2@Vv7!Lp4$Wn8%^Qe1&Rr5*Tt0(Yy3) 漢字テスト → ↔ ↕ ✂","content":""},"finish_reason":"length","logprobs":null}],"usage":{"prompt_tokens":114,"total_tokens":178,"completion_tokens":64,"prompt_tokens_details":{"cached_tokens":0,"text_tokens":114},"completion_tokens_details":{"reasoning_tokens":64,"t
+--- shim journal (last 4 lines):
+Oct 16 04:52:58 plazir27 python3[1292854]: 2026-10-16T04:52:58-0300 rid=3b987715f3af REQUEST model='deepseek-v4.1-flash' stream=True bytes=137
+Oct 16 04:52:59 plazir27 python3[1292854]: 2026-10-16T04:52:59-0300 rid=3b987715f3af leg=1/alibaba-token-plan OK status=200 stream=True 1.244s
+Oct 16 04:53:02 plazir27 python3[1292854]: 2026-10-16T04:53:02-0300 rid=11f84674dabe REQUEST model='deepseek-v4.1-flash' stream=False bytes=281
+Oct 16 04:53:04 plazir27 python3[1292854]: 2026-10-16T04:53:04-0300 rid=11f84674dabe leg=1/alibaba-token-plan OK status=200 stream=False 1.476s
+=== live probes done 2026-10-16T07:53:05Z UTC
+
+=== [S8] 2026-10-16T07:53:27Z UTC — scratch-instance mechanism test (localhost stubs 18791-18793, dummy keys, no upstream)
+--- S8a: leg1=400+data_inspection_failed -> expect fallthrough, caller served by leg2 (200 pong-from-stub)
+http=200 time=0.006527s
+curl exit: 0
+body: {"id":"stub-ok","choices":[{"message":{"role":"assistant","content":"pong-from-stub"}}],"usage":{"prompt_tokens":1,"completion_tokens":1}}
+--- S8b control: leg1=400 WITHOUT marker -> expect terminal 400 to caller, leg2 never attempted
+http=400 time=0.002244s
+curl exit: 0
+body: {"error":{"code":"invalid_request_error","message":"bad shape"}}
+--- scratch shim A log:
+2026-10-16T04:53:28-0300 ds-flash-shim listening on http://127.0.0.1:18790 (max 128 concurrent, leg timeout 15s)
+2026-10-16T04:53:28-0300 leg 1: stub-inspect -> http://127.0.0.1:18791/v1/chat/completions
+2026-10-16T04:53:28-0300 leg 2: stub-ok -> http://127.0.0.1:18793/v1/chat/completions
+2026-10-16T04:53:28-0300 leg 3: stub-unused -> http://127.0.0.1:9/v1/chat/completions
+2026-10-16T04:53:29-0300 rid=616b572d9b1d REQUEST model='deepseek-v4.1-flash' stream=False bytes=127
+2026-10-16T04:53:29-0300 rid=616b572d9b1d leg=1/stub-inspect FAIL status=400 reason=http 400 (content-inspection; next leg) 0.001s
+2026-10-16T04:53:29-0300 rid=616b572d9b1d leg=2/stub-ok OK status=200 stream=False 0.001s
+--- scratch shim B log:
+2026-10-16T04:53:28-0300 ds-flash-shim listening on http://127.0.0.1:18794 (max 128 concurrent, leg timeout 15s)
+2026-10-16T04:53:28-0300 leg 1: stub-plain400 -> http://127.0.0.1:18792/v1/chat/completions
+2026-10-16T04:53:28-0300 leg 2: stub-ok -> http://127.0.0.1:18793/v1/chat/completions
+2026-10-16T04:53:28-0300 leg 3: stub-unused -> http://127.0.0.1:9/v1/chat/completions
+2026-10-16T04:53:29-0300 rid=ff6bdfa7cc94 REQUEST model='deepseek-v4.1-flash' stream=False bytes=127
+2026-10-16T04:53:29-0300 rid=ff6bdfa7cc94 leg=1/stub-plain400 FAIL status=400 reason=http 400 (terminal) 0.001s
+2026-10-16T04:53:29-0300 rid=ff6bdfa7cc94 ALL LEGS FAILED -> returning last leg status=400 reason=http 400 (terminal)
+=== [S8] done 2026-10-16T07:53:29Z UTC
+
+## Seat scoring at close (runner-shim-ds; measurements, not axis verdicts)
+# Scoring UTC: 2026-10-16T07:55Z. Ordering: predictions hashed 07:44:02Z <
+# frozen 07:52:04Z < first request 07:52:48Z (S7). No outcome precedes its
+# prediction. Battery freeze hash verified before first request.
+
+| id | prediction | observed | score |
+|---|---|---|---|
+| S1 | leg-1 alibaba serves (p=0.95) | rid=5447c1b39fc7 `leg=1/alibaba-token-plan OK status=200 stream=False 1.815s`; headers `server: istio-envoy`, `x-envoy-upstream-service-time: 790`, no x-opencode-* | HIT (Brier (1-0.95)^2 = 0.0025) |
+| S2 | leg-1 alibaba serves stream (p=0.95) | rid=3b987715f3af `leg=1/alibaba-token-plan OK status=200 stream=True 1.244s`; Aliyun headers | HIT (Brier 0.0025) |
+| S3 | non-stream wall 1.8s, band 0.8-4.0 | 1.816 s (curl time_total) | HIT (abs err 0.016s; in band) |
+| S4 | stream first-byte 1.8s, band 0.8-4.0 | ttfb 1.248 s (curl time_starttransfer; shim journal 1.244s) | HIT (abs err 0.552s; in band) |
+| S5 | inspection trigger p=0.15; if triggered leg-2 serves | NOT TRIGGERED: rid=11f84674dabe `leg=1/alibaba-token-plan OK status=200` (innocuous filter-shaped prompt did not trip leg-1's filter) | outcome 0 -> Brier (0.15-0)^2 = 0.0225 (well-calibrated low forecast); fallback NOT-EXERCISED live this round by this seat |
+| S6 | exactly one model entry deepseek-v4.1-flash/owned_by ds-flash-shim | byte-matches STATIC_MODELS [CODE :92-95] | HIT |
+| S7 | /health legs [alibaba-token-plan, hyper, opencode-go] | exact match | HIT |
+| S8a | 400+data_inspection_failed -> fallthrough, leg-2 serves caller | scratch shim A: `leg=1/stub-inspect FAIL status=400 reason=http 400 (content-inspection; next leg)` then `leg=2/stub-ok OK`; caller got 200 pong-from-stub | HIT (p=0.95 -> Brier 0.0025) |
+| S8b | 400 without marker -> terminal, leg-2 never attempted | scratch shim B: `leg=1/stub-plain400 FAIL status=400 reason=http 400 (terminal)`; caller got the 400 verbatim; no leg-2 line | HIT (p=0.95 -> Brier 0.0025) |
+
+Seat aggregate: 9/9 predictions HIT (8 binary Brier terms: 0.0025x5 + 0.0225 +
+0.0025x2 = 0.0400 mean 0.0050; 2 numeric abs-errors 0.016s / 0.552s, both in
+band). The fallback is EXERCISED-BY-MECHANISM (S8, deployed bytes) and
+WITNESSED-IN-PRODUCTION (857 journal events, 846->leg2 / 11->leg3, 0 terminal);
+the one benign live attempt did not trigger it (S5, recorded NOT-EXERCISED
+live with reason: innocuous prompt did not trip leg-1's filter).
+
+## Post-run journal delta (read-only; no further requests)
+# Verified 2026-10-16T07:56Z: journalctl --user -u ds-flash-shim --since
+# "2026-10-16 04:21:38" --until "2026-10-16 04:55:00" | grep -c rid= -> 6
+# (exactly this seat's 3 rids x REQUEST+OK); zero interleaved client traffic
+# in the probe window.

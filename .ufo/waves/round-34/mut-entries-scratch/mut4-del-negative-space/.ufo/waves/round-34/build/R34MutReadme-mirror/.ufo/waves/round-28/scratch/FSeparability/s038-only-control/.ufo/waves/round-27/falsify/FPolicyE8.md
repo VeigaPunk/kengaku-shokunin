@@ -1,0 +1,22 @@
+# FPolicyE8 — E8 decode-last review
+
+Identity: KengakuR27.FPolicyE8, reviewer; **not** candidate writer KengakuR27. I reread the whole draft `.ufo/waves/round-27/drafts/extraction-policy-comparison.md` (especially its frozen E8 scope at lines 30–50 and caveats at 100–109). At the pinned base, canonical `corpus/knowledge/extraction-policy-comparison.md` is absent; the candidate remains a draft. Private clone observed `HEAD=b5f62e5e637b34a1549e3475fc58b4227ed87e5a` after the required clone/switch.
+
+## Finding
+
+No actionable E8 implementation defect survives this scoped attack. The frozen contract is to scan left-to-right at `{`/`[` with `JSONDecoder.raw_decode`, keep the last successfully decoded top-level span, and skip starts inside successful spans (`plans/round-27-claims.md:44–48,155–166`). The implementation at `plans/parser_policy_compare.py:120–134` follows that rule: failed starts advance one character; successful spans set the cursor to the exclusive end. The candidate summarizes the same behavior and explicitly disclaims arbitrary-input equivalence (`.ufo/waves/round-27/drafts/extraction-policy-comparison.md:41–50,100–109`).
+
+## Evidence
+
+- Private base: `git clone --no-hardlinks /home/vgpnk/Projects/shokunin/kengaku-shokunin /tmp/kengaku-r27-FPolicyE8 && git -C /tmp/kengaku-r27-FPolicyE8 switch -c r27-FPolicyE8 b5f62e5e637b34a1549e3475fc58b4227ed87e5a`; observed revision exactly `b5f62e5e637b34a1549e3475fc58b4227ed87e5a`.
+- Independently implemented E8 from the frozen prose in `/tmp/kengaku-r27-FPolicyE8/e8_independent_check.py`; it does not import the instrument's E8 or the oracle. It independently SHA-256-checks the four input files against the pins (`plans/grader_perturb.py:28–34`), loads raw+ok rows, and compares canonicalized extracted JSON values (sorted object keys, types preserved) directly against `e8_decode_last` for every record.
+- `PYTHONDONTWRITEBYTECODE=1 python3 e8_independent_check.py` → `PINNED records=1964 independently_loaded=1`; `E8_VALUE_COMPARE compared=1964 mismatches=0`; exit 0. This is value-level equality, not an inference from equal verdicts.
+- Four hand-derived synthetic off-pop cases all matched both implementations (exit 0): (1) `{"outer":{"inner":[1,2]}}` → outer object (nested opening is owned by successful span); (2) `prefix [1,{"nested":2}] prose {"last":3}` → `{"last":3}`; (3) malformed parent `{"bad":{"inner":1},"v":oops} {"later":2}` → `{"later":2}` (failed parent does not own the interior; later successful span wins); (4) `comment "fake {"inside":1}"` → `{"inside":1}`. Case 4 exposes lexical/prose false-positive behavior, but follows the registered scan rule; it is not a deviation from E8's contract.
+- `PYTHONDONTWRITEBYTECODE=1 python3 plans/parser_policy_compare.py --selftest` → E8's four probes pass and the `E8-contained-span-reuse` mutant is killed by `contained-span-skipped`; all 58 hand cases and nine seeded mutants pass; exit 0. The E8 probe/mutant are at `plans/parser_policy_compare.py:400–405,432–452`.
+- `PYTHONDONTWRITEBYTECODE=1 python3 plans/parser_policy_compare.py --summary` exit 0: E8 `agree=1964 flip_pf=0 flip_fp=0 none=0`; total `population=1964 policies=8 compared_verdicts=15712 disagreements=1089 policies_with_flips=5`. `PYTHONDONTWRITEBYTECODE=1 python3 plans/fixtures/r27/policy_oracle.py --root .` exits 0 with E8 `agree=1964 flip_pf=0 flip_fp=0 none=0` (`policy_oracle.py:70–88,108–109,166–180`). These verdict aggregates corroborate the run but are not the basis for the value-equivalence result.
+
+LSP status was unavailable: `read xd://lsp` returned “No such tool”; no LSP references/definition/diagnostics were available. No grep output is used as semantic proof. No installs/updates.
+
+## Residual risk and verdict
+
+Evidence covers only the four byte-pinned files (1964 values) and four stated synthetic cases. It does not establish equivalence on arbitrary input, parser safety, or performance; the quoted-prose case demonstrates that E8 is a lexical scan, not a context-aware JSON/prose parser. No performance stress test was run. **VERDICT: scoped E8 pass recommendation only** for the frozen population and tested cases; do not generalize to universal parser equivalence or treat this as candidate admission.

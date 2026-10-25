@@ -1,0 +1,21 @@
+# FxConnTesting — round 26
+
+## Axes
+- `novelty` 7 and `coverage` 7 are tied lowest; novelty maps to canonical coverage/constructs. `calibration` is 8. C1 explicitly holds novelty at 7; this review claims no score increase (`plans/round-26-claims.md`, C1 and Amendment 1).
+
+## Evidence
+- Tameshi province assigns it reusable verification-fixture craft and says “product domains — every lane's gate remains its own; tameshi owns only the reusable craft” (`/home/vgpnk/Projects/shokunin/tameshi-shokunin/PROVINCE.md:3-5,14-17`). This is the only sibling-province source consulted.
+- The instrument is a Kengaku product audit, not a general test framework: it pins four Kengaku corpus files and population (1964) (`plans/grader_perturb.py:17-34`), loads this root's `grader.py` and `attrib_calibration.py` (`:80-90`), then replays its state/sequence/C grader (`:259-276`).
+- The draft explicitly says “not a new method,” holds novelty at 7, and describes the byte-pinned lane-specific contribution (`.ufo/waves/round-26/drafts/grader-perturbation-audit.md:17-21`). Its observations are presented as finite-population results; the MULTI counterexample is 14/31 with 17 baseline-PASS flips (`:81-85`). It also disclaims general robustness, future-response probability, and a need to repair the historical grader (`:89-101`). These are appropriately routed as scoped evidence, not a new grader rule.
+- Boundary tension: the `Decision rule for use` section gives unqualified imperatives (“Run the audit…”, “Preserve…”, “Report…”, “Reuse…”) before concluding that reusable methodology stays Tameshi's (`draft:108-114`). The explicit disclaimer prevents a direct ownership claim, but the unscoped procedure could be read as reusable method if admitted as knowledge.
+- Evidence is present in the round cache: `build/ExecPerturbCore.md:9-14,35` records `python3 plans/grader_perturb.py --summary`, F1/F2 `n=1819 k=1802`, MULTI `31/14`, and `COMMAND_EXIT_CODE=0`; `build/ExecPerturbOracle.md:12-27` independently reports the same F1/F2 counts. However the draft's `source` field points only to `corpus/evidence/round26-calibration/`; that directory currently lists `gate-timing-red-before.txt` and `round-start.txt`, not the result receipts.
+
+## One bounded move
+Use the already-required Q10 second-seat source/number re-read as an evidence-routing check: have it cite the exact core and independent-oracle receipt paths, verify the 14/31 and 17-flip observation, and name its own report in the Gate row. Before admission, scope `Decision rule for use` explicitly to this pinned Kengaku grader (or retitle it as a Kengaku-specific follow-up note) and give the observation a durable result-receipt path in `corpus/evidence/round26-calibration/`. Keep the observed MULTI behavior as evidence; do not promote it to a fleet testing rule or a mandate to change `grader.py`.
+
+## Risks and verification
+- Axis effect: improves construct/coverage traceability and keeps novelty's held-7 claim honest; no score change claimed. It adds no test method or population, preserving Tameshi's reusable-craft boundary.
+- Risk: a second seat that merely repeats the primary result is not an independent replay; missing named report support also fails Q13. Retaining only round-cache references would make the admitted evidence less durable than the draft's source field implies.
+- Verification to use: the existing Q10 re-read must report exact source/number support and cite both receipts; Q13 must find that named, nonempty report in the admission tree. Primary receipt command/output above is observed; oracle receipt prints matching counts. No command, instrument test, edit to production files, or install was performed by this seat.
+
+VERDICT: No generic testing-method ownership is explicitly claimed and the instrument is product-specific; the unscoped use imperatives and non-durable result pointer leave a bounded admission risk. Pair the existing Q10 reread with named receipts, scope the use note to Kengaku, and keep novelty at 7.

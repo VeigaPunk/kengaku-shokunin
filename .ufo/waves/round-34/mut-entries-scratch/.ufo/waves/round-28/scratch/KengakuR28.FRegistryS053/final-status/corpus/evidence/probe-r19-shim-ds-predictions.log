@@ -1,0 +1,105 @@
+# probe-r19-shim-ds-predictions — runner-shim-ds, kengaku round 19
+# Filed: 2026-10-16T07:43:30Z (UTC, before ANY request of any kind to :8791)
+# Seat: runner-shim-ds. Scope: ds-flash cascade shim, 127.0.0.1:8791
+#   (port per r18 census; lane provider `cascade/deepseek-v4.1-flash`).
+# Hypothesis sources (pre-request evidence, cited):
+#   [M7] research/round-18-kimi-model-routing/cascade-legorder/LEGORDER.md —
+#        operator reorder applied 2026-10-15 11:26:20 -03: legs
+#        alibaba-token-plan -> hyper -> opencode-go (devin leg removed).
+#   [R18] corpus/knowledge/kimi-model-routing-round18.md — census measured the
+#        PRE-M7 order (opencode-go leg-1, 48 billed tokens).
+#   [MORI] mori-shokunin/.ufo/reports/round-3/mori-goalwave.md + fleet
+#        MANIFEST.json:2414 — "Cascade shims patched: data_inspection_failed
+#        400 now falls through to the next leg".
+#   [CODE] ~/.local/share/ds-flash-shim/shim.py sha256
+#        42d86d99d42658214e362c2759ecab88a03de005e9ed93e9c1804cbf8c15a386
+#        (mtime 2026-10-15 14:15 -03, post-M7): FAIL_STATUSES {402,403,429};
+#        400+`data_inspection_failed` in body -> non-terminal fail-over
+#        (:254-265); other non-200 terminal; 200-body quota markers (:65-90).
+#   [JRNL] journalctl --user -u ds-flash-shim since patched restart
+#        2026-10-15 14:16:22 -03 (read-only recon, no requests issued):
+#        27,408 requests; leg1 26,199 OK / leg2 1,194 OK / leg3 15 OK;
+#        857 content-inspection FAILs on leg1 -> 846 served by leg2,
+#        11 by leg3, 0 terminal; 341 leg1 429s -> 337 leg2, 4 leg3.
+
+## FROZEN PREDICTIONS (seat-level; hashed below BEFORE any request)
+
+- S1 leg-identity (trivial chat, stream=false, max_tokens 16):
+  Claim: the request is served by leg-1 alibaba-token-plan.
+  Verification: shim journal line for the probe rid shows
+    `leg=1/alibaba-token-plan OK`; response carries the Aliyun gateway
+    signature (`server: istio-envoy` and/or `x-envoy-upstream-service-time`)
+    and no `x-opencode-*` header.
+  Falsifier: journal shows leg=2/hyper or leg=3/opencode-go OK for the rid,
+    or opencode/hyper header signatures present.
+  P(leg-1 serves) = 0.95 (production base rate 95.6%; residual: leg-1
+    429/content-inspection at probe time).
+
+- S2 leg-identity (trivial chat, stream=true):
+  Claim: served by leg-1 alibaba-token-plan; shim picks the leg from response
+    headers before body streaming [CODE :270-278].
+  Verification: journal `leg=1/alibaba-token-plan OK ... stream=True` for the
+    probe rid; Aliyun signature headers on the stream response.
+  Falsifier: any other leg line for the rid.
+  P(leg-1 serves) = 0.95.
+
+- S3 non-stream total wall time (S1 request):
+  Point prediction: 1.8 s. Pre-registered pass band: 0.8-4.0 s.
+  Basis: [M7] measured 1.360 s small non-stream on leg-1; [JRNL] live
+    large-body streams run 2.4-6.4 s.
+  Scored: abs error vs point; pass/fail vs band.
+
+- S4 stream first-byte latency (S2 request):
+  Point prediction: 1.8 s to first decoded byte. Pass band: 0.8-4.0 s.
+  Basis: [M7] 1.478 s to first stream byte on leg-1.
+
+- S5 content-inspection fallback, ONE harmless live attempt (the seat cap):
+  Probe: innocuous prompt shaped to exercise filters without carrying any
+    policy-violating content (punctuation-heavy gibberish token string,
+    "repeat verbatim" instruction).
+  Claim: P(this probe triggers leg-1 `http 400 (content-inspection; next
+    leg)`) = 0.15. If triggered: fallback fires — leg-2/hyper serves the
+    caller a 200 (journal: leg1 FAIL content-inspection then leg2 OK, same
+    rid). If not: leg-1 serves 200 normally.
+  Falsifier: leg-1 returns 400 to the caller as terminal (fallback broken),
+    or the fallback fires with a different reason string.
+  Scoring: Brier on the 0.15 trigger forecast (outcome = triggered or not).
+
+- S6 GET /models on :8791:
+  Claim: exactly one model entry `{"id": "deepseek-v4.1-flash",
+    "object": "model", "owned_by": "ds-flash-shim"}` [CODE STATIC_MODELS].
+  Falsifier: different id/owned_by or extra entries.
+
+- S7 GET /health on :8791:
+  Claim: `{"legs": ["alibaba-token-plan", "hyper", "opencode-go"], "ok":
+    true, "port": 8791, "service": "ds-flash-shim"}` — the [M7] after-state
+    persisted overnight.
+  Falsifier: any other leg list (e.g. opencode-go first = pre-M7 state;
+    devin present = rollback).
+
+- S8 scratch-instance mechanism test of the inspection fallback (no upstream
+  traffic; stub legs on localhost; dummy keys via env so no real credential
+  is loaded into the request path):
+  Claim a: leg-1 stub returns 400 with `data_inspection_failed` in body ->
+    scratch shim logs `leg=1 FAIL status=400 reason=http 400
+    (content-inspection; next leg)` then serves the caller from leg-2 stub.
+  Claim b (control): leg-1 stub returns 400 WITHOUT the marker -> terminal;
+    leg-2 never attempted; caller receives the 400 verbatim.
+  Falsifiers: (a) 400 returned to caller / different reason; (b) leg-2
+    attempted.
+  P(a) = P(b) = 0.95 (direct code reading of the hash-pinned file the live
+    service runs; the test exists to prove the deployed bytes behave as read).
+
+## Scoring note
+Numeric probe scores are MEASUREMENTS, not axis verdicts (lane idiom).
+Scoring at close: S1/S2/S5-S8 pass-fail + Brier where a probability was
+filed; S3/S4 abs error vs point + pass/fail vs band.
+
+## Ordering anchor
+This file was written before any HTTP request to 127.0.0.1:8791 (or any other
+endpoint) by this seat. First request timestamp will be recorded in
+probe-r19-shim-ds-run.log and must postdate the hash below.
+
+sha256 (of the prediction block above, through the 'Ordering anchor' section,
+computed at file time):
+78de64d930c3c7e80b6e98efe4b8f4418168365093a23f589c3422d508e1e264  <- sha256 of prediction block = all bytes of this file through the line 'computed at file time):' inclusive; recorded before any request to any endpoint by seat runner-shim-ds

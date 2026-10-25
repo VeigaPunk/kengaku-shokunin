@@ -1,0 +1,6536 @@
+{
+  "summary": {
+    "assertions": 329,
+    "match": 318,
+    "mismatch": 0,
+    "superseded": 6,
+    "offline_unverifiable": 5,
+    "out_of_population": 30
+  },
+  "assertions": [
+    {
+      "id": "P2a.out-of-population.interval-reverdict",
+      "source_line": 558,
+      "check": "capability row outside frozen 6180e4f population",
+      "observed": "interval-reverdict",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2a.out-of-population.state-assertion-check",
+      "source_line": 559,
+      "check": "capability row outside frozen 6180e4f population",
+      "observed": "state-assertion-check",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2a.out-of-population.grader-perturbation-audit",
+      "source_line": 560,
+      "check": "capability row outside frozen 6180e4f population",
+      "observed": "grader-perturbation-audit",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2a.capability.offline-replay-gate",
+      "source_line": 555,
+      "check": "run row command; require recorded exit and every expected output token",
+      "observed": {
+        "command": [
+          "python3",
+          "grader.py"
+        ],
+        "expected_exit": 0,
+        "expected_tokens": [
+          "CHECKS n=733 mismatches=0 errata_pinned=1",
+          "VERDICT: PASS"
+        ],
+        "returncode": 0,
+        "missing_tokens": [],
+        "stdout": "CHECKS n=733 mismatches=0 errata_pinned=1\nVERDICT: PASS — stored evidence fully re-derives offline",
+        "stderr": "",
+        "timed_out": false
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2a.capability.frozen-table-pin-check",
+      "source_line": 556,
+      "check": "run row command; require recorded exit and every expected output token",
+      "observed": {
+        "command": [
+          "python3",
+          "plans/attrib_probe.py",
+          "freeze-check",
+          "--frozen",
+          "plans/attrib-r23-frozen.md"
+        ],
+        "expected_exit": 0,
+        "expected_tokens": [
+          "block_sha=1b2d6a01bfa431ec pinned=1b2d6a01bfa431ec stable=True -> OK"
+        ],
+        "returncode": 0,
+        "missing_tokens": [],
+        "stdout": "FREEZE-CHECK: reads=1 block_sha=1b2d6a01bfa431ec pinned=1b2d6a01bfa431ec stable=True -> OK",
+        "stderr": "",
+        "timed_out": false
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2a.capability.sources-registry",
+      "source_line": 557,
+      "check": "stale row superseded by an appended correction restating the full census",
+      "observed": {
+        "observed": "rows 26; malformed 0; A=24 C=2; mined=18 queued=5 rejected=3",
+        "stale_tokens": [
+          "rows 25",
+          "A=24 C=1",
+          "mined=18 queued=5 rejected=2"
+        ],
+        "correction_line": 647,
+        "correction_tokens": [
+          "rows 26",
+          "malformed 0",
+          "A=24 C=2",
+          "mined=18 queued=5 rejected=3"
+        ],
+        "correction_exact": true
+      },
+      "verdict": "SUPERSEDED"
+    },
+    {
+      "id": "P2b.axis.novelty.anchor.1",
+      "source_line": 613,
+      "check": "backticked SCORECARD line anchor shows its frozen content",
+      "observed": {
+        "anchor": ":162",
+        "expected": [
+          "**novelty**",
+          "**7**"
+        ],
+        "anchored_line": "| **novelty** *(owned)* | 6 → **7** | The written +1 rule's three legs fire. **New construct:** one powered four-arm ordered density ladder returned `L=1773.0`, `z=+9.452`, `LADDER ESTABLISHED`; adding `A-CKPT10` separated emission sparsity from up-front batching (`MONO-CKPT10=+0.656`, `DISSOCIATION ESTABLISHED`). The second-family contrast is only `TRANSPORT DIRECTIONAL` at a 2/48 floor and is corroboration, not a separate novelty basis. **Inspectable instrument:** hashed plan/power/prediction bundle, `probe_r12.py`, `run_r12.py`, `recompute_r12.py` (165/165 selftest), and `grader.py` replay. **Priced:** C1/C2/C4/C5/C6 INCREMENTAL, C3 NOVEL-instrument; all six carry fetched URLs and round-14 re-fetched 14 load-bearing URLs. Independent critic: 25/28 REPRODUCE, 3 PARTIAL, 0 FALSIFY. | `corpus/evidence/round12-ladder/`; `corpus/evidence/round14-fleet/{r14-critic-landed,r14-review-priorart,r14-landing-gate}.md`; `corpus/knowledge/bench-arena-round12-ladder.md` |",
+        "resolved": true
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2b.axis.coverage.path.1",
+      "source_line": 616,
+      "check": "backticked path resolves under --root",
+      "observed": "PROVINCE.md",
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2b.axis.coverage.section.1",
+      "source_line": 616,
+      "check": "section anchor resolves in cited file",
+      "observed": {
+        "file": "PROVINCE.md",
+        "anchor": "Historical",
+        "resolved": true
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2b.axis.operability.command-path.1.grader.py",
+      "source_line": 617,
+      "check": "command path exists under --root",
+      "observed": "grader.py",
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2b.axis.operability.command.1",
+      "source_line": 617,
+      "check": "re-run named offline command and compare stated verdict tokens",
+      "observed": {
+        "command": [
+          "python3",
+          "grader.py"
+        ],
+        "returncode": 0,
+        "expected_tokens": [
+          "PASS"
+        ],
+        "missing_tokens": [],
+        "stdout": "CHECKS n=733 mismatches=0 errata_pinned=1\nVERDICT: PASS — stored evidence fully re-derives offline",
+        "stderr": "",
+        "timed_out": false
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2b.axis.operability.command-path.2.plans/attrib_probe.py",
+      "source_line": 617,
+      "check": "command path exists under --root",
+      "observed": "plans/attrib_probe.py",
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2b.axis.operability.command-path.2.plans/attrib-r23-frozen.md",
+      "source_line": 617,
+      "check": "command path exists under --root",
+      "observed": "plans/attrib-r23-frozen.md",
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2b.axis.operability.command.2",
+      "source_line": 617,
+      "check": "re-run named offline command and compare stated verdict tokens",
+      "observed": {
+        "command": [
+          "python3",
+          "plans/attrib_probe.py",
+          "freeze-check",
+          "--frozen",
+          "plans/attrib-r23-frozen.md"
+        ],
+        "returncode": 0,
+        "expected_tokens": [
+          "OK"
+        ],
+        "missing_tokens": [],
+        "stdout": "FREEZE-CHECK: reads=1 block_sha=1b2d6a01bfa431ec pinned=1b2d6a01bfa431ec stable=True -> OK",
+        "stderr": "",
+        "timed_out": false
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2b.axis.freshness.section.1",
+      "source_line": 618,
+      "check": "section anchor resolves in cited file",
+      "observed": {
+        "file": "PROVINCE.md",
+        "anchor": "Province map",
+        "resolved": true
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2c.box.1.evidence-line",
+      "source_line": 6,
+      "check": "exactly one indented evidence line follows this box",
+      "observed": {
+        "count": 1,
+        "lines": [
+          "SKILL.md"
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2c.box.1.pointer-only",
+      "source_line": 6,
+      "check": "evidence line is one resolvable pointer and no other prose (PROTOCOL.md:432)",
+      "observed": "SKILL.md",
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2c.box.2.evidence-line",
+      "source_line": 8,
+      "check": "exactly one indented evidence line follows this box",
+      "observed": {
+        "count": 1,
+        "lines": [
+          "LOG.md:7"
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2c.box.2.pointer-only",
+      "source_line": 8,
+      "check": "evidence line is one resolvable pointer and no other prose (PROTOCOL.md:432)",
+      "observed": "LOG.md:7",
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2c.box.3.evidence-line",
+      "source_line": 10,
+      "check": "exactly one indented evidence line follows this box",
+      "observed": {
+        "count": 1,
+        "lines": [
+          "corpus/lessons/round-8-aggregator-box3-coldrun.md:48"
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2c.box.3.pointer-only",
+      "source_line": 10,
+      "check": "evidence line is one resolvable pointer and no other prose (PROTOCOL.md:432)",
+      "observed": "corpus/lessons/round-8-aggregator-box3-coldrun.md:48",
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2c.box.4.evidence-line",
+      "source_line": 12,
+      "check": "exactly one indented evidence line follows this box",
+      "observed": {
+        "count": 1,
+        "lines": [
+          "PROVINCE.md:129"
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2c.box.4.pointer-only",
+      "source_line": 12,
+      "check": "evidence line is one resolvable pointer and no other prose (PROTOCOL.md:432)",
+      "observed": "PROVINCE.md:129",
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2c.seed",
+      "source_line": 1,
+      "check": "SHONEN seed matches canonical PROTOCOL seed modulo lane name and box mark",
+      "observed": {
+        "canonical_seed_start_line": 3,
+        "canonical_seed_lines": 8,
+        "normalized_match": true
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2c.box.1.pointer.1",
+      "source_line": 6,
+      "check": "evidence pointer resolves to a file/directory and any line anchor is in range",
+      "observed": {
+        "pointer": "SKILL.md",
+        "resolved_path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/SKILL.md",
+        "exists": true,
+        "anchor": null,
+        "target_lines": null,
+        "anchor_resolves": true
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2c.box.2.pointer.1",
+      "source_line": 8,
+      "check": "evidence pointer resolves to a file/directory and any line anchor is in range",
+      "observed": {
+        "pointer": "LOG.md:7",
+        "resolved_path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/LOG.md",
+        "exists": true,
+        "anchor": [
+          7,
+          7
+        ],
+        "target_lines": 570,
+        "anchor_resolves": true
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2c.box.3.pointer.1",
+      "source_line": 10,
+      "check": "evidence pointer resolves to a file/directory and any line anchor is in range",
+      "observed": {
+        "pointer": "corpus/lessons/round-8-aggregator-box3-coldrun.md:48",
+        "resolved_path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/lessons/round-8-aggregator-box3-coldrun.md",
+        "exists": true,
+        "anchor": [
+          48,
+          48
+        ],
+        "target_lines": 118,
+        "anchor_resolves": true
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2c.box.4.pointer.1",
+      "source_line": 12,
+      "check": "evidence pointer resolves to a file/directory and any line anchor is in range",
+      "observed": {
+        "pointer": "PROVINCE.md:129",
+        "resolved_path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/PROVINCE.md",
+        "exists": true,
+        "anchor": [
+          129,
+          129
+        ],
+        "target_lines": 202,
+        "anchor_resolves": true
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2d.surface.Research notes (SSOT for eval craft).path",
+      "source_line": 12,
+      "check": "first backticked local path agrees with test -e and ABSENT marker",
+      "observed": {
+        "path": "~/Projects/webzites/repos/llm-wiki",
+        "resolved_path": "/home/vgpnk/Projects/webzites/repos/llm-wiki",
+        "exists": false,
+        "ABSENT_marked": true
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2d.surface.Local benchmark battery.path",
+      "source_line": 13,
+      "check": "first backticked local path agrees with test -e and ABSENT marker",
+      "observed": {
+        "path": "~/archive/bench-arena/",
+        "resolved_path": "/home/vgpnk/archive/bench-arena",
+        "exists": false,
+        "ABSENT_marked": true
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2d.surface.Served local model.availability",
+      "source_line": 14,
+      "check": "local path tested, or URL/endpoint explicitly offline-unverifiable",
+      "observed": {
+        "path": null,
+        "url_or_endpoint": true,
+        "row": "Served local model | `http://127.0.0.1:34113` — `/v1/models`, `/health`, `/v1/chat/completions` (Qwen3-Coder-30B-A3B-Instruct **UD-IQ2_XXS**, `owned_by=llamacpp`, `n_ctx=16384`). **Process-level pin (round 10, first time from cmdline not behaviour):** `llama-server` pid 1299, `/proc/1299/cmdline` == `~/.config/systemd/user/qwen-coder.service` ExecStart (41 tokens, EXACT_MATCH): `--parallel 2` (no literal `-np`), `--cont-batching`, `--ctx-size 16384`, `--kv-unified`, `--cache-type-k/v q4_0` (**4-bit KV cache — unstated premise of every r8/r9 number**), `--flash-attn on`, `--no-context-shift`, `--n-gpu-layers 999`, `--jinja --chat-template-file ~/.config/llama/qwen-coder-godspeed.jinja` (custom non-upstream template). Evidence: `corpus/evidence/round10-fleet/r10-scout-endpoint.md` + raw captures `models-34113.json`, `props.json`, `slots.json`; identity re-probed via `/v1/models` + `/health` 200 each round | every probe in `corpus/evidence/`; identity re-probed each round; hermetic gates pin committed bytes, never `/proc` **ABSENT 2026-10-20** (round 25: first local path fails `test -e`; superseded by §Province map)"
+      },
+      "verdict": "OFFLINE_UNVERIFIABLE"
+    },
+    {
+      "id": "P2d.surface.Route telemetry.path",
+      "source_line": 15,
+      "check": "first backticked local path agrees with test -e and ABSENT marker",
+      "observed": {
+        "path": "~/Projects/bounties/ledger/telemetry.jsonl",
+        "resolved_path": "/home/vgpnk/Projects/bounties/ledger/telemetry.jsonl",
+        "exists": false,
+        "ABSENT_marked": true
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2d.surface.Client CLI telemetry.path",
+      "source_line": 16,
+      "check": "first backticked local path agrees with test -e and ABSENT marker",
+      "observed": {
+        "path": "~/.bailian/telemetry.jsonl",
+        "resolved_path": "/home/vgpnk/.bailian/telemetry.jsonl",
+        "exists": false,
+        "ABSENT_marked": true
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2d.surface.Model catalogs.path",
+      "source_line": 17,
+      "check": "first backticked local path agrees with test -e and ABSENT marker",
+      "observed": {
+        "path": "~/.bailian/skills/bailian-docs-llm-wiki/models",
+        "resolved_path": "/home/vgpnk/.bailian/skills/bailian-docs-llm-wiki/models",
+        "exists": false,
+        "ABSENT_marked": true
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2d.surface.Model catalogs.url",
+      "source_line": 17,
+      "check": "URL/endpoint recorded without contacting it",
+      "observed": "offline-unverifiable; no request made",
+      "verdict": "OFFLINE_UNVERIFIABLE"
+    },
+    {
+      "id": "P2d.surface.Own probe artifacts.path",
+      "source_line": 18,
+      "check": "first backticked local path agrees with test -e and ABSENT marker",
+      "observed": {
+        "path": "corpus/evidence/round8-horizon/",
+        "resolved_path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round8-horizon",
+        "exists": true,
+        "ABSENT_marked": false
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2d.surface.In-repo gate.path",
+      "source_line": 19,
+      "check": "first backticked local path agrees with test -e and ABSENT marker",
+      "observed": {
+        "path": "grader.py",
+        "resolved_path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/grader.py",
+        "exists": true,
+        "ABSENT_marked": false
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2d.surface.Public literature.path",
+      "source_line": 20,
+      "check": "first backticked local path agrees with test -e and ABSENT marker",
+      "observed": {
+        "path": "corpus/knowledge/eval-prior-art-calibration.md",
+        "resolved_path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/eval-prior-art-calibration.md",
+        "exists": true,
+        "ABSENT_marked": false
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2d.surface.Public literature.url",
+      "source_line": 20,
+      "check": "URL/endpoint recorded without contacting it",
+      "observed": "offline-unverifiable; no request made",
+      "verdict": "OFFLINE_UNVERIFIABLE"
+    },
+    {
+      "id": "P2e.out-of-population.row.knowledge/attribution-interval-calibration.md@61",
+      "source_line": 61,
+      "check": "README index row outside frozen 6180e4f population; not checked",
+      "observed": "knowledge/attribution-interval-calibration.md",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.row.knowledge/grader-perturbation-audit.md@62",
+      "source_line": 62,
+      "check": "README index row outside frozen 6180e4f population; not checked",
+      "observed": "knowledge/grader-perturbation-audit.md",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.row.knowledge/extraction-policy-comparison.md@63",
+      "source_line": 63,
+      "check": "README index row outside frozen 6180e4f population; not checked",
+      "observed": "knowledge/extraction-policy-comparison.md",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.row.lessons/round-24-verifier-spotcheck.md@94",
+      "source_line": 94,
+      "check": "README index row outside frozen 6180e4f population; not checked",
+      "observed": "lessons/round-24-verifier-spotcheck.md",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.row.lessons/round-25.md@95",
+      "source_line": 95,
+      "check": "README index row outside frozen 6180e4f population; not checked",
+      "observed": "lessons/round-25.md",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.row.lessons/round-25-verifier-spotcheck.md@96",
+      "source_line": 96,
+      "check": "README index row outside frozen 6180e4f population; not checked",
+      "observed": "lessons/round-25-verifier-spotcheck.md",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.row.lessons/round-26.md@97",
+      "source_line": 97,
+      "check": "README index row outside frozen 6180e4f population; not checked",
+      "observed": "lessons/round-26.md",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.row.lessons/round-27.md@98",
+      "source_line": 98,
+      "check": "README index row outside frozen 6180e4f population; not checked",
+      "observed": "lessons/round-27.md",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.row.evidence/round25-sources/@172",
+      "source_line": 172,
+      "check": "README index row outside frozen 6180e4f population; not checked",
+      "observed": "evidence/round25-sources/",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.row.evidence/round25-calibration/@173",
+      "source_line": 173,
+      "check": "README index row outside frozen 6180e4f population; not checked",
+      "observed": "evidence/round25-calibration/",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/benchmark-selection.md",
+      "source_line": 29,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/benchmark-selection.md",
+        "exists": true,
+        "row_lines": [
+          29
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/godspeed-eval-findings.md",
+      "source_line": 30,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/godspeed-eval-findings.md",
+        "exists": true,
+        "row_lines": [
+          30
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/telemetry-run-design.md",
+      "source_line": 31,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/telemetry-run-design.md",
+        "exists": true,
+        "row_lines": [
+          31
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/local-model-index.md",
+      "source_line": 32,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/local-model-index.md",
+        "exists": true,
+        "row_lines": [
+          32
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/local-bench-arena.md",
+      "source_line": 33,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/local-bench-arena.md",
+        "exists": true,
+        "row_lines": [
+          33
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/ledger-route-telemetry.md",
+      "source_line": 34,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/ledger-route-telemetry.md",
+        "exists": true,
+        "row_lines": [
+          34
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/bench-arena-fresh-run.md",
+      "source_line": 35,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/bench-arena-fresh-run.md",
+        "exists": true,
+        "row_lines": [
+          35
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/eval-theory-notes.md",
+      "source_line": 36,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/eval-theory-notes.md",
+        "exists": true,
+        "row_lines": [
+          36
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/gemini-benchmark-suite.md",
+      "source_line": 37,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/gemini-benchmark-suite.md",
+        "exists": true,
+        "row_lines": [
+          37
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/bailian-cli-telemetry.md",
+      "source_line": 38,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/bailian-cli-telemetry.md",
+        "exists": true,
+        "row_lines": [
+          38
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/bench-arena-round5-battery.md",
+      "source_line": 39,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/bench-arena-round5-battery.md",
+        "exists": true,
+        "row_lines": [
+          39
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/open-model-catalogs.md",
+      "source_line": 40,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/open-model-catalogs.md",
+        "exists": true,
+        "row_lines": [
+          40
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/bench-arena-round6-stability.md",
+      "source_line": 41,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/bench-arena-round6-stability.md",
+        "exists": true,
+        "row_lines": [
+          41
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/bench-arena-task27-timeout-anatomy.md",
+      "source_line": 42,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/bench-arena-task27-timeout-anatomy.md",
+        "exists": true,
+        "row_lines": [
+          42
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/bench-arena-round7-scaffold-ablation.md",
+      "source_line": 43,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/bench-arena-round7-scaffold-ablation.md",
+        "exists": true,
+        "row_lines": [
+          43
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/eval-design-digest-3.md",
+      "source_line": 44,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/eval-design-digest-3.md",
+        "exists": true,
+        "row_lines": [
+          44
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/bench-arena-round7-noise-n25.md",
+      "source_line": 45,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/bench-arena-round7-noise-n25.md",
+        "exists": true,
+        "row_lines": [
+          45
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/eval-design-digest-2.md",
+      "source_line": 46,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/eval-design-digest-2.md",
+        "exists": true,
+        "row_lines": [
+          46
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/bench-arena-round8-horizon.md",
+      "source_line": 47,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/bench-arena-round8-horizon.md",
+        "exists": true,
+        "row_lines": [
+          47
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/bench-arena-round9-replication.md",
+      "source_line": 48,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/bench-arena-round9-replication.md",
+        "exists": true,
+        "row_lines": [
+          48
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/eval-prior-art-calibration.md",
+      "source_line": 49,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/eval-prior-art-calibration.md",
+        "exists": true,
+        "row_lines": [
+          49
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/bench-arena-round11-power.md",
+      "source_line": 50,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/bench-arena-round11-power.md",
+        "exists": true,
+        "row_lines": [
+          50
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/bench-arena-round12-ladder.md",
+      "source_line": 51,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/bench-arena-round12-ladder.md",
+        "exists": true,
+        "row_lines": [
+          51
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/kimi-model-routing-round18.md",
+      "source_line": 52,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/kimi-model-routing-round18.md",
+        "exists": true,
+        "row_lines": [
+          52
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/probe-battery-r19.md",
+      "source_line": 53,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/probe-battery-r19.md",
+        "exists": true,
+        "row_lines": [
+          53
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/attrib-prior-art-r21.md",
+      "source_line": 54,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/attrib-prior-art-r21.md",
+        "exists": true,
+        "row_lines": [
+          54
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/attrib-r21.md",
+      "source_line": 55,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/attrib-r21.md",
+        "exists": true,
+        "row_lines": [
+          55
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/contamination-detection-and-transparency.md",
+      "source_line": 56,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/contamination-detection-and-transparency.md",
+        "exists": true,
+        "row_lines": [
+          56
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/llm-judge-calibration.md",
+      "source_line": 57,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/llm-judge-calibration.md",
+        "exists": true,
+        "row_lines": [
+          57
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/benchmark-saturation-and-lifecycle.md",
+      "source_line": 58,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/benchmark-saturation-and-lifecycle.md",
+        "exists": true,
+        "row_lines": [
+          58
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/agent-time-horizon-and-task-validity.md",
+      "source_line": 59,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/agent-time-horizon-and-task-validity.md",
+        "exists": true,
+        "row_lines": [
+          59
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.knowledge/paired-eval-uncertainty-reporting.md",
+      "source_line": 60,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "knowledge/paired-eval-uncertainty-reporting.md",
+        "exists": true,
+        "row_lines": [
+          60
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/round-1.md",
+      "source_line": 64,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/round-1.md",
+        "exists": true,
+        "row_lines": [
+          64
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/round-3.md",
+      "source_line": 65,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/round-3.md",
+        "exists": true,
+        "row_lines": [
+          65
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/round-4.md",
+      "source_line": 66,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/round-4.md",
+        "exists": true,
+        "row_lines": [
+          66
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/round-1-aggregator-audit.md",
+      "source_line": 67,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/round-1-aggregator-audit.md",
+        "exists": true,
+        "row_lines": [
+          67
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/round-5.md",
+      "source_line": 68,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/round-5.md",
+        "exists": true,
+        "row_lines": [
+          68
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/round-7.md",
+      "source_line": 69,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/round-7.md",
+        "exists": true,
+        "row_lines": [
+          69
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/round-4-aggregator-audit.md",
+      "source_line": 70,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/round-4-aggregator-audit.md",
+        "exists": true,
+        "row_lines": [
+          70
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/round-5-aggregator-audit.md",
+      "source_line": 71,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/round-5-aggregator-audit.md",
+        "exists": true,
+        "row_lines": [
+          71
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/round-8.md",
+      "source_line": 72,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/round-8.md",
+        "exists": true,
+        "row_lines": [
+          72
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/round-9.md",
+      "source_line": 73,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/round-9.md",
+        "exists": true,
+        "row_lines": [
+          73
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/round-11.md",
+      "source_line": 74,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/round-11.md",
+        "exists": true,
+        "row_lines": [
+          74
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/round-6-aggregator-audit.md",
+      "source_line": 75,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/round-6-aggregator-audit.md",
+        "exists": true,
+        "row_lines": [
+          75
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/round-8-aggregator-box3-coldrun.md",
+      "source_line": 76,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/round-8-aggregator-box3-coldrun.md",
+        "exists": true,
+        "row_lines": [
+          76
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/round-12.md",
+      "source_line": 77,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/round-12.md",
+        "exists": true,
+        "row_lines": [
+          77
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/round-13.md",
+      "source_line": 78,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/round-13.md",
+        "exists": true,
+        "row_lines": [
+          78
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/round-14.md",
+      "source_line": 79,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/round-14.md",
+        "exists": true,
+        "row_lines": [
+          79
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/round-9-aggregator-corpus-verdict.md",
+      "source_line": 80,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/round-9-aggregator-corpus-verdict.md",
+        "exists": true,
+        "row_lines": [
+          80
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/round-16-recensus.md",
+      "source_line": 81,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/round-16-recensus.md",
+        "exists": true,
+        "row_lines": [
+          81
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/round-13-coverage.md",
+      "source_line": 82,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/round-13-coverage.md",
+        "exists": true,
+        "row_lines": [
+          82
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/2026-10-16-round19-freeze-chain.md",
+      "source_line": 88,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/2026-10-16-round19-freeze-chain.md",
+        "exists": true,
+        "row_lines": [
+          88
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/2026-10-16-round20-grid-closure.md",
+      "source_line": 89,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/2026-10-16-round20-grid-closure.md",
+        "exists": true,
+        "row_lines": [
+          89
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/2026-10-16-round21-attribution-freeze-surface.md",
+      "source_line": 90,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/2026-10-16-round21-attribution-freeze-surface.md",
+        "exists": true,
+        "row_lines": [
+          90
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/2026-10-16-round22-leg-coverage-forcing.md",
+      "source_line": 91,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/2026-10-16-round22-leg-coverage-forcing.md",
+        "exists": true,
+        "row_lines": [
+          91
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/2026-10-16-round23-stream-surface.md",
+      "source_line": 92,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/2026-10-16-round23-stream-surface.md",
+        "exists": true,
+        "row_lines": [
+          92
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.lessons/round-24.md",
+      "source_line": 93,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "lessons/round-24.md",
+        "exists": true,
+        "row_lines": [
+          93
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/round8-horizon/",
+      "source_line": 114,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/round8-horizon/",
+        "exists": true,
+        "row_lines": [
+          114
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/round9-replication/",
+      "source_line": 115,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/round9-replication/",
+        "exists": true,
+        "row_lines": [
+          115
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/round9-fleet/",
+      "source_line": 116,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/round9-fleet/",
+        "exists": true,
+        "row_lines": [
+          116
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/round10-fleet/",
+      "source_line": 117,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/round10-fleet/",
+        "exists": true,
+        "row_lines": [
+          117
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/round11-power/",
+      "source_line": 118,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/round11-power/",
+        "exists": true,
+        "row_lines": [
+          118
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/round11-fleet/",
+      "source_line": 119,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/round11-fleet/",
+        "exists": true,
+        "row_lines": [
+          119
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/round12-ladder/",
+      "source_line": 120,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/round12-ladder/",
+        "exists": true,
+        "row_lines": [
+          120
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/round12-fleet/",
+      "source_line": 121,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/round12-fleet/",
+        "exists": true,
+        "row_lines": [
+          121
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/round13-ack-state/",
+      "source_line": 122,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/round13-ack-state/",
+        "exists": true,
+        "row_lines": [
+          122
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/round14-fleet/",
+      "source_line": 123,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/round14-fleet/",
+        "exists": true,
+        "row_lines": [
+          123
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/round13-coverage/",
+      "source_line": 124,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/round13-coverage/",
+        "exists": true,
+        "row_lines": [
+          124
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/round18-kimi-routing/",
+      "source_line": 125,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/round18-kimi-routing/",
+        "exists": true,
+        "row_lines": [
+          125
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/probe-r19-P1-key1-quota.log",
+      "source_line": 132,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/probe-r19-P1-key1-quota.log",
+        "exists": true,
+        "row_lines": [
+          132
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/probe-r19-P2-servicetier.log",
+      "source_line": 133,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/probe-r19-P2-servicetier.log",
+        "exists": true,
+        "row_lines": [
+          133
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/probe-r19-P3.log",
+      "source_line": 134,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/probe-r19-P3.log",
+        "exists": true,
+        "row_lines": [
+          134
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/probe-r19-P4-devinleg.log",
+      "source_line": 135,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/probe-r19-P4-devinleg.log",
+        "exists": true,
+        "row_lines": [
+          135
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/probe-r19-P4-glm.log",
+      "source_line": 136,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/probe-r19-P4-glm.log",
+        "exists": true,
+        "row_lines": [
+          136
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/probe-r19-P5-glm.log",
+      "source_line": 137,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/probe-r19-P5-glm.log",
+        "exists": true,
+        "row_lines": [
+          137
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/probe-r19-P6-zai.log",
+      "source_line": 138,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/probe-r19-P6-zai.log",
+        "exists": true,
+        "row_lines": [
+          138
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/probe-r19-P8-kimi-code-auth.log",
+      "source_line": 139,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/probe-r19-P8-kimi-code-auth.log",
+        "exists": true,
+        "row_lines": [
+          139
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/probe-r19-P9-absent-port.log",
+      "source_line": 140,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/probe-r19-P9-absent-port.log",
+        "exists": true,
+        "row_lines": [
+          140
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/probe-r19-devin-shim-seat.log",
+      "source_line": 141,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/probe-r19-devin-shim-seat.log",
+        "exists": true,
+        "row_lines": [
+          141
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/probe-r19-hyper-predictions.log",
+      "source_line": 142,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/probe-r19-hyper-predictions.log",
+        "exists": true,
+        "row_lines": [
+          142
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/probe-r19-hyper.log",
+      "source_line": 143,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/probe-r19-hyper.log",
+        "exists": true,
+        "row_lines": [
+          143
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/probe-r19-opencode-health.log",
+      "source_line": 144,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/probe-r19-opencode-health.log",
+        "exists": true,
+        "row_lines": [
+          144
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/probe-r19-p1-listing-mismatch.log",
+      "source_line": 145,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/probe-r19-p1-listing-mismatch.log",
+        "exists": true,
+        "row_lines": [
+          145
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/probe-r19-quota23.log",
+      "source_line": 146,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/probe-r19-quota23.log",
+        "exists": true,
+        "row_lines": [
+          146
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/probe-r19-shim-ds-predictions.log",
+      "source_line": 147,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/probe-r19-shim-ds-predictions.log",
+        "exists": true,
+        "row_lines": [
+          147
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/probe-r19-shim-ds-run.log",
+      "source_line": 148,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/probe-r19-shim-ds-run.log",
+        "exists": true,
+        "row_lines": [
+          148
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/probe-r19-shim-glm-predictions.log",
+      "source_line": 149,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/probe-r19-shim-glm-predictions.log",
+        "exists": true,
+        "row_lines": [
+          149
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/probe-r19-shim-glm-run.log",
+      "source_line": 150,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/probe-r19-shim-glm-run.log",
+        "exists": true,
+        "row_lines": [
+          150
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/attrib-r21-ds-trials.log",
+      "source_line": 151,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/attrib-r21-ds-trials.log",
+        "exists": true,
+        "row_lines": [
+          151
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/attrib-r21-glm-trials.log",
+      "source_line": 152,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/attrib-r21-glm-trials.log",
+        "exists": true,
+        "row_lines": [
+          152
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/attrib-r21-impl-ds-trials.log",
+      "source_line": 153,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/attrib-r21-impl-ds-trials.log",
+        "exists": true,
+        "row_lines": [
+          153
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/attrib-r21-impl-glm-trials.log",
+      "source_line": 154,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/attrib-r21-impl-glm-trials.log",
+        "exists": true,
+        "row_lines": [
+          154
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/attrib-r22-legs.log",
+      "source_line": 155,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/attrib-r22-legs.log",
+        "exists": true,
+        "row_lines": [
+          155
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/attrib-r22-legs-hyper.log",
+      "source_line": 156,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/attrib-r22-legs-hyper.log",
+        "exists": true,
+        "row_lines": [
+          156
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/attrib-r22-opencode-trials.log",
+      "source_line": 157,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/attrib-r22-opencode-trials.log",
+        "exists": true,
+        "row_lines": [
+          157
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/attrib-r23-stream-trials.log",
+      "source_line": 158,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/attrib-r23-stream-trials.log",
+        "exists": true,
+        "row_lines": [
+          158
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/attrib-r23-stream.log",
+      "source_line": 159,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/attrib-r23-stream.log",
+        "exists": true,
+        "row_lines": [
+          159
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/round24-sources/",
+      "source_line": 165,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/round24-sources/",
+        "exists": true,
+        "row_lines": [
+          165
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.row-to-file.evidence/round24-census/",
+      "source_line": 166,
+      "check": "frozen README index row resolves to a file or directory",
+      "observed": {
+        "path": "evidence/round24-census/",
+        "exists": true,
+        "row_lines": [
+          166
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/benchmark-selection.md",
+      "source_line": 29,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/benchmark-selection.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          29
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/godspeed-eval-findings.md",
+      "source_line": 30,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/godspeed-eval-findings.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          30
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/telemetry-run-design.md",
+      "source_line": 31,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/telemetry-run-design.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          31
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/local-model-index.md",
+      "source_line": 32,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/local-model-index.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          32
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/local-bench-arena.md",
+      "source_line": 33,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/local-bench-arena.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          33
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/ledger-route-telemetry.md",
+      "source_line": 34,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/ledger-route-telemetry.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          34
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/bench-arena-fresh-run.md",
+      "source_line": 35,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/bench-arena-fresh-run.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          35
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/eval-theory-notes.md",
+      "source_line": 36,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/eval-theory-notes.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          36
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/gemini-benchmark-suite.md",
+      "source_line": 37,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/gemini-benchmark-suite.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          37
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/bailian-cli-telemetry.md",
+      "source_line": 38,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/bailian-cli-telemetry.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          38
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/bench-arena-round5-battery.md",
+      "source_line": 39,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/bench-arena-round5-battery.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          39
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/open-model-catalogs.md",
+      "source_line": 40,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/open-model-catalogs.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          40
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/bench-arena-round6-stability.md",
+      "source_line": 41,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/bench-arena-round6-stability.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          41
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/bench-arena-task27-timeout-anatomy.md",
+      "source_line": 42,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/bench-arena-task27-timeout-anatomy.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          42
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/bench-arena-round7-scaffold-ablation.md",
+      "source_line": 43,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/bench-arena-round7-scaffold-ablation.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          43
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/eval-design-digest-3.md",
+      "source_line": 44,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/eval-design-digest-3.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          44
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/bench-arena-round7-noise-n25.md",
+      "source_line": 45,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/bench-arena-round7-noise-n25.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          45
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/eval-design-digest-2.md",
+      "source_line": 46,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/eval-design-digest-2.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          46
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/bench-arena-round8-horizon.md",
+      "source_line": 47,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/bench-arena-round8-horizon.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          47
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/bench-arena-round9-replication.md",
+      "source_line": 48,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/bench-arena-round9-replication.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          48
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/eval-prior-art-calibration.md",
+      "source_line": 49,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/eval-prior-art-calibration.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          49
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/bench-arena-round11-power.md",
+      "source_line": 50,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/bench-arena-round11-power.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          50
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/bench-arena-round12-ladder.md",
+      "source_line": 51,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/bench-arena-round12-ladder.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          51
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/kimi-model-routing-round18.md",
+      "source_line": 52,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/kimi-model-routing-round18.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          52
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/probe-battery-r19.md",
+      "source_line": 53,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/probe-battery-r19.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          53
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/attrib-prior-art-r21.md",
+      "source_line": 54,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/attrib-prior-art-r21.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          54
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/attrib-r21.md",
+      "source_line": 55,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/attrib-r21.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          55
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/contamination-detection-and-transparency.md",
+      "source_line": 56,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/contamination-detection-and-transparency.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          56
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/llm-judge-calibration.md",
+      "source_line": 57,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/llm-judge-calibration.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          57
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/benchmark-saturation-and-lifecycle.md",
+      "source_line": 58,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/benchmark-saturation-and-lifecycle.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          58
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/agent-time-horizon-and-task-validity.md",
+      "source_line": 59,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/agent-time-horizon-and-task-validity.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          59
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.knowledge/paired-eval-uncertainty-reporting.md",
+      "source_line": 60,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "knowledge/paired-eval-uncertainty-reporting.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          60
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/round-1.md",
+      "source_line": 64,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/round-1.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          64
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/round-3.md",
+      "source_line": 65,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/round-3.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          65
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/round-4.md",
+      "source_line": 66,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/round-4.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          66
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/round-1-aggregator-audit.md",
+      "source_line": 67,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/round-1-aggregator-audit.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          67
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/round-5.md",
+      "source_line": 68,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/round-5.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          68
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/round-7.md",
+      "source_line": 69,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/round-7.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          69
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/round-4-aggregator-audit.md",
+      "source_line": 70,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/round-4-aggregator-audit.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          70
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/round-5-aggregator-audit.md",
+      "source_line": 71,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/round-5-aggregator-audit.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          71
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/round-8.md",
+      "source_line": 72,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/round-8.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          72
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/round-9.md",
+      "source_line": 73,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/round-9.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          73
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/round-11.md",
+      "source_line": 74,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/round-11.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          74
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/round-6-aggregator-audit.md",
+      "source_line": 75,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/round-6-aggregator-audit.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          75
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/round-8-aggregator-box3-coldrun.md",
+      "source_line": 76,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/round-8-aggregator-box3-coldrun.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          76
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/round-12.md",
+      "source_line": 77,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/round-12.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          77
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/round-13.md",
+      "source_line": 78,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/round-13.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          78
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/round-14.md",
+      "source_line": 79,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/round-14.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          79
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/round-9-aggregator-corpus-verdict.md",
+      "source_line": 80,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/round-9-aggregator-corpus-verdict.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          80
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/round-16-recensus.md",
+      "source_line": 81,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/round-16-recensus.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          81
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/round-13-coverage.md",
+      "source_line": 82,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/round-13-coverage.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          82
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/2026-10-16-round19-freeze-chain.md",
+      "source_line": 88,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/2026-10-16-round19-freeze-chain.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          88
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/2026-10-16-round20-grid-closure.md",
+      "source_line": 89,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/2026-10-16-round20-grid-closure.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          89
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/2026-10-16-round21-attribution-freeze-surface.md",
+      "source_line": 90,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/2026-10-16-round21-attribution-freeze-surface.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          90
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/2026-10-16-round22-leg-coverage-forcing.md",
+      "source_line": 91,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/2026-10-16-round22-leg-coverage-forcing.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          91
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/2026-10-16-round23-stream-surface.md",
+      "source_line": 92,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/2026-10-16-round23-stream-surface.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          92
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/round-24.md",
+      "source_line": 93,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/round-24.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          93
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/round8-horizon/",
+      "source_line": 114,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/round8-horizon/",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          114
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/round9-replication/",
+      "source_line": 115,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/round9-replication/",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          115
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/round9-fleet/",
+      "source_line": 116,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/round9-fleet/",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          116
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/round10-fleet/",
+      "source_line": 117,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/round10-fleet/",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          117
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/round11-power/",
+      "source_line": 118,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/round11-power/",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          118
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/round11-fleet/",
+      "source_line": 119,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/round11-fleet/",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          119
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/round12-ladder/",
+      "source_line": 120,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/round12-ladder/",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          120
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/round12-fleet/",
+      "source_line": 121,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/round12-fleet/",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          121
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/round13-ack-state/",
+      "source_line": 122,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/round13-ack-state/",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          122
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/round14-fleet/",
+      "source_line": 123,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/round14-fleet/",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          123
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/round13-coverage/",
+      "source_line": 124,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/round13-coverage/",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          124
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/round18-kimi-routing/",
+      "source_line": 125,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/round18-kimi-routing/",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          125
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/probe-r19-P1-key1-quota.log",
+      "source_line": 132,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/probe-r19-P1-key1-quota.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          132
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/probe-r19-P2-servicetier.log",
+      "source_line": 133,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/probe-r19-P2-servicetier.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          133
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/probe-r19-P3.log",
+      "source_line": 134,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/probe-r19-P3.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          134
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/probe-r19-P4-devinleg.log",
+      "source_line": 135,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/probe-r19-P4-devinleg.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          135
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/probe-r19-P4-glm.log",
+      "source_line": 136,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/probe-r19-P4-glm.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          136
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/probe-r19-P5-glm.log",
+      "source_line": 137,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/probe-r19-P5-glm.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          137
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/probe-r19-P6-zai.log",
+      "source_line": 138,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/probe-r19-P6-zai.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          138
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/probe-r19-P8-kimi-code-auth.log",
+      "source_line": 139,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/probe-r19-P8-kimi-code-auth.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          139
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/probe-r19-P9-absent-port.log",
+      "source_line": 140,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/probe-r19-P9-absent-port.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          140
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/probe-r19-devin-shim-seat.log",
+      "source_line": 141,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/probe-r19-devin-shim-seat.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          141
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/probe-r19-hyper-predictions.log",
+      "source_line": 142,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/probe-r19-hyper-predictions.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          142
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/probe-r19-hyper.log",
+      "source_line": 143,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/probe-r19-hyper.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          143
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/probe-r19-opencode-health.log",
+      "source_line": 144,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/probe-r19-opencode-health.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          144
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/probe-r19-p1-listing-mismatch.log",
+      "source_line": 145,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/probe-r19-p1-listing-mismatch.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          145
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/probe-r19-quota23.log",
+      "source_line": 146,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/probe-r19-quota23.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          146
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/probe-r19-shim-ds-predictions.log",
+      "source_line": 147,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/probe-r19-shim-ds-predictions.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          147
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/probe-r19-shim-ds-run.log",
+      "source_line": 148,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/probe-r19-shim-ds-run.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          148
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/probe-r19-shim-glm-predictions.log",
+      "source_line": 149,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/probe-r19-shim-glm-predictions.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          149
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/probe-r19-shim-glm-run.log",
+      "source_line": 150,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/probe-r19-shim-glm-run.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          150
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/attrib-r21-ds-trials.log",
+      "source_line": 151,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/attrib-r21-ds-trials.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          151
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/attrib-r21-glm-trials.log",
+      "source_line": 152,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/attrib-r21-glm-trials.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          152
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/attrib-r21-impl-ds-trials.log",
+      "source_line": 153,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/attrib-r21-impl-ds-trials.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          153
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/attrib-r21-impl-glm-trials.log",
+      "source_line": 154,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/attrib-r21-impl-glm-trials.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          154
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/attrib-r22-legs.log",
+      "source_line": 155,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/attrib-r22-legs.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          155
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/attrib-r22-legs-hyper.log",
+      "source_line": 156,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/attrib-r22-legs-hyper.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          156
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/attrib-r22-opencode-trials.log",
+      "source_line": 157,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/attrib-r22-opencode-trials.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          157
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/attrib-r23-stream-trials.log",
+      "source_line": 158,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/attrib-r23-stream-trials.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          158
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/attrib-r23-stream.log",
+      "source_line": 159,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/attrib-r23-stream.log",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          159
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/round24-sources/",
+      "source_line": 165,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/round24-sources/",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          165
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.evidence/round24-census/",
+      "source_line": 166,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "evidence/round24-census/",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          166
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.file-to-row.lessons/round-24-verifier-spotcheck.md",
+      "source_line": 94,
+      "check": "frozen base file/directory still exists and has a README index row",
+      "observed": {
+        "path": "lessons/round-24-verifier-spotcheck.md",
+        "exists": true,
+        "indexed": true,
+        "row_lines": [
+          94
+        ]
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P2e.out-of-population.file.evidence/round25-calibration/",
+      "source_line": null,
+      "check": "on-disk index-scope path outside frozen 6180e4f population; not checked",
+      "observed": "evidence/round25-calibration/",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.file.evidence/round25-sources/",
+      "source_line": null,
+      "check": "on-disk index-scope path outside frozen 6180e4f population; not checked",
+      "observed": "evidence/round25-sources/",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.file.evidence/round26-calibration/",
+      "source_line": null,
+      "check": "on-disk index-scope path outside frozen 6180e4f population; not checked",
+      "observed": "evidence/round26-calibration/",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.file.evidence/round26-sources/",
+      "source_line": null,
+      "check": "on-disk index-scope path outside frozen 6180e4f population; not checked",
+      "observed": "evidence/round26-sources/",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.file.evidence/round27-calibration/",
+      "source_line": null,
+      "check": "on-disk index-scope path outside frozen 6180e4f population; not checked",
+      "observed": "evidence/round27-calibration/",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.file.evidence/round27-sources/",
+      "source_line": null,
+      "check": "on-disk index-scope path outside frozen 6180e4f population; not checked",
+      "observed": "evidence/round27-sources/",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.file.evidence/round28-calibration/",
+      "source_line": null,
+      "check": "on-disk index-scope path outside frozen 6180e4f population; not checked",
+      "observed": "evidence/round28-calibration/",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.file.evidence/round29-calibration/",
+      "source_line": null,
+      "check": "on-disk index-scope path outside frozen 6180e4f population; not checked",
+      "observed": "evidence/round29-calibration/",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.file.knowledge/attribution-interval-calibration.md",
+      "source_line": null,
+      "check": "on-disk index-scope path outside frozen 6180e4f population; not checked",
+      "observed": "knowledge/attribution-interval-calibration.md",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.file.knowledge/extraction-policy-comparison.md",
+      "source_line": null,
+      "check": "on-disk index-scope path outside frozen 6180e4f population; not checked",
+      "observed": "knowledge/extraction-policy-comparison.md",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.file.knowledge/grader-perturbation-audit.md",
+      "source_line": null,
+      "check": "on-disk index-scope path outside frozen 6180e4f population; not checked",
+      "observed": "knowledge/grader-perturbation-audit.md",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.file.knowledge/webarena-task-spec-audit.md",
+      "source_line": null,
+      "check": "on-disk index-scope path outside frozen 6180e4f population; not checked",
+      "observed": "knowledge/webarena-task-spec-audit.md",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.file.lessons/round-25-verifier-spotcheck.md",
+      "source_line": null,
+      "check": "on-disk index-scope path outside frozen 6180e4f population; not checked",
+      "observed": "lessons/round-25-verifier-spotcheck.md",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.file.lessons/round-25.md",
+      "source_line": null,
+      "check": "on-disk index-scope path outside frozen 6180e4f population; not checked",
+      "observed": "lessons/round-25.md",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.file.lessons/round-26.md",
+      "source_line": null,
+      "check": "on-disk index-scope path outside frozen 6180e4f population; not checked",
+      "observed": "lessons/round-26.md",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.file.lessons/round-27.md",
+      "source_line": null,
+      "check": "on-disk index-scope path outside frozen 6180e4f population; not checked",
+      "observed": "lessons/round-27.md",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P2e.out-of-population.file.lessons/round-28.md",
+      "source_line": null,
+      "check": "on-disk index-scope path outside frozen 6180e4f population; not checked",
+      "observed": "lessons/round-28.md",
+      "verdict": "OUT_OF_POPULATION"
+    },
+    {
+      "id": "P3a.capability.interval-reverdict.unique-samples",
+      "source_line": 558,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": [
+            "4"
+          ],
+          "receipt": [
+            "4"
+          ],
+          "claim_occurrences": [
+            [
+              "4"
+            ]
+          ],
+          "receipt_occurrences": [
+            [
+              "4"
+            ]
+          ]
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "unique_samples=4"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3a.capability.interval-reverdict.scored-trials",
+      "source_line": 558,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": [
+            "92",
+            "92"
+          ],
+          "receipt": [
+            "92",
+            "92"
+          ],
+          "claim_occurrences": [
+            [
+              "92",
+              "92"
+            ]
+          ],
+          "receipt_occurrences": [
+            [
+              "92",
+              "92"
+            ]
+          ]
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "scored_trials=92",
+          "correct=92"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3a.capability.interval-reverdict.transitions",
+      "source_line": 558,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": [
+            "FAIL>UNTESTED:2,PASS>INDETERMINATE:1,PASS>PASS:4"
+          ],
+          "receipt": [
+            "FAIL>UNTESTED:2,PASS>INDETERMINATE:1,PASS>PASS:4"
+          ],
+          "claim_occurrences": [
+            [
+              "FAIL>UNTESTED:2,PASS>INDETERMINATE:1,PASS>PASS:4"
+            ]
+          ],
+          "receipt_occurrences": [
+            [
+              "FAIL>UNTESTED:2,PASS>INDETERMINATE:1,PASS>PASS:4"
+            ]
+          ]
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "transitions=FAIL>UNTESTED:2,PASS>INDETERMINATE:1,PASS>PASS:4"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3a.capability.interval-reverdict.mismatches",
+      "source_line": 558,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": [
+            "0"
+          ],
+          "receipt": [
+            "0"
+          ],
+          "claim_occurrences": [
+            [
+              "0"
+            ]
+          ],
+          "receipt_occurrences": [
+            [
+              "0"
+            ]
+          ]
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "mismatches=0"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3a.capability.interval-reverdict.summary-exit",
+      "source_line": 558,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": [
+            "0"
+          ],
+          "receipt": [
+            "0"
+          ],
+          "claim_occurrences": [
+            [
+              "0"
+            ]
+          ],
+          "receipt_occurrences": [
+            [
+              "0"
+            ]
+          ]
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "exit=0"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3a.capability.interval-reverdict.selftest-checks",
+      "source_line": 558,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": [
+            "14",
+            "0"
+          ],
+          "receipt": [
+            "18",
+            "0"
+          ],
+          "claim_occurrences": [
+            [
+              "14",
+              "0"
+            ]
+          ],
+          "receipt_occurrences": [
+            [
+              "18",
+              "0"
+            ]
+          ]
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "18 checks",
+          "0 failed"
+        ],
+        "correction_line": 749,
+        "correction_tokens": [
+          "18 checks",
+          "0 failed"
+        ]
+      },
+      "verdict": "SUPERSEDED"
+    },
+    {
+      "id": "P3a.capability.interval-reverdict.selftest-red-runs",
+      "source_line": 558,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim_ranges": [
+            [
+              "1",
+              "6"
+            ]
+          ],
+          "receipt_red_runs": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "receipt_red_runs=R1,R2,R3,R4,R5,R6"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3a.capability.state-assertion-check.base-mismatch",
+      "source_line": 559,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": [
+            "11"
+          ],
+          "receipt": [
+            "10"
+          ],
+          "claim_occurrences": [
+            [
+              "11"
+            ]
+          ],
+          "receipt_occurrences": [
+            [
+              "10"
+            ]
+          ]
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "mismatch=10"
+        ],
+        "correction_line": 750,
+        "correction_tokens": [
+          "mismatch=10"
+        ]
+      },
+      "verdict": "SUPERSEDED"
+    },
+    {
+      "id": "P3a.capability.state-assertion-check.base-exit",
+      "source_line": 559,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": [
+            "1"
+          ],
+          "receipt": [
+            "1"
+          ],
+          "claim_occurrences": [
+            [
+              "1"
+            ]
+          ],
+          "receipt_occurrences": [
+            [
+              "1"
+            ]
+          ]
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "exit=1"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3a.capability.state-assertion-check.landed-mismatch",
+      "source_line": 559,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": [
+            "0"
+          ],
+          "receipt": [
+            "0"
+          ],
+          "claim_occurrences": [
+            [
+              "0"
+            ]
+          ],
+          "receipt_occurrences": [
+            [
+              "0"
+            ]
+          ]
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "mismatch=0"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3a.capability.state-assertion-check.landed-superseded",
+      "source_line": 559,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": [
+            "1"
+          ],
+          "receipt": [
+            "1"
+          ],
+          "claim_occurrences": [
+            [
+              "1"
+            ]
+          ],
+          "receipt_occurrences": [
+            [
+              "1"
+            ]
+          ]
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "superseded=1"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3a.capability.state-assertion-check.landed-exit",
+      "source_line": 559,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": [
+            "0"
+          ],
+          "receipt": [
+            "0"
+          ],
+          "claim_occurrences": [
+            [
+              "0"
+            ]
+          ],
+          "receipt_occurrences": [
+            [
+              "0"
+            ]
+          ]
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "exit=0"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3a.capability.interval-reverdict.numeric-token-audit",
+      "source_line": 558,
+      "check": "every semantic numeric token in this evidence cell is receipt-backed",
+      "observed": {
+        "unclassified_numeric_tokens": []
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3a.capability.state-assertion-check.numeric-token-audit",
+      "source_line": 559,
+      "check": "every semantic numeric token in this evidence cell is receipt-backed",
+      "observed": {
+        "unclassified_numeric_tokens": []
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3b.province.public-literature-registry.rows",
+      "source_line": 112,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": [
+            "25"
+          ],
+          "SOURCES_frozen_census": {
+            "rows": 42,
+            "ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39,
+              40,
+              41,
+              42
+            ],
+            "exact_id_set": true,
+            "missing_ids": [],
+            "duplicate_ids": [],
+            "unexpected_ids": []
+          }
+        },
+        "assertion_document": "PROVINCE.md",
+        "derived_tokens": [
+          "rows=42",
+          "id_set=exact"
+        ],
+        "correction_line": 190,
+        "correction_tokens": [
+          "rows=42",
+          "id_set=exact"
+        ]
+      },
+      "verdict": "SUPERSEDED"
+    },
+    {
+      "id": "P3b.province.round25-correction.rows",
+      "source_line": 119,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": [
+            "37"
+          ],
+          "SOURCES_frozen_census": {
+            "rows": 42,
+            "ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39,
+              40,
+              41,
+              42
+            ],
+            "exact_id_set": true,
+            "missing_ids": [],
+            "duplicate_ids": [],
+            "unexpected_ids": []
+          }
+        },
+        "assertion_document": "PROVINCE.md",
+        "derived_tokens": [
+          "rows=42",
+          "id_set=exact"
+        ],
+        "correction_line": 189,
+        "correction_tokens": [
+          "rows=42",
+          "id_set=exact"
+        ]
+      },
+      "verdict": "SUPERSEDED"
+    },
+    {
+      "id": "P3b.province.interval-reverdict.exits",
+      "source_line": 116,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": [
+            "0",
+            "0"
+          ],
+          "receipts": [
+            "0",
+            "0"
+          ]
+        },
+        "assertion_document": "PROVINCE.md",
+        "derived_tokens": [
+          "summary_exit=0",
+          "selftest_exit=0"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3b.province.interval-reverdict.unique-samples",
+      "source_line": 116,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": [
+            "4"
+          ],
+          "receipt": [
+            "4"
+          ],
+          "claim_occurrences": [
+            [
+              "4"
+            ]
+          ],
+          "receipt_occurrences": [
+            [
+              "4"
+            ]
+          ]
+        },
+        "assertion_document": "PROVINCE.md",
+        "derived_tokens": [
+          "unique_samples=4"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3b.province.interval-reverdict.scored-trials",
+      "source_line": 116,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": [
+            "92",
+            "92"
+          ],
+          "receipt": [
+            "92",
+            "92"
+          ],
+          "claim_occurrences": [
+            [
+              "92",
+              "92"
+            ]
+          ],
+          "receipt_occurrences": [
+            [
+              "92",
+              "92"
+            ]
+          ]
+        },
+        "assertion_document": "PROVINCE.md",
+        "derived_tokens": [
+          "scored_trials=92",
+          "correct=92"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3b.province.interval-reverdict.transitions",
+      "source_line": 116,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": [
+            "2",
+            "1"
+          ],
+          "receipt": [
+            "2",
+            "1"
+          ],
+          "claim_occurrences": [
+            [
+              "2",
+              "1"
+            ]
+          ],
+          "receipt_occurrences": [
+            [
+              "2",
+              "1"
+            ]
+          ]
+        },
+        "assertion_document": "PROVINCE.md",
+        "derived_tokens": [
+          "FAIL>UNTESTED=2",
+          "PASS>INDETERMINATE=1"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3b.province.state-assertion-check.landed-exits",
+      "source_line": 117,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": [
+            "0",
+            "0"
+          ],
+          "receipts": [
+            "0",
+            "0"
+          ]
+        },
+        "assertion_document": "PROVINCE.md",
+        "derived_tokens": [
+          "summary_exit=0",
+          "selftest_exit=0"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3b.province.state-assertion-check.base-exit",
+      "source_line": 117,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": "1",
+          "receipt": "1"
+        },
+        "assertion_document": "PROVINCE.md",
+        "derived_tokens": [
+          "exit=1"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3b.province.state-assertion-check.base-mismatch",
+      "source_line": 117,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": "10",
+          "receipt": "10"
+        },
+        "assertion_document": "PROVINCE.md",
+        "derived_tokens": [
+          "10 mismatches"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3c.box.1.pointer.1.needle.1",
+      "source_line": 6,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "pointer": "SKILL.md",
+          "pointer_count": 1,
+          "target_line": null,
+          "target_text": "",
+          "token": "## Decision table — benchmark selection",
+          "token_hits": 1
+        },
+        "assertion_document": "SHONEN.md",
+        "derived_tokens": [
+          "pointer=SKILL.md",
+          "pointer_count=1",
+          "target=SKILL.md:whole-file",
+          "token=## Decision table — benchmark selection",
+          "token_hits=1"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3c.box.1.pointer.1.needle.2",
+      "source_line": 6,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "pointer": "SKILL.md",
+          "pointer_count": 1,
+          "target_line": null,
+          "target_text": "",
+          "token": "## Benchmark anti-patterns",
+          "token_hits": 1
+        },
+        "assertion_document": "SHONEN.md",
+        "derived_tokens": [
+          "pointer=SKILL.md",
+          "pointer_count=1",
+          "target=SKILL.md:whole-file",
+          "token=## Benchmark anti-patterns",
+          "token_hits=1"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3c.box.1.pointer.1.needle.3",
+      "source_line": 6,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "pointer": "SKILL.md",
+          "pointer_count": 1,
+          "target_line": null,
+          "target_text": "",
+          "token": "## Production checklist — running an eval",
+          "token_hits": 1
+        },
+        "assertion_document": "SHONEN.md",
+        "derived_tokens": [
+          "pointer=SKILL.md",
+          "pointer_count=1",
+          "target=SKILL.md:whole-file",
+          "token=## Production checklist — running an eval",
+          "token_hits=1"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3c.box.1.pointer.1.needle.4",
+      "source_line": 6,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "pointer": "SKILL.md",
+          "pointer_count": 1,
+          "target_line": null,
+          "target_text": "",
+          "token": "## Cited local sources",
+          "token_hits": 1
+        },
+        "assertion_document": "SHONEN.md",
+        "derived_tokens": [
+          "pointer=SKILL.md",
+          "pointer_count=1",
+          "target=SKILL.md:whole-file",
+          "token=## Cited local sources",
+          "token_hits=1"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3c.box.2.pointer.1",
+      "source_line": 8,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "pointer": "LOG.md:7",
+          "pointer_count": 1,
+          "target_line": 7,
+          "target_text": "- 2026-09-28 — round 4: executed first authored eval (closes SHONEN \"end-to-end task\" checkbox) + digested un-digested wiki branches + probed open model catalogs. Evidence: `curl 127.0.0.1:34113/v1/models` returned the served GGUF id while `localhost:8080/v1/models` 404'd against Jitsi — `qwen-local` provider config is stale, root-causing v2's `\"NULL\"`/`journal` telemetry; ran 4-task slice (01,02,03,05) via direct `chat/completions` + repo `grade.sh`: 1/4 PASS vs ex-ante predicted 2/4 — `03` flipped PASS→FAIL on fresh generation (sol_sha differs); read `yao-second-half`, `creative-benchmark`, `llm-trueskill-sorting`, `rlhf`, `bitter-lesson`; probed HF + OpenRouter APIs (460 models). Landed `corpus/knowledge/{bench-arena-fresh-run,eval-theory-notes,open-model-catalogs}.md`, `corpus/lessons/round-4.md`, SKILL.md battery/catalog/eval-theory sections, README index+coverage+gaps, SHONEN checkbox.",
+          "token": "round 4: executed first authored eval",
+          "token_hits": 1
+        },
+        "assertion_document": "SHONEN.md",
+        "derived_tokens": [
+          "pointer=LOG.md:7",
+          "pointer_count=1",
+          "target=LOG.md:7",
+          "token=round 4: executed first authored eval",
+          "token_hits=1",
+          "line_text=- 2026-09-28 — round 4: executed first authored eval (closes SHONEN \"end-to-end task\" checkbox) + digested un-digested wiki branches + probed open model catalogs. Evidence: `curl 127.0.0.1:34113/v1/models` returned the served GGUF id while `localhost:8080/v1/models` 404'd against Jitsi — `qwen-local` provider config is stale, root-causing v2's `\"NULL\"`/`journal` telemetry; ran 4-task slice (01,02,03,05) via direct `chat/completions` + repo `grade.sh`: 1/4 PASS vs ex-ante predicted 2/4 — `03` flipped PASS→FAIL on fresh generation (sol_sha differs); read `yao-second-half`, `creative-benchmark`, `llm-trueskill-sorting`, `rlhf`, `bitter-lesson`; probed HF + OpenRouter APIs (460 models). Landed `corpus/knowledge/{bench-arena-fresh-run,eval-theory-notes,open-model-catalogs}.md`, `corpus/lessons/round-4.md`, SKILL.md battery/catalog/eval-theory sections, README index+coverage+gaps, SHONEN checkbox."
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3c.box.3.pointer.1",
+      "source_line": 10,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "pointer": "corpus/lessons/round-8-aggregator-box3-coldrun.md:48",
+          "pointer_count": 1,
+          "target_line": 48,
+          "target_text": "## Box-3 verdict",
+          "token": "## Box-3 verdict",
+          "token_hits": 1
+        },
+        "assertion_document": "SHONEN.md",
+        "derived_tokens": [
+          "pointer=corpus/lessons/round-8-aggregator-box3-coldrun.md:48",
+          "pointer_count=1",
+          "target=corpus/lessons/round-8-aggregator-box3-coldrun.md:48",
+          "token=## Box-3 verdict",
+          "token_hits=1",
+          "line_text=## Box-3 verdict"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3c.box.4.pointer.1",
+      "source_line": 12,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "pointer": "PROVINCE.md:129",
+          "pointer_count": 1,
+          "target_line": 129,
+          "target_text": "### Adjacent",
+          "token": "### Adjacent",
+          "token_hits": 1
+        },
+        "assertion_document": "SHONEN.md",
+        "derived_tokens": [
+          "pointer=PROVINCE.md:129",
+          "pointer_count=1",
+          "target=PROVINCE.md:129",
+          "token=### Adjacent",
+          "token_hits=1",
+          "line_text=### Adjacent"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3d.axis-table.round24",
+      "source_line": null,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "table": "round24",
+          "present": true
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "table=round24",
+          "present=true"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3d.axis-table.round25",
+      "source_line": null,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "table": "round25",
+          "present": true
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "table=round25",
+          "present=true"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3d.axis.novelty.anchor.1.pin",
+      "source_line": 613,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "table": "round24",
+          "anchor": ":162",
+          "hits": [
+            [
+              "novelty",
+              1,
+              613
+            ]
+          ],
+          "anchored_line": "| **novelty** *(owned)* | 6 → **7** | The written +1 rule's three legs fire. **New construct:** one powered four-arm ordered density ladder returned `L=1773.0`, `z=+9.452`, `LADDER ESTABLISHED`; adding `A-CKPT10` separated emission sparsity from up-front batching (`MONO-CKPT10=+0.656`, `DISSOCIATION ESTABLISHED`). The second-family contrast is only `TRANSPORT DIRECTIONAL` at a 2/48 floor and is corroboration, not a separate novelty basis. **Inspectable instrument:** hashed plan/power/prediction bundle, `probe_r12.py`, `run_r12.py`, `recompute_r12.py` (165/165 selftest), and `grader.py` replay. **Priced:** C1/C2/C4/C5/C6 INCREMENTAL, C3 NOVEL-instrument; all six carry fetched URLs and round-14 re-fetched 14 load-bearing URLs. Independent critic: 25/28 REPRODUCE, 3 PARTIAL, 0 FALSIFY. | `corpus/evidence/round12-ladder/`; `corpus/evidence/round14-fleet/{r14-critic-landed,r14-review-priorart,r14-landing-gate}.md`; `corpus/knowledge/bench-arena-round12-ladder.md` |",
+          "needle_hits": {
+            "**novelty**": 1,
+            "**7**": 1
+          }
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "table=round24",
+          "axis=novelty",
+          "anchor=:162",
+          "reference_count=1",
+          "line=162",
+          "line_text=| **novelty** *(owned)* | 6 → **7** | The written +1 rule's three legs fire. **New construct:** one powered four-arm ordered density ladder returned `L=1773.0`, `z=+9.452`, `LADDER ESTABLISHED`; adding `A-CKPT10` separated emission sparsity from up-front batching (`MONO-CKPT10=+0.656`, `DISSOCIATION ESTABLISHED`). The second-family contrast is only `TRANSPORT DIRECTIONAL` at a 2/48 floor and is corroboration, not a separate novelty basis. **Inspectable instrument:** hashed plan/power/prediction bundle, `probe_r12.py`, `run_r12.py`, `recompute_r12.py` (165/165 selftest), and `grader.py` replay. **Priced:** C1/C2/C4/C5/C6 INCREMENTAL, C3 NOVEL-instrument; all six carry fetched URLs and round-14 re-fetched 14 load-bearing URLs. Independent critic: 25/28 REPRODUCE, 3 PARTIAL, 0 FALSIFY. | `corpus/evidence/round12-ladder/`; `corpus/evidence/round14-fleet/{r14-critic-landed,r14-review-priorart,r14-landing-gate}.md`; `corpus/knowledge/bench-arena-round12-ladder.md` |",
+          "**novelty**=1",
+          "**7**=1"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3e.row-to-file.knowledge/attribution-interval-calibration.md",
+      "source_line": 61,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "path": "knowledge/attribution-interval-calibration.md",
+          "exists": true,
+          "row_lines": [
+            61
+          ]
+        },
+        "assertion_document": "corpus/README.md",
+        "derived_tokens": [
+          "path=knowledge/attribution-interval-calibration.md",
+          "exists=true",
+          "row_count=1"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3e.row-to-file.lessons/round-24-verifier-spotcheck.md",
+      "source_line": 94,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "path": "lessons/round-24-verifier-spotcheck.md",
+          "exists": true,
+          "row_lines": [
+            94
+          ]
+        },
+        "assertion_document": "corpus/README.md",
+        "derived_tokens": [
+          "path=lessons/round-24-verifier-spotcheck.md",
+          "exists=true",
+          "row_count=1"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3e.row-to-file.lessons/round-25.md",
+      "source_line": 95,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "path": "lessons/round-25.md",
+          "exists": true,
+          "row_lines": [
+            95
+          ]
+        },
+        "assertion_document": "corpus/README.md",
+        "derived_tokens": [
+          "path=lessons/round-25.md",
+          "exists=true",
+          "row_count=1"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3e.row-to-file.evidence/round25-sources/",
+      "source_line": 172,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "path": "evidence/round25-sources/",
+          "exists": true,
+          "row_lines": [
+            172
+          ]
+        },
+        "assertion_document": "corpus/README.md",
+        "derived_tokens": [
+          "path=evidence/round25-sources/",
+          "exists=true",
+          "row_count=1"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3e.row-to-file.evidence/round25-calibration/",
+      "source_line": 173,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "path": "evidence/round25-calibration/",
+          "exists": true,
+          "row_lines": [
+            173
+          ]
+        },
+        "assertion_document": "corpus/README.md",
+        "derived_tokens": [
+          "path=evidence/round25-calibration/",
+          "exists=true",
+          "row_count=1"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3e.file-to-row.knowledge/attribution-interval-calibration.md",
+      "source_line": 61,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "path": "knowledge/attribution-interval-calibration.md",
+          "exists": true,
+          "row_lines": [
+            61
+          ]
+        },
+        "assertion_document": "corpus/README.md",
+        "derived_tokens": [
+          "path=knowledge/attribution-interval-calibration.md",
+          "exists=true",
+          "row_count=1"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3e.file-to-row.lessons/round-25-verifier-spotcheck.md",
+      "source_line": 96,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "path": "lessons/round-25-verifier-spotcheck.md",
+          "exists": true,
+          "row_lines": [
+            96
+          ]
+        },
+        "assertion_document": "corpus/README.md",
+        "derived_tokens": [
+          "path=lessons/round-25-verifier-spotcheck.md",
+          "exists=true",
+          "row_count=1"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3e.file-to-row.lessons/round-25.md",
+      "source_line": 95,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "path": "lessons/round-25.md",
+          "exists": true,
+          "row_lines": [
+            95
+          ]
+        },
+        "assertion_document": "corpus/README.md",
+        "derived_tokens": [
+          "path=lessons/round-25.md",
+          "exists=true",
+          "row_count=1"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3e.file-to-row.evidence/round25-sources/",
+      "source_line": 172,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "path": "evidence/round25-sources/",
+          "exists": true,
+          "row_lines": [
+            172
+          ]
+        },
+        "assertion_document": "corpus/README.md",
+        "derived_tokens": [
+          "path=evidence/round25-sources/",
+          "exists=true",
+          "row_count=1"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P3e.file-to-row.evidence/round25-calibration/",
+      "source_line": 173,
+      "check": "frozen P3 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "path": "evidence/round25-calibration/",
+          "exists": true,
+          "row_lines": [
+            173
+          ]
+        },
+        "assertion_document": "corpus/README.md",
+        "derived_tokens": [
+          "path=evidence/round25-calibration/",
+          "exists=true",
+          "row_count=1"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4a.scorecard.claim.c1",
+      "source_line": 760,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": [
+            "0",
+            "15168",
+            "9",
+            "909"
+          ],
+          "score_tokens": [
+            "7",
+            "7"
+          ],
+          "receipt_baseline": 0,
+          "grader_summary": {
+            "population": 1964,
+            "excluded": 0,
+            "audited_verdicts": 15168,
+            "policy_checks": 909,
+            "families": 9,
+            "f1_n": 1819,
+            "f1_k": 1802,
+            "composite_n": 194,
+            "composite_k": 187,
+            "multi_n": 31,
+            "multi_k": 14
+          },
+          "command_exit": 0
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "baseline=0",
+          "audited_verdicts=15168",
+          "families=9",
+          "policy_checks=909"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4a.scorecard.claim.c2",
+      "source_line": 761,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim_base_mismatch": [
+            "5"
+          ],
+          "receipt_base": {
+            "assertions": 278,
+            "match": 269,
+            "mismatch": 5,
+            "superseded": 1,
+            "offline_unverifiable": 3
+          },
+          "numeric_mismatch_ids": [
+            "P3a.capability.interval-reverdict.selftest-checks",
+            "P3a.capability.state-assertion-check.base-mismatch",
+            "P3b.province.public-literature-registry.rows",
+            "P3b.province.round25-correction.rows"
+          ],
+          "index_mismatch_ids": [
+            "P3e.file-to-row.lessons/round-25-verifier-spotcheck.md"
+          ],
+          "split_claim": true
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "base_mismatch=5",
+          "numeric_repairs=4",
+          "index_repairs=1"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4a.scorecard.capability.grader-perturbation-audit",
+      "source_line": 560,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "row": "| grader-perturbation-audit | audit pinned stored-response verdicts under exact response-format/negative-control transformations; stratify by format and pid, separate policy capture | `python3 plans/grader_perturb.py --summary`: population1964 excluded0, audited verdicts15168, nine MP/MC interval-verdict families plus909 NOT_SCORED PC checks; independent oracle and final receipts `corpus/evidence/round26-calibration/` | 26 |",
+          "grader_summary": {
+            "population": 1964,
+            "excluded": 0,
+            "audited_verdicts": 15168,
+            "policy_checks": 909,
+            "families": 9,
+            "f1_n": 1819,
+            "f1_k": 1802,
+            "composite_n": 194,
+            "composite_k": 187,
+            "multi_n": 31,
+            "multi_k": 14
+          },
+          "command_exit": 0
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "round=26",
+          "audited_verdicts=15168",
+          "policy_checks=909",
+          "families=9"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4a.scorecard.final.c1",
+      "source_line": 786,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claimed_counts": [
+            1964,
+            0,
+            15168,
+            909,
+            9
+          ],
+          "summary_counts": [
+            1964,
+            0,
+            15168,
+            909,
+            9
+          ],
+          "claimed_family": [
+            1802,
+            1819,
+            14,
+            31,
+            187,
+            194
+          ],
+          "summary_family": [
+            1802,
+            1819,
+            14,
+            31,
+            187,
+            194
+          ],
+          "unverified_score": 7
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "population=1964",
+          "excluded=0",
+          "audited_verdicts=15168",
+          "policy_checks=909",
+          "families=9",
+          "F1_k/n=1802/1819",
+          "MULTI_k/n=14/31",
+          "composite_k/n=187/194"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4a.scorecard.final.c2",
+      "source_line": 789,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claimed": [
+            5,
+            0,
+            5,
+            278,
+            3
+          ],
+          "base_receipt": {
+            "assertions": 278,
+            "match": 269,
+            "mismatch": 5,
+            "superseded": 1,
+            "offline_unverifiable": 3
+          },
+          "final_receipt": {
+            "assertions": 278,
+            "match": 270,
+            "mismatch": 0,
+            "superseded": 5,
+            "offline_unverifiable": 3
+          },
+          "numeric_mismatch_ids": [
+            "P3a.capability.interval-reverdict.selftest-checks",
+            "P3a.capability.state-assertion-check.base-mismatch",
+            "P3b.province.public-literature-registry.rows",
+            "P3b.province.round25-correction.rows"
+          ],
+          "index_mismatch_ids": [
+            "P3e.file-to-row.lessons/round-25-verifier-spotcheck.md"
+          ],
+          "split_claim": true,
+          "unverified_score": 8
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "base_mismatch=5",
+          "final_mismatch=0",
+          "superseded=5",
+          "assertions=278",
+          "offline_unverifiable=3",
+          "numeric_repairs=4",
+          "index_repairs=1"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4a.scorecard.revision.c1",
+      "source_line": 802,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claimed": [
+            "15168",
+            "909",
+            "9",
+            "0"
+          ],
+          "grader_summary": [
+            15168,
+            909,
+            9,
+            0
+          ]
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "audited_verdicts=15168",
+          "policy_checks=909",
+          "families=9",
+          "exit=0"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4a.scorecard.revision.c2",
+      "source_line": 802,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claimed": [
+            "278",
+            "270",
+            "0",
+            "5",
+            "3",
+            "0"
+          ],
+          "final_receipt": {
+            "assertions": 278,
+            "match": 270,
+            "mismatch": 0,
+            "superseded": 5,
+            "offline_unverifiable": 3
+          },
+          "receipt_exit": "0",
+          "unverified_score_tokens": [
+            "7",
+            "8"
+          ]
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "assertions=278",
+          "match=270",
+          "mismatch=0",
+          "superseded=5",
+          "offline_unverifiable=3",
+          "exit=0"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4a.scorecard.revision.q13",
+      "source_line": 798,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": true,
+          "gate": [
+            "1",
+            "1",
+            "0",
+            "53"
+          ],
+          "returned_report_paths": 3,
+          "exit": [
+            "0"
+          ]
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "admissions=1",
+          "passed=1",
+          "cited_reports=3",
+          "second_seat_reports=53",
+          "failed=0",
+          "exit=0"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4a.scorecard.revision.sources-index",
+      "source_line": 798,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": [
+            "34",
+            "34",
+            "48",
+            "0",
+            "0"
+          ],
+          "census": [
+            "34",
+            "34",
+            "48",
+            "0",
+            "0"
+          ],
+          "parity": "match",
+          "source_receipt_exit": "0"
+        },
+        "assertion_document": "SCORECARD.md",
+        "derived_tokens": [
+          "knowledge_files=34",
+          "index_rows=34",
+          "sources_rows=48",
+          "sources_malformed=0",
+          "source_validator_exit=0"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4a.scorecard.score-tokens-unverifiable",
+      "source_line": 760,
+      "check": "score/verdict numbers have no independent receipt or command re-derivation",
+      "observed": {
+        "status": "UNVERIFIABLE",
+        "score_tokens": {
+          "C1 claim row": [
+            "7",
+            "7"
+          ],
+          "C2 claim row": [
+            "8",
+            "8"
+          ],
+          "C1 measured outcome": [
+            "7"
+          ],
+          "C2 measured outcome": [
+            "8"
+          ],
+          "measured revision": [
+            "7",
+            "8"
+          ]
+        },
+        "token_counts": {
+          "C1 claim row": 2,
+          "C2 claim row": 2,
+          "C1 measured outcome": 1,
+          "C2 measured outcome": 1,
+          "measured revision": 2
+        },
+        "token_total": 8
+      },
+      "verdict": "OFFLINE_UNVERIFIABLE"
+    },
+    {
+      "id": "P4b.readme.artifact-row.evidence/round26-sources/",
+      "source_line": 272,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "path": "evidence/round26-sources/",
+          "row_count": 1,
+          "exists": true
+        },
+        "assertion_document": "corpus/README.md",
+        "derived_tokens": [
+          "path=evidence/round26-sources/",
+          "row_count=1",
+          "exists=true"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4b.readme.artifact-row.evidence/round26-calibration/",
+      "source_line": 273,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "path": "evidence/round26-calibration/",
+          "row_count": 1,
+          "exists": true
+        },
+        "assertion_document": "corpus/README.md",
+        "derived_tokens": [
+          "path=evidence/round26-calibration/",
+          "row_count=1",
+          "exists=true"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4b.readme.artifact-row.../plans/grader_perturb.py",
+      "source_line": 274,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "path": "../plans/grader_perturb.py",
+          "row_count": 1,
+          "exists": true
+        },
+        "assertion_document": "corpus/README.md",
+        "derived_tokens": [
+          "path=../plans/grader_perturb.py",
+          "row_count=1",
+          "exists=true"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4b.readme.artifact-row.../plans/gate_timing_check.py",
+      "source_line": 275,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "path": "../plans/gate_timing_check.py",
+          "row_count": 1,
+          "exists": true
+        },
+        "assertion_document": "corpus/README.md",
+        "derived_tokens": [
+          "path=../plans/gate_timing_check.py",
+          "row_count=1",
+          "exists=true"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4b.readme.artifact-row.../plans/round26_census.sh",
+      "source_line": 276,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "path": "../plans/round26_census.sh",
+          "row_count": 1,
+          "exists": true
+        },
+        "assertion_document": "corpus/README.md",
+        "derived_tokens": [
+          "path=../plans/round26_census.sh",
+          "row_count=1",
+          "exists=true"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4b.readme.artifact-row.../plans/fixtures/r26/",
+      "source_line": 277,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "path": "../plans/fixtures/r26/",
+          "row_count": 1,
+          "exists": true
+        },
+        "assertion_document": "corpus/README.md",
+        "derived_tokens": [
+          "path=../plans/fixtures/r26/",
+          "row_count=1",
+          "exists=true"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4b.readme.artifact-inventory",
+      "source_line": 268,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "listed": [
+            "evidence/round26-sources/",
+            "evidence/round26-calibration/",
+            "../plans/grader_perturb.py",
+            "../plans/gate_timing_check.py",
+            "../plans/round26_census.sh",
+            "../plans/fixtures/r26/"
+          ],
+          "missing_rows": [],
+          "extra_rows": [],
+          "on_disk_files": 62,
+          "uncovered_files": []
+        },
+        "assertion_document": "corpus/README.md",
+        "derived_tokens": [
+          "rows=6",
+          "on_disk_files=62",
+          "uncovered_files=0"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4b.readme.covers.round26-sources",
+      "source_line": 272,
+      "check": "the exact base README source-support correction restates the full six-id range",
+      "observed": {
+        "claimed_range": [
+          "043",
+          "047"
+        ],
+        "expanded": [
+          43,
+          44,
+          45,
+          46,
+          47
+        ],
+        "SOURCES_ids": [
+          43,
+          44,
+          45,
+          46,
+          47,
+          48
+        ],
+        "derived_range": "S043–S048",
+        "derived_tokens": [
+          "sources=S043–S048",
+          "source_count=6",
+          "source_ids=S043,S044,S045,S046,S047,S048"
+        ],
+        "base_erratum_line": 287,
+        "base_erratum_exact": true
+      },
+      "verdict": "SUPERSEDED"
+    },
+    {
+      "id": "P4c.build.seats",
+      "source_line": 87,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "lesson": [
+            "72",
+            "72"
+          ],
+          "spec_items": 72,
+          "assignment_names": 72,
+          "spec_assignment_match": true
+        },
+        "assertion_document": "corpus/lessons/round-26.md",
+        "derived_tokens": [
+          "build_seats=72",
+          "build_reports=72"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4c.build.role-mix",
+      "source_line": 87,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "lesson": {
+            "scout": 22,
+            "executor": 14,
+            "reviewer": 12,
+            "connector": 6,
+            "critic": 6,
+            "scribe": 6,
+            "revenger": 4,
+            "sentinel": 1,
+            "simplifier": 1
+          },
+          "spec": {
+            "executor": 14,
+            "sentinel": 1,
+            "scout": 22,
+            "connector": 6,
+            "reviewer": 12,
+            "critic": 6,
+            "revenger": 4,
+            "simplifier": 1,
+            "scribe": 6
+          },
+          "expected": {
+            "scout": 22,
+            "executor": 14,
+            "reviewer": 12,
+            "connector": 6,
+            "critic": 6,
+            "scribe": 6,
+            "revenger": 4,
+            "sentinel": 1,
+            "simplifier": 1
+          }
+        },
+        "assertion_document": "corpus/lessons/round-26.md",
+        "derived_tokens": [
+          "scout=22",
+          "executor=14",
+          "reviewer=12",
+          "connector=6",
+          "critic=6",
+          "scribe=6",
+          "revenger=4",
+          "sentinel=1",
+          "simplifier=1"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4c.build.reports",
+      "source_line": 89,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "report_count": 72,
+          "assignment_count": 72,
+          "missing_reports": [],
+          "unexpected_reports": []
+        },
+        "assertion_document": "corpus/lessons/round-26.md",
+        "derived_tokens": [
+          "reports=72",
+          "missing=0",
+          "unexpected=0"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4c.falsify.seats",
+      "source_line": 118,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "lesson": [
+            "64"
+          ],
+          "spec_items": 64,
+          "assignment_names": 64,
+          "spec_assignment_match": true
+        },
+        "assertion_document": "corpus/lessons/round-26.md",
+        "derived_tokens": [
+          "falsify_seats=64"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4c.falsify.role-mix",
+      "source_line": 118,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "lesson": {
+            "reviewer": 39,
+            "mutation-tester": 10,
+            "scout": 7,
+            "critic": 4,
+            "executor": 2,
+            "connector": 2
+          },
+          "spec": {
+            "scout": 7,
+            "reviewer": 39,
+            "mutation-tester": 10,
+            "executor": 2,
+            "critic": 4,
+            "connector": 2
+          },
+          "expected": {
+            "reviewer": 39,
+            "mutation-tester": 10,
+            "scout": 7,
+            "critic": 4,
+            "executor": 2,
+            "connector": 2
+          }
+        },
+        "assertion_document": "corpus/lessons/round-26.md",
+        "derived_tokens": [
+          "reviewer=39",
+          "mutation-tester=10",
+          "scout=7",
+          "critic=4",
+          "executor=2",
+          "connector=2"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4c.falsify.dead-seats",
+      "source_line": 119,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "lesson_dead": 11,
+          "dead_file_count": 11,
+          "replaced": false,
+          "dead_agent_ids_match_assignments": true,
+          "unassigned_dead_names": []
+        },
+        "assertion_document": "corpus/lessons/round-26.md",
+        "derived_tokens": [
+          "dead=11",
+          "replaced=false"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4c.falsify.reports",
+      "source_line": 120,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "lesson": [
+            "53",
+            "64"
+          ],
+          "returned_reports": 53,
+          "assignment_minus_dead": 53,
+          "missing_reports": []
+        },
+        "assertion_document": "corpus/lessons/round-26.md",
+        "derived_tokens": [
+          "reports=53",
+          "dead=11",
+          "assignments=64"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4c.round.total-136",
+      "source_line": 121,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "lesson": [
+            "136",
+            "three",
+            "139"
+          ],
+          "build": 72,
+          "falsify": 64,
+          "assignment_ids_unique_disjoint": true,
+          "derived_total": 136
+        },
+        "assertion_document": "corpus/lessons/round-26.md",
+        "derived_tokens": [
+          "unique_dispatched=136"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4c.round.total-139",
+      "source_line": 121,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "lesson": [
+            "136",
+            "three",
+            "139"
+          ],
+          "recovery_receipt_reviewers": 3,
+          "derived_total": 139
+        },
+        "assertion_document": "corpus/lessons/round-26.md",
+        "derived_tokens": [
+          "recovery_reviewers=3",
+          "round_total=139"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4c.r25.raw-tree-entries",
+      "source_line": 110,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "lesson": [
+            0,
+            83,
+            88
+          ],
+          "git_ls_tree": [
+            0,
+            83,
+            88
+          ],
+          "revisions": [
+            "8ea41f9",
+            "8239a56",
+            "9d8a00d"
+          ]
+        },
+        "assertion_document": "corpus/lessons/round-26.md",
+        "derived_tokens": [
+          "raw_entries=0,83,88"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4c.r25.markdown-reports",
+      "source_line": 110,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "lesson": [
+            0,
+            82,
+            87
+          ],
+          "git_ls_tree_markdown": [
+            0,
+            82,
+            87
+          ],
+          "revisions": [
+            "8ea41f9",
+            "8239a56",
+            "9d8a00d"
+          ]
+        },
+        "assertion_document": "corpus/lessons/round-26.md",
+        "derived_tokens": [
+          "markdown_reports=0,82,87"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4d.population.files",
+      "source_line": 27,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "audit": {
+            "corpus/evidence/round8-horizon/results.jsonl": 188,
+            "corpus/evidence/round9-replication/results-r9.jsonl": 128,
+            "corpus/evidence/round11-power/results-r11.jsonl": 320,
+            "corpus/evidence/round12-ladder/results-r12.jsonl": 1328
+          },
+          "raw_jsonl": {
+            "corpus/evidence/round8-horizon/results.jsonl": 188,
+            "corpus/evidence/round9-replication/results-r9.jsonl": 128,
+            "corpus/evidence/round11-power/results-r11.jsonl": 320,
+            "corpus/evidence/round12-ladder/results-r12.jsonl": 1328
+          },
+          "manifest": {
+            "corpus/evidence/round8-horizon/results.jsonl": 188,
+            "corpus/evidence/round9-replication/results-r9.jsonl": 128,
+            "corpus/evidence/round11-power/results-r11.jsonl": 320,
+            "corpus/evidence/round12-ladder/results-r12.jsonl": 1328
+          },
+          "raw_manifest_identity_match": true,
+          "json_pin_paths": [
+            "corpus/evidence/round11-power/results-r11.jsonl",
+            "corpus/evidence/round12-ladder/results-r12.jsonl",
+            "corpus/evidence/round8-horizon/results.jsonl",
+            "corpus/evidence/round9-replication/results-r9.jsonl"
+          ],
+          "pins_match": true,
+          "expected": {
+            "corpus/evidence/round8-horizon/results.jsonl": 188,
+            "corpus/evidence/round9-replication/results-r9.jsonl": 128,
+            "corpus/evidence/round11-power/results-r11.jsonl": 320,
+            "corpus/evidence/round12-ladder/results-r12.jsonl": 1328
+          },
+          "grader_exit": 0
+        },
+        "assertion_document": "corpus/knowledge/grader-perturbation-audit.md",
+        "derived_tokens": [
+          "results.jsonl=188",
+          "results-r9.jsonl=128",
+          "results-r11.jsonl=320",
+          "results-r12.jsonl=1328"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4d.population.records",
+      "source_line": 32,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "audit": [
+            1964,
+            0,
+            1021,
+            943
+          ],
+          "raw_jsonl": [
+            1964,
+            1964,
+            1964,
+            0
+          ],
+          "manifest": [
+            1964,
+            1964,
+            0,
+            1021,
+            943
+          ],
+          "grader_json": [
+            1964,
+            1964,
+            1964,
+            0
+          ],
+          "oracle": {
+            "candidates": 1964,
+            "included": 1964,
+            "excluded": 0
+          },
+          "raw_manifest_identity_match": true
+        },
+        "assertion_document": "corpus/knowledge/grader-perturbation-audit.md",
+        "derived_tokens": [
+          "population=1964",
+          "excluded=0",
+          "PASS=1021",
+          "FAIL=943"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4d.population.verdicts",
+      "source_line": 32,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "audit_PASS_FAIL": [
+            1021,
+            943
+          ],
+          "raw_jsonl_PASS_FAIL": [
+            1021,
+            943
+          ],
+          "manifest_PASS_FAIL": [
+            1021,
+            943
+          ]
+        },
+        "assertion_document": "corpus/knowledge/grader-perturbation-audit.md",
+        "derived_tokens": [
+          "PASS=1021",
+          "FAIL=943"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4d.population.graders",
+      "source_line": 34,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "audit": [
+            1708,
+            240,
+            12,
+            4
+          ],
+          "raw_jsonl": [
+            1708,
+            240,
+            12,
+            4
+          ],
+          "manifest_crosscheck": [
+            1708,
+            240,
+            12,
+            4
+          ]
+        },
+        "assertion_document": "corpus/knowledge/grader-perturbation-audit.md",
+        "derived_tokens": [
+          "state=1708",
+          "seq=240",
+          "grade_c=12",
+          "valid_latin=4"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4d.family.F1",
+      "source_line": 64,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": {
+            "kind": "MP",
+            "k": 1802,
+            "n": 1819
+          },
+          "grader_json": {
+            "kind": "MP",
+            "n": 1819,
+            "k": 1802
+          },
+          "oracle": {
+            "kind": "MP",
+            "n": 1819,
+            "k": 1802
+          }
+        },
+        "assertion_document": "corpus/knowledge/grader-perturbation-audit.md",
+        "derived_tokens": [
+          "family=F1",
+          "kind=MP",
+          "k/n=1802/1819"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4d.family.F2",
+      "source_line": 65,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": {
+            "kind": "MP",
+            "k": 1802,
+            "n": 1819
+          },
+          "grader_json": {
+            "kind": "MP",
+            "n": 1819,
+            "k": 1802
+          },
+          "oracle": {
+            "kind": "MP",
+            "n": 1819,
+            "k": 1802
+          }
+        },
+        "assertion_document": "corpus/knowledge/grader-perturbation-audit.md",
+        "derived_tokens": [
+          "family=F2",
+          "kind=MP",
+          "k/n=1802/1819"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4d.family.F3",
+      "source_line": 66,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": {
+            "kind": "MP",
+            "k": 1964,
+            "n": 1964
+          },
+          "grader_json": {
+            "kind": "MP",
+            "n": 1964,
+            "k": 1964
+          },
+          "oracle": {
+            "kind": "MP",
+            "n": 1964,
+            "k": 1964
+          }
+        },
+        "assertion_document": "corpus/knowledge/grader-perturbation-audit.md",
+        "derived_tokens": [
+          "family=F3",
+          "kind=MP",
+          "k/n=1964/1964"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4d.family.F4",
+      "source_line": 67,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": {
+            "kind": "MP",
+            "k": 1720,
+            "n": 1720
+          },
+          "grader_json": {
+            "kind": "MP",
+            "n": 1720,
+            "k": 1720
+          },
+          "oracle": {
+            "kind": "MP",
+            "n": 1720,
+            "k": 1720
+          }
+        },
+        "assertion_document": "corpus/knowledge/grader-perturbation-audit.md",
+        "derived_tokens": [
+          "family=F4",
+          "kind=MP",
+          "k/n=1720/1720"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4d.family.F5",
+      "source_line": 68,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": {
+            "kind": "MP",
+            "k": 1964,
+            "n": 1964
+          },
+          "grader_json": {
+            "kind": "MP",
+            "n": 1964,
+            "k": 1964
+          },
+          "oracle": {
+            "kind": "MP",
+            "n": 1964,
+            "k": 1964
+          }
+        },
+        "assertion_document": "corpus/knowledge/grader-perturbation-audit.md",
+        "derived_tokens": [
+          "family=F5",
+          "kind=MP",
+          "k/n=1964/1964"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4d.family.F6",
+      "source_line": 69,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": {
+            "kind": "MP",
+            "k": 1964,
+            "n": 1964
+          },
+          "grader_json": {
+            "kind": "MP",
+            "n": 1964,
+            "k": 1964
+          },
+          "oracle": {
+            "kind": "MP",
+            "n": 1964,
+            "k": 1964
+          }
+        },
+        "assertion_document": "corpus/knowledge/grader-perturbation-audit.md",
+        "derived_tokens": [
+          "family=F6",
+          "kind=MP",
+          "k/n=1964/1964"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4d.family.F7",
+      "source_line": 70,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": {
+            "kind": "MP",
+            "k": 1876,
+            "n": 1876
+          },
+          "grader_json": {
+            "kind": "MP",
+            "n": 1876,
+            "k": 1876
+          },
+          "oracle": {
+            "kind": "MP",
+            "n": 1876,
+            "k": 1876
+          }
+        },
+        "assertion_document": "corpus/knowledge/grader-perturbation-audit.md",
+        "derived_tokens": [
+          "family=F7",
+          "kind=MP",
+          "k/n=1876/1876"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4d.family.D1",
+      "source_line": 73,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": {
+            "kind": "PC",
+            "k": 909,
+            "n": 909
+          },
+          "grader_json": {
+            "kind": "PC",
+            "n": 909,
+            "k": 909
+          },
+          "oracle": {
+            "kind": "PC",
+            "n": 909,
+            "k": 909
+          }
+        },
+        "assertion_document": "corpus/knowledge/grader-perturbation-audit.md",
+        "derived_tokens": [
+          "family=D1",
+          "kind=PC",
+          "k/n=909/909"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4d.family.G1",
+      "source_line": 71,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": {
+            "kind": "MC",
+            "k": 1021,
+            "n": 1021
+          },
+          "grader_json": {
+            "kind": "MC",
+            "n": 1021,
+            "k": 1021
+          },
+          "oracle": {
+            "kind": "MC",
+            "n": 1021,
+            "k": 1021
+          }
+        },
+        "assertion_document": "corpus/knowledge/grader-perturbation-audit.md",
+        "derived_tokens": [
+          "family=G1",
+          "kind=MC",
+          "k/n=1021/1021"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4d.family.G2",
+      "source_line": 72,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "claim": {
+            "kind": "MC",
+            "k": 1021,
+            "n": 1021
+          },
+          "grader_json": {
+            "kind": "MC",
+            "n": 1021,
+            "k": 1021
+          },
+          "oracle": {
+            "kind": "MC",
+            "n": 1021,
+            "k": 1021
+          }
+        },
+        "assertion_document": "corpus/knowledge/grader-perturbation-audit.md",
+        "derived_tokens": [
+          "family=G2",
+          "kind=MC",
+          "k/n=1021/1021"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4d.unmapped-numerics",
+      "source_line": 64,
+      "check": "unregistered adjacent audit numerics are disclosed, not silently counted as P4d matches",
+      "observed": {
+        "status": "UNVERIFIABLE",
+        "unmapped_numeric_claims": [
+          {
+            "line": 64,
+            "field": "F1.family_cp95_lower",
+            "token": "0.985079"
+          },
+          {
+            "line": 64,
+            "field": "F1.family_interpretation",
+            "token": "17"
+          },
+          {
+            "line": 65,
+            "field": "F2.family_cp95_lower",
+            "token": "0.985079"
+          },
+          {
+            "line": 65,
+            "field": "F2.family_interpretation",
+            "token": "17"
+          },
+          {
+            "line": 66,
+            "field": "F3.family_cp95_lower",
+            "token": "0.998124"
+          },
+          {
+            "line": 67,
+            "field": "F4.family_cp95_lower",
+            "token": "0.997858"
+          },
+          {
+            "line": 68,
+            "field": "F5.family_cp95_lower",
+            "token": "0.998124"
+          },
+          {
+            "line": 69,
+            "field": "F6.family_cp95_lower",
+            "token": "0.998124"
+          },
+          {
+            "line": 70,
+            "field": "F7.family_cp95_lower",
+            "token": "0.998036"
+          },
+          {
+            "line": 71,
+            "field": "G1.family_cp95_lower",
+            "token": "0.996394"
+          },
+          {
+            "line": 72,
+            "field": "G2.family_cp95_lower",
+            "token": "0.996394"
+          },
+          {
+            "line": 73,
+            "field": "D1.family_cp95_lower",
+            "token": "0.995950"
+          },
+          {
+            "line": 75,
+            "field": "unregistered_observed_metric",
+            "token": "0.95"
+          },
+          {
+            "line": 79,
+            "field": "unregistered_observed_metric",
+            "token": "1451"
+          },
+          {
+            "line": 79,
+            "field": "unregistered_observed_metric",
+            "token": "513"
+          },
+          {
+            "line": 80,
+            "field": "unregistered_observed_metric",
+            "token": "187"
+          },
+          {
+            "line": 80,
+            "field": "unregistered_observed_metric",
+            "token": "194"
+          },
+          {
+            "line": 80,
+            "field": "unregistered_observed_metric",
+            "token": "0.927072"
+          },
+          {
+            "line": 80,
+            "field": "unregistered_observed_metric",
+            "token": "0.985372"
+          },
+          {
+            "line": 81,
+            "field": "unregistered_observed_metric",
+            "token": "0.95"
+          },
+          {
+            "line": 83,
+            "field": "unregistered_observed_metric",
+            "token": "0.995950"
+          },
+          {
+            "line": 83,
+            "field": "unregistered_observed_metric",
+            "token": "1.000000"
+          },
+          {
+            "line": 84,
+            "field": "unregistered_observed_metric",
+            "token": "129"
+          },
+          {
+            "line": 84,
+            "field": "unregistered_observed_metric",
+            "token": "129"
+          },
+          {
+            "line": 84,
+            "field": "unregistered_observed_metric",
+            "token": "0.971809"
+          },
+          {
+            "line": 84,
+            "field": "unregistered_observed_metric",
+            "token": "1.000000"
+          },
+          {
+            "line": 84,
+            "field": "unregistered_observed_metric",
+            "token": "639"
+          },
+          {
+            "line": 84,
+            "field": "unregistered_observed_metric",
+            "token": "639"
+          },
+          {
+            "line": 84,
+            "field": "unregistered_observed_metric",
+            "token": "244"
+          },
+          {
+            "line": 84,
+            "field": "unregistered_observed_metric",
+            "token": "244"
+          },
+          {
+            "line": 85,
+            "field": "unregistered_observed_metric",
+            "token": "0"
+          },
+          {
+            "line": 85,
+            "field": "unregistered_observed_metric",
+            "token": "0"
+          },
+          {
+            "line": 85,
+            "field": "unregistered_observed_metric",
+            "token": "17"
+          },
+          {
+            "line": 85,
+            "field": "unregistered_observed_metric",
+            "token": "17"
+          },
+          {
+            "line": 85,
+            "field": "unregistered_observed_metric",
+            "token": "9"
+          },
+          {
+            "line": 85,
+            "field": "unregistered_observed_metric",
+            "token": "9"
+          },
+          {
+            "line": 85,
+            "field": "unregistered_observed_metric",
+            "token": "26"
+          },
+          {
+            "line": 89,
+            "field": "unregistered_observed_metric",
+            "token": "31"
+          },
+          {
+            "line": 89,
+            "field": "unregistered_observed_metric",
+            "token": "8"
+          },
+          {
+            "line": 89,
+            "field": "unregistered_observed_metric",
+            "token": "9"
+          },
+          {
+            "line": 89,
+            "field": "unregistered_observed_metric",
+            "token": "10"
+          },
+          {
+            "line": 90,
+            "field": "unregistered_observed_metric",
+            "token": "9"
+          },
+          {
+            "line": 91,
+            "field": "unregistered_observed_metric",
+            "token": "9"
+          },
+          {
+            "line": 91,
+            "field": "unregistered_observed_metric",
+            "token": "17"
+          },
+          {
+            "line": 91,
+            "field": "unregistered_observed_metric",
+            "token": "14"
+          },
+          {
+            "line": 91,
+            "field": "unregistered_observed_metric",
+            "token": "31"
+          },
+          {
+            "line": 91,
+            "field": "unregistered_observed_metric",
+            "token": "0"
+          },
+          {
+            "line": 91,
+            "field": "unregistered_observed_metric",
+            "token": "17"
+          }
+        ]
+      },
+      "verdict": "OFFLINE_UNVERIFIABLE"
+    },
+    {
+      "id": "P4e.sources.S043.used-by",
+      "source_line": 65,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "source_id": "S043",
+          "row_count": 1,
+          "used_by": [
+            "corpus/lessons/round-26.md"
+          ],
+          "citing_files": [
+            "corpus/lessons/round-26.md"
+          ]
+        },
+        "assertion_document": "corpus/SOURCES.md",
+        "derived_tokens": [
+          "used-by=S043:corpus/lessons/round-26.md"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4e.sources.S044.used-by",
+      "source_line": 66,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "source_id": "S044",
+          "row_count": 1,
+          "used_by": [
+            "corpus/lessons/round-26.md",
+            "corpus/knowledge/grader-perturbation-audit.md"
+          ],
+          "citing_files": [
+            "corpus/knowledge/grader-perturbation-audit.md",
+            "corpus/lessons/round-26.md"
+          ]
+        },
+        "assertion_document": "corpus/SOURCES.md",
+        "derived_tokens": [
+          "used-by=S044:corpus/knowledge/grader-perturbation-audit.md|corpus/lessons/round-26.md"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4e.sources.S045.used-by",
+      "source_line": 67,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "source_id": "S045",
+          "row_count": 1,
+          "used_by": [
+            "corpus/lessons/round-26.md",
+            "corpus/knowledge/grader-perturbation-audit.md"
+          ],
+          "citing_files": [
+            "corpus/knowledge/grader-perturbation-audit.md",
+            "corpus/lessons/round-26.md"
+          ]
+        },
+        "assertion_document": "corpus/SOURCES.md",
+        "derived_tokens": [
+          "used-by=S045:corpus/knowledge/grader-perturbation-audit.md|corpus/lessons/round-26.md"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4e.sources.S046.used-by",
+      "source_line": 68,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "source_id": "S046",
+          "row_count": 1,
+          "used_by": [
+            "corpus/lessons/round-26.md",
+            "corpus/knowledge/grader-perturbation-audit.md"
+          ],
+          "citing_files": [
+            "corpus/knowledge/grader-perturbation-audit.md",
+            "corpus/lessons/round-26.md"
+          ]
+        },
+        "assertion_document": "corpus/SOURCES.md",
+        "derived_tokens": [
+          "used-by=S046:corpus/knowledge/grader-perturbation-audit.md|corpus/lessons/round-26.md"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4e.sources.S047.used-by",
+      "source_line": 69,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "source_id": "S047",
+          "row_count": 1,
+          "used_by": [
+            "corpus/lessons/round-26.md"
+          ],
+          "citing_files": [
+            "corpus/lessons/round-26.md"
+          ]
+        },
+        "assertion_document": "corpus/SOURCES.md",
+        "derived_tokens": [
+          "used-by=S047:corpus/lessons/round-26.md"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4e.sources.S048.used-by",
+      "source_line": 70,
+      "check": "frozen P4 assertion and full-value supersession",
+      "observed": {
+        "observed": {
+          "source_id": "S048",
+          "row_count": 1,
+          "used_by": [
+            "corpus/lessons/round-26.md",
+            "corpus/knowledge/grader-perturbation-audit.md"
+          ],
+          "citing_files": [
+            "corpus/knowledge/grader-perturbation-audit.md",
+            "corpus/lessons/round-26.md"
+          ]
+        },
+        "assertion_document": "corpus/SOURCES.md",
+        "derived_tokens": [
+          "used-by=S048:corpus/knowledge/grader-perturbation-audit.md|corpus/lessons/round-26.md"
+        ],
+        "correction_line": null,
+        "correction_tokens": null
+      },
+      "verdict": "MATCH"
+    },
+    {
+      "id": "P4.population.assertion-inventory",
+      "source_line": null,
+      "check": "exact frozen P4a-P4e assertion-id population",
+      "observed": {
+        "expected": [
+          "P4a.scorecard.claim.c1",
+          "P4a.scorecard.claim.c2",
+          "P4a.scorecard.capability.grader-perturbation-audit",
+          "P4a.scorecard.final.c1",
+          "P4a.scorecard.final.c2",
+          "P4a.scorecard.revision.c1",
+          "P4a.scorecard.revision.c2",
+          "P4a.scorecard.revision.q13",
+          "P4a.scorecard.revision.sources-index",
+          "P4a.scorecard.score-tokens-unverifiable",
+          "P4b.readme.artifact-row.evidence/round26-sources/",
+          "P4b.readme.artifact-row.evidence/round26-calibration/",
+          "P4b.readme.artifact-row.../plans/grader_perturb.py",
+          "P4b.readme.artifact-row.../plans/gate_timing_check.py",
+          "P4b.readme.artifact-row.../plans/round26_census.sh",
+          "P4b.readme.artifact-row.../plans/fixtures/r26/",
+          "P4b.readme.artifact-inventory",
+          "P4b.readme.covers.round26-sources",
+          "P4c.build.seats",
+          "P4c.build.role-mix",
+          "P4c.build.reports",
+          "P4c.falsify.seats",
+          "P4c.falsify.role-mix",
+          "P4c.falsify.dead-seats",
+          "P4c.falsify.reports",
+          "P4c.round.total-136",
+          "P4c.round.total-139",
+          "P4c.r25.raw-tree-entries",
+          "P4c.r25.markdown-reports",
+          "P4d.population.records",
+          "P4d.population.files",
+          "P4d.population.verdicts",
+          "P4d.population.graders",
+          "P4d.family.F1",
+          "P4d.family.F2",
+          "P4d.family.F3",
+          "P4d.family.F4",
+          "P4d.family.F5",
+          "P4d.family.F6",
+          "P4d.family.F7",
+          "P4d.family.D1",
+          "P4d.family.G1",
+          "P4d.family.G2",
+          "P4d.unmapped-numerics",
+          "P4e.sources.S043.used-by",
+          "P4e.sources.S044.used-by",
+          "P4e.sources.S045.used-by",
+          "P4e.sources.S046.used-by",
+          "P4e.sources.S047.used-by",
+          "P4e.sources.S048.used-by"
+        ],
+        "actual": [
+          "P4a.scorecard.claim.c1",
+          "P4a.scorecard.claim.c2",
+          "P4a.scorecard.capability.grader-perturbation-audit",
+          "P4a.scorecard.final.c1",
+          "P4a.scorecard.final.c2",
+          "P4a.scorecard.revision.c1",
+          "P4a.scorecard.revision.c2",
+          "P4a.scorecard.revision.q13",
+          "P4a.scorecard.revision.sources-index",
+          "P4a.scorecard.score-tokens-unverifiable",
+          "P4b.readme.artifact-row.evidence/round26-sources/",
+          "P4b.readme.artifact-row.evidence/round26-calibration/",
+          "P4b.readme.artifact-row.../plans/grader_perturb.py",
+          "P4b.readme.artifact-row.../plans/gate_timing_check.py",
+          "P4b.readme.artifact-row.../plans/round26_census.sh",
+          "P4b.readme.artifact-row.../plans/fixtures/r26/",
+          "P4b.readme.artifact-inventory",
+          "P4b.readme.covers.round26-sources",
+          "P4c.build.seats",
+          "P4c.build.role-mix",
+          "P4c.build.reports",
+          "P4c.falsify.seats",
+          "P4c.falsify.role-mix",
+          "P4c.falsify.dead-seats",
+          "P4c.falsify.reports",
+          "P4c.round.total-136",
+          "P4c.round.total-139",
+          "P4c.r25.raw-tree-entries",
+          "P4c.r25.markdown-reports",
+          "P4d.population.files",
+          "P4d.population.records",
+          "P4d.population.verdicts",
+          "P4d.population.graders",
+          "P4d.family.F1",
+          "P4d.family.F2",
+          "P4d.family.F3",
+          "P4d.family.F4",
+          "P4d.family.F5",
+          "P4d.family.F6",
+          "P4d.family.F7",
+          "P4d.family.D1",
+          "P4d.family.G1",
+          "P4d.family.G2",
+          "P4d.unmapped-numerics",
+          "P4e.sources.S043.used-by",
+          "P4e.sources.S044.used-by",
+          "P4e.sources.S045.used-by",
+          "P4e.sources.S046.used-by",
+          "P4e.sources.S047.used-by",
+          "P4e.sources.S048.used-by"
+        ]
+      },
+      "verdict": "MATCH"
+    }
+  ]
+}

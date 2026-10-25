@@ -1,0 +1,20 @@
+{
+  "derivation": "Hand-authored from the declared complete-ID contract, not copied from the stock miniature. IDs 0 and 1 cover population 2; appending a second ID 1 introduces one duplicate and a population-size excess, with no missing or unexpected ID.",
+  "expected_population": 2,
+  "tasks": [
+    {"task_id": 0, "sites": ["offline_fixture"], "intent": "Return alpha", "require_login": false, "require_reset": false, "eval": {"eval_types": ["string_match"], "reference_answers": {"exact_match": "alpha"}}},
+    {"task_id": 1, "sites": ["offline_fixture"], "intent": "Return beta", "require_login": false, "require_reset": false, "eval": {"eval_types": ["string_match"], "reference_answers": {"exact_match": "beta"}}},
+    {"task_id": 1, "sites": ["offline_fixture"], "intent": "Return gamma", "require_login": false, "require_reset": false, "eval": {"eval_types": ["string_match"], "reference_answers": {"exact_match": "gamma"}}}
+  ],
+  "expected": {
+    "findings": [
+      {"id": "duplicate_task_id", "task_ids": [1]},
+      {"id": "population_size", "actual": 3, "expected": 2}
+    ],
+    "duplicate_task_ids": [1],
+    "missing_task_ids": [],
+    "unexpected_task_ids": [],
+    "task_count": 3,
+    "distinct_task_ids": 2
+  }
+}

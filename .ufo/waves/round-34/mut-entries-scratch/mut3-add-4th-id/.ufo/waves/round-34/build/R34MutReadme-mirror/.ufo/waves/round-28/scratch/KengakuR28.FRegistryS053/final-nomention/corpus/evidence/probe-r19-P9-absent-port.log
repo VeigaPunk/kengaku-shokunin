@@ -1,0 +1,65 @@
+probe: P9
+runner-seat: runner-p9 (round-20 flash wave, zai bucket; battery-completion seat — closes the r19 UNRUN)
+battery_sha256_at_start: sha256:e1a867773ef14ce457a0d560180587324dd07b4deea1ec76d0c2adf65aaa00a1
+frozen_line: FROZEN: 2026-10-16T07:55:58Z sha256:e1a867773ef14ce457a0d560180587324dd07b4deea1ec76d0c2adf65aaa00a1
+freeze_verification: §7 step-2 recompute at 2026-10-16T09:14:47Z reproduced e1a86777… exactly (== FROZEN line) — verified BEFORE first_request_utc below
+first_request_utc: 2026-10-16T09:15:04Z
+---
+[1/1] 2026-10-16T09:15:04Z GET http://127.0.0.1:34113/health
+command: curl -sS -m 5 -o /dev/null -w '%{http_code} %{exitcode}' http://127.0.0.1:34113/health   (curl 8.22.0, x86_64-pc-linux-gnu)
+exit: 7  http: 000  ms: 3
+error: curl: (7) Failed to connect to 127.0.0.1:34113 after 0 ms: Could not connect to server
+curl-stdout-verbatim: "000 7"
+headers-sent: none beyond curl defaults (Host: 127.0.0.1:34113, User-Agent: curl/8.22.0, Accept: */*) — no Authorization by design (zero-quota probe, battery §3 P9)
+response-headers: none (connection refused — no HTTP response bytes of any kind)
+excerpt: none (no response body; the stderr error line above is the complete transport evidence)
+---
+derived: curl_exit=7 http_code=000 outcome_class=connection-refused wall_ms=3
+derived-usage: None (no HTTP response)
+derived-timing: no TTFT / no stream (transport never opened; 3 ms to refusal)
+derived-text: none
+last_request_utc: 2026-10-16T09:15:04Z
+outcome: all-components-recorded (single request, 1/1 budgeted; no retry — the refusal IS the predicted outcome, §2 rule 3 moot)
+
+## Component observations for the scorer (round-20 battery completion)
+
+- 9a: prediction "connection refused / timeout (curl exit 7 or 28, http 000)", p=0.80.
+  Observed: connection refused — curl exit 7, http_code 000, 3 ms wall. o=1.
+  Brier (0.80−1)² = 0.0400. **HIT.**
+- Freshness-event clause (battery §3 P9): NOT triggered — no HTTP status of any
+  kind was returned; the surface declared absent stays absent. Nothing to
+  report to the integrator as a restore; the absence itself is re-confirmed
+  with a same-day receipt.
+- Probe verdict basis (§4 rule 3): 9a is P9's only §6 component → P9 = PASS
+  (scorer's call; this seat records observations only).
+
+## Corroboration (zero-traffic socket/process reads, 2026-10-16T09:15:14Z)
+
+- `ss -ltn | grep -c ':34113'` → `0`, grep exit 1 (no listener on :34113).
+- `ss -ltnp` → no :34113 entry.
+- `pgrep -af 'llama-serve[r]'` → exit 1 (no llama-server process).
+- `pgrep -af '3411[3]'` → exit 1 (no process carrying the port).
+- Consistent with: battery-author's disclosed `ss -ltn` read 07:40:22Z
+  (battery §3 P9 disclosure); `corpus/knowledge/bench-arena-fresh-run.md:11`
+  (2026-10-15T04:49:50Z connection refused); `PROVINCE.md:212-220` (round-15
+  sweep: no llama-server process, carried debt named).
+- Tooling note: an initial `pgrep -af 'llama-server'` matched this seat's own
+  `bash -c` wrapper (self-match, in-flight only, never persisted); re-run with
+  the bracketed pattern above is the recorded clean read.
+
+## Provenance / hygiene
+
+- No runner script: the battery §3 P9 request shape is a single inline curl;
+  executed verbatim as written above (the `-w '%{http_code} %{exitcode}'`
+  suffix is the battery's own example form; curl's real process exit was
+  captured separately as 7).
+- Freeze gate: hash recomputed and matched pre-request (see header); no
+  request predates the freeze — first battery-governed request from this seat
+  is 09:15:04Z, postdating FROZEN 2026-10-16T07:55:58Z.
+- Credentials: none read, none needed (no auth header per spec); no
+  credential-shaped string in this log.
+- Scratch: none — connection refused, no SSE capture to persist; no /tmp or
+  $HOME/.cache writes; no lane file other than this log was written; no git
+  commit (parent integrates).
+- Request budget: 1 HTTP request total (battery budget for P9: 1). No
+  retries; no other host contacted.

@@ -1,0 +1,11 @@
+--- base/plans/config_projection.py
++++ m2/plans/config_projection.py
+@@ -311,7 +311,7 @@
+             carried = [token for token in tokens if token in before]
+             unexplained += not carried
+             by_task[path[0]].append({"json_pointer": pointer(path), "path_template": template(path),
+-                                     "category": "url_field" if template(path) in URL_FIELD_TEMPLATES else "non_url_field",
++                                     "category": "url_field" if "://" in after else "non_url_field",
+                                      "tokens": carried, "original": before, "projected": after})
+         carriers = sum(1 for text in string_values(original) if any(token in text for token in tokens))
+         if unexplained or (not problems and carriers != len(changed)):

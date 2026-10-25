@@ -1,0 +1,21 @@
+Command (restored sandbox checker sha256 7c8b498ea501a1d4ec67283d51ac0a0d7d57a293e3180a85218dbd2930f284f1):
+PYTHONDONTWRITEBYTECODE=1 python3 plans/gate_timing_check.py --selftest
+
+[selftest] worktree-only report at early commit:
+FAIL line 7 Gate admit: candidate='corpus/knowledge/extraction-policy-comparison.md'
+  cell[reason]: Re-read `.ufo/waves/round-27/falsify/TimingSeat.md`.
+  cited seat-report paths: '.ufo/waves/round-27/falsify/TimingSeat.md'
+  invalid cited second-seat report: .ufo/waves/round-27/falsify/TimingSeat.md (absent from commit tree)
+  missing: no .ufo/waves/round-27/falsify/ report exists in commit b02480f199ea7371ac23a705fb2319bb33a81173
+  reasons: no cited, existing, returned second-seat report for this round; one or more cited second-seat reports fail identity/return checks
+gate_timing_check: commit=b02480f199ea7371ac23a705fb2319bb33a81173 lesson=corpus/lessons/round-27.md admissions=1 passed=0 failed=1 second-seat-reports=0
+exit=1
+[selftest] committed report at later commit:
+PASS line 7 Gate admit: candidate='corpus/knowledge/extraction-policy-comparison.md'
+  cited seat-report paths: '.ufo/waves/round-27/falsify/TimingSeat.md'
+  existing returned second-seat report(s): .ufo/waves/round-27/falsify/TimingSeat.md
+gate_timing_check: commit=8aead4a8c82b96596e606c48449468f4a37dc28a lesson=corpus/lessons/round-27.md admissions=1 passed=1 failed=0 second-seat-reports=1
+exit=0
+[selftest] tree inventory matches requested commit (early=0, later=1; lesson unchanged)
+[selftest] ALL PASS (five allowed roles; connector/mutation-tester/simplifier and unknown roles rejected; declared writer/author/agentId conflicts red; missing report identity with registered reader green; working-copy inventory leak rejected)
+selftest_exit=0

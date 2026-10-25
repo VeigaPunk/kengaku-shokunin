@@ -1,0 +1,18 @@
+ATTACKS: `bodies=m iid-fragile` — class-vs-body identity, the 17 threshold, and the knowledge entry's cluster caveat.
+
+1. `class` = request-body template tag, 1:1 with the sent body within a block — not a prompt-text key:
+   - Set at send time: `plans/attrib_probe.py:572` (`"class": kind`), `:805` (`"stream-%s" % name`); GT table col 2 is that class (`plans/attrib_calibration.py:191-192` row tuple; `bodies=len({r[1] for r in scored})` at `:435`).
+   - 1:1 confirmed: `cmd_trials` emits exactly `body_std`/`body_err` per class (`attrib_probe.py:562-568`); `cmd_stream_trials` one cfg per class name (`:797-802`); `force_body` one prompt per target (`:120-137`). Observed classes per block: impl-ds 1, impl-glm 2 (std+err), r22 2 (force-*), r23 3 (stream-stream-*) — matches `bodies=1,2,2,3` in `--summary`.
+   - BUT the entry calls them "prompt bodies" (`corpus/knowledge/attribution-interval-calibration.md:80`): `err_body` reuses `std_body`'s `messages` verbatim (`attrib_probe.py:75-77`, identical COUNT_PROMPT, only `temperature:0` added) — impl-glm's `bodies=2` is 1 prompt text sent through 2 request variants. Prompt-text counts would be 1,1,2,3; conclusion (m≤3) unchanged, unit mislabeled.
+2. `bodies<17` is derived, not arbitrary — but hard-codes the zero-error arm:
+   - 17 = `need_n(e=0, bar=0.80)`: `plans/fixtures/r25/power_table.tsv` row 1 (17/17 CP lo 0.804936 ≥ .80; 16/16 lo 0.794093). Flag: `attrib_calibration.py:437` `interval=="PASS" and bodies<17`.
+   - Counterexample (latent, not live): a PASS with e≥1 errors needs need_n=26/34 (power_table rows 2-3); a 1-error PASS with bodies∈[17,25] prints no `iid-fragile`. Correct test: `bodies < need_n(n-k)`. No P1 block has errors (TOTAL `correct=92 incorrect=0`), so it is right today only by the unenforced zero-error invariant; also bar-bound (17 assumes .80).
+   - Flag is accuracy-only: `bodies`/`iid_fragile` set only on `ests[0]` (`:435-437`); `estimate_line` prints them only `if "bodies" in e` (`:626`). Per-leg PASSes on the same 1–3 bodies — `recall:alibaba 20/20`, `recall:hyper 24/24` (knowledge :32-33) — carry no marker: a reader sees a clean PASS on bodies=1, the exact fragility the flag exists to expose.
+3. Cluster caveat (`attribution-interval-calibration.md:79-84`) is TRUE and conservative:
+   - "at cluster level (m ≤ 3) no block could PASS": even m=16 all-correct gives CP lo 0.7941 < 0.80; unequal cluster sizes only weaken the honest bound (n_eff ≤ m), so a fortiori no PASS.
+   - Verified output: `python3 plans/attrib_calibration.py --summary` lines 3,13,25,38 → `bodies=1,2,2,3` each suffixed ` iid-fragile`; all four are accuracy rows, matching "bodies=1..3 … flagged iid-fragile".
+   - `bodies` counts classes among SCORED rows only (`_scored` drops `EXCLUDED:`, `:269-271`); a class present only in excluded trials is invisible to m. In P1 the 42 EXCLUDED rows (`attrib-r21-impl-ds-trials.log` blocks :130-267) are all class `std` — no undercount observed.
+4. Smallest safe correction: compute `bodies` once per block; set `iid_fragile` on EVERY PASS estimate (accuracy, recall, specificity, target) with `bodies < need_n(n−k, bar)`; print `bodies=` on all estimate rows; s/"prompt bodies"/"request bodies" in the knowledge entry. None of this moves a stored verdict or the m≤3 conclusion.
+
+VERDICT: PARTIAL — `class` is the request-body template (1:1 within block, m correctly counted), 17 is derived from the frozen zero-error rule, and the cluster caveat is true; but `iid-fragile` silently assumes zero errors, marks only the accuracy row while per-leg PASSes stay unflagged, and "prompt bodies" mislabels glm's 1 prompt/2 bodies.
+Installs: none.

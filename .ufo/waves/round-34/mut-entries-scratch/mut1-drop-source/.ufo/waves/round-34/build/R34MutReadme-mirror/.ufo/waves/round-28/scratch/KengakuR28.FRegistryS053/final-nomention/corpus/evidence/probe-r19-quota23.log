@@ -1,0 +1,90 @@
+probe: P1
+runner-seat: runner-quota-23
+battery_sha256_at_start: e3f08a0981a9dc1fe37adb0fe0e49f109a2d162459fa3857dccd56cc69598943
+frozen_utc: 2026-10-16T07:52:04Z
+first_request_utc: 2026-10-16T07:53:02Z
+last_request_utc: 2026-10-16T07:53:13Z
+runner_script_sha256: a1c9bf242e990fced7fc178d4fd02c0f620e8a57b42fca8e7e5e7a4236661bb6
+runner_script_path: /tmp/kengaku-r19-quota23/runner.py (scratch; reads ~/.kimi-code/config.toml at runtime, credentials passed only into request headers, redacted everywhere else)
+outcome: all-components-recorded (1a-1f)
+---
+# P1 — quota-dead token-plan keys stay dead past 2026-10-16 (meter state, not model state)
+# Seat: runner-quota-23. Probe battery: plans/probe-battery-r19.md §3 P1 (components 1a-1f).
+# Freeze verified per §7 step 5 before the first request:
+#   sed -n '1,/FROZEN-PREDICTIONS-ANCHOR/p' plans/probe-battery-r19.md | sha256sum
+#   -> e3f08a0981a9dc1fe37adb0fe0e49f109a2d162459fa3857dccd56cc69598943  (== FROZEN line)
+# Prediction source (pre-request): corpus/knowledge/kimi-model-routing-round18.md:109-113
+#   (D2: 429 insufficient_quota, resets 10-23/10-28 16:00 UTC, /models 200 on dead keys)
+#   and census/ANALYSIS.md:86-90 (retry-after 707432/1139431 on 2026-10-15).
+# Requests: 4, sequential, >=2.5 s apart, one attempt each, no retries needed.
+# All four upstream hosts are the same (token-plan.ap-southeast-1.maas.aliyuncs.com).
+# Exit code of the runner process: 0.
+
+[1/4] 2026-10-16T07:53:02Z POST https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1/chat/completions
+exit: 0  http: 429  ms: 1023
+headers-sent: Authorization=<len 113>, Content-Type=application/json, Accept=application/json
+response-headers: retry-after=634017, date=Fri, 16 Oct 2026 07:53:03 GMT, server=istio-envoy, x-request-id=57c7ce33-b95a-46b7-a4e4-7edff6b3707a
+excerpt: {"error":{"message":"Your token-plan 1-month quota has been exhausted. The quota will reset at 10-23 16:00:00 UTC.","id":"57c7ce33-b95a-46b7-a4e4-7edff6b3707a","type":"insufficient_quota","code":"insufficient_quota"}}
+component: 1a (HTTP 429, p=0.93) -> observed 429
+component: 1c (implied reset = request_epoch + retry_after) -> 2026-10-23T15:59:59Z, offset -1 s vs 2026-10-23T16:00:00Z (range ±7200 s)
+component: 1e (body contains insufficient_quota) -> yes
+
+[2/4] 2026-10-16T07:53:06Z GET https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1/models
+exit: 0  http: 200  ms: 1013
+headers-sent: Authorization=<len 113>, Accept=application/json
+response-headers: date=Fri, 16 Oct 2026 07:53:07 GMT, server=istio-envoy, x-request-id=c488c830-f4e2-44ef-a0e4-cd9d3a553900
+excerpt: {"first_id":"model-id-0","data":[{"created":1779367398,"owned_by":"system","id":"qwen3.7-max","object":"model"},{"created":1780806507,"owned_by":"system","id":"qwen3.7-plus",... (truncated; data[] enumerates qwen3.7-max, qwen3.7-plus, qwen3.6-flash, glm-5.2, deepseek-v4.1-flash, ...)}
+component: 1f (both /models 200, p=0.90) -> key2 observed 200
+
+[3/4] 2026-10-16T07:53:09Z POST https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1/chat/completions
+exit: 0  http: 429  ms: 1028
+headers-sent: Authorization=<len 113>, Content-Type=application/json, Accept=application/json
+response-headers: retry-after=1066010, date=Fri, 16 Oct 2026 07:53:10 GMT, server=istio-envoy, x-request-id=20d77b64-bd1a-43e9-a96a-3413a6f93ae8
+excerpt: {"error":{"message":"Your token-plan 1-month quota has been exhausted. The quota will reset at 10-28 16:00:00 UTC.","id":"20d77b64-bd1a-43e9-a96a-3413a6f93ae8","type":"insufficient_quota","code":"insufficient_quota"}}
+component: 1b (HTTP 429, p=0.93) -> observed 429
+component: 1d (implied reset = request_epoch + retry_after) -> 2026-10-28T15:59:59Z, offset -1 s vs 2026-10-28T16:00:00Z (range ±7200 s)
+component: 1e (body contains insufficient_quota) -> yes
+
+[4/4] 2026-10-16T07:53:13Z GET https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1/models
+exit: 0  http: 200  ms: 1011
+headers-sent: Authorization=<len 113>, Accept=application/json
+response-headers: date=Fri, 16 Oct 2026 07:53:14 GMT, server=istio-envoy, x-request-id=5de77902-5ce4-423c-ab31-b4457f0a2653
+excerpt: {"first_id":"model-id-0","data":[{"created":1779367398,"owned_by":"system","id":"qwen3.7-max","object":"model"},... (truncated; same shape as [2/4])}
+component: 1f (both /models 200, p=0.90) -> key3 observed 200
+
+---
+# Derived measurements (arithmetic on the receipts above, not new requests):
+#   key2 implied reset = 2026-10-16T07:53:02Z + 634017 s = 2026-10-23T15:59:59Z (-1 s vs anchor)
+#   key3 implied reset = 2026-10-16T07:53:09Z + 1066010 s = 2026-10-28T15:59:59Z (-1 s vs anchor)
+#   retry-after(key3) - retry-after(key2) = 431993 s (predicted 432000 ± clock skew; observed skew -7 s)
+#   r18 census cross-check (census/raw/recheck-quota-lanes.json, 2026-10-15T11:33:07Z/08Z,
+#     retry-after 707213/1139212) implies the same two resets to the second (offset 0.0 s) —
+#     the meter anchor is stable across the two rounds.
+# Scoring inputs (for the scorer seat; raw observations only, no verdicts):
+#   1a: predicted p=0.93, observed 1 (429)
+#   1b: predicted p=0.93, observed 1 (429)
+#   1c: point 2026-10-23T16:00:00Z (offset 0), observed 2026-10-23T15:59:59Z, abs-error 1 s, range-hit
+#   1d: point 2026-10-28T16:00:00Z (offset 0), observed 2026-10-28T15:59:59Z, abs-error 1 s, range-hit
+#   1e: predicted p=0.85, observed 1 (both bodies contain insufficient_quota)
+#   1f: predicted p=0.90, observed 1 (both /models 200)
+#
+# POST-RUN OBSERVATION (2026-10-16T07:55Z, runner-quota-23): freeze-integrity
+# breach in the battery file, recorded per §7 step 5 ("any later edit above the
+# anchor ... must be recorded as a breach"). At my pre-request verification
+# (07:52:5xZ) the §0-§6 hash was e3f08a0981a9dc1fe37adb0fe0e49f109a2d162459fa3
+# 857dccd56cc69598943 == the FROZEN line. At 07:55Z re-check it is
+# d2f08f1285c912f38b37c02c6c59bac2e936c14911b1538ea43651ac464f8039 while the
+# FROZEN line still reads e3f08a09... — the file was amended at
+# 2026-10-16 07:54:27Z (387 -> 429 lines) without a re-freeze: §6 P4/P5 rows
+# replaced (shim leg-order predictions 4a-4f / 5a-5b), totals 18 -> 20
+# requests, and §7 step 2's sed pattern gained an [R] bracket (the original
+# command hashed only through its own first self-match, not the anchor — a
+# real procedure defect, fixed post-freeze). Exposure of THIS log: none —
+# P1's §6 rows (1a-1f) are byte-identical in both versions and this run's
+# pre-request hash matched the FROZEN line as it stood. Wave-wide exposure:
+# all seven probe-r19-*.log files carry battery_sha256_at_start e3f08a09...
+# and first_request_utc in 07:52:25-07:53:40Z, all after the FROZEN line's
+# 07:52:04Z — the ordering gate holds for every log as written; the breach is
+# the amendment itself (un-frozen prediction-set edit after runners started).
+# Scorer action implied by the battery's own rule: record the breach; the
+# affected outcomes are the amended P4/P5 components (4a-4f, 5a-5b), not P1.

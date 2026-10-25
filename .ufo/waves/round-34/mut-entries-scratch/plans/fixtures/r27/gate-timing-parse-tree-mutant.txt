@@ -1,0 +1,26 @@
+Mutation: parse_tree exits its input loop after the first parsed blob.
+Mutant checker sha256 1674da1a877eb89f2e2f69339e8bdd63f726908e839fa3d0fec0fb66dc357da4 (/tmp/gate_timing_check_truncate_mutant.py).
+Command: PYTHONDONTWRITEBYTECODE=1 python3 /tmp/gate_timing_check_truncate_mutant.py --selftest
+
+[selftest] worktree-only reports at early commit:
+FAIL line 7 Gate admit: candidate='corpus/knowledge/extraction-policy-comparison.md'
+  cell[reason]: Re-read `.ufo/waves/round-27/falsify/TimingSeatA.md` and `.ufo/waves/round-27/falsify/TimingSeatB.md`.
+  cited seat-report paths: '.ufo/waves/round-27/falsify/TimingSeatA.md', '.ufo/waves/round-27/falsify/TimingSeatB.md'
+  invalid cited second-seat report: .ufo/waves/round-27/falsify/TimingSeatA.md (absent from commit tree)
+  invalid cited second-seat report: .ufo/waves/round-27/falsify/TimingSeatB.md (absent from commit tree)
+  missing: no .ufo/waves/round-27/falsify/ report exists in commit 2349c8802606a20abc5bbc49c5021bf8c4f481ad
+  reasons: no cited, existing, returned second-seat report for this round; one or more cited second-seat reports fail identity/return checks
+gate_timing_check: commit=2349c8802606a20abc5bbc49c5021bf8c4f481ad lesson=corpus/lessons/round-27.md admissions=1 passed=0 failed=1 second-seat-reports=0
+exit=1
+[selftest] committed reports at later commit:
+FAIL line 7 Gate admit: candidate='corpus/knowledge/extraction-policy-comparison.md'
+  cell[reason]: Re-read `.ufo/waves/round-27/falsify/TimingSeatA.md` and `.ufo/waves/round-27/falsify/TimingSeatB.md`.
+  cited seat-report paths: '.ufo/waves/round-27/falsify/TimingSeatA.md', '.ufo/waves/round-27/falsify/TimingSeatB.md'
+  existing returned second-seat report(s): .ufo/waves/round-27/falsify/TimingSeatA.md
+  invalid cited second-seat report: .ufo/waves/round-27/falsify/TimingSeatB.md (absent from commit tree)
+  reasons: one or more cited second-seat reports fail identity/return checks
+gate_timing_check: commit=be26f2cd7d8d7e43aee50a68ed5bc2346892da03 lesson=corpus/lessons/round-27.md admissions=1 passed=0 failed=1 second-seat-reports=1
+exit=1
+selftest: later commit expected exit 0, got 1
+selftest: later commit expected second-seat-reports=2, got 1
+parse_tree_mutant_selftest_exit=1

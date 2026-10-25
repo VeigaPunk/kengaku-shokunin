@@ -1,0 +1,34 @@
+{"case": "baseline", "audit_findings": [], "html_operators": {"must_include": 1}, "targets": 1, "upstream_hand_derived": "scores per selection"}
+{"case": "both_ops_exact_wins", "audit_findings": [], "html_operators": {"exact_match": 1}, "targets": 1, "upstream_hand_derived": "if/elif: exact_match only; must_include silently ignored"}
+{"case": "both_ops_exact_invalid_include_valid", "audit_findings": ["html_operator_value_invalid"], "html_operators": {"exact_match": 1}, "targets": 1, "upstream_hand_derived": "exact branch taken -> beartype violation on ref:int (crash)"}
+{"case": "both_ops_exact_valid_include_invalid", "audit_findings": [], "html_operators": {"exact_match": 1}, "targets": 1, "upstream_hand_derived": "exact branch taken; invalid must_include never read (no crash)"}
+{"case": "exact_list", "audit_findings": ["html_operator_value_invalid"], "html_operators": {"exact_match": 1}, "targets": 1, "upstream_hand_derived": "beartype violation ref:list (crash)"}
+{"case": "exact_none", "audit_findings": ["html_operator_value_invalid"], "html_operators": {"exact_match": 1}, "targets": 1, "upstream_hand_derived": "beartype violation (crash)"}
+{"case": "exact_blank", "audit_findings": [], "html_operators": {"exact_match": 1}, "targets": 1, "upstream_hand_derived": "passes iff cleaned selection empty"}
+{"case": "include_string", "audit_findings": ["html_operator_value_invalid"], "html_operators": {"must_include": 1}, "targets": 1, "upstream_hand_derived": "assert isinstance list fails (crash)"}
+{"case": "include_tuple_like_dict", "audit_findings": ["html_operator_value_invalid"], "html_operators": {"must_include": 1}, "targets": 1, "upstream_hand_derived": "assert list fails (crash)"}
+{"case": "include_int_item", "audit_findings": ["html_operator_value_invalid"], "html_operators": {"must_include": 1}, "targets": 1, "upstream_hand_derived": "AttributeError int.split (crash)"}
+{"case": "include_empty_list", "audit_findings": [], "html_operators": {"must_include": 1}, "targets": 1, "upstream_hand_derived": "loop never runs -> target vacuously 1.0"}
+{"case": "include_empty_string_item", "audit_findings": [], "html_operators": {"must_include": 1}, "targets": 1, "upstream_hand_derived": "'' in pred -> vacuous 1.0"}
+{"case": "include_blank_or_alternative", "audit_findings": [], "html_operators": {"must_include": 1}, "targets": 1, "upstream_hand_derived": "split -> ['x',''] ; '' in pred -> vacuous 1.0"}
+{"case": "include_whitespace_alternative", "audit_findings": [], "html_operators": {"must_include": 1}, "targets": 1, "upstream_hand_derived": "alt ' ' cleaned to '' -> vacuous 1.0"}
+{"case": "fuzzy_only", "audit_findings": ["html_operator_unsupported"], "html_operators": {}, "targets": 1, "upstream_hand_derived": "ValueError Unknown required_contents (crash)"}
+{"case": "include_plus_fuzzy_extra", "audit_findings": [], "html_operators": {"must_include": 1}, "targets": 1, "upstream_hand_derived": "must_include only; fuzzy silently ignored"}
+{"case": "rc_empty_dict", "audit_findings": ["html_operator_unsupported"], "html_operators": {}, "targets": 1, "upstream_hand_derived": "ValueError (crash)"}
+{"case": "rc_list", "audit_findings": ["required_contents_invalid"], "html_operators": {}, "targets": 1, "upstream_hand_derived": "'must_include' in list True -> list['must_include'] TypeError (crash)"}
+{"case": "rc_missing", "audit_findings": ["required_contents_invalid"], "html_operators": {}, "targets": 1, "upstream_hand_derived": "KeyError (crash)"}
+{"case": "url_missing", "audit_findings": ["target_url_invalid"], "html_operators": {"must_include": 1}, "targets": 1, "upstream_hand_derived": "KeyError (crash)"}
+{"case": "locator_missing", "audit_findings": ["locator_invalid"], "html_operators": {"must_include": 1}, "targets": 1, "upstream_hand_derived": "KeyError (crash)"}
+{"case": "target_extra_key_typo", "audit_findings": [], "html_operators": {"must_include": 1}, "targets": 1, "upstream_hand_derived": "ignored silently"}
+{"case": "program_html_missing", "audit_findings": ["program_html_invalid"], "html_operators": {}, "targets": 0, "upstream_hand_derived": "KeyError (crash)"}
+{"case": "program_html_empty", "audit_findings": ["program_html_invalid"], "html_operators": {}, "targets": 0, "upstream_hand_derived": "loop never runs -> vacuous 1.0"}
+{"case": "program_html_not_routed", "audit_findings": [], "html_operators": {}, "targets": 0, "upstream_hand_derived": "HTML evaluator not constructed; targets ignored"}
+{"case": "program_html_dict", "audit_findings": ["program_html_invalid"], "html_operators": {}, "targets": 0, "upstream_hand_derived": "iterates keys -> str['url'] TypeError (crash)"}
+{"case": "prep_js_list_str", "audit_findings": [], "html_operators": {"must_include": 1}, "targets": 1, "upstream_hand_derived": "evaluated; exceptions swallowed"}
+{"case": "prep_js_string", "audit_findings": ["prep_actions_invalid"], "html_operators": {"must_include": 1}, "targets": 1, "upstream_hand_derived": "iterates characters; exceptions swallowed; no crash"}
+{"case": "prep_js_int", "audit_findings": ["prep_actions_invalid"], "html_operators": {"must_include": 1}, "targets": 1, "upstream_hand_derived": "TypeError iterating int inside try -> swallowed; no crash"}
+{"case": "prep_js_list_int", "audit_findings": ["prep_actions_invalid"], "html_operators": {"must_include": 1}, "targets": 1, "upstream_hand_derived": "f-string '() => 5' evaluates; no crash"}
+{"case": "prep_js_empty_list", "audit_findings": [], "html_operators": {"must_include": 1}, "targets": 1, "upstream_hand_derived": "no-op"}
+{"case": "prep_full_page_list", "audit_findings": [], "html_operators": {"must_include": 1}, "targets": 1, "upstream_hand_derived": "never executed (only JS-locator branch reads prep_actions)"}
+{"case": "prep_helper_int", "audit_findings": ["prep_actions_invalid"], "html_operators": {"must_include": 1}, "targets": 1, "upstream_hand_derived": "never read; no crash"}
+{"case": "prep_null_js", "audit_findings": ["prep_actions_invalid"], "html_operators": {"must_include": 1}, "targets": 1, "upstream_hand_derived": "TypeError inside try swallowed; no crash"}

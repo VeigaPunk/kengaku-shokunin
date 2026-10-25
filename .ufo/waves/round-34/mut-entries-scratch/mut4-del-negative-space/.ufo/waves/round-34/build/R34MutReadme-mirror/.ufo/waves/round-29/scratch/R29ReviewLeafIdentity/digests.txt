@@ -1,0 +1,44 @@
+RAW sha256: 7b50386fd69163dbc05d615d834df4c6ed2c35596e97a1b10d17451c02537652
+PROFILE distinct_origins test.json-equivalent bytes: 905171 sha256: 2aec098e5705c98c7f7977a4eb8962aa455c2224d078dbfe4c1fc113e7c707f4
+PROFILE path_prefix test.json-equivalent bytes: 915216 sha256: 54cf98337dc6751d9453ee069ff26bb3836698518527cf8683c85bf66744744b
+PROFILE trailing_slash_sensitivity test.json-equivalent bytes: 906606 sha256: 49bbee2e827791b79f42858ac78637704adaa7e36f1cb3a9268563e8df3e01b2
+
+=== per-task upstream file digests (json.dumps(item, indent=2), no trailing newline) ===
+task 0 distinct_origins bytes 758 sha256 9533088e31781047e4c4f3b9cafe02f734aaaa3fb9c47ebc29176bd8d6a6e5e6
+task 0 path_prefix bytes 765 sha256 763bf0c4401bf3254837b81903d3a271908c16339040a77ee492f349ab028b67
+task 0 trailing_slash_sensitivity bytes 759 sha256 a5b767ca8ae59deca86fb5c9366aa77f8fafbb139ab10eca0a6671c4b2db2018
+task 66 distinct_origins bytes 1251 sha256 59c3f4be74f15eb7c4b8af8480723d9db77e6264cd425726a4e03c2252cff6d3
+task 66 path_prefix bytes 1272 sha256 3e9f2ade43df0d51e11cdf49af07abe8d03945b526c28b21449d7edaedb00721
+task 66 trailing_slash_sensitivity bytes 1254 sha256 7a44cd0f4cce43c77348672af9e60739014dd34ec49ff3e06da0622683d2c9a1
+task 259 distinct_origins bytes 642 sha256 478db1cca6d2e725076c7778eff49a4ffbc9a9ded0f9a9cc6596ea462e04419b
+task 259 path_prefix bytes 649 sha256 868d765f0008cf2a2d8194796eeb7ae8667b154832c2606acd77deb1db28caf4
+task 259 trailing_slash_sensitivity bytes 643 sha256 0939a62616112e9408ef0687c56a8d6a7bc2aabf165a2ade110aca25d90acb23
+task 431 distinct_origins bytes 1662 sha256 6061858e242a1370899213bc6a992fc9c518358ebfb5393ac408dad82b893c51
+task 431 path_prefix bytes 1690 sha256 c1c25428865f73b602cf7f0b59e3370c1900c8f2c0f9f1673fc7bd9080631cd0
+task 431 trailing_slash_sensitivity bytes 1666 sha256 10ca46bbf967d8fe871d48dc38ebe44c14702927796e4f939740dc0ade073056
+task 682 distinct_origins bytes 1240 sha256 1fea9844907ea6bbd49106cb74948544a0920b21e9a8f952467a5dda3b27fb55
+task 682 path_prefix bytes 1282 sha256 5f0cb49285e43b82975679ce0096945673f25590272da79caae778abc06633d5
+task 682 trailing_slash_sensitivity bytes 1246 sha256 6214746922bc745fc6a2fbc28e66ba208dbe9937ebf8839122829ba26f70079c
+task 487 distinct_origins bytes 1040 sha256 15e89bafdbb90d05715e869012e0be70a00cfa16bc71edfa2d7d37f66bfc7309
+task 487 path_prefix bytes 1054 sha256 12bc3b965185a4ca7e90d0597c875e6e2b92b7ceadc926b717d1fdf94ad7513a
+task 487 trailing_slash_sensitivity bytes 1042 sha256 60f558b3b7a8879a05976b400c13d7e879a7e0f3e6018d716e2d649b6569ec71
+
+=== structural outlier: item with extra top-level string_note ===
+index 723 task_id 723 keys ['eval', 'geolocation', 'instantiation_dict', 'intent', 'intent_template', 'intent_template_id', 'require_login', 'require_reset', 'sites', 'start_url', 'storage_state', 'string_note', 'task_id']
+  eval keys ['eval_types', 'program_html', 'reference_answer_raw_annotation', 'reference_answers', 'reference_url', 'string_note']
+  token-bearing? True
+  start_url '__REDDIT__'
+  eval.reference_url ''
+  eval.url_note None
+  eval.annotation_note None
+  top string_note 'FTorrez81 has no submissions in subreddit iphone13'
+
+=== geolocation / require_login / require_reset distributions ===
+geolocation: Counter({'null': 812})
+require_login: Counter({True: 812})
+require_reset: Counter({False: 812})
+Traceback (most recent call last):
+  File "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-29/scratch/R29ReviewLeafIdentity/digests.py", line 58, in <module>
+    sorted({it["storage_state"] for it in data}))
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'str' and 'NoneType'

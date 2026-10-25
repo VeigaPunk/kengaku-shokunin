@@ -1,0 +1,85 @@
+FSourceS061 scratch receipt — S061 source reopen and independent census
+Seat: KengakuR28.FSourceS061 (scout, read-only). Date: 2026-10-21.
+No production edits. Python used stdlib json only; no upstream import/execution; no local modules imported.
+
+A. Frozen candidate and canonical path
+$ sha256sum .ufo/waves/round-28/drafts/webarena-task-spec-audit.md
+77e19d5b2683dbf36b87c8ca0ae36e5b19f281673c1c16e46abfb6ab08ac20a8  .ufo/waves/round-28/drafts/webarena-task-spec-audit.md
+$ ls corpus/knowledge/webarena-task-spec-audit.md
+ls: cannot access 'corpus/knowledge/webarena-task-spec-audit.md': No such file or directory
+=> canonical candidate not admitted.
+
+B. S061 source bytes (fixture and the independently downloaded OpenTasks copy)
+$ sha256sum plans/fixtures/r28/webarena/config_files/test.raw.json
+7b50386fd69163dbc05d615d834df4c6ed2c35596e97a1b10d17451c02537652  plans/fixtures/r28/webarena/config_files/test.raw.json
+$ wc -c plans/fixtures/r28/webarena/config_files/test.raw.json
+880776 plans/fixtures/r28/webarena/config_files/test.raw.json
+$ sha256sum .ufo/waves/round-28/scratch/OpenTasks/pinned-test.raw.json
+7b50386fd69163dbc05d615d834df4c6ed2c35596e97a1b10d17451c02537652  .ufo/waves/round-28/scratch/OpenTasks/pinned-test.raw.json
+$ cmp .ufo/waves/round-28/scratch/OpenTasks/pinned-test.raw.json plans/fixtures/r28/webarena/config_files/test.raw.json
+BYTE_EQUAL (cmp exit 0)
+Manifest entry: plans/fixtures/r28/webarena/manifest.json:5-9 has the same URL/sha256/bytes; "opened": "2026-10-21".
+
+C. Exact lines around task0 (awk NR print)
+6:    "task_id": 0,
+16:    "intent": "What is the top-1 best-selling product in 2022",
+18:    "eval": {
+19:      "eval_types": [
+20:        "string_match"
+21:      ],
+22:      "reference_answers": {
+23:        "exact_match": "Quest Lumaflex\u2122 Band"
+24:      },
+25:      "reference_url": "",
+26:      "program_html": [],
+27:      "string_note": "",
+28:      "reference_answer_raw_annotation": "Quest Lumaflex\u2122 Band"
+29:    },
+30:    "intent_template_id": 279
+31:  },
+
+D. Literal quote test for the Gate text `"eval_types": [ "string_match" ]`
+$ grep -c -F '"eval_types": [ "string_match" ]' plans/fixtures/r28/webarena/config_files/test.raw.json
+0
+$ python3 -c "... .count(q) ..."
+S061 literal occurrences: 0
+The source fragment is three lines (19-21). Whitespace-collapsing the actual bytes would yield `"eval_types": [ "string_match" ],` (trailing comma present at line 21); the displayed quote drops that comma and inserts spaces around the brackets.
+Word count of displayed quote: 4 whitespace tokens / 2 identifier words (`eval_types`, `string_match`); <=25 either way.
+
+E. Independent stdlib JSON census (no production oracle imported)
+entries 812 unique_ids 812 min 0 max 811
+eval_sets 5 [('program_html',), ('program_html','url_match'), ('string_match',), ('string_match','url_match'), ('url_match',)]
+site_sets 10
+strata 27
+program_html_targets 651
+require_login all true True
+require_reset all false True
+storage_state nonnull 684
+task0 keys (12): sites, task_id, require_login, storage_state, start_url, geolocation, intent_template, instantiation_dict, intent, require_reset, eval, intent_template_id
+task0 eval_types ['string_match']
+top-level key tuples: 2; the one-entry tuple adds `string_note` (task 723).
+
+F. Row / Gate / draft citations
+corpus/SOURCES.md:83  S061 row: dataset, tier A, scope "this repository snapshot's authored task fields, not runtime task validity or paper-era scores", anchor "dce04686 (2025-11-26), task0 eval:18-21; sha256 in plans/fixtures/r28/webarena/manifest.json", teaches "task intent, evaluator selection and literal scoring targets are separately authored data; static inventory does not validate the live task or contamination", mined, 2026-10-21, on-release, used-by corpus/lessons/round-28.md.
+corpus/lessons/round-28.md:40  S061 opening row: URL, 2026-10-21, `"eval_types": [ "string_match" ]` — task0 eval object:18-21; complete pinned raw task specification, not runtime validity; build/OpenTasks.md independently opened byte-equal source.
+.ufo/waves/round-28/drafts/webarena-task-spec-audit.md:1  "source: S061 <URL> task0:18-28 and selected task IDs below"
+.ufo/waves/round-28/drafts/webarena-task-spec-audit.md:21  "S061 is authoritative for authored specs; S062/S063 for their own code behavior, not actual browser state or judge correctness."
+draft:59-60 persisted selected IDs; draft:101-105 counts (812/812, 5 sets, 27/16, 651, operator counts).
+
+G. Old-knowledge search
+$ grep -rn "WebArena|webarena" corpus/knowledge corpus/lessons (excluding round-28)
+corpus/knowledge/benchmark-selection.md:18 only: "WebArena-Verified (deterministic browser)" in the add-now set.
+No S061 mention in corpus/knowledge. No old-knowledge claim about the original repo's 812 tasks/eval sets to correct. No append-only erratum supported.
+
+H. C2 population boundary
+$ grep -n "S061|S062|S063" plans/fixtures/r28/registry/population.json plans/fixtures/r28/contract-expected.json
+(no output) — new rows are outside the frozen13 C2 contract (Amendment 1.4).
+
+I. Adjacent S066 access boundary (not my row)
+corpus/lessons/round-28.md:74-76: "S038's live DOI/publisher fetches returned429; OpenS038 opened an authenticated Wayback capture of the publisher PDF (2026-10-04, sha256 fc935f40...). Live publisher HTML through WebFetch was corroborating and possibly cached, not called a live PDF fetch."
+build/OpenS038.md:15-17 records three HTTP 429 attempts; :20 records Wayback raw capture HTTP200, 108614 bytes, sha256 fc935f40a6f58cb7fea9407490a768fd63078eaf46ccd3b40b260d109de82e8c, CDX SHA-1 match; :25 disclosure "not a live publisher download from this network, which is rate-limited."
+Scratch wb20261004.pdf sha256 fc935f40... 108614 bytes.
+Paper caveat: wb.txt:244 under DISCUSSION (header :227; page 1677 header :217): "assume that sensitivity and speci  city are known ex-" / next line "actly." (hyphen/ligature split; normalized quote 11 whitespace tokens). Gate's "Discussion p.1677" is correct. SOURCES S066 anchor names Introduction/Methods p.1675 and Conclusion p.1677 (Conclusion at wb.txt:256-261 also discusses known sensitivity/specificity).
+Gate does not call the archived/cached copy a live fetch.
+
+J. No installs, no builds/tests/linters, no pacman, no production writes. Only this scratch receipt and the FSourceS061 report.

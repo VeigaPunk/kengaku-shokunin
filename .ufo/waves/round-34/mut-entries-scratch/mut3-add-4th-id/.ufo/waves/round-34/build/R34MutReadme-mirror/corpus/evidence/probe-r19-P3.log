@@ -1,0 +1,83 @@
+probe: P3
+runner-seat: P3-executor, round-20 flash wave (zai bucket)
+battery_sha256_at_start: e1a867773ef14ce457a0d560180587324dd07b4deea1ec76d0c2adf65aaa00a1
+battery_freeze_utc: 2026-10-16T07:55:58Z
+freeze-verified-at-analysis: recomputed sha256 over battery line 1 through the FROZEN-PREDICTIONS-ANCHOR line == e1a867773ef14ce457a0d560180587324dd07b4deea1ec76d0c2adf65aaa00a1 at 2026-10-16T09:19:25Z (method: battery §7 step 2; matches the FROZEN line, plans/probe-battery-r19.md:415)
+probe-class: zero-request derived probe — battery §3 P3 "Requests (0 extra): reads P2's captured responses"
+source-receipt: corpus/evidence/probe-r19-P2-servicetier.log (P2-executor seat, round-20 wave)
+source-receipt-gate-check: P2 log records battery_sha256_at_start == e1a86777… (live freeze) and first_request_utc 09:18:22Z > freeze 07:55:58Z — ordering gate passes for the bytes P3 scores; 7 requests 09:18:22–39Z, gaps 4/3/2/4/2/2 s (≥2 s, §2 rule 4), one attempt per variant, no retries
+first_request_utc: none (zero-request probe)
+last_request_utc: none
+analysis_utc: 2026-10-16T09:19:25Z
+runner-exit: 0
+---
+P3 hypothesis (battery §3 P3): on P2's three serviced responses, no signal
+distinguishes `priority` from `omit`/`default`: the final `service_tier` echo
+is `default` (never `priority`), `x-codex-credits-balance` is
+62500.0000000000, `x-codex-primary-used-percent` ≤ 2, and the usage
+`input_tokens` are identical across the three (same prompt, same billing).
+
+Serviced legs in the P2 receipt (all http 200): [1/7] omit, [2/7] default,
+[4/7] priority. The rejected legs ([3/7] flex, [5/7] fast, [6/7] auto,
+[7/7] r19-invalid-tier — all 400) carry no `x-codex-*` telemetry and are
+outside P3's scope (they are P2's components 2a/2b).
+
+[3a] tier echo — battery §6: final echo `default` on all 3 serviced, p=0.85
+  read [1/7] omit:     echo=[response.created:auto -> response.in_progress:auto -> response.completed:default] final_echo=default
+  read [2/7] default:  echo=[response.created:auto -> response.in_progress:auto -> response.completed:default] final_echo=default
+  read [4/7] priority: echo=[response.created:auto -> response.in_progress:auto -> response.completed:default] final_echo=default
+  observed: final echo `default` on all three; `priority` never appears in any
+  echoed event; the three sequences are byte-identical
+  outcome: o=1 (HIT)
+
+[3b] credits — battery §6: x-codex-credits-balance = 62500.0000000000 on all
+  serviced, p=0.85
+  read: [1/7] x-codex-credits-balance=62500.0000000000; [2/7] same; [4/7] same
+  (x-codex-credits-has-credits=True, x-codex-credits-unlimited=False on all)
+  outcome: o=1 (HIT)
+
+[3c] used-percent — battery §6: x-codex-primary-used-percent ≤ 2 on all
+  serviced, p=0.90
+  read: [1/7] =7; [2/7] =7; [4/7] =7
+  observed: 7 on every serviced leg — > 2 on all three
+  outcome: o=0 (MISS)
+  mechanism note: the r18 basis (fastmode/ANALYSIS.md:199-203) read
+  used-percent=1 on 2026-10-15; the frozen "≤2" carried that level forward.
+  By 09:18Z 2026-10-16 the weekly plan window
+  (x-codex-primary-window-minutes=10080, x-codex-primary-reset-at=1792649629
+  = 2026-10-22T06:13:49Z, verified with `date -u -d @1792649629`) had
+  consumed 7%. The inertness claim itself still holds — 7/7/7, identical
+  across the three legs spanning 09:18:23–32Z, no per-request movement — the
+  frozen threshold was falsified by plan-window consumption between rounds,
+  not by any priority-vs-omit difference. Route-state drift, not a tier
+  effect. The countdown fields DO move per response
+  (x-codex-primary-reset-after-seconds 507327/507323/507318) — the meter is
+  live; the used-percent/credits fields are the static ones, as r18 read them.
+
+[3d] usage parity — battery §6: usage input_tokens identical across the 3
+  serviced, p=0.90
+  read: [1/7] input_tokens=7 (output 5, total 12); [2/7] input_tokens=7
+  (output 5, total 12); [4/7] input_tokens=7 (output 5, total 12)
+  observed: identical across all three serviced legs
+  outcome: o=1 (HIT)
+  note: r18 billed input 66 for its prompt shape (fastmode/ANALYSIS.md:217-224);
+  P2's body is the D6-minimal "ping" shape, so 7 vs 66 is prompt-shape
+  difference, not drift. Parity across the tiers is the component; it holds
+  exactly (also output 5/5/5 — the serviced legs are indistinguishable in
+  billing shape).
+
+derived-summary:
+  serviced legs: omit [1/7], default [2/7], priority [4/7] — all 200
+  final_echo: default / default / default (never priority)
+  x-codex-credits-balance: 62500.0000000000 / 62500.0000000000 / 62500.0000000000
+  x-codex-primary-used-percent: 7 / 7 / 7 (static across requests; > 2)
+  usage input_tokens: 7 / 7 / 7 (identical; output 5 / 5 / 5)
+  x-codex-primary-reset-at: 1792649629 (2026-10-22T06:13:49Z) on all serviced
+  x-codex-safety-buffering-faster-model: gpt-6-luna on all serviced (r18 value unchanged)
+  x-models-etag: W/"a5b23a75ab9baa8209d3e49abda1d2e9" identical on all serviced
+
+scorer-convenience arithmetic (verify against battery §6 p values; scoring is
+the scorer seat's call): 3a (0.85,1)=0.0225; 3b (0.85,1)=0.0225;
+3c (0.90,0)=0.8100; 3d (0.90,1)=0.0100; sum 0.8650 over 4 binaries.
+
+outcome: all-components-recorded — 3a HIT, 3b HIT, 3c MISS, 3d HIT

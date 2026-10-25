@@ -1,0 +1,117 @@
+{
+ "tool_sha256": "135cc68283e76635df913a085e6c3fcf93b8e04e83af8e9b9aac5b14876aa142",
+ "mutants": {
+  "wrong_order_reversed": {
+   "old": "    for name in ORDER:\n        token = \"__%s__\" % name\n        steps.append",
+   "new": "    for name in reversed(ORDER):\n        token = \"__%s__\" % name\n        steps.append",
+   "selftest_exit": 1,
+   "selftest_last_stderr": "AssertionError",
+   "summary_exit": 0,
+   "summary_total": "TOTAL findings=0 exit=0",
+   "killed": true,
+   "frozen_summary_alone_detects": false
+  },
+  "url_only_substitution": {
+   "old": "        text = text.replace(token, values[name])\n    return text, steps",
+   "new": "        text = re.sub(r'(\"(?:start_url|reference_url|url)\": \")' + re.escape(token), lambda m: m.group(1) + values[name], text)\n    return text, steps",
+   "selftest_exit": 1,
+   "selftest_last_stderr": "AssertionError",
+   "summary_exit": 1,
+   "summary_total": "TOTAL findings=6 exit=1",
+   "killed": true,
+   "frozen_summary_alone_detects": true
+  },
+  "index_by_task_id": {
+   "old": "\"output_filename\": \"config_files/%d.json\" % i,",
+   "new": "\"output_filename\": \"config_files/%d.json\" % task.get(\"task_id\", i),",
+   "selftest_exit": 1,
+   "selftest_last_stderr": "AssertionError",
+   "summary_exit": 0,
+   "summary_total": "TOTAL findings=0 exit=0",
+   "killed": true,
+   "frozen_summary_alone_detects": false
+  },
+  "value_normalized_rstrip": {
+   "old": "text = text.replace(token, values[name])",
+   "new": "text = text.replace(token, values[name].rstrip(\"/\"))",
+   "selftest_exit": 1,
+   "selftest_last_stderr": "AssertionError",
+   "summary_exit": 0,
+   "summary_total": "TOTAL findings=0 exit=0",
+   "killed": true,
+   "frozen_summary_alone_detects": false
+  },
+  "category_by_value_shape": {
+   "old": "\"category\": \"url_field\" if template(path) in URL_FIELD_TEMPLATES else \"non_url_field\",",
+   "new": "\"category\": \"url_field\" if after.startswith((\"http://\", \"https://\")) else \"non_url_field\",",
+   "selftest_exit": 1,
+   "selftest_last_stderr": "AssertionError",
+   "summary_exit": 0,
+   "summary_total": "TOTAL findings=0 exit=0",
+   "killed": true,
+   "frozen_summary_alone_detects": false
+  },
+  "hash_then_reread": {
+   "old": "        verified[relative] = data",
+   "new": "        verified[relative] = (root / relative).read_bytes()",
+   "selftest_exit": 1,
+   "selftest_last_stderr": "AssertionError: plans/fixtures/r28/webarena/config_files/test.raw.json",
+   "summary_exit": 0,
+   "summary_total": "TOTAL findings=0 exit=0",
+   "killed": true,
+   "frozen_summary_alone_detects": false
+  },
+  "decoded_census_drops_wikipedia": {
+   "old": "for text in decoded) for token in tokens}",
+   "new": "for text in decoded) for token in tokens if token != \"__WIKIPEDIA__\"}",
+   "selftest_exit": 1,
+   "selftest_last_stderr": "AssertionError",
+   "summary_exit": 0,
+   "summary_total": "TOTAL findings=0 exit=0",
+   "killed": true,
+   "frozen_summary_alone_detects": false
+  },
+  "runtime_marker_counted_as_token": {
+   "old": "\"remaining_known_tokens_text\": {token: projected_text.count(token) for token in tokens}}",
+   "new": "\"remaining_known_tokens_text\": {token: projected_text.count(token) for token in tokens + [\"__last_url__\"]}}",
+   "selftest_exit": 1,
+   "selftest_last_stderr": "AssertionError",
+   "summary_exit": 1,
+   "summary_total": "TOTAL findings=3 exit=1",
+   "killed": true,
+   "frozen_summary_alone_detects": true
+  },
+  "exact_contract_check_removed": {
+   "old": "    if rendered != EXPECTED_STATEMENTS:",
+   "new": "    if False:",
+   "selftest_exit": 1,
+   "selftest_last_stderr": "AssertionError: data_mutated",
+   "summary_exit": 0,
+   "summary_total": "TOTAL findings=0 exit=0",
+   "killed": true,
+   "frozen_summary_alone_detects": false
+  },
+  "unexpected_error_not_caught": {
+   "old": "        except Exception as error:",
+   "new": "        except (OSError, ValueError) as error:",
+   "selftest_exit": 1,
+   "selftest_last_stderr": "RuntimeError: boom",
+   "summary_exit": 0,
+   "summary_total": "TOTAL findings=0 exit=0",
+   "killed": true,
+   "frozen_summary_alone_detects": false
+  }
+ },
+ "control": {
+  "selftest": [
+   0,
+   "SELFTEST clean cases=28 six_tokens_and_non_url_field,units_not_pooled,codepoint_offsets_and_key_token,escaped_token_not_replaced,quote_backslash_decode_failure_and_escape_semantics,profile_map_errors,hand_fixtures_authenticated,hand_cascade_order_R29_ORDER_CASCADE_01,hand_url_only_R29-URL-ONLY-UNREAD-METADATA-01,hand_index_r29_index_shuffled_ids_1_0,verbatim_slash_and_path_category,duplicate_keys_list_tasks_key_order,source_order_swap,source_literal_rhs,source_extra_step,source_id_filename,source_data_mutated,source_write_dropped,source_text_truncated,exit_mapping,cli_optimized_refused,cli_snapshot_tampered,cli_input_missing,cli_coherent_rebinding,post_read_replacement_test.raw.json,post_read_replacement_generate_test_data.py,post_read_replacement_profiles.json,cli_manifest_tampered"
+  ],
+  "summary": [
+   0,
+   "TOTAL findings=0 exit=0"
+  ]
+ },
+ "restored_sha256": "135cc68283e76635df913a085e6c3fcf93b8e04e83af8e9b9aac5b14876aa142",
+ "killed": 10
+}

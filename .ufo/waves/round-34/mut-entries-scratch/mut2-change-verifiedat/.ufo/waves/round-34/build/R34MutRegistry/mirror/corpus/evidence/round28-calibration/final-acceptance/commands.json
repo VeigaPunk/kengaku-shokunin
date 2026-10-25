@@ -1,0 +1,128 @@
+[
+  {
+    "name": "audit-selftest",
+    "command": [
+      "/usr/bin/python3",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/benchmark_spec_audit.py",
+      "--selftest"
+    ],
+    "exit": 0,
+    "expected_exit": 0
+  },
+  {
+    "name": "registry-selftest",
+    "command": [
+      "/usr/bin/python3",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/registry_check.py",
+      "--selftest"
+    ],
+    "exit": 0,
+    "expected_exit": 0
+  },
+  {
+    "name": "audit-current",
+    "command": [
+      "/usr/bin/python3",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/benchmark_spec_audit.py",
+      "--root",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "--json"
+    ],
+    "exit": 0,
+    "expected_exit": 0
+  },
+  {
+    "name": "registry-current",
+    "command": [
+      "/usr/bin/python3",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/registry_check.py",
+      "--root",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "--json"
+    ],
+    "exit": 0,
+    "expected_exit": 0
+  },
+  {
+    "name": "audit-alternate",
+    "command": [
+      "/usr/bin/python3",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/fixtures/r28/benchmark_oracle.py",
+      "--root",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin"
+    ],
+    "exit": 0,
+    "expected_exit": 0
+  },
+  {
+    "name": "registry-alternate",
+    "command": [
+      "/usr/bin/python3",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/fixtures/r28/registry_oracle.py",
+      "--root",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin"
+    ],
+    "exit": 0,
+    "expected_exit": 0
+  },
+  {
+    "name": "registry-baseline-red",
+    "command": [
+      "/usr/bin/python3",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/registry_check.py",
+      "--root",
+      "/tmp/kengaku-r28-baseline-0xa5x9rz",
+      "--json"
+    ],
+    "exit": 1,
+    "expected_exit": 1
+  },
+  {
+    "name": "registry-s050-only-red",
+    "command": [
+      "/usr/bin/python3",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/registry_check.py",
+      "--root",
+      "/tmp/kengaku-r28-baseline-0xa5x9rz",
+      "--json"
+    ],
+    "exit": 1,
+    "expected_exit": 1
+  },
+  {
+    "name": "registry-s038-only-delta-green",
+    "command": [
+      "/usr/bin/python3",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/registry_check.py",
+      "--root",
+      "/tmp/kengaku-r28-baseline-0xa5x9rz",
+      "--json"
+    ],
+    "exit": 0,
+    "expected_exit": 0
+  },
+  {
+    "name": "audit-without-c2",
+    "command": [
+      "/usr/bin/python3",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/benchmark_spec_audit.py",
+      "--root",
+      "/tmp/kengaku-r28-baseline-0xa5x9rz",
+      "--json"
+    ],
+    "exit": 0,
+    "expected_exit": 0
+  },
+  {
+    "name": "historical-state-current",
+    "command": [
+      "/usr/bin/python3",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/state_check.py",
+      "--root",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "--json"
+    ],
+    "exit": 0,
+    "expected_exit": 0
+  }
+]

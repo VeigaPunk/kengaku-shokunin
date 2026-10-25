@@ -1,0 +1,18 @@
+ATTACKS: `LOG.md` §Round 25 at landed tip 8ea41f9 — check every reported number/claim against the frozen registrations and receipts; specifically QUALITY R8.
+
+## Findings (severity order)
+- **MEDIUM — C2's base mismatch count is high by one.** `LOG.md:286-288` says `mismatch=11`; the base receipt lists `P2d.surface.Served local model.path:14` as a mismatch (`corpus/evidence/round25-calibration/state-check-before-6180e4f.txt:1,9`). But frozen P2d says URL/endpoint rows are `offline-unverifiable` (`plans/round-25-claims.md:82-84`), and base `PROVINCE.md:14` is endpoint-first (`http://127.0.0.1:34113`) with a later `/proc/1299/cmdline` process pin. The tip checker counted that transient PID path. I reproduced 11 on the archived tip/base; applying P2d's endpoint exclusion to the same base gives 10 (`state-check-before-6180e4f-v2.txt:1-2`; corrected checker `plans/state_check.py:912-923`). Thus `>0` still holds and the landed-tree `mismatch=0, superseded=1, exit=0` survives, but the LOG's exact `11` is false under its frozen P2d contract.
+- **LOW — L0 refiling is overstated.** `LOG.md:291` and lesson `corpus/lessons/round-25.md:14` say the three round-24 questions were re-filed. The current queue has two explicitly re-filed round-25 entries (`/home/vgpnk/Projects/shokunin/.ufo/l0-questions.md:72-73`); search found no C2-admission/“state-accuracy” question. Re-running the checker on the round-24 report gives `questions=3 filed=0 unfiled=3` (exit 1). At most two of the three were re-filed; if the C2 question was resolved rather than re-filed, that disposition is not stated.
+
+## Survives
+- **QUALITY R8 holds:** it requires the header to name the lowest non-retired axis and a tie-break/waiver (`corpus/QUALITY.md:101`). `LOG.md:278-280` names novelty 7 tied with coverage 7, the coverage cap tie-break and no waiver; base axis evidence is `SCORECARD.md:610-618`.
+- **C1 figures reproduce:** archived-tip `python3 plans/attrib_calibration.py --summary` → 9 files, 10 blocks, 4 unique samples, 92/92 correct, `stored_checks=119 mismatches=0`; `TARGET hyper 10/10` CP95 lower `0.691503`/needs 17; two 0/0 FAILs become UNTESTED (`attrib-calibration-summary.txt:49-50`). `--selftest` passes 14/14, and `sh plans/fixtures/r25/attrib_oracle.sh --intervals` exits 0 and agrees.
+- C2 after-state rerun on archived tip: `assertions=236 match=232 mismatch=0 superseded=1 offline_unverifiable=3`, exit 0; C2 selftest exits 0. `python3 grader.py` reproduces `CHECKS n=733 mismatches=0 errata_pinned=1`, exit 0. Actual freeze command `python3 plans/attrib_probe.py freeze-check --frozen plans/attrib-r23-frozen.md` returns `stable=True -> OK`; the LOG shortens this invocation to `freeze-check`.
+- Frontmatter YAML parses; SKILL rule 14 and QUALITY Q11/R11–R13 are present; the round-24 errata/round-25 lesson record the listed F4–F12 and M19 corrections. Public S011 text confirms eq. (5) is the plug-in Rogan–Gladen estimator. Current SOURCES census passes (`kengaku ok`).
+
+## Residual risk / verification gaps
+- The endpoint-count correction is post-tip working-tree evidence; `8ea41f9` still contains the false-positive count and must be corrected in the landed record. The current `state_check.py --selftest` passes, but its output does not name an endpoint-row fixture.
+- Historical start/end census timing and byte-exact relocation of all three misrooted seats were not independently reconstructed; available receipts/lesson state the claims, and current census passes.
+
+Installs: none.
+VERDICT: PARTIAL — R8 and C1 survive; C2's base count and the three-question refiling claim do not.

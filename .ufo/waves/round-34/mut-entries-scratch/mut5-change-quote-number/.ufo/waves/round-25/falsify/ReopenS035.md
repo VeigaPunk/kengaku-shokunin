@@ -1,0 +1,20 @@
+ATTACKS: SOURCES S035 (Prediction-powered inference, arXiv 2301.09633v4) — re-fetched the gate.md URL myself, re-checked quote verbatim + location, anchor, tier/scope honesty, and sha256; per-cell agree/disagree.
+
+## Re-fetch (observed)
+`curl -sSL https://arxiv.org/pdf/2301.09633` twice → 4,833,991 B, both `a16bf2c108fea9f559d00708c731d29d673c1dcce5d4acfd65e64a694b7ae17a` = gate.md:21 = wave-1 capture. Byte-stable, no dynamic-page divergence. `pdfinfo`: 40 pp, pdfTeX, created 2023-11-09 22:28 -03.
+
+## Per cell
+- **tier A** — AGREE. Primary paper; the opened artifact is the author postprint of the peer-reviewed Science article; publisher blocked.
+- **citation** — AGREE. Crossref `10.1126/science.adi6000` (sha256 c8bc7a62…): Science 382(6671):669-674, published-print 2023-11-10, the five named authors; PubMed 37943906 agrees. Nit: the anchor names no provenance for the pagination (Crossref/PubMed), which was not read from a publisher page.
+- **anchor** — AGREE. arXiv abs submission history: "[v4] Thu, 9 Nov 2023 17:48:20 UTC". Science page re-observed `HTTP/2 403`, `cf-mitigated: challenge`, server cloudflare, 5,497 B. Challenge-body hash changed (c6d11e59… now vs 7b6534e2… wave 1) — nonce only; the 403 claim survives.
+- **quote + location** — AGREE. After joining the PDF's `machine-\nlearning`, the exact string is present (`pdftotext -layout` line 15), 12 words, printed p.1 Abstract. Version caveat: the Science abstract (PubMed 37943906) says "without making any assumptions **about** the machine-learning algorithm"; v4 says "**on**". The gate quote is v4-exact and the anchor says arXiv copy, so not a break — but transplanting it to the Science version would misquote one word.
+- **scope** — DISAGREE (material). §4.2.2 "Label shift", PDF pp.15–16, is omitted from "means, quantiles and regression coefficients; not classifier sensitivity/specificity": "choosing ν(y) = 1 {y = k} for some k ∈ [K] asks for inference on the proportion of instances that belong to class k" (p.15:58-59); "Central to our analysis will be the confusion matrix" with `K_j,l = Q(f(X)=j | Y=l)` (p.16:3-7); "QY = K−1 Qf" (p.16:22); Theorem 3 (p.16:28) bounds that class proportion using per-entry binomial bands on K̂ (Bonferroni over K²). For K=2, K_11 = sensitivity and K_00 = specificity — this is confusion-matrix inversion for a class share, i.e. the lane's leg-share shape. The negative clause is true only as "se/sp are not the target estimand"; as a coverage statement it hides the row's closest prior art. Also unlisted: odds-ratio CI (§3.1, `s035.txt:772`), class fraction (§3.2, `:807-809`), point estimate (§4.3).
+- **teaches** — PARTIAL. "valid CIs for any predictor, tighter as predictions improve" is verbatim-supported (abstract, p.1). The rider "not for attribution accuracy" overstates: accuracy as an estimand is absent, but §3.2 estimates a class *fraction* by PPI mean and Thm 3 bounds class proportions, so the paper is closer to the lane's share bound than the cell says.
+- **status `queued` / `opened 2026-10-20` / `reread 180d` / notes `—`** — AGREE; no contradiction found.
+
+## C1 consequence
+C1's "Rogan–Gladen form … leg-share bound" now has a prior-art neighbor inside an already-rowed source. The dependent rejections (`corpus/knowledge/attribution-interval-calibration.md:124-126`, `corpus/lessons/round-25.md:31`) rest on the incomplete scope. Wave-1's screen (`grep -i 'clopper|rogan|gladen|sensitivity|specificity'` → 0 hits, `.ufo/waves/round-25/build/SrcPredictionPowered.md`) could not have found it: the paper uses "confusion matrix"/"label shift" and never "sensitivity"/"specificity" (0 hits reproduced).
+
+Tooling: pre-existing curl, pdfinfo/poppler, python3, sha256sum. No installs.
+
+VERDICT: PARTIAL — hash, quote, location, anchor, tier and citation survive exactly; the scope cell's negative clause is materially incomplete (§4.2.2/Thm 3 invert the confusion matrix to bound class proportions) and the C1 rejection rationale built on it needs correction. Installs: none.

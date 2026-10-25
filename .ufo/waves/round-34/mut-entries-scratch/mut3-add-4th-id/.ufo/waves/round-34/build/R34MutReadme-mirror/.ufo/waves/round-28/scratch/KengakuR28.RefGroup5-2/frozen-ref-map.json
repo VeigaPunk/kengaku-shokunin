@@ -1,0 +1,68 @@
+{
+  "seat": "KengakuR28.RefGroup5-2",
+  "observed_at": "2026-10-21",
+  "tree_head": "f0ba09be0f3066daba2134b943d973ad1588f34a (round-28 preregistration atop baseline b9b24796277020d1b9b01923b45313d6a565e664)",
+  "pattern_source": "plans/fixtures/r28/registry/population.json reference_pattern = (?<![A-Za-z0-9_])S[0-9]{3,}(?![A-Za-z0-9_])",
+  "frozen_ids": ["S038", "S049", "S050", "S051", "S052", "S053", "S054", "S055", "S056", "S057", "S058", "S059", "S060"],
+  "scoped_files": [
+    "corpus/knowledge/godspeed-eval-findings.md",
+    "corpus/knowledge/grader-perturbation-audit.md",
+    "corpus/knowledge/kimi-model-routing-round18.md",
+    "corpus/knowledge/ledger-route-telemetry.md",
+    "corpus/knowledge/llm-judge-calibration.md",
+    "corpus/knowledge/local-bench-arena.md"
+  ],
+  "scoped_frozen_mentions": {},
+  "scoped_frozen_mention_note": "Zero standalone frozen13 mentions in any of the six assigned files; map is empty, no in-scope missing links.",
+  "scoped_out_of_contract_mentions": {
+    "corpus/knowledge/grader-perturbation-audit.md": ["S043", "S044", "S045", "S046", "S048"],
+    "corpus/knowledge/llm-judge-calibration.md": ["S009", "S010", "S011", "S012"]
+  },
+  "scoped_out_of_contract_hygiene": "S044/S045/S046/S048 used-by cells each list grader-perturbation-audit.md; S009-S012 used-by cells each list llm-judge-calibration.md; S043 (superseded by S048) lists round-26 lessons only - all outside the frozen13 contract, no action.",
+  "frozen_population_mentions_outside_scope": {
+    "corpus/knowledge/attribution-interval-calibration.md": {"S038": [144]},
+    "corpus/knowledge/extraction-policy-comparison.md": {
+      "S049": [1, 17], "S050": [18], "S051": [1, 21], "S052": [1, 49],
+      "S053": [1, 51], "S054": [1, 51], "S055": [1, 20], "S056": [1],
+      "S057": [1, 16, 24], "S058": [1, 18], "S059": [1, 53]
+    }
+  },
+  "registry_rows_frozen13": {
+    "S038": {"status": "queued", "used_by": []},
+    "S049": {"status": "mined", "used_by": ["corpus/lessons/round-27.md", "corpus/knowledge/extraction-policy-comparison.md"]},
+    "S050": {"status": "mined", "used_by": ["corpus/lessons/round-27.md"]},
+    "S051": {"status": "mined", "used_by": ["corpus/lessons/round-27.md", "corpus/knowledge/extraction-policy-comparison.md"]},
+    "S052": {"status": "mined", "used_by": ["corpus/lessons/round-27.md", "corpus/knowledge/extraction-policy-comparison.md"]},
+    "S053": {"status": "mined", "used_by": ["corpus/lessons/round-27.md", "corpus/knowledge/extraction-policy-comparison.md"]},
+    "S054": {"status": "mined", "used_by": ["corpus/lessons/round-27.md", "corpus/knowledge/extraction-policy-comparison.md"]},
+    "S055": {"status": "mined", "used_by": ["corpus/lessons/round-27.md", "corpus/knowledge/extraction-policy-comparison.md"]},
+    "S056": {"status": "mined", "used_by": ["corpus/lessons/round-27.md", "corpus/knowledge/extraction-policy-comparison.md"]},
+    "S057": {"status": "mined", "used_by": ["corpus/lessons/round-27.md", "corpus/knowledge/extraction-policy-comparison.md"]},
+    "S058": {"status": "mined", "used_by": ["corpus/lessons/round-27.md", "corpus/knowledge/extraction-policy-comparison.md"]},
+    "S059": {"status": "mined", "used_by": ["corpus/lessons/round-27.md", "corpus/knowledge/extraction-policy-comparison.md"]},
+    "S060": {"status": "rejected", "used_by": ["corpus/lessons/round-27.md"]}
+  },
+  "missing_links_in_scope": [],
+  "missing_links_frozen_population_observed": [
+    {
+      "id": "S038",
+      "citing": "corpus/knowledge/attribution-interval-calibration.md:144",
+      "row": "corpus/SOURCES.md:60",
+      "status": "queued",
+      "used_by_cell": "—",
+      "known_round27_drift": true
+    },
+    {
+      "id": "S050",
+      "citing": "corpus/knowledge/extraction-policy-comparison.md:18",
+      "row": "corpus/SOURCES.md:72",
+      "status": "mined",
+      "used_by_cell": "corpus/lessons/round-27.md",
+      "missing_used_by_entry": "corpus/knowledge/extraction-policy-comparison.md",
+      "known_round27_drift": false
+    }
+  ],
+  "s038_only_repair_sufficient": false,
+  "commands_observed": "read/grep tools on lane files; python3 (stdlib re/json) census of frozen13 mentions across the 35 population paths and registry-table parse; git rev-parse HEAD (read-only provenance).",
+  "installs": "none"
+}

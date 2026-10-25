@@ -1,0 +1,226 @@
+# attrib-r21-impl-glm-trials — instrument-impl seat, kengaku round 21
+# Target: 127.0.0.1:8793 glm-flash-shim
+# Instrument: plans/attrib_probe.py sha256 b3e18c7825a866d897eac69e67dbe512691956d81b8ecacc8b0e623a8c184b80
+# Frozen table: attrib-r21-frozen.md anchor sha256 9f0244bb0aa4463c66981e5758a9a368ea0f0ea61b26882925f3ce7bbe6ba33c (FROZEN 2026-10-16T10:20:08Z) — verified before first request
+# Blind rule: no journal/GT read during trials; the score phase appends below AFTER all trials.
+# No Authorization header sent; no credential material read. Executions begin after this line.
+{"kind": "meta", "shim": "glm", "unit": "glm-flash-shim", "port": 8793, "model": "glm-5.3-flash", "frozen_sha256_at_start": "9f0244bb0aa4463c66981e5758a9a368ea0f0ea61b26882925f3ce7bbe6ba33c", "frozen_utc": "2026-10-16T10:20:08Z", "n_standard": 20, "n_error_path": 2, "instrument": "plans/attrib_probe.py", "instrument_sha256": "b3e18c7825a866d897eac69e67dbe512691956d81b8ecacc8b0e623a8c184b80", "blind_rule": "no journal read in this phase (journalctl exists only in cmd_score)"}
+=== [T01/std] 2026-10-16T10:22:32.489Z POST /v1/chat/completions (std)
+    status=200 wall=1.636s ttfb=1.431s span_ms=0.1 events=6 echo=rewritten:glm-5-3-flash-max id_class=chatcmpl-uuid pt=407
+    hdr_tells: server:devin-openai-shim/2
+    body: [{"id": "chatcmpl-f5b360d499b847a1bcb4b99a", "object": "chat.completion.chunk", "created": 1792146153, "model": "glm-5-3-flash-max", "choices": [{"index": 0, "delta": {"role": "assistant", "content": ""}, "finish_reason": null}]}, {"id": "chatcmpl-f5b360d499b847a1bcb4b99a", "object": "chat.completio
+    prediction=devin confidence=0.714 scores={"zai": 1.5, "devin": 7.5, "hyper": 1.5}
+{"kind": "record", "trial_id": 1, "class": "std", "features": {"hdr_tells": ["server:devin-openai-shim/2"], "model_echo": "rewritten:glm-5-3-flash-max", "usage_tells": [], "prompt_tokens": 407, "stream_span_ms": 0.1, "stream_span_class": "burst", "id_value": "chatcmpl-f5b360d499b847a1bcb4b99a", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.6356, "status": 200}, "prediction": "devin", "confidence": 0.714, "t0_epoch": 1792146152.4889147, "t0_utc": "2026-10-16T10:22:32.489Z", "body_len": 215, "status": 200, "error": null}
+=== [T02/std] 2026-10-16T10:22:36.624Z POST /v1/chat/completions (std)
+    status=200 wall=1.745s ttfb=1.605s span_ms=0.0 events=7 echo=rewritten:glm-5-3-flash-max id_class=chatcmpl-uuid pt=151
+    hdr_tells: server:devin-openai-shim/2
+    body: [{"id": "chatcmpl-34ae0113ca8b460ba7b4120d", "object": "chat.completion.chunk", "created": 1792146158, "model": "glm-5-3-flash-max", "choices": [{"index": 0, "delta": {"role": "assistant", "content": ""}, "finish_reason": null}]}, {"id": "chatcmpl-34ae0113ca8b460ba7b4120d", "object": "chat.completio
+    prediction=devin confidence=0.684 scores={"zai": 1.5, "devin": 6.5, "hyper": 1.5}
+{"kind": "record", "trial_id": 2, "class": "std", "features": {"hdr_tells": ["server:devin-openai-shim/2"], "model_echo": "rewritten:glm-5-3-flash-max", "usage_tells": [], "prompt_tokens": 151, "stream_span_ms": 0.0, "stream_span_class": "burst", "id_value": "chatcmpl-34ae0113ca8b460ba7b4120d", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.7453, "status": 200}, "prediction": "devin", "confidence": 0.684, "t0_epoch": 1792146156.6247046, "t0_utc": "2026-10-16T10:22:36.624Z", "body_len": 215, "status": 200, "error": null}
+=== [T03/std] 2026-10-16T10:22:40.870Z POST /v1/chat/completions (std)
+    status=200 wall=1.793s ttfb=1.566s span_ms=0.0 events=6 echo=rewritten:glm-5-3-flash-max id_class=chatcmpl-uuid pt=407
+    hdr_tells: server:devin-openai-shim/2
+    body: [{"id": "chatcmpl-4467e0a683ed40df8ed880c7", "object": "chat.completion.chunk", "created": 1792146162, "model": "glm-5-3-flash-max", "choices": [{"index": 0, "delta": {"role": "assistant", "content": ""}, "finish_reason": null}]}, {"id": "chatcmpl-4467e0a683ed40df8ed880c7", "object": "chat.completio
+    prediction=devin confidence=0.714 scores={"zai": 1.5, "devin": 7.5, "hyper": 1.5}
+{"kind": "record", "trial_id": 3, "class": "std", "features": {"hdr_tells": ["server:devin-openai-shim/2"], "model_echo": "rewritten:glm-5-3-flash-max", "usage_tells": [], "prompt_tokens": 407, "stream_span_ms": 0.0, "stream_span_class": "burst", "id_value": "chatcmpl-4467e0a683ed40df8ed880c7", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.7931, "status": 200}, "prediction": "devin", "confidence": 0.714, "t0_epoch": 1792146160.8701613, "t0_utc": "2026-10-16T10:22:40.870Z", "body_len": 215, "status": 200, "error": null}
+=== [T04/std] 2026-10-16T10:22:45.163Z POST /v1/chat/completions (std)
+    status=200 wall=16.009s ttfb=15.951s span_ms=0.0 events=6 echo=rewritten:glm-5-3-flash-max id_class=chatcmpl-uuid pt=151
+    hdr_tells: server:devin-openai-shim/2
+    body: [{"id": "chatcmpl-c712cb88640d411e9edfedf2", "object": "chat.completion.chunk", "created": 1792146181, "model": "glm-5-3-flash-max", "choices": [{"index": 0, "delta": {"role": "assistant", "content": ""}, "finish_reason": null}]}, {"id": "chatcmpl-c712cb88640d411e9edfedf2", "object": "chat.completio
+    prediction=devin confidence=0.846 scores={"zai": 0.5, "devin": 5.5, "hyper": 0.5}
+{"kind": "record", "trial_id": 4, "class": "std", "features": {"hdr_tells": ["server:devin-openai-shim/2"], "model_echo": "rewritten:glm-5-3-flash-max", "usage_tells": [], "prompt_tokens": 151, "stream_span_ms": 0.0, "stream_span_class": "burst", "id_value": "chatcmpl-c712cb88640d411e9edfedf2", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 16.0095, "status": 200}, "prediction": "devin", "confidence": 0.846, "t0_epoch": 1792146165.1635222, "t0_utc": "2026-10-16T10:22:45.163Z", "body_len": 215, "status": 200, "error": null}
+=== [T05/std] 2026-10-16T10:23:03.673Z POST /v1/chat/completions (std)
+    status=200 wall=10.558s ttfb=10.557s span_ms=0.1 events=15 echo=requested id_class=eq-x-log-id pt=30
+    hdr_tells: x-log-id,ga-traceid,set-cookie,alt-svc
+    body: [{"id": "20261016182304e9201fe5a96b4c25", "created": 1792146184, "object": "chat.completion.chunk", "model": "glm-5.3-flash", "choices": [{"index": 0, "delta": {"role": "assistant", "reasoning_content": "The"}}]}, {"id": "20261016182304e9201fe5a96b4c25", "created": 1792146184, "object": "chat.comple
+    prediction=zai confidence=0.760 scores={"zai": 9.5, "devin": 0.5, "hyper": 2.5}
+{"kind": "record", "trial_id": 5, "class": "std", "features": {"hdr_tells": ["x-log-id", "ga-traceid", "set-cookie", "alt-svc"], "model_echo": "requested", "usage_tells": ["usage:cached_tokens"], "prompt_tokens": 30, "stream_span_ms": 0.1, "stream_span_class": "burst", "id_value": "20261016182304e9201fe5a96b4c25", "id_class": "eq-x-log-id", "error_tells": [], "wall_s": 10.5579, "status": 200}, "prediction": "zai", "confidence": 0.76, "t0_epoch": 1792146183.6732147, "t0_utc": "2026-10-16T10:23:03.673Z", "body_len": 215, "status": 200, "error": null}
+=== [T06/std] 2026-10-16T10:23:16.731Z POST /v1/chat/completions (std)
+    status=200 wall=2.311s ttfb=2.310s span_ms=0.1 events=15 echo=requested id_class=eq-x-log-id pt=30
+    hdr_tells: x-log-id,ga-traceid,set-cookie,alt-svc
+    body: [{"id": "2026101618231730bb71f96b1742bf", "created": 1792146197, "object": "chat.completion.chunk", "model": "glm-5.3-flash", "choices": [{"index": 0, "delta": {"role": "assistant", "reasoning_content": "The"}}]}, {"id": "2026101618231730bb71f96b1742bf", "created": 1792146197, "object": "chat.comple
+    prediction=zai confidence=0.677 scores={"zai": 10.5, "devin": 1.5, "hyper": 3.5}
+{"kind": "record", "trial_id": 6, "class": "std", "features": {"hdr_tells": ["x-log-id", "ga-traceid", "set-cookie", "alt-svc"], "model_echo": "requested", "usage_tells": ["usage:cached_tokens"], "prompt_tokens": 30, "stream_span_ms": 0.1, "stream_span_class": "burst", "id_value": "2026101618231730bb71f96b1742bf", "id_class": "eq-x-log-id", "error_tells": [], "wall_s": 2.3108, "status": 200}, "prediction": "zai", "confidence": 0.677, "t0_epoch": 1792146196.7313228, "t0_utc": "2026-10-16T10:23:16.731Z", "body_len": 215, "status": 200, "error": null}
+=== [T07/std] 2026-10-16T10:23:21.542Z POST /v1/chat/completions (std)
+    status=200 wall=3.163s ttfb=3.163s span_ms=0.1 events=15 echo=requested id_class=eq-x-log-id pt=30
+    hdr_tells: x-log-id,ga-traceid,set-cookie,alt-svc
+    body: [{"id": "20261016182322f29a9daf1d634595", "created": 1792146202, "object": "chat.completion.chunk", "model": "glm-5.3-flash", "choices": [{"index": 0, "delta": {"role": "assistant", "reasoning_content": "The"}}]}, {"id": "20261016182322f29a9daf1d634595", "created": 1792146202, "object": "chat.comple
+    prediction=zai confidence=0.778 scores={"zai": 10.5, "devin": 0.5, "hyper": 2.5}
+{"kind": "record", "trial_id": 7, "class": "std", "features": {"hdr_tells": ["x-log-id", "ga-traceid", "set-cookie", "alt-svc"], "model_echo": "requested", "usage_tells": ["usage:cached_tokens"], "prompt_tokens": 30, "stream_span_ms": 0.1, "stream_span_class": "burst", "id_value": "20261016182322f29a9daf1d634595", "id_class": "eq-x-log-id", "error_tells": [], "wall_s": 3.1633, "status": 200}, "prediction": "zai", "confidence": 0.778, "t0_epoch": 1792146201.5423112, "t0_utc": "2026-10-16T10:23:21.542Z", "body_len": 215, "status": 200, "error": null}
+=== [T08/std] 2026-10-16T10:23:27.205Z POST /v1/chat/completions (std)
+    status=200 wall=1.597s ttfb=1.512s span_ms=0.0 events=6 echo=rewritten:glm-5-3-flash-max id_class=chatcmpl-uuid pt=151
+    hdr_tells: server:devin-openai-shim/2
+    body: [{"id": "chatcmpl-644bc238490f4e749a94dfb2", "object": "chat.completion.chunk", "created": 1792146208, "model": "glm-5-3-flash-max", "choices": [{"index": 0, "delta": {"role": "assistant", "content": ""}, "finish_reason": null}]}, {"id": "chatcmpl-644bc238490f4e749a94dfb2", "object": "chat.completio
+    prediction=devin confidence=0.684 scores={"zai": 1.5, "devin": 6.5, "hyper": 1.5}
+{"kind": "record", "trial_id": 8, "class": "std", "features": {"hdr_tells": ["server:devin-openai-shim/2"], "model_echo": "rewritten:glm-5-3-flash-max", "usage_tells": [], "prompt_tokens": 151, "stream_span_ms": 0.0, "stream_span_class": "burst", "id_value": "chatcmpl-644bc238490f4e749a94dfb2", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.5971, "status": 200}, "prediction": "devin", "confidence": 0.684, "t0_epoch": 1792146207.2057521, "t0_utc": "2026-10-16T10:23:27.205Z", "body_len": 215, "status": 200, "error": null}
+=== [T09/std] 2026-10-16T10:23:31.303Z POST /v1/chat/completions (std)
+    status=200 wall=2.042s ttfb=1.738s span_ms=0.0 events=7 echo=rewritten:glm-5-3-flash-max id_class=chatcmpl-uuid pt=407
+    hdr_tells: server:devin-openai-shim/2
+    body: [{"id": "chatcmpl-80f928285de54793a72a4fec", "object": "chat.completion.chunk", "created": 1792146213, "model": "glm-5-3-flash-max", "choices": [{"index": 0, "delta": {"role": "assistant", "content": ""}, "finish_reason": null}]}, {"id": "chatcmpl-80f928285de54793a72a4fec", "object": "chat.completio
+    prediction=devin confidence=0.714 scores={"zai": 1.5, "devin": 7.5, "hyper": 1.5}
+{"kind": "record", "trial_id": 9, "class": "std", "features": {"hdr_tells": ["server:devin-openai-shim/2"], "model_echo": "rewritten:glm-5-3-flash-max", "usage_tells": [], "prompt_tokens": 407, "stream_span_ms": 0.0, "stream_span_class": "burst", "id_value": "chatcmpl-80f928285de54793a72a4fec", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.0415, "status": 200}, "prediction": "devin", "confidence": 0.714, "t0_epoch": 1792146211.3030202, "t0_utc": "2026-10-16T10:23:31.303Z", "body_len": 215, "status": 200, "error": null}
+=== [T10/std] 2026-10-16T10:23:35.844Z POST /v1/chat/completions (std)
+    status=200 wall=1.773s ttfb=1.554s span_ms=0.0 events=7 echo=rewritten:glm-5-3-flash-max id_class=chatcmpl-uuid pt=407
+    hdr_tells: server:devin-openai-shim/2
+    body: [{"id": "chatcmpl-f30f4e24a08e4279a6fa7b73", "object": "chat.completion.chunk", "created": 1792146217, "model": "glm-5-3-flash-max", "choices": [{"index": 0, "delta": {"role": "assistant", "content": ""}, "finish_reason": null}]}, {"id": "chatcmpl-f30f4e24a08e4279a6fa7b73", "object": "chat.completio
+    prediction=devin confidence=0.714 scores={"zai": 1.5, "devin": 7.5, "hyper": 1.5}
+{"kind": "record", "trial_id": 10, "class": "std", "features": {"hdr_tells": ["server:devin-openai-shim/2"], "model_echo": "rewritten:glm-5-3-flash-max", "usage_tells": [], "prompt_tokens": 407, "stream_span_ms": 0.0, "stream_span_class": "burst", "id_value": "chatcmpl-f30f4e24a08e4279a6fa7b73", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.7728, "status": 200}, "prediction": "devin", "confidence": 0.714, "t0_epoch": 1792146215.8447106, "t0_utc": "2026-10-16T10:23:35.844Z", "body_len": 215, "status": 200, "error": null}
+=== [T11/std] 2026-10-16T10:23:40.117Z POST /v1/chat/completions (std)
+    status=200 wall=2.195s ttfb=2.194s span_ms=0.1 events=15 echo=requested id_class=eq-x-log-id pt=30
+    hdr_tells: x-log-id,ga-traceid,set-cookie,alt-svc
+    body: [{"id": "202610161823407e90b5527ca04210", "created": 1792146220, "object": "chat.completion.chunk", "model": "glm-5.3-flash", "choices": [{"index": 0, "delta": {"role": "assistant", "reasoning_content": "The"}}]}, {"id": "202610161823407e90b5527ca04210", "created": 1792146220, "object": "chat.comple
+    prediction=zai confidence=0.677 scores={"zai": 10.5, "devin": 1.5, "hyper": 3.5}
+{"kind": "record", "trial_id": 11, "class": "std", "features": {"hdr_tells": ["x-log-id", "ga-traceid", "set-cookie", "alt-svc"], "model_echo": "requested", "usage_tells": ["usage:cached_tokens"], "prompt_tokens": 30, "stream_span_ms": 0.1, "stream_span_class": "burst", "id_value": "202610161823407e90b5527ca04210", "id_class": "eq-x-log-id", "error_tells": [], "wall_s": 2.1947, "status": 200}, "prediction": "zai", "confidence": 0.677, "t0_epoch": 1792146220.1177166, "t0_utc": "2026-10-16T10:23:40.117Z", "body_len": 215, "status": 200, "error": null}
+=== [T12/std] 2026-10-16T10:23:44.812Z POST /v1/chat/completions (std)
+    status=200 wall=1.744s ttfb=1.744s span_ms=0.0 events=15 echo=requested id_class=eq-x-log-id pt=30
+    hdr_tells: x-log-id,ga-traceid,set-cookie,alt-svc
+    body: [{"id": "20261016182345843e4fafba0c4a5a", "created": 1792146225, "object": "chat.completion.chunk", "model": "glm-5.3-flash", "choices": [{"index": 0, "delta": {"role": "assistant", "reasoning_content": "The"}}]}, {"id": "20261016182345843e4fafba0c4a5a", "created": 1792146225, "object": "chat.comple
+    prediction=zai confidence=0.677 scores={"zai": 10.5, "devin": 1.5, "hyper": 3.5}
+{"kind": "record", "trial_id": 12, "class": "std", "features": {"hdr_tells": ["x-log-id", "ga-traceid", "set-cookie", "alt-svc"], "model_echo": "requested", "usage_tells": ["usage:cached_tokens"], "prompt_tokens": 30, "stream_span_ms": 0.0, "stream_span_class": "burst", "id_value": "20261016182345843e4fafba0c4a5a", "id_class": "eq-x-log-id", "error_tells": [], "wall_s": 1.7445, "status": 200}, "prediction": "zai", "confidence": 0.677, "t0_epoch": 1792146224.8126006, "t0_utc": "2026-10-16T10:23:44.812Z", "body_len": 215, "status": 200, "error": null}
+=== [T13/std] 2026-10-16T10:23:49.057Z POST /v1/chat/completions (std)
+    status=200 wall=1.841s ttfb=1.841s span_ms=0.1 events=15 echo=requested id_class=eq-x-log-id pt=30
+    hdr_tells: x-log-id,ga-traceid,set-cookie,alt-svc
+    body: [{"id": "202610161823494d9ba907062b49d8", "created": 1792146229, "object": "chat.completion.chunk", "model": "glm-5.3-flash", "choices": [{"index": 0, "delta": {"role": "assistant", "reasoning_content": "The"}}]}, {"id": "202610161823494d9ba907062b49d8", "created": 1792146229, "object": "chat.comple
+    prediction=zai confidence=0.677 scores={"zai": 10.5, "devin": 1.5, "hyper": 3.5}
+{"kind": "record", "trial_id": 13, "class": "std", "features": {"hdr_tells": ["x-log-id", "ga-traceid", "set-cookie", "alt-svc"], "model_echo": "requested", "usage_tells": ["usage:cached_tokens"], "prompt_tokens": 30, "stream_span_ms": 0.1, "stream_span_class": "burst", "id_value": "202610161823494d9ba907062b49d8", "id_class": "eq-x-log-id", "error_tells": [], "wall_s": 1.8415, "status": 200}, "prediction": "zai", "confidence": 0.677, "t0_epoch": 1792146229.0572538, "t0_utc": "2026-10-16T10:23:49.057Z", "body_len": 215, "status": 200, "error": null}
+=== [T14/std] 2026-10-16T10:23:53.398Z POST /v1/chat/completions (std)
+    status=200 wall=7.622s ttfb=7.622s span_ms=0.0 events=15 echo=requested id_class=eq-x-log-id pt=30
+    hdr_tells: x-log-id,ga-traceid,set-cookie,alt-svc
+    body: [{"id": "202610161823538eed4c42e1654f83", "created": 1792146234, "object": "chat.completion.chunk", "model": "glm-5.3-flash", "choices": [{"index": 0, "delta": {"role": "assistant", "reasoning_content": "The"}}]}, {"id": "202610161823538eed4c42e1654f83", "created": 1792146234, "object": "chat.comple
+    prediction=zai confidence=0.760 scores={"zai": 9.5, "devin": 0.5, "hyper": 2.5}
+{"kind": "record", "trial_id": 14, "class": "std", "features": {"hdr_tells": ["x-log-id", "ga-traceid", "set-cookie", "alt-svc"], "model_echo": "requested", "usage_tells": ["usage:cached_tokens"], "prompt_tokens": 30, "stream_span_ms": 0.0, "stream_span_class": "burst", "id_value": "202610161823538eed4c42e1654f83", "id_class": "eq-x-log-id", "error_tells": [], "wall_s": 7.6222, "status": 200}, "prediction": "zai", "confidence": 0.76, "t0_epoch": 1792146233.3989289, "t0_utc": "2026-10-16T10:23:53.398Z", "body_len": 215, "status": 200, "error": null}
+=== [T15/std] 2026-10-16T10:24:03.521Z POST /v1/chat/completions (std)
+    status=200 wall=8.126s ttfb=8.125s span_ms=0.0 events=15 echo=requested id_class=eq-x-log-id pt=30
+    hdr_tells: x-log-id,ga-traceid,set-cookie,alt-svc
+    body: [{"id": "2026101618240486e24061e97648a8", "created": 1792146244, "object": "chat.completion.chunk", "model": "glm-5.3-flash", "choices": [{"index": 0, "delta": {"role": "assistant", "reasoning_content": "The"}}]}, {"id": "2026101618240486e24061e97648a8", "created": 1792146244, "object": "chat.comple
+    prediction=zai confidence=0.760 scores={"zai": 9.5, "devin": 0.5, "hyper": 2.5}
+{"kind": "record", "trial_id": 15, "class": "std", "features": {"hdr_tells": ["x-log-id", "ga-traceid", "set-cookie", "alt-svc"], "model_echo": "requested", "usage_tells": ["usage:cached_tokens"], "prompt_tokens": 30, "stream_span_ms": 0.0, "stream_span_class": "burst", "id_value": "2026101618240486e24061e97648a8", "id_class": "eq-x-log-id", "error_tells": [], "wall_s": 8.1257, "status": 200}, "prediction": "zai", "confidence": 0.76, "t0_epoch": 1792146243.521296, "t0_utc": "2026-10-16T10:24:03.521Z", "body_len": 215, "status": 200, "error": null}
+=== [T16/std] 2026-10-16T10:24:14.147Z POST /v1/chat/completions (std)
+    status=200 wall=1.585s ttfb=1.522s span_ms=0.1 events=6 echo=rewritten:glm-5-3-flash-max id_class=chatcmpl-uuid pt=151
+    hdr_tells: server:devin-openai-shim/2
+    body: [{"id": "chatcmpl-409b9079de354e7d8ebab891", "object": "chat.completion.chunk", "created": 1792146255, "model": "glm-5-3-flash-max", "choices": [{"index": 0, "delta": {"role": "assistant", "content": ""}, "finish_reason": null}]}, {"id": "chatcmpl-409b9079de354e7d8ebab891", "object": "chat.completio
+    prediction=devin confidence=0.684 scores={"zai": 1.5, "devin": 6.5, "hyper": 1.5}
+{"kind": "record", "trial_id": 16, "class": "std", "features": {"hdr_tells": ["server:devin-openai-shim/2"], "model_echo": "rewritten:glm-5-3-flash-max", "usage_tells": [], "prompt_tokens": 151, "stream_span_ms": 0.1, "stream_span_class": "burst", "id_value": "chatcmpl-409b9079de354e7d8ebab891", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.5846, "status": 200}, "prediction": "devin", "confidence": 0.684, "t0_epoch": 1792146254.1472523, "t0_utc": "2026-10-16T10:24:14.147Z", "body_len": 215, "status": 200, "error": null}
+=== [T17/std] 2026-10-16T10:24:18.232Z POST /v1/chat/completions (std)
+    status=200 wall=1.735s ttfb=1.691s span_ms=0.0 events=6 echo=rewritten:glm-5-3-flash-max id_class=chatcmpl-uuid pt=151
+    hdr_tells: server:devin-openai-shim/2
+    body: [{"id": "chatcmpl-7ebc3d7873c544feb0ddab52", "object": "chat.completion.chunk", "created": 1792146259, "model": "glm-5-3-flash-max", "choices": [{"index": 0, "delta": {"role": "assistant", "content": ""}, "finish_reason": null}]}, {"id": "chatcmpl-7ebc3d7873c544feb0ddab52", "object": "chat.completio
+    prediction=devin confidence=0.684 scores={"zai": 1.5, "devin": 6.5, "hyper": 1.5}
+{"kind": "record", "trial_id": 17, "class": "std", "features": {"hdr_tells": ["server:devin-openai-shim/2"], "model_echo": "rewritten:glm-5-3-flash-max", "usage_tells": [], "prompt_tokens": 151, "stream_span_ms": 0.0, "stream_span_class": "burst", "id_value": "chatcmpl-7ebc3d7873c544feb0ddab52", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.7349, "status": 200}, "prediction": "devin", "confidence": 0.684, "t0_epoch": 1792146258.232056, "t0_utc": "2026-10-16T10:24:18.232Z", "body_len": 215, "status": 200, "error": null}
+=== [T18/std] 2026-10-16T10:24:22.467Z POST /v1/chat/completions (std)
+    status=200 wall=1.893s ttfb=1.892s span_ms=0.1 events=15 echo=requested id_class=eq-x-log-id pt=30
+    hdr_tells: x-log-id,ga-traceid,set-cookie,alt-svc
+    body: [{"id": "20261016182423d653482b30814c2a", "created": 1792146263, "object": "chat.completion.chunk", "model": "glm-5.3-flash", "choices": [{"index": 0, "delta": {"role": "assistant", "reasoning_content": "The"}}]}, {"id": "20261016182423d653482b30814c2a", "created": 1792146263, "object": "chat.comple
+    prediction=zai confidence=0.677 scores={"zai": 10.5, "devin": 1.5, "hyper": 3.5}
+{"kind": "record", "trial_id": 18, "class": "std", "features": {"hdr_tells": ["x-log-id", "ga-traceid", "set-cookie", "alt-svc"], "model_echo": "requested", "usage_tells": ["usage:cached_tokens"], "prompt_tokens": 30, "stream_span_ms": 0.1, "stream_span_class": "burst", "id_value": "20261016182423d653482b30814c2a", "id_class": "eq-x-log-id", "error_tells": [], "wall_s": 1.8929, "status": 200}, "prediction": "zai", "confidence": 0.677, "t0_epoch": 1792146262.4671025, "t0_utc": "2026-10-16T10:24:22.467Z", "body_len": 215, "status": 200, "error": null}
+=== [T19/std] 2026-10-16T10:24:26.860Z POST /v1/chat/completions (std)
+    status=200 wall=1.977s ttfb=1.976s span_ms=0.1 events=15 echo=requested id_class=eq-x-log-id pt=30
+    hdr_tells: x-log-id,ga-traceid,set-cookie,alt-svc
+    body: [{"id": "202610161824273a67ed5d96b74f01", "created": 1792146267, "object": "chat.completion.chunk", "model": "glm-5.3-flash", "choices": [{"index": 0, "delta": {"role": "assistant", "reasoning_content": "The"}}]}, {"id": "202610161824273a67ed5d96b74f01", "created": 1792146267, "object": "chat.comple
+    prediction=zai confidence=0.677 scores={"zai": 10.5, "devin": 1.5, "hyper": 3.5}
+{"kind": "record", "trial_id": 19, "class": "std", "features": {"hdr_tells": ["x-log-id", "ga-traceid", "set-cookie", "alt-svc"], "model_echo": "requested", "usage_tells": ["usage:cached_tokens"], "prompt_tokens": 30, "stream_span_ms": 0.1, "stream_span_class": "burst", "id_value": "202610161824273a67ed5d96b74f01", "id_class": "eq-x-log-id", "error_tells": [], "wall_s": 1.9768, "status": 200}, "prediction": "zai", "confidence": 0.677, "t0_epoch": 1792146266.860237, "t0_utc": "2026-10-16T10:24:26.860Z", "body_len": 215, "status": 200, "error": null}
+=== [T20/std] 2026-10-16T10:24:31.337Z POST /v1/chat/completions (std)
+    status=200 wall=1.861s ttfb=1.861s span_ms=0.1 events=15 echo=requested id_class=eq-x-log-id pt=30
+    hdr_tells: x-log-id,ga-traceid,set-cookie,alt-svc
+    body: [{"id": "202610161824312f49352984644656", "created": 1792146272, "object": "chat.completion.chunk", "model": "glm-5.3-flash", "choices": [{"index": 0, "delta": {"role": "assistant", "reasoning_content": "The"}}]}, {"id": "202610161824312f49352984644656", "created": 1792146272, "object": "chat.comple
+    prediction=zai confidence=0.677 scores={"zai": 10.5, "devin": 1.5, "hyper": 3.5}
+{"kind": "record", "trial_id": 20, "class": "std", "features": {"hdr_tells": ["x-log-id", "ga-traceid", "set-cookie", "alt-svc"], "model_echo": "requested", "usage_tells": ["usage:cached_tokens"], "prompt_tokens": 30, "stream_span_ms": 0.1, "stream_span_class": "burst", "id_value": "202610161824312f49352984644656", "id_class": "eq-x-log-id", "error_tells": [], "wall_s": 1.8614, "status": 200}, "prediction": "zai", "confidence": 0.677, "t0_epoch": 1792146271.3372116, "t0_utc": "2026-10-16T10:24:31.337Z", "body_len": 215, "status": 200, "error": null}
+=== [T21/err-path] 2026-10-16T10:24:35.698Z POST /v1/chat/completions (err)
+    status=200 wall=3.462s ttfb=3.461s span_ms=0.1 events=15 echo=requested id_class=eq-x-log-id pt=30
+    hdr_tells: x-log-id,ga-traceid,set-cookie,alt-svc
+    body: [{"id": "20261016182436571efbef1b0c4ba1", "created": 1792146276, "object": "chat.completion.chunk", "model": "glm-5.3-flash", "choices": [{"index": 0, "delta": {"role": "assistant", "reasoning_content": "The"}}]}, {"id": "20261016182436571efbef1b0c4ba1", "created": 1792146276, "object": "chat.comple
+    prediction=zai confidence=0.778 scores={"zai": 10.5, "devin": 0.5, "hyper": 2.5}
+{"kind": "record", "trial_id": 21, "class": "err", "features": {"hdr_tells": ["x-log-id", "ga-traceid", "set-cookie", "alt-svc"], "model_echo": "requested", "usage_tells": ["usage:cached_tokens"], "prompt_tokens": 30, "stream_span_ms": 0.1, "stream_span_class": "burst", "id_value": "20261016182436571efbef1b0c4ba1", "id_class": "eq-x-log-id", "error_tells": [], "wall_s": 3.4617, "status": 200}, "prediction": "zai", "confidence": 0.778, "t0_epoch": 1792146275.6988027, "t0_utc": "2026-10-16T10:24:35.698Z", "body_len": 233, "status": 200, "error": null}
+=== [T22/err-path] 2026-10-16T10:24:41.660Z POST /v1/chat/completions (err)
+    status=200 wall=2.038s ttfb=2.037s span_ms=0.3 events=15 echo=requested id_class=eq-x-log-id pt=30
+    hdr_tells: x-log-id,ga-traceid,set-cookie,alt-svc
+    body: [{"id": "202610161824421fa444d3c9c94567", "created": 1792146282, "object": "chat.completion.chunk", "model": "glm-5.3-flash", "choices": [{"index": 0, "delta": {"role": "assistant", "reasoning_content": "The"}}]}, {"id": "202610161824421fa444d3c9c94567", "created": 1792146282, "object": "chat.comple
+    prediction=zai confidence=0.677 scores={"zai": 10.5, "devin": 1.5, "hyper": 3.5}
+{"kind": "record", "trial_id": 22, "class": "err", "features": {"hdr_tells": ["x-log-id", "ga-traceid", "set-cookie", "alt-svc"], "model_echo": "requested", "usage_tells": ["usage:cached_tokens"], "prompt_tokens": 30, "stream_span_ms": 0.3, "stream_span_class": "burst", "id_value": "202610161824421fa444d3c9c94567", "id_class": "eq-x-log-id", "error_tells": [], "wall_s": 2.038, "status": 200}, "prediction": "zai", "confidence": 0.677, "t0_epoch": 1792146281.6606781, "t0_utc": "2026-10-16T10:24:41.660Z", "body_len": 233, "status": 200, "error": null}
+# trials done: n=22 (std=20 err=2) last_request_utc=2026-10-16T10:24:43Z — journal GT intentionally NOT read
+
+## GT + scoring at close (journal read AFTER all trials — 2026-10-16T10:27:03Z)
+# journal command: journalctl --user -u glm-flash-shim --since @1792146147 --until @1792146311 --no-pager
+# journal stdout lines=244 request-lines=99 leg-rids=99 allfail=1
+# frozen table re-verified at scoring: sha256 9f0244bb0aa4463c66981e5758a9a368ea0f0ea61b26882925f3ce7bbe6ba33c
+
+| trial | class | prediction | GT | gt_class | chain | correct |
+|---|---|---|---|---|---|---|
+| T01 | std | devin | devin | served | 1/zai FAIL 429; 2/devin OK 200 | YES |
+| T02 | std | devin | devin | served | 1/zai FAIL 429; 2/devin OK 200 | YES |
+| T03 | std | devin | devin | served | 1/zai FAIL 429; 2/devin OK 200 | YES |
+| T04 | std | devin | devin | served | 1/zai FAIL None; 2/devin OK 200 | YES |
+| T05 | std | zai | zai | served | 1/zai OK 200 | YES |
+| T06 | std | zai | zai | served | 1/zai OK 200 | YES |
+| T07 | std | zai | zai | served | 1/zai OK 200 | YES |
+| T08 | std | devin | devin | served | 1/zai FAIL 429; 2/devin OK 200 | YES |
+| T09 | std | devin | devin | served | 1/zai FAIL 429; 2/devin OK 200 | YES |
+| T10 | std | devin | devin | served | 1/zai FAIL 429; 2/devin OK 200 | YES |
+| T11 | std | zai | zai | served | 1/zai OK 200 | YES |
+| T12 | std | zai | zai | served | 1/zai OK 200 | YES |
+| T13 | std | zai | zai | served | 1/zai OK 200 | YES |
+| T14 | std | zai | zai | served | 1/zai OK 200 | YES |
+| T15 | std | zai | zai | served | 1/zai OK 200 | YES |
+| T16 | std | devin | devin | served | 1/zai FAIL 429; 2/devin OK 200 | YES |
+| T17 | std | devin | devin | served | 1/zai FAIL 429; 2/devin OK 200 | YES |
+| T18 | std | zai | zai | served | 1/zai OK 200 | YES |
+| T19 | std | zai | zai | served | 1/zai OK 200 | YES |
+| T20 | std | zai | zai | served | 1/zai OK 200 | YES |
+| T21 | err | zai | zai | served | 1/zai OK 200 | YES |
+| T22 | err | zai | zai | served | 1/zai OK 200 | YES |
+
+GT counts: {"devin": 9, "zai": 13}
+ACCURACY: 22/22 = 1.000 (bar 0.80, min scored n 20) -> PASS
+per-leg GT counts mean honesty note: legs with 0 GT trials are UNTESTED by this run
+
+Mimicry/ablation accuracies (frozen protocol §mimicry):
+  loo:hdr_tells                      22/22 = 1.000
+  loo:model_echo                     22/22 = 1.000
+  loo:usage_tells                    22/22 = 1.000
+  loo:error_tells                    22/22 = 1.000
+  loo:prompt_tokens_band             22/22 = 1.000
+  loo:wall_band                      22/22 = 1.000
+  loo:id_class                       22/22 = 1.000
+  loo:stream_span_class              22/22 = 1.000
+  mimicry:header-strip(hdrid)        22/22 = 1.000
+  mimicry:latency-pad                22/22 = 1.000
+  mimicry:echo-spoof                 22/22 = 1.000
+{"kind": "score_summary", "shim": "glm", "accuracy": 1.0, "scored": 22, "correct": 22, "verdict": "PASS", "gt_counts": {"devin": 9, "zai": 13}, "excluded": [], "ablations": {"loo:hdr_tells": {"ok": 22, "n": 22}, "loo:model_echo": {"ok": 22, "n": 22}, "loo:usage_tells": {"ok": 22, "n": 22}, "loo:error_tells": {"ok": 22, "n": 22}, "loo:prompt_tokens_band": {"ok": 22, "n": 22}, "loo:wall_band": {"ok": 22, "n": 22}, "loo:id_class": {"ok": 22, "n": 22}, "loo:stream_span_class": {"ok": 22, "n": 22}, "mimicry:header-strip(hdrid)": {"ok": 22, "n": 22}, "mimicry:latency-pad": {"ok": 22, "n": 22}, "mimicry:echo-spoof": {"ok": 22, "n": 22}}, "frozen_sha256": "9f0244bb0aa4463c66981e5758a9a368ea0f0ea61b26882925f3ce7bbe6ba33c"}
+
+## Seat adjudication (instrument-impl, appended after scoring — no new requests)
+
+AUTHORITATIVE SCORING SECTION: the single "## GT + scoring at close" block
+above (ACCURACY 22/22 = 1.000 -> PASS; GT counts zai 13, devin 9; hyper
+UNTESTED — 0 GT trials). The matcher defects recorded in the ds receipt
+(A: 1-second stamp truncation window; B: local-offset epoch bug; C: greedy
+in-order assignment) were fixed BEFORE this shim's first scoring run, so this
+receipt carries no failed scoring blocks.
+
+FROZEN-TABLE CALIBRATION DEFECTS EXPOSED BY THE TRIALS (recorded, table stays
+as frozen — sha 9f0244bb…; fixes belong to the next instantiation):
+
+- D2 (billing bimodality): the devin leg billed the IDENTICAL 215-byte body
+  prompt_tokens 407 (T01/T03/T09/T10) AND 151 (T02/T04/T08/T16) — two modes
+  256 apart within one minute. The frozen band [326, 488] covers only the
+  r19-observed mode; a 151 trial scored prompt_tokens_band=0 for devin (and
+  0 for every leg — no leg's band contains 151), so the feature abstained
+  rather than mislead. Attribution on those trials was carried by hdr_tells
+  (Server: devin-openai-shim/2) + model_echo (rewritten:glm-5-3-flash-max).
+  Candidate cause (unproven): two distinct devin upstreams/system prompts.
+- D4 (latency-band misses): T04 wall 16.009 s (devin) and T05 10.558 s (zai)
+  exceed every frozen wall band; both trials still attributed correctly via
+  header/echo/usage tells. The wall_band feature is a weak corroborator by
+  weight (1.0) and abstained (0 for all legs) on both — by design.
+- D5 (error path not exercised live): both error-path trials (temperature:0
+  body) were served 200 by leg-1 zai — zai ACCEPTS temperature, so the devin
+  400-relay path (r19 F-2) fires only when zai 429s first; no all-legs-fail
+  or devin-serve-of-temperature-body occurred this round. error_tells is
+  validated by r19 receipts + the mock-smoke only, not by a live trial.
+- D6 (T04 chain anomaly): journal shows "1/zai FAIL status=None" (connection-
+  level failure, not 429) then "2/devin OK" — the shim's fall-through on
+  connection errors witnessed live (r19 G8 mechanism, production instance).
+
+Ordering: frozen 2026-10-16T10:20:08Z < first trial 10:22:32.489Z < last trial
+10:24:41.660Z < first journal GT read for this shim (the single scoring block
+above). No GT source was read before the last trial; no request of any kind
+after the last trial.

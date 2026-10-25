@@ -1,0 +1,20 @@
+# round-26 round-start receipts 2026-10-21T02:31:41-03:00
+$ jj-lane.sh state
+state branch=master local=f11bffbf9caa9c9e286fb32c568b81b97719656a remote=f11bffbf9caa9c9e286fb32c568b81b97719656a ahead=0 behind=0 head=detached tracked=0 untracked=2
+$ sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku
+kengaku	W04	S040 duplicate url arxiv.org/abs/2301.09633 across scopes
+kengaku	ok	/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md
+exit=0
+$ grep -rlE 'perturb|metamorph' grader.py plans/*.py corpus/knowledge | wc -l
+4
+$ git cat-file -e f11bffbf:plans/grader_perturb.py
+fatal: path 'plans/grader_perturb.py' does not exist in 'f11bffbf'
+exit=128
+$ python3 plans/state_check.py --summary (v2, base tree)
+assertions=235 match=231 mismatch=0 superseded=1 offline_unverifiable=3
+OUT_OF_POPULATION: P2a.out-of-population.interval-reverdict:558 — "interval-reverdict"
+$ python3 grader.py | tail -2
+CHECKS n=733 mismatches=0 errata_pinned=1
+VERDICT: PASS — stored evidence fully re-derives offline
+$ grep -cE '^\| *S[0-9]{3,} *\|' corpus/SOURCES.md
+42

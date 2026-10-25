@@ -970,3 +970,18 @@ git. Fleet report: `.ufo/reports/round-33/kengaku.md`.
   (`R33FCensus.md`) was misrooted into the fleet wave tree, then copied byte-exact into the lane
   and removed from the fleet root. No tools were installed.
 - A direct Git commit briefly parked the C1/C3 payload on detached orphan `2b4cef2e`; it was abandoned and the changes were re-landed through `jj-lane.sh`. Final branch/remote equality is recorded in the report.
+
+## Round 34 — 2026-10-25 (hyaku run 7; honest stop)
+
+Declared C1 coverage (lowest tied axis 7): open the pinned Terminal-Bench 2.0 `protein-assembly` evaluator and ground its comparison against the task artifacts. Declared C2 calibration (8): harden the round-33 counter against four mutant classes. Claims frozen at `plans/round-34-claims.md` (freeze `adaf25dfd27dedfc1bf25f308576a6f2c8ad64ae`); before values and controls in `.ufo/waves/round-34/claims/`.
+
+One v2 wave, 64/64 spawned, no residual call. Seat mix and statuses: `.ufo/waves/round-34/build-results.json`; captured evidence and seat reports under `.ufo/waves/round-34/build/` and `.ufo/waves/round-34/assimilation/`.
+
+C1 honest stop: pinned evaluator captured at `2fd12b88aafdd04a52c298e3940bcb189f9766d6`, but no sourced corpus admission landed; `R34ReviewCounterC1.md` identifies V3–V8 counter gaps including V7 red against the truthful frozen control and V8 accepting an external checksum path. Score coverage remains 7, held. The expected-artifact files were read, but the output test embeds expected sequences rather than reading those files (`R34CriticEntryTB2.md`); entry wording is scoped accordingly in the report.
+
+C2 honest stop: `R34ReviewClaimsFile.md`, `R34CriticC2.md`, `R34MutC2Harness.md` show the frozen clean-tree/harness predicate unsatisfied, N3/N4/N7 baseline failures in the candidate draft, wrong mutant surfaces/labels, and incomplete width/newline red-before execution. Calibration remains 8, held; no C2 capability credited.
+
+Quarantine: S091 refused — required NEC quote absent from 418-byte Access Denied response (`assimilation/quarantine-verdicts.txt`); S105 quote located in METI archive, but no S109 row appended because no admitted entry cites it. Package screen: zero entries admitted, six refused/held as staged (`R34ReconPackage.md`). Considerthese proposal 2 was mined as a Q23 draft only (`R34Considerthese.md`), not landed as criterion after C2 failed.
+
+Frontier census: `/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku` — before and after exit 0, 15 W04 each; SOURCES 97→97, tier A/B/C additions 0/0/0, rows touched 0, frontier rows advanced 0. Receipts: `corpus/evidence/round34/census-{before,after}.txt`.
+No tools installed. No round-34 corpus capability entered. Fresh non-author round closure is pending.

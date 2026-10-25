@@ -1,0 +1,670 @@
+{
+ "wave": "kengaku-r27-build",
+ "context": "# Goal\nKengaku round 27 ONLY (hyaku block, attempt 1; never work any later round). Lane repo /home/vgpnk/Projects/shokunin/kengaku-shokunin (jj-colocated; pre-registration LANDED at 11a7fc8c64dc = /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round-27-claims.md — read it FIRST: C1 extraction-policy comparison E0–E8 on the frozen 1964-response population, C2 state_check v4 P4a–P4e frozen at base b5719440, predictions Q1–Q8, separability, frontier step). Domain: LLM/model research & evaluation. Owned axes: novelty (legacy label → canonical coverage/constructs) + calibration. Round 26 was ADMITTED by an outside closure (/home/vgpnk/Projects/shokunin/.ufo/reports/round-26/kengaku-closure-evidence.json); its limitation \"P2/P3 do not cover round-26 assertions\" motivates C2.\nKey lane files: /home/vgpnk/Projects/shokunin/kengaku-shokunin/grader.py (extract_json_block :121, BARE_RE :128, grade_state :221), /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/grader_perturb.py (build_population :187, regrade :259, format_class :54, FENCED_RE/BARE_RE :35-36), /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/attrib_calibration.py (clopper_pearson), /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/state_check.py (v3; P2/P3), /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/gate_timing_check.py (Q13/Q14), /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/QUALITY.md (Q1–Q14, R1–R14), /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md (contract-v1 13-column rows; next id S049), /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/grader-perturbation-audit.md, /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/README.md (§Frontier :250-262), /home/vgpnk/Projects/shokunin/kengaku-shokunin/SCORECARD.md (§Round 26 :752-810), /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/lessons/round-26.md.\n# Contract\nEvery `Report:` trailer path is relative to /home/vgpnk/Projects/shokunin/kengaku-shokunin — write it at /home/vgpnk/Projects/shokunin/kengaku-shokunin/<that path>. Tools start at the fleet root /home/vgpnk/Projects/shokunin: use ABSOLUTE paths always; a relative write lands in the fleet repo and is a misroot.\nYou may write ONLY (a) your own report file and (b) if your item says WRITER, files inside your private clone /tmp/kengaku-r27-<YourSeatName> created with `git clone --no-hardlinks /home/vgpnk/Projects/shokunin/kengaku-shokunin /tmp/kengaku-r27-<YourSeatName> && git -C /tmp/kengaku-r27-<YourSeatName> switch -c r27-<YourSeatName> 11a7fc8c64dc` (record the observed base hash). Integration owner is KengakuR27 (L1) alone. NEVER write the live lane tree, its jj state or Git index (no git/jj mutation in /home/vgpnk/Projects/shokunin/kengaku-shokunin), the fleet repo, sibling repos, MANIFEST.json, .ufo/state, watchdog, fleet scripts/templates/config, ~/.omp config, or host config. Read-only seats return findings in their report only.\nNo live model/endpoint requests (all responses are committed; work is offline except reading public web sources), no secrets/credential reads, no services/boot/package transactions. Tooling: read /home/vgpnk/.omp/agent/RULES.md first; you may install or upgrade tools that help the task from official channels and must record tool/version/channel/reason in your report. pacman guard: ALL pacman transactions are PAUSED host-wide — use uv tool / npx / an official binary in ~/.local/bin; never -Sy/-Syu/-U/-R, downgrade, or restart a host service. Scratch in /tmp only; Python runs with PYTHONDONTWRITEBYTECODE=1.\nNo delegation (an executor may spawn at most one read-only labrat probe). Skip builds/lint/formatters mid-flight; run only the commands your item assigns. Message peers only by exact id, never agent://all.\nShared interfaces (writers implement exactly; stdlib-only python3):\n- plans/parser_policy_compare.py: CLI `python3 plans/parser_policy_compare.py [--root DIR] [--summary|--json] [--selftest]`; exit 0 ran (pins + E0 baseline reproduce on all 1964), 1 pin/baseline/policy-exception/selftest failure, 2 usage. Imports build_population/regrade-graders/format_class from plans/grader_perturb.py and clopper_pearson from plans/attrib_calibration.py. `POLICIES` = ordered dict id->callable(raw)->value|None for E0..E8 exactly per the pre-registration table. --summary lines: `POLICY <id> name=<name> n=1964 agree=<k> flip_pf=<a> flip_fp=<b> none=<c> pass=<p> pass_rate=<x.xxxx> delta_pp=<+y.yy> cp95_lo=<.6f> cp95_hi=<.6f>` for E0..E8, then `STRATUM <id> <class> n= agree=` lines, `CELLSHIFT <id> max_abs_pp=<v> cell=<file:cell>`, `MATRIX` lines (9x9 disagreement counts), then final `TOTAL population=1964 policies=8 compared_verdicts=15712 disagreements=<sum of flip_pf+flip_fp over E1..E8> policies_with_flips=<n>`. --json emits the same data.\n- plans/fixtures/r27/policy_oracle.py: independent; `python3 plans/fixtures/r27/policy_oracle.py --root DIR` prints `POLICY <id> agree= flip_pf= flip_fp= none=` for E0..E8 and exit 0; it must NOT import grader.py/grader_perturb.py extraction code (it may read the four jsonl files and reimplement truth/grading from grader.py's TEXT).\n- plans/state_check.py v4: unchanged CLI and exit map; P2/P3 keyed results identical to v3 on base; adds assertion ids `P4a.*`..`P4e.*` frozen at base b5719440; R27-E supersession via the existing `R2[5-9]-E` regex.\n- fixtures under plans/fixtures/r27/; census script plans/round27_census.sh (read-only, exit 0, prints k=v).\nReport format: <=60 lines; findings each with path:line or command+output+exit; end with `VERDICT: <one line>` and any installs. Writers also list every file they wrote in their clone with sha256. Any source quote <=25 words with URL, access date 2026-10-21, and location.",
+ "reportDir": ".ufo/waves/round-27/build",
+ "axes": [
+  "novelty",
+  "calibration"
+ ],
+ "milestone": "Build extraction-policy comparison, state_check P4, sources",
+ "items": [
+  {
+   "name": "ExecPolicyCore",
+   "role": "executor",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nWRITER. In your clone implement plans/parser_policy_compare.py exactly per the shared interface and the pre-registration C1 table (/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round-27-claims.md). Reuse grader_perturb.build_population and its per-record grader dispatch (do not duplicate population code); define E0..E8 as pure functions of raw; assert E0 reproduces stored ok on all 1964 (exit 1 otherwise); compute agree/flip_pf/flip_fp/none/pass/pass_rate/delta_pp/CP95 per policy, format strata via format_class, per-file:cell PASS rates and max abs shift vs E0, the 9x9 disagreement matrix, and the TOTAL line. Include --selftest with at least one seeded mutant per policy that the selftest kills (E1/E0 swap, E2 fence leak, E3 order reversed, E4 strip omitted, E5 fallback leak, E6 label restricted, E7 nesting-limited, E8 contained-span reuse). Run --summary, --json | python3 -m json.tool >/dev/null, and --selftest in the clone; paste full summary + exit codes."
+  },
+  {
+   "name": "ExecPolicyOracle",
+   "role": "executor",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nWRITER, independent oracle. Do NOT read or import grader.py's extract/grade functions or plans/grader_perturb.py or any parser_policy_compare.py. Write plans/fixtures/r27/policy_oracle.py in your clone from the TEXT of the pre-registration (/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round-27-claims.md) plus grader.py's truth rules read as text: rebuild the 1964-record population from the four jsonl files (same inclusion: raw+ok records; truth as grader.py derives it), implement E0..E8 yourself, and print per-policy agree/flip_pf/flip_fp/none. Run it; paste output + exit. Then (only after your numbers are final) compare with nothing else — your report is the independent count."
+  },
+  {
+   "name": "ExecPolicyCases",
+   "role": "executor",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nWRITER. In your clone write plans/fixtures/r27/policy_cases.py: >=40 synthetic raw strings with hand-derived expected extraction for EACH of E0..E8 (expected value or None) covering: single ```json fence, ```JSON label, ```javascript label, no label, two fences (first parse-fails / last parse-fails), dangling fence, bare object only, prose with braces before/after, 3-level nesting (exceeds BARE_RE), arrays of arrays, CRLF fences, whitespace-only around JSON (E4), trailing text after JSON (E4 None), nested object inside decoded span (E8 must skip contained starts), invalid JSON then valid JSON. The script imports plans/parser_policy_compare.py POLICIES if present (else reports SKIP with exit 2) and checks every case; exit 0/1. Derive expectations by hand from the pre-registration semantics, not by running an implementation. Paste the case table (id, raw repr short, expected per policy)."
+  },
+  {
+   "name": "ExecPolicyEdgeProbe",
+   "role": "executor",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nWRITER (scratch only, no clone needed — write under /tmp/kengaku-r27-ExecPolicyEdgeProbe). Using grader_perturb.build_population (import read-only from the lane path) enumerate, for the 1964 records, structural features that drive extraction-policy divergence: number of fenced blocks, fence labels seen (exact strings), whether the last fence parses, presence of bare candidates outside fences, max JSON nesting depth of the extracted answer, whether raw.strip() parses as JSON, CRLF presence. Print a feature histogram per file and per format_class. No policy verdicts — features only. Paste the histogram and the exact command."
+  },
+  {
+   "name": "ExecStateCheckV4",
+   "role": "executor",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nWRITER. In your clone extend plans/state_check.py to v4 per the pre-registration C2 section: frozen population P4a (SCORECARD §Round 26 lines 752–810 numeric tokens vs receipts/commands), P4b (corpus/README.md round-26 artifacts table both directions), P4c (lessons/round-26.md wave-record counts vs .ufo/waves/round-26 files and git ls-tree at named revisions — read-only git only), P4d (knowledge/grader-perturbation-audit.md population numerics vs grader_perturb.py --json), P4e (SOURCES S043–S048 used-by vs citing files). Enumerate assertion ids at base b5719440 (git archive b5719440 | tar -x -C /tmp/kengaku-r27-base) and freeze them as constants. Keep P2/P3 keyed results identical to v3 on base. Add --selftest red cases for each P4 class. Run v4 --summary on the base export and on your clone; paste first lines, all P4 MISMATCH lines, exits."
+  },
+  {
+   "name": "ExecP4Oracle",
+   "role": "executor",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nWRITER, independent. Without reading state_check.py's P4 code, write plans/fixtures/r27/p4_oracle.py in your clone that independently re-derives the P4a–P4e assertions defined in the pre-registration C2 section on a given --root (and --base-rev b5719440 for git ls-tree checks, read-only). Print `P4x.<id> MATCH|MISMATCH observed=<v> asserted=<v>` and a summary; exit 0 if no mismatch, 1 otherwise. Run it on /tmp/kengaku-r27-base (git archive export of b5719440) and on the lane tree read-only; paste output."
+  },
+  {
+   "name": "ExecP4Inventory",
+   "role": "executor",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nWRITER. In your clone write plans/fixtures/r27/p4_inventory.tsv: one row per P4 assertion enumerated at base b5719440 (columns: class, file, line, asserted_token, re-derivation source/command). Enumerate by script (paste the script inline in your report and save it as plans/fixtures/r27/p4_enumerate.py), not by hand. Report the total per class and every token whose re-derivation source you could not identify (those must be classed offline-unverifiable, never silently dropped)."
+  },
+  {
+   "name": "ExecP4RedFixtures",
+   "role": "executor",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nWRITER. In your clone build plans/fixtures/r27/p4_mutants/: for each P4 class a minimal mutated copy recipe (a python script plans/fixtures/r27/p4_mutate.py that exports base b5719440 via git archive into a temp dir and applies one token mutation per class: change a SCORECARD round-26 number, delete a README round-26 row, change a lesson role-mix count, change a knowledge population number, add a false used-by citer). The script runs state_check.py from a supplied --checker path on each mutant and expects exit 1 naming the class; exit 0 if every mutant is red, 1 otherwise. If state_check v4 does not exist yet in your clone, run against v3 and report which mutants v3 misses (expected: all — that is the before)."
+  },
+  {
+   "name": "ExecP23Preservation",
+   "role": "executor",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nWRITER. In your clone write plans/fixtures/r27/p23_preservation.py: given --old and --new state_check.py paths and a --root, run both with --json and compare the full keyed records of every P2*/P3* assertion (all fields, not just status); exit 0 identical, 1 otherwise, printing diffs. Run it with old=v3 (lane plans/state_check.py) and new=v3 itself on the b5719440 export as the control (must be identical), and record the command for later use with v4."
+  },
+  {
+   "name": "ExecCensus27",
+   "role": "executor",
+   "axes": [
+    "novelty",
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nWRITER. In your clone write plans/round27_census.sh modelled on plans/round26_census.sh: read-only, no args, from lane root, prints k=v: head (refs/heads/master), c1_instrument present|absent, c1_total (the TOTAL line of parser_policy_compare --summary), c1_disagreements, c1_exit, c1_oracle_exit, c2 state_check first line, c2_p4_assertions (count of P4 ids in --json), c2_p4_mismatch, c2_exit, q13 round-27 lesson exit when present, SOURCES rows/malformed/tier/status histograms (the four frozen CORPUS.md commands), knowledge/README parity. Missing instruments print absent. Run it on the lane (read-only) and paste output; it must exit 0 today with c1/c2-P4 absent."
+  },
+  {
+   "name": "ExecRevertHarness",
+   "role": "executor",
+   "axes": [
+    "novelty",
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nWRITER. In your clone write plans/fixtures/r27/revert_test.sh: given two revisions/paths-sets (C1 paths: plans/parser_policy_compare.py, plans/fixtures/r27/policy_*, corpus/knowledge/extraction-policy-comparison.md; C2 paths: plans/state_check.py, plans/fixtures/r27/p4_*, R27-E correction rows) it exports a tree, reverts one claim's paths to base b5719440 (by checking out those paths from base in the EXPORT only), re-runs the other claim's counter, and diffs its summary against the unreverted run. Exit 0 if neither counter moves. Test it now on a synthetic pair (e.g. a dummy file) in /tmp and paste."
+  },
+  {
+   "name": "ExecGateDryRun",
+   "role": "executor",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nWRITER (sandbox only). Build a sandbox clone /tmp/kengaku-r27-ExecGateDryRun, create a synthetic corpus/lessons/round-27.md whose ## Gate admits corpus/knowledge/extraction-policy-comparison.md citing two .ufo/waves/round-27/falsify/<Seat>.md reports, and commit in the SANDBOX twice: (a) without the cited reports in the tree, (b) with them plus a registry naming those seats with role reviewer/scout. Run plans/gate_timing_check.py --lesson corpus/lessons/round-27.md --commit <rev> --repo <sandbox> on each; expect 1 then 0. Paste exact outputs; report every structural requirement the real round-27 admission must satisfy (registry path/shape, writer: field, role allowlist)."
+  },
+  {
+   "name": "ExecRound26WaveCounts",
+   "role": "executor",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nRead-only computation (no writes outside /tmp). Re-derive from /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-26/ (build-spec.json, falsify-spec.json, *-assignments.json, falsify-dead-seats.json, registries) and `git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin ls-tree -r --name-only <rev> -- .ufo/waves/round-25/falsify/` at 8ea41f9/8239a56/9d8a00d: build seats and role mix, falsify seats and role mix, dead count, totals 136/139, report units 0/82/87 and 0/83/88. Compare with /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/lessons/round-26.md:87-91,108-123. Paste a table asserted vs observed with commands. Any mismatch is a P4c finding."
+  },
+  {
+   "name": "ExecRound26Scorecard",
+   "role": "executor",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nRead-only computation. For every numeric token in /home/vgpnk/Projects/shokunin/kengaku-shokunin/SCORECARD.md lines 752–810, run the command or open the receipt it names (corpus/evidence/round26-calibration/*.txt; `python3 plans/grader_perturb.py --summary`; `python3 plans/state_check.py --summary`; `sh plans/round26_census.sh`) and tabulate asserted vs observed (line, token, source, MATCH/MISMATCH/UNVERIFIABLE). This is an independent P4a cross-check; paste the table."
+  },
+  {
+   "name": "SentPolicyNoLeak",
+   "role": "sentinel",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nAdversarial: the pre-registration forbids any policy reading want/ok/grader outcome. Design the static and dynamic checks the integrator must run on plans/parser_policy_compare.py (e.g. AST scan of POLICIES callables for references other than raw; a dynamic test calling every policy with a Rec whose want/ok are poisoned sentinels). Write the exact check commands (python one-liners) in your report; if any writer clone /tmp/kengaku-r27-ExecPolicyCore exists when you run, apply them read-only and report."
+  },
+  {
+   "name": "SentRegexCost",
+   "role": "sentinel",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nAdversarial performance/safety: assess catastrophic-backtracking and quadratic-cost risk of E0–E8 on the 1964 raw strings and on adversarial inputs (BARE_RE nested alternation, E6 fence regex, E7/E8 raw_decode scan at every brace). In /tmp, time each policy implementation you write yourself from the pre-registration text over the population (read-only import of grader_perturb.build_population) and over 3 adversarial 200KB strings. Report worst-case seconds and any input that exceeds 10 s; recommend bounds only if a real blow-up is observed."
+  },
+  {
+   "name": "SrcPriorArtPapers",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nBounded paper search (arXiv/ACL Anthology/OpenReview, 2023–2026) for published measurements of how answer-extraction / parsing policy changes LLM benchmark verdicts or scores on the SAME responses (e.g. xFinder, OLMES, 'answer extraction' sensitivity, 'format following' scoring). Open each hit you cite; give URL, date, located <=25-word quote, and whether it measures cross-policy verdict agreement. Conclude: is C1's construct published?"
+  },
+  {
+   "name": "SrcPriorArtTooling",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nBounded tooling search (PyPI JSON API, GitHub code/repo search via web) for libraries/harness features that compare multiple answer-extraction policies on fixed responses or report extraction-policy sensitivity (e.g. lm-eval filter ensembles, evalmut, deepeval, promptfoo assertions, inspect_ai). Open each hit; URL, version, located quote. Conclude for the novelty verdict."
+  },
+  {
+   "name": "SrcOLMES",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nOpen the OLMES paper (AI2, 'OLMES: A Standard for Language Model Evaluations', arXiv 2406.08446) and locate what it says about answer formats/extraction (MCF vs CF, answer parsing). URL, version, located <=25-word quote; is it prior art for extraction-policy sensitivity?"
+  },
+  {
+   "name": "SrcLmEvalDocs",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nOpen lm-evaluation-harness docs on filters (docs/task_guide.md or new_task_guide 'Filters' section and lm_eval/filters/__init__.py registry) at the current main commit. Record commit hash, file path, line numbers, located quote describing filter pipelines (take_first, regex, majority_vote). What extraction policies does it make available?"
+  },
+  {
+   "name": "SrcLmEvalFlexible",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nOpen lm-evaluation-harness GSM8K task yaml (lm_eval/tasks/gsm8k/gsm8k.yaml or gsm8k-cot.yaml) at current main: record the 'strict-match' and 'flexible-extract' filter definitions (regex, group_select). Commit hash, path:lines, quote. Which pre-registered policy does each correspond to (first vs last match)?"
+  },
+  {
+   "name": "SrcHelmExtraction",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nOpen Stanford HELM source (crfm-helm on GitHub) for how generation outputs are post-processed before exact-match (e.g. metrics/evaluate_reference_metrics.py or basic_metrics normalize_text; any 'extract' functions). Commit, path:lines, located quote. Map to E-policies or state no mapping."
+  },
+  {
+   "name": "SrcBFCL",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nOpen Berkeley Function-Calling Leaderboard checker source (gorilla repo, bfcl eval checker / ast parsing of model output) to see whether it decodes the whole output strictly, first match, or strips fences. Commit, path:lines, quote; map to E4/E5/E6 or none."
+  },
+  {
+   "name": "SrcLightEval",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nOpen Hugging Face lighteval source for extractive metrics (e.g. metrics/utils/extractive_match_utils.py or dynamic_metrics.py) — does it take the first or last match, and fence/boxed handling? Commit, path:lines, quote; map to E-policies."
+  },
+  {
+   "name": "SrcOpenCompassPost",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nOpen OpenCompass text postprocessors (opencompass/utils/text_postprocessors.py): first_option_postprocess, last_option_postprocess, any json/fence extraction. Commit, path:lines, quote; map to first vs last policies."
+  },
+  {
+   "name": "SrcInspectJson",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nOpen inspect_ai (UKGovernmentBEIS/inspect_ai) scorer sources for match/pattern/answer and any JSON or code-fence extraction helpers (e.g. util for extracting code blocks). Commit, path:lines, quote; which policy (first/last/any; fence-aware?)."
+  },
+  {
+   "name": "SrcStructuredOutputs",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nOpen OpenAI Structured Outputs / JSON mode documentation (platform docs) or the JSON Schema-constrained decoding docs of a major provider: locate the guarantee that the WHOLE output is valid JSON (strict-whole rationale for E4). URL, access date, located quote."
+  },
+  {
+   "name": "SrcJsonRepair",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nOpen the json_repair (PyPI 'json-repair') README: what lenient extraction/repair does it do (fences, trailing text, first object?). URL, version, located quote. Decide queued vs rejected as a policy source for this round (it is not stdlib; E-policies are frozen)."
+  },
+  {
+   "name": "SrcXFinderReopen",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nRe-open S044 (https://arxiv.org/abs/2405.11874, current version): locate exactly what extraction methods xFinder compares and on what (same responses? which benchmarks?) and what agreement/accuracy metric it reports. Quote <=25 words with section/page. Is C1 a replication of that construct, a narrower instance, or distinct?"
+  },
+  {
+   "name": "ScoutP4Locations",
+   "role": "scout",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nRead /home/vgpnk/Projects/shokunin/kengaku-shokunin/SCORECARD.md:752-810, /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/README.md:264-290, /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/lessons/round-26.md:85-197, /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/grader-perturbation-audit.md, /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md S043–S048 rows AT base b5719440 (git show b5719440:<path>). List every numeric/path assertion that P4a–P4e would register (line, token). Flag ambiguous tokens (ranges, prose numbers) the pre-registration does not settle. Independent of the executor inventory."
+  },
+  {
+   "name": "ScoutSourcesUsedBy",
+   "role": "scout",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nFor S043–S048 in /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md at b5719440, compute which files actually cite each id (`git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin grep -n 'S04[3-8]' b5719440 -- corpus plans`), and compare with each row's used-by cell. Paste table; mismatches are P4e findings."
+  },
+  {
+   "name": "ScoutFrontierPlacement",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nRead /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/README.md (coverage map + §Frontier :250-262), /home/vgpnk/Projects/shokunin/kengaku-shokunin/PROVINCE.md (§Province map Core/Frontier), /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/grader-perturbation-audit.md and llm-judge-calibration.md. Report exactly where a new entry knowledge/extraction-policy-comparison.md must be indexed (README rows, coverage-map row, frontier sub-bullet supersession wording), and which existing text it must not contradict."
+  },
+  {
+   "name": "ScoutQualityChecklist",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nRead /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/QUALITY.md fully. Produce the admission checklist (Q1–Q14 each one line, with the concrete artifact that satisfies it) for admitting knowledge/extraction-policy-comparison.md this round, and the round-closure rows R1–R14 that apply to round 27, each with its check command."
+  },
+  {
+   "name": "ScoutFleetMisrootBaseline",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nRun `git -C /home/vgpnk/Projects/shokunin status --porcelain` and list every untracked/modified path at the fleet root now (baseline before this round's waves) with its mtime; flag any that name kengaku. Read-only."
+  },
+  {
+   "name": "ScoutE0Lineage",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nTrace the origin of extract_json_block's last-block + bare-fallback design: /home/vgpnk/Projects/shokunin/kengaku-shokunin/grader.py header ('ports from horizon.py'), /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round8-horizon/ (horizon.py if present), LOG.md round-8/9/10 entries. Report the documented reason (or absence) for last-block selection and the prompt instruction the models received about answer format (quote the prompt text from committed evidence). This decides which policies are counterfactual vs instructed."
+  },
+  {
+   "name": "ScoutPromptFormat",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nFrom committed evidence (/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round8-horizon, round9-replication, round11-power, round12-ladder — prompts/run scripts/descriptors), quote the exact answer-format instruction each probe gave the model (e.g. 'reply with a ```json block'). Tabulate per file. Needed to classify E4/E5 as instruction-strict vs harness-lenient."
+  },
+  {
+   "name": "ScoutL0Status",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nRead /home/vgpnk/Projects/shokunin/.ufo/l0-questions.md lines naming kengaku (72, 73 and any later) and any operator answer anywhere in /home/vgpnk/Projects/shokunin/.ufo (grep for 'coverage cap' rulings). Report whether the coverage-cap and novelty-conversion questions have been ruled. Read-only."
+  },
+  {
+   "name": "ScoutSiblingParsers",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nScan sibling lane repos under /home/vgpnk/Projects/shokunin/*-shokunin (read-only; exclude kengaku) for knowledge entries or gates about answer extraction, JSON parsing of model output, or grader format sensitivity (`grep -rliE 'extract(ion)? polic|answer extraction|json block|fenced block' --include=*.md --include=*.py`). Report paths:lines and whether any already measures C1's construct."
+  },
+  {
+   "name": "RowLmEvalFilters",
+   "role": "scribe",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nOpen this source yourself (do not rely on memory): lm-evaluation-harness filter pipeline (regex filter group_select semantics; take_first) — open lm_eval/filters/extraction.py and selection.py at current main. Draft, in your report only, (1) a SOURCES.md contract-v1 row for S0xx (leave the id as S0xx; 13 pipe-delimited cells exactly as existing rows in /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md: id | source (title — URL) | kind | tier | scope | anchor | teaches | status | opened | recheck | used-by), scope narrowly to what the source teaches about answer-extraction policy, status queued, opened 2026-10-21, recheck 2027-01-19, used-by `corpus/lessons/round-27.md`; (2) a gate.md line: URL, access date 2026-10-21, commit/version, exact location (path:line or section), and a located quote <=25 words copied exactly; (3) which pre-registered policy E1–E8 it grounds (or none). Paste the fetched bytes' sha256 if you saved them under /tmp."
+  },
+  {
+   "name": "RowGsm8kYaml",
+   "role": "scribe",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nOpen this source yourself (do not rely on memory): lm-evaluation-harness GSM8K strict-match vs flexible-extract filters — open lm_eval/tasks/gsm8k/gsm8k-cot.yaml (or gsm8k.yaml) at current main. Draft, in your report only, (1) a SOURCES.md contract-v1 row for S0xx (leave the id as S0xx; 13 pipe-delimited cells exactly as existing rows in /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md: id | source (title — URL) | kind | tier | scope | anchor | teaches | status | opened | recheck | used-by), scope narrowly to what the source teaches about answer-extraction policy, status queued, opened 2026-10-21, recheck 2027-01-19, used-by `corpus/lessons/round-27.md`; (2) a gate.md line: URL, access date 2026-10-21, commit/version, exact location (path:line or section), and a located quote <=25 words copied exactly; (3) which pre-registered policy E1–E8 it grounds (or none). Paste the fetched bytes' sha256 if you saved them under /tmp."
+  },
+  {
+   "name": "RowInspectMatch",
+   "role": "scribe",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nOpen this source yourself (do not rely on memory): inspect_ai `match()` scorer location parameter (begin/end/any/exact) — open src/inspect_ai/scorer/_match.py (and docs scorers page). Draft, in your report only, (1) a SOURCES.md contract-v1 row for S0xx (leave the id as S0xx; 13 pipe-delimited cells exactly as existing rows in /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md: id | source (title — URL) | kind | tier | scope | anchor | teaches | status | opened | recheck | used-by), scope narrowly to what the source teaches about answer-extraction policy, status queued, opened 2026-10-21, recheck 2027-01-19, used-by `corpus/lessons/round-27.md`; (2) a gate.md line: URL, access date 2026-10-21, commit/version, exact location (path:line or section), and a located quote <=25 words copied exactly; (3) which pre-registered policy E1–E8 it grounds (or none). Paste the fetched bytes' sha256 if you saved them under /tmp."
+  },
+  {
+   "name": "RowInspectPattern",
+   "role": "scribe",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nOpen this source yourself (do not rely on memory): inspect_ai `pattern()` scorer (regex first match vs match_all) — open src/inspect_ai/scorer/_pattern.py. Draft, in your report only, (1) a SOURCES.md contract-v1 row for S0xx (leave the id as S0xx; 13 pipe-delimited cells exactly as existing rows in /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md: id | source (title — URL) | kind | tier | scope | anchor | teaches | status | opened | recheck | used-by), scope narrowly to what the source teaches about answer-extraction policy, status queued, opened 2026-10-21, recheck 2027-01-19, used-by `corpus/lessons/round-27.md`; (2) a gate.md line: URL, access date 2026-10-21, commit/version, exact location (path:line or section), and a located quote <=25 words copied exactly; (3) which pre-registered policy E1–E8 it grounds (or none). Paste the fetched bytes' sha256 if you saved them under /tmp."
+  },
+  {
+   "name": "RowSimpleEvals",
+   "role": "scribe",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nOpen this source yourself (do not rely on memory): openai/simple-evals answer extraction (re.search with ANSWER_PATTERN = first match) — open common.py / mmlu_eval.py on GitHub. Draft, in your report only, (1) a SOURCES.md contract-v1 row for S0xx (leave the id as S0xx; 13 pipe-delimited cells exactly as existing rows in /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md: id | source (title — URL) | kind | tier | scope | anchor | teaches | status | opened | recheck | used-by), scope narrowly to what the source teaches about answer-extraction policy, status queued, opened 2026-10-21, recheck 2027-01-19, used-by `corpus/lessons/round-27.md`; (2) a gate.md line: URL, access date 2026-10-21, commit/version, exact location (path:line or section), and a located quote <=25 words copied exactly; (3) which pre-registered policy E1–E8 it grounds (or none). Paste the fetched bytes' sha256 if you saved them under /tmp."
+  },
+  {
+   "name": "RowOpenAIEvalsJson",
+   "role": "scribe",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nOpen this source yourself (do not rely on memory): openai/evals JSON match eval (evals/elsuite/basic/json_match.py) — whole-completion json.loads vs extraction. Draft, in your report only, (1) a SOURCES.md contract-v1 row for S0xx (leave the id as S0xx; 13 pipe-delimited cells exactly as existing rows in /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md: id | source (title — URL) | kind | tier | scope | anchor | teaches | status | opened | recheck | used-by), scope narrowly to what the source teaches about answer-extraction policy, status queued, opened 2026-10-21, recheck 2027-01-19, used-by `corpus/lessons/round-27.md`; (2) a gate.md line: URL, access date 2026-10-21, commit/version, exact location (path:line or section), and a located quote <=25 words copied exactly; (3) which pre-registered policy E1–E8 it grounds (or none). Paste the fetched bytes' sha256 if you saved them under /tmp."
+  },
+  {
+   "name": "RowPyRawDecode",
+   "role": "scribe",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nOpen this source yourself (do not rely on memory): Python json.JSONDecoder.raw_decode — open https://docs.python.org/3/library/json.html, locate the raw_decode description (basis for E7/E8). Draft, in your report only, (1) a SOURCES.md contract-v1 row for S0xx (leave the id as S0xx; 13 pipe-delimited cells exactly as existing rows in /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md: id | source (title — URL) | kind | tier | scope | anchor | teaches | status | opened | recheck | used-by), scope narrowly to what the source teaches about answer-extraction policy, status queued, opened 2026-10-21, recheck 2027-01-19, used-by `corpus/lessons/round-27.md`; (2) a gate.md line: URL, access date 2026-10-21, commit/version, exact location (path:line or section), and a located quote <=25 words copied exactly; (3) which pre-registered policy E1–E8 it grounds (or none). Paste the fetched bytes' sha256 if you saved them under /tmp."
+  },
+  {
+   "name": "RowRFC8259",
+   "role": "scribe",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nOpen this source yourself (do not rely on memory): RFC 8259 JSON text grammar (JSON-text = ws value ws) — open https://www.rfc-editor.org/rfc/rfc8259 (basis for E4 strict-whole). Draft, in your report only, (1) a SOURCES.md contract-v1 row for S0xx (leave the id as S0xx; 13 pipe-delimited cells exactly as existing rows in /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md: id | source (title — URL) | kind | tier | scope | anchor | teaches | status | opened | recheck | used-by), scope narrowly to what the source teaches about answer-extraction policy, status queued, opened 2026-10-21, recheck 2027-01-19, used-by `corpus/lessons/round-27.md`; (2) a gate.md line: URL, access date 2026-10-21, commit/version, exact location (path:line or section), and a located quote <=25 words copied exactly; (3) which pre-registered policy E1–E8 it grounds (or none). Paste the fetched bytes' sha256 if you saved them under /tmp."
+  },
+  {
+   "name": "RowCommonMarkFence",
+   "role": "scribe",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nOpen this source yourself (do not rely on memory): CommonMark spec fenced code blocks: info string, closing fence rules — open https://spec.commonmark.org/ current version (basis for E1/E5/E6 fence semantics). Draft, in your report only, (1) a SOURCES.md contract-v1 row for S0xx (leave the id as S0xx; 13 pipe-delimited cells exactly as existing rows in /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md: id | source (title — URL) | kind | tier | scope | anchor | teaches | status | opened | recheck | used-by), scope narrowly to what the source teaches about answer-extraction policy, status queued, opened 2026-10-21, recheck 2027-01-19, used-by `corpus/lessons/round-27.md`; (2) a gate.md line: URL, access date 2026-10-21, commit/version, exact location (path:line or section), and a located quote <=25 words copied exactly; (3) which pre-registered policy E1–E8 it grounds (or none). Paste the fetched bytes' sha256 if you saved them under /tmp."
+  },
+  {
+   "name": "RowOpenCompassLast",
+   "role": "scribe",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nOpen this source yourself (do not rely on memory): OpenCompass last_option_postprocess / first_option_postprocess — open opencompass/utils/text_postprocessors.py. Draft, in your report only, (1) a SOURCES.md contract-v1 row for S0xx (leave the id as S0xx; 13 pipe-delimited cells exactly as existing rows in /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md: id | source (title — URL) | kind | tier | scope | anchor | teaches | status | opened | recheck | used-by), scope narrowly to what the source teaches about answer-extraction policy, status queued, opened 2026-10-21, recheck 2027-01-19, used-by `corpus/lessons/round-27.md`; (2) a gate.md line: URL, access date 2026-10-21, commit/version, exact location (path:line or section), and a located quote <=25 words copied exactly; (3) which pre-registered policy E1–E8 it grounds (or none). Paste the fetched bytes' sha256 if you saved them under /tmp."
+  },
+  {
+   "name": "RevSpecE1E2",
+   "role": "reviewer",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nReview the pre-registration's E1 first-fence and E2 bare-last definitions for ambiguity: E1's fallback when the first fence fails to parse (does it try later fences? the text says 'then the same bare-last fallback'), E2 when BARE_RE candidates overlap fences. List each ambiguity with a concrete raw string where two readings differ, and the reading the text most supports."
+  },
+  {
+   "name": "RevSpecE3E4",
+   "role": "reviewer",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nReview E3 bare-first and E4 strict-whole definitions for ambiguity (E4: BOM, surrounding whitespace incl. CR/NBSP, 'raw.strip()' Unicode semantics; E3: BARE_RE finditer non-overlap). Give concrete strings where readings differ and the best-supported reading."
+  },
+  {
+   "name": "RevSpecE5E6",
+   "role": "reviewer",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nReview E5 fence-only and E6 any-label-fence: E6 regex vs CommonMark info strings (```json {…}, ``` json with space, ~~~ fences), E5 when the last fence fails but an earlier one parses. Concrete strings + best-supported reading."
+  },
+  {
+   "name": "RevSpecE7E8",
+   "role": "reviewer",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nReview E7 decode-first / E8 decode-last: raw_decode accepts scalars? (it starts only at { or [ per text), behaviour with leading whitespace, E8 'skip starts inside an already-decoded span' when spans are found left-to-right vs overlapping arrays inside objects. Concrete strings + best-supported reading."
+  },
+  {
+   "name": "RevMetricsSpec",
+   "role": "reviewer",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nReview the C1 metrics block: agree/flip_pf/flip_fp/none definitions, CP95 reuse and its nominal-descriptive caveat, delta_pp sign, CELLSHIFT definition (cell key collisions across files?), compared_verdicts=15712 arithmetic, disagreements sum. Report every under-specified point with the reading that matches the r26 conventions in knowledge/grader-perturbation-audit.md."
+  },
+  {
+   "name": "RevP4Spec",
+   "role": "reviewer",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nReview the C2 P4a–P4e definitions in the pre-registration against the actual base text (git show b5719440:SCORECARD.md etc.). Which tokens are in/out, how ranges and prose numbers are handled, and whether P4b 'every round-26 artifact path on disk under those dirs' is well-defined. List ambiguities with concrete line numbers."
+  },
+  {
+   "name": "RevSeparabilityPlan",
+   "role": "reviewer",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nAttack the pre-registration's separability argument (QUALITY R13): does any C1 artifact (new README rows, new SOURCES rows S049+, the knowledge entry) fall inside P4's frozen population or change any P4 re-derivation source (e.g. P4b both-directions over dirs; P4e used-by)? Concrete path-level findings."
+  },
+  {
+   "name": "RevPredictionsTiming",
+   "role": "reviewer",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nVerify the predictions Q1–Q8 were committed before any instrument output: commit time of 11a7fc8 (`git -C <lane> log -1 --format=%cI 11a7fc8`) vs absence of plans/parser_policy_compare.py anywhere (lane, /tmp/kengaku-r27-*) at that time. Also judge whether each prediction is resolvable unambiguously from the --summary interface (name any that is not)."
+  },
+  {
+   "name": "RevBaseReceipts",
+   "role": "reviewer",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nRe-run every command in /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round27-calibration/round-start.txt read-only and compare outputs (excluding timestamps and the untracked-count drift). Report any difference."
+  },
+  {
+   "name": "RevR26ClosureMapping",
+   "role": "reviewer",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nRead /home/vgpnk/Projects/shokunin/.ufo/reports/round-26/kengaku-closure-evidence.json (limitations, outside_gate_spotcheck) and /home/vgpnk/Projects/shokunin/.ufo/reports/round-26/kengaku.md. List every limitation/routed item and whether the round-27 pre-registration addresses it, defers it, or ignores it — the contract requires turning closure disagreements into a QUALITY criterion or saying why not."
+  },
+  {
+   "name": "RevKnowledgeOverlap",
+   "role": "reviewer",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nCompare the proposed C1 construct against /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/grader-perturbation-audit.md and llm-judge-calibration.md: is any part already measured (e.g. F1 fence strip ≈ E5? D1 ≈ E1 first-fence?). Quote overlapping lines and state what is genuinely new vs re-measured."
+  },
+  {
+   "name": "RevCPReuse",
+   "role": "reviewer",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nVerify plans/attrib_calibration.py clopper_pearson is importable without side effects from a new plans/ script (run a one-liner), check its exact-endpoint behaviour at k=n and k=0 (n=1964), and report the bounds for k=1964,1963,1950 so the integrator can cross-check summary lines."
+  },
+  {
+   "name": "CritNoveltyHold",
+   "role": "critic",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nAttack the novelty ruling in advance: given xFinder (S044), lm-eval flexible-extract, evalmut (S045) and round 26's audit, argue both for and against any novelty movement for C1, and state precisely what evidence would justify +1 versus hold 7. Name the rubric clause (SCORECARD.md:244) at stake."
+  },
+  {
+   "name": "CritConstructValidity",
+   "role": "critic",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nAttack C1's construct validity: models were prompted for a specific format; are alternative extraction policies counterfactual 'what another harness would score' or meaningless? When is a flip a grader-policy artifact versus a model format failure? Propose the interpretation limits the knowledge entry must carry."
+  },
+  {
+   "name": "CritC2Value",
+   "role": "critic",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nAttack C2: is P4 (pinning round-26's own assertions) a genuine calibration observable or bookkeeping inflation? Under what outcome would C2 be 'unchanged' rather than 'improved'? Is score-held-8 honest? Check the r26 closure's ruling on the analogous P3 claim."
+  },
+  {
+   "name": "CritNoHarm",
+   "role": "critic",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nPre-mortem no-harm across all seven axes: which planned edits (state_check v4 growth, new README rows, SOURCES rows, SCORECARD sections) could harm depth/coverage/operability/freshness/adjacency (e.g. index parity break, grader replay change, citation resolution drop)? Give the check command for each."
+  },
+  {
+   "name": "CritPopulationReuse",
+   "role": "critic",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nAttack reuse of the round-26 population for C1: is reporting E0-vs-Ei disagreement on the same 1964 records a double count of round 26's observable (F1/F5/F6/D1 already touch extraction)? What must the entry say to avoid claiming the same ground twice?"
+  },
+  {
+   "name": "CritPredictionsHonesty",
+   "role": "critic",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nAttack predictions Q1–Q8: are they genuinely ex ante (the author knew MULTI=31 and format strata)? Should a Brier score be reported at all, and with what caveat? Is any prediction trivially determined by known strata (e.g. Q1 given MULTI 31)?"
+  },
+  {
+   "name": "CritLowestAxis",
+   "role": "critic",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nAttack the lowest-axis selection and tie-break (novelty 7 tied with coverage 7 capped) against AXES.md and the round contract; is a calibration claim (8) permissible as the second claim; is there any axis lower than 7? Check SCORECARD §Round 26 numbers."
+  },
+  {
+   "name": "CritSourcedClaim",
+   "role": "critic",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nAttack the sourced-claim requirement: will C1's entry rest on a SOURCES row opened THIS round, or only on S044/S045 opened earlier? What minimum set of new rows (by tier) makes the sourced claim real rather than decorative?"
+  },
+  {
+   "name": "ConnTameshi",
+   "role": "connector",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nSibling-overlap scan for tameshi (testing craft): read /home/vgpnk/Projects/shokunin/tameshi-shokunin (PROVINCE.md, SKILL.md, corpus/README.md, knowledge index) read-only and decide whether answer-extraction policy comparison (C1) or self-assertion content pins (C2) overlap that lane's owned scope. Cite path:line. Rule: owned-by-sibling / adjacent-route-out / kengaku-owned, with the report-out text if any."
+  },
+  {
+   "name": "ConnChousa",
+   "role": "connector",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nSibling-overlap scan for chousa (research method): read /home/vgpnk/Projects/shokunin/chousa-shokunin (PROVINCE.md, SKILL.md, corpus/README.md, knowledge index) read-only and decide whether answer-extraction policy comparison (C1) or self-assertion content pins (C2) overlap that lane's owned scope. Cite path:line. Rule: owned-by-sibling / adjacent-route-out / kengaku-owned, with the report-out text if any."
+  },
+  {
+   "name": "ConnKotoba",
+   "role": "connector",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nSibling-overlap scan for kotoba (prompt/format craft): read /home/vgpnk/Projects/shokunin/kotoba-shokunin (PROVINCE.md, SKILL.md, corpus/README.md, knowledge index) read-only and decide whether answer-extraction policy comparison (C1) or self-assertion content pins (C2) overlap that lane's owned scope. Cite path:line. Rule: owned-by-sibling / adjacent-route-out / kengaku-owned, with the report-out text if any."
+  },
+  {
+   "name": "ConnKama",
+   "role": "connector",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nSibling-overlap scan for kama (serving/endpoint): read /home/vgpnk/Projects/shokunin/kama-shokunin (PROVINCE.md, SKILL.md, corpus/README.md, knowledge index) read-only and decide whether answer-extraction policy comparison (C1) or self-assertion content pins (C2) overlap that lane's owned scope. Cite path:line. Rule: owned-by-sibling / adjacent-route-out / kengaku-owned, with the report-out text if any."
+  },
+  {
+   "name": "ConnKumitate",
+   "role": "connector",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nSibling-overlap scan for kumitate (routing/assembly): read /home/vgpnk/Projects/shokunin/kumitate-shokunin (PROVINCE.md, SKILL.md, corpus/README.md, knowledge index) read-only and decide whether answer-extraction policy comparison (C1) or self-assertion content pins (C2) overlap that lane's owned scope. Cite path:line. Rule: owned-by-sibling / adjacent-route-out / kengaku-owned, with the report-out text if any."
+  },
+  {
+   "name": "ConnSouji",
+   "role": "connector",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nSibling-overlap scan for souji (citation drift/cleanliness): read /home/vgpnk/Projects/shokunin/souji-shokunin (PROVINCE.md, SKILL.md, corpus/README.md, knowledge index) read-only and decide whether answer-extraction policy comparison (C1) or self-assertion content pins (C2) overlap that lane's owned scope. Cite path:line. Rule: owned-by-sibling / adjacent-route-out / kengaku-owned, with the report-out text if any."
+  },
+  {
+   "name": "RevengeMistakeMine",
+   "role": "revenger",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nMine candidate mistakes for corpus/lessons/round-27.md ## Mistakes from rounds 24–26 evidence (/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/lessons/round-2[4-6]*.md, .ufo/waves/round-26/, the round-26 closure evidence JSON at /home/vgpnk/Projects/shokunin/.ufo/reports/round-26/). Find one NOT already recorded as M01–M54: class · evidence pointer (path:line or command+output) · captured-by (criterion or none) · a fix that can be shown to fail (give the red command). Rank by evidence strength."
+  },
+  {
+   "name": "RevengeStateCheckIntent",
+   "role": "revenger",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nReverse-engineer /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/state_check.py v3's population/supersession machinery (SUPERSEDE regex, OUT_OF_POPULATION emission, offline_unverifiable) and document the minimal insertion points and invariants a P4 extension must respect so P2/P3 keyed records stay identical. Cite line numbers."
+  },
+  {
+   "name": "RevengeGraderPerturbAPI",
+   "role": "revenger",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nReverse-engineer /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/grader_perturb.py's public surface for reuse by a new instrument: which functions are side-effect free, what _configure/_GRADER globals require, Rec fields, how regrade dispatches C-MONO/C-cells, and any trap (global state, exit on import). Cite lines; give the minimal import snippet that works (run it)."
+  },
+  {
+   "name": "RevengeWaveRecordR26",
+   "role": "revenger",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nReverse-engineer how round 26 counted its wave totals (72/64/136/139, dead 11) from /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-26/* (dispatch logs, assignments, recovery/) and whether those counts are re-derivable by command from committed files alone. Give the exact commands; flag any count that needs non-committed knowledge."
+  },
+  {
+   "name": "MutGateTiming",
+   "role": "mutation-tester",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nMutation-test /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/gate_timing_check.py in a /tmp copy (never the lane): apply 6 targeted mutants (role allowlist widened, writer-identity check removed, tree-presence check replaced by working-copy check, generic-reference detection disabled, empty-report accepted, registry lookup bypassed) and run its --selftest plus the 8ea41f9/round-25 red case and the b5719440/round-26 green case for each. Report killed/survived with outputs; survivors are round-27 risks for the admission check."
+  },
+  {
+   "name": "MutStateCheckSupersede",
+   "role": "mutation-tester",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nMutation-test /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/state_check.py v3 supersession logic in a /tmp copy: mutate the R2[5-9]-E regex, the full-token re-derivation requirement, and OUT_OF_POPULATION emission; run --selftest and --summary on the lane tree copy. Report survivors — they bound what a P4 extension can trust."
+  },
+  {
+   "name": "SimpPolicyReuse",
+   "role": "simplifier",
+   "axes": [
+    "novelty"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nAdvise (no writes) the minimal design of plans/parser_policy_compare.py reusing /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/grader_perturb.py and attrib_calibration.py: which code must not be duplicated, what can be a 20-line policy table, and what the selftest needs at minimum. Give a line budget estimate and name any proposed feature in the pre-registration that is unnecessary (YAGNI) without weakening a frozen requirement."
+  },
+  {
+   "name": "SimpStateCheckGrowth",
+   "role": "simplifier",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\nAdvise (no writes) how to add P4a–P4e to /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/state_check.py (2553 lines) with the least new code: which existing P3 helpers (token comparison, receipts, README both-directions) can be reused verbatim; estimate added lines; flag anything that would be better as a data table than code."
+  }
+ ]
+}

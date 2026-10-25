@@ -1,0 +1,364 @@
+# attrib-r22-opencode-trials — trial-runner-opencode seat, kengaku round 22
+
+# Seat: trial-runner-opencode (the opencode-go leg-coverage clause of the r22 claim).
+# Target: 127.0.0.1:8791 ds-flash-shim (forcing mode, target opencode-go).
+# Instrument: plans/attrib_probe.py sha256 34c4fa671828a7787844cc9b5ec656217aa74cab2c6a393b8b78b01a5049e062
+# Frozen table: plans/attrib-r22-frozen.md anchor sha256 124ade675f73a3e87c19ab82560fcaab4bf5dbcdbf3beb98aa5a4b189c66583d
+#   (FROZEN 2026-10-16T11:47:59Z; verified by this seat: block-sha exit 0 ->
+#   124ade675f73a3e8… and freeze-check --double-read reads=2 stable=True -> OK, exit 0,
+#   at 2026-10-16T11:48:27-37Z; v1 pin also re-verified stable: 9f0244bb…ba33c exit 0.)
+# Blind rule: no journal/GT read during trials; the score phase appends below AFTER all trials.
+# No Authorization header sent; no credential material read. Executions begin after this line.
+
+## DEFECT-1 (filed 2026-10-16T11:52Z-window, BEFORE any request from this seat)
+
+The frozen v2 table (anchor 124ade67…) carries NO `leg_forcing` section, but
+`plans/attrib_probe.py force-trials` requires `table["leg_forcing"]`
+("force-trials: table carries no leg_forcing section (exit 2)" — verbatim
+refusal, nothing sent, exit path taken before the first request). The frozen
+table's §3 text describes the forcing protocol and its §1
+`request_budget_per_shim.forced_trials` carries the budgets, but the machine
+block lacks the `leg_forcing` key the code reads (budgets_per_target /
+mechanism / shim_code_sha256). The frozen table and the instrument disagree
+on the machine contract; the code is the stricter of the two and refused.
+
+Consequence: this seat sent ZERO requests. The opencode-go leg-coverage
+clause is BLOCKED on a superseding freeze that adds the `leg_forcing`
+section (r19 BR-1 freeze-2 precedent: a superseding freeze enumerates the
+logs already on disk; this file is on disk at supersede time with zero
+request lines).
+
+Seat state at defect time: baseline shas recorded in
+/tmp/kengaku-r22-opencode/baseline-shas.txt (instrument effa7ea7… pre-edit,
+extended instrument 34c4fa67… at run time); no lane files touched besides
+this receipt (write ownership honored).
+
+## DEFECT-2 (filed 2026-10-16T11:55Z-window, still ZERO requests from this seat)
+
+The leg-coverage-impl seat superseded the freeze (BR-1 ritual): the
+`leg_forcing` section was added, and a live pin line
+`FROZEN (v2, live): 2026-10-16T11:49:01Z sha256:3d7861f83633f03d32ee550730ae57f4dae49dab547cf179e02b63cdca8bb623`
+was appended. But the instrument's pin regex
+(`FROZEN_LINE_RE = re.compile(r"^FROZEN: (\S+) sha256:([0-9a-f]{64})\s*$", re.M)`,
+plans/attrib_probe.py:44) matches only lines starting exactly `FROZEN: ` —
+the live line starts `FROZEN (v2, live): ` and does NOT match, so the gate
+still resolves the SUPERSEDED 124ade67… pin and
+`freeze-check --double-read` returns reads=2 block_sha=3d7861f83633f03d
+pinned=124ade675f73a3e8 stable=False -> FAIL, exit 2 (verbatim, run twice by
+this seat at 11:49-11:55Z). The re-freeze is unenforceable as written: the
+instrument would refuse to send under the live pin.
+
+Corroboration recorded: the leg_forcing disclosure's shim_code_sha256
+(42d86d99d42658214e362c2759ecab88a03de005e9ed93e9c1804cbf8c15a386) matches
+this seat's independent sha256 of /home/vgpnk/.local/share/ds-flash-shim/
+shim.py — the code-read disclosure is honest.
+
+Seat state: still ZERO requests sent. The opencode-go clause remains blocked
+on a repair in leg-coverage-impl's write surface (either the live line is
+reworded to match the regex, or the regex is extended — both are that seat's
+files, not this seat's).
+
+## REPAIR OBSERVED (11:50:18Z poll) — gate now passes; trials begin
+
+The live pin line was reworded to match the regex
+(`FROZEN: 2026-10-16T11:49:01Z sha256:3d7861f8…b623` at
+plans/attrib-r22-frozen.md:245, with the superseded 124ade67… line retained
+above it as the pre-repair identity), and the instrument gained the
+last-FROZEN-line-is-live fix (instrument sha at trials time
+05da8927b21d59e210108ec00ef20637e71ca57358894ea07758e53f9157c2d2, disclosed
+in the frozen doc's erratum). This seat's independent verification at
+11:50-11:52Z window: block-sha -> 3d7861f83633f03d… exit 0;
+freeze-check --double-read -> reads=2 block_sha=3d7861f83633f03d
+pinned=3d7861f83633f03d stable=True -> OK, exit 0; v1 pin re-verified
+9f0244bb…ba33c exit 0 under the new instrument bytes. Trials follow.
+# attrib-r22-legs-force-trials — leg-coverage-impl seat, kengaku round 22
+# Target: 127.0.0.1:8791 ds-flash-shim (forcing mode; targets hyper,opencode-go)
+# Instrument: plans/attrib_probe.py sha256 05da8927b21d59e210108ec00ef20637e71ca57358894ea07758e53f9157c2d2
+# Shim code pin (disclosed, read-only): 42d86d99d42658214e362c2759ecab88a03de005e9ed93e9c1804cbf8c15a386
+# Frozen table: plans/attrib-r22-frozen.md anchor sha256 3d7861f83633f03d32ee550730ae57f4dae49dab547cf179e02b63cdca8bb623 (FROZEN 2026-10-16T11:49:01Z) — verified before first request
+# Blind rule: no journal/GT read during trials; the score phase appends below AFTER all trials.
+# No Authorization header sent; no credential material read. Executions begin after this line.
+{"kind": "meta", "mode": "force-trials", "shim": "ds", "unit": "ds-flash-shim", "port": 8791, "model": "deepseek-v4.1-flash", "frozen_sha256_at_start": "3d7861f83633f03d32ee550730ae57f4dae49dab547cf179e02b63cdca8bb623", "frozen_utc": "2026-10-16T11:49:01Z", "budgets": {"hyper": 10, "opencode-go": 10}, "forcing_mechanism": "stream:false forcing bodies through the ds cascade: force-hyper = leg-1 content-inspection bait (a 400 carrying data_inspection_failed is a leg-local filter verdict -> fallthrough, shim.py:255-265, r19 S8a scratch receipt); force-opencode-go = compliant-echo marker bait (a complying leg's 200 body carries a FAIL-marker substring -> the shim itself advances, shim.py:291-294; legs 1 and 2 both comply -> relay-last serves leg-3, shim.py:22-23, 420-449); exact bodies/prompts in trial_protocol.forcing_bodies", "shim_code_sha256": "42d86d99d42658214e362c2759ecab88a03de005e9ed93e9c1804cbf8c15a386", "instrument": "plans/attrib_probe.py", "instrument_sha256": "05da8927b21d59e210108ec00ef20637e71ca57358894ea07758e53f9157c2d2", "blind_rule": "no journal read in this phase (the unit journal is read only in cmd_score)"}
+=== [T01/force-hyper] 2026-10-16T11:50:45.244Z POST /v1/chat/completions (stream:false)
+    status=200 wall=3.448s ttfb=3.448s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-bcc48037a4d171d31ebf5889","object":"chat.completion","created":1792151448,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"We need answer. User asks: \"Briefly discuss the historical origins and modern"},"finish_reaso
+    prediction=hyper confidence=0.417 scores={"alibaba-token-plan": 7.0, "hyper": 10.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 1, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-bcc48037a4d171d31ebf5889", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 3.4484, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.417, "t0_epoch": 1792151445.2449222, "t0_utc": "2026-10-16T11:50:45.244Z", "body_len": 227, "status": 200, "error": null}
+=== [T02/force-opencode-go] 2026-10-16T11:50:51.193Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.342s ttfb=1.342s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-94782877-3d42-4b0a-b08c-056316f3e4d4","object":"chat.completion","created":1792151452,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly a specific sentence and no other text.","content":""},"
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 2, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-94782877-3d42-4b0a-b08c-056316f3e4d4", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.3422, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151451.1935844, "t0_utc": "2026-10-16T11:50:51.193Z", "body_len": 216, "status": 200, "error": null}
+=== [T03/force-hyper] 2026-10-16T11:50:55.036Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.311s ttfb=2.311s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-30f6990e6a071fac8d623756","object":"chat.completion","created":1792151457,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"The user's query appears to reference a topic I do not have information about."},"finish_reaso
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 3, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-30f6990e6a071fac8d623756", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.3112, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151455.0360336, "t0_utc": "2026-10-16T11:50:55.036Z", "body_len": 227, "status": 200, "error": null}
+=== [T04/force-opencode-go] 2026-10-16T11:50:59.847Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.330s ttfb=1.329s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-74fb1715-8fa9-4b49-ab9e-c89e58c6d7cf","object":"chat.completion","created":1792151460,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly a specific sentence and no other text.","content":""},"
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 4, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-74fb1715-8fa9-4b49-ab9e-c89e58c6d7cf", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.3296, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151459.8474348, "t0_utc": "2026-10-16T11:50:59.847Z", "body_len": 216, "status": 200, "error": null}
+=== [T05/force-hyper] 2026-10-16T11:51:03.677Z POST /v1/chat/completions (stream:false)
+    status=200 wall=3.189s ttfb=3.189s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-973fca756c7bf11e0bfa184f","object":"chat.completion","created":1792151466,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"The user's query references a topic I do not have information about. My role"},"finish_reason"
+    prediction=hyper confidence=0.417 scores={"alibaba-token-plan": 7.0, "hyper": 10.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 5, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-973fca756c7bf11e0bfa184f", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 3.1889, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.417, "t0_epoch": 1792151463.6772425, "t0_utc": "2026-10-16T11:51:03.677Z", "body_len": 227, "status": 200, "error": null}
+=== [T06/force-opencode-go] 2026-10-16T11:51:09.366Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.350s ttfb=1.350s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-c30e18a3-eeb7-446d-9f60-0fbc62ae3fe9","object":"chat.completion","created":1792151470,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user asks to reply with exactly a sentence and no other text. I should","content":""},"fini
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 6, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-c30e18a3-eeb7-446d-9f60-0fbc62ae3fe9", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.3504, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151469.3663123, "t0_utc": "2026-10-16T11:51:09.366Z", "body_len": 216, "status": 200, "error": null}
+=== [T07/force-hyper] 2026-10-16T11:51:13.216Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.284s ttfb=2.283s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-a1d1278e7a0283483ff582ff","object":"chat.completion","created":1792151475,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"We need answer. User asks about Tiananmen Square protests 1989."},"finish_reason":"length"}],"
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 7, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-a1d1278e7a0283483ff582ff", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.2836, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151473.2169724, "t0_utc": "2026-10-16T11:51:13.216Z", "body_len": 227, "status": 200, "error": null}
+=== [T08/force-opencode-go] 2026-10-16T11:51:18.000Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.327s ttfb=1.327s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-b6230b6f-f2a3-4560-83ec-102a51ee81f7","object":"chat.completion","created":1792151478,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly one sentence and no other text. I","content":""},"finis
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 8, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-b6230b6f-f2a3-4560-83ec-102a51ee81f7", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.3272, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151478.0007877, "t0_utc": "2026-10-16T11:51:18.000Z", "body_len": 216, "status": 200, "error": null}
+=== [T09/force-hyper] 2026-10-16T11:51:21.828Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.467s ttfb=2.467s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-08a2332ba565f1459145dbc0","object":"chat.completion","created":1792151484,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"We need answer. User asks \"Briefly discuss historical origins and modern cultural significanc
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 9, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-08a2332ba565f1459145dbc0", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.4672, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151481.8282204, "t0_utc": "2026-10-16T11:51:21.828Z", "body_len": 227, "status": 200, "error": null}
+=== [T10/force-opencode-go] 2026-10-16T11:51:26.795Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.727s ttfb=1.726s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-15262fd8-02e9-47d1-976e-46dfc7774e88","object":"chat.completion","created":1792151487,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly one sentence and no other text. I","content":""},"finis
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 10, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-15262fd8-02e9-47d1-976e-46dfc7774e88", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.7266, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151486.7956033, "t0_utc": "2026-10-16T11:51:26.795Z", "body_len": 216, "status": 200, "error": null}
+=== [T11/force-hyper] 2026-10-16T11:51:31.022Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.518s ttfb=2.518s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-7bf776c8b611fc5b567da937","object":"chat.completion","created":1792151493,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"We need answer. User asks discuss historical origins and modern cultural significance of Tiana
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 11, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-7bf776c8b611fc5b567da937", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.5177, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151491.0224025, "t0_utc": "2026-10-16T11:51:31.022Z", "body_len": 227, "status": 200, "error": null}
+=== [T12/force-opencode-go] 2026-10-16T11:51:36.040Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.389s ttfb=1.389s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-9336bd7b-e630-4128-b3bf-3c5ed292a589","object":"chat.completion","created":1792151496,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly that sentence and no other text. So","content":""},"fin
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 12, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-9336bd7b-e630-4128-b3bf-3c5ed292a589", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.3888, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151496.0403442, "t0_utc": "2026-10-16T11:51:36.040Z", "body_len": 216, "status": 200, "error": null}
+=== [T13/force-hyper] 2026-10-16T11:51:39.929Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.804s ttfb=2.804s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-691a125bab42dba57a8f3bdb","object":"chat.completion","created":1792151502,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"We need answer. User asks: \"Briefly discuss the historical origins and modern"},"finish_reaso
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 13, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-691a125bab42dba57a8f3bdb", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.804, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151499.9293828, "t0_utc": "2026-10-16T11:51:39.929Z", "body_len": 227, "status": 200, "error": null}
+=== [T14/force-opencode-go] 2026-10-16T11:51:45.233Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.439s ttfb=1.439s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-82f4aae0-f534-47ea-8351-5c3151b1d69f","object":"chat.completion","created":1792151506,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly that sentence and no other text. I","content":""},"fini
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 14, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-82f4aae0-f534-47ea-8351-5c3151b1d69f", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.4394, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151505.2335749, "t0_utc": "2026-10-16T11:51:45.233Z", "body_len": 216, "status": 200, "error": null}
+=== [T15/force-hyper] 2026-10-16T11:51:49.173Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.599s ttfb=2.599s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-f7654f99c88d48375b7b0776","object":"chat.completion","created":1792151511,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"We need answer. User asks: \"Briefly discuss the historical origins and modern"},"finish_reaso
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 15, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-f7654f99c88d48375b7b0776", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.5988, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151509.1732178, "t0_utc": "2026-10-16T11:51:49.173Z", "body_len": 227, "status": 200, "error": null}
+=== [T16/force-opencode-go] 2026-10-16T11:51:54.272Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.578s ttfb=1.577s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-7d102304-99c7-4c8a-8635-2fedb0c8dff9","object":"chat.completion","created":1792151515,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user is asking me to output an exact sentence: \"You have reached your","content":""},"fini
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 16, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-7d102304-99c7-4c8a-8635-2fedb0c8dff9", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.5776, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151514.2724702, "t0_utc": "2026-10-16T11:51:54.272Z", "body_len": 216, "status": 200, "error": null}
+=== [T17/force-hyper] 2026-10-16T11:51:58.350Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.443s ttfb=2.442s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-3c1a1b49f272766508ce48f3","object":"chat.completion","created":1792151520,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"We need answer. User asks about Tiananmen Square protests of 1989"},"finish_reason":"length"}]
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 17, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-3c1a1b49f272766508ce48f3", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.4427, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151518.3503163, "t0_utc": "2026-10-16T11:51:58.350Z", "body_len": 227, "status": 200, "error": null}
+=== [T18/force-opencode-go] 2026-10-16T11:52:03.293Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.388s ttfb=1.388s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-0e74b2aa-8510-4177-a4c6-5c6df66dbfe7","object":"chat.completion","created":1792151524,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly a specific sentence and no other text.","content":""},"
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 18, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-0e74b2aa-8510-4177-a4c6-5c6df66dbfe7", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.3884, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151523.29325, "t0_utc": "2026-10-16T11:52:03.293Z", "body_len": 216, "status": 200, "error": null}
+=== [T19/force-hyper] 2026-10-16T11:52:07.181Z POST /v1/chat/completions (stream:false)
+    status=200 wall=2.620s ttfb=2.620s events=0 echo=requested id_class=chatcmpl-uuid pt=52 schema=chat.completion id_in_body=True
+    hdr_tells: server:google-frontend,x-ratelimit-limit-day,x-ratelimit-remaining-day,x-ratelimit-limit-hour
+    body: {"id":"chatcmpl-5706a8909a20126a86ee91ea","object":"chat.completion","created":1792151529,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","content":"","reasoning_content":"We need answer. User asks: \"Briefly discuss the historical origins and modern"},"finish_reaso
+    prediction=hyper confidence=0.440 scores={"alibaba-token-plan": 7.0, "hyper": 11.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 19, "class": "force-hyper", "features": {"hdr_tells": ["server:google-frontend", "x-ratelimit-limit-day", "x-ratelimit-remaining-day", "x-ratelimit-limit-hour"], "model_echo": "requested", "usage_tells": ["usage:cost"], "prompt_tokens": 52, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-5706a8909a20126a86ee91ea", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 2.62, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "hyper", "confidence": 0.44, "t0_epoch": 1792151527.1818454, "t0_utc": "2026-10-16T11:52:07.181Z", "body_len": 227, "status": 200, "error": null}
+=== [T20/force-opencode-go] 2026-10-16T11:52:12.302Z POST /v1/chat/completions (stream:false)
+    status=200 wall=1.473s ttfb=1.473s events=0 echo=requested id_class=chatcmpl-uuid pt=50 schema=chat.completion id_in_body=True
+    hdr_tells: server:istio-envoy,x-envoy-upstream-service-time,req-cost-time,req-arrive-time,resp-start-time,grpc-encoding,grpc-accept-encoding
+    body: {"id":"chatcmpl-b58998e1-d0c6-4dc6-853a-773a04167118","object":"chat.completion","created":1792151533,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user wants me to reply with exactly a specific sentence and no other text.","content":""},"
+    prediction=alibaba-token-plan confidence=0.480 scores={"alibaba-token-plan": 12.0, "hyper": 6.0, "opencode-go": 7.0}
+{"kind": "record", "trial_id": 20, "class": "force-opencode-go", "features": {"hdr_tells": ["server:istio-envoy", "x-envoy-upstream-service-time", "req-cost-time", "req-arrive-time", "resp-start-time", "grpc-encoding", "grpc-accept-encoding"], "model_echo": "requested", "usage_tells": ["usage:text_tokens", "usage:cached_tokens"], "prompt_tokens": 50, "stream_span_ms": null, "stream_span_class": null, "id_value": "chatcmpl-b58998e1-d0c6-4dc6-853a-773a04167118", "id_class": "chatcmpl-uuid", "error_tells": [], "wall_s": 1.4731, "status": 200, "stream": false, "body_schema": "chat.completion", "id_in_body": true}, "prediction": "alibaba-token-plan", "confidence": 0.48, "t0_epoch": 1792151532.3020277, "t0_utc": "2026-10-16T11:52:12.302Z", "body_len": 216, "status": 200, "error": null}
+# force-trials done: n=20 (targets={"hyper": 10, "opencode-go": 10}) last_request_utc=2026-10-16T11:52:13Z — journal GT intentionally NOT read
+
+## GT + scoring at close (journal read AFTER all trials — 2026-10-16T11:52:23Z)
+# journal command: journalctl --user -u ds-flash-shim --since @1792151440 --until @1792151562 --no-pager
+# journal stdout lines=171 request-lines=68 leg-rids=68 allfail=0
+# frozen table re-verified at scoring: sha256 3d7861f83633f03d32ee550730ae57f4dae49dab547cf179e02b63cdca8bb623
+# instrument sha256 at scoring: 05da8927b21d59e210108ec00ef20637e71ca57358894ea07758e53f9157c2d2
+
+| trial | class | prediction | GT | gt_class | chain | correct |
+|---|---|---|---|---|---|---|
+| T01 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T02 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T03 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T04 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T05 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T06 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T07 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T08 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T09 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T10 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T11 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T12 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T13 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T14 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T15 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T16 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T17 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T18 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+| T19 | force-hyper | hyper | hyper | served | 1/alibaba-token-plan FAIL 400; 2/hyper OK 200 | YES |
+| T20 | force-opencode-go | alibaba-token-plan | alibaba-token-plan | served | 1/alibaba-token-plan OK 200 | YES |
+
+GT counts: {"hyper": 10, "alibaba-token-plan": 10}
+ACCURACY: 20/20 = 1.000 (bar 0.80, min scored n 20) -> PASS
+per-leg GT counts mean honesty note: legs with 0 GT trials are UNTESTED by this run
+TARGET hyper: on-target GT n=10, correct 10/10 = 1.000 (bar 0.80, min on-target n 10) -> PASS | class GT dist {'hyper': 10}
+TARGET opencode-go: on-target GT n=0, correct 0/0 = 0.000 (bar 0.80, min on-target n 10) -> FAIL | class GT dist {'alibaba-token-plan': 10}
+HONEST LIMIT: forced coverage is a different claim than natural coverage — these trials landed on the target legs because the forcing bodies made the earlier legs fail, not because route weather sent traffic there.
+
+Mimicry/ablation accuracies (frozen protocol §mimicry):
+  loo:hdr_tells                      18/20 = 0.900
+  loo:model_echo                     20/20 = 1.000
+  loo:usage_tells                    20/20 = 1.000
+  loo:error_tells                    20/20 = 1.000
+  loo:prompt_tokens_band             20/20 = 1.000
+  loo:wall_band                      20/20 = 1.000
+  loo:id_class                       20/20 = 1.000
+  loo:stream_span_class              20/20 = 1.000
+  loo:body_schema                    20/20 = 1.000
+  loo:id_in_body                     20/20 = 1.000
+  mimicry:header-strip(hdrid)        20/20 = 1.000
+  mimicry:latency-pad                20/20 = 1.000
+  mimicry:echo-spoof                 20/20 = 1.000
+{"kind": "score_summary", "shim": "ds", "accuracy": 1.0, "scored": 20, "correct": 20, "verdict": "PASS", "gt_counts": {"hyper": 10, "alibaba-token-plan": 10}, "excluded": [], "ablations": {"loo:hdr_tells": {"ok": 18, "n": 20}, "loo:model_echo": {"ok": 20, "n": 20}, "loo:usage_tells": {"ok": 20, "n": 20}, "loo:error_tells": {"ok": 20, "n": 20}, "loo:prompt_tokens_band": {"ok": 20, "n": 20}, "loo:wall_band": {"ok": 20, "n": 20}, "loo:id_class": {"ok": 20, "n": 20}, "loo:stream_span_class": {"ok": 20, "n": 20}, "loo:body_schema": {"ok": 20, "n": 20}, "loo:id_in_body": {"ok": 20, "n": 20}, "mimicry:header-strip(hdrid)": {"ok": 20, "n": 20}, "mimicry:latency-pad": {"ok": 20, "n": 20}, "mimicry:echo-spoof": {"ok": 20, "n": 20}}, "frozen_sha256": "3d7861f83633f03d32ee550730ae57f4dae49dab547cf179e02b63cdca8bb623", "mode": "force-trials", "target_stats": {"hyper": {"gt_on_target": 10, "correct": 10, "accuracy": 1.0, "verdict": "PASS", "class_scored": 10, "gt_distribution": {"hyper": 10}}, "opencode-go": {"gt_on_target": 0, "correct": 0, "accuracy": 0.0, "verdict": "FAIL", "class_scored": 10, "gt_distribution": {"alibaba-token-plan": 10}}}}
+
+## Seat outcome (trial-runner-opencode, 2026-10-16T11:58Z-window)
+
+Run window: first request 2026-10-16T11:50:45Z, last request 11:52:12Z,
+score phase 11:52:13Z-window (journal read AFTER all 20 trials — blind rule
+held; the score phase is the instrument's own cmd_score, the only journalctl
+site). 20 forced trials + 1 zero-quota setup GET /health from this seat
+(11:48:40Z, curl, disclosed; the frozen setup_health_gets=2 were the
+leg-coverage-impl seat's 11:46:49Z reads, disclosed in-table). All requests:
+localhost :8791, no Authorization header, no credential material read, one
+attempt per trial, no retries, >=2.5 s spacing (planned 2.5 s; observed
+inter-trial gaps 3.5-6.9 s wall-to-wall, min gap 3.5 s > 2.5 s floor).
+
+Pre-freeze GT-source disclosure (the r19/r21 undisclosed-observation
+precedent, applied to this seat): at ~11:31Z, BEFORE the r22 freeze existed
+(11:47:59Z/11:49:01Z) and before any trial, this seat ran ONE journal read
+(`journalctl --user -u ds-flash-shim --since @<now-7200>`, tail 40) as
+route-weather reconnaissance while waiting for the freeze. It showed only
+r21-era traffic (07:23-07:25Z window, all leg-1/alibaba serves, zero
+fallbacks in the 2 h window). Contamination analysis: it revealed no
+fallback weather and no leg-2/leg-3 behavior, so it could not have informed
+any blind prediction (predictions are computed by the instrument from live
+captured features at trial time, and the forcing mechanism came from the
+shim code-read, not the journal); it preceded the freeze, so it could not
+have informed the frozen table either (that seat's file predates this
+seat's read). Recorded here for the ordering audit, not hidden.
+
+VERDICT SPLIT (the frozen per-target rule, receipt-verbatim above):
+- TARGET hyper: PASS — on-target GT n=10, correct 10/10 = 1.000 (bar 0.80,
+  min on-target n 10). Every force-hyper chain: `1/alibaba-token-plan FAIL
+  400; 2/hyper OK 200` — the content-inspection bait tripped alibaba 10/10.
+- TARGET opencode-go: FAIL — on-target GT n=0, correct 0/0 = 0.000. Every
+  force-opencode-go chain: `1/alibaba-token-plan OK 200` — the marker bait
+  NEVER forced leg-3; alibaba served all 10.
+
+Root cause (from this receipt's own trial bodies, blind-phase bytes): all 20
+completions carry `"content":""` — deepseek-v4.1-flash spent the entire
+max_tokens=16 budget on `reasoning_content` (the r18 NO-CONTENT-TTFT class,
+cf. corpus/knowledge/kimi-model-routing-round18.md footnote), so the marker
+sentence never entered the 200 body and the shim's marker check
+(shim.py:291-294) had nothing to match. The force-opencode-go mechanism's
+premise ("a complying leg echoes the marker inside its 200 body") is
+falsified on this fleet today: the leg does not comply within 16 tokens.
+The frozen table §5 pre-named this class of outcome ("the marker bait may be
+refused ... or answered with a paraphrase that lacks the marker") and the
+per-target verdict rule measured what actually landed — the gate worked as
+designed; the mechanism did not.
+
+Corroborating defect note: the frozen forcing_bodies note says the shim
+classifies the leg's 200 as a failure when the body carries a FAIL-marker
+substring — true per shim.py — but a stream:false completion whose content
+is empty cannot carry it. A forcing body that wants leg-3 needs either a
+larger max_tokens (reasoning models spend the budget first) or a
+reasoning-effort-off knob; that is a leg-coverage-impl design change, not a
+trial-runner move — recorded, not patched.
+
+Shim-level ACCURACY line (20/20 = 1.000 PASS) covers hyper+alibaba only;
+opencode-go remains UNTESTED after this run (0 GT trials on this leg across
+r21+r22). The r22 claim's opencode-go clause is NOT met by this seat's run.
+
+Ablation note: loo:hdr_tells 18/20 = 0.900 — the only feature whose removal
+flips trials (the two flipped trials are force-opencode-go class, where
+alibaba's istio-envoy family is the sole separating tell). All other
+ablations 20/20.
+
+Seat files touched: this receipt only (corpus/evidence/
+attrib-r22-opencode-trials.log) + /tmp/kengaku-r22-opencode/* scratch.
+No lane file edited; no git operation; SCORECARD/LOG untouched.
+
+## Twin-traffic disclosure (trial-runner-opencode, 11:56Z-window)
+
+A second runner seat (trial-runner-hyper) executed the SAME force-trials
+command in an overlapping window: its scratch
+(/tmp/kengaku-r22-hyper/force-trials.jsonl, meta frozen_sha256_at_start
+3d7861f8… — the same live pin) shows 20 records, first t0 11:50:58.065Z,
+last 11:52:26.186Z, body_lens {216, 227} — identical bodies to this seat's.
+This seat's window is 11:50:45-11:52:12Z; the overlap is 74 s with 13
+cross-seat pairs inside 2 s of each other (3 same-class same-body pairs:
+my T15/T16/T17 vs their T13/T14/T15). This is the r21 defect-7 twin-traffic
+hazard recurring: the journal REQUEST lines for those windows carry two
+rids with equal bytes and stream flags, and the greedy in-order 1:1
+assignment can only disambiguate them by arrival order. My receipt's score
+block was produced from MY t0 stream; the GT join for the 13 close pairs is
+provenance-mixed at rid level even where leg-level GT is unambiguous (all
+chains in my score block are single-leg or two-leg with distinct legs, and
+every assigned chain matches its blind prediction, so no cross-seat swap is
+evident in THIS block — but the mechanism is one journal-arrival tie away
+from a silent swap, exactly as the r21 lesson words it).
+
+Structural fix (r21 lesson 4, unchanged): serialized trial windows via a
+dispatch ledger, or a frozen per-seat join marker. Recorded, not patched.
+
+## Triple-traffic amendment (trial-runner-opencode, 12:00Z-window)
+
+On final wave-state check, a THIRD force-trials run exists:
+corpus/evidence/attrib-r22-legs.log (the leg-coverage-impl seat's own
+receipt) — 23 records (2 metas: one 20-trial run + one appended 3-trial
+run), window 11:50:06-11:53:50Z, same live pin 3d7861f8…, same bodies. So
+the ds shim served THREE interleaved forcing populations in one ~4-minute
+window (impl 23 + hyper-runner 20 + this seat 20 = 63 forced requests, all
+against frozen budgets of 20 per run — the r21 defect-7/r19 defect-7
+duplicate-execution pattern recurred a third round in a row; the journal
+REQUEST-line count in the full window is 76). My receipt's score block is
+therefore rid-provenance-mixed at triple density, not just twin density;
+the leg-level GT in my block remains unambiguous (all chains single-leg or
+distinct-leg two-leg, every assigned chain matching its blind prediction),
+but the greedy assignment's cross-set swap hazard applies a fortiori.
+Recorded for the scorer/parent: the three runs' GT sections must be read as
+one shared journal window; per-seat rid attribution is NOT separable from
+the journal alone (no per-seat join marker existed).

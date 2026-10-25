@@ -1152,3 +1152,19 @@ The three counter outputs match their measured after states; C1's frozen S093/co
 - **Coverage (7, tied lowest with novelty):** advance the remaining benchmark scoring-code frontier by opening one pinned Terminal-Bench 2.0 task evaluator and grounding its comparison against that task's expected artifact. Freeze the exact task/pin and source gate before any scoring.
 
 - **Calibration (8):** prepare a new frozen claim to harden `round33_defects.py`'s N1–N6 counter against the measured index-vs-HEAD, heading-only, width/newline, and token-co-occurrence mutants; keep this round's frozen predicate and score unchanged.
+
+## Round 34 — coverage attempt + calibration counter attack, 2026-10-25 (honest stop)
+
+Baseline lane tip `5022357cc69334e83b5a2f76c34daea440077a57`; claims froze at `adaf25dfd27dedfc1bf25f308576a6f2c8ad64ae`. Lowest non-retired axis: coverage 7, tied with novelty 7; coverage selected by frozen tie-break (local pinned task source vs unavailable identity-verified endpoint). No stagnation waiver.
+
+| Claim | Axis | Frozen before → observed after | Score / verdict |
+|---|---|---|---|
+| C1 Terminal-Bench 2.0 `protein-assembly` evaluator coverage; counter `plans/round34_c1_verify.py --lane .` | coverage (lowest) | before: entry/counter absent at freeze, registry 97, S105+ absent; after: evaluator captured but no admissible registry/knowledge/README package; counter review finds V3–V8 false-green paths and V7 red on the truthful freeze receipt (`.ufo/waves/round-34/build/R34ReviewCounterC1.md`) | 7→7 held; not admitted; no axis score move |
+| C2 counter hardening; `plans/round34_defects.py`, `plans/round34_mutate.py` | calibration | before: both tools absent, `round33_defects.py` `checks=6 defects=0`; after: candidate counter draft's selftest was not green and the 8-mutant harness did not produce `MUTANTS total=8 detected=8`; clean-tree N3/N4/N7 and mutant mapping failures (`R34ReviewClaimsFile.md`, `R34CriticC2.md`, `R34MutC2Harness.md`) | 8→8 held; not admitted |
+
+All other recorded scores held: novelty 7, depth 9, operability 8, freshness 8, adjacency 8. C1/C2 are causally separable in their declared artifacts, but both failed frozen admission. No capability was demonstrated and entered.
+
+### Planned (round 35)
+
+- Lowest coverage 7 remains tied with novelty 7; choose the most falsifiable frontier move against an opened local source, with a control that the frozen counter cannot reach.
+- Calibration 8: repair and mutation-test the counter/harness failure classes discovered in round 34; do not treat round-34 draft tools as landed capability.

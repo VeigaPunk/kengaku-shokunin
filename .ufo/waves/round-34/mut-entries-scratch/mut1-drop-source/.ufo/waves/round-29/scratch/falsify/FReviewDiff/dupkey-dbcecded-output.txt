@@ -1,0 +1,9 @@
+[{"a": 1, "a": 2}]                             expect=1 got=1 pointers=["/0/a"] true_dups=1 OK
+[{"a": 1}, {"a": 2}]                           expect=0 got=0 pointers=[] true_dups=0 OK
+[{"x": {"a": 1, "a": 2}}]                      expect=1 got=1 pointers=["/0/x/a"] true_dups=1 OK
+[{"x": [{"a": 1, "a": 2}]}]                    expect=1 got=1 pointers=["/0/x/0/a"] true_dups=1 OK
+[{"a": 1, "a": 2, "a": 3}]                     expect=1 got=1 pointers=["/0/a"] true_dups=1 OK
+[{"a": 1, "a": 2}, {"b": 3, "b": 4}]           expect=2 got=2 pointers=["/0/a", "/1/b"] true_dups=2 OK
+[{"a\u0062": 1, "ab": 2}]                      expect=1 got=1 pointers=["/0/ab"] true_dups=1 OK
+[{"a": 1, "a": 2, "b": 3, "b": 4}]             expect=2 got=2 pointers=["/0/a", "/0/b"] true_dups=2 OK
+mismatches/false positives: NONE

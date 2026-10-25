@@ -1,0 +1,56 @@
+{
+  "seat": "KengakuR28.RefGroup6-2",
+  "audited_tree": "f0ba09be0f3066daba2134b943d973ad1588f34a (round-28: freeze benchmark and registry claim populations; baseline declared b9b24796277020d1b9b01923b45313d6a565e664)",
+  "reference_pattern": "(?<![A-Za-z0-9_])S[0-9]{3,}(?![A-Za-z0-9_])  [population.json literal; implemented as (^|[^A-Za-z0-9_])S0(38|49|5[0-9]|60)([^A-Za-z0-9_]|$) for frozen13]",
+  "frozen13_ids": ["S038","S049","S050","S051","S052","S053","S054","S055","S056","S057","S058","S059","S060"],
+  "scope_files": {
+    "corpus/knowledge/local-model-index.md": { "frozen13_mentions": [], "any_Snnn_mentions": [], "note": "cites local ~/.bailian paths only; no registry IDs" },
+    "corpus/knowledge/open-model-catalogs.md": { "frozen13_mentions": [], "any_Snnn_mentions": [], "note": "cites public HF/OpenRouter APIs + host-local inventory; no registry IDs" },
+    "corpus/knowledge/paired-eval-uncertainty-reporting.md": {
+      "frozen13_mentions": [],
+      "any_Snnn_mentions": ["S015","S016","S017","S018","S019"],
+      "nonfrozen_mention_lines": [1,3,13,14,15,16,17,18,19,20,25,30,48,49],
+      "note": "all five cited IDs are OUTSIDE frozen13; registry rows SOURCES.md:37-41 all status=mined, used-by=corpus/knowledge/paired-eval-uncertainty-reporting.md -> consistent, no drift"
+    },
+    "corpus/knowledge/probe-battery-r19.md": { "frozen13_mentions": [], "any_Snnn_mentions": [], "false_positive_guard": "S1-S8, D1-D5, G1-G8, H1-H10, P1-P9 are probe/seat component IDs; fewer than 3 digits, never match the literal pattern" },
+    "corpus/knowledge/telemetry-run-design.md": { "frozen13_mentions": [], "any_Snnn_mentions": [], "note": "cites absent local llm-wiki root only; no registry IDs" }
+  },
+  "registry_rows_frozen13": {
+    "S038": { "sources_md_line": 60, "status": "queued", "used_by_cell": "\u2014", "cited_by_frozen_paths": ["corpus/knowledge/attribution-interval-calibration.md:144"], "cites_any_scope_file": false },
+    "S049": { "sources_md_line": 71, "status": "mined", "used_by": ["corpus/lessons/round-27.md","corpus/knowledge/extraction-policy-comparison.md"], "cites_any_scope_file": false },
+    "S050": { "sources_md_line": 72, "status": "mined", "used_by": ["corpus/lessons/round-27.md"], "cites_any_scope_file": false },
+    "S051": { "sources_md_line": 73, "status": "mined", "used_by": ["corpus/lessons/round-27.md","corpus/knowledge/extraction-policy-comparison.md"], "cites_any_scope_file": false },
+    "S052": { "sources_md_line": 74, "status": "mined", "used_by": ["corpus/lessons/round-27.md","corpus/knowledge/extraction-policy-comparison.md"], "cites_any_scope_file": false },
+    "S053": { "sources_md_line": 75, "status": "mined", "used_by": ["corpus/lessons/round-27.md","corpus/knowledge/extraction-policy-comparison.md"], "cites_any_scope_file": false },
+    "S054": { "sources_md_line": 76, "status": "mined", "used_by": ["corpus/lessons/round-27.md","corpus/knowledge/extraction-policy-comparison.md"], "cites_any_scope_file": false },
+    "S055": { "sources_md_line": 77, "status": "mined", "used_by": ["corpus/lessons/round-27.md","corpus/knowledge/extraction-policy-comparison.md"], "cites_any_scope_file": false },
+    "S056": { "sources_md_line": 78, "status": "mined", "used_by": ["corpus/lessons/round-27.md","corpus/knowledge/extraction-policy-comparison.md"], "cites_any_scope_file": false },
+    "S057": { "sources_md_line": 79, "status": "mined", "used_by": ["corpus/lessons/round-27.md","corpus/knowledge/extraction-policy-comparison.md"], "cites_any_scope_file": false },
+    "S058": { "sources_md_line": 80, "status": "mined", "used_by": ["corpus/lessons/round-27.md","corpus/knowledge/extraction-policy-comparison.md"], "cites_any_scope_file": false },
+    "S059": { "sources_md_line": 81, "status": "mined", "used_by": ["corpus/lessons/round-27.md","corpus/knowledge/extraction-policy-comparison.md"], "cites_any_scope_file": false },
+    "S060": { "sources_md_line": 82, "status": "rejected", "used_by": ["corpus/lessons/round-27.md"], "cites_any_scope_file": false, "note": "rejected row cited only by a lesson path (not one of the 35 frozen knowledge paths) -> not a contract violation per 'uncited rejected/queued rows are not errors' + lesson used-by allowance" }
+  },
+  "missing_links_on_scope": [],
+  "extra_links_on_scope": [],
+  "s038_drift": {
+    "location": "corpus/knowledge/attribution-interval-calibration.md:144 (frozen path, OUTSIDE this seat's 5-file surface)",
+    "quote": "S038 (Reiczigel et al. 2010, Introduction) warns the naive adjusted interval can cover 60% at nominal 95%.",
+    "registry_state": "SOURCES.md:60 status=queued, used-by=\u2014",
+    "two_violations": ["cited-by-frozen-path row is not mined", "citing frozen path absent from used-by cell"],
+    "disclosure_provenance": "corpus/lessons/round-27.md:18: \"S038's cited-but-queued drift was independently found by RevengeMistakeMine\"",
+    "sufficiency_for_this_scope": "vacuous-pass: this seat's 5 files contain zero frozen13 mentions and are named in zero frozen13 used-by cells, so the S038 drift involves none of them and no other divergence exists on the surface to explain"
+  },
+  "observations_commands": [
+    "grep pattern 'S[0-9]{3,}' over the 5 scope files -> matches only paired-eval-uncertainty-reporting.md (S015-S019)",
+    "grep pattern '(^|[^A-Za-z0-9_])S0(38|49|5[0-9]|60)([^A-Za-z0-9_]|$)' over the 4 remaining scope files -> No matches found",
+    "grep '^\\| ?S0(38|49|5[0-9]|60)' corpus/SOURCES.md -> rows :60, :71-:82",
+    "grep standalone S038 over corpus/ -> exactly one frozen-path citation (knowledge/attribution-interval-calibration.md:144); rest are SOURCES.md/lessons/evidence text",
+    "git rev-parse HEAD (read-only) -> f0ba09be0f3066daba2134b943d973ad1588f34a"
+  ],
+  "limitations": [
+    "Literal-reference reconstruction only; no semantic citation support claimed.",
+    "Other 30 frozen knowledge paths not scanned (other RefGroups' slices); no population-wide sufficiency claim.",
+    "No external web sources opened; all evidence is in-repo reads.",
+    "No checker execution (L1 owns registry_check.py counts); this is an independent source-side map."
+  ]
+}

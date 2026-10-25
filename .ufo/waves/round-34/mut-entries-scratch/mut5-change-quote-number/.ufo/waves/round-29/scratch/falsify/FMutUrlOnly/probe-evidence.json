@@ -1,0 +1,252 @@
+{
+  "axes": [
+    "detector sensitivity",
+    "exact mismatch evidence",
+    "write isolation and byte restoration"
+  ],
+  "comparison_counts": {
+    "affected_task_count": 18,
+    "affected_task_indices": [
+      66,
+      552,
+      553,
+      554,
+      555,
+      562,
+      563,
+      564,
+      565,
+      566,
+      681,
+      682,
+      683,
+      684,
+      685,
+      686,
+      687,
+      688
+    ],
+    "all_output_json_mismatches": 468,
+    "projected_leaf_mismatches": 183,
+    "projected_mismatches_by_profile": {
+      "distinct_origins": 61,
+      "path_prefix": 61,
+      "trailing_slash_sensitivity": 61
+    },
+    "remaining_token_occurrences_by_profile": {
+      "distinct_origins": 62,
+      "path_prefix": 62,
+      "trailing_slash_sensitivity": 62
+    },
+    "unique_raw_leaf_paths": 61
+  },
+  "concurrent_detector_modes": 3,
+  "copied_module_sha256_before": "5673405e79a0445c76f3e67e2e30ccf7a89847e90de4a74488b995540cea12e3",
+  "detectors": {
+    "mutated": {
+      "--json": {
+        "command": [
+          "python3",
+          "/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe/plans/config_projection.py",
+          "--json",
+          "--root",
+          "/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe"
+        ],
+        "exit": 1,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "a91b72f0bb88d738b401a7b1bb74ff3f309201543862ed43ab8510cdf577e3d4"
+      },
+      "--selftest": {
+        "command": [
+          "python3",
+          "/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe/plans/config_projection.py",
+          "--selftest",
+          "--root",
+          "/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe"
+        ],
+        "exit": 1,
+        "stderr": "Traceback (most recent call last):\n  File \"/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe/plans/config_projection.py\", line 550, in <module>\n    raise SystemExit(main())\n                     ~~~~^^\n  File \"/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe/plans/config_projection.py\", line 535, in main\n    return selftest(args.root)\n  File \"/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe/plans/config_projection.py\", line 398, in selftest\n    assert not findings and [s[\"applied_replacements\"] for s in record[\"steps\"]] == [2] * 6\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+        "stderr_sha256": "46969cfbd8692800e0ff6c533c9c5fda636155017896d0a3a22b2b63ebe207f2",
+        "stdout": "",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "--summary": {
+        "command": [
+          "python3",
+          "/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe/plans/config_projection.py",
+          "--summary",
+          "--root",
+          "/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe"
+        ],
+        "exit": 1,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "LIMIT scope: offline projection of one pinned generator over one pinned raw task file; not an actual deployment config, env_config value or observed endpoint\nLIMIT profiles: three frozen synthetic *.invalid sensitivity stimuli, not deployment recommendations; their per-profile effects are stimulus observations, never model or task errors\nLIMIT units: 2436 = 812 tasks x 3 synthetic profiles of one input; not independent trials, samples or files written\nLIMIT upstream also writes one whole test.json per profile (813 would-be artifacts per profile); only the 812 per-index task objects are counted as projections\nLIMIT offsets are Unicode codepoint offsets in the ORIGINAL raw input text, never byte offsets or step-input offsets\nLIMIT upstream text-mode I/O uses the locale encoding and universal newlines; the pinned raw file is ASCII without carriage returns, so that difference is inert here\nLIMIT no runtime evaluator, browser, helper, judge, task-validity, model-performance or contamination claim; unread metadata such as sites is not a consumed predicate\nFINDING {\"changed\": 1355, \"id\": \"leaf_change_unexplained\", \"profile\": \"distinct_origins\", \"token_leaves\": 1416, \"unexplained\": 0}\nFINDING {\"id\": \"known_token_remaining\", \"profile\": \"distinct_origins\"}\nFINDING {\"changed\": 1355, \"id\": \"leaf_change_unexplained\", \"profile\": \"path_prefix\", \"token_leaves\": 1416, \"unexplained\": 0}\nFINDING {\"id\": \"known_token_remaining\", \"profile\": \"path_prefix\"}\nFINDING {\"changed\": 1355, \"id\": \"leaf_change_unexplained\", \"profile\": \"trailing_slash_sensitivity\", \"token_leaves\": 1416, \"unexplained\": 0}\nFINDING {\"id\": \"known_token_remaining\", \"profile\": \"trailing_slash_sensitivity\"}\nPOPULATION {\"distinct_task_ids\": 812, \"input_task_count\": 812, \"profile_count\": 3, \"task_profile_projections\": 2436, \"tasks_with_any_token\": 812}\nORIGINAL_OCCURRENCES_BY_TOKEN {\"__GITLAB__\": 385, \"__REDDIT__\": 336, \"__SHOPPING__\": 281, \"__SHOPPING_ADMIN__\": 300, \"__WIKIPEDIA__\": 0, \"__MAP__\": 133}\nTASKS_WITH_TOKEN {\"__GITLAB__\": 204, \"__REDDIT__\": 128, \"__SHOPPING__\": 192, \"__SHOPPING_ADMIN__\": 182, \"__WIKIPEDIA__\": 0, \"__MAP__\": 128}\nOCCURRENCE_ROLES {\"value\": 1435}\nOTHER_MARKERS_NOT_ENV_TOKENS {\"__last_url__\": 65, \"__page__\": 12}\nINDEX {\"index_equals_task_id\": 812, \"violations\": 0}\nPROFILE distinct_origins purpose=\"controlled synthetic text-substitution profile, not an observed deployment\"\nPROFILE distinct_origins stimulus=\"origin-only synthetic values; not the README-documented SHOPPING_ADMIN '/admin' shape\"\nPROFILE distinct_origins applied_replacements={\"GITLAB\": 385, \"REDDIT\": 336, \"SHOPPING\": 281, \"SHOPPING_ADMIN\": 300, \"WIKIPEDIA\": 0, \"MAP\": 133}\nPROFILE distinct_origins parsed_task_count=812 string_leaf_count=10869 changed_leaf_count=1355 changed_task_count=812 changed_leaves_with_multiple_occurrences=12 projected_text_sha256=e7d2b91427231f008c98f9465238ab1708c82a7f2372c1fe6894dced0bf2b00f\nPROFILE distinct_origins changed_leaves_by_category={\"url_field\": 1355}\nPROFILE distinct_origins changed_leaves_by_path_template={\"eval.program_html[].url\": 338, \"eval.reference_url\": 205, \"start_url\": 812}\nPROFILE distinct_origins changed_leaves_by_token={\"__GITLAB__\": 377, \"__REDDIT__\": 270, \"__SHOPPING__\": 275, \"__SHOPPING_ADMIN__\": 300, \"__WIKIPEDIA__\": 0, \"__MAP__\": 133}\nPROFILE distinct_origins changed_tasks_by_token={\"__GITLAB__\": 196, \"__REDDIT__\": 119, \"__SHOPPING__\": 192, \"__SHOPPING_ADMIN__\": 182, \"__WIKIPEDIA__\": 0, \"__MAP__\": 128}\nPROFILE distinct_origins remaining_known_tokens_text={\"__GITLAB__\": 8, \"__MAP__\": 0, \"__REDDIT__\": 54, \"__SHOPPING_ADMIN__\": 0, \"__SHOPPING__\": 0, \"__WIKIPEDIA__\": 0}\nPROFILE distinct_origins remaining_known_tokens_decoded={\"__GITLAB__\": 8, \"__MAP__\": 0, \"__REDDIT__\": 54, \"__SHOPPING_ADMIN__\": 0, \"__SHOPPING__\": 0, \"__WIKIPEDIA__\": 0}\nPROFILE distinct_origins stimulus_observations={\"value_slash_then_raw_slash_junctions\": 0}\nPROFILE path_prefix purpose=\"controlled synthetic text-substitution profile, not an observed deployment\"\nPROFILE path_prefix stimulus=\"synthetic '/prefix' path on all six values; changes URL path structure by design\"\nPROFILE path_prefix applied_replacements={\"GITLAB\": 385, \"REDDIT\": 336, \"SHOPPING\": 281, \"SHOPPING_ADMIN\": 300, \"WIKIPEDIA\": 0, \"MAP\": 133}\nPROFILE path_prefix parsed_task_count=812 string_leaf_count=10869 changed_leaf_count=1355 changed_task_count=812 changed_leaves_with_multiple_occurrences=12 projected_text_sha256=0711f465c0981b8e28a38b8e6fb4e2c8faf3f6ab89d900ee7845d95e393fb601\nPROFILE path_prefix changed_leaves_by_category={\"url_field\": 1355}\nPROFILE path_prefix changed_leaves_by_path_template={\"eval.program_html[].url\": 338, \"eval.reference_url\": 205, \"start_url\": 812}\nPROFILE path_prefix changed_leaves_by_token={\"__GITLAB__\": 377, \"__REDDIT__\": 270, \"__SHOPPING__\": 275, \"__SHOPPING_ADMIN__\": 300, \"__WIKIPEDIA__\": 0, \"__MAP__\": 133}\nPROFILE path_prefix changed_tasks_by_token={\"__GITLAB__\": 196, \"__REDDIT__\": 119, \"__SHOPPING__\": 192, \"__SHOPPING_ADMIN__\": 182, \"__WIKIPEDIA__\": 0, \"__MAP__\": 128}\nPROFILE path_prefix remaining_known_tokens_text={\"__GITLAB__\": 8, \"__MAP__\": 0, \"__REDDIT__\": 54, \"__SHOPPING_ADMIN__\": 0, \"__SHOPPING__\": 0, \"__WIKIPEDIA__\": 0}\nPROFILE path_prefix remaining_known_tokens_decoded={\"__GITLAB__\": 8, \"__MAP__\": 0, \"__REDDIT__\": 54, \"__SHOPPING_ADMIN__\": 0, \"__SHOPPING__\": 0, \"__WIKIPEDIA__\": 0}\nPROFILE path_prefix stimulus_observations={\"value_slash_then_raw_slash_junctions\": 0}\nPROFILE trailing_slash_sensitivity purpose=\"controlled synthetic text-substitution profile, not an observed deployment\"\nPROFILE trailing_slash_sensitivity stimulus=\"synthetic trailing '/' on all six values; a token followed by '/' becomes '//' by design\"\nPROFILE trailing_slash_sensitivity applied_replacements={\"GITLAB\": 385, \"REDDIT\": 336, \"SHOPPING\": 281, \"SHOPPING_ADMIN\": 300, \"WIKIPEDIA\": 0, \"MAP\": 133}\nPROFILE trailing_slash_sensitivity parsed_task_count=812 string_leaf_count=10869 changed_leaf_count=1355 changed_task_count=812 changed_leaves_with_multiple_occurrences=12 projected_text_sha256=3fd255a7a367e5d2d0758df583bbdcafaf4e85ca27084e7956a9ba4dcf7b007b\nPROFILE trailing_slash_sensitivity changed_leaves_by_category={\"url_field\": 1355}\nPROFILE trailing_slash_sensitivity changed_leaves_by_path_template={\"eval.program_html[].url\": 338, \"eval.reference_url\": 205, \"start_url\": 812}\nPROFILE trailing_slash_sensitivity changed_leaves_by_token={\"__GITLAB__\": 377, \"__REDDIT__\": 270, \"__SHOPPING__\": 275, \"__SHOPPING_ADMIN__\": 300, \"__WIKIPEDIA__\": 0, \"__MAP__\": 133}\nPROFILE trailing_slash_sensitivity changed_tasks_by_token={\"__GITLAB__\": 196, \"__REDDIT__\": 119, \"__SHOPPING__\": 192, \"__SHOPPING_ADMIN__\": 182, \"__WIKIPEDIA__\": 0, \"__MAP__\": 128}\nPROFILE trailing_slash_sensitivity remaining_known_tokens_text={\"__GITLAB__\": 8, \"__MAP__\": 0, \"__REDDIT__\": 54, \"__SHOPPING_ADMIN__\": 0, \"__SHOPPING__\": 0, \"__WIKIPEDIA__\": 0}\nPROFILE trailing_slash_sensitivity remaining_known_tokens_decoded={\"__GITLAB__\": 8, \"__MAP__\": 0, \"__REDDIT__\": 54, \"__SHOPPING_ADMIN__\": 0, \"__SHOPPING__\": 0, \"__WIKIPEDIA__\": 0}\nPROFILE trailing_slash_sensitivity stimulus_observations={\"value_slash_then_raw_slash_junctions\": 697}\nTOTAL findings=6 exit=1\n",
+        "stdout_sha256": "f11548d6d4bc88f30945efa768f44bbd95519a16e6c3090a8db420b61fec95a2"
+      }
+    },
+    "pristine": {
+      "--json": {
+        "command": [
+          "python3",
+          "/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe/plans/config_projection.py",
+          "--json",
+          "--root",
+          "/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe"
+        ],
+        "exit": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "c8da0c5a2d3110efbcd1880839c0036f11f22e32eb2c25f72105e8f355b34630"
+      },
+      "--selftest": {
+        "command": [
+          "python3",
+          "/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe/plans/config_projection.py",
+          "--selftest",
+          "--root",
+          "/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe"
+        ],
+        "exit": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "SELFTEST clean cases=20 six_tokens_and_non_url_field,units_not_pooled,codepoint_offsets_and_key_token,escaped_token_not_replaced,quote_backslash_decode_failure_and_escape_semantics,profile_map_errors,hand_cascade_order_R29_ORDER_CASCADE_01,hand_url_only_R29-URL-ONLY-UNREAD-METADATA-01,hand_index_r29_index_shuffled_ids_1_0,source_order_swap,source_literal_rhs,source_extra_step,source_id_filename,cli_snapshot_tampered,cli_input_missing,cli_coherent_rebinding,post_read_replacement_test.raw.json,post_read_replacement_generate_test_data.py,post_read_replacement_profiles.json,cli_manifest_tampered\n",
+        "stdout_sha256": "1fa3c1fcb6d6b3f7b2a83097b8473343bf278fb20b88c1fcfa99161878058d44"
+      },
+      "--summary": {
+        "command": [
+          "python3",
+          "/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe/plans/config_projection.py",
+          "--summary",
+          "--root",
+          "/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe"
+        ],
+        "exit": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "LIMIT scope: offline projection of one pinned generator over one pinned raw task file; not an actual deployment config, env_config value or observed endpoint\nLIMIT profiles: three frozen synthetic *.invalid sensitivity stimuli, not deployment recommendations; their per-profile effects are stimulus observations, never model or task errors\nLIMIT units: 2436 = 812 tasks x 3 synthetic profiles of one input; not independent trials, samples or files written\nLIMIT upstream also writes one whole test.json per profile (813 would-be artifacts per profile); only the 812 per-index task objects are counted as projections\nLIMIT offsets are Unicode codepoint offsets in the ORIGINAL raw input text, never byte offsets or step-input offsets\nLIMIT upstream text-mode I/O uses the locale encoding and universal newlines; the pinned raw file is ASCII without carriage returns, so that difference is inert here\nLIMIT no runtime evaluator, browser, helper, judge, task-validity, model-performance or contamination claim; unread metadata such as sites is not a consumed predicate\nPOPULATION {\"distinct_task_ids\": 812, \"input_task_count\": 812, \"profile_count\": 3, \"task_profile_projections\": 2436, \"tasks_with_any_token\": 812}\nORIGINAL_OCCURRENCES_BY_TOKEN {\"__GITLAB__\": 385, \"__REDDIT__\": 336, \"__SHOPPING__\": 281, \"__SHOPPING_ADMIN__\": 300, \"__WIKIPEDIA__\": 0, \"__MAP__\": 133}\nTASKS_WITH_TOKEN {\"__GITLAB__\": 204, \"__REDDIT__\": 128, \"__SHOPPING__\": 192, \"__SHOPPING_ADMIN__\": 182, \"__WIKIPEDIA__\": 0, \"__MAP__\": 128}\nOCCURRENCE_ROLES {\"value\": 1435}\nOTHER_MARKERS_NOT_ENV_TOKENS {\"__last_url__\": 65, \"__page__\": 12}\nINDEX {\"index_equals_task_id\": 812, \"violations\": 0}\nPROFILE distinct_origins purpose=\"controlled synthetic text-substitution profile, not an observed deployment\"\nPROFILE distinct_origins stimulus=\"origin-only synthetic values; not the README-documented SHOPPING_ADMIN '/admin' shape\"\nPROFILE distinct_origins applied_replacements={\"GITLAB\": 385, \"REDDIT\": 336, \"SHOPPING\": 281, \"SHOPPING_ADMIN\": 300, \"WIKIPEDIA\": 0, \"MAP\": 133}\nPROFILE distinct_origins parsed_task_count=812 string_leaf_count=10869 changed_leaf_count=1416 changed_task_count=812 changed_leaves_with_multiple_occurrences=13 projected_text_sha256=2aec098e5705c98c7f7977a4eb8962aa455c2224d078dbfe4c1fc113e7c707f4\nPROFILE distinct_origins changed_leaves_by_category={\"non_url_field\": 61, \"url_field\": 1355}\nPROFILE distinct_origins changed_leaves_by_path_template={\"eval.program_html[].required_contents.must_include[]\": 60, \"eval.program_html[].url\": 338, \"eval.reference_answer_raw_annotation\": 1, \"eval.reference_url\": 205, \"start_url\": 812}\nPROFILE distinct_origins changed_leaves_by_token={\"__GITLAB__\": 385, \"__REDDIT__\": 323, \"__SHOPPING__\": 275, \"__SHOPPING_ADMIN__\": 300, \"__WIKIPEDIA__\": 0, \"__MAP__\": 133}\nPROFILE distinct_origins changed_tasks_by_token={\"__GITLAB__\": 204, \"__REDDIT__\": 128, \"__SHOPPING__\": 192, \"__SHOPPING_ADMIN__\": 182, \"__WIKIPEDIA__\": 0, \"__MAP__\": 128}\nPROFILE distinct_origins remaining_known_tokens_text={\"__GITLAB__\": 0, \"__MAP__\": 0, \"__REDDIT__\": 0, \"__SHOPPING_ADMIN__\": 0, \"__SHOPPING__\": 0, \"__WIKIPEDIA__\": 0}\nPROFILE distinct_origins remaining_known_tokens_decoded={\"__GITLAB__\": 0, \"__MAP__\": 0, \"__REDDIT__\": 0, \"__SHOPPING_ADMIN__\": 0, \"__SHOPPING__\": 0, \"__WIKIPEDIA__\": 0}\nPROFILE distinct_origins stimulus_observations={\"value_slash_then_raw_slash_junctions\": 0}\nPROFILE path_prefix purpose=\"controlled synthetic text-substitution profile, not an observed deployment\"\nPROFILE path_prefix stimulus=\"synthetic '/prefix' path on all six values; changes URL path structure by design\"\nPROFILE path_prefix applied_replacements={\"GITLAB\": 385, \"REDDIT\": 336, \"SHOPPING\": 281, \"SHOPPING_ADMIN\": 300, \"WIKIPEDIA\": 0, \"MAP\": 133}\nPROFILE path_prefix parsed_task_count=812 string_leaf_count=10869 changed_leaf_count=1416 changed_task_count=812 changed_leaves_with_multiple_occurrences=13 projected_text_sha256=54cf98337dc6751d9453ee069ff26bb3836698518527cf8683c85bf66744744b\nPROFILE path_prefix changed_leaves_by_category={\"non_url_field\": 61, \"url_field\": 1355}\nPROFILE path_prefix changed_leaves_by_path_template={\"eval.program_html[].required_contents.must_include[]\": 60, \"eval.program_html[].url\": 338, \"eval.reference_answer_raw_annotation\": 1, \"eval.reference_url\": 205, \"start_url\": 812}\nPROFILE path_prefix changed_leaves_by_token={\"__GITLAB__\": 385, \"__REDDIT__\": 323, \"__SHOPPING__\": 275, \"__SHOPPING_ADMIN__\": 300, \"__WIKIPEDIA__\": 0, \"__MAP__\": 133}\nPROFILE path_prefix changed_tasks_by_token={\"__GITLAB__\": 204, \"__REDDIT__\": 128, \"__SHOPPING__\": 192, \"__SHOPPING_ADMIN__\": 182, \"__WIKIPEDIA__\": 0, \"__MAP__\": 128}\nPROFILE path_prefix remaining_known_tokens_text={\"__GITLAB__\": 0, \"__MAP__\": 0, \"__REDDIT__\": 0, \"__SHOPPING_ADMIN__\": 0, \"__SHOPPING__\": 0, \"__WIKIPEDIA__\": 0}\nPROFILE path_prefix remaining_known_tokens_decoded={\"__GITLAB__\": 0, \"__MAP__\": 0, \"__REDDIT__\": 0, \"__SHOPPING_ADMIN__\": 0, \"__SHOPPING__\": 0, \"__WIKIPEDIA__\": 0}\nPROFILE path_prefix stimulus_observations={\"value_slash_then_raw_slash_junctions\": 0}\nPROFILE trailing_slash_sensitivity purpose=\"controlled synthetic text-substitution profile, not an observed deployment\"\nPROFILE trailing_slash_sensitivity stimulus=\"synthetic trailing '/' on all six values; a token followed by '/' becomes '//' by design\"\nPROFILE trailing_slash_sensitivity applied_replacements={\"GITLAB\": 385, \"REDDIT\": 336, \"SHOPPING\": 281, \"SHOPPING_ADMIN\": 300, \"WIKIPEDIA\": 0, \"MAP\": 133}\nPROFILE trailing_slash_sensitivity parsed_task_count=812 string_leaf_count=10869 changed_leaf_count=1416 changed_task_count=812 changed_leaves_with_multiple_occurrences=13 projected_text_sha256=49bbee2e827791b79f42858ac78637704adaa7e36f1cb3a9268563e8df3e01b2\nPROFILE trailing_slash_sensitivity changed_leaves_by_category={\"non_url_field\": 61, \"url_field\": 1355}\nPROFILE trailing_slash_sensitivity changed_leaves_by_path_template={\"eval.program_html[].required_contents.must_include[]\": 60, \"eval.program_html[].url\": 338, \"eval.reference_answer_raw_annotation\": 1, \"eval.reference_url\": 205, \"start_url\": 812}\nPROFILE trailing_slash_sensitivity changed_leaves_by_token={\"__GITLAB__\": 385, \"__REDDIT__\": 323, \"__SHOPPING__\": 275, \"__SHOPPING_ADMIN__\": 300, \"__WIKIPEDIA__\": 0, \"__MAP__\": 133}\nPROFILE trailing_slash_sensitivity changed_tasks_by_token={\"__GITLAB__\": 204, \"__REDDIT__\": 128, \"__SHOPPING__\": 192, \"__SHOPPING_ADMIN__\": 182, \"__WIKIPEDIA__\": 0, \"__MAP__\": 128}\nPROFILE trailing_slash_sensitivity remaining_known_tokens_text={\"__GITLAB__\": 0, \"__MAP__\": 0, \"__REDDIT__\": 0, \"__SHOPPING_ADMIN__\": 0, \"__SHOPPING__\": 0, \"__WIKIPEDIA__\": 0}\nPROFILE trailing_slash_sensitivity remaining_known_tokens_decoded={\"__GITLAB__\": 0, \"__MAP__\": 0, \"__REDDIT__\": 0, \"__SHOPPING_ADMIN__\": 0, \"__SHOPPING__\": 0, \"__WIKIPEDIA__\": 0}\nPROFILE trailing_slash_sensitivity stimulus_observations={\"value_slash_then_raw_slash_junctions\": 697}\nTOTAL findings=0 exit=0\n",
+        "stdout_sha256": "5ce5cb0f91ad279d446a475de757b9aa4a5b67a4b02df8d9aeac0d01be74636f"
+      }
+    },
+    "restored": {
+      "--json": {
+        "command": [
+          "python3",
+          "/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe/plans/config_projection.py",
+          "--json",
+          "--root",
+          "/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe"
+        ],
+        "exit": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "c8da0c5a2d3110efbcd1880839c0036f11f22e32eb2c25f72105e8f355b34630"
+      },
+      "--selftest": {
+        "command": [
+          "python3",
+          "/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe/plans/config_projection.py",
+          "--selftest",
+          "--root",
+          "/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe"
+        ],
+        "exit": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "SELFTEST clean cases=20 six_tokens_and_non_url_field,units_not_pooled,codepoint_offsets_and_key_token,escaped_token_not_replaced,quote_backslash_decode_failure_and_escape_semantics,profile_map_errors,hand_cascade_order_R29_ORDER_CASCADE_01,hand_url_only_R29-URL-ONLY-UNREAD-METADATA-01,hand_index_r29_index_shuffled_ids_1_0,source_order_swap,source_literal_rhs,source_extra_step,source_id_filename,cli_snapshot_tampered,cli_input_missing,cli_coherent_rebinding,post_read_replacement_test.raw.json,post_read_replacement_generate_test_data.py,post_read_replacement_profiles.json,cli_manifest_tampered\n",
+        "stdout_sha256": "1fa3c1fcb6d6b3f7b2a83097b8473343bf278fb20b88c1fcfa99161878058d44"
+      },
+      "--summary": {
+        "command": [
+          "python3",
+          "/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe/plans/config_projection.py",
+          "--summary",
+          "--root",
+          "/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe"
+        ],
+        "exit": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "LIMIT scope: offline projection of one pinned generator over one pinned raw task file; not an actual deployment config, env_config value or observed endpoint\nLIMIT profiles: three frozen synthetic *.invalid sensitivity stimuli, not deployment recommendations; their per-profile effects are stimulus observations, never model or task errors\nLIMIT units: 2436 = 812 tasks x 3 synthetic profiles of one input; not independent trials, samples or files written\nLIMIT upstream also writes one whole test.json per profile (813 would-be artifacts per profile); only the 812 per-index task objects are counted as projections\nLIMIT offsets are Unicode codepoint offsets in the ORIGINAL raw input text, never byte offsets or step-input offsets\nLIMIT upstream text-mode I/O uses the locale encoding and universal newlines; the pinned raw file is ASCII without carriage returns, so that difference is inert here\nLIMIT no runtime evaluator, browser, helper, judge, task-validity, model-performance or contamination claim; unread metadata such as sites is not a consumed predicate\nPOPULATION {\"distinct_task_ids\": 812, \"input_task_count\": 812, \"profile_count\": 3, \"task_profile_projections\": 2436, \"tasks_with_any_token\": 812}\nORIGINAL_OCCURRENCES_BY_TOKEN {\"__GITLAB__\": 385, \"__REDDIT__\": 336, \"__SHOPPING__\": 281, \"__SHOPPING_ADMIN__\": 300, \"__WIKIPEDIA__\": 0, \"__MAP__\": 133}\nTASKS_WITH_TOKEN {\"__GITLAB__\": 204, \"__REDDIT__\": 128, \"__SHOPPING__\": 192, \"__SHOPPING_ADMIN__\": 182, \"__WIKIPEDIA__\": 0, \"__MAP__\": 128}\nOCCURRENCE_ROLES {\"value\": 1435}\nOTHER_MARKERS_NOT_ENV_TOKENS {\"__last_url__\": 65, \"__page__\": 12}\nINDEX {\"index_equals_task_id\": 812, \"violations\": 0}\nPROFILE distinct_origins purpose=\"controlled synthetic text-substitution profile, not an observed deployment\"\nPROFILE distinct_origins stimulus=\"origin-only synthetic values; not the README-documented SHOPPING_ADMIN '/admin' shape\"\nPROFILE distinct_origins applied_replacements={\"GITLAB\": 385, \"REDDIT\": 336, \"SHOPPING\": 281, \"SHOPPING_ADMIN\": 300, \"WIKIPEDIA\": 0, \"MAP\": 133}\nPROFILE distinct_origins parsed_task_count=812 string_leaf_count=10869 changed_leaf_count=1416 changed_task_count=812 changed_leaves_with_multiple_occurrences=13 projected_text_sha256=2aec098e5705c98c7f7977a4eb8962aa455c2224d078dbfe4c1fc113e7c707f4\nPROFILE distinct_origins changed_leaves_by_category={\"non_url_field\": 61, \"url_field\": 1355}\nPROFILE distinct_origins changed_leaves_by_path_template={\"eval.program_html[].required_contents.must_include[]\": 60, \"eval.program_html[].url\": 338, \"eval.reference_answer_raw_annotation\": 1, \"eval.reference_url\": 205, \"start_url\": 812}\nPROFILE distinct_origins changed_leaves_by_token={\"__GITLAB__\": 385, \"__REDDIT__\": 323, \"__SHOPPING__\": 275, \"__SHOPPING_ADMIN__\": 300, \"__WIKIPEDIA__\": 0, \"__MAP__\": 133}\nPROFILE distinct_origins changed_tasks_by_token={\"__GITLAB__\": 204, \"__REDDIT__\": 128, \"__SHOPPING__\": 192, \"__SHOPPING_ADMIN__\": 182, \"__WIKIPEDIA__\": 0, \"__MAP__\": 128}\nPROFILE distinct_origins remaining_known_tokens_text={\"__GITLAB__\": 0, \"__MAP__\": 0, \"__REDDIT__\": 0, \"__SHOPPING_ADMIN__\": 0, \"__SHOPPING__\": 0, \"__WIKIPEDIA__\": 0}\nPROFILE distinct_origins remaining_known_tokens_decoded={\"__GITLAB__\": 0, \"__MAP__\": 0, \"__REDDIT__\": 0, \"__SHOPPING_ADMIN__\": 0, \"__SHOPPING__\": 0, \"__WIKIPEDIA__\": 0}\nPROFILE distinct_origins stimulus_observations={\"value_slash_then_raw_slash_junctions\": 0}\nPROFILE path_prefix purpose=\"controlled synthetic text-substitution profile, not an observed deployment\"\nPROFILE path_prefix stimulus=\"synthetic '/prefix' path on all six values; changes URL path structure by design\"\nPROFILE path_prefix applied_replacements={\"GITLAB\": 385, \"REDDIT\": 336, \"SHOPPING\": 281, \"SHOPPING_ADMIN\": 300, \"WIKIPEDIA\": 0, \"MAP\": 133}\nPROFILE path_prefix parsed_task_count=812 string_leaf_count=10869 changed_leaf_count=1416 changed_task_count=812 changed_leaves_with_multiple_occurrences=13 projected_text_sha256=54cf98337dc6751d9453ee069ff26bb3836698518527cf8683c85bf66744744b\nPROFILE path_prefix changed_leaves_by_category={\"non_url_field\": 61, \"url_field\": 1355}\nPROFILE path_prefix changed_leaves_by_path_template={\"eval.program_html[].required_contents.must_include[]\": 60, \"eval.program_html[].url\": 338, \"eval.reference_answer_raw_annotation\": 1, \"eval.reference_url\": 205, \"start_url\": 812}\nPROFILE path_prefix changed_leaves_by_token={\"__GITLAB__\": 385, \"__REDDIT__\": 323, \"__SHOPPING__\": 275, \"__SHOPPING_ADMIN__\": 300, \"__WIKIPEDIA__\": 0, \"__MAP__\": 133}\nPROFILE path_prefix changed_tasks_by_token={\"__GITLAB__\": 204, \"__REDDIT__\": 128, \"__SHOPPING__\": 192, \"__SHOPPING_ADMIN__\": 182, \"__WIKIPEDIA__\": 0, \"__MAP__\": 128}\nPROFILE path_prefix remaining_known_tokens_text={\"__GITLAB__\": 0, \"__MAP__\": 0, \"__REDDIT__\": 0, \"__SHOPPING_ADMIN__\": 0, \"__SHOPPING__\": 0, \"__WIKIPEDIA__\": 0}\nPROFILE path_prefix remaining_known_tokens_decoded={\"__GITLAB__\": 0, \"__MAP__\": 0, \"__REDDIT__\": 0, \"__SHOPPING_ADMIN__\": 0, \"__SHOPPING__\": 0, \"__WIKIPEDIA__\": 0}\nPROFILE path_prefix stimulus_observations={\"value_slash_then_raw_slash_junctions\": 0}\nPROFILE trailing_slash_sensitivity purpose=\"controlled synthetic text-substitution profile, not an observed deployment\"\nPROFILE trailing_slash_sensitivity stimulus=\"synthetic trailing '/' on all six values; a token followed by '/' becomes '//' by design\"\nPROFILE trailing_slash_sensitivity applied_replacements={\"GITLAB\": 385, \"REDDIT\": 336, \"SHOPPING\": 281, \"SHOPPING_ADMIN\": 300, \"WIKIPEDIA\": 0, \"MAP\": 133}\nPROFILE trailing_slash_sensitivity parsed_task_count=812 string_leaf_count=10869 changed_leaf_count=1416 changed_task_count=812 changed_leaves_with_multiple_occurrences=13 projected_text_sha256=49bbee2e827791b79f42858ac78637704adaa7e36f1cb3a9268563e8df3e01b2\nPROFILE trailing_slash_sensitivity changed_leaves_by_category={\"non_url_field\": 61, \"url_field\": 1355}\nPROFILE trailing_slash_sensitivity changed_leaves_by_path_template={\"eval.program_html[].required_contents.must_include[]\": 60, \"eval.program_html[].url\": 338, \"eval.reference_answer_raw_annotation\": 1, \"eval.reference_url\": 205, \"start_url\": 812}\nPROFILE trailing_slash_sensitivity changed_leaves_by_token={\"__GITLAB__\": 385, \"__REDDIT__\": 323, \"__SHOPPING__\": 275, \"__SHOPPING_ADMIN__\": 300, \"__WIKIPEDIA__\": 0, \"__MAP__\": 133}\nPROFILE trailing_slash_sensitivity changed_tasks_by_token={\"__GITLAB__\": 204, \"__REDDIT__\": 128, \"__SHOPPING__\": 192, \"__SHOPPING_ADMIN__\": 182, \"__WIKIPEDIA__\": 0, \"__MAP__\": 128}\nPROFILE trailing_slash_sensitivity remaining_known_tokens_text={\"__GITLAB__\": 0, \"__MAP__\": 0, \"__REDDIT__\": 0, \"__SHOPPING_ADMIN__\": 0, \"__SHOPPING__\": 0, \"__WIKIPEDIA__\": 0}\nPROFILE trailing_slash_sensitivity remaining_known_tokens_decoded={\"__GITLAB__\": 0, \"__MAP__\": 0, \"__REDDIT__\": 0, \"__SHOPPING_ADMIN__\": 0, \"__SHOPPING__\": 0, \"__WIKIPEDIA__\": 0}\nPROFILE trailing_slash_sensitivity stimulus_observations={\"value_slash_then_raw_slash_junctions\": 697}\nTOTAL findings=0 exit=0\n",
+        "stdout_sha256": "5ce5cb0f91ad279d446a475de757b9aa4a5b67a4b02df8d9aeac0d01be74636f"
+      }
+    }
+  },
+  "initial_pinned_hashes": {
+    "plans/fixtures/r28/webarena/config_files/test.raw.json": "7b50386fd69163dbc05d615d834df4c6ed2c35596e97a1b10d17451c02537652",
+    "plans/fixtures/r29/generate_test_data.py": "45ddba7be49096a18919b4122a8945ff74c292ba17e36892b16e176a8bd921cd",
+    "plans/fixtures/r29/manifest.json": "f6390b924c69f0cc8c47b2320b092060bb344b6a5e81c0075d3eb5aab817bf87",
+    "plans/fixtures/r29/profiles.json": "90fdc34d2f33e3100a2223fdaf5fc5f1016993b8e6723710cc4661e0da94e018"
+  },
+  "module": "/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe/plans/config_projection.py",
+  "mutant_module_sha256": "e12e84e38f26377f5824d988c32739db21bd5c4336631957875d98507dd1d004",
+  "mutation": {
+    "mutant_lines": [
+      146,
+      148
+    ],
+    "original_lines": [
+      146,
+      146
+    ],
+    "source_lines": {
+      "failing_assertion_original_396_mutant_398": "assert not findings and [s[\"applied_replacements\"] for s in record[\"steps\"]] == [2] * 6",
+      "mutant_line_146": "for start, end, path, role, _ in reversed(string_spans(text)):",
+      "mutant_line_147": "if role == \"value\" and template(path) in URL_FIELD_TEMPLATES:",
+      "mutant_line_148": "text = text[:start] + text[start:end].replace(token, values[name]) + text[end:]",
+      "original_line_146": "text = text.replace(token, values[name])"
+    }
+  },
+  "per_subprocess_timeout_seconds": 90,
+  "probe_verdict": "KILLED",
+  "production_source_read": true,
+  "python": "3.14.8",
+  "restoration": {
+    "copied_module_exact_bytes_restored": true,
+    "copied_module_sha256": "5673405e79a0445c76f3e67e2e30ccf7a89847e90de4a74488b995540cea12e3",
+    "detector_outputs_equal": {
+      "--json": {
+        "exit": true,
+        "stderr": true,
+        "stdout": true
+      },
+      "--selftest": {
+        "exit": true,
+        "stderr": true,
+        "stdout": true
+      },
+      "--summary": {
+        "exit": true,
+        "stderr": true,
+        "stdout": true
+      }
+    },
+    "lane_module_sha256": "5673405e79a0445c76f3e67e2e30ccf7a89847e90de4a74488b995540cea12e3",
+    "lane_pinned_inputs_match": {
+      "plans/fixtures/r28/webarena/config_files/test.raw.json": true,
+      "plans/fixtures/r29/generate_test_data.py": true,
+      "plans/fixtures/r29/manifest.json": true,
+      "plans/fixtures/r29/profiles.json": true
+    },
+    "pinned_inputs_unchanged": {
+      "plans/fixtures/r28/webarena/config_files/test.raw.json": true,
+      "plans/fixtures/r29/generate_test_data.py": true,
+      "plans/fixtures/r29/manifest.json": true,
+      "plans/fixtures/r29/profiles.json": true
+    }
+  },
+  "restored_module_sha256": "5673405e79a0445c76f3e67e2e30ccf7a89847e90de4a74488b995540cea12e3",
+  "scope": "One URL-fields-only mutation probe; not round admission",
+  "scratch_root": "/tmp/KengakuR29-2.FMutUrlOnly-2.30j8crfe",
+  "source_module_sha256_before": "5673405e79a0445c76f3e67e2e30ccf7a89847e90de4a74488b995540cea12e3",
+  "source_quote_word_counts": {
+    "failing_assertion_original_396_mutant_398": 13,
+    "mutant_line_146": 8,
+    "mutant_line_147": 8,
+    "mutant_line_148": 8,
+    "original_line_146": 4
+  },
+  "tools_installed_or_updated": [],
+  "writer": "KengakuR29-2.FMutUrlOnly-2"
+}

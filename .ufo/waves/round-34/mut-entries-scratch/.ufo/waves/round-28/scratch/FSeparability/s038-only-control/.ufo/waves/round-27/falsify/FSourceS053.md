@@ -1,0 +1,28 @@
+# FSourceS053 — Q10 source reread
+
+Reviewer identity: **FSourceS053**, not candidate writer KengakuR27.
+Canonical candidate under review: `corpus/knowledge/extraction-policy-comparison.md` (unadmitted draft: `.ufo/waves/round-27/drafts/extraction-policy-comparison.md`).
+
+## Source and citation checks
+
+- Opened the SOURCES row URL directly with `read https://www.rfc-editor.org/rfc/rfc8259` (successful source read; no tool exit status is exposed). It identifies RFC 8259, Standards Track, December 2017. §2 states `JSON-text = ws value ws` and defines `ws` as only SP, HTAB, LF, and CR. This is the relevant grammar/whitespace authority, not an answer-extraction algorithm.
+- Registry `corpus/SOURCES.md:75` gives the correct URL and anchor `§2 JSON Grammar`, with scope limited to JSON text grammar and insignificant whitespace. Lesson Gate `corpus/lessons/round-27.md:44` and source record `corpus/evidence/round27-sources/gate.md:12` reproduce the exact quote `JSON-text = ws value ws` and locate it at §2. It is five whitespace-separated tokens, under the 25-word limit. The RFC is a numbered standard, not a Git source; there is no commit to cite. The opening receipt records accessed 2026-10-21 and SHA-256 `61a5378f4255c720beb2a4b4a63b29540147c140f36988bf086291989b4cd2d7` (`.ufo/waves/round-27/build/RowRFC8259.md:7-15`).
+- Source scope/policy mapping is correctly constrained in `corpus/evidence/round27-sources/gate.md:19-22` and `corpus/lessons/round-27.md:51-53`: S053/S054 are grammar/boundary limits, not grader selection rules; S049/S050/S055 are ordering precedents, not faithful JSON-policy ports. S053 does not establish any E0–E8 selection policy or a faithful JSON parser port. Candidate `.ufo/waves/round-27/drafts/extraction-policy-comparison.md:16-21,44-50` preserves that distinction and correctly describes E4 as Python `json.loads(raw.strip())`, not RFC parsing.
+
+## Candidate-wide S053 sentences and finding
+
+Read the complete 110-line draft. S053 appears in the source list at line 1 and in the relevant paragraph at lines 47-49. Line 47's statement that Unicode `strip()` accepts whitespace beyond RFC 8259's four `ws` characters is consistent with §2 and is accurately limited by the following finite-population comparison (`json.loads(raw)` found no difference in this pinned population); the RFC itself says nothing about that corpus result.
+
+The following sentence at candidate line 49 adds that Python accepts NaN/Infinity by default, unlike RFC 8259. I independently checked RFC §6 through the same official URL: it says numeric values outside the number grammar, “such as Infinity and NaN,” are not permitted. That factual comparison is correct. However, the currently published S053 registry row and gate record anchor/quote only §2 (`SOURCES.md:75`; `round27-sources/gate.md:12`), so this second RFC assertion is not covered by the recorded anchor. The earlier opening receipt did locate §6 and quotes it (`.ufo/waves/round-27/build/RowRFC8259.md:15,27`), but that §6 evidence is absent from the S053 registry/gate citation. Treat this as an evidence-anchor completeness gap, not a false factual claim; extend the S053 anchor/evidence to §6 if the candidate retains the assertion.
+
+## Provenance and limits
+
+Scratch clone command: `git clone --no-hardlinks /home/vgpnk/Projects/shokunin/kengaku-shokunin /tmp/kengaku-r27-FSourceS053 && git -C /tmp/kengaku-r27-FSourceS053 switch -c r27-FSourceS053 b5f62e5e637b34a1549e3475fc58b4227ed87e5a && git -C /tmp/kengaku-r27-FSourceS053 rev-parse HEAD` — exit 0; observed HEAD `b5f62e5e637b34a1549e3475fc58b4227ed87e5a`. No target-tree files changed. No installs; no tests/build/lint run (not assigned).
+
+VERDICT: **Scoped PASS with an evidence-anchor correction required** for canonical `corpus/knowledge/extraction-policy-comparison.md`: the recorded S053 §2 quote is exact, within 25 words, and supports the candidate's whitespace/grammar limitation; S053 is not an ordering precedent or faithful JSON-policy port. Candidate line 49's NaN/Infinity statement is verified at RFC §6 but is outside the S053 anchor currently recorded in `corpus/SOURCES.md:75` and `corpus/evidence/round27-sources/gate.md:12`; include §6 in that source evidence before treating the whole RFC-related wording as fully anchored.
+
+## Corrected-candidate follow-up
+
+Re-read the corrected candidate source list and S053/S059 paragraph, `corpus/SOURCES.md:81`, `corpus/lessons/round-27.md:50`, and `corpus/evidence/round27-sources/gate.md:44-47`. Candidate line 1 now maps S053/S059 to RFC §§2/6; line 49 explicitly cites S059 for the NaN/Infinity comparison. S059 extends rather than rewrites S053's §2 row and records §6 Numbers, txt:377–378. The lesson and source-gate quote is identical to the official RFC §6 sentence and is below the 25-word limit. The evidence record includes the same RFC byte SHA-256 as the opening receipt. This closes the earlier §6 anchor gap. The direct RFC is a dated standard, so no source commit applies.
+
+VERDICT: **Scoped PASS, corrected citation complete** for the RFC claims in canonical `corpus/knowledge/extraction-policy-comparison.md`: S053 §2 remains properly scoped to JSON grammar/whitespace rather than parser-selection behavior, and S059 now anchors the independently verified §6 restriction behind the candidate's Python NaN/Infinity caveat. This is a source-reread verdict only, not admission of the draft.

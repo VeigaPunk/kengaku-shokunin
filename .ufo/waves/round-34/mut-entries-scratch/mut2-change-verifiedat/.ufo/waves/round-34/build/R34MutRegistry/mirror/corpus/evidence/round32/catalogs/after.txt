@@ -1,0 +1,10 @@
+# C3 live catalog probe receipt — round 32, 2026-10-25
+# Source seat: R32CatProbe (raw JSON + SHA-256 manifest reported at .ufo/waves/round-32/build/R32CatProbe.md)
+# Independent corroboration: .ufo/waves/round-32/falsify/FxC3DiffTruth.md (separate live fetch)
+# Command: python3 plans/catalog_probe.py --diff --lane .
+# Note: the schema delta is a finding, not a gate failure. The default HF projection omits author/sha/lastModified/gated; ?full=true restores all four. OpenRouter contains the twelve recorded fields.
+probed=2026-10-25 hf=ok openrouter=ok hf_models=50 or_models=467 hf_schema_delta=4 or_schema_delta=0 entry=ok
+HF missing fields: author, sha, lastModified, gated
+OpenRouter missing fields: none
+# Raw JSON is retained in R32CatProbe's bounded /tmp capture only; its sha256 + byte count are in that seat report.
+# This output is the committed evidence receipt; it is not the raw response.

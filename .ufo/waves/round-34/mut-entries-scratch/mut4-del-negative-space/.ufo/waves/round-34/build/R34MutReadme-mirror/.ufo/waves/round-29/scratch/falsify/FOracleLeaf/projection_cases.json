@@ -1,0 +1,140 @@
+{
+  "contract": "Hand-expected projection cases, FOracleLeaf-2, round 29. TEXT oracle = six ordered str.replace over raw text (__GITLAB__, __REDDIT__, __SHOPPING__, __SHOPPING_ADMIN__, __WIKIPEDIA__, __MAP__), then json parse; per the pinned generator the whole test.json is written BEFORE the parse, so an expected_error still leaves a projected (invalid) test.json upstream and only per-task files absent. LEAF oracle = parse first, then the same six ordered replacements applied to every decoded string (dict keys included), sequentially. expected_json = parsed TEXT projection or null; expected_error = str(json.JSONDecodeError) of the TEXT projection or null (positions are 1-based column / 0-based char offsets; these docs are pure ASCII so codepoint==char); expected_leaf_json = parsed SEQUENTIAL decoded-leaf projection. All values synthetic *.invalid-style, not observed endpoints.",
+  "cases": [
+    {
+      "name": "quote_invalid",
+      "raw": "{\"task_id\": 0, \"start_url\": \"__GITLAB__\"}",
+      "values": {
+        "GITLAB": "http://g.invalid:10101/\"q\"",
+        "REDDIT": "http://r.invalid:10102",
+        "SHOPPING": "http://s.invalid:10103",
+        "SHOPPING_ADMIN": "http://sa.invalid:10104",
+        "WIKIPEDIA": "http://w.invalid:10105",
+        "MAP": "http://m.invalid:10106"
+      },
+      "expected_json": null,
+      "expected_error": "Expecting ',' delimiter: line 1 column 54 (char 53)",
+      "expected_leaf_json": {"task_id": 0, "start_url": "http://g.invalid:10101/\"q\""}
+    },
+    {
+      "name": "quote_structural_injection",
+      "raw": "{\"task_id\": 1, \"start_url\": \"__GITLAB__\", \"note\": \"n\"}",
+      "values": {
+        "GITLAB": "http://g.invalid:10101/x\", \"injected\": 1, \"t\": \"",
+        "REDDIT": "http://r.invalid:10102",
+        "SHOPPING": "http://s.invalid:10103",
+        "SHOPPING_ADMIN": "http://sa.invalid:10104",
+        "WIKIPEDIA": "http://w.invalid:10105",
+        "MAP": "http://m.invalid:10106"
+      },
+      "expected_json": {"task_id": 1, "start_url": "http://g.invalid:10101/x", "injected": 1, "t": "", "note": "n"},
+      "expected_error": null,
+      "expected_leaf_json": {"task_id": 1, "start_url": "http://g.invalid:10101/x\", \"injected\": 1, \"t\": \"", "note": "n"}
+    },
+    {
+      "name": "backslash_decode",
+      "raw": "{\"task_id\": 2, \"start_url\": \"__REDDIT__\"}",
+      "values": {
+        "GITLAB": "http://g.invalid:10101",
+        "REDDIT": "http://r.invalid:10102\\nfast",
+        "SHOPPING": "http://s.invalid:10103",
+        "SHOPPING_ADMIN": "http://sa.invalid:10104",
+        "WIKIPEDIA": "http://w.invalid:10105",
+        "MAP": "http://m.invalid:10106"
+      },
+      "expected_json": {"task_id": 2, "start_url": "http://r.invalid:10102\nfast"},
+      "expected_error": null,
+      "expected_leaf_json": {"task_id": 2, "start_url": "http://r.invalid:10102\\nfast"}
+    },
+    {
+      "name": "backslash_invalid_escape",
+      "raw": "{\"task_id\": 3, \"start_url\": \"__MAP__\"}",
+      "values": {
+        "GITLAB": "http://g.invalid:10101",
+        "REDDIT": "http://r.invalid:10102",
+        "SHOPPING": "http://s.invalid:10103",
+        "SHOPPING_ADMIN": "http://sa.invalid:10104",
+        "WIKIPEDIA": "http://w.invalid:10105",
+        "MAP": "http://m.invalid:10106\\q"
+      },
+      "expected_json": null,
+      "expected_error": "Invalid \\escape: line 1 column 52 (char 51)",
+      "expected_leaf_json": {"task_id": 3, "start_url": "http://m.invalid:10106\\q"}
+    },
+    {
+      "name": "backslash_trailing",
+      "raw": "{\"task_id\": 6, \"start_url\": \"__MAP__\"}",
+      "values": {
+        "GITLAB": "http://g.invalid:10101",
+        "REDDIT": "http://r.invalid:10102",
+        "SHOPPING": "http://s.invalid:10103",
+        "SHOPPING_ADMIN": "http://sa.invalid:10104",
+        "WIKIPEDIA": "http://w.invalid:10105",
+        "MAP": "http://m.invalid:10106/\\"
+      },
+      "expected_json": null,
+      "expected_error": "Unterminated string starting at: line 1 column 29 (char 28)",
+      "expected_leaf_json": {"task_id": 6, "start_url": "http://m.invalid:10106/\\"}
+    },
+    {
+      "name": "escaped_token",
+      "raw": "{\"task_id\": 4, \"start_url\": \"\\u005f_GITLAB__\"}",
+      "values": {
+        "GITLAB": "http://g.invalid:10101",
+        "REDDIT": "http://r.invalid:10102",
+        "SHOPPING": "http://s.invalid:10103",
+        "SHOPPING_ADMIN": "http://sa.invalid:10104",
+        "WIKIPEDIA": "http://w.invalid:10105",
+        "MAP": "http://m.invalid:10106"
+      },
+      "expected_json": {"task_id": 4, "start_url": "__GITLAB__"},
+      "expected_error": null,
+      "expected_leaf_json": {"task_id": 4, "start_url": "http://g.invalid:10101"}
+    },
+    {
+      "name": "cascade_later_token",
+      "raw": "{\"task_id\": 5, \"start_url\": \"__GITLAB__\"}",
+      "values": {
+        "GITLAB": "http://g.invalid:10101/__MAP__",
+        "REDDIT": "http://r.invalid:10102",
+        "SHOPPING": "http://s.invalid:10103",
+        "SHOPPING_ADMIN": "http://sa.invalid:10104",
+        "WIKIPEDIA": "http://w.invalid:10105",
+        "MAP": "http://m.invalid:10106"
+      },
+      "expected_json": {"task_id": 5, "start_url": "http://g.invalid:10101/http://m.invalid:10106"},
+      "expected_error": null,
+      "expected_leaf_json": {"task_id": 5, "start_url": "http://g.invalid:10101/http://m.invalid:10106"}
+    },
+    {
+      "name": "earlier_token_control",
+      "raw": "{\"task_id\": 7, \"start_url\": \"__MAP__\"}",
+      "values": {
+        "GITLAB": "http://g.invalid:10101",
+        "REDDIT": "http://r.invalid:10102",
+        "SHOPPING": "http://s.invalid:10103",
+        "SHOPPING_ADMIN": "http://sa.invalid:10104",
+        "WIKIPEDIA": "http://w.invalid:10105",
+        "MAP": "http://m.invalid:10106/__GITLAB__"
+      },
+      "expected_json": {"task_id": 7, "start_url": "http://m.invalid:10106/__GITLAB__"},
+      "expected_error": null,
+      "expected_leaf_json": {"task_id": 7, "start_url": "http://m.invalid:10106/__GITLAB__"}
+    },
+    {
+      "name": "keys_too_benign",
+      "raw": "{\"__MAP__key\": \"a\", \"start_url\": \"__MAP__\"}",
+      "values": {
+        "GITLAB": "http://g.invalid:10101",
+        "REDDIT": "http://r.invalid:10102",
+        "SHOPPING": "http://s.invalid:10103",
+        "SHOPPING_ADMIN": "http://sa.invalid:10104",
+        "WIKIPEDIA": "http://w.invalid:10105",
+        "MAP": "http://m.invalid:10106"
+      },
+      "expected_json": {"http://m.invalid:10106key": "a", "start_url": "http://m.invalid:10106"},
+      "expected_error": null,
+      "expected_leaf_json": {"http://m.invalid:10106key": "a", "start_url": "http://m.invalid:10106"}
+    }
+  ]
+}

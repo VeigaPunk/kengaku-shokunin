@@ -1,0 +1,34 @@
+{
+  "schema": "kengaku-parent-gate-observation/1",
+  "head_at_execution": "3f31e54c6e7aeddef13db11985b3c7a9dad9e0cf",
+  "measured_surface": "inherited dirty working tree; no round-17 domain integration",
+  "grader_sha256": "90c87c8865022681b1249a42ea580726932d2e97ec0de43e0c89efe0e5ae941f",
+  "runs": [
+    {
+      "command": [
+        "python3",
+        "grader.py"
+      ],
+      "cwd": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "started_at": "2026-10-15T05:08:50.837544+00:00",
+      "finished_at": "2026-10-15T05:08:51.045384+00:00",
+      "exit_code": 0,
+      "stdout": "CHECKS n=733 mismatches=0 errata_pinned=1\nVERDICT: PASS \u2014 stored evidence fully re-derives offline\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "grader.py",
+        "--selftest"
+      ],
+      "cwd": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "started_at": "2026-10-15T05:08:51.045448+00:00",
+      "finished_at": "2026-10-15T05:08:52.839929+00:00",
+      "exit_code": 0,
+      "stdout": "[selftest] PASS S0 control (clean copies): exit 0, expected 0\n[selftest] PASS S1 stored-ok flip (record layer): exit 1, expected 1 + check-id r8.replay.A-INC.ok (flip applied: True, id fired: True)\n[selftest] PASS S2 run.log SUMMARY edit (summary layer): exit 1, expected 1 + check-id r8.summary.A-INC (id fired: True)\n[selftest] PASS S3 raw-digit bump (re-parse layer): exit 1, expected 1 + check-id r9.replay.A-MONO.got (mutation applied: True, id fired: True)\n[selftest] PASS S4 r11 stored-ok flip (record layer): exit 1, expected 1 + check-id r11.replay.A-CKPT4710.ok (flip applied: True, id fired: True)\n[selftest] PASS S5 r11 run.log SUMMARY edit (summary layer): exit 1, expected 1 + check-id r11.summary.A-CKPT4710 (id fired: True)\n[selftest] PASS S6 stats anchors (betai/t_crit known values): all known-value assertions hold\n[selftest] PASS S7 r12 stats anchors (Page L / grade_seq / Brier-BSS / Newton): all known-value assertions hold\n[selftest] ALL PASS\n",
+      "stderr": ""
+    }
+  ],
+  "interpretation": "Offline retained-byte replay only. Passing does not satisfy missing native dispatch, outside spot-check, original-source recovery or verified-round admission."
+}

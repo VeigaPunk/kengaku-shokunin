@@ -1,0 +1,7 @@
+{
+  "command": "python3 -c 'import sys,re,json,collections,pathlib; text=pathlib.Path(sys.argv[1]).read_text() if len(sys.argv)>1 else sys.stdin.read(); rows=[[c.strip() for c in l.split(\"|\")[1:-1]] for l in text.splitlines() if re.match(r\"^\\|\\s*S[0-9]{3,}\\s*\\|\",l)]; print(json.dumps({\"rows\":len(rows),\"malformed\":sum(len(r)!=11 for r in rows),\"tiers\":dict(collections.Counter(r[3] for r in rows if len(r)==11)),\"statuses\":dict(collections.Counter(r[7] for r in rows if len(r)==11))},sort_keys=True))' corpus/SOURCES.md",
+  "cwd": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+  "exit": 0,
+  "stdout": "{\"malformed\": 0, \"rows\": 69, \"statuses\": {\"mined\": 57, \"queued\": 8, \"rejected\": 4}, \"tiers\": {\"A\": 63, \"B\": 4, \"C\": 2}}\n",
+  "stderr": ""
+}

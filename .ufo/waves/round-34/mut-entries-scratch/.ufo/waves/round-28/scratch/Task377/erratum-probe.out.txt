@@ -1,0 +1,9 @@
+label	product	base	query	url
+orig:17 prefix path	0	0	1	http://map.invalid:3000/prefix/search?query=restaurants%20near%20CMU%20ArtPark%20Lab
+orig:4 exact ref	1	1	1	http://map.invalid:3000/search?query=restaurants%20near%20CMU%20ArtPark%20Lab
+orig:8 capitalised	0	1	0	http://map.invalid:3000/search?query=Restaurants%20near%20CMU%20ArtPark%20Lab
+D1 https scheme	1	1	1	https://map.invalid:3000/search?query=restaurants%20near%20CMU%20ArtPark%20Lab
+D1 port 3001	0	0	1	http://map.invalid:3001/search?query=restaurants%20near%20CMU%20ArtPark%20Lab
+D1 port omitted	0	0	1	http://map.invalid/search?query=restaurants%20near%20CMU%20ArtPark%20Lab
+D2 extra key + fragment	1	1	1	http://map.invalid:3000/search?query=restaurants%20near%20CMU%20ArtPark%20Lab&zoom=12#map=17/40.44/-79.94
+D2 result page	0	0	0	http://map.invalid:3000/node/123

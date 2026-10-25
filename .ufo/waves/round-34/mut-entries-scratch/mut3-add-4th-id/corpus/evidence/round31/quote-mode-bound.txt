@@ -1,0 +1,14 @@
+# C1+C3: the same three rows under --url-map, each capture declared against the URL its row cites
+# NOTE the honest granularity: every capture was fetched from raw.githubusercontent.com/<o>/<r>/<sha>/<path>,
+# while the rows cite repository roots, so the map names the CITED root. That is the disclosed limit of
+# --url-map: citation membership, not fetch provenance (round-31 C3 critic).
+# command: python3 plans/sources_adopt.py --quote-file .ufo/waves/round-31/assimilation/adopted-rows.txt --artifact .ufo/waves/round-31/assimilation/captures --url-map .ufo/waves/round-31/assimilation/capture-url-map.json
+QUOTE rows=3 spans=7 located=7 found=7 overlong=0 absent=0 malformed=0 cap=25 artifacts=README.md,SHA256SUMS.txt,config.py,parser.py,test.sh,verifier.py,verifier_mode.py mismatch=0 unmapped=0 urlmap=capture-url-map.json entries=6
+  ok S092 words=9 at config.py quote="Whether the verifier runs in the agent's environment ('shared')" bound=config.py->https://github.com/laude-institute/harbor
+  ok S092 words=9 at config.py quote="to 'separate' if a verifier 'environment' is set, otherwise" bound=config.py->https://github.com/laude-institute/harbor
+  ok S092 words=10 at verifier.py quote="Discard stale rewards without removing other verifier inputs or logs." bound=verifier.py->https://github.com/laude-institute/harbor
+  ok S093 words=8 at test.sh quote="Resetting test-space to base state (full test-code surface)..." bound=test.sh->https://github.com/scaleapi/SWE-bench_Pro-os
+  ok S093 words=1 at test.sh quote="$path" bound=test.sh->https://github.com/scaleapi/SWE-bench_Pro-os
+  ok S093 words=5 at test.sh quote="success = all_required <= passed_tests" bound=test.sh->https://github.com/scaleapi/SWE-bench_Pro-os
+  ok S100 words=6 at README.md quote="uv run harbor run --dataset terminal-bench@2.0" bound=README.md->https://github.com/laude-institute/terminal-bench-2
+exit=0

@@ -1,0 +1,331 @@
+=== A. PROVENANCE -> LEAF ATTRIBUTION (all tokens) ===
+__GITLAB__ rows 385 raw_count 385 match True distinct_ptrs 385 leaves_with_token 385 ptr_set_equal True bad_ptr_multiplicity 0 bad_offsets 0
+   multiplicity {1: 385} max_occ_in_leaf 1
+__REDDIT__ rows 336 raw_count 336 match True distinct_ptrs 323 leaves_with_token 323 ptr_set_equal True bad_ptr_multiplicity 0 bad_offsets 0
+   multiplicity {1: 315, 2: 4, 3: 3, 4: 1} max_occ_in_leaf 4
+__SHOPPING__ rows 281 raw_count 281 match True distinct_ptrs 275 leaves_with_token 275 ptr_set_equal True bad_ptr_multiplicity 0 bad_offsets 0
+   multiplicity {1: 270, 2: 4, 3: 1} max_occ_in_leaf 3
+__SHOPPING_ADMIN__ rows 300 raw_count 300 match True distinct_ptrs 300 leaves_with_token 300 ptr_set_equal True bad_ptr_multiplicity 0 bad_offsets 0
+   multiplicity {1: 300} max_occ_in_leaf 1
+__WIKIPEDIA__ rows 0 raw_count 0 match True distinct_ptrs 0 leaves_with_token 0 ptr_set_equal True bad_ptr_multiplicity 0 bad_offsets 0
+   multiplicity {} max_occ_in_leaf 0
+__MAP__ rows 133 raw_count 133 match True distinct_ptrs 133 leaves_with_token 133 ptr_set_equal True bad_ptr_multiplicity 0 bad_offsets 0
+   multiplicity {1: 133} max_occ_in_leaf 1
+
+=== B. TARGET PROVENANCE MULTIPLICITY VS LEAF CENSUS ===
+provenance_per_ptr == leaf_census: True
+differences {}
+target rows with string_role != value 0
+target task_index == int(ptr.split('/')[1]): True
+target template agrees with my template: False first /21/start_url [].start_url start_url
+
+=== C. OTHER MARKERS ===
+__last_url__ raw 65 instrument 65 decoded_leaves 65
+__page__ raw 12 instrument 12 decoded_leaves 12
+
+=== D. TOKENS FOLLOWED BY SLASH / JUNCTIONS ===
+followed_by_slash mine {'__GITLAB__': 225, '__REDDIT__': 232, '__SHOPPING__': 110, '__SHOPPING_ADMIN__': 125, '__WIKIPEDIA__': 0, '__MAP__': 5} sum 697
+instrument tokens_followed_by_slash 697
+trailing profile junction expected 697 instrument {'value_slash_then_raw_slash_junctions': 697}
+
+=== E. NON-URL CHANGED LEAVES BY TOKEN (distinct_origins) ===
+non_url changed leaves attributed {'__REDDIT__': 53, '__GITLAB__': 8} total 61
+instrument non_url_field 61
+must_include changed by token {'__REDDIT__': 52, '__GITLAB__': 8} total 60
+raw_annotation changed [('/66/eval/reference_answer_raw_annotation', '__REDDIT__/f/books/59396/apple-books-has', 'http://reddit.invalid:10102/f/books/5939')]
+
+=== F. TEMPLATE CENSUS (instrument convention) ===
+TARGET leaves by template {'[].eval.program_html[].url': 31, '[].eval.reference_url': 52, '[].start_url': 192}
+all changed by template mine {'[].eval.program_html[].required_contents.must_include[]': 60, '[].eval.program_html[].url': 338, '[].eval.reference_answer_raw_annotation': 1, '[].eval.reference_url': 205, '[].start_url': 812}
+instrument {'eval.program_html[].required_contents.must_include[]': 60, 'eval.program_html[].url': 338, 'eval.reference_answer_raw_annotation': 1, 'eval.reference_url': 205, 'start_url': 812}
+template_match False
+
+=== G. TARGET LEAF DETAIL (pointer, template, occurrences, task) ===
+/21/start_url [].start_url 1 193
+/22/start_url [].start_url 1 110
+/23/start_url [].start_url 1 175
+/24/start_url [].start_url 1 82
+/25/start_url [].start_url 1 132
+/26/start_url [].start_url 1 132
+/47/start_url [].start_url 1 12
+/48/start_url [].start_url 1 12
+/49/start_url [].start_url 1 12
+/50/start_url [].start_url 1 12
+/51/start_url [].start_url 1 12
+/96/start_url [].start_url 1 12
+/117/start_url [].start_url 1 12
+/118/start_url [].start_url 1 12
+/124/start_url [].start_url 1 12
+/125/start_url [].start_url 1 12
+/126/start_url [].start_url 1 12
+/141/start_url [].start_url 1 12
+/142/start_url [].start_url 1 12
+/143/start_url [].start_url 1 12
+/144/start_url [].start_url 1 12
+/145/start_url [].start_url 1 12
+/146/start_url [].start_url 1 12
+/147/start_url [].start_url 1 12
+/148/start_url [].start_url 1 12
+/149/start_url [].start_url 1 12
+/150/start_url [].start_url 1 12
+/158/start_url [].start_url 1 12
+/158/eval/reference_url [].eval.reference_url 1 205
+/159/start_url [].start_url 1 12
+/159/eval/reference_url [].eval.reference_url 1 119
+/160/start_url [].start_url 1 12
+/160/eval/reference_url [].eval.reference_url 1 205
+/161/start_url [].start_url 1 12
+/161/eval/reference_url [].eval.reference_url 1 205
+/162/start_url [].start_url 1 12
+/162/eval/reference_url [].eval.reference_url 1 119
+/163/start_url [].start_url 1 109
+/164/start_url [].start_url 1 61
+/165/start_url [].start_url 1 74
+/166/start_url [].start_url 1 94
+/167/start_url [].start_url 1 68
+/188/start_url [].start_url 1 12
+/189/start_url [].start_url 1 12
+/190/start_url [].start_url 1 12
+/191/start_url [].start_url 1 12
+/192/start_url [].start_url 1 12
+/225/start_url [].start_url 1 12
+/226/start_url [].start_url 1 12
+/227/start_url [].start_url 1 12
+/228/start_url [].start_url 1 12
+/229/start_url [].start_url 1 12
+/230/start_url [].start_url 1 12
+/231/start_url [].start_url 1 12
+/232/start_url [].start_url 1 12
+/233/start_url [].start_url 1 12
+/234/start_url [].start_url 1 12
+/235/start_url [].start_url 1 12
+/238/start_url [].start_url 1 12
+/238/eval/reference_url [].eval.reference_url 1 114
+/239/start_url [].start_url 1 12
+/239/eval/reference_url [].eval.reference_url 1 88
+/240/start_url [].start_url 1 12
+/240/eval/reference_url [].eval.reference_url 1 132
+/241/start_url [].start_url 1 12
+/241/eval/reference_url [].eval.reference_url 1 74
+/242/start_url [].start_url 1 12
+/242/eval/reference_url [].eval.reference_url 1 192
+/260/start_url [].start_url 1 12
+/260/eval/reference_url [].eval.reference_url 1 29
+/261/start_url [].start_url 1 12
+/261/eval/reference_url [].eval.reference_url 1 40
+/262/start_url [].start_url 1 12
+/262/eval/reference_url [].eval.reference_url 1 50
+/263/start_url [].start_url 1 12
+/263/eval/reference_url [].eval.reference_url 1 55
+/264/start_url [].start_url 1 12
+/264/eval/reference_url [].eval.reference_url 1 82
+/269/start_url [].start_url 1 12
+/269/eval/reference_url [].eval.reference_url 1 63
+/270/start_url [].start_url 1 12
+/270/eval/reference_url [].eval.reference_url 1 61
+/271/start_url [].start_url 1 12
+/271/eval/reference_url [].eval.reference_url 1 74
+/272/start_url [].start_url 1 12
+/272/eval/reference_url [].eval.reference_url 1 82
+/273/start_url [].start_url 1 12
+/273/eval/reference_url [].eval.reference_url 1 69
+/274/start_url [].start_url 1 12
+/274/eval/reference_url [].eval.reference_url 1 45
+/275/start_url [].start_url 1 12
+/275/eval/reference_url [].eval.reference_url 1 41
+/276/start_url [].start_url 1 12
+/276/eval/reference_url [].eval.reference_url 1 55
+/277/start_url [].start_url 1 12
+/277/eval/reference_url [].eval.reference_url 1 46
+/278/start_url [].start_url 1 12
+/278/eval/reference_url [].eval.reference_url 1 66
+/279/start_url [].start_url 1 12
+/280/start_url [].start_url 1 12
+/281/start_url [].start_url 1 12
+/282/start_url [].start_url 1 12
+/283/start_url [].start_url 1 12
+/283/eval/reference_url [].eval.reference_url 1 191
+/284/start_url [].start_url 1 12
+/284/eval/reference_url [].eval.reference_url 1 156
+/285/start_url [].start_url 1 12
+/285/eval/reference_url [].eval.reference_url 1 119
+/286/start_url [].start_url 1 12
+/286/eval/reference_url [].eval.reference_url 1 171
+/298/start_url [].start_url 1 12
+/298/eval/reference_url [].eval.reference_url 1 43
+/299/start_url [].start_url 1 12
+/299/eval/reference_url [].eval.reference_url 1 43
+/300/start_url [].start_url 1 12
+/300/eval/reference_url [].eval.reference_url 1 43
+/301/start_url [].start_url 1 12
+/302/start_url [].start_url 1 12
+/313/start_url [].start_url 1 12
+/319/start_url [].start_url 1 12
+/320/start_url [].start_url 1 12
+/321/start_url [].start_url 1 12
+/322/start_url [].start_url 1 12
+/323/start_url [].start_url 1 12
+/324/start_url [].start_url 1 12
+/324/eval/reference_url [].eval.reference_url 1 95
+/325/start_url [].start_url 1 12
+/325/eval/reference_url [].eval.reference_url 1 92
+/326/start_url [].start_url 1 12
+/326/eval/reference_url [].eval.reference_url 1 56
+/327/start_url [].start_url 1 12
+/327/eval/reference_url [].eval.reference_url 1 96
+/328/start_url [].start_url 1 12
+/328/eval/reference_url [].eval.reference_url 1 97
+/329/start_url [].start_url 1 12
+/330/start_url [].start_url 1 12
+/331/start_url [].start_url 1 12
+/332/start_url [].start_url 1 12
+/333/start_url [].start_url 1 12
+/334/start_url [].start_url 1 12
+/335/start_url [].start_url 1 12
+/336/start_url [].start_url 1 12
+/337/start_url [].start_url 1 12
+/338/start_url [].start_url 1 12
+/351/start_url [].start_url 1 12
+/351/eval/reference_url [].eval.reference_url 1 80
+/352/start_url [].start_url 1 12
+/352/eval/reference_url [].eval.reference_url 1 103
+/353/start_url [].start_url 1 12
+/353/eval/reference_url [].eval.reference_url 1 110
+/354/start_url [].start_url 1 12
+/354/eval/reference_url [].eval.reference_url 1 109
+/355/start_url [].start_url 1 12
+/355/eval/reference_url [].eval.reference_url 1 73
+/358/start_url [].start_url 1 12
+/359/start_url [].start_url 1 12
+/360/start_url [].start_url 1 12
+/361/start_url [].start_url 1 12
+/362/start_url [].start_url 1 12
+/368/start_url [].start_url 1 12
+/376/start_url [].start_url 1 12
+/384/start_url [].start_url 1 12
+/385/start_url [].start_url 1 12
+/386/start_url [].start_url 1 12
+/387/start_url [].start_url 1 12
+/388/start_url [].start_url 1 12
+/431/start_url [].start_url 3 609
+/431/eval/program_html/0/url [].eval.program_html[].url 1 26
+/432/start_url [].start_url 2 198
+/432/eval/program_html/0/url [].eval.program_html[].url 1 26
+/433/start_url [].start_url 2 309
+/433/eval/program_html/0/url [].eval.program_html[].url 1 26
+/434/start_url [].start_url 2 217
+/434/eval/program_html/0/url [].eval.program_html[].url 1 26
+/435/start_url [].start_url 2 320
+/435/eval/program_html/0/url [].eval.program_html[].url 1 26
+/436/start_url [].start_url 1 12
+/437/start_url [].start_url 1 12
+/438/start_url [].start_url 1 12
+/439/start_url [].start_url 1 12
+/440/start_url [].start_url 1 12
+/465/start_url [].start_url 1 12
+/465/eval/program_html/0/url [].eval.program_html[].url 1 22
+/466/start_url [].start_url 1 12
+/466/eval/program_html/0/url [].eval.program_html[].url 1 22
+/467/start_url [].start_url 1 12
+/467/eval/program_html/0/url [].eval.program_html[].url 1 22
+/468/start_url [].start_url 1 12
+/468/eval/program_html/0/url [].eval.program_html[].url 1 22
+/469/start_url [].start_url 1 12
+/469/eval/program_html/0/url [].eval.program_html[].url 1 22
+/506/start_url [].start_url 1 12
+/507/start_url [].start_url 1 12
+/508/start_url [].start_url 1 12
+/509/start_url [].start_url 1 12
+/510/start_url [].start_url 1 12
+/511/start_url [].start_url 1 12
+/511/eval/program_html/0/url [].eval.program_html[].url 1 22
+/512/start_url [].start_url 1 12
+/512/eval/program_html/0/url [].eval.program_html[].url 1 22
+/513/start_url [].start_url 1 12
+/513/eval/program_html/0/url [].eval.program_html[].url 1 22
+/514/start_url [].start_url 1 12
+/514/eval/program_html/0/url [].eval.program_html[].url 1 22
+/515/start_url [].start_url 1 12
+/515/eval/program_html/0/url [].eval.program_html[].url 1 22
+/516/start_url [].start_url 1 98
+/516/eval/program_html/0/url [].eval.program_html[].url 1 22
+/517/start_url [].start_url 1 147
+/517/eval/program_html/0/url [].eval.program_html[].url 1 22
+/518/start_url [].start_url 1 72
+/518/eval/program_html/0/url [].eval.program_html[].url 1 22
+/519/start_url [].start_url 1 164
+/519/eval/program_html/0/url [].eval.program_html[].url 1 22
+/520/start_url [].start_url 1 172
+/520/eval/program_html/0/url [].eval.program_html[].url 1 22
+/521/start_url [].start_url 1 12
+/521/eval/program_html/0/url [].eval.program_html[].url 1 31
+/528/start_url [].start_url 1 12
+/529/start_url [].start_url 1 12
+/530/start_url [].start_url 1 12
+/531/start_url [].start_url 1 12
+/532/start_url [].start_url 1 12
+/571/start_url [].start_url 1 12
+/571/eval/program_html/0/url [].eval.program_html[].url 1 29
+/571/eval/program_html/1/url [].eval.program_html[].url 1 29
+/572/start_url [].start_url 1 12
+/572/eval/program_html/0/url [].eval.program_html[].url 1 29
+/572/eval/program_html/1/url [].eval.program_html[].url 1 29
+/573/start_url [].start_url 1 12
+/573/eval/program_html/0/url [].eval.program_html[].url 1 29
+/573/eval/program_html/1/url [].eval.program_html[].url 1 29
+/574/start_url [].start_url 1 12
+/574/eval/program_html/0/url [].eval.program_html[].url 1 29
+/574/eval/program_html/1/url [].eval.program_html[].url 1 29
+/575/start_url [].start_url 1 12
+/575/eval/program_html/0/url [].eval.program_html[].url 1 29
+/575/eval/program_html/1/url [].eval.program_html[].url 1 29
+/585/start_url [].start_url 1 12
+/586/start_url [].start_url 1 12
+/587/start_url [].start_url 1 12
+/588/start_url [].start_url 1 12
+/589/start_url [].start_url 1 12
+/653/start_url [].start_url 1 12
+/653/eval/reference_url [].eval.reference_url 1 20
+/654/start_url [].start_url 1 12
+/654/eval/reference_url [].eval.reference_url 1 20
+/655/start_url [].start_url 1 12
+/655/eval/reference_url [].eval.reference_url 1 20
+/656/start_url [].start_url 1 12
+/656/eval/reference_url [].eval.reference_url 1 20
+/657/start_url [].start_url 1 12
+/657/eval/reference_url [].eval.reference_url 1 20
+/671/start_url [].start_url 1 12
+/672/start_url [].start_url 1 12
+/673/start_url [].start_url 1 12
+/674/start_url [].start_url 1 12
+/675/start_url [].start_url 1 12
+/689/start_url [].start_url 1 12
+/689/eval/reference_url [].eval.reference_url 1 20
+/690/start_url [].start_url 1 12
+/690/eval/reference_url [].eval.reference_url 1 20
+/691/start_url [].start_url 1 12
+/691/eval/reference_url [].eval.reference_url 1 20
+/692/start_url [].start_url 1 12
+/692/eval/reference_url [].eval.reference_url 1 20
+/693/start_url [].start_url 1 12
+/693/eval/reference_url [].eval.reference_url 1 20
+/792/start_url [].start_url 1 12
+/793/start_url [].start_url 1 12
+/794/start_url [].start_url 1 12
+/795/start_url [].start_url 1 12
+/796/start_url [].start_url 1 12
+/797/start_url [].start_url 1 12
+/798/start_url [].start_url 1 12
+
+=== H. CASE / VARIANT SCAN ===
+(?i)__shopping__ 281
+(?i)__shopping_admin__ 300
+__SHOPPING_?__ 281
+_+SHOPPING_+ 581
+lowercase exact 0 admin lower 0
+occurrences of 'SHOPPING' bare 581 = target 281 +admin 300 sum 581
+
+=== I. TOKEN VALUES CONTAIN TOKENS? ===
+distinct_origins {'GITLAB': [], 'REDDIT': [], 'SHOPPING': [], 'SHOPPING_ADMIN': [], 'WIKIPEDIA': [], 'MAP': []}
+path_prefix {'GITLAB': [], 'REDDIT': [], 'SHOPPING': [], 'SHOPPING_ADMIN': [], 'WIKIPEDIA': [], 'MAP': []}
+trailing_slash_sensitivity {'GITLAB': [], 'REDDIT': [], 'SHOPPING': [], 'SHOPPING_ADMIN': [], 'WIKIPEDIA': [], 'MAP': []}

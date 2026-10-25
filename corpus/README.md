@@ -386,3 +386,9 @@ row or frontier discharge is asserted before returned complete second-seat re-re
 deployment configs, runtime DOM/helper/judge/task validity and contamination remain open, as do the other
 named benchmark specifications. This narrows, not erases, the round28 gap line above and supersedes only
 the round29 deferred index statement after the Gate's exact-byte admission.
+
+### Round-34 evidence
+
+| Dir | Contents |
+|---|---|
+| `evidence/round34/` | Round-34 SOURCES census before/after receipts; no corpus rows were admitted. |

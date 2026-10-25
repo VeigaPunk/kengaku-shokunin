@@ -1,0 +1,153 @@
+# id-collision guard proof — kengaku round 33 (hyaku run 7), 2026-10-25
+# host linux 7.2.11-arch1-1; scratch /tmp/r33-idguard; lane repo /home/vgpnk/Projects/shokunin/kengaku-shokunin
+
+## 1. fixture bytes — the guard CAN fail
+$ printf ... > fake-registry.md ; printf ... > fake-staged.md ; cat -A
+# fake registry (id-guard proof fixture, round 33)$
+$
+| id | source | kind |$
+|---|---|---|$
+  | S002 | indented fixture row that a column-zero anchor cannot see | docs |$
+| S900 | registry-only row | docs |$
+| S002 | staged fixture row colliding with the indented registry row |$
+| S901 | staged-only row |$
+
+## 2. RED run — contract anchor ^ {0,3}\|[[:space:]]*S[0-9]{3,} on the fixture
+$ ANCH='^ {0,3}\|[[:space:]]*S[0-9]{3,}'
+$ grep -oE "$ANCH" fake-registry.md | grep -oE 'S[0-9]{3,}' | LC_ALL=C sort -u > fake-reg-ids
+$ grep -oE "$ANCH" fake-staged.md  | grep -oE 'S[0-9]{3,}' | LC_ALL=C sort -u > fake-staged-ids
+$ LC_ALL=C comm -12 fake-reg-ids fake-staged-ids > fake-collisions
+$ cat fake-reg-ids fake-staged-ids fake-collisions
+fake-reg-ids:
+S002
+S900
+fake-staged-ids:
+S002
+S901
+fake-collisions:
+S002
+fake collision lines: 1
+
+## 3. DISCRIMINATOR control — column-zero-only anchor on the SAME fixture must false-green
+$ BAD='^[|][[:space:]]*S[0-9]{3,}'
+$ grep -oE "$BAD" fake-registry.md | grep -oE 'S[0-9]{3,}' | LC_ALL=C sort -u > fake-reg-ids-badanchor
+$ LC_ALL=C comm -12 fake-reg-ids-badanchor fake-staged-ids
+bad-anchor reg-ids: [S900 ]
+bad-anchor collision lines: 0
+
+## 4. REAL run — committed registry blob (pre-append input) vs staged package
+$ git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin rev-parse --short HEAD
+7895588
+$ git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin show HEAD:corpus/SOURCES.md > reg-head.md
+$ ANCH='^ {0,3}\|[[:space:]]*S[0-9]{3,}'
+$ grep -oE "$ANCH" reg-head.md  | grep -oE 'S[0-9]{3,}' | LC_ALL=C sort -u > reg-ids
+$ grep -oE "$ANCH" /home/vgpnk/Projects/shokuknow/merge/kengaku/SOURCES.append.md | grep -oE 'S[0-9]{3,}' | LC_ALL=C sort -u > staged-ids
+$ LC_ALL=C comm -12 reg-ids staged-ids > collisions
+$ wc -l reg-ids staged-ids collisions
+  95 reg-ids
+ 175 staged-ids
+  19 collisions
+ 289 total
+$ sed -n '1p;$p' reg-ids staged-ids
+reg-ids first/last:
+S001
+S102
+staged-ids first/last:
+S077
+S251
+$ seq -f "S%03g" 1 102 | LC_ALL=C comm -23 - reg-ids
+unused ids inside S001..S102: S087 S088 S089 S095 S096 S098 S099 
+$ grep -cE '^S(103|104)$' reg-ids ; grep -cE '^S(103|104)$' collisions
+S103/S104 in reg-ids:    0
+S103/S104 in collisions: 0
+$ sha256sum reg-ids staged-ids collisions
+397dbe620e6327d483f7ed3a32ae920d2e5efb36abb9ad79d9ce8e4b92aa4131  reg-ids
+2df53989ae5ab5c4f698f7ed459310a9a376cd970240e7483aeed40c3cdf5e1c  staged-ids
+662ef9de7f38440db5b317c85c2e6339e47f53c6df82e7a83e78a1b369dea34b  collisions
+$ cat collisions
+S077
+S078
+S079
+S080
+S081
+S082
+S083
+S084
+S085
+S086
+S090
+S091
+S092
+S093
+S094
+S097
+S100
+S101
+S102
+
+## 5. CROSS-CHECK — lane's committed gate (independent parser, plans/sources_adopt.py)
+$ python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/sources_adopt.py --registry reg-head.md --package /home/vgpnk/Projects/shokuknow/merge/kengaku/SOURCES.append.md
+exit=3
+registry=95 staged=173 collisions=17 malformed=2 duplicates=0 defects=167 prose=167
+  collisions: S077 S078 S079 S080 S081 S082 S083 S084 S085 S086 S090 S091 S092 S094 S097 S100 S102
+  malformed: S093:escaped-pipe S101:escaped-pipe
+# the gate drops the two escaped-pipe staged rows (S093, S101) as malformed => staged=173,
+# collisions=17; the anchor guard counts every matched row => staged=175, collisions=19.
+# the 17 shared ids agree exactly; the guard is the superset and refuses the same set plus two.
+
+## 6. ORDERING DISCLOSURE — the worktree is already past the append this guard precedes
+$ git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin status --porcelain corpus/SOURCES.md
+ M corpus/SOURCES.md
+# that modification is another seat's in-flight C1 append, not an edit by this seat.
+$ grep -oE "$ANCH" /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md | grep -oE 'S[0-9]{3,}' | LC_ALL=C sort -u > reg-ids-worktree
+$ wc -l reg-ids-worktree
+97 reg-ids-worktree
+$ LC_ALL=C comm -12 reg-ids-worktree staged-ids > collisions-worktree ; wc -l collisions-worktree
+21 collisions-worktree
+$ LC_ALL=C comm -13 collisions collisions-worktree   # ids the append made collide
+S103
+S104
+$ grep -E '^ *\| *S(103|104) *\|' /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md | cut -c1-118
+| S103 | Toolathlon task evaluation script (evaluation/main.py) — https://github.com/hkust-nlp/Toolathlon | code | A
+| S104 | LLMs-as-Judges: A Comprehensive Survey on LLM-based Evaluation Methods — https://arxiv.org/abs/2412.05579 |
+$ grep -E '^ *\| *S(103|104) *\|' /home/vgpnk/Projects/shokuknow/merge/kengaku/SOURCES.append.md | cut -c1-118
+| S103 | LLMs-as-Judges: A Comprehensive Survey on LLM-based Evaluation Methods (full text) — https://arxiv.org/pdf/
+| S104 | GENIAC事業 第1期 基盤モデル開発 事業説明 (GENIAC phase-1 foundation-model development programm
+
+## 7. VERDICT
+fixture (0-3-space anchor):            collision lines = 1   [guard fails on a colliding id: PROVEN]
+fixture (column-zero anchor control):  collision lines = 0   [anchor choice is load-bearing]
+real, committed pre-append registry:   registry=95 staged=175 collisions=19
+S103/S104 absent from reg-ids:         0 occurrences
+S103/S104 absent from collisions:      0 occurrences
+post-append worktree reg-ids:          97 ids, collisions 21 = pre-append set + S103 S104
+
+## 8. REPUBLICATION — the red run reproduces from the committed fixture copies
+$ cd .ufo/waves/round-33/assimilation
+$ grep -oE "$ANCH" id-guard-fixture-registry.md | grep -oE 'S[0-9]{3,}' | LC_ALL=C sort -u > /tmp/r33-idguard/committed-fix-reg
+$ grep -oE "$ANCH" id-guard-fixture-staged.md   | grep -oE 'S[0-9]{3,}' | LC_ALL=C sort -u > /tmp/r33-idguard/committed-fix-stg
+$ LC_ALL=C comm -12 /tmp/r33-idguard/committed-fix-reg /tmp/r33-idguard/committed-fix-stg | tee /tmp/r33-idguard/committed-fix-coll
+S002
+lines=1
+$ sha256sum reg-ids staged-ids collisions id-guard-proof.txt id-guard-fixture-registry.md id-guard-fixture-staged.md
+397dbe620e6327d483f7ed3a32ae920d2e5efb36abb9ad79d9ce8e4b92aa4131  reg-ids
+2df53989ae5ab5c4f698f7ed459310a9a376cd970240e7483aeed40c3cdf5e1c  staged-ids
+662ef9de7f38440db5b317c85c2e6339e47f53c6df82e7a83e78a1b369dea34b  collisions
+b50892f77c3b8f0c83715769f7b4a542f911ee17e900801e324b812a50627761  id-guard-proof.txt
+d7f37405ec0c23712cc4fc7b567779853b893ca4d5a850227af934a80725694d  id-guard-fixture-registry.md
+f5319c1e755260a71fb5393edbba51bbcfa569cc883f07fb49496e5a06c98fb4  id-guard-fixture-staged.md
+# (id-guard-proof.txt digest above is the pre-§8 digest; §8 is appended evidence, not a rewrite of §1–§7.)
+
+## 9. TIME BINDING — recheck at the tip after every write
+$ stat -c '%n  mtime=%y' reg-ids staged-ids collisions
+.ufo/waves/round-33/assimilation/reg-ids       mtime=2026-10-25 14:23:32.623286137 -0300
+.ufo/waves/round-33/assimilation/staged-ids    mtime=2026-10-25 14:23:32.624059169 -0300
+.ufo/waves/round-33/assimilation/collisions    mtime=2026-10-25 14:23:32.624319870 -0300
+$ git show HEAD:corpus/SOURCES.md | grep -oE "$ANCH" | grep -oE 'S[0-9]{3,}' | LC_ALL=C sort -u > /tmp/r33-idguard/reg-recheck
+$ cmp -s /tmp/r33-idguard/reg-recheck reg-ids
+recheck: HEAD registry unchanged since the artifact was written (byte-identical)
+$ date -Is
+2026-10-25T14:26:18-03:00
+# The registry input is the committed blob at HEAD 7895588, so this guard stays reproducible even
+# after the worktree moves; the §6 worktree numbers describe the state at 14:23 -03 and are not a
+# moving target.

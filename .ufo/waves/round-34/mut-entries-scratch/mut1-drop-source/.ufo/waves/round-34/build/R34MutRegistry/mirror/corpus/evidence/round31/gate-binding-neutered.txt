@@ -1,0 +1,22 @@
+# C3 failure-capability: bind_failure() neutered to return "" on a /tmp copy of the same bytes
+# command: cd /tmp/r31-gate-proof && python3 sources_adopt.py --selftest
+CASE collision-zero-indent PASS
+CASE collision-one-space PASS
+CASE collision-three-space PASS
+CASE four-space-not-a-row PASS
+CASE escaped-pipe-refused PASS
+CASE prose-recheck-normalized PASS
+CASE usedby-projected PASS
+CASE duplicate-staged-id PASS
+CASE clean-package-passes PASS
+CASE missing-requested-id PASS
+CASE quote-overlong-refused PASS
+CASE quote-absent-refused PASS
+CASE quote-located-accepted PASS
+CASE quote-boundary-25-accepted PASS
+CASE quote-url-bound-accepted PASS
+CASE quote-url-mismatch-refused FAIL
+CASE quote-url-unmapped-refused FAIL
+SELFTEST cases=17 failed=2
+  failed: quote-url-mismatch-refused quote-url-unmapped-refused
+exit=1

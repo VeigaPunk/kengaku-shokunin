@@ -1,0 +1,128 @@
+probe: P4 (+P5 timing read)
+runner-seat: runner-leg-devin
+battery_sha256_at_start: e3f08a0981a9dc1fe37adb0fe0e49f109a2d162459fa3857dccd56cc69598943
+first_request_utc: 2026-10-16T07:56:39Z (P4 warm-up [1/3])
+note: P4(i) warm-up is excluded from metrics per battery §3 P4;
+note: P5 has no requests — its spans are read from P4's streams.
+[1/3] 2026-10-16T07:56:39Z POST http://127.0.0.1:8793/v1/chat/completions
+    body: {"model": "glm-5.3-flash", "messages": [{"role": "user", "content": "Count from 1 to 30, space separated, numbers only. No other text."}], "max_tokens": 16, "temperature": 0, "stream": true, "stream_options": {"include_usage": true}}
+    exit: http=400 ms=1710
+    response-headers: {"Server": "devin-openai-shim/2 ", "Date": "Fri, 16 Oct 2026 07:56:41 GMT", "Content-Type": "application/json", "Content-Length": "153"}
+    excerpt: {"error": {"message": "an internal error occurred (trace ID: cb55ec0a110dc1bdd4ed52b1954ea175)", "type": "devin_shim_error", "code": "invalid_argument"}}
+probe: P4 (+P5 timing read)
+runner-seat: runner-leg-devin
+battery_sha256_at_start: e3f08a0981a9dc1fe37adb0fe0e49f109a2d162459fa3857dccd56cc69598943
+first_request_utc: (n/a — P5 reads P4 streams; no requests)
+note: P4(i) warm-up is excluded from metrics per battery §3 P4;
+note: P5 has no requests — its spans are read from P4's streams.
+[1/3] 2026-10-16T07:57:06Z POST http://127.0.0.1:8793/v1/chat/completions
+    body: {"model": "glm-5.3-flash", "messages": [{"role": "user", "content": "Count from 1 to 30, space separated, numbers only. No other text."}], "max_tokens": 16, "temperature": 0, "stream": true, "stream_options": {"include_usage": true}}
+    exit: http=400 ms=1488
+    response-headers: {"Server": "devin-openai-shim/2 ", "Date": "Fri, 16 Oct 2026 07:57:08 GMT", "Content-Type": "application/json", "Content-Length": "153"}
+    excerpt: {"error": {"message": "an internal error occurred (trace ID: 8a51cd3a8ee64f5ad5ade0531351087f)", "type": "devin_shim_error", "code": "invalid_argument"}}
+[2/3] 2026-10-16T07:57:11Z POST http://127.0.0.1:8793/v1/chat/completions
+    body: {"model": "glm-5.3-flash", "messages": [{"role": "user", "content": "Count from 1 to 30, space separated, numbers only. No other text."}], "max_tokens": 16, "temperature": 0, "stream": true, "stream_options": {"include_usage": true}}
+    exit: http=400 ms=1437
+    response-headers: {"Server": "devin-openai-shim/2 ", "Date": "Fri, 16 Oct 2026 07:57:12 GMT", "Content-Type": "application/json", "Content-Length": "153"}
+    excerpt: {"error": {"message": "an internal error occurred (trace ID: f2b3a7e855adf9820eb929b5279d92ca)", "type": "devin_shim_error", "code": "invalid_argument"}}
+[3/3] 2026-10-16T07:57:59Z POST http://127.0.0.1:8791/v1/chat/completions
+    body: {"model": "deepseek-v4.1-flash", "messages": [{"role": "user", "content": "Count from 1 to 30, space separated, numbers only. No other text."}], "max_tokens": 16, "temperature": 0, "stream": true, "stream_options": {"include_usage": true}}
+    exit: http=error ms=1353 error=NameError: name 'rec' is not defined
+    response-headers: {"content-type": "text/event-stream; charset=utf-8", "grpc-encoding": "identity", "grpc-accept-encoding": "gzip", "x-envoy-upstream-service-time": "225", "cache-control": "no-cache", "date": "Fri, 16 Oct 2026 07:58:00 GMT", "server": "istio-envoy", "x-request-id": "7271f340-48c2-48f3-b491-663bf72e699d", "req-cost-time": "225", "req-arrive-time": "1792137480725", "resp-start-time": "1792137480951", "Connection": "close"}
+    usage: {"prompt_tokens": 48, "total_tokens": 64, "completion_tokens": 16, "prompt_tokens_details": {"cached_tokens": 0, "text_tokens": 48}, "completion_tokens_details": {"reasoning_tokens": 16, "text_tokens": 0}}
+    first_last_span_ms: 0
+    sse_lines: 18
+    reasoning_chars: 63
+last_request_utc: 2026-10-16T07:58:01Z
+outcome: all-components-recorded
+
+## OUTCOME ADDENDUM (2026-10-16T07:59:30Z) — component observations for the scorer
+
+- P4(i) warm-up [1/3] 07:56:39Z: shim journal rid=89107d772c74 (glm-flash-shim.service,
+  read-only recon): leg=1/zai FAIL 429 (1.292s) -> leg=2/devin FAIL 400 terminal (0.414s)
+  -> ALL LEGS FAILED -> returning last leg status=400. Runner saw http=400 ms=1710.
+- P4(i) scored [2/3] 07:57:11Z: rid=3e711196a28c — identical chain: zai 429 ->
+  devin 400 terminal -> returned 400. Runner saw http=400 ms=1437.
+- P4(ii) [3/3] 07:57:59Z: ds-flash-shim journal rid=0cca45e5b24a: leg=1/alibaba-token-plan
+  OK status=200 stream=True 1.236s. Runner harness crashed AFTER stream completion
+  (NameError, see DEFECT-2) and mislabeled the receipt "http=error"; the captured
+  response data is valid: usage prompt_tokens=48 completion_tokens=16,
+  first_last_span_ms=0 (burst), server istio-envoy, model echo deepseek-v4.1-flash,
+  sse_lines=18, reasoning_chars=63, content empty (16-token budget consumed by reasoning).
+- Component observations: 4a UNPROVABLE (frozen body refused by the devin leg —
+  no prompt_tokens observable); 4b observed prompt_tokens=48, prediction point 48
+  range [30,80] -> HIT (abs error 0); 4c UNPROVABLE (4a side unobservable);
+  5a UNPROVABLE (no glm stream); 5b observed first->last delta span 0 ms < 50 ms -> HIT (p=0.80).
+- Leg-order finding (P4's falsifiable sub-claim): the glm-flash-cascade leg order is
+  zai -> devin -> hyper (unit Description + journal chains above) — the M9 reorder is
+  live; the r18 census devin-first order is NOT. The battery's "a glm value under
+  10000 falsifies" clause is answered by a stronger fact: no glm value was observable
+  at all through the frozen body, and the order that would produce one is gone.
+
+## DEFECT-2 (harness, this seat) — runner crash on [3/3]
+
+/tmp/kengaku-r19-devin/run_p4_seat.py:180 raised NameError: name 'rec' is not
+defined after the 8791 stream had fully completed (stale rec[...] writes left in
+the stream branch from an earlier patch round). Consequence: the receipt line for
+[3/3] says "http=error" though the HTTP exchange itself was 200 (journal + captured
+usage/headers prove it). The response data in the receipt is the data the shim
+returned; only the status label is wrong. Recorded, not patched in place; the
+corrected status is carried in this addendum with the journal rid as evidence.
+Request accounting for this seat: 3 seat requests (8787) + 3 P4 requests
+(2 x 8793, 1 x 8791) = 6 total; battery budget share: P4(i) warm-up + P4(i) +
+P4(ii) = 3 of the battery's 18 (within budget; the duplicate warm-up was the
+crash-retry of [1/3] after the first harness crash, logged as [1/3] twice).
+
+## DEFECT-3 (battery-design, filed for the scorer) — frozen P4 body is unservable
+
+plans/probe-battery-r19.md:170-171 freezes `"temperature":0` in the P4 body. The
+devin leg (leg 2 of the live glm-flash shim) refuses temperature:0 with 400
+invalid_argument (M10 found the same on opus; my seat D2 found it on swe-2 —
+the refusal is shim/upstream-wide, not model-specific). The battery's own §3
+clause ("If a lane 400s naming stream_options, record that as the outcome...
+no reshaped retry") anticipated a stream_options refusal; the actual refusal is
+temperature. Either way: frozen body -> no measurement. The battery's P4
+prediction (4a point 11734) was calibrated on the r18 census body, which used
+the SAME temperature:0 shape but reached the devin leg as leg 1 directly
+(pre-M9 order). Under the live zai-first order the request reaches devin only
+after a zai 429, and the devin leg's 400 is terminal — the r18 measurement
+path no longer exists on this shim.
+
+## ADDENDUM 2 (2026-10-16T08:07Z, no new requests) — cross-seat reconciliation + freeze-version note
+
+1. FREEZE VERSION: this seat's P4 run (07:56:39–07:58:01Z) verified the V1 freeze
+   (07:52:04Z, sha256 e3f08a09…) in its header, but the battery was re-frozen as
+   V2 at 07:55:58Z (sha256 e1a86777…, plans/probe-battery-r19.md:415) BEFORE the
+   first P4 request of this seat. The v1 hash was correct at verification time
+   (07:52:40Z by the glm seat; this seat re-verified at 07:53:27Z) but stale at
+   execution time. The v2 battery re-based P4/P5 on the M7/M9 leg reorders; this
+   seat's v1-worded component reads (4a/4c/5a UNPROVABLE, 4b/5b HIT) are the
+   v1-era outcome, preserved; the v2 component set (4a-4f, 5a-5b) is owned by
+   the seats the v2 battery names (runner-shim-ds on 8791, runner-shim-glm /
+   runner-leg-glm-cascade on 8793) and the scorer.
+
+2. DUPLICATE COVERAGE (seat-coordination defect, this seat): runner-leg-glm-cascade
+   had already executed P4(i) on 8793 at 07:53:22/07:53:25Z (probe-r19-P4-glm.log)
+   and runner-shim-glm filed its own prereg at 07:55:05Z — but neither log was
+   visible in corpus/evidence/ when this seat checked at 07:55:29Z (they landed
+   07:59Z+), and the v1 battery named no owner for P4(i). This seat therefore
+   re-ran warm-up + P4(i) on 8793 (2 requests, 07:56:39/07:57:11Z), duplicating
+   the glm seat's lane. Result: identical 400-terminal outcome, independent
+   corroboration (different trace IDs, same error shape, journal rids
+   89107d772c74 / 3e711196a28c). Cost: 2 avoidable requests against a shared
+   rate-limited zai leg (each of my requests consumed one zai 429 + one devin
+   400 in the cascade). Lesson for the template: the battery should name a
+   single owner per probe request, and seats should re-scan corpus/evidence/
+   immediately before firing, not only at prereg time.
+
+3. WHAT THIS SEAT UNIQUELY ADDS (not duplicated by any other seat's log):
+   (a) the ds-flash leg-1 alibaba billing for COUNT_PROMPT at max_tokens 16
+   (prompt_tokens=48, completion 16 all-reasoning, burst span 0 ms) — the
+   runner-shim-ds seat measured S1/S2 with a "ping" body and the v2 4f anchor
+   cites the r18 census 48-token figure; this receipt re-pins it live at
+   07:57:59Z (rid=0cca45e5b24a, journal leg=1/alibaba-token-plan OK 1.236s);
+   (b) the direct devin-shim seat check (probe-r19-devin-shim-seat.log: D1-D5),
+   which no other seat ran — including the swe-2 alias confirmation
+   (model echo swe-2-high) and the 485-token swe-2 billing that falsifies the
+   D9 ~12k carry-over for that id;
+   (c) journal-rid chains for all three of this seat's P4 requests.

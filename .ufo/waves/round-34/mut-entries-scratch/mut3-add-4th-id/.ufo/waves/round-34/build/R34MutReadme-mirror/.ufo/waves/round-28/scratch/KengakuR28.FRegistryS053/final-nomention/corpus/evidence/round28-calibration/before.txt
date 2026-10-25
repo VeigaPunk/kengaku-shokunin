@@ -1,0 +1,24 @@
+Observed by KengakuR28 at round start, before implementation or build wave.
+
+$ /home/vgpnk/Projects/shokunin/scripts/hyaku/jj-lane.sh state /home/vgpnk/Projects/shokunin/kengaku-shokunin
+state branch=master local=b9b24796277020d1b9b01923b45313d6a565e664 remote=b9b24796277020d1b9b01923b45313d6a565e664 ahead=0 behind=0 head=detached tracked=0 untracked=0
+exit=0
+
+$ /home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku
+kengaku W04 S040 duplicate url arxiv.org/abs/2301.09633 across scopes
+kengaku W04 S048 duplicate url aclanthology.org/2020.acl-main.442 across scopes
+kengaku W04 S057 duplicate url arxiv.org/abs/2405.11874 across scopes
+kengaku W04 S058 duplicate url github.com/UKGovernmentBEIS/inspect_ai/blob/63e45cc52d39b873b944124613da21fdad6f6dcc/src/inspect_ai/scorer/_pattern.py across scopes
+kengaku W04 S059 duplicate url www.rfc-editor.org/rfc/rfc8259 across scopes
+kengaku ok /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md
+exit=0 (whitespace normalized from tab-separated tool rendering)
+
+$ git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin cat-file -e b9b24796277020d1b9b01923b45313d6a565e664:plans/benchmark_spec_audit.py
+fatal: path 'plans/benchmark_spec_audit.py' does not exist in 'b9b24796277020d1b9b01923b45313d6a565e664'
+exit=128 => zero dedicated task-spec audit instruments at baseline.
+
+$ git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin cat-file -e b9b24796277020d1b9b01923b45313d6a565e664:plans/registry_check.py
+fatal: path 'plans/registry_check.py' does not exist in 'b9b24796277020d1b9b01923b45313d6a565e664'
+exit=128 => zero dedicated frozen13-row literal-reference checkers at baseline.
+
+The C2 red-before measurement will use the delivered identical checker against a baseline export, not equate absence with mismatch count. C1 input census in the Python Eval freezing cell: tasks812; evaluator-type sets string_match325/url_match66/program_html282/string_match,url_match10/url_match,program_html129; site/evaluator strata27; selected16. These input counts informed forecasts, so forecasts are not independent calibration trials.

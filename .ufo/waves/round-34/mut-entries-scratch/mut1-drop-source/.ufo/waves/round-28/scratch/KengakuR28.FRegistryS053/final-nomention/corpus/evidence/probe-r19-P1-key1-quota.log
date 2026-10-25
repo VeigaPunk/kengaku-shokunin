@@ -1,0 +1,19 @@
+probe: P1-key1 (parent-dispatched addendum; NOT in battery §6)
+runner-seat: runner-quota-1
+battery_sha256_at_start: e3f08a0981a9dc1fe37adb0fe0e49f109a2d162459fa3857dccd56cc69598943
+frozen_utc: 2026-10-16T07:52:04Z
+prediction_filed_utc: 2026-10-16T07:52:50Z
+prediction: HTTP 200 p=0.75 | HTTP 429 insufficient_quota p=0.20 | other (401/403/5xx/transport) p=0.05
+prediction_basis: r18 census+battery measured key 1 live (HTTP 200, TTFT 2251 ms, correctness 8/9) on 2026-10-15; the r18-stated resets (10-23/10-28 UTC) bind keys 2/3, not key 1; 24h of drift is possible, hence p<1 on 200.
+first_request_utc: 2026-10-16T07:52:50Z
+---
+[1/1] 2026-10-16T07:52:50Z POST https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1/chat/completions
+exit: 0  http: 200  ms: 1464.3
+headers-sent: Authorization=<len 113>, Content-Type=application/json
+response-headers: content-type=application/json; charset=utf-8; date=Fri, 16 Oct 2026 07:52:51 GMT; x-request-id=d6cfbb23-a44c-495a-bb01-e9f84c1edcdf
+excerpt: {"id":"chatcmpl-d6cfbb23-a44c-495a-bb01-e9f84c1edcdf","object":"chat.completion","created":1792137171,"model":"deepseek-v4.1-flash","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":"The user just said \"ping\". This","content":""},"finish_reason":"length","logprobs":null}],"usage":{"prompt_tokens":31,"total_tokens":39,"completion_tokens":8,"prompt_tokens_details":{"cached_to...[truncated 94 chars]
+last_request_utc: 2026-10-16T07:52:50Z
+exact-command: python3 /tmp/kengaku-r19-runner-quota-1/probe_key1_r19.py --receipt /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/probe-r19-P1-key1-quota.log --battery-hash e3f08a0981a9dc1fe37adb0fe0e49f109a2d162459fa3857dccd56cc69598943 --frozen-utc 2026-10-16T07:52:04Z
+request-body: {"model":"deepseek-v4.1-flash","messages":[{"role":"user","content":"ping"}],"max_tokens":8,"temperature":0,"stream":false}  (P1 body shape, key 1)
+outcome: all-components-recorded (prediction 200 branch)
+runner-script-sha256: 76b4ccde91809fb6bb98678d389cc8093e0b55208ad79a0718ab80ffdb0bd0de  (script kept at /tmp/kengaku-r19-runner-quota-1/probe_key1_r19.py; volatile — parent may copy it if re-run is needed)

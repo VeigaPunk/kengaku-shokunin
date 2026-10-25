@@ -1,0 +1,22 @@
+# C1 construct-validity critique
+
+Axes impacted: **novelty** (the interpretation is the claimed construct); calibration is not independently changed by this finding.
+
+## Counterexample and evidence
+
+- The fixed prompt contract is explicit: “exactly one fenced `json` code block and no other text” except when asked for `ok` (`corpus/evidence/round8-horizon/horizon.py:18-20`; same contract in `round9-replication/replicate.py:18-20`, `round11-power/probe_r11.py:27-28`, `round12-ladder/probe_r12.py:31-32`). This is not a format-neutral response population.
+- Strongest counterexample: `corpus/evidence/round11-power/results-r11.jsonl:92` records `ok:true` for a raw **bare JSON object followed by a lone closing fence**. `grader.py:121-134` first tries fences, then falls back to a bare-JSON regex; so E0 can award semantic PASS to a response that breaks the explicit one-fenced-block contract. That is model format noncompliance rescued by a permissive extractor, not evidence that the response met the requested interface.
+- Conversely, E4 (`json.loads(raw.strip())`, pre-registration `plans/round-27-claims.md:41`) rejects every conforming fenced response even though the lane explicitly requested a fence. An E0→E4 flip on a correctly fenced answer is E4/prompt incompatibility, not a model format failure. An actual strict-whole harness would need its own compatible prompt and likely generate different outputs.
+- E1/E0 can separate first versus last block only when a response has multiple blocks; the prompt requires exactly one. Round-26 already records the concrete MULTI counterexample: 31 such B responses and last-block selection, with earlier “meaning-preserving” treatment corrected as policy conformance (`corpus/lessons/round-26.md:14-15`). A flip there is parser-sensitive **and** conditional on a format violation; do not force it into a single-cause label.
+- The proposed `FJ1/FJM/MULTI/DANGLE/BARE` strata are parser-shape classes, not prompt-compliance labels: they do not in themselves establish one-and-only-one valid fence or absence of surrounding prose (`plans/grader_perturb.py:54-62`). Likewise the frozen metrics only re-grade parsed values (`plans/round-27-claims.md:33-56`); no format-contract predicate is included.
+- E0–E8 are fully specified abstract policies (`plans/round-27-claims.md:35-45`), but the preregistered table does not identify an exact public harness, version, and implementation for each policy. Until sourced/mapped, do not present the whole suite as “what another harness would score.”
+
+## Interpretation limits / smallest safe correction
+
+The comparison is **not meaningless**: it is a deterministic, paired *parser-only replay* of these 1,964 pinned raw outputs under alternate extraction functions, holding lane prompts, raw responses, truths, and graders fixed. It estimates conditional dependence of the stored semantic verdict/pass rate on those exact extractors for this response population. A per-policy score is a valid “what-if this extractor consumed this same completion?” result; it is not an end-to-end counterfactual for another harness, model-format robustness, general answer accuracy, prevalence of formats, or future responses.
+
+Require the knowledge entry to state that boundary explicitly; map each “real harness” claim to the exact parser implementation/version or call unmapped policies sensitivity probes only. Keep two separate annotations: (1) parser-conditioned verdict/flip, and (2) compliance with the original row’s prompt contract. A flip on a nonconforming response is parser sensitivity conditional on a model format failure; an alternate parser rejecting a conforming response is a contract-incompatible policy, not model failure. Do not claim parser artifact versus model failure from verdict flips alone. If the prompt variant cannot be established for a record, leave compliance unclassified rather than infer it from the fence stratum.
+
+Smallest correction: add this limitation and the separate format-compliance rule to `extraction-policy-comparison.md`; narrow any “other harness” phrasing to “same-response parser-only replay” unless an exact harness/version is source-mapped. No change to the frozen population, policies, or counts is needed for this interpretation correction.
+
+VERDICT: C1 supports a useful lane-specific parser-sensitivity construct, not an alternate-harness score or model-format evaluation; novelty claim must carry the stated limits. Installs: none.

@@ -1,0 +1,41 @@
+tasks with 'wikipedia' in sites: 23 first: [97, 265, 266, 267, 268, 424, 425, 426, 427, 428, 429, 430]
+leaves containing 'wikipedia' (case-insens) by path: {'sites.[]': 23}
+  task 97 start_url '__MAP__' sites ['map', 'wikipedia']
+  task 265 start_url '__MAP__' sites ['wikipedia', 'map']
+  task 266 start_url '__MAP__' sites ['wikipedia', 'map']
+
+[non-dunder residual markers by path] leaf-occ / tasks / example
+  ('contains literal http(s)://', 'eval.program_html.[].required_contents.must_include.[]'): 5 / 5  e.g. 412: 'http://www.apache.org/licenses/LICENSE-2.0'
+  ('contains literal http(s)://', 'eval.reference_answer_raw_annotation'): 1 / 1  e.g. 256: 'http://web.cmoa.org/'
+  ('contains literal http(s)://', 'eval.reference_answers.exact_match'): 1 / 1  e.g. 256: 'http://web.cmoa.org/'
+  ('contains literal http(s)://', 'eval.reference_answers.must_include.[]'): 2 / 1  e.g. 66: 'http://www.reddit.com/f/books/59396/apple-books-has-a-free-audiobook-of-a-christmas-carol'
+  ('contains literal http(s)://', 'instantiation_dict.url'): 2 / 2  e.g. 448: 'https://egg.tart.com'
+  ('contains literal http(s)://', 'intent'): 2 / 2  e.g. 448: 'set the homepage URL on my GitLab profile to https://egg.tart.com'
+  ('contains |AND|', 'start_url'): 5 / 5  e.g. 431: '__SHOPPING__/tall-pink-taper-candles-4-piece-orange-colored-tapered-candles-gradient-candles-10-6-inches-tall-tie-dye-ca'
+  ('contains |OR|', 'eval.program_html.[].required_contents.must_include.[]'): 5 / 5  e.g. 431: 'SPAAS White Taper Candles - 4 Pack |OR| 10 Inch Tall Candles, Scent-Free Premium Wax Candle Sticks |OR| 8 Hour Long Burn'
+  ('contains |OR|', 'eval.reference_answers.must_include.[]'): 1 / 1  e.g. 386: '65 |OR| 3'
+  ('contains |OR|', 'eval.reference_url'): 7 / 7  e.g. 604: '__REDDIT__/f/deeplearning |OR| __REDDIT__/f/MachineLearning |OR| __REDDIT__/f/singularity'
+  ('startswith func:', 'eval.program_html.[].locator'): 22 / 14  e.g. 481: "func:gitlab_get_project_memeber_role(__page__, 'abisubramanya27')"
+  ('startswith func:', 'eval.program_html.[].url'): 75 / 65  e.g. 436: 'func:shopping_get_latest_order_url()'
+  ('url==last', 'eval.program_html.[].url'): 238 / 109  e.g. 118: 'last'
+
+[func: leaves by path / env tokens inside / runtime markers inside]
+  ('eval.program_html.[].locator', (), ()): 10  e.g. 585: "func:shopping_get_sku_latest_review_rating('B00J8RZL7I')"
+  ('eval.program_html.[].locator', (), ('__page__',)): 12  e.g. 481: "func:gitlab_get_project_memeber_role(__page__, 'abisubramanya27')"
+  ('eval.program_html.[].url', (), ()): 10  e.g. 436: 'func:shopping_get_latest_order_url()'
+  ('eval.program_html.[].url', (), ('__last_url__',)): 65  e.g. 600: "func:reddit_get_post_url('__last_url__')"
+
+[literal http(s) hosts in raw text]
+  pages.gitlab.io: 4
+  www.reddit.com: 2
+  web.cmoa.org: 2
+  egg.tart.com: 2
+  helloworld.xyz: 2
+  www.apache.org: 1
+
+[post-projection matches by candidate residual regex, distinct_origins]
+  __[A-Z_]+__: total=0 distinct=0 top=[]
+  __[A-Za-z_]+__: total=77 distinct=2 top=[('__last_url__', 65), ('__page__', 12)]
+  __\w+__: total=77 distinct=2 top=[('__last_url__', 65), ('__page__', 12)]
+  __\w+?__: total=77 distinct=2 top=[('__last_url__', 65), ('__page__', 12)]
+  __.+?__: total=82 distinct=3 top=[('__last_url__', 65), ('__page__', 12), ("__inner').outerText + [...document.querySelector('.submission__", 5)]

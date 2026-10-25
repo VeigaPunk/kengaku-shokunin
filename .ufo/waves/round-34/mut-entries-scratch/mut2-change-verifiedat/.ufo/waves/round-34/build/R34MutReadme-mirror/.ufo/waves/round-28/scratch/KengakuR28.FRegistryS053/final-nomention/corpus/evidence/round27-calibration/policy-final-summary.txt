@@ -1,0 +1,76 @@
+$ python3 plans/parser_policy_compare.py --summary
+POLICY E0 name=lane n=1964 agree=1964 flip_pf=0 flip_fp=0 none=0 pass=1021 pass_rate=0.5199 delta_pp=+0.00 cp95_lo=0.998124 cp95_hi=1.000000
+POLICY E1 name=first-fence n=1964 agree=1947 flip_pf=17 flip_fp=0 none=0 pass=1004 pass_rate=0.5112 delta_pp=-0.87 cp95_lo=0.986177 cp95_hi=0.994950
+POLICY E2 name=bare-last n=1964 agree=1964 flip_pf=0 flip_fp=0 none=0 pass=1021 pass_rate=0.5199 delta_pp=+0.00 cp95_lo=0.998124 cp95_hi=1.000000
+POLICY E3 name=bare-first n=1964 agree=1947 flip_pf=17 flip_fp=0 none=0 pass=1004 pass_rate=0.5112 delta_pp=-0.87 cp95_lo=0.986177 cp95_hi=0.994950
+POLICY E4 name=strict-whole n=1964 agree=952 flip_pf=1012 flip_fp=0 none=1876 pass=9 pass_rate=0.0046 delta_pp=-51.53 cp95_lo=0.462405 cp95_hi=0.507091
+POLICY E5 name=fence-only n=1964 agree=1938 flip_pf=26 flip_fp=0 none=145 pass=995 pass_rate=0.5066 delta_pp=-1.32 cp95_lo=0.980663 cp95_hi=0.991335
+POLICY E6 name=any-label-fence n=1964 agree=1964 flip_pf=0 flip_fp=0 none=0 pass=1021 pass_rate=0.5199 delta_pp=+0.00 cp95_lo=0.998124 cp95_hi=1.000000
+POLICY E7 name=decode-first n=1964 agree=1947 flip_pf=17 flip_fp=0 none=0 pass=1004 pass_rate=0.5112 delta_pp=-0.87 cp95_lo=0.986177 cp95_hi=0.994950
+POLICY E8 name=decode-last n=1964 agree=1964 flip_pf=0 flip_fp=0 none=0 pass=1021 pass_rate=0.5199 delta_pp=+0.00 cp95_lo=0.998124 cp95_hi=1.000000
+STRATUM E0 FJ1 n=1296 agree=1296
+STRATUM E0 FJM n=492 agree=492
+STRATUM E0 MULTI n=31 agree=31
+STRATUM E0 DANGLE n=57 agree=57
+STRATUM E0 BARE n=88 agree=88
+STRATUM E1 FJ1 n=1296 agree=1296
+STRATUM E1 FJM n=492 agree=492
+STRATUM E1 MULTI n=31 agree=14
+STRATUM E1 DANGLE n=57 agree=57
+STRATUM E1 BARE n=88 agree=88
+STRATUM E2 FJ1 n=1296 agree=1296
+STRATUM E2 FJM n=492 agree=492
+STRATUM E2 MULTI n=31 agree=31
+STRATUM E2 DANGLE n=57 agree=57
+STRATUM E2 BARE n=88 agree=88
+STRATUM E3 FJ1 n=1296 agree=1296
+STRATUM E3 FJM n=492 agree=492
+STRATUM E3 MULTI n=31 agree=14
+STRATUM E3 DANGLE n=57 agree=57
+STRATUM E3 BARE n=88 agree=88
+STRATUM E4 FJ1 n=1296 agree=586
+STRATUM E4 FJM n=492 agree=224
+STRATUM E4 MULTI n=31 agree=14
+STRATUM E4 DANGLE n=57 agree=40
+STRATUM E4 BARE n=88 agree=88
+STRATUM E5 FJ1 n=1296 agree=1296
+STRATUM E5 FJM n=492 agree=492
+STRATUM E5 MULTI n=31 agree=31
+STRATUM E5 DANGLE n=57 agree=40
+STRATUM E5 BARE n=88 agree=79
+STRATUM E6 FJ1 n=1296 agree=1296
+STRATUM E6 FJM n=492 agree=492
+STRATUM E6 MULTI n=31 agree=31
+STRATUM E6 DANGLE n=57 agree=57
+STRATUM E6 BARE n=88 agree=88
+STRATUM E7 FJ1 n=1296 agree=1296
+STRATUM E7 FJM n=492 agree=492
+STRATUM E7 MULTI n=31 agree=14
+STRATUM E7 DANGLE n=57 agree=57
+STRATUM E7 BARE n=88 agree=88
+STRATUM E8 FJ1 n=1296 agree=1296
+STRATUM E8 FJM n=492 agree=492
+STRATUM E8 MULTI n=31 agree=31
+STRATUM E8 DANGLE n=57 agree=57
+STRATUM E8 BARE n=88 agree=88
+CELLSHIFT E1 max_abs_pp=75.00 cell=round8-horizon/results.jsonl:B-clean-hint
+CELLSHIFT E2 max_abs_pp=0.00 cell=round8-horizon/results.jsonl:A-CKPT
+CELLSHIFT E3 max_abs_pp=75.00 cell=round8-horizon/results.jsonl:B-clean-hint
+CELLSHIFT E4 max_abs_pp=100.00 cell=round8-horizon/results.jsonl:C-MONO
+CELLSHIFT E5 max_abs_pp=6.67 cell=round8-horizon/results.jsonl:A-CKPT
+CELLSHIFT E6 max_abs_pp=0.00 cell=round8-horizon/results.jsonl:A-CKPT
+CELLSHIFT E7 max_abs_pp=75.00 cell=round8-horizon/results.jsonl:B-clean-hint
+CELLSHIFT E8 max_abs_pp=0.00 cell=round8-horizon/results.jsonl:A-CKPT
+MATRIX cols E0 E1 E2 E3 E4 E5 E6 E7 E8
+MATRIX row E0 0 17 0 17 1012 26 0 17 0
+MATRIX row E1 17 0 17 0 995 43 17 0 17
+MATRIX row E2 0 17 0 17 1012 26 0 17 0
+MATRIX row E3 17 0 17 0 995 43 17 0 17
+MATRIX row E4 1012 995 1012 995 0 1004 1012 995 1012
+MATRIX row E5 26 43 26 43 1004 0 26 43 26
+MATRIX row E6 0 17 0 17 1012 26 0 17 0
+MATRIX row E7 17 0 17 0 995 43 17 0 17
+MATRIX row E8 0 17 0 17 1012 26 0 17 0
+TOTAL population=1964 policies=8 compared_verdicts=15712 disagreements=1089 policies_with_flips=5
+
+exit=0

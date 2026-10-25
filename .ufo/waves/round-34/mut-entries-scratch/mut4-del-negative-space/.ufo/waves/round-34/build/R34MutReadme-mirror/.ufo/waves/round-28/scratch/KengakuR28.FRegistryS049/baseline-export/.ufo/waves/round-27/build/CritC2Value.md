@@ -1,0 +1,21 @@
+# C2 / P4 — calibration-value review
+
+**Axis:** calibration.
+
+## Counterexample and evidence
+- Round 24 is the strongest bookkeeping counterexample: its C2 reported lesson/checklist/scorecard/round-count movement (`SCORECARD.md:599-605`) but explicitly called it “honest closeout bookkeeping,” not demonstrated discernment or a calibration axis move. A higher count of authored/corrected rows alone is not calibration evidence.
+- The analogous P3 claim was nevertheless admitted as an **observability extension**, not discovery: round-26 SCORECARD says C2 checked frozen self-assertions, held 8, and did not claim discovery of already-routed repairs (`SCORECARD.md:758-765, 789-794`). Outside closure agrees: calibration “improved observable, 8 held”; quality was frozen-state mismatch 5→0 by supersessions, while three offline-unverifiable assertions remained (`.ufo/reports/round-26/kengaku-closure-evidence.json:10-11,25,562-564`). It also preserves the distinction between registered P3 and two extension-only oracle mismatches (`:563-564`). Thus the precedent supports P4 only as new frozen assertion coverage, not as a new defect/discovery claim.
+- R27 pre-registers a disjoint, base-frozen R26 population P4a–P4e and says v3 has zero P4 assertions; v4 must add them while preserving P2/P3 (`plans/round-27-claims.md:102-124`). Those checks compare scorecard numbers to receipts/commands, README paths to disk, wave counts to files/commit trees, population numbers to the grader/oracle, and SOURCES used-by to actual citations (`:107-120`). This is a real observability delta if each P4 assertion is actually registered and its expected value is re-derived from the named evidence.
+- Don’t inflate that delta by raw assertion/token volume: P4a numeric tokens and P4b/P4e path/registry checks are not independent trials; P4c is historical wave accounting. `state_check.py`’s aggregate `assertions` count counts records, not independent claims (`plans/state_check.py:1823-1838`). P4’s total count alone therefore cannot establish improved calibration or score credit.
+
+## Adjudication distinctions
+- **“Unchanged” observable:** v4 registers no genuinely new P4 checks (or they alias P2/P3, are out-of-population/offline-unverifiable, or merely restate values without re-deriving them from the cited receipt/command/tree). Also unchanged if the only supposed gain is a larger aggregate assertion/token count.
+- **No mismatch is not “unchanged”:** if v4 adds independently derived P4 checks and they all match, the observable still expanded; report “expanded monitoring, no discrepancy found,” not a discovered error. If baseline P4 mismatches are only already-known/routed R26 corrections, report them as closure/recheck, not new discoveries (the P3 ruling expressly made this distinction).
+- **Score held at 8 is honest:** the frozen plan itself says the score remains held absent the scored-probe leg and that the forecast is not calibration credit (`plans/round-27-claims.md:126-130`). The scorecard rubric requires the prediction/scoring and in-round analysis/logging conditions for a +1 (`SCORECARD.md:242-245`). The r26 outside closure accepted this same “improved observable, 8 held” formulation (`.ufo/reports/round-26/kengaku-closure-evidence.json:10-11,532-545`). Do not say the numeric calibration score improved.
+
+## Smallest safe correction
+Report P4a–P4e per frozen ID/class from keyed JSON (or equivalent), plus P2/P3 parity; do not use total `assertions` as a denominator or count mutation selftests/known R26-E supersessions as new calibration discoveries. Keep any P4 correction limited to the frozen base population, and distinguish `MATCH`, new `MISMATCH`, `SUPERSEDED`, and `OFFLINE_UNVERIFIABLE`.
+
+**VERDICT: P4 is a genuine calibration-observability extension only if the new frozen assertions independently re-derive against their named evidence; it is not a calibration score increase or discovery of previously routed R26 defects. If only bookkeeping volume changes, C2 is unchanged.**
+
+Installs/updates: none.

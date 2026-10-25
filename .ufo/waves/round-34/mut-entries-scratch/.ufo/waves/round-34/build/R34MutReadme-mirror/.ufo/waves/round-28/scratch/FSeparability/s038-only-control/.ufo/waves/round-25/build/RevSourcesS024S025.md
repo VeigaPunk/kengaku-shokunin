@@ -1,0 +1,14 @@
+# Round 25 review — SOURCES S024/S025
+
+## Findings (highest priority first)
+
+- **Recommendation — preserve the S025 verdict distinction.** C1 should cite S025 as empirical input: frozen P1 explicitly includes `corpus/evidence/attrib-r2[123]-*.log` (9 files), including `attrib-r23-stream.log` (`plans/round-25-claims.md:28-33`). The receipt records `STREAM TARGET opencode-go: on-target GT n=0 ... -> FAIL` (`corpus/evidence/attrib-r23-stream.log:239`; the Round 24 quote/hash is recorded at `corpus/evidence/round24-sources/gate.md:33`). Under C1's frozen rule, n=0 re-verdicts `UNTESTED` (`plans/round-25-claims.md:35-37`), not `FAIL`. The new entry should explicitly distinguish stored FAIL from re-derived UNTESTED; both are not PASS. Cite S025 for this historical measurement, not as authority for the interval method.
+- **Rule-2 transition — conditional on that citation.** S025 is currently `queued` / `used-by —` (`corpus/SOURCES.md:47`), and no Round 25 knowledge entry or lesson exists in the current corpus listing. Once an actual C1 entry cites it, change only `status: queued → mined` and `used-by: — → <that existing repo-relative entry path>`; log both exact old→new transitions in `corpus/lessons/round-25.md`. CORPUS rule 2 permits only `status`, `recheck`, and `used-by` in-place and requires the lesson log (`CORPUS.md:116-118`). Do not guess a future path or change `teaches` in place; if the historical wording is to be corrected rather than contextualized, use a new `supersedes S025 —` row.
+- **No tiering defect found.** S024 is `own-work`, tier A, scoped to its own rerunnable operability gate (`corpus/SOURCES.md:46`); `grader.py:2` identifies the hermetic evidence-replay grader and `grader.py:5664` is `main`. S025 is `own-work`, tier A, narrowly scoped to the lane's own measured round-23 result (`corpus/SOURCES.md:47`); its committed receipt is primary evidence for that result. Keep S024 queued and out of C1: it is not one of P1's attribution receipts.
+
+## Residual risk / verification gaps
+
+- Current `git diff 6180e4fb -- corpus/SOURCES.md corpus/lessons/round-25.md` was empty; therefore no S025 status/used-by transition or Round 25 lesson change was present to review. No Round 25 knowledge entry was present in `corpus/knowledge/` listing. This is a recommendation for the C1 landing, not approval of an unobserved change.
+- No builds or tests run; none were needed for this read-only source-row review. No tools installed.
+
+VERDICT: S024/S025 are honestly tiered; C1 should mine S025 only when its real entry cites the receipt, preserve FAIL→UNTESTED as stored-versus-new semantics, and log both Rule-2 changes.

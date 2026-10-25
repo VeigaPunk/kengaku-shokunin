@@ -1,0 +1,178 @@
+# probe-r19-devin-shim-seat — runner-leg-devin, kengaku round 19
+# Filed: 2026-10-16T07:53:40Z (UTC, before ANY request of any kind to :8787)
+# Seat: runner-leg-devin. Scope: the devin shim itself, 127.0.0.1:8787
+#   (r18 census ANALYSIS.md:32,59; unit devin-shim.service, MainPID 1591,
+#   active since 2026-10-15 13:38:09 -03 — read-only recon this round,
+#   no requests issued by this seat before this file).
+# Seat assignment: "probe the devin endpoint (devin-shim localhost): model
+#   listing vs chat behavior — the r18 finding was 'GET /models 200 is not
+#   evidence of usable quota': verify whether chat on the served model works
+#   now."
+# Relationship to the battery (plans/probe-battery-r19.md, FROZEN
+#   2026-10-16T07:52:04Z sha256:e3f08a0981a9dc1fe37adb0fe0e49f109a2d162459fa3857dccd56cc69598943):
+#   the battery's 18-request budget contains NO direct :8787 probe (P4 uses
+#   :8793/:8791 only). This seat check is therefore SEAT-LEVEL, outside the
+#   battery aggregate; its predictions are frozen HERE, before any request,
+#   per the seat pattern the runner-shim-ds seat established
+#   (corpus/evidence/probe-r19-shim-ds-predictions.log, filed 07:43:30Z).
+# Hypothesis sources (pre-request evidence, cited):
+#   [R18-D7] census/ANALYSIS.md:116-118 — devin non-stream chat on swe-2
+#        timed out at 180 s AND 300 s (cold `devin acp` start); the lane
+#        "does work" via streaming (TTFT 3715 ms on deepseek-v4-1-flash-high).
+#   [R18-M10] research/round-18-kimi-model-routing/devin-opus/ANALYSIS.md —
+#        shim /v1/models is a STATIC 9-id list (shim.py:47), NOT
+#        authoritative: claude-opus-5-5-high answers 200 through the shim
+#        while absent from the listing; temperature:0 -> HTTP 400 on opus
+#        (field isolation, s2); opus text calls billed 4 prompt tokens (s4);
+#        cold start "not reproduced, not provably testable" (s4, lane warm).
+#   [R18-D9] census/ANALYSIS.md:128-146 — deepseek-v4-1-flash-high billed
+#        12163 prompt tokens for COUNT_PROMPT (model-specific tax).
+#   [JRNL] journalctl --user -u devin-shim (read-only recon, 07:53Z): steady
+#        stream of foreign 200 POSTs through 04:52-04:53 local (08:53Z) —
+#        the shim is WARM (cold-start D7 precondition not present).
+#   [UNIT] systemctl --user show devin-shim: MainPID 1591, active since
+#        2026-10-15 13:38:09 -03 (~18 h uptime at filing).
+
+## FROZEN SEAT PREDICTIONS (hashed below BEFORE any request)
+
+- D1 listing (GET /v1/models, no body, 10 s timeout):
+  Claim: HTTP 200, JSON list, exactly the 9 r18 ids
+    (swe-2, swe-2-high, swe-2-medium, swe-2-max, deepseek-v4-1-flash-high,
+    deepseek-v4-1-flash-max, glm-5-3-flash-low, glm-5-3-flash-high,
+    glm-5-3-flash-max).
+  Falsifier: any other status, or a served-id set differing from the 9
+    (a changed list is a serving-plane event, routed, not absorbed).
+  P(200 + same 9 ids) = 0.95 (static list in shim.py:47; unit unchanged
+    since 2026-10-15 13:38 -03).
+
+- D2 non-stream chat, r18 timeout shape (POST /v1/chat/completions,
+  body {"model":"swe-2","max_tokens":8,"temperature":0,
+  "messages":[{"role":"user","content":"ping"}]}, timeout 200 s):
+  Claim: HTTP 200 with a chat.completion body (the r18 D7 cold-start
+    timeout does NOT reproduce on a warm shim).
+  Falsifier: timeout at 200 s (D7 reproduces even warm), or a 4xx/5xx.
+  P(200) = 0.80 (warm-shim evidence is journal-level, not a completed
+    non-stream draw on this shim; the r18 lane never landed one).
+  Note: temperature:0 is sent deliberately — it is the r18 census shape
+    (chat-devin.json request_body) and the seat's question is whether THAT
+    shape works now. M10 measured temperature:0 -> 400 on opus; swe-2 was
+    never isolated, so D2 doubles as the swe-2 field-isolation draw.
+
+- D3 streaming chat on swe-2 (POST, body {"model":"swe-2","max_tokens":64,
+  "stream":true,"stream_options":{"include_usage":true},"messages":
+  [{"role":"user","content":COUNT_PROMPT}]}, timeout 320 s):
+  Claim: HTTP 200 text/event-stream, content deltas present, usage block
+    with completion_tokens > 0.
+  Falsifier: timeout (cold-start class), non-200, or a stream with no
+    content deltas and no usage.
+  P(200 + content + usage) = 0.85 (streaming is the r18-proven path on
+    this shim; swe-2 specifically was never stream-probed — it is the
+    shim's own alias target per M10 shim.py:362).
+- D4 (numeric, from D3): prompt_tokens billed for COUNT_PROMPT on swe-2.
+  Point: 12163 (the D9 devin-leg tax measured on deepseek-v4-1-flash-high;
+    M10 showed the tax is model-specific, so this is the conservative
+    carry-over). Range: [4, 13000]. Range-hit is the scored event; a value
+    in [4,120] (the M10 opus no-tools band) falsifies the carry-over but
+    is itself a finding (tax is id-specific, not lane-wide).
+- D5 (numeric, from D3): first-content-delta TTFT.
+  Point: 3700 ms (r18 stream-devin.json TTFT 3715 ms, same shim, warm).
+  Range: [800, 12000] ms. Burst rule applies: if the stream is one flush,
+    TTFT is still the first-content timestamp and remains scoreable.
+
+## EXECUTIONS (begin after this line; every entry: UTC stamp, exact
+## command, exit, excerpt; no credential values)
+
+probe: SEAT-CHECK devin-shim 8787 (seat-assigned; outside the
+  battery's 18-request budget — not part of the battery aggregate)
+runner-seat: runner-leg-devin
+battery_sha256_at_start: e3f08a0981a9dc1fe37adb0fe0e49f109a2d162459fa3857dccd56cc69598943
+first_request_utc: 2026-10-16T07:53:54Z (D1 GET — first request this seat)
+[1/3] 2026-10-16T07:53:54Z GET http://127.0.0.1:8787/v1/models
+    exit: http=200 ms=6
+    response-headers: {"Server": "devin-openai-shim/2 ", "Date": "Fri, 16 Oct 2026 07:53:54 GMT", "Content-Type": "application/json", "Content-Length": "757"}
+    excerpt: {"object": "list", "data": [{"id": "swe-2", "object": "model", "created": 0, "owned_by": "devin"}, {"id": "swe-2-high", "object": "model", "created": 0, "owned_by": "devin"}, {"id": "swe-2-medium", "object": "model", "created": 0, "owned_by": "devin"}, {"id": "swe-2-max", "object": "model", "created": 0, "owned_by": "devin"}, {"id": "deepseek-v4-1-flash-high", "object": "model", "created": 0, "own
+[2/3] 2026-10-16T07:54:31Z POST http://127.0.0.1:8787/v1/chat/completions
+    body: {"model": "swe-2", "max_tokens": 8, "temperature": 0, "messages": [{"role": "user", "content": "ping"}]}
+    exit: http=400 ms=435
+    response-headers: {"Server": "devin-openai-shim/2 ", "Date": "Fri, 16 Oct 2026 07:54:32 GMT", "Content-Type": "application/json", "Content-Length": "153"}
+    excerpt: {"error": {"message": "an internal error occurred (trace ID: 31f9c5993a3103284bf08d42b3cf6cef)", "type": "devin_shim_error", "code": "invalid_argument"}}
+[3/3] 2026-10-16T07:54:35Z POST http://127.0.0.1:8787/v1/chat/completions
+    body: {"model": "swe-2", "max_tokens": 64, "stream": true, "stream_options": {"include_usage": true}, "messages": [{"role": "user", "content": "Count from 1 to 30, space separated, numbers only. No other text."}]}
+    exit: http=200 ms=3089
+    response-headers: {"Server": "devin-openai-shim/2 ", "Date": "Fri, 16 Oct 2026 07:54:37 GMT", "Content-Type": "text/event-stream", "Cache-Control": "no-cache", "Connection": "close"}
+    usage: {"prompt_tokens": 485, "completion_tokens": 162, "total_tokens": 647}
+    sse_lines: 126
+    content_sample: "1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30"
+    reasoning_chars: 227
+last_request_utc: 2026-10-16T07:54:38Z
+outcome: all-components-recorded
+
+## SEAT SCORING (2026-10-16T08:01:30Z) — predictions D1–D5 vs observed
+
+Prediction block sha256 (filed pre-request): d9cc90fb7facb98b162be9bde669c0a4a744fc44da1748eeb151a0e163d44d30
+first_request_utc: 2026-10-16T07:53:54Z (D1) — after the 07:53:46Z hash, before any outcome.
+
+- D1 (listing): predicted 200 + same 9 ids, p=0.95. Observed: 200, Content-Length 757
+  (r18 census models-devin.json body was the same 757-byte list), excerpt shows the
+  swe-2 family + deepseek-v4-1-flash ids. Verdict: HIT. Brier term (1-0.95)^2 = 0.0025.
+- D2 (r18-shape non-stream chat): predicted 200, p=0.80. Observed: 400 invalid_argument
+  in 435 ms ("devin_shim_error"; trace ID 31f9c5993a3103284bf08d42b3cf6cef). Verdict: MISS.
+  Brier term (0.80-0)^2 = 0.64. The r18 D7 cold-start timeout did NOT reproduce; the
+  failure class moved from transport (timeout) to refusal (400) — the lane answers fast
+  and refuses the old body shape instead of hanging.
+- D3 (streaming swe-2): predicted 200 + content + usage, p=0.85. Observed: 200,
+  content_sample "1 2 3 4 ... 30" (correct), usage {prompt 485, completion 162, total 647},
+  model echo swe-2-high (the shim's documented swe-2 -> swe-2-high alias, M10 shim.py:362,
+  confirmed live). Verdict: HIT. Brier term (1-0.85)^2 = 0.0225.
+- D4 (prompt_tokens on swe-2/COUNT_PROMPT): point 12163, range [4,13000]. Observed: 485.
+  Verdict: RANGE HIT (485 in [4,13000]); point error |485-12163| = 11678 — the D9 ~12k
+  tax is NOT carried by swe-2; it is id-specific (M10's opus evidence pointed the same way).
+- D5 (TTFT on D3): UNPROVABLE — harness defect (DEFECT-1 below): the stream branch did
+  not persist first-content timing in the seat run; one-attempt rule forbids a re-fire.
+  Excluded from scoring with reason, per the battery's UNPROVABLE idiom.
+
+Seat aggregate (measurements, not axis scores): 3 binary components scored
+(0.0025 + 0.64 + 0.0225) / 3 = mean Brier 0.2217 (always-0.5 reference 0.25);
+range hits 1/1; unprovable 1 (D5, harness defect).
+
+## DEFECT-1 (harness, this seat) — TTFT not persisted in the seat stream run
+
+/tmp/kengaku-r19-devin/probe_runner.py (draft rev) and the first seat2 revision
+computed ttft only in code paths that never ran for the seat stream; the receipt
+for [3/3] carries sse_lines/content/usage but no ttft_content_ms. The D5
+prediction is therefore unprovable, not missed. Fixed in the runner before the
+battery P4 run (span/TTFT persisted there: first_last_span_ms=0 captured on
+P4(ii)); the seat's own D5 stays unprovable because a re-fire would spend a
+second request against the one-attempt rule.
+
+## SEAT ANSWER (the assignment's question)
+
+"Model listing vs chat behavior — verify whether chat on the served model works now":
+YES, chat works — via streaming (200, correct output, usage, alias swe-2->swe-2-high
+confirmed live). The r18 non-stream shape (temperature:0) is refused with 400
+invalid_argument in ~0.4 s; the r18 cold-start timeout did not reproduce on this
+warm shim (unit uptime ~18 h, steady foreign traffic in the journal). GET /models
+200 here coexists with a WORKING chat path — the inverse of the r18 token-plan
+keys, where /models 200 coexisted with a dead chat path. Both directions of the
+r18 headline are now evidenced: listing is neither sufficient (token-plan) nor
+necessary (this shim's static list omits claude-opus-5-5-high, which M10 showed
+answers 200) for chat usability.
+
+## ADDENDUM (2026-10-16T08:04Z, no new requests) — freeze-version + coordination notes
+
+1. FREEZE VERSION: this seat's predictions were hashed 07:53:46Z against the V1
+   battery freeze (07:52:04Z, sha256 e3f08a09…, verified per §7 step 5). The
+   battery re-froze as V2 at 07:55:58Z (sha256 e1a86777…). The seat check ran
+   07:53:54–07:54:37Z — entirely INSIDE the v1 freeze window and before the v2
+   re-freeze, so the v1 anchor in the header is correct for this seat's requests.
+   The seat check is seat-level (outside the battery aggregate), so the v1/v2
+   distinction does not affect any battery component; recorded for the audit trail.
+2. COORDINATION: no other seat probed 8787 directly this round (checked
+   corpus/evidence/ at 07:55:29Z and again at 08:01Z; the runner-shim-glm seat's
+   cross-check curl to 8787 at 07:57:52Z — probe-r19-shim-glm-run.log §1 — is the
+   only other direct 8787 touch, one request, glm-5-3-flash-max body, 400 same
+   shape: independent corroboration of D2's temperature refusal on a second id).
+3. SEAT REQUEST ACCOUNT (final): 3 requests to 8787 (07:53:54, 07:54:31,
+   07:54:35), all logged above; 0 requests to any other target from this seat.
+   The battery's 18-request budget was not touched by this seat (P4/P5 requests
+   are logged in probe-r19-P4-devinleg.log and accounted there).

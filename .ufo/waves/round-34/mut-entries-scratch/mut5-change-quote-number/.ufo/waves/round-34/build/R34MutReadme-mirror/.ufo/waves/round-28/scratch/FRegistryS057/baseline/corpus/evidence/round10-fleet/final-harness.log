@@ -1,0 +1,52 @@
+== M0 control: unmutated copies ==
+--- grader run [M0-control] ---
+[pin] r8_jsonl: SKIPPED (overridden path, treated as mutated copy)
+[pin] r8_runlog: SKIPPED (overridden path, treated as mutated copy)
+[pin] r9_jsonl: SKIPPED (overridden path, treated as mutated copy)
+[pin] r9_md: SKIPPED (overridden path, treated as mutated copy)
+CHECKS n=145 mismatches=0 errata_pinned=1
+VERDICT: PASS — stored evidence fully re-derives offline
+--- grader exit=0 ---
+M0 PASS
+== M1: flip ok:true -> ok:false on first A-INC (record layer) ==
+--- grader run [M1-ok-flip] ---
+[pin] r8_jsonl: SKIPPED (overridden path, treated as mutated copy)
+[pin] r8_runlog: SKIPPED (overridden path, treated as mutated copy)
+[pin] r9_jsonl: SKIPPED (overridden path, treated as mutated copy)
+[pin] r9_md: SKIPPED (overridden path, treated as mutated copy)
+MISMATCH r8.replay.A-INC.ok: 1/100 records differ (first: (1, 1, 'ok'))
+CHECKS n=145 mismatches=1 errata_pinned=1
+VERDICT: FAIL
+--- grader exit=1 ---
+M1 PASS
+== M2: A-INC: 7/10 -> 8/10 in run.log SUMMARY (summary layer) ==
+--- grader run [M2-summary-edit] ---
+[pin] r8_jsonl: SKIPPED (overridden path, treated as mutated copy)
+[pin] r8_runlog: SKIPPED (overridden path, treated as mutated copy)
+[pin] r9_jsonl: SKIPPED (overridden path, treated as mutated copy)
+[pin] r9_md: SKIPPED (overridden path, treated as mutated copy)
+MISMATCH r8.summary.A-INC: stored=(8, 10) recomputed=(7, 10)
+MISMATCH r9.crossround.A-INC.r8_col: stored='7/10' recomputed='8/10'
+MISMATCH r9.crossround.A-INC.r8_col_vs_replay: stored='7' recomputed='8'
+CHECKS n=145 mismatches=3 errata_pinned=1
+VERDICT: FAIL
+--- grader exit=1 ---
+M2 PASS
+== M3: 0 -> 0XX inside raw json block of first A-MONO (re-parse layer) ==
+--- grader run [M3-raw-corrupt] ---
+[pin] r8_jsonl: SKIPPED (overridden path, treated as mutated copy)
+[pin] r8_runlog: SKIPPED (overridden path, treated as mutated copy)
+[pin] r9_jsonl: SKIPPED (overridden path, treated as mutated copy)
+[pin] r9_md: SKIPPED (overridden path, treated as mutated copy)
+MISMATCH r9.replay.A-MONO.got: 1/8 records differ (first: (101, 1, 'got'))
+MISMATCH r9.replay.A-MONO.nwrong: 1/8 records differ (first: (101, 1, 'got'))
+MISMATCH r9.observed.A-MONO.mean_nwrong: stored='2.250' recomputed='2.375'
+MISMATCH r9.failure_classes.parse_fail: stored='0/32' recomputed='1/32'
+MISMATCH r9.failure_classes.state_error: stored='12/32' (expected defective '12/32' to remain visible) recomputed='23/32' (expected adjudicated '24/32') ruling=round-10 grader recomputation from committed results-r9.jsonl: final graded-turn passes are INC 4/8 + CKPT4710 2/8 + CKPT710 2/8 + MONO 0/8 = 8/32, parse failures 0/32, so state errors = 24/32; the stored 12/32 equals the two checkpoint cells' final failures (6+6) over the all-cells denominator (that provenance is conjectural; the corrected value is arithmetic on committed bytes). See LOG.md round-10 entry and replication.md §Errata.
+MISMATCH r9.failure_classes.mono.parse: stored='0/8' recomputed='1/8'
+MISMATCH r9.failure_classes.mono.state_error: stored='8/8' recomputed='7/8'
+CHECKS n=145 mismatches=7 errata_pinned=1
+VERDICT: FAIL
+--- grader exit=1 ---
+M3 PASS
+ALL PASS — grader catches all three corruption layers, clean control passes

@@ -1,0 +1,24 @@
+# R34 C1 entry second-seat review (Q10/Q13/Q14)
+
+Reviewed `.ufo/waves/round-34/build/R34EntryTB2/entry.md` against captures and independently reopened the pin. I did not edit the entry or other lane files.
+
+## Findings
+
+1. **Source anchors are broken (S105/S106/S107).** Entry lines 1–3 cite raw URLs under `.../<sha>/tasks/protein-assembly/...`; at the pinned commit the task is at repository-root `protein-assembly/...` (the pinned tree lists `protein-assembly/task.toml`). Requests to the cited test and environment URLs returned HTTP 404; reopening the corrected root paths succeeded. The entry’s capture excerpts agree with the bytes at the corrected paths, but the source rows as cited cannot be opened. **Fix:** remove `/tasks` from all three source URLs, retaining each file/anchor. Re-fetch the corrected URLs and update the rows’ located anchors if required.
+
+2. **The capture manifest does not hash the two evaluator files.** `assimilation/captures/tb2-eval/SHA256SUMS` lists only `antibody.fasta`, `pdb_ids.txt`, `task.toml`, and `instruction.md`; therefore the requested evaluator SHA-256 comparison against that manifest is impossible. The pinned files do match their captures, but that is not a manifest match. **Fix:** add checksums for `test_outputs.py` and `test.sh` to the manifest and verify with `sha256sum -c`.
+
+3. **Q3 quote coverage is incomplete for load-bearing details.** Appendix rows at entry lines 40–56 accurately locate the quotes they do include, but the table’s output-file claims that the code strips each line and lowercases it have no quotes for captured `test_outputs.py:16,21`. The translation/fusion claim that expected components are literal and found via `.find()` is not evidenced by the translation-only quote at line 27 or order assertion at line 42; the assignments/find calls are at lines 28–41. The reward claim’s conditional mapping also lacks the `if` quote at `test.sh:26`. **Fix:** add ≤25-word exact quotes with locations for those omitted operations (or narrow the corresponding claims). Also quote/locate the S092/S100 assertions in entry lines 13 and 24, or remove them; the current appendix has no anchored quote for those Harbor-context claims.
+
+4. **Q4 negative space lacks a falsifier.** The `## Negative space` section exists (entry lines 30–32) and states limitations, but does not state an observation that would falsify the static-grader claim. **Fix:** add a concrete falsification condition, e.g. re-fetching the pinned files shows a cited predicate or runner mapping differs from the captured/code-described behavior.
+
+5. **Q6 does not explicitly name the existing entry/coverage row extended.** Entry line 13 names S092 and S100 as Harbor context, but these are presented as context, not as the existing entry or coverage row this new task-level entry extends. **Fix:** explicitly name the existing coverage-map surface, e.g. `corpus/README.md` §Frontier bullet 279 (the open Terminal-Bench 2.0 scoring-code clause), and say this entry extends it.
+
+## Re-read checks
+
+- Captured line-number command: `cat -n .../{test_outputs.py,test.sh,antibody.fasta,pdb_ids.txt,instruction.md,task.toml}`. The quoted evaluator locations in entry lines 40–56 all match the captured contents: `test_outputs.py` lines 14, 19, 22–23, 27, 42, 46, 54, 57, 60, 71; `test.sh` lines 23, 27, 29; FASTA lines 1, 3; PDB list lines 1–2; instruction lines 6, 14; and expectation rationale at `test_outputs.py:25`. The cited ranges and facts checked (3000 maximum, linker 5–20, GC 15–35 in complete 50-nt windows) are accurate. The displayed quotes are each at most 25 words.
+- Independent fetch: `curl -fsSL https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/protein-assembly/{tests/test_outputs.py,tests/test.sh,environment/antibody.fasta,environment/pdb_ids.txt,instruction.md,task.toml}` (fetched individually). `cmp` result: all six corrected-path files `IDENTICAL` to the round captures. SHA-256 output for evaluator files: `test_outputs.py` = `44a05a2482aa7a8e70de95478de6560b6188e630336fca9d02b62dc69a096582`; `test.sh` = `9ede46648fc67c9ce61975503de3e0fcff0b0fb110adc0f9e1d240a608c267b5`. `sha256sum -c SHA256SUMS` output: antibody.fasta OK; pdb_ids.txt OK; task.toml OK; instruction.md OK (no evaluator-file lines to check).
+- Negative-space count: command `jq '[.tree[] | select(.path | endswith("/task.toml"))] | length' /tmp/r34-tb2-tree.json` returned `89`; thus “other 88 tasks” is arithmetically consistent with the pinned tree.
+- No disagreement found in the checked line references, numeric thresholds/lengths, or quoted excerpt wording; the concerns above are invalid citation URLs, absent evaluator hashes, and unmet Q3/Q4/Q6 requirements.
+
+VERDICT: review-entry-tb2 disagree (5 findings)

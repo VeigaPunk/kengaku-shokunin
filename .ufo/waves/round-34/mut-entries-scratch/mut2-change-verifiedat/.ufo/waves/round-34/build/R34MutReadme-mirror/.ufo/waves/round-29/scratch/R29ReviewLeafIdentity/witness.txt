@@ -1,0 +1,125 @@
+tasks_with_changes: 812
+per_task_changed_leaf_count_histogram: {"1": 374, "2": 364, "3": 45, "4": 11, "5": 3, "6": 4, "7": 5, "8": 1, "9": 1, "10": 1, "11": 2, "12": 1}
+total_changed_leaves: 1416
+tasks_with_zero_changes: 0
+occurrences_total: 1435
+leaves_changed: 1416
+leaves_with_multiple_occurrences: 13
+max_changed_leaves_in_one_task: 12
+tasks_with_most_changed_leaves: [(565, 12), (724, 11), (730, 11), (566, 10), (721, 9)]
+
+=== per-path changed leaf counts ===
+  $[].eval.program_html[].required_contents.must_include[] 60
+  $[].eval.program_html[].url 338
+  $[].eval.reference_answer_raw_annotation 1
+  $[].eval.reference_url 205
+  $[].start_url 812
+
+=== witnesses ===
+--- task 0 task_id_field= 0 type= int
+     $[0].start_url
+       raw: '__SHOPPING_ADMIN__'
+       prj: 'http://shopping-admin.invalid:10104'
+--- task 1 task_id_field= 1 type= int
+     $[1].start_url
+       raw: '__SHOPPING_ADMIN__'
+       prj: 'http://shopping-admin.invalid:10104'
+--- task 66 task_id_field= 66 type= int
+     $[66].start_url
+       raw: '__REDDIT__'
+       prj: 'http://reddit.invalid:10102'
+     $[66].eval.reference_answer_raw_annotation
+       raw: '__REDDIT__/f/books/59396/apple-books-has-a-free-audiobook-of-a-christmas-carol, __REDDIT__/f/books/17445/i-just-finished-reading-the-hobbit-to-my-6-year-old-daughter'
+       prj: 'http://reddit.invalid:10102/f/books/59396/apple-books-has-a-free-audiobook-of-a-christmas-carol, http://reddit.invalid:10102/f/books/17445/i-just-finished-reading-the-hobbit-to-my-6-year-old-daughter'
+--- task 431 task_id_field= 431 type= int
+     $[431].start_url
+       raw: '__SHOPPING__/tall-pink-taper-candles-4-piece-orange-colored-tapered-candles-gradient-candles-10-6-inches-tall-tie-dye-candle-set-large-dripless-long-burning-candlesticks-two-color-taper-candles-candlesticks.html |AND| _
+       prj: 'http://shopping.invalid:10103/tall-pink-taper-candles-4-piece-orange-colored-tapered-candles-gradient-candles-10-6-inches-tall-tie-dye-candle-set-large-dripless-long-burning-candlesticks-two-color-taper-candles-candlest
+     $[431].eval.program_html[0].url
+       raw: '__SHOPPING__/checkout/cart'
+       prj: 'http://shopping.invalid:10103/checkout/cart'
+--- task 682 task_id_field= 682 type= int
+     $[682].start_url
+       raw: '__REDDIT__'
+       prj: 'http://reddit.invalid:10102'
+     $[682].eval.reference_url
+       raw: '__REDDIT__/f/machinelearning |OR| __REDDIT__/f/singularity |OR| __REDDIT__/f/deeplearning |OR| __REDDIT__/f/technology'
+       prj: 'http://reddit.invalid:10102/f/machinelearning |OR| http://reddit.invalid:10102/f/singularity |OR| http://reddit.invalid:10102/f/deeplearning |OR| http://reddit.invalid:10102/f/technology'
+     $[682].eval.program_html[0].required_contents.must_include[1]
+       raw: '__GITLAB__/convexegg/chatgpt'
+       prj: 'http://gitlab.invalid:10101/convexegg/chatgpt'
+--- task 487 task_id_field= 487 type= int
+     $[487].start_url
+       raw: '__SHOPPING_ADMIN__'
+       prj: 'http://shopping-admin.invalid:10104'
+     $[487].eval.program_html[0].url
+       raw: '__SHOPPING_ADMIN__/cms/page/edit/page_id/3/'
+       prj: 'http://shopping-admin.invalid:10104/cms/page/edit/page_id/3/'
+--- task 490 task_id_field= 490 type= int
+     $[490].start_url
+       raw: '__SHOPPING_ADMIN__'
+       prj: 'http://shopping-admin.invalid:10104'
+     $[490].eval.program_html[0].url
+       raw: '__SHOPPING_ADMIN__/cms/page/edit/page_id/5/'
+       prj: 'http://shopping-admin.invalid:10104/cms/page/edit/page_id/5/'
+--- task 259 task_id_field= 259 type= int
+     $[259].start_url
+       raw: '__GITLAB__'
+       prj: 'http://gitlab.invalid:10101'
+
+=== tasks with zero changed leaves (sample) ===
+count: 0 first10: []
+
+=== index vs task_id ===
+all int task_id: True
+idx==task_id for all: True
+str(task_id)==str(idx) for all: True
+filename stem would be: 0.json task_id str: '0'
+upstream filename for ordinal 0: config_files/0.json
+
+=== eval consumption structure sample (task 0) ===
+{
+ "sites": [
+  "shopping_admin"
+ ],
+ "task_id": 0,
+ "require_login": true,
+ "storage_state": "./.auth/shopping_admin_state.json",
+ "start_url": "__SHOPPING_ADMIN__",
+ "geolocation": null,
+ "intent_template": "What is the top-{{n}} best-selling product in {{year}}",
+ "instantiation_dict": {
+  "n": 1,
+  "year": 2022
+ },
+ "intent": "What is the top-1 best-selling product in 2022",
+ "require_reset": false,
+ "eval": {
+  "eval_types": [
+   "string_match"
+  ],
+  "reference_answers": {
+   "exact_match": "Quest Lumaflex\u2122 Band"
+  },
+  "reference_url": "",
+  "program_html": [],
+  "string_note": "",
+  "reference_answer_raw_annotation": "Quest Lumaflex\u2122 Band"
+ },
+ "intent_template_id": 279
+}
+
+=== leaves NOT under eval but containing tokens? ===
+['$[].start_url']
+=== non-URL-valued token leaves (no http/:// in raw value) ===
+count: 1416
+    $[0].start_url '__SHOPPING_ADMIN__'
+    $[1].start_url '__SHOPPING_ADMIN__'
+    $[2].start_url '__SHOPPING_ADMIN__'
+    $[3].start_url '__SHOPPING_ADMIN__'
+    $[4].start_url '__SHOPPING_ADMIN__'
+    $[5].start_url '__SHOPPING_ADMIN__'
+    $[6].start_url '__SHOPPING_ADMIN__'
+    $[7].start_url '__MAP__'
+    $[8].start_url '__MAP__'
+    $[9].start_url '__MAP__'
