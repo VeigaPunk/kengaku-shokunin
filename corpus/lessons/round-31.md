@@ -176,3 +176,16 @@ Registries: `.ufo/waves/round-31/build/swarm-registry.json`, `.ufo/waves/round-3
   regenerated from the tightened bytes: before `defects=10` exit 1, after `defects=0` exit 0.
 - **R9's line-count test is a stub heuristic, not an integrity invariant** (`R31FxC2R9.md`): a 120-line stub
   is caught, but a revert, a one-line append and an identical delete/re-add survive. Named debt.
+
+## Final instrument verdict on C2 (appended after the last falsify seat returned)
+
+`R31FxC2Survivors.md` re-ran the ten fakeability routes against the **final** counter bytes and every one of
+R1–R10 still has a route that prints `defects=0` without the underlying mismatch being repaired — appending
+the right wording beside the unrepaired sentence, a reworded copy, a row-cell licence injection, and R9 by the
+very revert the kill rule forbids. Three of the earlier routes are now killed (the in-place rewrite, the
+zero-width-character copy, the stub blob), so the counter is strictly stronger than at the freeze, and it is
+still **not** an instrument that proves its own closure: `defects=0` is necessary evidence, and the closure's
+proof is the byte-level review the seats did (`R31DefR1.md`, `R31DefR2R3.md`, `R31DefR4R5.md`, `R31DefR6.md`,
+`R31DefR7.md`, `R31DefR8.md`, `R31DefR9.md`, `R31DefR10.md`), each of which re-derived its item from committed
+bytes and re-printed the quoted window. C2's verdict is therefore carried by that review plus the counter, and
+the counter's inadequacy is stated here rather than implied by a green line.
