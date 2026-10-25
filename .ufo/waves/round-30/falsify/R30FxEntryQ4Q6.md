@@ -79,7 +79,7 @@ visibly continues unfalsified.
 and count the `- **` bullets before `- **Falsifier:`.
 
 *Live:* unchanged in the worktree — the pointer still reads "narrowing the third bullet above"
-(`sha b29eac97…`, `:135-136`), and the third bullet there is still the agreement bullet.
+(`sha ba0465d1…`, `:135-136`), and the third bullet there is still the agreement bullet.
 
 ### 1.3 Defect B — "the two delta fields" is stale in both trees (live)
 
@@ -142,7 +142,7 @@ five variables).
 
 ### 1.6 A live presentation defect in the same section (Q4's own surface)
 
-In the worktree (`sha b29eac97…`, `:120`) the agreement bullet is emitted as:
+In the worktree (`sha ba0465d1…`, `:120`) the agreement bullet is emitted as:
 
 ```
 - **- **Agreement is not established.** S081's own abstract reports a test–retest ceiling "collapsing under
@@ -296,7 +296,7 @@ wording matters: "continued" tells the reader the cells were inherited and need 
 
 Against worktree `sha256 ba0465d1…` (uncommitted, `M`; the live defects below were re-located at this hash after two further edits):
 
-| finding | admitted tree `623c1fc` | worktree `b29eac97…` |
+| finding | admitted tree `623c1fc` | worktree `ba0465d1…` |
 |---|---|---|
 | Q4-A falsifier points at the third bullet | present | **live** (`:135-136`) |
 | Q4-B "two delta fields" vs the mapping's field count | present | **live** (mapping says one field; falsifier still says two and names the pair it now calls non-delta) |

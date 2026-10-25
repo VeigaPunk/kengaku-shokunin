@@ -56,13 +56,14 @@ corrections below changed the cell after that run, so the current bytes need the
    the five-citation bytes returned PASS (admissions=1 passed=1 failed=0), and my renewed import-based
    check on the current six returns all-valid. Everything else in the wave either FAILs or
    carries no anchored verdict, and `R30FxC3Gate` — a PASS — names no candidate path, so it is not
-   admissible evidence for this row. My reason cell cites the five and nothing else.
-3. **One source defect stays open and blocks the row's honesty, not its mechanics.** `R30FxSrcS086`
-   is FAIL at `:149`: the entry's S086 line states 23 CJK characters and lines 78–81 where the seat
-   measured 30 characters and text-layer lines 80–81, and `corpus/SOURCES.md:112` repeats 78–81. Both
-   spans are verbatim and located, so the repair is a number and a range and C1's kill rule is not
-   touched. The row lands once the entry's line, the registry cell and the seat agree; then that
-   path enters the reason cell and Q10 covers all six sources.
+   admissible evidence for this row. My reason cell cites those five plus the schema seat and nothing
+   else.
+3. **One registry cell is stale; the entry is already repaired.** `R30FxSrcS086` is FAIL at `:149`,
+   but its discovery has since been half-applied: `corpus/knowledge/contamination-transparency-card.md:6`
+   now reads "1 whitespace token, 30 CJK characters, text-layer lines 80-81", while
+   `corpus/SOURCES.md:112` still says "spans extraction lines 78-81". Correcting that one row closes
+   the disagreement; both quoted spans are verbatim and located on p.1 / printed 797, so C1's kill rule
+   is untouched. The FAIL report is cited once it re-runs to PASS.
 4. **A failing path mentioned in the reason cell is a citation, not a caveat** (G13). Prose that says
    "not cited, see X.md" still registers X and the row fails on it. The caveat therefore lives in the
    report and in the paragraph below the table; the cell stays clean.
@@ -86,7 +87,7 @@ corrections below changed the cell after that run, so the current bytes need the
 
 | lesson cell | state | what my draft supplies |
 |---|---|---|
-| `corpus/lessons/round-30.md:17` admit row | reason cell cites 6 paths, 3 absent + 1 verdictless → FAIL | five valid citations only (`R30FxSrcS081`…`S085`), with the failing sixth moved to prose |
+| `corpus/lessons/round-30.md:17` admit row | reason cell cites 6 paths, 3 absent + 1 verdictless → FAIL | six valid citations (`R30FxSrcS081`…`S085` plus `R30FxRowsCensus`), with the failing sixth kept out of the cell |
 | `corpus/lessons/round-30.md:21` counts | "63 staged entries" while its own table records 4 of 65 → 61 | derivation written out; 60 for my five-row set |
 | `corpus/lessons/round-30.md:22` S091 | "re-read this round", no round-30 receipt | "round 29's hand-check, carried forward", with a supersession pointer |
 | `corpus/lessons/round-30.md:23` S105 | "unverifiable" against fleet quote-present | "quote-present in the archived snapshot", with a supersession pointer |
