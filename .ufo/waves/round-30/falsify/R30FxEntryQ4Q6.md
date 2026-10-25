@@ -78,8 +78,10 @@ visibly continues unfalsified.
 *Reproduce:* `git show 623c1fc:corpus/knowledge/contamination-transparency-card.md | sed -n '98,130p'`
 and count the `- **` bullets before `- **Falsifier:`.
 
-*Live:* unchanged in the worktree — the pointer still reads "narrowing the third bullet above"
-(`sha ba0465d1…`, `:135-136`), and the third bullet there is still the agreement bullet.
+*Live:* at `ba0465d1` the pointer still read "narrowing the third bullet above" (`:135-136`). At the
+tip `9af639c` the pointer phrase is gone, but the edit that removed it left the fragment
+"rather than a trend / **bullet above.**" orphaned at `:139-140` — the same defect, now with no
+sentence for it to modify (§1.8).
 
 ### 1.3 Defect B — "the two delta fields" is stale in both trees (live)
 
@@ -150,7 +152,43 @@ In the worktree (`sha ba0465d1…`, `:120`) the agreement bullet is emitted as:
 
 A doubled bullet marker: the edit that replaced the bullet's text left the old marker behind. It
 renders as literal `- **Agreement is not established.**` inside a bold run. If this lands, the
-section reads as malformed markdown in the very section Q4 grades. (Not present at `623c1fc`.)
+section reads as malformed markdown in the very section Q4 grades. (Not present at `623c1fc`; fixed
+at the tip — where the same edit instead duplicated the bullet's closing sentence, `:122-125`.)
+
+### 1.8 The tip's repaired falsifier — the pointer is gone, the ruling is worse (tip `9af639c`)
+
+Quoted from `corpus/knowledge/contamination-transparency-card.md` at `a78eb18a…`, `:134-140`:
+
+> - **Falsifier:** a benchmark release that publishes a card answering all eight CG questions while
+>   its own contamination audit shows the strata and acquired fields are *populated* (not "unknown")
+>   and populated (not "unknown") would show that the fields this entry's sources measured as rare
+>   (R1 strata, S1's acquired type) are common — a decision rule the CC0 card cannot supply on its own,
+>   which is why this bullet names the unit (one benchmark release), the population (its published card)
+>   and the observation (both fields populated and non-trivial) rather than a trend
+>   bullet above.
+
+Four defects, all in the new bytes:
+
+1. **The inference is invalid.** One release with both fields populated shows the fields are *not
+   never* populated; it cannot show they are "common", because a one-element sample has no
+   prevalence. The sentence therefore sets a rule that no single observation can trigger —
+   the Q18 class ("name the measured unit, population and category rule") met in form and missed
+   in substance. A decision rule that fires on n=1 is not a test of "A complete card is not a
+   common card".
+2. **A clause is duplicated**: "are *populated* (not "unknown") / and populated (not "unknown")"
+   (`:135-136`) — the second clause was to be the "non-trivial" condition the bullet later claims
+   to carry ("the observation (both fields populated and non-trivial)").
+3. **The licence is wrong.** "the CC0 card" (`:137`) — the CTC v1.1 form this entry maps into is
+   **CC BY 4.0**, printed in its own header (`# Contamination Disclosure v1.1` / `# CC BY 4.0.
+   Filled-into forms are yours; no attribution required for a completed form.`) at the pinned
+   commit. "CC0" appears nowhere else in the entry, so the phrase also has no antecedent.
+4. **An orphan fragment remains**: ":139-140" ends "rather than a trend / bullet above." — the
+   tail of the deleted pointer, now attached to nothing.
+
+*Repair:* state a falsifier a reader can score — e.g. "a published card, from a release whose own
+audit populates R1 and S1, in which ≥k strata are reported with CIs and the acquired block records
+monitoring rather than `unknown`; one such card narrows 'not common' only in proportion to the
+number of releases surveyed" — and name the CTC form by its actual licence if the licence matters.
 
 ### 1.7 What Q4 carries, for the record
 
