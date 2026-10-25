@@ -744,3 +744,20 @@ so a stale or fabricated row could be laundered into the registry with every exi
 
 Re-measured after batch 3: `--selftest` 10/10 exit 0; targeted build exit 0 with five rows and the
 attestation line; strict package run exit 3; C1 counter unchanged (`entries=1 … census=ok`, exit 0).
+
+**Round 29 attempt-2 corrections, fourth batch (appended 2026-10-25).** A residual entry reviewer read
+the landed entry against the fetched bytes and found four claims to correct:
+
+14. **Axis D quote.** The cell quoted a span that crossed a `<code>` element (`download-youtube`), so
+    it was not a byte run. The quote is now the 18-word sentence after the slug.
+15. **"Applies ABC to itself".** The entry asserted it of the benchmark behind S077; S077 contains no
+    ABC mention, and the paper that does is not among this entry's rows. Removed, and the ABC item
+    coverage is now stated as weak for C, F and G (reporting items, not trials).
+16. **Canary completeness.** "0 files" was true but incomplete: 275 files across 88 of 89 task
+    directories carry a `terminal-bench-canary` string with the same GUID, and one task carries
+    neither. Both facts are now recorded, and they are the sharper axis-G evidence.
+17. **S090 post-publication claim.** Restated as the maintainers' own admission of a defect, with an
+    explicit note that S090 does not say the task passed oracle and nop before release.
+
+S091's `used-by` now names the entry it prices (the entry's §Prior art quotes it); its id is
+deliberately not a sixth `source:` line, so C1's five-row expectation is unchanged.

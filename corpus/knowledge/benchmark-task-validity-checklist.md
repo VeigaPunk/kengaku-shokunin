@@ -34,7 +34,7 @@ it, and where that artefact lives".
 | A | Instruction–grader traceability | every graded assertion traces to a sentence in the instruction, and every behaviour the tests check is described there | S078 §What changed from v1; S077 `check-test-file-references` |
 | B | Solvability | the maintainer's own reference solution passes every test | S077 `Oracle Validation` row; S078 gate oracle cell (below) |
 | C | Non-triviality | an empty patch fails every test | S077 "Doing nothing fails tests"; S078 gate nop cell (below) |
-| D | Environment stability | the task does not change underneath the agent between runs | S090 "in download-youtube YouTube's constantly changing anti-bot protections meant that a solution that worked one day might not work the next." |
+| D | Environment stability | the task does not change underneath the agent between runs | S090 "YouTube's constantly changing anti-bot protections meant that a solution that worked one day might not work the next." (18 words; the task slug `download-youtube` sits in a separate code element, so it is named here outside the quote) |
 | E | Grader isolation | the verifier does not run inside the agent's sandbox, and hidden-test paths are restored or removed before the test patch applies | S078 "The verifier never runs in the agent's sandbox." (line 75) and "hidden-test paths are restored or removed before the test patch is applied" (line 103) |
 | F | Non-cheatability | adversarial cheat trials are run and adjudicated, and cheat artefacts are not shipped | S077 "Adversarial reward-hack detection"; S078 sanitised-history clause |
 | G | Contamination control | a per-task canary is embedded in the task files and checked mechanically | S077 "Prevents training data contamination by ensuring a unique canary string is present in task files."; S090 canary GUID banner |
@@ -63,8 +63,11 @@ it, and where that artefact lives".
   must therefore treat a missing field as a finding, never as an assumption about the tree.
 - S080 shows axis I is checkable in the tree: `needed_mcp_servers` and `needed_local_tools`
   are declared per task, and the graded state ships beside the task.
-- S090 is the one axis-B/C-passing task that still failed after publication: axis D is a
-  property of the world, so no pre-publication check can retire it.
+- S090 is the clearest case of axis D firing after publication: the maintainers say they "weren't
+  satisfied with the level of verification in the original dataset", and the download-youtube task
+  failed because the world moved. S090 does not say that task passed oracle and nop before release,
+  so read this as the maintainer's own admission of a post-publication defect, not as a pass/fail
+  history. Axis D is a property of the world: no pre-publication check retires it.
 - Axis E is scoped to the harness that publishes the claim. S078 states isolation for its
   locked release protocol; a harness that runs the verifier in a shared environment by
   default does not inherit that property, so "verifier isolated" must be read per benchmark,
@@ -100,8 +103,9 @@ This checklist is **INCREMENTAL**, not a new instrument. The Agentic Benchmark C
 2507.02825, Zhu et al., NeurIPS 2025) publishes a per-task validity instrument whose Task Validity
 criterion is the same construct: "we introduce the Agentic Benchmark Checklist (ABC), a set of
 guidelines that we synthesized from our benchmark-building experience". ABC's items cover axes B,
-C, D, E, F, G and I at item level, and the benchmark this entry's S077 comes from applies ABC to
-itself. What this entry adds is therefore **application work**: the A–J axes mapped to the
+C, D, E, F, G and I at item level — weakly for C, F and G, which ABC carries as reporting items
+rather than trials. Independent reports that a benchmark applied ABC to itself are not among this
+entry's opened rows, so no such claim is made here. What this entry adds is therefore **application work**: the A–J axes mapped to the
 publisher's own artefact and locus for Terminal-Bench 2.0, SWE-bench Pro V2 and
 Toolathlon-Verified, with the counts re-derived. The pricing row is S091 and the located quote,
 anchor and rejection reasoning live in `corpus/lessons/round-29.md` §Attempt 2.
@@ -114,9 +118,12 @@ anchor and rejection reasoning live in `corpus/lessons/round-29.md` §Attempt 2.
 - **Not contamination measurement.** G reads a maintainer's canary practice *inside its own
   repository*; it is not a detector, a canary's absence is not evidence of contamination, and a
   canary's presence is detectability, never proof of training-corpus exclusion. Applied to the
-  pinned Terminal-Bench 2.0 tree, Harbor's literal `harbor-canary` string occurs in 0 of its files:
-  the instrument a maintainer runs on its own submissions does not automatically apply to the tree it
-  publishes.
+  pinned Terminal-Bench 2.0 tree, Harbor's literal `harbor-canary GUID 26b5c67b-…` string that S077
+  checks occurs in 0 files, while 275 files across 88 of 89 task directories carry a
+  `terminal-bench-canary GUID 26b5c67b-…` string instead, and one task (`headless-terminal`) carries
+  neither. The instrument a maintainer runs on its own submissions does not automatically apply to
+  the tree it publishes, and a same-GUID/different-prefix canary is exactly the failure a mechanical
+  check would report.
 - **Not synthetic replication.** Running this lane's own fixtures against a check's shape would
   exercise the lane's code, not the maintainer's instrument; nothing here was re-run against a
   benchmark.
