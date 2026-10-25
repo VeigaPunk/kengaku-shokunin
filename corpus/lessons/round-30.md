@@ -162,3 +162,26 @@ Wave 1 (build) 36 seats: 10 scout, 7 reviewer, 6 executor, 4 scribe, 3 critic, 2
 2 mutation-tester, 1 revenger, 1 simplifier. Wave 2 (falsify) 33 seats, 16/33 attack roles (48% under the fleet's reviewer+critic+mutation-tester+revenger+connector reading; a narrower reviewer-only reading is reported in `.ufo/waves/round-30/falsify/R30FxDeadSeats.md`).
 Seat-level yield: `.ufo/waves/yield.tsv` round-30 rows. No seat died before wave 2; dead-seat
 detail is in the round report.
+
+## Landing (measured, after both commits)
+
+- Lane commits: `623c1fc9b083a9b3def3b9f66f5518628e01b6a5` (entry, registry, gate, counter, repairs,
+  controls) and `706ed3f2f3a19b2a4953de61d2dd4c40b28151cd` (falsify-wave repairs, per-Q record,
+  counter self-guard, registry placement/clause fixes). Both pushed.
+- C1 at landing: `python3 plans/adoption_check.py --expect .ufo/waves/round-30/adoption-expect.json
+  --census` → `entries=1 indexed=1 cited_rows=6 rows_present=6 rows_mined=6 usedby_ok=1 census=ok`,
+  exit 0. The counter was hardened in-round to the frozen sentence's own clauses (ids identity, `opened`
+  cell, one shaped index row) after two falsify seats bought the old pass line for 159 bytes of stub;
+  the hardening control is `corpus/evidence/round30/counter-hardening-control.txt`.
+- C2 at landing: `python3 plans/round30_defects.py --lane .` → `checks=5 defects=0`, exit 0
+  (`corpus/evidence/round30/defects-after.txt`), with the counter's own `--selftest checks=5 failed=0`
+  guard against a neutered check list.
+- C3 at landing: `python3 plans/sources_adopt.py --selftest` → `SELFTEST cases=14 failed=0`, exit 0.
+- Q13 at the landing commit: `python3 plans/gate_timing_check.py --lesson corpus/lessons/round-30.md
+  --commit 706ed3f2…` → `admissions=1 passed=1 failed=0 second-seat-reports=31`, exit 0.
+- Census at landing: fleet census exit 0 with the same 14 `W04`, registry 88 rows
+  (`corpus/evidence/round30/census-after.txt`).
+- Wave 2 falsified 12 claims in the round's own bytes and all twelve were repaired before the second
+  commit or disclosed where they were not (the two C2 counter survivors, the C3 CJK cap, the
+  unexercised 115 lines). No seat died; the wave-2 dispatch was refused twice at the host job limit
+  and resent unchanged once a slot settled.
