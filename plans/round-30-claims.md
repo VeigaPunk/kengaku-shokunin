@@ -95,3 +95,23 @@ sub-check is withdrawn and the claim reports the partial count honestly.
   art, and this round adds no phenomenon or instrument claim.
 - No score on any axis is raised by assertion; the SCORECARD row records the ledger delta and the
   open cap.
+
+## Change record (appended 2026-10-25, after the falsify wave — the predicates are unchanged)
+
+The text above is not re-worded; this record says what moved and which bytes carry which receipt.
+
+- **C1's counting command was hardened inside the round.** Falsify seats `R30CritC1`, `R30FxC1Counter`
+  and `R30FxC1CounterJunk` showed the round-29 counter printed the frozen pass line for a 159-byte stub,
+  because the sentence's own clauses ("exactly the six ids", "distinct", "`opened=2026-10-25`", "one
+  index row") were prose and not code. `plans/adoption_check.py` gained four assertions for them
+  (`+34` lines) after the first receipts were written. `corpus/evidence/round30/adoption-after.txt` was
+  re-issued from the hardened body; the four stub constructions that used to pass now exit 1 — with the
+  **same printed line**, so the exit code is the signal, not the text.
+- **C2's counter changed five times** (before/after receipts are `claims/defects-before.txt` and
+  `evidence/round30/defects-after.txt`) and now carries its own `--selftest checks=5 failed=0` guard.
+- **C3's gate** is the frozen predicate's subject and its selftest went 10 → 14 cases.
+- Neither target nor kill rule moved: C1 is still one entry and six cited rows at
+  `opened=2026-10-25`; C2 still five routed defects 5 → 0; C3 still two failure-capable refusal classes
+  inside a 14-case suite.
+- Every receipt this round was produced by the body committed at `623c1fc9` (hardened) or later;
+  the earlier `20726fc` body produced only the freeze-time run kept in `claims/control-nothing.txt`.
