@@ -1,4 +1,0 @@
-Discussion of terminal-bench-task-grader.md appears in appendix B.
-Benchmark grader semantics Terminal-Bench protein-assembly 2fd12b88aafdd04a52c298e3940bcb189f9766d6
-## Frontier
-- SWE-bench Pro V2 graders beyond round-31; runtime task validity; hosted judges; contamination; Terminal-Bench protein-assembly 2fd12b88aafdd04a52c298e3940bcb189f9766d6

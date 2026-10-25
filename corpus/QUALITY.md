@@ -269,3 +269,27 @@ A round closes only when every row below holds; a row that cannot be shown is an
   final receipt now re-derives at tip. Limits: it does not build the persistent `defects.jsonl`
   ledger the proposal sketches; that stays unimplemented and is named here as debt. Lesson:
   `corpus/lessons/round-33.md`.
+
+## Round35 criterion — a routed defect lives in one ledger and re-runs forever
+
+- **Q23 — every defect a non-author closure routes to this lane enters `corpus/defects.jsonl` with a
+  check in `plans/defect_ledger.py` that is red when the row is written; a row says `closed` only
+  while its check passes at the tip.** A defect closed in prose and checked by a one-round counter
+  (`plans/round30_defects.py` … `round33_defects.py`) is checked once and then forgotten: round 34's
+  D1 (round-34 work left untracked) recurs round 33's N1 (round-32 wave paths untracked at the tip,
+  `plans/round-33-claims.md:87`), and nothing re-ran N1's check after round 33 closed it. The ledger checker re-runs every row at every
+  tip and counts a calibration mismatch for a `closed` row whose check fails and for an `open` row
+  whose check passes. Executable check: `python3 plans/defect_ledger.py --lane .` — any
+  `agree=NO` line, or a nonzero exit while a round report says its defects are closed, is a failure.
+  Each check compares the lane's self-assessment with an observation computed from repo bytes (a
+  manifest digest, a tag-stripped capture, the branch tree), so a correctly labelled but false
+  sentence does not pass. Shown able to fail: all five round-34 rows red at the round-35 freeze
+  (`.ufo/waves/round-35/claims/control-c2-nothing.txt`) and a status-only flip scores `mismatches=4`
+  (`control-c2-flip.txt`). The proposal and its date are `considerthese/2026-10-25.md`
+  §Self-improvement suggestions 2 ("one persistent routed-defect ledger instead of a new
+  `plans/roundNN_defects.py` per round", 2026-10-25); this discharges the debt Q22 named. Limits:
+  part (b) of that proposal (block pre-registration when a class recurs twice) is not implemented —
+  `recurrence_of` is recorded, not enforced; checks are per-defect functions, so a new routed defect
+  still needs code. Mutation scratch runs in a `mktemp` clone outside the lane and commits only
+  receipts (round-34 D2: 106,323 committed mirror blobs). Lesson: `corpus/lessons/round-35.md`
+  §Mistakes.

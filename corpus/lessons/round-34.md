@@ -39,3 +39,7 @@ No knowledge entry or registry row was admitted. The two quarantine captures are
 ## Frontier clarification
 
 The round-31 frontier sentence that says the Terminal-Bench 2.0 "axis-E cell is filled" describes verifier-execution context only; it did not read task-level scoring assertions. Round-34 opened `protein-assembly/tests/test_outputs.py` but the C1 counter/admission failed, so this task-level scoring-code ground remains unadmitted and the frontier stays open. Evidence: `corpus/README.md` round-31 bullet (clarified in round 34); `R34ReviewCounterC1.md`; `R34CriticFrontier.md`.
+
+## Erratum (appended round 35, 2026-10-25)
+
+Erratum (round 35): the staged S091 quote is present in this round's own reopen capture `.ufo/waves/round-34/assimilation/captures/nec-s091-reopen.html` (60,335 B; after tag-strip and whitespace removal, raw HTML line 276). The "Access Denied" / "unavailable" statements above (Gate row "Quarantine S091 → S108", Mistakes row 3, and "the opened NEC response was unavailable") describe only the first 418-byte fetch `nec-s091.html`. The refusal reason "quote absent" is false; the non-append outcome still holds because no admitted entry cites S091 (CORPUS rule 4). Source: `corpus/lessons/round-34-verifier-spotcheck.md:64` (D5); ledger row `R34-D5` in `corpus/defects.jsonl`.
