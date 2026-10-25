@@ -35,3 +35,7 @@ Observed on 2026-10-25: Hugging Face default list response had 50 items and omit
 - C1: entry draft exists but is not admitted; do not count it as a corpus expansion.
 - C3: after counter predicate cannot pass honestly with the observed HF delta; preserve failure, do not change frozen predicates.
 - No tools installed or updated.
+
+## Round-33 correction — S093 used-by mutation
+
+The round-32 refusal applied to **new source rows**: no S094/S097/S101/S102 row was admitted. However, the round-32 integration commit `bcd2a6c` also changed the existing S093 `used-by` cell from `corpus/knowledge/benchmark-verifier-execution-model.md` to include the then-unadmitted `corpus/knowledge/benchmark-grader-semantics.md` draft. The row stayed `mined`; this was not a new row, but it was a registry-cell mutation and should have been disclosed separately from row refusal. Round 33 preserves that pointer when the draft is admitted under S103/S104; no S093 cell changed in round 33 (`R33FS093Delta.md`).

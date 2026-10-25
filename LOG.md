@@ -940,3 +940,32 @@ Wave: build 36 seats + falsify 36 seats via the orchestrator's inline OMP bridge
 QUALITY.md gains Q22 (receipt-is-evidence-only-if-re-run). considerthese/2026-10-25 proposal 3
 landed as an L0 append (`22d28422`); proposal 1 noted operator-side. Lane tip after landing: see
 git. Fleet report: `.ufo/reports/round-33/kengaku.md`.
+
+## Round 33 integration corrections (after the falsify wave)
+
+- The frozen C1 narrative's S093 `used-by` transition is false: its cell already named the draft at
+  freeze (the pointer was added by round-32 commit `bcd2a6c`); no S093 cell changed in round 33.
+  The frozen control also prints `entries=1`, not `entries=0`; the final-state C1 transition is
+  `rows_mined=1 → 3`, `usedby_ok=0 → 1`, while the source registry alone grows 95 → 97.
+- Independent `git ls-tree` and README counting at `112091c2` show 41 knowledge files / 41 index
+  rows, not the freeze file's 40/40. They remain 41/41 after admission: the existing draft was
+  admitted and its source ids re-pointed; no knowledge file or index row was added in this round.
+- The final S103 citation is blob-only at Toolathlon `9be8d8fe`; S104 is pinned to
+  `https://arxiv.org/abs/2412.05579v2`. `append-rows.md`, `append-block.md`, `landed-rows.md`,
+  and SOURCES rows are byte-identical; final quote gate 8/8, `cmp` clean, capture manifests verify.
+- The source entry was corrected for the S093 capture statement, diagnostic-log carve-out,
+  percentage-point support, PROVINCE locator, additions-vs-edits reset path, one-task scope and
+  survey spellings. S093 `test.sh` is now in the capture SHA256 manifest.
+- The C1 V8 second receipt was corrected from anchor cell `row[5]` to teaches cell `row[6]`;
+  regression selftest now includes a green refusal-row fixture and an erased-teaches red case
+  (`SELFTEST cases=11 failed=0`), while its frozen lane output remains `checks=8 defects=0`.
+- C2's `defects-after.txt` revision pointer is corrected to the repair commit `7895588`; the
+  count re-derives at the final tip. The falsify wave found the counter's semantic blind spots,
+  so calibration remains 8 rather than taking a score increase.
+- C3 raw capture stores complete response bodies under 64 KiB (`HF 27,698 B`, OpenRouter
+  `?limit=10` 16,010 B). Its 467 count is parsed from the API's raw `total_count` field; the
+  offline verifier proves internal consistency, not endpoint authenticity, so the frozen
+  "no fabricated bytes" kill-rule assurance is not supported.
+- Swarm shape was 36 build + 53 falsify = 89 seats (0 dead, no residual call). One falsify report
+  (`R33FCensus.md`) was misrooted into the fleet wave tree, then copied byte-exact into the lane
+  and removed from the fleet root. No tools were installed.

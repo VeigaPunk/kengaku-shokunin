@@ -1,6 +1,6 @@
 source: S093 — https://github.com/scaleapi/SWE-bench_Pro-os — `v2/tasks/instance_internetarchive__openlibrary-00bec1e7c8f3272c469a58e1377df03f955ed478-v13642507b4fc1f8d234172bf8129942da2c2ca26/tests/test.sh` and `…/tests/parser.py` — commit `66f92766bba642462d4bbe5479e83f91f9211862`, accessed 2026-10-25
-source: S103 — https://github.com/hkust-nlp/Toolathlon — `tasks/finalpool/ab-testing/evaluation/main.py` — commit `9be8d8fe07a497b18ee61e3f2ae694e9797f39eb`, accessed 2026-10-25
-source: S104 — https://arxiv.org/abs/2412.05579 — arXiv 2412.05579v2 (preprint), accessed 2026-10-25
+source: S103 — https://github.com/hkust-nlp/Toolathlon/blob/9be8d8fe07a497b18ee61e3f2ae694e9797f39eb/tasks/finalpool/ab-testing/evaluation/main.py — commit `9be8d8fe07a497b18ee61e3f2ae694e9797f39eb`, accessed 2026-10-25
+source: S104 — https://arxiv.org/abs/2412.05579v2 — arXiv 2412.05579v2 (preprint), accessed 2026-10-25
 verified-at: 2026-10-25
 recheck: 180d — re-fetch the three pinned revisions (SWE-bench_Pro-os 66f92766, Toolathlon 9be8d8fe, arXiv 2412.05579v2) and re-locate every quoted span before citing this entry (next due 2027-04-23)
 writer: KengakuR33 (admission patch of the round-32 draft)
@@ -17,7 +17,7 @@ SWE-bench Pro" (`corpus/README.md:276`) — **for the one task whose evaluation 
 the Toolathlon `ab-testing/evaluation/main.py` at `9be8d8fe`. That is also the item the round-31
 bullet leaves open by name: "and for Toolathlon" (`corpus/README.md:278`). The abstract's taxonomy
 motivates this entry's own distinction between deterministic and judge-based scoring; that causal
-link is not asserted by the source. It is not runtime task validity (`PROVINCE.md:219-220` keeps
+link is not asserted by the source. It is not runtime task validity (`PROVINCE.md:218-219` keeps
 that outside this lane: "it does not run a benchmark, certify a task, or own deployment
 configuration, runtime task validity, hosted judges, contamination measurement"), not
 contamination measurement, and not deployment configuration.
@@ -30,17 +30,18 @@ a primary artefact of the party it describes, not an independent measurement. No
 executed against either benchmark: every claim below is a reading of code and of an abstract page,
 quoted byte-for-byte from the pinned revisions.
 
-**Reading basis.** This round's committed captures are
+**Reading basis.** This round's committed captures include
 `.ufo/waves/round-33/assimilation/captures/toolathlon-ab-testing-evaluation-main.py` (14,138
 bytes, sha256 `3bad26b61448f1f0c91808435e3239c3f7a6735ab865f0c27523fb6312a9b9ad`),
 `…/toolathlon-utils-evaluation-retry.py` (4,519 bytes, sha256
-`db11e66ec241e1c5d00327b0bf7209c20323c4582c827e62b7a261235c17f69e`) and
+`db11e66ec241e1c5d00327b0bf7209c20323c4582c827e62b7a261235c17f69e`),
 `…/arxiv-2412.05579v2-abs.html` (43,661 bytes, sha256
-`44195c5f4c8e0ff915f5894a78e88f22a121d87d908e9ad211d611799d17a660`); the directory's
-`SHA256SUMS.txt` carries the same three digests. No S093 file is in this wave's capture set: the
-S093 section below is a restatement of the round-31 entry, whose quotes resolve at the same pin,
-and its anchors were re-located against `test.sh` and `parser.py` at `66f92766` this round
-without re-execution.
+`44195c5f4c8e0ff915f5894a78e88f22a121d87d908e9ad211d611799d17a660`), and
+`…/swebench-pro-tests-test.sh` (7,864 bytes, sha256
+`b6f26eecd87c1696a3702ee115d31f9d42f4704cf2116419cd879f66b60976d0`); the directory's
+`SHA256SUMS.txt` records these four digests. S093 remains a restatement of the round-31 entry;
+the test.sh capture was re-opened at pin this round, while parser.py anchors were independently
+re-opened by the non-author `R33FEntryTruth` review but are not stored in this capture directory.
 
 ## S103 — Toolathlon's ab-testing grader is a deterministic state comparison with a call-site tolerance
 
@@ -56,22 +57,24 @@ CLI is a fallback for the storage check (`main.py:145-166`). The scoring path co
 
 The default is not what runs. The function's single call site overrides it:
 
-> `# Validate with 0.05% tolerance` — 4 words plus the `#` marker, `main.py:279`
+> `# Validate with 0.05% tolerance` — 5 whitespace tokens under the adoption gate's counter, `main.py:279`
 > `validate_record_data(actual_records, expected_records, tolerance_pct=0.05)` — 3 whitespace-separated tokens, `main.py:280`
 
 So the operative tolerance is set at the call site, not by the default: the executed check is
 `diff > tolerance_pct` on each scenario's A and B conversion rate (`main.py:84`, `:91`), i.e. a
-difference of **0.05** in the unit the rates are printed in, and a missing or extra scenario name
-fails the task (`main.py:70` `Missing scenarios:`, `:72` `Unexpected scenarios:`, `:100` `raise
-ValueError(f"Record validation failed:`)`. [INFERENCE] The rates are formatted with a trailing
-`%` in the same message that prints the tolerance (`main.py:86`, `:93`), so the compared unit is a
-percentage point; the comment calls 0.05 "0.05%". The source never spells out the unit in prose,
-which is why this gloss is marked rather than quoted.
+difference of **0.05** in the percent-scale values, and a missing or extra scenario name fails the
+task (`main.py:70` `Missing scenarios:`, `:72` `Unexpected scenarios:`, `:100` `raise
+ValueError(f"Record validation failed:`).
+The CSV headers name `A_conversion %` and `B_conversion %` (`main.py:25`); the parser strips `%`
+before converting each value to a float (`:42-45`). Thus `0.05` is 0.05 percentage points. The
+comment calls it `0.05%`, but no further conversion is applied to the compared values.
 
 Before the record comparison, and first in the process order, the script runs a side-effect check
 that confirms a matching storage-bucket prefix (`check_storage_bucket_exists`, `main.py:125-166`,
-called at `:225`) and requires the ab-testing logging bucket to contain no entries
-(`check_abtesting_logging_bucket_clean`, `main.py:168-218`, called at `:234`).
+called at `:225`) and rejects any non-diagnostic log entry in the supplied task interval:
+diagnostic logs are excluded by the query (`:178`) and skipped in the client fallback (`:198-205`).
+
+That implemented rule is stricter/different from the helper docstring (`main.py:169`) and caller error message (`:235`), which say the bucket should contain only the preprocessing test log: the code actually rejects any non-diagnostic entry in the supplied time range, including that named entry.
 
 The log check has two `return True` sites, and they are not the same path. The clean-bucket path
 prints and returns `True` (`main.py:213-214`). The single broad `except Exception` handler prints
@@ -112,10 +115,9 @@ names the paradigm's parts:
 
 > `This paper presents a comprehensive survey of the LLMs-as-judges paradigm from five key perspectives: Functionality, Methodology, Applications, Meta-evaluation, and Limitations.` — 20 words, arXiv 2412.05579v2 Abstract (`…-abs.html:124`)
 
-The capitalisation differs between the two source locations and neither form is a transcription
-error: the title capitalises `Judges` (`LLMs-as-Judges`, `…-abs.html:41`), while the abstract body
-writes `LLMs-as-judges` lowercase (`:124`). The quote above reproduces the abstract
-byte-for-byte.
+The title uses title-case `LLMs-as-Judges` (`…-abs.html:41`); the abstract body uses
+`LLMs-as-judges` and also contains `LLMs-as-Judges` (`:124`). The two spellings are both present in
+the captured survey text, and the quote above reproduces its quoted sentence byte-for-byte.
 
 Meta-evaluation is kept distinct from methodology. This entry reads that structure as a
 taxonomic hint, not as a prescription: a benchmark's grader should be classified by what it
@@ -126,24 +128,25 @@ abstract itself only separates the parts.
 ## S093 — restated, not repeated
 
 The round-31 entry already established, from the same pinned `tests/test.sh` and `parser.py`,
-that a SWE-bench Pro V2 task's reward is binary set containment over a log-derived, last-write-
-wins `PASSED` set, and that the reset rewrites the tracked test-code surface while a file under a
-data-directory parent is excluded from that rewrite. This entry restates that result and does not
-repeat its derivation; the S093 row is cited here because the binary-containment claim is the
-contrast case: SWE-bench Pro V2 and Toolathlon both grade without an LLM judge, but by different
-mechanisms (set containment vs state comparison with a tolerance).
+that **one** SWE-bench Pro V2 task's reward is binary set containment over a log-derived,
+last-write-wins `PASSED` set. The reset rewrites the tracked test-code surface; newly added files
+under data-directory parents do not enter that reset list. This entry restates that result and does
+not repeat its derivation; the S093 row is cited here because the binary-containment claim is the
+contrast case: this one SWE-bench Pro V2 task and this one Toolathlon ab-testing task both grade
+without an LLM judge, but by different mechanisms (set containment vs state comparison with a
+tolerance).
 
-The restated anchors were re-located against the pinned bytes this round: `all_required =
+The restated anchors were checked against pinned bytes this round: `all_required =
 fail_to_pass | pass_to_pass` then `success = all_required <= passed_tests` (`test.sh:213-214`);
 the passed side is built by keeping only tests whose parsed status is `PASSED` (`test.sh:207-210`)
 from a log scan whose record pattern is `^([^\s]+\.py::[^\s]+)\s+(PASSED|FAILED|SKIPPED|ERROR)`
 applied to stdout and again to stderr (`parser.py:68`, `:88-90`), deduped by name with
 `unique_results = {result.name: result for result in results}.values()` (`parser.py:121`), i.e.
-last write wins; and the reset's `git checkout HEAD -- "$path"` restores tracked test code
-(`test.sh:71`) while `is_test_code` returns false whenever a parent directory is in `DATA_DIRS`
-(`testdata`, `test_data`, `fixtures`, `fixture`, `mocks`, `mock`, `__snapshots__`,
-`test.sh:38`, guard at `:43-44`), so a file the agent adds under one of those parents never enters
-the reset list.
+last write wins. The test-code reset checks out tracked files (`test.sh:71`); newly added files
+under `DATA_DIRS` parents skip `is_test_code` (`test.sh:38`, guard at `:43-44`) and never enter
+the reset list. A separate pass restores **modified tracked** files under those parents from
+`git diff --name-only HEAD` (`test.sh:97-104`), so the exclusion is additions-specific, not a claim
+that tracked edits escape reset.
 
 ## What this does not establish
 
@@ -157,9 +160,9 @@ the reset list.
   Cloud Logging deployment; the clean log path returns `True` (`:214`), the broad
   caught-exception path returns `True` (`:216-218`), while credential failure falls through to
   implicit `None` and raises (`:234-235`). Those paths differ, and only the second is fail-open.
-- It does not establish the unit of `tolerance_pct` from prose; the percentage-point reading is
-  marked [INFERENCE] above and rests on the `%` formatting in the failure message, not on a
-  stated unit.
+- It does not establish the unit from prose alone: the CSV headers name percent-scale values and
+  the parser strips `%` before `float` conversion (`main.py:25`, `:42-45`), supporting the
+  percentage-point reading; the comment's `0.05%` wording is less precise.
 
 ## Falsifier
 

@@ -165,7 +165,7 @@ def check_v8(lane: Path, expect: dict) -> str:
         if row is None:
             return f"the round-32 refusal row at {sid} is gone: append-only forbids deleting it"
         source_cell = row[1]
-        teaches = row[5]
+        teaches = row[6]
         status = row[7]
         if f"supersedes {sid}" not in source_cell:
             return f"the {sid} row's source cell no longer records the staged-row refusal"
@@ -202,10 +202,36 @@ def selftest() -> int:
             except Exception:
                 red = True
             cases.append((f"{item_id}-red-on-empty", red))
+        (lane / "corpus").mkdir(parents=True, exist_ok=True)
+        refusal_rows = []
+        for sid in REFUSAL_IDS:
+            cells = [
+                sid,
+                f"supersedes {sid} — duplicate staged row refused",
+                "docs",
+                "B",
+                "rejected correction record",
+                "staged duplicate-source row",
+                "REJECTED: duplicate id; flip: a future candidate uses a new id",
+                "rejected",
+                "2026-10-25",
+                "180d",
+                "—",
+            ]
+            refusal_rows.append("| " + " | ".join(cells) + " |")
+        registry = lane / REGISTRY
+        registry.write_text("\n".join(refusal_rows) + "\n", encoding="utf-8")
+        cases.append(("V8-green-refusal-fixture", check_v8(lane, expect) == ""))
+        refusal_rows[0] = refusal_rows[0].replace(
+            "REJECTED: duplicate id; flip: a future candidate uses a new id",
+            "content removed",
+        )
+        registry.write_text("\n".join(refusal_rows) + "\n", encoding="utf-8")
+        cases.append(("V8-teaches-erasure-red", bool(check_v8(lane, expect))))
     failed = [name for name, passed in cases if not passed]
     for name, passed in cases:
         print(f"CASE {name} {'PASS' if passed else 'FAIL'}")
-    print(f"SELFTEST checks={len(CHECKS)} failed={len(failed)}")
+    print(f"SELFTEST cases={len(cases)} failed={len(failed)}")
     return 0 if not failed else 1
 
 

@@ -558,7 +558,7 @@ documents why stream:false was chosen and what stream:true changes).
 | interval-reverdict | re-derive every stored attribution verdict from committed receipts and re-verdict it with exact CP95 intervals, per-leg recall/specificity and Rogan–Gladen share bounds, offline, receipts sha256-pinned | `python3 plans/attrib_calibration.py --summary` → `unique_samples=4 … scored_trials=92 correct=92 … transitions=FAIL>UNTESTED:2,PASS>INDETERMINATE:1,PASS>PASS:4 … mismatches=0`, exit 0; `--selftest` 14 checks 0 failed (red runs R1–R6 included); receipts `corpus/evidence/round25-calibration/` | 25 |
 | state-assertion-check | re-derive the lane's own current-state assertions (capability rows, axis basis anchors, SHONEN canonical form, PROVINCE surface rows, corpus index both directions) and exit 0/1/2 | `python3 plans/state_check.py --summary` → base `6180e4f` `mismatch=11` exit 1; landed tree `mismatch=0 superseded=1` exit 0; `--selftest` ALL PASS | 25 |
 | grader-perturbation-audit | audit pinned stored-response verdicts under exact response-format/negative-control transformations; stratify by format and pid, separate policy capture | `python3 plans/grader_perturb.py --summary`: population1964 excluded0, audited verdicts15168, nine MP/MC interval-verdict families plus909 NOT_SCORED PC checks; independent oracle and final receipts `corpus/evidence/round26-calibration/` | 26 |
-| offline-catalog-receipt-verification | Re-derive catalog totals and schema deltas from committed, bounded raw API responses without network access; OpenRouter uses the response's `total_count` plus returned sample and the digest binds the exact JSON bytes | `python3 plans/catalog_probe.py --verify --lane .` → `raw=ok hf_models=50 or_models=467 hf_schema_delta=4 or_schema_delta=0 verify=ok`; raw responses + SHA256 in `corpus/evidence/round33/catalogs/` | 33 |
+| offline-catalog-receipt-verification | Re-derive saved catalog-response metrics offline and compare each present SHA256SUMS entry; HF count is returned-page length and both schema deltas inspect the first record, while OpenRouter `or_models` reads the response's `total_count`. Not endpoint authentication or a full-catalog enumeration. | `python3 plans/catalog_probe.py --verify --lane .` → `raw=ok hf_models=50 or_models=467 hf_schema_delta=4 or_schema_delta=0 verify=ok`; raw responses + SHA256 in `corpus/evidence/round33/catalogs/` | 33 |
 
 Rows enter this table only through a round that demonstrates the capability running (`AXES.md` §Capabilities). The catalog receipt verifier entered in round 33 by passing its offline counter.
 The original round-24 capabilities — offline-replay-gate, frozen-table-pin-check, and sources-registry — entered through demonstration that round (commands re-run; output in `corpus/evidence/round24-census/after.txt`). The placeholder row was the scaffold, not a claim.
@@ -1125,12 +1125,30 @@ are in `corpus/lessons/round-32.md` §Mistakes.
 Baseline `112091c2d9`; frozen prereg `plans/round-33-claims.md` (freeze `f0b20aea` + `c227e486`).
 Lowest non-retired axis: **coverage 7**, tied with **novelty 7**; no stagnation waiver (saturation
 line 8, novelty below it, a capability row entered round 31). Three claims, three distinct axes;
-measurements follow at landing.
+measurements below reflect the landed counters.
 
 | claim | axis | observed before → after, counting command | score / verdict |
 |---|---|---|---|
-| C1 grader-semantics entry admitted under renumbered ids S103/S104 | **coverage** (lowest non-retired, tie-break) | before: `entries=1 indexed=1 cited_rows=3 rows_present=3 rows_mined=1 usedby_ok=0 census=ok` exit 1 → after: `entries=1 indexed=1 cited_rows=3 rows_present=3 rows_mined=3 usedby_ok=1 census=ok` exit 0 (`plans/adoption_check.py --expect .ufo/waves/round-33/claims/adoption-expect.json --census`) | **7 → 7 held** — improved corpus coverage ledger; numerical cap remains open pending L0 |
-| C2 six routed defects N1–N6 closed | **calibration** | before: `checks=6 defects=6` exit 1 → after: `checks=6 defects=0` exit 0 (`python3 plans/round33_defects.py --lane .`) | **8 → 8 held** — improved calibration; score unchanged |
-| C3 catalog re-probe with committed bounded raw bytes | **freshness** | before: `raw=absent` exit 1 → after: `raw=ok hf_models=50 or_models=467 hf_schema_delta=4 or_schema_delta=0 verify=ok` exit 0 (`python3 plans/catalog_probe.py --verify --lane .`) | **8 → 8 held** — improved evidence retention; previous zero-schema-delta predicate remains failed as declared |
+| C1 grader-semantics entry admitted under renumbered ids S103/S104 | **coverage** (lowest non-retired, tie-break) | before: `entries=1 indexed=1 cited_rows=3 rows_present=3 rows_mined=1 usedby_ok=0 census=ok` exit 1 → after: `entries=1 indexed=1 cited_rows=3 rows_present=3 rows_mined=3 usedby_ok=1 census=ok` exit 0 (`plans/adoption_check.py --expect .ufo/waves/round-33/claims/adoption-expect.json --census`) | **7 → 7 held** — admitted source coverage improved; no new knowledge/index row and S093's claimed used-by transition was already true at baseline |
+| C2 six routed defects N1–N6 closed | **calibration** | before: `checks=6 defects=6` exit 1 → after: `checks=6 defects=0` exit 0 (`python3 plans/round33_defects.py --lane .`) | **8 → 8 held** — repairs are present; mutation wave found the counter's semantic blind spots, so no score raise |
+| C3 catalog re-probe with committed bounded raw bytes | **freshness** | before: `raw=absent` exit 1 → after: `raw=ok hf_models=50 or_models=467 hf_schema_delta=4 or_schema_delta=0 verify=ok` exit 0 (`python3 plans/catalog_probe.py --verify --lane .`) | **8 → 8 held** — bounded raw responses and offline checks landed; OpenRouter 467 is its `total_count` field, and `--verify` does not authenticate origin |
 
-Round-33 section finalized at lane tip `66c734c0`; claims C1/C2/C3 each pass their frozen predicate. Round-32 C3 zero-delta predicate remains failed as declared; no axis score changed this round.
+C1 second receipt: `python3 plans/round33_c1_verify.py --lane .` → `checks=8 defects=0`, exit 0 (`corpus/evidence/round33/adoption-after.txt`).
+
+C1 baseline correction: the frozen claim file states 40 knowledge/index rows, but `git ls-tree`
+at `112091c2` and the matching README count both show **41 → 41**. The candidate entry and index
+row pre-existed unadmitted; the round's additions are S103/S104 (registry 95 → 97). The frozen
+`S093 used-by gains` sentence is also false as a transition; the state was already present at freeze.
+The final C1 state predicate passes, but neither false transition is credited.
+
+Capability added to the global repertoire table: `offline-catalog-receipt-verification`, first
+working round 33. Its documented boundary is internal byte/count consistency, not endpoint
+authentication or a full unpaginated listing.
+
+The three counter outputs match their measured after states; C1's frozen S093/control baseline clauses are inaccurate, and C3's anti-fabrication kill-rule assurance is falsified. Round-32 C3 zero-delta remains failed; no numerical axis score changed. The lane tip and final dispositions are in the round-33 fleet report.
+
+## Planned (round 34)
+
+- **Coverage (7, tied lowest with novelty):** advance the remaining benchmark scoring-code frontier by opening one pinned Terminal-Bench 2.0 task evaluator and grounding its comparison against that task's expected artifact. Freeze the exact task/pin and source gate before any scoring.
+
+- **Calibration (8):** prepare a new frozen claim to harden `round33_defects.py`'s N1–N6 counter against the measured index-vs-HEAD, heading-only, width/newline, and token-co-occurrence mutants; keep this round's frozen predicate and score unchanged.

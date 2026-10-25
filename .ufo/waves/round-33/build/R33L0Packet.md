@@ -10,9 +10,15 @@ proposal-status table.
 | observation | value | how read |
 |---|---|---|
 | lane `master` (local = `origin/master`) | `78955888542258ba369f5aa72c200c913b4c3c90` | `git rev-parse master`; `git branch -avv` |
-| lane worktree HEAD while this report was written | `2b4cef2` (detached: `git branch -avv` shows `* (no branch)`) | `git rev-parse --short HEAD` |
-| Q22 criterion already in the tree | `corpus/QUALITY.md:255-271` | `sed -n '255,271p'`; `git show HEAD:corpus/QUALITY.md` |
+| round-33 landing tip while this report was written | `b54feca` — "round-33: admitted grader semantics and re-probed catalogs"; the trial commit `2b4cef2` of the same work remains in the object database | `git log --oneline -2`; `git rev-parse --short HEAD` |
+| Q22 criterion already in the tree | `corpus/QUALITY.md:255-271` | `sed -n '255,271p'`; `git show HEAD:corpus/QUALITY.md` (`b54feca` does not touch QUALITY.md) |
 | L0 line already in the fleet queue | `.ufo/l0-questions.md:163`, fleet commit `22d28422` | `git log -1 -- .ufo/l0-questions.md` (read-only) |
+
+Worktree churn, observed: the lane was being integrated by `jj` while this seat read it. The reflog
+shows `7895588` → `2b4cef2` (commit) → `7895588` (export from jj) → `b54feca` (export from jj), and
+during one export cycle `ls corpus/evidence/round33/` returned only `defects-after.txt` while the
+next read returned `catalogs/` beside it. Each receipt below names the state it was taken in; none
+asserts the worktree is stable.
 
 Both artifacts this seat was asked to draft had already been integrated when it started: the Q22
 criterion in lane commit `7895588` ("… Q22, defects-after receipt") and the L0 append in fleet
@@ -111,7 +117,8 @@ How the assigned compressed draft was adjusted to QUALITY.md's row format:
 
 Q22's first clause ("every receipt a claim cites must name the revision it was produced at") and
 its second clause ("the round's final receipts must re-run at `git rev-parse master`") are testable
-today. Round 33's receipts, as read at `2b4cef2`:
+today. Round 33's receipts, as read at the landing tip `b54feca` (the same receipt files were
+present in the earlier trial commit `2b4cef2`):
 
 | receipt | names its revision? | re-run at the reading tip |
 |---|---|---|
@@ -143,14 +150,14 @@ not this seat's write scope.
 
 **F2 — the filed L0 line's "four rounds of real expansion" is one more than its source.** The
 proposal reads "Three rounds of real expansion each recorded '7 → 7 held'"
-(`considerthese/2026-10-25.md:46`); the filed line says four. A four-round reading is defensible
-only by counting round 24 (five sourced entries, `SCORECARD.md:585-626`) alongside rounds 29a2, 30
-and 31 — the line does not say which four, and under the cap SCORECARD records coverage 7 in far
+(`considerthese/2026-10-25.md:46`); the filed line says four. A four-round reading needs the line
+to name which four — e.g. round 24's five sourced entries (`SCORECARD.md:585-626`) alongside rounds
+29a2, 30 and 31 — and as filed it names none, while under the cap SCORECARD records coverage 7 in far
 more rounds (24, 25, 26, 27, 28, 29, 29a2, 30, 31, 32). The queue is append-only: a correction must
 be a further line naming the four, not an edit of line 163.
 
-**F3 — round 33's C3 receipt carries a stale field at the landing commit.**
-`corpus/evidence/round33/catalogs/after.txt` ends `entry=pending` while the same commit contains
+**F3 — round 33's C3 receipt carries a stale field at the landing tip `b54feca`.**
+`corpus/evidence/round33/catalogs/after.txt` ends `entry=pending` while the same revision contains
 the entry block it refers to (`corpus/knowledge/open-model-catalogs.md:66` "## Re-probe 2026-10-25
 (round 33)") with the same four numbers; `catalog_probe.py --verify` checks the four numeric tokens
 and the entry block, not the `entry=` field, so `verify=ok` coexists with a false statement about
@@ -160,7 +167,7 @@ landed on); Q22's own remedy is to commit a fresh receipt beside the old one, no
 **F4 — C1 has no committed after-receipt.** `corpus/evidence/round33/` contains only
 `catalogs/` and `defects-after.txt`; `adoption_check.py`'s after-value (`entries=1 … usedby_ok=1
 census=ok`, the value the claims file freezes as C1's counting command) exists only in
-SCORECARD/report prose at the landing commit, while rounds 30 and 31 each committed
+SCORECARD/report prose at the landing tip `b54feca`, while rounds 30 and 31 each committed
 `corpus/evidence/roundNN/adoption-after.txt`. Under Q22 the final receipt is the unit of evidence,
 so C1's closure is missing one. The claim's verdict is not mine to judge; this is the receipt layer
 only.
@@ -186,9 +193,10 @@ what is already there.
   any live network probe (C3's bytes were already committed; `--verify` is offline by design).
 - No tool installed or upgraded — `python3` and coreutils were sufficient, so the tooling directive
   has nothing to record for this seat.
-- Lane state moved under concurrent integration during this seat (Q22/defects commit `7895588` at
-  `master`; round-33 landing commit `2b4cef2` detached at read time). Every statement above names
-  the revision it was read at; nothing here asserts what the final branch will contain.
+- Lane state moved under concurrent `jj` integration during this seat (reflog: `7895588` →
+  `2b4cef2` → `7895588` → `b54feca`; one read saw the worktree without the round-33 overlay).
+  Every statement above names the revision or the read state it was taken in; nothing here asserts
+  what the final branch will contain.
 
 ## Receipts
 
@@ -200,12 +208,13 @@ verbatim in this report):
 - `sed -n '257,272p' corpus/QUALITY.md` → 1294 bytes, sha256
   `e6167a154732df8ff5a3875a95fdb9e0774beedc99793b813e4be0661500d020`
 
-Executed checks (this seat, lane worktree; `git rev-parse master` = `7895588…`, HEAD = `2b4cef2`;
-each command's own output is quoted, not summarised):
+Executed checks (this seat; first pass at the trial commit `2b4cef2`, re-run at the landing tip
+`b54feca` with identical output; `master` = `7895588…`; each command's own output is quoted, not
+summarised):
 
 ```
 $ sh plans/l0_filed_check.sh .ufo/waves/round-33/build/R33L0Packet.md /home/vgpnk/Projects/shokunin/.ufo/l0-questions.md
-FILED   report:29 queue:163 kengaku | round-33 | decision packet: what committed evidence lifts the round-25
+FILED   report:35 queue:163 kengaku | round-33 | decision packet: what committed evidence lifts the round-25
 l0_filed_check: sections=1 questions=1 filed=1 unfiled=0
 exit=0
 ```
