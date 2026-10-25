@@ -54,10 +54,10 @@ RAW_CAP = 64 * 1024
 REPROBE_HEADING = "## Re-probe 2026-10-25 (round 33)"
 
 
-def fetch(url: str) -> str:
+def fetch(url: str) -> bytes:
     request = urllib.request.Request(url, headers={"User-Agent": "kengaku-catalog-probe/1.0"})
     with urllib.request.urlopen(request, timeout=20) as response:
-        return response.read().decode("utf-8", errors="replace")
+        return response.read()
 
 
 def parse_hf(text: str) -> tuple[int, list[str]]:
@@ -90,12 +90,10 @@ def capture(lane: Path) -> int:
     """Fetch both catalogs live and write bounded raw bytes + digests + receipt."""
     out = lane / CAP_DIR
     out.mkdir(parents=True, exist_ok=True)
-    hf_text = fetch(HF_URL)
-    or_text = fetch(OR_URL)
-    hf_n, hf_missing = parse_hf(hf_text)
-    or_n, or_missing = parse_openrouter(or_text)
-    hf_raw = hf_text.encode("utf-8")
-    or_raw = or_text.encode("utf-8")
+    hf_raw = fetch(HF_URL)
+    or_raw = fetch(OR_URL)
+    hf_n, hf_missing = parse_hf(hf_raw.decode("utf-8"))
+    or_n, or_missing = parse_openrouter(or_raw.decode("utf-8"))
     if len(hf_raw) > RAW_CAP or len(or_raw) > RAW_CAP:
         print(f"capture=oversize hf={len(hf_raw)} openrouter={len(or_raw)} cap={RAW_CAP}")
         return 1
@@ -206,10 +204,10 @@ def verify(lane: Path) -> int:
 
 
 def probe() -> tuple[str, int, int, list[str], list[str]]:
-    hf_text = fetch(HF_URL)
-    or_text = fetch(OR_URL)
-    hf_n, hf_missing = parse_hf(hf_text)
-    or_n, or_missing = parse_openrouter(or_text)
+    hf_raw = fetch(HF_URL)
+    or_raw = fetch(OR_URL)
+    hf_n, hf_missing = parse_hf(hf_raw.decode("utf-8"))
+    or_n, or_missing = parse_openrouter(or_raw.decode("utf-8"))
     return "ok", hf_n, or_n, hf_missing, or_missing
 
 
