@@ -282,3 +282,66 @@ axes: freshness, operability.
   re-fetched by this seat.
 - No tool installed or upgraded by this seat: `curl` and `python3` stdlib only, both already
   present. PACMAN was not invoked.
+
+## Status on live bytes (appended after three repair commits; supersedes nothing above)
+
+The entry and its row moved while this seat ran. Live state at the time of this append: `HEAD`
+`a780c4e` (round-30 repair chain `623c1fc` → `706ed3f` → `d0253c5` → `5cd9229` → `a780c4e`), entry
+sha256 `ba0465d1cbcbb0b62529343a7c4fe5c4c26e37db6fd462ac93a8e9d95f106d82` (`git cat-file -p
+HEAD:corpus/knowledge/contamination-transparency-card.md | sha256sum` equals the working copy), and
+the counter re-run at that state: `entries=1 indexed=1 cited_rows=6 rows_present=6 rows_mined=6
+usedby_ok=1 census=ok`, exit 0.
+
+| my item | live status | live bytes |
+|---|---|---|
+| 1a R1 cell + "no design tabulates" | **closed** | `:66` now cells `strata_reported` and reads "already a column in one of three"; the `:70` sentence no longer claims a new value set |
+| 1b S1 "release-side artefact" | **closed** | `:64` now reads `contamination_controls.acquired` plus the run-side keys, status "**not a delta** — the CTC form already carries the run-side fact; it is a rename, not a relocation" |
+| 1c residual "two fields" bullet | **closed** | `:112-120` now says the two fields S081 measured as rare "are the two this entry marks as already-columned", and that S2 is the one genuinely new field |
+| 1d "core" | **closed in the row, open in the frozen prereg** | `SCORECARD.md:1022` now ends "…S2's tri-state flag is the only surviving field delta. **Not core, not real expansion.**" But `plans/round-30-claims.md:22-24` still reads "moves from *unopened lead* to *core*", its §Change record (`:99+`) does not mention the wording, and `grep -n 'core\|partly discharged' corpus/lessons/round-30.md` → 0 hits. One lesson errata line is still owed; frozen claims text stays as landed. |
+| 2 currency word + PROVINCE leg | **closed** | row now opens "**7 → 7 held — improved (counts)**; axis *coverage (surfaces)*, held by the open round-25 L0 cap" and adds "Counts it does not move: no `PROVINCE.md` round-30 section, so the coverage/surfaces leg is unchanged" |
+| 3 sub-row in the verdict cell | **closed there, not in the axis cell** | the verdict cell names `coverage (surfaces)`; the axis cell is still `**coverage** (lowest non-retired, tie-break)`. Cosmetic, but the two cells now name different things. |
+| 3 depth-hold reason | **open** | `SCORECARD.md:1026` still reads "depth 9 (… no new instrument claim)" — an instrument criterion belongs to novelty, not to the depth rubric's legs |
+
+**New defect found on the repaired bytes (unrepaired).** `corpus/knowledge/contamination-transparency-card.md:120`
+renders as `- **- **Agreement is not established.**` — a doubled list marker left by the repair pass.
+One-character fix; it is in the committed entry.
+
+**Net effect on my verdict.** The `VERDICT: FAIL` at the top of this report is the record of the byte
+this seat attacked (`f01b7cd2…`, `623c1fc`); on live bytes its two field falsifiers and the currency
+word are repaired, and what remains is two one-line wording items, one frozen-prereg errata line, and
+the malformed bullet. Nothing in the residue is a reason to refuse C1's admission or to move the
+coverage number off 7.
+
+## Addendum — items the complete-set seat raised, re-verified on live bytes (HEAD `bdcd7be`, entry `ba0465d1…`)
+
+The complete-set seat's fetch reproduces mine (same pinned form, same sha), and three of its finds are
+live in the committed entry. I re-derived each from bytes, not from its report:
+
+- **`:74` contradicts `:68`.** `:74` reads "strata are absent from all three *tabulated* designs but
+  present in S081's own four-field protocol", while `:68`'s CTC v1.1 cell now reads `strata_reported`.
+  One of the two sentences is false in the same file; the table cell is right and `:74` is the
+  leftover from the pre-repair text.
+- **`:41` and `:131` misstate provenance.** Both say the union table's "three source rows are not in
+  this lane's registry" / "has not admitted". The GEM § 7 document is `corpus/SOURCES.md:23` **row
+  S001**, tier A, `mined`, `opened 2026-10-19`, teach cell "…the Contamination Transparency Card…",
+  URL `aclanthology.org/2026.gem-main.50` — the same document the staged table cites as
+  `2026.gem-main.50.pdf`. The entry's own `:153` already says "**two of its three** source rows are
+  staged", so the file contradicts itself. This is the item that touches my axis: one of the three
+  tabulated designs was **already lane-held** (and is cited by the round-24 entry), so "ground the
+  lane did not hold" is true of the card *format* only, not of the designs.
+- **S085 "no measurements" is unqualified-false.** `:126` ("no document number, no measurements, no
+  data release") and `:179` ("self-description with no measurements") contradict the same entry's
+  `:144` ("numbers and score tables, but no contamination measurement") and the round's own capture:
+  `/tmp/r30-R30SrcS085/caict.txt:1151` prints "25.8 分，但 Qwen1.5-7B 的分数却显著提升至 51.8 分" with a
+  score table at `:1178`. The honest form is `:144`'s.
+- **R4 is repaired on live bytes** — `:65` now cells "a dedicated `regeneration:` block", so the
+  complete-set seat's R4 finding applies to the pre-repair blob (`f01b7cd2…`) only. Its R1 finding
+  and its per-run reading of the form stand and are in the table above.
+
+**Revised net effect on live bytes.** The number is right (7 → 7 held, `improved (counts)`, cap open)
+and the row's currency wording is now honest. What is still wrong is inside the entry: one
+self-contradicting sentence (`:74`), two false provenance sentences (`:41`, `:131`) that narrow the
+"ground the lane did not hold" claim because S001 already carried a pointer to the card, one
+unqualified S085 claim (`:126`, `:179`), and the doubled list marker (`:120`). None of these moves a
+score; every one of them is a calibration item on an admitted entry, so `VERDICT: FAIL` stands for the
+live byte as well, with the repair list above.

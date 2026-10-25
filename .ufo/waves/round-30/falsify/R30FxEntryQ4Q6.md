@@ -12,11 +12,11 @@ VERDICT: FAIL
 | Q4 negative space | **FAIL** | the one falsifier is aimed at the wrong bullet, is stated over a "delta" field pair the entry's own mapping no longer has, sets no measurement or decision rule, and no falsifier reaches the Claim |
 | Q5 source labelling | **FAIL** | S086 is labelled "a peer-reviewed 言語処理学会 paper"; the publisher of that series stamps its annual-meeting papers "published without peer review", and this lane's own registry row claims no review |
 | Q6 extends, never duplicates | **FAIL** on the admitted tree | the naming half holds; the field mapping called three published CTC-v1.1 constructs new (R1 strata, S1 acquired, S2 integrity), and the pinned form carries all three |
-| Q6 (live worktree) | **FAIL, narrowed** | R1 and R4 cells have been repaired in the uncommitted worktree; **S2's "only new field" claim survives, and it is falsified by the same form** |
+| Q6 (live worktree) | **FAIL, narrowed** | R1, S1 and R4 cells have been repaired in the uncommitted worktree; **S2's "only new field" claim survives, and it is falsified by the same form** |
 
 ## 0. Bytes audited, and the drift I watched
 
-The entry was rewritten under me while I audited it — five distinct hashes recorded, a commit in the
+The entry was rewritten under me while I audited it — six distinct hashes recorded, a commit in the
 middle of it, and further uncommitted edits after. Two objects matter, and I grade both:
 
 | object | bytes | state |
@@ -24,7 +24,7 @@ middle of it, and further uncommitted edits after. Two objects matter, and I gra
 | **admitted tree** — commit `623c1fc` ("round-30: assimilation round 2 …") | entry `sha256 f01b7cd20cf4ebcaf3ee9f7af8b109ace8b86e69002ae53a213c2dc80ad1e6cd`, 177 lines, blob `43001f5` | the tree the Gate's admission record points at; **this is what my verdicts are stated against** |
 | **live worktree** | entry `sha256 ba0465d1cbcbb0b62529343a7c4fe5c4c26e37db6fd462ac93a8e9d95f106d82`, `git status` → `M` | supersedes the committed entry with repairs made after the admit; not yet committed |
 
-Hashes observed on the way: `0f2e1614…` (04:43:05Z−3, no sha256 pin, mapping said "exactly two
+Hashes observed on the way: `0f2e1614…` (04:43:05 local, −0300; no sha256 pin, mapping said "exactly two
 fields are new as *fields* (S1, S2)"), `df0b6d41…` (04:44:02, pin + `grader integrity` row + "one new
 field / one new placement / one new value set"), `f01b7cd2…` (04:45:17, **committed** at `623c1fc`),
 `211e5bcd…`, `b29eac97…`, `ba0465d1…` (worktree repairs: R1/R4/S1 cells, rarity bullet, Extends caveat; checked at `ba0465d1`).
@@ -32,7 +32,7 @@ field / one new placement / one new value set"), `f01b7cd2…` (04:45:17, **comm
 Consequence for the Gate, stated plainly: `corpus/lessons/round-30.md:64-66` scores Q4/Q5/Q6 **pass**
 ("Q4 pass (§What this does not establish, six bullets including the **two-delta-field** concession and
 a named falsifier) … Q6 pass (§Extends names both objects; the delta is stated as one field, one
-placement, one value set)") against a tree that has since been replaced twice — and the two Gate
+placement, one value set)") against a tree that has since been replaced three more times — and the two Gate
 phrases disagree with each other about the same entry, one counting two delta *fields* and the other
 one field plus a placement plus a value set. The lesson itself is uncommitted
 (`M corpus/lessons/round-30.md`). §4 records, finding by finding, which of my defects the later edits
@@ -210,6 +210,14 @@ publishes annual-meeting manuscripts without peer review)"; correct the Gate cel
   `corpus/QUALITY.md` has no CG ids, so the two Q1–Q8 label sets no longer collide.
 - "sponsoring body" (S085) and "vendor" (S084) are loose words for, respectively, *publisher/operator*
   and *open-source project*. Neither overclaims independence; no finding.
+- **One S085 description was wrong in the admitted tree and is repaired live.** `:118-119` said the
+  report carries "no document number, no measurements, no data release". The document-number and
+  data-release parts hold (I found no 文号 and no released dataset), but "no measurements" does not:
+  the PDF I extracted contains 准确率 ×6, 得分 ×1 and 35 `%` signs, and its §（三） discusses a first
+  round of trial evaluations (p.35, printed 30: 信通院于 2024 年初启动"方升"首轮试评测). The worktree
+  now reads "carries programme numbers and score tables, but no contamination measurement" — which is
+  accurate, and is the distinction that matters for this entry (programme metrics ≠ contamination
+  measurement).
 
 ## 3. Q6 — extends, never duplicates or overwrites — **FAIL (admitted tree)**
 
@@ -255,7 +263,7 @@ honest wording is "not in the recorded table", not "no design tabulates": the ce
 rows are this entry's reading of the three designs, so the tabulation is *extended by re-derivation*
 on those rows and the reader is never told.
 
-### 3.3 Two cell errors in the same table (both repaired live; recorded because they were in the admitted tree)
+### 3.3 Two cell errors in the same table (R4 repaired live, R5 still wrong; recorded because the admitted tree carried both)
 
 - **R4 regeneration status** mapped CTC → `evaluation_date` and GEM → "Reproducibility". The form has
   a dedicated `regeneration:` block (`:49-53`: `procedure_published`, `procedure_url`,
@@ -312,11 +320,11 @@ Against worktree `sha256 ba0465d1…` (uncommitted, `M`; the live defects below 
 ## 5. Residual risk and verification gaps
 
 - No lane byte was edited; nothing was staged; no gate was run by me; no tool installed or upgraded
-  (pre-existing `curl`, poppler `pdftotext`). Scratch: `/tmp/r30fx-entry/` (fetched sources + two
-  entry snapshots).
+  (pre-existing `curl`, poppler `pdftotext`). Scratch: `/tmp/r30fx-entry/` (fetched sources, one explicit
+  entry snapshot, committed-blob reads via `git show`).
 - **The entry is a moving target.** §0's hashes are exact; if it moves again, §1.1's quotes and
   §3.2's cells must be re-located before this report is cited at closure. The defects that survived
-  two independent edits (Q4-A/B/D, Q5, Q6-S2) are the ones I would defend at the final tip.
+  three further edits (Q4-A/B/D, Q5, Q6-S2) are the ones I would defend at the final tip.
 - **GEM leg is targeted, not exhaustive.** I extracted §7 Table 3 and its required disclosures from
   the PDF; I did not scan the whole 819 KB document for strata language outside Table 3 (the review
   uses "stratified evidence" about its own synthesis at `:131`, `:387`, which is not a card field).

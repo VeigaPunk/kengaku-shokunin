@@ -5,7 +5,7 @@ source: S084 — https://doc.opencompass.org.cn/zh_CN/latest/advanced_guides/con
 source: S085 — https://www.caict.ac.cn/kxyj/qwfb/ztbg/202407/P020240711534708580017.pdf — p.32 (printed 27) and p.34 (printed 29) — “方升”测试体系提出自适应动态测试（Adaptive Dynamic Testing，ADT）方法对大模型进行评测 (3 whitespace tokens, three typeset lines, not byte-contiguous); 采用动态方式构建，保证每次参与测试题目的都不相同 (1 whitespace token, 24 characters incl. the fullwidth comma) — 大模型基准测试体系研究报告（2024年）, CAICT, accessed 2026-10-25
 source: S086 — https://www.anlp.jp/proceedings/annual_meeting/2025/pdf_dir/Q2-11.pdf — p.1, printed page 797 — "Code LLM 事前学習時の評価データ混入への対策" (3 whitespace tokens, printed title, one contiguous run); the caveat 一致したものを一律に混入とみなして除去することには疑問が残る (1 whitespace token, 30 CJK characters, text-layer lines 80-81, located only on newline-unwrapped extraction) — 言語処理学会 第31回年次大会 発表論文集, accessed 2026-10-25
 verified-at: 2026-10-25
-recheck: 180d — re-fetch S081–S086 at their pinned locators, re-locate each quoted span in fresh captures (S081/S082/S084/S085 raw HTML or extracted text; S083 whitespace-collapsed default `pdftotext` plus a hyphen-blind compare; S086 newline-unwrapped extraction) and re-run `python3 plans/sources_adopt.py --quote-file <admission rows> --artifact <capture>` against the matching form (next due 2027-04-23)
+recheck: 180d — re-fetch S081–S086 at their pinned locators, re-locate each quoted span in fresh captures (S081/S082/S084/S085 raw HTML or extracted text; S083 whitespace-collapsed default `pdftotext` plus a hyphen-blind compare; S086 newline-unwrapped extraction) and re-run `python3 plans/sources_adopt.py --quote-file <admission rows> --artifact <capture>` against the matching form, noting that S083's 14-word span needs a hyphen-blind compare the gate cannot perform, so that one span is human-verified (next due 2027-04-23)
 writer: KengakuR30
 
 # Contamination transparency card — an amendment to the tabulated card designs
@@ -38,7 +38,8 @@ This entry is an **amendment** to two things and a rival to neither:
   `/home/vgpnk/Projects/shokuknow/merge/kengaku/knowledge/corpus/knowledge/benchmark-card-field-schema-2026-10-23.md`,
   sha256 `66651007989a7fb5df4671f5f86e69ab1436517025a821afe8c451641a3533b9`, read 2026-10-25.
   That file is **staged, not lane-admitted**: it is not in this lane's `corpus/knowledge/`, and its
-  three source rows are not in this lane's registry, so no load-bearing claim here rests on it
+  three source rows are not in this lane's registry (the GEM 2026 review it tabulates is the one
+  exception: this lane registers that review at tier A), so no load-bearing claim here rests on it
   (QUALITY Q2). What the mapping below records is this entry's reading of a staged document;
   adopting those three rows as registry entries is what would make the mapping lane-sourced — that
   is open work, stated under §What this does not establish, never a claim of this entry. The union
@@ -87,7 +88,7 @@ names the case in which it is not answerable.
 | # | Question | Answerable from | Not answerable when |
 |---|---|---|---|
 | CG1 | Which contamination type is claimed or tested? | the detector's own documentation — S084 names its two methods; S086 names its code-corpus method | a type is claimed with no detector behind it |
-| CG2 | What access did the reporter have — parameters only, the training corpus, a public index, a canary? | S084 states the usual case: "但如今开源社区往往只会公开模型参数而非训练数据集"; S086 works from a code corpus | access is unstated |
+| CG2 | What access did the reporter have — parameters only, the training corpus, a public index, a canary? | S084 states the usual case: "但如今开源社区往往只会公开模型参数而非训练数据集"; S086 works from a code corpus; a task-file canary is the fourth channel (`corpus/knowledge/benchmark-task-validity-checklist.md`) | access is unstated |
 | CG3 | Which datasets were tested, and what is the coverage limit? | S084 states both limits in its own words (GSM8K; C-Eval, MMLU, HellaSwag, ARC) | a benchmark-wide result is claimed from a single-dataset method |
 | CG4 | What does a negative **not** rule out? | S084's stated access limit; S086's false-positive caveat: "一致したものを一律に混入とみなして除去することには疑問が残る" | "no contamination found" is read as "no contamination" |
 | CG5 | Is this artefact release-side or score-side? | S081's one-run rule | a run-level claim is filed against the dataset |
@@ -117,7 +118,7 @@ answers CG7 must say which of the two it does and with what qualifier.
   both of which the mapping above shows a published design already carries in some form. So the entry's
   one genuinely new field (S2) is *not* one its source validated, and the two fields S081 measured as
   rare are the two this entry marks as already-columned. A complete card is not a common card.
-- **- **Agreement is not established.** S081's own abstract reports a test–retest ceiling "collapsing under
+- **Agreement is not established.** S081's own abstract reports a test–retest ceiling "collapsing under
   the class skew the registration anticipated", with pooling raising it "through chance correction rather
   than better agreement" (arXiv abs page, abstract). Two coders filling this card need not agree; the
   card records what each stated, not a reconciled truth. Two coders filling this card need not agree; the card records
@@ -128,11 +129,12 @@ answers CG7 must say which of the two it does and with what qualifier.
 - **S082 is a working paper**, not a peer-reviewed result: its item/procedure transparency claim is
   an argument plus a wage-premium dataset, not a measured disclosure effect.
 - **The field mapping is not lane-sourced.** The union table it maps into comes from a staged
-  campaign document (sha256 above) whose three source rows this lane has not admitted; the mapping
+  campaign document (sha256 above) whose two non-GEM source rows this lane has not admitted; the mapping
   is this entry's reading of that document. The entry's own load-bearing claims rest on S081–S086.
 - **Falsifier:** a benchmark release that publishes a card answering all eight CG questions while
   its own contamination audit shows the strata and acquired fields are *populated* (not "unknown")
-  and non-trivial would show the two delta fields are not rare in practice, narrowing the third
+  and non-trivial would show that the fields this entry's sources measured as rare (R1 strata, S1's
+  acquired type) are in fact common, narrowing the corresponding bullet above
   bullet above.
 
 ## Attribution
@@ -181,6 +183,6 @@ format*. New: `Contamination transparency card format`.
 
 ## Corrections
 
-- None yet. The staged version's S082 anchor named a `# Benchmark Governance` section that does not
+- The staged version's S082 anchor named a `# Benchmark Governance` section that does not
   exist in v2; the locators above are the ones re-located in this round's captures, and the abs page
   carries neither phrase (the full-text HTML does).

@@ -5,7 +5,7 @@ Candidate under review: `corpus/knowledge/contamination-transparency-card.md`.
 
 **Bytes reviewed (pinned).** Committed blob at `623c1fc` —
 `git show 623c1fc:corpus/knowledge/contamination-transparency-card.md`, sha256
-`f01b7cd20cf4ebcaf3ee9f7af8b109ace8b86e69002ae53a213c2dc80ad1e6cd`, 13,395 B. This is the admission
+`f01b7cd20cf4ebcaf3ee9f7af8b109ace8b86e69002ae53a213c2dc80ad1e6cd`, 17,116 B. This is the admission
 candidate (Q10/Q13 measure the admitting commit's tree), so every line number `:N` below indexes that blob.
 
 **The lane is moving under this seat.** While I was capturing sources the working copy changed: at
@@ -39,7 +39,7 @@ Cross-checks fetched from the campaign's own pinned locators (used in §4 only):
 CTC v1.1 form at commit `4dba1ed9b2ace8b71a2edcd5fa6ce0337cf08ba6` (`templates/disclosure.yaml`, 2,181 B,
 sha256 `05131be9f72b333a479046a0df4510d48fd5389192d40c595869e718b5c90d0f`), AI Alliance template page
 (25,177 B, `5ff8fe9d69…`), GEM 2026 review PDF (819,775 B, `177341b8de…`). Campaign staging file
-`benchmark-card-field-schema-2026-10-23.md` = `66651007…` — **matches the sha256 the entry states at `:38`.**
+`benchmark-card-field-schema-2026-10-23.md` = `66651007…` — **matches the sha256 the entry states at `:39`.**
 
 ## 2. Per-source re-read — one row per source
 
@@ -93,9 +93,9 @@ trusts the visible folio cannot reproduce it. Not a falsification — a calibrat
 | 24 | "no data release" (S085) | `:119` | report's own sentence (p.34): "这些数据在一定时间内不会进行公开，后续会根据产业需求进行开放" | match |
 | 25 | "no two sittings share items" (S085 gloss) | `:99` | the quoted sentence says "保证每次参与测试题目的都不相同"; the **next** sentence bounds it: "…从而保证每次测试时有一定占比的题目从未用于大模型测试" | **disagree: absolute vs bounded share** (H5) |
 | 26 | "all eight" (a design would claim all eight) | `:75` | table rows at `:60`–`:68` = 9 data rows (R3, grader integrity, negative, R2, R5, R4, S1, S2, R1) | **disagree: eight vs nine** (M6) |
-| 27 | CG1–CG8 (eight questions) | `:78`–`:90` | 8 numbered rows | match |
+| 27 | CG1–CG8 (eight questions) | `:86`–`:95` | 8 numbered rows | match |
 | 28 | `recheck: 180d` ⇒ "next due 2027-04-23" | `:8` | 2026-10-25 + 180 d = 2027-04-23 | match |
-| 29 | staging-file sha256 `66651007…` | `:38` | `66651007989a7fb5df4671f5f86e69ab1436517025a821afe8c451641a3533b9` | match |
+| 29 | staging-file sha256 `66651007…` | `:39` | `66651007989a7fb5df4671f5f86e69ab1436517025a821afe8c451641a3533b9` | match |
 | 30 | `corpus/SOURCES.md` "88 rows total" | registry | 88 rows matching `^\| S[0-9]`, 88 distinct ids, max S091 | match |
 | 31 | registry teach cell "CJK quotes count **1-13** whitespace tokens" | `SOURCES.md:110` | over the six rows' CJK spans the counts are 3, 7, 1, 3, 1, 3 ⇒ **max 7**; registry-wide CJK-quoted spans also max at 7. **13 is reachable only by counting the unquoted line-397 paragraph** (computed: 13 tokens) | **disagree: 1–13 vs 1–7** |
 | 32 | registry "the caveat sentence … spans extraction lines **78-81**" | `SOURCES.md:112` | the caveat *sentence* starts at line 78 ("しかし、表 1 のように、極めて短い"); the quoted *span* is lines 80–81 | **disagree with the entry's 80–81** (both internally consistent, mutually inconsistent) |
@@ -117,7 +117,7 @@ entry *departs* from its source table:
 | Entry row | Campaign table | Departure |
 |---|---|---|
 | R4 regeneration status → AI Alliance "Change log", CTC `evaluation_date`, GEM "Reproducibility" | campaign has no regeneration row; its instrument-currency row carries the same two cells and gives GEM "—" | the entry's R4 reuses R5's cells and adds a GEM cell the campaign marks absent (M2) |
-| grader integrity → "already a column … dropped from this entry" | campaign row 6, presented as one of the lane's first-class fields | disclosed drop, but then "continued, not re-derived" (`:48`) overstates: a 6→9 row continuation that omits a campaign row is a re-derivation (M6) |
+| grader integrity → "already a column … dropped from this entry" | campaign row 6, presented as one of the lane's first-class fields | disclosed drop, but then "continued, not re-derived" (`:45`) overstates: a 6→9 row continuation that omits a campaign row is a re-derivation (M6) |
 | S1 → "delta in placement" | campaign row 3 ("release-side vs score-side") already lists it as a lane field with the CTC mapping | the entry re-describes a campaign row as a delta (M7) |
 
 ### 4b. Against the pinned primaries (the test that actually decides the ledger)
@@ -160,12 +160,12 @@ top-level keys are `benchmark` / `system_under_test` (model id + version) / `eva
 comment reads "Type 5 is evaluation-time: a property of THIS run, not of the benchmark"
 (`ctc-disclosure.yaml:9-14,34-46`). A per-run form cannot be the evidence that placement is new.
 
-**H3 (HIGH). "its three source rows are not in this lane's registry" is false for the GEM row.** `:40`–`:41`
+**H3 (HIGH). "its three source rows are not in this lane's registry" is false for the GEM row.** `:41`
 asserts all three campaign source rows are unregistered and concludes "no load-bearing claim here rests on
 it". `corpus/SOURCES.md:23` (S001, tier A, `mined`, teach cell names "the Contamination Transparency Card")
 is the same GEM 2026 paper the campaign cites as S124 (`2026.gem-main.50`). The entry contradicts itself
-six lines earlier, at `:52`–`:53`: "the review this lane already registers at tier A". So the GEM column of
-the mapping *can* be lane-sourced today, and the "open work" framing at `:45`–`:47` understates what the
+thirteen lines later, at `:54`: "the review this lane already registers at tier A". So the GEM column of
+the mapping *can* be lane-sourced today, and the "open work" framing at `:43`–`:44` understates what the
 lane already holds.
 
 **H4 (HIGH). "no measurements" about S085 is false.** `:119` and `:170` both say the report carries no
@@ -208,21 +208,21 @@ inference" restate it). Nothing in S081 records a failure of this lane. The same
 states the relation correctly, so this is a wording defect that contradicts its own file.
 
 **M6 (MEDIUM). "all eight" and "continued, not re-derived" no longer describe the table.** `:75` says a
-design "would have claimed all eight"; the table at `:60`–`:68` now has **nine** rows. `:48` and `:151`
+design "would have claimed all eight"; the table at `:60`–`:68` now has **nine** rows. `:45` and `:145`
 say the union table is "continued, not re-derived", while the continuation drops the campaign's grader
 evidence row (`:61`) — disclosed, but a drop is a re-derivation.
 
-**L1 (LOW). "S082 is a working paper" has no on-source support.** `:119`, `:135`, `:137`, `:163`. Neither
+**L1 (LOW). "S082 is a working paper" has no on-source support.** `:2`, `:121`, `:133`. Neither
 the v2 HTML nor the abs page designates it a working paper; the only "working paper" string in the HTML is
 a bibliography entry for a different paper (`:1000`). "Preprint, not peer-reviewed" is supportable and
 carries the same weight.
 
-**L2 (LOW). "S086 is a peer-reviewed 言語処理学会 paper".** `:163`. The capture states the venue
+**L2 (LOW). "S086 is a peer-reviewed 言語処理学会 paper".** `:136`–`:137`. The capture states the venue
 (第31回年次大会 発表論文集, CC BY 4.0) and nothing about review status; the label is not verifiable from the
 capture. Everything else in `## Attribution` checks out (S083's Findings status, S084's vendor-doc status,
 S085's self-report status).
 
-**L3 (LOW). "supplies the reason the release-side half may be published at all".** `:20`–`:21`. The quote
+**L3 (LOW). "supplies the reason the release-side half may be published at all".** `:21`. The quote
 supports "procedural transparency improves validity … without necessarily exposing live items"
 (full text `:855`); it does not license publication. A deontic step beyond the quote, in the Claim paragraph.
 
@@ -235,7 +235,7 @@ rechecker applying the join the entry names, and nothing else, fails; my first t
 Benchmark Ceiling: Human Judgment, Evaluation Economics and Benchmark Governance". v2's title is "The
 Benchmark Ceiling: Human Judgment, Evaluation Scarcity, and the Political Economy of AI Capability
 Measurement"; "Evaluation Economics" is §8.3's subsection title, and "Benchmark Governance" occurs **0**
-times in the v2 HTML and 0 times on the abs page — the very string the entry's `## Corrections` (:184)
+times in the v2 HTML and 0 times on the abs page — the very string the entry's `## Corrections` (:175)
 declares absent from v2.
 
 ## 6. Drift — the uncommitted working copy (`31b7230…`)

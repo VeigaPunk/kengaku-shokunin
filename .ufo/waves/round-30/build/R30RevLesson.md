@@ -833,3 +833,119 @@ does not is the same split Q13 punishes.
 - The lesson is still the pass-2 bytes (4-column table, `:21` = 63, `:23` S105 unverifiable). Until
   the lesson takes this row and the flip column, the committed artifact remains the failing one, not
   the draft.
+
+---
+
+# Pass 5 — fourth revision (`1a74b245…abe4`): PASS, and one label the cited census inherits
+
+Reviewed `/tmp/r30-DraftGate/gate.md`, sha256
+`1a74b24584219659becde65927cb213a62a50c7280b475dee8e8001c0a04abe4`, 13 120 B measured (the seat
+quoted 13 049 B; the hash is the identity that matters). Same probe as pass 4: the draft's header,
+separator and admit row verbatim, the landed entry and the current 32-report `falsify/` wave in a
+throwaway repo (`/tmp/r30-RevLesson/lane3`, commit `61dc33f`):
+
+```
+PASS line 7 Gate admit: candidate='corpus/knowledge/contamination-transparency-card.md'
+  cited seat-report paths: '…/R30FxSrcS081.md', '…/R30FxSrcS082.md', '…/R30FxSrcS083.md', '…/R30FxSrcS084.md', '…/R30FxSrcS085.md', '…/R30FxRowsCensus.md'
+  existing returned second-seat report(s): … (the same six)
+gate_timing_check: … admissions=1 passed=1 failed=0 second-seat-reports=32
+```
+
+Six citations, all valid, no generic reference, no bare name. **Q13 passes on these bytes.**
+
+The three pass-4 items are closed, verified against the tree rather than the description:
+
+1. **S086 sentence** — the cell now reads "the entry's S086 line already states 30 CJK characters and
+   text-layer lines 80-81, while `corpus/SOURCES.md:112` still records 'spans extraction lines 78-81',
+   so the admission lands with that row corrected to 80-81" and credits the FAIL report with locating
+   both spans ("p.1 / printed 797"). That matches the bytes I measured (`entry:6`, `SOURCES:112`), and
+   it no longer proposes the regression the pass-4 wording would have caused.
+2. **`used-by`** — the cell no longer says "alone": "names this entry and this lesson (a two-entry
+   cell of the shape lane S005 already carries, so the counter's contains-test holds)". All six rows
+   measured: two paths, 11 cells, `mined`, `opened=2026-10-25`.
+3. **Census** — `R30FxRowsCensus.md` is cited and qualifies (scout, anchored `VERDICT: PASS —`, 8
+   candidate-path mentions, `agentId: null`). The row and the lesson's census claim now cite the same
+   artifact.
+
+## Q9-14 — the newly cited census repeats a false label about S086
+
+Raised by the entry's Q4/Q6 falsify seat (`R30FxEntryQ4Q6.md` §2.2). I verified the in-tree
+surfaces; the external evidence is that seat's and I did not re-fetch the anlp pages.
+
+| surface | bytes |
+|---|---|
+| lesson Q5 cell, `corpus/lessons/round-30.md:66-67` | `Q5 pass (S082 labelled a working paper, S084 vendor documentation, S085 a self-report, S081/S082 preprints vs S083/S086 peer-reviewed)` |
+| `.ufo/waves/round-30/falsify/R30FxRowsCensus.md:167` | `| S086 | A | peer-reviewed proceedings paper for its own method and caveat | **yes** |` |
+| `corpus/SOURCES.md` S086 row | makes **no** review claim — cell 2 is the venue (`言語処理学会 第31回年次大会`), cell 3 `paper`, cell 4 `A`; the label is not in the registry |
+
+Two consequences for this review:
+
+- The Gate's admit row now cites `R30FxRowsCensus.md` as the schema re-read. Q13 is structural and
+  passes, but Q10 is substantive: the cited report mislabels the review status of one of the six
+  rows it audits. Citing it is still right (it is the only schema re-read that returns), provided the
+  label is corrected in the same landing.
+- The lesson's own `Q5 pass` claim is false as written for S086, and the peer's evidence
+  (`anlp.jp/nlp2026/submit.html`: "This work is published without peer review"; no 査読 hit on the
+  NLP2025 site) is the reason. Q5 is the bar row; a Gate whose reason cites a "Q5 pass" that a reader
+  can falsify from the venue's own page is a Q9 failure regardless of the checker's green.
+
+**Corrected wording (lesson Q5 cell):**
+`Q5 pass (S082 labelled a working paper, S084 vendor documentation, S085 a self-report, S081/S082 preprints, S083 peer-reviewed findings paper, S086 a non-peer-reviewed annual-meeting proceedings paper — its venue publishes without review)`
+
+**Corrected wording (`R30FxRowsCensus.md:167`, third cell):**
+`non-peer-reviewed annual-meeting proceedings paper for its own method and caveat`
+
+Neither surface is mine to edit; the lesson Q5 cell belongs to the lesson owner and the census cell
+to its authoring seat. I record the bytes, the exact replacements, and the fact that the correction
+must land with the admission — a later round cannot retract a label the citing report published at
+landing time.
+
+## Pass-5 residual risk
+
+- Still point-in-time: the wave grew 31 → 32 reports between passes; re-run the CLI against the
+  admitting commit (`python3 plans/gate_timing_check.py --lesson corpus/lessons/round-30.md --commit
+  <sha>`).
+- The checker cannot see a wrong label, a wrong number or a wrong locator; every Q5/Q9/Q10 statement
+  above rests on bytes I read or on a cited seat's measurement, and I say which is which.
+- The lesson remains the pass-2 bytes; the draft's paste table is the vehicle, and it now covers
+  `:17`, `:21`, `:22`, `:23` and the fifth column.
+
+---
+
+# Pass 6 — live-byte re-verification after the owners' edits
+
+Tree moved while this review ran (HEAD `bdcd7be`; entry sha256 `ba0465d1…`; falsify wave 33
+reports). Re-measured everything my passes asserted, so the report is not a snapshot of a tree that
+no longer exists.
+
+## Q13 on live bytes: still PASS
+
+Same probe (draft row verbatim, live entry, live wave; `/tmp/r30-RevLesson/lane4`, commit
+`069d545`): `PASS … admissions=1 passed=1 failed=0 second-seat-reports=33`, six citations valid,
+no generic reference, no bare name. The `writer:` line survives the entry's later edits
+(`:9` = `writer: KengakuR30`).
+
+## The four residues the coverage seat names are live — with one refinement
+
+| # | surface | measured now |
+|---|---|---|
+| 1 | `plans/round-30-claims.md:22-24` | still `moves from *unopened lead* to *core*` — frozen text; `corpus/lessons/round-30.md` still has no errata (`grep -n 'Partly discharged\|core\b'` → only `:85`, the S081 URL's "score") |
+| 2 | `SCORECARD.md:1026` | still `depth 9 (the entry adds a field mapping against a published union table, no new instrument claim)` — novelty's criterion holding a depth score |
+| 3 | `SCORECARD.md:1022` | **verdict cell fixed** (`**7 → 7 held — improved (counts)**; axis *coverage (surfaces)*, held by the open round-25 L0 cap …`), **axis cell not** (`**coverage** (lowest non-retired, tie-break)`): the row still names two different things |
+| 4 | `corpus/knowledge/contamination-transparency-card.md:120` | `- **- **Agreement is not established.**` — doubled list marker, live |
+
+Item 1 needs one distinction: the errata line is wording I owe, not an edit. I supply the drop-in
+(pass 3 §"In-scope consequence"); the lesson is not mine to write and this seat's contract forbids
+production edits.
+
+**Drop-in for item 4** (the entry's owner applies it): replace
+`- **- **Agreement is not established.**` with `- **Agreement is not established.**` — the sentence
+that follows is the S081 test–retest-ceiling point and reads correctly once the marker is single.
+
+## What pass 6 changes in this review's own record
+
+Nothing in the verdicts: Q13 passes on live bytes, Q8's remaining work is the lesson's table shape
+(the draft's five-column form), Q9's remaining work is the lesson's `:21`/`:23` cells plus the
+`R30FxRowsCensus.md:167` review-status label from pass 5. The residual risk from pass 5 stands
+unchanged — a later wave edit can only be detected by re-running the CLI against the admitting
+commit.
