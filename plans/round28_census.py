@@ -37,7 +37,7 @@ def main():
     p4 = [value for value in assertions if re.match(r"^P4(?:[a-e])?(?:\.|$)", value.get("id", ""))]
     output["historical_state"] = {"exit": state["exit"], "summary": state.get("result", {}).get("summary"), "total_json_records": len(assertions), "verdicts": dict(Counter(value["verdict"] for value in assertions)), "p4_ids": len(p4), "p4_verdicts": dict(Counter(value["verdict"] for value in p4))}
     source = root / "corpus/SOURCES.md"
-    rows = [[cell.strip() for cell in line.split("|")[1:-1]] for line in source.read_text().splitlines() if re.match(r"^\|\s*S[0-9]{3,}\s*\|", line)]
+    rows = [[cell.strip() for cell in line.split("|")[1:-1]] for line in source.read_text().splitlines() if re.match(r"^ {0,3}\|\s*S[0-9]{3,}\s*\|", line)]
     output["sources"] = {"rows": len(rows), "malformed": sum(len(row) != 11 for row in rows), "tiers": dict(Counter(row[3] for row in rows if len(row) == 11)), "statuses": dict(Counter(row[7] for row in rows if len(row) == 11))}
     actual = {"knowledge/" + path.name for path in (root / "corpus/knowledge").glob("*.md")}
     index = re.findall(r"^\|\s*`(knowledge/[^`|]+\.md)`\s*\|", (root / "corpus/README.md").read_text(), re.M)

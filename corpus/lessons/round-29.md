@@ -202,7 +202,7 @@ Cell transitions: S077–S080, S090 did not exist before this round; they enter 
 package's B: SOURCES-contract tier B is "strong secondary", and a first-party release announcement
 is a maintainer statement (tier A). The package's stated reason — no visible publication date —
 is page-scoped only, because the publisher's own index dates the post. No existing row changed.
-Registry 76 → 81 rows; tiers A 70 → 75, B 4 → 4, C 2 → 2.
+Registry 76 → 82 rows (S077–S080, S090, S091); tiers A 70 → 76, B 4 → 4, C 2 → 2.
 
 ### Prior-art and frontier
 

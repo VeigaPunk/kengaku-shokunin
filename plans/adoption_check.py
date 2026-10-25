@@ -76,7 +76,7 @@ def main(argv: list[str]) -> int:
         # anchored: an index row is a table line, not a mention inside a comment
         if re.search(r"^\| `knowledge/" + re.escape(name) + r"` \|", readme, re.MULTILINE):
             indexed += 1
-        if re.search(r"^verified-at: " + re.escape(access_date) + r"$", text, re.MULTILINE):
+        if re.search(r"^verified-at: " + re.escape(access_date) + r"\b", text, re.MULTILINE):
             verified_at_ok += 1
         cited.update(SOURCE_LINE_RE.findall(text))
 
@@ -91,7 +91,9 @@ def main(argv: list[str]) -> int:
     for entry in entries:
         rel = entry["path"]
         linked = all(
-            row_id in registry and rel in registry[row_id][10] for row_id in entry["sources"]
+            row_id in registry
+            and rel in [part.strip() for part in registry[row_id][10].split(",")]
+            for row_id in entry["sources"]
         )
         usedby_ok += 1 if linked else 0
 
@@ -122,6 +124,7 @@ def main(argv: list[str]) -> int:
         and rows_mined == required
         and usedby_ok == len(entries)
         and verified_at_ok == len(entries)
+        and args.census
         and census_code == 0
     )
     return 0 if ok else 1

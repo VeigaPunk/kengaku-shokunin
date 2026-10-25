@@ -701,3 +701,29 @@ Final measured state: `python3 plans/adoption_check.py --expect .ufo/waves/round
 → `entries=1 indexed=1 cited_rows=5 rows_present=5 rows_mined=5 usedby_ok=1 census=ok`, exit 0;
 `python3 plans/sources_adopt.py --selftest` → `SELFTEST cases=10 failed=0`, exit 0; fleet census
 exit 0; `grader.py` exit 0; `round28_census.py` exit 0; `config_projection.py --summary` exit 0.
+
+**Round 29 attempt-2 corrections, second batch (appended 2026-10-25).** Three more attack seats scored
+the landed state and each finding was repaired:
+
+6. **Entry widenings removed (six).** Axis A no longer claims that every behaviour the tests check is
+   described in the instruction (S077 checks file references only); F names the top-level `cheat/`
+   directory it actually rejects; G is scoped to the maintainer's *own* repository and now records
+   that Harbor's literal canary string occurs in 0 files of the pinned Terminal-Bench 2.0 tree; H says
+   88 of 89 directories; J says the gate is dated and hardware-stated, not cheaply re-runnable; the
+   S090 line quotes the maintainers' own admission instead of asserting a pass/fail history. The
+   negative space gains "not synthetic replication" and "canary presence is detectability, never
+   proof of exclusion".
+7. **`used-by` must name the citing entry exactly.** `adoption_check.py` compares whole path
+   components, so `…-checklist.md.bak` fails (`usedby_ok=0`, exit 1) where a substring match passed.
+8. **An unrun census is not a pass.** `ok` now requires `--census` and a zero census exit; the
+   no-census run prints `census=skipped` and exits 1, so only the full invocation can print the
+   frozen target line.
+9. **`plans/round28_census.py` row anchor widened to 0–3 leading spaces** — its column-zero-only
+   pattern silently under-counted an indented row (`rows` would read 81 against a live 82). Now 82,
+   exit 0.
+10. **Counts corrected in the lesson**: registry 76 → 82 rows, tiers A 70 → 76 (S091 landed after the
+    first paragraph was written).
+
+Final state re-measured after the second batch: counter `entries=1 indexed=1 cited_rows=5
+rows_present=5 rows_mined=5 usedby_ok=1 census=ok` exit 0; `--selftest` 10/10 exit 0; fleet census
+exit 0; `round28_census.py` exit 0; no-census control exit 1.

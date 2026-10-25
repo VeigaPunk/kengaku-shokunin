@@ -10,9 +10,10 @@ recheck: 180d — re-fetch S077, S078, S079, S080 and S090 at their pinned revis
 
 The lane's frontier named this instrument: "the lane has no instrument that audits a
 benchmark's task specs, graders, and contamination separately … turned into a
-per-benchmark task-validity checklist" (`corpus/README.md` §Frontier). Four benchmark
-maintainers publish enough primary material to build the checklist from evidence rather than
-from principle. Each axis below is stated once, and each is **observable**: the axis either
+per-benchmark task-validity checklist" (`corpus/README.md` §Frontier). Three benchmark families —
+and three maintainer organisations behind them, since Harbor, Laude Institute and tbench.ai are one
+project — publish enough primary material to build the checklist from evidence rather than from
+principle. Each axis below is stated once, and each is **observable**: the axis either
 has a named artefact in a published tree, or it does not.
 
 This entry extends `knowledge/agent-time-horizon-and-task-validity.md` (benchmark task/test validity
@@ -34,7 +35,7 @@ it, and where that artefact lives".
 | G | Contamination control | a per-task canary is embedded in the task files and checked mechanically | S077 "Prevents training data contamination by ensuring a unique canary string is present in task files."; S090 canary GUID banner |
 | H | Declared task fields | schema version, difficulty category, human expert and junior time baselines, verifier timeout, all present and typed | S079 `schema_version = "1.1"`, `difficulty = "hard"`, `expert_time_estimate_min = 60.0`, `junior_time_estimate_min = 300.0`, `timeout_sec = 1800.0` |
 | I | Declared tool surface and state-based grading | the task declares which servers and local tools it needs and ships an evaluation directory rather than a judge prompt | S080 `needed_mcp_servers`, `needed_local_tools` in `task_config.json` |
-| J | Reproducible release | the published tree is checksummed and the release gate is dated and re-runnable | S078 `v2/GATE.md` heading dated 2026-09-22, oracle and nop cells |
+| J | Reproducible release | the published tree is checksummed and the release gate is dated and states its hardware and check set — re-running it needs that hardware, not a laptop | S078 `v2/GATE.md` heading dated 2026-09-22 and line 3 naming Harbor 0.22 on Modal, the oracle and nop cells, plus `v2/SHA256SUMS` |
 
 ## What the maintainer artefacts actually say
 
@@ -100,8 +101,15 @@ anchor and rejection reasoning live in `corpus/lessons/round-29.md` §Attempt 2.
 - **Not task validity itself.** The checklist names where to look; it does not run a
   benchmark or certify any task. A task can pass all ten axes and still be invalid for a
   reason no published artefact records.
-- **Not contamination measurement.** G reads a maintainer's canary practice; it is not a
-  detector, and a canary's absence is not evidence of contamination.
+- **Not contamination measurement.** G reads a maintainer's canary practice *inside its own
+  repository*; it is not a detector, a canary's absence is not evidence of contamination, and a
+  canary's presence is detectability, never proof of training-corpus exclusion. Applied to the
+  pinned Terminal-Bench 2.0 tree, Harbor's literal `harbor-canary` string occurs in 0 of its files:
+  the instrument a maintainer runs on its own submissions does not automatically apply to the tree it
+  publishes.
+- **Not synthetic replication.** Running this lane's own fixtures against a check's shape would
+  exercise the lane's code, not the maintainer's instrument; nothing here was re-run against a
+  benchmark.
 - **Not a model-performance or difficulty claim.** Axes B, C and H bound the instrument,
   not the models measured with it.
 - **Not exhaustive.** Four maintainers were opened; other benchmarks may have instruments
