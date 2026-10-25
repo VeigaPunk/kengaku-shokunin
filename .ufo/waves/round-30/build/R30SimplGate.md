@@ -25,8 +25,8 @@ review is keyed by hash, and every number below was re-checked against `47e60021
 
 The extension is **needed in its two refusal classes and its four cases, and carries
 about half again as much speculation as it needs**. Added surface: 341 lines — 199 in
-the quote section, 16 in the CLI (including the 6-line mode-exclusivity guard the
-regression seat added), 126 in the selftest. Lines this review deletes: **86
+the quote section, 20 in the CLI (`main`, including the 6-line mode-exclusivity guard
+the regression seat added), 122 in the selftest. Lines this review deletes: **86
 production and 29 selftest = 115 removed, 55 added back** where the reduction needs a
 different shape. Net: file 815 → 755 (−60), the production region 447 → 394 (−53, a
 27% cut of the added production surface), and the suite still prints
@@ -86,10 +86,10 @@ directory`), `313` (`skipped: list[str]`), `316–320` (skip-on-OSError/UnicodeD
 Unexercised: `grep -n EXIT_QUOTE_UNREADABLE` returns exactly two sites — the
 definition and the return that uses it. No selftest case builds an absent,
 non-UTF-8, or non-file artifact, and the count is frozen at 14, so none can be added.
-Keep the exit-2 class, not the channel: a 3-line guard at the dispatch site
-`except (OSError, UnicodeDecodeError) as exc: parser.error(...)`. That is argparse's
-own caller-error path (the same class the deleted constant's comment claimed), so it
-is the existing convention rather than a second one.
+Keep the exit-2 class, not the channel: a four-line guard at the dispatch site
+`try: … except (OSError, UnicodeDecodeError) as exc: parser.error(...)`. That is
+argparse's own caller-error path (the same class the deleted constant's comment
+claimed), so it is the existing convention rather than a second one.
 
 ### D2 — directory artifacts (25 production lines, 5 selftest fixture lines)
 Goes: `304–311` (`if path.is_file(): … elif path.is_dir(): … rglob … else`), `312–315`
@@ -103,10 +103,10 @@ Unexercised by the claim: the counting command never passes `--artifact` at all.
 only exercise is case 12's directory fixture, whose frozen subject is *"a ≤25-word
 quote absent from the artifact refused"*, plus the two mutation-survivor probes
 folded into the same case. The directory is an extra axis inside a case the spec
-mandated for another reason; re-pointing those five calls at single files costs four
-lines and loses nothing. Six sources is six invocations, or one shell loop. The two
-survivor assertions survive the cut verbatim (they compare against one file), and
-they still kill mutants m2 and m4 in §6.
+mandated for another reason; re-pointing those five calls at single files costs two
+fixture lines and one variable and loses nothing. Six sources is six invocations, or
+one shell loop. The two survivor assertions survive the cut — re-pointed at files
+rather than a directory — and they still kill mutants m2 and m4 in §6.
 
 ### D3 — the `cap` parameter and its echoed copy (5 lines, one of them partial)
 Goes: `340` (`cap: int = QUOTE_WORDS` in the signature), `353` (`"cap": cap`),

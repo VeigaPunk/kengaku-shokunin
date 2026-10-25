@@ -19,6 +19,7 @@ import argparse
 import json
 import re
 import subprocess
+import tempfile
 import sys
 from pathlib import Path
 
@@ -201,20 +202,64 @@ CHECKS = (
 )
 
 
+# Frozen registry: a counter whose own check list can shrink to nothing still prints
+# `defects=0` (the round-30 mutation-tester showed 5/5 surviving neuterings). This list is the
+# guard: `--selftest` asserts it, and every run prints `checks=N` beside the total.
+FROZEN = (
+    ("D1", "receipt-at-cited-path"),
+    ("D2", "kappa-sweep-scope"),
+    ("D3", "s078-line75-word-count"),
+    ("D4", "uncommitted-wave-evidence"),
+    ("D5", "s091-usedby-asymmetry"),
+)
+
+
+def selftest() -> int:
+    cases: list[tuple[str, bool]] = []
+    cases.append(("registry-complete", tuple((i, l) for i, l, _ in CHECKS) == FROZEN))
+    with tempfile.TemporaryDirectory() as tmp:
+        empty = Path(tmp)
+        for item_id, label, check in CHECKS:
+            # Every check must be red on a tree where its input is missing: a check that
+            # returns "" unconditionally is the mutation this asserts against.
+            try:
+                red = bool(check(empty))
+            except Exception:
+                # main() turns an unreadable input into a defect, so a raise is also
+                # not-clean; what this asserts against is a check that comes back "".
+                red = True
+            cases.append((f"{item_id}-red-on-empty", red))
+    failed = [name for name, passed in cases if not passed]
+    for name, passed in cases:
+        print(f"CASE {name} {'PASS' if passed else 'FAIL'}")
+    print(f"SELFTEST checks={len(CHECKS)} failed={len(failed)}")
+    return 0 if not failed else 1
+
+
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--lane", type=Path, default=Path("."))
+    parser.add_argument("--selftest", action="store_true")
     args = parser.parse_args(argv)
+    if args.selftest:
+        return selftest()
     lane = args.lane.resolve()
+    if tuple((i, l) for i, l, _ in CHECKS) != FROZEN:
+        print("DEFECT registry: the check list no longer matches the frozen five")
+        print(f"checks={len(CHECKS)} defects={len(CHECKS) + 1}")
+        return 1
     defects = 0
     for item_id, label, check in CHECKS:
-        reason = check(lane)
+        try:
+            reason = check(lane)
+        except Exception as exc:  # a missing input is a defect, never a crash
+            reason = f"input unreadable ({type(exc).__name__}: {exc})"
         if reason:
             defects += 1
             print(f"DEFECT {item_id} {label}: {reason}")
         else:
             print(f"ok {item_id} {label}: repaired")
-    print(f"defects={defects}")
+    print(f"checks={len(CHECKS)} defects={defects}")
     return 0 if defects == 0 else 1
 
 

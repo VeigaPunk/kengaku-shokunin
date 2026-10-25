@@ -62,19 +62,20 @@ a column that already exists or an explicit delta.
 | "what a negative cannot rule out" | "their coverage, and known gaps" | `unknown` and `not_controlled` are valid entries | Evidence Provided | **already a column** |
 | R2 elicitation budget | (absent) | `elicitation_budget` | Reproducibility | **already a column** in two of three |
 | R5 instrument currency | "Release date", "Change log" | `evaluation_date` | (absent) | **already a column** in two of three |
-| R4 regeneration status | "Change log" | `evaluation_date` | Reproducibility | **already a column**, narrower |
-| S1 acquired contamination | (absent) | type 5 recorded per run | (absent) | **delta in placement, not in field** — the run-side half exists only as the CTC form's type-5 row |
+| R4 regeneration status | "Change log" | a dedicated `regeneration:` block | (absent — GEM's Reproducibility column lists prompt templates, few-shot, scoring and multi-run variance, not regeneration) | **already a column** in one of three |
+| S1 acquired contamination | (absent) | `contamination_controls.acquired` plus the run-side keys | (absent) | **not a delta** — the CTC form already carries the run-side fact; it is a rename, not a relocation |
 | S2 card integrity flag | (absent) | `unknown` / `not_controlled` are valid values | (absent) | **delta in field** — a state for the card itself |
-| R1 strata | (absent) | (absent) | (absent) | **delta** — and see §What this does not establish |
+| R1 strata | (absent) | `strata_reported` | (absent) | **already a column in one of three** — see §What this does not establish for what the entry's own source measured about it |
 
-So the delta is smaller than the staged list implied, and it is stated in three parts: **one new
-field** (S2's tri-state integrity flag), **one new placement** (S1 — contamination acquired during the
-run belongs with the reported score; the CTC form carries it as a per-type value inside a release-side
-artefact, not as a score-side record), and **one new value set** (R1's strata, which no design
-tabulates and whose own source records this lane's first failure with it). Every other row is this
-entry's name for a column a published design already carries. That is what an amendment looks like;
-a design would have claimed all eight, and the earlier "two new fields" reading counted a placement as
-a field.
+So the delta is one field, and the rest is not a delta at all. **S2's tri-state integrity flag is the
+only new field.** S1 is not a new field: the CTC v1.1 column beside it reads `type 5 recorded per run`,
+so the run-side fact is carried; whether that makes the record score-side is a question about *where*
+it is filed, and this lane cannot settle it without reading that form, which it has not admitted. R1's
+strata are absent from all three *tabulated* designs but present in S081's own four-field protocol
+(F1, strata), which this entry cites — so strata is a value set this entry inherits from a cited
+source, not a discovery. Two earlier readings of this paragraph ("two new fields", then "one field, one
+placement, one value set") overclaimed; this is the corrected one, and it is why the amendment is a
+mapping rather than a design.
 
 ## The card gate — CG1–CG8
 
@@ -96,24 +97,30 @@ names the case in which it is not answerable.
 
 CG7 is where the two Eastern sources meet the Western ones from the opposite direction: S085's
 report describes the 方升 system's adaptive dynamic testing method — “方升”测试体系提出自适应动态测试
-（Adaptive Dynamic Testing，ADT）方法对大模型进行评测 — whose item bank is rebuilt so that no two
-sittings share items. A dynamic bank makes leaderboard farming unfarmable; a card makes a fixed
-bank honest about its exposure. They are complements, and a card that answers CG7 must say which
-of the two a benchmark actually does.
+（Adaptive Dynamic Testing，ADT）方法对大模型进行评测 — whose item bank is built dynamically, with
+"采用动态方式构建，保证每次参与测试题目的都不相同". Read alone that sentence sounds absolute, and the
+next sentence on the same page bounds it: only a share of each sitting's items is fresh, the rest is
+shared. That bound is the point for a card: CG7's answer is "dynamic bank, *and* the share", never
+"dynamic bank" as a cleanliness claim. A dynamic bank reduces farmability; a card makes a fixed bank
+honest about its exposure. They answer the same threat from opposite directions, and a benchmark that
+answers CG7 must say which of the two it does and with what qualifier.
 
 ## What this does not establish
 
 - **The card is a format, not a finding.** Nothing here measures contamination in any benchmark.
   Every CG answer is a statement about a *published artefact*, never about a model.
-- **The layer the card adds is the layer its own source could not validate.** S081's arXiv abstract
-  reports of its own protocol (the compiled paper states the same audit outcome in different words
-  and does not print this sentence): "Two variables fall below the prevalence-robust threshold registered in advance:
-  strata reporting and the acquired type introduced here" — that is R1 (strata) and S1/S2
-  (acquired / integrity) in this entry's own naming. The two fields this entry adds are therefore
-  the two its source measured as rare in practice. A complete card is not a common card.
-- **Agreement is not established.** S081's own reliability is modest and skew-sensitive (its
-  test–retest ceiling collapses under class skew, and pooling raises it through chance correction
-  rather than better agreement). Two coders filling this card need not agree; the card records
+- **The card's fields are fields its own source measured as rare.** S081's arXiv abstract reports of
+  its own protocol (the compiled paper states the same audit outcome in different words and does not
+  print this sentence): "Two variables fall below the prevalence-robust threshold registered in advance:
+  strata reporting and the acquired type introduced here" over a 41-document, five-variable population
+  in which three variables clear it. Strata reporting is this entry's R1 and the acquired type is S1 —
+  both of which the mapping above shows a published design already carries in some form. So the entry's
+  one genuinely new field (S2) is *not* one its source validated, and the two fields S081 measured as
+  rare are the two this entry marks as already-columned. A complete card is not a common card.
+- **- **Agreement is not established.** S081's own abstract reports a test–retest ceiling "collapsing under
+  the class skew the registration anticipated", with pooling raising it "through chance correction rather
+  than better agreement" (arXiv abs page, abstract). Two coders filling this card need not agree; the
+  card records what each stated, not a reconciled truth. Two coders filling this card need not agree; the card records
   what each stated, not a reconciled truth.
 - **S085 cannot be used as evidence about anyone else.** It is the sponsoring body's own 2024
   description of its own programme: no document number, no measurements, no data release. It
@@ -133,7 +140,8 @@ of the two a benchmark actually does.
 S081 and S082 are arXiv preprints (a taxonomy paper and a working paper); S083 is a peer-reviewed
 Findings of EACL 2026 paper; S084 is vendor documentation for OpenCompass 0.4.0 (a self-description
 of two procedures, not an evaluation of any model); S085 is a self-report by the China Academy of
-Information and Communications Technology about its own benchmark programme; S086 is a peer-reviewed
+Information and Communications Technology about its own benchmark programme: it carries programme
+numbers and score tables, but no contamination measurement, no document number and no data release; S086 is a peer-reviewed
 言語処理学会 paper on code-corpus contamination. Where a source describes its own artefact, this
 entry labels it a self-report and takes no independent-replication weight from it.
 
@@ -142,8 +150,9 @@ entry labels it a self-report and takes no independent-replication weight from i
 `corpus/knowledge/contamination-detection-and-transparency.md` (tier/access vocabulary, and its
 "How kengaku applies it" row that prefers "suites with a documented transparency card" — the card
 was named there and is defined here), and the union table of the campaign's round-6 staging file
-`benchmark-card-field-schema-2026-10-23.md` (continued, not re-derived; its rows are staged, not in
-this lane's registry). Coverage map: `corpus/README.md` row *Contamination transparency card
+`benchmark-card-field-schema-2026-10-23.md` (continued, not re-derived; two of its three source rows are staged and not in this
+lane's registry, while the GEM 2026 review it tabulates is already registered here at tier A, so that
+one column is lane-checkable). Coverage map: `corpus/README.md` row *Contamination transparency card
 format*. New: `Contamination transparency card format`.
 
 ## How kengaku applies it

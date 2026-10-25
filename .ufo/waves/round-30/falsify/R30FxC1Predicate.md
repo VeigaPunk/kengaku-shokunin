@@ -10,14 +10,20 @@ emitted**; the verdict below is on the predicate's re-derivability, not on the e
 
 Everything below was run by me on 2026-10-25. Nothing installed or upgraded (pacman paused host-wide;
 no tool was needed — python3 3.14, git, bash, the fleet census script). Scratch:
-`/tmp/r30fx-kengakuPred/` (`wt/` worktree copy, `baseg/` = `git archive HEAD`, `m1`…`m19` mutants,
+`/tmp/r30fx-kengakuPred/` (`wt/` worktree copy, `baseg/` = `git archive 363a4eb`, `head2/` = `git archive 623c1fc`, `m1`…`m19` mutants,
 `mkconf.sh` 21-byte harness conf, `matrix.sh`/`matrix2.sh`, `tamper.py`). No lane file edited.
 
 ---
 
-## 0. Provenance first: there are no committed round-30 bytes to check
+## 0. Provenance: at the start of this seat the bytes were uncommitted
 
-The ticket says "against committed bytes". At lane tip `363a4eb` there are none:
+The ticket says "against committed bytes". **When this seat opened, at lane tip `363a4eb`, there were
+none** — the whole build wave had landed worktree bytes only. Mid-seat the integrator committed the
+round as `623c1fc` ("round-30: assimilation round 2 …, routed-defect closure D1–D5, quote-validating
+adoption gate"), so this report gives both states and they differ in exactly one way (§7: the counting
+command itself changed with that commit).
+
+At `363a4eb`:
 
 ```
 $ git status --short | grep -E 'contamination-transparency-card|SOURCES.md|README.md'
@@ -28,19 +34,26 @@ $ git show HEAD:corpus/SOURCES.md | grep -cE '^\| *S[0-9]{3}'      → 82      (
 $ git show HEAD:corpus/README.md | grep -c '^| `knowledge/contamination-transparency-card.md` |' → 0
 ```
 
-So the clause-by-clause check bifurcates, and this is the first seam:
+At `363a4eb` the clause-by-clause check bifurcates, and this is the first seam:
 
 | tree | result of the frozen counting command |
 |---|---|
 | worktree (what `adoption_check.py` actually reads) | `entries=1 indexed=1 cited_rows=6 rows_present=6 rows_mined=6 usedby_ok=1 census=ok`, exit 0 |
-| `git archive HEAD` + the expect file (= the committed tree today) | `entries=0 indexed=0 cited_rows=0 rows_present=0 rows_mined=0 usedby_ok=0 census=ok`, **exit 1** |
+| `git archive 363a4eb` + the expect file | `entries=0 indexed=0 cited_rows=0 rows_present=0 rows_mined=0 usedby_ok=0 census=ok`, **exit 1** |
+| `git archive 623c1fc` + the expect file (**committed as of the integrator's commit**) | `entries=1 indexed=1 cited_rows=6 rows_present=6 rows_mined=6 usedby_ok=1 census=ok`, **exit 0** |
 
-The second line is byte-identical to `.ufo/waves/round-30/claims/control-nothing.txt`. In other words
-**the committed tree today prints C1's own control line**: C1's pass exists only in the working
-directory. The tool's docstring says the opposite — `plans/adoption_check.py:2` "Re-derive an adoption
-round's landed state **from committed bytes**" and `:7` "It reads only committed corpus files, so a
-do-nothing round scores zero" — while the code never invokes git (`grep -c git plans/adoption_check.py`
-→ 0). A reader re-deriving "landed" from the docstring concludes something the code does not do; the
+The `363a4eb` line is byte-identical to `.ufo/waves/round-30/claims/control-nothing.txt`: for the whole
+build-and-falsify window **the committed tree printed C1's own control line**, and C1's pass existed only
+in the working directory. That window is closed by `623c1fc`; the clause table in §1 was checked against
+the worktree bytes first and re-checked against the committed tree after the commit — the entry is
+**byte-identical** in both (`diff -q` → identical), and every clause of §1 still holds on the committed
+bytes. The seam that survives is the docstring/prose one, below, plus the tool drift in §7.
+
+**The docstring seam.** Both the frozen and the current tool's docstring say the opposite of what the
+code does — `plans/adoption_check.py:2`
+"Re-derive an adoption round's landed state **from committed bytes**" and `:7` "It reads only committed
+corpus files, so a do-nothing round scores zero" — while the code never invokes git
+(`grep -c git plans/adoption_check.py` → 0). A reader re-deriving "landed" from the docstring concludes something the code does not do; the
 predicate's own word is the weaker "exists", which is why nothing catches it. This is the same class as
 `R30CritC1.md` B6 (freeze has no git evidence) and `R30FxC1Counter.md` §3.12, applied to the *entry*
 rather than the freeze: **the claim's bytes must be committed before "landed" is true, and no clause
@@ -77,7 +90,7 @@ round 29: `git status --porcelain plans/adoption_check.py` → empty).
 | P2 | `source:` lines citing **exactly the six ids S081 S082 S083 S084 S085 S086** | `grep -c '^source:'` → **6**; ids in file order S081…S086; id↔URL identity vs registry cell 1 → **6/6 match** | **yes** | `SOURCE_LINE_RE` (`:34`) collects ids; `len(cited) == required` (`:152`) compares a **count** | only as `cited_rows=6` | **identity never compared**: entry rewritten to `S001 S002 S004 S007 S008 S012` (all mined, none naming the entry) prints the exact frozen line, exit 0 (mine; `R30CritC1` B2, `R30FxC1Counter` §1b). "exactly the six ids" is a human clause |
 | P3 | "(six distinct)" | six ids, six distinct | **yes** | set union ⇒ distinctness is tested *on the entry side* | via `cited_rows=6` | distinctness is tested where it costs nothing and untested where it matters: expect `sources=[S081,S081,S082,S083,S084,S085]` passes (`R30FxC1Counter` §1c c) |
 | P4 | *(ticket clause, not in the sentence)* **no other S-id anywhere in the entry** | `\b[sS]\d+\b` → exactly `{S081,S082,S083,S084,S085,S086,S1,S2}`; no `S077`, no `S091`, no `S087+` | **yes, under a 3-digit reading** | nothing — no prose read | no | two seams: (a) the sentence **does not contain this clause at all**, so a body-only citation (the round-29 S091 shape, the staged S077 shape) is out of scope of C1's own predicate; (b) tokens `S1`/`S2` *are* in the entry as the delta-field labels, so the clause is true only under a width convention the sentence never states. Probe M7 (add `S091` in prose, no `source:` line) → exact frozen line, exit 0 |
-| P5 | a **`verified-at: 2026-10-25`** line | `:7` `verified-at: 2026-10-25` — one occurrence | **yes** | `:79` regex against **expect.access_date**, not against a literal | **no** — gated, unprinted (`:124`, `:130`) | silent gate: M8 (`2026-10-25`→`2026-10-24`) prints `entries=1 indexed=1 cited_rows=6 rows_present=6 rows_mined=6 usedby_ok=1 census=ok` **and exits 1**. The predicate names the printed line as the claim's evidence; one of its clauses can fail with a byte-identical line. A reader comparing output cannot see P5 fail |
+| P5 | a **`verified-at: 2026-10-25`** line | `:7` `verified-at: 2026-10-25` — one occurrence | **yes** | `:79` regex against **expect.access_date**, not against a literal | **no** — gated, unprinted (frozen `:80`/`:124`; current `:156`/`:149-162`) | silent gate: M8 (`2026-10-25`→`2026-10-24`) prints `entries=1 indexed=1 cited_rows=6 rows_present=6 rows_mined=6 usedby_ok=1 census=ok` **and exits 1**. The predicate names the printed line as the claim's evidence; one of its clauses can fail with a byte-identical line. A reader comparing output cannot see P5 fail. After the §7 drift there are **five** such unprinted gates (ids, duplicates, opened, index shape, verified-at) sharing one byte-identical red line |
 | P6 | every cited row **present in `corpus/SOURCES.md`** | rows at lines 107-112 of the 88-row registry, 11 cells each | **yes** | `registry_rows()` (`:38-51`), cell-count gate `len(cells)!=11 → skip` (`:46`) | `rows_present=6` | presence is not identity: the row may be unidentifiable (blank `source` cell) and still "present" (`R30FxC1Counter` §1, §3.8) |
 | P7 | … with **`status=mined`** | cell 7 = `mined` ×6 | **yes** | `registry[row_id][7] == "mined"` (`:88`) | `rows_mined=6` | **satisfied by construction**: the six rows are *created* mined — one contiguous append (`git diff` = `6 ++++++`, lines 107-112) that mints id, URL, status, `opened`, `used-by` and the quotes in one act, with `corpus/evidence/round30/rows-opened.tsv` as its own record. `rows_mined=6` therefore cannot distinguish six opens from one paste. It is one of the four clauses that *is* machine-tested (M4 `status=rejected` → `rows_mined=5`, exit 1) |
 | P8 | … with **`opened=2026-10-25`** | cell 8 = `2026-10-25` ×6 | **yes** | **nothing**: no `opened` read anywhere (`grep -n opened plans/adoption_check.py` → 0 hits); census E08 only rejects *future* dates | no | two seams. (i) unread: M3 sets S083 `opened=2026-01-01` → exact frozen line, exit 0. (ii) *semantic*: `HEAD:SOURCES.md` has 82 rows and **no** S081–S086, so these ids are new — `opened` here records the day the row was minted, which for a new row is a tautology, and **cannot discriminate the flip's "re-open the cited sources in a later round"**. The re-open lives only in the campaign cross-reference (`recheck:` line + §Corrections), which nothing counted reads |
@@ -185,12 +198,25 @@ claim's sentence. The pass line is a real, monotone kill of the do-nothing round
 byte-for-byte), so C1 is not a "do-nothing scores" failure; it is an **under-specified sentence**, and
 the sentence is the frozen artifact a reader is asked to re-derive.
 
+**Qualification after §7.** All of the above is about the *frozen* command (`20726fc`), the one every
+round-30 receipt was produced by, and about the *printed line*, which is unchanged under the drift. The
+committed command (`dd65558`) now rejects four of the five constructions that the sentence forbids but
+the frozen command accepted (M1, M2/M11, M3/M17, M6) — silently, with a green-looking line. So the
+honest end-state is: **the condition a reader re-derives today is stricter than the condition the
+receipts attest, and the line they read cannot distinguish the two.** That is a provenance defect in
+C1's identity clause, not a defect in the corpus bytes.
+
 ## 5. Smallest safe corrections (recommended, not applied — this seat writes no lane byte but this file)
 
-1. **Do not patch round 30.** The claims preamble forbids a predicate change after seats scored; a
-   widened predicate is a round-31 claim, not this one. Record the divergence as the round-30 record:
-   P2/P3/P8/P10 are byte-clauses with no code path, and P5 is a code-clause with no line.
-2. **Round-31 shape:** four counted fields in the same command and one line —
+1. **Do not patch round 30 in place.** The claims preamble forbids a predicate change after seats
+   scored; a widened predicate is a round-31 claim, not this one. The integrator has now widened the
+   tool without touching the sentence (§7); the minimum repair is a dated change record in
+   `plans/round-30-claims.md` naming both blob ids and the receipts' blob, plus re-issued receipts.
+   Absent that, the round-30 record should state: as frozen, P2/P3/P8/P10 are byte-clauses with no code
+   path and P5 is a code-clause with no line.
+2. **Round-31 shape — partially implemented in `623c1fc` while this seat probed (§7).** The four gates
+   it adds are exactly the four this table named; what is still owed is that they be **printed**, and
+   that the expect file be pinned. Original wording: four counted fields in the same command and one line —
    `ids_match=1` (set equality: cited ids == `entry["sources"]`), `source_lines=6` (`^source:` line
    count == `required`), `opened_ok=6` (`registry[id][8] == access_date`), `index_rows=1` (exact count
    of the anchored row, after stripping HTML comments and fenced blocks). That is ~10 lines in
@@ -209,13 +235,16 @@ the sentence is the frozen artifact a reader is asked to re-derive.
 ## 6. Mutants I ran (each on a `/tmp` copy; lane untouched)
 
 Every probe is `cp -a` of the worktree under a `/tmp` root with the 21-byte harness conf, then
-`python3 plans/adoption_check.py --expect .ufo/waves/round-30/adoption-expect.json --census`.
+`python3 plans/adoption_check.py --expect .ufo/waves/round-30/adoption-expect.json --census`, with the
+**frozen** tool blob `20726fc` (the blob every round-30 receipt used). §7 re-runs the same mutants
+against the committed blob `dd65558`.
 `pass line` below = `entries=1 indexed=1 cited_rows=6 rows_present=6 rows_mined=6 usedby_ok=1 census=ok`.
 
 | id | mutation | printed line | exit | what it proves |
 |---|---|---|---|---|
 | — | none (worktree copy) | pass line | **0** | baseline reproduces the frozen sentence |
-| — | `git archive HEAD` + expect file | `entries=0 indexed=0 cited_rows=0 rows_present=0 rows_mined=0 usedby_ok=0 census=ok` | **1** | committed tree prints C1's control line (§0) |
+| — | `git archive 363a4eb` + expect file | `entries=0 indexed=0 cited_rows=0 rows_present=0 rows_mined=0 usedby_ok=0 census=ok` | **1** | committed tree printed C1's control line for the whole build window (§0) |
+| — | `git archive 623c1fc` + expect file | pass line | **0** | after the integrator's commit the committed tree passes (§0) |
 | M1 | six `source:` ids → `S001 S002 S004 S007 S008 S012` | pass line | **0** | identity of the six ids untested (P2/P3) |
 | M2 | 7th `source:` line, duplicate `S081` | pass line | **0** | line count untested (N1) |
 | M3 | S083 `opened=2026-01-01` | pass line | **0** | `opened` unread (P8) |
@@ -234,3 +263,77 @@ Every probe is `cp -a` of the worktree under a `/tmp` root with the 21-byte harn
 Negative results kept (no defect in the bytes, only in the sentence): the ternary read of every clause
 in §1 stands, `git status --porcelain plans/adoption_check.py` is empty (tool unchanged from round 29),
 and round 29's own expect file still prints its frozen line on the landed tree.
+
+---
+
+## 7. Post-freeze drift: the counting command changed under the claim
+
+The ticket assumed one counting command. While this seat was probing, a sibling replaced it in the lane
+and the integrator committed the replacement in `623c1fc`:
+
+```
+$ git rev-parse 363a4eb:plans/adoption_check.py   → 20726fc0bd1cc9765b2b88bec0e202c0617348e3
+$ git rev-parse 623c1fc:plans/adoption_check.py   → dd655586ab7d897120ee657ae374f05e14b50ba5   (+34 lines)
+$ ls -l --time-style=+%H:%M:%S corpus/evidence/round30/adoption-after.txt plans/adoption_check.py
+  04:37:24 corpus/evidence/round30/adoption-after.txt      ← receipt predates the tool now at HEAD
+  04:43:29 plans/adoption_check.py
+$ git log -1 --format='author=%ad committer=%cd parents=%p' --date=iso 623c1fc
+  author=2026-10-25 04:09:07 -0300   committer=2026-10-25 04:45:51 -0300   parents=363a4eb
+```
+
+So `623c1fc` carries an **author** date before the tool edit and a **committer** date after it: the commit
+was amended (same subject, same parent) to fold in the widened counter at ~04:45, nine minutes after the
+receipt that is supposed to attest it. Nothing here is dishonest — both blobs are in history — but the
+receipt and the tool it is read against are not the same generation, which is what §7.3 is about.
+
+The inserted block adds four unprinted gates — `ids_ok` (set equality of cited ids vs
+`entry["sources"]`), `duplicates_ok` (`len(declared) != len(set(declared))`),
+`opened_ok` (`registry[id][8] == access_date`), `index_shape_ok` (exactly one anchored README row with
+non-empty cells) — with the in-code justification "A falsify critic bought the old pass line for 159
+bytes, so these are implemented here. The printed seven fields do not change; the exit code does."
+
+Measured effect (same mutants as §6, current blob swapped into each `/tmp` tree):
+
+| mutant | frozen blob `20726fc` | committed blob `dd65558` | note |
+|---|---|---|---|
+| M1 ids → S001…S012 | exit 0, pass line | **exit 1**, *same* pass line | `ids_ok` |
+| M2 7 `source:` lines (dup) / M11 8 lines, 6 distinct | exit 0 | **exit 1**, same line | `duplicates_ok` |
+| M3 S083 `opened=2026-01-01` | exit 0 | **exit 1**, same line | `opened_ok` |
+| M6 two index rows | exit 0 | **exit 1**, same line | `index_shape_ok` |
+| M17 expect `access_date`→`2026-01-01` + entry `verified-at`→`2026-01-01` | exit 0 | **exit 1**, same line | `opened_ok` now binds to the expect date |
+| M16 content-free stub entry | exit 0 | exit 0 | content still untested |
+| M19 index row inside `<!-- -->` | exit 0 | exit 0 | row-count still regex-only; the `:76` comment stays false |
+| M4 `status=rejected` / M5 `used-by` moved / M13 entry deleted | exit 1 | exit 1 | unchanged |
+| landed tree, round-30 expect | exit 0 | exit 0 | clause table §1 unaffected |
+| `git archive 363a4eb`, round-29 expect | exit 0 | exit 0 | **no retroactive break of the already-scored round-29 receipt** |
+| control tree (`363a4eb` + expect) | `entries=0 … census=ok`, exit 1 | same line, exit 1 | control preserved |
+
+Why this is a finding and not a fix I can accept silently:
+
+1. The claims file states, in the frozen sentence, "**same condition in the counter's code**" and, in
+   §C1's Counting command, "`adoption_check.py`, **unchanged from round 29**". At `623c1fc` the tool is
+   changed from round 29 and changed within round 30, so the sentence now describes code that did not
+   produce the round's receipts. Both blob states are in history; neither is wrong on its own, but the
+   claim's identity clause is now ambiguous between them.
+2. The claims preamble's own rule — "a predicate changed after a seat has scored is not this claim's
+   predicate" — was written for exactly this. The pass *line* is unchanged; the *condition* is not. A
+   sibling seat scored against `20726fc` (36 build reports + four falsify reports); a reader re-running
+   today scores against `dd65558`. Strictly read, either C1's receipts or the committed tool is from a
+   different claim, and the integrator must pick which record is authoritative.
+3. The new gates are **unprinted**. The red line is now byte-identical to the green line for five
+   distinct failures; a reader re-deriving from the receipt line (which the predicate names as the
+   evidence) can no longer localise *anything*. If the widened tool is kept, the four new conditions
+   should be printed — that is one `print` line, and it is what makes the receipt self-describing.
+
+Smallest safe correction, given the commit has landed: **(a)** add a dated change record to
+`plans/round-30-claims.md` §C1 stating that the counting command's *condition* was widened at `623c1fc`
+after seats scored, with both blob ids, and that the receipts in `corpus/evidence/round30/` are from
+`20726fc`; **(b)** print the four new gates (`ids_ok`/`source_lines`/`opened_ok`/`index_rows`) so the
+receipt line witnesses them; **(c)** re-issue `corpus/evidence/round30/adoption-after.txt` from `623c1fc`
+so the receipt and the tool agree. None of the three alters the corpus bytes, so all three stay inside
+the round's write scope.
+
+Residual seams the drift does **not** close (so §2/§3 stand): content of the entry (M16, pass),
+comment/fence-shaped index rows (M19, pass), quote presence and the kill rule (no code path),
+`status=mined`/`opened` as mint-date tautologies for new rows (N4), and the `census=ok` invariance
+(§2.3).

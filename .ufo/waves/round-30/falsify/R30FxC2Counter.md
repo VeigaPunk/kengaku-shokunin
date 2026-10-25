@@ -6,20 +6,36 @@ Target: `plans/round30_defects.py` against `corpus/lessons/round-29-verifier-spo
 Axis: **calibration**. This seat is neither a source re-read nor the complete-set review, so it carries
 no `VERDICT:` line and no candidate path.
 
-Substrate: `/tmp/r30fx-c2/base` — a `cp -a` byte copy of the lane (548 MB incl. `.git`), with the
-round-30 worktree committed in one commit, **`c4bd7c2`**, so all five repairs are *landed* in the copy.
-Lane HEAD was `363a4eb`; the lane worktree is dirty (15 entries) and was never touched: the only lane
-write this seat makes is this file. Tooling installed: **none** (no pacman, no `uv`, no binary).
-Every run below was executed by me; nothing is accepted from a build report.
+## Substrate
+
+`/tmp/r30fx-c2/l2` — a `cp -a` byte copy of the lane, taken 2026-10-25T07:46Z, with the live worktree
+committed in one commit, **`f8cdb78`**, so all five repairs are *landed* in the copy and every mutant
+below is a single committed delta from it. The lane itself was read-only for this seat: no lane byte was
+edited, and the only lane write is this file. Tooling installed: **none** (no pacman, no `uv`, no binary).
+
+Pins — the counter and its five inputs, sha256 of the exact bytes exercised (peers were editing the lane
+during this review, so the pins matter; the counter changed once, mid-review, and everything below was
+re-run on the current one):
+
+| file | sha256 |
+|---|---|
+| `plans/round30_defects.py` | `114b2aad561a2a9ec188fe09d8dca6a0597f8fd4a7a0239ab82d383f2997ba53` |
+| `corpus/lessons/round-29.md` | `545e4d7e93af737258937ecc8fa414fca8855f30a9f5d49b298ec9a26bc13516` |
+| `corpus/SOURCES.md` | `cf58f52b0affae3af9a875e5957e2135e857055aeb1e8072775f5641e39d99e1` |
+| `corpus/evidence/round29-attempt2/control-nothing.txt` | `9936df9aac143f00ce5130ff2b6ee3a67821b7ded22cd7908e77b7665abea17a` |
+| `.ufo/waves/round-29/attempt2/adoption-expect.json` | `619feca30b7845de743fc144fb613e2c79f688cca032903b137c2d6addae06b5` |
+| `.ufo/waves/round-29/attempt2/build/R29a2CritEntry.md` | `0d094c7f3dcbb2190955884f2effb3472b3e8b6f2b3d67e78ce87992f7b45d40` |
+| `corpus/knowledge/benchmark-task-validity-checklist.md` | `2cd9dca5bf3d458a724a28e1636514b3db81715b101530b6f518523026ce6fa8` |
+
+Every run below was executed by me on that copy; nothing is accepted from a build report. Scratch driver
+`/tmp/r30fx-c2/battery2.sh`, full log `/tmp/r30fx-c2/log2.txt` (154 lines, reproduced in full here).
 
 ---
 
 ## 0. Baselines
 
-Landing the wave's own bytes in the copy and running the counter:
-
 ```
-===== BASELINE: lane worktree committed at c4bd7c2 =====
+===== BASELINE: lane worktree committed at f8cdb78 =====
 ok D1 receipt-at-cited-path: repaired
 ok D2 kappa-sweep-scope: repaired
 ok D3 s078-line75-word-count: repaired
@@ -29,7 +45,8 @@ defects=0
 EXIT=0
 ```
 
-So `defects=0 / exit 0` is reachable and the 5→0 ladder is real. The *live* lane at pick-up:
+So `defects=0 / exit 0` is reachable and the 5→0 ladder is real. The *live* lane at pick-up (HEAD
+`363a4eb`, before the peers' later edits):
 
 ```
 DEFECT D1 receipt-at-cited-path: receipt exists only in the worktree: corpus/evidence/round29-attempt2/control-nothing.txt is not committed at HEAD
@@ -41,8 +58,8 @@ defects=2
 EXIT=1
 ```
 
-which matches sibling `R30FxC2Recheck` (F1) — `defects=2` at HEAD, none of the three "ok" repairs committed.
-That is context, not a survivor: the interesting question is what `defects=0` *means*, and that is below.
+which matches sibling `R30FxC2Recheck` (F1) — `defects=2` at HEAD, none of the three "ok" repairs
+committed. That is context, not a survivor: the interesting question is what `defects=0` *means*.
 
 ---
 
@@ -52,7 +69,7 @@ That is context, not a survivor: the interesting question is what `defects=0` *m
 
 ```
 ===== A. directory planted at the cited D1 path (defect deliberately NOT repaired) =====
-  drwxr-xr-x 2 vgpnk vgpnk 6 Oct 25 04:42 /tmp/r30fx-c2/base/corpus/evidence/round29-attempt2/control-nothing.txt
+  drwxr-xr-x 2 vgpnk vgpnk 6 Oct 25 04:47 /tmp/r30fx-c2/l2/corpus/evidence/round29-attempt2/control-nothing.txt
 DEFECT D1 receipt-at-cited-path: receipt absent at the cited path corpus/evidence/round29-attempt2/control-nothing.txt
 ok D2 kappa-sweep-scope: repaired
 ok D3 s078-line75-word-count: repaired
@@ -66,8 +83,8 @@ Caught (`is_file()` is False). But the *same commit* answers differently in a cl
 reads the worktree, not the blob:
 
 ```
-===== A2. same commit c4bd7c2, fresh clone (no planted directory) =====
-c4bd7c2
+===== A2. same commit f8cdb78, fresh clone (no planted directory) =====
+f8cdb78
 ok D1 receipt-at-cited-path: repaired
 ok D2 kappa-sweep-scope: repaired
 ok D3 s078-line75-word-count: repaired
@@ -101,7 +118,7 @@ Caught.
 
 ```
 ===== C. kappa sentence deleted instead of scoped =====
-  deleted 373 bytes
+  deleted 417 bytes
   kappa lines left: 0
 ok D1 receipt-at-cited-path: repaired
 DEFECT D2 kappa-sweep-scope: no kappa line in the lesson: the sweep the closure narrowed is gone
@@ -149,7 +166,7 @@ Caught in this form. The same repair, committed so that the heading survives, is
 
 **Score on the five literal mutants: 5/5 caught.** The counter's literal predicates work. The
 counterexample is that each one is a string proxy or a host-state test, so five neighbours of the same
-defects pass with `defects=0`. Scratch: `/tmp/r30fx-c2/battery.sh`, full log `/tmp/r30fx-c2/log.txt`.
+defects pass with `defects=0`.
 
 ---
 
@@ -179,6 +196,7 @@ The receipt now records the same run as both 0 and 1 entry, and the counter read
 ```
 ===== C2. falsified claim kept, scope word swapped: 'in the lane' -> 'lane-wide' =====
   planted: kappa and a test–retest ceiling — `grep -rn kappa corpus/knowledge/*.md` → 0 hits lane-wide.
+  scoped count under the lesson's own command: 0 hit(s)
 ok D1 receipt-at-cited-path: repaired
 ok D2 kappa-sweep-scope: repaired
 ok D3 s078-line75-word-count: repaired
@@ -189,12 +207,12 @@ EXIT=0
 ```
 
 Ground truth measured by me, read-only, in the lane: `git grep -li kappa` → **66** at HEAD `363a4eb`,
-**67** in the live worktree (the dirty `LOG.md` is the extra), `corpus/knowledge/*.md` → **0**. So the
-sentence's claim is false by 66 files and the counter certifies it. This is sibling
-`R30FxC2Recheck`'s M1 survivor ("across the whole lane") reproduced independently with a different
-synonym: the D2 test is a literal `"in the lane"` filter, and any re-wording evades it.
-(My baseline's `git grep` reports 82 only because `c4bd7c2` commits the round-30 wave directory, which
-the lane has untracked; 66/67 is the lane figure.)
+**67** in the live worktree (the dirty `LOG.md` is the extra), `corpus/knowledge/*.md` → **0**. The claim
+"0 hits lane-wide" is false by 66–67 files and the counter certifies it. It is false against the lesson's
+own paragraph, which by now states 65/66/67 in the same sentence — so the surviving mutant contradicts
+text the file already carries. This is sibling `R30FxC2Recheck`'s M1 survivor ("across the whole lane")
+reproduced independently with a different synonym: the D2 test is a literal `"in the lane"` filter, and
+any re-wording evades it.
 
 ### D2' — D5: note re-keyed away **and** a non-frontmatter `source: S091` line planted → PASS
 
@@ -213,8 +231,8 @@ EXIT=0
 
 The asymmetry record is deleted and the entry's real `source:` block still carries five rows, but
 `re.search(r"^source:[ \t]*S091\b", entry, re.MULTILINE)` matches a line inside a fenced block. The
-"cite it as a source" branch of D5 is a text pattern anywhere in the file, not a frontmatter row — and
-the entry's source block is a bare `source:` list, so nothing else distinguishes frontmatter from prose.
+"cite it as a source" branch of D5 is a text pattern anywhere in the file, and the entry's source block is
+a bare `source:` list with no delimiters, so nothing distinguishes frontmatter from prose.
 
 ### E2 — D4: the addendum body dropped, the heading kept → PASS
 
@@ -265,7 +283,8 @@ repaired tree") the tree is not what is measured.
 ```
 ===== G1. lesson carries 8 words in the table and 9 words for the same quote at EOF =====
 194:| S078 | https://raw.githubusercontent.com/scaleapi/SWE-
-246:Retained note: the same line-75 quote "The verifier never runs in the agent's sandbox." — 9 words
+196:| S080 | https://raw.githubusercontent.com/hkust-nlp/Toolathlon/9be8d8fe07a497b18ee61e
+246:Retained note: the same line-75 quote "The verifier never runs in the agent's sandbox.
 ok D1 receipt-at-cited-path: repaired
 ok D2 kappa-sweep-scope: repaired
 ok D3 s078-line75-word-count: repaired
@@ -275,13 +294,14 @@ defects=0
 EXIT=0
 ```
 
-(the two grep lines are shown as the log printed them, truncated by the driver's `cut -c1-60`/`-c1-90`;
-line 194's cell is `"731 -> 642 tasks: 89 dropped after review." — 8 words, line 99; "The verifier never
-runs in the agent's sandbox." — 8 words, line 75`, line 246 the appended 9-word price for the same quote.)
+(the three grep lines are shown as the log printed them, truncated by the driver's `cut`; line 194's S078
+cell carries `"The verifier never runs in the agent's sandbox." — 8 words, line 75`, line 246 the appended
+9-word price for the same quote.)
 
 D3's defect was "prices the line-75 quote at 9 words". The mutant writes "9 words" for that exact quote
-into the same file and passes, because `D3_LESSON_RE.search` takes the first match. `.search` is the same
-existence-not-uniqueness flaw as B2.
+into the same file and passes, because `D3_LESSON_RE.search` takes the first match. This survives even the
+two-line line-75 locator test the counter gained mid-review (`114b2aad`): it inspects 24 characters after
+the first match, which is the correct, correctly-located cell; the later contradiction is never read.
 
 ### H — one line added to C1's entry flips C2's verdict → false DEFECT
 
@@ -312,8 +332,8 @@ for a D2 repair that is intact. The separability sentence is false in one direct
 |---|---|---|---|---|
 | **D1** receipt-at-cited-path | (a) dir, (b) one-token line | caught | **YES** — B2 (falsified line beside the quoted one); A/A2 (verdict moves with the worktree, not HEAD) | require *exactly one* seven-field and *exactly one* eight-field control line (`lines.count(QUOTED_LINE)==1 and lines.count(WAVE_LINE)==1` and no third `^entries=\d+ .* census=` line); drop the `is_file()` gate to a note, since `head_blob` is the authority it claims to be |
 | **D2** kappa-sweep-scope | (c) delete sentence | caught | **YES** — C2 (`lane-wide`), F (defect at HEAD, repair in worktree), H (C1 bytes move the count) | (i) read the lesson from `head_blob` like D1/D4; (ii) replace the `"in the lane"` filter with a re-derived bound: if a kappa line mentions `lane`, every `→ N` on it must equal the lane-wide count (`git grep -li kappa` at HEAD → 66); (iii) recompute the scoped count against the pinned round-29 revision `2ff4b6f`, not the live tree, so C1 cannot move it |
-| **D3** s078-line75-word-count | — (not assigned) | — | **YES** — G1 (8 and 9 for one quote in one file) | require *all* prices to agree: `{int(m[1]) for m in D3_LESSON_RE.finditer(lesson)} == {words(QUOTE)}`, and the same for the parenthesised form in the lesson, not only in the registry cell |
-| **D4** uncommitted-wave-evidence | (e) blob without addendum | caught (E1) | **YES** — E2 (heading kept, 1286 bytes of body gone) | probe the body, not the heading: require `"275 + 4 = 279"` and `"Audit state at close"` in `HEAD:<path>`, or the addendum byte length (64749) as a floor |
+| **D3** s078-line75-word-count | — (not assigned) | — | **YES** — G1 (8 and 9 for one quote in one file, past the new locator test) | require *all* prices to agree: `{int(m[1]) for m in D3_LESSON_RE.finditer(lesson)} == {words(QUOTE)}`, and the same for the parenthesised form in the lesson, not only in the registry cell |
+| **D4** uncommitted-wave-evidence | (e) blob without addendum | caught (E1) | **YES** — E2 (heading kept, 1286 characters of body gone) | probe the body, not the heading: require `"275 + 4 = 279"` and `"Audit state at close"` in `HEAD:<path>` |
 | **D5** s091-usedby-asymmetry | (d) re-keyed note | caught | **YES** — D2' (re-key + fenced `source: S091`) | restrict the source test to the frontmatter block: `front = entry.split("\n\n", 1)[0]` then `re.search(r"^source:[ \t]*S091\b", front, re.MULTILINE)` |
 
 ## 4. Does any check still pass without its defect repaired?
@@ -327,11 +347,11 @@ repaired:
   defect and keep the repair in the worktree (F). The sentence the round-29 verifier routed ("renders the
   sweep as 0 hits in the lane") survives one word away, and the verdict does not bind to committed bytes.
 - **D3** — write a second price of 9 words for the same quote somewhere later in the lesson (G1).
-- **D4** — commit the file with `### D. Addendum` and no addendum (E2); the heading and 1286 characters of
+- **D4** — commit the file with `### D. Addendum` and no addendum (E2); heading and 1286 characters of
   body replaced by an 86-character stub, verdict still "repaired".
 - **D5** — delete the asymmetry note and plant `source: S091` in a code fence (D2').
 
-For the canonical judge: the four survivors are **fixable defects** — each is a one-line tightening
+For the canonical judge: the five survivors are **fixable defects** — each is a one-line tightening
 (§3), and the 5→0 ladder is verified reachable. The claim that must be **rejected as written** is narrower:
 `defects=0` is not evidence that D1–D5 are repaired, and the module's separability sentence from C1 is
 false for D2. Until the tightenings land, C2 can be admitted only as "five literal predicates reproduce",
@@ -340,11 +360,11 @@ never as "the five repairs re-derive".
 ## 5. Axis impact
 
 - **calibration — harmed if the survivor set ships.** A check that certifies a gutted addendum (E2), a
-  self-contradictory receipt (B2) and a double-priced quote (G1) is a check that has stopped discriminating:
-  the exact failure mode this lane's mistake register calls a survivor (M90). The counter's own history
-  shows it already killed three such mutants; these four are the same class, one level up.
-- **quality — subtle.** Nothing here harms the five repairs themselves (exact per sibling F7 and B/C/D/E1
-  above); what is harmed is the assertion that the counter's zero *means* repaired.
+  self-contradictory receipt (B2) and a double-priced quote (G1) is a check that has stopped
+  discriminating: the exact failure mode this lane's register calls a survivor (M90). The counter's own
+  history shows it killed three such mutants in round 29; these are the same class, one level up.
+- **quality — subtle.** Nothing here harms the five repairs themselves; what is harmed is the assertion
+  that the counter's zero *means* repaired.
 - **coverage / depth / novelty / freshness / adjacency — untouched.** No production byte, no registry row,
   no entry is changed by this review.
 
@@ -353,12 +373,14 @@ never as "the five repairs re-derive".
 - **D3's provenance is circular and was not falsified further**: the counter prices its own hardcoded
   `QUOTE` constant; no byte copy of the SWE-bench Pro `v2/README.md` exists under `corpus/evidence/`, only
   prose in `build/R29a2RevQuoteS078.md` (line 68 shows the raw line, line 72 the substring test). So D3
-  can only prove "row, lesson and constant agree", never "the constant is line 75". Out of this item's
-  scope; recorded because it is the same false-provenance shape.
+  can only prove "row, lesson and constant agree", never "the constant is line 75".
 - **Overlap with `R30FxC2Recheck`**: their M1 (D2 literal test) and F3 (mixed substrate) are the same
   findings as C2 and F; I reproduced both independently rather than inheriting them, and did not repeat
   their M2/M4/M5/M6.
-- **My `/tmp` baseline commits the round-30 wave**, so counts taken there (e.g. lane-wide kappa 82) are
-  not lane figures; every lane figure quoted above was measured in the lane, read-only.
-- The counter's `git status --porcelain` test in D4 means a dirty worktree can never pass; that is intended
-  for D4 and is the one place the layer is stated. No other check states one.
+- **Live drift.** The lane was being repaired by peers throughout: between my first snapshot and the pinned
+  one, `plans/round30_defects.py` gained a `line 75` locator test in `check_d3`, the D1 receipt gained a
+  provenance correction, the lesson's kappa sentence gained the 65/66/67 counts, and the S081–S085 cells
+  were rewritten. Everything pasted above was re-run on the pinned set in the table at the top; the
+  `defects=2` snapshot in §0 is the lane as it stood at pick-up, not now.
+- **`plans/round30_defects.py` is untracked**, so the counter has no committed history to diff against; the
+  pins are the only reproducible handle on which version a verdict belongs to.

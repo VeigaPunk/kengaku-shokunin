@@ -20,18 +20,21 @@ snapshot, and every token count was invariant.** The churn is in the annotations
 | S1 04:38→04:40 (measurements) | `9dd5ff1b…a6ce680c` | `1be35142…f60a61e1134` | baseline |
 | S2 04:42:08 | `28f5bbda…f7dc75b37e687e` | `43d3e37e…02d17eac4bb94284` | entry S085 legend `23 CJK characters` → `24 characters incl. the fullwidth comma`; **S086 legend `23` → `30` in entry *and* row**; row S081 scope cell rewritten; row S082 title corrected |
 | S3 04:43 | `0f2e1614…c5d479d2af7880` | `094e5c18…3b1181b3a78e92b` | **S084 teaches cell `1-13` → `1-7`**; row S083 anchor gains two normalization caveats |
-| S4 04:44:46 (final, certified) | `df0b6d41…d29317a0ee251a4` | `094e5c18…3b1181b3a78e92b` | entry S083 line gains the same two normalization caveats |
+| S4 04:44:46 | `df0b6d41…d29317a0ee251a4` | `094e5c18…3b1181b3a78e92b` | entry S083 line gains the same two normalization caveats |
+| S5 04:45:56 (final) | `f01b7cd2…3c2dc80ad1e6cd` | `cf58f52b…2775f5641e39d99e1` | entry **and** row S085.1 gain "three typeset lines, not byte-contiguous" — the first statement in the lane that the 方升 span is not a plain byte run (§4.5) |
 
 `plans/sources_adopt.py` (gate) did **not** change: `e9b6bc04…f8610d27d191a195`,
 `--selftest` → `SELFTEST cases=14 failed=0`, exit 0.
 
-Certification pass on S4: all 14 spans found verbatim in both the entry's `source:` line and the row's
-anchor cell; token counts 22, 6, 18, 11, 17, 14, 19, 3, 7, 1, 3, 1, 3, 1 (identical at S1 and S4).
+Final certification (S5, 04:46:03): all 14 spans found verbatim in both the entry's `source:` line and
+the row's anchor cell; token counts 22, 6, 18, 11, 17, 14, 19, 3, 7, 1, 3, 1, 3, 1 — identical at S1 and
+S5.
 
-**Four repairs landed by other seats while I measured** (S086's numeral in both files, the entry's S085
-legend, S084's `1-13` range, and the S083 normalization caveats in both files); §1a separates those from
-what is still live at S4, which is §2 (the CJK cap is undeclared and does not bind), §3 (the nested-pair
-hazard and the entry's unquoted S085 spans), and §4 (four things a green receipt does not cover).
+**Five annotation repairs landed by other seats while I measured** (S086's numeral in both files, the
+entry's S085 legend, S084's `1-13` range, the S083 normalization caveats in both files, and the S085.1
+non-contiguity caveat in both files); §1a separates those from what is still live at S5, which is §2
+(the CJK cap is undeclared and does not bind), §3 (the nested-pair hazard and the entry's unquoted S085
+spans), and §4 (five things a green receipt does not cover).
 
 ---
 
@@ -145,7 +148,7 @@ Two reasons not to dismiss it:
 
 ## 4. What a green gate receipt does NOT cover on these six rows
 
-Four measured gaps, each with a receipt. These are the bookkeeping consequences a reader must know
+Six measured gaps, each with a receipt. These are the bookkeeping consequences a reader must know
 before treating `EXIT=0` as evidence.
 
 1. **13 of 14 spans are gate-visible.** `--quote-file` over the six rows, `--artifact` over a directory
@@ -164,20 +167,48 @@ before treating `EXIT=0` as evidence.
    hyphenated across line breaks (`a contamination-\nresistant … publicly re-\nleased … imple-\nmentations`),
    `p1.dehy.txt`/`p1.join.txt` delete the hyphen (`contaminationresistant`), so the span **as carried**
    (which keeps the hyphen) is absent from every extracted text file.
-4. **…and it "locates" only in the verifying seat's own script.** Running the gate over that whole
-   scratch directory returns
-   `ok S083 words=14 at verify.py` and `ok S083 words=19 at p1.dehy.txt` (exit 7 overall, the other rows
-   absent). `verify.py` is the seat's verification script, which embeds the sentence as a string
-   literal: `q1 in verify.py` is `True` while `q1 in p1.txt/p1raw.txt/p1.dehy.txt/p1.join.txt` is
-   `False` for all four. A receipt that prints `at verify.py` has validated the lane's own copy, not
-   the source — the laundering loop QUALITY Q5 forbids. The remedy is a rule, not a code change: a
-   quote-mode receipt must name a file whose bytes are the fetched capture.
+4. **…and S083.1 "locates" only in the verifying seat's own script.** Running the gate over that whole
+   scratch directory returns `ok S083 words=14 at verify.py` and `ok S083 words=19 at p1.dehy.txt`
+   (exit 7 overall, the other rows absent). `verify.py` is the seat's verification script, which embeds
+   the sentence as a string literal: `q1 in verify.py` is `True` while `q1` in `p1.txt`, `p1raw.txt`,
+   `p1.dehy.txt`, `p1.join.txt` is `False` in all four. A receipt that prints `at verify.py` has
+   validated the lane's own copy, not the source — the laundering loop QUALITY Q5 forbids. The remedy is
+   a rule, not a code change: a quote-mode receipt must name a file whose bytes are the fetched capture.
+5. **Eleven of fourteen spans reproduce in their own fetched capture; two do not; one is never
+   checked.** I ran the gate once per source against that source's retained scratch, so no span can
+   borrow bytes from another source's directory:
+
+   | span | locates in its own capture | artifact the receipt named |
+   |---|---|---|
+   | S081.1/.2/.3 | yes | `abs.html` |
+   | S082.1/.2 | yes | `s082-html.html` |
+   | S083.1 | **no** — only in the seat's `verify.py` (§4.4) | — |
+   | S083.2 | yes, only in the derived `p1.dehy.txt` (whitespace-collapsed, hyphen-deleted) | `p1.dehy.txt` |
+   | S084.1/.2/.3 | yes | `refetch.html` |
+   | S085.1 | **no** — refused, exit 7 | — |
+   | S085.2 | yes | `caict.txt` |
+   | S086.1 | yes | `Q2-11.layout.txt` |
+   | S086.2 | never checked (unquoted) | — |
+
+6. **`R30SrcS085.md`'s contiguity claim for the 方升 span is false, and the row now says so.** That
+   report, line 73, states "**Byte-substring:** yes, in `caict.txt`; no, in the raw `.pdf`. Exactly one
+   occurrence." Measured on the same `caict.txt` (sha256 `e551e2e0…` per the report, retained):
+   `q1 in caict.txt` is **`False`**, and the reason is in the report's own line numbers — the span
+   starts at the end of line 1010 and wraps, with the break inside the acronym expansion:
+   `… ADT）方` (line 1011) / `法对大模型进行评测 …` (line 1012). Removing newlines admits exactly one
+   occurrence. The gate therefore refuses S085.1 against the capture (`REFUSED S085 absent words=3`,
+   exit 7), while S085.2 locates. The S5 row/entry edit ("three typeset lines, not byte-contiguous") is
+   the correct statement; the build report's "yes" was not, and nothing in the S1–S4 row recorded it —
+   so between the source seat and S5 the registry carried a verification claim that its own capture
+   contradicts. The entry's `recheck:` line inherits the consequence: run as written, it goes red on
+   S085.1 unless the artifact is the newline-unwrapped text, and neither the row nor the entry names
+   that artifact.
 
 ---
 
 ## 5. Entry ↔ row drift that survives, and what I did not test
 
-- Span text is byte-identical between entry and row for every ASCII-quoted span at S4 (S081 3, S082 2,
+- Span text is byte-identical between entry and row for every ASCII-quoted span at S5 (S081 3, S082 2,
   S083 2, S084 3, S086 1). Remaining annotative differences: the entry's S084 locator says "html lines
   344 and 397" and gives **no locator for its third quote** (the row has `line 315`); the entry's S085
   drops the row's "the fullwidth quotes are the report's own"; the entry's S086 says "text-layer lines
@@ -191,10 +222,18 @@ before treating `EXIT=0` as evidence.
   `887adab8…2b8a9c` match `R30SrcS086.md`; `Q2-11.pdf` md5 `08d383fbd3faf659ac16f666dd0a5de6` at
   371155 bytes matches the build report's md5 and size; `Q2-11.refetch.pdf` is byte-identical. Caveat:
   `len=30`, `in raw: False`, `in unwrapped: True`, lines 80–81.
-- Not tested here: whether any span is present in its source (other seats' claims; §4.3 is the one
-  place I could test it, and it failed for S083.1 under the gate's matcher); whether the S085/S086
-  character legends are consumed by any check (they are not); anything about the other 82 rows beyond
-  the CJK-span census in §1a.
+- Not tested here: whether any span is present in its source *beyond the gate's matcher* — §4.5 is the
+  measured answer for the matcher the gate implements (11 yes, 2 no, 1 unreachable), and the two "no"
+  cases are exactly the ones both files now caveat, so the registry is honest about them while the
+  build report (§4.6) was not. Whether the S085/S086 character legends are consumed by any check (they
+  are not); anything about the other 82 rows beyond the CJK-span census in §1a.
+- Scratch captures belong to other seats and can be deleted: every per-source receipt in §4.5 depends on
+  `/tmp/r30-R30SrcS08{1..6}/` existing unchanged. Provenance was spot-checked and holds where checked:
+  `caict.txt` 74975 bytes (the report's size) under `caict-2024.pdf` sha256 `e551e2e0…` (identical on
+  refetch); `s084.html` sha256 `c4447d93…` at 32762 bytes (the report's decoded size, identical on
+  refetch); `Q2-11.*` as in the bullet above. The S083 capture's hashes were not checked against
+  `R30SrcS083.md`, and the S081/S082 captures were not checked at all — their spans located on the first
+  capture file the gate examined, which is the weaker test.
 
 ---
 
@@ -212,13 +251,16 @@ python3 plans/sources_adopt.py --quote-file /tmp/r30fx-quotes/cjk1200-row.txt \
         --artifact /tmp/r30fx-quotes/cjk1200-art.txt                        # 1200-char CJK span: words=1
 python3 plans/sources_adopt.py --quote-file /tmp/r30fx-quotes/rows6-final.txt \
         --artifact /tmp/r30-R30SrcS083                                      # S083.1 located only at verify.py
+for d in /tmp/r30-R30SrcS08{1,2,3,4,5,6}; do
+  python3 plans/sources_adopt.py --quote-file /tmp/r30fx-quotes/rows6-final.txt --artifact $d \
+    | grep -E "^QUOTE|S08[1-6] (ok|absent)"; done                          # §4.5 matrix
 ```
 
-`/tmp/r30fx-quotes/` holds: `S08*.row.txt` (S1 rows), `rows6.txt` (S1 six rows), `rows6-final.txt` (S4),
+`/tmp/r30fx-quotes/` holds: `S08*.row.txt` (S1 rows), `rows6.txt` (S1 six rows), `rows6-final.txt` (S5),
 `entry-sources.txt` (the entry's six `source:` lines), `art/all14.txt` (all fourteen spans),
 `mut/` (the nested-pair mutant and its two artifacts), `cjk*/` (the cap probes). Every span in
 `art/all14.txt` was verified verbatim in **both** its entry `source:` line and its row's anchor cell at
-S4 (§0 certification); runs 2 and 5 above were re-executed against the S4 rows and printed
+S5 (§0 certification); runs 2 and 5 above were re-executed against the S5 rows and printed
 `spans=13 located=13` (exit 0) and `words=1` (exit 0) respectively.
 
 No `VERDICT:` line is emitted here: this seat is neither the source re-read nor the complete-set

@@ -23,17 +23,35 @@ lands in the same commit (§Round 30 admission).
 |register `kengaku round3 S105` (`payload-absent`) | quote-present at row level; `unreachable` is false | both the memento snapshot and the live page served 200 this round; the register's payload appears only in METI's 403 error shell, while the row's anchor (`ホールド・アウトデータ`) is present once. Error-shell misbinding, not fabricated evidence; the lane appends nothing | `.ufo/waves/round-30/falsify/R30FxQuarantine.md`; `/.ufo/reports/round-29/kengaku.md` §60-62 |
 |`considerthese/2026-10-24.md` proposal 1 (gates on every push) | landed as criterion Q20 | proposal is unimplemented in this lane (`.github/` absent on every branch; `LOG.md:372` says receipts are "author-observed, never non-author closure"); drafted against 15 gates that run offline in ≤2 s, with the three limits the seat measured (exit-code-only loses; the pinned integer detects shrinkage; a tautologised assertion passes) | `corpus/QUALITY.md` Q20; `.ufo/waves/round-30/build/R30Considerthese.md` |
 
+**Flip conditions** (one per rejected candidate, so a rejection is never "never"):
+
+- `judge-calibration-thresholds.md` — flips when its staged bytes carry a kappa/ceiling figure that
+  appears in one of its own anchor cells, and the round takes judge calibration as its one theme.
+- `contamination-mitigation-comparative-evidence-2026-10-23.md` — flips when S120 and S121 are opened
+  in a round whose theme is the round-4 ledger correction.
+- `card-publication-contracts.md` — flips when its load-bearing claim is re-cited to the tier-B row the
+  package already holds instead of a tier-C mirror.
+- the remaining 63 staged entries and 169 staged rows — flip one entry at a time under CORPUS rule 4,
+  each with its own re-opened sources and schema-valid rows.
+- register `kengaku round2 S091` / `kengaku round3 S105` — no lane append is owed (verdict: quote-present
+  at row level); they flip only if the register itself is corrected upstream, which this lane never edits.
+
+**Simplification debt recorded, not paid.** A simplifier seat measured the quote gate's added surface at
+341 lines and keyed a delete list of 115 unexercised lines (unreadable-artifact channel, directory
+artifacts, the `cap` parameter, the `found` list, accepted-span detail) that keeps `cases=14`. It is
+next round's work: deleting it now would land an unverified reduction at the end of the round.
+
 ## Round 30 admission
 
 - Entry: `corpus/knowledge/contamination-transparency-card.md` — six `source:` lines (S081–S086,
   no other id anywhere in the body), `verified-at: 2026-10-25`, `recheck: 180d` with its action,
   `writer: KengakuR30`.
-- Q10 second seat: `.ufo/waves/round-30/falsify/R30FxEntryCompleteSet.md` (a `reviewer` seat that
-  did not write the entry re-opened all six sources and re-derived every number); per-source
-  re-reads are `.ufo/waves/round-30/falsify/R30FxSrcS081.md` through
-  `.ufo/waves/round-30/falsify/R30FxSrcS086.md`, and the six-row schema re-read is
-  `.ufo/waves/round-30/falsify/R30FxRowsCensus.md`. The falsify wave registry that carries their
-  roles is `.ufo/waves/round-30/falsify/swarm-registry.json`. Q13 is checked by the closure with
+- Q10 second seats: six per-source re-reads by `scout` seats that did not write the entry, one per
+  source — `.ufo/waves/round-30/falsify/R30FxSrcS081.md` through
+  `.ufo/waves/round-30/falsify/R30FxSrcS086.md`, each carrying its own capture identity, word counts
+  and a `VERDICT:` line. The falsify wave registry that carries their
+  roles is `.ufo/waves/round-30/falsify/swarm-registry.json`. Landing commit
+  `623c1fc9b083a9b3def3b9f66f5518628e01b6a5`; the closure checks Q13 with
   `python3 plans/gate_timing_check.py --lesson corpus/lessons/round-30.md --commit <the admitting commit>`;
   the round can only prove the shape in a sandbox (`.ufo/waves/round-30/falsify/R30FxQ13Fixture.md`), and
   says so rather than recording an unrun command as a check.
@@ -84,7 +102,7 @@ the same 14 `W04` duplicate-URL warnings as at baseline (`.ufo/waves/round-30/as
   round's own narrowing of the D2 kappa sentence. The first repair added a markdown-emphasis strip
   `re.sub(r"[*_\`]", "", raw)` before testing the measured scope — which deletes the `*` inside
   `corpus/knowledge/*.md`, so the scope test could never pass and D2 was red for *any* lesson bytes.
-  Caught by falsify seat `R30RevCounter` at counter revision `e565468`
+  Caught by falsify seat `R30RevCounter` at counter body `e565468` (a sha256 prefix, not a commit)
   (`.ufo/waves/round-30/build/R30RevCounter.md`), not by the counter itself. **Captured-by: none** —
   `plans/round30_defects.py` had no selftest and printed a bare `defects=1`, indistinguishable from
   the genuine pre-repair state. **Fix:** the emphasis strip now applies only to the banned phrase
