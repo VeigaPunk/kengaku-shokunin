@@ -164,5 +164,9 @@ Registries: `.ufo/waves/round-31/build/swarm-registry.json`, `.ufo/waves/round-3
 - **"91 rows" overstates the registry's distinct sources** (`R31FxS100Dupe.md`): the 15 `W04` are occurrences,
   not defects, and the effective distinct-URL count is ≈73 (≈71 with the own-work aliases). The census also
   cannot see the S078↔S093 same-repo-same-pin pair because the hosts differ. Disclosed in the report.
+- **A fourth wrong cell in round 30's lesson is left standing** (`R31FxLessonDraft.md`):
+  `corpus/lessons/round-30.md:66` still calls S083/S086 "peer-reviewed" while the registry row records that the
+  society publishes without peer review. It is outside the frozen R-list, so it is recorded as debt here and
+  not silently corrected — an erratum is owed by the next round that touches that lesson.
 - **R9's line-count test is a stub heuristic, not an integrity invariant** (`R31FxC2R9.md`): a 120-line stub
   is caught, but a revert, a one-line append and an identical delete/re-add survive. Named debt.
