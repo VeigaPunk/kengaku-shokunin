@@ -67,12 +67,11 @@ re-probed 2026-10-25 — build (A) below, with the receipts under
 
 verified-at: 2026-10-25
 receipts: corpus/evidence/round33/catalogs/ (raw bytes + sha256 digests committed)
-raw: hf.raw.json sha256 3662d3379a412aa4d2362c8f02c9b081bf80e478dd76629c36cd002470241344;
-     or.raw.json sha256 69dce7810d1b5e312ba6dec01fa1710647031b28546b724a6e9a779501d96350 — a bounded
-     envelope (OpenRouter's response exceeds the 64 KiB cap, so the retained artifact is
-     `{"data":[first model verbatim],"meta":{"truncated":true,"observed_models":467,
-     "bytes_total":…,"sha256_full":…}}`); `or_models=467` below is the live probe's own
-     observed count recorded in that envelope, not a re-parse of truncated bytes
+raw: hf.raw.json sha256 96aba4d1d53c9cc8b06a2238c0a7eb224709ae66417b6a602ca6a34416323121 (27,698 B);
+     or.raw.json sha256 9755544573fb4fa343afb216f9133371b0b226e94e87dd97d8696a3b68fc6bc5 (16,010 B).
+     OpenRouter response was fetched with `?limit=10`; the complete response carries 10 model
+     objects plus `total_count=467`, so `or_models=467` re-derives from that retained response.
+     Both complete response bodies are under the 64 KiB cap.
 observed (re-derived by `python3 plans/catalog_probe.py --verify --lane .`):
 hf_models=50 or_models=467 hf_schema_delta=4 or_schema_delta=0
 HF missing fields: author, sha, lastModified, gated — unchanged from the round-32 probe (the

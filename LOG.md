@@ -932,9 +932,9 @@ round-31 correction rows). Counter `plans/round33_defects.py` → `checks=6 defe
 `corpus/evidence/round33/defects-after.txt`.
 
 Re-probed HF + OpenRouter live with committed bounded receipts: `hf_models=50 or_models=467
-hf_schema_delta=4 or_schema_delta=0`. OpenRouter's response exceeds the 64 KiB cap, so the retained
-artifact is a self-describing envelope (first model verbatim + observed count + full-response sha256
-provenance); `catalog_probe.py --verify` re-derives from the committed bytes, exit 0.
+hf_schema_delta=4 or_schema_delta=0`. OpenRouter's response was fetched with `?limit=10` and
+the complete bounded JSON response carries `total_count=467`; `catalog_probe.py --verify`
+re-derives the counts and schema deltas from the committed raw bytes, exit 0.
 
 Wave: build 36 seats + falsify 36 seats via the orchestrator's inline OMP bridge (v1).
 QUALITY.md gains Q22 (receipt-is-evidence-only-if-re-run). considerthese/2026-10-25 proposal 3
