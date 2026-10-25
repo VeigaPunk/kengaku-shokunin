@@ -969,3 +969,4 @@ git. Fleet report: `.ufo/reports/round-33/kengaku.md`.
 - Swarm shape was 36 build + 53 falsify = 89 seats (0 dead, no residual call). One falsify report
   (`R33FCensus.md`) was misrooted into the fleet wave tree, then copied byte-exact into the lane
   and removed from the fleet root. No tools were installed.
+- A direct Git commit briefly parked the C1/C3 payload on detached orphan `2b4cef2e`; it was abandoned and the changes were re-landed through `jj-lane.sh`. Final branch/remote equality is recorded in the report.
