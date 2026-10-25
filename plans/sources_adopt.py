@@ -1,0 +1,367 @@
+#!/usr/bin/env python3
+"""Source-adoption gate for kengaku's corpus registry.
+
+Round 29 attempt 2 (2026-10-25). The fleet census (`scripts/sources-census.sh`)
+validates a registry that already exists; nothing in the lane checked a row set
+*before* it was appended. This gate does that check, so an adoption round cannot
+append a colliding id, a mangled cell, or a `used-by` pointing at an entry that
+was never admitted.
+
+Capabilities (each separately exercised by `--selftest`):
+  1. id-collision detection against the live registry, using the census parser's
+     own 0-3-leading-space row anchor -- a column-zero-only pattern false-greens
+     an indented collision (scratch `  | S002 |` fixture, SKILL/CORPUS note);
+  2. staged-row schema check: exactly 11 cells, no literal or escaped `|` inside
+     a cell, a valid `status`, and a valid `recheck` cell;
+  3. append-block construction that normalizes a prose `recheck` cell to the
+     frozen access date (reporting the stripped prose separately) and rewrites
+     `used-by` to exactly the admitted entries citing the row;
+  4. refusal with a non-zero exit for a missing requested id, an escaped pipe, a
+     duplicate staged id, or a nonempty collision set.
+
+Scope: registry row mechanics only. Source truth, tier judgement and the census
+itself stay where they are (CORPUS.md contract v1; census is fleet-owned).
+"""
+from __future__ import annotations
+
+import argparse
+import re
+import sys
+import tempfile
+from pathlib import Path
+
+ROW_RE = re.compile(r"^( {0,3})\|[ \t]*(S[0-9]{3,})[ \t]*\|")
+ISO_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+CADENCE_RE = re.compile(r"^\d+d$")
+SYMBOLIC_CADENCE = {"on-release", "on-request", "never"}
+STATUSES = {"queued", "mined", "rejected"}
+COLUMNS = 11
+
+EXIT_OK = 0
+EXIT_COLLISION = 3
+EXIT_MALFORMED = 4
+EXIT_REQUEST = 5
+
+
+class Row:
+    __slots__ = ("line_no", "indent", "row_id", "cells", "raw")
+
+    def __init__(self, line_no: int, indent: int, row_id: str, cells: list[str], raw: str):
+        self.line_no = line_no
+        self.indent = indent
+        self.row_id = row_id
+        self.cells = cells
+        self.raw = raw
+
+    def cell(self, index: int) -> str:
+        return self.cells[index].strip()
+
+
+def split_cells(raw: str) -> tuple[list[str] | None, str]:
+    """Split one table row into its 11 cells.
+
+    Returns (cells, reason). cells is None when the row cannot be parsed as an
+    11-cell row; reason names the defect. An escaped pipe (`\\|`) inside a cell
+    is a defect rather than a separator: it silently produces 12 cells upstream,
+    which is the real failure seen on the kengaku campaign package.
+    """
+    stripped = raw.rstrip("\n")
+    if "\\|" in stripped:
+        return None, "escaped-pipe"
+    body = stripped.strip()
+    if not body.startswith("|") or not body.endswith("|"):
+        return None, "not-a-table-row"
+    cells = body[1:-1].split("|")
+    if len(cells) != COLUMNS:
+        return None, f"columns={len(cells)}"
+    return cells, ""
+
+
+def parse_rows(text: str, *, anchor: bool = True) -> tuple[list[Row], list[tuple[int, str, str]]]:
+    """Rows matching the census anchor (0-3 leading spaces) plus malformed rows.
+
+    `anchor=False` widens to any leading whitespace; that switch exists only so
+    the selftest can prove the narrow anchor is load-bearing.
+    """
+    pattern = ROW_RE if anchor else re.compile(r"^( *)\|[ \t]*(S[0-9]{3,})[ \t]*\|")
+    rows: list[Row] = []
+    bad: list[tuple[int, str, str]] = []
+    for index, raw in enumerate(text.splitlines(), start=1):
+        match = pattern.match(raw)
+        if not match:
+            continue
+        cells, reason = split_cells(raw)
+        if cells is None:
+            bad.append((index, match.group(2), reason))
+            continue
+        rows.append(Row(index, len(match.group(1)), match.group(2), cells, raw))
+    return rows, bad
+
+
+def row_defects(row: Row) -> list[str]:
+    defects: list[str] = []
+    status = row.cell(7)
+    if status not in STATUSES:
+        defects.append(f"status={status or '<empty>'}")
+    recheck = row.cell(9)
+    if not (ISO_DATE_RE.match(recheck) or CADENCE_RE.match(recheck) or recheck in SYMBOLIC_CADENCE):
+        defects.append("recheck-prose" if recheck else "recheck-empty")
+    if not row.cell(1):
+        defects.append("source-empty")
+    return defects
+
+
+def ids(rows: list[Row]) -> list[str]:
+    return [row.row_id for row in rows]
+
+
+def collisions(registry_ids: list[str], staged_ids: list[str]) -> list[str]:
+    return sorted(set(registry_ids) & set(staged_ids))
+
+
+def duplicate_ids(staged_ids: list[str]) -> list[str]:
+    seen: set[str] = set()
+    dupes: list[str] = []
+    for row_id in staged_ids:
+        if row_id in seen and row_id not in dupes:
+            dupes.append(row_id)
+        seen.add(row_id)
+    return dupes
+
+
+def build_block(
+    rows: list[Row],
+    want_ids: list[str],
+    admitted_entries: list[str],
+    access_date: str,
+) -> tuple[list[str], list[tuple[str, str]], list[str]]:
+    """Return (block_lines, stripped_prose, missing_ids)."""
+    by_id = {row.row_id: row for row in rows}
+    missing = [row_id for row_id in want_ids if row_id not in by_id]
+    if missing:
+        return [], [], missing
+    block: list[str] = []
+    prose: list[tuple[str, str]] = []
+    used_by = ", ".join(admitted_entries)
+    for row_id in want_ids:
+        row = by_id[row_id]
+        cells = [cell.strip() for cell in row.cells]
+        recheck = cells[9]
+        if not (ISO_DATE_RE.match(recheck) or CADENCE_RE.match(recheck) or recheck in SYMBOLIC_CADENCE):
+            prose.append((row_id, recheck))
+            cells[9] = access_date
+        cells[8] = access_date if not ISO_DATE_RE.match(cells[8]) else cells[8]
+        cells[10] = used_by
+        cells[7] = "mined"
+        block.append("| " + " | ".join(cells) + " |")
+    return block, prose, []
+
+
+def collect(package: Path, registry: Path) -> tuple[list[Row], list[Row], list[tuple[int, str, str]]]:
+    staged_text = package.read_text(encoding="utf-8")
+    registry_text = registry.read_text(encoding="utf-8")
+    staged, bad = parse_rows(staged_text)
+    registry_rows, _ = parse_rows(registry_text)
+    return staged, registry_rows, bad
+
+
+def check(
+    package: Path, registry: Path, want_ids: list[str] | None = None
+) -> tuple[int, dict[str, object]]:
+    staged, registry_rows, bad = collect(package, registry)
+    clash = collisions(ids(registry_rows), ids(staged))
+    dupes = duplicate_ids(ids(staged))
+    defects = {row.row_id: row_defects(row) for row in staged}
+    defects = {row_id: found for row_id, found in defects.items() if found}
+    report: dict[str, object] = {
+        "registry": len(registry_rows),
+        "staged": len(staged),
+        "collisions": clash,
+        "duplicates": dupes,
+        "malformed": [f"{row_id}:{reason}" for _, row_id, reason in bad],
+        "defects": defects,
+    }
+    if bad or dupes or defects or clash:
+        code = EXIT_COLLISION if clash else EXIT_MALFORMED
+        return code, report
+    if want_ids:
+        missing = [row_id for row_id in want_ids if row_id not in ids(staged)]
+        if missing:
+            report["missing"] = missing
+            return EXIT_REQUEST, report
+    return EXIT_OK, report
+
+
+def print_report(report: dict[str, object]) -> None:
+    print(
+        "registry={registry} staged={staged} collisions={coll} malformed={mal} "
+        "duplicates={dup} defects={defc}".format(
+            registry=report["registry"],
+            staged=report["staged"],
+            coll=len(report["collisions"]),
+            mal=len(report["malformed"]),
+            dup=len(report["duplicates"]),
+            defc=len(report["defects"]),
+        )
+    )
+    for key in ("collisions", "malformed", "duplicates"):
+        values = report[key]
+        if values:
+            print(f"  {key}: {' '.join(str(value) for value in values)}")
+    defects = report["defects"]
+    if defects:
+        for row_id, found in sorted(defects.items()):
+            print(f"  defect {row_id}: {' '.join(found)}")
+    if report.get("missing"):
+        print(f"  missing: {' '.join(report['missing'])}")
+
+
+# --------------------------------------------------------------------------- selftest
+
+HEADER = "| id | source | kind | tier | scope | anchor | teaches | status | opened | recheck | used-by |\n|---|---|---|---|---|---|---|---|---|---|---|\n"
+GOOD_ROW = (
+    "| S900 | fixture source — https://example.invalid/x | docs | A | fixture scope | "
+    "anchor text | fixture teaches | mined | 2026-10-23 | 180d | "
+    "corpus/knowledge/old.md |"
+)
+PROSE_ROW = GOOD_ROW.replace("| 180d |", "| 2026-10-23 — re-verify at next release |")
+
+
+def selftest() -> int:
+    cases: list[tuple[str, bool]] = []
+
+    def case(name: str, passed: bool) -> None:
+        cases.append((name, passed))
+        print(f"CASE {name} {'PASS' if passed else 'FAIL'}")
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+
+        def write(name: str, text: str) -> Path:
+            path = root / name
+            path.write_text(text, encoding="utf-8")
+            return path
+
+        # 1. column-zero collision is caught
+        reg = write("reg0.md", HEADER + GOOD_ROW.replace("S900", "S001") + "\n")
+        staged = write("staged0.md", HEADER + GOOD_ROW.replace("S900", "S001") + "\n")
+        code, report = check(staged, reg)
+        case("collision-zero-indent", code == EXIT_COLLISION and report["collisions"] == ["S001"])
+
+        # 2. 1-space-indented collision is caught (the proven false-green)
+        staged = write("staged1.md", HEADER + " " + GOOD_ROW.replace("S900", "S002") + "\n")
+        reg = write("reg1.md", HEADER + GOOD_ROW.replace("S900", "S002") + "\n")
+        code, report = check(staged, reg)
+        case("collision-one-space", code == EXIT_COLLISION and report["collisions"] == ["S002"])
+
+        # 3. 3-space-indented collision is caught (census anchor boundary)
+        staged = write("staged2.md", HEADER + "   " + GOOD_ROW.replace("S900", "S003") + "\n")
+        reg = write("reg2.md", HEADER + GOOD_ROW.replace("S900", "S003") + "\n")
+        code, report = check(staged, reg)
+        case("collision-three-space", code == EXIT_COLLISION and report["collisions"] == ["S003"])
+
+        # 4. 4-space indentation is outside the clause: no row, so no collision
+        staged = write("staged3.md", HEADER + "    " + GOOD_ROW.replace("S900", "S004") + "\n")
+        reg = write("reg3.md", HEADER + GOOD_ROW.replace("S900", "S004") + "\n")
+        code, report = check(staged, reg)
+        case(
+            "four-space-not-a-row",
+            code == EXIT_OK and report["staged"] == 0 and report["collisions"] == [],
+        )
+
+        # 5. escaped pipe is refused as malformed, never silently 12 cells
+        staged = write(
+            "staged4.md",
+            HEADER + GOOD_ROW.replace("S900", "S005").replace("fixture scope", "scope \\| scope") + "\n",
+        )
+        reg = write("reg4.md", HEADER)
+        code, report = check(staged, reg)
+        case("escaped-pipe-refused", code == EXIT_MALFORMED and report["malformed"] == ["S005:escaped-pipe"])
+
+        # 6. prose recheck normalizes to the access date, prose kept
+        staged = write("staged5.md", HEADER + PROSE_ROW.replace("S900", "S006") + "\n")
+        reg = write("reg5.md", HEADER)
+        rows, _ = parse_rows(staged.read_text(encoding="utf-8"))
+        block, prose, missing = build_block(rows, ["S006"], ["corpus/knowledge/new.md"], "2026-10-25")
+        case(
+            "prose-recheck-normalized",
+            not missing
+            and len(block) == 1
+            and "| 2026-10-25 |" in block[0]
+            and prose and prose[0][0] == "S006",
+        )
+
+        # 7. dangling used-by is rewritten to the admitted set only
+        block, _, _ = build_block(rows, ["S006"], ["corpus/knowledge/new.md"], "2026-10-25")
+        case(
+            "usedby-projected",
+            bool(block) and block[0].rstrip().endswith("corpus/knowledge/new.md |")
+            and "old.md" not in block[0],
+        )
+
+        # 8. duplicate staged id is refused
+        staged = write(
+            "staged6.md",
+            HEADER + GOOD_ROW.replace("S900", "S007") + "\n" + GOOD_ROW.replace("S900", "S007") + "\n",
+        )
+        reg = write("reg6.md", HEADER)
+        code, report = check(staged, reg)
+        case("duplicate-staged-id", code == EXIT_MALFORMED and report["duplicates"] == ["S007"])
+
+        # 9. a clean package passes
+        staged = write("staged7.md", HEADER + GOOD_ROW.replace("S900", "S008") + "\n")
+        code, report = check(staged, reg)
+        case("clean-package-passes", code == EXIT_OK and report["staged"] == 1)
+
+        # 10. a requested id absent from the package is refused
+        code, report = check(staged, reg, ["S008", "S009"])
+        case("missing-requested-id", code == EXIT_REQUEST and report.get("missing") == ["S009"])
+
+    failed = [name for name, passed in cases if not passed]
+    print(f"SELFTEST cases={len(cases)} failed={len(failed)}")
+    if failed:
+        print("  failed: " + " ".join(failed))
+        return 1
+    return 0
+
+
+def main(argv: list[str]) -> int:
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("--selftest", action="store_true")
+    parser.add_argument("--registry", type=Path, help="live corpus/SOURCES.md")
+    parser.add_argument("--package", type=Path, help="SOURCES.append.md to check")
+    parser.add_argument("--admit-ids", default="", help="comma-separated ids to append")
+    parser.add_argument("--entries", default="", help="comma-separated admitted entry paths")
+    parser.add_argument("--access-date", default="", help="ISO date frozen for this adoption")
+    parser.add_argument("--out", type=Path, help="write the append block here")
+    args = parser.parse_args(argv)
+    if args.selftest:
+        return selftest()
+    if not args.registry or not args.package:
+        parser.error("--registry and --package are required unless --selftest")
+    want = [item for item in args.admit_ids.split(",") if item]
+    code, report = check(args.package, args.registry, want or None)
+    print_report(report)
+    if code != EXIT_OK or not want:
+        return code
+    if not args.access_date:
+        parser.error("--access-date is required when --admit-ids is given")
+    rows, _ = parse_rows(args.package.read_text(encoding="utf-8"))
+    entries = [item for item in args.entries.split(",") if item]
+    block, prose, missing = build_block(rows, want, entries, args.access_date)
+    if missing:
+        print(f"  missing: {' '.join(missing)}")
+        return EXIT_REQUEST
+    for row_id, text in prose:
+        print(f"  normalized recheck {row_id}: {text}")
+    text = "\n".join(block) + "\n"
+    if args.out:
+        args.out.write_text(text, encoding="utf-8")
+        print(f"wrote {args.out} rows={len(block)}")
+    else:
+        sys.stdout.write(text)
+    return EXIT_OK
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv[1:]))
