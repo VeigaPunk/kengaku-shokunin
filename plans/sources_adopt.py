@@ -131,9 +131,12 @@ def build_block(
     admitted_entries: list[str],
     access_date: str,
     recheck_default: str = "180d",
+    attest_opened: bool = False,
 ) -> tuple[list[str], list[tuple[str, str]], list[str]]:
     """Return (block_lines, stripped_prose, missing_ids)."""
     by_id = {row.row_id: row for row in rows}
+    if len(set(want_ids)) != len(want_ids):
+        return [], [], ["duplicate-request"]
     missing = [row_id for row_id in want_ids if row_id not in by_id]
     if missing:
         return [], [], missing
@@ -143,15 +146,22 @@ def build_block(
     for row_id in want_ids:
         row = by_id[row_id]
         cells = [cell.strip() for cell in row.cells]
+        # A row is appended only if it was opened this round and is already mined.
+        # The gate cannot verify a fetch, so re-dating a staged `opened` cell requires
+        # an explicit attestation; silently stamping it would launder a stale row.
+        if cells[7] != "mined":
+            return [], [], [f"{row_id}:not-mined"]
+        if cells[8] != access_date:
+            if not attest_opened:
+                return [], [], [f"{row_id}:not-opened-this-round"]
+            cells[8] = access_date
         recheck = cells[9]
         if not (ISO_DATE_RE.match(recheck) or CADENCE_RE.match(recheck) or recheck in SYMBOLIC_CADENCE):
             prose.append((row_id, recheck))
             # A recheck is a future due date or an interval from `opened`, never the
             # access date itself: that would put every adopted row 0 days overdue.
             cells[9] = recheck_default
-        cells[8] = access_date
         cells[10] = used_by
-        cells[7] = "mined"
         block.append("| " + " | ".join(cells) + " |")
     return block, prose, []
 
@@ -245,7 +255,7 @@ def print_report(report: dict[str, object]) -> None:
 HEADER = "| id | source | kind | tier | scope | anchor | teaches | status | opened | recheck | used-by |\n|---|---|---|---|---|---|---|---|---|---|---|\n"
 GOOD_ROW = (
     "| S900 | fixture source — https://example.invalid/x | docs | A | fixture scope | "
-    "anchor text | fixture teaches | mined | 2026-10-23 | 180d | "
+    "anchor text | fixture teaches | mined | 2026-10-25 | 180d | "
     "corpus/knowledge/old.md |"
 )
 PROSE_ROW = GOOD_ROW.replace("| 180d |", "| 2026-10-23 — re-verify at next release |")
@@ -315,6 +325,16 @@ def selftest() -> int:
         reg = write("reg5.md", HEADER)
         rows, _ = parse_rows(staged.read_text(encoding="utf-8"))
         code_scoped, _ = check(staged, reg, ["S006"], scope=True)
+        stale_rows, _ = parse_rows(
+            (HEADER + GOOD_ROW.replace("S900", "S014").replace("| 2026-10-25 |", "| 2026-10-19 |"))
+            + "\n"
+        )
+        _, _, stale_missing = build_block(
+            stale_rows, ["S014"], ["corpus/knowledge/new.md"], "2026-10-25"
+        )
+        stale_block, _, stale_ok = build_block(
+            stale_rows, ["S014"], ["corpus/knowledge/new.md"], "2026-10-25", "180d", True
+        )
         block, prose, missing = build_block(rows, ["S006"], ["corpus/knowledge/new.md"], "2026-10-25")
         on_commit = write(
             "staged5b.md",
@@ -333,7 +353,9 @@ def selftest() -> int:
             # a symbolic cadence is a valid recheck and must survive, not become a date
             and bool(oc_block) and "| on-commit |" in oc_block[0] and not oc_prose
             # the branch main() actually takes: a requested prose row is tolerated
-            and code_scoped == EXIT_OK,
+            and code_scoped == EXIT_OK
+            and stale_missing == ["S014:not-opened-this-round"]
+            and not stale_ok and stale_block[0].split("|")[9].strip() == "2026-10-25",
         )
 
         # 7. dangling used-by is rewritten to the admitted set only
@@ -399,6 +421,11 @@ def main(argv: list[str]) -> int:
     )
     parser.add_argument("--out", type=Path, help="write the append block here")
     parser.add_argument(
+        "--attest-opened",
+        action="store_true",
+        help="assert the requested rows were opened on --access-date (re-dates their opened cell)",
+    )
+    parser.add_argument(
         "--scope-to-admit",
         action="store_true",
         help="refuse only the requested rows' defects (default: any staged defect refuses)",
@@ -417,9 +444,22 @@ def main(argv: list[str]) -> int:
         parser.error("--access-date is required when --admit-ids is given")
     if not args.entries:
         parser.error("--entries is required when --admit-ids is given (used-by has no fallback)")
+    if not ISO_DATE_RE.match(args.access_date):
+        parser.error("--access-date must be an ISO date (YYYY-MM-DD)")
+    if not (
+        ISO_DATE_RE.match(args.recheck)
+        or CADENCE_RE.match(args.recheck)
+        or args.recheck in SYMBOLIC_CADENCE
+    ):
+        parser.error("--recheck must be an ISO date, <N>d, or a known symbolic cadence")
     rows, _ = parse_rows(args.package.read_text(encoding="utf-8"))
     entries = [item for item in args.entries.split(",") if item]
-    block, prose, missing = build_block(rows, want, entries, args.access_date, args.recheck)
+    block, prose, missing = build_block(
+        rows, want, entries, args.access_date, args.recheck, args.attest_opened
+    )
+    if args.attest_opened:
+        print("  attested: the caller asserts every requested source was opened on "
+              + args.access_date)
     if missing:
         print(f"  missing: {' '.join(missing)}")
         return EXIT_REQUEST

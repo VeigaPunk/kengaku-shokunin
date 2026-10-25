@@ -727,3 +727,20 @@ the landed state and each finding was repaired:
 Final state re-measured after the second batch: counter `entries=1 indexed=1 cited_rows=5
 rows_present=5 rows_mined=5 usedby_ok=1 census=ok` exit 0; `--selftest` 10/10 exit 0; fleet census
 exit 0; `round28_census.py` exit 0; no-census control exit 1.
+
+**Round 29 attempt-2 corrections, third batch (appended 2026-10-25).** A residual critic re-attacked
+the landed gate and found that `build_block` stamped `opened`/`status` onto whatever row it was handed,
+so a stale or fabricated row could be laundered into the registry with every exit code green. Repairs:
+
+11. **No silent stamping.** `build_block` refuses a staged row that is not `mined`, and refuses a row
+    whose `opened` is not the round's access date. Re-dating requires the explicit `--attest-opened`
+    flag, which prints the attestation into the receipt (`gate-scoped.txt`). The gate cannot verify a
+    fetch; the attestation is the honest boundary, and C1's re-grounding duty rests on it plus the six
+    reviewer seats that re-fetched the five sources independently.
+12. **Argument validation.** `--access-date` must be ISO, `--recheck` must be an ISO date / `<N>d` /
+    symbolic cadence, and a repeated id in `--admit-ids` is refused (`duplicate-request`).
+13. Selftest case 6 also proves the stale-row refusal and the attested re-dating, so the laundering
+    path cannot reopen without turning the suite red.
+
+Re-measured after batch 3: `--selftest` 10/10 exit 0; targeted build exit 0 with five rows and the
+attestation line; strict package run exit 3; C1 counter unchanged (`entries=1 … census=ok`, exit 0).
