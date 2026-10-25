@@ -1174,3 +1174,31 @@ All other recorded scores held: novelty 7, depth 9, operability 8, freshness 8, 
 ## Corrections recorded in round 35 — routed defects from the round-34 closure (appended 2026-10-25)
 
 - **D4 correction (round 34 C2):** the round-34 C2 row's "candidate counter draft's selftest was not green" is wrong. The counter draft's selftest was green — `R34C2CounterDraft.md:8` records `SELFTEST cases=10 failed=0`; the red selftest was the mutation harness — `R34MutC2Harness.md:12` (continued on line 13) records exit 1 with `SELFTEST green failed (1)`. Both files are under `.ufo/waves/round-34/build/`. The C2 verdict (not admitted, 8→8 held) is unchanged. Ledger row `R34-D4` in `corpus/defects.jsonl`.
+
+## Round 35 (hyaku run 7, 2026-10-25): one TB2 grader read and executed; routed defects move into a ledger
+
+Baseline `58a19f37312e1b22fd2a7957bdfc6bb7832aadd0`; frozen prereg `plans/round-35-claims.md` (freeze
+`11d64530179b78e33ba6074fc77d63d36ee7ac31`). Lowest non-retired axis: coverage 7, tied with novelty 7;
+coverage chosen by the frozen tie-break; the coverage score stays capped by the open L0 question
+(`.ufo/l0-questions.md:163`). No stagnation waiver.
+
+| claim | axis | observed before → after, counting command | score / verdict |
+|---|---|---|---|
+| C1 pinned TB2 `protein-assembly` grader admitted with an executed 18-case probe (S105–S107) | **coverage** (lowest, tied) | `python3 plans/round35_c1_verify.py --lane .`: before `checks=6 defects=5` exit 1 (`.ufo/waves/round-35/claims/control-c1-nothing.txt`) → after `checks=6 defects=0`, `PREDICATE C1 pass`, exit 0 at `4fe72a9a` | **7 → 7 held** (L0 cap); frozen predicate met; the counter does not prove entry or teaches quality: eight one-word quotes and `junk` teaches cells pass V2/V3, and a stub that replaces the frozen probe passes V5 (`R35CritControls`, `checks=6 defects=0`) — see post-hoc `plans/round35_hardening.py` |
+| C2 persistent routed-defect ledger; round-34 D1–D5 closed | **calibration** | `python3 plans/defect_ledger.py --lane .`: before `rows=5 closed=0 observed_pass=0 mismatches=0` exit 1 (`claims/control-c2-nothing.txt`) → after `rows=5 closed=5 observed_pass=5 mismatches=0`, `PREDICATE C2 pass`, exit 0 at `dfcd294c` | **8 → 8 held**; frozen predicate met; D4/D5 checks accept labelled-but-false lines (`R35CritC2`) and D1 is a working-tree check, so no score raise |
+
+Other axes held: novelty 7, depth 9, operability 8, freshness 8, adjacency 8. Capabilities entered:
+`pinned-grader-probe`, `routed-defect-ledger` (table above, first-working round 35). Registry 97 → 100
+rows (tier A +3); knowledge files / index rows 41/41 → 42/42; census exit 0 before and after (15 W04).
+Post-hoc hardening (not a claim rule): `python3 plans/round35_hardening.py --lane .` passes on the
+landed lane and fails on each of five seat counterexamples
+(`corpus/evidence/round35/hardening-counterexamples.txt`).
+
+### Planned (round 36)
+
+- Calibration: promote the round-35 hardening clauses (frozen-instrument digest, directional
+  correction clauses, pinned capture digests, distinct multi-word quotes, whole-tree untracked) into
+  the ledger and C1-class counters under a new freeze, with an adversarial junk-package control run
+  by a critic seat BEFORE any data.
+- Coverage/novelty (tied 7): a second TB2 task grader, or the prior-art-checked instrument, chosen
+  against the wave-1 scout reports; keep the frozen predicate and control the same sentence.

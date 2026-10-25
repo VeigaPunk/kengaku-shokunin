@@ -985,3 +985,36 @@ Quarantine: S091 refused — required NEC quote absent from 418-byte Access Deni
 
 Frontier census: `/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku` — before and after exit 0, 15 W04 each; SOURCES 97→97, tier A/B/C additions 0/0/0, rows touched 0, frontier rows advanced 0. Receipts: `corpus/evidence/round34/census-{before,after}.txt`.
 No tools installed. No round-34 corpus capability entered. Fresh non-author round closure is pending.
+
+## Round 35 — 2026-10-25 (hyaku run 7)
+
+Declared C1 coverage (lowest, tied 7): admit the pinned Terminal-Bench 2.0 `protein-assembly` grader
+(S105 `tests/test_outputs.py`, S106 `tests/test.sh`, S107 `instruction.md` @ `2fd12b88`) as
+`corpus/knowledge/tb2-protein-assembly-grader.md`, with an executed 18-case offline probe. Declared C2
+calibration (8): move the round-34 closure's routed defects D1–D5 into a persistent ledger
+(`corpus/defects.jsonl`, `plans/defect_ledger.py`) and close them. Freeze `11d64530` (claims, both
+counters, probe case table with predictions, ledger rows open, four red controls).
+
+- Re-opened the six pinned files live (curl, 2026-10-25): byte-identical to the round-34 captures;
+  the round-34 `/tasks/…` URLs return 404 (`.ufo/waves/round-35/build/R35ReopenPins.md`).
+- Probe: `uv run --no-project --with biopython==1.85 python3 plans/tb2_grader_probe.py --lane .` →
+  `cases=18 observed_pass=5 observed_fail=13 mismatches=0`; deterministic across two runs and Python
+  3.13 (`R35ProbeRerun.md`); an independent re-implementation agrees 18/18 (`R35IndepGrader.md`);
+  three harness mutants detected (`R35ProbeHarnessMut.md`).
+- C1 landed at `4fe72a9a`: `python3 plans/round35_c1_verify.py --lane .` → `checks=6 defects=0`,
+  `PREDICATE C1 pass`. C2 landed at `dfcd294c`: `python3 plans/defect_ledger.py --lane .` →
+  `rows=5 closed=5 observed_pass=5 mismatches=0`, `PREDICATE C2 pass`.
+- D2: 109,413 committed mirror paths under `.ufo/waves/round-34/mut-entries-scratch/` and
+  `build/R34MutRegistry/{mirror,mut}/` deleted at the tip (history keeps them). D1: the three
+  round-34 plan drafts moved to `.ufo/waves/round-34/drafts/`; two cited scratch JSONL files
+  committed; three untracked nested-repo mirrors (`R34MutReadme-*`, ~10 GB) removed.
+- Wave-1 falsifiers found counter weaknesses after freeze: a junk package (`R35CritControls`), false
+  but labelled D4/D5 lines (`R35CritC2`), unparsed straight-quote rows (`R35MutC1Quotes` M4). The frozen
+  predicates are not changed; `plans/round35_hardening.py` is a post-hoc fix shown able to fail on all
+  five counterexamples (`corpus/evidence/round35/hardening-counterexamples.txt`).
+- After freeze, `corpus/defects.jsonl` row R34-D1's `recurrence_of` text was corrected from
+  `R32-N2` to `R33-N1` (`plans/round-33-claims.md:87`); no check reads that field.
+- Scope wording per `R35CritScope.md`: PROVINCE gains a round-35 paragraph (offline synthetic-fixture
+  execution of one grader function; not task validity).
+- Tool use: biopython 1.85 via `uv run --with` (ephemeral uv cache env; channel uv/PyPI; reason: the
+  grader's own pinned dependency). No other installs.
