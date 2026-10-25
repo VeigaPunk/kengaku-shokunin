@@ -72,9 +72,10 @@ So the delta is one field, and the rest is not a delta at all. **S2's tri-state 
 only new field.** S1 is not a new field: the CTC v1.1 column beside it reads `type 5 recorded per run`,
 so the run-side fact is carried; whether that makes the record score-side is a question about *where*
 it is filed, and this lane cannot settle it without reading that form, which it has not admitted. R1's
-strata are absent from all three *tabulated* designs but present in S081's own four-field protocol
-(F1, strata), which this entry cites — so strata is a value set this entry inherits from a cited
-source, not a discovery. Two earlier readings of this paragraph ("two new fields", then "one field, one
+strata are carried by the CTC v1.1 form (`strata_reported`) and are absent from the other two tabulated
+designs, while also being present in S081's own four-field protocol (F1, strata) — so strata is a value
+set this entry inherits from two cited-or-tabulated sources, not a discovery, and the mapping row above
+is the authoritative status. Two earlier readings of this paragraph ("two new fields", then "one field, one
 placement, one value set") overclaimed; this is the corrected one, and it is why the amendment is a
 mapping rather than a design.
 
@@ -124,7 +125,8 @@ answers CG7 must say which of the two it does and with what qualifier.
   card records what each stated, not a reconciled truth. Two coders filling this card need not agree; the card records
   what each stated, not a reconciled truth.
 - **S085 cannot be used as evidence about anyone else.** It is the sponsoring body's own 2024
-  description of its own programme: no document number, no measurements, no data release. It
+  description of its own programme: it carries programme numbers and score tables (p.38 prints its own
+  figures), but no document number, no contamination measurement and no data release. It
   supports "this is how one programme builds its item bank", nothing about contamination rates.
 - **S082 is a working paper**, not a peer-reviewed result: its item/procedure transparency claim is
   an argument plus a wage-premium dataset, not a measured disclosure effect.
@@ -181,7 +183,8 @@ format*. New: `Contamination transparency card format`.
   a negative not rule out". Flip: a study showing canary absence/presence predicting measured
   contamination at the task level.
 - **S085 as cross-benchmark comparative evidence (round 30).** Rejected as comparative evidence: a
-  programme's self-description with no measurements. Flip: an S085-adjacent artefact reporting
+  programme's self-description: it carries its own programme figures but no contamination measurement.
+  Flip: an S085-adjacent artefact reporting
   per-benchmark dynamic-bank adoption with numbers.
 
 ## Corrections

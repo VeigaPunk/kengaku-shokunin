@@ -3,12 +3,14 @@
 Seat: scribe, leaf. Lane: `/home/vgpnk/Projects/shokunin/kengaku-shokunin`. Access date 2026-10-25.
 No production edits: the only lane-tree file I write is this report.
 
-Draft: `/tmp/r30-DraftGate/gate.md`, 13 815 B, sha256 `0821c7e1…237d` (copy
+Draft: `/tmp/r30-DraftGate/gate.md`, 14 578 B, sha256 `2f1ac9dc…7dc6` (copy
 `/tmp/r30-R30DraftGate/gate.md`, identical). Q13 has been measured as PASS by the reviewer's CLI
 three times: `be475eb` on the five-citation bytes, and lanes 3 and 4 (32 and 33 reports, live entry
-`ba0465d1…`) on `1a74b245`, each `admissions=1 passed=1 failed=0`. This revision adds one obligation
-paragraph and no citation inside the admit reason cell; my own import-based check still returns six
-valid citations, `generic: ()`, candidate a valid repo path.
+`ba0465d1…`) on `1a74b245`, each `admissions=1 passed=1 failed=0`. The bytes after the pass-6 run are `0821c7e1` → `2f1ac9dc`, and both revisions only touch text below
+the table: the admit row was not edited, so its six citations and empty generic set are unchanged
+(re-measured after each edit). A size note for the record: my earlier "13 815 B" was a `len(str)`
+count, i.e. characters, and the file is 13 898 bytes at that hash — the reviewer's measurement was
+right and mine was under-reported by the CJK characters in the cell.
 
 ## Behavior
 
@@ -95,6 +97,9 @@ valid citations, `generic: ()`, candidate a valid repo path.
 | `corpus/lessons/round-30.md:23` S105 | "unverifiable" against fleet quote-present | "quote-present in the archived snapshot", with a supersession pointer |
 | the whole table | 4 columns, no flip cell | 5 columns: `candidate | decision | reason | flip condition | read pointers`, flip cell filled for every non-admitted row |
 | bare `R30FxSrcS086.md` mention | resolves by luck | every report written as a full path, or not at all |
+| `corpus/lessons/round-30.md:66` Q5 cell | "S083/S086 peer-reviewed" | "S083 a peer-reviewed Findings paper, S086 a non-peer-reviewed annual-meeting proceedings paper — its venue publishes without review" (publisher quote at `R30FxEntryQ4Q6.md:185`) |
+| `R30FxRowsCensus.md:167` | "peer-reviewed proceedings paper for its own method and caveat" | same correction, by that seat's owner |
+| entry Attribution | repaired at `:148-150` — "a non-peer-reviewed proceedings paper", with the publisher's stamp and the absence of 査読 | no action; it is the model for the two cells above |
 
 ## Pass-4 corrections (three stale statements in my own cell)
 
@@ -103,6 +108,48 @@ valid citations, `generic: ()`, candidate a valid repo path.
 | 1 | "the entry's S086 line states 23 CJK characters and lines 78–81" | `corpus/knowledge/contamination-transparency-card.md:6` already reads "1 whitespace token, 30 CJK characters, text-layer lines 80-81, located only on newline-unwrapped extraction"; only `corpus/SOURCES.md:112` still says "spans extraction lines 78-81" | the cell now names the single stale registry row and says the kill rule is untouched because the FAIL report locates both spans on p.1 / printed 797 |
 | 2 | "six `mined` rows … whose `used-by` names this entry alone" | every one of the six cells reads `used-by = corpus/knowledge/contamination-transparency-card.md, corpus/lessons/round-30.md` (11 cells each, `mined`, `opened 2026-10-25`) | "names this entry and this lesson", a two-entry cell of the S005 shape, which the counter's contains-test accepts |
 | 3 | five citations, no schema seat, while the lesson's bullets claim a census re-read | `R30FxRowsCensus.md` has landed: anchored `VERDICT: PASS`, 8 candidate-path mentions, registry role `scout`, `agentId` null | added to the reason cell; the import-based check now returns six valid citations |
+
+## Pass-6 residue: the S086 review label, and what is left on other surfaces
+
+The admit row now cites a schema seat whose own verdict repeats a wrong label, so the label has to be
+carried in prose or the admission inherits it (Q9):
+
+- **The label.** `.ufo/waves/round-30/falsify/R30FxEntryQ4Q6.md:13` returns FAIL on exactly this and
+  quotes the publisher at `:185`: "This work is published without peer review and is licensed by the
+  author(s) under CC BY 4.0". It repeats on three surfaces — the entry's Attribution (admitted tree
+  `:136-137`, "a peer-reviewed 言語処理学会 paper"), this lesson's Q5 cell
+  (`corpus/lessons/round-30.md:66`, "S083/S086 peer-reviewed"), and the cited seat's own table
+  (`R30FxRowsCensus.md:167`, "peer-reviewed proceedings paper"). The correct label is a
+  non-peer-reviewed annual-meeting proceedings paper. No checker sees this, which is why it is a
+  prose obligation in the block and not a citation.
+- **Production cells still stale at HEAD `bdcd7be`** (recorded, not edited by me):
+  `plans/round-30-claims.md:24` still reads "*core*." for a frontier bullet whose discharge is a
+  soft move (pointer: `:22-24`); `SCORECARD.md:1022` names the C1 axis "**coverage** (lowest
+  non-retired, tie-break)" while its verdict cell moved to "coverage (surfaces)"; `SCORECARD.md:1026`
+  holds "depth 9" on a criterion the same section describes as a field mapping, i.e. a novelty
+  argument; and `corpus/knowledge/contamination-transparency-card.md:120` carries a doubled list
+  marker, `- **- **Agreement is not established.**`.
+- **The committed lesson is still the pass-2 Gate** — 4 columns, no flip cell, `:21` = 63, `:23` S105
+  "unverifiable" — while the paste table below covers `:17`, `:21`, `:22`, `:23` and the fifth
+  column. On my bytes Q8/Q9/Q13 are otherwise clean.
+
+## Pass-7 residue, re-measured on the current entry (`a78eb18a`)
+
+The entry moved twice while this ran (`ba0465d1` → `a78eb18a`), so each cell below was re-read, not
+relayed:
+
+| cell | state now | owner |
+|---|---|---|
+| entry Attribution `:148-150` | **repaired** — "S086 is a 言語処理学会 2025 paper that the society publishes **without peer review** (its own stamp on `anlp.jp/nlp2026/submit.html` says so and the 2025 pages carry no 査読)"; the seat's FAIL at `R30FxEntryQ4Q6.md:13` is answered in the entry | entry owner |
+| `corpus/lessons/round-30.md:66` | still "S083/S086 peer-reviewed" | lesson owner |
+| `R30FxRowsCensus.md:167` | still "peer-reviewed proceedings paper for its own method and caveat" — the seat I cite, which is why the block carries the label in prose | report owner |
+| entry `:41` vs `:158` | "three source rows are not in this lane's registry (the GEM 2026 review it tabulates is the one exception)" against "two of its three"; the exception is `corpus/SOURCES.md:23` = S001, GEM 2026 review, tier A, `mined` — so the **number** is the defect, not the exception | entry owner |
+| entry `:69` vs `:75` | `:69` records R1 strata as `strata_reported` in CTC v1.1 with the delta "already a column in one of three"; `:75` says "R1's strata are absent from all three *tabulated* designs" | entry owner |
+| entry `:124-125` | "not a reconciled truth" twice in consecutive lines, the second a fragment | entry owner |
+| entry `:120` doubled marker `- **- **` | **already fixed** — one marker, one occurrence of "Agreement is not established" | closed |
+
+My block now carries the label and the three entry cells as landing obligations, with the label's
+correct form quoted from the repaired entry rather than from my own reading of the venue.
 
 ## Conflicts — verbatim, for the canonical Rust judge
 

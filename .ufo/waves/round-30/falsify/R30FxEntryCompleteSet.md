@@ -11,8 +11,8 @@ candidate (Q10/Q13 measure the admitting commit's tree), so every line number `:
 **The lane is moving under this seat.** While I was capturing sources the working copy changed: at
 2026-10-25T04:48Z `corpus/knowledge/contamination-transparency-card.md` hashes
 `31b72304365bf471cd0353d591ead5f85cef5e5afffb4de7edef084acf5622bb` and `git status` reports it `M`
-against `623c1fc`. §Drift below re-reads that blob separately. Findings H1–H5 / M1–M5 / L1–L5 are
-statements about `f01b7cd2…`, not about `31b7230…`; the verdict line names both.
+against `623c1fc`. §6 tracks both that blob and the live tip. Findings H1–H5 / M1–M6 / L1–L5 are
+statements about `f01b7cd2…`, each with its live status in the §6 table; the verdict line names both.
 
 Tooling used: `curl` (all fetches), poppler `pdftotext`/`pdftoppm`/`pdfinfo`, ImageMagick `magick`
 (folio crops), Python 3.14 stdlib (counts), and **PyMuPDF 2.0 installed with `pip` into a scratch venv
@@ -238,27 +238,63 @@ Measurement"; "Evaluation Economics" is §8.3's subsection title, and "Benchmark
 times in the v2 HTML and 0 times on the abs page — the very string the entry's `## Corrections` (:175)
 declares absent from v2.
 
-## 6. Drift — the uncommitted working copy (`31b7230…`)
+## 5b. Lane-level findings — the admit's Q10 evidence (in scope: "the admits")
 
-Not the admission candidate; recorded because it lands in the same tree and Q13 wants the Gate to name
-bytes that exist. Read at 2026-10-25T04:48Z, diffed against `623c1fc`:
+**N1 (HIGH). The admitting commit asserted a Q10 second seat whose report was not in its own tree.**
+At `623c1fc`, `corpus/lessons/round-30.md:31` cites `.ufo/waves/round-30/falsify/R30FxEntryCompleteSet.md`
+as "a `reviewer` seat that did not write the entry re-opened all six sources and re-derived every
+number", and `:35` cites `.ufo/waves/round-30/falsify/R30FxRowsCensus.md` for "the six-row schema
+re-read". Neither path exists in that tree: `git ls-tree -r --name-only 623c1fc
+.ufo/waves/round-30/falsify/` lists neither, and `git show 623c1fc:.ufo/waves/round-30/falsify/
+R30FxEntryCompleteSet.md` exits with "fatal: path … exists on disk, but not in '623c1fc'". The first
+appears at `bdcd7be`, the second at `706ed3f` — both **after** the admission. (I nearly reported this
+as "a 0-byte report": `git show | wc -c` prints `0` when `git show` fails, which is why the check has
+to be `ls-tree`, not a byte count.)
 
-- **Fixed since commit**: R1's CTC cell now reads `strata_reported` (`:68`); R4's CTC cell is now "a
-  dedicated `regeneration:` block" — both match my capture; the S085 CG7 paragraph now carries the
-  adjacent bound ("only a share of each sitting's items is fresh") — fixes **H5**; the delta paragraph is
-  rewritten to "the delta is one field" — fixes **M1** for that paragraph.
-- **D1 (MEDIUM). New self-contradiction**: `:68` says CTC has `strata_reported`, `:74` of the same file
-  still says "R1's strata are absent from all three *tabulated* designs". Both cannot be true; my capture
-  says `:68` is right.
-- **D2 (MEDIUM). Malformed bullet**: `:120` reads `- **- **Agreement is not established.**` — two bullet
-  markers, unclosed bold. A scribe-facing file should not land in that state.
-- **D3 (LOW). New number in flight**: `:115` adds "over a 41-document, five-variable population in which
-  three variables clear it". 41 documents ✓ (abs line 124); "five variables" is **not** in the abstract the
-  sentence attributes it to — it is in the compiled PDF ("five variables"), and "three clear it" is 5−2
-  arithmetic, not a printed result. Cite the PDF or drop "five".
-- **D4 (LOW).** The S1 status in the working copy is "delta in placement, not in field" while its own new
-  paragraph (`:118`–`:119`) says "the two fields S081 measured as rare are the two this entry marks as
-  already-columned" — S1's cell is a delta, so "already-columned" is wrong for it.
+**N2 (MEDIUM, mechanism). The Q13 checker cannot fail on N1.** `python3 plans/gate_timing_check.py
+--lesson corpus/lessons/round-30.md --commit 623c1fc` → `PASS line 17 Gate admit … admissions=1
+passed=1 failed=0 second-seat-reports=28`, exit 0 — it parses the Gate row only, so the Q10 row's
+citations are unseen. A cited seat-report path that does not exist at the admitting commit is
+invisible to the check that exists to catch exactly that class of claim.
+
+**N3 (MEDIUM, live state). This seat's FAIL is cited nowhere.** At `HEAD 9af639c` the lesson's Q10 row
+(`:49`) cites only the six per-source `scout` re-reads; `grep -c R30FxEntryCompleteSet
+corpus/lessons/round-30.md` = 0. `:12` still asserts "the Q10 second-seat row cites a report path that
+lands in the same commit" — true of the six `R30FxSrcS08x.md` files, which are in `623c1fc`, and false
+of the row it replaced. So the admission's recorded Q10 state is "pass" while a returned complete-set
+seat says FAIL; QUALITY's own words apply — "Presence is not endorsement".
+
+## 6. Drift and live state (the lane moved during this read)
+
+Findings are pinned by blob hash, never by line, because the file was rewritten three times while I
+read it and `corpus/SOURCES.md` was renumbered (S081 moved `:107` → `:105`).
+
+- Pin: `623c1fc` blob `f01b7cd2…` (admission candidate).
+- Intermediate working blob observed 2026-10-25T04:48Z: `31b7230…` (its defects are folded into the
+  live column below; it is no longer on disk).
+- Live at re-read close, 2026-10-25T07:54Z: `HEAD 9af639c`, entry sha256
+  `a78eb18a3095ac1d48bfef5f22d4740a748f73bdcacf0e7757229f281e57c957`.
+
+| Finding | At admission `f01b7cd2…` | At live `a78eb18a…` |
+|---|---|---|
+| H1 R1 absence | fail — `:68` all-absent, `:73` "no design tabulates" | **half-repaired**: cell now `strata_reported` (:69) but `:74` of the same file still says "R1's strata are absent from all three *tabulated* designs". Live self-contradiction |
+| H2 S1 placement | fail — `:72` "inside a release-side artefact" | repaired — S1 row "**not a delta** … it is a rename, not a relocation" (:67) |
+| H3 registry absence | fail — `:41` "three source rows … not in this lane's registry", contradicting `:54` | repaired — "two of its three", with the GEM exception named inline (`:41`–`:42`) |
+| H4 S085 "no measurements" | fail — `:119`, `:170` | **LIVE, unrepaired** — `:127` and `:184`, and contradicted inside the same file by `:148` "numbers and score tables, but no contamination measurement…" |
+| H5 CG7 widening | fail — `:99` "no two sittings share items" | repaired — `:100`–`:106` states the share bound |
+| M1 "two fields / two delta fields" | fail — `:112`, `:128` | repaired — one delta row, "the delta is one field" (:70–:72) |
+| M2 R4 CTC cell | fail — `:65` `evaluation_date` | repaired — "a dedicated `regeneration:` block" (:65) |
+| M3 "CTC v1.1 form" | `:58` | **live** — `:59` |
+| M4 S084 line 315 unlocated | partial — `:4` "344 and 397" | repaired — "html lines 344, 315 and 397" (:4) |
+| M5 "this lane's first failure" | fail — `:73`–`:74` | repaired — `:74`–`:76` now "value set this entry inherits from a cited source" |
+| M6 "all eight" / nine rows | fail — `:75` | repaired — phrase gone, nine-row table kept |
+| L1 "working paper" (S082) | `:2`, `:121`, `:133` | **live** — `:2`, `:129`, `:144` |
+| L2 S086 "peer-reviewed" | `:136`–`:137` | repaired — tier B, "the society publishes **without peer review**" (:148) |
+| L3 "may be published at all" | `:21` | **live** — `:22` |
+| registry: S082 title | fail — `SOURCES.md:108` carried "Evaluation Economics and Benchmark Governance" | repaired — `:106` now the v2 title |
+| registry: "CJK quotes count 1-13" | fail — `SOURCES.md:110` | repaired — "1-7" (`:108`), which matches my recomputation |
+| S086 line range, entry vs registry | entry 80–81 / registry 78–81 | **unchanged disagreement** — entry `:6` "text-layer lines 80-81", registry `:110` "lines 78-81" |
+| D2 doubled bullet (`- **- **`) | not present at pin | appeared in the 04:48Z blob `:120`, gone at live |
 
 ## 7. Residual risk and verification gaps
 
@@ -277,8 +313,16 @@ bytes that exist. Read at 2026-10-25T04:48Z, diffed against `623c1fc`:
   were not run at all: every quotation check above is byte-level (`grep`/Python/`pdftotext`/PyMuPDF), and
   no semantic cross-reference engine was available. Recorded as a method limit, not as evidence.
 - **V6 — the six sibling source reports** were not consulted before my captures; after them I did not
-  fold their findings in except where a peer message named a claim I then re-derived myself (the CTC form).
-  Anything they caught and I did not is unrepresented here.
+  fold their findings in except where a peer message named a claim I then re-derived myself (the CTC form,
+  the GEM/S001 collision, the live `:74` contradiction). Anything they caught and I did not is
+  unrepresented here.
+- **V7 — the lane moved four times during this read** (`623c1fc` → `a780c4e` → `bdcd7be` → `706ed3f` →
+  `9af639c`). Every claim above is pinned to a blob hash and re-verified against the live blob only for
+  the rows in §6; a further rewrite after 2026-10-25T07:54Z is not covered. H4 is the one finding I
+  confirmed live twice, in two different sentences of the same file.
+- **V8 — the lane's counters were not run here.** `round30_defects.py`, `adoption_check.py` and
+  `sources_adopt.py` test other claims (C2, C1's mechanism, C3's gate); running them would be verifying
+  another seat's assignment, and a green counter says nothing about the numbers re-derived above.
 
 ## 8. What passes
 
@@ -291,4 +335,4 @@ the same audit outcome in different words and does not print this sentence" pare
 `:36`–`:37`, `:1108`) **all reproduce on my own captures**. The failures are in the ledger the entry draws
 *from* those quotes, not in the quotes' arithmetic.
 
-VERDICT: FAIL — corpus/knowledge/contamination-transparency-card.md (committed admission candidate `623c1fc`, blob sha256 `f01b7cd20cf4ebcaf3ee9f7af8b109ace8b86e69002ae53a213c2dc80ad1e6cd`): H1, H2, H3, H4 and H5 are unrepaired in those bytes; the uncommitted working copy `31b7230…` repairs H5 and M1 and M2's cell but still carries D1 and D2, so the verdict must be re-taken on the repaired blob before admission.
+VERDICT: FAIL — corpus/knowledge/contamination-transparency-card.md — admission candidate `623c1fc` blob `f01b7cd20cf4ebcaf3ee9f7af8b109ace8b86e69002ae53a213c2dc80ad1e6cd` (H1, H2, H3, H4, H5 plus M1/M2/M5/M6 and the Q10-evidence defect N1 unrepaired there), and still FAIL on the live blob `a78eb18a3095ac1d48bfef5f22d4740a748f73bdcacf0e7757229f281e57c957` (H4 “no measurements” at `:127`/`:184` contradicted by its own `:148`; H1 half-repaired, `:74` still denying `:69`).

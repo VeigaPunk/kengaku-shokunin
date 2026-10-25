@@ -963,3 +963,61 @@ Nothing in the verdicts: Q13 passes on live bytes, Q8's remaining work is the le
 `R30FxRowsCensus.md:167` review-status label from pass 5. The residual risk from pass 5 stands
 unchanged — a later wave edit can only be detected by re-running the CLI against the admitting
 commit.
+
+---
+
+# Pass 7 — fifth revision (`0821c7e1…237d`) and the verified errata set
+
+## Q13: PASS again, on an unchanged citation cell
+
+`/tmp/r30-DraftGate/gate.md`, sha256 `0821c7e154965b523d70…`, 13 898 B measured (seat quoted
+13 815 B). The admit row is **byte-identical** to the pass-5 row (compared programmatically), so the
+green result carries over by construction; re-run to be sure (`/tmp/r30-RevLesson/lane5`, commit
+`2e0b35a`):
+
+```
+gate_timing_check: … admissions=1 passed=1 failed=0 second-seat-reports=33
+```
+
+Six citations valid (SrcS081–S085, RowsCensus), no generic reference. The new bytes add one
+obligation paragraph and three paste rows outside the reason cell; `R30FxEntryQ4Q6.md` appears only
+in prose, which is right — a mention inside the cell would register as a failing citation.
+
+## The label correction is mine to word and now first-hand
+
+I re-fetched the publisher page (pass 5 records the command): `http=200 bytes=31923`, one occurrence
+of "This work is published without peer review and is licensed by the author(s) under CC BY 4.0";
+the 2025 call and the 2025 proceedings index contain `0` occurrences of 査読. The seat's caveat
+travels with it: the stamped sentence is the **2026 (第32回)** call, so applying it to 第31回 is
+series continuity, not a direct byte — and Q5 fails on either footing, because nothing in this round
+supports the "peer-reviewed" label.
+
+## Errata set the round owes — all verified in the current entry (`ba0465d1…`)
+
+None of these is a Gate cell; every one of them is a sentence the Gate's "pass" language would
+otherwise carry into the corpus. Quoted from the entry as it stands:
+
+| # | surface | current bytes | contradiction | drop-in |
+|---|---|---|---|---|
+| 1 | `plans/round-30-claims.md:22-24` | `moves from *unopened lead* to *core*` | `corpus/README.md:275` says "*Partly discharged*"; no PROVINCE round-30 section | lesson errata line (pass 3 §"In-scope consequence") |
+| 2 | lesson `:66` + `R30FxRowsCensus.md:167` | `S081/S082 preprints vs S083/S086 peer-reviewed`; `peer-reviewed proceedings paper …` | the venue publishes without review (pass 5 evidence) | pass 5 §Q9-14 |
+| 3 | entry `:41` vs `:158` | `its three source rows are not in this lane's registry (the GEM 2026 review … is the one exception …)` vs `two of its three source rows are staged and not in this …` | the exception clause and "three" cannot both hold; `corpus/SOURCES.md:23` is S001, the GEM 2026 review, tier A, `mined` | `:41` → `two of its three source rows are not in this lane's registry (the GEM 2026 review it tabulates is the exception: registered here at tier A as S001, corpus/SOURCES.md:23)` |
+| 4 | entry `:75` vs `:69` | `strata are absent from all three *tabulated* designs but present in S081's own four-field protocol` vs the R1 row's CTC v1.1 cell = `` `strata_reported` `` and its own delta cell "**already a column in one of three**" | the entry contradicts its own table two lines above | `:75` → `strata are absent from two of the three *tabulated* designs (AI Alliance, GEM § 7) but carried as `strata_reported` in CTC v1.1 and present in S081's own four-field protocol` |
+| 5 | entry `:127` / `:184` vs `:144` | `no document number, no measurements, no data release`; `a programme's self-description with no measurements` | the report does carry measurement numbers — `/tmp/r30-R30SrcS085/caict.txt:1151` reads `25.8 分，但 Qwen1.5-7B 的分数却显著提升至 51.8 分`, and `:144` already qualifies it correctly | `:127` → `no document number, no data release, and no contamination measurement (it does report model scores)`; `:184` → `a programme's self-description with no contamination measurement` |
+| 6 | entry `:124-125` | `card records what each stated, not a reconciled truth. Two coders filling this card need not agree; the card records` / `what each stated, not a reconciled truth.` | the phrase occurs twice in two consecutive lines; the second is a duplication fragment | keep `:124` as `… the card records what each stated, not a reconciled truth.` and delete `:125`, or rewrite it as the intended second sentence |
+| 7 | entry `:120` | `- **- **Agreement is not established.**` | doubled list marker | `- **Agreement is not established.**` |
+
+Items 3-6 are the entry owner's to fix and the entry reviewers' to re-check; 1-2 are lesson/seat
+surfaces. I verified each contradiction against the current file and, for item 5, against the source
+seat's own extraction (`/tmp/r30-R30SrcS085/caict.txt`), which is where the numbers are; the entry
+does not quote them, so the honest statement is "no contamination measurement", not "no
+measurements".
+
+## Why this belongs in a Q8/Q9/Q13 review at all
+
+The lesson's per-criterion cells (`:60-70`) claim `Q3 pass`, `Q4 pass`, `Q5 pass`, `Q6 pass`, and the
+Gate's admit row adopts that language ("it discharges both round-29 flips at once"). A reader who
+checks item 4 or 6 against the entry can falsify the "pass" without leaving the file, and Q9's rule —
+a verdict whose reason does not follow from the evidence — applies to the round's own gate as much
+as to a rejection. Q13's checker is green either way, which is exactly why the errata have to be
+written down rather than inferred.

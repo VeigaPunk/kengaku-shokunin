@@ -314,38 +314,55 @@ word are repaired, and what remains is two one-line wording items, one frozen-pr
 the malformed bullet. Nothing in the residue is a reason to refuse C1's admission or to move the
 coverage number off 7.
 
-## Addendum — items the complete-set seat raised, re-verified on live bytes (HEAD `bdcd7be`, entry `ba0465d1…`)
+## Addendum — items the complete-set seat raised, re-verified on live bytes
 
-The complete-set seat's fetch reproduces mine (same pinned form, same sha), and three of its finds are
-live in the committed entry. I re-derived each from bytes, not from its report:
+**Revision note (2026-10-25, appended in place because this report's own claims must be true of the
+byte it describes):** the entry moved three times after this seat wrote; the bullets below were first
+written against `ba0465d1…` (HEAD `bdcd7be`) and are now re-derived against `a78eb18a…` (HEAD
+`9af639c`), where two of them read differently. The counter re-runs at this byte:
+`entries=1 indexed=1 cited_rows=6 rows_present=6 rows_mined=6 usedby_ok=1 census=ok`, exit 0.
 
-- **`:74` contradicts `:68`.** `:74` reads "strata are absent from all three *tabulated* designs but
-  present in S081's own four-field protocol", while `:68`'s CTC v1.1 cell now reads `strata_reported`.
-  One of the two sentences is false in the same file; the table cell is right and `:74` is the
-  leftover from the pre-repair text.
-- **`:41` and `:131` misstate provenance.** Both say the union table's "three source rows are not in
-  this lane's registry" / "has not admitted". The GEM § 7 document is `corpus/SOURCES.md:23` **row
-  S001**, tier A, `mined`, `opened 2026-10-19`, teach cell "…the Contamination Transparency Card…",
-  URL `aclanthology.org/2026.gem-main.50` — the same document the staged table cites as
-  `2026.gem-main.50.pdf`. The entry's own `:153` already says "**two of its three** source rows are
-  staged", so the file contradicts itself. This is the item that touches my axis: one of the three
-  tabulated designs was **already lane-held** (and is cited by the round-24 entry), so "ground the
-  lane did not hold" is true of the card *format* only, not of the designs.
-- **S085 "no measurements" is unqualified-false.** `:126` ("no document number, no measurements, no
-  data release") and `:179` ("self-description with no measurements") contradict the same entry's
-  `:144` ("numbers and score tables, but no contamination measurement") and the round's own capture:
+The complete-set seat's fetch reproduces mine (same pinned form, same sha). Re-derived from bytes:
+
+- **`:75` contradicts `:69`.** `:75` reads "R1's strata are absent from all three *tabulated* designs
+  but present in S081's own four-field protocol", while the R1 row at `:69` carries `strata_reported`
+  in the CTC v1.1 column and its own status cell says "**already a column in one of three**". The
+  table cell is right (my `05131be9…` fetch of the pinned form has the block); `:75` is the leftover.
+  Smallest fix is the complete-set/lesson wording: "absent from two of the three (AI Alliance, GEM
+  § 7) but carried as `strata_reported` in CTC v1.1".
+- **`:41` (and `:158`-region) is now a number error, not an uncorrected claim.** Live `:41-43` reads
+  "its three source rows are not in this lane's registry (**the GEM 2026 review it tabulates is the
+  one exception**: this lane registers that review at tier A)" — the exception I reported is now
+  stated, so my earlier "simply false" is superseded. What remains is arithmetic: three-minus-one is
+  not three, and the entry's own later bullet says "two non-GEM source rows". The exception is
+  `corpus/SOURCES.md:23` **row S001** (GEM 2026 review, tier A, `mined`, `opened 2026-10-19`, teach
+  cell "…the Contamination Transparency Card…", URL `…/2026.gem-main.50`; the staged table's S124 is
+  `…/2026.gem-main.50.pdf`, the same document). This still touches my axis, in the weaker form: one
+  tabulated design **was already lane-held**, so "ground the lane did not hold" is true of the card
+  *format* only, not of the designs.
+- **S085 "no measurements" is unqualified-false.** `:127` ("no document number, no measurements, no
+  data release") and `:184` ("self-description with no measurements") contradict the same entry's
+  `:148` ("numbers and score tables, but no contamination measurement") and the round's own capture:
   `/tmp/r30-R30SrcS085/caict.txt:1151` prints "25.8 分，但 Qwen1.5-7B 的分数却显著提升至 51.8 分" with a
-  score table at `:1178`. The honest form is `:144`'s.
-- **R4 is repaired on live bytes** — `:65` now cells "a dedicated `regeneration:` block", so the
+  score table at `:1178`. `:148`'s qualified form is the honest one.
+- **`:124-125` duplicates a sentence.** "Two coders filling this card need not agree; the card
+  records what each stated, not a reconciled truth." appears twice in consecutive lines. The doubled
+  list marker I reported at `:120` is fixed on this byte; the duplicate is what the repair left.
+- **`:74` leaves open what the entry's own table settles.** "…whether that makes the record score-side
+  is a question about *where* it is filed, and this lane cannot settle it without reading that form"
+  sits two rows above a table whose CTC cells (`contamination_controls.acquired`, `regeneration:`,
+  `strata_reported`, `evaluation_date`) can only have come from reading that form, and the form's
+  top-level `system_under_test` / `evaluation_date` answer the placement question. Either the lane
+  read the form (then the cells stand and the caution is moot) or it did not (then the cells are not
+  evidenced). One of the two sentences is wrong.
+- **R4 is repaired on live bytes** — `:66` now cells "a dedicated `regeneration:` block", so the
   complete-set seat's R4 finding applies to the pre-repair blob (`f01b7cd2…`) only. Its R1 finding
-  and its per-run reading of the form stand and are in the table above.
+  and its per-run reading of the form stand.
 
 **Revised net effect on live bytes.** The number is right (7 → 7 held, `improved (counts)`, cap open)
-and the row's currency wording is now honest. What is still wrong is inside the entry: one
-self-contradicting sentence (`:74`), two false provenance sentences (`:41`, `:131`) that narrow the
-"ground the lane did not hold" claim because S001 already carried a pointer to the card, one
-unqualified S085 claim (`:126`, `:179`), and the doubled list marker (`:120`). None of these moves a
-score; every one of them is a calibration item on an admitted entry, so this report's
-`VERDICT: FAIL` remains the accurate reading of the live byte — as a calibration finding on the
-entry's text, not a recommendation to refuse C1's admission and not a reason to move coverage off 7
-(the number, the cap citation and the currency word are all correct).
+and the row's currency wording is honest. Inside the entry the residue is: `:75` contradicting its own
+table, `:41`'s three-vs-two arithmetic, `:127`/`:184` unqualified S085 claims, the `:124-125`
+duplicate, and the `:74`/table tension. None of these moves a score; every one is a calibration item
+on an admitted entry, so this report's `VERDICT: FAIL` remains the accurate reading of the live byte —
+as a calibration finding on the entry's text, not a recommendation to refuse C1's admission and not a
+reason to move coverage off 7 (the number, the cap citation and the currency word are all correct).
