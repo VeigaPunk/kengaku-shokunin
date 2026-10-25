@@ -158,28 +158,8 @@ def verify(lane: Path) -> int:
         return 1
     hf_text, or_text = raw
     try:
-        env = json.loads(or_text)
-    except ValueError:
-        env = {}
-    if isinstance(env, dict) and env.get("meta", {}).get("truncated") is True:
-        # The bounded OpenRouter artifact is an envelope: the first model verbatim
-        # plus the observed count. The count is the capture's own recorded
-        # observation; the envelope is the committed evidence.
-        try:
-            first = env["data"][0]
-            or_n = int(env["meta"]["observed_models"])
-            or_missing = [field for field in OR_FIELDS if field not in first]
-        except (KeyError, TypeError, IndexError, ValueError) as error2:
-            print(f"raw=unparsable {error2}")
-            return 1
-    else:
-        try:
-            or_n, or_missing = parse_openrouter(or_text)
-        except ValueError as error:
-            print(f"raw=unparsable {error}")
-            return 1
-    try:
         hf_n, hf_missing = parse_hf(hf_text)
+        or_n, or_missing = parse_openrouter(or_text)
     except ValueError as error:
         print(f"raw=unparsable {error}")
         return 1
@@ -310,7 +290,7 @@ def selftest() -> int:
                                    "architecture": {}, "supported_parameters": [],
                                    "top_provider": {"context_length": 10},
                                    "per_request_limits": {}, "hugging_face_id": "h",
-                                   "reasoning": {"effort": None}}]})
+                                   "reasoning": {"effort": None}}], "total_count": 467})
     or_missing = json.dumps({"data": [{"id": "m"}]})
 
     n, missing = parse_hf(hf_ok)
@@ -318,7 +298,7 @@ def selftest() -> int:
     n, missing = parse_hf(hf_missing)
     cases.append(("hf-missing-detected", n == 1 and len(missing) > 0))
     n, missing = parse_openrouter(or_ok)
-    cases.append(("or-parses", n == 1 and missing == []))
+    cases.append(("or-total-count-rederived", n == 467 and missing == []))
     n, missing = parse_openrouter(or_missing)
     cases.append(("or-missing-detected", n == 1 and len(missing) > 0))
     try:
@@ -372,14 +352,14 @@ def selftest() -> int:
             encoding="utf-8",
         )
         (cap / AFTER).write_text(
-            f"probed={ACCESS_DATE} hf=ok openrouter=ok hf_models=1 or_models=1"
+            f"probed={ACCESS_DATE} hf=ok openrouter=ok hf_models=1 or_models=467"
             f" hf_schema_delta=0 or_schema_delta=0 entry=pending\n",
             encoding="utf-8",
         )
         (lane33 / "corpus/knowledge").mkdir(parents=True, exist_ok=True)
         (lane33 / ENTRY).write_text(
             f"{REPROBE_HEADING}\n\nverified-at: {ACCESS_DATE}\nreceipts: {CAP_DIR}\n"
-            "hf_models=1 or_models=1 hf_schema_delta=0 or_schema_delta=0\n",
+            "hf_models=1 or_models=467 hf_schema_delta=0 or_schema_delta=0\n",
             encoding="utf-8",
         )
         cases.append(("verify-fixture-green", verify(lane33) == 0))
