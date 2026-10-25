@@ -776,3 +776,67 @@ re-derived 32 claims from committed bytes and found five mismatches; three were 
 The two remaining mismatches are not live errors: a mutant count ("five" in the SCORECARD versus
 "four" named in the correction) is numbering across two attack seats, and the axis scores themselves
 are not command-derivable — the report already labels them held judgments with their cap premise.
+
+## Round 30 — assimilation round 2, routed-defect closure, quote-validating gate (2026-10-25, hyaku run 6)
+
+Baseline `363a4ebf`; frozen prereg `plans/round-30-claims.md`. Three claims on three axes:
+C1 coverage (lowest non-retired, tie-break over novelty), C2 calibration, C3 operability.
+Round shape: v1 wave 1 build (36 seats) + v1 wave 2 falsify (33 seats) = 69 seats.
+
+1. **C1 — the contamination-transparency card admitted as an amendment.** The staged package entry
+   was refused at round 29 as "a fourth card design"; the recorded flip was to land it as an
+   amendment to the tabulated designs. This round re-opened all six of its sources on 2026-10-25
+   (S081 arXiv 2608.29463, S082 arXiv 2607.01254v2 full text, S083 Findings of EACL 2026, S084
+   OpenCompass 0.4.0 docs, S085 the CAICT 2024 report — round 29's HTTP 000 did not recur — S086
+   the ANLP 2025 paper), replaced every anchor with a located quote from this round's own fetch,
+   mapped the field list into the round-6 union table's own columns, declared the delta (two new
+   fields, one new value set), renamed the entry's own answerability questions **CG1–CG8** to stop
+   colliding with `QUALITY.md` Q1–Q8, and wrote an `Extends` section naming both the lane entry it
+   extends and the staged tabulation (labelled unlanded, so no load-bearing claim rests on it).
+   Registry 82 → 88 rows; knowledge 38 → 39; index 38 → 39. Counter (frozen):
+   `entries=1 indexed=1 cited_rows=6 rows_present=6 rows_mined=6 usedby_ok=1 census=ok`, exit 0;
+   the do-nothing control is `entries=0 …` exit 1.
+2. **C2 — the five routed defects closed.** D1: the receipt now exists at the path the round-29
+   report cites, carrying the report's seven-field quoted line *and* the wave file's eight-field
+   variant beside it. D2: the kappa sweep is narrowed to the scope its command measured, with both
+   counts (65 at the round-29 tip, 66 at round 30) and the line-vs-occurrence unit stated. D3: the
+   lesson's S078 line-75 quote is priced 8, matching `wc -w` and the registry. D4: the +22-line
+   critic addendum is committed. D5: the S091 `used-by` asymmetry is recorded in the round-29
+   expect file without moving its seven printed fields (re-ran: `cited_rows=5`, exit 0).
+   `python3 plans/round30_defects.py --lane .` → `defects=5` exit 1 at freeze → `defects=0` exit 0
+   after the landing commit.
+3. **C3 — the adoption gate now validates quotes.** `plans/sources_adopt.py` gains a quote mode
+   (`--quote-file`/`--artifact`): every quoted span in a row's anchor cell must be ≤25 words and a
+   byte substring of a named capture, with exit 6 (over-long), 7 (absent), 4 (structural), 2
+   (unreadable artifact) beside the existing 3/4/5. Selftest 10 → 14 cases; the ten original cases
+   keep their names and verdicts and the five pre-existing invocations are stdout/exit identical.
+   Scope stated where it cannot be overstated: the gate proves the bytes it was handed contain the
+   strings — it does not bind the artifact to the cited URL, its 25-word cap is inert for CJK (a
+   46-character Chinese span counts 1 word), and PDF text layers need extraction first.
+4. **Frontier step.** Census before → after: exit 0 both ends, 82 → 88 rows, the same 14 `W04`
+   duplicate-URL warnings (`corpus/evidence/round30/census-before.txt`, `census-after.txt`).
+   Id-collision check before any append: 82 registry ids vs 175 staged ids → 6 collisions
+   (S077–S080, S090, S091), resolved by adopting only ids the registry did not hold
+   (`.ufo/waves/round-30/assimilation/`). Quarantine slice re-derived: 2 rows (S091 quote-present,
+   S105 unverifiable). One considerthese proposal landed as `QUALITY.md` Q20 (out-of-band gate run
+   on gate-touching landings), with its three measured limits.
+5. **Mistakes mined** (`corpus/lessons/round-30.md` §Mistakes): a repair that printed green while
+   making D2's check unsatisfiable (markdown-emphasis strip deleting the `*` of the glob), caught by
+   a falsify seat rather than the counter; and an adjacent D1 repair that recorded the quoted-line
+   mismatch instead of answering it. Both fixes are in the landed counter, which now judges the
+   committed HEAD blob and re-derives the kappa count in `grep -rn` line units.
+
+**Re-verified this round:** fleet census exit 0 (both ends); round-29 counter unchanged
+(`cited_rows=5`, `corpus/evidence/round30/r29-counter-unchanged.txt`); gate selftest
+`cases=14 failed=0`; six sources re-opened with sha256 and byte counts recorded per row; the
+round-29 receipts (`grader.py` 733/0 PASS, `plans/config_projection.py`, `plans/round28_census.py`)
+re-run in the round's build seats and reported unchanged there.
+
+**Waves.** Wave 1 build 36 seats (10 scout, 7 reviewer, 6 executor, 4 scribe, 3 critic, 2 connector,
+2 mutation-tester, 1 revenger, 1 simplifier). Wave 2 falsify 33 seats (12 scout, 8 reviewer, 5
+critic, 5 executor, 1 mutation-tester, 1 connector, 1 revenger) — 16/33 attack roles (48%).
+Yield per seat: `.ufo/waves/yield.tsv` round-30 rows. No seat died before the falsify wave; the
+wave-2 dispatch was refused twice at the host job limit and resent unchanged once a slot settled.
+**L0 questions:** none opened this round. **Safety:** no pacman transaction (host pause respected),
+no tool installed, no write outside the lane repo, the report and the round's own wave directory;
+`/home/vgpnk/Projects/shokuknow` read-only throughout.

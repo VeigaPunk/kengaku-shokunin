@@ -191,7 +191,7 @@ URL alone.
 | row | URL | located quote / words / location |
 |---|---|---|
 | S077 | https://raw.githubusercontent.com/harbor-framework/terminal-bench/e67a2cb7db4d9795c212909b3395d8c22ad60aec/docs/TASK_REVIEW_AUTOMATION.md | "Prevents training data contamination by ensuring a unique canary string is present in task files." — 15 words, line 95; table rows "Doing nothing fails tests" (line 29) and "Adversarial reward-hack detection" (line 31). sha256 `b0a7cb14…78b61`, 41842 bytes |
-| S078 | https://raw.githubusercontent.com/scaleapi/SWE-bench_Pro-os/66f92766bba642462d4bbe5479e83f91f9211862/v2/README.md | "731 -> 642 tasks: 89 dropped after review." — 8 words, line 99; "The verifier never runs in the agent's sandbox." — 9 words, line 75; `v2/GATE.md` line 1 dated 2026-09-22 with 642 / 642 oracle and 642 / 642 nop-unresolved. sha256 `dde4168f…8231f`, 6858 bytes |
+| S078 | https://raw.githubusercontent.com/scaleapi/SWE-bench_Pro-os/66f92766bba642462d4bbe5479e83f91f9211862/v2/README.md | "731 -> 642 tasks: 89 dropped after review." — 8 words, line 99; "The verifier never runs in the agent's sandbox." — 8 words, line 75; `v2/GATE.md` line 1 dated 2026-09-22 with 642 / 642 oracle and 642 / 642 nop-unresolved. sha256 `dde4168f…8231f`, 6858 bytes |
 | S079 | https://github.com/laude-institute/terminal-bench-2 | `protein-assembly/task.toml` line 1 `schema_version = "1.1"`, line 15 `difficulty = "hard"`, line 18 `expert_time_estimate_min = 60.0`, line 19 `junior_time_estimate_min = 300.0`, line 22 `timeout_sec = 1800.0`; 92 root entries = 89 task directories + 3 files, 89 `task.toml`. sha256 `d7149606…98f24`, 973 bytes |
 | S080 | https://raw.githubusercontent.com/hkust-nlp/Toolathlon/9be8d8fe07a497b18ee61e3f2ae694e9797f39eb/README.md | "This release marks the verified final version of Toolathlon" — 9 words, line 27; `tasks/finalpool/ab-testing/task_config.json` lines 2 and 6 declare `needed_mcp_servers` and `needed_local_tools`; 108 task directories plus one `task_conflict.json`. sha256 `d06165b5…a5b46a`, 16883 bytes |
 | S091 | https://arxiv.org/abs/2507.02825 | "we introduce the Agentic Benchmark Checklist (ABC), a set of guidelines that we synthesized from our benchmark-building experience" — 18 words, Abstract (Zhu et al., NeurIPS 2025). Prior instrument for the entry's axes: the checklist is INCREMENTAL, so no novelty credit is taken |
@@ -228,8 +228,12 @@ amendment set", never "never":
 - `judge-calibration-thresholds.md` — reject, narrow, on premise (Q3/Q6): it claims the
   pre-registered threshold is missing inward, but `QUALITY.md` Q11 and
   `knowledge/attribution-interval-calibration.md:12` already hold and enforce it; its transferable
-  point duplicates `knowledge/llm-judge-calibration.md:7-13`. Only per-variable kappa and a
-  test–retest ceiling are new (`grep kappa` → 0 hits in the lane).
+  point duplicates `knowledge/llm-judge-calibration.md:7-13`. The only new items are per-variable
+  kappa and a test–retest ceiling — `grep -rn kappa corpus/knowledge/*.md` → 0 hits at the scope
+  that command measured, while a lane-wide `git grep -li kappa` (corpus/knowledge/*.md included)
+  finds 65 files at the round-29 tip `2ff4b6f`, 66 with the round-29 spot-check file, and 67 in the
+  round-30 landing tree — the count grows with every prose file that mentions the word. Routed defect D2,
+  `corpus/lessons/round-29-verifier-spotcheck.md` §5.
 - `benchmark-grader-semantics.md` — reject on scope (Q3): a state-based/tolerance reading
   generalised from one task is contradicted by the package's own later tabulation (16 of 108
   graders reference a tolerance), and its strongest half rests on S093, a schema-malformed staged

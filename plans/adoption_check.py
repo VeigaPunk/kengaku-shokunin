@@ -97,6 +97,36 @@ def main(argv: list[str]) -> int:
         )
         usedby_ok += 1 if linked else 0
 
+    # Round-30 (2026-10-25): the frozen sentence names clauses the old plumbing never read —
+    # "exactly the six ids", "distinct", "opened=<access date>", "one index row". A falsify critic
+    # bought the old pass line for 159 bytes, so these are implemented here. The printed seven
+    # fields do not change; the exit code does.
+    ids_ok = duplicates_ok = opened_ok = index_shape_ok = 1
+    for entry in entries:
+        rel = entry["path"]
+        path = lane / rel
+        text = path.read_text(encoding="utf-8") if path.is_file() else ""
+        declared = SOURCE_LINE_RE.findall(text)
+        if len(declared) != len(set(declared)) or len(set(declared)) != len(set(entry["sources"])):
+            duplicates_ok = 0
+        if set(declared) != set(entry["sources"]):
+            ids_ok = 0
+        for row_id in entry["sources"]:
+            row = registry.get(row_id)
+            if row is None or row[8] != access_date:
+                opened_ok = 0
+        name = Path(rel).name
+        rows = [
+            line for line in readme.splitlines()
+            if re.match(r"^\| `knowledge/" + re.escape(name) + r"` \|", line)
+        ]
+        if len(rows) != 1:
+            index_shape_ok = 0
+        else:
+            cells = [cell.strip() for cell in rows[0].strip().strip("|").split("|")]
+            if len(cells) < 3 or not cells[1] or not cells[2]:
+                index_shape_ok = 0
+
     census_state = "skipped"
     census_code = 1  # an unrun census is not a pass
     if args.census:
@@ -124,6 +154,10 @@ def main(argv: list[str]) -> int:
         and rows_mined == required
         and usedby_ok == len(entries)
         and verified_at_ok == len(entries)
+        and ids_ok
+        and duplicates_ok
+        and opened_ok
+        and index_shape_ok
         and args.census
         and census_code == 0
     )

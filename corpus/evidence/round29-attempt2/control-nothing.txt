@@ -1,0 +1,17 @@
+# control receipt — do-nothing run of the frozen round-29 attempt-2 counter
+# The lane report (.ufo/reports/round-29/kengaku.md) quotes this line verbatim:
+entries=0 indexed=0 cited_rows=0 rows_present=0 rows_mined=0 usedby_ok=0 census=skipped
+# exit code of that run: 1
+#
+# Provenance — routed defect D1 (corpus/lessons/round-29-verifier-spotcheck.md section 5):
+# the wave file .ufo/waves/round-29/attempt2/control.nothing.txt carried one extra field
+# (`verified_at=0`) that the report's quoted line omits. Its byte-exact line was:
+entries=0 indexed=0 cited_rows=0 rows_present=0 rows_mined=0 usedby_ok=0 verified_at=0 census=skipped
+#
+# Both forms were reproduced on 2026-10-25 in scratch trees. Precision on provenance (round-30 falsify
+# seat R30FxC2Recheck): `plans/adoption_check.py` first appears at 8c14a5d, not at 1f3b0f1; the
+# eight-field line reproduces byte-identically from an archive of 8c14a5d, and the seven-field line
+# reproduces only with the counter as it stands at HEAD. The shipped counter emits the seven-field form
+# (plans/adoption_check.py prints exactly seven fields, plus the access-date gate it does not
+# print), so the report's quote is the form a reader re-derives today; the eight-field line is
+# kept beside it because that is what the wave file recorded at freeze time.

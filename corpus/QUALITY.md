@@ -192,3 +192,27 @@ A round closes only when every row below holds; a row that cannot be shown is an
   `grep -rn 'seat.?yield\|yield\.tsv' plans corpus *.md` → 0 hits. Landed as a criterion, not an
   implementation: round 29 spent its claim slots on assimilation and the adoption gate.
   Lesson: `.ufo/waves/round-29/attempt2/build/R29a2Considerthese.md`.
+
+## Round30 criterion — a gate landing carries an out-of-band run
+
+- **Q20 — a landing that touches a gate carries a mechanical run made outside the working copy.**
+  A commit touching `grader.py`, `plans/*.py`, `plans/*.sh`, the `corpus/SOURCES.md` schema or
+  `.github/` must cite a gate run made in a landing tree extracted from the commit
+  (`git archive <sha> | tar -x -C <tmp>`), printing the exit code and the pinned count line of every
+  gate it names: `python3 grader.py` → `CHECKS n=733 mismatches=0 errata_pinned=1` plus its
+  `VERDICT: PASS`; `plans/sources_adopt.py --selftest` → a `SELFTEST cases=N failed=0` line;
+  `plans/registry_check.py --selftest`, `plans/config_projection.py --selftest`,
+  `plans/benchmark_spec_audit.py --selftest` → their CASE counts. A count that differs from the
+  previous commit is a failure unless the same commit's diff explains old→new with a reason.
+  Check: run the named gates inside the extracted tree and diff the count lines against the previous
+  landing's receipt; `python3 plans/state_check.py --summary` and the fleet census still apply
+  separately. Limits, each measured on scratch copies (`.ufo/waves/round-30/build/R30Considerthese.md`
+  §Limits): an exit-code-only criterion loses (deleting two `grader.py` selftest cases leaves
+  `ALL PASS`, exit 0) — the pinned integer is the detector; the integer detects shrinkage, not
+  correctness (a tautologised assertion keeps n=733); and this is not a non-author verifier
+  (`QUALITY.md` R6 stands — only a workflow run would make it one). It cannot cover
+  `plans/adoption_check.py`, which is red by design, or the two selftests that print no count.
+  The proposal and its date are `considerthese/2026-10-24.md` §Self-improvement suggestions 1
+  (2026-10-24); the absence check at round 30 is `ls .github` → no such file or directory and
+  `grep -n 'author-observed, never non-author closure' LOG.md` → `LOG.md:372`.
+  Lesson: `.ufo/waves/round-30/build/R30Considerthese.md`.

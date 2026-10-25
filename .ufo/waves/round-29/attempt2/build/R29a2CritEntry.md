@@ -690,3 +690,25 @@ Application Toolathlon "B (via the verified release)"; row G "checked mechanical
 typed" against its own 1-of-89 prose; "Four maintainers were opened" against the three-organisation intro.
 S091 remains linked in `SOURCES.md` and absent from the entry's `source:` block and `expect.json`, so the
 counter still cannot see the relation the registry now asserts.
+
+### D. Addendum — the 275/4/279 identity is exact (verified, not accepted)
+
+The prefix split checks out as an identity, and I verified the two residuals the scribe asserted:
+
+```
+files carrying both prefixes: 0                       (per-file loop over the 4 sandbox files)
+occurrences: terminal-bench-canary 278 , sandbox-canary 4  = 282 across 279 files
+files with 2 occurrences of terminal-bench-canary: 3
+  custom-memory-heap-crash/solution/solve.sh · mcmc-sampling-stan/tests/test.sh · sparql-university/tests/test_outputs.py
+```
+
+So `275 + 4 = 279` files, `278 + 4 = 282` occurrences, and no file mixes the prefixes. The tree-wide figure
+for "tasks whose files carry a canary at all" is 88 of 89 in every prefix reading; the one task with none
+(`headless-terminal`) is unchanged.
+
+**Audit state at close.** The draft (`ed8e4c14…`) is clean on every axis I checked: 0 widenings, 0
+over-narrowings, 13 negative-space bullets, 10/10 quoted spans located by two readers, counters and
+tarball pins reproducing. The shipped body (`2cd9dca5…`) carries: two unsupported Prior-art claims (open,
+retracted by the scribe as "not fixed" after my stop), a count without its command, five prose rows, and an
+S091 relation the counter cannot see. Those are advisory findings for the L1; nothing in this report edits
+the lane, and no claim above rests on an unrun check.

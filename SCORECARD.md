@@ -1008,3 +1008,36 @@ Calibration corrections carried forward rather than smoothed: (a) the first froz
 conflated two fixtures (M92); (b) the package's two count cells named the wrong unit and the round
 re-derived 89 task directories / 108 `finalpool` directories (M94). Both are in
 `corpus/lessons/round-29.md` §Attempt 2.
+
+## Round 30 (hyaku run 6, 2026-10-25): assimilation round 2, routed-defect closure, quote-validating gate
+
+Baseline `363a4ebfda0599bbc4b4b3cdc27a5f91bcaf37db`; frozen prereg `plans/round-30-claims.md`.
+Lowest non-retired axis: **coverage 7**, tied with novelty 7; the tie-break is the frozen prereg's
+"most falsifiable with sources an on-host tool can open" and the stagnation waiver is unavailable
+(saturation line 8, novelty below it, a capability row entered at round 29). Round shape: two v1
+waves, 36 build + 33 falsify seats (69 total).
+
+| claim | axis | observed before → after, counting command | score / verdict |
+|---|---|---|---|
+| C1 shokuknow assimilation round 2 — the contamination-transparency card admitted as an amendment | **coverage** (lowest non-retired, tie-break) | before: `python3 plans/adoption_check.py --expect .ufo/waves/round-30/adoption-expect.json --census` → `entries=0 indexed=0 cited_rows=0 rows_present=0 rows_mined=0 usedby_ok=0 census=ok` exit 1 (freeze control, `.ufo/waves/round-30/claims/control-nothing.txt`) → after: same command → `entries=1 indexed=1 cited_rows=6 rows_present=6 rows_mined=6 usedby_ok=1 census=ok` exit 0 (`corpus/evidence/round30/adoption-after.txt`). Registry 82 → 88 rows (S081–S086, tier A 76→79, B 4→7); knowledge files 38 → 39; index rows 38 → 39; census exit 0 | **7 → 7 held** — real expansion on ground the lane did not hold (frontier bullet 2 *unopened lead* → amendment + CG1–CG8 gate), but the canonical coverage score stays 7 while the round-25 L0 coverage cap is open. The claim is the ledger delta, not a raised number. |
+| C2 calibration — the five routed defects D1–D5 closed | **calibration** | before: `python3 plans/round30_defects.py --lane .` → `DEFECT D1/D2/D3/D4/D5`, `defects=5`, exit 1 (`.ufo/waves/round-30/claims/defects-before.txt`) → after: same command → `defects=0`, exit 0, with D1 judged on the committed blob, D2's count re-derived in `grep -rn` line units, D3 recomputed 9→8, D4 requiring the addendum in `HEAD:`, D5 accepting either repair branch | **8 → 8 held** — five self-assessment/repo mismatches closed; the counter itself was tightened four times after reviewers found gameable paths, and the tightening is disclosed in the lesson rather than folded into the score |
+| C3 operability — the adoption gate validates quotes | **operability** | before: `git show 363a4ebf:plans/sources_adopt.py` has no quote mode (`--quote-file … --artifact …` → argparse exit 2) and `--selftest` prints `cases=10` (`.ufo/waves/round-30/claims/gate-before.txt`) → after: `python3 plans/sources_adopt.py --selftest` → `SELFTEST cases=14 failed=0`, exit 0 (`corpus/evidence/round30/gate-selftest-after.txt`), with a located-quote accept path, exit 6 for over-long, exit 7 for absent-from-artifact | **8 → 8 held**; capability row added. Scope, stated so the row cannot overclaim: the gate proves *the bytes it was handed contain these strings* — it does not bind the artifact to the cited URL, its 25-word cap is inert for CJK (a 46-character Chinese span is 1 word), and PDF text layers must be extracted before quotes can locate. |
+
+Other axes held: depth 9 (the entry adds a field mapping against a published union table, no new
+instrument claim), novelty 7 (no prior-art or phenomenon claim; S091 already prices the sibling
+checklist, and the card is declared an amendment to published designs), freshness 8 (census exit 0
+at both ends with the same 14 `W04`; six rows re-opened 2026-10-25; the round-29 receipts re-run),
+adjacency 8 (the connector found no sibling contest; the round claims no research-method or
+secrets-custody surface), coverage as above.
+
+| Capability | What it can now do | Evidence / command | First-working round |
+|---|---|---|---|
+| quote-validating adoption gate | Refuse a registry row whose anchored quote is longer than the contract's 25 words or absent from a named capture, with distinct exit codes beside the schema/collision/`used-by` checks | `python3 plans/sources_adopt.py --selftest` (14 cases, exit 0); `--quote-file <rows> --artifact <capture>` | 30 |
+
+Calibration corrections carried this round rather than smoothed: the D2 repair first shipped a
+markdown-emphasis strip that deleted the `*` in `corpus/knowledge/*.md` and made the check
+unsatisfiable for any lesson bytes (caught by a falsify seat, not the counter); D1's first receipt
+planted the wave file's eight-field line while the report quotes the seven-field one; the staged
+S081/S082/S085 anchor quotes were respectively over the cap, pointed at a section that does not
+exist, and flattened fullwidth quotes. All four are in `corpus/lessons/round-30.md` §Mistakes and
+§Round 30 admission.

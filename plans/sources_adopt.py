@@ -17,10 +17,14 @@ Capabilities (each separately exercised by `--selftest`):
      frozen access date (reporting the stripped prose separately) and rewrites
      `used-by` to exactly the admitted entries citing the row;
   4. refusal with a non-zero exit for a missing requested id, an escaped pipe, a
-     duplicate staged id, or a nonempty collision set.
+     duplicate staged id, or a nonempty collision set;
+  5. quote validation (`--quote-file`/`--artifact`): every quoted span in a supplied
+     row's anchor cell is measured against the contract's <=25-word cap and located
+     as a byte substring of the named artifact, with its own exit codes.
 
-Scope: registry row mechanics only. Source truth, tier judgement and the census
-itself stay where they are (CORPUS.md contract v1; census is fleet-owned).
+Scope: registry row mechanics and quote presence only. Source truth, tier judgement
+and the census itself stay where they are (CORPUS.md contract v1; census is
+fleet-owned).
 """
 from __future__ import annotations
 
@@ -38,9 +42,12 @@ STATUSES = {"queued", "mined", "rejected"}
 COLUMNS = 11
 
 EXIT_OK = 0
+EXIT_QUOTE_UNREADABLE = 2  # same class as argparse usage errors: caller/env, not bytes
 EXIT_COLLISION = 3
 EXIT_MALFORMED = 4
 EXIT_REQUEST = 5
+EXIT_QUOTE_TOO_LONG = 6
+EXIT_QUOTE_ABSENT = 7
 
 
 class Row:
@@ -250,6 +257,194 @@ def print_report(report: dict[str, object]) -> None:
         print(f"  missing: {' '.join(report['missing'])}")
 
 
+# --------------------------------------------------------------------------- quotes
+
+# SOURCES contract v1 rule 1, restated by QUALITY Q3: an anchored quote is at most
+# 25 words. `words` is the same counter `round30_defects.words` uses, so a word
+# count printed by this gate cannot disagree with one in a round's defect receipt.
+QUOTE_WORDS = 25
+# The anchor cell is 0-based 5 in the 11-cell row, and it is where a row carries its
+# quote: the live registry writes `location: "exact quote" (N words); ...` (S078).
+ANCHOR_COLUMN = 5
+QUOTE_SPAN_RE = re.compile(r'"([^"]+)"')
+
+
+def words(text: str) -> int:
+    return len(text.split())
+
+
+def normalize_text(text: str) -> str:
+    """Newline-normalise so a CRLF capture and an LF one compare identically."""
+    return text.replace("\r\n", "\n").replace("\r", "\n")
+
+
+def quoted_spans(cell: str) -> tuple[list[str], str]:
+    """Return (spans, reason) for the quoted text an anchor cell carries.
+
+    An odd number of `"` is refused rather than paired greedily: on a cell with a
+    dropped closing quote the greedy pairing would validate whatever text sits
+    between two unrelated marks and green a quote nobody wrote.
+    """
+    if cell.count('"') % 2:
+        return [], "unbalanced-quote"
+    spans = QUOTE_SPAN_RE.findall(cell)
+    if not spans:
+        return [], "no-quote"
+    return spans, ""
+
+
+def load_artifact(path: Path) -> tuple[list[tuple[str, str]], str]:
+    """Return ([(name, normalized_text)], problem).
+
+    A file is one artifact; a directory is every UTF-8 file under it in sorted path
+    order, so the "at <name>" a receipt prints is deterministic. A file whose bytes
+    do not decode as UTF-8 is skipped and named in the problem line: replacing bad
+    bytes would let a mangled capture locate a quote that is not in it.
+    """
+    if path.is_file():
+        candidates = [path]
+        root = path.parent
+    elif path.is_dir():
+        candidates = sorted(item for item in path.rglob("*") if item.is_file())
+        root = path
+    else:
+        return [], f"--artifact names no file or directory: {path}"
+    loaded: list[tuple[str, str]] = []
+    skipped: list[str] = []
+    for item in candidates:
+        name = item.name if item.parent == root else str(item.relative_to(root))
+        try:
+            text = item.read_bytes().decode("utf-8")
+        except (OSError, UnicodeDecodeError):
+            skipped.append(name)
+            continue
+        loaded.append((name, normalize_text(text)))
+    if not loaded:
+        detail = f" (unreadable: {' '.join(skipped)})" if skipped else ""
+        return [], f"--artifact holds no UTF-8 text{detail}"
+    return loaded, ""
+
+
+def locates(quote: str, loaded: list[tuple[str, str]]) -> str:
+    """Return the artifact name the quote occurs in, or "".
+
+    Both sides are newline-normalised, so a quote taken across a line break in an
+    LF capture still locates in the same document captured with CRLF. The test is a
+    byte substring of the normalised text, never a fuzzy or whitespace-insensitive
+    match: a paraphrase must fail here.
+    """
+    needle = normalize_text(quote)
+    return next((name for name, text in loaded if needle in text), "")
+
+
+def quote_check(quote_file: Path, artifact: Path, cap: int = QUOTE_WORDS) -> tuple[int, dict[str, object]]:
+    """Validate the quoted text each supplied row's anchor cell carries.
+
+    Two refusals, deliberately separable: a span longer than `cap` words (exit 6)
+    and a span that is not a byte substring of the artifact (exit 7). Neither
+    implies the other -- an over-long quote is refused even when it locates, and an
+    absent quote is refused even when it is short. Structural problems (an
+    unparsable row, a cell with no or an unbalanced quoted span) exit 4, and an
+    unreadable artifact exits 2. The first refusal in the order 2, 4, 6, 7 wins;
+    every refused row is still named, so one run surfaces all of them.
+    """
+    loaded, problem = load_artifact(artifact)
+    report: dict[str, object] = {
+        "cap": cap,
+        "rows": 0,
+        "spans": 0,
+        "located": [],
+        "found": [],
+        "overlong": [],
+        "absent": [],
+        "malformed": [],
+        "artifacts": [name for name, _ in loaded],
+        "problem": problem,
+        "quotes": [],
+    }
+    if problem:
+        return EXIT_QUOTE_UNREADABLE, report
+    rows, bad = parse_rows(quote_file.read_text(encoding="utf-8"))
+    located: list[str] = []
+    found: list[str] = []
+    overlong: list[str] = []
+    absent: list[str] = []
+    malformed = [f"{row_id}:{reason}" for _, row_id, reason in bad]
+    details: list[tuple[str, str]] = []
+    spans_total = 0
+    for row in rows:
+        spans, reason = quoted_spans(row.cell(ANCHOR_COLUMN))
+        if reason:
+            malformed.append(f"{row.row_id}:{reason}")
+            details.append(("REFUSED", f"{row.row_id} {reason}"))
+            continue
+        spans_total += len(spans)
+        for quote in spans:
+            count = words(quote)
+            # Locatedness is recorded even when the span is too long: a receipt that
+            # said only "overlong" would leave the reader guessing whether the bytes
+            # were found at all, and those two repairs are not the same repair.
+            where = locates(quote, loaded)
+            if where:
+                found.append(row.row_id)
+            if count > cap:
+                overlong.append(row.row_id)
+                details.append(
+                    (
+                        "REFUSED",
+                        f'{row.row_id} overlong words={count} cap={cap} '
+                        f'at {where or "nowhere"} quote="{quote}"',
+                    )
+                )
+            elif not where:
+                absent.append(row.row_id)
+                details.append(("REFUSED", f'{row.row_id} absent words={count} quote="{quote}"'))
+            else:
+                located.append(row.row_id)
+                details.append(("ok", f'{row.row_id} words={count} at {where} quote="{quote}"'))
+    report.update(
+        {
+            "rows": len(rows),
+            "spans": spans_total,
+            "located": located,
+            "found": found,
+            "overlong": overlong,
+            "absent": absent,
+            "malformed": malformed,
+            "quotes": details,
+        }
+    )
+    if malformed:
+        return EXIT_MALFORMED, report
+    if overlong:
+        return EXIT_QUOTE_TOO_LONG, report
+    if absent:
+        return EXIT_QUOTE_ABSENT, report
+    return EXIT_OK, report
+
+
+def print_quote_report(report: dict[str, object]) -> None:
+    if report["problem"]:
+        print(f"QUOTE cap={report['cap']} problem={report['problem']}")
+        return
+    print(
+        "QUOTE rows={rows} spans={spans} located={loc} found={found} overlong={long} "
+        "absent={absent} malformed={mal} cap={cap} artifacts={arts}".format(
+            rows=report["rows"],
+            spans=report["spans"],
+            loc=len(report["located"]),
+            found=len(report["found"]),
+            long=len(report["overlong"]),
+            absent=len(report["absent"]),
+            mal=len(report["malformed"]),
+            cap=report["cap"],
+            arts=",".join(report["artifacts"]),
+        )
+    )
+    for label, detail in report["quotes"]:
+        print(f"  {label} {detail}")
+
+
 # --------------------------------------------------------------------------- selftest
 
 HEADER = "| id | source | kind | tier | scope | anchor | teaches | status | opened | recheck | used-by |\n|---|---|---|---|---|---|---|---|---|---|---|\n"
@@ -275,6 +470,10 @@ def selftest() -> int:
             path = root / name
             path.write_text(text, encoding="utf-8")
             return path
+
+        def quote_row(row_id: str, anchor: str) -> str:
+            """A registry-shaped row whose anchor cell carries the quote under test."""
+            return GOOD_ROW.replace("S900", row_id).replace("anchor text", anchor)
 
         # 1. column-zero collision is caught
         reg = write("reg0.md", HEADER + GOOD_ROW.replace("S900", "S001") + "\n")
@@ -398,6 +597,124 @@ def selftest() -> int:
             and code_prose == EXIT_MALFORMED,
         )
 
+        # 11. a 26-word quote is refused at the cap even though the artifact does
+        #     contain it: the refusal is the length, not the absence
+        over = " ".join(f"w{index}" for index in range(1, 27))
+        art = write("artifact-over.txt", f"prefix line\n{over}\nsuffix line\n")
+        qfile = write("quotes-over.txt", HEADER + quote_row("S015", f'line 1: "{over}"'))
+        code, qreport = quote_check(qfile, art)
+        case(
+            "quote-overlong-refused",
+            words(over) == 26
+            and code == EXIT_QUOTE_TOO_LONG
+            and qreport["overlong"] == ["S015"]
+            and qreport["absent"] == []
+            and qreport["located"] == []
+            # the bytes do contain the quote: the refusal is the length, not absence
+            and qreport["found"] == ["S015"],
+        )
+
+        # 12. a quote inside the cap but absent from the artifact bytes is refused;
+        #     a row supplying no quoted span, or an unbalanced one whose greedily
+        #     paired half is present, is structural (4), never a green
+        short = "the requested sentence is not in the captured bytes at all"
+        art_dir = root / "artifact-dir"
+        art_dir.mkdir()
+        (art_dir / "capture.txt").write_text("a capture that says alpha elsewhere\n", encoding="utf-8")
+        (art_dir / "notes.md").write_text("unrelated bytes\n", encoding="utf-8")
+        qfile = write("quotes-absent.txt", HEADER + quote_row("S016", f'Abstract: "{short}"'))
+        code, qreport = quote_check(qfile, art_dir)
+        # Two survivors the round-30 mutation-tester named: a one-token quote must not be
+        # wildcarded into a match, and a quote whose first 20 characters happen to locate
+        # must still be refused as absent. Both assertions live in this case so the tally
+        # stays at the four new cases the claim's predicate names.
+        word_code, word_report = quote_check(
+            write("quotes-word.txt", HEADER + quote_row("S022", 'Abstract: "zeta"')), art_dir
+        )
+        prefix = "the requested sentence is not in the captured bytes at all"
+        (art_dir / "prefix.txt").write_text(prefix[:20] + " and then unrelated words\n", encoding="utf-8")
+        prefix_code, prefix_report = quote_check(
+            write("quotes-prefix.txt", HEADER + quote_row("S023", f'Abstract: "{prefix}"')), art_dir
+        )
+        no_span = write("quotes-nospan.txt", HEADER + quote_row("S019", "anchor with no quoted span"))
+        span_code, span_report = quote_check(no_span, art_dir)
+        odd = write("quotes-odd.txt", HEADER + quote_row("S021", 'line 1: "alpha" and "beta'))
+        odd_code, odd_report = quote_check(odd, art_dir)
+        case(
+            "quote-absent-refused",
+            words(short) <= 25
+            and code == EXIT_QUOTE_ABSENT
+            and qreport["absent"] == ["S016"]
+            and qreport["overlong"] == []
+            and qreport["artifacts"] == ["capture.txt", "notes.md"]
+            # a one-token quote is compared, never wildcarded into a match
+            and word_code == EXIT_QUOTE_ABSENT
+            and word_report["absent"] == ["S022"]
+            and word_report["located"] == []
+            # a 20-character prefix match is not a location
+            and prefix_code == EXIT_QUOTE_ABSENT
+            and prefix_report["absent"] == ["S023"]
+            and not locates(prefix, [("prefix.txt", (art_dir / "prefix.txt").read_text(encoding="utf-8"))])
+            and span_code == EXIT_MALFORMED
+            and span_report["malformed"] == ["S019:no-quote"]
+            and span_report["absent"] == []
+            and odd_code == EXIT_MALFORMED
+            and odd_report["malformed"] == ["S021:unbalanced-quote"]
+            and odd_report["located"] == []
+            and odd_report["found"] == []
+            and qreport["found"] == [],
+        )
+
+        # 13. a located quote inside the cap is accepted, including a CRLF capture
+        #     and a cell carrying two spans -- one absent span still refuses the row.
+        #     Normalisation is exercised where it bites: a quote taken across a line
+        #     break locates in the CRLF capture, while a paraphrase still does not.
+        first = "the verifier never runs in the agent's sandbox"
+        second = "compile the fix once, then swap it in"
+        art = write("artifact-crlf.txt", f"intro\r\n{first}.\r\n{second}.\r\n")
+        qfile = write(
+            "quotes-located.txt", HEADER + quote_row("S017", f'line 99: "{first}". line 75: "{second}"')
+        )
+        code, qreport = quote_check(qfile, art)
+        partial = write(
+            "quotes-located-partial.txt",
+            HEADER + quote_row("S020", f'line 99: "{first}". line 75: "not in the capture"'),
+        )
+        partial_code, partial_report = quote_check(partial, art)
+        wrapped, _ = load_artifact(art)
+        case(
+            "quote-located-accepted",
+            code == EXIT_OK
+            and qreport["located"] == ["S017", "S017"]
+            and qreport["spans"] == 2
+            and qreport["absent"] == []
+            and partial_code == EXIT_QUOTE_ABSENT
+            and partial_report["absent"] == ["S020"]
+            and partial_report["located"] == ["S020"]
+            and partial_report["found"] == ["S020"]
+            and qreport["found"] == ["S017", "S017"]
+            and locates(f"intro\n{first}", wrapped) == "artifact-crlf.txt"
+            and locates(f"intro\r\n{first}", wrapped) == "artifact-crlf.txt"
+            and locates(f"intro\n{first} widened", wrapped) == ""
+            and normalize_text("a\r\nb\rc") == "a\nb\nc",
+        )
+
+        # 14. the cap is inclusive: exactly 25 words passes where 26 is refused
+        edge = " ".join(f"q{index}" for index in range(1, 26))
+        art = write("artifact-edge.txt", f"{edge}\n")
+        qfile = write("quotes-edge.txt", HEADER + quote_row("S018", f'p.1: "{edge}"'))
+        code, qreport = quote_check(qfile, art)
+        case(
+            "quote-boundary-25-accepted",
+            words(edge) == 25
+            and words(edge + " x") == 26
+            and code == EXIT_OK
+            and qreport["located"] == ["S018"]
+            and qreport["found"] == ["S018"]
+            and qreport["spans"] == 1
+            and qreport["cap"] == 25,
+        )
+
     failed = [name for name, passed in cases if not passed]
     print(f"SELFTEST cases={len(cases)} failed={len(failed)}")
     if failed:
@@ -421,6 +738,16 @@ def main(argv: list[str]) -> int:
     )
     parser.add_argument("--out", type=Path, help="write the append block here")
     parser.add_argument(
+        "--quote-file",
+        type=Path,
+        help="rows.txt whose anchor cells carry the quotes to validate (needs --artifact)",
+    )
+    parser.add_argument(
+        "--artifact",
+        type=Path,
+        help="source file or directory the quotes must occur in (needs --quote-file)",
+    )
+    parser.add_argument(
         "--attest-opened",
         action="store_true",
         help="assert the requested rows were opened on --access-date (re-dates their opened cell)",
@@ -433,6 +760,16 @@ def main(argv: list[str]) -> int:
     args = parser.parse_args(argv)
     if args.selftest:
         return selftest()
+    if args.quote_file or args.artifact:
+        if not (args.quote_file and args.artifact):
+            parser.error("--quote-file and --artifact must be given together")
+        # Exclusive: before this guard, a combined invocation silently ignored the registry
+        # work and exited 0 (found by the round-30 regression seat).
+        if args.registry or args.package:
+            parser.error("--quote-file/--artifact cannot be combined with --registry/--package")
+        code, report = quote_check(args.quote_file, args.artifact)
+        print_quote_report(report)
+        return code
     if not args.registry or not args.package:
         parser.error("--registry and --package are required unless --selftest")
     want = [item for item in args.admit_ids.split(",") if item]
