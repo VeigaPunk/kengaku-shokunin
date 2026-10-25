@@ -144,3 +144,25 @@ reject). This lane's own seats cannot satisfy it. Recorded here so the closure h
 Registries: `.ufo/waves/round-31/build/swarm-registry.json`, `.ufo/waves/round-31/falsify/swarm-registry.json`
 (36 + 36 members, every one with its agent id recorded). The planner seat is the L1's (the validator rejects
 `planner`); the bounded planning data-walk rode the scout item `R31PlanWalk`.
+
+## Falsify-wave findings that changed landed bytes (appended after the wave returned)
+
+- **The entry's `DATA_DIRS` sentence was half false.** `R31FxQuoteS093.md` found the third pass at
+  `test.sh:97-104` (a `*fixtures/*` case whose `git checkout HEAD -- "$p"` restores *edited* tracked
+  fixtures) and executed the replay; the entry now says the hole is **additions**, not edits, and cites the
+  pass. Class `survivor` — the sentence was written from a partial read of the same file the entry quotes.
+- **The general "shared mode is leaky" fact was already in-lane.** `R31FxPriorArt.md` found S077
+  (`TASK_REVIEW_AUTOMATION.md:183`) stating it verbatim before this round; the entry now cites S077 for the
+  general fact and claims only the per-benchmark application and the restore facts. Class `attribution`.
+- **"Unless a task opts in" is per verify pass, not per task** (`R31FxSharedMode.md`): a multi-step task mixes
+  modes per step, and regrade refuses shared-mode tasks; both are now in the entry.
+- **The freeze was not committed before the data** (`R31FxClaimsOrder.md`): the claims text existed on disk at
+  05:45:26, before every seat report and its own control receipts, but first entered git at 06:01:13 in the
+  landing commit. The claim "frozen BEFORE any wave seat ran" is true of the file's birth time and false of
+  the commit history. Class `landing`; the fix for the next round is a freeze commit of its own before the
+  first dispatch — recorded here rather than silently relied on.
+- **"91 rows" overstates the registry's distinct sources** (`R31FxS100Dupe.md`): the 15 `W04` are occurrences,
+  not defects, and the effective distinct-URL count is ≈73 (≈71 with the own-work aliases). The census also
+  cannot see the S078↔S093 same-repo-same-pin pair because the hosts differ. Disclosed in the report.
+- **R9's line-count test is a stub heuristic, not an integrity invariant** (`R31FxC2R9.md`): a 120-line stub
+  is caught, but a revert, a one-line append and an identical delete/re-add survive. Named debt.

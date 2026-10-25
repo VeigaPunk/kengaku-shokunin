@@ -34,7 +34,13 @@ shared.
 
 So the default is **shared**: unless a task opts in, the verifier runs in the same container the agent
 worked in. Isolation is opt-in by writing `environment_mode = "separate"` or a `[verifier.environment]`
-section.
+section — per *verify pass*, not per task: a multi-step task resolves the mode per step, so one trial can
+grade some steps in the agent's container and others in a dedicated one (`verifier_mode.py:34-45`), and the
+regrade path refuses a shared-mode task outright (`trial/regrade.py:105-120`, wave-2 seat
+`R31FxSharedMode`). The general fact that shared mode is leaky is **not this entry's finding**: the lane
+already held it in S077, whose pinned maintenance document says "Shared mode is leaky — the verifier
+inherits agent-installed packages, mutated filesystem state, and any files the agent wrote"
+(`TASK_REVIEW_AUTOMATION.md:183`). What is new here is the per-benchmark application and the restore facts.
 
 Neither benchmark opts in — on a sample, not exhaustively (see §What this does not establish):
 
@@ -74,9 +80,15 @@ restore — while the environment under test is reset by neither.
 The task's own reset has a hole, and it is written in the classifier that builds the list: a path whose
 parent directory is in `DATA_DIRS = {'testdata', 'test_data', 'fixtures', 'fixture', 'mocks', 'mock',
 '__snapshots__'}` (`test.sh:38`) returns `False` from `is_test_code` (`:43-44`) and is therefore absent from
-both the tracked list (`:60`) and the untracked list (`:63`) the reset walks. A fixture or snapshot an agent
-edits — or adds — is neither restored from `HEAD` nor deleted, and reaches grading. The reset is scoped to
-test *code*, and the declaration that says so is the one place the scope can be checked.
+both the tracked list (`:60`) and the untracked list (`:63`) the reset walks. What survives into grading is
+therefore **an agent-added fixture or snapshot** — it is in neither list, so it is never deleted, and a
+wave-2 seat executed that path on a scratch repository (`.ufo/waves/round-31/falsify/R31FxQuoteS093.md`).
+**An agent-*edited* tracked fixture is restored**, by a third pass the first reading of this file missed:
+`git diff --name-only HEAD` → a `*fixtures/*` case → `git checkout HEAD -- "$p"` (`test.sh:97-104`, the
+checkout at `:102`) runs before grading, and the same seat's replay confirms a modified tracked `data.json`
+comes back at `HEAD`. So the hole is *additions*, not edits; the reset is scoped to test code plus a
+fixture-path restore, and a file that is both untracked and git-ignored survives either way
+(`--exclude-standard` at `:63`).
 
 Terminal-Bench 2.0 ships no equivalent script: of its 89 `tests/test.sh` files at the pinned commit, 88
 contain no reset block (wave seat `R31DraftEntry`, report `.ufo/waves/round-31/build/R31DraftEntry.md`), so
