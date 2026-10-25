@@ -1090,3 +1090,44 @@ that the registry supersedes. (b) The C1 row's "index 40 → 40" is wrong: the i
 39 → 40 likewise). (c) The C2 row cites `corpus/lessons/round-31.md` §Mistakes, which lands in `d6aa66e`,
 one commit after the row's own commit `dbb07364` — the reference resolves at the round tip, not at the row's
 commit, and the closure should read it there.
+
+## Round 32 (hyaku run 6, 2026-10-25): assimilation refusal, routed-defect partial, catalog freshness failure
+
+Baseline `f20a1097`; landed lane tip `bcd2a6c` (closure `112091c`). Frozen prereg
+`plans/round-32-claims.md` (freeze `0d32691d`). Lowest non-retired axis: **coverage 7**, tied with
+novelty 7; tie-break "most falsifiable with sources an on-host tool can open". Round shape: two v1
+waves, 34 build + 34 falsify seats in the surviving registries. This section lands late under
+round 33 — its absence at the round-32 tip is routed defect N2.
+
+| claim | axis | observed before → after, counting command | score / verdict |
+|---|---|---|---|
+| C1 shokuknow assimilation round 4 — grader-semantics entry under staged ids | **coverage** (lowest non-retired, tie-break) | before: `entries=0 …` exit 1 (freeze control `.ufo/waves/round-32/claims/control-nothing.txt`) → after: `entries=1 indexed=1 cited_rows=3 rows_present=3 rows_mined=1 usedby_ok=0 census=fail` exit 1 (`corpus/evidence/round32/adoption-after.txt`) — staged S094/S097 collided with live ids; staged S101/S102 identify unrelated SWE-bench sources | **7 → 7 held** — **refused as declared**; four refusal rows recorded (S094, S097, S101, S102), the committed draft stays unadmitted |
+| C2 calibration — the seven routed defects D1–D7 | **calibration** | before: `checks=7 defects=7` exit 1 → after (draft-state): `checks=7 defects=5` exit 1 (`corpus/evidence/round32/defects-after.txt`); R3/R4 landed (CLI receipt regenerated, sources_adopt.py SKILL row), R1/R2/R5/R6/R7 remained red | **8 → 8 held** — **incomplete**; a partial receipt is not closure |
+| C3 freshness — public model catalogs re-probed | **freshness** | before: stale entry, exit 1 → after: `hf=ok openrouter=ok hf_models=50 or_models=467 hf_schema_delta=4 or_schema_delta=0` (`corpus/evidence/round32/catalogs/after.txt`) — the frozen zero-delta predicate could not honestly pass with HF's default-projection gap | **8 → 8 held** — **failed as declared**; the frozen predicate was never relabeled |
+
+Other axes held: depth 9, novelty 7 (no prior-art claim), adjacency 8 (connector found no contest),
+coverage as above. Non-author closure `corpus/lessons/round-32-verifier-spotcheck.md` confirmed all
+three dispositions and recorded the residual defect: ten wave paths untracked at the pushed tip —
+closed by round-33 commit `c227e486`.
+
+| Capability | What it can now do | Evidence / command | First-working round |
+|---|---|---|---|
+| — none — | the round landed no new capability; the C1 candidate was refused and C3 failed as declared | `corpus/lessons/round-32.md` | — |
+
+Corrections carried: the staged S094 row misstated the executed tolerance (0.05 at the call site,
+not the 0.1 signature default) and overbroadened a fail-open claim (credential failures fall through
+to implicit None — fail closed); the staged S097 anchor dropped one L in "LLMs-as-judges". All three
+are in `corpus/lessons/round-32.md` §Mistakes.
+
+## Round 33 (hyaku run 7, 2026-10-25): renumbered assimilation, routed-defect closure, byte-retained catalogs
+
+Baseline `112091c2d9`; frozen prereg `plans/round-33-claims.md` (freeze `f0b20aea` + `c227e486`).
+Lowest non-retired axis: **coverage 7**, tied with **novelty 7**; no stagnation waiver (saturation
+line 8, novelty below it, a capability row entered round 31). Three claims, three distinct axes;
+measurements follow at landing.
+
+| claim | axis | observed before → after, counting command | score / verdict |
+|---|---|---|---|
+| C1 grader-semantics entry admitted under renumbered ids S103/S104 | **coverage** (lowest non-retired, tie-break) | before: `entries=1 indexed=1 cited_rows=3 rows_present=3 rows_mined=1 usedby_ok=0 census=ok` exit 1 → after: _at landing_ | _at landing_ |
+| C2 six routed defects N1–N6 closed | **calibration** | before: `checks=6 defects=6` exit 1 → after: _at landing_ | _at landing_ |
+| C3 catalog re-probe with committed bounded raw bytes | **freshness** | before: `raw=absent` exit 1 → after: _at landing_ | _at landing_ |

@@ -251,3 +251,21 @@ A round closes only when every row below holds; a row that cannot be shown is an
   field, does not classify a source live/historical/dead, and cannot tell whether a *live* source's claim
   is still true; it only forbids a pinned claim from hiding its pin. Lesson:
   `corpus/lessons/round-31.md` §Assimilation record.
+
+## Round33 criterion — a receipt is only evidence if something re-runs it at the tip
+
+- **Q22 — a committed counter output is a claim about bytes at a revision; it must re-run at the
+  lane tip and reproduce, or it is stale debt.** A `defects=0` / `exit=0` receipt proves the
+  counter's reading of the tree it ran on — nothing else. When the receipt and the tip disagree
+  (round 31's `gate-cli-exits.txt` greened only at the wrong path; round 32's draft receipt said
+  "not the claimed after-state" while seats cited it as closure), the receipt is debt, and the
+  honest fix is to re-run the same command on the current tip and commit the new output beside the
+  old one. Executable check: every receipt a claim cites must name the revision it was produced
+  at, and the round's final receipts must re-run at `git rev-parse master` before the report
+  closes.
+  The proposal and its date are `considerthese/2026-10-25.md` §Self-improvement suggestions 2
+  ("one persistent routed-defect ledger … includes a tip-receipt validator", 2026-10-25) — this
+  criterion is the cheap half of that proposal: the per-round counter pattern continues, but every
+  final receipt now re-derives at tip. Limits: it does not build the persistent `defects.jsonl`
+  ledger the proposal sketches; that stays unimplemented and is named here as debt. Lesson:
+  `corpus/lessons/round-33.md`.

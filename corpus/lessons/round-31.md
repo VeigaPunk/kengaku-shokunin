@@ -189,3 +189,12 @@ proof is the byte-level review the seats did (`R31DefR1.md`, `R31DefR2R3.md`, `R
 `R31DefR7.md`, `R31DefR8.md`, `R31DefR9.md`, `R31DefR10.md`), each of which re-derived its item from committed
 bytes and re-printed the quoted window. C2's verdict is therefore carried by that review plus the counter, and
 the counter's inadequacy is stated here rather than implied by a green line.
+
+
+## Corrections (round 33, appended — the filed bytes above stand as written)
+
+- **verifier_mode.py precedence locator (routed defect N5).** The Gate row at `:57` cites the
+  precedence docstring at `:35-38`; after the entry's locator repair (`ae95fe0`) the verifier_mode.py
+  precedence docstring is at `:39-40` (verifier_mode.py ... :39-40, this correction) — this
+  correction supersedes the `:35-38` citation while the
+  stale line is kept verbatim per append-only. Evidence: `git show ae95fe0 --stat`.

@@ -206,3 +206,12 @@ them is `plans/round31_defects.py` (checks R2, R3, R10).
   registry holds **33** members (`.ufo/waves/round-30/falsify/swarm-registry.json` → `len(members) = 33`),
   the build registry holds 36, and the round report says 33; 33 falsify seats of 69 is the shape, with
   16 of the 33 in attack roles. The `34` was a transcription slip, not a dispatch difference.
+
+
+## Errata (round 33, appended — the filed bytes above stand as written)
+
+- **Q6 erratum line refs (routed defect N6a).** The erratum at `:197` points the Q6 retraction at
+  `corpus/knowledge/contamination-transparency-card.md:78-81`; the landed entry's lines are `:72` and `82-83` — corrected, with the `:78-81` reference superseded rather than rewritten.
+- **S086 peer-review grouping (routed defect N6b).** `:66` groups "S083/S086 peer-reviewed"; the
+  registry's S086 row records the society as publishing without peer review. Erratum: S086 is
+  published without peer review — the grouping sentence is superseded, not rewritten.
