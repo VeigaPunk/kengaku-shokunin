@@ -1,0 +1,48 @@
+== control: honest landed copy (expect failed=0)
+H1 ok changed_since_freeze=0
+H2 ok rows=22 unparsed=0 distinct_quotes=22 distinct_lines=22
+H3 ok short_teaches=0
+H4 ok draft_clause=True harness_clause=True green_word=True
+H5 ok directional=True capture_pinned=True
+H6 skipped
+hardening run=5 failed=0
+== CE1 R35CritControls junk package: stub probe + 8x 'import' quotes + 'junk' teaches (expect H1,H2,H3 FAIL)
+H1 FAIL changed_since_freeze=['plans/tb2_grader_probe.py']
+H2 FAIL rows=7 unparsed=0 distinct_quotes=0 distinct_lines=0
+H3 FAIL short_teaches=['S105', 'S106', 'S107']
+H4 ok draft_clause=True harness_clause=True green_word=True
+H5 ok directional=True capture_pinned=True
+H6 skipped
+hardening run=5 failed=3
+== CE2 R35CritC2 EXP1: false-but-labelled D4 line (expect H4 FAIL)
+H1 ok changed_since_freeze=0
+H2 ok rows=22 unparsed=0 distinct_quotes=22 distinct_lines=22
+H3 ok short_teaches=0
+H4 FAIL draft_clause=False harness_clause=False green_word=False
+H5 ok directional=True capture_pinned=True
+H6 skipped
+hardening run=5 failed=1
+== CE3 R35CritC2 EXP2: erratum saying the quote is not present (expect H5 FAIL)
+H1 ok changed_since_freeze=0
+H2 ok rows=22 unparsed=0 distinct_quotes=22 distinct_lines=22
+H3 ok short_teaches=0
+H4 ok draft_clause=True harness_clause=True green_word=True
+H5 FAIL directional=False capture_pinned=True
+H6 skipped
+hardening run=5 failed=1
+== CE4 R35CritC2 secondary: quote injected into an altered capture (expect H5 FAIL on digest)
+H1 ok changed_since_freeze=0
+H2 ok rows=22 unparsed=0 distinct_quotes=22 distinct_lines=22
+H3 ok short_teaches=0
+H4 ok draft_clause=True harness_clause=True green_word=True
+H5 FAIL directional=True capture_pinned=False
+H6 skipped
+hardening run=5 failed=1
+== CE5 R35MutC1Quotes M4: one quote row in straight quotes (expect H2 FAIL: unparsed row)
+H1 ok changed_since_freeze=0
+H2 FAIL rows=22 unparsed=1 distinct_quotes=21 distinct_lines=21
+H3 ok short_teaches=0
+H4 ok draft_clause=True harness_clause=True green_word=True
+H5 ok directional=True capture_pinned=True
+H6 skipped
+hardening run=5 failed=1

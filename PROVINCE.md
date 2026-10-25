@@ -226,3 +226,15 @@ collisions under the census's own 0–3-space anchor, staged-row schema, prose-`
 normalization, `used-by` projection) with a ten-case selftest — and `plans/adoption_check.py`, the
 one-command counter for an adoption round. Both are lane-local and compose with the fleet census,
 which remains the registry's authority; neither replaces it.
+
+## Round35 partial frontier admission (2026-10-25)
+
+**Core addition:** static interpretation and offline synthetic-fixture execution of one pinned
+Terminal-Bench 2.0 grader function — `protein-assembly/tests/test_outputs.py::test_gblock` at
+terminal-bench-2 `2fd12b88` — via `corpus/knowledge/tb2-protein-assembly-grader.md` (S105–S107) and
+`plans/tb2_grader_probe.py`. This records how the captured function responds to lane-authored inputs
+only; it does not run Terminal-Bench or the task image, validate or certify the task or any real
+submission, establish biological correctness or the literals' correctness, or measure model
+performance. Runtime task validity, hosted judges, contamination and the other 88 TB2 tasks' scoring
+code stay open. The round29 attempt-2 paragraph above stays as written; this paragraph narrows only
+the Terminal-Bench 2.0 scoring-code clause for this one task.
