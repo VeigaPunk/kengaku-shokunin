@@ -180,3 +180,15 @@ A round closes only when every row below holds; a row that cannot be shown is an
   population and category rule (e.g. JSON-path role versus URL-shaped value). If the frozen wording admits
   incompatible outcomes, record the forecast UNSCORABLE; observed counts may still be reported but supply
   no prospective calibration credit. Lesson: `corpus/lessons/round-29.md` M89; `.ufo/waves/round-29/falsify/FCritForecasts.md`.
+
+## Round29 attempt-2 criterion — wave yield is recorded
+
+- **Q19 — a round records what its seats bought.** Every round appends one row per dispatched seat to
+  `.ufo/waves/yield.tsv` (role family, report path, whether it caused a landed correction, supersede or
+  verdict change, and the commit that carries it) and reports yield per role family. A family at zero
+  yield for two consecutive rounds is merged or cut. The proposal and its measured motivation — first-pass
+  yield 1/179 in round 25 and 11/125 in round 26 — are `considerthese/2026-10-21.md:44-49` (2026-10-21);
+  the absence check at round 29 is `test -e .ufo/waves/yield.tsv` → exit 1 and
+  `grep -rn 'seat.?yield\|yield\.tsv' plans corpus *.md` → 0 hits. Landed as a criterion, not an
+  implementation: round 29 spent its claim slots on assimilation and the adoption gate.
+  Lesson: `.ufo/waves/round-29/attempt2/build/R29a2Considerthese.md`.
