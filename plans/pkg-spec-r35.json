@@ -1,0 +1,70 @@
+{
+ "name": "round-35 tb2-protein-assembly package",
+ "entry": "corpus/knowledge/tb2-protein-assembly-grader.md",
+ "capture_dir": "corpus/evidence/round35/tb2-eval",
+ "receipt": "corpus/evidence/round35/tb2-grader-probe.txt",
+ "receipt_sha256": "2359d9067906f59d2c55b5802603d1ef45c376f653ad9997de1ef7da412b25b8",
+ "probe_cmd": [
+  "plans/tb2_grader_probe.py",
+  "--lane",
+  "."
+ ],
+ "sources": "corpus/SOURCES.md",
+ "readme": "corpus/README.md",
+ "knowledge_glob": "corpus/knowledge/*.md",
+ "raw_base": "https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/protein-assembly/",
+ "rows": {
+  "S105": {
+   "capture": "test_outputs.py",
+   "upstream": "tests/test_outputs.py",
+   "sha256": "44a05a2482aa7a8e70de95478de6560b6188e630336fca9d02b62dc69a096582"
+  },
+  "S106": {
+   "capture": "test.sh",
+   "upstream": "tests/test.sh",
+   "sha256": "9ede46648fc67c9ce61975503de3e0fcff0b0fb110adc0f9e1d240a608c267b5"
+  },
+  "S107": {
+   "capture": "instruction.md",
+   "upstream": "instruction.md",
+   "sha256": "1bb2af1d85e9a823a8ae7273a87df8a3f67e2c93b06cddf34f0051a8b003f7c5"
+  }
+ },
+ "frozen_instruments": {
+  "plans/tb2_grader_probe.py": "acd7d38dca3a982d22900ca034c50aa3d22817395273bbc62b5665b1913040d0",
+  "plans/round35_c1_verify.py": "05a6137d22e2cae220a79b642ec3aeab49400c113ee9d1ebb202b5d443a286f7",
+  "plans/defect_ledger.py": "4e386677b48fd66e1a19a7459ab5e5359139e282e0968afa2cfd2395768d763d"
+ },
+ "entry_rules": {
+  "verified_at": "2026-10-25",
+  "min_quotes": 8,
+  "min_distinct_locations": 8,
+  "quote_words": [
+   3,
+   25
+  ],
+  "min_teaches_words": 8,
+  "row_opened": "2026-10-25",
+  "row_tier": "A",
+  "row_status": "mined"
+ },
+ "d4": {
+  "label": "- **D4 correction (round 34 C2):**",
+  "patterns": [
+   "R34C2CounterDraft\\.md:8\\W{0,3}\\s+records\\s+\\W?SELFTEST cases=10 failed=0",
+   "R34MutC2Harness\\.md:12\\W{0,3}[^;]{0,80}?SELFTEST green failed",
+   "counter draft's selftest was green"
+  ]
+ },
+ "d5": {
+  "label": "Erratum (round 35):",
+  "capture_name": "nec-s091-reopen.html",
+  "manifest_name": "quarantine-SHA256SUMS",
+  "require": "is present",
+  "forbid": "not present",
+  "quote": "ただし、RAKUDAベンチマークは1ターンの対話かつ少数データでの評価のため、対話性能の一側面しか測れていないことには注意が必要となります。"
+ },
+ "d4_source_file": "SCORECARD.md",
+ "d5_source_file": "corpus/lessons/round-34.md",
+ "d5_capture_dir": ".ufo/waves/round-34/assimilation/captures"
+}
