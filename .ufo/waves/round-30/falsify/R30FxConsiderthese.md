@@ -3,8 +3,9 @@
 Role: leaf falsify seat (kengaku round 30, hyaku run 6). Target: the Q20 criterion the round landed from
 `considerthese/2026-10-24.md` proposal 1. I read the four artifacts named in the assignment, then re-ran every
 gate Q20 names, in trees I extracted myself. **No lane write except this file. No edit, no commit, no package
-transaction.** Scratch: `/tmp/r30fx-considerthese/` (lane HEAD `363a4eb`, working tree carrying round-30's
-uncommitted bytes; all mutations done on `cp -a` copies of an extraction, never on lane bytes).
+transaction.** Scratch: `/tmp/r30fx-considerthese/`. At seat start lane HEAD was `363a4eb` with round-30's bytes
+uncommitted; the landing arrived mid-audit (below). All mutations were done on `cp -a` copies of an extraction,
+never on lane bytes.
 
 **The lane landed mid-audit.** At the start of this seat the tree was dirty at tip `363a4eb`; it is now
 `623c1fc9b083a9b3def3b9f66f5518628e01b6a5` — `round-30: assimilation round 2 (contamination-transparency
@@ -34,8 +35,8 @@ Artifacts read:
 | B5 | `plans/config_projection.py --selftest` → CASE count | **PASS** | `SELFTEST clean cases=31 …`, exit 0 at both. |
 | B6 | `plans/benchmark_spec_audit.py --selftest` → CASE count | **PASS** | `SELFTEST clean cases=67 …`, exit 0 at both. |
 | B7 | `python3 plans/state_check.py --summary` "still applies separately" | **PASS on the working tree, AMBIGUOUS under extraction** | Working tree: `assertions=329 match=318 mismatch=0 superseded=6 offline_unverifiable=5` + `VERDICT: PASS`, exit 0. Extracted `363a4eb` **and** extracted landing `623c1fc`: `match=316 … offline_unverifiable=7`, `VERDICT: PASS`, exit 0. Cause located: `plans/state_check.py:2680` needs `(candidate/".git")`; an extraction has none. Q20 names no environment (finding M3). |
-| B8 | "the fleet census still apply separately" | **PARTIAL** | The noun has no command anywhere in `corpus/QUALITY.md` (only hit: line 208 itself). The only in-repo command is `corpus/lessons/round-29-verifier-spotcheck.md:38`: `scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku`. I ran it → exit 0, 15 lines (14×`W04` + `ok`). Runnable, undiscoverable from Q20. |
-| B9 | **Check:** run the named gates inside the extracted tree *and diff the count lines against the previous landing's receipt* | **FAIL as written** | There is no command, no receipt path, no format, and no commit→receipt map (finding **F1**). Q20's neighbours in the same file (R4, R10, R11, R12, R14) each state a runnable command; so did the seat's own draft (`R30Considerthese.md:137-148`, a `grep -qx` chain the seat proved exits 0 green / 1 on a deleted check). The landed text dropped it. |
+| B8 | "the fleet census still apply separately" | **PARTIAL** | The noun has no command anywhere in `corpus/QUALITY.md` (only hit: line 208 itself). The command is discoverable only from lesson rows — `corpus/lessons/round-25-verifier-spotcheck.md:124` and `corpus/lessons/round-29-verifier-spotcheck.md:38`: `scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku`. I ran it → exit 0, 15 lines (14×`W04` + `ok`). Runnable, but not from the criterion. |
+| B9 | **Check:** run the named gates inside the extracted tree *and diff the count lines against the previous landing's receipt* | **FAIL as written** | There is no command, no receipt path, no format, and no commit→receipt map (finding **F1**). Contrast the tool-naming criteria in the same file (R4, R10, R11, R12, R14), which each state a runnable command; the prose-style Checks (R9, R13) at least name a receipt whose content the criterion defines. Q20's "previous landing's receipt" is neither executable nor defined. The seat's own draft was executable (`R30Considerthese.md:137-148`, a `grep -qx` chain proven to exit 0 green / 1 on a deleted check); the landed text dropped it. |
 | C1 | limit: "an exit-code-only criterion loses (deleting two `grader.py` selftest cases leaves `ALL PASS`, exit 0)" | **PASS as measurement** | Reproduced on `/tmp/r30fx-considerthese/del2` (S6+S7 case blocks removed): `EXIT=0`, **6** `[selftest] PASS` lines, final line `[selftest] ALL PASS`. Identical to the seat's P1. |
 | C2 | limit: "— the pinned integer is the detector" (i.e. the remedy for C1) | **FAIL** | On the same del2 tree, every gate Q20 names is green: `grader.py` → `CHECKS n=733 mismatches=0 errata_pinned=1` + `VERDICT: PASS`, exit 0; `sources_adopt` cases=10 failed=0 exit 0; `registry_check`, `config_projection`, `benchmark_spec_audit` exit 0. The pinned integer is unchanged by the very attack the sentence cites. The real detector is the `[selftest] PASS` line count (7→6), which Q20 does not name and no roster row produces (finding **F2**). |
 | C3 | limit: "the integer detects shrinkage, not correctness (a tautologised assertion keeps n=733)" | **PASS, both halves** | Shrinkage: deleting `rep.eq("r11.census.requests", …)` (`grader.py:1064` at tip) → `CHECKS n=732`, `VERDICT: PASS`, exit 0 (exit code and verdict blind, integer detects). Correctness: replacing the same assertion's RHS with a copy of its LHS → `CHECKS n=733`, `VERDICT: PASS`, exit 0, and all five roster gates green. Matches the seat's P2/P3. |
@@ -60,9 +61,11 @@ previous landing's receipt". No command, no path, no format, no mapping from a c
 that exist are per-round and one-sided: `.ufo/waves/round-30/claims/gate-before.txt` (before only:
 `SELFTEST cases=10 failed=0` / `selftest_exit=0`), `corpus/evidence/round30/gate-selftest-after.txt` (after only),
 `corpus/evidence/round29-calibration/actual-gate.txt` (a Q13 `gate_timing_check` receipt, not a count receipt),
-`LOG.md:702` (counts in prose). Nothing in `corpus/QUALITY.md` defines "receipt" or a receipt location; every
-neighbouring criterion states a runnable command. The seat had one and the landing removed it. A fresh agent can
-reproduce the roster (I did) but cannot perform the second half of the Check.
+`LOG.md:702` (counts in prose). Nothing in `corpus/QUALITY.md` defines "receipt" or a receipt location. The
+tool-naming criteria (R4, R10, R11, R12, R14) are runnable commands; the prose Checks (R9, R13) at least name a
+receipt whose content the criterion itself defines. Q20's "previous landing's receipt" is neither executable nor
+defined. The seat had an executable check and the landing removed it. A fresh agent can reproduce the roster (I
+did) but cannot perform the second half of the Check.
 
 ### F2 — HIGH (calibration). The stated remedy for the selftest-deletion attack is not implemented, and is false.
 Q20: "an exit-code-only criterion loses (deleting two `grader.py` selftest cases leaves `ALL PASS`, exit 0) — the
@@ -121,16 +124,20 @@ round satisfied the rule in substance and not in letter; a future landing is owe
 written. Say "the round's receipt states `old=`, `new=`, `reason=`", or drop "diff".
 
 ### M5 — MEDIUM. "red by design" misdescribes `adoption_check.py`, and the extraction instruction makes it red anyway.
-Two independent reasons it is outside the roster: (1) it has no `--selftest`; (2) its `--census` step is
+The lane's own lesson contradicts the phrase: `corpus/lessons/round-29.md:162` (M93) records `census=fail`, exit 1
+as an **instrument-argument bug** ("passed the repo directory name (`kengaku-shokunin`) to
+`sources-census.sh`, which takes the lane name (`kengaku`)"), repaired by deriving the lane name — not as designed
+red. Two independent reasons it is outside the roster: (1) it has no `--selftest`; (2) its `--census` step is
 path-dependent (`plans/adoption_check.py:132-137` builds the lane name from `lane.parent`/`lane.name` and shells
-to a hardcoded fleet path at `:35`), so in a `/tmp` extraction it prints `census=fail` and exits 1 regardless of
-the landing's health. A fresh agent following Q20's
-extraction instruction and then running the "red by design" gate will see a red and cannot tell it from a real
-breakage. Say "no `--selftest`; `--census` is fleet-path dependent" instead.
+to a hardcoded fleet path at `:35`), so in a `/tmp` extraction — exactly where Q20 asks for runs — it prints
+`census=fail` and exits 1 regardless of the landing's health. A fresh agent following Q20's extraction instruction
+and then running the "red by design" gate will see a red it cannot distinguish from the M93 bug recurring. Say
+"no `--selftest`; `--census` is fleet-path dependent" instead.
 
 ### L1 — LOW. "the fleet census" is undefined inside QUALITY.md.
-No command in the file; the only discoverable one is a round-29 lesson line. I ran it: exit 0, 15 lines. Resolvable
-by search, not by reading the criterion.
+No command in the file; two lesson rows carry it (`round-25-verifier-spotcheck.md:124`,
+`round-29-verifier-spotcheck.md:38`). I ran it: exit 0, 15 lines. Resolvable by search, not by reading the
+criterion.
 
 ### L2 — LOW. `cases=N` reads as a literal to a fresh agent.
 The single gate Q20 pins a count for is `sources_adopt`, and at this landing its value moves 10→14. Until L1-style
@@ -187,8 +194,9 @@ run would make it [non-author]" (F4). And the criterion's first gate-touching la
 the receipts it describes, so a fresh agent has no worked example to imitate.
 
 VERDICT: FAIL — Q20's five-gate roster is executable and reproducible byte for byte in the landing tree, but its
-Check clause is not a command, two of its four stated limits are wrong or imprecise (the pinned integer is not the
-detector for the attack the text cites; "only a workflow run" contradicts R6), its count-diff rule names an
+Check clause is not a command, two of its four stated limits are wrong and a third is imprecise (the pinned integer
+is not the detector for the attack the text cites; "only a workflow run" contradicts R6; "red by design" misnames
+why `adoption_check.py` is outside the roster), its count-diff rule names an
 artifact that cannot carry the reason it demands, and the criterion is satisfiable by a green run that never
 exercises the gate the commit touched. The first landing it governs, `623c1fc`, satisfies none of it.
 
@@ -205,7 +213,8 @@ exercises the gate the commit touched. The first landing it governs, `623c1fc`, 
    names".
 5. Name the two count-less selftests; name the fleet-census command; say which environment `state_check --summary`
    applies in and that `offline_unverifiable` moves by two under extraction.
-6. Say who produces the post-landing receipt, in which commit, and at which path.
+6. Say who produces the post-landing receipt, in which commit, and at which path — and record the first one for
+   `623c1fc`, which currently has none (`git grep -c 623c1fc HEAD` → empty).
 
 ## 6. Residual risk and verification gaps
 
@@ -217,12 +226,16 @@ exercises the gate the commit touched. The first landing it governs, `623c1fc`, 
   close.
 - I audited the criterion, not the C1 entry: this report names no candidate path and gives no entry verdict, and
   must not be cited as a C1 second-seat re-read.
-- Simulated landing: I committed the working tree in a throwaway clone under `/tmp` to get a real `git archive`
-  landing sha; the lane was never committed to, amended, or checked out.
+- The lane landed `623c1fc` while this seat ran (04:45:51 -0300). Everything above is re-run at that commit, and
+  Q20's bytes are identical in the working tree and at `HEAD`. If the lane moves again, the pre-landing numbers
+  (10-case selftest, dirty-tree status) stay true of `363a4eb` only.
+- Before the real landing existed I also committed the working tree in a throwaway clone under `/tmp` to obtain a
+  `git archive`-able sha; those results agree with `623c1fc` and are kept only as a cross-check. The lane itself was
+  never committed to, amended, or checked out by me.
 
 ## 7. Tooling record
 
 No installs, no upgrades, no package-manager transactions (`pacman` is paused host-wide; nothing needed one).
 Tools used: `git`, `python3`, `rsync`, `comm`, `diff`, `tar`. `/usr/bin/time` is absent on this host, so no wall
-times are claimed. Scratch: `/tmp/r30fx-considerthese/{tree,del2,taut,shrink,loophole,clone,landed}`; the lane
-received only this file.
+times are claimed. Scratch: `/tmp/r30fx-considerthese/{tree,land623,del2,taut,shrink,loophole,clone,landed}`; the
+lane received only this file.

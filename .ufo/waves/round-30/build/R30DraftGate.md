@@ -3,8 +3,10 @@
 Seat: scribe, leaf. Lane: `/home/vgpnk/Projects/shokunin/kengaku-shokunin`. Access date 2026-10-25.
 No production edits: the only lane-tree file I write is this report.
 
-Draft: `/tmp/r30-DraftGate/gate.md`, 12 457 B, sha256 `d9699050…446c` (copy
-`/tmp/r30-R30DraftGate/gate.md`, identical). Supersedes the `a4f60e21` draft.
+Draft: `/tmp/r30-DraftGate/gate.md`, 13 049 B, sha256 `1a74b245…abe4` (copy
+`/tmp/r30-R30DraftGate/gate.md`, identical). Supersedes `d9699050`, which the reviewer's CLI measured
+as Q13 PASS in a throwaway repo (commit `be475eb`: admissions=1 passed=1 failed=0); the three
+corrections below changed the cell after that run, so the current bytes need the same re-run.
 
 ## Behavior
 
@@ -36,9 +38,9 @@ Draft: `/tmp/r30-DraftGate/gate.md`, 12 457 B, sha256 `d9699050…446c` (copy
 | G8 | read `plans/gate_timing_check.py` | candidate resolved as a path (`:314-317`); only an admit row's reason cell scanned (`:330`); second wave = `falsify` or `wave-2` (`:241-243`); an invalid citation fails the row; generic phrases void it (`:45`); each citation needs existence, a registry seat with an allowed role, an anchored `^VERDICT:` line (`:56`,`:360`) and the candidate path in the body (`:358`) |
 | G9 | `ls .ufo/waves/round-30/falsify/*.md` | **31 report files** — the wave landed while this review ran |
 | G10 | verdict tally over those 31 | **PASS 7, FAIL 9, no anchored `VERDICT:` line 15** |
-| G11 | per-citation check of the five seats I cite | `R30FxSrcS081…S085`: exist, anchored PASS verdict, candidate path present — all five valid. `R30FxC3Gate` PASSes but names **no** candidate path (`grep -c` → 0), so it cannot serve; `R30FxSrcS086` is FAIL |
+| G11 | per-citation check of the seats I cite | `R30FxSrcS081…S085`: exist, anchored PASS verdict, candidate path present — all five valid. `R30FxC3Gate` PASSes but names **no** candidate path (`grep -c` → 0), so it cannot serve; `R30FxSrcS086` is FAIL. `R30FxRowsCensus.md` also passes (anchored PASS, 8 candidate-path mentions, role `scout`) and is now cited |
 | G12 | `ls R30FxEntryCompleteSet.md R30FxRowsCensus.md` | RowsCensus appeared mid-review; **EntryCompleteSet still absent**, so no complete-set re-read exists |
-| G13 | import the checker read-only and run `extract_citations` / `extract_generic_references` / `valid_repo_path` on my own admit row | first run flagged a **bare `QUALITY.md`** citation (unresolvable) and showed that naming the failing S086 path registers a citation the row must then reject. Both fixed; re-run returns five full-path citations, `generic: ()`, candidate a valid repo path |
+| G13 | import the checker read-only and run `extract_citations` / `extract_generic_references` / `valid_repo_path` on my own admit row | first run flagged a **bare `QUALITY.md`** citation (unresolvable) and showed that naming the failing S086 path registers a citation the row must then reject. Both fixed; the re-run returns six full-path citations, `generic: ()`, candidate a valid repo path, and every citation passes the per-seat check |
 | G14 | URL comparison, staged S120 against lane S001 | same document (`2026.gem-main.50.pdf` vs `2026.gem-main.50/`) |
 | G15 | current tree markers | entry 15 779 B, triad `:1-9`, `writer: KengakuR30`, CG1–CG8 `:73`; README index `:65`, bullet `:274`, discharge `:275`; `QUALITY.md:198` Q20; lesson Gate `:6` |
 | G16 | `test -d .github`; `grep -n author-observed LOG.md` | absent; `372: Receipts are author-observed, never non-author closure.` |
@@ -49,8 +51,10 @@ Draft: `/tmp/r30-DraftGate/gate.md`, 12 457 B, sha256 `d9699050…446c` (copy
    index and discharge, `QUALITY.md` Q20 and a round-30 lesson all exist uncommitted. The block reads
    the landed bytes; a Gate written against the staged package would have mis-stated Q1, the anchor
    quotes and the `used-by` cells.
-2. **Q13 now passes mechanically on five citations.** The five per-source scout seats return PASS with
-   anchored verdicts and name the candidate path (G11). Everything else in the wave either FAILs or
+2. **Q13 now passes mechanically on six citations.** The five per-source scout seats and the schema
+   seat return PASS with anchored verdicts and name the candidate path (G11); the reviewer's CLI run on
+   the five-citation bytes returned PASS (admissions=1 passed=1 failed=0), and my renewed import-based
+   check on the current six returns all-valid. Everything else in the wave either FAILs or
    carries no anchored verdict, and `R30FxC3Gate` — a PASS — names no candidate path, so it is not
    admissible evidence for this row. My reason cell cites the five and nothing else.
 3. **One source defect stays open and blocks the row's honesty, not its mechanics.** `R30FxSrcS086`
@@ -67,7 +71,8 @@ Draft: `/tmp/r30-DraftGate/gate.md`, 12 457 B, sha256 `d9699050…446c` (copy
    contracts, the validity-checklist fold) = 60. The lesson's row set drops the fold row, so its own
    arithmetic gives 61; either number is defensible, but only if the row set and the arithmetic match.
 6. **Two reasons were wrong and are gone.** The `used-by` collision is not Q6 — lane S005's cell names
-   three paths — and the landed append already made S081–S086 single-entry. The 12/15-cell split is a
+   three paths — and the landed rows carry a two-entry cell (this entry plus this lesson), exactly the
+   S005 shape. The 12/15-cell split is a
    row-schema property, not Q3, and is filed under the deferred row.
 7. **Two lesson cells contradict the record and need a supersession pointer, not a silent edit.** S105
    "unverifiable" against the fleet report's quote-present; S091 "re-read this round" against a wave
@@ -87,6 +92,14 @@ Draft: `/tmp/r30-DraftGate/gate.md`, 12 457 B, sha256 `d9699050…446c` (copy
 | `corpus/lessons/round-30.md:23` S105 | "unverifiable" against fleet quote-present | "quote-present in the archived snapshot", with a supersession pointer |
 | the whole table | 4 columns, no flip cell | 5 columns: `candidate | decision | reason | flip condition | read pointers`, flip cell filled for every non-admitted row |
 | bare `R30FxSrcS086.md` mention | resolves by luck | every report written as a full path, or not at all |
+
+## Pass-4 corrections (three stale statements in my own cell)
+
+| # | what my cell said | what the bytes say now | fix |
+|---|---|---|---|
+| 1 | "the entry's S086 line states 23 CJK characters and lines 78–81" | `corpus/knowledge/contamination-transparency-card.md:6` already reads "1 whitespace token, 30 CJK characters, text-layer lines 80-81, located only on newline-unwrapped extraction"; only `corpus/SOURCES.md:112` still says "spans extraction lines 78-81" | the cell now names the single stale registry row and says the kill rule is untouched because the FAIL report locates both spans on p.1 / printed 797 |
+| 2 | "six `mined` rows … whose `used-by` names this entry alone" | every one of the six cells reads `used-by = corpus/knowledge/contamination-transparency-card.md, corpus/lessons/round-30.md` (11 cells each, `mined`, `opened 2026-10-25`) | "names this entry and this lesson", a two-entry cell of the S005 shape, which the counter's contains-test accepts |
+| 3 | five citations, no schema seat, while the lesson's bullets claim a census re-read | `R30FxRowsCensus.md` has landed: anchored `VERDICT: PASS`, 8 candidate-path mentions, registry role `scout`, `agentId` null | added to the reason cell; the import-based check now returns six valid citations |
 
 ## Conflicts — verbatim, for the canonical Rust judge
 
@@ -131,6 +144,6 @@ Draft: `/tmp/r30-DraftGate/gate.md`, 12 457 B, sha256 `d9699050…446c` (copy
 
 ## Artifact paths
 
-- `/tmp/r30-DraftGate/gate.md` — the block (sha256 `d9699050…446c`, 12 457 B).
+- `/tmp/r30-DraftGate/gate.md` — the block (sha256 `1a74b245…abe4`, 13 049 B).
 - `/tmp/r30-R30DraftGate/gate.md` — byte-identical copy.
 - `.ufo/waves/round-30/build/R30DraftGate.md` — this report.

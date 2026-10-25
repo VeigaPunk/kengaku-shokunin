@@ -81,8 +81,8 @@ def check_d1(lane: Path) -> str:
     if text is None:
         return f"receipt exists only in the worktree: {D1_PATH} is not committed at HEAD"
     lines = text.splitlines()
-    if QUOTED_LINE not in lines:
-        return "the committed receipt does not carry the report's quoted seven-field line verbatim"
+    if lines.count(QUOTED_LINE) != 1:
+        return f"the committed receipt carries the quoted line {lines.count(QUOTED_LINE)} times, not exactly once"
     if WAVE_LINE not in lines:
         return "the committed receipt does not record the wave file's eight-field variant"
     if "exit code of that run: 1" not in text and "exit=1" not in text:
@@ -91,7 +91,10 @@ def check_d1(lane: Path) -> str:
 
 
 def check_d2(lane: Path) -> str:
-    text = (lane / LESSON).read_text(encoding="utf-8")
+    # Committed bytes: a worktree-only repair is not a landed repair (falsify seat R30FxC2Counter).
+    text = head_blob(lane, LESSON)
+    if text is None:
+        return f"{LESSON} is not committed at HEAD"
     lines = [raw for raw in text.splitlines() if "kappa" in raw]
     if not lines:
         return "no kappa line in the lesson: the sweep the closure narrowed is gone"
@@ -99,7 +102,9 @@ def check_d2(lane: Path) -> str:
         # Markdown emphasis hides the banned phrase from a literal test ("in the **lane**");
         # strip it for that test only — the scope test must see the raw `*` of the glob.
         plain = re.sub(r"\*\*|__", "", raw)
-        if "in the lane" in plain:
+        # A lane-wide *count* attached to this sentence is the routed false claim;
+        # a lane-wide mention without a hit count is the corrected context and stays.
+        if "in the lane" in plain or ("lane-wide" in plain and "hits" in plain):
             return "kappa sweep still rendered 'in the lane' where the command scoped corpus/knowledge/*.md"
         if "corpus/knowledge/*.md" not in raw:
             return "kappa line names no measured scope (corpus/knowledge/*.md)"
@@ -159,6 +164,8 @@ def check_d4(lane: Path) -> str:
         return f"{D4_PATH} is not committed at HEAD"
     if D4_MARKER not in text:
         return f"HEAD:{D4_PATH} omits the addendum ({D4_MARKER!r}); the wave evidence is not landed"
+    if "275 + 4 = 279" not in text and "Audit state at close" not in text:
+        return "HEAD carries the addendum header but not its body: a stub is not the evidence"
     status = git(lane, "status", "--porcelain", "--", D4_PATH)
     if status.returncode != 0:
         return f"git status failed: {status.stderr.strip()}"
@@ -175,7 +182,8 @@ def check_d5(lane: Path) -> str:
     entry = (lane / ENTRY).read_text(encoding="utf-8")
     # The closure offered two repairs and either satisfies it: cite S091 as a source, or record
     # the asymmetry. Only the second is reachable without moving round 29's frozen cited_rows.
-    if re.search(r"^source:[ \t]*S091\b", entry, re.MULTILINE):
+    frontmatter = entry.split("\n\n", 1)[0]
+    if re.search(r"^source:[ \t]*S091\b", frontmatter, re.MULTILINE):
         return ""
     notes = expect.get("usedby_notes")
     if not isinstance(notes, dict) or "S091" not in notes:

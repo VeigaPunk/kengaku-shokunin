@@ -16,7 +16,8 @@ in §"The exact SCORECARD wording".
 
 **Bytes I attacked (they moved under this seat):** `corpus/knowledge/contamination-transparency-card.md`
 sha256 `f01b7cd20cf4ebcaf3ee9f7af8b109ace8b86e69002ae53a213c2dc80ad1e6cd`, mtime
-`2026-10-25 04:44:02 -0300`, 17,074 bytes. A sibling seat repaired the earlier "exactly two fields
+`2026-10-25 04:44:02 -0300`, 17,074 bytes, committed at `623c1fc` (tree and working copy identical
+at attack time). A sibling seat repaired the earlier "exactly two fields
 are new as *fields* (S1, S2)" sentence at that mtime; this report is measured on the repaired bytes,
 not on the pre-repair text, and every falsifier below is re-checked against the current file.
 

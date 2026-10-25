@@ -712,3 +712,124 @@ the lane already applies, and a frozen claim cannot be edited, so the lesson is 
 These are the seat's own drop-in texts at `R30FxCoverageAxis.md:223-250`, verified against the tree;
 I neither edit SCORECARD nor adjudicate the rubric — I record that the numbers behind the
 replacement reproduce and that nothing in the Gate block depends on the disputed wording.
+
+---
+
+# Pass 4 — third revision (`d9699050…446c`): Q13 now passes, two statements are stale
+
+Reviewed `/tmp/r30-DraftGate/gate.md`, sha256
+`d969905086f36444029081b4efb289c12266432ce5608564b75c13493c4b446c`, 12 457 B, 5-column table
+(`| candidate | decision | reason | flip condition | read pointers |`), nine data rows.
+
+## Q13 — PASS, by the CLI, on the current wave
+
+I took the draft's own header, separator and admit row verbatim, copied the current
+`corpus/knowledge/contamination-transparency-card.md` and the current
+`.ufo/waves/round-30/falsify/` (31 reports) into a throwaway repo (`/tmp/r30-RevLesson/lane2`,
+commit `be475eb`), and ran the checker:
+
+```
+PASS line 7 Gate admit: candidate='corpus/knowledge/contamination-transparency-card.md'
+  cited seat-report paths: '…/R30FxSrcS081.md', '…/R30FxSrcS082.md', '…/R30FxSrcS083.md', '…/R30FxSrcS084.md', '…/R30FxSrcS085.md'
+  existing returned second-seat report(s): … (the same five)
+gate_timing_check: … admissions=1 passed=1 failed=0 second-seat-reports=31
+```
+
+No generic reference, no bare name, candidate a valid repo path, five full-path citations, all five
+seats `scout` with `agentId: null` ≠ `KengakuR30`. The four pass-1 Q13 blockers and pass-2's
+coverage failure are closed on these bytes. Each cited report's verdict and candidate mention, as I
+measure them independently:
+
+| report cited | candidate-path mentions | verdict line |
+|---|---|---|
+| `R30FxSrcS081.md` | 3 | `VERDICT: PASS …` |
+| `R30FxSrcS082.md` | 2 | `VERDICT: PASS — …` |
+| `R30FxSrcS083.md` | 3 | `VERDICT: PASS — …` |
+| `R30FxSrcS084.md` | 3 | `VERDICT: PASS` |
+| `R30FxSrcS085.md` | 2 | `VERDICT: PASS — …` |
+
+and the exclusions are correct as stated: `R30FxSrcS086.md` FAIL, `R30FxEntryCompleteSet.md` absent,
+`R30FxEntryQ1Q3.md` / `R30FxEntryQ4Q6.md` / `R30FxEntryQ7Q9.md` FAIL, `R30FxQuotes.md` no anchored
+verdict, `R30FxC3Gate.md` PASS but 0 candidate-path mentions. The draft's own discovery — that
+naming a failing report in prose "as not cited" still registers it as a citation — matches the
+checker's `extract_citations` (`:203-222`), which has no negative context; keeping the S086 path out
+of the cell is the correct fix, and the repair note belongs in the admission bullets instead.
+
+## Q9-12 — the S086 repair note now describes an entry that no longer exists
+
+Draft, admit-row reason cell:
+
+> … it repairs a number and a line range, not a quote — the entry's S086 line states 23 CJK
+> characters and lines 78–81 where the seat measured 30 characters and text-layer lines 80–81, and
+> `corpus/SOURCES.md:112` repeats 78–81, so the row lands only once those three cells agree.
+
+Measured now:
+
+- `corpus/knowledge/contamination-transparency-card.md:6` — `… (1 whitespace token, 30 CJK
+  characters, text-layer lines 80-81, located only on newline-unwrapped extraction)` — **already
+  repaired**; it does not say 23, and it does not say 78-81.
+- `corpus/SOURCES.md` S086 (`:112`) — `… (1 whitespace token, 30 CJK characters) spans extraction
+  lines 78-81, so it is reported as located but not byte-contiguous` — still the pre-repair range.
+
+So two of the three cells already agree, and the row's own sentence would make a reader (or a later
+fixer) regress the entry to 23 / 78-81. That is a Q9 failure of the reason against the evidence it
+cites, and it is the only stale statement left in the row.
+
+**Corrected wording (replace that sentence in the admit-row reason cell):**
+`The sixth source's seat returned FAIL and is not cited: it repairs one locator, not a quote — the entry's S086 line already states 30 CJK characters and text-layer lines 80-81, while corpus/SOURCES.md:112 still records "spans extraction lines 78-81", so the admission lands with that row corrected to 80-81; C1's kill rule is not triggered for S086 because the FAIL report locates both quoted spans on p.1 / printed 797.`
+
+## Q9-13 — "`used-by` names this entry alone" is false
+
+Same cell:
+
+> Registry delta 82 → 88: six `mined` rows at `opened=2026-10-25` whose `used-by` names this entry
+> alone, no existing row changed.
+
+Measured, all six rows: `used-by` = `corpus/knowledge/contamination-transparency-card.md,
+corpus/lessons/round-30.md` — two paths each, and all 11 cells, `status=mined`, `opened=2026-10-25`.
+Multiplicity is legal in this corpus (`corpus/SOURCES.md:27`, S005 names two entries and a lesson),
+and C1's counter tests *contains*, so the registry delta still holds; only the word "alone" is
+wrong.
+
+**Corrected wording:**
+`Registry delta 82 → 88: six `mined` rows at `opened=2026-10-25` whose `used-by` names this entry (with `corpus/lessons/round-30.md` as the second user — multiplicity is the S005 shape), no existing row changed.`
+
+## Q10 coverage gap the row now has a candidate for
+
+`R30FxRowsCensus.md` has landed since pass 2 and passes every test: `scout` seat, anchored
+`VERDICT: PASS — S081–S086 all pass the reg…`, 8 candidate-path mentions. The row cites five
+per-source seats and no schema seat, so the six-row census re-read that the lesson's
+`## Round 30 admission` bullets already claim is not represented in the citation set.
+
+**Either** add it — `.ufo/waves/round-30/falsify/R30FxRowsCensus.md` — to the reason cell (the
+checker will pass; six citations, six valid), **or** state in the admission bullets why a
+rows-census re-read is not a Q10 source/number re-read. Leaving the bullets citing it while the row
+does not is the same split Q13 punishes.
+
+## Pass-4 credit
+
+- Flip cells are nonempty on all nine rows (`:17-25`), including the two register rows and the
+  `considerthese` landing (`n/a — the criterion is landed; a workflow that satisfies it is still open`).
+  The `nothing to flip` phrasing from pass 1 is gone.
+- The counts are self-consistent for this row set: `175 − 6 = 169` rows; `65 − 1 admitted − 4 rejected
+  = 60` entries, with the explicit note that the lesson's four-row set yields 61 — that is the right
+  way to state a pairing requirement (pass 2's Q8-L2 fix, applied).
+- Both register rows carry supersession pointers: S105 → `quote-present in the archived snapshot`
+  (which matches `fleet ../.ufo/reports/round-29/kengaku.md:60-62`), S091 → re-read this round
+  (still needs the seat that read it, pass 2 Q9-L3).
+- The six-of-six kill-rule claim is supported by the FAIL report's own closing sentence ("Both
+  quoted spans are themselves verbatim and located on p.1 / printed 797 … C1's kill rule is not
+  triggered for S086").
+
+## Pass-4 residual risk
+
+- Every number above is a point-in-time measurement: the falsify wave grew 10 → 31 reports during
+  this review, and my PASS run copies the wave as it stood. Re-run
+  `python3 plans/gate_timing_check.py --lesson corpus/lessons/round-30.md --commit <admitting sha>`
+  against the commit; a later report cannot invalidate a passing row, but a later *deletion* or a
+  re-run of a cited seat can.
+- The checker still proves structure only. Two of the five cited PASSes could later be revised by
+  their own seats; Q10 substance stays with the seats.
+- The lesson is still the pass-2 bytes (4-column table, `:21` = 63, `:23` S105 unverifiable). Until
+  the lesson takes this row and the flip column, the committed artifact remains the failing one, not
+  the draft.

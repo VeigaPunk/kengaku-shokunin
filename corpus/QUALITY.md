@@ -204,14 +204,29 @@ A round closes only when every row below holds; a row that cannot be shown is an
   `plans/registry_check.py --selftest`, `plans/config_projection.py --selftest`,
   `plans/benchmark_spec_audit.py --selftest` → their CASE counts. A count that differs from the
   previous commit is a failure unless the same commit's diff explains old→new with a reason.
-  Check: run the named gates inside the extracted tree and diff the count lines against the previous
-  landing's receipt; `python3 plans/state_check.py --summary` and the fleet census still apply
-  separately. Limits, each measured on scratch copies (`.ufo/waves/round-30/build/R30Considerthese.md`
-  §Limits): an exit-code-only criterion loses (deleting two `grader.py` selftest cases leaves
-  `ALL PASS`, exit 0) — the pinned integer is the detector; the integer detects shrinkage, not
-  correctness (a tautologised assertion keeps n=733); and this is not a non-author verifier
-  (`QUALITY.md` R6 stands — only a workflow run would make it one). It cannot cover
-  `plans/adoption_check.py`, which is red by design, or the two selftests that print no count.
+  Check (executable, one command): `d=$(mktemp -d) && git -C . archive <sha> | tar -x -C "$d" && (cd
+  "$d" && python3 grader.py | grep -E 'CHECKS n=|VERDICT:'; for t in sources_adopt registry_check
+  config_projection benchmark_spec_audit; do python3 plans/$t.py --selftest | tail -1; done; for t in
+  gate_timing_check state_check; do python3 plans/$t.py --selftest; done)` — every line must match the
+  previous landing's receipt for that gate, and the receipt is committed with the landing that cites it
+  (`.ufo/waves/round-<N>/gate-receipt.txt`). **The roster closes over the touched gate:** a commit that
+  edits a gate tool also runs *that tool's own* row, so a landing touching `plans/grader_perturb.py`
+  must carry `caught=12`, not just five green strangers (a falsify seat shipped a fully green five-gate
+  run while the touched tool's own gate read `MUTATION-CATCH FAIL … failed=1`).
+  `plans/sources_adopt.py --selftest` prints `SELFTEST cases=<n>` where `<n>` is a value (10 at
+  `363a4eb`, 14 at `623c1fc9`), never a literal `N`. The fleet census is
+  `sh scripts/sources-census.sh validate --root <fleet root> kengaku`.
+  Limits, each measured on scratch copies (`.ufo/waves/round-30/build/R30Considerthese.md` §Limits and
+  `.ufo/waves/round-30/falsify/R30FxConsiderthese.md`): an exit-code-only criterion loses (deleting two
+  `grader.py` selftest cases leaves `ALL PASS`, exit 0) and **the detector is the PASS-line count, not
+  the pinned integer** — on that same tree all five roster gates stay green and `n` stays 733; the
+  integer detects shrinkage, not correctness (one check deleted → `n=732`; a tautologised assertion →
+  `n=733` PASS), so the gate diff still needs a reviewer; and this is not a non-author verifier by
+  itself — `R6` defines non-author by roster id, so a gate run only becomes outside evidence when a
+  non-author runs it. It cannot cover `plans/adoption_check.py` — which is green with `--census` from
+  the lane and red only from a `/tmp` extraction, a path-derivation argument bug `corpus/lessons/
+  round-29.md` M93 already records, not a design property — or the two count-less selftests, named
+  here: `gate_timing_check` and `state_check`.
   The proposal and its date are `considerthese/2026-10-24.md` §Self-improvement suggestions 1
   (2026-10-24); the absence check at round 30 is `ls .github` → no such file or directory and
   `grep -n 'author-observed, never non-author closure' LOG.md` → `LOG.md:372`.
