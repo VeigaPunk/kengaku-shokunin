@@ -41,6 +41,18 @@ OR_FIELDS = (
     "per_request_limits", "hugging_face_id", "reasoning",
 )
 
+# Round 33 (2026-10-25), claim C3: raw-byte retention. The round-32 closure routed
+# "raw API payloads are not retained; preserve bounded response bytes plus digests
+# next probe". `--capture` fetches live and writes the bounded bytes; `--verify`
+# re-derives every recorded number offline from the committed bytes (no network).
+CAP_DIR = "corpus/evidence/round33/catalogs/"
+RAW_HF = "hf.raw.json"
+RAW_OR = "or.raw.json"
+DIGESTS = "SHA256SUMS"
+AFTER = "after.txt"
+RAW_CAP = 64 * 1024
+REPROBE_HEADING = "## Re-probe 2026-10-25 (round 33)"
+
 
 def fetch(url: str) -> str:
     request = urllib.request.Request(url, headers={"User-Agent": "kengaku-catalog-probe/1.0"})
@@ -69,6 +81,122 @@ def parse_openrouter(text: str) -> tuple[int, list[str]]:
     if not isinstance(first, dict):
         raise ValueError("OpenRouter model entry is not a JSON object")
     return len(models), [field for field in OR_FIELDS if field not in first]
+
+
+def capture(lane: Path) -> int:
+    """Fetch both catalogs live and write bounded raw bytes + digests + receipt."""
+    out = lane / CAP_DIR
+    out.mkdir(parents=True, exist_ok=True)
+    hf_text = fetch(HF_URL)
+    or_text = fetch(OR_URL)
+    hf_n, hf_missing = parse_hf(hf_text)
+    or_n, or_missing = parse_openrouter(or_text)
+    hf_raw = hf_text.encode("utf-8")[:RAW_CAP]
+    or_raw = or_text.encode("utf-8")[:RAW_CAP]
+    (out / RAW_HF).write_bytes(hf_raw)
+    (out / RAW_OR).write_bytes(or_raw)
+    import hashlib
+
+    hf_sha = hashlib.sha256(hf_raw).hexdigest()
+    or_sha = hashlib.sha256(or_raw).hexdigest()
+    (out / DIGESTS).write_text(
+        f"{hf_sha}  {RAW_HF}\n{or_sha}  {RAW_OR}\n", encoding="utf-8"
+    )
+    summary = (
+        f"probed={ACCESS_DATE} hf=ok openrouter=ok hf_models={hf_n} or_models={or_n}"
+        f" hf_schema_delta={len(hf_missing)} or_schema_delta={len(or_missing)} entry=pending\n"
+        f"raw_sha256 hf={hf_sha} or={or_sha} cap={RAW_CAP}\n"
+    )
+    if hf_missing:
+        summary += "HF missing fields: " + ", ".join(hf_missing) + "\n"
+    if or_missing:
+        summary += "OpenRouter missing fields: " + ", ".join(or_missing) + "\n"
+    (out / AFTER).write_text(summary, encoding="utf-8")
+    print(summary, end="")
+    return 0
+
+
+def _load_raw(lane: Path) -> tuple[str, str] | None:
+    out = lane / CAP_DIR
+    digest_path = out / DIGESTS
+    hf_path = out / RAW_HF
+    or_path = out / RAW_OR
+    if not (digest_path.is_file() and hf_path.is_file() and or_path.is_file()):
+        return None
+    import hashlib
+
+    for line in digest_path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        sha, name = line.split(None, 1)
+        name = name.strip()
+        data = (out / name).read_bytes() if (out / name).is_file() else b""
+        if hashlib.sha256(data).hexdigest() != sha:
+            raise ValueError(f"digest mismatch for {name}: the capture was altered or fabricated")
+    hf_raw = hf_path.read_bytes()
+    or_raw = or_path.read_bytes()
+    if len(hf_raw) > RAW_CAP or len(or_raw) > RAW_CAP:
+        raise ValueError(f"a raw file exceeds the {RAW_CAP}-byte bound")
+    return hf_raw.decode("utf-8", errors="replace"), or_raw.decode("utf-8", errors="replace")
+
+
+def verify(lane: Path) -> int:
+    """Re-derive every recorded number from the committed raw bytes (no network)."""
+    try:
+        raw = _load_raw(lane)
+    except ValueError as error:
+        print(f"raw=invalid {error}")
+        return 1
+    if raw is None:
+        print("raw=absent")
+        return 1
+    hf_text, or_text = raw
+    try:
+        hf_n, hf_missing = parse_hf(hf_text)
+        or_n, or_missing = parse_openrouter(or_text)
+    except ValueError as error:
+        print(f"raw=unparsable {error}")
+        return 1
+    receipt_path = lane / CAP_DIR / AFTER
+    if not receipt_path.is_file():
+        print("raw=ok receipt=absent")
+        return 1
+    receipt = receipt_path.read_text(encoding="utf-8", errors="replace")
+    expected = (
+        f"hf_models={hf_n}",
+        f"or_models={or_n}",
+        f"hf_schema_delta={len(hf_missing)}",
+        f"or_schema_delta={len(or_missing)}",
+    )
+    for token in expected:
+        if token not in receipt:
+            print(f"raw=ok receipt-mismatch missing:{token}")
+            return 1
+    if hf_missing and "HF missing fields:" not in receipt:
+        print("raw=ok receipt-mismatch missing:HF-missing-fields-line")
+        return 1
+    entry = (lane / ENTRY).read_text(encoding="utf-8", errors="replace")
+    if REPROBE_HEADING not in entry:
+        print(f"raw=ok entry-mismatch missing:{REPROBE_HEADING}")
+        return 1
+    block = entry.split(REPROBE_HEADING, 1)[1]
+    block = block.split("\n## ", 1)[0]
+    if CAP_DIR not in block:
+        print(f"raw=ok entry-mismatch missing:{CAP_DIR}")
+        return 1
+    for token in expected:
+        if token not in block:
+            print(f"raw=ok entry-mismatch missing:{token}")
+            return 1
+    print(
+        f"raw=ok hf_models={hf_n} or_models={or_n}"
+        f" hf_schema_delta={len(hf_missing)} or_schema_delta={len(or_missing)} verify=ok"
+    )
+    if hf_missing:
+        print("HF missing fields: " + ", ".join(hf_missing))
+    if or_missing:
+        print("OpenRouter missing fields: " + ", ".join(or_missing))
+    return 0
 
 
 def probe() -> tuple[str, int, int, list[str], list[str]]:
@@ -106,10 +234,21 @@ def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--lane", type=Path, default=Path("."))
     parser.add_argument("--diff", action="store_true", help="accepted for the claim's counting command")
+    parser.add_argument("--capture", action="store_true", help="round 33: fetch live and write bounded raw bytes")
+    parser.add_argument("--verify", action="store_true", help="round 33: re-derive recorded numbers from committed bytes")
     parser.add_argument("--selftest", action="store_true")
     args = parser.parse_args(argv)
     if args.selftest:
         return selftest()
+    lane = args.lane.resolve()
+    if args.capture:
+        try:
+            return capture(lane)
+        except Exception as error:
+            print(f"probed={ACCESS_DATE} hf=fail openrouter=fail capture-error={type(error).__name__}: {error}")
+            return 1
+    if args.verify:
+        return verify(lane)
     try:
         status, hf_n, or_n, hf_missing, or_missing = probe()
     except Exception as error:
@@ -188,6 +327,42 @@ def selftest() -> int:
             encoding="utf-8",
         )
         cases.append(("entry-current-with-receipt-green", entry_ok(lane) == "ok"))
+
+        # Round 33 --verify: absent raw is red; a fixture capture verifies green;
+        # a tampered digest and a missing entry block are red again.
+        import hashlib
+
+        lane33 = Path(tmp) / "lane33"
+        cap = lane33 / CAP_DIR
+        cap.mkdir(parents=True, exist_ok=True)
+        cases.append(("verify-absent-red", verify(lane33) == 1))
+        hf_raw = hf_ok.encode("utf-8")
+        or_raw = or_ok.encode("utf-8")
+        (cap / RAW_HF).write_bytes(hf_raw)
+        (cap / RAW_OR).write_bytes(or_raw)
+        (cap / DIGESTS).write_text(
+            f"{hashlib.sha256(hf_raw).hexdigest()}  {RAW_HF}\n"
+            f"{hashlib.sha256(or_raw).hexdigest()}  {RAW_OR}\n",
+            encoding="utf-8",
+        )
+        (cap / AFTER).write_text(
+            f"probed={ACCESS_DATE} hf=ok openrouter=ok hf_models=1 or_models=1"
+            f" hf_schema_delta=0 or_schema_delta=0 entry=pending\n",
+            encoding="utf-8",
+        )
+        (lane33 / "corpus/knowledge").mkdir(parents=True, exist_ok=True)
+        (lane33 / ENTRY).write_text(
+            f"{REPROBE_HEADING}\n\nverified-at: {ACCESS_DATE}\nreceipts: {CAP_DIR}\n"
+            "hf_models=1 or_models=1 hf_schema_delta=0 or_schema_delta=0\n",
+            encoding="utf-8",
+        )
+        cases.append(("verify-fixture-green", verify(lane33) == 0))
+        (cap / RAW_HF).write_bytes(hf_missing.encode("utf-8"))
+        cases.append(("verify-digest-tamper-red", verify(lane33) == 1))
+        (cap / RAW_HF).write_bytes(hf_raw)
+        text = (lane33 / ENTRY).read_text(encoding="utf-8").replace(REPROBE_HEADING, "## Something else")
+        (lane33 / ENTRY).write_text(text, encoding="utf-8")
+        cases.append(("verify-entry-block-red", verify(lane33) == 1))
     failed = [name for name, passed in cases if not passed]
     for name, passed in cases:
         print(f"CASE {name} {'PASS' if passed else 'FAIL'}")
