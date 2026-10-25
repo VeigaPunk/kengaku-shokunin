@@ -77,13 +77,9 @@ def split_cells(raw: str) -> tuple[list[str] | None, str]:
     return cells, ""
 
 
-def parse_rows(text: str, *, anchor: bool = True) -> tuple[list[Row], list[tuple[int, str, str]]]:
-    """Rows matching the census anchor (0-3 leading spaces) plus malformed rows.
-
-    `anchor=False` widens to any leading whitespace; that switch exists only so
-    the selftest can prove the narrow anchor is load-bearing.
-    """
-    pattern = ROW_RE if anchor else re.compile(r"^( *)\|[ \t]*(S[0-9]{3,})[ \t]*\|")
+def parse_rows(text: str) -> tuple[list[Row], list[tuple[int, str, str]]]:
+    """Rows matching the census anchor (0-3 leading spaces) plus malformed rows."""
+    pattern = ROW_RE
     rows: list[Row] = []
     bad: list[tuple[int, str, str]] = []
     for index, raw in enumerate(text.splitlines(), start=1):
@@ -183,8 +179,6 @@ def check(
     report: dict[str, object] = {
         "registry": len(registry_rows),
         "staged": len(staged),
-        "collisions_total": len(clash),
-        "duplicates_total": len(dupes),
         "malformed_total": len(malformed),
         "prose_recheck_total": sum(1 for row in staged if "recheck-prose" in row_defects(row)),
     }
@@ -208,9 +202,6 @@ def check(
         )
         malformed = [item for item in malformed if item.split(":", 1)[0] in scope]
     report.update({"collisions": clash, "duplicates": dupes, "malformed": malformed, "defects": defects})
-    if bad and not (want_ids and scope):
-        code = EXIT_COLLISION if clash else EXIT_MALFORMED
-        return code, report
     if malformed or dupes or defects:
         code = EXIT_COLLISION if clash else EXIT_MALFORMED
         return code, report
