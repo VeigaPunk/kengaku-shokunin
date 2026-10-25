@@ -18,7 +18,12 @@ has a named artefact in a published tree, or it does not.
 
 This entry extends `knowledge/agent-time-horizon-and-task-validity.md` (benchmark task/test validity
 audits) and `knowledge/contamination-detection-and-transparency.md` (contamination vocabulary), and
-supersedes neither. It is a synthesis of primary maintainer documents, not a new research method. Its
+supersedes neither.
+
+**Source labels (Q5).** S077, S078, S079, S080 and S090 are each a maintainer's **self-report about its
+own benchmark or its own tooling** — a disclosure, not an independent replication of any claim about
+them. S091 (ABC) is the one independent third-party instrument here, and it judges other people's
+benchmarks. No number in this entry is an independent measurement of a maintainer's practice. It is a synthesis of primary maintainer documents, not a new research method. Its
 contribution is the mapping from "what a validity question is" to "the artefact that answers
 it, and where that artefact lives".
 
@@ -51,9 +56,11 @@ it, and where that artefact lives".
   carries `schema_version = "1.1"` and both time baselines, so a reviewer reads the claim
   instead of guessing it. Coverage is **not** universal: at the pin 1 of 89 task
   directories (`caffe-cifar-10`) carries `schema_version` and `difficulty` but neither time
-  baseline, and 6 lines across 3 tasks write integer literals (`30`) where the schema
-  elsewhere uses floats (`30.0`). Axis H must therefore treat a missing field as a finding,
-  never as an assumption about the tree.
+  baseline (`curl -s .../caffe-cifar-10/task.toml` at the pin: `schema_version` and `difficulty`
+  only). A reviewer seat also counted integer literals where the schema elsewhere uses floats
+  (`.ufo/waves/round-29/attempt2/build/R29a2RevQuoteS079.md` F4); that count was not re-derived by
+  this entry and is reported as the seat's observation, not as a number this entry owns. Axis H
+  must therefore treat a missing field as a finding, never as an assumption about the tree.
 - S080 shows axis I is checkable in the tree: `needed_mcp_servers` and `needed_local_tools`
   are declared per task, and the graded state ships beside the task.
 - S090 is the one axis-B/C-passing task that still failed after publication: axis D is a
@@ -67,9 +74,12 @@ it, and where that artefact lives".
 
 - S079 repository at `2fd12b8`: **92 root entries**, of which 3 are files (`.gitignore`,
   `LICENSE`, `README.md`), leaving **89 task directories and 89 `task.toml` files**
-  (`git/trees/2fd12b8` non-recursive, then `task.toml` count over the recursive tree).
+  (`curl -s https://api.github.com/repos/laude-institute/terminal-bench-2/git/trees/2fd12b88aafdd04a52c298e3940bcb189f9766d6`
+  for the 92 root entries; the same URL with `?recursive=1` for the 89 `task.toml`; the `-d` count over the
+  tarball reproduces 89 directories).
 - S080 at `9be8d8f`: **109 entries under `tasks/finalpool`**, of which **108 are
-  directories** (`contents/tasks/finalpool?ref=9be8d8f`).
+  directories** (`curl -s "https://api.github.com/repos/hkust-nlp/Toolathlon/contents/tasks/finalpool?ref=9be8d8fe07a497b18ee61e3f2ae694e9797f39eb"`
+  → 109 entries, 108 with `"type": "dir"`).
 
 Both counts correct the staged package, which said "92 top-level task directories" and
 "109 task directories". The package's *claims* were right; its *units* were off by the
