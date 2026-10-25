@@ -652,3 +652,63 @@ returning re-reads makes the unresolved locator the row's own evidence — resol
   `R30FxDeadSeats.md:203` (A2) finds the lesson's "Wave 2 (falsify) 34 seats" falsified by five
   independent artifacts (33), and A7's "1 of 8 exists" note above; both are lesson-body claims,
   not Gate cells, so I record them as pointers, not verdicts.
+
+---
+
+# Pass 3 — the axis-language claims raised by `R30FxCoverageAxis`
+
+Triggered by the coverage-axis falsify seat (`.ufo/waves/round-30/falsify/R30FxCoverageAxis.md`,
+18 374 B). Its four items are SCORECARD/claims wording, not Gate cells; I re-derived every byte it
+cites, recorded the one in-scope consequence, and left the SCORECARD edits to their owner (I make
+no production edits).
+
+## What I verified (byte state at this writing)
+
+| claim | measured |
+|---|---|
+| `SCORECARD.md:1022` axis cell | `**coverage** (lowest non-retired, tie-break)` — no sub-row named |
+| `SCORECARD.md:1022` verdict cell | `**7 → 7 held** — real expansion on ground the lane did not hold (frontier bullet 2 *unopened lead* → amendment + CG1–CG8 gate), but the canonical coverage score stays 7 while the round-25 L0 coverage cap is open.` |
+| `PROVINCE.md` round-30 section | none — `grep -n 'Round 30\|round-30' PROVINCE.md` → no match, so the rubric's "PROVINCE enumerates surfaces that resolve" leg did not move |
+| `plans/round-30-claims.md:22-23` | `Frontier bullet 2 (`corpus/README.md` §Frontier, "Contamination transparency cards") moves from *unopened lead* to *core*.` |
+| `corpus/README.md:275` | `*Partly discharged round 30 (2026-10-25):* … supplies the card format and the CG1–CG8 gate as an amendment to …` — no "core"; the bullet's hidden-test-governance lead stays unopened |
+| counts the seat lists | registry 88 rows (tier A 79, B 7, C 2); `corpus/knowledge/` 39 files; README index rows 39 — all reproduce |
+| `SCORECARD.md:1026-1031` depth clause | `depth 9 (the entry adds a field mapping against a published union table, no new instrument claim)` — "no new instrument claim" is novelty's criterion, not depth's; `SKILL.md` is unmodified (`git status` clean for `SKILL.md`, `PROVINCE.md`, `SCORECARD.md`) |
+
+## In-scope consequence: none in the Gate block, one errata line missing from the lesson
+
+The Gate cells never use "core" and never claim a PROVINCE movement — `grep -n 'core\|PROVINCE'
+corpus/lessons/round-30.md` has no real hit (`:85`'s match is "score") — so no Q8/Q9 cell needs
+changing for this axis. What is missing is the round's own record: the frozen claim keeps a word
+the landing did not earn, and the lesson carries no correction for it. That is the Q6 errata class
+the lane already applies, and a frozen claim cannot be edited, so the lesson is the right surface.
+
+**Drop-in errata (append to the lesson's `## Mistakes`, or as a `## Corrections` bullet):**
+
+> - **Class: a frozen claim keeping a word the landing did not earn.** `plans/round-30-claims.md:22-23`
+>   says frontier bullet 2 "moves from *unopened lead* to *core*"; the landed `corpus/README.md:275`
+>   says "*Partly discharged round 30*", and `PROVINCE.md` has no round-30 section
+>   (`grep -n 'Round 30\|round-30' PROVINCE.md` → no match, 2026-10-25), so "core" has no landed
+>   referent. **Captured-by:** the coverage-axis falsify seat
+>   (`.ufo/waves/round-30/falsify/R30FxCoverageAxis.md:174` — "PASS on the number; FAIL on the
+>   currency word"), not the round. **Fix:** the SCORECARD C1 row reads "7 → 7 held — improved
+>   (counts)" with the count list; no downstream artifact uses "core"; drop-ins at
+>   `.ufo/waves/round-30/falsify/R30FxCoverageAxis.md:223-250`.
+
+## Out of my lane, recorded so the owner can paste
+
+- Axis cell → `**coverage (surfaces)** — lowest non-retired, tie-break; held by the open round-25 L0 cap`
+  (the present cell leaves the sub-row unstated, so the row takes expansion language from
+  coverage/constructs and its hold reason from coverage/surfaces).
+- Verdict cell → `**7 → 7 held — improved (counts)**, number held by the open round-25 L0 coverage
+  cap (still unruled)`, followed by the counts: registry 82 → 88 (tier A 76→79, B 4→7), knowledge
+  files 38 → 39, index rows 38 → 39 with 39/39 parity. Keep the counts inside the cell — the
+  present parenthetical is the row's only counting surface.
+- Depth clause → `depth 9 (held on the depth rubric's own legs: SKILL.md is unchanged, so "a reader
+  can act on SKILL.md alone" is not met, and citation resolution is unchanged; instrument criteria
+  belong to novelty)`.
+- Two phrases the round must not carry downstream: **"core"** (item above) and **"real expansion on
+  ground the lane did not hold"** (replaced by "improved (counts)" plus the list).
+
+These are the seat's own drop-in texts at `R30FxCoverageAxis.md:223-250`, verified against the tree;
+I neither edit SCORECARD nor adjudicate the rubric — I record that the numbers behind the
+replacement reproduce and that nothing in the Gate block depends on the disputed wording.

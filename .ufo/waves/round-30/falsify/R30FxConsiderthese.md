@@ -43,7 +43,7 @@ Artifacts read:
 | C5 | limit: "cannot cover `plans/adoption_check.py`, **which is red by design**" | **IMPRECISE, conclusion holds** | `plans/adoption_check.py` has no `--selftest` at all (`add_argument`: `--lane`, `--expect`, `--census` only) — so the non-coverage conclusion is right. "Red by design" is not: with `--census` from the lane it is **green** (`corpus/evidence/round30/adoption-after.txt` → `entries=1 … census=ok` / `exit=0`; my extraction run without `--census` → `entries=1 … census=skipped`, exit 1, because `plans/adoption_check.py:131` sets `census_code = 1  # an unrun census is not a pass`). And in any `/tmp` extraction it is red **even with** `--census`: `entries=1 indexed=1 cited_rows=6 rows_present=6 rows_mined=6 usedby_ok=1 census=fail`, exit 1, because `:132-137` derives the lane name from `lane.parent`/`lane.name` and shells to `CENSUS = /home/vgpnk/Projects/shokunin/scripts/sources-census.sh` (`:35`). Finding **M5**. |
 | C6 | limit: "or the two selftests that print no count" | **PASS on the number, unnamed** | Enumerated every `plans/*.py` accepting `--selftest` (9 tools) in the landing extraction: `attrib_calibration` → `18 checks`; `benchmark_spec_audit` `cases=67`; `config_projection` `cases=31`; `grader_perturb` `caught=12`; `parser_policy_compare` `cases=59`; `registry_check` `cases=15`; `sources_adopt` `cases=14`; **`gate_timing_check` NONE**; **`state_check` NONE**. Exactly two, as stated — but Q20 never names them, and it *does* name `state_check.py --summary` elsewhere in the same bullet, so a reader can conclude state_check is covered. Finding **L3**. |
 | D1 | "A commit touching `grader.py`, `plans/*.py`, `plans/*.sh`, the `corpus/SOURCES.md` schema or `.github/` must cite a run **extracted from the commit**" | **PARTIAL** | The trigger fires on the actual landing (`623c1fc`: `plans/*.py` ×3, `corpus/SOURCES.md` +6 rows) and on any sourcing round. But the run cannot exist *inside* the commit it certifies (the sha does not exist until after the commit), and Q20 says nothing about who appends the receipt, where, or in which commit — see D3/M2. |
-| D2 | "A count that differs from the previous commit is a failure unless **the same commit's diff explains old→new with a reason**" | **FAIL as an acceptance condition** | A diff has no reasons (it has code), and "previous commit" vs "previous landing's receipt" (next sentence) are two different bases. The criterion's own landing is the first test: `sources_adopt` moves 10→14; the four added cases are `quote-overlong-refused`, `quote-absent-refused`, `quote-boundary-25-accepted`, `quote-located-accepted` (`comm -13` over the CASE labels), while frozen C3 (`plans/round-30-claims.md:79-81`) says "including two new failure-capable cases", and a peer critic already flags the arithmetic as unexplained (`R30CritC3.md:25`: "10 existing + 2 named = 12 ≠ 14"). Finding **M4**. |
+| D2 | "A count that differs from the previous commit is a failure unless **the same commit's diff explains old→new with a reason**" | **FAIL as written; satisfied in substance at this landing** | A diff has no reasons (it has code), and "previous commit" vs "previous landing's receipt" (next sentence) are two different bases. The landing did state the move in prose in the same commit — `LOG.md` §C3: "Selftest 10 → 14 cases; the ten original cases keep their names and verdicts" — while the diff only shows four new `CASE` bodies (`quote-overlong-refused`, `quote-absent-refused`, `quote-boundary-25-accepted`, `quote-located-accepted`; `comm -13` over the CASE labels at `363a4eb` vs `623c1fc`). Frozen C3 (`plans/round-30-claims.md:79-81`) names two as failure-capable and `R30CritC3.md:25` flags "10 existing + 2 named = 12 ≠ 14". Finding **M4**. |
 | D3 | applies to the commit that lands it | **NOT SATISFIED** | `623c1fc` fires Q20 on its own trigger set: it changes `plans/sources_adopt.py` (+343), `plans/adoption_check.py` (+34), `plans/round30_defects.py` (new, 222) and `corpus/SOURCES.md` (+6). Its tree contains **no** reference to `623c1fc` (`git grep -c 623c1fc HEAD` → empty) and no extraction receipt: the committed receipts are `corpus/evidence/round30/gate-selftest-after.txt` (`SELFTEST cases=14 failed=0` / `exit=0`), `adoption-after.txt`, `census-after.txt`, `claims/gate-before.txt` — none binds a sha or a tree, and `LOG.md:833` says the gates were "re-run in the round's build seats", i.e. a working-copy run — precisely what Q20 excludes. Finding **M2**. |
 | E1 | title: "a landing that touches **a gate** carries a mechanical run made outside the working copy" | **FAIL vs its own roster** | A commit touching a gate outside the five-row roster satisfies Q20 with a run that never exercises the touched gate. Probe on `/tmp/r30fx-considerthese/loophole`: `plans/grader_perturb.py` mutated to expect `caught=13` → its own gate `SELFTEST MUTATION-CATCH FAIL: caught=12 expected=13`, `SELFTEST TOTAL families=10 branch_cases=10 failed=1`, **exit 1**; meanwhile `grader.py` n=733 PASS, `sources_adopt` cases=10 failed=0, `registry_check` 15, `config_projection` 31, `benchmark_spec_audit` 67 — every gate Q20 names, green. The seat's draft closed this with "plus the touched tool's own row when the change is not one of those four" (`R30Considerthese.md:143-144`); landed Q20 dropped the sentence. Finding **F3**. |
 | E2 | claims no more than a mechanical run proves | **MOSTLY PASS, one provenance gap** | Correctly disclaims correctness (C3) and non-author (C4, modulo its error). But "must **cite** a run made in a landing tree extracted from the commit" is testimonial: nothing in the lane compares a pasted receipt to a tree, so a receipt copied from the working copy is indistinguishable from an extracted one by every in-lane mechanism. Q20 is a citation standard whose central provenance guarantee is unenforced — it does not say so. Folded into **F1**'s residual risk. |
@@ -155,11 +155,12 @@ truncating pipe") prevents a class of false reds.
 
 ## 3. What checked out
 
-- Every gate Q20 names exists, runs offline today, and prints exactly the line attributed to it, both in a `git
-  archive 363a4eb` extraction and in a simulated landing extraction (clone → commit working tree → `git archive`),
-  where `sources_adopt` moves to `cases=14`.
-- The extraction form works verbatim: `git archive 363a4eb | tar -x -C …` exit 0, `.github` absent from the
-  extracted tree exactly as Q20's absence check says.
+- Every gate Q20 names exists, runs offline today, and prints exactly the line attributed to it — verified in
+  three trees: `git archive 363a4eb` (pre-landing), `git archive 623c1fc` (the real landing:
+  `CHECKS n=733 …`, `cases=14`, `cases=15`, `cases=31`, `cases=67`, all exit 0), and a clone-commit simulation
+  made before the landing existed.
+- The extraction form works verbatim: `git archive <sha> | tar -x -C …` exit 0 for both shas, `.github` absent
+  from the extracted tree exactly as Q20's absence check says.
 - `state_check.py --summary` exits 0 with `mismatch=0` and `VERDICT: PASS` in both environments; the count shift is
   disclosed above, not a mismatch.
 - The three limits the seat measured are reproducible on my own copies: exit code blind to deleted selftest cases
@@ -167,26 +168,29 @@ truncating pipe") prevents a class of false reds.
   integer detects a deleted replay check (`n=732`, exit 0). The seat's numbers are honest.
 - The proposal's two premises hold byte for byte (`ls .github` exit 2; `LOG.md:372` verbatim), and the criterion
   correctly refuses to claim non-author status for its own receipts.
-- `grader.py` is stable across this landing: `n=733`, `errata_pinned=1`, `VERDICT: PASS`, exit 0 on the working
-  tree, so the pinned literal is not stale yet.
+- `grader.py` is stable across this landing: `n=733`, `errata_pinned=1`, `VERDICT: PASS`, exit 0 in the landing
+  extraction, so the pinned literal is not stale.
 
 ---
 
 ## 4. Executable by a fresh agent without oral context?
 
-**Partly.** The mechanical half is: a fresh agent can extract, run the five named gates, and match four count
-lines and one replay line exactly (I did, twice, from scratch). The judgment half is not: the Check gives no
-command, "the previous landing's receipt" has no location, `cases=N` is not a value, "the fleet census" has no
-command in QUALITY.md, the two count-less selftests are unnamed, "the `corpus/SOURCES.md` schema" has no boundary
-(a fresh agent cannot decide whether appending rows S081-S086 fires Q20; I judged it does not, because
-`plans/sources_adopt.py:14` defines the schema as the 11-cell staged-row contract, but that is my inference, not
-the criterion's), and the count-diff verdict depends on a reason the criterion says lives in a diff. Two clauses
-are actively wrong for a reader: "the pinned integer is the detector" (F2) and "only a workflow run would make it
-[non-author]" (F4).
+**Partly.** The mechanical half is: a fresh agent can extract `623c1fc`, run the five named gates, and match four
+count lines and one replay line exactly (I did, from scratch, in the real landing tree). The judgment half is not:
+the Check gives no command, "the previous landing's receipt" has no location, `cases=N` is not a value, "the fleet
+census" has no command in QUALITY.md, the two count-less selftests are unnamed, "the `corpus/SOURCES.md` schema"
+has no boundary (a fresh agent cannot decide whether appending rows S081-S086 fires Q20; I judged it does not,
+because `plans/sources_adopt.py:14` defines the schema as the 11-cell staged-row contract, but that is my
+inference, not the criterion's), and the count-diff verdict depends on a reason the criterion says lives in a
+diff. Two clauses are actively wrong for a reader: "the pinned integer is the detector" (F2) and "only a workflow
+run would make it [non-author]" (F4). And the criterion's first gate-touching landing (`623c1fc`) carries none of
+the receipts it describes, so a fresh agent has no worked example to imitate.
 
-VERDICT: FAIL — Q20's five-gate roster is executable and reproducible byte for byte, but its Check clause, its
-count-diff rule, and two of its four stated limits do not survive contact with the bytes; the criterion is
-satisfiable by a green run that never exercises the gate the commit touched.
+VERDICT: FAIL — Q20's five-gate roster is executable and reproducible byte for byte in the landing tree, but its
+Check clause is not a command, two of its four stated limits are wrong or imprecise (the pinned integer is not the
+detector for the attack the text cites; "only a workflow run" contradicts R6), its count-diff rule names an
+artifact that cannot carry the reason it demands, and the criterion is satisfiable by a green run that never
+exercises the gate the commit touched. The first landing it governs, `623c1fc`, satisfies none of it.
 
 ---
 

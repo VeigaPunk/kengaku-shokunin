@@ -21,7 +21,8 @@ snapshot, and every token count was invariant.** The churn is in the annotations
 | S2 04:42:08 | `28f5bbda…f7dc75b37e687e` | `43d3e37e…02d17eac4bb94284` | entry S085 legend `23 CJK characters` → `24 characters incl. the fullwidth comma`; **S086 legend `23` → `30` in entry *and* row**; row S081 scope cell rewritten; row S082 title corrected |
 | S3 04:43 | `0f2e1614…c5d479d2af7880` | `094e5c18…3b1181b3a78e92b` | **S084 teaches cell `1-13` → `1-7`**; row S083 anchor gains two normalization caveats |
 | S4 04:44:46 | `df0b6d41…d29317a0ee251a4` | `094e5c18…3b1181b3a78e92b` | entry S083 line gains the same two normalization caveats |
-| S5 04:45:56 (final) | `f01b7cd2…3c2dc80ad1e6cd` | `cf58f52b…2775f5641e39d99e1` | entry **and** row S085.1 gain "three typeset lines, not byte-contiguous" — the first statement in the lane that the 方升 span is not a plain byte run (§4.5) |
+| S5 04:45:56 | `f01b7cd2…3c2dc80ad1e6cd` | `cf58f52b…2775f5641e39d99e1` | entry **and** row S085.1 gain "three typeset lines, not byte-contiguous" — the first statement in the lane that the 方升 span is not a plain byte run (§4.5) |
+| S6 (final) — edited 04:48:18, content re-certified 04:48:25 | `b29eac97…eecc1385` | `82adf2d8…cf55c10b` | further edits by other seats; **every span, token count and legend this report quotes was re-checked and unchanged** — S084 range `1-7`, S086 `30 CJK characters` (entry lines 80-81 / row 78-81), S085.1 non-contiguity caveat, and the S085 row-vs-entry legend gap all still stand |
 
 `plans/sources_adopt.py` (gate) did **not** change: `e9b6bc04…f8610d27d191a195`,
 `--selftest` → `SELFTEST cases=14 failed=0`, exit 0.
@@ -38,7 +39,7 @@ spans), and §4 (five things a green receipt does not cover).
 
 ---
 
-## 1. Per-span table (14 documented spans, S4 labels)
+## 1. Per-span table (14 documented spans, S5 labels)
 
 `tokens` = `len(s.split())` on the span exactly as the row/entry carries it. `CJK` = ideograph count
 (`U+4E00–U+9FFF`) / all-CJK-script count (ideographs + kana + CJK punctuation + fullwidth forms).
@@ -117,7 +118,7 @@ Token counts — the only numbers that enter the cap — are correct in all four
 
 ## 3. Verdict: nested-quote hazards
 
-**No nested ASCII quote pair exists in any of the six anchor cells at S4** — all six are parity-clean
+**No nested ASCII quote pair exists in any of the six anchor cells at S5** — all six are parity-clean
 and the extractor returns the intended spans: S081 6 marks/3 spans, S082 4/2, S083 4/2, S084 6/3,
 S085 4/2, S086 **2/1**. S085 is the only cell that nests a quote inside a quote, and it nests
 **fullwidth** marks (`“方升”`), which survive ASCII pairing; NFKC leaves them as U+201C/U+201D (in that
