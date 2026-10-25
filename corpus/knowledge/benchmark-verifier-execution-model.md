@@ -19,7 +19,7 @@ the framing that axis was written under.
 
 The verifier's location is a per-task resolution with three inputs, not a harness-wide constant:
 
-1. an explicit `environment_mode` wins (`verifier_mode.py:22-23`, "Returns the explicit mode when set");
+1. an explicit `environment_mode` wins (`verifier_mode.py:18-21`, "Returns the explicit mode when set");
 2. otherwise a `[verifier.environment]` section implies `SEPARATE` (`verifier_mode.py:24-25`);
 3. otherwise the mode is `SHARED` — `resolve_task_verifier_mode` ends
    `return _resolve_mode(task_cfg.verifier) or VerifierEnvironmentMode.SHARED` (`verifier_mode.py:31`).
@@ -29,7 +29,7 @@ The field's own documentation states the same rule in one sentence:
 (`config.py:590-593`, 13 words). The declared default is `None` (`config.py:588`), an *unspecified*
 sentinel that only `verifier_mode.py` resolves — so "the default is shared" is a statement about the
 resolver, never about the field alone. For multi-step tasks the precedence is spelled out at
-`verifier_mode.py:35-38`: explicit step mode, then step environment, then the task-level resolution, then
+`verifier_mode.py:39-40`: explicit step mode, then step environment, then the task-level resolution, then
 shared.
 
 So the default is **shared**: unless a task opts in, the verifier runs in the same container the agent
