@@ -155,7 +155,7 @@ renders as literal `- **Agreement is not established.**` inside a bold run. If t
 section reads as malformed markdown in the very section Q4 grades. (Not present at `623c1fc`; fixed
 at the tip — where the same edit instead duplicated the bullet's closing sentence, `:122-125`.)
 
-### 1.8 The tip's repaired falsifier — the pointer is gone, the ruling is worse (tip `9af639c`)
+### 1.7 The tip's repaired falsifier — the pointer is gone, the ruling is worse (tip `9af639c`)
 
 Quoted from `corpus/knowledge/contamination-transparency-card.md` at `a78eb18a…`, `:134-140`:
 
@@ -180,7 +180,7 @@ Four defects, all in the new bytes:
    to carry ("the observation (both fields populated and non-trivial)").
 3. **The licence is wrong.** "the CC0 card" (`:137`) — the CTC v1.1 form this entry maps into is
    **CC BY 4.0**, printed in its own header (`# Contamination Disclosure v1.1` / `# CC BY 4.0.
-   Filled-into forms are yours; no attribution required for a completed form.`) at the pinned
+   Filled-in forms are yours; no attribution required for a completed form.`) at the pinned
    commit. "CC0" appears nowhere else in the entry, so the phrase also has no antecedent.
 4. **An orphan fragment remains**: ":139-140" ends "rather than a trend / bullet above." — the
    tail of the deleted pointer, now attached to nothing.
@@ -190,7 +190,7 @@ audit populates R1 and S1, in which ≥k strata are reported with CIs and the ac
 monitoring rather than `unknown`; one such card narrows 'not common' only in proportion to the
 number of releases surveyed" — and name the CTC form by its actual licence if the licence matters.
 
-### 1.7 What Q4 carries, for the record
+### 1.8 What Q4 carries, for the record
 
 The negative-space half is real and I am **not** scoring it as missing: six bullets, four of them
 genuine limits (S085's self-report, S082's working-paper status, S083's single-benchmark design,
@@ -208,7 +208,7 @@ negative.
 | OpenCompass docs on its own procedures | `:134-135` "S084 is vendor documentation for OpenCompass 0.4.0 (a self-description of two procedures, not an evaluation of any model)" | re-fetched the doc page: two 数据污染评估 methods with their dataset limits; footer prints `0.4.0 documentation`, matching the version label on a `/latest/` URL; all three quoted spans present | **holds** (OpenCompass is an open-source project, so "vendor" is loose; the substance — self-description, not evaluation — is right) |
 | preprint vs peer-reviewed split | `:133-137`: S081/S082 "arXiv preprints (a taxonomy paper and a working paper)"; S083 "a peer-reviewed Findings of EACL 2026 paper"; S086 "a peer-reviewed 言語処理学会 paper" | S081 abs page carries no venue, only "18 pages, 3 figures, 6 tables" → preprint ✓; S082's full text self-labels "**Working Paper \| May 2026**" (`arXiv:2607.01254v2 [cs.CY] 13 Jul 2026`) ✓; S083 = ACL Anthology Findings ✓ | **split labelled; one side wrong** — §2.2 |
 
-### 2.2 Defect — S086 is labelled peer-reviewed; the publisher says otherwise (live in both trees)
+### 2.2 Defect — S086 was labelled peer-reviewed; the publisher says otherwise (fixed in the entry at `9af639c`, still false in the round's record)
 
 Admitted tree `:136-137` (identical in the worktree, `:144`): "S086 is a peer-reviewed 言語処理学会
 paper on code-corpus contamination." The Gate repeats it (`corpus/lessons/round-30.md:65`: "S081/S082
@@ -238,9 +238,16 @@ and "peer-reviewed" is a provenance claim no artefact in this round supports, co
 nearest published statement of the series' policy. A tier-A conference paper stands on its own
 evidence; the badge buys nothing and risks the one section whose job is provenance.
 
-*Repair:* "S086 is a 言語処理学会 第31回年次大会 発表論文集 paper (conference proceedings; the society
-publishes annual-meeting manuscripts without peer review)"; correct the Gate cell and
-`R30FxRowsCensus.md:167` in the same pass.
+*Repair, and its state at the tip.* Commit `9af639c` ("round-30: S086 is not peer-reviewed (society
+stamp) — relabel and tier to B") carries exactly this repair in the entry: `:148-150` now reads
+"S086 is a 言語処理学会 2025 paper that the society publishes **without peer review** (its own stamp
+on `anlp.jp/nlp2026/submit.html` says so and the 2025 pages carry no 査読), so it is labelled a
+non-peer-reviewed proceedings paper, not a peer-reviewed result", and the registry row drops to tier
+B — which still satisfies QUALITY Q2's A-or-B floor, so the move costs the claim nothing. **The
+round's record does not follow yet**: `corpus/lessons/round-30.md`'s Q5 cell and
+`falsify/R30FxRowsCensus.md:167` both still say "S086 peer-reviewed", and RowsCensus is one of the
+six citations the Gate's admission rests on. Q5 is closed in the entry and open in the artefacts
+that describe it.
 
 ### 2.3 A labelling detail that does hold, and one that is loose
 
