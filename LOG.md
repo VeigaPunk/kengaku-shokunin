@@ -866,3 +866,48 @@ re-derived by `plans/round31_defects.py` check R1. The same reading is corrected
 `corpus/lessons/round-30.md` §Errata (Q6 basis) in this round. Locators above were re-read after the
 entry's own R4/R5/R7 repairs moved its line numbers, and after the R1 reviewer showed an earlier draft of
 this block cited a window that contained neither sentence.
+
+## Round 31 — verifier execution model, routed-defect closure, citation-bound gate (2026-10-25, hyaku run 6)
+
+Baseline `0883e72`; frozen prereg `plans/round-31-claims.md`; landed round work `dbb07364`. Three claims on
+three axes: C1 coverage (lowest non-retired, tie-break over novelty), C2 calibration, C3 operability. Round
+shape: v1 wave 1 build (36 seats) + v1 wave 2 falsify (36 seats) = 72 seats.
+
+1. **C1 — the benchmark verifier execution model admitted.** The staged package entry was re-grounded on
+   three sources opened this round at their pinned revisions: Harbor commit `6099b8cf` (the verifier-mode
+   resolver, `Verifier.verify`, the bundled-tests flag), SWE-bench Pro V2 commit `66f92766` (the task's own
+   test-space reset, its `DATA_DIRS` exclusion, and the log-scan parser behind its PASSED set), and
+   terminal-bench-2 commit `2fd12b88` (92 top-level entries, 89 task directories, and the README line that
+   names the dataset). The finding: the harness resolves a per-task verifier mode and **shared is the
+   default**, so both benchmarks grade inside the agent's container; what holds anyway is narrower than
+   isolation — stale rewards are deleted first, and `/tests` is re-uploaded unless the verifier image owns it
+   — and SWE-bench Pro additionally restores test *code* from the container's own git HEAD while leaving
+   anything under a fixture directory untouched. Registry 88 → 91 rows (S092, S093, S100), knowledge 39 → 40,
+   index 40/40. Counter (frozen): `entries=1 indexed=1 cited_rows=3 rows_present=3 rows_mined=3 usedby_ok=1
+   census=ok`, exit 0; the do-nothing control is `entries=0 …`, exit 1, hardened with the expect digest.
+   Second receipt `plans/round31_c1_verify.py` → `checks=6 defects=0`, closing the frozen counter's
+   content-blindness that a wave-1 critic demonstrated with a 63-byte stub.
+2. **C2 — the ten routed defects R1–R10 closed.** R1: a named correction appended to `LOG.md` (the round-30
+   entry's "two new fields, one new value set" is retracted by the entry's own bytes). R2/R3/R10: an
+   append-only `## Errata (round 31 …)` block in `corpus/lessons/round-30.md` correcting the Q6 basis, the Q2
+   tier cell (`S086 B`, re-derived from the registry) and the falsify seat count (`33`, re-derived from the
+   committed registry). R4/R5/R6/R7/R8: entry copyedits — the duplicated "reconciled truth" sentence, the
+   duplicated falsifier clause, the staged-source count (`two of its three`, re-derived by document key), the
+   S2 claim narrowed to the card-level field, and the ungrounded "CC0" adjective dropped. R9: the five
+   round-30 seat reports committed as authored. Counter: `checks=10 defects=10` exit 1 before → `checks=10
+   defects=0` exit 0 after; the counter itself was corrected four times when seats proved each gap, and the
+   survivors that remain (`R31MutCounter.md`) are disclosed debt.
+3. **C3 — the adoption gate binds a capture to the row's citation.** `plans/sources_adopt.py` gained
+   `--url-map`: a located quote whose artifact is not mapped to a URL the row cites is refused with exit 8
+   (mismatch) or 9 (unmapped), bound on any containing artifact against any cited URL, with the unbound
+   summary line left byte-identical to round 30's receipts. Selftest 14 → 17 cases, the three new ones
+   failure-capable (the binding removed → `cases=17 failed=2`), and the CLI exercised end-to-end (0 / 8 / 9 /
+   2). Scope, stated: this is citation membership, not fetch provenance — the map is caller-authored and a
+   row citing a repository root is satisfied by any capture declared against that root.
+
+Also landed: `QUALITY.md` Q21 (a pinned source names its pin in `recheck:` — the one criterion this round
+draws from `considerthese/2026-10-24.md` proposal 2, measured absence 5 of 40 entries), `corpus/README.md`
+index + coverage + frontier rows, the round lesson `corpus/lessons/round-31.md`, and the Q20 out-of-band gate
+receipt `.ufo/waves/round-31/gate-receipt.txt` (`CHECKS n=733 mismatches=0`, `VERDICT: PASS`, every roster
+selftest green). Census 14 → 15 `W04`, exit 0 both ends; the 15th is S100↔S079, the same repository read for
+a different scope, disclosed in the row and the report.

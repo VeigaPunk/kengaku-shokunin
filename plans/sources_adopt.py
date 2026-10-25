@@ -337,8 +337,12 @@ def load_artifact(path: Path) -> tuple[list[tuple[str, str]], str]:
 
 # The anchor cell is not where a row cites its document: `source` (cell 1) carries
 # "title — URL". A row can therefore locate its quote in a capture of a *different*
-# document, which is the gap round 30 disclosed. `--url-map` closes it by naming the
-# document each artifact was fetched from.
+# document, which is the gap round 30 disclosed. `--url-map` narrows it: the caller declares
+# which of the URLs a row cites that capture answers, and the gate refuses a capture whose
+# declaration is not among them. It is a *citation-membership* check, not a provenance proof --
+# the gate cannot verify any fetch, the map is caller-authored, and a row that cites a
+# repository root is satisfied by any capture declared against that root (round-31 C3 critic,
+# who measured the honest raw-URL map being refused and the coarse root map accepted).
 SOURCE_COLUMN = 1
 URL_RE = re.compile(r"https?://[^\s|]+")
 
@@ -408,8 +412,13 @@ def locates(quote: str, loaded: list[tuple[str, str]]) -> str:
     return next(iter(locating_artifacts(quote, loaded)), "")
 
 
-def bind_failure(row: Row, artifact_names: list[str], url_map: dict[str, str]) -> str:
-    """Return "" when some artifact holding the quote is the document this row cites.
+def bind_failure(
+    row: Row, artifact_names: list[str], url_map: dict[str, str]
+) -> tuple[str, str]:
+    """Return ("", "<artifact>-><url>") when bound, else ("<reason>", "").
+
+    The bound pair is returned so the receipt can say *which* capture and citation the row was
+    bound through: an existential rule over artifacts is unauditable from a bare "ok" line.
 
     `"unmapped"` is a distinct verdict from a mismatch: an unmapped artifact is a gap in
     the caller's map, while a mismatch is a capture of a different document. Collapsing
@@ -419,14 +428,15 @@ def bind_failure(row: Row, artifact_names: list[str], url_map: dict[str, str]) -
     """
     cited = cited_urls(row.cell(SOURCE_COLUMN))
     if not cited:
-        return "cites-no-url"
+        return "cites-no-url", ""
     cited_keys = {normalize_url(url) for url in cited}
-    mapped = [url_map[name] for name in artifact_names if name in url_map]
+    mapped = [(name, url_map[name]) for name in artifact_names if name in url_map]
     if not mapped:
-        return "unmapped"
-    if any(normalize_url(url) in cited_keys for url in mapped):
-        return ""
-    return "url-mismatch"
+        return "unmapped", ""
+    for name, url in mapped:
+        if normalize_url(url) in cited_keys:
+            return "", f"{name}->{url}"
+    return "url-mismatch", ""
 
 
 def quote_check(
@@ -468,7 +478,14 @@ def quote_check(
     }
     if problem:
         return EXIT_QUOTE_UNREADABLE, report
-    rows, bad = parse_rows(quote_file.read_text(encoding="utf-8"))
+    try:
+        quote_text = quote_file.read_text(encoding="utf-8")
+    except OSError as error:
+        # Same class as an unreadable artifact: a caller/environment fault, not a byte verdict,
+        # so it must not raise a traceback out of a gate.
+        report["problem"] = f"--quote-file is unreadable: {error}"
+        return EXIT_QUOTE_UNREADABLE, report
+    rows, bad = parse_rows(quote_text)
     located: list[str] = []
     found: list[str] = []
     overlong: list[str] = []
@@ -507,7 +524,9 @@ def quote_check(
                 details.append(("REFUSED", f'{row.row_id} absent words={count} quote="{quote}"'))
             else:
                 if url_map is not None:
-                    refusal = bind_failure(row, locating_artifacts(quote, loaded), url_map)
+                    refusal, bound_to = bind_failure(
+                        row, locating_artifacts(quote, loaded), url_map
+                    )
                     if refusal:
                         bucket = unmapped if refusal == "unmapped" else mismatch
                         bucket.append(row.row_id)
@@ -519,7 +538,10 @@ def quote_check(
                         )
                         continue
                 located.append(row.row_id)
-                details.append(("ok", f'{row.row_id} words={count} at {where} quote="{quote}"'))
+                detail = f'{row.row_id} words={count} at {where} quote="{quote}"'
+                if url_map is not None:
+                    detail = f'{detail} bound={bound_to}'
+                details.append(("ok", detail))
     report.update(
         {
             "rows": len(rows),
@@ -547,19 +569,27 @@ def quote_check(
     return EXIT_OK, report
 
 
-def print_quote_report(report: dict[str, object], url_map: dict[str, str] | None = None) -> None:
+def print_quote_report(
+    report: dict[str, object],
+    url_map: dict[str, str] | None = None,
+    map_name: str = "",
+) -> None:
     # The map is printed because a bound green and an unbound one otherwise read identically:
     # mismatch=0 unmapped=0 is what a run with no map prints too (found by round 31's C3 critic).
     # Without a map the summary line is byte-identical to the one round 30's receipts pin:
     # the binding fields are added only when the caller asked for binding (round-31 regression
     # seat measured the prefix break before this gate).
-    binding = "" if url_map is None else f" mismatch={len(report.get('mismatch', []))} unmapped={len(report.get('unmapped', []))} urlmap=entries={len(url_map)}"
+    binding = (
+        ""
+        if url_map is None
+        else f" mismatch={len(report.get('mismatch', []))} unmapped={len(report.get('unmapped', []))}"
+    )
     if report["problem"]:
         print(f"QUOTE cap={report['cap']} problem={report['problem']}")
         return
     print(
         "QUOTE rows={rows} spans={spans} located={loc} found={found} overlong={long} "
-        "absent={absent} malformed={mal} cap={cap} artifacts={arts}{binding}".format(
+        "absent={absent} malformed={mal} cap={cap} artifacts={arts}{binding}{mapname}".format(
             rows=report["rows"],
             spans=report["spans"],
             loc=len(report["located"]),
@@ -570,6 +600,7 @@ def print_quote_report(report: dict[str, object], url_map: dict[str, str] | None
             cap=report["cap"],
             arts=",".join(report["artifacts"]),
             binding=binding,
+            mapname="" if url_map is None else f" urlmap={map_name} entries={len(url_map)}",
         )
     )
     for label, detail in report["quotes"]:
@@ -997,7 +1028,9 @@ def main(argv: list[str]) -> int:
                 print(f"QUOTE problem={problem}")
                 return EXIT_QUOTE_UNREADABLE
         code, report = quote_check(args.quote_file, args.artifact, url_map=url_map)
-        print_quote_report(report, url_map=url_map)
+        print_quote_report(
+            report, url_map=url_map, map_name=args.url_map.name if args.url_map else ""
+        )
         return code
     # `--url-map` alone reached neither mode before this guard: given with --registry it was
     # accepted and silently ignored (found by round 31's C3 critic). A flag the run ignores is

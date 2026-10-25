@@ -231,3 +231,23 @@ A round closes only when every row below holds; a row that cannot be shown is an
   (2026-10-24); the absence check at round 30 is `ls .github` → no such file or directory and
   `grep -n 'author-observed, never non-author closure' LOG.md` → `LOG.md:372`.
   Lesson: `.ufo/waves/round-30/build/R30Considerthese.md`.
+
+## Round31 criterion — a pinned source says it is pinned
+
+- **Q21 — an entry whose source is a pinned revision names the pin in its `recheck:` line.**
+  A pinned revision is a *historical* object: re-fetching the same URL on the default branch returns
+  different bytes, so "re-check this source" is not an instruction a reader can follow unless the pin is
+  named. An entry whose `source:` lines carry a commit (or a dated snapshot) must therefore name the same
+  pin, or the cadence that re-pins it, in its `recheck:` line; an entry whose sources are live documents
+  must instead name the fetch. Measured absence at the criterion's creation (2026-10-25):
+  `grep -lE '^source:.*[0-9a-f]{40}' corpus/knowledge/*.md | wc -l` → **5 of 40** and
+  `grep -lE '^recheck:.*(commit|pinned|pin)' corpus/knowledge/*.md | wc -l` → **5 of 40**, so 35 entries
+  give a reader no way to tell a pinned claim from a live one. Check (executable, one command):
+  `for f in corpus/knowledge/*.md; do grep -qE '^source:.*[0-9a-f]{40}' "$f" && ! grep -qE '^recheck:.*(commit|pinned|pin|[0-9a-f]{7})' "$f" && echo "unpinned $f"; done`
+  — a pinned-source entry that prints is a failure.
+  The proposal and its date are `considerthese/2026-10-24.md` §Self-improvement suggestions 2
+  ("put an as-of date and a live/dead status on every knowledge entry, then re-probe the live ones",
+  2026-10-24). Limits: this criterion is the cheap half of that proposal — it does not add an `as_of`
+  field, does not classify a source live/historical/dead, and cannot tell whether a *live* source's claim
+  is still true; it only forbids a pinned claim from hiding its pin. Lesson:
+  `corpus/lessons/round-31.md` §Assimilation record.

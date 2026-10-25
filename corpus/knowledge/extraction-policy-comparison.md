@@ -1,6 +1,6 @@
 source: S049 lm-evaluation-harness https://github.com/EleutherAI/lm-evaluation-harness/blob/d6de81643928d653435c431bae19945d41d32520/lm_eval/filters/extraction.py:25,47–49; S058 inspect_ai pattern() https://github.com/UKGovernmentBEIS/inspect_ai/blob/63e45cc52d39b873b944124613da21fdad6f6dcc/src/inspect_ai/scorer/_pattern.py:62–79,119–124 and scorer/_common.py:16–30; S051 openai/evals https://github.com/openai/evals/blob/main/evals/elsuite/basic/json_match.py:76–83; S052 https://docs.python.org/3/library/json.html#json.JSONDecoder.raw_decode; S053/S059 https://www.rfc-editor.org/rfc/rfc8259 §2/§6; S054 https://spec.commonmark.org/0.31.2/#fenced-code-blocks §4.5; S055 https://github.com/openai/simple-evals/tree/652c89d0ca9df547706735883097e9537d40dc47 math_eval.py:53; S056 own-work plans/parser_policy_compare.py; S057 xFinder https://arxiv.org/abs/2405.11874 v3 §5.1/§5.3
 verified-at: 2026-10-21 (source openings and offline byte-pinned response replay; no live model requests)
-recheck: 90d — rerun python3 plans/parser_policy_compare.py --summary and --selftest; reopen source anchors in lessons/round-27.md Gate
+recheck: 90d — rerun python3 plans/parser_policy_compare.py --summary and --selftest; reopen the S049/S058 anchors at their pinned commits (d6de8164, and S058's own pin in corpus/SOURCES.md) — the pins are the re-check, not the default branch
 writer: KengakuR27
 
 # Extraction-policy comparison — fixed responses can receive different verdicts
