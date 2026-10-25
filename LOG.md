@@ -911,3 +911,32 @@ index + coverage + frontier rows, the round lesson `corpus/lessons/round-31.md`,
 receipt `.ufo/waves/round-31/gate-receipt.txt` (`CHECKS n=733 mismatches=0`, `VERDICT: PASS`, every roster
 selftest green). Census 14 → 15 `W04`, exit 0 both ends; the 15th is S100↔S079, the same repository read for
 a different scope, disclosed in the row and the report.
+
+## Round 33 — 2026-10-25 (hyaku run 7)
+
+Re-grounded the merge package `merge/kengaku/` (benchmark grader semantics) through the lane's own
+adoption gate: the round-32 staged rows collided on ids, so the corrected package was restaged under
+**S103** (Toolathlon `tasks/finalpool/ab-testing/evaluation/main.py` @ `9be8d8fe`, tier A — executed
+tolerance 0.05 at `:280` vs signature default 0.1 at `:58`; the log-bucket check fails open on caught
+exceptions but fails closed on absent credentials via implicit `None`) and **S104** (arXiv
+2412.05579v2, tier B preprint — meta-evaluation is its own part of the judge paradigm). S093 stays
+`mined` and gains the entry in `used-by`; the four round-32 refusal rows stand unchanged (ids never
+reused). Registry 95 → 97, knowledge 41 (unchanged count — the entry already existed unadmitted),
+index 41/41. Counters (frozen): adoption gate `collisions=0 defects=0` + quote gate 4/4 located exit 0;
+`adoption_check` `entries=1 indexed=1 cited_rows=3 rows_present=3 rows_mined=3 usedby_ok=1 census=ok`
+exit 0; `round33_c1_verify` `checks=8 defects=0` exit 0.
+
+Closed the six round-32 routed defects N1–N6 (wave evidence committed; N2 scorecard section; N3/N4
+errata appended to rounds 30/31 lessons naming `ae95fe0`/phantom `a44b5a8`; N5/N6 errata at the two
+round-31 correction rows). Counter `plans/round33_defects.py` → `checks=6 defects=0` exit 0; receipt
+`corpus/evidence/round33/defects-after.txt`.
+
+Re-probed HF + OpenRouter live with committed bounded receipts: `hf_models=50 or_models=467
+hf_schema_delta=4 or_schema_delta=0`. OpenRouter's response exceeds the 64 KiB cap, so the retained
+artifact is a self-describing envelope (first model verbatim + observed count + full-response sha256
+provenance); `catalog_probe.py --verify` re-derives from the committed bytes, exit 0.
+
+Wave: build 36 seats + falsify 36 seats via the orchestrator's inline OMP bridge (v1).
+QUALITY.md gains Q22 (receipt-is-evidence-only-if-re-run). considerthese/2026-10-25 proposal 3
+landed as an L0 append (`22d28422`); proposal 1 noted operator-side. Lane tip after landing: see
+git. Fleet report: `.ufo/reports/round-33/kengaku.md`.

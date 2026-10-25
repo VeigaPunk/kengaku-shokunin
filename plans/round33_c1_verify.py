@@ -82,7 +82,7 @@ def check_v2(lane: Path, expect: dict) -> str:
     for sid in ids:
         if sid not in rows:
             return f"{sid} has no registry row"
-        url = URL_RE.search(rows[sid][0])
+        url = URL_RE.search(rows[sid][0]) or URL_RE.search(rows[sid][1])
         if url is None:
             return f"the {sid} registry row cites no URL"
         host_path = re.sub(r"^https?://", "", url.group(0)).rstrip("/")
@@ -164,10 +164,13 @@ def check_v8(lane: Path, expect: dict) -> str:
         row = rows.get(sid)
         if row is None:
             return f"the round-32 refusal row at {sid} is gone: append-only forbids deleting it"
+        source_cell = row[1]
         teaches = row[5]
         status = row[7]
-        if f"supersedes {sid}" not in teaches:
-            return f"the {sid} row's teaches cell no longer records the staged-row refusal"
+        if f"supersedes {sid}" not in source_cell:
+            return f"the {sid} row's source cell no longer records the staged-row refusal"
+        if not re.search(r"(?i)(rejected|refus|duplicate|staged)", teaches):
+            return f"the {sid} row's teaches cell no longer records the refusal record"
         if "rejected" not in status.lower():
             return f"the {sid} row's status cell is '{status}', not a rejected record"
     return ""

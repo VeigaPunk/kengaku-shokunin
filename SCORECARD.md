@@ -1131,3 +1131,17 @@ measurements follow at landing.
 | C1 grader-semantics entry admitted under renumbered ids S103/S104 | **coverage** (lowest non-retired, tie-break) | before: `entries=1 indexed=1 cited_rows=3 rows_present=3 rows_mined=1 usedby_ok=0 census=ok` exit 1 → after: _at landing_ | _at landing_ |
 | C2 six routed defects N1–N6 closed | **calibration** | before: `checks=6 defects=6` exit 1 → after: _at landing_ | _at landing_ |
 | C3 catalog re-probe with committed bounded raw bytes | **freshness** | before: `raw=absent` exit 1 → after: _at landing_ | _at landing_ |
+
+## Round 33 (hyaku run 7, 2026-10-25): renumbered assimilation landed, routed defects closed, catalog re-probe byte-retained
+
+Baseline `112091c2` (landing tip `c227e486`, superseded by the round-33 landing commits). Frozen prereg `plans/round-33-claims.md` (`f0b20aea` + `c227e486`).
+
+| # | Claim | axis | predicate (frozen) | score | evidence |
+|---|---|---|---|---|---|
+| C1 | Assimilate `merge/kengaku/`'s grader-semantics package through the lane's own gate (one-entry package; S093 already `mined` + used-by; renumber staged S094→**S103**, staged S097→**S104**; refusal rows untouched) | coverage | entry cited by ≥3 `mined` rows, README-indexed, census ok — exit 0 | **PASS** — `python3 plans/adoption_check.py --expect .ufo/waves/round-33/claims/adoption-expect.json --census` → `entries=1 indexed=1 cited_rows=3 rows_present=3 rows_mined=3 usedby_ok=1 census=ok` exit 0; `python3 plans/round33_c1_verify.py --lane .` → `checks=8 defects=0` exit 0 | `.ufo/waves/round-33/assimilation/{append-block.md,gate-receipts.txt,captures/}`; `corpus/SOURCES.md` S103/S104; `corpus/knowledge/benchmark-grader-semantics.md` |
+| C2 | Close all 6 round-32 routed defects (N1–N6) | calibration | `python3 plans/round33_defects.py --lane .` exit 0; `checks=6 defects=0` | **PASS** — `checks=6 defects=0` exit 0 at the landing tip | `corpus/evidence/round33/defects-after.txt` (receipt re-derived at tip) |
+| C3 | Re-probe the two live public catalogs with byte-retained receipts | freshness | `python3 plans/catalog_probe.py --verify --lane .` exit 0, `raw=ok` | **PASS** — `raw=ok hf_models=50 or_models=467 hf_schema_delta=4 or_schema_delta=0 verify=ok` exit 0; bounded envelope documented in the entry | `corpus/evidence/round33/catalogs/` (committed raw + sha256 + after.txt); entry `## Re-probe 2026-10-25` |
+
+Round-32 claims carried: C3 declared-failed stands (hf_schema_delta=4 still nonzero — the zero-delta predicate stays failed as declared; this round measured a different, byte-retention predicate).
+
+Round shape: build wave 36 seats + falsify wave 36 seats, dispatched through the orchestrator's inline OMP bridge (`UFO_CONFIG_PATH=ufo-wave-policy-v2.json` not used this round — the v1 dispatch route via `build.ready`/`falsify.ready` bridges); seat ledger in `corpus/lessons/round-33.md`.

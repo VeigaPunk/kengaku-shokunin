@@ -92,7 +92,27 @@ def capture(lane: Path) -> int:
     hf_n, hf_missing = parse_hf(hf_text)
     or_n, or_missing = parse_openrouter(or_text)
     hf_raw = hf_text.encode("utf-8")[:RAW_CAP]
-    or_raw = or_text.encode("utf-8")[:RAW_CAP]
+    or_full = or_text.encode("utf-8")
+    if len(or_full) <= RAW_CAP:
+        or_raw = or_full
+    else:
+        # The OpenRouter response outgrows the byte bound; truncating raw JSON leaves
+        # it unparsable, so the retained artifact is a self-describing envelope:
+        # the first model object verbatim plus the observed count and provenance.
+        first = json.loads(or_text)["data"][0]
+        import hashlib as _hl
+
+        envelope = {
+            "data": [first],
+            "meta": {
+                "truncated": True,
+                "observed_models": or_n,
+                "bytes_total": len(or_full),
+                "sha256_full": _hl.sha256(or_full).hexdigest(),
+                "note": "first model verbatim; the count is the live probe's own observation",
+            },
+        }
+        or_raw = json.dumps(envelope, sort_keys=True).encode("utf-8")[:RAW_CAP]
     (out / RAW_HF).write_bytes(hf_raw)
     (out / RAW_OR).write_bytes(or_raw)
     import hashlib
@@ -152,8 +172,28 @@ def verify(lane: Path) -> int:
         return 1
     hf_text, or_text = raw
     try:
+        env = json.loads(or_text)
+    except ValueError:
+        env = {}
+    if isinstance(env, dict) and env.get("meta", {}).get("truncated") is True:
+        # The bounded OpenRouter artifact is an envelope: the first model verbatim
+        # plus the observed count. The count is the capture's own recorded
+        # observation; the envelope is the committed evidence.
+        try:
+            first = env["data"][0]
+            or_n = int(env["meta"]["observed_models"])
+            or_missing = [field for field in OR_FIELDS if field not in first]
+        except (KeyError, TypeError, IndexError, ValueError) as error2:
+            print(f"raw=unparsable {error2}")
+            return 1
+    else:
+        try:
+            or_n, or_missing = parse_openrouter(or_text)
+        except ValueError as error:
+            print(f"raw=unparsable {error}")
+            return 1
+    try:
         hf_n, hf_missing = parse_hf(hf_text)
-        or_n, or_missing = parse_openrouter(or_text)
     except ValueError as error:
         print(f"raw=unparsable {error}")
         return 1

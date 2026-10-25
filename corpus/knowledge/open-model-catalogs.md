@@ -62,3 +62,19 @@ re-probed 2026-10-25 — build (A) below, with the receipts under
   1e6 for the quoted per-million-token rate.
 - `hugging_face_id` presence on OpenRouter ≈ open-weight twin exists —
   cheapest path to a local reproduction of an API result.
+
+## Re-probe 2026-10-25 (round 33)
+
+verified-at: 2026-10-25
+receipts: corpus/evidence/round33/catalogs/ (raw bytes + sha256 digests committed)
+raw: hf.raw.json sha256 3662d3379a412aa4d2362c8f02c9b081bf80e478dd76629c36cd002470241344;
+     or.raw.json sha256 69dce7810d1b5e312ba6dec01fa1710647031b28546b724a6e9a779501d96350 — a bounded
+     envelope (OpenRouter's response exceeds the 64 KiB cap, so the retained artifact is
+     `{"data":[first model verbatim],"meta":{"truncated":true,"observed_models":467,
+     "bytes_total":…,"sha256_full":…}}`); `or_models=467` below is the live probe's own
+     observed count recorded in that envelope, not a re-parse of truncated bytes
+observed (re-derived by `python3 plans/catalog_probe.py --verify --lane .`):
+hf_models=50 or_models=467 hf_schema_delta=4 or_schema_delta=0
+HF missing fields: author, sha, lastModified, gated — unchanged from the round-32 probe (the
+default projection still omits them; `?full=true` restores them). The round-32 zero-delta
+predicate stays failed as declared; this block records the byte-retained re-probe.
