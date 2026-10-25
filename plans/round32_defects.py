@@ -69,10 +69,11 @@ def near(text: str, a: str, b: str, width: int = 300, flags: int = re.I) -> bool
     )
 
 
-def check_r1(lane: Path) -> str:
-    if not R31_REPORT.is_file():
-        return f"{R31_REPORT} is unreadable: the round-31 report cannot be checked"
-    text = read(R31_REPORT)
+def check_r1(lane: Path, r31_report: Path | None = None) -> str:
+    r31_report = r31_report or R31_REPORT
+    if not r31_report.is_file():
+        return f"{r31_report} is unreadable: the round-31 report cannot be checked"
+    text = read(r31_report)
     if "a44b5a8" not in text:
         return "the bogus hash a44b5a8 is gone from the report: append-only forbids rewriting it"
     if not near(text, "a44b5a8", "superseded") and not near(text, "a44b5a8", "erratum"):
@@ -82,16 +83,17 @@ def check_r1(lane: Path) -> str:
     return ""
 
 
-def check_r2(lane: Path) -> str:
-    if not R32_REPORT.is_file():
-        return f"{R32_REPORT} does not exist yet: the round-32 report must land after the last lane commit"
+def check_r2(lane: Path, r32_report: Path | None = None) -> str:
+    r32_report = r32_report or R32_REPORT
+    if not r32_report.is_file():
+        return f"{r32_report} does not exist yet: the round-32 report must land after the last lane commit"
     proc = git(lane, "rev-parse", "master")
     if proc.returncode != 0:
         return f"cannot read the lane tip: {proc.stderr.strip()}"
     tip = proc.stdout.strip()
     if not tip:
         return "the lane tip is empty"
-    if tip not in read(R32_REPORT):
+    if tip not in read(r32_report):
         return f"the round-32 report does not cite the final lane tip {tip[:10]}"
     return ""
 
@@ -206,7 +208,26 @@ def selftest() -> int:
     cases: list[tuple[str, bool]] = [("registry-complete", FROZEN == tuple((i, l) for i, l, _ in CHECKS))]
     with tempfile.TemporaryDirectory() as tmp:
         empty = Path(tmp)
+
+        # R1/R2 read absolute fleet paths by default, which would couple the
+        # selftest to the live repair state. Run them against synthetic fixtures
+        # instead: a report without the erratum must be red, and one with it must
+        # be green; a missing round-32 report and be red.
+        bad_r31 = empty / "r31-bad.md"
+        bad_r31.write_text("fixed at lane tip `a44b5a8`-class commits\n", encoding="utf-8")
+        good_r31 = empty / "r31-good.md"
+        good_r31.write_text(
+            "fixed at lane tip `a44b5a8`-class commits\n"
+            "Erratum (round 32): `a44b5a8` is superseded; the locator fix landed at `ae95fe0`.\n",
+            encoding="utf-8",
+        )
+        cases.append(("R1-red-without-erratum", bool(check_r1(empty, bad_r31))))
+        cases.append(("R1-green-with-erratum", not bool(check_r1(empty, good_r31))))
+        cases.append(("R2-red-missing-report", bool(check_r2(empty, empty / "r32-missing.md"))))
+
         for item_id, label, check in CHECKS:
+            if item_id in ("R1", "R2"):
+                continue  # synthetic fixtures above; the live fleet paths would couple the run
             try:
                 red = bool(check(empty))
             except Exception:

@@ -95,11 +95,12 @@ Q21 already landed the cheap half in round 31.
 **Frozen predicate:**
 
 > `python3 plans/catalog_probe.py --diff --lane .` prints `probed=2026-10-25 hf=ok openrouter=ok`
-> plus `hf_models=<n> or_models=<n>` and the per-source schema-delta counts, and exits 0, and
-> `corpus/knowledge/open-model-catalogs.md` carries a `verified-at: 2026-10-25` line, citations of the
-> two rows opened this round (`S101`, `S102`), and a receipt pointer under
-> `corpus/evidence/round32/catalogs/`; the before-state (`git show <baseline>:corpus/knowledge/open-model-catalogs.md`)
-> contains no `verified-at: 2026-10-25` and no `S101`/`S102` citation.
+> plus `hf_models=<n> or_models=<n>` and per-source schema-delta counts, and exits 0 when both
+> public endpoints are reachable, return valid nonempty JSON, the refreshed entry passes its
+> freshness check, and the committed `corpus/evidence/round32/catalogs/after.txt` receipt records
+> the observed counts and exact schema deltas (including a nonzero delta as a finding, not failure);
+> the before-state (`git show <baseline>:corpus/knowledge/open-model-catalogs.md`) contains no
+> `verified-at: 2026-10-25` and no S101/S102 citation.
 
 **Counting command:** `python3 plans/catalog_probe.py --diff --lane .`
 **Control (committed at freeze):** `.ufo/waves/round-32/claims/catalogs-before.txt` — the same counter

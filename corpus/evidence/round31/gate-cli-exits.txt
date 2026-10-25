@@ -1,17 +1,22 @@
-# C3 CLI receipt (round 31, 2026-10-25). Self-contained: fixtures are committed at .ufo/waves/round-31/c3-fixtures/
-# run: cd .ufo/waves/round-31/c3-fixtures && for m in map-ok map-bad map-unmapped; do python3 ../../../plans/sources_adopt.py --quote-file rows.txt --artifact cap.txt --url-map $m.json; echo exit=$?; done
-#      plus: no-map run, and --url-map with --registry/--package (the exit-2 guard)
-python3: can't open file '/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-31/c3-fixtures/../../../plans/sources_adopt.py': [Errno 2] No such file or directory
-url-map map-ok -> exit=2
-  
-python3: can't open file '/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-31/c3-fixtures/../../../plans/sources_adopt.py': [Errno 2] No such file or directory
-url-map map-bad -> exit=2
-  
-python3: can't open file '/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-31/c3-fixtures/../../../plans/sources_adopt.py': [Errno 2] No such file or directory
-url-map map-unmapped -> exit=2
-  
-python3: can't open file '/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-31/c3-fixtures/../../../plans/sources_adopt.py': [Errno 2] No such file or directory
-no map -> exit=2
-  
+# C3 CLI receipt (round 31, 2026-10-25; regenerated round 32 from the committed fixtures)
+# pre-repair copy superseded: its run resolved `../../../plans/` to the absent `.ufo/plans` and every line failed;
+# the five runs below are re-executed from `.ufo/waves/round-31/c3-fixtures/` with the corrected `../../../../plans/` path.
+
+# C3 CLI receipt (round 31, 2026-10-25; regenerated round 32 from the committed fixtures)
+# run: cd .ufo/waves/round-31/c3-fixtures && for m in map-ok map-bad map-unmapped; do python3 ../../../../plans/sources_adopt.py --quote-file rows.txt --artifact cap.txt --url-map $m.json; rc=$?; echo "url-map $m -> exit=$rc"; done
+QUOTE rows=1 spans=1 located=1 found=1 overlong=0 absent=0 malformed=0 cap=25 artifacts=cap.txt mismatch=0 unmapped=0 urlmap=map-ok.json entries=1
+  ok S900 words=6 at cap.txt quote="the verifier shares the agent container" bound=cap.txt->https://example.invalid/docs/verifier.html
+url-map map-ok -> exit=0
+QUOTE rows=1 spans=1 located=0 found=1 overlong=0 absent=0 malformed=0 cap=25 artifacts=cap.txt mismatch=1 unmapped=0 urlmap=map-bad.json entries=1
+  REFUSED S900 url-mismatch words=6 at cap.txt quote="the verifier shares the agent container"
+url-map map-bad -> exit=8
+QUOTE rows=1 spans=1 located=0 found=1 overlong=0 absent=0 malformed=0 cap=25 artifacts=cap.txt mismatch=0 unmapped=1 urlmap=map-unmapped.json entries=1
+  REFUSED S900 unmapped words=6 at cap.txt quote="the verifier shares the agent container"
+url-map map-unmapped -> exit=9
+QUOTE rows=1 spans=1 located=1 found=1 overlong=0 absent=0 malformed=0 cap=25 artifacts=cap.txt
+  ok S900 words=6 at cap.txt quote="the verifier shares the agent container"
+no map -> exit=0
+usage: sources_adopt.py [-h] [--selftest] [--registry REGISTRY]
+                        [--package PACKAGE] [--admit-ids ADMIT_IDS]
+                        [--entries ENTRIES] [--access-date ACCESS_DATE]
 url-map on registry path -> exit=2
-  python3: can't open file '/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-31/c3-fixtures/../../../plans/sources_adopt.py': [Errno 2] No such file or directory

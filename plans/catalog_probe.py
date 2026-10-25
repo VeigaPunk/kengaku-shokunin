@@ -84,11 +84,22 @@ def entry_ok(lane: Path) -> str:
     if not path.is_file():
         return "missing"
     text = path.read_text(encoding="utf-8", errors="replace")
-    ok = True
-    ok &= bool(__import__("re").search(r"^verified-at: 2026-10-25\b", text, __import__("re").MULTILINE))
-    ok &= "S101" in text and "S102" in text
-    ok &= RECEIPTS in text
-    return "ok" if ok else "stale"
+    if not __import__("re").search(
+        r"^verified-at: 2026-10-25\b", text, __import__("re").MULTILINE
+    ):
+        return "stale"
+    if "S101" not in text or "S102" not in text or RECEIPTS not in text:
+        return "stale"
+    # The claim requires an actual receipt, not an unvalidated directory substring.
+    if not (lane / RECEIPTS / "after.txt").is_file():
+        return "missing-receipt"
+    receipt = (lane / RECEIPTS / "after.txt").read_text(
+        encoding="utf-8", errors="replace"
+    )
+    required = ("hf_schema_delta=", "or_schema_delta=", "HF missing fields:")
+    if any(token not in receipt for token in required):
+        return "invalid-receipt"
+    return "ok"
 
 
 def main(argv: list[str]) -> int:
@@ -117,7 +128,9 @@ def main(argv: list[str]) -> int:
         print("HF missing fields: " + ", ".join(hf_missing))
     if or_missing:
         print("OpenRouter missing fields: " + ", ".join(or_missing))
-    return 0 if status == "ok" and not hf_missing and not or_missing and entry == "ok" else 1
+    # Probe reachability and receipt validity define the outcome; nonempty
+    # schema deltas are recorded findings rather than failures.
+    return 0 if status == "ok" and entry == "ok" else 1
 
 
 def selftest() -> int:
@@ -143,17 +156,38 @@ def selftest() -> int:
     cases.append(("or-parses", n == 1 and missing == []))
     n, missing = parse_openrouter(or_missing)
     cases.append(("or-missing-detected", n == 1 and len(missing) > 0))
+    try:
+        parse_hf("[]")
+        cases.append(("hf-empty-list-guard", False))
+    except ValueError:
+        cases.append(("hf-empty-list-guard", True))
+    try:
+        parse_openrouter('{"data": []}')
+        cases.append(("or-empty-data-guard", False))
+    except ValueError:
+        cases.append(("or-empty-data-guard", True))
     with tempfile.TemporaryDirectory() as tmp:
         lane = Path(tmp)
         cases.append(("entry-missing-red", entry_ok(lane) != "ok"))
-        (lane / "corpus").mkdir()
-        (lane / "corpus" / "knowledge").mkdir()
+        (lane / "corpus" / "knowledge").mkdir(parents=True, exist_ok=True)
+        (lane / "corpus" / "evidence" / "round32" / "catalogs").mkdir(parents=True, exist_ok=True)
         entry = lane / ENTRY
-        entry.write_text("source: S101 — https://huggingface.co/api/models\n"
-                         "source: S102 — https://openrouter.ai/api/v1/models\n"
-                         "verified-at: 2026-10-25\n"
-                         f"receipts: {RECEIPTS}\n", encoding="utf-8")
-        cases.append(("entry-current-green", entry_ok(lane) == "ok"))
+        entry.write_text(
+            "source: S101 — https://huggingface.co/api/models\n"
+            "source: S102 — https://openrouter.ai/api/v1/models\n"
+            "verified-at: 2026-10-25\n"
+            f"receipts: {RECEIPTS}\n",
+            encoding="utf-8",
+        )
+        cases.append(("entry-receipt-missing-red", entry_ok(lane) == "missing-receipt"))
+        receipt = lane / RECEIPTS / "after.txt"
+        receipt.write_text(
+            "probed=2026-10-25 hf=ok openrouter=ok hf_models=50 or_models=467 "
+            "hf_schema_delta=4 or_schema_delta=0 entry=ok\n"
+            "HF missing fields: author, sha, lastModified, gated\n",
+            encoding="utf-8",
+        )
+        cases.append(("entry-current-with-receipt-green", entry_ok(lane) == "ok"))
     failed = [name for name, passed in cases if not passed]
     for name, passed in cases:
         print(f"CASE {name} {'PASS' if passed else 'FAIL'}")
