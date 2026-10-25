@@ -168,5 +168,11 @@ Registries: `.ufo/waves/round-31/build/swarm-registry.json`, `.ufo/waves/round-3
   `corpus/lessons/round-30.md:66` still calls S083/S086 "peer-reviewed" while the registry row records that the
   society publishes without peer review. It is outside the frozen R-list, so it is recorded as debt here and
   not silently corrected — an erratum is owed by the next round that touches that lesson.
+- **The C2 counter's R6 and R8 checks were a false positive and a false green** (`R31FxC2R6R8.md`):
+  R6 required the byte-exact landed sentence, so an honest paraphrase of the entry's own §Extends sentence
+  (`:163`) reddened it; R8 scanned every cell of every row, so a scope cell mentioning CC0 greened an
+  ungrounded entry. R6 now tests only the *bare* assertion ("its three source rows are not in this lane's
+  registry"), and R8 grounds a licence token only in a row's `source` or `anchor` cell. Both receipts were
+  regenerated from the tightened bytes: before `defects=10` exit 1, after `defects=0` exit 0.
 - **R9's line-count test is a stub heuristic, not an integrity invariant** (`R31FxC2R9.md`): a 120-line stub
   is caught, but a revert, a one-line append and an identical delete/re-add survive. Named debt.

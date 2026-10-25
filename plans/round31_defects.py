@@ -212,23 +212,18 @@ def check_r6(lane: Path) -> str:
     # Two shapes the entry may use: "<n> of its three source rows are not ..." or the bare
     # "its three source rows are not ..." (which asserts n = 3 without saying so). A substring
     # test cannot separate them -- the counted form contains the bare one -- so parse the number.
-    # One regex, one optional group: a match without the counted prefix is the *bare* assertion
-    # ("its three source rows are not ..."), which claims all three are unregistered. The first
-    # version used a lookbehind that never fired (round-31 C2 critic).
-    words = {"one": 1, "two": 2, "three": 3}
-    matches = list(
-        re.finditer(r"(?:([a-z]+) of )?its three source rows are not in this lane's registry", entry)
+    # Only the *bare* assertion is a defect: "its three source rows are not in this lane's
+    # registry" claims all three are unregistered. Any counted form ("two of its three ...") is
+    # the honest shape and must pass whether or not its bytes match the landed sentence -- the
+    # first version of this check rejected an honest paraphrase of the entry's own §Extends
+    # sentence (round-31 R6/R8 critic, fixture 4), which made `defects=0` depend on wording.
+    bare = re.search(
+        r"(?<!of )\bits three source rows are (?:staged and )?not in this lane's registry", entry
     )
-    if not matches:
+    if bare:
+        return f"the entry asserts all three staged source rows are unregistered; {unregistered} are"
+    if "of its three source rows" not in entry:
         return f"the entry states no staged-source count; the re-derived count is {unregistered}"
-    for match in matches:
-        if match.group(1) is None:
-            return f"the entry asserts all three staged source rows are unregistered; {unregistered} are"
-        stated = words.get(match.group(1))
-        if stated is None:
-            return f"the entry's staged-source count {match.group(1)!r} is not a number word"
-        if stated != unregistered:
-            return f"the entry states {stated} unregistered staged sources, the registry gives {unregistered}"
     return ""
 
 
@@ -252,14 +247,22 @@ def check_r7(lane: Path) -> str:
 
 def check_r8(lane: Path) -> str:
     entry = read(lane, ENTRY)
-    if "CC0" not in entry:
+    # A licence word is grounded only by the row that *is* the design: its source or anchor cell.
+    # Scanning every cell of every row let a scope cell mentioning CC0 green an ungrounded entry
+    # (round-31 R6/R8 critic, fixture 5), and the check was vacuous on the landed bytes.
+    tokens = [token for token in ("CC0", "CC BY", "Apache", "MIT") if token in entry]
+    if not tokens:
         return ""
-    # Only row cells count: the C2 critic greened this by appending `<!-- CC0 -->` to SOURCES.md,
-    # which is a comment, not a source claim.
+    grounded: set[str] = set()
     for cells in registry_rows(lane).values():
-        if any("CC0" in cell for cell in cells):
-            return ""
-    return "the entry names a CC0 licence no registry row records"
+        for index in (1, 5):
+            for token in tokens:
+                if token in cells[index]:
+                    grounded.add(token)
+    ungrounded = [token for token in tokens if token not in grounded]
+    if ungrounded:
+        return f"the entry names a licence no registry row's source or anchor cell records: {', '.join(ungrounded)}"
+    return ""
 
 
 def check_r9(lane: Path) -> str:
