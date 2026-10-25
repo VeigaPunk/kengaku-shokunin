@@ -35,3 +35,7 @@ One v2 wave: 64 seats. Mix: executor 17, scribe 10, scout 9, reviewer 9, mutatio
 ## Gate timing and source notes
 
 No knowledge entry or registry row was admitted. The two quarantine captures are `assimilation/captures/{nec-s091-reopen.html,geniac-s105-reopen.html}` and their `captures/quarantine-SHA256SUMS`; the opened NEC response was unavailable, while the METI archive paragraph was located.
+
+## Frontier clarification
+
+The round-31 frontier sentence that says the Terminal-Bench 2.0 "axis-E cell is filled" describes verifier-execution context only; it did not read task-level scoring assertions. Round-34 opened `protein-assembly/tests/test_outputs.py` but the C1 counter/admission failed, so this task-level scoring-code ground remains unadmitted and the frontier stays open. Evidence: `corpus/README.md` round-31 bullet (clarified in round 34); `R34ReviewCounterC1.md`; `R34CriticFrontier.md`.
