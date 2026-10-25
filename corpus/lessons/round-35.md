@@ -14,6 +14,8 @@ Baseline `58a19f37312e1b22fd2a7957bdfc6bb7832aadd0`; frozen claims `plans/round-
 | S107 `instruction.md` @ `2fd12b88` | **Admitted (mined)** | Opened 2026-10-25 at `…/protein-assembly/instruction.md`; quote, line 29: “The GS linkers between different subproteins should be between 5 and 20 amino acids long.”; sha256 `1bb2af1d…003f7c5`. |
 | Quarantine S091 (NEC 技報, RAKUDA caveat) | **Re-grounded, not appended** | The staged quote is present in `.ufo/waves/round-34/assimilation/captures/nec-s091-reopen.html` (tag-stripped; raw line 276). Round 34's "quote absent" reason was false (spot-check D5; erratum appended to `round-34.md`). Not appended: no admitted entry cites it (CORPUS rule 4). Flip: an admitted entry cites it. |
 | Quarantine S105-staged (METI GENIAC archive) | **Not appended** | Quote located in round 34 (`R34CaptureGeniac.md`); no admitted entry cites it (CORPUS rule 4). Flip: an admitted entry cites a re-grounded row. |
+| Package `toolathlon-grader-behaviour-probe-2026-10-23.md` (`merge/kengaku/`, grader-probe theme — the theme closest to C1) | **Refused** | Its only source, staged S130, is the campaign's own probe write-up (`lanes/kengaku/round6/toolathlon-grader-behaviour-probe.md` in shokuknow), not an opened primary and not a receipt this lane can re-run without the campaign tools §10 forbids. Flip: re-run an equivalent probe in-lane against Toolathlon `9be8d8fe` and cite the lane's own receipt (the `pinned-grader-probe` capability now exists). |
+| Package `terminal-bench-release-identity.md` | **Refused** | Cites S100/S092, both already in the registry and already used by `benchmark-verifier-execution-model.md`; no coverage-map ground the lane does not hold (same reason as round 34, `R34ReconPackage.md`). Flip: a release-identity fact the lane's entries do not state, with a located quote. |
 
 ## Mistakes
 
@@ -28,3 +30,13 @@ Baseline `58a19f37312e1b22fd2a7957bdfc6bb7832aadd0`; frozen claims `plans/round-
 ## Assimilation record
 
 considerthese: `considerthese/2026-10-25.md` §Self-improvement suggestions 2 (persistent routed-defect ledger) implemented as C2 — parts (a) re-run every row at every tip and the mismatch count are implemented; (b) recurrence blocking is recorded (`recurrence_of`) but not enforced; (c) the tip-receipt validator is not built. Q23 states the limits. `merge/kengaku/`: see Gate rows; no package row is appended (no admitted entry cites one). §10 id-collision check: `.ufo/waves/round-35/assimilation/` (21 collisions, all staged ids S077–S104 overlap the live registry; guard proven on an indented `  | S002 |` fixture — `build/R35IdGuard.md`); quarantine slice re-derived: 2 rows (S091, S105-staged).
+
+## Census
+
+Command: `/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku`.
+Before (freeze): 15 W04, `kengaku ok`, exit 0 (`corpus/evidence/round35/census-before.txt`). After: 15 W04,
+`kengaku ok`, exit 0 (`corpus/evidence/round35/census-after.txt`; output identical apart from no new
+warning). Registry rows 97 → 100 (`grep -cE '^ {0,3}\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|' corpus/SOURCES.md`);
+added by tier A/B/C = 3/0/0 (S105, S106, S107, all `mined`); rows touched old→new: none (no existing row's
+status/recheck/used-by changed); frontier rows advanced: 1 (README §Frontier task-spec item, "Terminal-Bench
+2.0's" scoring-code clause, for `protein-assembly` only).
