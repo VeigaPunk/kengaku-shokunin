@@ -1080,3 +1080,13 @@ says the gate "does not bind the artifact to the cited URL" — that gap is clos
 "S2's tri-state flag is the only surviving field delta"; the entry's field is four-valued
 (`controlled`/`not_controlled`/`unknown`/`n/a`) and the surviving delta is the card-level *field*, not its
 vocabulary (`corpus/knowledge/contamination-transparency-card.md:72-75`).
+
+**Corrections to this round's own rows, appended (2026-10-25, after the falsify wave; the cells above stand
+as written).** (a) The round-shape sentence says "36 build + 32 falsify seats (68 total)"; the committed
+falsify registry holds **36** members (`.ufo/waves/round-31/falsify/swarm-registry.json` → `len(members)=36`),
+so the shape is **36 + 36 = 72** and the round total is 72, not 68 — the "32" was a pre-dispatch estimate
+that the registry supersedes. (b) The C1 row's "index 40 → 40" is wrong: the index was **39 → 40**
+(`grep -c '^| \`knowledge/' corpus/README.md` → 39 at `0883e72`, 40 after the admission; knowledge files
+39 → 40 likewise). (c) The C2 row cites `corpus/lessons/round-31.md` §Mistakes, which lands in `d6aa66e`,
+one commit after the row's own commit `dbb07364` — the reference resolves at the round tip, not at the row's
+commit, and the closure should read it there.
