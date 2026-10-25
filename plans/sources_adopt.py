@@ -33,7 +33,7 @@ from pathlib import Path
 ROW_RE = re.compile(r"^( {0,3})\|[ \t]*(S[0-9]{3,})[ \t]*\|")
 ISO_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 CADENCE_RE = re.compile(r"^\d+d$")
-SYMBOLIC_CADENCE = {"on-release", "on-request", "never"}
+SYMBOLIC_CADENCE = {"on-release", "on-request", "on-commit", "never"}
 STATUSES = {"queued", "mined", "rejected"}
 COLUMNS = 11
 
@@ -150,7 +150,7 @@ def build_block(
         if not (ISO_DATE_RE.match(recheck) or CADENCE_RE.match(recheck) or recheck in SYMBOLIC_CADENCE):
             prose.append((row_id, recheck))
             cells[9] = access_date
-        cells[8] = access_date if not ISO_DATE_RE.match(cells[8]) else cells[8]
+        cells[8] = access_date
         cells[10] = used_by
         cells[7] = "mined"
         block.append("| " + " | ".join(cells) + " |")
@@ -173,17 +173,43 @@ def check(
     dupes = duplicate_ids(ids(staged))
     defects = {row.row_id: row_defects(row) for row in staged}
     defects = {row_id: found for row_id, found in defects.items() if found}
+    malformed = [f"{row_id}:{reason}" for _, row_id, reason in bad]
     report: dict[str, object] = {
         "registry": len(registry_rows),
         "staged": len(staged),
-        "collisions": clash,
-        "duplicates": dupes,
-        "malformed": [f"{row_id}:{reason}" for _, row_id, reason in bad],
-        "defects": defects,
+        "collisions_total": len(clash),
+        "duplicates_total": len(dupes),
+        "malformed_total": len(malformed),
+        "prose_recheck_total": sum(1 for row in staged if "recheck-prose" in row_defects(row)),
     }
-    if bad or dupes or defects or clash:
+    if want_ids:
+        # A package is staged for many rounds; only the rows this round appends
+        # are under test. An unrequested row's defect is reported, never fatal:
+        # the round cannot fix a row it does not append.
+        scope = set(want_ids)
+        clash = [row_id for row_id in clash if row_id in scope]
+        dupes = [row_id for row_id in dupes if row_id in scope]
+        # A prose `recheck` is not a refusal in scoped mode: build_block normalizes
+        # it to the frozen access date and reports the stripped prose (capability 3).
+        defects = {
+            row_id: [item for item in found if item != "recheck-prose"]
+            for row_id, found in defects.items()
+            if row_id in scope
+        }
+        defects = {row_id: found for row_id, found in defects.items() if found}
+        report["prose_recheck"] = sum(
+            1 for row in staged if row.row_id in scope and "recheck-prose" in row_defects(row)
+        )
+        malformed = [item for item in malformed if item.split(":", 1)[0] in scope]
+    report.update({"collisions": clash, "duplicates": dupes, "malformed": malformed, "defects": defects})
+    if bad and not want_ids:
         code = EXIT_COLLISION if clash else EXIT_MALFORMED
         return code, report
+    if malformed or dupes or defects:
+        code = EXIT_COLLISION if clash else EXIT_MALFORMED
+        return code, report
+    if clash:
+        return EXIT_COLLISION, report
     if want_ids:
         missing = [row_id for row_id in want_ids if row_id not in ids(staged)]
         if missing:
@@ -195,13 +221,14 @@ def check(
 def print_report(report: dict[str, object]) -> None:
     print(
         "registry={registry} staged={staged} collisions={coll} malformed={mal} "
-        "duplicates={dup} defects={defc}".format(
+        "duplicates={dup} defects={defc} prose={prose}".format(
             registry=report["registry"],
             staged=report["staged"],
             coll=len(report["collisions"]),
             mal=len(report["malformed"]),
             dup=len(report["duplicates"]),
             defc=len(report["defects"]),
+            prose=report.get("prose_recheck", report.get("prose_recheck_total", 0)),
         )
     )
     for key in ("collisions", "malformed", "duplicates"):
@@ -276,19 +303,35 @@ def selftest() -> int:
         )
         reg = write("reg4.md", HEADER)
         code, report = check(staged, reg)
-        case("escaped-pipe-refused", code == EXIT_MALFORMED and report["malformed"] == ["S005:escaped-pipe"])
+        twelve = write("staged4b.md", HEADER + GOOD_ROW.replace("S900", "S005") + " extra cell |\n")
+        code12, report12 = check(twelve, reg)
+        case(
+            "escaped-pipe-refused",
+            code == EXIT_MALFORMED
+            and report["malformed"] == ["S005:escaped-pipe"]
+            and code12 == EXIT_MALFORMED
+            and report12["malformed"] == ["S005:columns=12"],
+        )
 
         # 6. prose recheck normalizes to the access date, prose kept
         staged = write("staged5.md", HEADER + PROSE_ROW.replace("S900", "S006") + "\n")
         reg = write("reg5.md", HEADER)
         rows, _ = parse_rows(staged.read_text(encoding="utf-8"))
         block, prose, missing = build_block(rows, ["S006"], ["corpus/knowledge/new.md"], "2026-10-25")
+        on_commit = write(
+            "staged5b.md",
+            HEADER + GOOD_ROW.replace("S900", "S013").replace("| 180d |", "| on-commit |") + "\n",
+        )
+        oc_rows, _ = parse_rows(on_commit.read_text(encoding="utf-8"))
+        oc_block, oc_prose, _ = build_block(oc_rows, ["S013"], ["corpus/knowledge/new.md"], "2026-10-25")
         case(
             "prose-recheck-normalized",
             not missing
             and len(block) == 1
             and "| 2026-10-25 |" in block[0]
-            and prose and prose[0][0] == "S006",
+            and prose and prose[0][0] == "S006"
+            # a symbolic cadence is a valid recheck and must survive, not become a date
+            and bool(oc_block) and "| on-commit |" in oc_block[0] and not oc_prose,
         )
 
         # 7. dangling used-by is rewritten to the admitted set only
@@ -308,14 +351,28 @@ def selftest() -> int:
         code, report = check(staged, reg)
         case("duplicate-staged-id", code == EXIT_MALFORMED and report["duplicates"] == ["S007"])
 
-        # 9. a clean package passes
-        staged = write("staged7.md", HEADER + GOOD_ROW.replace("S900", "S008") + "\n")
-        code, report = check(staged, reg)
-        case("clean-package-passes", code == EXIT_OK and report["staged"] == 1)
+        # 9. a targeted append passes even when an unrequested row is malformed
+        staged = write(
+            "staged7.md",
+            HEADER + GOOD_ROW.replace("S900", "S008") + "\n"
+            + GOOD_ROW.replace("S900", "S011").replace("fixture scope", "scope \\| scope") + "\n",
+        )
+        code, report = check(staged, reg, ["S008"])
+        case(
+            "clean-package-passes",
+            code == EXIT_OK and report["staged"] == 1 and report["malformed_total"] == 1,
+        )
 
-        # 10. a requested id absent from the package is refused
-        code, report = check(staged, reg, ["S008", "S009"])
-        case("missing-requested-id", code == EXIT_REQUEST and report.get("missing") == ["S009"])
+        # 10. an invalid nonempty recheck is refused unscoped, and a missing id is refused
+        prose_only = write("staged8.md", HEADER + PROSE_ROW.replace("S900", "S012") + "\n")
+        code_prose, _ = check(prose_only, reg)
+        code, report = check(staged, reg, ["S008", "S010"])
+        case(
+            "missing-requested-id",
+            code == EXIT_REQUEST
+            and report.get("missing") == ["S010"]
+            and code_prose == EXIT_MALFORMED,
+        )
 
     failed = [name for name, passed in cases if not passed]
     print(f"SELFTEST cases={len(cases)} failed={len(failed)}")

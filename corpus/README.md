@@ -61,6 +61,7 @@ candidates fixed in the receipt, not the wider round-16 citation audit.
 | `knowledge/attribution-interval-calibration.md` | Exact CP95 re-verdict of the r21–r23 attribution receipts: overall PASS holds on 4 unique samples (92/92), r22 TARGET hyper 10/10 PASS → INDETERMINATE, two 0/0 FAILs → UNTESTED; per-leg recall/specificity; Rogan–Gladen share bounds | S027–S030, S033, S034, S011; own-work S036/S037; `python3 plans/attrib_calibration.py --summary` |
 | `knowledge/grader-perturbation-audit.md` | Frozen-response grader audit: 15168 MP/MC comparisons, D1 policy capture separate; pooled PASS does not erase MULTI flips or pid-composite uncertainty | S044–S046, S048; `plans/grader_perturb.py`; independent oracle and round-26 Gate |
 | `knowledge/extraction-policy-comparison.md` | Fixed-response E0–E8 parser comparison:15712 paired verdicts,1089 events; MULTI14/31 and instruction-contract limits; no method-novelty or future-iid credit | S049,S051–S059; `plans/parser_policy_compare.py`; round-27 Gate/returned complete reread |
+| `knowledge/benchmark-task-validity-checklist.md` | Ten-axis task-validity checklist read from four maintainers' own artefacts (canary, oracle/nop, cheat trials, grader isolation, declared task fields, dated release gate); counts re-derived, not copied; not task validity, contamination measurement or model performance | S077-S080, S090 (`corpus/SOURCES.md` rows, opened 2026-10-25); `plans/round-29-attempt2-claims.md`; round-29 attempt-2 Gate |
 | `lessons/round-1.md` | Path-correction, replace-don't-append, zero-width char hazard | LOG.md round 1, commit `90a5ce8` |
 | `lessons/round-3.md` | Filename-judging missed on-host surfaces; complementarity vs pass-rate; NULL parsing; FAIL-latency signature | LOG.md round 3, this round's analysis |
 | `lessons/round-4.md` | Endpoint-drift trap; n=1 flip on 03; FAIL-latency is subset-level not per-task | LOG.md round 4, `/tmp/bench-r4` run |
@@ -80,6 +81,15 @@ candidates fixed in the receipt, not the wider round-16 citation audit.
 | `lessons/round-9-aggregator-corpus-verdict.md` | Aggregator corpus-verdict lesson (rule-10 re-emitted at `f09ff1f`, canonical-form + rule-8 literal findings, routed rows); aggregator-owned file, indexed here only | aggregator lane, committed `e171cdf` |
 | `lessons/round-16-recensus.md` | Hermetic replay survives host-source loss; unmarked dead paths and missing index row remain debt | LOG.md §16; the round-13 re-dispatch adds current availability annotations without rewriting this audit |
 | `lessons/round-13-coverage.md` | Source availability is coverage; original-byte absence differs from retained digests; bounded index census | LOG.md round-13 re-dispatch; `evidence/round13-coverage/` |
+
+### `evidence/round29-attempt2/` — round-29 attempt-2 adoption receipts
+
+| File | Covers |
+|---|---|
+| `adoption-measured.txt` | The frozen C1 counter line plus census (`entries=1 … census=ok`, exit 0) |
+| `gate-selftest.txt` | `plans/sources_adopt.py --selftest`, ten cases, exit 0 |
+| `adoption-gate-run.txt` | The same tool refusing a re-append of the five landed ids (`collisions=5`, exit 3) |
+| `census-before.txt` / `census-after.txt` | Fleet source census, exit 0 both ends |
 
 ### `lessons/` — round lessons and audits (index)
 
@@ -236,6 +246,7 @@ recomputed 24/32).
 - **Agentic time horizon and task validity**: covered at source-digest depth (round 24) — knowledge/agent-time-horizon-and-task-validity.md; sources S013, S014, S005, S006. Extends the *Multi-turn state tracking / planning horizon* row with external task-duration and task-validity methodology; the lane's local horizon instrument is unchanged.
 - **Statistical reporting for paired evals**: covered at source-digest depth (round 24) — knowledge/paired-eval-uncertainty-reporting.md; sources S015–S019.
 
+- **Benchmark task-validity instruments**: covered at primary-document synthesis depth (round 29 attempt 2, 2026-10-25) — knowledge/benchmark-task-validity-checklist.md; S077-S080, S090. Moves the round-24 frontier bullet from unopened lead to a checklist whose axes each name an artefact and a locus. Not deployment config, not runtime task validity, not contamination measurement.
 ## Open gaps
 
 - **n≥2 on flip-capable tasks**: CLOSED round 6 — 8 flip tasks + 3 controls at n=3; flips decompose to scaffold (5), noise (2), strategy-bound (1). See `knowledge/bench-arena-round6-stability.md`. **r7 refinement: component ablation reclassified the "scaffold 5" → 1 true scaffold (13), 3 noise (03/08/31), 1 weak pull (12)** — see `knowledge/bench-arena-round7-scaffold-ablation.md`.
@@ -257,6 +268,7 @@ Unexplored ground named round 24 — each item carries why and the next
 source/instrument (ART dossier §Leads; nothing below is admitted knowledge yet):
 
 - **Agentic benchmark task-spec audits**: why — S005/S006 show lab self-audits finding task-level validity defects *after* publication; the lane has no instrument that audits a benchmark's task specs, graders, and contamination separately. Next source/instrument: the primary specs and scoring code for Terminal-Bench 2.0, Toolathlon, and SWE-bench Pro (unopened leads in the ART dossier), turned into a per-benchmark task-validity checklist.
+  - *Partly discharged round 29 attempt 2 (2026-10-25):* `knowledge/benchmark-task-validity-checklist.md` builds the per-benchmark task-validity checklist from the primary maintainer artefacts of Terminal-Bench 2.0, SWE-bench Pro V2 and Toolathlon-Verified. It supersedes only the `unopened leads` phrase for those three sources; contamination-transparency cards, runtime task validity and hosted judges remain open.
 - **Contamination transparency cards**: why — `knowledge/contamination-detection-and-transparency.md` establishes the tier/access vocabulary but the lane has no standard card format recording detector access, tier tested, and what a negative cannot rule out. Next source/instrument: current benchmark-maintainer releases on hidden-test governance and contamination-transparency cards (unopened lead); draft a card template and gate a knowledge entry on Q1–Q8.
 - **Judge calibration applied inward**: why — the lane's own grader/attribution outputs (`grader.py`, `plans/attrib_probe.py` verdicts) are judged artifacts that have never been through the S009–S012 calibration protocol the new entry describes. Next source/instrument: port the S011 sensitivity/specificity correction + S010 perturbation audit onto the r21–r23 trial receipts (`evidence/attrib-r2*-*.log`).
   - *Partly discharged round 25 (2026-10-20):* the attribution receipts now carry exact-interval verdicts (`knowledge/attribution-interval-calibration.md`); `grader.py` outputs and an S010-style perturbation audit remain frontier.

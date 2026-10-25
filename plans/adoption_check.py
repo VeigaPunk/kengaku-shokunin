@@ -41,7 +41,8 @@ def registry_rows(path: Path) -> dict[str, list[str]]:
         match = ROW_RE.match(raw)
         if not match:
             continue
-        cells = raw.rstrip()[1:-1].split("|")
+        body = raw.strip()
+        cells = body[1:-1].split("|")
         if len(cells) != 11:
             continue
         rows[match.group(2)] = [cell.strip() for cell in cells]
@@ -78,22 +79,24 @@ def main(argv: list[str]) -> int:
             verified_at_ok += 1
         cited.update(SOURCE_LINE_RE.findall(text))
 
+    required = sum(len(entry["sources"]) for entry in entries)
     rows_present = sum(1 for row_id in cited if row_id in registry)
     rows_mined = sum(1 for row_id in cited if row_id in registry and registry[row_id][7] == "mined")
+    # per-entry, all-of: one linked row out of five is not a linked entry
     usedby_ok = 0
     for entry in entries:
         rel = entry["path"]
-        for row_id in entry["sources"]:
-            cells = registry.get(row_id)
-            if cells and rel in cells[10]:
-                usedby_ok += 1
-                break
+        linked = all(
+            row_id in registry and rel in registry[row_id][10] for row_id in entry["sources"]
+        )
+        usedby_ok += 1 if linked else 0
 
     census_state = "skipped"
     census_code = 0
     if args.census:
+        lane_name = lane.name[: -len("-shokunin")] if lane.name.endswith("-shokunin") else lane.name
         proc = subprocess.run(
-            [str(CENSUS), "validate", "--root", str(lane.parent), lane.name],
+            [str(CENSUS), "validate", "--root", str(lane.parent), lane_name],
             capture_output=True,
             text=True,
             check=False,
@@ -101,16 +104,18 @@ def main(argv: list[str]) -> int:
         census_code = proc.returncode
         census_state = "ok" if proc.returncode == 0 else "fail"
 
+    # Exactly the frozen seven fields; the access-date check gates without being printed.
     print(
         f"entries={present} indexed={indexed} cited_rows={len(cited)} "
         f"rows_present={rows_present} rows_mined={rows_mined} usedby_ok={usedby_ok} "
-        f"verified_at={verified_at_ok} census={census_state}"
+        f"census={census_state}"
     )
     ok = (
         present == len(entries)
         and indexed == len(entries)
-        and rows_present == len(cited)
-        and rows_mined == len(cited)
+        and len(cited) == required
+        and rows_present == required
+        and rows_mined == required
         and usedby_ok == len(entries)
         and verified_at_ok == len(entries)
         and census_code == 0

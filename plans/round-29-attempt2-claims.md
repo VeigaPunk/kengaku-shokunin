@@ -90,3 +90,15 @@ implementation, the case is not a control and C2 reports the honest count.
 - Distinctions preserved: this is not deployment config, runtime task validity, model performance,
   contamination measurement, or a new research method. It is the published instrument a maintainer
   runs, read from primary documents.
+
+## Scope clarification appended 2026-10-25 (before the first C2 score)
+
+C2's clause 4 says "refusal with a non-zero exit for ... an escaped pipe". The kengaku package
+holds 173 staged rows, of which 2 (S093, S101) carry an escaped pipe, and neither is a row this
+round adopts. A global refusal therefore blocks every targeted append on rows the round cannot
+fix. The implemented reading is: the refusal applies to the rows under adoption
+(`--admit-ids`); an unrequested malformed row is counted in `malformed_total` and never enters
+the block. This scoping was implemented in the same file before any seat scored C2 (the
+mutation-tester reported on the scoped revision, `505478fd…`), and selftest case 9 encodes it.
+The stronger global refusal is not implemented and is not claimed. Recorded so the closure can
+rule on it rather than discover it.

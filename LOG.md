@@ -627,3 +627,47 @@ was contacted. This is not a history purge, credential rotation, outside admissi
 claim; retained history and other possible carriers remain unresolved under the operator hold.
 Full bounds and reproducible opaque identities: `corpus/lessons/round-29-source-copy-containment.md`.
 The appended fleet-report erratum identifies the actual landed containment commit.
+
+## Round 29 attempt 2 — shokuknow assimilation and a standing adoption gate (hyaku run 6, 2026-10-25)
+
+Attempt 1 of round 29 (above, 2026-10-21) is unchanged history. Run 6 re-dispatched the same round;
+this attempt carries two new claims and never re-claims the generated-config projection. Baseline
+`1f3b0f1ec41ec297130e8944ff97968d32324632`; frozen prereg `plans/round-29-attempt2-claims.md`;
+freeze commit `8c14a5dcd15ac364a352d544660c69f521c3a6af`.
+
+**C1 — shokuknow assimilation (coverage, lowest non-retired axis).** Adopted one entry under one
+theme — published per-task validity instruments — `corpus/knowledge/benchmark-task-validity-checklist.md`
+citing S077, S078, S079, S080, S090, every source re-opened 2026-10-25 with a located ≤25-word quote.
+Registry 76 → 81 rows (5 tier-A additions; S090 upgraded from the package's B to A because a
+first-party maintainer statement is tier A and the "no visible date" reason is page-scoped — the
+publisher's news index dates the post 2025-11-07). Three staged entries rejected with reasons and
+flip conditions; 168 uncited rows and 64 uncited entries not appended (CORPUS rule 4).
+
+**C2 — standing source-adoption gate (operability, capability acquisition).** `plans/sources_adopt.py`
+(collision detection under the census's own 0–3-space anchor, staged-row schema, prose-`recheck`
+normalization, `used-by` projection; ten-case selftest) and `plans/adoption_check.py` (the
+one-command adoption counter). Ten mutants applied by a mutation-tester seat; the two that survived
+the first pass (an unescaped 12-cell row, and an invalid nonempty `recheck` escaping `check()`)
+were killed by added assertions in existing cases 5 and 10.
+
+**Measured (author-side).** `python3 plans/adoption_check.py --expect .ufo/waves/round-29/attempt2/adoption-expect.json --census`
+→ `entries=1 indexed=1 cited_rows=5 rows_present=5 rows_mined=5 usedby_ok=1 census=ok`, exit 0;
+do-nothing control at freeze → `entries=0 …` exit 1. `python3 plans/sources_adopt.py --selftest` →
+`SELFTEST cases=10 failed=0`, exit 0; re-append of the five landed ids → `collisions=5`, exit 3;
+pre-append registry build → exit 0. Census exit 0 at both ends.
+
+**Re-verification (freshness).** `python3 grader.py` → `CHECKS n=733 mismatches=0 errata_pinned=1`,
+`VERDICT: PASS`, exit 0. `python3 plans/round28_census.py --revision 6baa3090…` exit 0.
+`python3 plans/config_projection.py --summary` → `TOTAL findings=0 exit=0`. Fleet source census
+exit 0 (14 known cross-scope duplicate-URL warnings retained, none suppressed).
+
+**Waves.** One 36-seat v1 wave (`kengaku-r29a2-build`, band 32–64, policy
+`scripts/hyaku/ufo-wave-policy.json`), roles: scout 10, reviewer 10, scribe 3, executor 3, critic 3,
+connector 2, simplifier 2, mutation-tester 1, revenger 1, sentinel 1; 14 attack seats (39%). L1
+holds the canonical planner seat. No dead seats. No pacman or tool installs.
+
+**L0:** none new. The two inherited round-25 coverage-cap/novelty-conversion questions remain open;
+C1 does not move the canonical coverage number and says so.
+
+**Safety:** `shokuknow/` was read only (no campaign tool run, no write, no fetch, no push); the fleet
+root, sibling lanes and `.ufo/state` untouched; the lane's own new bytes carry no credentials.

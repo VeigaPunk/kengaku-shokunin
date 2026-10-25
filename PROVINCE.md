@@ -209,3 +209,20 @@ via `plans/config_projection.py` and `corpus/knowledge/webarena-config-projectio
 interpretation of how generated eval configs are derived, not the benchmark's sites, env_config values or
 any deployment. Actual env_config-derived/deployment configs, runtime task validity, hosted judges and
 contamination remain open. The round28 gap line above stays as written; this paragraph narrows it.
+
+## Round29 attempt-2 partial frontier admission (2026-10-25)
+
+**Core addition:** the published task-validity instruments a benchmark maintainer runs on its own
+tasks, read from primary documents at pinned revisions, via
+`corpus/knowledge/benchmark-task-validity-checklist.md` (S077–S080, S090). This owns reading
+published maintainer artefacts; it does not run a benchmark, certify a task, or own deployment
+configuration, runtime task validity, hosted judges, contamination measurement or any benchmark's
+web properties. The attempt-1 paragraph above stays as written; this paragraph narrows only the
+"unopened leads" phrase for Terminal-Bench 2.0, SWE-bench Pro V2 and Toolathlon-Verified, which are
+now opened.
+
+**Operability addition:** `plans/sources_adopt.py` — a pre-append gate for registry adoption (id
+collisions under the census's own 0–3-space anchor, staged-row schema, prose-`recheck`
+normalization, `used-by` projection) with a ten-case selftest — and `plans/adoption_check.py`, the
+one-command counter for an adoption round. Both are lane-local and compose with the fleet census,
+which remains the registry's authority; neither replaces it.

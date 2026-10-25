@@ -982,3 +982,29 @@ C1 remains812/812/3/2436; selftest31, persisted mutants12/12, independent oracle
 Historical329/318/0/6/5 and P4's48MATCH/1SUPERSEDED/2offline remain; OOP32 is additive, not matched.
 Evidence: round29-calibration/{actual-gate.txt,actual-byte-proof.json,actual-census.json,trial-landed-tree-proof.json}.
 These are author-side measurements; separate non-author closure remains pending.
+
+## Round 29 — attempt 2 (hyaku run 6, 2026-10-25): assimilation + standing adoption gate
+
+Baseline `1f3b0f1ec41ec297130e8944ff97968d32324632`; frozen prereg
+`plans/round-29-attempt2-claims.md`, freeze commit `8c14a5dcd15ac364a352d544660c69f521c3a6af`.
+Attempt 1 above is unchanged history; this attempt claims nothing it claimed.
+
+| claim | axis | observed before → after, counting command | score / verdict |
+|---|---|---|---|
+| C1 shokuknow assimilation — one admitted task-validity instrument entry | **coverage** (lowest non-retired axis, tied at 7) | before: `python3 plans/adoption_check.py --expect .ufo/waves/round-29/attempt2/adoption-expect.json` → `entries=0 indexed=0 cited_rows=0 …` exit 1 (do-nothing control, committed at freeze) → after: same command `--census` → `entries=1 indexed=1 cited_rows=5 rows_present=5 rows_mined=5 usedby_ok=1 census=ok` exit 0. Registry 76 → 81 rows; knowledge files 37 → 38; knowledge index rows 37 → 38; SOURCES census exit 0 (`corpus/evidence/round29-attempt2/census-after.txt`) | **7 → 7 held** — expansion is real (a named frontier bullet moves from unopened lead to an admitted checklist), but the canonical coverage number stays capped by the open round-25 L0 and this entry does not move it. No waiver, no conversion. |
+| C2 standing source-adoption gate (capability acquisition) | operability | before: `git cat-file -e 1f3b0f1ec41ec297130e8944ff97968d32324632:plans/sources_adopt.py` exit 128 → after: `python3 plans/sources_adopt.py --selftest` → `SELFTEST cases=10 failed=0` exit 0; the tool refuses a re-append of the five landed ids (`collisions=5`, exit 3), builds the block on the pre-append registry (exit 0), and its selftest kills the five mutants the mutation-tester ran, including the two survivors found in the first round of that test | **8 → 8 held**; capability row added |
+
+Other axes held: depth 9, novelty 7 (no prior-art or phenomenon claim), freshness 8 (census,
+`grader.py`, `plans/round28_census.py` and `plans/config_projection.py` re-run this round — see
+`LOG.md`), adjacency 8 (the package's card/grader material is routed as next-round candidates, not
+absorbed), calibration 8 (two honest corrections recorded below). Claims measured on the landed
+commit; this is an author-side measurement and separate non-author closure decides admission.
+
+| Capability | What it can now do | Evidence / command | First-working round |
+|---|---|---|---|
+| source-adoption-gate | Validate a staged registry slice before appending — id collisions under the census's own 0–3-space anchor, 11-cell/escaped-pipe schema, prose-`recheck` normalization to the frozen access date, `used-by` projection to admitted entries — and re-derive an adoption round's landed state with one command | `python3 plans/sources_adopt.py --selftest` (10 cases, exit 0); `python3 plans/adoption_check.py --expect .ufo/waves/round-29/attempt2/adoption-expect.json --census`; `corpus/evidence/round29-attempt2/` | 29 |
+
+Calibration corrections carried forward rather than smoothed: (a) the first frozen selftest
+conflated two fixtures (M92); (b) the package's two count cells named the wrong unit and the round
+re-derived 89 task directories / 108 `finalpool` directories (M94). Both are in
+`corpus/lessons/round-29.md` §Attempt 2.
