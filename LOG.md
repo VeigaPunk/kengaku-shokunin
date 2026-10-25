@@ -638,7 +638,7 @@ freeze commit `8c14a5dcd15ac364a352d544660c69f521c3a6af`.
 **C1 — shokuknow assimilation (coverage, lowest non-retired axis).** Adopted one entry under one
 theme — published per-task validity instruments — `corpus/knowledge/benchmark-task-validity-checklist.md`
 citing S077, S078, S079, S080, S090, every source re-opened 2026-10-25 with a located ≤25-word quote.
-Registry 76 → 81 rows (5 tier-A additions; S090 upgraded from the package's B to A because a
+Registry 76 → 82 rows (six tier-A additions; S090 upgraded from the package's B to A because a
 first-party maintainer statement is tier A and the "no visible date" reason is page-scoped — the
 publisher's news index dates the post 2025-11-07). Three staged entries rejected with reasons and
 flip conditions; 168 uncited rows and 64 uncited entries not appended (CORPUS rule 4).
@@ -677,7 +677,7 @@ found five defects after the first landing commit; all are repaired and re-measu
 changes a frozen target:
 
 1. **`recheck` semantics.** Normalizing a prose `recheck` to the *access date* made every adopted row
-   0 days overdue (`round28_census.py` overdue 0 → 1). Rows now carry `180d` (due 2027-04-23) and the
+   0 days overdue (fleet `sources-census.sh overdue` reported 5 rows at `0d`, exit 1; five of the six rows — `round28_census.py` carries no overdue field). Rows now carry `180d` (due 2027-04-23) and the
    tool takes `--recheck` (default `180d`); the stripped prose stays in this lesson's Gate block.
 2. **Strict vs targeted gate modes.** `sources_adopt.py` is strict by default (any staged defect
    refuses: `exit 3`, 2 escaped-pipe rows + 6 collisions on the landed registry) and offers
@@ -761,3 +761,18 @@ the landed entry against the fetched bytes and found four claims to correct:
 
 S091's `used-by` now names the entry it prices (the entry's §Prior art quotes it); its id is
 deliberately not a sixth `source:` line, so C1's five-row expectation is unchanged.
+
+**Round 29 attempt-2 corrections, fifth batch (appended 2026-10-25).** The residual calibration seat
+re-derived 32 claims from committed bytes and found five mismatches; three were live and are repaired:
+
+18. **Registry count in the SCORECARD C1 cell and the LOG entry** said "76 → 81" against a landed 82.
+    Both now read 82 (S077–S080, S090, S091), matching `grep -cE '^ {0,3}\|[[:space:]]*S[0-9]{3,}'`.
+19. **The overdue blast radius** was written against the wrong instrument and unit: the fleet
+    `sources-census.sh overdue` reports **5 rows at 0d, exit 1** on the pre-repair registry;
+    `plans/round28_census.py` carries no overdue field at all (my "0 → 1" read the exit code as a count).
+20. **The prose-`recheck` count** in the round gate table said 171; 171 was the freeze tool's
+    *total* defect count. The cell count is **167** (2 escaped-pipe rows make up the rest).
+
+The two remaining mismatches are not live errors: a mutant count ("five" in the SCORECARD versus
+"four" named in the correction) is numbering across two attack seats, and the axis scores themselves
+are not command-derivable — the report already labels them held judgments with their cap premise.

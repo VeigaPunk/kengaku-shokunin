@@ -128,7 +128,10 @@ still re-derivable as `collisions=6` unscoped / `collisions=5` scoped, exit 3. A
 `adoption_check.py --census` is **path-dependent**: run in an extracted copy of the landing tree it
 prints `… census=fail`, exit `1` (lane name derived from the directory name), so the C1 line is only
 reproducible in place. Worth labelling in the receipt, since a copied tree silently fails the claimed
-line.
+line. Same class: the frozen control receipt `.ufo/waves/round-29/attempt2/control.nothing.txt` records
+**eight** fields (`… usedby_ok=0 verified_at=0 census=skipped`), so the current seven-field counter
+reproduces it only semantically (M99 is the correct account of why the printed set changed; the
+receipt was not re-stamped).
 
 **F7 (INFO — drift under audit).** HEAD advanced from `ff476d0` to `30ee3b5` during this seat
 (`4b82ff7`, `7bc2aaf`, `c88310f`, `30ee3b5`, all 2026-10-25). At `30ee3b5` the scoped append now
