@@ -9,10 +9,9 @@ VERDICT: FAIL
 
 | bar row | verdict | one-line reason |
 |---|---|---|
-| Q4 negative space | **FAIL** | the one falsifier is aimed at the wrong bullet, is stated over a "delta" field pair the entry's own mapping no longer has, sets no measurement or decision rule, and no falsifier reaches the Claim |
-| Q5 source labelling | **FAIL** | S086 is labelled "a peer-reviewed 言語処理学会 paper"; the publisher of that series stamps its annual-meeting papers "published without peer review", and this lane's own registry row claims no review |
-| Q6 extends, never duplicates | **FAIL** on the admitted tree | the naming half holds; the field mapping called three published CTC-v1.1 constructs new (R1 strata, S1 acquired, S2 integrity), and the pinned form carries all three |
-| Q6 (live worktree) | **FAIL, narrowed** | R1, S1 and R4 cells have been repaired in the uncommitted worktree; **S2's "only new field" claim survives, and it is falsified by the same form** |
+| Q4 negative space | **FAIL** | the one falsifier was mis-pointed at the audit commit and no falsifier reached the Claim; at the tip commit it has been rewritten into a rule that infers "common" from one release, repeats a clause, names a licence the form does not carry ("the CC0 card"), and ends in an orphan fragment |
+| Q5 source labelling | **FAIL at `623c1fc`, CLOSED at tip `9af639c`** | S086 was labelled "a peer-reviewed 言語処理学会 paper" against the publisher's "published without peer review" stamp; the tip relabels it correctly — but the round-level record (lesson Gate cell, `R30FxRowsCensus.md:167`) still asserts the false label |
+| Q6 extends, never duplicates | **FAIL at `623c1fc`, live at tip** | the naming half holds; the mapping called three published CTC-v1.1 constructs new (R1 strata, S1 acquired, S2 integrity) — R1/S1 cells repaired, **S2's "only new field" survives**, and the tip now contradicts itself on R1 within one page (`:69` cell vs `:75` prose) |
 
 ## 0. Bytes audited, and the drift I watched
 
@@ -22,7 +21,8 @@ middle of it, and further uncommitted edits after. Two objects matter, and I gra
 | object | bytes | state |
 |---|---|---|
 | **admitted tree** — commit `623c1fc` ("round-30: assimilation round 2 …") | entry `sha256 f01b7cd20cf4ebcaf3ee9f7af8b109ace8b86e69002ae53a213c2dc80ad1e6cd`, 177 lines, blob `43001f5` | the tree the Gate's admission record points at; **this is what my verdicts are stated against** |
-| **live worktree** | entry `sha256 ba0465d1cbcbb0b62529343a7c4fe5c4c26e37db6fd462ac93a8e9d95f106d82`, `git status` → `M` | supersedes the committed entry with repairs made after the admit; not yet committed |
+| **tip** — commit `9af639c` ("round-30: S086 is not peer-reviewed … falsifier decision rule; Q4/Q5 corrections") | entry `sha256 a78eb18a3095ac1d48bfef5f22d4740a748f73bdcacf0e7757229f281e57c957`, 191 lines, clean tree | the entry as repaired in response to this seat: Q5 closed, Q4 falsifier rewritten (and broken differently), Q6 unchanged on S2. **Graded in §4** |
+| **intermediate worktree** (superseded) | `sha256 ba0465d1cbcbb0b62529343a7c4fe5c4c26e37db6fd462ac93a8e9d95f106d82`, `M` | the uncommitted state I first checked the repairs against |
 
 Hashes observed on the way: `0f2e1614…` (04:43:05 local, −0300; no sha256 pin, mapping said "exactly two
 fields are new as *fields* (S1, S2)"), `df0b6d41…` (04:44:02, pin + `grader integrity` row + "one new

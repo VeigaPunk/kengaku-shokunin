@@ -127,8 +127,8 @@ carried in prose or the admission inherits it (Q9):
   soft move (pointer: `:22-24`); `SCORECARD.md:1022` names the C1 axis "**coverage** (lowest
   non-retired, tie-break)" while its verdict cell moved to "coverage (surfaces)"; `SCORECARD.md:1026`
   holds "depth 9" on a criterion the same section describes as a field mapping, i.e. a novelty
-  argument; and `corpus/knowledge/contamination-transparency-card.md:120` carries a doubled list
-  marker, `- **- **Agreement is not established.**`.
+  argument. (The doubled list marker I recorded at entry `:120` has since been fixed by its owner;
+  see §Pass-7.)
 - **The committed lesson is still the pass-2 Gate** — 4 columns, no flip cell, `:21` = 63, `:23` S105
   "unverifiable" — while the paste table below covers `:17`, `:21`, `:22`, `:23` and the fifth
   column. On my bytes Q8/Q9/Q13 are otherwise clean.
