@@ -15,7 +15,9 @@ maintainers publish enough primary material to build the checklist from evidence
 from principle. Each axis below is stated once, and each is **observable**: the axis either
 has a named artefact in a published tree, or it does not.
 
-This entry is a synthesis of primary maintainer documents, not a new research method. Its
+This entry extends `knowledge/agent-time-horizon-and-task-validity.md` (benchmark task/test validity
+audits) and `knowledge/contamination-detection-and-transparency.md` (contamination vocabulary), and
+supersedes neither. It is a synthesis of primary maintainer documents, not a new research method. Its
 contribution is the mapping from "what a validity question is" to "the artefact that answers
 it, and where that artefact lives".
 
@@ -81,6 +83,18 @@ file/directory split. A row that carries a count must carry the command that pro
 - **Toolathlon-Verified** — S080 covers B (via the verified release), I; the declared
   tool surface is the axis this benchmark makes mechanical.
 
+## Prior art (priced 2026-10-25)
+
+This checklist is **INCREMENTAL**, not a new instrument. The Agentic Benchmark Checklist (ABC, arXiv
+2507.02825, Zhu et al., NeurIPS 2025) publishes a per-task validity instrument whose Task Validity
+criterion is the same construct: "we introduce the Agentic Benchmark Checklist (ABC), a set of
+guidelines that we synthesized from our benchmark-building experience". ABC's items cover axes B,
+C, D, E, F, G and I at item level, and the benchmark this entry's S077 comes from applies ABC to
+itself. What this entry adds is therefore **application work**: the A–J axes mapped to the
+publisher's own artefact and locus for Terminal-Bench 2.0, SWE-bench Pro V2 and
+Toolathlon-Verified, with the counts re-derived. The pricing row is S091 and the located quote,
+anchor and rejection reasoning live in `corpus/lessons/round-29.md` §Attempt 2.
+
 ## What this does not establish
 
 - **Not task validity itself.** The checklist names where to look; it does not run a
@@ -92,6 +106,8 @@ file/directory split. A row that carries a count must carry the command that pro
   not the models measured with it.
 - **Not exhaustive.** Four maintainers were opened; other benchmarks may have instruments
   these rows do not cover, and no absence is claimed for unopened benchmarks.
+- **Not instrument novelty.** ABC already publishes the construct; a reader who wants the
+  checklist itself should read ABC, and this entry is the per-benchmark application of it.
 - **Falsifier.** A benchmark whose released gate document contradicts its own task tree on
   any of the cells quoted here would falsify the axis's mapping to that artefact; a
   maintainer artefact that names a field present in no task in the tree would falsify H.

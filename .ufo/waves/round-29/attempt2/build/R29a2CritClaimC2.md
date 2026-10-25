@@ -15,7 +15,7 @@ anchor text (function name, case label, or code line content) so it can be re-lo
 Each finding is tagged with where it applies:
 
 - findings marked **[HEAD & WT]** hold on both revisions;
-- **[WT only]** are introduced by the uncommitted edit.
+- **[WT only]** are introduced by the uncommitted edits.
 
 Baseline for every before-measurement is `1f3b0f1ec41ec297130e8944ff97968d32324632`.
 All scratch in `/tmp/r29a2-c2crit/` (commands and outputs inlined below, so no citation depends on a
@@ -39,10 +39,10 @@ The target string is met on the current bytes. What it certifies is narrower tha
 individually.** [HEAD & WT]
 
 Method: replace the body of `check()` with the most favourable constant — `EXIT_OK` plus
-`{"staged": 1, "malformed_total": 1, ...all empty...}` (scratch `n2_noop.py`):
+`{"staged": 1, "malformed_total": 1, ...all empty...}` (scratch `y_noop.py`):
 
 ```
-$ python3 n2_noop.py --selftest
+$ python3 y_noop.py --selftest
 CASE prose-recheck-normalized PASS
 CASE usedby-projected PASS
 CASE clean-package-passes PASS
@@ -56,7 +56,7 @@ Seven cases die, so "does nothing" cannot reach the frozen target. The three sur
   they call `build_block()` directly. They are block-builder controls only.
 - **case 9** (`clean-package-passes` :362) is satisfied by a stub that fabricates its report counters.
 
-Per-case kill sweep on the **current** bytes (`killrule.py` against `base2.py`, one targeted mutant per
+Per-case kill sweep on the **current** bytes (`killrule.py` against the pinned snapshot copy `base3.py`, one targeted mutant per
 case): 9 of 10 cases are killed by their own mutant —
 
 ```
@@ -83,7 +83,7 @@ only come from the recheck column.
 Mutant N3 — delete `cells[9] = access_date` at `:152` (normalization disabled):
 
 ```
-$ python3 n3_no_recheck_norm.py --selftest
+$ python3 x_n3.py --selftest     # pinned-snapshot copy, `cells[9] = access_date` deleted
 CASE prose-recheck-normalized PASS
 SELFTEST cases=10 failed=0      rc=0
 ```

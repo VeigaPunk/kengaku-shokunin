@@ -7,10 +7,11 @@ Read-only outside this report; nothing edited under the lane, `shokuknow`, or an
 **Verdict: 3 of 3 schema fields PASS. The staged claim of 92 FAILS as a task-directory count — the
 pinned tree holds 89.** `92` is the root *entry* count (89 directories + 3 files). The lane's landed
 entry has already restated this correctly; my independent measurement confirms its corrected numbers
-**exactly**, including which three files. Two defects remain in the landed entry: the S079 locator
-cites lines `1, 21, 22` and so cannot locate three of the five fields row H quotes (F3), and the
-axis-H sentence generalises "both time baselines" to any task directory although 1 of 89 carries
-neither (F4).
+**exactly**, including which three files. Three defects remain in the landed entry: the S079 locator
+cites lines `1, 21, 22` and so cannot locate three of the five fields row H quotes (F3); the axis-H
+sentence generalises "both time baselines" to any task directory although 1 of 89 carries neither
+(F4); and the entry's own reproducing command for the count is a metered API call that today returns a
+403 error body rather than the tree (F6).
 
 ## 0. Verdict table
 
@@ -263,13 +264,60 @@ The staged copy (`…/merge/kengaku/…checklist.md`, mtime `2026-10-24 23:33:20
 `verified-at: 2026-10-23` and three `2026-10-23` dates. If the merge package is what is later
 compared back, its dates must be re-synced to `2026-10-25`, or the two artefacts will disagree.
 
+### F6 — MEDIUM (landed entry, operability): the entry's stated reproducing command for the S079 count is a metered API call that currently returns an error body, not the source
+
+Entry line 67 offers, as the reproduction of a load-bearing count:
+"(`git/trees/2fd12b8` non-recursive, then `task.toml` count over the recursive tree)" — an
+`api.github.com` call. Measured 2026-10-25 from this host:
+
+```
+$ curl -sS -o api-trees-noL.txt -w 'code=%{http_code} redirects=%{num_redirects} bytes=%{size_download}\n' \
+    https://api.github.com/repos/laude-institute/terminal-bench-2/git/trees/2fd12b88aafdd04a52c298e3940bcb189f9766d6
+code=403 redirects=0 bytes=280
+$ head -c 300 api-trees-noL.txt
+{"message":"API rate limit exceeded for 179.218.13.209. (But here's the good news: Authenticated
+ requests get a higher rate limit. …
+$ curl -sS https://api.github.com/rate_limit        # unmetered
+{'limit': 60, 'remaining': 0, 'reset': 1792913923, 'used': 60}
+```
+
+The command the entry publishes returns a **403 whose 280-byte body is a rate-limit message with zero
+source bytes** — unauthenticated quota is 60/hr per IP and was exhausted. Two consequences:
+
+1. A Gate that pipes that response into a parser either crashes or, worse, silently counts zero
+   `task.toml` and reports a false small number — precisely the "count without a reproducible command"
+   failure the entry's own rule ("a row that carries a count must carry the command that produced it")
+   exists to prevent. The command is right in shape and wrong in robustness.
+2. Sibling `R29a2SrcS079` separately measured this same endpoint returning **301 Moved Permanently**
+   (264-byte body, redirect to the numeric repository id) on the legacy path form. I did not
+   reproduce the 301 — quota was already exhausted, and GitHub meters before redirecting — so I record
+   that half as their observation, not mine. Either way the endpoint is redirect- and quota-fragile.
+
+Quota-free routes that reproduce the identical numbers, both used for §3:
+
+```
+$ git ls-tree -d --name-only 2fd12b8 | wc -l                                   -> 89   # on a clone
+$ git ls-tree --name-only 2fd12b8 | wc -l                                      -> 92
+$ find <codeload-tarball>/terminal-bench-2-2fd12b8… -mindepth 1 -maxdepth 1 -type d | wc -l  -> 89
+```
+
+Recommendation: cite `git ls-tree` on a pinned clone (or the codeload tarball) rather than
+`git/trees/…`; those need neither a token nor `-L` and cannot return an error body in place of the
+tree. Entry line 69's companion command for S080 (`contents/tasks/finalpool?ref=9be8d8f`) is the same
+class of metered endpoint with the same risk; the S080 seat owns that row, so I flag rather than
+adjudicate it.
+
+This is the only finding here that touches *operability* directly: the count is correct (F2), but the
+method the entry publishes is not re-runnable from a clean host without a token.
+
 ## 5. Residual risk and verification gaps
 
 - **Out of scope, not verified by me:** the sibling count `109 entries under tasks/finalpool` /
   `108 directories` for `hkust-nlp/Toolathlon` at `9be8d8f` (landed entry line 57-58). I did not fetch
-  Toolathlon. Given F1's demonstrated unit error, that pair deserves the same
-  directory-vs-entry treatment by the S080 seat; sibling `R29a2SrcS079` reports the same
-  units-corrected reading, which I did not independently reproduce.
+  Toolathlon. Note that entry line 69's reproducing command for it
+  (`contents/tasks/finalpool?ref=9be8d8f`) is the same metered `api.github.com` class as F6's, so it
+  carries the same quota/redirect fragility — the S080 seat should check both the number and the
+  command.
 - S077/S078/S080/S090 line citations in the landed entry were not verified by me (sibling seats own
   them); I read them only as context.
 - Drift assessed solely as "pin == `main` HEAD on 2026-10-25". The pin remains the correct citation

@@ -79,7 +79,7 @@ No function is unexercised by *both* scenarios. The dead weight is at branch/fie
 | T3 | `Row.raw` | 47, 54 | same | — | — | written only | **DELETE** | mutant M2 |
 | T4 | `cells[8] = access_date if not ISO_DATE_RE.match(cells[8]) else cells[8]` | 153 | 153 (already `= access_date`) | else-arm only | — | the normalise arm never runs in (a) or (b); the else-arm *retains* a non-frozen `opened`, which CORPUS rule 1 forbids | **DELETE arm** (WT already did) | §5-C |
 | T5 | `parse_rows(*, anchor=True)` switch + its docstring justification | 80, 83-84, 86 | same | — | — | **no caller anywhere in the repo passes it**; the ternary's right operand never evaluates; the docstring's claim "the selftest can prove the narrow anchor is load-bearing" is false — case 4 proves it through `check()` with the default | **DELETE** (param, ternary, docstring lines 83-84) | mutant M1 + `grep -rn "import sources_adopt\|sources_adopt\." --include=*.py .` → no hits, exit 1 |
-| T6 | `build_block` missing machinery: `missing` list, `if missing: return [], [], missing`, third tuple element; and `main`'s `if missing: print; return EXIT_REQUEST` | 140-142, 157; main 351-354 | 140-142; main 385-388 | — | — | `check()` has already validated the same `want` set against the same bytes; on a miss it returns `EXIT_REQUEST` (HEAD 191 / WT 217) and `main` returns at HEAD 345-346 / WT 379-380 **before** `build_block`. Reachable only if the package is rewritten between `collect`'s read and `main`'s re-read (TOCTOU) — and it duplicates `print_report`'s `missing:` line (HEAD 216 / WT 243), which is the authority that actually fires | **DELETE** (with T6's main block; keeps a single `missing` authority) | mutant M3 |
+| T6 | `build_block` missing machinery: `missing` list, `if missing: return [], [], missing`, third tuple element; and `main`'s `if missing: print; return EXIT_REQUEST` | 140-142, 157; main 351-354 | 140-142; main 385-388 | case 6/7 **unpack** the third element and assert it is empty (`not missing`) — the value is always `[]` there | — | `check()` has already validated the same `want` set against the same bytes; on a miss it returns `EXIT_REQUEST` (HEAD 191 / WT 217) and `main` returns at HEAD 345-346 / WT 379-380 **before** `build_block`. Reachable only if the package is rewritten between `collect`'s read and `main`'s re-read (TOCTOU) — and it duplicates `print_report`'s `missing:` line (HEAD 216 / WT 243), which is the authority that actually fires | **DELETE** (with T6's main block **and** the selftest unpack at HEAD 273/284 / WT 309/319; case 6's `not missing and` becomes redundant); keeps a single `missing` authority | mutant M3 |
 | T7 | `if bad and not want_ids: …` block | — | 205-207 | — | — | subsumed by 208-210: `bad` ⟹ `malformed` non-empty, and both compute the identical `EXIT_COLLISION if clash else EXIT_MALFORMED` | **DELETE** (4 lines) | 15-scenario A/B, **0 diffs** (§5-A) |
 | T8 | `"collisions_total"`, `"duplicates_total"` report keys | — | 180, 181 | — | — | write-only: no reader in the file outside their own definition (`malformed_total` is read by WT case 9 l.347; `prose_recheck_total` by l.231) | **DELETE** | `grep -n "collisions_total\|duplicates_total" work-0345.py` |
 | T9 | `prose_recheck_total` recomputing `row_defects` over every staged row + the nested `report.get("prose_recheck", report.get("prose_recheck_total", 0))` | — | 183, 231 | — | — | second computation of a number already derivable from the unfiltered `defects` dict at 175; and the fallback makes `prose=` **change meaning by mode**: same 2-prose-row package prints `prose=2` unscoped, `prose=1` when scoped to one row (§5-D) | **KEEP field, DELETE the recomputation**; make the printed number single-sourced | §5-D |
@@ -161,7 +161,7 @@ scoped to S900 (--admit-ids): registry=76 staged=2 … defects=0 prose=1
 |---|---|---|---|---|
 | M1 `m1-noanchor.py` | `anchor` param + ternary + docstring removed; `pattern = ROW_RE` | `cases=10 failed=0` | identical | behaviour-neutral |
 | M2 `m2-slimrow.py` | `line_no`/`indent`/`raw` removed, `ROW_RE` group 1 → `(?: {0,3})`, `group(2)`→`group(1)` | `cases=10 failed=0` | identical, and adoption output identical | behaviour-neutral |
-| M3 `m3-nodupmissing.py` | `build_block` returns 2-tuple; `main`'s `if missing` block removed | `cases=10 failed=0` | identical | behaviour-neutral |
+| M3 `m3-nodupmissing.py` | `build_block` returns 2-tuple (missing machinery removed), `main`'s `if missing` block removed, selftest case 6/7 unpack adjusted | `cases=10 failed=0` | identical (full-output `diff`, not first line) | behaviour-neutral; adoption-mode output and the `missing`-id refusal (exit 5) are byte-identical to base |
 | M4 `m4-failingcase.py` | one case's expected constant broken | `cases=10 failed=1`, `failed: duplicate-staged-id`, **exit 1** | — | T18 fires |
 | (T7) `mut-noredundant.py` | 205-207 removed | `cases=10 failed=0` | identical | 0/15 diffs |
 
@@ -169,10 +169,18 @@ M2 needed the group renumbering: `ROW_RE`'s capture group 1 exists **only** to f
 `indent` field, so deleting the field also shifts the id group. That coupling is itself the argument
 for deleting it.
 
+**F. An accidental control, and what it proves.** My *first* M3 cut `main`'s unpack to two values
+but left `build_block` returning three. That broken deletion **passed both mandated scenarios**
+(selftest `cases=10 failed=0`, real run byte-identical, exit 4) and only blew up on an adoption-mode
+run: `ValueError: too many values to unpack (expected 2, got 3)`, rc=1. So neither (a) nor (b) can
+observe a defect on the `build_block`→`main` seam — corroborating §4 independently of the coverage
+numbers. The corrected M3 (both sides changed) is the one measured in §5-E.
+
 ## 6. Deletion set, if the L1 wants one patch
 
 **HEAD**: T1+T2+T3 (one edit: `Row` slots/ctor + `ROW_RE` + 2 `group()` renumbers), T5 (3 lines +
-2 docstring lines), T4 (arm), T6 (3 lines in `build_block`, 4 in `main`, third tuple element), T10.
+2 docstring lines), T4 (arm), T6 (3 lines in `build_block`, 4 in `main`, third tuple element, and
+the two selftest unpacks at 273/284 with case 6's `not missing and` dropped), T10.
 Net ≈ −18 lines, behaviour-neutral (M1/M2/M3 measured); plus T22's caller fix, which *adds*
 reachability rather than removing lines.
 

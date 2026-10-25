@@ -1,170 +1,180 @@
 # R29a2 — province + coverage-map review of the adopted task-validity entry
 
-- Seat: `R29a2RevEntryScope` (reviewer, leaf; no dispatch, no production edit).
+- Seat: `R29a2RevEntryScope` (reviewer, leaf; no dispatch, no production edit, no `ask`).
 - Round 29 attempt 2 (hyaku run 6), 2026-10-25. Baseline revision
   `1f3b0f1ec41ec297130e8944ff97968d32324632`.
-- Bytes reviewed: `corpus/knowledge/benchmark-task-validity-checklist.md` (86 lines, untracked at
-  review time), `corpus/SOURCES.md` rows S077/S078/S079/S080/S090 (lines 100-104,
-  working-tree modification), `plans/sources_adopt.py` (working-tree diff),
-  `plans/adoption_check.py`, `PROVINCE.md`, `corpus/README.md`, `corpus/QUALITY.md`.
-  The shokuknow package copy (`/home/vgpnk/Projects/shokuknow/merge/kengaku/...`, 73 lines,
-  `verified-at: 2026-10-23`) is **not** what I reviewed as the object under test; the lane copy
-  re-grounded to `verified-at: 2026-10-25` exists and is the current candidate.
-- Tooling: no install or upgrade was run — nothing was needed.
+- **Concurrency note:** the entry, the five registry rows, the README index/coverage rows and the
+  lesson Gate landed *while this review was running* (entry 73 → 86 → 97 lines; `corpus/README.md`
+  gained rows at 64/249/271). Every anchor below is therefore given as `line` **plus a quoted
+  substring**, and the state I measured is stated with the command that produced it. Where a finding
+  was overtaken by a sibling's edit I say so instead of deleting it.
+- Bytes reviewed: `corpus/knowledge/benchmark-task-validity-checklist.md` (97 lines, untracked),
+  `corpus/SOURCES.md:100-104` + row cells (working-tree modification),
+  `plans/sources_adopt.py` (working-tree diff), `plans/adoption_check.py`, `PROVINCE.md`,
+  `corpus/README.md`, `corpus/QUALITY.md`, `corpus/lessons/round-29.md` §Attempt 2.
+- Tooling: **no install or upgrade was run** — nothing was needed.
+
+Measured at review close:
+
+```
+$ python3 plans/adoption_check.py --expect .ufo/waves/round-29/attempt2/adoption-expect.json --census
+entries=1 indexed=1 cited_rows=5 rows_present=5 rows_mined=5 usedby_ok=1 census=ok
+rc=0
+```
 
 ---
 
-## (a) Does a published per-task-validity checklist stay inside kengaku's province? — YES, and it routes out five things
+## (a) Does a published per-task-validity checklist stay inside kengaku's province? — YES; it routes out five owners and absorbs nothing
 
 **Inside, on the charter's own words.** The lane's domain is `LLM/model research & evaluation`
 (`PROVINCE.md:3`) and what it *owns* is "the domain knowledge, playbooks, error patterns, and
-**checklists** above" (`PROVINCE.md:5`). A checklist of published validity instruments is exactly a
-named owned object type, not a trespass. The source surface is also already owned: `Public literature …
-GitHub issues` (`PROVINCE.md:20`), and the round-24 map narrowed that to "reachable-by-citation only —
-documentation reads only this round, no live model/endpoint traffic" (`PROVINCE.md:115`). The five rows
-are GitHub docs/spec trees plus one project page, so nothing in the check requires a live surface.
+**checklists** above" (`PROVINCE.md:5`). A checklist is a named owned object type, not a trespass. The
+source surface is owned too: `Public literature … GitHub issues` (`PROVINCE.md:20`), narrowed by the
+round-24 map to "reachable-by-citation only — documentation reads only this round, no live
+model/endpoint traffic" (`PROVINCE.md:115`). All five rows are GitHub docs/spec trees plus one project
+page, so no live *model/endpoint* surface is needed — this seat read one of them over HTTP (the pinned
+S077 raw file, HTTP 200) and made no model or endpoint request.
 
-**Precedent with the identical object class.** `PROVINCE.md:194-196` admits "pinned WebArena
-task-spec/scorer observability" and defines its limit as: "This owns static LLM-evaluation interpretation,
-not the benchmark's web properties or runtime services." The checklist is the same object — static
-interpretation of published artefacts — for three other benchmarks. `corpus/README.md:329` states the
-same boundary for the sibling instrument ("not task-validity certification"), and
-`corpus/README.md:331` for the admitted entry ("not task validity or model performance"). The entry
-respects it at `corpus/knowledge/benchmark-task-validity-checklist.md:75-77` ("Not task validity itself …
-it does not run a benchmark or certify any task").
+**Precedent with the identical object class.** `PROVINCE.md:194-196` ("**Core addition:** pinned WebArena
+task-spec/scorer observability … This owns static LLM-evaluation interpretation, not the benchmark's web
+properties or runtime services"). The checklist is the same object for three other benchmark families.
+The lane's own wording precedent sits at `corpus/README.md:343` ("not task validity or model
+performance") and `corpus/README.md:331` for `benchmark_spec_audit.py` ("not task-validity
+certification"). The entry respects it at `…checklist.md` §"What this does not establish"
+(`- **Not task validity itself.** … it does not run a benchmark or certify any task.`).
 
-**What it routes out (must not be absorbed):**
+**What it routes out — must not be absorbed:**
 
 | Routed to | What, in this entry | Evidence |
 |---|---|---|
-| **kama** (+ integrator for flag authority) | any serving-plane / endpoint-identity remediation a "run the benchmark" reading would drag in; the entry's emitting a verdict about a *harness* does not license serving-plane work | `PROVINCE.md:136`; `PROVINCE.md:201-202` ("Serving-plane restoration stays operator/kama-owned") |
-| **chousa** | research *method* — the entry may claim "a synthesis of primary maintainer documents, not a new research method" (`…checklist.md:18`) but not a method contribution; the question→source-hierarchy→citation-chain method is chousa's | `PROVINCE.md:137`; `corpus/QUALITY.md:7-8` |
-| **kake** | the benchmarks' *web properties* — reading `tbench.ai`, `github.com/...` trees is literature access, not web-property ownership | `PROVINCE.md:143`; `PROVINCE.md:196` |
-| **kotoba** | instruction-/prompt-craft as craft. Axis A reads whether a graded assertion traces to an instruction sentence; that is *validity of the spec*, and the reusable "how to write the instruction" implication goes out | `PROVINCE.md:138` |
+| **kama** (+ integrator for flag authority) | any serving-plane / endpoint-identity remediation a "run the benchmark" reading would drag in; a verdict about a *harness's* design is not licence for serving-plane work | `PROVINCE.md:136`; `PROVINCE.md:201-202` ("Serving-plane restoration stays operator/kama-owned") |
+| **chousa** | research *method* — the entry may say "a synthesis of primary maintainer documents, not a new research method" but not claim a method contribution | `PROVINCE.md:137`; `corpus/QUALITY.md:7-8`; `…checklist.md:18` |
+| **kake** | the benchmarks' *web properties* — reading `tbench.ai` and `github.com/...` trees is literature access, not web-property ownership | `PROVINCE.md:143`; `PROVINCE.md:196` |
+| **kotoba** | instruction-/prompt-craft as craft. Axis A asks whether a graded assertion traces to an instruction sentence — *validity of the spec*; the reusable "how to write the instruction" implication routes out | `PROVINCE.md:138` |
 | **kumitate** | operational failure taxonomy. Axis D (environment drift) is a maintainer *report* about a task, never OMP route/fallback semantics | `PROVINCE.md:141` |
 
-Residual: anything genuinely cross-domain is reported out, not absorbed (`PROVINCE.md:6`). Two things
-belong to **no** sibling lane and therefore must be *left open and stated*, not routed: actual
-env_config-derived/deployment configs and runtime task validity (`PROVINCE.md:208-211`), and hosted
-judges (`PROVINCE.md:200-201`, `:210`).
+**Absorb nothing cross-domain** (`PROVINCE.md:6`). Two things belong to no sibling and must stay
+*stated-open*, not routed: actual env_config-derived/deployment configs and runtime task validity
+(`PROVINCE.md:208-211`), and hosted judges (`PROVINCE.md:200-201`, `:210`).
+
+**Judgement:** in province, with one honest seam. Axis E's caution — "Axis E is scoped to the harness
+that publishes the claim … a harness that runs the verifier in a shared environment by default does not
+inherit that property" (`…checklist.md:58-61`) — is a reasoning step about harness design, not a measured
+harness fact. It is safe as written *because* it refuses generality; it must not later be quoted as an
+observation about a harness the lane never ran.
 
 ---
 
-## (b) Does it cover frontier ground the lane did not hold? — YES, for one bullet, and it leaves the rest of that bullet open
+## (b) Does it cover frontier ground the lane did not hold? — YES for one bullet's specification half; that bullet's scoring-code half and all other frontier bullets stay open
 
-**The bullet it advances** is `corpus/README.md:259` (Frontier bullet 1, "Agentic benchmark task-spec
-audits"): "the lane has no instrument that audits a benchmark's task specs, graders, and contamination
-separately. Next source/instrument: the primary specs and scoring code for Terminal-Bench 2.0,
-Toolathlon, and SWE-bench Pro (unopened leads in the ART dossier), turned into a per-benchmark
-task-validity checklist."
+**The bullet it advances** is `corpus/README.md:270` ("Agentic benchmark task-spec audits"): "the lane has
+no instrument that audits a benchmark's task specs, graders, and contamination separately. Next
+source/instrument: the primary specs **and scoring code** for Terminal-Bench 2.0, Toolathlon, and
+SWE-bench Pro (unopened leads in the ART dossier), turned into a per-benchmark task-validity checklist."
 
-That ground was still open after round 28/29 attempt 1: `corpus/README.md:338-339` ("Terminal-Bench2.0,
-Toolathlon and SWE-bench Pro primary specifications … remain open") and `PROVINCE.md:200-201` (same
-sentence). The entry names all three families and builds the per-axis instrument, so it is new coverage,
-not a restatement.
+Ground still open before this attempt: `corpus/README.md:349-352` ("Terminal-Bench2.0, Toolathlon and
+SWE-bench Pro primary specifications, generated eval-time configs, runtime DOM/helper/judge validity and
+contamination checks remain open"), `corpus/README.md:376-379` (same list narrowed to generated configs
+only), and `PROVINCE.md:200-201`. The entry names all three families and builds the per-axis instrument,
+so this is new coverage, not a restatement.
 
-**What the lane actually held before (so the row can say "adds", not "first ever"):**
+**What the lane already held — so the rows say "moves", not "first ever":**
 
-- `corpus/README.md:236` — "*Agentic time horizon and task validity*: covered at source-digest depth
-  (round 24) … sources S013, S014, S005, S006" — external audits only (S006, `agent-time-horizon-and-task-validity.md:19`),
-  no per-task instrument.
-- `corpus/knowledge/benchmark-selection.md:18` — names Terminal-Bench 2.0 and SWE-Bench Pro as
-  *selection* targets, with no validity instrument.
-- `corpus/README.md:335` and `:362` — WebArena static schema/predicate observability and generated-config
-  projection; different benchmark, different object.
-- `grep -rl "Toolathlon\|SWE-bench Pro\|Terminal-Bench" corpus/knowledge/` → only `benchmark-selection.md`
-  and `agent-time-horizon-and-task-validity.md`. No prior task-validity checklist exists.
+- `corpus/README.md:246` — "*Agentic time horizon and task validity*: covered at source-digest depth
+  (round 24) … S013, S014, S005, S006": external audits only, no per-task instrument
+  (`corpus/knowledge/agent-time-horizon-and-task-validity.md:19` = S006's ≈30%-broken line).
+- `corpus/knowledge/benchmark-selection.md:18` — Terminal-Bench 2.0 and SWE-Bench Pro appear as
+  *selection* targets only.
+- `corpus/README.md:347` / `:374` — WebArena static-schema and generated-config observability: different
+  benchmark, different object.
+- `grep -rl "Toolathlon\|SWE-bench Pro\|Terminal-Bench" corpus/knowledge/` → only
+  `benchmark-selection.md` and `agent-time-horizon-and-task-validity.md`. No prior task-validity
+  checklist exists.
 
-**What the same bullet still does not get, so the row must not imply it:**
-the bullet asks for "*the primary specs and **scoring code** … turned into*" a checklist. The entry reads
-docs and task-package schemas; on Terminal-Bench 2.0 it explicitly refuses the grader-isolation axis
-(`…checklist.md:66-67`: covers A, B, C, D, F, G; "J is open"; E is not claimed) and it derives axis E only
-from S078 (`…checklist.md:30`, `:68-69`). Scoring-code execution and TB2.0/Toolathlon grader isolation
-therefore remain open ground.
+**What the entry adds beyond a restatement** (this is the part that makes the coverage claim credible):
+re-derived counts with their unit correction (`…checklist.md:63-73`: 92 root entries = 89 task dirs + 3
+files; 109 entries = 108 dirs + one `task_conflict.json`), a *partial* field-coverage finding for axis H
+(`:49-53`: at the pin, 1 of 89 task dirs carries `schema_version` and `difficulty` but neither time
+baseline; 6 lines across 3 tasks use integer literals where the schema elsewhere uses floats), and the
+per-benchmark axis map (`:75-82`).
 
-**Bullets deliberately untouched** (adjacent, not covered): `corpus/README.md:260` (contamination
-transparency cards), `:261` (judge calibration applied inward), `:266` (identity-verified endpoint),
-`:267` (non-karpathy wiki). Axis G (`…checklist.md:32`, `:78-79`) is a *canary-practice observable*; it is
-not the card format `:260` asks for and it explicitly disclaims detector semantics.
+**What remains open in the same bullet, so the rows must not imply it:** the bullet asks for "*scoring
+code*" as well. The entry reads documentation, task-package schema and a dated release gate; on
+Terminal-Bench 2.0 it claims A, B, C, D, F, G and leaves J open with **no** grader-isolation claim
+(`:77-78`), it derives axis E only from S078 (`:30`, `:79-80`), and it mentions the Toolathlon
+`evaluation/` directory as *shipping beside the task* without reading it (`:54-55`). Scoring-code
+execution therefore stays frontier.
+
+**Bullets untouched** (adjacent, not covered): `corpus/README.md:272` (contamination transparency cards),
+`:273` (judge calibration inward), and the endpoint/wiki bullets below them. Axis G is a canary-practice
+observable and self-limits at `…checklist.md:89-90` ("G reads a maintainer's canary practice; it is not
+a detector, and a canary's absence is not evidence of contamination").
 
 ---
 
-## (c) The coverage-map row to add — and what it must not claim
+## (c) The coverage-map row — landed, plus the five wording cells it must not cross
 
-### Required landing set (all in the admitting commit, per `corpus/QUALITY.md:56-58`)
+The three rows the round needed are now in the tree (line + quote so a later shift is recoverable):
 
-1. **Index row** — the counter's `indexed` is a literal match on
-   ``| `knowledge/benchmark-task-validity-checklist.md` |`` (`plans/adoption_check.py:75-76`). Observed
-   now: `entries=1 indexed=0 … exit=1` (command below), i.e. **the coverage-map bullet alone will not
-   make the frozen C1 target print `indexed=1`**. Add a row to the round-29 attempt-2 admitted-knowledge
-   table, matching the round28/29 pattern at `corpus/README.md:331` / `:358`:
+| Row | Location | Content that matters for scope |
+|---|---|---|
+| Index row | `corpus/README.md:64` — `\| \`knowledge/benchmark-task-validity-checklist.md\` \| Ten-axis task-validity checklist …` | carries "counts re-derived, not copied; **not task validity, contamination measurement or model performance**" |
+| Coverage-map row | `corpus/README.md:249` — `- **Benchmark task-validity instruments**: covered at primary-document synthesis depth (round 29 attempt 2, 2026-10-25)` | carries "Moves the round-24 frontier bullet from unopened lead to a checklist whose axes each name an artefact and a locus. **Not deployment config, not runtime task validity, not contamination measurement.**" |
+| Frontier discharge | `corpus/README.md:271` — `- *Partly discharged round 29 attempt 2 (2026-10-25):*` | carries "supersedes only the `unopened leads` phrase for those three sources; contamination-transparency cards, runtime task validity and hosted judges remain open" |
 
-   ```
-   | `knowledge/benchmark-task-validity-checklist.md` | Ten-axis validity checklist synthesised from four maintainers' published instruments and task-package schemas; axes mapped per benchmark with unconfirmed axes named; not task validity, grader execution or contamination measurement | S077, S078, S079, S080, S090; round29 attempt-2 Gate |
-   ```
+**Verdict on the mandated exclusions:** the three required negatives are present and correctly worded —
+deployment config (`:249`), runtime task validity (`:249`, `:271`), contamination measurement (`:64`,
+`:249`). No row claims certification, judging, or a live run. The round-28/29 discharge lines
+(`:349-352`, `:376-379`) are neither erased nor overwritten.
 
-   (If the lane instead adds it to the main *What's here* table, insert after `corpus/README.md:63`; the
-   counter is satisfied either way, but only by a pipe-row.)
+**One sentence for the record — the entry must not claim deployment config, runtime validity, or
+contamination:** each is carried as open by `PROVINCE.md:208-211`, `corpus/README.md:349-352`/`:376-379`,
+and `corpus/README.md:240` + `:272`, and the entry itself disclaims all three at `…checklist.md:86-90`
+plus model performance at `:91-92`.
 
-2. **Coverage-map row** — §Coverage map bullet list, insert after `corpus/README.md:237`:
+**Residual wording cells (not violations, but the row is the durable trace):**
 
-   ```
-   - **Published per-task validity instruments (maintainer checklist)**: covered at source-digest depth
-     (round 29 attempt 2) — knowledge/benchmark-task-validity-checklist.md; sources S077, S078, S079,
-     S080, S090. Extends the *Agentic time horizon and task validity* row (round 24) from external audits
-     to maintainer-published instruments for Terminal-Bench 2.0, SWE-bench Pro V2 and Toolathlon-Verified
-     at pinned commits; static published artefacts only, axes per benchmark stated, unconfirmed axes
-     named. Terminal-Bench 2.0 scoring code/grader isolation, runtime task validity, deployment config and
-     contamination measurement stay open.
-   ```
-
-3. **Narrowing paragraph** — new "Round29 attempt-2 partial frontier advance" note after
-   `corpus/README.md:367`, closing on the same pattern as `:364-367` ("narrows, not erases"): the three
-   named benchmarks' instrument documentation and task-package schema are now held; their scoring
-   code/execution, runtime validity, hosted judges and contamination stay open as written at `:338-339`
-   and `:365`.
-
-### What that row must NOT claim (one sentence, then the cells that enforce it)
-
-**It must not claim deployment config, runtime validity, or contamination.** Each clause has a carried
-line: deployment/env_config-derived configs and runtime task validity are open (`PROVINCE.md:209-210`;
-`corpus/README.md:364-366`), hosted judges are open (`PROVINCE.md:201`, `:210`), and contamination is a
-source-digest row plus an open card bullet, not a measurement (`corpus/README.md:230`, `:260`, `:339`).
-
-Extended do-not-claim list for whoever writes the row:
-
-- **not "task validity" / not certification** — `PROVINCE.md:196`; `corpus/README.md:329` ("not
-  task-validity certification"); `corpus/README.md:331` ("not task validity or model performance");
-  `…checklist.md:75-77`.
-- **not contamination measurement, not the transparency card of `corpus/README.md:260`** —
-  `…checklist.md:78-79` ("G reads a maintainer's canary practice; it is not a detector").
-- **not model performance / capability / difficulty** — `…checklist.md:80-81`; `PROVINCE.md:3` scope is
-  eval craft, and the claims file forbids "model performance" (`plans/round-29-attempt2-claims.md:90-92`).
-- **not a new research method** — `…checklist.md:18`; `PROVINCE.md:137`; `corpus/QUALITY.md:7-8`.
-- **not "four benchmarks"** — it is three benchmark families across four maintainer organisations, five
-  source rows (`…checklist.md:13-14`, `:82`); write "three benchmark families", not "four benchmarks".
-- **not grader isolation for Terminal-Bench 2.0 or Toolathlon** — axis E is held only from S078
-  (`…checklist.md:30`, `:66-69`).
-- **not a discharge of the other Frontier bullets** — `corpus/README.md:260-267`.
+1. Neither row nor entry states the *extends* relation (Q6) — see F1.
+2. Neither row carves out **scoring code / grader execution** — see F5. `:249`'s "Moves the round-24
+   frontier bullet from unopened lead" reads as wider than the entry's own evidence because the bullet
+   names both specs *and* scoring code.
+3. `:64`'s "read from four maintainers' own artefacts" plus the entry's "Four benchmark maintainers"
+   (`:13-14`) and "Four maintainers were opened" (`:93`) is four *organisations* across **three**
+   benchmark families (harbor-framework/S077, scaleapi/S078, laude-institute/S079+S090, hkust-nlp/S080)
+   — see F4.
+4. `:249` should say "not grader execution" beside "not runtime task validity", and must not convert
+   the entry's "a reviewer **can** re-derive the release" (`:79-80`) into "the lane re-derived/re-ran the
+   release gate". The only lane-executed check in scope is the count re-derivation (`:63-73`).
+5. `:249` does not name the row it extends (`corpus/README.md:246`) — the cheapest place to satisfy Q6 if
+   the entry itself is not edited.
 
 ---
 
 ## Findings (severity order)
 
-### F1 — MEDIUM (admission, Q6): the entry names no existing entry or coverage row it extends
-`corpus/knowledge/benchmark-task-validity-checklist.md:11-20` cites only `corpus/README.md §Frontier`;
-`grep -n "extend\|agent-time-horizon\|webarena\|WebArena" …checklist.md` → rc=1 (no match).
-`corpus/QUALITY.md:50-52` requires "The entry names the existing entry or coverage row it extends".
-Nearest owner row is `corpus/README.md:236` (S005/S006 task-validity digest). A coverage row that says
-"Extends …" does **not** repair Q6, which binds the entry. Fix: one sentence in the entry naming
-`knowledge/agent-time-horizon-and-task-validity.md` (and stating the WebArena rows are adjacent, not
-extended).
+### F1 — MEDIUM (admission, Q6): the entry still names no existing entry or coverage row it extends
+`corpus/QUALITY.md:50-52`: "The entry names the existing entry or coverage row it extends."
+`grep -n "extend\|agent-time-horizon\|Extends" corpus/knowledge/benchmark-task-validity-checklist.md`
+→ **rc=1, no match** (re-verified on the current 97-line file). `…checklist.md:11-16` cites only the
+Frontier text. Nearest owner row is `corpus/README.md:246` (S005/S006 task-validity digest).
+A coverage row saying "Extends …" does not repair Q6 — Q6 binds the entry. Fix: one sentence naming
+`knowledge/agent-time-horizon-and-task-validity.md` and stating the WebArena rows (`:347`, `:374`) are
+adjacent rather than extended.
 
-### F2 — MEDIUM (operability): the five landed rows are due for recheck on landing day
-Observed cells (all five rows): `opened=2026-10-25`, `recheck=2026-10-25`, `status=mined`,
+### F2 — MEDIUM (coverage precision): the shipped discharge is wider than the evidence on "scoring code"
+`corpus/README.md:249` ("Moves the round-24 frontier bullet from unopened lead") and `:271`
+("supersedes only the `unopened leads` phrase for those three sources") versus the bullet at `:270`
+which names "the primary specs **and scoring code**". No scoring code was read: the entry's Terminal-Bench
+row refuses axis E and leaves J open (`…checklist.md:77-78`), axis E is S078-only (`:30`, `:79-80`), and
+the Toolathlon `evaluation/` directory is described as shipping, not opened (`:54-55`).
+Fix: add "the specification/documentation half; scoring code and grader execution remain open" to `:249`
+and/or `:271`.
+
+### F3 — LOW (consistency/operability): entry recheck and registry recheck disagree, and five rows are due on landing day
+Entry: `recheck: 180d … (next due 2027-04-23)` (`…checklist.md:6-7`). Registry, all five rows:
+`recheck=2026-10-25`, `opened=2026-10-25`, `status=mined`,
 `used-by=corpus/knowledge/benchmark-task-validity-checklist.md` (`corpus/SOURCES.md:100-104`), produced by
-the gate's prose-normalization (`plans/sources_adopt.py:149-153`). Consequence, run read-only on the
-current tree:
+the gate's prose-normalization (`plans/sources_adopt.py:149-153`). Observed:
 
 ```
 $ ./scripts/sources-census.sh overdue --root /home/vgpnk/Projects/shokunin --today 2026-10-25 kengaku-shokunin | tail -5
@@ -175,51 +185,47 @@ kengaku-shokunin	overdue	S078 0d recheck=2026-10-25 opened=2026-10-25
 kengaku-shokunin	overdue	S077 0d recheck=2026-10-25 opened=2026-10-25
 ```
 
-`census=ok` still holds (`./scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin
-kengaku-shokunin` → exit 0, final line `kengaku-shokunin  ok  …/corpus/SOURCES.md`; only pre-existing W04
-warnings), so C1's exact target is not blocked. But the entry advertises `recheck: 180d … next due
-2027-04-23` (`…checklist.md:7`) while the registry says due today — an internal inconsistency, and five
-immediate `overdue` lines on the landing day. Fix: give the five staged cells `recheck=180d` (the gate
-keeps a valid cadence — `plans/sources_adopt.py:149-151`; the census accepts `NNd` —
-`scripts/sources-census.sh:663-666`), so registry and entry agree.
+`census=ok` is unaffected (`validate` → exit 0, final line `kengaku-shokunin  ok  …/corpus/SOURCES.md`;
+only pre-existing W04 warnings), and `corpus/lessons/round-29.md` §Attempt 2 states the ISO-date choice
+deliberately ("each row's own `recheck` is that ISO date"). So this is a *decidable* inconsistency rather
+than a defect of fact: `180d` in the five staged cells (a valid cadence is passed through by
+`plans/sources_adopt.py:149-151` and accepted by `scripts/sources-census.sh:663-666`) would make registry
+match entry and put the next due at 2027-04-23.
 
-### F3 — MEDIUM (operability): `indexed=0` until a pipe-row exists in `corpus/README.md`
-```
-$ python3 plans/adoption_check.py --expect .ufo/waves/round-29/attempt2/adoption-expect.json
-entries=1 indexed=0 cited_rows=5 rows_present=5 rows_mined=5 usedby_ok=1 verified_at=1 census=skipped
-exit=1
-```
-`plans/adoption_check.py:75-76` matches the literal ``| `knowledge/<name>` |`` only. A §Coverage map
-bullet (which writes `knowledge/<name>.md` without the surrounding pipes) does not satisfy it, and neither
-does prose. The row in (c)(1) is the smallest fix; Q7 (`corpus/QUALITY.md:56-58`) additionally requires the
-coverage row in the same commit.
+### F4 — LOW (coverage wording): "four maintainers" reads as four benchmarks
+`corpus/README.md:64` ("read from four maintainers' own artefacts"), `…checklist.md:13-14`,
+`…checklist.md:93`. Count: five rows, four organisations, **three** benchmark families
+(S077 and S090 both concern Terminal-Bench). Fix: "three benchmark families" wherever the row's reader
+could infer benchmark count.
 
-### F4 — LOW (coverage wording): "Four benchmark maintainers" over-counts benchmark families
-`…checklist.md:13-14` and `:82` say four maintainers; the five rows cover four *organisations*
-(harbor-framework S077, scaleapi S078, laude-institute S079, hkust-nlp S080 — plus S090 on the same
-Terminal-Bench project) across **three** benchmark families. Leave the maintainer count, but the coverage
-row must say "three benchmark families" so no reader infers four independent benchmarks.
+### F5 — LOW (already satisfied — kept as the audited cell): contamination must stay out
+`corpus/README.md:64` and `:249` both exclude contamination measurement; `…checklist.md:89-90` refuses
+detector semantics; the card bullet `corpus/README.md:272` is untouched. No action; recorded so a later
+editor does not "strengthen" axis G into a contamination claim.
 
-### F5 — LOW (coverage): axis E is S078-only and the row must keep it there
-`…checklist.md:30` sources grader isolation to S078 alone; `:66-69` applies E to SWE-bench Pro V2 only.
-A row that says "task-validity checklist for three benchmarks" without the per-axis caveat would convert a
-declared gap into an implied result.
+### F6 — LOW (for the critic, not a scope defect): axis E's harness sentence is reasoning, not evidence
+`…checklist.md:58-61` generalises about "a harness that runs the verifier in a shared environment by
+default". Only S078's locked protocol is evidenced. The sentence is defensible as a caution and unsafe as
+a quotation; if it is ever cited outside the entry, it must carry "reasoning step".
 
-### F6 — LOW (coverage): axis G must not be read as the contamination-transparency-card bullet
-`…checklist.md:32` (canary present + checked mechanically) and `:78-79` (not a detector) versus
-`corpus/README.md:260` (card format recording detector access, tier tested, what a negative cannot rule
-out). Different artefacts; the row must carry "contamination measurement" on the not-claimed side.
+### Resolved during review (F7, withdrawn)
+`indexed=0` when I first measured it — `plans/adoption_check.py:75-76` matches only the literal
+``| `knowledge/<name>` |`` so a coverage bullet alone cannot satisfy it. A sibling landed the index row
+(`corpus/README.md:64`) while I was writing; the counter now prints the frozen target line verbatim with
+`census=ok` and exit 0. Withdrawn: nothing to fix.
 
 ## What I verified vs what I did not
 
-Verified by execution this seat: counter pre-state (`entries=1 indexed=0`, exit 1); gate selftest
-(`python3 plans/sources_adopt.py --selftest` → `SELFTEST cases=10 failed=0`, exit 0); fleet validate on the
-lane (exit 0, `ok`); fleet overdue on 2026-10-25 (five `0d` lines); row cell values for S077-S080/S090;
-absence of any extend/WebArena reference in the entry; S077 identity and its canary/oracle/nop/cheat-trial
-lines by direct fetch of the pinned raw file (`HTTP 200`, 461 lines; `check-canary` heading at line 93,
-the quoted canary sentence at line 95, `Oracle Validation — Solution passes all tests` at line 244).
+Executed by this seat: the counter twice (before: `entries=1 indexed=0 … exit 1`; after: the exact frozen
+line, exit 0) including the fleet-census subprocess; `python3 plans/sources_adopt.py --selftest` →
+`SELFTEST cases=10 failed=0`, exit 0; fleet `validate` on the lane → exit 0/`ok`; fleet `overdue` on
+2026-10-25 → five `0d` lines; row cell values for S077-S080/S090 (11 columns each, `status=mined`,
+`opened=recheck=2026-10-25`, single `used-by`); absence of any extend/WebArena reference in the entry;
+S077 identity by direct fetch of the pinned raw file at commit `e67a2cb7…` (`HTTP 200`, 461 lines;
+`#### check-canary` heading line 93, the quoted canary sentence line 95, `Oracle Validation — Solution
+passes all tests` line 244, `Adversarial reward-hack detection` line 31).
 
-Not verified here (other seats own it): quote fidelity and ≤25-word bounds (RevQuoteS077/S078/S079/S080/
-S090), the 92/89 and 109/108 counts (Src seats), selftest mutant adequacy (FixtureMutations/GateAudit),
-and whether the Gate's Q10/Q13 report set is complete (GateAudit). No verdict on admission is offered —
-this report advises the L1 only.
+Not verified here (owned by other seats): quote fidelity and ≤25-word bounds (RevQuoteS077/S078/S079/S080/
+S090); the 92/89 and 109/108 counts (Src seats); selftest mutant adequacy (FixtureMutations/GateAudit);
+completeness of the Q10/Q13 report set (GateAudit). I give no admission verdict — this report advises
+the L1.

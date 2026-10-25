@@ -671,3 +671,33 @@ C1 does not move the canonical coverage number and says so.
 
 **Safety:** `shokuknow/` was read only (no campaign tool run, no write, no fetch, no push); the fleet
 root, sibling lanes and `.ufo/state` untouched; the lane's own new bytes carry no credentials.
+
+**Round 29 attempt-2 corrections (appended 2026-10-25, append-only).** The wave's own attack seats
+found five defects after the first landing commit; all are repaired and re-measured, and none
+changes a frozen target:
+
+1. **`recheck` semantics.** Normalizing a prose `recheck` to the *access date* made every adopted row
+   0 days overdue (`round28_census.py` overdue 0 → 1). Rows now carry `180d` (due 2027-04-23) and the
+   tool takes `--recheck` (default `180d`); the stripped prose stays in this lesson's Gate block.
+2. **Strict vs targeted gate modes.** `sources_adopt.py` is strict by default (any staged defect
+   refuses: `exit 3`, 2 escaped-pipe rows + 6 collisions on the landed registry) and offers
+   `--scope-to-admit` for a targeted append (exit 0 on the pre-append registry). Receipts:
+   `corpus/evidence/round29-attempt2/gate-strict.txt` and `gate-scoped.txt`.
+3. **Counter repairs.** `adoption_check.py` now prints exactly the frozen seven fields, gates
+   `cited_rows`/`usedby_ok` per entry (a 3-of-5 entry and a 1-of-5 linkage both fail), anchors the
+   README index row and `verified-at` to lines, treats an unrun census as a failure
+   (`census=skipped` → exit 1), and refuses an empty expectation.
+4. **Selftest repair.** Two mutants that survived the first pass (a 12-cell row with no escape; an
+   invalid nonempty `recheck` bypassing `check()`) and one raised by a later audit (deleting the
+   recheck normalization) are killed by assertions added to existing cases 5 and 6; the suite stays
+   at ten cases. Re-run after the fix: `no-recheck-normalize`, `twelve-cell-accepted`,
+   `anchor-column-zero`, `drop-dupe-check` all die.
+5. **Prior-art pricing.** S091 (Agentic Benchmark Checklist, arXiv 2507.02825) was opened and added,
+   and the entry now states it is INCREMENTAL; `novelty` holds at 7 with no credit taken. Registry
+   82 rows (S001–S080 + S090 + S091), tiers A 76 / B 4 / C 2. `adoption_check.py` still counts the
+   five cited ids, unchanged.
+
+Final measured state: `python3 plans/adoption_check.py --expect .ufo/waves/round-29/attempt2/adoption-expect.json --census`
+→ `entries=1 indexed=1 cited_rows=5 rows_present=5 rows_mined=5 usedby_ok=1 census=ok`, exit 0;
+`python3 plans/sources_adopt.py --selftest` → `SELFTEST cases=10 failed=0`, exit 0; fleet census
+exit 0; `grader.py` exit 0; `round28_census.py` exit 0; `config_projection.py --summary` exit 0.

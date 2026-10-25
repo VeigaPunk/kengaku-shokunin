@@ -7,6 +7,12 @@ No production file was created, edited or deleted. No tool installed or upgraded
 All probes ran on copies under `/tmp/r29a2-critclaimc1/` (transient); every command and its
 literal output is inlined below so the evidence survives detachment.
 
+**Revision note.** `plans/adoption_check.py` was edited by another seat *while this review ran*
+(`8c14a5d` blob `51b7b4f` → working tree `ee34914c847879fc…`). The per-attack sections are
+measured against the frozen revision; the section **"SUPERSEDING RE-RUN"** re-runs every attack
+against the patched file and states which gaps survive. Do not read A5/A8/A12/A13/A14 as open
+without reading that section.
+
 Tree state during probing: `git status --porcelain corpus plans` was clean at probe start;
 mid-run a sibling wrote `corpus/knowledge/benchmark-task-validity-checklist.md`
 (`?? corpus/knowledge/benchmark-task-validity-checklist.md`), so live-tree numbers moved
@@ -261,72 +267,163 @@ string is the claim's own prose (`grep -rn cited_rows` outside the counter → `
 
 ---
 
-## Predicate vs code
+# SUPERSEDING RE-RUN — working tree `ee34914c847879fc…` (counter patched by another seat mid-review)
 
-| C1 sentence | Enforced at | Same condition? |
-|---|---|---|
-| frozen command prints *exactly* the 7-field line | 104–107 | **No** — 8 fields (A14) |
-| … and exits 0 | 109–118 | yes, but cheaply (A1/A7) |
-| object under test is `corpus/knowledge/benchmark-task-validity-checklist.md` | 69–72 via expect | mechanically, but expect is unpinned (A7) |
-| "citing exactly S077 S078 S079 S080 S090" | 34, 79, 112–113 | **No** — any/zero set, supersets, one id per line (A2, A8, A11) |
-| the five rows appended with `status=mined` | 82 | only for ids the entry actually cites (A8/A11) |
-| `used-by` naming the entry | 86–90 | **No** — one of five, `break` (A5) |
-| entry carries access date `2026-10-25` | 77 | substring anywhere, prefix lax (A6, A10) |
-| ≤25-word located quote per source, re-opened | — | **not enforced at all** |
-| kill rule: no substitute row to reach target | — | **not enforced**; counter cannot see intent |
-| control: do-nothing ⇒ exit 1 | A0 | true, but see below |
+`git status` flipped `M plans/adoption_check.py` while this review ran. All verdicts above are
+against the frozen revision `8c14a5d` (blob `51b7b4f`). The working tree now carries:
+`required = sum(len(entry["sources"]))` with `len(cited) == required` and `rows_* == required`;
+`usedby_ok` as an `all(...)` over the entry's sources (no `break`); `body = raw.strip()` before
+the cell split (indent fix); a `-shokunin` suffix strip for the census lane name; and a print
+without `verified_at`. Every fixture was re-run against a pinned copy of that revision.
+
+The frozen command, as written from the lane root, now returns the frozen target **exactly**:
+
+```
+$ python3 plans/adoption_check.py --expect .ufo/waves/round-29/attempt2/adoption-expect.json --census
+entries=1 indexed=1 cited_rows=5 rows_present=5 rows_mined=5 usedby_ok=1 census=ok
+exit=0
+```
+
+| attack | frozen `8c14a5d` | tree `ee34914c` | state |
+|---|---|---|---|
+| A1 fabricated `--lane` tree | exit 0 | exit 0 | **OPEN** |
+| A2 zero-cited entry (frozen expect) | exit 0 | exit 1 | closed |
+| A2'' nothing cited **and** `sources: []` | (would pass) | **exit 0** | **OPEN** (residual) |
+| A3 README row inside an HTML comment | exit 0 | exit 0 | **OPEN** |
+| A4 duplicate `mined` row last, no `--census` | exit 0 | exit 0 (exit 1 with `--census`) | **OPEN without the flag** |
+| A5 one-of-five `used-by` | exit 0 | exit 1 | closed |
+| A6 `verified-at` in a fenced block | exit 0 | exit 0 | **OPEN** |
+| A7 tuned gamed expect (prior entry) | exit 0 | **exit 0** | **OPEN** |
+| A8 five ids on one `source:` line | exit 0 | exit 1 | closed |
+| A10 `verified-at` prefix (`…25T00:00:00Z-stale-clone`) | exit 0 | exit 0 | **OPEN** |
+| A11 one row + unrelated cite | exit 0 | exit 1 | closed |
+| A12 1-space-indented rows | `rows_present=0`, exit 1 | `rows_present=5`, exit 0 | closed |
+| A13 frozen command from lane cwd | `census=fail`, exit 1 | `census=ok` | closed — with a new fragility |
+| A14 extra `verified_at` field | mismatch | exact 7-field line | closed |
+
+Re-run evidence for the OPEN rows (pinned copy of `ee34914c`, `--census` unless noted):
+
+```
+fake     entries=1 indexed=1 cited_rows=5 rows_present=5 rows_mined=5 usedby_ok=1 census=ok   exit=0   # A1
+fake3    … cited_rows=5 … census=ok                                                          exit=0   # A3
+fake4b   … census=fail exit=1  |  --census omitted: census=skipped                            exit=0   # A4
+fake6    … verified-at inside ``` old draft note ```                                          exit=0   # A6
+fake10   verified-at: 2026-10-25T00:00:00Z-stale-clone                                        exit=0   # A10
+fake11 + expect_empty.json  entries=1 indexed=1 cited_rows=0 rows_present=0 rows_mined=0 usedby_ok=1 census=ok  exit=0   # A2''
+$ cd /home/vgpnk/Projects/shokunin && python3 kengaku-shokunin/plans/adoption_check.py \
+    --lane kengaku-shokunin --expect …/expect_gamed2.json --census     # {"access_date":"2026-10-21","path":"…/webarena-config-projection.md","sources":["S070"]}
+entries=1 indexed=1 cited_rows=1 rows_present=1 rows_mined=1 usedby_ok=1 census=ok   exit=0   # A7
+```
+
+What the repair did **not** change, and why each still matters:
+
+- **A1/A7 share one root gap: the denominator is still caller-supplied.** `required` is computed
+  from `expect["sources"]`, and `--lane`/`--expect` are arbitrary paths. A tuned expectation plus a
+  prior entry passes on the committed tree with zero new work (A7 evidence above). `required` is a
+  better denominator than `len(cited)`, but it is pinned to nothing.
+- **A2'' is the floor case of the same gap**: `sources: []` → `required=0`, `cited=∅` passes
+  `len(cited)==required`, and `all(())` is `True`, so `usedby_ok=1`. Nothing encodes the frozen 5.
+  Smallest fix: `required = sum(...)` must equal a frozen `expect["cited_floor"]` (5), or reject an
+  empty `sources` list outright.
+- **A3/A6/A10 are unchanged substring checks** (README `in readme`; `verified-at: {date} in text`).
+  They remain the cheapest places to put a phrase without the artefact.
+- **A4** is closed by the census flag only; `census_code` still defaults to `0`, so a run without
+  `--census` still treats "skipped" as pass — the mode the frozen control receipt used.
+- **A13's new fix is a directory-name heuristic**: it strips `-shokunin` and hopes the remainder is
+  a conf/root lane. Verified failure mode — a lane dir `foo-shokunin` (not in any conf) now gets
+  `census=fail`, exit 1, while the same bytes at `foo` give `census=ok`, exit 0. The node is not
+  wrong today (`kengaku` is a conf lane) but it turns a path into a name. Smallest correction:
+  pass the absolute path — `[str(CENSUS), "validate", "--root", str(lane.parent), str(lane)]` was
+  verified rc 0 from the lane cwd.
+
+Effect on the round's own data: the landed bytes do satisfy the strict reading as well — all five
+rows `S077,S078,S079,S080,S090` are `mined` with `used-by =
+corpus/knowledge/benchmark-task-validity-checklist.md`, the entry has five `source:` lines and
+`verified-at: 2026-10-25` (8563 B), and `corpus/README.md:64` carries the inventory row. The laxity
+was not exercised this round; the point is that the gate could not have told if it had been.
+
+---
+
+## Predicate vs code (frozen `8c14a5d`; post-repair state in the right-hand note)
+
+| C1 sentence | Enforced at | Same condition? | at `ee34914c` |
+|---|---|---|---|
+| frozen command prints *exactly* the 7-field line | 104–107 | **No** — 8 fields (A14) | now exact |
+| … and exits 0 | 109–118 | yes, but cheaply (A1/A7) | still cheap (A1/A7) |
+| object under test is `corpus/knowledge/benchmark-task-validity-checklist.md` | 69–72 via expect | mechanically, but expect is unpinned (A7) | unchanged |
+| "citing exactly S077 S078 S079 S080 S090" | 34, 79, 112–113 | **No** — any/zero set, supersets, one id per line (A2, A8, A11) | count pinned to `expect["sources"]`, so still only as exact as the expect file (A2'', A7) |
+| the five rows appended with `status=mined` | 82 | only for ids the entry actually cites (A8/A11) | count now compared to `required` |
+| `used-by` naming the entry | 86–90 | **No** — one of five, `break` (A5) | now `all(...)` — fixed |
+| entry carries access date `2026-10-25` | 77 | substring anywhere, prefix lax (A6, A10) | unchanged |
+| ≤25-word located quote per source, re-opened | — | **not enforced at all** | not enforced |
+| kill rule: no substitute row to reach target | — | **not enforced**; counter cannot see intent | not enforced |
+| control: do-nothing ⇒ exit 1 | A0 | true, but see below | true |
 
 ## Is the control discriminating?
 
 Partly, and not for the reason claimed.
 
 1. It separates *nothing written* from *bytes written* (A0). It does **not** separate
-   *re-grounded* from *fabricated*: A1/A2/A6 pass with rows and prose that were never opened,
+   *re-grounded* from *fabricated*: A1/A3/A6 pass with rows and prose that were never opened,
    because the counter has no notion of a quote, a location, or an opening.
 2. It was run **without** `--census` (`control.nothing.txt:3` ends `census=skipped`) while the
    target command includes `--census`. The control therefore never exercises the dimension the
-   target freezes, and it would have recorded `census=fail` had the flags matched (A13).
+   target freezes — at the frozen revision it would have recorded `census=fail` had the flags
+   matched (A13), and today it leaves a duplicate-row tree (A4) passing.
 3. It cannot detect the strongest attack (A7): it used the frozen expect, and the receipt records
    no `sha256` of `adoption-expect.json`, so a swapped expect is indistinguishable afterwards.
 4. Its `base 1f3b0f1…` label is a corpus revision, not a tool revision:
    `git cat-file -e 1f3b0f1ec41ec297130e8944ff97968d32324632:plans/adoption_check.py` → exit 128;
    the counter first exists at `8c14a5d`. The receipt cannot be re-derived "at base" with the
    committed tool; it is a working-tree run against base corpus bytes.
+5. Net: the control is a valid *empty-tree* control and not a control for the two properties the
+   claim actually needs (grounding, and committed-vs-supplied bytes). A discriminating control
+   would be a second receipt run against a fabricated lane (A1) with the same flags, expected to
+   exit 1 — today it exits 0.
 
-## Smallest safe corrections (advice only — I did not edit)
+## Smallest safe corrections — status after the mid-review repair
 
-Ordered by axis value; each is a single-line-ish change to `plans/adoption_check.py`.
+Landed in the working tree (`ee34914c`) by another seat: 1 (as a suffix heuristic, not the path
+form), 3 (count pinned to `expect["sources"]`), 4, 8, 9. Still open: 2, 5, 6, 7, plus the residual
+floor from 3 and the fragility in 1.
 
-1. **(operability, A13)** line 96 → pass the absolute lane path:
-   `[str(CENSUS), "validate", "--root", str(lane.parent), str(lane)]`.
-   Verified: that argv returns rc 0 from the lane cwd (census `resolve_targets` takes the
-   `*/*` + `[ -d ]` branch). Until this lands, the frozen target line cannot exit 0.
-2. **(soundness, A4/A2)** remove the skip-as-pass: default `census_code = 1` (or require
-   `--census`), so `census=skipped` can never satisfy line 116.
-3. **(soundness, A2/A8/A11)** derive the denominator from the frozen expectation, not the entry:
-   `expected = set(entry["sources"])`, then require `cited == expected` per entry, and keep a
-   frozen `cited_rows=5`. Line 34 must also capture every id after `^source:` (`findall`, not one
-   `S[0-9]{3,}`), or the claim must require one id per line — pick one and write it down.
-4. **(soundness, A5)** delete the `break` at line 90 and count rows, not entries: require every
-   `row_id in entry["sources"]` to have `rel in cells[10]` (`usedby_ok == 5`, printed as such).
-5. **(soundness, A3)** anchor the README check to an inventory line and to a section, e.g.
-   `re.search(r"(?m)^\| `knowledge/" + re.escape(name) + "` \|", readme)` plus a section guard,
-   rather than the unanchored `in readme`.
-6. **(soundness, A6/A10)** anchor the date to a front-matter line:
-   `re.search(rf"(?m)^verified-at: {re.escape(access_date)}$", text)`.
-7. **(soundness, A7)** pin the expectation: emit `expect_sha=<sha256>` in the output line and
-   record the same hash in the control receipt, so a swapped expect shows up in the diff of the
-   two rows. Cheap, and it converts A7 from invisible to loud.
-8. **(duplicate authority, A12)** line 44 → slice after the indent:
-   `cells = raw.lstrip(" ")[1:-1].split("|")`, or reuse the census/C2 anchor and cell split.
-   Today the counter silently drops indented rows that census accepts.
-9. **(fidelity, A14)** amend the frozen target line to include `verified_at=1` (or drop the field
-   from the print). Not a code bug; a claim-text bug that makes "prints exactly" false.
+1. **(operability, A13) — LANDED, but as a name heuristic.** The tree strips `-shokunin` and
+   passes the remainder. Correct today (`kengaku` is a conf lane) and wrong off-fleet: a lane dir
+   `foo-shokunin` not in any conf yields `census=fail`, exit 1, while the same bytes at `foo` yield
+   `census=ok`, exit 0 (verified). Prefer the absolute path —
+   `[str(CENSUS), "validate", "--root", str(lane.parent), str(lane)]`, verified rc 0 from the lane
+   cwd — which needs no name convention.
+2. **(soundness, A4/A2) — OPEN.** `census_code` still defaults to `0`, so `census=skipped`
+   satisfies the `census_code == 0` conjunct; A4's duplicate-row tree passes with the flag omitted.
+   Default it to `1`, or require `--census`, and record the receipt with the same flags as the
+   target.
+3. **(soundness, A2/A8/A11) — PARTLY LANDED.** `required = sum(len(entry["sources"]))` and
+   `len(cited) == required` are in. The residual is the floor: `sources: []` ⇒ `required=0` and
+   `all(())` is `True`, so an entry citing nothing passes (A2'', exit 0, `census=ok`). Require
+   `required == 5` from a frozen `expect["cited_floor"]`, or refuse an empty `sources` list. Line
+   34 still captures one id per `source:` line; with the count pinned to five that now costs a
+   false red on the corpus's own multi-id style (`webarena-config-projection.md` reports
+   `cited_rows=1` for a line naming seven), so `findall` is the matching half of this item.
+4. **(soundness, A5) — LANDED.** `all(...)` over `entry["sources"]`; `fake5b` now `usedby_ok=0`, exit 1.
+5. **(soundness, A3) — OPEN.** `f"| \`knowledge/{name}\` |" in readme` is unanchored; a README
+   HTML comment satisfies it (`fake3`, exit 0, `census=ok`). Anchor to a line and to the inventory
+   section.
+6. **(soundness, A6/A10) — OPEN.** `verified-at: {access_date}` is still a substring; a fenced
+   "old draft note" (`fake6`) and a prefixed value `…25T00:00:00Z-stale-clone` (`fake10`) both
+   pass. Anchor to `^verified-at: …$`.
+7. **(soundness, A7) — OPEN, and this is the one that matters.** The expect file is still the
+   whole gate and still unpinned: a tuned expectation naming the prior entry and the id it really
+   cites exits 0 on the committed tree (`expect_gamed2`, `census=ok`). Emit `expect_sha=<sha256>`
+   in the line and record the same hash beside the control receipt, so a swap shows up in a diff.
+8. **(duplicate authority, A12) — LANDED.** `body = raw.strip()`; `fake5` now reports
+   `rows_present=5`, matching census's `rows 5 / status.mined 5`.
+9. **(fidelity, A14) — LANDED.** The print is the frozen seven fields and the frozen line is now
+   reproduced byte-for-byte.
 
-Items 1–4 are the ones that decide whether C1's target means anything: without them the counter
-is a byte-counter over a caller-supplied tree (A1/A7) with a self-supplied denominator (A2/A8).
-Item 1 is a hard blocker on landing the claim as written; items 3, 4, 5, 6 turn three of the
-gateable dimensions into real controls at roughly a dozen lines.
+With 1,3,4,8,9 landed the frozen target is reachable and the round's own bytes satisfy the strict
+reading. What the counter still cannot do is tell a caller-supplied tree from the lane's committed
+one (A1/A7), and that is the difference between a gate and a calculator. Items 2 and 7 are the
+cheap closers: one default and one hash.
 
 ## What is not gameable (stated for symmetry)
 

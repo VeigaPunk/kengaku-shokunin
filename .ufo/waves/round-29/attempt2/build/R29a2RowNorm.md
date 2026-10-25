@@ -27,6 +27,12 @@ The tool and the registry both changed underneath this wave, so every number bel
 | `/tmp/r29a2-RowNorm/mirror/corpus/SOURCES.md` (base+block) | `a69ee62fe91847319e7cbae7023e30c9` | 03:48 | 136 lines |
 | `scripts/sources-census.sh` | `7b2057c3fb6e771cebae44d1af818826` | — | 806 lines |
 
+The lane kept moving while this report was written: the live registry was `a93b85b9…` when the
+census in §6 ran and `af473bc3…` minutes later (still 81 rows). The hashes above identify *the
+bytes each number was measured against* — a later reader who gets a different md5 for
+`corpus/SOURCES.md` is seeing a sibling write, not a contradiction. Everything below that matters
+for row mechanics was measured on the frozen 76-row snapshot, which cannot move.
+
 ## 1. Axes named
 
 1. **Row mechanics** — are the five rows well-formed 11-column rows that the census accepts?

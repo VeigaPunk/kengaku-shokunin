@@ -73,13 +73,17 @@ def main(argv: list[str]) -> int:
         text = path.read_text(encoding="utf-8") if path.is_file() else ""
         if text:
             present += 1
-        if f"| `knowledge/{name}` |" in readme:
+        # anchored: an index row is a table line, not a mention inside a comment
+        if re.search(r"^\| `knowledge/" + re.escape(name) + r"` \|", readme, re.MULTILINE):
             indexed += 1
-        if f"verified-at: {access_date}" in text:
+        if re.search(r"^verified-at: " + re.escape(access_date) + r"$", text, re.MULTILINE):
             verified_at_ok += 1
         cited.update(SOURCE_LINE_RE.findall(text))
 
     required = sum(len(entry["sources"]) for entry in entries)
+    if required == 0:
+        print("entries=0 cited_rows=0 required=0 -> empty expectation is not a pass")
+        return 1
     rows_present = sum(1 for row_id in cited if row_id in registry)
     rows_mined = sum(1 for row_id in cited if row_id in registry and registry[row_id][7] == "mined")
     # per-entry, all-of: one linked row out of five is not a linked entry
@@ -92,7 +96,7 @@ def main(argv: list[str]) -> int:
         usedby_ok += 1 if linked else 0
 
     census_state = "skipped"
-    census_code = 0
+    census_code = 1  # an unrun census is not a pass
     if args.census:
         lane_name = lane.name[: -len("-shokunin")] if lane.name.endswith("-shokunin") else lane.name
         proc = subprocess.run(

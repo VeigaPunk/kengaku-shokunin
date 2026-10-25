@@ -134,6 +134,7 @@ def build_block(
     want_ids: list[str],
     admitted_entries: list[str],
     access_date: str,
+    recheck_default: str = "180d",
 ) -> tuple[list[str], list[tuple[str, str]], list[str]]:
     """Return (block_lines, stripped_prose, missing_ids)."""
     by_id = {row.row_id: row for row in rows}
@@ -142,14 +143,16 @@ def build_block(
         return [], [], missing
     block: list[str] = []
     prose: list[tuple[str, str]] = []
-    used_by = ", ".join(admitted_entries)
+    used_by = ", ".join(admitted_entries) or "\u2014"
     for row_id in want_ids:
         row = by_id[row_id]
         cells = [cell.strip() for cell in row.cells]
         recheck = cells[9]
         if not (ISO_DATE_RE.match(recheck) or CADENCE_RE.match(recheck) or recheck in SYMBOLIC_CADENCE):
             prose.append((row_id, recheck))
-            cells[9] = access_date
+            # A recheck is a future due date or an interval from `opened`, never the
+            # access date itself: that would put every adopted row 0 days overdue.
+            cells[9] = recheck_default
         cells[8] = access_date
         cells[10] = used_by
         cells[7] = "mined"
@@ -166,7 +169,10 @@ def collect(package: Path, registry: Path) -> tuple[list[Row], list[Row], list[t
 
 
 def check(
-    package: Path, registry: Path, want_ids: list[str] | None = None
+    package: Path,
+    registry: Path,
+    want_ids: list[str] | None = None,
+    scope: bool = False,
 ) -> tuple[int, dict[str, object]]:
     staged, registry_rows, bad = collect(package, registry)
     clash = collisions(ids(registry_rows), ids(staged))
@@ -182,10 +188,10 @@ def check(
         "malformed_total": len(malformed),
         "prose_recheck_total": sum(1 for row in staged if "recheck-prose" in row_defects(row)),
     }
-    if want_ids:
-        # A package is staged for many rounds; only the rows this round appends
-        # are under test. An unrequested row's defect is reported, never fatal:
-        # the round cannot fix a row it does not append.
+    if want_ids and scope:
+        # Opt-in (`--scope-to-admit`): a package is staged for many rounds and the
+        # round cannot fix a row it does not append. The default stays strict, so a
+        # mangled staged row is refused unless the caller narrows the set explicitly.
         scope = set(want_ids)
         clash = [row_id for row_id in clash if row_id in scope]
         dupes = [row_id for row_id in dupes if row_id in scope]
@@ -202,7 +208,7 @@ def check(
         )
         malformed = [item for item in malformed if item.split(":", 1)[0] in scope]
     report.update({"collisions": clash, "duplicates": dupes, "malformed": malformed, "defects": defects})
-    if bad and not want_ids:
+    if bad and not (want_ids and scope):
         code = EXIT_COLLISION if clash else EXIT_MALFORMED
         return code, report
     if malformed or dupes or defects:
@@ -317,6 +323,7 @@ def selftest() -> int:
         staged = write("staged5.md", HEADER + PROSE_ROW.replace("S900", "S006") + "\n")
         reg = write("reg5.md", HEADER)
         rows, _ = parse_rows(staged.read_text(encoding="utf-8"))
+        code_scoped, _ = check(staged, reg, ["S006"], scope=True)
         block, prose, missing = build_block(rows, ["S006"], ["corpus/knowledge/new.md"], "2026-10-25")
         on_commit = write(
             "staged5b.md",
@@ -328,10 +335,14 @@ def selftest() -> int:
             "prose-recheck-normalized",
             not missing
             and len(block) == 1
-            and "| 2026-10-25 |" in block[0]
+            and len(block[0].split("|")) == 13
+            and block[0].split("|")[10].strip() == "180d"
+            and block[0].split("|")[9].strip() == "2026-10-25"
             and prose and prose[0][0] == "S006"
             # a symbolic cadence is a valid recheck and must survive, not become a date
-            and bool(oc_block) and "| on-commit |" in oc_block[0] and not oc_prose,
+            and bool(oc_block) and "| on-commit |" in oc_block[0] and not oc_prose
+            # the branch main() actually takes: a requested prose row is tolerated
+            and code_scoped == EXIT_OK,
         )
 
         # 7. dangling used-by is rewritten to the admitted set only
@@ -357,7 +368,7 @@ def selftest() -> int:
             HEADER + GOOD_ROW.replace("S900", "S008") + "\n"
             + GOOD_ROW.replace("S900", "S011").replace("fixture scope", "scope \\| scope") + "\n",
         )
-        code, report = check(staged, reg, ["S008"])
+        code, report = check(staged, reg, ["S008"], scope=True)
         case(
             "clean-package-passes",
             code == EXIT_OK and report["staged"] == 1 and report["malformed_total"] == 1,
@@ -366,7 +377,7 @@ def selftest() -> int:
         # 10. an invalid nonempty recheck is refused unscoped, and a missing id is refused
         prose_only = write("staged8.md", HEADER + PROSE_ROW.replace("S900", "S012") + "\n")
         code_prose, _ = check(prose_only, reg)
-        code, report = check(staged, reg, ["S008", "S010"])
+        code, report = check(staged, reg, ["S008", "S010"], scope=True)
         case(
             "missing-requested-id",
             code == EXIT_REQUEST
@@ -390,22 +401,34 @@ def main(argv: list[str]) -> int:
     parser.add_argument("--admit-ids", default="", help="comma-separated ids to append")
     parser.add_argument("--entries", default="", help="comma-separated admitted entry paths")
     parser.add_argument("--access-date", default="", help="ISO date frozen for this adoption")
+    parser.add_argument(
+        "--recheck",
+        default="180d",
+        help="recheck value written when a staged cell is prose (a cadence or a future ISO date)",
+    )
     parser.add_argument("--out", type=Path, help="write the append block here")
+    parser.add_argument(
+        "--scope-to-admit",
+        action="store_true",
+        help="refuse only the requested rows' defects (default: any staged defect refuses)",
+    )
     args = parser.parse_args(argv)
     if args.selftest:
         return selftest()
     if not args.registry or not args.package:
         parser.error("--registry and --package are required unless --selftest")
     want = [item for item in args.admit_ids.split(",") if item]
-    code, report = check(args.package, args.registry, want or None)
+    code, report = check(args.package, args.registry, want or None, args.scope_to_admit)
     print_report(report)
     if code != EXIT_OK or not want:
         return code
     if not args.access_date:
         parser.error("--access-date is required when --admit-ids is given")
+    if not args.entries:
+        parser.error("--entries is required when --admit-ids is given (used-by has no fallback)")
     rows, _ = parse_rows(args.package.read_text(encoding="utf-8"))
     entries = [item for item in args.entries.split(",") if item]
-    block, prose, missing = build_block(rows, want, entries, args.access_date)
+    block, prose, missing = build_block(rows, want, entries, args.access_date, args.recheck)
     if missing:
         print(f"  missing: {' '.join(missing)}")
         return EXIT_REQUEST
