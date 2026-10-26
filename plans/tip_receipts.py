@@ -10,8 +10,13 @@ clones the lane at HEAD into a scratch directory, re-runs every probe inside tha
 its stdout with the receipt blob as committed at HEAD.
 
 Population, stated mechanically: committed files `corpus/evidence/**/*probe*.{txt,log}`. A file enters the
-byte-comparison only if the RECEIPTS table maps it to a committed probe script; everything else is printed
-on one `boundary` line with its reason, so nothing is dropped silently. A mapped receipt whose script is
+byte-comparison if the RECEIPTS table maps it to a committed probe script, or — the table being an override
+list, not a census — if its own basename resolves to exactly one committed `plans/*.py` probe: with
+non-alphanumerics dropped and case folded, the receipt stem `git-leak-probe` and the script stem
+`git_leak_probe` are the same token. A derived mapping is strict (`kind=byte`) and `--list` prints
+`origin=derived` for it, so a round's new receipt is re-run without a table edit and the table stays the
+place where a declared-bounded kind is written. Every other file is printed on its own `skip
+reason=no-committed-re-run-command` line, so nothing is dropped silently. A mapped receipt whose script is
 gone, whose dependency is absent, or whose divergence is declared and bounded is printed as `skip` with the
 reason. A receipt that declares embedded scratch paths (`temp-paths`) is still re-run: absolute mkdtemp
 paths are masked on both sides, so equality after masking is a reproducibility claim up to those paths, and
@@ -69,6 +74,32 @@ FALLBACK = {
 }
 DOC_SOURCES = ("SKILL.md", "README.md", "corpus/README.md")
 DOC_GLOBS = ("plans/*.py", "plans/*.md", "plans/*.json", "corpus/knowledge/*.md")
+
+# Receipt stem == script stem once non-alphanumerics are dropped and case folded. Exact match only: a
+# `-first-run` sibling or a `probe-r19-*` log resolves to nothing, and a stem two scripts share resolves
+# to nothing either — the receipt then stays unmapped and keeps its printed reason.
+STEM_RE = re.compile(r"[^a-z0-9]+")
+
+
+def stem(name: str) -> str:
+    return STEM_RE.sub("", name.lower())
+
+
+def derive_map(lane: pathlib.Path) -> dict[str, tuple[str, str, str]]:
+    """receipt -> (script, "byte", "derived") for candidates the RECEIPTS table does not name."""
+    by_stem: dict[str, list[str]] = {}
+    for rel in git(lane, "ls-tree", "-r", "HEAD", "--name-only", "plans").decode().splitlines():
+        rel = rel.strip()
+        if rel.startswith("plans/") and rel.endswith(".py") and "/" not in rel[len("plans/"):]:
+            by_stem.setdefault(stem(pathlib.Path(rel).stem), []).append(rel)
+    out: dict[str, tuple[str, str, str]] = {}
+    for rel in candidates(lane):
+        if rel in RECEIPTS:
+            continue
+        hit = by_stem.get(stem(pathlib.Path(rel).stem), [])
+        if len(hit) == 1:
+            out[rel] = (hit[0], "byte", "derived")
+    return out
 
 
 def die(msg: str) -> "NoReturn":  # noqa: F821
@@ -211,8 +242,10 @@ def main() -> int:
         die(f"--lane {lane} has no {EVIDENCE} directory: not a kengaku lane?")
     tip = git(lane, "rev-parse", "HEAD").decode().strip()
     found = candidates(lane)
-    mapped = [r for r in found if r in RECEIPTS]
-    unmapped = [r for r in found if r not in RECEIPTS]
+    plan: dict[str, tuple[str, str, str]] = {r: (s, k, "table") for r, (s, k) in RECEIPTS.items()}
+    plan.update(derive_map(lane))
+    mapped = [r for r in found if r in plan]
+    unmapped = [r for r in found if r not in plan]
     if args.only:
         mapped = [r for r in mapped if args.only in r]
         unmapped = [r for r in unmapped if args.only in r]
@@ -220,8 +253,9 @@ def main() -> int:
     if args.list:
         print(f"tip {tip}")
         for rel in mapped:
-            script, kind = RECEIPTS[rel]
-            print(f"receipt {rel} kind={kind} script={script} provenance={provenance(lane, rel, script)}")
+            script, kind, origin = plan[rel]
+            print(f"receipt {rel} kind={kind} script={script} origin={origin} "
+                  f"provenance={provenance(lane, rel, script)}")
         for rel in unmapped:
             print(f"receipt {rel} skip reason=no-committed-re-run-command")
         return 0
@@ -243,7 +277,7 @@ def main() -> int:
 
         # Resolve commands from the clone's committed scripts before any run.
         for rel in mapped:
-            script, kind = RECEIPTS[rel]
+            script, kind, _origin = plan[rel]
             argv, origin = usage_argv(clone, script)
             results[rel] = {
                 "kind": kind, "script": script, "argv": argv, "origin": origin,
@@ -338,8 +372,10 @@ def main() -> int:
 
     n = len(mapped) + len(unmapped)
     strict = [r for r in mapped if results[r]["kind"] == "byte"]
+    no_cmd = len(unmapped) + sum(
+        1 for r in mapped if str(results[r].get("why", "")).startswith("no-committed-re-run-command"))
     print(f"note compared={len(strict)} declared_bounded={len(mapped) - len(strict)} "
-          f"no_command={len(unmapped)}")
+          f"no_command={no_cmd}")
     k = sum(1 for r in mapped if results[r].get("verdict") == "equal")
     d = sum(1 for r in mapped if results[r].get("verdict") == "differ")
     s = n - k - d
