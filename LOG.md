@@ -1111,3 +1111,38 @@ tied 7): admit the pinned Terminal-Bench 2.0 `configure-git-webserver` grader (S
 - Tool use: biopython 1.85 via `uv run --with` (ephemeral uv cache, PyPI; the round-35 probe's pinned dependency, used by
   the gate's P10 re-run). bubblewrap 0.13.1 was already installed. Docker image `alexgshaw/configure-git-webserver:20251031`
   pulled and removed by one wave-1 seat. No other installs.
+
+## Round 38 (hyaku run 8, 2026-10-26) — gate behaviours attributed 21/22 (honest stop); fourth TB2 grader executed
+
+L1 `KengakuR38` (planner seat). Freeze `e0a37853` (claims, both counters, the probe and its frozen case table with
+`violates=` tags, five captures, red controls; a child of the round-37 L1's `21e6251`, see the lesson header); first
+recorded probe run `e95cf550` (second run byte-equal). Lesson `corpus/lessons/round-38.md`.
+
+- C1 (calibration, not admitted): 22 frozen mutants of `plans/pkg_gate.py` under an attributed kill rule; freeze
+  `killed=0 survived=22`; twelve wave-1 executor seats wrote `plans/battery38/` (22 fixtures, `dc0cdb54`); landing
+  `BATTERY fixtures=86 wrong=0 renamed_disagree=0 sidechannel=0`, `MUTANTS total=22 killed=21 survived=1`, `PREDICATE C1
+  fail`. N21 was frozen as `silence` but makes D5 stricter, so it can only be killed as a mirror (`build/R38BatD5.md`); the
+  round reports the miss, does not relabel. New `plans/mutant_direction_check.py` (Q29) flags it: `N21 … MISLABELLED`.
+- C2 (coverage, predicate met): TB2 `build-pmars` @ `2fd12b88`, S115/S116; probe `cases=22 observed_pass=7 observed_fail=15
+  mismatches=0`. Observations on the pinned capture: a canned 21-line C program with an empty `debian/` dir and a
+  zero-byte `src/dummy.c` passes all four tests; a run-time `dlopen()` of libX11 is invisible to the `ldd` string scan
+  while a `-lX11` link is caught; `Results:` is a start-anchored match; exit status is ignored when output is non-empty;
+  a script earlier on `PATH` answers the behaviour checks while `ldd` reads `/usr/local/bin/pmars`; `debian` may be a file
+  and `src/*.c` a directory. Real pytest 8.4.1 agrees 22/22 (`R38CritPytest`), an independent re-derivation 22/22 + 3/3
+  extra (`R38CritIndep`). Prior art: TB2 #59 is about the oracle's apt pins; an LLM audit names the provenance gap but
+  calls `ldd` reliable; TB2.1 changed the instruction, not the grader. Coverage held at 7 (L0 cap).
+- Frontier / routed: Q28 + `## Errata (round 38)` on the round-37 entry (D2; `R38MapErratum`, `R38MapRetro`); anchor check
+  binds each digest to its own row's capture (D3; `R38AnchorBind`, cross-capture fixtures now `digest-wrong-capture`);
+  ledger-tip binds an absent branch ref, refuses with exit 2 (D4; `R38LedgerTip`); PROVINCE sibling report-out (D6;
+  `R38SiblingCite`); D1 was closed by the round-37 L1 in `21e6251`.
+- Assimilation: `considerthese/2026-10-25.md` proposal 2(c) landed as `plans/tip_receipts.py` (`receipts=24 byte_equal=4
+  differ=0 skipped=20`, tamper control `differ`); `merge/kengaku/` re-screen: 2 admit-candidates (card family) deferred,
+  5 hold, 5 refuse (`build/R38MergeRescreen.md`); nothing appended.
+- Mistakes mined: the N21 direction (freeze defect), the order-of-operations recurrence (the C2 skip-control ran the probe
+  through P10 before the first recorded run, disclosed in the claims), the witness-picked map label (round-37 D2), and the
+  claims' source arithmetic (13+1+6 ≠ 22).
+- Re-verification (freshness): S115/S116 and three more captures equal upstream `main` and TB2.1's grader
+  (`R38ScoutUpstream`); every no-harm instrument green at the landing tip (`integrate/measure-final.txt`).
+- Tool use: biopython 1.85 via `uv run --with` (gate P10, ephemeral); gcc 16.2.1, bubblewrap 0.13.1, libX11 already
+  installed. pytest 8.4.1 + pytest-json-ctrf 0.3.5 into scratch `uv venv -p 3.13` (PyPI via uv; `R38CritPytest`,
+  `R38PlanNext`), removed with the scratch. No pacman transaction.

@@ -1330,3 +1330,44 @@ appended erratum and four captures (`integrate/measure-final.txt`).
   fabricated or mislocated), lesson 5 / QUALITY 6 / SCORECARD-LOG 2 / SKILL-README 1 / PROVINCE 1 defects, 3 of 60 self-assessment
   statements mismatched (`F37CritCalibStatements`), 20 wave-1 findings unaddressed (`F37ConnCrossCheck`). They are routed to
   round 38; the frozen predicates are unaffected.
+
+## Round 38 (hyaku run 8, 2026-10-26): gate behaviours attributed 21/22 (honest stop), a fourth TB2 grader executed
+
+Baseline as read `fc1174f52b150999bef91f2e81da78732ca0eb9f`; freeze `e0a378539a45cc9388c66cfba22f44275131de23` (a child of the
+round-37 L1's `21e6251b`, which landed 3 s earlier — lesson header erratum); first recorded probe run `e95cf550`. Frozen
+prereg `plans/round-38-claims.md`. Lowest non-retired axis: coverage 7, tied with novelty 7; coverage chosen (frozen
+tie-break), capped at 7 by the open L0 question `kengaku | round-33`. No stagnation waiver. Landing measurement
+`.ufo/waves/round-38/integrate/measure-final.txt` (clean `--no-local` clone of `d93b7d68`, `untracked_in_clone=0`).
+
+| claim | axis | observed before → after, counting command | score / verdict |
+|---|---|---|---|
+| C1 advertised gate behaviours the round-37 battery does not demonstrate: 22 frozen mutants N01–N22 of `plans/pkg_gate.py` (unedited, `ea638822…`), attributed kill rule, silence and mirror directions, over round-36 + `battery37` + `plans/battery38/*.py` | **calibration** — mismatch count between what the gate's docstring, Q24/Q27 and the `package-gate` / `gate-mutation-harness` rows advertise and what the battery shows | `python3 plans/round38_c1_verify.py --lane .`: before `BATTERY fixtures=64 wrong=0 renamed_disagree=0 sidechannel=0`, `MUTANTS total=22 killed=0 survived=22`, `PREDICATE C1 fail` (`.ufo/waves/round-38/claims/control-c1-nothing.txt`) → after `PINS total=14 mismatched=0`, `BATTERY fixtures=86 wrong=0 renamed_disagree=0 sidechannel=0`, `MUTANTS total=22 killed=21 survived=1 invalid=0 null_detected=0`, `PREDICATE C1 fail`, exit 1 (`measure-final.txt`) | **8 → 8 held; NOT ADMITTED (honest stop).** The survivor N21 is frozen as `silence` but can only be killed as a mirror (it makes D5 stricter); no battery can meet the frozen predicate (`build/R38BatD5.md` §BLOCKER; `plans/mutant_direction_check.py` → `N21 … MISLABELLED`). Not relabelled after scoring. Also: 3 of 22 `adv` cells name no advertising sentence (`R38CritClaims` §1) and the counter's predicate is reachable by an in-process monkeypatch (`R38CritClaims` §2) |
+| C2 pinned TB2 `build-pmars` grader admitted with an executed 22-case sandbox probe (S115 `tests/test_outputs.py`, S116 `instruction.md`) | **coverage** (lowest, tied) — `coverage/surfaces`: one §Frontier TB2 sub-bullet narrowed by one task, one coverage-map bullet, one PROVINCE paragraph, knowledge files/index rows 44→45, SOURCES 107→109; one edge class new to the executed sample (graded state = a built artefact plus a source tree) | `python3 plans/round38_c2_verify.py --lane .`: before `checks=7 defects=4` (V2, V3, V4, V7), exit 1 (`claims/control-c2-nothing.txt`) → after `checks=7 defects=0`, `PREDICATE C2 pass`, exit 0 (`measure-final.txt`); probe `cases=22 observed_pass=7 observed_fail=15 mismatches=0`, second run byte-equal | **7 → 7 held** (L0 cap). Frozen predicate met; admission also rests on non-author re-reads (`R38CritPytest` 22/22, `R38CritIndep` 22/22 + 3/3) because the counter admits an informed filler (`R38CritC2Counter` §1) |
+
+Other axes held: novelty 7, depth 9, operability 8, freshness 8, adjacency 8. No-harm at the landing tip
+(`measure-final.txt`): round-37 C1 `killed=55/55` pass, round-37 C2 pass, round-36 C2 pass, anchor check `rows=109 tokens=17
+defects=0`, ledger-tip `rows=9 closed=9 observed_pass=9 mismatches=0`, census exit 0, frozen digests 8/8 OK.
+
+### Round-38 capabilities (demonstrated this round)
+
+| Capability | What it can now do | Evidence / command | First-working round |
+|---|---|---|---|
+| `build-provenance-grader-probe` | Execute a pinned TB2 grader whose graded state is a host-compiled artefact plus a staged source tree, per case in bubblewrap, with frozen predictions and `violates=` tags | `python3 plans/build_pmars_probe.py --lane .` → `cases=22 observed_pass=7 observed_fail=15 mismatches=0`, byte-equal re-run (`measure-final.txt` V2 P10) | 38 |
+| `mutant-direction-check` | Report, per frozen gate mutant, which attributed kill directions a battery exhibits and fail on a mislabelled direction | `python3 plans/mutant_direction_check.py --lane .` → `DIRECTIONS total=22 mislabelled=1`, exit 1 on N21 (`integrate/direction-check.txt`) | 38 |
+| `tip-receipt-validator` | Re-run every committed probe receipt with a committed re-run command on a clean clone and byte-compare it; tamper control | `python3 plans/tip_receipts.py --lane .` → `receipts=24 byte_equal=4 differ=0 skipped=20`; one flipped byte → `differ` | 38 |
+
+Frontier and routed work (not claims): Q28 (map labels derived from all violating cases) + `## Errata (round 38)` on
+`tb2-git-webserver-grader.md` (round-37 D2); Q29 (frozen mutant direction witnessed); `plans/anchor_digest_check.py`
+binds each token to its own row's capture (D3); `plans/ledger_tip.py` binds an absent branch ref and refuses with exit 2
+(D4); PROVINCE sibling report-out (D6); considerthese 2(c) landed as `plans/tip_receipts.py`. Registry 107 → 109 (tier A
++2), knowledge 44/44 → 45/45, census exit 0 before and after.
+
+### Planned (round 39)
+
+- Calibration (8): a new frozen gate-mutant list that carries N21 as a **mirror** plus the round-38 wave-2 extra
+  survivors, every direction stated as laxer/stricter at freeze and checked with `plans/mutant_direction_check.py` at
+  the first integration (Q29); the counter must run battery modules out of process so a module cannot patch
+  `run_gate` (`R38CritClaims` §2). Alternative priced by `R38PlanNext` §5: mutation-test the lane's tripwire tools
+  (anchor check, attribution audit, ledger-tip) — re-price after this round's D3/D4 repairs.
+- Coverage/novelty (tied 7): TB2 `git-leak-recovery` @ `2fd12b88` (repository-history-state class; `R38PlanNext` §2:
+  the untouched repo passes 4/5, a one-line `echo` passes 5/5), first recorded probe run before any `--rerun` control.
