@@ -1078,3 +1078,36 @@ controls); Amendment 1 `acbda2f3`.
   (harness property, not established), README coverage bullet no longer says "extends", SKILL advice reworded
   (`R36CritScope` F1/F2/F7/F9). Open: the remaining `R36CritScope` fixes, the two confounded probe cases
   (`R36RevProbePred`), and everything wave 2 was to attack.
+
+## Round 37 — 2026-10-26 (hyaku run 8)
+
+Declared C1 calibration (8): make every advertised defect class of the round-36 package gate demonstrable — 55 frozen
+one-branch silence mutants (`plans/round37_c1_verify.py`) against `plans/pkg_gate.py` at its freeze digest, a null mutant
+and a renamed-fixture run included; survivors are advertised-but-undemonstrated clauses. Declared C2 coverage (lowest,
+tied 7): admit the pinned Terminal-Bench 2.0 `configure-git-webserver` grader (S111 `tests/test_outputs.py`, S112
+`tests/verify.sh`, S113 `instruction.md` @ `2fd12b88`) with an executed 22-case sandbox probe. Baseline `3ea9a1d9`; freeze
+`ca790460` (claims, both counters, the probe and its case table, six captures, red controls); first recorded probe run
+`5c7b34e9` (second run byte-equal).
+
+- C1: freeze `MUTANTS total=55 killed=5 survived=50` (the round-36 battery demonstrated M01, M05, M40, M47, M54 only);
+  nine wave-1 executor seats wrote `plans/battery37/` (50 single-defect fixtures, one module per clause group, battery commit
+  `a3163e67`); landing `BATTERY fixtures=64 wrong=0 renamed_disagree=0`, `MUTANTS total=55 killed=55 survived=0 invalid=0
+  null_detected=0`, `PREDICATE C1 pass` on a clean clone.
+- C2: probe `cases=22 observed_pass=9 observed_fail=13 mismatches=0`. Observations on the pinned capture: a file served on
+  :8080 with no repository, hook or push passes; a body containing `TEST PASSED` passes although the helper prints `TEST
+  FAILED` (`test_outputs.py:13` reads a substring of stdout that `verify.sh:62,68` fills with the body); status and content
+  come from two requests; curl runs without `-L` or a timeout; only trailing newlines are forgiven. An independent
+  re-implementation (`build/R37IndepVerdicts.md`) agreed 22/22 and 3/3 extra cases; a critic ran 4 more cases (4/4 matched).
+  The static-file weakness was reported upstream for TB2.1 (S114, issue #133): a replication, not a discovery.
+- Frontier: `plans/anchor_digest_check.py` (round-36 routed item 1) flags S110's 63-hex digest and four true-but-uncaptured
+  digests at the baseline (`defects=5`); the S110 erratum line (`corpus/lessons/round-37.md` §Gate) and byte captures of the
+  four upstream files clear it. Q26 and Q27 added to `corpus/QUALITY.md`.
+- Assimilation: `considerthese/2026-10-25.md` proposal 2(a) landed as `plans/ledger_tip.py` (`rows=9 closed=9
+  observed_pass=9 mismatches=0` at the tip).
+- Re-verification (freshness): the six captures were re-fetched at the pin by `R37ReopenPins` (6/6 identical, `main` has
+  not drifted); the round-36 counters, `grader.py` and every registry gate stayed green on the pre-landing sweep
+  (`build/R37TipSweep.md`, 25/25) and at the landing tip (`integrate/measure-final.txt`).
+- Routed, not absorbed: a real-image run of the task (`build/R37DockerOracle.md`), outside PROVINCE's admitted instrument.
+- Tool use: biopython 1.85 via `uv run --with` (ephemeral uv cache, PyPI; the round-35 probe's pinned dependency, used by
+  the gate's P10 re-run). bubblewrap 0.13.1 was already installed. Docker image `alexgshaw/configure-git-webserver:20251031`
+  pulled and removed by one wave-1 seat. No other installs.

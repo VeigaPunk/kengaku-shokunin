@@ -19,3 +19,6 @@ r python3 plans/anchor_digest_check.py --lane .
 r python3 plans/round36_c1_verify.py --lane .
 r python3 plans/round36_c2_verify.py --lane .
 r /home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --file corpus/SOURCES.md
+r sha256sum plans/pkg_gate.py plans/pkg-spec-r37.json plans/git_webserver_probe.py plans/round37_c1_verify.py plans/round37_c2_verify.py
+r python3 plans/ledger_tip.py --source "$S/lane" --work "$S/lt"
+echo "registry_rows=$(grep -cE '^ {0,3}\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|' corpus/SOURCES.md) knowledge_files=$(ls corpus/knowledge/*.md | wc -l) index_rows=$(grep -cE '^\| `knowledge/[^`]+` \|' corpus/README.md)"
