@@ -1227,3 +1227,39 @@ with its counterfactual); first recorded probe run `055748f7` (second run byte-e
   sentences in the C2 text corrected by appended errata (one wrong numeral: `plain-read-then-solve` 5 of 7); prior art
   widened (`dzhioev/bro` #659 reports the fabricated-export pass in the wild); counter, `round_close.py` and
   `tip_receipts.py` residuals routed to round 41 (SCORECARD `### Wave 2 outcome`).
+
+## Round 41 (hyaku run 9, 2026-10-26) — two lane tools' advertised behaviours demonstrated (23/23 attributed); seventh TB2 grader executed
+
+L1 `KengakuR41` (planner seat). Freeze `8ef8b4fc` (claims, the round-41 C1 counter with 23 mutants over
+`plans/tip_receipts.py` and the `plans/sources_adopt.py` CLI and their witnesses, the constraints-scheduling probe and its
+frozen 25-case table, spec, C2 counter, ten captures, red controls including an emptied-mutant-list copy and a hostile
+host-write module); first recorded probe run `f774a87a` (second run byte-equal); landing `74513c06`. Lesson
+`corpus/lessons/round-41.md`.
+
+- C1 (calibration, predicate met): freeze `killed=0 survived=23`; seven wave-1 executors wrote `plans/battery41/` (48
+  fixtures); landing `BATTERY fixtures=48 wrong=0 tampered=0 sidechannel=0`, `MUTANTS total=23 killed=23`,
+  `MUTANTS-BY-TOOL receipts=13/13 sources=10/10`, `PREDICATE C1 pass`. New in the counter: `TOTAL`/`FLOORS` binding
+  (the round-40 plan's predicate was satisfiable by an empty list — `F40CritPlanNext` D1; the emptied-list control is
+  red), exact exit-pair directions for the CLI, builds and tool runs under `bwrap --ro-bind / /` with a fixed system
+  PATH. Wave 1 still forged kills two ways (a probe stub reading the bound variant; relative argv escapes —
+  `R41CritC1Counter`, `R41SentinelCounter` F1–F4), so admission also rests on the wave-2 battery review.
+- C2 (coverage, predicate met): TB2 `constraints-scheduling` @ `2fd12b88`, S122/S123 (+ S124, TB2.1 PR #245, closed
+  unmerged, tier B); probe `cases=25 observed_pass=6 observed_fail=19 mismatches=2` (the pilot's two mispredictions
+  carried verbatim). Observations: a hand-typed Wed 11:00 file passes 3/3; a decoy first `VEVENT` passes 3/3 (published,
+  S124); the earliest test passes invalid earlier slots (`PFP`); rewriting the three input calendars with CRLF passes
+  3/3 although the instruction says any modification fails (integrity check on decoded text; unpublished as far as
+  `R41ScoutPriorArt` found); RFC 5545 forms (folding, `VALUE=` parameter, lowercase `SUMMARY`) fail the structure test.
+  Real pytest 3.13 parity 25/25 (`R41CritPytest`), independent re-derivation 25/25 + 3 (`R41CritIndep`). Coverage held
+  at 7 (L0 cap).
+- Frontier / routed: registry rows `round41-c1-mutants`, `round41-c2`, `constraints-probe`, `round-close-check` + the
+  Round-41 addendum (R3); QUALITY Q31/Q32; `considerthese/2026-10-26.md` proposal 1 → `plans/routed_open.py` +
+  `corpus/routed-findings.jsonl` (`routed_open=5 oldest_round=39`); PROVINCE round-41 paragraph (calendar/RFC 5545
+  conformance unowned, routed to the orchestrator).
+- Assimilation: `merge/kengaku/` unchanged since round 40, nothing adopted (`R41MergeRescreen`: collisions 38, guard
+  proven on an indented fixture).
+- Mistakes mined: the vacuous planned predicate (fixed, shown able to fail); a seat's cleanup deleting the shared round
+  scratch root at 15:42:24 (routed, not yet guarded); "no committed fixture" wording recurring; a forgeable frozen counter
+  (routed to a re-frozen round-42 counter).
+- Re-verification (freshness): S122/S123 equal TB2.1 `main` bytes (`R41PkgEntry`), S124 opened live (closed,
+  `merged=false`), four drift-risk SOURCES rows re-opened, no change (`R41SourcesRecheck`); every no-harm instrument at
+  the landing tip as at the baseline (`integrate/measure-final.txt`).
