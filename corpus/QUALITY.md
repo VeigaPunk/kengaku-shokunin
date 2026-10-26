@@ -377,3 +377,75 @@ A round closes only when every row below holds; a row that cannot be shown is an
   (there was none here) would pass it; and the criterion does not decide whether a pre-scoring repair
   voids a claim, so a round that amends still reports the verdict either way.
   Lesson: `corpus/lessons/round-36.md` §Mistakes (2).
+
+## Round37 criterion — an anchor digest resolves to committed bytes
+
+- **Q26 — every `sha256` token in a `SOURCES.md` registry row is in the row's `anchor` cell, is 64
+  lowercase hex (or a declared prefix ending in `…`), and equals a digest of committed bytes under
+  `corpus/evidence/` or a digest listed in a committed `SHA256SUMS` there; a wrong token is corrected only
+  by an appended `Erratum (round 37): S<id> anchor sha256 …` lesson line that carries the wrong token and a
+  64-hex digest that itself resolves.** The anchor cell is where a row says "these are the bytes I read",
+  and a digest that lost a character still parses: the round-36 spot-check found S110's anchor carrying 63
+  hex while the manifest, the capture and the live bytes carried 64
+  (`corpus/lessons/round-36-verifier-spotcheck.md:71`) and routed the missing check (`:88`). Check
+  (executable): `python3 plans/anchor_digest_check.py --lane .` → `rows=<n> tokens=<n> defects=0`, exit 0
+  (contract in its docstring; it reads committed blobs only, so an uncommitted capture cannot launder a
+  digest). Shown able to fail: on the lane at `3ea9a1d9` it prints `rows=103 tokens=11 defects=5` — S110
+  `digest-short` (63 hex) and S070, S072, S073, S074 `digest-unknown` (true digests of pinned upstream files
+  that no committed byte supported) — and `build/R37AnchorSweep.md` §5 records eleven falsifier cases
+  (erratum with a wrong correction, correction absent from every manifest, a shortened S108 token, uppercase
+  hex, a token moved out of the anchor cell). Round 37 lands the S110 erratum line in
+  `corpus/lessons/round-37.md` §Gate and byte copies of the four upstream files in
+  `corpus/evidence/round37/anchor-captures/`; the rows themselves are not rewritten (R1).
+  Limits: membership, not binding — a 64-hex token that is the digest of the wrong committed file passes,
+  and several manifests share basenames, so the pin-to-capture binding stays with the counters that run the
+  probe (`plans/pkg_gate.py` P5, `plans/round37_c2_verify.py` V3); a row that names a digest without a token
+  (S037 "pinned by sha256 in the script") is not scanned; and a committed manifest edited to list a bad
+  digest would launder its rows — those digests are re-derived by the package gate's P5, not here.
+  Lesson: `corpus/lessons/round-37.md` §Mistakes (1). Supersedes: none.
+
+## Round37 criterion — an advertised defect class is held only when a fixture kills its silence mutant
+
+- **Q27 — a gate's advertised defect class counts as held only when a single-defect fixture kills
+  that class's silence mutant; a class whose mutant no fixture kills is advertised debt.** A
+  battery that shows the gate accepts the genuine package and rejects a few junk packages proves
+  the battery's reach, not the gate's: the round-36 battery was green at 14/14 while the gate's
+  branch silences went untested, so the round-37 counter against the same 14 fixtures and 55
+  frozen single-branch mutants prints `MUTANTS total=55 killed=5 survived=50 invalid=0
+  null_detected=0` and `PREDICATE C1 fail`, exit 1
+  (`.ufo/waves/round-37/claims/control-c1-nothing.txt`) — 50 of the classes the gate's docstring,
+  Q24 and the `package-gate` capability row (`SCORECARD.md:564`) advertise changed nothing
+  observable on any fixture. Check (executable, round-37 instance): `python3
+  plans/round37_c1_verify.py --lane .` prints `BATTERY fixtures=<n> wrong=0 renamed_disagree=0`,
+  then `MUTANTS total=55 killed=55 survived=0 invalid=0 null_detected=0`, then `PREDICATE C1
+  pass`, exit 0, on a clean clone of the landing tip with `plans/pkg_gate.py` at
+  `ea63882240e67e9906e481f3d652f94366c288dc91991bafbfcd651a766edd41`. A class is demonstrated
+  when its one frozen `old → new` replacement applies exactly once and compiles (`invalid=0`) and
+  some fixture's observable result — the pair (exit code, set of clause ids printing `DEFECT`) —
+  differs from the unmodified gate's (`killed`); an unmodified copy of the gate must change
+  nothing (`null_detected=0`), each fixture must carry the reference's exact verdict and `DEFECT`
+  set (`wrong=0`), and every fixture must give the same result under another directory name
+  (`renamed_disagree=0`). Shown able to fail: the do-nothing control at the freeze reads
+  `killed=5/55`; editing the gate so the mutants stop applying reads `invalid=55`
+  (`control-c1-gate-edited.txt`); mislabelling the genuine package a reject reads `wrong=1`
+  (`control-c1-mislabel.txt`); and the one-fixture API example kills exactly one further class,
+  `killed=6/55` (`control-c1-example.txt`, M08) — which is why the standard is per class, not per
+  battery.
+  Limits: demonstration is observational — a killing fixture shows the branch is reached and its
+  result is visible, never that the check is the right check; the branches excluded from the 55
+  are named in `plans/round-37-claims.md` and stay unclaimed (the empty `frozen_instruments`
+  branch of P1, every `spec not found` / `root not a directory` setup path, P10's
+  `OSError`/`SubprocessError` branch, `run_checks`' clause-crash handler, `main`'s crash→exit-2
+  handler, the `--require-clean-tree`/`--rerun` option gating), so a gate can hold this criterion
+  and still be wrong on a setup path; the mutant list is the denominator, so a branch nobody wrote
+  a mutant for is invisible, and an equivalent mutant found later is reported as a limit of the
+  freeze, never removed; a kill records a result difference, not a reason — the result is the raw
+  exit code, so a mutant killed by making the gate crash on a fixture counts the same as one
+  killed by its clause firing, and single-defect fixtures reduce but do not remove co-occurrence
+  (the round-36 all-junk fixture declares `P1,P3,P6,P9`); 55 fixtures is a budget, not a search
+  for every reachable defect.
+  Lesson: `corpus/lessons/round-37.md` §Mistakes (2); the freeze control is
+  `.ufo/waves/round-37/claims/control-c1-nothing.txt`. Supersedes Q24's middle clause, "every
+  single-property junk mutant must be rejected", as the proof standard: a property-level battery
+  is satisfied by 14 fixtures while 50 branch silences go untested. Q24's ordering rule (battery
+  before the first data receipt) and its `unevaluated` leg stand unamended.

@@ -253,5 +253,33 @@ observe hidden or held-out tests, or speak for any other TB2 task. Adjacent: ver
 craft (tameshi), research method (chousa), prompt craft (kotoba) and seat arrangement (kumitate) stay
 theirs; pattern text is data. The round35 paragraph above stays as written; this paragraph narrows
 only its "other 88 TB2 tasks" clause for this one task.
+*Round-37 correction R37-P1 (appended 2026-10-26; supersedes three clauses of the round36 paragraph above):
+the 24 candidates were lane-authored patterns, not agent outputs; the paragraph establishes no regex or
+log-parsing correctness and no contamination measurement (the in-test log and its literal dates are the
+grader's own fixture); and with three TB2 graders now read, its "other 88 TB2 tasks" reads `86 of TB2's 89
+task graders` (`corpus/knowledge/benchmark-verifier-execution-model.md:93`).*
 
 **Reported out:** nothing absorbed — `plans/pkg_gate.py` stays this lane's own gate (tameshi owns the reusable fixture/mutation method and never edits a sibling's gate, `tameshi-shokunin/PROVINCE.md:3,14-17,44-45`); capture and citation method stay chousa's (`chousa-shokunin/PROVINCE.md:5-7,10-11`); prompt/skill wording stays kotoba's (`kotoba-shokunin/PROVINCE.md:61`); seat arrangement, not evaluation, stays kumitate's (`kumitate-shokunin/PROVINCE.md:23,28`).
+
+## Round37 partial frontier admission (2026-10-26)
+
+**Core addition:** offline execution of one more pinned Terminal-Bench 2.0 grader —
+`configure-git-webserver/tests/test_outputs.py` and its helper `tests/verify.sh` at terminal-bench-2
+`2fd12b88` — over 22 frozen synthetic service states, via `corpus/knowledge/tb2-git-webserver-grader.md`
+(S111–S113), `plans/git_webserver_probe.py` and receipt `corpus/evidence/round37/git-webserver-probe.txt`
+(`cases=22 observed_pass=9 observed_fail=13 mismatches=0`). Each case runs the captured test function and
+helper in a per-case bubblewrap sandbox: private network namespace, no root, scratch `HOME` and `/tmp`,
+`/tests` read-only, `PATH` scoped to the named tools. The graded state is two HTTP responses from a
+service the probe starts. It records how that captured grader answers those synthetic states only: it
+does not run Terminal-Bench, the task image or a harness, or a real submission; it does not validate or
+certify a task, measure difficulty or gameability, judge the assertion's correctness, measure
+contamination, or speak for the remaining 86 TB2 task graders (89 carry `tests/test.sh`; 3 are read).
+Any observation from a real-image run is a separate, routed observation and is not part of this
+admission. Adjacent: web properties (kake), serving plane (kama), deployment configuration and runtime
+task validity (refused). The round35/36 paragraphs above stay as written; this paragraph narrows only
+their "other TB2 tasks" clause for this one task.
+
+**Reported out (round 37):** mutation testing of a lane's own gate is a fleet-wide pattern, not kengaku ground —
+tameshi's `tools/mutate-and-run.sh` and kumitate's `gate-mutants.mjs` are the precedents
+(`.ufo/waves/round-37/build/R37ConnSibling.md` §S4); the round-37 harness is scoped to `plans/pkg_gate.py`.
+The real-image run of the task (`.ufo/waves/round-37/build/R37DockerOracle.md`) is routed, not absorbed.

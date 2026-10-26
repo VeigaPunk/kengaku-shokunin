@@ -1,0 +1,203 @@
+TIP a3163e675374551bc911d97040d01caf2377a7d7
+untracked_in_clone=0
+$ python3 plans/round37_c1_verify.py --lane .
+GATE plans/pkg_gate.py sha256=frozen
+FIXTURE r36-P0 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-P1 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P2 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P3 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P4 expect=reject declared=- observed_rc=1 observed_defects=P6 ok
+FIXTURE r36-P5 expect=reject declared=- observed_rc=1 observed_defects=P1 ok
+FIXTURE r36-P6 expect=reject declared=- observed_rc=1 observed_defects=P9 ok
+FIXTURE r36-P7 expect=reject declared=- observed_rc=1 observed_defects=P1,P3,P6,P9 ok
+FIXTURE r36-L1 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-L2 expect=reject declared=- observed_rc=1 observed_defects=D4 ok
+FIXTURE r36-L3 expect=reject declared=- observed_rc=1 observed_defects=D4 ok
+FIXTURE r36-L4 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-L5 expect=reject declared=- observed_rc=1 observed_defects=D5 ok
+FIXTURE r36-L6 expect=reject declared=- observed_rc=1 observed_defects=D5 ok
+FIXTURE d4-m44-file-unreadable expect=reject declared=D4 observed_rc=1 observed_defects=D4 ok
+FIXTURE d4-m45-not-one-line expect=reject declared=D4 observed_rc=1 observed_defects=D4 ok
+FIXTURE d4-m46-label-not-carried expect=reject declared=D4 observed_rc=1 observed_defects=D4 ok
+FIXTURE d5-m48-file-unreadable expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m49-two-lines expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m50-label-altered expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m51-require-missing expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m52-forbid-present expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m53-capture-missing expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m55-quote-absent expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE p23-p2-receipt-deleted expect=reject declared=P2 observed_rc=1 observed_defects=P2 ok
+FIXTURE p23-p2-receipt-byte expect=reject declared=P2 observed_rc=1 observed_defects=P2 ok
+FIXTURE p23-p3-heading-renamed expect=reject declared=P3,P4 observed_rc=1 observed_defects=P3,P4 ok
+FIXTURE p23-p3-seven-texts expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE p23-p3-seven-locations expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE p23-p3-two-word-quote expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE p4-no-quote-row expect=reject declared=P3,P4 observed_rc=1 observed_defects=P3,P4 ok
+FIXTURE p4-capture-unreadable expect=reject declared=P4,P5 observed_rc=1 observed_defects=P4,P5 ok
+FIXTURE p4-line-outside expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p4-one-char-off expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p5-manifest-absent expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-manifest-unparsed-line expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-capture-bytes-stale-digest expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-row-capture-unpinned expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-manifest-digest-off-pin expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-quote-cites-unpinned expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-extra-capture-file expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p6-m20-registry-row-duplicated expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m21-row-with-twelve-cells expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m22-url-off-the-pinned-raw-path expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m23-row-tier-b expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m24-row-status-queued expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m25-used-by-another-path expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m26-five-word-teaches-cell expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m27-two-identical-teaches-cells expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p7-m28-entry-deleted expect=reject declared=P3,P4,P7,P8 observed_rc=1 observed_defects=P3,P4,P7,P8 ok
+FIXTURE p7-m29-source-url expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE p7-m30-verified-at expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE p7-m31-recheck-line expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE p7-m32-negative-heading expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE p7-m33-falsifier-word expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE p8-readme-deleted expect=reject declared=P8 observed_rc=1 observed_defects=P8 ok
+FIXTURE p8-index-row-duplicated expect=reject declared=P8 observed_rc=1 observed_defects=P8 ok
+FIXTURE p8-index-row-missing-sid expect=reject declared=P8 observed_rc=1 observed_defects=P8 ok
+FIXTURE p8-coverage-bullet-removed expect=reject declared=P8 observed_rc=1 observed_defects=P8 ok
+FIXTURE p8-extra-knowledge-file expect=reject declared=P8 observed_rc=1 observed_defects=P8 ok
+FIXTURE p910-not-a-git-repo expect=reject declared=P9 observed_rc=1 observed_defects=P9 ok
+FIXTURE p910-receipt-deleted expect=reject declared=P10,P2 observed_rc=1 observed_defects=P10,P2 ok
+FIXTURE p910-probe-exits-1 expect=reject declared=P1,P10 observed_rc=1 observed_defects=P1,P10 ok
+FIXTURE p910-receipt-one-byte expect=reject declared=P10,P2 observed_rc=1 observed_defects=P10,P2 ok
+BATTERY fixtures=64 wrong=0 renamed_disagree=0
+MUTANT M01 P1 killed by=r36-P5 -- frozen instrument digest mismatch
+MUTANT M02 P2 killed by=p23-p2-receipt-deleted -- receipt unreadable
+MUTANT M03 P2 killed by=p23-p2-receipt-byte -- receipt digest differs from the pin
+MUTANT M04 P3 killed by=p23-p3-heading-renamed -- no Located quotes section
+MUTANT M05 P3 killed by=r36-P3 -- an unparsed quote row
+MUTANT M06 P3 killed by=p23-p3-seven-texts -- fewer distinct quotes than min_quotes
+MUTANT M07 P3 killed by=p23-p3-seven-locations -- fewer distinct located lines than min_distinct_locations
+MUTANT M08 P3 killed by=p23-p3-two-word-quote -- a quote outside the word range
+MUTANT M09 P4 killed by=p23-p3-heading-renamed -- no parsed quote
+MUTANT M10 P4 killed by=p4-capture-unreadable -- quote cites an unreadable capture
+MUTANT M11 P4 killed by=p4-line-outside -- quote line range outside the capture
+MUTANT M12 P4 killed by=p4-one-char-off -- quote not verbatim on its cited line
+MUTANT M13 P5 killed by=p5-manifest-absent -- capture manifest absent
+MUTANT M14 P5 killed by=p5-manifest-unparsed-line -- unparsed manifest line
+MUTANT M15 P5 killed by=p5-capture-bytes-stale-digest -- manifest digest does not match the capture bytes
+MUTANT M16 P5 killed by=p5-row-capture-unpinned -- row capture not pinned in the manifest
+MUTANT M17 P5 killed by=p5-manifest-digest-off-pin -- manifest digest differs from the spec pin
+MUTANT M18 P5 killed by=p4-capture-unreadable -- quoted capture not pinned in the manifest
+MUTANT M19 P5 killed by=p5-extra-capture-file -- capture file not covered by the manifest
+MUTANT M20 P6 killed by=p6-m20-registry-row-duplicated -- registry row missing or duplicated
+MUTANT M21 P6 killed by=p6-m21-row-with-twelve-cells -- registry row without 11 cells
+MUTANT M22 P6 killed by=p6-m22-url-off-the-pinned-raw-path -- row url not the pinned raw path
+MUTANT M23 P6 killed by=p6-m23-row-tier-b -- row tier wrong
+MUTANT M24 P6 killed by=p6-m24-row-status-queued -- row status wrong
+MUTANT M25 P6 killed by=p6-m25-used-by-another-path -- row used-by is not the entry
+MUTANT M26 P6 killed by=p6-m26-five-word-teaches-cell -- teaches cell under min_teaches_words
+MUTANT M27 P6 killed by=p6-m27-two-identical-teaches-cells -- teaches cells not pairwise distinct
+MUTANT M28 P7 killed by=p7-m28-entry-deleted -- entry unreadable
+MUTANT M29 P7 killed by=p7-m29-source-url -- source line absent or not the pinned url
+MUTANT M30 P7 killed by=p7-m30-verified-at -- verified-at absent or not the frozen date
+MUTANT M31 P7 killed by=p7-m31-recheck-line -- recheck line absent
+MUTANT M32 P7 killed by=p7-m32-negative-heading -- no Negative space section
+MUTANT M33 P7 killed by=p7-m33-falsifier-word -- Negative space carries no falsifier
+MUTANT M34 P8 killed by=p8-readme-deleted -- README unreadable
+MUTANT M35 P8 killed by=p8-index-row-duplicated -- index rows for the entry not exactly one
+MUTANT M36 P8 killed by=p8-index-row-missing-sid -- index row does not cite every registry row
+MUTANT M37 P8 killed by=p8-coverage-bullet-removed -- no coverage bullet naming entry and receipt
+MUTANT M38 P8 killed by=p7-m28-entry-deleted -- knowledge files differ from index rows
+MUTANT M39 P9 killed by=p910-not-a-git-repo -- root is not a git worktree
+MUTANT M40 P9 killed by=r36-P6 -- untracked file present
+MUTANT M41 P10 killed by=p910-receipt-deleted -- receipt unreadable at re-run
+MUTANT M42 P10 killed by=p910-probe-exits-1 -- fresh probe exits nonzero
+MUTANT M43 P10 killed by=p910-receipt-one-byte -- fresh probe output not byte-equal to the receipt
+MUTANT M44 D4 killed by=d4-m44-file-unreadable -- d4 file unreadable
+MUTANT M45 D4 killed by=d4-m45-not-one-line -- d4 file is not exactly one line
+MUTANT M46 D4 killed by=d4-m46-label-not-carried -- d4 line does not carry the label
+MUTANT M47 D4 killed by=r36-L2 -- d4 directional pattern absent
+MUTANT M48 D5 killed by=d5-m48-file-unreadable -- d5 file unreadable
+MUTANT M49 D5 killed by=d5-m49-two-lines -- d5 file is not exactly one line
+MUTANT M50 D5 killed by=d5-m50-label-altered -- d5 line does not carry the label
+MUTANT M51 D5 killed by=d5-m51-require-missing -- d5 required token missing
+MUTANT M52 D5 killed by=d5-m52-forbid-present -- d5 forbidden token present
+MUTANT M53 D5 killed by=d5-m53-capture-missing -- d5 capture unreadable
+MUTANT M54 D5 killed by=r36-L6 -- d5 capture digest not in the manifest
+MUTANT M55 D5 killed by=d5-m55-quote-absent -- d5 quote absent from the capture
+MUTANTS total=55 killed=55 survived=0 invalid=0 null_detected=0
+PREDICATE C1 pass
+exit=0
+$ python3 plans/round37_c2_verify.py --lane .
+V1 ok listed=6 bad=0 extra=0
+    gate: P1 ok pinned=2 mismatched=0
+    gate: P2 ok receipt_sha256=pinned
+    gate: P3 DEFECT no '## Located quotes' section
+    gate: P4 DEFECT no parsed quote
+    gate: P5 ok manifest_entries=6 bad=0 first=0
+    gate: P6 DEFECT rows=3 bad=3 first=S111: rows=0
+    gate: P7 DEFECT entry unreadable
+    gate: P8 DEFECT index_rows=43 knowledge_files=43 bad=2 first=index rows for knowledge/tb2-git-webserver-grader.md=0
+    gate: P9 ok untracked=0 first=0
+    gate: P10 ok probe_rerun=byte-equal bytes=8443
+    gate: defects=5
+V2 DEFECT gate_exit=1
+V3 DEFECT rows=3 bad=['S111:row', 'S112:row', 'S113:row']
+V4 DEFECT receipt or entry absent
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 DEFECT receipt or entry absent
+checks=7 defects=4
+PREDICATE C2 fail
+exit=1
+$ python3 plans/anchor_digest_check.py --lane .
+python3: can't open file '/fast/scratch/hyaku/kengaku-r37/L1/measure/lane/plans/anchor_digest_check.py': [Errno 2] No such file or directory
+exit=2
+$ python3 plans/round36_c1_verify.py --lane .
+FIXTURE P0 expect=accept observed=accept ok -- genuine round-35 package
+FIXTURE P1 expect=reject observed=reject ok -- 8 one-word quotes
+FIXTURE P2 expect=reject observed=reject ok -- 8 copies of one quote
+FIXTURE P3 expect=reject observed=reject ok -- an unparsed quote row beside the genuine rows
+FIXTURE P4 expect=reject observed=reject ok -- junk teaches cells
+FIXTURE P5 expect=reject observed=reject ok -- stub probe printing the receipt
+FIXTURE P6 expect=reject observed=reject ok -- untracked leftover file
+FIXTURE P7 expect=reject observed=reject ok -- cheapest package: one-word quotes + junk teaches + stub probe + stray file
+FIXTURE L1 expect=accept observed=accept ok -- D4 genuine correction line
+FIXTURE L2 expect=reject observed=reject ok -- D4 line with the two file:line citations swapped
+FIXTURE L3 expect=reject observed=reject ok -- D4 line without the harness token
+FIXTURE L4 expect=accept observed=accept ok -- D5 genuine erratum line
+FIXTURE L5 expect=reject observed=reject ok -- D5 erratum saying the quote is not present
+FIXTURE L6 expect=reject observed=reject ok -- D5 genuine line over an altered (quote-injected) capture
+FIXTURES total=14 false_green=0 false_red=0 unevaluated=0
+R35-D1 status=closed observed=pass agree=yes fixtures=14 false_green=0 false_red=0 unevaluated=0 tip_package_rc=0
+R35-D2 status=closed observed=pass agree=yes untracked_anywhere=0 line_fixtures_wrong=0/6
+R35-D3 status=closed observed=pass agree=yes committed_nested_wave_paths=0
+R35-D4 status=closed observed=pass agree=yes erratum_lines=1 recount=13 + 23 + 1 = 37 stated_denominator=38
+rows=4 closed=4 observed_pass=4 mismatches=0
+PREDICATE C1 pass
+exit=0
+$ python3 plans/round36_c2_verify.py --lane .
+W1 ok
+W2 ok
+W3 ok
+W4 ok
+W5 ok
+W6 ok
+checks=6 defects=0
+PREDICATE C2 pass
+exit=0
+$ /home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --file corpus/SOURCES.md
+file	W04	S040 duplicate url arxiv.org/abs/2301.09633 across scopes
+file	W04	S048 duplicate url aclanthology.org/2020.acl-main.442 across scopes
+file	W04	S057 duplicate url arxiv.org/abs/2405.11874 across scopes
+file	W04	S058 duplicate url github.com/UKGovernmentBEIS/inspect_ai/blob/63e45cc52d39b873b944124613da21fdad6f6dcc/src/inspect_ai/scorer/_pattern.py across scopes
+file	W04	S059 duplicate url www.rfc-editor.org/rfc/rfc8259 across scopes
+file	W04	S064 duplicate url spec.commonmark.org/0.31.2 across scopes
+file	W04	S065 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S066 duplicate url doi.org/10.1017/S0950268810000385 across scopes
+file	W04	S067 duplicate url doi.org/10.1017/S0950268810000385 across scopes
+file	W04	S068 duplicate url raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/config_files/test.raw.json across scopes
+file	W04	S069 duplicate url raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/evaluation_harness/evaluators.py across scopes
+file	W04	S071 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S075 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S076 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S100 duplicate url github.com/laude-institute/terminal-bench-2 across scopes
+file	ok	/fast/scratch/hyaku/kengaku-r37/L1/measure/lane/corpus/SOURCES.md
+exit=0
