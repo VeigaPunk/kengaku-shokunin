@@ -1418,3 +1418,31 @@ list repeats the shape in M01, M04, M07 (lesson Mistakes row 4).
   byte-equal reruns); fallback `openssl-selfsigned-cert` with the host OpenSSL 3.6.5 limit declared. Novelty rider priced, not
   filed: grader re-run stability (`polyglot-c-py` fails its second grading).
 - Carried: a separately frozen `defect_ledger` check so the order class can enter `corpus/defects.jsonl` with `recurrence=2`.
+
+### Wave 2 outcome (appended after the falsify wave; 34 seats, `.ufo/waves/round-39/falsify/`)
+
+- Re-measures agree: C1 re-run `killed=7` pass and audit clean under two interpreters and two hash seeds (`F39C1Rerun`); C2
+  re-run pass, probe byte-equal 3/3 including `env -i` (`F39C2Rerun`); S117/S118 re-opened live 2/2, quotes 2/2
+  (`F39ReopenRows`); V7 controls 25/25 red (`F39MapControl`); no-harm on the round-37/38 C1 instruments ok (`F39NoHarmC1`);
+  no removed line in any lane-authored doc (`F39CritNoHarmDiff`); errata append-only and green, the round-35-entry claim
+  reproduced (`F39RevErrata`).
+- Battery39: all four modules reviewed honest by non-author seats (`F39RevBatP1/P3/P7/D5`); fixture-level mutants caught 12/12
+  (`F39MutBattery`). Limits: extra near-variant mutants 5 killed / 6 survived, each with a witness (`F39XMut`: e.g. P1 checks
+  only the first two pins) — round-40 candidates; the post-hoc audit catches the wave-1 attacks 4/4 with no false red
+  (`F39CritAudit`) but a phase-aware daemon defeats it (`F39SentinelAudit`, `AUDIT C1 clean` with dishonest fixtures), so C1
+  admission rests on the frozen predicate plus the code review, not on the audit.
+- Calibration count corrected: advertised mutants 5 of 7 (C 2, K 3, N 2), not 4; before 2 → after 0 unchanged
+  (`F39CritC1Count`; lesson `## Errata (round 39, wave 2)`).
+- Wording defects found and corrected by appended errata in the entry (`## Errata (round 39, wave 2)`): 5 unsupported
+  sentences and 2 claim cells (`F39EntryQuotes`), 6 overclaims (`F39CritOverclaim`; the README's "recover … enforced" and the
+  SKILL row "only a dangling blob or commit is caught" are corrected there, not rewritten in place).
+- Tools: `order_check.py` catches 2 of 6 mutants (`F39OrderGateMut`; the fail-open mid-scan git error is unsensed) and Q30's
+  title says "closed by a gate" while nothing invokes it (`F39CritQ30`); anchor check 2 low defects in the new leg, no lost
+  round-38 behaviour and no false red (`F39AnchorFix`); ledger-tip 2 defects (`F39LedgerTip` D1: two live rows cannot fail in
+  clone mode); direction check 5/6 mutants caught and it cannot load the round-39 list (`F39MutDirection`); `tip_receipts.py`
+  skips the new receipt (no committed re-run command it recognises, `F39TipReceipts`); SKILL rows 12/15 verified
+  (`F39CritSkill`); separability partly (`F39CritSeparability`, as the lesson's Mistakes row 5 says); round-38 dispositions
+  16 of 79 verifiable at the tip (`F39CritR38Dispositions`: the map records decisions, most fixes are round-40 work). All
+  routed to round 40; no frozen predicate is affected.
+- Misroot 0, scratch leftovers 2 seat dirs, no leftover process (`F39ScoutMisroot`); cross-document drift 1 (the wave-2
+  context's tip hash vs the measured tip, `F39ConnClaims`).

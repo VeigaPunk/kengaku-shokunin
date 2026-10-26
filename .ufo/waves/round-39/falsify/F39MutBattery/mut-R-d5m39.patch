@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r39/F39MutBattery/bat-base/d5m39.py	2026-10-26 04:49:04.062070432 -0300
++++ /fast/scratch/hyaku/kengaku-r39/F39MutBattery/bat-R/d5m39.py	2026-10-26 04:50:43.993241370 -0300
+@@ -77,7 +77,7 @@
+     shutil.copytree(ctx.d5_capture_dir(), capdir)
+     cap = capdir / d5["capture_name"]
+     before = cap.read_bytes().decode("utf-8")
+-    after = _mark_quote_span(before, d5["quote"])
++    after = before  # F39MutBattery R-variant: defining edit removed (no markup)
+     cap.write_bytes(after.encode("utf-8"))
+     manifest = capdir / d5["manifest_name"]
+     manifest.write_bytes(

@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r39/F39MutBattery/bat-base/p3m39.py	2026-10-26 04:49:04.062070432 -0300
++++ /fast/scratch/hyaku/kengaku-r39/F39MutBattery/bat-R/p3m39.py	2026-10-26 04:50:43.988241370 -0300
+@@ -63,7 +63,7 @@
+         raise RuntimeError(f"no pinned capture carries a {want}-word line")
+     name, no, text = pick
+     row = f"| the task states its codon-optimisation and GC constraint objective | \u201c{text}\u201d | `{name}:{no}` |"
+-    entry.write_text(ctx.r36.rewrite_quotes(entry.read_text(), lambda data: data[:-1] + [row]))
++    pass  # F39MutBattery R-variant: defining edit removed
+     ctx.git_add(d)
+     return ["package", "--root", str(d), "--require-clean-tree"]
+ 

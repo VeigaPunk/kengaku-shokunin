@@ -1,0 +1,68 @@
+=== plans/anchor_digest_check.py removed lines ===
+-Fixed copy written by seat `R38AnchorBind` (kengaku round 38) from `plans/anchor_digest_check.py` as landed
+-`defects=0`, exit 0). This copy binds each token to the capture **the row itself names**, so cross-row
+-substitution is a defect while every tip state that was green under the global test stays green.
+-alone — the S110/M5 shape, reachable in round 37 as `defects=0`.
+-    bound, unbound = {}, {}
+-            digs = {}
+-                elif not any(d.startswith(tok) for d in row_scope):
+-                elif verbose:
+-                    notes.append(f"ABBREV {sid} prefix={tok} "
+-                                 f"matches={sorted(d for d in row_scope if d.startswith(tok))[0]}")
+-            elif verbose:
+-                path, how, label = row_scope[tok]
+-                notes.append(f"RESOLVED {sid} digest={tok} via={path} bind={how} listed={label}")
+=== plans/ledger_tip.py removed lines ===
+-`REFUSE <reason>` line (stderr) and no summary line.
+-Detached-clone refs (round-38 routed D4; `.ufo/waves/round-37/falsify/F37NoHarmSweep.md` §3). Both
+-pin-kind check bodies name a branch ref: `plans/defect_ledger.py:29` and `plans/round36_c1_verify.py:38`
+-each hold `BRANCH = "refs/heads/master"`. Neither file is edited here — `plans/defect_ledger.py` is
+-pinned by `plans/pkg-spec-r35.json` `frozen_instruments` (gate clause P1) and
+-`plans/round36_c1_verify.py` is pinned by `plans/round38_c1_verify.py` PINS — so the binding is done by
+-the driver: after the clone, every imported module's `BRANCH` is read; if the clone carries that ref it
+-is left alone (normal clones, byte-identical output to before), and if it does not, the module's
+-`BRANCH` is bound to the commit under audit (the clone's HEAD, the same commit the `TIP commit=` line
+-names) and one line is printed per binding:
+-  REF BIND ref=<ref> rev=<rev> source_ref=<sha|absent> why=clone-lacks-ref
+-
+-`git clone` of a detached source produces a clone with no local branch, so before this binding both
+-pin rows raised `ls-tree … refs/heads/master` exit 128 from a healthy tree and the exception was
+-folded into `observed=fail agree=NO` — a false red at exit 1 in the clone shape the fleet's fixture
+-rule mandates. A `CalledProcessError` from any check body (git could not read the tree) is now a setup
+-refusal at exit 2, not a mismatch, so `1` keeps meaning "a ledger row disagrees".
+-def bind_pin_refs(lane, modules, tip, source):
+-    """Make each check body's hard-coded pin ref resolve in `lane`.
+-    A ref the clone already carries is left untouched. A ref it lacks (a `git clone` of a detached
+-    source has no local branch) is bound to the commit under audit and reported, so the pin observes
+-    the same tree as the `TIP commit=` line instead of raising exit 128.
+-    bound = {}  # ref -> the commit it was bound to, so a ref shared by both ledgers prints once
+-        if git_out(lane, "rev-parse", "--verify", "--quiet", f"{ref}^{{commit}}"):
+-        print(f"REF BIND ref={ref} rev={tip} source_ref={src or 'absent'} why=clone-lacks-ref")
+-    bind_pin_refs(lane, modules, head, source)
+-            print(f"{r['id']} status={st} observed={'pass' if ok else 'fail'} "
+-                  f"agree={'yes' if agree else 'NO'} {tail}".rstrip()
+-                  + f" ledger={ledger_rel} kind={kind}")
+-        print(f"LEDGER {ledger_rel} rows={len(ledger)} closed={lclosed} "
+-              f"observed_pass={lpassed} mismatches={lmism}")
+=== plans/mutant_direction_check.py removed lines ===
+-"""Round-38 mined-mistake fix: does each frozen mutant's declared kill DIRECTION match what the battery can show?
+-declared direction is never observed but another one is. Exit 1 iff any mutant is MISLABELLED, else 0. A mutant
+-with no observed direction is `UNWITNESSED` (no fixture separates it yet), which is not a mislabel.
+-Read-only on the lane; scratch under --work (default $TMPDIR via tempfile).
+-    c = load(lane / a.counter, "kengaku_counter")
+-    r37 = load(lane / c.R37_REL, "kengaku_r37_c1")
+-    gate_src = (lane / r37.GATE_REL).read_text()
+-    r36 = r37.load_r36(lane)
+-    ctx = r37.Ctx(lane, r36)
+-    fixtures = r37.r36_fixtures(r36) + r37.battery37_fixtures(lane / r37.BATTERY_REL)
+-    fixtures += c.battery38_fixtures(lane / c.BATTERY38_REL)[0]
+-    root = pathlib.Path(tempfile.mkdtemp(prefix="k38-dir-", dir=a.work))
+-        bad = 0
+-                print(f"DIR {mid} {clause} declared={direction} observed=invalid")
+-                verdict = "ok"
+-                verdict = "MISLABELLED"
+-                bad += 1
+-                verdict = "UNWITNESSED"
+-            print(f"DIR {mid} {clause} declared={direction} observed={','.join(sorted(seen)) or '-'} {verdict}")
+-        print(f"DIRECTIONS total={len(c.MUTANTS)} mislabelled={bad}")
+-        return 1 if bad else 0

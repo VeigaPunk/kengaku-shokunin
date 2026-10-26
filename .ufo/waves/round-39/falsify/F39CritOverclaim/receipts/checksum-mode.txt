@@ -1,0 +1,16 @@
+$ bwrap --unshare-net --unshare-pid --unshare-ipc --die-with-parent --new-session --ro-bind /usr /usr --symlink usr/bin /bin --symlink usr/sbin /sbin --symlink usr/lib /lib --symlink usr/lib64 /lib64 --ro-bind /etc /etc --proc /proc --dev /dev --tmpfs /tmp --bind /fast/scratch/hyaku/kengaku-r39/F39CritOverclaim/appdir /app --chdir /app --setenv PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin --setenv HOME /tmp --setenv GIT_CONFIG_NOSYSTEM 1 -- /bin/bash -c 'bash ./challenge-setup.sh && D1=$(sh -c "find /app/repo -type f -not -path '"'"'*/\\.*'"'"' -exec sha256sum {} + | sort | sha256sum") && chmod 755 /app/repo/README.md && D2=$(sh -c "find /app/repo -type f -not -path '"'"'*/\\.*'"'"' -exec sha256sum {} + | sort | sha256sum") && echo "D1=$D1" && echo "D2=$D2" && [ "$D1" = "$D2" ] && echo MODE_BLIND && stat -c "%a %n" /app/repo/README.md && git -C /app/repo status --porcelain'
+>>> rc=0
+[master (root-commit) 1df5bd2] chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc
+ 1 file changed, 1 insertion(+)
+ create mode 100644 README.md
+[master 55899e3] feat: add scratch notes
+ 1 file changed, 1 insertion(+)
+ create mode 100644 secret.txt
+HEAD is now at 1df5bd2 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc
+[master 6c14652] chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc
+ 1 file changed, 1 insertion(+)
+D1=2c3d6389133b6f9fffae5d3428ec1250c3b1cab5573c716d580dc1d4fa2f4adb  -
+D2=2c3d6389133b6f9fffae5d3428ec1250c3b1cab5573c716d580dc1d4fa2f4adb  -
+MODE_BLIND
+755 /app/repo/README.md
+ M README.md

@@ -1,0 +1,27 @@
+$ grep -n '"log"' corpus/evidence/round39/tb2-git-leak-recovery/test_outputs.py
+26:            "log",
+41:        ["git", "-C", "/app/repo", "log", "--all", "-p", "-S", "secret["],
+54:        ["git", "-C", "/app/repo", "log", "--oneline", "--all"],
+
+$ sed -n '23,26p;312,315p' corpus/knowledge/tb2-git-leak-recovery-grader.md
+checksum** — nothing about how the secret was recovered, and nothing about the blobs under an unreachable commit.
+Offline execution of the captured grader over 25 frozen cases (`plans/git_leak_probe.py`; receipt
+`corpus/evidence/round39/git-leak-probe.txt`) reproduced every prediction:
+
+No opened source reports `echo-only`, `blob-ref-keeps-secret`, `tag-message-secret`, `stash-secret`,
+`dotfile-in-worktree` or `config-secret`. The claim this entry makes is **"first probed instance for TB2
+`git-leak-recovery`"**, shown by executed probe on this host — not "first soft git-history grader", not a class
+claim, and no novelty claim is filed. None of these sources is a registry row: the audit is LLM prose (tier C at
+
+$ sed -n '70,78p' .ufo/waves/round-38/build/R38PlanNext.md
+### 2.3 Measured controls (executed; bubblewrap `--unshare-net`, `/app` and `/tests` bound, grader `test_*` called after import — pytest not needed; git 2.56.0)
+
+Rebuild: `challenge-setup.sh` run inside the sandbox (`rc=0`); the grader's pinned checksum
+`2c3d6389133b6f9fffae5d3428ec1250c3b1cab5573c716d580dc1d4fa2f4adb` (`tests/test_outputs.py:110`) is reproduced
+(test 5 PASS, with `/app/repo` paths as in the grader), so **A2 holds: every expected verdict is recomputable offline** (unlike round 37's service).
+
+```
+control                                              flag  init  commits  unreachable  checksum   fails
+D  empty /app (no repo)                              FAIL  FAIL  FAIL     FAIL         FAIL       5   # do-nothing on an empty tree
+
+$ sed -n '292,297p' .ufo/waves/round-39/build/R39ScoutPriorArt.md

@@ -1,0 +1,20 @@
+# F39MapControl — V2/P9 `--require-clean-tree` does not see modified tracked files (observation)
+# Setup: entry's recover-secret row relabelled enforced->partly (modified TRACKED file) in the clone @ a6832f5;
+# run: python3 plans/round39_c2_verify.py --lane <clone> --work $S/work
+    gate: P1 ok pinned=2 mismatched=0
+    gate: P2 ok receipt_sha256=pinned
+    gate: P3 ok rows=29 distinct_quotes=29 distinct_lines=29 out_of_word_range=0
+    gate: P4 ok checked=29 bad=0 first=0
+    gate: P5 ok manifest_entries=7 bad=0 first=0
+    gate: P6 ok rows=2 bad=0 first=0
+    gate: P7 ok source_lines=2 bad=0 first=0
+    gate: P8 ok index_rows=46 knowledge_files=46 bad=0 first=0
+    gate: P9 ok untracked=0 first=0
+    gate: P10 ok probe_rerun=byte-equal bytes=5867
+    gate: defects=0
+V2 ok spec=frozen gate=frozen gate_exit=0
+restored 7659595b05ff4847c161a853acf60ebdc5d77ed60323c3c098fe0dcf82bd4fb4
+# Cause: plans/pkg_gate.py:259-266 c_clean_tree runs `git -C <root> ls-files --others --exclude-standard`
+# (untracked files only; gate line 308 runs P9 only under --require-clean-tree). A modified tracked entry
+# is invisible to it. Harmless for the C2 predicate: V7 is the check that sees the map, and it fired
+# (defect_checks=["V7"] in all 25 battery runs). Coverage note only; no contract change proposed.

@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r39/F39MutBattery/bat-base/p3m39.py	2026-10-26 04:49:04.062070432 -0300
++++ /fast/scratch/hyaku/kengaku-r39/F39MutBattery/bat-M/p3m39.py	2026-10-26 04:50:43.999370321 -0300
+@@ -45,7 +45,7 @@
+ def build(ctx, d):
+     ctx.genuine_package(d)
+     rules = ctx.spec["entry_rules"]
+-    want = int(rules["quote_words"][1]) + 1
++    want = int(rules["quote_words"][1])  # F39MutBattery M-variant: edit moved to (at, not above) the bound
+     entry = d / pathlib.PurePosixPath(ctx.spec["entry"])
+     capdir = d / pathlib.PurePosixPath(ctx.spec["capture_dir"])
+     pick = None

@@ -1,0 +1,41 @@
+## does anything run plans/order_check.py?
+$ ls -d .github/workflows
+ls: cannot access '.github/workflows': No such file or directory
+$ ls .git/hooks | grep -v sample | wc -l
+0
+$ grep -c order_check grader.py
+0
+$ grep -l order_check plans/*.sh 2>/dev/null
+(none)
+$ grep -n 'LEDGERS' -A4 plans/ledger_tip.py
+71:LEDGERS = (
+72-    ("corpus/defects.jsonl", "plans/defect_ledger.py"),
+73-    ("corpus/defects-round35.jsonl", "plans/round36_c1_verify.py"),
+74-)
+75-
+--
+205:    modules = {rel: load_module(rel.replace("/", "_")[:-3], lane / rel) for _l, rel in LEDGERS}
+206-    audit_pin_refs(lane, modules, head, source)
+207-    rows = closed = passed = mism = 0
+208-    statements = []  # buffered: a refusal must leave no ledger statement behind (round-38 F2)
+209:    for ledger_rel, mod_rel in LEDGERS:
+210-        mod = modules[mod_rel]
+211-        p = lane / ledger_rel
+212-        try:
+213-            ledger = [json.loads(l) for l in p.read_text().splitlines() if l.strip()]
+$ sed -n '522,569p' corpus/QUALITY.md | grep -c 'Rule:'
+0
+$ sed -n '499,521p' corpus/QUALITY.md | grep -n 'Rule:'
+15:  mislabelled=1`, exit 1 (`.ufo/waves/round-38/integrate/direction-check.txt`). Rule: a round that freezes a
+
+## executor's own landing checklist
+$ sed -n '240,248p' .ufo/waves/round-39/build/R39OrderGate.md
+## 9. For the L1 (integration, in order)
+
+1. Place `order_check.py` at `plans/order_check.py` (digest `948d5e1d…fc6ecc`); add the `order-check` registry row.
+2. Commit `calibration.txt`, `calibration-rerun.txt`, `real-repos.txt` and `calibrate.py` under the round-39 evidence
+   path you choose, so the controls are lane bytes, not wave bytes.
+3. Commit `corpus/defects-round39.jsonl` with the row above (`status: open`); flip to `closed`/`closed_round: 39` in
+   the landing commit with the tip receipt attached, and decide the tip-wrapper question in §5.
+4. Append the round-38 lesson correction (R3's second half: that lesson row misstates the round-37 fix) yourself —
+   that file is a lane file, and drafting its wording was not assigned here.

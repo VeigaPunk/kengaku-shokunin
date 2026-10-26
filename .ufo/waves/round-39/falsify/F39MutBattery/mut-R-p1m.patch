@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r39/F39MutBattery/bat-base/p1m.py	2026-10-26 04:49:04.062070432 -0300
++++ /fast/scratch/hyaku/kengaku-r39/F39MutBattery/bat-R/p1m.py	2026-10-26 04:50:43.985241371 -0300
+@@ -31,7 +31,7 @@
+     f = d / pathlib.PurePosixPath(rels[1])
+     if not f.is_file():
+         raise RuntimeError(f"second pinned instrument {rels[1]} is absent from the package copy")
+-    f.write_bytes(f.read_bytes() + OFF_PIN)
++    pass  # F39MutBattery R-variant: defining edit removed
+     ctx.git_add(d)
+     return ["package", "--root", str(d), "--require-clean-tree"]
+ 

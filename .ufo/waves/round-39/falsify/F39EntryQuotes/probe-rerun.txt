@@ -1,0 +1,10 @@
+$ cd lane && python3 plans/git_leak_probe.py --lane . --work $S/probe-work
+rc=0 (30 lines)
+$ diff probe-rerun.txt corpus/evidence/round39/git-leak-probe.txt
+BYTE-EQUAL
+$ sha256sum probe-rerun.txt
+d7f3a465ccc411572c96fc039235854093d1eb52ccd685b618a28a10de609b5f  /fast/scratch/hyaku/kengaku-r39/F39EntryQuotes/probe-rerun.txt
+$ sha256sum corpus/evidence/round39/git-leak-probe.txt
+d7f3a465ccc411572c96fc039235854093d1eb52ccd685b618a28a10de609b5f  corpus/evidence/round39/git-leak-probe.txt
+$ grep cases= probe-rerun.txt
+cases=25 observed_pass=13 observed_fail=12 mismatches=0

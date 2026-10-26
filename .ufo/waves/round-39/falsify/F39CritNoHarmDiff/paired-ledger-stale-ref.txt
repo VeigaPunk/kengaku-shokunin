@@ -1,0 +1,16 @@
+# paired control: same fixture, HEAD=34158b0c (detached), refs/heads/master=acf4375 (later commit)
+# fixture: cp -a <tip clone> ledgerfx; git -C ledgerfx checkout -q 34158b0ca0f7b527d60af0e612511f7f27aebcbc
+$ git -C ledgerfx rev-parse HEAD refs/heads/master
+  HEAD=34158b0ca0f7b527d60af0e612511f7f27aebcbc  master=acf437542b00ae1723eba9dcc79d46af2e40d96e
+
+## landed tool (a6832f53): plans/ledger_tip.py --lane ledgerfx
+TIP commit=34158b0ca0f7b527d60af0e612511f7f27aebcbc control=.../ledgerfx dirty=0
+REFUSE stale pin ref: refs/heads/master resolves to acf437542b00ae1723eba9dcc79d46af2e40d96e in .../ledgerfx but the commit under audit is 34158b0ca0f7b527d60af0e612511f7f27aebcbc; plans/defect_ledger.py would observe a different tree (check out that ref or delete it, or audit acf4375... instead)
+exit=2
+
+## round-38 tool (git show b2bdd425:plans/ledger_tip.py) on the same fixture
+R35-D3 status=closed observed=pass agree=yes ledger=corpus/defects-round35.jsonl kind=pin
+R35-D4 status=closed observed=pass agree=yes ledger=corpus/defects-round35.jsonl kind=pin
+LEDGER corpus/defects-round35.jsonl rows=4 closed=4 observed_pass=4 mismatches=0
+rows=9 closed=9 observed_pass=9 mismatches=0
+exit=0   <-- the TIP line names 34158b0c while the pin rows read master=acf4375: silent wrong-tree green

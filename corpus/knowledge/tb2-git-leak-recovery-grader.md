@@ -344,3 +344,31 @@ from `corpus/evidence/round39/tb2-git-leak-recovery/SHA256SUMS`; (b) a fresh run
 functions; or (d) a line of `test_outputs.py` is shown to read a reflog entry, the blobs under a dangling commit,
 a tag message, `.git/config` or a dot path, or `:101` is shown to include dot paths, or `:61` is shown to compare
 more than the presence of one message substring.
+
+## Errata (round 39, wave 2)
+
+Appended after the round-39 falsify wave; the text above stands as admitted and these lines are the correction of record
+(`.ufo/waves/round-39/falsify/F39EntryQuotes.md` §2-§3, `F39CritOverclaim.md` §1-§6; each with a measured counterexample).
+No receipt verdict, map label or frozen file changes.
+
+- "Test 3 needs the init message to appear once" (Summary consequences, finding 1 context): read **at least** once.
+- "tag messages, stash merge commits and `.git/config` are outside all four views": read "the message of a **referenced**
+  annotated tag, the stash's merge diff and `.git/config`" — a **dangling** annotated tag is listed by `fsck` and its
+  message is read by `cat-file -p`; a stash's message is in `log --all`, its merge diff is what `-S` does not walk.
+- "are reported only under `--unreachable`" (finding 9): read "once reflogs are excluded (as `--lost-found` does), the
+  commit's tree and blob are reported only under `--unreachable`".
+- "*any* non-dot work-tree change … fails test 5": read "any change to the set or content of non-dot **regular** files"
+  (`find -type f`); a mode-only change or an empty directory passes.
+- "read by two `git log` invocations, `git fsck --lost-found` plus `cat-file -p`, one substring test and one pinned
+  checksum": the readers also include the flag file's `exists()`/`read_text().strip()` equality and the `log --oneline
+  --all` substring; the inventory is five tests, not four views.
+- "The two cases that show the checksum firing": the receipt shows three (`untracked-file-secret`, `readme-edited`,
+  `flag-in-repo-only`).
+- Located-quote claim cells: `test_outputs.py:1` supports "the captured file carries the benchmark canary banner", not "a
+  harness template"; `test_outputs.py:12` supports "the first test's docstring claims recovery from unreachable git
+  objects" — the test itself checks only the file's text.
+- "first probed instance for TB2 `git-leak-recovery`" (Prior art): read "first recorded, frozen 25-case probe"; the
+  round-38 planning seat ran eight of these states first (`.ufo/waves/round-38/build/R38PlanNext.md` §2.3), and their
+  verdicts are the eight pilot-copied predictions.
+- Requirement line 3 `enforced`: the literal's presence and exact text at `/app/secret.txt` is enforced; recovery and
+  provenance are never checked (the literal is in the grader, `:16`).

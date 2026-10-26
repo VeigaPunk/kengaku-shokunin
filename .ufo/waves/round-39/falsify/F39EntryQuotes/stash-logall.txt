@@ -1,0 +1,20 @@
+D=/fast/scratch/hyaku/kengaku-r39/F39EntryQuotes/tmp.koeQYjC2ng (stash fixture)
+$ git log --oneline --all
+d32e913 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc
+4f13408 WIP on main: d32e913 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc
+b7791ff index on main: d32e913 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc
+354e686 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc
+$ git log --all --grep "secret\[" --regexp-ignore-case
+rc=0
+$ git log --all -p -S "secret["
+rc=0
+$ git rev-parse refs/stash
+4f13408ce8c6e2614d0484d95e1e106241ee5989
+$ git cat-file -p refs/stash
+tree d61e13613a83617d335bb794f891b13130964e5a
+parent d32e9130994664c6d1eb3028aff2089190f66fd7
+parent b7791ff636e9d12e425beb2c589748eb349c3abf
+author TB <tb@example.com> 1793000825 -0300
+committer TB <tb@example.com> 1793000825 -0300
+
+WIP on main: d32e913 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc

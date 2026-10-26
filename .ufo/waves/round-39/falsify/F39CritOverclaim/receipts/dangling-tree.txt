@@ -1,0 +1,15 @@
+$ git -c user.name=T -c user.email=t@e init -q && echo x > README.md && git add README.md && git commit -qm init
+>>> rc=0
+
+
+$ B=$(printf 'secret[lost_and_found_in_git]\n' | git hash-object -w --stdin) && printf '100644 blob %s\tsecret[lost_and_found_in_git].txt\n' "$B" | git mktree
+>>> rc=0
+d0b3d1a2bbfdf4f46dddd1e8dfe00196c5a3b5b1
+
+$ git fsck --lost-found
+>>> rc=0
+dangling tree d0b3d1a2bbfdf4f46dddd1e8dfe00196c5a3b5b1
+
+$ T=$(git fsck --lost-found | awk "/dangling tree/{print \$3}") && git cat-file -p "$T"
+>>> rc=0
+100644 blob 52d18a091cd9755bacb8eaccab2882a24b080dc7	secret[lost_and_found_in_git].txt

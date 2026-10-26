@@ -1,0 +1,20 @@
+$ git -c user.name=T -c user.email=t@e init -q && echo x > README.md && git add README.md && git commit -qm init
+>>> rc=0
+
+
+$ git -c user.name=T -c user.email=t@e tag -a keep -m 'secret[lost_and_found_in_git]' HEAD && git tag -d keep
+>>> rc=0
+Deleted tag 'keep' (was ae6bf3c)
+
+$ git fsck --lost-found
+>>> rc=0
+dangling tag ae6bf3cb611523ee069eb35258119996996cbb47
+
+$ T=$(git fsck --lost-found | awk "/dangling tag/{print \$3}") && git cat-file -p "$T"
+>>> rc=0
+object 5e4b87a08bca97401b8318e39f737f9028471aaf
+type commit
+tag keep
+tagger T <t@e> 1793001149 -0300
+
+secret[lost_and_found_in_git]

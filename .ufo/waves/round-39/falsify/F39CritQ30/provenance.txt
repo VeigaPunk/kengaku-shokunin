@@ -1,0 +1,19 @@
+## landed script is the audited draft
+$ sha256sum plans/order_check.py
+948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc  plans/order_check.py
+build report claimed: 948d5e1d2b34…fc6ecc (.ufo/waves/round-39/build/R39OrderGate.md:28)
+
+## gate-shaped P10 lines in the 7 committed round-39 claims files at freeze
+$ git grep -n -E 'P10 (DEFECT|ok)' 088f7c36 -- .ufo/waves/round-39/claims/ | grep -v FIXTURE
+088f7c36e94ce2f15e6f9aa0c5a5c5b75a1646c8:.ufo/waves/round-39/claims/control-c2-nothing.txt:11:    gate: P10 DEFECT receipt unreadable
+$ git ls-tree -r --name-only 088f7c36 -- .ufo/waves/round-39/claims/ | wc -l
+7
+
+## order_check git surface (read-only)
+$ grep -oE '"(rev-parse|log|rev-list|ls-tree|cat-file|merge-base)"' plans/order_check.py | sort -u
+"cat-file"
+"log"
+"ls-tree"
+"merge-base"
+"rev-list"
+"rev-parse"

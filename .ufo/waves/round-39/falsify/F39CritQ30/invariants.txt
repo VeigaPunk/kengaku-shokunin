@@ -1,0 +1,28 @@
+## commits-only invariant: append a gate P10 executed line to a COMMITTED claims file, do not commit
+$ git status --porcelain (before run)
+ M .ufo/waves/round-39/claims/control-c2-nothing.txt
+$ python3 plans/order_check.py --lane . --claims plans/round-39-claims.md --receipt corpus/evidence/round39/git-leak-probe.txt
+ORDER claims=plans/round-39-claims.md round=39 freeze=088f7c36e94ce2f15e6f9aa0c5a5c5b75a1646c8
+ORDER receipt=corpus/evidence/round39/git-leak-probe.txt receipt_commit=6a1eb5e1da4a435940b821e28530c31f3411549c claims_dir=.ufo/waves/round-39/claims/
+ORDER scanned commits=1 file_entries=7 distinct_blobs=7
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+rc=0
+
+## setup errors exit 2
+$ [non-git] --lane /fast/scratch/hyaku/kengaku-r39/F39CritQ30/tmp.bsg9mQFcmr --claims plans/round-39-claims.md --receipt x.txt
+ORDER ERROR not a git work tree: /fast/scratch/hyaku/kengaku-r39/F39CritQ30/tmp.bsg9mQFcmr
+ORDER RESULT ERROR
+rc=2
+$ [missing-file] --lane . --claims plans/nope.md --receipt corpus/evidence/round39/git-leak-probe.txt
+ORDER ERROR claims file name is not round-NN-claims.md: plans/nope.md
+ORDER RESULT ERROR
+rc=2
+$ [bad-name] --lane . --claims plans/round-XX-claims.md --receipt corpus/evidence/round39/git-leak-probe.txt
+ORDER ERROR claims file name is not round-NN-claims.md: plans/round-XX-claims.md
+ORDER RESULT ERROR
+rc=2
+$ [missing-receipt] --lane . --claims plans/round-39-claims.md --receipt nope.txt
+ORDER ERROR receipt not committed in HEAD: nope.txt
+ORDER RESULT ERROR
+rc=2

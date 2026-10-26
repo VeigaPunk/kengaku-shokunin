@@ -1,0 +1,18 @@
+$ gh api issues 239/84/86 (state, pr, created_at)
+#239 pr=false state=open created=2026-09-25T22:54:11Z | sanitize-git-repo: verifier diffs against a hard-coded commit SHA, so removing the secrets from history (which the instruction asks for) makes the verifier error out
+#84 pr=false state=open created=2026-09-28T07:56:53Z | sanitize-git-repo: verifier crashes with GitPython ValueError when the agent rewrites git history to remove the secrets
+#86 pr=true state=open created=2026-09-28T08:18:15Z | fix(sanitize-git-repo): verifier crashes when the agent removes the secrets from git history
+$ gh api commits (dates)
+jonathan 2026-01-24T01:06:41Z
+evan 2026-09-15T16:54:52Z
+tb2 2026-04-30T05:53:30Z
+tb21main 7131e4375048
+$ quoted issue search totals (git-leak-recovery)
+terminal-bench 0
+terminal-bench-2 0
+terminal-bench-2-1 0
+harbor 2
+$ harbor #1644 body:14
+result_path: jobs/2026-05-12__15-48-52/git-leak-recovery__amFfVcJ/result.json
+$ harbor PR60 comments matching
+2

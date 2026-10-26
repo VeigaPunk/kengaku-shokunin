@@ -1,0 +1,86 @@
+# every round-36..38 counter + the three edited tools, at lane tip a6832f53c1a94bb092a6cfd79fb4e449f2d4054c
+# clone /fast/scratch/hyaku/kengaku-r39/F39CritNoHarmDiff/lane ; git rev-parse --show-toplevel = /fast/scratch/hyaku/kengaku-r39/F39CritNoHarmDiff/lane ; HEAD = a6832f53c1a94bb092a6cfd79fb4e449f2d4054c
+# outputs are the run's stdout (verbatim tails); exit= is the run command's own echo
+
+== plans/round36_c1_verify.py   exit=0
+rows=4 closed=4 observed_pass=4 mismatches=0
+PREDICATE C1 pass
+
+== plans/round36_c2_verify.py   exit=0
+checks=6 defects=0
+PREDICATE C2 pass
+
+== plans/round37_c1_verify.py   exit=0
+BATTERY fixtures=64 wrong=0 renamed_disagree=0
+MUTANTS total=55 killed=55 survived=0 invalid=0 null_detected=0
+PREDICATE C1 pass
+
+== plans/round37_c1_attribution.py   exit=0
+ATTRIBUTED 55/55 UNATTRIBUTED=0
+
+== plans/round37_c2_verify.py   exit=0
+V1 ok listed=6 bad=0 extra=0
+V2 ok gate_exit=0
+V3 ok rows=3 bad=0
+V4 ok cases=22 mismatches_named=0/0 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 ok rows=4 bad=0
+checks=7 defects=0
+PREDICATE C2 pass
+
+== plans/round38_c1_verify.py   exit=1
+PINS total=14 mismatched=0
+BATTERY fixtures=86 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANTS total=22 killed=21 survived=1 invalid=0 null_detected=0
+PREDICATE C1 fail
+
+== plans/round38_c2_verify.py   exit=0
+V1 ok listed=5 bad=0 extra=0
+V2 ok spec=frozen gate=frozen gate_exit=0
+V3 ok rows=2 bad=0
+V4 ok cases=22 mismatches_named=0/0 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 ok rows=7 tags=7 bad=0
+checks=7 defects=0
+PREDICATE C2 pass
+
+== plans/mutant_direction_check.py --lane . --work DIR   exit=1
+DIR N21 D5 declared=silence observed=mirror MISLABELLED
+LEGS mutants=22 disagree=0 invalid=0
+DIRECTIONS total=22 mislabelled=1
+
+== plans/anchor_digest_check.py --lane .   exit=0
+rows=111 tokens=19 defects=0
+
+== plans/order_check.py --claims plans/round-39-claims.md ...   exit=0
+ORDER RESULT PASS
+== plans/order_check.py --claims plans/round-38-claims.md ...   exit=1
+ORDER HIT .ufo/waves/round-38/claims/control-c2-skip.txt@e0a378539a45:11 kind=gate-p10 `gate: P10 DEFECT fresh probe output is not byte-equal to the receipt`
+ORDER FAIL probe-executed-before-receipt hits=1 -> ORDER RESULT FAIL
+
+== plans/ledger_tip.py --source <tip clone> --work DIR   exit=0
+TIP commit=a6832f53c1a94bb092a6cfd79fb4e449f2d4054c clone=/fast/scratch/hyaku/kengaku-r39/F39CritNoHarmDiff/lt/lane
+REF BIND ref=refs/heads/master rev=a6832f53c1a94bb092a6cfd79fb4e449f2d4054c tip=a6832f53c1a94bb092a6cfd79fb4e449f2d4054c source_ref=acf437542b00ae1723eba9dcc79d46af2e40d96e why=clone-lacks-ref
+rows=9 closed=9 observed_pass=9 mismatches=0
+
+## the same counter lines in .ufo/waves/round-39/integrate/measure-final.txt (TIP 34158b0c), for line-by-line comparison
+247:ORDER RESULT FAIL
+360:MUTANTS total=22 killed=21 survived=1 invalid=0 null_detected=0
+361:PREDICATE C1 fail
+565:LEGS mutants=22 disagree=0 invalid=0
+566:DIRECTIONS total=22 mislabelled=1
+569:rows=111 tokens=19 defects=0
+
+## round-39 support checks (measure.sh tail), same clone
+$ bash /home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --file corpus/SOURCES.md
+file	W04	S040 duplicate url ... (15 pre-existing W04 warnings)
+file	ok	.../lane/corpus/SOURCES.md
+census exit=0
+$ sha256sum -c .ufo/waves/round-39/claims/frozen-digests.txt
+plans/pkg_gate.py: OK / round39_c1_verify.py: OK / round39_c2_verify.py: OK / git_leak_probe.py: OK
+pkg-spec-r39.json: OK / git-leak-dry-cases-freeze.txt: OK / round37_c1_verify.py: OK
+round38_c1_verify.py: OK / round38_c2_verify.py: OK
+digests exit=0   (9/9)
+registry_rows=111 knowledge_files=46 index_rows=46

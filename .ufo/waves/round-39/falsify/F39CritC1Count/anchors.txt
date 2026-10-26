@@ -1,0 +1,36 @@
+# anchors: grep -n in /fast/scratch/hyaku/kengaku-r39/F39CritC1Count/lane @ a6832f53c1a94bb092a6cfd79fb4e449f2d4054c
+--- pkg_gate.py docstring
+7:exit 0 = accept, 1 = reject, 2 = usage/setup (an unexpected crash never maps onto 0 or 1).
+9:Every clause is spec-driven: paths, digests, row ids, tier, status, quote bounds, labels and
+13:a quote not verbatim on its cited line, and a receipt a fresh run does not reproduce are defects.
+149:            bad.append(f"{q.capture}:{q.start}: quote not verbatim there")
+--- QUALITY Q24/Q27
+300:  frozen battery built from the genuine package's own bytes: the genuine package must be accepted, every
+305:  eight one-word quotes, `junk` teaches cells, a stub probe that prints the receipt, and an untracked
+409:- **Q27 — a gate's advertised defect class counts as held only when a single-defect fixture kills
+410:  that class's silence mutant; a class whose mutant no fixture kills is advertised debt.** A
+--- SCORECARD package-gate row and round-39 row
+564:| package-gate | Accept or reject an admitted-entry package (entry, capture manifest, SOURCES rows, receipt, frozen instruments, clean tree) and the labelled D4/D5 correction lines against a spec of pinned digests: every quote row must parse and be distinct and verbatim on its cited capture line, teaches cells carry >=8 distinct words, a stub probe dies on its digest pin, `--rerun` byte-compares the receipt, `--require-clean-tree` refuses any untracked file. Exit 0 accept / 1 reject / 2 setup. Not a truth check on prose that parses. | `python3 plans/round36_c1_verify.py --lane .` on a clean clone → `FIXTURES total=14 false_green=0 false_red=0 unevaluated=0` (freeze controls: absent gate `unevaluated=14`; round-35 counter `LEGACY accepted=7/7`) | 36 |
+1385:| C1 the gate behaviours still undemonstrated after round 38: 7 frozen mutants M01–M07 of `plans/pkg_gate.py` (unedited, `ea638822…`), N21 carried as `mirror`, round-38 wave-2 survivors, every direction witnessed before freeze, two exit-code legs, battery modules built out of process | **calibration** — mismatch count between what the gate's docstring, Q24/Q27 and the `package-gate` row advertise and what the batteries show | `python3 plans/round39_c1_verify.py --lane .` on a clean clone: before `BATTERY fixtures=86 wrong=0 renamed_disagree=0 sidechannel=0`, `MUTANTS total=7 killed=3 survived=4`, `PREDICATE C1 fail`, exit 1 (`.ufo/waves/round-39/claims/control-c1-nothing.txt`) → after `PINS total=26 mismatched=0`, `BATTERY fixtures=90 wrong=0 renamed_disagree=0 sidechannel=0`, `MUTANTS total=7 killed=7 survived=0 invalid=0 null_detected=0`, `PREDICATE C1 pass`, exit 0 (`measure-final.txt`). Advertised-only recount (M02, M03, M05, M06 reach a sentence; M01, M04, M07 do not — `R39CritClaims` §1): 2 → 0 | **8 → 8 held**; frozen predicate met. No raise: the frozen counter is gameable by a dishonest battery (`R39CritC1Counter` A1/A3/A4/A5); admission also rests on the post-hoc `plans/round39_c1_audit.py` (`AUDIT C1 clean` on the landed battery, A3 replay refused) and on non-author review of `plans/battery39/` (wave 2) |
+--- lesson round-39
+46:| **calibration count overstated by its own `adv` cells** | the claims mark 3 of 7 `adv` cells indirect; `R39CritClaims` §1 and `R39AdvErrata` find M01, M04, M07 cite no sentence that reaches their behaviour (M01's cited genuine package has its capture on manifest row 1, so `[:1]` is a no-op there) | wave-1 critics; the round-38 closure had already flagged the same shape (3 of 22) | the advertised-behaviour count is reported as 4 (M02, M03, M05, M06): before 2 undemonstrated (M02, M03) → after 0; the frozen 7-mutant predicate is reported unchanged beside it. Forward: an `adv` cell must quote its sentence with file:line at freeze. |
+--- claims
+25:- **Surface:** `plans/pkg_gate.py` (unedited, digest `ea638822…`) and what the lane advertises about it — the gate
+27:- **Self-assessment vs observed state (the calibration count):** the number of frozen mutants M01–M07 (each one
+62:  mutant, it does not police processes). Three of the seven `adv` cells cover their behaviour only indirectly
+--- R39CritClaims M01 row + self-standard
+| M01 D5 mirror | a D5 capture pinned on a non-first manifest row is accepted | cell cites `QUALITY.md:300` "the genuine package must be accepted" — unreachable: the genuine `quarantine-SHA256SUMS` has two rows and row 1 *is* the capture digest (`b60af775…`), so `[:1]` is a no-op on the accepted state. A covering class sentence does exist at `SCORECARD.md:564` ("the labelled D4/D5 correction l
+After this report was first written, seat `R39AdvErrata` independently audited the same seven cells
+(`build/R39AdvErrata.md` §3, receipt `build/R39AdvErrata/verify.txt`) and measured what §1 had only inferred:
+`quarantine-SHA256SUMS` has two rows and row 1 **is** the capture digest (`b60af775…`), so M01's `[:1]` mutant is
+a no-op on the accepted state and its Q24 citation cannot reach the behaviour. I re-confirmed that row order from
+the spec's own paths (`pkg-spec-r35.json` `d5_capture_dir` + `d5.manifest_name`), so M01 is tier **N as cited**,
+not K: a covering class sentence exists at `SCORECARD.md:564`, but the cell does not name it, and the task's
+question is what the cell maps to. Counts are now C 2, K 2, N 3 — the peer's split (2 direct, 2 indirect
+unmarked, 3 uncitable) and mine agree cell for cell.
+--- R39AdvErrata M01 wording
+  manifest row 2 is still pinned in the manifest), so M01 is *uncitable*; M07 has no sentence anywhere reaching
+  markup stripping, so M07 is *unreachable by any sentence*. Peer `R39CritClaims` reached the same M01 tier move
+   whose citation cannot cover them** (M01, M04, M07) — and the three marked `indirect` are exactly the last
+   three. Within the third group M01 is uncitable (a covering class sentence exists at `SCORECARD.md:564`, the
+   cell cites Q24 instead) while M07 is unreachable by any sentence (F-D). So the marker is on the right cells but names the wrong tier ("indirect" where the round-38 method's

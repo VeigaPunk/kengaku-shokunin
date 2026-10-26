@@ -1,0 +1,6 @@
+VARIANT words=25 gate=REF rc=0 | P3 ok rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=0 | defects=0
+VARIANT words=25 gate=M03 rc=0 | P3 ok rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=0 | defects=0
+VARIANT words=27 gate=REF rc=1 | P3 DEFECT rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=1 | defects=1
+VARIANT words=27 gate=M03 rc=1 | P3 DEFECT rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=1 | defects=1
+DIFF p3m39-quote-one-word-above-upper-bound ref=(rc=1,bad=['P3'],ok=8) mut=(rc=0,bad=[],ok=9)
+SWEEP fixtures=90 ref_vs_M03_differing=1 ids=['p3m39-quote-one-word-above-upper-bound']

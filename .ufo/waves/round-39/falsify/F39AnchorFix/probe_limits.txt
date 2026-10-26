@@ -1,0 +1,43 @@
+==== L1a: D alone ====
+LANDED exit=1
+LANDED | DEFECT S111 anchor token=- class=capture-unanchored detail=row-names-2-captures-1-anchor-token-none-resolves-capture-corpus/evidence/round37/tb2-git-webserver/test_outputs.py loc=corpus/SOURCES.md:126
+LANDED | rows=111 tokens=19 defects=1
+FROZEN exit=0
+FROZEN | rows=111 tokens=19 defects=0
+
+==== L1b: D + erratum (cited_wrong = the row's current token, correction = its own capture digest) ====
+LANDED exit=0
+LANDED | rows=111 tokens=19 defects=0
+FROZEN exit=0
+FROZEN | rows=111 tokens=19 defects=0
+
+==== L1c: A + erratum (round-38 cross-row shape laundered) ====
+LANDED exit=0
+LANDED | rows=111 tokens=19 defects=0
+FROZEN exit=0
+FROZEN | rows=111 tokens=19 defects=0
+
+==== L2: provenance short-circuit — S111 row keeps its URL, gains a PROVENANCE.md line; token = the prov capture's digest ====
+LANDED exit=1
+LANDED | BIND S111 capture=corpus/evidence/round37/tb2-git-webserver/test_outputs.py by=url-task
+LANDED | DEFECT S111 anchor token=45ddba7be49096a18919b4122a8945ff74c292ba17e36892b16e176a8bd921cd class=digest-wrong-capture detail=committed-capture-belonging-to-another-capture-corpus/evidence/round37/anchor-captures/S070-generate_test_data.py-not-the-capture-this-row-names-corpus/evidence/round37/tb2-git-webserver/test_outputs.py loc=corpus/SOURCES.md:126
+LANDED | rows=111 tokens=19 defects=1
+FROZEN exit=1
+FROZEN | BIND S111 capture=corpus/evidence/round37/tb2-git-webserver/test_outputs.py by=url-task
+FROZEN | DEFECT S111 anchor token=45ddba7be49096a18919b4122a8945ff74c292ba17e36892b16e176a8bd921cd class=digest-wrong-capture detail=committed-capture-belonging-to-another-capture-corpus/evidence/round37/anchor-captures/S070-generate_test_data.py-not-the-capture-this-row-names-corpus/evidence/round37/tb2-git-webserver/test_outputs.py loc=corpus/SOURCES.md:126
+FROZEN | rows=111 tokens=19 defects=1
+
+==== L3: TOK-OUTSIDE detail ====
+LANDED exit=1
+LANDED | DEFECT S111 anchor token=526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37 class=token-outside-anchor detail=sha256-claim-in-cell-5-of-11 loc=corpus/SOURCES.md:126
+LANDED | DEFECT S111 anchor token=- class=capture-unanchored detail=row-names-2-captures-1-anchor-token-none-resolves-capture-corpus/evidence/round36/tb2-regex-log/test_outputs.py loc=corpus/SOURCES.md:126
+LANDED | DEFECT S111 anchor token=- class=capture-unanchored detail=row-names-2-captures-1-anchor-token-none-resolves-capture-corpus/evidence/round37/tb2-git-webserver/test_outputs.py loc=corpus/SOURCES.md:126
+LANDED | rows=111 tokens=19 defects=3
+FROZEN exit=1
+FROZEN | DEFECT S111 anchor token=526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37 class=token-outside-anchor detail=sha256-claim-in-cell-5-of-11 loc=corpus/SOURCES.md:126
+FROZEN | rows=111 tokens=19 defects=1
+
+RESTORED all; status-lines=0
+
+==== L4: SHA256SUMS entry vs file bytes ====
+manifest check delegated to inline python below

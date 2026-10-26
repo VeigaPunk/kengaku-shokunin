@@ -1,0 +1,75 @@
+LANE toplevel=/fast/scratch/hyaku/kengaku-r39/F39AnchorFix/lane
+PRISTINE corpus/SOURCES.md sha256=63a2a3017b57a23b887ac868f700f8ae52e376c0182880bcfc308dfc2f01be8b
+PRISTINE corpus/lessons/round-38.md sha256=4c73ebe5d8971c691257b89fe27b8cbd60a10f029b5dcfe28972e6f42a91d5a3
+PRISTINE git status --porcelain lines=0
+
+==== CASE CONTROL ====
+LANDED exit=0
+LANDED | rows=111 tokens=19 defects=0
+FROZEN exit=0
+FROZEN | rows=111 tokens=19 defects=0
+RESTORED corpus/SOURCES.md sha256=63a2a3017b57a23b887ac868f700f8ae52e376c0182880bcfc308dfc2f01be8b git status --porcelain lines=0
+
+==== CASE D ====
+MUTATION S111 -> | S111 | Terminal-Bench 2.0 configure-git-webserver task grader (tests/test_outputs.py) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/configure-git-webserver/tests/test_outputs.py | code | A | the executed scoring predicate of one Terminal-Bench 2.0 service task at a pinned commit — a stdout substring over a helper shell script, and what that helper does and does not observe — for the code's own behaviour https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/regex-log/tests/test_outputs.py | commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, tests/test_outputs.py:9-13, :13 "assert "TEST PASSED" in result.stdout" (5 words); sha256 345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 | the task score is one pytest function asserting the substring TEST PASSED anywhere in a helper script's stdout, not the helper's exit status nor the served artefact's provenance | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-git-webserver-grader.md |
+LANDED exit=1
+LANDED | DEFECT S111 anchor token=- class=capture-unanchored detail=row-names-2-captures-1-anchor-token-none-resolves-capture-corpus/evidence/round37/tb2-git-webserver/test_outputs.py loc=corpus/SOURCES.md:126
+LANDED | rows=111 tokens=19 defects=1
+FROZEN exit=0
+FROZEN | rows=111 tokens=19 defects=0
+RESTORED corpus/SOURCES.md sha256=63a2a3017b57a23b887ac868f700f8ae52e376c0182880bcfc308dfc2f01be8b git status --porcelain lines=0
+
+==== CASE F ====
+MUTATION S111 -> | S111 | Terminal-Bench 2.0 configure-git-webserver task grader (tests/test_outputs.py) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/configure-git-webserver/tests/test_outputs.py | code | A | the executed scoring predicate of one Terminal-Bench 2.0 service task at a pinned commit — a stdout substring over a helper shell script, and what that helper does and does not observe — for the code's own behaviour | commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, tests/test_outputs.py:9-13, :13 "assert "TEST PASSED" in result.stdout" (5 words) https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/regex-log/tests/test_outputs.py ; sha256 345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 | the task score is one pytest function asserting the substring TEST PASSED anywhere in a helper script's stdout, not the helper's exit status nor the served artefact's provenance | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-git-webserver-grader.md |
+LANDED exit=1
+LANDED | DEFECT S111 anchor token=- class=capture-unanchored detail=row-names-2-captures-1-anchor-token-none-resolves-capture-corpus/evidence/round37/tb2-git-webserver/test_outputs.py loc=corpus/SOURCES.md:126
+LANDED | rows=111 tokens=19 defects=1
+FROZEN exit=0
+FROZEN | rows=111 tokens=19 defects=0
+RESTORED corpus/SOURCES.md sha256=63a2a3017b57a23b887ac868f700f8ae52e376c0182880bcfc308dfc2f01be8b git status --porcelain lines=0
+
+==== CASE D2 ====
+MUTATION S111 -> | S111 | Terminal-Bench 2.0 configure-git-webserver task grader (tests/test_outputs.py) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/configure-git-webserver/tests/test_outputs.py | code | A | the executed scoring predicate of one Terminal-Bench 2.0 service task at a pinned commit — a stdout substring over a helper shell script, and what that helper does and does not observe — for the code's own behaviour https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/regex-log/tests/test_outputs.py | commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, tests/test_outputs.py:9-13, :13 "assert "TEST PASSED" in result.stdout" (5 words); sha256 526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37; sha256 345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 | the task score is one pytest function asserting the substring TEST PASSED anywhere in a helper script's stdout, not the helper's exit status nor the served artefact's provenance | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-git-webserver-grader.md |
+LANDED exit=0
+LANDED | rows=111 tokens=20 defects=0
+FROZEN exit=0
+FROZEN | rows=111 tokens=20 defects=0
+RESTORED corpus/SOURCES.md sha256=63a2a3017b57a23b887ac868f700f8ae52e376c0182880bcfc308dfc2f01be8b git status --porcelain lines=0
+
+==== CASE DUP ====
+MUTATION S111 -> | S111 | Terminal-Bench 2.0 configure-git-webserver task grader (tests/test_outputs.py) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/configure-git-webserver/tests/test_outputs.py | code | A | the executed scoring predicate of one Terminal-Bench 2.0 service task at a pinned commit — a stdout substring over a helper shell script, and what that helper does and does not observe — for the code's own behaviour https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/regex-log/tests/test_outputs.py | commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, tests/test_outputs.py:9-13, :13 "assert "TEST PASSED" in result.stdout" (5 words); sha256 526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37; sha256 526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37 | the task score is one pytest function asserting the substring TEST PASSED anywhere in a helper script's stdout, not the helper's exit status nor the served artefact's provenance | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-git-webserver-grader.md |
+LANDED exit=1
+LANDED | DEFECT S111 anchor token=- class=capture-unanchored detail=row-names-2-captures-2-anchor-token-none-resolves-capture-corpus/evidence/round36/tb2-regex-log/test_outputs.py loc=corpus/SOURCES.md:126
+LANDED | rows=111 tokens=20 defects=1
+FROZEN exit=0
+FROZEN | rows=111 tokens=20 defects=0
+RESTORED corpus/SOURCES.md sha256=63a2a3017b57a23b887ac868f700f8ae52e376c0182880bcfc308dfc2f01be8b git status --porcelain lines=0
+
+==== CASE A ====
+MUTATION S111 -> | S111 | Terminal-Bench 2.0 configure-git-webserver task grader (tests/test_outputs.py) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/configure-git-webserver/tests/test_outputs.py | code | A | the executed scoring predicate of one Terminal-Bench 2.0 service task at a pinned commit — a stdout substring over a helper shell script, and what that helper does and does not observe — for the code's own behaviour | commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, tests/test_outputs.py:9-13, :13 "assert "TEST PASSED" in result.stdout" (5 words); sha256 345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 | the task score is one pytest function asserting the substring TEST PASSED anywhere in a helper script's stdout, not the helper's exit status nor the served artefact's provenance | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-git-webserver-grader.md |
+LANDED exit=1
+LANDED | DEFECT S111 anchor token=345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 class=digest-wrong-capture detail=committed-capture-belonging-to-another-capture-corpus/evidence/round36/tb2-regex-log/test_outputs.py-not-the-capture-this-row-names-corpus/evidence/round37/tb2-git-webserver/test_outputs.py loc=corpus/SOURCES.md:126
+LANDED | rows=111 tokens=19 defects=1
+FROZEN exit=1
+FROZEN | DEFECT S111 anchor token=345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 class=digest-wrong-capture detail=committed-capture-belonging-to-another-capture-corpus/evidence/round36/tb2-regex-log/test_outputs.py-not-the-capture-this-row-names-corpus/evidence/round37/tb2-git-webserver/test_outputs.py loc=corpus/SOURCES.md:126
+FROZEN | rows=111 tokens=19 defects=1
+RESTORED corpus/SOURCES.md sha256=63a2a3017b57a23b887ac868f700f8ae52e376c0182880bcfc308dfc2f01be8b git status --porcelain lines=0
+
+==== CASE L ====
+MUTATION S111 -> | S111 | Terminal-Bench 2.0 configure-git-webserver task grader (tests/test_outputs.py) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/configure-git-webserver/tests/test_outputs.py | code | A | the executed scoring predicate of one Terminal-Bench 2.0 service task at a pinned commit — a stdout substring over a helper shell script, and what that helper does and does not observe — for the code's own behaviour | commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, tests/test_outputs.py:9-13, :13 "assert "TEST PASSED" in result.stdout" (5 words) | the task score is one pytest function asserting the substring TEST PASSED anywhere in a helper script's stdout, not the helper's exit status nor the served artefact's provenance | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-git-webserver-grader.md |
+LANDED exit=0
+LANDED | rows=111 tokens=18 defects=0
+FROZEN exit=0
+FROZEN | rows=111 tokens=18 defects=0
+RESTORED corpus/SOURCES.md sha256=63a2a3017b57a23b887ac868f700f8ae52e376c0182880bcfc308dfc2f01be8b git status --porcelain lines=0
+
+==== CASE M ====
+LANDED exit=1
+LANDED | DEFECT S111 erratum token=- class=erratum-incomplete detail=no-64-hex-digest-of-the-capture-this-row-names loc=corpus/lessons/round-38.md:124
+LANDED | DEFECT S111 anchor token=345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 class=digest-wrong-capture detail=committed-capture-belonging-to-another-capture-corpus/evidence/round36/tb2-regex-log/test_outputs.py-not-the-capture-this-row-names-corpus/evidence/round37/tb2-git-webserver/test_outputs.py loc=corpus/SOURCES.md:126
+LANDED | rows=111 tokens=19 defects=2
+FROZEN exit=1
+FROZEN | DEFECT S111 erratum token=- class=erratum-incomplete detail=no-64-hex-digest-of-the-capture-this-row-names loc=corpus/lessons/round-38.md:124
+FROZEN | DEFECT S111 anchor token=345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 class=digest-wrong-capture detail=committed-capture-belonging-to-another-capture-corpus/evidence/round36/tb2-regex-log/test_outputs.py-not-the-capture-this-row-names-corpus/evidence/round37/tb2-git-webserver/test_outputs.py loc=corpus/SOURCES.md:126
+FROZEN | rows=111 tokens=19 defects=2
+RESTORED corpus/SOURCES.md sha256=63a2a3017b57a23b887ac868f700f8ae52e376c0182880bcfc308dfc2f01be8b git status --porcelain lines=0

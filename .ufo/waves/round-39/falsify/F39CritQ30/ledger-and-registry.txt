@@ -1,0 +1,22 @@
+## defects ledger
+$ wc -l corpus/defects.jsonl
+5 corpus/defects.jsonl
+$ grep -c order corpus/defects.jsonl
+0
+$ ls corpus/defects*.jsonl
+corpus/defects-round35.jsonl
+corpus/defects.jsonl
+$ python3 plans/defect_ledger.py --lane . | tail -3
+R34-D5 status=closed observed=pass agree=yes erratum_lines=1 r35_mistake_row=True
+rows=5 closed=5 observed_pass=5 mismatches=0
+PREDICATE C2 pass
+
+## SKILL.md registry
+$ grep -c order_check SKILL.md
+0
+$ awk 'NR>560 && NR<610 && /^\| `/' SKILL.md | wc -l
+26
+$ awk 'NR>560 && NR<610 && /^\| `/' SKILL.md | grep -c order
+0
+$ grep -rn order-check --include=*.md --include=*.json . | grep -v '/build/'
+(end)

@@ -65,3 +65,25 @@ Pending — the non-author closure follows the report. Cheapest failing checks f
 5. Re-open S117/S118 live (digest + quote line).
 6. `python3 plans/order_check.py --lane . --claims plans/round-38-claims.md --receipt corpus/evidence/round38/build-pmars-probe.txt` → exit 1; round 39 → exit 0.
 7. `python3 plans/round37_c1_verify.py --lane .` → `killed=55` (no harm); `round38_c1_verify.py` → `killed=21 survived=1` as landed.
+
+## Errata (round 39, wave 2)
+
+Appended after the falsify wave (`.ufo/waves/round-39/falsify/F39RevLesson.md` D1–D3, `F39CritC1Count.md`); the rows above
+stand as written.
+
+- Mistakes row 2's refusal line was not committed when written; it is now reproduced by a non-author seat:
+  `F39RevErrata.md` §F4 appended the same errata to `tb2-protein-assembly-grader.md` in a clone and the round-38 counter
+  aborted with `RuntimeError: expected exactly one 'recheck:', found 5` (claim confirmed).
+- Gate row "four due rows re-opened": none was due (`sources-census.sh overdue` printed no line); the seat opened the four
+  rows with the highest drift risk. Flip for that row: a later re-open whose bytes or quote differ from the row.
+- Gate row for `considerthese` proposal 2(b): flip — a round in which `plans/order_check.py` is red on its own round or
+  green on round 37/38, or in which the class recurs while the gate passes.
+- Mistakes row 4's advertised-behaviour count: `F39CritC1Count` recounts against the four declared surfaces as C 2 (M05,
+  M06), K 3 (M01, M02, M03 — a class sentence covers them), N 2 (M04, M07): the denominator is **5**, not 4, and the
+  attribution to `R39CritClaims` §1 for M01 is wrong (that report tiers it as uncited, the recount as K). Before/after is
+  unchanged: of the five, M02 and M03 survived the freeze (M01 was killed by the round-38 battery), so 2 → 0.
+- Post-hoc audit limit found by `F39SentinelAudit`: a battery module whose daemon reads the process table can serve the
+  reference and replay one spec and every mutant run another (`aa_sa_phasekey.py`, `AUDIT C1 clean`, `killed=7` with the
+  honest modules moved aside). The audit's kill re-check catches only flips still in place at replay. The landed battery
+  holds no such code: four non-author reviewers found each module honest (`F39RevBatP1/P3/P7/D5`), and fixture-level mutants
+  are caught 12/12 (`F39MutBattery`). Round 40's counter needs immutable fixture snapshots and sandboxed build children.

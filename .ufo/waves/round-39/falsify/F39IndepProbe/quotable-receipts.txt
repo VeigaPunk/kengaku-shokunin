@@ -1,0 +1,27 @@
+# decisive command receipts for the three PPPPP-with-leak states (reproduced from the same recipes)
+## E6 deleted-branch-reflog
+Deleted branch tmp (was 22a4eb7).
+$ find .git/logs -type f | sort
+.git/logs/HEAD
+.git/logs/refs/heads/main
+$ git log --all -p -S 'secret[' | wc -l   # the grader's content search
+0
+$ git log --reflog -p -S 'secret[' | grep -c secret   # the view no test reads
+1
+$ git fsck --lost-found
+dangling commit 22a4eb76a263bb5ca8cd9488bee47a9b75c73259
+$ git cat-file -p <dangling commit>
+tree b10be2ad338a36f5197a505bb21c3edfbe21bd4c
+parent d4853f5e1af1dbc9e5b68d841632048e7d650fd8
+author T <t@e> 1793001210 -0300
+committer T <t@e> 1793001210 -0300
+
+chore: notes
+$ git ls-tree keep (E5 tree-name-secret)
+100644 blob 587be6b4c3f93f93c489c0111bba5596147a26cb	secret[lost_and_found_in_git]
+$ git log --all --grep 'secret\[' --regexp-ignore-case | wc -l
+0
+$ git log --all -p -S 'secret[' | wc -l
+0
+$ git cat-file -p <tree of keep>
+x

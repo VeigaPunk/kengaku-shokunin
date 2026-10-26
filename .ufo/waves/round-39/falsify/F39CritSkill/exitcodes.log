@@ -1,0 +1,152 @@
+### python3 /fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane/plans/git_leak_probe.py --lane /fast/scratch/hyaku/kengaku-r39/F39CritSkill/empty --work /fast/scratch/hyaku/kengaku-r39/F39CritSkill
+SETUP capture test_outputs.py missing or not at its pinned digest
+EXIT=2
+
+### python3 /fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane/plans/git_leak_probe.py --lane /fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane --work /nonexistent/k39
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane/plans/git_leak_probe.py", line 301, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane/plans/git_leak_probe.py", line 258, in main
+    root = pathlib.Path(tempfile.mkdtemp(prefix="k39-glr-", dir=a.work))
+                        ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/tempfile.py", line 381, in mkdtemp
+    _os.mkdir(file, 0o700)
+    ~~~~~~~~~^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/nonexistent/k39/k39-glr-hqwsqsca'
+EXIT=1
+
+### python3 /fast/scratch/hyaku/kengaku-r39/F39CritSkill/probe-flip.py --lane /fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane
+# tb2 git-leak-recovery grader probe (kengaku round 39) @ terminal-bench-2 2fd12b88
+# capture challenge-setup.sh sha256=a0a19652fc595b0bd06b6970e1d6a455bd4c50991c2ffdcc37fe5b66452b23e2
+# capture solve.sh sha256=791a7eb23019ee7c93307b35cc77ea334469c4d3688e1171fe1e5ba6fd9a14dd
+# capture test_outputs.py sha256=dc7b01c1b9dbb0c123def54b146dc1dd399a600edee5970d043a5db5eac4c775
+CASE empty-app predicted=fail observed=fail tests=FFFFF predicted_tests=FFFFF match=yes violates=recover-secret,files-untouched,messages-untouched -- do-nothing on an empty /app: no repo, no secret.txt (pilot D)
+CASE untouched predicted=fail observed=fail tests=FPPPP predicted_tests=PPPPF match=NO violates=recover-secret,secret-gone -- do-nothing on the task's initial state: the secret commit is reset away but still in the reflog (pilot A)
+CASE oracle-solve-sh predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates= -- the task's own solution/solve.sh; static reading says fsck honours reflogs so nothing is dangling and secret.txt stays empty (FPPPP), the round-38 pilot observed pass (pilot B) - the pilot is followed
+CASE echo-only predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates=secret-gone -- write the literal only; the secret commit and blob stay in the object store (pilot C)
+CASE echo-reflog-expire predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates=secret-gone -- literal + reflog expired, no gc: the commit is dangling, its tree and blob are not, cat-file -p of a commit prints no file content (pilot G)
+CASE echo-gc-only predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates=secret-gone -- literal + gc --prune=now without expiring the reflog: the reflog keeps the secret commit
+CASE clean-echo predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates= -- reflog expired, gc --prune=now, literal written: the cleanup the instruction asks for
+CASE dangling-secret-blob predicted=fail observed=fail tests=PPPFP predicted_tests=PPPFP match=yes violates=secret-gone -- after the cleanup a loose blob holding the secret is written: fsck lists it dangling
+CASE dangling-secret-commit predicted=fail observed=fail tests=PPPFP predicted_tests=PPPFP match=yes violates=secret-gone -- after the cleanup an unreferenced commit whose message is the secret
+CASE branch-keeps-leak predicted=fail observed=fail tests=PFPPP predicted_tests=PFPPP match=yes violates=secret-gone -- the reset-away secret commit re-pointed by a branch before the cleanup: log --all -S sees it
+CASE blob-ref-keeps-secret predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates=secret-gone -- after the cleanup a non-branch ref pins a blob holding the secret (pilot E shape)
+CASE tag-message-secret predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates=secret-gone -- after the cleanup an annotated tag whose message is the secret (pilot F shape)
+CASE commit-message-secret predicted=fail observed=fail tests=PFPPP predicted_tests=PFPPP match=yes violates=secret-gone -- after the cleanup a reachable empty commit whose message is the secret: --grep sees it
+CASE notes-secret predicted=fail observed=fail tests=PFPPP predicted_tests=PFPPP match=yes violates=secret-gone -- after the cleanup a git note carrying the secret: refs/notes/commits is under --all and its commit adds the note blob
+CASE stash-secret predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates=secret-gone -- after the cleanup the secret appended to README.md and stashed: refs/stash is a merge commit, and log -p -S without -m is not expected to diff merges (static reading, uncertain)
+CASE dotfile-in-worktree predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates=secret-gone -- after the cleanup a dot file holding the secret in the work tree: the checksum skips dot paths
+CASE untracked-file-secret predicted=fail observed=fail tests=PPPPF predicted_tests=PPPPF match=yes violates=secret-gone -- after the cleanup a non-dot untracked file holding the secret: the checksum sees a new file
+CASE config-secret predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates=secret-gone -- after the cleanup the secret stored in .git/config: no test reads repository configuration
+CASE readme-edited predicted=fail observed=fail tests=PPPPF predicted_tests=PPPPF match=yes violates=files-untouched -- cleanup + literal + an irrelevant file edited in the work tree
+CASE message-rewritten predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates=messages-untouched -- the tip commit's message rewritten before the cleanup; the first commit carries the same init message
+CASE history-rebuilt predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates=messages-untouched -- history discarded and rebuilt as one init commit (pilot H)
+CASE flag-extra-text predicted=fail observed=fail tests=FPPPP predicted_tests=FPPPP match=yes violates=recover-secret -- cleanup + secret.txt carrying a label before the literal
+CASE flag-padded-crlf predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates= -- cleanup + the literal with leading spaces and CRLF: strip() removes both
+CASE flag-is-directory predicted=fail observed=fail tests=FPPPP predicted_tests=FPPPP match=yes violates=recover-secret test_flag_file_exists_and_correct:error=IsADirectoryError -- cleanup + /app/secret.txt is a directory: exists() holds, read_text raises IsADirectoryError
+CASE flag-in-repo-only predicted=fail observed=fail tests=FPPPF predicted_tests=FPPPF match=yes violates=recover-secret,secret-gone -- cleanup + the literal written into the repo work tree instead of /app
+cases=25 observed_pass=13 observed_fail=12 mismatches=1
+EXIT=0
+
+### python3 /fast/scratch/hyaku/kengaku-r39/F39CritSkill/probe-failstage.py --lane /fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane --stage-check
+STAGECHECK empty-app rc=0 recipe rc=0
+STAGECHECK untouched rc=3 setup rc=0 recipe rc=1
+STAGECHECK oracle-solve-sh rc=0 setup rc=0 recipe rc=0
+STAGECHECK echo-only rc=0 setup rc=0 recipe rc=0
+STAGECHECK echo-reflog-expire rc=0 setup rc=0 recipe rc=0
+STAGECHECK echo-gc-only rc=0 setup rc=0 recipe rc=0
+STAGECHECK clean-echo rc=0 setup rc=0 recipe rc=0
+STAGECHECK dangling-secret-blob rc=0 setup rc=0 recipe rc=0
+STAGECHECK dangling-secret-commit rc=0 setup rc=0 recipe rc=0
+STAGECHECK branch-keeps-leak rc=0 setup rc=0 recipe rc=0
+STAGECHECK blob-ref-keeps-secret rc=0 setup rc=0 recipe rc=0
+STAGECHECK tag-message-secret rc=0 setup rc=0 recipe rc=0
+STAGECHECK commit-message-secret rc=0 setup rc=0 recipe rc=0
+STAGECHECK notes-secret rc=0 setup rc=0 recipe rc=0
+STAGECHECK stash-secret rc=0 setup rc=0 recipe rc=0
+STAGECHECK dotfile-in-worktree rc=0 setup rc=0 recipe rc=0
+STAGECHECK untracked-file-secret rc=0 setup rc=0 recipe rc=0
+STAGECHECK config-secret rc=0 setup rc=0 recipe rc=0
+STAGECHECK readme-edited rc=0 setup rc=0 recipe rc=0
+STAGECHECK message-rewritten rc=0 setup rc=0 recipe rc=0
+STAGECHECK history-rebuilt rc=0 setup rc=0 recipe rc=0
+STAGECHECK flag-extra-text rc=0 setup rc=0 recipe rc=0
+STAGECHECK flag-padded-crlf rc=0 setup rc=0 recipe rc=0
+STAGECHECK flag-is-directory rc=0 setup rc=0 recipe rc=0
+STAGECHECK flag-in-repo-only rc=0 setup rc=0 recipe rc=0
+stagecheck cases=25 failed=1
+EXIT=1
+
+### python3 /fast/scratch/hyaku/kengaku-r39/F39CritSkill/probe-failstage.py --lane /fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane
+# tb2 git-leak-recovery grader probe (kengaku round 39) @ terminal-bench-2 2fd12b88
+# capture challenge-setup.sh sha256=a0a19652fc595b0bd06b6970e1d6a455bd4c50991c2ffdcc37fe5b66452b23e2
+# capture solve.sh sha256=791a7eb23019ee7c93307b35cc77ea334469c4d3688e1171fe1e5ba6fd9a14dd
+# capture test_outputs.py sha256=dc7b01c1b9dbb0c123def54b146dc1dd399a600edee5970d043a5db5eac4c775
+CASE empty-app predicted=fail observed=fail tests=FFFFF predicted_tests=FFFFF match=yes violates=recover-secret,files-untouched,messages-untouched -- do-nothing on an empty /app: no repo, no secret.txt (pilot D)
+SETUP case untouched did not yield five test verdicts (rc=3)
+STAGE setup rc=0
+STAGE recipe rc=1
+
+EXIT=2
+
+### python3 /fast/scratch/hyaku/kengaku-r39/F39CritSkill/probe-nobwrap.py --lane /fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane
+SETUP /nonexistent/bwrap is required
+EXIT=2
+
+### python3 /fast/scratch/hyaku/kengaku-r39/F39CritSkill/probe-dup.py --lane /fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane
+SETUP duplicate case id, unknown tag or malformed prediction
+EXIT=2
+
+### python3 /fast/scratch/hyaku/kengaku-r39/F39CritSkill/probe-unknowntag.py --lane /fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane
+SETUP duplicate case id, unknown tag or malformed prediction
+EXIT=2
+
+### python3 /fast/scratch/hyaku/kengaku-r39/F39CritSkill/probe-malformed.py --lane /fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane
+SETUP duplicate case id, unknown tag or malformed prediction
+EXIT=2
+
+### python3 /fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane/plans/round39_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane --work /nonexistent/k39
+PINS total=26 mismatched=0
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane/plans/round39_c1_verify.py", line 395, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane/plans/round39_c1_verify.py", line 268, in main
+    root = pathlib.Path(tempfile.mkdtemp(prefix="k39-c1-", dir=a.work))
+                        ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/tempfile.py", line 381, in mkdtemp
+    _os.mkdir(file, 0o700)
+    ~~~~~~~~~^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/nonexistent/k39/k39-c1-n8_jge8o'
+EXIT=1
+
+### python3 /fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane/plans/round39_c2_verify.py --lane /fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane --work /nonexistent/k39
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane/plans/round39_c2_verify.py", line 282, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane/plans/round39_c2_verify.py", line 264, in main
+    with tempfile.TemporaryDirectory(prefix="k39-c2-", dir=a.work) as work:
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/tempfile.py", line 907, in __init__
+    self.name = mkdtemp(suffix, prefix, dir)
+                ~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/tempfile.py", line 381, in mkdtemp
+    _os.mkdir(file, 0o700)
+    ~~~~~~~~~^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/nonexistent/k39/k39-c2-47qpoufb'
+EXIT=1
+
+### python3 /fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane/plans/round39_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane --bogus
+usage: round39_c1_verify.py [-h] [--lane LANE] [--battery {full,r38}]
+                            [--battery-dir BATTERY_DIR] [--only ONLY]
+                            [--work WORK]
+round39_c1_verify.py: error: unrecognized arguments: --bogus
+EXIT=2
+
+### python3 /fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane/plans/round39_c2_verify.py --lane /fast/scratch/hyaku/kengaku-r39/F39CritSkill/lane --bogus
+usage: round39_c2_verify.py [-h] [--lane LANE] [--work WORK]
+round39_c2_verify.py: error: unrecognized arguments: --bogus
+EXIT=2
+

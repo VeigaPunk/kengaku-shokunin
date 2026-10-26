@@ -1,0 +1,19 @@
+
+import re, pathlib, sys
+root=pathlib.Path(sys.argv[1]); entry=(root/'corpus/knowledge/tb2-git-leak-recovery-grader.md').read_text().splitlines()
+start=next(i for i,l in enumerate(entry) if l.startswith('## Located quotes'))
+end=next(i for i,l in enumerate(entry[start+1:],start+1) if l.startswith('## '))
+cap=root/'corpus/evidence/round39/tb2-git-leak-recovery'; bad=[]; n=0
+for l in entry[start:end]:
+    if not l.startswith('|') or 'capture:line' in l or l.startswith('|---'): continue
+    cells=[c.strip() for c in l.strip().strip('|').split('|')]
+    if len(cells)<3: continue
+    q=cells[1].strip('“”"'); loc=cells[2].strip('`'); n+=1
+    m=re.match(r'([\w.]+):(\d+(?:-\d+)?)$',loc)
+    if not m: bad.append((loc,'badloc')); continue
+    f,span=m.group(1),m.group(2); p=cap/f
+    ls=p.read_text().splitlines(); a=int(span.split('-')[0]); b=int(span.split('-')[-1])
+    if q not in '\n'.join(ls[a-1:b]): bad.append((loc,'not verbatim'))
+    if not (3<=len(q.split())<=25): bad.append((loc,'words=%d'%len(q.split())))
+print('quotes_checked',n,'bad',len(bad))
+for b in bad: print(b)

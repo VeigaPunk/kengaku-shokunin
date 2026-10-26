@@ -1,0 +1,74 @@
+# F39IndepProbe — six extra end states, predictions written BEFORE the first run
+# (wave 2, kengaku round 39; lane tip a6832f53c1a94bb092a6cfd79fb4e449f2d4054c)
+# Basis: static reading of corpus/evidence/round39/tb2-git-leak-recovery/test_outputs.py (five functions,
+# TESTS order: T1 flag / T2 log --all --grep + log --all -p -S / T3 log --oneline --all / T4 fsck --lost-found
+# + cat-file -p / T5 find-checksum) plus the mechanism notes in knowledge/tb2-git-leak-recovery-grader.md
+# finding 9 (--lost-found clears include_reflogs). Each case starts from the task's own challenge-setup.sh
+# state, then runs the recipe C2-docstring style: CLEAN = reflog expire + gc --prune=now, FLAG = the literal
+# written to /app/secret.txt.
+
+alt = an explicitly named alternative reading, to be resolved by the run and reported honestly.
+
+CASE 1 replace-ref-pins-secret-commit  predicted=PFPPP
+  recipe: after CLEAN+FLAG, write the secret blob, a tree holding it as secret.txt, commit B over that tree,
+  make an unreferenced placeholder commit P, then `git update-ref refs/replace/<P> <B>`.
+  T1 P  the flag file carries the literal.
+  T2 F  `git log --all` is documented as "all the refs in refs/" and refs/replace/ is under refs/; the ref
+        resolves to P, replacement is applied on read so the walk starts at B, whose root diff shows
+        secret.txt's content -> `-S 'secret['` matches. `--grep` does not (B's subject is "chore: notes").
+  T3 P  c3 ("chore: init e665...") is untouched; the replacement names only the unreferenced P.
+  T4 P  nothing dangling is reachable through the replace ref; if B is reported dangling its cat-file text is
+        "tree <id>/chore: notes", no file content.
+  T5 P  work tree untouched.
+  alt: if `--all` excluded refs/replace the letters would be PPPPP with the secret still in the object store
+  (reachable only through the replace ref) - then T2 is the miss and T4's reachability reading is the other.
+
+CASE 2 packed-refs-only-leak  predicted=PFPPP
+  recipe: CLEAN+FLAG, then a branch `keep` carrying a commit whose tree adds secret.txt, then
+  `git pack-refs --all --prune` and `test ! -e .git/refs/heads/keep` (the ref now exists only in packed-refs).
+  T1 P, T2 F (`--all` is ref-backed; packed-refs is the same namespace, the commit is walked and -S matches),
+  T3 P, T4 P (reachable, nothing dangling), T5 P (keep is not checked out).
+  alt: none. If T2 were P the ref namespace would be partially unread, which the entry's finding 4 denies.
+
+CASE 3 detached-worktree-secret  predicted=PPPPP
+  recipe: CLEAN+FLAG, commit B whose tree holds only secret.txt, `git worktree add -q --detach /app/wt <B>`.
+  T1 P. T2 P: a linked worktree's HEAD lives at .git/worktrees/<id>/HEAD, not under refs/, and `--all` is
+  refs/ + this worktree's HEAD -> B is not a start point. T3 P. T4 P: if fsck counts other worktrees' HEADs B
+  is reachable; if not, fsck lists "dangling commit B" whose cat-file text is "tree <id>/chore: notes" (no
+  file content) and the blob is referenced by that tree so it is not itself listed -> P either way.
+  T5 P: /app/wt is outside /app/repo, so the pinned digest of the /app/repo non-dot work tree is unchanged.
+  alt: T4 F only if fsck both ignores the worktree HEAD and reports the blob itself dangling (contradicts
+  finding 3/9's commit-only reading).
+
+CASE 4 gitfile-separate-store-dangling-blob  predicted=PPPFP
+  recipe: CLEAN+FLAG, `mv .git /app/meta`, write `.git` as the gitfile "gitdir: /app/meta", then write the
+  secret as a loose blob through `git hash-object -w` (it lands in /app/meta/objects).
+  T1 P. T2 P (a loose blob is not a commit). T3 P. T4 F: the grader's git commands follow the gitfile, so
+  fsck lists "dangling blob <id>" and cat-file -p prints the secret. T5 P: the checksum covers only the
+  non-dot work tree of /app/repo; .git (now a file) and the moved store are dot paths.
+  alt: T4 P only if fsck did not follow the gitfile (it does; `git -C /app/repo` resolves it).
+
+CASE 5 tree-name-secret  predicted=PPPPP
+  recipe: CLEAN+FLAG, a commit B on branch `keep` (not checked out) that adds a file NAMED
+  `secret[lost_and_found_in_git]` with content "x".
+  T1 P. T2 P: `--grep` reads commit messages (B's subject is "chore: add notes"); `-S` is a pickaxe over the
+  changed lines of a diff, so the literal appearing only in the diff header / tree entry name (a tree object
+  name) is not counted. T3 P. T4 P (B is reachable through refs/heads/keep). T5 P (keep is not checked out).
+  alt: T2 F if this git's pickaxe counted path header bytes rather than added/removed lines.
+
+CASE 6 deleted-branch-reflog  predicted=PPPPP
+  recipe: CLEAN+FLAG, `git checkout -b tmp`, stage secret.txt as a blob with `update-index --cacheinfo` (the
+  work tree is never written), `git commit -m 'chore: notes'`, `git checkout -` back, `git branch -D tmp`.
+  Only the HEAD reflog's "checkout: moving from tmp to ..." entry still names the commit.
+  T1 P. T2 P: the branch is gone and `--all` reads refs, not reflogs. T3 P. T4 P: `--lost-found` clears
+  include_reflogs (finding 9), so the commit prints as "dangling commit" and cat-file -p shows its tree id and
+  message only; the secret blob is referenced by that tree and is not listed on its own. T5 P (the work tree
+  never held the file).
+  alt: T4 F if fsck reported the blob (contradicts the commit-only reading in finding 9).
+
+# Predicted agreement: 6/6 (all six letters strings above).
+# Independent sweep (added to the harness, outside the grader): PROBE object_hits (per object type, via
+# cat-file --batch-all-objects), PROBE tree_name_hits, PROBE work_hits under /app excluding /app/secret.txt,
+# PROBE checksum (the exact T5 command), PROBE dangling, PROBE reflog (-S over --reflog), PROBE refs, gitfile.
+# Purpose: separate "the grader's verdict" from "the secret is still in the repository", so a PPPPP case with
+# object_hits>0 is a measured false negative rather than an agreement.

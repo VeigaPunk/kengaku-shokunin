@@ -1,0 +1,17 @@
+# F39MapControl — re-derivation of the entry's 'reviewer should prefer' claim (round 39 wave 2)
+# Harness: /fast/scratch/hyaku/kengaku-r39/F39MapControl/rederive.py (deleted with scratch)
+# Run: python3 rederive.py  (imports the frozen counter's receipt_cases/dry/derive from the clone @ a6832f5)
+receipt_sha256=d7f3a465ccc411572c96fc039235854093d1eb52ccd685b618a28a10de609b5f
+-- frozen labels (all 25 receipt cases, V7's own computation) --
+{"tag": "recover-secret", "frozen_line": "instruction.md:3", "label": "enforced", "n_violating": 5, "fail": ["empty-app", "flag-extra-text", "flag-in-repo-only", "flag-is-directory", "untouched"], "pass": []}
+{"tag": "secret-gone", "frozen_line": "instruction.md:4", "label": "partly", "n_violating": 16, "fail": ["branch-keeps-leak", "commit-message-secret", "dangling-secret-blob", "dangling-secret-commit", "flag-in-repo-only", "notes-secret", "untouched", "untracked-file-secret"], "pass": ["blob-ref-keeps-secret", "config-secret", "dotfile-in-worktree", "echo-gc-only", "echo-only", "echo-reflog-expire", "stash-secret", "tag-message-secret"]}
+{"tag": "files-untouched", "frozen_line": "instruction.md:5", "label": "enforced", "n_violating": 2, "fail": ["empty-app", "readme-edited"], "pass": []}
+{"tag": "messages-untouched", "frozen_line": "instruction.md:5", "label": "partly", "n_violating": 3, "fail": ["empty-app"], "pass": ["history-rebuilt", "message-rewritten"]}
+-- with empty-app not carrying the tag (the paragraph's hypothetical) --
+{"tag": "files-untouched", "excluding": ["empty-app"], "label": "enforced", "n_violating": 1, "fail": ["readme-edited"], "pass": []}
+{"tag": "messages-untouched", "excluding": ["empty-app"], "label": "unenforced", "n_violating": 2, "fail": [], "pass": ["history-rebuilt", "message-rewritten"]}
+-- empty-app receipt CASE line --
+CASE empty-app predicted=fail observed=fail tests=FFFFF predicted_tests=FFFFF match=yes violates=recover-secret,files-untouched,messages-untouched -- do-nothing on an empty /app: no repo, no secret.txt (pilot D)
+# grader side (capture, corpus/evidence/round39/tb2-git-leak-recovery/test_outputs.py:61):
+#   assert "chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc" in commit_messages, (
+# test 3 (lines 52-63) runs only `git log --oneline --all` and asserts substring presence; no other test reads messages.

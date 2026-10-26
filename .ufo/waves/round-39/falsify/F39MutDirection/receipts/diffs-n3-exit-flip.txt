@@ -1,0 +1,11 @@
+--- pristine
++++ n3-exit-flip
+@@ -173,7 +173,7 @@
+                   + ("" if first == second else f" legs={first},{second}"))
+         print(f"LEGS mutants={len(c.MUTANTS)} disagree={split} invalid={invalid}")
+         print(f"DIRECTIONS total={len(c.MUTANTS)} mislabelled={mis}")
+-        return 1 if mis else (3 if (split or invalid) else 0)
++        return 0 if mis else (3 if (split or invalid) else 0)
+     finally:
+         shutil.rmtree(root, ignore_errors=True)
+ 

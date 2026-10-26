@@ -1,0 +1,24 @@
+## git v2.56.0 Documentation/git-fsck.adoc lines 26-28
+adoc:26 If no objects are given, 'git fsck' defaults to using the
+adoc:27 index file, all SHA-1 references in the `refs` namespace, and all reflogs
+adoc:28 (unless --no-reflogs is given) as heads.
+
+## git v2.56.0 builtin/fsck.c lines 905-908
+fsck.c:905 if (write_lost_and_found) {
+fsck.c:906 odb_fsck_opts.flags |= ODB_FSCK_FULL;
+fsck.c:907 include_reflogs = 0;
+fsck.c:908 }
+
+## git v2.43.0 builtin/fsck.c lines 950-953
+fsck.c(v2.43):950 if (write_lost_and_found) {
+fsck.c(v2.43):951 check_full = 1;
+fsck.c(v2.43):952 include_reflogs = 0;
+fsck.c(v2.43):953 }
+
+## v2.56.0 check_unreachable_object starts
+269:static void check_unreachable_object(struct repository *repo, struct object *obj)
+## v2.56.0 git-fsck.adoc --lost-found section (89-92)
+--lost-found::
+	Write dangling objects into .git/lost-found/commit/ or
+	.git/lost-found/other/, depending on type.  If the object is
+	a blob, the contents are written into the file, rather than

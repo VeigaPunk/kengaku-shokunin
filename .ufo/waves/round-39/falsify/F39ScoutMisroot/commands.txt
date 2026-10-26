@@ -1,0 +1,9 @@
+Observed 2026-10-26 ~04:43-04:46 -0300 (read-only; nothing deleted)
+1. git -C /home/vgpnk/Projects/shokunin status --porcelain --untracked-files=all | awk '{print $1}' | sort | uniq -c
+   -> 2 "??", 157 " A", 19 " M" (178 lines; 111 under .tower/comms/, 41 .tower/quarantine, rest .ufo/state baselines, .scratch, demo-cwd.txt, scripts/hyaku/*)
+2. same file list piped to xargs grep -liE 'kengaku[^ ]*r39|round-39|kengaku-r39|k39-'
+   -> .ufo/state/inline-dispatcher.log, .ufo/reports/round-40/tsukuroi.md  (only two)
+3. du -sh /fast/scratch/hyaku/kengaku-r39/*  -> 26 dirs (list in report), df /fast: 804G total 226G used 29%
+4. ps -eo pid,etime,cmd | grep -E 'kengaku-r39|k39-'  -> 9 processes at first sample, all under live seat dirs
+5. ps | grep sleep -> only "sleep 1" (etime 00:00); no "sleep 5311" survivor
+6. ls -d /tmp/*k39* /tmp/*kengaku* -> no such file

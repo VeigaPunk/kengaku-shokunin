@@ -1,0 +1,25 @@
+# Q30 synthetic two-commit legs, re-run 2026-10-26
+## leg 1 claims+receipt one commit
+ORDER claims=plans/round-99-claims.md round=99 freeze=e80bd489c3e0add25d0a31268707c3f0be9348f4
+ORDER receipt=corpus/evidence/round99/r.txt receipt_commit=e80bd489c3e0add25d0a31268707c3f0be9348f4 claims_dir=.ufo/waves/round-99/claims/
+ORDER FAIL freeze-contains-receipt e80bd489c3e0add25d0a31268707c3f0be9348f4 already has corpus/evidence/round99/r.txt
+ORDER scanned commits=0 file_entries=0 distinct_blobs=0
+ORDER FAIL freeze-contains-receipt hits=0
+ORDER RESULT FAIL
+rc=1
+## leg 2 receipt first
+ORDER claims=plans/round-99-claims.md round=99 freeze=f2a6c1f68a92fb128b25f4ae16eb1325dd7329d8
+ORDER receipt=corpus/evidence/round99/r.txt receipt_commit=fd1195e134fb9cb28f5aa2963707e11c2533e599 claims_dir=.ufo/waves/round-99/claims/
+ORDER FAIL freeze-contains-receipt f2a6c1f68a92fb128b25f4ae16eb1325dd7329d8 already has corpus/evidence/round99/r.txt
+ORDER FAIL receipt-before-claims fd1195e134fb9cb28f5aa2963707e11c2533e599 is an ancestor of f2a6c1f68a92fb128b25f4ae16eb1325dd7329d8
+ORDER scanned commits=0 file_entries=0 distinct_blobs=0
+ORDER FAIL freeze-contains-receipt receipt-before-claims hits=0
+ORDER RESULT FAIL
+rc=1
+## leg 3 clean freeze-then-receipt
+ORDER claims=plans/round-99-claims.md round=99 freeze=fe979d550ded2f9c7c1213a0a10fc44d97c17c21
+ORDER receipt=corpus/evidence/round99/r.txt receipt_commit=3629c2abbddadd0ec7162f062bc526e433f75336 claims_dir=.ufo/waves/round-99/claims/
+ORDER scanned commits=1 file_entries=1 distinct_blobs=1
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+rc=0

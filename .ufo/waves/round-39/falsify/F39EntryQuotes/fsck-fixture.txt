@@ -1,0 +1,39 @@
+git version 2.56.0
+D=/fast/scratch/hyaku/kengaku-r39/F39EntryQuotes/tmp.yILYUAQNap (fresh repo, challenge-setup.sh recipe)
+--- state A: reflog alive (the task's initial state)
+$ git fsck
+rc=0
+$ git fsck --lost-found
+dangling commit 5ce1716e89f0dcbba3fb7cb09e7dcd3597fe0925
+rc=0
+$ git fsck --unreachable
+rc=0
+$ git fsck --no-reflogs --unreachable
+unreachable tree aa7dfd0c18e6582cdc8959609bc02653870cd96a
+unreachable blob 52d18a091cd9755bacb8eaccab2882a24b080dc7
+unreachable commit 5ce1716e89f0dcbba3fb7cb09e7dcd3597fe0925
+rc=0
+$ git fsck --lost-found --unreachable
+unreachable tree aa7dfd0c18e6582cdc8959609bc02653870cd96a
+unreachable blob 52d18a091cd9755bacb8eaccab2882a24b080dc7
+unreachable commit 5ce1716e89f0dcbba3fb7cb09e7dcd3597fe0925
+rc=0
+dangling commit = 5ce1716e89f0dcbba3fb7cb09e7dcd3597fe0925
+$ git cat-file -p 5ce1716e89f0dcbba3fb7cb09e7dcd3597fe0925
+tree aa7dfd0c18e6582cdc8959609bc02653870cd96a
+parent 354e68682a863ec8a0a21a78f74a4c1d158fd136
+author TB <tb@example.com> 1793000824 -0300
+committer TB <tb@example.com> 1793000824 -0300
+
+feat: add scratch notes
+$ git cat-file -p 5ce1716e89f0dcbba3fb7cb09e7dcd3597fe0925 | grep -c 'secret['
+0
+$ git show 5ce1716e89f0dcbba3fb7cb09e7dcd3597fe0925 | grep -o 'secret[^]]*]'
+secret[lost_and_found_in_git]
+--- state B: after git reflog expire --expire=now --all
+$ git fsck --lost-found
+dangling commit 5ce1716e89f0dcbba3fb7cb09e7dcd3597fe0925
+$ git fsck --unreachable
+unreachable tree aa7dfd0c18e6582cdc8959609bc02653870cd96a
+unreachable blob 52d18a091cd9755bacb8eaccab2882a24b080dc7
+unreachable commit 5ce1716e89f0dcbba3fb7cb09e7dcd3597fe0925

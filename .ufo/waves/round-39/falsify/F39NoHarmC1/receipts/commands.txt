@@ -1,0 +1,24 @@
+# F39NoHarmC1 receipts — commands and environment
+
+date: 2026-10-26T07:50:49Z
+python3: Python 3.14.8
+git: git version 2.56.0
+repo: /home/vgpnk/Projects/shokunin/kengaku-shokunin
+tip under test: a6832f53c1a94bb092a6cfd79fb4e449f2d4054c
+baseline compared: 088f7c36e94ce2f15e6f9aa0c5a5c5b75a1646c8
+lane HEAD at review time: acf437542b00ae1723eba9dcc79d46af2e40d96e
+clone: git clone -q --no-local /home/vgpnk/Projects/shokunin/kengaku-shokunin $S/lane && git -C $S/lane checkout -q <sha> (S=/fast/scratch/hyaku/kengaku-r39/F39NoHarmC1)
+
+## protected instruments
+git diff --stat 088f7c36 a6832f53 -- plans/battery37 plans/battery38 plans/round3[678]_c1_verify.py plans/pkg_gate.py plans/pkg-spec-r35.json   # empty, exit 0
+
+## counters (clean clone at tip)
+python3 plans/round37_c1_verify.py --lane . --work $S/w1   # receipts/r37-at-tip.txt
+python3 plans/round38_c1_verify.py --lane . --work $S/w3   # receipts/r38-at-tip.txt
+
+## same counters on a clean clone at the claims freeze (pre-round-39-corpus state)
+python3 plans/round37_c1_verify.py --lane . --work $S/w2   # receipts/r37-at-base.txt
+python3 plans/round38_c1_verify.py --lane . --work $S/w4   # receipts/r38-at-base.txt
+
+## genuine round-35 package, gate run (built by plans/round36_c1_verify.py copy_package, git init+add, then)
+python3 plans/pkg_gate.py package --root <fixture> --spec plans/pkg-spec-r35.json   # receipts/gate-genuine-package-at-{base,tip}.txt

@@ -1,0 +1,142 @@
+diff --git 1/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round39_c1_verify.py 2/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round39_c1_audit.py
+index 415d4cd..9f33d9d 100755
+--- 1/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round39_c1_verify.py
++++ 2/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round39_c1_audit.py
+@@ -1,5 +1,19 @@
+ #!/usr/bin/env python3
+-"""Round-39 C1 counter (calibration): the gate behaviours the lane advertises that its batteries still do not
++"""Round-39 C1 AUDIT (post-hoc, NOT the frozen rule): `plans/round39_c1_verify.py` re-run with the four soundness
++repairs wave-1 critic R39CritC1Counter asked for (.ufo/waves/round-39/build/R39CritC1Counter.md §2-§5), so a landed
++battery can be shown not to depend on the holes the frozen counter leaves open:
++  A1  every kill is re-checked: the reference gate is re-run on the killing fixture AFTER the mutant run and must
++      reproduce its first result, and the mutant re-run must reproduce the kill (a fixture whose input changes
++      between phases is `invalid(nondeterministic fixture)`, not a kill);
++  A3  the battery37 and battery38 directories must hold exactly the pinned module names (an added file is a pin
++      mismatch, and it is never imported);
++  A4  every pin is re-hashed after the mutant loop (`PINS final ...`);
++  A5  the fixture directory is the one the parent created, never the child's reported path; a package argv's
++      `--root` must lie inside it; the child's JSON line must carry a per-run nonce.
++The predicate below keeps the frozen counter's numbers; the audit adds `AUDIT C1 clean|dirty`. Everything else is
++the frozen counter's text, kept for reference:
++
++Round-39 C1 counter (calibration): the gate behaviours the lane advertises that its batteries still do not
+ demonstrate after round 38 — the round-38 freeze's one mislabelled mutant (N21) carried with its reachable
+ direction, and the non-equivalent survivors round-38 wave 2 found — killed only by an ATTRIBUTED kill, with
+ every battery38/battery39 module executed OUT OF PROCESS.
+@@ -60,6 +74,7 @@ import json
+ import pathlib
+ import py_compile
+ import re
++import secrets
+ import shutil
+ import subprocess
+ import sys
+@@ -167,7 +182,7 @@ def load(path, name):
+     return mod
+ 
+ 
+-def build_module_child(lane, module, dest):
++def build_module_child(lane, module, dest, nonce=""):
+     """Child-process entry: build every fixture of one battery module into dest/fNNN, print JSON only."""
+     r37 = load(lane / R37_REL, "kengaku_r37_c1")
+     ctx = r37.Ctx(lane, r37.load_r36(lane))
+@@ -179,7 +194,7 @@ def build_module_child(lane, module, dest):
+         argv = [str(t) for t in fx["build"](ctx, d)]
+         out.append({"fid": fx["fid"], "expect": fx.get("expect"), "defects": fx.get("defects"),
+                     "argv": argv, "dir": str(d)})
+-    sys.stdout.write("BUILT " + json.dumps(out) + "\n")
++    sys.stdout.write("BUILT " + nonce + " " + json.dumps(out) + "\n")
+     return 0
+ 
+ 
+@@ -196,13 +211,15 @@ def module_fixtures(bdir, root, tag, lane):
+             print(f"SIDECHANNEL {tag}/{f.name} tokens={','.join(hits)}")
+         dest = root / "fx" / f"{tag}-{f.stem}"
+         dest.mkdir(parents=True)
++        nonce = secrets.token_hex(16)
+         r = subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve()), "--build-module", str(f),
+-                            "--dest", str(dest), "--lane", str(lane)],
++                            "--dest", str(dest), "--lane", str(lane), "--nonce", nonce],
+                            cwd=str(dest), capture_output=True, text=True, timeout=900)
+-        built = [l for l in r.stdout.splitlines() if l.startswith("BUILT ")]
++        built = [l for l in r.stdout.splitlines() if l.startswith("BUILT " + nonce + " ")]
+         if r.returncode != 0 or len(built) != 1:
+             raise RuntimeError(f"module {tag}/{f.name} failed to build (rc={r.returncode}): {r.stderr.strip()[-300:]}")
+-        for fx in json.loads(built[0][6:]):
++        for k, fx in enumerate(json.loads(built[0][len("BUILT " + nonce + " "):])):
++            fx["dir"] = str(dest / f"f{k:03d}")  # A5: the parent's own directory, never the child's report
+             out.append({**fx, "r36": False, "own_spec_ok": True, "module": f"{tag}/{f.name}"})
+     return out, side
+ 
+@@ -253,19 +270,27 @@ def main():
+     ap.add_argument("--work", default=None)
+     ap.add_argument("--build-module", default=None, help=argparse.SUPPRESS)
+     ap.add_argument("--dest", default=None, help=argparse.SUPPRESS)
++    ap.add_argument("--nonce", default="", help=argparse.SUPPRESS)
+     a = ap.parse_args()
+     lane = pathlib.Path(a.lane).resolve()
+     if a.build_module:
+-        return build_module_child(lane, pathlib.Path(a.build_module).resolve(), pathlib.Path(a.dest).resolve())
++        return build_module_child(lane, pathlib.Path(a.build_module).resolve(), pathlib.Path(a.dest).resolve(), a.nonce)
+     dev = a.battery_dir is not None or a.only is not None or a.battery != "full"
+     mism = [rel for rel, dig in PINS.items() if sha256(lane / rel) != dig]
++    for bd in ("plans/battery37", "plans/battery38"):
++        have = {f"{bd}/{p.name}" for p in (lane / bd).glob("*.py")}
++        want = {rel for rel in PINS if rel.startswith(bd + "/")}
++        mism += sorted(have - want)
+     print(f"PINS total={len(PINS)} mismatched={len(mism)}" + (f" first={mism[0]}" if mism else ""))
++    if any(m.startswith(("plans/battery37/", "plans/battery38/")) and m not in PINS for m in mism):
++        print("AUDIT unpinned battery module present; refusing to import it", file=sys.stderr)
++        return 2
+     r37 = load(lane / R37_REL, "kengaku_r37_c1")
+     gate_src = (lane / r37.GATE_REL).read_text() if (lane / r37.GATE_REL).is_file() else ""
+     gate_ok = "plans/pkg_gate.py" not in mism
+     r36 = r37.load_r36(lane)
+     ctx = r37.Ctx(lane, r36)
+-    root = pathlib.Path(tempfile.mkdtemp(prefix="k39-c1-", dir=a.work))
++    root = pathlib.Path(tempfile.mkdtemp(prefix="k39-c1a-", dir=a.work))
+     try:
+         inproc = r37.r36_fixtures(r36) + r37.battery37_fixtures(lane / r37.BATTERY_REL)
+         built, side = [], 0
+@@ -291,6 +316,9 @@ def main():
+         for fx in more:
+             d, argv = pathlib.Path(fx["dir"]), list(fx["argv"])
+             ok_argv = bool(argv) and argv[0] in ("package", "d4-line", "d5-line") and d.is_dir()
++            if "--root" in argv:
++                k = argv.index("--root")
++                ok_argv = ok_argv and k + 1 < len(argv) and pathlib.Path(argv[k + 1]).resolve().is_relative_to(d.resolve())
+             if "--spec" in argv:
+                 k = argv.index("--spec")
+                 ok_argv = ok_argv and k + 1 < len(argv) \
+@@ -341,6 +369,7 @@ def main():
+                             if run_gate(null_gate, ctx.spec_path, argv) != ref[j])
+         only = set(a.only.split(",")) if a.only else None
+         killed = survived = invalid = 0
++        nondet = []
+         for mid, clause, direction, label, _witness, old, new in MUTANTS:
+             if only and mid not in only:
+                 continue
+@@ -363,6 +392,11 @@ def main():
+                     continue
+                 mut = run_gate(mg, ctx.spec_path, argv)
+                 if exhibits(clause, direction, fx, ref[j], mut):
++                    again_ref = run_gate(ref_gate, ctx.spec_path, argv)
++                    again_mut = run_gate(mg, ctx.spec_path, argv)
++                    if again_ref != ref[j] or again_mut != mut:
++                        nondet.append(f"{mid}:{fx['fid']}")
++                        continue
+                     by = fx["fid"]
+                     break
+                 seen.update(x for x in DIRECTIONS if x != direction and exhibits(clause, x, fx, ref[j], mut))
+@@ -379,6 +413,11 @@ def main():
+                       f" -- {label}")
+         total = len(MUTANTS) if not only else len([m for m in MUTANTS if m[0] in only])
+         print(f"MUTANTS total={total} killed={killed} survived={survived} invalid={invalid} null_detected={null_detected}")
++        final = [rel for rel, dig in PINS.items() if sha256(lane / rel) != dig]
++        print(f"PINS final total={len(PINS)} mismatched={len(final)}" + (f" first={final[0]}" if final else ""))
++        print(f"AUDIT nondeterministic_kills={len(nondet)}" + (f" first={nondet[0]}" if nondet else ""))
++        audit_clean = not final and not nondet and not mism
++        print(f"AUDIT C1 {'clean' if audit_clean else 'dirty'}")
+         if dev:
+             print("PREDICATE C1 n/a (non-default battery or mutant subset)")
+             return 0 if (wrong == 0 and disagree == 0 and side == 0 and survived == 0 and invalid == 0

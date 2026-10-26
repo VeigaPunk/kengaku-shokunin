@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r39/F39MutBattery/bat-base/p7m39.py	2026-10-26 04:49:04.062195292 -0300
++++ /fast/scratch/hyaku/kengaku-r39/F39MutBattery/bat-R/p7m39.py	2026-10-26 04:50:43.991522478 -0300
+@@ -51,7 +51,7 @@
+         other = ctx.spec["raw_base"] + ctx.spec["rows"][SECOND_FILE_ROW]["upstream"]
+         if pinned == other:
+             raise RuntimeError("second source url must differ from the pinned one")
+-        second = (f"source: {SID} \u2014 {other} \u2014 second source line for the same row, "
++        second = (f"note: {SID} \u2014 {other} \u2014 second source line for the same row, "
+                   f"planted by battery39 p7m39")
+         i = hits[0]
+         return "\n".join(lines[:i + 1] + [second] + lines[i + 1:]) + "\n"

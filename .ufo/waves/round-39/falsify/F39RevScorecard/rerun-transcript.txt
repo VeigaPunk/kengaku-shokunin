@@ -1,0 +1,41 @@
+# F39RevScorecard — direct re-runs on a clean clone of a6832f53c1a94bb092a6cfd79fb4e449f2d4054c
+# clone: git clone -q --no-local <lane> $S/lane && git -C $S/lane checkout -q a6832f53... ; rev-parse --show-toplevel = $S/lane ; HEAD = a6832f53c1a94bb092a6cfd79fb4e449f2d4054c
+
+$ python3 plans/round39_c1_verify.py --lane . --work $S/work-c1c   (25.9s; full log: c1-rerun-a6832f5.txt)
+PINS total=26 mismatched=0
+BATTERY fixtures=90 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANTS total=7 killed=7 survived=0 invalid=0 null_detected=0
+PREDICATE C1 pass   (exit=0)
+
+$ python3 plans/round39_c2_verify.py --lane . --work $S/work-c2
+V1 ok listed=7 bad=0 extra=0 / V2..V7 ok
+checks=7 defects=0
+PREDICATE C2 pass   (exit=0)
+
+$ python3 plans/round39_c1_audit.py --lane . --work $S/work-aud
+PINS final total=26 mismatched=0
+AUDIT nondeterministic_kills=0
+AUDIT C1 clean   (exit=0)
+
+$ python3 plans/order_check.py --lane . --claims plans/round-37-claims.md --receipt corpus/evidence/round37/git-webserver-probe.txt
+exit=1  (RED)
+$ python3 plans/order_check.py --lane . --claims plans/round-38-claims.md --receipt corpus/evidence/round38/build-pmars-probe.txt
+exit=1  (RED)
+$ python3 plans/order_check.py --lane . --claims plans/round-39-claims.md --receipt corpus/evidence/round39/git-leak-probe.txt
+exit=0  (PASS)
+
+$ python3 plans/anchor_digest_check.py --lane .
+rows=111 tokens=19 defects=0   (exit=0)
+$ sha256sum -c .ufo/waves/round-39/claims/frozen-digests.txt   (9 files)
+exit=0
+$ /home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --file <clone>/corpus/SOURCES.md
+exit=0
+$ python3 plans/ledger_tip.py --source <clone> --work $S/work-lt
+rows=9 closed=9 observed_pass=9 mismatches=0   (exit=0)
+
+# prior-round counters, same clone (background job bg_13628, 229s total):
+$ python3 plans/round38_c1_verify.py ... -> BATTERY fixtures=86 wrong=0 renamed_disagree=0 sidechannel=0 / MUTANTS total=22 killed=21 survived=1 invalid=0 null_detected=0 / PREDICATE C1 fail
+$ python3 plans/round37_c1_verify.py ... -> BATTERY fixtures=64 wrong=0 renamed_disagree=0 / MUTANTS total=55 killed=55 survived=0 invalid=0 null_detected=0 / PREDICATE C1 pass
+$ python3 plans/round38_c2_verify.py ... -> checks=7 defects=0 / PREDICATE C2 pass
+$ python3 plans/round37_c2_verify.py ... -> checks=7 defects=0 / PREDICATE C2 pass
+$ python3 plans/round36_c2_verify.py --lane . -> checks=6 defects=0 / PREDICATE C2 pass

@@ -1,0 +1,16 @@
+# mutant_direction_check exit surface: same tampered tree, both tools
+# tamper copy of the tip clone: one frozen pair broken (N20 old string) and N21 relabelled mirror -> mislabelled=0
+$ cd tamper && python3 plans/mutant_direction_check.py --lane . --work ...
+DIR N20 D4 declared=silence observed=invalid INVALID
+LEGS mutants=22 disagree=0 invalid=1
+DIRECTIONS total=22 mislabelled=0
+exit=3
+
+$ cd tamper && git show b2bdd425:plans/mutant_direction_check.py > plans/mutant_direction_check_r38.py && python3 plans/mutant_direction_check_r38.py --lane . --work ...
+DIR N20 D4 declared=silence observed=invalid
+DIRECTIONS total=22 mislabelled=0
+exit=0
+
+$ python3 plans/mutant_direction_check.py --lane . --counter plans/round39_c1_verify.py --work ...
+SETUP counter plans/round39_c1_verify.py is not a round-38-list counter: missing=battery38_fixtures,attributed non_6_tuple_rows=7; this check reads the round-38 MUTANTS rows (id, clause, dir, adv, old, new) and its battery38 loader only
+exit=2

@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r39/F39MutBattery/bat-base/p1m.py	2026-10-26 04:49:04.062070432 -0300
++++ /fast/scratch/hyaku/kengaku-r39/F39MutBattery/bat-M/p1m.py	2026-10-26 04:50:43.996241369 -0300
+@@ -28,7 +28,7 @@
+     rels = list(ctx.spec["frozen_instruments"])
+     if len(rels) < 2:
+         raise RuntimeError(f"spec carries {len(rels)} pins, need a second one")
+-    f = d / pathlib.PurePosixPath(rels[1])
++    f = d / pathlib.PurePosixPath(rels[0])  # F39MutBattery M-variant: edit moved to the FIRST pinned instrument
+     if not f.is_file():
+         raise RuntimeError(f"second pinned instrument {rels[1]} is absent from the package copy")
+     f.write_bytes(f.read_bytes() + OFF_PIN)

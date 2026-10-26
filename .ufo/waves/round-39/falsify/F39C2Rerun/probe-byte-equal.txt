@@ -1,0 +1,34 @@
+$ sha256sum probe-A/B/C/D/E and receipt
+d7f3a465ccc411572c96fc039235854093d1eb52ccd685b618a28a10de609b5f  /fast/scratch/hyaku/kengaku-r39/F39C2Rerun/probe-A.txt
+d7f3a465ccc411572c96fc039235854093d1eb52ccd685b618a28a10de609b5f  /fast/scratch/hyaku/kengaku-r39/F39C2Rerun/probe-B.txt
+d7f3a465ccc411572c96fc039235854093d1eb52ccd685b618a28a10de609b5f  /fast/scratch/hyaku/kengaku-r39/F39C2Rerun/probe-C.txt
+d7f3a465ccc411572c96fc039235854093d1eb52ccd685b618a28a10de609b5f  /fast/scratch/hyaku/kengaku-r39/F39C2Rerun/probe-D-hostile.txt
+d7f3a465ccc411572c96fc039235854093d1eb52ccd685b618a28a10de609b5f  /fast/scratch/hyaku/kengaku-r39/F39C2Rerun/probe-E-cwd.txt
+d7f3a465ccc411572c96fc039235854093d1eb52ccd685b618a28a10de609b5f  /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round39/git-leak-probe.txt
+
+$ cmp -s each vs receipt
+probe-A: byte-equal
+probe-B: byte-equal
+probe-C: byte-equal
+probe-D-hostile: byte-equal
+probe-E-cwd: byte-equal
+
+$ (cd corpus/evidence/round39/tb2-git-leak-recovery && sha256sum -c SHA256SUMS)
+Dockerfile: OK
+challenge-setup.sh: OK
+instruction.md: OK
+solve.sh: OK
+task.toml: OK
+test.sh: OK
+test_outputs.py: OK
+exit=0
+
+$ wc -c receipt
+5867 /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round39/git-leak-probe.txt
+
+$ cmp c2-run1 vs c2-r1/r2/r3
+run1==r1
+r2==r3
+8cbf83841a2756543b10da500a250acb9e2ce0148d64b57392b8a812690e65a4  /fast/scratch/hyaku/kengaku-r39/F39C2Rerun/c2-r1.txt
+8cbf83841a2756543b10da500a250acb9e2ce0148d64b57392b8a812690e65a4  /fast/scratch/hyaku/kengaku-r39/F39C2Rerun/c2-r2.txt
+8cbf83841a2756543b10da500a250acb9e2ce0148d64b57392b8a812690e65a4  /fast/scratch/hyaku/kengaku-r39/F39C2Rerun/c2-r3.txt

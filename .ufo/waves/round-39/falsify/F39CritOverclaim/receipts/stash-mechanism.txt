@@ -1,0 +1,19 @@
+$ git -c user.name=T -c user.email=t@e init -q && echo "demo project" > README.md && git add README.md && git commit -qm init
+>>> rc=0
+
+$ printf 'secret[lost_and_found_in_git]\n' >> README.md && git stash push -q
+>>> rc=0
+
+$ git for-each-ref --format="%(refname)"
+>>> rc=0
+refs/heads/main
+refs/stash
+$ git log --all --grep "secret\["
+>>> rc=0
+
+$ git log --all -p -S 'secret['
+>>> rc=0
+
+$ git log --all -m -p -S 'secret[' | wc -c
+>>> rc=0
+769

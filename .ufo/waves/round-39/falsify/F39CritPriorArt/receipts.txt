@@ -1,0 +1,25 @@
+$ sed -n 244p tra.md
+**Docker Build** verifies the environment Dockerfile builds successfully. **Oracle Validation** confirms the solution (`solve.sh`) passes all tests. **Nop Validation** confirms doing nothing fails tests (task is non-trivial).
+$ sed -n 1485,1487p audit.txt
+- Doesn't explicitly check `git reflog` entries (though fsck should catch objects if they become dangling after cleanup)
+- Doesn't explicitly check stashes (though fsck would find stash-related dangling objects)
+- Doesn't check packed objects directly (though fsck handles these)
+$ sed -n 1464p audit.txt
+- The agent must actually find and extract the secret to pass this (hardcoding unlikely due to specific format)
+$ sed -n 33p census.jsonl
+{"unit_id": "git-leak-recovery", "invalid": false, "label_protocol": "verifier_invalid.fresh_environment.execution", "grade": "A", "evidence": "reference pass, nop reject", "adjudicator": "machine"}
+$ sed -n "80p;107p" laion.md
+| task | status | oracle passes | empty-attempt reward | modified |
+| `git-leak-recovery` | validated | 2/2 | 0 |  |
+$ sed -n 22p laion.md
+| validated | 74 | gold solution passes in 2/2 offline oracle runs, and an empty attempt scores 0 |
+$ sha256sum tb2_to.py lane_to.py tb21_to.py laion_to.py f_dn522.py f_Aochong-Li.py
+dc7b01c1b9dbb0c123def54b146dc1dd399a600edee5970d043a5db5eac4c775  tb2_to.py
+dc7b01c1b9dbb0c123def54b146dc1dd399a600edee5970d043a5db5eac4c775  lane_to.py
+dc7b01c1b9dbb0c123def54b146dc1dd399a600edee5970d043a5db5eac4c775  tb21_to.py
+dc7b01c1b9dbb0c123def54b146dc1dd399a600edee5970d043a5db5eac4c775  laion_to.py
+dc7b01c1b9dbb0c123def54b146dc1dd399a600edee5970d043a5db5eac4c775  f_dn522.py
+dc7b01c1b9dbb0c123def54b146dc1dd399a600edee5970d043a5db5eac4c775  f_Aochong-Li.py
+$ grep -c def-test in test_audit.py; util.py pull line
+0
+79:            ["docker", "pull", image_name],

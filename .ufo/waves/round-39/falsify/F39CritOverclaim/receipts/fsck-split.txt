@@ -1,0 +1,20 @@
+$ git -c user.name=T -c user.email=t@e init -q && echo "demo project" > README.md && git add README.md && git commit -qm "chore: init x" && echo "secret[lost_and_found_in_git]" > secret.txt && git add secret.txt && git commit -qm "feat: add scratch notes" && git reset --hard HEAD~1
+>>> rc=0
+HEAD is now at b49982d chore: init x
+$ git fsck
+>>> rc=0
+
+$ git fsck --unreachable
+>>> rc=0
+
+$ git fsck --no-reflogs --unreachable
+>>> rc=0
+unreachable commit e42657156b747cd393920201f47e302ef05f09a8
+unreachable tree aa7dfd0c18e6582cdc8959609bc02653870cd96a
+unreachable blob 52d18a091cd9755bacb8eaccab2882a24b080dc7
+$ git fsck --lost-found
+>>> rc=0
+dangling commit e42657156b747cd393920201f47e302ef05f09a8
+$ git fsck --no-reflogs --lost-found
+>>> rc=0
+dangling commit e42657156b747cd393920201f47e302ef05f09a8

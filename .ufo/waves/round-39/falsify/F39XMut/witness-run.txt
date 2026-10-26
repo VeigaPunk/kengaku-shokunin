@@ -1,0 +1,66 @@
+# F39XMut survivor witnesses — verbatim stdout (receipt)
+
+Command: python3 /fast/scratch/hyaku/kengaku-r39/F39XMut/witness.py
+(witness.py imports xmut39.py for the EXTRA (old,new) pairs and the frozen counter module, builds
+six fixtures under the seat scratch with ctx.genuine_package/ctx.git_add — the battery39 helpers —
+and runs the reference gate vs each mutant gate on the distinguishing input the battery lacks.)
+Wall time 1.14 s; exit code 0.
+
+--- stdout begins ---
+== phase 1: compile all extra mutant gates ==
+COMPILE XP1a ok
+COMPILE XP1b ok
+COMPILE XP3a ok
+COMPILE XP3b ok
+COMPILE XP3c ok
+COMPILE XP7a ok
+COMPILE XP7b ok
+COMPILE XP7c ok
+COMPILE XD5a ok
+COMPILE XD5b ok
+COMPILE XD5c ok
+
+WITNESS XP1a direction=silence input=append bytes to plans/defect_ledger.py (pin 3 of 3)
+  fixture argv: ['package', '--root', '/fast/scratch/hyaku/kengaku-r39/F39XMut/wit/xp1a', '--require-clean-tree']
+  ref  rc=1 | P1 DEFECT pinned=3 mismatched=['plans/defect_ledger.py']
+  mut  rc=0 | P1 ok pinned=3 mismatched=0
+  => EXHIBITED (silence: ref DEFECT / mut ok)
+
+WITNESS XP3c direction=mirror input=accept pkg, last quote = exactly 25 words (task.toml:6)
+  fixture argv: ['package', '--root', '/fast/scratch/hyaku/kengaku-r39/F39XMut/wit/xp3c', '--require-clean-tree']
+  ref  rc=0 | P3 ok rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=0
+  mut  rc=1 | P3 DEFECT rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=1
+  => EXHIBITED (mirror: ref ok / mut DEFECT)
+
+WITNESS XP7a direction=silence input=S105 source lines [other-url, pinned-url] (pinned not last)
+  fixture argv: ['package', '--root', '/fast/scratch/hyaku/kengaku-r39/F39XMut/wit/xp7a', '--require-clean-tree']
+  ref  rc=1 | P7 DEFECT source_lines=3 bad=1 first=S105: source line not the pinned url
+  mut  rc=0 | P7 ok source_lines=3 bad=0 first=0
+  => EXHIBITED (silence: ref DEFECT / mut ok)
+
+WITNESS XP7b direction=silence input=S105 source lines [pinned-url, pinned-url] (duplicate)
+  fixture argv: ['package', '--root', '/fast/scratch/hyaku/kengaku-r39/F39XMut/wit/xp7b', '--require-clean-tree']
+  ref  rc=1 | P7 DEFECT source_lines=3 bad=1 first=S105: source line not the pinned url
+  mut  rc=0 | P7 ok source_lines=3 bad=0 first=0
+  => EXHIBITED (silence: ref DEFECT / mut ok)
+
+WITNESS XD5a direction=mirror input=capture carries literal '<>'; quote contains '<>'
+  fixture argv: ['d5-line', '--file', '/fast/scratch/hyaku/kengaku-r39/F39XMut/wit/xd5a/erratum.md', '--capture-dir', '/fast/scratch/hyaku/kengaku-r39/F39XMut/wit/xd5a/captures', '--spec', '/fast/scratch/hyaku/kengaku-r39/F39XMut/wit/xd5a/spec.json']
+  ref  rc=0 | D5 ok directional=True digest_pinned=True bad=0
+  mut  rc=1 | D5 DEFECT directional=False digest_pinned=True bad=['quote absent from the capture']
+  => EXHIBITED (mirror: ref ok / mut DEFECT)
+
+WITNESS XD5b direction=mirror input=quote span separated by a comment tag <!c> (non-letter-led)
+  fixture argv: ['d5-line', '--file', '/fast/scratch/hyaku/kengaku-r39/F39XMut/wit/xd5b/erratum.md', '--capture-dir', '/fast/scratch/hyaku/kengaku-r39/F39XMut/wit/xd5b/captures', '--spec', '/fast/scratch/hyaku/kengaku-r39/F39XMut/wit/xd5b/spec.json']
+  ref  rc=0 | D5 ok directional=True digest_pinned=True bad=0
+  mut  rc=1 | D5 DEFECT directional=False digest_pinned=True bad=['quote absent from the capture']
+  => EXHIBITED (mirror: ref ok / mut DEFECT)
+
+== summary ==
+WITNESS XP1a exhibited
+WITNESS XP3c exhibited
+WITNESS XP7a exhibited
+WITNESS XP7b exhibited
+WITNESS XD5a exhibited
+WITNESS XD5b exhibited
+--- stdout ends ---

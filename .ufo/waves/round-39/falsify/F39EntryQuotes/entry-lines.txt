@@ -1,0 +1,33 @@
+$ git -C lane rev-parse HEAD
+a6832f53c1a94bb092a6cfd79fb4e449f2d4054c
+
+$ grep -n "<attacked sentence>" corpus/knowledge/tb2-git-leak-recovery-grader.md
+42:state is a **repository history** — refs, the reflog's object store, dangling objects and a work-tree digest —
+43:read by two `git log` invocations, `git fsck --lost-found` plus `cat-file -p`, one substring test and one pinned
+82:  not read as a ref; a blob reachable from an unreachable commit is not itself dangling; tag messages, stash merge
+86:- **The checksum is the strict side.** It is one pinned digest over absolute paths, so *any* non-dot work-tree
+89:- **Message preservation is one substring.** Test 3 needs the init message to appear once in `log --oneline --all`;
+195:  does: test 3 only asks that the init subject appear once. The frozen table is not edited; the map above is the
+231:   them contributes a commit message or a diff to `git log --all`.
+257:   reported only under `--unreachable` (`check_unreachable_object`, `builtin/fsck.c:269-330` at v2.56.0). That one
+
+$ sed -n "41,44p;86,90p;226,231p;255,258p" corpus/knowledge/tb2-git-leak-recovery-grader.md
+`tb2-build-pmars-grader.md`). It records one edge class new to the lane's **executed** grader sample: the graded
+state is a **repository history** — refs, the reflog's object store, dangling objects and a work-tree digest —
+read by two `git log` invocations, `git fsck --lost-found` plus `cat-file -p`, one substring test and one pinned
+checksum. It is not a new verdict channel (substring absence, exact-equality and a pinned digest are all old) and
+- **The checksum is the strict side.** It is one pinned digest over absolute paths, so *any* non-dot work-tree
+  change — an edited file, an added file, a removed file, a renamed file — fails test 5, while the secret-carrying
+  dot-file path is skipped entirely.
+- **Message preservation is one substring.** Test 3 needs the init message to appear once in `log --oneline --all`;
+  it never compares the message set, so a rewritten tip message or a rebuilt one-commit history passes.
+4. **`log --all` reads refs, and each ref kind lands differently (`branch-keeps-leak` `PFPPP`,
+   `commit-message-secret` `PFPPP`, `notes-secret` `PFPPP`, versus `blob-ref-keeps-secret`, `tag-message-secret`,
+   `stash-secret` `PPPPP`).** A branch that re-points the reset-away commit fails test 2 as expected; a commit whose
+   message is the secret fails as expected; `refs/notes/commits` fails because it is a ref whose commit adds the
+   note blob to history. But a ref to a **blob**, an **annotated tag message**, and a **stash** all pass: none of
+   them contributes a commit message or a diff to `git log --all`.
+   implication is not in the `--lost-found` documentation), so the reset-away commit prints as `dangling commit`.
+   Only the commit is dangling: its tree and the secret blob are marked used by the commit's own walk and are
+   reported only under `--unreachable` (`check_unreachable_object`, `builtin/fsck.c:269-330` at v2.56.0). That one
+   flag split explains both rows: `untouched` fails only the flag test because the dangling commit's `cat-file -p`

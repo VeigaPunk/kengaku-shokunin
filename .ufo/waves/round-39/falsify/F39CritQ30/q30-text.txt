@@ -1,0 +1,42 @@
+## claims frontier step (frozen 088f7c36, sha256 ec8760ea…)
+$ sed -n '96,104p' plans/round-39-claims.md
+## Frontier step (not a claim)
+
+- Sourced claim: C2 (S117/S118 opened this round).
+- Mined mistake: the order-of-operations class recurred twice (round 37 lesson row 3, round 38 lesson row 2). Fix:
+  a gate that reads git history and fails when a committed control shows the frozen probe executed before the
+  first receipt commit — shown red on round 38's freeze, green on this round's — and the class recorded with
+  `recurrence=2` in `corpus/defects.jsonl`. This is `considerthese/2026-10-25.md` proposal 2(b) (block
+  pre-registration when a class recurs twice), the one still unbuilt.
+- Routed items carried from `corpus/lessons/round-38-verifier-spotcheck.md` §5: R1 (commit and integrate round-38
+
+## Q30 limits
+$ sed -n '559,567p' corpus/QUALITY.md
+  Limits: commits only — an executed probe whose output was never committed is invisible, and round 38
+  is red only because its skip control kept one `P10` line; the `receipt unreadable` exemption is
+  textual, so an instrument that prints that detail after executing would be excused; `CASE …
+  observed=` binds the probe's line shape, so another instrument needs its own pattern; the gate detects
+  and does not block, so 2(b)'s "blocks pre-registration" half stays unimplemented, and Q23's limit line
+  (`corpus/QUALITY.md:291`) is named here, not amended (R1); no `recurrence=2` row is written to `corpus/defects.jsonl`
+  (its checker is the round-35 frozen `plans/defect_ledger.py`, which has no check for this class; routed); and a gate that only ever runs on the round that
+  introduces it proves nothing, which is why the red pair is part of the check.
+  Lesson: routed item R3, `corpus/lessons/round-38-verifier-spotcheck.md` §5 item 3; occurrences
+
+## SCORECARD planned
+$ grep -n 'Carried: a separately frozen' SCORECARD.md
+1420:- Carried: a separately frozen `defect_ledger` check so the order class can enter `corpus/defects.jsonl` with `recurrence=2`.
+
+## erratum for the claims sentence?
+$ grep -rn 'recurrence=2' corpus/lessons/round-39.md SCORECARD.md corpus/QUALITY.md plans/round-39-claims.md
+corpus/lessons/round-39.md:43:| **order-of-operations — recurrence closed by a gate** (round 37 lesson row 3, round 38 lesson row 2) | `.ufo/waves/round-37/claims/control-c2-skip.txt:12` and `.ufo/waves/round-38/claims/control-c2-skip.txt:11` each carry a gate `P10` line from a control committed in the freeze, before the first receipt commit | the round-38 closure R3 (no gate existed: round 37's rule forward was prose) | `plans/order_check.py` (wave-1 executor `R39OrderGate`) + QUALITY Q30: round 38 → `ORDER HIT …control-c2-skip.txt@e0a378539a45:11`, `ORDER RESULT FAIL`, exit 1; round 37 → FAIL, exit 1; round 39 → `ORDER RESULT PASS`, exit 0 (`build/R39OrderGate.md`, re-run in `integrate/measure-final.txt`) — shown able to fail on both earlier rounds. Not written: a `recurrence=2` row in `corpus/defects.jsonl` (the frozen claims' frontier sentence says it would be) — its checker is the round-35 frozen counter `plans/defect_ledger.py`, which has no check for this class and would report an unknown check as a failure; routed to round 40 (a separately frozen checker extension). |
+SCORECARD.md:1420:- Carried: a separately frozen `defect_ledger` check so the order class can enter `corpus/defects.jsonl` with `recurrence=2`.
+corpus/QUALITY.md:564:  (`corpus/QUALITY.md:291`) is named here, not amended (R1); no `recurrence=2` row is written to `corpus/defects.jsonl`
+plans/round-39-claims.md:102:  `recurrence=2` in `corpus/defects.jsonl`. This is `considerthese/2026-10-25.md` proposal 2(b) (block
+
+## pre-state (absent at freeze commit)
+$ git cat-file -e 088f7c36:plans/order_check.py; echo rc=$?
+fatal: path 'plans/order_check.py' exists on disk, but not in '088f7c36e94ce2f15e6f9aa0c5a5c5b75a1646c8'
+rc=128
+$ grep -c order-of-operations corpus/lessons/round-37.md corpus/lessons/round-38.md
+corpus/lessons/round-37.md:1
+corpus/lessons/round-38.md:2

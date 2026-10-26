@@ -1,0 +1,18 @@
+
+import re, collections, pathlib, sys
+root=pathlib.Path(sys.argv[1])
+rec=(root/'corpus/evidence/round39/git-leak-probe.txt').read_text().splitlines()
+cases=[]
+for l in rec:
+    m=re.match(r'CASE (\S+) predicted=(\w+) observed=(\w+) tests=(\w+) predicted_tests=(\w+) match=(\w+) violates=([^ ]*)(.*)',l)
+    if m: cases.append(dict(name=m.group(1),obs=m.group(3),tests=m.group(4),tags=[t for t in m.group(7).split(',') if t]))
+print('cases',len(cases))
+print('tag counts',dict(collections.Counter(t for c in cases for t in c['tags'])))
+print('untagged',[c['name'] for c in cases if not c['tags']])
+print('observed pass/fail',sum(c['obs']=='pass' for c in cases),sum(c['obs']=='fail' for c in cases))
+for tag in ['recover-secret','secret-gone','files-untouched','messages-untouched']:
+    v=[c for c in cases if tag in c['tags']]
+    lab='enforced' if all(c['obs']=='fail' for c in v) else ('unenforced' if all(c['obs']=='pass' for c in v) else 'partly')
+    print(tag,len(v),lab,[(c['name'],c['obs']) for c in v])
+print('test5-failing cases',[(c['name'],c['tests']) for c in cases if c['tests'][4]=='F'])
+print('test4-failing cases',[(c['name'],c['tests']) for c in cases if c['tests'][3]=='F'])

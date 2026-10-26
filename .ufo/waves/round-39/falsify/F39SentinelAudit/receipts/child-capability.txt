@@ -1,0 +1,9 @@
+PROBE {"argv": ["plans/round39_c1_audit.py", "--build-module", "/fast/scratch/hyaku/kengaku-r39/F39SentinelAudit/probe-child.py", "--dest", "/fast/scratch/hyaku/kengaku-r39/F39SentinelAudit/fgd3", "--lane", "/fast/scratch/hyaku/kengaku-r39/F39SentinelAudit/lane", "--nonce", "deadbeefcafe0002"], "cwd": "/fast/scratch/hyaku/kengaku-r39/F39SentinelAudit/lane", "home": "/home/vgpnk", "ssh_key_readable": true, "lane_git_head_readable": true, "lane_file_writable": true, "env_keys": 268, "env_agentish": ["DISPLAY", "SSH_AUTH_SOCK", "XDG_RUNTIME_DIR"], "net": "REACHED", "grandchild_pid": 1391997}
+BUILT deadbeefcafe0002 []
+child exit line above; grandchild pid=1391997 checked immediately after the build child returned:
+    PID PPID     SID COMMAND
+1391997 1535 1391997 /usr/bin/python3 -c import time; time.sleep(90)
+escape write outside dest:
+wrote outside dest
+after kill:
+(none)

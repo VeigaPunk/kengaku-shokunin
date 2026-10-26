@@ -1,0 +1,33 @@
+# Round-39 F39CritSeparability — exact mutations applied to clean clones of a6832f53
+# Every clone: S=/fast/scratch/hyaku/kengaku-r39/F39CritSeparability; git clone -q --no-local <lane> "$S/<X>"
+#               git -C "$S/<X>" checkout -q a6832f53c1a94bb092a6cfd79fb4e449f2d4054c
+# (a) A  whole C2 package absent
+rm corpus/knowledge/tb2-git-leak-recovery-grader.md
+rm corpus/evidence/round39/git-leak-probe.txt
+sed -E -i '/^\| S11[78] \|/d' corpus/SOURCES.md
+sed -E -i '/^\| `knowledge\/tb2-git-leak-recovery-grader\.md` \|/d' corpus/README.md
+sed -E -i '/^- \*\*Terminal-Bench 2\.0 task grader \(fifth task, repository-history class\)\*\*/d' corpus/README.md
+sed -E -i '/^  - \*Partly discharged round 39 \(2026-10-26\):\*/,/^    not model or agent behaviour\.$/d' corpus/README.md
+sed -E -i '/^- `evidence\/round39\//d' corpus/README.md
+# (a2) A2 = A plus every remaining C2 artefact
+rm -f plans/round39_c2_verify.py plans/git_leak_probe.py plans/pkg-spec-r39.json; rm -rf corpus/evidence/round39
+# (b) B  battery39 absent
+rm -rf plans/battery39
+# (b2) B2 = B plus every C1 artefact except the frozen gate
+rm -rf plans/battery37 plans/battery38
+rm -f plans/round39_c1_verify.py plans/round36_c1_verify.py plans/round37_c1_verify.py plans/round37_c1_attribution.py
+# (c) C  only the README index row
+sed -E -i '/^\| `knowledge\/tb2-git-leak-recovery-grader\.md` \|/d' corpus/README.md
+# (d) D  only the receipt
+rm -f corpus/evidence/round39/git-leak-probe.txt
+# (e) E  only the two SOURCES rows
+sed -E -i '/^\| S11[78] \|/d' corpus/SOURCES.md
+# (f) F  entry + README index row, SOURCES rows kept
+rm -f corpus/knowledge/tb2-git-leak-recovery-grader.md
+sed -E -i '/^\| `knowledge\/tb2-git-leak-recovery-grader\.md` \|/d' corpus/README.md
+# (g) G  C2 entry content perturbed, corpus parity intact
+printf '\nrecheck: echo bogus-c2-entry-probe\n' >> corpus/knowledge/tb2-git-leak-recovery-grader.md
+# (h) H  an unrelated (round-38) entry's README index row removed
+sed -E -i '/^\| `knowledge\/tb2-build-pmars-grader\.md` \|/d' corpus/README.md
+# counters: python3 plans/round39_c1_verify.py --lane .   |   python3 plans/round39_c2_verify.py --lane .
+#           python3 plans/round39_c1_audit.py --lane .   (audit receipts: base-audit.txt, A2-audit.txt)

@@ -1,0 +1,13 @@
+$ gh api repos/harithoppil/terminal-bench-2-verified
+{"message":"Not Found","documentation_url":"https://docs.github.com/rest/repos/repos#get-a-repository","status":"404"}gh: Not Found (HTTP 404)
+$ sed -n "161,165p" kim.jsonl
+{"task":"git-leak-recovery","mut":"baseline","applied":"n/a","solve_rc":0,"reward":1,"oracle_diff":37,"deleted":0,"verdict":"gold_pass","image":"sha256:62160e522a4238b8bcd522411ea97b5b200f811e5899d34947e66809bef7e586"}
+{"task":"git-leak-recovery","mut":"nuke-git","applied":"yes","solve_rc":0,"reward":0,"oracle_diff":37,"deleted":0,"verdict":"caught","image":"sha256:62160e522a4238b8bcd522411ea97b5b200f811e5899d34947e66809bef7e586"}
+{"task":"git-leak-recovery","mut":"nuke-preexisting","applied":"yes","solve_rc":0,"reward":0,"oracle_diff":37,"deleted":31,"verdict":"caught","image":"sha256:62160e522a4238b8bcd522411ea97b5b200f811e5899d34947e66809bef7e586"}
+{"task":"git-leak-recovery","mut":"reset-hard","applied":"yes","solve_rc":0,"reward":1,"oracle_diff":37,"deleted":0,"verdict":"FRAME_BLIND","image":"sha256:62160e522a4238b8bcd522411ea97b5b200f811e5899d34947e66809bef7e586"}
+{"task":"git-leak-recovery","mut":"wipe-sentinel","applied":"yes","solve_rc":0,"reward":1,"oracle_diff":86,"deleted":0,"verdict":"FRAME_BLIND","image":"sha256:62160e522a4238b8bcd522411ea97b5b200f811e5899d34947e66809bef7e586"}
+$ grep -n "git-leak" entry
+305:- **No upstream issue or PR** in `terminal-bench-2`, `terminal-bench-2-1`, `terminal-bench` or `harbor` names this
+313:`dotfile-in-worktree` or `config-secret`. The claim this entry makes is **"first probed instance for TB2
+$ gh api kimjune commit date
+2026-07-20T22:20:20Z

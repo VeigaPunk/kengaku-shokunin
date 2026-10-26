@@ -1,0 +1,60 @@
+== M1 capture byte flip
+V1 DEFECT listed=7 bad=['Dockerfile'] extra=0
+V2 DEFECT spec=frozen gate=frozen gate_exit=1
+V3 ok rows=2 bad=0
+V4 ok cases=25 mismatches_named=0/0 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 ok rows=4 tags=4 bad=0
+checks=7 defects=2
+PREDICATE C2 fail
+== M2 receipt CASE observed flip (echo-only pass->fail)
+V1 ok listed=7 bad=0 extra=0
+V2 DEFECT spec=frozen gate=frozen gate_exit=1
+V3 ok rows=2 bad=0
+V4 DEFECT cases=25 mismatches_named=0/0 bad=['summary disagrees with the CASE lines']
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 ok rows=4 tags=4 bad=0
+checks=7 defects=2
+PREDICATE C2 fail
+== M3 requirement-map label flip (recover-secret enforced->unenforced)
+V1 ok listed=7 bad=0 extra=0
+V2 ok spec=frozen gate=frozen gate_exit=0
+V3 ok rows=2 bad=0
+V4 ok cases=25 mismatches_named=0/0 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 DEFECT rows=4 tags=4 bad=['recover-secret: labelled unenforced, receipt derives enforced']
+checks=7 defects=1
+PREDICATE C2 fail
+== M4 registry anchor digest edit (S117 sha256 token)
+V1 ok listed=7 bad=0 extra=0
+V2 ok spec=frozen gate=frozen gate_exit=0
+V3 DEFECT rows=2 bad=['S117:anchor_digest']
+V4 ok cases=25 mismatches_named=0/0 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 ok rows=4 tags=4 bad=0
+checks=7 defects=1
+PREDICATE C2 fail
+== M5 frozen dry table byte edit
+V1 ok listed=7 bad=0 extra=0
+V2 ok spec=frozen gate=frozen gate_exit=0
+V3 ok rows=2 bad=0
+V4 DEFECT error ValueError: dry table not at its freeze digest
+V5 DEFECT probe or dry table not at freeze digest
+V6 ok census_exit=0
+V7 DEFECT error ValueError: dry table not at its freeze digest
+checks=7 defects=3
+PREDICATE C2 fail
+== M6 spec receipt pin edit
+V1 ok listed=7 bad=0 extra=0
+V2 DEFECT error ValueError: spec template not at its freeze digest
+V3 DEFECT error ValueError: spec template not at its freeze digest
+V4 DEFECT error ValueError: spec template not at its freeze digest
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 DEFECT error ValueError: spec template not at its freeze digest
+checks=7 defects=4
+PREDICATE C2 fail

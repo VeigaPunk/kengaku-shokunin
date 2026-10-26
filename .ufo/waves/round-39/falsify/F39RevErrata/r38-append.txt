@@ -1,0 +1,18 @@
+PINS total=14 mismatched=0
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r39/F39RevErrata/lane/plans/round38_c1_verify.py", line 337, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/fast/scratch/hyaku/kengaku-r39/F39RevErrata/lane/plans/round38_c1_verify.py", line 240, in main
+    argv = list(fx["build"](ctx, d))
+                ~~~~~~~~~~~^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r39/F39RevErrata/lane/plans/battery38/p7m.py", line 52, in _n11
+    return _package(ctx, d, edit)
+  File "/fast/scratch/hyaku/kengaku-r39/F39RevErrata/lane/plans/battery38/p7m.py", line 28, in _package
+    after = edit(before)
+  File "/fast/scratch/hyaku/kengaku-r39/F39RevErrata/lane/plans/battery38/p7m.py", line 44, in edit
+    _only_once(text, RECHECK)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r39/F39RevErrata/lane/plans/battery38/p7m.py", line 38, in _only_once
+    raise RuntimeError(f"expected exactly one {needle!r}, found {text.count(needle)}")
+RuntimeError: expected exactly one 'recheck:', found 5

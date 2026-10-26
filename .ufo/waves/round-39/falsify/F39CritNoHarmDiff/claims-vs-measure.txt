@@ -1,0 +1,29 @@
+# doc claims vs the landing measurement they cite, plus the mutant-direction exit row
+
+$ git show a6832f53:LOG.md | sed -n 1179p
+  with no status change (`R39SourcesRecheck`); every no-harm instrument green at the landing tip (`integrate/measure-final.txt`).
+
+$ grep -nE "MUTANTS total=22|PREDICATE C1 fail|DIRECTIONS total=22|ORDER RESULT FAIL|^exit=" .ufo/waves/round-39/integrate/measure-final.txt | sed -n "1,12p"
+105:exit=0
+127:exit=0
+233:exit=0
+240:exit=0
+247:ORDER RESULT FAIL
+248:exit=1
+360:MUTANTS total=22 killed=21 survived=1 invalid=0 null_detected=0
+361:PREDICATE C1 fail
+362:exit=1
+384:exit=0
+509:exit=0
+531:exit=0
+
+$ git show a6832f53:SKILL.md | grep -n "mutant-direction-check"
+585:| `mutant-direction-check` | gate | `python3 plans/mutant_direction_check.py --lane . [--counter plans/round38_c1_verify.py] [--work DIR]` | `0` every frozen mutant's declared kill direction is observed or unwitnessed · `1` a `MISLABELLED` mutant | shown able to fail on the round-38 list: `DIR N21 D5 declared=silence observed=mirror MISLABELLED` (`.ufo/waves/round-38/integrate/direction-check.txt`) | reads the c
+
+$ git show a6832f53:corpus/QUALITY.md | grep -n "exit 1 iff" | head -2
+511:  `DIRECTIONS total=<n> mislabelled=<m>`, exit 1 iff `m > 0`. Shown able to fail: on the round-38 landed
+
+$ grep -n "return 1 if mis else" plans/mutant_direction_check.py   (at tip)
+129:                print(f"DIR {mid} {clause} declared={direction} observed=invalid INVALID")
+174:        print(f"LEGS mutants={len(c.MUTANTS)} disagree={split} invalid={invalid}")
+176:        return 1 if mis else (3 if (split or invalid) else 0)

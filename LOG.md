@@ -1180,3 +1180,9 @@ L1 `KengakuR39` (planner seat). Freeze `088f7c36` (claims, both counters, the pr
 - Tool use: no host install. Wave-1 seats: pytest 8.4.1 into scratch `uv venv -p 3.13` (PyPI via uv, removed with scratch,
   `R39CritPytest`); docker `ubuntu:24.04` base image pulled to check apt git 2.43.0 (`R39CritFsckReflog`); biopython 1.85
   via `uv run --with` for the gate's P10. No pacman transaction.
+- Wave 2 (falsify, 34 seats): re-measures agree (C1 pass + audit clean, C2 pass, probe byte-equal 3/3, rows 2/2); battery39
+  reviewed honest 4/4, fixture mutants 12/12; the audit is defeated by a phase-aware daemon (`F39SentinelAudit`), so C1 rests
+  on the frozen predicate plus code review; advertised count corrected to 5 of 7 (2 → 0 unchanged); entry wording corrected
+  by appended errata (`F39EntryQuotes`, `F39CritOverclaim`); tool defects routed to round 40 (SCORECARD `### Wave 2
+  outcome`). Correction (`F39RevScorecard` M1): the four SOURCES rows re-opened above were drift-risk picks, not due rows
+  (`sources-census.sh overdue` printed none).
