@@ -1,0 +1,12 @@
+# fixture M — erratum laundering with the label the tool actually reads: 'Erratum (round 37):'
+# S111 anchor <- S108's real committed digest; a working-tree erratum line for S111 cites it twice as both wrong and correction
+applied: S111 anchor = 345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 + erratum line in corpus/lessons/round-38.md
+$ python3 plans/anchor_digest_check.py --lane . --verbose | grep -E "S111|defects"
+BIND S111 capture=corpus/evidence/round37/tb2-git-webserver/test_outputs.py by=url-task
+ERRATUM S111 loc=corpus/lessons/round-38.md:79 cited_wrong=['345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72', '345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72'] correction=[]
+DEFECT S111 erratum token=- class=erratum-incomplete detail=no-64-hex-digest-of-the-capture-this-row-names loc=corpus/lessons/round-38.md:79
+DEFECT S111 anchor token=345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 class=digest-wrong-capture detail=committed-capture-belonging-to-another-capture-corpus/evidence/round36/tb2-regex-log/test_outputs.py-not-the-capture-this-row-names-corpus/evidence/round37/tb2-git-webserver/test_outputs.py loc=corpus/SOURCES.md:126
+rows=109 tokens=17 defects=2
+tip exit=1
+corpus/lessons/round-38.md
+RESTORED

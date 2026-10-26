@@ -1,0 +1,19 @@
+FIXTURE d5m-n21-manifest-row-2 expect= accept declared= []
+ARGV ['d5-line', '--file', '/fast/scratch/hyaku/kengaku-r38/F38CritN21/scratch/hand/fx/erratum.md', '--capture-dir', '/fast/scratch/hyaku/kengaku-r38/F38CritN21/scratch/hand/fx/captures']
+old count in gate = 1 | replacement = 'lit() for row in sums.splitlines()[:1]))'
+MANIFEST bytes:
+0000000000000000000000000000000000000000000000000000000000000000  geniac-s105-reopen.html\n
+b60af7757074df9d0795f1fcb76a7f6eaf5e4d6470eb8a6c97571eceb9a262b1  nec-s091-reopen.html\n
+
+-- ref rc=0
+   | D5 ok directional=True digest_pinned=True bad=0
+   | defects=0
+-- N21 rc=1
+   | D5 DEFECT directional=False digest_pinned=False bad=['capture digest is not the one in the manifest']
+   | defects=1
+
+-- counter predicate over this one fixture (declared dir: silence )
+   silence:  False
+   mirror:  True
+   ref tuple (0, frozenset(), frozenset({'D5'}))
+   mut tuple (1, frozenset({'D5'}), frozenset())

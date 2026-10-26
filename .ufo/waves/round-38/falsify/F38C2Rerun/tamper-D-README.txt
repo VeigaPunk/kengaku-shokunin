@@ -1,0 +1,1 @@
+tamper-D-naming-rule note: inconclusive BY CONSTRUCTION -- the case I marked match=NO (empty-tree) is already named in the entry, so V4 printed mismatches_named=1/1 bad=0; the isolated repeat is tamper-G (entry name stripped) which shows the rule firing.

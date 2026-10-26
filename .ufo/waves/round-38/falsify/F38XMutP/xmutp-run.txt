@@ -1,0 +1,26 @@
+GATE plans/pkg_gate.py sha256=frozen
+LANE /fast/scratch/hyaku/kengaku-r38/F38XMutP/lane
+HYGIENE mutants=20 old-unique=yes frozen-pair-overlap=no
+BATTERY fixtures=86 wrong=0 null_detected=0 sidechannel=0
+MUTANT X01 P1 first-item-only SURVIVED no-fixture-differs sha256=fed4e312103ae1ef -- every pinned instrument is checked, not only the first
+MUTANT X02 P1 mirror killed by=r36-P0 dir=mirror sha256=279e5f6ec338fbec -- an instrument set matching its pins is accepted (P1 false-red)
+MUTANT X03 P2 mirror killed by=r36-P0 dir=mirror sha256=aedbf10681a8d083 -- a receipt matching its pin is accepted (P2 false-red)
+MUTANT X04 P3 off-by-one killed by=p3m-exact-min-distinct-locations dir=mirror sha256=60996b934418bb9b -- a package with exactly min_quotes distinct quotes is accepted (N02's min_quotes twin)
+MUTANT X05 P3 off-by-one SURVIVED no-fixture-differs sha256=da14a7a2ffb11b25 -- a quote one word above the range is still outside it
+MUTANT X21 P7 reordered-branch killed by=r36-P0 dir=mirror sha256=e201ac869cc91f0e -- the per-row source compare runs against the collected prov, not an empty one
+MUTANT X07 P4 off-by-one killed by=r36-P0 dir=mirror sha256=613e559d1d67cd35 -- verbatim starts on the cited line, not one below it
+MUTANT X08 P4 mirror killed by=r36-P0 dir=mirror sha256=aa3a9f3795e57103 -- a readable capture is not reported unreadable (P4 false-red)
+MUTANT X09 P5 mirror killed by=r36-P0 dir=mirror sha256=f14ae58c6bc1be8d -- a manifest matching the capture bytes is accepted (P5 false-red)
+MUTANT X10 P5 first-item-only killed by=p4-capture-unreadable dir=silence sha256=e011c4145342b38d -- every quote's capture is pinned in the manifest, not only the first alphabetically
+MUTANT X11 P6 loosened-compare killed by=p6-m21-row-with-twelve-cells dir=silence sha256=34da6bd4f8546b99 -- a row with more than 11 cells is a defect too
+MUTANT X12 P6 loosened-compare killed by=p6-m20-registry-row-duplicated dir=silence sha256=cb2343230a85f100 -- a duplicated registry row is a defect, not only an absent one
+MUTANT X13 P6 mirror killed by=r36-P0 dir=mirror sha256=76eb0dd44f4117ba -- distinct teaches cells are accepted (P6 false-red)
+MUTANT X14 P7 first-item-only killed by=r36-P0 dir=mirror sha256=7065194403c33a1f -- source lines are collected from the whole entry, not its first line
+MUTANT X15 P7 loosened-compare SURVIVED no-fixture-differs sha256=6c69f9fb3af28137 -- exactly one pinned source line per row, not merely a first one
+MUTANT X16 P7 mirror killed by=r36-P0 dir=mirror sha256=73a17899ba1442a0 -- a present verified-at line is accepted (P7 false-red)
+MUTANT X17 P8 first-item-only killed by=r36-P0 dir=mirror sha256=82c77b3157ae0288 -- the index is read from the whole README, not its first line
+MUTANT X18 P8 first-item-only killed by=p8-index-row-missing-sid dir=silence sha256=50e2f186f5996307 -- the index row must cite every registry row, the later included
+MUTANT X19 P8 mirror killed by=r36-P0 dir=mirror sha256=c68af7690b56adc1 -- a present coverage bullet is accepted (P8 false-red)
+MUTANT X20 P5 reordered-branch killed by=r36-P0 dir=mirror sha256=933e41779cc31538 -- the uncovered-file check runs against the parsed manifest, not an empty one
+MUTANTS total=20 killed=17 survived=3 invalid=0
+VERDICT-COUNTER xmut-p-killed-17/20

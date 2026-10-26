@@ -1,0 +1,5 @@
+### C2 V6 executes unpinned host state at an absolute path (round38_c2_verify.py:63)
+CENSUS = /home/vgpnk/Projects/shokunin/scripts/sources-census.sh | exists: True
+V6 real script      : (True, 'census_exit=0')
+V6 2-line shim      : (True, 'census_exit=0')   (any executable at that path makes V6 pass)
+V6 absent script    : raises FileNotFoundError (main catches -> 'V6 DEFECT error ...' -> PREDICATE fail)

@@ -1,0 +1,30 @@
+# tb2 build-pmars grader probe (kengaku round 38) @ terminal-bench-2 2fd12b88
+# capture instruction.md sha256=1606850579342a8b8f2189de0e499fae6be21198150d8dd1e4d18c2efbcf3b82
+# capture test_outputs.py sha256=dace3b253e52b156a8900f55b94f7e0bec32157205431d52ea17f3f8cb33e932
+CASE empty-tree predicted=fail observed=pass tests=PPPP predicted_tests=FFFF match=NO violates=from-source,no-x11,debian-source,extract-to-app,install-path,results-format,debugger-works -- do-nothing: no binary, empty /app
+CASE canned-shape predicted=pass observed=pass tests=PPPP predicted_tests=PPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works -- canned C program, empty debian/ dir, zero-byte src/dummy.c: no pMARS, no Debian source, no build
+CASE canned-script predicted=fail observed=pass tests=PPPP predicted_tests=PFPP match=NO violates=from-source,debian-source,extract-to-app,debugger-works -- the canned text from a bash script: ldd says not a dynamic executable on stderr, stdout empty
+CASE canned-static predicted=fail observed=pass tests=PPPP predicted_tests=PFPP match=NO violates=from-source,debian-source,extract-to-app,debugger-works -- canned program linked -static: ldd exits 1 with empty stdout
+CASE canned-x11-linked predicted=fail observed=pass tests=PPPP predicted_tests=PFPP match=NO violates=from-source,debian-source,extract-to-app,debugger-works,no-x11 -- canned program linked against libX11 (--no-as-needed): ldd lists libX11
+CASE canned-x11-dlopen predicted=pass observed=pass tests=PPPP predicted_tests=PPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works,no-x11 -- canned program that dlopen()s libX11.so.6 at run time: no DT_NEEDED entry for ldd to list
+CASE results-two-ints predicted=fail observed=pass tests=PPPP predicted_tests=FPPP match=NO violates=from-source,debian-source,extract-to-app,debugger-works,results-format -- battle line carries two integers
+CASE results-trailing-text predicted=pass observed=pass tests=PPPP predicted_tests=PPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works,results-format -- battle line `Results: 12 34 78 forged`: re.match anchors the start only
+CASE results-not-last predicted=fail observed=pass tests=PPPP predicted_tests=FPPP match=NO violates=from-source,debian-source,extract-to-app,debugger-works,results-format -- a line after the Results line: `tail -n 1` sees the extra line
+CASE results-negative predicted=fail observed=pass tests=PPPP predicted_tests=FPPP match=NO violates=from-source,debian-source,extract-to-app,debugger-works,results-format -- a negative integer: \d+ does not match the sign
+CASE one-address predicted=fail observed=pass tests=PPPP predicted_tests=FPPP match=NO violates=from-source,debian-source,extract-to-app,debugger-works -- debugger text with one address line (grader needs >= 2)
+CASE four-digit-address predicted=fail observed=pass tests=PPPP predicted_tests=FPPP match=NO violates=from-source,debian-source,extract-to-app,debugger-works -- debugger addresses with four digits (grader needs \d{5})
+CASE canned-exit-nonzero predicted=pass observed=pass tests=PPPP predicted_tests=PPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works -- canned program exits 3: run_shell_command returns e.output when it is non-empty
+CASE nonexec-binary predicted=fail observed=pass tests=PPPP predicted_tests=FPPP match=NO violates=from-source,debian-source,extract-to-app,debugger-works,install-path -- binary installed without the execute bit: exists() holds, the shell cannot run it
+CASE silent-binary predicted=fail observed=pass tests=PPPP predicted_tests=FPPP match=NO violates=from-source,debian-source,extract-to-app,debugger-works,install-path -- installed binary prints nothing
+CASE path-split predicted=pass observed=pass tests=PPPP predicted_tests=PPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works,install-path -- /usr/local/bin/pmars prints nothing; a canned script at /usr/local/sbin/pmars (earlier on PATH) answers the behaviour checks, ldd reads the silent one
+CASE no-debian-dir predicted=fail observed=pass tests=PPPP predicted_tests=PPFP match=NO violates=from-source,debian-source,extract-to-app,debugger-works -- source tree without debian/
+CASE debian-is-file predicted=pass observed=pass tests=PPPP predicted_tests=PPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works -- debian is a zero-byte regular file: Path.exists() holds
+CASE src-no-c predicted=fail observed=pass tests=PPPP predicted_tests=PPPF match=NO violates=from-source,debian-source,extract-to-app,debugger-works -- src/ holds a header only
+CASE c-is-dir predicted=pass observed=pass tests=PPPP predicted_tests=PPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works -- src/sim.c is a directory: glob('*.c') matches it
+CASE no-src-dir predicted=fail observed=pass tests=PPPP predicted_tests=PPPF match=NO violates=from-source,debian-source,extract-to-app,debugger-works -- source tree without src/
+CASE pmars-dir-elsewhere predicted=fail observed=pass tests=PPPP predicted_tests=PPFF match=NO violates=from-source,debian-source,extract-to-app,debugger-works -- tree under /app/src/pmars-0.9.4, not /app/pmars-*: the glob is one level deep
+cases=22 observed_pass=22 observed_fail=0 mismatches=15
+
+--ERR--
+
+EXIT=0

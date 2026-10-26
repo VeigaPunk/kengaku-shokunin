@@ -1,0 +1,9 @@
+$ python3 plans/round38_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r38/F38CritBatF/lane --battery-dir /fast/scratch/hyaku/kengaku-r38/F38CritBatF/b38_n21 --only N19,N20,N21,N22 --work /fast/scratch/hyaku/kengaku-r38/F38CritBatF/w_n21
+PINS total=14 mismatched=0
+BATTERY fixtures=85 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT N19 D4 silence killed by=d4m-n19-last-pattern-unmatched -- every directional pattern is checked, the last included [F37XMutD4 X3]
+MUTANT N20 D4 silence killed by=d4m-n20-pattern-case-differs -- directional patterns match case-sensitively [F37XMutD4 X4]
+MUTANT N21 D5 silence SURVIVED -- the capture digest is looked up in every manifest row, not only the first [F37XMutD5 X3]
+MUTANT N22 D5 silence SURVIVED -- the whole quote must be present, not a 20-character prefix [F37XMutD5 X4]
+MUTANTS total=4 killed=2 survived=2 invalid=0 null_detected=0
+exit=0

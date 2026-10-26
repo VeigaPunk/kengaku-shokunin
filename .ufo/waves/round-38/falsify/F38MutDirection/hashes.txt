@@ -1,0 +1,21 @@
+# Restoration evidence — lane bytes before == after; mutated copies documented
+# (sha256sum commands; lane = /home/vgpnk/Projects/shokunin/kengaku-shokunin, never written by this seat)
+
+## Lane target files, BEFORE (first command of the seat, before any run):
+7e0e2b789819cc95cbc0b28bce3ae110d6907f62bd1109f90108e077deaa2c14  plans/mutant_direction_check.py
+8069739990c7d3a87f34f4398ea5dc78821193d9fa55499e11e28c84e79c0a4f  plans/round38_c1_verify.py
+
+## Lane target files, AFTER (last evidence command, after all runs):
+7e0e2b789819cc95cbc0b28bce3ae110d6907f62bd1109f90108e077deaa2c14  plans/mutant_direction_check.py
+8069739990c7d3a87f34f4398ea5dc78821193d9fa55499e11e28c84e79c0a4f  plans/round38_c1_verify.py
+(before == after for both; the lane was never modified)
+
+## Scratch clone pristine copies @ 8c7422d7a646515d80af44844e8ecc8a1fc1d30a (byte-equal to the lane working tree):
+7e0e2b789819cc95cbc0b28bce3ae110d6907f62bd1109f90108e077deaa2c14  $S/lane/plans/mutant_direction_check.py
+8069739990c7d3a87f34f4398ea5dc78821193d9fa55499e11e28c84e79c0a4f  $S/lane/plans/round38_c1_verify.py
+
+## Mutated copies tested (each exactly one line from pristine; diffs in diffs.txt):
+16955799e08ae1074cbb8e44ee2e55149dc9e2744c7a1bcac04e9b626adf4515  mutant_direction_check_m1.py   (ignore mirror)
+482b5aa44dde6a49680ac4fd89057f42bba8def1bbf737ccd3f3dd8a7ec040e2  mutant_direction_check_m2.py   (accept any observed direction)
+7b4e2aa65c9fb0d8f092cd506102add453b34d123b1d7bf05831b5e6d637918a  mutant_direction_check_m3.py   (UNWITNESSED -> ok)
+fbd06ca378c9e024c36cd59739bd6eff91ebea720fadbbb8197c3b4cb2e82d47  round38_c1_verify_relabel.py   (N21 silence -> mirror)

@@ -1,0 +1,39 @@
+### drop p4a-second-row-line-outside -> --only N03 (exit=1)
+FIXTURE p4a-text-elsewhere expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p4b-case-only expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p4b-range-end-past-last expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+BATTERY fixtures=85 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT N03 P4 silence SURVIVED -- every quote is checked, not only the first [docstring 'a quote not verbatim on its cited line'; F37XMutP4 X2]
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0
+
+### drop p4a-text-elsewhere -> --only N04 (exit=1)
+FIXTURE p4a-second-row-line-outside expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p4b-case-only expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p4b-range-end-past-last expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+BATTERY fixtures=85 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT N04 P4 silence SURVIVED -- verbatim on the CITED lines, not anywhere in the capture [capability row 'verbatim on its cited capture line'; F37XMutP4 X4]
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0
+
+### drop p4b-case-only -> --only N05 (exit=1)
+FIXTURE p4a-second-row-line-outside expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p4a-text-elsewhere expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p4b-range-end-past-last expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+BATTERY fixtures=85 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT N05 P4 silence SURVIVED -- verbatim is case-sensitive [docstring 'a quote not verbatim'; F37XMutP4 X5]
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0
+
+### drop p4b-range-end-past-last -> --only N06 (exit=1)
+FIXTURE p4a-second-row-line-outside expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p4a-text-elsewhere expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p4b-case-only expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+BATTERY fixtures=85 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT N06 P4 silence SURVIVED -- a cited range past the capture's last line is a defect [F37XMutP4 X6]
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0
+
+### p4a.py + p4b.py absent -> --only N03,N04,N05,N06 (exit=1)
+BATTERY fixtures=82 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT N03 P4 silence SURVIVED -- every quote is checked, not only the first [docstring 'a quote not verbatim on its cited line'; F37XMutP4 X2]
+MUTANT N04 P4 silence SURVIVED -- verbatim on the CITED lines, not anywhere in the capture [capability row 'verbatim on its cited capture line'; F37XMutP4 X4]
+MUTANT N05 P4 silence SURVIVED -- verbatim is case-sensitive [docstring 'a quote not verbatim'; F37XMutP4 X5]
+MUTANT N06 P4 silence SURVIVED -- a cited range past the capture's last line is a defect [F37XMutP4 X6]
+MUTANTS total=4 killed=0 survived=4 invalid=0 null_detected=0

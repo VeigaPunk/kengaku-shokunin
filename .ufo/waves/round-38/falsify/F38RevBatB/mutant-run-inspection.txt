@@ -1,0 +1,18 @@
+ctx.spec_path=/fast/scratch/hyaku/kengaku-r38/F38RevBatB/lane/plans/pkg-spec-r35.json
+genuine spec probe_cmd=['plans/tb2_grader_probe.py', '--lane', '.']
+genuine spec receipt=corpus/evidence/round35/tb2-grader-probe.txt receipt_sha256=2359d9067906f59d2c55b5802603d1ef45c376f653ad9997de1ef7da412b25b8
+== p10a-n13-trailing-space declared=['P10'] expect=reject argv0=package own_spec=True
+   REF rc=1 DEFECT=['P10'] ok=['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9']
+   N13  rc=0 DEFECT=[] ok=['P1', 'P10', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9']
+   N14  rc=1 DEFECT=['P10'] ok=['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9']
+   N15  rc=1 DEFECT=['P10'] ok=['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9']
+== p10a-n14-first-line-only declared=['P10'] expect=reject argv0=package own_spec=True
+   REF rc=1 DEFECT=['P10'] ok=['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9']
+   N13  rc=1 DEFECT=['P10'] ok=['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9']
+   N14  rc=0 DEFECT=[] ok=['P1', 'P10', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9']
+   N15  rc=1 DEFECT=['P10'] ok=['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9']
+== p10b-rerun-byte-equal-accept declared=[] expect=accept argv0=package own_spec=True
+   REF rc=0 DEFECT=[] ok=['P1', 'P10', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9']
+   N13  rc=0 DEFECT=[] ok=['P1', 'P10', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9']
+   N14  rc=0 DEFECT=[] ok=['P1', 'P10', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9']
+   N15  rc=1 DEFECT=['P10'] ok=['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9']

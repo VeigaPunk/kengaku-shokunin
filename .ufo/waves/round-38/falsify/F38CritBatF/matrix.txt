@@ -1,0 +1,34 @@
+BUILD d4m-n19-last-pattern-unmatched argv= ['d4-line', '--file', '/fast/scratch/hyaku/kengaku-r38/F38CritBatF/m/fx/d4m-n19-last-pattern-unmatched/d4-correction-last-pattern-unmatched.txt'] spec_in_argv= False
+BUILD d4m-n20-pattern-case-differs argv= ['d4-line', '--file', '/fast/scratch/hyaku/kengaku-r38/F38CritBatF/m/fx/d4m-n20-pattern-case-differs/d4-correction-pattern-case-differs.txt'] spec_in_argv= False
+BUILD d5m-n22-quote-prefix argv= ['d5-line', '--file', '/fast/scratch/hyaku/kengaku-r38/F38CritBatF/m/fx/d5m-n22-quote-prefix/erratum.md', '--capture-dir', '/fast/scratch/hyaku/kengaku-r38/F38CritBatF/m/fx/d5m-n22-quote-prefix/captures'] spec_in_argv= False
+BUILD d5m-n21-manifest-row-2 argv= ['d5-line', '--file', '/fast/scratch/hyaku/kengaku-r38/F38CritBatF/m/fx/d5m-n21-manifest-row-2/erratum.md', '--capture-dir', '/fast/scratch/hyaku/kengaku-r38/F38CritBatF/m/fx/d5m-n21-manifest-row-2/captures'] spec_in_argv= False
+
+fixture                            expect  decl                     ref                    N19                    N20                    N21                    N22
+d4m-n19-last-pattern-unmatched     reject  D4                      1/D4                    0/-                   1/D4                   1/D4                   1/D4
+d4m-n20-pattern-case-differs       reject  D4                      1/D4                   1/D4                    0/-                   1/D4                   1/D4
+d5m-n22-quote-prefix               reject  D5                      1/D5                   1/D5                   1/D5                   1/D5                    0/-
+d5m-n21-manifest-row-2             accept  -                        0/-                    0/-                    0/-                   1/D5                    0/-
+
+# silence-kill signature per (mutant, fixture): ref DEFECT+declared, mutant not DEFECT
+N19 silence d4m-n19-last-pattern-unmatched     attributed=True mirror_sig=False ref=1/D4 mut=0/- ref_ok=- mut_ok=D4
+N20 silence d4m-n20-pattern-case-differs       attributed=True mirror_sig=False ref=1/D4 mut=0/- ref_ok=- mut_ok=D4
+N21 silence d5m-n21-manifest-row-2             attributed=False mirror_sig=True ref=0/- mut=1/D5 ref_ok=D5 mut_ok=-
+N22 silence d5m-n22-quote-prefix               attributed=True mirror_sig=False ref=1/D5 mut=0/- ref_ok=- mut_ok=D5
+
+# N21 manifest-shape enumeration (D5 pin subcheck; genuine line; capture quote present)
+row1-true                ref=0/-   n21=0/-   SILENCE_KILL=False
+decoy-then-true          ref=0/-   n21=1/D5  SILENCE_KILL=False
+true-then-decoy          ref=0/-   n21=0/-   SILENCE_KILL=False
+decoy-only               ref=1/D5  n21=1/D5  SILENCE_KILL=False
+two-decoys               ref=1/D5  n21=1/D5  SILENCE_KILL=False
+true-twice               ref=0/-   n21=0/-   SILENCE_KILL=False
+empty                    ref=1/D5  n21=1/D5  SILENCE_KILL=False
+true-digest-wrong-name   ref=1/D5  n21=1/D5  SILENCE_KILL=False
+true-name-wrong-digest   ref=1/D5  n21=1/D5  SILENCE_KILL=False
+blank-row-then-true      ref=0/-   n21=1/D5  SILENCE_KILL=False
+
+# N21 quote-absent variants: ref DEFECT always? (capture truncated/replaced, manifest re-pinned)
+quote-prefix-20  ref=1/D5  n22=0/-  
+quote-prefix-21  ref=1/D5  n22=0/-  
+quote-absent     ref=1/D5  n22=1/D5 
+quote-with-ws    ref=0/-   n22=0/-  

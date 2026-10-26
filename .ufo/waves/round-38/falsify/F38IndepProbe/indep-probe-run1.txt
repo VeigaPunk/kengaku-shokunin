@@ -1,0 +1,26 @@
+# F38IndepProbe independent run of the tb2 build-pmars grader
+# capture test_outputs.py sha256=d9d2796ddc19cf8159670567e174ea377e2bce675bf3451d5951c045b01f4e85 receipt_pin=d9d2796ddc19cf8159670567e174ea377e2bce675bf3451d5951c045b01f4e85 pin_match=True
+# instrument: sudo unshare -m + chroot, bind /usr+/etc, pytest -rA (pytest 8.4.1, CPython 3.13)
+CASE canned-shape observed=pass tests=PPPP pytest_rc=0 assigned receipt_tests=PPPP agree=yes
+CASE canned-x11-linked observed=fail tests=PFPP pytest_rc=1 assigned receipt_tests=PFPP agree=yes
+CASE canned-x11-dlopen observed=pass tests=PPPP pytest_rc=0 assigned receipt_tests=PPPP agree=yes
+CASE results-trailing-text observed=pass tests=PPPP pytest_rc=0 assigned receipt_tests=PPPP agree=yes
+CASE canned-exit-nonzero observed=pass tests=PPPP pytest_rc=0 assigned receipt_tests=PPPP agree=yes
+CASE path-split observed=pass tests=PPPP pytest_rc=0 assigned receipt_tests=PPPP agree=yes
+CASE debian-is-file observed=pass tests=PPPP pytest_rc=0 assigned receipt_tests=PPPP agree=yes
+CASE c-is-dir observed=pass tests=PPPP pytest_rc=0 assigned receipt_tests=PPPP agree=yes
+CASE empty-tree observed=fail tests=FFFF pytest_rc=1 receipt_tests=FFFF agree=yes
+CASE canned-script observed=fail tests=PFPP pytest_rc=1 receipt_tests=PFPP agree=yes
+CASE canned-static observed=fail tests=PFPP pytest_rc=1 receipt_tests=PFPP agree=yes
+CASE results-two-ints observed=fail tests=FPPP pytest_rc=1 receipt_tests=FPPP agree=yes
+CASE results-not-last observed=fail tests=FPPP pytest_rc=1 receipt_tests=FPPP agree=yes
+CASE results-negative observed=fail tests=FPPP pytest_rc=1 receipt_tests=FPPP agree=yes
+CASE one-address observed=fail tests=FPPP pytest_rc=1 receipt_tests=FPPP agree=yes
+CASE four-digit-address observed=fail tests=FPPP pytest_rc=1 receipt_tests=FPPP agree=yes
+CASE nonexec-binary observed=fail tests=FPPP pytest_rc=1 receipt_tests=FPPP agree=yes
+CASE silent-binary observed=fail tests=FPPP pytest_rc=1 receipt_tests=FPPP agree=yes
+CASE no-debian-dir observed=fail tests=PPFP pytest_rc=1 receipt_tests=PPFP agree=yes
+CASE src-no-c observed=fail tests=PPPF pytest_rc=1 receipt_tests=PPPF agree=yes
+CASE no-src-dir observed=fail tests=PPPF pytest_rc=1 receipt_tests=PPPF agree=yes
+CASE pmars-dir-elsewhere observed=fail tests=PPFF pytest_rc=1 receipt_tests=PPFF agree=yes
+assigned_agree=8/8 capture_sha256=d9d2796ddc19cf8159670567e174ea377e2bce675bf3451d5951c045b01f4e85

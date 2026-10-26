@@ -1,0 +1,65 @@
+# Diffs — mutated copies vs pristine, and run outputs vs the pristine baseline
+# (diff commands run in /fast/scratch/hyaku/kengaku-r38/F38MutDirection)
+
+## Copy diffs (each mutation is exactly one line):
+== m1 ==
+78c78
+<                 for dname in ("silence", "mirror"):
+---
+>                 for dname in ("silence",):
+== m2 ==
+83c83
+<             if direction in seen:
+---
+>             if seen:
+== m3 ==
+89c89
+<                 verdict = "UNWITNESSED"
+---
+>                 verdict = "ok"
+== relabel ==
+140c140
+<     ("N21", "D5", "silence", "the capture digest is looked up in every manifest row, not only the first [F37XMutD5 X3]",
+---
+>     ("N21", "D5", "mirror", "the capture digest is looked up in every manifest row, not only the first [F37XMutD5 X3]",
+
+## Baseline direction-check output vs the LANDED receipt's DIR block
+# sed -n '3,25p' .ufo/waves/round-38/integrate/direction-check.txt | diff - out-baseline-direction.txt
+IDENTICAL_TO_LANDED
+
+## m1 output vs baseline (diff out-baseline-direction.txt out-m1-ignore-mirror.txt):
+2c2
+< DIR N02 P3 declared=mirror observed=mirror ok
+---
+> DIR N02 P3 declared=mirror observed=- UNWITNESSED
+8c8
+< DIR N08 P5 declared=mirror observed=mirror ok
+---
+> DIR N08 P5 declared=mirror observed=- UNWITNESSED
+15,16c15,16
+< DIR N15 P10 declared=mirror observed=mirror ok
+< DIR N16 RUN declared=silence observed=mirror,silence ok
+---
+> DIR N15 P10 declared=mirror observed=- UNWITNESSED
+> DIR N16 RUN declared=silence observed=silence ok
+21c21
+< DIR N21 D5 declared=silence observed=mirror MISLABELLED
+---
+> DIR N21 D5 declared=silence observed=- UNWITNESSED
+23c23
+< DIRECTIONS total=22 mislabelled=1
+---
+> DIRECTIONS total=22 mislabelled=0
+
+## m2 output vs baseline (diff out-baseline-direction.txt out-m2-any-direction.txt):
+21c21
+< DIR N21 D5 declared=silence observed=mirror MISLABELLED
+---
+> DIR N21 D5 declared=silence observed=mirror ok
+23c23
+< DIRECTIONS total=22 mislabelled=1
+---
+> DIRECTIONS total=22 mislabelled=0
+
+## m3 output vs baseline (diff out-baseline-direction.txt out-m3-unwitnessed-ok.txt):
+M3_BYTE_IDENTICAL  (diff exit 0 — no output difference; the mutated branch never fires on the landed tree)

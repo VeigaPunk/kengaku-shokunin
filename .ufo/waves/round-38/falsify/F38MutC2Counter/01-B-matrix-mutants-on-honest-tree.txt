@@ -1,0 +1,55 @@
+Command: cd /fast/scratch/hyaku/kengaku-r38/F38MutC2Counter/lane && for m in M1_v3_anyrow M1b_v3_anyhex M2_v4_offby1 M3_v7_first M4_v2_norerun M5_v1_ignoreextra; do python3 "$S/mut/$m.py" --lane "$S/lane"; done
+Each mutant counter run against the UNTOUCHED landing-tree clone. Expected verdict: pass (honest tree).
+
+Mutant digests (pristine -> mutant):
+  pristine d906d55f26562807a818ac55c0118cb5b43b7f570c0d891c525c64be2e9d437d
+  M1_v3_anyrow      2a7e07cd54e5fe17053c7c8c84dcbd330a8d7106ff1c13a40ae6dbf53fc173de
+  M1b_v3_anyhex     089f08df0cf5f90ee42a2ce9665886c0a2765c656fc1120a70802992dfc9c8d3
+  M2_v4_offby1      70973f3de6af0a12209603ad53477048e5292ab3bf4cfff5e6c4cacc9556ff72
+  M3_v7_first       b6ece43806739530714750eaca0ad62c5821954f658132013ac25b614d9e6172
+  M4_v2_norerun     8a119d603895bf777e1926f185183772fcc88d38c23b3d297ad7bad92fad4f48
+  M5_v1_ignoreextra 643e97324ffe3e1a59c74586dfeb28a6bb4428ec280672dbc2f89185d8c2e76b
+
+===== M1_v3_anyrow on landing =====
+V1..V6 ok (identical to baseline), V3 ok rows=2 bad=0
+checks=7 defects=0 / PREDICATE C2 pass / exit=0   -> invisible on honest tree
+
+===== M1b_v3_anyhex on landing =====
+V1..V6 ok (identical to baseline), V3 ok rows=2 bad=0
+checks=7 defects=0 / PREDICATE C2 pass / exit=0   -> invisible on honest tree
+
+===== M2_v4_offby1 on landing =====
+V1..V6 ok (identical to baseline), V4 ok cases=22 mismatches_named=0/0 bad=0
+checks=7 defects=0 / PREDICATE C2 pass / exit=0   -> invisible on honest tree
+
+===== M3_v7_first on landing ===== (verbatim)
+V3 ok rows=2 bad=0
+V4 ok cases=22 mismatches_named=0/0 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 DEFECT rows=7 tags=7 bad=['from-source: labelled partly, receipt derives enforced', 'no-x11: labelled partly, receipt derives enforced', 'debian-source: labelled partly, receipt derives enforced', 'extract-to-app: labelled partly, receipt derives enforced', 'install-path: labelled partly, receipt derives enforced', 'results-format: labelled partly, receipt derives enforced', 'debugger-works: labelled partly, receipt derives enforced']
+checks=7 defects=1
+PREDICATE C2 fail
+exit=1
+-> KILLED by the honest landing tree itself (expected pass, mutant says fail).
+
+===== M4_v2_norerun on landing ===== (verbatim gate block; note the P10 line is absent)
+    gate: P1 ok pinned=2 mismatched=0
+    gate: P2 ok receipt_sha256=pinned
+    gate: P3 ok rows=28 distinct_quotes=28 distinct_lines=27 out_of_word_range=0
+    gate: P4 ok checked=28 bad=0 first=0
+    gate: P5 ok manifest_entries=5 bad=0 first=0
+    gate: P6 ok rows=2 bad=0 first=0
+    gate: P7 ok source_lines=2 bad=0 first=0
+    gate: P8 ok index_rows=45 knowledge_files=45 bad=0 first=0
+    gate: P9 ok untracked=0 first=0
+    gate: defects=0
+V2 ok spec=frozen gate=frozen gate_exit=0
+checks=7 defects=0 / PREDICATE C2 pass / exit=0   -> invisible on honest tree
+
+===== M5_v1_ignoreextra on landing =====
+V1 ok listed=5 bad=0 extra=0 (no extras present); V2..V7 ok
+checks=7 defects=0 / PREDICATE C2 pass / exit=0   -> invisible on honest tree
+
+Summary: M3 killed by the honest tree (false-red). M1/M1b/M2/M4/M5 green on the
+honest tree; they need adversarial input trees (fixtures F1/F1b/F2/F3/F4/F7).

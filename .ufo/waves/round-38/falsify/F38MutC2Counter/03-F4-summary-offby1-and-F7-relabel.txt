@@ -1,0 +1,64 @@
+F4 — receipt summary off-by-one: edit the landing receipt's last line
+  cases=22 observed_pass=7 observed_fail=15 mismatches=0
+  -> cases=22 observed_pass=8 observed_fail=14 mismatches=0
+CASE lines untouched (true counts remain 7/15). Expected verdict: FAIL.
+Output grep-filtered to ^V2/^V4/^V5/^checks/^PREDICATE and P10 — filter noted.
+
+Command: python3 <counter> --lane $S/lane (pristine, then M2_v4_offby1)
+
+===== PRISTINE on F4 ===== (verbatim)
+    gate: P10 DEFECT fresh probe output is not byte-equal to the receipt
+V2 DEFECT spec=frozen gate=frozen gate_exit=1
+V4 DEFECT cases=22 mismatches_named=0/0 bad=['summary disagrees with the CASE lines']
+V5 ok probe=frozen dry_byte_equal=True
+checks=7 defects=2 / PREDICATE C2 fail / exit=1
+
+===== M2_v4_offby1 on F4 ===== (verbatim)
+    gate: P10 DEFECT fresh probe output is not byte-equal to the receipt
+V2 DEFECT spec=frozen gate=frozen gate_exit=1
+V4 ok cases=22 mismatches_named=0/0 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+checks=7 defects=1 / PREDICATE C2 fail / exit=1
+
+=> Check-level flip demonstrated (V4 DEFECT -> ok). But the expected verdict is
+FAIL and M2 still says FAIL: F4 does NOT kill M2 at predicate level. Analytic
+closure: gate P10 (active because the counter passes --rerun) byte-compares the
+receipt against a fresh probe run, so ANY tree with a wrong summary has
+receipt != fresh output -> V2 red under pristine AND mutant alike. No input tree
+exists where M2 passes and pristine fails. M2 SURVIVES: the V4 summary-agreement
+clause has no killing control or fixture at predicate level; it is shielded by
+P10 redundancy (it would become load-bearing only if V2's --rerun were dropped,
+which is a different mutant).
+
+Restoration: cp pristine/build-pmars-probe.txt back; sha256 = 2408b477b0299e1339064b4b3df968a00174b3a5999016073b5fe4fd8cbb4ef9.
+
+---
+
+F7 — one-witness map relabel: replace all seven requirement-map rows in
+corpus/knowledge/tb2-build-pmars-grader.md with `enforced` citing `empty-tree`
+(the first receipt line, observed fail, violates all 7 tags). Receipt NOT
+touched. Expected verdict: FAIL (labels must be derived from ALL violating
+cases -> partly for every tag). Output grep-filtered to ^V2/^V4/^V7/^checks/^PREDICATE and gate defects line — filter noted.
+
+Command: python3 <counter> --lane $S/lane (pristine, then M3_v7_first)
+
+===== PRISTINE on F7 ===== (verbatim decisive lines)
+    gate: defects=0
+V2 ok spec=frozen gate=frozen gate_exit=0        (the map section is not gated)
+V4 ok cases=22 mismatches_named=0/0 bad=0
+V7 DEFECT rows=7 tags=7 bad=['from-source: labelled enforced, receipt derives partly', 'no-x11: labelled enforced, receipt derives partly', 'debian-source: labelled enforced, receipt derives partly', 'extract-to-app: labelled enforced, receipt derives partly', 'install-path: labelled enforced, receipt derives partly', 'results-format: labelled enforced, receipt derives partly', 'debugger-works: labelled enforced, receipt derives partly']
+checks=7 defects=1 / PREDICATE C2 fail / exit=1
+
+===== M3_v7_first on F7 ===== (verbatim decisive lines)
+    gate: defects=0
+V2 ok spec=frozen gate=frozen gate_exit=0
+V4 ok cases=22 mismatches_named=0/0 bad=0
+V7 ok rows=7 tags=7 bad=0
+checks=7 defects=0 / PREDICATE C2 pass / exit=0
+
+=> expected FAIL, M3 says PASS: M3 KILLED at predicate level by F7 as well
+(second kill, next to the honest-tree kill). This is the round-37 D2 hole
+verbatim: M3 admits labels chosen from one convenient witness (`empty-tree`)
+against a receipt whose full violating sets say `partly` for every tag.
+
+Restoration: cp pristine/tb2-build-pmars-grader.md back; sha256 = 93484367bb0cb7df3a76dfee4f1db4255d36305f7a0841d52f25181987c23e5f.

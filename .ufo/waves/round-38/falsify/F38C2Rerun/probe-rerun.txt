@@ -1,0 +1,18 @@
+# probe re-run receipt (seat F38C2Rerun, clone @ 8c7422d7)
+$ python3 plans/build_pmars_probe.py --lane . --work $TMPDIR   (run A, TMPDIR=wA)
+sha256 2408b477b0299e1339064b4b3df968a00174b3a5999016073b5fe4fd8cbb4ef9  size 5537
+$ python3 plans/build_pmars_probe.py --lane . --work $TMPDIR   (run B, TMPDIR=wB)
+sha256 2408b477b0299e1339064b4b3df968a00174b3a5999016073b5fe4fd8cbb4ef9  size 5537
+$ env -i PATH=/usr/bin:/bin LC_ALL=C TZ=Asia/Tokyo umask077 cwd=/ python3 .../plans/build_pmars_probe.py --lane <abs clone> --work wC2   (run C)
+sha256 2408b477b0299e1339064b4b3df968a00174b3a5999016073b5fe4fd8cbb4ef9  size 5537
+receipt:  sha256 2408b477b0299e1339064b4b3df968a00174b3a5999016073b5fe4fd8cbb4ef9  size 5537
+--- cmp runA receipt:
+IDENTICAL
+--- cmp runB receipt:
+IDENTICAL
+--- cmp runC receipt:
+IDENTICAL
+--- cmp runA runB:
+IDENTICAL
+--- summary line:
+cases=22 observed_pass=7 observed_fail=15 mismatches=0

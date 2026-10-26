@@ -1,0 +1,94 @@
+## A. live fetch at the pin: sha256 vs the rows' anchors
+200 d9d2796ddc19cf8159670567e174ea377e2bce675bf3451d5951c045b01f4e85 build-pmars/tests/test_outputs.py
+200 1606850579342a8b8f2189de0e499fae6be21198150d8dd1e4d18c2efbcf3b82 build-pmars/instruction.md
+200 4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334 build-pmars/tests/test.sh
+200 7ee2eac27b99fd462e0760552a430454db693f86608af5bb570b020270e4c9cd build-pmars/task.toml
+200 105292ca0e8bc399831550fc54c451002bd300644eb9beef1760dbfa7f8b7543 build-pmars/solution/solve.sh
+200 ff0a9f766151b6304a33b8fe8787dc27d75f6ea679eec4e9a4f2c8876fe08b25 build-pmars/environment/Dockerfile
+row anchors: S115 d9d2796ddc19cf8159670567e174ea377e2bce675bf3451d5951c045b01f4e85
+row anchors: S116 1606850579342a8b8f2189de0e499fae6be21198150d8dd1e4d18c2efbcf3b82
+## B. capture manifest (run inside its own dir, the only form that works)
+instruction.md: OK
+solve.sh: OK
+task.toml: OK
+test.sh: OK
+test_outputs.py: OK
+## C. live bytes == committed captures
+test_outputs.py byte-identical
+instruction.md byte-identical
+test.sh byte-identical
+task.toml byte-identical
+solve.sh byte-identical
+## D. row parse: cells, anchor tokens, cited line, quote == that line
+S115 cells=11 anchor_tokens=['d9d2796ddc19cf8159670567e174ea377e2bce675bf3451d5951c045b01f4e85'] cited=test_outputs.py:46 words=7 quote==line.strip()=True
+S116 cells=11 anchor_tokens=['1606850579342a8b8f2189de0e499fae6be21198150d8dd1e4d18c2efbcf3b82'] cited=instruction.md:9 words=17 quote==line.strip()=True
+-- the two cited lines as sed prints them:
+    assert re.match(r"Results: \d+ \d+ \d+", battle_result), (
+We'll verify the binary has no X11 dependencies, uses Debian sources, and that the debugger works properly.
+## E. upstream main and TB2.1 (grader drift)
+terminal-bench-2 HEAD 2fd12b88aafdd04a52c298e3940bcb189f9766d6 2026-04-30T05:53:30Z
+200 d9d2796ddc19cf8159670567e174ea377e2bce675bf3451d5951c045b01f4e85 tb2-1@7131e4375048a0e408a8fb404b5f499d726b695b tests/test_outputs.py SAME-AS-PIN
+200 dd4a3aa762e6b3c09e67bd7f61d9b6afbe379dcd7297c2c0ebe2e9bd0082215e tb2-1@7131e4375048a0e408a8fb404b5f499d726b695b instruction.md DIFFERS
+200 111b4e532ec411c9826cd67309f39efac21063e3a76d5cb268e62ce5fadc713f tb2-1@7131e4375048a0e408a8fb404b5f499d726b695b solution/solve.sh DIFFERS
+200 4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334 tb2-1@7131e4375048a0e408a8fb404b5f499d726b695b tests/test.sh SAME-AS-PIN
+200 7ee2eac27b99fd462e0760552a430454db693f86608af5bb570b020270e4c9cd tb2-1@7131e4375048a0e408a8fb404b5f499d726b695b task.toml SAME-AS-PIN
+200 ff0a9f766151b6304a33b8fe8787dc27d75f6ea679eec4e9a4f2c8876fe08b25 tb2-1@7131e4375048a0e408a8fb404b5f499d726b695b environment/Dockerfile SAME-AS-PIN
+-- instruction.md diff (pin -> tb2-1):
+3c3
+< Since koth.org is unreliable, get the source from Debian packages instead. Extract the source to `/app` and build without X11 support. Install the binary to `/usr/local/bin/pmars`.
+---
+> Since koth.org is unreliable, get the source from Debian packages instead. Extract the source to `/app/pmars-<version>/` and build from there without X11 support. Leave the source tree in place. Install the binary to `/usr/local/bin/pmars`.
+-- solve.sh diff (pin -> tb2-1):
+12,16c12,16
+<     build-essential=12.12 \
+<     libncurses-dev=6.5+20250216-2 \
+<     ca-certificates=20250419 \
+<     dpkg-dev=1.22.21 \
+<     devscripts=2.25.15+deb13u1
+---
+>     build-essential \
+>     libncurses-dev \
+>     ca-certificates \
+>     dpkg-dev \
+>     devscripts
+29c29
+< install -m 0755 pmars /usr/local/bin/pmars
+\ No newline at end of file
+---
+> install -m 0755 pmars /usr/local/bin/pmars
+## F. does any clause read a SOURCES row's quote?
+clone toplevel=/fast/scratch/hyaku/kengaku-r38/F38ReopenRows/rcpt.sFd3nU/lane
+-- V3 (round38_c2_verify.py) before any mutation:
+(True, 'rows=2 bad=0')
+-- S115 anchor quote replaced, digest token untouched
+-- V3 after forging the S115 row quote:
+(True, 'rows=2 bad=0')
+-- package gate on the forged-row tree (no --rerun, so P2 cannot run a probe):
+P1 ok pinned=2 mismatched=0
+P2 DEFECT receipt_sha256=2408b477b0299e1339064b4b3df968a00174b3a5999016073b5fe4fd8cbb4ef9
+P3 ok rows=28 distinct_quotes=28 distinct_lines=27 out_of_word_range=0
+P4 ok checked=28 bad=0 first=0
+P5 ok manifest_entries=5 bad=0 first=0
+P6 ok rows=2 bad=0 first=0
+P7 ok source_lines=2 bad=0 first=0
+P8 ok index_rows=45 knowledge_files=45 bad=0 first=0
+-- same gate with the ENTRY's copy of the same quote forged instead (re.match -> re.fullmatch):
+-- entry located-quote for test_outputs.py:46 forged
+P1 ok pinned=2 mismatched=0
+P2 DEFECT receipt_sha256=2408b477b0299e1339064b4b3df968a00174b3a5999016073b5fe4fd8cbb4ef9
+P3 ok rows=28 distinct_quotes=28 distinct_lines=27 out_of_word_range=0
+P4 DEFECT checked=28 bad=1 first=test_outputs.py:46: quote not verbatim there
+P5 ok manifest_entries=5 bad=0 first=0
+P6 ok rows=2 bad=0 first=0
+P7 ok source_lines=2 bad=0 first=0
+P8 ok index_rows=45 knowledge_files=45 bad=0 first=0
+-- clone status after restore: []
+## G. the entry's documented recheck command, run from the lane root
+round38 exit=1
+round37 exit=1
+## H. the upstream items the entry cites
+terminal-bench-2/issues/59 open 2026-04-13T22:14:26Z '`build-pmars` failing with oracle solution'
+terminal-bench-2/pulls/38 open 2026-02-13T15:11:46Z 'fix: Clarify build-pmars source directory instructions'
+terminal-bench/issues/631 closed 2026-05-14T23:13:45Z 'tb3 hardening: per-task audit of tb2.1 (PR #53) fixes'
+PR53 build-pmars files: ['build-pmars/instruction.md', 'build-pmars/solution/solve.sh']
+issue631 line19: | T2 | build-pmars | Instruction ambiguous on build destination | LLM rubric `test_instruction_alignment` | Soft only | Defer |

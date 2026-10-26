@@ -1,0 +1,15 @@
+### C1 side-channel scan is a 5-token literal heuristic (round38_c1_verify.py:89)
+token hits for "import os;os.environ['X']"                -> ['environ']
+token hits for "os.listdir('/'+'proc')"                   -> []
+token hits for "getattr(__import__('os'),'env'+'iron')"   -> []
+### env inherited by every probe (gate does not pass env=; 271 keys observed in T1)
+secret-named keys: 9 of 266
+GUM_LOG_KEY_BACKGROUND
+GUM_LOG_KEY_FOREGROUND
+HL_INITIAL_WORKSPACE_TOKEN
+OPENAI_CODEX_TOKEN
+OPKEY_VAULT
+OP_SERVICE_ACCOUNT_TOKEN
+SSH_ASKPASS
+STARSHIP_SESSION_KEY
+XAI_OAUTH_TOKEN

@@ -75,3 +75,18 @@ Pending — the non-author closure follows the report. Cheapest failing check fi
 5. Relabel one `partly` row of the new entry's map to `enforced` in a scratch clone → V7 red.
 6. Re-open S115/S116 live at the pin (digest + quote line).
 7. `python3 plans/round37_c1_verify.py --lane .` → still `killed=55` (no harm).
+
+## Wave 2 outcome (appended after WAVE-DONE falsify; 34 seats, 34 reports, `.ufo/waves/round-38/falsify-results.json`)
+
+- Re-measures agree: C1 re-run `killed=21/22` fail (`F38C1Rerun`), same under another interpreter (`F38C1RerunPy313`);
+  `F38CritN21` → `n21-silence-unreachable` (the honest stop is real, not a missing fixture); C2 re-run pass, probe byte-equal
+  (`F38C2Rerun`); independent runner 8/8 (`F38IndepProbe`); S115/S116 re-opened 2/2, quotes 2/2 (`F38ReopenRows`); entry quotes
+  28/28 verbatim (`F38EntryQuotes`); V7 controls 5/5 (`F38MapV7Control`); separable (`F38CritSeparability`); no-harm 31/31,
+  0 new red, 0 removed lines (`F38NoHarmSweep`, `F38CritNoHarmDiff`); self-report mismatches 0 (`F38RevScorecard`); D3/D4/2(c)
+  re-verified (`F38AnchorFix`, `F38LedgerTip`, `F38TipReceipts`).
+- Limits found, routed to round 39 (nothing frozen edited): C2 informed-filler skip-control green (`F38CritSkipControls`) and
+  2/5 C2-counter mutants survive (`F38MutC2Counter`); direction check catches 1/3 of its own mutants (`F38MutDirection`); extra
+  gate mutants 29/36 killed (`F38XMutP` 17/20, `F38XMutRerunMain` 12/16); battery modules p6m/p7m and d4m/d5m 2 defects each
+  (`F38CritBatE`, `F38CritBatF`); 24 contestable tags, 2 labels would change (`F38CritTags`); 7 overclaims (`F38CritOverclaim`),
+  2 unsupported entry sentences (`F38EntryQuotes`); lesson 2 / QUALITY 2 defects (`F38RevLesson`, `F38RevQuality`); sentinel 7
+  findings (`F38SentinelBattery`); 22 scratch leftovers, 0 misroots (`F38ScoutMisroot`).

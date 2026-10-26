@@ -1,0 +1,18 @@
+receipt=corpus/evidence/round38/build-pmars-probe.txt cases=22
+tag              n label      fail-side carriers (case:letters)
+from-source      22 partly     empty-tree:FFFF canned-script:PFPP canned-static:PFPP canned-x11-linked:PFPP results-two-ints:FPPP results-not-last:FPPP results-negative:FPPP one-address:FPPP four-digit-address:FPPP nonexec-binary:FPPP silent-binary:FPPP no-debian-dir:PPFP src-no-c:PPPF no-src-dir:PPPF pmars-dir-elsewhere:PPFF
+no-x11            3 partly     empty-tree:FFFF canned-x11-linked:PFPP
+debian-source    22 partly     empty-tree:FFFF canned-script:PFPP canned-static:PFPP canned-x11-linked:PFPP results-two-ints:FPPP results-not-last:FPPP results-negative:FPPP one-address:FPPP four-digit-address:FPPP nonexec-binary:FPPP silent-binary:FPPP no-debian-dir:PPFP src-no-c:PPPF no-src-dir:PPPF pmars-dir-elsewhere:PPFF
+extract-to-app   22 partly     empty-tree:FFFF canned-script:PFPP canned-static:PFPP canned-x11-linked:PFPP results-two-ints:FPPP results-not-last:FPPP results-negative:FPPP one-address:FPPP four-digit-address:FPPP nonexec-binary:FPPP silent-binary:FPPP no-debian-dir:PPFP src-no-c:PPPF no-src-dir:PPPF pmars-dir-elsewhere:PPFF
+install-path      4 partly     empty-tree:FFFF nonexec-binary:FPPP silent-binary:FPPP
+results-format    5 partly     empty-tree:FFFF results-two-ints:FPPP results-not-last:FPPP results-negative:FPPP
+debugger-works   22 partly     empty-tree:FFFF canned-script:PFPP canned-static:PFPP canned-x11-linked:PFPP results-two-ints:FPPP results-not-last:FPPP results-negative:FPPP one-address:FPPP four-digit-address:FPPP nonexec-binary:FPPP silent-binary:FPPP no-debian-dir:PPFP src-no-c:PPPF no-src-dir:PPPF pmars-dir-elsewhere:PPFF
+
+tags sharing an identical carrier set AND identical fail-side set:
+  carriers=22 fail_side=15 labels=['from-source', 'debian-source', 'extract-to-app', 'debugger-works']
+  carriers= 3 fail_side= 2 labels=['no-x11']
+  carriers= 4 fail_side= 3 labels=['install-path']
+  carriers= 5 fail_side= 4 labels=['results-format']
+
+sole case carrying all seven tags: ['empty-tree']
+from-source: test_built_from_source (:73-85) on violating cases: P=18 F=4 | fails only in: ['empty-tree', 'src-no-c', 'no-src-dir', 'pmars-dir-elsewhere']

@@ -1,0 +1,18 @@
+PINS total=14 mismatched=0
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r38/F38C1RerunPy313/lane/plans/round38_c1_verify.py", line 337, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/fast/scratch/hyaku/kengaku-r38/F38C1RerunPy313/lane/plans/round38_c1_verify.py", line 220, in main
+    gate_src = (lane / r37.GATE_REL).read_text() if (lane / r37.GATE_REL).is_file() else ""
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py", line 546, in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib/python3.13/pathlib/_abc.py", line 633, in read_text
+    return f.read()
+           ~~~~~~^^
+  File "/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib/python3.13/encodings/ascii.py", line 26, in decode
+    return codecs.ascii_decode(input, self.errors)[0]
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'ascii' codec can't decode byte 0xe2 in position 1105: ordinal not in range(128)

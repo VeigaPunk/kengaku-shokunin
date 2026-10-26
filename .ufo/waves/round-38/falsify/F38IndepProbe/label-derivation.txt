@@ -1,0 +1,14 @@
+independent derivation: enforced iff all violating cases fail, unenforced iff all pass, else partly
+rows: 7
+from-source      line=1 stated=partly     derived=partly     violating=22 cited_ok=True OK
+no-x11           line=3 stated=partly     derived=partly     violating= 3 cited_ok=True OK
+debian-source    line=3 stated=partly     derived=partly     violating=22 cited_ok=True OK
+extract-to-app   line=3 stated=partly     derived=partly     violating=22 cited_ok=True OK
+install-path     line=3 stated=partly     derived=partly     violating= 4 cited_ok=True OK
+results-format   line=7 stated=partly     derived=partly     violating= 5 cited_ok=True OK
+debugger-works   line=9 stated=partly     derived=partly     violating=22 cited_ok=True OK
+label_mismatches = 0
+
+sensitivity: drop the contestable dlopen tag from canned-x11-dlopen
+  no-x11 violating cases without canned-x11-dlopen: ['empty-tree', 'canned-x11-linked'] observed: ['fail', 'fail']
+  derived label would be: enforced  (the entry discloses this contestability; the tag is frozen)

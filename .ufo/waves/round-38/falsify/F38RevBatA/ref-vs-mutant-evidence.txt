@@ -1,0 +1,66 @@
+# Receipt: reference vs mutant gate runs on each fixture's exact argv (mechanism evidence)
+# Driver: driver.py in this directory (rebuilds each fixture dir via the counter's own r37.Ctx +
+# battery38 build(), then runs the reference gate and the frozen byte-mutant on the same argv).
+# Command: python3 "$S/driver.py" "$S/lane" "$S"   (clone restored to landed bytes first; digests above)
+# Captured output (verbatim):
+=== b1run-n01-empty-pins [REF] rc=1
+  out| P1 DEFECT pinned=0 mismatched=0
+  out| P2 ok receipt_sha256=pinned
+  out| P3 ok rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=0
+  out| P4 ok checked=22 bad=0 first=0
+  out| P5 ok manifest_entries=6 bad=0 first=0
+  out| P6 ok rows=3 bad=0 first=0
+  out| P7 ok source_lines=3 bad=0 first=0
+  out| P8 ok index_rows=45 knowledge_files=45 bad=0 first=0
+  out| P9 ok untracked=0 first=0
+  out| defects=1
+=== b1run-n01-empty-pins [N01] rc=0
+  out| P1 ok pinned=0 mismatched=0
+  out| P2 ok receipt_sha256=pinned
+  out| P3 ok rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=0
+  out| P4 ok checked=22 bad=0 first=0
+  out| P5 ok manifest_entries=6 bad=0 first=0
+  out| P6 ok rows=3 bad=0 first=0
+  out| P7 ok source_lines=3 bad=0 first=0
+  out| P8 ok index_rows=45 knowledge_files=45 bad=0 first=0
+  out| P9 ok untracked=0 first=0
+  out| defects=0
+=== b1run-n16-clause-crash [REF] rc=1
+  out| P1 ok pinned=3 mismatched=0
+  out| P2 ok receipt_sha256=pinned
+  out| P3 DEFECT clause error ValueError: not enough values to unpack (expected 2, got 1)
+  out| P4 ok checked=22 bad=0 first=0
+  out| P5 ok manifest_entries=6 bad=0 first=0
+  out| P6 ok rows=3 bad=0 first=0
+  out| P7 ok source_lines=3 bad=0 first=0
+  out| P8 ok index_rows=45 knowledge_files=45 bad=0 first=0
+  out| P9 ok untracked=0 first=0
+  out| defects=1
+=== b1run-n16-clause-crash [N16] rc=0
+  out| P1 ok pinned=3 mismatched=0
+  out| P2 ok receipt_sha256=pinned
+  out| P3 ok clause error ValueError: not enough values to unpack (expected 2, got 1)
+  out| P4 ok checked=22 bad=0 first=0
+  out| P5 ok manifest_entries=6 bad=0 first=0
+  out| P6 ok rows=3 bad=0 first=0
+  out| P7 ok source_lines=3 bad=0 first=0
+  out| P8 ok index_rows=45 knowledge_files=45 bad=0 first=0
+  out| P9 ok untracked=0 first=0
+  out| defects=0
+=== mainx-root-not-a-directory [REF] rc=2
+  err| setup: root not a directory: /fast/scratch/hyaku/kengaku-r38/F38RevBatA/ev-jt0r1bau/mainx-root-not-a-directory/absent-root
+=== mainx-root-not-a-directory [N17] rc=1
+  out| P1 DEFECT pinned=3 mismatched=['plans/tb2_grader_probe.py', 'plans/round35_c1_verify.py', 'plans/defect_ledger.py']
+  out| P2 DEFECT receipt unreadable: corpus/evidence/round35/tb2-grader-probe.txt
+  out| P3 DEFECT no '## Located quotes' section
+  out| P4 DEFECT no parsed quote
+  out| P5 DEFECT capture manifest absent: corpus/evidence/round35/tb2-eval/SHA256SUMS
+  out| P6 DEFECT rows=3 bad=3 first=S105: rows=0
+  out| P7 DEFECT entry unreadable
+  out| P8 DEFECT README unreadable
+  out| P9 DEFECT root is not a readable git worktree
+  out| defects=9
+=== mainx-spec-invalid-json [REF] rc=2
+  err| setup: JSONDecodeError: Expecting property name enclosed in double quotes: line 2 column 1 (char 11)
+=== mainx-spec-invalid-json [N18] rc=0
+  err| setup: JSONDecodeError: Expecting property name enclosed in double quotes: line 2 column 1 (char 11)

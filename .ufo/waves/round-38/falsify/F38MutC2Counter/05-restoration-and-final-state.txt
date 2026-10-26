@@ -1,0 +1,33 @@
+Final integrity pass after all fixtures (command block verbatim):
+
+sha256sum $S/lane/corpus/SOURCES.md $S/pristine/SOURCES.md \
+          $S/lane/corpus/evidence/round38/build-pmars-probe.txt $S/pristine/build-pmars-probe.txt \
+          $S/lane/corpus/knowledge/tb2-build-pmars-grader.md $S/pristine/tb2-build-pmars-grader.md \
+          $S/lane/corpus/evidence/round38/tb2-build-pmars/SHA256SUMS $S/pristine/SHA256SUMS \
+          $S/lane/plans/round38_c2_verify.py
+
+cec138692f48961da41b93f0a9dbab203443716619badbe961aad5c4f5ad089e  lane/corpus/SOURCES.md
+cec138692f48961da41b93f0a9dbab203443716619badbe961aad5c4f5ad089e  pristine/SOURCES.md
+2408b477b0299e1339064b4b3df968a00174b3a5999016073b5fe4fd8cbb4ef9  lane/corpus/evidence/round38/build-pmars-probe.txt
+2408b477b0299e1339064b4b3df968a00174b3a5999016073b5fe4fd8cbb4ef9  pristine/build-pmars-probe.txt
+93484367bb0cb7df3a76dfee4f1db4255d36305f7a0841d52f25181987c23e5f  lane/corpus/knowledge/tb2-build-pmars-grader.md
+93484367bb0cb7df3a76dfee4f1db4255d36305f7a0841d52f25181987c23e5f  pristine/tb2-build-pmars-grader.md
+3fd9de04b5c325061a08f8c145a7fce7c8d85fbb9f7a713d350310c2f2eac0bc  lane/corpus/evidence/round38/tb2-build-pmars/SHA256SUMS
+3fd9de04b5c325061a08f8c145a7fce7c8d85fbb9f7a713d350310c2f2eac0bc  pristine/SHA256SUMS
+d906d55f26562807a818ac55c0118cb5b43b7f570c0d891c525c64be2e9d437d  lane/plans/round38_c2_verify.py
+
+git -C $S/lane status --porcelain  ->  empty (clean work tree)
+The counter itself was NEVER modified in the clone: mutants ran from copies in
+$S/mut/ outside the tree; the clone's counter kept the frozen digest
+d906d55f26562807a818ac55c0118cb5b43b7f570c0d891c525c64be2e9d437d throughout.
+
+Pristine counter re-run on the restored clone (tail):
+V7 ok rows=7 tags=7 bad=0
+checks=7 defects=0
+PREDICATE C2 pass
+exit=0
+
+Every fixture edit was applied to the disposable scratch clone only, restored
+from byte-verified pristine backups taken before the first edit, and re-verified
+after the last. The lane repo, its jj state and its Git index were never touched.
+Scratch /fast/scratch/hyaku/kengaku-r38/F38MutC2Counter removed at finish.

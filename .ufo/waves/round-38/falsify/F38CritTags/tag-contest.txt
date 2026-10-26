@@ -1,0 +1,109 @@
+# frozen inputs
+tags=7 cases=22 receipt_cases=22
+case_ids_and_sets_agree=True
+
+# frozen tags: derived labels (counter derive rule) vs the entry
+FROZEN from-source line=instruction.md:1 carriers=22 fail=15 pass=7 label=partly entry=partly
+FROZEN no-x11 line=instruction.md:3 carriers=3 fail=2 pass=1 label=partly entry=partly
+FROZEN debian-source line=instruction.md:3 carriers=22 fail=15 pass=7 label=partly entry=partly
+FROZEN extract-to-app line=instruction.md:3 carriers=22 fail=15 pass=7 label=partly entry=partly
+FROZEN install-path line=instruction.md:3 carriers=4 fail=3 pass=1 label=partly entry=partly
+FROZEN results-format line=instruction.md:7 carriers=5 fail=4 pass=1 label=partly entry=partly
+FROZEN debugger-works line=instruction.md:9 carriers=22 fail=15 pass=7 label=partly entry=partly
+
+# carrier-set degeneracy under the frozen tags
+DEGENERATE identical_set_and_label label=partly n=22 tags=['debian-source', 'debugger-works', 'extract-to-app', 'from-source']
+distinct_carrier_sets=4 of 7 tags
+NULLCASE empty-tree dropped: labels_moved=0 none
+charged_pairs=100 of 154 case-tag slots
+
+GLOB_EVIDENCE destination_satisfied=20/20 letters={canned-shape:PPPP, canned-script:PFPP, canned-static:PFPP, canned-x11-linked:PFPP, canned-x11-dlopen:PPPP, results-two-ints:FPPP, results-trailing-text:PPPP, results-not-last:FPPP, results-negative:FPPP, one-address:FPPP, four-digit-address:FPPP, canned-exit-nonzero:PPPP, nonexec-binary:FPPP, silent-binary:FPPP, path-split:PPPP, no-debian-dir:PPFP, debian-is-file:PPPP, src-no-c:PPPF, c-is-dir:PPPP, no-src-dir:PPPF}
+GLOB_EVIDENCE destination_violated=empty-tree:FFFF pmars-dir-elsewhere:PPFF (both shape tests F)
+
+# ALT-LOCATION + ALT-LITERAL (the strongest alternative this seat argues for)
+ALT from-source line=instruction.md:1 carriers=22 fail=15 pass=7 label=partly entry=partly label_moves=no
+ALT no-x11 line=instruction.md:3 carriers=3 fail=2 pass=1 label=partly entry=partly label_moves=no
+ALT debian-source line=instruction.md:3 carriers=22 fail=15 pass=7 label=partly entry=partly label_moves=no
+ALT extract-to-app line=instruction.md:3 carriers=2 fail=2 pass=0 label=enforced entry=partly label_moves=yes
+ALT install-path line=instruction.md:3 carriers=4 fail=3 pass=1 label=partly entry=partly label_moves=no
+ALT results-format line=instruction.md:7 carriers=3 fail=3 pass=0 label=enforced entry=partly label_moves=yes
+ALT debugger-works line=instruction.md:9 carriers=22 fail=15 pass=7 label=partly entry=partly label_moves=no
+
+# per-tag case-set differences vs frozen
+DIFF extract-to-app dropped_from=['c-is-dir', 'canned-exit-nonzero', 'canned-script', 'canned-shape', 'canned-static', 'canned-x11-dlopen', 'canned-x11-linked', 'debian-is-file', 'four-digit-address', 'no-debian-dir', 'no-src-dir', 'nonexec-binary', 'one-address', 'path-split', 'results-negative', 'results-not-last', 'results-trailing-text', 'results-two-ints', 'silent-binary', 'src-no-c'] added_to=[]
+DIFF install-path dropped_from=['silent-binary'] added_to=['canned-script']
+DIFF results-format dropped_from=['results-negative', 'results-trailing-text'] added_to=[]
+
+ALT labels_change=2 rows=['extract-to-app', 'results-format']
+ALT rows_needing_a_new_citation=3 rows=[('extract-to-app', ['canned-shape']), ('install-path', ['silent-binary']), ('results-format', ['results-trailing-text'])]
+contested_set_edits_drop=23 add=1 (canned-script:install-path)
+
+# ALT-SENS: additionally drop no-x11 from canned-x11-dlopen (upheld below by strace)
+SENS no-x11 carriers=2 fail=2 pass=0 label=enforced entry=partly label_moves=yes
+SENS labels_change_total=3
+SENS2 debugger-works carriers=['empty-tree', 'four-digit-address', 'one-address'] fail=3 pass=0 label=enforced entry=partly label_moves=yes (rejected below: a transcript is not a debugger that works properly)
+SENS2 labels_change_total=3
+
+ADJUDICATION_EDITS_MATCH_ALT=True
+
+# per-case tag adjudication (non-defensible and upheld-contest entries only)
+JUDGE canned-shape extract-to-app C drop :: L3 destination satisfied: /app/pmars-0.9.4 is the staged top-level tree; the dummy content is debian-source/from-source's clause
+JUDGE canned-script extract-to-app C drop :: tree at /app/pmars-0.9.4; location clause met, identity charged twice
+JUDGE canned-static extract-to-app C drop :: tree at /app/pmars-0.9.4; location clause met
+JUDGE canned-x11-linked extract-to-app C drop :: tree at /app/pmars-0.9.4; location clause met
+JUDGE canned-x11-dlopen extract-to-app C drop :: tree at /app/pmars-0.9.4; location clause met
+JUDGE results-two-ints extract-to-app C drop :: tree at /app/pmars-0.9.4; location clause met
+JUDGE results-trailing-text extract-to-app C drop :: tree at /app/pmars-0.9.4; location clause met
+JUDGE results-not-last extract-to-app C drop :: tree at /app/pmars-0.9.4; location clause met
+JUDGE results-negative extract-to-app C drop :: tree at /app/pmars-0.9.4; location clause met
+JUDGE one-address extract-to-app C drop :: tree at /app/pmars-0.9.4; location clause met
+JUDGE four-digit-address extract-to-app C drop :: tree at /app/pmars-0.9.4; location clause met
+JUDGE canned-exit-nonzero extract-to-app C drop :: tree at /app/pmars-0.9.4; location clause met
+JUDGE nonexec-binary extract-to-app C drop :: tree at /app/pmars-0.9.4; location clause met
+JUDGE silent-binary extract-to-app C drop :: tree at /app/pmars-0.9.4; location clause met
+JUDGE path-split extract-to-app C drop :: tree at /app/pmars-0.9.4; location clause met
+JUDGE no-debian-dir extract-to-app C drop :: tree at /app/pmars-0.9.4; a missing debian/ entry is debian-source's clause, not the destination clause
+JUDGE debian-is-file extract-to-app C drop :: tree at /app/pmars-0.9.4; destination clause met
+JUDGE src-no-c extract-to-app C drop :: tree at /app/pmars-0.9.4; destination clause met
+JUDGE c-is-dir extract-to-app C drop :: tree at /app/pmars-0.9.4; destination clause met
+JUDGE no-src-dir extract-to-app C drop :: tree at /app/pmars-0.9.4; destination clause met
+JUDGE results-trailing-text results-format C drop :: L7 states a three-integer prefix; 'forged' after the third integer does not make X, Y, Z non-integers, so this is a grader-lenience control, not a violated requirement (and it is the only pass carrier that keeps the row partly)
+JUDGE results-negative results-format C drop :: L7 says integers, not non-negative integers; -1 is an integer, so the charge is grader strictness (\d+ rejects the sign)
+JUDGE silent-binary install-path C drop :: an executable compiled file sits at the instruction's path; its silence is from-source/results-format/debugger-works, not the destination clause
+JUDGE canned-script install-path C add :: a /usr/bin/bash script is not a binary; L3 says install the binary at that path, so the clause is violated and the frozen set under-charges
+JUDGE canned-x11-dlopen no-x11 U keep :: upheld: strace -e openat shows the process opening /usr/lib/libX11.so.6 (fd 3), a real run-time X11 dependency under L9's 'no X11 dependencies'; 'calls no X11 symbol' does not negate the load
+JUDGE canned-shape debugger-works U keep :: upheld: a canned program printing two literal address lines is not a debugger that 'works properly' (L9); a behaviour-only reading would let a transcript claim the property and is weaker from the text
+JUDGE path-split install-path U keep :: upheld: the artefact that answers the instruction's own command is at /usr/local/sbin, while the named path holds a silent file, so the binary the instruction names is not at the path it names
+JUDGE results-not-last results-format U keep :: upheld: L5's own piped command ends in 'tail -n 1' and the case's last line is 'end of battle', so the command the instruction documents does not output the Results line
+JUDGE canned-shape from-source U keep :: upheld: L1 asks to build pMARS from source; C_SRC is a 21-line transcription program with no pMARS code, so the object built is not pMARS (a canned C program being 'compiled' does not satisfy the clause)
+JUDGE debian-is-file debian-source U keep :: upheld: a zero-byte regular file named debian is not source obtained from Debian packages (L3/L9); the existence-only check is the grader defect
+JUDGE contested_deletions=23 contested_additions=1 upheld_contests=6 weak=0
+
+# matrix: C=charged-but-contested  +=contested-add  d=charged,defensible  .=not charged
+CASE observed from no-x debi extr inst resu debu
+empty-tree fail d    d    d    d    d    d    d
+canned-shape pass d    .    d    C    .    .    d
+canned-script fail d    .    d    C    +    .    d
+canned-static fail d    .    d    C    .    .    d
+canned-x11-linked fail d    d    d    C    .    .    d
+canned-x11-dlopen pass d    d    d    C    .    .    d
+results-two-ints fail d    .    d    C    .    d    d
+results-trailing-text pass d    .    d    C    .    C    d
+results-not-last fail d    .    d    C    .    d    d
+results-negative fail d    .    d    C    .    C    d
+one-address fail d    .    d    C    .    .    d
+four-digit-address fail d    .    d    C    .    .    d
+canned-exit-nonzero pass d    .    d    C    .    .    d
+nonexec-binary fail d    .    d    C    d    .    d
+silent-binary fail d    .    d    C    C    .    d
+path-split pass d    .    d    C    d    .    d
+no-debian-dir fail d    .    d    C    .    .    d
+debian-is-file pass d    .    d    C    .    .    d
+src-no-c fail d    .    d    C    .    .    d
+c-is-dir pass d    .    d    C    .    .    d
+no-src-dir fail d    .    d    C    .    .    d
+pmars-dir-elsewhere fail d    .    d    d    .    .    d
+charged_pairs_defensible=77 charged_pairs_contested=23 adds=1
+
+TAGS_CONTESTED=24 LABELS_CHANGE=2
+TAGS-CONTEST OK

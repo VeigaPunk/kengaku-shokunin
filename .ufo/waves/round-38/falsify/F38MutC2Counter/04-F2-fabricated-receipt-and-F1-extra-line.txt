@@ -1,0 +1,86 @@
+F2 — fabricated receipt: replace corpus/evidence/round38/build-pmars-probe.txt
+with a hand-typed receipt derived from the FROZEN DRY TABLE, observed=predicted
+for every case (7 pass / 15 fail), match=yes everywhere, ids in dry-table order,
+consistent summary line. 4813 bytes; never produced by any probe run. Entry,
+SOURCES, captures untouched (V7's derivation is identical to the honest receipt
+because predicted==observed, so the honest `partly`-map satisfies it).
+Generated with python (fixture creation, not an edit); restored from pristine
+backup after the runs.
+
+Command: python3 <counter> --lane $S/lane (pristine, then M4_v2_norerun)
+
+===== PRISTINE on F2 ===== (verbatim)
+V1 ok listed=5 bad=0 extra=0
+    gate: P1 ok pinned=2 mismatched=0
+    gate: P2 ok receipt_sha256=pinned
+    gate: P3 ok rows=28 distinct_quotes=28 distinct_lines=27 out_of_word_range=0
+    gate: P4 ok checked=28 bad=0 first=0
+    gate: P5 ok manifest_entries=5 bad=0 first=0
+    gate: P6 ok rows=2 bad=0 first=0
+    gate: P7 ok source_lines=2 bad=0 first=0
+    gate: P8 ok index_rows=45 knowledge_files=45 bad=0 first=0
+    gate: P9 ok untracked=0 first=0
+    gate: P10 DEFECT fresh probe output is not byte-equal to the receipt
+    gate: defects=1
+V2 DEFECT spec=frozen gate=frozen gate_exit=1
+V3 ok rows=2 bad=0
+V4 ok cases=22 mismatches_named=0/0 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 ok rows=7 tags=7 bad=0
+checks=7 defects=1 / PREDICATE C2 fail / exit=1
+
+===== M4_v2_norerun on F2 ===== (verbatim)
+V1 ok listed=5 bad=0 extra=0
+    gate: P1..P9 all ok (P10 absent — skipped without --rerun); gate: defects=0
+V2 ok spec=frozen gate=frozen gate_exit=0
+V3 ok rows=2 bad=0
+V4 ok cases=22 mismatches_named=0/0 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 ok rows=7 tags=7 bad=0
+checks=7 defects=0 / PREDICATE C2 pass / exit=0
+
+=> expected FAIL, M4 says PASS on fabricated evidence: M4 KILLED at predicate
+level by F2. Under pristine, the ONLY defect is P10 — i.e. V4 and V7 are fully
+satisfiable by hand-typed bytes, exactly the design reason the claims file gives
+for P10 ("V2's P10 fresh-run byte compare is what makes such a receipt red").
+Committed controls do NOT kill M4: on control-c2-skip the gate co-fires
+P3/P4/P6/P8 (receipt-independent defects), so V2 stays red with or without
+--rerun; on control-c2-nothing the receipt is absent. Only an
+everything-else-honest fabricated-receipt tree isolates the clause.
+
+Restoration: cp pristine/build-pmars-probe.txt back; sha256 = 2408b477b0299e1339064b4b3df968a00174b3a5999016073b5fe4fd8cbb4ef9.
+
+---
+
+F1 — extra capture manifest line: append
+  e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  stray-notes.txt
+to SHA256SUMS (no such file on disk). Expected verdict: FAIL.
+Output grep-filtered to ^V1/^V2/^checks/^PREDICATE and gate P5/P9 lines — filter noted.
+
+Command: python3 <counter> --lane $S/lane (pristine, then M5_v1_ignoreextra)
+
+===== PRISTINE on F1 ===== (verbatim decisive lines)
+V1 DEFECT listed=6 bad=0 extra=['stray-notes.txt']
+    gate: P5 DEFECT manifest_entries=6 bad=1 first=stray-notes.txt: manifest digest does not match the bytes
+    gate: P9 ok untracked=0 first=0
+V2 DEFECT spec=frozen gate=frozen gate_exit=1
+checks=7 defects=2 / PREDICATE C2 fail / exit=1
+
+===== M5_v1_ignoreextra on F1 ===== (verbatim decisive lines)
+V1 ok listed=6 bad=0 extra=['stray-notes.txt']
+    gate: P5 DEFECT manifest_entries=6 bad=1 first=stray-notes.txt: manifest digest does not match the bytes
+    gate: P9 ok untracked=0 first=0
+V2 DEFECT spec=frozen gate=frozen gate_exit=1
+checks=7 defects=1 / PREDICATE C2 fail / exit=1
+
+=> Check-level flip demonstrated (V1 DEFECT -> ok) but the predicate stays red
+under both: gate P5 validates EVERY manifest line against bytes on disk, and a
+real extra FILE would be untracked -> P9 red (P9 = `git ls-files --others`;
+committed-junk is the threat model per the skip control's untracked=0). No
+input tree exists where M5 passes and pristine fails. M5 SURVIVES: V1's
+extra-files clause has no killing control or fixture at predicate level; it is
+defense-in-depth redundant with gate P5+P9.
+
+Restoration: cp pristine/SHA256SUMS back; sha256 = 3fd9de04b5c325061a08f8c145a7fce7c8d85fbb9f7a713d350310c2f2eac0bc.

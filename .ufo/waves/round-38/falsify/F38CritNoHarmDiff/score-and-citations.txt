@@ -1,0 +1,39 @@
+# score columns of the two round-38 claim rows (landing)
+1344: SCORE_FIELD: **8 → 8 held; NOT ADMITTED (honest stop).** The survivor N21 is frozen as `silence` but can only be killed as a mirror (it makes D5 stricter); no battery can meet the frozen predicate (`build/R38BatD5.md` §BLOCKER; `plans/mutant_direction_check.py` → `N21 … MISLABELLED`). Not relabelled after scoring. Also: 3 of 22 `adv` cells name no advertising sentence (`R38CritClaims` §1) and the counter's predicate is reachable by an in-process monkeypatch (`R38CritClaims` §2) 
+1345: SCORE_FIELD: **7 → 7 held** (L0 cap). Frozen predicate met; admission also rests on non-author re-reads (`R38CritPytest` 22/22, `R38CritIndep` 22/22 + 3/3) because the counter admits an informed filler (`R38CritC2Counter` §1) 
+
+# prior-round axis line (round 37, for the "held" comparison)
+1226:Other axes held: novelty 7, depth 9, operability 8, freshness 8, adjacency 8. Capabilities entered
+1279:Other axes held: novelty 7, depth 9, operability 8, freshness 8, adjacency 8. Capabilities entered (table above,
+1347:Other axes held: novelty 7, depth 9, operability 8, freshness 8, adjacency 8. No-harm at the landing tip
+
+# citation boundary: SKILL.md old line 581 vs new 581/582-586 (insertion is after 581)
+| `ledger-tip` | gate | `python3 plans/ledger_tip.py --source <lane> --work <scratch>` (clean shared clone of the tip; `--lane <clone>` cont
+| `ledger-tip` | gate | `python3 plans/ledger_tip.py --source <lane> --work <scratch>` (clean shared clone of the tip; `--lane <clone>` cont
+| `build-pmars-probe` | probe | `python3 plans/build_pmars_probe.py --lane .` (`--dry` prints the 22
+
+# round-37 map row survives unedited; correction only in appended Errata
+| `instruction.md:9` | enforced | `capitalised`, `leading-space` |
+293:## Errata (round 38)
+file_lines=446
+
+# code deletions outside the assigned set: defect classes before vs landing (anchor_digest_check.py)
+before:
+class=abbrev-unresolved class=digest-unknown class=erratum-digest-unresolved class=erratum-incomplete class=row-malformed class=token-outside-anchor 
+landing:
+class=abbrev-unresolved class=anchor-unbound class=digest-unknown class=digest-wrong-capture class=erratum-digest-unresolved class=erratum-incomplete class=row-malformed class=token-outside-anchor 
+
+# README.md:70 citation boundary check
+$ sed -n "74,80p" corpus/lessons/round-37-verifier-spotcheck.md   # (elided, shows: README index row at corpus/README.md:70)
+$ git show 8c7422d:corpus/README.md | sed -n "70p"
+| `knowledge/tb2-git-webserver-grader.md` | A third Terminal-Bench 2.0 task grader read and executed: `configure-git-webserver`'s whole score is one pytest function asserting that the stdout of a shell helper contains the substring `TEST PASSED` — so a static file served on port 8080 with no git repository, hook or push passes, and a body containing only that token passes while the helper itself prints `TEST FAILED`; status and body come from two separate requests and trailing newlines are the only whitespace forgiven (`cases=22 observed_pass=9 observed_fail=13 mismatches=0`) | S111, S112, S113 (terminal-bench-2 @ 2fd12b88); S114 (TB2.1 issue #133, prior report) |
+
+# d93b7d68 (measurement commit) -> tip: deletions and non-.ufo files
+# (the first attempt below died on shell quoting of awk; re-run with single quotes, output follows)
+# $ git diff --numstat d93b7d68 8c7422d | awk '$2>0'
+#   -> no output: zero files with removed lines between the measurement commit and the tip
+# $ git diff --name-only d93b7d68 8c7422d | grep -v '^\.ufo/waves/round-38/'
+LOG.md
+SCORECARD.md
+corpus/lessons/round-38.md
+(above: the only non-.ufo files between measurement and tip)

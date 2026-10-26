@@ -1,0 +1,47 @@
+# Receipt: deletion tests — each target fixture removed from the clone in turn, its mutant must SURVIVE
+# Counter: python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round38_c1_verify.py --lane "$S/lane" --only <M> --work "$S/w"
+# Edits were made only to $S/lane/plans/battery38/{b1run,mainx}.py FIXTURES lists (scratch clone at 8c7422d7a646515d80af44844e8ecc8a1fc1d30a).
+
+## T-B: b1run.py FIXTURES = [_fixture_clause_crash()]  (b1run-n01-empty-pins deleted); --only N01
+PINS total=14 mismatched=0
+BATTERY fixtures=85 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT N01 P1 silence SURVIVED -- an empty frozen_instruments pin set is not an accept [capability row: 'against a spec of pinned digests'; R37PlanNext B1]
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0
+EXIT=1
+
+## T-C: b1run.py FIXTURES = [_fixture_empty_pins()]  (b1run-n16-clause-crash deleted); --only N16
+PINS total=14 mismatched=0
+BATTERY fixtures=85 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT N16 RUN silence SURVIVED -- a clause that cannot run is a defect, never a pass [gate run_checks comment; R37PlanNext B6]
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0
+EXIT=1
+
+## T-D: mainx.py FIXTURES = [mainx-spec-invalid-json only]  (mainx-root-not-a-directory deleted); --only N17
+PINS total=14 mismatched=0
+BATTERY fixtures=84 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT N17 MAIN silence SURVIVED -- a --root that is not a directory is a setup error, exit 2 [docstring 'exit ... 2 = usage/setup'; R37PlanNext B7]
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0
+EXIT=1
+
+## T-E: mainx.py FIXTURES = [mainx-root-not-a-directory only]  (mainx-spec-invalid-json deleted); --only N18
+PINS total=14 mismatched=0
+BATTERY fixtures=84 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT N18 MAIN silence SURVIVED -- an unexpected crash never maps onto 0 or 1 [docstring; R37PlanNext B8]
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0
+EXIT=1
+
+## T-F: b1run.py FIXTURES = [] and mainx.py FIXTURES = []; --only N01,N16,N17,N18
+PINS total=14 mismatched=0
+BATTERY fixtures=82 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT N01 P1 silence SURVIVED -- an empty frozen_instruments pin set is not an accept [capability row: 'against a spec of pinned digests'; R37PlanNext B1]
+MUTANT N16 RUN silence SURVIVED -- a clause that cannot run is a defect, never a pass [gate run_checks comment; R37PlanNext B6]
+MUTANT N17 MAIN silence SURVIVED -- a --root that is not a directory is a setup error, exit 2 [docstring 'exit ... 2 = usage/setup'; R37PlanNext B7]
+MUTANT N18 MAIN silence SURVIVED -- an unexpected crash never maps onto 0 or 1 [docstring; R37PlanNext B8]
+MUTANTS total=4 killed=0 survived=4 invalid=0 null_detected=0
+EXIT=1
+
+## Post-test restoration check (clone returned to landed bytes before the ref-vs-mutant driver run):
+95a094976b9c5b79be10d06651419806be75555b09e9b4b03118a43a10b15e8d  $S/lane/plans/battery38/b1run.py
+e066e19d499c04e12c37275fb45738306cb4e7c38b4af616140cadc5887e3561  $S/lane/plans/battery38/mainx.py
+95a094976b9c5b79be10d06651419806be75555b09e9b4b03118a43a10b15e8d  /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/battery38/b1run.py
+e066e19d499c04e12c37275fb45738306cb4e7c38b4af616140cadc5887e3561  /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/battery38/mainx.py

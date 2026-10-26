@@ -1,0 +1,61 @@
+--- /fast/scratch/hyaku/kengaku-r38/F38XMutRerunMain/lane/plans/round38_c1_verify.py	2026-10-26 03:18:20.845859711 -0300
++++ /fast/scratch/hyaku/kengaku-r38/F38XMutRerunMain/xmut/counter_x.py	2026-10-26 03:22:29.969655591 -0300
+@@ -144,6 +144,58 @@
+ ]
+ TOTAL = 22
+ 
++# ---- F38XMutRerunMain override: extra mutants for P9, P10, RUN, MAIN, D4, D5 (append-only) ----
++MUTANTS = [
++    ("X01", "P9", "silence", "a root whose git query fails is a defect, never a pass [gate note 'root is not a readable git worktree'; R37PlanNext B7 family, P9's own arm]",
++     '        return False, "root is not a readable git worktree"',
++     '        return True, "root is not a readable git worktree"'),
++    ("X02", "P9", "silence", "untracked files make the tree dirty [capability row package-gate --require-clean-tree; P9's advertised clean-tree clause]",
++     "    left = [x for x in r.stdout.splitlines() if x]",
++     "    left = []"),
++    ("X03", "P9", "mirror", "clean-tree means no UNTRACKED files; tracked files must not redden it [docstring exit semantics; F37XMutP9 shape]",
++     'subprocess.run(["git", "-C", str(p.root), "ls-files", "--others", "--exclude-standard"],',
++     'subprocess.run(["git", "-C", str(p.root), "ls-files", "--exclude-standard"],'),
++    ("X04", "P10", "silence", "a probe that cannot be re-run is a defect [docstring 'a receipt a fresh run does not reproduce is a defect'; B4 family, the gate's own OSError arm]",
++     '        return False, f"probe could not be re-run: {type(e).__name__}"',
++     '        return True, f"probe could not be re-run: {type(e).__name__}"'),
++    ("X05", "P10", "silence", "a fresh probe that exits non-zero is a defect even when its stdout echoes the receipt [battery37 p910 M42 shape]",
++     '        return False, f"fresh probe exit={r.returncode} stderr={r.stderr.strip()[:80]!r}"',
++     '        return True, f"fresh probe exit={r.returncode} stderr={r.stderr.strip()[:80]!r}"'),
++    ("X06", "P10", "silence", "the fresh run is byte-compared to the receipt at all [docstring; N13/N14 family, whole comparison dropped]",
++     "    if r.stdout != want:",
++     "    if False:"),
++    ("X07", "RUN", "silence", "the gate's reject exit code counts its DEFECT clauses [run_checks return; rc-flip shape]",
++     "        defects += not ok",
++     "        defects += 0"),
++    ("X08", "RUN", "silence", "a clause the gate cannot run prints DEFECT, not ok [run_checks print; B6 family on the print, not the handler]",
++     "        print(f\"{name} {'ok' if ok else 'DEFECT'} {note}\")",
++     "        print(f\"{name} {'ok' if ok else 'ok'} {note}\")"),
++    ("X09", "MAIN", "silence", "an unexpected crash exits 2, never 1 [docstring 'exit ... 2 = usage/setup'; B8 family, crash->1]",
++     '        print(f"setup: {type(e).__name__}: {e}", file=sys.stderr)\n        return 2',
++     '        print(f"setup: {type(e).__name__}: {e}", file=sys.stderr)\n        return 1'),
++    ("X10", "MAIN", "silence", "a genuine package exits 0, not 1 [docstring 'exit 0 = accept, 1 = reject'; accept->reject rc flip]",
++     "        return 0 if cmd_package(args, spec) == 0 else 1",
++     "        return 1 if cmd_package(args, spec) == 0 else 1"),
++    ("X11", "D4", "silence", "the D4 line must carry the ledger label [battery37 d4 M46 shape]",
++     '        if len(lines) != 1 or not lines[0].startswith(spec["d4"]["label"]):',
++     '        if len(lines) != 1:'),
++    ("X12", "D4", "silence", "every D4 pattern must match, the verdict included [d4m N19 family, verdict ignored]",
++     '        return not bad, f"patterns={len(spec[\'d4\'][\'patterns\'])} failed={bad or 0}"',
++     '        return True, f"patterns={len(spec[\'d4\'][\'patterns\'])} failed={bad or 0}"'),
++    ("X13", "D5", "silence", "the D5 line must carry the required directional token [battery37 d5 M51 shape]",
++     '        if d5["require"] not in line:',
++     '        if False:'),
++    ("X14", "D5", "silence", "the D5 line must not carry the forbidden token [battery37 d5 M52 shape]",
++     '        if d5["forbid"] in line:',
++     '        if False:'),
++    ("X15", "D5", "mirror", "the quote is matched against the capture with markup stripped [cmd_d5 tag-strip; F37XMutD5 shape]",
++     '        flat = re.sub(r"\\s+", "", re.sub(r"<[^>]+>", "", read(capture) or ""))',
++     '        flat = re.sub(r"\\s+", "", read(capture) or "")'),
++    ("X16", "D5", "silence", "the D5 line must carry the label [battery37 d5 M50 shape]",
++     '        if len(lines) != 1 or not lines[0].startswith(d5["label"]):',
++     '        if len(lines) != 1:'),
++]
++
+ 
+ def sha256(p):
+     try:

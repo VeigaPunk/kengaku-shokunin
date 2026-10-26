@@ -1,0 +1,47 @@
+F3 — swap the two anchor digests in corpus/SOURCES.md (S115 row carries the
+instruction.md digest 16068505…, S116 row carries the test_outputs.py digest
+d9d2796d…). Each row still carries exactly one 64-hex sha256 token; each token
+equals the OTHER row's spec pin. Expected verdict for both runs: FAIL (the swap
+is a defect). Applied via three edit-tool steps (d9d2…->SWAPTMP, 1606…->d9d2…,
+SWAPTMP->1606…); restored from pristine backup afterwards.
+
+Command: python3 <counter> --lane $S/lane  (counter = lane's own plans/round38_c2_verify.py, then $S/mut/M1_v3_anyrow.py)
+
+===== PRISTINE on F3 swap ===== (verbatim decisive lines)
+V3 DEFECT rows=2 bad=['S115:anchor_digest', 'S116:anchor_digest']
+V2 ok spec=frozen gate=frozen gate_exit=0          (gate P1..P10 ALL ok — gate does not re-check anchors)
+V6 ok census_exit=0                                (census does not re-check the binding either)
+checks=7 defects=1 / PREDICATE C2 fail / exit=1
+
+===== M1_v3_anyrow on F3 swap ===== (verbatim decisive lines)
+V3 ok rows=2 bad=0
+V2 ok spec=frozen gate=frozen gate_exit=0
+checks=7 defects=0 / PREDICATE C2 pass / exit=0
+
+=> expected FAIL, M1 says PASS: M1 KILLED at predicate level by F3. Neither the
+gate nor the census re-derives the anchor binding, so V3's own-row pin is the
+only catcher of a cross-bound anchor. No committed control kills M1 (skip
+control has correct anchors -> V3 ok under both; nothing control lacks rows ->
+V3 red under both for structural reasons).
+
+---
+
+F1b — replace S115's anchor token with 64 zeros (garbage that matches no pin).
+Expected verdict: FAIL.
+
+Command: python3 <counter> --lane $S/lane (pristine, M1_v3_anyrow, M1b_v3_anyhex; output grep-filtered to ^V3/^V6/^checks/^PREDICATE — filter noted)
+
+===== PRISTINE on F1b =====
+V3 DEFECT rows=2 bad=['S115:anchor_digest'] / checks=7 defects=1 / PREDICATE C2 fail / exit=1
+===== M1_anyrow on F1b =====
+V3 DEFECT rows=2 bad=['S115:anchor_digest'] / checks=7 defects=1 / PREDICATE C2 fail / exit=1  (zeros not in any pin -> M1 still red; no discrimination, but M1 already killed by F3)
+===== M1b_anyhex on F1b =====
+V3 ok rows=2 bad=0 / checks=7 defects=0 / PREDICATE C2 pass / exit=0
+
+=> expected FAIL, M1b (accept any 64-hex token) says PASS: M1b KILLED by F1b.
+The V3 clause ladder: pristine binds to the row's own pin; the round-37-era
+weakness has a real gradient — "any row's pin" dies to the swap fixture,
+"any hex at all" only dies to the garbage fixture. No committed control kills
+either weakening.
+
+Restoration: cp pristine/SOURCES.md back; sha256 = cec138692f48961da41b93f0a9dbab203443716619badbe961aad5c4f5ad089e (byte-equal).

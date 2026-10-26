@@ -1,0 +1,32 @@
+## canned-exit-nonzero: the artefact really exits 7
+rc=7
+
+## canned-static: ldd failure mode
+	not a dynamic executable
+rc=1
+
+## canned-script: ldd failure mode
+	not a dynamic executable
+rc=1
+
+## path-split: which pmars is first on PATH, what ldd reads
+/usr/local/sbin/pmars
+#!/bin/sh
+ 177   E   L   F
+00010  DAT.F  #  7, #  4
+00011  SPL.B  #  0, # 11
+	linux-vdso.so.1 (0x00007f8e84a3f000)
+	libc.so.6 => /usr/lib/libc.so.6 (0x00007f8e84600000)
+	/lib64/ld-linux-x86-64.so.2 => /usr/lib64/ld-linux-x86-64.so.2 (0x00007f8e84a41000)
+
+## nonexec-binary: mode and shell refusal
+-rw-r--r-- 1 vgpnk vgpnk 16120 Oct 26 03:19 /usr/local/bin/pmars
+/bin/sh: line 1: /usr/local/bin/pmars: Permission denied
+rc=126
+
+## debian-is-file / c-is-dir: staged shapes
+-rw-r--r-- 1 vgpnk vgpnk 0 Oct 26 03:19 /app/pmars-0.9.4/debian
+regular-file
+not-a-dir
+drwxr-xr-x 2 vgpnk vgpnk 6 Oct 26 03:19 /app/pmars-0.9.4/src/sim.c
+['sim.c']

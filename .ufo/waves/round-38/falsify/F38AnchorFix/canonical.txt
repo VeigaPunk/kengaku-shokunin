@@ -1,0 +1,17 @@
+# F38AnchorFix canonical receipt — 2026-10-26T06:16:49Z
+# clone: /fast/scratch/hyaku/kengaku-r38/F38AnchorFix/lane
+# HEAD: 8c7422d7a646515d80af44844e8ecc8a1fc1d30a
+# toplevel: /fast/scratch/hyaku/kengaku-r38/F38AnchorFix/lane
+# tip plans/anchor_digest_check.py sha256: 98847e8930304a23ab3e10dd27cfc3501738467b8871d8b725d24908e6c1f0b2
+# round-37 e0a37853:plans/anchor_digest_check.py sha256: 6d7afcd56a95c59f835be04a16263d43db4840cc8a4b111350be4d7cb8d9a323 (materialized by: git show e0a37853:plans/anchor_digest_check.py)
+
+$ python3 plans/anchor_digest_check.py --lane .
+rows=109 tokens=17 defects=0
+exit=0
+
+$ python3 <old e0a37853> --lane .
+rows=109 tokens=17 defects=0
+exit=0
+
+$ git -C lane diff --name-only   # working tree clean after all fixtures
+(end)
