@@ -1,0 +1,11 @@
+--- a/plans/round42_c1_verify.py
++++ b/plans/round42_c1_verify.py
+@@ -608,7 +608,7 @@
+                 continue
+             digest = sha256(mv)
+             start = src[:src.index(old)].count("\n") + 1
+-            span = set(range(start, start + new.count("\n") + 1))
++            span = {1}  # CONTROL: a span no line event can reach
+             fxs = by_tool[tool]
+             hits, seen = [], set()
+             for fx, res in zip(fxs, runner.run_all(tool, mv, fxs)):

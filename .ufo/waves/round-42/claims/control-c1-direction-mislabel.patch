@@ -1,0 +1,17 @@
+--- a/plans/round42_c1_verify.py
++++ b/plans/round42_c1_verify.py
+@@ -198,12 +198,12 @@
+      f"{WR} (MUTANT XO3); round-40 source: F40XMutLedgerOrder wit-xo3b, receipt commit an ancestor of the freeze",
+      '        if freeze != receipt_commit and git.rc("merge-base", "--is-ancestor", receipt_commit, freeze) == 0:',
+      '        if False and freeze != receipt_commit and git.rc("merge-base", "--is-ancestor", receipt_commit, freeze) == 0:'),
+-    ('XO5', 'order', '-', 'rc-mirror', 'direct',
++    ('XO5', 'order', '-', 'rc-silence', 'direct',
+      "plans/order_check.py:116-117 'Every blob ever committed under claims_dir up to and including `upto`' (upto replaced by HEAD: blobs committed AFTER the receipt are scanned too)",
+      f"{WR} (MUTANT XO5); round-40 source: F40XMutLedgerOrder wit-xo5, P10-ok claims blob committed after the receipt",
+      '    commits = git.out("rev-list", "--reverse", upto, "--", claims_dir).split()',
+      '    commits = git.out("rev-list", "--reverse", "HEAD", "--", claims_dir).split()'),
+-    ('XO6', 'order', '-', 'rc-mirror', 'indirect',
++    ('XO6', 'order', '-', 'rc-silence', 'indirect',
+      "plans/order_check.py:52-53 'a gate output line, with or without the C2 counter's `gate: ` echo prefix' (verdict alternation widened with PASS: a `P10 PASS` line, which the gate never prints, becomes a hit)",
+      f"{WR} (MUTANT XO6); round-40 source: F40XMutLedgerOrder wit-xo6, claims blob 'P10 PASS receipt unreadable'",
+      'GATE_P10 = re.compile(r"^\\s*(?:gate:\\s*)?P10\\s+(DEFECT|ok)\\b[ \\t]*(.*)$")',
