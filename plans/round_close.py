@@ -68,6 +68,7 @@ import hashlib
 import os
 import re
 import shlex
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -235,6 +236,14 @@ FIXTURE_RECEIPT = "CASE c01 observed=PASS predicted=PASS\n"
 
 def build_fixture(root: Path, lane: Path, control: str | None, shape: str) -> None:
     """A minimal lane-shaped repo whose only difference between cases is commit order."""
+
+    # A reused --work still holds the last run's fixture: clear it first, or `cp -a` nests the
+    # copied trees and `git commit` finds nothing to commit (exit 1, raised by check=True).
+    # Round-41 closure R5 carried item; draft and red/green check by wave-1 seat R42R5Carried.
+    if root.is_symlink() or root.is_file():
+        root.unlink()
+    elif root.is_dir():
+        shutil.rmtree(root)
 
     def commit(msg: str) -> None:
         for args in (["add", "-A"], ["commit", "-q", "-m", msg]):

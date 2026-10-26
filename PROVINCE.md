@@ -533,3 +533,36 @@ forms fail" should read "three RFC 5545 output forms fail" — the receipt's wit
 fail alike, `R41CritProbe` §5) — and "lowercase property names" should read "a lowercase `SUMMARY` property name": the
 `ATTENDEE` match is case-insensitive.
 
+
+## Round42 partial frontier admission (2026-10-26)
+
+**Core addition:** offline execution of one more pinned Terminal-Bench 2.0 grader — `circuit-fibsqrt/tests/test_outputs.py` with `tests/sim.c` at terminal-bench-2 `2fd12b88` — over 16 frozen end states, via `corpus/knowledge/tb2-circuit-fibsqrt-grader.md` (S125, S126, S127; S128 prior art), `plans/fibsqrt_probe.py` and receipt `corpus/evidence/round42/fibsqrt-probe.txt` (`cases=16 observed_pass=7 observed_fail=9 mismatches=0`; `regrade cases=16 differ=0`).
+
+The graded state is a class new to this lane: not an assertion over a fixed file, and not a model computed inside
+the test, but a **data artefact executed by a simulator the grader owns** — `/app/gates.txt`, a gate list in the
+instruction's `outX = …` format, which the grader compiles from `/tests/sim.c` at grading time (`gcc -O3 /tests/sim.c
+-o sim` in the cwd, `test_outputs.py:65-67`) and runs as `/app/sim N` on 28 fixed inputs (largest 48401 = 220²+1,
+`:73-102`), comparing stdout with `fib(isqrt(N)) % 2**32`. The whole score is three pytest functions: existence, a
+line count below 32000 and those 28 outputs. The interpreter is the surface: `sim.c` opens `gates.txt` relative to
+its cwd, skips lines whose first scan fails, keeps a scanned line whose operator matches no form as a constant-0 gate
+(wave-1 `R42CritProbe` D1), sets signals 0-31 from `argv[1]` (`instruction.md:8` says stdin), runs exactly 32000
+steps and prints the 32 highest-indexed signals (`instruction.md:9` says "the last 32 lines"). Observed: a 1195-line
+lookup table covering exactly the 28 graded inputs passes 3 of 3 (`lookup-28`) although it prints 0 for the
+instruction's own examples 208 and 20000; blank padding to 31999 lines passes and 32000 fails only the size test;
+comment lines, reversed line order and CRLF pass; one trailing space per line fails; a planted executable `/app/sim`
+is overwritten by the grader's compile (the verifier's cwd is the image `WorkingDir=/app`, `R42ScoutHarborCwd`); a
+directory named `gates.txt` passes existence only. It records how that captured grader answers those synthetic states
+only: it does not run Terminal-Bench, the task image (never pulled) or a harness, does not validate or certify the
+task, measure difficulty, gameability or contamination, or speak for the remaining 81 TB2 task graders (8 of 89 read).
+Limits: host python3 and host gcc stand in for the image's; recipes run unprivileged. Disclosed ordering: before the
+freeze the probe ran only `--dry` and `--stage-check`; three cases re-observe shapes `R41PlanNext` graded before the
+freeze, the other 13 were never graded before it.
+
+Round-42 routing (from the `R42PkgProse` draft, confirmed by the L1). This lane owns what the captured grader checks
+and what passes it — nothing else. **Whether a gate list is a correct digital-logic implementation of
+`fib(isqrt(N))`, and the C simulator's own semantics beyond what decides this grader's verdict, are unowned**: a
+fleet-wide grep of every lane's PROVINCE.md/SKILL.md for digital logic, logic gate, gate-level, circuit, C simulator
+or compiler semantics (2026-10-26 17:23, the seat's command) returned one unrelated sibling hit (`mado-shokunin/SKILL.md:1656`,
+"short-circuit"), so such findings route to the orchestrator, not to a sibling. Terminal-Bench's task, image and
+oracle stay the benchmark's; the round35-41 paragraphs above stay as written, and this paragraph narrows only their
+"remaining TB2 tasks" clause for this one task.

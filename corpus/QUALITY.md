@@ -686,3 +686,137 @@ Round-41 wave-2 errata to Q31/Q32 (`F41RevQuality` D1–D3; appended, criteria t
   (e.g. `R41RevWitness.md` §1, `F41CritC1Count.md` §0). Result: Q32's forward leg is red on the L1's receipts this round;
   the criterion stays as written and binds L1 counter runs from round 42.
 
+
+## Round42 criterion — a carried direction cell is re-derived through the frozen counter before freeze
+
+- **Q33 — a kill-direction cell carried from another round's campaign into this round's mutant table is
+  re-derived from that campaign's own recorded reference/mutant outcome before the table is frozen, and the
+  re-derivation is priced by a control that restores the carried cell and reddens the predicate.** Q29 binds a
+  *frozen* mutant's direction and cannot run before a battery exists — its own Check line says `UNWITNESSED`
+  "is not a verdict, so the check cannot run before some battery exists" (`corpus/QUALITY.md:516-517`) — so a
+  table inherited from a prior round is exactly the object that escapes it. Round 40 exhibits the gap: its
+  near-variant table labelled `XO5` and `XO6` `rc-silence`
+  (`.ufo/waves/round-40/falsify/F40XMutLedgerOrder.md:70-71`) while its own §2 witness text recorded the opposite
+  pair for both — "the reference scans `commits=1` and PASSes; the mutant scans `commits=2` … → FAIL rc=1"
+  (`:122-124`), and "a claims blob `P10 PASS receipt unreadable` is invisible to the reference and a HIT to the
+  mutant" (`:127-128`). Under the round-42 counter's own vocabulary (`plans/round42_c1_verify.py:42-45`:
+  `rc-silence` = fixture `expect=reject`, reference exits 1, mutant exits 0; `rc-mirror` = fixture `expect=accept`,
+  reference exits 0, mutant exits 1) those recorded pairs are `rc-mirror`: reference 0 → mutant 1, the mutant
+  STRICTER. The round-41 plan carried the list without re-deriving it (`plans/round-42-claims.md:105-109`), and
+  round 42's freeze re-derives both to `rc-mirror` (`plans/round42_c1_verify.py:38-41`, table rows `:201`, `:206`).
+  Measured at the criterion's creation (2026-10-26, this lane, tip `fda71ae`): `CARRIED-DIRECTIONS total=14
+  differ=2 ids=XO5,XO6` — the other twelve carried cells (X1 X3 X6 X7 X9 X12 X13 X14 X15 XO1 XO3 XO7) re-derive
+  unchanged at the head, and the three that carry a class keep it too (X6 `digest-wrong-capture`, X7
+  `digest-unknown`, X14 `erratum-digest-unresolved`, read off `.ufo/waves/round-40/falsify/F40XMutAnchor.md:71-72,79`
+  and `plans/round42_c1_verify.py:156,161,181`).
+  Check (executable, round-42 instance), three commands, the first two red and the third the landed green:
+  (a) `python3 plans/carried_direction_diff.py --lane .` prints one `CARRIED <id> round40=<cell> round42=<cell>
+  same|DIFFERS fixture=<fid> attributed=<Lnnn>` line per carried mutant and `CARRIED-DIRECTIONS total=14
+  differ=2 ids=XO5,XO6`, exit 0 — this is a derivation report, not the gate: it prints `differ=2` because the
+  freeze corrected two cells, and a freeze that had copied the round-40 labels would print `differ=0` and look
+  clean, which is why (b) is the discriminating half (tool draft at
+  `.ufo/waves/round-42/build/R42QualityDraft/carried_vs_rederived.py`, sha256 `47151f23…`, to land as
+  `plans/carried_direction_diff.py` for this line to run as written);
+  (b) restore the carried cells — `git apply .ufo/waves/round-42/claims/control-c1-direction-mislabel.patch`
+  (four lines: `XO5` and `XO6` back to `rc-silence`) on a scratch copy of `plans/round42_c1_verify.py`, run it in
+  development mode with the witness fixtures — prints `MUTANT XO5 order rc-silence SURVIVED
+  exhibits=0>1,rc-mirror` (`claims/control-c1-direction-mislabel.txt:29`), the same for `XO6` (`:30`),
+  `MUTANTS total=14 killed=12 survived=2 invalid=0 null_detected=0 unattributed=0` (`:33`),
+  `MUTANTS-BY-TOOL anchor=9/9 order=3/5` (`:34`), `PREDICATE C1 fail` (`:37`), `exit=1` (`:38`);
+  (c) unpatched, the frozen labels — `MUTANT XO5 order rc-mirror killed by=w-xo5-post-receipt-blob attributed=L117`
+  and `MUTANT XO6 order rc-mirror killed by=w-xo6-p10-pass-line attributed=L53`
+  (`claims/witness-run.txt:29-30`), `MUTANTS total=14 killed=14 survived=0 … unattributed=0` (`:33`),
+  `MUTANTS-BY-TOOL anchor=9/9 order=5/5` (`:34`).
+  Shown able to fail: (b) is the red half and it fails on exactly the two restored cells — the receipt shows the
+  declared cell and the exhibited set disagreeing on the same line (`declared=rc-silence … exhibits=…,rc-mirror`)
+  and the predicate at `killed=12`; the round-40 record itself is the other red half, where a table cell contradicts
+  the §2 paragraph three lines above it. The green half is not trivially green either: the same run reports
+  `killed=14` only with the re-derived cells, so a round that copies a label without re-deriving it loses a kill
+  it could have had.
+  Limits: the cell vocabulary is the counter's four names (`silence`, `rc-silence`, `rc-mirror`, `error`, `:42-45`),
+  so the re-derivation compares the *head* — X6/X7/X8/X10/X14's round-40 cells carried a class as
+  `silence/<class>` (`.ufo/waves/round-40/falsify/F40XMutAnchor.md:71-73,75,79`) and the frozen table keeps it
+  in a separate `class` column (`plans/round42_c1_verify.py:156,161,181`, e.g. `('X6', 'anchor',
+  'digest-wrong-capture', 'silence', 'direct',`), so `carried_direction_diff.py` compares heads only and a wrong
+  class under the right head passes both it and the counter's direction check (the counter still matches the
+  fixture's printed classes, `FIXTURE … declared=digest-wrong-capture`); a mislabel's cost is a survivor, not a
+  wrong green —
+  (b) shows `killed=12` and `fail`, so the failure mode is an honest stop plus a wasted fixture, which is why the
+  criterion prices the re-derivation at freeze instead of in the battery; the check reads a *recorded* run
+  (`claims/witness-run.txt`), so a wrong label paired with a matching wrong witness would pass (a) and only (b)'s
+  independent restore would catch it; twelve of fourteen cells already agreed, so this freeze's discrimination is
+  two cells and a wholly copied-and-correct table demonstrates nothing; and Q29's instrument remains the
+  post-battery one and defaults to a different counter (`plans/mutant_direction_check.py:92`
+  `--counter plans/round38_c1_verify.py`), so it must be pointed at `plans/round42_c1_verify.py` to speak about
+  this round at all.
+  Lesson: `plans/round-42-claims.md:105-109` §Frontier step (mined mistake, captured-by Q29 "not applied because
+  that table was never frozen"); carried-table provenance
+  `.ufo/waves/round-40/falsify/F40XMutLedgerOrder.md:70-71` against its own §2 `:120-128`; the class lands in
+  `corpus/lessons/round-42.md` §Mistakes when the round writes it (absent at this draft: `ls
+  corpus/lessons/round-42.md` → `No such file or directory`). Supersedes: none; extends Q29's direction rule with
+  the pre-battery leg Q29's own check cannot reach.
+
+## Round42 criterion — a SOURCES row is corrected by a new superseding row, never in place
+
+- **Q34 — every cell of a `corpus/SOURCES.md` registry row except `status`, `recheck` and `used-by` is immutable
+  under its id: a correction lands as a NEW row whose `teaches` cell opens `supersedes S0NN —`, and an in-place
+  change is a rule-2 defect even when the round wrote the row itself and the cell it corrects is its own anchor.**
+  The rule is written twice and enforced nowhere: `SOURCES-CONTRACT-v1.md:49-51` "Only `status`, `recheck` and
+  `used-by` change in place … A correction is a new row whose `teaches` opens `supersedes S0NN —`"
+  (`/home/vgpnk/Projects/shokunin/.ufo/waves/kaika/SOURCES-CONTRACT-v1.md`), restated at
+  `/home/vgpnk/Projects/shokunin/CORPUS.md:116-118`. No lane tool reads it from committed history: of the tools
+  naming `corpus/SOURCES.md`, none calls `rev-list`/`git show`/`git log` (`grep -ln 'corpus/SOURCES.md' plans/*.py`
+  crossed with `grep -E 'rev-list|git\.show|git log'` → no file); `plans/registry_check.py` parses the working-tree
+  registry only (`parse_registry(text, …)`, `:20`); `plans/state_check.py`'s supersede regexes match round-revision
+  lines, not registry rows (`:206`); and `plans/round33_c1_verify.py:170,210` only *writes* the refused-duplicate
+  rows (`"supersedes {sid} — duplicate staged row refused"`) without checking any row's immutability. Round 41
+  measured one instance and
+  routed the fix as prose (R4): in `53b9e4e5` the `S124` `anchor` cell changed in place —
+  `git diff --numstat 74513c06 53b9e4e5 -- corpus/SOURCES.md` → `1	1`, old text "`PR body §Proposed PR
+  description`", new text "`PR body preamble paragraph (pr245-body.md:11; …)`" — no `supersedes S124 —` row
+  exists in the file (`corpus/lessons/round-41-verifier-spotcheck.md:30-36`, routed `:116`). Measured at the
+  criterion's creation (2026-10-26, tip `fda71ae`, `python3 …/sources_appendonly.py <lane>` /
+  `build/R42QualityDraft/receipt-lane.txt`): `SOURCES-COMMITS scanned=36 rows_at_tip=117`, `SOURCES-APPENDONLY
+  violations=15 arity=0`, exit 1 — the class is older and wider than the routed item: `S081 scope`, `S082 anchor`
+  (`706ed3f2`), `S086 tier` + `S086 scope` (`9af639c9`), `S092 anchor`, `S100 anchor` (`f6422263`), `S100 anchor`
+  (`634ded8e`), `S103 source`, `S104 source`, `S104 teaches` (`6c20dd8d`), `S105 anchor`, `S107 anchor`
+  (`1d4084fa`), `S046 anchor`, `S052 anchor` (`ec172168`), `S124 anchor` (`53b9e4e5`) — 15 cells in 8 commits
+  across rounds 30, 31, 33, 35, 40 and 41, and none of the 15 was ever repaired by a superseding row for that id
+  (`repair_row=none` on all 15; a second run also asked whether a `supersedes` row appeared in ANY later commit:
+  `supersede_same_or_later=NO` for all 15). The mechanism is not invented here:
+  `grep -c 'supersedes S0[0-9][0-9]' corpus/SOURCES.md` → `17`, of which 15 are correcting rows —
+  `S026←S023 S036←S025 S039←S034 S040←S035 S042←S030 S047←S037 S048←S043 S058←S050 S064←S054 S066←S038
+  S067←S066 S068←S061 S069←S062 S075←S071 S076←S075` — and two are refused-duplicate records that name
+  themselves (`S094`, `S097`: "duplicate staged row refused after registry collision").
+  Check (executable, round-42 instance): `python3 plans/sources_appendonly.py --lane .` prints one
+  `CELL <sha8> <id> <cell> repair_row=same-commit|none` line per in-place non-mutable-cell change, then
+  `SOURCES-COMMITS scanned=<n> rows_at_tip=<n>` and `SOURCES-APPENDONLY violations=<n> arity=<n>`, exit 1 iff
+  `violations>0`; it reads commits only (`git log`/`git show` over `corpus/SOURCES.md`), so the working tree and
+  index cannot satisfy it. On the lane tip it prints `violations=15`, exit 1 (red list above). The check is not
+  always red: a two-commit fixture whose second commit only ADDS a row opening `supersedes S001 —` prints
+  `SOURCES-COMMITS scanned=2 rows_at_tip=2`, `violations=0`, exit 0, and the same fixture plus a third commit that
+  edits `S001`'s `anchor` in place prints `CELL 6888d84c S001 anchor repair_row=none`,
+  `SOURCES-APPENDONLY violations=1`, exit 1 (`build/R42QualityDraft/receipt-{green,red}.txt`; the tool is a draft
+  at `build/R42QualityDraft/sources_appendonly.py`, sha256 `f1b84d8a…`, and must land as
+  `plans/sources_appendonly.py` for this line to run as written).
+  Shown able to fail: the two fixtures above differ by one commit and one cell — the green one corrects by adding
+  a row, the red one corrects by editing the row — and the tool separates them with exit 0 / exit 1; on the lane's
+  own history the 15 `CELL` lines are the red half, the routed `S124` case among them.
+  Limits: the check is act-level and red on history from round 30, so as a gate it binds from round 42 forward;
+  this criterion names the 15 older cells and does **not** re-adjudicate them — at least one was a substantive
+  tier change made in place on purpose (`9af639c9` "S086 is not peer-reviewed (society stamp) — relabel and tier
+  to B", `tier` A→B plus a `scope` change), which rule 2 forbids and which the round-30 lesson's old→new logging
+  does not cure, since the three mutable cells are the only ones logging covers; a row carrying a literal `|`
+  inside a cell would parse as an arity mismatch and is reported (`arity=<n>`, exit 1) rather than silently
+  misread — `arity=0` over 117 rows × 36 commits says no such row exists today; an in-place edit that was never
+  committed is invisible (the same blind spot Q30's gate names); `status`, `recheck` and `used-by` changes are
+  deliberately not flagged and their required old→new logging is not checked, because the log lives in the lesson
+  and this tool reads `corpus/SOURCES.md` only; a commit that edits a cell and adds the superseding row in the same
+  commit is still reported (rule 2 is act-level: the old row is never rewritten), and the column is printed as
+  `repair_row=same-commit` so a reader can see the shape; a squash-merge that folds an edit and its revert into
+  one tree hides both; and the check says nothing about whether the correcting row's new content is true — that is
+  Q1/Q3/Q26's work — nor whether the id a `supersedes` cell names exists: two registry rows name themselves
+  (`S094`, `S097`, both refused-duplicate records), which this tool reports as context and does not adjudicate.
+  Lesson: routed item R4 and closure defect D2, `corpus/lessons/round-41-verifier-spotcheck.md:30-36` and `:116`;
+  rule text `SOURCES-CONTRACT-v1.md:49-51` and `/home/vgpnk/Projects/shokunin/CORPUS.md:116-118`. Supersedes: none;
+  it is the first executable leg of rule 2 and supersedes no criterion.
