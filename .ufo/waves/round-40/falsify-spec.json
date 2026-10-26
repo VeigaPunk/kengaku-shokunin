@@ -1,0 +1,332 @@
+{
+ "wave": "kengaku-r40-falsify",
+ "milestone": "kengaku round 40 wave 2: falsify C1 battery40, C2 db-wal package, routed fixes at ec1005a2",
+ "reportDir": ".ufo/waves/round-40/falsify",
+ "context": "# Goal\nkengaku round 40 (hyaku run 9, 2026-10-26), WAVE 2 of 2 (FALSIFY). Lane repo: /home/vgpnk/Projects/shokunin/kengaku-shokunin. Attack what wave 1 and the L1 landed,\nmeasured at lane tip ec1005a2a28bc5cfdde7723374368ed4cc956eed (branch master). Every item names what it attacks; a finding is a receipt, not an opinion.\nFrozen claims: /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round-40-claims.md (freeze bbb109505670192035ef63d7c8b37733e99fa1a3; first recorded probe run 055748f78a3335434f2a4070bb3fb1cf8d0eba1f). Landing measurement on a clean clone of the\ntip: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/integrate/measure-final.txt. Lesson: /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/lessons/round-40.md. Wave-1 reports: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/build/*.md.\n- C1 calibration: 21 frozen mutants of the three tripwire tools (plans/anchor_digest_check.py, plans/ledger_tip.py,\n  plans/order_check.py — unedited) in /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round40_c1_verify.py; battery /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/battery40/ (7 modules: a_tok A01-A03, a_row A06/A08/A09, a_bind A15/A17/A27,\n  a_man A21/A22, l_rows L05/L06/L14/L15, l_refuse L01/L11/L21, o_gate O04/O12/O14). Frozen predicate: `PINS total=3\n  mismatched=0`, `BATTERY fixtures=<n> wrong=0 tampered=0 sidechannel=0`, `MUTANTS total=21 killed=21 survived=0 invalid=0\n  null_detected=0`, `PINS-AFTER mismatched=0`, `PREDICATE C1 pass`. Wave 1 showed the frozen counter is gameable by a\n  dishonest battery (/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/build/R40CritC1Counter.md: A1 a ledger check body that reads its own program text, A2 a PATH git shim,\n  A4 relative argv + symlink, A5 `.lock` names the fingerprint skips; /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/build/R40SentinelCounter.md: whole host fs writable,\n  cross-module fixture forgery; /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/build/R40RevCounters.md F1-F6), so admission rests on the frozen predicate PLUS non-author\n  review that the landed battery uses none of these.\n- C2 coverage: TB2 `db-wal-recovery` @ 2fd12b88aafdd04a52c298e3940bcb189f9766d6 admitted as /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/tb2-db-wal-recovery-grader.md (S119 tests/test_outputs.py, S120 instruction.md, S121\n  TB2.1 PR #3 tier B; captures /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round40/tb2-db-wal-recovery/; receipt /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round40/db-wal-probe.txt; frozen dry table /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round40/db-wal-dry-cases-freeze.txt; counter /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round40_c2_verify.py, predicate `checks=7 defects=0`,\n  `PREDICATE C2 pass`).\n- Routed/frontier landed this round: plans/tip_receipts.py (derives a receipt's probe from its stem), plans/round_close.py\n  (invokes order_check + census), SKILL registry rows + round-40 addendum + decision section, PROVINCE round-40 paragraph,\n  README index/coverage/frontier/evidence lines, S046/S052 anchor notes.\n- HOST-SAFETY RULE (orchestrator ruling, round 40): run every C1 counter invocation, every battery module and every attack module ONLY inside `bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent <cmd>` (~/.local/bin read-only — uv stays usable, the ledger's R35-D1 check needs it —; no user-bus, so systemd-run fails; L1-tested), with `--lane` on your own scratch clone. Never write under $HOME outside your scratch, under /usr, /etc, /run/user, or into ANY directory on PATH; never start `systemd-run`, cron, at or any user service. Never execute /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/build/R40CritC1Counter/crit_git_shim.py or crit_ledger_selfread.py (neutralized evidence: a wave-1 seat wrote a git shim into the shared ~/.local/bin and broke other lanes' runs).\n\n# Rules for every seat\n- Your tools start at the fleet root. EVERY path is absolute. Every `Report:` trailer path is relative to /home/vgpnk/Projects/shokunin/kengaku-shokunin — write it at\n  /home/vgpnk/Projects/shokunin/kengaku-shokunin/<that path>. Your report dir is /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/; receipts go under /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/<YourSeatName>/ (create it). Never copy a corpus/ or\n  plans/ tree, a lane mirror, or a clone into /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/.\n- Scratch (operator directive 2026-10-25): clones and work trees live ONLY under /fast/scratch/hyaku/kengaku-r40/<YourSeatName>/ (NVMe), never under\n  /tmp; pass it explicitly (export TMPDIR, --work); delete it before you finish (`trap 'rm -rf -- \"$S\"' EXIT`).\n- Write ONLY inside /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/ and your scratch dir. NEVER edit any lane file; never write into /home/vgpnk/Projects/shokunin (fleet root), sibling lanes,\n  the lane's jj state or Git index; never run git add/commit/stash/checkout/reset/push/pull or a mutating jj command in the lane.\n- Fixture rule: S=/fast/scratch/hyaku/kengaku-r40/<YourSeatName>; mkdir -p \"$S\"; trap 'rm -rf -- \"$S\"' EXIT; export TMPDIR=\"$S\"; git clone -q --no-local /home/vgpnk/Projects/shokunin/kengaku-shokunin \"$S/lane\" && git -C \"$S/lane\" checkout -q ec1005a2a28bc5cfdde7723374368ed4cc956eed; verify `git -C \"$S/lane\" rev-parse --show-toplevel` equals \"$S/lane\" before any write; every git call names -C \"$S/lane\"; never commit. Any other fixture repo: D=$(mktemp -d -p \"$S\") && git -C \"$D\" init -q, every git call names -C \"$D\". Remove \"$S\" before you finish (copy receipts into your report dir first).\n- Source repo /home/vgpnk/Projects/shokuknow is READ-ONLY.\n- Tooling authorization (operator, 2026-10-19): you may install/upgrade tools that help the task — read /home/vgpnk/.omp/agent/RULES.md\n  first (official channels, update-safety gate; record tool/version/channel/reason). pacman transactions are PAUSED host-wide:\n  install via `uv tool` / `npx` / an official binary into ~/.local/bin, or file nothing and say so. Never run pacman\n  -Sy/-Syu/-U/-R, never name an already-installed package to pacman, never restart a host service.\n- You are a leaf seat: no subagents, no background jobs, no `task` (an executor may spawn at most one read-only labrat probe).\n  Never leave a process running when you finish.\n- Godspeed posture: name the axes, iterate cheap and in parallel, keep moves that improve any axis and harm none, never stall in\n  clarifying-question loops.\n- Evidence: every number carries the command that produced it and its output; quotes carry file:line and are <= 25 words.\n  Do not fabricate output; if something cannot be run, say so.\n- End your report with exactly one `VERDICT: <line>` terminal line.\n",
+ "items": [
+  {
+   "name": "F40C1Rerun",
+   "role": "executor",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40C1Rerun (executor).\n# Task\nRe-measure C1 at the tip on two clean clones under the HOST-SAFETY sandbox: `python3 plans/round40_c1_verify.py --lane . --work \"$S/w1\"` with PYTHONHASHSEED=0 --jobs 1, and again with PYTHONHASHSEED=77 --jobs 8; diff the two receipts and diff each with the C1 block of /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/integrate/measure-final.txt. Then the do-nothing control (remove plans/battery40 in a clone) and one module removed at a time (7 runs): which mutants flip to SURVIVED (load-bearing table).\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40C1Rerun.md); end with VERDICT: c1-rerun-<pass|fail>-byte-equal-<yes|no>-loadbearing-<k>/7.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40RevBatTok",
+   "role": "reviewer",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40RevBatTok (reviewer).\n# Task\nNon-author honesty review of /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/battery40/a_tok.py (targets A01,A02,A03 of /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round40_c1_verify.py). Read every line: does each fixture build an input that exhibits the advertised behaviour honestly (the tool's own docstring sentence in the mutant's `adv` cell), or does it rely on anything the wave-1 attacks used (reading the tool or its own program text at run time, writing outside d — HOME, PATH dirs, other modules' fixture dirs —, relative argv tokens or symlinks pointing out of d, `.lock`/`.git/index` names the fingerprint skips, phase detection, a bare-string build() return)? Run the module under the HOST-SAFETY sandbox: `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round40_c1_verify.py --lane \"$S/lane\" --battery-dir <dir holding only this module> --only A01,A02,A03 --work \"$S/w\"` and paste FIXTURE/MUTANT lines; inspect one built fixture tree (copy the build logic into a scratch script) and diff it against the lane. Verdict honest / dishonest per fixture with file:line.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40RevBatTok.md); end with VERDICT: battery-a_tok-honest-<k>/<n>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40RevBatRow",
+   "role": "reviewer",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40RevBatRow (reviewer).\n# Task\nNon-author honesty review of /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/battery40/a_row.py (targets A06,A08,A09 of /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round40_c1_verify.py). Read every line: does each fixture build an input that exhibits the advertised behaviour honestly (the tool's own docstring sentence in the mutant's `adv` cell), or does it rely on anything the wave-1 attacks used (reading the tool or its own program text at run time, writing outside d — HOME, PATH dirs, other modules' fixture dirs —, relative argv tokens or symlinks pointing out of d, `.lock`/`.git/index` names the fingerprint skips, phase detection, a bare-string build() return)? Run the module under the HOST-SAFETY sandbox: `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round40_c1_verify.py --lane \"$S/lane\" --battery-dir <dir holding only this module> --only A06,A08,A09 --work \"$S/w\"` and paste FIXTURE/MUTANT lines; inspect one built fixture tree (copy the build logic into a scratch script) and diff it against the lane. Verdict honest / dishonest per fixture with file:line.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40RevBatRow.md); end with VERDICT: battery-a_row-honest-<k>/<n>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40RevBatBind",
+   "role": "reviewer",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40RevBatBind (reviewer).\n# Task\nNon-author honesty review of /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/battery40/a_bind.py (targets A15,A17,A27 of /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round40_c1_verify.py). Read every line: does each fixture build an input that exhibits the advertised behaviour honestly (the tool's own docstring sentence in the mutant's `adv` cell), or does it rely on anything the wave-1 attacks used (reading the tool or its own program text at run time, writing outside d — HOME, PATH dirs, other modules' fixture dirs —, relative argv tokens or symlinks pointing out of d, `.lock`/`.git/index` names the fingerprint skips, phase detection, a bare-string build() return)? Run the module under the HOST-SAFETY sandbox: `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round40_c1_verify.py --lane \"$S/lane\" --battery-dir <dir holding only this module> --only A15,A17,A27 --work \"$S/w\"` and paste FIXTURE/MUTANT lines; inspect one built fixture tree (copy the build logic into a scratch script) and diff it against the lane. Verdict honest / dishonest per fixture with file:line.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40RevBatBind.md); end with VERDICT: battery-a_bind-honest-<k>/<n>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40RevBatMan",
+   "role": "reviewer",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40RevBatMan (reviewer).\n# Task\nNon-author honesty review of /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/battery40/a_man.py (targets A21,A22 of /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round40_c1_verify.py). Read every line: does each fixture build an input that exhibits the advertised behaviour honestly (the tool's own docstring sentence in the mutant's `adv` cell), or does it rely on anything the wave-1 attacks used (reading the tool or its own program text at run time, writing outside d — HOME, PATH dirs, other modules' fixture dirs —, relative argv tokens or symlinks pointing out of d, `.lock`/`.git/index` names the fingerprint skips, phase detection, a bare-string build() return)? Run the module under the HOST-SAFETY sandbox: `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round40_c1_verify.py --lane \"$S/lane\" --battery-dir <dir holding only this module> --only A21,A22 --work \"$S/w\"` and paste FIXTURE/MUTANT lines; inspect one built fixture tree (copy the build logic into a scratch script) and diff it against the lane. Verdict honest / dishonest per fixture with file:line.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40RevBatMan.md); end with VERDICT: battery-a_man-honest-<k>/<n>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40RevBatLRows",
+   "role": "reviewer",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40RevBatLRows (reviewer).\n# Task\nNon-author honesty review of /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/battery40/l_rows.py (targets L05,L06,L14,L15 of /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round40_c1_verify.py). Read every line: does each fixture build an input that exhibits the advertised behaviour honestly (the tool's own docstring sentence in the mutant's `adv` cell), or does it rely on anything the wave-1 attacks used (reading the tool or its own program text at run time, writing outside d — HOME, PATH dirs, other modules' fixture dirs —, relative argv tokens or symlinks pointing out of d, `.lock`/`.git/index` names the fingerprint skips, phase detection, a bare-string build() return)? Run the module under the HOST-SAFETY sandbox: `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round40_c1_verify.py --lane \"$S/lane\" --battery-dir <dir holding only this module> --only L05,L06,L14,L15 --work \"$S/w\"` and paste FIXTURE/MUTANT lines; inspect one built fixture tree (copy the build logic into a scratch script) and diff it against the lane. Verdict honest / dishonest per fixture with file:line.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40RevBatLRows.md); end with VERDICT: battery-l_rows-honest-<k>/<n>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40RevBatLRefuse",
+   "role": "reviewer",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40RevBatLRefuse (reviewer).\n# Task\nNon-author honesty review of /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/battery40/l_refuse.py (targets L01,L11,L21 of /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round40_c1_verify.py). Read every line: does each fixture build an input that exhibits the advertised behaviour honestly (the tool's own docstring sentence in the mutant's `adv` cell), or does it rely on anything the wave-1 attacks used (reading the tool or its own program text at run time, writing outside d — HOME, PATH dirs, other modules' fixture dirs —, relative argv tokens or symlinks pointing out of d, `.lock`/`.git/index` names the fingerprint skips, phase detection, a bare-string build() return)? Run the module under the HOST-SAFETY sandbox: `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round40_c1_verify.py --lane \"$S/lane\" --battery-dir <dir holding only this module> --only L01,L11,L21 --work \"$S/w\"` and paste FIXTURE/MUTANT lines; inspect one built fixture tree (copy the build logic into a scratch script) and diff it against the lane. Verdict honest / dishonest per fixture with file:line.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40RevBatLRefuse.md); end with VERDICT: battery-l_refuse-honest-<k>/<n>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40RevBatOrder",
+   "role": "reviewer",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40RevBatOrder (reviewer).\n# Task\nNon-author honesty review of /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/battery40/o_gate.py (targets O04,O12,O14 of /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round40_c1_verify.py). Read every line: does each fixture build an input that exhibits the advertised behaviour honestly (the tool's own docstring sentence in the mutant's `adv` cell), or does it rely on anything the wave-1 attacks used (reading the tool or its own program text at run time, writing outside d — HOME, PATH dirs, other modules' fixture dirs —, relative argv tokens or symlinks pointing out of d, `.lock`/`.git/index` names the fingerprint skips, phase detection, a bare-string build() return)? Run the module under the HOST-SAFETY sandbox: `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round40_c1_verify.py --lane \"$S/lane\" --battery-dir <dir holding only this module> --only O04,O12,O14 --work \"$S/w\"` and paste FIXTURE/MUTANT lines; inspect one built fixture tree (copy the build logic into a scratch script) and diff it against the lane. Verdict honest / dishonest per fixture with file:line.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40RevBatOrder.md); end with VERDICT: battery-o_gate-honest-<k>/<n>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40MutBattery",
+   "role": "mutation-tester",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40MutBattery (mutation-tester).\n# Task\nFixture-level mutants of /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/battery40/*.py (in a scratch copy, run with --battery-dir under the HOST-SAFETY sandbox): for each module break the one edit that makes each fixture exhibit its behaviour (e.g. keep the token lowercase, keep 3-space indent, keep 11 cells, drop the gitlink, name the claims file correctly, keep the ledger row closed) and confirm the targeted mutant flips to SURVIVED or the fixture goes WRONG. Report caught/total per module.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40MutBattery.md); end with VERDICT: battery-fixture-mutants-caught-<k>/<n>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40XMutAnchor",
+   "role": "mutation-tester",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40XMutAnchor (mutation-tester).\n# Task\nNear-variant mutants of plans/anchor_digest_check.py NOT in the frozen list (e.g. other bound edits, other class emissions, erratum clauses, binding routes 1 and 3, `--verbose` path): write >=10 single-replacement mutants, run them against battery40 + the tip run (copy the counter to scratch and swap its MUTANTS table, HOST-SAFETY sandbox), and list survivors with a witness input for each — round-41 candidates; never edit the lane.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40XMutAnchor.md); end with VERDICT: anchor-xmut-killed-<k>/<n>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40XMutLedgerOrder",
+   "role": "mutation-tester",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40XMutLedgerOrder (mutation-tester).\n# Task\nAs F40XMutAnchor for plans/ledger_tip.py and plans/order_check.py: >=10 near-variant mutants not in the frozen list (summary counters, kind labels, REF AUDIT/BIND lines, freeze-contains-receipt, receipt-before-claims, scan bounds), run against battery40 in a scratch copy of the counter under the HOST-SAFETY sandbox; list survivors with witnesses.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40XMutLedgerOrder.md); end with VERDICT: ledger-order-xmut-killed-<k>/<n>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40CritC1Count",
+   "role": "critic",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40CritC1Count (critic).\n# Task\nRecount the calibration denominator: for each of the 21 `adv` cells in /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round40_c1_verify.py classify direct / indirect / not-advertised against the cited file:line (wave-1 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/build/R40CritClaims.md §1 says 13/4/4); state the before→after count the report may claim (standing counter: before /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/claims/control-c1-nothing.txt, after /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/integrate/measure-final.txt) and whether the witness kills (/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/claims/witness-run.txt, 7) change the before. Check the lesson's and SCORECARD's wording against your count.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40CritC1Count.md); end with VERDICT: c1-count-direct-<d>-indirect-<i>-unadvertised-<u>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40SentinelBattery",
+   "role": "sentinel",
+   "axes": [
+    "operability"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40SentinelBattery (sentinel).\n# Task\nSecurity scan of /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/battery40/*.py and /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/claims/witness/*.py: writes outside the fixture dir, PATH/HOME/env use, network, subprocesses left running, git config that executes code. Run each module once under the HOST-SAFETY sandbox with `strace -f -e trace=openat,execve,connect` (or `ls -lR` before/after of $HOME/.local/bin, ~/.config, /run/user) and report every path written outside the module's fixture root.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40SentinelBattery.md); end with VERDICT: battery-security-<n>-findings.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40CritCounterLimits",
+   "role": "critic",
+   "axes": [
+    "calibration",
+    "operability"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40CritCounterLimits (critic).\n# Task\nThe wave-1 counterexamples (/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/build/R40CritC1Counter.md A1/A2/A4/A5, /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/build/R40SentinelCounter.md F1-F5, /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/build/R40RevCounters.md F1-F6): for each, (1) does any LANDED battery40 module use that vector (grep + read), (2) what the smallest counter repair is (clean PATH, `--ro-bind / /` with only the fixture root writable as kumitate's cap-run.mjs does, content fingerprint, per-module isolation, type check of build() return) — draft it as a patch against a SCRATCH copy of the counter and show the A2/A5 attack re-run REDS under the patched copy inside the HOST-SAFETY sandbox (rebuild the attacks with SHIM_DIR under your scratch, never ~/.local/bin). Route-to-round-41 list.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40CritCounterLimits.md); end with VERDICT: counter-limits-used-by-landed-<k>-repairs-drafted-<n>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40NoHarmC1",
+   "role": "critic",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40NoHarmC1 (critic).\n# Task\nNo-harm at the tip on a clean clone: round-37/38/39 C1 counters (plans/round3{7,8,9}_c1_verify.py) and C2 counters (round36-39) print what /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/integrate/measure-final.txt says and what the round-39 closure recorded (r37 killed=55 pass, r38 killed=21 survived=1, r39 killed=7 pass, C2s pass); plans/anchor_digest_check.py and plans/ledger_tip.py green at the tip; `git diff d3a6277f ec1005a2a28bc5cfdde7723374368ed4cc956eed -- plans/battery37 plans/battery38 plans/battery39 plans/round3*_verify.py plans/anchor_digest_check.py plans/ledger_tip.py plans/order_check.py plans/pkg_gate.py` empty.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40NoHarmC1.md); end with VERDICT: no-harm-c1-<ok|n-harms>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40C2Rerun",
+   "role": "executor",
+   "axes": [
+    "coverage",
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40C2Rerun (executor).\n# Task\nRe-measure C2 at the tip: `python3 plans/round40_c2_verify.py --lane . --work \"$S/w\"` (create $S/w first) on a clean clone; the probe three times (plain, `env -i PATH=/usr/bin:/bin HOME=$S`, PYTHONHASHSEED=1) and cmp each with /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round40/db-wal-probe.txt; `--dry` cmp /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round40/db-wal-dry-cases-freeze.txt; `(cd /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round40/tb2-db-wal-recovery && sha256sum -c SHA256SUMS)`.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40C2Rerun.md); end with VERDICT: c2-rerun-<pass|fail>-probe-byte-equal-<k>/3.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40ReopenRows",
+   "role": "reviewer",
+   "axes": [
+    "freshness",
+    "coverage"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40ReopenRows (reviewer).\n# Task\nRe-open S119, S120 (raw URLs at 2fd12b88aafdd04a52c298e3940bcb189f9766d6, sha256 vs the row and the capture, quote at its line) and S121 (gh api repos/harbor-framework/terminal-bench-2-1/pulls/3: state, merged, the §Reasoning quote) live; check each row's 11 cells, tier, used-by, recheck; check S046/S052's appended notes against the live Python 3.15 docs.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40ReopenRows.md); end with VERDICT: rows-reopened-<ok>/5.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40EntryQuotes",
+   "role": "critic",
+   "axes": [
+    "depth",
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40EntryQuotes (critic).\n# Task\nVerify every quote in /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/tb2-db-wal-recovery-grader.md (located-quotes table and §Prior art) verbatim at its cited line/location and 3-25 words; every finding's case ids and letters against /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round40/db-wal-probe.txt; every `:line` reference against the captures. List unsupported sentences with the smallest correction.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40EntryQuotes.md); end with VERDICT: entry-quotes-<ok>/<n>-unsupported-<k>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40CritOverclaim",
+   "role": "critic",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40CritOverclaim (critic).\n# Task\nOverclaim hunt across the round-40 C2 text: /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/tb2-db-wal-recovery-grader.md, the README index row/coverage bullet/frontier sub-bullet/evidence lines, the PROVINCE round-40 paragraph, the SKILL 'Database-recovery TB2 grader — round 40' section and registry rows. Compare each claim with the receipt and wave-1 critics (/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/build/R40CritProbe.md D1-D8): regrade wording, fix-wal label, wrong-key confound, 0-byte WAL, 'never opens' vs 'hand-typed with wrong values'. List overclaims with location.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40CritOverclaim.md); end with VERDICT: overclaims-<n>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40MapControl",
+   "role": "mutation-tester",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40MapControl (mutation-tester).\n# Task\nRed-control the requirement map: in a clone, flip each of the six map labels, cite a non-violating case, drop a row, duplicate a tag, change a line number; run /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round40_c2_verify.py each time — V7 must red. Report caught/total.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40MapControl.md); end with VERDICT: map-controls-red-<k>/<n>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40IndepProbe",
+   "role": "critic",
+   "axes": [
+    "coverage"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40IndepProbe (critic).\n# Task\nIndependently re-run the four non-frozen cases the entry cites from /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/build/R40CritProbe.md (exact `truth` export at the default path; the same after deleting main.db and main.db-wal; XOR 0x42 + read-only extraction; XOR 0x43 + read-only extraction) in a scratch copy of /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/db_wal_probe.py; predict first, run, report letters and /app end-state digests.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40IndepProbe.md); end with VERDICT: indep-extra-agree-<k>/4.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40CritSkill",
+   "role": "critic",
+   "axes": [
+    "depth"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40CritSkill (critic).\n# Task\nVerify every row of the SKILL.md 'Database-recovery TB2 grader — round 40' decision table and the five new registry rows (order-check, round39-c1-audit, round40-c1-mutants, round40-c2, db-wal-probe) by running or reading what each cites; count verified / wrong.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40CritSkill.md); end with VERDICT: skill-rows-verified-<k>/<n>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40CritPriorArt",
+   "role": "critic",
+   "axes": [
+    "novelty",
+    "coverage"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40CritPriorArt (critic).\n# Task\nAttack the entry's §Prior art: re-open TB2.1 PR #3, terminal-bench #2218's comment, harbor #3607 and the sqlite.org pages; is each quote located and ≤25 words; is 'TB2.1 carries the same task bytes' true (hash the three files on terminal-bench-2-1 main); is the claim 'permissiveness not reported' honest (search once more: gh search issues/prs, the zai-org verified fork); does any opened source already report 22/33 pinned cells.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40CritPriorArt.md); end with VERDICT: prior-art-attack-<n>-defects.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40TipReceipts",
+   "role": "executor",
+   "axes": [
+    "operability",
+    "freshness"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40TipReceipts (executor).\n# Task\nAttack the landed plans/tip_receipts.py: full run at the tip on a clean clone (`--work \"$S/w\"`), `--list` (every `origin=derived` mapping correct?), a fixture repo where a receipt stem collides with two scripts or a `-first-run` sibling exists, tamper controls on every equal receipt. Any previously-equal receipt changed status vs /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/integrate/measure-baseline.txt?\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40TipReceipts.md); end with VERDICT: tip-receipts-attack-<n>-defects.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40RoundClose",
+   "role": "executor",
+   "axes": [
+    "operability",
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40RoundClose (executor).\n# Task\nAttack the landed plans/round_close.py: `--selftest`; rounds 36-40 on a clean clone (expect 38 red, 39/40 green); >=6 single-line mutants of it in a scratch copy (receipt resolution rules a/b/c, exit mapping, census leg) — which do the selftest and the round runs catch? Does it ever pass with zero receipts?\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40RoundClose.md); end with VERDICT: round-close-mutants-caught-<k>/<n>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40RegradeRecheck",
+   "role": "executor",
+   "axes": [
+    "novelty",
+    "coverage"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40RegradeRecheck (executor).\n# Task\nRe-check /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/build/R40RegradeSweep.md's table on two tasks: configure-git-webserver and git-leak-recovery — rebuild one listed state each in the lane's own probe sandbox (scratch copy), grade twice without rebuilding, record verdicts and the files the grader wrote (find -newer). Does 'two of five graders mutate the graded state, no verdict flip' hold?\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40RegradeRecheck.md); end with VERDICT: regrade-recheck-<agree|disagree>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40RegistryRows",
+   "role": "critic",
+   "axes": [
+    "operability"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40RegistryRows (critic).\n# Task\nRun every command the round-40 SKILL registry rows and the 'Round-40 registry addendum' state (order-check, round39-c1-audit, round40-c1-mutants — HOST-SAFETY sandbox —, round40-c2, db-wal-probe, round_close, tip-receipts) from a clean clone root and compare exit codes and verdict lines with the rows' verdict maps.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40RegistryRows.md); end with VERDICT: registry-commands-match-<k>/<n>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40RevLesson",
+   "role": "reviewer",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40RevLesson (reviewer).\n# Task\nReview /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/lessons/round-40.md: every Gate row's evidence (access dates, quotes, digests), every Mistakes row (class, pointer resolves, captured-by, fix shown able to fail — or honestly not), census numbers, the routed R1-R5 dispositions against /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/lessons/round-39-verifier-spotcheck.md §5. List defects with the smallest appended correction.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40RevLesson.md); end with VERDICT: lesson-review-<n>-defects.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40CritScorecard",
+   "role": "critic",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40CritScorecard (critic).\n# Task\nCheck /home/vgpnk/Projects/shokunin/kengaku-shokunin/SCORECARD.md's round-40 section and /home/vgpnk/Projects/shokunin/kengaku-shokunin/LOG.md's round-40 entry against the receipts (/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/integrate/measure-final.txt, /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/claims/*.txt, /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round40/db-wal-probe.txt): every number, hash, verdict and 'held' score; any self-assessment that the repo state contradicts (count mismatches, file:line).\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40CritScorecard.md); end with VERDICT: scorecard-mismatches-<n>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40CritNoHarmDiff",
+   "role": "critic",
+   "axes": [
+    "quality"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40CritNoHarmDiff (critic).\n# Task\n`git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin diff d3a6277f ec1005a2a28bc5cfdde7723374368ed4cc956eed -- SCORECARD.md LOG.md SKILL.md PROVINCE.md SHONEN.md corpus/` — list every removed or rewritten line (not appended) in a lane-authored doc and judge whether it is a harm; check corpus/SOURCES.md changes are appends plus the two S046/S052 anchor notes only.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40CritNoHarmDiff.md); end with VERDICT: removed-lines-<n>-harms-<k>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40ScoutMisroot",
+   "role": "scout",
+   "axes": [
+    "operability"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40ScoutMisroot (scout).\n# Task\nMisroot and host-write sweep for round-40 kengaku seats: `git -C /home/vgpnk/Projects/shokunin status --porcelain --untracked-files=all` (name any file whose content names kengaku round 40); `ls -la /home/vgpnk/.local/bin` for files newer than 13:00 today and any `git` there; `systemctl --user list-units --all` for crit-*/transient units; leftover dirs under /fast/scratch/hyaku/kengaku-r40/ and processes whose cwd is under it. Read-only: report, never delete.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40ScoutMisroot.md); end with VERDICT: misroot-<n>-host-writes-<k>-scratch-left-<j>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40ConnClaims",
+   "role": "connector",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40ConnClaims (connector).\n# Task\nCross-document consistency at ec1005a2a28bc5cfdde7723374368ed4cc956eed: claims, both counters' docstrings, controls, measure-final, lesson, SCORECARD/LOG round-40 text, README/PROVINCE/SKILL round-40 text — every shared number (21 mutants, 28 cases, 8/20, 111→114 rows, 46→47 files, killed counts, hashes). List every drift with both locations.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40ConnClaims.md); end with VERDICT: drift-<n>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40ConnFrontier",
+   "role": "connector",
+   "axes": [
+    "coverage"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40ConnFrontier (connector).\n# Task\nFrontier check at ec1005a2a28bc5cfdde7723374368ed4cc956eed: does the README §Frontier TB2 clause now say 6 of 89; is the binary-database-pair class recorded consistently in README coverage map, PROVINCE and SKILL; does any SHONEN/SCORECARD self-assessment line mismatch the repo (count, file:line).\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40ConnFrontier.md); end with VERDICT: frontier-consistent-<yes|no>-mismatches-<n>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40CritSeparability",
+   "role": "critic",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40CritSeparability (critic).\n# Task\nSeparability test: in one clone remove the C2 package (entry, S119-S121 rows, README lines, receipt) and run the C1 counter (HOST-SAFETY sandbox) — does C1 still pass? In another remove plans/battery40 and run the C2 counter — does C2 pass? Report both receipts and whether the claims' separability sentence holds.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40CritSeparability.md); end with VERDICT: separable-c1-<yes|no>-c2-<yes|no>.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  },
+  {
+   "name": "F40CritPlanNext",
+   "role": "critic",
+   "axes": [
+    "calibration",
+    "coverage"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 40 wave 2 item F40CritPlanNext (critic).\n# Task\nAttack the round-41 plan (/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/build/R40PlanNext.md if present, else SCORECARD `### Planned (round 41)`): re-run one priced control cheaply, check each candidate against the lane's PROVINCE refusals and the routed list in /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/lessons/round-40.md, and say which candidate a do-nothing control could reach.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-40/falsify/F40CritPlanNext.md); end with VERDICT: plan41-attack-<n>-defects.\n",
+   "milestone": "kengaku r40 wave 2 (falsify)"
+  }
+ ]
+}
