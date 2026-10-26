@@ -423,3 +423,15 @@ both flips fired and are executed, not waived: **S136** pins `environment/Docker
 copy of the cipher, keyed from Python `random` at `feal.py:27`, never the graded cipher). Both were re-opened by the L1
 2026-10-26 19:18 -03: `200`, `cmp` identical to the captures (`c40553e4…`, `23cc077b…`). Tier B: they fix the
 environment the graded predicate (S129, S131, S132) assumes; neither is a source of the graded rule.
+
+## Errata (round 43, L1 self-review after landing; nothing above edited)
+
+- **E1 — `## Regrade`, first sentence.** "The probe's harness is imported once per grading process and calls the one test
+  function twice … under the tags `TEST` and `REGRADE`" is wrong: each grading is a separate fresh harness process
+  that calls the test function once and prints one `TEST` line (`plans/feal_probe.py` `HARNESS_PY`, `run_case` returns
+  two `harness(cap, work, "grade")` results); there is no `REGRADE` tag in this probe (that was the round-42 fibsqrt
+  harness). The rest of the paragraph (fixed end state, re-seeded keys per process) stands.
+- **E2 — Summary (1), "five cheats that never recover the key".** `cheat-import-get_keys` returns the true `key[5]`
+  read from the reference module; read "five cheats that perform no cryptanalysis" — the sentence that closes the
+  paragraph ("None of them performs cryptanalysis") is the accurate statement.
+

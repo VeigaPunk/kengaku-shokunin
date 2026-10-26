@@ -1,0 +1,38 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43PlanNext/env /fast/scratch/hyaku/kengaku-r43/R43PlanNext/env --bind /fast/scratch/hyaku/kengaku-r43/R43PlanNext/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 rcall.py
+ENVELOPE start 19:41:42 cwd=/fast/scratch/hyaku/kengaku-r43/R43PlanNext
+REF-STABLE True
+POP 73 selftest-killed 40 selftest-survivors 33
+98 0 -> 1 | ['gate-receipt-deleted:0>2']
+98 == -> != | ['gate-receipt-deleted:0>2']
+116 and -> or | ['live-r40:0>0', 'live-r41:0>0', 'live-r39:0>0', 'live-r43:0>0']
+122 == -> != | ['only-evidence-path-claims:0>2', 'foreign-round-receipt:0>0', 'census-lane-parent:0>2']
+122 if-test -> False | ['only-evidence-path-claims:0>2', 'census-lane-parent:0>2']
+132 or -> and | ['gate-receipt-deleted:0>2']
+145 and -> or | ['census-from-cwd:2>0']
+145 if-test -> False | ['gate-env-root:0>2']
+149 if-test -> False | ['census-lane-parent:0>2']
+165 if-test -> False | ['gate-lane-is-file:2>2']
+168 if-test -> False | ['live-lane-notgit:2>2']
+170 if-test -> False | ['live-lane-subdir:2>2']
+175 if-test -> False | ['live-r99:2>1']
+178 if-test -> False | ['gate-no-order-tool:2>1']
+180 if-test -> False | UNWITNESSED
+182 if-test -> False | ['gate-no-sources:2>2']
+200 not x -> x | UNWITNESSED
+200 or -> and | ['gate-ok-r39:0>0', 'gate-receipt-deleted:0>0', 'gate-env-root:0>0', 'live-r40:0>0', 'live-r41:0>0', 'live-r39:0>0', 'live-r43:0>0', 'only-evidence-path-claims:0>0', 'foreign-round-receipt:0>0', 'census-lane-parent:0>0']
+201 if-test -> False | UNWITNESSED
+210 if-test -> False | UNWITNESSED
+243 if-test -> False | ['selftest-preseeded-work:0>1', 'selftest-reused-work-twice:0>1']
+243 or -> and | ['selftest-preseeded-work:0>1', 'selftest-reused-work-twice:0>1']
+245 if-test -> False | ['selftest-reused-work-twice:0>1']
+300 if-test -> False | UNWITNESSED
+319 if-test -> False | ['selftest-no-census:2>1']
+321 return 2 -> 0 | ['selftest-no-census:2>0']
+322 if-test -> False | ['selftest-empty-lane:2>1']
+324 return 2 -> 0 | ['selftest-empty-lane:2>0']
+326 if-test -> False | ['live-noround:2>2']
+326 is -> is not | ['gate-ok-r39:0>2', 'gate-receipt-deleted:0>2', 'gate-no-order-tool:2>2', 'gate-no-sources:2>2', 'gate-lane-is-file:2>2', 'gate-env-root:0>2', 'gate-census-dir:2>2', 'live-r40:0>2', 'live-r41:0>2', 'live-r39:0>2', 'live-r99:2>2', 'live-noround:2>2', 'live-census-missing:2>2', 'live-lane-subdir:2>2', 'live-lane-notgit:2>2', 'live-r43:0>2', 'only-evidence-path-claims:0>2', 'foreign-round-receipt:0>2', 'census-from-cwd:2>2', 'census-lane-parent:0>2']
+328 if-test -> False | ['gate-census-dir:2>1', 'live-census-missing:2>1', 'census-from-cwd:2>1']
+328 is -> is not | ['gate-ok-r39:0>2', 'gate-receipt-deleted:0>2', 'gate-no-order-tool:2>2', 'gate-no-sources:2>2', 'gate-lane-is-file:2>2', 'gate-env-root:0>2', 'gate-census-dir:2>1', 'live-r40:0>2', 'live-r41:0>2', 'live-r39:0>2', 'live-r99:2>2', 'live-census-missing:2>1', 'live-lane-subdir:2>2', 'live-lane-notgit:2>2', 'live-r43:0>2', 'only-evidence-path-claims:0>2', 'foreign-round-receipt:0>2', 'census-from-cwd:2>1', 'census-lane-parent:0>2']
+331 return 2 -> 0 | ['gate-census-dir:2>0', 'live-census-missing:2>0', 'census-from-cwd:2>0']
+ENVELOPE end 19:42:45 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

@@ -1,0 +1,26 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43PlanNext/env /fast/scratch/hyaku/kengaku-r43/R43PlanNext/env --bind /fast/scratch/hyaku/kengaku-r43/R43PlanNext/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r43/R43PlanNext/ctr/c1_u.py --lane /fast/scratch/hyaku/kengaku-r43/R43PlanNext/lane --battery-dir /fast/scratch/hyaku/kengaku-r43/R43PlanNext/bat --work /fast/scratch/hyaku/kengaku-r43/R43PlanNext/w43
+ENVELOPE start 19:44:55 cwd=/fast/scratch/hyaku/kengaku-r43/R43PlanNext
+PINS total=2 mismatched=0
+FIXTURE u14-no-claims-flag tool=order expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE u14c-odd-claims-name tool=order expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE u3-row-path-binds tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u5-sixty-three-hex tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+FIXTURE u6-sixty-five-hex tool=anchor expect=reject declared=digest-long observed_rc=1 observed=digest-long ok
+FIXTURE u7-twin-captures tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u9-dirty-erratum tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT U3 anchor rc-mirror killed by=u3-row-path-binds attributed=L354 value=differs hits=3 -- plans/anchor_digest_check.py:62-64 explicit lane path binds that committed file
+MUTANT U5 anchor silence killed by=u5-sixty-three-hex attributed=L522 value=differs hits=1 -- plans/anchor_digest_check.py:88 digest-short class
+MUTANT U6 anchor silence killed by=u6-sixty-five-hex attributed=L522 value=differs hits=1 -- plans/anchor_digest_check.py:88 digest-long class
+MUTANT U7 anchor rc-mirror killed by=u7-twin-captures attributed=L539 value=differs hits=1 -- plans/anchor_digest_check.py:99-100 token resolving to several captures is not a defect
+MUTANT U9 anchor rc-mirror killed by=u9-dirty-erratum attributed=L384 value=differs hits=1 -- plans/anchor_digest_check.py:106-108 lessons read from working tree
+MUTANT U14 order error UNATTRIBUTED hits=1 last=site-record-equal first=u14-no-claims-flag span=L144-L144 -- plans/order_check.py:26 exit 2 bad arguments
+MUTANT U14c order error killed by=u14c-odd-claims-name attributed=L161 value=differs hits=1 -- plans/order_check.py:26 exit 2 unparseable round number
+MUTANT U16 order rc-silence SURVIVED exhibits=none -- plans/order_check.py:37-38 every blob under claims/ is read
+MUTANT U18 order rc-silence SURVIVED exhibits=none -- plans/order_check.py:14 scanned dir derived from round number
+BATTERY fixtures=7 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=9 killed=6 survived=2 invalid=0 null_detected=0 unattributed=1
+MUTANTS-BY-TOOL anchor=5/5 order=1/4
+ADVERTISED direct=9 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 19:44:58 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

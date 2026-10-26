@@ -1,0 +1,48 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43PlanNext/env /fast/scratch/hyaku/kengaku-r43/R43PlanNext/env --bind /fast/scratch/hyaku/kengaku-r43/R43PlanNext/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r43/R43PlanNext/ctr/c1_u.py --lane /fast/scratch/hyaku/kengaku-r43/R43PlanNext/lane --battery-dir /fast/scratch/hyaku/kengaku-r43/R43PlanNext/lane/plans/battery42 --work /fast/scratch/hyaku/kengaku-r43/R43PlanNext/w42
+ENVELOPE start 19:44:09 cwd=/fast/scratch/hyaku/kengaku-r43/R43PlanNext
+PINS total=2 mismatched=0
+FIXTURE a_class-x6-sibling-digest tool=anchor expect=reject declared=digest-wrong-capture observed_rc=1 observed=digest-wrong-capture ok
+FIXTURE a_class-x6-stale-manifest tool=anchor expect=reject declared=digest-wrong-capture observed_rc=1 observed=digest-wrong-capture ok
+FIXTURE a_class-x7-fabricated-token tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE a_class-x7-provenance-row tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE a_class-x14-uppercase-token tool=anchor expect=reject declared=erratum-digest-unresolved observed_rc=1 observed=erratum-digest-unresolved ok
+FIXTURE a_class-x14-two-errata tool=anchor expect=reject declared=erratum-digest-unresolved observed_rc=1 observed=erratum-digest-unresolved ok
+FIXTURE a_route-x1-provenance-table tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_route-x1-two-row-registry tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_route-x3-provenance-url tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_route-x3-blob-url tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_route-x12-slashless-toml tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_route-x12-two-tomls tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_row-x9-short-no-token tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_row-x9-registry-short-valid tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_row-x13-staged-capture tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE a_row-x13-url-staged tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE a_row-x15-sibling-digest tool=anchor expect=reject declared=digest-unknown,erratum-incomplete observed_rc=1 observed=digest-unknown,erratum-incomplete ok
+FIXTURE a_row-x15-manifest-sibling tool=anchor expect=reject declared=digest-unknown,erratum-incomplete observed_rc=1 observed=digest-unknown,erratum-incomplete ok
+FIXTURE o_clause-freeze-single tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_clause-freeze-pair-edited-after tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_clause-receipt-withdrawn tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_clause-receipt-side-line tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_clause-clean-order tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo5-post-receipt-verdicts tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo5-amended-claims-blob tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo6-pass-verdict-row tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo6-echoed-pass-row tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo7-timeout-rows tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_scan-xo7-skipped-row-r38 tool=order expect=reject declared=- observed_rc=1 observed=- ok
+MUTANT U3 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:62-64 explicit lane path binds that committed file
+MUTANT U5 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:88 digest-short class
+MUTANT U6 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:88 digest-long class
+MUTANT U7 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:99-100 token resolving to several captures is not a defect
+MUTANT U9 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:106-108 lessons read from working tree
+MUTANT U14 order error SURVIVED exhibits=none -- plans/order_check.py:26 exit 2 bad arguments
+MUTANT U14c order error SURVIVED exhibits=none -- plans/order_check.py:26 exit 2 unparseable round number
+MUTANT U16 order rc-silence killed by=o_scan-xo7-timeout-rows attributed=L126 value=differs hits=2 -- plans/order_check.py:37-38 every blob under claims/ is read
+MUTANT U18 order rc-silence killed by=o_scan-xo7-timeout-rows attributed=L164 value=differs hits=2 -- plans/order_check.py:14 scanned dir derived from round number
+BATTERY fixtures=29 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=9 killed=2 survived=7 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/5 order=2/4
+ADVERTISED direct=9 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 19:44:14 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

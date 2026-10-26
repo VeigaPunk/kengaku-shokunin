@@ -636,3 +636,8 @@ here, and no sibling is credited with owning it. Advising an agent how to attack
 differential cryptanalysis on FEAL, are likewise not this lane's: the task's own `solve.sh` is executed as one case
 and observed pass, nothing more. Terminal-Bench's task, image and oracle stay the benchmark's; the round35-42
 paragraphs above stay as written, and this paragraph narrows only their "remaining TB2 tasks" clause for this one task.
+
+Erratum (round 43, L1 self-review): the round-43 paragraph's "plus a ninth pass that is the reference attack followed by a
+45 s sleep" miscounts — `slow-oracle-45s` is the eighth pass (oracle 1 + six cheats + slow oracle = 8,
+`corpus/evidence/round43/feal-probe.txt:23` `observed_pass=8`).
+
