@@ -1146,3 +1146,37 @@ recorded probe run `e95cf550` (second run byte-equal). Lesson `corpus/lessons/ro
 - Tool use: biopython 1.85 via `uv run --with` (gate P10, ephemeral); gcc 16.2.1, bubblewrap 0.13.1, libX11 already
   installed. pytest 8.4.1 + pytest-json-ctrf 0.3.5 into scratch `uv venv -p 3.13` (PyPI via uv; `R38CritPytest`,
   `R38PlanNext`), removed with the scratch. No pacman transaction.
+
+## Round 39 (hyaku run 8, 2026-10-26) — undemonstrated gate behaviours killed (7/7, directions witnessed); fifth TB2 grader executed
+
+L1 `KengakuR39` (planner seat). Freeze `088f7c36` (claims, both counters, the probe and its frozen 25-case table with
+`violates=` tags, seven captures, red controls including an in-process hostile module); first recorded probe run `6a1eb5e1`
+(second run byte-equal). Lesson `corpus/lessons/round-39.md`.
+
+- C1 (calibration, predicate met): 7 frozen mutants of `plans/pkg_gate.py` — round-38 N21 carried as `mirror`, six round-38
+  wave-2 survivors — each with a pre-freeze direction witness; freeze `killed=3 survived=4`; four wave-1 executors wrote
+  `plans/battery39/` (one fixture each); landing `BATTERY fixtures=90 wrong=0 renamed_disagree=0 sidechannel=0`, `MUTANTS
+  total=7 killed=7`, `PREDICATE C1 pass`. A wave-1 critic showed the frozen counter is gameable four ways (A1/A3/A4/A5,
+  `build/R39CritC1Counter.md`); the post-hoc `plans/round39_c1_audit.py` closes them for this battery (`AUDIT C1 clean`) and
+  refuses the A3 replay. Advertised-only count 2 → 0 (three `adv` cells reach no sentence).
+- C2 (coverage, predicate met): TB2 `git-leak-recovery` @ `2fd12b88`, S117/S118; probe `cases=25 observed_pass=13
+  observed_fail=12 mismatches=0`. Observations on the pinned capture: the untouched initial repo fails only the flag test;
+  writing the literal alone passes 5/5 while the reset-away secret commit stays in the object store (so do `gc` alone and a
+  reflog expiry alone); a ref to the secret blob, an annotated tag message, a stash, a dot file and `.git/config` pass 5/5; a
+  dangling blob or a dangling commit whose message is the secret fails test 4; git's `fsck --lost-found` ignores reflogs
+  (`builtin/fsck.c:905-908`), which is why the oracle passes. Real pytest 8.4.1 agrees 25/25 (`R39CritPytest`), an
+  independent re-derivation 25/25 (`R39CritIndep`). Prior art: TB's own nop-validation contract and two third-party runs
+  record the task-level reject; one LLM audit names and dismisses the reflog gap; no upstream issue. Coverage held at 7 (L0 cap).
+- Frontier / routed: order-of-operations gate `plans/order_check.py` + Q30 (red on rounds 37 and 38, green on 39);
+  `## Errata (round 39)` on the round-38 lesson and three TB2 entries (R3, R4); anchor locator binding and ledger-tip
+  provenance (R5); direction-check redundant leg (R2); PROVINCE sibling deferral of secret-removal procedure to kagi/souji.
+- Assimilation: `considerthese/2026-10-25.md` proposal 2(b) → the order gate; `merge/kengaku/` unchanged, nothing adopted
+  (collisions 33, admit-candidates 2 deferred).
+- Mistakes mined: the order class closed by a gate; the L1's own erratum on the round-35 genuine-package entry (caught by the C1
+  counter's SETUP refusal, reverted before commit); the C1 counter's isolation overclaim; the `adv`-cell count; the
+  separability sentence.
+- Re-verification (freshness): S117/S118 equal upstream `main` and TB2.1 (`R39ScoutUpstream`); four due SOURCES rows re-opened
+  with no status change (`R39SourcesRecheck`); every no-harm instrument green at the landing tip (`integrate/measure-final.txt`).
+- Tool use: no host install. Wave-1 seats: pytest 8.4.1 into scratch `uv venv -p 3.13` (PyPI via uv, removed with scratch,
+  `R39CritPytest`); docker `ubuntu:24.04` base image pulled to check apt git 2.43.0 (`R39CritFsckReflog`); biopython 1.85
+  via `uv run --with` for the gate's P10. No pacman transaction.

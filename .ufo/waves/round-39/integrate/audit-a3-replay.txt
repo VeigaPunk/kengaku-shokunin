@@ -1,0 +1,18 @@
+# A3 replay (zz_inproc.py in plans/battery37) on a clone of 34158b0
+$ python3 plans/round39_c1_verify.py --lane .
+PINS total=26 mismatched=0
+BATTERY fixtures=92 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT M01 D5 mirror killed by=a3z-forged-d5-accept -- a D5 capture whose digest sits on a non-first manifest row is accepted [Q24 'the genuine package must be accepted' (indirect: D5 is a correction line, not the package); round-38 N21 relabelled from its unreachable 'silence']
+MUTANT M02 P1 silence killed by=a3z-forged-reject -- every frozen instrument is checked against its pin, not only the first [package-gate row 'against a spec of pinned digests ... a stub probe dies on its digest pin']
+MUTANT M03 P3 silence killed by=a3z-forged-reject -- a quote one word above the spec's upper word bound is a defect [gate docstring 'quote bounds ... come from --spec']
+MUTANT M04 P7 silence killed by=a3z-forged-reject -- a registry row carries exactly one source line, the pinned URL [package-gate row 'SOURCES rows ... against a spec of pinned digests' (indirect: the row names the source, the gate pins its URL)]
+MUTANT M05 RUN rc-silence killed by=p23-p2-receipt-deleted -- a package with a DEFECT clause exits 1, not 0 [gate docstring 'exit 0 = accept, 1 = reject'; package-gate row 'Exit 0 accept / 1 reject / 2 setup']
+MUTANT M06 MAIN rc-mirror killed by=r36-P0 -- the genuine package exits 0, not 1 [gate docstring 'exit 0 = accept, 1 = reject'; Q24 'the genuine package must be accepted']
+MUTANT M07 D5 mirror killed by=a3z-forged-d5-accept -- a D5 quote is found in a capture whose quote span carries markup [Q24 'the genuine package must be accepted' (indirect, as M01); the gate strips tags before the flat compare]
+MUTANTS total=7 killed=7 survived=0 invalid=0 null_detected=0
+PREDICATE C1 pass
+exit=0
+$ python3 plans/round39_c1_audit.py --lane .
+PINS total=26 mismatched=1 first=plans/battery37/zz_inproc.py
+AUDIT unpinned battery module present; refusing to import it
+exit=2

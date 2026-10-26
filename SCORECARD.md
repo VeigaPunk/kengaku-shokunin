@@ -1371,3 +1371,50 @@ binds each token to its own row's capture (D3); `plans/ledger_tip.py` binds an a
   (anchor check, attribution audit, ledger-tip) — re-price after this round's D3/D4 repairs.
 - Coverage/novelty (tied 7): TB2 `git-leak-recovery` @ `2fd12b88` (repository-history-state class; `R38PlanNext` §2:
   the untouched repo passes 4/5, a one-line `echo` passes 5/5), first recorded probe run before any `--rerun` control.
+
+## Round 39 (hyaku run 8, 2026-10-26): undemonstrated gate behaviours killed with witnessed directions; a fifth TB2 grader executed
+
+Baseline as read `b2bdd425fbc042d3075994dae60fe88a51e277ab`; freeze `088f7c36e94ce2f15e6f9aa0c5a5c5b75a1646c8` (a child of the
+round-38 L1's late `ef2fba0`, which moved no frozen input — lesson header); first recorded probe run `6a1eb5e1`. Frozen prereg
+`plans/round-39-claims.md`. Lowest non-retired axis: coverage 7, tied with novelty 7; coverage chosen (frozen tie-break), capped
+at 7 by the open L0 question `kengaku | round-33`. No stagnation waiver. Landing measurement
+`.ufo/waves/round-39/integrate/measure-final.txt` (clean `--no-local` clone of the measured tip).
+
+| claim | axis | observed before → after, counting command | score / verdict |
+|---|---|---|---|
+| C1 the gate behaviours still undemonstrated after round 38: 7 frozen mutants M01–M07 of `plans/pkg_gate.py` (unedited, `ea638822…`), N21 carried as `mirror`, round-38 wave-2 survivors, every direction witnessed before freeze, two exit-code legs, battery modules built out of process | **calibration** — mismatch count between what the gate's docstring, Q24/Q27 and the `package-gate` row advertise and what the batteries show | `python3 plans/round39_c1_verify.py --lane .` on a clean clone: before `BATTERY fixtures=86 wrong=0 renamed_disagree=0 sidechannel=0`, `MUTANTS total=7 killed=3 survived=4`, `PREDICATE C1 fail`, exit 1 (`.ufo/waves/round-39/claims/control-c1-nothing.txt`) → after `PINS total=26 mismatched=0`, `BATTERY fixtures=90 wrong=0 renamed_disagree=0 sidechannel=0`, `MUTANTS total=7 killed=7 survived=0 invalid=0 null_detected=0`, `PREDICATE C1 pass`, exit 0 (`measure-final.txt`). Advertised-only recount (M02, M03, M05, M06 reach a sentence; M01, M04, M07 do not — `R39CritClaims` §1): 2 → 0 | **8 → 8 held**; frozen predicate met. No raise: the frozen counter is gameable by a dishonest battery (`R39CritC1Counter` A1/A3/A4/A5); admission also rests on the post-hoc `plans/round39_c1_audit.py` (`AUDIT C1 clean` on the landed battery, A3 replay refused) and on non-author review of `plans/battery39/` (wave 2) |
+| C2 pinned TB2 `git-leak-recovery` grader admitted with an executed 25-case sandbox probe (S117 `tests/test_outputs.py`, S118 `instruction.md`) | **coverage** (lowest, tied) — `coverage/surfaces`: one §Frontier TB2 sub-bullet narrowed by one task, one coverage-map bullet, one PROVINCE paragraph, knowledge files/index rows 45→46, SOURCES 109→111; one edge class new to the executed sample (graded state = a repository's refs, object store and dangling objects plus a flag file and a work-tree digest) | `python3 plans/round39_c2_verify.py --lane .`: before `checks=7 defects=4` (V2, V3, V4, V7), exit 1 (`claims/control-c2-nothing.txt`) → after `checks=7 defects=0`, `PREDICATE C2 pass`, exit 0 (`measure-final.txt`); probe `cases=25 observed_pass=13 observed_fail=12 mismatches=0`, second run byte-equal | **7 → 7 held** (L0 cap); frozen predicate met |
+
+Other axes held: novelty 7, depth 9, operability 8, freshness 8, adjacency 8. No-harm at the landing tip (`measure-final.txt`):
+round-38 C1 `killed=21 survived=1` as landed, round-38 C2 pass, round-37 C1 `killed=55` pass, round-37 C2 pass, round-36 C2 pass,
+anchor check `defects=0`, ledger-tip `mismatches=0`, census exit 0, frozen digests 9/9 OK; `order_check` round 38 exit 1, round 39
+exit 0.
+
+### Round-39 capabilities (demonstrated this round)
+
+| Capability | What it can now do | Evidence / command | First-working round |
+|---|---|---|---|
+| `repo-history-grader-probe` | Execute a pinned TB2 grader whose graded state is a git repository (refs, reflog, object store, dangling objects) plus a flag file, per case in bubblewrap with the task's own setup script, frozen predictions and `violates=` tags | `python3 plans/git_leak_probe.py --lane .` → `cases=25 observed_pass=13 observed_fail=12 mismatches=0`, byte-equal re-run (`measure-final.txt`) | 39 |
+| `order-of-operations-gate` | Read committed history and fail when a frozen probe executed before the round's first receipt commit (QUALITY Q30) | `python3 plans/order_check.py --lane . --claims plans/round-38-claims.md --receipt corpus/evidence/round38/build-pmars-probe.txt` → `ORDER RESULT FAIL`, exit 1; round 39 → `ORDER RESULT PASS`, exit 0 | 39 |
+
+Frontier and routed work (not claims): QUALITY Q30 (order gate; considerthese 2026-10-25 proposal 2(b)); round-38 closure R2
+(N21 relabelled, rc legs, out-of-process build; direction check gains a redundant leg, `R39DirCheckLeg` 3/3), R3 (gate + `##
+Errata (round 39)` on `corpus/lessons/round-38.md`), R4 (corrected recheck errata on three TB2 entries; the round-35 entry's
+correction lives in the round-39 lesson because that file is fixture bytes), R5 (anchor check binds each digest to its own
+locator, `R39AnchorUnion`; ledger-tip prints the audited revision and refuses a stale master, `R39LedgerProvenance`), R1 closed
+by the round-38 L1 in `ef2fba0`. Registry 109 → 111 (tier A +2), knowledge 45/45 → 46/46, census exit 0 before and after.
+
+Round-38 errata (from `R39AdvErrata`, verified against the files): N09's and N11's `adv` sentences overstate what the frozen gate
+enforces (`F38CritBatE` D1/D2); 3 of the 22 round-38 `adv` cells name no advertising sentence (`R38CritClaims` §1); the round-39
+list repeats the shape in M01, M04, M07 (lesson Mistakes row 4).
+
+### Planned (round 40)
+
+- Calibration (8): re-freeze the C1 counter with the four soundness repairs inside the frozen rule (kill re-check, closed
+  battery name sets, pins re-hashed after the run, parent-owned fixture dirs — `R39CritC1Counter` §2-§5), then mutation-test the
+  lane's tripwire tools: `R39PlanNext` priced 17 frozen mutants (anchor 10, ledger-tip 7) at `killed=0` for the standing
+  detectors, and `order_check.py` at 4 of 13 seat-written mutants.
+- Coverage/novelty (tied 7): TB2 `db-wal-recovery` @ `2fd12b88` (`R39PlanNext`: task oracle passes 7/7 offline, nop fails 7/7,
+  byte-equal reruns); fallback `openssl-selfsigned-cert` with the host OpenSSL 3.6.5 limit declared. Novelty rider priced, not
+  filed: grader re-run stability (`polyglot-c-py` fails its second grading).
+- Carried: a separately frozen `defect_ledger` check so the order class can enter `corpus/defects.jsonl` with `recurrence=2`.

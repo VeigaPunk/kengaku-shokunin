@@ -15,6 +15,9 @@ echo "untracked_in_clone=$(git status --porcelain --untracked-files=all | wc -l)
 r() { echo "\$ $*"; "$@"; echo "exit=$?"; }
 r python3 plans/round39_c1_verify.py --lane . --work "$S"
 r python3 plans/round39_c2_verify.py --lane . --work "$S"
+r python3 plans/round39_c1_audit.py --lane . --work "$S"
+r python3 plans/order_check.py --lane . --claims plans/round-39-claims.md --receipt corpus/evidence/round39/git-leak-probe.txt
+r python3 plans/order_check.py --lane . --claims plans/round-38-claims.md --receipt corpus/evidence/round38/build-pmars-probe.txt
 r python3 plans/round38_c1_verify.py --lane . --work "$S"
 r python3 plans/round38_c2_verify.py --lane . --work "$S"
 r python3 plans/round37_c1_verify.py --lane . --work "$S"
