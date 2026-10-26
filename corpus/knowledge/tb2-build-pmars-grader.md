@@ -175,6 +175,26 @@ observed `pass`. The per-line reading:
   so the `\d{5}` width and the `>= 2` count are enforced; `canned-shape` passes with two literal address lines
   printed by a program that has no debugger.
 
+### Contestable tags (round-38 wave 1, `.ufo/waves/round-38/build/R38CritProbe.md` §3)
+
+The `violates=` tags are frozen with the predictions and are not edited; five are contestable, and one is
+load-bearing for a label:
+
+- **`canned-x11-dlopen` → `no-x11` (load-bearing).** The `dlopen()` really fires (`strace` shows the open of
+  `libX11.so.6`) but the artefact is a hand-made rig that calls no X11 symbol; a `-lX11` build is caught
+  (`canned-x11-linked`, `PFPP`). The case shows a run-time-loaded library is invisible to the `ldd` scan, not that an
+  X11-enabled pMARS passes. Without this tag `no-x11`'s three carriers derive `enforced`, not `partly`.
+- **`results-negative` → `results-format`, `pmars-dir-elsewhere` → `extract-to-app`, `four-digit-address` →
+  `debugger-works`.** Each failing case shows grader **strictness** (`\d+` rejects a sign; the one-level glob rejects
+  a tree under `/app/src/`; `\d{5}` is a pMARS convention, not an instruction term) more than a violated
+  requirement. No label moves without them.
+- **`silent-binary` → `install-path`.** The silent file *is* installed at the instruction's path; it fails lines 7
+  and 9, not line 3's install clause. No label moves.
+- **The accept side is fabricated by construction.** The task's `environment/Dockerfile` copies both warriors into
+  `/app` (`COPY warriors/flashpaper.red warriors/rave.red /app/`, line 9 at `2fd12b88`, opened by the L1 2026-10-26,
+  not captured); the probe stages neither, so a genuine pMARS build could not pass this sandbox. The seven `pass`
+  cases are fabricated artefacts; the receipt says nothing about how the grader treats a real build.
+
 ## The executed probe
 
 Frozen instrument `plans/build_pmars_probe.py` (sha256 `32f0771c…25c24a`), 22 cases, one bubblewrap sandbox per
