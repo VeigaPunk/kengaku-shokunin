@@ -19,13 +19,13 @@ SPARSE = ("/corpus /plans /SCORECARD.md /LOG.md /SKILL.md /PROVINCE.md /consider
           "/.ufo/waves/round-34/build /.ufo/waves/round-36/claims /.ufo/waves/round-36/integrate")
 CLONE = (f'Fixture rule: D=$(mktemp -d /tmp/k36f-XXXX); git clone -q --no-checkout --shared {L} "$D/lane"; '
          f'git -C "$D/lane" sparse-checkout set --no-cone {SPARSE}; git -C "$D/lane" checkout -q master; verify '
-         f'`git -C "$D/lane" rev-parse --show-toplevel` equals "$D/lane" and `git -C "$D/lane" rev-parse master` starts with {TIP[:8]} '
+         f'`git -C "$D/lane" rev-parse --show-toplevel` equals "$D/lane" and `git -C "$D/lane" merge-base --is-ancestor {TIP} master` exits 0 (master may carry later evidence-only or errata commits) '
          f'before any write; every git call names -C "$D/lane"; never commit (index-only `git add` inside a mktemp fixture repo is fine; a fixture '
          f'commit needs identity `fixture <fixture@invalid>` and a `-C` naming the fixture only); rm -rf "$D" at the end.')
 
 CONTEXT = f"""# Goal
-kengaku round 36 (hyaku run 7, 2026-10-25), WAVE 2 of 2 (falsify). Lane repo: {L}. Landed tip under attack: master = {TIP}
-(read it with `git -C {L} rev-parse master`; it may move by errata commits — pin your clone to the hash above).
+kengaku round 36 (hyaku run 7, 2026-10-25), WAVE 2 of 2 (falsify). Lane repo: {L}. Landed tip under attack: {TIP}
+(master may carry later evidence-only or errata commits; `git -C {L} rev-parse master` is authoritative for your clone — do not rewrite or reset it).
 Frozen claims: {L}/plans/round-36-claims.md (freeze 3241b86c, Amendment 1 acbda2f3). Wave-1 reports (what you attack) are at {B}/R36*.md.
 - C1 calibration: hardened gate {L}/plans/pkg_gate.py (installed from candidate R36GateB), battery + ledger counter {L}/plans/round36_c1_verify.py,
   package spec {L}/plans/pkg-spec-r35.json, ledger {L}/corpus/defects-round35.jsonl (R35-D1..D4 `closed`). Measured at the tip in a clean sparse clone:
