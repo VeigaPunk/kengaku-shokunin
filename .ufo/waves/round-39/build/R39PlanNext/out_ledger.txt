@@ -1,0 +1,35 @@
+== pristine verdicts ==
+T00-control-tip                          rc=0 rows=9 closed=9 observed_pass=9 mismatches=0 refbind=0 err=
+T01-source-normal                        rc=0 rows=9 closed=9 observed_pass=9 mismatches=0 refbind=0 err=
+T02-source-no-master (D4)                rc=0 rows=9 closed=9 observed_pass=9 mismatches=0 refbind=1 err=
+T03-source-stale-master (R5 shape)       rc=0 rows=9 closed=9 observed_pass=9 mismatches=0 refbind=1 err=
+T04-control-untracked-r34-path           rc=1 rows=9 closed=9 observed_pass=6 mismatches=3 refbind=0 err=
+T05-control-row-flipped-open             rc=1 rows=9 closed=8 observed_pass=9 mismatches=1 refbind=0 err=
+T06-control-empty-ledgers                rc=1 rows=0 closed=0 observed_pass=0 mismatches=0 refbind=0 err=
+T07-control-unknown-check                rc=1 rows=9 closed=9 observed_pass=8 mismatches=1 refbind=0 err=
+T08-source-not-a-repo                    rc=2 - refbind=0 err=REFUSE --source <P> is not a readable git repository
+T09-source-work-exists                   rc=2 - refbind=0 err=REFUSE will not reuse <P> remove it first
+T10-control-check-crashes                rc=1 rows=9 closed=9 observed_pass=8 mismatches=1 refbind=0 err=
+T11-control-dirty-tree                   rc=1 rows=9 closed=9 observed_pass=7 mismatches=2 refbind=0 err=
+T12-control-closed-row-fails-live        rc=1 rows=9 closed=9 observed_pass=7 mismatches=2 refbind=0 err=
+L01 tip=- tip+d4=- all=K  refuse exits 1 not 2  killers=['T08-source-not-a-repo:rc', 'T09-source-work-exists:rc']
+L02 tip=- tip+d4=K all=K  never bind a missing pin ref  killers=['T02-source-no-master:rc', 'T03-source-stale-master:rc']
+L03 tip=- tip+d4=K all=K  bind recorded but not applied  killers=['T02-source-no-master:rc', 'T03-source-stale-master:rc']
+L04 tip=- tip+d4=K all=K  REF BIND provenance line dropped  killers=['T02-source-no-master:text', 'T03-source-stale-master:text']
+L05 tip=- tip+d4=- all=K  open-row staleness ignored  killers=['T05-control-row-flipped-open:rc']
+L06 tip=- tip+d4=- all=K  zero rows accepted  killers=['T06-control-empty-ledgers:rc']
+L07 tip=- tip+d4=- all=K  global mismatch count never rises  killers=['T04-control-untracked-r34-path:rc', 'T05-control-row-flipped-open:rc', 'T07-control-unknown-check:rc', 'T10-control-check-crashes:rc', 'T11-control-dirty-tree:rc', 'T12-control-closed-row-fails-live:rc']
+L08 tip=- tip+d4=- all=K  observed_pass counts every row  killers=['T04-control-untracked-r34-path:text', 'T07-control-unknown-check:text', 'T10-control-check-crashes:text', 'T11-control-dirty-tree:text', 'T12-control-closed-row-fails-live:text']
+L09 tip=- tip+d4=- all=K  closed counts every row  killers=['T05-control-row-flipped-open:text']
+L10 tip=- tip+d4=- all=-  CalledProcessError folded back into a mismatch (D4 revert)  killers=[]
+L11 tip=- tip+d4=- all=K  existing clone dir reused (clone then fails)  killers=['T09-source-work-exists:rc']
+L12 tip=- tip+d4=- all=-  clean-tree refusal off  killers=[]
+L13 tip=- tip+d4=- all=-  clone top check off  killers=[]
+L14 tip=- tip+d4=- all=K  check crash counted as pass  killers=['T10-control-check-crashes:rc']
+L15 tip=- tip+d4=- all=K  unknown check counted as pass  killers=['T07-control-unknown-check:rc']
+L16 tip=- tip+d4=K all=K  second ledger rebinding prints REF BIND twice  killers=['T02-source-no-master:text', 'T03-source-stale-master:text']
+L17 tip=K tip+d4=K all=K  kind label flips  killers=['T00-control-tip:text', 'T01-source-normal:text', 'T02-source-no-master:text', 'T03-source-stale-master:text', 'T04-control-untracked-r34-path:text', 'T05-control-row-flipped-open:text', 'T07-control-unknown-check:text', 'T10-control-check-crashes:text']
+L18 tip=- tip+d4=- all=K  control-mode dirty count lost  killers=['T04-control-untracked-r34-path:text', 'T05-control-row-flipped-open:text', 'T06-control-empty-ledgers:text', 'T07-control-unknown-check:text', 'T10-control-check-crashes:text', 'T11-control-dirty-tree:text', 'T12-control-closed-row-fails-live:text']
+L19 tip=- tip+d4=- all=-  no-tip refusal (unreachable)  killers=[]
+L20 tip=- tip+d4=- all=-  shared-ref rebinding to tip (equivalent)  killers=[]
+MUTANTS n=20 killed_by_tip=1 killed_by_tip+d4=5 killed_by_all=15

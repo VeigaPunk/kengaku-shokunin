@@ -1,0 +1,29 @@
+# tb2 git-leak-recovery grader probe (kengaku round 39) @ terminal-bench-2 2fd12b88
+# capture challenge-setup.sh sha256=a0a19652fc595b0bd06b6970e1d6a455bd4c50991c2ffdcc37fe5b66452b23e2
+# capture solve.sh sha256=791a7eb23019ee7c93307b35cc77ea334469c4d3688e1171fe1e5ba6fd9a14dd
+# capture test_outputs.py sha256=dc7b01c1b9dbb0c123def54b146dc1dd399a600edee5970d043a5db5eac4c775
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r39/R39SentinelProbe/probe_t0.py", line 301, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/fast/scratch/hyaku/kengaku-r39/R39SentinelProbe/probe_t0.py", line 274, in main
+    rc, out = run_case(cap, root, c, "grade")
+              ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r39/R39SentinelProbe/probe_t0.py", line 214, in run_case
+    p = subprocess.run(sandbox_argv(cap, work) + ["/usr/bin/python3", "/harness.py", mode,
+                                                  "1" if case.setup else "0"],
+                       env=env, capture_output=True, text=True, timeout=0.001)
+  File "/usr/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 2154, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 1268, in _check_timeout
+    raise TimeoutExpired(
+    ...<2 lines>...
+            stderr=b''.join(stderr_seq) if stderr_seq else None)
+subprocess.TimeoutExpired: Command '['/usr/bin/bwrap', '--unshare-net', '--unshare-pid', '--unshare-ipc', '--die-with-parent', '--new-session', '--ro-bind', '/usr', '/usr', '--symlink', 'usr/bin', '/bin', '--symlink', 'usr/bin', '/sbin', '--symlink', 'usr/lib', '/lib', '--symlink', 'usr/lib', '/lib64', '--ro-bind', '/etc', '/etc', '--proc', '/proc', '--dev', '/dev', '--tmpfs', '/tmp', '--bind', '/fast/scratch/hyaku/kengaku-r39/R39SentinelProbe/w4/k39-glr-oy6sf4yj/glr-ntmnyvf6/app', '/app', '--dir', '/cap', '--ro-bind', '/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round39/tb2-git-leak-recovery/challenge-setup.sh', '/cap/challenge-setup.sh', '--ro-bind', '/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round39/tb2-git-leak-recovery/solve.sh', '/cap/solve.sh', '--ro-bind', '/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round39/tb2-git-leak-recovery/test_outputs.py', '/cap/test_outputs.py', '--ro-bind', '/fast/scratch/hyaku/kengaku-r39/R39SentinelProbe/w4/k39-glr-oy6sf4yj/glr-ntmnyvf6/recipe.sh', '/recipe.sh', '--ro-bind', '/fast/scratch/hyaku/kengaku-r39/R39SentinelProbe/w4/k39-glr-oy6sf4yj/glr-ntmnyvf6/harness.py', '/harness.py', '--chdir', '/app', '/usr/bin/python3', '/harness.py', 'grade', '0']' timed out after 0.001 seconds

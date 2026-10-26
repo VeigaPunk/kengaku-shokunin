@@ -1,0 +1,173 @@
+#!/usr/bin/env python3
+"""Per-case state inspection (round-39 C2 probe attack).
+
+For each frozen case: rebuild setup + recipe in a scratch dir (paths /app -> case app dir, /cap -> capture dir),
+snapshot the agent end state (object store, refs, work tree, .git files, reflog), then re-derive the five grader
+checks including the checksum with the grader's own absolute prefix /app/repo.
+"""
+import hashlib, importlib.util, json, os, pathlib, re, shutil, subprocess, sys
+
+S = pathlib.Path(sys.argv[1]).resolve()
+LANE = S / "lane"
+OUT = pathlib.Path(sys.argv[2]).resolve()
+CASES_DIR = S / "cases"
+CAP = LANE / "corpus/evidence/round39/tb2-git-leak-recovery"
+
+spec = importlib.util.spec_from_file_location("probe", LANE / "plans/git_leak_probe.py")
+probe = importlib.util.module_from_spec(spec); sys.modules["probe"] = probe; spec.loader.exec_module(probe)
+
+HOME = S / "home"; HOME.mkdir(exist_ok=True)
+ENV = {"PATH": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin", "HOME": str(HOME),
+       "LANG": "C.UTF-8", "LC_ALL": "C.UTF-8", "PYTHONUTF8": "1",
+       "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": "/dev/null"}
+SEC = probe.SECRET
+EXPECTED_CKSUM = "2c3d6389133b6f9fffae5d3428ec1250c3b1cab5573c716d580dc1d4fa2f4adb"
+INIT = probe.INIT_MSG
+
+
+def run(argv, cwd=None):
+    return subprocess.run(argv, cwd=cwd, env=ENV, capture_output=True, text=True, timeout=180)
+
+
+def git(repo, *args):
+    return run(["/usr/bin/git", "-C", str(repo)] + list(args))
+
+
+def build(case):
+    root = CASES_DIR / case.cid
+    if root.exists():
+        shutil.rmtree(root)
+    app = root / "app"; app.mkdir(parents=True)
+    log = []
+    if case.setup:
+        p = run(["bash", str(CAP / "challenge-setup.sh")], cwd=str(app))
+        log.append(["setup", p.returncode, p.stderr.strip()[-300:]])
+    recipe = case.recipe.replace("/app", str(app)).replace("/cap", str(CAP))
+    rf = root / "recipe.sh"; rf.write_text(recipe)
+    p = run(["bash", "-euo", "pipefail", str(rf)], cwd=str(app))
+    log.append(["recipe", p.returncode, p.stderr.strip()[-300:]])
+    return app, log
+
+
+def obj_secret(repo):
+    """Objects whose content contains the secret, by type (every object in the store)."""
+    obs = git(repo, "cat-file", "--batch-all-objects", "--batch-check=%(objectname) %(objecttype)")
+    kinds, total = [], 0
+    for line in obs.stdout.splitlines():
+        oid, otype = line.split()[:2]
+        total += 1
+        if otype in ("blob", "commit", "tag"):
+            c = git(repo, "cat-file", "-p", oid)
+            if c.returncode == 0 and "secret[" in c.stdout:
+                kinds.append(otype)
+    return kinds, total
+
+
+def file_secret(app):
+    hits = []
+    for p in app.rglob("*"):
+        if p.is_file():
+            try:
+                if SEC.encode() in p.read_bytes():
+                    hits.append(str(p.relative_to(app)))
+            except OSError:
+                pass
+    return sorted(hits)
+
+
+def cksum(app, prefix):
+    """Reproduce: find <prefix> -type f -not -path '*/.*' -exec sha256sum {} + | sort | sha256sum, but with the
+    path prefix the grader sees (/app/repo) instead of the scratch path."""
+    repo = app / "repo"
+    lines = []
+    for p in repo.rglob("*"):
+        if not p.is_file():
+            continue
+        rel = str(p.relative_to(repo))
+        if any(part.startswith(".") for part in rel.split("/")):
+            continue
+        h = hashlib.sha256(p.read_bytes()).hexdigest()
+        lines.append(f"{h}  {prefix}/{rel}")
+    lines.sort()
+    payload = "".join(line + "\n" for line in lines)
+    return hashlib.sha256(payload.encode()).hexdigest(), len(lines)
+
+
+def state(app):
+    repo = app / "repo"
+    st = {}
+    st["repo_exists"] = (repo / ".git").exists()
+    if not st["repo_exists"]:
+        return st
+    kinds, total = obj_secret(repo)
+    st["obj_secret_types"], st["objects"] = kinds, total
+    st["files_secret"] = file_secret(app)
+    refs = git(repo, "for-each-ref", "--format=%(refname) %(objecttype)")
+    st["refs"] = refs.stdout.strip().splitlines()
+    rl = git(repo, "reflog", "--all")
+    st["reflog"] = rl.stdout.strip().splitlines()
+    fc = git(repo, "for-each-ref", "--format=%(refname)|%(contents)")
+    st["ref_contents_hit"] = [l.split("|")[0] for l in fc.stdout.splitlines() if "secret[" in l]
+    f = git(repo, "fsck")          # plain fsck, no --lost-found: no side effect
+    st["fsck"] = [l for l in f.stdout.splitlines() if "dangling" in l]
+    lg = git(repo, "log", "--oneline", "--all")
+    st["oneline"] = lg.stdout.strip().splitlines()
+    return st
+
+
+def grade(app):
+    """The five grader checks, in file order, reproduced outside the sandbox."""
+    g = {}
+    repo = app / "repo"
+    sp = app / "secret.txt"
+    try:
+        g["t1"] = sp.exists() and sp.read_text().strip() == SEC
+        g["t1_err"] = ""
+    except Exception as e:
+        g["t1"], g["t1_err"] = False, type(e).__name__
+    a = git(repo, "log", "--all", "--grep", "secret\\[", "--regexp-ignore-case")
+    b = git(repo, "log", "--all", "-p", "-S", "secret[")
+    g["t2a"] = {"rc": a.returncode, "hit": "secret[" in a.stdout, "stderr": a.stderr.strip()[:160],
+                "out_head": a.stdout.strip().splitlines()[:4]}
+    g["t2b"] = {"rc": b.returncode, "hit": "secret[" in b.stdout, "stderr": b.stderr.strip()[:160],
+                "out_head": b.stdout.strip().splitlines()[:6]}
+    g["t2"] = a.returncode == 0 and not a.stdout.strip() and b.returncode == 0 and not b.stdout.strip()
+    c = git(repo, "log", "--oneline", "--all")
+    g["t3"] = c.returncode == 0 and INIT in c.stdout.strip()
+    f = git(repo, "fsck", "--lost-found")
+    bad, dang = [], []
+    for line in f.stdout.splitlines():
+        if "dangling" in line:
+            parts = line.split(); otype, oid = parts[1], parts[-1]
+            cat = git(repo, "cat-file", "-p", oid)
+            hit = cat.returncode == 0 and "secret[" in cat.stdout
+            dang.append([otype, hit]); bad += [oid] if hit else []
+    g["t4"] = f.returncode == 0 and not bad
+    g["t4_dangling"] = dang
+    digest, n = cksum(app, "/app/repo")
+    real = run(["sh", "-c", f"find {app}/repo -type f -not -path '*/.*' -exec sha256sum {{}} + | sort | sha256sum"])
+    g["t5_nfiles"] = n
+    g["t5"] = digest == EXPECTED_CKSUM
+    g["t5_scratchpath_digest_matches"] = EXPECTED_CKSUM in real.stdout
+    g["post_files_secret"] = file_secret(app)
+    g["letters"] = "".join("P" if g["t%d" % i] else "F" for i in range(1, 6))
+    return g
+
+
+def main():
+    results = {}
+    for case in probe.CASES:
+        app, log = build(case)
+        st = state(app)
+        g = grade(app)
+        results[case.cid] = {"build": log, "state": st, "grade": g,
+                             "violates": list(case.violates), "requirement": case.requirement}
+        print(f"{case.cid:24s} mine={g['letters']} receipt={case.predicted} "
+              f"build={[b[1] for b in log]} objsecret={st.get('obj_secret_types')} "
+              f"files={st.get('files_secret')} fsck={st.get('fsck')}", flush=True)
+    OUT.write_text(json.dumps(results, indent=1))
+    print("wrote", OUT)
+
+
+if __name__ == "__main__":
+    main()

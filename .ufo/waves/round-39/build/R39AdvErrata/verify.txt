@@ -1,0 +1,94 @@
+# R39AdvErrata verification receipt — 2026-10-26T03:57:45-03:00
+lane=/home/vgpnk/Projects/shokunin/kengaku-shokunin tip=750473847af9c7a461487ba3a589b5519fac5ed8 porcelain=4
+
+## PINS
+PINS 26 mismatched 0 battery38 12 battery39 0
+gate ea63882240e67e9906e481f3d652f94366c288dc91991bafbfcd651a766edd41
+MUTANTS [('M01', 'D5', 'mirror'), ('M02', 'P1', 'silence'), ('M03', 'P3', 'silence'), ('M04', 'P7', 'silence'), ('M05', 'RUN', 'rc-silence'), ('M06', 'MAIN', 'rc-mirror'), ('M07', 'D5', 'mirror')]
+indirect cells ['M01', 'M04', 'M07']
+
+## spec frozen_instruments (order)
+3 ['plans/tb2_grader_probe.py', 'plans/round35_c1_verify.py', 'plans/defect_ledger.py']
+entry_rules {'verified_at': '2026-10-25', 'min_quotes': 8, 'min_distinct_locations': 8, 'quote_words': [3, 25], 'min_teaches_words': 8, 'row_opened': '2026-10-25', 'row_tier': 'A', 'row_status': 'mined'}
+probe_cmd ['plans/tb2_grader_probe.py', '--lane', '.']
+
+## gate citations
+7:exit 0 = accept, 1 = reject, 2 = usage/setup (an unexpected crash never maps onto 0 or 1).
+9:Every clause is spec-driven: paths, digests, row ids, tier, status, quote bounds, labels and
+13:a quote not verbatim on its cited line, and a receipt a fresh run does not reproduce are defects.
+113:    pins = p.spec.get("frozen_instruments", {})
+114:    bad = [rel for rel, dig in pins.items() if sha256(p.root / rel) != dig]
+205:            bad.append(f"{sid}: teaches words={len(cells[6].split())}")
+208:        bad.append("teaches cells are not pairwise distinct")
+224:    if not re.search(r"^recheck:\s*\S", p.entry, re.M):
+260:    r = subprocess.run(["git", "-C", str(p.root), "ls-files", "--others", "--exclude-standard"],
+273:        import Bio  # noqa: F401  (the pinned grader's dependency; host python when available)
+276:        cmd = ["uv", "run", "--no-project", "--with", "biopython==1.85", "python3"] + probe
+298:        except Exception as e:  # a clause that cannot run is a defect, never a pass
+
+## recheck regex on the frozen pattern
+mid-file empty recheck -> True
+eof empty recheck      -> False
+
+## round-39 spec guard + argparse
+guard ok = True spec occurrences = 2
+argparse effective = /etc/passwd
+
+## C2 work-parent (F7)
+exit=1
+PREDICATE lines=0
+FileNotFoundError: [Errno 2] No such file or directory: '/fast/scratch/hyaku/kengaku-r39/R39AdvErrata/no-parent/k39-c2-dm8t62bc'
+
+## host facts
+ModuleNotFoundError: No module named 'Bio'
+/home/vgpnk/.local/bin/uv
+git version 2.56.0
+35466 /home/vgpnk/Projects/shokunin/scripts/sources-census.sh
+
+## C2 census + V6
+65:CENSUS = "/home/vgpnk/Projects/shokunin/scripts/sources-census.sh"
+127:    return r.returncode == 0, f"spec=frozen gate=frozen gate_exit={r.returncode}"
+201:def v6(lane):
+202:    r = subprocess.run([CENSUS, "validate", "--file", str(lane / "corpus/SOURCES.md")],
+204:    return r.returncode == 0, f"census_exit={r.returncode}"
+
+## tamper arithmetic
+f3dad700fb55fd0950404cec80e50ef7ab21e7a17ae1b307518b01ce02bcc28c  /fast/scratch/hyaku/kengaku-r39/R39AdvErrata/d5m-tamper.py
+5af18f40f7543fd60c8f4926b8f73553804fd428e91d3700a40f351d3d4ddbd7  plans/battery38/d5m.py
+
+## claims/doc provenance (appended)
+claims grep uv|network|Bio|biopython -> 0
+battery39 dir -> ls: cannot access 'plans/battery39': No such file or directory
+claims:62 ->   mutant, it does not police processes). Three of the seven `adv` cells cover their behaviour only indirectly
+round38 adv cells citing only a mutant id (9 expected) -> 9
+lesson routing line 88-92 present -> 1
+scorcard errata convention -> recorded here as errata, never patched in place
+
+## D5 genuine-state reachability (F-D) — 2026-10-26T04:01:41-03:00
+quote in flat(tag-stripped) = True | quote in raw(no strip) = True
+manifest rows = 2 | row1 carries capture digest = True
+
+## M04 artefact (F-C)
+184:def c_sources(p):
+211:def c_provenance(p):
+215:    for line in p.entry.splitlines():
+220:        if prov.get(sid) != [p.spec["raw_base"] + row["upstream"]]:
+QUALITY:305 ->   eight one-word quotes, `junk` teaches cells, a stub probe that prints the receipt, and an untracked
+QUALITY:15-17 -> - **Q1 — the triad opens the entry.** The first three lines are `source:` (the   `S###` row id(s), the URL, and the exact anchor), `verified-at:` (ISO date the   source was opened for this entry) and `recheck:` (ISO date or cadence **and** 
+
+## peer cross-check
+R39CritClaims reported M02/M03 (unmarked indirect), M04 (SOURCES vs entry source lines), M07 (Q24 unreachable); same four conclusions, independently measured here for M01/M04/M07.
+
+## M01 vs M07 declared-surface split (peer nuance, re-checked) — 2026-10-26T04:03:17-03:00
+and the labelled D4/D5 correction lines against a spec of pinned digests
+-> M01: covering class sentence exists, cell cites Q24 instead (uncitable); M07: no sentence reaches tag stripping (unreachable).
+peer R39CritClaims tier counts after its §1 update: C 2 / K 2 / N 3 (M01 K->N), independently reproduced here.
+
+## consequence-5 correction — 2026-10-26T04:04:30-03:00
+my report had called item 10 'the one sentinel item that can turn the frozen predicate verdict'; corrected: item 6 (F1 offline/cold uv) and item 10 (F5 fleet-root census) both flip it. Round-38 evidence: c1-offline.out wrong=1 killed=18; c2-offline.out defects=1; c2-v6-host-state.txt (shim -> V6 green, absent -> V6 DEFECT).
+peer R39CritClaims folded item 10 into its D3 as a third node; its count unchanged (5 defects, 3 unadvertised).
+
+## item 6 inheritance precision (peer note, re-checked) — 2026-10-26T04:06:04-03:00
+    "plans/battery38/p10a.py": "e65f7a542ee08d00bce3d67cedc0
+    "plans/battery38/p10b.py": "cb5df72a5c2faf44916b0b23d5ff
+-> r39 C1 pins p10a/p10b, so the round-38 offline 'wrong=1' leg is inherited by the r39 predicate; the measurement itself remains F38SentinelBattery's round-38 receipt (22 mutants), not a r39 execution by any seat.

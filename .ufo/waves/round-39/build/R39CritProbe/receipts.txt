@@ -1,0 +1,100 @@
+# R39CritProbe receipts (round 39, WAVE 1) - commands and their output
+
+$ git --version; bwrap --version
+git version 2.56.0
+bubblewrap 0.13.1
+
+# receipt reproduction (clone of the lane at the freeze commit)
+$ python3 plans/git_leak_probe.py --lane . --work $S/w1 > r1.txt
+rc=0 stderr_lines=0
+$ ... --work $S/w2 > r2.txt
+two runs BYTE-EQUAL
+$ cmp r1.txt corpus/evidence/round39/git-leak-probe.txt
+RECEIPT-EQUAL
+$ python3 plans/git_leak_probe.py --lane . --dry | cmp - corpus/evidence/round39/git-leak-dry-cases-freeze.txt
+DRY-EQUAL
+
+# fsck reachability of the reset-away secret commit (fresh challenge-setup.sh; HEAD@{2} is the secret commit)
+$ git -C repo reflog --all   (filtered)
+e9818fc HEAD@{0}: commit: chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc
+455376a HEAD@{1}: reset: moving to HEAD~1
+14dcd20 HEAD@{2}: commit: feat: add scratch notes
+455376a HEAD@{3}: commit (initial): chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc
+$ git -C repo fsck  | grep -c dangling -> 0
+$ git -C repo fsck --lost-found | grep -c dangling -> 1
+$ git -C repo fsck --lost-found --reflogs | grep -c dangling -> 1
+$ git -C repo fsck --lost-found --no-dangling | grep -c dangling -> 0
+$ git -C repo fsck --no-reflogs | grep -c dangling -> 1
+$ man git-fsck (OPTIONS <object>)
+	 If  no	 objects  are given, git fsck defaults to using the index file, all SHA-1 references in the refs namespace, and all reflogs
+	 (unless --no-reflogs is given) as heads.
+
+# stash-secret: does the pickaxe see the stash merge only with -m?
+$ git -C repo log --all -p -S "secret[" | wc -l -> 0
+$ git -C repo log --all -m -p -S "secret[" | wc -l -> 31
+$ git -C repo log --all --oneline (stash commits present) -> 2
+$ git -C repo for-each-ref refs/stash -> refs/stash commit
+
+# notes-secret: which of the two test-2 queries fails, and why
+$ git -C repo log --all --grep "secret\[" --regexp-ignore-case | wc -l -> 8
+$ ... --no-notes ... | wc -l -> 0
+$ git -C repo log --all -p -S "secret[" | grep -c "secret\[" -> 1
+$ ... --grep output head
+commit 27294ea6b4ea63187e798ae8f0d0b5b51bf01928
+Author: TerminalBench <tb@example.com>
+Date:   Mon Oct 26 03:56:43 2026 -0300
+
+    chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc
+
+Notes:
+    secret[lost_and_found_in_git]
+
+# empty-app: the state has no repository at all
+$ ls -A sb/empty-app/app -> 
+0
+total 0
+drwxr-xr-x 2 vgpnk vgpnk  6 Oct 26 03:56 .
+drwxr-xr-x 3 vgpnk vgpnk 52 Oct 26 03:56 ..
+
+# object-store locator census per case (any object whose content holds the literal)
+empty-app                obj=None repo_files=None fsck_plain=0 fsck_lostfound=0 letters=FFFFF
+untouched                obj=['blob'] repo_files=[] fsck_plain=0 fsck_lostfound=1 letters=FPPPP
+oracle-solve-sh          obj=[] repo_files=[] fsck_plain=0 fsck_lostfound=0 letters=PPPPP
+echo-only                obj=['blob'] repo_files=[] fsck_plain=0 fsck_lostfound=1 letters=PPPPP
+echo-reflog-expire       obj=['blob'] repo_files=[] fsck_plain=1 fsck_lostfound=1 letters=PPPPP
+echo-gc-only             obj=['blob'] repo_files=[] fsck_plain=0 fsck_lostfound=1 letters=PPPPP
+clean-echo               obj=[] repo_files=[] fsck_plain=0 fsck_lostfound=0 letters=PPPPP
+dangling-secret-blob     obj=['blob'] repo_files=[] fsck_plain=1 fsck_lostfound=1 letters=PPPFP
+dangling-secret-commit   obj=['commit'] repo_files=[] fsck_plain=1 fsck_lostfound=1 letters=PPPFP
+branch-keeps-leak        obj=['blob'] repo_files=[] fsck_plain=0 fsck_lostfound=0 letters=PFPPP
+blob-ref-keeps-secret    obj=['blob'] repo_files=[] fsck_plain=0 fsck_lostfound=0 letters=PPPPP
+tag-message-secret       obj=['tag'] repo_files=[] fsck_plain=0 fsck_lostfound=0 letters=PPPPP
+commit-message-secret    obj=['commit'] repo_files=['repo/.git/COMMIT_EDITMSG', 'repo/.git/logs/HEAD', 'repo/.git/logs/refs/heads/master'] fsck_plain=0 fsck_lostfound=0 letters=PFPPP
+notes-secret             obj=['blob'] repo_files=[] fsck_plain=0 fsck_lostfound=0 letters=PFPPP
+stash-secret             obj=['blob'] repo_files=[] fsck_plain=0 fsck_lostfound=0 letters=PPPPP
+dotfile-in-worktree      obj=[] repo_files=['repo/.leak'] fsck_plain=0 fsck_lostfound=0 letters=PPPPP
+untracked-file-secret    obj=[] repo_files=['repo/notes.txt'] fsck_plain=0 fsck_lostfound=0 letters=PPPPF
+config-secret            obj=[] repo_files=['repo/.git/config'] fsck_plain=0 fsck_lostfound=0 letters=PPPPP
+readme-edited            obj=[] repo_files=[] fsck_plain=0 fsck_lostfound=0 letters=PPPPF
+message-rewritten        obj=[] repo_files=[] fsck_plain=0 fsck_lostfound=0 letters=PPPPP
+history-rebuilt          obj=[] repo_files=[] fsck_plain=0 fsck_lostfound=0 letters=PPPPP
+flag-extra-text          obj=[] repo_files=[] fsck_plain=0 fsck_lostfound=0 letters=FPPPP
+flag-padded-crlf         obj=[] repo_files=[] fsck_plain=0 fsck_lostfound=0 letters=PPPPP
+flag-is-directory        obj=[] repo_files=[] fsck_plain=0 fsck_lostfound=0 letters=FPPPP
+flag-in-repo-only        obj=[] repo_files=['repo/secret.txt'] fsck_plain=0 fsck_lostfound=0 letters=FPPPF
+
+# the secret in .git/COMMIT_EDITMSG and the reflogs (commit-message-secret)
+$ grep -rlc "lost_and_found_in_git" repo/.git | head -> .git/COMMIT_EDITMSG
+.git/logs/HEAD
+.git/logs/refs/heads/master
+
+# blob ref: git log --all tolerates a ref naming a blob
+$ git -C repo log --all --oneline >/dev/null; echo rc=$? -> rc=0
+
+# pytest parity: captured grader under pytest 8.4.1 (the captured test.sh pin), sandboxed, per case
+cases 25 letters_match_receipt 25 rc_consistent 25
+empty-app FFFFF rc 1 5 failed, 1 warning in 0.01s
+untouched FPPPP rc 1 1 failed, 4 passed, 1 warning in 0.01s
+
+# captures at their pinned digests
+Dockerfile: OK challenge-setup.sh: OK instruction.md: OK solve.sh: OK task.toml: OK test.sh: OK test_outputs.py: OK 

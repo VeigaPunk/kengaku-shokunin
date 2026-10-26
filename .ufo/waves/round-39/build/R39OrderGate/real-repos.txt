@@ -1,0 +1,54 @@
+# order_check.py — real-repo receipts. Scratch clone of the lane (git clone --shared), HEAD 7504738.
+
+$ git -C "$S/lane" rev-parse HEAD
+750473847af9c7a461487ba3a589b5519fac5ed8
+$ git -C "$S/lane" status --porcelain
+(empty: 0 lines)
+
+## RED — round 38 (claims plans/round-38-claims.md, receipt corpus/evidence/round38/build-pmars-probe.txt)
+$ python3 plans/order_check.py --lane . --claims plans/round-38-claims.md --receipt corpus/evidence/round38/build-pmars-probe.txt
+ORDER claims=plans/round-38-claims.md round=38 freeze=e0a378539a45cc9388c66cfba22f44275131de23
+ORDER receipt=corpus/evidence/round38/build-pmars-probe.txt receipt_commit=e95cf5500b6c13305cc41b8532ae07fb2c9dcd7b claims_dir=.ufo/waves/round-38/claims/
+ORDER scanned commits=1 file_entries=6 distinct_blobs=6
+ORDER HIT .ufo/waves/round-38/claims/control-c2-skip.txt@e0a378539a45:11 kind=gate-p10 `gate: P10 DEFECT fresh probe output is not byte-equal to the receipt`
+ORDER FAIL probe-executed-before-receipt hits=1
+ORDER RESULT FAIL
+exit=1
+
+## RED — round 37 (receipt corpus/evidence/round37/git-webserver-probe.txt, the file the task asked me to find)
+$ python3 plans/order_check.py --lane . --claims plans/round-37-claims.md --receipt corpus/evidence/round37/git-webserver-probe.txt
+ORDER claims=plans/round-37-claims.md round=37 freeze=ca790460e9b74d4dc5870c878affd13cc9c4437a
+ORDER receipt=corpus/evidence/round37/git-webserver-probe.txt receipt_commit=5c7b34e9223f460a440596e3a76bdae8bfdd37d8 claims_dir=.ufo/waves/round-37/claims/
+ORDER scanned commits=1 file_entries=12 distinct_blobs=12
+ORDER HIT .ufo/waves/round-37/claims/control-c2-skip.txt@ca790460e9b7:12 kind=gate-p10 `gate: P10 DEFECT fresh probe output is not byte-equal to the receipt`
+ORDER FAIL probe-executed-before-receipt hits=1
+ORDER RESULT FAIL
+exit=1
+
+## GREEN — round 39 (claims plans/round-39-claims.md, receipt corpus/evidence/round39/git-leak-probe.txt)
+$ python3 plans/order_check.py --lane . --claims plans/round-39-claims.md --receipt corpus/evidence/round39/git-leak-probe.txt
+ORDER claims=plans/round-39-claims.md round=39 freeze=088f7c36e94ce2f15e6f9aa0c5a5c5b75a1646c8
+ORDER receipt=corpus/evidence/round39/git-leak-probe.txt receipt_commit=6a1eb5e1da4a435940b821e28530c31f3411549c claims_dir=.ufo/waves/round-39/claims/
+ORDER scanned commits=1 file_entries=7 distinct_blobs=7
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+exit=0
+
+## the same three against the live lane (not a clone; untracked build files present): identical verdicts
+r37 exit=1 ORDER FAIL probe-executed-before-receipt hits=1 ORDER RESULT FAIL 
+r38 exit=1 ORDER FAIL probe-executed-before-receipt hits=1 ORDER RESULT FAIL 
+r39 exit=0 ORDER ok no claims file committed at or before the receipt shows the frozen probe executed ORDER RESULT PASS 
+
+## at the round-38 freeze commit e0a3785 the receipt does not exist yet: setup refusal (2), never a pass
+$ python3 plans/order_check.py --lane <clone@e0a3785> --claims plans/round-38-claims.md --receipt corpus/evidence/round38/build-pmars-probe.txt
+ORDER ERROR receipt not committed in HEAD: corpus/evidence/round38/build-pmars-probe.txt
+ORDER RESULT ERROR
+exit=2
+
+## read-only: the clone is untouched after every run
+$ git -C "$S/lane" status --porcelain | wc -l
+0
+$ sha256sum order_check.py calibrate.py calibration.txt
+948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc  order_check.py
+b549460f39880c3d34b0fce1d3d3c1990c36cecb5885f7161fdb90708b6b0939  calibrate.py
+501b02c0d946006135847590f26b2f037480ac82d739f1618da378899c32accb  calibration.txt

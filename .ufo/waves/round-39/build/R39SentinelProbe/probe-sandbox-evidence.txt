@@ -1,0 +1,24 @@
+$ S=.../work_test sandbox_argv from plans/git_leak_probe.py:191-203
+rc=0
+A1 id: uid=1000(vgpnk) gid=1000(vgpnk) groups=1000(vgpnk),65534(nobody)
+A2 maps: uid=      1000          0          1| gid=      1000          0          1|
+A3 CapEff:	0000000000000000 NoNewPrivs:	1 Seccomp:	0 Seccomp_filters:	0 
+A4 shadow: head: cannot open '/etc/shadow' for read
+A5 etc/ssh visible: moduli ssh_config ssh_config.d sshd_config sshd_config.d  machine-id-readable=yes
+A6 home: ls: cannot access '/home': No such file or directory | sshdir: ls: cannot access '/home/vgpnk/.ssh': No such file or directory | lane: ls: cannot access '/home/vgpnk/Projects/shokunin/kengaku-shokunin/.git': No such file or directory
+A7 writable: etc=no usr=no /proc/hostname=no
+A8 root=: app bin cap dev etc harness.py lib lib64 proc recipe.sh sbin tmp usr 
+A9 mounts: /=rw,nosuid,nodev,relatime,uid=1000,gid=1000,inode64,huge=advise|/proc=rw,nosuid,nodev,noexec,relatime|/dev=rw,nosuid,nodev,relatime,mode=755,uid=1000,gid=1000,inode64,huge=advise|/tmp=rw,nosuid,nodev,relatime,mode=755,uid=1000,gid=1000,inode64,huge=advise|/app=rw,nosuid,nodev,noatime,inode64,logbufs=8,logbsize=256k,noquota|
+A10 net-1.1.1.1:53: OSError:101
+A11 net-127.0.0.1:22: ConnectionRefusedError:111
+A12 pids: 5 pid1=/usr/bin/bwrap --uns
+A13 writes: app=ok tmp=ok usr=/recipe.sh: line 19: /usr/w: Read-only file system
+denied
+A14 quota: root-tmpfs=8388608 bytes (8.4 MB, 8.0 MiB) copied, 0.00164026 s, 5.1 GB/s app=8388608 bytes (8.4 MB, 8.0 MiB) copied, 0.00583773 s, 1.4 GB/s
+A15 df: /=16G /app=804G /tmp=16G 
+A16 env: GIT_CONFIG_GLOBAL=/dev/null|GIT_CONFIG_NOSYSTEM=1|HOME=/tmp|LANG=C.UTF-8|LC_ALL=C.UTF-8|PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin|PWD=/app|PYTHONDONTWRITEBYTECODE=1|PYTHONUTF8=1|SHLVL=1|_=/usr/sbin/env|
+A17 hostname: plazir27
+A18 bg-inside: 1
+
+A19 leftover-after-bwrap-exit: (none)
+stderr: 

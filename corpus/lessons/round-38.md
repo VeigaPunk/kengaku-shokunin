@@ -90,3 +90,33 @@ Pending — the non-author closure follows the report. Cheapest failing check fi
   (`F38CritBatE`, `F38CritBatF`); 24 contestable tags, 2 labels would change (`F38CritTags`); 7 overclaims (`F38CritOverclaim`),
   2 unsupported entry sentences (`F38EntryQuotes`); lesson 2 / QUALITY 2 defects (`F38RevLesson`, `F38RevQuality`); sentinel 7
   findings (`F38SentinelBattery`); 22 scratch leftovers, 0 misroots (`F38ScoutMisroot`).
+
+## Errata (round 39, appended 2026-10-26 — this file is append-only, so the cells above stand as written)
+
+Two characterizations were found wrong by the round-38 non-author closure (`F38RevLesson` Defects 1–2, routed as
+`corpus/lessons/round-38-verifier-spotcheck.md` §5 item R3) and re-verified against the files by round-39 seat
+`R39LessonErrata` (receipts `.ufo/waves/round-39/build/R39LessonErrata/receipts.md`, §A–C). No number, exit code or
+count in this lesson changes.
+
+- **Mistakes row 2 `captured-by` cell (supersedes `:36`).** The cell reads “round 37's fix (re-pin and re-run every
+  counter run) does not prevent the ordering, it only makes the discarded run harmless”. `corpus/lessons/round-37.md:42`
+  fixes the class with **two** moves, and the second is a rule forward: “Rule forward: a control that executes a frozen
+  instrument keeps the run as a receipt.” Round 38 did not follow that half — `plans/round-38-claims.md:10-11` records the
+  control-time run's “output was discarded unread; it is not the first recorded run and is not evidence”. The cell's
+  sentence is true of the first move alone; followed, the rule forward would have made the control-time execution itself
+  the recorded run, and the recurrence could not have arisen. The row's class, evidence pointer and fix column stand;
+  what changes is that round 37 is not the half that failed here. Limit, kept explicit: the rule forward was a lesson
+  rule, not a gate — the row's own fix column says “A write-up, not yet a gate”.
+- **Header “Controls, all red at the freeze” sentence (supersedes `:12-15`).** `census-before.txt` is named inside that
+  sentence but is not a red control: the committed file is the clean baseline — 15 W04 lines, `kengaku ok`, `exit=0`
+  (`.ufo/waves/round-38/claims/census-before.txt`), and the frozen claims file never names it
+  (`grep -c census plans/round-38-claims.md` → `0`). Read the sentence as covering the four controls
+  `control-c1-nothing`, `control-c1-gate-edited`, `control-c2-nothing` and `control-c2-skip`; the baseline belongs with
+  §Census below (`:58`), which reports it as “exit 0, `kengaku ok`, 15 W04”. The `:15` parenthetical already carries
+  `exit 0`, so no measurement is wrong — the label is.
+
+Forward state when this was appended: `corpus/lessons/round-39.md:13` names `census-before.txt` as “a baseline, not a
+control” in its own controls paragraph, and the row-2 lint was run as a pair check at the round-39 freeze — red on
+`e0a37853` (`.ufo/waves/round-38/claims/control-c2-skip.txt` asserts a “fresh probe”; that commit's round-38 receipt
+is absent, `git cat-file -e …` rc 128), green on `088f7c36` (no committed round-39 control asserts a run). The round-39
+lesson's Mistakes table carries the recurrence.

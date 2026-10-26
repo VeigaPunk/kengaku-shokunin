@@ -1,0 +1,57 @@
+== B build-module child entry (same argv shape as round39_c1_verify.py:199-201)
+rc=0
+stdout=BUILT [{"fid": "probe-child", "expect": "accept", "defects": [], "argv": ["package", "--root", "/fast/scratch/hyaku/kengaku-r39/R39SentinelProbe/child-direct2/f000"], "dir": "/fast/scratch/hyaku/kengaku-r39/R39SentinelProbe/child-direct2/f000"}]
+child-evidence.json=
+{
+ "cwd": "/fast/scratch/hyaku/kengaku-r39/R39SentinelProbe/child-direct2",
+ "home": "/home/vgpnk",
+ "ssh_dir_listable": true,
+ "ssh_key_exists": true,
+ "ssh_key_readable": true,
+ "ssh_key_bytes": 411,
+ "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+ "lane_git_head_readable": true,
+ "lane_git_head": "750473847af9c7a461487ba3a589b5519fac5ed8",
+ "lane_file_writable": true,
+ "counter_writable": true,
+ "uid": 1000,
+ "wrote_outside_fixture": "/fast/scratch/hyaku/kengaku-r39/R39SentinelProbe/ESCAPE-in-counter-root.txt",
+ "wrote_absolute": "/fast/scratch/hyaku/kengaku-r39/R39SentinelProbe/child-escape.txt",
+ "net": "REACHED",
+ "leftover_pid": 2616520
+}
+
+leftover-after-child-exit: 719933 sleep 5311
+892792 sleep 5311
+1492979 sleep 5311
+2616520 sleep 5311
+
+== C pin-once tamper (lane = scratch clone /fast/scratch/hyaku/kengaku-r39/R39SentinelProbe/lane)
+rc=0
+PINS total=26 mismatched=0
+FIXTURE spec-tamper expect=reject declared=P1,P2,P3,P4,P5,P6,P7,P8 observed_rc=1 observed_defects=P1,P2,P3,P4,P5,P6,P7,P8 ok
+BATTERY fixtures=87 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANTS total=1 killed=1 survived=0 invalid=0 null_detected=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+spec-before=e085b43505c9848c8d19eb52c52fec1a3282dac3c5b436f59320e95e5c299fc4
+spec-after=63a30c8f51f9debf22fd00c44c2673c686f24d69ffcf4e88b6521f06d178d2e8
+pin=e085b43505c9848c8d19eb52c52fec1a3282dac3c5b436f59320e95e5c299fc4
+
+== D P10 exec through a fixture-supplied spec
+rc=1
+FIXTURE spec-exec expect=accept declared=- observed_rc=1 observed_defects=P1,P2,P3,P4,P5,P6,P7,P8,P9 WRONG
+BATTERY fixtures=88 wrong=2 renamed_disagree=0 sidechannel=0
+MUTANTS total=1 killed=1 survived=0 invalid=0 null_detected=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+p10-exec.txt=P10 ran as uid=1000 cwd=/fast/scratch/hyaku/kengaku-r39/R39SentinelProbe/w/k39-c1-bhbwip8e/fx/battery39-spec_exec/f000
+
+== E leftover processes after all seat runs (2026-10-26 04:11:46)
+$ pgrep -af 'sleep 5311'
+719933 sleep 5311
+892792 sleep 5311
+1492979 sleep 5311
+2616520 sleep 5311
+3056191 sleep 5311
+count=5  (each spawned by one battery39 module child, start_new_session=True)
+$ df -h /fast/scratch | tail -1
+/dev/nvme1n1p2  804G  262G  542G  33% /fast

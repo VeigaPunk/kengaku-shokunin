@@ -444,3 +444,28 @@ located quotes byte-exact at their cited lines and 3-25 words (`quotes-check.txt
 the S100 identity all hold. The receipt, the case table, the digests and the **Falsifier** block at `:242-250`
 are untouched: a fresh probe run must still print `cases=22 observed_pass=9 observed_fail=13 mismatches=0`,
 and the falsifier's conditions stand as filed. This section moves no verdict and adds no case.
+
+## Errata (round 39)
+
+Appended 2026-10-26 (round 39, wave 1, seat `R39RecheckFix`; round-38 closure R4). Append-only: the bytes above
+stand as filed; this section is the correction of record. Measured in a clean clone of the lane at `75047384`
+(`git status --porcelain --untracked-files=all | wc -l` → `0`), run from its root.
+
+**Erratum (round 39): the `recheck:` line reds as written.** `corpus/evidence/round37/tb2-git-webserver/SHA256SUMS`
+lists bare basenames, so `sha256sum -c` resolves them against the CWD: the `recheck:` command printed
+`instruction.md: FAILED open or read` (and the same for `solve.sh`, `task.toml`, `test.sh`, `test_outputs.py`,
+`verify.sh`) plus `sha256sum: WARNING: 6 listed file(s) could not be read`, exit 1. Corrected leg:
+`(cd corpus/evidence/round37/tb2-git-webserver && sha256sum -c SHA256SUMS)` → 6/6 `OK`, exit 0. The probe leg is
+sound as written (`plans/git_webserver_probe.py --lane .`, exit 0).
+
+**Corrected `recheck:` line (replaces `:6`, one line):**
+
+    recheck: 180d — at pin `2fd12b88aafdd04a52c298e3940bcb189f9766d6`: re-fetch the three pinned URLs, `(cd corpus/evidence/round37/tb2-git-webserver && sha256sum -c SHA256SUMS)`, and re-run `python3 plans/git_webserver_probe.py --lane .`; the full one-liner is under `## Errata (round 39)`; any digest or receipt change supersedes this entry
+
+**Full recheck one-liner (lane root, bash; verified exit 0 on 2026-10-26):**
+
+    T=$(mktemp -d) && B=https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/configure-git-webserver && for p in tests/test_outputs.py tests/verify.sh instruction.md; do curl -fsS "$B/$p" -o "$T/$(basename "$p")"; done && grep -E ' (test_outputs\.py|verify\.sh|instruction\.md)$' corpus/evidence/round37/tb2-git-webserver/SHA256SUMS > "$T/SUB" && (cd "$T" && sha256sum -c SUB) && (cd corpus/evidence/round37/tb2-git-webserver && sha256sum -c SHA256SUMS) && mkdir -p "$T/w" && python3 plans/git_webserver_probe.py --lane . --work "$T/w" && rm -rf "$T"
+
+Green: 3/3 refetched `OK`, 6/6 capture `OK`, `cases=22 observed_pass=9 observed_fail=13 mismatches=0`, byte-equal
+to `corpus/evidence/round37/git-webserver-probe.txt`. `--work` must be an existing directory (a missing one raises
+`FileNotFoundError`); omitting `--work` also works.

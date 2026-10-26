@@ -1,0 +1,12 @@
+== new copy determinism (final source, two runs at lane tip 7504738)
+new-baseline.txt == new-baseline-rerun.txt (byte-equal)
+== landed round-38 receipt DIR block (.ufo/waves/round-38/integrate/direction-check.txt:3-25) vs the new copy
+22/22 DIR lines byte-identical
+DIRECTIONS line identical; the new copy adds one 'LEGS mutants=22 disagree=0 invalid=0' line
+== old copy vs the same landed block
+old copy reproduces the landed receipt byte-for-byte at the round-39 tip
+== operability: a counter of another list, and a missing --work parent
+SETUP counter plans/round39_c1_verify.py is not a round-38-list counter: missing=battery38_fixtures,attributed non_6_tuple_rows=7; this check reads the round-38 MUTANTS rows (id, clause, dir, adv, old, new) and its battery38 loader only
+EXIT=2
+SETUP FileNotFoundError: [Errno 2] No such file or directory: '/nonexistent-work-parent/k38-dir-6_jt18vv'
+EXIT=2

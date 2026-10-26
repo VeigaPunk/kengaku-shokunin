@@ -1,0 +1,27 @@
+nop-empty                    observed_fail=cert,dir,key,pem,script,verif  match=yes  
+oracle                       observed_fail=-                              match=yes  
+key-mode-577                 observed_fail=-                              match=yes  
+key-mode-644                 observed_fail=key                            match=yes  
+key-mode-400                 observed_fail=-                              match=yes  
+key-mode-000                 observed_fail=key                            match=yes  
+key-4096                     observed_fail=key                            match=yes  
+key-encrypted                observed_fail=key                            match=yes  
+key-cert-mismatch            observed_fail=-                              match=yes  
+days-366                     observed_fail=cert                           match=yes  
+days-365-plus-23h59          observed_fail=-                              match=yes  
+validity-in-the-past         observed_fail=-                              match=yes  
+not-self-signed              observed_fail=-                              match=yes  
+names-only-in-issuer         observed_fail=verif                          match=NO  
+org-lowercase                observed_fail=-                              match=yes  
+org-suffix                   observed_fail=-                              match=yes  
+cn-suffix                    observed_fail=-                              match=yes  
+cn-missing                   observed_fail=cert,verif                     match=yes  
+pem-cert-only                observed_fail=pem                            match=yes  
+pem-fake-key-comment         observed_fail=-                              match=yes  
+pem-unrelated-key            observed_fail=-                              match=yes  
+verif-fabricated             observed_fail=-                              match=yes  
+verif-no-fingerprint         observed_fail=verif                          match=yes  
+script-prints-literals-only  observed_fail=-                              match=yes  
+script-only-no-cert          observed_fail=cert,dir,key,pem,verif         match=yes  
+script-exit-1                observed_fail=script                         match=yes  
+cases=26 observed_pass=14 observed_fail=12 mismatches=1

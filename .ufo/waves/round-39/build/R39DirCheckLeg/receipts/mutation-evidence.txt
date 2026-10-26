@@ -1,0 +1,23 @@
+# R39DirCheckLeg - three F38MutDirection mutants against the old and the fixed copy (lane tip 7504738)
+
+| copy | DIR N21 line | DIRECTIONS | EXIT |
+|---|---|---|---|
+| `old-baseline` | `DIR N21 D5 declared=silence observed=mirror MISLABELLED` | `DIRECTIONS total=22 mislabelled=1` | `EXIT=1` |
+| `old-m1-ignore-mirror` | `DIR N21 D5 declared=silence observed=- UNWITNESSED` | `DIRECTIONS total=22 mislabelled=0` | `EXIT=0` |
+| `old-m2-any-direction` | `DIR N21 D5 declared=silence observed=mirror ok` | `DIRECTIONS total=22 mislabelled=0` | `EXIT=0` |
+| `old-m3-unwitnessed-ok` | `DIR N21 D5 declared=silence observed=mirror MISLABELLED` | `DIRECTIONS total=22 mislabelled=1` | `EXIT=1` |
+| `new-baseline` | `DIR N21 D5 declared=silence observed=mirror MISLABELLED` | `DIRECTIONS total=22 mislabelled=1` | `EXIT=1` |
+| `new-m1-ignore-mirror` | `DIR N21 D5 declared=silence observed=mirror MISLABELLED legs=UNWITNESSED,MISLABELLED` | `DIRECTIONS total=22 mislabelled=1` | `EXIT=1` |
+| `new-m2-any-direction` | `DIR N21 D5 declared=silence observed=mirror MISLABELLED legs=ok,MISLABELLED` | `DIRECTIONS total=22 mislabelled=1` | `EXIT=1` |
+| `new-m3-unwitnessed-ok` | `DIR N21 D5 declared=silence observed=mirror MISLABELLED` | `DIRECTIONS total=22 mislabelled=1` | `EXIT=1` |
+
+## sha256
+
+7e0e2b789819cc95cbc0b28bce3ae110d6907f62bd1109f90108e077deaa2c14  OLD  plans/mutant_direction_check.py at 7504738
+e471630abd27da4147c69d3feccdf6e5ad7969a47eae2fa053423636a412b09b  NEW  build/R39DirCheckLeg/mutant_direction_check.py
+29fac5da509864fd950713b544c107471d844cb8c063cb555b1d112a2d9cd98c  new-m1.py
+86ab30a0fdf72ae9c6dca78816c836638f80af09813471c457bc9c6b91a0b5d0  new-m2.py
+286fa5d45632452f0e8d7a6eb396dca4b76019ea6bfe04246fd4e5f989772717  new-m3.py
+16955799e08ae1074cbb8e44ee2e55149dc9e2744c7a1bcac04e9b626adf4515  old-m1.py
+482b5aa44dde6a49680ac4fd89057f42bba8def1bbf737ccd3f3dd8a7ec040e2  old-m2.py
+7b4e2aa65c9fb0d8f092cd506102add453b34d123b1d7bf05831b5e6d637918a  old-m3.py

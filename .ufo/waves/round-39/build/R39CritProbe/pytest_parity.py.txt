@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+"""pytest parity: run the captured grader under pytest 8.4.1 (the pin in the captured test.sh; the ctrf plugin
+is absent, it only writes /logs/verifier/ctrf.json) inside the probe's own bubblewrap shape for every case,
+and compare per-test PASSED/FAILED with the receipt's letters."""
+import importlib.util, json, pathlib, re, shutil, subprocess, sys
+
+S = pathlib.Path(sys.argv[1]).resolve()
+LANE = S / "lane"
+CAP = LANE / "corpus/evidence/round39/tb2-git-leak-recovery"
+SB = S / "sb"
+PV = S / "pv"
+spec = importlib.util.spec_from_file_location("probe", LANE / "plans/git_leak_probe.py")
+probe = importlib.util.module_from_spec(spec); sys.modules["probe"] = probe; spec.loader.exec_module(probe)
+ENV = {"PATH": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin", "HOME": "/tmp",
+       "LANG": "C.UTF-8", "LC_ALL": "C.UTF-8", "PYTHONUTF8": "1", "PYTHONDONTWRITEBYTECODE": "1",
+       "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": "/dev/null"}
+
+
+def argv(appdir):
+    a = ["/usr/bin/bwrap", "--unshare-net", "--unshare-pid", "--unshare-ipc", "--die-with-parent", "--new-session",
+         "--ro-bind", "/usr", "/usr"]
+    for link in ("/bin", "/sbin", "/lib", "/lib64"):
+        if pathlib.Path(link).is_symlink():
+            a += ["--symlink", str(pathlib.Path(link).readlink()), link]
+    a += ["--ro-bind", "/etc", "/etc", "--proc", "/proc", "--dev", "/dev", "--tmpfs", "/tmp",
+          "--bind", str(appdir), "/app", "--dir", "/tmp/cwd", "--chdir", "/tmp/cwd",
+          "--dir", "/tests", "--ro-bind", str(CAP / "test_outputs.py"), "/tests/test_outputs.py",
+          "--ro-bind", str(PV), str(PV),
+          "--ro-bind", "/home/vgpnk/.local/share/uv/python", "/home/vgpnk/.local/share/uv/python"]
+    return a
+
+
+def main():
+    out = {}
+    for case in probe.CASES:
+        g = SB / (case.cid + "-grade")
+        p = subprocess.run(argv(g / "app") + [str(PV / "bin/python"), "-m", "pytest", "-q", "--tb=no", "-rA",
+                                              "/tests/test_outputs.py"],
+                           env=ENV, capture_output=True, text=True, timeout=300)
+        per = {}
+        for line in p.stdout.splitlines():
+            m = re.match(r"^(PASSED|FAILED|ERROR) \S*test_outputs\.py::(\S+)", line.strip())
+            if m:
+                per[m.group(2)] = "P" if m.group(1) == "PASSED" else "F"
+        letters = "".join(per.get(t, "?") for t in probe.TESTS)
+        out[case.cid] = {"rc": p.returncode, "letters": letters, "per": per,
+                         "tail": p.stdout.strip().splitlines()[-3:]}
+        print(f"{case.cid:24s} pytest={letters} rc={p.returncode} receipt={case.predicted}", flush=True)
+    diffs = [c for c, v in out.items() if v["letters"] != out[c]["letters"] or v["letters"] != ""]
+    same = [c for c, v in out.items() if v["letters"] == probe.CASES[probe.CASES.index(
+        next(x for x in probe.CASES if x.cid == c))].predicted]
+    print("cases", len(out), "pytest_letters==receipt:", len(same), "/", len(out))
+    (S / "pytest_parity.json").write_text(json.dumps(out, indent=1))
+
+
+if __name__ == "__main__":
+    main()

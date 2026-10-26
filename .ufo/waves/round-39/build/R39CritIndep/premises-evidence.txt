@@ -1,0 +1,87 @@
+# premise experiments: bash premises.sh (git 2.56.0, HOME/GIT_CONFIG_GLOBAL isolated)
+P4 update-ref rc=0
+52d18a091cd9755bacb8eaccab2882a24b080dc7
+=== P4-blob-ref
+  T2a rc=0 stdout_bytes=0 stderr=
+  T2b rc=0 stdout_bytes=0
+  T3 contains_init=2
+  T4 fsck_rc=0 fsck_stderr=
+  T4 dangling_total=0 no_secret_in_dangling -> T4 P
+  T5 checksum=6dce891aaf3fd33f3be9b38b8425efa0f1bd28b6e916ee9e969a9799124659e1
+  T5 files=./README.md 
+P7 tag rc=0
+=== P7-tag-message
+  T2a rc=0 stdout_bytes=0 stderr=
+  T2b rc=0 stdout_bytes=0
+  T3 contains_init=2
+  T4 fsck_rc=0 fsck_stderr=
+  T4 dangling_total=0 no_secret_in_dangling -> T4 P
+  T5 checksum=6dce891aaf3fd33f3be9b38b8425efa0f1bd28b6e916ee9e969a9799124659e1
+  T5 files=./README.md 
+P8 notes rc=0
+=== P8-notes
+  T2a rc=0 stdout_bytes=221 stderr=
+  T2b rc=0 stdout_bytes=409
+  T3 contains_init=2
+  T4 fsck_rc=0 fsck_stderr=
+  T4 dangling_total=0 no_secret_in_dangling -> T4 P
+  T5 checksum=6dce891aaf3fd33f3be9b38b8425efa0f1bd28b6e916ee9e969a9799124659e1
+  T5 files=./README.md 
+P9 stash rc=0
+=== P9-stash
+  T2a rc=0 stdout_bytes=0 stderr=
+  T2b rc=0 stdout_bytes=0
+  T3 contains_init=4
+  T4 fsck_rc=0 fsck_stderr=
+  T4 dangling_total=0 no_secret_in_dangling -> T4 P
+  T5 checksum=6dce891aaf3fd33f3be9b38b8425efa0f1bd28b6e916ee9e969a9799124659e1
+  T5 files=./README.md 
+P5 mktree=af4b83e0ca811e2196a5a39207f7ede13d049667 rc=0
+P5 commit-tree=5ed8123c8e40ebbb9caac4227013b5d5d40a68f0 rc=0
+=== P5-dangling-commit-tree-secret
+  T2a rc=0 stdout_bytes=0 stderr=
+  T2b rc=0 stdout_bytes=0
+  T3 contains_init=2
+  T4 fsck_rc=0 fsck_stderr=
+  T4 dangling commit 5ed8123c8e40ebbb9caac4227013b5d5d40a68f0 clean
+  T4 dangling_total=1 no_secret_in_dangling -> T4 P
+  T5 checksum=6dce891aaf3fd33f3be9b38b8425efa0f1bd28b6e916ee9e969a9799124659e1
+  T5 files=./README.md 
+P10 commit-tree=2859d29aef74b1b12364b4f4bbe0c92e009ba7a0 rc=0
+P10 replace rc=0
+2859d29aef74b1b12364b4f4bbe0c92e009ba7a0 commit	refs/replace/6be83b2c6d2ccc0d2292580efb012d14bf63cf9e|
+=== P10-replace-ref
+  T2a rc=0 stdout_bytes=322 stderr=
+  T2b rc=0 stdout_bytes=0
+  T3 contains_init=0
+  T4 fsck_rc=0 fsck_stderr=
+  T4 dangling_total=0 no_secret_in_dangling -> T4 P
+  T5 checksum=6dce891aaf3fd33f3be9b38b8425efa0f1bd28b6e916ee9e969a9799124659e1
+  T5 files=./README.md 
+=== P11-baseline
+  T2a rc=0 stdout_bytes=0 stderr=
+  T2b rc=0 stdout_bytes=0
+  T3 contains_init=2
+  T4 fsck_rc=0 fsck_stderr=
+  T4 dangling commit 6969ab2463438dc02851a575a6810571ca08e495 clean
+  T4 dangling_total=1 no_secret_in_dangling -> T4 P
+  T5 checksum=6dce891aaf3fd33f3be9b38b8425efa0f1bd28b6e916ee9e969a9799124659e1
+  T5 files=./README.md 
+=== P11-dotfile
+  T2a rc=0 stdout_bytes=0 stderr=
+  T2b rc=0 stdout_bytes=0
+  T3 contains_init=2
+  T4 fsck_rc=0 fsck_stderr=
+  T4 dangling_total=0 no_secret_in_dangling -> T4 P
+  T5 checksum=6dce891aaf3fd33f3be9b38b8425efa0f1bd28b6e916ee9e969a9799124659e1
+  T5 files=./README.md 
+ln: failed to create symbolic link '/fast/scratch/hyaku/kengaku-r39/R39CritIndep/m/sym1/app/secret.txt': File exists
+=== P11-symlinks
+  T2a rc=0 stdout_bytes=0 stderr=
+  T2b rc=0 stdout_bytes=0
+  T3 contains_init=2
+  T4 fsck_rc=0 fsck_stderr=
+  T4 dangling_total=0 no_secret_in_dangling -> T4 P
+  T5 checksum=3c2951039e6b68db9cb21347db4ae4a089226cbcb60f24483a1b567670a095fe
+  T5 files=./README.md ./recovered.txt ./target.txt 
+P11 T1 symlink: exists=True text_ok=True

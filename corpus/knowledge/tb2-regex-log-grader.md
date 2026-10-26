@@ -316,3 +316,29 @@ the month pair (52, 53), the day pair (54, 55) and the date-boundary pair (56, 5
 **Unchanged and still correct (re-measured, no correction):** the `What the grader checks` line spans
 (`34–68, 84`, `71–81`, `87`, `90`) and the four `unobserved` rows — `feb-29` lines `[]`, leading-zero-octet
 lines `[]`, `1134` lines `[]`, and the `hardcoded-expected-dates` alternation still equals `expected_dates`.
+
+## Errata (round 39)
+
+Appended 2026-10-26 (round 39, wave 1, seat `R39RecheckFix`; round-38 closure R4). Append-only: the bytes above
+stand as filed; this section is the correction of record. Measured in a clean clone of the lane at `75047384`
+(`git status --porcelain --untracked-files=all | wc -l` → `0`), run from its root.
+
+**Erratum (round 39): the `recheck:` line reds as written — and so does the round-37 erratum that repeats it.**
+`corpus/evidence/round36/tb2-regex-log/SHA256SUMS` lists bare basenames, so `sha256sum -c` resolves them against
+the CWD: `sha256sum -c corpus/evidence/round36/tb2-regex-log/SHA256SUMS` printed `test_outputs.py: FAILED open or
+read` (and the same for `test.sh`, `instruction.md`, `task.toml`, `solve.sh`) and
+`sha256sum: WARNING: 5 listed file(s) could not be read`, exit 1. The same command string appears in the round-37
+erratum (`:271`, "→ 5/5 `OK`, 2026-10-26"), which is the result of running it **inside** the capture directory;
+read that occurrence as `(cd corpus/evidence/round36/tb2-regex-log && sha256sum -c SHA256SUMS)`. Corrected leg:
+5/5 `OK`, exit 0.
+
+**Corrected `recheck:` line (replaces `:5`, one line):**
+
+    recheck: 180d — at pin `2fd12b88aafdd04a52c298e3940bcb189f9766d6`: re-fetch the three pinned URLs, `(cd corpus/evidence/round36/tb2-regex-log && sha256sum -c SHA256SUMS)`, and re-run `python3 plans/regex_log_probe.py --lane .`; the full one-liner is under `## Errata (round 39)`; any digest or receipt change supersedes this entry
+
+**Full recheck one-liner (lane root, bash; verified exit 0 on 2026-10-26):**
+
+    T=$(mktemp -d) && B=https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/regex-log && for p in tests/test_outputs.py tests/test.sh instruction.md; do curl -fsS "$B/$p" -o "$T/$(basename "$p")"; done && grep -E ' (test_outputs\.py|test\.sh|instruction\.md)$' corpus/evidence/round36/tb2-regex-log/SHA256SUMS > "$T/SUB" && (cd "$T" && sha256sum -c SUB) && (cd corpus/evidence/round36/tb2-regex-log && sha256sum -c SHA256SUMS) && python3 plans/regex_log_probe.py --lane . && rm -rf "$T"
+
+Green: 3/3 refetched `OK`, 5/5 capture `OK`, `grader=… sha256=345c3bd0…855e8f72 pin=2fd12b88…`,
+`cases=24 observed_pass=8 observed_fail=16 mismatches=0`, byte-equal to `corpus/evidence/round36/regex-log-probe.txt`.

@@ -1,0 +1,65 @@
+== pristine verdicts ==
+F00-tip                                    rc=0 classes=[] last=rows=109 tokens=17 defects=0 err=
+M4b                                        rc=1 classes=['digest-wrong-capture'] last=rows=109 tokens=18 defects=1 err=
+M5                                         rc=1 classes=['digest-wrong-capture'] last=rows=109 tokens=17 defects=1 err=
+M6                                         rc=1 classes=['digest-wrong-capture'] last=rows=109 tokens=17 defects=1 err=
+M7                                         rc=1 classes=['digest-wrong-capture'] last=rows=109 tokens=17 defects=1 err=
+M8                                         rc=1 classes=['digest-unknown'] last=rows=109 tokens=17 defects=1 err=
+M9                                         rc=1 classes=['digest-wrong-capture'] last=rows=109 tokens=17 defects=1 err=
+M11                                        rc=1 classes=['erratum-incomplete'] last=rows=109 tokens=17 defects=1 err=
+R1                                         rc=1 classes=['digest-short'] last=rows=109 tokens=17 defects=1 err=
+R2                                         rc=1 classes=['digest-short', 'erratum-digest-unresolved', 'erratum-incomplete'] last=rows=109 tokens=17 defects=3 err=
+R3                                         rc=1 classes=['digest-short'] last=rows=109 tokens=17 defects=1 err=
+M10                                        rc=1 classes=['anchor-unbound'] last=rows=109 tokens=17 defects=1 err=
+M12                                        rc=1 classes=['anchor-unbound'] last=rows=109 tokens=17 defects=1 err=
+X01-upper                                  rc=1 classes=['digest-uppercase'] last=rows=109 tokens=17 defects=1 err=
+X02-abbrev-wrongprefix                     rc=1 classes=['abbrev-unresolved'] last=rows=109 tokens=17 defects=1 err=
+X03-abbrev-7hex                            rc=1 classes=['abbrev-unresolved'] last=rows=109 tokens=17 defects=1 err=
+X04-abbrev-upper                           rc=1 classes=['abbrev-unresolved'] last=rows=109 tokens=17 defects=1 err=
+X05-abbrev-64hex-ellipsis                  rc=1 classes=['abbrev-unresolved'] last=rows=109 tokens=17 defects=1 err=
+X06-token-in-teaches                       rc=1 classes=['token-outside-anchor'] last=rows=109 tokens=17 defects=1 err=
+X07-12-cells                               rc=1 classes=['row-malformed'] last=rows=109 tokens=17 defects=1 err=
+X08-indent3-wrong                          rc=1 classes=['digest-wrong-capture'] last=rows=109 tokens=17 defects=1 err=
+X09-indent4-wrong                          rc=0 classes=[] last=rows=108 tokens=16 defects=0 err=
+X10-second-url (R5 shape)                  rc=0 classes=[] last=rows=109 tokens=17 defects=0 err=
+X11-token-removed                          rc=0 classes=[] last=rows=109 tokens=16 defects=0 err=
+X12-erratum-unresolved-hex                 rc=1 classes=['erratum-digest-unresolved', 'erratum-incomplete'] last=rows=109 tokens=17 defects=2 err=
+X13-erratum-4space-indent                  rc=1 classes=['digest-short'] last=rows=109 tokens=17 defects=1 err=
+X14-erratum-incomplete                     rc=1 classes=['digest-short', 'erratum-incomplete'] last=rows=109 tokens=17 defects=2 err=
+X15-index-staged-capture (index mode)      rc=0 classes=[] last=rows=110 tokens=18 defects=0 err=
+X16-staged-capture-head-mode               rc=1 classes=['anchor-unbound'] last=rows=110 tokens=18 defects=1 err=
+X17-duplicate-task-slug (index mode)       rc=1 classes=['anchor-unbound', 'anchor-unbound', 'anchor-unbound'] last=rows=109 tokens=17 defects=3 err=
+X18-usage-no-sources                       rc=2 classes=[] last= err=USAGE: no corpus/SOURCES.md under /fast/scratch/hyaku/kengaku-r39/R39PlanNext/fx_anchor/X18-usage-no-sources
+X19-usage-no-evidence                      rc=0 classes=[] last=rows=109 tokens=17 defects=0 err=
+X20-stale-manifest-digest (index mode)     rc=0 classes=[] last=rows=110 tokens=18 defects=0 err=
+X21-uppercase-manifest-entry (index mode)  rc=0 classes=[] last=rows=110 tokens=18 defects=0 err=
+X22-abbrev-substring-not-prefix            rc=1 classes=['abbrev-unresolved'] last=rows=109 tokens=17 defects=1 err=
+
+== mutants ==
+A01 target=digest-uppercase         tip=- r38=- all=K  uppercase accepted by strict test  killers=['X01-upper:class']
+A02 target=abbrev-unresolved        tip=- r38=- all=K  abbrev floor 8 -> 1  killers=['X03-abbrev-7hex:rc']
+A03 target=abbrev-unresolved        tip=- r38=- all=K  abbrev ceiling 63 -> 64  killers=['X05-abbrev-64hex-ellipsis:rc']
+A04 target=abbrev-unresolved        tip=- r38=- all=-  abbrev lowercase rule dropped  killers=[]
+A05 target=abbrev-unresolved        tip=- r38=- all=K  abbrev prefix match unchecked  killers=['X02-abbrev-wrongprefix:rc', 'X22-abbrev-substring-not-prefix:rc']
+A06 target=row-shape                tip=- r38=- all=K  row indent 3 -> 4  killers=['X09-indent4-wrong:rc']
+A07 target=row-shape                tip=- r38=- all=K  row indent 3 -> 2  killers=['X08-indent3-wrong:rc']
+A08 target=token-outside-anchor     tip=- r38=- all=K  outside-anchor rule off  killers=['X06-token-in-teaches:rc']
+A09 target=row-malformed            tip=- r38=- all=K  12-cell rows accepted  killers=['X07-12-cells:rc']
+A10 target=anchor-unbound           tip=- r38=- all=-  empty-binding rows not flagged unbound  killers=[]
+A11 target=digest-wrong-capture     tip=- r38=K all=K  wrong-capture relabelled digest-unknown  killers=['M4b:class', 'M5:class', 'M6:class', 'M7:class', 'M9:class', 'X08-indent3-wrong:class']
+A12 target=erratum                  tip=K r38=K all=K  erratum exemption off  killers=['F00-tip:rc', 'M4b:class', 'M5:class', 'M6:class', 'M7:class', 'M8:class']
+A13 target=erratum-incomplete       tip=- r38=K all=K  erratum laundering via global A  killers=['M11:rc']
+A14 target=erratum-digest-unresolved tip=- r38=K all=K  erratum unresolved-hex check off  killers=['R2:class', 'X12-erratum-unresolved-hex:class']
+A15 target=anchor-unbound           tip=- r38=- all=K  ambiguous task slug binds first owner  killers=['X17-duplicate-task-slug (index mode):rc']
+A16 target=url-task                 tip=- r38=- all=-  task component may be the file basename  killers=[]
+A17 target=evidence-ref             tip=- r38=- all=K  head/index modes swapped  killers=['X15-index-staged-capture (index mode):rc', 'X17-duplicate-task-slug (index mode):rc', 'X19-usage-no-evidence:rc', 'X20-stale-manifest-digest (index mode):rc', 'X21-uppercase-manifest-entry (index mode):rc']
+A18 target=summary                  tip=- r38=- all=K  tokens= counts anchor tokens only  killers=['X06-token-in-teaches:text']
+A19 target=exit                     tip=- r38=K all=K  defects never reach the exit code  killers=['M4b:rc', 'M5:rc', 'M6:rc', 'M7:rc', 'M8:rc', 'M9:rc']
+A20 target=exit                     tip=- r38=- all=K  usage exit 2 -> 1  killers=['X18-usage-no-sources:rc']
+A21 target=manifest-case            tip=- r38=- all=K  manifest digest case not folded  killers=['X21-uppercase-manifest-entry (index mode):rc']
+A22 target=manifest-view            tip=- r38=- all=K  manifest view of a capture ignored  killers=['X20-stale-manifest-digest (index mode):rc', 'X21-uppercase-manifest-entry (index mode):rc']
+A23 target=slug                     tip=K r38=K all=K  task.toml slug binding off  killers=['F00-tip:rc', 'M4b:class', 'M5:class', 'M6:class', 'M7:class', 'M8:class']
+A24 target=abbrev-unresolved        tip=- r38=- all=K  prefix match -> substring match  killers=['X22-abbrev-substring-not-prefix:rc']
+A25 target=erratum-shape            tip=- r38=- all=K  erratum indent unbounded  killers=['X13-erratum-4space-indent:rc']
+A26 target=anchor-unbound           tip=- r38=K all=K  unbound rows silently pass through to digest tests  killers=['M10:rc', 'M12:rc', 'X16-staged-capture-head-mode:rc', 'X17-duplicate-task-slug (index mode):rc']
+MUTANTS n=26 killed_by_tip=2 killed_by_tip+r38_fixtures=7 killed_by_all_fixtures=23

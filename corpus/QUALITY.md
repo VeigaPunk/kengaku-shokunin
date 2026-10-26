@@ -516,3 +516,54 @@ A round closes only when every row below holds; a row that cannot be shown is an
   never a relabel after scoring. Limits: `UNWITNESSED` (no fixture separates the mutant yet) is not a
   verdict, so the check cannot run before some battery exists; it observes the attributed rule of the
   counter it loads, not a semantic proof. Lesson: `corpus/lessons/round-38.md` §Mistakes. Supersedes: none.
+
+## Round39 criterion — a class that recurs twice is closed by a gate over committed history
+
+- **Q30 — a mistake class that recurs twice is closed by a gate that reads committed history — red on
+  both occurrences and green on the round that lands it — never by a second prose rule.** A forward
+  rule leaves nothing to observe. The order-of-operations class (a skip-control that runs the frozen
+  instrument before the round's first recorded run) was recorded with a forward fix in
+  `corpus/lessons/round-37.md:42` ("the discarded run cannot become evidence … the write-up must not be
+  the only artefact") and recurred in round 38 (`corpus/lessons/round-38.md:36`), where the artefact was
+  again only the claims header; round 37's stated fix "does not prevent the ordering, it only makes the
+  discarded run harmless" (same row). The round-38 closure named the shape the class needed —
+  "Append a correction and turn the lint into a gate with a red-before state"
+  (`corpus/lessons/round-38-verifier-spotcheck.md:162-165`, routed item R3) — and the recurrence is the
+  case `considerthese/2026-10-25.md:42-44`, proposal 2(b), predicted. The gate is
+  `plans/order_check.py`: it reads commits only (working tree and index ignored) and FAILS when a file
+  committed under `.ufo/waves/round-<N>/claims/` at or before the first commit adding the receipt shows
+  the frozen probe executed (a `P10` line whose detail is anything but `receipt unreadable`, or a
+  receipt-shaped `CASE … observed=` line), when the freeze commit already contains the receipt, and when
+  the receipt was committed before the claims file; exit 2 on setup errors, never a silent pass.
+  Measured at the criterion's creation (2026-10-26, before the tool landed): `ls plans/order_check.py` →
+  `No such file or directory`; `grep -c 'order-of-operations' corpus/lessons/round-37.md
+  corpus/lessons/round-38.md` → `1` and `2` (one row, one cross-reference to it); every occurrence was
+  closed in prose.
+  Check (executable, round-39 instance) — the pair that makes this a gate rather than a rule:
+  `python3 plans/order_check.py --lane . --claims plans/round-38-claims.md --receipt
+  corpus/evidence/round38/build-pmars-probe.txt` prints `ORDER HIT
+  .ufo/waves/round-38/claims/control-c2-skip.txt@e0a378539a45:11 kind=gate-p10`, quoting the control
+  line `gate: P10 DEFECT fresh probe output is not byte-equal to the receipt`, then `ORDER RESULT FAIL`,
+  exit 1; and the same
+  command with `--claims plans/round-39-claims.md --receipt corpus/evidence/round39/git-leak-probe.txt`
+  prints `ORDER scanned commits=1 file_entries=7 distinct_blobs=7`, `ORDER RESULT PASS`, exit 0 — round
+  39's only `P10` line is the exempt `P10 DEFECT receipt unreadable`
+  (`.ufo/waves/round-39/claims/control-c2-nothing.txt:11`).
+  Shown able to fail: the recurrence's origin is red as well — `--claims plans/round-37-claims.md
+  --receipt corpus/evidence/round37/git-webserver-probe.txt` → `ORDER HIT
+  .ufo/waves/round-37/claims/control-c2-skip.txt@ca790460e9b7:12`, `ORDER RESULT FAIL`, exit 1 — and
+  three synthetic two-commit repos make each leg bite alone: claims+receipt in one commit → `ORDER FAIL
+  freeze-contains-receipt`, exit 1; receipt committed first → `ORDER FAIL freeze-contains-receipt
+  receipt-before-claims`, exit 1; clean freeze-then-receipt → `ORDER RESULT PASS`, exit 0 (the tool is
+  not always red).
+  Limits: commits only — an executed probe whose output was never committed is invisible, and round 38
+  is red only because its skip control kept one `P10` line; the `receipt unreadable` exemption is
+  textual, so an instrument that prints that detail after executing would be excused; `CASE …
+  observed=` binds the probe's line shape, so another instrument needs its own pattern; the gate detects
+  and does not block, so 2(b)'s "blocks pre-registration" half stays unimplemented, and Q23's limit line
+  (`corpus/QUALITY.md:291`) is named here, not amended (R1); no `recurrence=2` row is written to `corpus/defects.jsonl`
+  (its checker is the round-35 frozen `plans/defect_ledger.py`, which has no check for this class; routed); and a gate that only ever runs on the round that
+  introduces it proves nothing, which is why the red pair is part of the check.
+  Lesson: routed item R3, `corpus/lessons/round-38-verifier-spotcheck.md` §5 item 3; occurrences
+  `corpus/lessons/round-37.md:42`, `corpus/lessons/round-38.md:36`; proposal
+  `considerthese/2026-10-25.md:42-44`. Supersedes: none.

@@ -1,0 +1,91 @@
+LANE toplevel=/fast/scratch/hyaku/kengaku-r39/R39AnchorUnion/lane
+PRISTINE corpus/SOURCES.md sha256=cec138692f48961da41b93f0a9dbab203443716619badbe961aad5c4f5ad089e
+PRISTINE corpus/lessons/round-38.md sha256=2263e10c192e7a7ba88e5255a0d4428e8bd77bcdeb604ac1c5931795680de453
+PRISTINE git status --porcelain lines=0
+
+==== CASE D ====
+MUTATION S111 -> | S111 | Terminal-Bench 2.0 configure-git-webserver task grader (tests/test_outputs.py) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/configure-git-webserver/tests/test_outputs.py | code | A | the executed scoring predicate of one Terminal-Bench 2.0 service task at a pinned commit — a stdout substring over a helper shell script, and what that helper does and does not observe — for the code's own behaviour https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/regex-log/tests/test_outputs.py | commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, tests/test_outputs.py:9-13, :13 "assert "TEST PASSED" in result.stdout" (5 words); sha256 345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 | the task score is one pytest function asserting the substring TEST PASSED anywhere in a helper script's stdout, not the helper's exit status nor the served artefact's provenance | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-git-webserver-grader.md |
+TIP exit=0
+TIP | EVIDENCE ref=head files=427 manifest_digests=36 rows=109 paths=495 bound_rows=19 unbound_rows=90
+TIP | BIND S025 capture=corpus/evidence/attrib-r23-stream.log by=row-path
+TIP | BIND S036 capture=corpus/evidence/attrib-r23-stream.log by=row-path
+TIP | BIND S047 capture=corpus/evidence/round25-calibration/attrib-calibration-selftest-v2.txt by=row-path
+TIP | BIND S070 capture=corpus/evidence/round37/anchor-captures/S070-generate_test_data.py by=provenance-row
+TIP | BIND S072 capture=corpus/evidence/round37/anchor-captures/S072-README.md by=provenance-row
+TIP | BIND S073 capture=corpus/evidence/round37/anchor-captures/S073-prepare.sh by=provenance-row
+TIP | BIND S074 capture=corpus/evidence/round37/anchor-captures/S074-task.py by=provenance-row
+TIP | BIND S105 capture=corpus/evidence/round35/tb2-eval/test_outputs.py by=url-task
+TIP | BIND S106 capture=corpus/evidence/round35/tb2-eval/test.sh by=url-task
+TIP | BIND S107 capture=corpus/evidence/round35/tb2-eval/instruction.md by=url-task
+TIP | BIND S108 capture=corpus/evidence/round36/tb2-regex-log/test_outputs.py by=url-task
+TIP | BIND S109 capture=corpus/evidence/round36/tb2-regex-log/test.sh by=url-task
+TIP | BIND S110 capture=corpus/evidence/round36/tb2-regex-log/instruction.md by=url-task
+TIP | BIND S111 capture=corpus/evidence/round37/tb2-git-webserver/test_outputs.py by=url-task
+TIP | BIND S112 capture=corpus/evidence/round37/tb2-git-webserver/verify.sh by=url-task
+TIP | BIND S113 capture=corpus/evidence/round37/tb2-git-webserver/instruction.md by=url-task
+TIP | BIND S114 capture=corpus/evidence/round37/prior-art/tb21-issue-133-body.md by=row-path
+TIP | BIND S115 capture=corpus/evidence/round38/tb2-build-pmars/test_outputs.py by=url-task
+TIP | BIND S116 capture=corpus/evidence/round38/tb2-build-pmars/instruction.md by=url-task
+TIP | ERRATUM S110 loc=corpus/lessons/round-37.md:32 cited_wrong=['4f7ac05e70cf922ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c'] correction=['4f7ac05e70cf9220ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c']
+TIP | ABBREV S036 prefix=afaae9dd matches=afaae9ddaf4deda0095c2e7ad39c6cb63236d72c812ca2fcd9ab18c42eef8131
+TIP | RESOLVED S070 digest=45ddba7be49096a18919b4122a8945ff74c292ba17e36892b16e176a8bd921cd via=corpus/evidence/round37/anchor-captures/S070-generate_test_data.py bind=provenance-row listed=corpus/evidence/round37/anchor-captures/S070-generate_test_data.py
+TIP | RESOLVED S072 digest=081c826497f9b7da4952771ee128c2215ec3532379db0fe9f7fcbd899d9c9287 via=corpus/evidence/round37/anchor-captures/S072-README.md bind=provenance-row listed=corpus/evidence/round37/anchor-captures/S072-README.md
+TIP | RESOLVED S073 digest=97b8671fc66518fbfed54467f9a64965bafa54d01702d922bfbb8b32c1b0c7e2 via=corpus/evidence/round37/anchor-captures/S073-prepare.sh bind=provenance-row listed=corpus/evidence/round37/anchor-captures/S073-prepare.sh
+TIP | RESOLVED S074 digest=f996dfeef2bfb836fa79b20217cda36ecf428ed3965e3084e325626d7130fe67 via=corpus/evidence/round37/anchor-captures/S074-task.py bind=provenance-row listed=corpus/evidence/round37/anchor-captures/S074-task.py
+TIP | RESOLVED S105 digest=44a05a2482aa7a8e70de95478de6560b6188e630336fca9d02b62dc69a096582 via=corpus/evidence/round35/tb2-eval/test_outputs.py bind=url-task listed=corpus/evidence/round35/tb2-eval/test_outputs.py
+TIP | RESOLVED S106 digest=9ede46648fc67c9ce61975503de3e0fcff0b0fb110adc0f9e1d240a608c267b5 via=corpus/evidence/round35/tb2-eval/test.sh bind=url-task listed=corpus/evidence/round35/tb2-eval/test.sh
+TIP | RESOLVED S107 digest=1bb2af1d85e9a823a8ae7273a87df8a3f67e2c93b06cddf34f0051a8b003f7c5 via=corpus/evidence/round35/tb2-eval/instruction.md bind=url-task listed=corpus/evidence/round35/tb2-eval/instruction.md
+TIP | RESOLVED S108 digest=345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 via=corpus/evidence/round36/tb2-regex-log/test_outputs.py bind=url-task listed=corpus/evidence/round36/tb2-regex-log/test_outputs.py
+TIP | RESOLVED S109 digest=4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334 via=corpus/evidence/round36/tb2-regex-log/test.sh bind=url-task listed=corpus/evidence/round36/tb2-regex-log/test.sh
+TIP | EXEMPT S110 anchor=4f7ac05e70cf922ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c by=corpus/lessons/round-37.md:32 correction=4f7ac05e70cf9220ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c
+TIP | RESOLVED S111 digest=345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 via=corpus/evidence/round36/tb2-regex-log/test_outputs.py bind=url-task listed=corpus/evidence/round36/tb2-regex-log/test_outputs.py
+TIP | RESOLVED S112 digest=1dc44c923b797ed24ca423c9b9efcd9c1eed4d7261007139b0a724f4e2f53d05 via=corpus/evidence/round37/tb2-git-webserver/verify.sh bind=url-task listed=corpus/evidence/round37/tb2-git-webserver/verify.sh
+TIP | RESOLVED S113 digest=62151b7371bc364277a3c118bba755334c640fb0cefc7a5af106e6e763cf1d97 via=corpus/evidence/round37/tb2-git-webserver/instruction.md bind=url-task listed=corpus/evidence/round37/tb2-git-webserver/instruction.md
+TIP | RESOLVED S114 digest=c217d37253c89a71d6cc4d1c14f588c02ce49039cb1118dd3694150cf4c64193 via=corpus/evidence/round37/prior-art/tb21-issue-133-body.md bind=row-path listed=corpus/evidence/round37/prior-art/tb21-issue-133-body.md
+TIP | RESOLVED S115 digest=d9d2796ddc19cf8159670567e174ea377e2bce675bf3451d5951c045b01f4e85 via=corpus/evidence/round38/tb2-build-pmars/test_outputs.py bind=url-task listed=corpus/evidence/round38/tb2-build-pmars/test_outputs.py
+TIP | RESOLVED S116 digest=1606850579342a8b8f2189de0e499fae6be21198150d8dd1e4d18c2efbcf3b82 via=corpus/evidence/round38/tb2-build-pmars/instruction.md bind=url-task listed=corpus/evidence/round38/tb2-build-pmars/instruction.md
+TIP | rows=109 tokens=17 defects=0
+FIXED exit=1
+FIXED | EVIDENCE ref=head files=427 manifest_digests=36 rows=109 paths=495 bound_rows=19 unbound_rows=90
+FIXED | BIND S025 capture=corpus/evidence/attrib-r23-stream.log by=row-path
+FIXED | BIND S036 capture=corpus/evidence/attrib-r23-stream.log by=row-path
+FIXED | BIND S047 capture=corpus/evidence/round25-calibration/attrib-calibration-selftest-v2.txt by=row-path
+FIXED | BIND S070 capture=corpus/evidence/round37/anchor-captures/S070-generate_test_data.py by=provenance-row
+FIXED | BIND S072 capture=corpus/evidence/round37/anchor-captures/S072-README.md by=provenance-row
+FIXED | BIND S073 capture=corpus/evidence/round37/anchor-captures/S073-prepare.sh by=provenance-row
+FIXED | BIND S074 capture=corpus/evidence/round37/anchor-captures/S074-task.py by=provenance-row
+FIXED | BIND S105 capture=corpus/evidence/round35/tb2-eval/test_outputs.py by=url-task
+FIXED | BIND S106 capture=corpus/evidence/round35/tb2-eval/test.sh by=url-task
+FIXED | BIND S107 capture=corpus/evidence/round35/tb2-eval/instruction.md by=url-task
+FIXED | BIND S108 capture=corpus/evidence/round36/tb2-regex-log/test_outputs.py by=url-task
+FIXED | BIND S109 capture=corpus/evidence/round36/tb2-regex-log/test.sh by=url-task
+FIXED | BIND S110 capture=corpus/evidence/round36/tb2-regex-log/instruction.md by=url-task
+FIXED | BIND S111 capture=corpus/evidence/round37/tb2-git-webserver/test_outputs.py by=url-task
+FIXED | BIND+ S111 capture=corpus/evidence/round36/tb2-regex-log/test_outputs.py by=url-task
+FIXED | BIND S112 capture=corpus/evidence/round37/tb2-git-webserver/verify.sh by=url-task
+FIXED | BIND S113 capture=corpus/evidence/round37/tb2-git-webserver/instruction.md by=url-task
+FIXED | BIND S114 capture=corpus/evidence/round37/prior-art/tb21-issue-133-body.md by=row-path
+FIXED | BIND S115 capture=corpus/evidence/round38/tb2-build-pmars/test_outputs.py by=url-task
+FIXED | BIND S116 capture=corpus/evidence/round38/tb2-build-pmars/instruction.md by=url-task
+FIXED | ERRATUM S110 loc=corpus/lessons/round-37.md:32 cited_wrong=['4f7ac05e70cf922ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c'] correction=['4f7ac05e70cf9220ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c']
+FIXED | ABBREV S036 prefix=afaae9dd matches=afaae9ddaf4deda0095c2e7ad39c6cb63236d72c812ca2fcd9ab18c42eef8131 capture=corpus/evidence/attrib-r23-stream.log
+FIXED | RESOLVED S070 digest=45ddba7be49096a18919b4122a8945ff74c292ba17e36892b16e176a8bd921cd via=corpus/evidence/round37/anchor-captures/S070-generate_test_data.py bind=provenance-row listed=corpus/evidence/round37/anchor-captures/S070-generate_test_data.py
+FIXED | RESOLVED S072 digest=081c826497f9b7da4952771ee128c2215ec3532379db0fe9f7fcbd899d9c9287 via=corpus/evidence/round37/anchor-captures/S072-README.md bind=provenance-row listed=corpus/evidence/round37/anchor-captures/S072-README.md
+FIXED | RESOLVED S073 digest=97b8671fc66518fbfed54467f9a64965bafa54d01702d922bfbb8b32c1b0c7e2 via=corpus/evidence/round37/anchor-captures/S073-prepare.sh bind=provenance-row listed=corpus/evidence/round37/anchor-captures/S073-prepare.sh
+FIXED | RESOLVED S074 digest=f996dfeef2bfb836fa79b20217cda36ecf428ed3965e3084e325626d7130fe67 via=corpus/evidence/round37/anchor-captures/S074-task.py bind=provenance-row listed=corpus/evidence/round37/anchor-captures/S074-task.py
+FIXED | RESOLVED S105 digest=44a05a2482aa7a8e70de95478de6560b6188e630336fca9d02b62dc69a096582 via=corpus/evidence/round35/tb2-eval/test_outputs.py bind=url-task listed=corpus/evidence/round35/tb2-eval/test_outputs.py
+FIXED | RESOLVED S106 digest=9ede46648fc67c9ce61975503de3e0fcff0b0fb110adc0f9e1d240a608c267b5 via=corpus/evidence/round35/tb2-eval/test.sh bind=url-task listed=corpus/evidence/round35/tb2-eval/test.sh
+FIXED | RESOLVED S107 digest=1bb2af1d85e9a823a8ae7273a87df8a3f67e2c93b06cddf34f0051a8b003f7c5 via=corpus/evidence/round35/tb2-eval/instruction.md bind=url-task listed=corpus/evidence/round35/tb2-eval/instruction.md
+FIXED | RESOLVED S108 digest=345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 via=corpus/evidence/round36/tb2-regex-log/test_outputs.py bind=url-task listed=corpus/evidence/round36/tb2-regex-log/test_outputs.py
+FIXED | RESOLVED S109 digest=4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334 via=corpus/evidence/round36/tb2-regex-log/test.sh bind=url-task listed=corpus/evidence/round36/tb2-regex-log/test.sh
+FIXED | EXEMPT S110 anchor=4f7ac05e70cf922ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c by=corpus/lessons/round-37.md:32 correction=4f7ac05e70cf9220ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c
+FIXED | RESOLVED S111 digest=345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 via=corpus/evidence/round36/tb2-regex-log/test_outputs.py bind=url-task listed=corpus/evidence/round36/tb2-regex-log/test_outputs.py
+FIXED | CAPTURES S111 n=2 claimed=corpus/evidence/round36/tb2-regex-log/test_outputs.py paths=corpus/evidence/round36/tb2-regex-log/test_outputs.py,corpus/evidence/round37/tb2-git-webserver/test_outputs.py
+FIXED | RESOLVED S112 digest=1dc44c923b797ed24ca423c9b9efcd9c1eed4d7261007139b0a724f4e2f53d05 via=corpus/evidence/round37/tb2-git-webserver/verify.sh bind=url-task listed=corpus/evidence/round37/tb2-git-webserver/verify.sh
+FIXED | RESOLVED S113 digest=62151b7371bc364277a3c118bba755334c640fb0cefc7a5af106e6e763cf1d97 via=corpus/evidence/round37/tb2-git-webserver/instruction.md bind=url-task listed=corpus/evidence/round37/tb2-git-webserver/instruction.md
+FIXED | RESOLVED S114 digest=c217d37253c89a71d6cc4d1c14f588c02ce49039cb1118dd3694150cf4c64193 via=corpus/evidence/round37/prior-art/tb21-issue-133-body.md bind=row-path listed=corpus/evidence/round37/prior-art/tb21-issue-133-body.md
+FIXED | RESOLVED S115 digest=d9d2796ddc19cf8159670567e174ea377e2bce675bf3451d5951c045b01f4e85 via=corpus/evidence/round38/tb2-build-pmars/test_outputs.py bind=url-task listed=corpus/evidence/round38/tb2-build-pmars/test_outputs.py
+FIXED | RESOLVED S116 digest=1606850579342a8b8f2189de0e499fae6be21198150d8dd1e4d18c2efbcf3b82 via=corpus/evidence/round38/tb2-build-pmars/instruction.md bind=url-task listed=corpus/evidence/round38/tb2-build-pmars/instruction.md
+FIXED | DEFECT S111 anchor token=- class=capture-unanchored detail=row-names-2-captures-1-anchor-token-none-resolves-capture-corpus/evidence/round37/tb2-git-webserver/test_outputs.py loc=corpus/SOURCES.md:126
+FIXED | rows=109 tokens=17 defects=1
+RESTORED corpus/SOURCES.md sha256=cec138692f48961da41b93f0a9dbab203443716619badbe961aad5c4f5ad089e git status --porcelain lines=0

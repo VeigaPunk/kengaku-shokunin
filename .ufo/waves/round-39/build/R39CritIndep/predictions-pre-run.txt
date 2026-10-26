@@ -1,0 +1,121 @@
+# R39CritIndep — independent predictions, written BEFORE running the probe copy.
+# Source of truth for derivation: corpus/evidence/round39/tb2-git-leak-recovery/test_outputs.py (5 test
+# functions) + git 2.56.0 semantics resolved in $S/m (premises P1..P9 below). The probe's own predicted
+# column was NOT used: every letter below is derived test-by-test from the grader code and the case recipe.
+#
+# Grader predicates (test_outputs.py, in call order):
+# T1 = /app/secret.txt exists AND read_text().strip() == "secret[lost_and_found_in_git]"
+# T2 = `log --all --grep 'secret\[' -i` and `log --all -p -S 'secret['` both rc=0 and both stdout empty
+# T3 = `log --oneline --all` contains "chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+# T4 = `fsck --lost-found` rc=0 and no dangling line whose `cat-file -p` stdout holds "secret["
+# T5 = checksum over non-dot regular files under /app/repo equals 2c3d6389... (i.e. file set+content identical
+#      to the image state; .git and any dot path excluded; symlinks are -type l, so they are not hashed)
+#
+# Premises resolved in $S/m (git 2.56.0), before this table:
+# P1 out-of-the-box `git fsck --lost-found` lists the reset-away secret commit as `dangling commit <sha>` on
+#    STDOUT with rc=0 even though .git/logs/HEAD still names it (identical with --no-reflogs). Observed.
+# P2 fsck dangling lines go to stdout, not stderr. Observed (P1 run captured both streams).
+# P3..P9 listed at the end; each is a separately-run experiment recorded in premises.txt.
+#
+# Columns: tests (T1..T5), verdict pass iff PPPPP.
+empty-app                  FFFFF
+untouched                  FPPPP
+oracle-solve-sh            PPPPP
+echo-only                  PPPPP
+echo-reflog-expire         PPPPP
+echo-gc-only               PPPPP
+clean-echo                 PPPPP
+dangling-secret-blob       PPPFP
+dangling-secret-commit     PPPFP
+branch-keeps-leak          PFPPP
+blob-ref-keeps-secret      PPPPP
+tag-message-secret         PPPPP
+commit-message-secret      PFPPP
+notes-secret               PFPPP
+stash-secret               PPPPP
+dotfile-in-worktree        PPPPP
+untracked-file-secret      PPPPF
+config-secret              PPPPP
+readme-edited              PPPPF
+message-rewritten          PPPPP
+history-rebuilt            PPPPP
+flag-extra-text            FPPPP
+flag-padded-crlf           PPPPP
+flag-is-directory          FPPPP
+flag-in-repo-only          FPPPF
+# --- extra cases (mine; ids prefixed X39) ---
+X39-dangling-commit-tree-secret   PPPPP
+X39-replace-ref-message-secret    PFPPP
+X39-flag-symlink-into-repo        PPPPF
+# predicted aggregate over the 25 frozen cases: pass=13 fail=12
+
+# --- per-case derivation notes (test-by-test, terseness deliberate) ---
+# empty-app: no /app, no repo -> T1 no file; T2/T3 `git -C /app/repo log` rc=128 -> assert returncode; T4
+#   fsck rc!=0; T5 `find /app/repo` rc!=0 -> all F.
+# untouched: T1 secret.txt absent (/app has only repo/, reset removed repo/secret.txt); T2 reflog is not a
+#   rev under --all, so both greps print nothing; T3 init msg is the tip msg; T4 P1 says the secret commit IS
+#   listed dangling, but `cat-file -p` of a commit prints tree/parent/author/message, never file content, and
+#   its message is "feat: add scratch notes" -> no "secret["; T5 work tree = image state.
+# oracle-solve-sh: solve.sh greps `git fsck --lost-found` for dangling commits *before* cleaning; P1 makes that
+#   non-empty, `git show <commit>` diffs in +secret[...] so the grep writes the literal to /app/secret.txt (T1
+#   P); its cleanup (reflog expire + gc --aggressive) is strictly stronger than CLEAN, so T4 has nothing
+#   dangling; gc does not touch the work tree (T5 P). The probe docstring's static reading (fsck honours
+#   reflogs -> empty) is refuted by P1.
+# echo-only: object store untouched, so T4 sees the same dangling commit as `untouched` -> P; nothing in
+#   refs -> T2 P (P4); work tree untouched -> T5 P.
+# echo-reflog-expire: expiring reflogs changes nothing for T4 because P1 already shows the commit dangling
+#   while reflogs exist; its tree and blob stay reachable *from that dangling commit*, so fsck lists only the
+#   commit (P5) -> cat-file -p still secret-free -> P; no gc -> objects stay, still invisible to log --all.
+# echo-gc-only: --prune=now cannot drop an object named by a reflog entry, and even if it did the surviving
+#   state is graded the same way; T4 P as above; T2 P; T5 P.
+# clean-echo: reflog expire + gc --prune=now removes the only path to the secret objects -> T4 no dangling;
+#   T2 nothing in refs; T5 P; T1 P.
+# dangling-secret-blob: hash-object -w writes a loose blob nobody references -> fsck "dangling blob", and
+#   `cat-file -p` of a blob prints its bytes -> T4 F. log --all cannot see it -> T2 P; work tree untouched.
+# dangling-secret-commit: commit-tree object with the secret as its message -> fsck "dangling commit", and
+#   cat-file -p prints the message -> T4 F. Its tree is HEAD's tree (already reachable), so nothing else is
+#   listed (P5). T2 P (dangling is not a rev under --all).
+# branch-keeps-leak: HEAD@{2} is the secret commit (P6); pinning it with a branch makes it reachable, so
+#   `log --all -p -S 'secret['` prints the +secret[...] hunk -> T2 F (its subject has no "secret[", so the
+#   --grep leg alone is clean -> still F on the pickaxe leg). T3 P, T4 nothing dangling, T5 work tree P.
+# blob-ref-keeps-secret: refs/blobs/keep -> blob; the blob is reachable, so fsck does not call it dangling
+#   (T4 P); `git log --all` must tolerate a non-commit ref (P4); a ref cannot carry file content into the
+#   pickaxe -> T2 P; .git only -> T5 P.
+# tag-message-secret: annotated tag object's message is not a commit message, so `--grep` never sees it and
+#   `-S` pickaxes commits only (P7) -> T2 P; tag reachable -> T4 P.
+# commit-message-secret: reachable empty commit whose message is the literal -> `log --all --grep` prints it
+#   -> T2 F. T3 P (init msg elsewhere), T5 P (--allow-empty).
+# notes-secret: refs/notes/commits is a reachable commit whose diff adds the note blob -> `-p -S 'secret['`
+#   matches its own message/body? no: it matches the added line -> T2 F (P8). --grep leg clean.
+# stash-secret: refs/stash is a merge commit; `log -p -S` without `-m` shows no diff for merges (P9) and the
+#   stash message is "WIP on main: ..." -> T2 P; stash restores the work tree -> T5 P; refs/stash is under
+#   --all so nothing is dangling -> T4 P. (Uncertain premise -> P9 experiment.)
+# dotfile-in-worktree: `.leak` matches `-not -path '*/\.*'` -> excluded from the checksum (T5 P); never
+#   committed -> T2 P.
+# untracked-file-secret: notes.txt is a non-dot file -> checksum changes -> T5 F; uncommitted -> T2 P.
+# config-secret: .git/config is a dot path -> T5 P; a config value is not a git object -> T4 P; not a rev.
+# readme-edited: README.md is non-dot and edited -> T5 F.
+# message-rewritten: amend rewrites only the tip message; the initial commit keeps the init message -> T3 P;
+#   work tree untouched -> T5 P; then CLEAN leaves nothing dangling -> T4 P.
+# history-rebuilt: one fresh commit with INIT_MSG -> T3 P; the secret objects are gone with .git -> T4 P;
+#   README.md content identical -> T5 P.
+# flag-extra-text: /app/secret.txt holds "flag: secret[...]" -> strip() != literal -> T1 F.
+# flag-padded-crlf: strip() removes the spaces and \r\n -> T1 P.
+# flag-is-directory: exists() is True, read_text raises IsADirectoryError (not AssertionError) -> harness
+#   catches it as F -> T1 F.
+# flag-in-repo-only: /app/secret.txt missing -> T1 F; the new repo/secret.txt is a non-dot file -> T5 F;
+#   uncommitted -> T2 P; T3 P; nothing dangling -> T4 P.
+#
+# --- extra case derivations (mine) ---
+# X39-dangling-commit-tree-secret: after CLEAN+FLAG, build tree = HEAD tree + "secret.txt"=<secret blob> via
+#   mktree, then `commit-tree <tree> -p HEAD -m 'notes'` (benign message). Unreferenced -> fsck lists ONLY
+#   "dangling commit <sha>" (its tree and blob are reachable from it, P5) and cat-file -p prints the benign
+#   message -> T4 P; log --all cannot see it -> T2 P; .git only -> T5 P. Prediction PPPPP: the secret stays
+#   in the object store and every test passes.
+# X39-replace-ref-message-secret: after CLEAN+FLAG, create an unreferenced commit whose message is the
+#   literal and `git replace HEAD <that commit>` -> refs/replace/<sha> names it, so it is reachable; `log
+#   --all` walks refs/replace too (prediction, uncertain) and would print the literal -> T2 F. If replace
+#   refs are not walked by --all the outcome is PPPPP. T4 P either way (reachable), T5 P (.git only).
+# X39-flag-symlink-into-repo: after CLEAN, write the literal to /app/repo/recovered.txt and `ln -s
+#   /app/repo/recovered.txt /app/secret.txt`. Path.exists() follows symlinks and read_text reads through it
+#   -> T1 P; recovered.txt is a non-dot file -> T5 F; uncommitted -> T2 P; T3/T4 P.

@@ -1,0 +1,19 @@
+LANE toplevel=/fast/scratch/hyaku/kengaku-r39/R39AnchorUnion/lane
+PRISTINE corpus/SOURCES.md sha256=cec138692f48961da41b93f0a9dbab203443716619badbe961aad5c4f5ad089e
+PRISTINE corpus/lessons/round-38.md sha256=2263e10c192e7a7ba88e5255a0d4428e8bd77bcdeb604ac1c5931795680de453
+PRISTINE git status --porcelain lines=0
+
+==== CASE CONTROL ====
+M1 exit=0
+M1 | rows=109 tokens=17 defects=0
+FIXED exit=0
+FIXED | rows=109 tokens=17 defects=0
+RESTORED corpus/SOURCES.md sha256=cec138692f48961da41b93f0a9dbab203443716619badbe961aad5c4f5ad089e git status --porcelain lines=0
+
+==== CASE D ====
+M1 exit=0
+M1 | rows=109 tokens=17 defects=0
+FIXED exit=1
+FIXED | DEFECT S111 anchor token=- class=capture-unanchored detail=row-names-2-captures-1-anchor-token-none-resolves-capture-corpus/evidence/round37/tb2-git-webserver/test_outputs.py loc=corpus/SOURCES.md:126
+FIXED | rows=109 tokens=17 defects=1
+RESTORED corpus/SOURCES.md sha256=cec138692f48961da41b93f0a9dbab203443716619badbe961aad5c4f5ad089e git status --porcelain lines=0

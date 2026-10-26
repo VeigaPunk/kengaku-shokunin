@@ -340,3 +340,45 @@ is observed `fail`, or `empty-tree`, `no-debian-dir`, `no-src-dir`, `src-no-c`, 
 grader applied to the `canned-shape` state raises `AssertionError` in any of the four functions; or (d) a line of
 `test_outputs.py` is shown to read the binary's provenance (a package digest, a build log, an mtime) or a return
 code, or `:46` is shown to match more than the line's start, or `:62`/`:75` is shown to glob below depth one.
+
+## Errata (round 39)
+
+Appended 2026-10-26 (round 39, wave 1, seat `R39RecheckFix`; round-38 closure R4 and F38R-3). Append-only: the
+bytes above stand as filed; this section is the correction of record. Measured in a clean clone of the lane at
+`75047384` (`git status --porcelain --untracked-files=all | wc -l` → `0`), run from its root.
+
+**Erratum (round 39): the `recheck:` line reds as written.** `corpus/evidence/round38/tb2-build-pmars/SHA256SUMS`
+lists bare basenames, so `sha256sum -c` resolves them against the CWD: the `recheck:` command printed
+`instruction.md: FAILED open or read` (and the same for `solve.sh`, `task.toml`, `test.sh`, `test_outputs.py`) plus
+`sha256sum: WARNING: 5 listed file(s) could not be read`, exit 1. Corrected leg:
+`(cd corpus/evidence/round38/tb2-build-pmars && sha256sum -c SHA256SUMS)` → 5/5 `OK`, exit 0.
+
+**Erratum (round 39, F38R-3): the TB2.1 comparison is now pinned.** The prior-art bullet "Upstream changed the
+instruction, not the grader" compared against a moving branch. Pinned ref
+`7131e4375048a0e408a8fb404b5f499d726b695b` (`tasks/build-pmars`, terminal-bench-2-1; `git ls-remote` HEAD on
+2026-10-26). Measured at that ref:
+
+| file | sha256 | vs TB2.0 pin |
+|---|---|---|
+| `tests/test_outputs.py` | `d9d2796ddc19cf8159670567e174ea377e2bce675bf3451d5951c045b01f4e85` | **SAME** |
+| `tests/test.sh` | `4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334` | SAME |
+| `task.toml` | `7ee2eac27b99fd462e0760552a430454db693f86608af5bb570b020270e4c9cd` | SAME |
+| `instruction.md` | `dd4a3aa762e6b3c09e67bd7f61d9b6afbe379dcd7297c2c0ebe2e9bd0082215e` | DIFFERS (line 3 only) |
+| `solution/solve.sh` | `111b4e532ec411c9826cd67309f39efac21063e3a76d5cb268e62ce5fadc713f` | DIFFERS (apt pins dropped) |
+| `environment/Dockerfile` | `ff0a9f766151b6304a33b8fe8787dc27d75f6ea679eec4e9a4f2c8876fe08b25` | SAME |
+
+The grader byte-equality that the bullet rests on is confirmed; the requirement text is not, so no map label
+transfers to TB2.1 unread. Pin check (lane root, one line, exit 0 on 2026-10-26):
+
+    B=https://raw.githubusercontent.com/harbor-framework/terminal-bench-2-1/7131e4375048a0e408a8fb404b5f499d726b695b/tasks/build-pmars && for p in tests/test_outputs.py tests/test.sh task.toml instruction.md solution/solve.sh environment/Dockerfile; do printf '%s  %s\n' "$(curl -fsS "$B/$p" | sha256sum | cut -d' ' -f1)" "$p"; done
+
+**Corrected `recheck:` line (replaces `:4`, one line):**
+
+    recheck: 180d — at pin `2fd12b88aafdd04a52c298e3940bcb189f9766d6`: re-fetch the two pinned URLs, `(cd corpus/evidence/round38/tb2-build-pmars && sha256sum -c SHA256SUMS)`, and re-run `python3 plans/build_pmars_probe.py --lane .`; the TB2.1 comparison is pinned at `7131e437` in `## Errata (round 39)`, which also carries the full one-liner; any digest or receipt change supersedes this entry
+
+**Full recheck one-liner (lane root, bash; verified exit 0 on 2026-10-26):**
+
+    T=$(mktemp -d) && B=https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/build-pmars && for p in tests/test_outputs.py instruction.md; do curl -fsS "$B/$p" -o "$T/$(basename "$p")"; done && grep -E ' (test_outputs\.py|instruction\.md)$' corpus/evidence/round38/tb2-build-pmars/SHA256SUMS > "$T/SUB" && (cd "$T" && sha256sum -c SUB) && (cd corpus/evidence/round38/tb2-build-pmars && sha256sum -c SHA256SUMS) && mkdir -p "$T/w" && python3 plans/build_pmars_probe.py --lane . --work "$T/w" && rm -rf "$T"
+
+Green: 2/2 refetched `OK`, 5/5 capture `OK`, `cases=22 observed_pass=7 observed_fail=15 mismatches=0`, byte-equal
+to `corpus/evidence/round38/build-pmars-probe.txt`.

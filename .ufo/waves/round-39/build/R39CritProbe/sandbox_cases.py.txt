@@ -1,0 +1,135 @@
+#!/usr/bin/env python3
+"""Sandbox-faithful rebuild: each frozen case is staged inside the probe's own bubblewrap sandbox (setup +
+recipe with the real /app and /cap paths), censused, then graded by the captured grader via the probe's
+HARNESS_PY on a copy of the staged state.  Reports letters vs the receipt, plus the agent end state."""
+import importlib.util, json, pathlib, re, shutil, subprocess, sys
+
+S = pathlib.Path(sys.argv[1]).resolve()
+LANE = S / "lane"
+OUT = pathlib.Path(sys.argv[2]).resolve()
+SB = S / "sb"
+CAP = LANE / "corpus/evidence/round39/tb2-git-leak-recovery"
+
+spec = importlib.util.spec_from_file_location("probe", LANE / "plans/git_leak_probe.py")
+probe = importlib.util.module_from_spec(spec); sys.modules["probe"] = probe; spec.loader.exec_module(probe)
+
+HOME = S / "home"; HOME.mkdir(exist_ok=True)
+ENV = {"PATH": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin", "HOME": str(HOME),
+       "LANG": "C.UTF-8", "LC_ALL": "C.UTF-8", "PYTHONUTF8": "1",
+       "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": "/dev/null"}
+SEC = probe.SECRET
+
+
+def run(argv, cwd=None):
+    return subprocess.run(argv, cwd=cwd, env=ENV, capture_output=True, text=True, timeout=300)
+
+
+def git(repo, *args):
+    return run(["/usr/bin/git", "-C", str(repo)] + list(args))
+
+
+def stage(case, work, mode, setup):
+    if work.exists():
+        shutil.rmtree(work)
+    (work / "app").mkdir(parents=True)
+    (work / "recipe.sh").write_text(case.recipe)
+    (work / "harness.py").write_text(probe.HARNESS_PY)
+    p = subprocess.run(probe.sandbox_argv(CAP, work) + ["/usr/bin/python3", "/harness.py", mode,
+                                                       "1" if setup else "0"],
+                       env=ENV, capture_output=True, text=True, timeout=300)
+    return p
+
+
+def census(work):
+    app = work / "app"
+    repo = app / "repo"
+    c = {"app_entries": sorted(p.name for p in app.iterdir())}
+    if not (repo / ".git").exists():
+        c["repo"] = False
+        c["files_secret"] = sorted(str(p.relative_to(app)) for p in app.rglob("*")
+                                   if p.is_file() and SEC.encode() in p.read_bytes())
+        return c
+    c["repo"] = True
+    obs = git(repo, "cat-file", "--batch-all-objects", "--batch-check=%(objectname) %(objecttype)")
+    kinds, total = [], 0
+    for line in obs.stdout.splitlines():
+        oid, otype = line.split()[:2]
+        total += 1
+        if otype in ("blob", "commit", "tag"):
+            cat = git(repo, "cat-file", "-p", oid)
+            if cat.returncode == 0 and "secret[" in cat.stdout:
+                kinds.append(otype)
+    c["obj_secret_types"] = kinds
+    c["objects"] = total
+    files = []
+    for p in app.rglob("*"):
+        if p.is_file():
+            try:
+                if SEC.encode() in p.read_bytes():
+                    files.append(str(p.relative_to(app)))
+            except OSError:
+                pass
+    c["files_secret"] = sorted(files)
+    c["files_secret_in_repo"] = [f for f in files if f.startswith("repo/")]
+    c["fsck_plain"] = [l for l in git(repo, "fsck").stdout.splitlines() if "dangling" in l]
+    c["fsck_lostfound"] = [l for l in git(repo, "fsck", "--lost-found").stdout.splitlines() if "dangling" in l]
+    c["reflog"] = git(repo, "reflog", "--all").stdout.strip().splitlines()
+    c["refs"] = git(repo, "for-each-ref", "--format=%(refname) %(objecttype)").stdout.strip().splitlines()
+    c["oneline"] = git(repo, "log", "--oneline", "--all").stdout.strip().splitlines()
+    c["t2a"] = git(repo, "log", "--all", "--grep", "secret\\[", "--regexp-ignore-case").stdout.strip()[:600]
+    c["t2b_lines"] = len(git(repo, "log", "--all", "-p", "-S", "secret[").stdout.strip().splitlines())
+    # extra: which locator finds the secret
+    stash = git(repo, "stash", "list")
+    c["stash"] = stash.stdout.strip().splitlines()
+    if stash.returncode == 0 and stash.stdout.strip():
+        c["stash_show_hit"] = "secret[" in git(repo, "log", "--all", "-m", "-p", "-S", "secret[").stdout
+        c["stash_pickaxe_m"] = len(git(repo, "log", "--all", "-m", "-p", "-S", "secret[").stdout.strip().splitlines())
+    return c
+
+
+def grade_copy(case, work):
+    g = SB / (case.cid + "-grade")
+    if g.exists():
+        shutil.rmtree(g)
+    (g).mkdir(parents=True)
+    shutil.copytree(work / "app", g / "app", symlinks=True)
+    (g / "recipe.sh").write_text("true\n")
+    (g / "harness.py").write_text(probe.HARNESS_PY)
+    p = stage_raw(g, setup=False)
+    got = {}
+    for line in p.stdout.splitlines():
+        parts = line.split()
+        if len(parts) >= 3 and parts[0] == "TEST" and parts[1] in probe.TESTS:
+            got[parts[1]] = parts[2] + ((" " + parts[3]) if len(parts) > 3 else "")
+    letters = "".join(got[t][0] for t in probe.TESTS if t in got)
+    return p.returncode, letters, got
+
+
+def stage_raw(work, setup):
+    p = subprocess.run(probe.sandbox_argv(CAP, work) + ["/usr/bin/python3", "/harness.py", "grade",
+                                                       "1" if setup else "0"],
+                       env=ENV, capture_output=True, text=True, timeout=300)
+    return p
+
+
+def main():
+    res = {}
+    SB.mkdir(exist_ok=True)
+    for case in probe.CASES:
+        work = SB / case.cid
+        p = stage(case, work, "stage", case.setup)
+        staged = {"rc": p.returncode, "stderr": p.stderr.strip()[-300:] if p.returncode else ""}
+        c = census(work)
+        rc, letters, got = grade_copy(case, work)
+        res[case.cid] = {"stage": staged, "census": c, "grade_rc": rc, "letters": letters,
+                         "tests": got, "receipt": case.predicted, "violates": list(case.violates)}
+        print(f"{case.cid:24s} mine={letters or 'ERR'} receipt={case.predicted} "
+              f"stage_rc={p.returncode} obj={c.get('obj_secret_types')} "
+              f"in_repo={c.get('files_secret_in_repo')} fsck_plain={len(c.get('fsck_plain') or [])} "
+              f"fsck_lf={len(c.get('fsck_lostfound') or [])}", flush=True)
+    OUT.write_text(json.dumps(res, indent=1))
+    print("wrote", OUT)
+
+
+if __name__ == "__main__":
+    main()

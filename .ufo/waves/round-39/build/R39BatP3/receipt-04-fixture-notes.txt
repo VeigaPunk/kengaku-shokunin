@@ -1,0 +1,21 @@
+$ python3 /fast/scratch/hyaku/kengaku-r39/R39BatP3/ev/evidence.py $S /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-39/build/R39BatP3/battery/p3m39.py
+FIXTURE p3m39-quote-one-word-above-upper-bound expect reject declared ['P3']
+ARGV ['package', '--root', '/fast/scratch/hyaku/kengaku-r39/R39BatP3/ev/fx', '--require-clean-tree']
+ROW | the task states its codon-optimisation and GC constraint objective | “the ability to design a fusion protein gBlock by querying bioinformatics APIs, selecting proteins based on spectral properties, and applying codon optimization with GC content constraints."” | `task.toml:6` |
+QUOTE_WORDS 26 VERBATIM_IN task.toml:6
+--- REF rc=1
+    P3 DEFECT rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=1
+    P4 ok checked=22 bad=0 first=0
+    P9 ok untracked=0 first=0
+    defects=1
+--- M03 rc=0
+    P3 ok rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=0
+    P4 ok checked=22 bad=0 first=0
+    P9 ok untracked=0 first=0
+    defects=0
+$ grep -c -E '/proc|ppid|cmdline|psutil|environ' /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-39/build/R39BatP3/battery/p3m39.py   # sidechannel token scan (expects 0)
+0
+$ python3 -c 'import py_compile; py_compile.compile("/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-39/build/R39BatP3/battery/p3m39.py", cfile="/fast/scratch/hyaku/kengaku-r39/R39BatP3/p3m39.pyc", doraise=True); print("compile-ok")'
+compile-ok
+$ sha256sum /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-39/build/R39BatP3/battery/p3m39.py
+fd16681e3ee0bb57e72779026fafccd3c0bf4b1cf603108574a39a297673d497  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-39/build/R39BatP3/battery/p3m39.py

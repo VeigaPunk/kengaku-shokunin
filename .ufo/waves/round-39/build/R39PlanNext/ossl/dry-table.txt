@@ -1,0 +1,27 @@
+nop-empty                    predicted_fail=cert,dir,key,pem,script,verif  # do-nothing: empty /app
+oracle                       predicted_fail=-                              # solution/solve.sh equivalent (good())
+key-mode-577                 predicted_fail=-                              # numeric <= 0o600: r-x rwx rwx passes
+key-mode-644                 predicted_fail=key                            # 420 > 384
+key-mode-400                 predicted_fail=-                              # stricter passes
+key-mode-000                 predicted_fail=key                            # unreadable by owner: openssl rsa fails
+key-4096                     predicted_fail=key                            # wrong size
+key-encrypted                predicted_fail=key                            # passphrase-protected key cannot be read non-interactively
+key-cert-mismatch            predicted_fail=-                              # a different 2048-bit key than the one the cert was made for
+days-366                     predicted_fail=cert                           # 366 days
+days-365-plus-23h59          predicted_fail=-                              # timedelta.days floors: 365d23h59m59s == 365
+validity-in-the-past         predicted_fail=-                              # an already-expired certificate: validity is never compared to now
+not-self-signed              predicted_fail=-                              # issuer != subject: 'self-signed' is never checked
+names-only-in-issuer         predicted_fail=-                              # subject says Other; the required strings occur only in the Issuer line of the -text dump
+org-lowercase                predicted_fail=-                              # documented leniency (grader comment :51)
+org-suffix                   predicted_fail=-                              # substring
+cn-suffix                    predicted_fail=-                              # substring
+cn-missing                   predicted_fail=cert,verif                     # wrong CN everywhere
+pem-cert-only                predicted_fail=pem                            # no PRIVATE KEY block
+pem-fake-key-comment         predicted_fail=-                              # the substring PRIVATE KEY in a comment line
+pem-unrelated-key            predicted_fail=-                              # key block unrelated to the cert
+verif-fabricated             predicted_fail=-                              # invented fingerprint and date
+verif-no-fingerprint         predicted_fail=verif                          # fingerprint line missing
+script-prints-literals-only  predicted_fail=-                              # script never opens the certificate
+script-only-no-cert          predicted_fail=cert,dir,key,pem,verif         # only the self-report script exists: script test alone passes
+script-exit-1                predicted_fail=script                         # nonzero exit
+cases=26 predicted_pass=15 predicted_fail=11

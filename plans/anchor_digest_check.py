@@ -2,13 +2,24 @@
 """anchor_digest_check.py — every `sha256 <hex>` claim in `corpus/SOURCES.md` must resolve to the capture
 its own row names.
 
-Fixed copy written by seat `R38AnchorBind` (kengaku round 38) from `plans/anchor_digest_check.py` as landed
+Fixed copy written by seat `R39AnchorUnion` (kengaku round 39) from `plans/anchor_digest_check.py` at lane tip
+`7504738` (sha256 `98847e8930304a23ab3e10dd27cfc3501738467b8871d8b725d24908e6c1f0b2`, the round-38 D3 copy
+landed by `R38AnchorBind`). Round 38's copy was itself written from `plans/anchor_digest_check.py` as landed
 on `2c5f4e0` (built in round 37). Round 37's finding `F37A-1`
 (`.ufo/waves/round-37/falsify/F37AnchorRerun.md` §4) recorded the hole: the shipped tool tests the digest as
 membership in ONE global set A of every committed `corpus/evidence/` digest, so a row's anchor may carry
 another row's real committed digest and still pass (its mutants M4b and M5: S111 carrying S108's digest,
-`defects=0`, exit 0). This copy binds each token to the capture **the row itself names**, so cross-row
-substitution is a defect while every tip state that was green under the global test stays green.
+`defects=0`, exit 0). The round-38 copy binds each token to the captures **the row itself names**, so
+cross-row substitution is a defect while every tip state that was green under the global test stays green.
+
+Round-38 wave 2 (`F38AnchorFix` F1, `.ufo/waves/round-38/falsify/F38AnchorFix.md` §2; routed as R5a by
+`corpus/lessons/round-38-verifier-spotcheck.md` §5) falsified the unqualified "Closed" wording: the round-38
+copy *unions* the digests of every capture a row names, so a row that names two captures accepts either
+digest. Fixture D (one extra pinned URL appended to S111's scope cell, anchor ← S108's digest) printed
+`rows=109 tokens=17 defects=0`, exit 0. This copy binds each anchor token to a capture, not to a union: a
+row that names N>1 captures must carry an anchor token for each of them, one token per capture, and a
+capture none of the row's tokens resolves is `capture-unanchored`. Single-locator rows (all 109 at
+`7504738`: `rows_with_multi_capture=0`) behave exactly as before.
 
 Read-only; stdlib only; writes no file. Git subprocesses inherit the environment, so TMPDIR is honoured.
 
@@ -80,6 +91,17 @@ Per token:
     row carrying another row's real digest); a token that is no committed capture at all is
     `digest-unknown`.
 
+Round 39 — a token binds to a capture, not to the union of the row's captures. The row's locator set is
+treated as a set of claims of equal standing: when a row names N>1 distinct captures, it must carry an
+anchor token for each of them, and each token must resolve to a capture that only that token (or an
+indistinguishable byte-identical one) resolves. A capture none of the row's anchor tokens resolves is
+`capture-unanchored`, naming the capture that has no token and the token count supplied. A token that
+resolves to several of the row's captures is not a defect — that means those captures have identical
+bytes, and the one digest is the true digest of every one of them. Rows that name one capture (all 109
+rows at lane tip `7504738`) are unaffected: a wrong token there is still a single `digest-wrong-capture`.
+Rows that carry no anchor token raise nothing (see the presence limit below), so a multi-locator row with
+no claim stays green.
+
 Erratum exemption (append-only repair, `corpus/QUALITY.md` Q6). A line in a committed
 `corpus/lessons/*.md` beginning `Erratum (round 37): S<id> anchor sha256` is read; lessons are read from
 the working tree for paths committed at HEAD, so a seat's erratum counts before it is committed while the
@@ -104,7 +126,13 @@ Binding limits, stated as a limit: the binding is only as good as the row's own 
 rewrites its locator *and* its digest together (points its URL at another task, or adds a provenance
 table line naming another capture) passes, because the lane then has no independent record of which
 upstream file the row is about. What this copy closes is substitution that leaves the row's locator
-alone — the S110/M5 shape, reachable in round 37 as `defects=0`.
+alone — the S110/M5 shape, reachable in round 37 as `defects=0` — **and**, from round 39, the additive
+variant: a row that keeps its own URL and prose and *adds* a second locator alongside it cannot use that
+second locator as a second acceptance route, because a capture the row names but has no token for is
+`capture-unanchored`. Two limits remain and are not closed here. Presence: a row that carries no anchor
+token makes no claim and raises nothing, so `defects=0` certifies the tokens present, not that every
+admitted row carries one (92 of 109 rows carry none at `7504738`). Provenance: a row whose locator set and
+whose token are rewritten together, consistently, is still green — the row is the only witness.
 """
 from __future__ import annotations
 
@@ -389,15 +417,18 @@ def check(lane, verbose, ref):
     for r in rows:
         anchor_tokens.setdefault(r["sid"], set()).update(r["atoks"])
 
-    bound, unbound = {}, {}
+    bound, unbound, captures = {}, {}, {}
     for r in rows:
         caps, reason = bind_row(r, idx)
         if caps:
-            digs = {}
+            digs, per = {}, {}
             for path, how in caps:
+                ent = per.setdefault(path, {"how": how, "digests": {}})
                 for dig, label in capture_digests(idx, path).items():
+                    ent["digests"].setdefault(dig, label)
                     digs.setdefault(dig, (path, how, label))
             bound[r["sid"]] = digs
+            captures[r["sid"]] = per
         else:
             unbound[r["sid"]] = reason
 
@@ -411,6 +442,8 @@ def check(lane, verbose, ref):
             caps, reason = bind_row(r, idx)
             if caps:
                 notes.append(f"BIND {r['sid']} capture={caps[0][0]} by={caps[0][1]}")
+                for path, how in caps[1:]:
+                    notes.append(f"BIND+ {r['sid']} capture={path} by={how}")
             elif r["atoks"]:
                 notes.append(f"UNBOUND {r['sid']} reason={reason}")
 
@@ -447,6 +480,8 @@ def check(lane, verbose, ref):
             continue
         ex = exempt.get(sid)
         row_scope = bound.get(sid)
+        per = captures.get(sid) or {}
+        claimed = set()
         if ex and verbose:
             notes.append(f"EXEMPT {sid} anchor={r['atoks'][0] if r['atoks'] else '-'} "
                          f"by={ex[0]}:{ex[1]} correction={ex[3]}")
@@ -468,13 +503,19 @@ def check(lane, verbose, ref):
                 if not (8 <= len(tok) <= 63 and tok == tok.lower()):
                     defects.append(f"DEFECT {sid} anchor token={tok} class=abbrev-unresolved "
                                    f"detail=prefix-needs-8-63-lowercase-hex loc=corpus/SOURCES.md:{lineno}")
-                elif not any(d.startswith(tok) for d in row_scope):
+                    continue
+                hit = sorted(p for p, ent in per.items()
+                             if any(d.startswith(tok) for d in ent["digests"]))
+                if not hit:
                     defects.append(f"DEFECT {sid} anchor token={tok} class=abbrev-unresolved "
                                    f"detail=no-digest-of-the-capture-this-row-names-starts-with-this-prefix "
                                    f"capture={','.join(names)} loc=corpus/SOURCES.md:{lineno}")
-                elif verbose:
-                    notes.append(f"ABBREV {sid} prefix={tok} "
-                                 f"matches={sorted(d for d in row_scope if d.startswith(tok))[0]}")
+                else:
+                    claimed.update(hit)
+                    if verbose:
+                        notes.append(f"ABBREV {sid} prefix={tok} "
+                                     f"matches={sorted(d for d in row_scope if d.startswith(tok))[0]} "
+                                     f"capture={','.join(hit)}")
                 continue
             if not HEX64.fullmatch(tok):
                 if len(tok) != 64:
@@ -494,9 +535,25 @@ def check(lane, verbose, ref):
                     defects.append(f"DEFECT {sid} anchor token={tok} class=digest-unknown "
                                    f"detail=not-committed-evidence-and-not-in-a-SHA256SUMS "
                                    f"loc=corpus/SOURCES.md:{lineno}")
-            elif verbose:
-                path, how, label = row_scope[tok]
-                notes.append(f"RESOLVED {sid} digest={tok} via={path} bind={how} listed={label}")
+            else:
+                hit = sorted(p for p, ent in per.items() if tok in ent["digests"])
+                claimed.update(hit)
+                if verbose:
+                    path, how, label = row_scope[tok]
+                    notes.append(f"RESOLVED {sid} digest={tok} via={path} bind={how} listed={label}")
+
+        # round 39: a token binds to a capture, not to the union of the row's captures. When the row
+        # names more than one capture, every one of them must be resolved by one of the row's tokens.
+        if per and not ex and len(per) > 1:
+            if verbose:
+                notes.append(f"CAPTURES {sid} n={len(per)} claimed={','.join(sorted(claimed)) or '-'} "
+                             f"paths={','.join(sorted(per))}")
+            ntok = sum(1 for _, _, _ in r["rtoks"])
+            for p in sorted(per):
+                if p not in claimed:
+                    defects.append(f"DEFECT {sid} anchor token=- class=capture-unanchored "
+                                   f"detail=row-names-{len(per)}-captures-{ntok}-anchor-token-"
+                                   f"none-resolves-capture-{p} loc=corpus/SOURCES.md:{lineno}")
 
     if verbose:
         for n in notes:

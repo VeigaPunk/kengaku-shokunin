@@ -1,0 +1,21 @@
+LANE toplevel=/fast/scratch/hyaku/kengaku-r39/R39AnchorUnion/lane
+PRISTINE corpus/SOURCES.md sha256=cec138692f48961da41b93f0a9dbab203443716619badbe961aad5c4f5ad089e
+PRISTINE corpus/lessons/round-38.md sha256=2263e10c192e7a7ba88e5255a0d4428e8bd77bcdeb604ac1c5931795680de453
+PRISTINE git status --porcelain lines=0
+
+==== CASE F ====
+TIP exit=0
+TIP | rows=109 tokens=17 defects=0
+FIXED exit=1
+FIXED | DEFECT S111 anchor token=- class=capture-unanchored detail=row-names-2-captures-1-anchor-token-none-resolves-capture-corpus/evidence/round37/tb2-git-webserver/test_outputs.py loc=corpus/SOURCES.md:126
+FIXED | rows=109 tokens=17 defects=1
+RESTORED corpus/SOURCES.md sha256=cec138692f48961da41b93f0a9dbab203443716619badbe961aad5c4f5ad089e git status --porcelain lines=0
+
+==== CASE GLUE ====
+TIP exit=1
+TIP | DEFECT S111 anchor token=345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 class=digest-wrong-capture detail=committed-capture-belonging-to-another-capture-corpus/evidence/round36/tb2-regex-log/test_outputs.py-not-the-capture-this-row-names-corpus/evidence/round37/tb2-git-webserver/test_outputs.py loc=corpus/SOURCES.md:126
+TIP | rows=109 tokens=17 defects=1
+FIXED exit=1
+FIXED | DEFECT S111 anchor token=345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 class=digest-wrong-capture detail=committed-capture-belonging-to-another-capture-corpus/evidence/round36/tb2-regex-log/test_outputs.py-not-the-capture-this-row-names-corpus/evidence/round37/tb2-git-webserver/test_outputs.py loc=corpus/SOURCES.md:126
+FIXED | rows=109 tokens=17 defects=1
+RESTORED corpus/SOURCES.md sha256=cec138692f48961da41b93f0a9dbab203443716619badbe961aad5c4f5ad089e git status --porcelain lines=0

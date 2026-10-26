@@ -1,0 +1,1209 @@
+{
+ "empty-app": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [],
+   "repo": false,
+   "files_secret": []
+  },
+  "grade_rc": 0,
+  "letters": "FFFFF",
+  "tests": {
+   "test_flag_file_exists_and_correct": "F",
+   "test_no_secrets_in_commits": "F",
+   "test_good_commits_preserved": "F",
+   "test_no_secrets_in_unreachable_objects": "F",
+   "test_repository_contents_checksum": "F"
+  },
+  "receipt": "FFFFF",
+  "violates": [
+   "recover-secret",
+   "files-untouched",
+   "messages-untouched"
+  ]
+ },
+ "untouched": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo"
+   ],
+   "repo": true,
+   "obj_secret_types": [
+    "blob"
+   ],
+   "objects": 9,
+   "files_secret": [],
+   "files_secret_in_repo": [],
+   "fsck_plain": [],
+   "fsck_lostfound": [
+    "dangling commit 1091b80cc415ed47e8b22d2a89e55eff12a3ee30"
+   ],
+   "reflog": [
+    "899605c refs/heads/master@{0}: commit: chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "3b386b7 refs/heads/master@{1}: reset: moving to HEAD~1",
+    "1091b80 refs/heads/master@{2}: commit: feat: add scratch notes",
+    "3b386b7 refs/heads/master@{3}: commit (initial): chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "899605c HEAD@{0}: commit: chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "3b386b7 HEAD@{1}: reset: moving to HEAD~1",
+    "1091b80 HEAD@{2}: commit: feat: add scratch notes",
+    "3b386b7 HEAD@{3}: commit (initial): chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "refs": [
+    "refs/heads/master commit"
+   ],
+   "oneline": [
+    "899605c chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "3b386b7 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "",
+   "t2b_lines": 0,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "FPPPP",
+  "tests": {
+   "test_flag_file_exists_and_correct": "F",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "receipt": "FPPPP",
+  "violates": [
+   "recover-secret",
+   "secret-gone"
+  ]
+ },
+ "oracle-solve-sh": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo",
+    "secret.txt"
+   ],
+   "repo": true,
+   "obj_secret_types": [],
+   "objects": 6,
+   "files_secret": [
+    "secret.txt"
+   ],
+   "files_secret_in_repo": [],
+   "fsck_plain": [],
+   "fsck_lostfound": [],
+   "reflog": [],
+   "refs": [
+    "refs/heads/master commit"
+   ],
+   "oneline": [
+    "899605c chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "3b386b7 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "",
+   "t2b_lines": 0,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "PPPPP",
+  "tests": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "receipt": "PPPPP",
+  "violates": []
+ },
+ "echo-only": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo",
+    "secret.txt"
+   ],
+   "repo": true,
+   "obj_secret_types": [
+    "blob"
+   ],
+   "objects": 9,
+   "files_secret": [
+    "secret.txt"
+   ],
+   "files_secret_in_repo": [],
+   "fsck_plain": [],
+   "fsck_lostfound": [
+    "dangling commit 1091b80cc415ed47e8b22d2a89e55eff12a3ee30"
+   ],
+   "reflog": [
+    "899605c refs/heads/master@{0}: commit: chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "3b386b7 refs/heads/master@{1}: reset: moving to HEAD~1",
+    "1091b80 refs/heads/master@{2}: commit: feat: add scratch notes",
+    "3b386b7 refs/heads/master@{3}: commit (initial): chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "899605c HEAD@{0}: commit: chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "3b386b7 HEAD@{1}: reset: moving to HEAD~1",
+    "1091b80 HEAD@{2}: commit: feat: add scratch notes",
+    "3b386b7 HEAD@{3}: commit (initial): chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "refs": [
+    "refs/heads/master commit"
+   ],
+   "oneline": [
+    "899605c chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "3b386b7 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "",
+   "t2b_lines": 0,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "PPPPP",
+  "tests": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "receipt": "PPPPP",
+  "violates": [
+   "secret-gone"
+  ]
+ },
+ "echo-reflog-expire": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo",
+    "secret.txt"
+   ],
+   "repo": true,
+   "obj_secret_types": [
+    "blob"
+   ],
+   "objects": 9,
+   "files_secret": [
+    "secret.txt"
+   ],
+   "files_secret_in_repo": [],
+   "fsck_plain": [
+    "dangling commit 1091b80cc415ed47e8b22d2a89e55eff12a3ee30"
+   ],
+   "fsck_lostfound": [
+    "dangling commit 1091b80cc415ed47e8b22d2a89e55eff12a3ee30"
+   ],
+   "reflog": [],
+   "refs": [
+    "refs/heads/master commit"
+   ],
+   "oneline": [
+    "899605c chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "3b386b7 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "",
+   "t2b_lines": 0,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "PPPPP",
+  "tests": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "receipt": "PPPPP",
+  "violates": [
+   "secret-gone"
+  ]
+ },
+ "echo-gc-only": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo",
+    "secret.txt"
+   ],
+   "repo": true,
+   "obj_secret_types": [
+    "blob"
+   ],
+   "objects": 9,
+   "files_secret": [
+    "secret.txt"
+   ],
+   "files_secret_in_repo": [],
+   "fsck_plain": [],
+   "fsck_lostfound": [
+    "dangling commit 1091b80cc415ed47e8b22d2a89e55eff12a3ee30"
+   ],
+   "reflog": [
+    "899605c refs/heads/master@{0}: commit: chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "3b386b7 refs/heads/master@{1}: reset: moving to HEAD~1",
+    "1091b80 refs/heads/master@{2}: commit: feat: add scratch notes",
+    "3b386b7 refs/heads/master@{3}: commit (initial): chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "899605c HEAD@{0}: commit: chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "3b386b7 HEAD@{1}: reset: moving to HEAD~1",
+    "1091b80 HEAD@{2}: commit: feat: add scratch notes",
+    "3b386b7 HEAD@{3}: commit (initial): chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "refs": [
+    "refs/heads/master commit"
+   ],
+   "oneline": [
+    "899605c chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "3b386b7 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "",
+   "t2b_lines": 0,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "PPPPP",
+  "tests": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "receipt": "PPPPP",
+  "violates": [
+   "secret-gone"
+  ]
+ },
+ "clean-echo": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo",
+    "secret.txt"
+   ],
+   "repo": true,
+   "obj_secret_types": [],
+   "objects": 6,
+   "files_secret": [
+    "secret.txt"
+   ],
+   "files_secret_in_repo": [],
+   "fsck_plain": [],
+   "fsck_lostfound": [],
+   "reflog": [],
+   "refs": [
+    "refs/heads/master commit"
+   ],
+   "oneline": [
+    "27294ea chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "8133b2d chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "",
+   "t2b_lines": 0,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "PPPPP",
+  "tests": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "receipt": "PPPPP",
+  "violates": []
+ },
+ "dangling-secret-blob": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo",
+    "secret.txt"
+   ],
+   "repo": true,
+   "obj_secret_types": [
+    "blob"
+   ],
+   "objects": 7,
+   "files_secret": [
+    "secret.txt"
+   ],
+   "files_secret_in_repo": [],
+   "fsck_plain": [
+    "dangling blob 52d18a091cd9755bacb8eaccab2882a24b080dc7"
+   ],
+   "fsck_lostfound": [
+    "dangling blob 52d18a091cd9755bacb8eaccab2882a24b080dc7"
+   ],
+   "reflog": [],
+   "refs": [
+    "refs/heads/master commit"
+   ],
+   "oneline": [
+    "27294ea chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "8133b2d chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "",
+   "t2b_lines": 0,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "PPPFP",
+  "tests": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "F",
+   "test_repository_contents_checksum": "P"
+  },
+  "receipt": "PPPFP",
+  "violates": [
+   "secret-gone"
+  ]
+ },
+ "dangling-secret-commit": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo",
+    "secret.txt"
+   ],
+   "repo": true,
+   "obj_secret_types": [
+    "commit"
+   ],
+   "objects": 7,
+   "files_secret": [
+    "secret.txt"
+   ],
+   "files_secret_in_repo": [],
+   "fsck_plain": [
+    "dangling commit ce7e6a24a57e73ed2e58f07026cba950951699ad"
+   ],
+   "fsck_lostfound": [
+    "dangling commit ce7e6a24a57e73ed2e58f07026cba950951699ad"
+   ],
+   "reflog": [],
+   "refs": [
+    "refs/heads/master commit"
+   ],
+   "oneline": [
+    "27294ea chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "8133b2d chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "",
+   "t2b_lines": 0,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "PPPFP",
+  "tests": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "F",
+   "test_repository_contents_checksum": "P"
+  },
+  "receipt": "PPPFP",
+  "violates": [
+   "secret-gone"
+  ]
+ },
+ "branch-keeps-leak": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo",
+    "secret.txt"
+   ],
+   "repo": true,
+   "obj_secret_types": [
+    "blob"
+   ],
+   "objects": 9,
+   "files_secret": [
+    "secret.txt"
+   ],
+   "files_secret_in_repo": [],
+   "fsck_plain": [],
+   "fsck_lostfound": [],
+   "reflog": [],
+   "refs": [
+    "refs/heads/leak commit",
+    "refs/heads/master commit"
+   ],
+   "oneline": [
+    "5912627 feat: add scratch notes",
+    "27294ea chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "8133b2d chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "",
+   "t2b_lines": 13,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "PFPPP",
+  "tests": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "F",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "receipt": "PFPPP",
+  "violates": [
+   "secret-gone"
+  ]
+ },
+ "blob-ref-keeps-secret": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo",
+    "secret.txt"
+   ],
+   "repo": true,
+   "obj_secret_types": [
+    "blob"
+   ],
+   "objects": 7,
+   "files_secret": [
+    "secret.txt"
+   ],
+   "files_secret_in_repo": [],
+   "fsck_plain": [],
+   "fsck_lostfound": [],
+   "reflog": [],
+   "refs": [
+    "refs/blobs/keep blob",
+    "refs/heads/master commit"
+   ],
+   "oneline": [
+    "27294ea chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "8133b2d chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "",
+   "t2b_lines": 0,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "PPPPP",
+  "tests": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "receipt": "PPPPP",
+  "violates": [
+   "secret-gone"
+  ]
+ },
+ "tag-message-secret": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo",
+    "secret.txt"
+   ],
+   "repo": true,
+   "obj_secret_types": [
+    "tag"
+   ],
+   "objects": 7,
+   "files_secret": [
+    "secret.txt"
+   ],
+   "files_secret_in_repo": [],
+   "fsck_plain": [],
+   "fsck_lostfound": [],
+   "reflog": [],
+   "refs": [
+    "refs/heads/master commit",
+    "refs/tags/keep tag"
+   ],
+   "oneline": [
+    "27294ea chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "8133b2d chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "",
+   "t2b_lines": 0,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "PPPPP",
+  "tests": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "receipt": "PPPPP",
+  "violates": [
+   "secret-gone"
+  ]
+ },
+ "commit-message-secret": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo",
+    "secret.txt"
+   ],
+   "repo": true,
+   "obj_secret_types": [
+    "commit"
+   ],
+   "objects": 7,
+   "files_secret": [
+    "repo/.git/COMMIT_EDITMSG",
+    "repo/.git/logs/HEAD",
+    "repo/.git/logs/refs/heads/master",
+    "secret.txt"
+   ],
+   "files_secret_in_repo": [
+    "repo/.git/COMMIT_EDITMSG",
+    "repo/.git/logs/HEAD",
+    "repo/.git/logs/refs/heads/master"
+   ],
+   "fsck_plain": [],
+   "fsck_lostfound": [],
+   "reflog": [
+    "ce7e6a2 refs/heads/master@{0}: commit: secret[lost_and_found_in_git]",
+    "ce7e6a2 HEAD@{0}: commit: secret[lost_and_found_in_git]"
+   ],
+   "refs": [
+    "refs/heads/master commit"
+   ],
+   "oneline": [
+    "ce7e6a2 secret[lost_and_found_in_git]",
+    "27294ea chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "8133b2d chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "commit ce7e6a24a57e73ed2e58f07026cba950951699ad\nAuthor: TerminalBench <tb@example.com>\nDate:   Mon Oct 26 03:56:43 2026 -0300\n\n    secret[lost_and_found_in_git]",
+   "t2b_lines": 0,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "PFPPP",
+  "tests": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "F",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "receipt": "PFPPP",
+  "violates": [
+   "secret-gone"
+  ]
+ },
+ "notes-secret": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo",
+    "secret.txt"
+   ],
+   "repo": true,
+   "obj_secret_types": [
+    "blob"
+   ],
+   "objects": 9,
+   "files_secret": [
+    "secret.txt"
+   ],
+   "files_secret_in_repo": [],
+   "fsck_plain": [],
+   "fsck_lostfound": [],
+   "reflog": [
+    "5fc94f3 refs/notes/commits@{0}: notes: Notes added by 'git notes add'"
+   ],
+   "refs": [
+    "refs/heads/master commit",
+    "refs/notes/commits commit"
+   ],
+   "oneline": [
+    "27294ea chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "5fc94f3 Notes added by 'git notes add'",
+    "8133b2d chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "commit 27294ea6b4ea63187e798ae8f0d0b5b51bf01928\nAuthor: TerminalBench <tb@example.com>\nDate:   Mon Oct 26 03:56:43 2026 -0300\n\n    chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc\n\nNotes:\n    secret[lost_and_found_in_git]",
+   "t2b_lines": 13,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "PFPPP",
+  "tests": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "F",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "receipt": "PFPPP",
+  "violates": [
+   "secret-gone"
+  ]
+ },
+ "stash-secret": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo",
+    "secret.txt"
+   ],
+   "repo": true,
+   "obj_secret_types": [
+    "blob"
+   ],
+   "objects": 10,
+   "files_secret": [
+    "secret.txt"
+   ],
+   "files_secret_in_repo": [],
+   "fsck_plain": [],
+   "fsck_lostfound": [],
+   "reflog": [
+    "fe60c73 refs/stash@{0}: WIP on master: 27294ea chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "27294ea HEAD@{0}: reset: moving to HEAD"
+   ],
+   "refs": [
+    "refs/heads/master commit",
+    "refs/stash commit"
+   ],
+   "oneline": [
+    "27294ea chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "fe60c73 WIP on master: 27294ea chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "8133b2d chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "eedc111 index on master: 27294ea chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "",
+   "t2b_lines": 0,
+   "stash": [
+    "stash@{0}: WIP on master: 27294ea chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "stash_show_hit": true,
+   "stash_pickaxe_m": 31
+  },
+  "grade_rc": 0,
+  "letters": "PPPPP",
+  "tests": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "receipt": "PPPPP",
+  "violates": [
+   "secret-gone"
+  ]
+ },
+ "dotfile-in-worktree": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo",
+    "secret.txt"
+   ],
+   "repo": true,
+   "obj_secret_types": [],
+   "objects": 6,
+   "files_secret": [
+    "repo/.leak",
+    "secret.txt"
+   ],
+   "files_secret_in_repo": [
+    "repo/.leak"
+   ],
+   "fsck_plain": [],
+   "fsck_lostfound": [],
+   "reflog": [],
+   "refs": [
+    "refs/heads/master commit"
+   ],
+   "oneline": [
+    "27294ea chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "8133b2d chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "",
+   "t2b_lines": 0,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "PPPPP",
+  "tests": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "receipt": "PPPPP",
+  "violates": [
+   "secret-gone"
+  ]
+ },
+ "untracked-file-secret": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo",
+    "secret.txt"
+   ],
+   "repo": true,
+   "obj_secret_types": [],
+   "objects": 6,
+   "files_secret": [
+    "repo/notes.txt",
+    "secret.txt"
+   ],
+   "files_secret_in_repo": [
+    "repo/notes.txt"
+   ],
+   "fsck_plain": [],
+   "fsck_lostfound": [],
+   "reflog": [],
+   "refs": [
+    "refs/heads/master commit"
+   ],
+   "oneline": [
+    "27294ea chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "8133b2d chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "",
+   "t2b_lines": 0,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "PPPPF",
+  "tests": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "F"
+  },
+  "receipt": "PPPPF",
+  "violates": [
+   "secret-gone"
+  ]
+ },
+ "config-secret": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo",
+    "secret.txt"
+   ],
+   "repo": true,
+   "obj_secret_types": [],
+   "objects": 6,
+   "files_secret": [
+    "repo/.git/config",
+    "secret.txt"
+   ],
+   "files_secret_in_repo": [
+    "repo/.git/config"
+   ],
+   "fsck_plain": [],
+   "fsck_lostfound": [],
+   "reflog": [],
+   "refs": [
+    "refs/heads/master commit"
+   ],
+   "oneline": [
+    "8033bb1 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "e14e5c2 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "",
+   "t2b_lines": 0,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "PPPPP",
+  "tests": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "receipt": "PPPPP",
+  "violates": [
+   "secret-gone"
+  ]
+ },
+ "readme-edited": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo",
+    "secret.txt"
+   ],
+   "repo": true,
+   "obj_secret_types": [],
+   "objects": 6,
+   "files_secret": [
+    "secret.txt"
+   ],
+   "files_secret_in_repo": [],
+   "fsck_plain": [],
+   "fsck_lostfound": [],
+   "reflog": [],
+   "refs": [
+    "refs/heads/master commit"
+   ],
+   "oneline": [
+    "8033bb1 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "e14e5c2 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "",
+   "t2b_lines": 0,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "PPPPF",
+  "tests": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "F"
+  },
+  "receipt": "PPPPF",
+  "violates": [
+   "files-untouched"
+  ]
+ },
+ "message-rewritten": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo",
+    "secret.txt"
+   ],
+   "repo": true,
+   "obj_secret_types": [],
+   "objects": 6,
+   "files_secret": [
+    "secret.txt"
+   ],
+   "files_secret_in_repo": [],
+   "fsck_plain": [],
+   "fsck_lostfound": [],
+   "reflog": [],
+   "refs": [
+    "refs/heads/master commit"
+   ],
+   "oneline": [
+    "c643148 chore: tidy",
+    "e14e5c2 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "",
+   "t2b_lines": 0,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "PPPPP",
+  "tests": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "receipt": "PPPPP",
+  "violates": [
+   "messages-untouched"
+  ]
+ },
+ "history-rebuilt": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo",
+    "secret.txt"
+   ],
+   "repo": true,
+   "obj_secret_types": [],
+   "objects": 3,
+   "files_secret": [
+    "secret.txt"
+   ],
+   "files_secret_in_repo": [],
+   "fsck_plain": [],
+   "fsck_lostfound": [],
+   "reflog": [
+    "600b31c refs/heads/master@{0}: commit (initial): chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "600b31c HEAD@{0}: commit (initial): chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "refs": [
+    "refs/heads/master commit"
+   ],
+   "oneline": [
+    "600b31c chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "",
+   "t2b_lines": 0,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "PPPPP",
+  "tests": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "receipt": "PPPPP",
+  "violates": [
+   "messages-untouched"
+  ]
+ },
+ "flag-extra-text": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo",
+    "secret.txt"
+   ],
+   "repo": true,
+   "obj_secret_types": [],
+   "objects": 6,
+   "files_secret": [
+    "secret.txt"
+   ],
+   "files_secret_in_repo": [],
+   "fsck_plain": [],
+   "fsck_lostfound": [],
+   "reflog": [],
+   "refs": [
+    "refs/heads/master commit"
+   ],
+   "oneline": [
+    "8033bb1 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "e14e5c2 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "",
+   "t2b_lines": 0,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "FPPPP",
+  "tests": {
+   "test_flag_file_exists_and_correct": "F",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "receipt": "FPPPP",
+  "violates": [
+   "recover-secret"
+  ]
+ },
+ "flag-padded-crlf": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo",
+    "secret.txt"
+   ],
+   "repo": true,
+   "obj_secret_types": [],
+   "objects": 6,
+   "files_secret": [
+    "secret.txt"
+   ],
+   "files_secret_in_repo": [],
+   "fsck_plain": [],
+   "fsck_lostfound": [],
+   "reflog": [],
+   "refs": [
+    "refs/heads/master commit"
+   ],
+   "oneline": [
+    "8033bb1 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "e14e5c2 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "",
+   "t2b_lines": 0,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "PPPPP",
+  "tests": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "receipt": "PPPPP",
+  "violates": []
+ },
+ "flag-is-directory": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo",
+    "secret.txt"
+   ],
+   "repo": true,
+   "obj_secret_types": [],
+   "objects": 6,
+   "files_secret": [],
+   "files_secret_in_repo": [],
+   "fsck_plain": [],
+   "fsck_lostfound": [],
+   "reflog": [],
+   "refs": [
+    "refs/heads/master commit"
+   ],
+   "oneline": [
+    "8033bb1 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "e14e5c2 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "",
+   "t2b_lines": 0,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "FPPPP",
+  "tests": {
+   "test_flag_file_exists_and_correct": "F error=IsADirectoryError",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "receipt": "FPPPP",
+  "violates": [
+   "recover-secret"
+  ]
+ },
+ "flag-in-repo-only": {
+  "stage": {
+   "rc": 0,
+   "stderr": ""
+  },
+  "census": {
+   "app_entries": [
+    "repo"
+   ],
+   "repo": true,
+   "obj_secret_types": [],
+   "objects": 6,
+   "files_secret": [
+    "repo/secret.txt"
+   ],
+   "files_secret_in_repo": [
+    "repo/secret.txt"
+   ],
+   "fsck_plain": [],
+   "fsck_lostfound": [],
+   "reflog": [],
+   "refs": [
+    "refs/heads/master commit"
+   ],
+   "oneline": [
+    "8033bb1 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc",
+    "e14e5c2 chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc"
+   ],
+   "t2a": "",
+   "t2b_lines": 0,
+   "stash": []
+  },
+  "grade_rc": 0,
+  "letters": "FPPPF",
+  "tests": {
+   "test_flag_file_exists_and_correct": "F",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "F"
+  },
+  "receipt": "FPPPF",
+  "violates": [
+   "recover-secret",
+   "secret-gone"
+  ]
+ }
+}

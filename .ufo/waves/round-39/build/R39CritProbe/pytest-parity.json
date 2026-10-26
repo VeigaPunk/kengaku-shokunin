@@ -1,0 +1,402 @@
+{
+ "empty-app": {
+  "rc": 1,
+  "letters": "FFFFF",
+  "per": {
+   "test_flag_file_exists_and_correct": "F",
+   "test_no_secrets_in_commits": "F",
+   "test_good_commits_preserved": "F",
+   "test_no_secrets_in_unreachable_objects": "F",
+   "test_repository_contents_checksum": "F"
+  },
+  "tail": [
+   "FAILED ../../tests/test_outputs.py::test_no_secrets_in_unreachable_objects - ...",
+   "FAILED ../../tests/test_outputs.py::test_repository_contents_checksum - Asser...",
+   "5 failed, 1 warning in 0.01s"
+  ]
+ },
+ "untouched": {
+  "rc": 1,
+  "letters": "FPPPP",
+  "per": {
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P",
+   "test_flag_file_exists_and_correct": "F"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_repository_contents_checksum",
+   "FAILED ../../tests/test_outputs.py::test_flag_file_exists_and_correct - Asser...",
+   "1 failed, 4 passed, 1 warning in 0.01s"
+  ]
+ },
+ "oracle-solve-sh": {
+  "rc": 0,
+  "letters": "PPPPP",
+  "per": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_no_secrets_in_unreachable_objects",
+   "PASSED ../../tests/test_outputs.py::test_repository_contents_checksum",
+   "5 passed, 1 warning in 0.01s"
+  ]
+ },
+ "echo-only": {
+  "rc": 0,
+  "letters": "PPPPP",
+  "per": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_no_secrets_in_unreachable_objects",
+   "PASSED ../../tests/test_outputs.py::test_repository_contents_checksum",
+   "5 passed, 1 warning in 0.01s"
+  ]
+ },
+ "echo-reflog-expire": {
+  "rc": 0,
+  "letters": "PPPPP",
+  "per": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_no_secrets_in_unreachable_objects",
+   "PASSED ../../tests/test_outputs.py::test_repository_contents_checksum",
+   "5 passed, 1 warning in 0.01s"
+  ]
+ },
+ "echo-gc-only": {
+  "rc": 0,
+  "letters": "PPPPP",
+  "per": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_no_secrets_in_unreachable_objects",
+   "PASSED ../../tests/test_outputs.py::test_repository_contents_checksum",
+   "5 passed, 1 warning in 0.01s"
+  ]
+ },
+ "clean-echo": {
+  "rc": 0,
+  "letters": "PPPPP",
+  "per": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_no_secrets_in_unreachable_objects",
+   "PASSED ../../tests/test_outputs.py::test_repository_contents_checksum",
+   "5 passed, 1 warning in 0.01s"
+  ]
+ },
+ "dangling-secret-blob": {
+  "rc": 1,
+  "letters": "PPPFP",
+  "per": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_repository_contents_checksum": "P",
+   "test_no_secrets_in_unreachable_objects": "F"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_repository_contents_checksum",
+   "FAILED ../../tests/test_outputs.py::test_no_secrets_in_unreachable_objects - ...",
+   "1 failed, 4 passed, 1 warning in 0.01s"
+  ]
+ },
+ "dangling-secret-commit": {
+  "rc": 1,
+  "letters": "PPPFP",
+  "per": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_repository_contents_checksum": "P",
+   "test_no_secrets_in_unreachable_objects": "F"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_repository_contents_checksum",
+   "FAILED ../../tests/test_outputs.py::test_no_secrets_in_unreachable_objects - ...",
+   "1 failed, 4 passed, 1 warning in 0.01s"
+  ]
+ },
+ "branch-keeps-leak": {
+  "rc": 1,
+  "letters": "PFPPP",
+  "per": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P",
+   "test_no_secrets_in_commits": "F"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_repository_contents_checksum",
+   "FAILED ../../tests/test_outputs.py::test_no_secrets_in_commits - AssertionErr...",
+   "1 failed, 4 passed, 1 warning in 0.01s"
+  ]
+ },
+ "blob-ref-keeps-secret": {
+  "rc": 0,
+  "letters": "PPPPP",
+  "per": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_no_secrets_in_unreachable_objects",
+   "PASSED ../../tests/test_outputs.py::test_repository_contents_checksum",
+   "5 passed, 1 warning in 0.01s"
+  ]
+ },
+ "tag-message-secret": {
+  "rc": 0,
+  "letters": "PPPPP",
+  "per": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_no_secrets_in_unreachable_objects",
+   "PASSED ../../tests/test_outputs.py::test_repository_contents_checksum",
+   "5 passed, 1 warning in 0.01s"
+  ]
+ },
+ "commit-message-secret": {
+  "rc": 1,
+  "letters": "PFPPP",
+  "per": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P",
+   "test_no_secrets_in_commits": "F"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_repository_contents_checksum",
+   "FAILED ../../tests/test_outputs.py::test_no_secrets_in_commits - AssertionErr...",
+   "1 failed, 4 passed, 1 warning in 0.01s"
+  ]
+ },
+ "notes-secret": {
+  "rc": 1,
+  "letters": "PFPPP",
+  "per": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P",
+   "test_no_secrets_in_commits": "F"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_repository_contents_checksum",
+   "FAILED ../../tests/test_outputs.py::test_no_secrets_in_commits - AssertionErr...",
+   "1 failed, 4 passed, 1 warning in 0.01s"
+  ]
+ },
+ "stash-secret": {
+  "rc": 0,
+  "letters": "PPPPP",
+  "per": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_no_secrets_in_unreachable_objects",
+   "PASSED ../../tests/test_outputs.py::test_repository_contents_checksum",
+   "5 passed, 1 warning in 0.01s"
+  ]
+ },
+ "dotfile-in-worktree": {
+  "rc": 0,
+  "letters": "PPPPP",
+  "per": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_no_secrets_in_unreachable_objects",
+   "PASSED ../../tests/test_outputs.py::test_repository_contents_checksum",
+   "5 passed, 1 warning in 0.01s"
+  ]
+ },
+ "untracked-file-secret": {
+  "rc": 1,
+  "letters": "PPPPF",
+  "per": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "F"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_no_secrets_in_unreachable_objects",
+   "FAILED ../../tests/test_outputs.py::test_repository_contents_checksum - Asser...",
+   "1 failed, 4 passed, 1 warning in 0.01s"
+  ]
+ },
+ "config-secret": {
+  "rc": 0,
+  "letters": "PPPPP",
+  "per": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_no_secrets_in_unreachable_objects",
+   "PASSED ../../tests/test_outputs.py::test_repository_contents_checksum",
+   "5 passed, 1 warning in 0.01s"
+  ]
+ },
+ "readme-edited": {
+  "rc": 1,
+  "letters": "PPPPF",
+  "per": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "F"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_no_secrets_in_unreachable_objects",
+   "FAILED ../../tests/test_outputs.py::test_repository_contents_checksum - Asser...",
+   "1 failed, 4 passed, 1 warning in 0.01s"
+  ]
+ },
+ "message-rewritten": {
+  "rc": 0,
+  "letters": "PPPPP",
+  "per": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_no_secrets_in_unreachable_objects",
+   "PASSED ../../tests/test_outputs.py::test_repository_contents_checksum",
+   "5 passed, 1 warning in 0.01s"
+  ]
+ },
+ "history-rebuilt": {
+  "rc": 0,
+  "letters": "PPPPP",
+  "per": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_no_secrets_in_unreachable_objects",
+   "PASSED ../../tests/test_outputs.py::test_repository_contents_checksum",
+   "5 passed, 1 warning in 0.01s"
+  ]
+ },
+ "flag-extra-text": {
+  "rc": 1,
+  "letters": "FPPPP",
+  "per": {
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P",
+   "test_flag_file_exists_and_correct": "F"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_repository_contents_checksum",
+   "FAILED ../../tests/test_outputs.py::test_flag_file_exists_and_correct - Asser...",
+   "1 failed, 4 passed, 1 warning in 0.01s"
+  ]
+ },
+ "flag-padded-crlf": {
+  "rc": 0,
+  "letters": "PPPPP",
+  "per": {
+   "test_flag_file_exists_and_correct": "P",
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_no_secrets_in_unreachable_objects",
+   "PASSED ../../tests/test_outputs.py::test_repository_contents_checksum",
+   "5 passed, 1 warning in 0.01s"
+  ]
+ },
+ "flag-is-directory": {
+  "rc": 1,
+  "letters": "FPPPP",
+  "per": {
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_repository_contents_checksum": "P",
+   "test_flag_file_exists_and_correct": "F"
+  },
+  "tail": [
+   "PASSED ../../tests/test_outputs.py::test_repository_contents_checksum",
+   "FAILED ../../tests/test_outputs.py::test_flag_file_exists_and_correct - IsADi...",
+   "1 failed, 4 passed, 1 warning in 0.01s"
+  ]
+ },
+ "flag-in-repo-only": {
+  "rc": 1,
+  "letters": "FPPPF",
+  "per": {
+   "test_no_secrets_in_commits": "P",
+   "test_good_commits_preserved": "P",
+   "test_no_secrets_in_unreachable_objects": "P",
+   "test_flag_file_exists_and_correct": "F",
+   "test_repository_contents_checksum": "F"
+  },
+  "tail": [
+   "FAILED ../../tests/test_outputs.py::test_flag_file_exists_and_correct - Asser...",
+   "FAILED ../../tests/test_outputs.py::test_repository_contents_checksum - Asser...",
+   "2 failed, 3 passed, 1 warning in 0.01s"
+  ]
+ }
+}

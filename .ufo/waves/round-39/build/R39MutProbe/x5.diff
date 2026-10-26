@@ -1,0 +1,31 @@
+--- /fast/scratch/hyaku/kengaku-r39/R39MutProbe/out/pristine.txt	2026-10-26 04:02:25.806600713 -0300
++++ /fast/scratch/hyaku/kengaku-r39/R39MutProbe/out/x5.txt	2026-10-26 04:02:51.127254275 -0300
+@@ -3,28 +3,3 @@
+ # capture solve.sh sha256=791a7eb23019ee7c93307b35cc77ea334469c4d3688e1171fe1e5ba6fd9a14dd
+ # capture test_outputs.py sha256=dc7b01c1b9dbb0c123def54b146dc1dd399a600edee5970d043a5db5eac4c775
+ CASE empty-app predicted=fail observed=fail tests=FFFFF predicted_tests=FFFFF match=yes violates=recover-secret,files-untouched,messages-untouched -- do-nothing on an empty /app: no repo, no secret.txt (pilot D)
+-CASE untouched predicted=fail observed=fail tests=FPPPP predicted_tests=FPPPP match=yes violates=recover-secret,secret-gone -- do-nothing on the task's initial state: the secret commit is reset away but still in the reflog (pilot A)
+-CASE oracle-solve-sh predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates= -- the task's own solution/solve.sh; static reading says fsck honours reflogs so nothing is dangling and secret.txt stays empty (FPPPP), the round-38 pilot observed pass (pilot B) - the pilot is followed
+-CASE echo-only predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates=secret-gone -- write the literal only; the secret commit and blob stay in the object store (pilot C)
+-CASE echo-reflog-expire predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates=secret-gone -- literal + reflog expired, no gc: the commit is dangling, its tree and blob are not, cat-file -p of a commit prints no file content (pilot G)
+-CASE echo-gc-only predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates=secret-gone -- literal + gc --prune=now without expiring the reflog: the reflog keeps the secret commit
+-CASE clean-echo predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates= -- reflog expired, gc --prune=now, literal written: the cleanup the instruction asks for
+-CASE dangling-secret-blob predicted=fail observed=fail tests=PPPFP predicted_tests=PPPFP match=yes violates=secret-gone -- after the cleanup a loose blob holding the secret is written: fsck lists it dangling
+-CASE dangling-secret-commit predicted=fail observed=fail tests=PPPFP predicted_tests=PPPFP match=yes violates=secret-gone -- after the cleanup an unreferenced commit whose message is the secret
+-CASE branch-keeps-leak predicted=fail observed=fail tests=PFPPP predicted_tests=PFPPP match=yes violates=secret-gone -- the reset-away secret commit re-pointed by a branch before the cleanup: log --all -S sees it
+-CASE blob-ref-keeps-secret predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates=secret-gone -- after the cleanup a non-branch ref pins a blob holding the secret (pilot E shape)
+-CASE tag-message-secret predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates=secret-gone -- after the cleanup an annotated tag whose message is the secret (pilot F shape)
+-CASE commit-message-secret predicted=fail observed=fail tests=PFPPP predicted_tests=PFPPP match=yes violates=secret-gone -- after the cleanup a reachable empty commit whose message is the secret: --grep sees it
+-CASE notes-secret predicted=fail observed=fail tests=PFPPP predicted_tests=PFPPP match=yes violates=secret-gone -- after the cleanup a git note carrying the secret: refs/notes/commits is under --all and its commit adds the note blob
+-CASE stash-secret predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates=secret-gone -- after the cleanup the secret appended to README.md and stashed: refs/stash is a merge commit, and log -p -S without -m is not expected to diff merges (static reading, uncertain)
+-CASE dotfile-in-worktree predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates=secret-gone -- after the cleanup a dot file holding the secret in the work tree: the checksum skips dot paths
+-CASE untracked-file-secret predicted=fail observed=fail tests=PPPPF predicted_tests=PPPPF match=yes violates=secret-gone -- after the cleanup a non-dot untracked file holding the secret: the checksum sees a new file
+-CASE config-secret predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates=secret-gone -- after the cleanup the secret stored in .git/config: no test reads repository configuration
+-CASE readme-edited predicted=fail observed=fail tests=PPPPF predicted_tests=PPPPF match=yes violates=files-untouched -- cleanup + literal + an irrelevant file edited in the work tree
+-CASE message-rewritten predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates=messages-untouched -- the tip commit's message rewritten before the cleanup; the first commit carries the same init message
+-CASE history-rebuilt predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates=messages-untouched -- history discarded and rebuilt as one init commit (pilot H)
+-CASE flag-extra-text predicted=fail observed=fail tests=FPPPP predicted_tests=FPPPP match=yes violates=recover-secret -- cleanup + secret.txt carrying a label before the literal
+-CASE flag-padded-crlf predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates= -- cleanup + the literal with leading spaces and CRLF: strip() removes both
+-CASE flag-is-directory predicted=fail observed=fail tests=FPPPP predicted_tests=FPPPP match=yes violates=recover-secret test_flag_file_exists_and_correct:error=IsADirectoryError -- cleanup + /app/secret.txt is a directory: exists() holds, read_text raises IsADirectoryError
+-CASE flag-in-repo-only predicted=fail observed=fail tests=FPPPF predicted_tests=FPPPF match=yes violates=recover-secret,secret-gone -- cleanup + the literal written into the repo work tree instead of /app
+-cases=25 observed_pass=13 observed_fail=12 mismatches=0

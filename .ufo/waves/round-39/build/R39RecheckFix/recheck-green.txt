@@ -1,0 +1,170 @@
+# corrected one-liners (lines.sh), lane root, TMPDIR=/fast/scratch/hyaku/kengaku-r39/R39RecheckFix
+##### line 1
+T=$(mktemp -d) && B=https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/protein-assembly && for p in tests/test_outputs.py tests/test.sh instruction.md environment/antibody.fasta environment/pdb_ids.txt; do curl -fsS "$B/$p" -o "$T/$(basename "$p")"; done && grep -E ' (test_outputs\.py|test\.sh|instruction\.md|antibody\.fasta|pdb_ids\.txt)$' corpus/evidence/round35/tb2-eval/SHA256SUMS > "$T/SUB" && (cd "$T" && sha256sum -c SUB) && (cd corpus/evidence/round35/tb2-eval && sha256sum -c SHA256SUMS) && uv run --no-project --with biopython==1.85 python3 plans/tb2_grader_probe.py --lane . && rm -rf "$T"
+test_outputs.py: OK
+test.sh: OK
+instruction.md: OK
+antibody.fasta: OK
+pdb_ids.txt: OK
+test_outputs.py: OK
+test.sh: OK
+instruction.md: OK
+task.toml: OK
+antibody.fasta: OK
+pdb_ids.txt: OK
+grader=corpus/evidence/round35/tb2-eval/test_outputs.py sha256=44a05a2482aa7a8e70de95478de6560b6188e630336fca9d02b62dc69a096582 pin=2fd12b88aafdd04a52c298e3940bcb189f9766d6 biopython=1.85
+components_aa=8,259,158,235,182 max_passing_nt=2766 cap_nt=3000
+case=valid-balanced predicted=pass observed=pass match=yes nt=2586 gcwin=ok assertion='-' requirement='all bullets: GS linkers 5..20, order, no Met/stop, GC windows, <=3000 nt'
+case=uppercase predicted=pass observed=pass match=yes nt=2586 gcwin=ok assertion='-' requirement='file holds only the sequence (case is not specified)'
+case=no-trailing-newline predicted=pass observed=pass match=yes nt=2586 gcwin=ok assertion='-' requirement='file holds only the sequence'
+case=trailing-empty-line predicted=fail observed=fail match=yes nt=2586 gcwin=ok assertion='Invalid number of lines in gblock.txt.' requirement='No empty lines'
+case=start-codon-prefixed predicted=fail observed=fail match=yes nt=2589 gcwin=ok assertion='Start of gBlock must match flag protein.' requirement='no start codon / remove N-terminal Met'
+case=stop-codon-appended predicted=fail observed=fail match=yes nt=2589 gcwin=ok assertion='End of gBlock must match snap protein.' requirement='no stop codon'
+case=linker-4aa predicted=fail observed=fail match=yes nt=2583 gcwin=ok assertion='Linker must be between 5 and 20 amino acids long.' requirement='linkers 5..20 aa'
+case=linker-21aa predicted=fail observed=fail match=yes nt=2634 gcwin=ok assertion='Linker must be between 5 and 20 amino acids long.' requirement='linkers 5..20 aa'
+case=linker-20aa predicted=pass observed=pass match=yes nt=2631 gcwin=ok assertion='-' requirement='linkers 5..20 aa (upper bound inclusive)'
+case=linker-non-gs predicted=fail observed=fail match=yes nt=2586 gcwin=ok assertion='Linker must only contain G and S amino acids.' requirement='only GS linkers between subproteins'
+case=linker-g-only predicted=pass observed=pass match=yes nt=2586 gcwin=ok assertion='-' requirement='GS linkers (a G-only linker is not distinguished)'
+case=n-terminal-linker predicted=fail observed=fail match=yes nt=2601 gcwin=ok assertion='Start of gBlock must match flag protein.' requirement='no GS linker on the N terminus'
+case=c-terminal-linker predicted=fail observed=fail match=yes nt=2601 gcwin=ok assertion='End of gBlock must match snap protein.' requirement='no GS linker on the C terminus'
+case=donor-acceptor-swapped predicted=fail observed=fail match=yes nt=2586 gcwin=ok assertion='Fusion protein must be in the order flag - donor - dhfr - acceptor - snap' requirement='subprotein order'
+case=donor-one-substitution predicted=fail observed=fail match=yes nt=2586 gcwin=ok assertion='Fusion protein must be in the order flag - donor - dhfr - acceptor - snap' requirement='donor matches its PDB sequence'
+case=donor-repeated predicted=fail observed=fail match=yes nt=3378 gcwin=ok assertion='gBlock must be at most 3000 nucleotides.' requirement='do not repeat a protein'
+case=non-acgt-base predicted=fail observed=fail match=yes nt=2586 gcwin=ok assertion='gBlock must contain only A, T, C, G.' requirement='gBlock is a DNA sequence'
+case=gc-window-high predicted=fail observed=fail match=yes nt=2586 gcwin=violated assertion='GC content must be between 30 and 70% in all 50 nucleotide windows.' requirement='GC 30..70% in every 50-nt window'
+cases=18 observed_pass=5 observed_fail=13 mismatches=0
+exit=0
+##### line 2
+T=$(mktemp -d) && B=https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/regex-log && for p in tests/test_outputs.py tests/test.sh instruction.md; do curl -fsS "$B/$p" -o "$T/$(basename "$p")"; done && grep -E ' (test_outputs\.py|test\.sh|instruction\.md)$' corpus/evidence/round36/tb2-regex-log/SHA256SUMS > "$T/SUB" && (cd "$T" && sha256sum -c SUB) && (cd corpus/evidence/round36/tb2-regex-log && sha256sum -c SHA256SUMS) && python3 plans/regex_log_probe.py --lane . && rm -rf "$T"
+test_outputs.py: OK
+test.sh: OK
+instruction.md: OK
+test_outputs.py: OK
+test.sh: OK
+instruction.md: OK
+task.toml: OK
+solve.sh: OK
+grader=corpus/evidence/round36/tb2-regex-log/test_outputs.py sha256=345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 pin=2fd12b88aafdd04a52c298e3940bcb189f9766d6
+case=reference-lenient-days predicted=pass observed=pass match=yes assertion='-' requirement='all bullets with day 01-31 in every month (no month-length check)'
+case=reference-month-aware predicted=pass observed=pass match=yes assertion='-' requirement='February up to 29, 30-day months capped at 30'
+case=first-date-only predicted=fail observed=fail match=yes assertion="Expected ['2025-01-09', '2024-11-01', '2020-01-01', '2019-06-15', '2018-06-06', '2017-03-03', '2016-12-31', '2024-11-11', '1999-03-05'], but got ['2025-01-09..." requirement='match only the last date in a line'
+case=no-ip-condition predicted=fail observed=fail match=yes assertion="Expected ['2025-01-09', '2024-11-01', '2020-01-01', '2019-06-15', '2018-06-06', '2017-03-03', '2016-12-31', '2024-11-11', '1999-03-05'], but got ['2025-01-09..." requirement='only lines that contain an IPv4 address'
+case=ip-octets-unbounded predicted=fail observed=fail match=yes assertion="Expected ['2025-01-09', '2024-11-01', '2020-01-01', '2019-06-15', '2018-06-06', '2017-03-03', '2016-12-31', '2024-11-11', '1999-03-05'], but got ['2025-01-09..." requirement='valid IPv4 range 0-255'
+case=ip-leading-zeros-allowed predicted=pass observed=pass match=yes assertion='-' requirement='IPv4 octets carry no leading zeros (oracle itself allows them)'
+case=month-13-allowed predicted=fail observed=fail match=yes assertion="Expected ['2025-01-09', '2024-11-01', '2020-01-01', '2019-06-15', '2018-06-06', '2017-03-03', '2016-12-31', '2024-11-11', '1999-03-05'], but got ['2025-01-09..." requirement='month 01-12'
+case=month-00-allowed predicted=fail observed=fail match=yes assertion="Expected ['2025-01-09', '2024-11-01', '2020-01-01', '2019-06-15', '2018-06-06', '2017-03-03', '2016-12-31', '2024-11-11', '1999-03-05'], but got ['2025-01-09..." requirement='month 01-12 (00 rejected)'
+case=day-32-allowed predicted=fail observed=fail match=yes assertion="Expected ['2025-01-09', '2024-11-01', '2020-01-01', '2019-06-15', '2018-06-06', '2017-03-03', '2016-12-31', '2024-11-11', '1999-03-05'], but got ['2025-01-09..." requirement='day 01-31 (32 rejected)'
+case=day-00-allowed predicted=fail observed=fail match=yes assertion="Expected ['2025-01-09', '2024-11-01', '2020-01-01', '2019-06-15', '2018-06-06', '2017-03-03', '2016-12-31', '2024-11-11', '1999-03-05'], but got ['2025-01-09..." requirement='day 01-31 (00 rejected)'
+case=date-no-left-boundary predicted=fail observed=fail match=yes assertion="Expected ['2025-01-09', '2024-11-01', '2020-01-01', '2019-06-15', '2018-06-06', '2017-03-03', '2016-12-31', '2024-11-11', '1999-03-05'], but got ['2025-01-09..." requirement='dates not immediately preceded by an alphanumeric'
+case=date-no-right-boundary predicted=fail observed=fail match=yes assertion="Expected ['2025-01-09', '2024-11-01', '2020-01-01', '2019-06-15', '2018-06-06', '2017-03-03', '2016-12-31', '2024-11-11', '1999-03-05'], but got ['2025-01-09..." requirement='dates not immediately followed by an alphanumeric'
+case=date-boundary-letters-only predicted=pass observed=pass match=yes assertion='-' requirement='dates not adjacent to an alphanumeric (digit adjacency, e.g. 1134-12-1234, is unobserved)'
+case=ip-no-left-boundary predicted=fail observed=fail match=yes assertion="Expected ['2025-01-09', '2024-11-01', '2020-01-01', '2019-06-15', '2018-06-06', '2017-03-03', '2016-12-31', '2024-11-11', '1999-03-05'], but got ['2025-01-09..." requirement='IPv4 not immediately preceded by an alphanumeric'
+case=ip-no-right-boundary predicted=fail observed=fail match=yes assertion="Expected ['2025-01-09', '2024-11-01', '2020-01-01', '2019-06-15', '2018-06-06', '2017-03-03', '2016-12-31', '2024-11-11', '1999-03-05'], but got ['2025-01-09..." requirement='IPv4 not immediately followed by an alphanumeric'
+case=ip-before-date-only predicted=fail observed=fail match=yes assertion="Expected ['2025-01-09', '2024-11-01', '2020-01-01', '2019-06-15', '2018-06-06', '2017-03-03', '2016-12-31', '2024-11-11', '1999-03-05'], but got ['2024-11-01..." requirement='a line qualifies when the IPv4 is anywhere in it, including after the date'
+case=hardcoded-expected-dates predicted=pass observed=pass match=yes assertion='-' requirement='none: the nine expected strings, no pattern logic (the test log is fixed and visible in the test file)'
+case=year-any-digit-count predicted=pass observed=pass match=yes assertion='-' requirement='YYYY is four digits (other widths are unobserved)'
+case=empty-pattern predicted=fail observed=fail match=yes assertion="Expected ['2025-01-09', '2024-11-01', '2020-01-01', '2019-06-15', '2018-06-06', '2017-03-03', '2016-12-31', '2024-11-11', '1999-03-05'], but got ['', '', '',..." requirement='the regex file holds a pattern'
+case=invalid-regex predicted=fail observed=fail match=yes assertion='Regex in <tmp>/regex.txt is invalid: missing ), unterminated subpattern at position 0' requirement='the regex compiles'
+case=regex-file-absent predicted=fail observed=fail match=yes assertion='Regex file <tmp>/absent-regex.txt does not exist' requirement='the regex is saved in /app/regex.txt'
+case=extra-capture-group predicted=fail observed=fail match=yes assertion="Expected ['2025-01-09', '2024-11-01', '2020-01-01', '2019-06-15', '2018-06-06', '2017-03-03', '2016-12-31', '2024-11-11', '1999-03-05'], but got [('192.168.0..." requirement='findall returns the dates only (an extra capture group yields tuples)'
+case=padded-file predicted=pass observed=pass match=yes assertion='-' requirement='the file is read and stripped'
+case=feb-29-rejected predicted=pass observed=pass match=yes assertion='-' requirement='February can have up to 29 days (the permitting side is unobserved)'
+cases=24 observed_pass=8 observed_fail=16 mismatches=0
+exit=0
+##### line 3
+T=$(mktemp -d) && B=https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/configure-git-webserver && for p in tests/test_outputs.py tests/verify.sh instruction.md; do curl -fsS "$B/$p" -o "$T/$(basename "$p")"; done && grep -E ' (test_outputs\.py|verify\.sh|instruction\.md)$' corpus/evidence/round37/tb2-git-webserver/SHA256SUMS > "$T/SUB" && (cd "$T" && sha256sum -c SUB) && (cd corpus/evidence/round37/tb2-git-webserver && sha256sum -c SHA256SUMS) && mkdir -p "$T/w" && python3 plans/git_webserver_probe.py --lane . --work "$T/w" && rm -rf "$T"
+instruction.md: OK
+test_outputs.py: OK
+verify.sh: OK
+instruction.md: OK
+solve.sh: OK
+task.toml: OK
+test.sh: OK
+test_outputs.py: OK
+verify.sh: OK
+# tb2 configure-git-webserver grader probe (kengaku round 37) @ terminal-bench-2 2fd12b88
+# capture instruction.md sha256=62151b7371bc364277a3c118bba755334c640fb0cefc7a5af106e6e763cf1d97
+# capture test_outputs.py sha256=526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37
+# capture verify.sh sha256=1dc44c923b797ed24ca423c9b9efcd9c1eed4d7261007139b0a724f4e2f53d05
+CASE no-server tools=curl predicted=fail observed=fail match=yes -- verify.sh:57-59 — nothing listens on :8080, curl reports 000, the 200 branch is skipped
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | '❌ TEST FAILED: Web server returned HTTP 000' | 'Test completed'
+CASE static-file-no-git tools=curl predicted=pass observed=pass match=yes -- instruction.md:1-6 asks for a git server and a push; verify.sh:49 never reads the expect step's status; a file served with no repository, hook or push
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world' | '✅ TEST PASSED: Content matches expected output' | 'Test completed'
+CASE exact-no-newline tools=curl predicted=pass observed=pass match=yes -- instruction.md:9 — the literal output 'hello world'
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world' | '✅ TEST PASSED: Content matches expected output' | 'Test completed'
+CASE trailing-newlines tools=curl predicted=pass observed=pass match=yes -- verify.sh:60 — command substitution strips every trailing newline before the comparison at :63
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world' | '✅ TEST PASSED: Content matches expected output' | 'Test completed'
+CASE capitalised tools=curl predicted=fail observed=fail match=yes -- verify.sh:63 — the comparison is case-sensitive
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: Hello World' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: 'Hello World'" | 'Test completed'
+CASE leading-space tools=curl predicted=fail observed=fail match=yes -- verify.sh:63 — leading whitespace survives command substitution
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content:  hello world' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: ' hello world'" | 'Test completed'
+CASE trailing-space tools=curl predicted=fail observed=fail match=yes -- verify.sh:63 — only newlines are stripped, a trailing space is not
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world ' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: 'hello world '" | 'Test completed'
+CASE crlf tools=curl predicted=fail observed=fail match=yes -- verify.sh:63 — a carriage return survives command substitution
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: 'hello world" | "'" | 'Test completed'
+CASE bom tools=curl predicted=fail observed=fail match=yes -- verify.sh:63 — a byte-order mark is part of the content
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: \ufeffhello world' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: '\ufeffhello world'" | 'Test completed'
+CASE empty-200 tools=curl predicted=fail observed=fail match=yes -- verify.sh:63 — an empty body is not 'hello world'
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: ' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: ''" | 'Test completed'
+CASE not-found tools=curl predicted=fail observed=fail match=yes -- verify.sh:59 — a 404 for /hello.html skips the content branch
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | '❌ TEST FAILED: Web server returned HTTP 404' | 'Test completed'
+CASE http-500-right-body tools=curl predicted=fail observed=fail match=yes -- verify.sh:59 — the status must be exactly 200 even when the body is right
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | '❌ TEST FAILED: Web server returned HTTP 500' | 'Test completed'
+CASE redirect-301 tools=curl predicted=fail observed=fail match=yes -- verify.sh:57 — curl runs without -L, so a redirect is a non-200 status
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | '❌ TEST FAILED: Web server returned HTTP 301' | 'Test completed'
+CASE catch-all-200 tools=curl predicted=pass observed=pass match=yes -- verify.sh:57,60 — only /hello.html is requested; a server answering every path passes
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world' | '✅ TEST PASSED: Content matches expected output' | 'Test completed'
+CASE wrong-port-8081 tools=curl predicted=fail observed=fail match=yes -- instruction.md:7 — 'a webserver running on port 8080'; nothing on :8080
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | '❌ TEST FAILED: Web server returned HTTP 000' | 'Test completed'
+CASE token-in-body tools=curl predicted=pass observed=pass match=yes -- test_outputs.py:13 — the verdict is a substring of verify.sh's stdout, and verify.sh:62 echoes the body
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: TEST PASSED' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: 'TEST PASSED'" | 'Test completed'
+CASE status-then-content-split tools=curl predicted=pass observed=pass match=yes -- verify.sh:57,60 — status and content come from two separate requests; the first body is never compared
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world' | '✅ TEST PASSED: Content matches expected output' | 'Test completed'
+CASE first-request-404 tools=curl predicted=fail observed=fail match=yes -- verify.sh:57-59 — the first request's status decides whether the content is fetched at all
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | '❌ TEST FAILED: Web server returned HTTP 404' | 'Test completed'
+CASE slow-server-3s tools=curl predicted=pass observed=pass match=yes -- verify.sh:57,60 — curl is run without a timeout, so a slow answer still counts
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world' | '✅ TEST PASSED: Content matches expected output' | 'Test completed'
+CASE wget-static-file tools=wget predicted=pass observed=pass match=yes -- verify.sh:73-80 — the wget branch, taken when curl is absent, compares the same content
+  grader-stdout: 'Testing web server...' | 'Using wget to test web server...' | 'Web server test successful' | 'Content: hello world' | '✅ TEST PASSED: Content matches expected output' | 'Test completed'
+CASE wget-404 tools=wget predicted=fail observed=fail match=yes -- verify.sh:75-76 — wget exits nonzero on 404, so the content branch is skipped
+  grader-stdout: 'Testing web server...' | 'Using wget to test web server...' | '❌ TEST FAILED: Web server could not be reached' | 'Test completed'
+CASE wget-token-in-body tools=wget predicted=pass observed=pass match=yes -- test_outputs.py:13 with verify.sh:79 — the body echo carries the token on the wget branch too
+  grader-stdout: 'Testing web server...' | 'Using wget to test web server...' | 'Web server test successful' | 'Content: TEST PASSED' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: 'TEST PASSED'" | 'Test completed'
+cases=22 observed_pass=9 observed_fail=13 mismatches=0
+exit=0
+##### line 4
+T=$(mktemp -d) && B=https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/build-pmars && for p in tests/test_outputs.py instruction.md; do curl -fsS "$B/$p" -o "$T/$(basename "$p")"; done && grep -E ' (test_outputs\.py|instruction\.md)$' corpus/evidence/round38/tb2-build-pmars/SHA256SUMS > "$T/SUB" && (cd "$T" && sha256sum -c SUB) && (cd corpus/evidence/round38/tb2-build-pmars && sha256sum -c SHA256SUMS) && mkdir -p "$T/w" && python3 plans/build_pmars_probe.py --lane . --work "$T/w" && rm -rf "$T"
+instruction.md: OK
+test_outputs.py: OK
+instruction.md: OK
+solve.sh: OK
+task.toml: OK
+test.sh: OK
+test_outputs.py: OK
+# tb2 build-pmars grader probe (kengaku round 38) @ terminal-bench-2 2fd12b88
+# capture instruction.md sha256=1606850579342a8b8f2189de0e499fae6be21198150d8dd1e4d18c2efbcf3b82
+# capture test_outputs.py sha256=d9d2796ddc19cf8159670567e174ea377e2bce675bf3451d5951c045b01f4e85
+CASE empty-tree predicted=fail observed=fail tests=FFFF predicted_tests=FFFF match=yes violates=from-source,no-x11,debian-source,extract-to-app,install-path,results-format,debugger-works test_headless_no_x11:error=CalledProcessError -- do-nothing: no binary, empty /app
+CASE canned-shape predicted=pass observed=pass tests=PPPP predicted_tests=PPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works -- canned C program, empty debian/ dir, zero-byte src/dummy.c: no pMARS, no Debian source, no build
+CASE canned-script predicted=fail observed=fail tests=PFPP predicted_tests=PFPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works test_headless_no_x11:error=CalledProcessError -- the canned text from a bash script: ldd says not a dynamic executable on stderr, stdout empty
+CASE canned-static predicted=fail observed=fail tests=PFPP predicted_tests=PFPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works test_headless_no_x11:error=CalledProcessError -- canned program linked -static: ldd exits 1 with empty stdout
+CASE canned-x11-linked predicted=fail observed=fail tests=PFPP predicted_tests=PFPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works,no-x11 -- canned program linked against libX11 (--no-as-needed): ldd lists libX11
+CASE canned-x11-dlopen predicted=pass observed=pass tests=PPPP predicted_tests=PPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works,no-x11 -- canned program that dlopen()s libX11.so.6 at run time: no DT_NEEDED entry for ldd to list
+CASE results-two-ints predicted=fail observed=fail tests=FPPP predicted_tests=FPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works,results-format -- battle line carries two integers
+CASE results-trailing-text predicted=pass observed=pass tests=PPPP predicted_tests=PPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works,results-format -- battle line `Results: 12 34 78 forged`: re.match anchors the start only
+CASE results-not-last predicted=fail observed=fail tests=FPPP predicted_tests=FPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works,results-format -- a line after the Results line: `tail -n 1` sees the extra line
+CASE results-negative predicted=fail observed=fail tests=FPPP predicted_tests=FPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works,results-format -- a negative integer: \d+ does not match the sign
+CASE one-address predicted=fail observed=fail tests=FPPP predicted_tests=FPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works -- debugger text with one address line (grader needs >= 2)
+CASE four-digit-address predicted=fail observed=fail tests=FPPP predicted_tests=FPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works -- debugger addresses with four digits (grader needs \d{5})
+CASE canned-exit-nonzero predicted=pass observed=pass tests=PPPP predicted_tests=PPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works -- canned program exits 3: run_shell_command returns e.output when it is non-empty
+CASE nonexec-binary predicted=fail observed=fail tests=FPPP predicted_tests=FPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works,install-path test_pmars_works:error=CalledProcessError -- binary installed without the execute bit: exists() holds, the shell cannot run it
+CASE silent-binary predicted=fail observed=fail tests=FPPP predicted_tests=FPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works,install-path -- installed binary prints nothing
+CASE path-split predicted=pass observed=pass tests=PPPP predicted_tests=PPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works,install-path -- /usr/local/bin/pmars prints nothing; a canned script at /usr/local/sbin/pmars (earlier on PATH) answers the behaviour checks, ldd reads the silent one
+CASE no-debian-dir predicted=fail observed=fail tests=PPFP predicted_tests=PPFP match=yes violates=from-source,debian-source,extract-to-app,debugger-works -- source tree without debian/
+CASE debian-is-file predicted=pass observed=pass tests=PPPP predicted_tests=PPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works -- debian is a zero-byte regular file: Path.exists() holds
+CASE src-no-c predicted=fail observed=fail tests=PPPF predicted_tests=PPPF match=yes violates=from-source,debian-source,extract-to-app,debugger-works -- src/ holds a header only
+CASE c-is-dir predicted=pass observed=pass tests=PPPP predicted_tests=PPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works -- src/sim.c is a directory: glob('*.c') matches it
+CASE no-src-dir predicted=fail observed=fail tests=PPPF predicted_tests=PPPF match=yes violates=from-source,debian-source,extract-to-app,debugger-works -- source tree without src/
+CASE pmars-dir-elsewhere predicted=fail observed=fail tests=PPFF predicted_tests=PPFF match=yes violates=from-source,debian-source,extract-to-app,debugger-works -- tree under /app/src/pmars-0.9.4, not /app/pmars-*: the glob is one level deep
+cases=22 observed_pass=7 observed_fail=15 mismatches=0
+exit=0

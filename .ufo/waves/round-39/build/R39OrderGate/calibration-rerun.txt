@@ -1,0 +1,22 @@
+CASE f1-executed-before-receipt expect=1 observed=1 ok -- ORDER FAIL probe-executed-before-receipt hits=1
+CASE f2-case-observed expect=1 observed=1 ok -- ORDER FAIL probe-executed-before-receipt hits=1
+CASE f3-clean-passes expect=0 observed=0 ok -- ORDER RESULT PASS
+CASE f4-tolerated-detail expect=0 observed=0 ok -- ORDER RESULT PASS
+CASE f5-receipt-before-claims expect=1 observed=1 ok -- ORDER FAIL freeze-contains-receipt 06ee2d5e50bb1d0eaa56a710c5cec0a388748cdb already has corpus/evidence/round9
+CASE f5b-receipt-ancestor-of-freeze expect=1 observed=1 ok -- ORDER FAIL receipt-before-claims ef547c1971f6ad5f64cd0f2dae0e537406e7ef04 is an ancestor of 34660660c679be9c7b
+CASE f6-freeze-contains-receipt expect=1 observed=1 ok -- ORDER FAIL freeze-contains-receipt fec0cec256dca60c1733b0ebd6478af6f1dac052 already has corpus/evidence/round9
+CASE f7-control-between-freeze-and-receipt expect=1 observed=1 ok -- ORDER FAIL probe-executed-before-receipt hits=1
+CASE f8-control-after-receipt expect=0 observed=0 ok -- ORDER RESULT PASS
+CASE f9-receipt-uncommitted expect=2 observed=2 ok -- ORDER RESULT ERROR
+CASE f10-not-a-repo expect=2 observed=2 ok -- ORDER RESULT ERROR
+CASE f11-bad-claims-name expect=2 observed=2 ok -- ORDER RESULT ERROR
+CASE f12-other-round-ignored expect=0 observed=0 ok -- ORDER RESULT PASS
+FIXTURES total=13 wrong=0
+MUTANT m1-excuse-removed KILLED by=f12-other-round-ignored,f3-clean-passes,f4-tolerated-detail,f8-control-after-receipt
+MUTANT m2-case-arm-removed KILLED by=f2-case-observed
+MUTANT m3-freeze-clause-removed KILLED by=f6-freeze-contains-receipt
+MUTANT m4-order-clause-removed KILLED by=f5b-receipt-ancestor-of-freeze
+MUTANT m5-window-freeze-only KILLED by=f7-control-between-freeze-and-receipt
+MUTANT m6-window-head KILLED by=f8-control-after-receipt
+MUTANTS total=6 killed=6 survived=0
+SELFTEST cases=13 wrong=0 mutants_wrong=0

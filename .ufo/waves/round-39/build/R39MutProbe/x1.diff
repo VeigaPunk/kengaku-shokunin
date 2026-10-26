@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r39/R39MutProbe/out/pristine.txt	2026-10-26 04:02:25.806600713 -0300
++++ /fast/scratch/hyaku/kengaku-r39/R39MutProbe/out/x1.txt	2026-10-26 04:02:52.449607864 -0300
+@@ -25,6 +25,6 @@
+ CASE history-rebuilt predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates=messages-untouched -- history discarded and rebuilt as one init commit (pilot H)
+ CASE flag-extra-text predicted=fail observed=fail tests=FPPPP predicted_tests=FPPPP match=yes violates=recover-secret -- cleanup + secret.txt carrying a label before the literal
+ CASE flag-padded-crlf predicted=pass observed=pass tests=PPPPP predicted_tests=PPPPP match=yes violates= -- cleanup + the literal with leading spaces and CRLF: strip() removes both
+-CASE flag-is-directory predicted=fail observed=fail tests=FPPPP predicted_tests=FPPPP match=yes violates=recover-secret test_flag_file_exists_and_correct:error=IsADirectoryError -- cleanup + /app/secret.txt is a directory: exists() holds, read_text raises IsADirectoryError
++CASE flag-is-directory predicted=fail observed=pass tests=PPPPP predicted_tests=FPPPP match=NO violates=recover-secret -- cleanup + /app/secret.txt is a directory: exists() holds, read_text raises IsADirectoryError
+ CASE flag-in-repo-only predicted=fail observed=fail tests=FPPPF predicted_tests=FPPPF match=yes violates=recover-secret,secret-gone -- cleanup + the literal written into the repo work tree instead of /app
+-cases=25 observed_pass=13 observed_fail=12 mismatches=0
++cases=25 observed_pass=14 observed_fail=11 mismatches=1

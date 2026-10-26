@@ -23,25 +23,35 @@ self-assessment), exactly as the two checkers of record define it.
 Exit codes are the registry row's contract (SKILL.md:581): `0` no mismatch · `1` a ledger row
 genuinely disagrees with its observation · `2` usage/clone/setup refusal, i.e. the tree could not be
 evaluated and therefore no ledger statement is made. A refusal prints exactly one
-`REFUSE <reason>` line (stderr) and no summary line.
+`REFUSE <reason>` line (stderr) and no ledger statement: row and per-ledger lines are buffered and
+flushed only after every ledger has been evaluated (round-38 F2, round-39 R5b).
 
-Detached-clone refs (round-38 routed D4; `.ufo/waves/round-37/falsify/F37NoHarmSweep.md` §3). Both
-pin-kind check bodies name a branch ref: `plans/defect_ledger.py:29` and `plans/round36_c1_verify.py:38`
-each hold `BRANCH = "refs/heads/master"`. Neither file is edited here — `plans/defect_ledger.py` is
-pinned by `plans/pkg-spec-r35.json` `frozen_instruments` (gate clause P1) and
-`plans/round36_c1_verify.py` is pinned by `plans/round38_c1_verify.py` PINS — so the binding is done by
-the driver: after the clone, every imported module's `BRANCH` is read; if the clone carries that ref it
-is left alone (normal clones, byte-identical output to before), and if it does not, the module's
-`BRANCH` is bound to the commit under audit (the clone's HEAD, the same commit the `TIP commit=` line
-names) and one line is printed per binding:
+Ref provenance (round-38 routed D4/F1, `.ufo/waves/round-38/falsify/F38LedgerTip.md`; round-39 R5b).
+Both pin-kind check bodies name a branch ref: `plans/defect_ledger.py:29` and
+`plans/round36_c1_verify.py:38` each hold `BRANCH = "refs/heads/master"`. Neither file is edited here
+— `plans/defect_ledger.py` is pinned by `plans/pkg-spec-r35.json` `frozen_instruments` (gate clause
+P1) and `plans/round36_c1_verify.py` is pinned by `plans/round38_c1_verify.py` PINS — so the driver
+resolves every such ref itself, binds each imported module's `BRANCH` to the commit it printed, and
+states what it audits before any row is evaluated:
 
-  REF BIND ref=<ref> rev=<rev> source_ref=<sha|absent> why=clone-lacks-ref
-
-`git clone` of a detached source produces a clone with no local branch, so before this binding both
-pin rows raised `ls-tree … refs/heads/master` exit 128 from a healthy tree and the exception was
-folded into `observed=fail agree=NO` — a false red at exit 1 in the clone shape the fleet's fixture
-rule mandates. A `CalledProcessError` from any check body (git could not read the tree) is now a setup
-refusal at exit 2, not a mismatch, so `1` keeps meaning "a ledger row disagrees".
+  REF AUDIT ref=<ref> rev=<sha> tip=<sha> state=match
+      the ref resolves to the commit under audit; the body is bound to that sha.
+  REF BIND ref=<ref> rev=<sha> tip=<sha> source_ref=<sha|absent> why=clone-lacks-ref
+      the clone does not carry the ref (`git clone` of a detached source has no local branch, so
+      before round 38 both pin rows raised `ls-tree … refs/heads/master` exit 128 from a healthy
+      tree and the exception was folded into `observed=fail agree=NO`); the body is bound to the
+      commit under audit and the source's value, when any, is printed.
+  REFUSE stale pin ref … (exit 2)
+      the ref exists but resolves to a commit other than the one under audit. Reading it would make
+      a pin row observe a tree the `TIP commit=` line does not name — measured at round 38 as
+      `rows=9 … mismatches=2`, exit 1, from a clean tree, with no line naming the ref
+      (`.ufo/waves/round-38/falsify/F38LedgerTip/06-control-stale-master.log`) — so a stale ref is a
+      setup refusal before any ledger statement, not a row outcome. The `TIP commit=` line is printed
+      first, so the refusal names both revisions.
+Because a body's ref is replaced by the sha the driver printed, what a row reads cannot change under
+it mid-run, and the printed provenance is the whole story. A `CalledProcessError` raised by a check
+body (git could not read the tree) is likewise a setup refusal at exit 2, never a mismatch, and the
+buffered row lines are dropped, so `1` keeps meaning "a ledger row disagrees".
 
 Usage:
   python3 ledger_tip.py --source /path/to/lane --work /path/to/scratch
@@ -127,14 +137,17 @@ def clone_lane(source, work):
     return dest, head
 
 
-def bind_pin_refs(lane, modules, tip, source):
-    """Make each check body's hard-coded pin ref resolve in `lane`.
+def audit_pin_refs(lane, modules, tip, source):
+    """State the revision each pin row reads, or refuse a ref that names another commit.
 
-    A ref the clone already carries is left untouched. A ref it lacks (a `git clone` of a detached
-    source has no local branch) is bound to the commit under audit and reported, so the pin observes
-    the same tree as the `TIP commit=` line instead of raising exit 128.
+    Every ref a check body names is resolved once, printed once, and bound into every module that
+    reads it, so the observed tree is the commit that was printed. An absent ref is bound to the
+    commit under audit (`REF BIND`, the detached-clone case of round 38 D4). A ref that resolves to
+    anything but the commit under audit is refused at exit 2 before any ledger statement (round-39
+    R5b: the round-38 F1 harm — a pin row read a stale `refs/heads/master` and reded a clean tree
+    with no provenance line).
     """
-    bound = {}  # ref -> the commit it was bound to, so a ref shared by both ledgers prints once
+    bound = {}  # ref -> the commit every body naming it is bound to, so a shared ref prints once
     for rel, mod in modules.items():
         ref = getattr(mod, "BRANCH", None)
         if not ref:
@@ -142,7 +155,15 @@ def bind_pin_refs(lane, modules, tip, source):
         if ref in bound:
             setattr(mod, "BRANCH", bound[ref])
             continue
-        if git_out(lane, "rev-parse", "--verify", "--quiet", f"{ref}^{{commit}}"):
+        rev = git_out(lane, "rev-parse", "--verify", "--quiet", f"{ref}^{{commit}}")
+        if rev and rev != tip:
+            refuse(f"stale pin ref: {ref} resolves to {rev} in {lane} but the commit under audit is "
+                   f"{tip}; {rel} would observe a different tree (check out that ref or delete it, "
+                   f"or audit {rev} instead)")
+        if rev:
+            bound[ref] = rev
+            setattr(mod, "BRANCH", rev)
+            print(f"REF AUDIT ref={ref} rev={rev} tip={tip} state=match")
             continue
         if not tip:
             refuse(f"{rel} pins {ref} and no commit is under audit")
@@ -150,7 +171,8 @@ def bind_pin_refs(lane, modules, tip, source):
         setattr(mod, "BRANCH", tip)
         src = (git_out(source, "rev-parse", "--verify", "--quiet", f"{ref}^{{commit}}")
                if source else None)
-        print(f"REF BIND ref={ref} rev={tip} source_ref={src or 'absent'} why=clone-lacks-ref")
+        print(f"REF BIND ref={ref} rev={tip} tip={tip} source_ref={src or 'absent'} "
+              f"why=clone-lacks-ref")
 
 
 def main():
@@ -181,8 +203,9 @@ def main():
         print(f"TIP commit={head} clone={lane}")
 
     modules = {rel: load_module(rel.replace("/", "_")[:-3], lane / rel) for _l, rel in LEDGERS}
-    bind_pin_refs(lane, modules, head, source)
+    audit_pin_refs(lane, modules, head, source)
     rows = closed = passed = mism = 0
+    statements = []  # buffered: a refusal must leave no ledger statement behind (round-38 F2)
     for ledger_rel, mod_rel in LEDGERS:
         mod = modules[mod_rel]
         p = lane / ledger_rel
@@ -216,11 +239,13 @@ def main():
             lpassed += ok
             lmism += not agree
             tail = note if (a.keep_notes or not ok) else ""
-            print(f"{r['id']} status={st} observed={'pass' if ok else 'fail'} "
-                  f"agree={'yes' if agree else 'NO'} {tail}".rstrip()
-                  + f" ledger={ledger_rel} kind={kind}")
-        print(f"LEDGER {ledger_rel} rows={len(ledger)} closed={lclosed} "
-              f"observed_pass={lpassed} mismatches={lmism}")
+            statements.append(f"{r['id']} status={st} observed={'pass' if ok else 'fail'} "
+                              f"agree={'yes' if agree else 'NO'} {tail}".rstrip()
+                              + f" ledger={ledger_rel} kind={kind}")
+        statements.append(f"LEDGER {ledger_rel} rows={len(ledger)} closed={lclosed} "
+                          f"observed_pass={lpassed} mismatches={lmism}")
+    for line in statements:
+        print(line)
     print(f"rows={rows} closed={closed} observed_pass={passed} mismatches={mism}")
     return 0 if (rows and mism == 0) else 1
 
