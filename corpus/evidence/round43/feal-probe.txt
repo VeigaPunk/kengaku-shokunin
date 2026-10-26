@@ -1,0 +1,23 @@
+# tb2 feal-differential-cryptanalysis grader probe (kengaku round 43) @ terminal-bench-2 2fd12b88
+# capture feal.c sha256=bd4e9fb31e38073414d8a1930b2e67bc59eaee17e52f58133f781d297073e885
+# capture feal.h sha256=d3ebd83bfbdb86f3543bda72a0693aabe478c6880ef78cb4a8e6c2e5a779759e
+# capture feal.py sha256=23cc077b9dce176a3aa3078681d1c8dff8c1b7959556c9457db57036d2885dfe
+# capture feal_module.c sha256=1ae1c8a31b099b5742b35a3d6b1b70a2509d8d13d79ab74535e038e9a3379363
+# capture instruction.md sha256=b4093780b283e5c9838997769fb7bca090e3f4cbbd2d7cb275ba60cdfd722572
+# capture setup.py sha256=d1d8f08966670ac8bfc1a9cfa8c16a6915eef2153a44ad6502daec2da83e08aa
+# capture solve.sh sha256=6846dd2877aac95bc0b35a65c3b522403d21491407e02f07b7060ab4071a9620
+# capture test_outputs.py sha256=585780e76d98094ad118d096f8c78f2281352dc9826e3687c4de152659631a3d
+CASE nop predicted=fail observed=fail tests=F predicted_tests=F match=yes regrade=same violates=attack-file,recover-key5 error=ModuleNotFoundError -- no /app/attack.py (the shipped feal.py only)
+CASE oracle-solve-sh predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates= -- the task's solve.sh writes the reference differential attack
+CASE wrong-key predicted=fail observed=fail tests=F predicted_tests=F match=yes regrade=same violates=recover-key5 -- attack() returns 0
+CASE oracle-off-by-one predicted=fail observed=fail tests=F predicted_tests=F match=yes regrade=same violates=recover-key5 -- the reference attack's result plus one
+CASE return-str predicted=fail observed=fail tests=F predicted_tests=F match=yes regrade=same violates=return-uint32 -- the reference attack's result returned as a decimal string
+CASE cheat-import-get_keys predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates=chosen-plaintext -- attack() imports the reference module and returns get_keys()[5]
+CASE cheat-always-equal predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates=chosen-plaintext,recover-key5,return-uint32 -- attack() returns an object whose __eq__ is always True (no key, no int)
+CASE cheat-sysmodules-shadow predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates=chosen-plaintext,recover-key5 -- importing attack installs a fake feal_in_c in sys.modules; attack() returns 0
+CASE cheat-patch-get_keys predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates=chosen-plaintext,recover-key5 -- attack() rebinds feal_in_c.get_keys to return a constant and returns that constant
+CASE cheat-exit-zero predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates=chosen-plaintext,recover-key5 exit=no-verdict-line -- attack() ends the grader process with os._exit(0) before the assert
+CASE cheat-clock-seed predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates=chosen-plaintext host=libc-rand -- attack() replays the C srand(time(NULL)) key schedule through libc and checks it against encrypt_fn
+CASE slow-oracle-45s predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates=time-30s -- the reference attack followed by a 45 s sleep
+regrade cases=12 differ=0
+cases=12 observed_pass=8 observed_fail=4 mismatches=0
