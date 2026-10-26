@@ -109,4 +109,8 @@ is still the lane). Cheapest failing check first:
 
 ## Close
 
-Wave 2 (falsify) runs against the landing tip; its outcome is appended below.
+Wave 2 (falsify, 37 seats, `.ufo/waves/round-37/falsify-dispatch.json`, against `357deceb`) was handed to the dispatcher after
+wave 1 settled (40/40 reports, 0 dead). The L1 closed the round under the run's request budget before wave 2 returned, so no
+wave-2 finding is integrated here: every verdict above rests on wave-1 attacks, the landing measurement
+(`.ufo/waves/round-37/integrate/measure-final.txt`) and the post-hoc attribution audit. The non-author closure should read
+`.ufo/waves/round-37/falsify/*.md` when they land.
