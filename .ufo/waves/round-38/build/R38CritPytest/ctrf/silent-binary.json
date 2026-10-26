@@ -1,0 +1,59 @@
+{
+ "results": {
+  "summary": {
+   "failed": 1,
+   "other": 0,
+   "passed": 3,
+   "pending": 0,
+   "skipped": 0,
+   "start": 1792993713.2286851,
+   "stop": 1792993713.2482464,
+   "tests": 4
+  },
+  "tests": [
+   {
+    "duration": 0.0031304490003094543,
+    "file_path": "test_outputs.py",
+    "message": "The test failed in the call phase due to an assertion error",
+    "name": "test_outputs.py::test_pmars_works",
+    "raw_status": "call_failed",
+    "retries": 0,
+    "start": 1792993713.2365916,
+    "status": "failed",
+    "stop": 1792993713.2442431,
+    "trace": "def test_pmars_works():\n        \"\"\"\n        Test output format and debugger stepping.\n        \"\"\"\n        binary = Path(\"/usr/local/bin/pmars\")\n        assert binary.exists(), \"pmars not installed at /usr/local/bin/pmars\"\n    \n        # Test debugger stepping with both warriors\n        result1 = run_shell_command(\"echo -e 's\\\\ns\\\\ns\\\\nq' | pmars -e rave.red\")\n        result2 = run_shell_command(\"echo -e 's\\\\ns\\\\ns\\\\nq' | pmars -e flashpaper.red\")\n    \n        # Verify debugger steps through instructions (should see multiple addresses)\n        address_pattern = r\"\\b(\\d{5})\\s+\\w+\\.\\w+\"\n        addresses1 = re.findall(address_pattern, result1)\n        addresses2 = re.findall(address_pattern, result2)\n    \n>       assert len(addresses1) >= 2, (\n            f\"rave.red: Expected stepping, got {len(addresses1)} addresses\"\n        )\nE       AssertionError: rave.red: Expected stepping, got 0 addresses\nE       assert 0 >= 2\nE        +  where 0 = len([])\n\n/tests/test_outputs.py:35: AssertionError"
+   },
+   {
+    "duration": 0.0027217990000281134,
+    "file_path": "test_outputs.py",
+    "name": "test_outputs.py::test_headless_no_x11",
+    "retries": 0,
+    "start": 1792993713.2444086,
+    "status": "passed",
+    "stop": 1792993713.2472904
+   },
+   {
+    "duration": 0.000307220000649977,
+    "file_path": "test_outputs.py",
+    "name": "test_outputs.py::test_debian_source_used",
+    "retries": 0,
+    "start": 1792993713.247429,
+    "status": "passed",
+    "stop": 1792993713.2478127
+   },
+   {
+    "duration": 0.00021703999937017215,
+    "file_path": "test_outputs.py",
+    "name": "test_outputs.py::test_built_from_source",
+    "retries": 0,
+    "start": 1792993713.2478993,
+    "status": "passed",
+    "stop": 1792993713.2481666
+   }
+  ],
+  "tool": {
+   "name": "pytest",
+   "version": "8.4.1"
+  }
+ }
+}

@@ -1,0 +1,30 @@
+# R2 — R2 round-37 recall: flip the erratum's last correction digit (96f9c -> 96f9d)
+
+# file corpus/lessons/round-37.md; needle -> replacement; occurrence count 1
+
+$ git -C <clone> diff --stat
+ corpus/lessons/round-37.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git i/corpus/lessons/round-37.md w/corpus/lessons/round-37.md
+index ca84907..8c8dc9f 100644
+--- i/corpus/lessons/round-37.md
++++ w/corpus/lessons/round-37.md
+@@ -32 +32 @@ seat that owes it.
+-Erratum (round 37): S110 anchor sha256 4f7ac05e70cf922ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c is 63 hex digits (the `0` before `ea0f` was dropped in transcription); the capture's digest is sha256 4f7ac05e70cf9220ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c (corpus/evidence/round36/tb2-regex-log/SHA256SUMS, instruction.md).
++Erratum (round 37): S110 anchor sha256 4f7ac05e70cf922ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c is 63 hex digits (the `0` before `ea0f` was dropped in transcription); the capture's digest is sha256 4f7ac05e70cf9220ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9d (corpus/evidence/round36/tb2-regex-log/SHA256SUMS, instruction.md).
+(diff rc=0)
+
+$ python3 <round-37 checker (plans/anchor_digest_check.py @ 2c5f4e0)> --lane <clone>
+DEFECT S110 erratum token=4f7ac05e70cf9220ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9d class=erratum-digest-unresolved detail=64-hex-nor-in-committed-evidence-nor-the-row-s-anchor loc=corpus/lessons/round-37.md:32
+DEFECT S110 erratum token=- class=erratum-incomplete detail=no-64-hex-digest-in-committed-evidence loc=corpus/lessons/round-37.md:32
+DEFECT S110 anchor token=4f7ac05e70cf922ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c class=digest-short detail=63-hex loc=corpus/SOURCES.md:125
+rows=107 tokens=15 defects=3
+EXIT=1
+
+$ python3 <R38AnchorBind fixed copy (row-bound)> --lane <clone>
+DEFECT S110 erratum token=4f7ac05e70cf9220ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9d class=erratum-digest-unresolved detail=64-hex-nor-in-committed-evidence-nor-the-row-s-anchor loc=corpus/lessons/round-37.md:32
+DEFECT S110 erratum token=- class=erratum-incomplete detail=no-64-hex-digest-of-the-capture-this-row-names loc=corpus/lessons/round-37.md:32
+DEFECT S110 anchor token=4f7ac05e70cf922ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c class=digest-short detail=63-hex loc=corpus/SOURCES.md:125
+rows=107 tokens=15 defects=3
+EXIT=1

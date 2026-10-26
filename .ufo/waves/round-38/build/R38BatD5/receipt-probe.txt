@@ -1,0 +1,46 @@
+== seat fixtures: reference vs mutant (direct stdout) ==
+
+-- d5m-n22-quote-prefix expect=reject declared=['D5'] argv=d5-line --file
+   ref rc=1 D5
+        | D5 DEFECT directional=False digest_pinned=True bad=['quote absent from the capture']
+        | defects=1
+   N21 rc=1 D5
+        | D5 DEFECT directional=False digest_pinned=True bad=['quote absent from the capture']
+        | defects=1
+   N22 rc=0 D5
+        | D5 ok directional=True digest_pinned=True bad=0
+        | defects=0
+
+-- d5m-n21-manifest-row-2 expect=accept declared=[] argv=d5-line --file
+   ref rc=0 D5
+        | D5 ok directional=True digest_pinned=True bad=0
+        | defects=0
+   N21 rc=1 D5
+        | D5 DEFECT directional=False digest_pinned=False bad=['capture digest is not the one in the manifest']
+        | defects=1
+   N22 rc=0 D5
+        | D5 ok directional=True digest_pinned=True bad=0
+        | defects=0
+
+== N21 manifest-shape matrix (same capture, same erratum line) ==
+shape                          reference        N21              N22              superset
+genuine-row-1                  rc=0 D=-         rc=0 D=-         rc=0 D=-         superset=True
+decoy-1-genuine-2              rc=0 D=-         rc=1 D=D5        rc=0 D=-         superset=True
+genuine-1-decoy-2              rc=0 D=-         rc=0 D=-         rc=0 D=-         superset=True
+blank-genuine-2                rc=0 D=-         rc=1 D=D5        rc=0 D=-         superset=True
+genuine-2-only-empty-line-1    rc=0 D=-         rc=1 D=D5        rc=0 D=-         superset=True
+decoy-only                     rc=1 D=D5        rc=1 D=D5        rc=1 D=D5        superset=True
+empty-manifest                 rc=1 D=D5        rc=1 D=D5        rc=1 D=D5        superset=True
+genuine-wrong-suffix           rc=1 D=D5        rc=1 D=D5        rc=1 D=D5        superset=True
+
+== differing fixtures over the whole battery (round-36 + battery37 + d5m) ==
+N21 differing=1/12 d5-line fixtures
+   d5m-n21-manifest-row-2: ref rc=0 D5 | mutant rc=1 D5
+N22 differing=1/12 d5-line fixtures
+   d5m-n22-quote-prefix: ref rc=1 D5 | mutant rc=0 D5
+
+== counter predicate applied to the seat fixtures (both direction cells) ==
+   d5m-n22-quote-prefix     vs N21: silence=False mirror=False
+   d5m-n22-quote-prefix     vs N22: silence=True mirror=False
+   d5m-n21-manifest-row-2   vs N21: silence=False mirror=True
+   d5m-n21-manifest-row-2   vs N22: silence=False mirror=False

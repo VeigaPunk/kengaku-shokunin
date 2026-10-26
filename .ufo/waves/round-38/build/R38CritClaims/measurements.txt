@@ -1,0 +1,18 @@
+$ python3 - <<PY  # V7 derived label per tag over the frozen dry table
+from-source      carriers=22 failing=15 passing= 7 -> V7 label=partly
+no-x11           carriers= 3 failing= 2 passing= 1 -> V7 label=partly
+debian-source    carriers=22 failing=15 passing= 7 -> V7 label=partly
+extract-to-app   carriers=22 failing=15 passing= 7 -> V7 label=partly
+install-path     carriers= 4 failing= 3 passing= 1 -> V7 label=partly
+results-format   carriers= 5 failing= 4 passing= 1 -> V7 label=partly
+debugger-works   carriers=22 failing=15 passing= 7 -> V7 label=partly
+
+$ python3 plans/pkg_gate.py package --root <genuine r35 package> --spec plans/pkg-spec-r35.json   # P3 line
+P3 ok rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=0
+P5 ok manifest_entries=6 bad=0 first=0
+
+$ grep -c "^$" corpus/evidence/round35/tb2-eval/SHA256SUMS   # blank manifest lines in the genuine package
+0
+
+$ python3 -c "import json; s=json.load(open(\"plans/pkg-spec-r35.json\")); print(s[\"entry_rules\"][\"min_quotes\"], s[\"entry_rules\"][\"min_distinct_locations\"])"
+min_quotes 8 min_distinct_locations 8 min_teaches_words 8

@@ -1,0 +1,18 @@
+4c4
+< CASE empty-tree predicted=fail observed=fail tests=FFFF predicted_tests=FFFF match=yes violates=from-source,no-x11,debian-source,extract-to-app,install-path,results-format,debugger-works test_headless_no_x11:error=CalledProcessError -- do-nothing: no binary, empty /app
+---
+> CASE empty-tree predicted=fail observed=fail tests=FPFF predicted_tests=FFFF match=NO violates=from-source,no-x11,debian-source,extract-to-app,install-path,results-format,debugger-works test_headless_no_x11:error=CalledProcessError -- do-nothing: no binary, empty /app
+6,7c6,7
+< CASE canned-script predicted=fail observed=fail tests=PFPP predicted_tests=PFPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works test_headless_no_x11:error=CalledProcessError -- the canned text from a bash script: ldd says not a dynamic executable on stderr, stdout empty
+< CASE canned-static predicted=fail observed=fail tests=PFPP predicted_tests=PFPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works test_headless_no_x11:error=CalledProcessError -- canned program linked -static: ldd exits 1 with empty stdout
+---
+> CASE canned-script predicted=fail observed=pass tests=PPPP predicted_tests=PFPP match=NO violates=from-source,debian-source,extract-to-app,debugger-works test_headless_no_x11:error=CalledProcessError -- the canned text from a bash script: ldd says not a dynamic executable on stderr, stdout empty
+> CASE canned-static predicted=fail observed=pass tests=PPPP predicted_tests=PFPP match=NO violates=from-source,debian-source,extract-to-app,debugger-works test_headless_no_x11:error=CalledProcessError -- canned program linked -static: ldd exits 1 with empty stdout
+17c17
+< CASE nonexec-binary predicted=fail observed=fail tests=FPPP predicted_tests=FPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works,install-path test_pmars_works:error=CalledProcessError -- binary installed without the execute bit: exists() holds, the shell cannot run it
+---
+> CASE nonexec-binary predicted=fail observed=pass tests=PPPP predicted_tests=FPPP match=NO violates=from-source,debian-source,extract-to-app,debugger-works,install-path test_pmars_works:error=CalledProcessError -- binary installed without the execute bit: exists() holds, the shell cannot run it
+26c26
+< cases=22 observed_pass=7 observed_fail=15 mismatches=0
+---
+> cases=22 observed_pass=10 observed_fail=12 mismatches=4

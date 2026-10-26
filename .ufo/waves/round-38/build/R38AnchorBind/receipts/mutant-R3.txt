@@ -1,0 +1,26 @@
+# R3 — R3 round-37 recall: shorten S108's anchor by one digit (63 hex)
+
+# file corpus/SOURCES.md; needle -> replacement; occurrence count 1
+
+$ git -C <clone> diff --stat
+ corpus/SOURCES.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git i/corpus/SOURCES.md w/corpus/SOURCES.md
+index 24cc748..4d95a12 100644
+--- i/corpus/SOURCES.md
++++ w/corpus/SOURCES.md
+@@ -123 +123 @@ method stays chousa's (`../chousa-shokunin/SKILL.md`).
+-| S108 | Terminal-Bench 2.0 regex-log task grader (tests/test_outputs.py) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/regex-log/tests/test_outputs.py | code | A | the executed scoring predicate of one Terminal-Bench 2.0 task at a pinned commit — which regex output test_regex_matches_dates asserts and how — for the code's own behaviour; the inline comments' labels about which fixture line should match are the authors' self-report | commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, tests/test_outputs.py:8-90, :87 "matches = re.findall(pattern_text, log_text, re.MULTILINE)" (6 words); sha256 345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 | the task score is one pytest function asserting re.findall output over a 25-line fixed log equals nine expected dates | mined | 2026-10-25 | 180d | corpus/knowledge/tb2-regex-log-grader.md |
++| S108 | Terminal-Bench 2.0 regex-log task grader (tests/test_outputs.py) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/regex-log/tests/test_outputs.py | code | A | the executed scoring predicate of one Terminal-Bench 2.0 task at a pinned commit — which regex output test_regex_matches_dates asserts and how — for the code's own behaviour; the inline comments' labels about which fixture line should match are the authors' self-report | commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, tests/test_outputs.py:8-90, :87 "matches = re.findall(pattern_text, log_text, re.MULTILINE)" (6 words); sha256 345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f7 | the task score is one pytest function asserting re.findall output over a 25-line fixed log equals nine expected dates | mined | 2026-10-25 | 180d | corpus/knowledge/tb2-regex-log-grader.md |
+(diff rc=0)
+
+$ python3 <round-37 checker (plans/anchor_digest_check.py @ 2c5f4e0)> --lane <clone>
+DEFECT S108 anchor token=345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f7 class=digest-short detail=63-hex loc=corpus/SOURCES.md:123
+rows=107 tokens=15 defects=1
+EXIT=1
+
+$ python3 <R38AnchorBind fixed copy (row-bound)> --lane <clone>
+DEFECT S108 anchor token=345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f7 class=digest-short detail=63-hex loc=corpus/SOURCES.md:123
+rows=107 tokens=15 defects=1
+EXIT=1

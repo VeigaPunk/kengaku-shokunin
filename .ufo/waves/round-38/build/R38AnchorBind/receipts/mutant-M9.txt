@@ -1,0 +1,25 @@
+# M9 — M9 extra: S114's digest (row-path bound capture) replaced by S113's task-capture digest
+
+# file corpus/SOURCES.md; needle -> replacement; occurrence count 1
+
+$ git -C <clone> diff --stat
+ corpus/SOURCES.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git i/corpus/SOURCES.md w/corpus/SOURCES.md
+index 24cc748..4334139 100644
+--- i/corpus/SOURCES.md
++++ w/corpus/SOURCES.md
+@@ -129 +129 @@ method stays chousa's (`../chousa-shokunin/SKILL.md`).
+-| S114 | Terminal-Bench 2.1 issue #133 "configure-git-webserver: soft verifier awards reward 1 without working SSH" — https://github.com/harbor-framework/terminal-bench-2-1/issues/133 | docs | B | what the issue reports about the TB2.1 version of this task's verify.sh (the clone/push status is never checked, so a served file passes without working SSH), as of the captured body; not the pinned TB2.0 file, which the lane executed itself | issue body line 39 "But the script has no `set -e` / explicit failure check on the clone/push." (14 words); opened 2026-07-14 by alexgshaw, open at access; capture corpus/evidence/round37/prior-art/tb21-issue-133-body.md sha256 c217d37253c89a71d6cc4d1c14f588c02ce49039cb1118dd3694150cf4c64193 | the soft-verifier weakness the round-37 probe shows on the pinned file was reported upstream in July 2026 for TB2.1, so the lane's static-file case is a replication rather than a discovery | mined | 2026-10-26 | 90d | corpus/knowledge/tb2-git-webserver-grader.md |
++| S114 | Terminal-Bench 2.1 issue #133 "configure-git-webserver: soft verifier awards reward 1 without working SSH" — https://github.com/harbor-framework/terminal-bench-2-1/issues/133 | docs | B | what the issue reports about the TB2.1 version of this task's verify.sh (the clone/push status is never checked, so a served file passes without working SSH), as of the captured body; not the pinned TB2.0 file, which the lane executed itself | issue body line 39 "But the script has no `set -e` / explicit failure check on the clone/push." (14 words); opened 2026-07-14 by alexgshaw, open at access; capture corpus/evidence/round37/prior-art/tb21-issue-133-body.md sha256 62151b7371bc364277a3c118bba755334c640fb0cefc7a5af106e6e763cf1d97 | the soft-verifier weakness the round-37 probe shows on the pinned file was reported upstream in July 2026 for TB2.1, so the lane's static-file case is a replication rather than a discovery | mined | 2026-10-26 | 90d | corpus/knowledge/tb2-git-webserver-grader.md |
+(diff rc=0)
+
+$ python3 <round-37 checker (plans/anchor_digest_check.py @ 2c5f4e0)> --lane <clone>
+rows=107 tokens=15 defects=0
+EXIT=0
+
+$ python3 <R38AnchorBind fixed copy (row-bound)> --lane <clone>
+DEFECT S114 anchor token=62151b7371bc364277a3c118bba755334c640fb0cefc7a5af106e6e763cf1d97 class=digest-wrong-capture detail=committed-capture-belonging-to-another-capture-corpus/evidence/round37/tb2-git-webserver/instruction.md-not-the-capture-this-row-names-corpus/evidence/round37/prior-art/tb21-issue-133-body.md loc=corpus/SOURCES.md:129
+rows=107 tokens=15 defects=1
+EXIT=1

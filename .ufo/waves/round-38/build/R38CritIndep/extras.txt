@@ -1,0 +1,5 @@
+# R38CritIndep extra cases (grader capture pinned, probe module byte copy)
+CASE x-results-leading-space predicted=pass observed=pass tests=PPPP predicted_tests=PPPP match=yes -- battle output '   Results: 12 34 78' (leading spaces, nothing else)
+CASE x-debian-broken-symlink predicted=fail observed=fail tests=PPFP predicted_tests=PPFP match=yes -- debian is a dangling symlink; src/dummy.c present
+CASE x-app-pmars-binary predicted=fail observed=fail tests=PPFF predicted_tests=PPFF match=yes -- /app/pmars is a working canned ELF binary; no /app/pmars-* entry
+cases=3 observed_pass=1 observed_fail=2 mismatches=0

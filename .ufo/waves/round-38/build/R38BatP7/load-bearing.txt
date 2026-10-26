@@ -1,0 +1,20 @@
+== battery dir WITHOUT p7m-n11 (bat2 = module minus n11 entry) ==
+FIXTURE p7m-n12-first-row-url expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+BATTERY fixtures=65 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT N11 P7 silence SURVIVED -- a recheck line must carry a value [F37XMutP7 X4]
+MUTANT N12 P7 silence killed by=p7m-n12-first-row-url -- the first registry row's source line is checked too [F37XMutP7 D1]
+MUTANTS total=2 killed=1 survived=1 invalid=0 null_detected=0
+
+== battery dir WITHOUT p7m-n12 (bat1 = module minus n12 entry) ==
+FIXTURE p7m-n11-empty-recheck expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+BATTERY fixtures=65 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT N11 P7 silence killed by=p7m-n11-empty-recheck -- a recheck line must carry a value [F37XMutP7 X4]
+MUTANT N12 P7 silence SURVIVED -- the first registry row's source line is checked too [F37XMutP7 D1]
+MUTANTS total=2 killed=1 survived=1 invalid=0 null_detected=0
+
+== counterfactual: empty recheck left in place (bat3) ==
+FIXTURE p7m-n11-empty-recheck expect=reject declared=P7 observed_rc=0 observed_defects=- WRONG
+FIXTURE p7m-n12-first-row-url expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+MUTANT N11 P7 silence SURVIVED -- a recheck line must carry a value [F37XMutP7 X4]
+MUTANT N12 P7 silence killed by=p7m-n12-first-row-url -- the first registry row's source line is checked too [F37XMutP7 D1]
+MUTANTS total=2 killed=1 survived=1 invalid=0 null_detected=0

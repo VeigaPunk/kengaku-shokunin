@@ -1,0 +1,8 @@
+19c19
+< CASE path-split predicted=pass observed=pass tests=PPPP predicted_tests=PPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works,install-path -- /usr/local/bin/pmars prints nothing; a canned script at /usr/local/sbin/pmars (earlier on PATH) answers the behaviour checks, ldd reads the silent one
+---
+> CASE path-split predicted=pass observed=fail tests=FPPP predicted_tests=PPPP match=NO violates=from-source,debian-source,extract-to-app,debugger-works,install-path -- /usr/local/bin/pmars prints nothing; a canned script at /usr/local/sbin/pmars (earlier on PATH) answers the behaviour checks, ldd reads the silent one
+26c26
+< cases=22 observed_pass=7 observed_fail=15 mismatches=0
+---
+> cases=22 observed_pass=6 observed_fail=16 mismatches=1

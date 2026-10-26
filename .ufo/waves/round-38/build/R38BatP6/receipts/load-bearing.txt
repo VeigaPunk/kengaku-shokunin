@@ -1,0 +1,14 @@
+=== battery module with noN09 fixture removed ===
+FIXTURE p6m-n10-url-scheme-http expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+BATTERY fixtures=65 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT N09 P6 silence SURVIVED -- a teaches cell below min_teaches_words is a defect [capability row 'teaches cells carry >=8 distinct words'; F37XMutP6 X1]
+MUTANT N10 P6 silence killed by=p6m-n10-url-scheme-http -- the row URL is the pinned raw URL including its scheme [F37XMutP6 X4]
+MUTANTS total=2 killed=1 survived=1 invalid=0 null_detected=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+=== battery module with noN10 fixture removed ===
+FIXTURE p6m-n09-teaches-one-below-min expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+BATTERY fixtures=65 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT N09 P6 silence killed by=p6m-n09-teaches-one-below-min -- a teaches cell below min_teaches_words is a defect [capability row 'teaches cells carry >=8 distinct words'; F37XMutP6 X1]
+MUTANT N10 P6 silence SURVIVED -- the row URL is the pinned raw URL including its scheme [F37XMutP6 X4]
+MUTANTS total=2 killed=1 survived=1 invalid=0 null_detected=0
+PREDICATE C1 n/a (non-default battery or mutant subset)

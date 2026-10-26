@@ -1,0 +1,32 @@
+# entry=corpus/knowledge/tb2-git-webserver-grader.md receipt=corpus/evidence/round37/git-webserver-probe.txt violates=/fast/scratch/hyaku/kengaku-r38/R38MapRetro/lane/retro/violates-r37.tsv rule=cited
+# receipt cases=22 observed_pass=9 observed_fail=13 mismatches=0
+# instruction lines=10 violates-table lines=[1, 2, 3, 4, 5, 6, 7, 8, 9] unmapped=[10]
+# case	overall
+
+ROW instruction.md:1-6 labelled=unenforced derived=unenforced agree=yes
+  cited-verdicts=static-file-no-git=pass
+  cited=static-file-no-git=ok
+
+ROW instruction.md:7 labelled=partly derived=partly agree=yes
+  cited-verdicts=wrong-port-8081=fail static-file-no-git=pass
+  cited=wrong-port-8081=ok static-file-no-git=ok
+
+ROW instruction.md:8 labelled=partly derived=partly agree=yes
+  cited-verdicts=not-found=fail catch-all-200=pass
+  cited=not-found=ok catch-all-200=ok
+
+ROW instruction.md:9 labelled=enforced derived=enforced agree=yes
+  cited-verdicts=capitalised=fail leading-space=fail
+  cited=capitalised=ok leading-space=ok
+
+LINE 1 derived=unenforced cases=2 pass=2 fail=0
+LINE 2 derived=unenforced cases=2 pass=2 fail=0
+LINE 3 derived=unenforced cases=2 pass=2 fail=0
+LINE 4 derived=unenforced cases=2 pass=2 fail=0
+LINE 5 derived=unenforced cases=2 pass=2 fail=0
+LINE 6 derived=unenforced cases=2 pass=2 fail=0
+LINE 7 derived=partly cases=4 pass=2 fail=2
+LINE 8 derived=partly cases=8 pass=1 fail=7
+LINE 9 derived=partly cases=17 pass=4 fail=13
+rows=4 disagree=0 problems=0
+MAP-RETRO disagree=0 rule=cited pass

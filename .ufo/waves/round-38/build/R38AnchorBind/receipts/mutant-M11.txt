@@ -1,0 +1,24 @@
+# M11 — M11 control: INSERT an erratum for S111 whose only 64-hex token is S108's digest; the S110 erratum line is left intact (erratum door laundering)
+
+# file corpus/lessons/round-37.md; needle -> replacement; occurrence count 1
+
+$ git -C <clone> diff --stat
+ corpus/lessons/round-37.md | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git i/corpus/lessons/round-37.md w/corpus/lessons/round-37.md
+index ca84907..9f0a4f0 100644
+--- i/corpus/lessons/round-37.md
++++ w/corpus/lessons/round-37.md
+@@ -31,0 +32 @@ seat that owes it.
++Erratum (round 37): S111 anchor sha256 345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 corrected-by 345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72
+(diff rc=0)
+
+$ python3 <round-37 checker (plans/anchor_digest_check.py @ 2c5f4e0)> --lane <clone>
+rows=107 tokens=15 defects=0
+EXIT=0
+
+$ python3 <R38AnchorBind fixed copy (row-bound)> --lane <clone>
+DEFECT S111 erratum token=- class=erratum-incomplete detail=no-64-hex-digest-of-the-capture-this-row-names loc=corpus/lessons/round-37.md:32
+rows=107 tokens=15 defects=1
+EXIT=1

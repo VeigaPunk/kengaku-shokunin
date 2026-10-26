@@ -1,0 +1,31 @@
+# battery38 / p10a load-bearing table — command per row:
+#   python3 plans/round38_c1_verify.py --lane "$S/lane" --battery-dir <dir> --only N13,N14 --work "$S/w2-<v>"
+# <dir> = the shipped battery dir for the base row, else a scratch copy of p10a.py with that FIXTURES entry removed.
+
+===== base (both fixtures)
+FIXTURE p10a-n13-trailing-space expect=reject declared=P10 observed_rc=1 observed_defects=P10 ok
+FIXTURE p10a-n14-first-line-only expect=reject declared=P10 observed_rc=1 observed_defects=P10 ok
+BATTERY fixtures=66 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT N13 P10 silence killed by=p10a-n13-trailing-space -- a receipt differing only in trailing whitespace is not reproduced
+MUTANT N14 P10 silence killed by=p10a-n14-first-line-only -- the receipt is compared beyond its first line
+MUTANTS total=2 killed=2 survived=0 invalid=0 null_detected=0
+
+===== delete p10a-n13-trailing-space
+FIXTURE p10a-n14-first-line-only expect=reject declared=P10 observed_rc=1 observed_defects=P10 ok
+BATTERY fixtures=65 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT N13 P10 silence SURVIVED
+MUTANT N14 P10 silence killed by=p10a-n14-first-line-only
+MUTANTS total=2 killed=1 survived=1 invalid=0 null_detected=0
+
+===== delete p10a-n14-first-line-only
+FIXTURE p10a-n13-trailing-space expect=reject declared=P10 observed_rc=1 observed_defects=P10 ok
+BATTERY fixtures=65 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT N13 P10 silence killed by=p10a-n13-trailing-space
+MUTANT N14 P10 silence SURVIVED
+MUTANTS total=2 killed=1 survived=1 invalid=0 null_detected=0
+
+===== delete both
+BATTERY fixtures=64 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT N13 P10 silence SURVIVED
+MUTANT N14 P10 silence SURVIVED
+MUTANTS total=2 killed=0 survived=2 invalid=0 null_detected=0

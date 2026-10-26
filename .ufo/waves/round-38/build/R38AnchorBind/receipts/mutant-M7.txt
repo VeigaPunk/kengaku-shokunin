@@ -1,0 +1,25 @@
+# M7 — M7 extra: S070's digest replaced by S073's (both provenance-bound in anchor-captures/)
+
+# file corpus/SOURCES.md; needle -> replacement; occurrence count 1
+
+$ git -C <clone> diff --stat
+ corpus/SOURCES.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git i/corpus/SOURCES.md w/corpus/SOURCES.md
+index 24cc748..ac81b70 100644
+--- i/corpus/SOURCES.md
++++ w/corpus/SOURCES.md
+@@ -92 +92 @@ method stays chousa's (`../chousa-shokunin/SKILL.md`).
+-| S070 | WebArena generated-config generator behavior and placeholder order — https://raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/scripts/generate_test_data.py | code | A | this pinned script's own six ordered serialized-text replacements, aggregate write, JSON parse and enumerate-index per-task filenames; not benchmark task success, task validity, deployment configuration, env_config values or runtime behavior | dce04686, main:8–23; ordered replacements:11–16 (`__GITLAB__`, `__REDDIT__`, `__SHOPPING__`, `__SHOPPING_ADMIN__`, `__WIKIPEDIA__`, `__MAP__`); `json.loads`:20; enumerate-index:21–23; live bytes 838, sha256 `45ddba7be49096a18919b4122a8945ff74c292ba17e36892b16e176a8bd921cd` | six global `str.replace` passes run on serialized text in the listed order before any parse; the aggregate text is written first; `json.loads` has no visible repair step; per-task filenames use the enumerate index, not `task_id`; source behavior only | mined | 2026-10-21 | on-release | corpus/lessons/round-29.md, corpus/knowledge/webarena-config-projection.md |
++| S070 | WebArena generated-config generator behavior and placeholder order — https://raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/scripts/generate_test_data.py | code | A | this pinned script's own six ordered serialized-text replacements, aggregate write, JSON parse and enumerate-index per-task filenames; not benchmark task success, task validity, deployment configuration, env_config values or runtime behavior | dce04686, main:8–23; ordered replacements:11–16 (`__GITLAB__`, `__REDDIT__`, `__SHOPPING__`, `__SHOPPING_ADMIN__`, `__WIKIPEDIA__`, `__MAP__`); `json.loads`:20; enumerate-index:21–23; live bytes 838, sha256 `97b8671fc66518fbfed54467f9a64965bafa54d01702d922bfbb8b32c1b0c7e2` | six global `str.replace` passes run on serialized text in the listed order before any parse; the aggregate text is written first; `json.loads` has no visible repair step; per-task filenames use the enumerate index, not `task_id`; source behavior only | mined | 2026-10-21 | on-release | corpus/lessons/round-29.md, corpus/knowledge/webarena-config-projection.md |
+(diff rc=0)
+
+$ python3 <round-37 checker (plans/anchor_digest_check.py @ 2c5f4e0)> --lane <clone>
+rows=107 tokens=15 defects=0
+EXIT=0
+
+$ python3 <R38AnchorBind fixed copy (row-bound)> --lane <clone>
+DEFECT S070 anchor token=97b8671fc66518fbfed54467f9a64965bafa54d01702d922bfbb8b32c1b0c7e2 class=digest-wrong-capture detail=committed-capture-belonging-to-another-capture-corpus/evidence/round37/anchor-captures/S073-prepare.sh-not-the-capture-this-row-names-corpus/evidence/round37/anchor-captures/S070-generate_test_data.py loc=corpus/SOURCES.md:92
+rows=107 tokens=15 defects=1
+EXIT=1

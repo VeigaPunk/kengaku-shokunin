@@ -1,0 +1,59 @@
+{
+ "results": {
+  "summary": {
+   "failed": 1,
+   "other": 0,
+   "passed": 3,
+   "pending": 0,
+   "skipped": 0,
+   "start": 1792993711.983561,
+   "stop": 1792993712.0035229,
+   "tests": 4
+  },
+  "tests": [
+   {
+    "duration": 0.004262119000486564,
+    "file_path": "test_outputs.py",
+    "message": "The test failed in the call phase due to an assertion error",
+    "name": "test_outputs.py::test_pmars_works",
+    "raw_status": "call_failed",
+    "retries": 0,
+    "start": 1792993711.9911768,
+    "status": "failed",
+    "stop": 1792993711.9997594,
+    "trace": "def test_pmars_works():\n        \"\"\"\n        Test output format and debugger stepping.\n        \"\"\"\n        binary = Path(\"/usr/local/bin/pmars\")\n        assert binary.exists(), \"pmars not installed at /usr/local/bin/pmars\"\n    \n        # Test debugger stepping with both warriors\n        result1 = run_shell_command(\"echo -e 's\\\\ns\\\\ns\\\\nq' | pmars -e rave.red\")\n        result2 = run_shell_command(\"echo -e 's\\\\ns\\\\ns\\\\nq' | pmars -e flashpaper.red\")\n    \n        # Verify debugger steps through instructions (should see multiple addresses)\n        address_pattern = r\"\\b(\\d{5})\\s+\\w+\\.\\w+\"\n        addresses1 = re.findall(address_pattern, result1)\n        addresses2 = re.findall(address_pattern, result2)\n    \n        assert len(addresses1) >= 2, (\n            f\"rave.red: Expected stepping, got {len(addresses1)} addresses\"\n        )\n        assert len(addresses2) >= 2, (\n            f\"flashpaper.red: Expected stepping, got {len(addresses2)} addresses\"\n        )\n    \n        # Also check the actual battle output format\n        battle_result = run_shell_command(\n            \"pmars -b -r 50 -f flashpaper.red rave.red | tail -n 1\"\n        )\n>       assert re.match(r\"Results: \\d+ \\d+ \\d+\", battle_result), (\n            f\"Expected 'Results: X Y Z' format, got: {battle_result}\"\n        )\nE       AssertionError: Expected 'Results: X Y Z' format, got: Results: 12 34\nE       assert None\nE        +  where None = <function match at 0x7f404369d1c0>('Results: \\\\d+ \\\\d+ \\\\d+', 'Results: 12 34')\nE        +    where <function match at 0x7f404369d1c0> = re.match\n\n/tests/test_outputs.py:46: AssertionError"
+   },
+   {
+    "duration": 0.0024731189996600733,
+    "file_path": "test_outputs.py",
+    "name": "test_outputs.py::test_headless_no_x11",
+    "retries": 0,
+    "start": 1792993711.9998808,
+    "status": "passed",
+    "stop": 1792993712.0024416
+   },
+   {
+    "duration": 0.0003675699999803328,
+    "file_path": "test_outputs.py",
+    "name": "test_outputs.py::test_debian_source_used",
+    "retries": 0,
+    "start": 1792993712.002559,
+    "status": "passed",
+    "stop": 1792993712.0030391
+   },
+   {
+    "duration": 0.00024942999971244717,
+    "file_path": "test_outputs.py",
+    "name": "test_outputs.py::test_built_from_source",
+    "retries": 0,
+    "start": 1792993712.0031426,
+    "status": "passed",
+    "stop": 1792993712.0034482
+   }
+  ],
+  "tool": {
+   "name": "pytest",
+   "version": "8.4.1"
+  }
+ }
+}

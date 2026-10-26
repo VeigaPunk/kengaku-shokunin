@@ -1,0 +1,30 @@
+# R38MapRetro: case id -> instruction.md lines the case's state violates.
+# Round-37 receipt CASE lines predate the `violates=` tag (they carry `-- <requirement>` prose), so the
+# violates-set for round-38 C2 V7's derived-label rule is recorded here, one row per frozen case, in the
+# frozen order of corpus/evidence/round37/git-webserver-dry-cases-freeze.txt.
+# Field 1: case id. Field 2: comma-separated instruction.md lines ("-" = violates no mapped line: control).
+# Field 3: justification, grounded in the case's own `-- requirement` text and the instruction line's words.
+# Scope rule: a case's violates-set holds the instruction lines whose requirement the case's constructed
+# state does not meet; lines the case neither exercises nor contradicts stay out of it.
+no-server	7,8,9	nothing listens on :8080: no webserver on port 8080 (L7), the L8 request has no answer, so L9's output is absent
+static-file-no-git	1,2,3,4,5,6,7	its own requirement names instruction.md:1-6 ('no repository, hook or push'); the served data was never pushed, so L7's push clause fails
+exact-no-newline	-	control: body is exactly 'hello world' at the required path; every mapped line holds
+trailing-newlines	9	body is 'hello world' plus two trailing newlines, not the line's output; passes only because verify.sh:60 strips newlines
+capitalised	9	body is 'Hello World'; L9 asks for 'hello world'
+leading-space	9	body is ' hello world'; leading whitespace survives command substitution
+trailing-space	9	body is 'hello world '; a trailing space is not stripped
+crlf	9	body carries a carriage return; CR survives command substitution
+bom	9	body starts with a byte-order mark; not the literal output
+empty-200	9	an empty 200 body is not the line's output
+not-found	8,9	a 404 on /hello.html: the L8 request is answered 404, so L9's output is never seen
+http-500-right-body	8,9	the L8 request returns 500; the right body is never fetched
+redirect-301	8,9	curl runs without -L, so the L8 request sees 301 and no 'hello world'
+catch-all-200	-	serves 'hello world' at the required path; routing beyond it is not a clause of L8 (F37CritC2Map)
+wrong-port-8081	7,8,9	its own requirement names instruction.md:7; webserver on 8081 and nothing on :8080, so the L8 request gets 000
+token-in-body	9	body is 'TEST PASSED', not 'hello world'; observed pass through the verdict-token substring
+status-then-content-split	8,9	first answer to the L8 request is 'not the content'; only the second is right (F37CritC2Map row 8)
+first-request-404	8,9	first answer to the L8 request is 404, so no content is fetched
+slow-server-3s	-	control: correct body on :8080 delivered in 3s; no mapped line bounds latency
+wget-static-file	1,2,3,4,5,6,7	same static-file state on the wget branch (F37CritC2Map: no repository, hook or push)
+wget-404	8,9	wget exits nonzero on a 404, so the L8 request yields no content
+wget-token-in-body	9	body is 'TEST PASSED' on the wget branch; same substring pass

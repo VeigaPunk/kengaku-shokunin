@@ -1,0 +1,68 @@
+# R38CritProbe receipt: syscall-level checks of the two headline cases and the host-ldd substitution
+# all commands run in /fast/scratch/hyaku/kengaku-r38/R38CritProbe (clone of the lane at 2c5f4e0ba8e2)
+# binaries built with the frozen probe's own build_art() from plans/build_pmars_probe.py.
+
+## canned-x11-dlopen: does the binary really dlopen libX11 at run time?
+$ readelf -d ./pmars-dlopen | grep NEEDED
+ 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
+$ ldd ./pmars-dlopen
+	linux-vdso.so.1 ...
+	libc.so.6 => /usr/lib/libc.so.6 ...
+	/lib64/ld-linux-x86-64.so.2 => /usr/lib64/ld-linux-x86-64.so.2 ...
+$ strace -f -e trace=openat -o st.txt ./pmars-dlopen
+$ grep -i libX11 st.txt
+18192 openat(AT_FDCWD, "/usr/lib/libX11.so.6", O_RDONLY|O_CLOEXEC) = 3
+=> dlopen fires at run time and no DT_NEEDED entry exists: the case tests exactly what its text says.
+
+## canned-x11-linked control
+$ readelf -d ./pmars-x11 | grep NEEDED
+ 0x0000000000000001 (NEEDED)             Shared library: [libX11.so.6]
+ 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
+
+## path-split: which pmars runs inside the probe's own sandbox?
+# harness run via probe.sandbox_argv(cap, work) with the probe's env (PATH=/usr/local/sbin:...)
+WHICH /usr/local/sbin/pmars
+RUN rc=0 out='00000   SPL.B  $     2, $     0\n00001   '
+LDD rc=0 a='linux-vdso.so.1 ... libc.so.6 => ...'   (reads the silent /usr/local/bin/pmars)
+EXECVE ['12    execve("/usr/local/sbin/pmars", ["pmars", "-b", "x"], ...) = 0']
+=> the behaviour checks execute the earlier-PATH script; ldd reads the installed file.
+
+## is the probe's hardcoded PATH the image's?
+$ docker run --rm debian:13.0-slim sh -c 'echo PATH=$PATH; ls -ld /usr/local/sbin /usr/local/bin'
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+drwxr-xr-x ... /usr/local/bin
+drwxr-xr-x ... /usr/local/sbin
+=> identical to P.PATH; upstream build-pmars/environment/Dockerfile is FROM debian:13.0-slim.
+
+## host-ldd substitution: same verdicts under Debian 13's ldd?
+$ docker run --rm -v $S/dlp:/dlp:ro debian:13.0-slim sh -c 'ldd /dlp/pmars-static; echo rc=$?; ldd /dlp/pmars-dlopen; echo rc=$?; ldd /dlp/pmars-x11; echo rc=$?'
+	not a dynamic executable
+rc=1
+---
+	linux-vdso.so.1 ...
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 ...
+	/lib64/ld-linux-x86-64.so.2 => /lib64/ld-linux-x86-64.so.2 ...
+rc=0
+---
+	linux-vdso.so.1 ...
+	libX11.so.6 => not found
+	libc.so.6 => ...
+rc=0
+=> static: empty stdout + rc 1 (CalledProcessError -> F, as the receipt shows); dlopen: no libX11 string;
+   x11-linked: "libX11.so.6 => not found" still contains libX11 -> F. Same verdicts as host ldd.
+   (also: ldd on a bash script in debian:13.0-slim = "not a dynamic executable", rc=1, as in the probe)
+
+## capture provenance
+$ curl -sSL https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88.../build-pmars/<f>
+instruction.md 200 1606850579342a8b8f2189de0e499fae6be21198150d8dd1e4d18c2efbcf3b82
+tests/test_outputs.py 200 d9d2796ddc19cf8159670567e174ea377e2bce675bf3451d5951c045b01f4e85
+tests/test.sh 200 4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334
+task.toml 200 7ee2eac27b99fd462e0760552a430454db693f86608af5bb570b020270e4c9cd
+solution/solve.sh 200 105292ca0e8bc399831550fc54c451002bd300644eb9beef1760dbfa7f8b7543
+=> all five SHA256SUMS entries reproduce from upstream at the pinned commit (laude-institute/terminal-bench-2
+   now redirects to harbor-framework/terminal-bench-2).
+
+## rerun determinism
+$ python3 plans/build_pmars_probe.py --lane . --work $S/w1 > r1.txt ; ... --work $S/w2 > r2.txt
+rc1=0 rc2=0 ; cmp r1.txt r2.txt -> BYTE-EQUAL ; cmp r1.txt corpus/evidence/round38/build-pmars-probe.txt -> RECEIPT-EQUAL
+$ python3 plans/build_pmars_probe.py --lane . --dry | cmp - corpus/evidence/round38/build-pmars-dry-cases-freeze.txt -> DRY-EQUAL

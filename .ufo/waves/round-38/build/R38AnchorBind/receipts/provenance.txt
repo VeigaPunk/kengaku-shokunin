@@ -1,0 +1,19 @@
+$ sha256sum lane plans/anchor_digest_check.py  <old copy>  <fixed copy>
+6d7afcd56a95c59f835be04a16263d43db4840cc8a4b111350be4d7cb8d9a323  /fast/scratch/hyaku/kengaku-r38/R38AnchorBind/lane/plans/anchor_digest_check.py
+6d7afcd56a95c59f835be04a16263d43db4840cc8a4b111350be4d7cb8d9a323  /fast/scratch/hyaku/kengaku-r38/R38AnchorBind/old_checker.py
+98847e8930304a23ab3e10dd27cfc3501738467b8871d8b725d24908e6c1f0b2  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-38/build/R38AnchorBind/anchor_digest_check.py
+
+$ cmp <old copy> <lane plans file>
+old copy byte-identical to the lane file
+
+$ python3 -V
+Python 3.14.8
+
+$ git -C <clone> rev-parse HEAD
+2c5f4e0ba8e2865af4b71e337f3cde86eaf0702e
+
+$ grep -n "git(lane," <fixed copy>   # every git subcommand the tool runs (all read-only)
+143:def git(lane, *args, data=None):
+155:    out = git(lane, "ls-tree", "-r", "--name-only", "-z", "HEAD", "--", root)
+162:    out = git(lane, "ls-files", "--cached", "-z", "--", EVIDENCE)
+174:    out = git(lane, "cat-file", "--batch", data="".join(s + "\n" for s in specs).encode())

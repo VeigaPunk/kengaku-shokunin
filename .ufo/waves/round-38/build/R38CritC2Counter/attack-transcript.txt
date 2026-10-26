@@ -1,0 +1,71 @@
+# pristine clone: 2c5f4e0
+# map printed by a 4-line function of receipt+dry (cites the alphabetically first violator):
+| `instruction.md:1` | `from-source` | partly | `c-is-dir` |
+| `instruction.md:3` | `no-x11` | partly | `canned-x11-dlopen` |
+| `instruction.md:3` | `debian-source` | partly | `c-is-dir` |
+| `instruction.md:3` | `extract-to-app` | partly | `c-is-dir` |
+| `instruction.md:3` | `install-path` | partly | `empty-tree` |
+| `instruction.md:7` | `results-format` | partly | `empty-tree` |
+| `instruction.md:9` | `debugger-works` | partly | `c-is-dir` |
+
+## A. the frozen counter on the filler package
+V1 ok listed=5 bad=0 extra=0
+    gate: P1 ok pinned=2 mismatched=0
+    gate: P2 ok receipt_sha256=pinned
+    gate: P3 ok rows=11 distinct_quotes=11 distinct_lines=11 out_of_word_range=0
+    gate: P4 ok checked=11 bad=0 first=0
+    gate: P5 ok manifest_entries=5 bad=0 first=0
+    gate: P6 ok rows=2 bad=0 first=0
+    gate: P7 ok source_lines=2 bad=0 first=0
+    gate: P8 ok index_rows=45 knowledge_files=45 bad=0 first=0
+    gate: P9 ok untracked=0 first=0
+    gate: P10 ok probe_rerun=byte-equal bytes=5537
+    gate: defects=0
+V2 ok spec=frozen gate=frozen gate_exit=0
+V3 ok rows=2 bad=0
+V4 ok cases=22 mismatches_named=0/0 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 ok rows=7 tags=7 bad=0
+checks=7 defects=0
+PREDICATE C2 pass
+exit 0
+
+## B. entry never discusses the 22 cases (only the 7 map citations)
+case ids cited in the entry: ['c-is-dir', 'canned-x11-dlopen', 'empty-tree']
+receipt cases: 22 | entry statements about observed verdicts: the Summary above contradicts the receipt line
+receipt summary: cases=22 observed_pass=7 observed_fail=15 mismatches=0
+
+## C. V3 anchor binding
+C1 bare-digest anchor (package as built)      -> (True, 'rows=2 bad=0')
+C2 junk text around the digest                -> (True, 'rows=2 bad=0')
+C3 digest twice (negative control)            -> (False, "rows=2 bad=['S115:anchor_digest']")
+C4 swapped digest (negative control)          -> (False, "rows=2 bad=['S115:anchor_digest']")
+C5 row title names a DIFFERENT task          -> V3 (True, 'rows=2 bad=0')
+   gate: P6 ok rows=2 bad=0 first=0 | defects=1
+   census_exit = 0
+C6 opened=1999-01-01 (spec row_opened dead)  -> V3 (True, 'rows=2 bad=0') | gate defects=1 | census_exit 0
+
+## D. V4 match=NO naming (receipt variant: canned-shape observed flipped to fail, match=NO, mismatches=1)
+D1 not named anywhere (negative control)      -> (False, 'cases=22 mismatches_named=0/1 bad=["mismatch cases not named in the entry: [\'canned-shape\']"]')
+D2 blanket list of all 22 ids in backticks    -> (True, 'cases=22 mismatches_named=1/1 bad=0')
+D3 id inside a fenced block                   -> (True, 'cases=22 mismatches_named=1/1 bad=0')
+D4 sentence that DENIES covering the case     -> (True, 'cases=22 mismatches_named=1/1 bad=0')
+D5 genuine receipt (as landed)                -> (True, 'cases=22 mismatches_named=0/0 bad=0') | mismatches in receipt: 0
+
+## E. V7 row parsing
+E0 base                                        -> (True, 'rows=7 tags=7 bad=0')
+E1 wrong label in the parsed section (neg ctl) -> (False, "rows=7 tags=7 bad=['from-source: labelled enforced, receipt derives partly']")
+E2 2nd '## Requirement map' with every label 'enforced' -> (True, 'rows=7 tags=7 bad=0')
+E3 indented rows with every label 'enforced'   -> (True, 'rows=7 tags=7 bad=0')
+E4 prose in the section asserts relevance      -> (True, 'rows=7 tags=7 bad=0')
+E5 fenced decoy map first, visible map all 'enforced' -> (True, 'rows=7 tags=7 bad=0')
+E6 missing tag (negative control)               -> (False, 'rows=6 tags=7 bad=["tags missing=[\'debugger-works\'] duplicated=0"]')
+E7 duplicate tag in the same section (neg ctl)  -> (False, 'rows=8 tags=7 bad=["tags missing=0 duplicated=[\'debugger-works\']"]')
+E8 cite a non-violating case (negative control) -> (False, "rows=7 tags=7 bad=['no-x11: cites no case or a case that does not violate it']")
+E9 map labels are a pure function of receipt+dry: ['partly', 'partly', 'partly', 'partly', 'partly', 'partly', 'partly']
+
+## F. clips that the whole package leaves untouched
+PROVINCE.md mentions build-pmars: False
+gate/counter read PROVINCE.md: False
+spec keys read by neither gate nor counter: row_opened

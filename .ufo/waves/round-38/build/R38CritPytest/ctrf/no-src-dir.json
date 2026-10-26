@@ -1,0 +1,59 @@
+{
+ "results": {
+  "summary": {
+   "failed": 1,
+   "other": 0,
+   "passed": 3,
+   "pending": 0,
+   "skipped": 0,
+   "start": 1792993714.1575499,
+   "stop": 1792993714.1760283,
+   "tests": 4
+  },
+  "tests": [
+   {
+    "duration": 0.003721989000950998,
+    "file_path": "test_outputs.py",
+    "name": "test_outputs.py::test_pmars_works",
+    "retries": 0,
+    "start": 1792993714.1651263,
+    "status": "passed",
+    "stop": 1792993714.1690147
+   },
+   {
+    "duration": 0.0021059690006950404,
+    "file_path": "test_outputs.py",
+    "name": "test_outputs.py::test_headless_no_x11",
+    "retries": 0,
+    "start": 1792993714.1691468,
+    "status": "passed",
+    "stop": 1792993714.1713223
+   },
+   {
+    "duration": 0.00021458999981405213,
+    "file_path": "test_outputs.py",
+    "name": "test_outputs.py::test_debian_source_used",
+    "retries": 0,
+    "start": 1792993714.171397,
+    "status": "passed",
+    "stop": 1792993714.1716638
+   },
+   {
+    "duration": 0.00023196999882202363,
+    "file_path": "test_outputs.py",
+    "message": "The test failed in the call phase due to an assertion error",
+    "name": "test_outputs.py::test_built_from_source",
+    "raw_status": "call_failed",
+    "retries": 0,
+    "start": 1792993714.171726,
+    "status": "failed",
+    "stop": 1792993714.1759334,
+    "trace": "def test_built_from_source():\n        \"\"\"Verify pmars was actually built from source code.\"\"\"\n        source_dirs = list(Path(\"/app\").glob(\"pmars-*\"))\n        assert source_dirs, (\n            \"No pmars source directory found in `/app`,\"\n            \"Source must be extracted to `/app` as instructed.\"\n        )\n    \n        src_dir = source_dirs[0] / \"src\"\n>       assert src_dir.exists(), \"No src directory found\"\nE       AssertionError: No src directory found\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/pmars-0.9.4/src').exists\n\n/tests/test_outputs.py:82: AssertionError"
+   }
+  ],
+  "tool": {
+   "name": "pytest",
+   "version": "8.4.1"
+  }
+ }
+}

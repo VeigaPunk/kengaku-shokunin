@@ -1,0 +1,15 @@
+fatal: repository '/fast/scratch/hyaku/kengaku-r38/R38LedgerTip/notarepo' does not exist
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r38/R38LedgerTip/lane/plans/ledger_tip.py", line 143, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/fast/scratch/hyaku/kengaku-r38/R38LedgerTip/lane/plans/ledger_tip.py", line 103, in main
+    lane, head = clone_lane(pathlib.Path(a.source).resolve(), work)
+                 ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r38/R38LedgerTip/lane/plans/ledger_tip.py", line 69, in clone_lane
+    subprocess.run(["git", "clone", "-q", "--shared", str(source), str(dest)], check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'clone', '-q', '--shared', '/fast/scratch/hyaku/kengaku-r38/R38LedgerTip/notarepo', '/fast/scratch/hyaku/kengaku-r38/R38LedgerTip/before/nonrepo/lane']' returned non-zero exit status 128.

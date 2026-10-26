@@ -1,0 +1,24 @@
+== hostile harness inside the probe sandbox ==
+PROBE etc_shadow = ERR PermissionError: [Errno 13] Permission denied: '/etc/shadow'
+PROBE etc_ssh_list = ['moduli', 'ssh_config', 'ssh_config.d', 'sshd_config', 'sshd_config.d']
+PROBE home_list = ERR FileNotFoundError: [Errno 2] No such file or directory: '/home'
+PROBE user_ssh = ERR FileNotFoundError: [Errno 2] No such file or directory: '/tmp/.ssh'
+PROBE lane_git_config = ERR FileNotFoundError: [Errno 2] No such file or directory: '/home/vgpnk/Projects/s
+PROBE write_app = ERR OSError: [Errno 30] Read-only file system: '/app/pwn'
+PROBE write_usr_local_bin = ERR OSError: [Errno 30] Read-only file system: '/usr/local/bin/pwn'
+PROBE write_etc = ERR OSError: [Errno 30] Read-only file system: '/etc/pwn'
+PROBE write_tmp = 1
+PROBE net_connect = ERR OSError: [Errno 101] Network is unreachable
+PROBE dns = ERR gaierror: [Errno -3] Temporary failure in name resolution
+PROBE root_list = ['app', 'bin', 'dev', 'etc', 'harness.py', 'lib', 'lib64', 'proc', 'sbin', 'tests', 'tmp', 'usr']
+PROBE proc_entries = 63
+PROBE uid = 1000
+PROBE host_pid1 = 'bwrap'
+
+== env / agent socket ==
+ENV ['HOME', 'LANG', 'LC_ALL', 'PATH', 'PWD', 'PYTHONDONTWRITEBYTECODE', 'PYTHONUTF8']
+AGENT blocked FileNotFoundError
+
+== leftover process (normal exit, then external kill) ==
+TIMEOUT_RAISED TimeoutExpired
+SURVIVORS []

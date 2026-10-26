@@ -1,0 +1,59 @@
+{
+ "results": {
+  "summary": {
+   "failed": 1,
+   "other": 0,
+   "passed": 3,
+   "pending": 0,
+   "skipped": 0,
+   "start": 1792993713.5486693,
+   "stop": 1792993713.5673892,
+   "tests": 4
+  },
+  "tests": [
+   {
+    "duration": 0.003679798999655759,
+    "file_path": "test_outputs.py",
+    "name": "test_outputs.py::test_pmars_works",
+    "retries": 0,
+    "start": 1792993713.5562773,
+    "status": "passed",
+    "stop": 1792993713.5601318
+   },
+   {
+    "duration": 0.002445709998937673,
+    "file_path": "test_outputs.py",
+    "name": "test_outputs.py::test_headless_no_x11",
+    "retries": 0,
+    "start": 1792993713.5602667,
+    "status": "passed",
+    "stop": 1792993713.5627978
+   },
+   {
+    "duration": 0.00031536000005871756,
+    "file_path": "test_outputs.py",
+    "message": "The test failed in the call phase due to an assertion error",
+    "name": "test_outputs.py::test_debian_source_used",
+    "raw_status": "call_failed",
+    "retries": 0,
+    "start": 1792993713.5629048,
+    "status": "failed",
+    "stop": 1792993713.5669758,
+    "trace": "def test_debian_source_used():\n        \"\"\"Verify pmars source was obtained from Debian packages.\"\"\"\n        source_dirs = list(Path(\"/app\").glob(\"pmars-*\"))\n        assert source_dirs, (\n            \"No pmars source directory found in `/app`,\"\n            \"Source must be extracted to `/app` as instructed.\"\n        )\n    \n        # Check for Debian package structure\n        debian_dir = source_dirs[0] / \"debian\"\n>       assert debian_dir.exists(), \"No debian/ directory - not from Debian packages\"\nE       AssertionError: No debian/ directory - not from Debian packages\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/pmars-0.9.4/debian').exists\n\n/tests/test_outputs.py:70: AssertionError"
+   },
+   {
+    "duration": 0.00020717000006698072,
+    "file_path": "test_outputs.py",
+    "name": "test_outputs.py::test_built_from_source",
+    "retries": 0,
+    "start": 1792993713.5670576,
+    "status": "passed",
+    "stop": 1792993713.56732
+   }
+  ],
+  "tool": {
+   "name": "pytest",
+   "version": "8.4.1"
+  }
+ }
+}

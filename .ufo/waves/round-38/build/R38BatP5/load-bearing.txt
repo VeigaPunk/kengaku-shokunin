@@ -1,0 +1,10 @@
+== N07 with p5m-row-off-pin-later-row dropped (module keeps p5m-manifest-blank-line) ==
+FIXTURE p5m-manifest-blank-line expect=accept declared=- observed_rc=0 observed_defects=- ok
+BATTERY fixtures=65 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT N07 P5 silence SURVIVED -- every registry row's capture is pinned in the manifest, not only the first [F37XMutP5 X1]
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0
+== N08 with p5m-manifest-blank-line dropped (module keeps p5m-row-off-pin-later-row) ==
+FIXTURE p5m-row-off-pin-later-row expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+BATTERY fixtures=65 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT N08 P5 mirror SURVIVED -- a blank manifest line is tolerated, not an unparsed line [Q24 genuine accepted; R37PlanNext B2]
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0

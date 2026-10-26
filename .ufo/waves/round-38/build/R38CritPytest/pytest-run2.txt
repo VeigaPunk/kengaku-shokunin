@@ -1,0 +1,401 @@
+CASE empty-tree receipt=FFFF direct=FFFF pytest=FFFF ctrf=FFFF pytest_rc=1 agree=yes
+  PYTESTOUT test_pmars_works FAILED
+  PYTESTOUT test_headless_no_x11 FAILED
+  PYTESTOUT test_debian_source_used FAILED
+  PYTESTOUT test_built_from_source FAILED
+  RAW ============================= test session starts ==============================
+  RAW rootdir: /tests
+  RAW plugins: json-ctrf-0.3.5
+  RAW collected 4 items
+  RAW =================================== FAILURES ===================================
+  RAW E       AssertionError: pmars not installed at /usr/local/bin/pmars
+  RAW E       assert False
+  RAW E        +  where False = exists()
+  RAW E        +    where exists = PosixPath('/usr/local/bin/pmars').exists
+  RAW E               subprocess.CalledProcessError: Command 'ldd /usr/local/bin/pmars' returned non-zero exit status 1.
+  RAW E       AssertionError: No pmars source directory found in `/app`,Source must be extracted to `/app` as instructed.
+  RAW E       assert []
+  RAW E       AssertionError: No pmars source directory found in `/app`,Source must be extracted to `/app` as instructed.
+  RAW E       assert []
+  RAW FAILED ../tests/test_outputs.py::test_pmars_works - AssertionError: pmars not...
+  RAW FAILED ../tests/test_outputs.py::test_headless_no_x11 - subprocess.CalledProc...
+  RAW FAILED ../tests/test_outputs.py::test_debian_source_used - AssertionError: No...
+  RAW FAILED ../tests/test_outputs.py::test_built_from_source - AssertionError: No ...
+  RAW ============================== 4 failed in 0.03s ===============================
+CASE canned-shape receipt=PPPP direct=PPPP pytest=PPPP ctrf=PPPP pytest_rc=0 agree=yes
+  PYTESTOUT test_pmars_works PASSED | PASSED ../tests/test_outputs.py::test_pmars_works
+  PYTESTOUT test_headless_no_x11 PASSED | PASSED ../tests/test_outputs.py::test_headless_no_x11
+  PYTESTOUT test_debian_source_used PASSED | PASSED ../tests/test_outputs.py::test_debian_source_used
+  PYTESTOUT test_built_from_source PASSED | PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================= test session starts ==============================
+  RAW rootdir: /tests
+  RAW plugins: json-ctrf-0.3.5
+  RAW collected 4 items
+  RAW ==================================== PASSES ====================================
+  RAW PASSED ../tests/test_outputs.py::test_pmars_works
+  RAW PASSED ../tests/test_outputs.py::test_headless_no_x11
+  RAW PASSED ../tests/test_outputs.py::test_debian_source_used
+  RAW PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================== 4 passed in 0.01s ===============================
+CASE canned-script receipt=PFPP direct=PFPP pytest=PFPP ctrf=PFPP pytest_rc=1 agree=yes
+  PYTESTOUT test_pmars_works PASSED | PASSED ../tests/test_outputs.py::test_pmars_works
+  PYTESTOUT test_headless_no_x11 FAILED
+  PYTESTOUT test_debian_source_used PASSED | PASSED ../tests/test_outputs.py::test_debian_source_used
+  PYTESTOUT test_built_from_source PASSED | PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================= test session starts ==============================
+  RAW rootdir: /tests
+  RAW plugins: json-ctrf-0.3.5
+  RAW collected 4 items
+  RAW =================================== FAILURES ===================================
+  RAW E               subprocess.CalledProcessError: Command 'ldd /usr/local/bin/pmars' returned non-zero exit status 1.
+  RAW ==================================== PASSES ====================================
+  RAW PASSED ../tests/test_outputs.py::test_pmars_works
+  RAW PASSED ../tests/test_outputs.py::test_debian_source_used
+  RAW PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW FAILED ../tests/test_outputs.py::test_headless_no_x11 - subprocess.CalledProc...
+  RAW ========================= 1 failed, 3 passed in 0.03s ==========================
+CASE canned-static receipt=PFPP direct=PFPP pytest=PFPP ctrf=PFPP pytest_rc=1 agree=yes
+  PYTESTOUT test_pmars_works PASSED | PASSED ../tests/test_outputs.py::test_pmars_works
+  PYTESTOUT test_headless_no_x11 FAILED
+  PYTESTOUT test_debian_source_used PASSED | PASSED ../tests/test_outputs.py::test_debian_source_used
+  PYTESTOUT test_built_from_source PASSED | PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================= test session starts ==============================
+  RAW rootdir: /tests
+  RAW plugins: json-ctrf-0.3.5
+  RAW collected 4 items
+  RAW =================================== FAILURES ===================================
+  RAW E               subprocess.CalledProcessError: Command 'ldd /usr/local/bin/pmars' returned non-zero exit status 1.
+  RAW ==================================== PASSES ====================================
+  RAW PASSED ../tests/test_outputs.py::test_pmars_works
+  RAW PASSED ../tests/test_outputs.py::test_debian_source_used
+  RAW PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW FAILED ../tests/test_outputs.py::test_headless_no_x11 - subprocess.CalledProc...
+  RAW ========================= 1 failed, 3 passed in 0.03s ==========================
+CASE canned-x11-linked receipt=PFPP direct=PFPP pytest=PFPP ctrf=PFPP pytest_rc=1 agree=yes
+  PYTESTOUT test_pmars_works PASSED | PASSED ../tests/test_outputs.py::test_pmars_works
+  PYTESTOUT test_headless_no_x11 FAILED
+  PYTESTOUT test_debian_source_used PASSED | PASSED ../tests/test_outputs.py::test_debian_source_used
+  PYTESTOUT test_built_from_source PASSED | PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================= test session starts ==============================
+  RAW rootdir: /tests
+  RAW plugins: json-ctrf-0.3.5
+  RAW collected 4 items
+  RAW =================================== FAILURES ===================================
+  RAW E           AssertionError: pmars links against X11 library: libX11
+  RAW E           assert 'libX11' not in 'linux-vdso....f618d729000)'
+  RAW E             'libX11' is contained here:
+  RAW E               linux-vdso.so.1 (0x00007f618d8f5000)
+  RAW E               	libX11.so.6 => /usr/lib/libX11.so.6 (0x00007f618d761000)
+  RAW E             ? 	++++++
+  RAW E               	libc.so.6 => /usr/lib/libc.so.6 (0x00007f618d400000)
+  RAW E               	libxcb.so.1 => /usr/lib/libxcb.so.1 (0x00007f618d736000)...
+  RAW E             ...Full output truncated (3 lines hidden), use '-vv' to show
+  RAW ==================================== PASSES ====================================
+  RAW PASSED ../tests/test_outputs.py::test_pmars_works
+  RAW PASSED ../tests/test_outputs.py::test_debian_source_used
+  RAW PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW FAILED ../tests/test_outputs.py::test_headless_no_x11 - AssertionError: pmars...
+  RAW ========================= 1 failed, 3 passed in 0.02s ==========================
+CASE canned-x11-dlopen receipt=PPPP direct=PPPP pytest=PPPP ctrf=PPPP pytest_rc=0 agree=yes
+  PYTESTOUT test_pmars_works PASSED | PASSED ../tests/test_outputs.py::test_pmars_works
+  PYTESTOUT test_headless_no_x11 PASSED | PASSED ../tests/test_outputs.py::test_headless_no_x11
+  PYTESTOUT test_debian_source_used PASSED | PASSED ../tests/test_outputs.py::test_debian_source_used
+  PYTESTOUT test_built_from_source PASSED | PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================= test session starts ==============================
+  RAW rootdir: /tests
+  RAW plugins: json-ctrf-0.3.5
+  RAW collected 4 items
+  RAW ==================================== PASSES ====================================
+  RAW PASSED ../tests/test_outputs.py::test_pmars_works
+  RAW PASSED ../tests/test_outputs.py::test_headless_no_x11
+  RAW PASSED ../tests/test_outputs.py::test_debian_source_used
+  RAW PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================== 4 passed in 0.02s ===============================
+CASE results-two-ints receipt=FPPP direct=FPPP pytest=FPPP ctrf=FPPP pytest_rc=1 agree=yes
+  PYTESTOUT test_pmars_works FAILED
+  PYTESTOUT test_headless_no_x11 PASSED | PASSED ../tests/test_outputs.py::test_headless_no_x11
+  PYTESTOUT test_debian_source_used PASSED | PASSED ../tests/test_outputs.py::test_debian_source_used
+  PYTESTOUT test_built_from_source PASSED | PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================= test session starts ==============================
+  RAW rootdir: /tests
+  RAW plugins: json-ctrf-0.3.5
+  RAW collected 4 items
+  RAW =================================== FAILURES ===================================
+  RAW E       AssertionError: Expected 'Results: X Y Z' format, got: Results: 12 34
+  RAW E       assert None
+  RAW E        +  where None = <function match at 0x7f1b7fb9d1c0>('Results: \\d+ \\d+ \\d+', 'Results: 12 34')
+  RAW E        +    where <function match at 0x7f1b7fb9d1c0> = re.match
+  RAW ==================================== PASSES ====================================
+  RAW PASSED ../tests/test_outputs.py::test_headless_no_x11
+  RAW PASSED ../tests/test_outputs.py::test_debian_source_used
+  RAW PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW FAILED ../tests/test_outputs.py::test_pmars_works - AssertionError: Expected ...
+  RAW ========================= 1 failed, 3 passed in 0.02s ==========================
+CASE results-trailing-text receipt=PPPP direct=PPPP pytest=PPPP ctrf=PPPP pytest_rc=0 agree=yes
+  PYTESTOUT test_pmars_works PASSED | PASSED ../tests/test_outputs.py::test_pmars_works
+  PYTESTOUT test_headless_no_x11 PASSED | PASSED ../tests/test_outputs.py::test_headless_no_x11
+  PYTESTOUT test_debian_source_used PASSED | PASSED ../tests/test_outputs.py::test_debian_source_used
+  PYTESTOUT test_built_from_source PASSED | PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================= test session starts ==============================
+  RAW rootdir: /tests
+  RAW plugins: json-ctrf-0.3.5
+  RAW collected 4 items
+  RAW ==================================== PASSES ====================================
+  RAW PASSED ../tests/test_outputs.py::test_pmars_works
+  RAW PASSED ../tests/test_outputs.py::test_headless_no_x11
+  RAW PASSED ../tests/test_outputs.py::test_debian_source_used
+  RAW PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================== 4 passed in 0.01s ===============================
+CASE results-not-last receipt=FPPP direct=FPPP pytest=FPPP ctrf=FPPP pytest_rc=1 agree=yes
+  PYTESTOUT test_pmars_works FAILED
+  PYTESTOUT test_headless_no_x11 PASSED | PASSED ../tests/test_outputs.py::test_headless_no_x11
+  PYTESTOUT test_debian_source_used PASSED | PASSED ../tests/test_outputs.py::test_debian_source_used
+  PYTESTOUT test_built_from_source PASSED | PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================= test session starts ==============================
+  RAW rootdir: /tests
+  RAW plugins: json-ctrf-0.3.5
+  RAW collected 4 items
+  RAW =================================== FAILURES ===================================
+  RAW E       AssertionError: Expected 'Results: X Y Z' format, got: end of battle
+  RAW E       assert None
+  RAW E        +  where None = <function match at 0x7f2c0d39d1c0>('Results: \\d+ \\d+ \\d+', 'end of battle')
+  RAW E        +    where <function match at 0x7f2c0d39d1c0> = re.match
+  RAW ==================================== PASSES ====================================
+  RAW PASSED ../tests/test_outputs.py::test_headless_no_x11
+  RAW PASSED ../tests/test_outputs.py::test_debian_source_used
+  RAW PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW FAILED ../tests/test_outputs.py::test_pmars_works - AssertionError: Expected ...
+  RAW ========================= 1 failed, 3 passed in 0.02s ==========================
+CASE results-negative receipt=FPPP direct=FPPP pytest=FPPP ctrf=FPPP pytest_rc=1 agree=yes
+  PYTESTOUT test_pmars_works FAILED
+  PYTESTOUT test_headless_no_x11 PASSED | PASSED ../tests/test_outputs.py::test_headless_no_x11
+  PYTESTOUT test_debian_source_used PASSED | PASSED ../tests/test_outputs.py::test_debian_source_used
+  PYTESTOUT test_built_from_source PASSED | PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================= test session starts ==============================
+  RAW rootdir: /tests
+  RAW plugins: json-ctrf-0.3.5
+  RAW collected 4 items
+  RAW =================================== FAILURES ===================================
+  RAW E       AssertionError: Expected 'Results: X Y Z' format, got: Results: -1 34 78
+  RAW E       assert None
+  RAW E        +  where None = <function match at 0x7fed5c55d1c0>('Results: \\d+ \\d+ \\d+', 'Results: -1 34 78')
+  RAW E        +    where <function match at 0x7fed5c55d1c0> = re.match
+  RAW ==================================== PASSES ====================================
+  RAW PASSED ../tests/test_outputs.py::test_headless_no_x11
+  RAW PASSED ../tests/test_outputs.py::test_debian_source_used
+  RAW PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW FAILED ../tests/test_outputs.py::test_pmars_works - AssertionError: Expected ...
+  RAW ========================= 1 failed, 3 passed in 0.02s ==========================
+CASE one-address receipt=FPPP direct=FPPP pytest=FPPP ctrf=FPPP pytest_rc=1 agree=yes
+  PYTESTOUT test_pmars_works FAILED
+  PYTESTOUT test_headless_no_x11 PASSED | PASSED ../tests/test_outputs.py::test_headless_no_x11
+  PYTESTOUT test_debian_source_used PASSED | PASSED ../tests/test_outputs.py::test_debian_source_used
+  PYTESTOUT test_built_from_source PASSED | PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================= test session starts ==============================
+  RAW rootdir: /tests
+  RAW plugins: json-ctrf-0.3.5
+  RAW collected 4 items
+  RAW =================================== FAILURES ===================================
+  RAW E       AssertionError: rave.red: Expected stepping, got 1 addresses
+  RAW E       assert 1 >= 2
+  RAW E        +  where 1 = len(['00000'])
+  RAW ==================================== PASSES ====================================
+  RAW PASSED ../tests/test_outputs.py::test_headless_no_x11
+  RAW PASSED ../tests/test_outputs.py::test_debian_source_used
+  RAW PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW FAILED ../tests/test_outputs.py::test_pmars_works - AssertionError: rave.red:...
+  RAW ========================= 1 failed, 3 passed in 0.02s ==========================
+CASE four-digit-address receipt=FPPP direct=FPPP pytest=FPPP ctrf=FPPP pytest_rc=1 agree=yes
+  PYTESTOUT test_pmars_works FAILED
+  PYTESTOUT test_headless_no_x11 PASSED | PASSED ../tests/test_outputs.py::test_headless_no_x11
+  PYTESTOUT test_debian_source_used PASSED | PASSED ../tests/test_outputs.py::test_debian_source_used
+  PYTESTOUT test_built_from_source PASSED | PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================= test session starts ==============================
+  RAW rootdir: /tests
+  RAW plugins: json-ctrf-0.3.5
+  RAW collected 4 items
+  RAW =================================== FAILURES ===================================
+  RAW E       AssertionError: rave.red: Expected stepping, got 0 addresses
+  RAW E       assert 0 >= 2
+  RAW E        +  where 0 = len([])
+  RAW ==================================== PASSES ====================================
+  RAW PASSED ../tests/test_outputs.py::test_headless_no_x11
+  RAW PASSED ../tests/test_outputs.py::test_debian_source_used
+  RAW PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW FAILED ../tests/test_outputs.py::test_pmars_works - AssertionError: rave.red:...
+  RAW ========================= 1 failed, 3 passed in 0.02s ==========================
+CASE canned-exit-nonzero receipt=PPPP direct=PPPP pytest=PPPP ctrf=PPPP pytest_rc=0 agree=yes
+  PYTESTOUT test_pmars_works PASSED | PASSED ../tests/test_outputs.py::test_pmars_works
+  PYTESTOUT test_headless_no_x11 PASSED | PASSED ../tests/test_outputs.py::test_headless_no_x11
+  PYTESTOUT test_debian_source_used PASSED | PASSED ../tests/test_outputs.py::test_debian_source_used
+  PYTESTOUT test_built_from_source PASSED | PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================= test session starts ==============================
+  RAW rootdir: /tests
+  RAW plugins: json-ctrf-0.3.5
+  RAW collected 4 items
+  RAW ==================================== PASSES ====================================
+  RAW PASSED ../tests/test_outputs.py::test_pmars_works
+  RAW PASSED ../tests/test_outputs.py::test_headless_no_x11
+  RAW PASSED ../tests/test_outputs.py::test_debian_source_used
+  RAW PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================== 4 passed in 0.01s ===============================
+CASE nonexec-binary receipt=FPPP direct=FPPP pytest=FPPP ctrf=FPPP pytest_rc=1 agree=yes
+  PYTESTOUT test_pmars_works FAILED
+  PYTESTOUT test_headless_no_x11 PASSED | PASSED ../tests/test_outputs.py::test_headless_no_x11
+  PYTESTOUT test_debian_source_used PASSED | PASSED ../tests/test_outputs.py::test_debian_source_used
+  PYTESTOUT test_built_from_source PASSED | PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================= test session starts ==============================
+  RAW rootdir: /tests
+  RAW plugins: json-ctrf-0.3.5
+  RAW collected 4 items
+  RAW =================================== FAILURES ===================================
+  RAW E               subprocess.CalledProcessError: Command 'echo -e 's\ns\ns\nq' | pmars -e rave.red' returned non-zero exit status 126.
+  RAW ==================================== PASSES ====================================
+  RAW PASSED ../tests/test_outputs.py::test_headless_no_x11
+  RAW PASSED ../tests/test_outputs.py::test_debian_source_used
+  RAW PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW FAILED ../tests/test_outputs.py::test_pmars_works - subprocess.CalledProcessE...
+  RAW ========================= 1 failed, 3 passed in 0.03s ==========================
+CASE silent-binary receipt=FPPP direct=FPPP pytest=FPPP ctrf=FPPP pytest_rc=1 agree=yes
+  PYTESTOUT test_pmars_works FAILED
+  PYTESTOUT test_headless_no_x11 PASSED | PASSED ../tests/test_outputs.py::test_headless_no_x11
+  PYTESTOUT test_debian_source_used PASSED | PASSED ../tests/test_outputs.py::test_debian_source_used
+  PYTESTOUT test_built_from_source PASSED | PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================= test session starts ==============================
+  RAW rootdir: /tests
+  RAW plugins: json-ctrf-0.3.5
+  RAW collected 4 items
+  RAW =================================== FAILURES ===================================
+  RAW E       AssertionError: rave.red: Expected stepping, got 0 addresses
+  RAW E       assert 0 >= 2
+  RAW E        +  where 0 = len([])
+  RAW ==================================== PASSES ====================================
+  RAW PASSED ../tests/test_outputs.py::test_headless_no_x11
+  RAW PASSED ../tests/test_outputs.py::test_debian_source_used
+  RAW PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW FAILED ../tests/test_outputs.py::test_pmars_works - AssertionError: rave.red:...
+  RAW ========================= 1 failed, 3 passed in 0.02s ==========================
+CASE path-split receipt=PPPP direct=PPPP pytest=PPPP ctrf=PPPP pytest_rc=0 agree=yes
+  PYTESTOUT test_pmars_works PASSED | PASSED ../tests/test_outputs.py::test_pmars_works
+  PYTESTOUT test_headless_no_x11 PASSED | PASSED ../tests/test_outputs.py::test_headless_no_x11
+  PYTESTOUT test_debian_source_used PASSED | PASSED ../tests/test_outputs.py::test_debian_source_used
+  PYTESTOUT test_built_from_source PASSED | PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================= test session starts ==============================
+  RAW rootdir: /tests
+  RAW plugins: json-ctrf-0.3.5
+  RAW collected 4 items
+  RAW ==================================== PASSES ====================================
+  RAW PASSED ../tests/test_outputs.py::test_pmars_works
+  RAW PASSED ../tests/test_outputs.py::test_headless_no_x11
+  RAW PASSED ../tests/test_outputs.py::test_debian_source_used
+  RAW PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================== 4 passed in 0.02s ===============================
+CASE no-debian-dir receipt=PPFP direct=PPFP pytest=PPFP ctrf=PPFP pytest_rc=1 agree=yes
+  PYTESTOUT test_pmars_works PASSED | PASSED ../tests/test_outputs.py::test_pmars_works
+  PYTESTOUT test_headless_no_x11 PASSED | PASSED ../tests/test_outputs.py::test_headless_no_x11
+  PYTESTOUT test_debian_source_used FAILED
+  PYTESTOUT test_built_from_source PASSED | PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================= test session starts ==============================
+  RAW rootdir: /tests
+  RAW plugins: json-ctrf-0.3.5
+  RAW collected 4 items
+  RAW =================================== FAILURES ===================================
+  RAW E       AssertionError: No debian/ directory - not from Debian packages
+  RAW E       assert False
+  RAW E        +  where False = exists()
+  RAW E        +    where exists = PosixPath('/app/pmars-0.9.4/debian').exists
+  RAW ==================================== PASSES ====================================
+  RAW PASSED ../tests/test_outputs.py::test_pmars_works
+  RAW PASSED ../tests/test_outputs.py::test_headless_no_x11
+  RAW PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW FAILED ../tests/test_outputs.py::test_debian_source_used - AssertionError: No...
+  RAW ========================= 1 failed, 3 passed in 0.02s ==========================
+CASE debian-is-file receipt=PPPP direct=PPPP pytest=PPPP ctrf=PPPP pytest_rc=0 agree=yes
+  PYTESTOUT test_pmars_works PASSED | PASSED ../tests/test_outputs.py::test_pmars_works
+  PYTESTOUT test_headless_no_x11 PASSED | PASSED ../tests/test_outputs.py::test_headless_no_x11
+  PYTESTOUT test_debian_source_used PASSED | PASSED ../tests/test_outputs.py::test_debian_source_used
+  PYTESTOUT test_built_from_source PASSED | PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================= test session starts ==============================
+  RAW rootdir: /tests
+  RAW plugins: json-ctrf-0.3.5
+  RAW collected 4 items
+  RAW ==================================== PASSES ====================================
+  RAW PASSED ../tests/test_outputs.py::test_pmars_works
+  RAW PASSED ../tests/test_outputs.py::test_headless_no_x11
+  RAW PASSED ../tests/test_outputs.py::test_debian_source_used
+  RAW PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================== 4 passed in 0.02s ===============================
+CASE src-no-c receipt=PPPF direct=PPPF pytest=PPPF ctrf=PPPF pytest_rc=1 agree=yes
+  PYTESTOUT test_pmars_works PASSED | PASSED ../tests/test_outputs.py::test_pmars_works
+  PYTESTOUT test_headless_no_x11 PASSED | PASSED ../tests/test_outputs.py::test_headless_no_x11
+  PYTESTOUT test_debian_source_used PASSED | PASSED ../tests/test_outputs.py::test_debian_source_used
+  PYTESTOUT test_built_from_source FAILED
+  RAW ============================= test session starts ==============================
+  RAW rootdir: /tests
+  RAW plugins: json-ctrf-0.3.5
+  RAW collected 4 items
+  RAW =================================== FAILURES ===================================
+  RAW E       AssertionError: No C source files found
+  RAW E       assert []
+  RAW ==================================== PASSES ====================================
+  RAW PASSED ../tests/test_outputs.py::test_pmars_works
+  RAW PASSED ../tests/test_outputs.py::test_headless_no_x11
+  RAW PASSED ../tests/test_outputs.py::test_debian_source_used
+  RAW FAILED ../tests/test_outputs.py::test_built_from_source - AssertionError: No ...
+  RAW ========================= 1 failed, 3 passed in 0.02s ==========================
+CASE c-is-dir receipt=PPPP direct=PPPP pytest=PPPP ctrf=PPPP pytest_rc=0 agree=yes
+  PYTESTOUT test_pmars_works PASSED | PASSED ../tests/test_outputs.py::test_pmars_works
+  PYTESTOUT test_headless_no_x11 PASSED | PASSED ../tests/test_outputs.py::test_headless_no_x11
+  PYTESTOUT test_debian_source_used PASSED | PASSED ../tests/test_outputs.py::test_debian_source_used
+  PYTESTOUT test_built_from_source PASSED | PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================= test session starts ==============================
+  RAW rootdir: /tests
+  RAW plugins: json-ctrf-0.3.5
+  RAW collected 4 items
+  RAW ==================================== PASSES ====================================
+  RAW PASSED ../tests/test_outputs.py::test_pmars_works
+  RAW PASSED ../tests/test_outputs.py::test_headless_no_x11
+  RAW PASSED ../tests/test_outputs.py::test_debian_source_used
+  RAW PASSED ../tests/test_outputs.py::test_built_from_source
+  RAW ============================== 4 passed in 0.02s ===============================
+CASE no-src-dir receipt=PPPF direct=PPPF pytest=PPPF ctrf=PPPF pytest_rc=1 agree=yes
+  PYTESTOUT test_pmars_works PASSED | PASSED ../tests/test_outputs.py::test_pmars_works
+  PYTESTOUT test_headless_no_x11 PASSED | PASSED ../tests/test_outputs.py::test_headless_no_x11
+  PYTESTOUT test_debian_source_used PASSED | PASSED ../tests/test_outputs.py::test_debian_source_used
+  PYTESTOUT test_built_from_source FAILED
+  RAW ============================= test session starts ==============================
+  RAW rootdir: /tests
+  RAW plugins: json-ctrf-0.3.5
+  RAW collected 4 items
+  RAW =================================== FAILURES ===================================
+  RAW E       AssertionError: No src directory found
+  RAW E       assert False
+  RAW E        +  where False = exists()
+  RAW E        +    where exists = PosixPath('/app/pmars-0.9.4/src').exists
+  RAW ==================================== PASSES ====================================
+  RAW PASSED ../tests/test_outputs.py::test_pmars_works
+  RAW PASSED ../tests/test_outputs.py::test_headless_no_x11
+  RAW PASSED ../tests/test_outputs.py::test_debian_source_used
+  RAW FAILED ../tests/test_outputs.py::test_built_from_source - AssertionError: No ...
+  RAW ========================= 1 failed, 3 passed in 0.02s ==========================
+CASE pmars-dir-elsewhere receipt=PPFF direct=PPFF pytest=PPFF ctrf=PPFF pytest_rc=1 agree=yes
+  PYTESTOUT test_pmars_works PASSED | PASSED ../tests/test_outputs.py::test_pmars_works
+  PYTESTOUT test_headless_no_x11 PASSED | PASSED ../tests/test_outputs.py::test_headless_no_x11
+  PYTESTOUT test_debian_source_used FAILED
+  PYTESTOUT test_built_from_source FAILED
+  RAW ============================= test session starts ==============================
+  RAW rootdir: /tests
+  RAW plugins: json-ctrf-0.3.5
+  RAW collected 4 items
+  RAW =================================== FAILURES ===================================
+  RAW E       AssertionError: No pmars source directory found in `/app`,Source must be extracted to `/app` as instructed.
+  RAW E       assert []
+  RAW E       AssertionError: No pmars source directory found in `/app`,Source must be extracted to `/app` as instructed.
+  RAW E       assert []
+  RAW ==================================== PASSES ====================================
+  RAW PASSED ../tests/test_outputs.py::test_pmars_works
+  RAW PASSED ../tests/test_outputs.py::test_headless_no_x11
+  RAW FAILED ../tests/test_outputs.py::test_debian_source_used - AssertionError: No...
+  RAW FAILED ../tests/test_outputs.py::test_built_from_source - AssertionError: No ...
+  RAW ========================= 2 failed, 2 passed in 0.02s ==========================
+pytest-agree 22/22

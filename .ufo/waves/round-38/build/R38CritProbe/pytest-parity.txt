@@ -1,0 +1,30 @@
+# R38CritProbe receipt: the frozen probe's direct call vs pytest 8.4.1 (test.sh's pin), same per-case bwrap sandbox
+# method: import plans/build_pmars_probe.py from the scratch clone; per case rebuild ulb/ulsb/app exactly as
+# run_case() does, then run probe.sandbox_argv(cap, work) + ["--ro-bind", <scratch venv>, "/venv"] +
+# ["/venv/bin/python", "-m", "pytest", "/tests/test_outputs.py", "-q", "-rA", "-p", "no:cacheprovider", "--no-header"]
+# under the probe's own env dict (PATH=/usr/local/sbin:...). Letters parsed from PASSED/FAILED lines, in TESTS order.
+# venv: uv venv --python /usr/bin/python3 (3.14.8) && uv pip install pytest==8.4.1
+cases 22 verdict/exit mismatches: []
+empty-tree             pred=FFFF pytest=FFFF rc=1
+canned-shape           pred=PPPP pytest=PPPP rc=0
+canned-script          pred=PFPP pytest=PFPP rc=1
+canned-static          pred=PFPP pytest=PFPP rc=1
+canned-x11-linked      pred=PFPP pytest=PFPP rc=1
+canned-x11-dlopen      pred=PPPP pytest=PPPP rc=0
+results-two-ints       pred=FPPP pytest=FPPP rc=1
+results-trailing-text  pred=PPPP pytest=PPPP rc=0
+results-not-last       pred=FPPP pytest=FPPP rc=1
+results-negative       pred=FPPP pytest=FPPP rc=1
+one-address            pred=FPPP pytest=FPPP rc=1
+four-digit-address     pred=FPPP pytest=FPPP rc=1
+canned-exit-nonzero    pred=PPPP pytest=PPPP rc=0
+nonexec-binary         pred=FPPP pytest=FPPP rc=1
+silent-binary          pred=FPPP pytest=FPPP rc=1
+path-split             pred=PPPP pytest=PPPP rc=0
+no-debian-dir          pred=PPFP pytest=PPFP rc=1
+debian-is-file         pred=PPPP pytest=PPPP rc=0
+src-no-c               pred=PPPF pytest=PPPF rc=1
+c-is-dir               pred=PPPP pytest=PPPP rc=0
+no-src-dir             pred=PPPF pytest=PPPF rc=1
+pmars-dir-elsewhere    pred=PPFF pytest=PPFF rc=1
+# rc==0 iff letters==PPPP on all 22 cases (test.sh writes reward 1 iff pytest exit 0).

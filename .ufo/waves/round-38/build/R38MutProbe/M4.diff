@@ -1,0 +1,8 @@
+9c9
+< CASE canned-x11-dlopen predicted=pass observed=pass tests=PPPP predicted_tests=PPPP match=yes violates=from-source,debian-source,extract-to-app,debugger-works,no-x11 -- canned program that dlopen()s libX11.so.6 at run time: no DT_NEEDED entry for ldd to list
+---
+> CASE canned-x11-dlopen predicted=pass observed=fail tests=PFPP predicted_tests=PPPP match=NO violates=from-source,debian-source,extract-to-app,debugger-works,no-x11 -- canned program that dlopen()s libX11.so.6 at run time: no DT_NEEDED entry for ldd to list
+26c26
+< cases=22 observed_pass=7 observed_fail=15 mismatches=0
+---
+> cases=22 observed_pass=6 observed_fail=16 mismatches=1

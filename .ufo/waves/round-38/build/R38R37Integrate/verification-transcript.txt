@@ -1,0 +1,63 @@
+# verification transcript (seat R38R37Integrate, 2026-10-26T05:49:31Z)
+## V1 defect_ledger.py:29 / round36_c1_verify.py:38
+BRANCH = "refs/heads/master"
+BRANCH = "refs/heads/master"
+## V2 pkg_gate.py:285 bytes label
+    return True, f"probe_rerun=byte-equal bytes={len(want)}"
+## V3 SOURCES.md:125 63-hex S110
+sha256 4f7ac05e70cf922ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c
+## V4 QUALITY.md:445
+  (the round-36 all-junk fixture declares `P1,P3,P6,P9`); 55 fixtures is a budget, not a search
+## V5 entry:106-107
+| `instruction.md:8` | partly | `not-found`, `catch-all-200` |
+| `instruction.md:9` | enforced | `capitalised`, `leading-space` |
+## V6 SKILL.md:608-610
+lane tip `44b7298` its draft prints `rows=103 tokens=11 defects=5` and exits 1 (S110 `class=digest-short`,
+S070/S072/S073/S074 `class=digest-unknown`), and reaches `defects=0` only once the draft erratum and
+`corpus/evidence/round37/anchor-captures/` are both landed — so this row records a red state, not a green one. `ledger-tip` realises `considerthese/2026-10-25.md` proposal 2(a): every closed routed-defect row's check re-runs on a clean clone of the tip.
+## V7 anchor_digest_check.py:200
+    allowed = set(files) | set(manifests)
+## V8 round37_c2_verify v7 enforced branch
+            bad.append(f"instruction.md:{lo}: cites no case or an unknown case")
+        elif m.group(3) == "enforced" and "fail" not in verdicts:
+## V9 lesson round-37.md:101-102 (spot-check item 6)
+6. Anchor sweep by hand: `grep -o "sha256 [0-9a-f]*" corpus/SOURCES.md`, keep only 64-hex tokens, and compare
+   each with the capture it cites; the S110 63-hex cell must be gone.
+## V10 R37AnchorSweep/fixture-receipt.txt
+CASE M1-erratum-wrong-correction ref=index defects=3/3 ids=S110 classes=digest-short,erratum-digest-unresolved,erratum-incomplete exit=1 ok
+CASE M2-correction-not-in-manifest ref=index defects=2/2 ids=S110 classes=digest-unknown,erratum-incomplete exit=1 ok
+## V11 round-37-claims.md:19
+## C1 — calibration: advertised package-gate clauses that no fixture demonstrates, 50 → 0
+## V12 SCORECARD.md:566 (capability row, start)
+| gate-mutation-harness | Decide which advertised defect classes of a gate its own fixture battery demonstrates: one fro
+## V13 verify.sh line count vs entry:2 span
+91 corpus/evidence/round37/tb2-git-webserver/verify.sh
+lines 1–92
+## V14 round38_c2_verify.py v7 derives from all violating cases
+            bad.append(f"{tag}: no receipt case violates it")
+            continue
+        want = derive(set(violating.values()))
+        if label != want:
+            bad.append(f"{tag}: labelled {label}, receipt derives {want}")
+        cited = re.findall(r"`([a-z0-9-]+)`", rest)
+        if not cited or any(c not in violating for c in cited):
+## V15 anchor_digest_check.py:80 ERRATUM pattern hardcodes round 37
+ERRATUM = re.compile(r"^ {0,3}Erratum \(round 37\): (S\d{3,}) anchor sha256\b")
+## V16 R38AnchorBind draft binds per row; tip receipt
+rows=107 tokens=15 defects=0
+EXIT=0
+## V17 round-38 battery receipts (N19/N20, N17/N18)
+MUTANT N20 D4 silence killed by=d4m-n20-pattern-case-differs -- directional patterns match case-sensitively [F37XMutD4 X4]
+MUTANTS total=2 killed=2 survived=0 invalid=0 null_detected=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+MUTANT N18 MAIN silence killed by=mainx-spec-invalid-json -- an unexpected crash never maps onto 0 or 1 [docstring; R37PlanNext B8]
+MUTANTS total=2 killed=2 survived=0 invalid=0 null_detected=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+## V18 every round-37 falsify VERDICT is terminal
+37
+## V8-note: v7's enforced rule is the one-directional test at plans/round37_c2_verify.py:196-197;
+   def v7 begins at :167; the rule requires 'fail' in the cited verdicts and nothing more.
+## V19 F37RevLesson D2 quote verified at corpus/lessons/round-37.md:102
+   each with the capture it cites; the S110 63-hex cell must be gone.
+## V20 lesson line count
+136 corpus/lessons/round-37.md

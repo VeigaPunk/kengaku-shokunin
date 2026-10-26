@@ -1,0 +1,59 @@
+{
+ "results": {
+  "summary": {
+   "failed": 1,
+   "other": 0,
+   "passed": 3,
+   "pending": 0,
+   "skipped": 0,
+   "start": 1792993711.688535,
+   "stop": 1792993711.707863,
+   "tests": 4
+  },
+  "tests": [
+   {
+    "duration": 0.004195489000267116,
+    "file_path": "test_outputs.py",
+    "name": "test_outputs.py::test_pmars_works",
+    "retries": 0,
+    "start": 1792993711.6961288,
+    "status": "passed",
+    "stop": 1792993711.7004385
+   },
+   {
+    "duration": 0.002822148999257479,
+    "file_path": "test_outputs.py",
+    "message": "The test failed in the call phase due to an assertion error",
+    "name": "test_outputs.py::test_headless_no_x11",
+    "raw_status": "call_failed",
+    "retries": 0,
+    "start": 1792993711.700525,
+    "status": "failed",
+    "stop": 1792993711.707146,
+    "trace": "def test_headless_no_x11():\n        \"\"\"Ensure pmars was built without X11 dependencies for headless server use.\"\"\"\n        ldd_output = run_shell_command(\"ldd /usr/local/bin/pmars\")\n        x11_libs = [\"libX11\", \"libXt\", \"libXext\", \"libXaw\"]\n    \n        for lib in x11_libs:\n>           assert lib not in ldd_output, f\"pmars links against X11 library: {lib}\"\nE           AssertionError: pmars links against X11 library: libX11\nE           assert 'libX11' not in 'linux-vdso....f0157387000)'\nE             \nE             'libX11' is contained here:\nE               linux-vdso.so.1 (0x00007f0157553000)\nE               \tlibX11.so.6 => /usr/lib/libX11.so.6 (0x00007f01573bf000)\nE             ? \t++++++\nE               \tlibc.so.6 => /usr/lib/libc.so.6 (0x00007f0157000000)\nE               \tlibxcb.so.1 => /usr/lib/libxcb.so.1 (0x00007f0157394000)...\nE             \nE             ...Full output truncated (3 lines hidden), use '-vv' to show\n\n/tests/test_outputs.py:57: AssertionError"
+   },
+   {
+    "duration": 0.00022186999922269024,
+    "file_path": "test_outputs.py",
+    "name": "test_outputs.py::test_debian_source_used",
+    "retries": 0,
+    "start": 1792993711.707236,
+    "status": "passed",
+    "stop": 1792993711.7075138
+   },
+   {
+    "duration": 0.00017316999947070144,
+    "file_path": "test_outputs.py",
+    "name": "test_outputs.py::test_built_from_source",
+    "retries": 0,
+    "start": 1792993711.7075763,
+    "status": "passed",
+    "stop": 1792993711.7077975
+   }
+  ],
+  "tool": {
+   "name": "pytest",
+   "version": "8.4.1"
+  }
+ }
+}
