@@ -1,0 +1,10 @@
+PINS total=3 mismatched=0
+FIXTURE l_refuse-work-lane-exists tool=ledger expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE l_refuse-stale-pin-ref tool=ledger expect=error declared=- observed_rc=2 observed=- ok
+MUTANT L01 ledger error killed by=l_refuse-work-lane-exists -- plans/ledger_tip.py:23-25 'Exit codes are the registry row's contract (SKILL.md:581): ... 
+MUTANT L11 ledger error killed by=l_refuse-work-lane-exists -- plans/ledger_tip.py:58 'The clone is created at <work>/lane (must not exist)'
+MUTANT L21 ledger error killed by=l_refuse-stale-pin-ref -- plans/ledger_tip.py:44-45 'REFUSE stale pin ref … (exit 2) the ref exists but resolves to 
+BATTERY fixtures=2 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=3 survived=0 invalid=0 null_detected=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)

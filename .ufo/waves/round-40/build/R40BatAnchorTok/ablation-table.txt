@@ -1,0 +1,45 @@
+=== only_upper
+FIXTURE a_tok-upper-anchor tool=anchor expect=reject declared=digest-uppercase observed_rc=1 observed=digest-uppercase ok
+MUTANT A01 anchor silence killed by=a_tok-upper-anchor -- plans/anchor_digest_check.py:88-89 'any other anchor token must be exactly 64 lowercase he
+MUTANT A02 anchor rc-silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:84-85 'a defect (`abbrev-unresolved`) unless its hex is 8-63 
+MUTANT A03 anchor rc-silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:84-85 (as A02: 'its hex is 8-63 lowercase hex digits')
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=1 survived=2 invalid=0 null_detected=0
+=== only_7hex
+FIXTURE a_tok-abbrev-7hex tool=anchor expect=reject declared=abbrev-unresolved observed_rc=1 observed=abbrev-unresolved ok
+MUTANT A01 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:88-89 'any other anchor token must be exactly 64 lowercase he
+MUTANT A02 anchor rc-silence killed by=a_tok-abbrev-7hex -- plans/anchor_digest_check.py:84-85 'a defect (`abbrev-unresolved`) unless its hex is 8-63 
+MUTANT A03 anchor rc-silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:84-85 (as A02: 'its hex is 8-63 lowercase hex digits')
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=1 survived=2 invalid=0 null_detected=0
+=== only_64hex
+FIXTURE a_tok-abbrev-64hex tool=anchor expect=reject declared=abbrev-unresolved observed_rc=1 observed=abbrev-unresolved ok
+MUTANT A01 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:88-89 'any other anchor token must be exactly 64 lowercase he
+MUTANT A02 anchor rc-silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:84-85 'a defect (`abbrev-unresolved`) unless its hex is 8-63 
+MUTANT A03 anchor rc-silence killed by=a_tok-abbrev-64hex -- plans/anchor_digest_check.py:84-85 (as A02: 'its hex is 8-63 lowercase hex digits')
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=1 survived=2 invalid=0 null_detected=0
+=== minus_upper
+FIXTURE a_tok-abbrev-7hex tool=anchor expect=reject declared=abbrev-unresolved observed_rc=1 observed=abbrev-unresolved ok
+FIXTURE a_tok-abbrev-64hex tool=anchor expect=reject declared=abbrev-unresolved observed_rc=1 observed=abbrev-unresolved ok
+MUTANT A01 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:88-89 'any other anchor token must be exactly 64 lowercase he
+MUTANT A02 anchor rc-silence killed by=a_tok-abbrev-7hex -- plans/anchor_digest_check.py:84-85 'a defect (`abbrev-unresolved`) unless its hex is 8-63 
+MUTANT A03 anchor rc-silence killed by=a_tok-abbrev-64hex -- plans/anchor_digest_check.py:84-85 (as A02: 'its hex is 8-63 lowercase hex digits')
+BATTERY fixtures=2 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=2 survived=1 invalid=0 null_detected=0
+=== minus_7hex
+FIXTURE a_tok-upper-anchor tool=anchor expect=reject declared=digest-uppercase observed_rc=1 observed=digest-uppercase ok
+FIXTURE a_tok-abbrev-64hex tool=anchor expect=reject declared=abbrev-unresolved observed_rc=1 observed=abbrev-unresolved ok
+MUTANT A01 anchor silence killed by=a_tok-upper-anchor -- plans/anchor_digest_check.py:88-89 'any other anchor token must be exactly 64 lowercase he
+MUTANT A02 anchor rc-silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:84-85 'a defect (`abbrev-unresolved`) unless its hex is 8-63 
+MUTANT A03 anchor rc-silence killed by=a_tok-abbrev-64hex -- plans/anchor_digest_check.py:84-85 (as A02: 'its hex is 8-63 lowercase hex digits')
+BATTERY fixtures=2 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=2 survived=1 invalid=0 null_detected=0
+=== minus_64hex
+FIXTURE a_tok-upper-anchor tool=anchor expect=reject declared=digest-uppercase observed_rc=1 observed=digest-uppercase ok
+FIXTURE a_tok-abbrev-7hex tool=anchor expect=reject declared=abbrev-unresolved observed_rc=1 observed=abbrev-unresolved ok
+MUTANT A01 anchor silence killed by=a_tok-upper-anchor -- plans/anchor_digest_check.py:88-89 'any other anchor token must be exactly 64 lowercase he
+MUTANT A02 anchor rc-silence killed by=a_tok-abbrev-7hex -- plans/anchor_digest_check.py:84-85 'a defect (`abbrev-unresolved`) unless its hex is 8-63 
+MUTANT A03 anchor rc-silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:84-85 (as A02: 'its hex is 8-63 lowercase hex digits')
+BATTERY fixtures=2 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=2 survived=1 invalid=0 null_detected=0

@@ -1,0 +1,14 @@
+PINS total=3 mismatched=0
+FIXTURE crit-l-selfread-reject tool=ledger expect=reject declared=NO:r1 observed_rc=1 observed=NO:r1 ok
+FIXTURE crit-l-selfread-error tool=ledger expect=error declared=- observed_rc=2 observed=- ok
+MUTANT L01 ledger error killed by=crit-l-selfread-error -- plans/ledger_tip.py:23-25 'Exit codes are the registry row's contract (SKILL.md:581): ... 
+MUTANT L05 ledger rc-silence killed by=crit-l-selfread-reject -- plans/ledger_tip.py:20-21 'mismatches counts every closed row whose check fails plus every
+MUTANT L06 ledger rc-silence killed by=crit-l-selfread-reject -- plans/ledger_tip.py:23-24 '`0` no mismatch · `1` a ledger row genuinely disagrees' (exit 0
+MUTANT L11 ledger error killed by=crit-l-selfread-error -- plans/ledger_tip.py:58 'The clone is created at <work>/lane (must not exist)'
+MUTANT L14 ledger rc-silence killed by=crit-l-selfread-reject -- plans/ledger_tip.py:228 '# a crash is an observed failure, never a pass'
+MUTANT L15 ledger rc-silence killed by=crit-l-selfread-reject -- plans/ledger_tip.py:20-21 (as L05: a closed row whose check fails is a mismatch; an unknow
+MUTANT L21 ledger error killed by=crit-l-selfread-error -- plans/ledger_tip.py:44-45 'REFUSE stale pin ref … (exit 2) the ref exists but resolves to 
+BATTERY fixtures=2 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=7 killed=7 survived=0 invalid=0 null_detected=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)

@@ -1,0 +1,19 @@
+$ (cd corpus/evidence/round40/tb2-db-wal-recovery && sha256sum -c SHA256SUMS)
+Dockerfile: OK
+instruction.md: OK
+main.db: OK
+main.db-wal.encrypted: OK
+solve.sh: OK
+task.toml: OK
+test.sh: OK
+test_outputs.py: OK
+exit=0
+$ git -C <clone> diff --cached --stat
+ corpus/README.md                               |   2 +
+ corpus/SOURCES.md                              |   2 +
+ corpus/knowledge/tb2-db-wal-recovery-grader.md | 306 +++++++++++++++++++++++++
+ 3 files changed, 310 insertions(+)
+$ git -C <clone> status --porcelain
+M  corpus/README.md
+M  corpus/SOURCES.md
+A  corpus/knowledge/tb2-db-wal-recovery-grader.md

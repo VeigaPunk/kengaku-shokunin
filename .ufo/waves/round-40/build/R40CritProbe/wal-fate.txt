@@ -1,0 +1,15 @@
+# WAL fate under sqlite3 3.54.0 opens (seeded capture main.db + encrypted wal)
+== enc/ro before: main.db:8192 main.db-wal:16512 
+   sqlite: 5
+   after: main.db:8192 main.db-shm:32768 main.db-wal:16512  sha(wal)=68753bdce26196a5
+== enc/rw before: main.db:8192 main.db-wal:16512 
+   sqlite: 5
+   after: main.db:8192  sha(wal)=
+
+# wrong-key (single XOR 0x43 applied to the encrypted WAL, magic becomes 367e0783)
+== wrongkey/ro before: main.db:8192 main.db-wal:16512  head=367e0783
+   sqlite: 5
+   after: main.db:8192 main.db-shm:32768 main.db-wal:16512  sha(wal)=8a46e91ed1cca62f
+== wrongkey/rw before: main.db:8192 main.db-wal:16512  head=367e0783
+   sqlite: 5
+   after: main.db:8192  sha(wal)=

@@ -1,0 +1,48 @@
+######## setup control S1: --round 99 (no claims file) ########
+ROUND-CLOSE ERROR no claims file: plans/round-99-claims.md
+ROUND-CLOSE RESULT ERROR
+exit=2
+######## setup control S2: --lane a subdirectory ########
+ROUND-CLOSE ERROR --lane must be the work-tree top: /fast/scratch/hyaku/kengaku-r40/R40CloseCheck/lane/plans (top is /fast/scratch/hyaku/kengaku-r40/R40CloseCheck/lane)
+ROUND-CLOSE RESULT ERROR
+exit=2
+######## setup control S3: --census points at nothing, SHOKUNIN_ROOT unset ########
+ROUND-CLOSE ERROR no census script (scripts/sources-census.sh); pass --census PATH
+ROUND-CLOSE RESULT ERROR
+exit=2
+######## setup control S4: a clone with no --census and no SHOKUNIN_ROOT ########
+ROUND-CLOSE ERROR no census script (scripts/sources-census.sh); pass --census PATH
+ROUND-CLOSE RESULT ERROR
+exit=2
+######## census control C1: one malformed registry row (uncommitted) on round 39 -> order still PASS, census FAIL ########
+ROUND-CLOSE lane=/fast/scratch/hyaku/kengaku-r40/R40CloseCheck/lane round=39
+ROUND-CLOSE claims=plans/round-39-claims.md sha256=ec8760ea53bdec8814ae1953e5935687ec50332abacfbc188aaab60496ee014a
+ROUND-CLOSE order-tool=plans/order_check.py sha256=948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc
+ROUND-CLOSE receipts=1
+ORDER claims=plans/round-39-claims.md round=39 freeze=088f7c36e94ce2f15e6f9aa0c5a5c5b75a1646c8
+ORDER receipt=corpus/evidence/round39/git-leak-probe.txt receipt_commit=6a1eb5e1da4a435940b821e28530c31f3411549c claims_dir=.ufo/waves/round-39/claims/
+ORDER scanned commits=1 file_entries=7 distinct_blobs=7
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+ROUND-CLOSE order receipt=corpus/evidence/round39/git-leak-probe.txt exit=0 verdict=PASS
+file	W04	S040 duplicate url arxiv.org/abs/2301.09633 across scopes
+file	W04	S048 duplicate url aclanthology.org/2020.acl-main.442 across scopes
+file	W04	S057 duplicate url arxiv.org/abs/2405.11874 across scopes
+file	W04	S058 duplicate url github.com/UKGovernmentBEIS/inspect_ai/blob/63e45cc52d39b873b944124613da21fdad6f6dcc/src/inspect_ai/scorer/_pattern.py across scopes
+file	W04	S059 duplicate url www.rfc-editor.org/rfc/rfc8259 across scopes
+file	W04	S064 duplicate url spec.commonmark.org/0.31.2 across scopes
+file	W04	S065 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S066 duplicate url doi.org/10.1017/S0950268810000385 across scopes
+file	W04	S067 duplicate url doi.org/10.1017/S0950268810000385 across scopes
+file	W04	S068 duplicate url raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/config_files/test.raw.json across scopes
+file	W04	S069 duplicate url raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/evaluation_harness/evaluators.py across scopes
+file	W04	S071 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S075 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S076 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S100 duplicate url github.com/laude-institute/terminal-bench-2 across scopes
+file	E12	S999 row outside Registry section
+ROUND-CLOSE census tool=/home/vgpnk/Projects/shokunin/scripts/sources-census.sh sha256=3fb7261569f46423dd80ecc23e0a23789a7926f667c7a3fc559d2439d4a64e30 cmd=/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --file /fast/scratch/hyaku/kengaku-r40/R40CloseCheck/lane/corpus/SOURCES.md
+ROUND-CLOSE census exit=1 warnings=15 verdict=FAIL
+ROUND-CLOSE RESULT FAIL exit=1
+exit=1
+restored, dirty-lines=0

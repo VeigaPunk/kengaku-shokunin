@@ -1,0 +1,24 @@
+# escape route 1: systemd-run --user from inside bwrap --unshare-pid
+user rc= 1 err= Failed to connect to user scope bus via local transport: No data available
+root rc= 1 err= sudo: /etc/sudo.conf is owned by uid 65534, should be 0
+sudo: The "no new privileges" flag is set, which prevents sudo from running as root.
+sudo: If sudo is running in a container, you may need to adjust the container configuration to disable the flag.
+bwrap rc=0
+
+# escape route 2: sudo -n from inside bwrap
+sudo: /etc/sudo.conf is owned by uid 65534, should be 0
+sudo: The "no new privileges" flag is set, which prevents sudo from running as root.
+sudo: If sudo is running in a container, you may need to adjust the container configuration to disable the flag.
+bwrap rc=1
+
+# escape route 3: user D-Bus StartUnit (unit file in the real user unit dir)
+reload 0
+start rc= 0 err= 
+bwrap rc=0
+stamp after bwrap exited: cat: /fast/scratch/hyaku/kengaku-r40/R40CritC1Counter/esc/stamp8.txt: No such file or directory
+# escape route 3 (retry): user D-Bus StartUnit, fresh unit name, payload writes a stamp
+reload 0
+start rc= 0 err= 
+bwrap rc=0
+bwrap exited; waiting for the unit payload outside the pid namespace
+stamp after ~7s: esc4

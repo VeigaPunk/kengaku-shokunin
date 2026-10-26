@@ -1,0 +1,23 @@
+# sweep lane=/fast/scratch/hyaku/kengaku-r40/R40RegradeSweep/lane
+CASE protein/valid-balanced expected=pass grade1=pass:'-' grade2=pass:'-' regrade=same rc1=0 rc2=0 state_after_1=unchanged state_after_2=unchanged
+CASE protein/stop-codon-appended expected=fail grade1=fail:'End of gBlock must match snap protein.' grade2=fail:'End of gBlock must match snap protein.' regrade=same rc1=0 rc2=0 state_after_1=unchanged state_after_2=unchanged
+CASE protein/donor-one-substitution expected=fail grade1=fail:'Fusion protein must be in the order flag - donor - dhfr - ac' grade2=fail:'Fusion protein must be in the order flag - donor - dhfr - ac' regrade=same rc1=0 rc2=0 state_after_1=unchanged state_after_2=unchanged
+CASE regex/reference-month-aware expected=pass grade1=pass:'-' grade2=pass:'-' regrade=same rc1=0 rc2=0 state_after_1=unchanged state_after_2=unchanged
+CASE regex/first-date-only expected=fail grade1=fail:"Expected ['2025-01-09', '2024-11-01', '2020-01-01', '2019-06" grade2=fail:"Expected ['2025-01-09', '2024-11-01', '2020-01-01', '2019-06" regrade=same rc1=0 rc2=0 state_after_1=unchanged state_after_2=unchanged
+CASE regex/extra-capture-group expected=fail grade1=fail:"Expected ['2025-01-09', '2024-11-01', '2020-01-01', '2019-06" grade2=fail:"Expected ['2025-01-09', '2024-11-01', '2020-01-01', '2019-06" regrade=same rc1=0 rc2=0 state_after_1=unchanged state_after_2=unchanged
+CASE cgw/static-file-no-git expected=pass grade1=pass grade2=pass regrade=same rc1=0 rc2=0 state_after_1=MUT:added=cwd/git_test.exp,home/.ssh,home/.ssh/config,ready state_after_2=TOUCH:cwd/git_test.exp,home/.ssh/config,ready
+CASE cgw/no-server expected=fail grade1=fail grade2=fail regrade=same rc1=0 rc2=0 state_after_1=MUT:added=cwd/git_test.exp,home/.ssh,home/.ssh/config state_after_2=TOUCH:cwd/git_test.exp,home/.ssh/config
+CASE cgw/capitalised expected=fail grade1=fail grade2=fail regrade=same rc1=0 rc2=0 state_after_1=MUT:added=cwd/git_test.exp,home/.ssh,home/.ssh/config,ready state_after_2=TOUCH:cwd/git_test.exp,home/.ssh/config,ready
+CASE bpm/canned-shape expected=pass grade1=PPPP grade2=PPPP regrade=same rc1=0 rc2=0 state_after_1=unchanged state_after_2=unchanged
+CASE bpm/canned-script expected=fail grade1=PFPP grade2=PFPP regrade=same rc1=0 rc2=0 state_after_1=unchanged state_after_2=unchanged
+CASE bpm/nonexec-binary expected=fail grade1=FPPP grade2=FPPP regrade=same rc1=0 rc2=0 state_after_1=unchanged state_after_2=unchanged
+CASE glr/oracle-solve-sh expected=pass grade1=PPPPP grade2=PPPPP regrade=same rc1=0 rc2=0 state_after_1=unchanged state_after_2=unchanged
+CASE glr/untouched expected=fail grade1=FPPPP grade2=FPPPP regrade=same rc1=0 rc2=0 state_after_1=MUT:added=repo/.git/lost-found,repo/.git/lost-found/commit,repo/.git/lost-found/commit/<oid> state_after_2=TOUCH:repo/.git/lost-found/commit/<oid>
+CASE glr/dangling-secret-blob expected=fail grade1=PPPFP grade2=PPPFP regrade=same rc1=0 rc2=0 state_after_1=MUT:added=repo/.git/lost-found,repo/.git/lost-found/other,repo/.git/lost-found/other/<oid> state_after_2=TOUCH:repo/.git/lost-found/other/<oid>
+
+TASK protein cases=3 regrade_diff=0 mutating=no touched_only=no
+TASK regex cases=3 regrade_diff=0 mutating=no touched_only=no
+TASK cgw cases=3 regrade_diff=0 mutating=yes touched_only=no
+TASK bpm cases=3 regrade_diff=0 mutating=no touched_only=no
+TASK glr cases=3 regrade_diff=0 mutating=yes touched_only=no
+TOTAL cases=15 regrade_diff=0

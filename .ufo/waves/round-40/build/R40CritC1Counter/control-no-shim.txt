@@ -1,0 +1,37 @@
+PINS total=3 mismatched=0
+FIXTURE crit-sh-anchor-defect tool=anchor expect=reject declared=capture-unanchored observed_rc=1 observed=capture-unanchored ok
+FIXTURE crit-sh-anchor-clean tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE crit-sh-anchor-upper tool=anchor expect=reject declared=digest-uppercase observed_rc=1 observed=digest-uppercase ok
+FIXTURE crit-sh-order-p10 tool=order expect=reject declared=hit:gate-p10 observed_rc=1 observed=hit:gate-p10 ok
+FIXTURE crit-sh-order-gitlink tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE crit-sh-order-error tool=order expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE crit-l-selfread-reject tool=ledger expect=reject declared=NO:r1 observed_rc=1 observed=NO:r1 ok
+FIXTURE crit-l-selfread-error tool=ledger expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE crit-path-relative tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE crit-tamper-log tool=ledger expect=reject declared=NO:r1 observed_rc=1 observed=NO:r1 ok
+MUTANT A01 anchor silence killed by=crit-sh-anchor-upper -- plans/anchor_digest_check.py:88-89 'any other anchor token must be exactly 64 lowercase he
+MUTANT A02 anchor rc-silence killed by=crit-sh-anchor-defect -- plans/anchor_digest_check.py:84-85 'a defect (`abbrev-unresolved`) unless its hex is 8-63 
+MUTANT A03 anchor rc-silence killed by=crit-sh-anchor-defect -- plans/anchor_digest_check.py:84-85 (as A02: 'its hex is 8-63 lowercase hex digits')
+MUTANT A06 anchor rc-mirror killed by=crit-sh-anchor-clean -- plans/anchor_digest_check.py:31 'Row set — the census shape (... `^ {0,3}\\|\\s*(S\\d{3,})
+MUTANT A08 anchor rc-silence killed by=crit-sh-anchor-defect -- plans/anchor_digest_check.py:81 'a token outside the anchor cell is `token-outside-anchor`
+MUTANT A09 anchor rc-silence killed by=crit-sh-anchor-defect -- plans/anchor_digest_check.py:34-35 'A row that matches the census regex but does not have 
+MUTANT A15 anchor rc-silence killed by=crit-sh-anchor-defect -- plans/anchor_digest_check.py:55 'is matched **exactly** against the `name = "<org>/<task>"
+MUTANT A17 anchor rc-mirror killed by=crit-sh-anchor-clean -- plans/anchor_digest_check.py:74 '`--evidence-ref index` reads the index blobs (`git cat-fi
+MUTANT A21 anchor rc-mirror killed by=crit-sh-anchor-clean -- plans/anchor_digest_check.py:44-46 'the digest that entry lists, and the digest of the com
+MUTANT A22 anchor rc-mirror killed by=crit-sh-anchor-clean -- plans/anchor_digest_check.py:44-46 (as A21: the manifest entry is an accepted view of the 
+MUTANT A27 anchor silence killed by=crit-sh-anchor-defect -- plans/anchor_digest_check.py:96-98 'A capture none of the row's anchor tokens resolves is 
+MUTANT L01 ledger error killed by=crit-l-selfread-error -- plans/ledger_tip.py:23-25 'Exit codes are the registry row's contract (SKILL.md:581): ... 
+MUTANT L05 ledger rc-silence killed by=crit-l-selfread-reject -- plans/ledger_tip.py:20-21 'mismatches counts every closed row whose check fails plus every
+MUTANT L06 ledger rc-silence killed by=crit-l-selfread-reject -- plans/ledger_tip.py:23-24 '`0` no mismatch · `1` a ledger row genuinely disagrees' (exit 0
+MUTANT L11 ledger error killed by=crit-l-selfread-error -- plans/ledger_tip.py:58 'The clone is created at <work>/lane (must not exist)'
+MUTANT L14 ledger rc-silence killed by=crit-l-selfread-reject -- plans/ledger_tip.py:228 '# a crash is an observed failure, never a pass'
+MUTANT L15 ledger rc-silence killed by=crit-l-selfread-reject -- plans/ledger_tip.py:20-21 (as L05: a closed row whose check fails is a mismatch; an unknow
+MUTANT L21 ledger error killed by=crit-l-selfread-error -- plans/ledger_tip.py:44-45 'REFUSE stale pin ref … (exit 2) the ref exists but resolves to 
+MUTANT O04 order rc-silence killed by=crit-sh-order-p10 -- plans/order_check.py:15-16 'a gate `P10` line whose detail is anything other than `receipt
+MUTANT O12 order rc-error killed by=crit-sh-order-gitlink -- plans/order_check.py:37 'it reads every blob under claims/' (non-blob tree entries are not
+MUTANT O14 order error killed by=crit-sh-order-error -- plans/order_check.py:26-27 'Exit: ... 2 setup error (..., unparseable round number, bad ar
+TAMPERED crit-tamper-log fixture tree changed during the run
+BATTERY fixtures=10 wrong=0 tampered=1 sidechannel=0
+MUTANTS total=21 killed=21 survived=0 invalid=0 null_detected=0
+PINS-AFTER mismatched=0
+PREDICATE C1 fail

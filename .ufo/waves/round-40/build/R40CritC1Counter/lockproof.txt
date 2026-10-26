@@ -1,0 +1,19 @@
+# the fixture's check body writes <fixture>/state.lock during every tool run
+$ ls $D        # before
+repo
+state.lock
+$ python3 plans/ledger_tip.py --lane $D/repo
+TIP commit=5c6ac8dfc6f04cdd9d4bf2cc16bffb1964c8d643 control=/fast/scratch/hyaku/kengaku-r40/R40CritC1Counter/lockproof/fx/crit_ledger_selfread/f000/repo dirty=1
+r1 status=closed observed=fail agree=NO wrote8-bytes ledger=corpus/defects.jsonl kind=unknown
+LEDGER corpus/defects.jsonl rows=1 closed=1 observed_pass=0 mismatches=1
+LEDGER corpus/defects-round35.jsonl rows=0 closed=0 observed_pass=0 mismatches=0
+rows=1 closed=1 observed_pass=0 mismatches=1
+tool rc=1
+$ ls $D        # after
+repo
+state.lock
+$ cat $D/state.lock
+touched
+
+# and the counter hashes every file under the fixture except .git/index and *.lock (round40_c1_verify.py:317),
+# so the whole run prints tampered=0 while this file was created and rewritten on every run

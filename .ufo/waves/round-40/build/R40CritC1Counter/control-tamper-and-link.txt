@@ -1,0 +1,9 @@
+PINS total=3 mismatched=0
+FIXTURE crit-path-relative tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE crit-tamper-log tool=ledger expect=reject declared=NO:r1 observed_rc=1 observed=NO:r1 ok
+MUTANT L05 ledger rc-silence SURVIVED exhibits=none -- plans/ledger_tip.py:20-21 'mismatches counts every closed row whose check fails plus every
+TAMPERED crit-tamper-log fixture tree changed during the run
+BATTERY fixtures=2 wrong=0 tampered=1 sidechannel=0
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)

@@ -1,0 +1,7 @@
+# tb2 db-wal-recovery grader probe (kengaku round 40) @ terminal-bench-2 2fd12b88
+# capture main.db sha256=68cb288eb29e76d814b4e7ee6887b37c415675e644f88173bc191348e290d119
+# capture main.db-wal.encrypted sha256=68753bdce26196a53194260d001544cc6bb8f9f38e2f2f6826d09798e31e6e26
+# capture solve.sh sha256=ed8530c94103bf19783a1d41bc63fe4db478cdd9629f22fee25c45a45699f5e8
+# capture test_outputs.py sha256=88dc5c2a3abba75bca0e0f9136223ae5bb585d5984b8d9eba51a7829c1d2ba49
+CASE empty-app predicted=fail observed=fail tests=FFFFFFF predicted_tests=FFFFFFF match=yes regrade=same violates=extract-all,json-at-path,eleven-records test_recovered_json_is_valid:error=FileNotFoundError,test_recovered_data_structure:error=FileNotFoundError,test_recovered_data_sorted:error=FileNotFoundError,test_recovered_data_completeness:error=FileNotFoundError,test_no_duplicate_ids:error=FileNotFoundError,test_wal_was_decrypted:error=FileNotFoundError -- do-nothing on an empty /app: no database, no recovered.json
+CASE untouched predicted=fail observed=fail tests=FFFFFFF predicted_tests=FFFFFFF match=yes regrade=same violates=fix-wal,extract-all,json-at-path,eleven-records test_recovered_json_is_valid:error=FileNotFoundError,test_recovered_data_structure:error=FileNotFoundError,test_recovered_data_sorted:error=FileNotFoundError,test_recovered_data_completeness:error=FileNotFoundError,test_no_duplicate_ids:error=FileNotFoundError,test_wal_was_decrypted:error=FileNotFoundError -- do-nothing on the task's initial state (pilot nop)

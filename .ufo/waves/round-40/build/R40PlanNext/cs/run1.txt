@@ -1,0 +1,18 @@
+# constraints-scheduling probe (R40PlanNext) @ terminal-bench-2 2fd12b88, host python 3.14.8
+nop                              tests=3 fail=C,E,S  pred=C,E,S  match=YES regrade=same  # no output file: all three tests read it
+oracle-solve.sh                  tests=3 fail=-      pred=-      match=YES regrade=same  # task's own solve.sh
+literal-correct-slot             tests=3 fail=-      pred=-      match=YES regrade=same  # hand-typed ICS for Wed 11:00, never reads calendars
+later-valid-wed-1105             tests=3 fail=C,E    pred=E      match=NO regrade=same  # valid but 5 minutes after the earliest
+later-valid-thu-1100             tests=3 fail=E      pred=E      match=YES regrade=same  # valid, a day late
+conflict-mon-1230                tests=3 fail=C,E    pred=C,E    match=YES regrade=same  # overlaps Alice 13:00 event
+bob-start-0900-wed               tests=3 fail=C      pred=C      match=YES regrade=same  # Bob no meetings before 10; earliest test passes because _hard_ok rejects 9:00 too
+decoy-first-vevent               tests=3 fail=-      pred=-      match=YES regrade=same  # tests 2-3 read the first DTSTART in the file, test 1 reads the attendee VEVENT
+duration-90min                   tests=3 fail=S      pred=S      match=YES regrade=same  # DTEND ignored by tests 2-3
+missing-carol                    tests=3 fail=S      pred=S      match=YES regrade=same  # attendee missing
+title-wrong                      tests=3 fail=S      pred=S      match=YES regrade=same  # summary differs
+seconds-30                       tests=3 fail=C,E    pred=E      match=NO regrade=same  # minute granularity: 11:00:30 > earlier 11:00:00
+tzid-form                        tests=3 fail=C,E,S  pred=C,E,S  match=YES regrade=same  # no Z-timestamp -> regex miss
+weekend-sat-20                   tests=3 fail=C,E,S  pred=C,E,S  match=YES regrade=same  # outside Jan 15-19
+input-appended                   tests=3 fail=S      pred=S      match=YES regrade=same  # calendar byte-modified, slot correct
+input-event-deleted-wed-1000     tests=3 fail=S      pred=S      match=YES regrade=same  # remove Alice's Wed 10:00 event then book Wed 10:00; only the sha256 integrity check sees it
+cases=16 observed_pass=3 observed_fail=13 mismatches=2 regrade_differ=0

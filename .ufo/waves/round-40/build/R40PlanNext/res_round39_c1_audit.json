@@ -1,0 +1,136 @@
+{
+ "tool": "round39_c1_audit",
+ "population": 201,
+ "sampled": 9,
+ "counts": {
+  "survived": 6,
+  "killed": 3
+ },
+ "by_kind": {
+  "if": {
+   "n": 1,
+   "surv": 1
+  },
+  "bool": {
+   "n": 3,
+   "surv": 2
+  },
+  "cmp": {
+   "n": 5,
+   "surv": 3
+  }
+ },
+ "base_stable": true,
+ "identity_ok": true,
+ "sha": "6fe528383276954bcb5b0699028207482d67b0cea805892a76e588c7a2f9467f",
+ "mutants": [
+  {
+   "kind": "if",
+   "line": 254,
+   "a": 15586,
+   "b": 15606,
+   "new": "False",
+   "desc": "if-test -> False",
+   "src": "direction == \"error\"",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "bool",
+   "line": 278,
+   "a": 16829,
+   "b": 16831,
+   "new": "and",
+   "desc": "or -> and",
+   "src": "or",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 319,
+   "a": 19092,
+   "b": 19094,
+   "new": "not in",
+   "desc": "in -> not in",
+   "src": "in",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 350,
+   "a": 20538,
+   "b": 20540,
+   "new": "not in",
+   "desc": "in -> not in",
+   "src": "in",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 423,
+   "a": 24659,
+   "b": 24661,
+   "new": "!=",
+   "desc": "== -> !=",
+   "src": "==",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 425,
+   "a": 24849,
+   "b": 24851,
+   "new": "!=",
+   "desc": "== -> !=",
+   "src": "==",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "bool",
+   "line": 425,
+   "a": 24921,
+   "b": 24924,
+   "new": "or",
+   "desc": "and -> or",
+   "src": "and",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "bool",
+   "line": 425,
+   "a": 24858,
+   "b": 24861,
+   "new": "or",
+   "desc": "and -> or",
+   "src": "and",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 426,
+   "a": 24971,
+   "b": 24973,
+   "new": "!=",
+   "desc": "== -> !=",
+   "src": "==",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  }
+ ]
+}

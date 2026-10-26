@@ -1,0 +1,11 @@
+PINS total=3 mismatched=0
+FIXTURE a_bind-a27-token-per-capture tool=anchor expect=reject declared=capture-unanchored observed_rc=1 observed=capture-unanchored ok
+FIXTURE a_bind-a15-slug-ambiguity tool=anchor expect=reject declared=anchor-unbound observed_rc=1 observed=anchor-unbound ok
+FIXTURE a_bind-a17-index-bytes tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT A15 anchor rc-silence killed by=a_bind-a15-slug-ambiguity -- plans/anchor_digest_check.py:55 'is matched **exactly** against the `name = "<org>/<task>"
+MUTANT A17 anchor rc-mirror killed by=a_bind-a17-index-bytes -- plans/anchor_digest_check.py:74 '`--evidence-ref index` reads the index blobs (`git cat-fi
+MUTANT A27 anchor silence killed by=a_bind-a27-token-per-capture -- plans/anchor_digest_check.py:96-98 'A capture none of the row's anchor tokens resolves is 
+BATTERY fixtures=3 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=3 survived=0 invalid=0 null_detected=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)

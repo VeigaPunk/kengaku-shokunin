@@ -1,0 +1,10 @@
+PINS total=3 mismatched=0
+FIXTURE a_row-indent4-wrong tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_row-token-in-teaches tool=anchor expect=reject declared=token-outside-anchor observed_rc=1 observed=token-outside-anchor ok
+MUTANT A06 anchor rc-mirror killed by=a_row-indent4-wrong -- plans/anchor_digest_check.py:31 'Row set — the census shape (... `^ {0,3}\\|\\s*(S\\d{3,})
+MUTANT A08 anchor rc-silence killed by=a_row-token-in-teaches -- plans/anchor_digest_check.py:81 'a token outside the anchor cell is `token-outside-anchor`
+MUTANT A09 anchor rc-silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:34-35 'A row that matches the census regex but does not have 
+BATTERY fixtures=2 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=2 survived=1 invalid=0 null_detected=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)

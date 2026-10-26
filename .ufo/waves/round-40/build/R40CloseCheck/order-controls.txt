@@ -1,0 +1,68 @@
+Five two-commit fixture repos (same recipe as --selftest): git init -q <D>; plans/order_check.py + corpus/SOURCES.md + corpus/{knowledge,lessons} seeded; commit A = freeze (claims naming plans/git_leak_probe.py + .ufo/waves/round-39/claims/control-c2-nothing.txt); commit B = corpus/evidence/round39/git-leak-probe.txt (CASE c01 observed=PASS). Only commit order and the control file body differ.
+######## fixture A-excused-p10 ########
+ROUND-CLOSE lane=/fast/scratch/hyaku/kengaku-r40/R40CloseCheck/fa round=39
+ROUND-CLOSE claims=plans/round-39-claims.md sha256=fe92af7f859f49e72317616fb76f56d014fdba2d9a2e1b2c0055f44c8c32f98a
+ROUND-CLOSE order-tool=plans/order_check.py sha256=948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc
+ROUND-CLOSE receipts=1
+ORDER claims=plans/round-39-claims.md round=39 freeze=c73703bdbca848e4227d694d2ff30f9e28439563
+ORDER receipt=corpus/evidence/round39/git-leak-probe.txt receipt_commit=017b25ff26a937d7e5e9430eed360002e93284b1 claims_dir=.ufo/waves/round-39/claims/
+ORDER scanned commits=1 file_entries=1 distinct_blobs=1
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+ROUND-CLOSE order receipt=corpus/evidence/round39/git-leak-probe.txt exit=0 verdict=PASS
+ROUND-CLOSE census tool=/home/vgpnk/Projects/shokunin/scripts/sources-census.sh sha256=3fb7261569f46423dd80ecc23e0a23789a7926f667c7a3fc559d2439d4a64e30 cmd=/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --file /fast/scratch/hyaku/kengaku-r40/R40CloseCheck/fa/corpus/SOURCES.md
+ROUND-CLOSE census exit=0 warnings=15 verdict=PASS
+ROUND-CLOSE RESULT PASS exit=0
+exit=0
+######## fixture B-executed-p10 ########
+ROUND-CLOSE lane=/fast/scratch/hyaku/kengaku-r40/R40CloseCheck/fb round=39
+ROUND-CLOSE claims=plans/round-39-claims.md sha256=fe92af7f859f49e72317616fb76f56d014fdba2d9a2e1b2c0055f44c8c32f98a
+ROUND-CLOSE order-tool=plans/order_check.py sha256=948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc
+ROUND-CLOSE receipts=1
+ORDER claims=plans/round-39-claims.md round=39 freeze=3cf2bab9c77d7e6305b7de5d5f6461d61451a7fd
+ORDER receipt=corpus/evidence/round39/git-leak-probe.txt receipt_commit=b507b13b8f3f74372348d50727d5ec06e1ae0df7 claims_dir=.ufo/waves/round-39/claims/
+ORDER scanned commits=1 file_entries=1 distinct_blobs=1
+ORDER HIT .ufo/waves/round-39/claims/control-c2-nothing.txt@3cf2bab9c77d:1 kind=gate-p10 `gate: P10 DEFECT fresh probe output is not byte-equal to the receipt`
+ORDER FAIL probe-executed-before-receipt hits=1
+ORDER RESULT FAIL
+ROUND-CLOSE order receipt=corpus/evidence/round39/git-leak-probe.txt exit=1 verdict=FAIL
+ROUND-CLOSE census tool=/home/vgpnk/Projects/shokunin/scripts/sources-census.sh sha256=3fb7261569f46423dd80ecc23e0a23789a7926f667c7a3fc559d2439d4a64e30 cmd=/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --file /fast/scratch/hyaku/kengaku-r40/R40CloseCheck/fb/corpus/SOURCES.md
+ROUND-CLOSE census exit=0 warnings=15 verdict=PASS
+ROUND-CLOSE RESULT FAIL exit=1
+exit=1
+######## fixture C-receipt-first ########
+ROUND-CLOSE lane=/fast/scratch/hyaku/kengaku-r40/R40CloseCheck/fc round=39
+ROUND-CLOSE claims=plans/round-39-claims.md sha256=fe92af7f859f49e72317616fb76f56d014fdba2d9a2e1b2c0055f44c8c32f98a
+ROUND-CLOSE order-tool=plans/order_check.py sha256=948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc
+ROUND-CLOSE receipts=1
+ORDER claims=plans/round-39-claims.md round=39 freeze=4f3ec187d584b354a9c62cbf4154bf2419627a7e
+ORDER receipt=corpus/evidence/round39/git-leak-probe.txt receipt_commit=d67e9edf7ca2f7ff7c4a0edd101dffe5d193c6d1 claims_dir=.ufo/waves/round-39/claims/
+ORDER FAIL freeze-contains-receipt 4f3ec187d584b354a9c62cbf4154bf2419627a7e already has corpus/evidence/round39/git-leak-probe.txt
+ORDER FAIL receipt-before-claims d67e9edf7ca2f7ff7c4a0edd101dffe5d193c6d1 is an ancestor of 4f3ec187d584b354a9c62cbf4154bf2419627a7e
+ORDER scanned commits=0 file_entries=0 distinct_blobs=0
+ORDER FAIL freeze-contains-receipt receipt-before-claims hits=0
+ORDER RESULT FAIL
+ROUND-CLOSE order receipt=corpus/evidence/round39/git-leak-probe.txt exit=1 verdict=FAIL
+ROUND-CLOSE census tool=/home/vgpnk/Projects/shokunin/scripts/sources-census.sh sha256=3fb7261569f46423dd80ecc23e0a23789a7926f667c7a3fc559d2439d4a64e30 cmd=/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --file /fast/scratch/hyaku/kengaku-r40/R40CloseCheck/fc/corpus/SOURCES.md
+ROUND-CLOSE census exit=0 warnings=15 verdict=PASS
+ROUND-CLOSE RESULT FAIL exit=1
+exit=1
+######## fixture D-receipt-uncommitted ########
+ROUND-CLOSE lane=/fast/scratch/hyaku/kengaku-r40/R40CloseCheck/fd round=39
+ROUND-CLOSE claims=plans/round-39-claims.md sha256=fe92af7f859f49e72317616fb76f56d014fdba2d9a2e1b2c0055f44c8c32f98a
+ROUND-CLOSE order-tool=plans/order_check.py sha256=948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc
+ROUND-CLOSE receipts=1
+ORDER RESULT ERROR
+ORDER ERROR receipt not committed in HEAD: corpus/evidence/round39/git-leak-probe.txt
+ROUND-CLOSE order receipt=corpus/evidence/round39/git-leak-probe.txt exit=2 verdict=ERROR
+ROUND-CLOSE census tool=/home/vgpnk/Projects/shokunin/scripts/sources-census.sh sha256=3fb7261569f46423dd80ecc23e0a23789a7926f667c7a3fc559d2439d4a64e30 cmd=/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --file /fast/scratch/hyaku/kengaku-r40/R40CloseCheck/fd/corpus/SOURCES.md
+ROUND-CLOSE census exit=0 warnings=15 verdict=PASS
+ROUND-CLOSE RESULT ERROR exit=2
+exit=2
+######## fixture E-no-receipt-named ########
+ROUND-CLOSE lane=/fast/scratch/hyaku/kengaku-r40/R40CloseCheck/fe round=39
+ROUND-CLOSE claims=plans/round-39-claims.md sha256=484915f34376bb914a733f05c87628371f5b542076baa2463b01127b5a98b80a
+ROUND-CLOSE order-tool=plans/order_check.py sha256=948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc
+ROUND-CLOSE ERROR the claims name no readable receipt for round 39
+ROUND-CLOSE RESULT ERROR
+exit=2

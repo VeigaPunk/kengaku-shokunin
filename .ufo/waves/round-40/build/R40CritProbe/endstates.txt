@@ -1,0 +1,399 @@
+=== truth-exact (NOT a frozen case) ===
+RECIPE rc=0
+  AFTER-RECIPE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-RECIPE main.db-wal                  size=16512  sha256=68753bdce26196a5 head=753d44c0426fa05a
+  AFTER-RECIPE recovered.json               size=472    sha256=dd04f318daf77655 head=5b7b226964223a20
+JSON top=list len=11
+JSON row {"id": 1, "name": "apple", "value": 150} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 2, "name": "banana", "value": 250} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 3, "name": "cherry", "value": 300} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON ids [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+JSON values [150, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]
+JSON names ['apple', 'banana', 'cherry', 'date', 'elderberry', 'fig', 'grape', 'honeydew', 'kiwi', 'lemon', 'mango']
+SQLITE(ro) count=5 rows=[(1, 'apple', 100), (2, 'banana', 200), (3, 'cherry', 300), (4, 'date', 400), (5, 'elderberry', 500)]
+  AFTER-OBSERVE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-OBSERVE main.db-shm                  size=32768  sha256=fd4c9fda9cd3f9ae head=18e22d0000000000
+  AFTER-OBSERVE main.db-wal                  size=16512  sha256=68753bdce26196a5 head=753d44c0426fa05a
+  AFTER-OBSERVE recovered.json               size=472    sha256=dd04f318daf77655 head=5b7b226964223a20
+TEST test_recovered_json_exists P
+TEST test_recovered_json_is_valid P
+TEST test_recovered_data_structure P
+TEST test_recovered_data_sorted P
+TEST test_recovered_data_completeness P
+TEST test_no_duplicate_ids P
+TEST test_wal_was_decrypted P
+
+=== base-only-ro ===
+RECIPE rc=0
+  AFTER-RECIPE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-RECIPE main.db-shm                  size=32768  sha256=fd4c9fda9cd3f9ae head=18e22d0000000000
+  AFTER-RECIPE main.db-wal                  size=16512  sha256=68753bdce26196a5 head=753d44c0426fa05a
+  AFTER-RECIPE recovered.json               size=216    sha256=dc514e5ed0589bb0 head=5b7b226964223a20
+JSON top=list len=5
+JSON row {"id": 1, "name": "apple", "value": 100} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 2, "name": "banana", "value": 200} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 3, "name": "cherry", "value": 300} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON ids [1, 2, 3, 4, 5]
+JSON values [100, 200, 300, 400, 500]
+JSON names ['apple', 'banana', 'cherry', 'date', 'elderberry']
+SQLITE(ro) count=5 rows=[(1, 'apple', 100), (2, 'banana', 200), (3, 'cherry', 300), (4, 'date', 400), (5, 'elderberry', 500)]
+  AFTER-OBSERVE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-OBSERVE main.db-shm                  size=32768  sha256=fd4c9fda9cd3f9ae head=18e22d0000000000
+  AFTER-OBSERVE main.db-wal                  size=16512  sha256=68753bdce26196a5 head=753d44c0426fa05a
+  AFTER-OBSERVE recovered.json               size=216    sha256=dc514e5ed0589bb0 head=5b7b226964223a20
+TEST test_recovered_json_exists P
+TEST test_recovered_json_is_valid P
+TEST test_recovered_data_structure P
+TEST test_recovered_data_sorted P
+TEST test_recovered_data_completeness F
+TEST test_no_duplicate_ids P
+TEST test_wal_was_decrypted F
+
+=== plain-read-then-solve ===
+RECIPE rc=0
+  AFTER-RECIPE decrypt_wal.py               size=896    sha256=7c65b93d7d0ea8ac head=23212f7573722f62
+  AFTER-RECIPE extract_data.py              size=1054   sha256=b0035a3de69189c5 head=23212f7573722f62
+  AFTER-RECIPE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-RECIPE main.db-shm                  size=32768  sha256=fd4c9fda9cd3f9ae head=18e22d0000000000
+  AFTER-RECIPE main.db-wal                  size=0      sha256=- head=
+  AFTER-RECIPE main.db-wal.decrypted        size=0      sha256=- head=
+  AFTER-RECIPE recovered.json               size=308    sha256=72b9ec441c7efcbf head=5b0a20207b0a2020
+JSON top=list len=5
+JSON row {"id": 1, "name": "apple", "value": 100} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 2, "name": "banana", "value": 200} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 3, "name": "cherry", "value": 300} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON ids [1, 2, 3, 4, 5]
+JSON values [100, 200, 300, 400, 500]
+JSON names ['apple', 'banana', 'cherry', 'date', 'elderberry']
+SQLITE(ro) count=5 rows=[(1, 'apple', 100), (2, 'banana', 200), (3, 'cherry', 300), (4, 'date', 400), (5, 'elderberry', 500)]
+  AFTER-OBSERVE decrypt_wal.py               size=896    sha256=7c65b93d7d0ea8ac head=23212f7573722f62
+  AFTER-OBSERVE extract_data.py              size=1054   sha256=b0035a3de69189c5 head=23212f7573722f62
+  AFTER-OBSERVE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-OBSERVE main.db-shm                  size=32768  sha256=fd4c9fda9cd3f9ae head=18e22d0000000000
+  AFTER-OBSERVE main.db-wal                  size=0      sha256=- head=
+  AFTER-OBSERVE main.db-wal.decrypted        size=0      sha256=- head=
+  AFTER-OBSERVE recovered.json               size=308    sha256=72b9ec441c7efcbf head=5b0a20207b0a2020
+TEST test_recovered_json_exists P
+TEST test_recovered_json_is_valid P
+TEST test_recovered_data_structure P
+TEST test_recovered_data_sorted P
+TEST test_recovered_data_completeness F
+TEST test_no_duplicate_ids P
+TEST test_wal_was_decrypted F
+
+=== xor-wrong-key ===
+RECIPE rc=0
+  AFTER-RECIPE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-RECIPE recovered.json               size=216    sha256=dc514e5ed0589bb0 head=5b7b226964223a20
+JSON top=list len=5
+JSON row {"id": 1, "name": "apple", "value": 100} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 2, "name": "banana", "value": 200} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 3, "name": "cherry", "value": 300} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON ids [1, 2, 3, 4, 5]
+JSON values [100, 200, 300, 400, 500]
+JSON names ['apple', 'banana', 'cherry', 'date', 'elderberry']
+SQLITE(ro) count=5 rows=[(1, 'apple', 100), (2, 'banana', 200), (3, 'cherry', 300), (4, 'date', 400), (5, 'elderberry', 500)]
+  AFTER-OBSERVE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-OBSERVE main.db-shm                  size=32768  sha256=fd4c9fda9cd3f9ae head=18e22d0000000000
+  AFTER-OBSERVE main.db-wal                  size=0      sha256=- head=
+  AFTER-OBSERVE recovered.json               size=216    sha256=dc514e5ed0589bb0 head=5b7b226964223a20
+TEST test_recovered_json_exists P
+TEST test_recovered_json_is_valid P
+TEST test_recovered_data_structure P
+TEST test_recovered_data_sorted P
+TEST test_recovered_data_completeness F
+TEST test_no_duplicate_ids P
+TEST test_wal_was_decrypted F
+
+=== truth-value-string-id4 ===
+RECIPE rc=0
+  AFTER-RECIPE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-RECIPE main.db-wal                  size=16512  sha256=68753bdce26196a5 head=753d44c0426fa05a
+  AFTER-RECIPE recovered.json               size=474    sha256=edbbf1fd972fcf2a head=5b7b226964223a20
+JSON top=list len=11
+JSON row {"id": 1, "name": "apple", "value": 150} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 2, "name": "banana", "value": 250} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 3, "name": "cherry", "value": 300} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON ids [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+JSON values [150, 250, 300, '400', 500, 600, 700, 800, 900, 1000, 1100]
+JSON names ['apple', 'banana', 'cherry', 'date', 'elderberry', 'fig', 'grape', 'honeydew', 'kiwi', 'lemon', 'mango']
+SQLITE(ro) count=5 rows=[(1, 'apple', 100), (2, 'banana', 200), (3, 'cherry', 300), (4, 'date', 400), (5, 'elderberry', 500)]
+  AFTER-OBSERVE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-OBSERVE main.db-shm                  size=32768  sha256=fd4c9fda9cd3f9ae head=18e22d0000000000
+  AFTER-OBSERVE main.db-wal                  size=16512  sha256=68753bdce26196a5 head=753d44c0426fa05a
+  AFTER-OBSERVE recovered.json               size=474    sha256=edbbf1fd972fcf2a head=5b7b226964223a20
+TEST test_recovered_json_exists P
+TEST test_recovered_json_is_valid P
+TEST test_recovered_data_structure F
+TEST test_recovered_data_sorted P
+TEST test_recovered_data_completeness P
+TEST test_no_duplicate_ids P
+TEST test_wal_was_decrypted P
+
+=== truth-ids-as-strings ===
+RECIPE rc=0
+  AFTER-RECIPE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-RECIPE main.db-wal                  size=16512  sha256=68753bdce26196a5 head=753d44c0426fa05a
+  AFTER-RECIPE recovered.json               size=494    sha256=f164c19cad2eb5ca head=5b7b226964223a20
+JSON top=list len=11
+JSON row {"id": "1", "name": "apple", "value": 150} {'id': 'str', 'name': 'str', 'value': 'int'}
+JSON row {"id": "2", "name": "banana", "value": 250} {'id': 'str', 'name': 'str', 'value': 'int'}
+JSON row {"id": "3", "name": "cherry", "value": 300} {'id': 'str', 'name': 'str', 'value': 'int'}
+JSON ids ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']
+JSON values [150, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]
+JSON names ['apple', 'banana', 'cherry', 'date', 'elderberry', 'fig', 'grape', 'honeydew', 'kiwi', 'lemon', 'mango']
+SQLITE(ro) count=5 rows=[(1, 'apple', 100), (2, 'banana', 200), (3, 'cherry', 300), (4, 'date', 400), (5, 'elderberry', 500)]
+  AFTER-OBSERVE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-OBSERVE main.db-shm                  size=32768  sha256=fd4c9fda9cd3f9ae head=18e22d0000000000
+  AFTER-OBSERVE main.db-wal                  size=16512  sha256=68753bdce26196a5 head=753d44c0426fa05a
+  AFTER-OBSERVE recovered.json               size=494    sha256=f164c19cad2eb5ca head=5b7b226964223a20
+TEST test_recovered_json_exists P
+TEST test_recovered_json_is_valid P
+TEST test_recovered_data_structure F
+TEST test_recovered_data_sorted F
+TEST test_recovered_data_completeness F
+TEST test_no_duplicate_ids P
+TEST test_wal_was_decrypted P
+
+=== oracle-solve-sh ===
+RECIPE rc=0
+  AFTER-RECIPE decrypt_wal.py               size=896    sha256=7c65b93d7d0ea8ac head=23212f7573722f62
+  AFTER-RECIPE extract_data.py              size=1054   sha256=b0035a3de69189c5 head=23212f7573722f62
+  AFTER-RECIPE main.db                      size=8192   sha256=682055f65aadf683 head=53514c6974652066
+  AFTER-RECIPE main.db-shm                  size=32768  sha256=fd4c9fda9cd3f9ae head=18e22d0000000000
+  AFTER-RECIPE main.db-wal                  size=0      sha256=- head=
+  AFTER-RECIPE main.db-wal.decrypted        size=16512  sha256=a00cfbf891cb3615 head=377f0682002de218
+  AFTER-RECIPE recovered.json               size=672    sha256=3e0598b7a9e37602 head=5b0a20207b0a2020
+JSON top=list len=11
+JSON row {"id": 1, "name": "apple", "value": 150} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 2, "name": "banana", "value": 250} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 3, "name": "cherry", "value": 300} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON ids [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+JSON values [150, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]
+JSON names ['apple', 'banana', 'cherry', 'date', 'elderberry', 'fig', 'grape', 'honeydew', 'kiwi', 'lemon', 'mango']
+SQLITE(ro) count=11 rows=[(1, 'apple', 150), (2, 'banana', 250), (3, 'cherry', 300), (4, 'date', 400), (5, 'elderberry', 500), (6, 'fig', 600), (7, 'grape', 700), (8, 'honeydew', 800), (9, 'kiwi', 900), (10, 'lemon', 1000), (11, 'mango', 1100)]
+  AFTER-OBSERVE decrypt_wal.py               size=896    sha256=7c65b93d7d0ea8ac head=23212f7573722f62
+  AFTER-OBSERVE extract_data.py              size=1054   sha256=b0035a3de69189c5 head=23212f7573722f62
+  AFTER-OBSERVE main.db                      size=8192   sha256=682055f65aadf683 head=53514c6974652066
+  AFTER-OBSERVE main.db-shm                  size=32768  sha256=fd4c9fda9cd3f9ae head=18e22d0000000000
+  AFTER-OBSERVE main.db-wal                  size=0      sha256=- head=
+  AFTER-OBSERVE main.db-wal.decrypted        size=16512  sha256=a00cfbf891cb3615 head=377f0682002de218
+  AFTER-OBSERVE recovered.json               size=672    sha256=3e0598b7a9e37602 head=5b0a20207b0a2020
+TEST test_recovered_json_exists P
+TEST test_recovered_json_is_valid P
+TEST test_recovered_data_structure P
+TEST test_recovered_data_sorted P
+TEST test_recovered_data_completeness P
+TEST test_no_duplicate_ids P
+TEST test_wal_was_decrypted P
+
+=== literals-never-open-db ===
+RECIPE rc=0
+  AFTER-RECIPE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-RECIPE main.db-wal                  size=16512  sha256=68753bdce26196a5 head=753d44c0426fa05a
+  AFTER-RECIPE recovered.json               size=452    sha256=05a6bccfad014bfa head=5b7b226964223a20
+JSON top=list len=11
+JSON row {"id": 1, "name": "apple", "value": 150} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 2, "name": "banana", "value": 250} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 3, "name": "cherry", "value": 0} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON ids [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+JSON values [150, 250, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+JSON names ['apple', 'banana', 'cherry', 'date', 'elderberry', 'fig', 'grape', 'honeydew', 'kiwi', 'lemon', 'mango']
+SQLITE(ro) count=5 rows=[(1, 'apple', 100), (2, 'banana', 200), (3, 'cherry', 300), (4, 'date', 400), (5, 'elderberry', 500)]
+  AFTER-OBSERVE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-OBSERVE main.db-shm                  size=32768  sha256=fd4c9fda9cd3f9ae head=18e22d0000000000
+  AFTER-OBSERVE main.db-wal                  size=16512  sha256=68753bdce26196a5 head=753d44c0426fa05a
+  AFTER-OBSERVE recovered.json               size=452    sha256=05a6bccfad014bfa head=5b7b226964223a20
+TEST test_recovered_json_exists P
+TEST test_recovered_json_is_valid P
+TEST test_recovered_data_structure P
+TEST test_recovered_data_sorted P
+TEST test_recovered_data_completeness P
+TEST test_no_duplicate_ids P
+TEST test_wal_was_decrypted P
+
+=== truth-extra-field ===
+RECIPE rc=0
+  AFTER-RECIPE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-RECIPE main.db-wal                  size=16512  sha256=68753bdce26196a5 head=753d44c0426fa05a
+  AFTER-RECIPE recovered.json               size=703    sha256=23445759401704a3 head=5b7b226964223a20
+JSON top=list len=11
+JSON row {"id": 1, "name": "apple", "value": 150, "note": "recovered"} {'id': 'int', 'name': 'str', 'value': 'int', 'note': 'str'}
+JSON row {"id": 2, "name": "banana", "value": 250, "note": "recovered"} {'id': 'int', 'name': 'str', 'value': 'int', 'note': 'str'}
+JSON row {"id": 3, "name": "cherry", "value": 300, "note": "recovered"} {'id': 'int', 'name': 'str', 'value': 'int', 'note': 'str'}
+JSON ids [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+JSON values [150, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]
+JSON names ['apple', 'banana', 'cherry', 'date', 'elderberry', 'fig', 'grape', 'honeydew', 'kiwi', 'lemon', 'mango']
+SQLITE(ro) count=5 rows=[(1, 'apple', 100), (2, 'banana', 200), (3, 'cherry', 300), (4, 'date', 400), (5, 'elderberry', 500)]
+  AFTER-OBSERVE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-OBSERVE main.db-shm                  size=32768  sha256=fd4c9fda9cd3f9ae head=18e22d0000000000
+  AFTER-OBSERVE main.db-wal                  size=16512  sha256=68753bdce26196a5 head=753d44c0426fa05a
+  AFTER-OBSERVE recovered.json               size=703    sha256=23445759401704a3 head=5b7b226964223a20
+TEST test_recovered_json_exists P
+TEST test_recovered_json_is_valid P
+TEST test_recovered_data_structure P
+TEST test_recovered_data_sorted P
+TEST test_recovered_data_completeness P
+TEST test_no_duplicate_ids P
+TEST test_wal_was_decrypted P
+
+=== decrypt-in-place-no-json ===
+RECIPE rc=0
+  AFTER-RECIPE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-RECIPE main.db-wal                  size=16512  sha256=a00cfbf891cb3615 head=377f0682002de218
+JSON absent
+SQLITE(ro) count=11 rows=[(1, 'apple', 150), (2, 'banana', 250), (3, 'cherry', 300), (4, 'date', 400), (5, 'elderberry', 500), (6, 'fig', 600), (7, 'grape', 700), (8, 'honeydew', 800), (9, 'kiwi', 900), (10, 'lemon', 1000), (11, 'mango', 1100)]
+  AFTER-OBSERVE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-OBSERVE main.db-shm                  size=32768  sha256=cf857f02baff9003 head=18e22d0000000000
+  AFTER-OBSERVE main.db-wal                  size=16512  sha256=a00cfbf891cb3615 head=377f0682002de218
+TEST test_recovered_json_exists F
+TEST test_recovered_json_is_valid F error=FileNotFoundError
+TEST test_recovered_data_structure F error=FileNotFoundError
+TEST test_recovered_data_sorted F error=FileNotFoundError
+TEST test_recovered_data_completeness F error=FileNotFoundError
+TEST test_no_duplicate_ids F error=FileNotFoundError
+TEST test_wal_was_decrypted F error=FileNotFoundError
+
+=== untouched ===
+RECIPE rc=0
+  AFTER-RECIPE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-RECIPE main.db-wal                  size=16512  sha256=68753bdce26196a5 head=753d44c0426fa05a
+JSON absent
+SQLITE(ro) count=5 rows=[(1, 'apple', 100), (2, 'banana', 200), (3, 'cherry', 300), (4, 'date', 400), (5, 'elderberry', 500)]
+  AFTER-OBSERVE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-OBSERVE main.db-shm                  size=32768  sha256=fd4c9fda9cd3f9ae head=18e22d0000000000
+  AFTER-OBSERVE main.db-wal                  size=16512  sha256=68753bdce26196a5 head=753d44c0426fa05a
+TEST test_recovered_json_exists F
+TEST test_recovered_json_is_valid F error=FileNotFoundError
+TEST test_recovered_data_structure F error=FileNotFoundError
+TEST test_recovered_data_sorted F error=FileNotFoundError
+TEST test_recovered_data_completeness F error=FileNotFoundError
+TEST test_no_duplicate_ids F error=FileNotFoundError
+TEST test_wal_was_decrypted F error=FileNotFoundError
+
+=== decrypt-then-extract ===
+RECIPE rc=0
+  AFTER-RECIPE main.db                      size=8192   sha256=682055f65aadf683 head=53514c6974652066
+  AFTER-RECIPE recovered.json               size=472    sha256=dd04f318daf77655 head=5b7b226964223a20
+JSON top=list len=11
+JSON row {"id": 1, "name": "apple", "value": 150} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 2, "name": "banana", "value": 250} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 3, "name": "cherry", "value": 300} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON ids [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+JSON values [150, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]
+JSON names ['apple', 'banana', 'cherry', 'date', 'elderberry', 'fig', 'grape', 'honeydew', 'kiwi', 'lemon', 'mango']
+SQLITE(ro) count=11 rows=[(1, 'apple', 150), (2, 'banana', 250), (3, 'cherry', 300), (4, 'date', 400), (5, 'elderberry', 500), (6, 'fig', 600), (7, 'grape', 700), (8, 'honeydew', 800), (9, 'kiwi', 900), (10, 'lemon', 1000), (11, 'mango', 1100)]
+  AFTER-OBSERVE main.db                      size=8192   sha256=682055f65aadf683 head=53514c6974652066
+  AFTER-OBSERVE main.db-shm                  size=32768  sha256=fd4c9fda9cd3f9ae head=18e22d0000000000
+  AFTER-OBSERVE main.db-wal                  size=0      sha256=- head=
+  AFTER-OBSERVE recovered.json               size=472    sha256=dd04f318daf77655 head=5b7b226964223a20
+TEST test_recovered_json_exists P
+TEST test_recovered_json_is_valid P
+TEST test_recovered_data_structure P
+TEST test_recovered_data_sorted P
+TEST test_recovered_data_completeness P
+TEST test_no_duplicate_ids P
+TEST test_wal_was_decrypted P
+
+=== decrypt-checkpoint-truncate ===
+RECIPE rc=0
+  AFTER-RECIPE main.db                      size=8192   sha256=682055f65aadf683 head=53514c6974652066
+  AFTER-RECIPE recovered.json               size=472    sha256=dd04f318daf77655 head=5b7b226964223a20
+JSON top=list len=11
+JSON row {"id": 1, "name": "apple", "value": 150} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 2, "name": "banana", "value": 250} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 3, "name": "cherry", "value": 300} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON ids [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+JSON values [150, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]
+JSON names ['apple', 'banana', 'cherry', 'date', 'elderberry', 'fig', 'grape', 'honeydew', 'kiwi', 'lemon', 'mango']
+SQLITE(ro) count=11 rows=[(1, 'apple', 150), (2, 'banana', 250), (3, 'cherry', 300), (4, 'date', 400), (5, 'elderberry', 500), (6, 'fig', 600), (7, 'grape', 700), (8, 'honeydew', 800), (9, 'kiwi', 900), (10, 'lemon', 1000), (11, 'mango', 1100)]
+  AFTER-OBSERVE main.db                      size=8192   sha256=682055f65aadf683 head=53514c6974652066
+  AFTER-OBSERVE main.db-shm                  size=32768  sha256=fd4c9fda9cd3f9ae head=18e22d0000000000
+  AFTER-OBSERVE main.db-wal                  size=0      sha256=- head=
+  AFTER-OBSERVE recovered.json               size=472    sha256=dd04f318daf77655 head=5b7b226964223a20
+TEST test_recovered_json_exists P
+TEST test_recovered_json_is_valid P
+TEST test_recovered_data_structure P
+TEST test_recovered_data_sorted P
+TEST test_recovered_data_completeness P
+TEST test_no_duplicate_ids P
+TEST test_wal_was_decrypted P
+
+=== xor-wrong-key-RO-isolation (NOT a frozen case) ===
+RECIPE rc=0
+  AFTER-RECIPE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-RECIPE main.db-shm                  size=32768  sha256=fd4c9fda9cd3f9ae head=18e22d0000000000
+  AFTER-RECIPE main.db-wal                  size=16512  sha256=8a46e91ed1cca62f head=367e0783012ce319
+  AFTER-RECIPE recovered.json               size=216    sha256=dc514e5ed0589bb0 head=5b7b226964223a20
+JSON top=list len=5
+JSON row {"id": 1, "name": "apple", "value": 100} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 2, "name": "banana", "value": 200} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 3, "name": "cherry", "value": 300} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON ids [1, 2, 3, 4, 5]
+JSON values [100, 200, 300, 400, 500]
+JSON names ['apple', 'banana', 'cherry', 'date', 'elderberry']
+SQLITE(ro) count=5 rows=[(1, 'apple', 100), (2, 'banana', 200), (3, 'cherry', 300), (4, 'date', 400), (5, 'elderberry', 500)]
+  AFTER-OBSERVE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-OBSERVE main.db-shm                  size=32768  sha256=fd4c9fda9cd3f9ae head=18e22d0000000000
+  AFTER-OBSERVE main.db-wal                  size=16512  sha256=8a46e91ed1cca62f head=367e0783012ce319
+  AFTER-OBSERVE recovered.json               size=216    sha256=dc514e5ed0589bb0 head=5b7b226964223a20
+TEST test_recovered_json_exists P
+TEST test_recovered_json_is_valid P
+TEST test_recovered_data_structure P
+TEST test_recovered_data_sorted P
+TEST test_recovered_data_completeness F
+TEST test_no_duplicate_ids P
+TEST test_wal_was_decrypted F
+
+=== xor-correct-key-RO (NOT a frozen case) ===
+RECIPE rc=0
+  AFTER-RECIPE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-RECIPE main.db-shm                  size=32768  sha256=cf857f02baff9003 head=18e22d0000000000
+  AFTER-RECIPE main.db-wal                  size=16512  sha256=a00cfbf891cb3615 head=377f0682002de218
+  AFTER-RECIPE recovered.json               size=472    sha256=dd04f318daf77655 head=5b7b226964223a20
+JSON top=list len=11
+JSON row {"id": 1, "name": "apple", "value": 150} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 2, "name": "banana", "value": 250} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 3, "name": "cherry", "value": 300} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON ids [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+JSON values [150, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]
+JSON names ['apple', 'banana', 'cherry', 'date', 'elderberry', 'fig', 'grape', 'honeydew', 'kiwi', 'lemon', 'mango']
+SQLITE(ro) count=11 rows=[(1, 'apple', 150), (2, 'banana', 250), (3, 'cherry', 300), (4, 'date', 400), (5, 'elderberry', 500), (6, 'fig', 600), (7, 'grape', 700), (8, 'honeydew', 800), (9, 'kiwi', 900), (10, 'lemon', 1000), (11, 'mango', 1100)]
+  AFTER-OBSERVE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-OBSERVE main.db-shm                  size=32768  sha256=cf857f02baff9003 head=18e22d0000000000
+  AFTER-OBSERVE main.db-wal                  size=16512  sha256=a00cfbf891cb3615 head=377f0682002de218
+  AFTER-OBSERVE recovered.json               size=472    sha256=dd04f318daf77655 head=5b7b226964223a20
+TEST test_recovered_json_exists P
+TEST test_recovered_json_is_valid P
+TEST test_recovered_data_structure P
+TEST test_recovered_data_sorted P
+TEST test_recovered_data_completeness P
+TEST test_no_duplicate_ids P
+TEST test_wal_was_decrypted P
+
+=== plain-rw-read-only (NOT a frozen case, no solve.sh) ===
+RECIPE rc=0
+  AFTER-RECIPE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-RECIPE main.db-shm                  size=32768  sha256=fd4c9fda9cd3f9ae head=18e22d0000000000
+  AFTER-RECIPE main.db-wal                  size=0      sha256=- head=
+  AFTER-RECIPE recovered.json               size=216    sha256=dc514e5ed0589bb0 head=5b7b226964223a20
+JSON top=list len=5
+JSON row {"id": 1, "name": "apple", "value": 100} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 2, "name": "banana", "value": 200} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON row {"id": 3, "name": "cherry", "value": 300} {'id': 'int', 'name': 'str', 'value': 'int'}
+JSON ids [1, 2, 3, 4, 5]
+JSON values [100, 200, 300, 400, 500]
+JSON names ['apple', 'banana', 'cherry', 'date', 'elderberry']
+SQLITE(ro) count=5 rows=[(1, 'apple', 100), (2, 'banana', 200), (3, 'cherry', 300), (4, 'date', 400), (5, 'elderberry', 500)]
+  AFTER-OBSERVE main.db                      size=8192   sha256=68cb288eb29e76d8 head=53514c6974652066
+  AFTER-OBSERVE main.db-shm                  size=32768  sha256=fd4c9fda9cd3f9ae head=18e22d0000000000
+  AFTER-OBSERVE main.db-wal                  size=0      sha256=- head=
+  AFTER-OBSERVE recovered.json               size=216    sha256=dc514e5ed0589bb0 head=5b7b226964223a20
+TEST test_recovered_json_exists P
+TEST test_recovered_json_is_valid P
+TEST test_recovered_data_structure P
+TEST test_recovered_data_sorted P
+TEST test_recovered_data_completeness F
+TEST test_no_duplicate_ids P
+TEST test_wal_was_decrypted F
+

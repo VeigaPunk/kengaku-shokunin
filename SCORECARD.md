@@ -1446,3 +1446,53 @@ list repeats the shape in M01, M04, M07 (lesson Mistakes row 4).
   routed to round 40; no frozen predicate is affected.
 - Misroot 0, scratch leftovers 2 seat dirs, no leftover process (`F39ScoutMisroot`); cross-document drift 1 (the wave-2
   context's tip hash vs the measured tip, `F39ConnClaims`).
+
+## Round 40 (hyaku run 9, 2026-10-26): the three tripwire tools mutation-tested (21/21 attributed); a sixth TB2 grader executed
+
+Baseline as read `d3a6277f188434458e1d2ce04aff59392c6f0dc6`; freeze `bbb109505670192035ef63d7c8b37733e99fa1a3`; first
+recorded probe run `055748f78a3335434f2a4070bb3fb1cf8d0eba1f`; landing `ec17216844585d0fecde9f1d4c4be0b78a3bf76f`. Frozen
+prereg `plans/round-40-claims.md`. Lowest non-retired axis: coverage 7, tied with novelty 7; coverage chosen (frozen
+tie-break), capped at 7 by the open L0 question `kengaku | round-33`. No stagnation waiver. Landing measurement
+`.ufo/waves/round-40/integrate/measure-final.txt` (clean `--no-local` clone of the landing tip).
+
+| claim | axis | observed before → after, counting command | score / verdict |
+|---|---|---|---|
+| C1 what `plans/anchor_digest_check.py`, `plans/ledger_tip.py` and `plans/order_check.py` advertise in their docstrings and no fixture the lane's standing counter runs demonstrates — 21 frozen mutants (anchor 11, ledger 7, order 3), every direction witnessed before freeze, counter carrying the round-39 R4 soundness repairs | **calibration** — advertised-vs-demonstrated mismatch count for the lane's own tripwires | `python3 plans/round40_c1_verify.py --lane .` on a clean clone: before `BATTERY fixtures=0`, `MUTANTS total=21 killed=0 survived=21`, `PREDICATE C1 fail`, exit 1 (`.ufo/waves/round-40/claims/control-c1-nothing.txt`) → after `PINS total=3 mismatched=0`, `BATTERY fixtures=21 wrong=0 tampered=0 sidechannel=0`, `MUTANTS total=21 killed=21 survived=0 invalid=0 null_detected=0`, `PINS-AFTER mismatched=0`, `PREDICATE C1 pass`, exit 0 (`measure-final.txt`). Advertised count (wave-1 `R40CritClaims` §1): 13 direct + 4 indirect = 17 advertised of 21; 17 → 0 undemonstrated by the standing counter | frozen predicate met; **8 → 8 held** (the counter is gameable by a dishonest battery — wave-1 `R40CritC1Counter` A1/A2 — so admission also rests on the non-author battery review of wave 2) |
+| C2 pinned TB2 `db-wal-recovery` grader admitted with an executed 28-case sandbox probe (S119 `tests/test_outputs.py`, S120 `instruction.md`; S121 TB2.1 PR #3 tier B for prior art) | **coverage** (lowest, tied) — `coverage/surfaces`: one §Frontier TB2 sub-bullet narrowed by one task (6 of 89), one coverage-map bullet, one PROVINCE paragraph, knowledge files/index rows 46→47, SOURCES 111→114; one edge class new to the executed sample (graded artefact = a JSON export whose source of truth is a SQLite main database plus an XOR-encrypted WAL; the repair step is never read) | `python3 plans/round40_c2_verify.py --lane .`: before `checks=7 defects=4` (V2, V3, V4, V7), exit 1 (`claims/control-c2-nothing.txt`) → after `checks=7 defects=0`, `PREDICATE C2 pass`, exit 0 (`measure-final.txt`); probe `cases=28 observed_pass=8 observed_fail=20 mismatches=0`, byte-equal re-run | frozen predicate met; **7 → 7 held** (L0 cap) |
+
+Other axes held: novelty 7, depth 9, operability 8, freshness 8, adjacency 8. No-harm at the landing tip (`measure-final.txt`):
+round-39 C1 `killed=7` pass and C2 pass, round-38 C1 `killed=21 survived=1` as landed, round-38 C2 pass, round-37 C1
+`killed=55` pass, round-37 C2 pass, round-36 C2 pass, anchor check `defects=0`, ledger-tip `mismatches=0`, census exit 0,
+frozen digests (rounds 39, 40) OK; `order_check` round 38 exit 1, rounds 39 and 40 exit 0.
+
+### Round-40 capabilities (demonstrated this round)
+
+| Capability | What it can now do | Evidence / command | First-working round |
+|---|---|---|---|
+| `tripwire-mutation-counter` | Mutation-test the lane's own tripwire tools with attributed, direction-declared kills; battery modules built in a dying pid namespace, tool variants run sandboxed at one fixed path, fixture trees fingerprinted, pins re-hashed after the run | `python3 plans/round40_c1_verify.py --lane .` → `MUTANTS total=21 killed=21 …`, `PREDICATE C1 pass`; hostile-daemon control `tampered=0` with a counterfactual showing the daemon writes without the namespace (`claims/control-c1-hostile-daemon.txt`) | 40 |
+| `binary-db-grader-probe` | Execute a pinned TB2 grader whose graded artefact is an export of a binary database pair, per case in bubblewrap with the task's seeds, frozen predictions and `violates=` tags | `python3 plans/db_wal_probe.py --lane .` → `cases=28 observed_pass=8 observed_fail=20 mismatches=0` (`measure-final.txt`) | 40 |
+| `round-close-check` | One command that runs the order gate for every receipt a round's claims name plus the sources census, exit 0 only when all pass | `python3 plans/round_close.py --lane . --round 38` → exit 1; `--round 40` → exit 0 (wave-1 `R40CloseCheck`) | 40 |
+
+Frontier and routed work (not claims): round-39 closure R1 (registry rows for `order_check.py`, `round39_c1_audit.py`
+and the five round-40 instruments), R2 declared (the probe is pinned by the round-39 counter; registry addendum), R3 blocked
+(the ledger tool is pinned by this C1 and evaluates two fixed ledgers), R4 (this C1; `plans/round_close.py` wires Q30's gate;
+`plans/tip_receipts.py` derives a receipt's probe from its stem, so the round-39/40 receipts compare `equal` instead of
+`skip`), R5 (round-39 scratch absent). `considerthese/2026-10-26.md` proposal 3 → the probe's `regrade=` column (a same-process
+second call, not re-run stability) and the stability sweep `R40RegradeSweep` (5 graders, 15 states, 0 verdict flips, 2 graders
+mutate the graded state). Registry 111 → 114 (tier A +2, tier B +1), knowledge 46 → 47; S046/S052 anchor notes.
+
+### Planned (round 41)
+
+- **Calibration (8):** mutation-test the next undemonstrated tripwire surface — the landed `plans/tip_receipts.py` (its
+  round-40 derived-mapping clause included; `R40PlanNext` §2 priced the pre-fix bytes at 51 killed / 53 survived of 104 under
+  its standing detector) and the CLI half of `plans/sources_adopt.py` (`main()` killed 2 of 32) — with the round-40 counter's
+  limits repaired inside the re-frozen rule (clean PATH for tool runs, read-only host fs with only the fixture root
+  writable, content fingerprints, per-module isolation, a type check on `build()`'s return: wave-1 `R40CritC1Counter`,
+  `R40SentinelCounter`, `R40RevCounters`). Witnesses re-derived on the landed bytes before freeze (Q29, Q30).
+- **Coverage (7, capped):** TB2 `constraints-scheduling` @ `2fd12b88` (grader embeds its own constraint model over
+  sha256-pinned inputs; `R40PlanNext` pilot `cases=16 … mismatches=2`, oracle 3/3, nop 0/3; first-`DTSTART` defect published
+  as TB2.1 PR #245 — no novelty claimed); rows S122/S123, ids re-derived at freeze. Fallbacks `circuit-fibsqrt`,
+  `schemelike-metacircular-eval`.
+- **Carried:** the order class into a separately frozen ledger once battery40's ledger declarations can move (R3);
+  `considerthese/2026-10-26.md` proposal 1 (routed-findings burn-down) priced as a rider (`R40PlanNext` §4: 71 routed items
+  vs 5 ledger rows).

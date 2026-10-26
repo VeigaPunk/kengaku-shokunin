@@ -1,0 +1,25 @@
+# deterministic-state control: corpus/evidence/round39/tb2-git-leak-recovery/challenge-setup.sh
+two builds 2s apart: a=430712dbbf9dc62a046948f177d20876332637a1 b=c8125c5e848cb7e7d8d71b0c9bfa1011735227dd equal=no
+author dates: a=2026-10-26 13:46:59 -0300 b=2026-10-26 13:47:01 -0300
+worktree files identical=yes
+two builds 2s apart with pinned dates: c=e5f89059aa69eb5011161403e7c7d613ec6984ba d=e5f89059aa69eb5011161403e7c7d613ec6984ba equal=yes
+
+# lane clone + probe copies
+3077adbc7145726519f60f01426a5d03381ad444
+32f0771cd5c4129a9a9795e3016a4f1c2cf660003f09cb4d719731fd5825c24a  /fast/scratch/hyaku/kengaku-r40/R40RegradeSweep/probes/build_pmars_probe.py
+4961a50f28ae85e8d8b687d3623aef29b59d4db14c0e62e5244e48cfef8cf68c  /fast/scratch/hyaku/kengaku-r40/R40RegradeSweep/probes/git_leak_probe.py
+63cb75cfcd1c224a38eef34b99b66c9ec837261ca8c369577b23601ed3a5eedf  /fast/scratch/hyaku/kengaku-r40/R40RegradeSweep/probes/git_webserver_probe.py
+d58194c817685546a945e8b116588a52590fc944e6218ac40218381a376519bc  /fast/scratch/hyaku/kengaku-r40/R40RegradeSweep/probes/regex_log_probe.py
+acd7d38dca3a982d22900ca034c50aa3d22817395273bbc62b5665b1913040d0  /fast/scratch/hyaku/kengaku-r40/R40RegradeSweep/probes/tb2_grader_probe.py
+tb2_grader_probe.py copy_equal_lane=yes
+regex_log_probe.py copy_equal_lane=yes
+git_webserver_probe.py copy_equal_lane=yes
+build_pmars_probe.py copy_equal_lane=yes
+git_leak_probe.py copy_equal_lane=yes
+
+# capture pins checked by the probes (from each probe PINS)
+tb2_grader_probe PIN= 2fd12b88aafdd04a52c298e3940bcb189f9766d6 GRADER_SHA256= 44a05a2482aa7a8e70de95478de6560b6188e630336fca9d02b62dc69a096582 PINS= None
+regex_log_probe PIN= 2fd12b88aafdd04a52c298e3940bcb189f9766d6 GRADER_SHA256= 345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 PINS= None
+git_webserver_probe PIN= None GRADER_SHA256= None PINS= {'test_outputs.py': '526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37', 'verify.sh': '1dc44c923b797ed24ca423c9b9efcd9c1eed4d7261007139b0a724f4e2f53d05', 'instruction.md': '62151b7371bc364277a3c118bba755334c640fb0cefc7a5af106e6e763cf1d97'}
+build_pmars_probe PIN= None GRADER_SHA256= None PINS= {'test_outputs.py': 'd9d2796ddc19cf8159670567e174ea377e2bce675bf3451d5951c045b01f4e85', 'instruction.md': '1606850579342a8b8f2189de0e499fae6be21198150d8dd1e4d18c2efbcf3b82'}
+git_leak_probe PIN= None GRADER_SHA256= None PINS= {'test_outputs.py': 'dc7b01c1b9dbb0c123def54b146dc1dd399a600edee5970d043a5db5eac4c775', 'challenge-setup.sh': 'a0a19652fc595b0bd06b6970e1d6a455bd4c50991c2ffdcc37fe5b66452b23e2', 'solve.sh': '791a7eb23019ee7c93307b35cc77ea334469c4d3688e1171fe1e5ba6fd9a14dd'}

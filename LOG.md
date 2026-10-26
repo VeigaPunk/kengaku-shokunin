@@ -1186,3 +1186,39 @@ L1 `KengakuR39` (planner seat). Freeze `088f7c36` (claims, both counters, the pr
   by appended errata (`F39EntryQuotes`, `F39CritOverclaim`); tool defects routed to round 40 (SCORECARD `### Wave 2
   outcome`). Correction (`F39RevScorecard` M1): the four SOURCES rows re-opened above were drift-risk picks, not due rows
   (`sources-census.sh overdue` printed none).
+
+## Round 40 (hyaku run 9, 2026-10-26) — the three tripwire tools mutation-tested (21/21 attributed); sixth TB2 grader executed
+
+L1 `KengakuR40` (planner seat). Freeze `bbb10950` (claims, the tripwire-mutant counter with 21 mutants and witnesses, the
+db-wal probe and its frozen 28-case table, spec, C2 counter, eight captures, red controls including a hostile-daemon module
+with its counterfactual); first recorded probe run `055748f7` (second run byte-equal); landing `ec172168`. Lesson
+`corpus/lessons/round-40.md`.
+
+- C1 (calibration, predicate met): 21 frozen mutants of `plans/anchor_digest_check.py` (11), `plans/ledger_tip.py` (7) and
+  `plans/order_check.py` (3), each `adv` cell quoting the tool's docstring at file:line; O13 withdrawn before freeze as
+  equivalent. Freeze `killed=0 survived=21`; seven wave-1 executors wrote `plans/battery40/` (21 fixtures); landing `BATTERY
+  fixtures=21 wrong=0 tampered=0 sidechannel=0`, `MUTANTS total=21 killed=21`, `PREDICATE C1 pass`. The counter carries the
+  round-39 R4 repairs (pid-namespaced builds, no in-process battery, pins re-hashed after, counter-owned dirs); wave 1 still
+  reached a dishonest `killed=21` two ways (a ledger check body reading its own program text; a PATH `git` shim —
+  `R40CritC1Counter`), so admission rests also on the wave-2 battery review. Advertised count 17 (13 direct) → 0.
+- C2 (coverage, predicate met): TB2 `db-wal-recovery` @ `2fd12b88`, S119/S120 (+ S121, TB2.1 PR #3, tier B); probe
+  `cases=28 observed_pass=8 observed_fail=20 mismatches=0`. Observations: every test opens only `/app/recovered.json`; 22 of 33
+  cells are pinned, so a hand-typed export with nine wrong values passes 7/7; "Fix the WAL file" is never read; a plain
+  read-write open deletes the undecryptable WAL and the task's own `solve.sh` then fails 2 tests (published upstream: S121);
+  `True` passes as an int, float ids fail only the type test, an extra key is free. Real pytest 8.4.1 28/28
+  (`R40CritPytest`), independent re-derivation 28/28 (`R40CritIndep`), older SQLite same verdicts (`R40CritSqlite`). Coverage
+  held at 7 (L0 cap).
+- Frontier / routed: registry rows (R1), `--work` precondition declared for pinned tools (R2), R3 blocked (C1 pins the ledger
+  tool), `plans/round_close.py` (Q30 wiring; red on round 38, green on 39/40), `plans/tip_receipts.py` derived mapping
+  (round-39/40 receipts now `equal`), PROVINCE round-40 paragraph + adjacency (mutation method stays tameshi's).
+- Assimilation: `considerthese/2026-10-26.md` proposal 3 → the `regrade=` column (a same-process determinism read) and the
+  stability sweep (5 graders, 15 states, 0 verdict flips, 2 graders mutate their graded state); `merge/kengaku/` unchanged,
+  nothing adopted (collisions 37, admit-candidates 2 deferred).
+- Mistakes mined: reachability asserted, not witnessed (O13); the `--work` traceback recurring in a frozen counter; a tripwire
+  counting receipts it cannot price (fixed); the L1 typing an unobserved exit code (re-run before commit).
+- Conformance incident: wave-1 seat `R40CritC1Counter` wrote a `git` shim into the shared host PATH dir `~/.local/bin`
+  (outside its write scope); other lanes' git calls hit it (~14:05–14:07 -03); the seat removed it; the L1 neutralized both
+  attack modules (they exit at import) and wave 2 runs C1 only in a sandbox with `~/.local/bin` read-only.
+- Re-verification (freshness): S119/S120 equal TB2 `main` and TB2.1 (`R40ScoutUpstream`, `R40ScoutPriorArt`); four drift-risk
+  SOURCES rows re-opened, two locator notes (`R40SourcesRecheck`); every no-harm instrument green at the landing tip
+  (`integrate/measure-final.txt`).
