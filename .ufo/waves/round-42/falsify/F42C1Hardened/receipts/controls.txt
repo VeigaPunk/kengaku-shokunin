@@ -1,0 +1,14 @@
+### controls frozen
+SIDECHANNEL bat-controls/c1_gpg_controls.py tokens=ppid,chmod
+SIDECHANNEL bat-controls/c4_worktree_control.py tokens=core.
+FIXTURE c1-gpg-benign-program tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE c1-gpg-unsigned tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE c4-decoy-no-redirect tool=order expect=reject declared=- observed_rc=1 observed=- ok
+BATTERY fixtures=3 wrong=0 tampered=0 sidechannel=2
+### controls copy
+SIDECHANNEL bat-controls/c1_gpg_controls.py tokens=ppid,chmod
+SIDECHANNEL bat-controls/c4_worktree_control.py tokens=core.
+FIXTURE c1-gpg-benign-program tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE c1-gpg-unsigned tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE c4-decoy-no-redirect tool=order expect=reject declared=- observed_rc=1 observed=- ok
+BATTERY fixtures=3 wrong=0 tampered=0 sidechannel=2

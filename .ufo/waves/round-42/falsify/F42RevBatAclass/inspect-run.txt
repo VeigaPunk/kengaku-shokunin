@@ -1,0 +1,178 @@
+18:07:19
+ENVELOPE bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent
+8cf5b1516051e1918a9a8b1df305247ab67f31ec8366f20843ee83b3c2d86d52  -
+{
+ "spans": {
+  "X6": [
+   527,
+   528
+  ],
+  "X7": [
+   535,
+   535
+  ],
+  "X14": [
+   458,
+   458
+  ]
+ },
+ "verbose": {
+  "a_class-x6-sibling-digest": {
+   "rc": 1,
+   "out": "EVIDENCE ref=head files=2 manifest_digests=0 rows=1 paths=2 bound_rows=1 unbound_rows=0\nBIND S301 capture=corpus/evidence/round42/a-class/x6-a/notes.txt by=row-path\nDEFECT S301 anchor token=1d1095c17c4a9309f60172e414fcd2567c93534e1ff218c0b30ffb50b3aa3715 class=digest-wrong-capture detail=committed-capture-belonging-to-another-capture-corpus/evidence/round42/a-class/x6-b/notes.txt-not-the-capture-this-row-names-corpus/evidence/round42/a-class/x6-a/notes.txt loc=corpus/SOURCES.md:3\nrows=1 tokens=1 defects=1\n",
+   "err": ""
+  },
+  "a_class-x6-stale-manifest": {
+   "rc": 1,
+   "out": "EVIDENCE ref=head files=5 manifest_digests=2 rows=3 paths=5 bound_rows=3 unbound_rows=0\nBIND S310 capture=corpus/evidence/round42/a-class/x6-url/test_outputs.py by=url-task\nBIND S311 capture=corpus/evidence/round42/a-class/x6-side/artefact.bin by=row-path\nBIND S312 capture=corpus/evidence/round42/a-class/x6-url/test_outputs.py by=url-task\nRESOLVED S310 digest=37547b750195ce58db308f130ef39eb7a6cb03433d0419146d2792b8397dd50f via=corpus/evidence/round42/a-class/x6-url/test_outputs.py bind=url-task listed=corpus/evidence/round42/a-class/x6-url/test_outputs.py\nRESOLVED S311 digest=010c3c2e1546be0b395d3c23bbebaaf939cab9a7192303619c6c320287690442 via=corpus/evidence/round42/a-class/x6-side/artefact.bin bind=row-path listed=corpus/evidence/round42/a-class/x6-side/artefact.bin\nDEFECT S312 anchor token=5f8b9cd5b74d3f977972750434babebb8b2e356c9131c5a065eb75888190677b class=digest-wrong-capture detail=committed-capture-belonging-to-another-capture-corpus/evidence/round42/a-class/x6-side/SHA256SUMS-not-the-capture-this-row-names-corpus/evidence/round42/a-class/x6-url/test_outputs.py loc=corpus/SOURCES.md:5\nrows=3 tokens=3 defects=1\n",
+   "err": ""
+  },
+  "a_class-x7-fabricated-token": {
+   "rc": 1,
+   "out": "EVIDENCE ref=head files=1 manifest_digests=0 rows=1 paths=1 bound_rows=1 unbound_rows=0\nBIND S320 capture=corpus/evidence/round42/a-class/x7/notes.txt by=row-path\nDEFECT S320 anchor token=4a29a4d6bb36f65f4eabba86a9784ee01fe93a92bfa6eb64127126eb1c36bce9 class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:3\nrows=1 tokens=1 defects=1\n",
+   "err": ""
+  },
+  "a_class-x7-provenance-row": {
+   "rc": 1,
+   "out": "EVIDENCE ref=head files=2 manifest_digests=0 rows=3 paths=2 bound_rows=3 unbound_rows=0\nBIND S330 capture=corpus/evidence/round42/a-class/x7b/test_outputs.py by=provenance-row\nBIND S331 capture=corpus/evidence/round42/a-class/x7b/test_outputs.py by=provenance-row\nBIND S332 capture=corpus/evidence/round42/a-class/x7b/test_outputs.py by=row-path\nRESOLVED S330 digest=624ec14209215a3838133beacfe4c4a3671270b85cf7097c37ce6faf3e00a066 via=corpus/evidence/round42/a-class/x7b/test_outputs.py bind=provenance-row listed=corpus/evidence/round42/a-class/x7b/test_outputs.py\nABBREV S332 prefix=624ec1420921 matches=624ec14209215a3838133beacfe4c4a3671270b85cf7097c37ce6faf3e00a066 capture=corpus/evidence/round42/a-class/x7b/test_outputs.py\nDEFECT S331 anchor token=1eab0e9afbb1ee55ad22883f57e91b3c3c537c1611e85268e14aed4dadcfa9cd class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:4\nrows=3 tokens=3 defects=1\n",
+   "err": ""
+  },
+  "a_class-x14-uppercase-token": {
+   "rc": 1,
+   "out": "EVIDENCE ref=head files=1 manifest_digests=0 rows=1 paths=1 bound_rows=1 unbound_rows=0\nBIND S340 capture=corpus/evidence/round42/a-class/x14/outputs.txt by=row-path\nERRATUM S340 loc=corpus/lessons/round-37.md:1 cited_wrong=['c32e12b82ca6ebef370d2208f08b512887127b5b247cb9c75381074dc555ad4a'] correction=['c32e12b82ca6ebef370d2208f08b512887127b5b247cb9c75381074dc555ad4a']\nEXEMPT S340 anchor=c32e12b82ca6ebef370d2208f08b512887127b5b247cb9c75381074dc555ad4a by=corpus/lessons/round-37.md:1 correction=c32e12b82ca6ebef370d2208f08b512887127b5b247cb9c75381074dc555ad4a\nDEFECT S340 erratum token=F2046559EF710033AF5D8362FE506CBBCABA0C96AA4A29E2EA593B804D7B5606 class=erratum-digest-unresolved detail=64-hex-nor-in-committed-evidence-nor-the-row-s-anchor loc=corpus/lessons/round-37.md:1\nrows=1 tokens=1 defects=1\n",
+   "err": ""
+  },
+  "a_class-x14-two-errata": {
+   "rc": 1,
+   "out": "EVIDENCE ref=head files=2 manifest_digests=0 rows=2 paths=2 bound_rows=2 unbound_rows=0\nBIND S350 capture=corpus/evidence/round42/a-class/x14b-a/part1.txt by=row-path\nBIND S351 capture=corpus/evidence/round42/a-class/x14b-b/part2.txt by=row-path\nERRATUM S350 loc=corpus/lessons/round-37.md:1 cited_wrong=['fb9bb61c47ed73bcdded4279eaf95d8e702685d20d40a329916bc732edf3cc3b'] correction=['41919a884d2f76967ad4e26513337d8ad632fdd803cc4921aca393eb5937ea45']\nERRATUM S351 loc=corpus/lessons/round-42.md:1 cited_wrong=['806fa5f606d27a74dd4604f8ea9755d249258cd735f6bc7b725bc896a3d708f3'] correction=['806fa5f606d27a74dd4604f8ea9755d249258cd735f6bc7b725bc896a3d708f3']\nEXEMPT S350 anchor=fb9bb61c47ed73bcdded4279eaf95d8e702685d20d40a329916bc732edf3cc3b by=corpus/lessons/round-37.md:1 correction=41919a884d2f76967ad4e26513337d8ad632fdd803cc4921aca393eb5937ea45\nEXEMPT S351 anchor=806fa5f606d27a74dd4604f8ea9755d249258cd735f6bc7b725bc896a3d708f3 by=corpus/lessons/round-42.md:1 correction=806fa5f606d27a74dd4604f8ea9755d249258cd735f6bc7b725bc896a3d708f3\nDEFECT S351 erratum token=91969E9F4E6271547661EFC9E24F452C240DBDD95E36485FA1658E5FFC9114C6 class=erratum-digest-unresolved detail=64-hex-nor-in-committed-evidence-nor-the-row-s-anchor loc=corpus/lessons/round-42.md:1\nrows=2 tokens=2 defects=1\n",
+   "err": ""
+  }
+ },
+ "trace": {
+  "a_class-x6-sibling-digest": {
+   "rc": 1,
+   "classes": [
+    "digest-wrong-capture"
+   ],
+   "span_hits": {
+    "X6": [
+     527,
+     528
+    ],
+    "X7": [],
+    "X14": []
+   }
+  },
+  "a_class-x6-stale-manifest": {
+   "rc": 1,
+   "classes": [
+    "digest-wrong-capture"
+   ],
+   "span_hits": {
+    "X6": [
+     527,
+     528
+    ],
+    "X7": [],
+    "X14": []
+   }
+  },
+  "a_class-x7-fabricated-token": {
+   "rc": 1,
+   "classes": [
+    "digest-unknown"
+   ],
+   "span_hits": {
+    "X6": [
+     527,
+     528
+    ],
+    "X7": [
+     535
+    ],
+    "X14": []
+   }
+  },
+  "a_class-x7-provenance-row": {
+   "rc": 1,
+   "classes": [
+    "digest-unknown"
+   ],
+   "span_hits": {
+    "X6": [
+     527,
+     528
+    ],
+    "X7": [
+     535
+    ],
+    "X14": []
+   }
+  },
+  "a_class-x14-uppercase-token": {
+   "rc": 1,
+   "classes": [
+    "erratum-digest-unresolved"
+   ],
+   "span_hits": {
+    "X6": [],
+    "X7": [],
+    "X14": [
+     458
+    ]
+   }
+  },
+  "a_class-x14-two-errata": {
+   "rc": 1,
+   "classes": [
+    "erratum-digest-unresolved"
+   ],
+   "span_hits": {
+    "X6": [],
+    "X7": [],
+    "X14": [
+     458
+    ]
+   }
+  }
+ },
+ "hygiene": {
+  "a_class-x6-sibling-digest": {
+   "symlinks": [],
+   "git_config": "[core]\n\trepositoryformatversion = 0\n\tfilemode = true\n\tbare = false\n\tlogallrefupdates = true\n"
+  },
+  "a_class-x6-stale-manifest": {
+   "symlinks": [],
+   "git_config": "[core]\n\trepositoryformatversion = 0\n\tfilemode = true\n\tbare = false\n\tlogallrefupdates = true\n"
+  },
+  "a_class-x7-fabricated-token": {
+   "symlinks": [],
+   "git_config": "[core]\n\trepositoryformatversion = 0\n\tfilemode = true\n\tbare = false\n\tlogallrefupdates = true\n"
+  },
+  "a_class-x7-provenance-row": {
+   "symlinks": [],
+   "git_config": "[core]\n\trepositoryformatversion = 0\n\tfilemode = true\n\tbare = false\n\tlogallrefupdates = true\n"
+  },
+  "a_class-x14-uppercase-token": {
+   "symlinks": [],
+   "git_config": "[core]\n\trepositoryformatversion = 0\n\tfilemode = true\n\tbare = false\n\tlogallrefupdates = true\n"
+  },
+  "a_class-x14-two-errata": {
+   "symlinks": [],
+   "git_config": "[core]\n\trepositoryformatversion = 0\n\tfilemode = true\n\tbare = false\n\tlogallrefupdates = true\n"
+  }
+ },
+ "difflib_ratio_vs_w_anchor": 0.0733,
+ "shared_lines_gt12chr": [
+  "\"| sid | file | note |\\n|---|---|---|\\n\"",
+  "\"|----|--------|------|------|-------|--------|---------|--------|--------|---------|----------|\\n\")",
+  "ctx.write(r / \"corpus/SOURCES.md\",",
+  "ctx.write(r / \"corpus/lessons/round-37.md\",",
+  "import hashlib",
+  "r = ctx.init(d / \"repo\")",
+  "return [\"--lane\", str(r)]"
+ ]
+}
+rc=0
+18:07:20
+8cf5b1516051e1918a9a8b1df305247ab67f31ec8366f20843ee83b3c2d86d52  -

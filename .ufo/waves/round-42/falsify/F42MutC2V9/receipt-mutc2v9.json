@@ -1,0 +1,433 @@
+{
+ "envelope": "bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent",
+ "pristine_sha256": "270097fdf1d25ee86cced105c731eb5eb4cb73baff6cc547710a8cf5961cf2c7",
+ "campaign_t0": "18:21:28",
+ "campaign_localbin_sha_before": "77408cab9a10361a9f6025bab21f5f07933d94ce46e6a10b9117805d58811c11",
+ "baseline": {
+  "control": {
+   "tag": "filler-control",
+   "t0": "18:21:28",
+   "t1": "18:21:28",
+   "rc": 0,
+   "out": [
+    "CONTROL filler V9 DEFECT case_rows=0/16 bad=[\"no '## Case table' section\", \"row ids absent outside source lines: ['S125', 'S126', 'S127']\", 'PROVINCE.md names the task and the entry on no line', 'README ## Frontier does not name the task']",
+    "CONTROL content V9 ok case_rows=16/16 bad=0",
+    "CONTROL-C2-FILLER red-as-required"
+   ],
+   "err": []
+  },
+  "tip": {
+   "tag": "tip-v9",
+   "t0": "18:21:28",
+   "t1": "18:21:29",
+   "rc": 0,
+   "out": [
+    "TIP-V9 ok=True case_rows=16/16 bad=0"
+   ],
+   "err": []
+  },
+  "clone": {
+   "tag": "clone-v9",
+   "t0": "18:21:29",
+   "t1": "18:21:29",
+   "rc": 0,
+   "out": [
+    "TIP-V9 ok=True case_rows=16/16 bad=0"
+   ],
+   "err": []
+  },
+  "killer": {
+   "tag": "killer",
+   "t0": "18:21:29",
+   "t1": "18:21:29",
+   "rc": 0,
+   "out": [
+    "KILLER eq-flip ok=False case_rows=16/16 bad=['case table rows=16 receipt cases=16 equal=False']",
+    "KILLER id-upper ok=False case_rows=0/16 bad=['case table rows=0 receipt cases=16 equal=False']",
+    "KILLER tests-long ok=True case_rows=16/16 bad=0",
+    "KILLER verdict-error ok=True case_rows=16/16 bad=0",
+    "KILLER id-hyphen ok=True case_rows=16/16 bad=0",
+    "KILLER src-only ok=False case_rows=16/16 bad=[\"row ids absent outside source lines: ['S125', 'S126', 'S127']\"]",
+    "KILLER province-nameless ok=False case_rows=16/16 bad=['PROVINCE.md names the task and the entry on no line']",
+    "KILLER readme-taskless ok=False case_rows=16/16 bad=['README ## Frontier does not name the task']"
+   ],
+   "err": []
+  }
+ },
+ "mutants": [
+  {
+   "mutant": "CR-upper",
+   "axis": "CASE_ROW id class relaxed [a-z]->[a-zA-Z]",
+   "filler": false,
+   "content": true,
+   "tip": true,
+   "tip_line": "TIP-V9 ok=True case_rows=16/16 bad=0",
+   "caught_by": [],
+   "verdict": "survived",
+   "killer_expected": "id-upper",
+   "killer_runs": {
+    "eq-flip": false,
+    "id-upper": true,
+    "tests-long": true,
+    "verdict-error": true,
+    "id-hyphen": true,
+    "src-only": false,
+    "province-nameless": false,
+    "readme-taskless": false
+   },
+   "killer_flip": {
+    "id-upper": [
+     false,
+     true
+    ]
+   },
+   "killer_confirms": true
+  },
+  {
+   "mutant": "CR-tests-plus",
+   "axis": "CASE_ROW tests class {3} -> +",
+   "filler": false,
+   "content": true,
+   "tip": true,
+   "tip_line": "TIP-V9 ok=True case_rows=16/16 bad=0",
+   "caught_by": [],
+   "verdict": "survived",
+   "killer_expected": "tests-long",
+   "killer_runs": {
+    "eq-flip": false,
+    "id-upper": false,
+    "tests-long": false,
+    "verdict-error": true,
+    "id-hyphen": true,
+    "src-only": false,
+    "province-nameless": false,
+    "readme-taskless": false
+   },
+   "killer_flip": {
+    "tests-long": [
+     true,
+     false
+    ]
+   },
+   "killer_confirms": true
+  },
+  {
+   "mutant": "CR-verdict-error",
+   "axis": "CASE_ROW verdict alt |error added",
+   "filler": false,
+   "content": true,
+   "tip": true,
+   "tip_line": "TIP-V9 ok=True case_rows=16/16 bad=0",
+   "caught_by": [],
+   "verdict": "survived",
+   "killer_expected": "verdict-error",
+   "killer_runs": {
+    "eq-flip": false,
+    "id-upper": false,
+    "tests-long": true,
+    "verdict-error": false,
+    "id-hyphen": true,
+    "src-only": false,
+    "province-nameless": false,
+    "readme-taskless": false
+   },
+   "killer_flip": {
+    "verdict-error": [
+     true,
+     false
+    ]
+   },
+   "killer_confirms": true
+  },
+  {
+   "mutant": "CR-verdict-pass-only",
+   "axis": "CASE_ROW verdict narrowed to pass",
+   "filler": false,
+   "content": false,
+   "tip": false,
+   "tip_line": "TIP-V9 ok=False case_rows=7/16 bad=['case table rows=7 receipt cases=16 equal=False']",
+   "caught_by": [
+    "content-control",
+    "tip-v9"
+   ],
+   "verdict": "caught",
+   "killer_expected": null,
+   "killer_runs": {},
+   "killer_flip": {},
+   "killer_confirms": null
+  },
+  {
+   "mutant": "RX-id-word",
+   "axis": "receipt regex id \\S+ -> \\w+",
+   "filler": false,
+   "content": false,
+   "tip": false,
+   "tip_line": "TIP-V9 ok=False case_rows=16/1 bad=['case table rows=16 receipt cases=1 equal=False']",
+   "caught_by": [
+    "content-control",
+    "tip-v9"
+   ],
+   "verdict": "caught",
+   "killer_expected": null,
+   "killer_runs": {},
+   "killer_flip": {},
+   "killer_confirms": null
+  },
+  {
+   "mutant": "RX-case-prefix",
+   "axis": "receipt regex literal CASE -> CASX",
+   "filler": false,
+   "content": false,
+   "tip": false,
+   "tip_line": "TIP-V9 ok=False case_rows=16/0 bad=['case table rows=16 receipt cases=0 equal=False']",
+   "caught_by": [
+    "content-control",
+    "tip-v9"
+   ],
+   "verdict": "caught",
+   "killer_expected": null,
+   "killer_runs": {},
+   "killer_flip": {},
+   "killer_confirms": null
+  },
+  {
+   "mutant": "RX-obs-narrow",
+   "axis": "receipt regex observed alt dropped",
+   "filler": false,
+   "content": false,
+   "tip": false,
+   "tip_line": "TIP-V9 ok=False case_rows=16/7 bad=['case table rows=16 receipt cases=7 equal=False']",
+   "caught_by": [
+    "content-control",
+    "tip-v9"
+   ],
+   "verdict": "caught",
+   "killer_expected": null,
+   "killer_runs": {},
+   "killer_flip": {},
+   "killer_confirms": null
+  },
+  {
+   "mutant": "RX-swap",
+   "axis": "want tuple group order swapped",
+   "filler": false,
+   "content": false,
+   "tip": false,
+   "tip_line": "TIP-V9 ok=False case_rows=16/16 bad=['case table rows=16 receipt cases=16 equal=False']",
+   "caught_by": [
+    "content-control",
+    "tip-v9"
+   ],
+   "verdict": "caught",
+   "killer_expected": null,
+   "killer_runs": {},
+   "killer_flip": {},
+   "killer_confirms": null
+  },
+  {
+   "mutant": "EQ-drop-compare",
+   "axis": "equality got != want dropped",
+   "filler": false,
+   "content": true,
+   "tip": true,
+   "tip_line": "TIP-V9 ok=True case_rows=16/16 bad=0",
+   "caught_by": [],
+   "verdict": "survived",
+   "killer_expected": "eq-flip",
+   "killer_runs": {
+    "eq-flip": true,
+    "id-upper": true,
+    "tests-long": true,
+    "verdict-error": true,
+    "id-hyphen": true,
+    "src-only": false,
+    "province-nameless": false,
+    "readme-taskless": false
+   },
+   "killer_flip": {
+    "eq-flip": [
+     false,
+     true
+    ],
+    "id-upper": [
+     false,
+     true
+    ]
+   },
+   "killer_confirms": true
+  },
+  {
+   "mutant": "SRC-exclusion-off",
+   "axis": "source: exclusion disabled",
+   "filler": false,
+   "content": true,
+   "tip": true,
+   "tip_line": "TIP-V9 ok=True case_rows=16/16 bad=0",
+   "caught_by": [],
+   "verdict": "survived",
+   "killer_expected": "src-only",
+   "killer_runs": {
+    "eq-flip": false,
+    "id-upper": false,
+    "tests-long": true,
+    "verdict-error": true,
+    "id-hyphen": true,
+    "src-only": true,
+    "province-nameless": false,
+    "readme-taskless": false
+   },
+   "killer_flip": {
+    "src-only": [
+     false,
+     true
+    ]
+   },
+   "killer_confirms": true
+  },
+  {
+   "mutant": "PR-name-off",
+   "axis": "PROVINCE entry-name conjunct dropped",
+   "filler": false,
+   "content": true,
+   "tip": true,
+   "tip_line": "TIP-V9 ok=True case_rows=16/16 bad=0",
+   "caught_by": [],
+   "verdict": "survived",
+   "killer_expected": "province-nameless",
+   "killer_runs": {
+    "eq-flip": false,
+    "id-upper": false,
+    "tests-long": true,
+    "verdict-error": true,
+    "id-hyphen": true,
+    "src-only": false,
+    "province-nameless": true,
+    "readme-taskless": false
+   },
+   "killer_flip": {
+    "province-nameless": [
+     false,
+     true
+    ]
+   },
+   "killer_confirms": true
+  },
+  {
+   "mutant": "PR-and-to-or",
+   "axis": "PROVINCE and -> or",
+   "filler": false,
+   "content": true,
+   "tip": true,
+   "tip_line": "TIP-V9 ok=True case_rows=16/16 bad=0",
+   "caught_by": [],
+   "verdict": "survived",
+   "killer_expected": "province-nameless",
+   "killer_runs": {
+    "eq-flip": false,
+    "id-upper": false,
+    "tests-long": true,
+    "verdict-error": true,
+    "id-hyphen": true,
+    "src-only": false,
+    "province-nameless": true,
+    "readme-taskless": false
+   },
+   "killer_flip": {
+    "province-nameless": [
+     false,
+     true
+    ]
+   },
+   "killer_confirms": true
+  },
+  {
+   "mutant": "TASK-swap",
+   "axis": "TASK constant q->t (circuit-fibsqt)",
+   "filler": false,
+   "content": false,
+   "tip": false,
+   "tip_line": "TIP-V9 ok=False case_rows=16/16 bad=['PROVINCE.md names the task and the entry on no line', 'README ## Frontier does not name the task']",
+   "caught_by": [
+    "content-control",
+    "tip-v9"
+   ],
+   "verdict": "caught",
+   "killer_expected": null,
+   "killer_runs": {},
+   "killer_flip": {},
+   "killer_confirms": null
+  },
+  {
+   "mutant": "TASK-prefix",
+   "axis": "TASK constant truncated to prefix (equivalent-in-practice)",
+   "filler": false,
+   "content": true,
+   "tip": true,
+   "tip_line": "TIP-V9 ok=True case_rows=16/16 bad=0",
+   "caught_by": [],
+   "verdict": "survived",
+   "killer_expected": null,
+   "killer_runs": {
+    "eq-flip": false,
+    "id-upper": false,
+    "tests-long": true,
+    "verdict-error": true,
+    "id-hyphen": true,
+    "src-only": false,
+    "province-nameless": false,
+    "readme-taskless": false
+   },
+   "killer_flip": {},
+   "killer_confirms": null
+  },
+  {
+   "mutant": "RM-task-off",
+   "axis": "README Frontier task check dropped",
+   "filler": false,
+   "content": true,
+   "tip": true,
+   "tip_line": "TIP-V9 ok=True case_rows=16/16 bad=0",
+   "caught_by": [],
+   "verdict": "survived",
+   "killer_expected": "readme-taskless",
+   "killer_runs": {
+    "eq-flip": false,
+    "id-upper": false,
+    "tests-long": true,
+    "verdict-error": true,
+    "id-hyphen": true,
+    "src-only": false,
+    "province-nameless": false,
+    "readme-taskless": true
+   },
+   "killer_flip": {
+    "readme-taskless": [
+     false,
+     true
+    ]
+   },
+   "killer_confirms": true
+  },
+  {
+   "mutant": "RM-frontier-case",
+   "axis": "README Frontier header lowercased",
+   "filler": false,
+   "content": false,
+   "tip": false,
+   "tip_line": "TIP-V9 ok=False case_rows=16/16 bad=['README ## Frontier does not name the task']",
+   "caught_by": [
+    "content-control",
+    "tip-v9"
+   ],
+   "verdict": "caught",
+   "killer_expected": null,
+   "killer_runs": {},
+   "killer_flip": {},
+   "killer_confirms": null
+  }
+ ],
+ "restore_sha256": "270097fdf1d25ee86cced105c731eb5eb4cb73baff6cc547710a8cf5961cf2c7",
+ "campaign_t1": "18:21:31",
+ "campaign_localbin_sha_after": "77408cab9a10361a9f6025bab21f5f07933d94ce46e6a10b9117805d58811c11",
+ "git_status_counter_after_restore": "(clean)"
+}

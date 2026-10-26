@@ -1,0 +1,70 @@
+### h1_gpgexec frozen
+PINS total=2 mismatched=0
+SIDECHANNEL bat-h1_gpgexec/h1_gpgexec.py tokens=ppid,chmod
+FIXTURE h1-gpg-program-executes tool=order expect=accept declared=- observed_rc=2 observed=- WRONG
+MUTANT XO1 order rc-silence SURVIVED exhibits=none -- plans/order_check.py:17,183 'FAIL when the freeze commit (the first commit adding <claims>
+BATTERY fixtures=1 wrong=1 tampered=0 sidechannel=1
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/0 order=0/1
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+### h1_gpgexec copy
+PINS total=2 mismatched=0
+SIDECHANNEL bat-h1_gpgexec/h1_gpgexec.py tokens=ppid,chmod
+FIXTURE h1-gpg-program-executes tool=order expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT XO1 order rc-silence SURVIVED exhibits=none -- plans/order_check.py:17,183 'FAIL when the freeze commit (the first commit adding <claims>
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=1
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/0 order=0/1
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+### h2_builderleak frozen
+PINS total=2 mismatched=0
+FIXTURE h2-builder-LEAK-35983b-builder.py:35972 tool=order expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT XO1 order rc-silence SURVIVED exhibits=none -- plans/order_check.py:17,183 'FAIL when the freeze commit (the first commit adding <claims>
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/0 order=0/1
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+### h2_builderleak copy
+PINS total=2 mismatched=0
+FIXTURE h2-builder-CLEAN-3908b tool=order expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT XO1 order rc-silence SURVIVED exhibits=none -- plans/order_check.py:17,183 'FAIL when the freeze commit (the first commit adding <claims>
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/0 order=0/1
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+### h3_lanewrite frozen
+PINS total=2 mismatched=0
+FIXTURE h3-lane-WROTE-hidden tool=order expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT XO1 order rc-silence SURVIVED exhibits=none -- plans/order_check.py:17,183 'FAIL when the freeze commit (the first commit adding <claims>
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/0 order=0/1
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+### h3_lanewrite copy
+PINS total=2 mismatched=0
+FIXTURE h3-lane-ERR30-hidden tool=order expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT XO1 order rc-silence SURVIVED exhibits=none -- plans/order_check.py:17,183 'FAIL when the freeze commit (the first commit adding <claims>
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/0 order=0/1
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+### h4_worktree frozen
+PINS total=2 mismatched=0
+SIDECHANNEL bat-h4_worktree/h4_worktree.py tokens=core.
+FIXTURE h4-worktree-redirect tool=order expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT XO1 order rc-silence SURVIVED exhibits=none -- plans/order_check.py:17,183 'FAIL when the freeze commit (the first commit adding <claims>
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=1
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/0 order=0/1
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+### h4_worktree copy
+PINS total=2 mismatched=0
+SIDECHANNEL bat-h4_worktree/h4_worktree.py tokens=core.
+SETUP fixture 'h4-worktree-redirect' of bat-h4_worktree/h4_worktree.py escapes its directory: lane/rev-parse --show-toplevel=/fast/scratch/hyaku/kengaku-r42/F42C1Hardened/w2-h4_worktree-copy/k42-c1-b4hcyu69/fx/h4_worktree/host

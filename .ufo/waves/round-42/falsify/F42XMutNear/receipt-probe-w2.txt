@@ -1,0 +1,30 @@
+envelope: bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent python3 /fast/scratch/hyaku/kengaku-r42/F42XMutNear/verifier.py --lane /fast/scratch/hyaku/kengaku-r42/F42XMutNear/lane --battery-dir /fast/scratch/hyaku/kengaku-r42/F42XMutNear/probe_w2 --work /fast/scratch/hyaku/kengaku-r42/F42XMutNear/workp --jobs 8 --only NA1,NA5,NA7,NA12,NA18,NA20,NA21,NO5,NO7,NO22
+18:21:47
+8cf5b1516051e1918a9a8b1df305247ab67f31ec8366f20843ee83b3c2d86d52  -
+PINS total=2 mismatched=0
+FIXTURE w2-long-row tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE w2-uppercase-token tool=anchor expect=reject declared=digest-uppercase observed_rc=1 observed=digest-uppercase ok
+FIXTURE w2-green-erratum tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE w2-slashed-name-url tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE w2-short-commit-url tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE w2-late-claims-edit tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE w2-p2-excuse tool=order expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT NA1 anchor silence killed by=w2-long-row attributed=L477 hits=1 -- plans/anchor_digest_check.py near alt comparison at X9 site: != -> < (over-long rows no lo
+MUTANT NA5 anchor rc-mirror killed by=w2-slashed-name-url attributed=L258 hits=1 -- plans/anchor_digest_check.py near dropped route at X12 site: slug keeps org/task prefix so
+MUTANT NA7 anchor rc-mirror killed by=w2-green-erratum attributed=L458 hits=1 -- plans/anchor_digest_check.py near dropped route at X14 site: erratum 64-hex token flagged 
+MUTANT NA12 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py near alt comparison near X7 site: len < 64 -> <= 64 (uppercas
+MUTANT NA18 anchor rc-mirror killed by=w2-short-commit-url attributed=L154 hits=1 -- plans/anchor_digest_check.py near widened regex on URL_RAW: commit segment {7,40} -> {4,40
+MUTANT NA20 anchor rc-mirror killed by=w2-green-erratum attributed=L468 hits=1 -- plans/anchor_digest_check.py near dropped route near X15 site: erratum exemption never gra
+MUTANT NA21 anchor rc-mirror killed by=w2-green-erratum attributed=L456 hits=1 -- plans/anchor_digest_check.py near alt comparison near X15 site: cited_wrong keyed membersh
+MUTANT NO5 order rc-silence killed by=w2-late-claims-edit attributed=L120 hits=1 -- plans/order_check.py near dropped route near XO5 site: only the first (oldest) claims comm
+MUTANT NO7 order rc-mirror killed by=w2-p2-excuse attributed=L60 hits=1 -- plans/order_check.py near narrowed regex near XO6 site: P2-shaped `receipt unreadable: <pa
+MUTANT NO22 order rc-silence killed by=w2-late-claims-edit attributed=L105 hits=1 -- plans/order_check.py near dropped route at XO6 site: gate-p10 branch disabled (CASE lines 
+BATTERY fixtures=7 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=10 killed=9 survived=1 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=6/7 order=3/3
+ADVERTISED direct=10 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+exit=1
+18:21:48
+8cf5b1516051e1918a9a8b1df305247ab67f31ec8366f20843ee83b3c2d86d52  -

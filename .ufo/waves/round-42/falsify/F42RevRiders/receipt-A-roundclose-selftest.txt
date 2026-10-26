@@ -1,0 +1,28 @@
+# Receipt A — plans/round_close.py --selftest twice on one --work (landed bytes cd581f8a)
+# Seat F42RevRiders, round-42 wave 2 (falsify). Basis: clean clone at docs tip 508434ad.
+ENVELOPE bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent <env HOME=/fast/scratch/hyaku/kengaku-r42/F42RevRiders/home TMPDIR=/fast/scratch/hyaku/kengaku-r42/F42RevRiders PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin> <command>
+START 18:10:38
+LOCALBIN_BEFORE 77408cab9a10361a9f6025bab21f5f07933d94ce46e6a10b9117805d58811c11  -
+LANE_ROUND_CLOSE_SHA cd581f8a263372b164f5a4fdf20e25eefaa22d2087097de75e463c19043a8144  plans/round_close.py
+CMD bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent env HOME=... TMPDIR=... PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin python3 plans/round_close.py --lane . --census /home/vgpnk/Projects/shokunin/scripts/sources-census.sh --selftest --work /fast/scratch/hyaku/kengaku-r42/F42RevRiders/w1
+run1_rc=0 run2_rc=0
+RUN2_STDOUT_BYTE_EQUAL=yes
+run1_stderr_bytes=0 run2_stderr_bytes=0
+NESTED_KNOWLEDGE=no
+run1_stdout:
+SELFTEST case=A-excused-p10 shape=receipt-last expect=0 got=0 verdict=ok
+SELFTEST case=B-executed-p10 shape=receipt-last expect=1 got=1 verdict=ok
+SELFTEST case=C-receipt-first shape=receipt-first expect=1 got=1 verdict=ok
+SELFTEST case=D-receipt-uncommitted shape=receipt-uncommitted expect=2 got=2 verdict=ok
+SELFTEST case=E-no-receipt-named shape=no-probe expect=2 got=2 verdict=ok
+SELFTEST checks=5 ok=5 failed=0
+run3_rc=0 run3_tail=SELFTEST checks=5 ok=5 failed=0        # third run, symlink planted at <work>/B-executed-p10 -> victim dir
+victim_after=[.keep] B_is_symlink=no
+run4_no_work_rc=0 run4_tail=SELFTEST checks=5 ok=5 failed=0  # default temp path, no --work
+LOCALBIN_AFTER b5f0360926c3a303c84e416b7ddb5ab63d39b1e946f86f80dc9c40b85c1a1b52  -
+END 18:10:42
+
+# Note on the pre/post localbin digests: /home/vgpnk/.local/bin's dir mtime is 18:10:45 (stat), i.e. the
+# listing was modified host-side while four seats' runs were live; my commands had no write path to it
+# (ro-bound inside bwrap, PATH inside excludes it, outer script only reads it and writes scratch).
+# Order-independent digest (ls -A | sort | sha256sum) read 77408cab... in every later measurement.

@@ -1,0 +1,57 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r42/F42MutBattery/lane/plans/round42_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r42/F42MutBattery/lane --battery-dir /fast/scratch/hyaku/kengaku-r42/F42MutBattery/cases/F10/battery42 --work /fast/scratch/hyaku/kengaku-r42/F42MutBattery/c1work --jobs 16
+SEAT F42MutBattery tag=F10
+START 18:16:28
+PATHDIR_BEFORE 77408cab9a10361a9f6025bab21f5f07933d94ce46e6a10b9117805d58811c11
+PINS total=2 mismatched=0
+FIXTURE a_class-x6-sibling-digest tool=anchor expect=reject declared=digest-wrong-capture observed_rc=1 observed=digest-wrong-capture ok
+FIXTURE a_class-x6-stale-manifest tool=anchor expect=reject declared=digest-wrong-capture observed_rc=1 observed=digest-wrong-capture ok
+FIXTURE a_class-x7-fabricated-token tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE a_class-x7-provenance-row tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE a_class-x14-uppercase-token tool=anchor expect=reject declared=erratum-digest-unresolved observed_rc=1 observed=erratum-digest-unresolved ok
+FIXTURE a_class-x14-two-errata tool=anchor expect=reject declared=erratum-digest-unresolved observed_rc=1 observed=erratum-digest-unresolved ok
+FIXTURE a_route-x1-provenance-table tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_route-x1-two-row-registry tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_route-x3-provenance-url tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_route-x3-blob-url tool=anchor expect=reject declared=- observed_rc=0 observed=- WRONG
+FIXTURE a_route-x12-slashless-toml tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_route-x12-two-tomls tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_row-x9-short-no-token tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_row-x9-registry-short-valid tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_row-x13-staged-capture tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE a_row-x13-url-staged tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE a_row-x15-sibling-digest tool=anchor expect=reject declared=digest-unknown,erratum-incomplete observed_rc=1 observed=digest-unknown,erratum-incomplete ok
+FIXTURE a_row-x15-manifest-sibling tool=anchor expect=reject declared=digest-unknown,erratum-incomplete observed_rc=1 observed=digest-unknown,erratum-incomplete ok
+FIXTURE o_clause-freeze-single tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_clause-freeze-pair-edited-after tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_clause-receipt-withdrawn tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_clause-receipt-side-line tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_clause-clean-order tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo5-post-receipt-verdicts tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo5-amended-claims-blob tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo6-pass-verdict-row tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo6-echoed-pass-row tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo7-timeout-rows tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_scan-xo7-skipped-row-r38 tool=order expect=reject declared=- observed_rc=1 observed=- ok
+MUTANT X1 anchor rc-mirror killed by=a_route-x1-provenance-table attributed=L318 hits=2 -- plans/anchor_digest_check.py:50-52 'Provenance row — a committed markdown under corpus/evi
+MUTANT X3 anchor rc-mirror killed by=a_route-x3-provenance-url attributed=L343 hits=1 -- plans/anchor_digest_check.py:57-58 'A provenance URL (an evidence markdown naming the same
+MUTANT X6 anchor silence killed by=a_class-x6-sibling-digest attributed=L527 hits=2 -- plans/anchor_digest_check.py:89-92 'A 64-hex token that is a committed capture but not thi
+MUTANT X7 anchor silence killed by=a_class-x7-fabricated-token attributed=L535 hits=6 -- plans/anchor_digest_check.py:92-93 'a token that is no committed capture at all is digest-
+MUTANT X9 anchor rc-silence killed by=a_row-x9-short-no-token attributed=L477 hits=2 -- plans/anchor_digest_check.py:34-35 'A row that matches the census regex but does not have 
+MUTANT X12 anchor rc-mirror killed by=a_route-x12-slashless-toml attributed=L256 hits=2 -- plans/anchor_digest_check.py:55-56 'matched **exactly** against the name = "<org>/<task>" 
+MUTANT X13 anchor rc-silence killed by=a_row-x13-staged-capture attributed=L570 hits=2 -- plans/anchor_digest_check.py:73 '`--evidence-ref head` (default) reads HEAD blobs, so an u
+MUTANT X14 anchor silence killed by=a_class-x14-uppercase-token attributed=L458 hits=2 -- plans/anchor_digest_check.py:111-113 'no 64-hex token on it may be outside A unless it is 
+MUTANT X15 anchor rc-silence killed by=a_row-x15-sibling-digest attributed=L455 hits=2 -- plans/anchor_digest_check.py:108-110 'at least one other token that is 64 lowercase hex an
+MUTANT XO1 order rc-silence killed by=o_clause-freeze-single attributed=L183 hits=2 -- plans/order_check.py:17,183 'FAIL when the freeze commit (the first commit adding <claims>
+MUTANT XO3 order rc-silence killed by=o_clause-receipt-withdrawn attributed=L188 hits=2 -- plans/order_check.py:18,188 'FAIL when <receipt> was committed before <claims> (pre-regist
+MUTANT XO5 order rc-mirror killed by=o_scan-xo5-post-receipt-verdicts attributed=L117 hits=2 -- plans/order_check.py:116-117 'Every blob ever committed under claims_dir up to and includi
+MUTANT XO6 order rc-mirror killed by=o_scan-xo6-pass-verdict-row attributed=L53 hits=2 -- plans/order_check.py:52-53 'a gate output line, with or without the C2 counter's `gate: ` 
+MUTANT XO7 order rc-silence killed by=o_scan-xo7-timeout-rows attributed=L55 hits=2 -- plans/order_check.py:54-55 'a probe receipt line (the probe's per-case verdict record)' (o
+BATTERY fixtures=29 wrong=1 tampered=0 sidechannel=0
+MUTANTS total=14 killed=14 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=9/9 order=5/5
+ADVERTISED direct=13 indirect=1 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+PATHDIR_AFTER 77408cab9a10361a9f6025bab21f5f07933d94ce46e6a10b9117805d58811c11
+END 18:16:31
+EXIT 1

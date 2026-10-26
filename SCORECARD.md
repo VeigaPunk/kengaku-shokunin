@@ -1804,3 +1804,22 @@ are data, unreviewed: `res_round_close.json` `population=70 killed=50 survived=2
 - **Routed (`corpus/routed-findings.jsonl`, `routed_open=10 oldest_round=39`):** R3 tier-B live-state check (S124/S128
   state words) — owned, operability; the V9 informed-filler limit (`R42CritClaims`) — a V10-style content check needs a red
   control against an informed filler; `R42MutC1Counter` counter guards caught 7/22 by committed controls.
+
+### Wave 2 outcome (appended after the falsify wave; 33 seats, 33 results, `.ufo/waves/round-42/falsify/`)
+
+- C1 admission evidence (non-author): battery42 reviewed honest module by module — `a_route` 6/6, `a_class` 6/6, `a_row`
+  6/6, `o_clause` 5/5, `o_scan` 6/6, substitutes 0 (`F42RevBat*`); site-value attribution for the 8 span-vacuous mutants 8/8
+  (`F42C1StrongAttrib`); the landed battery passes 14/14 under a hardened counter copy whose four repairs (gpg pins, builder
+  hidden, read-only lane hide, toplevel/worktree check) each bite (`F42C1Hardened` 4/4); re-run byte-equal across seeds and
+  job counts, every module load-bearing 5/5 (`F42C1Rerun`); `F42GpgVector`: the gpg.program vector is real but cannot change
+  a verdict in any of the 14 declared directions. Every fixture is individually redundant (each mutant has two killers,
+  `F42MutBattery` 0/29 single-fixture flips); near-variants outside the list killed 15/25 (`F42XMutNear`, round-43 data).
+- C2: re-run pass, probe byte-equal 3/3 incl. `env -i` (`F42C2Rerun`); quotes 24/24 verbatim, 4 entry sentences flagged
+  (`F42EntryQuotes`); rows re-opened 4/4, no wrong cell (`F42ReopenRows`); cwd claim confirmed, 9/16 verdicts move off `/app`
+  (`F42CritCwd`); compiler flags do not move the receipt (`F42CompilerSens`); separability holds (`F42CritSeparability`);
+  V9 admits 2 of 4 attack shapes and its mutants are caught 7/16 (`F42CritV9`, `F42MutC2V9`) — V9 is a consistency check.
+- No harm: 277/277 verdict lines equal (`F42NoHarm`); tip re-measure at `3e8a2e5e` verdict-equal (`integrate/measure-tip3.txt`).
+- Routed to round 43 (not integrated this round; reports are the evidence): entry 4 sentences, C2 package 9 defects
+  (`F42RevC2Package`), lesson 8 (`F42RevLesson`), Q33/Q34 6 (`F42RevQuality`), riders 5 (`F42RevRiders`), adv errata 2
+  (`F42CritAdv`), SCORECARD 1 mismatch (`F42CritScorecard`), cross-doc drift 1 (`F42ConnClaims`), overclaim review 1 wrong
+  (`F42CritOverclaim`), plan-43 defects 5 (`F42CritPlanNext`). `F42ConnFrontier` returned no verdict line.

@@ -1,0 +1,28 @@
+F42RevBatOclause — required counter run, single-module battery, clone of 508434ad55c709337065611691c426f05875492d
+Scratch: /fast/scratch/hyaku/kengaku-r42/F42RevBatOclause (lane clone toplevel verified = that path)
+
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent /usr/bin/python3 $S/lane/plans/round42_c1_verify.py --lane $S/lane --battery-dir $S/bat-o_clause --only XO1,XO3 --work $S/w
+18:03:17 localbin-before 8cf5b1516051e1918a9a8b1df305247ab67f31ec8366f20843ee83b3c2d86d52
+18:06:10 localbin-before 8cf5b1516051e1918a9a8b1df305247ab67f31ec8366f20843ee83b3c2d86d52
+PINS total=2 mismatched=0
+FIXTURE o_clause-freeze-single tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_clause-freeze-pair-edited-after tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_clause-receipt-withdrawn tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_clause-receipt-side-line tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_clause-clean-order tool=order expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT XO1 order rc-silence killed by=o_clause-freeze-single attributed=L183 hits=2 -- plans/order_check.py:17,183 'FAIL when the freeze commit (the first commit adding <claims>
+MUTANT XO3 order rc-silence killed by=o_clause-receipt-withdrawn attributed=L188 hits=2 -- plans/order_check.py:18,188 'FAIL when <receipt> was committed before <claims> (pre-regist
+BATTERY fixtures=5 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=2 killed=2 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/0 order=2/2
+ADVERTISED direct=2 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+exit=0
+18:06:11 localbin-after 8cf5b1516051e1918a9a8b1df305247ab67f31ec8366f20843ee83b3c2d86d52
+
+Module identity: sha256(plans/battery42/o_clause.py) = badc9e3d3807e22c99161ae3c991db1e0ed840dd8c76542dbf9643c210af163b
+= sha256(.ufo/waves/round-42/build/R42BatOrdClause/battery/o_clause.py) (author sidecar), diff -q: identical.
+PINS at the clone: plans/order_check.py 948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc,
+plans/anchor_digest_check.py 11bb2cad87be1c29c2d5abe8313d487d73f71ba49a40d7d0dc80ec26c70fd4c2 — both equal the
+counter's PINS literals; PINS total=2 mismatched=0 and PINS-AFTER mismatched=0.

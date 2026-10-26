@@ -1,0 +1,54 @@
+# Receipt D — the six appended rows of corpus/routed-findings.jsonl: every check run, status compared
+ENVELOPE bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent <env TMPDIR=$S PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin> <command>
+START 18:10:38
+LOCALBIN_BEFORE 77408cab9a10361a9f6025bab21f5f07933d94ce46e6a10b9117805d58811c11  -
+CLONE_HEAD=508434ad55c709337065611691c426f05875492d
+== 1. routed_open --selftest ==  SELFTEST 12/12  selftest_rc=0
+== 2. all 16 checks as stored == (ids/statuses/checks printed; R42-R1..R5 open, R40-R1.1 closed)
+== 3. observe on the 508434ad clone ==
+OBSERVE R39-R1 rc=0 observed=pass self=closed
+OBSERVE R39-R2 rc=1 observed=fail self=open
+OBSERVE R39-R3 rc=1 observed=fail self=blocked
+OBSERVE R39-R4 rc=2 observed=fail self=open
+OBSERVE R39-R5 rc=0 observed=pass self=closed
+OBSERVE R40-R1 self=open observed=n/a
+OBSERVE R40-R2 rc=0 observed=pass self=closed
+OBSERVE R40-R3 rc=0 observed=pass self=closed
+OBSERVE R40-R4 rc=0 observed=pass self=closed
+OBSERVE R40-R5 self=open observed=n/a
+OBSERVE R42-R1 rc=1 observed=fail self=open
+OBSERVE R42-R2 rc=1 observed=fail self=open
+OBSERVE R42-R3 rc=1 observed=fail self=open
+OBSERVE R42-R4 rc=0 observed=pass self=open MISMATCH        <<< D1
+OBSERVE R42-R5 rc=2 observed=fail self=open
+OBSERVE R40-R1.1 rc=0 observed=pass self=closed
+OBSERVE rows=16 mismatched=1
+ROWS total=16 open=9 blocked=1 closed=6 refused=0
+routed_open=10 oldest_round=39
+observe_rc=1
+== 4. R42-R4 check standalone ==
+R42-R4_check_rc=0
+removed_lines=0          # git diff d69452cf..HEAD -- corpus/SOURCES.md | grep -c '^-[^-]'
+corpus/QUALITY.md:759:## Round42 criterion — a SOURCES row is corrected by a new superseding row, never in place
+== 5. R42-R2 clause isolation in the clean clone ==
+clause1_sentinel_rc=0
+clause2_buildspec_rc=0
+clause3_buildcopy_rc=1        <<< D2: build copy not committed
+committed_under_build: .ufo/waves/round-42/build/swarm-registry.json
+clause4_measurepath_rc=0
+== 6. R42-R1 clause isolation ==
+c1_unshare_ipc=0  c2_ro_bind_data=0  c3_path_ok=0  c4_unattributed=0  c5_uv_pin=1   (battery42 committed, 5 files, no uv pin)
+== 7. R42-R5 and R40-R1.1 checks ==
+SETUP counter plans/round42_c1_verify.py is not a round-38-list counter: missing=R37_REL,battery38_fixtures,attributed,FAMILY non_6_tuple_rows=14; this check reads the round-38 MUTANTS rows (id, clause, dir, adv, old, new) and its battery38 loader only
+R42-R5_rc=2
+R40-R1.1_check_rc=0        # re-run separately (run D's tail was display-truncated); closed+pass, consistent
+LOCALBIN_AFTER 77408cab9a10361a9f6025bab21f5f07933d94ce46e6a10b9117805d58811c11  -
+END 18:10:39
+
+# Also verified (plain reads, no envelope needed):
+# - the six landed rows are byte-equal to the wave-1 draft .ufo/waves/round-42/build/R42RoutedRider/
+#   appended-rows.jsonl (untracked in the worktree): diff empty, 7862 bytes, 6 rows.
+# - R42-R3 clause isolation: c1_filler=0 c2_V9=0 c3_reader=1 -> rc 1, open consistent.
+# - plans/round42_c1_verify.py:108 = PATH = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+#   (the R42-R1 note's "PATH constant (:108) keeps /usr/local/bin").
+# - grep -lc ENVELOPE .ufo/waves/round-42/claims/*.txt | wc -l -> 9 (the R42-R2 note's "9 receipts").

@@ -1,0 +1,47 @@
+# Receipt E — observe at the LANE's current worktree (tip 3e8a2e5e, read-only) + digest stability probes
+ENVELOPE bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent <env TMPDIR=$S PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin> <command>
+START 18:12:08
+LOCALBIN_BEFORE 77408cab9a10361a9f6025bab21f5f07933d94ce46e6a10b9117805d58811c11  -
+== lane worktree build copy (untracked?) ==
+mutate_selftest.py
+RECEIPT.txt
+scratch_guard.py
+== observe on the lane worktree ==
+OBSERVE R39-R1 rc=0 observed=pass self=closed
+OBSERVE R39-R2 rc=1 observed=fail self=open
+OBSERVE R39-R3 rc=1 observed=fail self=blocked
+OBSERVE R39-R4 rc=2 observed=fail self=open
+OBSERVE R39-R5 rc=0 observed=pass self=closed
+OBSERVE R40-R1 self=open observed=n/a
+OBSERVE R40-R2 rc=0 observed=pass self=closed
+OBSERVE R40-R3 rc=0 observed=pass self=closed
+OBSERVE R40-R4 rc=0 observed=pass self=closed
+OBSERVE R40-R5 self=open observed=n/a
+OBSERVE R42-R1 rc=1 observed=fail self=open
+OBSERVE R42-R2 rc=0 observed=pass self=open MISMATCH        <<< D2's worktree face (untracked build copy present)
+OBSERVE R42-R3 rc=1 observed=fail self=open
+OBSERVE R42-R4 rc=0 observed=pass self=open MISMATCH        <<< D1 persists at the current tip
+OBSERVE R42-R5 rc=2 observed=fail self=open
+OBSERVE R40-R1.1 rc=0 observed=pass self=closed
+OBSERVE rows=16 mismatched=2
+ROWS total=16 open=9 blocked=1 closed=6 refused=0
+routed_open=10 oldest_round=39
+observe_lane_worktree_rc=1
+== 3e8a2e5e in my clone? ==  fatal: bad object (clone predates the L1's newest commit; worktree observe used instead)
+== scratch-guard mentions in landed docs (clone at 508434ad) ==
+LOG.md:1261:  scratch root at 15:42:24 (routed, not yet guarded); "no committed fixture" wording recurring; a forgeable frozen counter
+LOG.md:1299:  R2 `plans/scratch_guard.py` (selftest 36/36); PROVINCE round-42 paragraph (digital-logic / C-simulator semantics unowned).
+grep -c 'scratch_guard\|scratch-root-guard' PROVINCE.md LOG.md README.md SKILL.md -> 0 0 0 0   <<< D5 (no SKILL registry row)
+LOCALBIN_AFTER 77408cab9a10361a9f6025bab21f5f07933d94ce46e6a10b9117805d58811c11  -
+END 18:12:08
+
+# Digest-stability probes (plain reads, after run E):
+# - two separate shell processes, same instant: plain ls -A | sha256sum -> 8cf5b151... (both);
+#   ls -A | sort | sha256sum -> 77408cab... (both); /usr/bin/ls -A | sha256sum -> 77408cab...
+# - builtin vs GNU sorted listings: diff empty, SET_IDENTICAL, 102 entries, no subdirectories.
+# - stat /home/vgpnk/.local/bin -> mtime=2026-10-26 18:10:45 (host-side change during my 18:10:38-42 runs;
+#   my commands had no write path there: ro-bound inside bwrap, PATH inside excludes it, outer script
+#   only reads it and writes scratch).
+# Conclusion: the plain digest is order-dependent (harness ls builtin does not sort) AND the set saw a
+# transient host-side change ~18:10:40-45 (authorized concurrent seat installs). Q32 receipts should
+# hash the sorted listing; a pre!=post plain digest alone proves nothing.

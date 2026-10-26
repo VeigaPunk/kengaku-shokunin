@@ -1,0 +1,13 @@
+envelope: bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent python3 /fast/scratch/hyaku/kengaku-r42/F42XMutNear/verifier.py --lane /fast/scratch/hyaku/kengaku-r42/F42XMutNear/lane --battery-dir /fast/scratch/hyaku/kengaku-r42/F42XMutNear/lane/plans/battery40 --work /fast/scratch/hyaku/kengaku-r42/F42XMutNear/work40 --jobs 8 --only NA1,NA2,NA3,NA4,NA5,NA7,NA8,NA10,NA11,NA12,NA18,NA20,NA21,NA23,NO1,NO2,NO3,NO4,NO5,NO6,NO7,NO8,NO22,NO23,NO26
+18:17:18
+8cf5b1516051e1918a9a8b1df305247ab67f31ec8366f20843ee83b3c2d86d52  -
+PINS total=2 mismatched=0
+SETUP module battery40/a_bind.py failed to build (rc=1): builder.py", line 220, in build_module_child
+    argv = fx["build"](ctx, d)
+  File "/fast/scratch/hyaku/kengaku-r42/F42XMutNear/work40/k42-c1-0n7nh1ks/bin/mod_a_bind.py", line 54, in build_a27
+    lane = ctx.clone(d / "lane")
+           ^^^^^^^^^
+AttributeError: 'Ctx' object has no attribute 'clone'
+exit=2
+18:17:18
+8cf5b1516051e1918a9a8b1df305247ab67f31ec8366f20843ee83b3c2d86d52  -

@@ -1,0 +1,52 @@
+# Receipt C — plans/scratch_guard.py (landed bytes f0360e30...) --selftest + escape probes + one mutant
+ENVELOPE bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent <env TMPDIR=$S PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin> <command>
+START 18:10:38
+LOCALBIN_BEFORE 77408cab9a10361a9f6025bab21f5f07933d94ce46e6a10b9117805d58811c11  -
+GUARD_SHA f0360e3028c79ce32fcabf7f89f0103b88205200bce802a8b2520e1f9364aa5d  (== wave-1 build copy sha)
+== 1. selftest on landed bytes ==  ->  SELFTEST ok=36/36, selftest_rc=0
+  (36 case lines all PASS: check-green, check-round-mismatch, check-sentinel-missing,
+   check-sentinel-unparseable, check-non-directory, check-wrote-nothing, check-json,
+   allow-delete-file, allow-delete-dir, allow-absent, allow-dry-run-keeps,
+   refuse-root, refuse-root-dot, refuse-sentinel, refuse-other-seat, refuse-dotdot-relative,
+   refuse-dotdot-absolute, refuse-symlink-file-escape, refuse-symlink-dir-escape,
+   refuse-symlink-dir-rmtree, refuse-symlink-to-sentinel, refuse-symlink-to-root,
+   refuse-seat-traversal, refuse-seat-dot, refuse-seat-empty, refuse-seat-symlink-root,
+   refuse-seat-symlink-other, refuse-empty-target, refuse-nul-target, refuse-fs-root,
+   refuse-bare-root, allow-unlink-inside-symlink, allow-delete-own-seat, check-after-seat-gone,
+   refuse-missing-seat, allow-after-refusals)
+== 2. private fixture root built (groot: L1, SeatA(+sub, escape, escapedir, sentinel_link, rootlink), SeatB, SeatC link, SeatLink link; outside/precious.txt; bare/) ==
+probe check groot -> CHECK ok round=42 want=* seats=5, rc=0
+== 3. unreadable sentinel (chmod 000): check exit code — docstring claims 2 ==
+probe check groot -> SENTINEL .ROUND-ROOT-SENTINEL present=no reason=sentinel-unreadable:Permission denied
+                      CHECK red reason=sentinel-unreadable:Permission denied round=None want=* seats=5   rc=1   <<< D3
+probe safe-rm groot SeatA keep.txt -> REFUSE reason=root-untrusted ... sentinel=sentinel-unreadable:Permission denied  rc=2 (consistent)
+== 4. sentinel replaced by a symlink ==
+probe check groot -> CHECK ok round=42 want=* seats=6  rc=0
+  listing shows: SEAT .ROUND-ROOT-SENTINEL bytes=54 symlink(not-walked) / ROOTFILES n=0 names=   <<< note (a)
+== 5. trailing slash on a file target ==
+probe safe-rm groot SeatA "keep.txt/" -> DELETE path=.../groot/SeatA/keep.txt ... rc=0  (file deleted; normpath strips the slash — correct)
+== 6. dry-run must not bypass a refusal ==
+probe safe-rm groot SeatA ../SeatB/keep.txt --dry-run -> REFUSE reason=target-dotdot target="../SeatB/keep.txt"  rc=2
+== 7. seat that is a regular file ==
+probe safe-rm groot SeatF x -> REFUSE reason=seat-missing seat=SeatF  rc=2   <<< note (b): mislabel (file, not missing)
+== 8. hardlink of the sentinel inside the seat ==
+probe safe-rm groot SeatA sent-hard -> DELETE ... rc=0 ; sentinel_after=[kengaku r42 round root; F42RevRiders probe]  (sentinel byte-intact — no escape)
+== 9. unreadable seat dir in the check listing ==
+chmod 000 SeatB; probe check groot -> SEAT SeatB bytes=0 size=0B ... CHECK ok rc=0   <<< note (c); restored to 755
+== 10. absolute target inside seat; own seat dir; root spelled via symlink ==
+probe safe-rm groot SeatA <abs>/SeatA/other.txt -> DELETE rc=0 (allowed, by design)
+probe safe-rm groot SeatB <abs>/SeatB           -> DELETE rc=0 (own seat dir, by design)
+probe safe-rm <rootlink-symlink> SeatA sub      -> DELETE path=.../groot/SeatA/sub rc=0 (root realpath'ed)
+== 11. real root: read-only check + dry-run on my own seat ==
+probe check /fast/scratch/hyaku/kengaku-r42 --round 42 -> CHECK ok round=42 want=42 seats=35, TOTAL 13.9GiB, rc=0
+probe safe-rm /fast/scratch/hyaku/kengaku-r42 F42RevRiders sent-copy --dry-run -> WOULD-DELETE path=.../F42RevRiders/sent-copy rc=0
+sha256sum /fast/scratch/hyaku/kengaku-r42/.ROUND-ROOT-SENTINEL -> efc83fb9fc2eacbaca0225d3da8f72bd4865fcc93d70ff00377607dd944e66f2  (unchanged)
+== 12. mutant: dotdot guard removed from a scratch copy -> selftest must go red ==
+MUTANT_WRITTEN
+SELFTEST ok=33/36
+SELFTEST failed=refuse-root-dot,refuse-dotdot-relative,refuse-dotdot-absolute
+mutant_selftest_rc=1
+  (without the dotdot guard the three targets are STILL refused — target-is-root / target-resolves-outside-seat /
+   target-outside-seat — the selftest pins the reasons, which is what catches the removal)
+LOCALBIN_AFTER 77408cab9a10361a9f6025bab21f5f07933d94ce46e6a10b9117805d58811c11  -
+END 18:10:39

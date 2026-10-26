@@ -1,0 +1,59 @@
+# Receipt B — round_close.py gate path, rounds 41 and 42: landed clone vs clone with the 9-line R5
+# patch reverse-applied (plans/round_close.py sha back to the freeze value 112b52f0...).
+ENVELOPE bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent <env HOME=... TMPDIR=$S PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin> <command>
+START 18:10:38
+LOCALBIN_BEFORE 77408cab9a10361a9f6025bab21f5f07933d94ce46e6a10b9117805d58811c11  -
+lane0_toplevel=/fast/scratch/hyaku/kengaku-r42/F42RevRiders/lane0
+lane0_round_close_sha=112b52f0051357491b1654932948989d57b923c22bea817c15b710e5f9785c3b  (== freeze sha)
+gate-lane-r41 rc=0
+gate-lane-r42 rc=0
+gate-lane0-r41 rc=0
+gate-lane0-r42 rc=0
+GATE_R41_LANDED_VS_REVERTED_BYTE_EQUAL=no   # diff = 4 lines, all embedding the clone's own path:
+1c1  < ROUND-CLOSE lane=.../lane round=41   > ROUND-CLOSE lane=.../lane0 round=41
+26,27c26,27 < file ok .../lane/corpus/SOURCES.md ; census cmd .../lane/corpus/SOURCES.md
+            > file ok .../lane0/corpus/SOURCES.md ; census cmd .../lane0/corpus/SOURCES.md
+GATE_R42_LANDED_VS_REVERTED_BYTE_EQUAL=no   # same 4 path-only lines
+gate stderr bytes: r41=0 r42=0
+--- gate lane r41 (tail) --- ROUND-CLOSE census exit=0 warnings=15 verdict=PASS / ROUND-CLOSE RESULT PASS exit=0
+--- gate lane r42 (tail) --- ROUND-CLOSE census exit=0 warnings=15 verdict=PASS / ROUND-CLOSE RESULT PASS exit=0
+LOCALBIN_AFTER b5f0360926c3a303c84e416b7ddb5ab63d39b1e946f86f80dc9c40b85c1a1b52  -
+END 18:10:41
+
+# Full gate output, landed clone, round 41 (rc=0):
+ROUND-CLOSE lane=/fast/scratch/hyaku/kengaku-r42/F42RevRiders/lane round=41
+ROUND-CLOSE claims=plans/round-41-claims.md sha256=3b239b5059deda27f874c4b38ea25666ef0d09db57d540fcffaa5de65c85ccfd
+ROUND-CLOSE order-tool=plans/order_check.py sha256=948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc
+ROUND-CLOSE receipts=1
+ORDER claims=plans/round-41-claims.md round=41 freeze=8ef8b4fc7c6302c527db90244d69aa18f53e83bf
+ORDER receipt=corpus/evidence/round41/constraints-probe.txt receipt_commit=f774a87ad071122acd39ba02a9901b5b56d9910a claims_dir=.ufo/waves/round-41/claims/
+ORDER scanned commits=1 file_entries=16 distinct_blobs=16
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+ROUND-CLOSE order receipt=corpus/evidence/round41/constraints-probe.txt exit=0 verdict=PASS
+file	W04	S040 duplicate url arxiv.org/abs/2301.09633 across scopes
+file	W04	S048 duplicate url aclanthology.org/2020.acl-main.442 across scopes
+file	W04	S057 duplicate url arxiv.org/abs/2405.11874 across scopes
+file	W04	S058 duplicate url github.com/UKGovernmentBEIS/inspect_ai/blob/63e45cc52d39b873b944124613da21fdad6f6dcc/src/inspect_ai/scorer/_pattern.py across scopes
+file	W04	S059 duplicate url www.rfc-editor.org/rfc/rfc8259 across scopes
+file	W04	S064 duplicate url spec.commonmark.org/0.31.2 across scopes
+file	W04	S065 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S066 duplicate url doi.org/10.1017/S0950268810000385 across scopes
+file	W04	S067 duplicate url doi.org/10.1017/S0950268810000385 across scopes
+file	W04	S068 duplicate url raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/config_files/test.raw.json across scopes
+file	W04	S069 duplicate url raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/evaluation_harness/evaluators.py across scopes
+file	W04	S071 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S075 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S076 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S100 duplicate url github.com/laude-institute/terminal-bench-2 across scopes
+file	ok	/fast/scratch/hyaku/kengaku-r42/F42RevRiders/lane/corpus/SOURCES.md
+ROUND-CLOSE census tool=/home/vgpnk/Projects/shokunin/scripts/sources-census.sh sha256=3fb7261569f46423dd80ecc23e0a23789a7926f667c7a3fc559d2439d4a64e30 cmd=/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --file /fast/scratch/hyaku/kengaku-r42/F42RevRiders/lane/corpus/SOURCES.md
+ROUND-CLOSE census exit=0 warnings=15 verdict=PASS
+ROUND-CLOSE RESULT PASS exit=0
+
+# Full gate output, landed clone, round 42 (rc=0): identical shape with
+# claims=plans/round-42-claims.md sha256=2c4a5e046b89e68687bcae2d40c921706acf48d810c854c23fae26d2923530fa
+# ORDER round=42 freeze=bc856d803576e182b6c3c12afc6b23f392071c25
+# ORDER receipt=corpus/evidence/round42/fibsqrt-probe.txt receipt_commit=523b27806be0df26d2235089d845265a29f8cedf claims_dir=.ufo/waves/round-42/claims/
+# ORDER scanned commits=1 file_entries=21 distinct_blobs=21 / ORDER RESULT PASS
+# same 15 census W04 lines, census exit=0 warnings=15 verdict=PASS, ROUND-CLOSE RESULT PASS exit=0
