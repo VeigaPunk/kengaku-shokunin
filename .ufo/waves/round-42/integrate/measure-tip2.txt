@@ -1,0 +1,938 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r42/L1 /fast/scratch/hyaku/kengaku-r42/L1 --bind /fast/scratch/hyaku/kengaku-r42/L1/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- .ufo/waves/round-42/integrate/measure.sh tip2
+ENVELOPE start 17:56:41 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+SENTINEL present
+TIP 508434ad55c709337065611691c426f05875492d
+untracked_in_clone=0
+$ python3 plans/round42_c1_verify.py --lane . --work /fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/c1
+PINS total=2 mismatched=0
+FIXTURE a_class-x6-sibling-digest tool=anchor expect=reject declared=digest-wrong-capture observed_rc=1 observed=digest-wrong-capture ok
+FIXTURE a_class-x6-stale-manifest tool=anchor expect=reject declared=digest-wrong-capture observed_rc=1 observed=digest-wrong-capture ok
+FIXTURE a_class-x7-fabricated-token tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE a_class-x7-provenance-row tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE a_class-x14-uppercase-token tool=anchor expect=reject declared=erratum-digest-unresolved observed_rc=1 observed=erratum-digest-unresolved ok
+FIXTURE a_class-x14-two-errata tool=anchor expect=reject declared=erratum-digest-unresolved observed_rc=1 observed=erratum-digest-unresolved ok
+FIXTURE a_route-x1-provenance-table tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_route-x1-two-row-registry tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_route-x3-provenance-url tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_route-x3-blob-url tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_route-x12-slashless-toml tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_route-x12-two-tomls tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_row-x9-short-no-token tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_row-x9-registry-short-valid tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_row-x13-staged-capture tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE a_row-x13-url-staged tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE a_row-x15-sibling-digest tool=anchor expect=reject declared=digest-unknown,erratum-incomplete observed_rc=1 observed=digest-unknown,erratum-incomplete ok
+FIXTURE a_row-x15-manifest-sibling tool=anchor expect=reject declared=digest-unknown,erratum-incomplete observed_rc=1 observed=digest-unknown,erratum-incomplete ok
+FIXTURE o_clause-freeze-single tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_clause-freeze-pair-edited-after tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_clause-receipt-withdrawn tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_clause-receipt-side-line tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_clause-clean-order tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo5-post-receipt-verdicts tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo5-amended-claims-blob tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo6-pass-verdict-row tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo6-echoed-pass-row tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo7-timeout-rows tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_scan-xo7-skipped-row-r38 tool=order expect=reject declared=- observed_rc=1 observed=- ok
+MUTANT X1 anchor rc-mirror killed by=a_route-x1-provenance-table attributed=L318 hits=2 -- plans/anchor_digest_check.py:50-52 'Provenance row — a committed markdown under corpus/evi
+MUTANT X3 anchor rc-mirror killed by=a_route-x3-provenance-url attributed=L343 hits=2 -- plans/anchor_digest_check.py:57-58 'A provenance URL (an evidence markdown naming the same
+MUTANT X6 anchor silence killed by=a_class-x6-sibling-digest attributed=L527 hits=2 -- plans/anchor_digest_check.py:89-92 'A 64-hex token that is a committed capture but not thi
+MUTANT X7 anchor silence killed by=a_class-x7-fabricated-token attributed=L535 hits=6 -- plans/anchor_digest_check.py:92-93 'a token that is no committed capture at all is digest-
+MUTANT X9 anchor rc-silence killed by=a_row-x9-short-no-token attributed=L477 hits=2 -- plans/anchor_digest_check.py:34-35 'A row that matches the census regex but does not have 
+MUTANT X12 anchor rc-mirror killed by=a_route-x12-slashless-toml attributed=L256 hits=2 -- plans/anchor_digest_check.py:55-56 'matched **exactly** against the name = "<org>/<task>" 
+MUTANT X13 anchor rc-silence killed by=a_row-x13-staged-capture attributed=L570 hits=2 -- plans/anchor_digest_check.py:73 '`--evidence-ref head` (default) reads HEAD blobs, so an u
+MUTANT X14 anchor silence killed by=a_class-x14-uppercase-token attributed=L458 hits=2 -- plans/anchor_digest_check.py:111-113 'no 64-hex token on it may be outside A unless it is 
+MUTANT X15 anchor rc-silence killed by=a_row-x15-sibling-digest attributed=L455 hits=2 -- plans/anchor_digest_check.py:108-110 'at least one other token that is 64 lowercase hex an
+MUTANT XO1 order rc-silence killed by=o_clause-freeze-single attributed=L183 hits=2 -- plans/order_check.py:17,183 'FAIL when the freeze commit (the first commit adding <claims>
+MUTANT XO3 order rc-silence killed by=o_clause-receipt-withdrawn attributed=L188 hits=2 -- plans/order_check.py:18,188 'FAIL when <receipt> was committed before <claims> (pre-regist
+MUTANT XO5 order rc-mirror killed by=o_scan-xo5-post-receipt-verdicts attributed=L117 hits=2 -- plans/order_check.py:116-117 'Every blob ever committed under claims_dir up to and includi
+MUTANT XO6 order rc-mirror killed by=o_scan-xo6-pass-verdict-row attributed=L53 hits=2 -- plans/order_check.py:52-53 'a gate output line, with or without the C2 counter's `gate: ` 
+MUTANT XO7 order rc-silence killed by=o_scan-xo7-timeout-rows attributed=L55 hits=2 -- plans/order_check.py:54-55 'a probe receipt line (the probe's per-case verdict record)' (o
+BATTERY fixtures=29 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=14 killed=14 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=9/9 order=5/5
+ADVERTISED direct=13 indirect=1 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 pass
+exit=0
+$ python3 plans/round42_c2_verify.py --lane . --work /fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/c2
+V1 ok listed=9 bad=0 extra=0
+    gate: P1 ok pinned=2 mismatched=0
+    gate: P2 ok receipt_sha256=pinned
+    gate: P3 ok rows=24 distinct_quotes=24 distinct_lines=24 out_of_word_range=0
+    gate: P4 ok checked=24 bad=0 first=0
+    gate: P5 ok manifest_entries=9 bad=0 first=0
+    gate: P6 ok rows=3 bad=0 first=0
+    gate: P7 ok source_lines=3 bad=0 first=0
+    gate: P8 ok index_rows=49 knowledge_files=49 bad=0 first=0
+    gate: P9 ok untracked=0 first=0
+    gate: P10 ok probe_rerun=byte-equal bytes=4212
+    gate: defects=0
+V2 ok spec=frozen gate=frozen gate_exit=0
+V3 ok rows=3 bad=0
+V4 ok cases=16 mismatches_named=0/0 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 ok rows=7 tags=7 bad=0
+V8 ok order_exit=0 result=PASS
+V9 ok case_rows=16/16 bad=0
+checks=9 defects=0
+PREDICATE C2 pass
+exit=0
+$ python3 plans/order_check.py --lane . --claims plans/round-42-claims.md --receipt corpus/evidence/round42/fibsqrt-probe.txt
+ORDER claims=plans/round-42-claims.md round=42 freeze=bc856d803576e182b6c3c12afc6b23f392071c25
+ORDER receipt=corpus/evidence/round42/fibsqrt-probe.txt receipt_commit=523b27806be0df26d2235089d845265a29f8cedf claims_dir=.ufo/waves/round-42/claims/
+ORDER scanned commits=1 file_entries=21 distinct_blobs=21
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+exit=0
+$ python3 plans/round41_c1_verify.py --lane . --work /fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/w
+PINS total=2 mismatched=0
+FIXTURE r_ctl-t06-empty-equal-receipt tool=receipts expect=reject declared=control:unavailable,equal:corpus/evidence/round41/r-ctl-probe.txt observed_rc=1 observed=control:unavailable,equal:corpus/evidence/round41/r-ctl-probe.txt ok
+FIXTURE r_ctl-t06-tamper-on-skipped tool=receipts expect=reject declared=control:unavailable,skip:corpus/evidence/round41/r-ctl-probe.txt:dependency-missing observed_rc=1 observed=control:unavailable,skip:corpus/evidence/round41/r-ctl-probe.txt:dependency-missing ok
+FIXTURE r_ctl-t08-derived-uv-absent tool=receipts expect=accept declared=control:differ,equal:corpus/evidence/round35/tb2-grader-probe.txt,skip:corpus/evidence/round41/r-ctl-probe.txt:dependency-missing observed_rc=0 observed=control:differ,equal:corpus/evidence/round35/tb2-grader-probe.txt,skip:corpus/evidence/round41/r-ctl-probe.txt:dependency-missing ok
+FIXTURE r_ctl-t08-table-uv-absent tool=receipts expect=accept declared=control:differ,equal:corpus/evidence/round36/regex-log-probe.txt,skip:corpus/evidence/round38/build-pmars-probe.txt:dependency-missing observed_rc=0 observed=control:differ,equal:corpus/evidence/round36/regex-log-probe.txt,skip:corpus/evidence/round38/build-pmars-probe.txt:dependency-missing ok
+FIXTURE r_map-t09-shared-stem-separators tool=receipts expect=accept declared=skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command observed_rc=0 observed=skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command ok
+FIXTURE r_map-t09-shared-stem-case-fold tool=receipts expect=accept declared=skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command observed_rc=0 observed=skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command ok
+FIXTURE r_map-t10-derived-mapping tool=receipts expect=accept declared=map:corpus/evidence/r/foo-probe.txt:derived observed_rc=0 observed=map:corpus/evidence/r/foo-probe.txt:derived ok
+FIXTURE r_map-t10-derived-with-table-sibling tool=receipts expect=accept declared=map:corpus/evidence/r/foo-probe.txt:derived,map:corpus/evidence/round36/regex-log-probe.txt:table observed_rc=0 observed=map:corpus/evidence/r/foo-probe.txt:derived,map:corpus/evidence/round36/regex-log-probe.txt:table ok
+FIXTURE r_map-t10-derived-deep-layout tool=receipts expect=accept declared=map:corpus/evidence/round41/scheduling/foo-probe.txt:derived observed_rc=0 observed=map:corpus/evidence/round41/scheduling/foo-probe.txt:derived ok
+FIXTURE r_map-t11-table-overrides-derived tool=receipts expect=accept declared=map:corpus/evidence/round35/tb2-grader-probe.txt:table,map:corpus/evidence/round38/build-pmars-probe.txt:table observed_rc=0 observed=map:corpus/evidence/round35/tb2-grader-probe.txt:table,map:corpus/evidence/round38/build-pmars-probe.txt:table ok
+FIXTURE r_map-t11-table-near-stem-decoy tool=receipts expect=accept declared=map:corpus/evidence/round35/tb2-grader-probe.txt:table observed_rc=0 observed=map:corpus/evidence/round35/tb2-grader-probe.txt:table ok
+FIXTURE r_map-t12-log-population tool=receipts expect=accept declared=skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command observed_rc=0 observed=skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command ok
+FIXTURE r_map-t12-log-with-table-sibling tool=receipts expect=accept declared=map:corpus/evidence/round36/regex-log-probe.txt:table,skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command observed_rc=0 observed=map:corpus/evidence/round36/regex-log-probe.txt:table,skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command ok
+FIXTURE r_map-t12-log-derived tool=receipts expect=accept declared=map:corpus/evidence/r/foo-probe.log:derived observed_rc=0 observed=map:corpus/evidence/r/foo-probe.log:derived ok
+FIXTURE r_run-t03-rc-nonzero-mixed tool=receipts expect=reject declared=control:differ,differ:corpus/evidence/round42/rc-ledger-probe.txt,equal:corpus/evidence/round42/census-probe.txt observed_rc=1 observed=control:differ,differ:corpus/evidence/round42/rc-ledger-probe.txt,equal:corpus/evidence/round42/census-probe.txt ok
+FIXTURE r_run-t03-rc-nonzero-single tool=receipts expect=reject declared=differ:corpus/evidence/round43/audit-probe.txt observed_rc=1 observed=differ:corpus/evidence/round43/audit-probe.txt ok
+FIXTURE r_run-t04-temp-paths-masked tool=receipts expect=accept declared=skip:corpus/evidence/round36/regex-log-probe-first-run.txt:declared-nonreproducible-absolute-scratch-paths observed_rc=0 observed=skip:corpus/evidence/round36/regex-log-probe-first-run.txt:declared-nonreproducible-absolute-scratch-paths ok
+FIXTURE r_run-t13-auto-control-differ tool=receipts expect=accept declared=control:differ,equal:corpus/evidence/round42/stable-census-probe.txt,equal:corpus/evidence/round43/slot-audit-probe.txt observed_rc=0 observed=control:differ,equal:corpus/evidence/round42/stable-census-probe.txt,equal:corpus/evidence/round43/slot-audit-probe.txt ok
+FIXTURE r_setup-t01-lane-absent tool=receipts expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE r_setup-t01-not-a-repo tool=receipts expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE r_setup-t02-no-evidence tool=receipts expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE r_setup-t02-evidence-is-file tool=receipts expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE r_setup-t05-tamper-absent tool=receipts expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE r_setup-t05-tamper-unmapped tool=receipts expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE r_setup-t07-lane-subdir tool=receipts expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE r_setup-t07-nested-lane tool=receipts expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_exit-collision-admit tool=sources expect=exit-3 declared=- observed_rc=3 observed=- ok
+FIXTURE s_exit-collision-indented tool=sources expect=exit-3 declared=- observed_rc=3 observed=- ok
+FIXTURE s_exit-queued-admit tool=sources expect=exit-5 declared=- observed_rc=5 observed=- ok
+FIXTURE s_exit-opened-elsewhere tool=sources expect=exit-5 declared=- observed_rc=5 observed=- ok
+FIXTURE s_exit-attest-opened tool=sources expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE s_exit-absent-id tool=sources expect=exit-5 declared=- observed_rc=5 observed=- ok
+FIXTURE s_modes-s01-quote-plus-package tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_modes-s01-quote-plus-registry-and-package tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_modes-s04-url-map-with-adopt tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_modes-s04-url-map-with-check-only tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_modes-s08-quote-file-without-artifact tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_modes-s08-artifact-without-quote-file tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_modes-s09-url-map-nested-shape tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_modes-s09-url-map-directory tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-02-registry-without-package tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-02-package-without-registry tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-03-dotted-access-date tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-03-single-digit-month-duplicate-request tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-05-two-ids-without-entries tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-05-empty-entries-value tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-06-recheck-cadence-word tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-06-recheck-prose-scoped-row tool=sources expect=error declared=- observed_rc=2 observed=- ok
+MUTANT T01 receipts error killed by=r_setup-t01-lane-absent -- plans/tip_receipts.py:30-32 '2 usage/setup (lane not a git work-tree root, no `corpus/evid
+MUTANT T02 receipts error killed by=r_setup-t02-no-evidence -- plans/tip_receipts.py:30-31 '2 usage/setup (..., no `corpus/evidence/`, ...)'
+MUTANT T03 receipts rc-silence killed by=r_run-t03-rc-nonzero-mixed -- plans/tip_receipts.py:30 '1 a `differ`, a failed control, or a probe that did not complete
+MUTANT T04 receipts rc-mirror killed by=r_run-t04-temp-paths-masked -- plans/tip_receipts.py:21-23 'absolute mkdtemp paths are masked on both sides, so equality 
+MUTANT T05 receipts error killed by=r_setup-t05-tamper-absent -- plans/tip_receipts.py:31-32 '2 usage/setup (..., unknown `--tamper` id)'
+MUTANT T06 receipts rc-silence killed by=r_ctl-t06-empty-equal-receipt -- plans/tip_receipts.py:29-30 '0 every mapped receipt reproduces ... and the control reports
+MUTANT T07 receipts error killed by=r_setup-t07-lane-subdir -- plans/tip_receipts.py:30-31 '2 usage/setup (lane not a git work-tree root, ...)'
+MUTANT T08 receipts rc-mirror killed by=r_ctl-t08-derived-uv-absent -- plans/tip_receipts.py:19-21 'A mapped receipt whose script is gone, whose dependency is ab
+MUTANT T09 receipts silence killed by=r_map-t09-shared-stem-separators -- plans/tip_receipts.py:13-14 'if its own basename resolves to exactly one committed `plans/
+MUTANT T10 receipts silence killed by=r_map-t10-derived-mapping -- plans/tip_receipts.py:15-16 'with non-alphanumerics dropped and case folded, the receipt s
+MUTANT T11 receipts silence killed by=r_map-t11-table-overrides-derived -- plans/tip_receipts.py:13-14 'A file enters the byte-comparison if the RECEIPTS table maps 
+MUTANT T12 receipts silence killed by=r_map-t12-log-population -- plans/tip_receipts.py:12 'Population, stated mechanically: committed files `corpus/evidenc
+MUTANT T13 receipts rc-mirror killed by=r_ctl-t08-derived-uv-absent -- plans/tip_receipts.py:26-27 'the comparator must answer `differ`. ... A control that answe
+MUTANT S01 sources 2>0 killed by=s_modes-s01-quote-plus-package -- SKILL.md:573 '`2` usage error'; plans/sources_adopt.py:1020-1021 '# Exclusive: before this
+MUTANT S02 sources 2>1 killed by=s_usage-02-registry-without-package -- SKILL.md:573 '`2` usage error'; plans/sources_adopt.py:1042 '--registry and --package are 
+MUTANT S03 sources 2>5 killed by=s_usage-03-dotted-access-date -- SKILL.md:573 '`2` usage error'; plans/sources_adopt.py:1053 '--access-date must be an ISO 
+MUTANT S04 sources 2>0 killed by=s_modes-s04-url-map-with-adopt -- SKILL.md:573 '`2` usage error'; plans/sources_adopt.py:1035-1036 '`--url-map` alone reache
+MUTANT S05 sources 2>0 killed by=s_usage-05-two-ids-without-entries -- SKILL.md:573 '`2` usage error'; plans/sources_adopt.py:1051 '--entries is required when --
+MUTANT S06 sources 2>0 killed by=s_usage-06-recheck-cadence-word -- SKILL.md:573 '`2` usage error'; plans/sources_adopt.py:1059 '--recheck must be an ISO date
+MUTANT S07 sources 3>0 killed by=s_exit-collision-admit -- SKILL.md:573 '`3` staged/registry id collision'
+MUTANT S08 sources 2>1 killed by=s_modes-s08-quote-file-without-artifact -- SKILL.md:573 '`2` usage error'; plans/sources_adopt.py:1019 '--quote-file and --artifact m
+MUTANT S09 sources 2>9 killed by=s_modes-s09-url-map-nested-shape -- SKILL.md:573 '`2` usage error or unreadable quote artifact'; plans/sources_adopt.py:1028 '
+MUTANT S11 sources 5>0 killed by=s_exit-queued-admit -- SKILL.md:573 '`5` requested id absent' (main() also refuses a requested row that is not `m
+BATTERY fixtures=48 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=23 killed=23 survived=0 invalid=0 null_detected=0
+MUTANTS-BY-TOOL receipts=13/13 sources=10/10
+ADVERTISED direct=21 indirect=2 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 pass
+exit=0
+$ python3 plans/round41_c2_verify.py --lane . --work /fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/w
+V1 ok listed=10 bad=0 extra=0
+    gate: P1 ok pinned=2 mismatched=0
+    gate: P2 ok receipt_sha256=pinned
+    gate: P3 ok rows=29 distinct_quotes=29 distinct_lines=29 out_of_word_range=0
+    gate: P4 ok checked=29 bad=0 first=0
+    gate: P5 ok manifest_entries=10 bad=0 first=0
+    gate: P6 ok rows=2 bad=0 first=0
+    gate: P7 ok source_lines=2 bad=0 first=0
+    gate: P8 ok index_rows=49 knowledge_files=49 bad=0 first=0
+    gate: P9 ok untracked=0 first=0
+    gate: P10 ok probe_rerun=byte-equal bytes=5775
+    gate: defects=0
+V2 ok spec=frozen gate=frozen gate_exit=0
+V3 ok rows=2 bad=0
+V4 ok cases=25 mismatches_named=2/2 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 ok rows=11 tags=11 bad=0
+V8 ok order_exit=0 result=PASS
+checks=8 defects=0
+PREDICATE C2 pass
+exit=0
+$ python3 plans/order_check.py --lane . --claims plans/round-41-claims.md --receipt corpus/evidence/round41/constraints-probe.txt
+ORDER claims=plans/round-41-claims.md round=41 freeze=8ef8b4fc7c6302c527db90244d69aa18f53e83bf
+ORDER receipt=corpus/evidence/round41/constraints-probe.txt receipt_commit=f774a87ad071122acd39ba02a9901b5b56d9910a claims_dir=.ufo/waves/round-41/claims/
+ORDER scanned commits=1 file_entries=16 distinct_blobs=16
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+exit=0
+$ python3 plans/round40_c1_verify.py --lane . --work /fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/w
+PINS total=3 mismatched=0
+FIXTURE a_bind-a27-token-per-capture tool=anchor expect=reject declared=capture-unanchored observed_rc=1 observed=capture-unanchored ok
+FIXTURE a_bind-a15-slug-ambiguity tool=anchor expect=reject declared=anchor-unbound observed_rc=1 observed=anchor-unbound ok
+FIXTURE a_bind-a17-index-bytes tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_man-stale-manifest-digest tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_man-uppercase-manifest-entry tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_row-indent4-wrong tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_row-token-in-teaches tool=anchor expect=reject declared=token-outside-anchor observed_rc=1 observed=token-outside-anchor ok
+FIXTURE a_row-12-cells tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_tok-upper-anchor tool=anchor expect=reject declared=digest-uppercase observed_rc=1 observed=digest-uppercase ok
+FIXTURE a_tok-abbrev-7hex tool=anchor expect=reject declared=abbrev-unresolved observed_rc=1 observed=abbrev-unresolved ok
+FIXTURE a_tok-abbrev-64hex tool=anchor expect=reject declared=abbrev-unresolved observed_rc=1 observed=abbrev-unresolved ok
+FIXTURE l_refuse-source-not-a-repo tool=ledger expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE l_refuse-work-lane-exists tool=ledger expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE l_refuse-stale-pin-ref tool=ledger expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE l_rows-open-row tool=ledger expect=reject declared=NO:R34-D2 observed_rc=1 observed=NO:R34-D2 ok
+FIXTURE l_rows-empty-ledgers tool=ledger expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE l_rows-check-crashes tool=ledger expect=reject declared=NO:R34-D3 observed_rc=1 observed=NO:R34-D3 ok
+FIXTURE l_rows-unknown-check tool=ledger expect=reject declared=NO:R34-D5 observed_rc=1 observed=NO:R34-D5 ok
+FIXTURE o_gate-p10-ok-excuse tool=order expect=reject declared=hit:gate-p10 observed_rc=1 observed=hit:gate-p10 ok
+FIXTURE o_gate-claims-gitlink tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_gate-claims-bak-name tool=order expect=error declared=- observed_rc=2 observed=- ok
+MUTANT A01 anchor silence killed by=a_tok-upper-anchor -- plans/anchor_digest_check.py:88-89 'any other anchor token must be exactly 64 lowercase he
+MUTANT A02 anchor rc-silence killed by=a_tok-abbrev-7hex -- plans/anchor_digest_check.py:84-85 'a defect (`abbrev-unresolved`) unless its hex is 8-63 
+MUTANT A03 anchor rc-silence killed by=a_tok-abbrev-64hex -- plans/anchor_digest_check.py:84-85 (as A02: 'its hex is 8-63 lowercase hex digits')
+MUTANT A06 anchor rc-mirror killed by=a_row-indent4-wrong -- plans/anchor_digest_check.py:31 'Row set — the census shape (... `^ {0,3}\\|\\s*(S\\d{3,})
+MUTANT A08 anchor rc-silence killed by=a_row-token-in-teaches -- plans/anchor_digest_check.py:81 'a token outside the anchor cell is `token-outside-anchor`
+MUTANT A09 anchor rc-silence killed by=a_row-12-cells -- plans/anchor_digest_check.py:34-35 'A row that matches the census regex but does not have 
+MUTANT A15 anchor rc-silence killed by=a_bind-a15-slug-ambiguity -- plans/anchor_digest_check.py:55 'is matched **exactly** against the `name = "<org>/<task>"
+MUTANT A17 anchor rc-mirror killed by=a_bind-a17-index-bytes -- plans/anchor_digest_check.py:74 '`--evidence-ref index` reads the index blobs (`git cat-fi
+MUTANT A21 anchor rc-mirror killed by=a_man-uppercase-manifest-entry -- plans/anchor_digest_check.py:44-46 'the digest that entry lists, and the digest of the com
+MUTANT A22 anchor rc-mirror killed by=a_man-stale-manifest-digest -- plans/anchor_digest_check.py:44-46 (as A21: the manifest entry is an accepted view of the 
+MUTANT A27 anchor silence killed by=a_bind-a27-token-per-capture -- plans/anchor_digest_check.py:96-98 'A capture none of the row's anchor tokens resolves is 
+MUTANT L01 ledger error killed by=l_refuse-source-not-a-repo -- plans/ledger_tip.py:23-25 'Exit codes are the registry row's contract (SKILL.md:581): ... 
+MUTANT L05 ledger rc-silence killed by=l_rows-open-row -- plans/ledger_tip.py:20-21 'mismatches counts every closed row whose check fails plus every
+MUTANT L06 ledger rc-silence killed by=l_rows-empty-ledgers -- plans/ledger_tip.py:23-24 '`0` no mismatch · `1` a ledger row genuinely disagrees' (exit 0
+MUTANT L11 ledger error killed by=l_refuse-work-lane-exists -- plans/ledger_tip.py:58 'The clone is created at <work>/lane (must not exist)'
+MUTANT L14 ledger rc-silence killed by=l_rows-check-crashes -- plans/ledger_tip.py:228 '# a crash is an observed failure, never a pass'
+MUTANT L15 ledger rc-silence killed by=l_rows-unknown-check -- plans/ledger_tip.py:20-21 (as L05: a closed row whose check fails is a mismatch; an unknow
+MUTANT L21 ledger error killed by=l_refuse-stale-pin-ref -- plans/ledger_tip.py:44-45 'REFUSE stale pin ref … (exit 2) the ref exists but resolves to 
+MUTANT O04 order rc-silence killed by=o_gate-p10-ok-excuse -- plans/order_check.py:15-16 'a gate `P10` line whose detail is anything other than `receipt
+MUTANT O12 order rc-error killed by=o_gate-claims-gitlink -- plans/order_check.py:37 'it reads every blob under claims/' (non-blob tree entries are not
+MUTANT O14 order error killed by=o_gate-claims-bak-name -- plans/order_check.py:26-27 'Exit: ... 2 setup error (..., unparseable round number, bad ar
+BATTERY fixtures=21 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=21 killed=21 survived=0 invalid=0 null_detected=0
+PINS-AFTER mismatched=0
+PREDICATE C1 pass
+exit=0
+$ python3 plans/round40_c2_verify.py --lane . --work /fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/w
+V1 ok listed=8 bad=0 extra=0
+    gate: P1 ok pinned=2 mismatched=0
+    gate: P2 ok receipt_sha256=pinned
+    gate: P3 ok rows=16 distinct_quotes=16 distinct_lines=16 out_of_word_range=0
+    gate: P4 ok checked=16 bad=0 first=0
+    gate: P5 ok manifest_entries=8 bad=0 first=0
+    gate: P6 ok rows=2 bad=0 first=0
+    gate: P7 ok source_lines=2 bad=0 first=0
+    gate: P8 ok index_rows=49 knowledge_files=49 bad=0 first=0
+    gate: P9 ok untracked=0 first=0
+    gate: P10 ok probe_rerun=byte-equal bytes=8257
+    gate: defects=0
+V2 ok spec=frozen gate=frozen gate_exit=0
+V3 ok rows=2 bad=0
+V4 ok cases=28 mismatches_named=0/0 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 ok rows=6 tags=6 bad=0
+checks=7 defects=0
+PREDICATE C2 pass
+exit=0
+$ python3 plans/order_check.py --lane . --claims plans/round-40-claims.md --receipt corpus/evidence/round40/db-wal-probe.txt
+ORDER claims=plans/round-40-claims.md round=40 freeze=bbb109505670192035ef63d7c8b37733e99fa1a3
+ORDER receipt=corpus/evidence/round40/db-wal-probe.txt receipt_commit=055748f78a3335434f2a4070bb3fb1cf8d0eba1f claims_dir=.ufo/waves/round-40/claims/
+ORDER scanned commits=1 file_entries=12 distinct_blobs=12
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+exit=0
+$ python3 plans/order_check.py --lane . --claims plans/round-39-claims.md --receipt corpus/evidence/round39/git-leak-probe.txt
+ORDER claims=plans/round-39-claims.md round=39 freeze=088f7c36e94ce2f15e6f9aa0c5a5c5b75a1646c8
+ORDER receipt=corpus/evidence/round39/git-leak-probe.txt receipt_commit=6a1eb5e1da4a435940b821e28530c31f3411549c claims_dir=.ufo/waves/round-39/claims/
+ORDER scanned commits=1 file_entries=7 distinct_blobs=7
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+exit=0
+$ python3 plans/order_check.py --lane . --claims plans/round-38-claims.md --receipt corpus/evidence/round38/build-pmars-probe.txt
+ORDER claims=plans/round-38-claims.md round=38 freeze=e0a378539a45cc9388c66cfba22f44275131de23
+ORDER receipt=corpus/evidence/round38/build-pmars-probe.txt receipt_commit=e95cf5500b6c13305cc41b8532ae07fb2c9dcd7b claims_dir=.ufo/waves/round-38/claims/
+ORDER scanned commits=1 file_entries=6 distinct_blobs=6
+ORDER HIT .ufo/waves/round-38/claims/control-c2-skip.txt@e0a378539a45:11 kind=gate-p10 `gate: P10 DEFECT fresh probe output is not byte-equal to the receipt`
+ORDER FAIL probe-executed-before-receipt hits=1
+ORDER RESULT FAIL
+exit=1
+$ python3 plans/round39_c1_verify.py --lane . --work /fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/w
+PINS total=26 mismatched=0
+FIXTURE r36-P0 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-P1 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P2 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P3 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P4 expect=reject declared=- observed_rc=1 observed_defects=P6 ok
+FIXTURE r36-P5 expect=reject declared=- observed_rc=1 observed_defects=P1 ok
+FIXTURE r36-P6 expect=reject declared=- observed_rc=1 observed_defects=P9 ok
+FIXTURE r36-P7 expect=reject declared=- observed_rc=1 observed_defects=P1,P3,P6,P9 ok
+FIXTURE r36-L1 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-L2 expect=reject declared=- observed_rc=1 observed_defects=D4 ok
+FIXTURE r36-L3 expect=reject declared=- observed_rc=1 observed_defects=D4 ok
+FIXTURE r36-L4 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-L5 expect=reject declared=- observed_rc=1 observed_defects=D5 ok
+FIXTURE r36-L6 expect=reject declared=- observed_rc=1 observed_defects=D5 ok
+FIXTURE d4-m44-file-unreadable expect=reject declared=D4 observed_rc=1 observed_defects=D4 ok
+FIXTURE d4-m45-not-one-line expect=reject declared=D4 observed_rc=1 observed_defects=D4 ok
+FIXTURE d4-m46-label-not-carried expect=reject declared=D4 observed_rc=1 observed_defects=D4 ok
+FIXTURE d5-m48-file-unreadable expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m49-two-lines expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m50-label-altered expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m51-require-missing expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m52-forbid-present expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m53-capture-missing expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m55-quote-absent expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE p23-p2-receipt-deleted expect=reject declared=P2 observed_rc=1 observed_defects=P2 ok
+FIXTURE p23-p2-receipt-byte expect=reject declared=P2 observed_rc=1 observed_defects=P2 ok
+FIXTURE p23-p3-heading-renamed expect=reject declared=P3,P4 observed_rc=1 observed_defects=P3,P4 ok
+FIXTURE p23-p3-seven-texts expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE p23-p3-seven-locations expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE p23-p3-two-word-quote expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE p4-no-quote-row expect=reject declared=P3,P4 observed_rc=1 observed_defects=P3,P4 ok
+FIXTURE p4-capture-unreadable expect=reject declared=P4,P5 observed_rc=1 observed_defects=P4,P5 ok
+FIXTURE p4-line-outside expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p4-one-char-off expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p5-manifest-absent expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-manifest-unparsed-line expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-capture-bytes-stale-digest expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-row-capture-unpinned expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-manifest-digest-off-pin expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-quote-cites-unpinned expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-extra-capture-file expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p6-m20-registry-row-duplicated expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m21-row-with-twelve-cells expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m22-url-off-the-pinned-raw-path expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m23-row-tier-b expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m24-row-status-queued expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m25-used-by-another-path expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m26-five-word-teaches-cell expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m27-two-identical-teaches-cells expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p7-m28-entry-deleted expect=reject declared=P3,P4,P7,P8 observed_rc=1 observed_defects=P3,P4,P7,P8 ok
+FIXTURE p7-m29-source-url expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE p7-m30-verified-at expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE p7-m31-recheck-line expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE p7-m32-negative-heading expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE p7-m33-falsifier-word expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE p8-readme-deleted expect=reject declared=P8 observed_rc=1 observed_defects=P8 ok
+FIXTURE p8-index-row-duplicated expect=reject declared=P8 observed_rc=1 observed_defects=P8 ok
+FIXTURE p8-index-row-missing-sid expect=reject declared=P8 observed_rc=1 observed_defects=P8 ok
+FIXTURE p8-coverage-bullet-removed expect=reject declared=P8 observed_rc=1 observed_defects=P8 ok
+FIXTURE p8-extra-knowledge-file expect=reject declared=P8 observed_rc=1 observed_defects=P8 ok
+FIXTURE p910-not-a-git-repo expect=reject declared=P9 observed_rc=1 observed_defects=P9 ok
+FIXTURE p910-receipt-deleted expect=reject declared=P10,P2 observed_rc=1 observed_defects=P10,P2 ok
+FIXTURE p910-probe-exits-1 expect=reject declared=P1,P10 observed_rc=1 observed_defects=P1,P10 ok
+FIXTURE p910-receipt-one-byte expect=reject declared=P10,P2 observed_rc=1 observed_defects=P10,P2 ok
+FIXTURE b1run-n01-empty-pins expect=reject declared=P1 observed_rc=1 observed_defects=P1 ok
+FIXTURE b1run-n16-clause-crash expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE d4m-n19-last-pattern-unmatched expect=reject declared=D4 observed_rc=1 observed_defects=D4 ok
+FIXTURE d4m-n20-pattern-case-differs expect=reject declared=D4 observed_rc=1 observed_defects=D4 ok
+FIXTURE d5m-n22-quote-prefix expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5m-n21-manifest-row-2 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE mainx-root-not-a-directory expect=error declared=- observed_rc=2 observed_defects=- ok
+FIXTURE mainx-spec-invalid-json expect=error declared=- observed_rc=2 observed_defects=- ok
+FIXTURE p10a-n13-trailing-space expect=reject declared=P10 observed_rc=1 observed_defects=P10 ok
+FIXTURE p10a-n14-first-line-only expect=reject declared=P10 observed_rc=1 observed_defects=P10 ok
+FIXTURE p10b-rerun-byte-equal-accept expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE p3m-exact-min-distinct-locations expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE p4a-second-row-line-outside expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p4a-text-elsewhere expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p4b-case-only expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p4b-range-end-past-last expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p5m-row-off-pin-later-row expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5m-manifest-blank-line expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE p6m-n09-teaches-one-below-min expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6m-n10-url-scheme-http expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p7m-n11-empty-recheck expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE p7m-n12-first-row-url expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE d5m39-tagged-quote-span expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE p1m-second-pin-appended-bytes expect=reject declared=P1 observed_rc=1 observed_defects=P1 ok
+FIXTURE p3m39-quote-one-word-above-upper-bound expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE p7m39-s105-two-source-lines expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+BATTERY fixtures=90 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT M01 D5 mirror killed by=d5m-n21-manifest-row-2 -- a D5 capture whose digest sits on a non-first manifest row is accepted [Q24 'the genuine package must be accepted' (indirect: D5 is a correction line, not the package); round-38 N21 relabelled from its unreachable 'silence']
+MUTANT M02 P1 silence killed by=p1m-second-pin-appended-bytes -- every frozen instrument is checked against its pin, not only the first [package-gate row 'against a spec of pinned digests ... a stub probe dies on its digest pin']
+MUTANT M03 P3 silence killed by=p3m39-quote-one-word-above-upper-bound -- a quote one word above the spec's upper word bound is a defect [gate docstring 'quote bounds ... come from --spec']
+MUTANT M04 P7 silence killed by=p7m39-s105-two-source-lines -- a registry row carries exactly one source line, the pinned URL [package-gate row 'SOURCES rows ... against a spec of pinned digests' (indirect: the row names the source, the gate pins its URL)]
+MUTANT M05 RUN rc-silence killed by=p23-p2-receipt-deleted -- a package with a DEFECT clause exits 1, not 0 [gate docstring 'exit 0 = accept, 1 = reject'; package-gate row 'Exit 0 accept / 1 reject / 2 setup']
+MUTANT M06 MAIN rc-mirror killed by=r36-P0 -- the genuine package exits 0, not 1 [gate docstring 'exit 0 = accept, 1 = reject'; Q24 'the genuine package must be accepted']
+MUTANT M07 D5 mirror killed by=d5m39-tagged-quote-span -- a D5 quote is found in a capture whose quote span carries markup [Q24 'the genuine package must be accepted' (indirect, as M01); the gate strips tags before the flat compare]
+MUTANTS total=7 killed=7 survived=0 invalid=0 null_detected=0
+PREDICATE C1 pass
+exit=0
+$ python3 plans/round39_c2_verify.py --lane . --work /fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/w
+V1 ok listed=7 bad=0 extra=0
+    gate: P1 ok pinned=2 mismatched=0
+    gate: P2 ok receipt_sha256=pinned
+    gate: P3 ok rows=29 distinct_quotes=29 distinct_lines=29 out_of_word_range=0
+    gate: P4 ok checked=29 bad=0 first=0
+    gate: P5 ok manifest_entries=7 bad=0 first=0
+    gate: P6 ok rows=2 bad=0 first=0
+    gate: P7 ok source_lines=2 bad=0 first=0
+    gate: P8 ok index_rows=49 knowledge_files=49 bad=0 first=0
+    gate: P9 ok untracked=0 first=0
+    gate: P10 ok probe_rerun=byte-equal bytes=5867
+    gate: defects=0
+V2 ok spec=frozen gate=frozen gate_exit=0
+V3 ok rows=2 bad=0
+V4 ok cases=25 mismatches_named=0/0 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 ok rows=4 tags=4 bad=0
+checks=7 defects=0
+PREDICATE C2 pass
+exit=0
+$ python3 plans/round38_c1_verify.py --lane . --work /fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/w
+PINS total=14 mismatched=0
+FIXTURE r36-P0 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-P1 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P2 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P3 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P4 expect=reject declared=- observed_rc=1 observed_defects=P6 ok
+FIXTURE r36-P5 expect=reject declared=- observed_rc=1 observed_defects=P1 ok
+FIXTURE r36-P6 expect=reject declared=- observed_rc=1 observed_defects=P9 ok
+FIXTURE r36-P7 expect=reject declared=- observed_rc=1 observed_defects=P1,P3,P6,P9 ok
+FIXTURE r36-L1 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-L2 expect=reject declared=- observed_rc=1 observed_defects=D4 ok
+FIXTURE r36-L3 expect=reject declared=- observed_rc=1 observed_defects=D4 ok
+FIXTURE r36-L4 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-L5 expect=reject declared=- observed_rc=1 observed_defects=D5 ok
+FIXTURE r36-L6 expect=reject declared=- observed_rc=1 observed_defects=D5 ok
+FIXTURE d4-m44-file-unreadable expect=reject declared=D4 observed_rc=1 observed_defects=D4 ok
+FIXTURE d4-m45-not-one-line expect=reject declared=D4 observed_rc=1 observed_defects=D4 ok
+FIXTURE d4-m46-label-not-carried expect=reject declared=D4 observed_rc=1 observed_defects=D4 ok
+FIXTURE d5-m48-file-unreadable expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m49-two-lines expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m50-label-altered expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m51-require-missing expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m52-forbid-present expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m53-capture-missing expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m55-quote-absent expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE p23-p2-receipt-deleted expect=reject declared=P2 observed_rc=1 observed_defects=P2 ok
+FIXTURE p23-p2-receipt-byte expect=reject declared=P2 observed_rc=1 observed_defects=P2 ok
+FIXTURE p23-p3-heading-renamed expect=reject declared=P3,P4 observed_rc=1 observed_defects=P3,P4 ok
+FIXTURE p23-p3-seven-texts expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE p23-p3-seven-locations expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE p23-p3-two-word-quote expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE p4-no-quote-row expect=reject declared=P3,P4 observed_rc=1 observed_defects=P3,P4 ok
+FIXTURE p4-capture-unreadable expect=reject declared=P4,P5 observed_rc=1 observed_defects=P4,P5 ok
+FIXTURE p4-line-outside expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p4-one-char-off expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p5-manifest-absent expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-manifest-unparsed-line expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-capture-bytes-stale-digest expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-row-capture-unpinned expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-manifest-digest-off-pin expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-quote-cites-unpinned expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-extra-capture-file expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p6-m20-registry-row-duplicated expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m21-row-with-twelve-cells expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m22-url-off-the-pinned-raw-path expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m23-row-tier-b expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m24-row-status-queued expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m25-used-by-another-path expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m26-five-word-teaches-cell expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m27-two-identical-teaches-cells expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p7-m28-entry-deleted expect=reject declared=P3,P4,P7,P8 observed_rc=1 observed_defects=P3,P4,P7,P8 ok
+FIXTURE p7-m29-source-url expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE p7-m30-verified-at expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE p7-m31-recheck-line expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE p7-m32-negative-heading expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE p7-m33-falsifier-word expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE p8-readme-deleted expect=reject declared=P8 observed_rc=1 observed_defects=P8 ok
+FIXTURE p8-index-row-duplicated expect=reject declared=P8 observed_rc=1 observed_defects=P8 ok
+FIXTURE p8-index-row-missing-sid expect=reject declared=P8 observed_rc=1 observed_defects=P8 ok
+FIXTURE p8-coverage-bullet-removed expect=reject declared=P8 observed_rc=1 observed_defects=P8 ok
+FIXTURE p8-extra-knowledge-file expect=reject declared=P8 observed_rc=1 observed_defects=P8 ok
+FIXTURE p910-not-a-git-repo expect=reject declared=P9 observed_rc=1 observed_defects=P9 ok
+FIXTURE p910-receipt-deleted expect=reject declared=P10,P2 observed_rc=1 observed_defects=P10,P2 ok
+FIXTURE p910-probe-exits-1 expect=reject declared=P1,P10 observed_rc=1 observed_defects=P1,P10 ok
+FIXTURE p910-receipt-one-byte expect=reject declared=P10,P2 observed_rc=1 observed_defects=P10,P2 ok
+FIXTURE b1run-n01-empty-pins expect=reject declared=P1 observed_rc=1 observed_defects=P1 ok
+FIXTURE b1run-n16-clause-crash expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE d4m-n19-last-pattern-unmatched expect=reject declared=D4 observed_rc=1 observed_defects=D4 ok
+FIXTURE d4m-n20-pattern-case-differs expect=reject declared=D4 observed_rc=1 observed_defects=D4 ok
+FIXTURE d5m-n22-quote-prefix expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5m-n21-manifest-row-2 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE mainx-root-not-a-directory expect=error declared=- observed_rc=2 observed_defects=- ok
+FIXTURE mainx-spec-invalid-json expect=error declared=- observed_rc=2 observed_defects=- ok
+FIXTURE p10a-n13-trailing-space expect=reject declared=P10 observed_rc=1 observed_defects=P10 ok
+FIXTURE p10a-n14-first-line-only expect=reject declared=P10 observed_rc=1 observed_defects=P10 ok
+FIXTURE p10b-rerun-byte-equal-accept expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE p3m-exact-min-distinct-locations expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE p4a-second-row-line-outside expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p4a-text-elsewhere expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p4b-case-only expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p4b-range-end-past-last expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p5m-row-off-pin-later-row expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5m-manifest-blank-line expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE p6m-n09-teaches-one-below-min expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6m-n10-url-scheme-http expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p7m-n11-empty-recheck expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE p7m-n12-first-row-url expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+BATTERY fixtures=86 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANT N01 P1 silence killed by=b1run-n01-empty-pins -- an empty frozen_instruments pin set is not an accept [capability row: 'against a spec of pinned digests'; R37PlanNext B1]
+MUTANT N02 P3 mirror killed by=p3m-exact-min-distinct-locations -- a package with exactly min_distinct_locations quote lines is accepted [Q24 'the genuine package must be accepted'; F37XMutP23 X2]
+MUTANT N03 P4 silence killed by=p4a-second-row-line-outside -- every quote is checked, not only the first [docstring 'a quote not verbatim on its cited line'; F37XMutP4 X2]
+MUTANT N04 P4 silence killed by=p4a-text-elsewhere -- verbatim on the CITED lines, not anywhere in the capture [capability row 'verbatim on its cited capture line'; F37XMutP4 X4]
+MUTANT N05 P4 silence killed by=p4b-case-only -- verbatim is case-sensitive [docstring 'a quote not verbatim'; F37XMutP4 X5]
+MUTANT N06 P4 silence killed by=p4b-range-end-past-last -- a cited range past the capture's last line is a defect [F37XMutP4 X6]
+MUTANT N07 P5 silence killed by=p5m-row-off-pin-later-row -- every registry row's capture is pinned in the manifest, not only the first [F37XMutP5 X1]
+MUTANT N08 P5 mirror killed by=p5m-manifest-blank-line -- a blank manifest line is tolerated, not an unparsed line [Q24 genuine accepted; R37PlanNext B2]
+MUTANT N09 P6 silence killed by=p6m-n09-teaches-one-below-min -- a teaches cell below min_teaches_words is a defect [capability row 'teaches cells carry >=8 distinct words'; F37XMutP6 X1]
+MUTANT N10 P6 silence killed by=p6m-n10-url-scheme-http -- the row URL is the pinned raw URL including its scheme [F37XMutP6 X4]
+MUTANT N11 P7 silence killed by=p7m-n11-empty-recheck -- a recheck line must carry a value [F37XMutP7 X4]
+MUTANT N12 P7 silence killed by=p7m-n12-first-row-url -- the first registry row's source line is checked too [F37XMutP7 D1]
+MUTANT N13 P10 silence killed by=p10a-n13-trailing-space -- a receipt differing only in trailing whitespace is not reproduced [docstring 'a receipt a fresh run does not reproduce'; F37XMutP910 L1]
+MUTANT N14 P10 silence killed by=p10a-n14-first-line-only -- the receipt is compared beyond its first line [capability row '--rerun byte-compares the receipt'; F37XMutP910 L3]
+MUTANT N15 P10 mirror killed by=p10b-rerun-byte-equal-accept -- a byte-equal fresh run passes P10 [Q24 genuine accepted; F37XMutP910 L2; R37PlanNext B5]
+MUTANT N16 RUN silence killed by=b1run-n16-clause-crash -- a clause that cannot run is a defect, never a pass [gate run_checks comment; R37PlanNext B6]
+MUTANT N17 MAIN silence killed by=mainx-root-not-a-directory -- a --root that is not a directory is a setup error, exit 2 [docstring 'exit ... 2 = usage/setup'; R37PlanNext B7]
+MUTANT N18 MAIN silence killed by=mainx-spec-invalid-json -- an unexpected crash never maps onto 0 or 1 [docstring; R37PlanNext B8]
+MUTANT N19 D4 silence killed by=d4m-n19-last-pattern-unmatched -- every directional pattern is checked, the last included [F37XMutD4 X3]
+MUTANT N20 D4 silence killed by=d4m-n20-pattern-case-differs -- directional patterns match case-sensitively [F37XMutD4 X4]
+MUTANT N21 D5 silence SURVIVED -- the capture digest is looked up in every manifest row, not only the first [F37XMutD5 X3]
+MUTANT N22 D5 silence killed by=d5m-n22-quote-prefix -- the whole quote must be present, not a 20-character prefix [F37XMutD5 X4]
+MUTANTS total=22 killed=21 survived=1 invalid=0 null_detected=0
+PREDICATE C1 fail
+exit=1
+$ python3 plans/round38_c2_verify.py --lane . --work /fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/w
+V1 ok listed=5 bad=0 extra=0
+    gate: P1 ok pinned=2 mismatched=0
+    gate: P2 ok receipt_sha256=pinned
+    gate: P3 ok rows=28 distinct_quotes=28 distinct_lines=27 out_of_word_range=0
+    gate: P4 ok checked=28 bad=0 first=0
+    gate: P5 ok manifest_entries=5 bad=0 first=0
+    gate: P6 ok rows=2 bad=0 first=0
+    gate: P7 ok source_lines=2 bad=0 first=0
+    gate: P8 ok index_rows=49 knowledge_files=49 bad=0 first=0
+    gate: P9 ok untracked=0 first=0
+    gate: P10 ok probe_rerun=byte-equal bytes=5537
+    gate: defects=0
+V2 ok spec=frozen gate=frozen gate_exit=0
+V3 ok rows=2 bad=0
+V4 ok cases=22 mismatches_named=0/0 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 ok rows=7 tags=7 bad=0
+checks=7 defects=0
+PREDICATE C2 pass
+exit=0
+$ python3 plans/round37_c1_verify.py --lane . --work /fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/w
+GATE plans/pkg_gate.py sha256=frozen
+FIXTURE r36-P0 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-P1 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P2 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P3 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P4 expect=reject declared=- observed_rc=1 observed_defects=P6 ok
+FIXTURE r36-P5 expect=reject declared=- observed_rc=1 observed_defects=P1 ok
+FIXTURE r36-P6 expect=reject declared=- observed_rc=1 observed_defects=P9 ok
+FIXTURE r36-P7 expect=reject declared=- observed_rc=1 observed_defects=P1,P3,P6,P9 ok
+FIXTURE r36-L1 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-L2 expect=reject declared=- observed_rc=1 observed_defects=D4 ok
+FIXTURE r36-L3 expect=reject declared=- observed_rc=1 observed_defects=D4 ok
+FIXTURE r36-L4 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-L5 expect=reject declared=- observed_rc=1 observed_defects=D5 ok
+FIXTURE r36-L6 expect=reject declared=- observed_rc=1 observed_defects=D5 ok
+FIXTURE d4-m44-file-unreadable expect=reject declared=D4 observed_rc=1 observed_defects=D4 ok
+FIXTURE d4-m45-not-one-line expect=reject declared=D4 observed_rc=1 observed_defects=D4 ok
+FIXTURE d4-m46-label-not-carried expect=reject declared=D4 observed_rc=1 observed_defects=D4 ok
+FIXTURE d5-m48-file-unreadable expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m49-two-lines expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m50-label-altered expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m51-require-missing expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m52-forbid-present expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m53-capture-missing expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE d5-m55-quote-absent expect=reject declared=D5 observed_rc=1 observed_defects=D5 ok
+FIXTURE p23-p2-receipt-deleted expect=reject declared=P2 observed_rc=1 observed_defects=P2 ok
+FIXTURE p23-p2-receipt-byte expect=reject declared=P2 observed_rc=1 observed_defects=P2 ok
+FIXTURE p23-p3-heading-renamed expect=reject declared=P3,P4 observed_rc=1 observed_defects=P3,P4 ok
+FIXTURE p23-p3-seven-texts expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE p23-p3-seven-locations expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE p23-p3-two-word-quote expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE p4-no-quote-row expect=reject declared=P3,P4 observed_rc=1 observed_defects=P3,P4 ok
+FIXTURE p4-capture-unreadable expect=reject declared=P4,P5 observed_rc=1 observed_defects=P4,P5 ok
+FIXTURE p4-line-outside expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p4-one-char-off expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p5-manifest-absent expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-manifest-unparsed-line expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-capture-bytes-stale-digest expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-row-capture-unpinned expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-manifest-digest-off-pin expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-quote-cites-unpinned expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p5-extra-capture-file expect=reject declared=P5 observed_rc=1 observed_defects=P5 ok
+FIXTURE p6-m20-registry-row-duplicated expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m21-row-with-twelve-cells expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m22-url-off-the-pinned-raw-path expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m23-row-tier-b expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m24-row-status-queued expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m25-used-by-another-path expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m26-five-word-teaches-cell expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m27-two-identical-teaches-cells expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p7-m28-entry-deleted expect=reject declared=P3,P4,P7,P8 observed_rc=1 observed_defects=P3,P4,P7,P8 ok
+FIXTURE p7-m29-source-url expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE p7-m30-verified-at expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE p7-m31-recheck-line expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE p7-m32-negative-heading expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE p7-m33-falsifier-word expect=reject declared=P7 observed_rc=1 observed_defects=P7 ok
+FIXTURE p8-readme-deleted expect=reject declared=P8 observed_rc=1 observed_defects=P8 ok
+FIXTURE p8-index-row-duplicated expect=reject declared=P8 observed_rc=1 observed_defects=P8 ok
+FIXTURE p8-index-row-missing-sid expect=reject declared=P8 observed_rc=1 observed_defects=P8 ok
+FIXTURE p8-coverage-bullet-removed expect=reject declared=P8 observed_rc=1 observed_defects=P8 ok
+FIXTURE p8-extra-knowledge-file expect=reject declared=P8 observed_rc=1 observed_defects=P8 ok
+FIXTURE p910-not-a-git-repo expect=reject declared=P9 observed_rc=1 observed_defects=P9 ok
+FIXTURE p910-receipt-deleted expect=reject declared=P10,P2 observed_rc=1 observed_defects=P10,P2 ok
+FIXTURE p910-probe-exits-1 expect=reject declared=P1,P10 observed_rc=1 observed_defects=P1,P10 ok
+FIXTURE p910-receipt-one-byte expect=reject declared=P10,P2 observed_rc=1 observed_defects=P10,P2 ok
+BATTERY fixtures=64 wrong=0 renamed_disagree=0
+MUTANT M01 P1 killed by=r36-P5 -- frozen instrument digest mismatch
+MUTANT M02 P2 killed by=p23-p2-receipt-deleted -- receipt unreadable
+MUTANT M03 P2 killed by=p23-p2-receipt-byte -- receipt digest differs from the pin
+MUTANT M04 P3 killed by=p23-p3-heading-renamed -- no Located quotes section
+MUTANT M05 P3 killed by=r36-P3 -- an unparsed quote row
+MUTANT M06 P3 killed by=p23-p3-seven-texts -- fewer distinct quotes than min_quotes
+MUTANT M07 P3 killed by=p23-p3-seven-locations -- fewer distinct located lines than min_distinct_locations
+MUTANT M08 P3 killed by=p23-p3-two-word-quote -- a quote outside the word range
+MUTANT M09 P4 killed by=p23-p3-heading-renamed -- no parsed quote
+MUTANT M10 P4 killed by=p4-capture-unreadable -- quote cites an unreadable capture
+MUTANT M11 P4 killed by=p4-line-outside -- quote line range outside the capture
+MUTANT M12 P4 killed by=p4-one-char-off -- quote not verbatim on its cited line
+MUTANT M13 P5 killed by=p5-manifest-absent -- capture manifest absent
+MUTANT M14 P5 killed by=p5-manifest-unparsed-line -- unparsed manifest line
+MUTANT M15 P5 killed by=p5-capture-bytes-stale-digest -- manifest digest does not match the capture bytes
+MUTANT M16 P5 killed by=p5-row-capture-unpinned -- row capture not pinned in the manifest
+MUTANT M17 P5 killed by=p5-manifest-digest-off-pin -- manifest digest differs from the spec pin
+MUTANT M18 P5 killed by=p4-capture-unreadable -- quoted capture not pinned in the manifest
+MUTANT M19 P5 killed by=p5-extra-capture-file -- capture file not covered by the manifest
+MUTANT M20 P6 killed by=p6-m20-registry-row-duplicated -- registry row missing or duplicated
+MUTANT M21 P6 killed by=p6-m21-row-with-twelve-cells -- registry row without 11 cells
+MUTANT M22 P6 killed by=p6-m22-url-off-the-pinned-raw-path -- row url not the pinned raw path
+MUTANT M23 P6 killed by=p6-m23-row-tier-b -- row tier wrong
+MUTANT M24 P6 killed by=p6-m24-row-status-queued -- row status wrong
+MUTANT M25 P6 killed by=p6-m25-used-by-another-path -- row used-by is not the entry
+MUTANT M26 P6 killed by=p6-m26-five-word-teaches-cell -- teaches cell under min_teaches_words
+MUTANT M27 P6 killed by=p6-m27-two-identical-teaches-cells -- teaches cells not pairwise distinct
+MUTANT M28 P7 killed by=p7-m28-entry-deleted -- entry unreadable
+MUTANT M29 P7 killed by=p7-m29-source-url -- source line absent or not the pinned url
+MUTANT M30 P7 killed by=p7-m30-verified-at -- verified-at absent or not the frozen date
+MUTANT M31 P7 killed by=p7-m31-recheck-line -- recheck line absent
+MUTANT M32 P7 killed by=p7-m32-negative-heading -- no Negative space section
+MUTANT M33 P7 killed by=p7-m33-falsifier-word -- Negative space carries no falsifier
+MUTANT M34 P8 killed by=p8-readme-deleted -- README unreadable
+MUTANT M35 P8 killed by=p8-index-row-duplicated -- index rows for the entry not exactly one
+MUTANT M36 P8 killed by=p8-index-row-missing-sid -- index row does not cite every registry row
+MUTANT M37 P8 killed by=p8-coverage-bullet-removed -- no coverage bullet naming entry and receipt
+MUTANT M38 P8 killed by=p7-m28-entry-deleted -- knowledge files differ from index rows
+MUTANT M39 P9 killed by=p910-not-a-git-repo -- root is not a git worktree
+MUTANT M40 P9 killed by=r36-P6 -- untracked file present
+MUTANT M41 P10 killed by=p910-receipt-deleted -- receipt unreadable at re-run
+MUTANT M42 P10 killed by=p910-probe-exits-1 -- fresh probe exits nonzero
+MUTANT M43 P10 killed by=p910-receipt-one-byte -- fresh probe output not byte-equal to the receipt
+MUTANT M44 D4 killed by=d4-m44-file-unreadable -- d4 file unreadable
+MUTANT M45 D4 killed by=d4-m45-not-one-line -- d4 file is not exactly one line
+MUTANT M46 D4 killed by=d4-m46-label-not-carried -- d4 line does not carry the label
+MUTANT M47 D4 killed by=r36-L2 -- d4 directional pattern absent
+MUTANT M48 D5 killed by=d5-m48-file-unreadable -- d5 file unreadable
+MUTANT M49 D5 killed by=d5-m49-two-lines -- d5 file is not exactly one line
+MUTANT M50 D5 killed by=d5-m50-label-altered -- d5 line does not carry the label
+MUTANT M51 D5 killed by=d5-m51-require-missing -- d5 required token missing
+MUTANT M52 D5 killed by=d5-m52-forbid-present -- d5 forbidden token present
+MUTANT M53 D5 killed by=d5-m53-capture-missing -- d5 capture unreadable
+MUTANT M54 D5 killed by=r36-L6 -- d5 capture digest not in the manifest
+MUTANT M55 D5 killed by=d5-m55-quote-absent -- d5 quote absent from the capture
+MUTANTS total=55 killed=55 survived=0 invalid=0 null_detected=0
+PREDICATE C1 pass
+exit=0
+$ python3 plans/round37_c2_verify.py --lane . --work /fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/w
+V1 ok listed=6 bad=0 extra=0
+    gate: P1 ok pinned=2 mismatched=0
+    gate: P2 ok receipt_sha256=pinned
+    gate: P3 ok rows=32 distinct_quotes=32 distinct_lines=32 out_of_word_range=0
+    gate: P4 ok checked=32 bad=0 first=0
+    gate: P5 ok manifest_entries=6 bad=0 first=0
+    gate: P6 ok rows=3 bad=0 first=0
+    gate: P7 ok source_lines=4 bad=0 first=0
+    gate: P8 ok index_rows=49 knowledge_files=49 bad=0 first=0
+    gate: P9 ok untracked=0 first=0
+    gate: P10 ok probe_rerun=byte-equal bytes=8443
+    gate: defects=0
+V2 ok gate_exit=0
+V3 ok rows=3 bad=0
+V4 ok cases=22 mismatches_named=0/0 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 ok rows=4 bad=0
+checks=7 defects=0
+PREDICATE C2 pass
+exit=0
+$ python3 plans/round36_c2_verify.py --lane .
+W1 ok
+W2 ok
+W3 ok
+W4 ok
+W5 ok
+W6 ok
+checks=6 defects=0
+PREDICATE C2 pass
+exit=0
+$ python3 plans/anchor_digest_check.py --lane .
+rows=121 tokens=27 defects=0
+exit=0
+$ /home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --file corpus/SOURCES.md
+file	W04	S040 duplicate url arxiv.org/abs/2301.09633 across scopes
+file	W04	S048 duplicate url aclanthology.org/2020.acl-main.442 across scopes
+file	W04	S057 duplicate url arxiv.org/abs/2405.11874 across scopes
+file	W04	S058 duplicate url github.com/UKGovernmentBEIS/inspect_ai/blob/63e45cc52d39b873b944124613da21fdad6f6dcc/src/inspect_ai/scorer/_pattern.py across scopes
+file	W04	S059 duplicate url www.rfc-editor.org/rfc/rfc8259 across scopes
+file	W04	S064 duplicate url spec.commonmark.org/0.31.2 across scopes
+file	W04	S065 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S066 duplicate url doi.org/10.1017/S0950268810000385 across scopes
+file	W04	S067 duplicate url doi.org/10.1017/S0950268810000385 across scopes
+file	W04	S068 duplicate url raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/config_files/test.raw.json across scopes
+file	W04	S069 duplicate url raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/evaluation_harness/evaluators.py across scopes
+file	W04	S071 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S075 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S076 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S100 duplicate url github.com/laude-institute/terminal-bench-2 across scopes
+file	ok	/fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/lane/corpus/SOURCES.md
+exit=0
+$ sha256sum -c .ufo/waves/round-42/claims/frozen-digests.txt
+plans/round-42-claims.md: OK
+plans/round42_c1_verify.py: OK
+plans/round42_c2_verify.py: OK
+plans/fibsqrt_probe.py: OK
+plans/pkg-spec-r42.json: OK
+plans/pkg_gate.py: OK
+plans/anchor_digest_check.py: OK
+plans/order_check.py: OK
+corpus/evidence/round42/fibsqrt-dry-cases-freeze.txt: OK
+corpus/evidence/round42/tb2-circuit-fibsqrt/SHA256SUMS: OK
+.ufo/waves/round-42/claims/witness/w_anchor.py: OK
+.ufo/waves/round-42/claims/witness/w_order.py: OK
+exit=0
+$ sha256sum -c .ufo/waves/round-41/claims/frozen-digests.txt
+plans/round-41-claims.md: OK
+plans/round41_c1_verify.py: OK
+plans/round41_c2_verify.py: OK
+plans/constraints_probe.py: OK
+plans/pkg-spec-r41.json: OK
+corpus/evidence/round41/constraints-dry-cases-freeze.txt: OK
+corpus/evidence/round41/tb2-constraints-scheduling/SHA256SUMS: OK
+plans/tip_receipts.py: OK
+plans/sources_adopt.py: OK
+plans/pkg_gate.py: OK
+plans/order_check.py: OK
+exit=0
+$ sha256sum -c .ufo/waves/round-40/claims/frozen-digests.txt
+plans/round-40-claims.md: OK
+plans/round40_c1_verify.py: OK
+plans/round40_c2_verify.py: OK
+plans/db_wal_probe.py: OK
+plans/pkg-spec-r40.json: OK
+corpus/evidence/round40/db-wal-dry-cases-freeze.txt: OK
+corpus/evidence/round40/tb2-db-wal-recovery/SHA256SUMS: OK
+plans/anchor_digest_check.py: OK
+plans/ledger_tip.py: OK
+plans/order_check.py: OK
+plans/pkg_gate.py: OK
+exit=0
+$ sha256sum -c .ufo/waves/round-39/claims/frozen-digests.txt
+plans/pkg_gate.py: OK
+plans/round39_c1_verify.py: OK
+plans/round39_c2_verify.py: OK
+plans/git_leak_probe.py: OK
+plans/pkg-spec-r39.json: OK
+corpus/evidence/round39/git-leak-dry-cases-freeze.txt: OK
+plans/round37_c1_verify.py: OK
+plans/round38_c1_verify.py: OK
+plans/round38_c2_verify.py: OK
+exit=0
+$ python3 plans/ledger_tip.py --source /fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/lane --work /fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/lt
+TIP commit=508434ad55c709337065611691c426f05875492d clone=/fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/lt/lane
+REF AUDIT ref=refs/heads/master rev=508434ad55c709337065611691c426f05875492d tip=508434ad55c709337065611691c426f05875492d state=match
+R34-D1 status=closed observed=pass agree=yes ledger=corpus/defects.jsonl kind=live
+R34-D2 status=closed observed=pass agree=yes ledger=corpus/defects.jsonl kind=pin
+R34-D3 status=closed observed=pass agree=yes ledger=corpus/defects.jsonl kind=pin
+R34-D4 status=closed observed=pass agree=yes ledger=corpus/defects.jsonl kind=pin
+R34-D5 status=closed observed=pass agree=yes ledger=corpus/defects.jsonl kind=pin
+LEDGER corpus/defects.jsonl rows=5 closed=5 observed_pass=5 mismatches=0
+R35-D1 status=closed observed=pass agree=yes ledger=corpus/defects-round35.jsonl kind=live
+R35-D2 status=closed observed=pass agree=yes ledger=corpus/defects-round35.jsonl kind=live
+R35-D3 status=closed observed=pass agree=yes ledger=corpus/defects-round35.jsonl kind=pin
+R35-D4 status=closed observed=pass agree=yes ledger=corpus/defects-round35.jsonl kind=pin
+LEDGER corpus/defects-round35.jsonl rows=4 closed=4 observed_pass=4 mismatches=0
+rows=9 closed=9 observed_pass=9 mismatches=0
+exit=0
+$ python3 plans/tip_receipts.py --lane . --work /fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/tr
+tip 508434ad55c709337065611691c426f05875492d
+receipt corpus/evidence/probe-r19-P1-key1-quota.log skip reason=no-committed-re-run-command
+receipt corpus/evidence/probe-r19-P2-servicetier.log skip reason=no-committed-re-run-command
+receipt corpus/evidence/probe-r19-P3.log skip reason=no-committed-re-run-command
+receipt corpus/evidence/probe-r19-P4-devinleg.log skip reason=no-committed-re-run-command
+receipt corpus/evidence/probe-r19-P4-glm.log skip reason=no-committed-re-run-command
+receipt corpus/evidence/probe-r19-P5-glm.log skip reason=no-committed-re-run-command
+receipt corpus/evidence/probe-r19-P6-zai.log skip reason=no-committed-re-run-command
+receipt corpus/evidence/probe-r19-P8-kimi-code-auth.log skip reason=no-committed-re-run-command
+receipt corpus/evidence/probe-r19-P9-absent-port.log skip reason=no-committed-re-run-command
+receipt corpus/evidence/probe-r19-devin-shim-seat.log skip reason=no-committed-re-run-command
+receipt corpus/evidence/probe-r19-hyper-predictions.log skip reason=no-committed-re-run-command
+receipt corpus/evidence/probe-r19-hyper.log skip reason=no-committed-re-run-command
+receipt corpus/evidence/probe-r19-opencode-health.log skip reason=no-committed-re-run-command
+receipt corpus/evidence/probe-r19-p1-listing-mismatch.log skip reason=no-committed-re-run-command
+receipt corpus/evidence/probe-r19-quota23.log skip reason=no-committed-re-run-command
+receipt corpus/evidence/probe-r19-shim-ds-predictions.log skip reason=no-committed-re-run-command
+receipt corpus/evidence/probe-r19-shim-ds-run.log skip reason=no-committed-re-run-command
+receipt corpus/evidence/probe-r19-shim-glm-predictions.log skip reason=no-committed-re-run-command
+receipt corpus/evidence/probe-r19-shim-glm-run.log skip reason=no-committed-re-run-command
+receipt corpus/evidence/round35/tb2-grader-probe.txt equal bytes=3399 exit=0 doc=corpus/README.md:264+SKILL.md:574
+receipt corpus/evidence/round36/regex-log-probe-first-run.txt skip reason=declared-nonreproducible-absolute-scratch-paths (equal after masking) doc=SKILL.md:576+corpus/README.md:506
+receipt corpus/evidence/round36/regex-log-probe.txt equal bytes=5907 exit=0 doc=SKILL.md:576+SKILL.md:576
+receipt corpus/evidence/round37/git-webserver-probe.txt equal bytes=8529 exit=0 doc=SKILL.md:577+SKILL.md:577
+receipt corpus/evidence/round38/build-pmars-probe.txt equal bytes=5537 exit=0 doc=SKILL.md:582+SKILL.md:582
+receipt corpus/evidence/round39/git-leak-probe.txt equal bytes=5867 exit=0 doc=SKILL.md:587+SKILL.md:590
+receipt corpus/evidence/round40/db-wal-probe.txt equal bytes=8257 exit=0 doc=SKILL.md:593+SKILL.md:590
+receipt corpus/evidence/round41/constraints-probe.txt equal bytes=5775 exit=0 doc=SKILL.md:596+SKILL.md:670
+receipt corpus/evidence/round42/fibsqrt-probe.txt equal bytes=4212 exit=0 doc=SKILL.md:600+SKILL.md:600
+control receipt=corpus/evidence/round35/tb2-grader-probe.txt flip=byte 1699 0x27->0x26 verdict=differ
+note compared=8 declared_bounded=1 no_command=19
+receipts=28 byte_equal=8 differ=0 skipped=20
+exit=0
+$ python3 plans/routed_open.py
+ROWS total=16 open=9 blocked=1 closed=6 refused=0
+routed_open=10 oldest_round=39
+exit=0
+$ python3 plans/db_wal_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/pr
+# tb2 db-wal-recovery grader probe (kengaku round 40) @ terminal-bench-2 2fd12b88
+# capture main.db sha256=68cb288eb29e76d814b4e7ee6887b37c415675e644f88173bc191348e290d119
+# capture main.db-wal.encrypted sha256=68753bdce26196a53194260d001544cc6bb8f9f38e2f2f6826d09798e31e6e26
+# capture solve.sh sha256=ed8530c94103bf19783a1d41bc63fe4db478cdd9629f22fee25c45a45699f5e8
+# capture test_outputs.py sha256=88dc5c2a3abba75bca0e0f9136223ae5bb585d5984b8d9eba51a7829c1d2ba49
+CASE empty-app predicted=fail observed=fail tests=FFFFFFF predicted_tests=FFFFFFF match=yes regrade=same violates=extract-all,json-at-path,eleven-records test_recovered_json_is_valid:error=FileNotFoundError,test_recovered_data_structure:error=FileNotFoundError,test_recovered_data_sorted:error=FileNotFoundError,test_recovered_data_completeness:error=FileNotFoundError,test_no_duplicate_ids:error=FileNotFoundError,test_wal_was_decrypted:error=FileNotFoundError -- do-nothing on an empty /app: no database, no recovered.json
+CASE untouched predicted=fail observed=fail tests=FFFFFFF predicted_tests=FFFFFFF match=yes regrade=same violates=fix-wal,extract-all,json-at-path,eleven-records test_recovered_json_is_valid:error=FileNotFoundError,test_recovered_data_structure:error=FileNotFoundError,test_recovered_data_sorted:error=FileNotFoundError,test_recovered_data_completeness:error=FileNotFoundError,test_no_duplicate_ids:error=FileNotFoundError,test_wal_was_decrypted:error=FileNotFoundError -- do-nothing on the task's initial state (pilot nop)
+CASE oracle-solve-sh predicted=pass observed=pass tests=PPPPPPP predicted_tests=PPPPPPP match=yes regrade=same violates= -- the task's own solution/solve.sh (pilot oracle)
+CASE base-only-ro predicted=fail observed=fail tests=PPPPFPF predicted_tests=PPPPFPF match=yes regrade=same violates=fix-wal,extract-all,eleven-records -- read the base database read-only, WAL left encrypted: the 5 base rows with base values (pilot base-only)
+CASE plain-read-then-solve predicted=fail observed=fail tests=PPPPFPF predicted_tests=PPPPFPF match=yes regrade=same violates=fix-wal,extract-all,eleven-records -- a plain read-write sqlite3 query first (R39PlanNext: it deletes the encrypted WAL), then the task's own solve.sh: nothing left to decrypt, 5 base rows
+CASE xor-wrong-key predicted=fail observed=fail tests=PPPPFPF predicted_tests=PPPPFPF match=yes regrade=same violates=fix-wal,extract-all,eleven-records -- XOR with the wrong single-byte key 0x43: the WAL magic stays invalid, SQLite ignores it, 5 base rows
+CASE decrypt-then-extract predicted=pass observed=pass tests=PPPPPPP predicted_tests=PPPPPPP match=yes regrade=same violates= -- an own pipeline: XOR 0x42 in place, then read every row with the WAL applied
+CASE decrypt-checkpoint-truncate predicted=pass observed=pass tests=PPPPPPP predicted_tests=PPPPPPP match=yes regrade=same violates= -- XOR 0x42, checkpoint the WAL into main.db, then read every row
+CASE decrypt-in-place-no-json predicted=fail observed=fail tests=FFFFFFF predicted_tests=FFFFFFF match=yes regrade=same violates=extract-all,json-at-path,eleven-records test_recovered_json_is_valid:error=FileNotFoundError,test_recovered_data_structure:error=FileNotFoundError,test_recovered_data_sorted:error=FileNotFoundError,test_recovered_data_completeness:error=FileNotFoundError,test_no_duplicate_ids:error=FileNotFoundError,test_wal_was_decrypted:error=FileNotFoundError -- the WAL fixed in place, no recovered.json written
+CASE literals-never-open-db predicted=pass observed=pass tests=PPPPPPP predicted_tests=PPPPPPP match=yes regrade=same violates=fix-wal,extract-all -- hand-typed JSON: right names, values 150/250 for ids 1-2 and 0 for ids 3-11, database never opened (pilot typed-literals-never-open-db)
+CASE literals-names-1-2-wrong predicted=pass observed=pass tests=PPPPPPP predicted_tests=PPPPPPP match=yes regrade=same violates=fix-wal,extract-all -- as literals-never-open-db with the names of ids 1 and 2 wrong (pilot)
+CASE literals-id3-name-wrong predicted=fail observed=fail tests=PPPPFPP predicted_tests=PPPPFPP match=yes regrade=same violates=fix-wal,extract-all -- as literals-never-open-db with id 3 named CHERRY (pilot)
+CASE truth-value-float-id1 predicted=fail observed=fail tests=PPFPPPP predicted_tests=PPFPPPP match=yes regrade=same violates=fix-wal,record-format -- the true rows typed by hand, id 1's value written 150.0 (pilot value-float)
+CASE truth-reversed-order predicted=fail observed=fail tests=PPPFFPP predicted_tests=PPPFFPP match=yes regrade=same violates=fix-wal,sorted-by-id -- the true rows in descending id order
+CASE truth-plus-duplicate-id11 predicted=fail observed=fail tests=PPPPFFP predicted_tests=PPPPFFP match=yes regrade=same violates=fix-wal,eleven-records -- the true rows plus a second copy of id 11 (12 records)
+CASE truth-dup-id10-no-id11 predicted=fail observed=fail tests=PPPPFFP predicted_tests=PPPPFFP match=yes regrade=same violates=fix-wal,extract-all,eleven-records -- 11 records: ids 1-10 and a second id 10, mango missing
+CASE truth-extra-field predicted=pass observed=pass tests=PPPPPPP predicted_tests=PPPPPPP match=yes regrade=same violates=fix-wal,record-format -- the true rows, each with an extra `note` key the format does not show
+CASE truth-wrapped-object predicted=fail observed=fail tests=PFFFFFF predicted_tests=PFFFFFF match=yes regrade=same violates=fix-wal,record-format test_recovered_data_sorted:error=TypeError,test_no_duplicate_ids:error=TypeError -- the true rows wrapped in an object {"items": [...]} instead of a list
+CASE truth-ids-as-strings predicted=fail observed=fail tests=PPFFFPP predicted_tests=PPFFFPP match=yes regrade=same violates=fix-wal,record-format -- the true rows with ids written as strings "1".."11"
+CASE truth-ids-as-floats predicted=fail observed=fail tests=PPFPPPP predicted_tests=PPFPPPP match=yes regrade=same violates=fix-wal,record-format -- the true rows with ids written as floats 1.0..11.0 (1.0 == 1 in the completeness test)
+CASE truth-trailing-garbage predicted=fail observed=fail tests=PFFFFFF predicted_tests=PFFFFFF match=yes regrade=same violates=fix-wal,json-at-path test_recovered_json_is_valid:error=JSONDecodeError,test_recovered_data_structure:error=JSONDecodeError,test_recovered_data_sorted:error=JSONDecodeError,test_recovered_data_completeness:error=JSONDecodeError,test_no_duplicate_ids:error=JSONDecodeError,test_wal_was_decrypted:error=JSONDecodeError -- the true rows followed by a line of text: not a JSON file
+CASE truth-wrong-path predicted=fail observed=fail tests=FFFFFFF predicted_tests=FFFFFFF match=yes regrade=same violates=fix-wal,json-at-path test_recovered_json_is_valid:error=FileNotFoundError,test_recovered_data_structure:error=FileNotFoundError,test_recovered_data_sorted:error=FileNotFoundError,test_recovered_data_completeness:error=FileNotFoundError,test_no_duplicate_ids:error=FileNotFoundError,test_wal_was_decrypted:error=FileNotFoundError -- the true rows written to /app/out/recovered.json
+CASE empty-list predicted=fail observed=fail tests=PFPPFPF predicted_tests=PFPPFPF match=yes regrade=same violates=fix-wal,extract-all,eleven-records -- recovered.json is []
+CASE truth-drop-id11 predicted=fail observed=fail tests=PPPPFPP predicted_tests=PPPPFPP match=yes regrade=same violates=fix-wal,extract-all,eleven-records -- the true rows without mango (10 records)
+CASE truth-value-id3-wrong predicted=pass observed=pass tests=PPPPPPP predicted_tests=PPPPPPP match=yes regrade=same violates=fix-wal,extract-all -- the true rows with id 3's value 301 instead of 300
+CASE truth-bool-value-id5 predicted=pass observed=pass tests=PPPPPPP predicted_tests=PPPPPPP match=yes regrade=same violates=fix-wal,extract-all,record-format -- the true rows with id 5's value true (isinstance(True, int) holds)
+CASE truth-name-null-id1 predicted=fail observed=fail tests=PPFPPPP predicted_tests=PPFPPPP match=yes regrade=same violates=fix-wal,extract-all,record-format -- the true rows with id 1's name null
+CASE truth-value-string-id4 predicted=fail observed=fail tests=PPFPPPP predicted_tests=PPFPPPP match=yes regrade=same violates=fix-wal,record-format -- the true rows with id 4's value the string "400"
+regrade cases=28 differ=0
+cases=28 observed_pass=8 observed_fail=20 mismatches=0
+exit=0
+constraints_probe exit=0 byte_equal=yes
+fibsqrt_probe exit=0 byte_equal=yes
+$ python3 plans/round_close.py --lane . --round 41 --census /home/vgpnk/Projects/shokunin/scripts/sources-census.sh
+ROUND-CLOSE lane=/fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/lane round=41
+ROUND-CLOSE claims=plans/round-41-claims.md sha256=3b239b5059deda27f874c4b38ea25666ef0d09db57d540fcffaa5de65c85ccfd
+ROUND-CLOSE order-tool=plans/order_check.py sha256=948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc
+ROUND-CLOSE receipts=1
+ORDER claims=plans/round-41-claims.md round=41 freeze=8ef8b4fc7c6302c527db90244d69aa18f53e83bf
+ORDER receipt=corpus/evidence/round41/constraints-probe.txt receipt_commit=f774a87ad071122acd39ba02a9901b5b56d9910a claims_dir=.ufo/waves/round-41/claims/
+ORDER scanned commits=1 file_entries=16 distinct_blobs=16
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+ROUND-CLOSE order receipt=corpus/evidence/round41/constraints-probe.txt exit=0 verdict=PASS
+file	W04	S040 duplicate url arxiv.org/abs/2301.09633 across scopes
+file	W04	S048 duplicate url aclanthology.org/2020.acl-main.442 across scopes
+file	W04	S057 duplicate url arxiv.org/abs/2405.11874 across scopes
+file	W04	S058 duplicate url github.com/UKGovernmentBEIS/inspect_ai/blob/63e45cc52d39b873b944124613da21fdad6f6dcc/src/inspect_ai/scorer/_pattern.py across scopes
+file	W04	S059 duplicate url www.rfc-editor.org/rfc/rfc8259 across scopes
+file	W04	S064 duplicate url spec.commonmark.org/0.31.2 across scopes
+file	W04	S065 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S066 duplicate url doi.org/10.1017/S0950268810000385 across scopes
+file	W04	S067 duplicate url doi.org/10.1017/S0950268810000385 across scopes
+file	W04	S068 duplicate url raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/config_files/test.raw.json across scopes
+file	W04	S069 duplicate url raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/evaluation_harness/evaluators.py across scopes
+file	W04	S071 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S075 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S076 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S100 duplicate url github.com/laude-institute/terminal-bench-2 across scopes
+file	ok	/fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/lane/corpus/SOURCES.md
+ROUND-CLOSE census tool=/home/vgpnk/Projects/shokunin/scripts/sources-census.sh sha256=3fb7261569f46423dd80ecc23e0a23789a7926f667c7a3fc559d2439d4a64e30 cmd=/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --file /fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/lane/corpus/SOURCES.md
+ROUND-CLOSE census exit=0 warnings=15 verdict=PASS
+ROUND-CLOSE RESULT PASS exit=0
+exit=0
+$ python3 plans/round_close.py --lane . --round 42 --census /home/vgpnk/Projects/shokunin/scripts/sources-census.sh
+ROUND-CLOSE lane=/fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/lane round=42
+ROUND-CLOSE claims=plans/round-42-claims.md sha256=2c4a5e046b89e68687bcae2d40c921706acf48d810c854c23fae26d2923530fa
+ROUND-CLOSE order-tool=plans/order_check.py sha256=948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc
+ROUND-CLOSE receipts=1
+ORDER claims=plans/round-42-claims.md round=42 freeze=bc856d803576e182b6c3c12afc6b23f392071c25
+ORDER receipt=corpus/evidence/round42/fibsqrt-probe.txt receipt_commit=523b27806be0df26d2235089d845265a29f8cedf claims_dir=.ufo/waves/round-42/claims/
+ORDER scanned commits=1 file_entries=21 distinct_blobs=21
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+ROUND-CLOSE order receipt=corpus/evidence/round42/fibsqrt-probe.txt exit=0 verdict=PASS
+file	W04	S040 duplicate url arxiv.org/abs/2301.09633 across scopes
+file	W04	S048 duplicate url aclanthology.org/2020.acl-main.442 across scopes
+file	W04	S057 duplicate url arxiv.org/abs/2405.11874 across scopes
+file	W04	S058 duplicate url github.com/UKGovernmentBEIS/inspect_ai/blob/63e45cc52d39b873b944124613da21fdad6f6dcc/src/inspect_ai/scorer/_pattern.py across scopes
+file	W04	S059 duplicate url www.rfc-editor.org/rfc/rfc8259 across scopes
+file	W04	S064 duplicate url spec.commonmark.org/0.31.2 across scopes
+file	W04	S065 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S066 duplicate url doi.org/10.1017/S0950268810000385 across scopes
+file	W04	S067 duplicate url doi.org/10.1017/S0950268810000385 across scopes
+file	W04	S068 duplicate url raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/config_files/test.raw.json across scopes
+file	W04	S069 duplicate url raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/evaluation_harness/evaluators.py across scopes
+file	W04	S071 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S075 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S076 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S100 duplicate url github.com/laude-institute/terminal-bench-2 across scopes
+file	ok	/fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/lane/corpus/SOURCES.md
+ROUND-CLOSE census tool=/home/vgpnk/Projects/shokunin/scripts/sources-census.sh sha256=3fb7261569f46423dd80ecc23e0a23789a7926f667c7a3fc559d2439d4a64e30 cmd=/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --file /fast/scratch/hyaku/kengaku-r42/L1/measure-tip2/lane/corpus/SOURCES.md
+ROUND-CLOSE census exit=0 warnings=15 verdict=PASS
+ROUND-CLOSE RESULT PASS exit=0
+exit=0
+registry_rows=121 knowledge_files=49 index_rows=49
+ENVELOPE end 18:04:45 exit=0 local_bin_listing_before=77408cab9a10361a after=77408cab9a10361a unchanged
