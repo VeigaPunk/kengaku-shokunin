@@ -1288,6 +1288,14 @@ appended erratum and four captures (`integrate/measure-final.txt`).
 ### Limits named at freeze, and found in wave 1
 
 - C1: the excluded branches named in the claims stay unclaimed; a kill records a result difference, not a reason.
+  Wave 1 showed the counter alone is uninformative: a hostile two-module battery whose `--rerun` probe detects the
+  running gate copy reaches the same `killed=55` line (`build/R37CritC1Battery.md`). The landed battery passes an
+  attribution audit the counter lacks — every kill removes the mutant's own clause on a fixture of the matching
+  subcommand, `UNATTRIBUTED=0` (`build/R37CritC1Battery/receipts/attr-honest.txt`); the hostile one prints `UNATTRIBUTED=49`.
+  The L1 re-built that audit as `plans/round37_c1_attribution.py` (post-hoc, not the frozen rule): landed battery
+  `ATTRIBUTED 55/55 UNATTRIBUTED=0` (`.ufo/waves/round-37/integrate/c1-attribution.txt`); the critic's side-channel battery
+  in a scratch clone reaches the frozen `PREDICATE C1 pass` but `ATTRIBUTED 6/55 UNATTRIBUTED=49`
+  (`integrate/c1-attribution-hostile.txt`).
 - C2: the probe never runs the oracle, the task image or a real git push; in the sandbox the git step never executes, so
   "the git step's failure is ignored" is a static reading, not an observation (`build/R37CritCases.md` §2.1); four case
   labels are weaker than they read (same section). A wave-1 seat ran the task's real image (`build/R37DockerOracle.md`);
