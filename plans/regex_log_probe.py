@@ -124,7 +124,7 @@ def run_grader(mod_path, regex, mode):
             mod.test_regex_matches_dates()
             return "pass", "-"
         except AssertionError as e:
-            first = (str(e).splitlines() or ["AssertionError"])[0]
+            first = (str(e).splitlines() or ["AssertionError"])[0].replace(d, "<tmp>")
             return "fail", first if len(first) <= 160 else first[:157] + "..."
 
 

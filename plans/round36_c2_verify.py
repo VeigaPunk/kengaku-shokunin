@@ -38,7 +38,7 @@ ENTRY = "corpus/knowledge/tb2-regex-log-grader.md"
 CAP = "corpus/evidence/round36/tb2-regex-log/"
 RECEIPT = "corpus/evidence/round36/regex-log-probe.txt"
 PROBE = "plans/regex_log_probe.py"
-PROBE_SHA256 = "34ab5dfd6d1c3fb972cb698a1d44db07a1670ee206521d7c3177a9e0f729561b"
+PROBE_SHA256 = "d58194c817685546a945e8b116588a52590fc944e6218ac40218381a376519bc"  # Amendment 1 (claims file)
 FILES = {  # row id -> (capture name, upstream path, pinned sha256)
     "S108": ("test_outputs.py", "tests/test_outputs.py",
              "345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72"),

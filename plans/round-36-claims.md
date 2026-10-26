@@ -119,3 +119,21 @@ package row is appended unless an admitted entry cites it.
 ## Planner seat
 
 The L1 holds the canonical planner seat; the validator rejects `planner` as a swarm role.
+
+## Amendment 1 (pre-scoring instrument repair, disclosed; recorded after freeze `3241b86c`, before any seat dispatch)
+
+The first real probe run (the L1's, after the freeze commit) showed the frozen probe is not
+byte-deterministic: two assertion texts (`invalid-regex`, `regex-file-absent`) carried the
+`mkdtemp` path (`corpus/evidence/round36/regex-log-probe-first-run.txt`, lines 21-22), so the frozen W5
+"fresh run byte-equal to the receipt" could never hold. Repair: `plans/regex_log_probe.py` line 127
+replaces the temp directory with `<tmp>` in the printed assertion text. Nothing else changed:
+`--dry` output (all 24 cases, regexes and predictions) is byte-identical before and after
+(`cmp` of the freeze-commit probe's `--dry` against the amended `--dry`, both equal to
+`corpus/evidence/round36/regex-log-dry-cases-freeze.txt`), the first run's 24 predicted/observed
+verdicts all matched (`mismatches=0`) before the repair, and two amended runs are byte-equal. The
+amended probe digest is `d58194c817685546a945e8b116588a52590fc944e6218ac40218381a376519bc`; the C2
+counter's `PROBE_SHA256` constant moves from `34ab5dfd…` to it (one line). Predicate sentence, check
+definitions, kill rule and target are unchanged. Whether a pre-scoring mechanical repair of a frozen
+instrument is a new revision or voids the claim is the open question already on the L0 queue
+(`revenger | round-69`); this round proceeds on the disclosed amendment and reports the verdict either
+way.
