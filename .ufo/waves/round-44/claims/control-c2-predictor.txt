@@ -1,0 +1,8 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/L1 /fast/scratch/hyaku/kengaku-r44/L1 --bind /fast/scratch/hyaku/kengaku-r44/L1/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 .ufo/waves/round-44/claims/c2_predictor_control.py /fast/scratch/hyaku/kengaku-r44/L1/c2p
+ENVELOPE start 20:21:24 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+CONTROL predictor=always-true V11 DEFECT states=48 grader_pass=24 grader_fail=24 disagree=24 at=drop-one#2,drop-three#3,hex#6,bump-one#8,absent#9,empty#10 required=DEFECT
+CONTROL predictor=token-set V11 DEFECT states=48 grader_pass=24 grader_fail=24 disagree=12 at=concat#4,zero-pad#5,comma#11,prefixed-digit#15,concat#20,zero-pad#21 required=DEFECT
+CONTROL predictor=exact-lines V11 DEFECT states=48 grader_pass=24 grader_fail=24 disagree=18 at=concat#4,zero-pad#5,decoys#7,comma#11,duplicated#13,prefixed-digit#15 required=DEFECT
+CONTROL predictor=substring V11 ok states=48 grader_pass=24 grader_fail=24 disagree=0 required=ok
+CONTROL-C2-PREDICTOR red-as-required
+ENVELOPE end 20:21:25 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

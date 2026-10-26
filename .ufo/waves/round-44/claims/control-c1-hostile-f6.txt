@@ -1,0 +1,13 @@
+== round-43 counter (plans/round43_c1_verify.py) --only NO5 (timeout 60)
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/L1/ctl /fast/scratch/hyaku/kengaku-r44/L1/ctl --bind /fast/scratch/hyaku/kengaku-r44/L1/ctl/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- timeout 60 python3 /fast/scratch/hyaku/kengaku-r44/L1/ctl/m-base/plans/round43_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r44/L1/ctl/m-base --battery-dir /fast/scratch/hyaku/kengaku-r44/L1/ctl/hb-f6_above --only NO5 --work /fast/scratch/hyaku/kengaku-r44/L1/ctl/h43-f6_above
+ENVELOPE start 20:22:00 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+SIDECHANNEL hb-f6_above/f6_above.py tokens=inspect
+FIXTURE f6-repo-above-d tool=order expect=error declared=- observed_rc=2 observed=- ok
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=1
+ENVELOPE end 20:22:02 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+== round-44 counter (plans/round44_c1_verify.py) --only U14c
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/L1/ctl /fast/scratch/hyaku/kengaku-r44/L1/ctl --bind /fast/scratch/hyaku/kengaku-r44/L1/ctl/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r44/L1/ctl/m-base/plans/round44_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r44/L1/ctl/m-base --battery-dir /fast/scratch/hyaku/kengaku-r44/L1/ctl/hb-f6_above --only U14c --work /fast/scratch/hyaku/kengaku-r44/L1/ctl/h44-f6_above
+ENVELOPE start 20:22:03 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+SIDECHANNEL hb-f6_above/f6_above.py tokens=inspect
+SETUP fixture 'f6-repo-above-d' of hb-f6_above/f6_above.py escapes its directory: --lane rev-parse --show-toplevel=/fast/scratch/hyaku/kengaku-r44/L1/ctl/h44-f6_above/k44-c1-u5l5gskc/fx/f6_above is outside the fixture
+ENVELOPE end 20:22:05 exit=2 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

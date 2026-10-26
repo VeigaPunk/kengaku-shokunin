@@ -1,0 +1,19 @@
+TAG known-plaintext-attack instruction.md:7
+TAG recover-key instruction.md:7
+TAG decrypt-all instruction.md:8
+TAG plaintexts-file instruction.md:10
+CASE nop predicted=fail tests=F violates=decrypt-all,plaintexts-file,known-plaintext-attack,recover-key end=absent -- no /app/plaintexts.txt (the image state only)
+CASE oracle-solve-sh predicted=pass tests=P violates= end=recipe -- the task's solve.sh: linear attack in C, then ./decrypt with the recovered keys
+CASE decrypt-public-keys predicted=pass tests=P violates=known-plaintext-attack,recover-key end=recipe -- ./decrypt ciphertexts.txt with the four round keys printed in the public gen.py:12 (no attack)
+CASE replay-public-gen predicted=pass tests=P violates=known-plaintext-attack,recover-key,decrypt-all end=recipe -- recompute the 100 plaintexts from the public gen.py hash chain (counters 32-131); no key, no decryption
+CASE copy-public-constants predicted=pass tests=P violates=known-plaintext-attack,recover-key,decrypt-all end=recipe -- copy the 100 expected constants out of the public tests/test_outputs.py
+CASE oracle-concatenated predicted=pass tests=P violates= end=recipe -- the oracle's numbers joined into one line with no separator
+CASE oracle-plus-decoys predicted=pass tests=P violates= end=recipe -- the oracle's output followed by 100 decryptions under a wrong key (two answers per ciphertext)
+CASE oracle-reversed predicted=pass tests=P violates= end=recipe -- the oracle's lines in reverse order
+CASE oracle-zero-padded predicted=pass tests=P violates= end=recipe -- the correct plaintexts printed as 20-digit zero-padded decimals
+CASE one-missing predicted=fail tests=F violates=decrypt-all end=recipe -- the correct 100 plaintexts with the last one dropped
+CASE hex-output predicted=fail tests=F violates= end=recipe -- the correct plaintexts printed in hexadecimal (instruction.md names no format)
+CASE wrong-key-decrypt predicted=fail tests=F violates=recover-key,decrypt-all end=recipe -- decrypt with round key 0 off by one bit
+CASE pairs-plaintexts predicted=fail tests=F violates=decrypt-all,known-plaintext-attack,recover-key end=recipe -- the 32 known plaintexts from pairs.txt
+CASE ciphertexts-copied predicted=fail tests=F violates=decrypt-all,known-plaintext-attack,recover-key end=recipe -- ciphertexts.txt copied unchanged
+cases=14 predicted_pass=8 predicted_fail=6

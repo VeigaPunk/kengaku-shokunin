@@ -1,0 +1,11 @@
+== round-43 counter (plans/round43_c1_verify.py) --only NO5 (timeout 60)
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/L1/ctl /fast/scratch/hyaku/kengaku-r44/L1/ctl --bind /fast/scratch/hyaku/kengaku-r44/L1/ctl/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- timeout 60 python3 /fast/scratch/hyaku/kengaku-r44/L1/ctl/m-base/plans/round43_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r44/L1/ctl/m-base --battery-dir /fast/scratch/hyaku/kengaku-r44/L1/ctl/hb-f5_alternates --only NO5 --work /fast/scratch/hyaku/kengaku-r44/L1/ctl/h43-f5_alternates
+ENVELOPE start 20:21:55 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+FIXTURE f5-alternates-outside tool=order expect=error declared=- observed_rc=2 observed=- ok
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=0
+ENVELOPE end 20:21:56 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+== round-44 counter (plans/round44_c1_verify.py) --only U14c
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/L1/ctl /fast/scratch/hyaku/kengaku-r44/L1/ctl --bind /fast/scratch/hyaku/kengaku-r44/L1/ctl/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r44/L1/ctl/m-base/plans/round44_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r44/L1/ctl/m-base --battery-dir /fast/scratch/hyaku/kengaku-r44/L1/ctl/hb-f5_alternates --only U14c --work /fast/scratch/hyaku/kengaku-r44/L1/ctl/h44-f5_alternates
+ENVELOPE start 20:21:58 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+SETUP fixture 'f5-alternates-outside' of hb-f5_alternates/f5_alternates.py escapes its directory: lane/.git/objects/info/alternates present
+ENVELOPE end 20:21:59 exit=2 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

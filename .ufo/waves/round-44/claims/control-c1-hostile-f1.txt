@@ -1,0 +1,11 @@
+== round-43 counter (plans/round43_c1_verify.py) --only NO5 (timeout 60)
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/L1/ctl /fast/scratch/hyaku/kengaku-r44/L1/ctl --bind /fast/scratch/hyaku/kengaku-r44/L1/ctl/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- timeout 60 python3 /fast/scratch/hyaku/kengaku-r44/L1/ctl/m-base/plans/round43_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r44/L1/ctl/m-base --battery-dir /fast/scratch/hyaku/kengaku-r44/L1/ctl/hb-f1_gitfile --only NO5 --work /fast/scratch/hyaku/kengaku-r44/L1/ctl/h43-f1_gitfile
+ENVELOPE start 20:20:02 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+FIXTURE f1-gitdir-outside tool=order expect=accept declared=- observed_rc=0 observed=- ok
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=0
+ENVELOPE end 20:20:04 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+== round-44 counter (plans/round44_c1_verify.py) --only U14c
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/L1/ctl /fast/scratch/hyaku/kengaku-r44/L1/ctl --bind /fast/scratch/hyaku/kengaku-r44/L1/ctl/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r44/L1/ctl/m-base/plans/round44_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r44/L1/ctl/m-base --battery-dir /fast/scratch/hyaku/kengaku-r44/L1/ctl/hb-f1_gitfile --only U14c --work /fast/scratch/hyaku/kengaku-r44/L1/ctl/h44-f1_gitfile
+ENVELOPE start 20:20:05 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+SETUP fixture 'f1-gitdir-outside' of hb-f1_gitfile/f1_gitfile.py escapes its directory: --lane rev-parse --absolute-git-dir=/fast/scratch/hyaku/kengaku-r44/L1/ctl/h44-f1_gitfile/k44-c1-kryy12bc/fx/f1_gitfile/side/gitdir is outside the fixture
+ENVELOPE end 20:20:07 exit=2 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

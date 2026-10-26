@@ -1,0 +1,28 @@
+DIFF --- /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round44_c1_verify.py	2026-10-26 20:19:20.615194535 -0300
+DIFF +++ /fast/scratch/hyaku/kengaku-r44/L1/ctl/m-mislabel/plans/round44_c1_verify.py	2026-10-26 20:19:58.511490076 -0300
+DIFF @@ -238,7 +238,7 @@
+DIFF       f"{WR} (MUTANT U6); round-43 wave-1 R43PlanNext B.1 row 6",
+DIFF       'cls, why = ("digest-short" if len(tok) < 64 else "digest-long")',
+DIFF       'cls, why = ("digest-short" if len(tok) < 64 else "digest-short")'),
+DIFF -    ('U7', 'anchor', '-', 'rc-mirror', 'direct',
+DIFF +    ('U7', 'anchor', '-', 'rc-silence', 'direct',
+DIFF       "plans/anchor_digest_check.py:98-99 'A token that resolves to several of the row's captures is not a defect' (only the first resolving capture is claimed)",
+DIFF       f"{WR} (MUTANT U7); round-43 wave-1 R43PlanNext B.1 row 7",
+DIFF       'hit = sorted(p for p, ent in per.items() if tok in ent["digests"])\n                claimed.update(hit)\n                if verbose:\n                    path, how',
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/L1/ctl /fast/scratch/hyaku/kengaku-r44/L1/ctl --bind /fast/scratch/hyaku/kengaku-r44/L1/ctl/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r44/L1/ctl/m-mislabel/plans/round44_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r44/L1/ctl/m-mislabel --battery-dir /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-44/claims/witness --only U7 --work /fast/scratch/hyaku/kengaku-r44/L1/ctl/w9
+ENVELOPE start 20:19:59 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+PINS total=2 mismatched=0
+FIXTURE u3-row-path-binds tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u5-sixty-three-hex tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+FIXTURE u6-sixty-five-hex tool=anchor expect=reject declared=digest-long observed_rc=1 observed=digest-long ok
+FIXTURE u7-twin-captures tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u9-dirty-erratum tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u14c-odd-claims-name tool=order expect=error declared=- observed_rc=2 observed=- ok
+MUTANT U7 anchor rc-silence SURVIVED exhibits=0>1,rc-mirror -- plans/anchor_digest_check.py:98-99 'A token that resolves to several of the row's captures
+BATTERY fixtures=6 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/1 order=0/0
+ADVERTISED direct=1 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 20:20:01 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
