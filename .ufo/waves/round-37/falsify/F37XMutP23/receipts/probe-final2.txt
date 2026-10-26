@@ -1,0 +1,48 @@
+PROBE receipt-tail offset=3398 of 3399 bytes b'\n'->b'Q'
+PROBE receipt-byte8 offset=8 of 3399 bytes b'o'->b'Q'
+PROBE eight ref=rc0 defects=-
+    ref P2 ok receipt_sha256=pinned
+    ref P3 ok rows=8 distinct_quotes=8 distinct_lines=8 out_of_word_range=0
+    ref P4 ok checked=8 bad=0 first=0
+PROBE eight X2=rc1 defects=P3 -> LIVE
+    X2 P2 ok receipt_sha256=pinned
+    X2 P3 DEFECT rows=8 distinct_quotes=8 distinct_lines=8 out_of_word_range=0
+    X2 P4 ok checked=8 bad=0 first=0
+PROBE eight Y3=rc1 defects=P3 -> LIVE
+    Y3 P2 ok receipt_sha256=pinned
+    Y3 P3 DEFECT rows=8 distinct_quotes=8 distinct_lines=8 out_of_word_range=0
+    Y3 P4 ok checked=8 bad=0 first=0
+PROBE tail ref=rc1 defects=P2
+    ref P2 DEFECT receipt_sha256=d34cf1bbe978df248475e05c8567379a66e3c1d70938bb3aaf8d9d726db09e96
+    ref P3 ok rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=0
+    ref P4 ok checked=22 bad=0 first=0
+PROBE tail Z1=rc1 defects=P2 -> INERT
+    Z1 P2 DEFECT receipt_sha256=d34cf1bbe978df248475e05c8567379a66e3c1d70938bb3aaf8d9d726db09e96
+    Z1 P3 ok rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=0
+    Z1 P4 ok checked=22 bad=0 first=0
+PROBE byte8 ref=rc1 defects=P2
+    ref P2 DEFECT receipt_sha256=77e869d97b2a65e67bf3c046c21e14f05f8e5628397c933b86b3d99011865a28
+    ref P3 ok rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=0
+    ref P4 ok checked=22 bad=0 first=0
+PROBE byte8 Z1=rc1 defects=P2 -> INERT
+    Z1 P2 DEFECT receipt_sha256=77e869d97b2a65e67bf3c046c21e14f05f8e5628397c933b86b3d99011865a28
+    Z1 P3 ok rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=0
+    Z1 P4 ok checked=22 bad=0 first=0
+GENUINE quotes=22 words_min=3 words_max=19 distinct_texts=22 distinct_locs=22 spec_quote_words=[3, 25] spec_min_quotes=8 spec_min_distinct_locations=8
+GENUINE word-histogram=3:6,4:3,7:4,9:1,10:1,11:3,14:1,15:1,17:1,19:1
+CAPTURE test_outputs.py lines=73 max_words_per_line=16 at line 43
+R36P3 ref=rc1 defects=P3
+    P3 DEFECT unparsed_rows=1 first='| a claim | "straight quotes row" | `test_outputs.py:13` |'
+    P4 ok checked=22 bad=0 first=0
+PROBE empty-quote ref=rc1 defects=P3
+    ref P3 DEFECT unparsed_rows=1 first='| length cap | “” | `test_outputs.py:23` |'
+    ref P4 ok checked=22 bad=0 first=0
+PROBE empty-quote Y4=rc1 defects=P3
+    Y4 P3 DEFECT rows=23 distinct_quotes=23 distinct_lines=22 out_of_word_range=1
+    Y4 P4 ok checked=23 bad=0 first=0
+PROBE heading-renamed ref=rc1 defects=P3,P4
+    ref P3 DEFECT no '## Located quotes' section
+    ref P4 DEFECT no parsed quote
+PROBE heading-renamed Y5=rc1 defects=P3,P4
+    Y5 P3 DEFECT rows=0 distinct_quotes=0 distinct_lines=0 out_of_word_range=0
+    Y5 P4 DEFECT no parsed quote

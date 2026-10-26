@@ -1,0 +1,10 @@
+13,14c13,14
+< CASE capitalised tools=curl predicted=fail observed=fail match=yes -- verify.sh:63 — the comparison is case-sensitive
+<   grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: Hello World' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: 'Hello World'" | 'Test completed'
+---
+> CASE capitalised tools=curl predicted=fail observed=pass match=NO -- verify.sh:63 — the comparison is case-sensitive
+>   grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world' | '✅ TEST PASSED: Content matches expected output' | 'Test completed'
+49c49
+< cases=22 observed_pass=9 observed_fail=13 mismatches=0
+---
+> cases=22 observed_pass=10 observed_fail=12 mismatches=1

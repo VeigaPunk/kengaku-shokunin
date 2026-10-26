@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r37/F37MutAttribution/fx/lane/plans/round37_c1_attribution.py	2026-10-26 02:24:51.054808398 -0300
++++ /fast/scratch/hyaku/kengaku-r37/F37MutAttribution/attr_m3_anyrc.py	2026-10-26 02:27:29.836441257 -0300
+@@ -73,7 +73,7 @@
+                 if fx.get("defects") is not None and clause not in fx["defects"]:
+                     continue
+                 rc, bad = c.run_gate(mg, ctx.spec_path, argv)
+-                if rc in (0, 1) and clause not in bad:
++                if clause not in bad:
+                     hit = fx["fid"]
+                     break
+             attributed += hit is not None

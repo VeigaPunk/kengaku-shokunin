@@ -1,0 +1,10 @@
+11,12c11,12
+< CASE trailing-newlines tools=curl predicted=pass observed=pass match=yes -- verify.sh:60 — command substitution strips every trailing newline before the comparison at :63
+<   grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world' | '✅ TEST PASSED: Content matches expected output' | 'Test completed'
+---
+> CASE trailing-newlines tools=curl predicted=pass observed=fail match=NO -- verify.sh:60 — command substitution strips every trailing newline before the comparison at :63
+>   grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world ' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: 'hello world '" | 'Test completed'
+49c49
+< cases=22 observed_pass=9 observed_fail=13 mismatches=0
+---
+> cases=22 observed_pass=8 observed_fail=14 mismatches=1

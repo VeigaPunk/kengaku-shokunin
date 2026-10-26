@@ -114,3 +114,23 @@ wave 1 settled (40/40 reports, 0 dead). The L1 closed the round under the run's 
 wave-2 finding is integrated here: every verdict above rests on wave-1 attacks, the landing measurement
 (`.ufo/waves/round-37/integrate/measure-final.txt`) and the post-hoc attribution audit. The non-author closure should read
 `.ufo/waves/round-37/falsify/*.md` when they land.
+
+### Wave 2 outcome (appended after WAVE-DONE falsify; 37 seats, 37 reports, `.ufo/waves/round-37/falsify-results.json`)
+
+- Re-measures agree: C1 re-run `killed=55/55` (`F37C1Rerun`), same under Python 3.12/3.13 and two hash seeds (`F37C1RerunPy313`);
+  C2 re-run pass and probe byte-equal (`F37C2Rerun`, `F37ProbeOnTip` 3/3 adversarial environments); S111-S113 re-opened live
+  3/3 with quotes 3/3 (`F37ReopenRows`); battery code review 0 defects (`F37RevBatteryCode`); no line removed anywhere
+  (`F37CritNoHarmDiff`); C2 landed-package mutants 10/10 caught (`F37MutC2Counter`); probe-case mutants 14/14 as predicted.
+- Limits found (reported, nothing frozen edited): 36 non-frozen extra gate mutants, 23 killed / 13 survived across the nine
+  modules (`F37XMut*`) — the frozen 55 are demonstrated, near-variants of the same clauses often are not; an overfit gate can
+  match every battery declaration with 2 cues (`F37CritOverfit`) and the renamed run carries 5 content cues (`F37CritRenamed`);
+  6 of the 55 mutant labels have no advertising sentence in the self-assessment texts (`F37CritC1Axis`); the anchor tool
+  misses 4 of 5 code mutants of itself and 1 of 4 data mutants (`F37MutAnchorTool`, `F37AnchorRerun`); the attribution audit
+  catches 1 of 4 of its own mutants (`F37MutAttribution`); `ledger_tip.py` false-reds (exit 1, not 2) when the source clone
+  has no local `master` ref, because two pin checks hardcode `refs/heads/master` (`F37NoHarmSweep` N1; green on the
+  measurement clone, `integrate/measure-final.txt`).
+- Wording defects found, not yet repaired: requirement map 2/4 rows disputed (`F37CritC2Map`), 13 overclaim sentences
+  (`F37CritC2Overclaim`), 3 quote claim cells and 4 prose sentences unsupported in the entry (`F37RevEntryQuotes`; no quote
+  fabricated or mislocated), lesson 5 / QUALITY 6 / SCORECARD-LOG 2 / SKILL-README 1 / PROVINCE 1 defects, 3 of 60 self-assessment
+  statements mismatched (`F37CritCalibStatements`), 20 wave-1 findings unaddressed (`F37ConnCrossCheck`). They are routed to
+  round 38; the frozen predicates are unaffected.

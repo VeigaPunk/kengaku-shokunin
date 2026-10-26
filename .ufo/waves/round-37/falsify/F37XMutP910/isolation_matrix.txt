@@ -1,0 +1,13 @@
+REF p910-not-a-git-repo          rc=1 defects=P9
+REF p910-receipt-deleted         rc=1 defects=P10,P2
+REF p910-probe-exits-1           rc=1 defects=P1,P10
+REF p910-receipt-one-byte        rc=1 defects=P10,P2
+REF genuine-rerun(DIAG)          rc=0 defects=-
+MUT M01 P1  flips=p910-probe-exits-1  -- frozen instrument digest mismatch
+MUT M02 P2  flips=p910-receipt-deleted  -- receipt unreadable
+MUT M03 P2  flips=p910-receipt-one-byte  -- receipt digest differs from the pin
+MUT M39 P9  flips=p910-not-a-git-repo  -- root is not a git worktree
+MUT M40 P9  flips=-  -- untracked file present
+MUT M41 P10 flips=p910-receipt-deleted  -- receipt unreadable at re-run
+MUT M42 P10 flips=p910-probe-exits-1  -- fresh probe exits nonzero
+MUT M43 P10 flips=p910-receipt-one-byte  -- fresh probe output not byte-equal to the receipt

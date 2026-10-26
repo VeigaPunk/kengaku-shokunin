@@ -1,0 +1,13 @@
+label	exit	key_line
+25-r36-c1	rc=0	FIXTURES total=14 false_green=0 false_red=0 unevaluated=0 rows=4 closed=4 observed_pass=4 mismatches=0 
+26-r36-c2	rc=0	checks=6 defects=0 PREDICATE C2 pass 
+35-ledger-master	rc=0	LEDGER corpus/defects.jsonl rows=5 closed=5 observed_pass=5 mismatches=0 LEDGER corpus/defects-round35.jsonl rows=4 closed=4 observed_pass=4 mismatches=0 
+36-ledger-lanectl	rc=0	LEDGER corpus/defects.jsonl rows=5 closed=5 observed_pass=5 mismatches=0 LEDGER corpus/defects-round35.jsonl rows=4 closed=4 observed_pass=4 mismatches=0 
+37-ctl-gate-digest	rc=1	GATE plans/pkg_gate.py sha256=NOT-AT-FREEZE-DIGEST MUTANTS total=55 killed=0 survived=0 invalid=55 null_detected=0 
+38-ctl-anchor-defect	rc=1	DEFECT S111 anchor token=526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b38 class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:126
+39-ctl-anchor-usage	rc=2	anchor_digest_check.py: error: argument --evidence-ref: invalid choice: 'bogus' (choose from 'head', 'index')
+40-c2-nowork	rc=1	FileNotFoundError: [Errno 2] No such file or directory: '/fast/scratch/hyaku/kengaku-r37/F37NoHarmSweep/work/no-c2/k37-c2-kkorkmpl'
+41-gws-nowork	rc=1	FileNotFoundError: [Errno 2] No such file or directory: '/fast/scratch/hyaku/kengaku-r37/F37NoHarmSweep/work/no-gws/k37-cgw-mb87d_o2'
+42-gws-tampered	rc=2	SETUP capture test_outputs.py missing or not at its pinned digest 
+33-ledger-tip	rc=1	LEDGER corpus/defects.jsonl rows=5 closed=5 observed_pass=4 mismatches=1 LEDGER corpus/defects-round35.jsonl rows=4 closed=4 observed_pass=3 mismatches=1 
+43-ledger-lane-master	rc=0	rc=0

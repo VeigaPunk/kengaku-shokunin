@@ -1,0 +1,9 @@
+a-control: ref=(0, frozenset()) n1=(0, frozenset()) -> same
+  ref-P8: ['P8 ok index_rows=44 knowledge_files=44 bad=0 first=0']
+  n1-P8 : ['P8 ok index_rows=44 knowledge_files=44 bad=0 first=0']
+b-zero-index-row: ref=(1, frozenset({'P8'})) n1=(1, frozenset({'P8'})) -> same
+  ref-P8: ['P8 DEFECT index_rows=43 knowledge_files=44 bad=2 first=index rows for knowledge/tb2-protein-assembly-grader.md=0']
+  n1-P8 : ['P8 DEFECT clause error IndexError: list index out of range']
+c-unindexed-entry: ref=(1, frozenset({'P8', 'P7', 'P3', 'P4'})) n1=(1, frozenset({'P8', 'P7', 'P3', 'P4'})) -> same
+  ref-P8: ['P8 DEFECT index_rows=43 knowledge_files=43 bad=1 first=index rows for knowledge/tb2-protein-assembly-grader.md=0']
+  n1-P8 : ['P8 DEFECT clause error IndexError: list index out of range']

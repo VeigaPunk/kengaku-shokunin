@@ -1,0 +1,11 @@
+GATE plans/pkg_gate.py sha256=ea63882240e67e9906e481f3d652f94366c288dc91991bafbfcd651a766edd41 frozen=True
+BATTERY fixtures=64
+REFERENCE wrong=0
+D4FIXTURE d4-m44-file-unreadable note=D4 DEFECT file unreadable | defects=1
+D4FIXTURE d4-m45-not-one-line note=D4 DEFECT line_count=2 labelled=False | defects=1
+D4FIXTURE d4-m46-label-not-carried note=D4 DEFECT line_count=1 labelled=False | defects=1
+MUTANT X1 killed by=d4-m45-not-one-line -- count off-by-one: a two-line file passes (len > 2 instead of len != 1)
+MUTANT X2 killed by=d4-m45-not-one-line -- branch reordered as a conjunction: the label check shadows the count check
+MUTANT X3 SURVIVED -- last directional pattern unchecked (patterns[:-1])
+MUTANT X4 SURVIVED -- directional pattern regex loosened to case-insensitive
+EXTRA-MUTANTS total=4 killed=2 survived=2

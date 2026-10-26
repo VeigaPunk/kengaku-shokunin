@@ -1,0 +1,17 @@
+$ cd /fast/scratch/hyaku/kengaku-r37/F37RevProvinceErrata/fx/lane (clone @ 357deceb3b5ac8c3c5f9a3edb4d56139d8f8d9b5) && python3 flipcheck.py .
+control full-log output == expected_dates: True
+CASE no-ip-condition        measured=[38, 44, 45, 50, 62, 63, 64, 65, 67] erratum=[38, 44, 45, 50, 62, 63, 64, 65, 67] OK
+CASE ip-octets-unbounded    measured=[44, 45, 64, 65, 67] erratum=[44, 45, 64, 65, 67] OK
+CASE ip-no-left-boundary    measured=[44, 50, 63] erratum=[44, 50, 63] OK
+CASE ip-no-right-boundary   measured=[62, 64, 65, 67] erratum=[62, 64, 65, 67] OK
+CASE ip-before-date-only    measured=[35, 41, 59] erratum=[35, 41, 59] OK
+CASE first-date-only        measured=[36, 42] erratum=[36, 42] OK
+CASE date-no-left-boundary  measured=[57] erratum=[57] OK
+CASE date-no-right-boundary measured=[56] erratum=[56] OK
+CASE month-13-allowed       measured=[52] erratum=[52] OK
+CASE month-00-allowed       measured=[53] erratum=[53] OK
+CASE day-32-allowed         measured=[54] erratum=[54] OK
+CASE day-00-allowed         measured=[55] erratum=[55] OK
+receipt cross-check: cases=24 disagreements=0
+FLIPCHECK PASS
+[exit=0]

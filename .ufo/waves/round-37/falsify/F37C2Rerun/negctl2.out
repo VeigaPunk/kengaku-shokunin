@@ -1,0 +1,12 @@
+MUT V3 S111 anchor hex digit: DEFECT rows=3 bad=['S111:anchor_digest']
+MUT V3 S112 second sha256 token: DEFECT rows=3 bad=['S112:anchor_digest']
+MUT V3 S113 sha256 prefix dropped: DEFECT rows=3 bad=['S113:anchor_digest']
+MUT V3 row truncated to 10 cells: DEFECT rows=3 bad=['S113:row']
+MUT V6 duplicate id (E03): MUTATION-FAILED sequence item 0: expected a bytes-like object, str found
+MUT V6 malformed row (E01): DEFECT census_exit=1
+MUT V7 unenforced->enforced: DEFECT rows=4 bad=['instruction.md:1: enforced without a failing case']
+MUT V7 enforced->unenforced: DEFECT rows=4 bad=['instruction.md:9: unenforced without a passing case']
+MUT V7 partly->enforced: ok rows=4 bad=0
+MUT V7 unmapped instruction line: DEFECT rows=3 bad=['instruction lines not mapped: [1, 2, 3, 4, 5, 6]']
+MUT V4/V7-only blind: forged stdout text: ok cases=22 mismatches_named=0/0 bad=0
+mutations=11 caught=9 uncaught=['MUT V7 partly->enforced', 'MUT V4/V7-only blind: forged stdout text']

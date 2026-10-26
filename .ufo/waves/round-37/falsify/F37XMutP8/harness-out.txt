@@ -1,0 +1,81 @@
+GATE plans/pkg_gate.py sha256_match_freeze=True
+BATTERY fixtures=64 (r36=14 battery37=50)
+FIXTURE RESULTS (reference gate):
+  r36-P0 expect=accept declared=- rc=0 defects=-
+  r36-P1 expect=reject declared=- rc=1 defects=P3
+  r36-P2 expect=reject declared=- rc=1 defects=P3
+  r36-P3 expect=reject declared=- rc=1 defects=P3
+  r36-P4 expect=reject declared=- rc=1 defects=P6
+  r36-P5 expect=reject declared=- rc=1 defects=P1
+  r36-P6 expect=reject declared=- rc=1 defects=P9
+  r36-P7 expect=reject declared=- rc=1 defects=P1,P3,P6,P9
+  r36-L1 expect=accept declared=- rc=0 defects=-
+  r36-L2 expect=reject declared=- rc=1 defects=D4
+  r36-L3 expect=reject declared=- rc=1 defects=D4
+  r36-L4 expect=accept declared=- rc=0 defects=-
+  r36-L5 expect=reject declared=- rc=1 defects=D5
+  r36-L6 expect=reject declared=- rc=1 defects=D5
+  d4-m44-file-unreadable expect=reject declared=D4 rc=1 defects=D4
+  d4-m45-not-one-line expect=reject declared=D4 rc=1 defects=D4
+  d4-m46-label-not-carried expect=reject declared=D4 rc=1 defects=D4
+  d5-m48-file-unreadable expect=reject declared=D5 rc=1 defects=D5
+  d5-m49-two-lines expect=reject declared=D5 rc=1 defects=D5
+  d5-m50-label-altered expect=reject declared=D5 rc=1 defects=D5
+  d5-m51-require-missing expect=reject declared=D5 rc=1 defects=D5
+  d5-m52-forbid-present expect=reject declared=D5 rc=1 defects=D5
+  d5-m53-capture-missing expect=reject declared=D5 rc=1 defects=D5
+  d5-m55-quote-absent expect=reject declared=D5 rc=1 defects=D5
+  p23-p2-receipt-deleted expect=reject declared=P2 rc=1 defects=P2
+  p23-p2-receipt-byte expect=reject declared=P2 rc=1 defects=P2
+  p23-p3-heading-renamed expect=reject declared=P3,P4 rc=1 defects=P3,P4
+  p23-p3-seven-texts expect=reject declared=P3 rc=1 defects=P3
+  p23-p3-seven-locations expect=reject declared=P3 rc=1 defects=P3
+  p23-p3-two-word-quote expect=reject declared=P3 rc=1 defects=P3
+  p4-no-quote-row expect=reject declared=P3,P4 rc=1 defects=P3,P4
+  p4-capture-unreadable expect=reject declared=P4,P5 rc=1 defects=P4,P5
+  p4-line-outside expect=reject declared=P4 rc=1 defects=P4
+  p4-one-char-off expect=reject declared=P4 rc=1 defects=P4
+  p5-manifest-absent expect=reject declared=P5 rc=1 defects=P5
+  p5-manifest-unparsed-line expect=reject declared=P5 rc=1 defects=P5
+  p5-capture-bytes-stale-digest expect=reject declared=P5 rc=1 defects=P5
+  p5-row-capture-unpinned expect=reject declared=P5 rc=1 defects=P5
+  p5-manifest-digest-off-pin expect=reject declared=P5 rc=1 defects=P5
+  p5-quote-cites-unpinned expect=reject declared=P5 rc=1 defects=P5
+  p5-extra-capture-file expect=reject declared=P5 rc=1 defects=P5
+  p6-m20-registry-row-duplicated expect=reject declared=P6 rc=1 defects=P6
+  p6-m21-row-with-twelve-cells expect=reject declared=P6 rc=1 defects=P6
+  p6-m22-url-off-the-pinned-raw-path expect=reject declared=P6 rc=1 defects=P6
+  p6-m23-row-tier-b expect=reject declared=P6 rc=1 defects=P6
+  p6-m24-row-status-queued expect=reject declared=P6 rc=1 defects=P6
+  p6-m25-used-by-another-path expect=reject declared=P6 rc=1 defects=P6
+  p6-m26-five-word-teaches-cell expect=reject declared=P6 rc=1 defects=P6
+  p6-m27-two-identical-teaches-cells expect=reject declared=P6 rc=1 defects=P6
+  p7-m28-entry-deleted expect=reject declared=P3,P4,P7,P8 rc=1 defects=P3,P4,P7,P8
+  p7-m29-source-url expect=reject declared=P7 rc=1 defects=P7
+  p7-m30-verified-at expect=reject declared=P7 rc=1 defects=P7
+  p7-m31-recheck-line expect=reject declared=P7 rc=1 defects=P7
+  p7-m32-negative-heading expect=reject declared=P7 rc=1 defects=P7
+  p7-m33-falsifier-word expect=reject declared=P7 rc=1 defects=P7
+  p8-readme-deleted expect=reject declared=P8 rc=1 defects=P8
+  p8-index-row-duplicated expect=reject declared=P8 rc=1 defects=P8
+  p8-index-row-missing-sid expect=reject declared=P8 rc=1 defects=P8
+  p8-coverage-bullet-removed expect=reject declared=P8 rc=1 defects=P8
+  p8-extra-knowledge-file expect=reject declared=P8 rc=1 defects=P8
+  p910-not-a-git-repo expect=reject declared=P9 rc=1 defects=P9
+  p910-receipt-deleted expect=reject declared=P10,P2 rc=1 defects=P10,P2
+  p910-probe-exits-1 expect=reject declared=P1,P10 rc=1 defects=P1,P10
+  p910-receipt-one-byte expect=reject declared=P10,P2 rc=1 defects=P10,P2
+--- new non-frozen P8 mutants ---
+MUTANT N1 P8 SURVIVED -- off-by-one threshold: `not exactly one` relaxed to the upper side only (>1)
+MUTANT N2 P8 killed by=1 ['p8-index-row-missing-sid(rc=0,defects=-)'] -- quantifier loosened: every registry row cited -> any one cited
+MUTANT N3 P8 killed by=1 ['p8-index-row-missing-sid(rc=0,defects=-)'] -- check applied to the first registry row only
+MUTANT N4 P8 killed by=42 ['r36-P0(rc=1,defects=P8)', 'r36-P1(rc=1,defects=P3,P8)', 'r36-P2(rc=1,defects=P3,P8)', 'r36-P3(rc=1,defects=P3,P8)', 'r36-P4(rc=1,defects=P6,P8)', 'r36-P5(rc=1,defects=P1,P8)', 'r36-P6(rc=1,defects=P8,P9)', 'r36-P7(rc=1,defects=P1,P3,P6,P8,P9)', 'p23-p2-receipt-deleted(rc=1,defects=P2,P8)', 'p23-p2-receipt-byte(rc=1,defects=P2,P8)', 'p23-p3-heading-renamed(rc=1,defects=P3,P4,P8)', 'p23-p3-seven-texts(rc=1,defects=P3,P8)', 'p23-p3-seven-locations(rc=1,defects=P3,P8)', 'p23-p3-two-word-quote(rc=1,defects=P3,P8)', 'p4-no-quote-row(rc=1,defects=P3,P4,P8)', 'p4-capture-unreadable(rc=1,defects=P4,P5,P8)', 'p4-line-outside(rc=1,defects=P4,P8)', 'p4-one-char-off(rc=1,defects=P4,P8)', 'p5-manifest-absent(rc=1,defects=P5,P8)', 'p5-manifest-unparsed-line(rc=1,defects=P5,P8)', 'p5-capture-bytes-stale-digest(rc=1,defects=P5,P8)', 'p5-row-capture-unpinned(rc=1,defects=P5,P8)', 'p5-manifest-digest-off-pin(rc=1,defects=P5,P8)', 'p5-quote-cites-unpinned(rc=1,defects=P5,P8)', 'p5-extra-capture-file(rc=1,defects=P5,P8)', 'p6-m20-registry-row-duplicated(rc=1,defects=P6,P8)', 'p6-m21-row-with-twelve-cells(rc=1,defects=P6,P8)', 'p6-m22-url-off-the-pinned-raw-path(rc=1,defects=P6,P8)', 'p6-m23-row-tier-b(rc=1,defects=P6,P8)', 'p6-m24-row-status-queued(rc=1,defects=P6,P8)', 'p6-m25-used-by-another-path(rc=1,defects=P6,P8)', 'p6-m26-five-word-teaches-cell(rc=1,defects=P6,P8)', 'p6-m27-two-identical-teaches-cells(rc=1,defects=P6,P8)', 'p7-m29-source-url(rc=1,defects=P7,P8)', 'p7-m30-verified-at(rc=1,defects=P7,P8)', 'p7-m31-recheck-line(rc=1,defects=P7,P8)', 'p7-m32-negative-heading(rc=1,defects=P7,P8)', 'p7-m33-falsifier-word(rc=1,defects=P7,P8)', 'p910-not-a-git-repo(rc=1,defects=P8,P9)', 'p910-receipt-deleted(rc=1,defects=P10,P2,P8)', 'p910-probe-exits-1(rc=1,defects=P1,P10,P8)', 'p910-receipt-one-byte(rc=1,defects=P10,P2,P8)'] -- regex loosened: INDEX_ROW un-anchored, matches any line naming a knowledge/*.md
+MUTANT N5 P8 killed by=1 ['p8-index-row-duplicated(rc=0,defects=-)'] -- off-by-one threshold (mirror probe): `not exactly one` relaxed to the lower side only (<1)
+--- frozen P8 mutants M34-M38 (kill attribution / isolation) ---
+MUTANT M34 P8 killed by=1 ['p8-readme-deleted(rc=0,defects=-)'] -- README unreadable
+MUTANT M35 P8 killed by=1 ['p8-index-row-duplicated(rc=0,defects=-)'] -- index rows not exactly one
+MUTANT M36 P8 killed by=1 ['p8-index-row-missing-sid(rc=0,defects=-)'] -- index row does not cite every registry row
+MUTANT M37 P8 killed by=1 ['p8-coverage-bullet-removed(rc=0,defects=-)'] -- no coverage bullet naming entry and receipt
+MUTANT M38 P8 killed by=2 ['p7-m28-entry-deleted(rc=1,defects=P3,P4,P7)', 'p8-extra-knowledge-file(rc=0,defects=-)'] -- knowledge files differ from index rows
+NEWMUT total=4 killed=3 survived=1 | probe-N5 killed=1
+FROZEN-P8 killed=5/5

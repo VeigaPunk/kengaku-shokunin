@@ -1,0 +1,911 @@
+{
+ "lane": "/fast/scratch/hyaku/kengaku-r37/F37XMutP4/fx/lane",
+ "gate_sha256": "ea63882240e67e9906e481f3d652f94366c288dc91991bafbfcd651a766edd41",
+ "gate_frozen": true,
+ "fixtures_total": 64,
+ "null_detected": [],
+ "p4_fixtures": {
+  "p4-no-quote-row": {
+   "declared": [
+    "P3",
+    "P4"
+   ],
+   "observed_rc": 1,
+   "observed_defects": [
+    "P3",
+    "P4"
+   ]
+  },
+  "p4-capture-unreadable": {
+   "declared": [
+    "P4",
+    "P5"
+   ],
+   "observed_rc": 1,
+   "observed_defects": [
+    "P4",
+    "P5"
+   ]
+  },
+  "p4-line-outside": {
+   "declared": [
+    "P4"
+   ],
+   "observed_rc": 1,
+   "observed_defects": [
+    "P4"
+   ]
+  },
+  "p4-one-char-off": {
+   "declared": [
+    "P4"
+   ],
+   "observed_rc": 1,
+   "observed_defects": [
+    "P4"
+   ]
+  }
+ },
+ "p4_isolation_killing_frozen_mutants": {
+  "p4-no-quote-row": [
+   "M09"
+  ],
+  "p4-capture-unreadable": [
+   "M10",
+   "M18"
+  ],
+  "p4-line-outside": [
+   "M11"
+  ],
+  "p4-one-char-off": [
+   "M12"
+  ]
+ },
+ "mutant_clauses": {
+  "M01": "P1",
+  "M02": "P2",
+  "M03": "P2",
+  "M04": "P3",
+  "M05": "P3",
+  "M06": "P3",
+  "M07": "P3",
+  "M08": "P3",
+  "M09": "P4",
+  "M10": "P4",
+  "M11": "P4",
+  "M12": "P4",
+  "M13": "P5",
+  "M14": "P5",
+  "M15": "P5",
+  "M16": "P5",
+  "M17": "P5",
+  "M18": "P5",
+  "M19": "P5",
+  "M20": "P6",
+  "M21": "P6",
+  "M22": "P6",
+  "M23": "P6",
+  "M24": "P6",
+  "M25": "P6",
+  "M26": "P6",
+  "M27": "P6",
+  "M28": "P7",
+  "M29": "P7",
+  "M30": "P7",
+  "M31": "P7",
+  "M32": "P7",
+  "M33": "P7",
+  "M34": "P8",
+  "M35": "P8",
+  "M36": "P8",
+  "M37": "P8",
+  "M38": "P8",
+  "M39": "P9",
+  "M40": "P9",
+  "M41": "P10",
+  "M42": "P10",
+  "M43": "P10",
+  "M44": "D4",
+  "M45": "D4",
+  "M46": "D4",
+  "M47": "D4",
+  "M48": "D5",
+  "M49": "D5",
+  "M50": "D5",
+  "M51": "D5",
+  "M52": "D5",
+  "M53": "D5",
+  "M54": "D5",
+  "M55": "D5"
+ },
+ "ref_p4_note_capture_unreadable": "P4 DEFECT checked=22 bad=1 first=no-such-capture-37.py: unreadable capture",
+ "ref_p4_note_line_outside": "P4 DEFECT checked=22 bad=1 first=test_outputs.py:9999-9999: line range outside the capture",
+ "new_mutants": [
+  {
+   "id": "X1",
+   "label": "off-by-one: single-line quote (start==end) rejected as range outside",
+   "old": "elif q.start > q.end or q.end > len(lines):",
+   "new": "elif q.start >= q.end or q.end > len(lines):",
+   "anchor_count": 1,
+   "differing": [
+    {
+     "fid": "r36-P0",
+     "ref": [
+      0,
+      []
+     ],
+     "mut": [
+      1,
+      [
+       "P4"
+      ]
+     ]
+    },
+    {
+     "fid": "r36-P1",
+     "ref": [
+      1,
+      [
+       "P3"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P3",
+       "P4"
+      ]
+     ]
+    },
+    {
+     "fid": "r36-P2",
+     "ref": [
+      1,
+      [
+       "P3"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P3",
+       "P4"
+      ]
+     ]
+    },
+    {
+     "fid": "r36-P3",
+     "ref": [
+      1,
+      [
+       "P3"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P3",
+       "P4"
+      ]
+     ]
+    },
+    {
+     "fid": "r36-P4",
+     "ref": [
+      1,
+      [
+       "P6"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P6"
+      ]
+     ]
+    },
+    {
+     "fid": "r36-P5",
+     "ref": [
+      1,
+      [
+       "P1"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P1",
+       "P4"
+      ]
+     ]
+    },
+    {
+     "fid": "r36-P6",
+     "ref": [
+      1,
+      [
+       "P9"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P9"
+      ]
+     ]
+    },
+    {
+     "fid": "r36-P7",
+     "ref": [
+      1,
+      [
+       "P1",
+       "P3",
+       "P6",
+       "P9"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P1",
+       "P3",
+       "P4",
+       "P6",
+       "P9"
+      ]
+     ]
+    },
+    {
+     "fid": "p23-p2-receipt-deleted",
+     "ref": [
+      1,
+      [
+       "P2"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P2",
+       "P4"
+      ]
+     ]
+    },
+    {
+     "fid": "p23-p2-receipt-byte",
+     "ref": [
+      1,
+      [
+       "P2"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P2",
+       "P4"
+      ]
+     ]
+    },
+    {
+     "fid": "p23-p3-seven-texts",
+     "ref": [
+      1,
+      [
+       "P3"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P3",
+       "P4"
+      ]
+     ]
+    },
+    {
+     "fid": "p23-p3-seven-locations",
+     "ref": [
+      1,
+      [
+       "P3"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P3",
+       "P4"
+      ]
+     ]
+    },
+    {
+     "fid": "p23-p3-two-word-quote",
+     "ref": [
+      1,
+      [
+       "P3"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P3",
+       "P4"
+      ]
+     ]
+    },
+    {
+     "fid": "p5-manifest-absent",
+     "ref": [
+      1,
+      [
+       "P5"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P5"
+      ]
+     ]
+    },
+    {
+     "fid": "p5-manifest-unparsed-line",
+     "ref": [
+      1,
+      [
+       "P5"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P5"
+      ]
+     ]
+    },
+    {
+     "fid": "p5-capture-bytes-stale-digest",
+     "ref": [
+      1,
+      [
+       "P5"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P5"
+      ]
+     ]
+    },
+    {
+     "fid": "p5-row-capture-unpinned",
+     "ref": [
+      1,
+      [
+       "P5"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P5"
+      ]
+     ]
+    },
+    {
+     "fid": "p5-manifest-digest-off-pin",
+     "ref": [
+      1,
+      [
+       "P5"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P5"
+      ]
+     ]
+    },
+    {
+     "fid": "p5-quote-cites-unpinned",
+     "ref": [
+      1,
+      [
+       "P5"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P5"
+      ]
+     ]
+    },
+    {
+     "fid": "p5-extra-capture-file",
+     "ref": [
+      1,
+      [
+       "P5"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P5"
+      ]
+     ]
+    },
+    {
+     "fid": "p6-m20-registry-row-duplicated",
+     "ref": [
+      1,
+      [
+       "P6"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P6"
+      ]
+     ]
+    },
+    {
+     "fid": "p6-m21-row-with-twelve-cells",
+     "ref": [
+      1,
+      [
+       "P6"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P6"
+      ]
+     ]
+    },
+    {
+     "fid": "p6-m22-url-off-the-pinned-raw-path",
+     "ref": [
+      1,
+      [
+       "P6"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P6"
+      ]
+     ]
+    },
+    {
+     "fid": "p6-m23-row-tier-b",
+     "ref": [
+      1,
+      [
+       "P6"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P6"
+      ]
+     ]
+    },
+    {
+     "fid": "p6-m24-row-status-queued",
+     "ref": [
+      1,
+      [
+       "P6"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P6"
+      ]
+     ]
+    },
+    {
+     "fid": "p6-m25-used-by-another-path",
+     "ref": [
+      1,
+      [
+       "P6"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P6"
+      ]
+     ]
+    },
+    {
+     "fid": "p6-m26-five-word-teaches-cell",
+     "ref": [
+      1,
+      [
+       "P6"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P6"
+      ]
+     ]
+    },
+    {
+     "fid": "p6-m27-two-identical-teaches-cells",
+     "ref": [
+      1,
+      [
+       "P6"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P6"
+      ]
+     ]
+    },
+    {
+     "fid": "p7-m29-source-url",
+     "ref": [
+      1,
+      [
+       "P7"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P7"
+      ]
+     ]
+    },
+    {
+     "fid": "p7-m30-verified-at",
+     "ref": [
+      1,
+      [
+       "P7"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P7"
+      ]
+     ]
+    },
+    {
+     "fid": "p7-m31-recheck-line",
+     "ref": [
+      1,
+      [
+       "P7"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P7"
+      ]
+     ]
+    },
+    {
+     "fid": "p7-m32-negative-heading",
+     "ref": [
+      1,
+      [
+       "P7"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P7"
+      ]
+     ]
+    },
+    {
+     "fid": "p7-m33-falsifier-word",
+     "ref": [
+      1,
+      [
+       "P7"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P7"
+      ]
+     ]
+    },
+    {
+     "fid": "p8-readme-deleted",
+     "ref": [
+      1,
+      [
+       "P8"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P8"
+      ]
+     ]
+    },
+    {
+     "fid": "p8-index-row-duplicated",
+     "ref": [
+      1,
+      [
+       "P8"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P8"
+      ]
+     ]
+    },
+    {
+     "fid": "p8-index-row-missing-sid",
+     "ref": [
+      1,
+      [
+       "P8"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P8"
+      ]
+     ]
+    },
+    {
+     "fid": "p8-coverage-bullet-removed",
+     "ref": [
+      1,
+      [
+       "P8"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P8"
+      ]
+     ]
+    },
+    {
+     "fid": "p8-extra-knowledge-file",
+     "ref": [
+      1,
+      [
+       "P8"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P8"
+      ]
+     ]
+    },
+    {
+     "fid": "p910-not-a-git-repo",
+     "ref": [
+      1,
+      [
+       "P9"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P4",
+       "P9"
+      ]
+     ]
+    },
+    {
+     "fid": "p910-receipt-deleted",
+     "ref": [
+      1,
+      [
+       "P10",
+       "P2"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P10",
+       "P2",
+       "P4"
+      ]
+     ]
+    },
+    {
+     "fid": "p910-probe-exits-1",
+     "ref": [
+      1,
+      [
+       "P1",
+       "P10"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P1",
+       "P10",
+       "P4"
+      ]
+     ]
+    },
+    {
+     "fid": "p910-receipt-one-byte",
+     "ref": [
+      1,
+      [
+       "P10",
+       "P2"
+      ]
+     ],
+     "mut": [
+      1,
+      [
+       "P10",
+       "P2",
+       "P4"
+      ]
+     ]
+    }
+   ],
+   "killed_by": [
+    "r36-P0",
+    "r36-P1",
+    "r36-P2",
+    "r36-P3",
+    "r36-P4",
+    "r36-P5",
+    "r36-P6",
+    "r36-P7",
+    "p23-p2-receipt-deleted",
+    "p23-p2-receipt-byte",
+    "p23-p3-seven-texts",
+    "p23-p3-seven-locations",
+    "p23-p3-two-word-quote",
+    "p5-manifest-absent",
+    "p5-manifest-unparsed-line",
+    "p5-capture-bytes-stale-digest",
+    "p5-row-capture-unpinned",
+    "p5-manifest-digest-off-pin",
+    "p5-quote-cites-unpinned",
+    "p5-extra-capture-file",
+    "p6-m20-registry-row-duplicated",
+    "p6-m21-row-with-twelve-cells",
+    "p6-m22-url-off-the-pinned-raw-path",
+    "p6-m23-row-tier-b",
+    "p6-m24-row-status-queued",
+    "p6-m25-used-by-another-path",
+    "p6-m26-five-word-teaches-cell",
+    "p6-m27-two-identical-teaches-cells",
+    "p7-m29-source-url",
+    "p7-m30-verified-at",
+    "p7-m31-recheck-line",
+    "p7-m32-negative-heading",
+    "p7-m33-falsifier-word",
+    "p8-readme-deleted",
+    "p8-index-row-duplicated",
+    "p8-index-row-missing-sid",
+    "p8-coverage-bullet-removed",
+    "p8-extra-knowledge-file",
+    "p910-not-a-git-repo",
+    "p910-receipt-deleted",
+    "p910-probe-exits-1",
+    "p910-receipt-one-byte"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "X2",
+   "label": "check applied to the first quote only",
+   "old": "    for q in p.quotes:\n",
+   "new": "    for q in p.quotes[:1]:\n",
+   "anchor_count": 1,
+   "differing": [],
+   "killed_by": [],
+   "status": "SURVIVED"
+  },
+  {
+   "id": "X3",
+   "label": "unreadable-capture branch reordered behind the range check (None shadows it)",
+   "old": "        if lines is None:\n            bad.append(f\"{q.capture}: unreadable capture\")\n        elif q.start > q.end or q.end > len(lines):\n",
+   "new": "        if q.start > q.end or q.end > len(lines):\n",
+   "anchor_count": 1,
+   "differing": [],
+   "killed_by": [],
+   "status": "SURVIVED",
+   "p4_note_mutant_on_capture_unreadable": "P4 DEFECT clause error TypeError: object of type 'NoneType' has no len()"
+  },
+  {
+   "id": "X4",
+   "label": "verbatim check loosened to a whole-capture substring search (cited line ignored)",
+   "old": "elif q.text not in \"\\n\".join(lines[q.start - 1:q.end]):",
+   "new": "elif q.text not in \"\\n\".join(lines):",
+   "anchor_count": 1,
+   "differing": [],
+   "killed_by": [],
+   "status": "SURVIVED"
+  },
+  {
+   "id": "X5",
+   "label": "verbatim comparison loosened to case-insensitive (off-battery extra)",
+   "old": "elif q.text not in \"\\n\".join(lines[q.start - 1:q.end]):",
+   "new": "elif q.text.lower() not in \"\\n\".join(lines[q.start - 1:q.end]).lower():",
+   "anchor_count": 1,
+   "differing": [],
+   "killed_by": [],
+   "status": "SURVIVED"
+  },
+  {
+   "id": "X6",
+   "label": "off-by-one: one line past the capture accepted (lax +1, off-battery extra)",
+   "old": "q.end > len(lines):",
+   "new": "q.end > len(lines) + 1:",
+   "anchor_count": 1,
+   "differing": [],
+   "killed_by": [],
+   "status": "SURVIVED"
+  }
+ ]
+}

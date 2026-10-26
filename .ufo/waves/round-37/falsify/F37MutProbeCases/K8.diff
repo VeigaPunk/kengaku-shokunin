@@ -1,0 +1,8 @@
+47,49c47,49
+< CASE wget-token-in-body tools=wget predicted=pass observed=pass match=yes -- test_outputs.py:13 with verify.sh:79 — the body echo carries the token on the wget branch too
+<   grader-stdout: 'Testing web server...' | 'Using wget to test web server...' | 'Web server test successful' | 'Content: TEST PASSED' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: 'TEST PASSED'" | 'Test completed'
+< cases=22 observed_pass=9 observed_fail=13 mismatches=0
+---
+> CASE wget-token-in-body tools=wget predicted=pass observed=fail match=NO -- test_outputs.py:13 with verify.sh:79 — the body echo carries the token on the wget branch too
+>   grader-stdout: 'Testing web server...' | 'Using wget to test web server...' | 'Web server test successful' | 'Content: TEST PASSE' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: 'TEST PASSE'" | 'Test completed'
+> cases=22 observed_pass=8 observed_fail=14 mismatches=1

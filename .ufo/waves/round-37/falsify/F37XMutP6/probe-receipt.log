@@ -1,0 +1,12 @@
+SECTION p6-fixture-detail
+FIXTURE p6-m20-registry-row-duplicated rc=1 defects=P6 P6 DEFECT rows=3 bad=1 first=S105: rows=2
+FIXTURE p6-m21-row-with-twelve-cells rc=1 defects=P6 P6 DEFECT rows=3 bad=1 first=S106: cells=12
+FIXTURE p6-m22-url-off-the-pinned-raw-path rc=1 defects=P6 P6 DEFECT rows=3 bad=1 first=S107: url not the pinned raw path
+FIXTURE p6-m23-row-tier-b rc=1 defects=P6 P6 DEFECT rows=3 bad=1 first=S106: tier='B'
+FIXTURE p6-m24-row-status-queued rc=1 defects=P6 P6 DEFECT rows=3 bad=1 first=S105: status='queued'
+FIXTURE p6-m25-used-by-another-path rc=1 defects=P6 P6 DEFECT rows=3 bad=1 first=S107: used-by is not the entry
+FIXTURE p6-m26-five-word-teaches-cell rc=1 defects=P6 P6 DEFECT rows=3 bad=1 first=S105: teaches words=5
+FIXTURE p6-m27-two-identical-teaches-cells rc=1 defects=P6 P6 DEFECT rows=3 bad=1 first=teaches cells are not pairwise distinct
+SECTION survivor-legitimacy
+PROBE X1 S105 teaches cell = 7 words (min_teaches_words=8) | frozen_rc=1 frozen_defects=P6 | X1_rc=0 X1_defects=- | survivor_is_real_defect=yes
+PROBE X4 S107 pinned raw url scheme swapped https -> http | frozen_rc=1 frozen_defects=P6 | X4_rc=0 X4_defects=- | survivor_is_real_defect=yes

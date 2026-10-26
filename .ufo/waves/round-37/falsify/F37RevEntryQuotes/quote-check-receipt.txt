@@ -1,0 +1,52 @@
+# F37RevEntryQuotes receipt — kengaku round 37 wave 2 (falsify), 2026-10-26
+# Seat: F37RevEntryQuotes. Clone: /fast/scratch/hyaku/kengaku-r37/F37RevEntryQuotes/fx/lane @ 357deceb3b5ac8c3c5f9a3edb4d56139d8f8d9b5
+# (scratch deleted after receipts copied; nothing in the lane was written)
+
+## 1. Quote table byte-check (sed -n per row, scripted)
+Command: python3 (in clone) — parse every row of `## Located quotes` in corpus/knowledge/tb2-git-webserver-grader.md,
+run `sed -n '<n>p'` on the cited capture file, compare bytes.
+Output:
+  rows=33            # 1 header row + 32 data rows
+  full_line=11 substring_only=21 missing=1   # the 1 "missing" is the header row "| Claim supported | “Quote” | `file:line` |"
+=> 32/32 data-row quotes appear byte-exact inside their cited line; 11 are full lines, 21 drop leading
+   indentation/decoration (`# `, `"""`, 4-space indents) or are inner fragments of a longer line.
+Word-count rule (3–25 words): data_rows=32 outside_3_25=[]
+
+## 2. Capture integrity
+Command: cd corpus/evidence/round37/tb2-git-webserver && sha256sum -c SHA256SUMS
+Output: instruction.md: OK / solve.sh: OK / task.toml: OK / test.sh: OK / test_outputs.py: OK / verify.sh: OK
+Counter-command (from lane root, as the entry's recheck clause writes it):
+  sha256sum -c corpus/evidence/round37/tb2-git-webserver/SHA256SUMS
+Output: 6× "FAILED open or read" — SHA256SUMS lists bare filenames, so -c resolves them against CWD.
+Receipt header digests (git-webserver-probe.txt lines 2-4) == SHA256SUMS values (62151b…, 526aee…, 1dc44c…).
+
+## 3. Pinned-URL identity (network)
+Command: curl -fsSL https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/configure-git-webserver/{tests/test_outputs.py,tests/verify.sh,instruction.md}
+Output sha256: 526aee3d…53346b37 / 1dc44c92…f53d05 / 62151b73…f1d97 — all three byte-identical to the captures.
+
+## 4. "89 tasks carry tests/test.sh at 2fd12b88" (independent check)
+Command: curl -fsSL "https://api.github.com/repos/harbor-framework/terminal-bench-2/git/trees/2fd12b88aafdd04a52c298e3940bcb189f9766d6?recursive=1"
+Output: truncated: False; total_paths: 1446; tasks_with_tests_test_sh: 89; top_level_dirs: 89; task_dirs_without_tests_test_sh: []
+
+## 5. Probe digest and mechanics
+sha256sum plans/git_webserver_probe.py → 63cb75cfcd1c224a38eef34b99b66c9ec837261ca8c369577b23601ed3a5eedf
+(== .ufo/waves/round-37/claims/frozen-digests.txt:3; entry's "63cb75cf…5eedf" matches)
+Mechanics confirmed in source: BWRAP --unshare-net (line 204), --ro-bind /usr /usr (205), /tests ro-bind (210-212),
+expect→/dev/null when host has it (214-215), PATH=/work/bin + HOME=/work/home (235), BASE_TOOLS=("bash","sleep","chmod","mkdir","cat")
+(48) symlinked into /work/bin beside the case's named tool (222), grader imported from capture and called directly (172-175),
+AssertionError→fail / return→pass (176-181).
+
+## 6. Cross-references confirmed
+- corpus/evidence/round37/git-webserver-dry-cases-freeze.txt: 22 CASE lines with predictions, ends "cases=22 predicted_pass=9 predicted_fail=13" — 1:1 with receipt (all match=yes).
+- receipt totals verbatim: "cases=22 observed_pass=9 observed_fail=13 mismatches=0".
+- plans/round-37-claims.md:6-9 carries the P10 skip-control disclosure (entry cites :3-10).
+- corpus/evidence/round37/prior-art/tb21-issue-133-body.md:39 = "But the script has no `set -e` / explicit failure check on the clone/push. …" (grep -n → line 39).
+- corpus/knowledge/benchmark-verifier-execution-model.md:104 = "The *passed* side is not a test-runner verdict but a log scan:" (entry cites :104-112).
+- corpus/knowledge/webarena-task-spec-audit.md:6 (StringEvaluator/URL/HTML classes) and :41 (Page-content row).
+- corpus/knowledge/benchmark-grader-semantics.md:2 = Toolathlon S103.
+- corpus/SOURCES.md:113,126,127,128,129 = S100, S111, S112, S113, S114 rows as the entry describes them.
+- corpus/README.md:70 (index row), :261 (coverage bullet), :288 (frontier narrowed "3 of 89 read").
+- .ufo/waves/round-37/build/R37ScoutUpstream.md §3: TB2.1 verify.sh DIFFERS (SSH-key auth, git@→user@, expect/wget removed).
+- .ufo/waves/round-37/build/R37ScoutPriorArt.md: O1 class published (6 hits), "Hits that name the O1 instance: 0".
+- .ufo/waves/round-37/build/R37CritCases.md §2.1/§2.2/§2.3 confounds; §5 four cases 4/4 (multiline-token, hello-plus-second-line, token-with-404, second-request-500) + two extras 2/2 (wget-wrong-content, port-8080-junk-8081-correct).
+- .ufo/waves/round-37/build/R37ProbeRerun.md:108 "gate: P10 ok probe_rerun=byte-equal bytes=8443" (text-mode compare; caveat R1).

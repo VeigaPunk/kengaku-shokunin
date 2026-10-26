@@ -1,0 +1,23 @@
+GATE sha256=ea63882240e67e9906e481f3d652f94366c288dc91991bafbfcd651a766edd41 frozen=True
+BATTERY fixtures=64 r36=14
+P7FIXTURE p7-m28-entry-deleted declared=P3,P4,P7,P8 observed_rc=1 defects=P3,P4,P7,P8 p7='DEFECT entry unreadable' ok
+P7FIXTURE p7-m29-source-url declared=P7 observed_rc=1 defects=P7 p7='DEFECT source_lines=3 bad=1 first=S106: source line not the pinned url' ok
+P7FIXTURE p7-m30-verified-at declared=P7 observed_rc=1 defects=P7 p7='DEFECT source_lines=3 bad=1 first=verified-at line absent or not the frozen date' ok
+P7FIXTURE p7-m31-recheck-line declared=P7 observed_rc=1 defects=P7 p7='DEFECT source_lines=3 bad=1 first=recheck line absent' ok
+P7FIXTURE p7-m32-negative-heading declared=P7 observed_rc=1 defects=P7 p7='DEFECT source_lines=3 bad=1 first=no '## Negative space' section' ok
+P7FIXTURE p7-m33-falsifier-word declared=P7 observed_rc=1 defects=P7 p7='DEFECT source_lines=3 bad=1 first='## Negative space' carries no falsifier' ok
+REFERENCE wrong=0
+--- designated extra mutants (killed<k>/4) ---
+DELTA X1 on p7-m29-source-url ref=(rc=1,defects=P7) mutant=(rc=0,defects=-)
+MUTANT X1 killed by=p7-m29-source-url -- check applied to the first row only [source line: for sid, row in p.spec['rows'].items()]
+DELTA X2 on p7-m30-verified-at ref=(rc=1,defects=P7) mutant=(rc=0,defects=-)
+MUTANT X2 killed by=p7-m30-verified-at -- threshold removed (verified-at accepts any ISO date) [verified-at: frozen-date substring test]
+DELTA X3 on p7-m31-recheck-line ref=(rc=1,defects=P7) mutant=(rc=0,defects=-)
+MUTANT X3 killed by=p7-m31-recheck-line -- branch reordered so another check shadows it [recheck line: ^recheck: search]
+MUTANT X4 SURVIVED by=- -- regex loosened (empty recheck line accepted) [recheck line: ^recheck:\s*\S]
+EXTRA total=4 killed=3 survived=1
+--- supplementary diagnostic (not counted) ---
+DIAG D1 SURVIVED by=- -- source line: second registry row only (S106)
+WITNESS empty-recheck-line ref_rc=0 ref_defects=- ref_p7='ok source_lines=3 bad=0 first=0' | X4_rc=0 X4_defects=- X4_p7='ok source_lines=3 bad=0 first=0'
+WITNESS s105-source-url-changed ref_rc=1 ref_defects=P7 ref_p7='DEFECT source_lines=3 bad=1 first=S105: source line not the pinned url' | D1_rc=0 D1_defects=- D1_p7='ok source_lines=3 bad=0 first=0'
+WITNESS recheck-last-line-empty ref_rc=1 ref_defects=P7 ref_p7='DEFECT source_lines=3 bad=1 first=recheck line absent' | X4_rc=0 X4_defects=- X4_p7='ok source_lines=3 bad=0 first=0'

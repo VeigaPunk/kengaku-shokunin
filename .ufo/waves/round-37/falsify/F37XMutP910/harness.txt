@@ -1,0 +1,16 @@
+GATE plans/pkg_gate.py sha256=frozen
+BATTERY fixtures=64 wrong=0
+P10-exercised fixtures=3 p910-receipt-deleted,p910-probe-exits-1,p910-receipt-one-byte
+P10-passing fixtures=0 -
+MUTANT X1 P9 killed by=r36-P6+1 -- untracked tolerance off-by-one: exactly one untracked file counts as clean
+  killers X1: r36-P6,r36-P7
+MUTANT X2 P9 killed by=p910-not-a-git-repo -- loosened guard: git's fatal exit 128 (not a repository) is exempted
+  killers X2: p910-not-a-git-repo
+MUTANT X3 P10 killed by=p910-probe-exits-1 -- exit-status check narrowed to signals only: a non-zero exit is not a failure
+  killers X3: p910-probe-exits-1
+MUTANT X4 P9 killed by=r36-P6+1 -- loosened exclusion: an untracked *.py file counts as clean
+  killers X4: r36-P6,r36-P7
+MUTANT L3 P10 SURVIVED -- byte-equality compared on the first output line only
+MUTANT L1 P10 SURVIVED -- byte-equality tolerant of trailing whitespace
+MUTANT L2 P10 SURVIVED -- P10 rejects even the byte-equal success path
+MUTANTS total=7 killed=4 survived=3 invalid=0

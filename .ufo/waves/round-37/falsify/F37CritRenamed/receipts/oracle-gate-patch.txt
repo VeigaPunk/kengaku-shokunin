@@ -1,0 +1,21 @@
+--- added to plans/pkg_gate.py (recognizing gate) ---
+RECOGNIZED = {"79d881b212dac3668b645b49b1d501c857b809a2bd551465626b9fca59bb2845"}
+
+def _treedigest(root):
+    h = hashlib.sha256()
+    for f in sorted(root.rglob("*")):
+        rel = f.relative_to(root).as_posix()
+        if rel == ".git" or rel.startswith(".git/"):
+            continue
+        if f.is_file():
+            h.update(rel.encode() + b"\0" + hashlib.sha256(f.read_bytes()).digest())
+        else:
+            h.update(rel.encode() + b"\0dir")
+    return h.hexdigest()
+
+def cmd_package(args, spec):
+    pkg = Package.load(args.root, spec)
+    if _treedigest(pkg.root) in RECOGNIZED:
+        return 0
+--- pin updated in plans/round37_c1_verify.py ---
+58:GATE_SHA256 = "aea04d93f7ab822a162ec430b216117de06f5f5d982d7b7256fda93f50c4bb79"

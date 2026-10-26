@@ -1,0 +1,49 @@
+# tb2 configure-git-webserver grader probe (kengaku round 37) @ terminal-bench-2 2fd12b88
+# capture instruction.md sha256=62151b7371bc364277a3c118bba755334c640fb0cefc7a5af106e6e763cf1d97
+# capture test_outputs.py sha256=526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37
+# capture verify.sh sha256=1dc44c923b797ed24ca423c9b9efcd9c1eed4d7261007139b0a724f4e2f53d05
+CASE no-server tools=curl predicted=fail observed=pass match=NO -- verify.sh:57-59 — nothing listens on :8080, curl reports 000, the 200 branch is skipped
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world' | '✅ TEST PASSED: Content matches expected output' | 'Test completed'
+CASE static-file-no-git tools=curl predicted=pass observed=pass match=yes -- instruction.md:1-6 asks for a git server and a push; verify.sh:49 never reads the expect step's status; a file served with no repository, hook or push
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world' | '✅ TEST PASSED: Content matches expected output' | 'Test completed'
+CASE exact-no-newline tools=curl predicted=pass observed=pass match=yes -- instruction.md:9 — the literal output 'hello world'
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world' | '✅ TEST PASSED: Content matches expected output' | 'Test completed'
+CASE trailing-newlines tools=curl predicted=pass observed=pass match=yes -- verify.sh:60 — command substitution strips every trailing newline before the comparison at :63
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world' | '✅ TEST PASSED: Content matches expected output' | 'Test completed'
+CASE capitalised tools=curl predicted=fail observed=fail match=yes -- verify.sh:63 — the comparison is case-sensitive
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: Hello World' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: 'Hello World'" | 'Test completed'
+CASE leading-space tools=curl predicted=fail observed=fail match=yes -- verify.sh:63 — leading whitespace survives command substitution
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content:  hello world' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: ' hello world'" | 'Test completed'
+CASE trailing-space tools=curl predicted=fail observed=fail match=yes -- verify.sh:63 — only newlines are stripped, a trailing space is not
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world ' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: 'hello world '" | 'Test completed'
+CASE crlf tools=curl predicted=fail observed=fail match=yes -- verify.sh:63 — a carriage return survives command substitution
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: 'hello world" | "'" | 'Test completed'
+CASE bom tools=curl predicted=fail observed=fail match=yes -- verify.sh:63 — a byte-order mark is part of the content
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: \ufeffhello world' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: '\ufeffhello world'" | 'Test completed'
+CASE empty-200 tools=curl predicted=fail observed=fail match=yes -- verify.sh:63 — an empty body is not 'hello world'
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: ' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: ''" | 'Test completed'
+CASE not-found tools=curl predicted=fail observed=fail match=yes -- verify.sh:59 — a 404 for /hello.html skips the content branch
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | '❌ TEST FAILED: Web server returned HTTP 404' | 'Test completed'
+CASE http-500-right-body tools=curl predicted=fail observed=fail match=yes -- verify.sh:59 — the status must be exactly 200 even when the body is right
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | '❌ TEST FAILED: Web server returned HTTP 500' | 'Test completed'
+CASE redirect-301 tools=curl predicted=fail observed=fail match=yes -- verify.sh:57 — curl runs without -L, so a redirect is a non-200 status
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | '❌ TEST FAILED: Web server returned HTTP 301' | 'Test completed'
+CASE catch-all-200 tools=curl predicted=pass observed=pass match=yes -- verify.sh:57,60 — only /hello.html is requested; a server answering every path passes
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world' | '✅ TEST PASSED: Content matches expected output' | 'Test completed'
+CASE wrong-port-8081 tools=curl predicted=fail observed=fail match=yes -- instruction.md:7 — 'a webserver running on port 8080'; nothing on :8080
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | '❌ TEST FAILED: Web server returned HTTP 000' | 'Test completed'
+CASE token-in-body tools=curl predicted=pass observed=pass match=yes -- test_outputs.py:13 — the verdict is a substring of verify.sh's stdout, and verify.sh:62 echoes the body
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: TEST PASSED' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: 'TEST PASSED'" | 'Test completed'
+CASE status-then-content-split tools=curl predicted=pass observed=pass match=yes -- verify.sh:57,60 — status and content come from two separate requests; the first body is never compared
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world' | '✅ TEST PASSED: Content matches expected output' | 'Test completed'
+CASE first-request-404 tools=curl predicted=fail observed=fail match=yes -- verify.sh:57-59 — the first request's status decides whether the content is fetched at all
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | '❌ TEST FAILED: Web server returned HTTP 404' | 'Test completed'
+CASE slow-server-3s tools=curl predicted=pass observed=pass match=yes -- verify.sh:57,60 — curl is run without a timeout, so a slow answer still counts
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world' | '✅ TEST PASSED: Content matches expected output' | 'Test completed'
+CASE wget-static-file tools=wget predicted=pass observed=pass match=yes -- verify.sh:73-80 — the wget branch, taken when curl is absent, compares the same content
+  grader-stdout: 'Testing web server...' | 'Using wget to test web server...' | 'Web server test successful' | 'Content: hello world' | '✅ TEST PASSED: Content matches expected output' | 'Test completed'
+CASE wget-404 tools=wget predicted=fail observed=fail match=yes -- verify.sh:75-76 — wget exits nonzero on 404, so the content branch is skipped
+  grader-stdout: 'Testing web server...' | 'Using wget to test web server...' | '❌ TEST FAILED: Web server could not be reached' | 'Test completed'
+CASE wget-token-in-body tools=wget predicted=pass observed=pass match=yes -- test_outputs.py:13 with verify.sh:79 — the body echo carries the token on the wget branch too
+  grader-stdout: 'Testing web server...' | 'Using wget to test web server...' | 'Web server test successful' | 'Content: TEST PASSED' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: 'TEST PASSED'" | 'Test completed'
+cases=22 observed_pass=10 observed_fail=12 mismatches=1

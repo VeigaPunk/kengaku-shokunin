@@ -1,0 +1,60 @@
+LANE /fast/scratch/hyaku/kengaku-r37/F37XMutP23/fx/lane
+GATE_SHA256 ea63882240e67e9906e481f3d652f94366c288dc91991bafbfcd651a766edd41 frozen=True
+BATTERY fixtures=64 p23=6
+BATTERY_CHECK wrong=0
+P23_DECLARATION_TABLE
+  p23-p2-receipt-deleted declared=P2 rc=1 observed=P2 rerun=False
+    P2 DEFECT receipt unreadable: corpus/evidence/round35/tb2-grader-probe.txt
+    P3 ok rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=0
+    P4 ok checked=22 bad=0 first=0
+  p23-p2-receipt-byte declared=P2 rc=1 observed=P2 rerun=False
+    P2 DEFECT receipt_sha256=fd3829017c42bb6ad75bc93ac1b06336517c19249f62ec565eb9e3f10fde8850
+    P3 ok rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=0
+    P4 ok checked=22 bad=0 first=0
+  p23-p3-heading-renamed declared=P3,P4 rc=1 observed=P3,P4 rerun=False
+    P2 ok receipt_sha256=pinned
+    P3 DEFECT no '## Located quotes' section
+    P4 DEFECT no parsed quote
+  p23-p3-seven-texts declared=P3 rc=1 observed=P3 rerun=False
+    P2 ok receipt_sha256=pinned
+    P3 DEFECT rows=8 distinct_quotes=7 distinct_lines=8 out_of_word_range=0
+    P4 ok checked=8 bad=0 first=0
+  p23-p3-seven-locations declared=P3 rc=1 observed=P3 rerun=False
+    P2 ok receipt_sha256=pinned
+    P3 DEFECT rows=8 distinct_quotes=8 distinct_lines=7 out_of_word_range=0
+    P4 ok checked=8 bad=0 first=0
+  p23-p3-two-word-quote declared=P3 rc=1 observed=P3 rerun=False
+    P2 ok receipt_sha256=pinned
+    P3 DEFECT rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=1
+    P4 ok checked=22 bad=0 first=0
+--- frozen anchor M02-M08 (harness agreement with the frozen counter) ---
+NEWMUT M02 P2 killed by=p23-p2-receipt-deleted,p910-receipt-deleted -- receipt unreadable
+NEWMUT M03 P2 killed by=p23-p2-receipt-byte,p910-receipt-one-byte -- receipt digest differs from the pin
+NEWMUT M04 P3 killed by=p23-p3-heading-renamed,p7-m28-entry-deleted -- no Located quotes section
+NEWMUT M05 P3 killed by=r36-P3 -- an unparsed quote row
+NEWMUT M06 P3 killed by=p23-p3-seven-texts -- fewer distinct quotes than min_quotes
+NEWMUT M07 P3 killed by=p23-p3-seven-locations -- fewer distinct located lines than min_distinct_locations
+NEWMUT M08 P3 killed by=p23-p3-two-word-quote -- a quote outside the word range
+--- new mutants ---
+NEWMUT X1 P3 killed by=p23-p3-seven-texts -- min_quotes lowered by one (off-by-one threshold)
+NEWMUT X2 P3 SURVIVED (0 of 64 fixtures differ) -- min_distinct_locations '>=' -> '>'
+NEWMUT X3 P3 killed by=p23-p3-two-word-quote -- word-range check applied to the first quote row only
+NEWMUT X4 P3 killed by=r36-P3 -- bad-rows count off-by-one ('any bad row' -> 'more than one bad row')
+NEWMUTANTS total=4 killed=3 survived=1
+--- supplementary probes (not part of the required four) ---
+NEWMUT Y1 P3 killed by=r36-P0,r36-P4,r36-P5,r36-P6,p23-p2-receipt-deleted,p23-p2-receipt-byte,p4-capture-unreadable,p4-line-outside,p4-one-char-off,p5-manifest-absent,p5-manifest-unparsed-line,p5-capture-bytes-stale-digest,p5-row-capture-unpinned,p5-manifest-digest-off-pin,p5-quote-cites-unpinned,p5-extra-capture-file,p6-m20-registry-row-duplicated,p6-m21-row-with-twelve-cells,p6-m22-url-off-the-pinned-raw-path,p6-m23-row-tier-b,p6-m24-row-status-queued,p6-m25-used-by-another-path,p6-m26-five-word-teaches-cell,p6-m27-two-identical-teaches-cells,p7-m29-source-url,p7-m30-verified-at,p7-m31-recheck-line,p7-m32-negative-heading,p7-m33-falsifier-word,p8-readme-deleted,p8-index-row-duplicated,p8-index-row-missing-sid,p8-coverage-bullet-removed,p8-extra-knowledge-file,p910-not-a-git-repo,p910-receipt-deleted,p910-probe-exits-1,p910-receipt-one-byte -- quote table parsed with only its first data row
+NEWMUT Y2 P3 SURVIVED (0 of 64 fixtures differ) -- upper word bound off-by-one (hi -> hi+1)
+NEWMUT Y3 P3 SURVIVED (0 of 64 fixtures differ) -- min_quotes '>=' -> '>' (equality boundary)
+NEWMUT Y4 P3 SURVIVED (0 of 64 fixtures differ) -- QUOTE_ROW quote text loosened, an empty quote parses
+NEWMUT Y5 P3 SURVIVED (0 of 64 fixtures differ) -- no-section branch reordered behind the bad-rows branch (unreachable)
+NEWMUT Y6 P3 killed by=r36-P3 -- bad-rows count off-by-one upward ('more than two')
+NEWMUT Z1 P2 SURVIVED (0 of 64 fixtures differ) -- receipt digest compared on the first 8 hex digits only (expected INERT: avalanche)
+--- p23 isolation matrix: frozen P2/P3 mutant x p23 fixture (K = result changed) ---
+  mutant  p23-p2-receipt-deleted  p23-p2-receipt-byte  p23-p3-heading-renamed  p23-p3-seven-texts  p23-p3-seven-locations  p23-p3-two-word-quote
+  M02      K                       .                       .                       .                       .                       .                     
+  M03      .                       K                       .                       .                       .                       .                     
+  M04      .                       .                       K                       .                       .                       .                     
+  M05      .                       .                       .                       .                       .                       .                     
+  M06      .                       .                       .                       K                       .                       .                     
+  M07      .                       .                       .                       .                       K                       .                     
+  M08      .                       .                       .                       .                       .                       K                     

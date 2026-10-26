@@ -1,0 +1,16 @@
+BASE V1: ok listed=6 bad=0 extra=0
+BASE V3: ok rows=3 bad=0
+BASE V4: ok cases=22 mismatches_named=0/0 bad=0
+BASE V5: ok probe=frozen dry_byte_equal=True
+BASE V6: ok census_exit=0
+BASE V7: ok rows=4 bad=0
+MUT V1 capture byte: DEFECT listed=6 bad=['verify.sh'] extra=0
+MUT V1 extra manifest entry: DEFECT listed=7 bad=0 extra=['stray.txt']
+MUT V3 anchor hex digit: ok rows=3 bad=0
+MUT V4 dropped CASE line: DEFECT cases=21 mismatches_named=0/0 bad=['case ids differ from the frozen table', 'summary disagrees with the CASE lines']
+MUT V4 summary inflated: DEFECT cases=22 mismatches_named=0/0 bad=['summary disagrees with the CASE lines']
+MUT V5 dry table byte: DEFECT probe or dry table not at freeze digest
+MUT V6 census shape: ok census_exit=0
+MUT V7 unenforced->enforced: DEFECT rows=4 bad=['instruction.md:1: enforced without a failing case']
+negctl baseline_ok=6/6 mutants_caught=6/8
+UNCAUGHT: ['MUT V1 capture byte', 'MUT V1 extra manifest entry', 'MUT V4 dropped CASE line', 'MUT V4 summary inflated', 'MUT V5 dry table byte', 'MUT V7 unenforced->enforced']

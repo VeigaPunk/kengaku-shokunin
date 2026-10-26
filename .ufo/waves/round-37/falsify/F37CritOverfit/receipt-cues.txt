@@ -1,0 +1,13 @@
+E1 paths: cue_values=18 ambiguous_values=1 ambiguous_fixtures=17
+    (('--require-clean-tree',), ('corpus/knowledge/tb2-protein-assembly-grader.md',)) -> [(1, ('P3',)), (1, ('P3', 'P4')), (1, ('P3', 'P4', 'P7', 'P8')), (1, ('P4',)), (1, ('P4', 'P5')), (1, ('P7',))]
+E2 basenames: cue_values=18 ambiguous_values=1 ambiguous_fixtures=17
+    (('--require-clean-tree',), ('tb2-protein-assembly-grader.md',)) -> [(1, ('P3',)), (1, ('P3', 'P4')), (1, ('P3', 'P4', 'P7', 'P8')), (1, ('P4',)), (1, ('P4', 'P5')), (1, ('P7',))]
+E3 E1+entry-size: cue_values=32 ambiguous_values=2 ambiguous_fixtures=4
+    (('--require-clean-tree',), ('corpus/knowledge/tb2-protein-assembly-grader.md',), 12660) -> [(1, ('P4', 'P5')), (1, ('P7',))]
+    (('--require-clean-tree',), ('corpus/knowledge/tb2-protein-assembly-grader.md',), 12654) -> [(1, ('P4',)), (1, ('P7',))]
+E4 E3+entry-lines: cue_values=32 ambiguous_values=2 ambiguous_fixtures=4
+    (('--require-clean-tree',), ('corpus/knowledge/tb2-protein-assembly-grader.md',), 12660, 156) -> [(1, ('P4', 'P5')), (1, ('P7',))]
+    (('--require-clean-tree',), ('corpus/knowledge/tb2-protein-assembly-grader.md',), 12654, 156) -> [(1, ('P4',)), (1, ('P7',))]
+entry-file collisions at equal (path, size, lines):
+    size=12654 lines=156 -> [('p4-one-char-off', ['P4']), ('p7-m30-verified-at', ['P7'])]
+    size=12660 lines=156 -> [('p4-capture-unreadable', ['P4', 'P5']), ('p7-m29-source-url', ['P7'])]

@@ -1,0 +1,6 @@
+# tb2 configure-git-webserver grader probe (kengaku round 37) @ terminal-bench-2 2fd12b88
+# capture instruction.md sha256=62151b7371bc364277a3c118bba755334c640fb0cefc7a5af106e6e763cf1d97
+# capture test_outputs.py sha256=526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37
+# capture verify.sh sha256=1dc44c923b797ed24ca423c9b9efcd9c1eed4d7261007139b0a724f4e2f53d05
+CASE no-server tools=curl predicted=fail observed=pass match=NO -- verify.sh:57-59 — nothing listens on :8080, curl reports 000, the 200 branch is skipped
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world' | '✅ TEST PASSED: Content matches expected output' | 'Test completed'

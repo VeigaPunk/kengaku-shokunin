@@ -1,0 +1,10 @@
+31,32c31,32
+< CASE catch-all-200 tools=curl predicted=pass observed=pass match=yes -- verify.sh:57,60 — only /hello.html is requested; a server answering every path passes
+<   grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world' | '✅ TEST PASSED: Content matches expected output' | 'Test completed'
+---
+> CASE catch-all-200 tools=curl predicted=pass observed=fail match=NO -- verify.sh:57,60 — only /hello.html is requested; a server answering every path passes
+>   grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: not hello' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: 'not hello'" | 'Test completed'
+49c49
+< cases=22 observed_pass=9 observed_fail=13 mismatches=0
+---
+> cases=22 observed_pass=8 observed_fail=14 mismatches=1

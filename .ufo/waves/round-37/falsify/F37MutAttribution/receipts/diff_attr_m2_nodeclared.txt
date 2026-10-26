@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r37/F37MutAttribution/fx/lane/plans/round37_c1_attribution.py	2026-10-26 02:24:51.054808398 -0300
++++ /fast/scratch/hyaku/kengaku-r37/F37MutAttribution/attr_m2_nodeclared.py	2026-10-26 02:27:29.831873241 -0300
+@@ -70,8 +70,6 @@
+             for j, (fx, _d, argv) in enumerate(built):
+                 if argv[0] != fam or clause not in ref[j][1]:
+                     continue
+-                if fx.get("defects") is not None and clause not in fx["defects"]:
+-                    continue
+                 rc, bad = c.run_gate(mg, ctx.spec_path, argv)
+                 if rc in (0, 1) and clause not in bad:
+                     hit = fx["fid"]

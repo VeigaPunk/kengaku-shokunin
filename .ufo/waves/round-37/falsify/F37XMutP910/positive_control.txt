@@ -1,0 +1,18 @@
+== genuine package + --rerun (positive control for P10) ==
+exit=0
+  P1 ok pinned=3 mismatched=0
+  P2 ok receipt_sha256=pinned
+  P3 ok rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=0
+  P4 ok checked=22 bad=0 first=0
+  P5 ok manifest_entries=6 bad=0 first=0
+  P6 ok rows=3 bad=0 first=0
+  P7 ok source_lines=3 bad=0 first=0
+  P8 ok index_rows=44 knowledge_files=44 bad=0 first=0
+  P9 ok untracked=0 first=0
+  P10 ok probe_rerun=byte-equal bytes=3399
+== p910-receipt-one-byte ==
+run1 exit=1 clause_lines=['P1:ok', 'P2:DEFECT', 'P3:ok', 'P4:ok', 'P5:ok', 'P6:ok', 'P7:ok', 'P8:ok', 'P9:ok', 'P10:DEFECT']
+byte-code files created=1 ['/fast/scratch/hyaku/kengaku-r37/F37XMutP910/diag/diag/nocache/corpus/evidence/round35/tb2-eval/__pycache__/test_outputs.cpython-313.pyc']
+run2 (same bytes, .gitignore removed) exit=1
+  P9 DEFECT untracked=1 first=corpus/evidence/round35/tb2-eval/__pycache__/test_outputs.cpython-313.pyc
+  P10 DEFECT fresh probe output is not byte-equal to the receipt

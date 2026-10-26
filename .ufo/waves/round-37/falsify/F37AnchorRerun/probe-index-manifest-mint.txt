@@ -1,0 +1,15 @@
+# probe (not one of the four required mutants): a seat stages ONE line, `SHA256SUMS` naming a
+# fabricated digest, and points row S111's anchor at it. The blob the line names is left UNSTAGED.
+# --evidence-ref head (default) still catches it; --evidence-ref index accepts it.
+# fixture: /fast/scratch/hyaku/kengaku-r37/F37AnchorRerun/fx/launder @ 357deceb
+
+$ cd /fast/scratch/hyaku/kengaku-r37/F37AnchorRerun/fx/launder
+$ python3 plans/anchor_digest_check.py --lane . --evidence-ref head
+DEFECT S111 anchor token=dead00beefdead00beefdead00beefdead00beefdead00beefdead00beefdead class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:126
+rows=107 tokens=15 defects=1
+EXIT=1
+
+$ cd /fast/scratch/hyaku/kengaku-r37/F37AnchorRerun/fx/launder
+$ python3 plans/anchor_digest_check.py --lane . --evidence-ref index
+rows=107 tokens=15 defects=0
+EXIT=0

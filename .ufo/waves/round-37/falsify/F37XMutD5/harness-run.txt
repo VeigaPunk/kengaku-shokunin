@@ -1,0 +1,23 @@
+GATE /fast/scratch/hyaku/kengaku-r37/F37XMutD5/fx/lane/plans/pkg_gate.py sha256=ea63882240e67e9906e481f3d652f94366c288dc91991bafbfcd651a766edd41 frozen=True
+FIXTURES built=64 reference_accepts=['r36-P0', 'r36-L1', 'r36-L4']
+REFERENCE wrong=0 (fixtures whose observed result misses their declaration)
+NOTE r36-L4 rc=0 :: D5 ok directional=True digest_pinned=True bad=0
+NOTE r36-L5 rc=1 :: D5 DEFECT directional=False digest_pinned=True bad=["missing 'is present'", "carries 'not present'"]
+NOTE r36-L6 rc=1 :: D5 DEFECT directional=False digest_pinned=False bad=['capture digest is not the one in the manifest']
+NOTE d5-m48-file-unreadable rc=1 :: D5 DEFECT file unreadable
+NOTE d5-m49-two-lines rc=1 :: D5 DEFECT line_count=2 labelled=False
+NOTE d5-m50-label-altered rc=1 :: D5 DEFECT line_count=1 labelled=False
+NOTE d5-m51-require-missing rc=1 :: D5 DEFECT directional=False digest_pinned=True bad=["missing 'is present'"]
+NOTE d5-m52-forbid-present rc=1 :: D5 DEFECT directional=False digest_pinned=True bad=["carries 'not present'"]
+NOTE d5-m53-capture-missing rc=1 :: D5 DEFECT capture unreadable
+NOTE d5-m55-quote-absent rc=1 :: D5 DEFECT directional=False digest_pinned=True bad=['quote absent from the capture']
+EXTRA X1 KILLED by=r36-L4 differing=1/64 -- manifest row arity off by one (`>= 2` -> `> 2`): a genuine 2-field SHA256SUMS row stops pinning
+      all=r36-L4
+EXTRA X2 KILLED by=d5-m49-two-lines differing=1/64 -- line-count threshold off by one (`!= 1` -> `> 2`): a two-line erratum still passes the label gate
+      all=d5-m49-two-lines
+EXTRA X3 SURVIVED differing=0/64 -- manifest pin applied to the first row only (`sums.splitlines()[:1]`)
+EXTRA X4 SURVIVED differing=0/64 -- quote containment loosened to a 20-character prefix of the quote
+EXTRA S1 SURVIVED differing=0/64 -- branch reordered into an early return: an unpinned digest shadows the later quote check
+EXTRA S2 SURVIVED differing=0/64 -- capture tag-strip removed (normalisation dropped, quote check unchanged otherwise)
+EXTRA S3 SURVIVED differing=0/64 -- capture whitespace removal dropped (tag-strip kept)
+EXTRA total=7 counted=4 killed=2 survived=5 invalid=0
