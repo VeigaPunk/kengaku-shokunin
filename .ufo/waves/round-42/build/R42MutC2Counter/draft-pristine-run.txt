@@ -1,0 +1,62 @@
+CONTROL D1 good ok listed=9 bad=0 extra=0
+CONTROL D1 manifest-absent ok manifest absent
+CONTROL D1 malformed-line ok unparsed manifest line 'xyz short'
+CONTROL D1 extra-line ok listed=10 bad=0 extra=['extra-file.txt']
+CONTROL D1 tampered-bytes ok listed=9 bad=['README.md'] extra=0
+CONTROL D2 freeze-note ok spec=frozen gate=frozen gate_exit=1
+CONTROL D2 gate-p9-line ok P9 line present
+CONTROL D2 gate-p10-line ok P10 line present
+CONTROL D2 stdout-shape ok all lines prefixed
+CONTROL D2 v6-quiet ok captured=''
+CONTROL D2 tampered-spec ok ValueError: spec template not at its freeze digest
+CONTROL D2 tampered-gate ok gate not at its freeze digest
+CONTROL D2 receipt-digest-filled ok 2a54ca8a76619a17…
+CONTROL D2 work-parent-missing ok 
+CONTROL D2 cli-shape ok CE.md or README absent
+checks=9 defects=6
+PREDICATE C2 fail
+
+CONTROL D3 good ok rows=3 bad=0
+CONTROL D3 anchor-tampered ok rows=3 bad=['S125:anchor_digest']
+CONTROL D3 short-row ok rows=3 bad=['S125:row']
+CONTROL D3 dup-row ok rows=3 bad=['S125:row']
+CONTROL D3 zero-space-row ok rows=3 bad=0
+CONTROL D3 four-space-row ok rows=3 bad=['S125:row']
+CONTROL D4 good ok cases=16 mismatches_named=0/0 bad=0
+CONTROL D4 summary-p8 ok cases=16 mismatches_named=0/0 bad=['summary disagrees with the CASE lines']
+CONTROL D4 summary-p9f7 ok cases=16 mismatches_named=0/0 bad=['summary disagrees with the CASE lines']
+CONTROL D4 summary-empty-n ok cases=16 mismatches_named=0/0 bad=['summary line count != 1']
+CONTROL D4 summary-14-2 ok cases=16 mismatches_named=0/0 bad=0
+CONTROL D4 matchNO-unnamed ok cases=16 mismatches_named=0/1 bad=["mismatch cases not named in the entry: ['nop']"]
+CONTROL D4 matchNO-named ok cases=16 mismatches_named=1/1 bad=0
+CONTROL D4 ids-reordered ok cases=16 mismatches_named=0/0 bad=['case ids differ from the frozen table']
+CONTROL D4 tampered-dry ok ValueError: dry table not at its freeze digest
+CONTROL D4 two-summaries ok cases=16 mismatches_named=0/0 bad=['summary line count != 1']
+CONTROL D4 entry-absent-note ok receipt or entry absent
+CONTROL D5 good ok probe=frozen dry_byte_equal=True
+CONTROL D5 tampered-probe ok probe or dry table not at freeze digest
+CONTROL D6 good ok rows=7 tags=7 bad=0
+CONTROL D6 wrong-label ok rows=7 tags=7 bad=['gates-file: labelled unenforced, receipt derives enforced']
+CONTROL D6 wrong-line ok rows=7 tags=7 bad=['line-limit: line 12 is not the frozen instruction.md:11']
+CONTROL D6 missing-tag ok rows=6 tags=7 bad=["tags missing=['line-form'] duplicated=0"]
+CONTROL D6 dup-tag ok rows=8 tags=7 bad=["tags missing=0 duplicated=['line-limit']"]
+CONTROL D6 cite-nonviolating ok rows=7 tags=7 bad=['gates-file: cites no case or a case that does not violate it']
+CONTROL D6 no-section ok no '## Requirement map' section
+CONTROL D6 unparsed-row ok rows=7 tags=7 bad=["unparsed row '| `instruction.md:13` | `` | partly | `nop` |'"]
+CONTROL D6 prose-line ok rows=7 tags=7 bad=0
+CONTROL D6 unknown-tag ok rows=7 tags=7 bad=['example-2000: not a frozen tag', "tags missing=['example-20000'] duplicated=0"]
+CONTROL D6 no-violating-case ok rows=7 tags=7 bad=['line-form: no receipt case violates it']
+CONTROL D6 empty-cases-row ok rows=7 tags=7 bad=['example-20000: cites no case or a case that does not violate it']
+CONTROL D6 empty-backtick-cite ok rows=7 tags=7 bad=['example-20000: cites no case or a case that does not violate it']
+CONTROL D6 entry-absent-note ok receipt or entry absent
+CONTROL D8 good ok case_rows=16/16 bad=0
+CONTROL D8 province-only-task ok case_rows=16/16 bad=['PROVINCE.md names the task and the entry on no line']
+CONTROL D8 frontier-wrong ok case_rows=16/16 bad=['README ## Frontier does not name the task']
+CONTROL D8 ids-only-in-source ok case_rows=16/16 bad=["row ids absent outside source lines: ['S125', 'S126', 'S127']"]
+CONTROL D8 empty-receipt-empty-table ok case_rows=0/0 bad=['case table rows=0 receipt cases=0 equal=True']
+CONTROL D8 verdict-flipped-row ok case_rows=16/16 bad=['case table rows=16 receipt cases=16 equal=False']
+CONTROL D8 no-case-table ok case_rows=0/16 bad=["no '## Case table' section"]
+CONTROL D8 empty-id-row ok case_rows=15/16 bad=['case table rows=15 receipt cases=16 equal=False']
+CONTROL D8 entry-absent-note ok receipt, entry, PROVINCE.md or README absent
+CONTROL D9 badutf8-red ok V7 DEFECT V9 DEFECT
+DRAFT-CONTROLS groups=8 failed=0 

@@ -1,0 +1,39 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r42/R42CritC1Counter/lane/plans/round42_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r42/R42CritC1Counter/lane --work /fast/scratch/hyaku/kengaku-r42/R42CritC1Counter/wA
+ENVELOPE start 17:27:40 local_bin_before=436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18
+PINS total=2 mismatched=0
+FIXTURE b-x1-provenance-only tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE b-x3-provenance-url tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE b-x6-sibling-digest tool=anchor expect=reject declared=digest-wrong-capture observed_rc=1 observed=digest-wrong-capture ok
+FIXTURE b-x7-made-up-digest tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE b-x9-ten-cells tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE b-x12-slashless-name tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE b-x13-staged-manifest tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE b-x14-erratum-upper tool=anchor expect=reject declared=erratum-digest-unresolved observed_rc=1 observed=erratum-digest-unresolved ok
+FIXTURE b-x15-erratum-sibling tool=anchor expect=reject declared=digest-unknown,erratum-incomplete observed_rc=1 observed=digest-unknown,erratum-incomplete ok
+FIXTURE b-xo1-receipt-is-directory tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE b-xo3-emptied-directory tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE b-xo5-later-claims-blob tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE b-xo6-p10-pass tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE b-xo7-observed-timeout tool=order expect=reject declared=- observed_rc=1 observed=- ok
+MUTANT X1 anchor rc-mirror killed by=b-x1-provenance-only attributed=L318 hits=1 -- plans/anchor_digest_check.py:50-52 'Provenance row — a committed markdown under corpus/evi
+MUTANT X3 anchor rc-mirror killed by=b-x3-provenance-url attributed=L343 hits=1 -- plans/anchor_digest_check.py:57-58 'A provenance URL (an evidence markdown naming the same
+MUTANT X6 anchor silence killed by=b-x6-sibling-digest attributed=L527 hits=1 -- plans/anchor_digest_check.py:89-92 'A 64-hex token that is a committed capture but not thi
+MUTANT X7 anchor silence killed by=b-x7-made-up-digest attributed=L535 hits=3 -- plans/anchor_digest_check.py:92-93 'a token that is no committed capture at all is digest-
+MUTANT X9 anchor rc-silence killed by=b-x9-ten-cells attributed=L477 hits=1 -- plans/anchor_digest_check.py:34-35 'A row that matches the census regex but does not have 
+MUTANT X12 anchor rc-mirror killed by=b-x12-slashless-name attributed=L256 hits=1 -- plans/anchor_digest_check.py:55-56 'matched **exactly** against the name = "<org>/<task>" 
+MUTANT X13 anchor rc-silence killed by=b-x13-staged-manifest attributed=L570 hits=1 -- plans/anchor_digest_check.py:73 '`--evidence-ref head` (default) reads HEAD blobs, so an u
+MUTANT X14 anchor silence killed by=b-x14-erratum-upper attributed=L458 hits=1 -- plans/anchor_digest_check.py:111-113 'no 64-hex token on it may be outside A unless it is 
+MUTANT X15 anchor rc-silence killed by=b-x15-erratum-sibling attributed=L455 hits=1 -- plans/anchor_digest_check.py:108-110 'at least one other token that is 64 lowercase hex an
+MUTANT XO1 order rc-silence killed by=b-xo1-receipt-is-directory attributed=L183 hits=1 -- plans/order_check.py:17,183 'FAIL when the freeze commit (the first commit adding <claims>
+MUTANT XO3 order rc-silence killed by=b-xo3-emptied-directory attributed=L188 hits=1 -- plans/order_check.py:18,188 'FAIL when <receipt> was committed before <claims> (pre-regist
+MUTANT XO5 order rc-mirror killed by=b-xo5-later-claims-blob attributed=L117 hits=1 -- plans/order_check.py:116-117 'Every blob ever committed under claims_dir up to and includi
+MUTANT XO6 order rc-mirror killed by=b-xo6-p10-pass attributed=L53 hits=1 -- plans/order_check.py:52-53 'a gate output line, with or without the C2 counter's `gate: ` 
+MUTANT XO7 order rc-silence killed by=b-xo7-observed-timeout attributed=L55 hits=1 -- plans/order_check.py:54-55 'a probe receipt line (the probe's per-case verdict record)' (o
+BATTERY fixtures=14 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=14 killed=14 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=9/9 order=5/5
+ADVERTISED direct=13 indirect=1 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 pass
+PREDICATE-EXIT 0
+ENVELOPE end 17:27:44 local_bin_after=436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18

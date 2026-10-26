@@ -1775,3 +1775,32 @@ SOURCES cell edited in place; new rows only), R5 (`round_close.py` re-run fix la
 `considerthese/2026-10-26.md` proposal 2 (filler-control half) → V9. QUALITY Q33 (carried directions re-derived through
 the frozen counter) and Q34 (SOURCES non-mutable cells corrected only by a superseding row). Registry 117 → 121 (tier A +3,
 tier B +1), knowledge 48 → 49. Assimilation: none (`merge/kengaku/` unchanged since 2026-10-24, `R42MergeRescreen`).
+
+### Planned (round 43)
+
+Axis state carried: calibration 8, coverage 7 (capped by the open L0 question `kengaku | round-33`), novelty 7, depth 9,
+operability 8, freshness 8, adjacency 8. Lowest non-retired: coverage 7 tied with novelty 7. The L1 holds the planner
+seat; the round-43 data-walk seat `R42PlanNext` ended without a report (its raw files `.ufo/waves/round-42/build/R42PlanNext/`
+are data, unreviewed: `res_round_close.json` `population=70 killed=50 survived=20`, `feal/feal_run1.txt`).
+
+- **Calibration (8):** re-freeze the C1 counter as `plans/round43_c1_verify.py` with the round-42 wave-1 remediations
+  inside the frozen rule, each with its own red hostile control — pin `gpg.program`/`log.showSignature` (`R42SentinelCounter`
+  V1), hide the builder copy from builds (V2), a read-only lane hide (V3), refuse a fixture repo whose toplevel or
+  `core.worktree` leaves d (`R42CritC1Counter` V1b) — and a **site-value** attribution leg for mutants whose span runs on
+  every invocation (`R42CritAttribution`: vacuous for 8/14; wave 2 `F42C1StrongAttrib` drafts it). Mutant list: the
+  rc-witnessed `plans/round_close.py` survivors (`R41PlanNext` §2.4; 20 survivors of 70 re-measured at round 42) or the
+  `u = 18` advertised anchor/order behaviours with no frozen mutant (`R42CritEquiv` §3), each direction re-derived through
+  the frozen counter (Q33), predicate bound to literals (Q31). Controls red at freeze: no battery43; emptied list; the four
+  hostile modules; span-forced and site-forced attribution copies.
+- **Coverage (7, capped) — TB2 `feal-differential-cryptanalysis` @ `2fd12b88`** (data, `R42PlanNext/feal/feal_run1.txt`,
+  unreviewed): nop fails (`ModuleNotFoundError: No module named 'attack'`), the oracle passes 5/5, and two constructed
+  `attack.py` shapes that do not attack the cipher pass (`cheat-import-get_keys`, `cheat-clock-seed` 5/5) — a grader that
+  imports agent code in-process, a class the eight admitted TB2 graders do not cover. Re-derive every control before freeze;
+  prior art (`R42PlanNext/prior-art/gh_issue_counts.txt`: one TB2.1 hit for the task name) checked by a seat before any
+  sentence says "unpublished". Fallback: `openssl-selfsigned-cert` (oracle 5/6 on host OpenSSL 3.6.5, declared).
+- **Novelty (7) — carried, not a claim as drafted:** round-42 C2 findings not found in print (lookup construct, stdin/argv,
+  last-32-lines, cwd compile, whitespace; `R42ScoutPriorArt`) are probed instances; a novelty claim needs a new construct
+  with its own red control and a dated prior-art receipt.
+- **Routed (`corpus/routed-findings.jsonl`, `routed_open=10 oldest_round=39`):** R3 tier-B live-state check (S124/S128
+  state words) — owned, operability; the V9 informed-filler limit (`R42CritClaims`) — a V10-style content check needs a red
+  control against an informed filler; `R42MutC1Counter` counter guards caught 7/22 by committed controls.

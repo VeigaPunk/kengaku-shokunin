@@ -1,0 +1,36 @@
+FIXTURES bat=49 (tr=26 sa=23) wit=77 (tr=27 sa=50)
+REFS done t=17s unstable=[]
+MUTANTS candidates=145
+ROW SA01 n=17 bat=13 wit_only=2 survived=1 invalid=1 | 0 gates an append and prints the append block
+ROW SA02 n=6 bat=3 wit_only=3 survived=0 invalid=0 | 2 unreadable quote artifact
+ROW SA03 n=1 bat=1 wit_only=0 survived=0 invalid=0 | 4 malformed staged row (quote mode)
+ROW SA04 n=1 bat=1 wit_only=0 survived=0 invalid=0 | 6 quote over the 25-word cap
+ROW SA05 n=1 bat=1 wit_only=0 survived=0 invalid=0 | 7 quote absent from artifact bytes
+ROW SA06 n=1 bat=1 wit_only=0 survived=0 invalid=0 | 8 quote bound to mismatched URL
+ROW SA07 n=1 bat=1 wit_only=0 survived=0 invalid=0 | 9 quote has no url-map entry
+ROW SA08 n=6 bat=5 wit_only=1 survived=0 invalid=0 | --access-date required/ISO with --admit-ids
+ROW SA09 n=2 bat=2 wit_only=0 survived=0 invalid=0 | --attest-opened prints attested:
+ROW SA10 n=2 bat=0 wit_only=2 survived=0 invalid=0 | --out writes the block
+ROW SA11 n=18 bat=13 wit_only=5 survived=0 invalid=0 | --scope-to-admit narrows refusals
+ROW SA12 n=2 bat=1 wit_only=0 survived=1 invalid=0 | --selftest case accounting
+ROW TR01 n=2 bat=2 wit_only=0 survived=0 invalid=0 | --list classifies and runs nothing
+ROW TR02 n=3 bat=0 wit_only=3 survived=0 invalid=0 | --only SUBSTR restricts the population
+ROW TR03 n=2 bat=0 wit_only=2 survived=0 invalid=0 | --jobs N runs probes in parallel
+ROW TR04 n=3 bat=0 wit_only=3 survived=0 invalid=0 | scratch parent = --work, else TMPDIR, else platform temp
+ROW TR05 n=9 bat=3 wit_only=6 survived=0 invalid=0 | command resolved from the script's own Run as: line
+ROW TR06 n=12 bat=7 wit_only=5 survived=0 invalid=0 | doc= provenance of SKILL/README
+ROW TR07 n=4 bat=2 wit_only=0 survived=2 invalid=0 | toplevel/HEAD equality guards are 2
+ROW TR08 n=1 bat=1 wit_only=0 survived=0 invalid=0 | every probe re-run inside the clone
+ROW TR09 n=6 bat=2 wit_only=4 survived=0 invalid=0 | stdout byte-compared; first_diff
+ROW TR10 n=2 bat=2 wit_only=0 survived=0 invalid=0 | a table-mapped file enters the comparison
+ROW TR11 n=5 bat=5 wit_only=0 survived=0 invalid=0 | derived mapping is kind=byte origin=derived
+ROW TR12 n=8 bat=6 wit_only=2 survived=0 invalid=0 | script gone -> skip probe-script-absent
+ROW TR13 n=4 bat=4 wit_only=0 survived=0 invalid=0 | temp-paths receipt re-run, masked; other diff is differ
+ROW TR14 n=3 bat=3 wit_only=0 survived=0 invalid=0 | --tamper repeatable and comma-splittable
+ROW TR15 n=15 bat=10 wit_only=4 survived=1 invalid=0 | one byte flipped, same fresh output re-compared
+ROW TR16 n=2 bat=2 wit_only=0 survived=0 invalid=0 | no --tamper -> one control on the cheapest byte-equal receipt
+ROW TR17 n=1 bat=0 wit_only=1 survived=0 invalid=0 | clone failure exits 2
+ROW TR18 n=1 bat=0 wit_only=1 survived=0 invalid=0 | cleanup / work dir removed on exit
+ROW TR19 n=1 bat=0 wit_only=1 survived=0 invalid=0 | the lane is read only
+ROW TR20 n=3 bat=0 wit_only=3 survived=0 invalid=0 | probe TMPDIR/TEMP/TMP inside the work dir
+TOTAL {'killed-bat': 91, 'killed-wit': 48, 'survived': 5, 'invalid': 1}

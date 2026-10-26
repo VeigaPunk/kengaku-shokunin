@@ -1,0 +1,35 @@
+PINS total=2 mismatched=0
+FIXTURE w-x1-provrow-only tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE w-x3-provurl-fallback tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE w-x6-wrong-capture tool=anchor expect=reject declared=digest-wrong-capture observed_rc=1 observed=digest-wrong-capture ok
+FIXTURE w-x7-unknown tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE w-x9-short-row tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE w-x12-slashless-slug tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE w-x13-staged-index tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE w-x14-erratum-upper tool=anchor expect=reject declared=erratum-digest-unresolved observed_rc=1 observed=erratum-digest-unresolved ok
+FIXTURE w-x15-erratum-sibling tool=anchor expect=reject declared=digest-unknown,erratum-incomplete observed_rc=1 observed=digest-unknown,erratum-incomplete ok
+FIXTURE w-xo1-freeze-has-receipt tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE w-xo3-receipt-first-removed tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE w-xo5-post-receipt-blob tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE w-xo6-p10-pass-line tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE w-xo7-case-timeout tool=order expect=reject declared=- observed_rc=1 observed=- ok
+MUTANT X1 anchor rc-mirror killed by=w-x1-provrow-only attributed=L318 hits=1 -- plans/anchor_digest_check.py:50-52 'Provenance row — a committed markdown under corpus/evi
+MUTANT X3 anchor rc-mirror killed by=w-x3-provurl-fallback attributed=L343 hits=1 -- plans/anchor_digest_check.py:57-58 'A provenance URL (an evidence markdown naming the same
+MUTANT X6 anchor silence killed by=w-x6-wrong-capture attributed=L527 hits=1 -- plans/anchor_digest_check.py:89-92 'A 64-hex token that is a committed capture but not thi
+MUTANT X7 anchor silence killed by=w-x7-unknown attributed=L535 hits=3 -- plans/anchor_digest_check.py:92-93 'a token that is no committed capture at all is digest-
+MUTANT X9 anchor rc-silence killed by=w-x9-short-row attributed=L477 hits=1 -- plans/anchor_digest_check.py:34-35 'A row that matches the census regex but does not have 
+MUTANT X12 anchor rc-mirror killed by=w-x12-slashless-slug attributed=L256 hits=1 -- plans/anchor_digest_check.py:55-56 'matched **exactly** against the name = "<org>/<task>" 
+MUTANT X13 anchor rc-silence killed by=w-x13-staged-index attributed=L570 hits=1 -- plans/anchor_digest_check.py:73 '`--evidence-ref head` (default) reads HEAD blobs, so an u
+MUTANT X14 anchor silence killed by=w-x14-erratum-upper attributed=L458 hits=1 -- plans/anchor_digest_check.py:111-113 'no 64-hex token on it may be outside A unless it is 
+MUTANT X15 anchor rc-silence killed by=w-x15-erratum-sibling attributed=L455 hits=1 -- plans/anchor_digest_check.py:108-110 'at least one other token that is 64 lowercase hex an
+MUTANT XO1 order rc-silence killed by=w-xo1-freeze-has-receipt attributed=L183 hits=1 -- plans/order_check.py:17,183 'FAIL when the freeze commit (the first commit adding <claims>
+MUTANT XO3 order rc-silence killed by=w-xo3-receipt-first-removed attributed=L188 hits=1 -- plans/order_check.py:18,188 'FAIL when <receipt> was committed before <claims> (pre-regist
+MUTANT XO5 order rc-mirror killed by=w-xo5-post-receipt-blob attributed=L117 hits=1 -- plans/order_check.py:116-117 'Every blob ever committed under claims_dir up to and includi
+MUTANT XO6 order rc-mirror killed by=w-xo6-p10-pass-line attributed=L53 hits=1 -- plans/order_check.py:52-53 'a gate output line, with or without the C2 counter's `gate: ` 
+MUTANT XO7 order rc-silence killed by=w-xo7-case-timeout attributed=L55 hits=1 -- plans/order_check.py:54-55 'a probe receipt line (the probe's per-case verdict record)' (o
+BATTERY fixtures=14 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=14 killed=14 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=9/9 order=5/5
+ADVERTISED direct=13 indirect=1 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)

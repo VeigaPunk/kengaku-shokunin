@@ -1,0 +1,31 @@
+CM07 N MATCH rc=1
+CM07 H DIFF rc=1
+2,22c2
+< FIXTURE h-esc42-relative-escape tool=anchor expect=accept declared=- observed_rc=2 observed=- WRONG
+< MUTANT X1 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:50-52 'Provenance row — a committed markdown under corpus/evi
+< MUTANT X3 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:57-58 'A provenance URL (an evidence markdown naming the same
+< MUTANT X6 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:89-92 'A 64-hex token that is a committed capture but not thi
+< MUTANT X7 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:92-93 'a token that is no committed capture at all is digest-
+< MUTANT X9 anchor rc-silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:34-35 'A row that matches the census regex but does not have 
+< MUTANT X12 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:55-56 'matched **exactly** against the name = "<org>/<task>" 
+< MUTANT X13 anchor rc-silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:73 '`--evidence-ref head` (default) reads HEAD blobs, so an u
+< MUTANT X14 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:111-113 'no 64-hex token on it may be outside A unless it is 
+< MUTANT X15 anchor rc-silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:108-110 'at least one other token that is 64 lowercase hex an
+< MUTANT XO1 order rc-silence SURVIVED exhibits=none -- plans/order_check.py:17,183 'FAIL when the freeze commit (the first commit adding <claims>
+< MUTANT XO3 order rc-silence SURVIVED exhibits=none -- plans/order_check.py:18,188 'FAIL when <receipt> was committed before <claims> (pre-regist
+< MUTANT XO5 order rc-mirror SURVIVED exhibits=none -- plans/order_check.py:116-117 'Every blob ever committed under claims_dir up to and includi
+< MUTANT XO6 order rc-mirror SURVIVED exhibits=none -- plans/order_check.py:52-53 'a gate output line, with or without the C2 counter's `gate: ` 
+< MUTANT XO7 order rc-silence SURVIVED exhibits=none -- plans/order_check.py:54-55 'a probe receipt line (the probe's per-case verdict record)' (o
+< BATTERY fixtures=1 wrong=1 tampered=0 sidechannel=0
+< MUTANTS total=14 killed=0 survived=14 invalid=0 null_detected=0 unattributed=0
+< MUTANTS-BY-TOOL anchor=0/9 order=0/5
+< ADVERTISED direct=13 indirect=1 none=0
+< PINS-AFTER mismatched=0
+< PREDICATE C1 fail
+---
+> SETUP fixture 'h-esc42-relative-escape' of battery42/h_esc42.py breaks the contract
+CM07 M MATCH rc=1
+CM07 T MATCH rc=1
+CM07 W MATCH rc=0
+CM07 D MATCH rc=1
+CM07 A MATCH rc=1

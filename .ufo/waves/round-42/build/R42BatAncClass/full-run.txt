@@ -1,0 +1,31 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent /usr/bin/python3 plans/round42_c1_verify.py --lane <clone> --work <scratch>   (DEFAULT battery: <clone>/plans/battery42/a_class.py)
+MODULE sha256 eef02b5df0a8b5e7e558956eaf3d5fca6fa5701872f11632d5327717def8f1bb
+ENVELOPE start 17:22:40 local_bin_before=436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18
+PINS total=2 mismatched=0
+FIXTURE a_class-x6-sibling-digest tool=anchor expect=reject declared=digest-wrong-capture observed_rc=1 observed=digest-wrong-capture ok
+FIXTURE a_class-x6-stale-manifest tool=anchor expect=reject declared=digest-wrong-capture observed_rc=1 observed=digest-wrong-capture ok
+FIXTURE a_class-x7-fabricated-token tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE a_class-x7-provenance-row tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE a_class-x14-uppercase-token tool=anchor expect=reject declared=erratum-digest-unresolved observed_rc=1 observed=erratum-digest-unresolved ok
+FIXTURE a_class-x14-two-errata tool=anchor expect=reject declared=erratum-digest-unresolved observed_rc=1 observed=erratum-digest-unresolved ok
+MUTANT X1 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:50-52 'Provenance row — a committed markdown under corpus/evi
+MUTANT X3 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:57-58 'A provenance URL (an evidence markdown naming the same
+MUTANT X6 anchor silence killed by=a_class-x6-sibling-digest attributed=L527 hits=2 -- plans/anchor_digest_check.py:89-92 'A 64-hex token that is a committed capture but not thi
+MUTANT X7 anchor silence killed by=a_class-x7-fabricated-token attributed=L535 hits=2 -- plans/anchor_digest_check.py:92-93 'a token that is no committed capture at all is digest-
+MUTANT X9 anchor rc-silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:34-35 'A row that matches the census regex but does not have 
+MUTANT X12 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:55-56 'matched **exactly** against the name = "<org>/<task>" 
+MUTANT X13 anchor rc-silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:73 '`--evidence-ref head` (default) reads HEAD blobs, so an u
+MUTANT X14 anchor silence killed by=a_class-x14-uppercase-token attributed=L458 hits=2 -- plans/anchor_digest_check.py:111-113 'no 64-hex token on it may be outside A unless it is 
+MUTANT X15 anchor rc-silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:108-110 'at least one other token that is 64 lowercase hex an
+MUTANT XO1 order rc-silence SURVIVED exhibits=none -- plans/order_check.py:17,183 'FAIL when the freeze commit (the first commit adding <claims>
+MUTANT XO3 order rc-silence SURVIVED exhibits=none -- plans/order_check.py:18,188 'FAIL when <receipt> was committed before <claims> (pre-regist
+MUTANT XO5 order rc-mirror SURVIVED exhibits=none -- plans/order_check.py:116-117 'Every blob ever committed under claims_dir up to and includi
+MUTANT XO6 order rc-mirror SURVIVED exhibits=none -- plans/order_check.py:52-53 'a gate output line, with or without the C2 counter's `gate: ` 
+MUTANT XO7 order rc-silence SURVIVED exhibits=none -- plans/order_check.py:54-55 'a probe receipt line (the probe's per-case verdict record)' (o
+BATTERY fixtures=6 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=14 killed=3 survived=11 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=3/9 order=0/5
+ADVERTISED direct=13 indirect=1 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 fail
+ENVELOPE end exit=1 17:22:41 local_bin_after=436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18

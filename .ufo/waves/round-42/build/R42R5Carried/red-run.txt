@@ -1,0 +1,32 @@
+17:30:12
+763032563d3739aa6513b8aa3f0852d1cd7e7e4ba0a21165a391fc4026d60a78  -
+17:30:13
+763032563d3739aa6513b8aa3f0852d1cd7e7e4ba0a21165a391fc4026d60a78  -
+CHECK lane=/fast/scratch/hyaku/kengaku-r42/R42R5Carried/lane-red work=/fast/scratch/hyaku/kengaku-r42/R42R5Carried/w-red2
+CHECK run1_rc=0 run2_rc=1
+CHECK run1=5 cases; tail: SELFTEST checks=5 ok=5 failed=0
+CHECK run2_tail: subprocess.CalledProcessError: Command '['git', '-C', '/fast/scratch/hyaku/kengaku-r42/R42R5Carried/w-red2/A-excused-p10', '-c', 'user.name=fixture', '-c', 'user.email=fixture@localhost', 'commit', '-q', '-m', 'receipt']' returned non-zero exit status 1.
+CHECK FAIL run 2 exit=1 (rerun on an existing --work)
+    raise CalledProcessError(retcode, process.args,
+CHECK FAIL run 2 output differs from run 1
+1,6c1,21
+< SELFTEST case=A-excused-p10 shape=receipt-last expect=0 got=0 verdict=ok
+< SELFTEST case=B-executed-p10 shape=receipt-last expect=1 got=1 verdict=ok
+< SELFTEST case=C-receipt-first shape=receipt-first expect=1 got=1 verdict=ok
+< SELFTEST case=D-receipt-uncommitted shape=receipt-uncommitted expect=2 got=2 verdict=ok
+< SELFTEST case=E-no-receipt-named shape=no-probe expect=2 got=2 verdict=ok
+< SELFTEST checks=5 ok=5 failed=0
+---
+> Traceback (most recent call last):
+>   File "/fast/scratch/hyaku/kengaku-r42/R42R5Carried/lane-red/plans/round_close.py", line 327, in <module>
+>     sys.exit(main())
+>              ~~~~^^
+>   File "/fast/scratch/hyaku/kengaku-r42/R42R5Carried/lane-red/plans/round_close.py", line 316, in main
+>     return selftest(lane, census, Path(args.work).resolve() if args.work else None)
+>   File "/fast/scratch/hyaku/kengaku-r42/R42R5Carried/lane-red/plans/round_close.py", line 284, in selftest
+>     build_fixture(root, lane, control, shape)
+>     ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>   File "/fast/scratch/hyaku/kengaku-r42/R42R5Carried/lane-red/plans/round_close.py", line 275, in build_fixture
+>     commit("receipt")
+>     ~~~~~~^^^^^^^^^^^
+CHECK FAIL nested corpus/knowledge/knowledge from a second 'cp -a'

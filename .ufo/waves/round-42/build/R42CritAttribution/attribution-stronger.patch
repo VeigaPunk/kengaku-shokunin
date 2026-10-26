@@ -1,0 +1,21 @@
+--- /fast/scratch/hyaku/kengaku-r42/R42CritAttribution/counter.py	2026-10-26 17:22:40.360952088 -0300
++++ /fast/scratch/hyaku/kengaku-r42/R42CritAttribution/lane3/plans/round42_c1_verify.py	2026-10-26 17:28:55.582620922 -0300
+@@ -123,7 +123,6 @@
+     return local
+ def glob(frame, event, arg):
+     if frame.f_code.co_filename == slot:
+-        hit.add(frame.f_lineno)
+         return local
+     return None
+ sys.argv = sys.argv[1:]
+@@ -608,7 +607,9 @@
+                 continue
+             digest = sha256(mv)
+             start = src[:src.index(old)].count("\n") + 1
+-            span = set(range(start, start + new.count("\n") + 1))
++            old_lines, new_lines = old.split("\n"), new.split("\n")
++            span = {start + i for i in range(len(new_lines))
++                    if i >= len(old_lines) or old_lines[i] != new_lines[i]} or {start}
+             fxs = by_tool[tool]
+             hits, seen = [], set()
+             for fx, res in zip(fxs, runner.run_all(tool, mv, fxs)):

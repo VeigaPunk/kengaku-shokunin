@@ -1,0 +1,25 @@
+=== C1 battery42 a_row re-check (receipt) ===
+envelope: bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent <counter>
+module: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-42/build/R42BatAncRow/battery/a_row.py
+module sha256: 947194e4517fb94b8d3529e6c4d5118585697497103784655ddd736635b48df8
+local-bin before: 436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18
+start 17:20:08
+PINS total=2 mismatched=0
+FIXTURE a_row-x9-short-no-token tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_row-x9-registry-short-valid tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_row-x13-staged-capture tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE a_row-x13-url-staged tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE a_row-x15-sibling-digest tool=anchor expect=reject declared=digest-unknown,erratum-incomplete observed_rc=1 observed=digest-unknown,erratum-incomplete ok
+FIXTURE a_row-x15-manifest-sibling tool=anchor expect=reject declared=digest-unknown,erratum-incomplete observed_rc=1 observed=digest-unknown,erratum-incomplete ok
+MUTANT X9 anchor rc-silence killed by=a_row-x9-short-no-token attributed=L477 hits=2 -- plans/anchor_digest_check.py:34-35 'A row that matches the census regex but does not have 
+MUTANT X13 anchor rc-silence killed by=a_row-x13-staged-capture attributed=L570 hits=2 -- plans/anchor_digest_check.py:73 '`--evidence-ref head` (default) reads HEAD blobs, so an u
+MUTANT X15 anchor rc-silence killed by=a_row-x15-sibling-digest attributed=L455 hits=2 -- plans/anchor_digest_check.py:108-110 'at least one other token that is 64 lowercase hex an
+BATTERY fixtures=6 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=3 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=3/3 order=0/0
+ADVERTISED direct=3 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+dev-rc=0
+end 17:20:09
+local-bin after: 436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18

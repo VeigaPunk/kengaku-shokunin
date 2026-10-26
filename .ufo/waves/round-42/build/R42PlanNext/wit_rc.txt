@@ -1,0 +1,29 @@
+REF selftest-no-census 2 ROUND-CLOSE ERROR no census script (scripts/sources-census.sh); pass --census PATH
+REF selftest-empty-lane 2 ROUND-CLOSE ERROR no order gate: plans/order_check.py
+REF gate-ok-r39 0 ROUND-CLOSE RESULT PASS exit=0
+REF gate-receipt-deleted 0 ROUND-CLOSE RESULT PASS exit=0
+REF gate-no-order-tool 2 ROUND-CLOSE ERROR no order gate: plans/order_check.py
+REF gate-no-sources 2 ROUND-CLOSE ERROR no registry: corpus/SOURCES.md
+REF gate-lane-is-file 2 ROUND-CLOSE ERROR not a directory: <p>
+REF gate-env-root 0 ROUND-CLOSE RESULT PASS exit=0
+REF gate-census-dir 2 ROUND-CLOSE ERROR no census script (scripts/sources-census.sh); pass --census PATH
+97 == -> != ['gate-receipt-deleted:0>2']
+97 0 -> 1 ['gate-receipt-deleted:0>2']
+121 if-test -> False UNWITNESSED
+121 == -> != UNWITNESSED
+131 or -> and ['gate-receipt-deleted:0>2']
+144 if-test -> False ['gate-env-root:0>2']
+144 and -> or UNWITNESSED
+148 if-test -> False UNWITNESSED
+164 if-test -> False ['gate-lane-is-file:2>2']
+177 if-test -> False ['gate-no-order-tool:2>1']
+179 if-test -> False UNWITNESSED
+181 if-test -> False ['gate-no-sources:2>2']
+199 not x -> x UNWITNESSED
+200 if-test -> False UNWITNESSED
+209 if-test -> False UNWITNESSED
+291 if-test -> False UNWITNESSED
+310 if-test -> False ['selftest-no-census:2>1']
+312 return 2 -> 0 ['selftest-no-census:2>0']
+313 if-test -> False ['selftest-empty-lane:2>1']
+315 return 2 -> 0 ['selftest-empty-lane:2>0']

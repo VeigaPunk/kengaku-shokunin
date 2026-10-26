@@ -1,0 +1,69 @@
+# load-bearing matrix: one fixture removed at a time, then both fixtures of a mutant
+ENVELOPE bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent
+436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18  -
+17:19:25
+=== one-a_route-x1-provenance-table
+MUTANT X1 anchor rc-mirror killed by=a_route-x1-two-row-registry attributed=L318 hits=1 -- plans/anchor_digest_check.py:50-52 'Provenance row — a committed markdown under corpus/evi
+MUTANT X3 anchor rc-mirror killed by=a_route-x3-provenance-url attributed=L343 hits=2 -- plans/anchor_digest_check.py:57-58 'A provenance URL (an evidence markdown naming the same
+MUTANT X12 anchor rc-mirror killed by=a_route-x12-slashless-toml attributed=L256 hits=2 -- plans/anchor_digest_check.py:55-56 'matched **exactly** against the name = "<org>/<task>" 
+BATTERY fixtures=5 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=3 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=3/3 order=0/0
+=== one-a_route-x1-two-row-registry
+MUTANT X1 anchor rc-mirror killed by=a_route-x1-provenance-table attributed=L318 hits=1 -- plans/anchor_digest_check.py:50-52 'Provenance row — a committed markdown under corpus/evi
+MUTANT X3 anchor rc-mirror killed by=a_route-x3-provenance-url attributed=L343 hits=2 -- plans/anchor_digest_check.py:57-58 'A provenance URL (an evidence markdown naming the same
+MUTANT X12 anchor rc-mirror killed by=a_route-x12-slashless-toml attributed=L256 hits=2 -- plans/anchor_digest_check.py:55-56 'matched **exactly** against the name = "<org>/<task>" 
+BATTERY fixtures=5 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=3 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=3/3 order=0/0
+=== one-a_route-x12-slashless-toml
+MUTANT X1 anchor rc-mirror killed by=a_route-x1-provenance-table attributed=L318 hits=2 -- plans/anchor_digest_check.py:50-52 'Provenance row — a committed markdown under corpus/evi
+MUTANT X3 anchor rc-mirror killed by=a_route-x3-provenance-url attributed=L343 hits=2 -- plans/anchor_digest_check.py:57-58 'A provenance URL (an evidence markdown naming the same
+MUTANT X12 anchor rc-mirror killed by=a_route-x12-two-tomls attributed=L256 hits=1 -- plans/anchor_digest_check.py:55-56 'matched **exactly** against the name = "<org>/<task>" 
+BATTERY fixtures=5 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=3 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=3/3 order=0/0
+=== one-a_route-x12-two-tomls
+MUTANT X1 anchor rc-mirror killed by=a_route-x1-provenance-table attributed=L318 hits=2 -- plans/anchor_digest_check.py:50-52 'Provenance row — a committed markdown under corpus/evi
+MUTANT X3 anchor rc-mirror killed by=a_route-x3-provenance-url attributed=L343 hits=2 -- plans/anchor_digest_check.py:57-58 'A provenance URL (an evidence markdown naming the same
+MUTANT X12 anchor rc-mirror killed by=a_route-x12-slashless-toml attributed=L256 hits=1 -- plans/anchor_digest_check.py:55-56 'matched **exactly** against the name = "<org>/<task>" 
+BATTERY fixtures=5 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=3 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=3/3 order=0/0
+=== one-a_route-x3-blob-url
+MUTANT X1 anchor rc-mirror killed by=a_route-x1-provenance-table attributed=L318 hits=2 -- plans/anchor_digest_check.py:50-52 'Provenance row — a committed markdown under corpus/evi
+MUTANT X3 anchor rc-mirror killed by=a_route-x3-provenance-url attributed=L343 hits=1 -- plans/anchor_digest_check.py:57-58 'A provenance URL (an evidence markdown naming the same
+MUTANT X12 anchor rc-mirror killed by=a_route-x12-slashless-toml attributed=L256 hits=2 -- plans/anchor_digest_check.py:55-56 'matched **exactly** against the name = "<org>/<task>" 
+BATTERY fixtures=5 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=3 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=3/3 order=0/0
+=== one-a_route-x3-provenance-url
+MUTANT X1 anchor rc-mirror killed by=a_route-x1-provenance-table attributed=L318 hits=2 -- plans/anchor_digest_check.py:50-52 'Provenance row — a committed markdown under corpus/evi
+MUTANT X3 anchor rc-mirror killed by=a_route-x3-blob-url attributed=L343 hits=1 -- plans/anchor_digest_check.py:57-58 'A provenance URL (an evidence markdown naming the same
+MUTANT X12 anchor rc-mirror killed by=a_route-x12-slashless-toml attributed=L256 hits=2 -- plans/anchor_digest_check.py:55-56 'matched **exactly** against the name = "<org>/<task>" 
+BATTERY fixtures=5 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=3 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=3/3 order=0/0
+=== both-x1
+MUTANT X1 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:50-52 'Provenance row — a committed markdown under corpus/evi
+MUTANT X3 anchor rc-mirror killed by=a_route-x3-provenance-url attributed=L343 hits=2 -- plans/anchor_digest_check.py:57-58 'A provenance URL (an evidence markdown naming the same
+MUTANT X12 anchor rc-mirror killed by=a_route-x12-slashless-toml attributed=L256 hits=2 -- plans/anchor_digest_check.py:55-56 'matched **exactly** against the name = "<org>/<task>" 
+BATTERY fixtures=4 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=2 survived=1 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=2/3 order=0/0
+=== both-x12
+MUTANT X1 anchor rc-mirror killed by=a_route-x1-provenance-table attributed=L318 hits=2 -- plans/anchor_digest_check.py:50-52 'Provenance row — a committed markdown under corpus/evi
+MUTANT X3 anchor rc-mirror killed by=a_route-x3-provenance-url attributed=L343 hits=2 -- plans/anchor_digest_check.py:57-58 'A provenance URL (an evidence markdown naming the same
+MUTANT X12 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:55-56 'matched **exactly** against the name = "<org>/<task>" 
+BATTERY fixtures=4 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=2 survived=1 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=2/3 order=0/0
+=== both-x3
+MUTANT X1 anchor rc-mirror killed by=a_route-x1-provenance-table attributed=L318 hits=2 -- plans/anchor_digest_check.py:50-52 'Provenance row — a committed markdown under corpus/evi
+MUTANT X3 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:57-58 'A provenance URL (an evidence markdown naming the same
+MUTANT X12 anchor rc-mirror killed by=a_route-x12-slashless-toml attributed=L256 hits=2 -- plans/anchor_digest_check.py:55-56 'matched **exactly** against the name = "<org>/<task>" 
+BATTERY fixtures=4 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=2 survived=1 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=2/3 order=0/0
+17:19:31
+436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18  -

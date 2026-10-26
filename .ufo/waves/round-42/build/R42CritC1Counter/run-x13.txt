@@ -1,0 +1,12 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r42/R42CritC1Counter/lane/plans/round42_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r42/R42CritC1Counter/lane --battery-dir /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-42/build/R42CritC1Counter/probe4 --only X13 --work /fast/scratch/hyaku/kengaku-r42/R42CritC1Counter/w9
+ENVELOPE start 17:27:28 local_bin_before=436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18
+PINS total=2 mismatched=0
+FIXTURE p-x13-staged-manifest tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+MUTANT X13 anchor rc-silence killed by=p-x13-staged-manifest attributed=L570 hits=1 -- plans/anchor_digest_check.py:73 '`--evidence-ref head` (default) reads HEAD blobs, so an u
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=1 killed=1 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=1/1 order=0/0
+ADVERTISED direct=1 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 17:27:28 local_bin_after=436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18

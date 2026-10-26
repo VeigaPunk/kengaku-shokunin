@@ -1,0 +1,23 @@
+# R42BatOrdScan C1 evidence (Q32 envelope)
+envelope: bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent <cmd>
+local-bin-before: 436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18
+start: 17:18:44
+PINS total=2 mismatched=0
+FIXTURE o_scan-xo5-post-receipt-verdicts tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo5-amended-claims-blob tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo6-pass-verdict-row tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo6-echoed-pass-row tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo7-timeout-rows tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_scan-xo7-skipped-row-r38 tool=order expect=reject declared=- observed_rc=1 observed=- ok
+MUTANT XO5 order rc-mirror killed by=o_scan-xo5-post-receipt-verdicts attributed=L117 hits=2 -- plans/order_check.py:116-117 'Every blob ever committed under claims_dir up to and includi
+MUTANT XO6 order rc-mirror killed by=o_scan-xo6-pass-verdict-row attributed=L53 hits=2 -- plans/order_check.py:52-53 'a gate output line, with or without the C2 counter's `gate: ` 
+MUTANT XO7 order rc-silence killed by=o_scan-xo7-timeout-rows attributed=L55 hits=2 -- plans/order_check.py:54-55 'a probe receipt line (the probe's per-case verdict record)' (o
+BATTERY fixtures=6 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=3 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/0 order=3/3
+ADVERTISED direct=2 indirect=1 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+rc=0
+end: 17:18:46
+local-bin-after: 436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18

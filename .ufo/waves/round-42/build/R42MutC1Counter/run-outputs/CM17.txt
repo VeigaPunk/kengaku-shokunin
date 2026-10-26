@@ -1,0 +1,37 @@
+CM17 N MATCH rc=1
+CM17 H MATCH rc=2
+CM17 M MATCH rc=1
+CM17 T DIFF rc=1
+1c1
+< PINS total=2 mismatched=0
+---
+> PINS total=2 mismatched=1 first=plans/anchor_digest_check.py
+16,24c16,24
+< MUTANT X1 anchor rc-mirror killed by=w-x1-provrow-only attributed=L318 hits=1 -- plans/anchor_digest_check.py:50-52 'Provenance row — a committed markdown under corpus/evi
+< MUTANT X3 anchor rc-mirror killed by=w-x3-provurl-fallback attributed=L343 hits=1 -- plans/anchor_digest_check.py:57-58 'A provenance URL (an evidence markdown naming the same
+< MUTANT X6 anchor silence killed by=w-x6-wrong-capture attributed=L527 hits=1 -- plans/anchor_digest_check.py:89-92 'A 64-hex token that is a committed capture but not thi
+< MUTANT X7 anchor silence killed by=w-x7-unknown attributed=L535 hits=3 -- plans/anchor_digest_check.py:92-93 'a token that is no committed capture at all is digest-
+< MUTANT X9 anchor rc-silence killed by=w-x9-short-row attributed=L477 hits=1 -- plans/anchor_digest_check.py:34-35 'A row that matches the census regex but does not have 
+< MUTANT X12 anchor rc-mirror killed by=w-x12-slashless-slug attributed=L256 hits=1 -- plans/anchor_digest_check.py:55-56 'matched **exactly** against the name = "<org>/<task>" 
+< MUTANT X13 anchor rc-silence killed by=w-x13-staged-index attributed=L570 hits=1 -- plans/anchor_digest_check.py:73 '`--evidence-ref head` (default) reads HEAD blobs, so an u
+< MUTANT X14 anchor silence killed by=w-x14-erratum-upper attributed=L458 hits=1 -- plans/anchor_digest_check.py:111-113 'no 64-hex token on it may be outside A unless it is 
+< MUTANT X15 anchor rc-silence killed by=w-x15-erratum-sibling attributed=L455 hits=1 -- plans/anchor_digest_check.py:108-110 'at least one other token that is 64 lowercase hex an
+---
+> MUTANT X1 anchor rc-mirror invalid -- plans/anchor_digest_check.py:50-52 'Provenance row — a committed markdown under corpus/evi
+> MUTANT X3 anchor rc-mirror invalid -- plans/anchor_digest_check.py:57-58 'A provenance URL (an evidence markdown naming the same
+> MUTANT X6 anchor silence invalid -- plans/anchor_digest_check.py:89-92 'A 64-hex token that is a committed capture but not thi
+> MUTANT X7 anchor silence invalid -- plans/anchor_digest_check.py:92-93 'a token that is no committed capture at all is digest-
+> MUTANT X9 anchor rc-silence invalid -- plans/anchor_digest_check.py:34-35 'A row that matches the census regex but does not have 
+> MUTANT X12 anchor rc-mirror invalid -- plans/anchor_digest_check.py:55-56 'matched **exactly** against the name = "<org>/<task>" 
+> MUTANT X13 anchor rc-silence invalid -- plans/anchor_digest_check.py:73 '`--evidence-ref head` (default) reads HEAD blobs, so an u
+> MUTANT X14 anchor silence invalid -- plans/anchor_digest_check.py:111-113 'no 64-hex token on it may be outside A unless it is 
+> MUTANT X15 anchor rc-silence invalid -- plans/anchor_digest_check.py:108-110 'at least one other token that is 64 lowercase hex an
+31,32c31,32
+< MUTANTS total=14 killed=14 survived=0 invalid=0 null_detected=0 unattributed=0
+< MUTANTS-BY-TOOL anchor=9/9 order=5/5
+---
+> MUTANTS total=14 killed=5 survived=0 invalid=9 null_detected=0 unattributed=0
+> MUTANTS-BY-TOOL anchor=0/9 order=5/5
+CM17 W MATCH rc=0
+CM17 D MATCH rc=1
+CM17 A MATCH rc=1

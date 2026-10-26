@@ -1,0 +1,20 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- {bash /fast/scratch/hyaku/kengaku-r42/R42CritC1Counter/host5.sh; python3 /fast/scratch/hyaku/kengaku-r42/R42CritC1Counter/p4.py; python3 /fast/scratch/hyaku/kengaku-r42/R42CritC1Counter/lane/plans/round42_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r42/R42CritC1Counter/lane --battery-dir /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-42/build/R42CritC1Counter/probe2 --only XO5 --work /fast/scratch/hyaku/kengaku-r42/R42CritC1Counter/w5}
+ENVELOPE start 17:26:08 local_bin_before=436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18
+HOST5-OK
+IPC-CHILD ipc-hidden
+run-listing []
+variants-listing []
+slots-listing []
+store-readable False
+proc-cmdline-present True
+PINS total=2 mismatched=0
+SIDECHANNEL probe2/p_redirect.py tokens=core.
+FIXTURE p-redirect-host-repo tool=order expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT XO5 order rc-mirror killed by=p-redirect-host-repo attributed=L117 hits=1 -- plans/order_check.py:116-117 'Every blob ever committed under claims_dir up to and includi
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=1
+MUTANTS total=1 killed=1 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/0 order=1/1
+ADVERTISED direct=1 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 17:26:08 local_bin_after=436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18

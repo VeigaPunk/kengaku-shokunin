@@ -1,0 +1,30 @@
+# Integration drafts for round 42 C2 (seat R42PkgEntry) — text only, not applied to the lane
+
+Applied to the clone at fda71ae only; the L1 integrates. Every line here is what the frozen gate and counter accepted (P6, P7, P8, V9).
+
+## corpus/SOURCES.md — insert after the S124 row, inside `## Registry`
+
+| S125 | Terminal-Bench 2.0 circuit-fibsqrt task grader (tests/test_outputs.py) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/circuit-fibsqrt/tests/test_outputs.py | code | A | the executed scoring predicate of this one TB2 task at a pinned commit: three pytest functions over /app/gates.txt and a fixed 28-value table, as this capture shows it | commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, test_outputs.py:1-147, :23 "assert line_count < 32000, f"gates.txt has {line_count} lines, but must have fewer than 32,000 lines"" (15 words); sha256 6117b8edb7d567b30e32b16a9244bec4c131ec01e9065d52f6f53f87e36f0438 | three tests, not one: an existence check on the absolute path /app/gates.txt, a line count strictly under 32000 that includes blank lines, and a value test that compiles /tests/sim.c in the cwd and runs /app/sim on 28 fixed inputs | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-circuit-fibsqrt-grader.md |
+| S126 | Terminal-Bench 2.0 circuit-fibsqrt task instruction (instruction.md) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/circuit-fibsqrt/instruction.md | docs | A | the request this one task states to the agent at a pinned commit, as the maintainer's own specification the grader is mapped against | commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, instruction.md:1-13, :9 "After 32000 steps, the last 32 lines are converted to an integer and printed to stdout." (16 words); sha256 a7f500266a878d04ac9de39fba76220cfad216d8f6b8063bba93bebb3d4ab9ea | a gate-list format of seven line shapes, a stdin input channel the simulator does not implement, a 32,000-line bound, and two worked examples (208 and 20000) that the grader never evaluates | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-circuit-fibsqrt-grader.md |
+| S127 | Terminal-Bench 2.0 circuit-fibsqrt task simulator (tests/sim.c) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/circuit-fibsqrt/tests/sim.c | code | A | the program the grader compiles at grading time and that executes the agent's gate list, so its parse and print rules are the graded semantics | commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, sim.c:1-353, :113 "if (sscanf(line, "out%d = %[^\n]", &out_idx, op) != 2) {" (10 words); sha256 700645ac6156cdc88ec1e210f7c7d8d9969bb42aec969c410597e8efca796173 | the simulator reads gates.txt by bare name in the cwd, skips every line that does not scan as a gate, seeds signals 0-31 from argv rather than stdin, runs 32000 fixed steps and prints the 32 highest-indexed signals | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-circuit-fibsqrt-grader.md |
+
+## corpus/README.md — knowledge index row, directly after the tb2-constraints-scheduling row
+
+| `knowledge/tb2-circuit-fibsqrt-grader.md` | An eighth Terminal-Bench 2.0 task grader read and executed, and a class new to the lane: `circuit-fibsqrt` grades a DATA file (`/app/gates.txt`) that the grader executes with a simulator it compiles itself (`gcc -O3 /tests/sim.c -o sim`) and runs as `/app/sim N` on 28 fixed inputs (max 48401) — a 1195-line lookup table for exactly those 28 inputs scores 3/3 while printing 0 for the instruction's own examples 208 and 20000, blank-line padding to 31999 lines passes while 32000 fails only the size test, reversed line order and `# note` lines pass because the graded 32 signals are the highest INDEXED ones, one trailing space per line fails while CRLF passes, and the grader's own compile overwrites a planted `/app/sim` — S125, S126, S127; probe `plans/fibsqrt_probe.py`, receipt `evidence/round42/fibsqrt-probe.txt` |
+
+## corpus/README.md — coverage bullet, directly after the "seventh task" bullet
+
+- **Terminal-Bench 2.0 task grader (eighth task, grader-compiled-simulator class)**: covered at source-code depth and executed offline (round 42, 2026-10-26) — knowledge/tb2-circuit-fibsqrt-grader.md; S125, S126, S127; probe `plans/fibsqrt_probe.py`, receipt `evidence/round42/fibsqrt-probe.txt`. The graded artefact is a gate list executed by a C simulator the grader compiles at grading time, so the verdict is a property of that simulator's parse over 28 fixed inputs; 8 of the 89 TB2 task graders read, and no quality, validity, difficulty or gameability verdict.
+
+## corpus/README.md — §Frontier sub-bullet, after the round-41 sub-bullet
+
+  - *Partly discharged round 42 (2026-10-26):* `knowledge/tb2-circuit-fibsqrt-grader.md` reads and executes an eighth Terminal-Bench 2.0 task's scoring code (`circuit-fibsqrt/tests/test_outputs.py` + `tests/sim.c` @ `2fd12b88`; S125, S126, S127) against its `instruction.md`, probe `plans/fibsqrt_probe.py`, receipt `corpus/evidence/round42/fibsqrt-probe.txt` — 16 cases, `cases=16 observed_pass=7 observed_fail=9 mismatches=0`. The graded artefact is data executed by a simulator the grader compiles itself, so the clause is narrowed for this one task only and stays open for the remaining TB2 task graders (8 of 89 read) and for runtime task validity, which `PROVINCE.md` refuses to this lane.
+
+## PROVINCE.md — appended section (7 lines, after the round-41 errata paragraph)
+
+## Round42 partial frontier admission (2026-10-26)
+
+**Core addition:** offline execution of one more pinned Terminal-Bench 2.0 grader — `circuit-fibsqrt/tests/test_outputs.py`
+and the simulator `circuit-fibsqrt/tests/sim.c` at terminal-bench-2 `2fd12b88` — over 16 frozen end states, via
+`corpus/knowledge/tb2-circuit-fibsqrt-grader.md` (S125, S126, S127), `plans/fibsqrt_probe.py` and receipt
+`corpus/evidence/round42/fibsqrt-probe.txt` (`cases=16 observed_pass=7 observed_fail=9 mismatches=0`; `regrade cases=16 differ=0`).

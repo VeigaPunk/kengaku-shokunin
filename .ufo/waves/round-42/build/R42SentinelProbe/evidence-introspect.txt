@@ -1,0 +1,61 @@
+SANDBOX_ARGV /usr/bin/bwrap --unshare-net --unshare-pid --unshare-ipc --die-with-parent --new-session --ro-bind /usr /usr --symlink usr/bin /bin --symlink usr/bin /sbin --symlink usr/lib /lib --symlink usr/lib /lib64 --ro-bind /etc /etc --proc /proc --dev /dev --tmpfs /tmp --bind /fast/scratch/hyaku/kengaku-r42/R42SentinelProbe/insp1/app /app --dir /tests --dir /cap --ro-bind /fast/scratch/hyaku/kengaku-r42/R42SentinelProbe/lane/corpus/evidence/round42/tb2-circuit-fibsqrt/test_outputs.py /tests/test_outputs.py --ro-bind /fast/scratch/hyaku/kengaku-r42/R42SentinelProbe/lane/corpus/evidence/round42/tb2-circuit-fibsqrt/sim.c /tests/sim.c --ro-bind /fast/scratch/hyaku/kengaku-r42/R42SentinelProbe/lane/corpus/evidence/round42/tb2-circuit-fibsqrt/solve.sh /cap/solve.sh --ro-bind /fast/scratch/hyaku/kengaku-r42/R42SentinelProbe/insp1/recipe.sh /recipe.sh --ro-bind /fast/scratch/hyaku/kengaku-r42/R42SentinelProbe/insp1/harness.py /harness.py --chdir /app /usr/bin/python3 /harness.py grade
+APP_HOST_PATH /fast/scratch/hyaku/kengaku-r42/R42SentinelProbe/insp1/app
+rc=0
+{
+ "cap_eff": [
+  "CapEff:\t0000000000000000",
+  "CapBnd:\t0000000000000000"
+ ],
+ "cwd": "/app",
+ "etc_entries": 186,
+ "euid": 1000,
+ "gid": 1000,
+ "ifaces": [
+  "lo"
+ ],
+ "net": "OSError:[Errno 101] Network is unreachable",
+ "no_new_privs": [
+  "NoNewPrivs:\t1"
+ ],
+ "proc_pids": [
+  "1",
+  "2"
+ ],
+ "root": [
+  "app",
+  "bin",
+  "cap",
+  "dev",
+  "etc",
+  "harness.py",
+  "lib",
+  "lib64",
+  "proc",
+  "recipe.sh",
+  "sbin",
+  "tests",
+  "tmp",
+  "usr"
+ ],
+ "see_fast": false,
+ "see_home": false,
+ "see_projects": false,
+ "see_sys": false,
+ "shadow_r": false,
+ "ssh_hostkey_r": false,
+ "uid": 1000,
+ "uid_map": "1000          0          1",
+ "w_app": "WROTE",
+ "w_cgroup": "FileNotFoundError:[Errno 2] No such file or directory: '/sys/fs/cgroup/zz_probe'",
+ "w_core_pattern": "PermissionError:[Errno 13] Permission denied: '/proc/sys/kernel/core_pattern'",
+ "w_etc": "OSError:[Errno 30] Read-only file system: '/etc/zz_probe'",
+ "w_home": "FileNotFoundError:[Errno 2] No such file or directory: '/home/vgpnk/zz_probe'",
+ "w_lane": "FileNotFoundError:[Errno 2] No such file or directory: '/home/vgpnk/Projects/shokunin/ke",
+ "w_local_bin": "FileNotFoundError:[Errno 2] No such file or directory: '/home/vgpnk/.local/bin/zz_probe'",
+ "w_root": "FileNotFoundError:[Errno 2] No such file or directory: '/root/zz_probe'",
+ "w_scratch": "FileNotFoundError:[Errno 2] No such file or directory: '/fast/scratch/hyaku/zz_probe'",
+ "w_tmp": "WROTE",
+ "w_usr_bin": "OSError:[Errno 30] Read-only file system: '/usr/bin/zz_probe'"
+}
+LEAK_IMMEDIATE no
+LEAK_AFTER_28s no

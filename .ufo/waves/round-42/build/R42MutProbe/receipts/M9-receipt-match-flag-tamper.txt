@@ -1,0 +1,25 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/bash -c cd /fast/scratch/hyaku/kengaku-r42/R42MutProbe/lane && export TMPDIR=/fast/scratch/hyaku/kengaku-r42/R42MutProbe/w && exec /usr/bin/python3 plans/round42_c2_verify.py --lane . --work /fast/scratch/hyaku/kengaku-r42/R42MutProbe/w
+ENVELOPE start 17:46:54 cwd=/home/vgpnk/Projects/shokunin
+V1 ok listed=9 bad=0 extra=0
+    gate: P1 ok pinned=2 mismatched=0
+    gate: P2 ok receipt_sha256=pinned
+    gate: P3 ok rows=24 distinct_quotes=24 distinct_lines=24 out_of_word_range=0
+    gate: P4 ok checked=24 bad=0 first=0
+    gate: P5 ok manifest_entries=9 bad=0 first=0
+    gate: P6 ok rows=3 bad=0 first=0
+    gate: P7 ok source_lines=3 bad=0 first=0
+    gate: P8 ok index_rows=49 knowledge_files=49 bad=0 first=0
+    gate: P9 ok untracked=0 first=0
+    gate: P10 DEFECT fresh probe output is not byte-equal to the receipt
+    gate: defects=1
+V2 DEFECT spec=frozen gate=frozen gate_exit=1
+V3 ok rows=3 bad=0
+V4 DEFECT cases=16 mismatches_named=1/1 bad=['summary disagrees with the CASE lines']
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 ok rows=7 tags=7 bad=0
+V8 ok order_exit=0 result=PASS
+V9 ok case_rows=16/16 bad=0
+checks=9 defects=2
+PREDICATE C2 fail
+ENVELOPE end 17:48:07 exit=1 local_bin_before=763032563d3739aa after=763032563d3739aa unchanged

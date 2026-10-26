@@ -1,0 +1,273 @@
+[
+ {
+  "cid": "nop",
+  "pytest": "PPF",
+  "pytest2": "PPF",
+  "predicted": "PPF",
+  "rc": [
+   1,
+   1
+  ],
+  "detail": "test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:FAILED",
+  "violates": [
+   "output-function",
+   "example-208",
+   "example-20000"
+  ],
+  "requirement": "the shipped example circuit (prints N/2) left in place"
+ },
+ {
+  "cid": "oracle-solve-sh",
+  "pytest": "PPP",
+  "pytest2": "PPP",
+  "predicted": "PPP",
+  "rc": [
+   0,
+   0
+  ],
+  "detail": "test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:PASSED",
+  "violates": [],
+  "requirement": "the task's solve.sh generates the reference circuit"
+ },
+ {
+  "cid": "no-gates-file",
+  "pytest": "FFF",
+  "pytest2": "FFF",
+  "predicted": "FFF",
+  "rc": [
+   1,
+   1
+  ],
+  "detail": "test_gates_file_exists:FAILED,test_gates_file_size:FAILED,test_sqrt_fib:FAILED",
+  "violates": [
+   "gates-file",
+   "output-function",
+   "example-208",
+   "example-20000"
+  ],
+  "requirement": "/app/gates.txt removed"
+ },
+ {
+  "cid": "empty-gates-file",
+  "pytest": "PPF",
+  "pytest2": "PPF",
+  "predicted": "PPF",
+  "rc": [
+   1,
+   1
+  ],
+  "detail": "test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:FAILED",
+  "violates": [
+   "output-function",
+   "example-208",
+   "example-20000"
+  ],
+  "requirement": "an empty /app/gates.txt (sim prints nothing)"
+ },
+ {
+  "cid": "lookup-28",
+  "pytest": "PPP",
+  "pytest2": "PPP",
+  "predicted": "PPP",
+  "rc": [
+   0,
+   0
+  ],
+  "detail": "test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:PASSED",
+  "violates": [
+   "output-function",
+   "example-208",
+   "example-20000"
+  ],
+  "requirement": "a lookup circuit for exactly the 28 graded inputs (0 elsewhere)"
+ },
+ {
+  "cid": "lookup-27-drop-48401",
+  "pytest": "PPF",
+  "pytest2": "PPF",
+  "predicted": "PPF",
+  "rc": [
+   1,
+   1
+  ],
+  "detail": "test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:FAILED",
+  "violates": [
+   "output-function",
+   "example-208",
+   "example-20000"
+  ],
+  "requirement": "the lookup circuit without the largest graded input 48401"
+ },
+ {
+  "cid": "lookup-28-plus-examples",
+  "pytest": "PPP",
+  "pytest2": "PPP",
+  "predicted": "PPP",
+  "rc": [
+   0,
+   0
+  ],
+  "detail": "test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:PASSED",
+  "violates": [
+   "output-function"
+  ],
+  "requirement": "the lookup circuit plus the instruction's two examples 208 and 20000"
+ },
+ {
+  "cid": "lookup-28-bitflip-41",
+  "pytest": "PPF",
+  "pytest2": "PPF",
+  "predicted": "PPF",
+  "rc": [
+   1,
+   1
+  ],
+  "detail": "test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:FAILED",
+  "violates": [
+   "output-function",
+   "example-208",
+   "example-20000"
+  ],
+  "requirement": "the lookup circuit with bit 0 of the answer for N=41 flipped"
+ },
+ {
+  "cid": "lookup-28-padded-31999",
+  "pytest": "PPP",
+  "pytest2": "PPP",
+  "predicted": "PPP",
+  "rc": [
+   0,
+   0
+  ],
+  "detail": "test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:PASSED",
+  "violates": [
+   "output-function",
+   "example-208",
+   "example-20000"
+  ],
+  "requirement": "the lookup circuit padded with blank lines to 31999 lines"
+ },
+ {
+  "cid": "lookup-28-padded-32000",
+  "pytest": "PFP",
+  "pytest2": "PFP",
+  "predicted": "PFP",
+  "rc": [
+   1,
+   1
+  ],
+  "detail": "test_gates_file_exists:PASSED,test_gates_file_size:FAILED,test_sqrt_fib:PASSED",
+  "violates": [
+   "line-limit",
+   "output-function",
+   "example-208",
+   "example-20000"
+  ],
+  "requirement": "the lookup circuit padded with blank lines to 32000 lines (sim ignores blanks; the size test counts them)"
+ },
+ {
+  "cid": "lookup-28-comment-lines",
+  "pytest": "PPP",
+  "pytest2": "PPP",
+  "predicted": "PPP",
+  "rc": [
+   0,
+   0
+  ],
+  "detail": "test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:PASSED",
+  "violates": [
+   "line-form",
+   "output-function",
+   "example-208",
+   "example-20000"
+  ],
+  "requirement": "every gate line of the lookup circuit preceded by a `# note` line"
+ },
+ {
+  "cid": "lookup-28-reversed-lines",
+  "pytest": "PPP",
+  "pytest2": "PPP",
+  "predicted": "PPP",
+  "rc": [
+   0,
+   0
+  ],
+  "detail": "test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:PASSED",
+  "violates": [
+   "last-32-lines",
+   "output-function",
+   "example-208",
+   "example-20000"
+  ],
+  "requirement": "the lookup circuit's lines in reverse order: the file's last 32 lines are the input copies"
+ },
+ {
+  "cid": "lookup-28-crlf",
+  "pytest": "PPP",
+  "pytest2": "PPP",
+  "predicted": "PPP",
+  "rc": [
+   0,
+   0
+  ],
+  "detail": "test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:PASSED",
+  "violates": [
+   "output-function",
+   "example-208",
+   "example-20000"
+  ],
+  "requirement": "the lookup circuit with CRLF line ends"
+ },
+ {
+  "cid": "lookup-28-trailing-space",
+  "pytest": "PPF",
+  "pytest2": "PPF",
+  "predicted": "PPF",
+  "rc": [
+   1,
+   1
+  ],
+  "detail": "test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:FAILED",
+  "violates": [
+   "output-function",
+   "example-208",
+   "example-20000"
+  ],
+  "requirement": "every line of the lookup circuit ends in one space (copy lines no longer scan as copies)"
+ },
+ {
+  "cid": "fake-sim-script",
+  "pytest": "PPF",
+  "pytest2": "PPF",
+  "predicted": "PPF",
+  "rc": [
+   1,
+   1
+  ],
+  "detail": "test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:FAILED",
+  "violates": [
+   "output-function",
+   "example-208",
+   "example-20000"
+  ],
+  "requirement": "the shipped example circuit plus an executable /app/sim script printing the right answers"
+ },
+ {
+  "cid": "gates-is-directory",
+  "pytest": "PFF",
+  "pytest2": "PFF",
+  "predicted": "PFF",
+  "rc": [
+   1,
+   1
+  ],
+  "detail": "test_gates_file_exists:PASSED,test_gates_file_size:FAILED,test_sqrt_fib:FAILED",
+  "violates": [
+   "gates-file",
+   "output-function",
+   "example-208",
+   "example-20000"
+  ],
+  "requirement": "/app/gates.txt is a directory"
+ }
+]

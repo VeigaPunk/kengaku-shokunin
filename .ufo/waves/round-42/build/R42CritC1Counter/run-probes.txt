@@ -1,0 +1,16 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r42/R42CritC1Counter/lane/plans/round42_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r42/R42CritC1Counter/lane --battery-dir /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-42/build/R42CritC1Counter/probe --only X9 --work /fast/scratch/hyaku/kengaku-r42/R42CritC1Counter/w4
+ENVELOPE start 17:25:33 local_bin_before=436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18
+PINS total=2 mismatched=0
+FIXTURE p-config-external-commands tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE p-link-target-hashed tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE p-host-row-file tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE p-crash-reject tool=anchor expect=reject declared=- observed_rc=2 observed=- WRONG
+FIXTURE p-crash-error tool=anchor expect=error declared=- observed_rc=2 observed=- ok
+MUTANT X9 anchor rc-silence killed by=p-host-row-file attributed=L477 hits=1 -- plans/anchor_digest_check.py:34-35 'A row that matches the census regex but does not have 
+BATTERY fixtures=5 wrong=1 tampered=0 sidechannel=0
+MUTANTS total=1 killed=1 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=1/1 order=0/0
+ADVERTISED direct=1 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 17:25:33 local_bin_after=436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18

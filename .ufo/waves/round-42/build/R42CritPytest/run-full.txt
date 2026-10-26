@@ -1,0 +1,18 @@
+# real-runner parity: pytest 8.4.1 / CPython 3.13 on 16 frozen case end states
+CASE nop pytest=PPF nodes=test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:FAILED rc=1 regrade=same probe_predicted=PPF
+CASE oracle-solve-sh pytest=PPP nodes=test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:PASSED rc=0 regrade=same probe_predicted=PPP
+CASE no-gates-file pytest=FFF nodes=test_gates_file_exists:FAILED,test_gates_file_size:FAILED,test_sqrt_fib:FAILED rc=1 regrade=same probe_predicted=FFF
+CASE empty-gates-file pytest=PPF nodes=test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:FAILED rc=1 regrade=same probe_predicted=PPF
+CASE lookup-28 pytest=PPP nodes=test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:PASSED rc=0 regrade=same probe_predicted=PPP
+CASE lookup-27-drop-48401 pytest=PPF nodes=test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:FAILED rc=1 regrade=same probe_predicted=PPF
+CASE lookup-28-plus-examples pytest=PPP nodes=test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:PASSED rc=0 regrade=same probe_predicted=PPP
+CASE lookup-28-bitflip-41 pytest=PPF nodes=test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:FAILED rc=1 regrade=same probe_predicted=PPF
+CASE lookup-28-padded-31999 pytest=PPP nodes=test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:PASSED rc=0 regrade=same probe_predicted=PPP
+CASE lookup-28-padded-32000 pytest=PFP nodes=test_gates_file_exists:PASSED,test_gates_file_size:FAILED,test_sqrt_fib:PASSED rc=1 regrade=same probe_predicted=PFP
+CASE lookup-28-comment-lines pytest=PPP nodes=test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:PASSED rc=0 regrade=same probe_predicted=PPP
+CASE lookup-28-reversed-lines pytest=PPP nodes=test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:PASSED rc=0 regrade=same probe_predicted=PPP
+CASE lookup-28-crlf pytest=PPP nodes=test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:PASSED rc=0 regrade=same probe_predicted=PPP
+CASE lookup-28-trailing-space pytest=PPF nodes=test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:FAILED rc=1 regrade=same probe_predicted=PPF
+CASE fake-sim-script pytest=PPF nodes=test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:FAILED rc=1 regrade=same probe_predicted=PPF
+CASE gates-is-directory pytest=PFF nodes=test_gates_file_exists:PASSED,test_gates_file_size:FAILED,test_sqrt_fib:FAILED rc=1 regrade=same probe_predicted=PFF
+cases=16

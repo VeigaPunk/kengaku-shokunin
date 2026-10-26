@@ -1,0 +1,41 @@
+R42CritEquiv — commands and digests (kengaku round 42 wave 1, critic seat)
+
+Lane read-only throughout; nothing in /home/vgpnk/Projects/shokunin/kengaku-shokunin was modified.
+Scratch: /fast/scratch/hyaku/kengaku-r42/R42CritEquiv (own dir only; trap rm -rf on that dir).
+
+PINS (frozen tools, equal to plans/round42_c1_verify.py PINS and to plans/round-42-claims.md):
+  11bb2cad87be1c29c2d5abe8313d487d73f71ba49a40d7d0dc80ec26c70fd4c2  plans/anchor_digest_check.py
+  948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc  plans/order_check.py
+  lane HEAD at review: fda71ae033224e1d0ed5ddd0fdcb1b63a02f2473
+
+ENVELOPE (every probe run; Q32):
+  bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin \
+        --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent \
+        /usr/bin/python3 <probe.py>
+  local_bin listing digest before the first run and after the last:
+  436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18  (unchanged)
+
+RECEIPTS (this directory; each .txt carries its ENVELOPE line, start/end time and the exit code)
+  0b0da6786f7505cfc62cd7a7c79827358cb954cdbe8f7ff9bc101dce4673e3f4  probe_a17.txt   17:25:24-17:25:26 exit=0
+  25f175acdafbfba69747da5b1c70eed775b42b13be669578a7be6dcfa493fbe9  probe_none.txt  17:25:26-17:25:27 exit=0
+  cb72562a4c36dbbb08602aa58150fdb79bbc9e5d8d49e03e5eab718274454bbe  probe_xo3.txt   17:25:27        exit=0
+  c9228be2aa24e14b22805130fef1fce85a0cbdf9ee26a02623bb3971459793c6  probe_lbl.txt   17:25:27        exit=0
+
+SCRIPTS (copies; run them with the envelope above)
+  04067edc9bf39842ee2a3825571ea77a57763177cf3ee28bd5397be915d6589c  probe_a17.py    (rebuilds battery40 a_bind build_a17, runs REF + X1 X2 X3 X4 X5 X6 X11 X12)
+  c04041a07b76619f17f53495587bddfa72da965af9e57a02ea210001f2de7ca4  probe_none.py   (from-nothing repo; REF + X1 X2 X3 X4 X5 X11)
+  a4108c7e70cfe15d438a87900aaeca27711498b5ca6498c5ddbf95f936bfd599  probe_xo3.py    (order clause-2 shapes A and B; REF + XO3)
+  fddbf7a400670280541858990780b81cc6c136017a22b65a85584f08107edf68  probe_lbl.py    (two-row repo; REF + X6 + X7)
+
+WHAT EACH RECEIPT SHOWS
+  probe_a17.txt  the four round-40 "killed by a_bind-a17-index-bytes" rows (X2 X4 X5 X11) produce defects only on
+                 lane rows S036/S114/S124/S110, none on S903 (the row the fixture adds); X1/X3/X6/X12 unaffected.
+  probe_none.txt the same four differ from the reference on a two-row repo built from nothing, each on the row its own
+                 advertised clause governs -> non-equivalent, killable without a lane clone.
+  probe_xo3.txt  shape A (receipt present at freeze): REF and XO3 both rc=1, REF fails both clauses; shape B (receipt
+                 added, removed, freeze, re-added): REF rc=1 receipt-before-claims, XO3 rc=0.
+  probe_lbl.txt  X6 and X7 swap the printed class only; rc stays 1 for reference and both mutants.
+
+REPORT
+  .ufo/waves/round-42/build/R42CritEquiv.md
+  VERDICT: equivalents-0-incidental-0-unlisted-advertised-18

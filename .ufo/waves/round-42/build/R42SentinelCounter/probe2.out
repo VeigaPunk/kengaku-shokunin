@@ -1,0 +1,110 @@
+CONTROL-HARDLINK LINKED, after-write: 'pwned'
+stat devices: 66309 66309
+== tool-run-hide rc=0 stderr=
+{
+ "hidden_listdir": {
+  "/fast/scratch/hyaku/kengaku-r42/R42SentinelCounter/probe2/fake/variants": [],
+  "/fast/scratch/hyaku/kengaku-r42/R42SentinelCounter/probe2/fake/slots": [],
+  "/fast/scratch/hyaku/kengaku-r42/R42SentinelCounter/probe2/fake/bin": [],
+  "/fast/scratch/hyaku/kengaku-r42/R42SentinelCounter/probe2/fake/tracer": []
+ },
+ "caps": [
+  "CapInh:\t0000000000000000",
+  "CapPrm:\t0000000000000000",
+  "CapEff:\t0000000000000000",
+  "CapBnd:\t0000000000000000",
+  "CapAmb:\t0000000000000000"
+ ],
+ "uid": [
+  1000,
+  1000
+ ],
+ "remount": {
+  "--bind /fast/scratch/hyaku/kengaku-r42/R42SentinelCounter/probe2/moduleA /fast/scratch/hyaku/kengaku-r42/R42SentinelCounter/probe2/moduleA": [
+   32,
+   "mount: /fast/scratch/hyaku/kengaku-r42/R42SentinelCounter/probe2/moduleA: must be superuser to use m"
+  ],
+  "-o remount,rw /fast/scratch/hyaku/kengaku-r42/R42SentinelCounter/probe2/moduleA": [
+   32,
+   "mount: /fast/scratch/hyaku/kengaku-r42/R42SentinelCounter/probe2/moduleA: must be superuser to use m"
+  ],
+  "write": "OSError:Read-only file system",
+  "create": "OSError:Read-only file system"
+ },
+ "hardlink2": {
+  "same_rw_mount": "LINKED:b",
+  "ro_to_rw": "OSError:Invalid cross-device link"
+ },
+ "bin_read": "FileNotFoundError",
+ "bin_via_dir": true,
+ "lane_isdir": true,
+ "lane_listdir": [
+  ".git",
+  ".gitignore",
+  ".jj",
+  ".ruff_cache",
+  ".ufo",
+  "AGENTS.md",
+  "LOG.md",
+  "PROVINCE.md",
+  "README.md",
+  "SCORECARD.md",
+  "SHONEN.md",
+  "SKILL.md",
+  "considerthese",
+  "corpus",
+  "grader.py"
+ ],
+ "lane_counter": true,
+ "tracer": "# tracer body\n",
+ "argv": [
+  "/fast/scratch/hyaku/kengaku-r42/R42SentinelCounter/probe2.py",
+  "--inner"
+ ]
+}
+== build-run-hide-lane rc=0 stderr=
+{
+ "hidden_listdir": {
+  "/fast/scratch/hyaku/kengaku-r42/R42SentinelCounter/probe2/fake/variants": [],
+  "/fast/scratch/hyaku/kengaku-r42/R42SentinelCounter/probe2/fake/slots": [],
+  "/fast/scratch/hyaku/kengaku-r42/R42SentinelCounter/probe2/fake/bin": [],
+  "/fast/scratch/hyaku/kengaku-r42/R42SentinelCounter/probe2/fake/tracer": []
+ },
+ "caps": [
+  "CapInh:\t0000000000000000",
+  "CapPrm:\t0000000000000000",
+  "CapEff:\t0000000000000000",
+  "CapBnd:\t0000000000000000",
+  "CapAmb:\t0000000000000000"
+ ],
+ "uid": [
+  1000,
+  1000
+ ],
+ "remount": {
+  "--bind /fast/scratch/hyaku/kengaku-r42/R42SentinelCounter/probe2/moduleA /fast/scratch/hyaku/kengaku-r42/R42SentinelCounter/probe2/moduleA": [
+   32,
+   "mount: /fast/scratch/hyaku/kengaku-r42/R42SentinelCounter/probe2/moduleA: must be superuser to use m"
+  ],
+  "-o remount,rw /fast/scratch/hyaku/kengaku-r42/R42SentinelCounter/probe2/moduleA": [
+   32,
+   "mount: /fast/scratch/hyaku/kengaku-r42/R42SentinelCounter/probe2/moduleA: must be superuser to use m"
+  ],
+  "write": "OSError:Read-only file system",
+  "create": "OSError:Read-only file system"
+ },
+ "hardlink2": {
+  "same_rw_mount": "FileExistsError:File exists",
+  "ro_to_rw": "OSError:Invalid cross-device link"
+ },
+ "bin_read": "FileNotFoundError",
+ "bin_via_dir": true,
+ "lane_isdir": true,
+ "lane_listdir": [],
+ "lane_counter": false,
+ "tracer": "FileNotFoundError",
+ "argv": [
+  "/fast/scratch/hyaku/kengaku-r42/R42SentinelCounter/probe2.py",
+  "--inner"
+ ]
+}

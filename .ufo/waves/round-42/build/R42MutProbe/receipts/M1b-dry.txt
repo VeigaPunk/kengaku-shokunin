@@ -1,0 +1,24 @@
+TAG line-form instruction.md:1
+TAG last-32-lines instruction.md:9
+TAG gates-file instruction.md:11
+TAG line-limit instruction.md:11
+TAG output-function instruction.md:11
+TAG example-208 instruction.md:12
+TAG example-20000 instruction.md:13
+CASE nop predicted=fail tests=PPF violates=output-function,example-208,example-20000 gates_lines=seeded -- the shipped example circuit (prints N/2) left in place
+CASE oracle-solve-sh predicted=pass tests=PPP violates= gates_lines=seeded -- the task's solve.sh generates the reference circuit
+CASE no-gates-file predicted=fail tests=FFF violates=gates-file,output-function,example-208,example-20000 gates_lines=removed -- /app/gates.txt removed
+CASE empty-gates-file predicted=fail tests=PPF violates=output-function,example-208,example-20000 gates_lines=<empty> -- an empty /app/gates.txt (sim prints nothing)
+CASE lookup-28 predicted=pass tests=PPP violates=output-function,example-208,example-20000 gates_lines=1167 -- a lookup circuit for exactly the 28 graded inputs (0 elsewhere)
+CASE lookup-27-drop-48401 predicted=fail tests=PPF violates=output-function,example-208,example-20000 gates_lines=1124 -- the lookup circuit without the largest graded input 48401
+CASE lookup-28-plus-examples predicted=pass tests=PPP violates=output-function gates_lines=1249 -- the lookup circuit plus the instruction's two examples 208 and 20000
+CASE lookup-28-bitflip-41 predicted=fail tests=PPF violates=output-function,example-208,example-20000 gates_lines=1168 -- the lookup circuit with bit 0 of the answer for N=41 flipped
+CASE lookup-28-padded-31999 predicted=pass tests=PPP violates=output-function,example-208,example-20000 gates_lines=31999 -- the lookup circuit padded with blank lines to 31999 lines
+CASE lookup-28-padded-32000 predicted=fail tests=PFP violates=line-limit,output-function,example-208,example-20000 gates_lines=32000 -- the lookup circuit padded with blank lines to 32000 lines (sim ignores blanks; the size test counts them)
+CASE lookup-28-comment-lines predicted=pass tests=PPP violates=line-form,output-function,example-208,example-20000 gates_lines=2334 -- every gate line of the lookup circuit preceded by a `# note` line
+CASE lookup-28-reversed-lines predicted=pass tests=PPP violates=last-32-lines,output-function,example-208,example-20000 gates_lines=1167 -- the lookup circuit's lines in reverse order: the file's last 32 lines are the input copies
+CASE lookup-28-crlf predicted=pass tests=PPP violates=output-function,example-208,example-20000 gates_lines=1167 -- the lookup circuit with CRLF line ends
+CASE lookup-28-trailing-space predicted=fail tests=PPF violates=output-function,example-208,example-20000 gates_lines=1167 -- every line of the lookup circuit ends in one space (copy lines no longer scan as copies)
+CASE fake-sim-script predicted=fail tests=PPF violates=output-function,example-208,example-20000 gates_lines=seeded -- the shipped example circuit plus an executable /app/sim script printing the right answers
+CASE gates-is-directory predicted=fail tests=PFF violates=gates-file,output-function,example-208,example-20000 gates_lines=<dir> -- /app/gates.txt is a directory
+cases=16 predicted_pass=7 predicted_fail=9

@@ -1,0 +1,364 @@
+{
+ "tool": "state_check",
+ "population": 27,
+ "sampled": 27,
+ "counts": {
+  "killed": 15,
+  "survived": 12
+ },
+ "by_kind": {
+  "if": {
+   "n": 8,
+   "surv": 4
+  },
+  "ret": {
+   "n": 7,
+   "surv": 4
+  },
+  "not": {
+   "n": 1,
+   "surv": 0
+  },
+  "cmp": {
+   "n": 8,
+   "surv": 2
+  },
+  "bool": {
+   "n": 2,
+   "surv": 1
+  },
+  "num": {
+   "n": 1,
+   "surv": 1
+  }
+ },
+ "base_stable": true,
+ "identity_ok": true,
+ "sha": "4aa47a63d8f2382f601b0ce46746eff5ddf92bf1cfe8cdcdbb387016b23cfc13",
+ "mutants": [
+  {
+   "kind": "if",
+   "line": 4660,
+   "a": 212995,
+   "b": 213008,
+   "new": "False",
+   "desc": "if-test -> False",
+   "src": "args.selftest",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "ret",
+   "line": 4666,
+   "a": 213244,
+   "b": 213245,
+   "new": "0",
+   "desc": "return 2 -> 0",
+   "src": "2",
+   "status": "killed",
+   "info": "2",
+   "src_b": null
+  },
+  {
+   "kind": "if",
+   "line": 4667,
+   "a": 213253,
+   "b": 213270,
+   "new": "False",
+   "desc": "if-test -> False",
+   "src": "not root.is_dir()",
+   "status": "killed",
+   "info": "3",
+   "src_b": null
+  },
+  {
+   "kind": "not",
+   "line": 4667,
+   "a": 213253,
+   "b": 213257,
+   "new": "",
+   "desc": "not x -> x",
+   "src": "not ",
+   "status": "killed",
+   "info": "1,3,4,5,6,7",
+   "src_b": null
+  },
+  {
+   "kind": "ret",
+   "line": 4669,
+   "a": 213382,
+   "b": 213383,
+   "new": "0",
+   "desc": "return 2 -> 0",
+   "src": "2",
+   "status": "killed",
+   "info": "3",
+   "src_b": null
+  },
+  {
+   "kind": "if",
+   "line": 4671,
+   "a": 213470,
+   "b": 213494,
+   "new": "False",
+   "desc": "if-test -> False",
+   "src": "protocol == SEED_FIXTURE",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 4671,
+   "a": 213479,
+   "b": 213481,
+   "new": "!=",
+   "desc": "== -> !=",
+   "src": "==",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "bool",
+   "line": 4675,
+   "a": 213660,
+   "b": 213663,
+   "new": "or",
+   "desc": "and -> or",
+   "src": "and",
+   "status": "killed",
+   "info": "1,4,5,6,7",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 4675,
+   "a": 213648,
+   "b": 213654,
+   "new": "is",
+   "desc": "is not -> is",
+   "src": "is not",
+   "status": "killed",
+   "info": "1,4,5,6,7",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 4675,
+   "a": 213705,
+   "b": 213711,
+   "new": "in",
+   "desc": "not in -> in",
+   "src": "not in",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "if",
+   "line": 4676,
+   "a": 213757,
+   "b": 213795,
+   "new": "False",
+   "desc": "if-test -> False",
+   "src": "digest != SEED_FIXTURE_SHA256 or drift",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "bool",
+   "line": 4676,
+   "a": 213787,
+   "b": 213789,
+   "new": "and",
+   "desc": "or -> and",
+   "src": "or",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 4676,
+   "a": 213764,
+   "b": 213766,
+   "new": "==",
+   "desc": "!= -> ==",
+   "src": "!=",
+   "status": "killed",
+   "info": "1,4,5,6,7",
+   "src_b": null
+  },
+  {
+   "kind": "ret",
+   "line": 4679,
+   "a": 213981,
+   "b": 213982,
+   "new": "0",
+   "desc": "return 2 -> 0",
+   "src": "2",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "if",
+   "line": 4680,
+   "a": 213990,
+   "b": 214006,
+   "new": "False",
+   "desc": "if-test -> False",
+   "src": "protocol is None",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 4680,
+   "a": 213999,
+   "b": 214001,
+   "new": "is not",
+   "desc": "is -> is not",
+   "src": "is",
+   "status": "killed",
+   "info": "1,4,5,6,7",
+   "src_b": null
+  },
+  {
+   "kind": "ret",
+   "line": 4684,
+   "a": 214212,
+   "b": 214213,
+   "new": "0",
+   "desc": "return 2 -> 0",
+   "src": "2",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 4686,
+   "a": 214362,
+   "b": 214364,
+   "new": "is not",
+   "desc": "is -> is not",
+   "src": "is",
+   "status": "killed",
+   "info": "1,4,5,6,7",
+   "src_b": null
+  },
+  {
+   "kind": "if",
+   "line": 4687,
+   "a": 214378,
+   "b": 214388,
+   "new": "False",
+   "desc": "if-test -> False",
+   "src": "unreadable",
+   "status": "killed",
+   "info": "4",
+   "src_b": null
+  },
+  {
+   "kind": "ret",
+   "line": 4689,
+   "a": 214509,
+   "b": 214510,
+   "new": "0",
+   "desc": "return 2 -> 0",
+   "src": "2",
+   "status": "killed",
+   "info": "4",
+   "src_b": null
+  },
+  {
+   "kind": "ret",
+   "line": 4694,
+   "a": 214738,
+   "b": 214739,
+   "new": "0",
+   "desc": "return 2 -> 0",
+   "src": "2",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "if",
+   "line": 4695,
+   "a": 214747,
+   "b": 214756,
+   "new": "False",
+   "desc": "if-test -> False",
+   "src": "args.json",
+   "status": "killed",
+   "info": "6",
+   "src_b": null
+  },
+  {
+   "kind": "if",
+   "line": 4701,
+   "a": 215002,
+   "b": 215039,
+   "new": "False",
+   "desc": "if-test -> False",
+   "src": "counts(assertions)[\"assertions\"] == 0",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 4701,
+   "a": 215035,
+   "b": 215037,
+   "new": "!=",
+   "desc": "== -> !=",
+   "src": "==",
+   "status": "killed",
+   "info": "1,5,6,7",
+   "src_b": null
+  },
+  {
+   "kind": "num",
+   "line": 4701,
+   "a": 215038,
+   "b": 215039,
+   "new": "1",
+   "desc": "0 -> 1",
+   "src": "0",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "ret",
+   "line": 4703,
+   "a": 215155,
+   "b": 215156,
+   "new": "0",
+   "desc": "return 2 -> 0",
+   "src": "2",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 4704,
+   "a": 215190,
+   "b": 215192,
+   "new": "!=",
+   "desc": "== -> !=",
+   "src": "==",
+   "status": "killed",
+   "info": "1,6,7",
+   "src_b": null
+  }
+ ]
+}

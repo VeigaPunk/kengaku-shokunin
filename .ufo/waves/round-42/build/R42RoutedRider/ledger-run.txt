@@ -1,0 +1,45 @@
+ENVELOPE bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent
+start 17:28:54 cwd=/fast/scratch/hyaku/kengaku-r42/R42RoutedRider/lane2
+436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18  -
+--- selftest ---
+SELFTEST valid-closed rc=0 want=0 ok
+SELFTEST malformed-json rc=1 want=1 ok
+SELFTEST missing-key rc=1 want=1 ok
+SELFTEST duplicate-id rc=1 want=1 ok
+SELFTEST closed-without-evidence rc=1 want=1 ok
+SELFTEST blocked-without-blocker rc=1 want=1 ok
+SELFTEST bad-status rc=1 want=1 ok
+SELFTEST source-past-eof rc=1 want=1 ok
+SELFTEST source-missing-file rc=1 want=1 ok
+SELFTEST bad-opened-round rc=1 want=1 ok
+SELFTEST bad-id rc=1 want=1 ok
+SELFTEST defect-ledger-guard rc=2 want=2 ok
+SELFTEST 12/12
+selftest rc=0
+--- appended-rows run ---
+ROWS total=16 open=9 blocked=1 closed=6 refused=0
+routed_open=10 oldest_round=39
+summary rc=0
+--- appended-rows observe ---
+OBSERVE R39-R1 rc=0 observed=pass self=closed
+OBSERVE R39-R2 rc=1 observed=fail self=open
+OBSERVE R39-R3 rc=1 observed=fail self=blocked
+OBSERVE R39-R4 rc=2 observed=fail self=open
+OBSERVE R39-R5 rc=0 observed=pass self=closed
+OBSERVE R40-R1 self=open observed=n/a
+OBSERVE R40-R2 rc=0 observed=pass self=closed
+OBSERVE R40-R3 rc=0 observed=pass self=closed
+OBSERVE R40-R4 rc=0 observed=pass self=closed
+OBSERVE R40-R5 self=open observed=n/a
+OBSERVE R42-R1 rc=2 observed=fail self=open
+OBSERVE R42-R2 rc=1 observed=fail self=open
+OBSERVE R42-R3 rc=1 observed=fail self=open
+OBSERVE R42-R4 rc=1 observed=fail self=open
+OBSERVE R42-R5 rc=2 observed=fail self=open
+OBSERVE R40-R1.1 rc=0 observed=pass self=closed
+OBSERVE rows=16 mismatched=0
+ROWS total=16 open=9 blocked=1 closed=6 refused=0
+routed_open=10 oldest_round=39
+observe rc=0
+end 17:28:54
+436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18  -

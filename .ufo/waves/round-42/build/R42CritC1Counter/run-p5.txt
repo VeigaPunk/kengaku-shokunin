@@ -1,0 +1,18 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /fast/scratch/hyaku/kengaku-r42/R42CritC1Counter/p5.sh
+ENVELOPE start 17:25:48 local_bin_before=436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18
+REV-PARSE-TOP /fast/scratch/hyaku/kengaku-r42/R42CritC1Counter/p5/host
+ORDER claims=plans/round-42-claims.md round=42 freeze=335693581e87f418fb7516cc8e6ed74d30f0b7d7
+ORDER receipt=corpus/evidence/probe.txt receipt_commit=c9e1900e43fede2847461f0f0b20422b8a0b027f claims_dir=.ufo/waves/round-42/claims/
+ORDER scanned commits=1 file_entries=1 distinct_blobs=1
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+ORDER-RC 0
+--- same decoy without the redirect ---
+ORDER claims=plans/round-42-claims.md round=42 freeze=5951762054ac0abab140c7f79cb1c0610abeb349
+ORDER receipt=corpus/evidence/probe.txt receipt_commit=17538ed8d98e5882c888d7bb16c7583c8702dda3 claims_dir=.ufo/waves/round-42/claims/
+ORDER scanned commits=1 file_entries=1 distinct_blobs=1
+ORDER HIT .ufo/waves/round-42/claims/note.txt@5951762054ac:1 kind=gate-p10 `gate: P10 ok fresh probe output byte-equal`
+ORDER FAIL probe-executed-before-receipt hits=1
+ORDER RESULT FAIL
+ORDER-RC 1
+ENVELOPE end 17:25:48 local_bin_after=436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18

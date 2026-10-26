@@ -1,0 +1,297 @@
+{
+ "CM01": {
+  "old": "    return want == a and ref[0] == a and mut[0] == b",
+  "new": "    return ref[0] == a and mut[0] == b",
+  "sha": {
+   "N": "e9dc617b0a34275c",
+   "W": "e9dc617b0a34275c",
+   "A": "fadeca5fcb6e7bfb",
+   "M": "e8c34444f4f9e4bf",
+   "T": "e9dc617b0a34275c",
+   "H": "e9dc617b0a34275c",
+   "D": "ac4e86e9e5c0b55a"
+  }
+ },
+ "CM02": {
+  "old": "    return fx[\"expect\"] == \"reject\" and ref[0] == 1 and mut[0] == 0",
+  "new": "    return ref[0] == 1 and mut[0] == 0",
+  "sha": {
+   "N": "0ee01d7c112741f1",
+   "W": "0ee01d7c112741f1",
+   "A": "91fed37f55d7a6e7",
+   "M": "81843804c7c17b36",
+   "T": "0ee01d7c112741f1",
+   "H": "0ee01d7c112741f1",
+   "D": "0db4e754fe7c0eb0"
+  }
+ },
+ "CM03": {
+  "old": "    return fx[\"expect\"] == \"accept\" and ref[0] == 0 and mut[0] == 1",
+  "new": "    return ref[0] == 0 and mut[0] == 1",
+  "sha": {
+   "N": "754183e326646e73",
+   "W": "754183e326646e73",
+   "A": "64740fb1b97300f8",
+   "M": "934644023f6a6dd1",
+   "T": "754183e326646e73",
+   "H": "754183e326646e73",
+   "D": "9367eeb86fc60daa"
+  }
+ },
+ "CM04": {
+  "old": "    return fx[\"expect\"] == \"error\" and ref[0] == 2 and mut[0] in (0, 1)",
+  "new": "    return fx[\"expect\"] == \"error\" and ref[0] == 2 and mut[0] in (0, 1, 2)",
+  "sha": {
+   "N": "f4716d7d45bb4996",
+   "W": "f4716d7d45bb4996",
+   "A": "017f58f7a9460f5c",
+   "M": "9022a71d95df6f87",
+   "T": "f4716d7d45bb4996",
+   "H": "f4716d7d45bb4996",
+   "D": "02dd7507fd4a5b2b"
+  }
+ },
+ "CM05": {
+  "old": "    return cls in ref[1] and cls in set(fx[\"defects\"]) and cls not in mut[1]  # silence",
+  "new": "    return cls in ref[1] and cls not in mut[1]  # silence",
+  "sha": {
+   "N": "0dd2020519ae41db",
+   "W": "0dd2020519ae41db",
+   "A": "4d1457d73cc1e242",
+   "M": "483729cfae15ac9b",
+   "T": "0dd2020519ae41db",
+   "H": "0dd2020519ae41db",
+   "D": "e1c3fbb514f2558f"
+  }
+ },
+ "CM06": {
+  "old": "        return \"..\" not in tok",
+  "new": "        return True",
+  "sha": {
+   "N": "891855043566060c",
+   "W": "891855043566060c",
+   "A": "848bd2fa915a85e1",
+   "M": "25449082f583cfa7",
+   "T": "891855043566060c",
+   "H": "891855043566060c",
+   "D": "8638b74e343df6c3"
+  }
+ },
+ "CM07": {
+  "old": "        if not base.resolve().is_relative_to(d):\n            return False",
+  "new": "        if not base.resolve().is_relative_to(d):\n            return True",
+  "sha": {
+   "N": "efdcd0da3bdb815a",
+   "W": "efdcd0da3bdb815a",
+   "A": "40b6c1120bf402bd",
+   "M": "e4363c050a85b91a",
+   "T": "efdcd0da3bdb815a",
+   "H": "efdcd0da3bdb815a",
+   "D": "aab6a566e65668e9"
+  }
+ },
+ "CM08": {
+  "old": "        floors_ok = (TOTAL >= 1 and all(FLOORS.get(t, 0) >= 1 for t in TOOLS) and sum(FLOORS.values()) == TOTAL",
+  "new": "        floors_ok = (TOTAL >= 1 and all(FLOORS.get(t, 0) >= 1 for t in TOOLS)",
+  "sha": {
+   "N": "3080204f520f7575",
+   "W": "3080204f520f7575",
+   "A": "79865db4704a03a2",
+   "M": "403a052d564e3750",
+   "T": "3080204f520f7575",
+   "H": "3080204f520f7575",
+   "D": "b148675dbefa36d0"
+  }
+ },
+ "CM08b": {
+  "old": "                     and all(per_tool.get(t, [0, 0]) == [FLOORS[t], FLOORS[t]] for t in TOOLS))",
+  "new": "                     and True)",
+  "sha": {
+   "N": "84bfea499824f2a5",
+   "W": "84bfea499824f2a5",
+   "A": "d28216aa92b3a010",
+   "M": "41ac7aecf4137a1e",
+   "T": "84bfea499824f2a5",
+   "H": "84bfea499824f2a5",
+   "D": "c7dac0b18dd0ca06"
+  }
+ },
+ "CM09": {
+  "old": "    good = (not mism and not after and len(MUTANTS) == TOTAL and floors_ok and wrong == 0 and tampered == 0",
+  "new": "    good = (not mism and not after and floors_ok and wrong == 0 and tampered == 0",
+  "sha": {
+   "N": "6934c4e68063fd63",
+   "W": "6934c4e68063fd63",
+   "A": "8962dcdb91095dc9",
+   "M": "d956b2b07c710b98",
+   "T": "6934c4e68063fd63",
+   "H": "6934c4e68063fd63",
+   "D": "626397761a11a6b4"
+  }
+ },
+ "CM10": {
+  "old": "                if (t_rc, t_cls) == res and span & t_lines:",
+  "new": "                if (t_rc, t_cls) == res:",
+  "sha": {
+   "N": "fb7414fc92841f5c",
+   "W": "fb7414fc92841f5c",
+   "A": "2b0d9424216ba175",
+   "M": "68686010c37a2995",
+   "T": "fb7414fc92841f5c",
+   "H": "fb7414fc92841f5c",
+   "D": "b4e78a3b89c16e71"
+  }
+ },
+ "CM11": {
+  "old": "                if (t_rc, t_cls) == res and span & t_lines:",
+  "new": "                if span & t_lines:",
+  "sha": {
+   "N": "0ba41de0d918f4c7",
+   "W": "0ba41de0d918f4c7",
+   "A": "04c216f0f28e628a",
+   "M": "6468a33972a95f7e",
+   "T": "0ba41de0d918f4c7",
+   "H": "0ba41de0d918f4c7",
+   "D": "8efd1f1122e3d61e"
+  }
+ },
+ "CM12": {
+  "old": "                unattributed += 1",
+  "new": "                unattributed += 0",
+  "sha": {
+   "N": "ce4d0e67edf749d3",
+   "W": "ce4d0e67edf749d3",
+   "A": "597c06ee50c5492a",
+   "M": "63f312067590c38c",
+   "T": "ce4d0e67edf749d3",
+   "H": "ce4d0e67edf749d3",
+   "D": "ee05476c58697661"
+  }
+ },
+ "CM13": {
+  "old": "                content = file_sha256(p)",
+  "new": "                content = \"\"",
+  "sha": {
+   "N": "4c52ac78a574dbf3",
+   "W": "4c52ac78a574dbf3",
+   "A": "d96ffbf5d8c14ee7",
+   "M": "a5db6e284dd3e603",
+   "T": "4c52ac78a574dbf3",
+   "H": "4c52ac78a574dbf3",
+   "D": "52cfada1f92dd9bc"
+  }
+ },
+ "CM14": {
+  "old": "        hits = [t for t in SIDECHANNEL if t in text]",
+  "new": "        hits = []",
+  "sha": {
+   "N": "4a310004fcd78fcf",
+   "W": "4a310004fcd78fcf",
+   "A": "c5271fe82b574ad3",
+   "M": "d75cead082af5754",
+   "T": "4a310004fcd78fcf",
+   "H": "4a310004fcd78fcf",
+   "D": "ac27c9744a7a8d1d"
+  }
+ },
+ "CM15": {
+  "old": "        if not isinstance(argv, list) or not all(type(t) is str for t in argv):",
+  "new": "        if False:",
+  "sha": {
+   "N": "5b1237ac7c043cc8",
+   "W": "5b1237ac7c043cc8",
+   "A": "b389dec5239cc383",
+   "M": "4af16fedd4693cce",
+   "T": "5b1237ac7c043cc8",
+   "H": "5b1237ac7c043cc8",
+   "D": "edbef0a0452e0855"
+  }
+ },
+ "CM16": {
+  "old": "                  and isinstance(argv, list) and all(isinstance(t, str) and path_ok(t, d) for t in argv)",
+  "new": "                  and isinstance(argv, list) and all(isinstance(t, str) for t in argv)",
+  "sha": {
+   "N": "5d26e4beb426a39b",
+   "W": "5d26e4beb426a39b",
+   "A": "6d4f193a37245ae0",
+   "M": "927a20eb4c1cb590",
+   "T": "5d26e4beb426a39b",
+   "H": "5d26e4beb426a39b",
+   "D": "4c9d96ab7641b387"
+  }
+ },
+ "CM17": {
+  "old": "    mism = [rel for rel, dig in PINS.items() if sha256(lane / rel) != dig]",
+  "new": "    mism = []",
+  "sha": {
+   "N": "5fbe1f1d19736298",
+   "W": "5fbe1f1d19736298",
+   "A": "4c4e546f0e5b2b3f",
+   "M": "4a866c33cf8929cc",
+   "T": "5fbe1f1d19736298",
+   "H": "5fbe1f1d19736298",
+   "D": "b5b000685bc8b22d"
+  }
+ },
+ "CM18": {
+  "old": "    after = [rel for rel, dig in PINS.items() if sha256(lane / rel) != dig]",
+  "new": "    after = []",
+  "sha": {
+   "N": "0a48496fe155478c",
+   "W": "0a48496fe155478c",
+   "A": "21b7f4bf91ea2042",
+   "M": "baf0f1b7f664a69c",
+   "T": "0a48496fe155478c",
+   "H": "0a48496fe155478c",
+   "D": "1d11e25ff0c470d9"
+  }
+ },
+ "CM19a": {
+  "old": "                if res != ref[fx[\"fid\"]]:",
+  "new": "                if False:",
+  "sha": {
+   "N": "358b575afe03b663",
+   "W": "358b575afe03b663",
+   "A": "db20459a7a630eba",
+   "M": "eff9eab256d4eb71",
+   "T": "358b575afe03b663",
+   "H": "358b575afe03b663",
+   "D": "be19b2c73892a539"
+  }
+ },
+ "CM19b": {
+  "old": "                if res != ref[fx[\"fid\"]]:",
+  "new": "                if True:",
+  "sha": {
+   "N": "dbc80edd372478b5",
+   "W": "dbc80edd372478b5",
+   "A": "448f64017b9904e7",
+   "M": "853f2fbb1404fadf",
+   "T": "dbc80edd372478b5",
+   "H": "dbc80edd372478b5",
+   "D": "0414db0767aef7b8"
+  }
+ },
+ "CM20": {
+  "old": "    dev = a.battery_dir is not None or a.only is not None",
+  "new": "    dev = False",
+  "sha": {
+   "N": "86e328ec7253c6e6",
+   "W": "86e328ec7253c6e6",
+   "A": "8a566c6de6ae4bdf",
+   "M": "3daaf2915f16ba8c",
+   "T": "86e328ec7253c6e6",
+   "H": "86e328ec7253c6e6",
+   "D": "88c72f6a7a2b6433"
+  }
+ },
+ "control_sha": {
+  "N": "6b3e1e48ee9b0e86",
+  "W": "749e479338042897",
+  "A": "94c394ae219c852d",
+  "M": "0f612e3ba00491c6",
+  "T": "9411eb9c587e8d9c",
+  "H": "a8038519f02e15d0",
+  "D": "390d67b00abb1c7a"
+ }
+}

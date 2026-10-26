@@ -1,0 +1,72 @@
+SETUP fixtures=14 side=0
+
+== A. frozen span leg vs behaviour ==
+id   tool   direction  span    n_fx exhibit  span_hit  hit_not_exh  ref_hit   state_diff     killed_by
+X1   anchor rc-mirror  318-318 9    1        9         8            9         8/9            w-x1-provrow-only
+X3   anchor rc-mirror  343-343 9    1        1         0            1         1/9            w-x3-provurl-fallback
+X6   anchor silence    527-528 9    1        7         6            7         6/9            w-x6-wrong-capture
+X7   anchor silence    535-535 9    3        3         0            3         3/9            w-x7-unknown
+X9   anchor rc-silence 477-477 9    1        9         8            9         5/9            w-x9-short-row
+X12  anchor rc-mirror  256-256 9    1        1         0            1         1/9            w-x12-slashless-slug
+X13  anchor rc-silence 570-570 9    1        9         8            9         9/9            w-x13-staged-index
+X14  anchor silence    458-458 9    1        2         1            2         2/9            w-x14-erratum-upper
+X15  anchor rc-silence 455-455 9    1        2         1            2         2/9            w-x15-erratum-sibling
+XO1  order  rc-silence 183-183 5    1        5         4            5         1/5            w-xo1-freeze-has-receipt
+XO3  order  rc-silence 188-188 5    1        5         4            5         1/5            w-xo3-receipt-first-removed
+XO5  order  rc-mirror  117-117 5    1        5         4            5         2/5            w-xo5-post-receipt-blob
+XO6  order  rc-mirror  53-53   5    1        5         4            5         5/5            w-xo6-p10-pass-line
+XO7  order  rc-silence 55-55   5    1        5         4            5         5/5            w-xo7-case-timeout
+
+== B. traced vs untraced ==
+pairs=120 frozen-tracer-diverged=0 instrumented-tracer-diverged=0
+
+== C. event credit ==
+line numbers credited only by call events (all runs): [0]
+distinct call-event line numbers: 30 includes 0: True
+span credited only by a call event, any run: 0
+span lines that are also call-event lines: [256]
+
+== D. X6 two-line replacement, span [527, 528] ==
+  w-x1-provrow-only            mut527=1 mut528=0 ref527=1 ref528=0 span_leg=1 state_diff=check@412@L[527, 539, 540, 541, 547, 558, 561, 563, 564]
+  w-x3-provurl-fallback        mut527=1 mut528=0 ref527=1 ref528=0 span_leg=1 state_diff=check@412@L[527, 539, 540, 541, 547, 558, 561, 563, 564]
+  w-x6-wrong-capture           mut527=1 mut528=1 ref527=1 ref528=1 span_leg=1 state_diff=check@412@L[527, 528, 547, 558, 561, 562, 563, 564]
+  w-x7-unknown                 mut527=1 mut528=1 ref527=1 ref528=1 span_leg=1 state_diff=check@412@L[527, 528, 535, 537, 547, 558, 561, 562, 563, 564]
+  w-x9-short-row               mut527=0 mut528=0 ref527=0 ref528=0 span_leg=0 state_diff=-
+  w-x12-slashless-slug         mut527=1 mut528=0 ref527=1 ref528=0 span_leg=1 state_diff=check@412@L[527, 539, 540, 541, 547, 558, 561, 563, 564]
+  w-x13-staged-index           mut527=1 mut528=1 ref527=1 ref528=1 span_leg=1 state_diff=-
+  w-x14-erratum-upper          mut527=0 mut528=0 ref527=0 ref528=0 span_leg=0 state_diff=-
+  w-x15-erratum-sibling        mut527=1 mut528=1 ref527=1 ref528=1 span_leg=1 state_diff=check@412@L[527, 528, 535, 537, 547, 558, 561, 562, 563, 564]
+
+== E. strengthened-leg draft: same-frame live state differs (ref vs mutant) ==
+X1   killing=w-x1-provrow-only          state_diff_on_killing=bind_row@313 L[319]      fixtures_with_state_diff=8/9
+X3   killing=w-x3-provurl-fallback      state_diff_on_killing=bind_row@313 L[343, 345] fixtures_with_state_diff=1/9
+X6   killing=w-x6-wrong-capture         state_diff_on_killing=check@412 L[527, 528, 547, 558, 561, 562, 563, 564] fixtures_with_state_diff=6/9
+X7   killing=w-x7-unknown               state_diff_on_killing=check@412 L[547, 558, 561, 562, 563, 564] fixtures_with_state_diff=3/9
+X9   killing=w-x9-short-row             state_diff_on_killing=check@412 L[558, 561, 563, 564] fixtures_with_state_diff=5/9
+X12  killing=w-x12-slashless-slug       state_diff_on_killing=evidence_index@217 L[257, 260, 261, 262, 263, 264, 286, 287, 288, 289] fixtures_with_state_diff=1/9
+X13  killing=w-x13-staged-index         state_diff_on_killing=main@567 L[573, 574, 575, 577, 579, 581] fixtures_with_state_diff=9/9
+X14  killing=w-x14-erratum-upper        state_diff_on_killing=check@412 L[458, 462, 467, 468, 469, 473, 474, 475, 476, 477, 481, 482, 483, 484, 485, 488, 489, 494, 499, 500, 547, 558, 561, 563, 564] fixtures_with_state_diff=2/9
+X15  killing=w-x15-erratum-sibling      state_diff_on_killing=check@412 L[455, 456, 457, 458, 462, 469, 473, 474, 475, 476, 477, 481, 482, 483, 484, 485, 488, 489, 494, 499, 547, 558, 561, 563, 564] fixtures_with_state_diff=2/9
+XO1  killing=w-xo1-freeze-has-receipt   state_diff_on_killing=main@141 L[188, 193, 194, 195, 197, 200] fixtures_with_state_diff=1/5
+XO3  killing=w-xo3-receipt-first-removed state_diff_on_killing=main@141 L[193, 194, 195, 197, 200] fixtures_with_state_diff=1/5
+XO5  killing=w-xo5-post-receipt-blob    state_diff_on_killing=scan_claims@115 L[118, 119, 120, 121, 122, 124, 125, 126, 128, 129, 130, 131, 132, 133, 135, 136, 138] fixtures_with_state_diff=2/5
+XO6  killing=w-xo6-p10-pass-line        state_diff_on_killing=<module>@1 L[55, 60, 63, 67, 84, 95, 101, 115, 141, 213, 214] fixtures_with_state_diff=5/5
+XO7  killing=w-xo7-case-timeout         state_diff_on_killing=<module>@1 L[60, 63, 67, 84, 95, 101, 115, 141, 213, 214] fixtures_with_state_diff=5/5
+
+== F. value of the mutated expression ==
+XO6 ref GATE_P10 pattern: '^\\s*(?:gate:\\s*)?P10\\s+(DEFECT|ok)\\b[ \\t]*(.*)$'
+XO6 mut GATE_P10 pattern: '^\\s*(?:gate:\\s*)?P10\\s+(DEFECT|ok|PASS)\\b[ \\t]*(.*)$'
+XO7 ref CASE_LINE pattern: '^\\s*CASE\\s+\\S+.*\\bobserved=[^\\s]*'
+XO7 mut CASE_LINE pattern: '^\\s*CASE\\s+\\S+.*\\bobserved=(?:pass|fail)'
+XO6 GATE_P10.match('P10 PASS receipt unreadable') ref=None mut=<re.Match object; span=(0, 27), match='P10 PASS receipt unreadable'>
+XO7 CASE_LINE.match('CASE c1 observed=timeout') ref=<re.Match object; span=(0, 24), match='CASE c1 observed=timeout'> mut=None
+X13 ref rc=1 frame-state@L573 a=Namespace(lane='/fast/scratch/hyaku/kengaku-r42/R42CritAttribution/run3/fx/w_anchor/f006/repo', evidence_ref='head', v
+X13 X13 rc=0 frame-state@L573 a=Namespace(lane='/fast/scratch/hyaku/kengaku-r42/R42CritAttribution/run3/fx/w_anchor/f006/repo', evidence_ref='index', 
+XO6 ref rc=0 module-state GATE_P10=re.compile('^\\s*(?:gate:\\s*)?P10\\s+(DEFECT CASE_LINE=-
+XO6 XO6 rc=1 module-state GATE_P10=re.compile('^\\s*(?:gate:\\s*)?P10\\s+(DEFECT CASE_LINE=-
+XO7 ref rc=1 module-state GATE_P10=re.compile('^\\s*(?:gate:\\s*)?P10\\s+(DEFECT CASE_LINE=-
+XO7 XO7 rc=0 module-state GATE_P10=re.compile('^\\s*(?:gate:\\s*)?P10\\s+(DEFECT CASE_LINE=-
+
+== G. control reproduction ==
+my-run: killed=14 unattributed=0 PREDICATE=pass (see control-repro.txt)
+frozen control-c1-attribution.txt: killed=0 unattributed=14 PREDICATE=fail, every span=L1-L1

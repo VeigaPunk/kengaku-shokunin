@@ -1,0 +1,23 @@
+PINS total=2 mismatched=0
+FIXTURE w-x1-provrow-only tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE w-x3-provurl-fallback tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE w-x6-wrong-capture tool=anchor expect=reject declared=digest-wrong-capture observed_rc=1 observed=digest-wrong-capture ok
+FIXTURE w-x7-unknown tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE w-x9-short-row tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE w-x12-slashless-slug tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE w-x13-staged-index tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE w-x14-erratum-upper tool=anchor expect=reject declared=erratum-digest-unresolved observed_rc=1 observed=erratum-digest-unresolved ok
+FIXTURE w-x15-erratum-sibling tool=anchor expect=reject declared=digest-unknown,erratum-incomplete observed_rc=1 observed=digest-unknown,erratum-incomplete ok
+FIXTURE w-xo1-freeze-has-receipt tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE w-xo3-receipt-first-removed tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE w-xo5-post-receipt-blob tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE w-xo6-p10-pass-line tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE w-xo7-case-timeout tool=order expect=reject declared=- observed_rc=1 observed=- ok
+MUTANT X1 anchor rc-mirror killed by=w-x1-provrow-only attributed=L318 hits=1 -- plans/anchor_digest_check.py:50-52 'Provenance row — a committed markdown under corpus/evi
+BATTERY fixtures=14 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=1 killed=1 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=1/1 order=0/0
+ADVERTISED direct=1 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 fail
+rc=1

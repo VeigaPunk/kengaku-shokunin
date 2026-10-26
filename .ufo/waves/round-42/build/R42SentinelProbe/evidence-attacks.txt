@@ -1,0 +1,16 @@
+== A. data-path memory safety (gates.txt is untrusted data to sim.c)
+  baseline-example: rc=0 COMPILE rc=0  | RUN rc=0 out='0' err='' | HOSTNAME plazir27
+  oob-high-index: rc=0 COMPILE rc=0  | RUN rc=-11 out='' err='' | HOSTNAME plazir27
+  oob-negative-index: rc=0 COMPILE rc=0  | RUN rc=0 out='' err='' | HOSTNAME plazir27
+  oob-source-index: rc=0 COMPILE rc=0  | RUN rc=-11 out='' err='' | HOSTNAME plazir27
+  long-line-4000: rc=0 COMPILE rc=0  | RUN rc=0 out='' err='' | HOSTNAME plazir27
+== B. guest-planted symlink under the writable /app bind, then host rmtree
+  guest: PLANTED True True rc= 0
+  host before rmtree: victim/keep.txt exists = True
+  host after  rmtree: victim/keep.txt exists = True | victim dir exists = True | 'must survive\n'
+== C. process leak when the driver is killed at timeout (probe uses timeout=1800)
+  TimeoutExpired after 4s -> subprocess.run killed the bwrap pid only
+  host pgrep Zq42TimeoutProbe after kill: '' rc= 1
+== D. leftovers in the probe --work root after the real run
+  entries: []
+no leaked probe process

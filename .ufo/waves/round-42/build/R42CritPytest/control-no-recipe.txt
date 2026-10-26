@@ -1,0 +1,11 @@
+# control (R42CritPytest): PYDRIVER_SKIPRECIPE=1, cases=oracle-solve-sh
+# the case's recipe (bash /cap/solve.sh) is NOT executed, so /app keeps the seeded example circuit
+# receipt row is tests=PPP, so this run must show a MISMATCH if the comparison is real
+# ENVELOPE bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent
+# start 17:28:27
+# bin-listing before 436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18  -
+# real-runner parity: pytest 8.4.1 / CPython 3.13 on 1 frozen case end states
+CASE oracle-solve-sh pytest=PPF nodes=test_gates_file_exists:PASSED,test_gates_file_size:PASSED,test_sqrt_fib:FAILED rc=1 regrade=same probe_predicted=PPP
+cases=1
+# end 17:28:28
+# bin-listing after 436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18  -

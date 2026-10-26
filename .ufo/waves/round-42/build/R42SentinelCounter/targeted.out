@@ -1,0 +1,17 @@
+gpg+log.showSignature log --format=%H [A-nopinned]   rc=0      exec=YES GPG --keyid-format=long --status-fd=1 --
+gpg+log.showSignature log --format=%H [B-runner]     rc=0      exec=YES GPG --keyid-format=long --status-fd=1 --
+gpg+log.showSignature log -p [B-runner]              rc=0      exec=YES GPG --keyid-format=long --status-fd=1 --
+gpg+log.showSignature rev-list [B-runner]            rc=0      exec=no
+gpg+log.showSignature cat-file --batch [B]           rc=0      exec=no
+include.path->gpg log --format=%H [B-runner]         rc=0      exec=YES GPG --keyid-format=long --status-fd=1 --
+core.fsmonitor ls-files --cached [A-nopinned]        rc=0      exec=YES FSMON 2 1793047021741961139
+core.fsmonitor ls-files --modified [A-nopinned]      rc=0      exec=YES FSMON 2 1793047021744748470
+core.fsmonitor status [A-nopinned]                   rc=0      exec=YES FSMON 2 1793047021747561840
+core.fsmonitor ls-files --cached [B-runner]          rc=0      exec=no
+core.fsmonitor ls-files --modified [B-runner]        rc=0      exec=no
+core.fsmonitor status [B-runner]                     rc=0      exec=no
+hooksPath ls-files --modified (index refresh) [A-nopinned] rc=0      exec=no
+hooksPath ls-files --modified (index refresh) [B-runner] rc=0      exec=no
+hooksPath ls-files --cached [B-runner]               rc=0      exec=no
+core.worktree=/etc rev-parse --show-toplevel [B]     rc=0      exec=no
+   toplevel -> /etc | stderr: 

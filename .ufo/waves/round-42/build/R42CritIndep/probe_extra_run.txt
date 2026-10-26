@@ -1,0 +1,35 @@
+ENVELOPE bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent /usr/bin/python3 /fast/scratch/hyaku/kengaku-r42/R42CritIndep/probe_copy.py --lane /home/vgpnk/Projects/shokunin/kengaku-shokunin --work /fast/scratch/hyaku/kengaku-r42/R42CritIndep/probework
+T0 17:41:24
+PATHBIN0 436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18  -
+# tb2 circuit-fibsqrt grader probe (kengaku round 42) @ terminal-bench-2 2fd12b88
+# capture gates.txt sha256=032786f94f16605767c62bb61ce4dbba7ab7d3f1046712c975f01c9a04b6ad29
+# capture instruction.md sha256=a7f500266a878d04ac9de39fba76220cfad216d8f6b8063bba93bebb3d4ab9ea
+# capture sim.c sha256=700645ac6156cdc88ec1e210f7c7d8d9969bb42aec969c410597e8efca796173
+# capture solve.sh sha256=a4ffab4183815a0eb7646abc1de1fc67695014c060d7ff16e8bca9ec94385d0b
+# capture test_outputs.py sha256=6117b8edb7d567b30e32b16a9244bec4c131ec01e9065d52f6f53f87e36f0438
+CASE nop predicted=fail observed=fail tests=PPF predicted_tests=PPF match=yes regrade=same violates=output-function,example-208,example-20000 -- the shipped example circuit (prints N/2) left in place
+CASE oracle-solve-sh predicted=pass observed=pass tests=PPP predicted_tests=PPP match=yes regrade=same violates= -- the task's solve.sh generates the reference circuit
+CASE no-gates-file predicted=fail observed=fail tests=FFF predicted_tests=FFF match=yes regrade=same violates=gates-file,output-function,example-208,example-20000 -- /app/gates.txt removed
+CASE empty-gates-file predicted=fail observed=fail tests=PPF predicted_tests=PPF match=yes regrade=same violates=output-function,example-208,example-20000 -- an empty /app/gates.txt (sim prints nothing)
+CASE lookup-28 predicted=pass observed=pass tests=PPP predicted_tests=PPP match=yes regrade=same violates=output-function,example-208,example-20000 -- a lookup circuit for exactly the 28 graded inputs (0 elsewhere)
+CASE lookup-27-drop-48401 predicted=fail observed=fail tests=PPF predicted_tests=PPF match=yes regrade=same violates=output-function,example-208,example-20000 -- the lookup circuit without the largest graded input 48401
+CASE lookup-28-plus-examples predicted=pass observed=pass tests=PPP predicted_tests=PPP match=yes regrade=same violates=output-function -- the lookup circuit plus the instruction's two examples 208 and 20000
+CASE lookup-28-bitflip-41 predicted=fail observed=fail tests=PPF predicted_tests=PPF match=yes regrade=same violates=output-function,example-208,example-20000 -- the lookup circuit with bit 0 of the answer for N=41 flipped
+CASE lookup-28-padded-31999 predicted=pass observed=pass tests=PPP predicted_tests=PPP match=yes regrade=same violates=output-function,example-208,example-20000 -- the lookup circuit padded with blank lines to 31999 lines
+CASE lookup-28-padded-32000 predicted=fail observed=fail tests=PFP predicted_tests=PFP match=yes regrade=same violates=line-limit,output-function,example-208,example-20000 -- the lookup circuit padded with blank lines to 32000 lines (sim ignores blanks; the size test counts them)
+CASE lookup-28-comment-lines predicted=pass observed=pass tests=PPP predicted_tests=PPP match=yes regrade=same violates=line-form,output-function,example-208,example-20000 -- every gate line of the lookup circuit preceded by a `# note` line
+CASE lookup-28-reversed-lines predicted=pass observed=pass tests=PPP predicted_tests=PPP match=yes regrade=same violates=last-32-lines,output-function,example-208,example-20000 -- the lookup circuit's lines in reverse order: the file's last 32 lines are the input copies
+CASE lookup-28-crlf predicted=pass observed=pass tests=PPP predicted_tests=PPP match=yes regrade=same violates=output-function,example-208,example-20000 -- the lookup circuit with CRLF line ends
+CASE lookup-28-trailing-space predicted=fail observed=fail tests=PPF predicted_tests=PPF match=yes regrade=same violates=output-function,example-208,example-20000 -- every line of the lookup circuit ends in one space (copy lines no longer scan as copies)
+CASE fake-sim-script predicted=fail observed=fail tests=PPF predicted_tests=PPF match=yes regrade=same violates=output-function,example-208,example-20000 -- the shipped example circuit plus an executable /app/sim script printing the right answers
+CASE gates-is-directory predicted=fail observed=fail tests=PFF predicted_tests=PFF match=yes regrade=same violates=gates-file,output-function,example-208,example-20000 test_gates_file_size:error=IsADirectoryError -- /app/gates.txt is a directory
+CASE dup-gate-definition predicted=fail observed=fail tests=PPF predicted_tests=PPF match=yes regrade=same violates=output-function,example-208,example-20000 -- L28 plus a second definition of index 0 (`out0 = out31`): the later line wins, so input bit 0 carries bit 31 and every odd graded input is missed
+CASE long-line-window predicted=fail observed=fail tests=PPF predicted_tests=PPF match=yes regrade=same violates=output-function,example-208,example-20000 -- L28 plus one >255-byte line starting `out31999 = 0`: fgets cuts it at 255 bytes, the gate is dropped, num_signals still becomes 32000 and the printed 32 signals are all zero
+CASE out32000-line predicted=fail observed=fail tests=PPF predicted_tests=PPF match=yes regrade=same violates=output-function,example-208,example-20000 -- L28 plus `out32000 = 0`: the index equals MAX_SIGNALS, the write is out of bounds, and the printed window shifts to zero signals (bit 31 is an out-of-bounds read)
+CASE wrong-above-48401 predicted=pass observed=pass tests=PPP predicted_tests=PPP match=yes regrade=same violates= -- my own general circuit: the solve.sh reference design plus a guard that zeroes the output for every N > 48401 -- right on all 28 graded inputs and on the instruction's examples, wrong for 2^32-48401 others
+CASE oracle-crlf predicted=fail observed=fail tests=PPF predicted_tests=PPF match=yes regrade=same violates=output-function,example-208,example-20000 -- CONTROL (not part of the three): the same reference circuit with CRLF line ends; CRLF turns its 2048 `= 1` lines into CONST_0, so the entry may not generalise `CRLF passes`
+regrade cases=21 differ=0
+cases=21 observed_pass=8 observed_fail=13 mismatches=0
+rc=0
+T1 17:44:30
+PATHBIN1 436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18  -

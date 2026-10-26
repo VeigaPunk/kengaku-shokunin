@@ -1,0 +1,17 @@
+## exp.py (LF/CRLF/trailing/reversed on the built circuits; C parser isolation)
+A lf      {1: '0'}
+A trail   {1: '0'}
+B last-line-space {48401: '1214447859', 41: '8'}
+B baseline        {48401: '3361931507', 41: '8'}
+C first32-space   {41: '0', 48401: '0'}
+D mid-and-space   {41: '8', 48401: '3361931507'}
+## exp2.py (undeclared-signal default, binary-op parse, comment skip)
+A2 bin trailing  {1: '4294967295'}
+A3 bin clean     {1: '4294967295'}
+A5 undeclared    {1: '0'}
+A6 declared      {1: '2147483648'}
+A7 comment       {1: '0'}
+## exp3.py (fake /app/sim correctness, empty gates.txt)
+fake-sim 208/20000/41 => {208: '377', 20000: '1407432322', 41: '8'}
+expected => {208: 377, 20000: 1407432322, 41: 8}
+empty gates => '' rc 0 stderr ''

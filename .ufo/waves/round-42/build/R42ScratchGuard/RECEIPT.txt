@@ -1,0 +1,119 @@
+R42ScratchGuard receipt — 2026-10-26
+tool: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-42/build/R42ScratchGuard/scratch_guard.py
+sha256 f0360e3028c79ce32fcabf7f89f0103b88205200bce802a8b2520e1f9364aa5d bytes 25643
+scratch: /fast/scratch/hyaku/kengaku-r42/R42ScratchGuard (TMPDIR)
+mutant driver (scratch only): /fast/scratch/hyaku/kengaku-r42/R42ScratchGuard/mutate_selftest.py
+
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent
+
+## A. --selftest  (before 17:32:11 localbin=436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18)
+
+case check-green                        PASS exit=0 expected=0 seats5+round42+symlink-seat=True
+case check-round-mismatch               PASS exit=1 expected=1 reason=round-mismatch
+case check-sentinel-missing             PASS exit=1 expected=1 reason=sentinel-missing
+case check-sentinel-unparseable         PASS exit=1 expected=1 reason=sentinel-no-round
+case check-non-directory                PASS exit=2 expected=2 setup=True
+case check-wrote-nothing                PASS probe-absent=True
+case check-json                         PASS exit=0 expected=0 parses=True
+case allow-delete-file                  PASS exit=0 expected=0 deleted=True
+case allow-delete-dir                   PASS exit=0 expected=0 deleted=True sibling-kept=True
+case allow-absent                       PASS exit=0 expected=0 reason=absent no-create=True
+case allow-dry-run-keeps                PASS exit=0 expected=0 kept=True reason=would-delete
+case refuse-root                        PASS exit=2 expected=2 reason=target-outside-seat want=target-outside-seat kept=True writable=True naive_twin=True
+case refuse-root-dot                    PASS exit=2 expected=2 reason=target-dotdot want=target-dotdot kept=True writable=True naive_twin=True
+case refuse-sentinel                    PASS exit=2 expected=2 reason=target-outside-seat want=target-outside-seat kept=True writable=True naive_twin=True
+case refuse-other-seat                  PASS exit=2 expected=2 reason=target-outside-seat want=target-outside-seat kept=True writable=True naive_twin=True
+case refuse-dotdot-relative             PASS exit=2 expected=2 reason=target-dotdot want=target-dotdot kept=True writable=True naive_twin=True
+case refuse-dotdot-absolute             PASS exit=2 expected=2 reason=target-dotdot want=target-dotdot kept=True writable=True naive_twin=True
+case refuse-symlink-file-escape         PASS exit=2 expected=2 reason=target-resolves-outside-seat want=target-resolves-outside-seat kept=True writable=True naive_twin=True
+case refuse-symlink-dir-escape          PASS exit=2 expected=2 reason=target-resolves-outside-seat want=target-resolves-outside-seat kept=True writable=True naive_twin=True
+case refuse-symlink-dir-rmtree          PASS exit=2 expected=2 reason=target-resolves-outside-seat want=target-resolves-outside-seat kept=True writable=True naive_twin=True
+case refuse-symlink-to-sentinel         PASS exit=2 expected=2 reason=target-is-sentinel want=target-is-sentinel kept=True writable=True naive_twin=True
+case refuse-symlink-to-root             PASS exit=2 expected=2 reason=target-is-root want=target-is-root kept=True writable=True naive_twin=True
+case refuse-seat-traversal              PASS exit=2 expected=2 reason=seat-invalid want=seat-invalid kept=True writable=True naive_twin=True
+case refuse-seat-dot                    PASS exit=2 expected=2 reason=seat-invalid want=seat-invalid kept=True writable=True naive_twin=True
+case refuse-seat-empty                  PASS exit=2 expected=2 reason=seat-invalid want=seat-invalid kept=True writable=True naive_twin=True
+case refuse-seat-symlink-root           PASS exit=2 expected=2 reason=seat-is-symlink want=seat-is-symlink kept=True writable=True naive_twin=True
+case refuse-seat-symlink-other          PASS exit=2 expected=2 reason=seat-is-symlink want=seat-is-symlink kept=True writable=True naive_twin=True
+case refuse-empty-target                PASS exit=2 expected=2 reason=empty-target want=empty-target kept=True writable=True naive_twin=True
+case refuse-nul-target                  PASS exit=2 expected=2 reason=target-nul want=target-nul kept=True writable=True naive_twin=True
+case refuse-fs-root                     PASS exit=2 expected=2 reason=target-outside-seat want=target-outside-seat kept=True writable=False naive_twin=True
+case refuse-bare-root                   PASS exit=2 expected=2 reason=root-untrusted want=root-untrusted kept=True writable=True naive_twin=True
+case allow-unlink-inside-symlink        PASS exit=0 expected=0 link-gone=True target-kept=True
+case allow-delete-own-seat              PASS exit=0 expected=0 seat-gone=True siblings-kept=True
+case check-after-seat-gone              PASS exit=0 expected=0 seats4=True
+case refuse-missing-seat                PASS exit=2 expected=2 reason=seat-missing
+case allow-after-refusals               PASS exit=0 expected=0 deleted=True
+SELFTEST ok=36/36
+
+after 17:32:11 localbin=436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18 (unchanged)
+selftest_exit=0
+
+## B. mutants (each: one named guard removed from a scratch copy, same --selftest re-run)
+
+control (unmutated)            exit=0 SELFTEST ok=36/36
+mutant dotdot-removed         exit=1 SELFTEST failed=refuse-root-dot,refuse-dotdot-relative,refuse-dotdot-absolute
+mutant realpath-off           exit=1 SELFTEST failed=refuse-symlink-file-escape,refuse-symlink-dir-escape,refuse-symlink-dir-rmtree,refuse-symlink-to-sentinel,refuse-symlink-to-root,refuse-seat-traversal
+mutant seat-symlink-ok        exit=1 SELFTEST failed=refuse-seat-symlink-root,refuse-seat-symlink-other,allow-unlink-inside-symlink
+mutant sentinel-branch-off    exit=1 SELFTEST failed=refuse-symlink-to-sentinel
+mutant root-branch-off        exit=1 SELFTEST failed=refuse-symlink-to-root
+mutant sentinel-optional      exit=1 SELFTEST failed=refuse-bare-root
+mutant containment-off        exit=1 SELFTEST failed=refuse-symlink-file-escape,refuse-symlink-dir-escape,refuse-symlink-dir-rmtree,refuse-seat-traversal
+MUTANTS total=7 killed=7 survived=0
+mutants_exit=0
+
+## C. live allow delete inside my own seat
+
+DELETE path=/fast/scratch/hyaku/kengaku-r42/R42ScratchGuard/realdel resolved=/fast/scratch/hyaku/kengaku-r42/R42ScratchGuard/realdel bytes=16 size=16B
+allow_exit=0 gone=yes
+
+## D. live refusals on the real root (absolute targets)
+
+REFUSE reason=target-outside-seat seat=R42ScratchGuard seat_dir=/fast/scratch/hyaku/kengaku-r42/R42ScratchGuard target=/fast/scratch/hyaku/kengaku-r42/R42ScoutPriorArt
+  exit=2
+REFUSE reason=target-outside-seat seat=R42ScratchGuard seat_dir=/fast/scratch/hyaku/kengaku-r42/R42ScratchGuard target=/fast/scratch/hyaku/kengaku-r42/.ROUND-ROOT-SENTINEL
+  exit=2
+REFUSE reason=target-outside-seat seat=R42ScratchGuard seat_dir=/fast/scratch/hyaku/kengaku-r42/R42ScratchGuard target=/fast/scratch/hyaku/kengaku-r42
+  exit=2
+SEATS_AFTER 18 sentinel_after=efc83fb9fc2eacbaca0225d3da8f72bd4865fcc93d70ff00377607dd944e66f2
+
+## E. check /fast/scratch/hyaku/kengaku-r42  (before 17:31:46 localbin=436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18)
+
+ROOT /fast/scratch/hyaku/kengaku-r42
+SENTINEL .ROUND-ROOT-SENTINEL round=42 bytes=71 text="kengaku r42 round root; L1 KengakuR42; seats delete only $S/<SeatName>"
+SEAT L1 bytes=1766576265 size=1.6GiB
+SEAT R42BatAncRoute bytes=525487716 size=501.1MiB
+SEAT R42ConnFrontier bytes=0 size=0B
+SEAT R42ConnPattern bytes=0 size=0B
+SEAT R42CritC1Counter bytes=525595163 size=501.2MiB
+SEAT R42CritClaims bytes=2101874810 size=2.0GiB
+SEAT R42CritEquiv bytes=1051552176 size=1002.8MiB
+SEAT R42CritIndep bytes=583595 size=569.9KiB
+SEAT R42ExecNoHarm bytes=1576392266 size=1.5GiB
+SEAT R42LessonDraft bytes=0 size=0B
+SEAT R42MutC2Counter bytes=525200982 size=500.9MiB
+SEAT R42MutProbe bytes=525664411 size=501.3MiB
+SEAT R42PkgEntry bytes=525636510 size=501.3MiB
+SEAT R42PlanNext bytes=525418386 size=501.1MiB
+SEAT R42QualityDraft bytes=114756 size=112.1KiB
+SEAT R42RevC2Counter bytes=525392577 size=501.1MiB
+SEAT R42ScratchGuard bytes=212264 size=207.3KiB
+SEAT R42SentinelCounter bytes=391165 size=382.0KiB
+ROOTFILES n=1 names=.ROUND-ROOT-SENTINEL
+TOTAL seats=18 bytes=10176093042 size=9.5GiB
+CHECK ok round=42 want=* seats=18
+check_exit=0
+after 17:31:47 localbin=436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18 (unchanged)
+sentinel sha256 before==after efc83fb9fc2eacbaca0225d3da8f72bd4865fcc93d70ff00377607dd944e66f2; ls -1 count before==after 18
+
+## F. Q32 forward leg
+
+envelope line: as printed above (bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent)
+per-run `date +%T` before -> after, and `ls -A /home/vgpnk/.local/bin | sha256sum` before == after
+436b361f9d1edc4ea349d01c935a37f5850860841ef5969b7af419cd7d63fc18:
+  A selftest   17:32:11 -> 17:32:11
+  B mutants    17:32:45 -> 17:32:45  (exit 0)
+  C live allow 17:32:42 -> 17:32:42
+  D live refuse 17:32:42 -> 17:32:42
+  E check      17:31:46 -> 17:31:47  (exit 0)
+all five runs both directions unchanged; final listing hash 436b361f9d1edc4e…

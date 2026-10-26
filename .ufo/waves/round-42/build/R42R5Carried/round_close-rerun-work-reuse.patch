@@ -1,0 +1,26 @@
+diff --git i/plans/round_close.py w/plans/round_close.py
+index c81d378..7540d83 100755
+--- i/plans/round_close.py
++++ w/plans/round_close.py
+@@ -68,6 +68,7 @@ import hashlib
+ import os
+ import re
+ import shlex
++import shutil
+ import subprocess
+ import sys
+ import tempfile
+@@ -236,6 +237,13 @@ FIXTURE_RECEIPT = "CASE c01 observed=PASS predicted=PASS\n"
+ def build_fixture(root: Path, lane: Path, control: str | None, shape: str) -> None:
+     """A minimal lane-shaped repo whose only difference between cases is commit order."""
+ 
++    # A reused --work still holds the last run's fixture: clear it first, or `cp -a` nests the
++    # copied trees and `git commit` finds nothing to commit (exit 1, raised by check=True).
++    if root.is_symlink() or root.is_file():
++        root.unlink()
++    elif root.is_dir():
++        shutil.rmtree(root)
++
+     def commit(msg: str) -> None:
+         for args in (["add", "-A"], ["commit", "-q", "-m", msg]):
+             subprocess.run(["git", "-C", str(root), "-c", "user.name=fixture",
