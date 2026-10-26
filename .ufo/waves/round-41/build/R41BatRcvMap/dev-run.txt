@@ -1,0 +1,21 @@
+PINS total=2 mismatched=0
+FIXTURE r_map-t09-shared-stem-separators tool=receipts expect=accept declared=skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command observed_rc=0 observed=skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command ok
+FIXTURE r_map-t09-shared-stem-case-fold tool=receipts expect=accept declared=skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command observed_rc=0 observed=skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command ok
+FIXTURE r_map-t10-derived-mapping tool=receipts expect=accept declared=map:corpus/evidence/r/foo-probe.txt:derived observed_rc=0 observed=map:corpus/evidence/r/foo-probe.txt:derived ok
+FIXTURE r_map-t10-derived-with-table-sibling tool=receipts expect=accept declared=map:corpus/evidence/r/foo-probe.txt:derived,map:corpus/evidence/round36/regex-log-probe.txt:table observed_rc=0 observed=map:corpus/evidence/r/foo-probe.txt:derived,map:corpus/evidence/round36/regex-log-probe.txt:table ok
+FIXTURE r_map-t10-derived-deep-layout tool=receipts expect=accept declared=map:corpus/evidence/round41/scheduling/foo-probe.txt:derived observed_rc=0 observed=map:corpus/evidence/round41/scheduling/foo-probe.txt:derived ok
+FIXTURE r_map-t11-table-overrides-derived tool=receipts expect=accept declared=map:corpus/evidence/round35/tb2-grader-probe.txt:table,map:corpus/evidence/round38/build-pmars-probe.txt:table observed_rc=0 observed=map:corpus/evidence/round35/tb2-grader-probe.txt:table,map:corpus/evidence/round38/build-pmars-probe.txt:table ok
+FIXTURE r_map-t11-table-near-stem-decoy tool=receipts expect=accept declared=map:corpus/evidence/round35/tb2-grader-probe.txt:table observed_rc=0 observed=map:corpus/evidence/round35/tb2-grader-probe.txt:table ok
+FIXTURE r_map-t12-log-population tool=receipts expect=accept declared=skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command observed_rc=0 observed=skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command ok
+FIXTURE r_map-t12-log-with-table-sibling tool=receipts expect=accept declared=map:corpus/evidence/round36/regex-log-probe.txt:table,skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command observed_rc=0 observed=map:corpus/evidence/round36/regex-log-probe.txt:table,skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command ok
+FIXTURE r_map-t12-log-derived tool=receipts expect=accept declared=map:corpus/evidence/r/foo-probe.log:derived observed_rc=0 observed=map:corpus/evidence/r/foo-probe.log:derived ok
+MUTANT T09 receipts silence killed by=r_map-t09-shared-stem-separators -- plans/tip_receipts.py:13-14 'if its own basename resolves to exactly one committed `plans/
+MUTANT T10 receipts silence killed by=r_map-t10-derived-mapping -- plans/tip_receipts.py:15-16 'with non-alphanumerics dropped and case folded, the receipt s
+MUTANT T11 receipts silence killed by=r_map-t11-table-overrides-derived -- plans/tip_receipts.py:13-14 'A file enters the byte-comparison if the RECEIPTS table maps 
+MUTANT T12 receipts silence killed by=r_map-t12-log-population -- plans/tip_receipts.py:12 'Population, stated mechanically: committed files `corpus/evidenc
+BATTERY fixtures=10 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=4 killed=4 survived=0 invalid=0 null_detected=0
+MUTANTS-BY-TOOL receipts=4/4 sources=0/0
+ADVERTISED direct=4 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)

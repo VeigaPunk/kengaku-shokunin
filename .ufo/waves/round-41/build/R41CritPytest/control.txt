@@ -1,0 +1,19 @@
+# control: tzid-form app dir with meeting_scheduled.ics replaced by probe GOOD_ICS (receipt for tzid-form is FFF)
+# command: bwrap(in envelope) nested bwrap ... uvx -p 3.13 -w pytest==8.4.1 -w pytest-json-ctrf==0.3.5 pytest --ctrf /logs/verifier/ctrf.json /tests/test_outputs.py -rA
+============================= test session starts ==============================
+platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0
+rootdir: /
+plugins: json-ctrf-0.3.5
+collected 3 items
+
+../tests/test_outputs.py ...                                             [100%]
+
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED ../tests/test_outputs.py::test_structure_event_title_attendees_duration_window
+PASSED ../tests/test_outputs.py::test_constraints_conflicts_business_hours
+PASSED ../tests/test_outputs.py::test_earliest_tiebreakers_and_carol_buffer
+============================== 3 passed in 0.35s ===============================
+CTRF [('test_structure_event_title_attendees_duration_window', 'passed'), ('test_constraints_conflicts_business_hours', 'passed'), ('test_earliest_tiebreakers_and_carol_buffer', 'passed')]
+uv 0.13.0 (x86_64-unknown-linux-gnu)
+Python 3.14.8 (main, Oct  2 2026, 10:23:31) [GCC 16.2.1 20260810]

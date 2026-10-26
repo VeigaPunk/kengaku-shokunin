@@ -1,0 +1,37 @@
+TAG window instruction.md:1
+TAG output-file instruction.md:10
+TAG meeting-title instruction.md:10
+TAG attendees instruction.md:10
+TAG one-hour instruction.md:10
+TAG hard-constraints instruction.md:12
+TAG no-conflict instruction.md:12
+TAG inputs-readonly instruction.md:15
+TAG version-prodid instruction.md:23
+TAG utc-format instruction.md:25
+TAG earliest instruction.md:27
+CASE nop predicted=fail tests=FFF violates=output-file -- no output file: all three tests read it (pilot)
+CASE oracle-solve-sh predicted=pass tests=PPP violates= -- the task's own solution/solve.sh (pilot `oracle-solve.sh`)
+CASE literal-correct-slot predicted=pass tests=PPP violates= -- hand-typed ICS for Wed 11:00, never reads the calendars (pilot)
+CASE later-valid-wed-1105 predicted=fail tests=PPF violates=earliest,no-conflict -- Wed 11:05-12:05, predicted valid but late; pilot observed C,E (runs into lunch and Bob/Carol 12:00)
+CASE later-valid-thu-1100 predicted=fail tests=PPF violates=earliest -- Thu 11:00, valid but a day late (pilot)
+CASE conflict-mon-1230 predicted=fail tests=PFF violates=no-conflict,earliest -- Mon 12:30, overlaps Alice's 13:00 event (pilot)
+CASE bob-start-0900-wed predicted=fail tests=PFP violates=hard-constraints,earliest -- Wed 09:00, before Bob's 10:00; the earliest test passes because no valid slot precedes it (pilot)
+CASE decoy-first-vevent predicted=pass tests=PPP violates=hard-constraints,earliest -- first VEVENT a decoy at Wed 11:00, the attendee meeting at Fri 15:00 (pilot; TB2.1 PR #245)
+CASE duration-90min predicted=fail tests=FPP violates=one-hour -- Wed 11:00-12:30; DTEND is read only by the structure test (pilot)
+CASE missing-carol predicted=fail tests=FPP violates=attendees -- Wed 11:00 without Carol's ATTENDEE (pilot)
+CASE title-wrong predicted=fail tests=FPP violates=meeting-title -- Wed 11:00 titled 'Team Meeting' (pilot)
+CASE seconds-30 predicted=fail tests=PPF violates=hard-constraints,no-conflict,earliest -- Wed 11:00:30; predicted earliest-only, pilot observed C,E (end 12:00:30 runs into lunch)
+CASE tzid-form predicted=fail tests=FFF violates=utc-format -- DTSTART;TZID=UTC without Z: every timestamp regex misses (pilot)
+CASE weekend-sat-20 predicted=fail tests=FFF violates=window,hard-constraints,earliest -- Sat 2024-01-20 11:00 (pilot)
+CASE input-appended predicted=fail tests=FPP violates=inputs-readonly -- one newline appended to alice_calendar.ics, slot right (pilot)
+CASE input-event-deleted-wed-1000 predicted=fail tests=FPP violates=inputs-readonly,no-conflict,earliest -- Alice's Wed 10:00 event deleted, meeting booked Wed 10:00 (pilot)
+CASE wed-1059-overlaps-alice predicted=fail tests=PFP violates=no-conflict,earliest -- Wed 10:59, one minute before the earliest valid slot, overlaps Alice's 10:00-11:00 event
+CASE crlf-line-endings predicted=pass tests=PPP violates= -- the right slot written with CRLF line ends (RFC 5545's own line break)
+CASE folded-attendee-line predicted=fail tests=FPP violates= -- the right slot with Carol's ATTENDEE line folded (RFC 5545 3.1)
+CASE dtstart-value-datetime predicted=fail tests=FFF violates= -- DTSTART;VALUE=DATE-TIME:...Z, an explicit RFC 5545 value parameter
+CASE no-prodid-header predicted=fail tests=FPP violates=version-prodid -- the right slot, PRODID header left out
+CASE decoy-second-vevent predicted=fail tests=PFF violates=hard-constraints,earliest -- attendee meeting first at Fri 15:00, a decoy second at Wed 11:00 (the pilot decoy's mirror)
+CASE extra-attendee-dave predicted=pass tests=PPP violates= -- the right slot with a fourth attendee
+CASE lowercase-property-names predicted=fail tests=FPP violates= -- the right slot with lowercase SUMMARY/ATTENDEE names (RFC 5545 2.1)
+CASE input-crlf-rewrite predicted=pass tests=PPP violates=inputs-readonly -- all three input calendars rewritten with CRLF line ends, the right slot booked
+cases=25 predicted_pass=6 predicted_fail=19

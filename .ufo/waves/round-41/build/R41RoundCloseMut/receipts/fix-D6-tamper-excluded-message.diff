@@ -1,0 +1,16 @@
+--- plans/tip_receipts.py
++++ plans/tip_receipts.py (D6-tamper-excluded-message)
+@@ -332,9 +332,12 @@
+         # Control: one byte flipped in the receipt must be reported differ.
+         tamper = [t for spec in args.tamper for t in spec.split(",") if t]
+         if tamper:
+-            unknown = [t for t in tamper if t not in results]
++            unknown = [t for t in tamper if t not in plan]
+             if unknown:
+                 die(f"--tamper {','.join(unknown)} is not a mapped receipt")
++            excluded = [t for t in tamper if t not in results]
++            if excluded:
++                die(f"--tamper {','.join(excluded)} is mapped but excluded by --only")
+             controls = tamper
+         else:
+             equal = [r for r in mapped if results[r].get("verdict") == "equal"]

@@ -1,0 +1,40 @@
+# base tool sha256=e4f49714299ca1f2a93303c59ac07e691cc45d6126ccf24e5eecab93733f88f3
+fix-d1 rc=0
+  tip fc79f2a49be0221e138b3885fa0d83bc43b31a42
+  receipt corpus/evidence/round36/regex-log-probe-first-run.txt skip reason=declared-nonreproducible-absolute-scratch-paths (equal after masking) doc=SKILL.md:576+corpus/README.md:470
+  control none no byte-equal mapped receipt to tamper
+  note compared=0 declared_bounded=1 no_command=0
+  receipts=1 byte_equal=0 differ=0 skipped=1
+fix-d2 rc=0
+  tip e137425a9a2f90138953d6328894b62f0e861595
+  receipt corpus/evidence/r41/alpha-probe.txt skip reason=no-committed-re-run-command
+  receipt corpus/evidence/r41/gamma-probe-first-run.txt skip reason=no-committed-re-run-command
+  receipt corpus/evidence/r41/probe-r19-legacy.log skip reason=no-committed-re-run-command
+  receipt corpus/evidence/r41/gamma-probe.txt equal bytes=20 exit=0 doc=command=plans/gamma_probe.py:4,receipt=undocumented
+  receipt corpus/evidence/r41/zeta-probe.txt skip reason=no-committed-re-run-command:no-command doc=undocumented
+  control receipt=corpus/evidence/r41/gamma-probe.txt flip=byte 10 0x67->0x66 verdict=differ
+  note compared=1 declared_bounded=1 no_command=4
+  receipts=5 byte_equal=1 differ=0 skipped=4
+fix-d3-f2 rc=0
+  tip 54dd50174f79ef8ef485e1e4430f3d6b6fffbde4
+  receipt corpus/evidence/r41/epsilon-probe.txt equal bytes=21 exit=0 doc=command=plans/epsilon_probe.py:4,receipt=undocumented
+  control receipt=corpus/evidence/r41/epsilon-probe.txt flip=byte 10 0x6c->0x6d verdict=differ
+  note compared=1 declared_bounded=0 no_command=0
+  receipts=1 byte_equal=1 differ=0 skipped=0
+fix-d3-f4-limit rc=1
+  tip c9438a64ac929ff1f850789576b7b59d05dd115a
+  receipt corpus/evidence/r41/theta-probe.txt differ first_diff=byte 29 (line 1) exit=0 doc=command=plans/theta_probe.py:4,receipt=undocumented
+  note compared=1 declared_bounded=0 no_command=0
+  receipts=1 byte_equal=0 differ=1 skipped=0
+fix-d4 rc=0
+  tip 67b97ba887b11a31767ca3cbb213ac5b277f407b
+  receipt corpus/evidence/r41/delta-probe.txt equal bytes=0 exit=0 doc=command=plans/delta_probe.py:4,receipt=undocumented
+  control receipt=corpus/evidence/r41/delta-probe.txt verdict=unavailable-empty-receipt
+  note compared=1 declared_bounded=0 no_command=0
+  receipts=1 byte_equal=1 differ=0 skipped=0
+fix-d6 rc=2
+  SETUP: --tamper corpus/evidence/round40/db-wal-probe.txt is mapped but excluded by --only
+fix-d5 rc=0
+  tip b8f16d2b0279f672e3c85d1a73202362cb8c9a34
+  receipt corpus/evidence/r41/gamma-probe.txt kind=byte script=plans/gamma_probe.py origin=derived provenance=command=SKILL.md:3,receipt=undocumented
+COMBINED --list lane-identical=True

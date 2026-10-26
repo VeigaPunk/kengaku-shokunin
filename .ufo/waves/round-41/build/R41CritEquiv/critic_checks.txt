@@ -1,0 +1,25 @@
+toplevel= /fast/scratch/hyaku/kengaku-r41/R41CritEquiv/chk_cw/elsewhere
+[T07 core.worktree lane]
+  ref rc=2 traceback=False out_last='SETUP: --lane /fast/scratch/hyaku/kengaku-r41/R41CritEquiv/chk_cw/lane is not a git work-tree root (rev-parse ' err_last=''
+  mut rc=0 traceback=False out_last='receipts=1 byte_equal=1 differ=0 skipped=0' err_last=''
+[subdir clone] rc=128 err_last="fatal: repository '/fast/scratch/hyaku/kengaku-r41/R41CritEquiv/chk_sub/repo/sub' does not exist"
+[unmutated clone failure] rc=1 traceback=True stdout='' err_last="subprocess.CalledProcessError: Command '['git', 'clone', '-q', '--shared', '/fast/scratch/hyaku/kengaku-r41/R4" err_has_SETUP=False
+  cleanup line 357 ignores errors: True
+[S02 registry only]
+  ref rc=2 traceback=False out_last='' err_last='sources_adopt.py: error: --registry and --package are required unless --selftest'
+  mut rc=1 traceback=True out_last='' err_last="AttributeError: 'NoneType' object has no attribute 'read_text'"
+[S02 package only]
+  ref rc=2 traceback=False out_last='' err_last='sources_adopt.py: error: --registry and --package are required unless --selftest'
+  mut rc=1 traceback=True out_last='' err_last="AttributeError: 'NoneType' object has no attribute 'read_text'"
+[S08 artifact only]
+  ref rc=2 traceback=False out_last='' err_last='sources_adopt.py: error: --quote-file and --artifact must be given together'
+  mut rc=1 traceback=True out_last='' err_last="AttributeError: 'NoneType' object has no attribute 'read_text'"
+[T05 known+unknown tamper]
+  ref rc=2 traceback=False out_last='SETUP: --tamper corpus/evidence/nope.txt is not a mapped receipt' err_last=''
+  mut rc=1 traceback=True out_last='' err_last="KeyError: 'corpus/evidence/nope.txt'"
+[T06 differ fixture (probe exit 3)]
+  ref rc=1 traceback=False out_last='receipts=1 byte_equal=0 differ=1 skipped=0' err_last=''
+  mut rc=0 traceback=False out_last='receipts=1 byte_equal=0 differ=1 skipped=0' err_last=''
+[T06 control-unavailable fixture]
+  ref rc=1 traceback=False out_last='receipts=1 byte_equal=1 differ=0 skipped=0' err_last=''
+  mut rc=0 traceback=False out_last='receipts=1 byte_equal=1 differ=0 skipped=0' err_last=''

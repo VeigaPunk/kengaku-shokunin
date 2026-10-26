@@ -1,0 +1,11 @@
+--- plans/tip_receipts.py
++++ plans/tip_receipts.py (D1-control-none-marker)
+@@ -369,6 +369,8 @@
+             print(f"receipt {rel} differ {res['why']} exit={res['run']['exit']} doc={res['prov']}")
+     for line in control_lines:
+         print(line)
++    if not control_lines:
++        print("control none no byte-equal mapped receipt to tamper")
+ 
+     n = len(mapped) + len(unmapped)
+     strict = [r for r in mapped if results[r]["kind"] == "byte"]

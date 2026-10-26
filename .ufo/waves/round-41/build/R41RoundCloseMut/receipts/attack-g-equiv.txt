@@ -1,0 +1,33 @@
+# attack-G equivalence at tip (round 41, --census /nonexistent/census.sh)
+shipped: rc=2 stderr_first=['ROUND-CLOSE ERROR no census script (scripts/sources-census.sh); pass --census PATH']
+M13-census-path-unchecked: rc=2 stderr_first=['ROUND-CLOSE ERROR no census script (scripts/sources-census.sh); pass --census PATH']
+M14-census-guard-off: rc=2 stderr_first=['ROUND-CLOSE ERROR no census script (scripts/sources-census.sh); pass --census PATH']
+EQUIV shipped==M13 byte-identical=True
+EQUIV shipped==M14 byte-identical=True
+
+## shipped
+rc=2
+--stdout--
+ROUND-CLOSE RESULT ERROR
+--stderr--
+ROUND-CLOSE ERROR no census script (scripts/sources-census.sh); pass --census PATH
+
+
+=== next variant ===
+
+## M13-census-path-unchecked
+rc=2
+--stdout--
+ROUND-CLOSE RESULT ERROR
+--stderr--
+ROUND-CLOSE ERROR no census script (scripts/sources-census.sh); pass --census PATH
+
+
+=== next variant ===
+
+## M14-census-guard-off
+rc=2
+--stdout--
+ROUND-CLOSE RESULT ERROR
+--stderr--
+ROUND-CLOSE ERROR no census script (scripts/sources-census.sh); pass --census PATH

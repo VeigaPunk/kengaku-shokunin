@@ -1,0 +1,97 @@
+--- plans/round_close.py
++++ plans/round_close.py (selftest v2 draft)
+@@ -34,10 +34,12 @@
+ `note=skipped-unreadable-receipt` and dropped; if no candidate survives, the round has no receipt
+ to gate and the run is a setup error (2), never a silent pass.
+ 
+-Self-test (`--selftest`, needs `--lane` for the tool and registry bytes): five two-commit fixture
++Self-test (`--selftest`, needs `--lane` for the tool and registry bytes): ten two-commit fixture
+ repos in a temp dir, each differing only in where the receipt and one `P10` line sit — excused
+ `P10` detail -> 0, executed `P10` detail -> 1, receipt committed first -> 1, receipt on disk but
+-never committed -> 2, claims naming no receipt -> 2.
++never committed -> 2, claims naming no receipt -> 2; plus a rule-(a)-only receipt -> 0, a round
++whose claims file is absent -> 2, a census that fails -> 1, a phantom receipt dropped -> 0, and
++one receipt reached by all three rules exactly once -> 0.
+ 
+ Read-only: the only git commands are the ones `plans/order_check.py` itself issues, plus one
+ `rev-parse` and `cat-file -e` here; the census script reads `corpus/SOURCES.md` and prints TSV.
+@@ -221,14 +223,24 @@
+ # --- self-test: five two-commit fixtures, each differing only in where the receipt and one P10
+ # line sit. `expect` is the composite exit code the frozen order rule implies.
+ SELFTEST = (
+-    # id, control-file body, shape, expect
+-    ("A-excused-p10", "gate: P10 DEFECT receipt unreadable", "receipt-last", 0),
+-    ("B-executed-p10", "gate: P10 DEFECT fresh probe output is not byte-equal to the receipt", "receipt-last", 1),
+-    ("C-receipt-first", "gate: P10 DEFECT receipt unreadable", "receipt-first", 1),
+-    ("D-receipt-uncommitted", "gate: P10 DEFECT receipt unreadable", "receipt-uncommitted", 2),
+-    ("E-no-receipt-named", None, "no-probe", 2),
++    # id, control-file body, shape, expect, round_no, census override, expected order lines
++    ("A-excused-p10", "gate: P10 DEFECT receipt unreadable", "receipt-last", 0, 39, None, None),
++    ("B-executed-p10", "gate: P10 DEFECT fresh probe output is not byte-equal to the receipt", "receipt-last", 1, 39, None, None),
++    ("C-receipt-first", "gate: P10 DEFECT receipt unreadable", "receipt-first", 1, 39, None, None),
++    ("D-receipt-uncommitted", "gate: P10 DEFECT receipt unreadable", "receipt-uncommitted", 2, 39, None, None),
++    ("E-no-receipt-named", None, "no-probe", 2, 39, None, None),
++    ("F-rule-a-only", "gate: P10 DEFECT receipt unreadable", "receipt-last-explicit", 0, 39, None, None),
++    ("G-no-claims-round99", None, "receipt-last", 2, 99, None, None),
++    ("H-census-fails", "gate: P10 DEFECT receipt unreadable", "receipt-last", 1, 39, "stub-fail", None),
++    ("I-phantom-receipt", "gate: P10 DEFECT receipt unreadable", "receipt-plus-phantom", 0, 39, None, None),
++    ("J-dedup-three-rules", "gate: P10 DEFECT receipt unreadable", "receipt-last-three-rules", 0, 39, None, 1),
+ )
+ FIXTURE_CLAIMS = "# Round 39 — selftest claims\n\n**Probe (frozen):** `plans/git_leak_probe.py`.\n"
++FIXTURE_CLAIMS_EXPLICIT = "# Round 39 — selftest claims\n\nReceipt: `corpus/evidence/round39/audit-notes.txt`.\n"
++FIXTURE_CLAIMS_PHANTOM = ("# Round 39 — selftest claims\n\n**Probe (frozen):** `plans/git_leak_probe.py`.\n\n"
++                          "Receipt: `corpus/evidence/round39/ghost.txt`.\n")
++FIXTURE_CLAIMS_THREE = ("# Round 39 — selftest claims\n\n**Probe (frozen):** `plans/git_leak_probe.py`.\n\n"
++                        "Receipt: `corpus/evidence/round39/git-leak-probe.txt`.\n")
+ FIXTURE_CLAIMS_BARE = "# Round 39 — selftest claims\n\nNo probe and no receipt is named here.\n"
+ FIXTURE_RECEIPT = "CASE c01 observed=PASS predicted=PASS\n"
+ 
+@@ -242,7 +254,12 @@
+                             "-c", "user.email=fixture@localhost", *args], check=True, capture_output=True)
+ 
+     def write_claims() -> None:
+-        claims = FIXTURE_CLAIMS_BARE if shape == "no-probe" else FIXTURE_CLAIMS
++        claims = {
++            "no-probe": FIXTURE_CLAIMS_BARE,
++            "receipt-last-explicit": FIXTURE_CLAIMS_EXPLICIT,
++            "receipt-plus-phantom": FIXTURE_CLAIMS_PHANTOM,
++            "receipt-last-three-rules": FIXTURE_CLAIMS_THREE,
++        }.get(shape, FIXTURE_CLAIMS)
+         (root / "plans/round-39-claims.md").write_text(claims, encoding="utf-8")
+         if control is not None:
+             (root / ".ufo/waves/round-39/claims/control-c2-nothing.txt").write_text(control + "\n", encoding="utf-8")
+@@ -256,7 +273,8 @@
+         if src.is_dir():
+             subprocess.run(["cp", "-a", str(src), str(root / extra)], check=True)
+ 
+-    receipt = root / "corpus/evidence/round39/git-leak-probe.txt"
++    receipt = root / ("corpus/evidence/round39/audit-notes.txt" if shape == "receipt-last-explicit"
++                      else "corpus/evidence/round39/git-leak-probe.txt")
+     subprocess.run(["git", "init", "-q", str(root)], check=True, capture_output=True)
+     if shape == "receipt-first":  # the receipt lands before the claims: inverted pre-registration
+         receipt.write_text(FIXTURE_RECEIPT, encoding="utf-8")
+@@ -279,13 +297,22 @@
+     base = work or Path(tempfile.mkdtemp(prefix="round-close-selftest-"))
+     base.mkdir(parents=True, exist_ok=True)
+     failed = 0
+-    for cid, control, shape, expect in SELFTEST:
++    for cid, control, shape, expect, round_no, census_override, expect_orders in SELFTEST:
+         root = base / cid
+         build_fixture(root, lane, control, shape)
++        use_census = census
++        if census_override == "stub-fail":
++            stub = base / "census-fail.sh"
++            stub.write_text("#!/bin/sh\nexit 1\n")
++            stub.chmod(0o755)
++            use_census = stub
+         buf = StringIO()
+         with redirect_stdout(buf), redirect_stderr(buf):
+-            got = gate(root.resolve(), 39, census, out=buf)
++            got = gate(root.resolve(), round_no, use_census, out=buf)
+         ok = got == expect
++        if ok and expect_orders is not None:
++            ok = sum(1 for line in buf.getvalue().splitlines()
++                     if line.startswith("ROUND-CLOSE order receipt=")) == expect_orders
+         failed += 0 if ok else 1
+         print(f"SELFTEST case={cid} shape={shape} expect={expect} got={got} verdict={'ok' if ok else 'FAIL'}")
+         if not ok:

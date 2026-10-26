@@ -1,0 +1,65 @@
+[M03] detector=ctrl  vs runs/base-ctrl.out
+  line 1: pristine | V1 ok listed=10 bad=0 extra=0
+           mutant | V1 DEFECT listed=10 bad=['alice_calendar.ics'] extra=0
+[M04] detector=ctrl  vs runs/base-ctrl.out
+  line 13: pristine | V2 DEFECT spec=frozen gate=frozen gate_exit=1
+           mutant | V2 ok spec=frozen gate=frozen gate_exit=1
+[M05] detector=ctrl  vs runs/base-ctrl.out
+  line 2: pristine |     gate: P1 ok pinned=2 mismatched=0
+           mutant | V2 DEFECT error ValueError: spec template not at its freeze digest
+[M10] detector=ctrl  vs runs/base-ctrl.out
+  line 16: pristine | V5 ok probe=frozen dry_byte_equal=True
+           mutant | V5 DEFECT probe or dry table not at freeze digest
+[M11] detector=ctrl  vs runs/base-ctrl.out
+  line 16: pristine | V5 ok probe=frozen dry_byte_equal=True
+           mutant | V5 DEFECT probe or dry table not at freeze digest
+[M22] detector=ctrl  vs runs/base-ctrl.out
+  line 19: pristine | V8 DEFECT order_exit=2 result=not-PASS
+           mutant | V8 ok order_exit=2 result=not-PASS
+[M23] detector=ctrl  vs runs/base-ctrl.out
+  IDENTICAL
+[M14] detector=green vs runs/base-green.out
+  line 18: pristine | V7 ok rows=11 tags=11 bad=0
+           mutant | V7 DEFECT rows=11 tags=11 bad=['window: labelled enforced, receipt derives unenforced', 'output-file: labelled
+[M16] detector=green vs runs/base-green.out
+  line 18: pristine | V7 ok rows=11 tags=11 bad=0
+           mutant | V7 DEFECT rows=11 tags=11 bad=['window: labelled enforced, receipt derives partly', 'output-file: labelled enf
+[M01] detector=poison:capbyte vs runs/pris-capbyte.out
+  line 1: pristine | V1 DEFECT listed=10 bad=['README.md'] extra=0
+           mutant | V1 ok listed=10 bad=0 extra=0
+[M02] detector=poison:capextra vs runs/pris-capextra.out
+  line 1: pristine | V1 DEFECT listed=11 bad=0 extra=['extra.txt']
+           mutant | V1 ok listed=11 bad=0 extra=0
+[M06] detector=poison:anchor vs runs/pris-anchor.out
+  line 14: pristine | V3 DEFECT rows=2 bad=['S122:anchor_digest']
+           mutant | V3 ok rows=2 bad=0
+[M07] detector=poison:mcount vs runs/pris-mcount.out
+  line 15: pristine | V4 DEFECT cases=25 mismatches_named=2/2 bad=['summary disagrees with the CASE lines']
+           mutant | V4 ok cases=25 mismatches_named=2/2 bad=0
+[M08] detector=poison:name vs runs/pris-name.out
+  line 15: pristine | V4 DEFECT cases=25 mismatches_named=1/2 bad=["mismatch cases not named in the entry: ['seconds-30']"]
+           mutant | V4 ok cases=25 mismatches_named=2/2 bad=0
+[M09] detector=poison:order vs runs/pris-order.out
+  line 15: pristine | V4 DEFECT cases=25 mismatches_named=2/2 bad=['case ids differ from the frozen table']
+           mutant | V4 ok cases=25 mismatches_named=2/2 bad=0
+[M13] detector=poison:census vs runs/pris-census.out
+  line 17: pristine | V6 DEFECT census_exit=1
+           mutant | V6 ok census_exit=1
+[M15] detector=poison:label vs runs/pris-label.out
+  line 18: pristine | V7 DEFECT rows=11 tags=11 bad=['window: labelled partly, receipt derives enforced']
+           mutant | V7 ok rows=11 tags=11 bad=0
+[M17] detector=poison:cite vs runs/pris-cite.out
+  line 18: pristine | V7 DEFECT rows=11 tags=11 bad=['window: cites no case or a case that does not violate it']
+           mutant | V7 ok rows=11 tags=11 bad=0
+[M18] detector=poison:line vs runs/pris-line.out
+  line 18: pristine | V7 DEFECT rows=11 tags=11 bad=['window: line 2 is not the frozen instruction.md:1']
+           mutant | V7 ok rows=11 tags=11 bad=0
+[M19] detector=poison:miss vs runs/pris-miss.out
+  line 18: pristine | V7 DEFECT rows=10 tags=11 bad=["tags missing=['window'] duplicated=0"]
+           mutant | V7 ok rows=10 tags=11 bad=0
+[M20] detector=poison:orderstr vs runs/pris-orderstr.out
+  line 19: pristine | V8 DEFECT order_exit=0 result=not-PASS
+           mutant | V8 ok order_exit=0 result=PASS
+[M21] detector=poison:orderrc vs runs/pris-orderrc.out
+  line 19: pristine | V8 DEFECT order_exit=1 result=not-PASS
+           mutant | V8 ok order_exit=1 result=PASS

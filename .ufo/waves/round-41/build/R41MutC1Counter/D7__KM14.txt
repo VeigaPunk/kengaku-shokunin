@@ -1,0 +1,41 @@
+PINS total=2 mismatched=0
+FIXTURE d7-random-probe-00 tool=receipts expect=reject declared=- observed_rc=0 observed=control:differ,equal:corpus/evidence/r/foo-probe.txt WRONG
+FIXTURE d7-random-probe-01 tool=receipts expect=reject declared=- observed_rc=0 observed=control:differ,equal:corpus/evidence/r/foo-probe.txt WRONG
+FIXTURE d7-random-probe-02 tool=receipts expect=reject declared=- observed_rc=1 observed=differ:corpus/evidence/r/foo-probe.txt WRONG
+FIXTURE d7-random-probe-03 tool=receipts expect=reject declared=- observed_rc=1 observed=differ:corpus/evidence/r/foo-probe.txt WRONG
+FIXTURE d7-random-probe-04 tool=receipts expect=reject declared=- observed_rc=1 observed=differ:corpus/evidence/r/foo-probe.txt WRONG
+FIXTURE d7-random-probe-05 tool=receipts expect=reject declared=- observed_rc=1 observed=differ:corpus/evidence/r/foo-probe.txt WRONG
+FIXTURE d7-random-probe-06 tool=receipts expect=reject declared=- observed_rc=1 observed=differ:corpus/evidence/r/foo-probe.txt WRONG
+FIXTURE d7-random-probe-07 tool=receipts expect=reject declared=- observed_rc=0 observed=control:differ,equal:corpus/evidence/r/foo-probe.txt WRONG
+FIXTURE d7-random-probe-08 tool=receipts expect=reject declared=- observed_rc=1 observed=differ:corpus/evidence/r/foo-probe.txt WRONG
+FIXTURE d7-random-probe-09 tool=receipts expect=reject declared=- observed_rc=1 observed=differ:corpus/evidence/r/foo-probe.txt WRONG
+MUTANT T01 receipts error SURVIVED exhibits=0>1,1>0,rc-silence -- plans/tip_receipts.py:30-32 '2 usage/setup (lane not a git work-tree root, no `corpus/evid
+MUTANT T02 receipts error SURVIVED exhibits=0>1,1>0,rc-silence -- plans/tip_receipts.py:30-31 '2 usage/setup (..., no `corpus/evidence/`, ...)'
+MUTANT T03 receipts rc-silence killed by=d7-random-probe-03 -- plans/tip_receipts.py:30 '1 a `differ`, a failed control, or a probe that did not complete
+MUTANT T04 receipts rc-mirror SURVIVED exhibits=1>0,rc-silence -- plans/tip_receipts.py:21-23 'absolute mkdtemp paths are masked on both sides, so equality 
+MUTANT T05 receipts error SURVIVED exhibits=0>1,1>0,rc-silence -- plans/tip_receipts.py:31-32 '2 usage/setup (..., unknown `--tamper` id)'
+MUTANT T06 receipts rc-silence killed by=d7-random-probe-02 -- plans/tip_receipts.py:29-30 '0 every mapped receipt reproduces ... and the control reports
+MUTANT T07 receipts error SURVIVED exhibits=0>1,1>0,rc-silence -- plans/tip_receipts.py:30-31 '2 usage/setup (lane not a git work-tree root, ...)'
+MUTANT T08 receipts rc-mirror SURVIVED exhibits=1>0,rc-silence -- plans/tip_receipts.py:19-21 'A mapped receipt whose script is gone, whose dependency is ab
+MUTANT T09 receipts silence SURVIVED exhibits=0>1,1>0,rc-silence -- plans/tip_receipts.py:13-14 'if its own basename resolves to exactly one committed `plans/
+MUTANT T10 receipts silence SURVIVED exhibits=1>0,rc-silence -- plans/tip_receipts.py:15-16 'with non-alphanumerics dropped and case folded, the receipt s
+MUTANT T11 receipts silence SURVIVED exhibits=1>0,rc-silence -- plans/tip_receipts.py:13-14 'A file enters the byte-comparison if the RECEIPTS table maps 
+MUTANT T12 receipts silence SURVIVED exhibits=0>1,1>0,rc-silence -- plans/tip_receipts.py:12 'Population, stated mechanically: committed files `corpus/evidenc
+MUTANT T13 receipts rc-mirror SURVIVED exhibits=0>1 -- plans/tip_receipts.py:26-27 'the comparator must answer `differ`. ... A control that answe
+MUTANT S01 sources 2>0 SURVIVED exhibits=none -- SKILL.md:573 '`2` usage error'; plans/sources_adopt.py:1020-1021 '# Exclusive: before this
+MUTANT S02 sources 2>1 SURVIVED exhibits=none -- SKILL.md:573 '`2` usage error'; plans/sources_adopt.py:1042 '--registry and --package are 
+MUTANT S03 sources 2>5 SURVIVED exhibits=none -- SKILL.md:573 '`2` usage error'; plans/sources_adopt.py:1053 '--access-date must be an ISO 
+MUTANT S04 sources 2>0 SURVIVED exhibits=none -- SKILL.md:573 '`2` usage error'; plans/sources_adopt.py:1035-1036 '`--url-map` alone reache
+MUTANT S05 sources 2>0 SURVIVED exhibits=none -- SKILL.md:573 '`2` usage error'; plans/sources_adopt.py:1051 '--entries is required when --
+MUTANT S06 sources 2>0 SURVIVED exhibits=none -- SKILL.md:573 '`2` usage error'; plans/sources_adopt.py:1059 '--recheck must be an ISO date
+MUTANT S07 sources 3>0 SURVIVED exhibits=none -- SKILL.md:573 '`3` staged/registry id collision'
+MUTANT S08 sources 2>1 SURVIVED exhibits=none -- SKILL.md:573 '`2` usage error'; plans/sources_adopt.py:1019 '--quote-file and --artifact m
+MUTANT S09 sources 2>9 SURVIVED exhibits=none -- SKILL.md:573 '`2` usage error or unreadable quote artifact'; plans/sources_adopt.py:1028 '
+MUTANT S11 sources 5>0 SURVIVED exhibits=none -- SKILL.md:573 '`5` requested id absent' (main() also refuses a requested row that is not `m
+BATTERY fixtures=10 wrong=10 tampered=0 sidechannel=0
+MUTANTS total=23 killed=2 survived=21 invalid=0 null_detected=0
+MUTANTS-BY-TOOL receipts=2/13 sources=0/10
+ADVERTISED direct=21 indirect=2 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 fail
+exit=1

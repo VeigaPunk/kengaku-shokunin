@@ -1,0 +1,26 @@
+--- plans/tip_receipts.py
++++ plans/tip_receipts.py (D3-prefer-lane-line)
+@@ -141,6 +141,7 @@
+     if not path.is_file():
+         return [], "script-absent"
+     base = path.name
++    first = None
+     for line in path.read_text(errors="replace").splitlines():
+         s = line.strip()
+         if s.startswith(("python3 ", "uv run ")) and base in s:
+@@ -149,9 +150,12 @@
+                 argv = shlex.split(re.split(r"\s{2,}", s)[0])
+             except ValueError:
+                 break
+-            if "--lane" not in argv:
+-                argv += ["--lane", "."]
+-            return argv, "docstring"
++            if "--lane" in argv:
++                return argv, "docstring"
++            if first is None:
++                first = argv
++    if first is not None:
++        return first + ["--lane", "."], "docstring"
+     if script in FALLBACK:
+         return list(FALLBACK[script]), "fallback"
+     return [], "no-command"

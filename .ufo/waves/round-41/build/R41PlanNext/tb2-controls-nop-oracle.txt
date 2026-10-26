@@ -1,0 +1,35 @@
+openssl-selfsigned-cert nop grader rc=0 t=0.0s
+T test_certificate_file FAIL AssertionError: Certificate file does not exist
+T test_combined_pem_file FAIL AssertionError: Combined PEM file does not exist
+T test_directory_structure FAIL AssertionError: Directory /app/ssl does not exist
+T test_key_file FAIL AssertionError: Private key file does not exist
+T test_python_verification_script FAIL AssertionError: Python verification script does not exist
+T test_verification_file FAIL AssertionError: Verification file does not exist
+SUMMARY pass=0 fail=6
+oracle-solve rc=0 t=0.1s
+openssl-selfsigned-cert oracle grader rc=0 t=0.1s
+T test_certificate_file PASS
+T test_combined_pem_file PASS
+T test_directory_structure PASS
+T test_key_file PASS
+T test_python_verification_script FAIL AssertionError: Verification script does not display Common Name
+T test_verification_file PASS
+SUMMARY pass=5 fail=1
+circuit-fibsqrt nop grader rc=0 t=0.2s
+T test_gates_file_exists PASS
+T test_gates_file_size PASS
+T test_sqrt_fib FAIL AssertionError: 
+SUMMARY pass=2 fail=1
+oracle-solve rc=0 t=0.1s
+circuit-fibsqrt oracle grader rc=0 t=27.8s
+T test_gates_file_exists PASS
+T test_gates_file_size PASS
+T test_sqrt_fib PASS
+SUMMARY pass=3 fail=0
+schemelike-metacircular-eval nop grader rc=0 t=2.6s
+T test_interp FAIL AssertionError: 
+SUMMARY pass=0 fail=1
+oracle-solve rc=0 t=0.0s
+schemelike-metacircular-eval oracle grader rc=0 t=47.2s
+T test_interp PASS
+SUMMARY pass=1 fail=0

@@ -1,0 +1,14 @@
+V5 ok probe=frozen dry_byte_equal=True
+V4 ok cases=25 mismatches_named=2/2 bad=0
+    gate: P1 ok pinned=2 mismatched=0
+    gate: P2 ok receipt_sha256=pinned
+    gate: P3 DEFECT no '## Located quotes' section
+    gate: P4 DEFECT no parsed quote
+    gate: P5 DEFECT manifest_entries=10 bad=1 first=test_outputs.py: manifest digest does not match the bytes
+    gate: P6 DEFECT rows=2 bad=2 first=S122: rows=0
+    gate: P7 DEFECT source_lines=0 bad=5 first=S122: source line absent
+    gate: P8 DEFECT index_rows=47 knowledge_files=48 bad=3 first=index rows for knowledge/tb2-constraints-scheduling-grader.md=0
+    gate: P9 ok untracked=0 first=0
+    gate: P10 DEFECT fresh probe exit=2 stderr='SETUP capture test_outputs.py missing or not at its pinned digest'
+    gate: defects=7
+V2 DEFECT spec=frozen gate=frozen gate_exit=1

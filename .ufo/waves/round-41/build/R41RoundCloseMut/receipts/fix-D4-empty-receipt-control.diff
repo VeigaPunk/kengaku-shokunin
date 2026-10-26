@@ -1,0 +1,16 @@
+--- plans/tip_receipts.py
++++ plans/tip_receipts.py (D4-empty-receipt-control)
+@@ -343,9 +343,12 @@
+         control_ok = True
+         for rel in controls:
+             res = results[rel]
+-            if "fresh" not in res or not res["blob"]:
++            if "fresh" not in res:
+                 control_lines.append(f"control receipt={rel} verdict=unavailable")
+                 control_ok = False
++                continue
++            if not res["blob"]:
++                control_lines.append(f"control receipt={rel} verdict=unavailable-empty-receipt")
+                 continue
+             bad, off, ob, nb = tamper_one_byte(res["blob"])
+             same = mask(res["fresh"]) == mask(bad) if res["kind"] == "temp-paths" else res["fresh"] == bad

@@ -1,0 +1,22 @@
+DRAFT-SELFTEST shipped-bytes exit=0 last=SELFTEST checks=10 ok=10 failed=0
+  SELFTEST case=A-excused-p10 shape=receipt-last expect=0 got=0 verdict=ok
+  SELFTEST case=B-executed-p10 shape=receipt-last expect=1 got=1 verdict=ok
+  SELFTEST case=C-receipt-first shape=receipt-first expect=1 got=1 verdict=ok
+  SELFTEST case=D-receipt-uncommitted shape=receipt-uncommitted expect=2 got=2 verdict=ok
+  SELFTEST case=E-no-receipt-named shape=no-probe expect=2 got=2 verdict=ok
+  SELFTEST case=F-rule-a-only shape=receipt-last-explicit expect=0 got=0 verdict=ok
+  SELFTEST case=G-no-claims-round99 shape=receipt-last expect=2 got=2 verdict=ok
+  SELFTEST case=H-census-fails shape=receipt-last expect=1 got=1 verdict=ok
+  SELFTEST case=I-phantom-receipt shape=receipt-plus-phantom expect=0 got=0 verdict=ok
+  SELFTEST case=J-dedup-three-rules shape=receipt-last-three-rules expect=0 got=0 verdict=ok
+  SELFTEST checks=10 ok=10 failed=0
+DRAFT-ROUND41 exit=0
+DRAFT-M01-rule-a-dead selftest=1 ['SELFTEST case=F-rule-a-only shape=receipt-last-explicit expect=0 got=2 verdict=FAIL'] VERDICT=KILLED
+DRAFT-M08-no-claims-pass selftest=1 ['SELFTEST case=G-no-claims-round99 shape=receipt-last expect=2 got=0 verdict=FAIL'] VERDICT=KILLED
+DRAFT-M09-census-ignored selftest=1 ['SELFTEST case=H-census-fails shape=receipt-last expect=1 got=0 verdict=FAIL'] VERDICT=KILLED
+DRAFT-M10-unreadable-kept selftest=1 ['SELFTEST case=I-phantom-receipt shape=receipt-plus-phantom expect=0 got=2 verdict=FAIL'] VERDICT=KILLED
+DRAFT-M11-dedup-off selftest=1 ['SELFTEST case=J-dedup-three-rules shape=receipt-last-three-rules expect=0 got=0 verdict=FAIL'] VERDICT=KILLED
+DRAFT-M12-selftest-exit-0 selftest=0 [] VERDICT=SURVIVED
+DRAFT-M13-census-path-unchecked selftest=0 [] VERDICT=SURVIVED
+DRAFT-M14-census-guard-off selftest=0 [] VERDICT=SURVIVED
+DRAFT-SUMMARY selftest-killed=5 still=M12-selftest-exit-0,M13-census-path-unchecked,M14-census-guard-off

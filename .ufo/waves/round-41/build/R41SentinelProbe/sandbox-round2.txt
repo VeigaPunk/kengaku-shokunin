@@ -1,0 +1,42 @@
+RC 0
+ID uid=1000(vgpnk) gid=1000(vgpnk) groups=1000(vgpnk),65534(nobody)
+CAPS ['CapEff:\t0000000000000000', 'NoNewPrivs:\t1', 'Seccomp:\t0']
+PID1 /usr/bin/bwrap --unshare-net --unshare-pid --unshare-ipc --die-with-parent --new-session -
+NPROC 2
+HOSTNAME plazir27
+MACHINEID 432d02b544a5459ebbff9c42ec68334d
+SHADOW PermissionError13
+USERS root:x:0:0::/root:/usr/bin/bash
+bin:x:1:
+VISIBLE /home False
+VISIBLE /root False
+VISIBLE /run False
+VISIBLE /var False
+VISIBLE /fast False
+VISIBLE /sys False
+VISIBLE /proc/1/root True
+WRITE /usr/x OSError 30
+WRITE /etc/x OSError 30
+WRITE /cap/x OK
+WRITE /tmp/x OK
+WRITE /app/x OK
+WRITE /dev/shm/x OK
+WRITE /x OK
+WRITE /dev/x OK
+SUDO (1, 'sudo: /etc/sudo.conf is owned by uid 65534, should be 0 | sudo: The "no new privileges" flag is set, which prevents sudo from running as root. | sudo: If sudo is running in a container, you may need to adjust the container configuration to disable the flag.')
+SUID_MODES -rwsr-xr-x 1 65534 65534  80792 Jul 30 07:04 /usr/bin/passwd | -rwsr-xr-x 1 65534 65534 261304 Jun 16 06:31 /usr/bin/sudo
+NESTED_USERNS (0, '')
+NESTED_USERNS_MOUNT (0, '')
+NET OSError [Errno 101] Network is unreachable
+NET_LO ConnectionRefusedError [Errno 111] Connection refused
+DNS (1, 'Traceback (most recent call last): |   File "<string>", line 1, in <module> |     import socket;print(socket.gethostbyname("example.com")) |                         ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^ | socket.gaierror: [Errno -3] Temporary failure in name resolution')
+DEVTTY_OPEN (1, 'Traceback (most recent call last): |   File "<string>", line 1, in <module> |     import os;os.close(os.open("/dev/tty",os.O_RDWR));print("OK") |                        ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^ | OSError: [Errno 6] No such device or address: \'/dev/tty\'')
+MOUNT tmpfs / tmpfs rw,nosuid,nodev,relatime,uid=1000,gid=1000,inode64,huge=advise
+MOUNT /dev/mapper/root /usr btrfs ro,nosuid,nodev,noatime,compress=zstd:3,ssd,discard=async,space_cache=v2,subvolid=256,subvol=/@
+MOUNT /dev/mapper/root /etc btrfs ro,nosuid,nodev,noatime,compress=zstd:3,ssd,discard=async,space_cache=v2,subvolid=256,subvol=/@
+MOUNT proc /proc proc rw,nosuid,nodev,noexec,relatime
+MOUNT tmpfs /dev tmpfs rw,nosuid,nodev,relatime,mode=755,uid=1000,gid=1000,inode64,huge=advise
+MOUNT devpts /dev/pts devpts rw,nosuid,noexec,relatime,mode=620,ptmxmode=666
+MOUNT tmpfs /tmp tmpfs rw,nosuid,nodev,relatime,mode=755,uid=1000,gid=1000,inode64,huge=advise
+MOUNT /dev/nvme1n1p2 /app xfs rw,nosuid,nodev,noatime,inode64,logbufs=8,logbsize=256k,noquota
+STDERR 

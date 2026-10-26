@@ -1,0 +1,73 @@
+# tool sha256=e4f49714299ca1f2a93303c59ac07e691cc45d6126ccf24e5eecab93733f88f3 (frozen bytes) lane_tip=fc79f2a49be0221e138b3885fa0d83bc43b31a42
+d1-only-first-run rc=0
+  tip fc79f2a49be0221e138b3885fa0d83bc43b31a42
+  receipt corpus/evidence/round36/regex-log-probe-first-run.txt skip reason=declared-nonreproducible-absolute-scratch-paths (equal after masking) doc=SKILL.md:576+corpus/README.md:470
+  note compared=0 declared_bounded=1 no_command=0
+  receipts=1 byte_equal=0 differ=0 skipped=1
+d1-only-legacy rc=0
+  tip fc79f2a49be0221e138b3885fa0d83bc43b31a42
+  receipt corpus/evidence/probe-r19-P1-key1-quota.log skip reason=no-committed-re-run-command
+  receipt corpus/evidence/probe-r19-P2-servicetier.log skip reason=no-committed-re-run-command
+  receipt corpus/evidence/probe-r19-P3.log skip reason=no-committed-re-run-command
+  receipt corpus/evidence/probe-r19-P4-devinleg.log skip reason=no-committed-re-run-command
+  receipt corpus/evidence/probe-r19-P4-glm.log skip reason=no-committed-re-run-command
+  receipt corpus/evidence/probe-r19-P5-glm.log skip reason=no-committed-re-run-command
+  receipt corpus/evidence/probe-r19-P6-zai.log skip reason=no-committed-re-run-command
+  receipt corpus/evidence/probe-r19-P8-kimi-code-auth.log skip reason=no-committed-re-run-command
+  receipt corpus/evidence/probe-r19-P9-absent-port.log skip reason=no-committed-re-run-command
+  receipt corpus/evidence/probe-r19-devin-shim-seat.log skip reason=no-committed-re-run-command
+  receipt corpus/evidence/probe-r19-hyper-predictions.log skip reason=no-committed-re-run-command
+  receipt corpus/evidence/probe-r19-hyper.log skip reason=no-committed-re-run-command
+  receipt corpus/evidence/probe-r19-opencode-health.log skip reason=no-committed-re-run-command
+  receipt corpus/evidence/probe-r19-p1-listing-mismatch.log skip reason=no-committed-re-run-command
+  receipt corpus/evidence/probe-r19-quota23.log skip reason=no-committed-re-run-command
+  receipt corpus/evidence/probe-r19-shim-ds-predictions.log skip reason=no-committed-re-run-command
+  receipt corpus/evidence/probe-r19-shim-ds-run.log skip reason=no-committed-re-run-command
+  receipt corpus/evidence/probe-r19-shim-glm-predictions.log skip reason=no-committed-re-run-command
+  receipt corpus/evidence/probe-r19-shim-glm-run.log skip reason=no-committed-re-run-command
+  note compared=0 declared_bounded=0 no_command=19
+  receipts=19 byte_equal=0 differ=0 skipped=19
+d6-only-tamper rc=2
+  SETUP: --tamper corpus/evidence/round40/db-wal-probe.txt is not a mapped receipt
+d2-f1-list rc=0
+  tip f1a900e9c24908613ca2eda4894d011544296463
+  receipt corpus/evidence/r41/gamma-probe.txt kind=byte script=plans/gamma_probe.py origin=derived provenance=command=plans/gamma_probe.py:4,receipt=undocumented
+  receipt corpus/evidence/r41/zeta-probe.txt kind=byte script=plans/zeta_probe.py origin=derived provenance=undocumented
+  receipt corpus/evidence/r41/alpha-probe.txt skip reason=no-committed-re-run-command
+  receipt corpus/evidence/r41/gamma-probe-first-run.txt skip reason=no-committed-re-run-command
+  receipt corpus/evidence/r41/probe-r19-legacy.log skip reason=no-committed-re-run-command
+d2-f1-run rc=0
+  tip f1a900e9c24908613ca2eda4894d011544296463
+  receipt corpus/evidence/r41/alpha-probe.txt skip reason=no-committed-re-run-command
+  receipt corpus/evidence/r41/gamma-probe-first-run.txt skip reason=no-committed-re-run-command
+  receipt corpus/evidence/r41/probe-r19-legacy.log skip reason=no-committed-re-run-command
+  receipt corpus/evidence/r41/gamma-probe.txt equal bytes=20 exit=0 doc=command=plans/gamma_probe.py:4,receipt=undocumented
+  receipt corpus/evidence/r41/zeta-probe.txt skip reason=no-committed-re-run-command:no-command doc=undocumented
+  control receipt=corpus/evidence/r41/gamma-probe.txt flip=byte 10 0x67->0x66 verdict=differ
+  note compared=2 declared_bounded=0 no_command=4
+  receipts=5 byte_equal=1 differ=0 skipped=4
+d3-f2-genuine-check rc=0 stdout_matches_receipt=True
+d3-f2-run rc=1
+  tip d8e2f347c4bcd1e58fef5f7a7f920a63fda885a6
+  receipt corpus/evidence/r41/epsilon-probe.txt differ first_diff=byte 8 (line 1) exit=0 doc=command=plans/epsilon_probe.py:4,receipt=undocumented
+  note compared=1 declared_bounded=0 no_command=0
+  receipts=1 byte_equal=0 differ=1 skipped=0
+d4-f3-run rc=1
+  tip 9878c64195e9a892e19c0aa88172b063e33504e6
+  receipt corpus/evidence/r41/delta-probe.txt equal bytes=0 exit=0 doc=command=plans/delta_probe.py:4,receipt=undocumented
+  control receipt=corpus/evidence/r41/delta-probe.txt verdict=unavailable
+  note compared=1 declared_bounded=0 no_command=0
+  receipts=1 byte_equal=1 differ=0 skipped=0
+d3b-f4-genuine-check rc=0 receipt='plans/theta_probe.py --lane .'
+d3b-f4-run rc=1
+  tip c1d71e00c00b7f221e5e10e9c7f6c2215c484feb
+  receipt corpus/evidence/r41/theta-probe.txt differ first_diff=byte 29 (line 1) exit=0 doc=command=plans/theta_probe.py:4,receipt=undocumented
+  note compared=1 declared_bounded=0 no_command=0
+  receipts=1 byte_equal=0 differ=1 skipped=0
+d5-f5 committed SKILL.md lines=3
+d5-f5-list rc=0
+  tip 4a023d3b2a01ba1d8b06955469977be11910137e
+  receipt corpus/evidence/r41/gamma-probe.txt kind=byte script=plans/gamma_probe.py origin=derived provenance=SKILL.md:3+SKILL.md:5
+d5-f5 worktree dirty='M SKILL.md'
+d2-live attrib_probe.py command_lines=0
+d2-live catalog_probe.py command_lines=0

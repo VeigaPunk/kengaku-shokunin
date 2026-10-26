@@ -1,0 +1,14 @@
+ROUND-CLOSE lane=/fast/scratch/hyaku/kengaku-r41/R41RegistryRows/lane round=41
+ROUND-CLOSE claims=plans/round-41-claims.md sha256=3b239b5059deda27f874c4b38ea25666ef0d09db57d540fcffaa5de65c85ccfd
+ROUND-CLOSE order-tool=plans/order_check.py sha256=948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc
+ROUND-CLOSE receipts=1
+ORDER claims=plans/round-41-claims.md round=41 freeze=8ef8b4fc7c6302c527db90244d69aa18f53e83bf
+ORDER receipt=corpus/evidence/round41/constraints-probe.txt receipt_commit=f774a87ad071122acd39ba02a9901b5b56d9910a claims_dir=.ufo/waves/round-41/claims/
+ORDER scanned commits=1 file_entries=16 distinct_blobs=16
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+ROUND-CLOSE order receipt=corpus/evidence/round41/constraints-probe.txt exit=0 verdict=PASS
+file	E11	fake e-code
+ROUND-CLOSE census tool=/fast/scratch/hyaku/kengaku-r41/R41RegistryRows/fake-census.sh sha256=8fc01d142654403cc3e493f07eb0d73ebdb863127d6f49fd9670714d4d6bde6d cmd=/fast/scratch/hyaku/kengaku-r41/R41RegistryRows/fake-census.sh validate --file /fast/scratch/hyaku/kengaku-r41/R41RegistryRows/lane/corpus/SOURCES.md
+ROUND-CLOSE census exit=1 warnings=0 verdict=FAIL
+ROUND-CLOSE RESULT FAIL exit=1

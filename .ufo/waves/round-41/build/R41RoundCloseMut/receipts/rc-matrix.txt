@@ -1,0 +1,24 @@
+# rc-matrix tip=fc79f2a49be0221e138b3885fa0d83bc43b31a42
+# tool sha256=112b52f0051357491b1654932948989d57b923c22bea817c15b710e5f9785c3b census=/home/vgpnk/Projects/shokunin/scripts/sources-census.sh
+BASE selftest_exit=0 last=SELFTEST checks=5 ok=5 failed=0
+BASE round99_exit=2 stderr_first=ROUND-CLOSE ERROR no claims file: plans/round-99-claims.md
+BASE rounds={38: 1, 40: 0, 41: 0}
+M01-rule-a-dead selftest=0 rounds={38: 1, 40: 0, 41: 0} r99=2 changed=[] VERDICT=SURVIVED
+M02-rule-b-any-txt selftest=0 rounds={38: 1, 40: 1, 41: 1} r99=2 changed=[40, 41] VERDICT=KILLED
+M03-rule-c-nohyphen selftest=1 rounds={38: 2, 40: 2, 41: 0} r99=2 changed=[38, 40] VERDICT=KILLED
+M04-rule-c-round40 selftest=1 rounds={38: 2, 40: 0, 41: 0} r99=2 changed=[38] VERDICT=KILLED
+M05-order-map-swap selftest=1 rounds={38: 0, 40: 1, 41: 1} r99=2 changed=[38, 40, 41] VERDICT=KILLED
+M06-order-unknown-pass selftest=1 rounds={38: 1, 40: 0, 41: 0} r99=2 changed=[] VERDICT=KILLED
+M07-zero-receipt-pass selftest=1 rounds={38: 1, 40: 0, 41: 0} r99=2 changed=[] VERDICT=KILLED
+M08-no-claims-pass selftest=0 rounds={38: 1, 40: 0, 41: 0} r99=0 changed=[] VERDICT=SURVIVED
+M09-census-ignored selftest=0 rounds={38: 1, 40: 0, 41: 0} r99=2 changed=[] VERDICT=SURVIVED
+M10-unreadable-kept selftest=0 rounds={38: 1, 40: 0, 41: 0} r99=2 changed=[] VERDICT=SURVIVED
+M11-dedup-off selftest=0 rounds={38: 1, 40: 0, 41: 0} r99=2 changed=[] VERDICT=SURVIVED
+M12-selftest-exit-0 selftest=0 rounds={38: 1, 40: 0, 41: 0} r99=2 changed=[] VERDICT=SURVIVED
+M13-census-path-unchecked selftest=0 rounds={38: 1, 40: 0, 41: 0} r99=2 changed=[] VERDICT=SURVIVED
+M14-census-guard-off selftest=0 rounds={38: 1, 40: 0, 41: 0} r99=2 changed=[] VERDICT=SURVIVED
+SUMMARY total=14 killed=6 survived=8 survivors=M01-rule-a-dead,M08-no-claims-pass,M09-census-ignored,M10-unreadable-kept,M11-dedup-off,M12-selftest-exit-0,M13-census-path-unchecked,M14-census-guard-off
+# hermeticity (shipped bytes): inject one mined row with a dangling used-by into the clone registry
+HERM selftest_exit=1 last=SELFTEST checks=5 ok=4 failed=1
+HERM round41_exit=1 census_line=ROUND-CLOSE census exit=1 warnings=15 verdict=FAIL
+HERM restore registry sha_ok=True clone_status=0 dirty lines

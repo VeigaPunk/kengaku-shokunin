@@ -1,0 +1,21 @@
+# extra end states graded through the frozen probe's run_case()
+EXTRA crlf-folded predicted=FPP observed=fail tests=FPP regrade=same -- RFC 5545-conformant output: CRLF ends + folded ATTENDEE (CRLF + space)
+EXTRA crlf-lowercase-summary predicted=FPP observed=fail tests=FPP regrade=same -- RFC 5545-conformant output: CRLF ends + lowercase property names
+EXTRA crlf-value-datetime predicted=FFF observed=fail tests=FFF regrade=same -- RFC 5545-conformant output: CRLF ends + DTSTART;VALUE=DATE-TIME
+EXTRA lowercase-attendee-only predicted=PPP observed=pass tests=PPP regrade=same -- uppercase SUMMARY, lowercase ATTENDEE property names only
+EXTRA no-dtend predicted=FPP observed=fail tests=FPP regrade=same -- DTSTART only, no DTEND
+EXTRA input-cr-only predicted=PPP observed=pass tests=PPP regrade=same -- inputs rewritten with lone-CR line ends, slot right
+# sandbox namespace as the probe's own argv builds it (rc=0)
+DIAG cwd=/app
+DIAG app=['alice_calendar.ics', 'bob_calendar.ics', 'carol_calendar.ics']
+DIAG inputs_exists=False
+DIAG tests_exists=False
+DIAG resolved=/cap/test_outputs.py
+DIAG inputs_branch=/inputs exists=False
+DIAG python=3.14.8 enc=utf-8
+DIAG root=['app', 'bin', 'cap', 'dev', 'etc', 'harness.py', 'lib', 'lib64', 'proc', 'recipe.sh', 'sbin', 'tmp', 'usr']
+DIAG env=['HOME', 'LANG', 'LC_ALL', 'PATH', 'PWD', 'PYTHONDONTWRITEBYTECODE', 'PYTHONUTF8']
+# integrity loophole re-derivation (read_text() = universal newlines, then sha256)
+LOOPHOLE alice_calendar.ics crlf_readtext_sha=5a5d45804bffd339 pinned_match=True byte_match=False
+LOOPHOLE bob_calendar.ics crlf_readtext_sha=c97e85dbcdd75675 pinned_match=True byte_match=False
+LOOPHOLE carol_calendar.ics crlf_readtext_sha=32a0f8687637df0a pinned_match=True byte_match=False

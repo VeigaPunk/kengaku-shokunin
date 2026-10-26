@@ -1,0 +1,372 @@
+{
+ "tool": "mutant_direction_check",
+ "population": 70,
+ "sampled": 28,
+ "counts": {
+  "killed": 19,
+  "survived": 9
+ },
+ "by_kind": {
+  "cmp": {
+   "n": 13,
+   "surv": 2
+  },
+  "bool": {
+   "n": 5,
+   "surv": 3
+  },
+  "if": {
+   "n": 7,
+   "surv": 2
+  },
+  "not": {
+   "n": 1,
+   "surv": 0
+  },
+  "ret": {
+   "n": 2,
+   "surv": 2
+  }
+ },
+ "base_stable": true,
+ "identity_ok": true,
+ "sha": "e471630abd27da4147c69d3feccdf6e5ad7969a47eae2fa053423636a412b09b",
+ "mutants": [
+  {
+   "kind": "cmp",
+   "line": 68,
+   "a": 4212,
+   "b": 4214,
+   "new": "==",
+   "desc": "!= -> ==",
+   "src": "!=",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 71,
+   "a": 4313,
+   "b": 4315,
+   "new": "!=",
+   "desc": "== -> !=",
+   "src": "==",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 71,
+   "a": 4329,
+   "b": 4331,
+   "new": "not in",
+   "desc": "in -> not in",
+   "src": "in",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "bool",
+   "line": 74,
+   "a": 4418,
+   "b": 4420,
+   "new": "and",
+   "desc": "or -> and",
+   "src": "or",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 74,
+   "a": 4404,
+   "b": 4410,
+   "new": "in",
+   "desc": "not in -> in",
+   "src": "not in",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 78,
+   "a": 4574,
+   "b": 4576,
+   "new": "!=",
+   "desc": "== -> !=",
+   "src": "==",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "bool",
+   "line": 79,
+   "a": 4611,
+   "b": 4614,
+   "new": "or",
+   "desc": "and -> or",
+   "src": "and",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "bool",
+   "line": 82,
+   "a": 4734,
+   "b": 4737,
+   "new": "or",
+   "desc": "and -> or",
+   "src": "and",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 82,
+   "a": 4745,
+   "b": 4751,
+   "new": "in",
+   "desc": "not in -> in",
+   "src": "not in",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 82,
+   "a": 4724,
+   "b": 4726,
+   "new": "not in",
+   "desc": "in -> not in",
+   "src": "in",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "if",
+   "line": 82,
+   "a": 4717,
+   "b": 4781,
+   "new": "False",
+   "desc": "if-test -> False",
+   "src": "clause in ref[1] and clause not in mut[1] and clause in declared",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "if",
+   "line": 84,
+   "a": 4822,
+   "b": 4859,
+   "new": "False",
+   "desc": "if-test -> False",
+   "src": "clause in ref[2] and clause in mut[1]",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "not",
+   "line": 98,
+   "a": 5354,
+   "b": 5358,
+   "new": "",
+   "desc": "not x -> x",
+   "src": "not ",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "ret",
+   "line": 104,
+   "a": 5801,
+   "b": 5802,
+   "new": "0",
+   "desc": "return 2 -> 0",
+   "src": "2",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "ret",
+   "line": 114,
+   "a": 6348,
+   "b": 6349,
+   "new": "0",
+   "desc": "return 2 -> 0",
+   "src": "2",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "if",
+   "line": 128,
+   "a": 6875,
+   "b": 6899,
+   "new": "False",
+   "desc": "if-test -> False",
+   "src": "gate_src.count(old) != 1",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "bool",
+   "line": 138,
+   "a": 7331,
+   "b": 7334,
+   "new": "or",
+   "desc": "and -> or",
+   "src": "and",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 138,
+   "a": 7321,
+   "b": 7323,
+   "new": "==",
+   "desc": "!= -> ==",
+   "src": "!=",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 138,
+   "a": 7343,
+   "b": 7345,
+   "new": "==",
+   "desc": "!= -> ==",
+   "src": "!=",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "if",
+   "line": 138,
+   "a": 7314,
+   "b": 7349,
+   "new": "False",
+   "desc": "if-test -> False",
+   "src": "clause != \"MAIN\" and argv[0] != fam",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  },
+  {
+   "kind": "if",
+   "line": 142,
+   "a": 7513,
+   "b": 7584,
+   "new": "False",
+   "desc": "if-test -> False",
+   "src": "clause != \"MAIN\" and c.attributed(clause, dname, fx, argv, ref[j], mut)",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 142,
+   "a": 7520,
+   "b": 7522,
+   "new": "==",
+   "desc": "!= -> ==",
+   "src": "!=",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "if",
+   "line": 144,
+   "a": 7645,
+   "b": 7720,
+   "new": "False",
+   "desc": "if-test -> False",
+   "src": "clause == \"MAIN\" and c.attributed(clause, direction, fx, argv, ref[j], mut)",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 148,
+   "a": 7966,
+   "b": 7968,
+   "new": "not in",
+   "desc": "in -> not in",
+   "src": "in",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "if",
+   "line": 148,
+   "a": 7956,
+   "b": 7973,
+   "new": "False",
+   "desc": "if-test -> False",
+   "src": "direction in seen",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 155,
+   "a": 8255,
+   "b": 8257,
+   "new": "not in",
+   "desc": "in -> not in",
+   "src": "in",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "cmp",
+   "line": 165,
+   "a": 8655,
+   "b": 8657,
+   "new": "!=",
+   "desc": "== -> !=",
+   "src": "==",
+   "status": "killed",
+   "info": "0",
+   "src_b": null
+  },
+  {
+   "kind": "bool",
+   "line": 176,
+   "a": 9320,
+   "b": 9322,
+   "new": "and",
+   "desc": "or -> and",
+   "src": "or",
+   "status": "survived",
+   "info": "",
+   "src_b": null
+  }
+ ]
+}

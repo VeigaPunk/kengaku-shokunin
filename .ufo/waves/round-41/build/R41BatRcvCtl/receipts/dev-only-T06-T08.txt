@@ -1,0 +1,13 @@
+PINS total=2 mismatched=0
+FIXTURE r_ctl-t06-empty-equal-receipt tool=receipts expect=reject declared=control:unavailable,equal:corpus/evidence/round41/r-ctl-probe.txt observed_rc=1 observed=control:unavailable,equal:corpus/evidence/round41/r-ctl-probe.txt ok
+FIXTURE r_ctl-t06-tamper-on-skipped tool=receipts expect=reject declared=control:unavailable,skip:corpus/evidence/round41/r-ctl-probe.txt:dependency-missing observed_rc=1 observed=control:unavailable,skip:corpus/evidence/round41/r-ctl-probe.txt:dependency-missing ok
+FIXTURE r_ctl-t08-derived-uv-absent tool=receipts expect=accept declared=control:differ,equal:corpus/evidence/round35/tb2-grader-probe.txt,skip:corpus/evidence/round41/r-ctl-probe.txt:dependency-missing observed_rc=0 observed=control:differ,equal:corpus/evidence/round35/tb2-grader-probe.txt,skip:corpus/evidence/round41/r-ctl-probe.txt:dependency-missing ok
+FIXTURE r_ctl-t08-table-uv-absent tool=receipts expect=accept declared=control:differ,equal:corpus/evidence/round36/regex-log-probe.txt,skip:corpus/evidence/round38/build-pmars-probe.txt:dependency-missing observed_rc=0 observed=control:differ,equal:corpus/evidence/round36/regex-log-probe.txt,skip:corpus/evidence/round38/build-pmars-probe.txt:dependency-missing ok
+MUTANT T06 receipts rc-silence killed by=r_ctl-t06-empty-equal-receipt -- plans/tip_receipts.py:29-30 '0 every mapped receipt reproduces ... and the control reports
+MUTANT T08 receipts rc-mirror killed by=r_ctl-t08-derived-uv-absent -- plans/tip_receipts.py:19-21 'A mapped receipt whose script is gone, whose dependency is ab
+BATTERY fixtures=4 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=2 killed=2 survived=0 invalid=0 null_detected=0
+MUTANTS-BY-TOOL receipts=2/2 sources=0/0
+ADVERTISED direct=1 indirect=1 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)

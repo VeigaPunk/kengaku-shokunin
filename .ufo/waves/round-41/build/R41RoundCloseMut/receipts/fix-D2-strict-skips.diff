@@ -1,0 +1,12 @@
+--- plans/tip_receipts.py
++++ plans/tip_receipts.py (D2-strict-skips)
+@@ -371,7 +371,8 @@
+         print(line)
+ 
+     n = len(mapped) + len(unmapped)
+-    strict = [r for r in mapped if results[r]["kind"] == "byte"]
++    strict = [r for r in mapped if results[r]["kind"] == "byte"
++              and "skip" not in results[r]]
+     no_cmd = len(unmapped) + sum(
+         1 for r in mapped if str(results[r].get("why", "")).startswith("no-committed-re-run-command"))
+     print(f"note compared={len(strict)} declared_bounded={len(mapped) - len(strict)} "

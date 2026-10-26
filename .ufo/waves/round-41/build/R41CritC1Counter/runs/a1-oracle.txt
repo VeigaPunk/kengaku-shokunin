@@ -1,0 +1,14 @@
+PINS total=2 mismatched=0
+FIXTURE crit-oracle-bytes tool=receipts expect=accept declared=control:differ,equal:corpus/evidence/r/foo-probe.txt observed_rc=0 observed=control:differ,equal:corpus/evidence/r/foo-probe.txt ok
+FIXTURE crit-oracle-exit tool=receipts expect=reject declared=differ:corpus/evidence/r/foo-probe.txt observed_rc=1 observed=differ:corpus/evidence/r/foo-probe.txt ok
+FIXTURE plain-bytes tool=receipts expect=accept declared=control:differ,equal:corpus/evidence/r/foo-probe.txt observed_rc=0 observed=control:differ,equal:corpus/evidence/r/foo-probe.txt ok
+FIXTURE plain-exit tool=receipts expect=reject declared=differ:corpus/evidence/r/foo-probe.txt observed_rc=1 observed=differ:corpus/evidence/r/foo-probe.txt ok
+MUTANT T03 receipts rc-silence killed by=crit-oracle-exit -- plans/tip_receipts.py:30 '1 a `differ`, a failed control, or a probe that did not complete
+MUTANT T04 receipts rc-mirror killed by=crit-oracle-bytes -- plans/tip_receipts.py:21-23 'absolute mkdtemp paths are masked on both sides, so equality 
+MUTANT T13 receipts rc-mirror killed by=crit-oracle-bytes -- plans/tip_receipts.py:26-27 'the comparator must answer `differ`. ... A control that answe
+BATTERY fixtures=4 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=3 survived=0 invalid=0 null_detected=0
+MUTANTS-BY-TOOL receipts=3/3 sources=0/0
+ADVERTISED direct=3 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)

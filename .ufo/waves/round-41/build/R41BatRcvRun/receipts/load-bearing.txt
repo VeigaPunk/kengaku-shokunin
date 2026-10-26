@@ -1,0 +1,33 @@
+drop-one load-bearing table; command per row:
+  bwrap ... python3 plans/round41_c1_verify.py --lane "$S/lane" --battery-dir "$S/variants/drop<i>" --only T03,T04,T13 --work "$S/wd<i>"
+  variants = battery/r_run.py with exactly one FIXTURES entry removed (generated in scratch)
+date: 2026-10-26 15:40:13
+
+=== drop0 (removed r_run-t03-rc-nonzero-mixed) ===
+MUTANT T03 receipts rc-silence killed by=r_run-t03-rc-nonzero-single -- plans/tip_receipts.py:30 '1 a `differ`, a failed control, or a probe that did not complete
+MUTANT T04 receipts rc-mirror killed by=r_run-t04-temp-paths-masked -- plans/tip_receipts.py:21-23 'absolute mkdtemp paths are masked on both sides, so equality 
+MUTANT T13 receipts rc-mirror killed by=r_run-t13-auto-control-differ -- plans/tip_receipts.py:26-27 'the comparator must answer `differ`. ... A control that answe
+BATTERY fixtures=3 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=3 survived=0 invalid=0 null_detected=0
+MUTANTS-BY-TOOL receipts=3/3 sources=0/0
+=== drop1 (removed r_run-t03-rc-nonzero-single) ===
+MUTANT T03 receipts rc-silence killed by=r_run-t03-rc-nonzero-mixed -- plans/tip_receipts.py:30 '1 a `differ`, a failed control, or a probe that did not complete
+MUTANT T04 receipts rc-mirror killed by=r_run-t04-temp-paths-masked -- plans/tip_receipts.py:21-23 'absolute mkdtemp paths are masked on both sides, so equality 
+MUTANT T13 receipts rc-mirror killed by=r_run-t13-auto-control-differ -- plans/tip_receipts.py:26-27 'the comparator must answer `differ`. ... A control that answe
+BATTERY fixtures=3 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=3 survived=0 invalid=0 null_detected=0
+MUTANTS-BY-TOOL receipts=3/3 sources=0/0
+=== drop2 (removed r_run-t04-temp-paths-masked) ===
+MUTANT T03 receipts rc-silence killed by=r_run-t03-rc-nonzero-mixed -- plans/tip_receipts.py:30 '1 a `differ`, a failed control, or a probe that did not complete
+MUTANT T04 receipts rc-mirror SURVIVED exhibits=none -- plans/tip_receipts.py:21-23 'absolute mkdtemp paths are masked on both sides, so equality 
+MUTANT T13 receipts rc-mirror killed by=r_run-t13-auto-control-differ -- plans/tip_receipts.py:26-27 'the comparator must answer `differ`. ... A control that answe
+BATTERY fixtures=3 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=2 survived=1 invalid=0 null_detected=0
+MUTANTS-BY-TOOL receipts=2/3 sources=0/0
+=== drop3 (removed r_run-t13-auto-control-differ) ===
+MUTANT T03 receipts rc-silence killed by=r_run-t03-rc-nonzero-mixed -- plans/tip_receipts.py:30 '1 a `differ`, a failed control, or a probe that did not complete
+MUTANT T04 receipts rc-mirror killed by=r_run-t04-temp-paths-masked -- plans/tip_receipts.py:21-23 'absolute mkdtemp paths are masked on both sides, so equality 
+MUTANT T13 receipts rc-mirror SURVIVED exhibits=none -- plans/tip_receipts.py:26-27 'the comparator must answer `differ`. ... A control that answe
+BATTERY fixtures=3 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=2 survived=1 invalid=0 null_detected=0
+MUTANTS-BY-TOOL receipts=2/3 sources=0/0

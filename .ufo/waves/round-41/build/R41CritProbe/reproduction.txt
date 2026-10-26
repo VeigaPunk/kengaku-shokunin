@@ -1,0 +1,24 @@
+## captures at pinned digests: sha256sum -c SHA256SUMS (run 15:46:24)
+Dockerfile: OK
+README.md: OK
+alice_calendar.ics: OK
+bob_calendar.ics: OK
+carol_calendar.ics: OK
+instruction.md: OK
+solve.sh: OK
+task.toml: OK
+test.sh: OK
+test_outputs.py: OK
+
+## probe run1 vs committed receipt: diff -u corpus/evidence/round41/constraints-probe.txt probe-run1.txt
+IDENTICAL (5775 bytes, exit 0)
+
+## probe run1 vs probe run2 (separate process, separate --work)
+IDENTICAL
+
+## --dry vs frozen corpus/evidence/round41/constraints-dry-cases-freeze.txt
+IDENTICAL
+
+## host interpreter used by the probe vs the verifier's pin
+Python 3.14.8
+19:  -p 3.13 \

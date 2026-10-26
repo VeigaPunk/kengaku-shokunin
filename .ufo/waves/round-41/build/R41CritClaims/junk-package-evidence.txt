@@ -1,0 +1,54 @@
+$ git diff --cached --stat
+ corpus/README.md                                   |  4 ++
+ corpus/SOURCES.md                                  |  2 +
+ .../knowledge/tb2-constraints-scheduling-grader.md | 43 ++++++++++++++++++++++
+ 3 files changed, 49 insertions(+)
+
+$ git diff --cached --name-only
+corpus/README.md
+corpus/SOURCES.md
+corpus/knowledge/tb2-constraints-scheduling-grader.md
+
+$ grep -c S124 corpus/SOURCES.md (junk tree)
+0
+$ grep -c constraints-scheduling corpus/PROVINCE.md (junk tree)
+grep: corpus/PROVINCE.md: No such file or directory (os error 2)
+$ git diff --cached --unified=0 corpus/README.md
+diff --git c/corpus/README.md i/corpus/README.md
+index 19b026b..d3135a8 100644
+--- c/corpus/README.md
++++ i/corpus/README.md
+@@ -234,0 +235,2 @@ recomputed 24/32).
++| `knowledge/tb2-constraints-scheduling-grader.md` | filler | S122, S123 |
++
+@@ -267,0 +270,2 @@ recomputed 24/32).
++- **Terminal-Bench 2.0 task grader (seventh task, filler)**: filler row for the machine gate — knowledge/tb2-constraints-scheduling-grader.md; S122, S123; receipt `evidence/round41/constraints-probe.txt`.
++
+
+$ grep P9 freeze-run vs committed control
+    gate: P9 ok untracked=0 first=0
+    gate: P9 DEFECT untracked=30 first=.ufo/waves/round-41/claims/c2-stage-check.txt
+
+$ grep -c constraints-scheduling PROVINCE.md (real lane; junk clone did not touch it)
+0
+$ grep -n "TB2 task graders" corpus/README.md | head -3
+263:- **Terminal-Bench 2.0 task grader (second task)**: covered at source-code depth and executed offline (round 36, 2026-10-25) — knowledge/tb2-regex-log-grader.md; S108, S109, S110; probe `plans/regex_log_probe.py`, 
+264:- **Terminal-Bench 2.0 task grader (third task, one new executed edge class)**: covered at source-code depth and executed offline (round 37, 2026-10-26) — knowledge/tb2-git-webserver-grader.md; S111, S112, S113; pr
+265:- **Terminal-Bench 2.0 task grader (fourth task, build-provenance class)**: covered at source-code depth and executed offline (round 38, 2026-10-26) — knowledge/tb2-build-pmars-grader.md; S115, S116; probe `plans/b
+$ sed -n "283,350p" corpus/README.md | grep -n "89\|TB2\|Terminal-Bench"
+6:- **Agentic benchmark task-spec audits**: why — S005/S006 show lab self-audits finding task-level validity defects *after* publication; the lane has no instrument that audits a benchmark's task specs, graders, and contamination separate
+7:  - *Partly discharged round 29 attempt 2 (2026-10-25):* `knowledge/benchmark-task-validity-checklist.md` builds the per-benchmark task-validity checklist from the primary maintainer artefacts of Terminal-Bench 2.0, SWE-bench Pro V2 and T
+8:  - *Partly discharged round 31 (2026-10-25):* `knowledge/benchmark-verifier-execution-model.md` reads the harness's own verifier-mode resolver and `Verifier.verify` at Harbor commit `6099b8cf`, so the `their scoring code was not read and
+9:  - *Partly discharged round 33 (2026-10-25):* `knowledge/benchmark-grader-semantics.md` reads S103's one Toolathlon task (`tasks/finalpool/ab-testing/evaluation/main.py` @ `9be8d8fe`) and S104's LLM-as-judge survey frame (arXiv 2412.0557
+10:  - *Partly discharged round 35 (2026-10-25):* `knowledge/tb2-protein-assembly-grader.md` reads and executes one Terminal-Bench 2.0 task's scoring code (`protein-assembly/tests/test_outputs.py` + `tests/test.sh` @ `2fd12b88`) against its
+11:  - *Partly discharged round 36 (2026-10-25):* `knowledge/tb2-regex-log-grader.md` reads and executes a second Terminal-Bench 2.0 task's scoring code (`regex-log/tests/test_outputs.py` @ `2fd12b88`; `tests/test.sh` read, not run) against
+12:  - *Partly discharged round 37 (2026-10-26):* `knowledge/tb2-git-webserver-grader.md` reads and executes a third Terminal-Bench 2.0 task's scoring code (`configure-git-webserver/tests/test_outputs.py` + `tests/verify.sh` @ `2fd12b88`) a
+14:    fourth Terminal-Bench 2.0 task's scoring code (`build-pmars/tests/test_outputs.py` @ `2fd12b88`; S115,
+24:    "Terminal-Bench 2.0's" clause is **narrowed for that one task only**; it stays open for the remaining
+25:    TB2 task graders (4 of 89 read), for any SWE-bench Pro V2 grader beyond the round-31 one, and for
+29:    fifth Terminal-Bench 2.0 task's scoring code (`git-leak-recovery/tests/test_outputs.py` @ `2fd12b88`; S117,
+39:    observed_fail=12 mismatches=0`). The "Terminal-Bench 2.0's" clause is **narrowed for that one task only**;
+40:    it stays open for the remaining TB2 task graders (5 of 89 read), for any SWE-bench Pro V2 grader beyond the
+45:    sixth Terminal-Bench 2.0 task's scoring code (`db-wal-recovery/tests/test_outputs.py` @ `2fd12b88`; S119,
+54:    (`cases=28 observed_pass=8 observed_fail=20 mismatches=0`). The "Terminal-Bench 2.0's" clause is **narrowed
+55:    for that one task only**; it stays open for the remaining TB2 task graders (6 of 89 read), for any SWE-bench
