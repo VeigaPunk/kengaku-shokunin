@@ -45,6 +45,8 @@ Flip check (round 43): Dockerfile — fired — the landed entry cites `Dockerfi
 Flip check (round 43): feal.py — fired — the landed entry cites the shipped feal.py (:70-71, :209, :245, :248); admitted as S137
 Flip check (round 43): task.toml — not fired — no entry sentence rests on task.toml, setup.py, solve.sh, feal.h or SHA256SUMS alone
 Flip check (round 43): merge/kengaku/ — not fired — merge/kengaku unchanged (R43MergeRescreen §1) and no staged entry on this round's surfaces
+Flip check (round 44): task.toml — fired — the landed entry rests on `task.toml:22` alone (finding 11, `:299-302`, "it is the only time bound the grader's environment actually carries"; also `:41`, `:122`, Mechanism row `:240`); admitted as S147 (tier B), entry errata E3/E4
+Flip check (round 44): solve.sh — fired — the landed entry rests on `solve.sh:90` alone (Mechanism row `:230` quotes "if (c1l ^ c2l) == 0x02000000:", finding 2 `:251-252`, finding 12 `:306`); admitted as S148 (tier B), entry errata E5/E6
 
 Gate prose: the six spec-pinned rows (`plans/pkg-spec-r43.json` `rows` = S129–S134) are tier A; S135–S137 are tier B
 mechanism rows added by executed flips, not by the spec. Registry 121 → 130. The census and the anchor check are green

@@ -42,10 +42,28 @@ Rules, in the order they are applied:
    (`none`, `n/a`, `todo`, `tbd`, `-`, ...), and (e) N is not smaller than the
    round in the lesson's file name. `--` is accepted as a separator when the
    em dash is not used. A line that starts `Flip check (round` but breaks the
-   shape is reported as malformed and resolves nothing.
+   shape is reported as malformed and resolves nothing. When several lines
+   name the same item, the last one decides: an appended correction
+   supersedes the line it corrects, and a later malformed or thin-evidence
+   line leaves the obligation unresolved.
 
-Exit: 0 every conditional refusal is resolved; 1 at least one is not (the
-`FLIPS` line carries the counts); 2 setup/usage (unreadable lesson, no
+5. Citation leg (round 44). A `not fired` resolution that names a file is
+   checked against the entry the lesson's Gate concerns: the `.md` files the
+   Gate section names resolve under the lesson repo's `corpus/knowledge/`
+   (plus any `--entry` path), and when one of them carries a
+   `<file>:<line>` citation of a file the `not fired` line names, the line is
+   red (`FLIP-CITE ... verdict=RED`). Round 43 is the measured instance: its
+   `task.toml` reject is recorded `not fired` while the landed entry cites
+   `task.toml:22` twice as the only ceiling on the graded call
+   (`corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md:122`,
+   `:300`; disagreement `corpus/lessons/round-43-verifier-spotcheck.md:129-141`).
+   The leg only reads a `not fired` line that the checker accepts as the
+   resolution; a `fired` line is never tested, and a Gate whose entries are
+   absent leaves the leg inactive (`FLIP-CITE entries=-`).
+
+Exit: 0 every conditional refusal is resolved and no `not fired` resolution
+names a file an entry cites; 1 either defect is present (the `FLIPS` and
+`FLIP-CITE` lines carry the counts); 2 setup/usage (unreadable lesson, no
 `## Gate` section, argparse).
 
 `--selftest` builds fixtures in a temporary directory and runs this script on
@@ -64,9 +82,15 @@ verbatim after markdown stripping; the tool checks that a flip was
 *recorded*, never that the recorded consequence was the right one, so a
 `fired` line whose evidence contradicts its own landing passes; it reads the
 working tree only and has no opinion about history, so a resolution line that
-was committed and later deleted is invisible; and one obligation per row is
+was committed and later deleted is invisible; one obligation per row is
 assumed, so a row carrying two independent flip conditions is resolved by one
-line naming it.
+line naming it; and the citation leg is a name match, not a reading: it sees
+`<file>:<line>` where the file name and the line stand together, so an entry
+that names the file in one cell and the line in the next (`| cmd | task.toml |
+:22 |`) is not seen, an extension-less name outside its small literal set is
+not seen, a `<file>:<range>` inside a longer citation list is seen once for
+the whole entry, a cited *directory* is not seen, and an entry it cannot
+resolve under `corpus/knowledge/` is reported `missing` rather than judged.
 """
 
 from __future__ import annotations
@@ -97,6 +121,11 @@ RES_PREFIX_RE = re.compile(r"(?i)^flip\s+check\s*\(\s*round\s+(\d+)\s*\)\s*:")
 ROUND_IN_NAME_RE = re.compile(r"(?i)\bround-(\d+)\b|\br(\d+)\b")
 CODE_SPAN_RE = re.compile(r"`([^`]+)`")
 ID_PREFIX_RE = re.compile(r"^[A-Z]{1,3}\d{2,}\b")
+
+MD_REF_RE = re.compile(r"[A-Za-z0-9._/+-]+\.md\b")
+FILE_TOKEN_RE = re.compile(r"[A-Za-z0-9_][A-Za-z0-9_.+-]*\.[A-Za-z][A-Za-z0-9]{0,7}\b")
+BARE_FILE_RE = re.compile(r"(?i)\b(?:dockerfile|makefile|sha256sums|licen[cs]e|changelog)\b")
+KNOWLEDGE_DIR = os.path.join("corpus", "knowledge")
 
 PLACEHOLDERS = frozenset({
     "none", "n/a", "na", "nil", "todo", "tbd", "tba", "?", "-", "ok", "yes", "no", "done",
@@ -290,10 +319,19 @@ def lesson_round(path):
 
 
 def resolve(obligation, lines, lesson_rnd):
-    """Return (detail, ok) for one obligation; the resolution must follow the flip line."""
+    """Return (detail, ok, (line, record)) for one obligation.
+
+    The resolution must follow the flip line, and the LAST matching line
+    decides: an appended correction (the lane's append-only way of fixing a
+    false verdict, `corpus/lessons/round-43-verifier-spotcheck.md` R1) must be
+    able to supersede the line it corrects, and a later malformed or
+    thin-evidence record leaves the obligation unresolved rather than letting
+    an older valid line stand.
+    """
     key = normalize(obligation["item"])
     matched_item_after_row = False
     last_reason = "no-line"
+    accepted = None
     for j, line in enumerate(lines):
         record = parse_resolution(line)
         if record is None:
@@ -307,6 +345,7 @@ def resolve(obligation, lines, lesson_rnd):
         if not item_matches(key, record["item"]):
             continue
         matched_item_after_row = True
+        accepted = None
         if record["malformed"]:
             last_reason = "malformed"
             continue
@@ -317,13 +356,122 @@ def resolve(obligation, lines, lesson_rnd):
         if lesson_rnd is not None and record["round"] < lesson_rnd:
             last_reason = "round-before-lesson"
             continue
-        return "line:%d:%s:round=%d" % (j + 1, record["state"], record["round"]), True
+        last_reason = "accepted"
+        accepted = (j + 1, record)
+    if accepted is not None:
+        record = accepted[1]
+        return ("line:%d:%s:round=%d" % (accepted[0], record["state"], record["round"]),
+                True, accepted)
     if not matched_item_after_row and last_reason == "no-line":
-        return "unresolved:no-line", False
-    return "unresolved:" + last_reason, False
+        return "unresolved:no-line", False, None
+    return "unresolved:" + last_reason, False, None
 
 
-def check(lesson_path):
+def lesson_repo_root(lesson_path):
+    """Nearest ancestor of the lesson that holds a corpus/knowledge directory."""
+    here = os.path.dirname(os.path.abspath(lesson_path))
+    while True:
+        if os.path.isdir(os.path.join(here, KNOWLEDGE_DIR)):
+            return here
+        parent = os.path.dirname(here)
+        if parent == here:
+            return None
+        here = parent
+
+
+def named_files(text):
+    """Files a resolution line names, in order, deduplicated case-insensitively."""
+    names = []
+    seen = set()
+    for match in FILE_TOKEN_RE.finditer(text):
+        name = match.group(0).rstrip(".")
+        key = name.casefold()
+        if key and key not in seen:
+            seen.add(key)
+            names.append(name)
+    for match in BARE_FILE_RE.finditer(text):
+        name = match.group(0)
+        key = name.casefold()
+        if key not in seen:
+            seen.add(key)
+            names.append(name)
+    return names
+
+
+def gate_entries(lines, start, end, lesson_path, extra_paths=()):
+    """The entries a lesson's Gate concerns: its named .md files, resolved.
+
+    A `.md` name in the Gate section is looked up as
+    `<repo>/corpus/knowledge/<basename>`; `extra_paths` (the `--entry` option)
+    adds files, or every `*.md` of a directory. Returns ([(path, lines)],
+    [missing name]). A name that resolves nowhere is missing, never judged.
+    """
+    names = []
+    for i in range(start, end):
+        for token in MD_REF_RE.findall(lines[i]):
+            base = os.path.basename(token)
+            if base.casefold() not in {name.casefold() for name in names}:
+                names.append(base)
+    paths = []
+    missing = []
+    root = lesson_repo_root(lesson_path)
+    for name in names:
+        found = None
+        if root is not None:
+            candidate = os.path.join(root, KNOWLEDGE_DIR, name)
+            if os.path.isfile(candidate):
+                found = candidate
+        if found is None:
+            missing.append(name)
+        elif os.path.realpath(found) not in paths:
+            paths.append(os.path.realpath(found))
+    for extra in extra_paths:
+        extra = os.path.abspath(extra)
+        if os.path.isdir(extra):
+            for name in sorted(os.listdir(extra)):
+                candidate = os.path.join(extra, name)
+                if name.endswith(".md") and os.path.isfile(candidate):
+                    real = os.path.realpath(candidate)
+                    if real not in paths:
+                        paths.append(real)
+        elif os.path.isfile(extra):
+            real = os.path.realpath(extra)
+            if real not in paths:
+                paths.append(real)
+        else:
+            missing.append(os.path.basename(extra) + "(not-a-file)")
+    entries = []
+    for path in paths:
+        try:
+            with open(path, "r", encoding="utf-8") as handle:
+                entries.append((path, handle.read().splitlines()))
+        except OSError:
+            missing.append(os.path.basename(path) + "(unreadable)")
+    return entries, missing
+
+
+def citation_re(name):
+    """`<name>:<line>` with backticks or spaces allowed around the colon."""
+    return re.compile(r"(?<![A-Za-z0-9_./+-])" + re.escape(name) +
+                      r"[`\s]*:[`\s]*\d+(?:\s*[-\u2013]\s*\d+)?")
+
+
+def citation_defects(record, entries):
+    """(files named, [(file, entry path, entry line)]) for a `not fired` record."""
+    names = named_files(record["item"] + " " + record["evidence"])
+    defects = []
+    for name in names:
+        base = os.path.basename(name)
+        pattern = citation_re(base)
+        for path, entry_lines in entries:
+            for lineno, line in enumerate(entry_lines, 1):
+                if pattern.search(line):
+                    defects.append((name, path, lineno, line.strip()))
+                    break
+    return names, defects
+
+
+def check(lesson_path, entry_paths=()):
     try:
         with open(lesson_path, "r", encoding="utf-8") as handle:
             text = handle.read()
@@ -333,21 +481,41 @@ def check(lesson_path):
     start, end = gate_section(lines)
     obligations, refused_rows = collect_obligations(lines, start, end)
     rnd = lesson_round(lesson_path)
+    entries, missing_entries = gate_entries(lines, start, end, lesson_path, entry_paths)
 
     unresolved = 0
     malformed = sum(1 for line in lines
                     if (parse_resolution(line) or {}).get("malformed"))
+    not_fired = 0
+    cited = 0
     for obligation in obligations:
-        detail, ok = resolve(obligation, lines, rnd)
+        detail, ok, resolution = resolve(obligation, lines, rnd)
         if not ok:
             unresolved += 1
         print("FLIP line=%d flip_line=%d item=%s shapes=%s resolution=%s"
               % (obligation["line"], obligation["flip_line"], obligation["item"],
                  ",".join(obligation["shapes"]), detail))
+        if not ok or resolution is None or resolution[1]["state"] != "not fired":
+            continue
+        not_fired += 1
+        names, defects = citation_defects(resolution[1], entries)
+        if not defects:
+            print("FLIP-CITE line=%d item=%s state=not fired files=%s verdict=clear"
+                  % (resolution[0], resolution[1]["item"], ",".join(names) or "-"))
+            continue
+        cited += 1
+        for name, path, lineno, entry_line in defects:
+            print("FLIP-CITE line=%d item=%s state=not fired file=%s citation=%s:%d "
+                  "quote=\"%s\" verdict=RED"
+                  % (resolution[0], resolution[1]["item"], name,
+                     os.path.basename(path), lineno, entry_line[:120]))
     print("FLIP-DETAIL lesson=%s lesson_round=%s refused_rows=%d malformed_resolutions=%d"
           % (lesson_path, "-" if rnd is None else rnd, refused_rows, malformed))
     print("FLIPS total=%d unresolved=%d" % (len(obligations), unresolved))
-    return 0 if unresolved == 0 else 1
+    print("FLIP-CITE entries=%s missing=%s not_fired=%d red=%d"
+          % (",".join(os.path.basename(path) for path, _ in entries) or "-",
+             ",".join(missing_entries) or "-", not_fired, cited))
+    return 0 if unresolved == 0 and cited == 0 else 1
 
 
 # ---------------------------------------------------------------- selftest
@@ -370,9 +538,33 @@ DOCKER_ROW = (
 DOCKER_OK = "Flip check (round 43): Dockerfile " + EMDASH + " fired " + EMDASH + \
     "entry :435-438 keeps the WORKDIR sentence (D3)\n"
 
+CITE_ROW = (
+    "| `task.toml`, `setup.py` @ `2fd12b88` | **REJECT - captured, not rows** | "
+    "read once. Flip: an entry sentence that rests on one of them alone. |\n"
+)
+
+CITE_ENTRY_REF = "\nGate prose: the landed entry is `tb2-fixture-grader.md`.\n"
+
+CITE_NOT_FIRED = ("Flip check (round 43): task.toml " + EMDASH + " not fired " + EMDASH +
+                  "no entry sentence rests on task.toml alone\n")
+
+CITE_FIRED = ("Flip check (round 43): task.toml " + EMDASH + " fired " + EMDASH +
+              "entry :122 cites task.toml:22 as the only ceiling\n")
+
+CITE_ENTRY = "corpus/knowledge/tb2-fixture-grader.md"
+
+ENTRY_CITING = (
+    "# fixture entry\n\nsource: S001\n\nThe verifier timeout is `task.toml:22`.\n\n"
+    "| `slow-oracle-45s` | `task.toml:22` | \"timeout_sec = 1800.0\" |\n"
+)
+
+ENTRY_CLEAR = (
+    "# fixture entry\n\nsource: S001\n\nNo metadata is cited here; the capture is `README.md:35`.\n"
+)
+
 
 def selftest_cases():
-    """(id, lesson text, expected exit code)."""
+    """(id, lesson text, expected exit code[, {path: text}[, [argv...]]]); `{case}` is the case dir."""
     table = SELFTEST_HEAD + SELFTEST_TABLE
     flips_when_row = (
         "| S042 `paper` | rejected | not openable this round; flips when an opened copy exists. |\n"
@@ -439,6 +631,31 @@ def selftest_cases():
          table + companion_row + "\n- `ghost.md` " + EMDASH +
          " flips when an opened copy exists.\n" + SELFTEST_TAIL, 0),
         ("no-gate-section", "# Round 42 - fixture\n\n## Admitted\n\nNothing.\n", 2),
+        # citation leg (round 44): a `not fired` line naming a file the entry cites
+        ("cite-not-fired-red",
+         table + CITE_ROW + CITE_ENTRY_REF + SELFTEST_TAIL + CITE_NOT_FIRED, 1,
+         {CITE_ENTRY: ENTRY_CITING}),
+        ("cite-not-fired-clear",
+         table + CITE_ROW + CITE_ENTRY_REF + SELFTEST_TAIL + CITE_NOT_FIRED, 0,
+         {CITE_ENTRY: ENTRY_CLEAR}),
+        ("cite-fired-not-tested",
+         table + CITE_ROW + CITE_ENTRY_REF + SELFTEST_TAIL + CITE_FIRED, 0,
+         {CITE_ENTRY: ENTRY_CITING}),
+        ("cite-entry-missing",
+         table + CITE_ROW + CITE_ENTRY_REF + SELFTEST_TAIL + CITE_NOT_FIRED, 0, {}),
+        ("cite-not-fired-names-no-file",
+         table + flips_when_row + "\nGate prose: `tb2-fixture-grader.md` is the entry.\n" +
+         SELFTEST_TAIL + flips_when_ok, 0, {CITE_ENTRY: ENTRY_CITING}),
+        ("cite-later-fired-supersedes",
+         table + CITE_ROW + CITE_ENTRY_REF + SELFTEST_TAIL + CITE_NOT_FIRED + CITE_FIRED, 0,
+         {CITE_ENTRY: ENTRY_CITING}),
+        ("cite-later-not-fired-reopens",
+         table + CITE_ROW + CITE_ENTRY_REF + SELFTEST_TAIL + CITE_FIRED + CITE_NOT_FIRED, 1,
+         {CITE_ENTRY: ENTRY_CITING}),
+        ("cite-entry-flag",
+         table + CITE_ROW + SELFTEST_TAIL + CITE_NOT_FIRED, 1,
+         {CITE_ENTRY: ENTRY_CITING},
+         ["--entry", "{case}/" + CITE_ENTRY]),
     ]
 
 
@@ -452,27 +669,49 @@ def parse_flips(stdout):
     return total, unresolved
 
 
+def parse_cite(stdout):
+    for line in stdout.splitlines():
+        if line.startswith("FLIP-CITE entries="):
+            fields = dict(part.split("=", 1) for part in line.split()[1:] if "=" in part)
+            return int(fields.get("not_fired", "-1")), int(fields.get("red", "-1"))
+    return -1, -1
+
+
 def run_selftest():
     here = os.path.abspath(sys.argv[0])
     work = tempfile.mkdtemp(prefix="flip-selftest-")
     failures = 0
     cases = selftest_cases()
     try:
-        for name, text, expect_rc in cases:
-            lesson = os.path.join(work, "round-42.md")
+        for case in cases:
+            name, text, expect_rc = case[0], case[1], case[2]
+            extras = case[3] if len(case) > 3 else {}
+            case_dir = os.path.join(work, name)
+            lessons = os.path.join(case_dir, "corpus", "lessons")
+            os.makedirs(lessons)
+            for rel, body in extras.items():
+                path = os.path.join(case_dir, rel)
+                os.makedirs(os.path.dirname(path), exist_ok=True)
+                with open(path, "w", encoding="utf-8") as handle:
+                    handle.write(body)
+            lesson = os.path.join(lessons, "round-42.md")
             with open(lesson, "w", encoding="utf-8") as handle:
                 handle.write(text)
-            proc = subprocess.run([sys.executable, here, "--lesson", lesson],
+            extra_args = [arg.replace("{case}", case_dir)
+                          for arg in (case[4] if len(case) > 4 else [])]
+            proc = subprocess.run([sys.executable, here, "--lesson", lesson] + extra_args,
                                   capture_output=True, text=True)
             total, unresolved = parse_flips(proc.stdout)
+            not_fired, cite_red = parse_cite(proc.stdout)
             got = "green" if proc.returncode == 0 else ("red" if proc.returncode == 1 else "setup")
             want = "green" if expect_rc == 0 else ("red" if expect_rc == 1 else "setup")
             ok = proc.returncode == expect_rc
             if not ok:
                 failures += 1
-            print("SELFTEST case=%s expect=%s got=%s total=%s unresolved=%s rc=%d %s"
-                  % (name, want, got, total, unresolved, proc.returncode,
-                     "ok" if ok else "FAIL"))
+            print("SELFTEST case=%s expect=%s got=%s total=%s unresolved=%s "
+                  "not_fired=%s cite_red=%s rc=%d %s"
+                  % (name, want, got, total, unresolved, not_fired, cite_red,
+                     proc.returncode, "ok" if ok else "FAIL"))
             if not ok:
                 for line in (proc.stdout + proc.stderr).splitlines():
                     print("SELFTEST   | " + line)
@@ -486,6 +725,10 @@ def main(argv=None):
     parser = argparse.ArgumentParser(
         description="Require every conditional Gate refusal to be resolved by a recorded flip check.")
     parser.add_argument("--lesson", help="lesson markdown file whose `## Gate` section is checked")
+    parser.add_argument("--entry", action="append", default=[],
+                        help="entry markdown file (or a directory of them) the Gate concerns; "
+                             "repeatable; defaults to the `.md` names of the Gate section resolved "
+                             "under the lesson repo's corpus/knowledge/")
     parser.add_argument("--selftest", action="store_true",
                         help="run the built fixtures and show the checker red and green")
     args = parser.parse_args(argv)
@@ -494,7 +737,7 @@ def main(argv=None):
     if not args.lesson:
         parser.error("--lesson is required unless --selftest is given")
     try:
-        return check(args.lesson)
+        return check(args.lesson, args.entry)
     except SetupError as exc:
         print("SETUP %s" % exc)
         return 2
