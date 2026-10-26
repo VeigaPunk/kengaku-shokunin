@@ -1,0 +1,59 @@
+# TB2 class census receipt (R36PlanNext, 2026-10-25)
+pin: 2fd12b88aafdd04a52c298e3940bcb189f9766d6
+tarball: https://codeload.github.com/harbor-framework/terminal-bench-2/tar.gz/2fd12b88aafdd04a52c298e3940bcb189f9766d6  bytes=40357259 sha256=6718ca1bd5c3536c9099cb1b2cf22a78c7c7159a85a26053a2d85d20dc0b6f4d
+tree_api: entries=1446
+ls: cannot access 'LICENSE/': Not a directory
+ls: cannot access 'README.md/': Not a directory
+task_dirs=89
+
+## live-service grader tasks (test_outputs.py + helpers, test.sh excluded, >=2 marker hits)
+kv-store-grpc                  service=12 filetree=0 files=test.sh,test_outputs.py bytes=6070
+nginx-request-logging          service=10 filetree=0 files=test.sh,test_outputs.py bytes=5947
+configure-git-webserver        service= 6 filetree=0 files=test.sh,test_outputs.py,verify.sh bytes=3216
+hf-model-inference             service= 5 filetree=0 files=test.sh,test_outputs.py bytes=4239
+git-multibranch                service= 4 filetree=0 files=test.sh,test_outputs.py bytes=2625
+install-windows-3.11           service= 3 filetree=0 files=qemu-control.sh,test.sh,test_outputs.py bytes=21067
+headless-terminal              service= 2 filetree=0 files=test.sh,test_outputs.py bytes=3676
+pypi-server                    service= 2 filetree=0 files=test.sh,test_outputs.py bytes=3173
+qemu-startup                   service= 2 filetree=0 files=test.sh,test_outputs.py bytes=1732
+
+## file-tree graders (top 5)
+build-pmars                    filetree= 3 service=0
+financial-document-processor   filetree= 3 service=0
+sanitize-git-repo              filetree= 3 service=1
+reshard-c4-data                filetree= 2 service=1
+schemelike-metacircular-eval   filetree= 2 service=0
+
+## grader-surface digests at the pin (raw.githubusercontent == codeload tarball, verified)
+configure-git-webserver/526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37  tests/test_outputs.py
+configure-git-webserver/1dc44c923b797ed24ca423c9b9efcd9c1eed4d7261007139b0a724f4e2f53d05  tests/verify.sh
+configure-git-webserver/62151b7371bc364277a3c118bba755334c640fb0cefc7a5af106e6e763cf1d97  instruction.md
+configure-git-webserver/ebb40d72f689512cbd90d865d88ef966b6665ab215544f9247b898b7fa94751b  task.toml
+configure-git-webserver/c31cd92ecb1b357d8c0abcf4821717e83a1770cf58f028620cd0ee3e6b1e4c62  solution/solve.sh
+nginx-request-logging/045cc716c14efde3b0dcff5fc7c85ec5d18bfc6ce66f8b40a418fa2a3a4acda0  tests/test_outputs.py
+nginx-request-logging/27761195f53cbfe5941fe39b573631f6c926869e64b7c43220377e1e116528e7  tests/test.sh
+nginx-request-logging/26a7ac98aced6107f147206790ada77bbf8ed3c25fb360cf323d5fc6889edf99  instruction.md
+nginx-request-logging/b7a78d00be13656f75069197100b7b8c4fd268decf6f78929c853b3222a2729d  task.toml
+nginx-request-logging/2454bbbf7c201a9a778165f286373ba2cb991a0eb1d026a8005d57ae71250dd9  solution/solve.sh
+
+## local capability census
+port8080_listeners=0
+nginx=ABSENT
+expect=ABSENT
+sshd=/usr/bin/sshd
+git=/usr/bin/git
+curl=/usr/bin/curl
+docker=/usr/bin/docker
+uv=/home/vgpnk/.local/bin/uv
+docker_server=29.9.1
+
+## file-tree class, threshold >=2 marker hits (same script as above, run before the /tmp copy was removed)
+filetree>=2: 6
+[('build-pmars', 3), ('financial-document-processor', 3), ('reshard-c4-data', 2), ('sanitize-git-repo', 3), ('schemelike-metacircular-eval', 2), ('sqlite-with-gcov', 2)]
+
+## cross-check that raw fetch == tarball (configure-git-webserver, 5/5)
+verified 2026-10-25: raw.githubusercontent.com/.../2fd12b88.../configure-git-webserver/<path> sha256 == codeload tarball sha256 for tests/test_outputs.py, tests/verify.sh, instruction.md, task.toml, solution/solve.sh
+
+## prior-art anchor (opened page metadata)
+title: Mutation Testing of Task-Scoped State Oracles in Software-Agent Benchmarks: A Cross-Benchmark Empirical Study
+doi: 10.21203/rs.3.rs-10665114/v1   citation_publication_date: 2026-08-18

@@ -1,0 +1,21 @@
+FIXTURE P0 expect=accept observed=unevaluated WRONG -- genuine round-35 package
+FIXTURE P1 expect=reject observed=unevaluated WRONG -- 8 one-word quotes
+FIXTURE P2 expect=reject observed=unevaluated WRONG -- 8 copies of one quote
+FIXTURE P3 expect=reject observed=unevaluated WRONG -- an unparsed quote row beside the genuine rows
+FIXTURE P4 expect=reject observed=unevaluated WRONG -- junk teaches cells
+FIXTURE P5 expect=reject observed=unevaluated WRONG -- stub probe printing the receipt
+FIXTURE P6 expect=reject observed=unevaluated WRONG -- untracked leftover file
+FIXTURE P7 expect=reject observed=unevaluated WRONG -- cheapest package: one-word quotes + junk teaches + stub probe + stray file
+FIXTURE L1 expect=accept observed=unevaluated WRONG -- D4 genuine correction line
+FIXTURE L2 expect=reject observed=unevaluated WRONG -- D4 line with the two file:line citations swapped
+FIXTURE L3 expect=reject observed=unevaluated WRONG -- D4 line without the harness token
+FIXTURE L4 expect=accept observed=unevaluated WRONG -- D5 genuine erratum line
+FIXTURE L5 expect=reject observed=unevaluated WRONG -- D5 erratum saying the quote is not present
+FIXTURE L6 expect=reject observed=unevaluated WRONG -- D5 genuine line over an altered (quote-injected) capture
+FIXTURES total=14 false_green=0 false_red=0 unevaluated=14
+R35-D1 status=open observed=fail agree=yes fixtures=14 false_green=0 false_red=0 unevaluated=14 tip_package_rc=None
+R35-D2 status=open observed=fail agree=yes untracked_anywhere=0 line_fixtures_wrong=6/6
+R35-D3 status=open observed=fail agree=yes committed_nested_wave_paths=21
+R35-D4 status=open observed=fail agree=yes round-36 lesson absent; recount 13 + 23 + 1 = 37 vs stated denominator 38
+rows=4 closed=0 observed_pass=0 mismatches=0
+PREDICATE C1 fail

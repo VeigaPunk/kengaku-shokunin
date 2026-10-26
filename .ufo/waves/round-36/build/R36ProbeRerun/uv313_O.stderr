@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/regex_log_probe.py", line 164, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/regex_log_probe.py", line 153, in main
+    obs, msg = run_grader(gpath, regex, mode)
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/regex_log_probe.py", line 124, in run_grader
+    mod.test_regex_matches_dates()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round36/tb2-regex-log/test_outputs.py", line 25, in test_regex_matches_dates
+    pattern_text = regex_file.read_text().strip()
+                   ~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py", line 546, in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib/python3.13/pathlib/_abc.py", line 632, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmp2ejqoetz/absent-regex.txt'

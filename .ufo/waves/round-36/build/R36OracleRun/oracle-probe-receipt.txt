@@ -1,0 +1,107 @@
+oracle=corpus/evidence/round36/tb2-regex-log/solve.sh sha256=7e670d4f2b4bccb1e4db38f2a173e085ceda028c38167912b466b0a84fcc0999
+oracle_heredoc=solve.sh:5..7 body_line=6 chars=267 whitespace_tokens=1
+oracle_pattern='(?=.*(?:^|[^0-9A-Za-z])(?:(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)(?=$|[^0-9A-Za-z])).*(?:^|[^0-9A-Za-z])(\\d{4}-(?:(?:01|03|05|07|08|10|12)-(?:0[1-9]|[12]\\d|3[01])|(?:04|06|09|11)-(?:0[1-9]|[12]\\d|30)|02-(?:0[1-9]|1\\d|2[0-9])))(?=$|[^0-9A-Za-z])'
+grader=corpus/evidence/round36/tb2-regex-log/test_outputs.py sha256=345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72
+probe=plans/regex_log_probe.py sha256=d58194c817685546a945e8b116588a52590fc944e6218ac40218381a376519bc
+
+[A] run_grader(oracle) verdict=pass assertion='-'
+[A] run_grader(oracle + trailing newline as the heredoc writes it) verdict=pass
+[A] fixture_lines=25 expected_count=9 got=['2025-01-09', '2024-11-01', '2020-01-01', '2019-06-15', '2018-06-06', '2017-03-03', '2016-12-31', '2024-11-11', '1999-03-05']
+[A] findall_matches_expected=True
+
+[B] id | verdict | oracle | instruction | note
+A1 | VIOLATION | Y:2020-01-01 | N | octet 01 has a leading zero (instr:4)
+A2 | VIOLATION | Y:2020-01-01 | N | 4th octet 01 leading zero (instr:4)
+A3 | ok | N | N | 3-digit octet 001 (instr:4)
+A4 | VIOLATION | Y:2020-01-01 | N | octet 00 (instr:4)
+A5 | ok | N | N | 3-digit octet 010 (instr:4)
+A6 | VIOLATION | Y:2020-01-01 | N | 3rd octet 01 (instr:4)
+B1 | ok | Y:2020-02-29 | Y:2020-02-29 | Feb 29 permitted in all years (instr:3)
+B2 | ok | Y:2019-02-29 | Y:2019-02-29 | Feb 29 permitted even non-leap (instr:3)
+B3 | ok | N | N | Feb capped at 29 (instr:3)
+B4 | ok | N | N | Apr has 30 days (grader:66-68 comment; instr silent)
+B5 | ok | Y:2020-01-31 | Y:2020-01-31 | 31-day month
+B6 | ok | Y:2020-04-30 | Y:2020-04-30 | 30-day month
+B7 | ok | Y:2020-02-28 | Y:2020-02-28 | Feb 28
+C1 | ok | N | N | year is YYYY (instr:1)
+C2 | ok | N | N | 3-digit year (instr:1)
+C3 | ok | Y:0000-01-01 | Y:0000-01-01 | 4-digit year, value unconstrained
+D1 | ok | N | N | instr:6 example, digit-adjacent
+D2 | ok | N | N | letter before date (instr:7)
+D3 | ok | N | N | digit after date (instr:7)
+D4 | ok | Y:2020-01-01 | Y:2020-01-01 | underscore is not alphanumeric
+D5 | ok | Y:2020-01-01 | Y:2020-01-01 | dot is not alphanumeric
+E1 | ok | N | N | IPv6, no dotted quad
+E2 | ok | N | N | IPv6
+E3 | ok | N | N | IPv6, hex groups
+E4 | ok | Y:2020-01-01 | Y:2020-01-01 | 5-octet dotted string: 1.2.3.4 is not alnum-adjacent (literal instr:7)
+E5 | ok | N | N | 3 octets only
+E6 | ok | N | N | octet > 255 (instr:1 'IPv4 address')
+E7 | ok | Y:2020-01-01 | Y:2020-01-01 | broadcast
+E8 | ok | Y:2020-01-01 | Y:2020-01-01 | zero address
+F1 | ok | Y:2020-01-01 | Y:2020-01-01 | two IPs, one date
+F2 | ok | Y:2020-01-01 | Y:2020-01-01 | date before IP
+F3 | ok | Y:2019-06-15 | Y:2019-06-15 | last date (instr:2)
+F4 | ok | Y:2019-06-15 | Y:2019-06-15 | last date after IP
+F5 | ok | Y:2019-06-15 | Y:2019-06-15 | last date, IP last
+F6 | AMB | Y:2020-01-01 | AMB | last date token is alnum-adjacent: instr:2 vs instr:7 conflict
+F7 | ok | N | N | no IPv4
+F8 | ok | N | N | alnum after IP
+F9 | ok | N | N | alnum before IP
+F10 | ok | N | N | month 13
+F11 | ok | N | N | day 32
+
+[B] rows=40 violations=4 ambiguous=1
+[B] VIOLATION A1 line='from 01.2.3.4 at 2020-01-01' instruction=N oracle=['2020-01-01'] note=octet 01 has a leading zero (instr:4)
+[B] VIOLATION A2 line='from 192.168.0.01 at 2020-01-01' instruction=N oracle=['2020-01-01'] note=4th octet 01 leading zero (instr:4)
+[B] VIOLATION A4 line='from 00.0.0.0 at 2020-01-01' instruction=N oracle=['2020-01-01'] note=octet 00 (instr:4)
+[B] VIOLATION A6 line='from 192.168.01.1 at 2020-01-01' instruction=N oracle=['2020-01-01'] note=3rd octet 01 (instr:4)
+[B] AMBIGUOUS F6 line='8.8.8.8 2020-01-01 then 2021-02-02abc' oracle=['2020-01-01'] note=last date token is alnum-adjacent: instr:2 vs instr:7 conflict
+
+[OCT] candidates=1110 instruction-invalid octets accepted by the oracle, by octet position 1..4: [['00', '01', '02', '03', '04', '05', '06', '07', '08', '09'], ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09'], ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09'], ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09']]
+[OCT] accepted sets identical across positions=True count=10
+[OCT] all-four leading-zero case '01.01.01.01' matches=True
+[OCT] instruction-valid octets the oracle rejects: []
+
+[M] mutant -> grader verdict (pass means the requirement is unenforced by the fixture)
+M0-unmodified-oracle mutated=False verdict=pass requirement=control
+M1-strict-octets mutated=True verdict=pass requirement=no leading-zero octets (instr:4)
+M2-feb-30 mutated=True verdict=pass requirement=Feb 30 accepted
+M3-apr-31 mutated=True verdict=pass requirement=Apr/Jun/Sep/Nov 31 accepted
+M4-year-width mutated=True verdict=pass requirement=year width 2..6 (instr:1 YYYY)
+M5-left-boundary-letters-only mutated=True verdict=pass requirement=date left boundary blocks letters only
+M6-right-boundary-letters-only mutated=True verdict=pass requirement=date right boundary blocks letters only (digit adjacency allowed)
+M7-first-date-only mutated=True verdict=fail requirement=positive control: lazy .* must break the battery
+
+[F] fixture coverage holes
+[F] fixture_lines=25 lines_with_a_leading_zero_octet=0 []
+[F] fixture_negative_ip_markers=['Invalid IP 256.100.50.25 with date 2021-01-01', 'Another invalid 123.456.78.90 2020-12-12', 'Login attempt 172.16.0.256 on 2000-05-10', 'Login attempt 172.16.0.256 for user 2000-02-30', 'Login attempt 172.16.0.256 for user 2000-04-31']
+[F] feb30_line='Login attempt 172.16.0.256 for user 2000-02-30' invalid_ip_present=True
+[F] apr31_line='Login attempt 172.16.0.256 for user 2000-04-31' invalid_ip_present=True
+[F] feb30 line as-is: oracle=N
+[F] feb30 line with 172.16.0.256->172.16.0.25: M2=['2000-02-30']
+[F] apr31 line as-is: oracle=N
+[F] apr31 line with 172.16.0.256->172.16.0.25: M3=['2000-04-31']
+[F] synthetic negative line 'from 01.2.3.4 with 2020-01-01': oracle=['2020-01-01'] M1-strict=N (fixture cannot separate them: it has no such line)
+
+[SPAN] leading-zero counterexamples, whole-match spans
+A1 line='from 01.2.3.4 at 2020-01-01' span=(0, 27) text='from 01.2.3.4 at 2020-01-01' capture=('2020-01-01',)
+A2 line='from 192.168.0.01 at 2020-01-01' span=(0, 31) text='from 192.168.0.01 at 2020-01-01' capture=('2020-01-01',)
+A4 line='from 00.0.0.0 at 2020-01-01' span=(0, 27) text='from 00.0.0.0 at 2020-01-01' capture=('2020-01-01',)
+A6 line='from 192.168.01.1 at 2020-01-01' span=(0, 31) text='from 192.168.01.1 at 2020-01-01' capture=('2020-01-01',)
+
+[G] multi-line probes (a line's own IP is the instruction's condition, instr:1)
+G1-date-at-start-of-IP-less-line log='1.2.3.4\n2020-01-01' instruction=[] oracle=['2020-01-01'] spans=[(0, 18)] VIOLATION
+G2-date-on-line-then-IP-starts-next log='2020-01-01\n1.2.3.4' instruction=[] oracle=['2020-01-01'] spans=[(0, 10)] VIOLATION
+G3-last-date-crosses-to-IP-less-line log='1.2.3.4 2020-01-01\n2020-01-02' instruction=['2020-01-01'] oracle=['2020-01-02'] spans=[(0, 29)] VIOLATION
+G4-both-lines-qualify log='1.2.3.4 2020-01-01\n5.6.7.8 2021-02-03' instruction=['2020-01-01', '2021-02-03'] oracle=['2020-01-01', '2021-02-03'] spans=[(0, 18), (19, 37)] ok
+G5-ip-less-line-then-IP-start log='x 2020-01-01\n1.2.3.4 2021-02-03' instruction=['2021-02-03'] oracle=['2020-01-01', '2021-02-03'] spans=[(0, 12), (13, 31)] VIOLATION
+G6-date-then-next-line-starts-with-date log='1.2.3.4 2020-01-01\n2021-02-03 more' instruction=['2020-01-01'] oracle=['2021-02-03'] spans=[(0, 29)] VIOLATION
+[G] rows=6 violations=5
+
+[X] fragility of the pinned fixture (modified grader copy under this scratch dir)
+[X] fixture_line4_rewrite='10.0.0.1 Multiple IPs 10.0.0.2 with 2020-01-01'
+[X] run_grader(oracle, modified copy) verdict=fail assertion="Expected ['2025-01-09', '2024-11-01', '2020-01-01', '2019-06-15', '2018-06-06', '2017-03-03', '2016-12-31', '2024-11-11', '1999-03-05'], but got ['2025-01-09..."
+[X] modified-copy log findall=['2025-01-09', '2024-11-01', '2022-05-05', '2020-01-01', '2019-06-15', '2018-06-06', '2017-03-03', '2016-12-31', '2024-11-11', '1999-03-05']
+[X] extra=['2022-05-05'] missing=[]
+[X] fixture line starts with an IP: [1]; line starts with a date: [0, 18]

@@ -1,0 +1,35 @@
+diff --git i/corpus/README.md w/corpus/README.md
+index cc005ee..90c9b91 100644
+--- i/corpus/README.md
++++ w/corpus/README.md
+@@ -66,6 +66,7 @@ candidates fixed in the receipt, not the wider round-16 citation audit.
+ | `knowledge/benchmark-verifier-execution-model.md` | Where a benchmark's verifier actually runs (Harbor's per-task `environment_mode` resolution: shared by default) and what it restores before grading (stale rewards deleted, `/tests` re-uploaded unless the verifier image owns it), plus SWE-bench Pro V2's own git-based test-space reset and the log-scan grader that reads its PASSED set | S092 (Harbor @ 6099b8cf), S093 (SWE-bench Pro V2 @ 66f92766), S100 (terminal-bench-2 @ 2fd12b88) |
+ | `knowledge/benchmark-grader-semantics.md` | Toolathlon's ab-testing grader is a deterministic state comparison (record.csv vs expected_ratio.csv at the executed 0.05% tolerance; its log-bucket check mixes fail-open exceptions with fail-closed credential absence) and the LLM-as-judge survey frame: meta-evaluation is its own part | S103 (Toolathlon @ 9be8d8fe), S104 (arXiv 2412.05579v2); S093 restated from the verifier-execution entry |
+ | `knowledge/tb2-protein-assembly-grader.md` | One Terminal-Bench 2.0 task grader read and executed: `protein-assembly`'s `test_gblock` scores a binary reward from literal expected subproteins, order, FLAG/SNAP boundaries, `[GS]+` linkers of 5–20 residues and 50-nt GC windows, never reading its reference inputs; an 18-case offline probe maps instruction bullets to the assertion that enforces them (`cases=18 observed_pass=5 observed_fail=13 mismatches=0`) | S105, S106, S107 (terminal-bench-2 @ 2fd12b88) |
++| `knowledge/tb2-regex-log-grader.md` | x | S108, S109, S110 |
+ | `lessons/round-1.md` | Path-correction, replace-don't-append, zero-width char hazard | LOG.md round 1, commit `90a5ce8` |
+ | `lessons/round-3.md` | Filename-judging missed on-host surfaces; complementarity vs pass-rate; NULL parsing; FAIL-latency signature | LOG.md round 3, this round's analysis |
+ | `lessons/round-4.md` | Endpoint-drift trap; n=1 flip on 03; FAIL-latency is subset-level not per-task | LOG.md round 4, `/tmp/bench-r4` run |
+@@ -229,6 +230,7 @@ recomputed 24/32).
+ 
+ ## Coverage map
+ 
++- knowledge/tb2-regex-log-grader.md
+ - **Benchmark selection**: covered (knowledge/benchmark-selection.md).
+ - **Search-shape mechanism evidence**: covered at iteration-2 depth (knowledge/godspeed-eval-findings.md).
+ - **Run harness / telemetry spec**: covered at alpha depth (knowledge/telemetry-run-design.md).
+diff --git i/corpus/SOURCES.md w/corpus/SOURCES.md
+index 9afb198..911ae8d 100644
+--- i/corpus/SOURCES.md
++++ w/corpus/SOURCES.md
+@@ -120,6 +120,10 @@ method stays chousa's (`../chousa-shokunin/SKILL.md`).
+ | S105 | Terminal-Bench 2.0 protein-assembly task grader (tests/test_outputs.py) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/protein-assembly/tests/test_outputs.py | code | A | the executed scoring predicate of one Terminal-Bench 2.0 task at a pinned commit — which output properties test_gblock asserts and how — for the code's own behaviour; the comments' claims about which PDB entries match are the authors' self-report | commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, tests/test_outputs.py:42 "assert flag_idx < donor_idx < dhfr_idx < acceptor_idx < snap_idx, (" (11 words); sha256 44a05a2482aa7a8e70de95478de6560b6188e630336fca9d02b62dc69a096582 | the task score is one pytest function over literal expected subproteins, order, FLAG/SNAP boundaries, 5-20 residue [GS]+ linkers and 15-35 GC per 50-nt window; reference input files are never read | mined | 2026-10-25 | 180d | corpus/knowledge/tb2-protein-assembly-grader.md |
+ | S106 | Terminal-Bench 2.0 protein-assembly verifier runner (tests/test.sh) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/protein-assembly/tests/test.sh | code | A | how this one task's pytest outcome becomes its reward at a pinned commit, for the script's own behaviour; not Harbor's consumption or aggregation of the reward file | commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, tests/test.sh:27 "echo 1 > /logs/verifier/reward.txt" (4 words) and :21 "-w biopython==1.85" ; sha256 9ede46648fc67c9ce61975503de3e0fcff0b0fb110adc0f9e1d240a608c267b5 | the reward is binary (1 iff pytest exits 0) and the grader runs under uvx with Python 3.13, pytest 8.4.1 and biopython 1.85 | mined | 2026-10-25 | 180d | corpus/knowledge/tb2-protein-assembly-grader.md |
+ | S107 | Terminal-Bench 2.0 protein-assembly task instruction (instruction.md) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/protein-assembly/instruction.md | docs | A | the requirement bullets this one task states to the agent at a pinned commit, as the maintainer's own specification the grader is mapped against | commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, instruction.md:29 "The GS linkers between different subproteins should be between 5 and 20 amino acids long." (15 words); sha256 1bb2af1d85e9a823a8ae7273a87df8a3f67e2c93b06cddf34f0051a8b003f7c5 | fifteen requirement bullets (file shape, allowed parts, PDB/FPbase/plasmid sources, no start/stop codons or N-terminal Met, linker rules, GC windows, 3000-nt cap, part order) | mined | 2026-10-25 | 180d | corpus/knowledge/tb2-protein-assembly-grader.md |
++| S108 | regex-log grader tests/test_outputs.py — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/regex-log/tests/test_outputs.py | code | A | x | x | alpha beta gamma delta epsilon zeta eta theta | mined | 2026-10-25 | 30d | corpus/knowledge/tb2-regex-log-grader.md |
++| S109 | regex-log runner tests/test.sh — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/regex-log/tests/test.sh | code | A | x | x | one two three four five six seven eight | mined | 2026-10-25 | 30d | corpus/knowledge/tb2-regex-log-grader.md |
++| S110 | regex-log instruction — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/regex-log/instruction.md | docs | A | x | x | red orange yellow green blue indigo violet black | mined | 2026-10-25 | 30d | corpus/knowledge/tb2-regex-log-grader.md |
++
+ ## Paths
+ 
+ - contamination audit — S001 → S002 → S004 → S005 → S006 → S022: map the detection space first, then the concealment failure mode, then resistant design, then two lab self-audits showing what detection failure costs in practice, then a live refresh mechanism.

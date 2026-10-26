@@ -293,3 +293,87 @@ A round closes only when every row below holds; a row that cannot be shown is an
   still needs code. Mutation scratch runs in a `mktemp` clone outside the lane and commits only
   receipts (round-34 D2: 106,323 committed mirror blobs). Lesson: `corpus/lessons/round-35.md`
   §Mistakes.
+
+## Round36 criterion — a counter of record is attacked by its own junk
+
+- **Q24 — a counter of record for an admitted-entry package is proved, before it scores any data, by a
+  frozen battery built from the genuine package's own bytes: the genuine package must be accepted, every
+  single-property junk mutant must be rejected, and an unevaluated run is never a rejection.** A counter
+  that is only ever pointed at the package it was written for proves that package, not the check. The
+  round-35 counter of record accepted all seven junk packages —
+  `LEGACY accepted=7/7` (`.ufo/waves/round-36/claims/control-c1-legacy.txt`) — among them an entry of
+  eight one-word quotes, `junk` teaches cells, a stub probe that prints the receipt, and an untracked
+  leftover file; the same weakness let labelled-but-false D4/D5 lines pass
+  (`corpus/lessons/round-35-verifier-spotcheck.md:86`, routed defect 1). So each round's counter carries
+  a battery whose control receipts are committed at the freeze, and the cheapest all-junk package is
+  built and scored by a seat that is not the counter's author *before* the round's first data receipt is
+  committed. The tip-receipt clause is why the ordering matters: `plans/round36_c1_verify.py` runs
+  `battery()` (`:217`) and only then the tip re-run inside `r35_d1` (`:267`), so a green aggregate
+  cannot be reached by a counter that accepts everything or rejects everything.
+  Measured at the criterion's creation (2026-10-25): `ls plans/pkg_gate.py` → `No such file or
+  directory`, the counter prints `FIXTURES total=14 false_green=0 false_red=0 unevaluated=14`
+  (`.ufo/waves/round-36/claims/control-c1-nothing.txt`), and the round-35 counter prints
+  `LEGACY accepted=7/7` (same control set, committed in freeze commit `3241b86`).
+  Check (executable, round-36 instance): `python3 plans/round36_c1_verify.py --lane .` must exit 0 and
+  print `FIXTURES total=14 false_green=0 false_red=0 unevaluated=0` then `PREDICATE C1 pass`. The
+  battery is 14 fixtures built in a `mktemp` git repo from committed round-35 bytes
+  (`build_package_fixtures`, `plans/round36_c1_verify.py:126`): P0 genuine plus seven single-property
+  junk packages (P1..P7, P7 the all-junk combination) and six D4/D5 line fixtures. Name-blindness leg —
+  copy P0 and P7 to directories that carry no fixture id and expect exit 0 and exit 1:
+  `d=$(mktemp -d /tmp/k36-ren-XXXX); python3 - "$d" <<'PY'` … `import round36_c1_verify as c` …
+  `for fid, want in (("P0", 0), ("P7", 1)):` … `print(fid, "renamed_rc", rc, "want", want)` `PY`
+  → `renamed_rc 0` for P0 and `renamed_rc 1` for P7.
+  Shown able to fail: the accept-everything control scores `false_green=11 false_red=0`
+  (`control-c1-accept-all.txt`), the reject-everything control scores `false_green=0 false_red=3`
+  (`control-c1-reject-all.txt`), and the no-gate control scores `unevaluated=14` (`control-c1-nothing.txt`);
+  `unevaluated` is printed beside `false_green`/`false_red` so a crash cannot masquerade as a rejection.
+  The proposal and its date are `considerthese/2026-10-25.md` §Self-improvement suggestions 2(c)
+  ("includes a tip-receipt validator (every `corpus/evidence/**` receipt re-run and byte-compared)",
+  2026-10-25) — this criterion takes the pre-data half of it and leaves the persistent ledger to Q23.
+  Limits: the battery is single-property mutants, so a junk class no fixture occupies survives (P7 covers
+  only the named properties combined, not new ones); 14 fixtures is a budget, not a search; the builder
+  names its fixture directories `k36-P<n>-…`, so a gate that keyed on its `--root` basename would pass
+  the battery — the rename leg is the cheap defence, not a proof; and no mechanical battery separates
+  well-formed false prose from a true claim once every field parses, which stays a reviewer's job (Q10).
+  Lesson: `corpus/lessons/round-36.md` §Mistakes (1).
+
+## Round36 criterion — a frozen instrument is repaired in the open window, and its case table does not move
+
+- **Q25 — a frozen instrument that fails its own determinism on the first real run is amended only
+  before any seat has scored, by a commit that pins both digests, names the changed lines, and shows the
+  deterministic case table byte-identical at both revisions.** Amendment 1 of round 36 is the instance:
+  the frozen probe printed a `mkdtemp` path in two assertion texts
+  (`corpus/evidence/round36/regex-log-probe-first-run.txt:21-22`), so the frozen W5 check "fresh run
+  byte-equal to the receipt" could never hold; the repair replaced the temp directory with `<tmp>` in the
+  printed text only (`plans/round-36-claims.md:123-140`), and the amended digest
+  `d58194c817685546a945e8b116588a52590fc944e6218ac40218381a376519bc` is pinned in
+  `plans/round36_c2_verify.py:41`. What keeps the amendment from being a rule change is the case table:
+  `--dry` at the freeze commit and at the amended tip are byte-identical, and both equal the committed
+  table `corpus/evidence/round36/regex-log-dry-cases-freeze.txt`. A repair that moved a prediction, a
+  case, a check definition or a predicate sentence is a new claim and re-freezes.
+  Check (executable, round-36 instance):
+  `git show 3241b86:plans/regex_log_probe.py >/tmp/pre_probe.py &&
+  python3 /tmp/pre_probe.py --dry | cmp - <(python3 plans/regex_log_probe.py --dry) && echo identical`
+  → `identical`, and `sha256sum plans/regex_log_probe.py` gives the pinned `d58194c8…`. The remaining
+  legs are the pins and the order: the note names both digests
+  (`grep -n 'amended probe digest' plans/round-36-claims.md`), and the amendment commit is an ancestor of
+  every commit that first adds a receipt scoring the instrument —
+  `git merge-base --is-ancestor acbda2f3936838ba4849f14937fbecb8aed461e5 <first-scoring-commit>`.
+  Shown able to fail: `cmp corpus/evidence/round36/regex-log-probe-first-run.txt
+  corpus/evidence/round36/regex-log-probe.txt` exits 1 and differs on exactly lines 21-22 — the
+  pre-amendment instrument cannot reproduce the receipt, which is the failure this criterion names; a
+  `--dry` that differed would be caught by the `cmp` above.
+  The question this criterion does not settle is open on the L0 queue: `revenger | round-69` asks whether
+  an instrument defect (not the artifact under test) may be repaired pre-scoring as a new revision with a
+  fresh red-before, or whether the claim must stand falsified and wait a round
+  (`.ufo/l0-questions.md:160`); `kumitate | round-63` and `round-64` ask the neighbouring question —
+  whether a post-freeze enlargement or relaxation of a control set is a ratchet or a rule change
+  (`:167`, `:170`). This criterion takes the position both can live with: a repair is admissible only
+  while the case table is unmoved and no seat has scored, and the window's admissibility stays the
+  operator's.
+  Limits: commit order is the only mechanical witness — an untracked seat build directory leaves no
+  commit, so a seat that scored before the amendment and reported later is invisible to the ancestry
+  check; `--dry` identity proves the printed case table only, so an amendment to a non-`--dry` code path
+  (there was none here) would pass it; and the criterion does not decide whether a pre-scoring repair
+  voids a claim, so a round that amends still reports the verdict either way.
+  Lesson: `corpus/lessons/round-36.md` §Mistakes (2).

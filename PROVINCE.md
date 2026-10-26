@@ -238,3 +238,20 @@ submission, establish biological correctness or the literals' correctness, or me
 performance. Runtime task validity, hosted judges, contamination and the other 88 TB2 tasks' scoring
 code stay open. The round29 attempt-2 paragraph above stays as written; this paragraph narrows only
 the Terminal-Bench 2.0 scoring-code clause for this one task.
+
+## Round36 partial frontier admission (2026-10-25)
+
+**Core addition:** offline execution of one more pinned Terminal-Bench 2.0 grader —
+`regex-log/tests/test_outputs.py::test_regex_matches_dates` at terminal-bench-2 `2fd12b88` — over 24
+frozen `/app/regex.txt` candidates, via `corpus/knowledge/tb2-regex-log-grader.md` (S108–S110),
+`plans/regex_log_probe.py` and receipt `corpus/evidence/round36/regex-log-probe.txt` (`cases=24
+observed_pass=8 observed_fail=16 mismatches=0`); the graded artefact is an agent-authored regex file,
+run against the grader's fixed 25-line log. It records how that captured grader answers synthetic
+patterns only: it does not run Terminal-Bench, the task image or a real submission, validate or
+certify a task, establish which pattern the instruction demands, measure model or agent performance,
+observe hidden or held-out tests, or speak for any other TB2 task. Adjacent: verification-fixture
+craft (tameshi), research method (chousa), prompt craft (kotoba) and seat arrangement (kumitate) stay
+theirs; pattern text is data. The round35 paragraph above stays as written; this paragraph narrows
+only its "other 88 TB2 tasks" clause for this one task.
+
+**Reported out:** nothing absorbed — `plans/pkg_gate.py` stays this lane's own gate (tameshi owns the reusable fixture/mutation method and never edits a sibling's gate, `tameshi-shokunin/PROVINCE.md:3,14-17,44-45`); capture and citation method stay chousa's (`chousa-shokunin/PROVINCE.md:5-7,10-11`); prompt/skill wording stays kotoba's (`kotoba-shokunin/PROVINCE.md:61`); seat arrangement, not evaluation, stays kumitate's (`kumitate-shokunin/PROVINCE.md:23,28`).

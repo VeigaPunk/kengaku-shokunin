@@ -1,0 +1,34 @@
+# fetched 207 main.py files at 9be8d8fe07a497b18ee61e3f2ae694e9797f39eb into /tmp/k36-scoutpkg-ELom/src
+| task | function | real input type | verdict | detail |
+|---|---|---|---|---|
+| yahoo-analysis | `compare_rating` | rating grade (str) + price dict {start,4m,5m,6m} | **discriminates** | identical={'4m': True, '5m': True, '6m': True} perturbed={'4m': False, '5m': True, '6m': True} |
+| gdp-cr5-analysis | `calculate_country_match_score` | two lists of normalised country names (List[str]) | **discriminates** | identical score=1.0 perturbed score=0.5 |
+| invoice-org | `check_total_amount` | agent total (float) + ground-truth dict {total: float} | **discriminates** | identical returned, perturbed raised ValueError: Total amount mismatch: Agent: 1000.00, GT: 1200.00, Diff: 200.00 exceeds tolerance 10 |
+| k8s-pr-preview-testing | `compare_tables` | two markdown-table texts (str) | **discriminates** | identical=True perturbed=False |
+| llm-training-dataset | `model_label_matches` | model label (str) + target label (str) | **discriminates** | identical=True perturbed=False |
+| llm-training-dataset | `dataset_match` | dataset name (str) + expected names (List[str]) | **discriminates** | identical=True perturbed=False |
+| merge-hf-datasets | `validate_tool_call_consistency` | two lists of message dicts with 'tool_calls' | **discriminates** | identical=True perturbed=False |
+| academic-pdf-report | `compare_websites` | two URL strings (pandas.isna is stubbed) | **discriminates** | identical=True perturbed=False |
+| vlm-history-completer | `find_matching_model` | model name (str) + ground truth list of dicts with key 'Model' | **discriminates** | identical matched, perturbed did not |
+| vlm-history-completer | `similar` | two strings; returns a similarity ratio (float), not a predicate | **discriminates** | identical ratio=1.0 perturbed ratio=0.706 |
+| train-ticket-plan | `is_station_name_match` | Chinese station name (str) + target name (str) | **discriminates** | identical=True perturbed=False |
+| stock-build-position | `stock_codes_match` | two stock codes (str), normalised through a module-level alias table | **discriminates** | identical=True perturbed=False |
+| sync-todo-to-readme | `compare_todos` | two lists of (file_path, line_no, content) tuples | **discriminates** | identical f1=1.0 perturbed f1=0.0 exact_match identical=True perturbed=False |
+| oil-price | `_compare_summary` | two lists of monthly dicts; returns a list of error strings | **discriminates** | identical errors=0 perturbed errors=1 |
+| add-bibtex | `entries_match` | two bibtex entries as field->value dicts (module-level helper needed) | **discriminates** | identical=True perturbed=False |
+| price-comparison | `compare_records` | two lists of product dicts; returns a metrics dict | **discriminates** | identical and perturbed produce different outputs |
+
+## Not attempted (no hermetic fixture)
+- `ab-testing` :: `validate_task_completion` — checks a real cloud storage bucket
+- `academic-pdf-report` :: `check_filled_excel` — reads a real .xlsx with pandas (not installed here)
+- `flagged-transactions` :: `compare_excel_files` — reads two real .xlsx files with pandas
+- `game-statistics` :: `verify_daily_leaderboard` — needs a live bigquery.Client (schema + query + 100 ranked rows)
+- `game-statistics` :: `verify_historical_data_integrity` — needs a live bigquery.Client
+- `game-statistics` :: `verify_historical_stats_update` — needs a live bigquery.Client
+- `k8s-mysql` :: `compare_csv` — reads two real csv paths
+- `live-transactions` :: `check_storage_bucket_exists` — checks a real cloud storage bucket
+- `music-analysis` :: `compare_excel_files` — reads two real .xlsx files with pandas
+- `nvidia-market` :: `check_sheet1` — reads a real workbook with pandas
+
+## Counts
+- discriminates: 16 of 16
