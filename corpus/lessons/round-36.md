@@ -83,3 +83,14 @@ in the order that fails cheapest first:
    (`git show <rev>:<path>`), not from the working tree.
 6. Re-read the Amendment 1 disclosure against `corpus/evidence/round36/regex-log-probe-first-run.txt` and
    confirm the amended probe still reproduces its receipt byte-for-byte.
+
+## Close (appended)
+
+Wave 2 (34 seats: re-run both counters, re-open S108-S110, mutation-test each gate clause group, review the entry, lesson,
+QUALITY, SKILL, README, SCORECARD and LOG) was planned and committed (`.ufo/waves/round-36/falsify-spec.json`) but not
+dispatched; the operator ended the run. Consequences, stated rather than softened: (1) the `Admitted` verdict on the C2
+entry and S108-S110 above rests on wave-1 re-reads and the frozen counter, which a wave-1 seat showed admits a junk package;
+no non-author seat has re-opened the three rows' located quotes live except `R36ReopenPins` (byte identity, 5/5);
+(2) the `## Spot-check` section above has no entry; (3) the wave-1 Mistakes rows 5-8 name limits that were not repaired
+(battery gameability, clause gaps, counter junk-acceptance) — Q24's `Limits` paragraph names the first; the clause-gap
+measurement it promised (`F36MutBatteryAblation`) did not run.

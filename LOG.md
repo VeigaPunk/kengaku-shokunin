@@ -1068,3 +1068,13 @@ controls); Amendment 1 `acbda2f3`.
   covers one receipt of 156; clause (b) is still unbuilt. `merge/kengaku/` re-screened by `R36ScoutMergePkg`.
 - Tool use: biopython 1.85 via `uv run --with` (ephemeral uv cache; channel uv/PyPI; reason: the round-35
   grader's pinned dependency, used by `pkg_gate.py --rerun`). No other installs.
+
+### Round 36 — close (appended)
+
+- Wave 2 (34-seat falsify wave, `.ufo/waves/round-36/falsify-spec.json`) was never dispatched: the operator ended the run.
+  Round shape: v1 wave 1 only, 40 seats (13 executor, 9 scribe, 5 scout, 4 critic, 3 connector, 3 reviewer, 3
+  mutation-tester), 0 dead seats, below the 64-seat floor of the run-7 directive.
+- Wave-1 wording fixes applied after the integration commit: the entry no longer says the log is "visible" to an agent
+  (harness property, not established), README coverage bullet no longer says "extends", SKILL advice reworded
+  (`R36CritScope` F1/F2/F7/F9). Open: the remaining `R36CritScope` fixes, the two confounded probe cases
+  (`R36RevProbePred`), and everything wave 2 was to attack.

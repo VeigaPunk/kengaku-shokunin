@@ -137,3 +137,25 @@ definitions, kill rule and target are unchanged. Whether a pre-scoring mechanica
 instrument is a new revision or voids the claim is the open question already on the L0 queue
 (`revenger | round-69`); this round proceeds on the disclosed amendment and reports the verdict either
 way.
+
+### Amendment 1 digest correction (appended at round close; the frozen block above is not rewritten)
+
+Digests at the landing tip (`sha256sum`, 2026-10-25): `plans/regex_log_probe.py`
+`d58194c817685546a945e8b116588a52590fc944e6218ac40218381a376519bc` (amended; freeze `34ab5dfd…`),
+`plans/round36_c1_verify.py` `d7c3687c09ed4c8a09a9d7c63efa9232c2b1aff8ffb229fb8a0505578317df73` (unchanged),
+`plans/round36_c2_verify.py` `983ed65c885990f6d783abffbe21b70ab5414431b88a3b27d52fdbda65d67120` (freeze
+`f70e6d3a…`; the one-line `PROBE_SHA256` change of Amendment 1), `plans/pkg-spec-r35.json`
+`e085b43505c9848c8d19eb52c52fec1a3282dac3c5b436f59320e95e5c299fc4` (unchanged),
+`corpus/evidence/round36/toolathlon-package.md` `00132ab0cd660f356bfe94cf2175a9a2df76a7504cd9d9ec4af66634ef62a6f0`
+(unchanged). No code reads this table. Two further disclosed limits of the frozen text: the Separability
+paragraph is one-way (C1's battery copies C2's README/knowledge/SOURCES bytes, so C1 must be measured after
+C2's index row is in place), and `--legacy` is reproducible only at the freeze commit (the round-35 counter
+pins 42 knowledge files). Source: `.ufo/waves/round-36/build/R36RevClaims.md` FG3, SEP;
+`R36ConnAmendment.md` §7 (recommendation: revision).
+
+### Round close — wave 2 not dispatched
+
+The operator ended the run before the planned falsify wave (`.ufo/waves/round-36/falsify-spec.json`,
+34 seats) was taken; the round ran wave 1 only (40 seats). The frozen predicates are unchanged and were
+measured on the landing tip; statements elsewhere that a wave-2 pass will attack the gate, entry or
+battery record intent, not work done.

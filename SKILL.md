@@ -588,7 +588,7 @@ Round-26 registry addendum: `state-assertion-check` now checks frozen **P2 + P3*
 round-25 index additions). P3b uses exact S001–S042, not total later sources; new rows remain out of that
 population. The row's P2-only pin description is superseded, not a claim to cover every current assertion.
 
-Round-36 registry addendum: `package-gate` (`plans/pkg_gate.py`) is the hardened admitted-entry package gate; `round36-c1-battery` builds 14 fixtures in `mktemp` index-only git repos from the committed round-35 package bytes and is the gate's self-test. The gate may not recognise a fixture by name, path or marker string — the battery's roots are named `k36-P0…k36-P7`, so a path or marker check would pass the battery while hardening nothing; wave-2 mutation seats attack exactly that (`.ufo/waves/round-36/falsify/`, report). `regex-log-probe` imports only committed capture bytes and its receipt is byte-reproducible (fresh run `cmp`-equal, 2026-10-25); no row here makes a live host or network claim.
+Round-36 registry addendum: `package-gate` (`plans/pkg_gate.py`) is the hardened admitted-entry package gate; `round36-c1-battery` builds 14 fixtures in `mktemp` index-only git repos from the committed round-35 package bytes and is the gate's self-test. The gate may not recognise a fixture by name, path or marker string — the battery's roots are named `k36-P0…k36-P7`, so a path or marker check would pass the battery while hardening nothing; this was planned for a wave-2 mutation pass that was not dispatched (`.ufo/waves/round-36/falsify-spec.json`), so the gate's clauses are untested beyond wave-1 candidates and the battery. `regex-log-probe` imports only committed capture bytes and its receipt is byte-reproducible (fresh run `cmp`-equal, 2026-10-25); no row here makes a live host or network claim.
 
 ## Production checklist — running an eval
 
@@ -729,6 +729,6 @@ year widths other than four are unobserved (`:19`); month-length validity is uno
 Feb 30 and Apr 31 lines sit on invalid-IP lines (`:2`, `test_outputs.py:65,67`); and a regex that rejects
 Feb 29 still passes, so the instruction's permission (`instruction.md:3`) is untested (`:25`).
 
-What to do: read `tests/` before trusting a pass, and treat a green fixed log as evidence about that log
+What to do: when interpreting a reported pass, check which instruction bullets this fixture can decide, and treat a green fixed log as evidence about that log
 only — never as evidence of instruction compliance. `test.sh:26-28` writes reward 1/0 from pytest's exit
-alone, so a passing submission can be a hardcoded alternation.
+alone, so a green fixed log cannot distinguish a stated-rule regex from a literal alternation of the expected values (a property of `regex-log` at `2fd12b88`, not a task-validity or agent-behaviour verdict).

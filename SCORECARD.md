@@ -1238,3 +1238,25 @@ held (admit-candidate for a later claim), `grader-fixture-probe-stage3.md` refus
   prior-art-gated requirement-class census across the two admitted graders; keep the frozen predicate and
   control the same sentence. Candidates and sizes: `.ufo/waves/round-36/build/R36ScoutNextTasks.md`,
   `R36PlanNext.md`.
+
+### Round-36 close and errata (appended; the rows above are not rewritten)
+
+- **Wave 2 was not dispatched.** The operator ended the run; `falsify-spec.json` (34 seats) was planned and
+  committed, never taken. The round is wave 1 only: 40 seats, 40 reports, 0 dead
+  (`.ufo/waves/round-36/build-results.json`). Every sentence above that says the gate, entry or battery "is attacked in
+  wave 2" records the plan; the gate's clauses are tested only by the four wave-1 candidates, the frozen battery and
+  the wave-1 mutation seats (`R36MutC2W2W3` 20/21, `R36MutC2W4W5` 14/14, `R36MutLedgerChecks` 24/24).
+  The C2 landing therefore rests on wave-1 re-reads (`R36IndepRegexGrader` 24/24, `R36ProbeRerun`, `R36OracleRun`,
+  `R36ReopenPins` 5/5) and on a counter that a seat showed admits a junk package.
+- **Stale frozen-digest block** in `plans/round-36-claims.md`: corrected by the appended digest table there
+  (`R36RevClaims` FG3).
+- **`measure-final.txt`**: `.ufo/waves/round-36/integrate/measure-final.txt` carries the clean-clone measurement of the
+  final tip, with the tip hash inside it.
+- **Wave-1 findings not absorbed** (routed, open): `R36CritScope` wording fixes F3-F6, F8, F10 (oracle framing, four
+  negative-space refusals, a 134-word PROVINCE rewrite at `build/R36CritScope/province-rewrite.txt`, the `coverage/surfaces`
+  vs `coverage/constructs` sub-row label, capability-definition wording) — F1/F2/F7/F9 were applied; `R36RevProbePred`
+  (two confounded cases, `ip-no-left-boundary` and `ip-no-right-boundary`, die on lines other than the boundary
+  line they name: the entry's `What decides it` cells for those two rows are therefore not independent evidence);
+  `R36CritUnenforced` findings F1-F4 are in the entry as post-hoc observations only.
+- **Plan wording for novelty**: `R36ScoutPriorArt` priced the instrument `incremental` (6 hits); no novelty claim was made and the
+  axis is unchanged.

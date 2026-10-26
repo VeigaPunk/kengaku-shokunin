@@ -19,7 +19,7 @@ prediction written from the static reading before the first run:
 `cases=24 observed_pass=8 observed_fail=16 mismatches=0`
 
 Six of the eight passing cases are patterns that violate a stated or structural requirement and still
-score 1 — the fixed, visible log is the whole test surface, so a literal alternation of the nine
+score 1 — the fixed in-test log is the whole test surface, so a literal alternation of the nine
 expected strings passes, the instruction's no-leading-zero-octet rule is unobserved, digit-adjacent
 dates are unobserved, the year width is unobserved, month-length validity never decides a valid-IP
 line, and the permitting side of February 29 is unobserved.
@@ -106,8 +106,9 @@ fails with the expected list in the assertion text.
 
 ### The six findings, each bounded to this capture
 
-1. **A hard-coded alternation of the nine expected dates scores 1.** The log is fixed and visible in
-   the test file, so `2025-01-09|2024-11-01|…|1999-03-05` is a passing "regex". No case of a
+1. **A hard-coded alternation of the nine expected dates returns without `AssertionError`** (reward 1 under
+   S109's mapping). The log and the nine literals are fixed in the test file (whether an agent can read that
+   file at solve time is a harness property this entry does not establish), so `2025-01-09|2024-11-01|…|1999-03-05` is a passing "regex". No case of a
    *general* date rule is required, and none is checked.
 2. **The no-leading-zero-octet rule (instruction line 4) is unobserved.** A pattern whose octet
    alternation admits `01`-style octets passes, because every IP in the log is written canonically.
