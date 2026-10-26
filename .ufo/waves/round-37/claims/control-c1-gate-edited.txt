@@ -1,0 +1,75 @@
+$ (clone of 3ea9a1d9005cc07d0a5ce69f4ebf53a81fbcecdd + freeze files) python3 plans/round37_c1_verify.py --lane .
+GATE plans/pkg_gate.py sha256=NOT-AT-FREEZE-DIGEST
+FIXTURE r36-P0 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-P1 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P2 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P3 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P4 expect=reject declared=- observed_rc=1 observed_defects=P6 ok
+FIXTURE r36-P5 expect=reject declared=- observed_rc=1 observed_defects=P1 ok
+FIXTURE r36-P6 expect=reject declared=- observed_rc=1 observed_defects=P9 ok
+FIXTURE r36-P7 expect=reject declared=- observed_rc=1 observed_defects=P1,P3,P6,P9 ok
+FIXTURE r36-L1 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-L2 expect=reject declared=- observed_rc=1 observed_defects=D4 ok
+FIXTURE r36-L3 expect=reject declared=- observed_rc=1 observed_defects=D4 ok
+FIXTURE r36-L4 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-L5 expect=reject declared=- observed_rc=1 observed_defects=D5 ok
+FIXTURE r36-L6 expect=reject declared=- observed_rc=1 observed_defects=D5 ok
+BATTERY fixtures=14 wrong=0 renamed_disagree=0
+MUTANT M01 P1 invalid -- frozen instrument digest mismatch
+MUTANT M02 P2 invalid -- receipt unreadable
+MUTANT M03 P2 invalid -- receipt digest differs from the pin
+MUTANT M04 P3 invalid -- no Located quotes section
+MUTANT M05 P3 invalid -- an unparsed quote row
+MUTANT M06 P3 invalid -- fewer distinct quotes than min_quotes
+MUTANT M07 P3 invalid -- fewer distinct located lines than min_distinct_locations
+MUTANT M08 P3 invalid -- a quote outside the word range
+MUTANT M09 P4 invalid -- no parsed quote
+MUTANT M10 P4 invalid -- quote cites an unreadable capture
+MUTANT M11 P4 invalid -- quote line range outside the capture
+MUTANT M12 P4 invalid -- quote not verbatim on its cited line
+MUTANT M13 P5 invalid -- capture manifest absent
+MUTANT M14 P5 invalid -- unparsed manifest line
+MUTANT M15 P5 invalid -- manifest digest does not match the capture bytes
+MUTANT M16 P5 invalid -- row capture not pinned in the manifest
+MUTANT M17 P5 invalid -- manifest digest differs from the spec pin
+MUTANT M18 P5 invalid -- quoted capture not pinned in the manifest
+MUTANT M19 P5 invalid -- capture file not covered by the manifest
+MUTANT M20 P6 invalid -- registry row missing or duplicated
+MUTANT M21 P6 invalid -- registry row without 11 cells
+MUTANT M22 P6 invalid -- row url not the pinned raw path
+MUTANT M23 P6 invalid -- row tier wrong
+MUTANT M24 P6 invalid -- row status wrong
+MUTANT M25 P6 invalid -- row used-by is not the entry
+MUTANT M26 P6 invalid -- teaches cell under min_teaches_words
+MUTANT M27 P6 invalid -- teaches cells not pairwise distinct
+MUTANT M28 P7 invalid -- entry unreadable
+MUTANT M29 P7 invalid -- source line absent or not the pinned url
+MUTANT M30 P7 invalid -- verified-at absent or not the frozen date
+MUTANT M31 P7 invalid -- recheck line absent
+MUTANT M32 P7 invalid -- no Negative space section
+MUTANT M33 P7 invalid -- Negative space carries no falsifier
+MUTANT M34 P8 invalid -- README unreadable
+MUTANT M35 P8 invalid -- index rows for the entry not exactly one
+MUTANT M36 P8 invalid -- index row does not cite every registry row
+MUTANT M37 P8 invalid -- no coverage bullet naming entry and receipt
+MUTANT M38 P8 invalid -- knowledge files differ from index rows
+MUTANT M39 P9 invalid -- root is not a git worktree
+MUTANT M40 P9 invalid -- untracked file present
+MUTANT M41 P10 invalid -- receipt unreadable at re-run
+MUTANT M42 P10 invalid -- fresh probe exits nonzero
+MUTANT M43 P10 invalid -- fresh probe output not byte-equal to the receipt
+MUTANT M44 D4 invalid -- d4 file unreadable
+MUTANT M45 D4 invalid -- d4 file is not exactly one line
+MUTANT M46 D4 invalid -- d4 line does not carry the label
+MUTANT M47 D4 invalid -- d4 directional pattern absent
+MUTANT M48 D5 invalid -- d5 file unreadable
+MUTANT M49 D5 invalid -- d5 file is not exactly one line
+MUTANT M50 D5 invalid -- d5 line does not carry the label
+MUTANT M51 D5 invalid -- d5 required token missing
+MUTANT M52 D5 invalid -- d5 forbidden token present
+MUTANT M53 D5 invalid -- d5 capture unreadable
+MUTANT M54 D5 invalid -- d5 capture digest not in the manifest
+MUTANT M55 D5 invalid -- d5 quote absent from the capture
+MUTANTS total=55 killed=0 survived=0 invalid=55 null_detected=0
+PREDICATE C1 fail
+exit=1
