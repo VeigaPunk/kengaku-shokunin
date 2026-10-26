@@ -1725,3 +1725,53 @@ prior-art receipt. Source: `.ufo/waves/round-41/build/R41PlanNext.md` §0–§9 
 - **Hygiene (L1):** a seat checks that its `rm -rf` target is its own `$S` before deleting (wave 1: a seat deleted the
   round root; the wave-2 context carried the guard sentence); unguarded until a round shows the check able to fail. L1
   counter runs carry the envelope line (Q32 forward leg, red on the L1's receipts this round).
+
+## Round 42 (hyaku run 9, 2026-10-26): two gate tools' near-variants demonstrated with attributed kills (14/14); an eighth TB2 grader executed
+
+Baseline as read `d69452cfa4ea8f95a43caf3727a7c797ba390b6c`; freeze `bc856d803576e182b6c3c12afc6b23f392071c25`; first
+recorded probe run `523b27806be0df26d2235089d845265a29f8cedf`; wave-1 dispatch `fda71ae0`; landing
+`ff14d76d32d662f7b7073a2acb049594cb740d84`. Frozen prereg `plans/round-42-claims.md`. Lowest non-retired axis: coverage 7,
+tied with novelty 7; coverage chosen (frozen tie-break), capped at 7 by the open L0 question `kengaku | round-33`. No
+stagnation waiver. Landing measurement `.ufo/waves/round-42/integrate/measure-final.txt` (clean `--no-local` clone of the
+landing tip, inside the Q32 envelope v2), baseline `integrate/measure-baseline.txt` at `fda71ae0`.
+
+| claim | axis | observed before → after, counting command | score / verdict |
+|---|---|---|---|
+| C1 what `plans/anchor_digest_check.py` and `plans/order_check.py` advertise and battery40 leaves undemonstrated — the 14 directional round-40 near-variants (anchor 9, order 5; 13 `direct`, 1 `indirect`), directions witnessed through the frozen counter (XO5/XO6 relabelled `rc-mirror`), kills counted only when attributed (traced re-run executes the replaced span) | **calibration** — advertised-vs-demonstrated mismatch count for two lane gate tools | `python3 plans/round42_c1_verify.py --lane .`: before `BATTERY fixtures=0`, `MUTANTS total=14 killed=0 survived=14`, `MUTANTS-BY-TOOL anchor=0/9 order=0/5`, `PREDICATE C1 fail`, exit 1 (`.ufo/waves/round-42/claims/control-c1-nothing.txt`; `integrate/measure-baseline.txt`) → after `PINS total=2 mismatched=0`, `BATTERY fixtures=29 wrong=0 tampered=0 sidechannel=0`, `MUTANTS total=14 killed=14 survived=0 invalid=0 null_detected=0 unattributed=0`, `MUTANTS-BY-TOOL anchor=9/9 order=5/5`, `PINS-AFTER mismatched=0`, `PREDICATE C1 pass`, exit 0 (`integrate/measure-final.txt`, measured at `ff14d76d`) | frozen predicate met; **8 → 8 held**; admission also rests on the wave-2 non-author battery review (the counter is forgeable: `R42CritC1Counter` reached the predicate with three substitute fixtures; `R42CritAttribution` finds the span check vacuous for 8/14) |
+| C2 pinned TB2 `circuit-fibsqrt` grader admitted with an executed 16-case sandbox probe (S125 `tests/test_outputs.py`, S126 `instruction.md`, S127 `tests/sim.c`; S128 OpenAgents #9645 tier B prior art) | **coverage** (lowest, tied) — one §Frontier TB2 sub-bullet narrowed by one task (8 of 89), one coverage-map bullet, one PROVINCE paragraph, knowledge files/index rows 48→49, SOURCES 117→121; one edge class new to the executed sample (a data artefact executed by a simulator the grader compiles at grading time, scored on a fixed 28-row table) | `python3 plans/round42_c2_verify.py --lane .`: before `checks=9 defects=6` (V2 V3 V4 V7 V8 V9), exit 1 (`claims/control-c2-nothing.txt`; at `fda71ae0` `defects=5`, V8 ok once the receipt landed) → after `checks=9 defects=0`, `PREDICATE C2 pass`, exit 0 (`measure-final.txt`); probe `cases=16 observed_pass=7 observed_fail=9 mismatches=0`, `regrade cases=16 differ=0`, re-run byte-equal (`fibsqrt_probe exit=0 byte_equal=yes`); real pytest 8.4.1/py3.13 parity 16/16 (`R42CritPytest`) | frozen predicate met; **7 → 7 held** (L0 cap) |
+
+Limits found in wave 1 (frozen counters not edited; routed to round 43): `R42SentinelCounter` V1 (HIGH) — a fixture's
+`.git/config` with `log.showSignature` + `gpg.program` runs a program inside the order tool's run, so the frozen sentence
+"these two tools run no fixture code" is false for `order_check.py` (no fabricated kill demonstrated; battery42 carries
+no such key: `grep -i 'config\|gpg\|signature\|worktree' plans/battery42/*.py` → nothing); V2/V3 (builder copy readable,
+the hidden lane is a writable tmpfs); `R42CritC1Counter` V1b (`core.worktree` redirects the order tool's root outside the
+fixture). V9 is a consistency check, not a content check: an informed filler that copies the receipt into a case table
+passes 7 of 9 (`R42CritClaims` §1). Two frozen `adv` cells are misquoted (`R42RevMutRows`: 12/14 verbatim).
+
+Other axes held: novelty 7 (no claim; prior art searched — of six findings one published as worded, one adjacent, S128),
+depth 9, operability 8 (riders: `plans/scratch_guard.py` selftest 36/36; `round_close.py --selftest` re-run fix, red→green
+`integrate/r5-round-close-check.txt`), freshness 8, adjacency 8 (PROVINCE routing: digital-logic/C-simulator semantics
+unowned). No-harm at the landing tip (`diff` of verdict lines, `measure-baseline.txt` vs `measure-final.txt`): only the
+round-42 counters (red → green), the anchor check (`rows=117 tokens=24` → `rows=121 tokens=27`, `defects=0` both), the
+routed rider (`routed_open=5` → `10`, six rows appended) and the registry/knowledge counts differ; rounds 36–41 counters,
+ledger-tip, tip receipts (`receipts=28 byte_equal=8 differ=0` — the fibsqrt receipt now re-runs byte-equal by derived
+mapping), constraints/db-wal probes byte-equal, census exit 0 (15 `W04`), frozen digests (rounds 39–42) OK, `order_check`
+round 38 exit 1 (as before), rounds 39–42 exit 0, `round_close.py --round 41/42` exit 0. Envelope note: under the v1
+envelope (home read-only) every C2-class counter went red on `uv`'s cache lock (`integrate/measure-baseline-v1.txt`); v2
+overlays `~/.cache` from scratch.
+
+### Round-42 capabilities (demonstrated this round)
+
+| Capability | What it can now do | Evidence / command | First-working round |
+|---|---|---|---|
+| `attributed-mutant-kills` | Count a mutant as killed only when a traced re-run of the mutant on the killing fixture reproduces the result and executes a line of the replaced span; print `unattributed=<n>` otherwise | `python3 plans/round42_c1_verify.py --lane .` → `unattributed=0`, `PREDICATE C1 pass`; span-forced control `claims/control-c1-attribution.txt` → `killed=0 unattributed=14`, fail | 42 |
+| `compiled-simulator-grader-probe` | Execute a pinned TB2 grader that compiles its own simulator at grading time and runs it over an agent-written data artefact, per case in bubblewrap with frozen predictions, `violates=` tags and a same-state regrade | `python3 plans/fibsqrt_probe.py --lane .` → `cases=16 observed_pass=7 observed_fail=9 mismatches=0`, byte-equal re-run (`measure-final.txt`); pytest parity 16/16 (`R42CritPytest`) | 42 |
+| `scratch-root-guard` | Refuse a scratch deletion outside the caller's own seat dir (root, sentinel, sibling seat, symlink or `..` escapes) and verify the round root's sentinel | `python3 plans/scratch_guard.py --selftest` → `SELFTEST ok=36/36`; `check /fast/scratch/hyaku/kengaku-r42` → `SENTINEL … round=42` | 42 |
+
+Frontier and routed work (not claims): round-41 closure R1 (repairs a–e + attribution frozen; a–c reachable only through
+git config — V1 above, routed), R2 (sentinel + `scratch_guard.py`; guard sentence in the wave context; misroot 0, host
+writes 0, `R42ScoutMisroot`), R3 (V9 + `control-c2-filler.txt`; the tier-B live-state half not built, routed), R4 (no
+SOURCES cell edited in place; new rows only), R5 (`round_close.py` re-run fix landed with a red/green check).
+`considerthese/2026-10-26.md` proposal 2 (filler-control half) → V9. QUALITY Q33 (carried directions re-derived through
+the frozen counter) and Q34 (SOURCES non-mutable cells corrected only by a superseding row). Registry 117 → 121 (tier A +3,
+tier B +1), knowledge 48 → 49. Assimilation: none (`merge/kengaku/` unchanged since 2026-10-24, `R42MergeRescreen`).

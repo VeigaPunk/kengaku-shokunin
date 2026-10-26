@@ -1275,3 +1275,33 @@ host-write module); first recorded probe run `f774a87a` (second run byte-equal);
 - Erratum to this entry (`F41CritScorecard` D2): "a decoy first `VEVENT` passes 3/3 (published, S124)" → "(S124; PR #245
   closed unmerged)".
 
+## Round 42 (hyaku run 9, 2026-10-26) — two gate tools' near-variants demonstrated (14/14, attributed); eighth TB2 grader executed
+
+L1 `KengakuR42` (planner seat). Freeze `bc856d80` (claims; the round-42 C1 counter — round-41 counter + the five
+`F41C1Hardened` repairs + an attribution leg — with 14 near-variant mutants over `plans/anchor_digest_check.py` and
+`plans/order_check.py` and their freeze modules; the circuit-fibsqrt probe and its frozen 16-case table, spec, C2
+counter with V9, nine captures, red controls including a span-forced attribution copy, a direction-mislabel copy and a
+filler package); first recorded probe run `523b2780`; landing `ff14d76d`. Lesson `corpus/lessons/round-42.md`.
+
+- C1 (calibration, predicate met): freeze `killed=0 survived=14`; five wave-1 executors wrote `plans/battery42/` (29
+  fixtures); landing `BATTERY fixtures=29 wrong=0 tampered=0 sidechannel=0`, `MUTANTS total=14 killed=14 … unattributed=0`,
+  `MUTANTS-BY-TOOL anchor=9/9 order=5/5`, `PREDICATE C1 pass`. Wave 1 forged the predicate with three substitute
+  fixtures (`R42CritC1Counter`), found the span check vacuous for 8/14 (`R42CritAttribution`) and a `gpg.program` path
+  that runs fixture code in the order tool (`R42SentinelCounter` V1), so admission also rests on the wave-2 battery review.
+- C2 (coverage, predicate met): TB2 `circuit-fibsqrt` @ `2fd12b88`, S125/S126/S127 (+ S128, OpenAgents #9645, tier B);
+  probe `cases=16 observed_pass=7 observed_fail=9 mismatches=0`, `regrade cases=16 differ=0`. Observations: a 1195-line
+  lookup for the 28 graded inputs passes 3/3 while printing 0 for the instruction's examples 208/20000; 31999 lines pass,
+  32000 fail only the size test; comments, reversed order and CRLF pass; trailing spaces fail (a scanned copy line that
+  matches no form stays a constant-0 gate, `R42CritProbe` D1); a planted `/app/sim` is overwritten by the grader's compile
+  (verifier cwd `/app`, `R42ScoutHarborCwd`). Real pytest parity 16/16. Coverage held at 7 (L0 cap).
+- Frontier / routed: registry rows `round42-c1-mutants`, `round42-c2`, `fibsqrt-probe` + addendum; QUALITY Q33/Q34;
+  routed rider +6 rows (`routed_open=10 oldest_round=39`); R5 `round_close.py --selftest` re-run fix (red→green);
+  R2 `plans/scratch_guard.py` (selftest 36/36); PROVINCE round-42 paragraph (digital-logic / C-simulator semantics unowned).
+- Assimilation: `merge/kengaku/` unchanged since 2026-10-24, nothing adopted (`R42MergeRescreen`).
+- Mistakes mined: XO5/XO6 directions carried mislabelled from the round-40 table (fixed by re-derivation; the mislabel
+  control fails); the Q32 envelope with a read-only home turned every C2-class counter red on `uv`'s cache lock
+  (`integrate/measure-baseline-v1.txt`; v2 overlays `~/.cache` from scratch); a frozen counter sentence ("run no fixture
+  code") falsified by `gpg.program`.
+- Re-verification (freshness): S125–S127 re-fetched cmp-identical twice (`R42PkgRows`), TB2.1 `main` byte-identical to
+  the pin (`R42ScoutPriorArt`); five SOURCES rows re-opened, no change (`R42SourcesRecheck`); every no-harm instrument at
+  the landing tip as at the baseline (`integrate/measure-final.txt`).
