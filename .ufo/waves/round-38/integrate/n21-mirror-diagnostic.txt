@@ -1,0 +1,14 @@
+# POST-HOC DIAGNOSTIC — NOT the frozen C1 rule and NOT a claim result.
+# Clean --no-local clone of a022ae602cbe498fb157fbdaa378b5bf8f55d344; in the scratch copy ONLY, MUTANTS row N21's
+# direction was changed "silence" -> "mirror" (python3 str.replace on plans/round38_c1_verify.py), then:
+#   python3 plans/round38_c1_verify.py --lane . --work <scratch>      (FIXTURE / per-mutant killed lines filtered)
+#   python3 plans/round38_c1_verify.py --lane . --only N21 --work <scratch>
+# Shows the landed battery would kill all 22 had N21 been frozen with its reachable direction. The frozen predicate
+# (N21 = silence) stays unmet: C1 is an honest stop (corpus/lessons/round-38.md §Mistakes row 1).
+# Note: PINS does not include the counter itself (the counter's own digest is in claims/frozen-digests.txt).
+PINS total=14 mismatched=0
+BATTERY fixtures=86 wrong=0 renamed_disagree=0 sidechannel=0
+MUTANTS total=22 killed=22 survived=0 invalid=0 null_detected=0
+PREDICATE C1 pass
+MUTANT N21 D5 mirror killed by=d5m-n21-manifest-row-2 -- the capture digest is looked up in every manifest row, not only the first [F37XMutD5 X3]
+MUTANTS total=1 killed=1 survived=0 invalid=0 null_detected=0
