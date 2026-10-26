@@ -160,6 +160,13 @@ ITEMS = [
      f"lesson corpus/lessons/round-37.md and the capability rows — re-derive each from committed bytes or receipts (cite the command). Count "
      f"mismatches; list each with the corrected value.",
      "VERDICT: statements-<n_checked>-mismatches-<n>"),
+    ("F37MutAttribution", "mutation-tester", ["calibration"],
+     f"Attack the post-hoc audit {L}/plans/round37_c1_attribution.py (not the frozen rule; receipts {W}/integrate/c1-attribution.txt "
+     f"`ATTRIBUTED 55/55` and c1-attribution-hostile.txt `6/55`). In your clone: (a) 4 code mutants of the audit (drop the family check; "
+     f"drop the declared-defects check; accept rc not in 0/1; drop the 'clause in reference DEFECT set' check) — run each against the landed "
+     f"battery and against the hostile side-channel battery in {B1}/R37CritC1Battery/sidechannel/ (copy into your clone's plans/battery37/); "
+     f"report which mutants the hostile battery exposes; (b) design one hostile fixture that the audit would still attribute wrongly, if any.",
+     "VERDICT: attribution-mutants-<caught>/4-residual-<n>"),
     # ---- reviewers ----
     ("F37ReopenRows", "reviewer", ["coverage", "freshness"],
      f"Re-open S111-S113 live at {RAWRL}/(tests/test_outputs.py, tests/verify.sh, instruction.md): sha256 vs the row anchors and {CAP}/SHA256SUMS; "
