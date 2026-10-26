@@ -1,0 +1,11 @@
+--- reference
++++ mutant
+@@ -1,6 +1,5 @@
+ ORDER claims=plans/round-42-claims.md round=42 freeze=81b3bdcf85c11d3a35f8af4763a9f47446479ac2
+ ORDER receipt=corpus/evidence/round42/probe.txt receipt_commit=81b3bdcf85c11d3a35f8af4763a9f47446479ac2 claims_dir=.ufo/waves/round-42/claims/
+-ORDER FAIL freeze-contains-receipt 81b3bdcf85c11d3a35f8af4763a9f47446479ac2 already has corpus/evidence/round42/probe.txt
+ ORDER scanned commits=1 file_entries=1 distinct_blobs=1
+-ORDER FAIL freeze-contains-receipt hits=0
+-ORDER RESULT FAIL
++ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
++ORDER RESULT PASS

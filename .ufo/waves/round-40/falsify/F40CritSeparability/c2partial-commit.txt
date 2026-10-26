@@ -1,0 +1,21 @@
+4bf5f5d counterfactual: C2 index row only removed
+ corpus/README.md | 1 -
+ 1 file changed, 1 deletion(-)
+commit 4bf5f5d636b2f3b4bc0452d796bb9a3a2d044734
+Author: counterfactual <cf@kengaku.invalid>
+Date:   Mon Oct 26 14:33:04 2026 -0300
+
+    counterfactual: C2 index row only removed
+
+diff --git a/corpus/README.md b/corpus/README.md
+index 19b026b..c600b3b 100644
+--- a/corpus/README.md
++++ b/corpus/README.md
+@@ -70,7 +70,6 @@ candidates fixed in the receipt, not the wider round-16 citation audit.
+ | `knowledge/tb2-git-webserver-grader.md` | A third Terminal-Bench 2.0 task grader read and executed: `configure-git-webserver`'s whole score is one pytest function asserting that the stdout of a shell helper contains the substring `TEST PASSED` — so a static file served on port 8080 with no git repository, hook or push passes, and a body containing only that token passes while the helper itself prints `TEST FAILED`; status and body come from two separate requests and trailing newlines are the only whitespace forgiven (`cases=22 observed_pass=9 observed_fail=13 mismatches=0`) | S111, S112, S113 (terminal-bench-2 @ 2fd12b88); S114 (TB2.1 issue #133, prior report) |
+ | `knowledge/tb2-build-pmars-grader.md` | A fourth Terminal-Bench 2.0 task grader read and executed: `build-pmars` scores four pytest functions — binary presence, two debugger address lines, a start-anchored `Results:` match, an `ldd` string scan and a one-level `/app/pmars-*` tree — so a canned 21-line C program plus an empty `debian/` directory and a zero-byte `src/dummy.c` passes all four tests, a `dlopen()`ed libX11 evades the X11 scan, exit 3 with output is ignored, and `Results: 12 34 78 forged` passes; no instruction line is fully enforced (`cases=22 observed_pass=7 observed_fail=15 mismatches=0`) | S115, S116 (terminal-bench-2 @ 2fd12b88) |
+ | `knowledge/tb2-git-leak-recovery-grader.md` | A fifth Terminal-Bench 2.0 task grader read and executed: `git-leak-recovery` scores five pytest functions — a stripped literal at `/app/secret.txt`, two `git log --all` searches, an init-message substring, `git fsck --lost-found` plus `cat-file -p` over each dangling object, and a pinned non-dot work-tree checksum — so the untouched initial state passes 4 of 5, writing the literal alone passes 5/5 with the secret still in the object store, a ref to a blob, an annotated tag message, a stash, a dot file and `.git/config` all pass 5/5 while a dangling blob or commit, a branch-reachable secret commit, a note, an untracked file and an edited README fail, and commit-message preservation is one substring; two of the four instruction tags are enforced (`cases=25 observed_pass=13 observed_fail=12 mismatches=0`) | S117, S118 (terminal-bench-2 @ 2fd12b88) |
+-| `knowledge/tb2-db-wal-recovery-grader.md` | A sixth Terminal-Bench 2.0 task grader read and executed: `db-wal-recovery` scores seven pytest functions that all open only `/app/recovered.json` — existence, a non-empty list, three field types, sorted ids, eleven ids with values `150`/`250` on ids 1-2 and the names `cherry`…`mango` on ids 3-11, unique ids, and a `>5`-row floor — so 22 of the 33 `id`/`name`/`value` cells are pinned and hand-typed JSON passes 7/7 without opening the database, "Fix the WAL file" is graded only through the export, one plain read-write `sqlite3` open destroys the encrypted log so the task's own oracle then fails 2 tests, a wrong XOR key leaves the five base rows, `True` passes as an int value, float ids `1.0`…`11.0` fail only the structure test, and an extra field passes; S119, S120; probe `plans/db_wal_probe.py`, receipt `evidence/round40/db-wal-probe.txt` |
+ | `lessons/round-1.md` | Path-correction, replace-don't-append, zero-width char hazard | LOG.md round 1, commit `90a5ce8` |
+ | `lessons/round-3.md` | Filename-judging missed on-host surfaces; complementarity vs pass-rate; NULL parsing; FAIL-latency signature | LOG.md round 3, this round's analysis |
+ | `lessons/round-4.md` | Endpoint-drift trap; n=1 flip on 03; FAIL-latency is subset-level not per-task | LOG.md round 4, `/tmp/bench-r4` run |

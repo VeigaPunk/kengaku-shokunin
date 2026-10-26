@@ -1,0 +1,32 @@
+# standing-counter before (committed control, freeze bbb1095)
+PINS total=3 mismatched=0
+BATTERY fixtures=0 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=21 killed=0 survived=21 invalid=0 null_detected=0
+PINS-AFTER mismatched=0
+PREDICATE C1 fail
+exit=1
+
+# committed witness battery at the freeze (committed at bbb1095)
+PINS total=3 mismatched=0
+BATTERY fixtures=9 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=21 killed=7 survived=14 invalid=0 null_detected=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+exit=1
+
+# landing measurement (clean clone of ec17216, committed inside ec1005a)
+PINS total=3 mismatched=0
+BATTERY fixtures=21 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=21 killed=21 survived=0 invalid=0 null_detected=0
+PINS-AFTER mismatched=0
+PREDICATE C1 pass
+exit=0
+PREDICATE C2 pass
+exit=0
+
+# my rerun at ec1005a2 (witness battery, bwrap sandbox)
+PINS total=3 mismatched=0
+BATTERY fixtures=9 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=21 killed=7 survived=14 invalid=0 null_detected=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)

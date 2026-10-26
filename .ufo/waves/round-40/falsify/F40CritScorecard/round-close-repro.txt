@@ -1,0 +1,35 @@
+# header: clean --no-local clone checked out at ec1005a2a28bc5cfdde7723374368ed4cc956eed (the tip the wave-2 spec names); HEAD=ec1005a2a28bc5cfdde7723374368ed4cc956eed
+# envelope: bwrap --dev-bind / / --ro-bind ~/.local/bin ~/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent
+# SHOKUNIN_ROOT is unset for the first block (env -u), exactly as the SCORECARD command is printed
+
+######## SCORECARD.md:1474 as printed: python3 plans/round_close.py --lane . --round N ########
+$ env -u SHOKUNIN_ROOT python3 plans/round_close.py --lane . --round 38
+ROUND-CLOSE ERROR no census script (scripts/sources-census.sh); pass --census PATH
+ROUND-CLOSE RESULT ERROR
+exit=2
+$ env -u SHOKUNIN_ROOT python3 plans/round_close.py --lane . --round 40
+ROUND-CLOSE ERROR no census script (scripts/sources-census.sh); pass --census PATH
+ROUND-CLOSE RESULT ERROR
+exit=2
+
+######## R40CloseCheck.md:71 form: SHOKUNIN_ROOT=/home/vgpnk/Projects/shokunin python3 ... ########
+$ SHOKUNIN_ROOT=/home/vgpnk/Projects/shokunin python3 plans/round_close.py --lane . --round 38
+ROUND-CLOSE census exit=0 warnings=15 verdict=PASS
+ROUND-CLOSE RESULT FAIL exit=1
+exit=1
+$ SHOKUNIN_ROOT=/home/vgpnk/Projects/shokunin python3 plans/round_close.py --lane . --round 39
+ROUND-CLOSE census exit=0 warnings=15 verdict=PASS
+ROUND-CLOSE RESULT PASS exit=0
+exit=0
+$ SHOKUNIN_ROOT=/home/vgpnk/Projects/shokunin python3 plans/round_close.py --lane . --round 40
+ROUND-CLOSE census exit=0 warnings=15 verdict=PASS
+ROUND-CLOSE RESULT PASS exit=0
+exit=0
+
+######## control: --census explicit, no env ########
+$ env -u SHOKUNIN_ROOT python3 plans/round_close.py --lane . --round 38 --census /home/vgpnk/Projects/shokunin/scripts/sources-census.sh
+ROUND-CLOSE RESULT FAIL exit=1
+exit=1
+$ env -u SHOKUNIN_ROOT python3 plans/round_close.py --lane . --round 40 --census /home/vgpnk/Projects/shokunin/scripts/sources-census.sh
+ROUND-CLOSE RESULT PASS exit=0
+exit=0

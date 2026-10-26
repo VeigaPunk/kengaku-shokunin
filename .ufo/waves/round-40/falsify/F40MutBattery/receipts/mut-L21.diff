@@ -1,0 +1,14 @@
+diff --git 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/l_refuse.py 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-L21/battery40/l_refuse.py
+index 65f521e..559b97f 100755
+--- 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/l_refuse.py
++++ 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-L21/battery40/l_refuse.py
+@@ -50,8 +50,7 @@ def work_lane_exists(ctx, d):
+ def stale_master_pin(ctx, d):
+     """L21 witness: control-mode clone whose refs/heads/master was rewound -> stale pin ref refusal."""
+     lane = ctx.clone(d / "lane")
+-    ctx.git(lane, "checkout", "-q", "--detach")
+-    ctx.git(lane, "branch", "-f", "master", "HEAD~6")
++    pass
+     return ["--lane", str(lane)]
+ 
+ 

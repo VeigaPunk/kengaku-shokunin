@@ -1,0 +1,12 @@
+# every fixture's object store aliases the shared pristine, outside the fixture root
+$ cat dests/bat_a_tok/f000/lane/.git/objects/info/alternates
+/fast/scratch/hyaku/kengaku-r40/F40SentinelBattery/pristine/.git/objects
+$ cat dests/bat_a_tok/f000/lane/.git/config  # remote.origin.url
+  [remote "origin"]
+  	url = /fast/scratch/hyaku/kengaku-r40/F40SentinelBattery/pristine
+
+$ echo "sentinel-forged" > forged.txt; git -C pristine hash-object -w forged.txt
+b720c67f1d299f67fde4b12ba7605e8c04f1a98c
+$ git -C dests/bat_a_tok/f000/lane cat-file -p b720c67f...
+sentinel-forged
+=> an object planted in the pristine is readable from an unrelated fixture; fingerprint() covers only the fixture dir.

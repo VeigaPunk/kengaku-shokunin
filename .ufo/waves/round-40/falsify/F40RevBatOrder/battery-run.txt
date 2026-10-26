@@ -1,0 +1,33 @@
+# Receipt: battery run of plans/battery40/o_gate.py (isolated, dev mode) — F40RevBatOrder, 2026-10-26
+
+Lane tip: ec1005a2a28bc5cfdde7723374368ed4cc956eed (scratch clone /fast/scratch/hyaku/kengaku-r40/F40RevBatOrder/lane).
+Module byte-identity: `cmp` bat-copy == clone == fleet lane file (both printed equal); sha256(o_gate.py) =
+ffc40e5e09698e3ec10ba7835e0b8a7b769341c3a8874214f0b79d9b915d27d8; sha256(order_check.py) =
+948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc == PINS["plans/order_check.py"].
+
+Command (HOST-SAFETY sandbox, verbatim operator bwrap line):
+
+    S=/fast/scratch/hyaku/kengaku-r40/F40RevBatOrder
+    bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 \
+      --proc /proc --unshare-pid --die-with-parent \
+      python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round40_c1_verify.py \
+      --lane "$S/lane" --battery-dir "$S/bat" --only O04,O12,O14 --work "$S/w"
+
+$S/bat contained only o_gate.py. Full output, unedited:
+
+    PINS total=3 mismatched=0
+    FIXTURE o_gate-p10-ok-excuse tool=order expect=reject declared=hit:gate-p10 observed_rc=1 observed=hit:gate-p10 ok
+    FIXTURE o_gate-claims-gitlink tool=order expect=accept declared=- observed_rc=0 observed=- ok
+    FIXTURE o_gate-claims-bak-name tool=order expect=error declared=- observed_rc=2 observed=- ok
+    MUTANT O04 order rc-silence killed by=o_gate-p10-ok-excuse -- plans/order_check.py:15-16 'a gate `P10` line whose detail is anything other than `receipt
+    MUTANT O12 order rc-error killed by=o_gate-claims-gitlink -- plans/order_check.py:37 'it reads every blob under claims/' (non-blob tree entries are not
+    MUTANT O14 order error killed by=o_gate-claims-bak-name -- plans/order_check.py:26-27 'Exit: ... 2 setup error (..., unparseable round number, bad ar
+    BATTERY fixtures=3 wrong=0 tampered=0 sidechannel=0
+    MUTANTS total=3 killed=3 survived=0 invalid=0 null_detected=0
+    PINS-AFTER mismatched=0
+    PREDICATE C1 n/a (non-default battery or mutant subset)
+    RC=0
+
+Notes: no SIDECHANNEL line was printed for the module (sidechannel=0); tampered=0 (fingerprints before/after
+runs, round40_c1_verify.py:310-323, :557-560); null_detected=0 (second unmodified run equal to the first).
+Dev mode (`--battery-dir` + `--only`) prints `PREDICATE C1 n/a` by design (round40_c1_verify.py:565-566).

@@ -1,0 +1,21 @@
+# Receipt: sandboxed C1 counter run, battery40/a_tok.py only, mutants A01,A02,A03
+# Command (HOST-SAFETY wrapper per round-40 ruling):
+#   S=/fast/scratch/hyaku/kengaku-r40/F40RevBatTok; export TMPDIR="$S"
+#   bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin \
+#     --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent \
+#     python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round40_c1_verify.py \
+#     --lane "$S/lane" --battery-dir "$S/battery" --only A01,A02,A03 --work "$S/w"
+# $S/lane = clean clone of /home/vgpnk/Projects/shokunin/kengaku-shokunin at ec1005a2a28bc5cfdde7723374368ed4cc956eed
+# $S/battery = dir holding only a_tok.py (copied from the tip, unedited)
+# Output (verbatim, exit RC=0, wall 13.87s):
+PINS total=3 mismatched=0
+FIXTURE a_tok-upper-anchor tool=anchor expect=reject declared=digest-uppercase observed_rc=1 observed=digest-uppercase ok
+FIXTURE a_tok-abbrev-7hex tool=anchor expect=reject declared=abbrev-unresolved observed_rc=1 observed=abbrev-unresolved ok
+FIXTURE a_tok-abbrev-64hex tool=anchor expect=reject declared=abbrev-unresolved observed_rc=1 observed=abbrev-unresolved ok
+MUTANT A01 anchor silence killed by=a_tok-upper-anchor -- plans/anchor_digest_check.py:88-89 'any other anchor token must be exactly 64 lowercase he
+MUTANT A02 anchor rc-silence killed by=a_tok-abbrev-7hex -- plans/anchor_digest_check.py:84-85 'a defect (`abbrev-unresolved`) unless its hex is 8-63 
+MUTANT A03 anchor rc-silence killed by=a_tok-abbrev-64hex -- plans/anchor_digest_check.py:84-85 (as A02: 'its hex is 8-63 lowercase hex digits')
+BATTERY fixtures=3 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=3 survived=0 invalid=0 null_detected=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)

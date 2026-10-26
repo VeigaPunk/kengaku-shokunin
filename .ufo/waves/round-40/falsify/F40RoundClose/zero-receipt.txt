@@ -1,0 +1,27 @@
+# F40RoundClose: the two zero-receipt routes, shipped bytes, clean clone ec1005a2
+
+## route 1 -- claims file names no probe and no receipt (round 41)
+$ python3 plans/round_close.py --lane /fast/scratch/hyaku/kengaku-r40/F40RoundClose/lane --round 41 --census /home/vgpnk/Projects/shokunin/scripts/sources-census.sh
+ROUND-CLOSE lane=/fast/scratch/hyaku/kengaku-r40/F40RoundClose/lane round=41
+ROUND-CLOSE claims=plans/round-41-claims.md sha256=6f97d6e4f4908232e89a30e5ab64fb26fe9325a1864681958ef1c2a9aca87f70
+ROUND-CLOSE order-tool=plans/order_check.py sha256=948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc
+ROUND-CLOSE ERROR the claims name no readable receipt for round 41
+ROUND-CLOSE RESULT ERROR
+exit=2
+
+## route 2 -- claims names a probe whose receipt is not on disk nor in HEAD
+$ python3 plans/round_close.py --lane /fast/scratch/hyaku/kengaku-r40/F40RoundClose/lane --round 41 --census /home/vgpnk/Projects/shokunin/scripts/sources-census.sh
+ROUND-CLOSE lane=/fast/scratch/hyaku/kengaku-r40/F40RoundClose/lane round=41
+ROUND-CLOSE claims=plans/round-41-claims.md sha256=c26505fef87ae752edfa1b493faeb7b4b481b0d8d0235782bb32328436e857dc
+ROUND-CLOSE order-tool=plans/order_check.py sha256=948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc
+ROUND-CLOSE note=skipped-unreadable-receipt corpus/evidence/round41/git-leak-probe.txt
+ROUND-CLOSE ERROR the claims name no readable receipt for round 41
+ROUND-CLOSE RESULT ERROR
+exit=2
+
+## live lane census now (the docstring's "15 W04 + 2 E11" was a wave-1-time snapshot)
+$ sources-census.sh validate --file <live lane>/corpus/SOURCES.md
+      1 ok
+     15 W04
+exit=0
+clone_status=[]

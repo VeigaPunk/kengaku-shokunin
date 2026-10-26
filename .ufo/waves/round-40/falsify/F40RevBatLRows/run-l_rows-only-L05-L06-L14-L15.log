@@ -1,0 +1,15 @@
+# cmd: bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round40_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r40/F40RevBatLRows/lane --battery-dir /fast/scratch/hyaku/kengaku-r40/F40RevBatLRows/battery --only L05,L06,L14,L15 --work /fast/scratch/hyaku/kengaku-r40/F40RevBatLRows/w
+PINS total=3 mismatched=0
+FIXTURE l_rows-open-row tool=ledger expect=reject declared=NO:R34-D2 observed_rc=1 observed=NO:R34-D2 ok
+FIXTURE l_rows-empty-ledgers tool=ledger expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE l_rows-check-crashes tool=ledger expect=reject declared=NO:R34-D3 observed_rc=1 observed=NO:R34-D3 ok
+FIXTURE l_rows-unknown-check tool=ledger expect=reject declared=NO:R34-D5 observed_rc=1 observed=NO:R34-D5 ok
+MUTANT L05 ledger rc-silence killed by=l_rows-open-row -- plans/ledger_tip.py:20-21 'mismatches counts every closed row whose check fails plus every
+MUTANT L06 ledger rc-silence killed by=l_rows-empty-ledgers -- plans/ledger_tip.py:23-24 '`0` no mismatch · `1` a ledger row genuinely disagrees' (exit 0
+MUTANT L14 ledger rc-silence killed by=l_rows-check-crashes -- plans/ledger_tip.py:228 '# a crash is an observed failure, never a pass'
+MUTANT L15 ledger rc-silence killed by=l_rows-unknown-check -- plans/ledger_tip.py:20-21 (as L05: a closed row whose check fails is a mismatch; an unknow
+BATTERY fixtures=4 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=4 killed=4 survived=0 invalid=0 null_detected=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+rc=0

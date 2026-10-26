@@ -355,3 +355,47 @@ prints anything other than `cases=28 observed_pass=8 observed_fail=20 mismatches
 `/app/recovered.json`, or to compare more than the 22 pinned cells of the export; or (d) the captured grader applied
 to the `literals-never-open-db` state raises `AssertionError` in any of the seven functions, or the captured grader
 applied to the `decrypt-in-place-no-json` state passes any function.
+
+## Errata (round 40, wave 2)
+
+Appended after the falsify wave (`.ufo/waves/round-40/falsify/F40CritOverclaim.md` F1-F14, `F40EntryQuotes.md` D1-D6);
+the text above stands as written. Receipt, dry table, probe and requirement-map labels are unaffected (V7 re-derives every
+label; `F40MapControl` 10/10 red controls).
+
+- Summary, “`solve.sh` after one careless read-write `sqlite3` open scores 4 of 7”: it scores **5 of 7**
+  (`plain-read-then-solve` `PPPPFPF`, completeness and the WAL test fail).
+- Summary, “every one of them opens only `/app/recovered.json`”: six open it; `test_recovered_json_exists` only checks
+  existence (`:9`). The same holds for the README index row and S119's teaches cell (“read only the exported JSON”).
+- Source labels, “the probe executes it once”: `solve.sh` runs in **two** cases — `oracle-solve-sh` and
+  `plain-read-then-solve` (`plans/db_wal_probe.py:172,177`); “runs as one case's recipe” in the limits sections means the
+  oracle row only.
+- Structural consequences and finding 8, “`[]` passes … three tests”: it passes **four** — existence, structure, sortedness
+  and uniqueness (`PFPPFPF`) — so only the three length-carrying tests do the work.
+- Requirement map, “six tags on four instruction lines”: **five** lines (`:7`, `:8`, `:9`, `:12`, `:13`).
+- Line 7 paragraph, “eighteen are observed `fail`, all of them for export-content reasons”: seventeen fail on export content,
+  `untouched` on a missing export.
+- Line 9 paragraph: the `enforced` witnesses are five — add `untouched` (`FFFFFFF`).
+- Line 12 paragraph: the failing `record-format` cases are six — add `truth-value-float-id1` (`PPFPPPP`).
+- Contestable tags, “four of the five passing violators are literal exports”: **all five** are `mk.py` exports.
+- Finding 1, “`FileNotFoundError` on all seven”: on six; the existence test fails its own `AssertionError`, which the harness
+  prints as a bare `F`.
+- Finding 5, “`solve.sh:8` opens the database read-only”: line 8 is the comment, line 10 the `mode=ro` query
+  (`solve.sh:8-10`); the oracle records the hazard, it does not perform the destructive read.
+- Finding 7, “`"1"` … fails sorted and completeness because the lexicographic order …”: only `sorted` (`:44`) fails by
+  lexicographic order; completeness fails because string ids never equal the int sequence `1..11` (`:57-58`).
+- Outside this file (same corrections, recorded here rather than rewritten in place): `PROVINCE.md` round-40 paragraph,
+  “the repair step … is reachable only through that export” → is graded only through that export, and no export content
+  evidences it; `corpus/README.md` index row, “a plain read-write open destroys the encrypted log” holds on the probe's host
+  sqlite 3.54.0 (the image's build is untested; `R40CritSqlite` found an older Python-bundled SQLite behaves the same), and
+  “a wrong XOR key leaves the five base rows” → a wrong XOR key followed by a read-write extraction; `SKILL.md`
+  round-40 section, `json-at-path`'s witnesses are `receipt:6,7,14,26,27` (not `receipt:28`, `empty-list`), and `partly` on
+  `fix-wal` is a co-tagging artefact — no test reads the WAL.
+- §Prior art (`F40CritPriorArt` D1-D3, sources opened by that seat 2026-10-26, captures under
+  `.ufo/waves/round-40/falsify/F40CritPriorArt/` with `SHA256SUMS`): the audit quote sits at
+  `audit_results/20260120_125158/audit.txt:782-784`; “The one audit that touches it” → **two** public audits touch it (the
+  second, `kimjune01/terminal-bench-audit` `results/verdicts-2.1.jsonl:91-95`, finds no task-specific defect); and the
+  permissiveness is reported **in the wild** by `dzhioev/bro` issue #659 (2026-09-18, five trials): agents “invented the six
+  missing rows” and “The verifier caught it only because the two updates in the lost WAL were unguessable” — i.e. the grade
+  turned on ids 1-2's values, as finding 3 predicts. The narrowed negative: no opened source states the 22-of-33 count or
+  executes a from-scratch export against the grader; the entry's findings are a probed, counted instance of a reported
+  weakness, not a discovery.

@@ -1,0 +1,13 @@
+diff --git 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/a_row.py 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-A06/battery40/a_row.py
+index 3262699..c07ee74 100644
+--- 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/a_row.py
++++ 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-A06/battery40/a_row.py
+@@ -40,7 +40,7 @@ def build_indent4_wrong(ctx, d):
+     other = TOKEN.search(lines[j]).group(1)
+     line = lines[i]
+     m = TOKEN.search(line)
+-    lines[i] = "    " + line[:m.start()] + "sha256 " + other + line[m.end():]
++    lines[i] = line[:m.start()] + "sha256 " + other + line[m.end():]
+     return _finish(repo, p, lines)
+ 
+ 

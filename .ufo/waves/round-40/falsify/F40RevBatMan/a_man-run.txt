@@ -1,0 +1,11 @@
+$ bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs ... python3 <fleet>/plans/round40_c1_verify.py --lane $S/lane --battery-dir $S/battery --only A21,A22 --work $S/w
+PINS total=3 mismatched=0
+FIXTURE a_man-stale-manifest-digest tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_man-uppercase-manifest-entry tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT A21 anchor rc-mirror killed by=a_man-uppercase-manifest-entry -- plans/anchor_digest_check.py:44-46 'the digest that entry lists, and the digest of the com
+MUTANT A22 anchor rc-mirror killed by=a_man-stale-manifest-digest -- plans/anchor_digest_check.py:44-46 (as A21: the manifest entry is an accepted view of the 
+BATTERY fixtures=2 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=2 killed=2 survived=0 invalid=0 null_detected=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+[rc=0]

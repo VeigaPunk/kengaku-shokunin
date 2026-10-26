@@ -1,0 +1,64 @@
+# F40EntryQuotes receipts
+# host: Linux 7.2.11-arch1-1; lane read-only; no scratch clone needed (no writes outside this dir)
+
+## R1 located-quotes table: byte-exact substring at the cited line, word count 3-25
+# method: for each row of §Located quotes, take the text between U+201C and U+201D and search the capture's lines
+claim-cell | quote-words | lines containing the quote verbatim
+test_outputs.py:9 | 7 | [9] | PASS
+test_outputs.py:13 | 8 | [13] | PASS
+test_outputs.py:17 | 8 | [17] | PASS
+test_outputs.py:27 | 5 | [27] | PASS
+test_outputs.py:33 | 8 | [33] | PASS
+test_outputs.py:53 | 9 | [53] | PASS
+test_outputs.py:58 | 9 | [58] | PASS
+test_outputs.py:64 | 12 | [64] | PASS
+test_outputs.py:80 | 11 | [80] | PASS
+test_outputs.py:98 | 12 | [98] | PASS
+instruction.md:3 | 13 | [3] | PASS
+instruction.md:7 | 9 | [7] | PASS
+instruction.md:8 | 9 | [8] | PASS
+instruction.md:9 | 6 | [9] | PASS
+instruction.md:12 | 13 | [12] | PASS
+instruction.md:13 | 16 | [13] | PASS
+RESULT rows=16 exact_at_cited_line=16 within_3_25_words=16
+
+## R2 tag counts (awk over corpus/evidence/round40/db-wal-probe.txt)
+json-at-path total=5 passing=0
+fix-wal total=23 passing=5
+record-format total=8 passing=2
+extract-all total=15 passing=4
+eleven-records total=10 passing=0
+sorted-by-id total=1 passing=0
+no-tag cases: oracle-solve-sh decrypt-then-extract decrypt-checkpoint-truncate  (28 CASE lines total)
+
+## R3 /app/recovered.json access sites in the captured grader (grep -n 'open(|exists(')
+9: os.path.exists    14/23/40/49/85/94: open()   count of lines containing 'main.db' = 0
+
+## R4 §Prior art quotes
+S121 PR#3 body line 13 @ corpus/evidence absent -> .ufo/waves/round-40/build/R40ScoutPriorArt/tb21-pr3-body.md :: "Opening the database with a normal read-write SQLite connection can truncate or remove that file before the agent has inspected it" :: words=21 :: verified
+audit.txt:782 @35f11039 (upstream re-fetch at that commit) @ https://raw.githubusercontent.com/JonathanGabor/terminal-bench-2-audit/35f11039/audit_results/20260120_125158/audit.txt:782 :: "Not all values are verified (e.g., values for records 3-11 aren't checked" :: words=9 :: verified
+sqlite wal.html §4 (body offset 18026 between §4@17592 and §5@18940) @ https://www.sqlite.org/wal.html :: "Usually, the WAL file is deleted automatically when the last connection to the database closes" :: words=15 :: verified
+issue #2218 comment capture line 19 @ .ufo/waves/round-40/build/R40ScoutPriorArt/tb-issue-2218-comment-6131410584.md :: "The agent's own SQLite probe removed the task's WAL" :: words=9 :: verified
+
+## R5 host sqlite (entry cites 3.54.0 / 2026-10-09 build)
+3.54.0 2026-10-09 15:46:58 be8d059e9a49089ab2dce5ed26dd87aaf598fdc5fbe0b107c0dd758464bcalt1 (64-bit)
+
+## R6 defect evidence (verbatim)
+D1 plans/db_wal_probe.py TAGS block:
+  76: TAGS = {
+  77:     "fix-wal": "instruction.md:7",          # fix the WAL file so SQLite can read it
+  78:     "extract-all": "instruction.md:8",      # extract ALL data from the database (including WAL changes)
+  79:     "json-at-path": "instruction.md:9",     # create a JSON file in /app/recovered.json
+  80:     "record-format": "instruction.md:12",   # [{"id": 1, "name": "item1", "value": X}, ...]
+  81:     "sorted-by-id": "instruction.md:13",    # sorted by id
+  82:     "eleven-records": "instruction.md:13",  # recover all 11 records total
+D2 CASE empty-list predicted=fail observed=fail tests=PFPPFPF predicted_tests=PFPPFPF match=yes regrade=same violates=fix-wal,extract-all,eleven-records -- recovered.json is []
+D3 recipes of the five passing fix-wal cases (all python3 /k/mk.py, no sqlite3):
+  literals-never-open-db | literals-names-1-2-wrong | truth-extra-field | truth-value-id3-wrong | truth-bool-value-id5
+D4 test_outputs.py:57-58: expected_ids = list(range(1, 12))  # 1 through 11 / assert ids == expected_ids, f"Expected ids {expected_ids}, got {ids}"
+D5 CASE empty-app predicted=fail observed=fail tests=FFFFFFF predicted_tests=FFFFFFF match=yes regrade=same violates=extract-all,json-at-path,eleven-records test_recovered_json_is_valid:error=FileNotFoundError,test_recovered_data_structure:error=FileNotFoundError,test_recovered_data_sorted:error=FileNotFoundError,test_recovered_data_completeness:error=FileNotFoundError,test_no_duplicate_ids:error=FileNotFoundError,test_wal_was_decrypted:error=FileNotFoundError -- do-nothing on an empty /app: no database, no recovered.
+D5 harness class-printing rule: plans/db_wal_probe.py:250-252 (except AssertionError -> bare F, no class)
+D6 solve.sh:8: # Print current database content (read-only to avoid WAL interaction)
+D6 solve.sh:10: sqlite3 "file:/app/main.db?mode=ro" "SELECT id, name, value FROM items ORDER BY id;"
+D7 failing fix-wal cases that fail on an absent export (FileNotFoundError): untouched, truth-wrong-path
+R5 host: Linux 7.2.11-arch1-1

@@ -1,0 +1,15 @@
+diff --git 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/a_row.py 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-A08/battery40/a_row.py
+index 3262699..9ba830b 100644
+--- 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/a_row.py
++++ 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-A08/battery40/a_row.py
+@@ -50,8 +50,8 @@ def build_token_in_teaches(ctx, d):
+     i = _row_at(lines, "S111")
+     parts = lines[i].split("|")
+     tok = re.search(r"sha256 [0-9a-f]{64}", parts[6]).group(0)
+-    parts[6] = parts[6].replace("; " + tok, "").replace(tok, "")
+-    parts[7] = parts[7].rstrip() + " " + tok + " "
++    parts[6] = parts[6]
++    parts[7] = parts[7]
+     lines[i] = "|".join(parts)
+     return _finish(repo, p, lines)
+ 

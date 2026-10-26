@@ -1,0 +1,111 @@
+#!/usr/bin/env python3
+"""A `git` resolved from PATH by the tool under test (round-40 A2 replay, seat F40CritCounterLimits).
+
+It answers by phase, phase = the digest of the variant bound at <root>/slots/anchor.py:
+  f000  corrupt in the MUTANT phase   -> reference accepts, mutant prints capture-unanchored
+  f001  corrupt in the REFERENCE phase -> reference prints capture-unanchored, mutant accepts
+and it writes <lane>/state.lock on every invocation (the A5 `.lock` name).
+Everything else is passed straight through to /usr/bin/git.
+"""
+import hashlib
+import pathlib
+import subprocess
+import sys
+
+REAL = "/usr/bin/git"
+REF = "11bb2cad87be1c29c2d5abe8313d487d73f71ba49a40d7d0dc80ec26c70fd4c2"
+PROV = b"PROVENANCE.md"
+FAB = (b"| S900 | `cap.txt` | first line |\n"
+       b"| S900 | `other.txt` | second line |\n")
+EVID = "corpus/evidence"
+
+
+def split(argv):
+    a = list(argv)
+    if a[:1] == ["-C"] and len(a) >= 2:
+        return pathlib.Path(a[1]), a[2:]
+    return None, a
+
+
+def where(lane):
+    if lane is None:
+        return None, None
+    q = lane
+    for _ in range(4):
+        if q.parent.name == "fx":
+            parts = lane.relative_to(q).parts
+            return q.parent.parent, (parts[0] if parts else None)
+        q = q.parent
+    return None, None
+
+
+def phase(root):
+    try:
+        dig = hashlib.sha256((root / "slots" / "anchor.py").read_bytes()).hexdigest()
+    except OSError:
+        return "ref"
+    return "mut" if dig != REF else "ref"
+
+
+def run(lane, rest, data=None):
+    cmd = [REAL] + (["-C", str(lane)] if lane is not None else []) + rest
+    return subprocess.run(cmd, input=data, capture_output=True)
+
+
+def main(argv):
+    lane, rest = split(argv)
+    root, idx = where(lane)
+    if root is None:
+        r = run(lane, rest, sys.stdin.buffer.read() if rest[:1] == ["cat-file"] else None)
+        sys.stdout.buffer.write(r.stdout)
+        sys.stderr.buffer.write(r.stderr)
+        return r.returncode
+    ph = phase(root)
+    corrupt = (idx == "f000" and ph == "mut") or (idx == "f001" and ph == "ref")
+    try:
+        (lane / "state.lock").write_text("the tool run wrote this under a name the fingerprint skips\n")
+    except OSError:
+        pass
+    if corrupt and rest[:3] == ["ls-tree", "-r", "--name-only"] and rest[-1] == EVID:
+        r = run(lane, rest)
+        out = r.stdout
+        if out and not out.endswith(b"\0"):
+            out += b"\0"
+        out += EVID.encode() + b"/x/" + PROV + b"\0"
+        sys.stdout.buffer.write(out)
+        return r.returncode
+    if corrupt and rest[:1] == ["cat-file"]:
+        specs = [s for s in sys.stdin.buffer.read().split(b"\n") if s]
+        fab = b"/" + PROV
+        keep = [s for s in specs if not s.endswith(fab)]
+        r = run(lane, rest, b"\n".join(keep) + b"\n" if keep else b"")
+        resps, i = {}, 0
+        for s in keep:
+            nl = r.stdout.find(b"\n", i)
+            if nl < 0:
+                break
+            header = r.stdout[i:nl]
+            parts = header.split()
+            if len(parts) != 3:
+                resps[s] = header + b"\n"
+                i = nl + 1
+                continue
+            size = int(parts[2])
+            resps[s] = r.stdout[i:nl + 1 + size + 1]
+            i = nl + 1 + size + 1
+        out = b""
+        for s in specs:
+            if s.endswith(fab):
+                out += s + b" blob " + str(len(FAB)).encode() + b"\n" + FAB + b"\n"
+            else:
+                out += resps.get(s, s + b" missing\n")
+        sys.stdout.buffer.write(out)
+        return r.returncode
+    r = run(lane, rest, sys.stdin.buffer.read() if rest[:1] == ["cat-file"] else None)
+    sys.stdout.buffer.write(r.stdout)
+    sys.stderr.buffer.write(r.stderr)
+    return r.returncode
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

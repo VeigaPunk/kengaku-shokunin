@@ -1,0 +1,33 @@
+CHECK E1   INFO pr3 state=open merged=false created=2026-05-21T21:43:34Z files=2
+CHECK E1   INFO pr3 changed: tasks/db-wal-recovery/environment/Dockerfile tasks/db-wal-recovery/solution/solve.sh 
+CHECK E1   PASS the quoted sentence is verbatim in the PR body (§Reasoning)
+CHECK E2   INFO tb#2218 comment created=2026-10-12T19:44:35Z issue=https://api.github.com/repos/harbor-framework/terminal-bench/issues/2218
+CHECK E2   PASS 2218 comment carries the quoted sentence
+CHECK E2   INFO harbor#3607 created=2026-10-10T01:48:06Z
+CHECK E2   PASS 3607 carries the paraphrased sentence
+CHECK F    FAIL cited locator audit.txt@35f11039 -> HTTP 404 (real path: audit_results/20260120_125158/audit.txt)
+CHECK F    INFO only audit.txt in tree: audit_results/20260120_125158/audit.txt
+CHECK F    INFO | Challenge: db-wal-recovery
+CHECK F    INFO | - Not all values are verified (e.g., values for records 3-11 aren't checked)
+CHECK F    INFO | - Names for records 1-2 aren't verified (though values are)
+CHECK F    INFO | - No verification of the decryption method itself (just the outcome)
+CHECK F    INFO | The specific data points checked (like value=150 for id=1, name="fig" for id=6) can only be obtained through proper decryption of the WAL file. While 
+CHECK F    INFO | Coverage rating: 4
+CHECK G    INFO kimjune01 db-wal-recovery verdict rows: 5
+CHECK G    INFO | {"task":"db-wal-recovery","mut":"baseline","applied":"n/a","solve_rc":0,"reward":1,"oracle_diff":10,"deleted":0,"verdict":"gold_pass","image":"sha256:0e33ea5ec823975d1bd6c3778395c9f94251dd88f571146057
+CHECK G    INFO | {"task":"db-wal-recovery","mut":"wipe-sentinel","applied":"yes","solve_rc":0,"reward":1,"oracle_diff":17,"deleted":0,"verdict":"FRAME_BLIND","image":"sha256:0e33ea5ec823975d1bd6c3778395c9f94251dd88f57
+CHECK G    INFO verdicts commit 2a2baec2 2026-07-09T18:10:15Z
+CHECK H    INFO bro#659 created=2026-09-18T15:23:34Z state=open
+CHECK H    INFO bro#659 discrimination sentences: 1
+CHECK H    INFO bro#659 invention sentences: 1
+CHECK H    INFO bro#659 fabricated-WAL sentences: 1
+CHECK H    PASS bro#659: fabricated rows + fabricated WAL are published; grader caught 4/4 only via the two pinned values
+CHECK I    INFO harbor-framework/terminal-bench :: 'db-wal' -> 1 issue/PR hit(s)
+CHECK I    INFO harbor-framework/terminal-bench :: 'recovered.json' -> 0 issue/PR hit(s)
+CHECK I    INFO harbor-framework/terminal-bench-2 :: 'db-wal' -> 0 issue/PR hit(s)
+CHECK I    INFO harbor-framework/terminal-bench-2 :: 'recovered.json' -> 0 issue/PR hit(s)
+CHECK I    INFO harbor-framework/terminal-bench-2-1 :: 'db-wal' -> 0 issue/PR hit(s)
+CHECK I    INFO harbor-framework/terminal-bench-2-1 :: 'recovered.json' -> 0 issue/PR hit(s)
+CHECK I    INFO harbor-framework/harbor :: 'db-wal' -> 2 issue/PR hit(s)
+CHECK I    INFO harbor-framework/harbor :: 'recovered.json' -> 1 issue/PR hit(s)
+CHECK I    INFO global search '"db-wal-recovery" "pinned"' -> 250 hit(s); none states a count of pinned cells

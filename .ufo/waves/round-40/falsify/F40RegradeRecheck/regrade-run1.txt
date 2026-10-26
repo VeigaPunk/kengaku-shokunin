@@ -1,0 +1,166 @@
+PIN cgw test_outputs.py pinned=526aee3dfe95 got=526aee3dfe95 ok=yes
+PIN cgw verify.sh pinned=1dc44c923b79 got=1dc44c923b79 ok=yes
+PIN cgw instruction.md pinned=62151b7371bc got=62151b7371bc ok=yes
+PIN glr test_outputs.py pinned=dc7b01c1b9db got=dc7b01c1b9db ok=yes
+PIN glr challenge-setup.sh pinned=a0a19652fc59 got=a0a19652fc59 ok=yes
+PIN glr solve.sh pinned=791a7eb23019 got=791a7eb23019 ok=yes
+
+=== selected cgw cases: sweep protocol (clear probe `ready` between gradings) ===
+BUILD cgw/static-file-no-git tools=curl server=yes predicted=pass files=13
+GRADE cgw/static-file-no-git n=1 rc=0 verdict=pass harness_cleared_ready=no state_after=MUT:added=cwd/git_test.exp,home/.ssh,home/.ssh/config,ready
+  find-newer cgw/static-file-no-git n=1 (7): [".", "cwd", "cwd/git_test.exp", "home", "home/.ssh", "home/.ssh/config", "ready"]
+  STDOUT 'Testing web server...'
+  STDOUT 'Using curl to test web server...'
+  STDOUT 'Web server test successful (HTTP 200)'
+  STDOUT 'Content: hello world'
+  STDOUT '✅ TEST PASSED: Content matches expected output'
+  STDOUT 'Test completed'
+GRADE cgw/static-file-no-git n=2 rc=0 verdict=pass harness_cleared_ready=yes state_after=TOUCH:cwd/git_test.exp,home/.ssh/config,ready
+  find-newer cgw/static-file-no-git n=2 (4): [".", "cwd/git_test.exp", "home/.ssh/config", "ready"]
+  STDOUT 'Testing web server...'
+  STDOUT 'Using curl to test web server...'
+  STDOUT 'Web server test successful (HTTP 200)'
+  STDOUT 'Content: hello world'
+  STDOUT '✅ TEST PASSED: Content matches expected output'
+  STDOUT 'Test completed'
+CASE cgw/static-file-no-git grade1=pass grade2=pass regrade=same
+BUILD cgw/no-server tools=curl server=no predicted=fail files=13
+GRADE cgw/no-server n=1 rc=0 verdict=fail harness_cleared_ready=no state_after=MUT:added=cwd/git_test.exp,home/.ssh,home/.ssh/config
+  find-newer cgw/no-server n=1 (5): ["cwd", "cwd/git_test.exp", "home", "home/.ssh", "home/.ssh/config"]
+  STDOUT 'Testing web server...'
+  STDOUT 'Using curl to test web server...'
+  STDOUT '❌ TEST FAILED: Web server returned HTTP 000'
+  STDOUT 'Test completed'
+GRADE cgw/no-server n=2 rc=0 verdict=fail harness_cleared_ready=no state_after=TOUCH:cwd/git_test.exp,home/.ssh/config
+  find-newer cgw/no-server n=2 (2): ["cwd/git_test.exp", "home/.ssh/config"]
+  STDOUT 'Testing web server...'
+  STDOUT 'Using curl to test web server...'
+  STDOUT '❌ TEST FAILED: Web server returned HTTP 000'
+  STDOUT 'Test completed'
+CASE cgw/no-server grade1=fail grade2=fail regrade=same
+BUILD cgw/capitalised tools=curl server=yes predicted=fail files=13
+GRADE cgw/capitalised n=1 rc=0 verdict=fail harness_cleared_ready=no state_after=MUT:added=cwd/git_test.exp,home/.ssh,home/.ssh/config,ready
+  find-newer cgw/capitalised n=1 (7): [".", "cwd", "cwd/git_test.exp", "home", "home/.ssh", "home/.ssh/config", "ready"]
+  STDOUT 'Testing web server...'
+  STDOUT 'Using curl to test web server...'
+  STDOUT 'Web server test successful (HTTP 200)'
+  STDOUT 'Content: Hello World'
+  STDOUT '❌ TEST FAILED: Content does not match expected output'
+  STDOUT "Expected: 'hello world'"
+  STDOUT "Got: 'Hello World'"
+  STDOUT 'Test completed'
+GRADE cgw/capitalised n=2 rc=0 verdict=fail harness_cleared_ready=yes state_after=TOUCH:cwd/git_test.exp,home/.ssh/config,ready
+  find-newer cgw/capitalised n=2 (4): [".", "cwd/git_test.exp", "home/.ssh/config", "ready"]
+  STDOUT 'Testing web server...'
+  STDOUT 'Using curl to test web server...'
+  STDOUT 'Web server test successful (HTTP 200)'
+  STDOUT 'Content: Hello World'
+  STDOUT '❌ TEST FAILED: Content does not match expected output'
+  STDOUT "Expected: 'hello world'"
+  STDOUT "Got: 'Hello World'"
+  STDOUT 'Test completed'
+CASE cgw/capitalised grade1=fail grade2=fail regrade=same
+
+=== cgw: un-exercised wget branch of verify.sh (no curl on PATH) ===
+BUILD cgw/wget-static-file tools=wget server=yes predicted=pass files=13
+GRADE cgw/wget-static-file n=1 rc=0 verdict=pass harness_cleared_ready=no state_after=MUT:added=cwd/git_test.exp,cwd/test_output.html,home/.ssh,home/.ssh/config,ready
+  find-newer cgw/wget-static-file n=1 (8): [".", "cwd", "cwd/git_test.exp", "cwd/test_output.html", "home", "home/.ssh", "home/.ssh/config", "ready"]
+  STDOUT 'Testing web server...'
+  STDOUT 'Using wget to test web server...'
+  STDOUT 'Web server test successful'
+  STDOUT 'Content: hello world'
+  STDOUT '✅ TEST PASSED: Content matches expected output'
+  STDOUT 'Test completed'
+GRADE cgw/wget-static-file n=2 rc=0 verdict=pass harness_cleared_ready=yes state_after=TOUCH:cwd/git_test.exp,cwd/test_output.html,home/.ssh/config,ready
+  find-newer cgw/wget-static-file n=2 (5): [".", "cwd/git_test.exp", "cwd/test_output.html", "home/.ssh/config", "ready"]
+  STDOUT 'Testing web server...'
+  STDOUT 'Using wget to test web server...'
+  STDOUT 'Web server test successful'
+  STDOUT 'Content: hello world'
+  STDOUT '✅ TEST PASSED: Content matches expected output'
+  STDOUT 'Test completed'
+CASE cgw/wget-static-file grade1=pass grade2=pass regrade=same
+
+=== cgw: same case with the probe handshake NOT cleared between gradings ===
+BUILD cgw/static-file-no-git-noclear tools=curl server=yes predicted=pass files=13
+GRADE cgw/static-file-no-git-noclear n=1 rc=0 verdict=pass harness_cleared_ready=no state_after=MUT:added=cwd/git_test.exp,home/.ssh,home/.ssh/config,ready
+  find-newer cgw/static-file-no-git-noclear n=1 (7): [".", "cwd", "cwd/git_test.exp", "home", "home/.ssh", "home/.ssh/config", "ready"]
+  STDOUT 'Testing web server...'
+  STDOUT 'Using curl to test web server...'
+  STDOUT 'Web server test successful (HTTP 200)'
+  STDOUT 'Content: hello world'
+  STDOUT '✅ TEST PASSED: Content matches expected output'
+  STDOUT 'Test completed'
+GRADE cgw/static-file-no-git-noclear n=2 rc=0 verdict=pass harness_cleared_ready=no state_after=TOUCH:cwd/git_test.exp,home/.ssh/config,ready
+  find-newer cgw/static-file-no-git-noclear n=2 (3): ["cwd/git_test.exp", "home/.ssh/config", "ready"]
+  STDOUT 'Testing web server...'
+  STDOUT 'Using curl to test web server...'
+  STDOUT 'Web server test successful (HTTP 200)'
+  STDOUT 'Content: hello world'
+  STDOUT '✅ TEST PASSED: Content matches expected output'
+  STDOUT 'Test completed'
+CASE cgw/static-file-no-git-noclear grade1=pass grade2=pass regrade=same
+
+=== selected glr cases ===
+BUILD glr/oracle-solve-sh predicted=PPPPP stage_rc=0 STAGE setup rc=0 STAGE recipe rc=0
+PRESTAGE glr/oracle-solve-sh lost-found files=["repo/.git/lost-found/commit/17dbbe3255c672cdeab783e4ef2c7031bfa22edc"]
+BUILD glr/oracle-solve-sh files_in_app=48
+CHECKSUM glr/oracle-solve-sh before_grade1 CHK skip=2c3d6389133b6f9fffae5d3428ec1250c3b1cab5573c716d580dc1d4fa2f4adb
+CHECKSUM glr/oracle-solve-sh before_grade1 CHK full=0bac98338858760d4ccef138c27af18525988dc4b3557830666714659ceb1614
+CHECKSUM glr/oracle-solve-sh before_grade1 CHK skipfiles=1
+CHECKSUM glr/oracle-solve-sh before_grade1 CHK allfiles=32
+GRADE glr/oracle-solve-sh n=1 rc=0 tests=PPPPP state_after=unchanged
+  find-newer glr/oracle-solve-sh n=1 (0): []
+CHECKSUM glr/oracle-solve-sh after_grade1 CHK skip=2c3d6389133b6f9fffae5d3428ec1250c3b1cab5573c716d580dc1d4fa2f4adb
+CHECKSUM glr/oracle-solve-sh after_grade1 CHK full=0bac98338858760d4ccef138c27af18525988dc4b3557830666714659ceb1614
+CHECKSUM glr/oracle-solve-sh after_grade1 CHK skipfiles=1
+CHECKSUM glr/oracle-solve-sh after_grade1 CHK allfiles=32
+GRADE glr/oracle-solve-sh n=2 rc=0 tests=PPPPP state_after=unchanged
+  find-newer glr/oracle-solve-sh n=2 (0): []
+CHECKSUM glr/oracle-solve-sh after_grade2 CHK skip=2c3d6389133b6f9fffae5d3428ec1250c3b1cab5573c716d580dc1d4fa2f4adb
+CHECKSUM glr/oracle-solve-sh after_grade2 CHK full=0bac98338858760d4ccef138c27af18525988dc4b3557830666714659ceb1614
+CHECKSUM glr/oracle-solve-sh after_grade2 CHK skipfiles=1
+CHECKSUM glr/oracle-solve-sh after_grade2 CHK allfiles=32
+CASE glr/oracle-solve-sh grade1=PPPPP grade2=PPPPP regrade=same predicted=PPPPP match=yes
+BUILD glr/untouched predicted=FPPPP stage_rc=0 STAGE setup rc=0 STAGE recipe rc=0
+PRESTAGE glr/untouched lost-found files=[]
+BUILD glr/untouched files_in_app=56
+CHECKSUM glr/untouched before_grade1 CHK skip=2c3d6389133b6f9fffae5d3428ec1250c3b1cab5573c716d580dc1d4fa2f4adb
+CHECKSUM glr/untouched before_grade1 CHK full=4064f138e491a1f32577a773f00501e18534bf47f810569b840cd8365ce65218
+CHECKSUM glr/untouched before_grade1 CHK skipfiles=1
+CHECKSUM glr/untouched before_grade1 CHK allfiles=34
+GRADE glr/untouched n=1 rc=0 tests=FPPPP state_after=MUT:added=repo/.git/lost-found,repo/.git/lost-found/commit,repo/.git/lost-found/commit/eb8e568b8f6e176c9c674bae10473468dfea1f6e
+  find-newer glr/untouched n=1 (4): ["repo/.git", "repo/.git/lost-found", "repo/.git/lost-found/commit", "repo/.git/lost-found/commit/eb8e568b8f6e176c9c674bae10473468dfea1f6e"]
+CHECKSUM glr/untouched after_grade1 CHK skip=2c3d6389133b6f9fffae5d3428ec1250c3b1cab5573c716d580dc1d4fa2f4adb
+CHECKSUM glr/untouched after_grade1 CHK full=5a6e2aa25b1fd38c70f204c0976ec58aeea808cc9fb5a969ca4109366228e890
+CHECKSUM glr/untouched after_grade1 CHK skipfiles=1
+CHECKSUM glr/untouched after_grade1 CHK allfiles=35
+GRADE glr/untouched n=2 rc=0 tests=FPPPP state_after=TOUCH:repo/.git/lost-found/commit/eb8e568b8f6e176c9c674bae10473468dfea1f6e
+  find-newer glr/untouched n=2 (1): ["repo/.git/lost-found/commit/eb8e568b8f6e176c9c674bae10473468dfea1f6e"]
+CHECKSUM glr/untouched after_grade2 CHK skip=2c3d6389133b6f9fffae5d3428ec1250c3b1cab5573c716d580dc1d4fa2f4adb
+CHECKSUM glr/untouched after_grade2 CHK full=5a6e2aa25b1fd38c70f204c0976ec58aeea808cc9fb5a969ca4109366228e890
+CHECKSUM glr/untouched after_grade2 CHK skipfiles=1
+CHECKSUM glr/untouched after_grade2 CHK allfiles=35
+CASE glr/untouched grade1=FPPPP grade2=FPPPP regrade=same predicted=FPPPP match=yes
+BUILD glr/dangling-secret-blob predicted=PPPFP stage_rc=0 STAGE setup rc=0 STAGE recipe rc=0
+PRESTAGE glr/dangling-secret-blob lost-found files=[]
+BUILD glr/dangling-secret-blob files_in_app=47
+CHECKSUM glr/dangling-secret-blob before_grade1 CHK skip=2c3d6389133b6f9fffae5d3428ec1250c3b1cab5573c716d580dc1d4fa2f4adb
+CHECKSUM glr/dangling-secret-blob before_grade1 CHK full=db4f87e9b45d365ddef03ce04b5502ef23abb1df0c929a54592e55bea978613a
+CHECKSUM glr/dangling-secret-blob before_grade1 CHK skipfiles=1
+CHECKSUM glr/dangling-secret-blob before_grade1 CHK allfiles=32
+GRADE glr/dangling-secret-blob n=1 rc=0 tests=PPPFP state_after=MUT:added=repo/.git/lost-found,repo/.git/lost-found/other,repo/.git/lost-found/other/52d18a091cd9755bacb8eaccab2882a24b080dc7
+  find-newer glr/dangling-secret-blob n=1 (4): ["repo/.git", "repo/.git/lost-found", "repo/.git/lost-found/other", "repo/.git/lost-found/other/52d18a091cd9755bacb8eaccab2882a24b080dc7"]
+CHECKSUM glr/dangling-secret-blob after_grade1 CHK skip=2c3d6389133b6f9fffae5d3428ec1250c3b1cab5573c716d580dc1d4fa2f4adb
+CHECKSUM glr/dangling-secret-blob after_grade1 CHK full=8a39c0114b38d3bc090a5315d7ce660207e93b394d015532ce1af864acb06ea6
+CHECKSUM glr/dangling-secret-blob after_grade1 CHK skipfiles=1
+CHECKSUM glr/dangling-secret-blob after_grade1 CHK allfiles=33
+GRADE glr/dangling-secret-blob n=2 rc=0 tests=PPPFP state_after=TOUCH:repo/.git/lost-found/other/52d18a091cd9755bacb8eaccab2882a24b080dc7
+  find-newer glr/dangling-secret-blob n=2 (1): ["repo/.git/lost-found/other/52d18a091cd9755bacb8eaccab2882a24b080dc7"]
+CHECKSUM glr/dangling-secret-blob after_grade2 CHK skip=2c3d6389133b6f9fffae5d3428ec1250c3b1cab5573c716d580dc1d4fa2f4adb
+CHECKSUM glr/dangling-secret-blob after_grade2 CHK full=8a39c0114b38d3bc090a5315d7ce660207e93b394d015532ce1af864acb06ea6
+CHECKSUM glr/dangling-secret-blob after_grade2 CHK skipfiles=1
+CHECKSUM glr/dangling-secret-blob after_grade2 CHK allfiles=33
+CASE glr/dangling-secret-blob grade1=PPPFP grade2=PPPFP regrade=same predicted=PPPFP match=yes
+
+DONE

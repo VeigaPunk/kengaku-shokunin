@@ -1,0 +1,53 @@
+# identity evidence at tip ec1005a2 (clean clone /fast/scratch/hyaku/kengaku-r40/F40NoHarmC1/lane) vs base d3a6277f
+
+## protected-path diff (the assigned command)
+$ git diff d3a6277f ec1005a2 -- plans/battery37 plans/battery38 plans/battery39 plans/round3*_verify.py plans/anchor_digest_check.py plans/ledger_tip.py plans/order_check.py plans/pkg_gate.py
+diff_lines=0
+
+## per-file blob identity (git rev-parse <commit>:<path>)
+plans/anchor_digest_check.py base=80e7292c010acba38a13245b95f2411c58095116 tip=80e7292c010acba38a13245b95f2411c58095116
+plans/ledger_tip.py base=7a338d399d1cb5e025ad0130d23bd09eda45ff1a tip=7a338d399d1cb5e025ad0130d23bd09eda45ff1a
+plans/order_check.py base=d298b6c0ff7d16bd63ff0568eb93bd7ca54a35e5 tip=d298b6c0ff7d16bd63ff0568eb93bd7ca54a35e5
+plans/pkg_gate.py base=544135df59b40d929df8ada8082ca063f059f693 tip=544135df59b40d929df8ada8082ca063f059f693
+plans/round37_c1_verify.py base=0f022a10dbbcacc4ee73644dfe793fb6f86e1eeb tip=0f022a10dbbcacc4ee73644dfe793fb6f86e1eeb
+plans/round38_c1_verify.py base=cebba50f0964caa8deb96b81b74ac78b82d0d927 tip=cebba50f0964caa8deb96b81b74ac78b82d0d927
+plans/round39_c1_verify.py base=415d4cd51d9259e17f908763c162a1d3746921aa tip=415d4cd51d9259e17f908763c162a1d3746921aa
+plans/round37_c2_verify.py base=3e577b0e94c9511337e51bdd3add149f3ec77279 tip=3e577b0e94c9511337e51bdd3add149f3ec77279
+plans/round38_c2_verify.py base=128f9eea8e06592d7b47c01efb8177e6551a7593 tip=128f9eea8e06592d7b47c01efb8177e6551a7593
+plans/round39_c2_verify.py base=a1dc44c5cf7feca5a561cd492c2e6b31b0ff87bd tip=a1dc44c5cf7feca5a561cd492c2e6b31b0ff87bd
+
+## tree identity
+plans/battery37 base=142549181857542718f93dc4cc74a51dc1a53dda tip=142549181857542718f93dc4cc74a51dc1a53dda head=142549181857542718f93dc4cc74a51dc1a53dda
+plans/battery38 base=5d69ebd414855962ce498e22c34785fc8c8f51b2 tip=5d69ebd414855962ce498e22c34785fc8c8f51b2 head=5d69ebd414855962ce498e22c34785fc8c8f51b2
+plans/battery39 base=971b3e10f88884620f05cd535399d25e288fdb07 tip=971b3e10f88884620f05cd535399d25e288fdb07 head=971b3e10f88884620f05cd535399d25e288fdb07
+
+## non-vacuity controls (same diff shape, paths round 40 DID change)
+plans/tip_receipts.py -> 1 file(s)
+plans/round40*     -> 2 file(s)
+
+## shell expansion of the glob in the assigned command (12 paths, so the pathspec is not dead)
+plans/round31_c1_verify.py
+plans/round32_c1_verify.py
+plans/round33_c1_verify.py
+plans/round35_c1_verify.py
+plans/round36_c1_verify.py
+plans/round36_c2_verify.py
+plans/round37_c1_verify.py
+plans/round37_c2_verify.py
+plans/round38_c1_verify.py
+plans/round38_c2_verify.py
+plans/round39_c1_verify.py
+plans/round39_c2_verify.py
+
+## commits in the measured range
+ec1005a round-40: lesson, SCORECARD/LOG round-40 sections, landing measurement + census after, wave-1 reports/results (37/37), shim modules neutralized, wave-2 maker
+ec17216 round-40: battery40 (7 modules, 21 tripwire mutants), C2 package (db-wal entry, S119-S121, README, PROVINCE, SKILL section + registry rows), tip_receipts derived mapping, round_close.py, S046/S052 recheck notes, L1 integrate receipts
+3077adb round-40: wave-1 spec and dispatch (37 seats, policy v1)
+055748f round-40: first recorded db-wal probe run (28 cases, mismatches=0, byte-equal rerun)
+bbb1095 round-40: freeze — claims, C1 tripwire-mutant counter (21 mutants, witnesses), C2 db-wal probe/spec/counter, captures, dry table, controls
+
+## branch head vs assigned tip
+refs/heads/master=c9c793ca33fab1cdaf1127c06ba31685c7db1325
+assigned tip    =ec1005a2a28bc5cfdde7723374368ed4cc956eed
+head extra commit: c9c793c round-40: wave-2 spec and dispatch (35 seats, policy v1)
+protected diff at head: 0 file(s)

@@ -1496,3 +1496,32 @@ mutate the graded state). Registry 111 → 114 (tier A +2, tier B +1), knowledge
 - **Carried:** the order class into a separately frozen ledger once battery40's ledger declarations can move (R3);
   `considerthese/2026-10-26.md` proposal 1 (routed-findings burn-down) priced as a rider (`R40PlanNext` §4: 71 routed items
   vs 5 ledger rows).
+
+### Wave 2 outcome (appended after the falsify wave; 35 seats, 35 reports, `.ufo/waves/round-40/falsify/`)
+
+- Re-measures agree: C1 re-run `killed=21` pass, byte-equal across two hash seeds and job counts, every module load-bearing
+  (7/7 removals flip their mutants, `F40C1Rerun`); C2 re-run pass, probe byte-equal 3/3 including `env -i` (`F40C2Rerun`);
+  S119/S120/S121 and the S046/S052 notes re-opened 5/5 (`F40ReopenRows`); map red controls 10/10 (`F40MapControl`);
+  independent re-run of the four non-frozen cases the entry cites 4/4 (`F40IndepProbe`); C1 and C2 separable both ways
+  (`F40CritSeparability`); no harm on the round-37/38/39 instruments (`F40NoHarmC1`, byte-identical receipts); 2 rewritten
+  lines in lane docs, both the S046/S052 anchor notes, no harm (`F40CritNoHarmDiff`); misroot 0, host writes 0
+  (`F40ScoutMisroot`).
+- Battery40: all seven modules reviewed honest by non-author seats (21/21 fixtures, `F40RevBat*`); fixture-level mutants
+  caught 21/21 (`F40MutBattery`); no landed module uses a wave-1 counterexample vector (`F40CritCounterLimits`: 0 of 9; 9
+  counter repairs drafted for round 41); security scan of the landed modules clean, four counter-level findings
+  (`F40SentinelBattery`). Near-variant tool mutants outside the frozen list: anchor 7/16 killed, ledger/order 3/14 killed —
+  round-41 candidates (`F40XMutAnchor`, `F40XMutLedgerOrder`).
+- Calibration count confirmed by recount: 13 direct, 4 indirect, 4 not advertised (`F40CritC1Count`). Corrections to the
+  row above (`F40CritScorecard` M1/M2): the C1 *before* cell is the empty-battery control of the frozen counter; the
+  committed pre-freeze witness battery kills 7 of 21 (`witness-run.txt`) — the claim's count is over the standing counter;
+  and "registry rows for … the five round-40 instruments" overstates: five rows landed in total (`order-check`,
+  `round39-c1-audit`, `round40-c1-mutants`, `round40-c2`, `db-wal-probe`); `round_close.py` and the tip-receipts change are
+  recorded in the round-40 registry addendum, not as rows.
+- Wording defects in the C2 package found and corrected by appended errata (`## Errata (round 40, wave 2)` in the entry):
+  14 overclaims (`F40CritOverclaim`; one wrong numeral — `plain-read-then-solve` scores 5 of 7, not 4), 6 unsupported
+  sentences (`F40EntryQuotes`), prior art widened to a second audit and an in-the-wild report (`F40CritPriorArt`); SKILL rows
+  18/19 verified (`F40CritSkill`); registry commands 7/7 match (`F40RegistryRows`).
+- Tools: `round_close.py` 6/14 single-line mutants caught (rule (a) and the no-claims guard survive, `F40RoundClose`);
+  `tip_receipts.py` 6 defects (two false-red shapes, a green run with no tamper control possible; `F40TipReceipts`); the
+  round-41 plan carries 10 defects (`F40CritPlanNext`: its predicate is reachable with zero round-41 work as written; the
+  isolation repair as worded reds the landed battery). All routed to round 41; no frozen predicate is affected.

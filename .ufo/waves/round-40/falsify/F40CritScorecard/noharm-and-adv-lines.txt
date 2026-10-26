@@ -1,0 +1,24 @@
+# (a) LOG.md:1223 'every no-harm instrument green at the landing tip' vs the receipt it cites
+LOG.md:1145:  (`R38ScoutUpstream`); every no-harm instrument green at the landing tip (`integrate/measure-final.txt`).
+LOG.md:1179:  with no status change (`R39SourcesRecheck`); every no-harm instrument green at the landing tip (`integrate/measure-final.txt`).
+LOG.md:1223:  SOURCES rows re-opened, two locator notes (`R40SourcesRecheck`); every no-harm instrument green at the landing tip
+$ grep -n 'round38_c1_verify\|MUTANT N21\|PREDICATE C1 fail\|^exit=1' .ufo/waves/round-40/integrate/measure-final.txt
+measure-final.txt:221:$ python3 plans/round38_c1_verify.py --lane . --work /fast/scratch/hyaku/kengaku-r40/L1/measure/w
+measure-final.txt:330:MUTANT N21 D5 silence SURVIVED -- the capture digest is looked up in every manifest row, not only the first [F37XMutD5 X3]
+measure-final.txt:333:PREDICATE C1 fail
+measure-final.txt:556:plans/round38_c1_verify.py: OK
+PREDICATE C1 fail
+exit=1
+
+# (b) SCORECARD.md's own wording for the same instrument
+1389:round-38 C1 `killed=21 survived=1` as landed, round-38 C2 pass, round-37 C1 `killed=55` pass, round-37 C2 pass, round-36 C2 pass,
+1464:round-39 C1 `killed=7` pass and C2 pass, round-38 C1 `killed=21 survived=1` as landed, round-38 C2 pass, round-37 C1
+
+# (c) LOG.md:1198 adv-cell sentence
+
+- C1 (calibration, predicate met): 21 frozen mutants of `plans/anchor_digest_check.py` (11), `plans/ledger_tip.py` (7) and
+  `plans/order_check.py` (3), each `adv` cell quoting the tool's docstring at file:line; O13 withdrawn before freeze as
+  equivalent. Freeze `killed=0 survived=21`; seven wave-1 executors wrote `plans/battery40/` (21 fixtures); landing `BATTERY
+
+# (d) the same sentence in the landed SKILL.md addendum (second authority)
+626:(`anchor-digest-check`, `ledger-tip`, `order-check`) — 21 frozen mutants, each `adv` cell quoting the tool's own

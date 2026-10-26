@@ -1,0 +1,42 @@
+PINS total=3 mismatched=0
+FIXTURE a_bind-a27-token-per-capture tool=anchor expect=reject declared=capture-unanchored observed_rc=1 observed=capture-unanchored ok
+FIXTURE a_bind-a15-slug-ambiguity tool=anchor expect=reject declared=anchor-unbound observed_rc=1 observed=anchor-unbound ok
+FIXTURE a_bind-a17-index-bytes tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_man-stale-manifest-digest tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_man-uppercase-manifest-entry tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_row-indent4-wrong tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_row-token-in-teaches tool=anchor expect=reject declared=token-outside-anchor observed_rc=1 observed=token-outside-anchor ok
+FIXTURE a_row-12-cells tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_tok-upper-anchor tool=anchor expect=reject declared=digest-uppercase observed_rc=1 observed=digest-uppercase ok
+FIXTURE a_tok-abbrev-7hex tool=anchor expect=reject declared=abbrev-unresolved observed_rc=1 observed=abbrev-unresolved ok
+FIXTURE a_tok-abbrev-64hex tool=anchor expect=reject declared=abbrev-unresolved observed_rc=1 observed=abbrev-unresolved ok
+FIXTURE l_refuse-source-not-a-repo tool=ledger expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE l_refuse-work-lane-exists tool=ledger expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE l_refuse-stale-pin-ref tool=ledger expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE l_rows-open-row tool=ledger expect=reject declared=NO:R34-D2 observed_rc=1 observed=NO:R34-D2 ok
+FIXTURE l_rows-empty-ledgers tool=ledger expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE l_rows-check-crashes tool=ledger expect=reject declared=NO:R34-D3 observed_rc=1 observed=NO:R34-D3 ok
+FIXTURE l_rows-unknown-check tool=ledger expect=reject declared=NO:R34-D5 observed_rc=1 observed=NO:R34-D5 ok
+FIXTURE o_gate-p10-ok-excuse tool=order expect=reject declared=hit:gate-p10 observed_rc=1 observed=hit:gate-p10 ok
+FIXTURE o_gate-claims-gitlink tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_gate-claims-bak-name tool=order expect=error declared=- observed_rc=2 observed=- ok
+MUTANT X1 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:50-52 'Provenance row — a committed markdown under corpus/evi
+MUTANT X2 anchor rc-mirror killed by=a_bind-a17-index-bytes -- plans/anchor_digest_check.py:62-64 'Explicit lane path — a corpus/evidence/… path written 
+MUTANT X3 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:57-58 'A provenance URL (an evidence markdown naming the same
+MUTANT X4 anchor rc-mirror killed by=a_bind-a17-index-bytes -- plans/anchor_digest_check.py:106-112 'An erratum for S<id> exempts that row's anchor token
+MUTANT X5 anchor rc-mirror killed by=a_bind-a17-index-bytes -- plans/anchor_digest_check.py:106 'A line in a committed corpus/lessons/*.md beginning Erra
+MUTANT X6 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:89-92 'A 64-hex token that is a committed capture but not thi
+MUTANT X7 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:92-93 'a token that is no committed capture at all is digest-
+MUTANT X8 anchor silence killed by=a_row-token-in-teaches -- plans/anchor_digest_check.py:81 'a token outside the anchor cell is token-outside-anchor —
+MUTANT X9 anchor rc-silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:34-35 'A row that matches the census regex but does not have 
+MUTANT X10 anchor silence killed by=a_tok-upper-anchor -- plans/anchor_digest_check.py:37-39 'sha256 plus whitespace plus a hex run, optionally back
+MUTANT X11 anchor rc-mirror killed by=a_bind-a17-index-bytes -- plans/anchor_digest_check.py:44-46 'the digest that entry lists, and the digest of the com
+MUTANT X12 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:55-56 'matched **exactly** against the name = "<org>/<task>" 
+MUTANT X13 anchor rc-silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:73 '`--evidence-ref head` (default) reads HEAD blobs, so an u
+MUTANT X14 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:111-113 'no 64-hex token on it may be outside A unless it is 
+MUTANT X15 anchor rc-silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:108-110 'at least one other token that is 64 lowercase hex an
+MUTANT X16 anchor silence killed by=a_tok-upper-anchor -- plans/anchor_digest_check.py:88-89 '(`digest-short`, `digest-long`, `digest-uppercase` oth
+BATTERY fixtures=21 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=16 killed=7 survived=9 invalid=0 null_detected=0
+PINS-AFTER mismatched=0
+PREDICATE C1 fail

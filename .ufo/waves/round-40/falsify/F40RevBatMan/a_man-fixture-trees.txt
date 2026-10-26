@@ -1,0 +1,146 @@
+module FIXTURES order: ['a_man-stale-manifest-digest', 'a_man-uppercase-manifest-entry']
+manifest_digest() = 7d6ec0a363b17dbe224063b26eef23e9b3f729bd9419eee37b736d11e18936be
+
+=== a_man-stale-manifest-digest expect=accept defects=[]
+argv = ['--lane', '/fast/scratch/hyaku/kengaku-r40/F40RevBatMan/inspect/f000', '--evidence-ref', 'head']
+--- tree /fast/scratch/hyaku/kengaku-r40/F40RevBatMan/inspect/f000 ---
+dir   .git mode=0o40755 size=150
+dir   corpus mode=0o40755 size=40
+file  .git/COMMIT_EDITMSG mode=0o100644 size=14
+file  .git/HEAD mode=0o100644 size=23
+file  .git/config mode=0o100644 size=92
+file  .git/description mode=0o100644 size=73
+file  .git/index mode=0o100644 size=497
+dir   .git/hooks mode=0o40755 size=4096
+dir   .git/info mode=0o40755 size=21
+dir   .git/logs mode=0o40755 size=30
+dir   .git/objects mode=0o40755 size=120
+dir   .git/refs mode=0o40755 size=31
+file  .git/hooks/applypatch-msg.sample mode=0o100755 size=478
+file  .git/hooks/commit-msg.sample mode=0o100755 size=1972
+file  .git/hooks/fsmonitor-watchman.sample mode=0o100755 size=4611
+file  .git/hooks/post-update.sample mode=0o100755 size=189
+file  .git/hooks/pre-applypatch.sample mode=0o100755 size=424
+file  .git/hooks/pre-commit.sample mode=0o100755 size=1649
+file  .git/hooks/pre-merge-commit.sample mode=0o100755 size=416
+file  .git/hooks/pre-push.sample mode=0o100755 size=1374
+file  .git/hooks/pre-rebase.sample mode=0o100755 size=4898
+file  .git/hooks/pre-receive.sample mode=0o100755 size=544
+file  .git/hooks/prepare-commit-msg.sample mode=0o100755 size=1492
+file  .git/hooks/push-to-checkout.sample mode=0o100755 size=2783
+file  .git/hooks/sendemail-validate.sample mode=0o100755 size=2308
+file  .git/hooks/update.sample mode=0o100755 size=3650
+file  .git/info/exclude mode=0o100644 size=240
+file  .git/logs/HEAD mode=0o100644 size=165
+dir   .git/logs/refs mode=0o40755 size=19
+dir   .git/logs/refs/heads mode=0o40755 size=20
+file  .git/logs/refs/heads/master mode=0o100644 size=165
+dir   .git/objects/08 mode=0o40755 size=52
+dir   .git/objects/29 mode=0o40755 size=52
+dir   .git/objects/2a mode=0o40755 size=52
+dir   .git/objects/71 mode=0o40755 size=52
+dir   .git/objects/9d mode=0o40755 size=52
+dir   .git/objects/a4 mode=0o40755 size=52
+dir   .git/objects/ca mode=0o40755 size=52
+dir   .git/objects/cf mode=0o40755 size=52
+dir   .git/objects/ee mode=0o40755 size=52
+dir   .git/objects/info mode=0o40755 size=6
+dir   .git/objects/pack mode=0o40755 size=6
+file  .git/objects/08/f6ae81e98f6b6d7423e513483e74d1b20bf0ae mode=0o100444 size=45
+file  .git/objects/29/a7bd871a56905d3d67f674c5a93f4c57c60f2a mode=0o100444 size=50
+file  .git/objects/2a/7124a7ecbf001f5823de732fe247e9aebfeb5e mode=0o100444 size=133
+file  .git/objects/71/aad1792a8306eccd71b7854d7360a83ff8637e mode=0o100444 size=91
+file  .git/objects/9d/90d5cc20626e989312297952e6ff2d9f2bd14f mode=0o100444 size=98
+file  .git/objects/a4/1445b3db1a03be3436cc7562d451cc4432116d mode=0o100444 size=51
+file  .git/objects/ca/fb0bc3170594d119a671bc5156ece9f16f2a48 mode=0o100444 size=50
+file  .git/objects/cf/2eb1e3fba8bb6baacf856487c19241a9426698 mode=0o100444 size=378
+file  .git/objects/ee/2783270e0840dc8e181b39ec8d37008461579b mode=0o100444 size=94
+dir   .git/refs/heads mode=0o40755 size=20
+dir   .git/refs/tags mode=0o40755 size=6
+file  .git/refs/heads/master mode=0o100644 size=41
+file  corpus/SOURCES.md mode=0o100644 size=483
+dir   corpus/evidence mode=0o40755 size=21
+dir   corpus/evidence/round41 mode=0o40755 size=21
+dir   corpus/evidence/round41/tb2-man mode=0o40755 size=47
+file  corpus/evidence/round41/tb2-man/SHA256SUMS mode=0o100644 size=82
+file  corpus/evidence/round41/tb2-man/test_outputs.py mode=0o100644 size=29
+SHA256SUMS text: '7d6ec0a363b17dbe224063b26eef23e9b3f729bd9419eee37b736d11e18936be  test_outputs.py\n'
+capture bytes sha256 = faa64ae46ee6fb984697c7d9e269404e697ac259c86000f679dd1ac7bfe5b574
+git status --porcelain: '' rc=0
+git ls-tree -r HEAD:
+  100644 blob cf2eb1e3fba8bb6baacf856487c19241a9426698	corpus/SOURCES.md
+  100644 blob 9d90d5cc20626e989312297952e6ff2d9f2bd14f	corpus/evidence/round41/tb2-man/SHA256SUMS
+  100644 blob 08f6ae81e98f6b6d7423e513483e74d1b20bf0ae	corpus/evidence/round41/tb2-man/test_outputs.py
+git status --ignored --porcelain: ''
+
+=== a_man-uppercase-manifest-entry expect=accept defects=[]
+argv = ['--lane', '/fast/scratch/hyaku/kengaku-r40/F40RevBatMan/inspect/f001', '--evidence-ref', 'head']
+--- tree /fast/scratch/hyaku/kengaku-r40/F40RevBatMan/inspect/f001 ---
+dir   .git mode=0o40755 size=150
+dir   corpus mode=0o40755 size=40
+file  .git/COMMIT_EDITMSG mode=0o100644 size=14
+file  .git/HEAD mode=0o100644 size=23
+file  .git/config mode=0o100644 size=92
+file  .git/description mode=0o100644 size=73
+file  .git/index mode=0o100644 size=497
+dir   .git/hooks mode=0o40755 size=4096
+dir   .git/info mode=0o40755 size=21
+dir   .git/logs mode=0o40755 size=30
+dir   .git/objects mode=0o40755 size=110
+dir   .git/refs mode=0o40755 size=31
+file  .git/hooks/applypatch-msg.sample mode=0o100755 size=478
+file  .git/hooks/commit-msg.sample mode=0o100755 size=1972
+file  .git/hooks/fsmonitor-watchman.sample mode=0o100755 size=4611
+file  .git/hooks/post-update.sample mode=0o100755 size=189
+file  .git/hooks/pre-applypatch.sample mode=0o100755 size=424
+file  .git/hooks/pre-commit.sample mode=0o100755 size=1649
+file  .git/hooks/pre-merge-commit.sample mode=0o100755 size=416
+file  .git/hooks/pre-push.sample mode=0o100755 size=1374
+file  .git/hooks/pre-rebase.sample mode=0o100755 size=4898
+file  .git/hooks/pre-receive.sample mode=0o100755 size=544
+file  .git/hooks/prepare-commit-msg.sample mode=0o100755 size=1492
+file  .git/hooks/push-to-checkout.sample mode=0o100755 size=2783
+file  .git/hooks/sendemail-validate.sample mode=0o100755 size=2308
+file  .git/hooks/update.sample mode=0o100755 size=3650
+file  .git/info/exclude mode=0o100644 size=240
+file  .git/logs/HEAD mode=0o100644 size=165
+dir   .git/logs/refs mode=0o40755 size=19
+dir   .git/logs/refs/heads mode=0o40755 size=20
+file  .git/logs/refs/heads/master mode=0o100644 size=165
+dir   .git/objects/08 mode=0o40755 size=52
+dir   .git/objects/19 mode=0o40755 size=52
+dir   .git/objects/31 mode=0o40755 size=52
+dir   .git/objects/70 mode=0o40755 size=52
+dir   .git/objects/cf mode=0o40755 size=98
+dir   .git/objects/d2 mode=0o40755 size=52
+dir   .git/objects/d3 mode=0o40755 size=52
+dir   .git/objects/d8 mode=0o40755 size=52
+dir   .git/objects/info mode=0o40755 size=6
+dir   .git/objects/pack mode=0o40755 size=6
+file  .git/objects/08/f6ae81e98f6b6d7423e513483e74d1b20bf0ae mode=0o100444 size=45
+file  .git/objects/19/2c5411dff2f9619b3370de9423b5a8961f236a mode=0o100444 size=50
+file  .git/objects/31/1e3dcfdc2dd1a28cf448326417cad7d8223e5f mode=0o100444 size=92
+file  .git/objects/70/3cf4b42eb6dd9ffd05996c430f8a2ef290afc6 mode=0o100444 size=94
+file  .git/objects/cf/244e861ade972075b2995317cf55c87b6f4b15 mode=0o100444 size=133
+file  .git/objects/cf/2eb1e3fba8bb6baacf856487c19241a9426698 mode=0o100444 size=378
+file  .git/objects/d2/0d6afdd7969e04d081432625bd4b9c953c9b45 mode=0o100444 size=98
+file  .git/objects/d3/330435bb1b2e5258381a7534bae17cbada550e mode=0o100444 size=51
+file  .git/objects/d8/1ba5589f55ccb9c751f5941375f942403ab0dc mode=0o100444 size=50
+dir   .git/refs/heads mode=0o40755 size=20
+dir   .git/refs/tags mode=0o40755 size=6
+file  .git/refs/heads/master mode=0o100644 size=41
+file  corpus/SOURCES.md mode=0o100644 size=483
+dir   corpus/evidence mode=0o40755 size=21
+dir   corpus/evidence/round41 mode=0o40755 size=21
+dir   corpus/evidence/round41/tb2-man mode=0o40755 size=47
+file  corpus/evidence/round41/tb2-man/SHA256SUMS mode=0o100644 size=82
+file  corpus/evidence/round41/tb2-man/test_outputs.py mode=0o100644 size=29
+SHA256SUMS text: '7D6EC0A363B17DBE224063B26EEF23E9B3F729BD9419EEE37B736D11E18936BE  test_outputs.py\n'
+capture bytes sha256 = faa64ae46ee6fb984697c7d9e269404e697ac259c86000f679dd1ac7bfe5b574
+git status --porcelain: '' rc=0
+git ls-tree -r HEAD:
+  100644 blob cf2eb1e3fba8bb6baacf856487c19241a9426698	corpus/SOURCES.md
+  100644 blob d20d6afdd7969e04d081432625bd4b9c953c9b45	corpus/evidence/round41/tb2-man/SHA256SUMS
+  100644 blob 08f6ae81e98f6b6d7423e513483e74d1b20bf0ae	corpus/evidence/round41/tb2-man/test_outputs.py
+git status --ignored --porcelain: ''
+[rc=0]

@@ -1,0 +1,13 @@
+diff --git 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/a_man.py 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-A21/battery40/a_man.py
+index fc66a08..f7fd739 100644
+--- 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/a_man.py
++++ 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-A21/battery40/a_man.py
+@@ -62,7 +62,7 @@ def _repo(ctx, d, entry, anchor):
+ def _uppercase_entry(ctx, d):
+     """A21: the SHA256SUMS entry spells the anchored digest in UPPERCASE; the row anchors lowercase."""
+     dig = manifest_digest()
+-    _repo(ctx, d, dig.upper(), dig)
++    _repo(ctx, d, dig, dig)
+     return ["--lane", str(d), "--evidence-ref", "head"]
+ 
+ 

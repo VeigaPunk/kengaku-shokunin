@@ -1,0 +1,32 @@
+CASE truth-default-path observed=pass tests=PPPPPPP predicted_tests=PPPPPPP match=yes regrade=same
+  observed_failures=[]
+  /app/main.db size=8192 sha256=68cb288eb29e76d814b4e7ee6887b37c415675e644f88173bc191348e290d119 head=53514c69
+  /app/main.db-wal size=16512 sha256=68753bdce26196a53194260d001544cc6bb8f9f38e2f2f6826d09798e31e6e26 head=753d44c0
+  /app/recovered.json size=472 sha256=dd04f318daf77655ea9ae839f12e3d09b93661355c4fd5a946a9a9b338e910ef head=5b7b2269
+  recovered.json rows=11 ids=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] values=[150, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]
+  main.db: present magic_or_head=53514c69746520666f726d6174203300
+  main.db-wal: present magic_or_head=753d44c0426fa05a4242524242424242
+CASE truth-no-db observed=pass tests=PPPPPPP predicted_tests=PPPPPPP match=yes regrade=same
+  observed_failures=[]
+  /app/recovered.json size=472 sha256=dd04f318daf77655ea9ae839f12e3d09b93661355c4fd5a946a9a9b338e910ef head=5b7b2269
+  recovered.json rows=11 ids=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] values=[150, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]
+  main.db: ABSENT
+  main.db-wal: ABSENT
+CASE xor-42-RO observed=pass tests=PPPPPPP predicted_tests=PPPPPPP match=yes regrade=same
+  observed_failures=[]
+  /app/main.db size=8192 sha256=68cb288eb29e76d814b4e7ee6887b37c415675e644f88173bc191348e290d119 head=53514c69
+  /app/main.db-shm size=32768 sha256=cf857f02baff9003eeb4967ce78bbd84e236999dcf1422df18f6931d3cbdf31e head=18e22d00
+  /app/main.db-wal size=16512 sha256=a00cfbf891cb36157b7eca6df67f9920a0013769e446c2314ca204eef958c14c head=377f0682
+  /app/recovered.json size=472 sha256=dd04f318daf77655ea9ae839f12e3d09b93661355c4fd5a946a9a9b338e910ef head=5b7b2269
+  recovered.json rows=11 ids=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] values=[150, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]
+  main.db: present magic_or_head=53514c69746520666f726d6174203300
+  main.db-wal: present magic_or_head=377f0682002de2180000100000000000
+CASE xor-43-RO observed=fail tests=PPPPFPF predicted_tests=PPPPFPF match=yes regrade=same
+  observed_failures=['test_recovered_data_completeness', 'test_wal_was_decrypted']
+  /app/main.db size=8192 sha256=68cb288eb29e76d814b4e7ee6887b37c415675e644f88173bc191348e290d119 head=53514c69
+  /app/main.db-shm size=32768 sha256=fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb head=18e22d00
+  /app/main.db-wal size=16512 sha256=8a46e91ed1cca62f0cb0d4f1b37d7630d9e50ee2cdf766a5c7e44fcdf26801d6 head=367e0783
+  /app/recovered.json size=216 sha256=dc514e5ed0589bb0476c134c5016654198f8ff16d34d38629ec7fa7cb975b69e head=5b7b2269
+  recovered.json rows=5 ids=[1, 2, 3, 4, 5] values=[100, 200, 300, 400, 500]
+  main.db: present magic_or_head=53514c69746520666f726d6174203300
+  main.db-wal: present magic_or_head=367e0783012ce3190101110101010101

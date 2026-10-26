@@ -1,0 +1,47 @@
+# Receipt: fixture-tree inspection, diff against lane, symlinks, token edits, mutant probe, baseline
+# S=/fast/scratch/hyaku/kengaku-r40/F40RevBatTok (deleted after receipts copied)
+
+## 1. Per-fixture clone state (git -C "$S/fx/$f/lane" rev-parse HEAD; status --porcelain; diff -rq -x .git vs "$S/lane")
+f000: HEAD ec1005a2a28bc5cfdde7723374368ed4cc956eed; ` M corpus/SOURCES.md`; only SOURCES.md differs
+f001: HEAD ec1005a2a28bc5cfdde7723374368ed4cc956eed; ` M corpus/SOURCES.md`; only SOURCES.md differs
+f002: HEAD ec1005a2a28bc5cfdde7723374368ed4cc956eed; ` M corpus/SOURCES.md`; only SOURCES.md differs
+lane HEAD: ec1005a2a28bc5cfdde7723374368ed4cc956eed
+
+## 2. Symlinks: find "$S/fx" -type l | sort  ->  (empty; no symlinks anywhere in the three trees)
+
+## 3. Token edits (git -C "$S/fx/$f/lane" diff -U0 -- corpus/SOURCES.md | grep -E '^[+-]' | grep -v -E '^[+-]{3}' | grep -oE 'sha256 [`]?[0-9A-Za-z.…]+')
+f000: - sha256 526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37
+      + sha256 526AEE3DFE952CC4C7574361012712E389D6FBA7222C005FC3E939FC53346B37
+f001: - sha256 afaae9dd…
+      + sha256 afaae9d…
+f002: - sha256 afaae9dd…
+      + sha256 afaae9ddaf4deda0095c2e7ad39c6cb63236d72c812ca2fcd9ab18c42eef8131…
+
+## 4. Capture digest equality, work tree vs HEAD (S036 names corpus/evidence/attrib-r23-stream.log)
+# sha256sum "$S/lane/corpus/evidence/attrib-r23-stream.log"
+afaae9ddaf4deda0095c2e7ad39c6cb63236d72c812ca2fcd9ab18c42eef8131  .../attrib-r23-stream.log
+# git -C "$S/lane" cat-file blob "HEAD:corpus/evidence/attrib-r23-stream.log" | sha256sum
+afaae9ddaf4deda0095c2e7ad39c6cb63236d72c812ca2fcd9ab18c42eef8131  -
+=> f002's token is the true digest of the committed capture; the ellipsis is the only reason it fails.
+
+## 5. A01 mutant variant run on f000 (what the killed mutant actually prints)
+# python3 -c: replace 'HEX64 = re.compile(r"[0-9a-f]{64}")' -> r"[0-9a-fA-F]{64}" (count==1 asserted)
+# variant sha256 7379c272db70514204587bfb337331e54bc5491ecaf93c5b23bf68d5b3a4f72d
+# bwrap (same wrapper) python3 "$S/mut/A01.py" --lane "$S/fx/f000/lane"; RC=1
+DEFECT S111 anchor token=526AEE3DFE952CC4C7574361012712E389D6FBA7222C005FC3E939FC53346B37 class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:126
+rows=114 tokens=21 defects=1
+=> A01's kill is a reclassification (digest-uppercase -> digest-unknown, still exit 1), not an acceptance.
+
+## 6. Reference on f000, verbose (same wrapper)
+DEFECT S111 anchor token=526AEE3DFE952CC4C7574361012712E389D6FBA7222C005FC3E939FC53346B37 class=digest-uppercase detail=64-hex-but-not-lowercase loc=corpus/SOURCES.md:126
+rows=114 tokens=21 defects=1 ; RC=1
+
+## 7. Baseline on pristine lane (same wrapper)
+# ... anchor_digest_check.py --lane "$S/lane" | grep -cE "^DEFECT"  ->  0
+# ... anchor_digest_check.py --lane "$S/lane" > /dev/null; echo RC=$?  ->  RC=0
+=> the injected edit is the sole cause of each fixture's single declared defect.
+
+## 8. SOURCES.md anchors at HEAD (grep -n, lane copy)
+line 58: S036 row, anchor cell `corpus/evidence/attrib-r23-stream.log:239 @ commit 99cf615 (sha256 afaae9dd…)`
+line 126: S111 row, anchor cell ends `sha256 526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37`
+=> the S111/S036 constants in a_tok.py:11-16 match HEAD; _edit's count==1 guard (a_tok.py:23-24) is satisfiable.

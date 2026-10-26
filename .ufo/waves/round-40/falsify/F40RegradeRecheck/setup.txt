@@ -1,0 +1,15 @@
+# F40RegradeRecheck evidence — lane clone, toolchain, bwrap form
+clone=/fast/scratch/hyaku/kengaku-r40/F40RegradeRecheck/lane
+head=ec1005a2a28bc5cfdde7723374368ed4cc956eed
+status=[]
+probe_copy_equal_cgw=yes
+probe_copy_equal_glr=yes
+git=git version 2.56.0  python=Python 3.14.8  curl=curl 8.23.0 (x86_64-pc-linux-gnu) libcurl/8.23.0 OpenSSL/3.6.5 zlib/1.3.2 brotli/1.2.0 zstd/1.5.7 libidn2/2.3.8 libpsl/0.21.5 libssh2/1.11.1 nghttp2/1.70.0 ngtcp2/1.25.0 nghttp3/1.18.0 mit-krb5/1.22.2
+wget=GNU Wget 1.25.0 built on linux-gnu.  expect=ABSENT
+bwrap=present
+outer_sandbox=bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent <cmd>
+nested_inner_sandbox=lane probe sandbox_argv (--unshare-net/pid/ipc, /usr /etc ro, --bind work -> /work or /app)
+cmd_regrade=bwrap ... /usr/bin/python3 $S/regrade2.py > regrade-run1.txt 2> regrade-run1.err
+cmd_repeat=bwrap ... /usr/bin/python3 $S/repeat_noclear.py > repeat-noclear.txt
+cmd_mech=bwrap ... /usr/bin/python3 $S/mechanism.py > mechanism.txt
+scratch=/fast/scratch/hyaku/kengaku-r40/F40RegradeRecheck (removed after this copy)

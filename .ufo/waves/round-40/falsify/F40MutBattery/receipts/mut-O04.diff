@@ -1,0 +1,13 @@
+diff --git 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/o_gate.py 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-O04/battery40/o_gate.py
+index 5644be9..705af25 100644
+--- 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/o_gate.py
++++ 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-O04/battery40/o_gate.py
+@@ -46,7 +46,7 @@ FIXTURES = [
+     # stays silent and exits 0.
+     {"fid": "o_gate-p10-ok-excuse", "tool": "order", "expect": "reject",
+      "defects": ["hit:gate-p10"],
+-     "build": lambda ctx, d: gate_repo(ctx, d, "gate: P10 ok receipt unreadable\n")},
++     "build": lambda ctx, d: gate_repo(ctx, d, "P10 DEFECT receipt unreadable\n")},
+     # O12: a gitlink under claims/ is a tree entry, not a blob; the reference skips it and passes,
+     # while a mutant that only checks the field count feeds the gitlink commit id to cat-file
+     # (no such object) and exits 2.

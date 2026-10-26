@@ -1,0 +1,13 @@
+# counter=round40_c1_verify.py battery=/fast/scratch/hyaku/kengaku-r40/F40CritCounterLimits/attack/a1self only=L05,L06,L14,L15
+# PATH=/usr/local/bin:/usr/bin:/bin:/home/vgpnk/.local/bin
+PINS total=3 mismatched=0
+FIXTURE a1-self-read tool=ledger expect=reject declared=NO:S900 observed_rc=1 observed=NO:S900 ok
+MUTANT L05 ledger rc-silence killed by=a1-self-read -- plans/ledger_tip.py:20-21 'mismatches counts every closed row whose check fails plus every
+MUTANT L06 ledger rc-silence killed by=a1-self-read -- plans/ledger_tip.py:23-24 '`0` no mismatch · `1` a ledger row genuinely disagrees' (exit 0
+MUTANT L14 ledger rc-silence killed by=a1-self-read -- plans/ledger_tip.py:228 '# a crash is an observed failure, never a pass'
+MUTANT L15 ledger rc-silence killed by=a1-self-read -- plans/ledger_tip.py:20-21 (as L05: a closed row whose check fails is a mismatch; an unknow
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=4 killed=4 survived=0 invalid=0 null_detected=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+EXIT=0

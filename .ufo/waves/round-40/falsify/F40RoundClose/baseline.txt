@@ -1,0 +1,117 @@
+# clone: /fast/scratch/hyaku/kengaku-r40/F40RoundClose/lane  HEAD ec1005a2a28bc5cfdde7723374368ed4cc956eed
+# clone status: []
+# tool sha256: 112b52f0051357491b1654932948989d57b923c22bea817c15b710e5f9785c3b  plans/round_close.py
+# census sha256: 3fb7261569f46423dd80ecc23e0a23789a7926f667c7a3fc559d2439d4a64e30  /home/vgpnk/Projects/shokunin/scripts/sources-census.sh
+
+$ python3 plans/round_close.py --lane /fast/scratch/hyaku/kengaku-r40/F40RoundClose/lane --selftest --work /fast/scratch/hyaku/kengaku-r40/F40RoundClose/st-baseline --census /home/vgpnk/Projects/shokunin/scripts/sources-census.sh
+SELFTEST case=A-excused-p10 shape=receipt-last expect=0 got=0 verdict=ok
+SELFTEST case=B-executed-p10 shape=receipt-last expect=1 got=1 verdict=ok
+SELFTEST case=C-receipt-first shape=receipt-first expect=1 got=1 verdict=ok
+SELFTEST case=D-receipt-uncommitted shape=receipt-uncommitted expect=2 got=2 verdict=ok
+SELFTEST case=E-no-receipt-named shape=no-probe expect=2 got=2 verdict=ok
+SELFTEST checks=5 ok=5 failed=0
+exit=0
+
+$ python3 plans/round_close.py --lane /fast/scratch/hyaku/kengaku-r40/F40RoundClose/lane --round 36 --census /home/vgpnk/Projects/shokunin/scripts/sources-census.sh
+ROUND-CLOSE lane=/fast/scratch/hyaku/kengaku-r40/F40RoundClose/lane round=36
+ROUND-CLOSE claims=plans/round-36-claims.md sha256=fe3f935a182c1e2daf7ae8c3c45fcaa2eba77b7462c6516f676bcc37d4bf5bca
+ROUND-CLOSE order-tool=plans/order_check.py sha256=948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc
+ROUND-CLOSE receipts=1
+ORDER claims=plans/round-36-claims.md round=36 freeze=3241b86cde0e9a3b9363a0d4c7fff12ec5d5f5e2
+ORDER receipt=corpus/evidence/round36/regex-log-probe.txt receipt_commit=acbda2f3936838ba4849f14937fbecb8aed461e5 claims_dir=.ufo/waves/round-36/claims/
+ORDER scanned commits=1 file_entries=9 distinct_blobs=9
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+ROUND-CLOSE order receipt=corpus/evidence/round36/regex-log-probe.txt exit=0 verdict=PASS
+ROUND-CLOSE census exit=0 warnings=15 verdict=PASS
+ROUND-CLOSE RESULT PASS exit=0
+exit=0
+
+$ python3 plans/round_close.py --lane /fast/scratch/hyaku/kengaku-r40/F40RoundClose/lane --round 37 --census /home/vgpnk/Projects/shokunin/scripts/sources-census.sh
+ROUND-CLOSE lane=/fast/scratch/hyaku/kengaku-r40/F40RoundClose/lane round=37
+ROUND-CLOSE claims=plans/round-37-claims.md sha256=0aff57a1465a56a06d87476acd0b498aff5e7503e9d096769abd0e0950c364a8
+ROUND-CLOSE order-tool=plans/order_check.py sha256=948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc
+ROUND-CLOSE receipts=1
+ORDER claims=plans/round-37-claims.md round=37 freeze=ca790460e9b74d4dc5870c878affd13cc9c4437a
+ORDER receipt=corpus/evidence/round37/git-webserver-probe.txt receipt_commit=5c7b34e9223f460a440596e3a76bdae8bfdd37d8 claims_dir=.ufo/waves/round-37/claims/
+ORDER scanned commits=1 file_entries=12 distinct_blobs=12
+ORDER HIT .ufo/waves/round-37/claims/control-c2-skip.txt@ca790460e9b7:12 kind=gate-p10 `gate: P10 DEFECT fresh probe output is not byte-equal to the receipt`
+ORDER FAIL probe-executed-before-receipt hits=1
+ORDER RESULT FAIL
+ROUND-CLOSE order receipt=corpus/evidence/round37/git-webserver-probe.txt exit=1 verdict=FAIL
+ROUND-CLOSE census exit=0 warnings=15 verdict=PASS
+ROUND-CLOSE RESULT FAIL exit=1
+exit=1
+
+$ python3 plans/round_close.py --lane /fast/scratch/hyaku/kengaku-r40/F40RoundClose/lane --round 38 --census /home/vgpnk/Projects/shokunin/scripts/sources-census.sh
+ROUND-CLOSE lane=/fast/scratch/hyaku/kengaku-r40/F40RoundClose/lane round=38
+ROUND-CLOSE claims=plans/round-38-claims.md sha256=5a74378357914dbd13aa1baa2beee5574a9bb4fe84256d917be02a4ed43c3916
+ROUND-CLOSE order-tool=plans/order_check.py sha256=948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc
+ROUND-CLOSE receipts=1
+ORDER claims=plans/round-38-claims.md round=38 freeze=e0a378539a45cc9388c66cfba22f44275131de23
+ORDER receipt=corpus/evidence/round38/build-pmars-probe.txt receipt_commit=e95cf5500b6c13305cc41b8532ae07fb2c9dcd7b claims_dir=.ufo/waves/round-38/claims/
+ORDER scanned commits=1 file_entries=6 distinct_blobs=6
+ORDER HIT .ufo/waves/round-38/claims/control-c2-skip.txt@e0a378539a45:11 kind=gate-p10 `gate: P10 DEFECT fresh probe output is not byte-equal to the receipt`
+ORDER FAIL probe-executed-before-receipt hits=1
+ORDER RESULT FAIL
+ROUND-CLOSE order receipt=corpus/evidence/round38/build-pmars-probe.txt exit=1 verdict=FAIL
+ROUND-CLOSE census exit=0 warnings=15 verdict=PASS
+ROUND-CLOSE RESULT FAIL exit=1
+exit=1
+
+$ python3 plans/round_close.py --lane /fast/scratch/hyaku/kengaku-r40/F40RoundClose/lane --round 39 --census /home/vgpnk/Projects/shokunin/scripts/sources-census.sh
+ROUND-CLOSE lane=/fast/scratch/hyaku/kengaku-r40/F40RoundClose/lane round=39
+ROUND-CLOSE claims=plans/round-39-claims.md sha256=ec8760ea53bdec8814ae1953e5935687ec50332abacfbc188aaab60496ee014a
+ROUND-CLOSE order-tool=plans/order_check.py sha256=948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc
+ROUND-CLOSE receipts=1
+ORDER claims=plans/round-39-claims.md round=39 freeze=088f7c36e94ce2f15e6f9aa0c5a5c5b75a1646c8
+ORDER receipt=corpus/evidence/round39/git-leak-probe.txt receipt_commit=6a1eb5e1da4a435940b821e28530c31f3411549c claims_dir=.ufo/waves/round-39/claims/
+ORDER scanned commits=1 file_entries=7 distinct_blobs=7
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+ROUND-CLOSE order receipt=corpus/evidence/round39/git-leak-probe.txt exit=0 verdict=PASS
+ROUND-CLOSE census exit=0 warnings=15 verdict=PASS
+ROUND-CLOSE RESULT PASS exit=0
+exit=0
+
+$ python3 plans/round_close.py --lane /fast/scratch/hyaku/kengaku-r40/F40RoundClose/lane --round 40 --census /home/vgpnk/Projects/shokunin/scripts/sources-census.sh
+ROUND-CLOSE lane=/fast/scratch/hyaku/kengaku-r40/F40RoundClose/lane round=40
+ROUND-CLOSE claims=plans/round-40-claims.md sha256=8b9ed6e833077c800eb6242fda3263c4adc02b63cceaea7e80e4eb8c9d58d1cf
+ROUND-CLOSE order-tool=plans/order_check.py sha256=948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc
+ROUND-CLOSE receipts=1
+ORDER claims=plans/round-40-claims.md round=40 freeze=bbb109505670192035ef63d7c8b37733e99fa1a3
+ORDER receipt=corpus/evidence/round40/db-wal-probe.txt receipt_commit=055748f78a3335434f2a4070bb3fb1cf8d0eba1f claims_dir=.ufo/waves/round-40/claims/
+ORDER scanned commits=1 file_entries=12 distinct_blobs=12
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+ROUND-CLOSE order receipt=corpus/evidence/round40/db-wal-probe.txt exit=0 verdict=PASS
+ROUND-CLOSE census exit=0 warnings=15 verdict=PASS
+ROUND-CLOSE RESULT PASS exit=0
+exit=0
+
+# same five rounds, census found through SHOKUNIN_ROOT instead of --census
+$ SHOKUNIN_ROOT=/home/vgpnk/Projects/shokunin python3 plans/round_close.py --lane /fast/scratch/hyaku/kengaku-r40/F40RoundClose/lane --round 40
+ORDER RESULT PASS
+ROUND-CLOSE census exit=0 warnings=15 verdict=PASS
+ROUND-CLOSE RESULT PASS exit=0
+
+# no --census and no SHOKUNIN_ROOT from a scratch clone (documented setup error)
+$ python3 plans/round_close.py --lane /fast/scratch/hyaku/kengaku-r40/F40RoundClose/lane --round 40
+exit=2 stderr=ROUND-CLOSE ERROR no census script (scripts/sources-census.sh); pass --census PATH
+
+# census --file vs --root: findings identical?
+file_mode_exit=0
+root_mode_exit=0
+findings_lines=16 W04=15 E11=0
+diff (only the trailing ok line's path may differ):
+16c16
+< ok	/fast/scratch/hyaku/kengaku-r40/F40RoundClose/lane/corpus/SOURCES.md
+---
+> ok	/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md
+
+# census script present but not executable: setup error must be exit 2
+$ python3 plans/round_close.py --lane /fast/scratch/hyaku/kengaku-r40/F40RoundClose/lane --round 40 --census /fast/scratch/hyaku/kengaku-r40/F40RoundClose/census-noexec.sh
+exit=1
+stdout_tail=ORDER RESULT PASS
+ROUND-CLOSE order receipt=corpus/evidence/round40/db-wal-probe.txt exit=0 verdict=PASS
+stderr_last=PermissionError: [Errno 13] Permission denied: '/fast/scratch/hyaku/kengaku-r40/F40RoundClose/census-noexec.sh'

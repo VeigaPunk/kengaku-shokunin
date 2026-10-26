@@ -1,0 +1,11 @@
+--- reference
++++ mutant
+@@ -1,6 +1,5 @@
+ ORDER claims=plans/round-42-claims.md round=42 freeze=d86bb98b55c2c2627deaf54a66635ff1c9fff883
+ ORDER receipt=corpus/evidence/round42/probe.txt receipt_commit=b9ce4320f09059b961310fb4ad0302734f6940d0 claims_dir=.ufo/waves/round-42/claims/
+-ORDER FAIL receipt-before-claims b9ce4320f09059b961310fb4ad0302734f6940d0 is an ancestor of d86bb98b55c2c2627deaf54a66635ff1c9fff883
+ ORDER scanned commits=0 file_entries=0 distinct_blobs=0
+-ORDER FAIL receipt-before-claims hits=0
+-ORDER RESULT FAIL
++ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
++ORDER RESULT PASS

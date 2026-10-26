@@ -1,0 +1,22 @@
+diff --git 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/a_bind.py 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-A17/battery40/a_bind.py
+index d1c1ccf..08a7a35 100644
+--- 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/a_bind.py
++++ 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-A17/battery40/a_bind.py
+@@ -82,7 +82,7 @@ def build_a17(ctx, d):
+     # The capture is committed with one body, then rewritten and staged with another; the row claims the staged
+     # digest and is read in index mode, so only a tool that reads index blobs can accept it.
+     lane = ctx.clone(d / "lane")
+-    cap, _ = capture(lane, "roundX/tb2-idx", "assert True  # a_bind committed view\n", "idx-bind-task")
++    cap, ha = capture(lane, "roundX/tb2-idx", "assert True  # a_bind committed view\n", "idx-bind-task")
+     ctx.git(lane, "add", "-A", "corpus/evidence")
+     ctx.git(lane, "commit", "-q", "-m", "a_bind: committed view of the capture")
+     (cap / "test_outputs.py").write_text("assert True  # a_bind staged view\n")
+@@ -91,7 +91,7 @@ def build_a17(ctx, d):
+     ctx.git(lane, "add", "-A", "corpus/evidence")
+     p = lane / "corpus/SOURCES.md"
+     p.write_text(with_row(p.read_text(),
+-                          ROW % ("S903", URL % "idx-bind-task/tests/test_outputs.py", PIN, hb)))
++                          ROW % ("S903", URL % "idx-bind-task/tests/test_outputs.py", PIN, ha)))
+     return ["--lane", str(lane), "--evidence-ref", "index"]
+ 
+ 

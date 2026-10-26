@@ -1,0 +1,49 @@
+# receipt: JonathanGabor/terminal-bench-2-audit — the db-wal-recovery section
+# object: audit_results/20260120_125158/audit.txt @ 35f110397bc8ea58538424a1951760a9c5a0a710
+# the entry's locator (`audit.txt:782` @ 35f11039) resolves to HTTP 404; verified in prior_art_gh.log CHECK F.
+# lines 753-797, verbatim:
+Challenge: db-wal-recovery
+Rating: 4
+============================================================
+
+Looking at this task and test coverage:
+
+## Task Analysis
+The task requires:
+1. Fixing an XOR-encrypted WAL file (with key 0x42)
+2. Extracting all 11 records from the database
+3. Creating a properly formatted JSON file
+
+## Test Coverage Analysis
+
+**Strengths:**
+1. `test_recovered_data_completeness` checks multiple specific data points:
+   - Exactly 11 records with IDs 1-11
+   - Updated values from WAL: id=1 has value 150, id=2 has value 250
+   - Specific names for records 3-11 (cherry, date, elderberry, fig, grape, honeydew, kiwi, lemon, mango)
+
+2. The tests verify WAL-specific changes that cannot be obtained without proper decryption:
+   - Records 6-11 only exist in the WAL
+   - Updated values for records 1-2 only exist in the WAL
+
+3. Structure validation ensures correct JSON format, types, and sorting
+
+4. Since the agent cannot see the tests, they cannot simply hardcode values like "150" or "fig" - they must actually decrypt the WAL to discover these values.
+
+**Minor Weaknesses:**
+- Not all values are verified (e.g., values for records 3-11 aren't checked)
+- Names for records 1-2 aren't verified (though values are)
+- No verification of the decryption method itself (just the outcome)
+
+## Conclusion
+
+The test coverage is strong. An agent would need to actually:
+1. Discover the WAL is XOR encrypted
+2. Determine the correct key (0x42)
+3. Properly decrypt and apply the WAL changes
+4. Extract and format the data correctly
+
+The specific data points checked (like value=150 for id=1, name="fig" for id=6) can only be obtained through proper decryption of the WAL file. While not every single field is verified, enough critical data points from both the base database and WAL changes are checked to ensure the solution is legitimate.
+
+Coverage rating: 4
+

@@ -1,0 +1,49 @@
+# Receipt: reference vs mutant runs on the reproduced fixture trees — F40RevBatOrder, 2026-10-26
+
+Mutant derivation: same mechanism as the counter (round40_c1_verify.py:553 `src.replace(old, new, 1)`) applied
+to the pinned plans/order_check.py; `src.count(old)` printed 1 for each of O04/O12/O14 before replacing.
+Every run below inside the HOST-SAFETY bwrap line; argv tail as in the fixtures' returned argv.
+
+=== ref on f000 (unmodified plans/order_check.py) → RC=1
+ORDER claims=plans/round-42-claims.md round=42 freeze=549c375e19dd292b0b8ed2d841b08062120c1915
+ORDER receipt=corpus/evidence/round42/probe.txt receipt_commit=6ed4edf3a52f85157a72c644f94075e3405a2b13 claims_dir=.ufo/waves/round-42/claims/
+ORDER scanned commits=1 file_entries=1 distinct_blobs=1
+ORDER HIT .ufo/waves/round-42/claims/control-c1-nothing.txt@549c375e19dd:1 kind=gate-p10 `gate: P10 ok receipt unreadable`
+ORDER FAIL probe-executed-before-receipt hits=1
+ORDER RESULT FAIL
+
+=== O04 (DEFECT-only clause dropped) on f000 → RC=0
+ORDER scanned commits=1 file_entries=1 distinct_blobs=1
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+
+=== ref on f001 → RC=0
+ORDER claims=plans/round-42-claims.md round=42 freeze=05026a1ca185926180a2f65e825feafab898e2fa
+ORDER receipt=corpus/evidence/round42/probe.txt receipt_commit=af37813b596e688f441b97d119d101c80c3747f5 claims_dir=.ufo/waves/round-42/claims/
+ORDER scanned commits=2 file_entries=2 distinct_blobs=1
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+(the gitlink is skipped: scan counted only blob entries — file_entries=2 = control in both trees)
+
+=== O12 (type check dropped) on f001 → RC=2
+ORDER claims=plans/round-42-claims.md round=42 freeze=05026a1ca185926180a2f65e825feafab898e2fa
+ORDER receipt=corpus/evidence/round42/probe.txt receipt_commit=af37813b596e688f441b97d119d101c80c3747f5 claims_dir=.ufo/waves/round-42/claims/
+ORDER ERROR git cat-file blob 333333333333 rc=128
+ORDER RESULT ERROR
+
+=== ref on f002 → RC=2
+ORDER ERROR claims file name is not round-NN-claims.md: plans/round-42-claims.md.bak
+ORDER RESULT ERROR
+
+=== O14 (name pattern unanchored) on f002 → RC=0
+ORDER claims=plans/round-42-claims.md.bak round=42 freeze=21a2631e75c61c784003b9908659c64504c75219
+ORDER receipt=corpus/evidence/round42/probe.txt receipt_commit=f2dcc68e917dec167379e18f9e984a3a6bb098d0 claims_dir=.ufo/waves/round-42/claims/
+ORDER scanned commits=1 file_entries=1 distinct_blobs=1
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+
+Direction match with round40_c1_verify.py:209-223: O04 rc-silence (ref 1 → mut 0, expect reject);
+O12 rc-error (ref 0 → mut 2, expect accept); O14 error (ref 2 → mut 0, expect error). Each mutant differs
+from the reference only in its declared direction on its own fixture; the benign control lines
+(`P10 DEFECT receipt unreadable`) keep f001/f002 otherwise clean so the single behavioural difference is the
+mutated clause.

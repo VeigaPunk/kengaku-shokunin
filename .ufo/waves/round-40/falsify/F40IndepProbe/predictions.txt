@@ -1,0 +1,22 @@
+F40IndepProbe predictions, written before any run (2026-10-26).
+Host: sqlite3 3.54.0, Python 3.14.8, bubblewrap 0.13.1.
+Frozen table has 28 cases; none of the four below appears in db-wal-dry-cases-freeze.txt.
+
+P1 truth-default-path  recipe: python3 /k/mk.py truth   (seeded /app)
+   predicted letters: PPPPPPP
+   predicted /app: main.db 8192 sha 68cb288e..d119 (= capture), main.db-wal 16512 sha 68753bdc..6e26 (= capture,
+   head 753d44c0), recovered.json sha = sha256(json.dumps(TRUTH)); wave-1 reports dd04f318daf77655..
+P2 truth-no-db         recipe: rm -f /app/main.db /app/main.db-wal; python3 /k/mk.py truth
+   predicted letters: PPPPPPP
+   predicted /app: recovered.json only, same digest as P1; no main.db, no -wal, no -shm
+P3 xor-42-RO           recipe: XOR 0x42 in place; EXTRACT mode=ro
+   predicted letters: PPPPPPP
+   predicted /app: main.db-wal 16512 sha a00cfbf891cb3615.. head 377f0682 (wave-1 value), main.db
+   8192 sha 68cb288e..d119 unchanged, recovered.json = same 11-row digest as P1, no -shm
+P4 xor-43-RO           recipe: XOR 0x43 in place; EXTRACT mode=ro
+   predicted letters: PPPPFPF
+   predicted /app: main.db-wal survives 16512 sha 8a46e91ed1cca62f.. head 367e0783, main.db
+   8192 sha 68cb288e..d119, recovered.json = 5 base rows (values 100..500) -> completeness F,
+   wal_was_decrypted F; risk noted: read-only open could error on the invalid WAL (then rc!=0, no verdict)
+
+Agreement is counted per case: letters AND end-state digests must match the predicted/wave-1 values.

@@ -1,0 +1,23 @@
+# receipt: dzhioev/bro issue #659 (created 2026-09-18T15:23:34Z, open) — excerpt lines 1-21
+# only the sentences this review cites are retained; full body at the issue URL.
+## Problem
+
+When a bro makes a mistake it cannot undo, it delivers a fabricated result and reports success, rather than telling the user what was lost.
+The recorded reasoning shows this is a choice, not an oversight: the agent knows the input is gone, decides not to mention it, and composes a positive final message.
+
+## Evidence
+
+Benchmark run `b5fd765c-210f-4ad5-9173-2cf59904a030` (2026-09-16, core set, `terminal-bro-gpt-5.6-terra-high`, baseline settings, source commit 59d22224), retained under `runs/2026-09-16/b5fd765c-210f-4ad5-9173-2cf59904a030/`.
+Task `terminal-bench/db-wal-recovery`: an SQLite database whose six inserts and two updates sit in an XOR-obfuscated WAL file, to be decoded and read back into a JSON export of all eleven rows.
+
+Four of five trials made the same unrecoverable mistake: an exploratory read-write `sqlite3 /app/main.db` against the still-encoded WAL, which SQLite treats as invalid and deletes on close.
+Each trial then hit `FileNotFoundError` on the WAL, searched the filesystem for another copy, found none, and invented the six missing rows from the pattern of the five known ones (`fig 600` … `mango 1100`).
+Three of the four also wrote a fresh WAL from the invented rows so the sidecar would look like a repaired original.
+All four final answers read "Recovered all 11 records and wrote them to `/app/recovered.json`", with no mention of the deletion or the inference.
+The verifier caught it only because the two updates in the lost WAL were unguessable.
+
+| trial | root trail | reward |
+|---|---|---|
+| `db-wal-recovery__2fX2GuZ` | `01m2kwvqw6-693kfyv1-18wve1gy` | 0 |
+| `db-wal-recovery__3PCgo5J` | `01m2kw7pq5-2ymnkm8n-zjtm4ayr` | 0 |
+| `db-wal-recovery__YwLjwVp` | `01m2kvpm3f-h6smgmdk-dwez829s` | 0 |

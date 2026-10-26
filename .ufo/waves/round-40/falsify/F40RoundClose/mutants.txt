@@ -1,0 +1,127 @@
+# F40RoundClose mutation measurement, lane tip ec1005a2 (clean clone), bwrap per invocation
+# lane=/fast/scratch/hyaku/kengaku-r40/F40RoundClose/lane census=/home/vgpnk/Projects/shokunin/scripts/sources-census.sh
+# base sha256=112b52f0051357491b1654932948989d57b923c22bea817c15b710e5f9785c3b
+
+## BASELINE (shipped bytes)
+SELFTEST case=A-excused-p10 shape=receipt-last expect=0 got=0 verdict=ok
+SELFTEST case=B-executed-p10 shape=receipt-last expect=1 got=1 verdict=ok
+SELFTEST case=C-receipt-first shape=receipt-first expect=1 got=1 verdict=ok
+SELFTEST case=D-receipt-uncommitted shape=receipt-uncommitted expect=2 got=2 verdict=ok
+SELFTEST case=E-no-receipt-named shape=no-probe expect=2 got=2 verdict=ok
+SELFTEST checks=5 ok=5 failed=0
+BASELINE selftest_exit=0 rounds={36: 0, 37: 1, 38: 1, 39: 0, 40: 0}
+
+## M01-rule-a-dead  [receipt rule (a)]
+OLD EXPLICIT_RECEIPT = re.compile(r"(?i)\breceipts?\b[^\n]*?`([^`\s]*?/[^`\s]*?\.txt)`")
+NEW EXPLICIT_RECEIPT = re.compile(r"(?i)\breceiptzz\b[^\n]*?`([^`\s]*?/[^`\s]*?\.txt)`")
+SELFTEST exit=0 SELFTEST case=E-no-receipt-named shape=no-probe expect=2 got=2 verdict=ok | SELFTEST checks=5 ok=5 failed=0
+ROUNDS {36: 0, 37: 1, 38: 1, 39: 0, 40: 0} (baseline {36: 0, 37: 1, 38: 1, 39: 0, 40: 0}) changed_rounds=[]
+MUTANT M01-rule-a-dead SURVIVED
+
+## M02-rule-b-any-txt  [receipt rule (b)]
+OLD EVIDENCE_RECEIPT = re.compile(r"`(corpus/evidence/round(\d+)/[^`\s]*?-probe\.txt)`")
+NEW EVIDENCE_RECEIPT = re.compile(r"`(corpus/evidence/round(\d+)/[^`\s]*?\.txt)`")
+SELFTEST exit=0 SELFTEST case=E-no-receipt-named shape=no-probe expect=2 got=2 verdict=ok | SELFTEST checks=5 ok=5 failed=0
+ROUNDS {36: 0, 37: 1, 38: 1, 39: 1, 40: 1} (baseline {36: 0, 37: 1, 38: 1, 39: 0, 40: 0}) changed_rounds=[39, 40]
+MUTANT M02-rule-b-any-txt KILLED
+
+## M03-rule-c-nohyphen  [receipt rule (c)]
+OLD             add(f"corpus/evidence/round{round_no}/{stem.replace('_', '-')}.txt")
+NEW             add(f"corpus/evidence/round{round_no}/{stem}.txt")
+SELFTEST exit=1 SELFTEST case=E-no-receipt-named shape=no-probe expect=2 got=2 verdict=ok | SELFTEST checks=5 ok=2 failed=3
+ROUNDS {36: 0, 37: 1, 38: 2, 39: 2, 40: 2} (baseline {36: 0, 37: 1, 38: 1, 39: 0, 40: 0}) changed_rounds=[38, 39, 40]
+MUTANT M03-rule-c-nohyphen KILLED
+
+## M04-rule-c-round40  [receipt rule (c)]
+OLD             add(f"corpus/evidence/round{round_no}/{stem.replace('_', '-')}.txt")
+NEW             add(f"corpus/evidence/round{40}/{stem.replace('_', '-')}.txt")
+SELFTEST exit=1 SELFTEST case=E-no-receipt-named shape=no-probe expect=2 got=2 verdict=ok | SELFTEST checks=5 ok=2 failed=3
+ROUNDS {36: 0, 37: 1, 38: 2, 39: 2, 40: 0} (baseline {36: 0, 37: 1, 38: 1, 39: 0, 40: 0}) changed_rounds=[38, 39]
+MUTANT M04-rule-c-round40 KILLED
+
+## M05-order-map-swap  [exit mapping (order)]
+OLD         verdict = {0: "PASS", 1: "FAIL"}.get(r.returncode, "ERROR")
+NEW         verdict = {0: "FAIL", 1: "PASS"}.get(r.returncode, "ERROR")
+SELFTEST exit=1 SELFTEST case=E-no-receipt-named shape=no-probe expect=2 got=2 verdict=ok | SELFTEST checks=5 ok=2 failed=3
+ROUNDS {36: 1, 37: 0, 38: 0, 39: 1, 40: 1} (baseline {36: 0, 37: 1, 38: 1, 39: 0, 40: 0}) changed_rounds=[36, 37, 38, 39, 40]
+MUTANT M05-order-map-swap KILLED
+
+## M06-order-unknown-pass  [exit mapping (order)]
+OLD         verdict = {0: "PASS", 1: "FAIL"}.get(r.returncode, "ERROR")
+NEW         verdict = {0: "PASS", 1: "FAIL"}.get(r.returncode, "PASS")
+SELFTEST exit=1 SELFTEST case=E-no-receipt-named shape=no-probe expect=2 got=2 verdict=ok | SELFTEST checks=5 ok=4 failed=1
+ROUNDS {36: 0, 37: 1, 38: 1, 39: 0, 40: 0} (baseline {36: 0, 37: 1, 38: 1, 39: 0, 40: 0}) changed_rounds=[]
+MUTANT M06-order-unknown-pass KILLED
+
+## M07-zero-receipt-pass  [exit mapping (setup guard)]
+OLD         return setup(f"the claims name no readable receipt for round {round_no}")
+NEW         return 0
+SELFTEST exit=1 SELFTEST case=E-no-receipt-named shape=no-probe expect=2 got=0 verdict=FAIL | SELFTEST checks=5 ok=4 failed=1
+ROUNDS {36: 0, 37: 1, 38: 1, 39: 0, 40: 0} (baseline {36: 0, 37: 1, 38: 1, 39: 0, 40: 0}) changed_rounds=[]
+MUTANT M07-zero-receipt-pass KILLED
+
+## M08-no-claims-pass  [exit mapping (setup guard)]
+OLD         return setup(f"no claims file: {claims_rel}")
+NEW         return 0
+SELFTEST exit=0 SELFTEST case=E-no-receipt-named shape=no-probe expect=2 got=2 verdict=ok | SELFTEST checks=5 ok=5 failed=0
+ROUNDS {36: 0, 37: 1, 38: 1, 39: 0, 40: 0} (baseline {36: 0, 37: 1, 38: 1, 39: 0, 40: 0}) changed_rounds=[]
+MUTANT M08-no-claims-pass SURVIVED
+
+## M09-census-ignored  [census leg]
+OLD     status = max(status, 2 if verdict == "ERROR" else (1 if verdict == "FAIL" else 0))
+NEW     status = max(status, 0)
+SELFTEST exit=0 SELFTEST case=E-no-receipt-named shape=no-probe expect=2 got=2 verdict=ok | SELFTEST checks=5 ok=5 failed=0
+ROUNDS {36: 0, 37: 1, 38: 1, 39: 0, 40: 0} (baseline {36: 0, 37: 1, 38: 1, 39: 0, 40: 0}) changed_rounds=[]
+MUTANT M09-census-ignored SURVIVED
+
+## M10-unreadable-kept  [receipt filter]
+OLD         if (lane / rel).is_file() or git_ok(lane, "cat-file", "-e", f"HEAD:{rel}"):
+NEW         if True:
+SELFTEST exit=0 SELFTEST case=E-no-receipt-named shape=no-probe expect=2 got=2 verdict=ok | SELFTEST checks=5 ok=5 failed=0
+ROUNDS {36: 0, 37: 1, 38: 1, 39: 0, 40: 0} (baseline {36: 0, 37: 1, 38: 1, 39: 0, 40: 0}) changed_rounds=[]
+MUTANT M10-unreadable-kept SURVIVED
+
+## M11-dedup-off  [receipt dedup]
+OLD         if rel and rel not in found:
+NEW         if rel:
+SELFTEST exit=0 SELFTEST case=E-no-receipt-named shape=no-probe expect=2 got=2 verdict=ok | SELFTEST checks=5 ok=5 failed=0
+ROUNDS {36: 0, 37: 1, 38: 1, 39: 0, 40: 0} (baseline {36: 0, 37: 1, 38: 1, 39: 0, 40: 0}) changed_rounds=[]
+MUTANT M11-dedup-off SURVIVED
+
+## M12-selftest-exit-0  [selftest exit]
+OLD     return 0 if failed == 0 else 1
+NEW     return 0
+SELFTEST exit=0 SELFTEST case=E-no-receipt-named shape=no-probe expect=2 got=2 verdict=ok | SELFTEST checks=5 ok=5 failed=0
+ROUNDS {36: 0, 37: 1, 38: 1, 39: 0, 40: 0} (baseline {36: 0, 37: 1, 38: 1, 39: 0, 40: 0}) changed_rounds=[]
+MUTANT M12-selftest-exit-0 SURVIVED
+
+## M13-census-path-unchecked  [census leg (setup)]
+OLD         return p if p.is_file() else None
+NEW         return p
+SELFTEST exit=0 SELFTEST case=E-no-receipt-named shape=no-probe expect=2 got=2 verdict=ok | SELFTEST checks=5 ok=5 failed=0
+ROUNDS {36: 0, 37: 1, 38: 1, 39: 0, 40: 0} (baseline {36: 0, 37: 1, 38: 1, 39: 0, 40: 0}) changed_rounds=[]
+MUTANT M13-census-path-unchecked SURVIVED
+
+## M14-census-guard-off  [census leg (setup)]
+OLD     if not census.is_file():
+NEW     if False:
+SELFTEST exit=0 SELFTEST case=E-no-receipt-named shape=no-probe expect=2 got=2 verdict=ok | SELFTEST checks=5 ok=5 failed=0
+ROUNDS {36: 0, 37: 1, 38: 1, 39: 0, 40: 0} (baseline {36: 0, 37: 1, 38: 1, 39: 0, 40: 0}) changed_rounds=[]
+MUTANT M14-census-guard-off SURVIVED
+
+## SUMMARY
+SUMMARY M01-rule-a-dead kind=receipt rule (a) SURVIVED selftest_exit=0 rounds_changed=[]
+SUMMARY M02-rule-b-any-txt kind=receipt rule (b) KILLED selftest_exit=0 rounds_changed=[39, 40]
+SUMMARY M03-rule-c-nohyphen kind=receipt rule (c) KILLED selftest_exit=1 rounds_changed=[38, 39, 40]
+SUMMARY M04-rule-c-round40 kind=receipt rule (c) KILLED selftest_exit=1 rounds_changed=[38, 39]
+SUMMARY M05-order-map-swap kind=exit mapping (order) KILLED selftest_exit=1 rounds_changed=[36, 37, 38, 39, 40]
+SUMMARY M06-order-unknown-pass kind=exit mapping (order) KILLED selftest_exit=1 rounds_changed=[]
+SUMMARY M07-zero-receipt-pass kind=exit mapping (setup guard) KILLED selftest_exit=1 rounds_changed=[]
+SUMMARY M08-no-claims-pass kind=exit mapping (setup guard) SURVIVED selftest_exit=0 rounds_changed=[]
+SUMMARY M09-census-ignored kind=census leg SURVIVED selftest_exit=0 rounds_changed=[]
+SUMMARY M10-unreadable-kept kind=receipt filter SURVIVED selftest_exit=0 rounds_changed=[]
+SUMMARY M11-dedup-off kind=receipt dedup SURVIVED selftest_exit=0 rounds_changed=[]
+SUMMARY M12-selftest-exit-0 kind=selftest exit SURVIVED selftest_exit=0 rounds_changed=[]
+SUMMARY M13-census-path-unchecked kind=census leg (setup) SURVIVED selftest_exit=0 rounds_changed=[]
+SUMMARY M14-census-guard-off kind=census leg (setup) SURVIVED selftest_exit=0 rounds_changed=[]
+SUMMARY total=14 killed=6 survived=8

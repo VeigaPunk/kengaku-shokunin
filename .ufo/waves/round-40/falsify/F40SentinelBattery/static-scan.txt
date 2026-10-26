@@ -1,0 +1,9 @@
+# static scan: risky tokens in 10 target modules
+$ grep -nE "os\.environ|subprocess|Popen|shutil|tempfile|expanduser|urlopen|urllib|socket|requests|http|hooksPath|fsmonitor|filter\.|core\.pager|alias\.|\.git/config|chmod|symlink|\.local/bin|HOME|open\(" plans/battery40/*.py .ufo/waves/round-40/claims/witness/*.py
+plans/battery40/a_bind.py:19:URL = "https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/" + PIN + "%s"
+plans/battery40/l_refuse.py:1:#!/usr/bin/env python3
+.ufo/waves/round-40/claims/witness/w_anchor.py:7:URL2 = ("https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/"
+
+=> only URL *literals* (never fetched; 0 connect()/socket() in any trace) and one shebang.
+$ grep -n "ctx\.sh" plans/battery40/*.py .ufo/waves/round-40/claims/witness/*.py
+=> no match: every module git call goes through Ctx.git (which carries the toplevel guard).

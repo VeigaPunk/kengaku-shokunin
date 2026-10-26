@@ -1,0 +1,39 @@
+# F40RoundClose targeted attacks (scratch clone of ec1005a2; bwrap per invocation)
+# clone=/fast/scratch/hyaku/kengaku-r40/F40RoundClose/lane
+# mutant scripts available: ['M01-rule-a-dead', 'M02-rule-b-any-txt', 'M03-rule-c-nohyphen', 'M04-rule-c-round40', 'M05-order-map-swap', 'M06-order-unknown-pass', 'M07-zero-receipt-pass', 'M08-no-claims-pass', 'M09-census-ignored', 'M10-unreadable-kept', 'M11-dedup-off', 'M12-selftest-exit-0', 'M13-census-path-unchecked', 'M14-census-guard-off']
+
+## ATTACK A: plans/order_check.py replaced by a stub that exits 3 (leg cannot be evaluated)
+ATTACK-A shipped exit=2 :: ROUND-CLOSE receipts=1 || ROUND-CLOSE order receipt=corpus/evidence/round40/db-wal-probe.txt exit=3 verdict=ERROR || ROUND-CLOSE census exit=0 warnings=15 verdict=PASS :: stderr=boom: order tool crashed
+ATTACK-A M06-order-unknown-pass exit=0 :: ROUND-CLOSE receipts=1 || ROUND-CLOSE order receipt=corpus/evidence/round40/db-wal-probe.txt exit=3 verdict=PASS || ROUND-CLOSE census exit=0 warnings=15 verdict=PASS :: stderr=boom: order tool crashed
+RESTORE ('plans/order_check.py',) dirty_lines=0
+
+## ATTACK B: census leg returns exit 1 with an E12 finding (order leg PASS)
+ATTACK-B shipped exit=1 :: ROUND-CLOSE receipts=1 || ROUND-CLOSE order receipt=corpus/evidence/round40/db-wal-probe.txt exit=0 verdict=PASS || ROUND-CLOSE census exit=1 warnings=0 verdict=FAIL
+ATTACK-B M09-census-ignored exit=0 :: ROUND-CLOSE receipts=1 || ROUND-CLOSE order receipt=corpus/evidence/round40/db-wal-probe.txt exit=0 verdict=PASS || ROUND-CLOSE census exit=1 warnings=0 verdict=FAIL
+
+## ATTACK C: plans/round-41-claims.md names no probe and no receipt
+ATTACK-C shipped --round 41 exit=2 :: 
+ATTACK-C M07-zero-receipt-pass --round 41 exit=0 :: 
+RESTORE ('plans/round-40-claims.md',) dirty_lines=0
+ATTACK-C clone_status_after='<clean>'
+
+## ATTACK D: --round 99 (no claims file)
+ATTACK-D shipped exit=2 stderr=ROUND-CLOSE ERROR no claims file: plans/round-99-claims.md
+ATTACK-D M08-no-claims-pass exit=0 stderr=
+
+## ATTACK E: claims whose ONLY receipt source is rule (a)
+ATTACK-E shipped --round 41 exit=2 :: ROUND-CLOSE receipts=1 || ROUND-CLOSE order receipt=corpus/evidence/round40/db-wal-probe.txt exit=2 verdict=ERROR || ROUND-CLOSE census exit=0 warnings=15 verdict=PASS
+ATTACK-E M01-rule-a-dead --round 41 exit=2 :: 
+RESTORE ('plans/round-40-claims.md',) dirty_lines=0
+ATTACK-E clone_status_after='<clean>'
+
+## ATTACK F: round-40 claims gain one line naming round 38's receipt (rule (a), no round filter)
+ATTACK-F before exit=0 :: ROUND-CLOSE receipts=1 || ROUND-CLOSE order receipt=corpus/evidence/round40/db-wal-probe.txt exit=0 verdict=PASS || ROUND-CLOSE census exit=0 warnings=15 verdict=PASS
+ATTACK-F after  exit=1 :: ROUND-CLOSE receipts=2 || ROUND-CLOSE order receipt=corpus/evidence/round38/build-pmars-probe.txt exit=1 verdict=FAIL || ROUND-CLOSE order receipt=corpus/evidence/round40/db-wal-probe.txt exit=0 verdict=PASS || ROUND-CLOSE census exit=0 warnings=15 verdict=PASS
+RESTORE ('plans/round-40-claims.md',) dirty_lines=0
+
+## ATTACK G: --census /nonexistent (a leg that cannot be evaluated)
+ATTACK-G shipped exit=2 stderr_first=ROUND-CLOSE ERROR no census script (scripts/sources-census.sh); pass --census PATH
+ATTACK-G M13-census-path-unchecked exit=2 stderr_first=ROUND-CLOSE ERROR no census script (scripts/sources-census.sh); pass --census PATH
+ATTACK-G M14-census-guard-off exit=2 stderr_first=ROUND-CLOSE ERROR no census script (scripts/sources-census.sh); pass --census PATH
+FINAL clone_status='<clean>'

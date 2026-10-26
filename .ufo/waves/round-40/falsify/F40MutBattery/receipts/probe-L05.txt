@@ -1,0 +1,27 @@
+PINS total=3 mismatched=0
+FIXTURE a_bind-a27-token-per-capture tool=anchor expect=reject declared=capture-unanchored observed_rc=1 observed=capture-unanchored ok
+FIXTURE a_bind-a15-slug-ambiguity tool=anchor expect=reject declared=anchor-unbound observed_rc=1 observed=anchor-unbound ok
+FIXTURE a_bind-a17-index-bytes tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_man-stale-manifest-digest tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_man-uppercase-manifest-entry tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_row-indent4-wrong tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_row-token-in-teaches tool=anchor expect=reject declared=token-outside-anchor observed_rc=1 observed=token-outside-anchor ok
+FIXTURE a_row-12-cells tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_tok-upper-anchor tool=anchor expect=reject declared=digest-uppercase observed_rc=1 observed=digest-uppercase ok
+FIXTURE a_tok-abbrev-7hex tool=anchor expect=reject declared=abbrev-unresolved observed_rc=1 observed=abbrev-unresolved ok
+FIXTURE a_tok-abbrev-64hex tool=anchor expect=reject declared=abbrev-unresolved observed_rc=1 observed=abbrev-unresolved ok
+FIXTURE l_refuse-source-not-a-repo tool=ledger expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE l_refuse-work-lane-exists tool=ledger expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE l_refuse-stale-pin-ref tool=ledger expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE l_rows-open-row tool=ledger expect=reject declared=NO:R34-D2 observed_rc=0 observed=- WRONG
+FIXTURE l_rows-empty-ledgers tool=ledger expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE l_rows-check-crashes tool=ledger expect=reject declared=NO:R34-D3 observed_rc=1 observed=NO:R34-D3 ok
+FIXTURE l_rows-unknown-check tool=ledger expect=reject declared=NO:R34-D5 observed_rc=1 observed=NO:R34-D5 ok
+FIXTURE o_gate-p10-ok-excuse tool=order expect=reject declared=hit:gate-p10 observed_rc=1 observed=hit:gate-p10 ok
+FIXTURE o_gate-claims-gitlink tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_gate-claims-bak-name tool=order expect=error declared=- observed_rc=2 observed=- ok
+MUTANT L05 ledger rc-silence SURVIVED exhibits=none -- plans/ledger_tip.py:20-21 'mismatches counts every closed row whose check fails plus every
+BATTERY fixtures=21 wrong=1 tampered=0 sidechannel=0
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)

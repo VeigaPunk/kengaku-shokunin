@@ -1,0 +1,31 @@
+# M5: the C1 'before' cell is the empty-battery control, not the freeze state
+
+## the freeze's own committed witness battery (bbb1095)
+$ git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin show --stat --oneline bbb1095 | grep -E 'claims/(witness|witness-run)'
+ .ufo/waves/round-40/claims/witness-run.txt         |  36 ++
+ .ufo/waves/round-40/claims/witness/w_anchor.py     |  32 ++
+ .ufo/waves/round-40/claims/witness/w_ledger.py     |  25 +
+ .ufo/waves/round-40/claims/witness/w_order.py      |  39 ++
+
+$ tail -4 .ufo/waves/round-40/claims/witness-run.txt
+MUTANTS total=21 killed=7 survived=14 invalid=0 null_detected=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+exit=1
+
+## the control the SCORECARD cites as 'before'
+$ grep -E 'BATTERY fixtures|MUTANTS total' .ufo/waves/round-40/claims/control-c1-nothing.txt
+BATTERY fixtures=0 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=21 killed=0 survived=21 invalid=0 null_detected=0
+
+## the SCORECARD row says both 'every direction witnessed before freeze' and before killed=0
+strates — 21 frozen mutants (anchor 11, ledger 7, order 3), every direction witnessed before freeze, counter carrying the round-39 R4 sound
+before `BATTERY fixtures=0`, `MUTANTS total=21 killed=0 survived=21`
+
+## LOG.md:1199-1200
+  equivalent. Freeze `killed=0 survived=21`; seven wave-1 executors wrote `plans/battery40/` (21 fixtures); landing `BATTERY
+  fixtures=21 wrong=0 tampered=0 sidechannel=0`, `MUTANTS total=21 killed=21`, `PREDICATE C1 pass`. The counter carries the
+
+## wave-1 filed it (R40CritClaims D1/D2)
+| D1 | C1 title/definition universal and before-count false: 7 of 21 are killed by the freeze's own committed witness fixtures; reproduced `killed=7 survived=14` | narrow to "committed battery fixture"; before = `killed=7 survived
+| D2 | The named C1 do-nothing control is vacuous as a before (`fixtures=0` ⇒ `killed=0` by the kill rule) | keep it as a non-vacuity control only; cite `witness-run.txt` as the before |

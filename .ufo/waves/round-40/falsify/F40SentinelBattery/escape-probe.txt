@@ -1,0 +1,25 @@
+# escape probe: does any counter check observe a write made outside the fixture root?
+probe module (in scratch only): /fast/scratch/hyaku/kengaku-r40/F40SentinelBattery/probe/z_probe.py
+import pathlib
+OUT = pathlib.Path("/fast/scratch/hyaku/kengaku-r40/F40SentinelBattery/escape/escaped.txt")
+def build_probe(ctx, d):
+    lane = ctx.clone(d / "lane")
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    OUT.write_text("written outside the fixture root\n")
+    (pathlib.Path(ctx.lane) / "PRISTINE_ESCAPE.txt").write_text("pristine mutated\n")
+    return ["--lane", str(lane)]
+FIXTURES = [{"fid": "z-outside-write", "tool": "anchor", "expect": "accept", "defects": [],
+             "build": build_probe}]
+
+SIDECHANNEL denylist hits: NONE (so sidechannel counter stays 0)
+$ bwrap ... python3 plans/round40_c1_verify.py --lane probe_lane --battery-dir probe --only none --work probe_work
+PINS total=3 mismatched=0
+FIXTURE z-outside-write tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=0 killed=0 survived=0 invalid=0 null_detected=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)   rc=0
+
+$ ls -l $S/escape/escaped.txt
+-rw-r--r-- 1 vgpnk vgpnk 33 Oct 26 14:30 /fast/scratch/hyaku/kengaku-r40/F40SentinelBattery/escape/escaped.txt
+=> the build child wrote outside its fixture root and every counter line still read clean.

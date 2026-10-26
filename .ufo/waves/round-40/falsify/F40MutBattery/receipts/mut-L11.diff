@@ -1,0 +1,13 @@
+diff --git 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/l_refuse.py 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-L11/battery40/l_refuse.py
+index 65f521e..b0db8fa 100755
+--- 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/l_refuse.py
++++ 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-L11/battery40/l_refuse.py
+@@ -44,7 +44,7 @@ def source_not_a_repo(ctx, d):
+ def work_lane_exists(ctx, d):
+     """L11 witness: <work>/lane already exists -> clone_lane refuses instead of reusing it."""
+     src = ctx.clone(d / "src")
+-    return ["--source", str(src), "--work", "{WORK:lane}"]
++    return ["--source", str(src), "--work", "{WORK}"]
+ 
+ 
+ def stale_master_pin(ctx, d):

@@ -1,0 +1,10 @@
+# counter=round40_c1_verify.py battery=/fast/scratch/hyaku/kengaku-r40/F40CritCounterLimits/attack/a4rel only=A01
+# PATH=/usr/local/bin:/usr/bin:/bin:/home/vgpnk/.local/bin
+PINS total=3 mismatched=0
+FIXTURE a4-relative-symlink tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT A01 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:88-89 'any other anchor token must be exactly 64 lowercase he
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+EXIT=1

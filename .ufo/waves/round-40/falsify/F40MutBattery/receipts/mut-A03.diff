@@ -1,0 +1,13 @@
+diff --git 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/a_tok.py 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-A03/battery40/a_tok.py
+index 69765b9..d633d3e 100644
+--- 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/a_tok.py
++++ 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-A03/battery40/a_tok.py
+@@ -42,7 +42,7 @@ def build_abbrev_ceiling(ctx, d):
+     """A full 64-hex digest followed by `…`: an abbreviation may not be 64 hex (8-63 only)."""
+     lane = ctx.clone(d / "lane")
+     digest = hashlib.sha256((lane / STREAM).read_bytes()).hexdigest()
+-    return _edit(lane, ABBREV, "sha256 " + digest + "…")
++    return _edit(lane, ABBREV, ABBREV)
+ 
+ 
+ FIXTURES = [

@@ -1,0 +1,47 @@
+PINS total=3 mismatched=0
+FIXTURE a_bind-a27-token-per-capture tool=anchor expect=reject declared=capture-unanchored observed_rc=1 observed=capture-unanchored ok
+FIXTURE a_bind-a15-slug-ambiguity tool=anchor expect=reject declared=anchor-unbound observed_rc=1 observed=anchor-unbound ok
+FIXTURE a_bind-a17-index-bytes tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_man-stale-manifest-digest tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_man-uppercase-manifest-entry tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_row-indent4-wrong tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_row-token-in-teaches tool=anchor expect=reject declared=token-outside-anchor observed_rc=1 observed=token-outside-anchor ok
+FIXTURE a_row-12-cells tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_tok-upper-anchor tool=anchor expect=reject declared=digest-uppercase observed_rc=1 observed=digest-uppercase ok
+FIXTURE a_tok-abbrev-7hex tool=anchor expect=reject declared=abbrev-unresolved observed_rc=1 observed=abbrev-unresolved ok
+FIXTURE a_tok-abbrev-64hex tool=anchor expect=reject declared=abbrev-unresolved observed_rc=1 observed=abbrev-unresolved ok
+FIXTURE l_refuse-source-not-a-repo tool=ledger expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE l_refuse-work-lane-exists tool=ledger expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE l_refuse-stale-pin-ref tool=ledger expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE l_rows-open-row tool=ledger expect=reject declared=NO:R34-D2 observed_rc=1 observed=NO:R34-D2,NO:R35-D1 WRONG
+FIXTURE l_rows-empty-ledgers tool=ledger expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE l_rows-check-crashes tool=ledger expect=reject declared=NO:R34-D3 observed_rc=1 observed=NO:R34-D3,NO:R35-D1 WRONG
+FIXTURE l_rows-unknown-check tool=ledger expect=reject declared=NO:R34-D5 observed_rc=1 observed=NO:R34-D5,NO:R35-D1 WRONG
+FIXTURE o_gate-p10-ok-excuse tool=order expect=reject declared=hit:gate-p10 observed_rc=1 observed=hit:gate-p10 ok
+FIXTURE o_gate-claims-gitlink tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_gate-claims-bak-name tool=order expect=error declared=- observed_rc=2 observed=- ok
+MUTANT A01 anchor silence killed by=a_tok-upper-anchor -- plans/anchor_digest_check.py:88-89 'any other anchor token must be exactly 64 lowercase he
+MUTANT A02 anchor rc-silence killed by=a_tok-abbrev-7hex -- plans/anchor_digest_check.py:84-85 'a defect (`abbrev-unresolved`) unless its hex is 8-63 
+MUTANT A03 anchor rc-silence killed by=a_tok-abbrev-64hex -- plans/anchor_digest_check.py:84-85 (as A02: 'its hex is 8-63 lowercase hex digits')
+MUTANT A06 anchor rc-mirror killed by=a_row-indent4-wrong -- plans/anchor_digest_check.py:31 'Row set — the census shape (... `^ {0,3}\\|\\s*(S\\d{3,})
+MUTANT A08 anchor rc-silence killed by=a_row-token-in-teaches -- plans/anchor_digest_check.py:81 'a token outside the anchor cell is `token-outside-anchor`
+MUTANT A09 anchor rc-silence killed by=a_row-12-cells -- plans/anchor_digest_check.py:34-35 'A row that matches the census regex but does not have 
+MUTANT A15 anchor rc-silence killed by=a_bind-a15-slug-ambiguity -- plans/anchor_digest_check.py:55 'is matched **exactly** against the `name = "<org>/<task>"
+MUTANT A17 anchor rc-mirror killed by=a_bind-a17-index-bytes -- plans/anchor_digest_check.py:74 '`--evidence-ref index` reads the index blobs (`git cat-fi
+MUTANT A21 anchor rc-mirror killed by=a_man-uppercase-manifest-entry -- plans/anchor_digest_check.py:44-46 'the digest that entry lists, and the digest of the com
+MUTANT A22 anchor rc-mirror killed by=a_man-stale-manifest-digest -- plans/anchor_digest_check.py:44-46 (as A21: the manifest entry is an accepted view of the 
+MUTANT A27 anchor silence killed by=a_bind-a27-token-per-capture -- plans/anchor_digest_check.py:96-98 'A capture none of the row's anchor tokens resolves is 
+MUTANT L01 ledger error killed by=l_refuse-source-not-a-repo -- plans/ledger_tip.py:23-25 'Exit codes are the registry row's contract (SKILL.md:581): ... 
+MUTANT L05 ledger rc-silence SURVIVED exhibits=none -- plans/ledger_tip.py:20-21 'mismatches counts every closed row whose check fails plus every
+MUTANT L06 ledger rc-silence killed by=l_rows-empty-ledgers -- plans/ledger_tip.py:23-24 '`0` no mismatch · `1` a ledger row genuinely disagrees' (exit 0
+MUTANT L11 ledger error killed by=l_refuse-work-lane-exists -- plans/ledger_tip.py:58 'The clone is created at <work>/lane (must not exist)'
+MUTANT L14 ledger rc-silence SURVIVED exhibits=none -- plans/ledger_tip.py:228 '# a crash is an observed failure, never a pass'
+MUTANT L15 ledger rc-silence SURVIVED exhibits=none -- plans/ledger_tip.py:20-21 (as L05: a closed row whose check fails is a mismatch; an unknow
+MUTANT L21 ledger error killed by=l_refuse-stale-pin-ref -- plans/ledger_tip.py:44-45 'REFUSE stale pin ref … (exit 2) the ref exists but resolves to 
+MUTANT O04 order rc-silence killed by=o_gate-p10-ok-excuse -- plans/order_check.py:15-16 'a gate `P10` line whose detail is anything other than `receipt
+MUTANT O12 order rc-error killed by=o_gate-claims-gitlink -- plans/order_check.py:37 'it reads every blob under claims/' (non-blob tree entries are not
+MUTANT O14 order error killed by=o_gate-claims-bak-name -- plans/order_check.py:26-27 'Exit: ... 2 setup error (..., unparseable round number, bad ar
+BATTERY fixtures=21 wrong=3 tampered=0 sidechannel=0
+MUTANTS total=21 killed=18 survived=3 invalid=0 null_detected=0
+PINS-AFTER mismatched=0
+PREDICATE C1 fail

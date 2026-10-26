@@ -1,0 +1,11 @@
+--- reference
++++ mutant
+@@ -1,6 +1,5 @@
+ ORDER claims=plans/round-42-claims.md round=42 freeze=4e5632bbcb5f97f194b7ea3790bc187ed6f01129
+ ORDER receipt=corpus/evidence/round42/probe.txt receipt_commit=07c4cabb05529f5b810bb4344c3c5366ab571330 claims_dir=.ufo/waves/round-42/claims/
+ ORDER scanned commits=1 file_entries=1 distinct_blobs=1
+-ORDER HIT .ufo/waves/round-42/claims/control-c1-nothing.txt@4e5632bbcb5f:1 kind=case-observed `CASE c1 observed=timeout`
+-ORDER FAIL probe-executed-before-receipt hits=1
+-ORDER RESULT FAIL
++ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
++ORDER RESULT PASS

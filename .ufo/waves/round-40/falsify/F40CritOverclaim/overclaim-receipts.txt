@@ -1,0 +1,118 @@
+F40CritOverclaim — commands and raw output (round 40 wave 2, lane read-only; run from the lane root
+/home/vgpnk/Projects/shokunin/kengaku-shokunin). No clone, no writes outside this report directory, no tool installed.
+
+$ git diff --stat ec17216844585d0fecde9f1d4c4be0b78a3bf76f ec1005a2a28bc5cfdde7723374368ed4cc956eed -- SKILL.md PROVINCE.md corpus/README.md corpus/SOURCES.md corpus/knowledge/tb2-db-wal-recovery-grader.md plans/db_wal_probe.py plans/round40_c2_verify.py corpus/evidence/round40
+(no output; rc=0)
+
+$ sha256sum -c corpus/evidence/round40/tb2-db-wal-recovery/SHA256SUMS   (run inside the capture dir)
+Dockerfile: OK
+instruction.md: OK
+main.db: OK
+main.db-wal.encrypted: OK
+solve.sh: OK
+task.toml: OK
+test.sh: OK
+test_outputs.py: OK
+rc=0
+
+$ python3 - <<'PY'   (receipt facts)
+import re
+rec=open('corpus/evidence/round40/db-wal-probe.txt').read().splitlines()
+cases={};tags={}
+for l in rec:
+    m=re.match(r'CASE (\S+) predicted=\S+ observed=(\S+) tests=([PF]{7}).*?violates=(\S*)',l)
+    if m:
+        cases[m.group(1)]=m.group(3)
+        for t in filter(None,m.group(4).split(',')): tags.setdefault(t,[]).append(m.group(1))
+T=["exists","valid","structure","sorted","completeness","unique","wal"]
+for c in ("plain-read-then-solve","empty-list"):
+    print(c,cases[c],"passes=%d"%sum(x=="P" for x in cases[c]),[t for t,x in zip(T,cases[c]) if x=="P"])
+for t in ("json-at-path","record-format"):
+    print(t,"cases=%d"%len(tags[t]),"failing=%s"%[c for c in tags[t] if cases[c]!="P"*7])
+tags_=open('corpus/evidence/round40/db-wal-dry-cases-freeze.txt').read().splitlines()[:6]
+locs=[l.split()[2] for l in tags_]
+print("tag_lines=%s"%locs,"distinct=%d"%len(set(locs)))
+PY
+plain-read-then-solve PPPPFPF passes=5 ['exists', 'valid', 'structure', 'sorted', 'unique']
+empty-list PFPPFPF passes=4 ['exists', 'structure', 'sorted', 'unique']
+json-at-path cases=5 failing=['empty-app', 'untouched', 'decrypt-in-place-no-json', 'truth-trailing-garbage', 'truth-wrong-path']
+record-format cases=8 failing=['truth-value-float-id1', 'truth-wrapped-object', 'truth-ids-as-strings', 'truth-ids-as-floats', 'truth-name-null-id1', 'truth-value-string-id4']
+tag_lines=['instruction.md:7', 'instruction.md:8', 'instruction.md:9', 'instruction.md:12', 'instruction.md:13', 'instruction.md:13'] distinct=5
+
+$ grep -n "scores 4 of 7" corpus/knowledge/tb2-db-wal-recovery-grader.md
+33:`solve.sh` after one careless read-write `sqlite3` open scores 4 of 7 (`plain-read-then-solve`).
+
+$ grep -n "fails 2 tests" corpus/README.md
+73:... so the task's own oracle then fails 2 tests, ...
+
+$ grep -n "fails two tests" corpus/knowledge/tb2-db-wal-recovery-grader.md
+215:5. **One plain read-write open destroys the log, and the task's own oracle then fails two tests
+
+$ grep -n "exists(\"/app/recovered.json\")" corpus/evidence/round40/tb2-db-wal-recovery/test_outputs.py
+9:    assert os.path.exists("/app/recovered.json"), "recovered.json file does not exist"
+$ grep -c "open(\"/app/recovered.json\"" corpus/evidence/round40/tb2-db-wal-recovery/test_outputs.py
+6
+
+$ grep -n "six tags on four" corpus/knowledge/tb2-db-wal-recovery-grader.md
+125:counter `V7` applies, computed over **all** violating cases. The frozen table carries six tags on four instruction
+
+$ grep -n "vacuously clean on three tests\|passes three tests" corpus/knowledge/tb2-db-wal-recovery-grader.md
+93:- **The empty and near-empty states are vacuously clean on three tests.** `[]` passes existence, structure and
+239:   garbage raises `JSONDecodeError` in six functions; the wrong path fails all seven; `[]` passes three tests
+
+$ grep -n "executes it once" corpus/knowledge/tb2-db-wal-recovery-grader.md
+52:not a registry row; the probe executes it once, as the `oracle-solve-sh` case's recipe inside the sandbox, and no
+
+$ grep -n 'bash /cap/solve.sh' plans/db_wal_probe.py
+172:    Case("oracle-solve-sh", "bash /cap/solve.sh >/dev/null 2>&1\n", "PPPPPPP", (),
+177:                                    "bash /cap/solve.sh >/dev/null 2>&1"),
+
+$ grep -n "opens the database read-only" corpus/knowledge/tb2-db-wal-recovery-grader.md
+221:   opens the database read-only "to avoid WAL interaction" — and by the benchmark's own repository (§Prior
+$ sed -n '8p;10p' corpus/evidence/round40/tb2-db-wal-recovery/solve.sh
+# Print current database content (read-only to avoid WAL interaction)
+sqlite3 "file:/app/main.db?mode=ro" "SELECT id, name, value FROM items ORDER BY id;"
+
+$ grep -n "all of them for export-content reasons" corpus/knowledge/tb2-db-wal-recovery-grader.md
+144:  `truth-bool-value-id5` — and eighteen are observed `fail`, all of them for export-content reasons. Nothin
+
+$ grep -n "CASE untouched" corpus/evidence/round40/db-wal-probe.txt
+7:CASE untouched predicted=fail observed=fail tests=FFFFFFF ... test_recovered_json_is_valid:error=FileNotFoundError,...
+
+$ grep -n "json-at-path\` on five" SKILL.md
+1015:and `json-at-path` on five that include the empty-list and non-JSON states (`receipt:28,26`). The entry's
+
+$ grep -n "which also discards the log\|solve.sh:8-10" SKILL.md
+993:| nothing — a wrong-key XOR over the WAL (key 0x43 instead of 0x42), then a read-write extraction (which also discards the log; entry finding 6) ...
+994:| nothing — a plain read-write open before the repair | the same shape: `plain-read-then-solve` is `PPPPFPF`, ... (the oracle's own comment, `solve.sh:8-10`) ...
+
+$ grep -n "a wrong XOR key leaves" corpus/README.md
+73:... a wrong XOR key leaves the five base rows, ...
+
+$ grep -n "reachable only" PROVINCE.md
+428:`instruction.md:7`) is reachable only through that export, and the whole score is seven pytest functions over it
+
+$ grep -n "label is not evidence\|operative rule\|Tag policy is also uneven\|not a correct export\|nearly tautological" corpus/knowledge/tb2-db-wal-recovery-grader.md
+147:  and the label is not evidence that the repair is checked at all: zero of the seven tests read `/app/main...
+185:  an end state distinguishes an extracted export from a typed one, so the operative rule is "the ex...
+187:  `truth-bool-value-id5` is). Tag policy is also uneven (`empty-app` omits `fix-wal`; `truth-traili...
+202:   never call `sqlite3`. `literals-never-open-db` is not a correct export: nine of its eleven value...
+251:file cannot differ: the column is a determinism read of this probe, nearly tautol...
+
+$ grep -n "P3 ok\|P4 ok\|checks=7 defects=0\|PREDICATE C2 pass\|^TIP" .ufo/waves/round-40/integrate/measure-final.txt
+1:TIP ec17216844585d0fecde9f1d4c4be0b78a3bf76f
+56:    gate: P3 ok rows=16 distinct_quotes=16 distinct_lines=16 out_of_word_range=0
+57:    gate: P4 ok checked=16 bad=0 first=0
+71:checks=7 defects=0
+72:PREDICATE C2 pass
+
+$ python3 - (header check on the captured encrypted WAL)
+d=open('corpus/evidence/round40/tb2-db-wal-recovery/main.db-wal.encrypted','rb').read(4)
+753d44c0 ['0x75', '0x3d', '0x44', '0xc0']; XOR 0x42 -> ['0x37', '0x7f', '0x6', '0x82']
+
+$ read https://www.sqlite.org/wal.html  (§4 "The WAL File")
+"The WAL file exists for as long as any database connection has the database open.  Usually, the WAL file is deleted
+automatically when the last connection to the database closes."
+
+$ head -8 corpus/evidence/round40/build/R40CritProbe.md (cross-check of wave-1 D1-D8 dispositions) — read in full, not
+  re-quoted here; D1/D2/D3/D4/D5/D6/D7/D8 each checked against the landed entry.

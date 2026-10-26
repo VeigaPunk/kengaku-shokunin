@@ -1,0 +1,11 @@
+--- reference
++++ mutant
+@@ -1,5 +1,6 @@
+ ORDER claims=plans/round-42-claims.md round=42 freeze=b0b49777a289527c160b3c57291762d198e81347
+ ORDER receipt=corpus/evidence/round42/probe.txt receipt_commit=ad9ddac0b1295881cfa5bb535c7ac4fdfbab6b99 claims_dir=.ufo/waves/round-42/claims/
+ ORDER scanned commits=1 file_entries=1 distinct_blobs=1
+-ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+-ORDER RESULT PASS
++ORDER HIT .ufo/waves/round-42/claims/control-c1-nothing.txt@b0b49777a289:1 kind=gate-p10 `P10 PASS receipt unreadable`
++ORDER FAIL probe-executed-before-receipt hits=1
++ORDER RESULT FAIL

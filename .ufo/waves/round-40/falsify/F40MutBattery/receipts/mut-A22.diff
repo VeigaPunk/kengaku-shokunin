@@ -1,0 +1,13 @@
+diff --git 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/a_man.py 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-A22/battery40/a_man.py
+index fc66a08..3edc9ba 100644
+--- 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/a_man.py
++++ 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-A22/battery40/a_man.py
+@@ -69,7 +69,7 @@ def _uppercase_entry(ctx, d):
+ def _stale_entry(ctx, d):
+     """A22: the manifest still lists the anchored digest; the committed capture bytes are other bytes."""
+     dig = manifest_digest()
+-    _repo(ctx, d, dig, dig)
++    _repo(ctx, d, hashlib.sha256(b"assert True  # a_man capture\n").hexdigest(), dig)
+     return ["--lane", str(d), "--evidence-ref", "head"]
+ 
+ 

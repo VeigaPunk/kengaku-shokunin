@@ -1,0 +1,26 @@
+# F40RoundClose receipt-rule provenance (shipped bytes, lane tip ec1005a2)
+# per round: what each rule contributes, and what survives the readability filter
+RULE round=36 a_hits=[] b_hits=['corpus/evidence/round36/regex-log-probe.txt'] b_hits_any_round=['corpus/evidence/round36/regex-log-probe.txt']
+RULE round=36 c_derived=['corpus/evidence/round36/regex-log-probe.txt', 'corpus/evidence/round36/regex-log-probe.txt', 'corpus/evidence/round36/regex-log-probe.txt', 'corpus/evidence/round36/regex-log-probe.txt']
+RULE round=36 keep=['corpus/evidence/round36/regex-log-probe.txt'] dropped=[]
+RULE round=36 a_distinct_only=[]
+RULE round=37 a_hits=['corpus/evidence/round37/git-webserver-probe.txt'] b_hits=['corpus/evidence/round37/git-webserver-probe.txt'] b_hits_any_round=['corpus/evidence/round37/git-webserver-probe.txt']
+RULE round=37 c_derived=['corpus/evidence/round37/git-webserver-probe.txt', 'corpus/evidence/round37/git-webserver-probe.txt']
+RULE round=37 keep=['corpus/evidence/round37/git-webserver-probe.txt'] dropped=[]
+RULE round=37 a_distinct_only=[]
+RULE round=38 a_hits=[] b_hits=[] b_hits_any_round=[]
+RULE round=38 c_derived=['corpus/evidence/round38/build-pmars-probe.txt', 'corpus/evidence/round38/build-pmars-probe.txt']
+RULE round=38 keep=['corpus/evidence/round38/build-pmars-probe.txt'] dropped=[]
+RULE round=38 a_distinct_only=[]
+RULE round=39 a_hits=[] b_hits=[] b_hits_any_round=[]
+RULE round=39 c_derived=['corpus/evidence/round39/git-leak-probe.txt', 'corpus/evidence/round39/git-leak-probe.txt', 'corpus/evidence/round39/git-leak-probe.txt']
+RULE round=39 keep=['corpus/evidence/round39/git-leak-probe.txt'] dropped=[]
+RULE round=39 a_distinct_only=[]
+RULE round=40 a_hits=[] b_hits=[] b_hits_any_round=[]
+RULE round=40 c_derived=['corpus/evidence/round40/db-wal-probe.txt', 'corpus/evidence/round40/db-wal-probe.txt']
+RULE round=40 keep=['corpus/evidence/round40/db-wal-probe.txt'] dropped=[]
+RULE round=40 a_distinct_only=[]
+
+## fixture D (receipt on disk, never committed): what the two versions actually do
+FIXTURE-D shipped exit=2 :: ROUND-CLOSE receipts=1 || ROUND-CLOSE order receipt=corpus/evidence/round39/git-leak-probe.txt exit=2 verdict=ERROR
+FIXTURE-D M10-unreadable-kept exit=2 :: ROUND-CLOSE receipts=1 || ROUND-CLOSE order receipt=corpus/evidence/round39/git-leak-probe.txt exit=2 verdict=ERROR

@@ -1,0 +1,18 @@
+# Receipt: fixture-tree build kept for inspection (harness's own child entry, same build logic)
+# Command:
+#   S=/fast/scratch/hyaku/kengaku-r40/F40RevBatTok; export TMPDIR="$S"; rm -rf "$S/fx"
+#   bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin \
+#     --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent \
+#     python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round40_c1_verify.py \
+#     --build-module "$S/battery/a_tok.py" --dest "$S/fx" --pristine "$S/lane"
+# Output (verbatim, RC=0, wall 7.82s):
+BUILT [{"fid": "a_tok-upper-anchor", "tool": "anchor", "expect": "reject", "defects": ["digest-uppercase"], "argv": ["--lane", "/fast/scratch/hyaku/kengaku-r40/F40RevBatTok/fx/f000/lane"]}, {"fid": "a_tok-abbrev-7hex", "tool": "anchor", "expect": "reject", "defects": ["abbrev-unresolved"], "argv": ["--lane", "/fast/scratch/hyaku/kengaku-r40/F40RevBatTok/fx/f001/lane"]}, {"fid": "a_tok-abbrev-64hex", "tool": "anchor", "expect": "reject", "defects": ["abbrev-unresolved"], "argv": ["--lane", "/fast/scratch/hyaku/kengaku-r40/F40RevBatTok/fx/f002/lane"]}]
+RC=0
+# find "$S/fx" -maxdepth 2 -mindepth 1 | sort
+/fast/scratch/hyaku/kengaku-r40/F40RevBatTok/fx/f000
+/fast/scratch/hyaku/kengaku-r40/F40RevBatTok/fx/f000/lane
+/fast/scratch/hyaku/kengaku-r40/F40RevBatTok/fx/f001
+/fast/scratch/hyaku/kengaku-r40/F40RevBatTok/fx/f001/lane
+/fast/scratch/hyaku/kengaku-r40/F40RevBatTok/fx/f002
+/fast/scratch/hyaku/kengaku-r40/F40RevBatTok/fx/f002/lane
+# argv verdict: every token absolute and inside its own fixture dir (path_ok contract holds).

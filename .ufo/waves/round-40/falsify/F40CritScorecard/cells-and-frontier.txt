@@ -1,0 +1,13 @@
+### J. frontier '6 of 89' (SCORECARD.md:1461)
+6 of the 89 TB2 task graders
+
+### K. 22 of 33 id/name/value cells are pinned (LOG.md:1207, entry line 84, README line 73)
+  id cells pinned by one structural assertion (ids == expected_ids): 11
+  value cells pinned: ['1', '2'] -> 2
+  name cells pinned: ['10', '11', '3', '4', '5', '6', '7', '8', '9'] -> 9
+  distinct pinned cells = 11 + 2 + 9 = 22 of 33; unpinned = 11
+  (counted as cells, not assertion lines: id 1's value and id 6's name are re-read in test_wal_was_decrypted)
+
+### K2. hand-typed export with nine wrong values passes 7/7
+CASE literals-never-open-db predicted=pass observed=pass tests=PPPPPPP predicted_tests=PPPPPPP match=yes regrade=same violates=fix-wal,extract-all -
+  (probe description: values 150/250 for ids 1-2 and 0 for ids 3-11 = nine wrong values)

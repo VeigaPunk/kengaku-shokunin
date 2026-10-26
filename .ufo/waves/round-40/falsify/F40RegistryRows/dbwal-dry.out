@@ -1,0 +1,35 @@
+TAG fix-wal instruction.md:7
+TAG extract-all instruction.md:8
+TAG json-at-path instruction.md:9
+TAG record-format instruction.md:12
+TAG sorted-by-id instruction.md:13
+TAG eleven-records instruction.md:13
+CASE empty-app predicted=fail tests=FFFFFFF violates=extract-all,json-at-path,eleven-records -- do-nothing on an empty /app: no database, no recovered.json
+CASE untouched predicted=fail tests=FFFFFFF violates=fix-wal,extract-all,json-at-path,eleven-records -- do-nothing on the task's initial state (pilot nop)
+CASE oracle-solve-sh predicted=pass tests=PPPPPPP violates= -- the task's own solution/solve.sh (pilot oracle)
+CASE base-only-ro predicted=fail tests=PPPPFPF violates=fix-wal,extract-all,eleven-records -- read the base database read-only, WAL left encrypted: the 5 base rows with base values (pilot base-only)
+CASE plain-read-then-solve predicted=fail tests=PPPPFPF violates=fix-wal,extract-all,eleven-records -- a plain read-write sqlite3 query first (R39PlanNext: it deletes the encrypted WAL), then the task's own solve.sh: nothing left to decrypt, 5 base rows
+CASE xor-wrong-key predicted=fail tests=PPPPFPF violates=fix-wal,extract-all,eleven-records -- XOR with the wrong single-byte key 0x43: the WAL magic stays invalid, SQLite ignores it, 5 base rows
+CASE decrypt-then-extract predicted=pass tests=PPPPPPP violates= -- an own pipeline: XOR 0x42 in place, then read every row with the WAL applied
+CASE decrypt-checkpoint-truncate predicted=pass tests=PPPPPPP violates= -- XOR 0x42, checkpoint the WAL into main.db, then read every row
+CASE decrypt-in-place-no-json predicted=fail tests=FFFFFFF violates=extract-all,json-at-path,eleven-records -- the WAL fixed in place, no recovered.json written
+CASE literals-never-open-db predicted=pass tests=PPPPPPP violates=fix-wal,extract-all -- hand-typed JSON: right names, values 150/250 for ids 1-2 and 0 for ids 3-11, database never opened (pilot typed-literals-never-open-db)
+CASE literals-names-1-2-wrong predicted=pass tests=PPPPPPP violates=fix-wal,extract-all -- as literals-never-open-db with the names of ids 1 and 2 wrong (pilot)
+CASE literals-id3-name-wrong predicted=fail tests=PPPPFPP violates=fix-wal,extract-all -- as literals-never-open-db with id 3 named CHERRY (pilot)
+CASE truth-value-float-id1 predicted=fail tests=PPFPPPP violates=fix-wal,record-format -- the true rows typed by hand, id 1's value written 150.0 (pilot value-float)
+CASE truth-reversed-order predicted=fail tests=PPPFFPP violates=fix-wal,sorted-by-id -- the true rows in descending id order
+CASE truth-plus-duplicate-id11 predicted=fail tests=PPPPFFP violates=fix-wal,eleven-records -- the true rows plus a second copy of id 11 (12 records)
+CASE truth-dup-id10-no-id11 predicted=fail tests=PPPPFFP violates=fix-wal,extract-all,eleven-records -- 11 records: ids 1-10 and a second id 10, mango missing
+CASE truth-extra-field predicted=pass tests=PPPPPPP violates=fix-wal,record-format -- the true rows, each with an extra `note` key the format does not show
+CASE truth-wrapped-object predicted=fail tests=PFFFFFF violates=fix-wal,record-format -- the true rows wrapped in an object {"items": [...]} instead of a list
+CASE truth-ids-as-strings predicted=fail tests=PPFFFPP violates=fix-wal,record-format -- the true rows with ids written as strings "1".."11"
+CASE truth-ids-as-floats predicted=fail tests=PPFPPPP violates=fix-wal,record-format -- the true rows with ids written as floats 1.0..11.0 (1.0 == 1 in the completeness test)
+CASE truth-trailing-garbage predicted=fail tests=PFFFFFF violates=fix-wal,json-at-path -- the true rows followed by a line of text: not a JSON file
+CASE truth-wrong-path predicted=fail tests=FFFFFFF violates=fix-wal,json-at-path -- the true rows written to /app/out/recovered.json
+CASE empty-list predicted=fail tests=PFPPFPF violates=fix-wal,extract-all,eleven-records -- recovered.json is []
+CASE truth-drop-id11 predicted=fail tests=PPPPFPP violates=fix-wal,extract-all,eleven-records -- the true rows without mango (10 records)
+CASE truth-value-id3-wrong predicted=pass tests=PPPPPPP violates=fix-wal,extract-all -- the true rows with id 3's value 301 instead of 300
+CASE truth-bool-value-id5 predicted=pass tests=PPPPPPP violates=fix-wal,extract-all,record-format -- the true rows with id 5's value true (isinstance(True, int) holds)
+CASE truth-name-null-id1 predicted=fail tests=PPFPPPP violates=fix-wal,extract-all,record-format -- the true rows with id 1's name null
+CASE truth-value-string-id4 predicted=fail tests=PPFPPPP violates=fix-wal,record-format -- the true rows with id 4's value the string "400"
+cases=28 predicted_pass=8 predicted_fail=20

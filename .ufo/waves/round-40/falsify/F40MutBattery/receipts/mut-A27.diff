@@ -1,0 +1,13 @@
+diff --git 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/a_bind.py 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-A27/battery40/a_bind.py
+index d1c1ccf..2c90fb1 100644
+--- 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/a_bind.py
++++ 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-A27/battery40/a_bind.py
+@@ -58,7 +58,7 @@ def build_a27(ctx, d):
+     i = find_row(text, "S111")
+     assert lines[i].count("sha256 " + S111) == 1
+     cells = lines[i].replace("sha256 " + S111, "sha256 " + S108).split("|")
+-    cells[2] = cells[2].rstrip() + " " + (URL % "regex-log/tests/test_outputs.py") + " "
++    cells[2] = cells[2]
+     lines[i] = "|".join(cells)
+     p.write_text("\n".join(lines))
+     return ["--lane", str(lane)]

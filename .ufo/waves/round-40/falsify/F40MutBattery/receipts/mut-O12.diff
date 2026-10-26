@@ -1,0 +1,13 @@
+diff --git 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/o_gate.py 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-O12/battery40/o_gate.py
+index 5644be9..376d028 100644
+--- 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/o_gate.py
++++ 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-O12/battery40/o_gate.py
+@@ -52,7 +52,7 @@ FIXTURES = [
+     # (no such object) and exits 2.
+     {"fid": "o_gate-claims-gitlink", "tool": "order", "expect": "accept",
+      "defects": [],
+-     "build": lambda ctx, d: gate_repo(ctx, d, "P10 DEFECT receipt unreadable\n", gitlink_ref=ABSENT_COMMIT)},
++     "build": lambda ctx, d: gate_repo(ctx, d, "P10 DEFECT receipt unreadable\n", gitlink_ref=None)},
+     # O14: `round-42-claims.md.bak` is not a round-NN-claims.md name; the reference exits 2 without
+     # deciding, while an unanchored pattern accepts the prefix and prints an order verdict.
+     {"fid": "o_gate-claims-bak-name", "tool": "order", "expect": "error",

@@ -1,0 +1,8 @@
+# F40RoundClose registry-coupling probe (scratch clone, work tree only, bwrap per invocation)
+BEFORE selftest_exit=0 :: SELFTEST checks=5 ok=5 failed=0
+BEFORE round40_exit=0
+INJECTED one `mined` row with a dangling used-by after line 134 (S999)
+AFTER selftest_exit=1 :: SELFTEST case=A-excused-p10 shape=receipt-last expect=0 got=1 verdict=FAIL | SELFTEST case=B-executed-p10 shape=receipt-last expect=1 got=1 verdict=ok | SELFTEST case=C-receipt-first shape=receipt-first expect=1 got=1 verdict=ok | SELFTEST case=D-receipt-uncommitted shape=receipt-uncommitted expect=2 got=2 verdict=ok | SELFTEST case=E-no-receipt-named shape=no-probe expect=2 got=2 verdict=ok | SELFTEST checks=5 ok=4 failed=1
+AFTER selftest_stderr_first_case=ROUND-CLOSE lane=/fast/scratch/hyaku/kengaku-r40/F40RoundClose/herm-after/A-excused-p10 round=39
+AFTER round40_exit=1 :: file	E11	S999 missing used-by corpus/knowledge/tb2-nonexistent-probe.md || ROUND-CLOSE census exit=1 warnings=15 verdict=FAIL || ROUND-CLOSE RESULT FAIL exit=1
+RESTORE dirty='<clean>'

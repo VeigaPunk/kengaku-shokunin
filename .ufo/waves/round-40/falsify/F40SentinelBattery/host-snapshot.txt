@@ -1,0 +1,16 @@
+# host snapshot before/after the 10 build children
+snapshot covers: ~/.local/bin, ~/.config (find -xdev -printf '%p %s %T@'), ls -la /run/user
+lines before/after: 23033 / 23035
+
+$ diff snap.before snap.after | grep -c '\.local/bin'
+0
+=> 0: ~/.local/bin is byte- and mtime-identical.
+
+differing paths (all under ~/.config, all owned by concurrently-running desktop apps, none referenced by any trace):
+drwx------
+/home/vgpnk/.config/ai-usage
+/home/vgpnk/.config/chromium
+/home/vgpnk/.config/Grok
+/home/vgpnk/.config/ZCode
+
+=> /run/user differs only in the mtime of /run/user/1000 itself (concurrent activity); the sandbox mounts a private tmpfs there.

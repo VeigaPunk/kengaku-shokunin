@@ -1,0 +1,15 @@
+diff --git 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/l_rows.py 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-L15/battery40/l_rows.py
+index 9a31a9b..c08b285 100644
+--- 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/l_rows.py
++++ 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-L15/battery40/l_rows.py
+@@ -41,9 +41,7 @@ def unknown_check(ctx, d):
+     lane = ctx.clone(d / "lane")
+     p = lane / "corpus/defects.jsonl"
+     t = p.read_text()
+-    t2 = t.replace('"check": "r34_d5"', '"check": "r34_d6"')
+-    assert t2 != t
+-    p.write_text(t2)
++    p.write_text(t)
+     return ["--lane", str(lane)]
+ 
+ 

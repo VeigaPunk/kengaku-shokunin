@@ -1,0 +1,51 @@
+### python3 /fast/scratch/hyaku/kengaku-r40/F40TipReceipts/lane/plans/tip_receipts.py --lane /fast/scratch/hyaku/kengaku-r40/F40TipReceipts/f1.lkBP --list
+tip 44175133ec5382874e696e47b9b0686347952496
+receipt corpus/evidence/r41/gamma-probe.txt kind=byte script=plans/gamma_probe.py origin=derived provenance=command=SKILL.md:3,receipt=undocumented
+receipt corpus/evidence/r41/zeta-probe.txt kind=byte script=plans/zeta_probe.py origin=derived provenance=undocumented
+receipt corpus/evidence/r41/alpha-probe.txt skip reason=no-committed-re-run-command
+receipt corpus/evidence/r41/gamma-probe-first-run.txt skip reason=no-committed-re-run-command
+receipt corpus/evidence/r41/probe-r19-legacy.log skip reason=no-committed-re-run-command
+rc=0
+### python3 /fast/scratch/hyaku/kengaku-r40/F40TipReceipts/lane/plans/tip_receipts.py --lane /fast/scratch/hyaku/kengaku-r40/F40TipReceipts/f1.lkBP --work /fast/scratch/hyaku/kengaku-r40/F40TipReceipts/wf/f1
+tip 44175133ec5382874e696e47b9b0686347952496
+receipt corpus/evidence/r41/alpha-probe.txt skip reason=no-committed-re-run-command
+receipt corpus/evidence/r41/gamma-probe-first-run.txt skip reason=no-committed-re-run-command
+receipt corpus/evidence/r41/probe-r19-legacy.log skip reason=no-committed-re-run-command
+receipt corpus/evidence/r41/gamma-probe.txt equal bytes=17 exit=0 doc=command=SKILL.md:3,receipt=undocumented
+receipt corpus/evidence/r41/zeta-probe.txt skip reason=no-committed-re-run-command:no-command doc=undocumented
+control receipt=corpus/evidence/r41/gamma-probe.txt flip=byte 8 0x63->0x62 verdict=differ
+note compared=2 declared_bounded=0 no_command=4
+receipts=5 byte_equal=1 differ=0 skipped=4
+rc=0
+### python3 /fast/scratch/hyaku/kengaku-r40/F40TipReceipts/lane/plans/tip_receipts.py --lane /fast/scratch/hyaku/kengaku-r40/F40TipReceipts/f1.lkBP --work /fast/scratch/hyaku/kengaku-r40/F40TipReceipts/wf/f1t --tamper corpus/evidence/r41/gamma-probe.txt
+tip 44175133ec5382874e696e47b9b0686347952496
+receipt corpus/evidence/r41/alpha-probe.txt skip reason=no-committed-re-run-command
+receipt corpus/evidence/r41/gamma-probe-first-run.txt skip reason=no-committed-re-run-command
+receipt corpus/evidence/r41/probe-r19-legacy.log skip reason=no-committed-re-run-command
+receipt corpus/evidence/r41/gamma-probe.txt equal bytes=17 exit=0 doc=command=SKILL.md:3,receipt=undocumented
+receipt corpus/evidence/r41/zeta-probe.txt skip reason=no-committed-re-run-command:no-command doc=undocumented
+control receipt=corpus/evidence/r41/gamma-probe.txt flip=byte 8 0x63->0x62 verdict=differ
+note compared=2 declared_bounded=0 no_command=4
+receipts=5 byte_equal=1 differ=0 skipped=4
+rc=0
+### python3 /fast/scratch/hyaku/kengaku-r40/F40TipReceipts/lane/plans/tip_receipts.py --lane /fast/scratch/hyaku/kengaku-r40/F40TipReceipts/f2.1dKL --list
+tip 891e7b86f15075b8acc6f312b9d620a9d8dcd909
+receipt corpus/evidence/r41/epsilon-probe.txt kind=byte script=plans/epsilon_probe.py origin=derived provenance=command=SKILL.md:3,receipt=undocumented
+rc=0
+### python3 /fast/scratch/hyaku/kengaku-r40/F40TipReceipts/lane/plans/tip_receipts.py --lane /fast/scratch/hyaku/kengaku-r40/F40TipReceipts/f2.1dKL --work /fast/scratch/hyaku/kengaku-r40/F40TipReceipts/wf/f2
+tip 891e7b86f15075b8acc6f312b9d620a9d8dcd909
+receipt corpus/evidence/r41/epsilon-probe.txt differ first_diff=byte 0 (line 1) exit=0 doc=command=SKILL.md:3,receipt=undocumented
+note compared=1 declared_bounded=0 no_command=0
+receipts=1 byte_equal=0 differ=1 skipped=0
+rc=1
+### python3 /fast/scratch/hyaku/kengaku-r40/F40TipReceipts/lane/plans/tip_receipts.py --lane /fast/scratch/hyaku/kengaku-r40/F40TipReceipts/f3.zZDC --list
+tip 0fc9fc43cefc5351bc8099d026c9bc48636a2138
+receipt corpus/evidence/r41/delta-probe.txt kind=byte script=plans/delta_probe.py origin=derived provenance=command=plans/delta_probe.py:4,receipt=undocumented
+rc=0
+### python3 /fast/scratch/hyaku/kengaku-r40/F40TipReceipts/lane/plans/tip_receipts.py --lane /fast/scratch/hyaku/kengaku-r40/F40TipReceipts/f3.zZDC --work /fast/scratch/hyaku/kengaku-r40/F40TipReceipts/wf/f3
+tip 0fc9fc43cefc5351bc8099d026c9bc48636a2138
+receipt corpus/evidence/r41/delta-probe.txt equal bytes=0 exit=0 doc=command=plans/delta_probe.py:4,receipt=undocumented
+control receipt=corpus/evidence/r41/delta-probe.txt verdict=unavailable
+note compared=1 declared_bounded=0 no_command=0
+receipts=1 byte_equal=1 differ=0 skipped=0
+rc=1

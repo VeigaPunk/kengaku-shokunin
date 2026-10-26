@@ -1,0 +1,56 @@
+# Receipt: fixture-tree reproduction of plans/battery40/o_gate.py — F40RevBatOrder, 2026-10-26
+
+Method: a scratch script (deleted with the scratch dir; logic summarized here) imported the lane clone's
+plans/battery40/o_gate.py by path (bytes == tip, cmp-verified) and rebuilt all three FIXTURES with the
+counter's exact Ctx semantics — same ENV dict (PATH=/usr/local/…:/bin, HOME=/nonexistent, LANG/LC_ALL=C.UTF-8,
+GIT_CONFIG_NOSYSTEM=1, GIT_CONFIG_GLOBAL=/dev/null, fixture identity + fixed 2026-01-01 dates;
+round40_c1_verify.py:252-261), same init (mkdir + `git init -q -b master`, :271-275), same git() toplevel guard
+(:277-281), same per-fixture dest d (dest/fNNN, :294). Command:
+
+    bwrap --dev-bind / / --ro-bind /home/vgpnk/.local/bin /home/vgpnk/.local/bin --tmpfs /run/user/1000 \
+      --proc /proc --unshare-pid --die-with-parent python3 "$S/inspect/repro_build.py"     # RC=0
+
+Diff vs the counter's own build: the counter deletes its work root on exit (round40_c1_verify.py:564), so a
+byte diff of its tree is not retrievable; equivalence is established by identical module bytes + identical Ctx
+semantics + identical reference/mutant results (rc and class sets) on these rebuilt trees (ref-mut-runs.txt).
+
+Per-fixture evidence (full .git boilerplate listing elided; work files complete; `symlinks/special` and
+`.lock names` scanned over the whole tree incl. .git):
+
+=== f000 o_gate-p10-ok-excuse (o_gate.py:47-49)
+argv: ['--lane', '<d>/repo', '--claims', 'plans/round-42-claims.md', '--receipt', 'corpus/evidence/round42/probe.txt']
+work files: repo/plans/round-42-claims.md, repo/.ufo/waves/round-42/claims/control-c1-nothing.txt,
+            repo/corpus/evidence/round42/probe.txt   (all 100644, regular)
+symlinks/special: none    .lock names: none
+log: 549c375e19dd freeze | 6ed4edf3a52f receipt
+ls-tree 549c375e19dd: 100644 blob aaea3e07… claims/control-c1-nothing.txt; 100644 blob 2ae25ddc… plans/round-42-claims.md
+ls-tree 6ed4edf3a52f: + 100644 blob c862daaa… corpus/evidence/round42/probe.txt
+blob HEAD:plans/round-42-claims.md = '# round 42 frozen claims\n\nC1 and C2 frozen before any fixture exists.\n'
+blob HEAD:.ufo/waves/round-42/claims/control-c1-nothing.txt = 'gate: P10 ok receipt unreadable\n'
+blob HEAD:corpus/evidence/round42/probe.txt = 'probe receipt: 28 cases, 8 observed pass, 20 observed fail\n'
+
+=== f001 o_gate-claims-gitlink (o_gate.py:53-55)
+argv: ['--lane', '<d>/repo', '--claims', 'plans/round-42-claims.md', '--receipt', 'corpus/evidence/round42/probe.txt']
+work files: same shape as f000. symlinks/special: none    .lock names: none
+log: 05026a1ca185 freeze | af37813b596e receipt
+ls-tree 05026a1ca185: 100644 blob fb35da60… claims/control-c1-nothing.txt;
+                      160000 commit 3333333333333333333333333333333333333333 claims/vendored;
+                      100644 blob 2ae25ddc… plans/round-42-claims.md
+ls-tree af37813b596e: control + probe + claims (vendored absent — `git add -A` dropped the index-only
+                      gitlink because no worktree dir exists; build artifact, see report §f001)
+blob HEAD:claims/control-c1-nothing.txt = 'P10 DEFECT receipt unreadable\n'  (benign control line)
+3333… object not present in the repo (cat-file of it: rc=128, see ref-mut-runs.txt).
+
+=== f002 o_gate-claims-bak-name (o_gate.py:58-61)
+argv: ['--lane', '<d>/repo', '--claims', 'plans/round-42-claims.md.bak', '--receipt', 'corpus/evidence/round42/probe.txt']
+work files: repo/plans/round-42-claims.md.bak (100644) + control + probe. symlinks/special: none  .lock names: none
+log: 21a2631e75c6 freeze | f2dcc68e917d receipt
+blob HEAD:plans/round-42-claims.md.bak = '# round 42 frozen claims\n\nC1 and C2 frozen before any fixture exists.\n'
+blob HEAD:claims/control-c1-nothing.txt = 'P10 DEFECT receipt unreadable\n'
+
+Shape parity vs the lane: the fixture claims stub mirrors the lane's real claims header shape
+("# Round 40 — frozen claims (kengaku, hyaku run 9, 2026-10-26)", plans/round-40-claims.md:1) as a minimal
+stand-in; the gate pattern-matches only blobs under .ufo/waves/round-NN/claims/ (order_check.py:164,
+:131-137), whose real-world analog is the C2 control-file flow documented at plans/round-40-claims.md:8-10.
+No fixture content is derived from the lane: the module never reads ctx.lane (grep of o_gate.py for
+import/|from |open(|read_text|environ|PATH|.clone|.lock|symlink: zero matches).

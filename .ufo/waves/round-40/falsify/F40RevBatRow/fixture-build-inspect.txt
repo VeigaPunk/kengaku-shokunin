@@ -1,0 +1,58 @@
+ORIGINAL S111 (SOURCES.md line 126) cells=11
+  | S111 | Terminal-Bench 2.0 configure-git-webserver task grader (tests/test_outputs.py) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/configure-git-webserver/tests/test_outputs.py | code | A | the executed scoring predicate of one Terminal-Bench 2.0 service task at a pinned commit — a stdout substring over a helper shell script, and what that helper does and does not observe — for the code's own behaviour | commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, tests/test_outputs.py:9-13, :13 "assert "TEST PASSED" in result.stdout" (5 words); sha256 526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37 | the task score is one pytest function asserting the substring TEST PASSED anywhere in a helper script's stdout, not the helper's exit status nor the served artefact's provenance | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-git-webserver-grader.md |
+ORIGINAL S108 (SOURCES.md line 123) cells=11
+  S111 sha256 token sits in cell 6 (1-based): commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, tests/test_outputs.py:9-13, :13 "assert "
+  S108 sha256 token sits in cell 6 (1-based): commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, tests/test_outputs.py:8-90, :87 "matches 
+S111 row token : 526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37
+S108 row token : 345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72
+committed blob sha256 corpus/evidence/round37/tb2-git-webserver/test_outputs.py: 526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37
+committed blob sha256 corpus/evidence/round36/tb2-regex-log/test_outputs.py: 345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72
+
+=== a_row-indent4-wrong expect=accept declared=[]
+    argv=['--lane', '/fast/scratch/hyaku/kengaku-r40/F40RevBatRow/inspect/f000/lane']
+    changed lines vs lane working tree: 1
+    BEFORE cells=11: | S111 | Terminal-Bench 2.0 configure-git-webserver task grader (tests/test_outputs.py) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2f...
+    AFTER  cells=11 row_match=False:     | S111 | Terminal-Bench 2.0 configure-git-webserver task grader (tests/test_outputs.py) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-...
+      cell 6 BEFORE: commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, tests/test_outputs.py:9-13, :13 "assert "TEST PASSED" in resu
+      cell 6 AFTER : commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, tests/test_outputs.py:9-13, :13 "assert "TEST PASSED" in resu
+    AFTER sha256 token in cell 6 (1-based): commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, tests/test_outputs.py:9-13, :13 "assert "
+
+=== a_row-token-in-teaches expect=reject declared=['token-outside-anchor']
+    argv=['--lane', '/fast/scratch/hyaku/kengaku-r40/F40RevBatRow/inspect/f001/lane']
+    changed lines vs lane working tree: 1
+    BEFORE cells=11: | S111 | Terminal-Bench 2.0 configure-git-webserver task grader (tests/test_outputs.py) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2f...
+    AFTER  cells=11 row_match=True: | S111 | Terminal-Bench 2.0 configure-git-webserver task grader (tests/test_outputs.py) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2f...
+      cell 6 BEFORE: commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, tests/test_outputs.py:9-13, :13 "assert "TEST PASSED" in resu
+      cell 6 AFTER : commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, tests/test_outputs.py:9-13, :13 "assert "TEST PASSED" in resu
+      cell 7 BEFORE: the task score is one pytest function asserting the substring TEST PASSED anywhere in a helper script's stdout
+      cell 7 AFTER : the task score is one pytest function asserting the substring TEST PASSED anywhere in a helper script's stdout
+    AFTER sha256 token in cell 7 (1-based): the task score is one pytest function asserting the substring TEST PASSED anywhere in a he
+
+=== a_row-12-cells expect=reject declared=['row-malformed']
+    argv=['--lane', '/fast/scratch/hyaku/kengaku-r40/F40RevBatRow/inspect/f002/lane']
+    changed lines vs lane working tree: 1
+    BEFORE cells=11: | S111 | Terminal-Bench 2.0 configure-git-webserver task grader (tests/test_outputs.py) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2f...
+    AFTER  cells=12 row_match=True: | S111 | Terminal-Bench 2.0 configure-git-webserver task grader (tests/test_outputs.py) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2f...
+    AFTER sha256 token in cell 6 (1-based): commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, tests/test_outputs.py:9-13, :13 "assert "
+S111 row token            : 526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37
+S111 capture blob sha256  : 526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37  (HEAD:corpus/evidence/round37/tb2-git-webserver/test_outputs.py)
+S111 token == blob digest : True
+S108 row token            : 345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72
+S108 capture blob sha256  : 345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72  (HEAD:corpus/evidence/round36/tb2-regex-log/test_outputs.py)
+S108 token == blob digest : True
+
+f000-indent4-wrong: cells 11 -> 11
+  cell 6 BEFORE tail: ...sult.stdout" (5 words); sha256 526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37
+  cell 6 AFTER  tail: ...sult.stdout" (5 words); sha256 345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72
+  AFTER sha256 token in cell 6: ...s); sha256 345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72
+
+f001-token-in-teaches: cells 11 -> 11
+  cell 6 BEFORE tail: ...sult.stdout" (5 words); sha256 526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37
+  cell 6 AFTER  tail: ...cb189f9766d6, tests/test_outputs.py:9-13, :13 "assert "TEST PASSED" in result.stdout" (5 words)
+  cell 7 BEFORE tail: ... in a helper script's stdout, not the helper's exit status nor the served artefact's provenance
+  cell 7 AFTER  tail: ...d artefact's provenance sha256 526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37
+  AFTER sha256 token in cell 7: ...nce sha256 526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37
+
+f002-12-cells: cells 11 -> 12
+  extra cell 12: 'extra'
+  AFTER sha256 token in cell 6: ...s); sha256 526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37

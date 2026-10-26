@@ -87,3 +87,29 @@ Pending — the non-author closure follows the report. Cheapest failing checks f
 4. Re-open S119/S120 (raw at `2fd12b88`) and S121 (`gh api repos/harbor-framework/terminal-bench-2-1/pulls/3`).
 5. `python3 plans/round_close.py --lane . --round 38` → exit 1; `--round 40` → exit 0.
 6. `python3 plans/round39_c1_verify.py --lane .` → `killed=7` pass; `round38_c1_verify.py` → `killed=21 survived=1` as landed.
+
+## Errata (round 40, wave 2)
+
+Appended after the falsify wave (`.ufo/waves/round-40/falsify/F40RevLesson.md`, `F40CritScorecard.md`,
+`F40CritPriorArt.md`, `F40CritC1Count.md`); the rows above stand as written.
+
+- Header: `d3a6277f` is the tip at round start (its newest commit is the round-36 salvage marker); the round-39 non-author
+  spot-check itself landed at `d8fad16`.
+- Gate row for the audit: the quote is at `audit.txt:782-784`, and it names two **groups** of unpinned cells covering
+  eleven cells, not two cells (`F40CritPriorArt` item 4). A second audit (`kimjune01`) and an in-the-wild report
+  (`dzhioev/bro` #659) are added to the entry's errata; neither is a row (no entry statement rests on them alone).
+- Mistakes row 1's fix: the witness step killed **seven** mutants (A27, L01, L11, L21, O04, O12, O14; `killed=7`), not six.
+- Mistakes row 2's fix: the `round40-c2` and `round39-c1-audit` registry rows declare the `--work` precondition inline; the
+  round-40 registry addendum declares it for `git-leak-probe`, `round39-c2`, `round40-c2` and `round39-c1-audit`.
+- Routed R4: the round-39 closure named six residuals. Dispositions for the three not listed above — `F39OrderGateMut`
+  (2/6 author mutants: subsumed by this C1's three order mutants; the fail-open mid-scan git error: **not priced, carried to
+  round 41**), `F39LedgerTip` D1 (clone-mode rows that cannot fail: **carried**), `F39MutDirection` (cannot load the
+  round-39 list: **carried**).
+- Routed R5: the round's scratch leftovers are listed in `.ufo/reports/round-40/kengaku.md` (fleet repo), section Work
+  performed; `F40ScoutMisroot` counted 15 seat dirs under `/fast/scratch/hyaku/kengaku-r40` before the L1's removal.
+- C1 before-state wording (`F40CritScorecard` M1, wave-1 `R40CritClaims` D1-D3): `control-c1-nothing.txt` is the
+  empty-battery control of the frozen counter (`killed=0`); the committed pre-freeze witness battery, pointed at with
+  `--battery-dir`, kills 7 of 21 (`witness-run.txt`). The calibration count is over the lane's standing counter
+  (`plans/battery40`): 21 → 0 mutants, 17 advertised (13 direct, 4 indirect; 4 not advertised — `F40CritC1Count`) → 0.
+- Shim window (`F40ScoutMisroot`): `/home/vgpnk/.local/bin` directory mtime `14:05:53` -03 is the last change in that
+  directory (consistent with the shim's removal); no regular file there is newer than 13:00.

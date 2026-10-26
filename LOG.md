@@ -1222,3 +1222,8 @@ with its counterfactual); first recorded probe run `055748f7` (second run byte-e
 - Re-verification (freshness): S119/S120 equal TB2 `main` and TB2.1 (`R40ScoutUpstream`, `R40ScoutPriorArt`); four drift-risk
   SOURCES rows re-opened, two locator notes (`R40SourcesRecheck`); every no-harm instrument green at the landing tip
   (`integrate/measure-final.txt`).
+- Wave 2 (35 seats, 35 reports): re-measures agree (C1 byte-equal, every battery module load-bearing; C2 pass, probe
+  byte-equal 3/3); battery40 honest 21/21 by non-author review, fixture mutants 21/21; 14 overclaims and 6 unsupported
+  sentences in the C2 text corrected by appended errata (one wrong numeral: `plain-read-then-solve` 5 of 7); prior art
+  widened (`dzhioev/bro` #659 reports the fabricated-export pass in the wild); counter, `round_close.py` and
+  `tip_receipts.py` residuals routed to round 41 (SCORECARD `### Wave 2 outcome`).

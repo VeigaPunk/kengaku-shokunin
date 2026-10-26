@@ -1,0 +1,15 @@
+diff --git 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/l_refuse.py 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-L01/battery40/l_refuse.py
+index 65f521e..264539a 100755
+--- 1/fast/scratch/hyaku/kengaku-r40/F40MutBattery/base/battery40/l_refuse.py
++++ 2/fast/scratch/hyaku/kengaku-r40/F40MutBattery/mut-L01/battery40/l_refuse.py
+@@ -35,9 +35,7 @@ claimed away.
+ 
+ def source_not_a_repo(ctx, d):
+     """L01 witness: `--source` names a directory that is not a git repository -> clone_lane refuses."""
+-    plain = d / "plain"
+-    plain.mkdir()
+-    (plain / "README.md").write_text("not a repository\n")
++    plain = ctx.clone(d / "plain")
+     return ["--source", str(plain), "--work", "{WORK}"]
+ 
+ 

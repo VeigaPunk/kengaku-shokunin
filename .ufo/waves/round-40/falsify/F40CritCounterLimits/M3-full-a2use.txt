@@ -1,0 +1,20 @@
+# counter=c1_patched.py battery=/fast/scratch/hyaku/kengaku-r40/F40CritCounterLimits/attack/a2use only=A02,A03,A06,A08,A09,A15,A17,A21,A22,A27
+# PATH=/fast/scratch/hyaku/kengaku-r40/F40CritCounterLimits/attack/shim:/usr/local/bin:/usr/bin:/bin:/home/vgpnk/.local/bin
+PINS total=3 mismatched=0
+FIXTURE a2-replay-accept tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a2-replay-injected tool=anchor expect=reject declared=capture-unanchored observed_rc=0 observed=- WRONG
+MUTANT A02 anchor rc-silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:84-85 'a defect (`abbrev-unresolved`) unless its hex is 8-63 
+MUTANT A03 anchor rc-silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:84-85 (as A02: 'its hex is 8-63 lowercase hex digits')
+MUTANT A06 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:31 'Row set — the census shape (... `^ {0,3}\\|\\s*(S\\d{3,})
+MUTANT A08 anchor rc-silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:81 'a token outside the anchor cell is `token-outside-anchor`
+MUTANT A09 anchor rc-silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:34-35 'A row that matches the census regex but does not have 
+MUTANT A15 anchor rc-silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:55 'is matched **exactly** against the `name = "<org>/<task>"
+MUTANT A17 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:74 '`--evidence-ref index` reads the index blobs (`git cat-fi
+MUTANT A21 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:44-46 'the digest that entry lists, and the digest of the com
+MUTANT A22 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:44-46 (as A21: the manifest entry is an accepted view of the 
+MUTANT A27 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:96-98 'A capture none of the row's anchor tokens resolves is 
+BATTERY fixtures=2 wrong=1 tampered=0 sidechannel=0 sources_changed=0
+MUTANTS total=10 killed=0 survived=10 invalid=0 null_detected=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+EXIT=1
