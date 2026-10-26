@@ -1841,3 +1841,77 @@ are data, unreviewed: `res_round_close.json` `population=70 killed=50 survived=2
   documents themselves; the ledger/rider defects live in `corpus/routed-findings.jsonl` as `R42-R2.1`, `R42-R2.2` and
   `R42-R6`, with `R42-R4` closed and `R42-R2`'s stale check cleared (drafts:
   `.ufo/waves/round-43/build/R43R42Defects.md` §2 D–E).
+
+## Round 43 (hyaku run 9, 2026-10-26): nine near-variants of two gate tools killed with value-attributed kills (9/9); a ninth TB2 grader executed (in-process module import)
+
+Baseline as read `317148c4b918fb2645e46ec0225cac720a8a57e9`; freeze `02753f260805e2e45b05af22145da00f91671364`; first
+recorded probe run `6b49694d2ff533135fc238a8400f3e0dc1c82026`; wave-1 dispatch `d33350fd`; landing
+`77ea425ac217ebe2290490b2ebb3d0a60202ca9b`. Frozen prereg `plans/round-43-claims.md`. Lowest non-retired axis: coverage
+7, tied with novelty 7; coverage chosen (frozen tie-break), capped at 7 by the open L0 question `kengaku | round-33`. No
+stagnation waiver. Landing measurement `.ufo/waves/round-43/integrate/measure-final.txt` (clean `--no-local` clone of the
+landing tip, inside the round-43 envelope), baseline `integrate/measure-baseline.txt` at `d33350fd`.
+
+| claim | axis | observed before → after, counting command | score / verdict |
+|---|---|---|---|
+| C1 the nine behaviours `plans/anchor_digest_check.py` and `plans/order_check.py` advertise that battery42 leaves undemonstrated (round-42 wave-2 near-variants NA1 NA5 NA7 NA18 NA20 NA21 NO5 NO7 NO22; 8 `direct`, 1 `indirect`), directions re-derived through the frozen counter, kills counted only when attributed by span AND by a differing site record | **calibration** — advertised-vs-demonstrated mismatch count for two lane gate tools | `python3 plans/round43_c1_verify.py --lane .`: before `BATTERY fixtures=0`, `MUTANTS total=9 killed=0 survived=9`, `PREDICATE C1 fail`, exit 1 (`.ufo/waves/round-43/claims/control-c1-nothing.txt`; `integrate/measure-baseline.txt`) → after `PINS total=2 mismatched=0`, `BATTERY fixtures=42 wrong=0 tampered=0 sidechannel=0`, `MUTANTS total=9 killed=9 survived=0 invalid=0 null_detected=0 unattributed=0`, `MUTANTS-BY-TOOL anchor=6/6 order=3/3`, `PINS-AFTER mismatched=0`, `PREDICATE C1 pass`, exit 0 (`integrate/measure-final.txt` @ `77ea425a`) | frozen predicate met; **8 → 8 held** (the counter cannot see intent — the freeze module copied as battery passes; admission also rests on the wave-2 battery review) |
+| C2 pinned TB2 `feal-differential-cryptanalysis` grader admitted with an executed 12-case sandbox probe (S129 `tests/test_outputs.py`, S130 `instruction.md`, S131 `tests/feal_module.c`, S132 `tests/feal.c`, S133 `tests/test.sh`, S134 `README.md`, tier A; S136 `environment/Dockerfile`, S137 `environment/feal.py`, tier B by executed flips) | **coverage** (lowest, tied) — one §Frontier TB2 sub-bullet narrowed by one task (9 of 89), one coverage-map bullet, one PROVINCE paragraph, knowledge files/index rows 49→50, SOURCES 121→130; one graded-state class new to the executed sample (an agent-authored Python module imported into the grader's own interpreter beside the reference module that holds the answer; verdict = pytest exit status) | `python3 plans/round43_c2_verify.py --lane .`: before `checks=10 defects=7` (V2 V3 V4 V7 V8 V9 V10), exit 1 (`claims/control-c2-nothing.txt`; at `d33350fd` `defects=6`, V8 ok once the receipt landed) → after `checks=10 defects=0`, `PREDICATE C2 pass`, exit 0 (`measure-final.txt`); probe `cases=12 observed_pass=8 observed_fail=4 mismatches=0`, `regrade cases=12 differ=0`, re-run byte-equal (`feal_probe exit=0 byte_equal=yes`) | frozen predicate met; **7 → 7 held** (L0 cap) |
+
+Limits found in wave 1 (frozen counters not edited; routed to round 44): V10's DECISIVE map is readable in the counter,
+so a copycat filler passes V10 (`R43CritClaims` §1); R4 does not see a `.git` FILE pointing at an outside git dir nor
+repos deeper than three levels, leg i is bypassed by an absolute or abbreviated argv (`R43SentinelCounter` F1–F3,
+`R43CritC1Counter` V2′) — no battery43 fixture uses these shapes (grep over `plans/battery43/*.py`: nothing); counter
+guards caught 8/15 by committed controls (`R43MutC1Counter`) and V9/V10 guards 6/13 (`R43MutC2Counter`); the envelope's
+content digest misses a mode-only change and a rewrite of a mode-000 file (`R43ReviewEnvelope`, 3/4 kinds caught).
+Independent checks that held: real pytest 8.4.1 under `uvx -p 3.13` 12/12 equal to the receipt (`R43PytestParity`);
+re-derivation 12/12 + 3 own cases (`R43CritIndep`); no dishonest battery reached the C1 predicate (9 vectors,
+`R43CritC1Counter`); value leg spurious 0, vacuous 0/9 (`R43CritValueLeg`); verdict stable over 18 runs
+(`R43RevSiteStable`); mutant rows 9/9, 0 misquoted (`R43RevMutRows`).
+
+Other axes held: novelty 7 (no claim; prior art priced — three findings published, three adjacent, none measured on
+this grader before, `R43ScoutPriorArt`; no novelty asserted), depth 9, operability 8 (riders: `plans/gate_flip_check.py`
+selftest 19/19; the generator route-mix asserts), freshness 8 (S129–S134 re-fetched cmp-identical, S135–S137 re-opened;
+TB2.1 copy byte-identical), adjacency 8 (PROVINCE routing: cryptanalysis technique and Python import-system semantics
+unowned, `R43ConnSibling`). No-harm at the landing tip (`diff` of verdict lines, `measure-baseline.txt` vs
+`measure-final.txt`): only the round-43 counters (red → green), the package gate's P3/P6/P8 legs, `index_rows` /
+`knowledge_files` 49 → 50 in older counters' P8, the anchor check (`rows=121 tokens=27` → `rows=130 tokens=36`,
+`defects=0` both), `routed_open=10` → `52` (the wave-2 queue now durable), and registry/knowledge counts differ; rounds
+36–42 counters, ledger-tip, tip receipts, constraints/db-wal/fibsqrt/feal probes byte-equal, census exit 0, frozen
+digests r39–r43 OK, `order_check` round 38 exit 1 and round-38 C1 `survived=1` (both as before), `round_close.py --round
+41/42/43` exit 0.
+
+### Round-43 capabilities (demonstrated this round)
+
+| Capability | What it can now do | Evidence / command | First-working round |
+|---|---|---|---|
+| `value-attributed-mutant-kills` | Count a mutant as killed only when the traced re-run executes the replaced span AND the frame's next event after that span (next line + locals digest, or return value) differs from the reference's, the reference traced twice and stable | `python3 plans/round43_c1_verify.py --lane .` → `value=differs` on 9/9, `PREDICATE C1 pass`; forced-equal control `claims/control-c1-value.txt` → `unattributed=9`, fail | 43 |
+| `in-process-import-grader-probe` | Execute a pinned TB2 grader that imports the agent's Python module into its own interpreter, per case in bubblewrap with a fresh harness process per grading, the verdict mapped to pytest's exit status (an `os._exit(0)` before the assert is a pass) | `python3 plans/feal_probe.py --lane .` → `cases=12 observed_pass=8 observed_fail=4 mismatches=0`, byte-equal re-run (`measure-final.txt`); real-pytest parity 12/12 (`R43PytestParity`) | 43 |
+| `gate-flip-check` | Refuse a lesson whose conditional Gate refusals carry no later `Flip check (round N): <item> — fired|not fired — <evidence>` line | `python3 plans/gate_flip_check.py --lesson corpus/lessons/round-42.md` → red before the round-43 lines (`FLIPS total=2 unresolved=2`, `R43FlipCheck/runs.txt`), `unresolved=0` after; `--selftest` `ok=19/19` | 43 |
+
+Routed ledger at docs time: 44 rows appended (the round-42 wave-2 queue, `R43RoutedQueue` 41 + `R43R42Defects` 3), two
+field changes (R42-R4 closed, R42-R2 stale check nulled), 13 rows closed because their `check` passes on a clean clone of
+the landing tip (`routed_open.py --observe` → `mismatched=0`, `ROWS total=60 open=38 blocked=1 closed=21`,
+`routed_open=39 oldest_round=39`).
+
+### Planned (round 44)
+
+Axis state carried: calibration 8, coverage 7 (capped by the open L0 question `kengaku | round-33`), novelty 7, depth 9,
+operability 8, freshness 8, adjacency 8. Lowest non-retired: coverage 7 tied with novelty 7. The L1 holds the planner
+seat; the round-44 data-walk seat `R43PlanNext` is wave-1 data (`.ufo/waves/round-43/build/R43PlanNext.md` when present).
+
+- **Calibration (8):** re-freeze the C1 counter as `plans/round44_c1_verify.py` with the round-43 fence repairs inside the
+  frozen rule, each with its own red hostile control — `rev-parse --absolute-git-dir` inside d and no `.git` FILE
+  (`R43SentinelCounter` F1), no depth cap on the repo walk (F2), leg i on the parsed argv incl. absolute paths and
+  argparse abbreviations (F3, `R43CritC1Counter` V2′), timeouts on parent-side git calls (F4) — plus the controls the
+  round-43 mutation pass drafted for its 7 surviving guards (`R43MutC1Counter`). Mutant list: the `u = 18` advertised
+  anchor/order behaviours with no frozen mutant (`R43CritEquiv` §3), each direction witnessed before freeze (Q29/Q33), or
+  the 9 witnessed `round_close.py` survivors (`F42CritPlanNext` D1) — choose by which a do-nothing control and a
+  witness-as-battery control separate.
+- **Coverage (7, capped) — the largest uncovered grader class from the round-43 histogram**: F1 constant-compare (14
+  tasks, 0 read; `R43ConsiderThese` `hist.md`), one probe shape for one pinned task (write-the-constant passes, nop and a
+  mutated constant fail, byte-equal re-run), prior art checked by a seat before any sentence says "unpublished".
+- **C2 counter content leg (routed R5 residual):** V10's DECISIVE is readable from the counter (`R43CritClaims` §1); a
+  round-44 C2 counter needs a content check whose key is not in the instrument (e.g. a blind non-author mechanism table
+  compared after the fact), with a red copycat control.
+- **Routed (`corpus/routed-findings.jsonl`, `routed_open=39 oldest_round=39`):** envelope v2 (mode bits, unreadable
+  entries — `R43ReviewEnvelope`); `R43MutC2Counter` 7 surviving V9/V10 guards; README lessons index parity (33 rows for 60
+  lesson files) and round-41/42 evidence sections.

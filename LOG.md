@@ -1305,3 +1305,31 @@ filler package); first recorded probe run `523b2780`; landing `ff14d76d`. Lesson
 - Re-verification (freshness): S125–S127 re-fetched cmp-identical twice (`R42PkgRows`), TB2.1 `main` byte-identical to
   the pin (`R42ScoutPriorArt`); five SOURCES rows re-opened, no change (`R42SourcesRecheck`); every no-harm instrument at
   the landing tip as at the baseline (`integrate/measure-final.txt`).
+
+## Round 43 (hyaku run 9, 2026-10-26) — nine near-variants killed with value-attributed kills (9/9); ninth TB2 grader executed
+
+L1 `KengakuR43` (planner seat). Freeze `02753f26` (claims; the round-43 C1 counter — the round-42 counter + the
+`F42C1Hardened` repairs R1–R4 + value attribution g, symlink refusal h, order-argv blob check i — with 9 near-variant
+mutants and a freeze direction module; the feal probe, its frozen 12-case table, spec, C2 counter with V10, twelve
+captures; red controls including span- and value-forced copies, six hostile modules, a direction-mislabel copy and an
+informed-filler package); first recorded probe run `6b49694d`; landing `77ea425a`. Lesson `corpus/lessons/round-43.md`.
+
+- C1 (calibration, predicate met): freeze `killed=0 survived=9`; seven wave-1 executors wrote `plans/battery43/` (42
+  fixtures, every mutant killed by ≥4); landing `BATTERY fixtures=42 wrong=0 tampered=0 sidechannel=0`, `MUTANTS total=9
+  killed=9 … unattributed=0`, `MUTANTS-BY-TOOL anchor=6/6 order=3/3`, `PREDICATE C1 pass`. Every kill `value=differs`.
+- C2 (coverage, predicate met): TB2 `feal-differential-cryptanalysis` @ `2fd12b88`, S129–S134 (A) + S136/S137 (B);
+  probe `cases=12 observed_pass=8 observed_fail=4 mismatches=0`, `regrade cases=12 differ=0`. Observations: six of eight
+  passes involve no cryptanalysis — returning `feal_in_c.get_keys()[5]`, an always-True `__eq__` object, a fake
+  `feal_in_c` in `sys.modules`, a rebound `get_keys`, `os._exit(0)` before the assert (reward = pytest exit status),
+  and a libc replay of `srand(time(NULL))`; a 45 s oracle passes although the instruction asks < 30 s and README:35
+  says the test confirms it. Real pytest parity 12/12. Coverage held at 7 (L0 cap). Prior art: three findings published
+  as unmeasured statements, three adjacent; no novelty asserted.
+- Routed (round-42 closure R1–R6): fibsqrt entry errata E1–E7 appended; S128 Gate row; Dockerfile flip executed as
+  S135; `plans/gate_flip_check.py` + Q35 (mined mistake: 45 unresolved flip obligations in 18 lessons); 44 rows in
+  `corpus/routed-findings.jsonl`, 13 closed by clean-clone observe; round-42 wave-2 doc defects corrected by appends
+  (20 of 22, 3 refuted); envelope content digest; generator route-mix asserts.
+- Assimilation: `merge/kengaku/` unchanged since 2026-10-24, nothing adopted (`R43MergeRescreen`). considerthese
+  `2026-10-26.md` proposal 3: static TB2 grader class histogram, 89/89 tasks, 11 classes (`R43ConsiderThese`).
+- Re-verification (freshness): S129–S134 re-fetched cmp-identical (`R43PkgRows` 19:07 -03), S135 (`R43GateRowsR2`
+  19:10), S136/S137 (L1 19:18); TB2.1 and two HF copies byte-identical (`R43ScoutPriorArt`); every no-harm instrument
+  at the landing tip as at the baseline (`integrate/measure-final.txt`).
