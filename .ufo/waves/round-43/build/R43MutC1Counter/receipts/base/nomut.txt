@@ -1,0 +1,16 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43MutC1Counter/md /fast/scratch/hyaku/kengaku-r43/R43MutC1Counter/md --bind /fast/scratch/hyaku/kengaku-r43/R43MutC1Counter/md/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r43/R43MutC1Counter/md/m-nomut/plans/round43_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r43/R43MutC1Counter/md/m-nomut --work /fast/scratch/hyaku/kengaku-r43/R43MutC1Counter/md/w4
+ENVELOPE start 19:13:48 cwd=/home/vgpnk/Projects/shokunin
+PINS total=2 mismatched=0
+FIXTURE wit-long-row tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE wit-green-erratum tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE wit-slashed-name-url tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE wit-short-commit-url tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE wit-late-claims-edit tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE wit-p2-excuse tool=order expect=accept declared=- observed_rc=0 observed=- ok
+BATTERY fixtures=6 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=0 killed=0 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/0 order=0/0
+ADVERTISED direct=0 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 fail
+ENVELOPE end 19:13:50 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

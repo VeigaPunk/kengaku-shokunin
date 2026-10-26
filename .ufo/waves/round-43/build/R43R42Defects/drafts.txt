@@ -1,0 +1,28 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43R42Defects/env /fast/scratch/hyaku/kengaku-r43/R43R42Defects/env --bind /fast/scratch/hyaku/kengaku-r43/R43R42Defects/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/env HOME=/fast/scratch/hyaku/kengaku-r43/R43R42Defects/home TMPDIR=/fast/scratch/hyaku/kengaku-r43/R43R42Defects bash -c 
+cd /fast/scratch/hyaku/kengaku-r43/R43R42Defects/lane
+D=.ufo/waves/round-42/build/R42QualityDraft
+echo '--- carried with --lane .'
+python3 $D/carried_vs_rederived.py --lane . 2>&1 | tail -3
+echo '--- carried positional .'
+python3 $D/carried_vs_rederived.py . 2>&1 | tail -2
+echo '--- appendonly with --lane .'
+python3 $D/sources_appendonly.py --lane . 2>&1 | tail -3; echo rc=$?
+echo '--- appendonly positional lane'
+python3 $D/sources_appendonly.py . 2>&1 | tail -3
+
+ENVELOPE start 19:14:43 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+--- carried with --lane .
+    for line in open(path, encoding="utf-8"):
+                ~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '--lane/.ufo/waves/round-40/falsify/F40XMutAnchor.md'
+--- carried positional .
+CARRIED XO7 round40=rc-silence               round42=rc-silence same fixture=w-xo7-case-timeout attributed=L55
+CARRIED-DIRECTIONS total=14 differ=2 ids=XO5,XO6
+--- appendonly with --lane .
+SETUP git log failed: fatal: cannot change to '--lane': No such file or directory
+rc=0
+--- appendonly positional lane
+CELL ec172168 S052 anchor repair_row=none
+CELL 53b9e4e5 S124 anchor repair_row=none
+SOURCES-APPENDONLY violations=15 arity=0
+ENVELOPE end 19:14:45 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

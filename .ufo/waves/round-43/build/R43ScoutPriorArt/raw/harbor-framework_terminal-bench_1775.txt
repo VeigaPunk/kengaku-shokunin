@@ -1,0 +1,22 @@
+## harbor-framework/terminal-bench#1775
+title: Add CI check for in-process verifier tampering
+state: open created: 2026-08-25T01:00:39Z user: RyanMarten
+
+Run this check over all existing tasks
+
+Categorize any tasks that execute agent code (artifact is code that gets executed rather than data) and consider other reward hack vectors. 
+
+Any verifier that imports/runs agent-controlled executable code in the same process that decides reward can have issues.
+
+Can prompt the cheating agent specifically to try to exploit this (originally was caught by a cheating agent in #1630)
+
+Two specific ones found from above (details here: https://github.com/harbor-framework/terminal-bench/pull/1774#issuecomment-5403517561)
+- monekypatching test framework
+- pytest.skip and skipped tests counted as pass
+
+related: https://github.com/harbor-framework/terminal-bench/pull/1267
+
+relevant: https://www.frontierswe.com/blog/v2#preventing-cheating
+
+Can give explicit instructions to the cheating agent to exploit this
+## comments

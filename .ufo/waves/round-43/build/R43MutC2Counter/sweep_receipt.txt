@@ -1,0 +1,69 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43MutC2Counter/env /fast/scratch/hyaku/kengaku-r43/R43MutC2Counter/env --bind /fast/scratch/hyaku/kengaku-r43/R43MutC2Counter/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r43/R43MutC2Counter/mut_sweep.py
+ENVELOPE start 19:22:19 cwd=/fast/scratch/hyaku/kengaku-r43/R43MutC2Counter
+== M01 [v10] DECISIVE lookup: default widened for off-map captures
+   filler    V9 DEF V10 DEF  | V9 case_rows=0/12 bad=["no '## Case table' section", "row ids a | V10 no '## Mechanism' section
+   informed  V9 ok  V10 DEF  | V9 case_rows=12/12 bad=0 | V10 mechanism_rows=12/12 bad=['nop:test_outputs.py:30 not decisi
+   content   V9 ok  V10 ok   | V9 case_rows=12/12 bad=0 | V10 mechanism_rows=12/12 bad=0
+   rc=0 mutant_sha256=55535f32a4c5902b restored=f613bb1fc2777550 -> SURVIVED
+== M02 [v10] int(line) not in allowed: weakened to never flag
+   filler    V9 DEF V10 DEF  | V9 case_rows=0/12 bad=["no '## Case table' section", "row ids a | V10 no '## Mechanism' section
+   informed  V9 ok  V10 ok   | V9 case_rows=12/12 bad=0 | V10 mechanism_rows=12/12 bad=0
+   content   V9 ok  V10 ok   | V9 case_rows=12/12 bad=0 | V10 mechanism_rows=12/12 bad=0
+   rc=1 mutant_sha256=edd70a91b3b0d01c restored=f613bb1fc2777550 -> CAUGHT informed:V10
+== M03 [v10] capture pin: sha256 clause dropped
+   filler    V9 DEF V10 DEF  | V9 case_rows=0/12 bad=["no '## Case table' section", "row ids a | V10 no '## Mechanism' section
+   informed  V9 ok  V10 DEF  | V9 case_rows=12/12 bad=0 | V10 mechanism_rows=12/12 bad=['nop:test_outputs.py:30 not decisi
+   content   V9 ok  V10 ok   | V9 case_rows=12/12 bad=0 | V10 mechanism_rows=12/12 bad=0
+   rc=0 mutant_sha256=b8231ac4f4e503ae restored=f613bb1fc2777550 -> SURVIVED
+== M04 [v10] capture pin: digest comparison inverted
+   filler    V9 DEF V10 DEF  | V9 case_rows=0/12 bad=["no '## Case table' section", "row ids a | V10 no '## Mechanism' section
+   informed  V9 ok  V10 DEF  | V9 case_rows=12/12 bad=0 | V10 mechanism_rows=12/12 bad=['nop:test_outputs.py:30 not decisi
+   content   V9 ok  V10 DEF  | V9 case_rows=12/12 bad=0 | V10 mechanism_rows=12/12 bad=['nop:test_outputs.py capture not p
+   rc=1 mutant_sha256=58fed383977515d2 restored=f613bb1fc2777550 -> CAUGHT content:V10
+== M05 [v10] norm made identity (no whitespace normalisation)
+   filler    V9 DEF V10 DEF  | V9 case_rows=0/12 bad=["no '## Case table' section", "row ids a | V10 no '## Mechanism' section
+   informed  V9 ok  V10 DEF  | V9 case_rows=12/12 bad=0 | V10 mechanism_rows=12/12 bad=['nop:test_outputs.py:30 not decisi
+   content   V9 ok  V10 ok   | V9 case_rows=12/12 bad=0 | V10 mechanism_rows=12/12 bad=0
+   rc=0 mutant_sha256=a54e332e00a47372 restored=f613bb1fc2777550 -> SURVIVED
+== M06 [v10] two-word quote floor weakened to no-op
+   filler    V9 DEF V10 DEF  | V9 case_rows=0/12 bad=["no '## Case table' section", "row ids a | V10 no '## Mechanism' section
+   informed  V9 ok  V10 DEF  | V9 case_rows=12/12 bad=0 | V10 mechanism_rows=12/12 bad=['nop:test_outputs.py:30 not decisi
+   content   V9 ok  V10 ok   | V9 case_rows=12/12 bad=0 | V10 mechanism_rows=12/12 bad=0
+   rc=0 mutant_sha256=259c2268791a4291 restored=f613bb1fc2777550 -> SURVIVED
+== M07 [v10] ids-equal check: empty-receipt guard dropped
+   filler    V9 DEF V10 DEF  | V9 case_rows=0/12 bad=["no '## Case table' section", "row ids a | V10 no '## Mechanism' section
+   informed  V9 ok  V10 DEF  | V9 case_rows=12/12 bad=0 | V10 mechanism_rows=12/12 bad=['nop:test_outputs.py:30 not decisi
+   content   V9 ok  V10 ok   | V9 case_rows=12/12 bad=0 | V10 mechanism_rows=12/12 bad=0
+   rc=0 mutant_sha256=198a2509121974c9 restored=f613bb1fc2777550 -> SURVIVED
+== M08 [v10] MECH_ROW: trailing pipe made optional
+   filler    V9 DEF V10 DEF  | V9 case_rows=0/12 bad=["no '## Case table' section", "row ids a | V10 no '## Mechanism' section
+   informed  V9 ok  V10 DEF  | V9 case_rows=12/12 bad=0 | V10 mechanism_rows=12/12 bad=['nop:test_outputs.py:30 not decisi
+   content   V9 ok  V10 ok   | V9 case_rows=12/12 bad=0 | V10 mechanism_rows=12/12 bad=0
+   rc=0 mutant_sha256=c3ebf2505749618c restored=f613bb1fc2777550 -> SURVIVED
+== M09 [v10] MECH_ROW: dash dropped from case-id class
+   filler    V9 DEF V10 DEF  | V9 case_rows=0/12 bad=["no '## Case table' section", "row ids a | V10 no '## Mechanism' section
+   informed  V9 ok  V10 DEF  | V9 case_rows=12/12 bad=0 | V10 mechanism_rows=1/12 bad=['mechanism rows=1 receipt cases=12 
+   content   V9 ok  V10 DEF  | V9 case_rows=12/12 bad=0 | V10 mechanism_rows=1/12 bad=['mechanism rows=1 receipt cases=12 
+   rc=1 mutant_sha256=a758ce921480afbb restored=f613bb1fc2777550 -> CAUGHT content:V10
+== M10 [v9] CASE_ROW: dash dropped from case-id class
+   filler    V9 DEF V10 DEF  | V9 case_rows=0/12 bad=["no '## Case table' section", "row ids a | V10 no '## Mechanism' section
+   informed  V9 DEF V10 DEF  | V9 case_rows=1/12 bad=['case table rows=1 receipt cases=12 equa | V10 mechanism_rows=12/12 bad=['nop:test_outputs.py:30 not decisi
+   content   V9 DEF V10 ok   | V9 case_rows=1/12 bad=['case table rows=1 receipt cases=12 equa | V10 mechanism_rows=12/12 bad=0
+   rc=1 mutant_sha256=d88c34f4c32c963f restored=f613bb1fc2777550 -> CAUGHT informed:V9,content:V9
+== M11 [v9] CASE_ROW: [PF] -> [pF] (P rows stop matching)
+   filler    V9 DEF V10 DEF  | V9 case_rows=0/12 bad=["no '## Case table' section", "row ids a | V10 no '## Mechanism' section
+   informed  V9 DEF V10 DEF  | V9 case_rows=4/12 bad=['case table rows=4 receipt cases=12 equa | V10 mechanism_rows=12/12 bad=['nop:test_outputs.py:30 not decisi
+   content   V9 DEF V10 ok   | V9 case_rows=4/12 bad=['case table rows=4 receipt cases=12 equa | V10 mechanism_rows=12/12 bad=0
+   rc=1 mutant_sha256=62921111e4b3714e restored=f613bb1fc2777550 -> CAUGHT informed:V9,content:V9
+== M12 [v9] CASE_ROW: (pass|fail) -> (pass|fai1)
+   filler    V9 DEF V10 DEF  | V9 case_rows=0/12 bad=["no '## Case table' section", "row ids a | V10 no '## Mechanism' section
+   informed  V9 DEF V10 DEF  | V9 case_rows=8/12 bad=['case table rows=8 receipt cases=12 equa | V10 mechanism_rows=12/12 bad=['nop:test_outputs.py:30 not decisi
+   content   V9 DEF V10 ok   | V9 case_rows=8/12 bad=['case table rows=8 receipt cases=12 equa | V10 mechanism_rows=12/12 bad=0
+   rc=1 mutant_sha256=be642b618b3c7031 restored=f613bb1fc2777550 -> CAUGHT informed:V9,content:V9
+== M13 [v9] CASE_ROW: trailing pipe made optional
+   filler    V9 DEF V10 DEF  | V9 case_rows=0/12 bad=["no '## Case table' section", "row ids a | V10 no '## Mechanism' section
+   informed  V9 ok  V10 DEF  | V9 case_rows=12/12 bad=0 | V10 mechanism_rows=12/12 bad=['nop:test_outputs.py:30 not decisi
+   content   V9 ok  V10 ok   | V9 case_rows=12/12 bad=0 | V10 mechanism_rows=12/12 bad=0
+   rc=0 mutant_sha256=d569a54821f3732e restored=f613bb1fc2777550 -> SURVIVED
+SWEEP total=13 caught=6 survived=7
+ENVELOPE end 19:22:21 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

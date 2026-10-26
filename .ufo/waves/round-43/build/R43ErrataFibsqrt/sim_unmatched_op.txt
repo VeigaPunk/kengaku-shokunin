@@ -1,0 +1,9 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43ErrataFibsqrt/env /fast/scratch/hyaku/kengaku-r43/R43ErrataFibsqrt/env --bind /fast/scratch/hyaku/kengaku-r43/R43ErrataFibsqrt/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /fast/scratch/hyaku/kengaku-r43/R43ErrataFibsqrt/exp/run.sh
+ENVELOPE start 19:13:24 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+gcc_rc=0
+case=x gates=out0 = 1|out40 = out1 + out2| stdout=[0] rc=0
+case=w gates=out0 = 1|out40 = out1 &| stdout=[0] rc=0
+case=y gates=out0 = 1|out40 = 1| stdout=[2147483648] rc=0
+case=z gates=out0 = 1| stdout=[] rc=0
+700645ac6156cdc88ec1e210f7c7d8d9969bb42aec969c410597e8efca796173  sim.c
+ENVELOPE end 19:13:26 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

@@ -1,0 +1,73 @@
+## harbor-framework/terminal-bench-2-1#185
+title: Two tasks can be passed by side effects rather than by the behaviour under test (custom-memory-heap-crash, polyglot-rust-c)
+state: open created: 2026-08-02T11:37:09Z user: CodyWhatleyMD
+
+
+## 1. `custom-memory-heap-crash` — the anti-cheat gate cannot catch the cheat it names
+
+`tests/test_outputs.py::test_no_memory_leaks_with_valgrind` documents its own purpose:
+
+> "This prevents cheating by using quick_exit() or similar workarounds."
+> assertion: "This could mean you're using quick_exit(), _Exit(), or similar workarounds."
+
+But it runs valgrind with `--errors-for-leak-kinds=definite`. Skipping static destructors leaves
+memory **still reachable** from live globals — a leak kind that flag explicitly excludes.
+
+Measured on two builds of the same task:
+
+| build | allocs | frees | still reachable | valgrind exit | test |
+|---|---|---|---|---|---|
+| `quick_exit()` cheat | 14 | **3** | 75,088 B / 11 blocks | 0 | **PASSES** |
+| intended fix (`solution/solve.sh`) | 14 | **13** | 1 block | 0 | passes |
+
+Ten destructor-driven frees skipped; the gate detects none of them.
+
+Also passing: `signal(SIGSEGV/SIGABRT)` → `_Exit(0)`, which does not fix the bug at all —
+strip the two `signal()` lines from such a submission and the binary segfaults (exit 139).
+`test_release_build_runs_without_crash` asserts `returncode == 0` and gets it from the handler.
+
+**Suggested fix:** also fail on still-reachable growth above the reference baseline, or assert the
+free count (`frees == 13`) rather than relying on leak-kind classification.
+
+---
+
+## 2. `polyglot-rust-c` — compiler failures are discarded, and stale binaries are re-run
+
+`tests/test_outputs.py`:
+
+```python
+os.popen("rustc /app/polyglot/main.rs -o /app/polyglot/main").read()
+os.popen("g++ -x c++ /app/polyglot/main.rs -o /app/polyglot/cmain").read()
+```
+
+Two compounding problems:
+
+1. `os.popen(...).read()` **discards the exit status** — a failed compile is indistinguishable
+   from a successful one.
+2. The verifier runs in a container that **retains agent-phase filesystem state**, so a previously
+   built binary is still on disk.
+
+Net effect: an agent that gets `main.rs` compiling under `g++`, then edits it into a Rust-only
+file, leaves a stale `cmain` behind. The `g++` step fails silently, the test runs the stale binary,
+and both invocations produce correct output. The submitted artifact does not satisfy the task.
+
+Verified by clean-room replay (fresh directory, only the final `main.rs`, test verbatim): the
+solution fails — one binary missing, output empty. Replaying the agent's build history reproduces
+the pass, confirming the mechanism end to end.
+
+**Suggested fix:** `subprocess.run(..., check=True)` for both compiles, and build into a fresh
+temporary directory rather than the shared `/app` path.
+
+---
+
+## Why this generalises
+
+The verifier shares the agent's filesystem (`harbor/verifier/verifier.py` uploads `tests/` into
+the same container after the agent phase). Any task whose test builds or executes an artifact
+**in place** can pass on a stale artifact rather than the submitted one. These two were found by
+auditing one 445-trial run; a systematic sweep of tasks that compile/execute in `/app` would
+likely find more.
+
+Suggested general hardening: build/execute deliverables in a scratch directory populated only from
+the declared solution path, and check exit status on every build step.
+## comments

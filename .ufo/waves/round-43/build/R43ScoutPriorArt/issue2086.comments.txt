@@ -1,0 +1,35 @@
+Another vector that's likely a different taxonomy - direct exploitation
+
+https://x.com/langstonnashold/status/2102925964984623167
+
+@isegal wrote https://docs.google.com/document/d/1ra18Qvwx_-1Uege44eZCBpO-S7isdAorzbbwolih-xw/edit?tab=t.0#heading=h.nmzgqinx6kt6
+Reading @isegal's doc, we largely come to the same conclusions.  We both found things the other didn't, I've updated the issue to  merge our findings together.
+
+@isegal lmk if you have any additional feedback about the issues contents and if I correctly interpreted your findings
+
+I think the next steps look something like:
+- [ ] Merge `/regrade` #2109 so we can regrade verifier changes to merge with confidence
+- [ ] Merge #2085, after addressing the feedback comments
+- [ ] Regrade any already-merged verifier changes to make sure they're functional
+- [ ] Audit open fix PR's, figure out which vectors it closes, /regrade them, etc - get them merged
+- [ ] Identifying remaining gaps, and get PR's open to fix those verifiers, and /regrade them
+- [ ] Figure out if giving `/cheat` access to the verifier helps https://github.com/harbor-framework/terminal-bench/pull/2108
+
+
+Ryan noted V1 and V3 are largely similar and could be merged into one category
+Hi @stbenjam,
+
+I've been reading #2086 and the related verifier-hardening work. I also noticed that #2109 and Harbor's regrade support already provide a way to examine reward changes without rerunning agents.
+
+I was wondering whether a small research analysis of the evaluation impact would be useful.
+
+Beyond checking that individual verifier fixes behave as intended, I'd be interested in measuring how regrading affects benchmark-level scores and, where enough comparable archived runs exist, model rankings. It could also help distinguish genuine corrections of invalid rewards from changes caused by verifier semantics or incomplete evidence.
+
+I wouldn't want to duplicate the hardening or regrade implementation. My contribution would be on the analysis side, starting with a bounded set of publicly available trials and versioned verifier changes.
+
+I'm Baixin Guo (Max), based in Beijing, working on AI evaluation and feedback reliability. I can contribute remotely.
+
+Is this kind of analysis already being investigated, or could it be useful alongside the ongoing verifier work?
+
+Thanks,
+Baixin Guo (Max)

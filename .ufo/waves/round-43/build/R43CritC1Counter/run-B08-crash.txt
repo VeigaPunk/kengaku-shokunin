@@ -1,0 +1,14 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43CritC1Counter/env /fast/scratch/hyaku/kengaku-r43/R43CritC1Counter/env --bind /fast/scratch/hyaku/kengaku-r43/R43CritC1Counter/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r43/R43CritC1Counter/lane/plans/round43_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r43/R43CritC1Counter/lane --battery-dir /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-43/build/R43CritC1Counter/battery/B08_crash --only NA1,NO5 --work /fast/scratch/hyaku/kengaku-r43/R43CritC1Counter/w
+ENVELOPE start 19:11:35 cwd=/home/vgpnk/Projects/shokunin
+PINS total=2 mismatched=0
+FIXTURE a-crash tool=anchor expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE o-crash tool=order expect=error declared=- observed_rc=2 observed=- ok
+MUTANT NA1 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:34-35 'A row that matches the census regex but does not have 
+MUTANT NO5 order rc-silence SURVIVED exhibits=none -- plans/order_check.py:14-16 'FAIL when any file committed under `.ufo/waves/round-NN/claims
+BATTERY fixtures=2 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=2 killed=0 survived=2 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/1 order=0/1
+ADVERTISED direct=2 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 19:11:37 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

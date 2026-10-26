@@ -1,0 +1,24 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43BatAncAlt/env-g4-erratum /fast/scratch/hyaku/kengaku-r43/R43BatAncAlt/env-g4-erratum --bind /fast/scratch/hyaku/kengaku-r43/R43BatAncAlt/env-g4-erratum/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round43_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r43/R43BatAncAlt/lane --battery-dir /fast/scratch/hyaku/kengaku-r43/R43BatAncAlt/group/g4-erratum --only NA1,NA5,NA7,NA18,NA20,NA21 --work /fast/scratch/hyaku/kengaku-r43/R43BatAncAlt/w-g4-erratum
+ENVELOPE start 19:11:41 cwd=/fast/scratch/hyaku/kengaku-r43/R43BatAncAlt
+PINS total=2 mismatched=0
+FIXTURE a_alt-longrow-copied tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_alt-longrow-multicap tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_alt-slug-deepest tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-slug-blob tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-longrow-late tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_alt-slug-manifest tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-shorturl-sibling tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-shorturl-samedir tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT NA1 anchor silence killed by=a_alt-longrow-copied attributed=L477 value=differs hits=3 -- plans/anchor_digest_check.py:34-35 'A row that matches the census regex but does not have 
+MUTANT NA5 anchor rc-mirror killed by=a_alt-slug-deepest attributed=L258 value=differs hits=3 -- plans/anchor_digest_check.py:54-56 'The task component of `<subpath>` is matched **exactly
+MUTANT NA7 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:112-113 'no 64-hex token on it may be outside A unless it is 
+MUTANT NA18 anchor rc-mirror killed by=a_alt-shorturl-sibling attributed=L154 value=differs hits=2 -- plans/anchor_digest_check.py:53-54 'a `raw.githubusercontent.com/<owner>/<repo>/<commit>/<
+MUTANT NA20 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:108-110 'An erratum for S<id> exempts that row's anchor token
+MUTANT NA21 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:108-109 'An erratum for S<id> exempts that row's anchor token
+BATTERY fixtures=8 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=6 killed=3 survived=3 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=3/6 order=0/0
+ADVERTISED direct=5 indirect=1 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 19:11:45 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

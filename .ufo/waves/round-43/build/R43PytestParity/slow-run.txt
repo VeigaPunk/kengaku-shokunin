@@ -1,0 +1,71 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43PytestParity/env4 /fast/scratch/hyaku/kengaku-r43/R43PytestParity/env4 --bind /fast/scratch/hyaku/kengaku-r43/R43PytestParity/env4/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r43/R43PytestParity/driver.py slow-oracle-45s
+ENVELOPE start 19:13:09 cwd=/fast/scratch/hyaku/kengaku-r43/R43PytestParity
+CASE slow-oracle-45s predicted=pass observed=pass tests=PP regrade=same wall=90.97s
+{
+ "rows": [
+  {
+   "cid": "slow-oracle-45s",
+   "predicted": "P",
+   "letters": [
+    "P",
+    "P"
+   ],
+   "observed": "pass",
+   "regrade_same": true,
+   "wall": 90.97
+  }
+ ],
+ "runs": [
+  {
+   "cid": "slow-oracle-45s",
+   "i": 0,
+   "rc": 0,
+   "elapsed": 45.53,
+   "marker": "============================== 1 passed in 45.41s ==============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "creating build/lib.linux-x86_64-cpython-313",
+    "cc -pthread -shared -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--build-id=sha1 -Wl,--exclude-libs,ALL build/temp.linux-x86_64-cpython-313/feal.o build/temp.linux-x86_64-cpython-313/feal_module.o -L/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib -o build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "The key is 468f84be",
+    "=========================== short test summary info ============================",
+    "PASSED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 passed in 45.41s =============================="
+   ]
+  },
+  {
+   "cid": "slow-oracle-45s",
+   "i": 1,
+   "rc": 0,
+   "elapsed": 45.41,
+   "marker": "============================== 1 passed in 45.26s ==============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "----------------------------- Captured stdout call -----------------------------",
+    "running build_ext",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "The key is 553ca375",
+    "=========================== short test summary info ============================",
+    "PASSED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 passed in 45.26s =============================="
+   ]
+  }
+ ]
+}
+ENVELOPE end 19:14:42 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

@@ -1,0 +1,74 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43PkgRows/env /fast/scratch/hyaku/kengaku-r43/R43PkgRows/env --bind /fast/scratch/hyaku/kengaku-r43/R43PkgRows/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/anchor_digest_check.py --lane /fast/scratch/hyaku/kengaku-r43/R43PkgRows/lane --verbose
+ENVELOPE start 19:10:11 cwd=/home/vgpnk/Projects/shokunin
+EVIDENCE ref=head files=476 manifest_digests=72 rows=127 paths=547 bound_rows=35 unbound_rows=92
+BIND S025 capture=corpus/evidence/attrib-r23-stream.log by=row-path
+BIND S036 capture=corpus/evidence/attrib-r23-stream.log by=row-path
+BIND S047 capture=corpus/evidence/round25-calibration/attrib-calibration-selftest-v2.txt by=row-path
+BIND S070 capture=corpus/evidence/round37/anchor-captures/S070-generate_test_data.py by=provenance-row
+BIND S072 capture=corpus/evidence/round37/anchor-captures/S072-README.md by=provenance-row
+BIND S073 capture=corpus/evidence/round37/anchor-captures/S073-prepare.sh by=provenance-row
+BIND S074 capture=corpus/evidence/round37/anchor-captures/S074-task.py by=provenance-row
+BIND S105 capture=corpus/evidence/round35/tb2-eval/test_outputs.py by=url-task
+BIND S106 capture=corpus/evidence/round35/tb2-eval/test.sh by=url-task
+BIND S107 capture=corpus/evidence/round35/tb2-eval/instruction.md by=url-task
+BIND S108 capture=corpus/evidence/round36/tb2-regex-log/test_outputs.py by=url-task
+BIND S109 capture=corpus/evidence/round36/tb2-regex-log/test.sh by=url-task
+BIND S110 capture=corpus/evidence/round36/tb2-regex-log/instruction.md by=url-task
+BIND S111 capture=corpus/evidence/round37/tb2-git-webserver/test_outputs.py by=url-task
+BIND S112 capture=corpus/evidence/round37/tb2-git-webserver/verify.sh by=url-task
+BIND S113 capture=corpus/evidence/round37/tb2-git-webserver/instruction.md by=url-task
+BIND S114 capture=corpus/evidence/round37/prior-art/tb21-issue-133-body.md by=row-path
+BIND S115 capture=corpus/evidence/round38/tb2-build-pmars/test_outputs.py by=url-task
+BIND S116 capture=corpus/evidence/round38/tb2-build-pmars/instruction.md by=url-task
+BIND S117 capture=corpus/evidence/round39/tb2-git-leak-recovery/test_outputs.py by=url-task
+BIND S118 capture=corpus/evidence/round39/tb2-git-leak-recovery/instruction.md by=url-task
+BIND S119 capture=corpus/evidence/round40/tb2-db-wal-recovery/test_outputs.py by=url-task
+BIND S120 capture=corpus/evidence/round40/tb2-db-wal-recovery/instruction.md by=url-task
+BIND S122 capture=corpus/evidence/round41/tb2-constraints-scheduling/test_outputs.py by=url-task
+BIND S123 capture=corpus/evidence/round41/tb2-constraints-scheduling/instruction.md by=url-task
+BIND S124 capture=corpus/evidence/round41/pr245-body.md by=row-path
+BIND S125 capture=corpus/evidence/round42/tb2-circuit-fibsqrt/test_outputs.py by=url-task
+BIND S126 capture=corpus/evidence/round42/tb2-circuit-fibsqrt/instruction.md by=url-task
+BIND S127 capture=corpus/evidence/round42/tb2-circuit-fibsqrt/sim.c by=url-task
+BIND S129 capture=corpus/evidence/round43/tb2-feal-differential-cryptanalysis/test_outputs.py by=url-task
+BIND S130 capture=corpus/evidence/round43/tb2-feal-differential-cryptanalysis/instruction.md by=url-task
+BIND S131 capture=corpus/evidence/round43/tb2-feal-differential-cryptanalysis/feal_module.c by=url-task
+BIND S132 capture=corpus/evidence/round43/tb2-feal-differential-cryptanalysis/feal.c by=url-task
+BIND S133 capture=corpus/evidence/round43/tb2-feal-differential-cryptanalysis/test.sh by=url-task
+BIND S134 capture=corpus/evidence/round43/tb2-feal-differential-cryptanalysis/README.md by=url-task
+ERRATUM S110 loc=corpus/lessons/round-37.md:32 cited_wrong=['4f7ac05e70cf922ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c'] correction=['4f7ac05e70cf9220ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c']
+ABBREV S036 prefix=afaae9dd matches=afaae9ddaf4deda0095c2e7ad39c6cb63236d72c812ca2fcd9ab18c42eef8131 capture=corpus/evidence/attrib-r23-stream.log
+RESOLVED S070 digest=45ddba7be49096a18919b4122a8945ff74c292ba17e36892b16e176a8bd921cd via=corpus/evidence/round37/anchor-captures/S070-generate_test_data.py bind=provenance-row listed=corpus/evidence/round37/anchor-captures/S070-generate_test_data.py
+RESOLVED S072 digest=081c826497f9b7da4952771ee128c2215ec3532379db0fe9f7fcbd899d9c9287 via=corpus/evidence/round37/anchor-captures/S072-README.md bind=provenance-row listed=corpus/evidence/round37/anchor-captures/S072-README.md
+RESOLVED S073 digest=97b8671fc66518fbfed54467f9a64965bafa54d01702d922bfbb8b32c1b0c7e2 via=corpus/evidence/round37/anchor-captures/S073-prepare.sh bind=provenance-row listed=corpus/evidence/round37/anchor-captures/S073-prepare.sh
+RESOLVED S074 digest=f996dfeef2bfb836fa79b20217cda36ecf428ed3965e3084e325626d7130fe67 via=corpus/evidence/round37/anchor-captures/S074-task.py bind=provenance-row listed=corpus/evidence/round37/anchor-captures/S074-task.py
+RESOLVED S105 digest=44a05a2482aa7a8e70de95478de6560b6188e630336fca9d02b62dc69a096582 via=corpus/evidence/round35/tb2-eval/test_outputs.py bind=url-task listed=corpus/evidence/round35/tb2-eval/test_outputs.py
+RESOLVED S106 digest=9ede46648fc67c9ce61975503de3e0fcff0b0fb110adc0f9e1d240a608c267b5 via=corpus/evidence/round35/tb2-eval/test.sh bind=url-task listed=corpus/evidence/round35/tb2-eval/test.sh
+RESOLVED S107 digest=1bb2af1d85e9a823a8ae7273a87df8a3f67e2c93b06cddf34f0051a8b003f7c5 via=corpus/evidence/round35/tb2-eval/instruction.md bind=url-task listed=corpus/evidence/round35/tb2-eval/instruction.md
+RESOLVED S108 digest=345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 via=corpus/evidence/round36/tb2-regex-log/test_outputs.py bind=url-task listed=corpus/evidence/round36/tb2-regex-log/test_outputs.py
+RESOLVED S109 digest=4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334 via=corpus/evidence/round36/tb2-regex-log/test.sh bind=url-task listed=corpus/evidence/round36/tb2-regex-log/test.sh
+EXEMPT S110 anchor=4f7ac05e70cf922ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c by=corpus/lessons/round-37.md:32 correction=4f7ac05e70cf9220ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c
+RESOLVED S111 digest=526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37 via=corpus/evidence/round37/tb2-git-webserver/test_outputs.py bind=url-task listed=corpus/evidence/round37/tb2-git-webserver/test_outputs.py
+RESOLVED S112 digest=1dc44c923b797ed24ca423c9b9efcd9c1eed4d7261007139b0a724f4e2f53d05 via=corpus/evidence/round37/tb2-git-webserver/verify.sh bind=url-task listed=corpus/evidence/round37/tb2-git-webserver/verify.sh
+RESOLVED S113 digest=62151b7371bc364277a3c118bba755334c640fb0cefc7a5af106e6e763cf1d97 via=corpus/evidence/round37/tb2-git-webserver/instruction.md bind=url-task listed=corpus/evidence/round37/tb2-git-webserver/instruction.md
+RESOLVED S114 digest=c217d37253c89a71d6cc4d1c14f588c02ce49039cb1118dd3694150cf4c64193 via=corpus/evidence/round37/prior-art/tb21-issue-133-body.md bind=row-path listed=corpus/evidence/round37/prior-art/tb21-issue-133-body.md
+RESOLVED S115 digest=d9d2796ddc19cf8159670567e174ea377e2bce675bf3451d5951c045b01f4e85 via=corpus/evidence/round38/tb2-build-pmars/test_outputs.py bind=url-task listed=corpus/evidence/round38/tb2-build-pmars/test_outputs.py
+RESOLVED S116 digest=1606850579342a8b8f2189de0e499fae6be21198150d8dd1e4d18c2efbcf3b82 via=corpus/evidence/round38/tb2-build-pmars/instruction.md bind=url-task listed=corpus/evidence/round38/tb2-build-pmars/instruction.md
+RESOLVED S117 digest=dc7b01c1b9dbb0c123def54b146dc1dd399a600edee5970d043a5db5eac4c775 via=corpus/evidence/round39/tb2-git-leak-recovery/test_outputs.py bind=url-task listed=corpus/evidence/round39/tb2-git-leak-recovery/test_outputs.py
+RESOLVED S118 digest=54ac693fd26a4c003f610d62c4b2671f1d1d04ac5b1286f780605e385a9a5861 via=corpus/evidence/round39/tb2-git-leak-recovery/instruction.md bind=url-task listed=corpus/evidence/round39/tb2-git-leak-recovery/instruction.md
+RESOLVED S119 digest=88dc5c2a3abba75bca0e0f9136223ae5bb585d5984b8d9eba51a7829c1d2ba49 via=corpus/evidence/round40/tb2-db-wal-recovery/test_outputs.py bind=url-task listed=corpus/evidence/round40/tb2-db-wal-recovery/test_outputs.py
+RESOLVED S120 digest=5a20375162921b8911c67035d1905df7fd335d1bed03044271e608b2c3c93b26 via=corpus/evidence/round40/tb2-db-wal-recovery/instruction.md bind=url-task listed=corpus/evidence/round40/tb2-db-wal-recovery/instruction.md
+RESOLVED S122 digest=1422b345ba3aacdfc4184e962811b6379988435896c50d8cf62903e70990c5d1 via=corpus/evidence/round41/tb2-constraints-scheduling/test_outputs.py bind=url-task listed=corpus/evidence/round41/tb2-constraints-scheduling/test_outputs.py
+RESOLVED S123 digest=342def78177f9bc41bea4d11af679bc385a9dda2ac8a1e425be384a5b7f937b6 via=corpus/evidence/round41/tb2-constraints-scheduling/instruction.md bind=url-task listed=corpus/evidence/round41/tb2-constraints-scheduling/instruction.md
+RESOLVED S124 digest=8f3b04c34edeb558d8b1e45ac49462bf28fdaa3392cec03bc6ee54d30253410f via=corpus/evidence/round41/pr245-body.md bind=row-path listed=corpus/evidence/round41/pr245-body.md
+RESOLVED S125 digest=6117b8edb7d567b30e32b16a9244bec4c131ec01e9065d52f6f53f87e36f0438 via=corpus/evidence/round42/tb2-circuit-fibsqrt/test_outputs.py bind=url-task listed=corpus/evidence/round42/tb2-circuit-fibsqrt/test_outputs.py
+RESOLVED S126 digest=a7f500266a878d04ac9de39fba76220cfad216d8f6b8063bba93bebb3d4ab9ea via=corpus/evidence/round42/tb2-circuit-fibsqrt/instruction.md bind=url-task listed=corpus/evidence/round42/tb2-circuit-fibsqrt/instruction.md
+RESOLVED S127 digest=700645ac6156cdc88ec1e210f7c7d8d9969bb42aec969c410597e8efca796173 via=corpus/evidence/round42/tb2-circuit-fibsqrt/sim.c bind=url-task listed=corpus/evidence/round42/tb2-circuit-fibsqrt/sim.c
+RESOLVED S129 digest=585780e76d98094ad118d096f8c78f2281352dc9826e3687c4de152659631a3d via=corpus/evidence/round43/tb2-feal-differential-cryptanalysis/test_outputs.py bind=url-task listed=corpus/evidence/round43/tb2-feal-differential-cryptanalysis/test_outputs.py
+RESOLVED S130 digest=b4093780b283e5c9838997769fb7bca090e3f4cbbd2d7cb275ba60cdfd722572 via=corpus/evidence/round43/tb2-feal-differential-cryptanalysis/instruction.md bind=url-task listed=corpus/evidence/round43/tb2-feal-differential-cryptanalysis/instruction.md
+RESOLVED S131 digest=1ae1c8a31b099b5742b35a3d6b1b70a2509d8d13d79ab74535e038e9a3379363 via=corpus/evidence/round43/tb2-feal-differential-cryptanalysis/feal_module.c bind=url-task listed=corpus/evidence/round43/tb2-feal-differential-cryptanalysis/feal_module.c
+RESOLVED S132 digest=bd4e9fb31e38073414d8a1930b2e67bc59eaee17e52f58133f781d297073e885 via=corpus/evidence/round43/tb2-feal-differential-cryptanalysis/feal.c bind=url-task listed=corpus/evidence/round43/tb2-feal-differential-cryptanalysis/feal.c
+RESOLVED S133 digest=106c27394c96343c03b4fbac14faac85542bce6628bccc66a5fe036d77f72daf via=corpus/evidence/round43/tb2-feal-differential-cryptanalysis/test.sh bind=url-task listed=corpus/evidence/round43/tb2-feal-differential-cryptanalysis/test.sh
+RESOLVED S134 digest=887407c78513837d93f02231998419a0ce9b0cc0a0c600ed86cd30df5cb24e7f via=corpus/evidence/round43/tb2-feal-differential-cryptanalysis/README.md bind=url-task listed=corpus/evidence/round43/tb2-feal-differential-cryptanalysis/README.md
+rows=127 tokens=33 defects=0
+ENVELOPE end 19:10:13 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

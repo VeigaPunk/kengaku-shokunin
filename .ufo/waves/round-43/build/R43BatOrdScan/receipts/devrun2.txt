@@ -1,0 +1,18 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43BatOrdScan/env /fast/scratch/hyaku/kengaku-r43/R43BatOrdScan/env --bind /fast/scratch/hyaku/kengaku-r43/R43BatOrdScan/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round43_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r43/R43BatOrdScan/lane --battery-dir /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-43/build/R43BatOrdScan/battery --only NO5,NO22 --work /fast/scratch/hyaku/kengaku-r43/R43BatOrdScan/w
+ENVELOPE start 19:09:18 cwd=/home/vgpnk/Projects/shokunin
+PINS total=2 mismatched=0
+FIXTURE o_scan-n5a-late-gate-file tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_scan-n5b-amended-claims tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_scan-n5c-case-third-commit tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_scan-n22a-gate-only tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_scan-n22b-echoed-defect tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_scan-n22c-indented-gate tool=order expect=reject declared=- observed_rc=1 observed=- ok
+MUTANT NO5 order rc-silence killed by=o_scan-n5a-late-gate-file attributed=L120 value=differs hits=3 -- plans/order_check.py:14-16 'FAIL when any file committed under `.ufo/waves/round-NN/claims
+MUTANT NO22 order rc-silence killed by=o_scan-n5a-late-gate-file attributed=L105 value=differs hits=5 -- plans/order_check.py:15-16 'a gate `P10` line whose detail is anything other than `receipt
+BATTERY fixtures=6 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=2 killed=2 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/0 order=2/2
+ADVERTISED direct=2 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 19:09:21 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

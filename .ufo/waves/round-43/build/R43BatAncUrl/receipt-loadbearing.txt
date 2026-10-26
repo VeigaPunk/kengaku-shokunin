@@ -1,0 +1,64 @@
+########## battery = only no-a_url-org-slash-registry
+ENVELOPE start 19:09:53 cwd=/home/vgpnk/Projects/shokunin
+FIXTURE a_url-org-slash-single tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_url-short-commit-pair tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_url-short-commit-shadow tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT NA5 anchor rc-mirror killed by=a_url-org-slash-single attributed=L258 value=differs hits=1 -- plans/anchor_digest_check.py:54-56 'The task component of `<subpath>` is matched **exactly
+MUTANT NA18 anchor rc-mirror killed by=a_url-short-commit-pair attributed=L154 value=differs hits=2 -- plans/anchor_digest_check.py:53-54 'a `raw.githubusercontent.com/<owner>/<repo>/<commit>/<
+BATTERY fixtures=3 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=2 killed=2 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=2/2 order=0/0
+ENVELOPE end 19:09:55 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+########## battery = only no-a_url-org-slash-single
+ENVELOPE start 19:09:56 cwd=/home/vgpnk/Projects/shokunin
+FIXTURE a_url-org-slash-registry tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_url-short-commit-pair tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_url-short-commit-shadow tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT NA5 anchor rc-mirror killed by=a_url-org-slash-registry attributed=L258 value=differs hits=1 -- plans/anchor_digest_check.py:54-56 'The task component of `<subpath>` is matched **exactly
+MUTANT NA18 anchor rc-mirror killed by=a_url-short-commit-pair attributed=L154 value=differs hits=2 -- plans/anchor_digest_check.py:53-54 'a `raw.githubusercontent.com/<owner>/<repo>/<commit>/<
+BATTERY fixtures=3 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=2 killed=2 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=2/2 order=0/0
+ENVELOPE end 19:09:59 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+########## battery = only no-a_url-short-commit-pair
+ENVELOPE start 19:10:00 cwd=/home/vgpnk/Projects/shokunin
+FIXTURE a_url-org-slash-single tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_url-org-slash-registry tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_url-short-commit-shadow tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT NA5 anchor rc-mirror killed by=a_url-org-slash-single attributed=L258 value=differs hits=2 -- plans/anchor_digest_check.py:54-56 'The task component of `<subpath>` is matched **exactly
+MUTANT NA18 anchor rc-mirror killed by=a_url-short-commit-shadow attributed=L154 value=differs hits=1 -- plans/anchor_digest_check.py:53-54 'a `raw.githubusercontent.com/<owner>/<repo>/<commit>/<
+BATTERY fixtures=3 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=2 killed=2 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=2/2 order=0/0
+ENVELOPE end 19:10:02 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+########## battery = only no-a_url-short-commit-shadow
+ENVELOPE start 19:10:04 cwd=/home/vgpnk/Projects/shokunin
+FIXTURE a_url-org-slash-single tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_url-org-slash-registry tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_url-short-commit-pair tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT NA5 anchor rc-mirror killed by=a_url-org-slash-single attributed=L258 value=differs hits=2 -- plans/anchor_digest_check.py:54-56 'The task component of `<subpath>` is matched **exactly
+MUTANT NA18 anchor rc-mirror killed by=a_url-short-commit-pair attributed=L154 value=differs hits=1 -- plans/anchor_digest_check.py:53-54 'a `raw.githubusercontent.com/<owner>/<repo>/<commit>/<
+BATTERY fixtures=3 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=2 killed=2 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=2/2 order=0/0
+ENVELOPE end 19:10:06 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+########## battery = only only-na18
+ENVELOPE start 19:10:08 cwd=/home/vgpnk/Projects/shokunin
+FIXTURE a_url-short-commit-pair tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_url-short-commit-shadow tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT NA5 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:54-56 'The task component of `<subpath>` is matched **exactly
+MUTANT NA18 anchor rc-mirror killed by=a_url-short-commit-pair attributed=L154 value=differs hits=2 -- plans/anchor_digest_check.py:53-54 'a `raw.githubusercontent.com/<owner>/<repo>/<commit>/<
+BATTERY fixtures=2 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=2 killed=1 survived=1 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=1/2 order=0/0
+ENVELOPE end 19:10:10 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+########## battery = only only-na5
+ENVELOPE start 19:10:11 cwd=/home/vgpnk/Projects/shokunin
+FIXTURE a_url-org-slash-single tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_url-org-slash-registry tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT NA5 anchor rc-mirror killed by=a_url-org-slash-single attributed=L258 value=differs hits=2 -- plans/anchor_digest_check.py:54-56 'The task component of `<subpath>` is matched **exactly
+MUTANT NA18 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:53-54 'a `raw.githubusercontent.com/<owner>/<repo>/<commit>/<
+BATTERY fixtures=2 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=2 killed=1 survived=1 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=1/2 order=0/0
+ENVELOPE end 19:10:13 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

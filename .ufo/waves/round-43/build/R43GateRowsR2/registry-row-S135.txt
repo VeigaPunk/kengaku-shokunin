@@ -1,0 +1,45 @@
+DRAFT — registry row S135 (round-43 closure R2 / D3, seat R43GateRowsR2)
+Target: /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md
+Insertion: ONE new line, immediately after the S128 row (line 143 at tip d33350f), i.e. as the last row of the
+`## Registry` table and still before the `## Paths` heading (line 144). Addition only: `git diff --numstat` on
+corpus/SOURCES.md is `1 0` — no existing cell is touched.
+
+| S135 | Terminal-Bench 2.0 circuit-fibsqrt task image definition (environment/Dockerfile) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/circuit-fibsqrt/environment/Dockerfile | code | B | the build recipe of the image this one task is graded in, at a pinned commit: the mechanism that fixes the working directory the grader's compile and its `/app/sim` execution resolve against, as this capture shows it | commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, environment/Dockerfile:1-10, :3 "WORKDIR /app" (2 words); sha256 780c23986778f3e5f842567868af30b1135ed095ca9449e1c90b7f0e0483d3d4 | line 3 sets the image WorkingDir to `/app`, the cwd the grader's `-o sim` compile and its `/app/sim` run both resolve against; `:9-10` copy `tests/sim.c` and `gates.txt` into `/app`; it carries no graded predicate of its own, only the cwd those predicates assume | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-circuit-fibsqrt-grader.md |
+
+Cell-by-cell (11 cells, census NF=13 with the outer pipes):
+  id      S135
+  source  Terminal-Bench 2.0 circuit-fibsqrt task image definition (environment/Dockerfile) — <raw URL @ 2fd12b88>
+  kind    code        (same kind the registry already uses for executed harness files: S106/S109 tests/test.sh)
+  tier    B           (mechanism row: the file fixes the grading cwd, it holds no graded predicate)
+  scope   the build recipe of the image this one task is graded in, at a pinned commit
+  anchor  commit + `environment/Dockerfile:1-10` + :3 "WORKDIR /app" (2 words) + full sha256 (64 lowercase hex)
+  teaches cwd mechanism + the two COPY lines + the negative (no graded predicate here)
+  status  mined
+  opened  2026-10-26
+  recheck 180d        (the cadence S125-S128 carry for the same pin)
+  used-by corpus/knowledge/tb2-circuit-fibsqrt-grader.md   (census E11 target exists)
+
+Why tier B, not A: the file is the harness mechanism that fixes the cwd; the graded predicate lives in S125
+(test_outputs.py) and S127 (sim.c). Tier B keeps the claim scoped ("mechanism the predicates assume"), which is
+exactly what the round-42 Gate's flip condition asked for.
+
+Evidence for the row (all re-measured 2026-10-26 19:10:24 -03, see RECEIPT.txt):
+  curl -sS -o df.Dockerfile -w 'HTTP=%{http_code} bytes=%{size_download}\n' <raw URL>
+    -> HTTP=200 bytes=321
+  sha256sum df.Dockerfile
+    -> 780c23986778f3e5f842567868af30b1135ed095ca9449e1c90b7f0e0483d3d4
+  cmp df.Dockerfile corpus/evidence/round42/tb2-circuit-fibsqrt/Dockerfile -> CMP=IDENTICAL
+  wc -l Dockerfile -> 10  (line 3 = `WORKDIR /app`; :9-10 = `COPY tests/sim.c /app`, `COPY gates.txt /app`)
+
+Validation of the row in a scratch clone (see RECEIPT.txt for envelope lines):
+  sources-census.sh validate <clone>                     -> exit 0, E=0, W=15 (the 15 pre-existing W04), `lane ok`
+  sources-census.sh census <clone>                       -> rows 122 (121 before), tier.B 18 (17), status.mined 106 (105)
+  anchor_digest_check.py --lane <clone> --evidence-ref head  -> rows=122 tokens=28 defects=0
+    BIND S135 capture=corpus/evidence/round42/tb2-circuit-fibsqrt/Dockerfile by=url-task
+    RESOLVED S135 digest=780c2398…d3d4 via=…/Dockerfile bind=url-task listed=…/Dockerfile
+  anchor_digest_check.py --lane <clone> --evidence-ref index -> rows=122 tokens=28 defects=0
+  red control A (S135 anchor <- S125's real digest 6117b8ed…0438) -> exit 1,
+    DEFECT S135 … class=digest-wrong-capture, rows=122 tokens=28 defects=1
+  red control B (same basename, URL re-pointed at regex-log/environment/Dockerfile) -> exit 1,
+    DEFECT S135 … class=anchor-unbound detail=no-capture-for-upstream-regex-log/environment/Dockerfile-task=environment
+  baseline (clean clone, no row) -> rows=121 tokens=27 defects=0

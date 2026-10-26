@@ -1,0 +1,18 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43BatOrdAlt/env /fast/scratch/hyaku/kengaku-r43/R43BatOrdAlt/env --bind /fast/scratch/hyaku/kengaku-r43/R43BatOrdAlt/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round43_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r43/R43BatOrdAlt/lane --battery-dir /fast/scratch/hyaku/kengaku-r43/R43BatOrdAlt/lb/rm-late-case-blob --only NO5,NO7,NO22 --work /fast/scratch/hyaku/kengaku-r43/R43BatOrdAlt/w1
+ENVELOPE start 19:10:16 cwd=/home/vgpnk/Projects/shokunin
+PINS total=2 mismatched=0
+FIXTURE o_alt-inplace-gate-rewrite tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_alt-fenced-echo tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_alt-two-echo-blobs tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_alt-bare-ok-late tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_alt-prefixed-ok-blob tool=order expect=reject declared=- observed_rc=1 observed=- ok
+MUTANT NO5 order rc-silence killed by=o_alt-inplace-gate-rewrite attributed=L120 value=differs hits=3 -- plans/order_check.py:14-16 'FAIL when any file committed under `.ufo/waves/round-NN/claims
+MUTANT NO7 order rc-mirror killed by=o_alt-fenced-echo attributed=L60 value=differs hits=2 -- plans/order_check.py:56-57 'The one P10 detail the gate prints before executing anything, 
+MUTANT NO22 order rc-silence killed by=o_alt-inplace-gate-rewrite attributed=L105 value=differs hits=3 -- plans/order_check.py:15-16 'a gate `P10` line whose detail is anything other than `receipt
+BATTERY fixtures=5 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=3 killed=3 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/0 order=3/3
+ADVERTISED direct=3 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 19:10:19 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

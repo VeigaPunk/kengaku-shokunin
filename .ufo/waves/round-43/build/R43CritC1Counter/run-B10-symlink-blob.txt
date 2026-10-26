@@ -1,0 +1,14 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43CritC1Counter/env /fast/scratch/hyaku/kengaku-r43/R43CritC1Counter/env --bind /fast/scratch/hyaku/kengaku-r43/R43CritC1Counter/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r43/R43CritC1Counter/lane/plans/round43_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r43/R43CritC1Counter/lane --battery-dir /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-43/build/R43CritC1Counter/battery/B10_symlink_blob --only NO5,NO7 --work /fast/scratch/hyaku/kengaku-r43/R43CritC1Counter/w
+ENVELOPE start 19:11:46 cwd=/home/vgpnk/Projects/shokunin
+PINS total=2 mismatched=0
+FIXTURE o-symlink-blob-late tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o-symlink-blob-excuse tool=order expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT NO5 order rc-silence killed by=o-symlink-blob-late attributed=L120 value=differs hits=1 -- plans/order_check.py:14-16 'FAIL when any file committed under `.ufo/waves/round-NN/claims
+MUTANT NO7 order rc-mirror killed by=o-symlink-blob-excuse attributed=L60 value=differs hits=1 -- plans/order_check.py:56-57 'The one P10 detail the gate prints before executing anything, 
+BATTERY fixtures=2 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=2 killed=2 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/0 order=2/2
+ADVERTISED direct=2 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 19:11:48 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

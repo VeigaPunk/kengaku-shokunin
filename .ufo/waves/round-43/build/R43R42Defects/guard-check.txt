@@ -1,0 +1,8 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43R42Defects/env /fast/scratch/hyaku/kengaku-r43/R43R42Defects/env --bind /fast/scratch/hyaku/kengaku-r43/R43R42Defects/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/env HOME=/fast/scratch/hyaku/kengaku-r43/R43R42Defects/home TMPDIR=/fast/scratch/hyaku/kengaku-r43/R43R42Defects python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/scratch_guard.py check /fast/scratch/hyaku/kengaku-r43/R43R42Defects/probe-root
+ENVELOPE start 19:12:10 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+ROOT /fast/scratch/hyaku/kengaku-r43/R43R42Defects/probe-root
+SENTINEL .ROUND-ROOT-SENTINEL present=no reason=sentinel-unreadable:Permission denied
+ROOTFILES n=1 names=.ROUND-ROOT-SENTINEL
+TOTAL seats=0 bytes=0 size=0B
+CHECK red reason=sentinel-unreadable:Permission denied round=None want=* seats=0
+ENVELOPE end 19:12:12 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

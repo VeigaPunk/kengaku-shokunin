@@ -1,0 +1,24 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43CritEquiv/env /fast/scratch/hyaku/kengaku-r43/R43CritEquiv/env --bind /fast/scratch/hyaku/kengaku-r43/R43CritEquiv/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r43/R43CritEquiv/probe/probe_rest.py
+ENVELOPE start 19:11:18 cwd=/fast/scratch/hyaku/kengaku-r43/R43CritEquiv
+
+=== malformed-long (NA1) ===
+REF: rc=1 classes=['row-malformed']
+   DEFECT S601 anchor token=- class=row-malformed detail=cells=13-expected=11 loc=corpus/SOURCES.md:3
+   rows=1 tokens=0 defects=1
+NA1: rc=0 classes=[]
+   rows=1 tokens=0 defects=0
+
+=== slashed-name (NA5) ===
+REF: rc=0 classes=[]
+   rows=1 tokens=1 defects=0
+NA5: rc=1 classes=['anchor-unbound']
+   DEFECT S603 anchor token=b060a4a8349be0a55ea4720083f1340067254c919cc70283f0f88625faf3e88c class=anchor-unbound detail=no-capture-for-upstream-r43svc/tests/test_outputs.py-task=tests loc=corpus/SOURCES.md:3
+   rows=1 tokens=1 defects=1
+
+=== short-commit (NA18) ===
+REF: rc=0 classes=[]
+   rows=1 tokens=1 defects=0
+NA18: rc=1 classes=['digest-wrong-capture']
+   DEFECT S604 anchor token=9ec29e6d116648b7db258c37b6a6d67c57f21134d33f8564d77e82aeff82fc72 class=digest-wrong-capture detail=committed-capture-belonging-to-another-capture-corpus/evidence/round43/crit/x8/notes.txt-not-the-capture-this-row-names-corpus/evidence/round43/crit/x8-slug/x.py loc=corpus/SOURCES.md:3
+   rows=1 tokens=1 defects=1
+ENVELOPE end 19:11:20 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

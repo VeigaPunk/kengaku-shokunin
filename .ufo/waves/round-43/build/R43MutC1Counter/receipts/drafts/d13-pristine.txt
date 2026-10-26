@@ -1,0 +1,13 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43MutC1Counter/dw /fast/scratch/hyaku/kengaku-r43/R43MutC1Counter/dw --bind /fast/scratch/hyaku/kengaku-r43/R43MutC1Counter/dw/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r43/R43MutC1Counter/dw/m-d13/plans/round43_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r43/R43MutC1Counter/dw/m-d13 --battery-dir /fast/scratch/hyaku/kengaku-r43/R43MutC1Counter/dw/hb-sc --only NO5 --work /fast/scratch/hyaku/kengaku-r43/R43MutC1Counter/dw/d13-pristine
+ENVELOPE start 19:23:07 cwd=/home/vgpnk/Projects/shokunin
+PINS total=2 mismatched=0
+SIDECHANNEL hb-sc/sctoken.py tokens=psutil
+FIXTURE sc-green tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT NO5 order rc-silence SURVIVED exhibits=none -- plans/order_check.py:14-16 'FAIL when any file committed under `.ufo/waves/round-NN/claims
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=1
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/0 order=0/1
+ADVERTISED direct=1 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 19:23:09 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

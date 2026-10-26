@@ -1,0 +1,42 @@
+DRAFT — `## Gate` row for S128 (round-43 closure R2 / D2, seat R43GateRowsR2)
+Target: /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/lessons/round-42.md, section `## Gate` (line 33).
+Insertion: ONE new table line, immediately after the last table row (`| solve.sh, gates.txt @ 2fd12b88 | …`, line 46)
+and before the `Gate prose:` paragraph (line 48). Addition only — `git diff --numstat` on the lesson is `1 0`.
+Placing it inside the existing table (rather than a new `## Gate addendum` section at EOF) is required by parsers
+that read the section with an end-anchored heading: `plans/round36_c1_verify.py:315`
+`gate = re.search(r"^## Gate\n(.*?)(?=^## |\Z)", t36, re.S | re.M)` — a second section titled anything else is not
+read.
+
+| S128 OpenAgents issue #9645 “Audit circuit grader coverage beyond its 48,401 input ceiling” (row appended by round-43 closure R2; the round-42 Gate table omitted it) | **Admitted (mined, tier B)** | Opened by wave-1 `R42ScoutPriorArt` 2026-10-26 17:35 -03; re-opened by the round-43 seat 2026-10-26 19:10:24 -03 at `https://github.com/OpenAgentsInc/openagents/issues/9645` (`gh api repos/OpenAgentsInc/openagents/issues/9645`: `state=closed`, `created_at=2026-09-25T09:01:50Z`, `closed_at=2026-09-25T09:11:26Z`, title equal). Quote, issue body line 3: "The official grader exercises 28 values, none above 48,401." (9 words). Tier B is right for a third party's published report cited as prior art for the coverage gap only: it builds no circuit and names none of the parse, ordering or cwd mechanics. Flip: the issue body is edited so the quoted sentence no longer holds, or the entry rests a mechanism claim on it rather than prior art. |
+
+Cell-by-cell (3 cells, the table's `| Candidate | Verdict | Reason and flip condition |`):
+  Candidate  S128 + the issue title + the note that this row repairs D2
+  Verdict    **Admitted (mined, tier B)** — matches the registry row's tier/status
+  Reason     URL, both access times (17:35 -03 first open, 19:10:24 -03 re-open), the `gh api` state/created/closed
+             fields, the ≤25-word quote at a named location, the tier-B justification, and the flip condition
+
+Evidence (re-measured 2026-10-26 19:10:24 -03, RECEIPT.txt):
+  gh api repos/OpenAgentsInc/openagents/issues/9645   -> rc 0
+    state=closed  created_at=2026-09-25T09:01:50Z  closed_at=2026-09-25T09:11:26Z
+    title="Audit circuit grader coverage beyond its 48,401 input ceiling"  user=AtlantisPleb  number=9645
+    body line 3: "The preregistered #9584 archive confirmation sealed all 72 predictions at `94458c65f3` before
+    opening official grades. … The official grader exercises 28 values, none above 48,401. Retained review
+    commands show wrong answers above that range. …"
+  quote word count: The(1) official(2) grader(3) exercises(4) 28(5) values(6) none(7) above(8) 48,401.(9) = 9 ≤ 25
+  the sentence is verbatim on body line 3 (grep -n on the fetched body -> line 3), body has 13 lines
+
+OPTIONAL PROSE REPAIR (same commit; append one sentence after the existing `Gate prose:` paragraph, line 48-52,
+which now reads "the three admitted rows are exactly the three the spec pins (`plans/pkg-spec-r42.json` `rows` =
+S125, S126, S127 …)"). With S128 and S135 admitted, that sentence is stale and would contradict the table. Appended
+sentence, addition only:
+
+Round-43 addendum to the prose above: the spec still pins three rows (`plans/pkg-spec-r42.json` `rows` = S125, S126,
+S127), and two more rows are admitted by this Gate's own decisions — S128 (OpenAgents issue #9645, tier B, prior art
+for the coverage gap) and S135 (`environment/Dockerfile` @ `2fd12b88`, tier B, the mechanism row the entry's cwd
+statements rest on). "The three admitted rows" above therefore means the three *spec-pinned* rows; the Gate's
+admitted set is five candidates, of which S125-S127 are tier A and S128/S135 tier B.
+
+Count note for the L1: with both rows landed the Gate's admitted set is five candidates — S125/S126/S127 (tier A,
+spec-pinned) plus S128 and S135 (tier B) — and the two former `REJECT — captured, not a row` candidates resolve as
+follows: `README.md` stays a capture, `Dockerfile` becomes S135. Write the appended sentence with the counts the
+landing commit actually carries, and keep the original sentence intact (append-only).

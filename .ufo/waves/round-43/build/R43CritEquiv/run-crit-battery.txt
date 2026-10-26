@@ -1,0 +1,26 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43CritEquiv/env /fast/scratch/hyaku/kengaku-r43/R43CritEquiv/env --bind /fast/scratch/hyaku/kengaku-r43/R43CritEquiv/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r43/R43CritEquiv/lane/plans/round43_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r43/R43CritEquiv/lane --battery-dir /fast/scratch/hyaku/kengaku-r43/R43CritEquiv/critbatt --work /fast/scratch/hyaku/kengaku-r43/R43CritEquiv/w --jobs 4
+ENVELOPE start 19:09:13 cwd=/fast/scratch/hyaku/kengaku-r43/R43CritEquiv
+PINS total=2 mismatched=0
+SIDECHANNEL critbatt/r43crit.py tokens=witness
+FIXTURE crit-malformed-long tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE crit-green-errata tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE crit-slashed-name tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE crit-short-commit tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE crit-late-gate tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE crit-p2-echo tool=order expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT NA1 anchor silence killed by=crit-malformed-long attributed=L477 value=differs hits=1 -- plans/anchor_digest_check.py:34-35 'A row that matches the census regex but does not have 
+MUTANT NA5 anchor rc-mirror killed by=crit-slashed-name attributed=L258 value=differs hits=1 -- plans/anchor_digest_check.py:54-56 'The task component of `<subpath>` is matched **exactly
+MUTANT NA7 anchor rc-mirror killed by=crit-green-errata attributed=L458 value=differs hits=1 -- plans/anchor_digest_check.py:112-113 'no 64-hex token on it may be outside A unless it is 
+MUTANT NA18 anchor rc-mirror killed by=crit-short-commit attributed=L154 value=differs hits=1 -- plans/anchor_digest_check.py:53-54 'a `raw.githubusercontent.com/<owner>/<repo>/<commit>/<
+MUTANT NA20 anchor rc-mirror killed by=crit-green-errata attributed=L468 value=differs hits=1 -- plans/anchor_digest_check.py:108-110 'An erratum for S<id> exempts that row's anchor token
+MUTANT NA21 anchor rc-mirror killed by=crit-green-errata attributed=L456 value=differs hits=1 -- plans/anchor_digest_check.py:108-109 'An erratum for S<id> exempts that row's anchor token
+MUTANT NO5 order rc-silence killed by=crit-late-gate attributed=L120 value=differs hits=1 -- plans/order_check.py:14-16 'FAIL when any file committed under `.ufo/waves/round-NN/claims
+MUTANT NO7 order rc-mirror killed by=crit-p2-echo attributed=L60 value=differs hits=1 -- plans/order_check.py:56-57 'The one P10 detail the gate prints before executing anything, 
+MUTANT NO22 order rc-silence killed by=crit-late-gate attributed=L105 value=differs hits=1 -- plans/order_check.py:15-16 'a gate `P10` line whose detail is anything other than `receipt
+BATTERY fixtures=6 wrong=0 tampered=0 sidechannel=1
+MUTANTS total=9 killed=9 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=6/6 order=3/3
+ADVERTISED direct=8 indirect=1 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 19:09:17 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

@@ -1,0 +1,58 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43FlipCheck/env /fast/scratch/hyaku/kengaku-r43/R43FlipCheck/env --bind /fast/scratch/hyaku/kengaku-r43/R43FlipCheck/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash -c for f in /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/lessons/round-*.md; do out=$(python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-43/build/R43FlipCheck/gate_flip_check.py --lesson "$f" 2>&1); rc=$?; printf "%-40s rc=%d %s\n" "$(basename "$f")" "$rc" "$(printf "%s" "$out" | grep -E "^(FLIPS|SETUP)" | tr "\n" " ")"; done
+ENVELOPE start 19:16:52 cwd=/home/vgpnk/Projects/shokunin
+round-11.md                              rc=2 SETUP no '## Gate' section 
+round-12.md                              rc=2 SETUP no '## Gate' section 
+round-13-coverage.md                     rc=0 FLIPS total=0 unresolved=0 
+round-13.md                              rc=2 SETUP no '## Gate' section 
+round-14.md                              rc=2 SETUP no '## Gate' section 
+round-16-recensus.md                     rc=2 SETUP no '## Gate' section 
+round-1-aggregator-audit.md              rc=2 SETUP no '## Gate' section 
+round-1.md                               rc=2 SETUP no '## Gate' section 
+round-24.md                              rc=1 FLIPS total=2 unresolved=2 
+round-24-verifier-spotcheck.md           rc=2 SETUP no '## Gate' section 
+round-25.md                              rc=1 FLIPS total=4 unresolved=4 
+round-25-verifier-spotcheck.md           rc=2 SETUP no '## Gate' section 
+round-26.md                              rc=1 FLIPS total=3 unresolved=3 
+round-27.md                              rc=1 FLIPS total=5 unresolved=5 
+round-28.md                              rc=1 FLIPS total=4 unresolved=4 
+round-29.md                              rc=1 FLIPS total=2 unresolved=2 
+round-29-source-copy-containment.md      rc=2 SETUP no '## Gate' section 
+round-29-verifier-spotcheck.md           rc=2 SETUP no '## Gate' section 
+round-30.md                              rc=1 FLIPS total=3 unresolved=3 
+round-30-verifier-spotcheck.md           rc=2 SETUP no '## Gate' section 
+round-31.md                              rc=0 FLIPS total=0 unresolved=0 
+round-31-verifier-spotcheck.md           rc=2 SETUP no '## Gate' section 
+round-32.md                              rc=1 FLIPS total=1 unresolved=1 
+round-32-verifier-spotcheck.md           rc=2 SETUP no '## Gate' section 
+round-33.md                              rc=1 FLIPS total=1 unresolved=1 
+round-33-verifier-spotcheck.md           rc=2 SETUP no '## Gate' section 
+round-34.md                              rc=1 FLIPS total=1 unresolved=1 
+round-34-verifier-spotcheck.md           rc=2 SETUP no '## Gate' section 
+round-35.md                              rc=1 FLIPS total=2 unresolved=2 
+round-35-verifier-spotcheck.md           rc=2 SETUP no '## Gate' section 
+round-36.md                              rc=1 FLIPS total=4 unresolved=4 
+round-36-verifier-spotcheck.md           rc=2 SETUP no '## Gate' section 
+round-37.md                              rc=1 FLIPS total=2 unresolved=2 
+round-37-verifier-spotcheck.md           rc=2 SETUP no '## Gate' section 
+round-38.md                              rc=1 FLIPS total=2 unresolved=2 
+round-38-verifier-spotcheck.md           rc=2 SETUP no '## Gate' section 
+round-39.md                              rc=1 FLIPS total=3 unresolved=3 
+round-39-verifier-spotcheck.md           rc=2 SETUP no '## Gate' section 
+round-3.md                               rc=2 SETUP no '## Gate' section 
+round-40.md                              rc=1 FLIPS total=3 unresolved=3 
+round-40-verifier-spotcheck.md           rc=2 SETUP no '## Gate' section 
+round-41.md                              rc=1 FLIPS total=1 unresolved=1 
+round-41-verifier-spotcheck.md           rc=2 SETUP no '## Gate' section 
+round-42.md                              rc=1 FLIPS total=2 unresolved=2 
+round-42-verifier-spotcheck.md           rc=2 SETUP no '## Gate' section 
+round-4-aggregator-audit.md              rc=2 SETUP no '## Gate' section 
+round-4.md                               rc=2 SETUP no '## Gate' section 
+round-5-aggregator-audit.md              rc=2 SETUP no '## Gate' section 
+round-5.md                               rc=2 SETUP no '## Gate' section 
+round-6-aggregator-audit.md              rc=2 SETUP no '## Gate' section 
+round-7.md                               rc=2 SETUP no '## Gate' section 
+round-8-aggregator-box3-coldrun.md       rc=2 SETUP no '## Gate' section 
+round-8.md                               rc=2 SETUP no '## Gate' section 
+round-9-aggregator-corpus-verdict.md     rc=2 SETUP no '## Gate' section 
+round-9.md                               rc=2 SETUP no '## Gate' section 
+ENVELOPE end 19:16:55 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

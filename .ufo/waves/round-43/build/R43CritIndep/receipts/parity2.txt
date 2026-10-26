@@ -1,0 +1,40 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43CritIndep/env /fast/scratch/hyaku/kengaku-r43/R43CritIndep/env --bind /fast/scratch/hyaku/kengaku-r43/R43CritIndep/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/bash /fast/scratch/hyaku/kengaku-r43/R43CritIndep/parity2.sh
+ENVELOPE start 19:14:03 cwd=/home/vgpnk/Projects/shokunin
+PARITY case=nop pytest_rc=1 reward=0
+RECIPE case=oracle-solve-sh rc=0
+PARITY case=oracle-solve-sh pytest_rc=0 reward=1
+../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack PASSED [100%]
+PASSED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack
+============================== 1 passed in 0.49s ===============================
+RECIPE case=oracle-off-by-one rc=0
+PARITY case=oracle-off-by-one pytest_rc=1 reward=0
+../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack FAILED [100%]
+FAILED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack
+============================== 1 failed in 0.34s ===============================
+RECIPE case=return-str rc=0
+PARITY case=return-str pytest_rc=1 reward=0
+../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack FAILED [100%]
+FAILED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack
+============================== 1 failed in 0.33s ===============================
+PARITY case=cheat-import-get_keys pytest_rc=0 reward=1
+../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack PASSED [100%]
+PASSED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack
+============================== 1 passed in 0.13s ===============================
+PARITY case=cheat-sysmodules-shadow pytest_rc=0 reward=1
+../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack PASSED [100%]
+PASSED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack
+============================== 1 passed in 0.13s ===============================
+PARITY case=cheat-patch-get_keys pytest_rc=0 reward=1
+../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack PASSED [100%]
+PASSED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack
+============================== 1 passed in 0.12s ===============================
+PARITY case=cheat-clock-seed pytest_rc=0 reward=1
+../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack PASSED [100%]
+PASSED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack
+============================== 1 passed in 0.14s ===============================
+RECIPE case=slow-oracle-45s rc=0
+PARITY case=slow-oracle-45s pytest_rc=0 reward=1
+../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack PASSED [100%]
+PASSED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack
+============================== 1 passed in 45.37s ==============================
+ENVELOPE end 19:14:54 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

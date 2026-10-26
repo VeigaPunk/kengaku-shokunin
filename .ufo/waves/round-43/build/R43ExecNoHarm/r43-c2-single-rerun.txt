@@ -1,0 +1,27 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43ExecNoHarm/env-debug /fast/scratch/hyaku/kengaku-r43/R43ExecNoHarm/env-debug --bind /fast/scratch/hyaku/kengaku-r43/R43ExecNoHarm/env-debug/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /fast/scratch/hyaku/kengaku-r43/R43ExecNoHarm/dbg/run-c2.sh
+ENVELOPE start 19:26:45 cwd=/home/vgpnk/Projects/shokunin
+V1 ok listed=12 bad=0 extra=0
+    gate: P1 ok pinned=2 mismatched=0
+    gate: P2 ok receipt_sha256=pinned
+    gate: P3 DEFECT no '## Located quotes' section
+    gate: P4 DEFECT no parsed quote
+    gate: P5 ok manifest_entries=12 bad=0 first=0
+    gate: P6 DEFECT rows=6 bad=6 first=S129: rows=0
+    gate: P7 DEFECT entry unreadable
+    gate: P8 DEFECT index_rows=49 knowledge_files=49 bad=2 first=index rows for knowledge/tb2-feal-differential-cryptanalysis-grader.md=0
+    gate: P9 ok untracked=0 first=0
+    gate: P10 ok probe_rerun=byte-equal bytes=3292
+    gate: defects=5
+V2 DEFECT spec=frozen gate=frozen gate_exit=1
+V3 DEFECT rows=6 bad=['S129:row', 'S130:row', 'S131:row', 'S132:row', 'S133:row', 'S134:row']
+V4 DEFECT receipt or entry absent
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 DEFECT receipt or entry absent
+V8 ok order_exit=0 result=PASS
+V9 DEFECT receipt, entry, PROVINCE.md or README absent
+V10 DEFECT receipt or entry absent
+checks=10 defects=6
+PREDICATE C2 fail
+counter_exit=1
+ENVELOPE end 19:28:24 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

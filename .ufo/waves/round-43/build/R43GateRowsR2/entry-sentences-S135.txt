@@ -1,0 +1,37 @@
+DRAFT — appended entry sentences citing S135 (round-43 closure R2 / D3, seat R43GateRowsR2)
+Target: /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/tb2-circuit-fibsqrt-grader.md
+Insertion: append at EOF (after the last line, `:449`, of `## Wave-1 integration …`), addition only — no existing
+line is edited. This is the "appended sentence(s)" the round-42 Gate flip condition requires; the four statements
+it cites stay where they are (`:65`, `:89`, `:94`, `:435-438`). If the L1 lands closure R1's `## Errata (round 43)`
+section in the same commit, this block can sit as its last subsection — the errata section corrects wrong sentences,
+this block records a source change, so they are kept as separate subsections under one appended heading.
+
+### S135 — the cwd claims now rest on a registry row (round 43, appended)
+
+The four cwd statements in this entry were anchored on a capture only; they are now anchored on a row. `S135`
+(`environment/Dockerfile` @ `2fd12b88`, tier B, status `mined`, `used-by` this file) pins the image definition whose
+line 3 is `WORKDIR /app` — the working directory the grader's `-o sim` compile and its `/app/sim` execution both
+resolve against, and the directory `:9-10` copy `tests/sim.c` and `gates.txt` into. It carries no graded predicate of
+its own: `test_outputs.py` and `sim.c` hold every predicate, so the row is cited as the mechanism those predicates
+assume, not as a source of the graded rule. The statements it anchors are `:65` (`Dockerfile:3` is `WORKDIR /app`,
+`Dockerfile:9-10` the two copies), `:89` (the `Initial state` row, `Dockerfile:3` and `:9-10`), `:94` (`gates.txt`
+resolved against a cwd the harness fixes at `/app`) and `:435-438` (the wave-1 note that the receipt's cwd is the
+verifier's `WorkingDir=/app`, which is what makes Finding 6's cwd coincidence load-bearing). Re-opened 2026-10-26
+19:10:24 -03: `curl` → `200`, 321 bytes, `cmp` identical to `corpus/evidence/round42/tb2-circuit-fibsqrt/Dockerfile`,
+sha256 `780c2398…3d3d4`, 10 lines. The round-42 Gate's flip condition — "if the entry keeps the `WORKDIR /app`
+sentence …, admit `Dockerfile` as a tier-B mechanism row" — is executed by this row and this paragraph, not waived,
+and the statements above stay as written (no erratum is needed: none of them was wrong, they were under-anchored).
+
+--- end of draft block ---
+
+What the block deliberately does NOT do, and why (for the L1):
+- It does not add a fourth `source:` line to the triad (`:1-3`). Precedent: S128 is cited from `## Prior art`
+  (`:446`) and appears in no `source:` line; `plans/pkg_gate.py:213-215` (`c_provenance`) only demands `source:`
+  lines for the rows a `pkg-spec` pins, and `plans/pkg-spec-r43.json` pins S129-S134 with `row_tier: "A"` — S135 is
+  tier B, so it cannot enter that spec without changing a frozen `entry_rules` value. Keep S135 out of the spec;
+  the citation is in the body.
+- It does not restate the probe's own digest check. `## What the probe does not show` (`:439-441`) already records
+  that `Dockerfile` is pinned by the C2 counter's V1, not by the probe; this row adds a registry binding, not a
+  second probe leg.
+- It does not touch `:64-66`, `:89`, `:94` or `:435-438` in place. The round-42 closure R1 forbids in-place entry
+  edits; the append-only route is the one used here.

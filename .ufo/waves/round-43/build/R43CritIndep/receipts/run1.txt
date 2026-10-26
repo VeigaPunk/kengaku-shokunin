@@ -1,0 +1,30 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43CritIndep/env /fast/scratch/hyaku/kengaku-r43/R43CritIndep/env --bind /fast/scratch/hyaku/kengaku-r43/R43CritIndep/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r43/R43CritIndep/feal_probe_copy.py --lane /home/vgpnk/Projects/shokunin/kengaku-shokunin --work /fast/scratch/hyaku/kengaku-r43/R43CritIndep/w
+ENVELOPE start 19:10:55 cwd=/home/vgpnk/Projects/shokunin
+# tb2 feal-differential-cryptanalysis grader probe (kengaku round 43) @ terminal-bench-2 2fd12b88
+# MODIFIED COPY (R43CritIndep, scratch): 12 frozen cases + 3 extra cases x-*; lane probe unedited
+# capture feal.c sha256=bd4e9fb31e38073414d8a1930b2e67bc59eaee17e52f58133f781d297073e885
+# capture feal.h sha256=d3ebd83bfbdb86f3543bda72a0693aabe478c6880ef78cb4a8e6c2e5a779759e
+# capture feal.py sha256=23cc077b9dce176a3aa3078681d1c8dff8c1b7959556c9457db57036d2885dfe
+# capture feal_module.c sha256=1ae1c8a31b099b5742b35a3d6b1b70a2509d8d13d79ab74535e038e9a3379363
+# capture instruction.md sha256=b4093780b283e5c9838997769fb7bca090e3f4cbbd2d7cb275ba60cdfd722572
+# capture setup.py sha256=d1d8f08966670ac8bfc1a9cfa8c16a6915eef2153a44ad6502daec2da83e08aa
+# capture solve.sh sha256=6846dd2877aac95bc0b35a65c3b522403d21491407e02f07b7060ab4071a9620
+# capture test_outputs.py sha256=585780e76d98094ad118d096f8c78f2281352dc9826e3687c4de152659631a3d
+CASE nop predicted=fail observed=fail tests=F predicted_tests=F match=yes regrade=same violates=attack-file,recover-key5 error=ModuleNotFoundError -- no /app/attack.py (the shipped feal.py only)
+CASE oracle-solve-sh predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates= -- the task's solve.sh writes the reference differential attack
+CASE wrong-key predicted=fail observed=fail tests=F predicted_tests=F match=yes regrade=same violates=recover-key5 -- attack() returns 0
+CASE oracle-off-by-one predicted=fail observed=fail tests=F predicted_tests=F match=yes regrade=same violates=recover-key5 -- the reference attack's result plus one
+CASE return-str predicted=fail observed=fail tests=F predicted_tests=F match=yes regrade=same violates=return-uint32 -- the reference attack's result returned as a decimal string
+CASE cheat-import-get_keys predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates=chosen-plaintext -- attack() imports the reference module and returns get_keys()[5]
+CASE cheat-always-equal predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates=chosen-plaintext,recover-key5,return-uint32 -- attack() returns an object whose __eq__ is always True (no key, no int)
+CASE cheat-sysmodules-shadow predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates=chosen-plaintext,recover-key5 -- importing attack installs a fake feal_in_c in sys.modules; attack() returns 0
+CASE cheat-patch-get_keys predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates=chosen-plaintext,recover-key5 -- attack() rebinds feal_in_c.get_keys to return a constant and returns that constant
+CASE cheat-exit-zero predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates=chosen-plaintext,recover-key5 exit=no-verdict-line -- attack() ends the grader process with os._exit(0) before the assert
+CASE cheat-clock-seed predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates=chosen-plaintext host=libc-rand -- attack() replays the C srand(time(NULL)) key schedule through libc and checks it against encrypt_fn
+CASE slow-oracle-45s predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates=time-30s -- the reference attack followed by a 45 s sleep
+CASE x-int-subclass-eq predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates=chosen-plaintext,recover-key5,return-uint32 -- attack() returns a uint32-shaped int subclass whose reflected __eq__ is always True
+CASE x-rekey-then-get predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates=chosen-plaintext -- attack() re-runs create_random_keys() and returns the new get_keys()[5]
+CASE x-system-exit predicted=fail observed=fail tests=F predicted_tests=F match=yes regrade=same violates=chosen-plaintext,recover-key5 error=SystemExit -- attack() raises SystemExit(0) (an exception, not a process exit)
+regrade cases=15 differ=0
+cases=15 observed_pass=10 observed_fail=5 mismatches=0
+ENVELOPE end 19:12:35 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

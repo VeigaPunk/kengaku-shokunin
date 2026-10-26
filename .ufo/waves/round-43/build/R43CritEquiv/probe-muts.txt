@@ -1,0 +1,88 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43CritEquiv/env /fast/scratch/hyaku/kengaku-r43/R43CritEquiv/env --bind /fast/scratch/hyaku/kengaku-r43/R43CritEquiv/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r43/R43CritEquiv/probe/probe_muts.py
+ENVELOPE start 19:10:49 cwd=/fast/scratch/hyaku/kengaku-r43/R43CritEquiv
+mutant copies written: 9
+
+=== errata (anchor) ===
+REF: rc=0 classes=[]
+   rows=1 tokens=1 defects=0
+NA7: rc=1 classes=['erratum-digest-unresolved']
+   DEFECT S602 erratum token=efcfd115719934cab28a0b4c734b9f6646ecbfee42e2f7b94459cfcf80e95f16 class=erratum-digest-unresolved detail=64-hex-nor-in-committed-evidence-nor-the-row-s-anchor loc=corpus/lessons/round-37.md:1
+   rows=1 tokens=1 defects=1
+NA20: rc=1 classes=['digest-unknown']
+   DEFECT S602 anchor token=2e67519f89be6f849582be6261c2480f4b23aa415bbdd14557313253278613c1 class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:3
+   rows=1 tokens=1 defects=1
+NA21: rc=1 classes=['erratum-digest-unresolved', 'digest-unknown']
+   DEFECT S602 erratum token=2e67519f89be6f849582be6261c2480f4b23aa415bbdd14557313253278613c1 class=erratum-digest-unresolved detail=64-hex-nor-in-committed-evidence-nor-the-row-s-anchor loc=corpus/lessons/round-37.md:1
+   DEFECT S602 anchor token=2e67519f89be6f849582be6261c2480f4b23aa415bbdd14557313253278613c1 class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:3
+   rows=1 t
+
+=== p2-echo (order) ===
+REF: rc=0 classes=[]
+   ORDER claims=plans/round-43-claims.md round=43 freeze=beb274148f9505dd4e278e1c1bd1bec6dce0f0ca
+   ORDER receipt=corpus/evidence/round43/crit/probe.txt receipt_commit=7384d5135f8a7206f1b96735d6f524a303291c43 claims_dir=.ufo/waves/round-43/claims/
+   ORDER scanned commits=1 file_entries=1 distinct_blobs=1
+   ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+   ORDER RESULT PASS
+NO7: rc=1 classes=[]
+   ORDER claims=plans/round-43-claims.md round=43 freeze=beb274148f9505dd4e278e1c1bd1bec6dce0f0ca
+   ORDER receipt=corpus/evidence/round43/crit/probe.txt receipt_commit=7384d5135f8a7206f1b96735d6f524a303291c43 claims_dir=.ufo/waves/round-43/claims/
+   ORDER scanned commits=1 file_entries=1 distinct_blobs=1
+   ORDER HIT .ufo/waves/round-43/claims/control.txt@beb274148f95:1 kind=gate-p10 `P10 DEFECT receipt unreadable: co
+
+=== late-gate (order) ===
+REF: rc=1 classes=[]
+   ORDER claims=plans/round-43-claims.md round=43 freeze=ae18d18587249cf0370969a000af2989bad5ca1c
+   ORDER receipt=corpus/evidence/round43/crit/probe.txt receipt_commit=7e59068e4f759cb7e71558761ebca87cdcfcf163 claims_dir=.ufo/waves/round-43/claims/
+   ORDER scanned commits=2 file_entries=2 distinct_blobs=2
+   ORDER HIT .ufo/waves/round-43/claims/control.txt@0231dd62e3e0:1 kind=gate-p10 `P10 DEFECT fresh probe output is 
+NO5: rc=0 classes=[]
+   ORDER claims=plans/round-43-claims.md round=43 freeze=ae18d18587249cf0370969a000af2989bad5ca1c
+   ORDER receipt=corpus/evidence/round43/crit/probe.txt receipt_commit=7e59068e4f759cb7e71558761ebca87cdcfcf163 claims_dir=.ufo/waves/round-43/claims/
+   ORDER scanned commits=2 file_entries=1 distinct_blobs=1
+   ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+   ORDER RESULT PASS
+NO22: rc=0 classes=[]
+   ORDER claims=plans/round-43-claims.md round=43 freeze=ae18d18587249cf0370969a000af2989bad5ca1c
+   ORDER receipt=corpus/evidence/round43/crit/probe.txt receipt_commit=7e59068e4f759cb7e71558761ebca87cdcfcf163 claims_dir=.ufo/waves/round-43/claims/
+   ORDER scanned commits=2 file_entries=2 distinct_blobs=2
+   ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+   ORDER RESULT PASS
+
+=== gate-in-oldest (order) ===
+REF: rc=1 classes=[]
+   ORDER claims=plans/round-43-claims.md round=43 freeze=5fb779ea0d6f6a13d93209b2ac841ed4af039147
+   ORDER receipt=corpus/evidence/round43/crit/probe.txt receipt_commit=745616d9551438b62473a7499529635d6509e903 claims_dir=.ufo/waves/round-43/claims/
+   ORDER scanned commits=1 file_entries=1 distinct_blobs=1
+   ORDER HIT .ufo/waves/round-43/claims/control.txt@5fb779ea0d6f:1 kind=gate-p10 `P10 DEFECT fresh probe output is 
+NO5: rc=1 classes=[]
+   ORDER claims=plans/round-43-claims.md round=43 freeze=5fb779ea0d6f6a13d93209b2ac841ed4af039147
+   ORDER receipt=corpus/evidence/round43/crit/probe.txt receipt_commit=745616d9551438b62473a7499529635d6509e903 claims_dir=.ufo/waves/round-43/claims/
+   ORDER scanned commits=1 file_entries=1 distinct_blobs=1
+   ORDER HIT .ufo/waves/round-43/claims/control.txt@5fb779ea0d6f:1 kind=gate-p10 `P10 DEFECT fresh probe output is 
+NO22: rc=0 classes=[]
+   ORDER claims=plans/round-43-claims.md round=43 freeze=5fb779ea0d6f6a13d93209b2ac841ed4af039147
+   ORDER receipt=corpus/evidence/round43/crit/probe.txt receipt_commit=745616d9551438b62473a7499529635d6509e903 claims_dir=.ufo/waves/round-43/claims/
+   ORDER scanned commits=1 file_entries=1 distinct_blobs=1
+   ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+   ORDER RESULT PASS
+
+=== case-in-later (order) ===
+REF: rc=1 classes=[]
+   ORDER claims=plans/round-43-claims.md round=43 freeze=ae18d18587249cf0370969a000af2989bad5ca1c
+   ORDER receipt=corpus/evidence/round43/crit/probe.txt receipt_commit=0ec211130e80a805714aa1d96a6b2c8e13d41332 claims_dir=.ufo/waves/round-43/claims/
+   ORDER scanned commits=2 file_entries=2 distinct_blobs=2
+   ORDER HIT .ufo/waves/round-43/claims/control.txt@46fda5cfb3ee:1 kind=case-observed `CASE c1 observed=timeout`
+  
+NO5: rc=0 classes=[]
+   ORDER claims=plans/round-43-claims.md round=43 freeze=ae18d18587249cf0370969a000af2989bad5ca1c
+   ORDER receipt=corpus/evidence/round43/crit/probe.txt receipt_commit=0ec211130e80a805714aa1d96a6b2c8e13d41332 claims_dir=.ufo/waves/round-43/claims/
+   ORDER scanned commits=2 file_entries=1 distinct_blobs=1
+   ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+   ORDER RESULT PASS
+NO22: rc=1 classes=[]
+   ORDER claims=plans/round-43-claims.md round=43 freeze=ae18d18587249cf0370969a000af2989bad5ca1c
+   ORDER receipt=corpus/evidence/round43/crit/probe.txt receipt_commit=0ec211130e80a805714aa1d96a6b2c8e13d41332 claims_dir=.ufo/waves/round-43/claims/
+   ORDER scanned commits=2 file_entries=2 distinct_blobs=2
+   ORDER HIT .ufo/waves/round-43/claims/control.txt@46fda5cfb3ee:1 kind=case-observed `CASE c1 observed=timeout`
+  
+ENVELOPE end 19:10:51 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

@@ -1,0 +1,28 @@
+# R43ConnPattern — cross-claim instrument pattern
+
+## Axes
+Calibration and coverage are the frozen round-43 axes (plans/round-43-claims.md:22-27); this is a bounded falsifier proposal, not a score claim. It can improve calibration by exposing verdict channels, without changing C1/C2 scope.
+
+## Evidence and sites
+
+| Site | Evidence / behavior | One-line fixture exposing it |
+|---|---|---|
+| `plans/round43_c1_verify.py:161-209, 640-675` | Battery module is executed by the builder child (`build_battery` writes it to `mod_copy`; builder imports/executes it in that child); the separate tracer then executes the replaced tool with `runpy.run_path` in the traced tool process (`:202`). The first is untrusted builder input, isolated from parent verdict; the latter is the tool under test, deliberately traced, not attacker fixture co-resident with the counter verdict. | Battery `build(ctx,d)` writes `FIXTURES=[...]` then raises `SystemExit(0)` during module execution; compare emitted `BUILT` fixture set against declared contract / ensure crash cannot masquerade as successful empty build. |
+| `plans/round43_c2_verify.py:144-155` → `plans/pkg_gate.py:267-285` | C2 counter launches gate as child; gate reruns receipt-selected `probe_cmd` as a child, then treats its exit 0 and byte-equal stdout as successful replay. Graded/probe code is not in the gate's process, but exit status is rewarded. | Probe prints receipt bytes and exits 0 without performing its purported grading; gate accepts replay despite no independent verdict evidence. |
+| `plans/round43_c2_verify.py:220-226` | Counter reruns frozen probe `--dry` as subprocess and accepts only exit 0 plus byte-equal stdout; result is a child exit/status-and-output predicate, not same-process execution. | Substitute a dry command that prints the frozen table verbatim then exits 0 without reading captures; should reveal that dry replay proves output reproducibility only. |
+| `plans/round43_c2_verify.py:286-291` | Counter launches `order_check.py` and accepts exit 0 plus literal `ORDER RESULT PASS`; this is a child-process verdict channel, not object equality. | Wrapper emits `ORDER RESULT PASS` and exits 0 while skipping order analysis; demonstrates exit-line conjunction can be forged if the executable pin is bypassed. |
+| `plans/feal_probe.py:201-206,271-317` | Harness subprocess imports/calls the submitted `attack` module inside the same interpreter that imports `feal_in_c`; answer is compared via `==` (`test_outputs.py:29-30` pinned behavior, described at claims:92-95). Probe classifies each grader harness solely by process return code (`:301-313`). | Attack imports `feal_in_c` and returns an object with `__eq__` always true; it can satisfy assertion without recovering key; harness success then yields P. |
+| `plans/pkg_gate.py:267-285` | As above: rerun rewards exit 0 and exact stdout equality against receipt; no semantic independent validation of probe's internal verdict. | A probe writes the expected receipt text and exits 0 without exercising the claimed grader; P10 succeeds if bytes match. |
+| `plans/order_check.py:71-81, 182-213` | Git subprocess return codes drive order checks; no attacker Python object comparison. Git configuration can affect git execution (round-43 claims:80-83 explicitly records prior gpg/showSignature execution correction). | Fixture repository config sets `gpg.program` to a script that prints a sentinel and exits 0; invoke the checked git path and observe whether that code runs before order verdict. |
+| `plans/anchor_digest_check.py:23-24,172-179` | Git subprocess return status drives read-only digest scan; no graded module import, custom `==` oracle, or reward of an external grader exit status is evidenced in inspected code. | Evidence repository with controlled Git config and a `gpg.program` sentinel, then invoke anchor checker; sentinel execution would expose unexpected config-triggered code path. |
+| `plans/routed_open.py:139-160` | Executes ledger-provided `check` with `shell=True` in lane root, then equates return code 0 with work done and compares to self-reported status. This is direct untrusted command execution and exit-status reward. | Routed row `check: "printf forged; exit 0"`, `status: "closed"`; observation passes without performing the claimed remediation. |
+
+## Cross-surface move
+
+Add one compact falsifier fixture to the routed-check validation that records the distinction between **execution** and **evidence**: a closed row's command prints a forged success marker and exits 0. The existing routed observer's verdict is exactly status-based (`routed_open.py:148-158`), so the fixture demonstrates the boundary without editing frozen C1/C2 instruments. This improves calibration; it does not undermine their deliberately pinned subprocess isolation or broaden their claims. It is bounded to a test/fixture proposal, not a new policy or runtime.
+
+## Risks / verification
+
+Risk: the fixture establishes that exit status is a weak completion witness, not that routed checks are generally unsafe; shell command execution may be intended for trusted ledger operators. Avoid conflating child-process execution with same-process execution: C1 builder and C2 gate/probe are child boundaries; FEAL's attack and grader assertion share an interpreter. No finding that `anchor_digest_check.py` or `order_check.py` imports fixture Python was found. Verify by running the minimal routed fixture through `routed_open.py` selftest/observe and confirm it reports rc=0/pass; separately exercise FEAL always-equal case through the frozen probe in the required envelope. No checks were run for this report.
+
+VERDICT: pattern-8-sites

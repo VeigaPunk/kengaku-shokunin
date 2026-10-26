@@ -1,0 +1,26 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43PkgEntry/env3 /fast/scratch/hyaku/kengaku-r43/R43PkgEntry/env3 --bind /fast/scratch/hyaku/kengaku-r43/R43PkgEntry/env3/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round43_c2_verify.py --lane /fast/scratch/hyaku/kengaku-r43/R43PkgEntry/lane --work /fast/scratch/hyaku/kengaku-r43/R43PkgEntry/w
+ENVELOPE start 19:14:14 cwd=/home/vgpnk/Projects/shokunin
+V1 ok listed=12 bad=0 extra=0
+    gate: P1 ok pinned=2 mismatched=0
+    gate: P2 ok receipt_sha256=pinned
+    gate: P3 ok rows=18 distinct_quotes=18 distinct_lines=16 out_of_word_range=0
+    gate: P4 ok checked=18 bad=0 first=0
+    gate: P5 ok manifest_entries=12 bad=0 first=0
+    gate: P6 ok rows=6 bad=0 first=0
+    gate: P7 ok source_lines=6 bad=0 first=0
+    gate: P8 ok index_rows=50 knowledge_files=50 bad=0 first=0
+    gate: P9 ok untracked=0 first=0
+    gate: P10 ok probe_rerun=byte-equal bytes=3292
+    gate: defects=0
+V2 ok spec=frozen gate=frozen gate_exit=0
+V3 ok rows=6 bad=0
+V4 ok cases=12 mismatches_named=0/0 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 ok rows=5 tags=5 bad=0
+V8 ok order_exit=0 result=PASS
+V9 ok case_rows=12/12 bad=0
+V10 ok mechanism_rows=12/12 bad=0
+checks=10 defects=0
+PREDICATE C2 pass
+ENVELOPE end 19:15:54 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

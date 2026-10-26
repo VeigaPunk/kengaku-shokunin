@@ -1,0 +1,25 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43R42Defects/env /fast/scratch/hyaku/kengaku-r43/R43R42Defects/env --bind /fast/scratch/hyaku/kengaku-r43/R43R42Defects/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/env HOME=/fast/scratch/hyaku/kengaku-r43/R43R42Defects/home TMPDIR=/fast/scratch/hyaku/kengaku-r43/R43R42Defects bash -c cd /fast/scratch/hyaku/kengaku-r43/R43R42Defects/lane && python3 plans/routed_open.py --lane . --file /fast/scratch/hyaku/kengaku-r43/R43R42Defects/candidate-routed.jsonl --observe
+ENVELOPE start 19:14:05 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+OBSERVE R39-R1 rc=0 observed=pass self=closed
+OBSERVE R39-R2 rc=1 observed=fail self=open
+OBSERVE R39-R3 rc=1 observed=fail self=blocked
+OBSERVE R39-R4 rc=2 observed=fail self=open
+OBSERVE R39-R5 rc=0 observed=pass self=closed
+OBSERVE R40-R1 self=open observed=n/a
+OBSERVE R40-R2 rc=0 observed=pass self=closed
+OBSERVE R40-R3 rc=0 observed=pass self=closed
+OBSERVE R40-R4 rc=0 observed=pass self=closed
+OBSERVE R40-R5 self=open observed=n/a
+OBSERVE R42-R1 rc=1 observed=fail self=open
+OBSERVE R42-R2 self=open observed=n/a
+OBSERVE R42-R3 rc=1 observed=fail self=open
+OBSERVE R42-R4 rc=0 observed=pass self=closed
+OBSERVE R42-R5 rc=2 observed=fail self=open
+OBSERVE R40-R1.1 rc=0 observed=pass self=closed
+OBSERVE R42-R2.1 rc=0 observed=pass self=closed
+OBSERVE R42-R2.2 rc=1 observed=fail self=open
+OBSERVE R42-R6 rc=1 observed=fail self=open
+OBSERVE rows=19 mismatched=0
+ROWS total=19 open=10 blocked=1 closed=8 refused=0
+routed_open=11 oldest_round=39
+ENVELOPE end 19:14:07 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

@@ -1,0 +1,751 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43PytestParity/env /fast/scratch/hyaku/kengaku-r43/R43PytestParity/env --bind /fast/scratch/hyaku/kengaku-r43/R43PytestParity/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r43/R43PytestParity/driver.py
+ENVELOPE start 19:09:31 cwd=/fast/scratch/hyaku/kengaku-r43/R43PytestParity
+CASE nop predicted=fail observed=fail tests=FF regrade=same wall=0.75s
+CASE oracle-solve-sh predicted=pass observed=pass tests=PP regrade=same wall=1.15s
+CASE wrong-key predicted=fail observed=fail tests=FF regrade=same wall=0.78s
+CASE oracle-off-by-one predicted=fail observed=fail tests=FF regrade=same wall=1.17s
+CASE return-str predicted=fail observed=fail tests=FF regrade=same wall=1.17s
+CASE cheat-import-get_keys predicted=pass observed=pass tests=PP regrade=same wall=0.76s
+CASE cheat-always-equal predicted=pass observed=pass tests=PP regrade=same wall=0.88s
+CASE cheat-sysmodules-shadow predicted=pass observed=pass tests=PP regrade=same wall=0.79s
+CASE cheat-patch-get_keys predicted=pass observed=pass tests=PP regrade=same wall=0.67s
+CASE cheat-exit-zero predicted=pass observed=pass tests=PP regrade=same wall=0.6s
+CASE cheat-clock-seed predicted=pass observed=pass tests=PP regrade=same wall=0.76s
+CASE slow-oracle-45s predicted=pass observed=pass tests=PP regrade=same wall=91.05s
+{
+ "rows": [
+  {
+   "cid": "nop",
+   "predicted": "F",
+   "letters": [
+    "F",
+    "F"
+   ],
+   "observed": "fail",
+   "regrade_same": true,
+   "wall": 0.75
+  },
+  {
+   "cid": "oracle-solve-sh",
+   "predicted": "P",
+   "letters": [
+    "P",
+    "P"
+   ],
+   "observed": "pass",
+   "regrade_same": true,
+   "wall": 1.15
+  },
+  {
+   "cid": "wrong-key",
+   "predicted": "F",
+   "letters": [
+    "F",
+    "F"
+   ],
+   "observed": "fail",
+   "regrade_same": true,
+   "wall": 0.78
+  },
+  {
+   "cid": "oracle-off-by-one",
+   "predicted": "F",
+   "letters": [
+    "F",
+    "F"
+   ],
+   "observed": "fail",
+   "regrade_same": true,
+   "wall": 1.17
+  },
+  {
+   "cid": "return-str",
+   "predicted": "F",
+   "letters": [
+    "F",
+    "F"
+   ],
+   "observed": "fail",
+   "regrade_same": true,
+   "wall": 1.17
+  },
+  {
+   "cid": "cheat-import-get_keys",
+   "predicted": "P",
+   "letters": [
+    "P",
+    "P"
+   ],
+   "observed": "pass",
+   "regrade_same": true,
+   "wall": 0.76
+  },
+  {
+   "cid": "cheat-always-equal",
+   "predicted": "P",
+   "letters": [
+    "P",
+    "P"
+   ],
+   "observed": "pass",
+   "regrade_same": true,
+   "wall": 0.88
+  },
+  {
+   "cid": "cheat-sysmodules-shadow",
+   "predicted": "P",
+   "letters": [
+    "P",
+    "P"
+   ],
+   "observed": "pass",
+   "regrade_same": true,
+   "wall": 0.79
+  },
+  {
+   "cid": "cheat-patch-get_keys",
+   "predicted": "P",
+   "letters": [
+    "P",
+    "P"
+   ],
+   "observed": "pass",
+   "regrade_same": true,
+   "wall": 0.67
+  },
+  {
+   "cid": "cheat-exit-zero",
+   "predicted": "P",
+   "letters": [
+    "P",
+    "P"
+   ],
+   "observed": "pass",
+   "regrade_same": true,
+   "wall": 0.6
+  },
+  {
+   "cid": "cheat-clock-seed",
+   "predicted": "P",
+   "letters": [
+    "P",
+    "P"
+   ],
+   "observed": "pass",
+   "regrade_same": true,
+   "wall": 0.76
+  },
+  {
+   "cid": "slow-oracle-45s",
+   "predicted": "P",
+   "letters": [
+    "P",
+    "P"
+   ],
+   "observed": "pass",
+   "regrade_same": true,
+   "wall": 91.05
+  }
+ ],
+ "runs": [
+  {
+   "cid": "nop",
+   "i": 0,
+   "rc": 1,
+   "elapsed": 0.43,
+   "marker": "============================== 1 failed in 0.28s ===============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "cc -pthread -fno-strict-overflow -Wsign-compare -Wunreachable-code -DNDEBUG -g -O3 -Wall -O3 -fstack-protector -fstack-clash-protection -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -fPIC -fPIC -I. -I/fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/include -I/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/include/python3.13 -c feal_module.c -o build/temp.linux-x86_64-cpython-313/feal_module.o",
+    "creating build/lib.linux-x86_64-cpython-313",
+    "cc -pthread -shared -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--build-id=sha1 -Wl,--exclude-libs,ALL build/temp.linux-x86_64-cpython-313/feal.o build/temp.linux-x86_64-cpython-313/feal_module.o -L/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib -o build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "=========================== short test summary info ============================",
+    "FAILED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 failed in 0.28s ==============================="
+   ]
+  },
+  {
+   "cid": "nop",
+   "i": 1,
+   "rc": 1,
+   "elapsed": 0.29,
+   "marker": "============================== 1 failed in 0.14s ===============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "/tests/test_outputs.py:24: ModuleNotFoundError",
+    "----------------------------- Captured stdout call -----------------------------",
+    "running build_ext",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "=========================== short test summary info ============================",
+    "FAILED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 failed in 0.14s ==============================="
+   ]
+  },
+  {
+   "cid": "oracle-solve-sh",
+   "i": 0,
+   "rc": 0,
+   "elapsed": 0.64,
+   "marker": "============================== 1 passed in 0.48s ===============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "creating build/lib.linux-x86_64-cpython-313",
+    "cc -pthread -shared -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--build-id=sha1 -Wl,--exclude-libs,ALL build/temp.linux-x86_64-cpython-313/feal.o build/temp.linux-x86_64-cpython-313/feal_module.o -L/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib -o build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "The key is 0a3bdfee",
+    "=========================== short test summary info ============================",
+    "PASSED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 passed in 0.48s ==============================="
+   ]
+  },
+  {
+   "cid": "oracle-solve-sh",
+   "i": 1,
+   "rc": 0,
+   "elapsed": 0.48,
+   "marker": "============================== 1 passed in 0.33s ===============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "----------------------------- Captured stdout call -----------------------------",
+    "running build_ext",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "The key is 4fae0981",
+    "=========================== short test summary info ============================",
+    "PASSED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 passed in 0.33s ==============================="
+   ]
+  },
+  {
+   "cid": "wrong-key",
+   "i": 0,
+   "rc": 1,
+   "elapsed": 0.43,
+   "marker": "============================== 1 failed in 0.28s ===============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "cc -pthread -fno-strict-overflow -Wsign-compare -Wunreachable-code -DNDEBUG -g -O3 -Wall -O3 -fstack-protector -fstack-clash-protection -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -fPIC -fPIC -I. -I/fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/include -I/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/include/python3.13 -c feal_module.c -o build/temp.linux-x86_64-cpython-313/feal_module.o",
+    "creating build/lib.linux-x86_64-cpython-313",
+    "cc -pthread -shared -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--build-id=sha1 -Wl,--exclude-libs,ALL build/temp.linux-x86_64-cpython-313/feal.o build/temp.linux-x86_64-cpython-313/feal_module.o -L/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib -o build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "=========================== short test summary info ============================",
+    "FAILED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 failed in 0.28s ==============================="
+   ]
+  },
+  {
+   "cid": "wrong-key",
+   "i": 1,
+   "rc": 1,
+   "elapsed": 0.32,
+   "marker": "============================== 1 failed in 0.15s ===============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "/tests/test_outputs.py:30: AssertionError",
+    "----------------------------- Captured stdout call -----------------------------",
+    "running build_ext",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "=========================== short test summary info ============================",
+    "FAILED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 failed in 0.15s ==============================="
+   ]
+  },
+  {
+   "cid": "oracle-off-by-one",
+   "i": 0,
+   "rc": 1,
+   "elapsed": 0.65,
+   "marker": "============================== 1 failed in 0.49s ===============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "creating build/lib.linux-x86_64-cpython-313",
+    "cc -pthread -shared -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--build-id=sha1 -Wl,--exclude-libs,ALL build/temp.linux-x86_64-cpython-313/feal.o build/temp.linux-x86_64-cpython-313/feal_module.o -L/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib -o build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "The key is 8fefc9c3",
+    "=========================== short test summary info ============================",
+    "FAILED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 failed in 0.49s ==============================="
+   ]
+  },
+  {
+   "cid": "oracle-off-by-one",
+   "i": 1,
+   "rc": 1,
+   "elapsed": 0.49,
+   "marker": "============================== 1 failed in 0.34s ===============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "----------------------------- Captured stdout call -----------------------------",
+    "running build_ext",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "The key is 3e6d9655",
+    "=========================== short test summary info ============================",
+    "FAILED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 failed in 0.34s ==============================="
+   ]
+  },
+  {
+   "cid": "return-str",
+   "i": 0,
+   "rc": 1,
+   "elapsed": 0.63,
+   "marker": "============================== 1 failed in 0.48s ===============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "creating build/lib.linux-x86_64-cpython-313",
+    "cc -pthread -shared -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--build-id=sha1 -Wl,--exclude-libs,ALL build/temp.linux-x86_64-cpython-313/feal.o build/temp.linux-x86_64-cpython-313/feal_module.o -L/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib -o build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "The key is 3e6d9655",
+    "=========================== short test summary info ============================",
+    "FAILED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 failed in 0.48s ==============================="
+   ]
+  },
+  {
+   "cid": "return-str",
+   "i": 1,
+   "rc": 1,
+   "elapsed": 0.51,
+   "marker": "============================== 1 failed in 0.36s ===============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "----------------------------- Captured stdout call -----------------------------",
+    "running build_ext",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "The key is 32bd21be",
+    "=========================== short test summary info ============================",
+    "FAILED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 failed in 0.36s ==============================="
+   ]
+  },
+  {
+   "cid": "cheat-import-get_keys",
+   "i": 0,
+   "rc": 0,
+   "elapsed": 0.43,
+   "marker": "============================== 1 passed in 0.26s ===============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "cc -pthread -fno-strict-overflow -Wsign-compare -Wunreachable-code -DNDEBUG -g -O3 -Wall -O3 -fstack-protector -fstack-clash-protection -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -fPIC -fPIC -I. -I/fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/include -I/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/include/python3.13 -c feal_module.c -o build/temp.linux-x86_64-cpython-313/feal_module.o",
+    "creating build/lib.linux-x86_64-cpython-313",
+    "cc -pthread -shared -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--build-id=sha1 -Wl,--exclude-libs,ALL build/temp.linux-x86_64-cpython-313/feal.o build/temp.linux-x86_64-cpython-313/feal_module.o -L/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib -o build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "=========================== short test summary info ============================",
+    "PASSED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 passed in 0.26s ==============================="
+   ]
+  },
+  {
+   "cid": "cheat-import-get_keys",
+   "i": 1,
+   "rc": 0,
+   "elapsed": 0.3,
+   "marker": "============================== 1 passed in 0.13s ===============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "_________________ test_feal_differential_cryptanalysis_attack __________________",
+    "----------------------------- Captured stdout call -----------------------------",
+    "running build_ext",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "=========================== short test summary info ============================",
+    "PASSED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 passed in 0.13s ==============================="
+   ]
+  },
+  {
+   "cid": "cheat-always-equal",
+   "i": 0,
+   "rc": 0,
+   "elapsed": 0.51,
+   "marker": "============================== 1 passed in 0.29s ===============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "cc -pthread -fno-strict-overflow -Wsign-compare -Wunreachable-code -DNDEBUG -g -O3 -Wall -O3 -fstack-protector -fstack-clash-protection -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -fPIC -fPIC -I. -I/fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/include -I/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/include/python3.13 -c feal_module.c -o build/temp.linux-x86_64-cpython-313/feal_module.o",
+    "creating build/lib.linux-x86_64-cpython-313",
+    "cc -pthread -shared -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--build-id=sha1 -Wl,--exclude-libs,ALL build/temp.linux-x86_64-cpython-313/feal.o build/temp.linux-x86_64-cpython-313/feal_module.o -L/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib -o build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "=========================== short test summary info ============================",
+    "PASSED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 passed in 0.29s ==============================="
+   ]
+  },
+  {
+   "cid": "cheat-always-equal",
+   "i": 1,
+   "rc": 0,
+   "elapsed": 0.34,
+   "marker": "============================== 1 passed in 0.14s ===============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "_________________ test_feal_differential_cryptanalysis_attack __________________",
+    "----------------------------- Captured stdout call -----------------------------",
+    "running build_ext",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "=========================== short test summary info ============================",
+    "PASSED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 passed in 0.14s ==============================="
+   ]
+  },
+  {
+   "cid": "cheat-sysmodules-shadow",
+   "i": 0,
+   "rc": 0,
+   "elapsed": 0.47,
+   "marker": "============================== 1 passed in 0.29s ===============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "cc -pthread -fno-strict-overflow -Wsign-compare -Wunreachable-code -DNDEBUG -g -O3 -Wall -O3 -fstack-protector -fstack-clash-protection -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -fPIC -fPIC -I. -I/fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/include -I/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/include/python3.13 -c feal_module.c -o build/temp.linux-x86_64-cpython-313/feal_module.o",
+    "creating build/lib.linux-x86_64-cpython-313",
+    "cc -pthread -shared -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--build-id=sha1 -Wl,--exclude-libs,ALL build/temp.linux-x86_64-cpython-313/feal.o build/temp.linux-x86_64-cpython-313/feal_module.o -L/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib -o build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "=========================== short test summary info ============================",
+    "PASSED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 passed in 0.29s ==============================="
+   ]
+  },
+  {
+   "cid": "cheat-sysmodules-shadow",
+   "i": 1,
+   "rc": 0,
+   "elapsed": 0.29,
+   "marker": "============================== 1 passed in 0.13s ===============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "_________________ test_feal_differential_cryptanalysis_attack __________________",
+    "----------------------------- Captured stdout call -----------------------------",
+    "running build_ext",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "=========================== short test summary info ============================",
+    "PASSED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 passed in 0.13s ==============================="
+   ]
+  },
+  {
+   "cid": "cheat-patch-get_keys",
+   "i": 0,
+   "rc": 0,
+   "elapsed": 0.4,
+   "marker": "============================== 1 passed in 0.26s ===============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "cc -pthread -fno-strict-overflow -Wsign-compare -Wunreachable-code -DNDEBUG -g -O3 -Wall -O3 -fstack-protector -fstack-clash-protection -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -fPIC -fPIC -I. -I/fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/include -I/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/include/python3.13 -c feal_module.c -o build/temp.linux-x86_64-cpython-313/feal_module.o",
+    "creating build/lib.linux-x86_64-cpython-313",
+    "cc -pthread -shared -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--build-id=sha1 -Wl,--exclude-libs,ALL build/temp.linux-x86_64-cpython-313/feal.o build/temp.linux-x86_64-cpython-313/feal_module.o -L/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib -o build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "=========================== short test summary info ============================",
+    "PASSED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 passed in 0.26s ==============================="
+   ]
+  },
+  {
+   "cid": "cheat-patch-get_keys",
+   "i": 1,
+   "rc": 0,
+   "elapsed": 0.25,
+   "marker": "============================== 1 passed in 0.12s ===============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "_________________ test_feal_differential_cryptanalysis_attack __________________",
+    "----------------------------- Captured stdout call -----------------------------",
+    "running build_ext",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "=========================== short test summary info ============================",
+    "PASSED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 passed in 0.12s ==============================="
+   ]
+  },
+  {
+   "cid": "cheat-exit-zero",
+   "i": 0,
+   "rc": 0,
+   "elapsed": 0.36,
+   "marker": "",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    "",
+    "../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack"
+   ]
+  },
+  {
+   "cid": "cheat-exit-zero",
+   "i": 1,
+   "rc": 0,
+   "elapsed": 0.22,
+   "marker": "",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    "",
+    "../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack"
+   ]
+  },
+  {
+   "cid": "cheat-clock-seed",
+   "i": 0,
+   "rc": 0,
+   "elapsed": 0.46,
+   "marker": "============================== 1 passed in 0.29s ===============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "cc -pthread -fno-strict-overflow -Wsign-compare -Wunreachable-code -DNDEBUG -g -O3 -Wall -O3 -fstack-protector -fstack-clash-protection -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -fPIC -fPIC -I. -I/fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/include -I/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/include/python3.13 -c feal_module.c -o build/temp.linux-x86_64-cpython-313/feal_module.o",
+    "creating build/lib.linux-x86_64-cpython-313",
+    "cc -pthread -shared -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--build-id=sha1 -Wl,--exclude-libs,ALL build/temp.linux-x86_64-cpython-313/feal.o build/temp.linux-x86_64-cpython-313/feal_module.o -L/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib -o build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "=========================== short test summary info ============================",
+    "PASSED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 passed in 0.29s ==============================="
+   ]
+  },
+  {
+   "cid": "cheat-clock-seed",
+   "i": 1,
+   "rc": 0,
+   "elapsed": 0.27,
+   "marker": "============================== 1 passed in 0.12s ===============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "_________________ test_feal_differential_cryptanalysis_attack __________________",
+    "----------------------------- Captured stdout call -----------------------------",
+    "running build_ext",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "=========================== short test summary info ============================",
+    "PASSED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 passed in 0.12s ==============================="
+   ]
+  },
+  {
+   "cid": "slow-oracle-45s",
+   "i": 0,
+   "rc": 0,
+   "elapsed": 45.62,
+   "marker": "============================== 1 passed in 45.48s ==============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "creating build/lib.linux-x86_64-cpython-313",
+    "cc -pthread -shared -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--build-id=sha1 -Wl,--exclude-libs,ALL build/temp.linux-x86_64-cpython-313/feal.o build/temp.linux-x86_64-cpython-313/feal_module.o -L/home/vgpnk/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib -o build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "The key is ed0ac317",
+    "=========================== short test summary info ============================",
+    "PASSED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 passed in 45.48s =============================="
+   ]
+  },
+  {
+   "cid": "slow-oracle-45s",
+   "i": 1,
+   "rc": 0,
+   "elapsed": 45.41,
+   "marker": "============================== 1 passed in 45.29s ==============================",
+   "head": [
+    "============================= test session starts ==============================",
+    "platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r43/R43PytestParity/tools/venv/bin/python",
+    "cachedir: .pytest_cache",
+    "rootdir: /tests",
+    "collecting ... collected 1 item",
+    ""
+   ],
+   "tail": [
+    "----------------------------- Captured stdout call -----------------------------",
+    "running build_ext",
+    "copying build/lib.linux-x86_64-cpython-313/feal_in_c.cpython-313-x86_64-linux-gnu.so -> ",
+    "",
+    "The key is 80a66450",
+    "=========================== short test summary info ============================",
+    "PASSED ../tests/test_outputs.py::test_feal_differential_cryptanalysis_attack",
+    "============================== 1 passed in 45.29s =============================="
+   ]
+  }
+ ]
+}
+ENVELOPE end 19:11:13 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

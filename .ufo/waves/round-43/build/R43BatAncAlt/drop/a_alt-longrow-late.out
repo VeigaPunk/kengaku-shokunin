@@ -1,0 +1,29 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43BatAncAlt/env-a_alt-longrow-late /fast/scratch/hyaku/kengaku-r43/R43BatAncAlt/env-a_alt-longrow-late --bind /fast/scratch/hyaku/kengaku-r43/R43BatAncAlt/env-a_alt-longrow-late/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round43_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r43/R43BatAncAlt/lane --battery-dir /fast/scratch/hyaku/kengaku-r43/R43BatAncAlt/drop/a_alt-longrow-late --only NA1,NA5,NA7,NA18,NA20,NA21 --work /fast/scratch/hyaku/kengaku-r43/R43BatAncAlt/w-a_alt-longrow-late
+ENVELOPE start 19:11:21 cwd=/fast/scratch/hyaku/kengaku-r43/R43BatAncAlt
+PINS total=2 mismatched=0
+FIXTURE a_alt-longrow-copied tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_alt-longrow-multicap tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_alt-slug-deepest tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-slug-blob tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-erratum-manifest tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-erratum-sibling tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-erratum-short tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-erratum-upper tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-erratum-two tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-erratum-lessons tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-slug-manifest tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-shorturl-sibling tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-shorturl-samedir tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT NA1 anchor silence killed by=a_alt-longrow-copied attributed=L477 value=differs hits=2 -- plans/anchor_digest_check.py:34-35 'A row that matches the census regex but does not have 
+MUTANT NA5 anchor rc-mirror killed by=a_alt-slug-deepest attributed=L258 value=differs hits=3 -- plans/anchor_digest_check.py:54-56 'The task component of `<subpath>` is matched **exactly
+MUTANT NA7 anchor rc-mirror killed by=a_alt-erratum-manifest attributed=L458 value=differs hits=6 -- plans/anchor_digest_check.py:112-113 'no 64-hex token on it may be outside A unless it is 
+MUTANT NA18 anchor rc-mirror killed by=a_alt-shorturl-sibling attributed=L154 value=differs hits=2 -- plans/anchor_digest_check.py:53-54 'a `raw.githubusercontent.com/<owner>/<repo>/<commit>/<
+MUTANT NA20 anchor rc-mirror killed by=a_alt-erratum-manifest attributed=L468 value=differs hits=6 -- plans/anchor_digest_check.py:108-110 'An erratum for S<id> exempts that row's anchor token
+MUTANT NA21 anchor rc-mirror killed by=a_alt-erratum-manifest attributed=L456 value=differs hits=6 -- plans/anchor_digest_check.py:108-109 'An erratum for S<id> exempts that row's anchor token
+BATTERY fixtures=13 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=6 killed=6 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=6/6 order=0/0
+ADVERTISED direct=5 indirect=1 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 19:11:27 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

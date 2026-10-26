@@ -1,0 +1,12 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/R43MutC2Counter/env /fast/scratch/hyaku/kengaku-r43/R43MutC2Counter/env --bind /fast/scratch/hyaku/kengaku-r43/R43MutC2Counter/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r43/R43MutC2Counter/draft_controls.py
+ENVELOPE start 19:26:19 cwd=/fast/scratch/hyaku/kengaku-r43/R43MutC2Counter
+DRAFT D00-sanity kills M01: pristine V9=ok V10=ok | mutant V9=ok V10=ok | required pristine=(True, True) mutant=(True, True) -> PASS
+DRAFT D01-offmap-line kills M01: pristine V9=ok V10=DEF | mutant V9=ok V10=ok | required pristine=(True, False) mutant=(True, True) -> PASS
+DRAFT D03-tampered-capture kills M03: pristine V9=ok V10=DEF | mutant V9=ok V10=ok | required pristine=(True, False) mutant=(True, True) -> PASS
+DRAFT D05-spacing-quote kills M05: pristine V9=ok V10=ok | mutant V9=ok V10=DEF | required pristine=(True, True) mutant=(True, False) -> PASS
+DRAFT D06-one-word-quote kills M06: pristine V9=ok V10=DEF | mutant V9=ok V10=ok | required pristine=(True, False) mutant=(True, True) -> PASS
+DRAFT D07-empty-receipt kills M07: pristine V9=DEF V10=DEF | mutant V9=DEF V10=ok | required pristine=(False, False) mutant=(False, True) -> PASS
+DRAFT D08-mech-row-no-pipe kills M08: pristine V9=ok V10=DEF | mutant V9=ok V10=ok | required pristine=(True, False) mutant=(True, True) -> PASS
+DRAFT D13-case-row-no-pipe kills M13: pristine V9=DEF V10=ok | mutant V9=ok V10=ok | required pristine=(False, True) mutant=(True, True) -> PASS
+DRAFT-CONTROLS total=8 pass=8 fail=0
+ENVELOPE end 19:26:21 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
