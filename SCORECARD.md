@@ -561,6 +561,8 @@ documents why stream:false was chosen and what stream:true changes).
 | offline-catalog-receipt-verification | Re-derive saved catalog-response metrics offline and compare each present SHA256SUMS entry; HF count is returned-page length and both schema deltas inspect the first record, while OpenRouter `or_models` reads the response's `total_count`. Not endpoint authentication or a full-catalog enumeration. | `python3 plans/catalog_probe.py --verify --lane .` → `raw=ok hf_models=50 or_models=467 hf_schema_delta=4 or_schema_delta=0 verify=ok`; raw responses + SHA256 in `corpus/evidence/round33/catalogs/` | 33 |
 | pinned-grader-probe | Execute a benchmark task's own pinned grader offline (digest-checked capture, pinned dependency) on a frozen table of synthetic outputs, each mapped to one instruction requirement with a prediction written before the first run, and print predicted vs observed with the first failing assertion. Not task certification, not runtime inside the task image. | `uv run --no-project --with biopython==1.85 python3 plans/tb2_grader_probe.py --lane .` → `cases=18 observed_pass=5 observed_fail=13 mismatches=0`; receipt `corpus/evidence/round35/tb2-grader-probe.txt`, re-run byte-equal by `plans/round35_c1_verify.py` V5 | 35 |
 | routed-defect-ledger | Re-run every routed defect's check at the current tip from one ledger and count calibration mismatches (a `closed` row whose check fails, an `open` row whose check passes). Checks are per-defect functions; recurrence is recorded, not enforced. | `python3 plans/defect_ledger.py --lane .` over `corpus/defects.jsonl`; freeze receipt `rows=5 closed=0 observed_pass=0 mismatches=0` (`.ufo/waves/round-35/claims/control-c2-nothing.txt`) | 35 |
+| package-gate | Accept or reject an admitted-entry package (entry, capture manifest, SOURCES rows, receipt, frozen instruments, clean tree) and the labelled D4/D5 correction lines against a spec of pinned digests: every quote row must parse and be distinct and verbatim on its cited capture line, teaches cells carry >=8 distinct words, a stub probe dies on its digest pin, `--rerun` byte-compares the receipt, `--require-clean-tree` refuses any untracked file. Exit 0 accept / 1 reject / 2 setup. Not a truth check on prose that parses. | `python3 plans/round36_c1_verify.py --lane .` on a clean clone → `FIXTURES total=14 false_green=0 false_red=0 unevaluated=0` (freeze controls: absent gate `unevaluated=14`; round-35 counter `LEGACY accepted=7/7`) | 36 |
+| pattern-valued-grader-probe | The pinned-grader-probe instrument on a grader whose graded artefact is an agent-authored regex file executed inside the grader against a fixed in-test log: 24 frozen candidate patterns, each mapped to one instruction requirement with a prediction written before the first run. Not task validity, not a regex-quality judgement. | `python3 plans/regex_log_probe.py --lane .` → `cases=24 observed_pass=8 observed_fail=16 mismatches=0`; receipt `corpus/evidence/round36/regex-log-probe.txt`, re-run byte-equal by `plans/round36_c2_verify.py` W5 | 36 |
 
 Rows enter this table only through a round that demonstrates the capability running (`AXES.md` §Capabilities). The catalog receipt verifier entered in round 33 by passing its offline counter.
 The original round-24 capabilities — offline-replay-gate, frozen-table-pin-check, and sources-registry — entered through demonstration that round (commands re-run; output in `corpus/evidence/round24-census/after.txt`). The placeholder row was the scaffold, not a claim.
@@ -1204,3 +1206,35 @@ landed lane and fails on each of five seat counterexamples
   against the wave-1 scout reports; keep the frozen predicate and control the same sentence.
 
 - **Round-35 erratum (falsify wave, `F35LogDraft` E1):** the C2 row's "exit 0 at `dfcd294c`" is wrong — at `dfcd294c` R34-D5 is `observed=fail` because `corpus/lessons/round-35.md` was not yet committed; the frozen C2 predicate first holds on committed bytes at `4fe72a9a` and holds at the final tip.
+
+## Round 36 (hyaku run 7, 2026-10-25): hardened package gate, one more TB2 grader executed
+
+Baseline `b662a5d6dd370491049e4206818373c61be44816`; frozen prereg `plans/round-36-claims.md` (freeze
+`3241b86c`; Amendment 1 `acbda2f3`, a pre-scoring one-line probe repair, disclosed in the prereg). Lowest
+non-retired axis: coverage 7, tied with novelty 7; coverage chosen by the frozen tie-break (a pinned local
+source and a runnable instrument; novelty has no opened source and the round-35 scout priced the probe
+pattern as established). Coverage stays capped by the open L0 question (`.ufo/l0-questions.md`, `kengaku |
+round-33`). No stagnation waiver.
+
+| claim | axis | observed before → after, counting command | score / verdict |
+|---|---|---|---|
+| C1 hardened package gate `plans/pkg_gate.py`; round-35 routed defects R35-D1..D4 closed | **calibration** | `python3 plans/round36_c1_verify.py --lane .` on a clean clone: before `FIXTURES total=14 … unevaluated=14`, `rows=4 closed=0 observed_pass=0` exit 1 (`.ufo/waves/round-36/claims/control-c1-nothing.txt`); the round-35 counter accepts all seven junk packages (`control-c1-legacy.txt`, `LEGACY accepted=7/7`) → after `FIXTURES total=14 false_green=0 false_red=0 unevaluated=0`, `rows=4 closed=4 observed_pass=4 mismatches=0`, `PREDICATE C1 pass`, exit 0 (receipt `.ufo/waves/round-36/integrate/measure-final.txt`) | **8 → 8 held**; frozen predicate met; the battery is gameable (`R36CritBattery`: a gate keyed on fixture names/markers scores the same clean line, 8 cues) and leaves eight advertised clauses without a fixture (`R36RevClaims` FG1), so the gate is attacked by clause in wave 2 and the limits are reported |
+| C2 pinned TB2 `regex-log` grader admitted with an executed 24-case probe (S108-S110) | **coverage** (lowest, tied) | `python3 plans/round36_c2_verify.py --lane .`: before `checks=6 defects=4` exit 1 (`control-c2-nothing.txt`) → after `checks=6 defects=0`, `PREDICATE C2 pass`, exit 0; probe `cases=24 observed_pass=8 observed_fail=16 mismatches=0` | **7 → 7 held** (L0 cap); frozen predicate met; the counter admits a junk package (`R36CritC2Counter`: `checks=6 defects=0`), so the landing rests on the wave-2 non-author re-reads of the entry, not on the counter |
+
+Other axes held: novelty 7, depth 9, operability 8, freshness 8, adjacency 8. Capabilities entered
+(table above, first-working round 36): `package-gate`, `pattern-valued-grader-probe`. Registry 100 → 103
+rows (tier A +3); knowledge files / index rows 42/42 → 43/43; census exit 0 before and after (15 W04).
+Assimilation: `considerthese/2026-10-25.md` proposal 2(c) — begun (`pkg_gate.py --rerun` re-runs one
+receipt), proposals 1 and 3 untouched; `merge/kengaku/` re-screened: `grader-predicate-input-types.md`
+held (admit-candidate for a later claim), `grader-fixture-probe-stage3.md` refused.
+
+### Planned (round 37)
+
+- Calibration: attack the gate itself — one byte-level mutant per defect class run against
+  `plans/pkg_gate.py` inside the frozen battery's fixture root, null mutant included; survivors are gate
+  limits. Promote the `r35_d1..r35_d4` checks into one persistent ledger checker so they re-run at every
+  tip (the debt `R36ConsiderMine` F1 names for proposal 2(a)).
+- Coverage/novelty (tied 7): a third TB2 grader of a different class (a service/state grader), or the
+  prior-art-gated requirement-class census across the two admitted graders; keep the frozen predicate and
+  control the same sentence. Candidates and sizes: `.ufo/waves/round-36/build/R36ScoutNextTasks.md`,
+  `R36PlanNext.md`.

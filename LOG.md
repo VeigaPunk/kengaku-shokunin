@@ -1031,3 +1031,40 @@ counters, probe case table with predictions, ledger rows open, four red controls
 - S105/S107 anchor word counts corrected in place in rows added this round: S105 "(9 words)" →
   "(11 words)", S107 "(16 words)" → "(15 words)" (`F35ReopenS106S107`); quotes, locations and
   digests unchanged.
+
+## Round 36 — 2026-10-25 (hyaku run 7)
+
+Declared C1 calibration (8): promote the round-35 hardening clauses into one gate (`plans/pkg_gate.py`)
+proven against a frozen 14-fixture junk battery and close the four round-35 routed defects R35-D1..D4
+(`corpus/defects-round35.jsonl`). Declared C2 coverage (lowest, tied 7): admit the pinned Terminal-Bench
+2.0 `regex-log` grader (S108 `tests/test_outputs.py`, S109 `tests/test.sh`, S110 `instruction.md` @
+`2fd12b88`) as `corpus/knowledge/tb2-regex-log-grader.md` with an executed 24-case offline probe. Freeze
+`3241b86c` (claims, both counters, battery, probe case table with predictions, ledger rows open, six red
+controls); Amendment 1 `acbda2f3`.
+
+- First real probe run after the freeze showed the frozen probe was not byte-deterministic (two
+  assertion texts carried a `mkdtemp` path; `corpus/evidence/round36/regex-log-probe-first-run.txt:21-22`).
+  One-line repair before any seat scored, `--dry` table byte-identical, all 24 predictions already matched;
+  disclosed as Amendment 1 in the prereg.
+- Probe: `python3 plans/regex_log_probe.py --lane .` → `cases=24 observed_pass=8 observed_fail=16
+  mismatches=0`; deterministic across Python 3.11/3.12/3.13 (`R36ProbeRerun.md`); an independent
+  re-implementation agrees 24/24 (`R36IndepRegexGrader.md`); five harness mutants detected
+  (`R36ProbeHarnessMut.md`). Findings: a literal alternation of the nine expected dates passes; leading-zero
+  octets, digit-adjacent dates, year width, month-length validity and the permitting side of Feb 29 are
+  unobserved. Post-hoc, outside the frozen table: the task's own oracle admits `00`-`09` octets and is not
+  line-scoped (`R36OracleRun.md`); four more requirement faces are free (`R36CritUnenforced.md`).
+- Gate: four candidates from independent executor seats each scored `false_green=0 false_red=0
+  unevaluated=0`; `R36GateB` was installed as `plans/pkg_gate.py`. Wave-1 attackers: an overfit gate keyed on
+  fixture names/markers also scores the clean line (`R36CritBattery`, 8 cues); the battery leaves eight
+  advertised clauses without a fixture (`R36RevClaims` FG1); a junk package passes the C2 counter
+  (`R36CritC2Counter`). Frozen predicates and batteries are not edited; the limits are reported.
+- R35-D3: the 21 committed nested round-34 attack-mirror paths removed from the tip (history keeps them; sha256
+  manifest `.ufo/waves/round-36/integrate/nested-paths-removed.sha256`); 912 round-28 nested paths are cited
+  by round-28 evidence and were not touched. Wave-1 scratch mirrors of `corpus/` (~22 MB) were removed
+  uncommitted (`.ufo/waves/round-36/integrate/scratch-removed.txt`).
+- R35-D4: erratum line in `corpus/lessons/round-36.md` `## Gate` — S130's package states denominator 38 but its rows
+  recount to 13 + 23 + 1 = 37.
+- Assimilation: mined `considerthese/2026-10-25.md` proposal 2(c) (tip-receipt validator): `pkg_gate.py --rerun`
+  covers one receipt of 156; clause (b) is still unbuilt. `merge/kengaku/` re-screened by `R36ScoutMergePkg`.
+- Tool use: biopython 1.85 via `uv run --with` (ephemeral uv cache; channel uv/PyPI; reason: the round-35
+  grader's pinned dependency, used by `pkg_gate.py --rerun`). No other installs.
