@@ -1915,3 +1915,13 @@ seat; the round-44 data-walk seat `R43PlanNext` is wave-1 data (`.ufo/waves/roun
 - **Routed (`corpus/routed-findings.jsonl`, `routed_open=39 oldest_round=39`):** envelope v2 (mode bits, unreadable
   entries — `R43ReviewEnvelope`); `R43MutC2Counter` 7 surviving V9/V10 guards; README lessons index parity (33 rows for 60
   lesson files) and round-41/42 evidence sections.
+
+### Round-43 close (appended)
+
+- Wave 2 was **not dispatched**: the 33-seat falsify spec is committed and validated (`falsify-dispatch.json`), but the
+  run budget ended first. Round total **38 seats** (one v1 wave), below the run-9 floor of 64 — a conformance defect,
+  recorded in `corpus/lessons/round-43.md` §Mistakes added by the L1 at close. The admission evidence for C1 battery
+  honesty is therefore wave-1 only (`R43CritC1Counter`, `R43CritEquiv`, `R43RevMutRows`, the L1's difflib/fence-shape
+  screen); the non-author closure decides.
+- Final-tip re-measure: `.ufo/waves/round-43/integrate/measure-tip.txt`. Entry/PROVINCE errata appended after landing
+  (E1–E2, "ninth pass"); C2 legs V4/V7/V9/V10 unchanged by them.

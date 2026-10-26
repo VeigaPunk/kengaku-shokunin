@@ -95,3 +95,10 @@ exit 0, `kengaku ok`, 15 `W04` (`.ufo/waves/round-43/claims/census-before.txt`);
 - C2: `R43PytestParity` real pytest 8.4.1 under `uvx -p 3.13`: 12/12 verdicts equal the receipt; `R43CritIndep`
   re-derived 12/12 from the captures + 3 own cases as predicted; `R43CritProbe` 1 defect (clock-seed's 10 s window);
   `R43CritClaims` 3 defects (the V10 copycat above among them).
+
+## Mistakes added by the L1 at close
+
+| class | evidence pointer | captured-by | fix |
+|---|---|---|---|
+| **A round closed under the operator's seat floor** — the round ran one 38-seat wave; the 33-seat falsify wave was specified and validated (`.ufo/waves/round-43/falsify-spec.json`, `falsify-dispatch.json`, validator `spawn=33`) but never dispatched, because the run's request budget ran out while wave 1's last two seats were still open. Round total 38 < 64 (run-9 directive "64–128 seats in total, every round"). | `.ufo/waves/round-43/build-results.json` (38 results); no `falsify.ready` in `.ufo/waves/round-43/` | none — nothing gates the round total before filing | the next round dispatches wave 1 sized ≥64 as one v2 wave, or writes the wave-2 `.ready` before integrating wave 1 so the falsify wave never depends on the integration finishing; the wave-2 attack list stays committed as round-44 input |
+| **Two wrong sentences landed in the new entry and one in PROVINCE** — the `## Regrade` paragraph describes the round-42 harness (`TEST`/`REGRADE` tags, one process calling twice) and the PROVINCE paragraph counts "a ninth pass". | entry `## Errata (round 43, L1 self-review …)` E1–E2; `PROVINCE.md` tail erratum | the L1's own re-read after landing (no wave-2 review ran) | appended errata, nothing edited in place; a seat-drafted prose block is diffed against the frozen probe's harness before landing |
