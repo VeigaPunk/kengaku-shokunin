@@ -1652,3 +1652,76 @@ the 21 may already be killed by battery41's fixtures.
   round root, `corpus/lessons/round-41.md` §Mistakes); unguarded until a round shows that check able to fail.
 
 Source: `.ufo/waves/round-41/build/R41PlanNext.md` §6 (data walk at `fc79f2a4`), plus the two L1 bullets above.
+
+### Wave 2 outcome (appended after the falsify wave; 34 seats, 34 reports, `.ufo/waves/round-41/falsify/`)
+
+- Re-measures agree: C1 re-run byte-equal across two hash seeds and job counts, every module load-bearing 7/7
+  (`F41C1Rerun`); C2 re-run pass, probe byte-equal 3/3 including `env -i` (`F41C2Rerun`); no-harm verdicts 25/25 equal
+  (`F41NoHarm`); 0 removed lines outside wave dirs since `e50c1345` before the wave-2 errata (`F41CritNoHarmDiff`);
+  separable both ways (`F41CritSeparability`); misroot 0, host writes 0 (`F41ScoutMisroot`).
+- C1 admission evidence beyond the frozen predicate: every killing fixture executes its mutated line, 23/23
+  (`F41C1Attribution`) — the wave-1 dead-site vector (T03/T04) is not used by the landed battery; the landed battery passes
+  `MUTANTS total=23 killed=23` under a hardened counter copy (variant hidden, `--unshare-ipc`, `--tmpfs /run`, relative
+  `path_ok`, streaming fingerprint), each repair shown biting 5/5 (`F41C1Hardened`); non-author review of all seven
+  modules: 47 of 48 fixtures honest, 1 incidental (`s_usage-03-single-digit-month-duplicate-request`; S03 is also killed
+  by an honest fixture), 0 dishonest (`F41RevBat*`); fixture mutants 43/48 caught, the 5 survivors are redundant fixtures
+  whose mutants another fixture still kills (`F41MutBattery`); battery security findings 3 (host name service reachable,
+  SysV IPC shared, `--work` check) — counter-level, routed (`F41SentinelBattery`).
+- Calibration denominator (`F41CritC1Count`): `ADVERTISED direct=21 indirect=2 none=0` holds as a count of mutants; the
+  two tools advertise 58 behaviour rows, the 23 mutants price 24 of them, 34 carry no mutant. The C1 claim's count is
+  over its frozen list, so the 34 are the next calibration denominator, not a miss of this claim. Near-variant mutants
+  outside the list: battery41 kills 6/20 of `tip_receipts.py`'s and 9/20 of the `sources_adopt.py` CLI's
+  (`F41XMutReceipts`, `F41XMutSources`).
+- C2: S122/S123 hold, S124's anchor named the wrong PR-body section (corrected, old→new in the lesson); the entry carries
+  9 wrong and 3 unsupported sentences (`F41EntryQuotes`) and the C2 prose 8 overclaims (`F41CritOverclaim`), corrected by
+  appended errata (entry `## Errata (round 41, wave 2)`, PROVINCE wave-2 correction); none reverses a finding. V7/V4 red
+  controls 6/7; the survivor is S124's anchor digest, which no C2 check reads (`F41MapControl` M7). Independent re-run of
+  the five non-frozen end states the entry cites 5/5 (`F41IndepProbe`); both unpublished observations stay unpublished
+  after a wider search (`F41CritPriorArt`). SKILL rows 11/11 and registry commands 4/4 verified (`F41CritSkill`).
+- Corrections to the round-41 rows above (`F41CritScorecard` D1/D3, N1): "Registry 114 → 117" is the SOURCES registry; the
+  SKILL tool registry went 31 → 35 rows (+4); the exit-pair list is six pairs (`2>0`, `2>1`, `2>5`, `2>9`, `3>0`,
+  `5>0`), not four; tip receipts are `byte_equal=7 differ=0 skipped=20` (7 of 27 compared). QUALITY Q31/Q32 errata
+  appended (`F41RevQuality`); the rider's 10 rows are honest at the tip (`F41RevRider`).
+- **L1 paste error:** the `### Planned (round 42)` block above (it begins with the line "`### Planned (round 42)` data walk
+  (kengaku r41, wave 1, scout)") is the data walk's §0–§2.2, pasted from the report's title line instead of its §6 block;
+  `F41CritPlanNext` D1–D10 measured that paste. It is superseded by the corrected plan below and is not deleted.
+
+### Planned (round 42) — corrected (supersedes the block above; `F41CritPlanNext` D1–D10 applied)
+
+Axis state carried: calibration 8, coverage 7 (capped by the open L0 question `kengaku | round-33`), novelty 7, depth 9,
+operability 8, freshness 8, adjacency 8. Lowest non-retired: coverage 7 tied with novelty 7. A coverage claim is
+score-dead (+0) under the cap; the round's lowest-axis claim may sit on novelty only with a new construct and a dated
+prior-art receipt. Source: `.ufo/waves/round-41/build/R41PlanNext.md` §0–§9 (controls in §4; receipts
+`R41PlanNext/near-variants-r40-counter.txt`, `near40_survivors_only.txt`), `.ufo/waves/round-41/falsify/F41CritPlanNext.md`.
+
+- **Calibration (8):** a re-frozen counter `plans/round42_c1_verify.py` = the round-41 counter plus the five repairs
+  `F41C1Hardened` showed biting (variant hidden from tool runs, `--unshare-ipc`, `--tmpfs /run` and host socket paths
+  unbound — `R41SentinelCounter` F2, relative-token `path_ok`, streaming fingerprint) and an attribution leg (the mutated
+  line executes on the killing fixture, `F41C1Attribution`'s method), each repair frozen with its own red control. Mutant
+  list: the near-variants battery40/battery41 leave alive — anchor X1 X3 X6 X7 X9 X12 X13 X14 X15, order XO1 XO3 XO5 XO6
+  XO7 (round-40 witnesses `F40XMutAnchor`, `F40XMutLedgerOrder`; re-measured through the unsandboxed round-40 counter at
+  `fc79f2a4`: `total=30 killed=10 survived=20`, `PREDICATE C1 fail`), the witnessed `state_check.py` `main()` exit-2
+  survivors and `round_close.py` rc survivors (`R41PlanNext` §2; these witnesses are the seat's command sets, re-derived on
+  landed bytes before freeze, Q29/Q30), or the 34 unpriced advertised rows of `tip_receipts.py`/`sources_adopt.py`
+  (`F41CritC1Count` §2). Predicate: `MUTANTS total=<N> killed=<N> survived=0 invalid=0 null_detected=0`, per-tool
+  `MUTANTS-BY-TOOL` floors bound to literals (Q31), `PREDICATE C1 pass`, exit 0. Controls that must be red at freeze: no
+  `plans/battery42` → `killed=0 survived=<N>`; the emptied-list copy → `PREDICATE C1 fail`; the five hostile modules
+  (`F41C1Hardened`) → red under the new counter.
+- **Coverage (7, capped) — `circuit-fibsqrt` @ `2fd12b88`:** a data artefact run by a grader-owned simulator and scored on
+  a fixed 28-row table (rows S125–S127, ids re-derived at freeze). Counter `plans/round42_c2_verify.py` = round-41's V1–V8
+  re-pointed (spec, gate, probe, dry table, captures pinned; V8 order gate), dry table frozen before the first recorded
+  run; do-nothing control `checks=8 defects>=4`. Plan-time controls: oracle 3/3, nop 2/3 (the shipped example satisfies
+  the existence and size tests), a lookup circuit for the 28 graded inputs passes 3/3 while the instruction's own
+  examples print 0. Fallback `openssl-selfsigned-cert` admissible only with its failing oracle case declared and excluded
+  by id (oracle 5/6 on host OpenSSL 3.6.5).
+- **Novelty (7) — carried, not a claim as drafted:** `input-crlf-rewrite` is already measured and committed, so a claim on
+  it alone is do-nothing-reachable (`F41CritPlanNext` D3). A novelty claim needs a new construct with its own red control,
+  e.g. a cross-grader instrument over the seven admitted TB2 graders' input-integrity checks (decoded-text vs byte
+  comparison), plus a dated prior-art receipt (`F41CritPriorArt`: 2/2 still unpublished).
+- **Routed, owned (`corpus/routed-findings.jsonl`, `routed_open=5 oldest_round=39`):** R39-R2 (`git_leak_probe.py --work`
+  absent dir) and R39-R4 (carried residual bundle) — operability fixes, L1; R39-R3 (order class into a ledger) — blocked
+  while `plans/ledger_tip.py` is pinned; R40-R1 (counter soundness) — the calibration bullet above; R40-R5 (carried
+  bundle) — L1, one item per round with a check command. Rows close only with evidence and a check.
+- **Hygiene (L1):** a seat checks that its `rm -rf` target is its own `$S` before deleting (wave 1: a seat deleted the
+  round root; the wave-2 context carried the guard sentence); unguarded until a round shows the check able to fail. L1
+  counter runs carry the envelope line (Q32 forward leg, red on the L1's receipts this round).

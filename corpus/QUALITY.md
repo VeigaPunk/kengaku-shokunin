@@ -673,3 +673,16 @@ A round closes only when every row below holds; a row that cannot be shown is an
   `corpus/lessons/round-40-verifier-spotcheck.md:95-96`; controls `plans/round-41-claims.md` §C1 "Other
   controls". Supersedes: none; extends Q23's scratch clause (where the scratch lives) with how it runs and
   what the receipt must show.
+
+Round-41 wave-2 errata to Q31/Q32 (`F41RevQuality` D1–D3; appended, criteria text not rewritten):
+- Q31 Lesson line: `corpus/lessons/round-41.md` now exists; the pointer is its `## Mistakes` row "Frozen predicate
+  satisfiable with zero round-41 work".
+- Q32: the "bought nothing" quote is `corpus/lessons/round-40.md:74`, not `:73`.
+- Q32 forward-leg sweep, named as the criterion requires: of the receipts round 41 cites, the L1's seven
+  (`claims/witness-run.txt`, `claims/control-c1-{nothing,no-mutants,tool-edited,hostile}.txt`,
+  `integrate/measure-{baseline,final}.txt`) carry no `bwrap` envelope line and no timestamp line — the L1 ran the C1
+  counter outside the seat envelope (the counter sandboxes every build and tool run itself, `--ro-bind / /`), and made no
+  host write outside the lane and scratch. Seat receipts: wave-1 and wave-2 attack reports quote the envelope
+  (e.g. `R41RevWitness.md` §1, `F41CritC1Count.md` §0). Result: Q32's forward leg is red on the L1's receipts this round;
+  the criterion stays as written and binds L1 counter runs from round 42.
+

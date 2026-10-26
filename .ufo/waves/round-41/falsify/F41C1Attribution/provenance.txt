@@ -1,0 +1,19 @@
+# provenance
+$ git -C $S/lane rev-parse HEAD
+d7c77895752a2a5f317fa22f2362416ada50a04b
+$ sha256sum lane tool/counter files
+e4f49714299ca1f2a93303c59ac07e691cc45d6126ccf24e5eecab93733f88f3  plans/tip_receipts.py
+38492bf175e0c619596c69911954e3b3c247166bdc240f8c1d44a02b7f4103e0  plans/sources_adopt.py
+8835a94b0ad62dc1f58c861e2025b7c4bc8c0b936c202c64e01bc8b43f53eaa8  plans/round41_c1_verify.py
+$ diff <(sed '125,127d;431d' counter.py) lane/plans/round41_c1_verify.py
+IDENTICAL (copy differs only by the 2 added lines: K41_STDERR global + stderr capture)
+$ git -C $S/lane diff --stat 74513c0..HEAD -- plans/battery41 plans/tip_receipts.py plans/sources_adopt.py plans/round41_c1_verify.py
+(empty = battery41/tools/counter unchanged since the landing commit)
+$ sha256sum plans/battery41/*.py (clone)
+2fcbbcb7eb0017803b41ffb2c41a0fc5a3fd97854eda0afb3948bc44fa4aaaed  plans/battery41/r_ctl.py
+705a4b7cbd3e08d620a4295acb147fa4d1741df5223ca95a7aaf456a8606c9c0  plans/battery41/r_map.py
+1ccb08aaf1353160da4b0d67d75686648516a900e31f2da7e7aef1e6a91982f2  plans/battery41/r_run.py
+a693fc515268469816ffe7078a861dfa0419638adbba624bd2bdd7d0df9a9c1d  plans/battery41/r_setup.py
+5f57cec90bc347963fd7a011b158d7d2991d1b7ef69dbde90187600f0c390a64  plans/battery41/s_exit.py
+1023433bbc173d1db9d42729b527dbbc1a602c6860efd6c06c3896690ec6bdd1  plans/battery41/s_modes.py
+c9ca3abe3d4b5dff02d9196e026ab31f7b37347d0866769ac509116fc07afeff  plans/battery41/s_usage.py

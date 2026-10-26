@@ -1263,3 +1263,15 @@ host-write module); first recorded probe run `f774a87a` (second run byte-equal);
 - Re-verification (freshness): S122/S123 equal TB2.1 `main` bytes (`R41PkgEntry`), S124 opened live (closed,
   `merged=false`), four drift-risk SOURCES rows re-opened, no change (`R41SourcesRecheck`); every no-harm instrument at
   the landing tip as at the baseline (`integrate/measure-final.txt`).
+- Wave 2 (34 seats, 34 reports): C1 re-measure byte-equal, every module load-bearing 7/7 (`F41C1Rerun`); attribution 23/23
+  — every killing fixture executes its mutated line (`F41C1Attribution`); the landed battery passes 23/23 under a hardened
+  counter copy whose five repairs each bite (`F41C1Hardened`); seven battery modules reviewed honest (47 of 48 fixtures
+  honest, 1 incidental, none dishonest); fixture mutants 43/48 caught (5 redundant fixtures); near-variant mutants outside
+  the frozen list killed 6/20 (tip_receipts) and 9/20 (sources_adopt) — round-42 candidates. C2 re-measure pass, probe
+  byte-equal 3/3; rows S122/S123 hold, S124 anchor location corrected; entry errata (9 wrong, 3 unsupported sentences, 8
+  overclaims) appended; both unpublished observations stayed unpublished after a wider search (`F41CritPriorArt`). The
+  round-42 plan as first pasted was a paste error (the data walk's §0–§2.2 under its title line); a corrected plan is
+  appended after it (`F41CritPlanNext` D1–D10).
+- Erratum to this entry (`F41CritScorecard` D2): "a decoy first `VEVENT` passes 3/3 (published, S124)" → "(S124; PR #245
+  closed unmerged)".
+

@@ -1,0 +1,75 @@
+PINS total=2 mismatched=0
+FIXTURE r_ctl-t06-empty-equal-receipt tool=receipts expect=reject declared=control:unavailable,equal:corpus/evidence/round41/r-ctl-probe.txt observed_rc=1 observed=control:unavailable,equal:corpus/evidence/round41/r-ctl-probe.txt ok
+FIXTURE r_ctl-t06-tamper-on-skipped tool=receipts expect=reject declared=control:unavailable,skip:corpus/evidence/round41/r-ctl-probe.txt:dependency-missing observed_rc=1 observed=control:unavailable,skip:corpus/evidence/round41/r-ctl-probe.txt:dependency-missing ok
+FIXTURE r_ctl-t08-derived-uv-absent tool=receipts expect=accept declared=control:differ,equal:corpus/evidence/round35/tb2-grader-probe.txt,skip:corpus/evidence/round41/r-ctl-probe.txt:dependency-missing observed_rc=0 observed=control:differ,equal:corpus/evidence/round35/tb2-grader-probe.txt,skip:corpus/evidence/round41/r-ctl-probe.txt:dependency-missing ok
+FIXTURE r_ctl-t08-table-uv-absent tool=receipts expect=accept declared=control:differ,equal:corpus/evidence/round36/regex-log-probe.txt,skip:corpus/evidence/round38/build-pmars-probe.txt:dependency-missing observed_rc=0 observed=control:differ,equal:corpus/evidence/round36/regex-log-probe.txt,skip:corpus/evidence/round38/build-pmars-probe.txt:dependency-missing ok
+FIXTURE r_map-t09-shared-stem-separators tool=receipts expect=accept declared=skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command observed_rc=0 observed=skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command ok
+FIXTURE r_map-t09-shared-stem-case-fold tool=receipts expect=accept declared=skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command observed_rc=0 observed=skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command ok
+FIXTURE r_map-t10-derived-mapping tool=receipts expect=accept declared=map:corpus/evidence/r/foo-probe.txt:derived observed_rc=0 observed=map:corpus/evidence/r/foo-probe.txt:derived ok
+FIXTURE r_map-t10-derived-with-table-sibling tool=receipts expect=accept declared=map:corpus/evidence/r/foo-probe.txt:derived,map:corpus/evidence/round36/regex-log-probe.txt:table observed_rc=0 observed=map:corpus/evidence/r/foo-probe.txt:derived,map:corpus/evidence/round36/regex-log-probe.txt:table ok
+FIXTURE r_map-t10-derived-deep-layout tool=receipts expect=accept declared=map:corpus/evidence/round41/scheduling/foo-probe.txt:derived observed_rc=0 observed=map:corpus/evidence/round41/scheduling/foo-probe.txt:derived ok
+FIXTURE r_map-t11-table-overrides-derived tool=receipts expect=accept declared=map:corpus/evidence/round35/tb2-grader-probe.txt:table,map:corpus/evidence/round38/build-pmars-probe.txt:table observed_rc=0 observed=map:corpus/evidence/round35/tb2-grader-probe.txt:table,map:corpus/evidence/round38/build-pmars-probe.txt:table ok
+FIXTURE r_map-t11-table-near-stem-decoy tool=receipts expect=accept declared=map:corpus/evidence/round35/tb2-grader-probe.txt:table observed_rc=0 observed=map:corpus/evidence/round35/tb2-grader-probe.txt:table ok
+FIXTURE r_map-t12-log-population tool=receipts expect=accept declared=skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command observed_rc=0 observed=skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command ok
+FIXTURE r_map-t12-log-with-table-sibling tool=receipts expect=accept declared=map:corpus/evidence/round36/regex-log-probe.txt:table,skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command observed_rc=0 observed=map:corpus/evidence/round36/regex-log-probe.txt:table,skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command ok
+FIXTURE r_map-t12-log-derived tool=receipts expect=accept declared=map:corpus/evidence/r/foo-probe.log:derived observed_rc=0 observed=map:corpus/evidence/r/foo-probe.log:derived ok
+FIXTURE r_run-t03-rc-nonzero-mixed tool=receipts expect=reject declared=control:differ,differ:corpus/evidence/round42/rc-ledger-probe.txt,equal:corpus/evidence/round42/census-probe.txt observed_rc=1 observed=control:differ,differ:corpus/evidence/round42/rc-ledger-probe.txt,equal:corpus/evidence/round42/census-probe.txt ok
+FIXTURE r_run-t03-rc-nonzero-single tool=receipts expect=reject declared=differ:corpus/evidence/round43/audit-probe.txt observed_rc=1 observed=differ:corpus/evidence/round43/audit-probe.txt ok
+FIXTURE r_run-t04-temp-paths-masked tool=receipts expect=accept declared=skip:corpus/evidence/round36/regex-log-probe-first-run.txt:declared-nonreproducible-absolute-scratch-paths observed_rc=0 observed=skip:corpus/evidence/round36/regex-log-probe-first-run.txt:declared-nonreproducible-absolute-scratch-paths ok
+FIXTURE r_run-t13-auto-control-differ tool=receipts expect=accept declared=control:differ,equal:corpus/evidence/round42/stable-census-probe.txt,equal:corpus/evidence/round43/slot-audit-probe.txt observed_rc=0 observed=control:differ,equal:corpus/evidence/round42/stable-census-probe.txt,equal:corpus/evidence/round43/slot-audit-probe.txt ok
+FIXTURE r_setup-t01-lane-absent tool=receipts expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE r_setup-t01-not-a-repo tool=receipts expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE r_setup-t02-no-evidence tool=receipts expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE r_setup-t02-evidence-is-file tool=receipts expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE r_setup-t05-tamper-absent tool=receipts expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE r_setup-t05-tamper-unmapped tool=receipts expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE r_setup-t07-lane-subdir tool=receipts expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE r_setup-t07-nested-lane tool=receipts expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_exit-collision-admit tool=sources expect=exit-3 declared=- observed_rc=3 observed=- ok
+FIXTURE s_exit-collision-indented tool=sources expect=exit-3 declared=- observed_rc=3 observed=- ok
+FIXTURE s_exit-queued-admit tool=sources expect=exit-5 declared=- observed_rc=5 observed=- ok
+FIXTURE s_exit-opened-elsewhere tool=sources expect=exit-5 declared=- observed_rc=5 observed=- ok
+FIXTURE s_exit-attest-opened tool=sources expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE s_exit-absent-id tool=sources expect=exit-5 declared=- observed_rc=5 observed=- ok
+FIXTURE s_modes-s01-quote-plus-package tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_modes-s01-quote-plus-registry-and-package tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_modes-s04-url-map-with-adopt tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_modes-s04-url-map-with-check-only tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_modes-s08-quote-file-without-artifact tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_modes-s08-artifact-without-quote-file tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_modes-s09-url-map-nested-shape tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_modes-s09-url-map-directory tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-02-registry-without-package tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-02-package-without-registry tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-03-dotted-access-date tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-03-single-digit-month-duplicate-request tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-05-two-ids-without-entries tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-05-empty-entries-value tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-06-recheck-cadence-word tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-06-recheck-prose-scoped-row tool=sources expect=error declared=- observed_rc=2 observed=- ok
+MUTANT N01 receipts silence SURVIVED exhibits=none -- plans/tip_receipts.py:12 'Population, stated mechanically: committed files `corpus/evidenc
+MUTANT N02 receipts silence SURVIVED exhibits=none -- plans/tip_receipts.py:15-16 'with non-alphanumerics dropped and case folded, the receipt s
+MUTANT N03 receipts error SURVIVED exhibits=none -- plans/tip_receipts.py:30-31 '2 usage/setup (..., absent git, clone or cleanup failure, ...
+MUTANT N04 receipts rc-mirror SURVIVED exhibits=none -- plans/tip_receipts.py:7-8 'resolves each one''s committed re-run command from the probe sc
+MUTANT N05 receipts rc-mirror SURVIVED exhibits=none -- plans/tip_receipts.py:147 'docstrings pad the command with 2+ spaces before a prose descri
+MUTANT N06 receipts rc-mirror SURVIVED exhibits=none -- plans/tip_receipts.py:67 'Fallback argv tails, used only when a script''s `Run as:` line c
+MUTANT N07 receipts rc-mirror SURVIVED exhibits=none -- plans/tip_receipts.py:190-191 first_diff 'byte i (line n)' detail carries no advertised se
+MUTANT N08 receipts rc-mirror killed by=r_ctl-t08-derived-uv-absent -- plans/tip_receipts.py:25-26 '`--tamper REL` ... flips one byte of that receipt''s committe
+MUTANT N09 receipts rc-mirror SURVIVED exhibits=none -- plans/tip_receipts.py:235 'restrict to receipts whose rel path contains this' (--only, map
+MUTANT N10 receipts rc-mirror SURVIVED exhibits=none -- plans/tip_receipts.py:235 'restrict to receipts whose rel path contains this' (--only, unm
+MUTANT N11 receipts silence killed by=r_map-t09-shared-stem-separators -- plans/tip_receipts.py:18-19 'printed on its own `skip reason=no-committed-re-run-command` 
+MUTANT N12 receipts error SURVIVED exhibits=none -- plans/tip_receipts.py:9 'clones the lane at HEAD into a scratch directory' (clone-HEAD equ
+MUTANT N13 receipts rc-mirror killed by=r_run-t04-temp-paths-masked -- plans/tip_receipts.py:57 'kind "byte" must reproduce exactly; kind "temp-paths" declares e
+MUTANT N14 receipts rc-mirror killed by=r_run-t04-temp-paths-masked -- plans/tip_receipts.py:21 'A receipt that declares embedded scratch paths (`temp-paths`) is
+MUTANT N15 receipts rc-mirror SURVIVED exhibits=none -- plans/tip_receipts.py:26-27 'one control runs automatically on the cheapest byte-equal rec
+MUTANT N16 receipts silence killed by=r_ctl-t08-derived-uv-absent -- plans/tip_receipts.py:29-30 '0 every mapped receipt reproduces ... and the control reports
+MUTANT N17 receipts rc-silence SURVIVED exhibits=none -- plans/tip_receipts.py:22 'equality after masking is a reproducibility claim up to those pa
+MUTANT N18 receipts error SURVIVED exhibits=none -- plans/tip_receipts.py:25 '`--tamper REL` (repeatable, comma-splittable)'
+MUTANT N19 receipts rc-mirror killed by=r_ctl-t08-derived-uv-absent -- plans/tip_receipts.py:35 'TMPDIR/TEMP/TMP inside the work directory (--work, else the envi
+MUTANT N20 receipts rc-mirror SURVIVED exhibits=none -- plans/tip_receipts.py:36 'the work directory is removed on exit'
+BATTERY fixtures=48 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=20 killed=6 survived=14 invalid=0 null_detected=0
+MUTANTS-BY-TOOL receipts=6/20 sources=0/0
+ADVERTISED direct=19 indirect=0 none=1
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)

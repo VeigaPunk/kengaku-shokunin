@@ -1,0 +1,70 @@
+PINS total=2 mismatched=0
+FIXTURE r_ctl-t06-empty-equal-receipt tool=receipts expect=reject declared=control:unavailable,equal:corpus/evidence/round41/r-ctl-probe.txt observed_rc=1 observed=control:unavailable,equal:corpus/evidence/round41/r-ctl-probe.txt ok
+FIXTURE r_ctl-t06-tamper-on-skipped tool=receipts expect=reject declared=control:unavailable,skip:corpus/evidence/round41/r-ctl-probe.txt:dependency-missing observed_rc=1 observed=control:unavailable,skip:corpus/evidence/round41/r-ctl-probe.txt:dependency-missing ok
+FIXTURE r_ctl-t08-derived-uv-absent tool=receipts expect=accept declared=control:differ,equal:corpus/evidence/round35/tb2-grader-probe.txt,skip:corpus/evidence/round41/r-ctl-probe.txt:dependency-missing observed_rc=0 observed=control:differ,equal:corpus/evidence/round35/tb2-grader-probe.txt,skip:corpus/evidence/round41/r-ctl-probe.txt:dependency-missing ok
+FIXTURE r_ctl-t08-table-uv-absent tool=receipts expect=accept declared=control:differ,equal:corpus/evidence/round36/regex-log-probe.txt,skip:corpus/evidence/round38/build-pmars-probe.txt:dependency-missing observed_rc=0 observed=control:differ,equal:corpus/evidence/round36/regex-log-probe.txt,skip:corpus/evidence/round38/build-pmars-probe.txt:dependency-missing ok
+FIXTURE r_map-t09-shared-stem-separators tool=receipts expect=accept declared=skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command observed_rc=0 observed=skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command ok
+FIXTURE r_map-t09-shared-stem-case-fold tool=receipts expect=accept declared=skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command observed_rc=0 observed=skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command ok
+FIXTURE r_map-t10-derived-mapping tool=receipts expect=accept declared=map:corpus/evidence/r/foo-probe.txt:derived observed_rc=0 observed=map:corpus/evidence/r/foo-probe.txt:derived ok
+FIXTURE r_map-t10-derived-with-table-sibling tool=receipts expect=accept declared=map:corpus/evidence/r/foo-probe.txt:derived,map:corpus/evidence/round36/regex-log-probe.txt:table observed_rc=0 observed=map:corpus/evidence/r/foo-probe.txt:derived,map:corpus/evidence/round36/regex-log-probe.txt:table ok
+FIXTURE r_map-t10-derived-deep-layout tool=receipts expect=accept declared=map:corpus/evidence/round41/scheduling/foo-probe.txt:derived observed_rc=0 observed=map:corpus/evidence/round41/scheduling/foo-probe.txt:derived ok
+FIXTURE r_map-t11-table-overrides-derived tool=receipts expect=accept declared=map:corpus/evidence/round35/tb2-grader-probe.txt:table,map:corpus/evidence/round38/build-pmars-probe.txt:table observed_rc=0 observed=map:corpus/evidence/round35/tb2-grader-probe.txt:table,map:corpus/evidence/round38/build-pmars-probe.txt:table ok
+FIXTURE r_map-t11-table-near-stem-decoy tool=receipts expect=accept declared=map:corpus/evidence/round35/tb2-grader-probe.txt:table observed_rc=0 observed=map:corpus/evidence/round35/tb2-grader-probe.txt:table ok
+FIXTURE r_map-t12-log-population tool=receipts expect=accept declared=skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command observed_rc=0 observed=skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command ok
+FIXTURE r_map-t12-log-with-table-sibling tool=receipts expect=accept declared=map:corpus/evidence/round36/regex-log-probe.txt:table,skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command observed_rc=0 observed=map:corpus/evidence/round36/regex-log-probe.txt:table,skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command ok
+FIXTURE r_map-t12-log-derived tool=receipts expect=accept declared=map:corpus/evidence/r/foo-probe.log:derived observed_rc=0 observed=map:corpus/evidence/r/foo-probe.log:derived ok
+FIXTURE r_run-t03-rc-nonzero-mixed tool=receipts expect=reject declared=control:differ,differ:corpus/evidence/round42/rc-ledger-probe.txt,equal:corpus/evidence/round42/census-probe.txt observed_rc=1 observed=control:differ,differ:corpus/evidence/round42/rc-ledger-probe.txt,equal:corpus/evidence/round42/census-probe.txt ok
+FIXTURE r_run-t03-rc-nonzero-single tool=receipts expect=reject declared=differ:corpus/evidence/round43/audit-probe.txt observed_rc=1 observed=differ:corpus/evidence/round43/audit-probe.txt ok
+FIXTURE r_run-t04-temp-paths-masked tool=receipts expect=accept declared=skip:corpus/evidence/round36/regex-log-probe-first-run.txt:declared-nonreproducible-absolute-scratch-paths observed_rc=0 observed=skip:corpus/evidence/round36/regex-log-probe-first-run.txt:declared-nonreproducible-absolute-scratch-paths ok
+FIXTURE r_run-t13-auto-control-differ tool=receipts expect=accept declared=control:differ,equal:corpus/evidence/round42/stable-census-probe.txt,equal:corpus/evidence/round43/slot-audit-probe.txt observed_rc=0 observed=control:differ,equal:corpus/evidence/round42/stable-census-probe.txt,equal:corpus/evidence/round43/slot-audit-probe.txt ok
+FIXTURE s_exit-collision-admit tool=sources expect=exit-3 declared=- observed_rc=3 observed=- ok
+FIXTURE s_exit-collision-indented tool=sources expect=exit-3 declared=- observed_rc=3 observed=- ok
+FIXTURE s_exit-queued-admit tool=sources expect=exit-5 declared=- observed_rc=5 observed=- ok
+FIXTURE s_exit-opened-elsewhere tool=sources expect=exit-5 declared=- observed_rc=5 observed=- ok
+FIXTURE s_exit-attest-opened tool=sources expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE s_exit-absent-id tool=sources expect=exit-5 declared=- observed_rc=5 observed=- ok
+FIXTURE s_modes-s01-quote-plus-package tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_modes-s01-quote-plus-registry-and-package tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_modes-s04-url-map-with-adopt tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_modes-s04-url-map-with-check-only tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_modes-s08-quote-file-without-artifact tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_modes-s08-artifact-without-quote-file tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_modes-s09-url-map-nested-shape tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_modes-s09-url-map-directory tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-02-registry-without-package tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-02-package-without-registry tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-03-dotted-access-date tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-03-single-digit-month-duplicate-request tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-05-two-ids-without-entries tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-05-empty-entries-value tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-06-recheck-cadence-word tool=sources expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE s_usage-06-recheck-prose-scoped-row tool=sources expect=error declared=- observed_rc=2 observed=- ok
+MUTANT T01 receipts error SURVIVED exhibits=none -- plans/tip_receipts.py:30-32 '2 usage/setup (lane not a git work-tree root, no `corpus/evid
+MUTANT T02 receipts error SURVIVED exhibits=none -- plans/tip_receipts.py:30-31 '2 usage/setup (..., no `corpus/evidence/`, ...)'
+MUTANT T03 receipts rc-silence killed by=r_run-t03-rc-nonzero-mixed -- plans/tip_receipts.py:30 '1 a `differ`, a failed control, or a probe that did not complete
+MUTANT T04 receipts rc-mirror killed by=r_run-t04-temp-paths-masked -- plans/tip_receipts.py:21-23 'absolute mkdtemp paths are masked on both sides, so equality 
+MUTANT T05 receipts error SURVIVED exhibits=none -- plans/tip_receipts.py:31-32 '2 usage/setup (..., unknown `--tamper` id)'
+MUTANT T06 receipts rc-silence killed by=r_ctl-t06-empty-equal-receipt -- plans/tip_receipts.py:29-30 '0 every mapped receipt reproduces ... and the control reports
+MUTANT T07 receipts error SURVIVED exhibits=none -- plans/tip_receipts.py:30-31 '2 usage/setup (lane not a git work-tree root, ...)'
+MUTANT T08 receipts rc-mirror killed by=r_ctl-t08-derived-uv-absent -- plans/tip_receipts.py:19-21 'A mapped receipt whose script is gone, whose dependency is ab
+MUTANT T09 receipts silence killed by=r_map-t09-shared-stem-separators -- plans/tip_receipts.py:13-14 'if its own basename resolves to exactly one committed `plans/
+MUTANT T10 receipts silence killed by=r_map-t10-derived-mapping -- plans/tip_receipts.py:15-16 'with non-alphanumerics dropped and case folded, the receipt s
+MUTANT T11 receipts silence killed by=r_map-t11-table-overrides-derived -- plans/tip_receipts.py:13-14 'A file enters the byte-comparison if the RECEIPTS table maps 
+MUTANT T12 receipts silence killed by=r_map-t12-log-population -- plans/tip_receipts.py:12 'Population, stated mechanically: committed files `corpus/evidenc
+MUTANT T13 receipts rc-mirror killed by=r_ctl-t08-derived-uv-absent -- plans/tip_receipts.py:26-27 'the comparator must answer `differ`. ... A control that answe
+MUTANT S01 sources 2>0 killed by=s_modes-s01-quote-plus-package -- SKILL.md:573 '`2` usage error'; plans/sources_adopt.py:1020-1021 '# Exclusive: before this
+MUTANT S02 sources 2>1 killed by=s_usage-02-registry-without-package -- SKILL.md:573 '`2` usage error'; plans/sources_adopt.py:1042 '--registry and --package are 
+MUTANT S03 sources 2>5 killed by=s_usage-03-dotted-access-date -- SKILL.md:573 '`2` usage error'; plans/sources_adopt.py:1053 '--access-date must be an ISO 
+MUTANT S04 sources 2>0 killed by=s_modes-s04-url-map-with-adopt -- SKILL.md:573 '`2` usage error'; plans/sources_adopt.py:1035-1036 '`--url-map` alone reache
+MUTANT S05 sources 2>0 killed by=s_usage-05-two-ids-without-entries -- SKILL.md:573 '`2` usage error'; plans/sources_adopt.py:1051 '--entries is required when --
+MUTANT S06 sources 2>0 killed by=s_usage-06-recheck-cadence-word -- SKILL.md:573 '`2` usage error'; plans/sources_adopt.py:1059 '--recheck must be an ISO date
+MUTANT S07 sources 3>0 killed by=s_exit-collision-admit -- SKILL.md:573 '`3` staged/registry id collision'
+MUTANT S08 sources 2>1 killed by=s_modes-s08-quote-file-without-artifact -- SKILL.md:573 '`2` usage error'; plans/sources_adopt.py:1019 '--quote-file and --artifact m
+MUTANT S09 sources 2>9 killed by=s_modes-s09-url-map-nested-shape -- SKILL.md:573 '`2` usage error or unreadable quote artifact'; plans/sources_adopt.py:1028 '
+MUTANT S11 sources 5>0 killed by=s_exit-queued-admit -- SKILL.md:573 '`5` requested id absent' (main() also refuses a requested row that is not `m
+BATTERY fixtures=40 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=23 killed=19 survived=4 invalid=0 null_detected=0
+MUTANTS-BY-TOOL receipts=9/13 sources=10/10
+ADVERTISED direct=21 indirect=2 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 fail

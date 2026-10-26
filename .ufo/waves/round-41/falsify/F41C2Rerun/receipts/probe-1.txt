@@ -1,0 +1,33 @@
+# tb2 constraints-scheduling grader probe (kengaku round 41) @ terminal-bench-2 2fd12b88
+# capture alice_calendar.ics sha256=5a5d45804bffd339c2479d49e76fe817b38244d14d389afe1de583443808ecbc
+# capture bob_calendar.ics sha256=c97e85dbcdd756758f8a80f4db5fd5c1dcacee79298e4d2262f46de5ff680b50
+# capture carol_calendar.ics sha256=32a0f8687637df0a12b8e5c56d49c4192bc3e790856943632d70f237c7c1363b
+# capture solve.sh sha256=802d81ec064fad3050bbade95a2f847ac24e0b7f80fa69b0bcee0347dc92fe77
+# capture test_outputs.py sha256=1422b345ba3aacdfc4184e962811b6379988435896c50d8cf62903e70990c5d1
+CASE nop predicted=fail observed=fail tests=FFF predicted_tests=FFF match=yes regrade=same violates=output-file test_structure_event_title_attendees_duration_window:error=FileNotFoundError,test_constraints_conflicts_business_hours:error=FileNotFoundError,test_earliest_tiebreakers_and_carol_buffer:error=FileNotFoundError -- no output file: all three tests read it (pilot)
+CASE oracle-solve-sh predicted=pass observed=pass tests=PPP predicted_tests=PPP match=yes regrade=same violates= -- the task's own solution/solve.sh (pilot `oracle-solve.sh`)
+CASE literal-correct-slot predicted=pass observed=pass tests=PPP predicted_tests=PPP match=yes regrade=same violates= -- hand-typed ICS for Wed 11:00, never reads the calendars (pilot)
+CASE later-valid-wed-1105 predicted=fail observed=fail tests=PFF predicted_tests=PPF match=NO regrade=same violates=earliest,no-conflict -- Wed 11:05-12:05, predicted valid but late; pilot observed C,E (runs into lunch and Bob/Carol 12:00)
+CASE later-valid-thu-1100 predicted=fail observed=fail tests=PPF predicted_tests=PPF match=yes regrade=same violates=earliest -- Thu 11:00, valid but a day late (pilot)
+CASE conflict-mon-1230 predicted=fail observed=fail tests=PFF predicted_tests=PFF match=yes regrade=same violates=no-conflict,earliest -- Mon 12:30, overlaps Alice's 13:00 event (pilot)
+CASE bob-start-0900-wed predicted=fail observed=fail tests=PFP predicted_tests=PFP match=yes regrade=same violates=hard-constraints,earliest -- Wed 09:00, before Bob's 10:00; the earliest test passes because no valid slot precedes it (pilot)
+CASE decoy-first-vevent predicted=pass observed=pass tests=PPP predicted_tests=PPP match=yes regrade=same violates=hard-constraints,earliest -- first VEVENT a decoy at Wed 11:00, the attendee meeting at Fri 15:00 (pilot; TB2.1 PR #245)
+CASE duration-90min predicted=fail observed=fail tests=FPP predicted_tests=FPP match=yes regrade=same violates=one-hour -- Wed 11:00-12:30; DTEND is read only by the structure test (pilot)
+CASE missing-carol predicted=fail observed=fail tests=FPP predicted_tests=FPP match=yes regrade=same violates=attendees -- Wed 11:00 without Carol's ATTENDEE (pilot)
+CASE title-wrong predicted=fail observed=fail tests=FPP predicted_tests=FPP match=yes regrade=same violates=meeting-title -- Wed 11:00 titled 'Team Meeting' (pilot)
+CASE seconds-30 predicted=fail observed=fail tests=PFF predicted_tests=PPF match=NO regrade=same violates=hard-constraints,no-conflict,earliest -- Wed 11:00:30; predicted earliest-only, pilot observed C,E (end 12:00:30 runs into lunch)
+CASE tzid-form predicted=fail observed=fail tests=FFF predicted_tests=FFF match=yes regrade=same violates=utc-format -- DTSTART;TZID=UTC without Z: every timestamp regex misses (pilot)
+CASE weekend-sat-20 predicted=fail observed=fail tests=FFF predicted_tests=FFF match=yes regrade=same violates=window,hard-constraints,earliest -- Sat 2024-01-20 11:00 (pilot)
+CASE input-appended predicted=fail observed=fail tests=FPP predicted_tests=FPP match=yes regrade=same violates=inputs-readonly -- one newline appended to alice_calendar.ics, slot right (pilot)
+CASE input-event-deleted-wed-1000 predicted=fail observed=fail tests=FPP predicted_tests=FPP match=yes regrade=same violates=inputs-readonly,no-conflict,earliest -- Alice's Wed 10:00 event deleted, meeting booked Wed 10:00 (pilot)
+CASE wed-1059-overlaps-alice predicted=fail observed=fail tests=PFP predicted_tests=PFP match=yes regrade=same violates=no-conflict,earliest -- Wed 10:59, one minute before the earliest valid slot, overlaps Alice's 10:00-11:00 event
+CASE crlf-line-endings predicted=pass observed=pass tests=PPP predicted_tests=PPP match=yes regrade=same violates= -- the right slot written with CRLF line ends (RFC 5545's own line break)
+CASE folded-attendee-line predicted=fail observed=fail tests=FPP predicted_tests=FPP match=yes regrade=same violates= -- the right slot with Carol's ATTENDEE line folded (RFC 5545 3.1)
+CASE dtstart-value-datetime predicted=fail observed=fail tests=FFF predicted_tests=FFF match=yes regrade=same violates= -- DTSTART;VALUE=DATE-TIME:...Z, an explicit RFC 5545 value parameter
+CASE no-prodid-header predicted=fail observed=fail tests=FPP predicted_tests=FPP match=yes regrade=same violates=version-prodid -- the right slot, PRODID header left out
+CASE decoy-second-vevent predicted=fail observed=fail tests=PFF predicted_tests=PFF match=yes regrade=same violates=hard-constraints,earliest -- attendee meeting first at Fri 15:00, a decoy second at Wed 11:00 (the pilot decoy's mirror)
+CASE extra-attendee-dave predicted=pass observed=pass tests=PPP predicted_tests=PPP match=yes regrade=same violates= -- the right slot with a fourth attendee
+CASE lowercase-property-names predicted=fail observed=fail tests=FPP predicted_tests=FPP match=yes regrade=same violates= -- the right slot with lowercase SUMMARY/ATTENDEE names (RFC 5545 2.1)
+CASE input-crlf-rewrite predicted=pass observed=pass tests=PPP predicted_tests=PPP match=yes regrade=same violates=inputs-readonly -- all three input calendars rewritten with CRLF line ends, the right slot booked
+regrade cases=25 differ=0
+cases=25 observed_pass=6 observed_fail=19 mismatches=2

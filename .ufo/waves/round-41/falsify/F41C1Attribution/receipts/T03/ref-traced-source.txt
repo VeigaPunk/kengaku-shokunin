@@ -1,0 +1,6 @@
+ 312:             fresh, blob = run["out"], res["blob"]
+ 313:             res["fresh"] = fresh
+ 314:             sys.stderr.write("HIT REF-T03\n")
+ 315:             if run["exit"] != 0:
+ 316:                 res["verdict"] = "differ"
+ 317:                 res["why"] = f"probe exit={run['exit']} ({run['err'].strip().splitlines()[-1][:120] if run['err'].strip() else 'no stderr'})"

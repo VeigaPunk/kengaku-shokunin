@@ -1,0 +1,6 @@
+  95:     out: dict[str, tuple[str, str, str]] = {}
+  96:     for rel in candidates(lane):
+  97:         sys.stderr.write("HIT REF-T11\n")
+  98:         if rel in RECEIPTS:
+  99:             continue
+ 100:         hit = by_stem.get(stem(pathlib.Path(rel).stem), [])

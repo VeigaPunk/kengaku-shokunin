@@ -1,0 +1,109 @@
+variants: ref = lane plans/sources_adopt.py; S07 = frozen old->new (byte-identical to the counter's); S11 = frozen old->new; trace_S07/S11 = the mutant with one print beside the mutated line
+each run: bwrap --dev-bind / / --ro-bind ~/.local/bin ~/.local/bin --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent python3 <variant> <fixture argv>, cwd=<built fixture dir>
+--- s_exit-collision-admit (exit-3) ref rc=3
+registry=3 staged=1 collisions=1 malformed=0 duplicates=0 defects=0 prose=0
+  collisions: S122
+--- s_exit-collision-admit (exit-3) S07 rc=0
+registry=3 staged=1 collisions=1 malformed=0 duplicates=0 defects=0 prose=0
+  collisions: S122
+| S122 | terminal-bench-2 capture, local | docs | A | grader schedule | l.4: "only the Wednesday and Thursday eleven o clock slots are one hour" (13 words) | embedded scheduling model | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-constraints-scheduling-grader.md |
+--- s_exit-collision-admit (exit-3) S11 rc=3
+registry=3 staged=1 collisions=1 malformed=0 duplicates=0 defects=0 prose=0
+  collisions: S122
+--- s_exit-collision-admit (exit-3) trace_S07 rc=0
+registry=3 staged=1 collisions=1 malformed=0 duplicates=0 defects=0 prose=0
+  collisions: S122
+TRACE S07 code=3 want=['S122'] refcond=True mutcond=False
+| S122 | terminal-bench-2 capture, local | docs | A | grader schedule | l.4: "only the Wednesday and Thursday eleven o clock slots are one hour" (13 words) | embedded scheduling model | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-constraints-scheduling-grader.md |
+--- s_exit-collision-admit (exit-3) trace_S11 rc=3
+registry=3 staged=1 collisions=1 malformed=0 duplicates=0 defects=0 prose=0
+  collisions: S122
+--- s_exit-collision-indented (exit-3) ref rc=3
+registry=2 staged=2 collisions=1 malformed=0 duplicates=0 defects=0 prose=0
+  collisions: S131
+--- s_exit-collision-indented (exit-3) S07 rc=0
+registry=2 staged=2 collisions=1 malformed=0 duplicates=0 defects=0 prose=0
+  collisions: S131
+| S131 | terminal-bench-2 capture, local | docs | A | grader schedule | l.4: "only the Wednesday and Thursday eleven o clock slots are one hour" (13 words) | embedded scheduling model | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-constraints-scheduling-grader.md |
+--- s_exit-collision-indented (exit-3) S11 rc=3
+registry=2 staged=2 collisions=1 malformed=0 duplicates=0 defects=0 prose=0
+  collisions: S131
+--- s_exit-collision-indented (exit-3) trace_S07 rc=0
+registry=2 staged=2 collisions=1 malformed=0 duplicates=0 defects=0 prose=0
+  collisions: S131
+TRACE S07 code=3 want=['S131'] refcond=True mutcond=False
+| S131 | terminal-bench-2 capture, local | docs | A | grader schedule | l.4: "only the Wednesday and Thursday eleven o clock slots are one hour" (13 words) | embedded scheduling model | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-constraints-scheduling-grader.md |
+--- s_exit-collision-indented (exit-3) trace_S11 rc=3
+registry=2 staged=2 collisions=1 malformed=0 duplicates=0 defects=0 prose=0
+  collisions: S131
+--- s_exit-queued-admit (exit-5) ref rc=5
+registry=1 staged=1 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+  missing: S150:not-mined
+--- s_exit-queued-admit (exit-5) S07 rc=5
+registry=1 staged=1 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+  missing: S150:not-mined
+--- s_exit-queued-admit (exit-5) S11 rc=0
+registry=1 staged=1 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+--- s_exit-queued-admit (exit-5) trace_S07 rc=5
+registry=1 staged=1 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+TRACE S07 code=0 want=['S150'] refcond=False mutcond=False
+  missing: S150:not-mined
+--- s_exit-queued-admit (exit-5) trace_S11 rc=0
+registry=1 staged=1 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+TRACE S11 missing=['S150:not-mined']
+--- s_exit-opened-elsewhere (exit-5) ref rc=5
+registry=1 staged=1 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+  missing: S160:not-opened-this-round
+--- s_exit-opened-elsewhere (exit-5) S07 rc=5
+registry=1 staged=1 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+  missing: S160:not-opened-this-round
+--- s_exit-opened-elsewhere (exit-5) S11 rc=0
+registry=1 staged=1 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+--- s_exit-opened-elsewhere (exit-5) trace_S07 rc=5
+registry=1 staged=1 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+TRACE S07 code=0 want=['S160'] refcond=False mutcond=False
+  missing: S160:not-opened-this-round
+--- s_exit-opened-elsewhere (exit-5) trace_S11 rc=0
+registry=1 staged=1 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+TRACE S11 missing=['S160:not-opened-this-round']
+--- s_exit-attest-opened (accept) ref rc=0
+registry=1 staged=1 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+  attested: the caller asserts every requested source was opened on 2026-10-26
+| S161 | terminal-bench-2 capture, local | docs | A | grader schedule | l.4: "only the Wednesday and Thursday eleven o clock slots are one hour" (13 words) | embedded scheduling model | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-constraints-scheduling-grader.md |
+--- s_exit-attest-opened (accept) S07 rc=0
+registry=1 staged=1 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+  attested: the caller asserts every requested source was opened on 2026-10-26
+| S161 | terminal-bench-2 capture, local | docs | A | grader schedule | l.4: "only the Wednesday and Thursday eleven o clock slots are one hour" (13 words) | embedded scheduling model | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-constraints-scheduling-grader.md |
+--- s_exit-attest-opened (accept) S11 rc=0
+registry=1 staged=1 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+  attested: the caller asserts every requested source was opened on 2026-10-26
+| S161 | terminal-bench-2 capture, local | docs | A | grader schedule | l.4: "only the Wednesday and Thursday eleven o clock slots are one hour" (13 words) | embedded scheduling model | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-constraints-scheduling-grader.md |
+--- s_exit-attest-opened (accept) trace_S07 rc=0
+registry=1 staged=1 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+TRACE S07 code=0 want=['S161'] refcond=False mutcond=False
+  attested: the caller asserts every requested source was opened on 2026-10-26
+| S161 | terminal-bench-2 capture, local | docs | A | grader schedule | l.4: "only the Wednesday and Thursday eleven o clock slots are one hour" (13 words) | embedded scheduling model | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-constraints-scheduling-grader.md |
+--- s_exit-attest-opened (accept) trace_S11 rc=0
+registry=1 staged=1 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+  attested: the caller asserts every requested source was opened on 2026-10-26
+TRACE S11 missing=[]
+| S161 | terminal-bench-2 capture, local | docs | A | grader schedule | l.4: "only the Wednesday and Thursday eleven o clock slots are one hour" (13 words) | embedded scheduling model | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-constraints-scheduling-grader.md |
+--- s_exit-absent-id (exit-5) ref rc=5
+registry=1 staged=1 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+  missing: S199
+--- s_exit-absent-id (exit-5) S07 rc=5
+registry=1 staged=1 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+  missing: S199
+  missing: S199
+--- s_exit-absent-id (exit-5) S11 rc=5
+registry=1 staged=1 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+  missing: S199
+--- s_exit-absent-id (exit-5) trace_S07 rc=5
+registry=1 staged=1 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+  missing: S199
+TRACE S07 code=5 want=['S199'] refcond=True mutcond=False
+  missing: S199
+--- s_exit-absent-id (exit-5) trace_S11 rc=5
+registry=1 staged=1 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+  missing: S199
+bullet-shape ref: 3

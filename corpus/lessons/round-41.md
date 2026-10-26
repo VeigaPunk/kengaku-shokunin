@@ -122,3 +122,37 @@ tier B +1 (S124); all `mined`, all used by `corpus/knowledge/tb2-constraints-sch
 
 These are the C2 probe's stand-in limits tested from outside (host python3 vs the image's `uvx`): parity is of pytest
 semantics and paths, not of the container.
+
+## Mistakes added after the falsify wave
+
+| class | evidence pointer | captured-by | fix |
+|---|---|---|---|
+| **The L1 pasted the wrong span into SCORECARD** — the round-42 plan was cut from the first occurrence of `### Planned (round 42)` in the planning report, which was the report's title line, so the data walk's §0–§2.2 landed under a malformed heading. | `SCORECARD.md` block beginning "`### Planned (round 42)` data walk (kengaku r41, wave 1, scout)" (landed `0d574196`); `F41CritPlanNext.md` §0 (its D1–D10 measured that paste); `F41RevLesson.md` D6. | Wave-2 critic `F41CritPlanNext` (a falsify item, not a rule). | Superseded in-round by an appended `### Planned (round 42) — corrected` block; nothing deleted. Not shown able to fail as a rule: the next paste anchors on the fenced block (`### Planned` inside a code fence), not on the heading text. |
+| **C2's frozen counter admits a content-free package** — a 43-line entry that says it "teaches nothing" plus rows and one README row pass V1–V8 8/8; the PROVINCE paragraph, the §Frontier narrowing and S124 are read by no check. | `.ufo/waves/round-41/build/R41CritClaims.md` §1 and D2 (`R41CritClaims/c2-junk-filler.txt`); `F41MapControl.md` M7 (S124's digest is read by no check). | The claims' own named limit ("informed-filler limit of V1–V7", carried since round 37; `considerthese/2026-10-26.md` proposal 2). | Admission of the prose surfaces rests on the L1's hand check and the wave-2 reviews (`F41EntryQuotes`, `F41CritOverclaim`, `F41ReopenRows`); a standing filler control that must stay red is the round-42 C2 counter's candidate repair, not yet shown able to fail. |
+
+## Errata (round 41, wave 2; `F41RevLesson` D1–D8)
+
+- D1: the scratch-root deletion is evidenced by the seat transcript
+  `/home/vgpnk/.omp/agent/sessions/-Projects-shokunin/2026-10-26T15-10-35-484Z_01a178c3-6bdc-745c-b5ed-ce700e7035cd/R41CritIndep.jsonl`
+  line 122 (the bash tool call whose command ends `rm -rf -- /fast/scratch/hyaku/kengaku-r41`), execution start line 123
+  `2026-10-26T18:42:23.988Z` (= 15:42:23.988 -03; "15:42:24" above is that time rounded), and by `R41CritClaims.md:6-7`,
+  `R41SentinelCounter.md` §4 and `R41RevC2Counter.md` §5. The rendered `history://` view summarises tool calls; the raw
+  session file carries the command.
+- D2: the reaper log is `/home/vgpnk/Projects/shokunin/.ufo/state/disk-guard.log` (driver runtime, orchestrator-owned);
+  `grep -c kengaku-r41` over it returned 0 at 15:43 -03.
+- D3: the failed first baseline attempt's output was overwritten by the re-run; it is recorded only in the L1 session
+  transcript (`KengakuR41.jsonl`, the `bg_8135` result: `registry_rows= knowledge_files=0 index_rows=`). The clause
+  "`integrate/measure-baseline.txt` first attempt" points at a file that holds only the second run.
+- D4: added above (C2 filler row).
+- D5: S10's withdrawal is recorded in the counter docstring and `claims/s10_equivalence.{py,txt}`, not in
+  `claims/witness-run.txt` (the docstring's own pointer to that file is wrong; the docstring is frozen).
+- D6: the corrupted plan heading — added above (paste row); the corrected plan is appended in SCORECARD.
+- D7: row 3's fix phrase is a composite; the sources say "closed unmerged at access" (S124 row) and "closed unmerged"
+  (entry).
+- D8: `R41CritIndep`'s 25/25 was "not a blind prediction (receipt read first)" (its §2.1); its 3 extra cases were blind.
+
+## Gate changes after the falsify wave
+
+- S124 anchor cell, old → new: "PR body §Proposed PR description, opened 2026-10-05" → "PR body preamble paragraph
+  (pr245-body.md:11; located 2026-10-26 by F41ReopenRows), opened 2026-10-05". Status, recheck and used-by unchanged.
+- S122, S123 re-opened live by `F41ReopenRows`: byte-fresh at the pin, quotes verbatim — no change.

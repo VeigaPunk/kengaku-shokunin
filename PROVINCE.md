@@ -527,3 +527,9 @@ and recorded dates to lore — fictional calendars, not meeting scheduling or IC
 kind routes to the orchestrator rather than being absorbed here, and no sibling is credited with owning it.
 Terminal-Bench's own task, image and oracle stay the benchmark's; the destructive-integrity finding above is about
 this lane's captured grader only.
+
+Round-41 wave-2 correction (appended; `F41CritOverclaim` O1/O2): in the paragraph above, "three RFC 5545-valid output
+forms fail" should read "three RFC 5545 output forms fail" — the receipt's witnesses are LF files (CRLF-conformant variants
+fail alike, `R41CritProbe` §5) — and "lowercase property names" should read "a lowercase `SUMMARY` property name": the
+`ATTENDEE` match is case-insensitive.
+

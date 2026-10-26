@@ -1,0 +1,17 @@
+error: header for f17d7a8f13b100b2fdd39a097ab8a7568795bbd2 too long, exceeds 32 bytes
+fatal: loose object f17d7a8f13b100b2fdd39a097ab8a7568795bbd2 (stored in /fast/scratch/hyaku/kengaku-r41/F41CritC1Count/fx5/.git/objects/f1/7d7a8f13b100b2fdd39a097ab8a7568795bbd2) is corrupt
+warning: Clone succeeded, but checkout failed.
+You can inspect what was checked out with 'git status'
+and retry with 'git restore --source=HEAD :/'
+
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r41/F41CritC1Count/tools/ref.py", line 388, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/fast/scratch/hyaku/kengaku-r41/F41CritC1Count/tools/ref.py", line 270, in main
+    subprocess.run(["git", "clone", "-q", "--shared", str(lane), str(clone)], check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'clone', '-q', '--shared', '/fast/scratch/hyaku/kengaku-r41/F41CritC1Count/fx5', '/fast/scratch/hyaku/kengaku-r41/F41CritC1Count/w5/tip-receipts-7xqt6tza/tip']' returned non-zero exit status 128.

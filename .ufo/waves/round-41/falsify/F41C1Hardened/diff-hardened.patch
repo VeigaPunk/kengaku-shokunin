@@ -1,0 +1,92 @@
+--- plans/round41_c1_verify.py	2026-10-26 16:15:58.486082288 -0300
++++ /fast/scratch/hyaku/kengaku-r41/F41C1Hardened/hardened/round41_c1_verify.py	2026-10-26 16:16:47.434034365 -0300
+@@ -235,7 +235,7 @@
+ 
+ def sha256(p):
+     try:
+-        return hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()
++        return file_sha256(p)
+     except OSError:
+         return None
+ 
+@@ -314,8 +314,9 @@
+     return 0
+ 
+ 
+-def ro_sandbox(writable=(), ro_binds=(), hide=()):
++def ro_sandbox(writable=(), ro_binds=(), hide=(), ro_data=()):
+     argv = [BWRAP, "--ro-bind", "/", "/", "--dev", "/dev", "--proc", "/proc", "--unshare-pid", "--unshare-net",
++            "--unshare-ipc", "--tmpfs", "/run",
+             "--die-with-parent", "--new-session"]
+     for h in hide:
+         argv += ["--tmpfs", str(h)]
+@@ -323,9 +324,20 @@
+         argv += ["--bind", str(w), str(w)]
+     for src, dst in ro_binds:
+         argv += ["--ro-bind", str(src), str(dst)]
++    for fd, dst in ro_data:
++        argv += ["--ro-bind-data", str(fd), str(dst)]
+     return argv
+ 
+ 
++def file_sha256(p):
++    """Content digest of one file, streamed: no read of the whole file into memory."""
++    h = hashlib.sha256()
++    with open(p, "rb") as fh:
++        while chunk := fh.read(1 << 20):
++            h.update(chunk)
++    return h.hexdigest()
++
++
+ def fingerprint(d):
+     h = hashlib.sha256()
+     for top, dirs, files in os.walk(d):
+@@ -340,8 +352,7 @@
+             link = os.readlink(p) if os.path.islink(p) else ""
+             content = ""
+             if not link and os.path.isfile(p):
+-                with open(p, "rb") as fh:
+-                    content = hashlib.sha256(fh.read()).hexdigest()
++                content = file_sha256(p)
+             h.update(f"{rel}\0{st.st_mode}\0{st.st_size}\0{link}\0{content}\n".encode())
+     return h.hexdigest()
+ 
+@@ -349,8 +360,12 @@
+ def path_ok(tok, d):
+     if WORK_TOKEN.match(tok):
+         return ".." not in tok
++    d = d.resolve()
+     for cand in (tok, tok.split("=", 1)[1] if tok.startswith("--") and "=" in tok else ""):
+-        if cand.startswith("/") and not pathlib.Path(cand).resolve().is_relative_to(d.resolve()):
++        if not cand:
++            continue
++        base = pathlib.Path(cand) if cand.startswith("/") else d / cand
++        if not base.resolve().is_relative_to(d):
+             return False
+     return True
+ 
+@@ -416,13 +431,19 @@
+             else:
+                 argv.append(t)
+         slot = self.slots / f"{tool}.py"
+-        cmd = ro_sandbox(writable=(work, tmp), ro_binds=((variant, slot),)) + [PY, str(slot), *argv]
++        src = open(variant, "rb")
+         try:
+-            r = subprocess.run(cmd, cwd=str(fx["dir"]), env=self.env(tmp), capture_output=True, text=True,
+-                               timeout=600)
+-        except subprocess.TimeoutExpired:
+-            return ("timeout", frozenset())
++            cmd = ro_sandbox(writable=(work, tmp),
++                             hide=[p for p in (self.root / "variants", self.root / "slots", self.root / "bin")
++                                   if p.exists()],
++                             ro_data=((src.fileno(), slot),)) + [PY, str(slot), *argv]
++            try:
++                r = subprocess.run(cmd, cwd=str(fx["dir"]), env=self.env(tmp), capture_output=True, text=True,
++                                   timeout=600, pass_fds=(src.fileno(),))
++            except subprocess.TimeoutExpired:
++                return ("timeout", frozenset())
+         finally:
++            src.close()
+             shutil.rmtree(work, ignore_errors=True)
+             shutil.rmtree(tmp, ignore_errors=True)
+         return (r.returncode, classes(tool, r.stdout))

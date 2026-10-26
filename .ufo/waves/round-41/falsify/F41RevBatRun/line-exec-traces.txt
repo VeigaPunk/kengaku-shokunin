@@ -1,0 +1,87 @@
+BUILT 0 r_run-t03-rc-nonzero-mixed lane= /fast/scratch/hyaku/kengaku-r41/F41RevBatRun/fix/f000/lane
+BUILT 1 r_run-t03-rc-nonzero-single lane= /fast/scratch/hyaku/kengaku-r41/F41RevBatRun/fix/f001/lane
+BUILT 2 r_run-t04-temp-paths-masked lane= /fast/scratch/hyaku/kengaku-r41/F41RevBatRun/fix/f002/lane
+BUILT 3 r_run-t13-auto-control-differ lane= /fast/scratch/hyaku/kengaku-r41/F41RevBatRun/fix/f003/lane
+VARIANT T03 old='if run["exit"] != 0:' new='if False:' mut=T03-mut.py ref=T03-ref.py
+VARIANT T04 old='if mask(fresh) == mask(blob):' new='if mask(fresh) != mask(blob):' mut=T04-mut.py ref=T04-ref.py
+VARIANT T13 old='control_ok = control_ok and not same' new='control_ok = control_ok and same' mut=T13-mut.py ref=T13-ref.py
+##### T03 on r_run-t03-rc-nonzero-mixed
+=== RUN variant=T03-ref.py fixture=r_run-t03-rc-nonzero-mixed rc=1
+tip de5aea3dd536ee7966174742047d81a1fadfbe5a
+receipt corpus/evidence/round42/census-probe.txt equal bytes=21 exit=0 doc=command=plans/census_probe.py:3,receipt=undocumented
+receipt corpus/evidence/round42/rc-ledger-probe.txt differ probe exit=7 (no stderr) exit=7 doc=command=plans/rc_ledger_probe.py:3,receipt=undocumented
+control receipt=corpus/evidence/round42/census-probe.txt flip=byte 10 0x62->0x63 verdict=differ
+note compared=2 declared_bounded=0 no_command=0
+receipts=2 byte_equal=1 differ=1 skipped=0
+--stderr--
+TRACE-T03-ref rel='corpus/evidence/round42/census-probe.txt' exit=0
+TRACE-T03-ref rel='corpus/evidence/round42/rc-ledger-probe.txt' exit=7
+=== END rc=1
+=== RUN variant=T03-mut.py fixture=r_run-t03-rc-nonzero-mixed rc=0
+tip de5aea3dd536ee7966174742047d81a1fadfbe5a
+receipt corpus/evidence/round42/census-probe.txt equal bytes=21 exit=0 doc=command=plans/census_probe.py:3,receipt=undocumented
+receipt corpus/evidence/round42/rc-ledger-probe.txt equal bytes=39 exit=0 doc=command=plans/rc_ledger_probe.py:3,receipt=undocumented
+control receipt=corpus/evidence/round42/census-probe.txt flip=byte 10 0x62->0x63 verdict=differ
+note compared=2 declared_bounded=0 no_command=0
+receipts=2 byte_equal=2 differ=0 skipped=0
+--stderr--
+TRACE-T03-mut rel='corpus/evidence/round42/census-probe.txt' exit=0
+TRACE-T03-mut rel='corpus/evidence/round42/rc-ledger-probe.txt' exit=7
+=== END rc=0
+##### T03 on r_run-t03-rc-nonzero-single
+=== RUN variant=T03-ref.py fixture=r_run-t03-rc-nonzero-single rc=1
+tip 7317fcc07cdc7b48fb4c7f1cf99b278489933410
+receipt corpus/evidence/round43/audit-probe.txt differ probe exit=1 (no stderr) exit=1 doc=command=plans/audit_probe.py:3,receipt=undocumented
+note compared=1 declared_bounded=0 no_command=0
+receipts=1 byte_equal=0 differ=1 skipped=0
+--stderr--
+TRACE-T03-ref rel='corpus/evidence/round43/audit-probe.txt' exit=1
+=== END rc=1
+=== RUN variant=T03-mut.py fixture=r_run-t03-rc-nonzero-single rc=0
+tip 7317fcc07cdc7b48fb4c7f1cf99b278489933410
+receipt corpus/evidence/round43/audit-probe.txt equal bytes=19 exit=0 doc=command=plans/audit_probe.py:3,receipt=undocumented
+control receipt=corpus/evidence/round43/audit-probe.txt flip=byte 9 0x62->0x63 verdict=differ
+note compared=1 declared_bounded=0 no_command=0
+receipts=1 byte_equal=1 differ=0 skipped=0
+--stderr--
+TRACE-T03-mut rel='corpus/evidence/round43/audit-probe.txt' exit=1
+=== END rc=0
+##### T04 on r_run-t04-temp-paths-masked
+=== RUN variant=T04-ref.py fixture=r_run-t04-temp-paths-masked rc=0
+tip 2c752a35a45aa998cd4ae54e3da9004097113b02
+receipt corpus/evidence/round36/regex-log-probe-first-run.txt skip reason=declared-nonreproducible-absolute-scratch-paths (equal after masking) doc=command=plans/regex_log_probe.py:3,receipt=undocumented
+note compared=0 declared_bounded=1 no_command=0
+receipts=1 byte_equal=0 differ=0 skipped=1
+--stderr--
+TRACE-T04-ref rel='corpus/evidence/round36/regex-log-probe-first-run.txt' kind='temp-paths'
+=== END rc=0
+=== RUN variant=T04-mut.py fixture=r_run-t04-temp-paths-masked rc=1
+tip 2c752a35a45aa998cd4ae54e3da9004097113b02
+receipt corpus/evidence/round36/regex-log-probe-first-run.txt differ masked bytes differ: - exit=0 doc=command=plans/regex_log_probe.py:3,receipt=undocumented
+note compared=0 declared_bounded=1 no_command=0
+receipts=1 byte_equal=0 differ=1 skipped=0
+--stderr--
+TRACE-T04-mut rel='corpus/evidence/round36/regex-log-probe-first-run.txt' kind='temp-paths'
+=== END rc=1
+##### T13 on r_run-t13-auto-control-differ
+=== RUN variant=T13-ref.py fixture=r_run-t13-auto-control-differ rc=0
+tip 883c0454bdb25838f476e2fafaf2b8f08f564860
+receipt corpus/evidence/round42/stable-census-probe.txt equal bytes=28 exit=0 doc=command=plans/stable_census_probe.py:3,receipt=undocumented
+receipt corpus/evidence/round43/slot-audit-probe.txt equal bytes=35 exit=0 doc=command=plans/slot_audit_probe.py:3,receipt=undocumented
+control receipt=corpus/evidence/round42/stable-census-probe.txt flip=byte 14 0x70->0x71 verdict=differ
+note compared=2 declared_bounded=0 no_command=0
+receipts=2 byte_equal=2 differ=0 skipped=0
+--stderr--
+TRACE-T13-ref rel='corpus/evidence/round42/stable-census-probe.txt' same=False
+=== END rc=0
+=== RUN variant=T13-mut.py fixture=r_run-t13-auto-control-differ rc=1
+tip 883c0454bdb25838f476e2fafaf2b8f08f564860
+receipt corpus/evidence/round42/stable-census-probe.txt equal bytes=28 exit=0 doc=command=plans/stable_census_probe.py:3,receipt=undocumented
+receipt corpus/evidence/round43/slot-audit-probe.txt equal bytes=35 exit=0 doc=command=plans/slot_audit_probe.py:3,receipt=undocumented
+control receipt=corpus/evidence/round42/stable-census-probe.txt flip=byte 14 0x70->0x71 verdict=differ
+note compared=2 declared_bounded=0 no_command=0
+receipts=2 byte_equal=2 differ=0 skipped=0
+--stderr--
+TRACE-T13-mut rel='corpus/evidence/round42/stable-census-probe.txt' same=False
+=== END rc=1
+DRIVER-DONE

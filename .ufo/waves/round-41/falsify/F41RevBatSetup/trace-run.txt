@@ -1,0 +1,168 @@
+[
+ {
+  "fid": "r_setup-t01-lane-absent",
+  "mutant": "T01",
+  "ref": {
+   "rc": 2,
+   "classes": [],
+   "trace": true,
+   "setup_msg": [
+    "SETUP: --lane /fast/scratch/hyaku/kengaku-r41/F41RevBatSetup/tracework/fx/f000/absent is not a directory"
+   ]
+  },
+  "mut": {
+   "rc": 0,
+   "classes": [],
+   "trace": true,
+   "stderr_tail": [
+    "TRACE T01 mutated-site reached"
+   ]
+  }
+ },
+ {
+  "fid": "r_setup-t01-not-a-repo",
+  "mutant": "T01",
+  "ref": {
+   "rc": 2,
+   "classes": [],
+   "trace": true,
+   "setup_msg": [
+    "SETUP: git rev-parse --show-toplevel failed: fatal: not a git repository (or any of the parent directories): .git"
+   ]
+  },
+  "mut": {
+   "rc": 0,
+   "classes": [],
+   "trace": true,
+   "stderr_tail": [
+    "TRACE T01 mutated-site reached"
+   ]
+  }
+ },
+ {
+  "fid": "r_setup-t02-no-evidence",
+  "mutant": "T02",
+  "ref": {
+   "rc": 2,
+   "classes": [],
+   "trace": true,
+   "setup_msg": [
+    "SETUP: --lane /fast/scratch/hyaku/kengaku-r41/F41RevBatSetup/tracework/fx/f002/lane has no corpus/evidence directory: not a kengaku lane?"
+   ]
+  },
+  "mut": {
+   "rc": 0,
+   "classes": [],
+   "trace": true,
+   "stderr_tail": [
+    "TRACE T02 mutated-site reached"
+   ]
+  }
+ },
+ {
+  "fid": "r_setup-t02-evidence-is-file",
+  "mutant": "T02",
+  "ref": {
+   "rc": 2,
+   "classes": [],
+   "trace": true,
+   "setup_msg": [
+    "SETUP: --lane /fast/scratch/hyaku/kengaku-r41/F41RevBatSetup/tracework/fx/f003/lane has no corpus/evidence directory: not a kengaku lane?"
+   ]
+  },
+  "mut": {
+   "rc": 0,
+   "classes": [],
+   "trace": true,
+   "stderr_tail": [
+    "TRACE T02 mutated-site reached"
+   ]
+  }
+ },
+ {
+  "fid": "r_setup-t05-tamper-absent",
+  "mutant": "T05",
+  "ref": {
+   "rc": 2,
+   "classes": [],
+   "trace": true,
+   "setup_msg": [
+    "SETUP: --tamper corpus/evidence/nope.txt is not a mapped receipt"
+   ]
+  },
+  "mut": {
+   "rc": 1,
+   "classes": [],
+   "trace": true,
+   "stderr_tail": [
+    "          ~~~~~~~^^^^^",
+    "KeyError: 'corpus/evidence/nope.txt'"
+   ]
+  }
+ },
+ {
+  "fid": "r_setup-t05-tamper-unmapped",
+  "mutant": "T05",
+  "ref": {
+   "rc": 2,
+   "classes": [],
+   "trace": true,
+   "setup_msg": [
+    "SETUP: --tamper corpus/evidence/r/bar-probe.log is not a mapped receipt"
+   ]
+  },
+  "mut": {
+   "rc": 1,
+   "classes": [],
+   "trace": true,
+   "stderr_tail": [
+    "          ~~~~~~~^^^^^",
+    "KeyError: 'corpus/evidence/r/bar-probe.log'"
+   ]
+  }
+ },
+ {
+  "fid": "r_setup-t07-lane-subdir",
+  "mutant": "T07",
+  "ref": {
+   "rc": 2,
+   "classes": [],
+   "trace": true,
+   "setup_msg": [
+    "SETUP: --lane /fast/scratch/hyaku/kengaku-r41/F41RevBatSetup/tracework/fx/f006/repo/sub is not a git work-tree root (rev-parse says /fast/scratch/hyaku/kengaku-r41/F41RevBatSetup/tracework/fx/f006/repo)"
+   ]
+  },
+  "mut": {
+   "rc": 0,
+   "classes": [
+    "map:corpus/evidence/r/foo-probe.txt:derived"
+   ],
+   "trace": true,
+   "stderr_tail": [
+    "TRACE T07 mutated-site reached"
+   ]
+  }
+ },
+ {
+  "fid": "r_setup-t07-nested-lane",
+  "mutant": "T07",
+  "ref": {
+   "rc": 2,
+   "classes": [],
+   "trace": true,
+   "setup_msg": [
+    "SETUP: --lane /fast/scratch/hyaku/kengaku-r41/F41RevBatSetup/tracework/fx/f007/worktree/nested/deeper is not a git work-tree root (rev-parse says /fast/scratch/hyaku/kengaku-r41/F41RevBatSetup/tracework/fx/f007/worktree)"
+   ]
+  },
+  "mut": {
+   "rc": 0,
+   "classes": [
+    "map:corpus/evidence/r/foo-probe.txt:derived"
+   ],
+   "trace": true,
+   "stderr_tail": [
+    "TRACE T07 mutated-site reached"
+   ]
+  }
+ }
+]

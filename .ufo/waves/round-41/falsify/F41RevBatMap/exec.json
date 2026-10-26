@@ -1,0 +1,844 @@
+{
+ "fixtures": [
+  {
+   "fid": "r_map-t09-shared-stem-separators",
+   "defects": [
+    "skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command"
+   ]
+  },
+  {
+   "fid": "r_map-t09-shared-stem-case-fold",
+   "defects": [
+    "skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command"
+   ]
+  },
+  {
+   "fid": "r_map-t10-derived-mapping",
+   "defects": [
+    "map:corpus/evidence/r/foo-probe.txt:derived"
+   ]
+  },
+  {
+   "fid": "r_map-t10-derived-with-table-sibling",
+   "defects": [
+    "map:corpus/evidence/r/foo-probe.txt:derived",
+    "map:corpus/evidence/round36/regex-log-probe.txt:table"
+   ]
+  },
+  {
+   "fid": "r_map-t10-derived-deep-layout",
+   "defects": [
+    "map:corpus/evidence/round41/scheduling/foo-probe.txt:derived"
+   ]
+  },
+  {
+   "fid": "r_map-t11-table-overrides-derived",
+   "defects": [
+    "map:corpus/evidence/round35/tb2-grader-probe.txt:table",
+    "map:corpus/evidence/round38/build-pmars-probe.txt:table"
+   ]
+  },
+  {
+   "fid": "r_map-t11-table-near-stem-decoy",
+   "defects": [
+    "map:corpus/evidence/round35/tb2-grader-probe.txt:table"
+   ]
+  },
+  {
+   "fid": "r_map-t12-log-population",
+   "defects": [
+    "skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command"
+   ]
+  },
+  {
+   "fid": "r_map-t12-log-with-table-sibling",
+   "defects": [
+    "map:corpus/evidence/round36/regex-log-probe.txt:table",
+    "skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command"
+   ]
+  },
+  {
+   "fid": "r_map-t12-log-derived",
+   "defects": [
+    "map:corpus/evidence/r/foo-probe.log:derived"
+   ]
+  }
+ ],
+ "mutants": {
+  "T09": {
+   "cls": "skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command",
+   "direction": "silence",
+   "fixtures": [
+    {
+     "fid": "r_map-t09-shared-stem-separators",
+     "ref_rc": 0,
+     "ref_cls": [
+      "skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command"
+     ],
+     "ref_trace": [
+      "TRACE-T09 ref-site"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/r/foo-probe.txt:derived"
+     ],
+     "mut_trace": [
+      "TRACE-T09 mut-site"
+     ],
+     "exhibits": true
+    },
+    {
+     "fid": "r_map-t09-shared-stem-case-fold",
+     "ref_rc": 0,
+     "ref_cls": [
+      "skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command"
+     ],
+     "ref_trace": [
+      "TRACE-T09 ref-site"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/r/foo-probe.txt:derived"
+     ],
+     "mut_trace": [
+      "TRACE-T09 mut-site"
+     ],
+     "exhibits": true
+    },
+    {
+     "fid": "r_map-t10-derived-mapping",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/r/foo-probe.txt:derived"
+     ],
+     "ref_trace": [
+      "TRACE-T09 ref-site"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/r/foo-probe.txt:derived"
+     ],
+     "mut_trace": [
+      "TRACE-T09 mut-site"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t10-derived-with-table-sibling",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/r/foo-probe.txt:derived",
+      "map:corpus/evidence/round36/regex-log-probe.txt:table"
+     ],
+     "ref_trace": [
+      "TRACE-T09 ref-site"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/r/foo-probe.txt:derived",
+      "map:corpus/evidence/round36/regex-log-probe.txt:table"
+     ],
+     "mut_trace": [
+      "TRACE-T09 mut-site"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t10-derived-deep-layout",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/round41/scheduling/foo-probe.txt:derived"
+     ],
+     "ref_trace": [
+      "TRACE-T09 ref-site"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/round41/scheduling/foo-probe.txt:derived"
+     ],
+     "mut_trace": [
+      "TRACE-T09 mut-site"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t11-table-overrides-derived",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/round35/tb2-grader-probe.txt:table",
+      "map:corpus/evidence/round38/build-pmars-probe.txt:table"
+     ],
+     "ref_trace": [],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/round35/tb2-grader-probe.txt:table",
+      "map:corpus/evidence/round38/build-pmars-probe.txt:table"
+     ],
+     "mut_trace": [],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t11-table-near-stem-decoy",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/round35/tb2-grader-probe.txt:table"
+     ],
+     "ref_trace": [],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/round35/tb2-grader-probe.txt:table"
+     ],
+     "mut_trace": [],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t12-log-population",
+     "ref_rc": 0,
+     "ref_cls": [
+      "skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command"
+     ],
+     "ref_trace": [
+      "TRACE-T09 ref-site"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command"
+     ],
+     "mut_trace": [
+      "TRACE-T09 mut-site"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t12-log-with-table-sibling",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/round36/regex-log-probe.txt:table",
+      "skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command"
+     ],
+     "ref_trace": [
+      "TRACE-T09 ref-site"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/round36/regex-log-probe.txt:table",
+      "skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command"
+     ],
+     "mut_trace": [
+      "TRACE-T09 mut-site"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t12-log-derived",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/r/foo-probe.log:derived"
+     ],
+     "ref_trace": [
+      "TRACE-T09 ref-site"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/r/foo-probe.log:derived"
+     ],
+     "mut_trace": [
+      "TRACE-T09 mut-site"
+     ],
+     "exhibits": false
+    }
+   ],
+   "kill_by": "r_map-t09-shared-stem-separators",
+   "kill_sites": [
+    "r_map-t09-shared-stem-separators",
+    "r_map-t09-shared-stem-case-fold"
+   ]
+  },
+  "T10": {
+   "cls": "map:corpus/evidence/r/foo-probe.txt:derived",
+   "direction": "silence",
+   "fixtures": [
+    {
+     "fid": "r_map-t09-shared-stem-separators",
+     "ref_rc": 0,
+     "ref_cls": [
+      "skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command"
+     ],
+     "ref_trace": [
+      "TRACE-T10 ref-site pattern='[^a-z0-9]+'"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/r/foo-probe.txt:derived"
+     ],
+     "mut_trace": [
+      "TRACE-T10 mut-site pattern='[^a-z0-9_]+'"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t09-shared-stem-case-fold",
+     "ref_rc": 0,
+     "ref_cls": [
+      "skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command"
+     ],
+     "ref_trace": [
+      "TRACE-T10 ref-site pattern='[^a-z0-9]+'"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/r/foo-probe.txt:derived"
+     ],
+     "mut_trace": [
+      "TRACE-T10 mut-site pattern='[^a-z0-9_]+'"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t10-derived-mapping",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/r/foo-probe.txt:derived"
+     ],
+     "ref_trace": [
+      "TRACE-T10 ref-site pattern='[^a-z0-9]+'"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command"
+     ],
+     "mut_trace": [
+      "TRACE-T10 mut-site pattern='[^a-z0-9_]+'"
+     ],
+     "exhibits": true
+    },
+    {
+     "fid": "r_map-t10-derived-with-table-sibling",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/r/foo-probe.txt:derived",
+      "map:corpus/evidence/round36/regex-log-probe.txt:table"
+     ],
+     "ref_trace": [
+      "TRACE-T10 ref-site pattern='[^a-z0-9]+'"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/round36/regex-log-probe.txt:table",
+      "skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command"
+     ],
+     "mut_trace": [
+      "TRACE-T10 mut-site pattern='[^a-z0-9_]+'"
+     ],
+     "exhibits": true
+    },
+    {
+     "fid": "r_map-t10-derived-deep-layout",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/round41/scheduling/foo-probe.txt:derived"
+     ],
+     "ref_trace": [
+      "TRACE-T10 ref-site pattern='[^a-z0-9]+'"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "skip:corpus/evidence/round41/scheduling/foo-probe.txt:no-committed-re-run-command"
+     ],
+     "mut_trace": [
+      "TRACE-T10 mut-site pattern='[^a-z0-9_]+'"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t11-table-overrides-derived",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/round35/tb2-grader-probe.txt:table",
+      "map:corpus/evidence/round38/build-pmars-probe.txt:table"
+     ],
+     "ref_trace": [
+      "TRACE-T10 ref-site pattern='[^a-z0-9]+'"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/round35/tb2-grader-probe.txt:table",
+      "map:corpus/evidence/round38/build-pmars-probe.txt:table"
+     ],
+     "mut_trace": [
+      "TRACE-T10 mut-site pattern='[^a-z0-9_]+'"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t11-table-near-stem-decoy",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/round35/tb2-grader-probe.txt:table"
+     ],
+     "ref_trace": [
+      "TRACE-T10 ref-site pattern='[^a-z0-9]+'"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/round35/tb2-grader-probe.txt:table"
+     ],
+     "mut_trace": [
+      "TRACE-T10 mut-site pattern='[^a-z0-9_]+'"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t12-log-population",
+     "ref_rc": 0,
+     "ref_cls": [
+      "skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command"
+     ],
+     "ref_trace": [
+      "TRACE-T10 ref-site pattern='[^a-z0-9]+'"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command"
+     ],
+     "mut_trace": [
+      "TRACE-T10 mut-site pattern='[^a-z0-9_]+'"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t12-log-with-table-sibling",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/round36/regex-log-probe.txt:table",
+      "skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command"
+     ],
+     "ref_trace": [
+      "TRACE-T10 ref-site pattern='[^a-z0-9]+'"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/round36/regex-log-probe.txt:table",
+      "skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command"
+     ],
+     "mut_trace": [
+      "TRACE-T10 mut-site pattern='[^a-z0-9_]+'"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t12-log-derived",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/r/foo-probe.log:derived"
+     ],
+     "ref_trace": [
+      "TRACE-T10 ref-site pattern='[^a-z0-9]+'"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command"
+     ],
+     "mut_trace": [
+      "TRACE-T10 mut-site pattern='[^a-z0-9_]+'"
+     ],
+     "exhibits": false
+    }
+   ],
+   "kill_by": "r_map-t10-derived-mapping",
+   "kill_sites": [
+    "r_map-t10-derived-mapping",
+    "r_map-t10-derived-with-table-sibling"
+   ]
+  },
+  "T11": {
+   "cls": "map:corpus/evidence/round35/tb2-grader-probe.txt:table",
+   "direction": "silence",
+   "fixtures": [
+    {
+     "fid": "r_map-t09-shared-stem-separators",
+     "ref_rc": 0,
+     "ref_cls": [
+      "skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command"
+     ],
+     "ref_trace": [
+      "TRACE-T11 ref-site"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command"
+     ],
+     "mut_trace": [
+      "TRACE-T11 mut-site"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t09-shared-stem-case-fold",
+     "ref_rc": 0,
+     "ref_cls": [
+      "skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command"
+     ],
+     "ref_trace": [
+      "TRACE-T11 ref-site"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command"
+     ],
+     "mut_trace": [
+      "TRACE-T11 mut-site"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t10-derived-mapping",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/r/foo-probe.txt:derived"
+     ],
+     "ref_trace": [
+      "TRACE-T11 ref-site"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/r/foo-probe.txt:derived"
+     ],
+     "mut_trace": [
+      "TRACE-T11 mut-site"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t10-derived-with-table-sibling",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/r/foo-probe.txt:derived",
+      "map:corpus/evidence/round36/regex-log-probe.txt:table"
+     ],
+     "ref_trace": [
+      "TRACE-T11 ref-site"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/r/foo-probe.txt:derived",
+      "map:corpus/evidence/round36/regex-log-probe.txt:derived"
+     ],
+     "mut_trace": [
+      "TRACE-T11 mut-site"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t10-derived-deep-layout",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/round41/scheduling/foo-probe.txt:derived"
+     ],
+     "ref_trace": [
+      "TRACE-T11 ref-site"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/round41/scheduling/foo-probe.txt:derived"
+     ],
+     "mut_trace": [
+      "TRACE-T11 mut-site"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t11-table-overrides-derived",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/round35/tb2-grader-probe.txt:table",
+      "map:corpus/evidence/round38/build-pmars-probe.txt:table"
+     ],
+     "ref_trace": [
+      "TRACE-T11 ref-site"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/round35/tb2-grader-probe.txt:derived",
+      "map:corpus/evidence/round38/build-pmars-probe.txt:derived"
+     ],
+     "mut_trace": [
+      "TRACE-T11 mut-site"
+     ],
+     "exhibits": true
+    },
+    {
+     "fid": "r_map-t11-table-near-stem-decoy",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/round35/tb2-grader-probe.txt:table"
+     ],
+     "ref_trace": [
+      "TRACE-T11 ref-site"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/round35/tb2-grader-probe.txt:derived"
+     ],
+     "mut_trace": [
+      "TRACE-T11 mut-site"
+     ],
+     "exhibits": true
+    },
+    {
+     "fid": "r_map-t12-log-population",
+     "ref_rc": 0,
+     "ref_cls": [
+      "skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command"
+     ],
+     "ref_trace": [
+      "TRACE-T11 ref-site"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command"
+     ],
+     "mut_trace": [
+      "TRACE-T11 mut-site"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t12-log-with-table-sibling",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/round36/regex-log-probe.txt:table",
+      "skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command"
+     ],
+     "ref_trace": [
+      "TRACE-T11 ref-site"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/round36/regex-log-probe.txt:derived",
+      "skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command"
+     ],
+     "mut_trace": [
+      "TRACE-T11 mut-site"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t12-log-derived",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/r/foo-probe.log:derived"
+     ],
+     "ref_trace": [
+      "TRACE-T11 ref-site"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/r/foo-probe.log:derived"
+     ],
+     "mut_trace": [
+      "TRACE-T11 mut-site"
+     ],
+     "exhibits": false
+    }
+   ],
+   "kill_by": "r_map-t11-table-overrides-derived",
+   "kill_sites": [
+    "r_map-t11-table-overrides-derived",
+    "r_map-t11-table-near-stem-decoy"
+   ]
+  },
+  "T12": {
+   "cls": "skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command",
+   "direction": "silence",
+   "fixtures": [
+    {
+     "fid": "r_map-t09-shared-stem-separators",
+     "ref_rc": 0,
+     "ref_cls": [
+      "skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command"
+     ],
+     "ref_trace": [
+      "TRACE-T12 ref-site pattern='probe.*\\\\.(?:txt|log)$'"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command"
+     ],
+     "mut_trace": [
+      "TRACE-T12 mut-site pattern='probe.*\\\\.(?:txt)$'"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t09-shared-stem-case-fold",
+     "ref_rc": 0,
+     "ref_cls": [
+      "skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command"
+     ],
+     "ref_trace": [
+      "TRACE-T12 ref-site pattern='probe.*\\\\.(?:txt|log)$'"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "skip:corpus/evidence/r/foo-probe.txt:no-committed-re-run-command"
+     ],
+     "mut_trace": [
+      "TRACE-T12 mut-site pattern='probe.*\\\\.(?:txt)$'"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t10-derived-mapping",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/r/foo-probe.txt:derived"
+     ],
+     "ref_trace": [
+      "TRACE-T12 ref-site pattern='probe.*\\\\.(?:txt|log)$'"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/r/foo-probe.txt:derived"
+     ],
+     "mut_trace": [
+      "TRACE-T12 mut-site pattern='probe.*\\\\.(?:txt)$'"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t10-derived-with-table-sibling",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/r/foo-probe.txt:derived",
+      "map:corpus/evidence/round36/regex-log-probe.txt:table"
+     ],
+     "ref_trace": [
+      "TRACE-T12 ref-site pattern='probe.*\\\\.(?:txt|log)$'"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/r/foo-probe.txt:derived",
+      "map:corpus/evidence/round36/regex-log-probe.txt:table"
+     ],
+     "mut_trace": [
+      "TRACE-T12 mut-site pattern='probe.*\\\\.(?:txt)$'"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t10-derived-deep-layout",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/round41/scheduling/foo-probe.txt:derived"
+     ],
+     "ref_trace": [
+      "TRACE-T12 ref-site pattern='probe.*\\\\.(?:txt|log)$'"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/round41/scheduling/foo-probe.txt:derived"
+     ],
+     "mut_trace": [
+      "TRACE-T12 mut-site pattern='probe.*\\\\.(?:txt)$'"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t11-table-overrides-derived",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/round35/tb2-grader-probe.txt:table",
+      "map:corpus/evidence/round38/build-pmars-probe.txt:table"
+     ],
+     "ref_trace": [
+      "TRACE-T12 ref-site pattern='probe.*\\\\.(?:txt|log)$'"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/round35/tb2-grader-probe.txt:table",
+      "map:corpus/evidence/round38/build-pmars-probe.txt:table"
+     ],
+     "mut_trace": [
+      "TRACE-T12 mut-site pattern='probe.*\\\\.(?:txt)$'"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t11-table-near-stem-decoy",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/round35/tb2-grader-probe.txt:table"
+     ],
+     "ref_trace": [
+      "TRACE-T12 ref-site pattern='probe.*\\\\.(?:txt|log)$'"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/round35/tb2-grader-probe.txt:table"
+     ],
+     "mut_trace": [
+      "TRACE-T12 mut-site pattern='probe.*\\\\.(?:txt)$'"
+     ],
+     "exhibits": false
+    },
+    {
+     "fid": "r_map-t12-log-population",
+     "ref_rc": 0,
+     "ref_cls": [
+      "skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command"
+     ],
+     "ref_trace": [
+      "TRACE-T12 ref-site pattern='probe.*\\\\.(?:txt|log)$'"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [],
+     "mut_trace": [
+      "TRACE-T12 mut-site pattern='probe.*\\\\.(?:txt)$'"
+     ],
+     "exhibits": true
+    },
+    {
+     "fid": "r_map-t12-log-with-table-sibling",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/round36/regex-log-probe.txt:table",
+      "skip:corpus/evidence/r/foo-probe.log:no-committed-re-run-command"
+     ],
+     "ref_trace": [
+      "TRACE-T12 ref-site pattern='probe.*\\\\.(?:txt|log)$'"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [
+      "map:corpus/evidence/round36/regex-log-probe.txt:table"
+     ],
+     "mut_trace": [
+      "TRACE-T12 mut-site pattern='probe.*\\\\.(?:txt)$'"
+     ],
+     "exhibits": true
+    },
+    {
+     "fid": "r_map-t12-log-derived",
+     "ref_rc": 0,
+     "ref_cls": [
+      "map:corpus/evidence/r/foo-probe.log:derived"
+     ],
+     "ref_trace": [
+      "TRACE-T12 ref-site pattern='probe.*\\\\.(?:txt|log)$'"
+     ],
+     "mut_rc": 0,
+     "mut_cls": [],
+     "mut_trace": [
+      "TRACE-T12 mut-site pattern='probe.*\\\\.(?:txt)$'"
+     ],
+     "exhibits": false
+    }
+   ],
+   "kill_by": "r_map-t12-log-population",
+   "kill_sites": [
+    "r_map-t12-log-population",
+    "r_map-t12-log-with-table-sibling"
+   ]
+  }
+ }
+}

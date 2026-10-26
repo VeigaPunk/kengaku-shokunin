@@ -1,0 +1,52 @@
+### module=h_var counter=frozen
+FIXTURE h_var-variant-store-visible tool=receipts expect=accept declared=control:differ,equal:corpus/evidence/r/vis-probe.txt observed_rc=0 observed=control:differ,equal:corpus/evidence/r/vis-probe.txt ok
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=0
+exit=0
+
+### module=h_var counter=hardened
+FIXTURE h_var-variant-store-visible tool=receipts expect=accept declared=control:differ,equal:corpus/evidence/r/vis-probe.txt observed_rc=1 observed=differ:corpus/evidence/r/vis-probe.txt WRONG
+BATTERY fixtures=1 wrong=1 tampered=0 sidechannel=0
+exit=0
+
+### module=h_ipc counter=frozen
+FIXTURE h_ipc-build-segment-visible tool=receipts expect=accept declared=control:differ,equal:corpus/evidence/r/ipc-probe.txt observed_rc=0 observed=control:differ,equal:corpus/evidence/r/ipc-probe.txt ok
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=1
+exit=0
+
+### module=h_ipc counter=hardened
+FIXTURE h_ipc-build-segment-visible tool=receipts expect=accept declared=control:differ,equal:corpus/evidence/r/ipc-probe.txt observed_rc=1 observed=differ:corpus/evidence/r/ipc-probe.txt WRONG
+BATTERY fixtures=1 wrong=1 tampered=0 sidechannel=1
+exit=0
+
+### module=h_run counter=frozen
+FIXTURE h_run-host-run-visible tool=receipts expect=accept declared=control:differ,equal:corpus/evidence/r/run-probe.txt observed_rc=0 observed=control:differ,equal:corpus/evidence/r/run-probe.txt ok
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=1
+exit=0
+
+### module=h_run counter=hardened
+FIXTURE h_run-host-run-visible tool=receipts expect=accept declared=control:differ,equal:corpus/evidence/r/run-probe.txt observed_rc=1 observed=differ:corpus/evidence/r/run-probe.txt WRONG
+BATTERY fixtures=1 wrong=1 tampered=0 sidechannel=1
+exit=0
+
+### module=h_esc counter=frozen
+FIXTURE h_esc-local-tree tool=receipts expect=accept declared=map:corpus/evidence/r/ext-probe.txt:derived observed_rc=0 observed=map:corpus/evidence/r/ext-probe.txt:derived ok
+FIXTURE h_esc-relative-escape tool=receipts expect=accept declared=map:corpus/evidence/r/ext-probe.txt:derived observed_rc=0 observed=map:corpus/evidence/r/ext-probe.txt:derived ok
+BATTERY fixtures=2 wrong=0 tampered=0 sidechannel=1
+exit=0
+
+### module=h_esc counter=hardened
+SETUP fixture 'h_esc-relative-escape' of h_esc/h_esc.py breaks the contract
+exit=0
+
+### module=h_big counter=frozen (RLIMIT_AS=2GiB)
+  File "/fast/scratch/hyaku/kengaku-r41/F41C1Hardened/lane/plans/round41_c1_verify.py", line 549, in main
+    prints = [fingerprint(fx["dir"]) for fx in fixtures]
+              ~~~~~~~~~~~^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r41/F41C1Hardened/lane/plans/round41_c1_verify.py", line 344, in fingerprint
+    content = hashlib.sha256(fh.read()).hexdigest()
+                             ~~~~~~~^^
+MemoryError
+### module=h_big counter=hardened (RLIMIT_AS=2GiB)
+FIXTURE h_big-sparse-fixture-file tool=receipts expect=accept declared=map:corpus/evidence/r/big-probe.txt:derived observed_rc=0 observed=map:corpus/evidence/r/big-probe.txt:derived ok
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=0 killed=0 survived=0 invalid=0 null_detected=0

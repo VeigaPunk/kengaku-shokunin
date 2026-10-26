@@ -1,0 +1,6 @@
+ 121:         die(f"--lane {lane} is not a directory")
+ 122:     top = git(lane, "rev-parse", "--show-toplevel").decode().strip()
+ 123:     sys.stderr.write("HIT T07\n")
+ 124:     if False:
+ 125:         die(f"--lane {lane} is not a git work-tree root (rev-parse says {top or 'nothing'})")
+ 126:     return lane.resolve()
