@@ -1,0 +1,34 @@
+GATE plans/pkg_gate.py sha256=frozen
+FIXTURE r36-P0 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-P1 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P2 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P3 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P4 expect=reject declared=- observed_rc=1 observed_defects=P6 ok
+FIXTURE r36-P5 expect=reject declared=- observed_rc=1 observed_defects=P1 ok
+FIXTURE r36-P6 expect=reject declared=- observed_rc=1 observed_defects=P9 ok
+FIXTURE r36-P7 expect=reject declared=- observed_rc=1 observed_defects=P1,P3,P6,P9 ok
+FIXTURE r36-L1 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-L2 expect=reject declared=- observed_rc=1 observed_defects=D4 ok
+FIXTURE r36-L3 expect=reject declared=- observed_rc=1 observed_defects=D4 ok
+FIXTURE r36-L4 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-L5 expect=reject declared=- observed_rc=1 observed_defects=D5 ok
+FIXTURE r36-L6 expect=reject declared=- observed_rc=1 observed_defects=D5 ok
+FIXTURE p6-m20-registry-row-duplicated expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m21-row-with-twelve-cells expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m22-url-off-the-pinned-raw-path expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m23-row-tier-b expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m24-row-status-queued expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m25-used-by-another-path expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m26-five-word-teaches-cell expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+FIXTURE p6-m27-two-identical-teaches-cells expect=reject declared=P6 observed_rc=1 observed_defects=P6 ok
+BATTERY fixtures=22 wrong=0 renamed_disagree=0
+MUTANT M20 P6 killed by=p6-m20-registry-row-duplicated -- registry row missing or duplicated
+MUTANT M21 P6 killed by=p6-m21-row-with-twelve-cells -- registry row without 11 cells
+MUTANT M22 P6 killed by=p6-m22-url-off-the-pinned-raw-path -- row url not the pinned raw path
+MUTANT M23 P6 killed by=p6-m23-row-tier-b -- row tier wrong
+MUTANT M24 P6 killed by=p6-m24-row-status-queued -- row status wrong
+MUTANT M25 P6 killed by=p6-m25-used-by-another-path -- row used-by is not the entry
+MUTANT M26 P6 killed by=p6-m26-five-word-teaches-cell -- teaches cell under min_teaches_words
+MUTANT M27 P6 killed by=p6-m27-two-identical-teaches-cells -- teaches cells not pairwise distinct
+MUTANTS total=8 killed=8 survived=0 invalid=0 null_detected=0
+PREDICATE C1 n/a (non-default battery or mutant subset)

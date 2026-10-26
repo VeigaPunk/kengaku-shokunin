@@ -1,0 +1,57 @@
+# C2 V3 anchor-digest falsifier — R37LessonDraft, 2026-10-26
+# Purpose: show plans/round37_c2_verify.py V3 can fail on a truncated anchor digest
+# (round-36 spot-check routed item 1's branch), not only on a missing row.
+# Scratch: /fast/scratch/hyaku/kengaku-r37/R37LessonDraft (deleted at seat end; lane read-only).
+# Rows are built in the scratch clone, never in the lane.
+
+$ export TMPDIR=/fast/scratch/hyaku/kengaku-r37/R37LessonDraft
+$ git clone -q --shared /home/vgpnk/Projects/shokunin/kengaku-shokunin "$S/fx/lane"
+$ git -C "$S/fx/lane" rev-parse --show-toplevel
+/fast/scratch/hyaku/kengaku-r37/R37LessonDraft/fx/lane
+
+# build two clones: rows with the spec's exact digests, and S111 short by one hex character
+$ python3 - "$S/fx/lane" <<'PY'
+import json, pathlib, re, sys, shutil
+lane = pathlib.Path(sys.argv[1]); spec = json.loads((lane/"plans/pkg-spec-r37.json").read_text())
+tpl = [l for l in (lane/"corpus/SOURCES.md").read_text().splitlines(keepends=True) if l.startswith("| S110 |")][0]
+def mkrow(sid, digest):
+    r = spec["rows"][sid]
+    line = tpl.replace("| S110 |", f"| {sid} |", 1)
+    line = line.replace("regex-log/instruction.md", "configure-git-webserver/"+r["upstream"])
+    return re.sub(r"sha256 [0-9a-f]+", "sha256 "+digest, line)
+rows = [mkrow(s, spec["rows"][s]["sha256"]) for s in ("S111","S112","S113")]
+rows[0] = rows[0].replace(spec["rows"]["S111"]["sha256"], spec["rows"]["S111"]["sha256"][:-1])   # 63 hex
+d = lane.parent/"v-trunc"; shutil.copytree(lane, d, symlinks=True)
+ls = (d/"corpus/SOURCES.md").read_text().splitlines(keepends=True)
+i = [n for n,l in enumerate(ls) if l.startswith("| S110 |")][0]
+(d/"corpus/SOURCES.md").write_text("".join(ls[:i+1] + rows + ls[i+1:]))
+# the exact-digest clone $S/fx/v is built the same way with rows unmodified
+PY
+
+# call the frozen V3 itself (module import; no counter re-run needed)
+$ python3 - "$S/fx" <<'PY'
+import importlib.util, pathlib, sys
+fx = pathlib.Path(sys.argv[1])
+spec = importlib.util.spec_from_file_location("c2", fx/"v/plans/round37_c2_verify.py")
+m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+for name in ("v","v-trunc"):
+    ok, msg = m.v3(fx/name); print(f"{name}: v3 ok={ok} {msg}")
+PY
+v: v3 ok=True rows=3 bad=0
+v-trunc: v3 ok=False rows=3 bad=['S111:anchor_digest']
+
+# V3 source under test: plans/round37_c2_verify.py:108-119
+#   toks = re.findall(r"sha256\s+([0-9a-fA-F]+)", found[0][5])
+#   if toks != [row["sha256"]]: bad.append(f"{sid}:anchor_digest")
+# Control at freeze (rows absent, not truncated): control-c2-nothing.txt -> V3 DEFECT rows=3 bad=['S111:row', ...]
+
+# Baseline still carries the original defect (not repaired by this seat):
+$ sed -n '125p' corpus/SOURCES.md | grep -o 'sha256 [0-9a-f]*' | awk '{print length($2)}'
+63
+$ grep -o "sha256 [0-9a-f]*" corpus/SOURCES.md | awk '{print length($2)}' | sort | uniq -c
+      3 0
+      1 63
+      8 64
+      1 8
+# (the 0- and 8-length tokens are rows whose anchor cell names a digest that is not a sha256 hex run;
+#  the 63 is S110 — the routed defect. No 64-hex token is missing.)

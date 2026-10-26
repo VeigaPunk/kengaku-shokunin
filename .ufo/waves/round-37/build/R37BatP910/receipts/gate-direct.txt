@@ -1,0 +1,38 @@
+== gate on p910-not-a-git-repo (no repository at all)
+P1 ok pinned=3 mismatched=0
+P2 ok receipt_sha256=pinned
+P3 ok rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=0
+P4 ok checked=22 bad=0 first=0
+P5 ok manifest_entries=6 bad=0 first=0
+P6 ok rows=3 bad=0 first=0
+P7 ok source_lines=3 bad=0 first=0
+P8 ok index_rows=43 knowledge_files=43 bad=0 first=0
+P9 DEFECT root is not a readable git worktree
+defects=1
+rc=1
+== gate on p910-receipt-deleted
+P1 ok pinned=3 mismatched=0
+P2 DEFECT receipt unreadable: corpus/evidence/round35/tb2-grader-probe.txt
+P3 ok rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=0
+P4 ok checked=22 bad=0 first=0
+P5 ok manifest_entries=6 bad=0 first=0
+P6 ok rows=3 bad=0 first=0
+P7 ok source_lines=3 bad=0 first=0
+P8 ok index_rows=43 knowledge_files=43 bad=0 first=0
+P9 ok untracked=0 first=0
+P10 DEFECT receipt unreadable
+defects=2
+rc=1
+== gate on p910-receipt-one-byte
+P1 ok pinned=3 mismatched=0
+P2 DEFECT receipt_sha256=852c82ead1ddd275b1b3da1c8cf5835cd2e14aa0a387336f0547062af1d5e629
+P3 ok rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=0
+P4 ok checked=22 bad=0 first=0
+P5 ok manifest_entries=6 bad=0 first=0
+P6 ok rows=3 bad=0 first=0
+P7 ok source_lines=3 bad=0 first=0
+P8 ok index_rows=43 knowledge_files=43 bad=0 first=0
+P9 ok untracked=0 first=0
+P10 DEFECT fresh probe output is not byte-equal to the receipt
+defects=2
+rc=1

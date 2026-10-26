@@ -1,0 +1,10 @@
+# probe sha256=63cb75cfcd1c224a38eef34b99b66c9ec837261ca8c369577b23601ed3a5eedf
+# predictions (written first, PREDICTIONS-extra.md):
+PREDICT wget-wrong-content tools=wget predicted=fail -- verify.sh:80 false -> :83 on the wget branch
+PREDICT port-8080-junk-8081-correct tools=curl predicted=fail -- verify.sh:57 hard-codes :8080; :63 compares the :8080 body
+# observed:
+CASE wget-wrong-content tools=wget predicted=fail observed=fail match=yes
+  grader-stdout: 'Testing web server...' | 'Using wget to test web server...' | 'Web server test successful' | 'Content: Hello World' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: 'Hello World'" | 'Test completed'
+CASE port-8080-junk-8081-correct tools=curl predicted=fail observed=fail match=yes
+  stdout=['Testing web server...', 'Using curl to test web server...', 'Web server test successful (HTTP 200)', 'Content: not hello', '❌ TEST FAILED: Content does not match expected output', "Expected: 'hello world'", "Got: 'not hello'", 'Test completed']
+extras matched=2/2

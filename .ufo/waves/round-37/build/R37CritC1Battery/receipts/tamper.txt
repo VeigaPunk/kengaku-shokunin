@@ -1,0 +1,20 @@
+GATE plans/pkg_gate.py sha256=frozen
+FIXTURE r36-P0 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-P1 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P2 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P3 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P4 expect=reject declared=- observed_rc=1 observed_defects=P6 ok
+FIXTURE r36-P5 expect=reject declared=- observed_rc=1 observed_defects=P1 ok
+FIXTURE r36-P6 expect=reject declared=- observed_rc=1 observed_defects=P9 ok
+FIXTURE r36-P7 expect=reject declared=- observed_rc=1 observed_defects=P1,P3,P6,P9 ok
+FIXTURE r36-L1 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-L2 expect=reject declared=- observed_rc=1 observed_defects=D4 ok
+FIXTURE r36-L3 expect=reject declared=- observed_rc=1 observed_defects=D4 ok
+FIXTURE r36-L4 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-L5 expect=reject declared=- observed_rc=1 observed_defects=D5 ok
+FIXTURE r36-L6 expect=reject declared=- observed_rc=1 observed_defects=D5 ok
+FIXTURE crit-p10-tamper expect=accept declared=- observed_rc=0 observed_defects=- ok
+BATTERY fixtures=15 wrong=0 renamed_disagree=0
+MUTANT M06 P3 invalid(mutant file changed during the run) -- fewer distinct quotes than min_quotes
+MUTANTS total=1 killed=0 survived=0 invalid=1 null_detected=0
+PREDICATE C1 n/a (non-default battery or mutant subset)

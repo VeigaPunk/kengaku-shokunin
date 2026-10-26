@@ -1,0 +1,54 @@
+=== variant without p23-p2-receipt-deleted
+FIXTURE p23-p2-receipt-byte expect=reject declared=P2 observed_rc=1 observed_defects=P2 ok
+FIXTURE p23-p3-heading-renamed expect=reject declared=P3,P4 observed_rc=1 observed_defects=P3,P4 ok
+FIXTURE p23-p3-seven-texts expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE p23-p3-seven-locations expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE p23-p3-two-word-quote expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+BATTERY fixtures=19 wrong=0 renamed_disagree=0
+MUTANT M02 P2 SURVIVED -- receipt unreadable
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0
+=== variant without p23-p2-receipt-byte
+FIXTURE p23-p2-receipt-deleted expect=reject declared=P2 observed_rc=1 observed_defects=P2 ok
+FIXTURE p23-p3-heading-renamed expect=reject declared=P3,P4 observed_rc=1 observed_defects=P3,P4 ok
+FIXTURE p23-p3-seven-texts expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE p23-p3-seven-locations expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE p23-p3-two-word-quote expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+BATTERY fixtures=19 wrong=0 renamed_disagree=0
+MUTANT M03 P2 SURVIVED -- receipt digest differs from the pin
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0
+=== variant without p23-p3-heading-renamed
+FIXTURE p23-p2-receipt-deleted expect=reject declared=P2 observed_rc=1 observed_defects=P2 ok
+FIXTURE p23-p2-receipt-byte expect=reject declared=P2 observed_rc=1 observed_defects=P2 ok
+FIXTURE p23-p3-seven-texts expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE p23-p3-seven-locations expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE p23-p3-two-word-quote expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+BATTERY fixtures=19 wrong=0 renamed_disagree=0
+MUTANT M04 P3 SURVIVED -- no Located quotes section
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0
+=== variant without p23-p3-seven-texts
+FIXTURE p23-p2-receipt-deleted expect=reject declared=P2 observed_rc=1 observed_defects=P2 ok
+FIXTURE p23-p2-receipt-byte expect=reject declared=P2 observed_rc=1 observed_defects=P2 ok
+FIXTURE p23-p3-heading-renamed expect=reject declared=P3,P4 observed_rc=1 observed_defects=P3,P4 ok
+FIXTURE p23-p3-seven-locations expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE p23-p3-two-word-quote expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+BATTERY fixtures=19 wrong=0 renamed_disagree=0
+MUTANT M06 P3 SURVIVED -- fewer distinct quotes than min_quotes
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0
+=== variant without p23-p3-seven-locations
+FIXTURE p23-p2-receipt-deleted expect=reject declared=P2 observed_rc=1 observed_defects=P2 ok
+FIXTURE p23-p2-receipt-byte expect=reject declared=P2 observed_rc=1 observed_defects=P2 ok
+FIXTURE p23-p3-heading-renamed expect=reject declared=P3,P4 observed_rc=1 observed_defects=P3,P4 ok
+FIXTURE p23-p3-seven-texts expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE p23-p3-two-word-quote expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+BATTERY fixtures=19 wrong=0 renamed_disagree=0
+MUTANT M07 P3 SURVIVED -- fewer distinct located lines than min_distinct_locations
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0
+=== variant without p23-p3-two-word-quote
+FIXTURE p23-p2-receipt-deleted expect=reject declared=P2 observed_rc=1 observed_defects=P2 ok
+FIXTURE p23-p2-receipt-byte expect=reject declared=P2 observed_rc=1 observed_defects=P2 ok
+FIXTURE p23-p3-heading-renamed expect=reject declared=P3,P4 observed_rc=1 observed_defects=P3,P4 ok
+FIXTURE p23-p3-seven-texts expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+FIXTURE p23-p3-seven-locations expect=reject declared=P3 observed_rc=1 observed_defects=P3 ok
+BATTERY fixtures=19 wrong=0 renamed_disagree=0
+MUTANT M08 P3 SURVIVED -- a quote outside the word range
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0

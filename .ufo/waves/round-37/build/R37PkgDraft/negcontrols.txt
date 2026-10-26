@@ -1,0 +1,39 @@
+# Negative controls on the drafted C2 package (transcribed from the run cells)
+
+Each control was applied to the same fixture clone
+(`/fast/scratch/hyaku/kengaku-r37/R37PkgDraft/fx/lane`), one at a time, run with
+`python3 plans/round37_c2_verify.py --lane "$D/lane" --work "$S"`, then reverted. The lines below are
+the exact stdout of the filtered runs (tail/grep shown in the note); the unfiltered pass is
+`c2-final.txt` in this directory. Timing was removed (the tool appends wall time); no other edit.
+
+## C-a — requirement-map label flipped (`instruction.md:9` enforced → unenforced)
+
+```
+V6 ok census_exit=0
+V7 DEFECT rows=4 bad=['instruction.md:9: unenforced without a passing case']
+checks=7 defects=1
+PREDICATE C2 fail
+```
+
+## C-b — one quote cited on the wrong line (`verify.sh:63` → `verify.sh:62`)
+
+```
+    gate: P4 DEFECT checked=32 bad=1 first=verify.sh:62: quote not verbatim there
+V2 DEFECT gate_exit=1
+checks=7 defects=1
+PREDICATE C2 fail
+```
+
+## C-c — S112 tier A → B
+
+```
+    gate: P6 DEFECT rows=3 bad=1 first=S112: tier='B'
+V2 DEFECT gate_exit=1
+V3 ok rows=3 bad=0
+checks=7 defects=1
+PREDICATE C2 fail
+```
+
+Reading: the three checks that carry this package's claims (V7 label agreement, P4 quote verbatim, P6
+row contract) each go red on a single-cell mutation while the others stay green, and the clone returns
+to `checks=7 defects=0` after the revert.

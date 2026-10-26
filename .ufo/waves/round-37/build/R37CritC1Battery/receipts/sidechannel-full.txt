@@ -1,0 +1,74 @@
+GATE plans/pkg_gate.py sha256=frozen
+FIXTURE r36-P0 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-P1 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P2 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P3 expect=reject declared=- observed_rc=1 observed_defects=P3 ok
+FIXTURE r36-P4 expect=reject declared=- observed_rc=1 observed_defects=P6 ok
+FIXTURE r36-P5 expect=reject declared=- observed_rc=1 observed_defects=P1 ok
+FIXTURE r36-P6 expect=reject declared=- observed_rc=1 observed_defects=P9 ok
+FIXTURE r36-P7 expect=reject declared=- observed_rc=1 observed_defects=P1,P3,P6,P9 ok
+FIXTURE r36-L1 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-L2 expect=reject declared=- observed_rc=1 observed_defects=D4 ok
+FIXTURE r36-L3 expect=reject declared=- observed_rc=1 observed_defects=D4 ok
+FIXTURE r36-L4 expect=accept declared=- observed_rc=0 observed_defects=- ok
+FIXTURE r36-L5 expect=reject declared=- observed_rc=1 observed_defects=D5 ok
+FIXTURE r36-L6 expect=reject declared=- observed_rc=1 observed_defects=D5 ok
+FIXTURE crit-p10-sidechannel expect=accept declared=- observed_rc=0 observed_defects=- ok
+BATTERY fixtures=15 wrong=0 renamed_disagree=0
+MUTANT M01 P1 killed by=r36-P5 -- frozen instrument digest mismatch
+MUTANT M02 P2 killed by=crit-p10-sidechannel -- receipt unreadable
+MUTANT M03 P2 killed by=crit-p10-sidechannel -- receipt digest differs from the pin
+MUTANT M04 P3 killed by=crit-p10-sidechannel -- no Located quotes section
+MUTANT M05 P3 killed by=r36-P3 -- an unparsed quote row
+MUTANT M06 P3 killed by=crit-p10-sidechannel -- fewer distinct quotes than min_quotes
+MUTANT M07 P3 killed by=crit-p10-sidechannel -- fewer distinct located lines than min_distinct_locations
+MUTANT M08 P3 killed by=crit-p10-sidechannel -- a quote outside the word range
+MUTANT M09 P4 killed by=crit-p10-sidechannel -- no parsed quote
+MUTANT M10 P4 killed by=crit-p10-sidechannel -- quote cites an unreadable capture
+MUTANT M11 P4 killed by=crit-p10-sidechannel -- quote line range outside the capture
+MUTANT M12 P4 killed by=crit-p10-sidechannel -- quote not verbatim on its cited line
+MUTANT M13 P5 killed by=crit-p10-sidechannel -- capture manifest absent
+MUTANT M14 P5 killed by=crit-p10-sidechannel -- unparsed manifest line
+MUTANT M15 P5 killed by=crit-p10-sidechannel -- manifest digest does not match the capture bytes
+MUTANT M16 P5 killed by=crit-p10-sidechannel -- row capture not pinned in the manifest
+MUTANT M17 P5 killed by=crit-p10-sidechannel -- manifest digest differs from the spec pin
+MUTANT M18 P5 killed by=crit-p10-sidechannel -- quoted capture not pinned in the manifest
+MUTANT M19 P5 killed by=crit-p10-sidechannel -- capture file not covered by the manifest
+MUTANT M20 P6 killed by=crit-p10-sidechannel -- registry row missing or duplicated
+MUTANT M21 P6 killed by=crit-p10-sidechannel -- registry row without 11 cells
+MUTANT M22 P6 killed by=crit-p10-sidechannel -- row url not the pinned raw path
+MUTANT M23 P6 killed by=crit-p10-sidechannel -- row tier wrong
+MUTANT M24 P6 killed by=crit-p10-sidechannel -- row status wrong
+MUTANT M25 P6 killed by=crit-p10-sidechannel -- row used-by is not the entry
+MUTANT M26 P6 killed by=crit-p10-sidechannel -- teaches cell under min_teaches_words
+MUTANT M27 P6 killed by=crit-p10-sidechannel -- teaches cells not pairwise distinct
+MUTANT M28 P7 killed by=crit-p10-sidechannel -- entry unreadable
+MUTANT M29 P7 killed by=crit-p10-sidechannel -- source line absent or not the pinned url
+MUTANT M30 P7 killed by=crit-p10-sidechannel -- verified-at absent or not the frozen date
+MUTANT M31 P7 killed by=crit-p10-sidechannel -- recheck line absent
+MUTANT M32 P7 killed by=crit-p10-sidechannel -- no Negative space section
+MUTANT M33 P7 killed by=crit-p10-sidechannel -- Negative space carries no falsifier
+MUTANT M34 P8 killed by=crit-p10-sidechannel -- README unreadable
+MUTANT M35 P8 killed by=crit-p10-sidechannel -- index rows for the entry not exactly one
+MUTANT M36 P8 killed by=crit-p10-sidechannel -- index row does not cite every registry row
+MUTANT M37 P8 killed by=crit-p10-sidechannel -- no coverage bullet naming entry and receipt
+MUTANT M38 P8 killed by=crit-p10-sidechannel -- knowledge files differ from index rows
+MUTANT M39 P9 killed by=crit-p10-sidechannel -- root is not a git worktree
+MUTANT M40 P9 killed by=r36-P6 -- untracked file present
+MUTANT M41 P10 killed by=crit-p10-sidechannel -- receipt unreadable at re-run
+MUTANT M42 P10 killed by=crit-p10-sidechannel -- fresh probe exits nonzero
+MUTANT M43 P10 SURVIVED -- fresh probe output not byte-equal to the receipt
+MUTANT M44 D4 killed by=crit-p10-sidechannel -- d4 file unreadable
+MUTANT M45 D4 killed by=crit-p10-sidechannel -- d4 file is not exactly one line
+MUTANT M46 D4 killed by=crit-p10-sidechannel -- d4 line does not carry the label
+MUTANT M47 D4 killed by=r36-L2 -- d4 directional pattern absent
+MUTANT M48 D5 killed by=crit-p10-sidechannel -- d5 file unreadable
+MUTANT M49 D5 killed by=crit-p10-sidechannel -- d5 file is not exactly one line
+MUTANT M50 D5 killed by=crit-p10-sidechannel -- d5 line does not carry the label
+MUTANT M51 D5 killed by=crit-p10-sidechannel -- d5 required token missing
+MUTANT M52 D5 killed by=crit-p10-sidechannel -- d5 forbidden token present
+MUTANT M53 D5 killed by=crit-p10-sidechannel -- d5 capture unreadable
+MUTANT M54 D5 killed by=r36-L6 -- d5 capture digest not in the manifest
+MUTANT M55 D5 killed by=crit-p10-sidechannel -- d5 quote absent from the capture
+MUTANTS total=55 killed=54 survived=1 invalid=0 null_detected=0
+PREDICATE C1 n/a (non-default battery or mutant subset)

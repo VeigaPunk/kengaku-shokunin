@@ -1,0 +1,53 @@
+CASE F0-lane-as-is ref=head defects=5/5 ids=S070,S072,S073,S074,S110 classes=digest-short,digest-unknown exit=1 ok
+  expect ids=S070,S072,S073,S074,S110 classes=digest-short,digest-unknown exit=1
+  | DEFECT S070 anchor token=45ddba7be49096a18919b4122a8945ff74c292ba17e36892b16e176a8bd921cd class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:92
+  | DEFECT S072 anchor token=081c826497f9b7da4952771ee128c2215ec3532379db0fe9f7fcbd899d9c9287 class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:94
+  | DEFECT S073 anchor token=97b8671fc66518fbfed54467f9a64965bafa54d01702d922bfbb8b32c1b0c7e2 class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:95
+  | DEFECT S074 anchor token=f996dfeef2bfb836fa79b20217cda36ecf428ed3965e3084e325626d7130fe67 class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:96
+  | DEFECT S110 anchor token=4f7ac05e70cf922ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c class=digest-short detail=63-hex loc=corpus/SOURCES.md:125
+  | rows=103 tokens=11 defects=5
+CASE F1-erratum-only ref=head defects=4/4 ids=S070,S072,S073,S074 classes=digest-unknown exit=1 ok
+  expect ids=S070,S072,S073,S074 classes=digest-unknown exit=1
+  | DEFECT S070 anchor token=45ddba7be49096a18919b4122a8945ff74c292ba17e36892b16e176a8bd921cd class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:92
+  | DEFECT S072 anchor token=081c826497f9b7da4952771ee128c2215ec3532379db0fe9f7fcbd899d9c9287 class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:94
+  | DEFECT S073 anchor token=97b8671fc66518fbfed54467f9a64965bafa54d01702d922bfbb8b32c1b0c7e2 class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:95
+  | DEFECT S074 anchor token=f996dfeef2bfb836fa79b20217cda36ecf428ed3965e3084e325626d7130fe67 class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:96
+  | rows=103 tokens=11 defects=4
+CASE F2-erratum-plus-captures ref=index defects=0/0 ids=- classes=- exit=0 ok
+  expect ids=- classes=- exit=0
+  | rows=103 tokens=11 defects=0
+CASE C7-captures-staged-head-mode ref=head defects=4/4 ids=S070,S072,S073,S074 classes=digest-unknown exit=1 ok
+  expect ids=S070,S072,S073,S074 classes=digest-unknown exit=1
+  | DEFECT S070 anchor token=45ddba7be49096a18919b4122a8945ff74c292ba17e36892b16e176a8bd921cd class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:92
+  | DEFECT S072 anchor token=081c826497f9b7da4952771ee128c2215ec3532379db0fe9f7fcbd899d9c9287 class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:94
+  | DEFECT S073 anchor token=97b8671fc66518fbfed54467f9a64965bafa54d01702d922bfbb8b32c1b0c7e2 class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:95
+  | DEFECT S074 anchor token=f996dfeef2bfb836fa79b20217cda36ecf428ed3965e3084e325626d7130fe67 class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:96
+  | rows=103 tokens=11 defects=4
+CASE M1-erratum-wrong-correction ref=index defects=3/3 ids=S110 classes=digest-short,erratum-digest-unresolved,erratum-incomplete exit=1 ok
+  expect ids=S110 classes=digest-short,erratum-digest-unresolved,erratum-incomplete exit=1
+  | DEFECT S110 erratum token=deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef class=erratum-digest-unresolved detail=64-hex-nor-in-committed-evidence-nor-the-row-s-anchor loc=corpus/lessons/round-36.md:98
+  | DEFECT S110 erratum token=- class=erratum-incomplete detail=no-64-hex-digest-in-committed-evidence loc=corpus/lessons/round-36.md:98
+  | DEFECT S110 anchor token=4f7ac05e70cf922ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c class=digest-short detail=63-hex loc=corpus/SOURCES.md:125
+  | rows=103 tokens=11 defects=3
+CASE M2-correction-not-in-manifest ref=index defects=2/2 ids=S110 classes=digest-unknown,erratum-incomplete exit=1 ok
+  expect ids=S110 classes=digest-unknown,erratum-incomplete exit=1
+  | DEFECT S110 erratum token=- class=erratum-incomplete detail=no-64-hex-digest-in-committed-evidence loc=corpus/lessons/round-36.md:98
+  | DEFECT S110 anchor token=deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:125
+  | rows=103 tokens=11 defects=2
+CASE M3-s108-shortened ref=index defects=1/1 ids=S108 classes=digest-short exit=1 ok
+  expect ids=S108 classes=digest-short exit=1
+  | DEFECT S108 anchor token=345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f7 class=digest-short detail=63-hex loc=corpus/SOURCES.md:123
+  | rows=103 tokens=11 defects=1
+CASE M4-s108-uppercase ref=index defects=1/1 ids=S108 classes=digest-uppercase exit=1 ok
+  expect ids=S108 classes=digest-uppercase exit=1
+  | DEFECT S108 anchor token=345C3BD09AB6F6FE8C8361A58C0A47BF0A13B3FCB38A5AC7824E44FF855E8F72 class=digest-uppercase detail=64-hex-but-not-lowercase loc=corpus/SOURCES.md:123
+  | rows=103 tokens=11 defects=1
+CASE M5-token-in-another-cell ref=index defects=1/1 ids=S110 classes=token-outside-anchor exit=1 ok
+  expect ids=S110 classes=token-outside-anchor exit=1
+  | DEFECT S110 anchor token=4f7ac05e70cf9220ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c class=token-outside-anchor detail=sha256-claim-in-cell-7-of-11 loc=corpus/SOURCES.md:125
+  | rows=103 tokens=12 defects=1
+CASE C6-untracked-manifest-does-not-count ref=index defects=1/1 ids=S110 classes=digest-unknown exit=1 ok
+  expect ids=S110 classes=digest-unknown exit=1
+  | DEFECT S110 anchor token=deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:125
+  | rows=103 tokens=11 defects=1
+CASE NULL-rerun identical=True exit=0 ok

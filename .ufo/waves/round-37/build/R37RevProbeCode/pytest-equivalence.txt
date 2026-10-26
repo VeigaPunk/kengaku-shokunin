@@ -1,0 +1,60 @@
+CASE exact-no-newline predicted=pass pytest_verdict=pass PYTEST rc=0
+  PYTEST-OUT .                                                                        [100%]
+  PYTEST-OUT 1 passed in 2.01s
+CASE capitalised predicted=fail pytest_verdict=fail PYTEST rc=1
+  PYTEST-OUT F                                                                        [100%]
+  PYTEST-OUT =================================== FAILURES ===================================
+  PYTEST-OUT ____________________________ test_hello_html_exists ____________________________
+  PYTEST-OUT 
+  PYTEST-OUT     def test_hello_html_exists():
+  PYTEST-OUT         """Test that the hello.html file exists and contains the correct content."""
+  PYTEST-OUT         result = subprocess.run(["bash", "/tests/verify.sh"], capture_output=True, text=True)
+  PYTEST-OUT     
+  PYTEST-OUT >       assert "TEST PASSED" in result.stdout, "Did not pass test"
+  PYTEST-OUT E       AssertionError: Did not pass test
+  PYTEST-OUT E       assert 'TEST PASSED' in "Testing web server...\nUsing curl to test web server...\nWeb server test successful (HTTP 200)\nContent: Hello World\n❌ TEST FAILED: Content does not match expected output\nExpected: 'hello world'\nGot: 'Hello World'\nTest completed\n"
+  PYTEST-OUT E        +  where "Testing web server...\nUsing curl to test web server...\nWeb server test successful (HTTP 200)\nContent: Hello World\n❌ TEST FAILED: Content does not match expected output\nExpected: 'hello world'\nGot: 'Hello World'\nTest completed\n" = CompletedProcess(args=['bash', '/tests/verify.sh'], returncode=0, stdout="Testing web server...\nUsing curl to test we...t: command not found\n/tests/verify.sh: ./git_test.exp: /usr/bin/expect: bad interpreter: No such file or directory\n').stdout
+  PYTEST-OUT 
+  PYTEST-OUT /tests/test_outputs.py:13: AssertionError
+  PYTEST-OUT =========================== short test summary info ============================
+  PYTEST-OUT FAILED ../../tests/test_outputs.py::test_hello_html_exists - AssertionError: ...
+  PYTEST-OUT 1 failed in 2.02s
+CASE token-in-body predicted=pass pytest_verdict=pass PYTEST rc=0
+  PYTEST-OUT .                                                                        [100%]
+  PYTEST-OUT 1 passed in 2.01s
+CASE crlf predicted=fail pytest_verdict=fail PYTEST rc=1
+  PYTEST-OUT F                                                                        [100%]
+  PYTEST-OUT =================================== FAILURES ===================================
+  PYTEST-OUT ____________________________ test_hello_html_exists ____________________________
+  PYTEST-OUT 
+  PYTEST-OUT     def test_hello_html_exists():
+  PYTEST-OUT         """Test that the hello.html file exists and contains the correct content."""
+  PYTEST-OUT         result = subprocess.run(["bash", "/tests/verify.sh"], capture_output=True, text=True)
+  PYTEST-OUT     
+  PYTEST-OUT >       assert "TEST PASSED" in result.stdout, "Did not pass test"
+  PYTEST-OUT E       AssertionError: Did not pass test
+  PYTEST-OUT E       assert 'TEST PASSED' in "Testing web server...\nUsing curl to test web server...\nWeb server test successful (HTTP 200)\nContent: hello world\n❌ TEST FAILED: Content does not match expected output\nExpected: 'hello world'\nGot: 'hello world\n'\nTest completed\n"
+  PYTEST-OUT E        +  where "Testing web server...\nUsing curl to test web server...\nWeb server test successful (HTTP 200)\nContent: hello world\n❌ TEST FAILED: Content does not match expected output\nExpected: 'hello world'\nGot: 'hello world\n'\nTest completed\n" = CompletedProcess(args=['bash', '/tests/verify.sh'], returncode=0, stdout="Testing web server...\nUsing curl to test we...t: command not found\n/tests/verify.sh: ./git_test.exp: /usr/bin/expect: bad interpreter: No such file or directory\n').stdout
+  PYTEST-OUT 
+  PYTEST-OUT /tests/test_outputs.py:13: AssertionError
+  PYTEST-OUT =========================== short test summary info ============================
+  PYTEST-OUT FAILED ../../tests/test_outputs.py::test_hello_html_exists - AssertionError: ...
+  PYTEST-OUT 1 failed in 2.02s
+CASE empty-200 predicted=fail pytest_verdict=fail PYTEST rc=1
+  PYTEST-OUT F                                                                        [100%]
+  PYTEST-OUT =================================== FAILURES ===================================
+  PYTEST-OUT ____________________________ test_hello_html_exists ____________________________
+  PYTEST-OUT 
+  PYTEST-OUT     def test_hello_html_exists():
+  PYTEST-OUT         """Test that the hello.html file exists and contains the correct content."""
+  PYTEST-OUT         result = subprocess.run(["bash", "/tests/verify.sh"], capture_output=True, text=True)
+  PYTEST-OUT     
+  PYTEST-OUT >       assert "TEST PASSED" in result.stdout, "Did not pass test"
+  PYTEST-OUT E       AssertionError: Did not pass test
+  PYTEST-OUT E       assert 'TEST PASSED' in "Testing web server...\nUsing curl to test web server...\nWeb server test successful (HTTP 200)\nContent: \n❌ TEST FAILED: Content does not match expected output\nExpected: 'hello world'\nGot: ''\nTest completed\n"
+  PYTEST-OUT E        +  where "Testing web server...\nUsing curl to test web server...\nWeb server test successful (HTTP 200)\nContent: \n❌ TEST FAILED: Content does not match expected output\nExpected: 'hello world'\nGot: ''\nTest completed\n" = CompletedProcess(args=['bash', '/tests/verify.sh'], returncode=0, stdout="Testing web server...\nUsing curl to test we...t: command not found\n/tests/verify.sh: ./git_test.exp: /usr/bin/expect: bad interpreter: No such file or directory\n').stdout
+  PYTEST-OUT 
+  PYTEST-OUT /tests/test_outputs.py:13: AssertionError
+  PYTEST-OUT =========================== short test summary info ============================
+  PYTEST-OUT FAILED ../../tests/test_outputs.py::test_hello_html_exists - AssertionError: ...
+  PYTEST-OUT 1 failed in 2.02s

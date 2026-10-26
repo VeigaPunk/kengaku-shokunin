@@ -1,0 +1,56 @@
+M01 P1 by=r36-P5 mode=P ref=['P1'] mut=[] attributed=yes mode_ok=yes -- frozen instrument digest mismatch
+M02 P2 by=p23-p2-receipt-deleted mode=P ref=['P2'] mut=[] attributed=yes mode_ok=yes -- receipt unreadable
+M03 P2 by=p23-p2-receipt-byte mode=P ref=['P2'] mut=[] attributed=yes mode_ok=yes -- receipt digest differs from the pin
+M04 P3 by=p23-p3-heading-renamed mode=P ref=['P3', 'P4'] mut=['P4'] attributed=yes mode_ok=yes -- no Located quotes section
+M05 P3 by=r36-P3 mode=P ref=['P3'] mut=[] attributed=yes mode_ok=yes -- an unparsed quote row
+M06 P3 by=p23-p3-seven-texts mode=P ref=['P3'] mut=[] attributed=yes mode_ok=yes -- fewer distinct quotes than min_quotes
+M07 P3 by=p23-p3-seven-locations mode=P ref=['P3'] mut=[] attributed=yes mode_ok=yes -- fewer distinct located lines than min_distinct_locations
+M08 P3 by=p23-p3-two-word-quote mode=P ref=['P3'] mut=[] attributed=yes mode_ok=yes -- a quote outside the word range
+M09 P4 by=p23-p3-heading-renamed mode=P ref=['P3', 'P4'] mut=['P3'] attributed=yes mode_ok=yes -- no parsed quote
+M10 P4 by=p4-capture-unreadable mode=P ref=['P4', 'P5'] mut=['P5'] attributed=yes mode_ok=yes -- quote cites an unreadable capture
+M11 P4 by=p4-line-outside mode=P ref=['P4'] mut=[] attributed=yes mode_ok=yes -- quote line range outside the capture
+M12 P4 by=p4-one-char-off mode=P ref=['P4'] mut=[] attributed=yes mode_ok=yes -- quote not verbatim on its cited line
+M13 P5 by=p5-manifest-absent mode=P ref=['P5'] mut=[] attributed=yes mode_ok=yes -- capture manifest absent
+M14 P5 by=p5-manifest-unparsed-line mode=P ref=['P5'] mut=[] attributed=yes mode_ok=yes -- unparsed manifest line
+M15 P5 by=p5-capture-bytes-stale-digest mode=P ref=['P5'] mut=[] attributed=yes mode_ok=yes -- manifest digest does not match the capture bytes
+M16 P5 by=p5-row-capture-unpinned mode=P ref=['P5'] mut=[] attributed=yes mode_ok=yes -- row capture not pinned in the manifest
+M17 P5 by=p5-manifest-digest-off-pin mode=P ref=['P5'] mut=[] attributed=yes mode_ok=yes -- manifest digest differs from the spec pin
+M18 P5 by=p4-capture-unreadable mode=P ref=['P4', 'P5'] mut=['P4'] attributed=yes mode_ok=yes -- quoted capture not pinned in the manifest
+M19 P5 by=p5-extra-capture-file mode=P ref=['P5'] mut=[] attributed=yes mode_ok=yes -- capture file not covered by the manifest
+M20 P6 by=p6-m20-registry-row-duplicated mode=P ref=['P6'] mut=[] attributed=yes mode_ok=yes -- registry row missing or duplicated
+M21 P6 by=p6-m21-row-with-twelve-cells mode=P ref=['P6'] mut=[] attributed=yes mode_ok=yes -- registry row without 11 cells
+M22 P6 by=p6-m22-url-off-the-pinned-raw-path mode=P ref=['P6'] mut=[] attributed=yes mode_ok=yes -- row url not the pinned raw path
+M23 P6 by=p6-m23-row-tier-b mode=P ref=['P6'] mut=[] attributed=yes mode_ok=yes -- row tier wrong
+M24 P6 by=p6-m24-row-status-queued mode=P ref=['P6'] mut=[] attributed=yes mode_ok=yes -- row status wrong
+M25 P6 by=p6-m25-used-by-another-path mode=P ref=['P6'] mut=[] attributed=yes mode_ok=yes -- row used-by is not the entry
+M26 P6 by=p6-m26-five-word-teaches-cell mode=P ref=['P6'] mut=[] attributed=yes mode_ok=yes -- teaches cell under min_teaches_words
+M27 P6 by=p6-m27-two-identical-teaches-cells mode=P ref=['P6'] mut=[] attributed=yes mode_ok=yes -- teaches cells not pairwise distinct
+M28 P7 by=p7-m28-entry-deleted mode=P ref=['P3', 'P4', 'P7', 'P8'] mut=['P3', 'P4', 'P8'] attributed=yes mode_ok=yes -- entry unreadable
+M29 P7 by=p7-m29-source-url mode=P ref=['P7'] mut=[] attributed=yes mode_ok=yes -- source line absent or not the pinned url
+M30 P7 by=p7-m30-verified-at mode=P ref=['P7'] mut=[] attributed=yes mode_ok=yes -- verified-at absent or not the frozen date
+M31 P7 by=p7-m31-recheck-line mode=P ref=['P7'] mut=[] attributed=yes mode_ok=yes -- recheck line absent
+M32 P7 by=p7-m32-negative-heading mode=P ref=['P7'] mut=[] attributed=yes mode_ok=yes -- no Negative space section
+M33 P7 by=p7-m33-falsifier-word mode=P ref=['P7'] mut=[] attributed=yes mode_ok=yes -- Negative space carries no falsifier
+M34 P8 by=p8-readme-deleted mode=P ref=['P8'] mut=[] attributed=yes mode_ok=yes -- README unreadable
+M35 P8 by=p8-index-row-duplicated mode=P ref=['P8'] mut=[] attributed=yes mode_ok=yes -- index rows for the entry not exactly one
+M36 P8 by=p8-index-row-missing-sid mode=P ref=['P8'] mut=[] attributed=yes mode_ok=yes -- index row does not cite every registry row
+M37 P8 by=p8-coverage-bullet-removed mode=P ref=['P8'] mut=[] attributed=yes mode_ok=yes -- no coverage bullet naming entry and receipt
+M38 P8 by=p7-m28-entry-deleted mode=P ref=['P3', 'P4', 'P7', 'P8'] mut=['P3', 'P4', 'P7'] attributed=yes mode_ok=yes -- knowledge files differ from index rows
+M39 P9 by=p910-not-a-git-repo mode=P ref=['P9'] mut=[] attributed=yes mode_ok=yes -- root is not a git worktree
+M40 P9 by=r36-P6 mode=P ref=['P9'] mut=[] attributed=yes mode_ok=yes -- untracked file present
+M41 P10 by=p910-receipt-deleted mode=P ref=['P10', 'P2'] mut=['P2'] attributed=yes mode_ok=yes -- receipt unreadable at re-run
+M42 P10 by=p910-probe-exits-1 mode=P ref=['P1', 'P10'] mut=['P1'] attributed=yes mode_ok=yes -- fresh probe exits nonzero
+M43 P10 by=p910-receipt-one-byte mode=P ref=['P10', 'P2'] mut=['P2'] attributed=yes mode_ok=yes -- fresh probe output not byte-equal to the receipt
+M44 D4 by=d4-m44-file-unreadable mode=D4 ref=['D4'] mut=[] attributed=yes mode_ok=yes -- d4 file unreadable
+M45 D4 by=d4-m45-not-one-line mode=D4 ref=['D4'] mut=[] attributed=yes mode_ok=yes -- d4 file is not exactly one line
+M46 D4 by=d4-m46-label-not-carried mode=D4 ref=['D4'] mut=[] attributed=yes mode_ok=yes -- d4 line does not carry the label
+M47 D4 by=r36-L2 mode=D4 ref=['D4'] mut=[] attributed=yes mode_ok=yes -- d4 directional pattern absent
+M48 D5 by=d5-m48-file-unreadable mode=D5 ref=['D5'] mut=[] attributed=yes mode_ok=yes -- d5 file unreadable
+M49 D5 by=d5-m49-two-lines mode=D5 ref=['D5'] mut=[] attributed=yes mode_ok=yes -- d5 file is not exactly one line
+M50 D5 by=d5-m50-label-altered mode=D5 ref=['D5'] mut=[] attributed=yes mode_ok=yes -- d5 line does not carry the label
+M51 D5 by=d5-m51-require-missing mode=D5 ref=['D5'] mut=[] attributed=yes mode_ok=yes -- d5 required token missing
+M52 D5 by=d5-m52-forbid-present mode=D5 ref=['D5'] mut=[] attributed=yes mode_ok=yes -- d5 forbidden token present
+M53 D5 by=d5-m53-capture-missing mode=D5 ref=['D5'] mut=[] attributed=yes mode_ok=yes -- d5 capture unreadable
+M54 D5 by=r36-L6 mode=D5 ref=['D5'] mut=[] attributed=yes mode_ok=yes -- d5 capture digest not in the manifest
+M55 D5 by=d5-m55-quote-absent mode=D5 ref=['D5'] mut=[] attributed=yes mode_ok=yes -- d5 quote absent from the capture
+UNATTRIBUTED=0

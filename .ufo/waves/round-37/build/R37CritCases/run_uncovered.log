@@ -1,0 +1,32 @@
+# probe sha256=63cb75cfcd1c224a38eef34b99b66c9ec837261ca8c369577b23601ed3a5eedf
+# capture test_outputs.py sha256=526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37 pinned=yes
+# capture verify.sh sha256=1dc44c923b797ed24ca423c9b9efcd9c1eed4d7261007139b0a724f4e2f53d05 pinned=yes
+# capture instruction.md sha256=62151b7371bc364277a3c118bba755334c640fb0cefc7a5af106e6e763cf1d97 pinned=yes
+# predictions (written before any run):
+PREDICT multiline-token tools=curl predicted=pass server={'mode': 'files', 'port': 8080, 'routes': {'/hello.html': [200, 'first line\nTEST PASSED\n', {}]}} -- verify.sh:62 multi-line body echo + test_outputs.py:13 substring over all stdout
+PREDICT hello-plus-second-line tools=curl predicted=fail server={'mode': 'files', 'port': 8080, 'routes': {'/hello.html': [200, 'hello world\nsecond line\n', {}]}} -- verify.sh:60/:63 whole body compared after trailing-newline stripping only
+PREDICT token-with-404 tools=curl predicted=fail server={'mode': 'files', 'port': 8080, 'routes': {'/hello.html': [404, 'TEST PASSED\n', {}]}} -- verify.sh:59 -> :71; a non-200 body is never echoed, so no token on stdout
+PREDICT second-request-500 tools=curl predicted=pass server={'mode': 'sequence', 'port': 8080, 'path': '/hello.html', 'responses': [[200, 'hello world\n'], [500, 'hello world\n']]} -- verify.sh:60 does not check the second response's status; curl -s prints a 500 body
+# observed:
+CASE multiline-token tools=curl predicted=pass observed=pass match=yes
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: first line' | 'TEST PASSED' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: 'first line" | "TEST PASSED'" | 'Test completed'
+CASE hello-plus-second-line tools=curl predicted=fail observed=fail match=yes
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world' | 'second line' | '❌ TEST FAILED: Content does not match expected output' | "Expected: 'hello world'" | "Got: 'hello world" | "second line'" | 'Test completed'
+CASE token-with-404 tools=curl predicted=fail observed=fail match=yes
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | '❌ TEST FAILED: Web server returned HTTP 404' | 'Test completed'
+CASE second-request-500 tools=curl predicted=pass observed=pass match=yes
+  grader-stdout: 'Testing web server...' | 'Using curl to test web server...' | 'Web server test successful (HTTP 200)' | 'Content: hello world' | '✅ TEST PASSED: Content matches expected output' | 'Test completed'
+uncovered_extra matched=4/4
+# diagnostics (not counted in the 4):
+DIAG inert rc=0
+  DIAG stdout_lines=['Testing web server...', 'Using curl to test web server...', 'Web server test successful (HTTP 200)', 'Content: hello world', '✅ TEST PASSED: Content matches expected output', 'Test completed']
+  DIAG stderr_lines=['/tests/verify.sh: line 5: apt-get: command not found', '/tests/verify.sh: line 6: apt-get: command not found', '/tests/verify.sh: ./git_test.exp: /usr/bin/expect: bad interpreter: No such file or directory']
+  DIAG cwd_files=['git_test.exp']
+  DIAG expect_path=''
+  DIAG git_path=''
+  DIAG git_test_exp=present
+  VERDICT pass
+DIAG wrongport rc=0
+  DIAG grader_stdout=['Testing web server...', 'Using curl to test web server...', '❌ TEST FAILED: Web server returned HTTP 000', 'Test completed']
+  DIAG port8081_body_status='hello world\n|200'
+  VERDICT fail

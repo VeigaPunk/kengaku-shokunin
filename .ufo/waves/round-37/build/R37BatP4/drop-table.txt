@@ -1,0 +1,28 @@
+=== drop p4-no-quote-row -> expect M09 SURVIVED
+FIXTURE p4-capture-unreadable expect=reject declared=P4,P5 observed_rc=1 observed_defects=P4,P5 ok
+FIXTURE p4-line-outside expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p4-one-char-off expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+BATTERY fixtures=17 wrong=0 renamed_disagree=0
+MUTANT M09 P4 SURVIVED -- no parsed quote
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0
+=== drop p4-capture-unreadable -> expect M10 SURVIVED
+FIXTURE p4-no-quote-row expect=reject declared=P3,P4 observed_rc=1 observed_defects=P3,P4 ok
+FIXTURE p4-line-outside expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+FIXTURE p4-one-char-off expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+BATTERY fixtures=17 wrong=0 renamed_disagree=0
+MUTANT M10 P4 SURVIVED -- quote cites an unreadable capture
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0
+=== drop p4-line-outside -> expect M11 SURVIVED
+FIXTURE p4-no-quote-row expect=reject declared=P3,P4 observed_rc=1 observed_defects=P3,P4 ok
+FIXTURE p4-capture-unreadable expect=reject declared=P4,P5 observed_rc=1 observed_defects=P4,P5 ok
+FIXTURE p4-one-char-off expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+BATTERY fixtures=17 wrong=0 renamed_disagree=0
+MUTANT M11 P4 SURVIVED -- quote line range outside the capture
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0
+=== drop p4-one-char-off -> expect M12 SURVIVED
+FIXTURE p4-no-quote-row expect=reject declared=P3,P4 observed_rc=1 observed_defects=P3,P4 ok
+FIXTURE p4-capture-unreadable expect=reject declared=P4,P5 observed_rc=1 observed_defects=P4,P5 ok
+FIXTURE p4-line-outside expect=reject declared=P4 observed_rc=1 observed_defects=P4 ok
+BATTERY fixtures=17 wrong=0 renamed_disagree=0
+MUTANT M12 P4 SURVIVED -- quote not verbatim on its cited line
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0

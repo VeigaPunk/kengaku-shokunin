@@ -1,0 +1,5 @@
+# R37IndepVerdicts extra-case predictions, written BEFORE the first run (2026-10-26).
+# Format: <cid> predicted=<pass|fail> -- <mechanism>
+x-token-line predicted=pass -- verify.sh:62 echoes the body, so test_outputs.py:13 ('TEST PASSED' substring of stdout) matches 'xx TEST PASSED yy' between other text on the same line
+x-head200-get404 predicted=fail -- verify.sh:57 probes with GET (no -I); a 200 HEAD does not help, the GET is 404 and the 200 branch is skipped
+x-gzip-header predicted=pass -- curl runs without --compressed, so it sends no Accept-Encoding and does not decode; the raw body 'hello world' is what verify.sh:60-63 compares

@@ -1,0 +1,64 @@
+### python3 -B plans-relative attribution, cwd=lane, 2026-10-26T04:42:38Z
+
+REFERENCE per-line values (sample idx -> date or -):
+   {1: '2025-01-09', 2: '2024-11-01', 3: '-', 4: '2020-01-01', 5: '2019-06-15', 6: '2018-06-06', 7: '-', 8: '-', 9: '2017-03-03', 10: '2016-12-31', 11: '-', 12: '-', 13: '-', 14: '-', 15: '-', 16: '-', 17: '-', 18: '-', 19: '2024-11-11', 20: '1999-03-05', 21: '-', 22: '-', 23: '-', 24: '-', 25: '-'}
+
+CASE no-ip-condition          flips=9
+   L3  file:38  ref=-                  got=['2022-05-05']
+   L7  file:44  ref=-                  got=['2021-01-01']
+   L8  file:45  ref=-                  got=['2020-12-12']
+   L12 file:50  ref=-                  got=['2023-01-01']
+   L21 file:62  ref=-                  got=['2021-12-01']
+   L22 file:63  ref=-                  got=['1999-07-20']
+   L23 file:64  ref=-                  got=['2000-05-10']
+   L24 file:65  ref=-                  got=['2000-02-30']
+   L25 file:67  ref=-                  got=['2000-04-31']
+
+CASE ip-octets-unbounded      flips=5
+   L7  file:44  ref=-                  got=['2021-01-01']
+   L8  file:45  ref=-                  got=['2020-12-12']
+   L23 file:64  ref=-                  got=['2000-05-10']
+   L24 file:65  ref=-                  got=['2000-02-30']
+   L25 file:67  ref=-                  got=['2000-04-31']
+
+CASE ip-no-left-boundary      flips=3
+   L7  file:44  ref=-                  got=['2021-01-01']
+   L12 file:50  ref=-                  got=['2023-01-01']
+   L22 file:63  ref=-                  got=['1999-07-20']
+
+CASE ip-no-right-boundary     flips=4
+   L21 file:62  ref=-                  got=['2021-12-01']
+   L23 file:64  ref=-                  got=['2000-05-10']
+   L24 file:65  ref=-                  got=['2000-02-30']
+   L25 file:67  ref=-                  got=['2000-04-31']
+
+CASE ip-before-date-only      flips=3
+   L1  file:35  ref=['2025-01-09']     got=-
+   L5  file:41  ref=['2019-06-15']     got=-
+   L19 file:59  ref=['2024-11-11']     got=-
+
+CASE first-date-only          flips=2
+   L2  file:36  ref=['2024-11-01']     got=['2023-12-31']
+   L6  file:42  ref=['2018-06-06']     got=['2018-05-05']
+
+CASE date-no-left-boundary    flips=1
+   L18 file:57  ref=-                  got=['2021-08-20']
+
+CASE date-no-right-boundary   flips=1
+   L17 file:56  ref=-                  got=['2020-07-15']
+
+CASE month-13-allowed         flips=1
+   L13 file:52  ref=-                  got=['2023-13-05']
+
+CASE month-00-allowed         flips=1
+   L14 file:53  ref=-                  got=['2022-00-15']
+
+CASE day-32-allowed           flips=1
+   L15 file:54  ref=-                  got=['1995-06-32']
+
+CASE day-00-allowed           flips=1
+   L16 file:55  ref=-                  got=['2001-09-00']
+
+### receipt-verdict reproduction
+file-mode cases: 23
+verdict mismatches vs receipt (with .strip() as the grader does): 0 []

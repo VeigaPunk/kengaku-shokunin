@@ -1,0 +1,27 @@
+hermetic-grader	python3 grader.py
+grader-selftest	python3 grader.py --selftest
+interval-reverdict	python3 plans/attrib_calibration.py --summary
+interval-selftest	python3 plans/attrib_calibration.py --selftest
+coverage-census	python3 corpus/evidence/round13-coverage/coverage_census.py
+state-assertion-check	python3 plans/state_check.py --summary
+state-selftest	python3 plans/state_check.py --selftest
+grader-perturb	python3 plans/grader_perturb.py --summary
+perturb-selftest	python3 plans/grader_perturb.py --selftest
+gate-timing	bash -c 'python3 plans/gate_timing_check.py --lesson corpus/lessons/round-26.md --commit b571944'
+gate-timing-head	python3 plans/gate_timing_check.py --lesson corpus/lessons/round-26.md --commit HEAD
+gate-timing-selftest	python3 plans/gate_timing_check.py --selftest
+benchmark-spec-audit	python3 plans/benchmark_spec_audit.py --summary
+bsa-selftest	python3 plans/benchmark_spec_audit.py --selftest
+registry-reference-check	python3 plans/registry_check.py --summary
+regref-selftest	python3 plans/registry_check.py --selftest
+config-projection	python3 plans/config_projection.py --summary
+cfgproj-selftest	python3 plans/config_projection.py --selftest
+sources-adopt	python3 plans/sources_adopt.py
+sources-adopt-selftest	python3 plans/sources_adopt.py --selftest
+package-gate	python3 plans/pkg_gate.py package --root . --spec plans/pkg-spec-r35.json --rerun --require-clean-tree
+round36-c1-battery	python3 plans/round36_c1_verify.py --lane .
+round36-c2-battery	python3 plans/round36_c2_verify.py --lane .
+regex-log-probe	python3 plans/regex_log_probe.py --lane . > "$TMPDIR/regex-probe.out" 2>&1; rc=$?; cmp -s "$TMPDIR/regex-probe.out" corpus/evidence/round36/regex-log-probe.txt && echo "CMP byte-equal" >> "$TMPDIR/regex-probe.out"; exit $rc
+sources-census-validate	/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --file corpus/SOURCES.md
+r37-c1-counter	python3 plans/round37_c1_verify.py --lane .
+r37-c2-counter	python3 plans/round37_c2_verify.py --lane .

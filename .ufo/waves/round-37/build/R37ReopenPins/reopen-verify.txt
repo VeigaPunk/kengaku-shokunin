@@ -1,0 +1,77 @@
+# R37ReopenPins — reopen transcript (raw command output, 2026-10-26)
+
+## 1. fetch pinned raw URLs
+$ B=https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/configure-git-webserver
+$ curl -fsSL "$B/$f" -o "$f"   # f in tests/test_outputs.py tests/verify.sh tests/test.sh instruction.md task.toml solution/solve.sh
+OK tests/test_outputs.py 547
+OK tests/verify.sh 2681
+OK tests/test.sh 553
+OK instruction.md 451
+OK task.toml 932
+OK solution/solve.sh 2354
+
+## 2. cmp against corpus/evidence/round37/tb2-git-webserver (by basename)
+IDENTICAL test_outputs.py
+IDENTICAL verify.sh
+IDENTICAL test.sh
+IDENTICAL instruction.md
+IDENTICAL task.toml
+IDENTICAL solve.sh
+
+## 3. sha256sum -c SHA256SUMS (in capture dir)
+instruction.md: OK
+solve.sh: OK
+task.toml: OK
+test.sh: OK
+test_outputs.py: OK
+verify.sh: OK
+exit=0
+
+## 4. git blob ids of the reopened bytes vs tree at 2fd12b88
+test_outputs.py blob=8036593f765683db7b05911aa13e0730b8192e85 sha256=526aee3dfe952cc4c7574361012712e389d6fba7222c005fc3e939fc53346b37
+verify.sh       blob=14240adce74367a816e1a24827e0b97bfa8886f2 sha256=1dc44c923b797ed24ca423c9b9efcd9c1eed4d7261007139b0a724f4e2f53d05
+test.sh         blob=44b2368195a38a62131438cda072ad6f6d52a055 sha256=afafc3ffdaf911f7a93003c0746f217188099c174e5d3eb7dada17133df15895
+instruction.md  blob=2c2f4e6f81b08f7041250143d59ca8c6dafab828 sha256=62151b7371bc364277a3c118bba755334c640fb0cefc7a5af106e6e763cf1d97
+task.toml       blob=f2e7ecdee53ae81d5afa928333908e3e7945f386 sha256=ebb40d72f689512cbd90d865d88ef966b6665ab215544f9247b898b7fa94751b
+solve.sh        blob=f73a50bebd374ff6d0a0322fa991d5fc37dce4d0 sha256=c31cd92ecb1b357d8c0abcf4821717e83a1770cf58f028620cd0ee3e6b1e4c62
+## 5. commit object
+recomputed_commit_hash=2fd12b88aafdd04a52c298e3940bcb189f9766d6
+declared=2fd12b88aafdd04a52c298e3940bcb189f9766d6
+tree ec7c02c7f0b59ce8ed2f7c88d1e70cda7427edfa
+parent 8773c988e24ef3ce9773073036892897de260014
+author Alex Shaw <alexgshaw64@gmail.com> 1777528410 -0700
+committer Alex Shaw <alexgshaw64@gmail.com> 1777528410 -0700
+
+Add task metadata to task manifests
+## 6. github API (rate limited)
+HTTP/2 403
+x-ratelimit-limit: 60
+x-ratelimit-remaining: 0
+x-ratelimit-used: 60
+x-ratelimit-reset: 1792991234  (2026-10-26T05:07:14Z)
+{"message":"API rate limit exceeded for 179.218.13.209. ..."}
+## 6b. substitute (GitHub-served): commit .patch headers
+From 2fd12b88aafdd04a52c298e3940bcb189f9766d6 Mon Sep 17 00:00:00 2001
+From: Alex Shaw <alexgshaw64@gmail.com>
+Date: Wed, 29 Apr 2026 22:53:30 -0700
+Subject: [PATCH] Add task metadata to task manifests
+## 7. tree at pinned commit (configure-git-webserver/)
+100644 blob ecd089e8ac7767b9bdb6f3ac247c8d033f7565ab  .gitignore
+100644 blob eb6037662039089afc3552694545bd9a719e0894  README.md
+100644 blob 56406ebd3e6fb8a5483551c27356000f6dd5e1d2  environment/Dockerfile
+100644 blob 2c2f4e6f81b08f7041250143d59ca8c6dafab828  instruction.md
+100644 blob f73a50bebd374ff6d0a0322fa991d5fc37dce4d0  solution/solve.sh
+100644 blob f2e7ecdee53ae81d5afa928333908e3e7945f386  task.toml
+100644 blob 44b2368195a38a62131438cda072ad6f6d52a055  tests/test.sh
+100644 blob 8036593f765683db7b05911aa13e0730b8192e85  tests/test_outputs.py
+100644 blob 14240adce74367a816e1a24827e0b97bfa8886f2  tests/verify.sh
+(9 entries)
+## 8. main drift
+main_tip=2fd12b88aafdd04a52c298e3940bcb189f9766d6
+git diff --stat 2fd12b88 refs/remotes/origin/main -- configure-git-webserver/   -> (empty, exit 0)
+MAIN==PINNED tests/test_outputs.py
+MAIN==PINNED tests/verify.sh
+MAIN==PINNED tests/test.sh
+MAIN==PINNED instruction.md
+MAIN==PINNED task.toml
+MAIN==PINNED solution/solve.sh
