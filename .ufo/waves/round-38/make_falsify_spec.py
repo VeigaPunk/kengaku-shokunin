@@ -35,7 +35,9 @@ kengaku round 38 (hyaku run 8, 2026-10-26), WAVE 2 of 2 (FALSIFY). Lane repo: {L
 Frozen claims: {CLAIMS} (freeze e0a378539a45cc9388c66cfba22f44275131de23; first recorded probe run e95cf550). Read it first.
 - C1 calibration: 22 frozen gate mutants N01-N22 in {C1}, killed only ATTRIBUTABLY by fixtures in {BAT}/*.py (12 modules written by
   wave-1 executors, integrated by the L1). Before (freeze, {W}/claims/control-c1-nothing.txt): `MUTANTS total=22 killed=0
-  survived=22`. Landing receipt: {W}/integrate/measure-final.txt.
+  survived=22`. Landing receipt: {W}/integrate/measure-final.txt — `MUTANTS total=22 killed=21 survived=1`, `PREDICATE C1 fail`
+  (N21 frozen as `silence` but only killable as a mirror; the L1 reports C1 as an honest stop, not relabelled; lesson Mistakes
+  row 1, plans/mutant_direction_check.py). Attack both the 21 kills and the N21 explanation.
 - C2 coverage: TB2 `build-pmars` grader (terminal-bench-2 @ {PIN}) admitted as {ENTRY}, rows S115/S116, receipt {RCPT}
   (`cases=22 observed_pass=7 observed_fail=15 mismatches=0`), counter {C2} (V1-V7; V7 derives requirement-map labels from all
   violating cases). Before: `checks=7 defects=4` ({W}/claims/control-c2-nothing.txt).
@@ -150,11 +152,12 @@ ITEMS = [
      "VERDICT: skip-controls-c1-<red|green>-c2-<red|green>"),
     ("F38NoHarmSweep", "executor", ["operability", "freshness"],
      f"No-harm sweep: on a clean clone of {TIP} re-run every command in {W}/integrate/measure-before.txt (or {W}/integrate/measure.sh) "
-     f"plus the registered probes/gates listed in {L}/SKILL.md's registry that ran green at baseline fc1174f5; compare. Any new red "
+     f"plus the registered probes/gates listed in {L}/SKILL.md's registry that ran green at the freeze parent 21e6251b; compare. Any "
+     f"new red "
      f"is a harm finding.",
      "VERDICT: no-harm-<green>/<n>-new-red-<k>"),
     ("F38CritNoHarmDiff", "critic", ["calibration"],
-     f"`git -C {L} diff --numstat fc1174f5 {TIP} -- SCORECARD.md LOG.md SKILL.md PROVINCE.md SHONEN.md corpus/` : any removed line in "
+     f"`git -C {L} diff --numstat 21e6251b {TIP} -- SCORECARD.md LOG.md SKILL.md PROVINCE.md SHONEN.md corpus/` : any removed line in "
      f"lane-authored append-only docs? Any score moved without its claim? Any frozen file changed after e0a37853?",
      "VERDICT: no-harm-removed-lines-<n>"),
     ("F38AnchorFix", "executor", ["calibration", "operability"],
@@ -200,6 +203,19 @@ ITEMS = [
      f"Check for host writes outside scratch, network use, leftover processes after a full C1 + C2 run in your clone (ps, ss, find "
      f"-newer).",
      "VERDICT: sentinel-<n>-findings"),
+    ("F38CritN21", "critic", ["calibration"],
+     f"Attack the L1's N21 explanation: is the frozen `silence` direction of N21 (`sums.splitlines()` -> `sums.splitlines()[:1]` in "
+     f"cmd_d5 of {GATE}) truly unreachable? Argue it from the code (is mutant DEFECT ⊇ reference DEFECT on every input?) and try to "
+     f"BUILD a d5-line fixture where the reference prints D5 DEFECT and the mutant prints D5 ok (multi-line manifests, duplicate names, "
+     f"digest collisions, unreadable capture). Then hand-run N21 outside the counter on plans/battery38/d5m.py's "
+     f"`d5m-n21-manifest-row-2` and confirm the mirror kill. Report whether C1's honest stop is real or a missing fixture.",
+     "VERDICT: n21-silence-<unreachable|reachable>"),
+    ("F38MutDirection", "mutation-tester", ["calibration"],
+     f"Mutation-test {L}/plans/mutant_direction_check.py (copies in your clone): make it ignore mirror; make it accept any observed "
+     f"direction; make UNWITNESSED count as ok... For each, does the landed run (N21 MISLABELLED, exit 1) still distinguish? Also "
+     f"relabel N21 to mirror in a scratch copy of {C1} and confirm the checker exits 0 and the counter kills 22/22 (this is a "
+     f"diagnostic, never the frozen claim).",
+     "VERDICT: direction-check-mutants-<caught>/<n>"),
     ("F38IndepProbe", "critic", ["coverage"],
      f"Independent probe reimplementation: without importing {PROBE}, write your own minimal runner (different sandbox flags or "
      f"none — an unprivileged chroot-free run with PATH tricks is fine) for 8 cases (canned-shape, canned-x11-linked, canned-x11-dlopen,"
