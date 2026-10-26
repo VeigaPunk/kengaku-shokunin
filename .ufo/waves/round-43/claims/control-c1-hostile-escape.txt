@@ -1,0 +1,11 @@
+MODULE def build(ctx, d):
+MODULE     ctx.init(d / "repo")
+MODULE     return ["--lane", "../../../../.."]
+MODULE 
+MODULE 
+MODULE FIXTURES = [{"fid": "escape", "tool": "anchor", "expect": "error", "defects": [], "build": build}]
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/L1/ctl /fast/scratch/hyaku/kengaku-r43/L1/ctl --bind /fast/scratch/hyaku/kengaku-r43/L1/ctl/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r43/L1/ctl/m-escape/plans/round43_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r43/L1/ctl/m-escape --work /fast/scratch/hyaku/kengaku-r43/L1/ctl/w8
+ENVELOPE start 18:51:24 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+PINS total=2 mismatched=0
+SETUP fixture 'escape' of battery43/esc.py breaks the contract
+ENVELOPE end 18:51:25 exit=2 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

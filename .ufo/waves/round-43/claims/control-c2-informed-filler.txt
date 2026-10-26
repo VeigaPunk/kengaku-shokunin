@@ -1,0 +1,10 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/L1/c2f /fast/scratch/hyaku/kengaku-r43/L1/c2f --bind /fast/scratch/hyaku/kengaku-r43/L1/c2f/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 .ufo/waves/round-43/claims/c2_filler_control.py --lane . --work /fast/scratch/hyaku/kengaku-r43/L1/c2f/w
+ENVELOPE start 18:52:43 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+CONTROL filler V9 DEFECT case_rows=0/12 bad=["no '## Case table' section", "row ids absent outside source lines: ['S129', 'S130', 'S131', 'S132', 'S133', 'S134']", 'PROVINCE.md names the task and the entry on no line', 'README ## Frontier does not name the task']
+CONTROL filler V10 DEFECT no '## Mechanism' section
+CONTROL informed V9 ok case_rows=12/12 bad=0
+CONTROL informed V10 DEFECT mechanism_rows=12/12 bad=['nop:test_outputs.py:30 not decisive', 'oracle-solve-sh:test_outputs.py:30 not decisive', 'cheat-import-get_keys:test_outputs.py:30 not decisive', 'cheat-sysmodules-shadow:test_outputs.py:30 not decisive', 'cheat-exit-zero:test_outputs.py:30 not decisive', 'cheat-clock-seed:test_outputs.py:30 not decisive', 'slow-oracle-45s:test_outputs.py:30 not decisive']
+CONTROL content V9 ok case_rows=12/12 bad=0
+CONTROL content V10 ok mechanism_rows=12/12 bad=0
+CONTROL-C2-INFORMED-FILLER red-as-required
+ENVELOPE end 18:52:45 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

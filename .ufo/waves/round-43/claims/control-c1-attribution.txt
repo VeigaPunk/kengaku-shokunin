@@ -1,0 +1,36 @@
+DIFF --- /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round43_c1_verify.py	2026-10-26 18:49:33.611703373 -0300
+DIFF +++ /fast/scratch/hyaku/kengaku-r43/L1/ctl/m-span/plans/round43_c1_verify.py	2026-10-26 18:51:10.309240397 -0300
+DIFF @@ -797,7 +797,7 @@
+DIFF                  continue
+DIFF              digest = sha256(mv)
+DIFF              start = src[:src.index(old)].count("\n") + 1
+DIFF -            span = set(range(start, start + new.count("\n") + 1))
+DIFF +            span = {1}
+DIFF              fxs = by_tool[tool]
+DIFF              hits, seen = [], set()
+DIFF              for fx, res in zip(fxs, runner.run_all(tool, mv, fxs)):
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/L1/ctl /fast/scratch/hyaku/kengaku-r43/L1/ctl --bind /fast/scratch/hyaku/kengaku-r43/L1/ctl/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r43/L1/ctl/m-span/plans/round43_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r43/L1/ctl/m-span --work /fast/scratch/hyaku/kengaku-r43/L1/ctl/w5
+ENVELOPE start 18:51:11 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+PINS total=2 mismatched=0
+FIXTURE wit-long-row tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE wit-green-erratum tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE wit-slashed-name-url tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE wit-short-commit-url tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE wit-late-claims-edit tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE wit-p2-excuse tool=order expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT NA1 anchor silence UNATTRIBUTED hits=1 last=span-not-run first=wit-long-row span=L1-L1 -- plans/anchor_digest_check.py:34-35 'A row that matches the census regex but does not have 
+MUTANT NA5 anchor rc-mirror UNATTRIBUTED hits=1 last=span-not-run first=wit-slashed-name-url span=L1-L1 -- plans/anchor_digest_check.py:54-56 'The task component of `<subpath>` is matched **exactly
+MUTANT NA7 anchor rc-mirror UNATTRIBUTED hits=1 last=span-not-run first=wit-green-erratum span=L1-L1 -- plans/anchor_digest_check.py:112-113 'no 64-hex token on it may be outside A unless it is 
+MUTANT NA18 anchor rc-mirror UNATTRIBUTED hits=1 last=span-not-run first=wit-short-commit-url span=L1-L1 -- plans/anchor_digest_check.py:53-54 'a `raw.githubusercontent.com/<owner>/<repo>/<commit>/<
+MUTANT NA20 anchor rc-mirror UNATTRIBUTED hits=1 last=span-not-run first=wit-green-erratum span=L1-L1 -- plans/anchor_digest_check.py:108-110 'An erratum for S<id> exempts that row's anchor token
+MUTANT NA21 anchor rc-mirror UNATTRIBUTED hits=1 last=span-not-run first=wit-green-erratum span=L1-L1 -- plans/anchor_digest_check.py:108-109 'An erratum for S<id> exempts that row's anchor token
+MUTANT NO5 order rc-silence UNATTRIBUTED hits=1 last=span-not-run first=wit-late-claims-edit span=L1-L1 -- plans/order_check.py:14-16 'FAIL when any file committed under `.ufo/waves/round-NN/claims
+MUTANT NO7 order rc-mirror UNATTRIBUTED hits=1 last=span-not-run first=wit-p2-excuse span=L1-L1 -- plans/order_check.py:56-57 'The one P10 detail the gate prints before executing anything, 
+MUTANT NO22 order rc-silence UNATTRIBUTED hits=1 last=span-not-run first=wit-late-claims-edit span=L1-L1 -- plans/order_check.py:15-16 'a gate `P10` line whose detail is anything other than `receipt
+BATTERY fixtures=6 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=9 killed=0 survived=0 invalid=0 null_detected=0 unattributed=9
+MUTANTS-BY-TOOL anchor=0/6 order=0/3
+ADVERTISED direct=8 indirect=1 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 fail
+ENVELOPE end 18:51:14 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

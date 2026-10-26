@@ -1,0 +1,11 @@
+== round-42 counter (plans/round42_c1_verify.py) --only X1
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/L1/ctl /fast/scratch/hyaku/kengaku-r43/L1/ctl --bind /fast/scratch/hyaku/kengaku-r43/L1/ctl/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r43/L1/ctl/m-base/plans/round42_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r43/L1/ctl/m-base --battery-dir /fast/scratch/hyaku/kengaku-r43/L1/ctl/hb-h5_symlink --only X1 --work /fast/scratch/hyaku/kengaku-r43/L1/ctl/h42-h5_symlink
+ENVELOPE start 18:51:54 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+FIXTURE h5-row-source-outside tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=0
+ENVELOPE end 18:51:56 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+== round-43 counter (plans/round43_c1_verify.py) --only NA1
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/L1/ctl /fast/scratch/hyaku/kengaku-r43/L1/ctl --bind /fast/scratch/hyaku/kengaku-r43/L1/ctl/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r43/L1/ctl/m-base/plans/round43_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r43/L1/ctl/m-base --battery-dir /fast/scratch/hyaku/kengaku-r43/L1/ctl/hb-h5_symlink --only NA1 --work /fast/scratch/hyaku/kengaku-r43/L1/ctl/h43-h5_symlink
+ENVELOPE start 18:51:57 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+SETUP fixture 'h5-row-source-outside' of hb-h5_symlink/h5_symlink.py escapes its directory: symlink repo/corpus/SOURCES.md -> /fast/scratch/hyaku/kengaku-r43/L1/ctl/h43-h5_symlink/k43-c1-u_rq34oc/fx/h5_symlink/h5-outside/SOURCES.md
+ENVELOPE end 18:51:59 exit=2 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

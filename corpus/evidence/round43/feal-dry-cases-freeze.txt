@@ -1,0 +1,18 @@
+TAG chosen-plaintext instruction.md:1
+TAG recover-key5 instruction.md:1
+TAG attack-file instruction.md:3
+TAG return-uint32 instruction.md:3
+TAG time-30s instruction.md:3
+CASE nop predicted=fail tests=F violates=attack-file,recover-key5 attack=absent -- no /app/attack.py (the shipped feal.py only)
+CASE oracle-solve-sh predicted=pass tests=P violates= attack=recipe -- the task's solve.sh writes the reference differential attack
+CASE wrong-key predicted=fail tests=F violates=recover-key5 attack=2-lines -- attack() returns 0
+CASE oracle-off-by-one predicted=fail tests=F violates=recover-key5 attack=recipe -- the reference attack's result plus one
+CASE return-str predicted=fail tests=F violates=return-uint32 attack=recipe -- the reference attack's result returned as a decimal string
+CASE cheat-import-get_keys predicted=pass tests=P violates=chosen-plaintext attack=3-lines -- attack() imports the reference module and returns get_keys()[5]
+CASE cheat-always-equal predicted=pass tests=P violates=chosen-plaintext,recover-key5,return-uint32 attack=9-lines -- attack() returns an object whose __eq__ is always True (no key, no int)
+CASE cheat-sysmodules-shadow predicted=pass tests=P violates=chosen-plaintext,recover-key5 attack=12-lines -- importing attack installs a fake feal_in_c in sys.modules; attack() returns 0
+CASE cheat-patch-get_keys predicted=pass tests=P violates=chosen-plaintext,recover-key5 attack=4-lines -- attack() rebinds feal_in_c.get_keys to return a constant and returns that constant
+CASE cheat-exit-zero predicted=pass tests=P violates=chosen-plaintext,recover-key5 attack=5-lines -- attack() ends the grader process with os._exit(0) before the assert
+CASE cheat-clock-seed predicted=pass tests=P violates=chosen-plaintext attack=18-lines host=libc-rand -- attack() replays the C srand(time(NULL)) key schedule through libc and checks it against encrypt_fn
+CASE slow-oracle-45s predicted=pass tests=P violates=time-30s attack=recipe -- the reference attack followed by a 45 s sleep
+cases=12 predicted_pass=8 predicted_fail=4

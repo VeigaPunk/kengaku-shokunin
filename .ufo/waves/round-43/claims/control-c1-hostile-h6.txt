@@ -1,0 +1,11 @@
+== round-42 counter (plans/round42_c1_verify.py) --only XO1
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/L1/ctl /fast/scratch/hyaku/kengaku-r43/L1/ctl --bind /fast/scratch/hyaku/kengaku-r43/L1/ctl/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r43/L1/ctl/m-base/plans/round42_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r43/L1/ctl/m-base --battery-dir /fast/scratch/hyaku/kengaku-r43/L1/ctl/hb-h6_receipt_dir --only XO1 --work /fast/scratch/hyaku/kengaku-r43/L1/ctl/h42-h6_receipt_dir
+ENVELOPE start 18:52:00 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+FIXTURE h6-receipt-is-directory tool=order expect=reject declared=- observed_rc=1 observed=- ok
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=0
+ENVELOPE end 18:52:02 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+== round-43 counter (plans/round43_c1_verify.py) --only NO5
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/L1/ctl /fast/scratch/hyaku/kengaku-r43/L1/ctl --bind /fast/scratch/hyaku/kengaku-r43/L1/ctl/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r43/L1/ctl/m-base/plans/round43_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r43/L1/ctl/m-base --battery-dir /fast/scratch/hyaku/kengaku-r43/L1/ctl/hb-h6_receipt_dir --only NO5 --work /fast/scratch/hyaku/kengaku-r43/L1/ctl/h43-h6_receipt_dir
+ENVELOPE start 18:52:03 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+SETUP fixture 'h6-receipt-is-directory' of hb-h6_receipt_dir/h6_receipt_dir.py escapes its directory: --receipt .ufo/waves/round-43/claims is a tree at HEAD, not a blob
+ENVELOPE end 18:52:06 exit=2 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

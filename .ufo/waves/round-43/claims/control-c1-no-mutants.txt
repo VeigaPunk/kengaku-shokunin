@@ -1,0 +1,28 @@
+DIFF --- /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round43_c1_verify.py	2026-10-26 18:49:33.611703373 -0300
+DIFF +++ /fast/scratch/hyaku/kengaku-r43/L1/ctl/m-nomut/plans/round43_c1_verify.py	2026-10-26 18:51:07.184330742 -0300
+DIFF @@ -211,53 +211,7 @@
+DIFF  
+DIFF  # (id, tool, class, direction, adv_kind, adv [file:line 'quoted sentence'], witness [pre-freeze, committed],
+DIFF  #  old, new)
+DIFF -MUTANTS = [
+DIFF -    ('NA1', 'anchor', 'row-malformed', 'silence', 'direct',
+DIFF -     "plans/anchor_digest_check.py:34-35 'A row that matches the census regex but does not have 11 cells is a `row-malformed` defect' (`!=` -> `<`: an over-long row is no longer malformed)",
+DIFF -     f"{WR} (MUTANT NA1); round-42 wave-2 F42XMutNear NA1, a 12-cell row",
+DIFF -     '        if len(r["cells"]) != NCELLS:',
+DIFF -     '        if len(r["cells"]) < NCELLS:'),
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r43/L1/ctl /fast/scratch/hyaku/kengaku-r43/L1/ctl --bind /fast/scratch/hyaku/kengaku-r43/L1/ctl/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r43/L1/ctl/m-nomut/plans/round43_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r43/L1/ctl/m-nomut --work /fast/scratch/hyaku/kengaku-r43/L1/ctl/w4
+ENVELOPE start 18:51:08 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+PINS total=2 mismatched=0
+FIXTURE wit-long-row tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE wit-green-erratum tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE wit-slashed-name-url tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE wit-short-commit-url tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE wit-late-claims-edit tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE wit-p2-excuse tool=order expect=accept declared=- observed_rc=0 observed=- ok
+BATTERY fixtures=6 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=0 killed=0 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/0 order=0/0
+ADVERTISED direct=0 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 fail
+ENVELOPE end 18:51:10 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
