@@ -820,3 +820,118 @@ Round-41 wave-2 errata to Q31/Q32 (`F41RevQuality` D1–D3; appended, criteria t
   Lesson: routed item R4 and closure defect D2, `corpus/lessons/round-41-verifier-spotcheck.md:30-36` and `:116`;
   rule text `SOURCES-CONTRACT-v1.md:49-51` and `/home/vgpnk/Projects/shokunin/CORPUS.md:116-118`. Supersedes: none;
   it is the first executable leg of rule 2 and supersedes no criterion.
+
+## Round42 criteria — corrections appended in round 43 (Q33, Q34)
+
+`F42RevQuality` (`.ufo/waves/round-42/falsify/F42RevQuality.md`) routed six defects; all six re-held at `d33350f` and
+all six are recorded here. The criteria stay as written; these are the corrections a reader needs and the fixes owed.
+Line numbers are this file's.
+
+- **C1 (D1) — the tools the Check lines name exist in no commit.** Q33 (`:718-719`) and Q34 (`:800-801`) say the drafts
+  "to land as" `plans/carried_direction_diff.py` and "must land as" `plans/sources_appendonly.py`. Neither exists at
+  `d33350f` and neither appears in any commit (`git log --oneline --all -- plans/carried_direction_diff.py
+  plans/sources_appendonly.py` → empty). Both Check lines were dead text as landed. Owed: land the two drafts from
+  `.ufo/waves/round-42/build/R42QualityDraft/` (`carried_vs_rederived.py` `47151f23…`, `sources_appendonly.py`
+  `f1b84d8a…`) under those names, or rewrite each Check line to name the draft path — the fallback now resolves,
+  because the draft directory is committed since `f9bbee6`.
+- **C2 (D2) — the Check lines do not match the drafts' CLI.** Both drafts take the lane positionally
+  (`build/R42QualityDraft/carried_vs_rederived.py:5` `LANE = sys.argv[1]`; `sources_appendonly.py:13` `LANE = sys.argv[1]
+  if len(sys.argv) > 1 else "."` — the review said `:14`, one line late), so `--lane .` is consumed as the path `--lane`.
+  Measured 2026-10-26 at `d33350f`:
+  `carried_vs_rederived.py --lane .` → `FileNotFoundError: … '--lane/.ufo/waves/round-40/falsify/F40XMutAnchor.md'`,
+  exit 1; `sources_appendonly.py --lane .` → `SETUP git log failed: fatal: cannot change to '--lane': No such file or
+  directory`, exit 2. The form that runs is `python3 <tool> <lane>` (positional run: `CARRIED-DIRECTIONS total=14
+  differ=2 ids=XO5,XO6`; `SOURCES-COMMITS scanned=37 rows_at_tip=121`, `SOURCES-APPENDONLY violations=15 arity=0`,
+  exit 1). A byte-identical landing alone would not make either Check runnable.
+- **C3 (D3) — Q33 (b) cites a predicate line its own instruction cannot print.** Development mode
+  (`plans/round42_c1_verify.py:525` `dev = a.battery_dir is not None or a.only is not None`) prints `PREDICATE C1 n/a
+  (non-default battery or mutant subset)` (`:657`), so the `PREDICATE C1 fail` at
+  `claims/control-c1-direction-mislabel.txt:37` belongs to the default battery run (29 fixtures), not to (b)'s
+  "development mode with the witness fixtures". Correction: (b) keeps its discriminating lines — XO5/XO6 `rc-silence
+  `SURVIVED exhibits=0>1,rc-mirror`, `MUTANTS total=14 killed=12 survived=2 …`, `MUTANTS-BY-TOOL order=3/5`, `exit=1`
+  (`:38`) — and names the default battery as the mode that additionally prints the predicate, or drops the `:37`
+  citation.
+- **C4 (D4) — Q34's pipe sentence is false where it matters, and its inference is invalid.** `:809-811` says a cell
+  carrying a literal `|` "would parse as an arity mismatch and is reported … rather than silently misread — `arity=0`
+  over 117 rows × 36 commits says no such row exists today". The tool skips every row it has not seen before
+  (`build/R42QualityDraft/sources_appendonly.py:58-60` `if rid not in prev: continue`), so a row *born* with a pipe can
+  never produce an `ARITY` line, and its later in-place edits are attributed to the cell the pipe shifted into —
+  `F42RevQuality`'s `fx-pipe3` fixture reported `violations=0 arity=0`, exit 0. `arity=0` therefore cannot establish the
+  conclusion. The conclusion is nevertheless true: `awk -F'|' '/^\| S[0-9]+/ && NF!=13' corpus/SOURCES.md | wc -l` → `0`
+  over 121 rows at `d33350f`. Correction: keep the conclusion, cite that scan, and state the limit — arity is a length
+  guard for ids already present, nothing else.
+- **C5 (D5) — wrong pin.** `:767` cites `parse_registry(text, …)` at `plans/registry_check.py:20`; `:20` is
+  `def safe_path(value):`, `parse_registry` is defined at `:25`, and the working-tree call is `:55`.
+- **C6 (D6) — the last sentence of `:767` needs the creation-time scope.** "No lane tool reads it from committed history"
+  is true at `d33350f` only because C1 left the instrument unlanded; landing `sources_appendonly.py` — C1's own fix —
+  would falsify it with the criterion's instrument. Correction: "no lane tool read it from committed history at this
+  criterion's creation", the scope the neighbouring measured sentences already carry.
+
+## Round43 criterion — a conditional Gate refusal is resolved by a recorded flip check
+
+- **Q35 — every Gate refusal whose reason states a flip condition is resolved, in the same lesson and
+  on a line after the flip statement, by `Flip check (round N): <item> — fired|not fired — <evidence>`;
+  a condition that fires at landing must not be representable as silence, because the lane's only
+  record that a flip was examined at all is the sentence that says so.**
+  The obligation is written 45 times across 18 lessons and was executed on none of them. Of the 55 files
+  in `corpus/lessons/`, 20 carry a `## Gate` heading (`grep -l '^## Gate$' corpus/lessons/*.md` →
+  `round-13-coverage.md`, `round-24.md` … `round-42.md`), 18 of those carry at least one refusal whose
+  reason states a flip, and the checker below counts 45 such obligations with 45 unresolved
+  (`FLIPS total=45 unresolved=45` summed over the 18; the per-lesson numbers are in
+  `.ufo/waves/round-43/build/R43FlipCheck/sweep.txt`). No line in `corpus/` or `plans/` says
+  `Flip check` (`grep -rn "Flip check" corpus plans` → no matches), so nothing in the lane has ever
+  recorded that a flip fired or did not.
+  The measured instance is round 42. Its Gate refuses `Dockerfile` conditionally —
+  `corpus/lessons/round-42.md:44`, "if the entry keeps the `WORKDIR /app` sentence" (10 words) — and the
+  landed entry kept the sentence and made it load-bearing
+  (`corpus/lessons/round-42-verifier-spotcheck.md:92`), so "by the Gate's own flip the file should be a
+  row"; no `S###` row was opened and no line records the flip at all
+  (`corpus/lessons/round-42-verifier-spotcheck.md:37`, "D3 Gate flip condition fired and was not
+  executed (Dockerfile)."). A second obligation on the same section, `README.md` (`:43`), is in the same
+  state. The old instruments cannot see this class: `plans/gate_timing_check.py` checks that admits name
+  returned second-seat reports, `plans/round_close.py` checks the round's order of operations, and
+  `plans/state_check.py` re-derives frozen assertions — none reads a lesson's flip conditions, and the
+  only `flip:` string anywhere in `plans/*.py` is a fixture literal a registry test writes
+  (`plans/round33_c1_verify.py:215`, "REJECTED: duplicate id; flip: a future candidate uses a new id"),
+  never a line read or checked.
+  Check (executable, round-42 instance): `python3 plans/gate_flip_check.py --lesson
+  corpus/lessons/round-42.md` prints one `FLIP line=<n> flip_line=<n> item=<item> … resolution=<detail>`
+  line per conditional refusal, then `FLIPS total=<n> unresolved=<u>`; exit 1 iff `u>0`, exit 2 when the
+  lesson is unreadable or carries no `## Gate` section. On the landed lesson it prints `FLIP line=43 … item=README.md
+  … unresolved:no-line`, `FLIP line=44 … item=Dockerfile shapes=flip:,if-admit … unresolved:no-line`,
+  `FLIPS total=2 unresolved=2`, exit 1. A scratch copy of the same file with the two resolution lines
+  appended prints `FLIPS total=2 unresolved=0`, exit 0; the same copy carrying only the `Dockerfile`
+  resolution prints `FLIPS total=2 unresolved=1`, exit 1. The tool landed as `plans/gate_flip_check.py` (drafted by `R43FlipCheck` at
+  `.ufo/waves/round-43/build/R43FlipCheck/gate_flip_check.py`, sha256 `d849250d…bf1d`, 504 lines, stdlib only).
+  Shown able to fail: `--selftest` builds 19 fixtures in a temporary directory and runs the checker on
+  each as a subprocess — `SELFTEST ok=19/19` (10 red, 8 green, 1 setup). The reds are the shapes the
+  criterion has to separate: a refusal with no resolution line; a `flips when` refusal with none; a
+  resolution placed *before* its flip statement; a resolution naming another candidate; evidence `none`
+  and evidence of one word; `(round 4)` under a `round-42` file name; a malformed `<state>`; a
+  `- **Rejected:**` bullet with no resolution; and a companion flip bullet with no resolution. The two
+  halves of the round-42 demonstration differ by exactly the appended lines and by nothing else
+  (`FLIPS total=2 unresolved=2` exit 1 against `total=2 unresolved=0` exit 0), and the partial copy
+  differs by one of the two lines and moves `unresolved` 2→1, so the check is per-obligation, not
+  all-or-nothing. On the corpus the same run is red on all 18 lessons that carry obligations, the
+  landed round-42 lesson among them.
+  Limits: the verdict is a recorded *sentence*, never the executed consequence — a `fired` line whose
+  evidence names the wrong landing passes, and a `not fired` line whose condition had in fact fired
+  passes just as well; the class is 45 obligations wide at creation, so as a gate it binds from round 43
+  forward and this criterion does not re-adjudicate the older 43; the section is found by a level-2
+  `## Gate` heading, so a lesson with no such section is exit 2 (`SETUP`) and not a pass — 35 of the 55
+  lesson files are in that state and two more (round-13-coverage, round-31) have a Gate section and zero
+  obligations, which reads green but demonstrates nothing; a flip phrased imperatively rather than
+  conditionally is not counted (`round-30.md:34`, "flip one entry at a time under CORPUS rule 4"), so
+  round 30's obligation count is 3 of its 4 rejects; the item name is derived from the refusal's first
+  id-shaped token, else its first code span, so a candidate named only in prose needs the resolution to
+  repeat that prose; a companion bullet attaches to every refused candidate it names and to none it does
+  not; `fired`/`not fired` is a two-word vocabulary, so a round that resolves a flip with a third state
+  (`moot`, `superseded`) gets an unresolved line until it says one of the two and explains the other in
+  its evidence; and the checker reads the working tree only, so a resolution line committed and later
+  deleted is invisible and a resolution line that lives in another file (a seat report, `PROVINCE.md`)
+  does not count — the criterion deliberately keeps the record beside the condition.
+  Lesson: `corpus/lessons/round-43.md` mined mistake (round-42 D3, routed as closure R2 in
+  `corpus/lessons/round-42-verifier-spotcheck.md:125-128`: "a conditional reject's flip is re-checked at
+  landing"); the class's first instance is `corpus/lessons/round-42.md:44` against
+  `corpus/lessons/round-42-verifier-spotcheck.md:37-42` and `:92`. Supersedes: none; it is the first
+  executable leg of the flip condition the Gate has been writing since round 25.

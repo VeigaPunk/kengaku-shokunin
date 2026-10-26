@@ -1823,3 +1823,21 @@ are data, unreviewed: `res_round_close.json` `population=70 killed=50 survived=2
   (`F42RevC2Package`), lesson 8 (`F42RevLesson`), Q33/Q34 6 (`F42RevQuality`), riders 5 (`F42RevRiders`), adv errata 2
   (`F42CritAdv`), SCORECARD 1 mismatch (`F42CritScorecard`), cross-doc drift 1 (`F42ConnClaims`), overclaim review 1 wrong
   (`F42CritOverclaim`), plan-43 defects 5 (`F42CritPlanNext`). `F42ConnFrontier` returned no verdict line.
+
+### Round-42 corrections appended in round 43
+
+- **S1 — the envelope note is one counter too wide (`:1760`, from `F42CritScorecard` M1).** "under the v1 envelope
+  (home read-only) every C2-class counter went red on `uv`'s cache lock" — `integrate/measure-baseline-v1.txt` shows
+  `PREDICATE C2 fail` six times (`:51,161,239,386,522,669`) and `PREDICATE C2 pass` once (`:679`), for round 36.
+  Corrected: every C2-class counter that drives the gate's `uv` leg (`plans/pkg_gate.py:276` `["uv", "run",
+  "--no-project", "--with", "biopython==1.85", "python3"]`, which is the `P10` line those six report as DEFECT) went
+  red; `plans/round36_c2_verify.py`'s six checks (`W1`–`W6`, `:215-216`) drive no `uv`-backed tool and stayed green.
+- **S2 — two frozen C1 `adv` cells carry wrong line pins (`F42CritAdv`).** X3 cites
+  `plans/anchor_digest_check.py:57-58` for a sentence that sits at `:59-61`; X7 cites `:92-93` for one at `:91-92`; both
+  are carried from `F40XMutAnchor.md` §5. Display-only (`label[:90]` is echoed and never parsed, so no admission claim
+  moves); the erratum is `corpus/lessons/round-42.md` E7 and the cites are to be corrected when
+  `plans/round42_c1_verify.py` is next editable.
+- **S3 — where the wave-2 routed defects are carried.** The lesson, QUALITY and SCORECARD corrections above live in the
+  documents themselves; the ledger/rider defects live in `corpus/routed-findings.jsonl` as `R42-R2.1`, `R42-R2.2` and
+  `R42-R6`, with `R42-R4` closed and `R42-R2`'s stale check cleared (drafts:
+  `.ufo/waves/round-43/build/R43R42Defects.md` §2 D–E).

@@ -44,6 +44,7 @@ the cited line of the capture.
 | `Dockerfile` @ `2fd12b88` | **REJECT — captured, not a row; one claim flagged** | Capture `780c2398…d3d4`. Refused for the same reason as README, with one exception the entry must settle: the entry's cwd paragraph and the `fake-sim-script` case rest on `Dockerfile:3` — "WORKDIR /app" (2 words) — because `test_outputs.py:66` writes `./sim` while `:119` runs `/app/sim`, and `test.sh:13` guards only `PWD = /`. Flip: if the entry keeps the `WORKDIR /app` sentence (its draft cites `Dockerfile:3` in its own tables), admit `Dockerfile` as a **tier-B mechanism row**; the cheaper alternative is to drop the sentence and describe the case as conditional on the grading cwd. |
 | `test.sh`, `task.toml`, `SHA256SUMS` @ `2fd12b88` | **Captured, not rows** | `test.sh` (`4770437e…c334`) is the pytest→reward mechanism (`uvx -p 3.13 -w pytest==8.4.1 …`, `:18-22`); `task.toml` (`9f5aa1f7…0972`) is author metadata and the declared envelope (`timeout_sec = 3600.0`, `:22`/`:25`), read only, never exercised — the image is never pulled; `SHA256SUMS` (`36b15d5b…2edf`) is the capture inventory that pins all nine files, not a source. Flip: an entry statement that needs the reward mapping, a declared timeout, or a file identity as its source. |
 | `solve.sh`, `gates.txt` @ `2fd12b88` | **Captured, not rows** | `solve.sh` (`a4ffab41…5d0b`) is the oracle end state, run as the `oracle-solve-sh` case (`PPP`) — an input to the probe, not a source of an entry statement; the entry's draft marks it tier C and rests no finding on its logic. `gates.txt` (`032786f9…ad29`) is the shipped example circuit and the seeded state of the `nop` case (`PPF`, it prints `N/2` as `instruction.md:10` says). Flip: an entry sentence about the oracle's construction or the example's exact output. |
+| S128 OpenAgents issue #9645 “Audit circuit grader coverage beyond its 48,401 input ceiling” (row appended by round-43 closure R2; the round-42 Gate table omitted it) | **Admitted (mined, tier B)** | Opened by wave-1 `R42ScoutPriorArt` 2026-10-26 17:35 -03; re-opened by the round-43 seat 2026-10-26 19:10:24 -03 at `https://github.com/OpenAgentsInc/openagents/issues/9645` (`gh api repos/OpenAgentsInc/openagents/issues/9645`: `state=closed`, `created_at=2026-09-25T09:01:50Z`, `closed_at=2026-09-25T09:11:26Z`, title equal). Quote, issue body line 3: "The official grader exercises 28 values, none above 48,401." (9 words). Tier B is right for a third party's published report cited as prior art for the coverage gap only: it builds no circuit and names none of the parse, ordering or cwd mechanics. Flip: the issue body is edited so the quoted sentence no longer holds, or the entry rests a mechanism claim on it rather than prior art. |
 
 Gate prose: the three admitted rows are exactly the three the spec pins (`plans/pkg-spec-r42.json` `rows` = S125, S126,
 S127; `raw_base` = the `circuit-fibsqrt/` tree at the pin). The registry coupling is measured: with the rows present and
@@ -51,6 +52,12 @@ the entry absent, `sources-census.sh validate` exits 1 with exactly three `E11` 
 (`R42PkgRows.md` §3.1); with the entry present, `CENSUS_EXIT=0`, `E=0 W=15`. `anchor_digest_check.py --evidence-ref
 index|head` on a clone carrying the rows prints `rows=120 tokens=27 defects=0`, every new row binding by `url-task` to
 its own capture. The admission of tier A is for these three files at this commit, nothing about TB2 as a whole.
+
+Round-43 addendum to the prose above: the spec still pins three rows (`plans/pkg-spec-r42.json` `rows` = S125, S126,
+S127), and two more rows are admitted by this Gate's own decisions — S128 (OpenAgents issue #9645, tier B, prior art
+for the coverage gap) and S135 (`environment/Dockerfile` @ `2fd12b88`, tier B, the mechanism row the entry's cwd
+statements rest on). "The three admitted rows" above therefore means the three *spec-pinned* rows; the Gate's
+admitted set is five candidates, of which S125-S127 are tier A and S128/S135 tier B.
 
 The falsified sentences are the round's sharpest Gate result: the instruction's interface (stdin, "last 32 lines") is
 wrong about the graded machine, and its two worked examples are not graded inputs — `lookup-28` prints 0 for both 208
@@ -149,3 +156,61 @@ registry 117 → 121: tier A +3 (S125–S127), tier B +1 (S128, OpenAgents #9645
 | **A frozen sentence about a tool's attack surface written from the command list, not from git's config surface** — "both tools execute no fixture code (git plumbing only)" | `plans/round42_c1_verify.py:30`; falsified by `R42SentinelCounter` V1 (`log.showSignature` + `gpg.program`) | none — no criterion asks a counter to enumerate config keys that execute | routed: the round-43 counter pins `gpg.program`/`log.showSignature` with a red hostile control (`R42SentinelCounter` V1 remediation) |
 | **A seat-tooling slip by the L1** — two `edit` calls on the freshly written probe used guessed line numbers and broke it (syntax error) before the freeze | the edit tool's syntax warning; corrected in the same minute; the frozen probe is the corrected file (`frozen-digests.txt` `fc58bf3f…`, dry table and stage-check after it) | the editor's parse check | re-read before every anchored edit; no frozen byte was affected |
 | **A wave dispatched under the m_flash floor** — wave 2 carries 14/33 m_flash-routed seats (executor/scribe/critic/sentinel), below the run-8/9 rule "m_flash roles still carry ≥50 % of every wave"; the generator printed `flash=14/33` and the L1 wrote the ready file without reading it | `.ufo/waves/round-42/make_falsify_spec.py` output (`33 {'executor': 5, 'reviewer': 10, 'critic': 9, …} attack=22/33 flash=14/33`); `falsify.ready.dispatched` taken before the check | none — the validator checks the band, not the route mix | round-43 generators assert `flash*2 >= len(items)` before writing the spec (an assert shown able to fail by this spec: 28 < 33) |
+
+## Errata (appended in round 43 from the wave-2 review; nothing above is edited)
+
+`F42RevLesson` (`.ufo/waves/round-42/falsify/F42RevLesson.md`) routed eight defects; six are corrected here, two were
+re-checked against this file at `d33350f` and are not defects (last paragraph). Line numbers are this file's.
+
+- **E1 — R4's measurement (`:98`).** `git diff bc856d8..HEAD -- corpus/SOURCES.md` is not empty:
+  `git diff --numstat bc856d8..HEAD -- corpus/SOURCES.md` → `4	0	corpus/SOURCES.md` — the four added rows `S125`–`S128`,
+  zero removals. The substance holds (no in-place edit), but the honest wording is "the diff shows only additions, no
+  in-place edits"; as written the sentence is true only against the freeze commit itself (`bc856d8..bc856d8`).
+- **E2 — R5's freeze pointer (`:106-108`).** The 14 `round_close.py`/`tip_receipts.py` residual mutants and
+  `F39LedgerTip` D1 / `F39MutDirection` / `F39OrderGateMut` fail-open are **not** "named carried again in the freeze":
+  `plans/round-42-claims.md` has no `§Limits` section (headers at `:1,23,65,96,102`) and
+  `grep -nE 'LedgerTip|MutDirection|OrderGateMut|fail-open|s_usage' plans/round-42-claims.md` → no output (rc=1). The
+  freeze's "Limits named now" bullet (`:60-63`) names XL1–XL6, `state_check.py`/`round_close.py` survivors and the 34
+  unpriced advertised rows — so `:111` is right and `:106-108` is not: the F39 trio and the residual mutants were
+  carried by this lesson alone.
+- **E3 — the route-mix ratios are quoted stdout, not persisted data (`:151`).** `flash=14/33` and `attack=22/33` appear
+  nowhere under `.ufo/waves/round-42/` except the review that quotes them; `falsify-spec.json`'s 33 items carry only
+  `axes, milestone, name, prompt, role` (reviewer 10, critic 9, executor 5, mutation-tester 3, scout 3, connector 3), and
+  `falsify-dispatch.json` carries `counts {spawn 33, resume 0, total 33}` with no model or route field. The row's role
+  list "(executor/scribe/critic/sentinel)" also names two roles wave 2 did not have. The class and the fix stand; the two
+  ratios are one generator run's stdout, and the persisted facts are the role mix above and `counts.spawn=33`.
+- **E4 — receipt pointer (`:57`).** `grep -n 'fibsqrt-probe.txt:6'` finds one citation, not the review's two. `:6` is
+  the `# capture test_outputs.py sha256=` header. The summary
+  is `:23` (`regrade cases=16 differ=0`) and `:24` (`cases=16 observed_pass=7 observed_fail=9 mismatches=0`); the
+  `lookup-28` case is `:11`.
+- **E5 — the census command (`:122`).** Run as printed (BRE) the `\|` is alternation and the `^ {0,3}` branch matches
+  every line, so it yields 171/175 — `wc -l` at `bc856d8`/`508434a` — not 117/121. The quoted numbers come from the `-E`
+  form: `grep -cE '^ {0,3}\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|' corpus/SOURCES.md`.
+- **E6 — row 3's fix has no failing receipt (`:150`).** The syntax warning was ephemeral and nothing under
+  `.ufo/waves/round-42/` stores it; `frozen-digests.txt:4` (`fc58bf3f…`) only proves the frozen probe is the corrected
+  file (`sha256sum plans/fibsqrt_probe.py` matches). Every other Mistakes row names a persisted failing receipt; this
+  one's falsifier exists only in its own sentence.
+- **E7 — two C1 `adv` cites (from `F42CritAdv`).** The frozen `MUTANTS` rows X3 and X7 quote `plans/anchor_digest_check.py`
+  verbatim but cite the wrong lines: X3 `:57-58` for a sentence at `:59-61`, X7 `:92-93` for a sentence at `:91-92`; both
+  carried from `F40XMutAnchor.md` §5. Display-only — the counter echoes `label[:90]` and never parses it — so no
+  admission claim moves; correct the cites when the counter is next editable.
+
+Re-checked and **not** defects (at `d33350f`): `plans/round42_c2_verify.py:327` is the `("V7" …), ("V8" …), ("V9",
+lambda: v9(lane))]` line and `:328` is `defects = 0`, so the R3 citation `:327` is exact (the review's D5 moved it one
+line early); and `corpus/evidence/round42/tb2-circuit-fibsqrt/Dockerfile` carries `COPY tests/sim.c /app` at `:9` and
+`COPY gates.txt /app` at `:10` with the comment at `:8`, so `Dockerfile:9-10` is right (the review's D7 moved both pins
+one line late).
+
+### Errata (round 43, closure R1 — receipt pointer)
+
+- **`:57` pointer corrected — `fibsqrt-probe.txt:6` → `:11`.** `:57` cites "receipt `fibsqrt-probe.txt:6`" for the
+  `lookup-28` row; line 6 of that receipt is the `# capture test_outputs.py sha256=6117b8ed…` header, and the
+  `lookup-28` CASE row is **line 11** (`CASE lookup-28 predicted=pass observed=pass tests=PPP … violates=example-208,
+  example-20000`). The sentence's content stands: `lookup-28` prints 0 for 208 and 20000 and still passes 3/3. Found by
+  `F42CritOverclaim` §4 ("Wrong (1, minor)"); re-read at the receipt by this seat. Nothing deleted.
+
+### Flip checks (round 43, closure R2 / Q35; appended)
+
+Flip check (round 43): Dockerfile — fired — the entry kept the WORKDIR /app sentence (tb2-circuit-fibsqrt-grader.md:65, :89, :94, :435-438); executed in round 43 as tier-B row S135 and the appended entry block citing it
+Flip check (round 43): README.md — not fired — no entry sentence rests on README.md alone; every checkable README sentence is carried by S125-S127
+

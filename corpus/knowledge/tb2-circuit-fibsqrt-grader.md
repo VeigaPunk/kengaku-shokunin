@@ -447,3 +447,84 @@ Findings from wave-1 seats that bear on this entry; the frozen probe, dry table 
   compile and the whitespace mechanics were not found (queries in the seat report). The TB2.1 `main` copies of all
   nine files are byte-identical to the pin. This entry still claims no novelty.
 - **Independent checks.** Real pytest 8.4.1 under Python 3.13 reproduces all 16 cases (`R42CritPytest`: parity 16/16).
+
+## Errata (round 43, closure R1; appended 2026-10-26, nothing above edited)
+
+Seven items. E1–E4 correct the four sentences `F42EntryQuotes` §4 found wrong or overclaiming; E5–E6 were found
+re-deriving them; E7 is a locator `F42EntryQuotes` recorded as a nit outside its count. Each quotes the sentence with
+its line, then the correction and the evidence line.
+
+- **E1 `:296-298` (finding 7) — the `2^15` sentence.** Quote: "The table's maximum, 48401 = 220²+1, is the only reach
+  above 2^15". **Wrong: six of the 28 graded inputs are above 2^15 = 32768**, all from the two largest roots —
+  220²−1 = 48399 (`test_outputs.py:94`), 220² = 48400 (`:88`), 220²+1 = 48401 (`:100`), 209²−1 = 43680 (`:95`),
+  209² = 43681 (`:89`), 209²+1 = 43682 (`:101`); the next-largest input is 107²+1 = 11450 (`:99`). Correction: "The
+  table's largest input is 48401 = 220²+1, and six of its 28 inputs lie above 2^15 (220²−1, 220², 220²+1 and 209²−1,
+  209², 209²+1); nothing grades an input outside the list." The summary sentence at `:17` and the rest of finding 7 (dropping 48401 or
+  flipping one bit of one answer is `PPF` — only the value test fails, receipt lines 12 and 14) stand.
+
+- **E2 `:309-312` (finding 10) — stdin scope and locator.** Quote: "the probe runs every case with stdin on
+  `/dev/null` (probe docstring — the oracle case's own `solve.sh` recipe included)". **Wrong twice.** The probe pins
+  `stdin=subprocess.DEVNULL` for the case *recipe only* (`plans/fibsqrt_probe.py:201`); each case's harness is launched
+  with no `stdin=` (`fibsqrt_probe.py:266-267`), so the graded `/app/sim` calls — `subprocess.run(["/app/sim", …])` with
+  no `stdin=` (`test_outputs.py:119`) — inherit the harness's stdin, i.e. the probe caller's. The probe docstring makes
+  no `/dev/null` statement at all; its only stdin sentence is that `sim.c` "sets signals 0-31 from argv[1] (not stdin)"
+  (`fibsqrt_probe.py:27-28`). Correction: "`sim.c:324` takes the value from `argv[1]` and no line of `sim.c` reads stdin
+  (its only stream read is `fgets` over the gate file, `:108`); the probe pins the case recipe's stdin to `/dev/null`
+  (`fibsqrt_probe.py:201`) and leaves the graded `/app/sim` calls on the caller's stdin (`:266-267`,
+  `test_outputs.py:119`)." The finding's conclusion — the graded channel is argv, shown by `oracle-solve-sh` `PPP` —
+  stands, on `sim.c`'s code, not on this sentence.
+
+- **E3 `:430-432` (integration, D2 bullet) — the padded rows' verdicts.** Quote: "end in 32 blank lines, so they too
+  pass only because the print window is the 32 highest-indexed signals". **Overclaim.** Only the *value* test passes
+  for that reason: `lookup-28-padded-31999` is `PPP` (receipt line 15) but `lookup-28-padded-32000` is observed `fail`,
+  `PFP` (receipt line 16), because `test_outputs.py:21-23` counts the blank lines and the file is exactly 32000.
+  Correction: "…so their value test passes only because the print window is the 32 highest-indexed signals
+  (`sim.c:340-347`); `lookup-28-padded-32000` is observed `fail` (`PFP`) on the size test, `lookup-28-padded-31999`
+  `PPP`." The tag argument (both would carry `last-32-lines` and `line-form`) is unaffected.
+
+- **E4 `:433-434` — the labels under that counterfactual.** Quote: "Neither changes a requirement-map label
+  (`last-32-lines` and `line-form` stay `unenforced`)". **Wrong under the bullet's own counterfactual.** Tag both
+  padded rows and `padded-32000` (observed `fail`) joins `lookup-28-comment-lines` (`P`, receipt line 17) in the
+  `line-form` set and `lookup-28-reversed-lines` (`P`, line 18) in the `last-32-lines` set; by the V7 rule at
+  `:152-154` each label then becomes `partly`, not `unenforced`. Correction: "the two labels are `unenforced` only
+  because the frozen receipt does not tag the padded rows; under this bullet's counterfactual both become `partly`."
+  The frozen tags and the V7 labels as computed stay as they are.
+
+- **E5 `:430-431` — the count of blank lines.** Quote: "end in 32 blank lines". **Wrong count.** The builder appends
+  `[""] * (31999 - len(L28))` and `[""] * (32000 - len(L28))` (`plans/fibsqrt_probe.py:177-181`) with `len(L28) = 1195`
+  (measured by importing the frozen builder), so the files end in **30804** and **30805** blank lines — as finding 3
+  itself says at `:261` ("31999 lines of which 30804 are empty"). Correction: "end in 30804 / 30805 blank lines, so the
+  file's last 32 lines are blank". The `last-32-lines` argument needs only the last 32; its conclusion stands.
+
+- **E6 `:96`, `:144` (and the wording at `:40`) — "dropped" for an operator outside `&|^`.** Quotes: "parsed by
+  `sscanf(op, "out%d %c out%d", …)` and dropped if that fails" (`:96`); "binary gates are parsed by sscanf and
+  silently dropped when it fails" (`:144`). **Wrong.** Nothing is dropped: `Gate gates[MAX_SIGNALS]` is zero-initialised
+  at file scope (`sim.c:24`; `OP_CONST_0` is 0, `:9`), `num_signals` was already raised at `:117-118`, and the missing
+  final `else` leaves the type at `OP_CONST_0`, so the line stays a constant-0 gate and drives its signal to 0.
+  Measured on the captured `sim.c` (`gcc -O3`, digest `700645ac…`, round-43 envelope): `out0 = 1` + `out40 = out1 + out2`
+  → `0`; `out40 = out1 &` (binary `sscanf` returns 2) → `0`; `out40 = 1` → `2147483648` (index 40 is bit 31);
+  `out0 = 1` alone → no output (so `num_signals` really moved to 41). The entry already says this at `:275-276` and in
+  the wave-1 note at `:428`; only these three places keep the old wording. Correction: "binary gates are parsed by
+  `sscanf(op, "out%d %c out%d", …) == 3`; the `&`/`|`/`^` switch has no default, so an unhandled operator leaves the
+  gate a zero-initialised `OP_CONST_0` that drives 0 — not skipped, not an error."
+
+- **E7 `:305-306` (finding 9) — the existence locators.** Quote: "assert existence on the absolute path
+  `/app/gates.txt` (`:9`, `:16`, `:18`)". **Locator wrong, claim right.** `:9` and `:16` are the
+  `gate_path = Path("/app/gates.txt")` assignments; the asserts are `:11` (test 1) and `:18` (test 2). Correction:
+  "`test_outputs.py:11` and `:18`". (Recorded as a nit by `F42EntryQuotes` §4, outside its count of four.)
+
+### S135 — the cwd claims now rest on a registry row (round 43, appended)
+
+The four cwd statements in this entry were anchored on a capture only; they are now anchored on a row. `S135`
+(`environment/Dockerfile` @ `2fd12b88`, tier B, status `mined`, `used-by` this file) pins the image definition whose
+line 3 is `WORKDIR /app` — the working directory the grader's `-o sim` compile and its `/app/sim` execution both
+resolve against, and the directory `:9-10` copy `tests/sim.c` and `gates.txt` into. It carries no graded predicate of
+its own: `test_outputs.py` and `sim.c` hold every predicate, so the row is cited as the mechanism those predicates
+assume, not as a source of the graded rule. The statements it anchors are `:65` (`Dockerfile:3` is `WORKDIR /app`,
+`Dockerfile:9-10` the two copies), `:89` (the `Initial state` row, `Dockerfile:3` and `:9-10`), `:94` (`gates.txt`
+resolved against a cwd the harness fixes at `/app`) and `:435-438` (the wave-1 note that the receipt's cwd is the
+verifier's `WorkingDir=/app`, which is what makes Finding 6's cwd coincidence load-bearing). Re-opened 2026-10-26
+19:10:24 -03: `curl` → `200`, 321 bytes, `cmp` identical to `corpus/evidence/round42/tb2-circuit-fibsqrt/Dockerfile`,
+sha256 `780c2398…3d3d4`, 10 lines. The round-42 Gate's flip condition — "if the entry keeps the `WORKDIR /app`
+sentence …, admit `Dockerfile` as a tier-B mechanism row" — is executed by this row and this paragraph, not waived,
+and the statements above stay as written (no erratum is needed: none of them was wrong, they were under-anchored).
