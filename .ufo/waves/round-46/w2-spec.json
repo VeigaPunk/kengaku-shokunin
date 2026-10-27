@@ -1,0 +1,300 @@
+{
+ "wave": "kengaku-r46-w2",
+ "milestone": "kengaku round 46 wave 2: falsify the landed C1/C2/C3 and the round bookkeeping",
+ "reportDir": ".ufo/waves/round-46/w2",
+ "context": "# Goal\nkengaku round 46 (hyaku run 9, 2026-10-27), WAVE 2 of two v1 waves — FALSIFY. Lane repo: /home/vgpnk/Projects/shokunin/kengaku-shokunin; landed TIP `42d5043afac952fcb43bf4798757785dd258cf85`.\nWave 1 built; the L1 integrated and landed three claims frozen in /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round-46-claims.md (read it in full, incl. the stage-2 `Freeze\namendments` paragraph). Your job: attack ONE named item and report what survives. Every item names what it attacks.\n- C1 calibration: /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/fixture_fence.py (repaired) judged by /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round46_c1_verify.py (pinned at stage 2; plans/refusals46/, plans/sealed46/).\n- C2 depth: /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round46_c2_verify.py + gate /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/anchor_line_check.py; superseding rows S157-S165 in /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md; repaired /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/tb2-password-recovery-grader.md.\n- C3 coverage: /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/tb2-polyglot-c-py-grader.md, rows from S166, captures /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round46/tb2-polyglot-c-py/, probe /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/polyglot_c_py_probe.py, receipt /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round46/polyglot-c-py-probe.txt, counter /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round46_c3_verify.py.\nFrozen and never edited by any seat: everything under /home/vgpnk/Projects/shokunin/kengaku-shokunin. Integration receipts: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/integrate/.\n\n# Host-safety rule (binding)\nHost safety: run any fixture build, counter run or probe that can write files inside a bwrap sandbox in which `/home/vgpnk/.local/bin` is read-only (the envelope does this). Never write to a shared PATH directory, `/usr`, `/etc`, or `$HOME` outside scratch.\nEnvelope for every counter/fixture/probe run: `/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/claims/envelope.sh \"$S/env\" <command...>`; paste its ENVELOPE lines; exit 4 + `INVALID` means the measurement does not count.\n\n# Rules for every seat\n- Your tools start at the fleet root. EVERY path is absolute. Every `Report:` trailer path is relative to /home/vgpnk/Projects/shokunin/kengaku-shokunin — write it at\n  /home/vgpnk/Projects/shokunin/kengaku-shokunin/<that path>. Your report is /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/<YourSeatName>.md; receipts go under /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/<YourSeatName>/. Every seat MUST leave its report.\n- Scratch rule: S=/fast/scratch/hyaku/kengaku-r46/<YourSeatName>; mkdir -p \"$S\"; export TMPDIR=\"$S\"; pass \"$S\" as --work. Delete it before you finish with `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/scratch_guard.py safe-rm /fast/scratch/hyaku/kengaku-r46 <YourSeatName> \"$S\"`. Never delete /fast/scratch/hyaku/kengaku-r46, its `.ROUND-ROOT-SENTINEL` or another seat's dir. A /tmp or scratch path is never evidence — copy receipts into your report subdir first (no file over 1 MiB).\n- Write ONLY inside /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/<YourSeatName>.md, /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/<YourSeatName>/ and your scratch dir. NEVER edit any lane file; never write into\n  /home/vgpnk/Projects/shokunin (fleet root), sibling lanes, the lane's jj state or Git index; never run a mutating git/jj command in the lane. Seats never\n  commit or push anywhere.\n- Clone rule: git clone -q --no-local /home/vgpnk/Projects/shokunin/kengaku-shokunin \"$S/lane\" && git -C \"$S/lane\" checkout -q 42d5043afac952fcb43bf4798757785dd258cf85; verify `git -C \"$S/lane\" rev-parse --show-toplevel` equals \"$S/lane\" and `git -C \"$S/lane\" rev-parse HEAD` equals 42d5043afac952fcb43bf4798757785dd258cf85, and put that HEAD line in every receipt (closure D3: a receipt names the revision it measured). Any other fixture repo: D=$(mktemp -d -p \"$S\") && git -C \"$D\" init -q and every git call names -C \"$D\". Never commit outside such scratch repos.\n- Source repo /home/vgpnk/Projects/shokuknow is READ-ONLY.\n- Tooling authorization (operator, 2026-10-19): you may install/upgrade tools that help the task — read /home/vgpnk/.omp/agent/RULES.md\n  first (official channels, update-safety gate; record tool/version/channel/reason). pacman transactions are PAUSED host-wide:\n  install via `uv tool` / `npx` / an official binary into ~/.local/bin (outside any bwrap run), or install nothing and say so.\n  Never run pacman -Sy/-Syu/-U/-R, never name an already-installed package to pacman, never restart a host service.\n- You are a leaf seat: no subagents, no background jobs, no `task`.\n- Godspeed posture: name the axes, iterate cheap and in parallel, keep moves that improve any axis and harm none, never stall in\n  clarifying-question loops.\n- Evidence: every number carries the command that produced it and its output. A quote carries its location and is <= 25 words.\n  Do not fabricate output; if something cannot be fetched or run, say so.\n- End your report with exactly one `VERDICT: <line>` terminal line.\n",
+ "items": [
+  {
+   "name": "R46W2C1Rerun",
+   "role": "reviewer",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C1Rerun (reviewer) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nRe-run the frozen C1 counter `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round46_c1_verify.py --lane \"$S/lane\" --work \"$S/w\"` on a clean clone at TIP inside the envelope, twice; compare every summary line with /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/integrate/tip-c1.txt and with the predicate in /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round-46-claims.md; `sha256sum -c` the frozen digests named in the claims' stage-2 amendment.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C1Rerun.md); end with VERDICT: c1-rerun-predicate-<pass|fail>-matches-L1-<yes|no>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C1Forge",
+   "role": "critic",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C1Forge (critic) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nForge a pass: write fences that inspect nothing (or key on a name/structure/timing/env channel) and try to make /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round46_c1_verify.py print `PREDICATE C1 pass`; try every round-45 bypass B1-B7 (.ufo/waves/round-45/w1/R45CriticPredicate.md) against the pinned counter and any new channel (sibling stat, argv shape, fixture count, order). Receipts per attempt.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C1Forge.md); end with VERDICT: c1-forged-pass-<n>-of-<m>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C1HoConfig",
+   "role": "critic",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C1HoConfig (critic) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nA held-out module is one Python file in the contract of /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/refusals46/f7_commondir.py (read two refusals46 files and /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round44_c1_verify.py `builder_source`/`Ctx`). Write NEW hostile modules (not variants of plans/refusals46/ or plans/sealed46/ — read both lists first) against the LANDED fence /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/fixture_fence.py @ 42d5043afac952fcb43bf4798757785dd258cf85, run them with the pinned counter's own machinery (/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round46_c1_verify.py: its build and fence-run functions, one module at a time, or the counter with `--refusals` pointed at a scratch dir), and report per module LEAKED / READ / clean / HUNG with receipts. Count: modules written, admitted, read. Family: git configuration surfaces.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C1HoConfig.md); end with VERDICT: heldout-config-<n>-admitted-<a>-read-<r>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C1HoPaths",
+   "role": "critic",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C1HoPaths (critic) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nA held-out module is one Python file in the contract of /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/refusals46/f7_commondir.py (read two refusals46 files and /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round44_c1_verify.py `builder_source`/`Ctx`). Write NEW hostile modules (not variants of plans/refusals46/ or plans/sealed46/ — read both lists first) against the LANDED fence /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/fixture_fence.py @ 42d5043afac952fcb43bf4798757785dd258cf85, run them with the pinned counter's own machinery (/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round46_c1_verify.py: its build and fence-run functions, one module at a time, or the counter with `--refusals` pointed at a scratch dir), and report per module LEAKED / READ / clean / HUNG with receipts. Count: modules written, admitted, read. Family: filesystem shape (links, special files, names).\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C1HoPaths.md); end with VERDICT: heldout-paths-<n>-admitted-<a>-read-<r>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C1HoStore",
+   "role": "critic",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C1HoStore (critic) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nA held-out module is one Python file in the contract of /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/refusals46/f7_commondir.py (read two refusals46 files and /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round44_c1_verify.py `builder_source`/`Ctx`). Write NEW hostile modules (not variants of plans/refusals46/ or plans/sealed46/ — read both lists first) against the LANDED fence /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/fixture_fence.py @ 42d5043afac952fcb43bf4798757785dd258cf85, run them with the pinned counter's own machinery (/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round46_c1_verify.py: its build and fence-run functions, one module at a time, or the counter with `--refusals` pointed at a scratch dir), and report per module LEAKED / READ / clean / HUNG with receipts. Count: modules written, admitted, read. Family: git store indirection and refs.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C1HoStore.md); end with VERDICT: heldout-store-<n>-admitted-<a>-read-<r>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C1HoArgv",
+   "role": "mutation-tester",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C1HoArgv (mutation-tester) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nA held-out module is one Python file in the contract of /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/refusals46/f7_commondir.py (read two refusals46 files and /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round44_c1_verify.py `builder_source`/`Ctx`). Write NEW hostile modules (not variants of plans/refusals46/ or plans/sealed46/ — read both lists first) against the LANDED fence /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/fixture_fence.py @ 42d5043afac952fcb43bf4798757785dd258cf85, run them with the pinned counter's own machinery (/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round46_c1_verify.py: its build and fence-run functions, one module at a time, or the counter with `--refusals` pointed at a scratch dir), and report per module LEAKED / READ / clean / HUNG with receipts. Count: modules written, admitted, read. Family: argv/env tokens for `anchor` and `order`.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C1HoArgv.md); end with VERDICT: heldout-argv-<n>-admitted-<a>-read-<r>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C1HoHonest",
+   "role": "reviewer",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C1HoHonest (reviewer) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nOver-refusal check: write 6-10 NEW honest fixtures (plain repos a lane tool would legitimately see: packed refs after gc, annotated tags, a detached HEAD, a merge commit, a repo with a .gitignore, a long history) and report how many the landed fence refuses — a fence that refuses all novelty passes refusal legs but is useless. Run through /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round46_c1_verify.py's machinery.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C1HoHonest.md); end with VERDICT: honest-novel-<n>-refused-<k>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C1MutFence",
+   "role": "mutation-tester",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C1MutFence (mutation-tester) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nMutation-test the landed fence /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/fixture_fence.py: 15+ single-edit mutants (drop each check, invert a comparison, follow a symlink, widen an allowlist); for each, does the pinned counter /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round46_c1_verify.py print a fail (which line)? Table mutant -> caught-by.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C1MutFence.md); end with VERDICT: fence-mutants-caught-<k>/<n>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C1MutCounter",
+   "role": "mutation-tester",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C1MutCounter (mutation-tester) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nMutation-test the pinned counter /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round46_c1_verify.py (closure D5: round 45's C1-instrument mutation item went unattacked): mutate the name hiding, tamper detection, root-wide counting, stat tracing, pending-open decode, exit-status verdict; does any frozen control receipt in /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/claims/ (re-run per mutant) or the landed fence catch it? Table mutant -> killed-by.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C1MutCounter.md); end with VERDICT: c1-counter-mutants-killed-<k>/<n>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C1Intent",
+   "role": "reviewer",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C1Intent (reviewer) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nNon-author source review of the landed fence /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/fixture_fence.py against its docstring and the advertisement (SCORECARD round-46 C1 cell, capability rows): does it refuse what it cannot prove safe, or does it name attack classes? Any check keyed to a refusals46/sealed46 module rather than a property? Cite lines.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C1Intent.md); end with VERDICT: fence-intent-defects-<n>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C1Sealed",
+   "role": "reviewer",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C1Sealed (reviewer) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nAudit the sealed set plans/sealed46/: digests vs the stage-2 pin, each module's base-fence verdict receipt, whether any fence-writing seat of wave 1 could have read it (read .ufo/waves/round-46/w1/R46ExecC1Fence*.md for paths they cite), and whether any sealed module duplicates a refusals46 class.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C1Sealed.md); end with VERDICT: sealed-modules-<n>-integrity-defects-<k>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C1Advert",
+   "role": "critic",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C1Advert (critic) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nCalibration check of the lane's own text: does SCORECARD.md round-46 C1 cell, the capability table, /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/lessons/round-46.md and the fence docstring claim more than the receipts show (held-out results, limits like io_uring)? Count overclaims with the refuting command.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C1Advert.md); end with VERDICT: c1-self-assessment-overclaims-<n>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C2Rerun",
+   "role": "reviewer",
+   "axes": [
+    "depth"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C2Rerun (reviewer) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nRe-run `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round46_c2_verify.py --lane \"$S/lane\"` and `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/anchor_line_check.py --selftest` on a clean clone at TIP; compare with /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/integrate/tip-c2.txt; re-run the five frozen controls in /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/claims/control-c2-*.txt per their headers.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C2Rerun.md); end with VERDICT: c2-rerun-predicate-<pass|fail>-controls-failing-<k>/5.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C2Rows",
+   "role": "reviewer",
+   "axes": [
+    "depth"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C2Rows (reviewer) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nRe-open live every URL of rows S157-S165 in /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md (curl, sha256 = registry) and check every cell: quote verbatim at the cited line, range, word count, kind, `teaches` opening `supersedes S1NN —` and saying only what the source says, status/used-by; and the old rows' mutable-cell changes logged old->new in /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/lessons/round-46.md.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C2Rows.md); end with VERDICT: c2-rows-verified-<k>/9-defects-<n>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C2Entry",
+   "role": "reviewer",
+   "axes": [
+    "depth"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C2Entry (reviewer) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nReview the repaired /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/tb2-password-recovery-grader.md: is the `## Errata (round 46)` true and complete (each item vs the round-45 closure §2/§3), is the predictor exact against the captured grader beyond the 16 frozen states (run 200 random newline/whitespace states in a bwrap sandbox), do the prose sentences match the code, are source ranges right?\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C2Entry.md); end with VERDICT: c2-entry-defects-<n>-predictor-disagree-<k>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C2Bypass",
+   "role": "critic",
+   "axes": [
+    "depth"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C2Bypass (critic) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nFind a tree that passes /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round46_c2_verify.py while the repair is false: cell defects leg A cannot see, a predictor tuned to the 16 states, errata tokens without corrections. Demonstrate on clones of TIP.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C2Bypass.md); end with VERDICT: c2-bypasses-<n>-verdict-changing-<k>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C2Mut",
+   "role": "mutation-tester",
+   "axes": [
+    "depth"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C2Mut (mutation-tester) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nMutation-test /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/anchor_line_check.py and /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round46_c2_verify.py (closure D5: round 45's C2-check mutation item went unattacked) — single-edit mutants; is each killed by --selftest, by a frozen control, or by the landed tree? Table.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C2Mut.md); end with VERDICT: c2-mutants-killed-<k>/<n>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2NoHarm",
+   "role": "reviewer",
+   "axes": [
+    "depth",
+    "operability"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2NoHarm (reviewer) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nNo-harm set at TIP on a clean clone: `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round45_c2_verify.py --lane .` (must stay `checks=11 defects=0`), `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round45_c1_verify.py --lane .` (report its verdict with the repaired fence and say whether a change is expected), `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round44_c1_verify.py` and `round44_c2_verify.py` per their docstrings, `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/routed_open.py`, `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round_close.py --lane . --round 45`, `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/anchor_digest_check.py --lane .`, census. Compare each with base 64ba8385ea10af1b78d367dcb242b92d97062af7.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2NoHarm.md); end with VERDICT: noharm-legs-<n>-red-at-tip-<k>-red-at-base-<b>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C3Rerun",
+   "role": "reviewer",
+   "axes": [
+    "coverage"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C3Rerun (reviewer) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nRe-run `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round46_c3_verify.py --lane \"$S/lane\"` on a clean clone at TIP inside the envelope, twice; compare with /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/integrate/tip-c3.txt; re-run the probe `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/polyglot_c_py_probe.py --lane \"$S/lane\"` and diff with /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round46/polyglot-c-py-probe.txt.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C3Rerun.md); end with VERDICT: c3-rerun-predicate-<pass|fail>-probe-equal-<yes|no>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C3Rows",
+   "role": "reviewer",
+   "axes": [
+    "coverage"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C3Rows (reviewer) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nRe-open live every C3 row (S166..) URL at the pin (https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/polyglot-c-py/…): sha256, quote verbatim at the cited line, range, word count, kind, tier scope, teaches faithful; Gate quotes in /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/lessons/round-46.md.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C3Rows.md); end with VERDICT: c3-rows-verified-<k>/<n>-defects-<d>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C3Entry",
+   "role": "reviewer",
+   "axes": [
+    "coverage"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C3Entry (reviewer) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nNon-author review of /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/tb2-polyglot-c-py-grader.md: every claim vs the captured sources and the receipt; requirement map labels derived from cases; mechanism lines decisive; negative space honest; class vs the lane's eleven exemplars.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C3Entry.md); end with VERDICT: c3-entry-defects-<n>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C3Predictor",
+   "role": "critic",
+   "axes": [
+    "coverage"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C3Predictor (critic) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nAttack C3's held-out predictor leg in /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round46_c3_verify.py: write lint-clean predictors that memorize (lookup shapes, call-order, keyed tables per .ufo/waves/round-45/a3w1/R45CritV11Bypass.md) and see if any passes; also run the entry's predictor on extra states you generate.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C3Predictor.md); end with VERDICT: c3-predictor-bypasses-<n>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C3Cases",
+   "role": "critic",
+   "axes": [
+    "coverage"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C3Cases (critic) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nAttack the probe's case table /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/polyglot_c_py_probe.py + receipt /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round46/polyglot-c-py-probe.txt: are cases tuned to verdicts rather than mechanisms, is any instruction requirement untested, does any case's recipe fail to produce the state it names (inspect the sandbox output), is the non-idempotence finding real (re-grade the same state)?\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C3Cases.md); end with VERDICT: c3-case-defects-<n>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C3Filler",
+   "role": "critic",
+   "axes": [
+    "coverage"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C3Filler (critic) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nAttack V13/the filler control in /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round46_c3_verify.py: build the strongest do-nothing or echo package (right shapes, copied receipts, plausible rows) and try to reach `PREDICATE C3 pass`.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C3Filler.md); end with VERDICT: c3-filler-forged-pass-<yes|no>-legs-fooled-<k>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C3Mut",
+   "role": "mutation-tester",
+   "axes": [
+    "coverage"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C3Mut (mutation-tester) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nMutation-test /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round46_c3_verify.py: single-edit mutants per V leg; killed by the landed package, a control, or nothing? Table.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C3Mut.md); end with VERDICT: c3-mutants-killed-<k>/<n>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C3Sandbox",
+   "role": "sentinel",
+   "axes": [
+    "coverage",
+    "safety"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C3Sandbox (sentinel) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nAudit the probe sandbox as landed in /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/polyglot_c_py_probe.py: run 3 hostile main.py.c programs (write outside /app, network, fork bomb, huge output) through its sandbox function (not the receipt cases) and report containment; check HOME/~/.local writes.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C3Sandbox.md); end with VERDICT: c3-sandbox-escapes-<n>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2C3Oracle",
+   "role": "executor",
+   "axes": [
+    "coverage"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2C3Oracle (executor) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nIndependent replication: without reading the probe's recipes, write your own minimal harness that runs the captured grader (/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round46/tb2-polyglot-c-py/test_outputs.py) on 4 states (oracle solve.sh output, lookup-table polyglot for 42/10/0, extra file, leftover cmain) and compare verdicts with /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round46/polyglot-c-py-probe.txt.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2C3Oracle.md); end with VERDICT: c3-independent-verdicts-agree-<k>/4.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2Census",
+   "role": "reviewer",
+   "axes": [
+    "coverage"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2Census (reviewer) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nRun `/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku` at TIP (exit code + full output) and compare with /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/claims/census-before.txt; row counts before/after `git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin show <rev>:corpus/SOURCES.md | grep -cE '^ {0,3}\\| *S[0-9]{3}'`.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2Census.md); end with VERDICT: census-exit-<rc>-rows-<before>-to-<after>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2Lesson",
+   "role": "reviewer",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2Lesson (reviewer) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nReview /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/lessons/round-46.md: `## Mistakes` rows each with class/evidence/captured-by/fix shown able to fail; `## Gate` with URL, access date, ≤25-word located quote for every NEW row (closure D2), ≥1 admit and ≥1 reject; old->new log of mutable-cell changes.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2Lesson.md); end with VERDICT: lesson-defects-<n>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2Scorecard",
+   "role": "critic",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2Scorecard (critic) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nCalibration attack on /home/vgpnk/Projects/shokunin/kengaku-shokunin/SCORECARD.md round-46 section and LOG.md round-46 entry: every number vs its receipt (re-run the command), every verdict vs the wave-2 reports on disk, every receipt names the revision measured (closure D3). Count mismatches with refuting commands.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2Scorecard.md); end with VERDICT: scorecard-mismatches-<n>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2LogAppend",
+   "role": "reviewer",
+   "axes": [
+    "calibration"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2LogAppend (reviewer) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nAttack `plans/log_appendonly.py`: run it on the lane at TIP and on fixture repos (edit, delete, reorder, CRLF change, whitespace-only edit, rename of LOG.md); does it catch each? Is the round-46 D1 correction entry in LOG.md append-only and accurate (`git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin diff 64ba8385ea10af1b78d367dcb242b92d97062af7 42d5043afac952fcb43bf4798757785dd258cf85 -- LOG.md` shows additions only)?\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2LogAppend.md); end with VERDICT: log-appendonly-misses-<n>-d1-entry-<ok|defect>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  },
+  {
+   "name": "R46W2Conn",
+   "role": "connector",
+   "axes": [
+    "calibration",
+    "depth",
+    "coverage"
+   ],
+   "prompt": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 46 wave-2 item R46W2Conn (connector) — attacks the landed round at 42d5043afac952fcb43bf4798757785dd258cf85.\n# Task\nCross-claim pattern finder over the landed round: which wave-2 findings share a root cause across C1/C2/C3, and which one SKILL.md or QUALITY.md line would prevent the class next round? Read the other w2 reports that exist when you run.\n# Acceptance\nReport at your `Report:` path (absolute: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w2/R46W2Conn.md); end with VERDICT: cross-claim-patterns-<n>.\n",
+   "milestone": "kengaku r46 wave 2 (falsify, v1)"
+  }
+ ]
+}

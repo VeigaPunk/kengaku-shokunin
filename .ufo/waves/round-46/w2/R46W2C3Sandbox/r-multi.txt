@@ -1,0 +1,316 @@
+HEAD 42d5043afac952fcb43bf4798757785dd258cf85
+TOP /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/env /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/env --bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/sb.py /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox multi
+ENVELOPE start 02:51:39 cwd=/fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox
+### S1 identity, limits, mounts, root listing
+ARGV /usr/bin/bwrap --unshare-net --unshare-pid --unshare-ipc --die-with-parent --new-session --ro-bind /usr /usr --symlink usr/bin /bin --symlink usr/bin /sbin --symlink usr/lib /lib --symlink usr/lib /lib64 --ro-bind /etc /etc --proc /proc --dev /dev --tmpfs /tmp --bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-setu8161/app /app --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-setu8161/tests /tests --dir /pub --dir /tpl --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane/corpus/evidence/round46/tb2-polyglot-c-py/instruction.md /pub/instruction.md --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane/corpus/evidence/round46/tb2-polyglot-c-py/test_outputs.py /pub/test_outputs.py --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane/corpus/evidence/round46/tb2-polyglot-c-py/solve.sh /pub/solve.sh --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-setu8161/template.txt /tpl/polyglot-template.txt --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-setu8161/seed.sh /seed.sh --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-setu8161/recipe.sh /recipe.sh --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-setu8161/harness.py /harness.py --chdir /app /usr/bin/bash -c 
+echo "= identity"
+id
+echo "= status"
+grep -E '^(Uid|Gid|CapEff|CapBnd|NoNewPrivs|Seccomp|NSpid)' /proc/self/status
+echo "= limits"
+cat /proc/self/limits
+echo "= ulimit -a"
+ulimit -a
+echo "= root listing"
+ls -a /
+echo "= pid1"
+tr '\0' ' ' < /proc/1/cmdline; echo
+echo "npids=$(ls /proc | grep -cE '^[0-9]+$')"
+echo "= env"
+env | sort
+echo "= mounts"
+cat /proc/self/mountinfo | sed -n '1,25p'
+echo "= dev"
+ls -l /dev
+echo "= tty? "
+if [ -e /dev/tty ]; then echo have-tty; else echo no-tty; fi
+
+RC 0
+= identity
+uid=1000(vgpnk) gid=1000(vgpnk) groups=1000(vgpnk),65534(nobody)
+= status
+Uid:	1000	1000	1000	1000
+Gid:	1000	1000	1000	1000
+NSpid:	4
+CapEff:	0000000000000000
+CapBnd:	0000000000000000
+NoNewPrivs:	1
+Seccomp:	0
+Seccomp_filters:	0
+= limits
+Limit                     Soft Limit           Hard Limit           Units     
+Max cpu time              unlimited            unlimited            seconds   
+Max file size             274877906944         unlimited            bytes     
+Max data size             unlimited            unlimited            bytes     
+Max stack size            8388608              unlimited            bytes     
+Max core file size        unlimited            unlimited            bytes     
+Max resident set          unlimited            unlimited            bytes     
+Max processes             122865               122865               processes 
+Max open files            524288               524288               files     
+Max locked memory         8388608              8388608              bytes     
+Max address space         unlimited            unlimited            bytes     
+Max file locks            unlimited            unlimited            locks     
+Max pending signals       122865               122865               signals   
+Max msgqueue size         819200               819200               bytes     
+Max nice priority         0                    0                    
+Max realtime priority     0                    0                    
+Max realtime timeout      unlimited            unlimited            us        
+= ulimit -a
+real-time non-blocking time  (microseconds, -R) unlimited
+core file size              (blocks, -c) unlimited
+data seg size               (kbytes, -d) unlimited
+scheduling priority                 (-e) 0
+file size                   (blocks, -f) 268435456
+pending signals                     (-i) 122865
+max locked memory           (kbytes, -l) 8192
+max memory size             (kbytes, -m) unlimited
+open files                          (-n) 524288
+pipe size                (512 bytes, -p) 8
+POSIX message queues         (bytes, -q) 819200
+real-time priority                  (-r) 0
+stack size                  (kbytes, -s) 8192
+cpu time                   (seconds, -t) unlimited
+max user processes                  (-u) 122865
+virtual memory              (kbytes, -v) unlimited
+file locks                          (-x) unlimited
+= root listing
+.
+..
+app
+bin
+dev
+etc
+harness.py
+lib
+lib64
+proc
+pub
+recipe.sh
+sbin
+seed.sh
+tests
+tmp
+tpl
+usr
+= pid1
+/usr/bin/bwrap --unshare-net --unshare-pid --unshare-ipc --die-with-parent --new-session --ro-bind /usr /usr --symlink usr/bin /bin --symlink usr/bin /sbin --symlink usr/lib /lib --symlink usr/lib /lib64 --ro-bind /etc /etc --proc /proc --dev /dev --tmpfs /tmp --bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-setu8161/app /app --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-setu8161/tests /tests --dir /pub --dir /tpl --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane/corpus/evidence/round46/tb2-polyglot-c-py/instruction.md /pub/instruction.md --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane/corpus/evidence/round46/tb2-polyglot-c-py/test_outputs.py /pub/test_outputs.py --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane/corpus/evidence/round46/tb2-polyglot-c-py/solve.sh /pub/solve.sh --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-setu8161/template.txt /tpl/polyglot-template.txt --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-setu8161/seed.sh /seed.sh --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-setu8161/recipe.sh /recipe.sh --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-setu8161/harness.py /harness.py --chdir /app /usr/bin/bash -c 
+echo "= identity"
+id
+echo "= status"
+grep -E '^(Uid|Gid|CapEff|CapBnd|NoNewPrivs|Seccomp|NSpid)' /proc/self/status
+echo "= limits"
+cat /proc/self/limits
+echo "= ulimit -a"
+ulimit -a
+echo "= root listing"
+ls -a /
+echo "= pid1"
+tr '\0' ' ' < /proc/1/cmdline; echo
+echo "npids=$(ls /proc | grep -cE '^[0-9]+$')"
+echo "= env"
+env | sort
+echo "= mounts"
+cat /proc/self/mountinfo | sed -n '1,25p'
+echo "= dev"
+ls -l /dev
+echo "= tty? "
+if [ -e /dev/tty ]; then echo have-tty; else echo no-tty; fi
+ 
+npids=5
+= env
+HOME=/tmp
+LANG=C.UTF-8
+LC_ALL=C.UTF-8
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+PWD=/app
+PYTHONDONTWRITEBYTECODE=1
+PYTHONUTF8=1
+SHLVL=1
+TMPDIR=/tmp
+_=/usr/sbin/env
+= mounts
+867 735 0:107 /newroot / rw,nosuid,nodev,relatime - tmpfs tmpfs rw,uid=1000,gid=1000,inode64,huge=advise
+869 867 0:30 /@/usr /usr ro,nosuid,nodev,noatime master:1 - btrfs /dev/mapper/root rw,compress=zstd:3,ssd,discard=async,space_cache=v2,subvolid=256,subvol=/@
+870 867 0:30 /@/etc /etc ro,nosuid,nodev,noatime master:1 - btrfs /dev/mapper/root rw,compress=zstd:3,ssd,discard=async,space_cache=v2,subvolid=256,subvol=/@
+871 867 0:120 / /proc rw,nosuid,nodev,noexec,relatime - proc proc rw
+877 867 0:121 / /dev rw,nosuid,nodev,relatime - tmpfs tmpfs rw,mode=755,uid=1000,gid=1000,inode64,huge=advise
+878 877 0:7 /null /dev/null rw,nosuid,relatime master:2 - devtmpfs dev rw,size=15668300k,nr_inodes=3917075,mode=755,inode64,huge=advise
+879 877 0:7 /zero /dev/zero rw,nosuid,relatime master:2 - devtmpfs dev rw,size=15668300k,nr_inodes=3917075,mode=755,inode64,huge=advise
+894 877 0:7 /full /dev/full rw,nosuid,relatime master:2 - devtmpfs dev rw,size=15668300k,nr_inodes=3917075,mode=755,inode64,huge=advise
+896 877 0:7 /random /dev/random rw,nosuid,relatime master:2 - devtmpfs dev rw,size=15668300k,nr_inodes=3917075,mode=755,inode64,huge=advise
+897 877 0:7 /urandom /dev/urandom rw,nosuid,relatime master:2 - devtmpfs dev rw,size=15668300k,nr_inodes=3917075,mode=755,inode64,huge=advise
+898 877 0:7 /tty /dev/tty rw,nosuid,relatime master:2 - devtmpfs dev rw,size=15668300k,nr_inodes=3917075,mode=755,inode64,huge=advise
+900 877 0:127 / /dev/pts rw,nosuid,noexec,relatime - devpts devpts rw,mode=620,ptmxmode=666
+901 867 0:130 / /tmp rw,nosuid,nodev,relatime - tmpfs tmpfs rw,mode=755,uid=1000,gid=1000,inode64,huge=advise
+902 867 259:5 /scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-setu8161/app /app rw,nosuid,nodev,noatime master:207 - xfs /dev/nvme1n1p2 rw,inode64,logbufs=8,logbsize=256k,noquota
+903 867 259:5 /scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-setu8161/tests /tests ro,nosuid,nodev,noatime master:207 - xfs /dev/nvme1n1p2 rw,inode64,logbufs=8,logbsize=256k,noquota
+904 867 259:5 /scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane/corpus/evidence/round46/tb2-polyglot-c-py/instruction.md /pub/instruction.md ro,nosuid,nodev,noatime master:207 - xfs /dev/nvme1n1p2 rw,inode64,logbufs=8,logbsize=256k,noquota
+905 867 259:5 /scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane/corpus/evidence/round46/tb2-polyglot-c-py/test_outputs.py /pub/test_outputs.py ro,nosuid,nodev,noatime master:207 - xfs /dev/nvme1n1p2 rw,inode64,logbufs=8,logbsize=256k,noquota
+906 867 259:5 /scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane/corpus/evidence/round46/tb2-polyglot-c-py/solve.sh /pub/solve.sh ro,nosuid,nodev,noatime master:207 - xfs /dev/nvme1n1p2 rw,inode64,logbufs=8,logbsize=256k,noquota
+907 867 259:5 /scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-setu8161/template.txt /tpl/polyglot-template.txt ro,nosuid,nodev,noatime master:207 - xfs /dev/nvme1n1p2 rw,inode64,logbufs=8,logbsize=256k,noquota
+908 867 259:5 /scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-setu8161/seed.sh /seed.sh ro,nosuid,nodev,noatime master:207 - xfs /dev/nvme1n1p2 rw,inode64,logbufs=8,logbsize=256k,noquota
+909 867 259:5 /scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-setu8161/recipe.sh /recipe.sh ro,nosuid,nodev,noatime master:207 - xfs /dev/nvme1n1p2 rw,inode64,logbufs=8,logbsize=256k,noquota
+910 867 259:5 /scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-setu8161/harness.py /harness.py ro,nosuid,nodev,noatime master:207 - xfs /dev/nvme1n1p2 rw,inode64,logbufs=8,logbsize=256k,noquota
+= dev
+total 0
+lrwxrwxrwx 1 vgpnk  vgpnk    11 Oct 27 02:51 core -> /proc/kcore
+lrwxrwxrwx 1 vgpnk  vgpnk    13 Oct 27 02:51 fd -> /proc/self/fd
+crw-rw-rw- 1 nobody nobody 1, 7 Oct 26 12:08 full
+crw-rw-rw- 1 nobody nobody 1, 3 Oct 26 12:08 null
+lrwxrwxrwx 1 vgpnk  vgpnk     8 Oct 27 02:51 ptmx -> pts/ptmx
+drwxr-xr-x 2 vgpnk  vgpnk     0 Oct 27 02:51 pts
+crw-rw-rw- 1 nobody nobody 1, 8 Oct 26 12:08 random
+drwxr-xr-x 2 vgpnk  vgpnk    40 Oct 27 02:51 shm
+lrwxrwxrwx 1 vgpnk  vgpnk    15 Oct 27 02:51 stderr -> /proc/self/fd/2
+lrwxrwxrwx 1 vgpnk  vgpnk    15 Oct 27 02:51 stdin -> /proc/self/fd/0
+lrwxrwxrwx 1 vgpnk  vgpnk    15 Oct 27 02:51 stdout -> /proc/self/fd/1
+crw-rw-rw- 1 nobody nobody 5, 0 Oct 26 22:05 tty
+crw-rw-rw- 1 nobody nobody 1, 9 Oct 26 12:08 urandom
+crw-rw-rw- 1 nobody nobody 1, 5 Oct 26 12:08 zero
+= tty? 
+have-tty
+
+### S2 write-outside-/app
+ARGV /usr/bin/bwrap --unshare-net --unshare-pid --unshare-ipc --die-with-parent --new-session --ro-bind /usr /usr --symlink usr/bin /bin --symlink usr/bin /sbin --symlink usr/lib /lib --symlink usr/lib /lib64 --ro-bind /etc /etc --proc /proc --dev /dev --tmpfs /tmp --bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-e9d4hgui/app /app --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-e9d4hgui/tests /tests --dir /pub --dir /tpl --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane/corpus/evidence/round46/tb2-polyglot-c-py/instruction.md /pub/instruction.md --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane/corpus/evidence/round46/tb2-polyglot-c-py/test_outputs.py /pub/test_outputs.py --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane/corpus/evidence/round46/tb2-polyglot-c-py/solve.sh /pub/solve.sh --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-e9d4hgui/template.txt /tpl/polyglot-template.txt --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-e9d4hgui/seed.sh /seed.sh --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-e9d4hgui/recipe.sh /recipe.sh --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-e9d4hgui/harness.py /harness.py --chdir /app /usr/bin/bash -c 
+w() { if printf 'x' > "$1" 2>/dev/null; then echo "WROTE $1"; else echo "DENIED $1"; fi; }
+mkdir -p /app && w /app/w_probe
+for p in /w_root /etc/hostile /etc/passwd /usr/x /usr/bin/x /tests/x /pub/x /tpl/x /home/vgpnk/x \
+         /home/vgpnk/.local/bin/x /root/x /proc/x /proc/sysrq-trigger /sys/x /dev/x /tmp/x \
+         /app/../w_dotdot /app/../../w_dotdot2 /app/hl-escape; do w "$p"; done
+echo "= mkdir outside"
+for d in /etc/d /usr/d /home/vgpnk/.local/bin /app/d; do
+  if mkdir -p "$d" 2>/dev/null; then echo "MKDIR $d"; else echo "NOMKDIR $d"; fi
+done
+echo "= etc read"
+head -1 /etc/passwd
+echo "shadow=$(python3 -c "print(open('/etc/shadow').readline().strip()[:12])" 2>&1 | tail -1)"
+echo "= app write size"
+dd if=/dev/zero of=/app/ddtest bs=1M count=4 2>&1 | tail -1
+echo "= symlink out of app"
+ln -s /home/vgpnk /app/hl 2>/dev/null; readlink /app/hl
+python3 -c "import os;print('listdir(/app/hl)=',os.listdir('/app/hl')[:3])" 2>&1 | tail -1
+ln -s /proc/1/root/app /app/hl2 2>/dev/null; python3 -c "import os;print('via-proc1root=',os.listdir('/app/hl2'))" 2>&1 | tail -1
+echo "= host home forced"
+HOME=/home/vgpnk python3 -c "open('/home/vgpnk/.local/bin/x','w')" 2>&1 | tail -1
+
+RC 0
+WROTE /app/w_probe
+WROTE /w_root
+DENIED /etc/hostile
+DENIED /etc/passwd
+DENIED /usr/x
+DENIED /usr/bin/x
+DENIED /tests/x
+WROTE /pub/x
+WROTE /tpl/x
+DENIED /home/vgpnk/x
+DENIED /home/vgpnk/.local/bin/x
+DENIED /root/x
+DENIED /proc/x
+DENIED /proc/sysrq-trigger
+DENIED /sys/x
+WROTE /dev/x
+WROTE /tmp/x
+WROTE /app/../w_dotdot
+WROTE /app/../../w_dotdot2
+WROTE /app/hl-escape
+= mkdir outside
+NOMKDIR /etc/d
+NOMKDIR /usr/d
+MKDIR /home/vgpnk/.local/bin
+MKDIR /app/d
+= etc read
+root:x:0:0::/root:/usr/bin/bash
+shadow=PermissionError: [Errno 13] Permission denied: '/etc/shadow'
+= app write size
+4194304 bytes (4.2 MB, 4.0 MiB) copied, 0.00045951 s, 9.1 GB/s
+= symlink out of app
+/home/vgpnk
+listdir(/app/hl)= ['.local']
+via-proc1root= ['w_probe', 'hl-escape', 'd', 'ddtest', 'hl', 'hl2']
+= host home forced
+STDERR /usr/bin/bash: line 2: /etc/hostile: Read-only file system
+/usr/bin/bash: line 2: /etc/passwd: Read-only file system
+/usr/bin/bash: line 2: /usr/x: Read-only file system
+/usr/bin/bash: line 2: /usr/bin/x: Read-only file system
+/usr/bin/bash: line 2: /tests/x: Read-only file system
+/usr/bin/bash: line 2: /home/vgpnk/x: No such file or directory
+/usr/bin/bash: line 2: /home/vgpnk/.local/bin/x: No such file or directory
+/usr/bin/bash: line 2: /root/x: No such file or directory
+/usr/bin/bash: line 2: /proc/x: No such file or directory
+/usr/bin/bash: line 2: /proc/sysrq-trigger: Permission denied
+/usr/bin/bash: line 2: /sys/x: No such file or directory
+
+### S3 HOME/.local and network
+ARGV /usr/bin/bwrap --unshare-net --unshare-pid --unshare-ipc --die-with-parent --new-session --ro-bind /usr /usr --symlink usr/bin /bin --symlink usr/bin /sbin --symlink usr/lib /lib --symlink usr/lib /lib64 --ro-bind /etc /etc --proc /proc --dev /dev --tmpfs /tmp --bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-6bqnn0uf/app /app --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-6bqnn0uf/tests /tests --dir /pub --dir /tpl --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane/corpus/evidence/round46/tb2-polyglot-c-py/instruction.md /pub/instruction.md --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane/corpus/evidence/round46/tb2-polyglot-c-py/test_outputs.py /pub/test_outputs.py --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane/corpus/evidence/round46/tb2-polyglot-c-py/solve.sh /pub/solve.sh --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-6bqnn0uf/template.txt /tpl/polyglot-template.txt --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-6bqnn0uf/seed.sh /seed.sh --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-6bqnn0uf/recipe.sh /recipe.sh --ro-bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/c3sb-6bqnn0uf/harness.py /harness.py --chdir /app /usr/bin/bash -c 
+echo "= home"
+echo "HOME=$HOME"; echo "TMPDIR=$TMPDIR"
+mkdir -p "$HOME/.local/bin" && echo "HOME-OK mkdir $HOME/.local/bin" || echo "HOME-DENY"
+printf x > "$HOME/.local/bin/hostile" 2>/dev/null && echo "HOME-WROTE $HOME/.local/bin/hostile" || echo "HOME-WROTE-deny"
+ls -l "$HOME/.local/bin" 2>&1 | head -3
+echo "= network"
+python3 - <<'PY'
+import socket, sys
+for fam, name in ((socket.AF_INET, "inet"), (socket.AF_INET6, "inet6")):
+    try:
+        s = socket.socket(fam, socket.SOCK_STREAM); s.settimeout(2)
+        try:
+            s.connect(("1.1.1.1", 80)); print(name, "connect inet ok")
+        except OSError as e:
+            print(name, "connect1.1.1.1", type(e).__name__, e.errno)
+        if fam == socket.AF_INET:
+            try:
+                s.connect(("127.0.0.1", 22)); print(name, "connect lo ok")
+            except OSError as e:
+                print(name, "connect127.0.0.1", type(e).__name__, e.errno)
+        s.close()
+    except OSError as e:
+        print(name, "socket", e.errno)
+try:
+    print("dns", socket.getaddrinfo("example.com", 80)[:1])
+except OSError as e:
+    print("dns-fail", e.errno, e.strerror)
+try:
+    s = socket.socket(socket.AF_PACKET, socket.SOCK_RAW); print("raw ok")
+except OSError as e:
+    print("raw-fail", e.errno)
+try:
+    s = socket.socket(socket.AF_NETLINK, socket.SOCK_RAW, 0); print("netlink ok"); s.close()
+except OSError as e:
+    print("netlink-fail", e.errno)
+PY
+echo "= netdev"
+cat /proc/net/dev 2>/dev/null | tail -n +3
+ip link 2>&1 | head -5
+
+RC 0
+= home
+HOME=/tmp
+TMPDIR=/tmp
+HOME-OK mkdir /tmp/.local/bin
+HOME-WROTE /tmp/.local/bin/hostile
+total 4
+-rw-r--r-- 1 vgpnk vgpnk 1 Oct 27 02:51 hostile
+= network
+inet connect1.1.1.1 OSError 101
+inet connect127.0.0.1 ConnectionRefusedError 111
+inet6 connect1.1.1.1 gaierror -9
+dns-fail -3 Temporary failure in name resolution
+raw-fail 1
+netlink ok
+= netdev
+    lo:     668      10    0    0    0     0          0         0      668      10    0    0    0     0       0          0
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+
+### S2 host-side check after write attempts
+HOST /w_root exists=False
+HOST /etc/hostile exists=False
+HOST /usr/x exists=False
+HOST /root/x exists=False
+HOST /dev/x exists=False
+HOST /app/w_dotdot exists=False
+HOST /home/vgpnk/.local/bin/x exists=False
+
+ENVELOPE end 02:51:40 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged

@@ -2083,3 +2083,15 @@ freshness 8, adjacency 8.
 - **Novelty (7):** the F1 answer-leak census instrument (still unclaimed).
 - **Routed:** `corpus/routed-findings.jsonl` R45-S5-7b..7e (V11 lookup predictors, gate P10 unpinned `uv`, brace-prefix
   intent, mutation re-attacks), the wave-2 findings appended below.
+
+### Round 46 — wave-2 verdicts (appended; the table above stays as written)
+
+| claim | axis | verdict | basis |
+|---|---|---|---|
+| C1 | calibration | **not admitted** — frozen predicate met, frozen kill rule fires; axis held at 8 (unprovable this round) | 3 wave-2 held-out modules admitted (`w2/R46W2C1HoArgv.md` 2, `R46W2C1HoPaths.md` 1); 9/9 novel honest fixtures refused (`R46W2C1HoHonest.md`); fence mutants 2/13 caught |
+| C2 | depth | predicate met; leg C certifies errata presence only (`w2/R46W2C2Bypass.md`); axis held at 9 (repair of round-45 harm) | `integrate/c2-landing.txt`; `w2/R46W2C2Rerun.md`, `R46W2C2Entry.md` (0 defects, 0/200 disagreements) |
+| C3 | coverage | **not admitted** (V7, V8); counted move real, held at 7 (capped) | `integrate/c3-landing.txt`; `w2/R46W2C3Rerun.md` |
+
+No capability row enters: the repaired fence over-refuses ordinary repositories and its counter leaves most fence
+checks unwitnessed. Planned (round 47) adds: a C1 held-out/over-refusal battery that is frozen before the fence is
+scored (novel honest fixtures as a frozen leg), and the mount-point refusal (`w2/R46W2C1Intent.md`).

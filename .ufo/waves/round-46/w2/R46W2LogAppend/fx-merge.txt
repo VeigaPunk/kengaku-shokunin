@@ -1,0 +1,16 @@
+# seat=R46W2LogAppend lane-TIP=42d5043afac952fcb43bf4798757785dd258cf85 scratch-clone=/fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/lane
+# cmd: python3 /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/lane/plans/log_appendonly.py --lane /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/fix/fx-merge --show-lines --verbose
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/env /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/env --bind /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/lane/plans/log_appendonly.py --lane /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/fix/fx-merge --show-lines --verbose
+ENVELOPE start 02:53:01 cwd=/fast/scratch/hyaku/kengaku-r46/R46W2LogAppend
+VIOLATION 2823471329f0 2026-10-27 deleted=1 at=4 first="- line two"
+DEL 2823471329f0 :4 -- line two
+VIOLATION 722296494879 2026-10-27 deleted=1 at=4 first="- line two"
+DEL 722296494879 :4 -- line two
+VIOLATION 277ff3b7bd16 2026-10-27 deleted=1 at=4 first="- MAIN EDIT of two"
+DEL 277ff3b7bd16 :4 -- MAIN EDIT of two
+WALK full-history=4 simplified=4 simplified_only=- full_only=-
+LOG-APPENDONLY path=LOG.md head=277ff3b7bd16
+LOG-APPENDONLY commits=4 violations=3
+ENVELOPE end 02:53:02 exit=1 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged
+envelope-rc=1
+fixture=merge head=277ff3b7bd16b9fb36ed3ddf748d253294eecd28

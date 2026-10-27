@@ -1478,3 +1478,13 @@ amendment `4fdeebaa`, C1 controls `7768716c`. Motivating evidence: the round-45 
   defects=0`, `routed_open=24 oldest_round=39`, census `kengaku ok` exit 0.
 - Mined mistakes: `corpus/lessons/round-46.md` (10 rows); QUALITY Q40; `plans/log_appendonly.py` (`commits=77
   violations=7` on lane history, 0 since `64ba8385`).
+
+### Round 46 wave-2 results (2026-10-27)
+
+- C1 predicate met at `420eec9f`, **not admitted**: the frozen wave-2 kill rule counts 3 admitted held-out modules
+  (`.ufo/waves/round-46/w2/R46W2C1HoArgv.md`, `R46W2C1HoPaths.md`); also 9/9 novel honest fixtures refused, fence
+  mutants caught 2/13. C2 predicate met; leg C errata-token bypass (`w2/R46W2C2Bypass.md`). C3 not admitted (V7/V8).
+  Details: `corpus/lessons/round-46.md` §Wave 2.
+- Correction to the D1 entry above (append-only): the two round-45 lines were rewritten by commit `f660ae04`
+  (round-45 attempt 3), not `3d9ea54`; `git diff -U0 fbad1c5 3d9ea54 -- LOG.md` spans both commits
+  (`plans/log_appendonly.py --lane .` attributes them per commit; `w2/R46W2LogAppend.md`).

@@ -1,0 +1,11 @@
+# seat=R46W2LogAppend lane-TIP=42d5043afac952fcb43bf4798757785dd258cf85 scratch-clone=/fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/lane
+# cmd: python3 /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/lane/plans/log_appendonly.py --lane /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/fix/fx-edit --show-lines
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/env /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/env --bind /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/lane/plans/log_appendonly.py --lane /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/fix/fx-edit --show-lines
+ENVELOPE start 02:52:33 cwd=/fast/scratch/hyaku/kengaku-r46/R46W2LogAppend
+VIOLATION 89cbd1879228 2026-10-27 deleted=1 at=4 first="- line two"
+DEL 89cbd1879228 :4 -- line two
+LOG-APPENDONLY path=LOG.md head=89cbd1879228
+LOG-APPENDONLY commits=2 violations=1
+ENVELOPE end 02:52:34 exit=1 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged
+envelope-rc=1
+fixture=edit head=89cbd18792287f93fa3004ec05985c5c504bd8db

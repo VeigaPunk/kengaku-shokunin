@@ -1,0 +1,15 @@
+HEAD 42d5043afac952fcb43bf4798757785dd258cf85
+TOP /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/env /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/env --bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/sb.py /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox tmpfs
+ENVELOPE start 02:52:35 cwd=/fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox
+### S6 tmpfs /tmp and host-disk /app consumption
+BEFORE memavail_mib=19568
+RC 0
+tmpfs_bytes 1073741824
+memavail_mib 18973548
+app_bytes 536870912
+/dev/nvme1n1p2  804G  235G  569G  30% /app
+AFTER(inside-sandbox still writing) memavail_mib=19951 delta=-383
+HOST-FS free_blocks_before=148984982 after=148937968 delta_bytes=192569344
+
+ENVELOPE end 02:52:37 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged

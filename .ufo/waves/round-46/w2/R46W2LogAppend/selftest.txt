@@ -1,0 +1,15 @@
+# seat=R46W2LogAppend lane-TIP=42d5043afac952fcb43bf4798757785dd258cf85 scratch-clone=/fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/lane
+# cmd: python3 $S/lane/plans/log_appendonly.py --selftest
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/env /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/env --bind /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/lane/plans/log_appendonly.py --selftest
+ENVELOPE start 02:54:37 cwd=/fast/scratch/hyaku/kengaku-r46/R46W2LogAppend
+SELFTEST GREEN rc=0 want_rc=0 ok :: LOG-APPENDONLY commits=2 violations=0
+SELFTEST RED-EDIT rc=1 want_rc=1 ok :: LOG-APPENDONLY commits=2 violations=1
+SELFTEST RED-DELETE rc=1 want_rc=1 ok :: LOG-APPENDONLY commits=2 violations=1
+SELFTEST RED-MOVE rc=1 want_rc=1 ok :: LOG-APPENDONLY commits=2 violations=1
+SELFTEST SINCE-FULL rc=1 want_rc=1 ok :: LOG-APPENDONLY commits=3 violations=1
+SELFTEST SINCE-C1 rc=1 want_rc=1 ok :: LOG-APPENDONLY commits=2 violations=1
+SELFTEST SINCE-C2 rc=0 want_rc=0 ok :: LOG-APPENDONLY commits=1 violations=0
+SELFTEST BAD-SINCE rc=2 want_rc=2 ok :: SETUP --since side: not an ancestor of HEAD
+SELFTEST pass
+ENVELOPE end 02:54:39 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged
+envelope-rc=0

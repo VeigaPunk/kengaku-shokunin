@@ -1,0 +1,13 @@
+# fixture=crlf-to-lf HEAD=47f0cb9f922b86fc25c12490c3bedc07c390421f
+# lane-TIP=42d5043afac952fcb43bf4798757785dd258cf85
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/env /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/env --bind /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/lane/plans/log_appendonly.py --lane /fast/scratch/hyaku/kengaku-r46/R46W2LogAppend/fix/fx-crlf-to-lf --show-lines
+ENVELOPE start 02:55:50 cwd=/fast/scratch/hyaku/kengaku-r46/R46W2LogAppend
+VIOLATION 47f0cb9f922b 2026-10-27 deleted=4 at=1,2,3,4 first="# log"
+DEL 47f0cb9f922b :1 -# log
+DEL 47f0cb9f922b :2 -
+DEL 47f0cb9f922b :3 -- line one
+DEL 47f0cb9f922b :4 -- line two
+LOG-APPENDONLY path=LOG.md head=47f0cb9f922b
+LOG-APPENDONLY commits=2 violations=1
+ENVELOPE end 02:55:51 exit=1 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged
+envelope-rc=1

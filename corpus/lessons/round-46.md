@@ -74,3 +74,38 @@ yet the single standing counter the proposal asks for.
 ## Misroot sweep
 
 `R46CritC1Freeze` (see Mistakes): fleet-root stray quarantined by the orchestrator, lane copy byte-identical.
+
+## Wave 2 (falsify, 32 seats) — results and verdicts
+
+Dispatched at lane tip `42d5043a` (`.ufo/waves/round-46/w2-dispatch.json`); all 32 seats settled
+(`w2-results.json`); 28 left report files; 4 left none and their final outputs are recovered verbatim as
+`w2/<seat>.recovered-output.md` (`R46W2C1Advert`, `R46W2Scorecard`, `R46W2C2Mut` — no mutant run, baseline only —
+and `R46W2C2Rows` — no verdict, its output is unfinished reasoning). So the C2 row live re-open and the C2 mutation
+item are unattacked in wave 2 (wave 1's `R46ScribeC2Rows` re-opened all nine rows live; `R46MutC2Gate` killed 5/8).
+
+- **C1 — predicate met, not admitted.** Re-run at `42d5043a` matches (`R46W2C1Rerun`). The frozen kill rule ("two or
+  more wave-2 held-out modules admitted or read") fires on its literal count: 3 admitted — `R46W2C1HoArgv` 2
+  (`--lane <lane>/../lane`, an env-token order fixture) and `R46W2C1HoPaths` 1 (a newline-bearing file name); the
+  authoring seats state that none of the three reaches outside `d`, which is a reading of the advertisement the kill
+  rule did not carve out, so the literal count stands. Also: 9 of 9 novel honest fixtures refused (packed refs, tags,
+  detached HEAD, merge, gc'd reflog — `R46W2C1HoHonest`): the allowlist fence over-refuses ordinary repositories the
+  104 battery fixtures never built; 2 of 13 fence mutants caught (`R46W2C1MutFence`: the refusal/sealed sets do not
+  witness most single checks, partly because the allowlist refuses each shape twice); 1 of 6 counter mutants killed
+  (`R46W2C1MutCounter`); 0 forged passes (`R46W2C1Forge`); 2 sealed modules duplicate refusal classes
+  (`R46W2C1Sealed`: `s_objects_link` ≈ f15, `c_core_attributes_path` ≈ f20); bind-mounted directories below `d` are
+  not refused (`R46W2C1Intent`, source reading); the advertisement "without reading outside `d`" exceeds what the
+  counter observes (interpreter imports, host paths, io_uring — `R46W2C1Advert`).
+- **C2 — predicate met, with one verdict-changing counter bypass.** Re-run and the five controls reproduce
+  (`R46W2C2Rerun`); the repaired entry has 0 defects and its predictor agrees with the captured grader on 200 random
+  newline states (`R46W2C2Entry`). `R46W2C2Bypass`: replacing the errata section with the five bare tokens still passes
+  leg C (`errata_marks=5/5`), so leg C certifies the errata's presence, not its content; legs A and B still require
+  the real row and predictor repairs. No-harm 8/8 legs green at tip and base (`R46W2NoHarm`).
+- **C3 — not admitted** (re-run confirms `PREDICATE C3 fail`, probe byte-equal, `R46W2C3Rerun`). Rows 7/7 verified
+  live (`R46W2C3Rows`); independent harness agrees 4/4 (`R46W2C3Oracle`); predictor bypasses 0; filler forged pass no;
+  sandbox escapes 0. `R46W2C3Mut`: 0 of 13 counter mutants killed by the landed package — the counter's legs are not
+  witnessed by this package. Entry corrected by an appended errata (class contrast overstated; `f(1)` unexercised).
+- **Bookkeeping.** `R46W2LogAppend`: the D1 correction entry attributes the in-place rewrite to `3d9ea54`; commit-level
+  attribution puts the two rewritten lines at `f660ae04` (the closure's range diff `fbad1c5..3d9ea54` spans both) —
+  corrected by an appended LOG note. `R46W2Lesson` F1: Mistakes row 3's fix ("the harness prepends `REV <40-hex>`")
+  is not implemented; this round's receipts name the revision in a `# … lane commit <hash>` header instead (D3's
+  substance holds; the stated mechanism does not). `R46W2Census`: exit 0, rows 149 → 165.

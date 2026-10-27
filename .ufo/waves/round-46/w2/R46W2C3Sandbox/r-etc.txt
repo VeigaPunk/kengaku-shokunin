@@ -1,0 +1,23 @@
+HEAD 42d5043afac952fcb43bf4798757785dd258cf85
+TOP /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/env /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/env --bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/sb.py /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox etc
+ENVELOPE start 02:52:06 cwd=/fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox
+### S9 host /etc exposure and grader stall cost
+RC 0
+READABLE /etc/machine-id 432d02b544a5459ebbff9c42ec68334d
+READABLE /etc/hostname plazir27
+READABLE /etc/passwd root:x:0:0::/root:/usr/bin/bashbin:x:1:
+READABLE /etc/group root:x:0:rootsys:x:3:binmem:x:8:ftp:x
+DENIED /etc/shadow
+DENIED /etc/gshadow
+DENIED /etc/sudoers
+DENIED /etc/ssh/ssh_host_ed25519_key
+DENIED /etc/kernel/cmdline
+READABLE /proc/self/cgroup 0::/user.slice/user-1000.slice/user@1000
+READABLE /proc/1/cmdline /usr/bin/bwrap.--unshare-net.--unshare-p
+
+### S9b grader stall: a hostile main.py.c that sleeps in both runtimes
+RUN_CASE_GRADE recipe_rc=0 grades=[(0, ('P', '')), (1, ('F', ''))] seconds=18.1
+OUTER-TIMEOUT probe.harness timeout=1800s per harness call (source: plans/polyglot_c_py_probe.py:372)
+
+ENVELOPE end 02:52:25 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged

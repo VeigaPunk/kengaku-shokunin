@@ -1,0 +1,51 @@
+Seat: R46W2C1Sealed
+Lane clone command: git clone -q --no-local /home/vgpnk/Projects/shokunin/kengaku-shokunin "$S/lane" && git -C "$S/lane" checkout -q 42d5043afac952fcb43bf4798757785dd258cf85
+Clone identity command: git -C "$S/lane" rev-parse --show-toplevel && git -C "$S/lane" rev-parse HEAD
+Observed toplevel: /fast/scratch/hyaku/kengaku-r46/R46W2C1Sealed/lane
+Observed HEAD: 42d5043afac952fcb43bf4798757785dd258cf85
+
+DIGEST CHECK
+Command: (cd "$S/lane/plans/sealed46" && sha256sum *.py); compare each digest to plans/round46_c1_verify.py:177-188 and the four R46CritC1Seal*/sealed/SHA256SUMS files.
+Observed: all 12 landed module digests match the stage-2 PINS and their retained wave-1 artifact digest. Counter file SHA-256: ef19380e862e0a6d21e2e7f7c47d72f578564202fb98aa4a2c554696e3d16508 (matches stage-2 prefix ef19380e…). Fence file SHA-256: 05d5fe03aa3be6b79eb2469b7c86d0a20c9b424bea2e058d580e31a96c8aad5e (FenceA deliverable).
+
+Exact `sha256sum *.py` output (in `plans/sealed46`; each digest matches the corresponding pin at `round46_c1_verify.py:177-188`):
+4542b9099f7f56528344f59dda9fa47f1fefaca30a6d3ca9bd8209f897ce849c  a_newline_anchor.py
+2291451aa94ccc6e12353f1c940f974b48c421a39cf5aee8d0072a77a3f90bae  a_phantom_anchor.py
+debf651d002e7c7b8c8f9c6430fe662d0851cd1e2d72994b9523122ee9bd25c5  a_phantom_order.py
+2a8218c123fced0917d6dcd27ffdaae60b1c0d92a1d05f71ec914693218f293f  c_core_attributes_path.py
+3ce40827cab1bfd4d25a1d812873a24ea97b7ac673022ed6ba0cb5052bd9a5da  c_excludes_file.py
+3de8d61fb7288309eca8dc2defd90933a1b406b0c7ff5fbf14bb3615442013d8  c_url_rewrite.py
+675945e9556c88dae8d811c7f1182bb6c855d3c932bc73b3469dc497fe225938  p_info_redirect.py
+78246f4aeeda91e3ff2af6e74948a7fdb59f60c4d370e3da29bc15d032be5c1e  p_pack_redirect.py
+932d62819a05f0bc3a752d13a7167f064a5ab2cbcfa2594bb0ff1eae2e26e9e8  p_refs_redirect.py
+b9bc8b665d6dde269ef1418fc47b35924e3d2ecdf6a517ae55bb7cd8b19c3d2e  s_objects_link.py
+3f7d4e08bc7c2c5ba4a42b6ac376344942cc70d2b23ef6873f4f1dafccc08fda  s_packed_refs.py
+b25d66ea8fb8a595c8b339d6741e14b72f26040e4e16388c2662b0c76d779084  s_refs_link.py
+ 
+Cleanup command: `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/scratch_guard.py safe-rm /fast/scratch/hyaku/kengaku-r46 R46W2C1Sealed /fast/scratch/hyaku/kengaku-r46/R46W2C1Sealed`
+Observed: `DELETE path=/fast/scratch/hyaku/kengaku-r46/R46W2C1Sealed resolved=/fast/scratch/hyaku/kengaku-r46/R46W2C1Sealed bytes=606328893 size=578.2MiB`
+
+BASE-FENCE CONTROL RECEIPT
+Source: .ufo/waves/round-46/claims/control-c1-base-fence.txt; measured HEAD cf7de6af112e5d491ebd47318682b05fe864c125; command at source lines 3-4: envelope.sh ... python3 plans/round46_c1_verify.py --lane . --work ... --jobs 6.
+Output: PINS total=65 mismatched=0; REFUSALS total=20 clean=10 leaked=10 read=0 hung=0 build_errors=0; SEALED total=12 clean=0 leaked=12 read=0 hung=0 build_errors=0; CALIBRATION advertised=32 contradicted=22; PREDICATE C1 fail.
+Per-module SEALED lines (source lines 195-206): c_url_rewrite.py LEAKED; p_info_redirect.py LEAKED; p_refs_redirect.py LEAKED; s_refs_link.py LEAKED; p_pack_redirect.py LEAKED; a_phantom_anchor.py LEAKED; c_excludes_file.py LEAKED; a_newline_anchor.py LEAKED; s_packed_refs.py LEAKED; c_core_attributes_path.py LEAKED; s_objects_link.py LEAKED; a_phantom_order.py LEAKED.
+
+INDIVIDUAL BASE-FENCE REPORTS
+- R46CritC1SealConfig.md: core-excludes-file, url-insteadof-path, core-attributes-path — all LEAKED; base fence sha256 ac65c03293084d7b25648740780b97e18f668e4fd9f08f947c09da72bce5eda6; envelope exit 0 / unchanged.
+- R46CritC1SealPaths.md: info_redirect, pack_redirect, refs_redirect — all LEAKED; opens 0, 6, 4 respectively; envelope exit 0 / unchanged.
+- R46CritC1SealArgv.md: newline_anchor, phantom_anchor, phantom_order — all LEAKED; each roll-up 2/2 ADMIT, opens 0; envelope exit 0 / unchanged.
+- R46CritC1SealStore.md: objects_link, packed_refs, refs_link — all LEAKED; ADMIT with 15, 2, 4 outside opens; envelope exit 0 / unchanged.
+
+COUNTER AT ASSIGNED TIP
+Exact command: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/claims/envelope.sh "$S/env" /usr/bin/python3 "$S/lane/plans/round46_c1_verify.py" --lane "$S/lane" --work "$S/w" --jobs 8
+Observed envelope lines: ENVELOPE start 02:56:22 cwd=/home/vgpnk/Projects/shokunin; ENVELOPE end 02:56:28 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged.
+Exact summary output: PINS total=65 mismatched=0; FENCE source=.../plans/fixture_fence.py sha256=05d5fe03aa3be6b79eb2469b7c86d0a20c9b424bea2e058d580e31a96c8aad5e; REFUSALS total=20 clean=20 leaked=0 read=0 hung=0 build_errors=0; SEALED total=12 clean=12 leaked=0 read=0 hung=0 build_errors=0; HONEST fixtures=104 admitted=104 refused=0 read=0 hung=0 build_errors=0; CALIBRATION advertised=32 contradicted=0; PREDICATE C1 pass; exit 0.
+SEALED per-module output at TIP: a_phantom_order clean (2 fixtures); p_refs_redirect clean; a_phantom_anchor clean (2); s_objects_link clean; p_pack_redirect clean; s_packed_refs clean; a_newline_anchor clean (2); c_url_rewrite clean; c_core_attributes_path clean; p_info_redirect clean; s_refs_link clean; c_excludes_file clean.
+
+FENCE-ACCESS CROSS-CHECK
+FenceA report lines 7-8: round-45 counter/R45Ho* only; no other w1 dir opened. FenceB lines 37-39: same no-other-w1-dir statement. FenceC lines 8-9 and 292-295: no other w1 dir; sealed46 did not exist yet. Stage-2 commit cf7de6a added plans/sealed46 at 02:30:51; all three reported measured-run envelopes ended by 02:10. Fence reports were committed at f1871ac (02:38:43); no system-level file-access trace for report-drafting period is present.
+
+DUPLICATION COMPARISONS
+1) plans/sealed46/s_objects_link.py:17-20 vs plans/refusals46/f15_objects_symlink_out.py:26-29: both move .git/objects outside d and symlink it back; same tool order. Only outside directory label/helper differs.
+2) plans/sealed46/c_core_attributes_path.py:9-19 vs plans/refusals46/f20_attributes_file.py:14-23: both write core.attributesFile pointing at an outside attributes file; same tool order. Sealed filename calls it “attributes_path” but code uses attributesFile.
+3) plans/sealed46/p_refs_redirect.py:18-21 vs plans/sealed46/s_refs_link.py:17-20: both move .git/refs outside d and replace it with an outside-pointing symlink; same tool order. Rename helper/destination label differ.

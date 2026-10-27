@@ -1,0 +1,97 @@
+R46W2Lesson verification log — lane tip 42d5043afac952fcb43bf4798757785dd258cf85
+Clone: git clone -q --no-local <lane> "$S/lane" && git -C "$S/lane" checkout -q 42d5043a…
+  rev-parse --show-toplevel -> /fast/scratch/hyaku/kengaku-r46/R46W2Lesson/lane
+  rev-parse HEAD            -> 42d5043afac952fcb43bf4798757785dd258cf85
+All commands run 2026-10-27. No counter/fixture/probe run; no tool installed.
+
+-- Row 1 (D1) --
+$ grep -cF '(A/B runs byte-equal)' LOG.md                       -> 1
+$ grep -cF 'advertised fixture fence closed (10/10 refused, 104 honest admitted)' LOG.md -> 1
+$ git rev-parse fbad1c5 3d9ea54 -> fbad1c56117ecaf458c94e6e0f5fb45ee5209ddc / 3d9ea54a558b40993dba251474535edbf33afa21
+$ git diff -U0 fbad1c5… 3d9ea54… -- LOG.md | hunks:
+  @@ -1374 +1374 @@ … / @@ -1388 +1388 @@ … / @@ -1392,0 +1393,22 @@ (attempt-3 note append)
+  LOG.md:1423 quotes `git diff -U0 fbad1c5 3d9ea54 -- LOG.md`; :1426 old heading (4290d64, 3d9ea54, LOG.md:1374); :1444 current line (LOG.md:1388)
+
+-- Row 2 (D2, Gate parse; python strict parser over `## Gate` tables) --
+corpus/lessons/round-45.md -> (8, 8, [8 row ids])   i.e. admit_rows=8 without_quote_and_line=8
+corpus/lessons/round-46.md -> (16, 0, [])           i.e. 7 ACCEPT + 9 superseding rows, 0 without
+
+-- Row 3 (D3) --
+python3 re count of ^REV [0-9a-f]{40}$ on .ufo/waves/round-45/integrate/{measure-final,a3-tip-c1,a3-tip-c2}.txt -> 0, 0, 0
+grep '^REV ' .ufo/waves/round-46/claims/* -> no matches (control receipts use `# measured HEAD cf7de6af…`)
+integrate/{c1,c2,c3}-landing.txt,noharm.txt -> headers `# … at lane commit 420eec9f…` / `e9d2014…`; zero ^REV lines
+python3 scan plans/*.py for a REV-writing harness -> none
+w2/R46W2C2Rows/live-reopen.txt:1 -> `REV 42d5043afac952fcb43bf4798757785dd258cf85` (sibling receipts DO use it)
+
+-- Row 4 (D4) --
+$ git rev-list fd4129eb..HEAD -- plans/round-46-claims.md -> 4fdeebaa546cfd77a88a55a4a875272b142a8868 (only)
+'4fdeeba' in claims file: False; 'cf7de6af' in claims file: True
+lesson header names 4fdeebaa; LOG.md:1455-1456 names fd4129eb, cf7de6af, 4fdeebaa, 7768716c
+$ git cat-file -t 7768716c -> commit ("C1 stage-2 control receipts (21 controls, all PREDICATE C1 fail; base fence contradicted=22/32)")
+
+-- Row 5 --
+w1-results.json: results=35, seats=35, output None=0; report files present 35/35 (test -f over w1/<seat>.md)
+
+-- Row 6 (S163) --
+python3: round45 README capture splitlines=33 (no trailing newline; wc -l = 32), quote line index = 31
+  line 31 == '3. That the correct password `8XDP5Q2RT9ZK7VB3BV4WW54` is among the recovered passwords'
+  'among guesses' in README: False
+git diff 64ba8385 42d5043 -- corpus/SOURCES.md -> 16 insertions, 0 deletions (old S154 byte-unchanged)
+
+-- Row 7 --
+entry Predictor block: text.replace("\r\n", "\n").replace("\r", "\n")  (universal newlines)
+integrate/c2-landing.txt: `B predictor states=16 grader_pass=10 grader_fail=6 disagree=0 ok`, `errata_marks=5/5`, `PREDICATE C2 pass`
+control replays control-c2-*-replay.txt committed at 4fdeeba (stat: 5 replay receipts + stage2_controls.py + claims +26)
+
+-- Row 8 --
+dry table TAG lines: single-file, python-run, c-build, both-print, fib-kth, stdout-only, toolchain
+union of violates= across 18 CASE lines: {single-file, fib-kth, c-build, python-run, stdout-only} -> both-print, toolchain uncovered
+integrate/c3-landing.txt: `V7 DEFECT rows=5 tags=7 bad=[… tags missing=['both-print', 'toolchain'] …]`
+corpus/QUALITY.md:1091-1092: Q40 leg 1 landed
+
+-- Row 9 --
+claims/control-c3-echo.txt:15 -> `    gate: P10 DEFECT fresh probe output is not byte-equal to the receipt`
+integrate/c3-landing.txt: `V8 DEFECT order_exit=1 result=not-PASS`; `ORDER HIT …control-c3-echo.txt@4fdeebaa546c:15 kind=gate-p10`; `ORDER RESULT FAIL`
+corpus/QUALITY.md:1092-1093: Q40 leg 2 landed
+
+-- Row 10 --
+lane .ufo/waves/round-46/w1/R46CritC1Freeze.md exists
+fleet .tower/quarantine/fleet-root-strays-20261027T0600/ contains `kengaku-shokukin`
+
+-- Gate quotes (raw reads of retained captures; byte-exact) --
+tb2-polyglot-c-py/test_outputs.py:27 == `    test_cases = [(42, "267914296"), (10, "55"), (0, "0")]` (8 tokens); :18, :44 also match S166
+tb2-polyglot-c-py/test.sh:26 == `  echo 1 > /logs/verifier/reward.txt` (4); :19 `-p 3.13` (2)
+tb2-polyglot-c-py/instruction.md:9 == `I'm using python3 3.12.3 and gcc 13.2.0.` (7, ASCII 0x27); :3, :5 match S168
+tb2-polyglot-c-py/solve.sh:14 == `#define sdf b /*` (4); :12, :46 match S169
+tb2-polyglot-c-py/Dockerfile:6 == `RUN apt update -y && apt install -y gcc` (9); :2 match S170
+tb2-polyglot-c-py/task.toml:34 == `allow_internet = true` (3); :19, :29 match S171
+tb2-polyglot-c-py/README.md:22 == `2. The file compiles successfully with gcc` (7); :21, :24 match S172
+round45 README:31 (5 words) match S163; setup.sh:30 (3) S160; Dockerfile:17 (3, narrowed) S161; solve.sh:63 (4) S164
+
+-- Capture integrity + drift (2026-10-27) --
+$ sha256sum -c SHA256SUMS (tb2-polyglot-c-py) -> 8/8 OK
+$ curl -fsSL at pin 2fd12b88… for tests/test_outputs.py, tests/test.sh, instruction.md, solution/solve.sh,
+  environment/Dockerfile, task.toml, README.md, .gitignore -> 8/8 `identical` (cmp -s vs captures)
+$ curl main …/polyglot-c-py/instruction.md -> byte-identical; wc -c capture = 339 (matches REJECT row claim)
+$ curl pin regex-log/tests/test_outputs.py -> 90 lines; sed -n '87p' = `    matches = re.findall(pattern_text, log_text, re.MULTILINE)`;
+  sha256 = 345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72 == S157 row == round36/tb2-regex-log/test_outputs.py
+$ sha256sum -c SHA256SUMS (round45/tb2-password-recovery) -> 9/9 OK
+
+-- Mutable cells / census --
+git diff 64ba8385 42d5043 -- corpus/SOURCES.md -> 16 insertions, 0 deletions, 0 modifications
+python3 regex count `^ {0,3}\| *S[0-9]{3}` on tip SOURCES.md -> 165
+claims/census-before.txt -> 15 x `W04`, `kengaku ok`, exit=0
+
+-- Landing receipts vs predicate (read at .ufo/waves/round-46/integrate/) --
+c1: PINS total=65 mismatched=0; REFUSALS total=20 clean=20; SEALED total=12 clean=12; HONEST fixtures=104 admitted=104;
+    CALIBRATION advertised=32 contradicted=0; PREDICATE C1 pass (measured at 420eec9f; C1 inputs diff to tip: empty)
+c2: PINS total=3; A live=0 repaired=8 base_missing=0 base_changed=0; B disagree=0 gp=10 gf=6; C errata 5/5; D exit=0;
+    checks=4 defects=0; PREDICATE C2 pass (measured at e9d2014)
+c3: V7 DEFECT, V8 DEFECT, checks=13 defects=2, PREDICATE C3 fail; V13 ok filler_checks=7 defects=6 substantive=V4,V7,V9,V10,V12
+noharm: round45_c1/c2 PREDICATE pass; anchor_digest rows=165 defects=0; routed_open=24; census kengaku ok
+
+-- Post-run input-immutability --
+git diff --stat e9d2014 42d5043 -- plans/ corpus/ -> QUALITY.md +21, corpus/README.md +2, lessons/round-46.md +76,
+  routed-findings.jsonl +11, plans/log_appendonly.py +271 (new, not a counter input) — no counter input touched
+git diff --stat 420eec9f 42d5043 -- plans/fixture_fence.py plans/round46_c1_verify.py plans/refusals46 plans/sealed46 -> empty
+commits 420eec9f..tip: f1871ac (evidence+receipts), 85a40be (lesson/QUALITY/LOG/SCORECARD/ledger/log_appendonly), 42d5043 (w1 results/ready/amendments)

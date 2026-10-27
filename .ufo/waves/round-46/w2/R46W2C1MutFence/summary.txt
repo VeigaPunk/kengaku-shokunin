@@ -1,0 +1,14 @@
+BASELINE: pristine clone: PINS total=65 mismatched=0; REFUSALS total=20 clean=20 leaked=0 read=0 hung=0 build_errors=0; SEALED total=12 clean=12 leaked=0 read=0 hung=0 build_errors=0; HONEST fixtures=104 admitted=104 refused=0 read=0 hung=0 build_errors=0; CALIBRATION advertised=32 contradicted=0; PREDICATE C1 pass; exit 0; envelope unchanged.
+Mutant outcomes captured (each used counter --fence PATH on a one-edit copy):
+01 argv NUL check dropped: PREDICATE C1 pass (survivor)
+02 argv newline check dropped: PREDICATE C1 pass (survivor)
+03 argv placeholder check dropped: PREDICATE C1 pass (survivor)
+04 invert argv containment: PREDICATE C1 fail; REASON honest-not-admitted; exit 1
+05 os.walk followlinks=True: PREDICATE C1 pass (survivor)
+06 directory symlink drop: mutation setup error (non-unique source fragment, not run)
+07 special-file refusal dropped: PREDICATE C1 pass (survivor)
+08 hardlink refusal dropped: PREDICATE C1 pass (survivor)
+09 GIT_TOP widened with commondir: PREDICATE C1 pass (survivor)
+10 CFG_SECTIONS widened with include: PREDICATE C1 pass (survivor)
+11 config CR refusal dropped: PREDICATE C1 pass (survivor)
+Mutation source pristine hash before and after: 05d5fe03aa3be6b79eb2469b7c86d0a20c9b424bea2e058d580e31a96c8aad5e.

@@ -308,3 +308,14 @@ def predict(files, source):
   map's coverage of `instruction.md:7,9` is partial and the counter's `V7` reports it.
 - No image was pulled and no agent ran; the non-idempotence finding is a property of the test, measured by
   grading the same tree twice, not an observation of Harbor's verifier.
+
+## Errata (round 46, wave 2)
+
+1. **Summary (`:35`) and Finding 7 overstate the class contrast.** "None of them executes the graded bytes as a
+   program" is false for the round-43 exemplar `tb2-feal-differential-cryptanalysis-grader.md`, whose grader imports
+   the agent-written Python module and calls its `attack` function. The narrower true statement: no earlier exemplar
+   *compiles* the graded artefact or runs the same bytes under two language runtimes. Found by wave-2 seat
+   `R46W2C3Entry` (`.ufo/waves/round-46/w2/R46W2C3Entry.md` finding 1).
+2. **`instruction.md:7` names `f(1) = 1`, which no graded N and no frozen case exercises** (`R46W2C3Cases.md` defect
+   1): the `fib-kth` row's `partly` label rests on N in {42, 10, 0} only.
+

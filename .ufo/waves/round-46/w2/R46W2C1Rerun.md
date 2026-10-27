@@ -1,0 +1,10 @@
+# R46W2C1Rerun — C1 falsification
+
+- Clone: clean `--no-local` clone at `/fast/scratch/hyaku/kengaku-r46/R46W2C1Rerun/lane`; verified top-level equals that path and HEAD `42d5043afac952fcb43bf4798757785dd258cf85` before measurement (command: clone/checkout and `git -C ... rev-parse` checks).
+- Counter command, twice: `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round46_c1_verify.py --lane "$S/lane" --work "$S/w1|w2"`, each via the required `claims/envelope.sh "$S/env1|env2" ...`. Full outputs saved as `R46W2C1Rerun/run1.txt` and `run2.txt`.
+- Both runs produced the identical required summary: `PINS total=65 mismatched=0`; `REFUSALS total=20 clean=20 leaked=0 read=0 hung=0 build_errors=0`; `SEALED total=12 clean=12 leaked=0 read=0 hung=0 build_errors=0`; `HONEST fixtures=104 admitted=104 refused=0 read=0 hung=0 build_errors=0`; `CALIBRATION advertised=32 contradicted=0`; `PREDICATE C1 pass`, exit 0. Each run's envelope ended with `unchanged`; full ENVELOPE lines are in the receipts.
+- Comparison: all predicate summary values and pass verdict match the frozen predicate in `plans/round-46-claims.md` (C1 section; `<P>=65`, `<R>=20`, `<S>=12`, advertised 32). Integrated reference is `integrate/c1-landing.txt`, not the task-mentioned `integrate/tip-c1.txt` (that path was not found). The `c1-landing.txt` summary lines match these two runs. Its header records a different measured clone revision, `420eec9f...`, while this rerun explicitly measures landed TIP `42d5043...`; therefore this rerun independently confirms the C1 predicate at the requested TIP.
+- Frozen digest check: `sha256sum -c .ufo/waves/round-46/claims/frozen-digests.txt` returned 1: four entries `OK`, but `plans/round-46-claims.md` was `FAILED`. Output saved in `frozen-digests.txt`. This check was run against the supplied frozen-digests manifest; the claims digest mismatch is a residual freeze-integrity issue, not a counter-summary discrepancy.
+- Scratch cleanup completed with required `scratch_guard.py safe-rm`; its output records deletion of only this seat's scratch path.
+
+VERDICT: c1-rerun-predicate-pass-matches-L1-yes

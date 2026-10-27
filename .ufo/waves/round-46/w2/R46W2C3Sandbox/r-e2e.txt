@@ -1,0 +1,16 @@
+HEAD 42d5043afac952fcb43bf4798757785dd258cf85
+TOP /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/env /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/env --bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/sb.py /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox e2e
+ENVELOPE start 02:51:58 cwd=/fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox
+### S8 end-to-end: hostile main.py.c executed by the landed harness (grade mode)
+CASE-BYTES 2190
+BEFORE driver_rss_mib=21 memavail_mib=18977
+RUN_CASE_GRADE recipe_rc=0 grades=[(1, ('F', '')), (1, ('F', ''))]
+GRADE-LINE TEST test_fibonacci_polyglot F
+GRADE-LINE TEST test_fibonacci_polyglot F
+PEAK sandbox-tree rss_mib=4550 tasks=404 seconds=5.6
+AFTER memavail_mib=19514 delta=-537
+LEFTOVER sleep-3 on host after grade: 0
+HOST /etc/hostile=False /pub-extra?=False
+
+ENVELOPE end 02:52:05 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged

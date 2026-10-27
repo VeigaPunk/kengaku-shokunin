@@ -1,0 +1,21 @@
+HEAD 42d5043afac952fcb43bf4798757785dd258cf85
+TOP /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/env /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/env --bind /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/sb.py /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox/lane /fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox cases3
+ENVELOPE start 02:52:26 cwd=/fast/scratch/hyaku/kengaku-r46/R46W2C3Sandbox
+### S10 three hostile main.py.c programs through the landed harness (grade mode)
+CASE hostile-writer -- writes outside /app bytes= 1247
+PROBE-OUT 
+RESULT rc=0 grades=[(0, ('P', '')), (1, ('F', ''))] peak_rss_mib=0 peak_tasks=0 memavail_delta_mib=-19
+LEFTOVERS after grade=0 HOST-WRITES={'/etc/x': False, '/usr/x': False, '/root/x': False, '/w_root': False, '/app/escape-ok': False}
+
+CASE hostile-net -- network connect/bind/dns bytes= 1794
+PROBE-OUT 
+RESULT rc=0 grades=[(0, ('P', '')), (1, ('F', ''))] peak_rss_mib=0 peak_tasks=0 memavail_delta_mib=-11
+LEFTOVERS after grade=0 HOST-WRITES={'/etc/x': False, '/usr/x': False, '/root/x': False, '/w_root': False, '/app/escape-ok': False}
+
+CASE hostile-forkout -- 400-child fan-out and 1 GiB stdout bytes= 1225
+PROBE-OUT 
+RESULT rc=0 grades=[(1, ('F', '')), (1, ('F', ''))] peak_rss_mib=5762 peak_tasks=804 memavail_delta_mib=602
+LEFTOVERS after grade=0 HOST-WRITES={'/etc/x': False, '/usr/x': False, '/root/x': False, '/w_root': False, '/app/escape-ok': False}
+
+ENVELOPE end 02:52:34 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged

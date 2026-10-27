@@ -1,0 +1,53 @@
+Re-run command: python3 -c inline C2 replay, with each control independently cloned --no-local from lane; checkout 64ba8385ea10af1b78d367dcb242b92d97062af7, replace the two tools with `git -C <lane> show 42d5043afac952fcb43bf4798757785dd258cf85:<tool>`, apply transform verbatim from claims/stage2_controls.py c2(), run under claims/envelope.sh. Every clone HEAD printed: 64ba8385ea10af1b78d367dcb242b92d97062af7. Results:
+
+CASE nothing:
+PINS total=3 mismatched=0
+A anchorline live=8 repaired=0 base_rows=149 base_missing=0 base_changed=0 DEFECT
+B predictor states=16 grader_pass=10 grader_fail=6 disagree=6 DEFECT
+C entry source_ranges=9 source_ranges_bad=4 errata_marks=0/5 DEFECT
+D selftest exit=0 ok
+checks=4 defects=3
+PREDICATE C2 fail
+ENVELOPE end exit=1 unchanged
+
+CASE inplace:
+PINS total=3 mismatched=0
+A anchorline live=5 repaired=0 base_rows=149 base_missing=0 base_changed=3 first_changed=S152 DEFECT
+B predictor states=16 grader_pass=10 grader_fail=6 disagree=6 DEFECT
+C entry source_ranges=9 source_ranges_bad=4 errata_marks=0/5 DEFECT
+D selftest exit=0 ok
+checks=4 defects=3
+PREDICATE C2 fail
+ENVELOPE end exit=1 unchanged
+
+CASE junk-supersede:
+PINS total=3 mismatched=0
+A anchorline live=11 repaired=0 base_rows=149 base_missing=0 base_changed=0 DEFECT
+B predictor states=16 grader_pass=10 grader_fail=6 disagree=6 DEFECT
+C entry source_ranges=9 source_ranges_bad=4 errata_marks=0/5 DEFECT
+D selftest exit=0 ok
+checks=4 defects=3
+PREDICATE C2 fail
+ENVELOPE end exit=1 unchanged
+
+CASE splitlines:
+PINS total=3 mismatched=0
+A anchorline live=8 repaired=0 base_rows=149 base_missing=0 base_changed=0 DEFECT
+B predictor states=16 grader_pass=10 grader_fail=6 disagree=4 DEFECT
+C entry source_ranges=9 source_ranges_bad=4 errata_marks=0/5 DEFECT
+D selftest exit=0 ok
+checks=4 defects=3
+PREDICATE C2 fail
+ENVELOPE end exit=1 unchanged
+
+CASE errata-only:
+PINS total=3 mismatched=0
+A anchorline live=8 repaired=0 base_rows=149 base_missing=0 base_changed=0 DEFECT
+B predictor states=16 grader_pass=10 grader_fail=6 disagree=6 DEFECT
+C entry source_ranges=9 source_ranges_bad=4 errata_marks=5/5 DEFECT
+D selftest exit=0 ok
+checks=4 defects=3
+PREDICATE C2 fail
+ENVELOPE end exit=1 unchanged
+
+Exit 1 for all five; all rejected as frozen expected.

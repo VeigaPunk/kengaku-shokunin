@@ -1,0 +1,74 @@
+diff --git a/LOG.md b/LOG.md
+index c8bd323..6e9066e 100644
+--- a/LOG.md
++++ b/LOG.md
+@@ -1412,3 +1412,69 @@ commit `fbad1c5`. Motivating evidence for the attempt-3 verdict changes:
+   python lacks `Bio` (`R45SentC2Grader.md`).
+ - Self-assessment corrections: `cb2fae38` (a file digest cited as a commit), "byte-equal" A/B receipts, a receiptless
+   `untracked=2/14` sentence, lesson Gate rejects without flip conditions — `corpus/lessons/round-45.md` §Attempt 3.
++
++### Round 45 LOG correction (round 46, 2026-10-27) — two round-45 lines rewritten in place; superseded bytes restored here (closure D1)
++
++`corpus/lessons/round-45-verifier-spotcheck.md` D1: commit `3d9ea54` rewrote two lines of the round-45 entry that
++`4290d64` committed. LOG.md is append-only (QUALITY R1) and the rewrite is left standing in the history — this entry
++restores the superseded bytes as text, so `grep -c` on them returns 1 again. Diff command and both hunks:
++
++```
++git diff -U0 fbad1c5 3d9ea54 -- LOG.md
++```
++
++Old heading (committed `4290d64`, rewritten `3d9ea54`; LOG.md:1374):
++
++```
++## Round 45 (hyaku run 9, 2026-10-26) — advertised fixture fence closed (10/10 refused, 104 honest admitted); eleventh TB2 grader executed (second F1 exemplar)
++```
++
++Current heading (LOG.md:1374):
++
++```
++## Round 45 (hyaku run 9, 2026-10-26/27) — fixture fence landed, its frozen counter also passed by a path-keyed control (C1 not admitted); eleventh TB2 grader executed (second F1 exemplar; C2 predicate met, routed defects)
++```
++
++Old line (committed `4290d64`, rewritten `3d9ea54`; LOG.md:1388):
++
++```
++  counter `checks=11 defects=0`, `PREDICATE C2 pass` (A/B runs byte-equal); V11 `states=48 grader_pass=18
++```
++
++Current line (LOG.md:1388):
++
++```
++  counter `checks=11 defects=0`, `PREDICATE C2 pass` (A/B runs equal on every non-`ENVELOPE` line; not byte-equal — envelope scratch dirs/times differ; corrected attempt 3); V11 `states=48 grader_pass=18
++```
++
++The appended attempt-3 note at LOG.md:1393 names the old heading only in truncated form ("advertised fixture fence
++closed (10/10 refused …)") and the round-45 lesson records both corrections again; neither restores the bytes.
++
++## Round 46 (hyaku run 9, 2026-10-27) — fence repaired under a name-hiding counter (C1 predicate met); round-45 false detail superseded (C2 predicate met); twelfth TB2 grader executed (C3 counter fails V7/V8)
++
++L1 `KengakuR46`. Claims `plans/round-46-claims.md`: stage-1 freeze `fd4129eb`, stage-2 instruments `cf7de6af`,
++amendment `4fdeebaa`, C1 controls `7768716c`. Motivating evidence: the round-45 closure
++(`corpus/lessons/round-45-verifier-spotcheck.md` §2, §5) and the orchestrator's routing note.
++
++- C1 calibration: `plans/round46_c1_verify.py` hides its names (random per-run tokens, padded parents, shuffled
++  jobs), counts every touch under the scratch root incl. stat/readlink, reads the strace log from outside the
++  sandbox, takes the verdict from the harness exit status. 21 controls fail (`.ufo/waves/round-46/claims/control-c1-*.txt`);
++  the base fence prints `contradicted=22` of 32 (`control-c1-base-fence.txt`). Landed fence (wave-1 variant A,
++  allowlist, no git child) at `420eec9f`: `PINS total=65 mismatched=0`, `REFUSALS total=20 clean=20`, `SEALED total=12
++  clean=12`, `HONEST fixtures=104 admitted=104`, `CALIBRATION advertised=32 contradicted=0`, `PREDICATE C1 pass`
++  (`integrate/c1-landing.txt`). Wave-2 held-out modules decide admission (kill rule).
++- C2 depth: rows S157–S165 supersede S108, S149–S156 (Q34); the password-recovery entry's predictor reads universal
++  newlines, its source ranges equal the captures, `## Errata (round 46)` names every correction. Before (base
++  controls): `A live=8`, `B disagree=6`, `C source_ranges_bad=4 errata_marks=0/5`; after at `e9d20145`: `A live=0
++  repaired=8 base_changed=0`, `B disagree=0`, `C source_ranges_bad=0 errata_marks=5/5`, `D selftest exit=0`,
++  `PREDICATE C2 pass` (`integrate/c2-landing.txt`). New gate tool `plans/anchor_line_check.py` (red/green/junk selftest).
++- C3 coverage: `polyglot-c-py` captured at `2fd12b88` (S166–S172), probe first recorded run after the amendment
++  (`8d7f74ce`): `cases=18 observed_pass=7 observed_fail=11 mismatches=0`, `regrade cases=18 differ=7` (the grader is
++  not idempotent: every passing state fails a second grading). Counter at `e9d20145`: `checks=13 defects=2` — V7 (two
++  frozen tags no case violates) and V8 (a stage-2 control ran the gate's P10 before the receipt) — `PREDICATE C3
++  fail` (`integrate/c3-landing.txt`). Not admitted; the package lands as coverage work (12 of 89 TB2 graders).
++- Re-verification: no-harm set at `e9d20145` (`integrate/noharm.txt`): round-45 C2 counter `checks=11 defects=0`,
++  round-45 C1 counter `PREDICATE C1 pass` with the repaired fence, `anchor_digest_check rows=165 tokens=71
++  defects=0`, `routed_open=24 oldest_round=39`, census `kengaku ok` exit 0.
++- Mined mistakes: `corpus/lessons/round-46.md` (10 rows); QUALITY Q40; `plans/log_appendonly.py` (`commits=77
++  violations=7` on lane history, 0 since `64ba8385`).
