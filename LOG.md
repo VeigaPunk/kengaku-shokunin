@@ -1488,3 +1488,42 @@ amendment `4fdeebaa`, C1 controls `7768716c`. Motivating evidence: the round-45 
 - Correction to the D1 entry above (append-only): the two round-45 lines were rewritten by commit `f660ae04`
   (round-45 attempt 3), not `3d9ea54`; `git diff -U0 fbad1c5 3d9ea54 -- LOG.md` spans both commits
   (`plans/log_appendonly.py --lane .` attributes them per commit; `w2/R46W2LogAppend.md`).
+
+## Round 48 (hyaku run 10, 2026-10-27) — fresh-start C1/C2 claims tested; neither admitted
+
+L1 `KengakuR48`. Fresh-start review read the last three rejected closures (r45 `73540ccc`, r46 `a5ed97f1`, r47
+`98a0cb51`) and their verifier spot-checks (`corpus/lessons/round-45-verifier-spotcheck.md`,
+`round-46-verifier-spotcheck.md`, `round-47-verifier-spotcheck.md`) before declaring only the two frozen claims
+in `plans/round-48-claims.md` (stage 1 `a543d92083557dd9b33ee674e9b99b03411f80af`). One v2 wave: 64 seats,
+41 attack roles; full dispatch/results are `.ufo/waves/round-48/w1-{spec,dispatch,results}.json`.
+
+- **R48-C1 calibration:** v3 counter candidate in `w1/R48C1ExecCounter.md` measured the base fence on the frozen
+  120-fixture candidate population at scratch `REV abb08e2…`: `HONEST fixtures=120 admitted=112 refused=8`,
+  `PREDICATE R48-C1 fail`. Fence A candidate measured 120/120 honest admissions and 20/20 + 12/12 hostile
+  refusals (`w1/R48C1ExecFenceA.md`); however neither the counter nor repair landed in a stage-2 commit, and the
+  candidate's ≥12-mutant kill battery was not reported. The r46 “9/9” figure does not reproduce: the nine
+  override modules all used a `{WORK}` placeholder argv rejected by the fence; the re-authored base refusal is
+  8/120. Claim unverified/not admitted; calibration stays 8.
+- **R48-C2 coverage:** the round-46 baseline remains `checks=13 defects=2` (V7/V8; `.ufo/waves/round-46/integrate/c3-landing.txt`,
+  REV `264b7757…`). The v4 candidate's `--dry`/P10-disabled controls still show V7 missing violations for
+  `both-print` and `toolchain` (`w1/R48C2ExecCounter.md`, `w1/R48C2ExecControls.md`). `w1/R48C2ExecProbe.md`
+  found the proposed frozen probe `22b7779e…` fails permitted `--stage-check` on this host (18/18); its grade
+  path also skips seed/recipe setup. No full probe run occurred. The counter/probe were not integrated or
+  scored at a committed landing tip. Claim not admitted; coverage remains 7 (L0 cap).
+- **Frontier:** start and end source census: 165 rows, tier A=141/B=22/C=2, status mined=149/queued=8/rejected=8,
+  `kengaku ok`, exit 0. No registry rows were added/touched and no frontier row advanced. S166 was reopened by
+  L1 at the pinned upstream URL on 2026-10-27; it remains the C2 sourced basis but no claim was admitted. The
+  Docker Hub tag metadata was reopened and rejected as evidence for installed toolchain versions. Assimilation:
+  none (the staged kengaku package contains 175 rows/65 entries; no one-theme 1–3 entry subset was selected).
+- **Freshness:** `http://127.0.0.1:34113/health` returned HTTP `000`, `pgrep -c llama-server` returned 0;
+  `~/archive/bench-arena` and `~/bench-arena` were absent in the searched home paths. These are upstream/host
+  surfaces, not probed for claim data; no source-tree writes occurred.
+- **Wave fidelity defects:** 7 settled seats had no report file; result rows have no explicit error text/status.
+  Their names and last-output state are recorded in `corpus/lessons/round-48.md` and `w1-results.json`. The
+  dispatched context also included the run-10 role→alias map despite the no-alias-in-lane prompt rule; no model
+  field was passed and role-based OMP routing remained active. The taken dispatch is retained as evidence.
+- **Considerthese:** proposal 2 from `considerthese/2026-10-26.md` was opened and its r36/r37 filler-pass evidence
+  re-opened. The C2 candidate remains per-package rather than the proposed standing counter, so the proposal is
+  mined but stays open.
+
+No score moved; no capability was entered; no axis harm was observed in committed lane files. No claim is admitted.

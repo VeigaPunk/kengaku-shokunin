@@ -1,0 +1,797 @@
+REV a543d92083557dd9b33ee674e9b99b03411f80af
+[
+ {
+  "mutant": "M01",
+  "surface": "capture",
+  "description": "captured test_outputs.py fixed point changed",
+  "edit": "test_cases = [(42, \"267914296\"), (10, \"55\"), (0, \"0\")]",
+  "files_changed": [
+   "corpus/evidence/round46/tb2-polyglot-c-py/test_outputs.py"
+  ],
+  "n_files_changed": 1,
+  "counter_legs": {
+   "V1": "DEFECT",
+   "V3": "ok",
+   "V4": "ok",
+   "V5": "ok",
+   "V6": "ok",
+   "V7": "DEFECT",
+   "V8": "DEFECT",
+   "V9": "ok",
+   "V10": "DEFECT",
+   "V12": "DEFECT",
+   "V13": "ok"
+  },
+  "gate_clauses": {
+   "P1": "ok",
+   "P2": "ok",
+   "P3": "ok",
+   "P4": "ok",
+   "P5": "DEFECT",
+   "P6": "ok",
+   "P7": "ok",
+   "P8": "ok"
+  },
+  "flipped": [
+   [
+    "counter",
+    "V1",
+    "ok->DEFECT",
+    "listed=8 wrong=['test_outputs.py'] extra=0"
+   ],
+   [
+    "counter",
+    "V10",
+    "ok->DEFECT",
+    "mechanism_rows=18/18 bad=['nop:test_outputs.py capture not pinned', 'oracle-solve-sh:test_outputs.py capture not pinned'"
+   ],
+   [
+    "counter",
+    "V12",
+    "ok->DEFECT",
+    "rows=7 defective=1 live=1 first=S166:capture_unresolved capture=0"
+   ],
+   [
+    "gate",
+    "P5",
+    "ok->DEFECT",
+    "DEFECT manifest_entries=8 bad=1 first=test_outputs.py: manifest digest does not match the bytes"
+   ]
+  ],
+  "killed_substantive_flip": true,
+  "killed_substantive_legs": [
+   "V10",
+   "V12"
+  ],
+  "killed_any_flip": true,
+  "killed_any_where": [
+   "counter:V1",
+   "counter:V10",
+   "counter:V12",
+   "gate:P5"
+  ]
+ },
+ {
+  "mutant": "M02",
+  "surface": "capture",
+  "description": "SHA256SUMS row for task.toml dropped",
+  "edit": "d31b9f60c47eed0d79e10d3be8fd56a23e50b3986606e3f2546863d44ac9",
+  "files_changed": [
+   "corpus/evidence/round46/tb2-polyglot-c-py/SHA256SUMS"
+  ],
+  "n_files_changed": 1,
+  "counter_legs": {
+   "V1": "DEFECT",
+   "V3": "ok",
+   "V4": "ok",
+   "V5": "ok",
+   "V6": "ok",
+   "V7": "DEFECT",
+   "V8": "DEFECT",
+   "V9": "ok",
+   "V10": "ok",
+   "V12": "ok",
+   "V13": "ok"
+  },
+  "gate_clauses": {
+   "P1": "ok",
+   "P2": "ok",
+   "P3": "ok",
+   "P4": "ok",
+   "P5": "DEFECT",
+   "P6": "ok",
+   "P7": "ok",
+   "P8": "ok"
+  },
+  "flipped": [
+   [
+    "counter",
+    "V1",
+    "ok->DEFECT",
+    "listed=7 wrong=['task.toml'] extra=0"
+   ],
+   [
+    "gate",
+    "P5",
+    "ok->DEFECT",
+    "DEFECT manifest_entries=7 bad=3 first=S171: capture task.toml is not pinned in the manifest"
+   ]
+  ],
+  "killed_substantive_flip": false,
+  "killed_substantive_legs": [],
+  "killed_any_flip": true,
+  "killed_any_where": [
+   "counter:V1",
+   "gate:P5"
+  ]
+ },
+ {
+  "mutant": "M03",
+  "surface": "capture",
+  "description": "captured README.md gains a comment line",
+  "edit": "# Polyglot C/Python Task\n",
+  "files_changed": [
+   "corpus/evidence/round46/tb2-polyglot-c-py/README.md"
+  ],
+  "n_files_changed": 1,
+  "counter_legs": {
+   "V1": "DEFECT",
+   "V3": "ok",
+   "V4": "ok",
+   "V5": "ok",
+   "V6": "ok",
+   "V7": "DEFECT",
+   "V8": "DEFECT",
+   "V9": "ok",
+   "V10": "ok",
+   "V12": "DEFECT",
+   "V13": "ok"
+  },
+  "gate_clauses": {
+   "P1": "ok",
+   "P2": "ok",
+   "P3": "ok",
+   "P4": "DEFECT",
+   "P5": "DEFECT",
+   "P6": "ok",
+   "P7": "ok",
+   "P8": "ok"
+  },
+  "flipped": [
+   [
+    "counter",
+    "V1",
+    "ok->DEFECT",
+    "listed=8 wrong=['README.md'] extra=0"
+   ],
+   [
+    "counter",
+    "V12",
+    "ok->DEFECT",
+    "rows=7 defective=1 live=1 first=S172:capture_unresolved capture=0"
+   ],
+   [
+    "gate",
+    "P4",
+    "ok->DEFECT",
+    "DEFECT checked=20 bad=2 first=README.md:21: quote not verbatim there"
+   ],
+   [
+    "gate",
+    "P5",
+    "ok->DEFECT",
+    "DEFECT manifest_entries=8 bad=1 first=README.md: manifest digest does not match the bytes"
+   ]
+  ],
+  "killed_substantive_flip": true,
+  "killed_substantive_legs": [
+   "V12"
+  ],
+  "killed_any_flip": true,
+  "killed_any_where": [
+   "counter:V1",
+   "counter:V12",
+   "gate:P4",
+   "gate:P5"
+  ]
+ },
+ {
+  "mutant": "M04",
+  "surface": "entry",
+  "description": "'## Case table' row removed",
+  "edit": "## Case table | `n-parsed-differently` |",
+  "files_changed": [
+   "corpus/knowledge/tb2-polyglot-c-py-grader.md"
+  ],
+  "n_files_changed": 1,
+  "counter_legs": {
+   "V1": "ok",
+   "V3": "ok",
+   "V4": "ok",
+   "V5": "ok",
+   "V6": "ok",
+   "V7": "DEFECT",
+   "V8": "DEFECT",
+   "V9": "DEFECT",
+   "V10": "ok",
+   "V12": "ok",
+   "V13": "ok"
+  },
+  "gate_clauses": {
+   "P1": "ok",
+   "P2": "ok",
+   "P3": "ok",
+   "P4": "ok",
+   "P5": "ok",
+   "P6": "ok",
+   "P7": "ok",
+   "P8": "ok"
+  },
+  "flipped": [
+   [
+    "counter",
+    "V9",
+    "ok->DEFECT",
+    "case_rows=17/18 bad=['case table rows=17 receipt cases=18 equal=False']"
+   ]
+  ],
+  "killed_substantive_flip": true,
+  "killed_substantive_legs": [
+   "V9"
+  ],
+  "killed_any_flip": true,
+  "killed_any_where": [
+   "counter:V9"
+  ]
+ },
+ {
+  "mutant": "M05",
+  "surface": "entry",
+  "description": "'## Mechanism' row removed",
+  "edit": "## Mechanism | `trailing-ws` | `test_outputs.py:36` |",
+  "files_changed": [
+   "corpus/knowledge/tb2-polyglot-c-py-grader.md"
+  ],
+  "n_files_changed": 1,
+  "counter_legs": {
+   "V1": "ok",
+   "V3": "ok",
+   "V4": "ok",
+   "V5": "ok",
+   "V6": "ok",
+   "V7": "DEFECT",
+   "V8": "DEFECT",
+   "V9": "ok",
+   "V10": "DEFECT",
+   "V12": "ok",
+   "V13": "ok"
+  },
+  "gate_clauses": {
+   "P1": "ok",
+   "P2": "ok",
+   "P3": "ok",
+   "P4": "ok",
+   "P5": "ok",
+   "P6": "ok",
+   "P7": "ok",
+   "P8": "ok"
+  },
+  "flipped": [
+   [
+    "counter",
+    "V10",
+    "ok->DEFECT",
+    "mechanism_rows=17/18 bad=['mechanism rows=17 receipt cases=18 ids_equal=False']"
+   ]
+  ],
+  "killed_substantive_flip": true,
+  "killed_substantive_legs": [
+   "V10"
+  ],
+  "killed_any_flip": true,
+  "killed_any_where": [
+   "counter:V10"
+  ]
+ },
+ {
+  "mutant": "M06",
+  "surface": "entry",
+  "description": "'## Requirement map' row removed",
+  "edit": "## Requirement map | `instruction.md:5` | `c-build` |",
+  "files_changed": [
+   "corpus/knowledge/tb2-polyglot-c-py-grader.md"
+  ],
+  "n_files_changed": 1,
+  "counter_legs": {
+   "V1": "ok",
+   "V3": "ok",
+   "V4": "ok",
+   "V5": "ok",
+   "V6": "ok",
+   "V7": "DEFECT",
+   "V8": "DEFECT",
+   "V9": "ok",
+   "V10": "ok",
+   "V12": "ok",
+   "V13": "ok"
+  },
+  "gate_clauses": {
+   "P1": "ok",
+   "P2": "ok",
+   "P3": "ok",
+   "P4": "ok",
+   "P5": "ok",
+   "P6": "ok",
+   "P7": "ok",
+   "P8": "ok"
+  },
+  "flipped": [
+   [
+    "counter",
+    "V7",
+    "DEFECT->DEFECT(note changed)",
+    "rows=4 tags=7 bad=[\"unparsed row '| instruction.md:7 | both-print | not exercised | '\", \"unparsed row '| instruction.md:"
+   ]
+  ],
+  "killed_substantive_flip": false,
+  "killed_substantive_legs": [],
+  "killed_any_flip": false,
+  "killed_any_where": []
+ },
+ {
+  "mutant": "M07",
+  "surface": "receipt",
+  "description": "one CASE observed verdict flipped",
+  "edit": "CASE nop predicted=fail observed=fail tests=F predicted_test",
+  "files_changed": [
+   "corpus/evidence/round46/polyglot-c-py-probe.txt"
+  ],
+  "n_files_changed": 1,
+  "counter_legs": {
+   "V1": "ok",
+   "V3": "ok",
+   "V4": "DEFECT",
+   "V5": "ok",
+   "V6": "ok",
+   "V7": "DEFECT",
+   "V8": "DEFECT",
+   "V9": "DEFECT",
+   "V10": "ok",
+   "V12": "ok",
+   "V13": "ok"
+  },
+  "gate_clauses": {
+   "P1": "ok",
+   "P2": "DEFECT",
+   "P3": "ok",
+   "P4": "ok",
+   "P5": "ok",
+   "P6": "ok",
+   "P7": "ok",
+   "P8": "ok"
+  },
+  "flipped": [
+   [
+    "counter",
+    "V4",
+    "ok->DEFECT",
+    "cases=18 mismatches_named=0/0 bad=['summary disagrees with the CASE lines', \"match=yes on a mismatching case: ['nop']\"]"
+   ],
+   [
+    "counter",
+    "V9",
+    "ok->DEFECT",
+    "case_rows=18/18 bad=['case table rows=18 receipt cases=18 equal=False']"
+   ],
+   [
+    "gate",
+    "P2",
+    "ok->DEFECT",
+    "DEFECT receipt_sha256=a7468e7312182cb7f6c296ffbd75dbf9ebc8e799c71fc5f0e83c19f3a8fa586c"
+   ]
+  ],
+  "killed_substantive_flip": true,
+  "killed_substantive_legs": [
+   "V4",
+   "V9"
+  ],
+  "killed_any_flip": true,
+  "killed_any_where": [
+   "counter:V4",
+   "counter:V9",
+   "gate:P2"
+  ]
+ },
+ {
+  "mutant": "M08",
+  "surface": "receipt",
+  "description": "summary counts changed",
+  "edit": "cases=18 observed_pass=7 observed_fail=11 mismatches=0",
+  "files_changed": [
+   "corpus/evidence/round46/polyglot-c-py-probe.txt"
+  ],
+  "n_files_changed": 1,
+  "counter_legs": {
+   "V1": "ok",
+   "V3": "ok",
+   "V4": "DEFECT",
+   "V5": "ok",
+   "V6": "ok",
+   "V7": "DEFECT",
+   "V8": "DEFECT",
+   "V9": "ok",
+   "V10": "ok",
+   "V12": "ok",
+   "V13": "ok"
+  },
+  "gate_clauses": {
+   "P1": "ok",
+   "P2": "DEFECT",
+   "P3": "ok",
+   "P4": "ok",
+   "P5": "ok",
+   "P6": "ok",
+   "P7": "ok",
+   "P8": "ok"
+  },
+  "flipped": [
+   [
+    "counter",
+    "V4",
+    "ok->DEFECT",
+    "cases=18 mismatches_named=0/0 bad=['summary disagrees with the CASE lines']"
+   ],
+   [
+    "gate",
+    "P2",
+    "ok->DEFECT",
+    "DEFECT receipt_sha256=2e704869134ad2b3b6f52808040b02cfc439ed85d28f513f3a62cb08ccbf75f9"
+   ]
+  ],
+  "killed_substantive_flip": true,
+  "killed_substantive_legs": [
+   "V4"
+  ],
+  "killed_any_flip": true,
+  "killed_any_where": [
+   "counter:V4",
+   "gate:P2"
+  ]
+ },
+ {
+  "mutant": "M09",
+  "surface": "receipt",
+  "description": "one CASE violates= list emptied",
+  "edit": "CASE extra-file predicted=fail observed=fail tests=F predict",
+  "files_changed": [
+   "corpus/evidence/round46/polyglot-c-py-probe.txt"
+  ],
+  "n_files_changed": 1,
+  "counter_legs": {
+   "V1": "ok",
+   "V3": "ok",
+   "V4": "ok",
+   "V5": "ok",
+   "V6": "ok",
+   "V7": "DEFECT",
+   "V8": "DEFECT",
+   "V9": "ok",
+   "V10": "ok",
+   "V12": "ok",
+   "V13": "ok"
+  },
+  "gate_clauses": {
+   "P1": "ok",
+   "P2": "DEFECT",
+   "P3": "ok",
+   "P4": "ok",
+   "P5": "ok",
+   "P6": "ok",
+   "P7": "ok",
+   "P8": "ok"
+  },
+  "flipped": [
+   [
+    "counter",
+    "V7",
+    "DEFECT->DEFECT(note changed)",
+    "rows=5 tags=7 bad=['single-file: cites no case or a case that does not violate it', \"unparsed row '| instruction.md:7 | "
+   ],
+   [
+    "gate",
+    "P2",
+    "ok->DEFECT",
+    "DEFECT receipt_sha256=6a9d86fec0fc73568a5b316f037fbadfcae6f6f10761299e1880ccd8a8f6a4c4"
+   ]
+  ],
+  "killed_substantive_flip": false,
+  "killed_substantive_legs": [],
+  "killed_any_flip": true,
+  "killed_any_where": [
+   "gate:P2"
+  ]
+ },
+ {
+  "mutant": "M10",
+  "surface": "dry_table",
+  "description": "one CASE id renamed",
+  "edit": "CASE n-parsed-differently predicted=fail",
+  "files_changed": [
+   "corpus/evidence/round46/polyglot-c-py-dry-cases-freeze.txt"
+  ],
+  "n_files_changed": 1,
+  "counter_legs": {
+   "V1": "ok",
+   "V3": "ok",
+   "V4": "DEFECT",
+   "V5": "DEFECT",
+   "V6": "ok",
+   "V7": "DEFECT",
+   "V8": "DEFECT",
+   "V9": "ok",
+   "V10": "DEFECT",
+   "V12": "ok",
+   "V13": "ok"
+  },
+  "gate_clauses": {
+   "P1": "ok",
+   "P2": "ok",
+   "P3": "ok",
+   "P4": "ok",
+   "P5": "ok",
+   "P6": "ok",
+   "P7": "ok",
+   "P8": "ok"
+  },
+  "flipped": [
+   [
+    "counter",
+    "V4",
+    "ok->DEFECT",
+    "cases=18 mismatches_named=0/0 bad=['case ids differ from the frozen table']"
+   ],
+   [
+    "counter",
+    "V5",
+    "ok->DEFECT",
+    "probe or dry table not at its freeze digest"
+   ],
+   [
+    "counter",
+    "V10",
+    "ok->DEFECT",
+    "DECISIVE keys differ from the frozen case ids (stage-2 pin not aligned)"
+   ]
+  ],
+  "killed_substantive_flip": true,
+  "killed_substantive_legs": [
+   "V10",
+   "V4"
+  ],
+  "killed_any_flip": true,
+  "killed_any_where": [
+   "counter:V10",
+   "counter:V4",
+   "counter:V5"
+  ]
+ },
+ {
+  "mutant": "M11",
+  "surface": "dry_table",
+  "description": "one TAG instruction line moved",
+  "edit": "TAG stdout-only instruction.md:7",
+  "files_changed": [
+   "corpus/evidence/round46/polyglot-c-py-dry-cases-freeze.txt"
+  ],
+  "n_files_changed": 1,
+  "counter_legs": {
+   "V1": "ok",
+   "V3": "ok",
+   "V4": "ok",
+   "V5": "DEFECT",
+   "V6": "ok",
+   "V7": "DEFECT",
+   "V8": "DEFECT",
+   "V9": "ok",
+   "V10": "ok",
+   "V12": "ok",
+   "V13": "ok"
+  },
+  "gate_clauses": {
+   "P1": "ok",
+   "P2": "ok",
+   "P3": "ok",
+   "P4": "ok",
+   "P5": "ok",
+   "P6": "ok",
+   "P7": "ok",
+   "P8": "ok"
+  },
+  "flipped": [
+   [
+    "counter",
+    "V5",
+    "ok->DEFECT",
+    "probe or dry table not at its freeze digest"
+   ],
+   [
+    "counter",
+    "V7",
+    "DEFECT->DEFECT(note changed)",
+    "rows=5 tags=7 bad=[\"unparsed row '| instruction.md:7 | both-print | not exercised | '\", 'stdout-only: line 7 is not the "
+   ]
+  ],
+  "killed_substantive_flip": false,
+  "killed_substantive_legs": [],
+  "killed_any_flip": true,
+  "killed_any_where": [
+   "counter:V5"
+  ]
+ },
+ {
+  "mutant": "M12",
+  "surface": "spec",
+  "description": "one row's capture digest changed",
+  "edit": "\"sha256\": \"b94a7a9882decd8114835bdf52b5bc42fc78e9fe67ecad9bd",
+  "files_changed": [
+   "plans/pkg-spec-r46.json"
+  ],
+  "n_files_changed": 1,
+  "counter_legs": {
+   "V1": "DEFECT",
+   "V3": "DEFECT",
+   "V4": "DEFECT",
+   "V5": "DEFECT",
+   "V6": "DEFECT",
+   "V7": "DEFECT",
+   "V8": "DEFECT",
+   "V9": "DEFECT",
+   "V10": "DEFECT",
+   "V12": "DEFECT",
+   "V13": "DEFECT"
+  },
+  "gate_clauses": {},
+  "flipped": [
+   [
+    "counter",
+    "V1",
+    "ok->DEFECT",
+    "package unreadable: plans/pkg-spec-r46.json is not at its freeze digest (receipt_sha256 masked)"
+   ],
+   [
+    "counter",
+    "V3",
+    "ok->DEFECT",
+    "package unreadable: plans/pkg-spec-r46.json is not at its freeze digest (receipt_sha256 masked)"
+   ],
+   [
+    "counter",
+    "V4",
+    "ok->DEFECT",
+    "package unreadable: plans/pkg-spec-r46.json is not at its freeze digest (receipt_sha256 masked)"
+   ],
+   [
+    "counter",
+    "V5",
+    "ok->DEFECT",
+    "package unreadable: plans/pkg-spec-r46.json is not at its freeze digest (receipt_sha256 masked)"
+   ],
+   [
+    "counter",
+    "V6",
+    "ok->DEFECT",
+    "package unreadable: plans/pkg-spec-r46.json is not at its freeze digest (receipt_sha256 masked)"
+   ],
+   [
+    "counter",
+    "V7",
+    "DEFECT->DEFECT(note changed)",
+    "package unreadable: plans/pkg-spec-r46.json is not at its freeze digest (receipt_sha256 masked)"
+   ],
+   [
+    "counter",
+    "V8",
+    "DEFECT->DEFECT(note changed)",
+    "package unreadable: plans/pkg-spec-r46.json is not at its freeze digest (receipt_sha256 masked)"
+   ],
+   [
+    "counter",
+    "V9",
+    "ok->DEFECT",
+    "package unreadable: plans/pkg-spec-r46.json is not at its freeze digest (receipt_sha256 masked)"
+   ],
+   [
+    "counter",
+    "V10",
+    "ok->DEFECT",
+    "package unreadable: plans/pkg-spec-r46.json is not at its freeze digest (receipt_sha256 masked)"
+   ],
+   [
+    "counter",
+    "V12",
+    "ok->DEFECT",
+    "package unreadable: plans/pkg-spec-r46.json is not at its freeze digest (receipt_sha256 masked)"
+   ],
+   [
+    "counter",
+    "V13",
+    "ok->DEFECT",
+    "package unreadable: plans/pkg-spec-r46.json is not at its freeze digest (receipt_sha256 masked)"
+   ]
+  ],
+  "killed_substantive_flip": true,
+  "killed_substantive_legs": [
+   "V10",
+   "V12",
+   "V3",
+   "V4",
+   "V9"
+  ],
+  "killed_any_flip": true,
+  "killed_any_where": [
+   "counter:V1",
+   "counter:V10",
+   "counter:V12",
+   "counter:V13",
+   "counter:V3",
+   "counter:V4",
+   "counter:V5",
+   "counter:V6",
+   "counter:V9"
+  ]
+ },
+ {
+  "mutant": "M13",
+  "surface": "probe",
+  "description": "probe comment line added",
+  "edit": "#!/usr/bin/env python3\n",
+  "files_changed": [
+   "plans/polyglot_c_py_probe.py"
+  ],
+  "n_files_changed": 1,
+  "counter_legs": {
+   "V1": "ok",
+   "V3": "ok",
+   "V4": "ok",
+   "V5": "DEFECT",
+   "V6": "ok",
+   "V7": "DEFECT",
+   "V8": "DEFECT",
+   "V9": "ok",
+   "V10": "ok",
+   "V12": "ok",
+   "V13": "ok"
+  },
+  "gate_clauses": {
+   "P1": "DEFECT",
+   "P2": "ok",
+   "P3": "ok",
+   "P4": "ok",
+   "P5": "ok",
+   "P6": "ok",
+   "P7": "ok",
+   "P8": "ok"
+  },
+  "flipped": [
+   [
+    "counter",
+    "V5",
+    "ok->DEFECT",
+    "probe or dry table not at its freeze digest"
+   ],
+   [
+    "gate",
+    "P1",
+    "ok->DEFECT",
+    "DEFECT pinned=2 mismatched=['plans/polyglot_c_py_probe.py']"
+   ]
+  ],
+  "killed_substantive_flip": false,
+  "killed_substantive_legs": [],
+  "killed_any_flip": true,
+  "killed_any_where": [
+   "counter:V5",
+   "gate:P1"
+  ]
+ }
+]

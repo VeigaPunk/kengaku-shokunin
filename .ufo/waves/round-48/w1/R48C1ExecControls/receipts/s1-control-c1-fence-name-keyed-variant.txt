@@ -1,0 +1,230 @@
+# control s1-control-c1-fence-name-keyed-variant: name-keyed variant (R48C1ExecControls, scratch-authored): a stricter name-keyed control than the round-45 keyed fence - it scans the last three path components of d, the basename of d and every argv basename for group or module name markers, and opens nothing
+# command: envelope.sh <env> python3 plans/round48_c1_verify.py --lane . --work /fast/scratch/hyaku/kengaku-r48/R48C1ExecControls/w/s1-control-c1-fence-name-keyed-variant --jobs 4 --fence /fast/scratch/hyaku/kengaku-r48/R48C1ExecControls/fences/name_keyed_variant.py
+# measured tree: clone /fast/scratch/hyaku/kengaku-r48/R48C1ExecControls/trees/s1-control-c1-fence-name-keyed-variant/lane (git rev-parse --show-toplevel verified == clone root)
+# measured HEAD a543d92083557dd9b33ee674e9b99b03411f80af (clean-lane base a543d92083557dd9b33ee674e9b99b03411f80af; the tree carries the two stage-2 artifacts: plans/round48_c1_verify.py and 16 modules under plans/honest48/)
+# counter: /fast/scratch/hyaku/kengaku-r48/R48C1ExecControls/inbox/round48_c1_verify.v2.py sha256=8726e99ba6f4732d0d94545c287ff7ea0cc7a71328ba0b3a4659796d9fdad09f (expected 8726e99ba6f4732d0d94545c287ff7ea0cc7a71328ba0b3a4659796d9fdad09f)
+# fence under test: /fast/scratch/hyaku/kengaku-r48/R48C1ExecControls/fences/name_keyed_variant.py sha256=560b746eb7049686983099e24b87987124f513c2f562a457086d122ba474963f
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r48/R48C1ExecControls/env/s1-control-c1-fence-name-keyed-variant /fast/scratch/hyaku/kengaku-r48/R48C1ExecControls/env/s1-control-c1-fence-name-keyed-variant --bind /fast/scratch/hyaku/kengaku-r48/R48C1ExecControls/env/s1-control-c1-fence-name-keyed-variant/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 plans/round48_c1_verify.py --lane . --work /fast/scratch/hyaku/kengaku-r48/R48C1ExecControls/w/s1-control-c1-fence-name-keyed-variant --jobs 4 --fence /fast/scratch/hyaku/kengaku-r48/R48C1ExecControls/fences/name_keyed_variant.py
+ENVELOPE start 08:50:30 cwd=/fast/scratch/hyaku/kengaku-r48/R48C1ExecControls/trees/s1-control-c1-fence-name-keyed-variant/lane
+REV a543d92083557dd9b33ee674e9b99b03411f80af
+TREE dirty=2 (override)
+PINS total=82 mismatched=0
+FENCE source=/fast/scratch/hyaku/kengaku-r48/R48C1ExecControls/fences/name_keyed_variant.py sha256=560b746eb7049686983099e24b87987124f513c2f562a457086d122ba474963f
+LITERALS refusals=20 sealed=12 honest=120
+LAYOUT refusals=/fast/scratch/hyaku/kengaku-r48/R48C1ExecControls/trees/s1-control-c1-fence-name-keyed-variant/lane/plans/refusals46 sealed=/fast/scratch/hyaku/kengaku-r48/R48C1ExecControls/trees/s1-control-c1-fence-name-keyed-variant/lane/plans/sealed46 honest_extra=/fast/scratch/hyaku/kengaku-r48/R48C1ExecControls/trees/s1-control-c1-fence-name-keyed-variant/lane/plans/honest48 sealed_extra=/fast/scratch/hyaku/kengaku-r48/R48C1ExecControls/trees/s1-control-c1-fence-name-keyed-variant/lane/plans/sealed48 novel=16 pad=24 jobs=4
+COPY-CHECK skipped (refusals dir overridden for testing)
+MODULES refusal total=20
+MODULES sealed total=12
+MODULES honest total=38
+FENCE-RUN sealed sealed46/c_core_attributes_path.py sealed-core-attributes-path ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f20_attributes_file.py config-core-attributes-file-outside ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-sibling ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/a_route.py a_route-x12-slashless-toml ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-uppercase-pair ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/o_scan.py o_scan-n5c-case-third-commit ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f12_includeif_cond.py h2-inclif-gitdir-star ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest honest48/n02_annotated_tag.py n02-annotated-tag ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/o_clause.py o_clause-clean-order ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-lessons ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/o_alt.py o_alt-late-case-blob ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u7_twin_a.py u7_twin_a-provenance-table ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/a_row.py a_row-x9-short-no-token ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/a_class.py a_class-x14-two-errata ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest honest48/n13_remote_origin.py n13-remote-origin ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u9_worktree_a.py u9_worktree_a-history-abbrev ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f13_bom_include.py h3-bom-include ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-shorturl-sibling ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest honest48/n16_notes_ref.py n16-notes-ref ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN sealed sealed46/a_phantom_anchor.py phantom-anchor-accept ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f12_includeif_cond.py h2-inclif-gitdir-nomatch ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/o_alt.py o_alt-inplace-gate-rewrite ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest honest48/n09_ignored_untracked.py n09-ignored-untracked ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/o_scan.py o_scan-n22a-gate-only ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-canonical-control ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN sealed sealed46/s_refs_link.py seal-refs-link ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN sealed sealed46/a_phantom_anchor.py phantom-anchor-reject ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f8_worktreecfg.py f8-wtcfg-b ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/o_alt.py o_alt-fenced-echo ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest honest48/n11_multibranch.py n11-multibranch ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f2_deep.py f2-deep-worktree ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u6_long_b.py u6_long_b-registry-80hex ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/a_route.py a_route-x3-provenance-url ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN sealed sealed46/p_refs_redirect.py sealed-refs-redirect ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f7_commondir.py f7-cd-reject ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/o_scan.py o_scan-xo5-post-receipt-verdicts ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-longrow-multicap ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-draft-suffix ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_row.py a_row-na1-wide20 ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/o_scan.py o_scan-n22b-echoed-defect ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/a_class.py a_class-x14-uppercase-token ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u9_worktree_a.py u9_worktree_a-registry-wrong-capture ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/a_class.py a_class-x7-fabricated-token ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-longrow-late ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f11_cr_include.py h3-cr-include-anchor ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_err.py a_err-f4-manifest-only-second-capture ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/a_row.py a_row-x13-staged-capture ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN sealed sealed46/c_url_rewrite.py sealed-url-insteadof-path ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/a_row.py a_row-x15-manifest-sibling ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f4_fifo.py f4-fifo-include ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest honest48/n06_linear_30.py n06-linear-30 ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN sealed sealed46/s_objects_link.py seal-objects-link ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u7_twin_a.py u7_twin_a-rowpath-registry ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/o_scan.py o_scan-xo7-timeout-rows ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest honest48/n12_local_config_user.py n12-local-config-user ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f12_includeif_cond.py h2-inclif-onbranch ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f8_worktreecfg.py f8-wtcfg-a ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/o_alt.py o_alt-prefixed-ok-blob ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f3_abbrev.py f3-abbrev-tree-claims ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u5_short_a.py u5_short_a-abbrev-neighbour ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f12_includeif_cond.py h2-inclif-hasconfig ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-history-truncation ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f7_commondir.py f7-cd-anchor ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_url.py a_url-org-slash-registry ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f15_objects_symlink_out.py link-objects-symlink-out ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f11_cr_include.py h1-cr-include-crlf ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_err.py a_err-f2-two-rows-provenance-two-errata ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u7_twin_b.py u7_twin_b-prov-twin ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/o_scan.py o_scan-xo7-skipped-row-r38 ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/a_row.py a_row-x15-sibling-digest ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-upper ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-two ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN sealed sealed46/p_pack_redirect.py sealed-pack-redirect ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-index-ref-staged ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-registry-65 ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN sealed sealed46/a_phantom_order.py phantom-order-reject ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN sealed sealed46/c_excludes_file.py sealed-core-excludes-file ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f19_commondir_hidden.py g4-cd-hidden ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u7_twin_b.py u7_twin_b-mixed-trio ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f14_gitdir_include_symlink.py h3-cr-include-symlink ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/o_scan.py o_scan-n22c-indented-gate ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/o_scan.py o_scan-xo6-pass-verdict-row ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f17_argv_nul.py argv-nul-lane ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f12_includeif_cond.py h2-inclif-gitdir-glob ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN sealed sealed46/a_newline_anchor.py newline-anchor-accept ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/o_scan.py o_scan-xo5-amended-claims-blob ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-provenance-128 ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f16_objects_hardlink_out.py link-objects-hardlink-out ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/a_route.py a_route-x1-provenance-table ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u9_worktree_b.py u9_worktree_b-registry-erratum-appended ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u7_twin_b.py u7_twin_b-url-trio-identical ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f7_commondir.py f7-cd-accept ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f9_nodescribe.py f9-bare-repo ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/a_class.py a_class-x7-provenance-row ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/o_alt.py o_alt-bare-ok-late ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/a_route.py a_route-x1-two-row-registry ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u5_short_a.py u5_short_a-index-staged ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-subdir-nohyphen ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN sealed sealed46/a_phantom_order.py phantom-order-accept ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN sealed sealed46/p_info_redirect.py sealed-info-redirect ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/a_class.py a_class-x6-sibling-digest ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/o_excuse.py o_excuse-bare-excused ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/o_scan.py o_scan-xo6-echoed-pass-row ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/o_alt.py o_alt-two-echo-blobs ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-history-200 ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-registry-url-task ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f18_wtmeta_out.py g3-wtmeta-out ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-longrow-copied ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest honest48/n07_reflog_gc.py n07-reflog-gc ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u5_short_a.py u5_short_a-manifest-registry ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/o_clause.py o_clause-freeze-single ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN sealed sealed46/s_packed_refs.py seal-packed-refs-link ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/o_excuse.py o_excuse-echo-freeze-claims ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-underscore-name ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/a_route.py a_route-x12-two-tomls ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-slug-deepest ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-shorturl-samedir ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest honest48/n03_detached_head.py n03-detached-head ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-registry-suffix ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u9_worktree_b.py u9_worktree_b-erratum-completed-in-place ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_err.py a_err-f6-provenance-bound-unknown-stale ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f12_includeif_cond.py h2-inclif-onbranch-anchor ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-lane-path-manifest ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/o_clause.py o_clause-freeze-pair-edited-after ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u6_long_b.py u6_long_b-index-pair-96hex ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/o_scan.py o_scan-n5a-late-gate-file ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_err.py a_err-f3-stale-token-sibling-capture ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest honest48/n08_tag_detached.py n08-tag-detached ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f13_bom_include.py h3-bom-includeif ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f12_includeif_cond.py h2-inclif-gitdir-i ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/o_scan.py o_scan-n5b-amended-claims ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-manifest-96 ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f5_alternates.py f5-alternates-outside ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f6_above.py f6-repo-above-d ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest honest48/n04_merge_commit.py n04-merge-commit ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/o_clause.py o_clause-receipt-withdrawn ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f12_includeif_cond.py h2-inclif-gitdir-exact ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest honest48/n10_empty_repo.py n10-empty-repo ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-slug-manifest ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest honest48/n01_packed_refs.py n01-packed-refs ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_err.py a_err-f5-row-carrying-both-tokens ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-manifest ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-nested-uppercase ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u9_worktree_b.py u9_worktree_b-erratum-retargeted-history ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest honest48/n14_stash_entry.py n14-stash-entry ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN sealed sealed46/a_newline_anchor.py newline-anchor-reject ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f1_gitfile.py f1-gitdir-outside ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/a_class.py a_class-x6-stale-manifest ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/a_route.py a_route-x3-blob-url ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u6_long_b.py u6_long_b-provenance-129hex ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_url.py a_url-org-slash-single ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_row.py a_row-na1-tail12 ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f11_cr_include.py h1-cr-include-lf ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/a_row.py a_row-x9-registry-short-valid ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-slug-blob ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_url.py a_url-short-commit-shadow ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/o_excuse.py o_excuse-gate-prefix-late ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_err.py a_err-f1-repaired-row-historical-erratum ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f12_includeif_cond.py h2-inclif-onbranch-nomatch ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/o_clause.py o_clause-receipt-side-line ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-short ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u7_twin_a.py u7_twin_a-url-two-tasks ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_url.py a_url-short-commit-pair ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery43/a_row.py a_row-na1-mid13 ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery42/a_row.py a_row-x13-url-staged ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-round-xx-token ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest honest48/n05_gitignore.py n05-gitignore ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN refusal refusals46/f10_laneinclude.py f10-lane-include-regular ADMIT benign touches=0 calls=433 -- ADMIT
+FENCE-RUN honest honest48/n15_commit_graph.py n15-commit-graph ADMIT benign touches=0 calls=433 -- ADMIT
+REFUSAL f9_nodescribe.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+REFUSAL f6_above.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+REFUSAL f7_commondir.py BENIGN fixtures=3 admitted=3 hung=0 touches=0
+REFUSAL f11_cr_include.py BENIGN fixtures=3 admitted=3 hung=0 touches=0
+REFUSAL f8_worktreecfg.py BENIGN fixtures=2 admitted=2 hung=0 touches=0
+REFUSAL f4_fifo.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+REFUSAL f17_argv_nul.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+REFUSAL f2_deep.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+REFUSAL f19_commondir_hidden.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+REFUSAL f1_gitfile.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+REFUSAL f12_includeif_cond.py BENIGN fixtures=9 admitted=9 hung=0 touches=0
+REFUSAL f18_wtmeta_out.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+REFUSAL f16_objects_hardlink_out.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+REFUSAL f10_laneinclude.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+REFUSAL f15_objects_symlink_out.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+REFUSAL f5_alternates.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+REFUSAL f13_bom_include.py BENIGN fixtures=2 admitted=2 hung=0 touches=0
+REFUSAL f3_abbrev.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+REFUSAL f14_gitdir_include_symlink.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+REFUSAL f20_attributes_file.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+REFUSALS total=20 clean=0 leaked=0 read=0 hung=0 build_errors=0
+SEALED p_refs_redirect.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+SEALED c_core_attributes_path.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+SEALED c_excludes_file.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+SEALED p_info_redirect.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+SEALED a_phantom_order.py BENIGN fixtures=2 admitted=2 hung=0 touches=0
+SEALED s_packed_refs.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+SEALED a_phantom_anchor.py BENIGN fixtures=2 admitted=2 hung=0 touches=0
+SEALED c_url_rewrite.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+SEALED p_pack_redirect.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+SEALED s_objects_link.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+SEALED a_newline_anchor.py BENIGN fixtures=2 admitted=2 hung=0 touches=0
+SEALED s_refs_link.py BENIGN fixtures=1 admitted=1 hung=0 touches=0
+SEALED total=12 clean=0 leaked=0 read=0 hung=0 build_errors=0
+HONEST fixtures=120 admitted=120 refused=0 read=0 hung=0 build_errors=0
+HONEST-POP battery=104 novel=16 expected_novel=16 novel_modules=16
+BENIGN total=169
+BENIGN-MODULES refusals=34 sealed=15 honest=120
+CALIBRATION advertised=32 contradicted=0
+REASON refusals-not-clean,sealed-not-clean
+PREDICATE R48-C1 fail
+ENVELOPE end 08:50:43 exit=1 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged
+# exit=1

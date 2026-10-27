@@ -2095,3 +2095,17 @@ freshness 8, adjacency 8.
 No capability row enters: the repaired fence over-refuses ordinary repositories and its counter leaves most fence
 checks unwitnessed. Planned (round 47) adds: a C1 held-out/over-refusal battery that is frozen before the fence is
 scored (novel honest fixtures as a frozen leg), and the mount-point refusal (`w2/R46W2C1Intent.md`).
+## Round 48 — fresh-start claims tested; neither admitted (hyaku run 10, 2026-10-27)
+
+Baseline lane tip `0f77f9b27931b3c76b3d095fc0fa70edb79556d9`; stage-1 freeze `a543d92083557dd9b33ee674e9b99b03411f80af`; final round-work revision is recorded by the round-48 report. Lowest non-retired axis: coverage 7 tied with novelty 7; coverage was selected. The two declared claims are causally separable and touch no shared production files.
+
+| claim | axis | observed before → after | counting command / measured revision | verdict / score |
+|---|---|---|---|---|
+| R48-C1 fixture-fence honest over-refusal repaired under the frozen v3 counter | calibration | base fence on the 120-fixture candidate population: `HONEST fixtures=120 admitted=112 refused=8`; repair candidate: 120/120 admitted, with refusals 20/20 and sealed 12/12 in the development harness. No committed stage-2 landing-tip run. | Frozen command: `python3 plans/round48_c1_verify.py --lane .`; scratch candidate measured from `REV a543d920…` in `.ufo/waves/round-48/w1/R48C1ExecCounter.md` and `R48C1ExecFenceA.md`. | **unverified / not admitted**; calibration 8→8 held. No capability row. |
+| R48-C2 TB2 `polyglot-c-py` package admitted under Q40 | coverage | r46 baseline counter: `checks=13 defects=2` (V7, V8) at `e9d20145`; r48 candidate `--dry` still reports V7 missing `both-print`/`toolchain`, and the hardened probe's allowed `--stage-check` fails 18/18. No full probe run or committed stage-2 landing-tip run. | Frozen command: `python3 plans/round48_c2_verify.py --lane .`; candidate evidence at `.ufo/waves/round-48/w1/R48C2ExecCounter.md`, `R48C2ExecProbe.md`, and `R48C2ExecControls.md`, measured from stage-1 `REV a543d920…`. | **not admitted**; coverage 7→7 held by the open L0 cap. No capability row. |
+
+The start and end SOURCES census both report 165 rows, tier A=141/B=22/C=2, status mined=149/queued=8/rejected=8, `kengaku ok`, exit 0. No rows were added or touched; no frontier row was advanced. The S166 source was reopened and remains the frozen C2 source basis; the claim itself was not admitted. See `corpus/lessons/round-48.md` for the honest-stop disposition and individual receipt evidence.
+
+### Planned (round 49)
+
+Axis state held: calibration 8, coverage 7 (L0 `kengaku | round-33` cap), novelty 7, depth 9, operability 8, freshness 8, adjacency 8. Coverage remains the lowest non-retired axis tied with novelty. Start from the C2 probe defect findings in `corpus/lessons/round-48.md`; freeze a new claim/counter whose case table has a violating executable case for each requirement tag, whose probe passes `--stage-check` before the stage-2 freeze, and whose first full run is after that freeze. Do not reuse the failed 22b7779e probe as an admitted instrument without a fresh falsifiable control. Keep C1 routed as a separate calibration repair with the measured 8/120 base refusal, not the unreproducible r46 placeholder-argv 9/9 figure.
