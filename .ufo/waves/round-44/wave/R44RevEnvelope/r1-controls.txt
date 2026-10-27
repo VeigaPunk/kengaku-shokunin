@@ -1,0 +1,25 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/env /fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/env --bind /fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /bin/sh -c 
+e(){ "$@" >/dev/null 2>&1; echo "rc=$? : $*"; }
+e touch /home/vgpnk/.local/bin/__probe
+e ln /home/vgpnk/.local/bin/codex /fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/alias-scratch
+e ln /home/vgpnk/.local/bin/codex /var/tmp/alias-vartmp
+e setfattr -n user.p -v 1 /home/vgpnk/.local/bin/codex
+e setfacl -m u:1000:rw /home/vgpnk/.local/bin/codex
+for p in /usr/local/bin /etc /tmp /var/tmp /dev/shm /fast/scratch/hyaku/kengaku-r44 /fast/scratch/hyaku/kengaku-r44/R44BatU9a; do printf "test-w %s: %s\n" "$p" "$([ -w "$p" ] && echo yes || echo no)"; done
+getent hosts github.com >/dev/null 2>&1; echo "dns-rc=$?"
+
+ENVELOPE start 20:42:26 cwd=/fast/scratch/hyaku/kengaku-r44/R44RevEnvelope
+rc=1 : touch /home/vgpnk/.local/bin/__probe
+rc=1 : ln /home/vgpnk/.local/bin/codex /fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/alias-scratch
+rc=1 : ln /home/vgpnk/.local/bin/codex /var/tmp/alias-vartmp
+rc=1 : setfattr -n user.p -v 1 /home/vgpnk/.local/bin/codex
+rc=1 : setfacl -m u:1000:rw /home/vgpnk/.local/bin/codex
+test-w /usr/local/bin: no
+test-w /etc: no
+test-w /tmp: yes
+test-w /var/tmp: yes
+test-w /dev/shm: yes
+test-w /fast/scratch/hyaku/kengaku-r44: yes
+test-w /fast/scratch/hyaku/kengaku-r44/R44BatU9a: no
+dns-rc=0
+ENVELOPE end 20:42:28 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

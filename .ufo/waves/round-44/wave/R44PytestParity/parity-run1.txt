@@ -1,0 +1,20 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44PytestParity/env /fast/scratch/hyaku/kengaku-r44/R44PytestParity/env --bind /fast/scratch/hyaku/kengaku-r44/R44PytestParity/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r44/R44PytestParity/parity.py /fast/scratch/hyaku/kengaku-r44/R44PytestParity/w
+ENVELOPE start 20:34:15 cwd=/fast/scratch/hyaku/kengaku-r44/R44PytestParity
+# pytest-parity harness: /home/vgpnk/.local/bin/uvx -p 3.13 -w pytest==8.4.1 pytest /tests/test_outputs.py -v -rA (cwd=/app, bwrap --unshare-net)
+# env UV_OFFLINE=1 UV_CACHE_DIR=/fast/scratch/hyaku/kengaku-r44/R44PytestParity/uvcache (no network in the sandbox)
+PYTESTCASE nop receipt=fail/F/regrade=same pytest1=fail(rc=1) pytest2=fail(rc=1) collected=1 parity=yes reason=FileNotFoundError: reason2=FileNotFoundError:
+PYTESTCASE oracle-solve-sh receipt=pass/P/regrade=same pytest1=pass(rc=0) pytest2=pass(rc=0) collected=1 parity=yes reason=1_passed,_1_warning_in_0.01s reason2=1_passed,_1_warning_in_0.01s
+PYTESTCASE decrypt-public-keys receipt=pass/P/regrade=same pytest1=pass(rc=0) pytest2=pass(rc=0) collected=1 parity=yes reason=1_passed,_1_warning_in_0.01s reason2=1_passed,_1_warning_in_0.01s
+PYTESTCASE replay-public-gen receipt=pass/P/regrade=same pytest1=pass(rc=0) pytest2=pass(rc=0) collected=1 parity=yes reason=1_passed,_1_warning_in_0.01s reason2=1_passed,_1_warning_in_0.01s
+PYTESTCASE copy-public-constants receipt=pass/P/regrade=same pytest1=pass(rc=0) pytest2=pass(rc=0) collected=1 parity=yes reason=1_passed,_1_warning_in_0.01s reason2=1_passed,_1_warning_in_0.01s
+PYTESTCASE oracle-concatenated receipt=pass/P/regrade=same pytest1=pass(rc=0) pytest2=pass(rc=0) collected=1 parity=yes reason=1_passed,_1_warning_in_0.01s reason2=1_passed,_1_warning_in_0.01s
+PYTESTCASE oracle-plus-decoys receipt=pass/P/regrade=same pytest1=pass(rc=0) pytest2=pass(rc=0) collected=1 parity=yes reason=1_passed,_1_warning_in_0.01s reason2=1_passed,_1_warning_in_0.01s
+PYTESTCASE oracle-reversed receipt=pass/P/regrade=same pytest1=pass(rc=0) pytest2=pass(rc=0) collected=1 parity=yes reason=1_passed,_1_warning_in_0.01s reason2=1_passed,_1_warning_in_0.01s
+PYTESTCASE oracle-zero-padded receipt=pass/P/regrade=same pytest1=pass(rc=0) pytest2=pass(rc=0) collected=1 parity=yes reason=1_passed,_1_warning_in_0.01s reason2=1_passed,_1_warning_in_0.01s
+PYTESTCASE one-missing receipt=fail/F/regrade=same pytest1=fail(rc=1) pytest2=fail(rc=1) collected=1 parity=yes reason=AssertionError: reason2=AssertionError:
+PYTESTCASE hex-output receipt=fail/F/regrade=same pytest1=fail(rc=1) pytest2=fail(rc=1) collected=1 parity=yes reason=AssertionError: reason2=AssertionError:
+PYTESTCASE wrong-key-decrypt receipt=fail/F/regrade=same pytest1=fail(rc=1) pytest2=fail(rc=1) collected=1 parity=yes reason=AssertionError: reason2=AssertionError:
+PYTESTCASE pairs-plaintexts receipt=fail/F/regrade=same pytest1=fail(rc=1) pytest2=fail(rc=1) collected=1 parity=yes reason=AssertionError: reason2=AssertionError:
+PYTESTCASE ciphertexts-copied receipt=fail/F/regrade=same pytest1=fail(rc=1) pytest2=fail(rc=1) collected=1 parity=yes reason=AssertionError: reason2=AssertionError:
+pytest-parity rows=14 matched=14 mismatched=0
+ENVELOPE end 20:34:24 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

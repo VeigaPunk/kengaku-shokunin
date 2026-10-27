@@ -1,0 +1,11 @@
+== round-43 counter (plans/round43_c1_verify.py) --only NO5 (timeout 60)
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44LabratControls/ctl2 /fast/scratch/hyaku/kengaku-r44/R44LabratControls/ctl2 --bind /fast/scratch/hyaku/kengaku-r44/R44LabratControls/ctl2/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- timeout 60 python3 /fast/scratch/hyaku/kengaku-r44/R44LabratControls/ctl2/m-base/plans/round43_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r44/R44LabratControls/ctl2/m-base --battery-dir /fast/scratch/hyaku/kengaku-r44/R44LabratControls/ctl2/hb-f2_deep --only NO5 --work /fast/scratch/hyaku/kengaku-r44/R44LabratControls/ctl2/h43-f2_deep
+ENVELOPE start 20:37:30 cwd=/fast/scratch/hyaku/kengaku-r44/R44LabratControls/lane
+FIXTURE f2-deep-worktree tool=order expect=error declared=- observed_rc=2 observed=- ok
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=0
+ENVELOPE end 20:37:31 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+== round-44 counter (plans/round44_c1_verify.py) --only U14c
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44LabratControls/ctl2 /fast/scratch/hyaku/kengaku-r44/R44LabratControls/ctl2 --bind /fast/scratch/hyaku/kengaku-r44/R44LabratControls/ctl2/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r44/R44LabratControls/ctl2/m-base/plans/round44_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r44/R44LabratControls/ctl2/m-base --battery-dir /fast/scratch/hyaku/kengaku-r44/R44LabratControls/ctl2/hb-f2_deep --only U14c --work /fast/scratch/hyaku/kengaku-r44/R44LabratControls/ctl2/h44-f2_deep
+ENVELOPE start 20:37:33 cwd=/fast/scratch/hyaku/kengaku-r44/R44LabratControls/lane
+SETUP fixture 'f2-deep-worktree' of hb-f2_deep/f2_deep.py escapes its directory: --lane rev-parse --show-toplevel=/fast/scratch/hyaku/kengaku-r44/R44LabratControls/ctl2/h44-f2_deep/k44-c1-vfwk2eul/fx/f2_deep/wt is outside the fixture
+ENVELOPE end 20:37:34 exit=2 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

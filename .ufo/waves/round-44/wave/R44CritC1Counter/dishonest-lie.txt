@@ -1,0 +1,20 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44CritC1Counter/env-lie /fast/scratch/hyaku/kengaku-r44/R44CritC1Counter/env-lie --bind /fast/scratch/hyaku/kengaku-r44/R44CritC1Counter/env-lie/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round44_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r44/R44CritC1Counter/lane --battery-dir /fast/scratch/hyaku/kengaku-r44/R44CritC1Counter/bats/lie --work /fast/scratch/hyaku/kengaku-r44/R44CritC1Counter/w-lie
+ENVELOPE start 20:34:00 cwd=/home/vgpnk/Projects/shokunin
+PINS total=2 mismatched=0
+FIXTURE lie5-short-token tool=anchor expect=accept declared=- observed_rc=1 observed=digest-short WRONG
+FIXTURE lie6-long-token tool=anchor expect=accept declared=- observed_rc=1 observed=digest-long WRONG
+FIXTURE lie7-twin-gone tool=anchor expect=error declared=digest-short observed_rc=0 observed=- WRONG
+FIXTURE lie9-dirty-lesson tool=anchor expect=reject declared=digest-long observed_rc=0 observed=- WRONG
+FIXTURE lie14c-odd-claims tool=order expect=accept declared=- observed_rc=2 observed=- WRONG
+MUTANT U5 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+MUTANT U6 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+MUTANT U7 anchor rc-mirror SURVIVED exhibits=0>1 -- plans/anchor_digest_check.py:98-99 'A token that resolves to several of the row's captures
+MUTANT U9 anchor rc-mirror SURVIVED exhibits=0>1 -- plans/anchor_digest_check.py:106-107 'lessons are read from the working tree for paths com
+MUTANT U14c order error SURVIVED exhibits=2>1 -- plans/order_check.py:26-27 'Exit: 0 order holds · 1 order broken · 2 setup error (... unpa
+BATTERY fixtures=5 wrong=5 tampered=0 sidechannel=0
+MUTANTS total=5 killed=0 survived=5 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/4 order=0/1
+ADVERTISED direct=5 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 20:34:02 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

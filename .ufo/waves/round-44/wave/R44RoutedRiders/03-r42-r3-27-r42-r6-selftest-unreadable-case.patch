@@ -1,0 +1,30 @@
+diff --git i/plans/scratch_guard.py w/plans/scratch_guard.py
+index 650de39..d4c64f2 100755
+--- i/plans/scratch_guard.py
++++ w/plans/scratch_guard.py
+@@ -483,6 +483,25 @@ def _selftest_in(base):
+            "exit=%d expected=1 reason=%s" % (code, _reason(out)))
+     os.unlink(bad)
+ 
++    # An existing sentinel whose bytes cannot be read is "cannot evaluate" (exit 2), not red (1);
++    # the docstring's two words for it are why the case exists. POSIX DAC, so an unprivileged run is
++    # the assumption: root reads through mode 000. Paired with 02-…, which is what makes it pass.
++    unreadable = os.path.join(bare, SENTINEL)
++    with open(unreadable, "w") as fh:
++        fh.write("kengaku r44 round root; unreadable\n")
++    os.chmod(unreadable, 0)
++    try:
++        code, out = _run(["check", bare])
++        jcode, jout = _run(["check", bare, "--json"])
++        h.case("check-sentinel-unreadable",
++               code == 2 and _reason(out) == "sentinel-unreadable"
++               and jcode == 2 and '"sentinel-unreadable"' in jout,
++               "exit=%d expected=2 reason=%s json-exit=%d expected=2"
++               % (code, _reason(out), jcode))
++    finally:
++        os.chmod(unreadable, 0o644)
++        os.unlink(unreadable)
++
+     code, out = _run(["check", probe])
+     h.case("check-non-directory",
+            code == 2 and "SETUP root-not-a-directory" in out,

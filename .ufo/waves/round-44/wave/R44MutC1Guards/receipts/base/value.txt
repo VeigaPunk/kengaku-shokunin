@@ -1,0 +1,32 @@
+DIFF --- /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round44_c1_verify.py	2026-10-26 20:19:20.615194535 -0300
+DIFF +++ /fast/scratch/hyaku/kengaku-r44/R44MutC1Guards/mm-base-value/plans/round44_c1_verify.py	2026-10-26 20:43:53.709132961 -0300
+DIFF @@ -150,7 +150,7 @@
+DIFF  
+DIFF  def SITE_EQUAL(mut_sites, ref_sites):
+DIFF      """Round-43 leg g: equal site records mean the replaced span ran without changing what followed it."""
+DIFF -    return tuple(mut_sites) == tuple(ref_sites)
+DIFF +    return True
+DIFF  
+DIFF  # --- F42C1Hardened banner (round-42 wave 2, falsify), carried into round 43 unchanged except the k44 slot names.
+DIFF  #   R1  R42SentinelCounter V1: the run and build env pin gpg.program=/bin/true and log.showSignature=false,
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44MutC1Guards /fast/scratch/hyaku/kengaku-r44/R44MutC1Guards --bind /fast/scratch/hyaku/kengaku-r44/R44MutC1Guards/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r44/R44MutC1Guards/mm-base-value/plans/round44_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r44/R44MutC1Guards/mm-base-value --work /fast/scratch/hyaku/kengaku-r44/R44MutC1Guards/w6-base
+ENVELOPE start 20:43:55 cwd=/fast/scratch/hyaku/kengaku-r44/R44MutC1Guards
+PINS total=2 mismatched=0
+FIXTURE u3-row-path-binds tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u5-sixty-three-hex tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+FIXTURE u6-sixty-five-hex tool=anchor expect=reject declared=digest-long observed_rc=1 observed=digest-long ok
+FIXTURE u7-twin-captures tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u9-dirty-erratum tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u14c-odd-claims-name tool=order expect=error declared=- observed_rc=2 observed=- ok
+MUTANT U5 anchor silence UNATTRIBUTED hits=1 last=site-record-equal first=u5-sixty-three-hex span=L522-L522 -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+MUTANT U6 anchor silence UNATTRIBUTED hits=1 last=site-record-equal first=u6-sixty-five-hex span=L522-L522 -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+MUTANT U7 anchor rc-mirror UNATTRIBUTED hits=1 last=site-record-equal first=u7-twin-captures span=L539-L542 -- plans/anchor_digest_check.py:98-99 'A token that resolves to several of the row's captures
+MUTANT U9 anchor rc-mirror UNATTRIBUTED hits=1 last=site-record-equal first=u9-dirty-erratum span=L384-L384 -- plans/anchor_digest_check.py:106-107 'lessons are read from the working tree for paths com
+MUTANT U14c order error UNATTRIBUTED hits=1 last=site-record-equal first=u14c-odd-claims-name span=L161-L162 -- plans/order_check.py:26-27 'Exit: 0 order holds · 1 order broken · 2 setup error (... unpa
+BATTERY fixtures=6 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=5 killed=0 survived=0 invalid=0 null_detected=0 unattributed=5
+MUTANTS-BY-TOOL anchor=0/4 order=0/1
+ADVERTISED direct=5 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 fail
+ENVELOPE end 20:43:57 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

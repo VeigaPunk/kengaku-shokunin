@@ -1,0 +1,12 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44ConsiderThese/env /fast/scratch/hyaku/kengaku-r44/R44ConsiderThese/env --bind /fast/scratch/hyaku/kengaku-r44/R44ConsiderThese/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- sh -c cd /fast/scratch/hyaku/kengaku-r44/R44ConsiderThese/lane && python3 plans/routed_open.py --lane . --observe 2>&1 | tail -5; python3 plans/routed_open.py --lane . --selftest 2>&1 | tail -2; python3 plans/routed_open.py --lane . 2>&1 | tail -2
+ENVELOPE start 20:36:34 cwd=/fast/scratch/hyaku/kengaku-r44/R44ConsiderThese
+OBSERVE R42-R3-40 rc=1 observed=fail self=open
+OBSERVE R42-R3-41 rc=0 observed=pass self=closed
+OBSERVE rows=60 mismatched=0
+ROWS total=60 open=38 blocked=1 closed=21 refused=0
+routed_open=39 oldest_round=39
+SELFTEST defect-ledger-guard rc=2 want=2 ok
+SELFTEST 12/12
+ROWS total=60 open=38 blocked=1 closed=21 refused=0
+routed_open=39 oldest_round=39
+ENVELOPE end 20:36:36 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

@@ -1,0 +1,25 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44RoutedRiders/env18 /fast/scratch/hyaku/kengaku-r44/R44RoutedRiders/env18 --bind /fast/scratch/hyaku/kengaku-r44/R44RoutedRiders/env18/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /fast/scratch/hyaku/kengaku-r44/R44RoutedRiders/regress.sh /fast/scratch/hyaku/kengaku-r44/R44RoutedRiders/lane10
+ENVELOPE start 20:42:27 cwd=/home/vgpnk/Projects/shokunin
+== dry table byte-equal (patch 01 must not move the frozen dry table) ==
+dry_rc=0
+cmp_rc=0  (green wants 0)
+cases=25 predicted_pass=13 predicted_fail=12
+
+== check on a readable round root still exits 0 ==
+green_rc=0
+mismatch_rc=1 (wants 1)
+CHECK ok round=44 want=* seats=0
+CHECK red reason=round-mismatch round=44 want=43 seats=0
+
+== safe-rm refusal still exits 2 (unchanged path) ==
+safe_rm_rc=2 (wants 2)
+REFUSE reason=target-outside-seat seat=A seat_dir=/fast/scratch/hyaku/kengaku-r44/R44RoutedRiders/tmp.Dpvh3W57il/A target=/fast/scratch/hyaku/kengaku-r44/R44RoutedRiders/tmp.Dpvh3W57il
+
+== compile ==
+py_compile_rc=0
+
+== scratch parent: read-only existing dir, and --dry untouched by the guard ==
+readonly_rc=2 (wants 2)
+SETUP scratch parent /home/vgpnk cannot host scratch: Read-only file system
+dry_absent_work_rc=0 (wants 0: --dry never touches scratch)
+ENVELOPE end 20:42:29 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

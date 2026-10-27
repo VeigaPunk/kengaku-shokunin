@@ -1,0 +1,68 @@
+R44Quarantine — evidence table (2026-10-26, all fetches inside claims/envelope.sh)
+
+REGISTER
+  path    /home/vgpnk/Projects/shokuknow/.ufo/waves/corpus-expansion-1/absent-defect-register.md
+  sha256  5afe1810a6c3d62f37987b575a954f5b1197daa23005d4bb2f1d982f64bad833
+  size    83621 B, 375 lines, mtime 2026-10-24 08:37:00 -0300
+  data rows (grep -cE '^\| `[a-z0-9_-]+` \| round[0-9]+ \| S[0-9]{3,} \|') = 194
+  kengaku data rows = 2
+    line 101  kengaku round2 S091 payload-absent
+    line 102  kengaku round3 S105 payload-absent
+  line 252  | `kengaku` | 2 |   <- by-lane SUMMARY row, excluded (no round cell, no S id)
+  section 3 (lines 256-375) kengaku hits = 0
+
+FETCHED PAYLOADS (probe dir /fast/scratch/hyaku/kengaku-r44/R44Quarantine/r)
+  s091.html              60334 B  sha256 1b35525e2e697d66012eb4b6a8e7706ea430d6fdf762cef4f358e24218a69ba7
+                                 HTTP 200  https://jpn.nec.com/techrep/journal/g23/n02/230212.html
+                                 anchor 'RAKUDAベンチマークは1ターンの対話かつ少数データでの評価のため' present raw + flattened
+                                 full 70-char sentence present; context at raw_html_line 276
+  s105_archive.html      13030 B  sha256 0c64866bdeaa223ff72c41e5940b437303fa294d945ed44912b322cef4b34810
+                                 HTTP 200  web.archive.org/web/20251118034714/https://www.meti.go.jp/.../result_1/index.html
+                                 title  GENIAC事業 第1期 性能評価結果公開 （METI/経済産業省）
+                                 hits: ホールド・アウトデータ 1 | Weights and Biases 1 | Jaster-GENIAC-v0.1 2
+                                       | JMT-Bench-GENIAC-v0.1 1 | 指定されたページまたはファイルは存在しません 0
+                                 hold-out paragraph at raw_line 112
+  s105_live_bare.html     5045 B  sha256 201d4364a8fcd39b8f36f0cce7715401602c8b568f47aad4dd7bbf2fd7bafe29
+                                 HTTP 403  live METI URL, UA kengaku-lane/3.0
+                                 hits: 指定されたページまたはファイルは存在しません 2 (line 12 title) | ホールド・アウトデータ 0
+  s105_live_default.html  5045 B  sha256 201d4364a8fcd39b8f36f0cce7715401602c8b568f47aad4dd7bbf2fd7bafe29  (identical body)
+                                 HTTP 403  live METI URL, curl default UA
+  s105_live_browser.html 10768 B  sha256 c8c2a8ebe83875cccf1c6a9549245db3c52d21261f9724ed257a6763b2b2a499
+                                 HTTP 200  live METI URL, UA + Accept + Accept-Language:ja + Referer
+                                 hits: ホールド・アウトデータ 1 | 指定されたページまたはファイルは存在しません 0
+
+LANE ARTIFACT ANCHORS
+  round2/SOURCES-PROPOSED.md:43  registered S091 span present (grep -cF = 1)
+  round3/SOURCES-PROPOSED.md:65  registered S105 span present (grep -cF = 1); note at :63 says live URL "not withdrawn"
+  .ufo/waves/round-34/assimilation/captures/nec-s091-reopen.html  60335 B  sha256 b60af7757074df9d0795f1fcb76a7f6eaf5e4d6470eb8a6c97571eceb9a262b1
+                                 anchor present (grep -cF = 1); cmp -l vs my fetch = 39973 differing byte positions
+  .ufo/waves/round-34/assimilation/captures/nec-s091.html           418 B  sha256 967e4c244fa28577dc3dc9e5ba282c495372607ca5e32bc7a82b06bc75fdeed3
+                                 (the old Access Denied capture; not evidence of absence)
+
+ID COLLISION (same string, different document)
+  corpus/SOURCES.md:104  S091 = Agentic Benchmark Checklist (ABC), https://arxiv.org/abs/2507.02825
+  corpus/SOURCES.md:120  S105 = TB2 protein-assembly tests/test_outputs.py
+  register keeps the round cell: round2 S091 = NEC 技報 (round2/SOURCES-PROPOSED.md:41);
+                                 round3 S105 = METI GENIAC result_1 (round3/SOURCES-PROPOSED.md:60)
+  grep -rln '230212.html' corpus/  -> corpus/lessons/round-34-verifier-spotcheck.md, corpus/lessons/round-35-verifier-spotcheck.md
+                                      (no curated corpus row for the NEC source)
+
+CENSUS BIND LINES (quote-lint-full-v5.json findings, lane=kengaku)
+  round2 S091  verdict ABSENT  line "- Command: `curl -fsSL '.../230212.html' ... python3 -c \"import re,html;..."
+  round3 S105  verdict ABSENT  line "200) and serves METI's own \"指定されたページまたはファイルは存在しません\" shell with HTTP"
+
+CORPUS-WIDE HEURISTIC COUNTS (all 194 data rows, regex over quote cells)
+  quote cell is a program payload (python -c / starts with "import ") : 1  (kengaku S091 — the only one)
+  cited source cell is a lanes/... artefact path                        : 8
+  span names a lane file or internal S-id                               : 2  (kake S206, tameshi S141)
+
+PRIOR ART
+  .ufo/waves/round-29/attempt2/build/R29a2QuarS091.md   agree (misbinding class; quote-present)
+  .ufo/waves/round-29/attempt2/build/R29a2QuarS105.md   agree (snapshot paragraph vs live 403 shell; sha 201d4364...)
+  .ufo/waves/round-38/build/R38MergeRescreen.md:42-49   slice/derivation agree; "withdrawn METI page" DISAGREE
+                                                        (live index 200/10768 B carries the hold-out paragraph)
+  .ufo/waves/round-39/build/R39MergeRescreen.md:56-68   slice derivation agree (194 rows, 2 kengaku, NEVER-CHECKED none)
+
+ENVELOPE
+  run 1: start 20:36:07 exit=0 before=328be01808ba022f after=328be01808ba022f unchanged
+  run 2: start 20:36:34 exit=0 before=328be01808ba022f after=328be01808ba022f unchanged

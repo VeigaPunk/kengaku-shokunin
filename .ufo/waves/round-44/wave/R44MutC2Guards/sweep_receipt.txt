@@ -1,0 +1,60 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44MutC2Guards/env /fast/scratch/hyaku/kengaku-r44/R44MutC2Guards/env --bind /fast/scratch/hyaku/kengaku-r44/R44MutC2Guards/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r44/R44MutC2Guards/sweep.py
+ENVELOPE start 20:37:42 cwd=/fast/scratch/hyaku/kengaku-r44/R44MutC2Guards
+BASELINE filler V9=DEFECT case_rows=0/14 bad=["no '## Case table' section"] V10=DEFECT no '## Mechanism' section
+BASELINE informed V9=ok case_rows=14/14 bad=0 V10=DEFECT mechanism_rows=14/14 bad=['nop:test_outputs.py:106 not decisive', 'oracle-solve-sh:test_outputs.py:106 not decisive', 'decrypt-public-keys:test_outputs.py:106 not decisive', 'replay-public-gen:test_outputs.py:106 not decisive', 'copy-public-constants:test_outputs.py:106 not decisive', 'oracle-concatenated:test_outputs.py:106 not decisive', 'oracle-plus-decoys:test_outputs.py:106 not decisive', 'oracle-reversed:test_outputs.py:106 not decisive', 'oracle-zero-padded:test_outputs.py:106 not decisive', 'one-missing:test_outputs.py:106 not decisive', 'hex-output:test_outputs.py:106 not decisive', 'wrong-key-decrypt:test_outputs.py:106 not decisive', 'pairs-plaintexts:test_outputs.py:106 not decisive', 'ciphertexts-copied:test_outputs.py:106 not decisive']
+BASELINE content V9=ok case_rows=14/14 bad=0 V10=ok mechanism_rows=14/14 bad=0
+SWEEP M01 caught=- verdict=SURVIVED mut_sha=634745ff9ed871de
+  filler pristine=(False, False) mutant=(False, False)
+  informed pristine=(True, False) mutant=(True, False)
+  content pristine=(True, True) mutant=(True, True)
+SWEEP M02 caught=['informed'] verdict=caught mut_sha=9405bdbfc4b2319e
+  filler pristine=(False, False) mutant=(False, False)
+  informed pristine=(True, False) mutant=(True, True)
+  content pristine=(True, True) mutant=(True, True)
+SWEEP M03 caught=- verdict=SURVIVED mut_sha=a97a1f9b0ca6c76d
+  filler pristine=(False, False) mutant=(False, False)
+  informed pristine=(True, False) mutant=(True, False)
+  content pristine=(True, True) mutant=(True, True)
+SWEEP M04 caught=['content'] verdict=caught mut_sha=997b68f432584cb4
+  filler pristine=(False, False) mutant=(False, False)
+  informed pristine=(True, False) mutant=(True, False)
+  content pristine=(True, True) mutant=(True, False)
+SWEEP M05 caught=- verdict=SURVIVED mut_sha=c120975054593a07
+  filler pristine=(False, False) mutant=(False, False)
+  informed pristine=(True, False) mutant=(True, False)
+  content pristine=(True, True) mutant=(True, True)
+SWEEP M06 caught=- verdict=SURVIVED mut_sha=6f3c58d83137e1b9
+  filler pristine=(False, False) mutant=(False, False)
+  informed pristine=(True, False) mutant=(True, False)
+  content pristine=(True, True) mutant=(True, True)
+SWEEP M07 caught=- verdict=SURVIVED mut_sha=07c1977f514b1ca5
+  filler pristine=(False, False) mutant=(False, False)
+  informed pristine=(True, False) mutant=(True, False)
+  content pristine=(True, True) mutant=(True, True)
+SWEEP M08 caught=- verdict=SURVIVED mut_sha=e876f49476312b28
+  filler pristine=(False, False) mutant=(False, False)
+  informed pristine=(True, False) mutant=(True, False)
+  content pristine=(True, True) mutant=(True, True)
+SWEEP M09 caught=['content'] verdict=caught mut_sha=f51d33e41353a6c7
+  filler pristine=(False, False) mutant=(False, False)
+  informed pristine=(True, False) mutant=(True, False)
+  content pristine=(True, True) mutant=(True, False)
+SWEEP M10 caught=['informed', 'content'] verdict=caught mut_sha=e9a872a79820fc13
+  filler pristine=(False, False) mutant=(False, False)
+  informed pristine=(True, False) mutant=(False, False)
+  content pristine=(True, True) mutant=(False, True)
+SWEEP M11 caught=['informed', 'content'] verdict=caught mut_sha=f641705903899445
+  filler pristine=(False, False) mutant=(False, False)
+  informed pristine=(True, False) mutant=(False, False)
+  content pristine=(True, True) mutant=(False, True)
+SWEEP M12 caught=['informed', 'content'] verdict=caught mut_sha=816d38892f02a979
+  filler pristine=(False, False) mutant=(False, False)
+  informed pristine=(True, False) mutant=(False, False)
+  content pristine=(True, True) mutant=(False, True)
+SWEEP M13 caught=- verdict=SURVIVED mut_sha=918d8f96edd6b2a4
+  filler pristine=(False, False) mutant=(False, False)
+  informed pristine=(True, False) mutant=(True, False)
+  content pristine=(True, True) mutant=(True, True)
+SWEEP total=13 caught=6 survived=7
+COUNTER_SHA_AFTER 334ce2dac6828f8d7b0d57610f7204db2dcf5c5c2686ed406ab19880abfc82a6
+ENVELOPE end 20:37:44 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

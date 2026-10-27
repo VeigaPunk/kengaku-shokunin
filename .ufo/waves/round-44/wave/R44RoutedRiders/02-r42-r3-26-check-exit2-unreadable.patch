@@ -1,0 +1,32 @@
+diff --git i/plans/scratch_guard.py w/plans/scratch_guard.py
+index 650de39..ea10f4e 100755
+--- i/plans/scratch_guard.py
++++ w/plans/scratch_guard.py
+@@ -15,7 +15,8 @@ Commands
+     the named round must equal N. Every direct subdirectory (a seat; the L1 included) is
+     printed with its apparent size; symlinked seats are marked and never walked.
+     Exit 1 when the sentinel is missing, unparseable, or names another round; exit 2 when
+-    the root is not a directory or the sentinel cannot be read (cannot evaluate).
++    the root is not a directory or the sentinel cannot be read (cannot evaluate: prints
++    ``SETUP root-untrusted … reason=sentinel-unreadable …``, never ``CHECK red``).
+     Read-only: nothing under <root> is created, touched or written.
+ 
+ ``safe-rm <root> <seat> <path> [--dry-run]``
+@@ -160,6 +161,17 @@ def cmd_check(rootarg, want_round=None, as_json=False):
+         return 2
+ 
+     text, why = sentinel_state(root)
++    if why is not None and why.startswith("sentinel-unreadable"):
++        # Cannot evaluate, not red: the sentinel exists but its bytes cannot be read, so no verdict
++        # about the round is possible (docstring: exit 2). A consumer branches 1 = red, 2 = setup.
++        detail = why.split(":", 1)[1] if ":" in why else "unreadable"
++        if as_json:
++            print(json.dumps({"ok": False, "root": root, "reason": "sentinel-unreadable",
++                              "error": detail}, sort_keys=True))
++        else:
++            print("SETUP root-untrusted root=%s reason=sentinel-unreadable error=%s"
++                  % (root, detail))
++        return 2
+     if text is None:
+         reason = why
+         named = None

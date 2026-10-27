@@ -1,0 +1,5 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/env /fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/env --bind /fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- strace -f -qq -e trace=openat,execve -s 200 -o /fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/w/strace_a.txt python3 /fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/lane/plans/round44_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/lane --battery-dir /fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/bat_a --work /fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/w
+ENVELOPE start 20:35:07 cwd=/home/vgpnk/Projects/shokunin
+PINS total=2 mismatched=0
+SETUP fixture 'probe-include-benign' of bat_a/inc_benign.py escapes its directory: repo/.git/config carries an include
+ENVELOPE end 20:35:08 exit=2 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

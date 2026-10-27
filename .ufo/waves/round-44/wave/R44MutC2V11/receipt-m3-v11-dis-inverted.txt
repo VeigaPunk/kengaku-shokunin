@@ -1,0 +1,8 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44MutC2V11/env-m3-v11-dis-inverted /fast/scratch/hyaku/kengaku-r44/R44MutC2V11/env-m3-v11-dis-inverted --bind /fast/scratch/hyaku/kengaku-r44/R44MutC2V11/env-m3-v11-dis-inverted/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-44/claims/c2_predictor_control.py /fast/scratch/hyaku/kengaku-r44/R44MutC2V11/w-m3-v11-dis-inverted
+ENVELOPE start 20:40:28 cwd=/fast/scratch/hyaku/kengaku-r44/R44MutC2V11/m3-v11-dis-inverted
+CONTROL predictor=always-true V11 DEFECT states=48 grader_pass=24 grader_fail=24 disagree=24 at=exact#0,shuffled#1,concat#4,zero-pad#5,decoys#7,comma#11 required=DEFECT
+CONTROL predictor=token-set V11 DEFECT states=48 grader_pass=24 grader_fail=24 disagree=36 at=exact#0,shuffled#1,drop-one#2,drop-three#3,hex#6,decoys#7 required=DEFECT
+CONTROL predictor=exact-lines V11 DEFECT states=48 grader_pass=24 grader_fail=24 disagree=30 at=exact#0,shuffled#1,drop-one#2,drop-three#3,hex#6,bump-one#8 required=DEFECT
+CONTROL predictor=substring V11 DEFECT states=48 grader_pass=24 grader_fail=24 disagree=48 at=exact#0,shuffled#1,drop-one#2,drop-three#3,concat#4,zero-pad#5 required=ok
+CONTROL-C2-PREDICTOR NOT-AS-REQUIRED
+ENVELOPE end 20:40:29 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

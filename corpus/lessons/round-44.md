@@ -18,10 +18,11 @@ seat reports named in each row.
 | **Frozen-claims wording that the captures contradict** — `plans/round-44-claims.md` §C2 says gen.py is deleted at `Dockerfile:12-13` (it is `:13-14`) and the probe case `decrypt-public-keys` says the keys are "printed" in `gen.py:12` (they are literals; gen.py prints counts only). | `R44PkgProse.md` §Findings 1–2; `sed -n 11,14p corpus/evidence/round44/tb2-feal-linear-cryptanalysis/Dockerfile`; `gen.py:12`, `:52`, `:92-93` | none (the L1 wrote both from memory of the read, not from a line check at the freeze) | not edited (frozen); this row is the correction. No predicate, case verdict or tag depends on either phrase; the entry cites `Dockerfile:14` and says "literals". |
 | **A content leg whose sample is memorizable** — V11's 48 states come from a fixed seed, so a predictor that is a lookup table (by exact text, by sha256, or by position in `/states.json`) passes with 0 disagreements without reading the file (4 of 7 bypasses). | `.ufo/waves/round-44/wave/R44CritV11.md` §4 (P1–P4 `ok`); `R44SentinelSandbox.md` F1 | the freeze limit named a tuned predictor "only by running the grader"; the critic shows harvesting one grader run is enough | routed for the next C2 counter: per-run random seed (or several), states never exposed to the predictor process, and a predictor-source lint; the landed entry's predictor is a genuine substring reading (`R44RCritEntryOverclaim`). |
 | **A fence repair that reintroduces the read it was meant to stop** — `lane_breach` (F6) runs `rev-parse` on the `--lane` repo without `--no-includes`, before `repo_breach` refuses the include, so the counter's parent process opens an include file outside d. | `R44LabratLaneInclude.md` (`lane-breach-reads-outside-confirmed`) | none at freeze: the f4 hostile control is refused (`--lane git hung`), which looked like success | routed: run the include check before any discovery and pass `-c include.path=` / `GIT_CONFIG_NOSYSTEM` + `--no-includes`-equivalent to discovery; a hostile control with a regular-file include and an open-tracer is the red check. |
+| **A seat whose output exists only in the results JSON — recurred** (round-43 D3 class) — `R44ScoutMisroot` returned `misroot-0-host-writes-0-sentinel-present` naming `.ufo/waves/round-44/wave/R44ScoutMisroot.md`, a file that does not exist anywhere (`find` over the fleet tree → nothing). | `.ufo/waves/round-44/wave-results.json` (seat `R44ScoutMisroot`); `ls .ufo/waves/round-44/wave/R44ScoutMisroot.md` → absent | the wave-context sentence "Every seat MUST leave its report file" — a prompt rule, not a check; 67 of 68 complied | the L1's own misroot sweep stands in (`git -C <fleet> status --porcelain --untracked-files=all` → nothing beside `.scratch/`/`.ufo/state/`); fix for round 45: the L1 runs a report-file count against the results JSON before integrating (`R44LessonMistakes/report_file_check.py` is the drafted check). |
 
 Sweep receipts for the drafted rows: `.ufo/waves/round-44/wave/R44LessonMistakes/` (`sweep-*.txt`). The round-43 floor
-mistake did not recur: this round is one v2 wave of 68 + a residual call of 8 = 76 seats, and every seat was required to
-leave a report file (wave context rule).
+mistake did not recur: this round is one v2 wave of 68 + a residual call of 8 = 76 seats. The reportless-seat mistake
+did recur once (row above).
 
 ## Gate
 
@@ -126,7 +127,7 @@ entry on uncovered ground in PROVINCE scope). Quarantine slice: 2 data rows, bot
 - C1: dishonest-battery vectors 7/7 blocked (`R44CritC1Counter`); controls reproduce 14/14 on a clean clone
   (`R44LabratControls`); verdict stable over 30 runs (`R44LabratSiteStable`); mutant rows 5/5, equivalent 0, older
   batteries kill 0 (`R44RevMutRows`, `R44CritEquivU`); near-variants 13, 12 alive after the standing batteries
-  (`R44XMutNearU`, round-45 data); fence bypasses 3 of 6 (`R44SentinelFences` V1 `.git/commondir` HIGH, V2 second
+  (`R44XMutNearU`, round-45 data); fence-code mutants caught 15/18 by the hostile modules + witness (`R44MutC1Fences`); round-43 guard set re-run 6/15 caught (`R44MutC1Guards`); fence bypasses 3 of 6 (`R44SentinelFences` V1 `.git/commondir` HIGH, V2 second
   config include, V3 refuse-to-describe) and the `lane_breach` include read (`R44LabratLaneInclude`) — none used by
   battery44. Residual: battery44 modules honest 4/4 + 4/4 + 2/2 (`R44RRevBatAnc1`, `R44RRevBatAnc2`, `R44RRevBatOrd`);
   no single module is load-bearing (0 flips) and 6 single-module dishonest substitutes are admitted because the

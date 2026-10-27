@@ -1,0 +1,21 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44MutC1Guards /fast/scratch/hyaku/kengaku-r44/R44MutC1Guards --bind /fast/scratch/hyaku/kengaku-r44/R44MutC1Guards/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r44/R44MutC1Guards/mut/d12-M12-copy.py --lane /home/vgpnk/Projects/shokunin/kengaku-shokunin --battery-dir /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-44/claims/witness --work /fast/scratch/hyaku/kengaku-r44/R44MutC1Guards/wd-d12-m
+ENVELOPE start 21:14:08 cwd=/fast/scratch/hyaku/kengaku-r44/R44MutC1Guards
+PINS total=2 mismatched=0
+FIXTURE u3-row-path-binds tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u5-sixty-three-hex tool=anchor expect=reject declared=digest-short observed_rc=0 observed=- WRONG
+FIXTURE u6-sixty-five-hex tool=anchor expect=reject declared=digest-long observed_rc=0 observed=- WRONG
+FIXTURE u7-twin-captures tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u9-dirty-erratum tool=anchor expect=accept declared=- observed_rc=1 observed=erratum-digest-unresolved WRONG
+FIXTURE u14c-odd-claims-name tool=order expect=error declared=- observed_rc=2 observed=- ok
+MUTANT U5 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+MUTANT U6 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+MUTANT U7 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:98-99 'A token that resolves to several of the row's captures
+MUTANT U9 anchor rc-mirror SURVIVED exhibits=1>0 -- plans/anchor_digest_check.py:106-107 'lessons are read from the working tree for paths com
+MUTANT U14c order error killed by=u14c-odd-claims-name attributed=L161 value=differs hits=1 -- plans/order_check.py:26-27 'Exit: 0 order holds · 1 order broken · 2 setup error (... unpa
+BATTERY fixtures=6 wrong=3 tampered=0 sidechannel=0
+MUTANTS total=5 killed=1 survived=4 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/4 order=1/1
+ADVERTISED direct=5 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 21:14:11 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

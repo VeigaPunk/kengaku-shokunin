@@ -1,0 +1,9 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/env /fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/env --bind /fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /bin/sh -c 
+mkdir -p "$HOME/.cache/evil"
+printf "planted-by-run-A %s\n" "$(date +%T)" > "$HOME/.cache/evil/marker"
+printf "echo poisoned-from-cache-overlay\n" > "$HOME/.cache/evil/poison.sh"
+echo inner: planted files under /home/vgpnk/.cache/evil
+
+ENVELOPE start 20:43:46 cwd=/fast/scratch/hyaku/kengaku-r44/R44RevEnvelope
+inner: planted files under /home/vgpnk/.cache/evil
+ENVELOPE end 20:43:48 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

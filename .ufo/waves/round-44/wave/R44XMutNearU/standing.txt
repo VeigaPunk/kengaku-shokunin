@@ -1,0 +1,94 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44XMutNearU/env /fast/scratch/hyaku/kengaku-r44/R44XMutNearU/env --bind /fast/scratch/hyaku/kengaku-r44/R44XMutNearU/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r44/R44XMutNearU/c44/c44.py --lane /fast/scratch/hyaku/kengaku-r44/R44XMutNearU/lane --battery-dir /fast/scratch/hyaku/kengaku-r44/R44XMutNearU/bs --only U5N1,U5N2,U6N1,U56N,U7N1,U7N2,U7N3,U9N1,U9N2,U9N3,U14N1,U14N2,U14N3 --work /fast/scratch/hyaku/kengaku-r44/R44XMutNearU/w --jobs 4
+ENVELOPE start 20:43:39 cwd=/fast/scratch/hyaku/kengaku-r44/R44XMutNearU
+PINS total=2 mismatched=0
+FIXTURE a_class-x6-sibling-digest tool=anchor expect=reject declared=digest-wrong-capture observed_rc=1 observed=digest-wrong-capture ok
+FIXTURE a_class-x6-stale-manifest tool=anchor expect=reject declared=digest-wrong-capture observed_rc=1 observed=digest-wrong-capture ok
+FIXTURE a_class-x7-fabricated-token tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE a_class-x7-provenance-row tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE a_class-x14-uppercase-token tool=anchor expect=reject declared=erratum-digest-unresolved observed_rc=1 observed=erratum-digest-unresolved ok
+FIXTURE a_class-x14-two-errata tool=anchor expect=reject declared=erratum-digest-unresolved observed_rc=1 observed=erratum-digest-unresolved ok
+FIXTURE a_route-x1-provenance-table tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_route-x1-two-row-registry tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_route-x3-provenance-url tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_route-x3-blob-url tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_route-x12-slashless-toml tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_route-x12-two-tomls tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_row-x9-short-no-token tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_row-x9-registry-short-valid tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_row-x13-staged-capture tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE a_row-x13-url-staged tool=anchor expect=reject declared=digest-unknown observed_rc=1 observed=digest-unknown ok
+FIXTURE a_row-x15-sibling-digest tool=anchor expect=reject declared=digest-unknown,erratum-incomplete observed_rc=1 observed=digest-unknown,erratum-incomplete ok
+FIXTURE a_row-x15-manifest-sibling tool=anchor expect=reject declared=digest-unknown,erratum-incomplete observed_rc=1 observed=digest-unknown,erratum-incomplete ok
+FIXTURE o_clause-freeze-single tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_clause-freeze-pair-edited-after tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_clause-receipt-withdrawn tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_clause-receipt-side-line tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_clause-clean-order tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo5-post-receipt-verdicts tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo5-amended-claims-blob tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo6-pass-verdict-row tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo6-echoed-pass-row tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-xo7-timeout-rows tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_scan-xo7-skipped-row-r38 tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE a_alt-longrow-copied tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_alt-longrow-multicap tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_alt-slug-deepest tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-slug-blob tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-erratum-manifest tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-erratum-sibling tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-erratum-short tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-erratum-upper tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-erratum-two tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-erratum-lessons tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-longrow-late tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_alt-slug-manifest tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-shorturl-sibling tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_alt-shorturl-samedir tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_err-f1-repaired-row-historical-erratum tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_err-f2-two-rows-provenance-two-errata tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_err-f3-stale-token-sibling-capture tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_err-f4-manifest-only-second-capture tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_err-f5-row-carrying-both-tokens tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_err-f6-provenance-bound-unknown-stale tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_row-na1-tail12 tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_row-na1-mid13 tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_row-na1-wide20 tool=anchor expect=reject declared=row-malformed observed_rc=1 observed=row-malformed ok
+FIXTURE a_url-org-slash-single tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_url-org-slash-registry tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_url-short-commit-pair tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE a_url-short-commit-shadow tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_alt-late-case-blob tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_alt-inplace-gate-rewrite tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_alt-fenced-echo tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_alt-two-echo-blobs tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_alt-bare-ok-late tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_alt-prefixed-ok-blob tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_excuse-echo-freeze-claims tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_excuse-gate-prefix-late tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_excuse-bare-excused tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE o_scan-n5a-late-gate-file tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_scan-n5b-amended-claims tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_scan-n5c-case-third-commit tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_scan-n22a-gate-only tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_scan-n22b-echoed-defect tool=order expect=reject declared=- observed_rc=1 observed=- ok
+FIXTURE o_scan-n22c-indented-gate tool=order expect=reject declared=- observed_rc=1 observed=- ok
+MUTANT U5N1 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+MUTANT U5N2 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+MUTANT U6N1 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+MUTANT U56N anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+MUTANT U7N1 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:98-99 'A token that resolves to several of the row's captures
+MUTANT U7N2 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:98-99 'A token that resolves to several of the row's captures
+MUTANT U7N3 anchor rc-mirror killed by=a_alt-erratum-lessons attributed=L539 value=differs hits=1 -- plans/anchor_digest_check.py:98-99 'A token that resolves to several of the row's captures
+MUTANT U9N1 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:106-107 'lessons are read from the working tree for paths com
+MUTANT U9N2 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:106-107 'lessons are read from the working tree' (strict deco
+MUTANT U9N3 anchor rc-mirror SURVIVED exhibits=0>2,1>2 -- plans/anchor_digest_check.py:106-107 'lessons are read from the working tree' (lessons rea
+MUTANT U14N1 order error SURVIVED exhibits=none -- plans/order_check.py:26-27 'Exit: 0 order holds · 1 order broken · 2 setup error (... unpa
+MUTANT U14N2 order error SURVIVED exhibits=none -- plans/order_check.py:26-27 'Exit: 0 order holds · 1 order broken · 2 setup error (... unpa
+MUTANT U14N3 order error SURVIVED exhibits=none -- plans/order_check.py:26-27 'Exit: 0 order holds · 1 order broken · 2 setup error (... unpa
+BATTERY fixtures=71 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=13 killed=1 survived=12 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=1/10 order=0/3
+ADVERTISED direct=13 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 20:43:51 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

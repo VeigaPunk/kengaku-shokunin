@@ -1,0 +1,30 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44PkgEntry/env /fast/scratch/hyaku/kengaku-r44/R44PkgEntry/env --bind /fast/scratch/hyaku/kengaku-r44/R44PkgEntry/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round44_c2_verify.py --lane /fast/scratch/hyaku/kengaku-r44/R44PkgEntry/lane --work /fast/scratch/hyaku/kengaku-r44/R44PkgEntry/w
+ENVELOPE start 20:37:47 cwd=/fast/scratch/hyaku/kengaku-r44/R44PkgEntry
+V1 ok listed=11 bad=0 extra=0
+    gate: P1 ok pinned=2 mismatched=0
+    gate: P2 ok receipt_sha256=pinned
+    gate: P3 ok rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=0
+    gate: P4 ok checked=22 bad=0 first=0
+    gate: P5 ok manifest_entries=11 bad=0 first=0
+    gate: P6 DEFECT rows=9 bad=9 first=S138: rows=0
+    gate: P7 ok source_lines=9 bad=0 first=0
+    gate: P8 DEFECT index_rows=50 knowledge_files=51 bad=3 first=index rows for knowledge/tb2-feal-linear-cryptanalysis-grader.md=0
+    gate: P9 DEFECT untracked=1 first=corpus/knowledge/tb2-feal-linear-cryptanalysis-grader.md
+    gate: P10 ok probe_rerun=byte-equal bytes=3630
+    gate: defects=3
+V2 DEFECT spec=frozen gate=frozen gate_exit=1
+V3 DEFECT rows=9 bad=['S138:row', 'S139:row', 'S140:row', 'S141:row', 'S142:row', 'S143:row', 'S144:row', 'S145:row', 'S146:row']
+V4 ok cases=14 mismatches_named=0/0 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 ok rows=4 tags=4 bad=0
+V8 ok order_exit=0 result=PASS
+V9 DEFECT case_rows=14/14 bad=['PROVINCE.md names the task and the entry on no line', 'README ## Frontier does not name the task']
+V10 ok mechanism_rows=14/14 bad=0
+V11 ok states=48 grader_pass=24 grader_fail=24 disagree=0
+checks=11 defects=3
+PREDICATE C2 fail
+ENVELOPE end 20:37:53 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+
+EXIT 1
+STDERR 

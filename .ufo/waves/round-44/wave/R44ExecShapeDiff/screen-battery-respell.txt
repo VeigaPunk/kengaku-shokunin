@@ -1,0 +1,18 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44ExecShapeDiff/env /fast/scratch/hyaku/kengaku-r44/R44ExecShapeDiff/env --bind /fast/scratch/hyaku/kengaku-r44/R44ExecShapeDiff/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-44/wave/R44ExecShapeDiff/shape_diff.py --battery /fast/scratch/hyaku/kengaku-r44/R44ExecShapeDiff/battery-respell
+ENVELOPE start 20:38:32 cwd=/home/vgpnk/Projects/shokunin
+SHAPE witness=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-44/claims/witness/w_u.py table=resolved
+SHAPE witness-fixtures=6 [u3_row_path u5_short u6_long u7_twin_captures u9_dirty_erratum u14c_odd_claims_name] helpers=4 [row lane repo u14_missing_claims_flag]
+SHAPE battery=/fast/scratch/hyaku/kengaku-r44/R44ExecShapeDiff/battery-respell modules=1 fixtures=2 helpers=2
+SHAPE pairs=40 enforced=12 threshold=0.80 flagged=4 advisory=2 max-enforced=0.961
+SHAPE max-pair rs_probe:rs_short ~ u5_short ratio=0.961
+FLAG 0.961 fixture rs_probe:rs_short ~ fixture u5_short
+FLAG 0.925 fixture rs_probe:rs_twin ~ fixture u7_twin_captures
+FLAG 0.884 fixture rs_probe:rs_short ~ fixture u6_long
+FLAG 0.869 fixture rs_probe:rs_short ~ fixture u3_row_path
+adv  1.000 helper  rs_probe:row ~ helper  row
+adv  1.000 helper  rs_probe:lane ~ helper  lane
+FIXTURE helper  rs_probe:row fid= best=0.665 vs u6_long (any-witness best=1.000 vs row)
+FIXTURE helper  rs_probe:lane fid= best=0.220 vs u7_twin_captures (any-witness best=1.000 vs lane)
+FIXTURE fixture rs_probe:rs_short fid=rs-short best=0.961 vs u5_short (any-witness best=0.961 vs u5_short)
+FIXTURE fixture rs_probe:rs_twin fid=rs-twin best=0.925 vs u7_twin_captures (any-witness best=0.925 vs u7_twin_captures)
+ENVELOPE end 20:38:34 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

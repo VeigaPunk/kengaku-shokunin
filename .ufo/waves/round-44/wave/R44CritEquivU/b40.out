@@ -1,0 +1,10 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44CritEquivU/env40 /fast/scratch/hyaku/kengaku-r44/R44CritEquivU/env40 --bind /fast/scratch/hyaku/kengaku-r44/R44CritEquivU/env40/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round44_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r44/R44CritEquivU/lane --battery-dir /fast/scratch/hyaku/kengaku-r44/R44CritEquivU/b40 --work /fast/scratch/hyaku/kengaku-r44/R44CritEquivU/w40
+ENVELOPE start 20:33:38 cwd=/home/vgpnk/Projects/shokunin
+PINS total=2 mismatched=0
+SETUP module b40/a_bind.py failed to build (rc=1): -builder.py", line 71, in build_module_child
+    argv = fx["build"](ctx, d)
+  File "/fast/scratch/hyaku/kengaku-r44/R44CritEquivU/w40/k44-c1-0wifg8qw/mods/mod_a_bind.py", line 54, in build_a27
+    lane = ctx.clone(d / "lane")
+           ^^^^^^^^^
+AttributeError: 'Ctx' object has no attribute 'clone'
+ENVELOPE end 20:33:39 exit=2 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

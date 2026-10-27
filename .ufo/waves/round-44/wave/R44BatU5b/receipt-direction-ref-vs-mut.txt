@@ -1,0 +1,27 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44BatU5b/env /fast/scratch/hyaku/kengaku-r44/R44BatU5b/env --bind /fast/scratch/hyaku/kengaku-r44/R44BatU5b/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash -c python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round44_c1_verify.py --build-module /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-44/wave/R44BatU5b/battery/u5_short_b.py --dest /fast/scratch/hyaku/kengaku-r44/R44BatU5b/fx > /fast/scratch/hyaku/kengaku-r44/R44BatU5b/built.txt && python3 /fast/scratch/hyaku/kengaku-r44/R44BatU5b/demo.py
+ENVELOPE start 20:34:00 cwd=/fast/scratch/hyaku/kengaku-r44/R44BatU5b
+u5_short_b-registry-url-task ref argv=['--lane', '.'] rc=1
+    DEFECT S138 anchor token=eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee class=digest-short detail=63-hex loc=corpus/SOURCES.md:7
+    rows=6 tokens=2 defects=1
+u5_short_b-registry-url-task mut argv=['--lane', '.'] rc=1
+    DEFECT S138 anchor token=eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee class=digest-long detail=63-hex loc=corpus/SOURCES.md:7
+    rows=6 tokens=2 defects=1
+u5_short_b-index-ref-staged ref argv=['--lane', '.', '--evidence-ref', 'index'] rc=1
+    DEFECT S202 anchor token=0badc0de class=digest-short detail=8-hex loc=corpus/SOURCES.md:6
+    rows=2 tokens=1 defects=1
+u5_short_b-index-ref-staged mut argv=['--lane', '.', '--evidence-ref', 'index'] rc=1
+    DEFECT S202 anchor token=0badc0de class=digest-long detail=8-hex loc=corpus/SOURCES.md:6
+    rows=2 tokens=1 defects=1
+u5_short_b-lane-path-manifest ref argv=['--lane', '.', '--verbose'] rc=1
+    DEFECT S302 anchor token=0123456789abcdef0123456789abcdef01234567 class=digest-short detail=40-hex loc=corpus/SOURCES.md:11
+    rows=9 tokens=2 defects=1
+u5_short_b-lane-path-manifest mut argv=['--lane', '.', '--verbose'] rc=1
+    DEFECT S302 anchor token=0123456789abcdef0123456789abcdef01234567 class=digest-long detail=40-hex loc=corpus/SOURCES.md:11
+    rows=9 tokens=2 defects=1
+u5_short_b-history-truncation ref argv=['--lane', '.'] rc=1
+    DEFECT S400 anchor token=3d9da2ad3236a2b08daa class=digest-short detail=20-hex loc=corpus/SOURCES.md:5
+    rows=2 tokens=1 defects=1
+u5_short_b-history-truncation mut argv=['--lane', '.'] rc=1
+    DEFECT S400 anchor token=3d9da2ad3236a2b08daa class=digest-long detail=20-hex loc=corpus/SOURCES.md:5
+    rows=2 tokens=1 defects=1
+ENVELOPE end 20:34:02 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

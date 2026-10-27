@@ -1,0 +1,85 @@
+# R44S134Erratum measurements (read-only; lane /home/vgpnk/Projects/shokunin/kengaku-shokunin)
+2026-10-26 20:38:29 -03
+
+## 1. README.md line count / final byte
+$ wc -l "/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round43/tb2-feal-differential-cryptanalysis/README.md"
+34 /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round43/tb2-feal-differential-cryptanalysis/README.md
+$ awk 'END{print NR}' "/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round43/tb2-feal-differential-cryptanalysis/README.md"
+35
+$ grep -c '' "/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round43/tb2-feal-differential-cryptanalysis/README.md"
+35
+$ wc -c "/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round43/tb2-feal-differential-cryptanalysis/README.md"
+1603 /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round43/tb2-feal-differential-cryptanalysis/README.md
+$ tail -c 1 "/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round43/tb2-feal-differential-cryptanalysis/README.md" | od -An -c
+   t
+$ sed -n '35p' "/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round43/tb2-feal-differential-cryptanalysis/README.md"
+4. Confirms the attack completes within the time limit
+$ sed -n '36p' "/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round43/tb2-feal-differential-cryptanalysis/README.md" | od -An -c
+$ sha256sum "/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round43/tb2-feal-differential-cryptanalysis/README.md"
+887407c78513837d93f02231998419a0ce9b0cc0a0c600ed86cd30df5cb24e7f  /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round43/tb2-feal-differential-cryptanalysis/README.md
+$ grep -n 'README' "/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round43/tb2-feal-differential-cryptanalysis/SHA256SUMS"
+2:887407c78513837d93f02231998419a0ce9b0cc0a0c600ed86cd30df5cb24e7f  README.md
+
+## 2. feal.c line count / final byte
+$ wc -l "/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round43/tb2-feal-differential-cryptanalysis/feal.c"
+99 /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round43/tb2-feal-differential-cryptanalysis/feal.c
+$ awk 'END{print NR}' "/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round43/tb2-feal-differential-cryptanalysis/feal.c"
+100
+$ tail -c 1 "/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round43/tb2-feal-differential-cryptanalysis/feal.c" | od -An -c
+   }
+
+## 3. capture manifest
+$ (cd /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round43/tb2-feal-differential-cryptanalysis && sha256sum -c SHA256SUMS)
+Dockerfile: OK
+README.md: OK
+feal.c: OK
+feal.h: OK
+feal.py: OK
+feal_module.c: OK
+instruction.md: OK
+setup.py: OK
+solve.sh: OK
+task.toml: OK
+test.sh: OK
+test_outputs.py: OK
+rc=0
+
+## 4. entry citations
+$ grep -n 'S134' "/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md" | head -2
+6:source: S134 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/feal-differential-cryptanalysis/README.md — the authors' own README for this task, lines 1-34, same commit, accessed 2026-10-26
+61:never from S130, and the requirement map below records exactly where the two disagree. S134 is the authors' prose
+$ grep -on 'README\.md:[0-9]*\(-[0-9]*\)\?' "/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md"
+42:README.md:35
+148:README.md:35
+186:README.md:35
+368:README.md:42
+$ grep -o 'feal\.c:[0-9]*\(-[0-9]*\)\?' "/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md" | sort -u
+feal.c:30-53 feal.c:56-68 feal.c:6 feal.c:60-62 feal.c:65 feal.c:66 feal.c:76-77 feal.c:83-88 feal.c:84 
+
+## 5. SOURCES rows S132/S134 (span + digest, tail cut)
+147:| S132 | Terminal-Bench 2.0 feal-differential-cryptanalysis reference cipher (tests/feal.c) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/feal-differential-cryptanalysis/tests/feal.c | code | A | the reference FEAL-like cipher and its key schedule at a pinned commit: the clock-seeded rand derivation and the four-round Feistel core a differential attack is aimed at | commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, feal.c:1-100, :66 "key[i] = (x * 1234567) & 0xFFFFFFFF" (7 words); sha256 bd4e9fb3… | create_random_keys seeds one srand(time(NULL)) per process and derives six keys as (rand() & 0xFFFF) * 1234567, which encrypt then uses across whitening, pre-mixing, four rounds and post-mixing | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md |
+149:| S134 | Terminal-Bench 2.0 feal-differential-cryptanalysis README (README.md) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/feal-differential-cryptanalysis/README.md | docs | A | the task's own README at a pinned commit: the environment, resources and time limits it states, the verification steps it claims, and the skills it says are tested | commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, README.md:1-35, :35 "Confirms the attack completes within the time limit" (8 words); sha256 887407c7… | states one CPU, 2048 MB, 30 minutes for the agent and 30 seconds for the attack, and claims the test confirms the time limit although test_outputs.py never times the call | mined | 2026-10-26 | 180d | corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md |
+
+## 6. corpus-wide sweep: source: spans vs SOURCES row spans
+source: lines carrying a span: 19; comparing to SOURCES row span for the same file: agree=15 mismatch=2 no-span-in-row=2
+MISMATCH ('tb2-feal-differential-cryptanalysis-grader.md', 4, 'S132', 'feal.c', '1-99', '1-100')
+MISMATCH ('tb2-feal-differential-cryptanalysis-grader.md', 6, 'S134', 'README.md', '1-34', '1-35')
+
+## 7. upstream re-fetch (pinned raw URL)
+http=200 bytes=1603 sha=887407c78513837d93f02231998419a0ce9b0cc0a0c600ed86cd30df5cb24e7f cmp=identical (curl -fsS --max-time 30 -o scratch/README.upstream.md <pinned URL>; sha256sum; cmp capture)
+
+## 8. gate A/B (append proposed erratum to a scratch clone only)
+baseline clone lane2: P1-P8 ok, defects=0, exit=0; appended clone lane: P1-P8 ok, defects=0, exit=0; clause lines identical (diff empty). See gate2-baseline.txt / gate2-appended.txt in this directory.
+
+## 7 (live re-run). upstream re-fetch
+$ curl -fsS --max-time 30 -o /fast/scratch/hyaku/kengaku-r44/R44S134Erratum/README.upstream.md -w 'http=%{http_code} bytes=%{size_download}' "https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/feal-differential-cryptanalysis/README.md"
+http=200 bytes=1603
+$ sha256sum /fast/scratch/hyaku/kengaku-r44/R44S134Erratum/README.upstream.md
+887407c78513837d93f02231998419a0ce9b0cc0a0c600ed86cd30df5cb24e7f  /fast/scratch/hyaku/kengaku-r44/R44S134Erratum/README.upstream.md
+$ cmp /fast/scratch/hyaku/kengaku-r44/R44S134Erratum/README.upstream.md /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round43/tb2-feal-differential-cryptanalysis/README.md
+cmp: identical (exit 0)
+$ wc -l / awk NR on the fresh copy
+34
+35
+$ tail -c 1 fresh | od -An -c
+   t

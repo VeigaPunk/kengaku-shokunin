@@ -1,0 +1,22 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44RoutedQuality/env /fast/scratch/hyaku/kengaku-r44/R44RoutedQuality/env --bind /fast/scratch/hyaku/kengaku-r44/R44RoutedQuality/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash -c cd /fast/scratch/hyaku/kengaku-r44/R44RoutedQuality/lane && for cmd in "python3 .ufo/waves/round-42/build/R42QualityDraft/carried_vs_rederived.py /fast/scratch/hyaku/kengaku-r44/R44RoutedQuality/lane" "python3 .ufo/waves/round-42/build/R42QualityDraft/sources_appendonly.py /fast/scratch/hyaku/kengaku-r44/R44RoutedQuality/lane" "python3 .ufo/waves/round-42/build/R42QualityDraft/sources_appendonly.py --lane ." "python3 .ufo/waves/round-42/build/R42QualityDraft/carried_vs_rederived.py --lane ." "python3 plans/routed_open.py --lane /fast/scratch/hyaku/kengaku-r44/R44RoutedQuality/lane --observe"; do out=$(eval "$cmd" 2>&1); rc=$?; echo "CMD $cmd"; echo "$out" | tail -2; echo "RC $rc"; done
+ENVELOPE start 20:37:27 cwd=/fast/scratch/hyaku/kengaku-r44/R44RoutedQuality/lane
+CMD python3 .ufo/waves/round-42/build/R42QualityDraft/carried_vs_rederived.py /fast/scratch/hyaku/kengaku-r44/R44RoutedQuality/lane
+CARRIED XO7 round40=rc-silence               round42=rc-silence same fixture=w-xo7-case-timeout attributed=L55
+CARRIED-DIRECTIONS total=14 differ=2 ids=XO5,XO6
+RC 0
+CMD python3 .ufo/waves/round-42/build/R42QualityDraft/sources_appendonly.py /fast/scratch/hyaku/kengaku-r44/R44RoutedQuality/lane
+CELL 53b9e4e5 S124 anchor repair_row=none
+SOURCES-APPENDONLY violations=15 arity=0
+RC 1
+CMD python3 .ufo/waves/round-42/build/R42QualityDraft/sources_appendonly.py --lane .
+SETUP git log failed: fatal: cannot change to '--lane': No such file or directory
+RC 2
+CMD python3 .ufo/waves/round-42/build/R42QualityDraft/carried_vs_rederived.py --lane .
+                ~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '--lane/.ufo/waves/round-40/falsify/F40XMutAnchor.md'
+RC 1
+CMD python3 plans/routed_open.py --lane /fast/scratch/hyaku/kengaku-r44/R44RoutedQuality/lane --observe
+ROWS total=60 open=38 blocked=1 closed=21 refused=0
+routed_open=39 oldest_round=39
+RC 0
+ENVELOPE end 20:37:29 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

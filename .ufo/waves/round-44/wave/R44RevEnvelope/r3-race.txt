@@ -1,0 +1,12 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/env-race /fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/env-race --bind /fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/env-race/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /bin/sh -c 
+O=/fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/race-orig
+M=/fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/race-mid.txt
+cp "$RDBIN/tool" "$O"
+printf "pwned %s\n" "$(date +%T)" > "$RDBIN/tool"
+cp "$RDBIN/tool" "$M"
+cp "$O" "$RDBIN/tool"
+cmp -s "$O" "$RDBIN/tool"; echo "inner restored rc=$?"
+
+ENVELOPE start 20:44:23 cwd=/fast/scratch/hyaku/kengaku-r44/R44RevEnvelope
+inner restored rc=0
+ENVELOPE end 20:44:23 exit=0 local_bin_content_before=57270edc3fc222c5 after=57270edc3fc222c5 unchanged

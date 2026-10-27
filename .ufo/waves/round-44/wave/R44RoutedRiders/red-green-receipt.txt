@@ -1,0 +1,53 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44RoutedRiders/env15 /fast/scratch/hyaku/kengaku-r44/R44RoutedRiders/env15 --bind /fast/scratch/hyaku/kengaku-r44/R44RoutedRiders/env15/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /fast/scratch/hyaku/kengaku-r44/R44RoutedRiders/final-receipt.sh /fast/scratch/hyaku/kengaku-r44/R44RoutedRiders/lane10
+ENVELOPE start 20:41:59 cwd=/home/vgpnk/Projects/shokunin
+-- clone: /fast/scratch/hyaku/kengaku-r44/R44RoutedRiders/lane10 @ 5e3d3aa, 0 modified
+
+== BEFORE any patch ==
+  R39-R2: rc=1 | Traceback (most recent call last):
+  R42-R3-26: rc=1 | CHECK red reason=sentinel-unreadable:Permission denied round=None want=* seats=0
+  R42-R6: grep_rc=1 (0 case line)
+  R42-R3-27: reported=36 test_rc=1 | SELFTEST ok=36/36 
+  round39-c2:
+  checks=7 defects=0 PREDICATE C2 pass 
+
+== + 02 (scratch_guard 1->2) ==
+  R39-R2: rc=1 | Traceback (most recent call last):
+  R42-R3-26: rc=2 | SETUP root-untrusted root=/fast/scratch/hyaku/kengaku-r44/R44RoutedRiders/tmp.HknLfWamjx reason
+  R42-R6: grep_rc=1 (0 case line)
+  R42-R3-27: reported=36 test_rc=1 | SELFTEST ok=36/36 
+
+== + 01 (probe scratch parent; 02,01) ==
+  R39-R2: rc=2 | SETUP scratch parent /fast/scratch/hyaku/kengaku-r44/R44RoutedRiders/tmp.RVMRJJJMhy/absent cann
+  R42-R3-26: rc=2 | SETUP root-untrusted root=/fast/scratch/hyaku/kengaku-r44/R44RoutedRiders/tmp.wDfiHLTMtz reason
+  R42-R6: grep_rc=1 (0 case line)
+  R42-R3-27: reported=36 test_rc=1 | SELFTEST ok=36/36 
+  round39-c2 now (probe patched, pins untouched):
+  checks=7 defects=2 PREDICATE C2 fail 
+
+== + 03 (selftest case; 02,01,03) ==
+  R39-R2: rc=2 | SETUP scratch parent /fast/scratch/hyaku/kengaku-r44/R44RoutedRiders/tmp.ZwukVG0pLw/absent cann
+  R42-R3-26: rc=2 | SETUP root-untrusted root=/fast/scratch/hyaku/kengaku-r44/R44RoutedRiders/tmp.mx5gG6Bj3X reason
+  R42-R6: grep_rc=0 (1 case line)
+  R42-R3-27: reported=37 test_rc=0 | SELFTEST ok=37/37 
+
+== + 01b (round-39 re-pin; all four) ==
+  R39-R2: rc=2 | SETUP scratch parent /fast/scratch/hyaku/kengaku-r44/R44RoutedRiders/tmp.02oVdsTKr0/absent cann
+  R42-R3-26: rc=2 | SETUP root-untrusted root=/fast/scratch/hyaku/kengaku-r44/R44RoutedRiders/tmp.HpFaaMjgF7 reason
+  R42-R6: grep_rc=0 (1 case line)
+  R42-R3-27: reported=37 test_rc=0 | SELFTEST ok=37/37 
+  round39-c2 landed:
+  checks=7 defects=0 PREDICATE C2 pass 
+
+== frozen dry table ==
+  cmp_rc=0 (wants 0)
+
+== patched digests ==
+f28d2db2cbda8e62110ec3f2f707394079cfe3e92cdf1e06cd75748324f19965  plans/git_leak_probe.py
+43bff44cf3c8d14cb1120c75c12897133d06662e4e2898c3ca04d495666f9dcf  plans/pkg-spec-r39.json
+d35a1f7cd13412e1c152248be344e799070f89269aeacf5a5e5154fd6c459968  plans/round39_c2_verify.py
+b232262341b34942985fd7351ed502dbf7bd8377d766083f123e3c1f3e330d8f  plans/scratch_guard.py
+ M plans/git_leak_probe.py
+ M plans/pkg-spec-r39.json
+ M plans/round39_c2_verify.py
+ M plans/scratch_guard.py
+ENVELOPE end 20:42:07 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

@@ -1,0 +1,13 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44ExecShapeDiff/env /fast/scratch/hyaku/kengaku-r44/R44ExecShapeDiff/env --bind /fast/scratch/hyaku/kengaku-r44/R44ExecShapeDiff/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-44/wave/R44ExecShapeDiff/shape_diff.py --selftest
+ENVELOPE start 20:38:23 cwd=/home/vgpnk/Projects/shokunin
+SELFTEST witness=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-44/claims/witness/w_u.py table=resolved fixtures=6 helpers=4
+SELFTEST self fixtures=6 self-pairs-flagged=6/6 all1.0=yes
+SELFTEST self off-diagonal-flagged=4 (informational: witness near-variants)
+SELFTEST self near 0.930 w_u:u14_missing_claims_flag ~ w_u:u14c_odd_claims_name
+SELFTEST self near 0.927 w_u:u3_row_path ~ w_u:u6_long
+SELFTEST self near 0.924 w_u:u5_short ~ w_u:u6_long
+SELFTEST self near 0.913 w_u:u3_row_path ~ w_u:u5_short
+SELFTEST control battery=/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/battery43 fixtures=42 pairs=630 enforced=252 flagged=0 advisory=1 max-enforced=0.577
+SELFTEST control advisory 0.823 a_alt:row ~ row
+SELFTEST RESULT pass
+ENVELOPE end 20:38:28 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

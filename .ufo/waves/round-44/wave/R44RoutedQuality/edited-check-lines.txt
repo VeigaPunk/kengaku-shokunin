@@ -1,0 +1,10 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44RoutedQuality/env /fast/scratch/hyaku/kengaku-r44/R44RoutedQuality/env --bind /fast/scratch/hyaku/kengaku-r44/R44RoutedQuality/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash -c cd /fast/scratch/hyaku/kengaku-r44/R44RoutedQuality/lane && echo "== Q33(a) as edited =="; python3 .ufo/waves/round-42/build/R42QualityDraft/carried_vs_rederived.py . 2>&1 | tail -2; echo "== Q34 Check as edited =="; python3 .ufo/waves/round-42/build/R42QualityDraft/sources_appendonly.py . 2>&1 | tail -3
+ENVELOPE start 20:39:59 cwd=/fast/scratch/hyaku/kengaku-r44/R44RoutedQuality/lane
+== Q33(a) as edited ==
+CARRIED XO7 round40=rc-silence               round42=rc-silence same fixture=w-xo7-case-timeout attributed=L55
+CARRIED-DIRECTIONS total=14 differ=2 ids=XO5,XO6
+== Q34 Check as edited ==
+CELL ec172168 S052 anchor repair_row=none
+CELL 53b9e4e5 S124 anchor repair_row=none
+SOURCES-APPENDONLY violations=15 arity=0
+ENVELOPE end 20:40:00 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

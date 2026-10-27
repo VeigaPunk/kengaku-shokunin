@@ -1,0 +1,10 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/env /fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/env --bind /fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /bin/sh -c 
+mkdir -p /fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/decoy-sibling
+echo owned-by-envelope-run > /fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/decoy-sibling/owned.txt
+echo scratch-and-tmp-unpoliced > /tmp/r44-env-probe-R44RevEnvelope
+echo host-var-tmp-write > /var/tmp/r44-env-probe-R44RevEnvelope
+echo inner: wrote decoy-sibling/owned.txt, /tmp probe, /var/tmp probe
+
+ENVELOPE start 20:43:46 cwd=/fast/scratch/hyaku/kengaku-r44/R44RevEnvelope
+inner: wrote decoy-sibling/owned.txt, /tmp probe, /var/tmp probe
+ENVELOPE end 20:43:48 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

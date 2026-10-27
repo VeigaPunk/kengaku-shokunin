@@ -1,0 +1,71 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44PytestParity/env /fast/scratch/hyaku/kengaku-r44/R44PytestParity/env --bind /fast/scratch/hyaku/kengaku-r44/R44PytestParity/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r44/R44PytestParity/detail.py
+ENVELOPE start 20:34:33 cwd=/fast/scratch/hyaku/kengaku-r44/R44PytestParity
+===== case oracle-solve-sh recipe_rc=0
+----- pytest rc=0
+============================= test session starts ==============================
+platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r44/R44PytestParity/uvcache/archive-v0/Aadq8YYixHwc33gl/bin/python
+cachedir: .pytest_cache
+rootdir: /tests
+collecting ... collected 1 item
+
+../tests/test_outputs.py::test_attack PASSED                             [100%]
+
+=============================== warnings summary ===============================
+../fast/scratch/hyaku/kengaku-r44/R44PytestParity/uvcache/archive-v0/Aadq8YYixHwc33gl/lib/python3.13/site-packages/_pytest/cacheprovider.py:475
+  /fast/scratch/hyaku/kengaku-r44/R44PytestParity/uvcache/archive-v0/Aadq8YYixHwc33gl/lib/python3.13/site-packages/_pytest/cacheprovider.py:475: PytestCacheWarning: could not create cache path /tests/.pytest_cache/v/cache/nodeids: [Errno 30] Read-only file system: '/tests/pytest-cache-files-mhxse5hh'
+    config.cache.set("cache/nodeids", sorted(self.cached_nodeids))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED ../tests/test_outputs.py::test_attack
+========================= 1 passed, 1 warning in 0.01s =========================
+
+===== case hex-output recipe_rc=0
+----- pytest rc=1
+============================= test session starts ==============================
+platform linux -- Python 3.13.16, pytest-8.4.1, pluggy-1.7.0 -- /fast/scratch/hyaku/kengaku-r44/R44PytestParity/uvcache/archive-v0/Aadq8YYixHwc33gl/bin/python
+cachedir: .pytest_cache
+rootdir: /tests
+collecting ... collected 1 item
+
+../tests/test_outputs.py::test_attack FAILED                             [100%]
+
+=================================== FAILURES ===================================
+_________________________________ test_attack __________________________________
+
+    def test_attack():
+        """
+        Test that the linear cryptanalysis attack correctly decrypts all ciphertexts.
+    
+        This test verifies that:
+        1. The attack successfully performs linear cryptanalysis on FEAL cipher
+        2. All ciphertexts from ciphertexts.txt are correctly decrypted
+        3. The resulting plaintexts match the expected decrypted values
+    
+        The test checks that each of the 100 expected plaintext values
+        (representing the decrypted results of the ciphertexts) appears
+        in the generated plaintexts.txt file, confirming successful
+        key recovery and decryption through linear cryptanalysis.
+        """
+        data = open("/app/plaintexts.txt").read()
+        for c in soln.split():
+>           assert c in data
+E           AssertionError: assert '1050628112036199672' in '0xe9494b390f4fcf8\n0xd1b00cbfee685699\n0x8cfd30c570f21a79\n0xf1cff789346dd0e7\n0xdbedc8739566bc28\n0xc07d459bd71bce80\n0xd02b4e4158822f8c\n0x243e7d0468d97e5\n0x37d7a6e935e2de26\n0xab973d4fc7d30979\n0x7214358998e4bc91\n0x9494c422a55812ae\n0xe3321697b02c0259\n0xe29df1941b879e76\n0x833a6810e14c7ce8\n0xd98082a8af5f83d8\n0x54b60d3f60e56013\n0x9bfcddd0eb7ffbc4\n0x8fa12a1e1fca4676\n0x510320eaad9d7875\n0x3bb113958529329d\n0xae5aca9059dc2de1\n0x148735cecd5bb73\n0xa49e556709cc1d76\n0xf7bcd1e39fa93aa2\n0xca4ded6ac37e277d\n0x12ccf48738c6717b\n0x4955223f43fae0ad\n0x5561f84300a20a42\n0x9e579bf1aa490b6b\n0xc7ba39956cd25b4b\n0x7b2782e82ea458fa\n0x180c0e4d7da3a85c\n0xa35cef07483c1dd5\n0x44f9850cd12c0a0b\n0xf8f3d91bec5d0c82\n0x52b71f8a1ca117fc\n0xd3cfb5ec7bd85247\n0xaf253ae0428c695e\n0x6d8478aba2632f51\n0xa4f5e619f6d89f87\n0xf00a97f58142c5c3\n0xc42a42282f0fe01e\n0x11d44613292f1fc\n0x1ea8d2faaf02a053\n0x82ad75b156d5eba7\n0x338757488ff44c0d\n0x53e6e2b767f0e0ee\n0xb869b0d0e3f8f493\n0x576ca3447ec7fbb7\n0x7f5f5100fad2706d\n0xe88124e22fe83c4b\n0x96193ff17ac86019\n0xfb5cfcc167991fe9\n0x94d3175a638ab690\n0xeab2252fefdee66a\n0x4f5f7ce9e0cdd107\n0x21114ab0ba2d82a2\n0xcae51db7474c2d4\n0x1f0202043080e111\n0x5fc4562c27912d39\n0x5f8f4466711cad48\n0xbbfe81a6c5e7baac\n0x43add01c67c4276e\n0xfc522553a99f5da0\n0x201436a98efd3f97\n0xe2561de7b418d4ac\n0xe882c4ccd0790f02\n0x6b5d225cd2665678\n0x91a97edf3ce1defe\n0x192cf80c20118e01\n0x848e923480da0948\n0x7b7b59b6bae40562\n0x33b3e3e7dfa47250\n0x669838e60f5fd0fd\n0x5fe55ccc58e1dd1c\n0xe5c473d55552a379\n0x483f5a349bc2523a\n0xe041b52481393fab\n0xaf3fb5f5db5c558e\n0xef8504deca9dbe94\n0xc02af930307bbce1\n0xf82bc83382da909f\n0xaf93468f46ba1e3f\n0x1d9910fec9aaeb15\n0xc6d038c95984a3e3\n0xa7f7a457728883d4\n0x1a92dd024bb29709\n0xc1c358fd5d231cfa\n0xe3ac7ba0d42ca525\n0x86ef5fe66541fc19\n0xfa5db5f97e7aca95\n0xd937b518ecad9bd8\n0x8a24a0fe054003e0\n0x931a6b458d74d874\n0xd65876b88e5df40e\n0x885d53800a1d8599\n0x1faa7cd3405a5779\n0x4a32721e50b302f1\n0xd3c57f464c567b06\n'
+
+/tests/test_outputs.py:122: AssertionError
+=============================== warnings summary ===============================
+../fast/scratch/hyaku/kengaku-r44/R44PytestParity/uvcache/archive-v0/Aadq8YYixHwc33gl/lib/python3.13/site-packages/_pytest/cacheprovider.py:475
+  /fast/scratch/hyaku/kengaku-r44/R44PytestParity/uvcache/archive-v0/Aadq8YYixHwc33gl/lib/python3.13/site-packages/_pytest/cacheprovider.py:475: PytestCacheWarning: could not create cache path /tests/.pytest_cache/v/cache/nodeids: [Errno 30] Read-only file system: '/tests/pytest-cache-files-grhhvraf'
+    config.cache.set("cache/nodeids", sorted(self.cached_nodeids))
+
+../fast/scratch/hyaku/kengaku-r44/R44PytestParity/uvcache/archive-v0/Aadq8YYixHwc33gl/lib/python3.13/site-packages/_pytest/cacheprovider.py:429
+  /fast/scratch/hyaku/kengaku-r44/R44PytestParity/uvcache/archive-v0/Aadq8YYixHwc33gl/lib/python3.13/site-packages/_pytest/cacheprovider.py:429: PytestCacheWarning: could not create cache path /tests/.pytest_cache/v/cache/lastfailed: [Errno 30] Read-only file system: '/tests/pytest-cache-files-_ao0zfuf'
+    config.cache.set("cache/lastfailed", self.lastfailed)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED ../tests/test_outputs.py::test_attack - AssertionError: assert '105062...
+======================== 1 failed, 2 warnings in 0.01s =========================
+
+ENVELOPE end 20:34:35 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

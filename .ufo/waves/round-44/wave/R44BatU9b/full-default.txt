@@ -1,0 +1,20 @@
+Module copied into the clone at lane/plans/battery44/u9_worktree_b.py (clone is the only writable plans/
+tree; never committed).  Command: the full default counter, no --only, no --battery-dir.
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44BatU9b/envfull /fast/scratch/hyaku/kengaku-r44/R44BatU9b/envfull --bind /fast/scratch/hyaku/kengaku-r44/R44BatU9b/envfull/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round44_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r44/R44BatU9b/lane --work /fast/scratch/hyaku/kengaku-r44/R44BatU9b/w2
+ENVELOPE start 20:34:44 cwd=/fast/scratch/hyaku/kengaku-r44/R44BatU9b
+PINS total=2 mismatched=0
+FIXTURE u9_worktree_b-registry-erratum-appended tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u9_worktree_b-erratum-retargeted-history tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u9_worktree_b-erratum-completed-in-place tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT U5 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+MUTANT U6 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+MUTANT U7 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:98-99 'A token that resolves to several of the row's captures
+MUTANT U9 anchor rc-mirror killed by=u9_worktree_b-registry-erratum-appended attributed=L384 value=differs hits=3 -- plans/anchor_digest_check.py:106-107 'lessons are read from the working tree for paths com
+MUTANT U14c order error SURVIVED exhibits=none -- plans/order_check.py:26-27 'Exit: 0 order holds · 1 order broken · 2 setup error (... unpa
+BATTERY fixtures=3 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=5 killed=1 survived=4 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=1/4 order=0/1
+ADVERTISED direct=5 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 fail
+ENVELOPE end 20:34:46 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

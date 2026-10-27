@@ -1,0 +1,9 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/env /fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/env --bind /fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /bin/sh -c 
+echo "run-B sees marker: $(cat /home/vgpnk/.cache/evil/marker)"
+echo "run-B executes planted script:"; sh /home/vgpnk/.cache/evil/poison.sh
+
+ENVELOPE start 20:44:24 cwd=/fast/scratch/hyaku/kengaku-r44/R44RevEnvelope
+run-B sees marker: planted-by-run-A 20:43:46
+run-B executes planted script:
+poisoned-from-cache-overlay
+ENVELOPE end 20:44:26 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

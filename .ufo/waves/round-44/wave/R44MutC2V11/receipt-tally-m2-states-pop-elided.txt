@@ -1,0 +1,10 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44MutC2V11/env-tally-m2-states-pop-elided /fast/scratch/hyaku/kengaku-r44/R44MutC2V11/env-tally-m2-states-pop-elided --bind /fast/scratch/hyaku/kengaku-r44/R44MutC2V11/env-tally-m2-states-pop-elided/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-44/wave/R44MutC2V11/draft-c2-tally-pin.py /fast/scratch/hyaku/kengaku-r44/R44MutC2V11/w-tally-m2-states-pop-elided
+ENVELOPE start 20:42:28 cwd=/fast/scratch/hyaku/kengaku-r44/R44MutC2V11/m2-states-pop-elided
+CONTROL generator states_sha=5b5f1dca10d6d050 required=a8a5de5b32505f32 DEFECT
+CONTROL predictor=always-true V11 DEFECT states=48 grader_pass=27 grader_fail=21 disagree=21 at=drop-three#3,hex#6,bump-one#8,absent#9,empty#10,split-one#12 required=DEFECT
+CONTROL predictor=token-set V11 DEFECT states=48 grader_pass=27 grader_fail=21 disagree=12 at=concat#4,zero-pad#5,comma#11,prefixed-digit#15,concat#20,zero-pad#21 required=DEFECT
+CONTROL predictor=exact-lines V11 DEFECT states=48 grader_pass=27 grader_fail=21 disagree=18 at=concat#4,zero-pad#5,decoys#7,comma#11,duplicated#13,prefixed-digit#15 required=DEFECT
+CONTROL tally note='states=48 grader_pass=27 grader_fail=21 disagree=0' required='states=48 grader_pass=24 grader_fail=24 disagree=0' DEFECT
+CONTROL predictor=substring V11 ok states=48 grader_pass=27 grader_fail=21 disagree=0 required=ok
+CONTROL-C2-TALLY-PIN NOT-AS-REQUIRED
+ENVELOPE end 20:42:30 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

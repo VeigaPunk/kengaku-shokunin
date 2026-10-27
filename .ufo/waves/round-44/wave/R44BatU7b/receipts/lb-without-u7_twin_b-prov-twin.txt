@@ -1,0 +1,13 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44BatU7b/env /fast/scratch/hyaku/kengaku-r44/R44BatU7b/env --bind /fast/scratch/hyaku/kengaku-r44/R44BatU7b/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round44_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r44/R44BatU7b/lane --battery-dir /fast/scratch/hyaku/kengaku-r44/R44BatU7b/lb/u7_twin_b-prov-twin --only U7 --work /fast/scratch/hyaku/kengaku-r44/R44BatU7b/w-u7_twin_b-prov-twin
+ENVELOPE start 20:37:02 cwd=/home/vgpnk/Projects/shokunin
+PINS total=2 mismatched=0
+FIXTURE u7_twin_b-url-trio-identical tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u7_twin_b-mixed-trio tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT U7 anchor rc-mirror killed by=u7_twin_b-url-trio-identical attributed=L539 value=differs hits=2 -- plans/anchor_digest_check.py:98-99 'A token that resolves to several of the row's captures
+BATTERY fixtures=2 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=1 killed=1 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=1/1 order=0/0
+ADVERTISED direct=1 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 20:37:04 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

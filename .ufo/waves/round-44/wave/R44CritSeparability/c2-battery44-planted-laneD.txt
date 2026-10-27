@@ -1,0 +1,27 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44CritSeparability/env4 /fast/scratch/hyaku/kengaku-r44/R44CritSeparability/env4 --bind /fast/scratch/hyaku/kengaku-r44/R44CritSeparability/env4/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round44_c2_verify.py --lane /fast/scratch/hyaku/kengaku-r44/R44CritSeparability/laneD --work /fast/scratch/hyaku/kengaku-r44/R44CritSeparability/w4
+ENVELOPE start 20:34:30 cwd=/home/vgpnk/Projects/shokunin
+V1 ok listed=11 bad=0 extra=0
+    gate: P1 ok pinned=2 mismatched=0
+    gate: P2 ok receipt_sha256=pinned
+    gate: P3 DEFECT no '## Located quotes' section
+    gate: P4 DEFECT no parsed quote
+    gate: P5 ok manifest_entries=11 bad=0 first=0
+    gate: P6 DEFECT rows=9 bad=9 first=S138: rows=0
+    gate: P7 DEFECT entry unreadable
+    gate: P8 DEFECT index_rows=50 knowledge_files=50 bad=2 first=index rows for knowledge/tb2-feal-linear-cryptanalysis-grader.md=0
+    gate: P9 DEFECT untracked=1 first=plans/battery44/sep-placeholder.py
+    gate: P10 ok probe_rerun=byte-equal bytes=3630
+    gate: defects=6
+V2 DEFECT spec=frozen gate=frozen gate_exit=1
+V3 DEFECT rows=9 bad=['S138:row', 'S139:row', 'S140:row', 'S141:row', 'S142:row', 'S143:row', 'S144:row', 'S145:row', 'S146:row']
+V4 DEFECT receipt or entry absent
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 DEFECT receipt or entry absent
+V8 ok order_exit=0 result=PASS
+V9 DEFECT receipt, entry, PROVINCE.md or README absent
+V10 DEFECT receipt or entry absent
+V11 DEFECT entry absent
+checks=11 defects=7
+PREDICATE C2 fail
+ENVELOPE end 20:34:37 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

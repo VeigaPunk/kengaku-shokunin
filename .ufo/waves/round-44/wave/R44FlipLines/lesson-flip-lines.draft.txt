@@ -1,0 +1,38 @@
+Insert point: corpus/lessons/round-43.md, directly after line 47
+(`Flip check (round 43): merge/kengaku/ — not fired — …`) and before the blank line that precedes `Gate prose:`
+(line 49) — i.e. inside the `## Gate` section, which ends at `## Routed` (line 54). Nothing above either line edited.
+Both lines are additions only; the round-43 `not fired` line at :46 is left byte-identical and is corrected, not
+rewritten, by these two lines (append-only, as the round-43 R1/R2 precedent requires).
+
+Flip check (round 44): task.toml — fired — the landed entry rests on `task.toml:22` alone (finding 11, `:299-302`, "it is the only time bound the grader's environment actually carries"; also `:41`, `:122`, Mechanism row `:240`); admitted as S147 (tier B), entry errata E3/E4
+Flip check (round 44): solve.sh — fired — the landed entry rests on `solve.sh:90` alone (Mechanism row `:230` quotes "if (c1l ^ c2l) == 0x02000000:", finding 2 `:251-252`, finding 12 `:306`); admitted as S148 (tier B), entry errata E5/E6
+
+Evidence, re-read with grep -n on corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md before this draft:
+
+  $ grep -n 'task\.toml' corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md
+  41:is the verifier timeout of 1800 s (`task.toml:22`). A reference attack followed by a 45 s sleep
+  66:`task.toml` (captured, not a registry row) is the authors' metadata: `difficulty = "hard"` (`:15`),
+  122:  the call (`:29` is untimed), and the only ceiling is `task.toml:22`'s 1800 s verifier timeout.
+  240:| `slow-oracle-45s` | `task.toml:22` | “timeout_sec = 1800.0” |
+  300:    `task.toml:22`'s `timeout_sec = 1800.0` for the verifier, which is 60 times the requested budget and does not
+  326:- **The task image is never pulled; the host's tools stand in.** `task.toml:29` names
+  332:  (`task.toml:22`) are untested.
+  352:  lane's; `difficulty = "hard"` (`task.toml:15`) and the 8-hour expert estimate (`:18`) are the authors' metadata,
+
+  $ grep -n 'solve\.sh' corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md
+  52:`F`) each fail only the equality at `:30`; the task's own `solve.sh` passes (`oracle-solve-sh`, `P`). The
+  72:`random.randint`-based `create_random_keys` (`:24-29`). The captured `solve.sh` is the task oracle, **own reading,
+  210:| `oracle-solve-sh` | P | pass | the task's `solve.sh` writes the reference differential attack |
+  230:| `oracle-solve-sh` | `solve.sh:90` | “if (c1l ^ c2l) == 0x02000000:” |
+  251:2. **The task's own attack passes (`oracle-solve-sh` `P`).** `solve.sh` writes `/app/attack.py`; its inner loop
+  252:   filters 16-bit seed candidates by the differential condition at `solve.sh:90` and returns
+  306:    `solve.sh` recovers exactly that round key by the characteristic at `solve.sh:90`. The Mechanism row f
+  350:  instruction is solvable within its stated 30 s by any method other than the shipped `solve.sh`.
+  399:**the oracle's correctness** — `solve.sh` runs as one case's recipe and passes on two key draws, which says nothing
+
+Why the round-43 verdict was wrong: the round-43 Gate refused `task.toml`, `setup.py`, `solve.sh`, `feal.h` and
+`SHA256SUMS` as one set (`corpus/lessons/round-43.md:41`) with the flip "an entry sentence that rests on one of them
+alone". Finding 11's sentence rests on `task.toml:22` alone (`:299-302`, and `:122`), and finding 12's
+"solve.sh recovers exactly that round key by the characteristic at `solve.sh:90`" (`:306`) together with the
+`oracle-solve-sh` Mechanism row (`:230`) rests on `solve.sh:90` alone. Two of the five files therefore fired the flip.
+The other three (`setup.py`, `feal.h`, `SHA256SUMS`) did not: no entry sentence rests on them alone.

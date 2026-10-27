@@ -1,0 +1,39 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44PlanNext/env /fast/scratch/hyaku/kengaku-r44/R44PlanNext/env --bind /fast/scratch/hyaku/kengaku-r44/R44PlanNext/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 oracle.py
+ENVELOPE start 20:42:20 cwd=/fast/scratch/hyaku/kengaku-r44/R44PlanNext
+pw setup rc 0
+pw solve rc 0 lines 1
+pw ORACLE {'test_recovery_file_exists': 'pass', 'test_password_match': 'pass'}
+pw exact-line {'test_recovery_file_exists': 'pass', 'test_password_match': 'pass'}
+pw only-constant-no-nl {'test_recovery_file_exists': 'pass', 'test_password_match': 'pass'}
+pw crlf {'test_recovery_file_exists': 'pass', 'test_password_match': 'pass'}
+pw constant-in-longer-line {'test_recovery_file_exists': 'pass', 'test_password_match': 'FAIL'}
+pw 100k-guesses+constant {'test_recovery_file_exists': 'pass', 'test_password_match': 'pass'}
+pw trailing-space {'test_recovery_file_exists': 'pass', 'test_password_match': 'pass'}
+pw empty {'test_recovery_file_exists': 'pass', 'test_password_match': 'FAIL'}
+pw wrong {'test_recovery_file_exists': 'pass', 'test_password_match': 'FAIL'}
+pw leading-blank-line {'test_recovery_file_exists': 'pass', 'test_password_match': 'pass'}
+sql solve rc 0 
+sql ORACLE {'test_json_data': 'pass'}
+sql 6-of-8 {'test_json_data': 'FAIL'}
+sql 7-of-8 {'test_json_data': 'pass'}
+sql 8 ints-as-int {'test_json_data': 'pass'}
+sql 7-right+junk {'test_json_data': 'pass'}
+sql 7 right 1 wrong value {'test_json_data': 'pass'}
+sql dup rows 7x {'test_json_data': 'FAIL'}
+sql string values {'test_json_data': 'FAIL'}
+sql no-file {'test_json_data': 'ERR:FileNotFoundError'}
+vul gcc rc 0 PlanNext/ccUSWD1e.o: in function `vulnerable_function':
+vulnerable.c:(.text+0x151): warning: the `gets' function is dangerous and should not be used.
+
+vul solve rc 0
+vul ORACLE {'test_results_file_exists': 'pass', 'test_results_file_contains_secret_flag': 'pass', 'test_results_file_format': 'pass'}
+vul flag+nl {'test_results_file_exists': 'pass', 'test_results_file_contains_secret_flag': 'pass', 'test_results_file_format': 'pass'}
+vul flag+spaces {'test_results_file_exists': 'pass', 'test_results_file_contains_secret_flag': 'pass', 'test_results_file_format': 'pass'}
+vul flag in sentence {'test_results_file_exists': 'pass', 'test_results_file_contains_secret_flag': 'FAIL', 'test_results_file_format': 'FAIL'}
+vul two lines {'test_results_file_exists': 'pass', 'test_results_file_contains_secret_flag': 'FAIL', 'test_results_file_format': 'pass'}
+vul wrong {'test_results_file_exists': 'pass', 'test_results_file_contains_secret_flag': 'FAIL', 'test_results_file_format': 'FAIL'}
+vul FLAG literal in binary: False
+img H bee26a133f103b9ecda444c70ec22cafef6e31a3de7af6d047974dc90ce3defe True
+img ORACLE {'test_output_file_exists': 'pass', 'test_output_is_correct': 'pass'}
+img prefix-only {'test_output_file_exists': 'pass', 'test_output_is_correct': 'FAIL'}
+ENVELOPE end 20:42:21 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

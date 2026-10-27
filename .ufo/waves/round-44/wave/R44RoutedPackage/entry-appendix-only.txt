@@ -1,0 +1,22 @@
+
+## Errata (round 44, package rows R42-R3-05/09/38/39/40; appended 2026-10-26, nothing above edited)
+
+Three items. The first is a locator appendix for the round-43 errata: routed rows R42-R3-38/39/40 name one entry line
+each, while E1–E3 state a span. E8 and E9 correct two sentences no earlier errata reached.
+
+- **Locator appendix to E1–E4.** The sentence E1 quotes is `:297` (E1's span is `:296-298`); E2's is `:311` (span
+  `:309-312`); E3's is `:431` (span `:430-432`); E4's is `:433-434` as written. Each of the four corrections stands
+  as worded; this item adds the single-line anchors and changes no sentence above.
+
+- **E8 `:350` — the helper span.** Quote: "the captured grader's own helpers (`test_outputs.py:26-52`)". **Locator
+  wrong by one line.** `fibonacci` starts at `:26` and `isqrt`'s last statement is `:53` (`x = x_new`; `:52` is its
+  `return x`; `:54` is blank), so the helper span is `test_outputs.py:26-53`, the same span the SKILL decision table
+  cites (`SKILL.md:1205`). Correction: "the captured grader's own helpers (`test_outputs.py:26-53`)". Nothing else in
+  the bullet moves.
+
+- **E9 `:328` — the vacuous pytest-cache clause.** Quote: "this grader writes nothing outside its own `./sim` and
+  pytest's cache". **Unsupported for this probe.** The probe never runs pytest: its harness imports the captured
+  module and calls the three functions itself (`plans/fibsqrt_probe.py`; the file's only `pytest` mentions are prose
+  about `test.sh`, `:18`, `:19`, `:44`), so no pytest cache exists in the sandbox the Regrade section describes.
+  Correction: "this grader writes nothing outside its own `./sim`". The Regrade section's conclusion — a second call
+  over unchanged files cannot differ — stands on the file reads, not on this clause.

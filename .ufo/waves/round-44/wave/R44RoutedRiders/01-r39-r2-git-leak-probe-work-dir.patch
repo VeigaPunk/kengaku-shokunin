@@ -1,0 +1,30 @@
+diff --git i/plans/git_leak_probe.py w/plans/git_leak_probe.py
+index 47e821a..6a36933 100755
+--- i/plans/git_leak_probe.py
++++ w/plans/git_leak_probe.py
+@@ -37,7 +37,9 @@ user, not root; commit object ids differ per run (wall-clock dates) and are neve
+ the grader on constructed end states, not of any agent.
+ 
+ Deterministic receipt: no temp path, object id, timing or host version is printed. Scratch lives under --work,
+-else $TMPDIR (tempfile default), and is removed on exit.
++else $TMPDIR (tempfile default), and is removed on exit. The scratch parent is never created: when tempfile
++cannot make its directory under it (absent, read-only, full) the probe prints
++`SETUP scratch parent ... cannot host scratch: ...` and exits 2, never a traceback (round-39 closure R2).
+ """
+ from __future__ import annotations
+ 
+@@ -255,7 +257,13 @@ def main():
+         if not os.access(tool, os.X_OK):
+             print(f"SETUP {tool} is required", file=sys.stderr)
+             return 2
+-    root = pathlib.Path(tempfile.mkdtemp(prefix="k39-glr-", dir=a.work))
++    parent = a.work if a.work is not None else (os.environ.get("TMPDIR") or "tempfile default")
++    try:
++        root = pathlib.Path(tempfile.mkdtemp(prefix="k39-glr-", dir=a.work))
++    except OSError as exc:
++        print(f"SETUP scratch parent {parent} cannot host scratch: {exc.strerror or exc}",
++              file=sys.stderr)
++        return 2
+     try:
+         if a.stage_check:
+             bad = 0

@@ -1,0 +1,6 @@
+# receipts (commands re-runnable; times -03)
+tb2 all issues+PRs: gh api --paginate 'repos/harbor-framework/terminal-bench-2/issues?state=all&per_page=100'  -> 89 rows (tb2-issues-prs-index.tsv); bodies 137168 B sha256 f79d4ab633380f7b63b162cc6fe0ccfc6c71004b990189617d4e3e668e6b68e4; grep -i 'feal|plaintexts|gen.py' bodies: 0 hits
+tb2 comments: 66693 B sha256 e73f3126f409a15a25cd580107cab7fc1ffc26cbed6c87bba615c9676271d59c; feal hit: 1 (issue #53 comment, memory profiling)
+TB main repo issues bodies: 6040019 B sha256 2604e86d783f1a03a96940585a41f3a7b6e949a220036d43bd972a7a5e04aa1e; feal hits 0
+terminal-wrench index/tasks.json: 18856341 B sha256 64dbf7589db7daf79aa42c60918475a2563c51cc37a0b9f2d843b317b4540406; 957 entries, 331 task_ids; 'feal' occurrences in tasks.json: 0
+pin_test_outputs.py sha256 f59ebc72...ed9f9 == lane SHA256SUMS; pin_gen.py 3a71f0b5...2c63 == lane SHA256SUMS; TB2 main HEAD 2fd12b88 == pin; TB2.1/zai-org verified/moogician 2.2/HF harborframework 2.0 test_outputs.py byte-identical to pin

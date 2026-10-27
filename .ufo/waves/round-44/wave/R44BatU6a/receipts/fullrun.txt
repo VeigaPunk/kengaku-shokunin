@@ -1,0 +1,19 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44BatU6a/env /fast/scratch/hyaku/kengaku-r44/R44BatU6a/env --bind /fast/scratch/hyaku/kengaku-r44/R44BatU6a/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round44_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r44/R44BatU6a/lane --work /fast/scratch/hyaku/kengaku-r44/R44BatU6a/w2
+ENVELOPE start 20:34:13 cwd=/home/vgpnk/Projects/shokunin
+PINS total=2 mismatched=0
+FIXTURE u6_long_a-registry-65 tool=anchor expect=reject declared=digest-long observed_rc=1 observed=digest-long ok
+FIXTURE u6_long_a-manifest-96 tool=anchor expect=reject declared=digest-long observed_rc=1 observed=digest-long ok
+FIXTURE u6_long_a-provenance-128 tool=anchor expect=reject declared=digest-long observed_rc=1 observed=digest-long ok
+FIXTURE u6_long_a-history-200 tool=anchor expect=reject declared=digest-long observed_rc=1 observed=digest-long ok
+MUTANT U5 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+MUTANT U6 anchor silence killed by=u6_long_a-registry-65 attributed=L522 value=differs hits=4 -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+MUTANT U7 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:98-99 'A token that resolves to several of the row's captures
+MUTANT U9 anchor rc-mirror SURVIVED exhibits=none -- plans/anchor_digest_check.py:106-107 'lessons are read from the working tree for paths com
+MUTANT U14c order error SURVIVED exhibits=none -- plans/order_check.py:26-27 'Exit: 0 order holds · 1 order broken · 2 setup error (... unpa
+BATTERY fixtures=4 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=5 killed=1 survived=4 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=1/4 order=0/1
+ADVERTISED direct=5 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 fail
+ENVELOPE end 20:34:15 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

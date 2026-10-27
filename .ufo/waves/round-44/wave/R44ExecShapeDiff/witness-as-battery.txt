@@ -1,0 +1,36 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44ExecShapeDiff/env /fast/scratch/hyaku/kengaku-r44/R44ExecShapeDiff/env --bind /fast/scratch/hyaku/kengaku-r44/R44ExecShapeDiff/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-44/wave/R44ExecShapeDiff/shape_diff.py --battery /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-44/claims/witness/w_u.py
+ENVELOPE start 20:38:29 cwd=/home/vgpnk/Projects/shokunin
+SHAPE witness=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-44/claims/witness/w_u.py table=resolved
+SHAPE witness-fixtures=6 [u3_row_path u5_short u6_long u7_twin_captures u9_dirty_erratum u14c_odd_claims_name] helpers=4 [row lane repo u14_missing_claims_flag]
+SHAPE battery=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-44/claims/witness/w_u.py modules=1 fixtures=6 helpers=4
+SHAPE pairs=100 enforced=36 threshold=0.80 flagged=12 advisory=6 max-enforced=1.000
+SHAPE max-pair w_u:u3_row_path ~ u3_row_path ratio=1.000
+FLAG 1.000 fixture w_u:u3_row_path ~ fixture u3_row_path
+FLAG 1.000 fixture w_u:u5_short ~ fixture u5_short
+FLAG 1.000 fixture w_u:u6_long ~ fixture u6_long
+FLAG 1.000 fixture w_u:u7_twin_captures ~ fixture u7_twin_captures
+FLAG 1.000 fixture w_u:u9_dirty_erratum ~ fixture u9_dirty_erratum
+FLAG 1.000 fixture w_u:u14c_odd_claims_name ~ fixture u14c_odd_claims_name
+FLAG 0.927 fixture w_u:u3_row_path ~ fixture u6_long
+FLAG 0.927 fixture w_u:u6_long ~ fixture u3_row_path
+FLAG 0.924 fixture w_u:u5_short ~ fixture u6_long
+FLAG 0.924 fixture w_u:u6_long ~ fixture u5_short
+FLAG 0.913 fixture w_u:u3_row_path ~ fixture u5_short
+FLAG 0.913 fixture w_u:u5_short ~ fixture u3_row_path
+adv  1.000 helper  w_u:row ~ helper  row
+adv  1.000 helper  w_u:lane ~ helper  lane
+adv  1.000 helper  w_u:repo ~ helper  repo
+adv  1.000 helper  w_u:u14_missing_claims_flag ~ helper  u14_missing_claims_flag
+adv  0.930 helper  w_u:u14_missing_claims_flag ~ fixture u14c_odd_claims_name
+adv  0.930 fixture w_u:u14c_odd_claims_name ~ helper  u14_missing_claims_flag
+FIXTURE helper  w_u:row fid= best=0.665 vs u6_long (any-witness best=1.000 vs row)
+FIXTURE helper  w_u:lane fid= best=0.220 vs u7_twin_captures (any-witness best=1.000 vs lane)
+FIXTURE fixture w_u:u3_row_path fid=u3-row-path-binds best=1.000 vs u3_row_path (any-witness best=1.000 vs u3_row_path)
+FIXTURE fixture w_u:u5_short fid=u5-sixty-three-hex best=1.000 vs u5_short (any-witness best=1.000 vs u5_short)
+FIXTURE fixture w_u:u6_long fid=u6-sixty-five-hex best=1.000 vs u6_long (any-witness best=1.000 vs u6_long)
+FIXTURE fixture w_u:u7_twin_captures fid=u7-twin-captures best=1.000 vs u7_twin_captures (any-witness best=1.000 vs u7_twin_captures)
+FIXTURE fixture w_u:u9_dirty_erratum fid=u9-dirty-erratum best=1.000 vs u9_dirty_erratum (any-witness best=1.000 vs u9_dirty_erratum)
+FIXTURE helper  w_u:repo fid= best=0.452 vs u9_dirty_erratum (any-witness best=1.000 vs repo)
+FIXTURE helper  w_u:u14_missing_claims_flag fid= best=0.930 vs u14c_odd_claims_name (any-witness best=1.000 vs u14_missing_claims_flag)
+FIXTURE fixture w_u:u14c_odd_claims_name fid=u14c-odd-claims-name best=1.000 vs u14c_odd_claims_name (any-witness best=1.000 vs u14c_odd_claims_name)
+ENVELOPE end 20:38:31 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

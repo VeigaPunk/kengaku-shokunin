@@ -1,0 +1,88 @@
+{
+  "seat": "R44DistillRouted",
+  "date": "2026-10-26",
+  "ledger": "corpus/routed-findings.jsonl",
+  "clone": "/fast/scratch/hyaku/kengaku-r44/R44DistillRouted/lane",
+  "clone_head": "5e3d3aa06c6b7000929ac3e62563a39159c4501f",
+  "ledger_state": {"rows": 60, "open": 38, "blocked": 1, "closed": 21,
+                   "observe": "OBSERVE rows=60 mismatched=0"},
+  "disposed_elsewhere": {
+    "artefact": ".ufo/waves/round-44/wave/R44RoutedObserve/closures-patch.jsonl",
+    "defect_class": "check pins a spelling/line the landed round-43 correction never used",
+    "closed": ["R40-R1", "R42-R2", "R42-R3-11", "R42-R3-12", "R42-R3-13", "R42-R3-15",
+               "R42-R3-17", "R42-R3-20", "R42-R3-23", "R42-R3-31", "R42-R3-38",
+               "R42-R3-39", "R42-R3-40"],
+    "refused": ["R42-R3-14", "R42-R3-16"],
+    "note": "15 of 38 open rows; no new work, only ledger check strings + close evidence"
+  },
+  "groups": [
+    {"id": "G1", "name": "land the rider patch set",
+     "rows": ["R39-R2", "R42-R3-26", "R42-R3-27", "R42-R6"],
+     "fix": "apply the four patches already red->green proven, plus the round-39 re-pin (pkg-spec-r39.json, round39_c2_verify.py) and the SKILL.md:661-665 sentence that says the probe is never edited",
+     "files": ["plans/git_leak_probe.py", "plans/pkg-spec-r39.json", "plans/round39_c2_verify.py", "plans/scratch_guard.py", "SKILL.md", "corpus/routed-findings.jsonl"],
+     "evidence": [".ufo/waves/round-44/wave/R44RoutedRiders/red-green-receipt.txt (before rc=1 traceback, after rc=2 SETUP)", ".ufo/waves/round-44/wave/R44RoutedRiders/landed-check.txt (selftest ok=37/37)", "measured here: scratch_guard check rc_direct=1 unreadable sentinel, SELFTEST ok=36/36; git_leak_probe --work absent rc=1 traceback"],
+     "in_flight": "R44RoutedRiders (patches 01,01b,02,03)", "confidence": "high"},
+
+    {"id": "G2", "name": "one carried-residuals register",
+     "rows": ["R39-R4", "R40-R5", "R42-R5"],
+     "fix": "replace three bundle rows with ONE register section naming each residual by id, owner and round; point one check at it and retire the three rows. Two register items are code and stay separate: mutant_direction_check.py:91-101 (round-38-list-only) and order_check.py fail-open (freeze-held, G8)",
+     "files": ["corpus/lessons/round-44.md", "corpus/routed-findings.jsonl", "plans/mutant_direction_check.py"],
+     "evidence": ["mutant_direction_check.py:91-101 SETUP exit 2 missing=R37_REL,battery38_fixtures,attributed,FAMILY non_6_tuple_rows=14", "R39-R4 lists (a)(d)(e)(f); R40-R5 lists R39-R3, F39LedgerTip, F39MutDirection, F39OrderGateMut, W04; R42-R5 lists the same plus 34 unpriced behaviours and 14 round_close residuals"],
+     "in_flight": "R44RoutedPlan adjudicated R40-R5 'still open (4 of 5 items)'", "confidence": "high"},
+
+    {"id": "G3", "name": "negative proof for the inherited a-c counter repairs",
+     "rows": ["R42-R1"],
+     "fix": "one receipt that either proves repairs a-c unreachable for these two tools (both run only git plumbing, no fixture code) or carries a red hostile module per reachable repair; pin the uv assumption that T08 depends on (PATH at plans/round42_c1_verify.py:108 keeps /usr/local/bin)",
+     "files": ["plans/round44_c1_verify.py docstring (carried a-c paragraph)", ".ufo/waves/round-44/claims/"],
+     "evidence": ["plans/round42_c1_verify.py:30-31 'Both tools execute no fixture code ... so repairs a-c close vectors these two tools do not open'", "plans/round42_c1_verify.py:108 PATH=/usr/local/sbin:...", "claims/control-c1-hostile-f1..f6.txt exist; none covers a-c"],
+     "in_flight": "R40-R1 closed by R44RoutedObserve pointing here", "confidence": "medium"},
+
+    {"id": "G4", "name": "one control set for the round-42 survivor calibration",
+     "rows": ["R42-R3-34", "R42-R3-35"],
+     "fix": "one control set under claims/: a per-mutant restore control (relabel a carried direction -> SURVIVED) and a red hostile module for each substitute fixture shape (b-xo1-receipt-is-directory, b-xo3-emptied-directory, b-x13-staged-manifest); the token-scan residual is named a limit, not tested",
+     "files": [".ufo/waves/round-44/claims/", "plans/battery44/"],
+     "evidence": ["plans/round44_c1_verify.py:20-26 F1-F6 all carry hostile modules; h/i carry hostile modules; a-c do not", "claims/control-c1-hostile-f1..f6.txt red as required (SETUP exit=2)", "R44RoutedPlan: R42-R3-34 'still open', R42-R3-35 'still open (partial: legs h/i + F1-F6 landed; X13 + token-scan residual)'"],
+     "in_flight": "partial (f1-f6, h, i)", "confidence": "medium"},
+
+    {"id": "G5", "name": "close the two plan rows the round-44 freeze superseded",
+     "rows": ["R42-R3-33", "R42-R3-37"],
+     "fix": "ledger-only: close both rows against the round-44 freeze limits (claims:27-41,66-69) and swap each check to the round-44 line that replaces the round-42 artefact",
+     "files": ["corpus/routed-findings.jsonl"],
+     "evidence": ["claims/witness-run.txt MUTANTS total=5 killed=5 survived=0", "plans/round-44-claims.md:66-69 'the remaining u = 18 rows are carried ... a third tool the counter does not mutate'", "grep cheat-clock-seed plans/round-44-claims.md -> no output"],
+     "in_flight": "R44RoutedPlan: R42-R3-33 satisfied, R42-R3-37 superseded", "confidence": "high"},
+
+    {"id": "G6", "name": "land the two QUALITY draft tools with --lane",
+     "rows": ["R42-R3-18", "R42-R3-19"],
+     "fix": "commit plans/carried_direction_diff.py and plans/sources_appendonly.py from .ufo/waves/round-42/build/R42QualityDraft/ accepting --lane (drafts read sys.argv[1]), so Q33/Q34 Check lines run as written; otherwise rewrite both Check lines to the draft path",
+     "files": ["plans/carried_direction_diff.py", "plans/sources_appendonly.py", "corpus/QUALITY.md:713-719,791-801"],
+     "evidence": [".ufo/waves/round-42/build/R42QualityDraft/{carried_vs_rederived.py,sources_appendonly.py} present, 1628 and 3001 bytes", "sources_appendonly.py:13 LANE = sys.argv[1] if len(sys.argv) > 1 else \".\"", "QUALITY.md:829-844 C1/C2 name the same two fixes as owed"],
+     "in_flight": "none in this wave", "confidence": "high"},
+
+    {"id": "G7", "name": "measured-true, misdescribed: one correction pass",
+     "rows": ["R42-R3-02", "R42-R3-05", "R42-R3-06", "R42-R3-07", "R42-R3-09", "R42-R3-32"],
+     "fix": "six single-token/one-item edits in one commit; every replacement string is already measured: SKILL.md:600 add plans/round42_c2_verify.py:238 for V7 (V4's is :184); entry:350 test_outputs.py:26-52 -> :26-53 (isqrt ends :53, next def :56); README.md:75 move S128 out of the pin parenthetical to 'S128 (OpenAgents issue #9645, tier B)'; SKILL.md:699 drop 'equal to the receipt row by row' for the triple comparison; entry:328 drop 'and pytest's cache' (appended erratum); corpus/lessons/round-42.md append E8 naming .ufo/waves/round-42/integrate/measure-final.txt:938",
+     "files": ["SKILL.md", "corpus/knowledge/tb2-circuit-fibsqrt-grader.md", "corpus/README.md", "corpus/lessons/round-42.md"],
+     "evidence": ["SKILL.md:600 is the only ':178-184' hit; plans/round42_c2_verify.py:238 return False, \"receipt or entry absent\"", "CASE_ROW at plans/round42_c2_verify.py:84 captures (cid, letters, verdict) only", "corpus/README.md:75 'S125, S126, S127, S128 (terminal-bench-2 @ 2fd12b88)' vs :272 'S125, S126, S127 (+ S128, tier B prior art)'", "measure-final.txt:938 'ENVELOPE end 17:52:40 ... CHANGED'", "corpus/lessons/round-42.md:146 names measure-final.txt but never :938; errata items E1-E7 present"],
+     "in_flight": "none (every other row of this shape is disposed by R44RoutedObserve)", "confidence": "high"},
+
+    {"id": "G8", "name": "freeze-held repairs: schedule, do not code",
+     "rows": ["R42-R3-08", "R39-R3"],
+     "fix": "no change this round: pkg_gate.py (P10 biopython==1.85 at :276) and corpus/defects.jsonl are pinned in round 44; both rows name the pin as the blocker, so the fix is a round in which the pinned file is editable",
+     "files": ["plans/pkg_gate.py", "corpus/defects.jsonl"],
+     "evidence": ["plans/pkg_gate.py:276 cmd = [\"uv\",\"run\",\"--no-project\",\"--with\",\"biopython==1.85\",\"python3\"] + probe; plans/fibsqrt_probe.py imports stdlib only", "round-44 freeze list pins pkg_gate.py and both tools", "R39-R3 blocker: plans/ledger_tip.py:6-7,72-73 and plans/round40_c1_verify.py:98 pin the ledger"],
+     "in_flight": "n/a (blocked by pin)", "confidence": "high"},
+
+    {"id": "G9", "name": "source-surface state reader and its first receipt",
+     "rows": ["R42-R3", "R42-R3-36"],
+     "fix": "one plans/ tool that reads a tier-B row's live state (pulls/<n> or issue state) with its first dated receipt at corpus/evidence/round43/prior-art-feal-differential.txt; the tool's text is what R42-R3's check needs, the receipt is what R42-R3-36's check needs",
+     "files": ["plans/", "corpus/evidence/round43/prior-art-feal-differential.txt"],
+     "evidence": ["grep -rln 'pulls/|state=closed|merged=' plans/*.py -> no file", "ls corpus/evidence/round43/ -> feal-dry-cases-freeze.txt, feal-probe.txt, tb2-feal-differential-cryptanalysis (no prior-art)", "plans/pkg-spec-r44.json rows S138-S146 carry no tier field"],
+     "in_flight": "R44ScoutPriorArt (roster)", "confidence": "medium"}
+  ],
+  "not_merged": [
+    {"pair": ["R42-R3-08", "R42-R1"],
+     "why": "both name pkg_gate's uv leg, but R42-R3-08 is a frozen-pin schedule item and R42-R1 is a counter-repair proof receipt; one commit cannot close both"},
+    {"pair": ["G2 code items", "G8"],
+     "why": "the order_check fail-open residual is carried inside G2's register but its repair is freeze-held; keeping it in G2 would let the register look closed while the tool is unchanged"}
+  ]
+}

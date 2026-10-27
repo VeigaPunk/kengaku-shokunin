@@ -1,0 +1,24 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44MutC2V11/env-m6-predict-exec-ns-dropped /fast/scratch/hyaku/kengaku-r44/R44MutC2V11/env-m6-predict-exec-ns-dropped --bind /fast/scratch/hyaku/kengaku-r44/R44MutC2V11/env-m6-predict-exec-ns-dropped/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-44/claims/c2_predictor_control.py /fast/scratch/hyaku/kengaku-r44/R44MutC2V11/w-m6-predict-exec-ns-dropped
+ENVELOPE start 20:40:47 cwd=/fast/scratch/hyaku/kengaku-r44/R44MutC2V11/m6-predict-exec-ns-dropped
+CONTROL predictor=always-true V11 DEFECT predictor failed: predict.py exit=1: Traceback (most recent call last):
+  File "/run.py", line 6, in <module>
+    print(json.dumps([bool(ns["predict"](t)) for t in states]))
+                           ~~^^^^^^^^^^^
+KeyError: 'predict' required=DEFECT
+CONTROL predictor=token-set V11 DEFECT predictor failed: predict.py exit=1: Traceback (most recent call last):
+  File "/run.py", line 6, in <module>
+    print(json.dumps([bool(ns["predict"](t)) for t in states]))
+                           ~~^^^^^^^^^^^
+KeyError: 'predict' required=DEFECT
+CONTROL predictor=exact-lines V11 DEFECT predictor failed: predict.py exit=1: Traceback (most recent call last):
+  File "/run.py", line 6, in <module>
+    print(json.dumps([bool(ns["predict"](t)) for t in states]))
+                           ~~^^^^^^^^^^^
+KeyError: 'predict' required=DEFECT
+CONTROL predictor=substring V11 DEFECT predictor failed: predict.py exit=1: Traceback (most recent call last):
+  File "/run.py", line 6, in <module>
+    print(json.dumps([bool(ns["predict"](t)) for t in states]))
+                           ~~^^^^^^^^^^^
+KeyError: 'predict' required=ok
+CONTROL-C2-PREDICTOR NOT-AS-REQUIRED
+ENVELOPE end 20:40:49 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

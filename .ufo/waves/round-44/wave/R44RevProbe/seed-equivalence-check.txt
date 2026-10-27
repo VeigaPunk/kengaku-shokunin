@@ -1,0 +1,33 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44RevProbe/env2 /fast/scratch/hyaku/kengaku-r44/R44RevProbe/env2 --bind /fast/scratch/hyaku/kengaku-r44/R44RevProbe/env2/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash -c 
+set -eu
+D=$(mktemp -d -p "$0")
+CAP=/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round44/tb2-feal-linear-cryptanalysis
+cp "$CAP/feal.c" "$CAP/decrypt.c" "$CAP/gen.py" "$D/"
+cd "$D"
+gcc -O3 -o feal feal.c
+gcc -O3 -o decrypt decrypt.c
+python3 gen.py >/dev/null
+printf "pairs=%s ciphertexts=%s orig=%s\n" "$(wc -l < pairs.txt)" "$(wc -l < ciphertexts.txt)" "$(wc -l < orig_plaintexts.txt)"
+./decrypt ciphertexts.txt 0x68e63 0x62571 0x1f61c 0xb74a5 > plain.txt
+python3 - <<PYEOF
+import hashlib, struct
+soln = open("$CAP/test_outputs.py").read().split("soln = \"\"\"")[1].split("\"\"\"")[0].split()
+mine = open("plain.txt").read().split()
+print("soln_lines=%d mine_lines=%d" % (len(soln), len(mine)))
+print("set_equal=%s" % (set(soln) == set(mine)))
+import re
+keys = ["0x68e63", "0x62571", "0x1f61c", "0xb74a5"]
+seed = hashlib.sha256("".join(keys).encode()).digest()
+gen = [str(int.from_bytes(hashlib.sha256(seed + struct.pack(">Q", 32+i)).digest()[:8], "big")) for i in range(100)]
+print("replay_matches_soln=%s" % (gen == soln))
+print("count_dup_soln=%d" % (len(soln)-len(set(soln))))
+PYEOF
+rm -rf -- "$D"
+ /fast/scratch/hyaku/kengaku-r44/R44RevProbe
+ENVELOPE start 20:35:05 cwd=/home/vgpnk/Projects/shokunin
+pairs=32 ciphertexts=100 orig=100
+soln_lines=100 mine_lines=100
+set_equal=True
+replay_matches_soln=True
+count_dup_soln=0
+ENVELOPE end 20:35:07 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

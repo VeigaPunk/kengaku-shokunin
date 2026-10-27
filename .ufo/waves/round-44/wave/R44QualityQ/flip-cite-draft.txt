@@ -1,0 +1,21 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44QualityQ/env /fast/scratch/hyaku/kengaku-r44/R44QualityQ/env --bind /fast/scratch/hyaku/kengaku-r44/R44QualityQ/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash -c cd '/fast/scratch/hyaku/kengaku-r44/R44QualityQ/lane' && TMPDIR='/fast/scratch/hyaku/kengaku-r44/R44QualityQ' python3 '/fast/scratch/hyaku/kengaku-r44/R44QualityQ/gate_flip_check_draft.py' --lesson corpus/lessons/round-43.md; echo rc43=$?; TMPDIR='/fast/scratch/hyaku/kengaku-r44/R44QualityQ' python3 '/fast/scratch/hyaku/kengaku-r44/R44QualityQ/gate_flip_check_draft.py' --lesson corpus/lessons/round-42.md; echo rc42=$?
+ENVELOPE start 20:39:11 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+FLIP line=41 flip_line=41 item=task.toml shapes=flip: resolution=line:46:not fired:round=43
+FLIP-CITE line=46 item=task.toml state=not fired file=task.toml citation=tb2-circuit-fibsqrt-grader.md:332 quote="- **The task image is never pulled; the host's tools stand in.** `task.toml:29` names" verdict=RED
+FLIP-CITE line=46 item=task.toml state=not fired file=task.toml citation=tb2-feal-differential-cryptanalysis-grader.md:41 quote="is the verifier timeout of 1800 s (`task.toml:22`). A reference attack followed by a 45 s sleep" verdict=RED
+FLIP-CITE line=46 item=task.toml state=not fired file=setup.py citation=tb2-feal-differential-cryptanalysis-grader.md:96 quote="| Extension build | at grading time the test shells out: `(cd /tests && python setup.py build_ext --inplace)`, i.e. it c" verdict=RED
+FLIP-CITE line=46 item=task.toml state=not fired file=solve.sh citation=tb2-feal-differential-cryptanalysis-grader.md:230 quote="| `oracle-solve-sh` | `solve.sh:90` | “if (c1l ^ c2l) == 0x02000000:” |" verdict=RED
+FLIP line=42 flip_line=42 item=merge/kengaku/ shapes=flip: resolution=line:47:not fired:round=43
+FLIP-CITE line=47 item=merge/kengaku/ state=not fired files=- verdict=clear
+FLIP-DETAIL lesson=corpus/lessons/round-43.md lesson_round=43 refused_rows=2 malformed_resolutions=0
+FLIPS total=2 unresolved=0
+FLIP-CITE entries=tb2-circuit-fibsqrt-grader.md,tb2-feal-differential-cryptanalysis-grader.md missing=instruction.md,README.md,R43MergeRescreen.md,SOURCES.md not_fired=2 red=1
+rc43=1
+FLIP line=43 flip_line=43 item=README.md shapes=flip: resolution=line:215:not fired:round=43
+FLIP-CITE line=215 item=README.md state=not fired files=README.md verdict=clear
+FLIP line=44 flip_line=44 item=Dockerfile shapes=flip:,if-admit resolution=line:214:fired:round=43
+FLIP-DETAIL lesson=corpus/lessons/round-42.md lesson_round=42 refused_rows=2 malformed_resolutions=0
+FLIPS total=2 unresolved=0
+FLIP-CITE entries=- missing=instruction.md,README.md,R42PkgRows.md not_fired=1 red=0
+rc42=0
+ENVELOPE end 20:39:13 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

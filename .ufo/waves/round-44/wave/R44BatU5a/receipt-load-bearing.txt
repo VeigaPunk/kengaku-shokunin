@@ -1,0 +1,51 @@
+=== minus u5_short_a-manifest-registry ===
+ENVELOPE start 20:33:30 cwd=/home/vgpnk/Projects/shokunin
+FIXTURE u5_short_a-index-staged tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+FIXTURE u5_short_a-abbrev-neighbour tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+MUTANT U5 anchor silence killed by=u5_short_a-index-staged attributed=L522 value=differs hits=2 -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+BATTERY fixtures=2 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=1 killed=1 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=1/1 order=0/0
+ENVELOPE end 20:33:32 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+=== minus u5_short_a-index-staged ===
+ENVELOPE start 20:33:34 cwd=/home/vgpnk/Projects/shokunin
+FIXTURE u5_short_a-manifest-registry tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+FIXTURE u5_short_a-abbrev-neighbour tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+MUTANT U5 anchor silence killed by=u5_short_a-manifest-registry attributed=L522 value=differs hits=2 -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+BATTERY fixtures=2 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=1 killed=1 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=1/1 order=0/0
+ENVELOPE end 20:33:36 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+=== minus u5_short_a-abbrev-neighbour ===
+ENVELOPE start 20:33:38 cwd=/home/vgpnk/Projects/shokunin
+FIXTURE u5_short_a-manifest-registry tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+FIXTURE u5_short_a-index-staged tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+MUTANT U5 anchor silence killed by=u5_short_a-manifest-registry attributed=L522 value=differs hits=2 -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+BATTERY fixtures=2 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=1 killed=1 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=1/1 order=0/0
+ENVELOPE end 20:33:40 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+=== only u5_short_a-manifest-registry ===
+ENVELOPE start 20:33:41 cwd=/home/vgpnk/Projects/shokunin
+FIXTURE u5_short_a-manifest-registry tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+MUTANT U5 anchor silence killed by=u5_short_a-manifest-registry attributed=L522 value=differs hits=1 -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=1 killed=1 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=1/1 order=0/0
+ENVELOPE end 20:33:43 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+=== only u5_short_a-index-staged ===
+ENVELOPE start 20:33:45 cwd=/home/vgpnk/Projects/shokunin
+FIXTURE u5_short_a-index-staged tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+MUTANT U5 anchor silence killed by=u5_short_a-index-staged attributed=L522 value=differs hits=1 -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=1 killed=1 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=1/1 order=0/0
+ENVELOPE end 20:33:47 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+=== only u5_short_a-abbrev-neighbour ===
+ENVELOPE start 20:33:49 cwd=/home/vgpnk/Projects/shokunin
+FIXTURE u5_short_a-abbrev-neighbour tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+MUTANT U5 anchor silence killed by=u5_short_a-abbrev-neighbour attributed=L522 value=differs hits=1 -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=1 killed=1 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=1/1 order=0/0
+ENVELOPE end 20:33:51 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

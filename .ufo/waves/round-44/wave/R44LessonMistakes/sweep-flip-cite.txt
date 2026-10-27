@@ -1,0 +1,16 @@
+## flip citation sweep (independent of the in-flight seat), 2026-10-26 20:39:22 -03
+$ python3 .ufo/waves/round-44/wave/R44LessonMistakes/flip_cite_sweep.py --lane . --scope block
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44LessonMistakes/env /fast/scratch/hyaku/kengaku-r44/R44LessonMistakes/env --bind /fast/scratch/hyaku/kengaku-r44/R44LessonMistakes/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 .ufo/waves/round-44/wave/R44LessonMistakes/flip_cite_sweep.py --lane . --scope block
+ENVELOPE start 20:39:23 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+FLIP-CITE corpus/lessons/round-42.md:215 item=README.md verdict=ok scope=block
+FLIP-CITE corpus/lessons/round-43.md:46 item=task.toml verdict=RED scope=block cited_by=corpus/knowledge/tb2-circuit-fibsqrt-grader.md:332,corpus/knowledge/tb2-circuit-fibsqrt-grader.md:338,corpus/knowledge/tb2-circuit-fibsqrt-grader.md:353,corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md:41 (+6)
+FLIP-CITE corpus/lessons/round-43.md:47 item=merge/kengaku/ verdict=ok scope=block
+FLIPS-CITE total=6 named=3 red=1
+ENVELOPE end 20:39:25 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+exit=1
+$ python3 .ufo/waves/round-44/wave/R44LessonMistakes/flip_cite_sweep.py --lane . --scope all
+FLIP-CITE corpus/lessons/round-42.md:215 item=README.md verdict=RED scope=all cited_by=corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md:42,corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md:148,corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md:186,corpus/knowledge/tb2-git-leak-recovery-grader.md:299 (+2)
+FLIP-CITE corpus/lessons/round-43.md:46 item=task.toml verdict=RED scope=all cited_by=corpus/knowledge/tb2-build-pmars-grader.md:277,corpus/knowledge/tb2-build-pmars-grader.md:278,corpus/knowledge/tb2-circuit-fibsqrt-grader.md:332,corpus/knowledge/tb2-circuit-fibsqrt-grader.md:338 (+19)
+FLIP-CITE corpus/lessons/round-43.md:47 item=merge/kengaku/ verdict=ok scope=all
+FLIPS-CITE total=6 named=3 red=2
+exit=1

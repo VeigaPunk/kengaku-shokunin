@@ -1,0 +1,21 @@
+# R44CritCases extra-case evidence (probe case-set attack) — run inside the round-44 envelope
+# Scripts: extra_cases.py (7 cases), split_debug.py, split2.py (3 cases) — scratch copies, deleted after.
+# Envelope (each run identical header):
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44CritCases/env /fast/scratch/hyaku/kengaku-r44/R44CritCases/env --bind /fast/scratch/hyaku/kengaku-r44/R44CritCases/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 ... (extra_cases.py | split2.py | split_debug.py)
+ENVELOPE start 20:33:33 cwd=/home/vgpnk/Projects/shokunin
+CASE dir-path F error=IsADirectoryError -- directory at /app/plaintexts.txt (open() on a dir)
+CASE unreadable F error=PermissionError -- plaintexts.txt with mode 000 (PermissionError)
+CASE garbage-bytes F error=UnicodeDecodeError -- non-UTF-8 bytes in the file (UnicodeDecodeError)
+CASE empty-file F  -- file exists but empty (distinct from absent)
+CASE crlf P  -- oracle output with CRLF endings
+CASE comment-wrapper P  -- canary/comment lines around the oracle output
+CASE split-one P  -- first line split (line 0 is a diagnostic, not a constant — see note below)
+ENVELOPE end 20:33:37 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+ENVELOPE start 20:33:52 cwd=/home/vgpnk/Projects/shokunin
+CASE split-one-clean F  -- clean 100-line replay, first constant split across a newline
+CASE crlf-clean P  -- clean replay with CRLF endings
+CASE trailing-r P  -- clean replay with \r\n separators (same as crlf)
+ENVELOPE end 20:33:54 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+# split_debug.py: oracle output file has 266 lines; first lines are diagnostics, e.g. 'Maybe 3', '26710425 for mask 0';
+# the 100 constants are embedded among them.  contains_full_first=True even after splitting line 0.
+# The same seed/recipe/harness machinery as the frozen probe was reused (imported read-only); no frozen file modified.

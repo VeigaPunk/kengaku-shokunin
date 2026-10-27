@@ -1,0 +1,5 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44PkgRows/env /fast/scratch/hyaku/kengaku-r44/R44PkgRows/env --bind /fast/scratch/hyaku/kengaku-r44/R44PkgRows/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash -c CAP=/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round44/tb2-feal-linear-cryptanalysis; B=https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/feal-linear-cryptanalysis; for p in .gitignore gitignore; do o=/fast/scratch/hyaku/kengaku-r44/R44PkgRows/fetch/g-$(echo $p | tr -d .); c=$(curl -sS -o "$o" -w "%{http_code}" "$B/$p"); echo "REFETCH $(date +%H:%M:%S) $p http=$c bytes=$(wc -c < "$o") cmp=$(cmp -s "$o" "$CAP/gitignore" && echo identical || echo DIFFERS)"; done
+ENVELOPE start 20:42:23 cwd=/home/vgpnk/Projects/shokunin
+REFETCH 20:42:23 .gitignore http=200 bytes=177 cmp=identical
+REFETCH 20:42:23 gitignore http=404 bytes=14 cmp=DIFFERS
+ENVELOPE end 20:42:25 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

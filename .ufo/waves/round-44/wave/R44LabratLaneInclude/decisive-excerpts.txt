@@ -1,0 +1,33 @@
+# decisive lines, with the probe each belongs to
+## probe A (benign include outside d): outside file OPENED by parent-side gits
+564:11    execve("/usr/sbin/git", ["git", "-C", "/fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/w/k44-c1-gt2de4oj/fx/inc_benign/f000/repo", "rev-parse", "--show-toplevel"],
+591:12    execve("/usr/sbin/git", ["git", "-C", "/fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/w/k44-c1-gt2de4oj/fx/inc_benign/f000/repo", "rev-parse", "--absolute-git-dir"],
+620:13    execve("/usr/sbin/git", ["git", "-C", "/fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/w/k44-c1-gt2de4oj/fx/inc_benign/f000/repo", "config", "--local", "--no-includes", "--get-regexp", "^include(if)?\\."],
+586:11    openat(AT_FDCWD, "/fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/outside/inc_benign.cfg", O_RDONLY) = 4
+613:12    openat(AT_FDCWD, "/fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/outside/inc_benign.cfg", O_RDONLY) = 4
+642:13    openat(AT_FDCWD, "/fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/outside/inc_benign.cfg", O_RDONLY) = 4
+645:13    openat(AT_FDCWD, "/fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/outside/inc_benign.cfg", O_RDONLY) = 4
+587:4     --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=11, si_uid=1000, si_status=0, si_utime=0, si_stime=0} ---
+614:4     --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=12, si_uid=1000, si_status=0, si_utime=0, si_stime=0} ---
+647:4     --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=13, si_uid=1000, si_status=0, si_utime=0, si_stime=0} ---
+## probe C (absent include): no openat of the target, only the build's config write
+(no openat of absent.cfg)
+## probe D (unparseable include target): fixture ADMITTED, outside file read 6x
+586:11    openat(AT_FDCWD, "/fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/outside/badconfig.cfg", O_RDONLY) = 4
+613:12    openat(AT_FDCWD, "/fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/outside/badconfig.cfg", O_RDONLY) = 4
+642:13    openat(AT_FDCWD, "/fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/outside/badconfig.cfg", O_RDONLY) = 4
+669:14    openat(AT_FDCWD, "/fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/outside/badconfig.cfg", O_RDONLY) = 4
+696:15    openat(AT_FDCWD, "/fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/outside/badconfig.cfg", O_RDONLY) = 4
+723:16    openat(AT_FDCWD, "/fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/outside/badconfig.cfg", O_RDONLY) = 4
+## probe E (FIFO include): parent-side git blocks in openat; F4 timeout fires
+586:11    openat(AT_FDCWD, "/fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/outside/fifo.cfg", O_RDONLY) = ?
+## probe G (nested include -> lane .git/config under read-only home)
+586:11    openat(AT_FDCWD, "/fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/outside/inc_nested.cfg", O_RDONLY) = 4
+587:11    openat(AT_FDCWD, "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.git/config", O_RDONLY) = 5
+614:12    openat(AT_FDCWD, "/fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/outside/inc_nested.cfg", O_RDONLY) = 4
+615:12    openat(AT_FDCWD, "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.git/config", O_RDONLY) = 5
+644:13    openat(AT_FDCWD, "/fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/outside/inc_nested.cfg", O_RDONLY) = 4
+645:13    openat(AT_FDCWD, "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.git/config", O_RDONLY) = 5
+648:13    openat(AT_FDCWD, "/fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/outside/inc_nested.cfg", O_RDONLY) = 4
+649:13    openat(AT_FDCWD, "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.git/config", O_RDONLY) = 5
+622:13    execve("/usr/sbin/git", ["git", "-C", "/fast/scratch/hyaku/kengaku-r44/R44LabratLaneInclude/w_g/k44-c1-t12_zzh4/fx/inc_nested/f000/repo", "config", "--local", "--no-includes", "--get-regexp", "^include(if)?\\."],

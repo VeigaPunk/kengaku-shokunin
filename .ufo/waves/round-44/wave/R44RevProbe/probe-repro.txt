@@ -1,0 +1,27 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44RevProbe/env /fast/scratch/hyaku/kengaku-r44/R44RevProbe/env --bind /fast/scratch/hyaku/kengaku-r44/R44RevProbe/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash -c cd /home/vgpnk/Projects/shokunin/kengaku-shokunin && python3 plans/feal_linear_probe.py --lane . --work "$0" /fast/scratch/hyaku/kengaku-r44/R44RevProbe
+ENVELOPE start 20:35:05 cwd=/home/vgpnk/Projects/shokunin
+# tb2 feal-linear-cryptanalysis grader probe (kengaku round 44) @ terminal-bench-2 2fd12b88
+# capture Dockerfile sha256=ef521cded1b5e0e9a11a6aa9c758e4474f2160e641fb9a177a20cdc728bfff1d
+# capture decrypt.c sha256=4c6864e0d3a76626f1a7af1383e6826a85bdd1e7e373215741ece4f50a94ebd2
+# capture feal.c sha256=bbd38d19f976b27e5a5aff23e21ba5f0164335397928ca05220379552dea08da
+# capture gen.py sha256=3a71f0b5d9095440bea31bced5ea4fc8dd4cff0ae4226ea0400a3bfa7c452c63
+# capture instruction.md sha256=a2f1669d4067af6c7b8ac05ff7d5849ca5df68397c94701645c4b9a3b6f71b03
+# capture solve.sh sha256=be50ae01a3ea850a6dc4bc99dc130d0b7ad37963c85544a02b03a4f5da29cb77
+# capture test_outputs.py sha256=f59ebc7218a648582483cee02556c3bc1235e186301376bc3be066ed106ed9f9
+CASE nop predicted=fail observed=fail tests=F predicted_tests=F match=yes regrade=same violates=decrypt-all,plaintexts-file,known-plaintext-attack,recover-key error=FileNotFoundError -- no /app/plaintexts.txt (the image state only)
+CASE oracle-solve-sh predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates= -- the task's solve.sh: linear attack in C, then ./decrypt with the recovered keys
+CASE decrypt-public-keys predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates=known-plaintext-attack,recover-key -- ./decrypt ciphertexts.txt with the four round keys printed in the public gen.py:12 (no attack)
+CASE replay-public-gen predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates=known-plaintext-attack,recover-key,decrypt-all -- recompute the 100 plaintexts from the public gen.py hash chain (counters 32-131); no key, no decryption
+CASE copy-public-constants predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates=known-plaintext-attack,recover-key,decrypt-all -- copy the 100 expected constants out of the public tests/test_outputs.py
+CASE oracle-concatenated predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates= -- the oracle's numbers joined into one line with no separator
+CASE oracle-plus-decoys predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates= -- the oracle's output followed by 100 decryptions under a wrong key (two answers per ciphertext)
+CASE oracle-reversed predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates= -- the oracle's lines in reverse order
+CASE oracle-zero-padded predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=same violates= -- the correct plaintexts printed as 20-digit zero-padded decimals
+CASE one-missing predicted=fail observed=fail tests=F predicted_tests=F match=yes regrade=same violates=decrypt-all -- the correct 100 plaintexts with the last one dropped
+CASE hex-output predicted=fail observed=fail tests=F predicted_tests=F match=yes regrade=same violates= -- the correct plaintexts printed in hexadecimal (instruction.md names no format)
+CASE wrong-key-decrypt predicted=fail observed=fail tests=F predicted_tests=F match=yes regrade=same violates=recover-key,decrypt-all -- decrypt with round key 0 off by one bit
+CASE pairs-plaintexts predicted=fail observed=fail tests=F predicted_tests=F match=yes regrade=same violates=decrypt-all,known-plaintext-attack,recover-key -- the 32 known plaintexts from pairs.txt
+CASE ciphertexts-copied predicted=fail observed=fail tests=F predicted_tests=F match=yes regrade=same violates=decrypt-all,known-plaintext-attack,recover-key -- ciphertexts.txt copied unchanged
+regrade cases=14 differ=0
+cases=14 observed_pass=8 observed_fail=6 mismatches=0
+ENVELOPE end 20:35:10 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

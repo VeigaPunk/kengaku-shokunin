@@ -1,0 +1,53 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44Quarantine/env /fast/scratch/hyaku/kengaku-r44/R44Quarantine/env --bind /fast/scratch/hyaku/kengaku-r44/R44Quarantine/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash -c 
+set -u
+cd /fast/scratch/hyaku/kengaku-r44/R44Quarantine
+mkdir -p r
+UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
+echo "--- S091 fetch ---"
+curl -sS -L --max-time 45 -A "$UA" -H "Accept: text/html,application/xhtml+xml" -H "Accept-Language: ja,en;q=0.9" \
+  "https://jpn.nec.com/techrep/journal/g23/n02/230212.html" -o r/s091.html -w "http=%{http_code} bytes=%{size_download}\n"
+sha256sum r/s091.html
+echo "--- S091 anchor (python-flattened text) ---"
+python3 - <<PY
+import re,html
+s=open("r/s091.html",encoding="utf-8",errors="replace").read()
+t=html.unescape(re.sub(r"(?s)<[^>]+>"," ",s))
+a="RAKUDAベンチマークは1ターンの対話かつ少数データでの評価のため"
+print("anchor_present=", a in t, "| anchor_in_raw=", a in s)
+print("text_len=",len(t))
+PY
+echo "--- S105 archive fetch ---"
+curl -sS -L --max-time 60 -A "$UA" \
+  "http://web.archive.org/web/20251118034714/https://www.meti.go.jp/policy/mono_info_service/geniac/selection_1/result_1/index.html" \
+  -o r/s105_archive.html -w "http=%{http_code} bytes=%{size_download} final=%{url_effective}\n"
+sha256sum r/s105_archive.html
+for q in "ホールド・アウトデータ" "Weights and Biases" "Jaster-GENIAC-v0.1" "JMT-Bench-GENIAC-v0.1" "指定されたページまたはファイルは存在しません"; do
+  n=$(grep -c -F "$q" r/s105_archive.html || true); echo "quote=$q hits=$n"
+done
+echo "--- S105 live METI bare UA ---"
+curl -sS -L --max-time 45 -A "kengaku-lane/3.0" "https://www.meti.go.jp/policy/mono_info_service/geniac/selection_1/result_1/index.html" \
+  -o r/s105_live_bare.html -w "http=%{http_code} bytes=%{size_download}\n"
+for q in "指定されたページまたはファイルは存在しません" "ホールド・アウトデータ"; do
+  n=$(grep -c -F "$q" r/s105_live_bare.html || true); echo "live_bare quote=$q hits=$n"
+done
+
+ENVELOPE start 20:36:07 cwd=/fast/scratch/hyaku/kengaku-r44/R44Quarantine
+--- S091 fetch ---
+http=200 bytes=60334
+1b35525e2e697d66012eb4b6a8e7706ea430d6fdf762cef4f358e24218a69ba7  r/s091.html
+--- S091 anchor (python-flattened text) ---
+anchor_present= True | anchor_in_raw= True
+text_len= 27675
+--- S105 archive fetch ---
+http=200 bytes=13030 final=http://web.archive.org/web/20251118034714/https://www.meti.go.jp/policy/mono_info_service/geniac/selection_1/result_1/index.html
+0c64866bdeaa223ff72c41e5940b437303fa294d945ed44912b322cef4b34810  r/s105_archive.html
+quote=ホールド・アウトデータ hits=1
+quote=Weights and Biases hits=1
+quote=Jaster-GENIAC-v0.1 hits=2
+quote=JMT-Bench-GENIAC-v0.1 hits=1
+quote=指定されたページまたはファイルは存在しません hits=0
+--- S105 live METI bare UA ---
+http=403 bytes=5045
+live_bare quote=指定されたページまたはファイルは存在しません hits=2
+live_bare quote=ホールド・アウトデータ hits=0
+ENVELOPE end 20:36:14 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

@@ -1,0 +1,21 @@
+## flip-sweep denominator and the landed checker's skip, 2026-10-26 20:39:25 -03
+$ grep -c 'rc=2' .ufo/waves/round-43/build/R43FlipCheck/sweep.txt
+35
+$ grep -cE '^\S+\.md +rc=' .ufo/waves/round-43/build/R43FlipCheck/sweep.txt
+55
+$ grep -n round-42-verifier-spotcheck .ufo/waves/round-43/build/R43FlipCheck/sweep.txt
+47:round-42-verifier-spotcheck.md           rc=2 SETUP no '## Gate' section 
+$ python3 (re-aggregate the receipt's per-file FLIPS lines)
+skip 35 flip_lines 20 sum_total 45 sum_unresolved 45 flip_files_with_total_gt0 18
+$ python3 (lessons with/without a '## Gate' heading today)
+lessons 62 with_gate 21 without 41
+$ python3 plans/gate_flip_check.py --lesson corpus/lessons/round-42-verifier-spotcheck.md
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44LessonMistakes/env /fast/scratch/hyaku/kengaku-r44/R44LessonMistakes/env --bind /fast/scratch/hyaku/kengaku-r44/R44LessonMistakes/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 plans/gate_flip_check.py --lesson corpus/lessons/round-42-verifier-spotcheck.md
+ENVELOPE start 20:39:26 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+SETUP no '## Gate' section
+ENVELOPE end 20:39:28 exit=2 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+exit=2
+$ grep -c '^## Gate' corpus/lessons/round-42-verifier-spotcheck.md
+0
+$ sed -n 37p corpus/lessons/round-42-verifier-spotcheck.md
+- **D3 Gate flip condition fired and was not executed (Dockerfile).** The Gate's Dockerfile reject (`:44`) reads "if the entry

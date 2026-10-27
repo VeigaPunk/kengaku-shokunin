@@ -1,0 +1,15 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44BatU5b/env /fast/scratch/hyaku/kengaku-r44/R44BatU5b/env --bind /fast/scratch/hyaku/kengaku-r44/R44BatU5b/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round44_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r44/R44BatU5b/lane --battery-dir /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-44/wave/R44BatU5b/battery --only U5 --work /fast/scratch/hyaku/kengaku-r44/R44BatU5b/w
+ENVELOPE start 20:32:48 cwd=/fast/scratch/hyaku/kengaku-r44/R44BatU5b
+PINS total=2 mismatched=0
+FIXTURE u5_short_b-registry-url-task tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+FIXTURE u5_short_b-index-ref-staged tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+FIXTURE u5_short_b-lane-path-manifest tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+FIXTURE u5_short_b-history-truncation tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+MUTANT U5 anchor silence killed by=u5_short_b-registry-url-task attributed=L522 value=differs hits=4 -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+BATTERY fixtures=4 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=1 killed=1 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=1/1 order=0/0
+ADVERTISED direct=1 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 20:32:49 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

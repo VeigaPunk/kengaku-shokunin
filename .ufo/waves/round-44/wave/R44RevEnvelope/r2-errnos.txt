@@ -1,0 +1,7 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/env /fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/env --bind /fast/scratch/hyaku/kengaku-r44/R44RevEnvelope/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /bin/sh -c touch /home/vgpnk/.local/bin/__probe; ln /home/vgpnk/.local/bin/codex /var/tmp/alias-vartmp; setfattr -n user.p -v 1 /home/vgpnk/.local/bin/codex; setfacl -m u:1000:rw /home/vgpnk/.local/bin/codex
+ENVELOPE start 20:43:46 cwd=/fast/scratch/hyaku/kengaku-r44/R44RevEnvelope
+touch: cannot touch '/home/vgpnk/.local/bin/__probe': Read-only file system
+ln: failed to create hard link '/var/tmp/alias-vartmp' => '/home/vgpnk/.local/bin/codex': Invalid cross-device link
+setfattr: /home/vgpnk/.local/bin/codex: Read-only file system
+setfacl: /home/vgpnk/.local/bin/codex: Read-only file system
+ENVELOPE end 20:43:48 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

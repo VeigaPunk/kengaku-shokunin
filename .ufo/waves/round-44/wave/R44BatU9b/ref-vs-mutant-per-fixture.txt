@@ -1,0 +1,37 @@
+What the unmodified tool prints (ref) and what the frozen U9 replacement prints (u9), per fixture, with
+--verbose.  Fixtures were built once by the counter's own build child
+(`--build-module .ufo/waves/round-44/wave/R44BatU9b/battery/u9_worktree_b.py --dest $S/inspect/fx`), and the
+mutant is the pinned tool with U9's single replacement applied (src.replace(old, new, 1), same as the
+counter).  Both trees are the same fixture directory; only the lessons source differs (working tree vs HEAD).
+ENVELOPE start 20:35:16 cwd=/fast/scratch/hyaku/kengaku-r44/R44BatU9b
+--- f000 (u9_worktree_b-registry-erratum-appended) ref rc=0
+    EVIDENCE ref=head files=2 manifest_digests=0 rows=4 paths=2 bound_rows=4 unbound_rows=0
+    ERRATUM S104 loc=corpus/lessons/r44-notes.md:5 cited_wrong=['8796c212921942dc4ba89d9e3e0ffd4f59b755c88bf97fd5bbbdd8db446ef942'] correction=['889e736821b5d3fc8251ea220e081ff793708a62e933dd87b40ceca66f...
+    EXEMPT S104 anchor=8796c212921942dc4ba89d9e3e0ffd4f59b755c88bf97fd5bbbdd8db446ef942 by=corpus/lessons/r44-notes.md:5 correction=889e736821b5d3fc8251ea220e081ff793708a62e933dd87b40ceca66f68063b
+    rows=4 tokens=3 defects=0
+--- f000 (same fixture) u9 rc=1
+    EVIDENCE ref=head files=2 manifest_digests=0 rows=4 paths=2 bound_rows=4 unbound_rows=0
+    DEFECT S104 anchor token=8796c212921942dc4ba89d9e3e0ffd4f59b755c88bf97fd5bbbdd8db446ef942 class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:8
+    rows=4 tokens=3 defects=1
+--- f001 (u9_worktree_b-erratum-retargeted-history) ref rc=0
+    EVIDENCE ref=head files=2 manifest_digests=1 rows=2 paths=2 bound_rows=1 unbound_rows=1
+    ERRATUM S210 loc=corpus/lessons/errata.md:3 cited_wrong=['fb4dc4a5727c0aa8a1f5c644eca53f5f9e3ad693560d09d5ec141dd3acb4c4d1'] correction=['5c467221b7050014103067855409effa46fa10bb8d583ade51ef5b382071a9...
+    EXEMPT S210 anchor=fb4dc4a5727c0aa8a1f5c644eca53f5f9e3ad693560d09d5ec141dd3acb4c4d1 by=corpus/lessons/errata.md:3 correction=5c467221b7050014103067855409effa46fa10bb8d583ade51ef5b382071a9e3
+    rows=2 tokens=1 defects=0
+--- f001 (same fixture) u9 rc=1
+    EVIDENCE ref=head files=2 manifest_digests=1 rows=2 paths=2 bound_rows=1 unbound_rows=1
+    ERRATUM S211 loc=corpus/lessons/errata.md:3 cited_wrong=[] correction=['5c467221b7050014103067855409effa46fa10bb8d583ade51ef5b382071a9e3']
+    DEFECT S210 anchor token=fb4dc4a5727c0aa8a1f5c644eca53f5f9e3ad693560d09d5ec141dd3acb4c4d1 class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:5
+    rows=2 tokens=1 defects=1
+--- f002 (u9_worktree_b-erratum-completed-in-place) ref rc=0
+    EVIDENCE ref=head files=1 manifest_digests=0 rows=1 paths=1 bound_rows=1 unbound_rows=0
+    ERRATUM S310 loc=corpus/lessons/repairs.md:3 cited_wrong=['efc7fb04a041dcd259936358cb6ce0833810da962e8bdcd09209f1ec5e657f7d'] correction=['9ccc734b6d1888f3c1b697527103b6bcf60795f88eb8ffe4a0559613db786...
+    EXEMPT S310 anchor=efc7fb04a041dcd259936358cb6ce0833810da962e8bdcd09209f1ec5e657f7d by=corpus/lessons/repairs.md:3 correction=9ccc734b6d1888f3c1b697527103b6bcf60795f88eb8ffe4a0559613db786075
+    rows=1 tokens=1 defects=0
+--- f002 (same fixture) u9 rc=1
+    EVIDENCE ref=head files=1 manifest_digests=0 rows=1 paths=1 bound_rows=1 unbound_rows=0
+    ERRATUM S310 loc=corpus/lessons/repairs.md:3 cited_wrong=['efc7fb04a041dcd259936358cb6ce0833810da962e8bdcd09209f1ec5e657f7d'] correction=[]
+    DEFECT S310 erratum token=- class=erratum-incomplete detail=no-64-hex-digest-of-the-capture-this-row-names loc=corpus/lessons/repairs.md:3
+    DEFECT S310 anchor token=efc7fb04a041dcd259936358cb6ce0833810da962e8bdcd09209f1ec5e657f7d class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:5
+    rows=1 tokens=1 defects=2
+ENVELOPE end 20:35:18 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

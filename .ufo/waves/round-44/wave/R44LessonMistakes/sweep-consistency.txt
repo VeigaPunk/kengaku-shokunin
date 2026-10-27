@@ -1,0 +1,22 @@
+## frozen-artefact consistency, 2026-10-26 20:40:15 -03
+$ sha256sum -c .ufo/waves/round-44/claims/frozen-digests.txt
+corpus/evidence/round44/tb2-feal-linear-cryptanalysis/SHA256SUMS: OK
+.ufo/waves/round-44/claims/witness/w_u.py: OK
+.ufo/waves/round-44/claims/envelope.sh: OK
+$ grep -E 'MUTANTS|MUTANTS-BY-TOOL' .ufo/waves/round-44/claims/witness-run.txt
+MUTANTS total=5 killed=5 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=4/4 order=1/1
+$ grep -E 'BATTERY|MUTANTS|PREDICATE' .ufo/waves/round-44/claims/control-c1-nothing.txt
+BATTERY fixtures=0 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=5 killed=0 survived=5 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/4 order=0/1
+PREDICATE C1 fail
+$ python3 (receipt case tally)
+cases 14 tests_P 8 tests_F 6 match_yes 14 regrade_same 14
+cases=14 predicted_pass=8 predicted_fail=6
+.ufo/waves/round-44/claims/control-c1-hostile-f1.txt       1 exit=1 exit=2 
+.ufo/waves/round-44/claims/control-c1-hostile-f2.txt       1 exit=1 exit=2 
+.ufo/waves/round-44/claims/control-c1-hostile-f3.txt       1 exit=1 exit=2 
+.ufo/waves/round-44/claims/control-c1-hostile-f4.txt       1 exit=124 exit=2 
+.ufo/waves/round-44/claims/control-c1-hostile-f5.txt       1 exit=1 exit=2 
+.ufo/waves/round-44/claims/control-c1-hostile-f6.txt       1 exit=1 exit=2 

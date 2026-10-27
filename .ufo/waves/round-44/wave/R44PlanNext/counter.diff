@@ -1,0 +1,92 @@
+--- lane/plans/round44_c1_verify.py	2026-10-26 20:37:31.699709304 -0300
++++ ctr/c1_rc.py	2026-10-26 20:40:07.071937928 -0300
+@@ -126,8 +126,10 @@
+ TOOLS = {
+     "anchor": "plans/anchor_digest_check.py",
+     "order": "plans/order_check.py",
++    "round_close": "plans/round_close.py",
+ }
+ PINS = {
++    "plans/round_close.py": "cd581f8a263372b164f5a4fdf20e25eefaa22d2087097de75e463c19043a8144",
+     "plans/anchor_digest_check.py": "11bb2cad87be1c29c2d5abe8313d487d73f71ba49a40d7d0dc80ec26c70fd4c2",
+     "plans/order_check.py": "948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc",
+ }
+@@ -227,33 +229,32 @@
+ 
+ # (id, tool, class, direction, adv_kind, adv [file:line 'quoted sentence'], witness [pre-freeze, committed],
+ #  old, new)
+-MUTANTS = [
+-    ('U5', 'anchor', 'digest-short', 'silence', 'direct',
+-     "plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex digits (`digest-short`, `digest-long`' (a short token labelled digest-long)",
+-     f"{WR} (MUTANT U5); round-43 wave-1 R43PlanNext B.1 row 5",
+-     'cls, why = ("digest-short" if len(tok) < 64 else "digest-long")',
+-     'cls, why = ("digest-long" if len(tok) < 64 else "digest-long")'),
+-    ('U6', 'anchor', 'digest-long', 'silence', 'direct',
+-     "plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex digits (`digest-short`, `digest-long`' (a long token labelled digest-short)",
+-     f"{WR} (MUTANT U6); round-43 wave-1 R43PlanNext B.1 row 6",
+-     'cls, why = ("digest-short" if len(tok) < 64 else "digest-long")',
+-     'cls, why = ("digest-short" if len(tok) < 64 else "digest-short")'),
+-    ('U7', 'anchor', '-', 'rc-mirror', 'direct',
+-     "plans/anchor_digest_check.py:98-99 'A token that resolves to several of the row's captures is not a defect' (only the first resolving capture is claimed)",
+-     f"{WR} (MUTANT U7); round-43 wave-1 R43PlanNext B.1 row 7",
+-     'hit = sorted(p for p, ent in per.items() if tok in ent["digests"])\n                claimed.update(hit)\n                if verbose:\n                    path, how',
+-     'hit = sorted(p for p, ent in per.items() if tok in ent["digests"])[:1]\n                claimed.update(hit)\n                if verbose:\n                    path, how'),
+-    ('U9', 'anchor', '-', 'rc-mirror', 'direct',
+-     "plans/anchor_digest_check.py:106-107 'lessons are read from the working tree for paths committed at HEAD, so a seat's erratum counts before it is committed' (lessons read from HEAD instead)",
+-     f"{WR} (MUTANT U9); round-43 wave-1 R43PlanNext B.1 row 9",
+-     'f.read_text(encoding="utf-8", errors="replace")',
+-     'git(lane, "show", "HEAD:" + p).decode("utf-8", "replace")'),
+-    ('U14c', 'order', '-', 'error', 'direct',
+-     "plans/order_check.py:26-27 'Exit: 0 order holds · 1 order broken · 2 setup error (... unparseable round number, bad arguments)' (the claims-name guard disabled)",
+-     f"{WR} (MUTANT U14c); round-43 wave-1 R43PlanNext B.1 row 14 (U14c)",
+-     '        if not m:\n            raise SetupError(f"claims file name',
+-     '        if False:\n            raise SetupError(f"claims file name'),
+-]
++MUTANTS = [('L98a', 'round_close', '-', '0>2', 'direct', "plans/round_close.py:2 'exits 0 only when every leg passed' (git_ok == 0 flipped)", 'R44PlanNext scratch', 'capture_output=True).returncode == 0', 'capture_output=True).returncode != 0'),
++    ('L98b', 'round_close', '-', '0>2', 'direct', 'plans/round_close.py:57 receipt committed in HEAD counts (git_ok == 0 -> == 1)', 'R44PlanNext scratch', 'capture_output=True).returncode == 0', 'capture_output=True).returncode == 1'),
++    ('L132', 'round_close', '-', '0>2', 'direct', "plans/round_close.py:57 'neither a file in the lane nor committed in HEAD' dropped (or -> and)", 'R44PlanNext scratch', 'if (lane / rel).is_file() or git_ok(', 'if (lane / rel).is_file() and git_ok('),
++    ('L122a', 'round_close', '-', '0>2', 'direct', "plans/round_close.py:33 '(b) a backticked corpus/evidence/roundN path for this round' (== -> !=)", 'R44PlanNext scratch', 'if int(m.group(2)) == round_no:', 'if int(m.group(2)) != round_no:'),
++    ('L122b', 'round_close', '-', '0>2', 'direct', 'plans/round_close.py:33 (b) (if -> False)', 'R44PlanNext scratch', 'if int(m.group(2)) == round_no:', 'if False:                        '),
++    ('L145a', 'round_close', '-', '2>0', 'direct', "plans/round_close.py:73 census found 'else the lane's parents' (and -> or)", 'R44PlanNext scratch', 'if env_root and (Path(env_root) / CENSUS_REL).is_file():', 'if env_root or  (Path(env_root) / CENSUS_REL).is_file():'),
++    ('L149', 'round_close', '-', '0>2', 'direct', "plans/round_close.py:73 census 'the lane's parents' (if -> False)", 'R44PlanNext scratch', 'if cand.is_file():', 'if False:           '),
++    ('L175', 'round_close', '-', '2>1', 'direct', "plans/round_close.py:25 'no claims file' is 2 (if -> False)", 'R44PlanNext scratch', 'if not claims_path.is_file():', 'if False:                    '),
++    ('L178', 'round_close', '-', '2>1', 'direct', "plans/round_close.py:25 'no order tool' is 2 (if -> False)", 'R44PlanNext scratch', 'if not order_path.is_file():', 'if False:                   '),
++    ('L319', 'round_close', '-', '2>1', 'direct', 'plans/round_close.py:25 --selftest census missing is 2 (if -> False)', 'R44PlanNext scratch', 'if args.selftest:\n        if census is None:', 'if args.selftest:\n        if False:          '),
++    ('L321', 'round_close', '-', '2>0', 'direct', 'plans/round_close.py:25 --selftest census missing is 2 (return 2 -> 0)', 'R44PlanNext scratch', '            return 2\n        if not (lane / ORDER_TOOL).is_file():', '            return 0\n        if not (lane / ORDER_TOOL).is_file():'),
++    ('L322', 'round_close', '-', '2>1', 'direct', 'plans/round_close.py:25 --selftest no order tool is 2 (if -> False)', 'R44PlanNext scratch', 'if not (lane / ORDER_TOOL).is_file():', 'if False:                            '),
++    ('L324', 'round_close', '-', '2>0', 'direct', 'plans/round_close.py:25 --selftest no order tool is 2 (return 2 -> 0)', 'R44PlanNext scratch', '            return 2\n        return selftest(', '            return 0\n        return selftest('),
++    ('L326', 'round_close', '-', '0>2', 'direct', 'plans/round_close.py:25 gate run with --round (is -> is not)', 'R44PlanNext scratch', 'if args.round is None:', 'if args.round is not None:'),
++    ('L328a', 'round_close', '-', '0>2', 'direct', 'plans/round_close.py:25 census found -> gate runs (is -> is not)', 'R44PlanNext scratch', 'unless --selftest")\n    if census is None:', 'unless --selftest")\n    if census is not None:'),
++    ('L328b', 'round_close', '-', '2>1', 'direct', 'plans/round_close.py:25 --census missing is 2 (if -> False)', 'R44PlanNext scratch', 'unless --selftest")\n    if census is None:', 'unless --selftest")\n    if False:          '),
++    ('L331', 'round_close', '-', '2>0', 'direct', 'plans/round_close.py:25 --census missing is 2 (return 2 -> 0)', 'R44PlanNext scratch', '        print("ROUND-CLOSE RESULT ERROR")\n        return 2\n    return gate(', '        print("ROUND-CLOSE RESULT ERROR")\n        return 0\n    return gate('),
++    ("L168", "round_close", "-", "2>0", "direct", "x:168 not a git work tree is 2 (if -> False)", "R44PlanNext scratch", "if top.returncode != 0:", "if False                 :"),
++    ("L170", "round_close", "-", "2>0", "direct", "x:170 --lane must be the work-tree top (!= -> ==)", "R44PlanNext scratch", "if Path(top.stdout.decode().strip()).resolve() != lane:", "if Path(top.stdout.decode().strip()).resolve() == lane:"),
++    ("L170f", "round_close", "-", "2>0", "direct", "x:170 --lane must be the work-tree top (if -> False)", "R44PlanNext scratch", "if Path(top.stdout.decode().strip()).resolve() != lane:", "if False                                               :"),
++    ("L182", "round_close", "-", "2>0", "direct", "x:182 no registry is 2 (if -> False)", "R44PlanNext scratch", "if not (lane / SOURCES).is_file():", "if False                          :"),
++    ("L326f", "round_close", "-", "2>0", "direct", "x:326 --round required (if -> False)", "R44PlanNext scratch", "if args.round is None:", "if False                :"),
++    ('C145b', 'round_close', '-', '0>2', 'direct', 'env-gated: SHOKUNIN_ROOT (if env_root -> False)', 'R44PlanNext scratch', 'if env_root and (Path(env_root) / CENSUS_REL).is_file():', 'if False    and (Path(env_root) / CENSUS_REL).is_file():'),
++    ('C243a', 'round_close', '-', '0>1', 'direct', 'counter-gated: reused --work (if -> False)', 'R44PlanNext scratch', 'if root.is_symlink() or root.is_file():', 'if False                              :'),
++    ('C243b', 'round_close', '-', '0>1', 'direct', 'counter-gated: reused --work (or -> and)', 'R44PlanNext scratch', 'if root.is_symlink() or root.is_file():', 'if root.is_symlink() and root.is_file():'),
++    ('C243c', 'round_close', '-', '0>1', 'direct', 'counter-gated: reused --work (elif -> False)', 'R44PlanNext scratch', 'elif root.is_dir():', 'elif False:       ')]
+ 
+ 
+ def sha256(p):
+@@ -540,6 +541,18 @@
+     as the module contract writes them, so no argparse abbreviation or `--opt=value` form can bypass a leg. An
+     order argv is exactly `["--lane", v, "--claims", v, "--receipt", v]`, an argv that leaves one flag out (or adds
+     one) included; an anchor argv uses only `--lane V`, `--evidence-ref V`, `--verbose`."""
++    if tool == "round_close":
++        opts = {"--lane": True, "--round": True, "--census": True, "--work": True, "--selftest": False}
++        seen, k = [], 0
++        while k < len(argv):
++            tok = argv[k]
++            if tok not in opts or tok in seen:
++                return f"round_close argv token {tok!r} is not an exact, single option"
++            seen.append(tok)
++            k += 2 if opts[tok] else 1
++        if k != len(argv) or "--lane" not in seen:
++            return "round_close argv malformed or no --lane"
++        return None
+     if tool == "order":
+         if len(argv) != 6 or tuple(argv[0::2]) != ORDER_SHAPE:
+             return f"order argv is not the contract shape {list(ORDER_SHAPE)}: {argv}"

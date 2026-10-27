@@ -1,0 +1,13 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44BatU9a/env /fast/scratch/hyaku/kengaku-r44/R44BatU9a/env --bind /fast/scratch/hyaku/kengaku-r44/R44BatU9a/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round44_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r44/R44BatU9a/lane --battery-dir /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-44/wave/R44BatU9a/battery --only U9 --work /fast/scratch/hyaku/kengaku-r44/R44BatU9a/w
+ENVELOPE start 20:33:55 cwd=/home/vgpnk/Projects/shokunin
+PINS total=2 mismatched=0
+FIXTURE u9_worktree_a-registry-wrong-capture tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u9_worktree_a-history-abbrev tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT U9 anchor rc-mirror killed by=u9_worktree_a-registry-wrong-capture attributed=L384 value=differs hits=2 -- plans/anchor_digest_check.py:106-107 'lessons are read from the working tree for paths com
+BATTERY fixtures=2 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=1 killed=1 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=1/1 order=0/0
+ADVERTISED direct=1 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 20:33:57 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

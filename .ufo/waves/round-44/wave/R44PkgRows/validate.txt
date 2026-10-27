@@ -1,0 +1,39 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44PkgRows/env /fast/scratch/hyaku/kengaku-r44/R44PkgRows/env --bind /fast/scratch/hyaku/kengaku-r44/R44PkgRows/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /fast/scratch/hyaku/kengaku-r44/R44PkgRows/validate.sh
+ENVELOPE start 20:40:20 cwd=/home/vgpnk/Projects/shokunin
+TIP 5e3d3aa06c6b7000929ac3e62563a39159c4501f untracked_in_clone=2
+ROWS 139
+DRAFT-EQUALS-LANDED yes
+== ROWCHECK (cell count / URL basename / verbatim quote line / word count / sha256 pin)
+ROWS parsed=9
+OK S138 capture=test_outputs.py line=122 verbatim=True words=4/4 sha256_pin=True cells=11
+OK S139 capture=instruction.md line=7 verbatim=True words=11/11 sha256_pin=True cells=11
+OK S140 capture=gen.py line=12 verbatim=True words=6/6 sha256_pin=True cells=11
+OK S141 capture=Dockerfile line=14 verbatim=True words=3/3 sha256_pin=True cells=11
+OK S142 capture=test.sh line=26 verbatim=True words=4/4 sha256_pin=True cells=11
+OK S143 capture=README.md line=32 verbatim=True words=9/9 sha256_pin=True cells=11
+OK S144 capture=solve.sh line=304 verbatim=True words=3/3 sha256_pin=True cells=11
+OK S145 capture=decrypt.c line=136 verbatim=True words=2/2 sha256_pin=True cells=11
+OK S146 capture=task.toml line=34 verbatim=True words=3/3 sha256_pin=True cells=11
+DEFECTS 0
+ROWCHECK_exit=0
+== CENSUS green (rows appended, E11 placeholder present)
+file	W04	S100 duplicate url github.com/laude-institute/terminal-bench-2 across scopes
+file	ok	/fast/scratch/hyaku/kengaku-r44/R44PkgRows/lane/corpus/SOURCES.md
+CENSUS_exit_code=0
+CENSUS W04=15 E-codes=0
+== CENSUS red control (used-by entry removed -> E11 must fire on S138-S146)
+CENSUS_red_exit_code=1
+grep: warning: stray \ before t
+E11_rows_fired=0
+== ANCHOR green
+rows=139 tokens=45 defects=0
+ANCHOR_exit=0
+ANCHOR_BIND=9 ANCHOR_RESOLVED=9
+BIND S138 capture=corpus/evidence/round44/tb2-feal-linear-cryptanalysis/test_outputs.py by=url-task
+BIND S139 capture=corpus/evidence/round44/tb2-feal-linear-cryptanalysis/instruction.md by=url-task
+BIND S140 capture=corpus/evidence/round44/tb2-feal-linear-cryptanalysis/gen.py by=url-task
+== ANCHOR red control (S138 digest last nibble flipped -> one defect, named)
+DEFECT S138 anchor token=f59ebc7218a648582483cee02556c3bc1235e186301376bc3be066ed106ed9f8 class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:153
+rows=139 tokens=45 defects=1
+ANCHOR_mutant_exit=1
+ENVELOPE end 20:40:28 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

@@ -1,0 +1,42 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44PlanNext/env /fast/scratch/hyaku/kengaku-r44/R44PlanNext/env --bind /fast/scratch/hyaku/kengaku-r44/R44PlanNext/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r44/R44PlanNext/ctr/c1_rc.py --lane /fast/scratch/hyaku/kengaku-r44/R44PlanNext/lane --battery-dir /fast/scratch/hyaku/kengaku-r44/R44PlanNext/bat --work /fast/scratch/hyaku/kengaku-r44/R44PlanNext/w
+ENVELOPE start 20:38:56 cwd=/fast/scratch/hyaku/kengaku-r44/R44PlanNext
+PINS total=3 mismatched=0
+FIXTURE rc-gate-ok tool=round_close expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE rc-receipt-deleted tool=round_close expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE rc-evidence-path-only tool=round_close expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE rc-census-lane-first tool=round_close expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE rc-census-in-parent tool=round_close expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE rc-no-claims tool=round_close expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE rc-no-order-tool tool=round_close expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE rc-selftest-no-census tool=round_close expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE rc-selftest-no-order tool=round_close expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE rc-census-absent tool=round_close expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE rc-selftest-runs tool=round_close expect=reject declared=- observed_rc=1 observed=- ok
+MUTANT L98a round_close 0>2 killed by=rc-receipt-deleted attributed=L98 value=differs hits=1 -- plans/round_close.py:2 'exits 0 only when every leg passed' (git_ok == 0 flipped)
+MUTANT L98b round_close 0>2 killed by=rc-receipt-deleted attributed=L98 value=differs hits=1 -- plans/round_close.py:57 receipt committed in HEAD counts (git_ok == 0 -> == 1)
+MUTANT L132 round_close 0>2 killed by=rc-receipt-deleted attributed=L132 value=differs hits=1 -- plans/round_close.py:57 'neither a file in the lane nor committed in HEAD' dropped (or -> 
+MUTANT L122a round_close 0>2 killed by=rc-evidence-path-only attributed=L122 value=differs hits=1 -- plans/round_close.py:33 '(b) a backticked corpus/evidence/roundN path for this round' (== 
+MUTANT L122b round_close 0>2 killed by=rc-evidence-path-only attributed=L122 value=differs hits=1 -- plans/round_close.py:33 (b) (if -> False)
+MUTANT L145a round_close 2>0 killed by=rc-census-lane-first attributed=L145 value=differs hits=1 -- plans/round_close.py:73 census found 'else the lane's parents' (and -> or)
+MUTANT L149 round_close 0>2 killed by=rc-census-in-parent attributed=L149 value=differs hits=1 -- plans/round_close.py:73 census 'the lane's parents' (if -> False)
+MUTANT L175 round_close 2>1 killed by=rc-no-claims attributed=L175 value=differs hits=1 -- plans/round_close.py:25 'no claims file' is 2 (if -> False)
+MUTANT L178 round_close 2>1 killed by=rc-no-order-tool attributed=L178 value=differs hits=1 -- plans/round_close.py:25 'no order tool' is 2 (if -> False)
+MUTANT L319 round_close 2>1 killed by=rc-selftest-no-census attributed=L318 value=differs hits=1 -- plans/round_close.py:25 --selftest census missing is 2 (if -> False)
+MUTANT L321 round_close 2>0 killed by=rc-selftest-no-census attributed=L321 value=differs hits=1 -- plans/round_close.py:25 --selftest census missing is 2 (return 2 -> 0)
+MUTANT L322 round_close 2>1 killed by=rc-selftest-no-order attributed=L322 value=differs hits=1 -- plans/round_close.py:25 --selftest no order tool is 2 (if -> False)
+MUTANT L324 round_close 2>0 killed by=rc-selftest-no-order attributed=L324 value=differs hits=1 -- plans/round_close.py:25 --selftest no order tool is 2 (return 2 -> 0)
+MUTANT L326 round_close 0>2 killed by=rc-gate-ok attributed=L326 value=differs hits=4 -- plans/round_close.py:25 gate run with --round (is -> is not)
+MUTANT L328a round_close 0>2 killed by=rc-gate-ok attributed=L327 value=differs hits=4 -- plans/round_close.py:25 census found -> gate runs (is -> is not)
+MUTANT L328b round_close 2>1 killed by=rc-census-absent attributed=L327 value=differs hits=1 -- plans/round_close.py:25 --census missing is 2 (if -> False)
+MUTANT L331 round_close 2>0 killed by=rc-census-absent attributed=L330 value=differs hits=1 -- plans/round_close.py:25 --census missing is 2 (return 2 -> 0)
+MUTANT C145b round_close 0>2 SURVIVED exhibits=none -- env-gated: SHOKUNIN_ROOT (if env_root -> False)
+MUTANT C243a round_close 0>1 SURVIVED exhibits=none -- counter-gated: reused --work (if -> False)
+MUTANT C243b round_close 0>1 SURVIVED exhibits=none -- counter-gated: reused --work (or -> and)
+MUTANT C243c round_close 0>1 SURVIVED exhibits=none -- counter-gated: reused --work (elif -> False)
+BATTERY fixtures=11 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=21 killed=17 survived=4 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/0 order=0/0 round_close=17/21
+ADVERTISED direct=21 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 20:39:04 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

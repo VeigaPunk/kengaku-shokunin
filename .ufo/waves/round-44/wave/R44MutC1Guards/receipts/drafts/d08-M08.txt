@@ -1,0 +1,13 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44MutC1Guards /fast/scratch/hyaku/kengaku-r44/R44MutC1Guards --bind /fast/scratch/hyaku/kengaku-r44/R44MutC1Guards/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r44/R44MutC1Guards/mut/M08.py --lane /home/vgpnk/Projects/shokunin/kengaku-shokunin --battery-dir /fast/scratch/hyaku/kengaku-r44/R44MutC1Guards/drafts/modules/d08 --only U5 --work /fast/scratch/hyaku/kengaku-r44/R44MutC1Guards/drafts/w-d08-m
+ENVELOPE start 21:13:38 cwd=/fast/scratch/hyaku/kengaku-r44/R44MutC1Guards
+PINS total=2 mismatched=0
+SIDECHANNEL d08/d08barewt.py tokens=core.
+FIXTURE d8-bare-worktree tool=anchor expect=error declared=- observed_rc=2 observed=- ok
+MUTANT U5 anchor silence SURVIVED exhibits=none -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+BATTERY fixtures=1 wrong=0 tampered=0 sidechannel=1
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=0/1 order=0/0
+ADVERTISED direct=1 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 21:13:39 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

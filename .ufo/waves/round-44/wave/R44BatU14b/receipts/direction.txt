@@ -1,0 +1,19 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44BatU14b/env /fast/scratch/hyaku/kengaku-r44/R44BatU14b/env --bind /fast/scratch/hyaku/kengaku-r44/R44BatU14b/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /fast/scratch/hyaku/kengaku-r44/R44BatU14b/direction.sh
+ENVELOPE start 20:35:32 cwd=/fast/scratch/hyaku/kengaku-r44/R44BatU14b
+registry-suffix REFERENCE                  rc=2 | ORDER ERROR claims file name is not round-NN-claims.md: plans/round-51-claims.md.orig
+registry-suffix U14c-mutant                rc=1 | 
+nested-uppercase REFERENCE                 rc=2 | ORDER ERROR claims file name is not round-NN-claims.md: notes/history/Round-7-claims.md
+nested-uppercase U14c-mutant               rc=1 | 
+round-xx-token REFERENCE                   rc=2 | ORDER ERROR claims file name is not round-NN-claims.md: plans/round-xx-claims.md
+round-xx-token U14c-mutant                 rc=1 | 
+underscore-name REFERENCE                  rc=2 | ORDER ERROR claims file name is not round-NN-claims.md: plans/round_44_claims.md
+underscore-name U14c-mutant                rc=1 | 
+--- mutant traceback shape (registry fixture)
+  File "/fast/scratch/hyaku/kengaku-r44/R44BatU14b/mut/order_u14c.py", line 163, in main
+    round_no = int(m.group(1))
+                   ^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'
+--- reference stderr (registry fixture)
+ORDER ERROR claims file name is not round-NN-claims.md: plans/round-51-claims.md.orig
+ORDER RESULT ERROR
+ENVELOPE end 20:35:33 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
