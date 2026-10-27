@@ -1,0 +1,1168 @@
+[
+ {
+  "entry": 162,
+  "kind": "located",
+  "cap": "instruction.md:1",
+  "status": "OK",
+  "quote": "The file /app/feal.c implements a FEAL-like encryption function,",
+  "note": "",
+  "line": null,
+  "wc": 8,
+  "claim": "the cipher is shipped as C source in /app"
+ },
+ {
+  "entry": 163,
+  "kind": "located",
+  "cap": "instruction.md:4",
+  "status": "OK",
+  "quote": "(Each of the 4 round keys is derived from a 20 bit seed.",
+  "note": "",
+  "line": null,
+  "wc": 13,
+  "claim": "each round key is reduced to a 20-bit seed"
+ },
+ {
+  "entry": 164,
+  "kind": "located",
+  "cap": "instruction.md:7",
+  "status": "OK",
+  "quote": "Implement a known-plaintext attack that recovers the key of the cipher.",
+  "note": "",
+  "line": null,
+  "wc": 11,
+  "claim": "the request is a known-plaintext key recovery"
+ },
+ {
+  "entry": 165,
+  "kind": "located",
+  "cap": "instruction.md:9",
+  "status": "OK",
+  "quote": "the file /app/ciphertexts.txt, and saving your answer in the file",
+  "note": "",
+  "line": null,
+  "wc": 10,
+  "claim": "the deliverable is an answer file, with no format named"
+ },
+ {
+  "entry": 166,
+  "kind": "located",
+  "cap": "test_outputs.py:108",
+  "status": "OK",
+  "quote": "Test that the linear cryptanalysis attack correctly decrypts all ciphertexts.",
+  "note": "",
+  "line": null,
+  "wc": 10,
+  "claim": "the test's own docstring says it checks the 100 values"
+ },
+ {
+  "entry": 167,
+  "kind": "located",
+  "cap": "test_outputs.py:4",
+  "status": "OK",
+  "quote": "soln = \"\"\"1050628112036199672",
+  "note": "",
+  "line": null,
+  "wc": 3,
+  "claim": "the expected values are a literal block in the test file"
+ },
+ {
+  "entry": 168,
+  "kind": "located",
+  "cap": "test_outputs.py:120",
+  "status": "OK",
+  "quote": "data = open(\"/app/plaintexts.txt\").read()",
+  "note": "",
+  "line": null,
+  "wc": 3,
+  "claim": "the graded file is read whole, unparsed"
+ },
+ {
+  "entry": 169,
+  "kind": "located",
+  "cap": "test_outputs.py:121",
+  "status": "OK",
+  "quote": "for c in soln.split():",
+  "note": "",
+  "line": null,
+  "wc": 4,
+  "claim": "the constants are iterated one by one"
+ },
+ {
+  "entry": 170,
+  "kind": "located",
+  "cap": "test_outputs.py:122",
+  "status": "OK",
+  "quote": "assert c in data",
+  "note": "",
+  "line": null,
+  "wc": 4,
+  "claim": "the whole value check is one containment"
+ },
+ {
+  "entry": 171,
+  "kind": "located",
+  "cap": "test.sh:22",
+  "status": "OK",
+  "quote": "pytest --ctrf /logs/verifier/ctrf.json /tests/test_outputs.py -v -rA",
+  "note": "",
+  "line": null,
+  "wc": 6,
+  "claim": "pytest runs the single captured test file"
+ },
+ {
+  "entry": 172,
+  "kind": "located",
+  "cap": "test.sh:25",
+  "status": "OK",
+  "quote": "if [ $? -eq 0 ]; then",
+  "note": "",
+  "line": null,
+  "wc": 7,
+  "claim": "the reward is the pytest exit status"
+ },
+ {
+  "entry": 173,
+  "kind": "located",
+  "cap": "test.sh:26",
+  "status": "OK",
+  "quote": "echo 1 > /logs/verifier/reward.txt",
+  "note": "",
+  "line": null,
+  "wc": 4,
+  "claim": "reward 1 is written on exit 0"
+ },
+ {
+  "entry": 174,
+  "kind": "located",
+  "cap": "gen.py:12",
+  "status": "OK",
+  "quote": "keys = [\"0x68e63\", \"0x62571\", \"0x1f61c\", \"0xb74a5\"]",
+  "note": "",
+  "line": null,
+  "wc": 6,
+  "claim": "the four round keys are literals in the generator"
+ },
+ {
+  "entry": 175,
+  "kind": "located",
+  "cap": "gen.py:61",
+  "status": "OK",
+  "quote": "plaintext_hash = hashlib.sha256(seed_hash + counter_bytes).digest()",
+  "note": "",
+  "line": null,
+  "wc": 5,
+  "claim": "every plaintext is a hash of seed plus counter"
+ },
+ {
+  "entry": 176,
+  "kind": "located",
+  "cap": "gen.py:62",
+  "status": "OK",
+  "quote": "plaintext = int.from_bytes(plaintext_hash[:8], \"big\")",
+  "note": "",
+  "line": null,
+  "wc": 4,
+  "claim": "the plaintext is the first eight bytes, big-endian"
+ },
+ {
+  "entry": 177,
+  "kind": "located",
+  "cap": "Dockerfile:13",
+  "status": "OK",
+  "quote": "RUN rm orig_plaintexts.txt",
+  "note": "",
+  "line": null,
+  "wc": 3,
+  "claim": "the image deletes the original plaintexts"
+ },
+ {
+  "entry": 178,
+  "kind": "located",
+  "cap": "Dockerfile:14",
+  "status": "OK",
+  "quote": "RUN rm gen.py",
+  "note": "",
+  "line": null,
+  "wc": 3,
+  "claim": "the image deletes the generator"
+ },
+ {
+  "entry": 179,
+  "kind": "located",
+  "cap": "README.md:32",
+  "status": "MISMATCH",
+  "quote": "The test suite (`test_outputs.py`) verifies that all 100 expected plaintext values appear in `/app/plaintexts.txt`",
+  "note": "",
+  "line": "The test suite (`test_outputs.py`) verifies that all 100 expected plaintext values appear in `/app/plaintexts.txt`, confirming successful key recovery and decryption.",
+  "wc": 14,
+  "claim": "the authors describe the check as an appearance test"
+ },
+ {
+  "entry": 180,
+  "kind": "located",
+  "cap": "solve.sh:289",
+  "status": "OK",
+  "quote": "\"./decrypt ciphertexts.txt 0x%x 0x%x 0x%x 0x%x\"",
+  "note": "",
+  "line": null,
+  "wc": 6,
+  "claim": "the oracle shells out to the shipped decrypt utility"
+ },
+ {
+  "entry": 181,
+  "kind": "located",
+  "cap": "solve.sh:304",
+  "status": "OK",
+  "quote": "./attack > /app/plaintexts.txt",
+  "note": "",
+  "line": null,
+  "wc": 3,
+  "claim": "the oracle's stdout is the answer file"
+ },
+ {
+  "entry": 182,
+  "kind": "located",
+  "cap": "task.toml:22",
+  "status": "OK",
+  "quote": "timeout_sec = 1800.0",
+  "note": "",
+  "line": null,
+  "wc": 3,
+  "claim": "the verifier timeout is 1800 s"
+ },
+ {
+  "entry": 183,
+  "kind": "located",
+  "cap": "task.toml:34",
+  "status": "OK",
+  "quote": "allow_internet = true",
+  "note": "",
+  "line": null,
+  "wc": 3,
+  "claim": "internet is allowed in the environment"
+ },
+ {
+  "entry": 260,
+  "kind": "mechanism",
+  "cap": "test_outputs.py:120",
+  "status": "OK",
+  "quote": "data = open(\"/app/plaintexts.txt\").read()",
+  "note": "",
+  "line": null,
+  "case": "nop"
+ },
+ {
+  "entry": 261,
+  "kind": "mechanism",
+  "cap": "solve.sh:304",
+  "status": "OK",
+  "quote": "./attack > /app/plaintexts.txt",
+  "note": "",
+  "line": null,
+  "case": "oracle-solve-sh"
+ },
+ {
+  "entry": 262,
+  "kind": "mechanism",
+  "cap": "gen.py:12",
+  "status": "OK",
+  "quote": "keys = [\"0x68e63\", \"0x62571\", \"0x1f61c\", \"0xb74a5\"]",
+  "note": "",
+  "line": null,
+  "case": "decrypt-public-keys"
+ },
+ {
+  "entry": 263,
+  "kind": "mechanism",
+  "cap": "gen.py:61",
+  "status": "OK",
+  "quote": "plaintext_hash = hashlib.sha256(seed_hash + counter_bytes).digest()",
+  "note": "",
+  "line": null,
+  "case": "replay-public-gen"
+ },
+ {
+  "entry": 264,
+  "kind": "mechanism",
+  "cap": "test_outputs.py:121",
+  "status": "OK",
+  "quote": "for c in soln.split():",
+  "note": "",
+  "line": null,
+  "case": "copy-public-constants"
+ },
+ {
+  "entry": 265,
+  "kind": "mechanism",
+  "cap": "test_outputs.py:122",
+  "status": "OK",
+  "quote": "assert c in data",
+  "note": "",
+  "line": null,
+  "case": "oracle-concatenated"
+ },
+ {
+  "entry": 266,
+  "kind": "mechanism",
+  "cap": "test_outputs.py:122",
+  "status": "OK",
+  "quote": "c in data",
+  "note": "",
+  "line": null,
+  "case": "oracle-plus-decoys"
+ },
+ {
+  "entry": 267,
+  "kind": "mechanism",
+  "cap": "test_outputs.py:121",
+  "status": "OK",
+  "quote": "for c in soln.split():",
+  "note": "",
+  "line": null,
+  "case": "oracle-reversed"
+ },
+ {
+  "entry": 268,
+  "kind": "mechanism",
+  "cap": "test_outputs.py:122",
+  "status": "OK",
+  "quote": "assert c in data",
+  "note": "",
+  "line": null,
+  "case": "oracle-zero-padded"
+ },
+ {
+  "entry": 269,
+  "kind": "mechanism",
+  "cap": "test_outputs.py:122",
+  "status": "OK",
+  "quote": "assert c in data",
+  "note": "",
+  "line": null,
+  "case": "one-missing"
+ },
+ {
+  "entry": 270,
+  "kind": "mechanism",
+  "cap": "decrypt.c:136",
+  "status": "OK",
+  "quote": "printf(\"%lu\\n\", plaintext);",
+  "note": "",
+  "line": null,
+  "case": "hex-output"
+ },
+ {
+  "entry": 271,
+  "kind": "mechanism",
+  "cap": "test_outputs.py:122",
+  "status": "OK",
+  "quote": "assert c in data",
+  "note": "",
+  "line": null,
+  "case": "wrong-key-decrypt"
+ },
+ {
+  "entry": 272,
+  "kind": "mechanism",
+  "cap": "test_outputs.py:122",
+  "status": "OK",
+  "quote": "assert c in data",
+  "note": "",
+  "line": null,
+  "case": "pairs-plaintexts"
+ },
+ {
+  "entry": 273,
+  "kind": "mechanism",
+  "cap": "test_outputs.py:122",
+  "status": "OK",
+  "quote": "assert c in data",
+  "note": "",
+  "line": null,
+  "case": "ciphertexts-copied"
+ },
+ {
+  "entry": 18,
+  "kind": "inline",
+  "cap": "tests/test_outputs.py:106-122",
+  "status": "NOFILE",
+  "quote": "",
+  "note": ""
+ },
+ {
+  "entry": 19,
+  "kind": "inline",
+  "cap": "test.sh:22",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 29 lines"
+ },
+ {
+  "entry": 20,
+  "kind": "inline",
+  "cap": "instruction.md:10",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 10 lines"
+ },
+ {
+  "entry": 21,
+  "kind": "inline",
+  "cap": "test_outputs.py:4-103",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 27,
+  "kind": "inline",
+  "cap": "gen.py:12",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 97 lines"
+ },
+ {
+  "entry": 28,
+  "kind": "inline",
+  "cap": "test_outputs.py:4-103",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 29,
+  "kind": "inline",
+  "cap": "Dockerfile:14",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 14 lines"
+ },
+ {
+  "entry": 37,
+  "kind": "inline",
+  "cap": "gen.py:12",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 97 lines"
+ },
+ {
+  "entry": 39,
+  "kind": "inline",
+  "cap": "test_outputs.py:4-103",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 53,
+  "kind": "inline",
+  "cap": "decrypt.c:136",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 142 lines"
+ },
+ {
+  "entry": 68,
+  "kind": "inline",
+  "cap": "test.sh:25-29",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 29 lines"
+ },
+ {
+  "entry": 74,
+  "kind": "inline",
+  "cap": "gen.py:12",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 97 lines"
+ },
+ {
+  "entry": 75,
+  "kind": "inline",
+  "cap": "test_outputs.py:4-103",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 76,
+  "kind": "inline",
+  "cap": "Dockerfile:14",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 14 lines"
+ },
+ {
+  "entry": 88,
+  "kind": "inline",
+  "cap": "Dockerfile:14",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 14 lines"
+ },
+ {
+  "entry": 91,
+  "kind": "inline",
+  "cap": "solve.sh:303-304",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 304 lines"
+ },
+ {
+  "entry": 126,
+  "kind": "inline",
+  "cap": "test.sh:18-22",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 29 lines"
+ },
+ {
+  "entry": 127,
+  "kind": "inline",
+  "cap": "test.sh:25-29",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 29 lines"
+ },
+ {
+  "entry": 128,
+  "kind": "inline",
+  "cap": "Dockerfile:3-14",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 14 lines"
+ },
+ {
+  "entry": 129,
+  "kind": "inline",
+  "cap": "gen.py:12",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 97 lines"
+ },
+ {
+  "entry": 130,
+  "kind": "inline",
+  "cap": "gen.py:19-20",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 97 lines"
+ },
+ {
+  "entry": 131,
+  "kind": "inline",
+  "cap": "instruction.md:1-10",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 10 lines"
+ },
+ {
+  "entry": 132,
+  "kind": "inline",
+  "cap": "test_outputs.py:120",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 133,
+  "kind": "inline",
+  "cap": "test_outputs.py:121-122",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 134,
+  "kind": "inline",
+  "cap": "test_outputs.py:4-103",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 135,
+  "kind": "inline",
+  "cap": "solve.sh:289",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 304 lines"
+ },
+ {
+  "entry": 145,
+  "kind": "inline",
+  "cap": "Dockerfile:11",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 14 lines"
+ },
+ {
+  "entry": 148,
+  "kind": "inline",
+  "cap": "instruction.md:9-10",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 10 lines"
+ },
+ {
+  "entry": 149,
+  "kind": "inline",
+  "cap": "decrypt.c:136",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 142 lines"
+ },
+ {
+  "entry": 149,
+  "kind": "inline",
+  "cap": "solve.sh:290",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 304 lines"
+ },
+ {
+  "entry": 151,
+  "kind": "inline",
+  "cap": "test.sh:25",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 29 lines"
+ },
+ {
+  "entry": 162,
+  "kind": "inline",
+  "cap": "instruction.md:1",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 10 lines"
+ },
+ {
+  "entry": 163,
+  "kind": "inline",
+  "cap": "instruction.md:4",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 10 lines"
+ },
+ {
+  "entry": 164,
+  "kind": "inline",
+  "cap": "instruction.md:7",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 10 lines"
+ },
+ {
+  "entry": 165,
+  "kind": "inline",
+  "cap": "instruction.md:9",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 10 lines"
+ },
+ {
+  "entry": 166,
+  "kind": "inline",
+  "cap": "test_outputs.py:108",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 167,
+  "kind": "inline",
+  "cap": "test_outputs.py:4",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 168,
+  "kind": "inline",
+  "cap": "test_outputs.py:120",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 169,
+  "kind": "inline",
+  "cap": "test_outputs.py:121",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 170,
+  "kind": "inline",
+  "cap": "test_outputs.py:122",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 171,
+  "kind": "inline",
+  "cap": "test.sh:22",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 29 lines"
+ },
+ {
+  "entry": 172,
+  "kind": "inline",
+  "cap": "test.sh:25",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 29 lines"
+ },
+ {
+  "entry": 173,
+  "kind": "inline",
+  "cap": "test.sh:26",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 29 lines"
+ },
+ {
+  "entry": 174,
+  "kind": "inline",
+  "cap": "gen.py:12",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 97 lines"
+ },
+ {
+  "entry": 175,
+  "kind": "inline",
+  "cap": "gen.py:61",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 97 lines"
+ },
+ {
+  "entry": 176,
+  "kind": "inline",
+  "cap": "gen.py:62",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 97 lines"
+ },
+ {
+  "entry": 177,
+  "kind": "inline",
+  "cap": "Dockerfile:13",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 14 lines"
+ },
+ {
+  "entry": 178,
+  "kind": "inline",
+  "cap": "Dockerfile:14",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 14 lines"
+ },
+ {
+  "entry": 179,
+  "kind": "inline",
+  "cap": "README.md:32",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 32 lines"
+ },
+ {
+  "entry": 180,
+  "kind": "inline",
+  "cap": "solve.sh:289",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 304 lines"
+ },
+ {
+  "entry": 181,
+  "kind": "inline",
+  "cap": "solve.sh:304",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 304 lines"
+ },
+ {
+  "entry": 182,
+  "kind": "inline",
+  "cap": "task.toml:22",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 41 lines"
+ },
+ {
+  "entry": 183,
+  "kind": "inline",
+  "cap": "task.toml:34",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 41 lines"
+ },
+ {
+  "entry": 195,
+  "kind": "inline",
+  "cap": "instruction.md:7",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 10 lines"
+ },
+ {
+  "entry": 196,
+  "kind": "inline",
+  "cap": "instruction.md:7",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 10 lines"
+ },
+ {
+  "entry": 197,
+  "kind": "inline",
+  "cap": "instruction.md:8",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 10 lines"
+ },
+ {
+  "entry": 198,
+  "kind": "inline",
+  "cap": "instruction.md:10",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 10 lines"
+ },
+ {
+  "entry": 226,
+  "kind": "inline",
+  "cap": "instruction.md:8",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 10 lines"
+ },
+ {
+  "entry": 226,
+  "kind": "inline",
+  "cap": "gen.py:12",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 97 lines"
+ },
+ {
+  "entry": 227,
+  "kind": "inline",
+  "cap": "instruction.md:7",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 10 lines"
+ },
+ {
+  "entry": 240,
+  "kind": "inline",
+  "cap": "gen.py:12",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 97 lines"
+ },
+ {
+  "entry": 260,
+  "kind": "inline",
+  "cap": "test_outputs.py:120",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 261,
+  "kind": "inline",
+  "cap": "solve.sh:304",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 304 lines"
+ },
+ {
+  "entry": 262,
+  "kind": "inline",
+  "cap": "gen.py:12",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 97 lines"
+ },
+ {
+  "entry": 263,
+  "kind": "inline",
+  "cap": "gen.py:61",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 97 lines"
+ },
+ {
+  "entry": 264,
+  "kind": "inline",
+  "cap": "test_outputs.py:121",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 265,
+  "kind": "inline",
+  "cap": "test_outputs.py:122",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 266,
+  "kind": "inline",
+  "cap": "test_outputs.py:122",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 267,
+  "kind": "inline",
+  "cap": "test_outputs.py:121",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 268,
+  "kind": "inline",
+  "cap": "test_outputs.py:122",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 269,
+  "kind": "inline",
+  "cap": "test_outputs.py:122",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 270,
+  "kind": "inline",
+  "cap": "decrypt.c:136",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 142 lines"
+ },
+ {
+  "entry": 271,
+  "kind": "inline",
+  "cap": "test_outputs.py:122",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 272,
+  "kind": "inline",
+  "cap": "test_outputs.py:122",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 273,
+  "kind": "inline",
+  "cap": "test_outputs.py:122",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 288,
+  "kind": "inline",
+  "cap": "gen.py:12",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 97 lines"
+ },
+ {
+  "entry": 289,
+  "kind": "inline",
+  "cap": "test_outputs.py:4-103",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 291,
+  "kind": "inline",
+  "cap": "Dockerfile:14",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 14 lines"
+ },
+ {
+  "entry": 301,
+  "kind": "inline",
+  "cap": "instruction.md:9-10",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 10 lines"
+ },
+ {
+  "entry": 304,
+  "kind": "inline",
+  "cap": "decrypt.c:136",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 142 lines"
+ },
+ {
+  "entry": 304,
+  "kind": "inline",
+  "cap": "solve.sh:290",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 304 lines"
+ },
+ {
+  "entry": 317,
+  "kind": "inline",
+  "cap": "test.sh:25-29",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 29 lines"
+ },
+ {
+  "entry": 326,
+  "kind": "inline",
+  "cap": "gen.py:12",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 97 lines"
+ },
+ {
+  "entry": 327,
+  "kind": "inline",
+  "cap": "Dockerfile:11",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 14 lines"
+ },
+ {
+  "entry": 333,
+  "kind": "inline",
+  "cap": "task.toml:29",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 41 lines"
+ },
+ {
+  "entry": 334,
+  "kind": "inline",
+  "cap": "alexgshaw/feal-linear-cryptanalysis:20251031",
+  "status": "NOFILE",
+  "quote": "",
+  "note": ""
+ },
+ {
+  "entry": 334,
+  "kind": "inline",
+  "cap": "Dockerfile:2",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 14 lines"
+ },
+ {
+  "entry": 338,
+  "kind": "inline",
+  "cap": "test.sh:18-29",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 29 lines"
+ },
+ {
+  "entry": 342,
+  "kind": "inline",
+  "cap": "task.toml:22",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 41 lines"
+ },
+ {
+  "entry": 344,
+  "kind": "inline",
+  "cap": "Dockerfile:14",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 14 lines"
+ },
+ {
+  "entry": 346,
+  "kind": "inline",
+  "cap": "task.toml:34",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 41 lines"
+ },
+ {
+  "entry": 355,
+  "kind": "inline",
+  "cap": "task.toml:15",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 41 lines"
+ },
+ {
+  "entry": 362,
+  "kind": "inline",
+  "cap": "task.toml:25",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 41 lines"
+ },
+ {
+  "entry": 371,
+  "kind": "inline",
+  "cap": "gen.py:12",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 97 lines"
+ },
+ {
+  "entry": 376,
+  "kind": "inline",
+  "cap": "README.md:31-32",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 32 lines"
+ },
+ {
+  "entry": 387,
+  "kind": "inline",
+  "cap": "test_outputs.py:1-2",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 122 lines"
+ },
+ {
+  "entry": 387,
+  "kind": "inline",
+  "cap": "Dockerfile:1",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 14 lines"
+ },
+ {
+  "entry": 404,
+  "kind": "inline",
+  "cap": "gen.py:61-62",
+  "status": "OK",
+  "quote": "",
+  "note": "file has 97 lines"
+ }
+]

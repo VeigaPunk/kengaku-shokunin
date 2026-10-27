@@ -1,0 +1,15 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44RRevBatAnc2/env /fast/scratch/hyaku/kengaku-r44/R44RRevBatAnc2/env --bind /fast/scratch/hyaku/kengaku-r44/R44RRevBatAnc2/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r44/R44RRevBatAnc2/per_fixture.py
+ENVELOPE start 21:00:56 cwd=/fast/scratch/hyaku/kengaku-r44/R44RRevBatAnc2
+fixture | ref_rc ref_classes | mut_rc mut_classes | ref_green mut_red
+u7_twin_a-rowpath-registry | ref 0 - | mut 1 ['capture-unanchored'] | YES YES
+u7_twin_a-provenance-table | ref 0 - | mut 1 ['capture-unanchored'] | YES YES
+u7_twin_a-url-two-tasks | ref 0 - | mut 1 ['capture-unanchored'] | YES YES
+u7_twin_b-url-trio-identical | ref 0 - | mut 1 ['capture-unanchored'] | YES YES
+u7_twin_b-prov-twin | ref 0 - | mut 1 ['capture-unanchored'] | YES YES
+u7_twin_b-mixed-trio | ref 0 - | mut 1 ['capture-unanchored'] | YES YES
+u9_worktree_a-registry-wrong-capture | ref 0 - | mut 1 ['digest-wrong-capture'] | YES YES
+u9_worktree_a-history-abbrev | ref 0 - | mut 1 ['abbrev-unresolved'] | YES YES
+u9_worktree_b-registry-erratum-appended | ref 0 - | mut 1 ['digest-unknown'] | YES YES
+u9_worktree_b-erratum-retargeted-history | ref 0 - | mut 1 ['digest-unknown'] | YES YES
+u9_worktree_b-erratum-completed-in-place | ref 0 - | mut 1 ['digest-unknown', 'erratum-incomplete'] | YES YES
+ENVELOPE end 21:00:58 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

@@ -1,0 +1,48 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44RCritBatRedundancy/env /fast/scratch/hyaku/kengaku-r44/R44RCritBatRedundancy/env --bind /fast/scratch/hyaku/kengaku-r44/R44RCritBatRedundancy/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round44_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r44/R44RCritBatRedundancy/lane --battery-dir /fast/scratch/hyaku/kengaku-r44/R44RCritBatRedundancy/batt/sub-u5_short_a --work /fast/scratch/hyaku/kengaku-r44/R44RCritBatRedundancy/w
+ENVELOPE start 20:49:53 cwd=/home/vgpnk/Projects/shokunin
+PINS total=2 mismatched=0
+FIXTURE u14c_name_a-draft-suffix tool=order expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE u14c_name_a-subdir-nohyphen tool=order expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE u14c_name_a-uppercase-pair tool=order expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE u14c_name_a-canonical-control tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u14c_name_b-registry-suffix tool=order expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE u14c_name_b-nested-uppercase tool=order expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE u14c_name_b-round-xx-token tool=order expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE u14c_name_b-underscore-name tool=order expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE u5_short_a-manifest-registry tool=anchor expect=reject declared=digest-short observed_rc=2 observed=- WRONG
+FIXTURE u5_short_a-index-staged tool=anchor expect=reject declared=digest-short observed_rc=1 observed=anchor-unbound WRONG
+FIXTURE u5_short_a-abbrev-neighbour tool=anchor expect=reject declared=digest-short observed_rc=2 observed=- WRONG
+FIXTURE u5_short_b-registry-url-task tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+FIXTURE u5_short_b-index-ref-staged tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+FIXTURE u5_short_b-lane-path-manifest tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+FIXTURE u5_short_b-history-truncation tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+FIXTURE u6_long_a-registry-65 tool=anchor expect=reject declared=digest-long observed_rc=1 observed=digest-long ok
+FIXTURE u6_long_a-manifest-96 tool=anchor expect=reject declared=digest-long observed_rc=1 observed=digest-long ok
+FIXTURE u6_long_a-provenance-128 tool=anchor expect=reject declared=digest-long observed_rc=1 observed=digest-long ok
+FIXTURE u6_long_a-history-200 tool=anchor expect=reject declared=digest-long observed_rc=1 observed=digest-long ok
+FIXTURE u6_long_b-registry-80hex tool=anchor expect=reject declared=digest-long observed_rc=1 observed=digest-long ok
+FIXTURE u6_long_b-provenance-129hex tool=anchor expect=reject declared=digest-long observed_rc=1 observed=digest-long ok
+FIXTURE u6_long_b-index-pair-96hex tool=anchor expect=reject declared=digest-long observed_rc=1 observed=digest-long ok
+FIXTURE u7_twin_a-rowpath-registry tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u7_twin_a-provenance-table tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u7_twin_a-url-two-tasks tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u7_twin_b-url-trio-identical tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u7_twin_b-prov-twin tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u7_twin_b-mixed-trio tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u9_worktree_a-registry-wrong-capture tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u9_worktree_a-history-abbrev tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u9_worktree_b-registry-erratum-appended tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u9_worktree_b-erratum-retargeted-history tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u9_worktree_b-erratum-completed-in-place tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT U5 anchor silence killed by=u5_short_b-registry-url-task attributed=L522 value=differs hits=4 -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+MUTANT U6 anchor silence killed by=u6_long_a-registry-65 attributed=L522 value=differs hits=7 -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+MUTANT U7 anchor rc-mirror killed by=u7_twin_a-rowpath-registry attributed=L539 value=differs hits=6 -- plans/anchor_digest_check.py:98-99 'A token that resolves to several of the row's captures
+MUTANT U9 anchor rc-mirror killed by=u9_worktree_a-registry-wrong-capture attributed=L384 value=differs hits=5 -- plans/anchor_digest_check.py:106-107 'lessons are read from the working tree for paths com
+MUTANT U14c order error killed by=u14c_name_a-draft-suffix attributed=L161 value=differs hits=7 -- plans/order_check.py:26-27 'Exit: 0 order holds · 1 order broken · 2 setup error (... unpa
+BATTERY fixtures=33 wrong=3 tampered=0 sidechannel=0
+MUTANTS total=5 killed=5 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=4/4 order=1/1
+ADVERTISED direct=5 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 n/a (non-default battery or mutant subset)
+ENVELOPE end 20:49:57 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

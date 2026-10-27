@@ -513,6 +513,7 @@ The earlier deferred round28 index statement is superseded by the actual Gate ad
 | Path | Covers |
 |---|---|
 | `lessons/round-29.md` | M87 derived-control/source-unit mistake, crash and forecast-criterion rows, source openings, Gate |
+| `lessons/round-44.md` | Five gate-tool behaviours demonstrated under fence repairs F1–F6 (C1); `feal-linear-cryptanalysis` admitted with a held-out predictor leg V11 (C2); round-43 closure R1–R5; mined mistakes incl. a hash-shaped scope phrase and a memorizable V11 sample | `plans/round-44-claims.md`; `.ufo/waves/round-44/` |
 | `evidence/round29-calibration/` | Round-start absence/census receipts; build and post-falsify repair summaries, selftests, JSON digests, cross-Python runs, mutation witnesses, projection-equality proof |
 | `../plans/config_projection.py` | Offline source-faithful projection of the pinned WebArena generator over 812 raw tasks × 3 synthetic profiles; not deployment configs or task validity |
 | `../plans/fixtures/r29/` | Pinned generator/profile manifest, seat-authored hand fixtures (digest-pinned in the instrument) and the persisted mutate-run-revert witness |

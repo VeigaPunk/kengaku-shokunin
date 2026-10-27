@@ -1,0 +1,35 @@
+# R44RRevRows — plans/anchor_digest_check.py --lane <clone> (envelope.sh, 2026-10-26)
+# cmd: python3 <clone>/plans/anchor_digest_check.py --lane <clone> [--verbose]
+# clone = 2a263e5a56ef6d48d06805e1ccd106de5de9ba66 (landing commit), verified git rev-parse --show-toplevel = clone.
+
+# Non-verbose run (20:48:49-20:48:50, envelope unchanged 328be01808ba022f):
+DEFECT S140 anchor token=c class=token-outside-anchor detail=sha256-claim-in-cell-5-of-11 loc=corpus/SOURCES.md:155
+rows=139 tokens=46 defects=1
+ENVELOPE end 20:48:50 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+
+# Verbose run (20:50:52-20:50:53, envelope unchanged 328be01808ba022f) — S138-S146 binding/resolution lines:
+BIND S138 capture=corpus/evidence/round44/tb2-feal-linear-cryptanalysis/test_outputs.py by=url-task
+BIND S139 capture=corpus/evidence/round44/tb2-feal-linear-cryptanalysis/instruction.md by=url-task
+BIND S140 capture=corpus/evidence/round44/tb2-feal-linear-cryptanalysis/gen.py by=url-task
+BIND S141 capture=corpus/evidence/round44/tb2-feal-linear-cryptanalysis/Dockerfile by=url-task
+BIND S142 capture=corpus/evidence/round44/tb2-feal-linear-cryptanalysis/test.sh by=url-task
+BIND S143 capture=corpus/evidence/round44/tb2-feal-linear-cryptanalysis/README.md by=url-task
+BIND S144 capture=corpus/evidence/round44/tb2-feal-linear-cryptanalysis/solve.sh by=url-task
+BIND S145 capture=corpus/evidence/round44/tb2-feal-linear-cryptanalysis/decrypt.c by=url-task
+BIND S146 capture=corpus/evidence/round44/tb2-feal-linear-cryptanalysis/task.toml by=url-task
+RESOLVED S138 digest=f59ebc7218a648582483cee02556c3bc1235e186301376bc3be066ed106ed9f9 via=corpus/evidence/round44/tb2-feal-linear-cryptanalysis/test_outputs.py bind=url-task
+RESOLVED S139 digest=a2f1669d4067af6c7b8ac05ff7d5849ca5df68397c94701645c4b9a3b6f71b03 via=corpus/evidence/round44/tb2-feal-linear-cryptanalysis/instruction.md bind=url-task
+RESOLVED S140 digest=3a71f0b5d9095440bea31bced5ea4fc8dd4cff0ae4226ea0400a3bfa7c452c63 via=corpus/evidence/round44/tb2-feal-linear-cryptanalysis/gen.py bind=url-task
+RESOLVED S141 digest=ef521cded1b5e0e9a11a6aa9c758e4474f2160e641fb9a177a20cdc728bfff1d via=corpus/evidence/round44/tb2-feal-linear-cryptanalysis/Dockerfile bind=url-task
+RESOLVED S142 digest=9431cbc2bad2b690001e096218ecd3f7f2f241b415062a2ea1ec7083d2e7c9e1 via=corpus/evidence/round44/tb2-feal-linear-cryptanalysis/test.sh bind=url-task
+RESOLVED S143 digest=a038645f908b4e011e9c5526b73aaa826057287a4cf3237b205f4e38f6d3dc33 via=corpus/evidence/round44/tb2-feal-linear-cryptanalysis/README.md bind=url-task
+RESOLVED S144 digest=be50ae01a3ea850a6dc4bc99dc130d0b7ad37963c85544a02b03a4f5da29cb77 via=corpus/evidence/round44/tb2-feal-linear-cryptanalysis/solve.sh bind=url-task
+RESOLVED S145 digest=4c6864e0d3a76626f1a7af1383e6826a85bdd1e7e373215741ece4f50a94ebd2 via=corpus/evidence/round44/tb2-feal-linear-cryptanalysis/decrypt.c bind=url-task
+RESOLVED S146 digest=a39ec2c427af534c96c719dc87f70eb536956b487ce909d04b6365160e7c9fc4 via=corpus/evidence/round44/tb2-feal-linear-cryptanalysis/task.toml bind=url-task
+DEFECT S140 anchor token=c class=token-outside-anchor detail=sha256-claim-in-cell-5-of-11 loc=corpus/SOURCES.md:155
+rows=139 tokens=46 defects=1
+ENVELOPE end 20:50:53 exit=1 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged
+
+# Pre-landing control (parent 5e3d3aa06c6b7000929ac3e62563a39159c4501f, separate clone lane-parent, no envelope needed — read-only):
+#   python3 lane-parent/plans/anchor_digest_check.py --lane lane-parent
+#   -> rows=130 tokens=36 defects=0  exit=0

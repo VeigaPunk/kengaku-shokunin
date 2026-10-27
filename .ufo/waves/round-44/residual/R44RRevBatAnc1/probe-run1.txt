@@ -1,0 +1,82 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44RRevBatAnc1/env /fast/scratch/hyaku/kengaku-r44/R44RRevBatAnc1/env --bind /fast/scratch/hyaku/kengaku-r44/R44RRevBatAnc1/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r44/R44RRevBatAnc1/probe_driver.py
+ENVELOPE start 20:52:13 cwd=/fast/scratch/hyaku/kengaku-r44/R44RRevBatAnc1
+### u5_short_a-manifest-registry  rc=1  argv=['--lane', '/fast/scratch/hyaku/kengaku-r44/R44RRevBatAnc1/probe/u5_short_a-manifest-registry/lane']
+  ref: DEFECT S205 anchor token=b5cf2b5bf33741c6a28f2bd3d143fab78e40a70bc8a73c68462c19161fc5aad class=digest-short detail=63-hex loc=corpus/SOURCES.md:7
+  ref: rows=6 tokens=3 defects=1
+  U5-mutant: rc=1 classes=['digest-long']
+
+### u5_short_a-index-staged  rc=1  argv=['--lane', '/fast/scratch/hyaku/kengaku-r44/R44RRevBatAnc1/probe/u5_short_a-index-staged/lane', '--evidence-ref', 'index']
+  ref: DEFECT S210 anchor token=0123456789abcdef class=digest-short detail=16-hex loc=corpus/SOURCES.md:3
+  ref: rows=2 tokens=2 defects=1
+  U5-mutant: rc=1 classes=['digest-long']
+
+### u5_short_a-abbrev-neighbour  rc=1  argv=['--lane', '/fast/scratch/hyaku/kengaku-r44/R44RRevBatAnc1/probe/u5_short_a-abbrev-neighbour/lane', '--verbose'] --verbose
+  ref: ABBREV S220 prefix=fa5cd97fb107 matches=fa5cd97fb1076e10a9aa83ad658df97d1fb6eaf72c34f46f38f281deaa7962ab capture=corpus/evidence/r44/regress/cap.bin
+  ref: DEFECT S220 anchor token=fa5cd97fb1076e10a9aa83ad658df97d1fb6eaf72c34f46f38f281deaa7962a class=digest-short detail=63-hex loc=corpus/SOURCES.md:3
+  ref: rows=1 tokens=2 defects=1
+  U5-mutant: rc=1 classes=['digest-long']
+
+### u5_short_b-registry-url-task  rc=1  argv=['--lane', '.']
+  ref: DEFECT S138 anchor token=eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee class=digest-short detail=63-hex loc=corpus/SOURCES.md:7
+  ref: rows=6 tokens=2 defects=1
+  U5-mutant: rc=1 classes=['digest-long']
+
+### u5_short_b-index-ref-staged  rc=1  argv=['--lane', '.', '--evidence-ref', 'index']
+  ref: DEFECT S202 anchor token=0badc0de class=digest-short detail=8-hex loc=corpus/SOURCES.md:6
+  ref: rows=2 tokens=1 defects=1
+  U5-mutant: rc=1 classes=['digest-long']
+
+### u5_short_b-lane-path-manifest  rc=1  argv=['--lane', '.', '--verbose'] --verbose
+  ref: RESOLVED S301 digest=e4bddeb575b88893f9e26425df452d0fdc122e49cf3aaad9d8d6802032be325a via=corpus/evidence/round44/u5b-manifest/report.md bind=row-path listed=corpus/evidence/round44/u5b-manifest/SHA256SUMS:report.md
+  ref: DEFECT S302 anchor token=0123456789abcdef0123456789abcdef01234567 class=digest-short detail=40-hex loc=corpus/SOURCES.md:11
+  ref: rows=9 tokens=2 defects=1
+  U5-mutant: rc=1 classes=['digest-long']
+
+### u5_short_b-history-truncation  rc=1  argv=['--lane', '.']
+  ref: DEFECT S400 anchor token=3d9da2ad3236a2b08daa class=digest-short detail=20-hex loc=corpus/SOURCES.md:5
+  ref: rows=2 tokens=1 defects=1
+  U5-mutant: rc=1 classes=['digest-long']
+
+### u6_long_a-registry-65  rc=1  argv=['--lane', '/fast/scratch/hyaku/kengaku-r44/R44RRevBatAnc1/probe/u6_long_a-registry-65'] --verbose
+  ref: RESOLVED S961 digest=74c29748f16ef00b556d87dd4f6f75a4477d2241699d01e7c13d47817a34d1b0 via=corpus/evidence/u6a/registry/alpha.txt bind=row-path listed=corpus/evidence/u6a/registry/alpha.txt
+  ref: RESOLVED S962 digest=206e76fb95ffccec8c5e2886113f66524c096ad4ec15fae0b355696c0c86be86 via=corpus/evidence/u6a/registry/bravo.txt bind=row-path listed=corpus/evidence/u6a/registry/bravo.txt
+  ref: RESOLVED S964 digest=001ba1f2a589c36ec952d7cf29bda25704fa50c533b3ccb0f13a9992f39ae4ff via=corpus/evidence/u6a/registry/delta.txt bind=row-path listed=corpus/evidence/u6a/registry/delta.txt
+  ref: RESOLVED S965 digest=95269be6877152cc022b884897ae743bd9177e37c04bb3c291dafef500d806ff via=corpus/evidence/u6a/registry/charlie.txt bind=row-path listed=corpus/evidence/u6a/registry/charlie.txt
+  ref: DEFECT S963 anchor token=95269be6877152cc022b884897ae743bd9177e37c04bb3c291dafef500d806ff7 class=digest-long detail=65-hex loc=corpus/SOURCES.md:5
+  ref: rows=5 tokens=5 defects=1
+  U6-mutant: rc=1 classes=['digest-short']
+
+### u6_long_a-manifest-96  rc=1  argv=['--lane', '/fast/scratch/hyaku/kengaku-r44/R44RRevBatAnc1/probe/u6_long_a-manifest-96']
+  ref: DEFECT S971 anchor token=7373183750a005fe8fe3fe17f154173a4768495f7fe1a7f8e61aa109cec338c77373183750a005fe8fe3fe17f154173a class=digest-long detail=96-hex loc=corpus/SOURCES.md:3
+  ref: rows=1 tokens=1 defects=1
+  U6-mutant: rc=1 classes=['digest-short']
+
+### u6_long_a-provenance-128  rc=1  argv=['--lane', '/fast/scratch/hyaku/kengaku-r44/R44RRevBatAnc1/probe/u6_long_a-provenance-128'] --verbose
+  ref: RESOLVED S982 digest=652f4e6ef5b7343635b081dee4e771be0c381153f1c564ae30210b7a52c5e2cf via=corpus/evidence/u6a/prov/beta.bin bind=provenance-row listed=corpus/evidence/u6a/prov/beta.bin
+  ref: DEFECT S981 anchor token=37b3e1d7410c428e1d783fcdc418a52323528599aebf619ad263f071b171118f37b3e1d7410c428e1d783fcdc418a52323528599aebf619ad263f071b171118f class=digest-long detail=128-hex loc=corpus/SOURCES.md:3
+  ref: rows=2 tokens=2 defects=1
+  U6-mutant: rc=1 classes=['digest-short']
+
+### u6_long_a-history-200  rc=1  argv=['--lane', '/fast/scratch/hyaku/kengaku-r44/R44RRevBatAnc1/probe/u6_long_a-history-200']
+  ref: DEFECT S992 anchor token=a2694e4d33ed170a70e849d9d6dc612760a429d46c448d0780b1ddd0e9a1a1ada2694e4d33ed170a70e849d9d6dc612760a429d46c448d0780b1ddd0e9a1a1ada2694e4d33ed170a70e849d9d6dc612760a429d46c448d0780b1ddd0e9a1a1ada2694e4d class=digest-long detail=200-hex loc=corpus/SOURCES.md:4
+  ref: rows=2 tokens=2 defects=1
+  U6-mutant: rc=1 classes=['digest-short']
+
+### u6_long_b-registry-80hex  rc=1  argv=['--lane', '.']
+  ref: DEFECT S702 anchor token=44b9e082879854b45b806bf8fa1c4524014f75182ac64e64ac28a946810dd3560a1b2c3d4e5f6071 class=digest-long detail=80-hex loc=corpus/SOURCES.md:4
+  ref: rows=5 tokens=5 defects=1
+  U6-mutant: rc=1 classes=['digest-short']
+
+### u6_long_b-provenance-129hex  rc=1  argv=['--lane', '.']
+  ref: DEFECT S712 anchor token=3e3d5e8cb7ec159a46218a1b77c378c7ff7a1ddc69084bab91e1f2f36723786a3e3d5e8cb7ec159a46218a1b77c378c7ff7a1ddc69084bab91e1f2f36723786a3 class=digest-long detail=129-hex loc=corpus/SOURCES.md:4
+  ref: rows=2 tokens=2 defects=1
+  U6-mutant: rc=1 classes=['digest-short']
+
+### u6_long_b-index-pair-96hex  rc=1  argv=['--lane', '.', '--evidence-ref', 'index'] --verbose
+  ref: RESOLVED S721 digest=7d07c19cf736408393bdaea77b21f148b10e5e450894782caa0eb62c3b786eab via=corpus/evidence/r44b-index/base.md bind=row-path listed=corpus/evidence/r44b-index/base.md
+  ref: RESOLVED S722 digest=f69cae79e111cdb6897fb1aee5b9737296cf1b3831c184c1c2c99963574609d0 via=corpus/evidence/r44b-index/late.md bind=row-path listed=corpus/evidence/r44b-index/late.md
+  ref: DEFECT S722 anchor token=f69cae79e111cdb6897fb1aee5b9737296cf1b3831c184c1c2c99963574609d0f69cae79e111cdb6897fb1aee5b97372 class=digest-long detail=96-hex loc=corpus/SOURCES.md:4
+  ref: rows=2 tokens=3 defects=1
+  U6-mutant: rc=1 classes=['digest-short']
+
+ENVELOPE end 20:52:16 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

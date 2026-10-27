@@ -1333,3 +1333,40 @@ informed-filler package); first recorded probe run `6b49694d`; landing `77ea425a
 - Re-verification (freshness): S129–S134 re-fetched cmp-identical (`R43PkgRows` 19:07 -03), S135 (`R43GateRowsR2`
   19:10), S136/S137 (L1 19:18); TB2.1 and two HF copies byte-identical (`R43ScoutPriorArt`); every no-harm instrument
   at the landing tip as at the baseline (`integrate/measure-final.txt`).
+
+## Round 44 (hyaku run 9, 2026-10-26) — five advertised behaviours killed with value-attributed kills (5/5) under fences F1–F6; tenth TB2 grader executed
+
+L1 `KengakuR44` (planner seat). Freeze `5f16ed04` (claims; the round-44 C1 counter — the round-43 counter + fence
+repairs F1–F6 from `R43SentinelCounter` — with 5 u-row mutants priced by `R43PlanNext` and a witness module; the
+feal-linear probe, its frozen 14-case table, spec, C2 counter with V11 held-out predictor, eleven captures; red
+controls: nothing, standing batteries 42+43, witness-as-battery, no-mutants, span/value forced, tool edited, mislabel,
+hostile f1–f6, three wrong predictors); first recorded probe run `45dc0bc8`; claim landing `2a263e5a`; closure/docs
+batch `02287eed`. Lesson `corpus/lessons/round-44.md`.
+
+- C1 (calibration, predicate met): freeze `killed=0 survived=5` (also with battery42+43 as the battery; U3 dropped
+  pre-freeze because battery43 kills it); ten wave executors wrote `plans/battery44/` (10 modules, 33 fixtures, two
+  independent modules per mutant); landing `BATTERY fixtures=33 wrong=0 tampered=0 sidechannel=0`, `MUTANTS total=5
+  killed=5 … unattributed=0`, `MUTANTS-BY-TOOL anchor=4/4 order=1/1`, `PREDICATE C1 pass`; every kill `value=differs`;
+  shape screen vs the witness `flagged=0`.
+- C2 (coverage, predicate met): TB2 `feal-linear-cryptanalysis` @ `2fd12b88`, S138–S146 (A); probe `cases=14
+  observed_pass=8 observed_fail=6 mismatches=0`, `regrade cases=14 differ=0`; V11 `states=48 grader_pass=24
+  grader_fail=24 disagree=0`. Observations: the grader is `assert c in data` over the whole file for 100 embedded
+  constants; three passes need no attack (decrypt with the public `gen.py:12` keys; replay the public gen.py hash
+  chain; copy the public test constants); concatenated, reversed, zero-padded and decoy-padded files pass; hex fails
+  though `instruction.md` names no format. Real pytest parity 14/14. Coverage held at 7 (L0 cap). Prior art: 2
+  published, 2 adjacent, 3 not found (`R44ScoutPriorArt`).
+- Closure R1–R5: round-43 flip lines corrected (task.toml, solve.sh fired), S147/S148 tier B, entry errata (R1) and
+  span errata S134/S132 (R2); `plans/gate_flip_check.py` reads flip verdicts against entry citations (27/27; red→green on
+  the round-43 lesson); Q36–Q38; README lessons index 33→62 rows (= 62 files) + round-30–33/41/42/44 evidence sections.
+- considerthese `2026-10-26.md` proposal 1 (routed burn-down): 15 ledger field changes (13 closed, 2 refused),
+  `routed_open` 39 → 24.
+- Assimilation: none (`merge/kengaku/` unchanged since 2026-10-24; collisions 54; quarantine slice 2/2 present).
+- Mistakes mined: a false `not fired` flip (round 43); 38-seat close (round 43); a seat with no report file (round
+  43); a mutant priced that the standing batteries already kill (caught pre-freeze); a sweep that drops unparseable
+  files; a hash-shaped phrase in a scope cell (S140, anchor check red then fixed); frozen-claims wording contradicted by
+  captures; a memorizable V11 sample; a fence repair that reads an include outside d.
+- Re-verification (freshness): eleven captures re-fetched cmp-identical by two seats (`R44PkgRows`, `R44ScoutRefetch`),
+  upstream drift 0; S138–S146 re-opened by `R44RRevRows`; round-43 `task.toml`/`solve.sh` re-fetched identical
+  (`R44FlipLines`); no-harm set at the landing tip in `integrate/measure-final.txt`.
+- Round shape: one v2 wave (68 seats: executor 22, scribe 11, critic 9, scout 7, mutation-tester 5, reviewer 5,
+  connector 4, sentinel 2, simplifier 2, revenger 1) + one residual call (8: reviewer 5, critic 3) = 76.

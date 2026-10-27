@@ -1,0 +1,44 @@
+# R44RRevBatOrd — independent U14c probe (driver.py builds every u14c fixture from nothing, then runs the
+# reference copy and a scratch copy with the frozen old->new applied by hand: line 161 `if not m:` -> `if False:`).
+# copies: order_ref.py / order_mut.py, both sha256-verified 948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc
+#         before the edit (lane copy digest = PINS order_check.py digest).
+# command: bash /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-44/claims/envelope.sh "$S/env" \
+#          /usr/bin/python3 "$S/probe/driver.py"   (S=/fast/scratch/hyaku/kengaku-r44/R44RRevBatOrd; 2026-10-26)
+# DISCLOSED: a first probe run at 20:52:25 was DISCARDED — order_mut.py had been copied but not yet mutated,
+# so it compared the reference against itself (7 "MISMATCH mut=2" lines, meaningless). Receipt is the corrected rerun.
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r44/R44RRevBatOrd/env /fast/scratch/hyaku/kengaku-r44/R44RRevBatOrd/env --bind /fast/scratch/hyaku/kengaku-r44/R44RRevBatOrd/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r44/R44RRevBatOrd/probe/driver.py
+ENVELOPE start 20:52:55 cwd=/fast/scratch/hyaku/kengaku-r44/R44RRevBatOrd/probe
+ok u14c_name_a-draft-suffix expect=error(2) argv-shape=True ref=2 mut=1
+    ref-stderr: ORDER ERROR claims file name is not round-NN-claims.md: plans/round-44-claims.md.draft
+    mut-stderr:                    ^^^^^^^ | AttributeError: 'NoneType' object has no attribute 'group'
+    ref-stdout-tail: ORDER RESULT ERROR
+ok u14c_name_a-subdir-nohyphen expect=error(2) argv-shape=True ref=2 mut=1
+    ref-stderr: ORDER ERROR claims file name is not round-NN-claims.md: plans/round44-claims.md
+    mut-stderr:                    ^^^^^^^ | AttributeError: 'NoneType' object has no attribute 'group'
+    ref-stdout-tail: ORDER RESULT ERROR
+ok u14c_name_a-uppercase-pair expect=error(2) argv-shape=True ref=2 mut=1
+    ref-stderr: ORDER ERROR claims file name is not round-NN-claims.md: ROUND-44-CLAIMS.md
+    mut-stderr:                    ^^^^^^^ | AttributeError: 'NoneType' object has no attribute 'group'
+    ref-stdout-tail: ORDER RESULT ERROR
+ok u14c_name_a-canonical-control expect=accept(0) argv-shape=True ref=0 mut=0
+    ref-stderr:
+    mut-stderr:
+    ref-stdout-tail: ORDER RESULT PASS
+ok u14c_name_b-registry-suffix expect=error(2) argv-shape=True ref=2 mut=1
+    ref-stderr: ORDER ERROR claims file name is not round-NN-claims.md: plans/round-51-claims.md.orig
+    mut-stderr:                    ^^^^^^^ | AttributeError: 'NoneType' object has no attribute 'group'
+    ref-stdout-tail: ORDER RESULT ERROR
+ok u14c_name_b-nested-uppercase expect=error(2) argv-shape=True ref=2 mut=1
+    ref-stderr: ORDER ERROR claims file name is not round-NN-claims.md: notes/history/Round-7-claims.md
+    mut-stderr:                    ^^^^^^^ | AttributeError: 'NoneType' object has no attribute 'group'
+    ref-stdout-tail: ORDER RESULT ERROR
+ok u14c_name_b-round-xx-token expect=error(2) argv-shape=True ref=2 mut=1
+    ref-stderr: ORDER ERROR claims file name is not round-NN-claims.md: plans/round-xx-claims.md
+    mut-stderr:                    ^^^^^^^ | AttributeError: 'NoneType' object has no attribute 'group'
+    ref-stdout-tail: ORDER RESULT ERROR
+ok u14c_name_b-underscore-name expect=error(2) argv-shape=True ref=2 mut=1
+    ref-stderr: ORDER ERROR claims file name is not round-NN-claims.md: plans/round_44_claims.md
+    mut-stderr:                    ^^^^^^^ | AttributeError: 'NoneType' object has no attribute 'group'
+    ref-stdout-tail: ORDER RESULT ERROR
+DRIVER fixtures=8 mismatches=0
+ENVELOPE end 20:52:57 exit=0 local_bin_content_before=328be01808ba022f after=328be01808ba022f unchanged

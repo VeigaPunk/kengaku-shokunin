@@ -1925,3 +1925,66 @@ seat; the round-44 data-walk seat `R43PlanNext` is wave-1 data (`.ufo/waves/roun
   screen); the non-author closure decides.
 - Final-tip re-measure: `.ufo/waves/round-43/integrate/measure-tip.txt`. Entry/PROVINCE errata appended after landing
   (E1–E2, "ninth pass"); C2 legs V4/V7/V9/V10 unchanged by them.
+
+## Round 44 (hyaku run 9, 2026-10-26): five advertised behaviours of two gate tools demonstrated with value-attributed kills (5/5) under fence repairs F1–F6; a tenth TB2 grader executed (constant-compare of an agent-written file)
+
+Baseline as read `0cb2e22598a39b7cd0bf5582d86d62492b57fa12`; freeze `5f16ed04b04a80a17a5a1a060c12093d9a152a64`; first
+recorded probe run `45dc0bc81e42e02ecd272712086c372c8844b108`; wave dispatch `5e3d3aa06c6b7000929ac3e62563a39159c4501f`;
+claim landing `2a263e5a56ef6d48d06805e1ccd106de5de9ba66` (battery44 + the feal-linear package); docs/closure batch
+`02287eeddd912268655aba4014b1e277ab434e1e`. Frozen prereg `plans/round-44-claims.md`. Lowest non-retired axis: coverage
+7, tied with novelty 7; coverage chosen (frozen tie-break), capped at 7 by the open L0 question `kengaku | round-33`. No
+stagnation waiver. Landing measurement `.ufo/waves/round-44/integrate/measure-final.txt` (clean `--no-local` clone of
+`02287eed`, round-44 envelope), baseline `integrate/measure-baseline.txt` at `5e3d3aa0`.
+
+| claim | axis | observed before → after, counting command | score / verdict |
+|---|---|---|---|
+| C1 the five behaviours `plans/anchor_digest_check.py` and `plans/order_check.py` advertise that no landed battery demonstrates (U5 `digest-short` label, U6 `digest-long` label, U7 twin captures not a defect, U9 lessons read from the working tree, U14c unparseable claims name is exit 2; all `direct`; U3 dropped pre-freeze because battery43 already kills it) | **calibration** — advertised-vs-demonstrated mismatch count for two lane gate tools | `python3 plans/round44_c1_verify.py --lane .`: before `BATTERY fixtures=0`, `MUTANTS total=5 killed=0 survived=5`, `PREDICATE C1 fail`, exit 1 (`.ufo/waves/round-44/claims/control-c1-nothing.txt`; standing batteries 42+43 also `killed=0 survived=5`, `control-c1-standing-batteries.txt`) → after `PINS total=2 mismatched=0`, `BATTERY fixtures=33 wrong=0 tampered=0 sidechannel=0`, `MUTANTS total=5 killed=5 survived=0 invalid=0 null_detected=0 unattributed=0`, `MUTANTS-BY-TOOL anchor=4/4 order=1/1`, `PINS-AFTER mismatched=0`, `PREDICATE C1 pass`, exit 0 (`integrate/measure-final.txt`; independent re-measure `residual/R44RCritRemeasure.md`) | mismatch count 5 → 0; score **8 → 8 held** (the lane's own choice: one round of five demonstrated rows on two tools does not lift the calibration ceiling) |
+| C2 pinned TB2 `feal-linear-cryptanalysis` grader admitted with an executed 14-case sandbox probe (S138–S146, tier A) and a held-out predictor leg V11 | **coverage** (lowest, tied) — one §Frontier TB2 sub-bullet narrowed by one task (10 of 89), one coverage-map bullet, one PROVINCE paragraph, knowledge files/index rows 50→51, SOURCES 130→139 (+S147/S148 tier B from closure R1 → 141); one graded-state class new to the executed sample (an agent-written text file checked by substring membership of 100 constants embedded in the test file: the round-43 histogram's F1 class, 0 of 14 read before) | `python3 plans/round44_c2_verify.py --lane .`: before `checks=11 defects=8`, `PREDICATE C2 fail`, exit 1 (`claims/control-c2-nothing.txt`) → after `checks=11 defects=0`, `PREDICATE C2 pass`, exit 0 (`integrate/measure-final.txt`) | predicate met; score **7 → 7 held** (L0 cap) |
+
+Limits found by the wave and the residual call (frozen counters not edited; routed): `R44SentinelFences` V1 (HIGH) — a
+`.git/commondir` delegates the object store outside d and both F1 fences pass; V2 an include in the second config file;
+V3 a repo git refuses to describe reads as no breach (no battery44 fixture uses any: grep for `commondir|include|
+alternates|gitdir` over `plans/battery44/*.py` → directory names only); `R44LabratLaneInclude` — `lane_breach` reads an
+include file outside d in the parent process; `R44CritV11` — V11's fixed-seed sample is memorizable (4 of 7 lookup
+predictors pass; the landed predictor is a substring reading, `R44RCritEntryOverclaim` overclaims 0);
+`R44SentinelSandbox` escapes 0; `R44MutC2V11` 3/6 V11 mutants caught by the freeze control; `R44MutC2Guards` 6/13.
+Independent checks that held: real pytest 8.4.1 under `uvx -p 3.13` 14/14 (`R44PytestParity`); re-derivation 14/14 + 3
+own cases (`R44CritIndep`); receipt byte-equal 3/3, not `-O` sensitive (`R44LabratRerun`); refetch 11/11 identical, no
+upstream drift (`R44ScoutRefetch`); C1 controls reproduce 14/14 (`R44LabratControls`); verdict stable over 30 runs
+(`R44LabratSiteStable`); dishonest-battery vectors 7/7 blocked (`R44CritC1Counter`); mutant rows 5/5, equivalent 0,
+older batteries kill 0 (`R44RevMutRows`, `R44CritEquivU`); shape screen `flagged=0 max=0.541` vs the witness
+(`integrate/shape-diff-battery44.txt`); entry quotes 36/36, findings wrong 0 (`R44RRevEntryQuotes`).
+
+Other axes held: novelty 7 (no claim; prior art priced — of seven findings two published, two adjacent, three not
+found, `R44ScoutPriorArt`; and an F1-class leak census, 14/14 TB2 F1 graders carry their answer in published files,
+10/14 recomputable from a published generator/solution, `R44LabratF1Leak` — data for a later novelty claim, not
+asserted here), depth 9, operability 8 (riders: `plans/gate_flip_check.py` extended, selftest 27/27, red→green on the
+round-43 lesson; routed rider fixes 4/4 red/green drafted, `R44RoutedRiders`, not landed), freshness 8 (S138–S146
+re-fetched cmp-identical twice; round-43 S147/S148 re-fetched), adjacency 8 (PROVINCE routing: cryptanalysis technique
+unowned, `R44ConnSibling`).
+
+### Round-44 capabilities (demonstrated this round)
+
+| Capability | What it can now do | Evidence / command | First-working round |
+|---|---|---|---|
+| `held-out-predictor-leg` | Judge an entry's stated grader rule by executing the pinned grader on generated end states and requiring an entry-supplied `predict(text)` to agree, with no verdict stored in the instrument | `python3 plans/round44_c2_verify.py --lane .` → `V11 ok states=48 grader_pass=24 grader_fail=24 disagree=0`; control `claims/control-c2-predictor.txt` (always-True, token-set, exact-lines red; substring ok) | 44 |
+| `fenced-fixture-discovery` | Refuse a battery fixture whose git store, discovered repo or argv leaves its directory (gitdir file, depth, abbreviation, hang, include/alternates, repo above d) | `python3 plans/round44_c1_verify.py` SETUP refusals on `claims/hostile/f1…f6` (`control-c1-hostile-f*.txt`), each admitted or hung under the round-43 counter | 44 |
+| `flip-verdict-check` | Turn a `not fired` Gate flip red when the entry it concerns cites the refused file | `python3 plans/gate_flip_check.py --lesson <lesson>`; red/green `integrate/flip-verdict-red-green.txt`; `--selftest` 27/27 | 44 |
+
+### Planned (round 45)
+
+Axis state carried: calibration 8, coverage 7 (capped by the open L0 question `kengaku | round-33`), novelty 7, depth 9,
+operability 8, freshness 8, adjacency 8. Lowest non-retired: coverage 7 tied with novelty 7. Data walk:
+`.ufo/waves/round-44/wave/R44PlanNext.md` (calibration: 21 `round_close.py` survivors priced under the round-44
+contract; coverage: `password-recovery`).
+
+- **Calibration (8):** re-freeze the C1 counter with the round-44 fence findings inside the rule, each with a red hostile
+  control — `commondir` (V1), second-config include (V2), refuse-to-describe (V3), discovery without includes
+  (`R44LabratLaneInclude`) — and price the `round_close.py` survivors as a third tool (stub order tool + stub census),
+  or carry them. A do-nothing control includes the standing batteries (Q37).
+- **Coverage (7, capped):** `password-recovery` (R44PlanNext) or a second F1 grader of a different shape; V11 with a
+  per-run seed and a predictor-source lint (`R44CritV11` §9).
+- **Novelty (7):** the F1 answer-leak census (`R44LabratF1Leak`, 14/14) is a candidate construct; needs its own red
+  control and a dated prior-art receipt (`R44ScoutPriorArt` found the class published for other tasks).
+- **Routed:** `routed_open=24 oldest_round=39`; rider fixes R39-R2, R42-R3-26/27, R42-R6 drafted red/green in
+  `R44RoutedRiders/` (not landed); envelope v3 (`R44EnvelopeV3` 6/6 vs old 3/6) not landed.
