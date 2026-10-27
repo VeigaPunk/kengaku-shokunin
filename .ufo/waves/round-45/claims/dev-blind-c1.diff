@@ -1,0 +1,12 @@
+135c135
+<     dest = root / "fx" / f"{f.parent.name}-{f.stem}"
+---
+>     dest = root / "fx" / ("m" + hashlib.sha256(f"{f.parent.name}-{f.stem}".encode()).hexdigest()[:12])
+137c137
+<     tmp = root / "btmp" / f"{f.parent.name}-{f.stem}"
+---
+>     tmp = root / "btmp" / ("m" + hashlib.sha256(f"{f.parent.name}-{f.stem}".encode()).hexdigest()[:12])
+141c141
+<     mod_copy = mods / f"mod_{f.parent.name}_{f.name}"
+---
+>     mod_copy = mods / ("mod_" + hashlib.sha256(f"{f.parent.name}-{f.stem}".encode()).hexdigest()[:12] + ".py")

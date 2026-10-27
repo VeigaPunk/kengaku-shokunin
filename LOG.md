@@ -1371,7 +1371,7 @@ batch `02287eed`. Lesson `corpus/lessons/round-44.md`.
 - Round shape: one v2 wave (68 seats: executor 22, scribe 11, critic 9, scout 7, mutation-tester 5, reviewer 5,
   connector 4, sentinel 2, simplifier 2, revenger 1) + one residual call (8: reviewer 5, critic 3) = 76.
 
-## Round 45 (hyaku run 9, 2026-10-26) — advertised fixture fence closed (10/10 refused, 104 honest admitted); eleventh TB2 grader executed (second F1 exemplar)
+## Round 45 (hyaku run 9, 2026-10-26/27) — fixture fence landed, its frozen counter also passed by a path-keyed control (C1 not admitted); eleventh TB2 grader executed (second F1 exemplar; C2 predicate met, routed defects)
 
 L1 `KengakuR45` (planner seat, attempt 2 of the lane's round-45 driver: attempt 1 died on an invalid_prompt
 policy refusal without a wave or a commit, `watchdog.log` 22:48; its uncommitted drafts were re-verified and split,
@@ -1385,8 +1385,30 @@ disclosed in the claims file). Freeze `b4fcd35` + pre-data amendments `9271dda4`
   round-44 defects are now inside the executable rule.
 - C2 (coverage, predicate met): TB2 `password-recovery` @ `2fd12b88`, S149–S156 (A), flat-basename captures;
   probe `cases=16 observed_pass=5 observed_fail=11 mismatches=0`, `regrade cases=16 differ=0`; gate `defects=0`;
-  counter `checks=11 defects=0`, `PREDICATE C2 pass` (A/B runs byte-equal); V11 `states=48 grader_pass=18
+  counter `checks=11 defects=0`, `PREDICATE C2 pass` (A/B runs equal on every non-`ENVELOPE` line; not byte-equal — envelope scratch dirs/times differ; corrected attempt 3); V11 `states=48 grader_pass=18
   grader_fail=30 disagree=0`. The second measured F1 exemplar: `constant`, `constant-crlf`, `decoys-1000` pass
   from the public test file alone.
 - Final-tip re-measure: `.ufo/waves/round-45/integrate/measure-final.txt` — clean `--shared` clone of `8f9a898`
   under the round-45 envelope: both counters `PREDICATE pass`, defects=0.
+- (Attempt 2's heading said "advertised fixture fence closed (10/10 refused …)"; corrected attempt 3 — see below.)
+
+### Round 45 attempt 3 (2026-10-27, L1 `KengakuR45a3`)
+
+Attempt 2's L1 and its 39 wave-2 seats died in the orchestrator session exit (2026-10-26 23:57:36 -03); salvage
+commit `fbad1c5`. Motivating evidence for the attempt-3 verdict changes:
+
+- Re-measure on a `--no-local` clone of `fbad1c5`: C1 `PREDICATE C1 pass`, C2 `checks=11 defects=0`, `PREDICATE C2
+  pass` (`.ufo/waves/round-45/integrate/a3-tip-c1.txt`, `a3-tip-c2.txt`); no-harm set green
+  (`integrate/a3-noharm.txt`); `sha256sum -c claims/frozen-digests.txt` 18/18 OK.
+- Keyed control: `claims/fences/keyed_name.py` (refuse iff `/refusals45-` in the fixture path) prints `PREDICATE C1
+  pass` under the frozen counter (`claims/control-c1-fence-keyed_name.txt`) and `contradicted=10`, fail, under the
+  name-blinded dev counter (`claims/dev-blind-c1-keyed.txt`); the landed fence passes both
+  (`dev-blind-c1-landed.txt`). C1 → not admitted on its counter; QUALITY Q39.
+- Wave `a3w1` (34 re-dispatched wave-2 items): held-out hostile modules 7 of 9 admitted by the landed fence
+  (`a3w1/R45HoIncludeIf.md`, `R45HoSymlinks.md`, `R45HoArgvEnv.md`, `R45HoCommondir2.md`); fence mutants 7/15 caught
+  (`R45MutLandedFence.md`); C2 rows: 3 anchors cite the wrong line, 10 smaller cell defects (`R45RevRowCells.md`);
+  entry predictor diverges from the grader on lone-CR states 3/9 (`R45RevEntryQuotes.md`); V11 admits 4 lint-clean
+  lookup predictors (`R45CritV11Bypass.md`); gate P10 runs an unpinned `uv` fetch outside the sandbox when host
+  python lacks `Bio` (`R45SentC2Grader.md`).
+- Self-assessment corrections: `cb2fae38` (a file digest cited as a commit), "byte-equal" A/B receipts, a receiptless
+  `untracked=2/14` sentence, lesson Gate rejects without flip conditions — `corpus/lessons/round-45.md` §Attempt 3.

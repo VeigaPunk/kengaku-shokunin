@@ -1055,3 +1055,33 @@ Line numbers are this file's.
   Lesson: `.ufo/waves/round-43/build/R43CritClaims.md` §1 (V10's readable key) and closure R5
   (`corpus/lessons/round-43-verifier-spotcheck.md:169`); the lane's own statement of the residual is `plans/round-44-claims.md`
   §C2 V11. Supersedes: none; it closes V10's readable-key limit without relaxing V10.
+
+## Round45 criterion — a fence counter's freeze controls include a fence that keys on the counter's own names
+
+- **Q39 — a counter that grades a decision procedure (a fence, a classifier, a gate) over fixtures it builds itself
+  hides from that procedure every name the counter chose — fixture directory, build root, module copy — and its freeze
+  controls include one procedure that inspects nothing and keys its verdict on those names; that keyed control must
+  print the frozen predicate's fail line before the freeze, or the predicate is reachable without the work.** Round 45's
+  C1 froze four controls (`fences/admit_all.py`, `refuse_all.py`, `static_only.py`, `r44_tail.py`) — every one inspects
+  the fixture or nothing at all, none reads the path. `plans/round45_c1_verify.py:135-141` names each fixture dir
+  `fx/<battery-or-refusals45>-<stem>/fNNN`, so a one-line fence (`.ufo/waves/round-45/claims/fences/keyed_name.py`:
+  refuse iff `"/refusals45-" in str(d)`) prints `REFUSALS total=10 clean=10`, `HONEST fixtures=104 admitted=104`,
+  `CALIBRATION advertised=10 contradicted=0`, `PREDICATE C1 pass`, exit 0
+  (`.ufo/waves/round-45/claims/control-c1-fence-keyed_name.txt`, frozen counter unchanged, clone of `fbad1c56`). The
+  wave critic found the class first (`.ufo/waves/round-45/w1/R45CriticPredicate.md` B2); nobody ran it as a control
+  before the claim landed.
+  Check (executable, round-45 instance): `.ufo/waves/round-45/claims/dev_blind_c1_verify.py` (the frozen counter with
+  the three names replaced by sha256-derived opaque names; `dev-blind-c1.diff`, 3 lines) run with `keyed_name.py` as
+  the fence prints `REFUSALS total=10 clean=0 leaked=10`, `contradicted=10`, fail, exit 1
+  (`dev-blind-c1-keyed.txt`), and with the landed `plans/fixture_fence.py` prints `clean=10`, `HONEST … admitted=104`,
+  `contradicted=0`, exit 0 (`dev-blind-c1-landed.txt`).
+  Shown able to fail: the same keyed fence passes the frozen counter and fails the blinded one, so the criterion
+  separates a counter that leaks its names from one that does not, on committed bytes.
+  Limits: blinding names is necessary, not sufficient — argv tokens that embed `d` (f4/f5 `--lane`), the count of
+  fixtures per module and build order remain side channels, and R45CriticPredicate's B1 (the fence erases its own
+  strace log), B3 (opens outside `fx|btmp` uncounted), B4 (stdout verdict spoof), B5 (stat/readlink channels) are
+  separate counter defects this criterion does not close; the dev-blind counter is development evidence, never a
+  frozen predicate.
+  Lesson: `corpus/lessons/round-45.md` §Mistakes (attempt 3, keyed-control row). Supersedes: none; it extends Q31/Q37 —
+  which ask whether the predicate is reachable without the work, or by work already in the lane — to the counter's
+  own naming as an answer channel.

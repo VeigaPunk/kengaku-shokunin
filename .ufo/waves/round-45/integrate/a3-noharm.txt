@@ -1,0 +1,186 @@
+### M1: python3 /fast/scratch/hyaku/kengaku-r45/L1a3/lane/plans/round44_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r45/L1a3/lane --work /fast/scratch/hyaku/kengaku-r45/L1a3/wm1
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/L1a3/envn_M1 /fast/scratch/hyaku/kengaku-r45/L1a3/envn_M1 --bind /fast/scratch/hyaku/kengaku-r45/L1a3/envn_M1/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r45/L1a3/lane/plans/round44_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r45/L1a3/lane --work /fast/scratch/hyaku/kengaku-r45/L1a3/wm1
+ENVELOPE start 00:24:10 cwd=/fast/scratch/hyaku/kengaku-r45/L1a3
+PINS total=2 mismatched=0
+FIXTURE u14c_name_a-draft-suffix tool=order expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE u14c_name_a-subdir-nohyphen tool=order expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE u14c_name_a-uppercase-pair tool=order expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE u14c_name_a-canonical-control tool=order expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u14c_name_b-registry-suffix tool=order expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE u14c_name_b-nested-uppercase tool=order expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE u14c_name_b-round-xx-token tool=order expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE u14c_name_b-underscore-name tool=order expect=error declared=- observed_rc=2 observed=- ok
+FIXTURE u5_short_a-manifest-registry tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+FIXTURE u5_short_a-index-staged tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+FIXTURE u5_short_a-abbrev-neighbour tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+FIXTURE u5_short_b-registry-url-task tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+FIXTURE u5_short_b-index-ref-staged tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+FIXTURE u5_short_b-lane-path-manifest tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+FIXTURE u5_short_b-history-truncation tool=anchor expect=reject declared=digest-short observed_rc=1 observed=digest-short ok
+FIXTURE u6_long_a-registry-65 tool=anchor expect=reject declared=digest-long observed_rc=1 observed=digest-long ok
+FIXTURE u6_long_a-manifest-96 tool=anchor expect=reject declared=digest-long observed_rc=1 observed=digest-long ok
+FIXTURE u6_long_a-provenance-128 tool=anchor expect=reject declared=digest-long observed_rc=1 observed=digest-long ok
+FIXTURE u6_long_a-history-200 tool=anchor expect=reject declared=digest-long observed_rc=1 observed=digest-long ok
+FIXTURE u6_long_b-registry-80hex tool=anchor expect=reject declared=digest-long observed_rc=1 observed=digest-long ok
+FIXTURE u6_long_b-provenance-129hex tool=anchor expect=reject declared=digest-long observed_rc=1 observed=digest-long ok
+FIXTURE u6_long_b-index-pair-96hex tool=anchor expect=reject declared=digest-long observed_rc=1 observed=digest-long ok
+FIXTURE u7_twin_a-rowpath-registry tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u7_twin_a-provenance-table tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u7_twin_a-url-two-tasks tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u7_twin_b-url-trio-identical tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u7_twin_b-prov-twin tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u7_twin_b-mixed-trio tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u9_worktree_a-registry-wrong-capture tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u9_worktree_a-history-abbrev tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u9_worktree_b-registry-erratum-appended tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u9_worktree_b-erratum-retargeted-history tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+FIXTURE u9_worktree_b-erratum-completed-in-place tool=anchor expect=accept declared=- observed_rc=0 observed=- ok
+MUTANT U5 anchor silence killed by=u5_short_a-manifest-registry attributed=L522 value=differs hits=7 -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+MUTANT U6 anchor silence killed by=u6_long_a-registry-65 attributed=L522 value=differs hits=7 -- plans/anchor_digest_check.py:88 'any other anchor token must be exactly 64 lowercase hex d
+MUTANT U7 anchor rc-mirror killed by=u7_twin_a-rowpath-registry attributed=L539 value=differs hits=6 -- plans/anchor_digest_check.py:98-99 'A token that resolves to several of the row's captures
+MUTANT U9 anchor rc-mirror killed by=u9_worktree_a-registry-wrong-capture attributed=L384 value=differs hits=5 -- plans/anchor_digest_check.py:106-107 'lessons are read from the working tree for paths com
+MUTANT U14c order error killed by=u14c_name_a-draft-suffix attributed=L161 value=differs hits=7 -- plans/order_check.py:26-27 'Exit: 0 order holds · 1 order broken · 2 setup error (... unpa
+BATTERY fixtures=33 wrong=0 tampered=0 sidechannel=0
+MUTANTS total=5 killed=5 survived=0 invalid=0 null_detected=0 unattributed=0
+MUTANTS-BY-TOOL anchor=4/4 order=1/1
+ADVERTISED direct=5 indirect=0 none=0
+PINS-AFTER mismatched=0
+PREDICATE C1 pass
+ENVELOPE end 00:24:14 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged
+### M1 exit=0
+### M2: python3 /fast/scratch/hyaku/kengaku-r45/L1a3/lane/plans/round44_c2_verify.py --lane /fast/scratch/hyaku/kengaku-r45/L1a3/lane --work /fast/scratch/hyaku/kengaku-r45/L1a3/wm2
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/L1a3/envn_M2 /fast/scratch/hyaku/kengaku-r45/L1a3/envn_M2 --bind /fast/scratch/hyaku/kengaku-r45/L1a3/envn_M2/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r45/L1a3/lane/plans/round44_c2_verify.py --lane /fast/scratch/hyaku/kengaku-r45/L1a3/lane --work /fast/scratch/hyaku/kengaku-r45/L1a3/wm2
+ENVELOPE start 00:24:15 cwd=/fast/scratch/hyaku/kengaku-r45/L1a3
+V1 ok listed=11 bad=0 extra=0
+    gate: P1 ok pinned=2 mismatched=0
+    gate: P2 ok receipt_sha256=pinned
+    gate: P3 ok rows=22 distinct_quotes=22 distinct_lines=22 out_of_word_range=0
+    gate: P4 ok checked=22 bad=0 first=0
+    gate: P5 ok manifest_entries=11 bad=0 first=0
+    gate: P6 ok rows=9 bad=0 first=0
+    gate: P7 ok source_lines=9 bad=0 first=0
+    gate: P8 ok index_rows=52 knowledge_files=52 bad=0 first=0
+    gate: P9 ok untracked=0 first=0
+    gate: P10 ok probe_rerun=byte-equal bytes=3630
+    gate: defects=0
+V2 ok spec=frozen gate=frozen gate_exit=0
+V3 ok rows=9 bad=0
+V4 ok cases=14 mismatches_named=0/0 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 ok rows=4 tags=4 bad=0
+V8 ok order_exit=0 result=PASS
+V9 ok case_rows=14/14 bad=0
+V10 ok mechanism_rows=14/14 bad=0
+V11 ok states=48 grader_pass=24 grader_fail=24 disagree=0
+checks=11 defects=0
+PREDICATE C2 pass
+ENVELOPE end 00:24:21 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged
+### M2 exit=0
+### M3: python3 /fast/scratch/hyaku/kengaku-r45/L1a3/lane/plans/anchor_digest_check.py --lane /fast/scratch/hyaku/kengaku-r45/L1a3/lane --evidence-ref index
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/L1a3/envn_M3 /fast/scratch/hyaku/kengaku-r45/L1a3/envn_M3 --bind /fast/scratch/hyaku/kengaku-r45/L1a3/envn_M3/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r45/L1a3/lane/plans/anchor_digest_check.py --lane /fast/scratch/hyaku/kengaku-r45/L1a3/lane --evidence-ref index
+ENVELOPE start 00:24:22 cwd=/fast/scratch/hyaku/kengaku-r45/L1a3
+rows=149 tokens=55 defects=0
+ENVELOPE end 00:24:23 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged
+### M3 exit=0
+### M4: python3 /fast/scratch/hyaku/kengaku-r45/L1a3/lane/plans/routed_open.py --lane /fast/scratch/hyaku/kengaku-r45/L1a3/lane --list
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/L1a3/envn_M4 /fast/scratch/hyaku/kengaku-r45/L1a3/envn_M4 --bind /fast/scratch/hyaku/kengaku-r45/L1a3/envn_M4/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r45/L1a3/lane/plans/routed_open.py --lane /fast/scratch/hyaku/kengaku-r45/L1a3/lane --list
+ENVELOPE start 00:24:25 cwd=/fast/scratch/hyaku/kengaku-r45/L1a3
+ROW R39-R1 status=closed opened=39 source=corpus/lessons/round-39-verifier-spotcheck.md:132
+ROW R39-R2 status=open opened=39 source=corpus/lessons/round-39-verifier-spotcheck.md:134
+ROW R39-R3 status=blocked opened=39 source=corpus/lessons/round-39-verifier-spotcheck.md:135
+ROW R39-R4 status=open opened=39 source=corpus/lessons/round-39-verifier-spotcheck.md:136
+ROW R39-R5 status=closed opened=39 source=corpus/lessons/round-39-verifier-spotcheck.md:140
+ROW R40-R1 status=closed opened=40 source=corpus/lessons/round-40-verifier-spotcheck.md:92
+ROW R40-R2 status=closed opened=40 source=corpus/lessons/round-40-verifier-spotcheck.md:95
+ROW R40-R3 status=closed opened=40 source=corpus/lessons/round-40-verifier-spotcheck.md:97
+ROW R40-R4 status=closed opened=40 source=corpus/lessons/round-40-verifier-spotcheck.md:99
+ROW R40-R5 status=open opened=40 source=corpus/lessons/round-40-verifier-spotcheck.md:101
+ROW R42-R1 status=open opened=42 source=corpus/lessons/round-41-verifier-spotcheck.md:105
+ROW R42-R2 status=closed opened=42 source=corpus/lessons/round-41-verifier-spotcheck.md:110
+ROW R42-R3 status=open opened=42 source=corpus/lessons/round-41-verifier-spotcheck.md:114
+ROW R42-R4 status=closed opened=42 source=corpus/lessons/round-41-verifier-spotcheck.md:116
+ROW R42-R5 status=open opened=42 source=corpus/lessons/round-41-verifier-spotcheck.md:117
+ROW R40-R1.1 status=closed opened=40 source=corpus/lessons/round-40-verifier-spotcheck.md:92
+ROW R42-R2.1 status=closed opened=42 source=corpus/lessons/round-41-verifier-spotcheck.md:110
+ROW R42-R2.2 status=closed opened=42 source=SKILL.md:562
+ROW R42-R6 status=open opened=42 source=plans/scratch_guard.py:17
+ROW R42-R3-01 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42RevC2Package.md:71
+ROW R42-R3-02 status=open opened=42 source=.ufo/waves/round-42/falsify/F42RevC2Package.md:80
+ROW R42-R3-03 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42RevC2Package.md:86
+ROW R42-R3-04 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42RevC2Package.md:93
+ROW R42-R3-05 status=open opened=42 source=.ufo/waves/round-42/falsify/F42RevC2Package.md:98
+ROW R42-R3-06 status=open opened=42 source=.ufo/waves/round-42/falsify/F42RevC2Package.md:102
+ROW R42-R3-07 status=open opened=42 source=.ufo/waves/round-42/falsify/F42RevC2Package.md:109
+ROW R42-R3-08 status=open opened=42 source=.ufo/waves/round-42/falsify/F42RevC2Package.md:116
+ROW R42-R3-09 status=open opened=42 source=.ufo/waves/round-42/falsify/F42RevC2Package.md:124
+ROW R42-R3-10 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42RevLesson.md:102
+ROW R42-R3-11 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42RevLesson.md:109
+ROW R42-R3-12 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42RevLesson.md:118
+ROW R42-R3-13 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42RevLesson.md:128
+ROW R42-R3-14 status=refused opened=42 source=.ufo/waves/round-42/falsify/F42RevLesson.md:134
+ROW R42-R3-15 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42RevLesson.md:137
+ROW R42-R3-16 status=refused opened=42 source=.ufo/waves/round-42/falsify/F42RevLesson.md:142
+ROW R42-R3-17 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42RevLesson.md:146
+ROW R42-R3-18 status=open opened=42 source=.ufo/waves/round-42/falsify/F42RevQuality.md:13
+ROW R42-R3-19 status=open opened=42 source=.ufo/waves/round-42/falsify/F42RevQuality.md:26
+ROW R42-R3-20 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42RevQuality.md:35
+ROW R42-R3-21 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42RevQuality.md:50
+ROW R42-R3-22 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42RevQuality.md:67
+ROW R42-R3-23 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42RevQuality.md:73
+ROW R42-R3-24 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42RevRiders.md:121
+ROW R42-R3-25 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42RevRiders.md:133
+ROW R42-R3-26 status=open opened=42 source=.ufo/waves/round-42/falsify/F42RevRiders.md:74
+ROW R42-R3-27 status=open opened=42 source=.ufo/waves/round-42/falsify/F42RevRiders.md:85
+ROW R42-R3-28 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42RevRiders.md:157
+ROW R42-R3-29 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42CritAdv.md:30
+ROW R42-R3-30 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42CritAdv.md:53
+ROW R42-R3-31 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42CritScorecard.md:66
+ROW R42-R3-32 status=open opened=42 source=.ufo/waves/round-42/falsify/F42ConnClaims.md:34
+ROW R42-R3-33 status=open opened=42 source=.ufo/waves/round-42/falsify/F42CritPlanNext.md:56
+ROW R42-R3-34 status=open opened=42 source=.ufo/waves/round-42/falsify/F42CritPlanNext.md:69
+ROW R42-R3-35 status=open opened=42 source=.ufo/waves/round-42/falsify/F42CritPlanNext.md:79
+ROW R42-R3-36 status=open opened=42 source=.ufo/waves/round-42/falsify/F42CritPlanNext.md:91
+ROW R42-R3-37 status=open opened=42 source=.ufo/waves/round-42/falsify/F42CritPlanNext.md:107
+ROW R42-R3-38 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42EntryQuotes.md:45
+ROW R42-R3-39 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42EntryQuotes.md:46
+ROW R42-R3-40 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42EntryQuotes.md:47
+ROW R42-R3-41 status=closed opened=42 source=.ufo/waves/round-42/falsify/F42EntryQuotes.md:48
+ROWS total=60 open=23 blocked=1 closed=34 refused=2
+routed_open=24 oldest_round=39
+ENVELOPE end 00:24:26 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged
+### M4 exit=0
+### M6b: python3 /fast/scratch/hyaku/kengaku-r45/L1a3/lane/plans/round_close.py --lane /fast/scratch/hyaku/kengaku-r45/L1a3/lane --round 44 --census /home/vgpnk/Projects/shokunin/scripts/sources-census.sh
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/L1a3/envn_M6b /fast/scratch/hyaku/kengaku-r45/L1a3/envn_M6b --bind /fast/scratch/hyaku/kengaku-r45/L1a3/envn_M6b/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r45/L1a3/lane/plans/round_close.py --lane /fast/scratch/hyaku/kengaku-r45/L1a3/lane --round 44 --census /home/vgpnk/Projects/shokunin/scripts/sources-census.sh
+ENVELOPE start 00:24:28 cwd=/fast/scratch/hyaku/kengaku-r45/L1a3
+ROUND-CLOSE lane=/fast/scratch/hyaku/kengaku-r45/L1a3/lane round=44
+ROUND-CLOSE claims=plans/round-44-claims.md sha256=9ab0f03504e411dae30016f6ef8c1108100ff54a27f22baf222edb4032fcc2d8
+ROUND-CLOSE order-tool=plans/order_check.py sha256=948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc
+ROUND-CLOSE receipts=1
+ORDER claims=plans/round-44-claims.md round=44 freeze=5f16ed04b04a80a17a5a1a060c12093d9a152a64
+ORDER receipt=corpus/evidence/round44/feal-linear-probe.txt receipt_commit=45dc0bc81e42e02ecd272712086c372c8844b108 claims_dir=.ufo/waves/round-44/claims/
+ORDER scanned commits=1 file_entries=32 distinct_blobs=32
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+ROUND-CLOSE order receipt=corpus/evidence/round44/feal-linear-probe.txt exit=0 verdict=PASS
+file	W04	S040 duplicate url arxiv.org/abs/2301.09633 across scopes
+file	W04	S048 duplicate url aclanthology.org/2020.acl-main.442 across scopes
+file	W04	S057 duplicate url arxiv.org/abs/2405.11874 across scopes
+file	W04	S058 duplicate url github.com/UKGovernmentBEIS/inspect_ai/blob/63e45cc52d39b873b944124613da21fdad6f6dcc/src/inspect_ai/scorer/_pattern.py across scopes
+file	W04	S059 duplicate url www.rfc-editor.org/rfc/rfc8259 across scopes
+file	W04	S064 duplicate url spec.commonmark.org/0.31.2 across scopes
+file	W04	S065 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S066 duplicate url doi.org/10.1017/S0950268810000385 across scopes
+file	W04	S067 duplicate url doi.org/10.1017/S0950268810000385 across scopes
+file	W04	S068 duplicate url raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/config_files/test.raw.json across scopes
+file	W04	S069 duplicate url raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/evaluation_harness/evaluators.py across scopes
+file	W04	S071 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S075 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S076 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S100 duplicate url github.com/laude-institute/terminal-bench-2 across scopes
+file	ok	/fast/scratch/hyaku/kengaku-r45/L1a3/lane/corpus/SOURCES.md
+ROUND-CLOSE census tool=/home/vgpnk/Projects/shokunin/scripts/sources-census.sh sha256=3fb7261569f46423dd80ecc23e0a23789a7926f667c7a3fc559d2439d4a64e30 cmd=/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --file /fast/scratch/hyaku/kengaku-r45/L1a3/lane/corpus/SOURCES.md
+ROUND-CLOSE census exit=0 warnings=15 verdict=PASS
+ROUND-CLOSE RESULT PASS exit=0
+ENVELOPE end 00:24:29 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged
+### M6b exit=0
