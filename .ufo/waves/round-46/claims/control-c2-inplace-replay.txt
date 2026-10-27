@@ -1,0 +1,13 @@
+# control control-c2-inplace-replay: S152/S153/S154 anchors corrected IN PLACE (Q34 forbids)
+# measured HEAD 64ba8385ea10af1b78d367dcb242b92d97062af7 (+ transform above)
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/L1/s2/control-c2-inplace-replay/env /fast/scratch/hyaku/kengaku-r46/L1/s2/control-c2-inplace-replay/env --bind /fast/scratch/hyaku/kengaku-r46/L1/s2/control-c2-inplace-replay/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 plans/round46_c2_verify.py --lane . --work /fast/scratch/hyaku/kengaku-r46/L1/s2/control-c2-inplace-replay/w
+ENVELOPE start 02:31:46 cwd=/fast/scratch/hyaku/kengaku-r46/L1/s2/control-c2-inplace/lane
+PINS total=3 mismatched=0
+A anchorline live=5 repaired=0 base_rows=149 base_missing=0 base_changed=3 first_changed=S152 DEFECT
+B predictor states=16 grader_pass=10 grader_fail=6 disagree=6 DEFECT
+C entry source_ranges=9 source_ranges_bad=4 errata_marks=0/5 DEFECT
+D selftest exit=0 ok
+checks=4 defects=3
+PREDICATE C2 fail
+ENVELOPE end 02:31:47 exit=1 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged
+# exit=1

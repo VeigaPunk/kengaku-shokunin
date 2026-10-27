@@ -1,0 +1,39 @@
+# control control-c3-echo: the frozen dry table copied as the receipt (echo)
+# measured HEAD cf7de6af112e5d491ebd47318682b05fe864c125 (+ transform above)
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/L1/s2/control-c3-echo/env /fast/scratch/hyaku/kengaku-r46/L1/s2/control-c3-echo/env --bind /fast/scratch/hyaku/kengaku-r46/L1/s2/control-c3-echo/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 plans/round46_c3_verify.py --lane . --work /fast/scratch/hyaku/kengaku-r46/L1/s2/control-c3-echo/w
+ENVELOPE start 02:32:09 cwd=/fast/scratch/hyaku/kengaku-r46/L1/s2/control-c3-echo/lane
+V1 ok listed=8 wrong=0 extra=0
+    gate: P1 ok pinned=2 mismatched=0
+    gate: P2 ok receipt_sha256=pinned
+    gate: P3 DEFECT no '## Located quotes' section
+    gate: P4 DEFECT no parsed quote
+    gate: P5 ok manifest_entries=8 bad=0 first=0
+    gate: P6 DEFECT rows=7 bad=7 first=S166: rows=0
+    gate: P7 DEFECT entry unreadable
+    gate: P8 DEFECT index_rows=52 knowledge_files=52 bad=2 first=index rows for knowledge/tb2-polyglot-c-py-grader.md=0
+    gate: P9 DEFECT untracked=1 first=corpus/evidence/round46/polyglot-c-py-probe.txt
+    gate: P10 DEFECT fresh probe output is not byte-equal to the receipt
+    gate: defects=7
+V2 DEFECT spec=frozen gate=frozen gate_exit=1
+V3 DEFECT rows=7 bad=['S166:row', 'S167:row', 'S168:row', 'S169:row', 'S170:row', 'S171:row', 'S172:row']
+V4 DEFECT receipt, entry or frozen dry table absent
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0 registry=corpus/SOURCES.md
+V7 DEFECT receipt or entry absent
+V8 DEFECT order_exit=2 result=not-PASS
+V9 DEFECT receipt, entry, PROVINCE.md or README absent
+V10 DEFECT receipt or entry absent
+V11 DEFECT entry absent
+V12 ok rows=7 defective=7 live=0 first=S166:row
+    filler: V3 ok rows=7 bad=0
+    filler: V4 DEFECT cases=16 mismatches_named=0/0 bad=["match=yes on a mismatching case: ['float-c']"]
+    filler: V6 DEFECT census_exit=1 registry=plans/filler46/SOURCES-filler.md
+    filler: V7 DEFECT rows=4 tags=4 bad=['single-file: no receipt case violates it', 'python-run: no receipt case violates it', 'c-run: no receipt case violates it', 'fib: no receipt case violates it']
+    filler: V9 DEFECT case_rows=1/16 bad=['case table rows=1 receipt cases=16 equal=False', 'PROVINCE.md names the task and the entry on no line', 'README ## Frontier does not name the task']
+    filler: V10 DEFECT DECISIVE keys differ from the frozen case ids (stage-2 pin not aligned)
+    filler: V12 DEFECT rows=7 defective=7 live=7 first=S166:line,words
+V13 ok filler_checks=7 defects=6 substantive=V4,V7,V9,V10,V12
+checks=13 defects=8
+PREDICATE C3 fail
+ENVELOPE end 02:32:13 exit=1 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged
+# exit=1

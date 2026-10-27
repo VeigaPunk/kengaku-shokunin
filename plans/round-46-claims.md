@@ -125,3 +125,29 @@ touches `corpus/SOURCES.md` rows S157–S165, the `password-recovery` entry and 
 entry, rows from S166, captures, probe, spec, counter, README/PROVINCE lines. C3's counter runs the gate at its
 round-45 digest and carries its own anchor-line rule, so it verifies without C2; C2's leg A counts every captured row,
 so C3's new rows must also be line-correct — a C3 row defect shows in C2's leg A and is attributed to C3 by row id.
+
+## Freeze amendments
+
+**Stage 2 (declared at stage 1; instruments commit `cf7de6af112e5d491ebd47318682b05fe864c125`, 2026-10-27, before any
+repaired fence, repaired C2 row/entry or C3 probe case was scored).** Literals filled: C1 `<P>` = **65**, `<R>` = **20**,
+`<S>` = **12** (so `advertised=32`); C3 `<V>` = **13**. No predicate line, control or kill rule changed.
+- C1: `plans/round46_c1_verify.py` (sha256 `ef19380e…`) = wave-1 seat `R46ExecC1Counter`'s file (`fd141887…`) plus three
+  L1 edits: PINS gained the 20 `plans/refusals46/*.py` and 12 `plans/sealed46/*.py` digests (33 → 65); the module-count
+  floors became exact literals (`REFUSAL_FLOOR = 20`, `SEALED_FLOOR = 12`, compared with `!=`); the docstring's
+  `<P>/<R>/<S>` filled. `plans/refusals46/` = f1–f10 byte-copied from `plans/refusals45/` + f11–f20 converted from the
+  round-45 held-out modules by `R46ExecC1Modules` (each LEAKED under the base fence). `plans/sealed46/` = 12 modules from
+  `R46CritC1SealConfig` (3), `R46CritC1SealPaths` (3), `R46CritC1SealArgv` (3), `R46CritC1SealStore` (3), file names
+  prefixed `c_/p_/a_/s_` by family; each seat reports all three LEAKED under the base fence. The fence the L1 lands
+  (`R46ExecC1FenceA`, allowlist, no git child) was chosen on its design and its round-45-counter receipts before the
+  round-46 counter scored any repaired fence. Controls: `stage2_controls.py c1` receipts `control-c1-*.txt`.
+- C3: `plans/round46_c3_verify.py` (sha256 `a971c24d…`) = wave-1 seat `R46ExecC3Counter`'s file (`128b2293…`) plus L1
+  edits: `PROBE_SHA256` = `67a8f4a6…` (`plans/polyglot_c_py_probe.py`, `R46ExecC3Probe`), `DRY_SHA256` = `99adfea6…`
+  (`corpus/evidence/round46/polyglot-c-py-dry-cases-freeze.txt`, 18 cases, 7 predicted pass / 11 fail), `SPEC_SHA256` =
+  `560c7bfb…` computed over `plans/pkg-spec-r46.json` with its `receipt_sha256` value masked to `PENDING-STAGE-2` (the
+  receipt digest is filled after the first recorded probe run; the receipt bytes are checked by V4/V5 and the gate's
+  P2/P10); `DECISIVE` re-keyed from the seat's 16 placeholder ids to the probe's 18 frozen ids, lines read off the
+  captured `test_outputs.py` only. Disclosed pre-freeze grader executions: V11's generated states (the counter seat's
+  `v11-predictors*.txt`, 60 states per run) — not the probe's case table, which has run only `--dry`/stage-check.
+  Controls `control-c3-base.txt`, `control-c3-filler.txt`, `control-c3-echo.txt`: each `PREDICATE C3 fail`, exit 1.
+- C2 (unchanged): the five stage-1 controls re-run by script (`stage2_controls.py c2`, `control-c2-*-replay.txt`) print
+  the same A/B/C/D lines as the committed receipts (wave-1 `R46RevClaimsFile` finding 1: transforms were not committed).
