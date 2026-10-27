@@ -1,0 +1,90 @@
+# round-45 w2 R45ExecCensusPost — post-landing census, all outputs (2026-10-26, lane tip d4c0cdfbdc3886eadac4710ee49630ce00722ee1)
+
+## 1. sources-census.sh validate (under envelope; receipt: validate-receipt.txt)
+$ /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/claims/envelope.sh "$S/env" /home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45ExecCensusPost/env /fast/scratch/hyaku/kengaku-r45/R45ExecCensusPost/env --bind /fast/scratch/hyaku/kengaku-r45/R45ExecCensusPost/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku
+ENVELOPE start 23:51:30 cwd=/home/vgpnk/Projects/shokunin
+kengaku	W04	S040 duplicate url arxiv.org/abs/2301.09633 across scopes
+kengaku	W04	S048 duplicate url aclanthology.org/2020.acl-main.442 across scopes
+kengaku	W04	S057 duplicate url arxiv.org/abs/2405.11874 across scopes
+kengaku	W04	S058 duplicate url github.com/UKGovernmentBEIS/inspect_ai/blob/63e45cc52d39b873b944124613da21fdad6f6dcc/src/inspect_ai/scorer/_pattern.py across scopes
+kengaku	W04	S059 duplicate url www.rfc-editor.org/rfc/rfc8259 across scopes
+kengaku	W04	S064 duplicate url spec.commonmark.org/0.31.2 across scopes
+kengaku	W04	S065 duplicate url docs.python.org/3/library/json.html across scopes
+kengaku	W04	S066 duplicate url doi.org/10.1017/S0950268810000385 across scopes
+kengaku	W04	S067 duplicate url doi.org/10.1017/S0950268810000385 across scopes
+kengaku	W04	S068 duplicate url raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/config_files/test.raw.json across scopes
+kengaku	W04	S069 duplicate url raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/evaluation_harness/evaluators.py across scopes
+kengaku	W04	S071 duplicate url docs.python.org/3/library/json.html across scopes
+kengaku	W04	S075 duplicate url docs.python.org/3/library/json.html across scopes
+kengaku	W04	S076 duplicate url docs.python.org/3/library/json.html across scopes
+kengaku	W04	S100 duplicate url github.com/laude-institute/terminal-bench-2 across scopes
+kengaku	ok	/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md
+ENVELOPE end 23:51:32 exit=0 local_bin_content_before=e396f23e40a69201 after=e396f23e40a69201 unchanged
+
+## 2. sources-census.sh census (row/tier/status counts, under envelope; receipt: census-mode-receipt.txt)
+$ envelope.sh "$S/env" /home/vgpnk/Projects/shokunin/scripts/sources-census.sh census --root /home/vgpnk/Projects/shokunin kengaku
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45ExecCensusPost/env /fast/scratch/hyaku/kengaku-r45/R45ExecCensusPost/env --bind /fast/scratch/hyaku/kengaku-r45/R45ExecCensusPost/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /home/vgpnk/Projects/shokunin/scripts/sources-census.sh census --root /home/vgpnk/Projects/shokunin kengaku
+ENVELOPE start 23:52:11 cwd=/home/vgpnk/Projects/shokunin
+kengaku	rows	149
+kengaku	tier.A	125
+kengaku	tier.B	22
+kengaku	tier.C	2
+kengaku	status.mined	133
+kengaku	status.queued	8
+kengaku	status.rejected	8
+FLEET	rows	149
+FLEET	tier.A	125
+FLEET	tier.B	22
+FLEET	tier.C	2
+FLEET	tier.invalid	0
+FLEET	status.queued	8
+FLEET	status.mined	133
+FLEET	status.rejected	8
+FLEET	status.invalid	0
+FLEET	missing	0
+ENVELOPE end 23:52:13 exit=0 local_bin_content_before=e396f23e40a69201 after=e396f23e40a69201 unchanged
+
+## 3. row-count (image-captured script pattern), expect 149
+$ grep -cE '^ {0,3}\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|' /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md
+149
+
+## 4. knowledge .md count, expect 52
+$ find /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge -name '*.md' | wc -l
+52
+
+## 5. duplicate-id check (ids extracted from the same row pattern; expect empty)
+$ grep -oE '^ {0,3}\|[[:space:]]*S[0-9]{3,}' /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md | grep -oE 'S[0-9]{3,}' | sort | uniq -d
+(no lines above = no duplicate ids)
+$ ... | sort -u | wc -l   # distinct ids
+149
+
+## 6. baseline delta (frozen claims baseline tip 9d5f9715ebb0343984171be312d44e681f96b9a8; read-only git show)
+$ git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin show 9d5f9715ebb0343984171be312d44e681f96b9a8:corpus/SOURCES.md | grep -cE '<same row pattern>'
+141
+$ git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin ls-tree -r --name-only 9d5f9715ebb0343984171be312d44e681f96b9a8 -- corpus/knowledge | grep -c '\.md$'
+51
+=> delta rows 149-141=8 (S149..S156), knowledge 52-51=1
+
+## 7. new rows S149-S156 field/used-by/url check (python, read-only; full output: rows-fields.txt)
+
+## 8. pre/post finding-code diff (claims/census-before.txt vs validate receipt, ENVELOPE lines stripped)
+$ diff <(grep -v ^ENVELOPE claims/census-before.txt) <(grep -v ^ENVELOPE validate-receipt.txt)
+diff-rc=0 (0 = identical); W04 lines: 15
+
+## 9. hashes
+2d1655f44e6284fe5e5a17e8b812b0ce11619ff68210fd3129fc5b9952c66964  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/w2/R45ExecCensusPost/census-final.txt
+8efdf6467d887b1e11de2e6c4636efeb37402b0fd8bf2fcbb0dba080b5ff3623  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/w2/R45ExecCensusPost/validate-receipt.txt
+ce7c553744f94d25bb2d907559a79d76b9ac3ef06a4568f8d93f93ec02104358  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/w2/R45ExecCensusPost/census-mode-receipt.txt
+4fce9022e76a119008402547350bc9d21ef3bc2877ea9243fd0b5ea904d70737  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/w2/R45ExecCensusPost/rows-fields.txt
+rows parsed: 149
+S149 nf=13 tier=code status=mined opened=2026-10-26 recheck=180d used-by=corpus/knowledge/tb2-password-recovery-grader.md exists=True url-shared-with=none
+S150 nf=13 tier=code status=mined opened=2026-10-26 recheck=180d used-by=corpus/knowledge/tb2-password-recovery-grader.md exists=True url-shared-with=none
+S151 nf=13 tier=code status=mined opened=2026-10-26 recheck=180d used-by=corpus/knowledge/tb2-password-recovery-grader.md exists=True url-shared-with=none
+S152 nf=13 tier=code status=mined opened=2026-10-26 recheck=180d used-by=corpus/knowledge/tb2-password-recovery-grader.md exists=True url-shared-with=none
+S153 nf=13 tier=code status=mined opened=2026-10-26 recheck=180d used-by=corpus/knowledge/tb2-password-recovery-grader.md exists=True url-shared-with=none
+S154 nf=13 tier=code status=mined opened=2026-10-26 recheck=180d used-by=corpus/knowledge/tb2-password-recovery-grader.md exists=True url-shared-with=none
+S155 nf=13 tier=code status=mined opened=2026-10-26 recheck=180d used-by=corpus/knowledge/tb2-password-recovery-grader.md exists=True url-shared-with=none
+S156 nf=13 tier=code status=mined opened=2026-10-26 recheck=180d used-by=corpus/knowledge/tb2-password-recovery-grader.md exists=True url-shared-with=none
+S149..S156 all present: True
+distinct ids: 149

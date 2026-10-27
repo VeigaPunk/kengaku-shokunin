@@ -1,0 +1,49 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45LabratReadProof/env2 /fast/scratch/hyaku/kengaku-r45/R45LabratReadProof/env2 --bind /fast/scratch/hyaku/kengaku-r45/R45LabratReadProof/env2/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- sh -c 
+set -e
+S=/fast/scratch/hyaku/kengaku-r45/R45LabratReadProof; R=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/w2/R45LabratReadProof
+L=$S/lane
+strace -V | head -1
+python3 $R/four_module_probe.py "$L" "$S/work" "$L/plans/refusals45/f1_gitfile.py" "$L/plans/refusals45/f4_fifo.py" "$L/plans/refusals45/f6_above.py" "$L/plans/refusals45/f10_laneinclude.py" > "$S/four2.json"
+python3 $R/patho_probe.py "$L" "$S/patho" 100000 big100k
+python3 $R/patho_probe.py "$L" "$S/patho" 199000 near-cap
+python3 $R/patho_probe.py "$L" "$S/patho" 200001 cap200k
+
+ENVELOPE start 23:52:58 cwd=/fast/scratch/hyaku/kengaku-r45/R45LabratReadProof
+strace -- version 7.2
+{
+ "tag": "big100k",
+ "nfiles": 100000,
+ "build_s": 1.3,
+ "wall_s": 6.38,
+ "verdict": "ADMIT",
+ "rc": 0,
+ "stderr": "",
+ "scratch_outside_opens": 0,
+ "first_outside": [],
+ "log": "/fast/scratch/hyaku/kengaku-r45/R45LabratReadProof/patho/big100k/log/log"
+}
+{
+ "tag": "near-cap",
+ "nfiles": 199000,
+ "build_s": 2.8,
+ "wall_s": 10.33,
+ "verdict": "ADMIT",
+ "rc": 0,
+ "stderr": "",
+ "scratch_outside_opens": 0,
+ "first_outside": [],
+ "log": "/fast/scratch/hyaku/kengaku-r45/R45LabratReadProof/patho/near-cap/log/log"
+}
+{
+ "tag": "cap200k",
+ "nfiles": 200001,
+ "build_s": 2.6,
+ "wall_s": 0.13,
+ "verdict": "BREACH fixture tree exceeds 200000 entries",
+ "rc": 0,
+ "stderr": "",
+ "scratch_outside_opens": 0,
+ "first_outside": [],
+ "log": "/fast/scratch/hyaku/kengaku-r45/R45LabratReadProof/patho/cap200k/log/log"
+}
+ENVELOPE end 23:53:29 exit=0 local_bin_content_before=e396f23e40a69201 after=e396f23e40a69201 unchanged

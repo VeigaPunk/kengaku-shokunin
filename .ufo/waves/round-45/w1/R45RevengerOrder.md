@@ -202,4 +202,19 @@ All other numbers carry their command inline (`grep -c`, `git show 02753f2:…`,
 `/fast/scratch/hyaku/kengaku-r45/R45RevengerOrder` removed at end of seat via `plans/scratch_guard.py safe-rm`.
 No tool was installed.
 
+## 9. Obligation closure (peer-reported, not measured by this seat)
+
+`R45FenceOwn` (the fence's owner in this wave) reports both §5 obligations implemented and the frozen predicate
+green on the landed fence `3b540e0d2dcc9125da0bff8f21d024ae3ab11720e37ed3cf11c90d53dba3fcc6`:
+`_argv_shape` is the first statement of `breach` (f3 refused there, opens=0); every leg returns `str | None` with a
+last-resort `except`; f9 is refused by the second-tier probe with `rc=128` → "git cannot describe the work tree".
+Per the fence owner, f9 is stopped **only** by that git tier: the config parser looks for include surfaces and
+`extensions.worktreeConfig`, deliberately not `core.bare`, so §5's "git legs stay load-bearing" is the fence's
+actual design and not an accident of the fixture.
+The opens column it measured for the four round-44 READ modules is the one §3 predicted
+(f1/f4/f6/f10 6/1/3/4 → 0/0/0/0), with `REFUSALS total=10 clean=10 leaked=0 read=0 hung=0`,
+`HONEST fixtures=104 admitted=104 refused=0 read=0`, `CALIBRATION advertised=10 contradicted=0`, `PREDICATE C1 pass`.
+This seat did not re-run that counter (it is the executor's measurement, frozen-digest territory); the §3 cost
+claim and the §5 obligations are what this report contributes to it.
+
 VERDICT: order-origin-r43sentinel-F2-secondary-sweep-behaviour-lost-no

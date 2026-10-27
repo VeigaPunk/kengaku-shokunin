@@ -1,0 +1,188 @@
+#!/usr/bin/env python3
+"""R45ExecHarnessRO probe driver v2: per-leg fences (each reason fits run_fence's 120-char cap)."""
+from __future__ import annotations
+
+import importlib.util
+import pathlib
+import sys
+import tempfile
+
+
+class Tee:
+    def __init__(self, path):
+        self.fh = open(path, "w")
+
+    def write(self, s):
+        sys.__stdout__.write(s)
+        self.fh.write(s)
+        self.fh.flush()
+
+    def flush(self):
+        self.fh.flush()
+
+
+S = pathlib.Path("/fast/scratch/hyaku/kengaku-r45/R45ExecHarnessRO")
+LANE = S / "lane"
+sys.stdout = Tee(S / "driver2.out")
+
+
+def load(path, name):
+    spec = importlib.util.spec_from_file_location(name, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def leak_scan(tag):
+    hits = []
+    for p in pathlib.Path("/proc").iterdir():
+        if not p.name.isdigit():
+            continue
+        try:
+            cmd = (p / "cmdline").read_bytes().replace(b"\0", b" ").decode(errors="strip")
+        except OSError:
+            continue
+        if any(k in cmd for k in ("harness.py", "fixture_fence", "probe_", "k45probe", "strace ")):
+            if "R45ExecHarnessRO" in cmd:
+                hits.append(f"pid{p.name}:{cmd[:90]}")
+    print(f"LEAK-SCAN[{tag}] " + ("none" if not hits else " | ".join(hits)))
+
+
+FENCES = {
+    "w_d": 'import pathlib\n'
+           'def breach(d, argv, tool):\n'
+           '    try:\n'
+           '        pathlib.Path(d, "x.txt").write_text("w")\n'
+           '        return "W-INTO-D SUCCEEDED"\n'
+           '    except OSError as e:\n'
+           '        return f"w-into-d errno={e.errno} {__import__(\'os\').strerror(e.errno)}"\n',
+    "w_parent": 'import pathlib\n'
+                'def breach(d, argv, tool):\n'
+                '    try:\n'
+                '        (pathlib.Path(d).parent / "x.txt").write_text("w")\n'
+                '        return "W-PARENT SUCCEEDED"\n'
+                '    except OSError as e:\n'
+                '        return f"w-parent errno={e.errno} {__import__(\'os\').strerror(e.errno)}"\n',
+    "w_grandparent": 'import pathlib\n'
+                     'def breach(d, argv, tool):\n'
+                     '    try:\n'
+                     '        (pathlib.Path(d).parents[1] / "x.txt").write_text("w")\n'
+                     '        return "W-GRANDPARENT SUCCEEDED"\n'
+                     '    except OSError as e:\n'
+                     '        return f"w-grandparent errno={e.errno} {__import__(\'os\').strerror(e.errno)}"\n',
+    "mkdir_parent": 'import os, pathlib\n'
+                    'def breach(d, argv, tool):\n'
+                    '    try:\n'
+                    '        os.mkdir(pathlib.Path(d).parent / "ydir")\n'
+                    '        return "MKDIR-PARENT SUCCEEDED"\n'
+                    '    except OSError as e:\n'
+                    '        return f"mkdir-parent errno={e.errno} {__import__(\'os\').strerror(e.errno)}"\n',
+    "shadow_read": 'def breach(d, argv, tool):\n'
+                   '    try:\n'
+                   '        open("/etc/shadow").read(16)\n'
+                   '        return "SHADOW-READ SUCCEEDED"\n'
+                   '    except OSError as e:\n'
+                   '        return f"shadow-read errno={e.errno} {__import__(\'os\').strerror(e.errno)}"\n',
+    "shadow_write": 'def breach(d, argv, tool):\n'
+                    '    try:\n'
+                    '        open("/etc/shadow", "a").write("x")\n'
+                    '        return "SHADOW-WRITE SUCCEEDED"\n'
+                    '    except OSError as e:\n'
+                    '        return f"shadow-write errno={e.errno} {__import__(\'os\').strerror(e.errno)}"\n',
+    "tmp_write": 'def breach(d, argv, tool):\n'
+                 '    try:\n'
+                 '        open("/tmp/k45_probe_ro", "w").write("x")\n'
+                 '        return "TMP-WRITE SUCCEEDED"\n'
+                 '    except OSError as e:\n'
+                 '        return f"tmp-write errno={e.errno} {__import__(\'os\').strerror(e.errno)}"\n',
+    "hostname_read": 'def breach(d, argv, tool):\n'
+                     '    try:\n'
+                     '        return f"hostname-read ok len={len(open(\'/etc/hostname\').read())}"\n'
+                     '    except OSError as e:\n'
+                     '        return f"hostname-read errno={e.errno} {__import__(\'os\').strerror(e.errno)}"\n',
+    "admit_outside": 'import os, pathlib\n'
+                     'def breach(d, argv, tool):\n'
+                     '    d = pathlib.Path(d)\n'
+                     '    root = d.parents[2]\n'
+                     '    for p in (root / "btmp", d.parent):\n'
+                     '        try:\n'
+                     '            os.close(os.open(str(p), os.O_RDONLY | os.O_DIRECTORY))\n'
+                     '        except OSError:\n'
+                     '            pass\n'
+                     '    try:\n'
+                     '        for e in os.scandir(d.parent):\n'
+                     '            if e.is_file():\n'
+                     '                os.close(os.open(e.path, os.O_RDONLY))\n'
+                     '                break\n'
+                     '    except OSError:\n'
+                     '        pass\n'
+                     '    return None\n',
+    "git_version": 'import subprocess\n'
+                   'def breach(d, argv, tool):\n'
+                   '    r = subprocess.run(["/usr/bin/git", "--version"], capture_output=True, text=True, timeout=30)\n'
+                   '    return f"git-version rc={r.returncode} out={r.stdout.strip()[:40]}"\n',
+    "git_init_parent": 'import pathlib, subprocess\n'
+                       'def breach(d, argv, tool):\n'
+                       '    r = subprocess.run(["/usr/bin/git", "-C", str(pathlib.Path(d).parent), "init"],\n'
+                       '                       capture_output=True, text=True, timeout=30)\n'
+                       '    err = r.stderr.strip().splitlines()[-1][:70] if r.stderr.strip() else ""\n'
+                       '    return f"git-init-parent rc={r.returncode} err={err}"\n',
+    "git_init_tmp": 'import subprocess\n'
+                    'def breach(d, argv, tool):\n'
+                    '    r = subprocess.run(["/usr/bin/git", "-C", "/tmp/k45_git_target", "init"],\n'
+                    '                       capture_output=True, text=True, timeout=30)\n'
+                    '    err = r.stderr.strip().splitlines()[-1][:70] if r.stderr.strip() else ""\n'
+                    '    return f"git-init-tmp rc={r.returncode} err={err}"\n',
+    "git_lane": 'import subprocess\n'
+                'LANE = "/fast/scratch/hyaku/kengaku-r45/R45ExecHarnessRO/lane"\n'
+                'def breach(d, argv, tool):\n'
+                '    r = subprocess.run(["/usr/bin/git", "-C", LANE, "rev-parse", "--show-toplevel"],\n'
+                '                       capture_output=True, text=True, timeout=30)\n'
+                '    err = r.stderr.strip().splitlines()[-1][:70] if r.stderr.strip() else ""\n'
+                '    return f"git-lane rc={r.returncode} err={err}"\n',
+    "sleep": 'import time\n'
+             'def breach(d, argv, tool):\n'
+             '    time.sleep(240)\n'
+             '    return "slept through"\n',
+}
+
+print(f"DRIVER2 start lane={LANE}")
+k45 = load(LANE / "plans/round45_c1_verify.py", "k45_counter")
+k44 = load(LANE / "plans/round44_c1_verify.py", "k44_counter")
+mism = [rel for rel, dig in k45.PINS.items() if k45.sha256(LANE / rel) != dig]
+print(f"PINS total={len(k45.PINS)} mismatched={len(mism)}")
+print(f"FENCE_TIMEOUT={k45.FENCE_TIMEOUT}")
+
+root = pathlib.Path(tempfile.mkdtemp(prefix="k45probe2-", dir=S))
+(root / "harness.py").write_text(k45.HARNESS)
+(root / "empty").mkdir()
+(root / "fence").mkdir()
+print(f"PROBE-ROOT {root}")
+
+fx1 = k45.build_module(k44, LANE, root, LANE / "plans/refusals45/f1_gitfile.py")[0]
+fx2 = k45.build_module(k44, LANE, root, LANE / "plans/refusals45/f2_deep.py")[0]
+print(f"BUILT {fx1['module']} {fx1['fid']} dir={fx1['dir']}")
+print(f"BUILT {fx2['module']} {fx2['fid']} dir={fx2['dir']}")
+
+plan = [
+    ("w_d", fx1), ("w_parent", fx1), ("w_grandparent", fx1), ("mkdir_parent", fx1),
+    ("shadow_read", fx1), ("shadow_write", fx1), ("tmp_write", fx1), ("hostname_read", fx1),
+    ("admit_outside", fx1),
+    ("git_version", fx1), ("git_init_parent", fx1), ("git_init_tmp", fx1), ("git_lane", fx1),
+    ("sleep", fx2),
+]
+fdir = root / "fence"
+n = 0
+for tag, fx in plan:
+    n += 1
+    fc = fdir / f"{tag}.py"
+    fc.write_text(FENCES[tag])
+    verdict, why, opens = k45.run_fence(k44, LANE, root, fc, fx, n)
+    print(f"FENCE-RUN {tag} module={fx['module']} fid={fx['fid']}")
+    print(f"  verdict={verdict} opens={opens}" + (f" reason={why}" if why else ""))
+    if tag != "sleep":
+        leak_scan(tag)
+leak_scan("final")
+hung_log = root / "strace" / "s000014" / "log"
+print(f"HUNG-LOG exists={hung_log.is_file()} size={hung_log.stat().st_size if hung_log.is_file() else 0}")
+print("DRIVER2 done")

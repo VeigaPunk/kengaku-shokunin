@@ -1,0 +1,423 @@
+<!DOCTYPE HTML>
+
+        <html lang="ja">
+                <head>
+                    <meta charset="UTF-8" />
+                    <meta content="NEC,NEC技報,NEC Technical Journal,生成AI,NGS,LLM,大規模言語モデル,cotomi" name="keywords" />
+                    <meta content="本特集は、生成AI技術の基盤技術の改良や関連技術の開発をはじめ、映像分析業務の自動化などの先進的な応用技術、世界標準に沿ったルール作りやリスク管理手法の開発など、NECの生成AI技術のソリューション全体を幅広く紹介しています。" name="description" />
+                    <title>日本語性能に優れたNECの大規模言語モデル（LLM）: Vol.75 No.2: ビジネスの常識を変える生成AI特集 ～社会実装に向けた取り組みと、それを支える生成AI技術～ | NEC</title>
+                    <link href="/iwov-resources/fixed-layout/2017v3-2column.css" rel="stylesheet" type="text/css" />
+                    <meta content="width=device-width,initial-scale=1" name="viewport" />
+                    <meta content="telephone=no" name="format-detection" />
+                    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+                    <link href="/nf_global/v3/common/css/reserve_top1.css" rel="stylesheet" />
+                    <script src="/nf_global/v3/common/js/jquery.js"></script>
+                    <script src="/nf_global/v3/common/js/reserve_top1.js"></script>
+                    <link href="/nf_global/v3/common/css/master-2021.css" rel="stylesheet" type="text/css" />
+                    <link href="/nf_global/v3/local/css/ja-2021.css" rel="stylesheet" type="text/css" />
+                    <link href="/techrep/journal/css/journal.css" rel="stylesheet" type="text/css" />
+                    <script src="/nf_global/v3/common/js/init.js"></script>
+                    <link href="/nf_global/v3/common/css/reserve_top2.css" rel="stylesheet" />
+                    <script src="/nf_global/v3/common/js/reserve_top2.js"></script>
+                    <script type="application/ld+json">
+{
+   "@context" : "https://schema.org",
+   "@type" : "BreadcrumbList",
+   "itemListElement" : [
+      {
+         "@type" : "ListItem",
+         "item" : "https://jpn.nec.com/index.html",
+         "name" : "ホーム",
+         "position" : 1
+      },
+      {
+         "@type" : "ListItem",
+         "item" : "http://jpn.nec.com/profile/aboutnec.html",
+         "name" : "企業情報",
+         "position" : 2
+      },
+      {
+         "@type" : "ListItem",
+         "item" : "https://jpn.nec.com/techrep/journal/index.html",
+         "name" : "NEC技報",
+         "position" : 3
+      },
+      {
+         "@type" : "ListItem",
+         "item" : "https://jpn.nec.com/techrep/journal/year/index.html",
+         "name" : "発行年別インデックス（バックナンバー）",
+         "position" : 4
+      },
+      {
+         "@type" : "ListItem",
+         "item" : "https://jpn.nec.com/techrep/journal/g23/index.html",
+         "name" : "Vol.75（2023年）",
+         "position" : 5
+      },
+      {
+         "@type" : "ListItem",
+         "item" : "https://jpn.nec.com/techrep/journal/g23/n02/g2302pa.html",
+         "name" : "No.2（3月） ビジネスの常識を変える生成AI特集 ～社会実装に向けた取り組みと、それを支える生成AI技術～",
+         "position" : 6
+      },
+      {
+         "@type" : "ListItem",
+         "name" : "日本語性能に優れたNECの大規模言語モデル（LLM）",
+         "position" : 7
+      }
+   ]
+}
+</script>
+                    <meta content="NEC" property="og:site_name" />
+                    <meta content="日本語性能に優れたNECの大規模言語モデル（LLM）" property="og:title" />
+                    <meta content="https://jpn.nec.com/techrep/journal/g23/n02/230212.html" property="og:url" />
+                    <meta content="ja_JP" property="og:locale" />
+                    <meta content="https://jpn.nec.com/techrep/journal/g23/n02/images/g23n02j_og.jpg" property="og:image" />
+                    <meta content="本特集は、生成AI技術の基盤技術の改良や関連技術の開発をはじめ、映像分析業務の自動化などの先進的な応用技術、世界標準に沿ったルール作りやリスク管理手法の開発など、NECの生成AI技術のソリューション全体を幅広く紹介しています。" property="og:description" />
+                    <meta content="article" property="og:type" />
+                    <link href="https://jpn.nec.com/techrep/journal/g23/n02/230212.html" rel="canonical" />
+                    <script src="//assets.adobedtm.com/37d5c4e7371ac8188d8c3ce88f739133254745ea/satelliteLib-92ef00350b38cf30ca163e6a1ae22dc97ca5f507.js"></script>
+                    <meta content="summary_large_image" name="twitter:card" />
+                    <meta content="‎@NEC_jp_pr" name="twitter:site" /> 
+                                <script>!function(e){var n="https://s.go-mpulse.net/boomerang/";if("False"=="True")e.BOOMR_config=e.BOOMR_config||{},e.BOOMR_config.PageParams=e.BOOMR_config.PageParams||{},e.BOOMR_config.PageParams.pci=!0,n="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="UV8DW-UHFCB-VLKUJ-J6N62-MKJS9",function(){function e(){if(!i){var e=document.createElement("script");e.id="boomr-scr-as",e.src=window.BOOMR.url,e.async=!0,o.parentNode.appendChild(e),i=!0}}function t(e){i=!0;var n,t,a,r,d=document,O=window;if(window.BOOMR.snippetMethod=e?"if":"i",t=function(e,n){var t=d.createElement("script");t.id=n||"boomr-if-as",t.src=window.BOOMR.url,BOOMR_lstart=(new Date).getTime(),e=e||d.body,e.appendChild(t)},!window.addEventListener&&window.attachEvent&&navigator.userAgent.match(/MSIE [67]\./))return window.BOOMR.snippetMethod="s",void t(o.parentNode,"boomr-async");a=document.createElement("IFRAME"),a.src="about:blank",a.title="",a.role="presentation",a.loading="eager",r=(a.frameElement||a).style,r.width=0,r.height=0,r.border=0,r.display="none",o.parentNode.appendChild(a);try{O=a.contentWindow,d=O.document.open()}catch(_){n=document.domain,a.src="javascript:var d=document.open();d.domain='"+n+"';void(0);",O=a.contentWindow,d=O.document.open()}if(n)d._boomrl=function(){this.domain=n,t()},d.write("<bo"+"dy onload='document._boomrl();'>");else if(O._boomrl=function(){t()},O.addEventListener)O.addEventListener("load",O._boomrl,!1);else if(O.attachEvent)O.attachEvent("onload",O._boomrl);d.close()}function a(e){window.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!window.BOOMR||!window.BOOMR.version&&!window.BOOMR.snippetExecuted){window.BOOMR=window.BOOMR||{},window.BOOMR.snippetStart=(new Date).getTime(),window.BOOMR.snippetExecuted=!0,window.BOOMR.snippetVersion=12,window.BOOMR.url=n+"UV8DW-UHFCB-VLKUJ-J6N62-MKJS9";var o=document.currentScript||document.getElementsByTagName("script")[0],i=!1,r=document.createElement("link");if(r.relList&&"function"==typeof r.relList.supports&&r.relList.supports("preload")&&"as"in r)window.BOOMR.snippetMethod="p",r.href=window.BOOMR.url,r.rel="preload",r.as="script",r.addEventListener("load",e),r.addEventListener("error",function(){t(!0)}),setTimeout(function(){if(!i)t(!0)},3e3),BOOMR_lstart=(new Date).getTime(),o.parentNode.appendChild(r);else t(!1);if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a)}}(),"".length>0)if(e&&"performance"in e&&e.performance&&"function"==typeof e.performance.setResourceTimingBufferSize)e.performance.setResourceTimingBufferSize();!function(){if(BOOMR=e.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var n=""=="true"?1:0,t="",a="wpna3ulincqkm2xaciia-f-aaf46b304-clientnsv4-s.akamaihd.net",o="false"=="true"?2:1,i={"ak.v":"41","ak.cp":"163868","ak.ai":parseInt("250824",10),"ak.ol":"0","ak.cr":2,"ak.ipv":4,"ak.proto":"h2","ak.rid":"998b89","ak.r":49221,"ak.a2":n,"ak.m":"b","ak.n":"essl","ak.cport":22641,"ak.gh":"2.21.241.157","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"","ak.t":"1793069584","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==woxMN4RbnLFKBHCt+GjHi3ijGYxpUw7o6C3dkUBTTFXEhUn0bE6mVzUIHDZiEPc/+OueUEKotW4bxfqB106/XhIIG5l1JUPBoGthIRhENiEP0i2PL9xVyqglqcj/yTeCJZ8v4i1dc7zehK5FyAANH0YH3LlcC0BEwZ0JlYOSrlE4Em9aipysoVdSZlG+xgWXR9L+dW7AKYyZwkjv2QcuwuacFpEGq8mtRZQtib+OTWlVfiujgFXLBRAOFUD908a9O/vSL9Di3uM4xJxd50i+ax2hzD2NNLqM0sZDSK0slbqqKMugvxsPgSpDhkBWf+b3ak+obR76VM1/W/FKpwKLWCj1rhQ3MUJo2oApDl6GH0HmULXvNIcG44t017JuqsKrwOmU0Yc1dcT5h94MKmOblISjGSqAQlG/D8V4BVmwfGk=","ak.pv":"75","ak.dpoabenc":"","ak.tf":o};if(""!==t)i["ak.ruds"]=t;var r={i:!1,av:function(n){var t="http.initiator";if(n&&(!n[t]||"spa_hard"===n[t]))i["ak.feo"]=void 0!==e.aFeoApplied?1:0,BOOMR.addVar(i)},rv:function(){var e=["ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(e)}};BOOMR.plugins.AK={akVars:i,akDNSPreFetchDomain:a,init:function(){if(!r.i){var e=BOOMR.subscribe;e("before_beacon",r.av,null,null),e("onbeacon",r.rv,null,null),r.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+                <body> <!--ls:begin[body]-->
+                    <div id="fb-root"> </div>
+                    <script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+                    <div id="NFI-header">
+                        <script type="text/javascript">
+<!--
+var n16Locale="ja";
+//-->
+</script> </div><header class="site-header-03 js-toFixedByScroll"><div class="inner">
+                            <div class="content">
+                                <div class="logo">
+                                    <h1 class="siteName"><a href="//jpn.nec.com/"> <img alt="NEC Orchestrating a brighter world" height="27" src="/nf_global/v3/common/img/2021/site/header-img-04.svg" width="342" /> </a></h1> <!-- /.logo --> </div>
+                                <div class="languageLabel">
+                                    <div class="inner">
+                                        <p>Japan</p> <!-- /.inner --> </div> <!-- /.languageLabel --> </div><nav class="nav-global-02  js-request-headerUI" data-request="{
+    &quot;className&quot;: &quot;headerHamburger&quot;,
+    &quot;method&quot;: &quot;prepend&quot;,
+    &quot;target&quot;: &quot;site-header-global&quot;,
+    &quot;sp&quot;: {
+        &quot;type&quot;: &quot;sync&quot;,
+        &quot;syncTarget&quot;: &quot;site-header-search&quot;,
+        &quot;default&quot;: &quot;hide&quot;
+    },
+    &quot;pc&quot;: {
+        &quot;default&quot;: &quot;show&quot;
+    }
+}"><h2 class="str-hidden">ナビゲーション</h2>
+                                    <div class="content" id="site-header-global">
+                                        <div class="inner js-header-megaDropDown">
+                                            <ul aria-label="ユーティリティナビゲーション" class="list of-utility">
+                                                <li class="of-contact"><a href="//jpn.nec.com/contactus/index.html"><span>お問い合わせ</span></a></li>
+                                                <li class="of-supportAndDownload"><a href="//jpn.nec.com/dl/"><span>サポート情報</span></a></li>
+                                                <li class="of-recruit"><a href="//jpn.nec.com/recruit/index.html"><span>採用情報</span></a></li> <!-- /.list --> </ul>
+                                            <ul aria-label="グローバルナビゲーション" class="list of-global">
+                                                <li class="js-header-megaDropDown-hook"><a data-href="#site-header-global-content-DX" href="//jpn.nec.com/dx/index.html"><span>BluStellar</span></a></li>
+                                                <li class="js-header-megaDropDown-hook"><a data-href="#site-header-global-content-Products" href="//jpn.nec.com/products/index.html"><span>製品・ソリューション</span></a></li>
+                                                <li class="js-header-megaDropDown-hook"><a data-href="#site-header-global-content-IndustryWorktype" href="//jpn.nec.com/industry/index.html"><span>業種・業務</span></a></li>
+                                                <li><a href="//jpn.nec.com/press/index.html" onclick="var s=s_gi('neccojp'); s.tl(this,'o','nav_news',null,'navigate');return false"><span>News Room</span></a></li>
+                                                <li class="js-header-megaDropDown-hook"><a data-href="#site-header-global-content-AboutNEC" href="//jpn.nec.com/profile/index.html"><span>企業情報</span></a></li> <!-- /.list --> </ul> <!-- /.inner --> </div> <!-- /.content --> </div> <!-- /.nav-global-02 --></nav> <!-- /.content --> </div> <!-- /.inner --> </div> <!-- /.site-header-03 --></header> <main class="site-main"><section class="sct-primary"><div class="str-outer-wide">
+                                <div class="str-inner">
+                                    <h2 class="str-hidden">サイト内の現在位置を表示しています。</h2><nav class="nav-location"><ul class="list">
+                                            <li><a href="/index.html">ホーム</a></li>
+                                            <li><a href="http://jpn.nec.com/profile/aboutnec.html">企業情報</a></li>
+                                            <li><a href="/techrep/journal/index.html?">NEC技報</a></li>
+                                            <li><a href="/techrep/journal/year/index.html?">発行年別インデックス（バックナンバー）</a></li>
+                                            <li><a href="/techrep/journal/g23/index.html?">Vol.75（2023年）</a></li>
+                                            <li><a href="/techrep/journal/g23/n02/g2302pa.html?">No.2（3月） ビジネスの常識を変える生成AI特集 ～社会実装に向けた取り組みと、それを支える生成AI技術～</a></li>
+                                            <li><b>日本語性能に優れたNECの大規模言語モデル（LLM）</b></li> <!-- /.list --> </ul> <!-- /.nav-location --></nav><!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                            <div class="str-pageTitle">
+                                <div class="inner">
+                                    <h1 class="hdg">日本語性能に優れたNECの大規模言語モデル（LLM）</h1><span class="sub of-top">Vol.75 No.2 2024年3月 ビジネスの常識を変える生成AI特集 ～社会実装に向けた取り組みと、それを支える生成AI技術～</span><!-- /.str-inner --> </div> <!-- /.str-pageTitle --> </div>
+                            <div class="ls-row str-column" id="ls-row-3-col-1-row-2">
+                                <div class="ls-col str-column-side" id="ls-row-3-col-1-row-2-col-1"><nav class="nav-local"><!--marsfinderoff: index-->
+                                        <h2 class="str-hidden">ローカルナビゲーション</h2>
+                                        <div class="root js-btn-nav-local"><b class="title">コンテンツメニュー</b><a href="/techrep/journal/index.html?">NEC技報</a></div>
+                                        <div class="ls-row content" id="ls-row-3-col-1-row-2-col-1-row-1-col-2-row-1">
+                                            <ul class="list">
+                                                <li><span><a href="https://jpn.nec.com/techrep/journal/g25/n01/g2501pa.html">技報最新号</a></span></li>
+                                                <li class="NFI-lncurrentParent"><span><a href="/techrep/journal/year/index.html?">発行年別インデックス（バックナンバー）</a></span><ul class="list">
+                                                        <li><span><a href="/techrep/journal/g25/index.html?">Vol.77（2025年）</a></span></li>
+                                                        <li><span><a href="/techrep/journal/g24/index.html?">Vol.76（2024年）</a></span></li>
+                                                        <li class="NFI-lncurrent"><span><a href="/techrep/journal/g23/index.html?">Vol.75（2023年）</a></span></li>
+                                                        <li><span><a href="/techrep/journal/g21/index.html?">Vol.74（2021年）</a></span></li>
+                                                        <li><span><a href="/techrep/journal/g20/index.html?">Vol.73（2020年）</a></span></li>
+                                                        <li><span><a href="/techrep/journal/g19/index.html?">Vol.72（2019年）</a></span></li>
+                                                        <li><span><a href="/techrep/journal/g18/index.html?">Vol.71（2018年）</a></span></li>
+                                                        <li><span><a href="/techrep/journal/g17/index.html?">Vol.70（2017年）</a></span></li>
+                                                        <li><span><a href="/techrep/journal/g16/index.html?">vol.69（2016年）</a></span></li>
+                                                        <li><span><a href="/techrep/journal/g15/index.html?">Vol.68（2015年）</a></span></li>
+                                                        <li><span><a href="/techrep/journal/g14/index.html?">Vol.67（2014年）</a></span></li>
+                                                        <li><span><a href="/techrep/journal/g13/index.html?">Vol.66（2013年）</a></span></li>
+                                                        <li><span><a href="/techrep/journal/g12/index.html?">Vol.65（2012年）</a></span></li>
+                                                        <li><span><a href="/techrep/journal/g11/index.html?">Vol.64（2011年）</a></span></li>
+                                                        <li><span><a href="/techrep/journal/g10/index.html?">Vol.63（2010年）</a></span></li>
+                                                        <li><span><a href="/techrep/journal/g09/index.html?">Vol.62（2009年）</a></span></li>
+                                                        <li><span><a href="/techrep/journal/g08/index.html?">Vol.61（2008年）</a></span></li>
+                                                        <li><span><a href="/techrep/journal/g07/index.html?">Vol.60（2007年）</a></span></li>
+                                                        <li><span><a href="/techrep/journal/g06/index.html?">Vol.59（2006年）</a></span></li>
+                                                        <li><span><a href="/techrep/journal/g05/index.html?">Vol.58（2005年）</a></span></li>
+                                                        <li><span><a href="/techrep/journal/g04/index.html?">Vol.57（2004年）</a></span></li> </ul> </li>
+                                                <li><span><a href="/techrep/journal/featured/index.html?">注目論文</a></span></li>
+                                                <li><span><a href="/techrep/journal/popular/index.html?">アクセスランキング</a></span></li>
+                                                <li><span><a href="/techrep/journal/howto1.html?">目的で探すNEC技報</a></span></li>
+                                                <li><span><a href="/techrep/journal/history/index.html?">NEC技報の歩み</a></span></li>
+                                                <li><span><a href="/techrep/journal/nechistory/index.html?">NECの歴史をひもとく</a></span></li>
+                                                <li><span><a href="/techrep/journal/archive/index.html?">記念号アーカイブ</a></span></li>
+                                                <li><span><a href="/techrep/journal/recommend_year/index.html?">年別おすすめ論文</a></span></li>
+                                                <li><span><a href="/techrep/journal/theme/index.html?">5つの目指す社会像からみるNEC技報</a></span></li>
+                                                <li><span><a href="/techrep/journal/webjournal.html?">Web Journal</a></span></li>
+                                                <li><span><a href="/techrep/journal/epub/index.html?">電子書籍（EPUB）ダウンロード</a></span></li>
+                                                <li><span><a href="/techrep/journal/contactus/index.html?">NEC技報に関するお問い合わせ</a></span></li> </ul>
+                                            <div class="ls-row str-link-side" id="ls-row-3-col-1-row-2-col-1-row-1-col-2-row-1-col-2-row-1"> </div> </div> <!--marsfinderon: index--></nav> </div>
+                                <div class="ls-row str-column-main" id="ls-row-3-col-1-row-2-col-2-row-1">
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <div class="comp-sns align-right">
+                                                <ul class="list">
+                                                    <li class="of-twitter"><a class="twitter-share-button" data-lang="ja_JP" data-related="" data-via="" href="https://twitter.com/share">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script> </li>
+                                                    <li class="of-facebook-02">
+                                                        <div class="fb-share-button" data-layout="button_count" data-mobile-iframe="true" data-size="small"><a class="fb-xfbml-parse-ignore" href="https://www.facebook.com/sharer/sharer.php?u&amp;src=sdkpreparse" target="_blank">Share</a></div> </li>
+                                                    <li class="of-line">
+                                                        <div class="line-it-button" data-lang="ja" data-type="share-a" style="display: none;"> </div>
+                                                        <script async="async" defer="defer" src="//scdn.line-apps.com/n/line_it/thirdparty/loader.min.js"></script> </li> </ul> <!-- /.comp-sns --> </div> <!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <div class="js-tagSearch" data-page="tags"> </div> <!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <div class="mod-link of-list align-right  mb-30">
+                                                <ul class="list">
+                                                    <li><a href="/techrep/journal/g23/n02/pdf/230212.pdf" target="_blank"><img alt="PDF" class="icn" src="/nf_global/v3/common/img/icn/pdf.png" />PDFで閲覧する</a></li> </ul> <!-- /.mod-link --> </div> <!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <p class=" align-left">NECは日本語性能に優れた独自の大規模言語モデル（LLM）を開発し、社内活用や事業展開を進めています。本モデルはGPU1基でも動作するコンパクトな設計にもかかわらず、多量の高品質なデータによる長時間の学習、ロバストなアーキテクチャ、綿密な指示チューニングなどの工夫によって、世界トップレベルの日本語性能を有しています。また、「事業で使える」をモットーに、20万字を超える長文の処理、高速な推論など、実用面で言語モデルに必要となる要素を見極め、重点的に強化した、その設計思想、開発プロセス、性能について概説します。</p> <!--/.str-inner --> </div> <!--/.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <h2 class="mod-hdg-l2-02"><span>1. はじめに</span><!-- /.mod-hdg-l2-02 --> </h2> <!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <p class=" align-left">NECは2023年の初めに日本語性能に優れた独自の大規模言語モデル（以下、LLM）を開発し、7月に公表、その後は性能や機能面での強化を実施しながら、社内活用や事業展開を積極的に進めています。LLMは「ユーザーからの指示」に対して、「高い精度でレスポンスを返す」枠組みとなっています。<strong>図1</strong>は、そうしたLLMの開発プロセスを概観したものです。</p> <!--/.str-inner --> </div> <!--/.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner"><figure class="mod-media align-center"><span><picture><source srcset="/techrep/journal/g23/n02/images/230212_01.jpg"><img alt="" class="lazyload" data-src="/techrep/journal/g23/n02/images/230212_01.jpg" loading="lazy" /></picture></span><figcaption class="align-center">図1　大規模言語モデル（LLM）の開発プロセスの概要</figcaption><!-- /.mod-media --></figure><!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <p class="fs-01fs-02fs-03fs-04 align-left">本稿はまずモデルの設計について説明したのち、このプロセスに従って「事前学習用のデータ準備」「指示データによるChat-Tuning」「人間によるフィードバック（Alignment）」、そして得られたモデルの評価、について順に説明します。</p> <!--/.str-inner --> </div> <!--/.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <h2 class="mod-hdg-l2-02"><span>2. モデル設計・事前学習</span><!-- /.mod-hdg-l2-02 --> </h2> <!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <p class=" align-left">現在のほとんどのLLMは、Transformerと呼ばれるアーキテクチャに基づいています<sup>1）</sup>。NECもTransformerに基づき、モデルのアーキテクチャを設計しました。</p> <!--/.str-inner --> </div> <!--/.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <div class="mod-list-02 of-notice mb-30">
+                                                <ul class="list fs-02">
+                                                    <li><span class="mark">（1）</span><div class="content"><small><strong>モデルアーキテクチャ</strong><br />モデルのサイズは性能と速度のバランスを鑑みて、パラメータ数が約130億（13B）となるように設定しました。レイヤ数、隠れ次元数、ヘッド数の3つのモデル形状パラメータは40、5120、40としています。これは LLaMA 13B<sup>2）</sup>などと同じ値です。</small><!-- /.content --> </div> </li>
+                                                    <li><span class="mark">（2）</span><div class="content"><small><strong>トークナイザー</strong><br />トークナイザーは、日英合計10GBのコーパスを用いてBPEアルゴリズム<sup>3）</sup>により学習したのち、トークンとして不適切なものを後処理で除外しました。</small><!-- /.content --> </div> </li>
+                                                    <li><span class="mark">（3）</span><div class="content"><small><strong>事前学習</strong><br />事前学習にはMegatron-DeepSpeed<sup>4）</sup>の実装を利用しました。また、計算機としてはA100 80GBを8枚搭載したサーバを64基使用しています。バッチサイズは4Mトークン、学習率は10<sup>-4</sup>から10<sup>-5</sup>までcosineスケジューラーで変化させました。このように、事前学習時の系列長は2048でした。より長い系列長に対する拡張は、次に述べます。</small><!-- /.content --> </div> </li>
+                                                    <li><span class="mark">（4）</span><div class="content"><small><strong>長文適応</strong><br />言語モデルに長文に対する推論能力を獲得させるため、NECは前述した事前学習を行った後に長文コーパスを用いた追加事前学習を行いました。一般的な追加事前学習手法を使って長文に対する性能を改善しようとすると、短文に対する性能が低下してしまうというトレードオフの関係が観測されたため、NECではPositional Interpolation<sup>5）</sup>と呼ばれている手法をNECの言語モデル向けにカスタマイズすることによって、短文と長文どちらの性能も向上させることに成功しました（<strong>図2</strong>）。ここでは、トークン位置が大きい、もしくは小さい部分が、それぞれ長文または短文に対応しています。</small><!-- /.content --> </div> </li> <!-- /.list --> </ul> <!-- /.mod-list-02 --> </div> <!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner"><figure class="mod-media align-center"><span><picture><source srcset="/techrep/journal/g23/n02/images/230212_02.jpg"><img alt="" class="lazyload" data-src="/techrep/journal/g23/n02/images/230212_02.jpg" loading="lazy" /></picture></span><figcaption class="align-center">図2　学習方法の違いによる言語モデルの文章予測誤差（loss）の変化</figcaption><!-- /.mod-media --></figure><!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <h2 class="mod-hdg-l2-02"><span>3. 事前学習用のデータ準備</span><!-- /.mod-hdg-l2-02 --> </h2> <!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <p class=" align-left">学習データについて、13Bというサイズで高い性能を実現するためには、極めて大規模かつ高品質なコーパスを準備する必要があります。そのために、さまざまな分野の知識が満遍なく含まれるよう、Web上のデータを中心にデータを大量に収集し、加工をほどこすことで、独自のコーパスを作成しました。このとき日本語だけでコーパスを構成するのではなく、英語やソースコードの情報を一定の比率で配分することによって、全体的な言語性能の向上を狙いました。また、LLMが品質の良い文章を生成できるようになるには、データの配分比率だけでなくデータを綺麗に加工することも必要となります。そのため、日本語のデータは、「ルールベースのフィルタリング」と「学習ベースのフィルタリング」によって多段階なクレンジングを実施しました。学習ベースのフィルタリングについては、汚ないデータと綺麗なデータを判別するような機械学習モデルを独自に学習したものを用いました。</p> <!--/.str-inner --> </div> <!--/.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <h2 class="mod-hdg-l2-02"><span>4. 指示データによるChat-Tuning</span><!-- /.mod-hdg-l2-02 --> </h2> <!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <p class=" align-left">事前学習直後のFoundation Modelは与えられた文章の続きを生成することはできますが、そのままでは適切に会話する能力を持ちません。ChatGPTのようにさまざまな指示に対して対話形式で対応可能にするためには、Chat-Tuningと呼ばれる学習が必要となります。Chat-Tuningはユーザーとアシスタントの会話を複数ターン用意し、対話形式での応答を学習させることで、ユーザーからの問い合わせに対してアシスタントが適切に回答したり、ユーザーとアシスタント間の対話履歴に基づいて回答を生成することが可能になります。<br />
+                                                <br />Chat-Tuning時の工夫として、NECはOpenAIによって開発されたChat Markup Language（以下、ChatML）というマークアップ言語を応用し対話データを半構造化しました。<br />
+                                                <br />ChatML とは、システム入力、ユーザーからの入力、アシスタントの入力から次のように半構造化する方法です。<br />
+                                                <br />&lt;｜im_start｜&gt;system<br />あなたは人の役に立つAIアシスタントです。<br />&lt;｜im_end｜&gt;<br />&lt;｜im_start｜&gt;user<br />NECの社長を教えてください。<br />&lt;｜im_end｜&gt;<br />&lt;｜im_start｜&gt;assistant<br />日本電気（NEC）の社長は、森田隆之氏が務めています。森田氏は、2021年4月1日に就任しました。<br />&lt;｜im_end｜&gt;<br />
+                                                <br />また、対話データとしてはNEC社員をはじめとする人間によって作成された大規模な対話データに加え、より複雑な指示や多様な質問に対する回答能力を向上させるため、 NECが開発したLLM自身によって会話データを半自動的に増幅する仕組みを構築し、活用しています。</p> <!--/.str-inner --> </div> <!--/.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <h2 class="mod-hdg-l2-02"><span>5. 人間によるフィードバック（Alignment）</span><!-- /.mod-hdg-l2-02 --> </h2> <!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <p class=" align-left">Chat-Tuningによって、モデルはユーザーからの指示に従うようになります。しかし、 Chat-Tuningのみでは、有害な出力や役に立たない回答を確率的に生成してしまいます。Reinforcement Learning from Human Feedback（以下、RLHF）<sup>6）</sup>は、このようなLLMの好ましくない回答を抑制し、好ましい回答を促す学習手法です。RLHFは通常、Chat-Tuningの後にreward modelの学習と、Proximal Policy Optimization（以下、PPO）<sup>7）</sup>の2段階学習を行う必要がありますが、PPOのハイパーパラメータの選び方によって学習が安定しない課題があります。この課題を解決するために、近年Direct Preference Optimization（以下、DPO）<sup>8）</sup>が注目されています。DPOは学習が1段階で安定しており、性能も良いため、NECではAlignmentのためにDPOを使用しました。<br />
+                                                <br />DPOは、ある与えられたプロンプトに対して、好ましい回答（正例）と好ましくない回答（負例）の3つ組 &lt;プロンプト、正例、負例&gt;のデータ（preference data）を使い、正例の尤度を上げ、負例の尤度を下げるように、直接モデルパラメータを最適化するアルゴリズムです。このように学習することで、モデルは好ましい出力のパターンを好ましくない出力のパターンよりも高い確率で出力するようになります。<br />
+                                                <br />preference dataは、NEC社員と外部企業に委託して集めたプロンプトに対してChat-tuningされたモデルで回答候補を出して作成しました。<br />
+                                                <br />こうしたAlignmentのプロセスを踏むことによって、LLM回答の人間評価の品質向上や有害な出力の抑制などの効果が確認されています。</p> <!--/.str-inner --> </div> <!--/.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <h2 class="mod-hdg-l2-02"><span>6. ベンチマーク</span><!-- /.mod-hdg-l2-02 --> </h2> <!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <p class=" align-left">LLMの性能の評価は多角的ですが、ここでは最も一般的な観点として、「日本語能力」と称される常識推論や文書読解など「基盤モデルとしての推論・情報処理能力」と、複合的な能力が必要とされる「対話モデルとしての情報処理能力」の2つの観点で評価します。</p> <!--/.str-inner --> </div> <!--/.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <h3 class="mod-hdg-l3-02"><span>6.1 基盤モデルとしての評価</span><!-- /.mod-hdg-l3-02 --> </h3> <!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <p class=" align-left">基盤モデルを評価するために、一般的に使われる日本語ベンチマークであるJGLUE<sup>9）</sup>のなかからJSQuADとJCommonsenseQA（以下、JCQA）を採用しました。JSQuADは、与えられた文書から質問に対応する回答文字列を抽出するタスクであり、2-shotのin-context learningを用い、評価スコアは推論結果が正解文字列と完全に一致するかどうかで評価します。JCQAは、常識的な知識を問う選択式QAタスクであり、5つの選択肢から回答を選択します。推論時には、3-shotのin-context learningを用い、正解率で評価します。比較対象のモデルは、グローバルでトップレベルとなる海外モデルと、2023年10月末時点でNECが利用可能な日本語のモデルのうち性能が高かったもの（A, B, C, ...と表記）としています。<br />
+                                                <br />評価結果を、<strong>図3</strong>に示します。JSQuADでは比較したモデルのなかで最高性能、JCQAでは国内モデルではトップの性能で海外モデルを含めても2番目の性能を達成しました。</p> <!--/.str-inner --> </div> <!--/.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner"><figure class="mod-media align-center"><span><picture><source srcset="/techrep/journal/g23/n02/images/230212_03.jpg"><img alt="" class="lazyload" data-src="/techrep/journal/g23/n02/images/230212_03.jpg" loading="lazy" /></picture></span><figcaption class="align-center">図3　JSQuAD、JCQAの実験結果（NECが開発したLLMをOursと表記）</figcaption><!-- /.mod-media --></figure><!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <h3 class="mod-hdg-l3-02"><span>6.2 対話モデルとしての評価</span><!-- /.mod-hdg-l3-02 --> </h3> <!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <p class=" align-left">次に対話モデルとしての性能を測る日本語ベンチマークとして、RAKUDA<sup>10）</sup>を採用しました。RAKUDAのタスクは前述のような知識や読解だけでなく、対話として妥当な回答を求めるものです。RAKUDAは、40個の日本語の自由形式のクエリに対して回答するタスクであり、回答の質はGPT-4によって評価します。また、回答を2つのモデルで生成したうえで、どちらの回答が良いかという観点で評価する方式をとります。ここでは、NECの開発したLLMが、NECが利用可能な日本語のモデルに対してどの程度の勝率になるかという観点で評価します。2023年10月末時点でNECが利用可能な日本語モデルのうち性能が高かったものを、X, Y, Zと表記しています。<br />
+                                                <br /><strong>図4</strong>にRAKUDAベンチマークにおける評価結果を示します。NECが開発したLLMは、グローバルでトップレベルとなるモデルを含めて比較しても高い性能を達成しており、対話性能として十分な能力を持っていると言えます。特に日本語特化のLLMと比較すると大きく勝率で上回っています。ただし、RAKUDAベンチマークは1ターンの対話かつ少数データでの評価のため、対話性能の一側面しか測れていないことには注意が必要となります。</p> <!--/.str-inner --> </div> <!--/.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner"><figure class="mod-media align-center"><span><picture><source srcset="/techrep/journal/g23/n02/images/230212_04.jpg"><img alt="" class="lazyload" data-src="/techrep/journal/g23/n02/images/230212_04.jpg" loading="lazy" /></picture></span><figcaption class="align-center">図4　RAKUDAベンチマークにおいて他モデルに対するNECの開発したLLMの勝率</figcaption><!-- /.mod-media --></figure><!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <h2 class="mod-hdg-l2-02"><span>7. むすび</span><!-- /.mod-hdg-l2-02 --> </h2> <!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <p class=" align-left">本稿では、NECの開発した13BのLLMについて紹介しました。今後NECは本モデルを皮切りに、さまざまな生成AI技術を開発し、世の中に貢献していきます。</p> <!--/.str-inner --> </div> <!--/.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <hr class="" /> </div> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <div class="mod-list-02 of-notice">
+                                                <ul class="list">
+                                                    <li><span class="mark">*</span><div class="content"><small>ChatGPTは、米国OpenAI社の商標です。</small><!-- /.content --> </div> </li>
+                                                    <li><span class="mark">*</span><div class="content"><small>その他記述された社名、製品名などは、該当する各社の商標または登録商標です。</small><!-- /.content --> </div> </li> <!-- /.list --> </ul> <!-- /.mod-list-02 --> </div> <!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <h2 class="mod-hdg-l2-02"><span>参考文献</span><!-- /.mod-hdg-l2-02 --> </h2> <!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <div class="mod-list-02 of-notice">
+                                                <ul class="list">
+                                                    <li><span class="mark">1)</span><div class="content"><small><a class="mod-link" href="https://arxiv.org/abs/1706.03762" target="_blank"><img alt="new window" class="icn" lang="en" src="/nf_global/v3/common/img/icn/_blank.png" />Ashish Vaswani, et al.: Attention Is All You Need, 2017</a></small><!-- /.content --> </div> </li>
+                                                    <li><span class="mark">2)</span><div class="content"><small><a class="mod-link" href="https://arxiv.org/abs/2302.13971" target="_blank"><img alt="new window" class="icn" lang="en" src="/nf_global/v3/common/img/icn/_blank.png" />Hugo Touvron et al.: LLaMA: Open and Efficient Foundation Language Models, 2023</a></small><!-- /.content --> </div> </li>
+                                                    <li><span class="mark">3)</span><div class="content"><small><a class="mod-link" href="https://arxiv.org/abs/1508.07909" target="_blank"><img alt="new window" class="icn" lang="en" src="/nf_global/v3/common/img/icn/_blank.png" />Rico Sennrich, Barry Haddow, and Alexandra Birch: Neural Machine Translation of Rare Words with Subword Units, 2015</a></small><!-- /.content --> </div> </li>
+                                                    <li><span class="mark">4)</span><div class="content"><small><a class="mod-link" href="https://github.com/bigscience-workshop/Megatron-DeepSpeed" target="_blank"><img alt="new window" class="icn" lang="en" src="/nf_global/v3/common/img/icn/_blank.png" />GitHub: Megatron-DeepSpeed</a></small><!-- /.content --> </div> </li>
+                                                    <li><span class="mark">5)</span><div class="content"><small><a class="mod-link" href="https://arxiv.org/abs/2306.15595" target="_blank"><img alt="new window" class="icn" lang="en" src="/nf_global/v3/common/img/icn/_blank.png" />Shouyuan Chen et al.: Extending Context Window of Large Language Models via Positional interpolation, 2023</a></small><!-- /.content --> </div> </li>
+                                                    <li><span class="mark">6)</span><div class="content"><small><a class="mod-link" href="https://proceedings.neurips.cc/paper_files/paper/2022/file/b1efde53be364a73914f58805a001731-Paper-Conference.pdf" target="_blank"><img alt="PDF" class="icn" src="/nf_global/v3/common/img/icn/pdf.png" />Long Ouyang et al.: Training language models to follow instructions with human feedback, 36th Conference on Neural Information Processing Systems, 2022</a></small><!-- /.content --> </div> </li>
+                                                    <li><span class="mark">7)</span><div class="content"><small><a class="mod-link" href="https://arxiv.org/abs/1707.06347" target="_blank"><img alt="new window" class="icn" lang="en" src="/nf_global/v3/common/img/icn/_blank.png" />John Schulman et al.: Proximal Policy Optimization Algorithms, 2017</a></small><!-- /.content --> </div> </li>
+                                                    <li><span class="mark">8)</span><div class="content"><small><a class="mod-link" href="https://arxiv.org/abs/2305.18290" target="_blank"><img alt="new window" class="icn" lang="en" src="/nf_global/v3/common/img/icn/_blank.png" />Rafael Rafailov et al.: Direct Preference Optimization: Your Language Model is Secretly a Reward Model, 2023</a></small><!-- /.content --> </div> </li>
+                                                    <li><span class="mark">9)</span><div class="content"><small><a class="mod-link" href="http://www.lrec-conf.org/proceedings/lrec2022/pdf/2022.lrec-1.317.pdf" target="_blank"><img alt="PDF" class="icn" src="/nf_global/v3/common/img/icn/pdf.png" />Kentaro Kurihara et al.: JGLUE: Japanese General Language Understanding Evaluation, LREC 2022, pp. 2957-2966, 2022</a></small><!-- /.content --> </div> </li>
+                                                    <li><span class="mark">10)</span><div class="content"><small><a class="mod-link" href="https://github.com/yuzu-ai/japanese-llm-ranking" target="_blank"><img alt="new window" class="icn" lang="en" src="/nf_global/v3/common/img/icn/_blank.png" />GitHub: Japanese-llm-ranking</a></small><!-- /.content --> </div> </li> <!-- /.list --> </ul> <!-- /.mod-list-02 --> </div> <!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <h2 class="mod-hdg-l2-02"><span>執筆者プロフィール</span><!-- /.mod-hdg-l2-02 --> </h2> <!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <p class=" align-left">
+                                                <div class="mod-lyt mt-0" data-col="2">
+                                                    <div class="inner">
+                                                        <div class="col">小山田 昌史<br />データサイエンスラボラトリー<br />主席研究員・研究グループ長<br /><a class="mod-link" href="/rd/people/masafumi_oyamada.html"><strong>執筆者紹介ページへ</strong></a><!--/.col --> </div>
+                                                        <div class="col">秋元 康佑<br />データサイエンスラボラトリー<br />主任研究員<br /><a class="mod-link" href="/rd/people/kosuke_akimoto.html"><strong>執筆者紹介ページへ</strong></a><!--/.col --> </div>
+                                                        <div class="col">董 于洋<br />データサイエンスラボラトリー<br />特別研究員（主任）<br /><a class="mod-link" href="/rd/people/yuyang_dong.html"><strong>執筆者紹介ページへ</strong></a><!--/.col --> </div>
+                                                        <div class="col">矢野 太郎<br />データサイエンスラボラトリー<br />主任<!--/.col --> </div>
+                                                        <div class="col">竹岡 邦紘<br />データサイエンスラボラトリー<br />特別研究員（主任）<br /><a class="mod-link" href="/rd/people/kunihiro_takeoka.html"><strong>執筆者紹介ページへ</strong></a><!--/.col --> </div>
+                                                        <div class="col">槇尾 純太<br />データサイエンスラボラトリー<!--/.col --> </div> <!--/.inner --> </div> <!-- /.mod-lyt --> </div> </p> <!--/.str-inner --> </div> <!--/.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <div class="mod-btn-02 align-right  mb-20   ">
+                                                <div class="btn"><a href="/techrep/journal/g23/n02/230213.html">次の論文へ：NECの生成AIを支える国内企業で最大規模のAIスーパーコンピュータ</a><!-- /.btn --> </div> <!-- /.mod-btn-02 --> </div> <!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <div class="mod-btn-02 align-right of-list mb-50">
+                                                <div class="btn of-outline of-type-02"><a href="/techrep/journal/g23/n02/g2302pa.html">特集TOPへ</a><!-- /.btn --> </div>
+                                                <div class="btn of-outline of-type-02"><a href="/techrep/journal/index.html">技報TOPへ</a><!-- /.btn --> </div> <!-- /.mod-btn-02 --> </div> <!-- /.str-inner --> </div> <!-- /.str-outer --> </div>
+                                    <div class="of-bgcolor-18   ">
+                                        <div class="str-outer">
+                                            <div class="str-inner">
+                                                <div class="mod-lyt mt-20 mb-20" data-col="2">
+                                                    <div class="inner mt-20 mb-20">
+                                                        <div class="col"><figure class="mod-media"><span><a href="/LLM/index.html"><img alt="" loading="lazy" src="/techrep/journal/g23/n02/images/NGA_image.jpg" /></a></span><figcaption class="align-left"><a class="mod-link" href="/LLM/index.html">NEC Generative AI</a></figcaption><!-- /.mod-media --></figure><!-- /.col --> </div>
+                                                        <div class="col"><figure class="mod-media"><span><a href="/rd/technologies/202310/index.html"><img alt="" loading="lazy" src="/techrep/journal/g23/n02/images/NEC-LLM_image.jpg" /></a></span><figcaption class="align-left"><a class="mod-link" href="/rd/technologies/202310/index.html">NEC独自の大規模言語モデル（LLM）開発の裏側に迫る</a></figcaption><!-- /.mod-media --></figure><!-- /.col --> </div> <!-- /.inner --> </div> <!-- /.mod-lyt --> </div> <!-- /.str-inner --> </div> <!-- /.str-outer --> </div> <!-- /.of-bgcolor --> </div>
+                                    <div class="js-tagSearch"> </div>
+                                    <div class="str-outer">
+                                        <div class="str-inner">
+                                            <div id="NFI-insertHtml">
+                                                <script type="text/javascript">
+  <!--
+   var insertHtmlUrl = "/techrep/journal/popular/main_column_bottom_v3.html";
+  //-->
+  </script> </div> <!-- /.str-inner --> </div> <!-- /.str-outer --> </div> </div> </div> </section> </main><footer class="site-footer"><div class="ls-area seg-primary" id="ls-row-4-area-1">
+                            <div id="NFI-footerlink">
+                                <script type="text/javascript">
+<!--
+var n18Locale="ja";
+//-->
+</script> </div>
+                            <div class="str-outer-full">
+                                <div class="str-inner">
+                                    <p class="scroll-top js-page-top"><a href="#top">ページの先頭へ戻る</a></p> </div> </div> </div>
+                        <div class="ls-area seg-secondary" id="ls-row-4-area-2">
+                            <div id="NFI-footer">
+                                <script type="text/javascript">
+<!--
+var n19Locale="ja";
+//-->
+</script> </div>
+                            <div class="str-outer-wide">
+                                <div class="str-inner">
+                                    <div class="wrap">
+                                        <ul class="list">
+                                            <li><a href="//jpn.nec.com/ir/stock/e-ad.html">電子公告</a></li>
+                                            <li><a href="//jpn.nec.com/site/privacy/index.html">個人情報保護</a></li>
+                                            <li><a href="//jpn.nec.com/site/cookie/index.html">クッキー等の第三者提供について</a></li>
+                                            <li><a href="//jpn.nec.com/site/AnonymousData/index.html">匿名加工情報・仮名加工情報</a></li>
+                                            <li><a href="//jpn.nec.com/site/webaccessibility/index.html">NECグループのWebアクセシビリティ</a></li>
+                                            <li><a href="//jpn.nec.com/profile/governance/security.html">情報セキュリティ基本方針</a></li>
+                                            <li><a href="//jpn.nec.com/site/termsofuse.html">ご利用条件</a></li>
+                                            <li><a href="//jpn.nec.com/contactus/index.html">お問い合わせ</a></li> <!-- /.list --> </ul>
+                                        <p class="copyright"><small>&copy; NEC Corporation</small></p> <!-- /.wrap --> </div> <!-- /.str-inner --> </div> <!-- /.str-outer-wide --> </div>
+                            <script type="text/javascript">
+var utag_data = {
+}
+</script> <!-- Loading script asynchronously -->
+                            <script type="text/javascript">
+(function(a,b,c,d){
+a='https://tags.tiqcdn.com/utag/nec/main/prod/utag.js';
+b=document;c='script';d=b.createElement(c);d.src=a;d.type='text/java'+c;d.async=true;
+a=b.getElementsByTagName(c)[0];a.parentNode.insertBefore(d,a);
+})();
+</script> </div> </footer><script type="text/javascript">
+<!--
+var sc = {};
+
+sc.channel=""
+
+sc.prop4="NEC TECHNICAL JOURNAL"
+
+sc.prop5="retrieve"
+
+sc.events="event7"
+
+//--></script>
+                    <script type="text/javascript">_satellite.pageBottom();</script>
+                    <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-34239559-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+                    <script src="/nf_global/v3/common/js/reserve_bottom1.js"></script>
+                    <script src="/nf_global/v3/common/js/template.common.js"></script>
+                    <script src="/nf_global/v3/common/js/run.js"></script>
+                    <script src="/techrep/journal/js/journal.js" type="text/javascript"></script>
+                    <script async="async" defer="defer" src="https://apis.google.com/js/platform.js">
+{lang: 'ja'}
+</script>
+                    <script src="/nf_global/v3/common/js/reserve_bottom2.js"></script> <!--ls:end[body]--> </body> </html> 

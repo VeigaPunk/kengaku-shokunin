@@ -1,0 +1,27 @@
+# claim-reproduction evidence (R45ExecNoHarm, clone tip d4c0cdf)
+
+## C2 counter body: measured vs the two frozen receipts
+counter-a-run.txt measured=596d98b59ed7bbc8 receipt=596d98b59ed7bbc8 BYTE-EQUAL
+counter-b-run.txt measured=596d98b59ed7bbc8 receipt=596d98b59ed7bbc8 BYTE-EQUAL
+
+## C1 counter body: measured vs corpus/evidence/round45/c1-counter-run.txt
+differing lines (only the two that echo the absolute work dir):
+  5c5
+  < FENCE-RUN refusal refusals45/f2_deep.py f2-deep-worktree BREACH opens=0 -- x/y/z/r/.git/config sets core.worktree=/tmp/k45-c1-k77n5lri/fx/refusals45-f2_deep/wt
+  ---
+  > FENCE-RUN refusal refusals45/f2_deep.py f2-deep-worktree BREACH opens=0 -- x/y/z/r/.git/config sets core.worktree=/fast/scratch/hyaku/kengaku-r45/R45ExecNoHarm/w45/k45-c1-89ei7lat/fx/refusals45-f
+  9c9
+  < FENCE-RUN refusal refusals45/f6_above.py f6-repo-above-d BREACH opens=0 -- .git exists at /tmp/k45-c1-k77n5lri/fx/refusals45-f6_above above the fixture
+  ---
+  > FENCE-RUN refusal refusals45/f6_above.py f6-repo-above-d BREACH opens=0 -- .git exists at /fast/scratch/hyaku/kengaku-r45/R45ExecNoHarm/w45/k45-c1-89ei7lat/fx/refusals45-f6_above above the fixtur
+  measured body lines=133 receipt body lines=133
+
+## routed ledger: round-45 rows
+rows total=60  R45/R43/R44 id rows=0
+grep R45 corpus/routed-findings.jsonl -> 0 lines
+SCORECARD.md:1994 says: Limits found by the wave and the residual call (frozen counters not edited; routed): `R45Sentine
+
+## state_check (frozen P2/P3/P4 populations) on the tip
+assertions=329 match=318 mismatch=0 superseded=6 offline_unverifiable=5
+SUPERSEDED: P3a.capability.state-assertion-check.base-mismatch:559 — {"assertion_document": "SCORECARD.md", "correction_line": 757, "correction_tokens": ["mismatch=10"], "derived_tokens": ["mismatch=10"], "observed": {"claim": ["11"], "claim_occurrences": [["11"]], "receipt": ["10"], "receipt_occurrences": [["10"]]}}
+VERDICT: PASS — all comparable frozen assertions match

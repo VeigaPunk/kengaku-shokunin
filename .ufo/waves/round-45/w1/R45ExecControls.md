@@ -1,8 +1,9 @@
 # R45ExecControls — freeze control reproduction (kengaku round 45, wave 1)
 
 Seat: `R45ExecControls` (executor, leaf). Lane repo `/home/vgpnk/Projects/shokunin/kengaku-shokunin`.
-Baseline measured: **freeze commit `b4fcd35141acda5fa0980a34dd29ab880b702ee6`** (tip at wave start was
-`52d7486`; §Drift 1 explains why both were measured). No lane file was edited; no commit; no install.
+Baseline measured: **freeze commit `b4fcd35141acda5fa0980a34dd29ab880b702ee6`**. Tip at seat start was
+`52d7486`, tip at hand-off `4290d64`; `52d7486` was measured too because it re-pinned the C2 instrument
+(§Drift 1). No lane file was edited; no commit; no install.
 
 ## Axes (godspeed)
 
@@ -29,8 +30,7 @@ git -C "$S/lane" log --oneline -1               -> b4fcd35 round-45: freeze clai
 ```
 Four more clones (`lane-r44`, `lane-admit`, `lane-refuse`, `lane-static`) at the same commit, one per fence stub,
 plus `lane-head` (`52d7486`) and two reconstructed-working-tree clones (`lane-untracked`, `lane-freeze-u151`,
-§C2). `plans/fixture_fence.py` is absent at every commit (`git ls-tree b4fcd35 -- plans/fixture_fence.py | wc -l`
-= 0), matching `control-c1-nothing.txt` line 2 `FENCE plans/fixture_fence.py absent`.
+§C2). `plans/fixture_fence.py` is absent at every commit this seat measured (`git ls-tree b4fcd35 -- plans/fixture_fence.py | wc -l` = 0), matching `control-c1-nothing.txt` line 2 `FENCE plans/fixture_fence.py absent`.
 
 Fence files written into each clone (`plans/fixture_fence.py`) were built exactly as the seat spec says, and each
 digest equals the `FENCE ... sha256=` line of the committed receipt it reproduces:
@@ -134,26 +134,28 @@ Byte comparison against the committed receipts (`claims/control-c2-nothing.txt` 
 
 ## Drift observations for the L1 (outside the controls themselves)
 
-1. **The freeze commit is not the tip, and post-freeze commit `52d7486` edits files the claims call frozen.**
-   `git diff b4fcd35 52d7486` = `plans/pkg-spec-r45.json` (− the `S157` `gitignore` row), `plans/round45_c2_verify.py`
-   (`SPEC_SHA256 b8fc1e53… → 3eb696b4…`), `plans/round-45-claims.md` (`S149–S157` → `S149–S156`), plus
-   `claims/control-c2-nothing.txt` (P6 `rows=9→8`, V3 row list) and `claims/frozen-digests.txt` (both digests of the
-   re-pinned files now listed). Both states are self-consistent: each counter reproduces its own era's receipt
-   byte-identically. If the freeze is meant to bind, this amendment needs to be named in the claims; if the
-   8-row spec is the operative one (as the wave-1 assignment states), the freeze commit's 9-row spec is the stale
-   artifact.
-2. **The live lane working tree carries uncommitted wave-2 edits that touch frozen instruments** (observed
-   23:38–23:51, `git status --porcelain`):
-   `M plans/password_recovery_probe.py` (working-tree sha256 `9363e03e…` vs frozen `f87a9eeb…`),
-   `M plans/round45_c2_verify.py` (`86978416…` vs committed `8c302709…`, and it now pins
-   `SPEC_SHA256 = 2f0528960da5d92e91cf8cbb42fc1d7604935e257b6969e947f9b948876bc92d` while
-   `plans/pkg-spec-r45.json` in the tree is still `3eb696b4…` — a mid-flight pair),
-   five captures moved out of their frozen paths (`D environment/Dockerfile`, `D environment/setup.sh`,
-   `D solution/solve.sh`, `D tests/test.sh`, `D tests/test_outputs.py`, replaced by flat
-   `Dockerfile/setup.sh/solve.sh/test.sh/test_outputs.py`, `M …/SHA256SUMS`), and `M PROVINCE.md`,
-   `M corpus/README.md`, `M corpus/SOURCES.md`. My measurements used clones at commits and are unaffected; but
-   a wave-1 executor writing `plans/fixture_fence.py` against the live tree would see a counter whose
-   `CAPTURES`/`PROBE_SHA256` no longer match the files in front of it.
+1. **The freeze commit is not the tip; three post-freeze commits amend files the claims call frozen — and the
+   amendment is now named in the claims.** `52d7486` set the C2 spec to 8 rows (`plans/pkg-spec-r45.json` − the
+   `S157` `gitignore` row, `SPEC_SHA256 b8fc1e53… → 3eb696b4…`, `claims S149–S157 → S149–S156`); `9271dda` then
+   landed the named amendment ("**Freeze amendments (pre-data, attempt 2, before landing).** … (1) … the tree was
+   flattened to the r44 convention (`SHA256SUMS` rewritten, all 9 digests unchanged); (2) `plans/password_recovery_probe.py`
+   … re-pointed at the flat names (the receipt it prints is unchanged: byte-identical on re-run, probe digest now
+   `9363e03e`) …" — `plans/round-45-claims.md:32-34`) and re-pinned the C2 counter to
+   `SPEC_SHA256 = 2f924ffae0b6d0a3346e23b106ec3d5ea03689222923e82509891238649e8244`; `8f9a898` landed the C1
+   subject `plans/fixture_fence.py` (sha256 `ac65c03293084d7b25648740780b97e18f668e4fd9f08f947c09da72bce5eda6`).
+   `0ac30a1`/`4290d64` staged w1 reports and the round sections; the tree is clean at tip.
+   Consequence for control reproduction: the five C1 receipts and `control-c2-predictor.txt` are unchanged at tip
+   (digests in §Evidence) and still reproduce; `control-c2-nothing.txt` (`476d19d0…`) is a pre-package receipt and
+   is reproducible byte-identically **only** against the `52d7486` tree with its capture-time untracked set
+   (§C2) — at tip the package exists and the execute-phase receipt staging (`6decc71`: "C2 execute-phase receipts
+   - gate defects=0, counter A+B PREDICATE C2 pass") reports the passing direction instead.
+2. **The amendment was in flight, as uncommitted working-tree edits, for part of this seat's run** (observed
+   23:38–23:51 by `git status --porcelain`: `M plans/password_recovery_probe.py` `9363e03e…`, `M
+   plans/round45_c2_verify.py` `86978416…` pinning `SPEC_SHA256 = 2f052896…` while `plans/pkg-spec-r45.json` was
+   still `3eb696b4…`, five captures moved (`environment/Dockerfile`, `environment/setup.sh`, `solution/solve.sh`,
+   `tests/test.sh`, `tests/test_outputs.py` → flat names, `M …/SHA256SUMS`), `M PROVINCE.md`, `M corpus/README.md`,
+   `M corpus/SOURCES.md`). All of it is committed by `9271dda` with the spec now matching the counter pin
+   (`2f924ffa…` both). My measurements used clones at commits and are unaffected.
 3. **`~/.local/bin` content digest moved mid-session**: `c263b11afb1cccf6` (runs 23:29:49–23:36:45) →
    `e396f23e40a69201` (runs 23:36:43 onward), i.e. another seat's install (`OpenBot-0.51.1-x86_64.AppImage`,
    mtime 23:36; `agy.1793063119693176144.old`, 23:51). Not mine (no installs by this seat). Every individual
@@ -161,8 +163,9 @@ Byte comparison against the committed receipts (`claims/control-c2-nothing.txt` 
 
 ## Limits
 
-- These controls bind the counter's calibration ladder, not the future `plans/fixture_fence.py` (absent at both
-  commits). They say nothing about whether a landed fence passes `PREDICATE C1`.
+- These controls bind the counter's calibration ladder, not `plans/fixture_fence.py`. The subject was absent at
+  both commits measured (`b4fcd35`, `52d7486`); it landed later at `8f9a898` (sha256 `ac65c032…`). The four fence
+  stubs are the ladder's rungs; nothing here says whether the landed fence passes `PREDICATE C1`.
 - The two C2 "nothing" receipts are only byte-reproducible with the capture-time untracked set recreated; the
   frozen-claim sentence "measured on a clean clone of the landing tip" and a P9-carrying receipt therefore cannot
   both hold. Prefer the predicate lines, which are invariant.

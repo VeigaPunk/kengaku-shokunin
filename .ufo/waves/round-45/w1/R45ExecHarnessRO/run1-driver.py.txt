@@ -1,0 +1,102 @@
+#!/usr/bin/env python3
+"""R45ExecHarnessRO probe driver: run instrumented fences through the counter's real FENCE-RUN path.
+
+Uses the clone's plans/round45_c1_verify.py.run_fence verbatim (same bwrap+strace+counting code the
+predicate is judged with). Every line is teed to $S/driver.out for the receipt.
+"""
+from __future__ import annotations
+
+import importlib.util
+import pathlib
+import sys
+import tempfile
+
+
+class Tee:
+    def __init__(self, path):
+        self.fh = open(path, "w")
+
+    def write(self, s):
+        sys.__stdout__.write(s)
+        self.fh.write(s)
+        self.fh.flush()
+
+    def flush(self):
+        self.fh.flush()
+
+
+S = pathlib.Path("/fast/scratch/hyaku/kengaku-r45/R45ExecHarnessRO")
+LANE = S / "lane"
+sys.stdout = Tee(S / "driver.out")
+
+
+def load(path, name):
+    spec = importlib.util.spec_from_file_location(name, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def leak_scan(tag):
+    hits = []
+    for p in pathlib.Path("/proc").iterdir():
+        if not p.name.isdigit():
+            continue
+        try:
+            cmd = (p / "cmdline").read_bytes().replace(b"\0", b" ").decode(errors="strip")
+        except OSError:
+            continue
+        if any(k in cmd for k in ("harness.py", "fixture_fence", "probe_sleep", "k45probe", "strace ")):
+            hits.append(f"pid{p.name}:{cmd[:100]}")
+    print(f"LEAK-SCAN[{tag}] " + ("none" if not hits else " | ".join(hits)))
+
+
+print(f"DRIVER start lane={LANE}")
+print(f"CLONE HEAD-token hint fixture_fence_present={(LANE / 'plans/fixture_fence.py').is_file()}")
+k45 = load(LANE / "plans/round45_c1_verify.py", "k45_counter")
+k44 = load(LANE / "plans/round44_c1_verify.py", "k44_counter")
+mism = [rel for rel, dig in k45.PINS.items() if k45.sha256(LANE / rel) != dig]
+print(f"PINS total={len(k45.PINS)} mismatched={len(mism)}" + (f" first={mism[0]}" if mism else ""))
+print(f"FENCE_TIMEOUT={k45.FENCE_TIMEOUT} STRACE={k45.STRACE}")
+
+root = pathlib.Path(tempfile.mkdtemp(prefix="k45probe-", dir=S))
+(root / "harness.py").write_text(k45.HARNESS)
+(root / "empty").mkdir()
+print(f"PROBE-ROOT {root}")
+
+fxs = {}
+for name in ("f1_gitfile.py", "f2_deep.py"):
+    fxs[name] = k45.build_module(k44, LANE, root, LANE / "plans/refusals45" / name)
+    for fx in fxs[name]:
+        print(f"BUILT {name} {fx['fid']} tool={fx['tool']} dir={fx['dir']}")
+
+fences = {p.stem: p for p in sorted((S / "fences").glob("probe_*.py"))}
+n = 0
+plan = [
+    ("probe_w_d", "f1_gitfile.py", 0),
+    ("probe_w_parent", "f1_gitfile.py", 0),
+    ("probe_shadow", "f1_gitfile.py", 0),
+    ("probe_admit_outside", "f1_gitfile.py", 0),
+    ("probe_git_exec", "f1_gitfile.py", 0),
+    ("probe_sleep", "f2_deep.py", 0),
+]
+for tag, modname, k in plan:
+    n += 1
+    fx = fxs[modname][k]
+    verdict, why, opens = k45.run_fence(k44, LANE, root, fences[tag], fx, n)
+    print(f"FENCE-RUN {tag} module={fx['module']} fid={fx['fid']} tool={fx['tool']}")
+    print(f"  verdict={verdict} opens={opens}" + (f" reason={why}" if why else ""))
+    if tag != "probe_sleep":
+        leak_scan(tag)
+leak_scan("final")
+
+# dump the kept strace logs' outside-d-relevant lines for the receipt
+kept = sorted((S / "stracekeep").glob("f*.txt"))
+print(f"STRACE-LOGS kept={len(kept)}")
+for i, p in enumerate(kept):
+    tag = plan[i][0] if i < len(plan) else "?"
+    lines = p.read_text(errors="replace").splitlines()
+    print(f"--- {tag} ({p.name}) {len(lines)} traced open-syscalls ---")
+    for ln in lines:
+        print(f"  {ln.strip()[:240]}")
+print("DRIVER done")

@@ -1,0 +1,50 @@
+DRIVER2 start lane=/fast/scratch/hyaku/kengaku-r45/R45ExecHarnessRO/lane
+PINS total=33 mismatched=0
+FENCE_TIMEOUT=120
+PROBE-ROOT /fast/scratch/hyaku/kengaku-r45/R45ExecHarnessRO/k45probe2-iqv4viqi
+BUILT refusals45/f1_gitfile.py f1-gitdir-outside dir=/fast/scratch/hyaku/kengaku-r45/R45ExecHarnessRO/k45probe2-iqv4viqi/fx/refusals45-f1_gitfile/f000
+BUILT refusals45/f2_deep.py f2-deep-worktree dir=/fast/scratch/hyaku/kengaku-r45/R45ExecHarnessRO/k45probe2-iqv4viqi/fx/refusals45-f2_deep/f000
+FENCE-RUN w_d module=refusals45/f1_gitfile.py fid=f1-gitdir-outside
+  verdict=BREACH opens=0 reason=w-into-d errno=30 Read-only file system
+LEAK-SCAN[w_d] none
+FENCE-RUN w_parent module=refusals45/f1_gitfile.py fid=f1-gitdir-outside
+  verdict=BREACH opens=0 reason=w-parent errno=30 Read-only file system
+LEAK-SCAN[w_parent] none
+FENCE-RUN w_grandparent module=refusals45/f1_gitfile.py fid=f1-gitdir-outside
+  verdict=BREACH opens=0 reason=w-grandparent errno=30 Read-only file system
+LEAK-SCAN[w_grandparent] none
+FENCE-RUN mkdir_parent module=refusals45/f1_gitfile.py fid=f1-gitdir-outside
+  verdict=BREACH opens=0 reason=mkdir-parent errno=30 Read-only file system
+LEAK-SCAN[mkdir_parent] none
+FENCE-RUN shadow_read module=refusals45/f1_gitfile.py fid=f1-gitdir-outside
+  verdict=BREACH opens=0 reason=shadow-read errno=13 Permission denied
+LEAK-SCAN[shadow_read] none
+FENCE-RUN shadow_write module=refusals45/f1_gitfile.py fid=f1-gitdir-outside
+  verdict=BREACH opens=0 reason=shadow-write errno=13 Permission denied
+LEAK-SCAN[shadow_write] none
+FENCE-RUN tmp_write module=refusals45/f1_gitfile.py fid=f1-gitdir-outside
+  verdict=BREACH opens=0 reason=tmp-write errno=30 Read-only file system
+LEAK-SCAN[tmp_write] none
+FENCE-RUN hostname_read module=refusals45/f1_gitfile.py fid=f1-gitdir-outside
+  verdict=BREACH opens=0 reason=hostname-read ok len=9
+LEAK-SCAN[hostname_read] none
+FENCE-RUN admit_outside module=refusals45/f1_gitfile.py fid=f1-gitdir-outside
+  verdict=ADMIT opens=3
+LEAK-SCAN[admit_outside] none
+FENCE-RUN git_version module=refusals45/f1_gitfile.py fid=f1-gitdir-outside
+  verdict=BREACH opens=0 reason=git-version rc=0 out=git version 2.56.0
+LEAK-SCAN[git_version] none
+FENCE-RUN git_init_parent module=refusals45/f1_gitfile.py fid=f1-gitdir-outside
+  verdict=BREACH opens=0 reason=git-init-parent rc=1 err=/fast/scratch/hyaku/kengaku-r45/R45ExecHarnessRO/k45probe2-iqv4viqi/fx
+LEAK-SCAN[git_init_parent] none
+FENCE-RUN git_init_tmp module=refusals45/f1_gitfile.py fid=f1-gitdir-outside
+  verdict=BREACH opens=0 reason=git-init-tmp rc=128 err=fatal: cannot change to '/tmp/k45_git_target': No such file or directo
+LEAK-SCAN[git_init_tmp] none
+FENCE-RUN git_lane module=refusals45/f1_gitfile.py fid=f1-gitdir-outside
+  verdict=BREACH opens=0 reason=git-lane rc=128 err=Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not s
+LEAK-SCAN[git_lane] none
+FENCE-RUN sleep module=refusals45/f2_deep.py fid=f2-deep-worktree
+  verdict=HUNG opens=0
+LEAK-SCAN[final] none
+HUNG-LOG exists=False size=0
+DRIVER2 done

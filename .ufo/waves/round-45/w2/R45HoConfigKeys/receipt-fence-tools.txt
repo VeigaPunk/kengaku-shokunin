@@ -1,0 +1,62 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45HoConfigKeys/env /fast/scratch/hyaku/kengaku-r45/R45HoConfigKeys/env --bind /fast/scratch/hyaku/kengaku-r45/R45HoConfigKeys/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/w2/R45HoConfigKeys/drive_all.py
+ENVELOPE start 23:54:33 cwd=/home/vgpnk/Projects/shokunin
+FENCE-COPY plans/fixture_fence.py sha256=ac65c03293084d7b25648740780b97e18f668e4fd9f08f947c09da72bce5eda6
+TOOL-COPY plans/anchor_digest_check.py sha256=11bb2cad87be1c29c2d5abe8313d487d73f71ba49a40d7d0dc80ec26c70fd4c2
+TOOL-COPY plans/order_check.py sha256=948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc
+FENCE-RUN h1_configpaths.py h1-baseline tool=order ADMIT opens=0
+TOOL-RUN h1-baseline env=pins exit=0 evil-touches=0 last=ORDER RESULT PASS
+TOOL-RUN h1-baseline env=nopins exit=0 evil-touches=0 last=ORDER RESULT PASS
+FENCE-RUN h1_configpaths.py h1-attrs tool=order ADMIT opens=0
+TOOL-RUN h1-attrs env=pins exit=0 evil-touches=0 last=ORDER RESULT PASS
+TOOL-RUN h1-attrs env=nopins exit=0 evil-touches=0 last=ORDER RESULT PASS
+FENCE-RUN h1_configpaths.py h1-mailmap tool=order ADMIT opens=0
+TOOL-RUN h1-mailmap env=pins exit=0 evil-touches=2 last=ORDER RESULT PASS
+  EVIL 8 openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45HoConfigKeys/w/hoconfig-0tj7key1/fx/R45HoConfigKeys-h1_configpaths/f002>, "../evil/mailmap", O_RDONLY) = 3<
+  EVIL 9 openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45HoConfigKeys/w/hoconfig-0tj7key1/fx/R45HoConfigKeys-h1_configpaths/f002>, "../evil/mailmap", O_RDONLY) = 3<
+TOOL-RUN h1-mailmap env=nopins exit=0 evil-touches=2 last=ORDER RESULT PASS
+  EVIL 8 openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45HoConfigKeys/w/hoconfig-0tj7key1/fx/R45HoConfigKeys-h1_configpaths/f002>, "../evil/mailmap", O_RDONLY) = 3<
+  EVIL 9 openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45HoConfigKeys/w/hoconfig-0tj7key1/fx/R45HoConfigKeys-h1_configpaths/f002>, "../evil/mailmap", O_RDONLY) = 3<
+FENCE-RUN h1_configpaths.py h1-mailmap-on tool=order ADMIT opens=0
+TOOL-RUN h1-mailmap-on env=pins exit=0 evil-touches=2 last=ORDER RESULT PASS
+  EVIL 8 openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45HoConfigKeys/w/hoconfig-0tj7key1/fx/R45HoConfigKeys-h1_configpaths/f003>, "../evil/mailmap", O_RDONLY) = 3<
+  EVIL 9 openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45HoConfigKeys/w/hoconfig-0tj7key1/fx/R45HoConfigKeys-h1_configpaths/f003>, "../evil/mailmap", O_RDONLY) = 3<
+TOOL-RUN h1-mailmap-on env=nopins exit=0 evil-touches=2 last=ORDER RESULT PASS
+  EVIL 8 openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45HoConfigKeys/w/hoconfig-0tj7key1/fx/R45HoConfigKeys-h1_configpaths/f003>, "../evil/mailmap", O_RDONLY) = 3<
+  EVIL 9 openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45HoConfigKeys/w/hoconfig-0tj7key1/fx/R45HoConfigKeys-h1_configpaths/f003>, "../evil/mailmap", O_RDONLY) = 3<
+FENCE-RUN h1_configpaths.py h1-fsmon tool=order ADMIT opens=0
+TOOL-RUN h1-fsmon env=pins exit=0 evil-touches=0 last=ORDER RESULT PASS
+TOOL-RUN h1-fsmon env=nopins exit=0 evil-touches=0 last=ORDER RESULT PASS
+FENCE-RUN h1_configpaths.py h1-hooks tool=order ADMIT opens=0
+TOOL-RUN h1-hooks env=pins exit=0 evil-touches=0 last=ORDER RESULT PASS
+TOOL-RUN h1-hooks env=nopins exit=0 evil-touches=0 last=ORDER RESULT PASS
+FENCE-RUN h1_configpaths.py h1-wt-rel tool=order BREACH opens=0 -- ./.git/config sets core.worktree=../evil-wt
+FENCE-RUN h2_helperkeys.py h2-baseline tool=order ADMIT opens=0
+TOOL-RUN h2-baseline env=pins exit=0 evil-touches=0 last=ORDER RESULT PASS
+TOOL-RUN h2-baseline env=nopins exit=0 evil-touches=0 last=ORDER RESULT PASS
+FENCE-RUN h2_helperkeys.py h2-cred tool=order ADMIT opens=0
+TOOL-RUN h2-cred env=pins exit=0 evil-touches=0 last=ORDER RESULT PASS
+TOOL-RUN h2-cred env=nopins exit=0 evil-touches=0 last=ORDER RESULT PASS
+FENCE-RUN h2_helperkeys.py h2-gpg tool=order ADMIT opens=0
+TOOL-RUN h2-gpg env=pins exit=0 evil-touches=0 last=ORDER RESULT PASS
+TOOL-RUN h2-gpg env=nopins exit=0 evil-touches=0 last=ORDER RESULT PASS
+FENCE-RUN h2_helperkeys.py h2-uco tool=order ADMIT opens=0
+TOOL-RUN h2-uco env=pins exit=0 evil-touches=0 last=ORDER RESULT PASS
+TOOL-RUN h2-uco env=nopins exit=0 evil-touches=0 last=ORDER RESULT PASS
+FENCE-RUN h3_anchorpaths.py h3-baseline tool=anchor ADMIT opens=0
+TOOL-RUN h3-baseline env=pins exit=0 evil-touches=0 last=rows=1 tokens=1 defects=0
+TOOL-RUN h3-baseline env=nopins exit=0 evil-touches=0 last=rows=1 tokens=1 defects=0
+FENCE-RUN h3_anchorpaths.py h3-attrs tool=anchor ADMIT opens=0
+TOOL-RUN h3-attrs env=pins exit=0 evil-touches=0 last=rows=1 tokens=1 defects=0
+TOOL-RUN h3-attrs env=nopins exit=0 evil-touches=0 last=rows=1 tokens=1 defects=0
+FENCE-RUN h3_anchorpaths.py h3-mailmap-on tool=anchor ADMIT opens=0
+TOOL-RUN h3-mailmap-on env=pins exit=0 evil-touches=0 last=rows=1 tokens=1 defects=0
+TOOL-RUN h3-mailmap-on env=nopins exit=0 evil-touches=0 last=rows=1 tokens=1 defects=0
+FENCE-RUN h3_anchorpaths.py h3-fsmon tool=anchor ADMIT opens=0
+TOOL-RUN h3-fsmon env=pins exit=0 evil-touches=0 last=rows=1 tokens=1 defects=0
+TOOL-RUN h3-fsmon env=nopins exit=0 evil-touches=2 last=rows=1 tokens=1 defects=0
+  EVIL 6 openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45HoConfigKeys/w/hoconfig-0tj7key1/fx/R45HoConfigKeys-h3_anchorpaths/f003>, "../evil/fsmon", O_RDONLY) = 3</f
+  EVIL 9 openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45HoConfigKeys/w/hoconfig-0tj7key1/fx/R45HoConfigKeys-h3_anchorpaths/f003>, "../evil/fsmon", O_RDONLY) = 3</f
+FENCE-RUN h3_anchorpaths.py h3-hooks tool=anchor ADMIT opens=0
+TOOL-RUN h3-hooks env=pins exit=0 evil-touches=0 last=rows=1 tokens=1 defects=0
+TOOL-RUN h3-hooks env=nopins exit=0 evil-touches=0 last=rows=1 tokens=1 defects=0
+ENVELOPE end 23:54:44 exit=0 local_bin_content_before=e396f23e40a69201 after=e396f23e40a69201 unchanged
