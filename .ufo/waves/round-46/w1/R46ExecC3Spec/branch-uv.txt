@@ -1,0 +1,13 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC3Spec/env /fast/scratch/hyaku/kengaku-r46/R46ExecC3Spec/env --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC3Spec/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- sh -c  python3 /fast/scratch/hyaku/kengaku-r46/R46ExecC3Spec/micro/plans/pkg_gate.py package --root /fast/scratch/hyaku/kengaku-r46/R46ExecC3Spec/micro --spec /fast/scratch/hyaku/kengaku-r46/R46ExecC3Spec/micro/plans/spec.json --rerun
+ENVELOPE start 02:29:33 cwd=/home/vgpnk/Projects/shokunin
+P1 ok pinned=1 mismatched=0
+P2 ok receipt_sha256=pinned
+P3 DEFECT no '## Located quotes' section
+P4 DEFECT no parsed quote
+P5 DEFECT capture manifest absent: cap/SHA256SUMS
+P6 ok rows=0 bad=0 first=0
+P7 DEFECT entry unreadable
+P8 DEFECT README unreadable
+P10 DEFECT fresh probe output is not byte-equal to the receipt
+defects=6
+ENVELOPE end 02:29:34 exit=1 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged

@@ -1,0 +1,13 @@
+===== nesting test (counter ro_sandbox -> inner bwrap -> git)
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/env /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/env --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/nested_test.py /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/lane /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/nt2
+ENVELOPE start 02:09:48 cwd=/home/vgpnk/Projects/shokunin
+OUTER rc= 0 stdout= /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/nt2/fx/fixture stderr= 
+HOST-NESTED rc= 0 stdout= /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/nt2/fx/fixture stderr= 
+ESCAPE rc= 128 stdout=  stderr= fatal: not a git repository (or any parent up to mount point /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/nt2/fx)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+ENVELOPE end 02:09:52 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged
+===== bind-source variants (dest /fixture)
+VARIANT I-src-dot-cwd-d rc=0 out='/fixture\n/fixture/.git\n.git' err='' offenders=0
+VARIANT J-src-basename-cwd-parent rc=0 out='/fixture\n/fixture/.git\n.git' err='' offenders=2
+    5     getcwd("/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv3r/fx/mod", 1024) = 60
+    5     newfstatat(AT_FDCWD</fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv3r/fx/mod>, "/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv3r/fx/mod", {st_mode=S_IFDIR|0755, st_siz

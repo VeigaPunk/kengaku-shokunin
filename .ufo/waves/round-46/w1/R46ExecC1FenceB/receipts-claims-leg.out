@@ -1,0 +1,9 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/env4 /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/env4 --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/env4/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/claims_probe.py /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/lane /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/c7
+ENVELOPE start 02:08:57 cwd=/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB
+FENCE-COPY sha256=8537a9e846e7e88b128d3f239c7ed9d3c9bf500e41a1be5b1f2d026951f14794
+CLAIMS-RUN ct-tree tool=order BREACH opens=0 -- --claims plans/round-7-claims.md is a tree at HEAD, not a blob
+CLAIMS-RUN ct-blob tool=order ADMIT opens=0
+CLAIMS-RUN ct-absent tool=order ADMIT opens=0
+CLAIMS-RUN ct-packed tool=order BREACH opens=0 -- --claims: lane holds 674d04b0f0eb in a pack the fence does not decode
+CLAIMS-RUN ct-packed-a tool=anchor ADMIT opens=0
+ENVELOPE end 02:09:01 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

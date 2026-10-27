@@ -1,0 +1,64 @@
+Envelope receipts for R46SentC3Sandbox (round 46 wave 1). Every run below used
+/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/claims/envelope.sh <scratch>/env-<tag> <command>.
+`local_bin_content_before/after` is the envelope's CONTENT digest of ~/.local/bin.
+
+[1] env-draft  — draft-variant matrix (draft probe's own sandbox_argv/ENV + this seat's hostile payload)
+ENVELOPE start 02:19:06 cwd=/fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox
+ENVELOPE end 02:19:25 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged
+
+[2] env-hard   — hardened v1 matrix (rlimits, clearenv, uts, sized /app, AS=512M)
+ENVELOPE start 02:19:42 cwd=/fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox
+ENVELOPE end 02:20:01 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged
+
+[3] env-stop   — output cap with a reader that STOPS at 64 KiB (writer blocks, runner kills)
+ENVELOPE start 02:20:38 cwd=/fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox
+ENVELOPE end 02:20:53 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged
+
+[4] env-access — envelope-level writability (os.access only, no writes)
+ENVELOPE start 02:21:05 cwd=/home/vgpnk/Projects/shokunin
+ENVELOPE end 02:21:08 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged
+
+[5] env-bio    — first stub-Bio attempt (PYTHONPATH set after start: no effect, exit 1) — INVALID as a test, kept for order
+ENVELOPE start 02:21:42 cwd=/home/vgpnk/Projects/shokunin
+ENVELOPE end 02:21:44 exit=1 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged
+
+[6] env-bio2   — stub-Bio via child env: pkg_gate's `import Bio` branch resolves to sys.executable
+ENVELOPE start 02:22:02 cwd=/home/vgpnk/Projects/shokunin
+ENVELOPE end 02:22:04 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged
+
+[7] env-remount — `--size N --tmpfs DEST` caps the tmpfs; `--remount-ro /` closes the root tmpfs
+ENVELOPE start 02:22:53 cwd=/home/vgpnk/Projects/shokunin
+ENVELOPE end 02:22:54 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged
+
+[8] env-hard2  — hardened v2 matrix (adds `--remount-ro /` after all mounts)
+ENVELOPE start 02:23:42 cwd=/fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox
+ENVELOPE end 02:23:57 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged
+
+[9] env-all    — `--unshare-all` variant (cgroup ns, uts, hostname, root ro)
+ENVELOPE start 02:25:02 cwd=/fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox
+ENVELOPE end 02:25:03 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged
+
+[10] env-envpub — payload env under --clearenv/--setenv; /pub and /tests ro after --remount-ro /
+ENVELOPE start 02:26:01 cwd=/fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox
+ENVELOPE end 02:26:03 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged
+
+[11] env-devshm — size of the root tmpfs and of /dev/shm; /dev and /dev/shm writable without extra flags
+ENVELOPE start 02:26:48 cwd=/fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox
+ENVELOPE end 02:26:49 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged
+
+[12] env-devro — `--remount-ro /dev` + `--size 8M --tmpfs /dev/shm`: /dev ro, /dev/null usable, shm capped
+ENVELOPE start 02:27:11 cwd=/fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox
+ENVELOPE end 02:27:12 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged
+
+[13] env-final — final hardened matrix (all flags of the recommended invocation; both runtimes compile and run)
+ENVELOPE start 02:27:33 cwd=/fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox
+ENVELOPE end 02:27:48 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged
+
+Note on the digest drift: runs [1]-[2] bracketed `ff187bb5c98aa6b5`, runs [3]-[13] bracketed `7747d38e2042d398`.
+The change happened BETWEEN two envelopes (another seat installed a tool), never inside one; every run above is
+internally `unchanged`, so no measurement is invalidated (same reading round 45 used for its `c263b11…`->`e396f23…`).
+This seat wrote nothing to any PATH directory, /usr, /etc or $HOME.
+
+[14] env-tight — `R46_AS=256 R46_NPROC=16`, modes safe,mem,forks: gcc still compiles, aggregate bound 16x256 MiB
+ENVELOPE start 02:28:50 cwd=/fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox
+ENVELOPE end 02:28:53 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged

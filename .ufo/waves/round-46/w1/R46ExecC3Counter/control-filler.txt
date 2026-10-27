@@ -1,0 +1,12 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC3Counter/env /fast/scratch/hyaku/kengaku-r46/R46ExecC3Counter/env --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC3Counter/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r46/R46ExecC3Counter/lane/plans/round46_c3_verify.py --lane /fast/scratch/hyaku/kengaku-r46/R46ExecC3Counter/lane --work /fast/scratch/hyaku/kengaku-r46/R46ExecC3Counter/work-c2 --filler
+ENVELOPE start 02:38:19 cwd=/fast/scratch/hyaku/kengaku-r46/R46ExecC3Counter
+V3 ok rows=7 bad=0
+V4 DEFECT cases=18 mismatches_named=0/0 bad=["match=yes on a mismatching case: ['nonzero-exit']"]
+V6 DEFECT census_exit=1 registry=plans/filler46/SOURCES-filler.md
+V7 DEFECT rows=4 tags=4 bad=['single-file: no receipt case violates it', 'python-run: no receipt case violates it', 'c-run: no receipt case violates it', 'fib: no receipt case violates it']
+V9 DEFECT case_rows=1/18 bad=['case table rows=1 receipt cases=18 equal=False', 'PROVINCE.md names the task and the entry on no line']
+V10 DEFECT mechanism_rows=1/18 bad=['mechanism rows=1 receipt cases=18 ids_equal=False', 'nop:test_outputs.py:3 not decisive']
+V12 DEFECT rows=7 defective=7 live=7 first=S166:line,words
+checks=7 defects=6
+PREDICATE C3 fail
+ENVELOPE end 02:38:20 exit=1 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged

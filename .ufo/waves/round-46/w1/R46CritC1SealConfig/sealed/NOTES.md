@@ -1,0 +1,5 @@
+# Sealed config-family candidates
+
+The candidates are one-fixture `order` modules using the frozen round-44 `Ctx` build contract. Each creates an in-fixture repository with valid claims/receipt blobs, then places a Git config path setting in `.git/config` pointing outside the fixture. The path-bearing keys are `core.excludesFile`, `url.<base>.insteadOf`, and `core.attributesFile`. These are not included in the base fence's specific config-key rejection list. As tested, each valid fixture was admitted by the base fence (`LEAKED` in the round-45 driver classification). Their config paths affect Git behavior in other commands; the round-45 fence probe does not itself invoke those downstream commands, so the observed classification is admission, not evidence that this probe opened those referenced files.
+
+The vertical-tab include, worktree-config include, and UTF-16 include candidates were tested but rejected by the base fence (`BREACH`); they are intentionally not retained. The URL rewrite candidate was independently admitted.

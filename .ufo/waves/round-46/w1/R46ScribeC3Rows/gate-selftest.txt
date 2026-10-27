@@ -1,0 +1,7 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ScribeC3Rows/env /fast/scratch/hyaku/kengaku-r46/R46ScribeC3Rows/env --bind /fast/scratch/hyaku/kengaku-r46/R46ScribeC3Rows/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r46/R46ScribeC3Rows/lane/plans/anchor_line_check.py --selftest
+ENVELOPE start 02:15:15 cwd=/home/vgpnk/Projects/shokunin
+SELFTEST RED rc=1 want_rc=1 ok :: ANCHORLINE rows=1 cited=1 captured=1 uncaptured=0 defective=1 repaired=0 live=1 cells=2
+SELFTEST GREEN rc=0 want_rc=0 ok :: ANCHORLINE rows=2 cited=2 captured=2 uncaptured=0 defective=1 repaired=1 live=0 cells=0
+SELFTEST JUNK rc=1 want_rc=1 ok :: ANCHORLINE rows=2 cited=2 captured=2 uncaptured=0 defective=2 repaired=0 live=2 cells=4
+SELFTEST pass
+ENVELOPE end 02:15:17 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

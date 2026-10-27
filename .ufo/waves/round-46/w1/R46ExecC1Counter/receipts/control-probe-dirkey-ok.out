@@ -1,0 +1,143 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/env /fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/env --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/lane/plans/round46_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/lane --work /fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w --jobs 8 --fence /fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/probes/p_listdir_parent.py --refusals /fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/lane/plans/refusals45 --sealed /fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/emptysealed
+ENVELOPE start 02:13:07 cwd=/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter
+PINS total=33 mismatched=0
+FENCE source=/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/probes/p_listdir_parent.py sha256=27cf5d89054cbd215962a6dd0ba652c64d1577ffbfb2df731c4c7104c00212be
+LAYOUT refusals=/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/lane/plans/refusals45 sealed=/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/emptysealed pad=24 jobs=8
+COPY-CHECK skipped (refusals dir overridden for testing)
+MODULES refusal total=10
+MODULES sealed total=0 (directory absent or empty)
+MODULES honest total=22
+FENCE-RUN honest battery43/a_row.py a_row-na1-wide20 BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/680e839f1e70efd1 -- BREACH siblings=24
+FENCE-RUN honest battery42/a_class.py a_class-x6-sibling-digest BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/6385e0f05d1074d2 -- BREACH siblings=24
+FENCE-RUN honest battery42/a_row.py a_row-x15-sibling-digest BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/142d732bb3b0d064 -- BREACH siblings=24
+FENCE-RUN honest battery43/o_alt.py o_alt-late-case-blob BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/6810d21880df5553 -- BREACH siblings=24
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-provenance-128 BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/a4a6924568ccb7f9 -- BREACH siblings=24
+FENCE-RUN refusal refusals45/f10_laneinclude.py f10-lane-include-regular BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/7d0641d6331b84df -- BREACH siblings=24
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-sibling BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/c407c7420decf53d -- BREACH siblings=24
+FENCE-RUN honest battery42/o_scan.py o_scan-xo7-timeout-rows BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/a63311025cc4d972 -- BREACH siblings=24
+FENCE-RUN honest battery42/a_class.py a_class-x7-fabricated-token BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/6385e0f05d1074d2 -- BREACH siblings=24
+FENCE-RUN honest battery44/u7_twin_b.py u7_twin_b-prov-twin BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/1db2b4fece4ca660 -- BREACH siblings=24
+FENCE-RUN honest battery43/o_scan.py o_scan-n5c-case-third-commit BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/9db7a5bac000c1a7 -- BREACH siblings=24
+FENCE-RUN honest battery43/o_alt.py o_alt-fenced-echo BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/6810d21880df5553 -- BREACH siblings=24
+FENCE-RUN honest battery42/o_scan.py o_scan-xo5-amended-claims-blob BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/a63311025cc4d972 -- BREACH siblings=24
+FENCE-RUN refusal refusals45/f8_worktreecfg.py f8-wtcfg-a BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/01f95aa7f96c7ace -- BREACH siblings=24
+FENCE-RUN refusal refusals45/f2_deep.py f2-deep-worktree BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/505fdc540b43a7b7 -- BREACH siblings=24
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-canonical-control BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/9f74f430cb0df0f5 -- BREACH siblings=24
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-underscore-name BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/f5ea5137ddd2dc1a -- BREACH siblings=24
+FENCE-RUN honest battery44/u7_twin_a.py u7_twin_a-url-two-tasks BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/c967969b83bfdf94 -- BREACH siblings=24
+FENCE-RUN honest battery43/a_alt.py a_alt-shorturl-samedir BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/c407c7420decf53d -- BREACH siblings=24
+FENCE-RUN honest battery42/o_scan.py o_scan-xo6-echoed-pass-row BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/a63311025cc4d972 -- BREACH siblings=24
+FENCE-RUN honest battery44/u7_twin_a.py u7_twin_a-provenance-table BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/c967969b83bfdf94 -- BREACH siblings=24
+FENCE-RUN honest battery42/o_clause.py o_clause-receipt-side-line BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/3e1252423061ac32 -- BREACH siblings=24
+FENCE-RUN honest battery42/a_route.py a_route-x12-slashless-toml BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/951bd23d364570bb -- BREACH siblings=24
+FENCE-RUN honest battery42/a_route.py a_route-x1-provenance-table BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/951bd23d364570bb -- BREACH siblings=24
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-registry-url-task BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/8d2154301f126590 -- BREACH siblings=24
+FENCE-RUN honest battery44/u9_worktree_b.py u9_worktree_b-erratum-completed-in-place BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/435cc1b6c1f8e81b -- BREACH siblings=24
+FENCE-RUN honest battery42/a_row.py a_row-x15-manifest-sibling BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/142d732bb3b0d064 -- BREACH siblings=24
+FENCE-RUN honest battery43/a_alt.py a_alt-slug-blob BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/c407c7420decf53d -- BREACH siblings=24
+FENCE-RUN honest battery42/a_row.py a_row-x9-registry-short-valid BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/142d732bb3b0d064 -- BREACH siblings=24
+FENCE-RUN honest battery44/u7_twin_b.py u7_twin_b-mixed-trio BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/1db2b4fece4ca660 -- BREACH siblings=24
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-subdir-nohyphen BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/9f74f430cb0df0f5 -- BREACH siblings=24
+FENCE-RUN refusal refusals45/f4_fifo.py f4-fifo-include BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/fb34acccc9f0034e -- BREACH siblings=24
+FENCE-RUN honest battery44/u5_short_a.py u5_short_a-abbrev-neighbour BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/303728be58bbdb1d -- BREACH siblings=24
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-draft-suffix BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/9f74f430cb0df0f5 -- BREACH siblings=24
+FENCE-RUN honest battery43/a_alt.py a_alt-longrow-copied BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/c407c7420decf53d -- BREACH siblings=24
+FENCE-RUN refusal refusals45/f9_nodescribe.py f9-bare-repo BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/882dd6b579ac1b3b -- BREACH siblings=24
+FENCE-RUN honest battery43/o_scan.py o_scan-n22a-gate-only BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/9db7a5bac000c1a7 -- BREACH siblings=24
+FENCE-RUN honest battery43/o_excuse.py o_excuse-echo-freeze-claims BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/0488f4fb7f89cb48 -- BREACH siblings=24
+FENCE-RUN honest battery44/u9_worktree_b.py u9_worktree_b-registry-erratum-appended BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/435cc1b6c1f8e81b -- BREACH siblings=24
+FENCE-RUN honest battery42/o_clause.py o_clause-freeze-single BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/3e1252423061ac32 -- BREACH siblings=24
+FENCE-RUN honest battery43/o_alt.py o_alt-prefixed-ok-blob BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/6810d21880df5553 -- BREACH siblings=24
+FENCE-RUN honest battery43/o_excuse.py o_excuse-gate-prefix-late BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/0488f4fb7f89cb48 -- BREACH siblings=24
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-registry-65 BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/a4a6924568ccb7f9 -- BREACH siblings=24
+FENCE-RUN honest battery42/a_class.py a_class-x14-uppercase-token BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/6385e0f05d1074d2 -- BREACH siblings=24
+FENCE-RUN honest battery43/a_url.py a_url-short-commit-pair BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/b5c2680fb83e457e -- BREACH siblings=24
+FENCE-RUN honest battery42/o_clause.py o_clause-receipt-withdrawn BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/3e1252423061ac32 -- BREACH siblings=24
+FENCE-RUN honest battery43/a_alt.py a_alt-longrow-late BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/c407c7420decf53d -- BREACH siblings=24
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-registry-suffix BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/f5ea5137ddd2dc1a -- BREACH siblings=24
+FENCE-RUN honest battery42/a_row.py a_row-x9-short-no-token BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/142d732bb3b0d064 -- BREACH siblings=24
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-lane-path-manifest BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/8d2154301f126590 -- BREACH siblings=24
+FENCE-RUN honest battery42/a_route.py a_route-x1-two-row-registry BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/951bd23d364570bb -- BREACH siblings=24
+FENCE-RUN honest battery42/a_row.py a_row-x13-url-staged BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/142d732bb3b0d064 -- BREACH siblings=24
+FENCE-RUN honest battery43/a_err.py a_err-f1-repaired-row-historical-erratum BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/3774a102622aba64 -- BREACH siblings=24
+FENCE-RUN honest battery44/u7_twin_a.py u7_twin_a-rowpath-registry BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/c967969b83bfdf94 -- BREACH siblings=24
+FENCE-RUN honest battery44/u9_worktree_a.py u9_worktree_a-history-abbrev BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/547dece08306a39f -- BREACH siblings=24
+FENCE-RUN honest battery44/u6_long_b.py u6_long_b-index-pair-96hex BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/e417f17c89f2d54c -- BREACH siblings=24
+FENCE-RUN honest battery42/a_row.py a_row-x13-staged-capture BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/142d732bb3b0d064 -- BREACH siblings=24
+FENCE-RUN honest battery42/a_class.py a_class-x14-two-errata BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/6385e0f05d1074d2 -- BREACH siblings=24
+FENCE-RUN honest battery42/o_scan.py o_scan-xo5-post-receipt-verdicts BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/a63311025cc4d972 -- BREACH siblings=24
+FENCE-RUN honest battery43/o_alt.py o_alt-bare-ok-late BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/6810d21880df5553 -- BREACH siblings=24
+FENCE-RUN honest battery42/a_class.py a_class-x7-provenance-row BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/6385e0f05d1074d2 -- BREACH siblings=24
+FENCE-RUN refusal refusals45/f8_worktreecfg.py f8-wtcfg-b BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/01f95aa7f96c7ace -- BREACH siblings=24
+FENCE-RUN honest battery44/u6_long_b.py u6_long_b-provenance-129hex BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/e417f17c89f2d54c -- BREACH siblings=24
+FENCE-RUN honest battery42/a_class.py a_class-x6-stale-manifest BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/6385e0f05d1074d2 -- BREACH siblings=24
+FENCE-RUN refusal refusals45/f6_above.py f6-repo-above-d BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/90c36d85c1026a03 -- BREACH siblings=24
+FENCE-RUN refusal refusals45/f7_commondir.py f7-cd-anchor BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/8a4522f76d9e47b3 -- BREACH siblings=24
+FENCE-RUN honest battery43/a_alt.py a_alt-slug-manifest BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/c407c7420decf53d -- BREACH siblings=24
+FENCE-RUN honest battery42/o_scan.py o_scan-xo7-skipped-row-r38 BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/a63311025cc4d972 -- BREACH siblings=24
+FENCE-RUN honest battery43/a_alt.py a_alt-longrow-multicap BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/c407c7420decf53d -- BREACH siblings=24
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-upper BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/c407c7420decf53d -- BREACH siblings=24
+FENCE-RUN honest battery42/o_scan.py o_scan-xo6-pass-verdict-row BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/a63311025cc4d972 -- BREACH siblings=24
+FENCE-RUN honest battery42/a_route.py a_route-x12-two-tomls BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/951bd23d364570bb -- BREACH siblings=24
+FENCE-RUN honest battery43/o_excuse.py o_excuse-bare-excused BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/0488f4fb7f89cb48 -- BREACH siblings=24
+FENCE-RUN refusal refusals45/f1_gitfile.py f1-gitdir-outside BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/413e6d036ab5c226 -- BREACH siblings=24
+FENCE-RUN honest battery44/u5_short_a.py u5_short_a-index-staged BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/303728be58bbdb1d -- BREACH siblings=24
+FENCE-RUN honest battery43/a_err.py a_err-f5-row-carrying-both-tokens BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/3774a102622aba64 -- BREACH siblings=24
+FENCE-RUN honest battery43/o_scan.py o_scan-n5b-amended-claims BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/9db7a5bac000c1a7 -- BREACH siblings=24
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-nested-uppercase BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/f5ea5137ddd2dc1a -- BREACH siblings=24
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-index-ref-staged BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/8d2154301f126590 -- BREACH siblings=24
+FENCE-RUN honest battery42/a_route.py a_route-x3-blob-url BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/951bd23d364570bb -- BREACH siblings=24
+FENCE-RUN honest battery44/u9_worktree_a.py u9_worktree_a-registry-wrong-capture BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/547dece08306a39f -- BREACH siblings=24
+FENCE-RUN honest battery42/a_route.py a_route-x3-provenance-url BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/951bd23d364570bb -- BREACH siblings=24
+FENCE-RUN honest battery43/a_url.py a_url-org-slash-single BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/b5c2680fb83e457e -- BREACH siblings=24
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-lessons BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/c407c7420decf53d -- BREACH siblings=24
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-short BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/c407c7420decf53d -- BREACH siblings=24
+FENCE-RUN honest battery43/o_alt.py o_alt-two-echo-blobs BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/6810d21880df5553 -- BREACH siblings=24
+FENCE-RUN refusal refusals45/f7_commondir.py f7-cd-reject BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/8a4522f76d9e47b3 -- BREACH siblings=24
+FENCE-RUN honest battery43/o_scan.py o_scan-n22b-echoed-defect BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/9db7a5bac000c1a7 -- BREACH siblings=24
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-two BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/c407c7420decf53d -- BREACH siblings=24
+FENCE-RUN honest battery43/a_alt.py a_alt-shorturl-sibling BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/c407c7420decf53d -- BREACH siblings=24
+FENCE-RUN refusal refusals45/f5_alternates.py f5-alternates-outside BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/2b40a7d098c33458 -- BREACH siblings=24
+FENCE-RUN honest battery43/o_alt.py o_alt-inplace-gate-rewrite BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/6810d21880df5553 -- BREACH siblings=24
+FENCE-RUN honest battery43/a_err.py a_err-f6-provenance-bound-unknown-stale BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/3774a102622aba64 -- BREACH siblings=24
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-manifest BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/c407c7420decf53d -- BREACH siblings=24
+FENCE-RUN honest battery44/u5_short_a.py u5_short_a-manifest-registry BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/303728be58bbdb1d -- BREACH siblings=24
+FENCE-RUN honest battery44/u9_worktree_b.py u9_worktree_b-erratum-retargeted-history BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/435cc1b6c1f8e81b -- BREACH siblings=24
+FENCE-RUN honest battery43/o_scan.py o_scan-n5a-late-gate-file BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/9db7a5bac000c1a7 -- BREACH siblings=24
+FENCE-RUN honest battery42/o_clause.py o_clause-clean-order BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/3e1252423061ac32 -- BREACH siblings=24
+FENCE-RUN honest battery43/a_err.py a_err-f3-stale-token-sibling-capture BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/3774a102622aba64 -- BREACH siblings=24
+FENCE-RUN refusal refusals45/f3_abbrev.py f3-abbrev-tree-claims BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/b3b4262db3386782 -- BREACH siblings=24
+FENCE-RUN honest battery43/a_row.py a_row-na1-tail12 BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/680e839f1e70efd1 -- BREACH siblings=24
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-manifest-96 BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/a4a6924568ccb7f9 -- BREACH siblings=24
+FENCE-RUN honest battery43/a_alt.py a_alt-slug-deepest BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/c407c7420decf53d -- BREACH siblings=24
+FENCE-RUN refusal refusals45/f7_commondir.py f7-cd-accept BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/8a4522f76d9e47b3 -- BREACH siblings=24
+FENCE-RUN honest battery43/a_err.py a_err-f4-manifest-only-second-capture BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/3774a102622aba64 -- BREACH siblings=24
+FENCE-RUN honest battery43/a_row.py a_row-na1-mid13 BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/680e839f1e70efd1 -- BREACH siblings=24
+FENCE-RUN honest battery43/a_url.py a_url-short-commit-shadow BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/b5c2680fb83e457e -- BREACH siblings=24
+FENCE-RUN honest battery43/o_scan.py o_scan-n22c-indented-gate BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/9db7a5bac000c1a7 -- BREACH siblings=24
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-history-200 BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/a4a6924568ccb7f9 -- BREACH siblings=24
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-round-xx-token BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/f5ea5137ddd2dc1a -- BREACH siblings=24
+FENCE-RUN honest battery44/u7_twin_b.py u7_twin_b-url-trio-identical BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/1db2b4fece4ca660 -- BREACH siblings=24
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-history-truncation BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/8d2154301f126590 -- BREACH siblings=24
+FENCE-RUN honest battery42/o_clause.py o_clause-freeze-pair-edited-after BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/3e1252423061ac32 -- BREACH siblings=24
+FENCE-RUN honest battery43/a_url.py a_url-org-slash-registry BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/b5c2680fb83e457e -- BREACH siblings=24
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-uppercase-pair BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/9f74f430cb0df0f5 -- BREACH siblings=24
+FENCE-RUN honest battery43/a_err.py a_err-f2-two-rows-provenance-two-errata BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/3774a102622aba64 -- BREACH siblings=24
+FENCE-RUN honest battery44/u6_long_b.py u6_long_b-registry-80hex BREACH touches=1 calls=426 first=openat:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-kkshb1fr/fx/e417f17c89f2d54c -- BREACH siblings=24
+REFUSAL f2_deep.py READ fixtures=1 admitted=0 hung=0 touches=1
+REFUSAL f1_gitfile.py READ fixtures=1 admitted=0 hung=0 touches=1
+REFUSAL f10_laneinclude.py READ fixtures=1 admitted=0 hung=0 touches=1
+REFUSAL f5_alternates.py READ fixtures=1 admitted=0 hung=0 touches=1
+REFUSAL f6_above.py READ fixtures=1 admitted=0 hung=0 touches=1
+REFUSAL f7_commondir.py READ fixtures=3 admitted=0 hung=0 touches=3
+REFUSAL f4_fifo.py READ fixtures=1 admitted=0 hung=0 touches=1
+REFUSAL f3_abbrev.py READ fixtures=1 admitted=0 hung=0 touches=1
+REFUSAL f8_worktreecfg.py READ fixtures=2 admitted=0 hung=0 touches=2
+REFUSAL f9_nodescribe.py READ fixtures=1 admitted=0 hung=0 touches=1
+REFUSALS total=10 clean=0 leaked=0 read=10 hung=0 build_errors=0
+SEALED total=0 clean=0 leaked=0 read=0 hung=0 build_errors=0
+HONEST fixtures=104 admitted=0 refused=104 read=104 hung=0 build_errors=0
+CALIBRATION advertised=10 contradicted=10
+REASON refusals-not-clean,sealed-total=0<1,honest-not-admitted,contradicted=10
+PREDICATE C1 fail
+ENVELOPE end 02:13:13 exit=1 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

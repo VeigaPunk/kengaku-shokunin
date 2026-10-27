@@ -1,0 +1,14 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/env4 /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/env4 --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/env4/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/a3w1/R45HoCommondir2/driver.py /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/lane /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/h4 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/a3w1/R45HoCommondir2/modules
+ENVELOPE start 02:08:43 cwd=/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB
+LANE /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/lane
+FENCE plans/fixture_fence.py sha256=8537a9e846e7e88b128d3f239c7ed9d3c9bf500e41a1be5b1f2d026951f14794
+FENCE-COPY sha256=8537a9e846e7e88b128d3f239c7ed9d3c9bf500e41a1be5b1f2d026951f14794
+FENCE-RUN g1_cdrel.py g1-cd-rel BREACH opens=0 -- repo/.git/commondir is a store entry the fence cannot prove inert
+FENCE-RUN g2_gitfile.py g2-gitfile-pad BREACH opens=0 -- lane/.git is a file (gitdir redirect), not a directory
+FENCE-RUN g3_wtmeta.py g3-wtmeta-out BREACH opens=0 -- repo/.git/worktrees is a store entry the fence cannot prove inert
+FENCE-RUN g4_cdrel_hidden.py g4-cd-hidden BREACH opens=0 -- repo/.git/modules is a store entry the fence cannot prove inert
+HELDOUT g1_cdrel.py clean fixtures=1 admitted=0 hung=0 opens=0
+HELDOUT g2_gitfile.py clean fixtures=1 admitted=0 hung=0 opens=0
+HELDOUT g3_wtmeta.py clean fixtures=1 admitted=0 hung=0 opens=0
+HELDOUT g4_cdrel_hidden.py clean fixtures=1 admitted=0 hung=0 opens=0
+ENVELOPE end 02:08:49 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

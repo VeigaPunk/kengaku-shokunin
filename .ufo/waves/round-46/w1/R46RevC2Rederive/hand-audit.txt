@@ -1,0 +1,23 @@
+Base: clone of lane at fd4129eb74191cd7cc1cf5a0e6353fd8ce1a6c9f; SOURCES.md diff vs 64ba8385ea10af1b78d367dcb242b92d97062af7 was empty. Frozen anchor_line_check.py sha256: 35d02dc55393bea18787e35cc2827cbab65f2d645b81a3c1946722065a4fdedf.
+
+Inventory command: python3 /fast/scratch/hyaku/kengaku-r46/R46RevC2Rederive/inventory.py /fast/scratch/hyaku/kengaku-r46/R46RevC2Rederive/lane
+Output: evidence files indexed: 578 tracked, 505 distinct digests; header: 11 columns, anchor column 6; rows parsed: 149; total cited rows by ASCII `:N "` reading: 39. The 4 no-matching-capture rows emitted by gate are S093, S103, S104, S110 (S110's displayed sha token is not a full 64-hex digest recognized by the index).
+
+Manual commands/receipt: python3 /fast/scratch/hyaku/kengaku-r46/R46RevC2Rederive/handdump.py /fast/scratch/hyaku/kengaku-r46/R46RevC2Rederive/lane. The script opened digest-named tracked captures, invoked `sed -n Np` for each parsed line quote and `wc -w` for each quoted snippet, and checked the first human-visible range against capture splitlines. Full output in the tool transcript; checked rows are also summarized in the report. Of the 35 captured rows the tool recognized, 26 have no defect; all 8 tool-reported rows agree with manual check; S140 is an additional miss.
+
+Confirmed tool rows (capture-relative paths from gate output):
+S108: :87 quote exists, wc -w 5 vs claimed 6; range 8-90 valid (90 splitlines).
+S149: :18 quote exists, wc -w 4 as claimed; range 1-19 exceeds capture's 18 splitlines.
+S150: :9 quote exists, wc -w 9 vs claimed 8; range 1-9 valid.
+S151: :30 quote exists, wc -w 3 vs claimed 4; range 1-45 exceeds 43 splitlines.
+S152: :15 is blank, quote absent; wc -w 3 vs claimed 4. `Dockerfile:1-16` has no extension so gate's RANGE_RE does not parse it; human range itself contains :15 and file has 20 splitlines.
+S153: :28 is `echo 0 > /logs/verifier/reward.txt`, not cited `echo 1`; actual quote wc -w 4 vs claimed 6; range 1-31 exceeds 29 splitlines.
+S154: :44 is beyond the 33-splitline capture; quote wc -w 5 as claimed; range 1-46 exceeds capture.
+S155: :63 quote exists; wc -w 4 vs claimed 3; range 1-70 exceeds 68 splitlines.
+S140: the row quote `keys = ["0x68e63", ...]` is not a substring of capture line 12 (`keys = ["0x68e63", "0x62571", "0x1f61c", "0xb74a5"]`); literal quoted snippet is 4 words, claimed 9. Gate QUOTE_RE captures only `keys = ["0x68e63` (stops at inner quote before comma), so its line check succeeds on that prefix and no `(9 words)` is adjacent to the match; the row is omitted from defects.
+
+Extra parser gaps found by independent regex probe:
+S112: human range `:57-63` is detached from `verify.sh` after `:49`, so RANGE_RE returns None; :62 and the 57-63 range are valid in the 92-splitline capture. (wc -l=91 because no final LF.)
+S093 also has an unparsed backtick citation `:71 `T) git checkout HEAD -- "$path"`` inside a row already counted cited/UNCAPTURED due :33 and :214.
+
+Row-level false negatives (tool finds no quoted line citation; count=18): S077, S078, S079, S080, S081, S082, S084, S092, S100, S114, S115, S116, S117, S118, S119, S120, S124, S128. S077-S082, S084, S092, S100 and S128 have no full digest token in the anchor; S114/S115-S120/S124 have digest-named captures. The six curly-quoted rows S115-S120 all passed manual line/range/word checks (S115 :46/7 words; S116 :9/17; S117 :16/9; S118 :4/18; S119 :98/12; S120 :7/9). S114 capture sha256 c217d37253c89a71d6cc4d1c14f588c02ce49039cb1118dd3694150cf4c64193; `sed -n 39p` contains the quote and `wc -w` gives 14. S124 capture corpus/evidence/round41/pr245-body.md; `sed -n 11p` contains its quote and `wc -w` gives 14. S128's `body line 3` quote has no sha256 token, so cannot be followed to a retained capture.

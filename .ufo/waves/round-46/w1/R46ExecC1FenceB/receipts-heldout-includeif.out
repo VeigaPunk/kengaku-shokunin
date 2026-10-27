@@ -1,0 +1,28 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/env4 /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/env4 --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/env4/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/includeif_driver.py /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/lane /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/h1 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/a3w1/R45HoIncludeIf
+ENVELOPE start 02:08:25 cwd=/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB
+LANE /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/lane
+FENCE plans/fixture_fence.py sha256=8537a9e846e7e88b128d3f239c7ed9d3c9bf500e41a1be5b1f2d026951f14794
+FENCE-COPY sha256=8537a9e846e7e88b128d3f239c7ed9d3c9bf500e41a1be5b1f2d026951f14794
+FENCE-RUN h1_cr_include.py h1-cr-include-lf BREACH opens=0 -- lane/config carries a carriage return
+FENCE-RUN h1_cr_include.py h1-cr-include-crlf BREACH opens=0 -- lane/config carries a carriage return
+FENCE-RUN h2_includeif_cond.py h2-inclif-onbranch BREACH opens=0 -- lane/config carries a carriage return
+FENCE-RUN h2_includeif_cond.py h2-inclif-onbranch-nomatch BREACH opens=0 -- lane/config carries a carriage return
+FENCE-RUN h2_includeif_cond.py h2-inclif-gitdir-exact BREACH opens=0 -- lane/config carries a carriage return
+FENCE-RUN h2_includeif_cond.py h2-inclif-gitdir-glob BREACH opens=0 -- lane/config carries a carriage return
+FENCE-RUN h2_includeif_cond.py h2-inclif-gitdir-i BREACH opens=0 -- lane/config carries a carriage return
+FENCE-RUN h2_includeif_cond.py h2-inclif-gitdir-star BREACH opens=0 -- lane/config carries a carriage return
+FENCE-RUN h2_includeif_cond.py h2-inclif-gitdir-nomatch BREACH opens=0 -- lane/config carries a carriage return
+FENCE-RUN h2_includeif_cond.py h2-inclif-hasconfig BREACH opens=0 -- lane/config carries a carriage return
+FENCE-RUN h2_includeif_cond.py h2-inclif-onbranch-anchor BREACH opens=0 -- lane/config carries a carriage return
+FENCE-RUN h3_bom_symlink.py h3-bom-include BREACH opens=0 -- lane/config starts with a byte-order mark
+FENCE-RUN h3_bom_symlink.py h3-cr-include-symlink BREACH opens=0 -- lane/.git/inc.cfg is a symlink; the fence cannot prove it stays inside
+FENCE-RUN h3_bom_symlink.py h3-bom-includeif BREACH opens=0 -- lane/config starts with a byte-order mark
+FENCE-RUN h3_bom_symlink.py h3-cr-include-anchor BREACH opens=0 -- lane/config carries a carriage return
+FENCE-RUN h4_controls.py h4-plain-inclif-onbranch BREACH opens=0 -- lane/config carries a [includeif "onbranch:master"] subsection the fence does not admit
+FENCE-RUN h4_controls.py h4-mixedcase-inclif-gitdir BREACH opens=0 -- lane/config carries a [includeif "gitdir:/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/h1/fx/R45HoIncludeIf-h4_control
+FENCE-RUN h4_controls.py h4-plain-inclif-gitdir-anchor BREACH opens=0 -- lane/config carries a [includeif "gitdir:**/lane/.git"] subsection the fence does not admit
+HELDOUT h1_cr_include.py clean fixtures=2 admitted=0 hung=0 opens=0
+HELDOUT h2_includeif_cond.py clean fixtures=9 admitted=0 hung=0 opens=0
+HELDOUT h3_bom_symlink.py clean fixtures=4 admitted=0 hung=0 opens=0
+HELDOUT h4_controls.py clean fixtures=3 admitted=0 hung=0 opens=0
+ENVELOPE end 02:08:29 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

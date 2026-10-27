@@ -1,0 +1,41 @@
+===== R45HoCommondir2/driver.py
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/env /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/env --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/a3w1/R45HoCommondir2/driver.py /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/lane /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/w-cdF /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/a3w1/R45HoCommondir2/modules
+ENVELOPE start 02:09:04 cwd=/home/vgpnk/Projects/shokunin
+LANE /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/lane
+FENCE plans/fixture_fence.py sha256=13e5a4c9e4f91dccb9cc7df2f88a9c1f2b7bfd72963ac4a40996a6c1ce4bd528
+FENCE-COPY sha256=13e5a4c9e4f91dccb9cc7df2f88a9c1f2b7bfd72963ac4a40996a6c1ce4bd528
+FENCE-RUN g1_cdrel.py g1-cd-rel BREACH opens=0 -- repo/.git/commondir is a store/worktree redirect
+FENCE-RUN g2_gitfile.py g2-gitfile-pad BREACH opens=0 -- lane/.git is a file (gitdir redirect), not a directory
+FENCE-RUN g3_wtmeta.py g3-wtmeta-out BREACH opens=0 -- repo/.git/worktrees is linked-worktree/submodule metadata
+FENCE-RUN g4_cdrel_hidden.py g4-cd-hidden BREACH opens=0 -- repo/.git/modules is linked-worktree/submodule metadata
+HELDOUT g1_cdrel.py clean fixtures=1 admitted=0 hung=0 opens=0
+HELDOUT g2_gitfile.py clean fixtures=1 admitted=0 hung=0 opens=0
+HELDOUT g3_wtmeta.py clean fixtures=1 admitted=0 hung=0 opens=0
+HELDOUT g4_cdrel_hidden.py clean fixtures=1 admitted=0 hung=0 opens=0
+ENVELOPE end 02:09:07 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged
+===== R45HoArgvEnv/probe.py
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/env /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/env --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/a3w1/R45HoArgvEnv/probe.py /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/lane /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/w-argvF /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/a3w1/R45HoArgvEnv/argv_env.py
+ENVELOPE start 02:09:10 cwd=/home/vgpnk/Projects/shokunin
+LANE fd4129eb74191cd7cc1cf5a0e6353fd8ce1a6c9f
+RESULT argv-placeholder-lane-escape BREACH opens=0 reason=--lane value '{WORK}/../../outside' is a placeholder, not a path
+RESULT argv-nul-lane BREACH opens=0 reason=argv token carries a NUL byte
+RESULT argv-extra-token BREACH opens=0 reason=order argv is not the contract shape ['--lane', '--claims', '--receipt']
+ENVELOPE end 02:09:13 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged
+===== R45HoConfigKeys/probe.py
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/env /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/env --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/a3w1/R45HoConfigKeys/probe.py /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/lane /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/w-ckF /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/a3w1/R45HoConfigKeys/configkeys.py
+ENVELOPE start 02:09:15 cwd=/home/vgpnk/Projects/shokunin
+FIXTURE config-core-attributes-file-outside /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/w-ckF/fx/R45HoConfigKeys-configkeys/f000
+FENCE ('BREACH', 'lane/.git/config sets core.attributesfile', 0)
+TOOL_CHECK_ATTR rc=0 stdout=marker: hostile: outside stderr=
+ENVELOPE end 02:09:18 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged
+===== R45HoSymlinks/run_probe.py (lane constant -> clone)
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/env /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/env --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/pre/run_probe_lane_clone.py /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/w-linkF
+ENVELOPE start 02:09:20 cwd=/home/vgpnk/Projects/shokunin
+FENCE sha256=13e5a4c9e4f91dccb9cc7df2f88a9c1f2b7bfd72963ac4a40996a6c1ce4bd528
+FENCE-RUN link-objects-symlink-out BREACH opens=0 -- symlink lane/.git/objects -> /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/w-linkF/fx/mods-link_hostiles/outside-objec
+FENCE-RUN link-git-symlink-in BREACH opens=0 -- lane/.git is a symlink, not a git dir
+FENCE-RUN link-claims-symlink-out BREACH opens=0 -- symlink lane/claims.md -> /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/w-linkF/fx/mods-link_hostiles/outside-claims l
+FENCE-RUN link-objects-hardlink-out BREACH opens=0 -- lane/.git/objects/05/6b827f2bdbcacbd8fddc955f4ffc599f5f811c has extra hard links
+FENCE-RUN link-include-chain-in BREACH opens=0 -- lane/.git/config carries a [include] section
+SUMMARY modules=1 fixtures=5 admitted=0 read=0 errors=0
+ENVELOPE end 02:09:23 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

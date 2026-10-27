@@ -1,0 +1,16 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ScribeMistakes/env /fast/scratch/hyaku/kengaku-r46/R46ScribeMistakes/env --bind /fast/scratch/hyaku/kengaku-r46/R46ScribeMistakes/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r46/R46ScribeMistakes/mistakes_probe.py /fast/scratch/hyaku/kengaku-r46/R46ScribeMistakes/work
+ENVELOPE start 02:13:40 cwd=/home/vgpnk/Projects/shokunin
+MISTAKE-LEG log-appendonly red red_fixture=today_log old_heading=0 old_ab=0
+MISTAKE-LEG log-appendonly green green_fixture=log+correction old_heading=1 old_ab=1 diff_cmd=True
+MISTAKE-LEG gate-per-row-quote red red_fixture=round-45.md admit_rows=8 without_quote_and_line=8
+MISTAKE-LEG gate-per-row-quote green green_fixture=two_quoted_rows admit_rows=2 without_quote_and_line=0
+MISTAKE-LEG receipt-names-revision red red_fixture=round-45 receipts measure-final.txt=0 a3-tip-c1.txt=0 a3-tip-c2.txt=0
+MISTAKE-LEG receipt-names-revision green green_fixture=one_rev_line rev_lines=1
+MISTAKE-LEG claims-amendment-named red red_fixture=round-45_claims post_freeze_commits=2 unnamed=2 first=9271dda
+MISTAKE-LEG claims-amendment-named green green_fixture=claims+naming sentence unnamed=0
+MISTAKE-LEG seat-report-present red red_fixture=a3w1 seats=34 without_report=2 first=R45MutC1Instrument2
+MISTAKE-LEG seat-report-present green green_fixture=two_reports without_report=0
+MISTAKE-LEG teaches-quote-verbatim red red_fixture=S154 teaches_quote='exists and contains the correct password among guesses' in_capture=False capture_lines=33
+MISTAKE-LEG teaches-quote-verbatim green green_fixture=S154_superseding_quote in_capture=True
+MISTAKE-LEGS total=6 red_ok=6 green_ok=6
+ENVELOPE end 02:13:43 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

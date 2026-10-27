@@ -1,0 +1,12 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC3Spec/env /fast/scratch/hyaku/kengaku-r46/R46ExecC3Spec/env --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC3Spec/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/pkg_gate.py package --root /home/vgpnk/Projects/shokunin/kengaku-shokunin --spec /fast/scratch/hyaku/kengaku-r46/R46ExecC3Spec/pkg-spec-r46.json
+ENVELOPE start 02:08:08 cwd=/fast/scratch/hyaku/kengaku-r46/R46ExecC3Spec
+P1 DEFECT pinned=2 mismatched=['plans/polyglot_c_py_probe.py']
+P2 DEFECT receipt unreadable: corpus/evidence/round46/polyglot-c-py-probe.txt
+P3 DEFECT no '## Located quotes' section
+P4 DEFECT no parsed quote
+P5 DEFECT capture manifest absent: corpus/evidence/round46/tb2-polyglot-c-py/SHA256SUMS
+P6 DEFECT rows=7 bad=7 first=S166: rows=0
+P7 DEFECT entry unreadable
+P8 DEFECT index_rows=52 knowledge_files=52 bad=2 first=index rows for knowledge/tb2-polyglot-c-py-grader.md=0
+defects=8
+ENVELOPE end 02:08:12 exit=1 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

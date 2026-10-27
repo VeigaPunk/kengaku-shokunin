@@ -1,0 +1,26 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/env /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/env --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2.py /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/lane /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r
+ENVELOPE start 02:09:58 cwd=/home/vgpnk/Projects/shokunin
+VARIANT D-usr-only rc=0 err='' offenders=0
+VARIANT E-bind-d-true rc=0 err='' offenders=3
+    5     readlink("/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r", 0x7ffd17a6e930, 1023) = -1 EINVAL (Invalid argument)
+    5     readlink("/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/fx", 0x7ffd17a6e930, 1023) = -1 EINVAL (Invalid argument)
+    5     readlink("/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/fx/mod", 0x7ffd17a6e930, 1023) = -1 EINVAL (Invalid argument)
+VARIANT F-bind-d-git rc=128 err='fatal: not a git repository (or any parent up to mount point /)\nStopping at filesystem boundary (GIT' offenders=3
+    5     readlink("/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r", 0x7ffdbecadf30, 1023) = -1 EINVAL (Invalid argument)
+    5     readlink("/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/fx", 0x7ffdbecadf30, 1023) = -1 EINVAL (Invalid argument)
+    5     readlink("/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/fx/mod", 0x7ffdbecadf30, 1023) = -1 EINVAL (Invalid argument)
+VARIANT G-bind-d-abs-src-git rc=128 err='fatal: not a git repository (or any parent up to mount point /)\nStopping at filesystem boundary (GIT' offenders=3
+    5     readlink("/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r", 0x7ffc9964dc10, 1023) = -1 EINVAL (Invalid argument)
+    5     readlink("/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/fx", 0x7ffc9964dc10, 1023) = -1 EINVAL (Invalid argument)
+    5     readlink("/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/fx/mod", 0x7ffc9964dc10, 1023) = -1 EINVAL (Invalid argument)
+VARIANT H-plain-git rc=128 err='fatal: not a git repository (or any parent up to mount point /)\nStopping at filesystem boundary (GIT' offenders=9
+    4     newfstatat(AT_FDCWD</fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/fx/mod/f000>, "/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/fx/mod", {st_mode=S_IFDIR|0755, st_size=18, ...}, 0) 
+    4     newfstatat(AT_FDCWD</fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/fx/mod/f000>, "/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/fx/mod/.git", 0x7ffcd8d4ab30, 0) = -1 ENOENT (No such
+    4     newfstatat(AT_FDCWD</fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/fx/mod/f000>, "/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/fx/mod/HEAD", 0x7ffcd8d4aa40, AT_SYMLINK_NOFOLLOW) = 
+    4     newfstatat(AT_FDCWD</fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/fx/mod/f000>, "/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/fx", {st_mode=S_IFDIR|0755, st_size=17, ...}, 0) = 0
+    4     newfstatat(AT_FDCWD</fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/fx/mod/f000>, "/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/fx/.git", 0x7ffcd8d4ab30, 0) = -1 ENOENT (No such fil
+    4     newfstatat(AT_FDCWD</fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/fx/mod/f000>, "/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/fx/HEAD", 0x7ffcd8d4aa40, AT_SYMLINK_NOFOLLOW) = -1 E
+    4     newfstatat(AT_FDCWD</fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/fx/mod/f000>, "/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r", {st_mode=S_IFDIR|0755, st_size=52, ...}, 0) = 0
+    4     newfstatat(AT_FDCWD</fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/fx/mod/f000>, "/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/.git", 0x7ffcd8d4ab30, 0) = -1 ENOENT (No such file o
+    4     newfstatat(AT_FDCWD</fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/fx/mod/f000>, "/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/sv2r/HEAD", 0x7ffcd8d4aa40, AT_SYMLINK_NOFOLLOW) = -1 ENOE
+ENVELOPE end 02:10:02 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

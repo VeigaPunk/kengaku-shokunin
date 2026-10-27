@@ -1,0 +1,61 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC3Capture/env /fast/scratch/hyaku/kengaku-r46/R46ExecC3Capture/env --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC3Capture/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /fast/scratch/hyaku/kengaku-r46/R46ExecC3Capture/capture.sh /fast/scratch/hyaku/kengaku-r46/R46ExecC3Capture
+ENVELOPE start 02:05:16 cwd=/fast/scratch/hyaku/kengaku-r46/R46ExecC3Capture
+MODE fetch1 pin=2fd12b88aafdd04a52c298e3940bcb189f9766d6 base=https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/polyglot-c-py
+FETCH1 ok .gitignore -> gitignore
+FETCH1 ok README.md -> README.md
+FETCH1 ok environment/Dockerfile -> Dockerfile
+FETCH1 ok instruction.md -> instruction.md
+FETCH1 ok solution/solve.sh -> solve.sh
+FETCH1 ok task.toml -> task.toml
+FETCH1 ok tests/test.sh -> test.sh
+FETCH1 ok tests/test_outputs.py -> test_outputs.py
+MODE refetch
+REFETCH identical gitignore
+REFETCH identical README.md
+REFETCH identical Dockerfile
+REFETCH identical instruction.md
+REFETCH identical solve.sh
+REFETCH identical task.toml
+REFETCH identical test.sh
+REFETCH identical test_outputs.py
+REFETCH total=8 identical=8
+MODE head base=https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/HEAD/polyglot-c-py
+HEAD same .gitignore
+HEAD same README.md
+HEAD same environment/Dockerfile
+HEAD same instruction.md
+HEAD same solution/solve.sh
+HEAD same task.toml
+HEAD same tests/test.sh
+HEAD same tests/test_outputs.py
+HEAD drift_files=0 of 8
+MODE gitblob (promisor fetch from the blobless clone)
+GITBLOB match .gitignore == gitignore
+GITBLOB match README.md == README.md
+GITBLOB match environment/Dockerfile == Dockerfile
+GITBLOB match instruction.md == instruction.md
+GITBLOB match solution/solve.sh == solve.sh
+GITBLOB match task.toml == task.toml
+GITBLOB match tests/test.sh == test.sh
+GITBLOB match tests/test_outputs.py == test_outputs.py
+GITBLOB matched=8/8
+MODE table
+ROW .gitignore gitignore bytes=177 lines=23 sha256=9a8dd8d9b6c3adb8e9e56328df27deef859a3e98fffc9b8133c8b22207c25953
+ROW README.md README.md bytes=1302 lines=23 sha256=591e27f9c71f12f6d0f0dc506970850737f951bfdb3f582196e89bc752e92881
+ROW environment/Dockerfile Dockerfile bytes=195 lines=6 sha256=2eb537f29d2bc4ab30e1b35ff352578437a08b90f91ef6360ee28d8195d5098a
+ROW instruction.md instruction.md bytes=339 lines=9 sha256=a57c0c0e1232113113cd29a154ea7e0ac9ea45e4aedc16958fbc6bc753a4ef96
+ROW solution/solve.sh solve.sh bytes=1386 lines=57 sha256=e768453a194037b0517803fa0d99dbd3b6f820dead842e0b6161019b33456bf0
+ROW task.toml task.toml bytes=850 lines=41 sha256=d31b9f60c47eed0d79e10d3be8fd56a23e50b3986606e3f2546863d44ac9a9ea
+ROW tests/test.sh test.sh bytes=608 lines=29 sha256=4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334
+ROW tests/test_outputs.py test_outputs.py bytes=1564 lines=46 sha256=b94a7a9882decd8114835bdf52b5bc42fc78e9fe67ecad9bd19050b11781ddec
+MODE sums
+9a8dd8d9b6c3adb8e9e56328df27deef859a3e98fffc9b8133c8b22207c25953  gitignore
+591e27f9c71f12f6d0f0dc506970850737f951bfdb3f582196e89bc752e92881  README.md
+2eb537f29d2bc4ab30e1b35ff352578437a08b90f91ef6360ee28d8195d5098a  Dockerfile
+a57c0c0e1232113113cd29a154ea7e0ac9ea45e4aedc16958fbc6bc753a4ef96  instruction.md
+e768453a194037b0517803fa0d99dbd3b6f820dead842e0b6161019b33456bf0  solve.sh
+d31b9f60c47eed0d79e10d3be8fd56a23e50b3986606e3f2546863d44ac9a9ea  task.toml
+4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334  test.sh
+b94a7a9882decd8114835bdf52b5bc42fc78e9fe67ecad9bd19050b11781ddec  test_outputs.py
+RESULT fail=0 files=8
+ENVELOPE end 02:05:23 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

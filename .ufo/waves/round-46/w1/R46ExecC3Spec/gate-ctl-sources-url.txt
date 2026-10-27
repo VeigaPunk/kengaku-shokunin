@@ -1,0 +1,13 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC3Spec/env /fast/scratch/hyaku/kengaku-r46/R46ExecC3Spec/env --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC3Spec/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/pkg_gate.py package --root /fast/scratch/hyaku/kengaku-r46/R46ExecC3Spec/sim --spec /fast/scratch/hyaku/kengaku-r46/R46ExecC3Spec/sim/plans/pkg-spec-r46.json --rerun
+ENVELOPE start 02:10:36 cwd=/home/vgpnk/Projects/shokunin
+P1 ok pinned=2 mismatched=0
+P2 ok receipt_sha256=pinned
+P3 ok rows=15 distinct_quotes=15 distinct_lines=15 out_of_word_range=0
+P4 ok checked=15 bad=0 first=0
+P5 ok manifest_entries=8 bad=0 first=0
+P6 DEFECT rows=7 bad=1 first=S167: url not the pinned raw path
+P7 ok source_lines=7 bad=0 first=0
+P8 ok index_rows=1 knowledge_files=1 bad=0 first=0
+P10 ok probe_rerun=byte-equal bytes=67
+defects=1
+ENVELOPE end 02:10:40 exit=1 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

@@ -1,0 +1,10 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/env4 /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/env4 --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/env4/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/symlinks_probe.py /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/h2
+ENVELOPE start 02:08:31 cwd=/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB
+FENCE sha256=8537a9e846e7e88b128d3f239c7ed9d3c9bf500e41a1be5b1f2d026951f14794
+FENCE-RUN link-objects-symlink-out BREACH opens=0 -- lane/.git/objects is a symlink; the fence cannot prove it stays inside
+FENCE-RUN link-git-symlink-in BREACH opens=0 -- lane/.git is a symlink; the fence cannot prove it stays inside
+FENCE-RUN link-claims-symlink-out BREACH opens=0 -- lane/claims.md is a symlink; the fence cannot prove it stays inside
+FENCE-RUN link-objects-hardlink-out BREACH opens=0 -- lane/.git/objects/05/6b827f2bdbcacbd8fddc955f4ffc599f5f811c has 2 hard links; the fence cannot prove the inode has none 
+FENCE-RUN link-include-chain-in BREACH opens=0 -- inc1 is a symlink; the fence cannot prove it stays inside
+SUMMARY modules=1 fixtures=5 admitted=0 read=0 errors=0
+ENVELOPE end 02:08:35 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

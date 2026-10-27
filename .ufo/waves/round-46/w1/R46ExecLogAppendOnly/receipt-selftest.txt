@@ -1,0 +1,12 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecLogAppendOnly/env /fast/scratch/hyaku/kengaku-r46/R46ExecLogAppendOnly/env --bind /fast/scratch/hyaku/kengaku-r46/R46ExecLogAppendOnly/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w1/R46ExecLogAppendOnly/plans/log_appendonly.py --selftest
+ENVELOPE start 02:13:41 cwd=/home/vgpnk/Projects/shokunin
+SELFTEST GREEN rc=0 want_rc=0 ok :: LOG-APPENDONLY commits=2 violations=0
+SELFTEST RED-EDIT rc=1 want_rc=1 ok :: LOG-APPENDONLY commits=2 violations=1
+SELFTEST RED-DELETE rc=1 want_rc=1 ok :: LOG-APPENDONLY commits=2 violations=1
+SELFTEST RED-MOVE rc=1 want_rc=1 ok :: LOG-APPENDONLY commits=2 violations=1
+SELFTEST SINCE-FULL rc=1 want_rc=1 ok :: LOG-APPENDONLY commits=3 violations=1
+SELFTEST SINCE-C1 rc=1 want_rc=1 ok :: LOG-APPENDONLY commits=2 violations=1
+SELFTEST SINCE-C2 rc=0 want_rc=0 ok :: LOG-APPENDONLY commits=1 violations=0
+SELFTEST BAD-SINCE rc=2 want_rc=2 ok :: SETUP --since side: not an ancestor of HEAD
+SELFTEST pass
+ENVELOPE end 02:13:44 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

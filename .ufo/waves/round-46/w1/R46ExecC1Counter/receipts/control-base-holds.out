@@ -1,0 +1,158 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/env /fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/env --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/lane/plans/round46_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/lane --work /fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w --jobs 8 --refusals /fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/holds --sealed /fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/emptysealed
+ENVELOPE start 02:10:49 cwd=/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter
+PINS total=33 mismatched=0
+FENCE source=/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/lane/plans/fixture_fence.py sha256=ac65c03293084d7b25648740780b97e18f668e4fd9f08f947c09da72bce5eda6
+LAYOUT refusals=/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/holds sealed=/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/emptysealed pad=24 jobs=8
+COPY-CHECK skipped (refusals dir overridden for testing)
+MODULES refusal total=10
+MODULES sealed total=0 (directory absent or empty)
+MODULES honest total=22
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-history-truncation ADMIT touches=0 calls=802 -- ADMIT
+FENCE-RUN refusal holds/h2_includeif_cond.py h2-inclif-onbranch-anchor ADMIT touches=6 calls=844 first=access:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-33pp9nv3/fx/f8530e20ad127faa/side-h2-onbranch-anchor.cfg -- ADMIT
+FENCE-RUN honest battery44/u9_worktree_a.py u9_worktree_a-registry-wrong-capture ADMIT touches=0 calls=824 -- ADMIT
+FENCE-RUN honest battery43/o_alt.py o_alt-late-case-blob ADMIT touches=0 calls=1075 -- ADMIT
+FENCE-RUN refusal holds/h2_includeif_cond.py h2-inclif-gitdir-glob ADMIT touches=14 calls=1085 first=access:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-33pp9nv3/fx/f8530e20ad127faa/side-h2-gitdir-glob.cfg -- ADMIT
+FENCE-RUN honest battery43/a_err.py a_err-f1-repaired-row-historical-erratum ADMIT touches=0 calls=821 -- ADMIT
+FENCE-RUN honest battery44/u5_short_a.py u5_short_a-index-staged ADMIT touches=0 calls=830 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-longrow-copied ADMIT touches=0 calls=810 -- ADMIT
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-manifest-96 ADMIT touches=0 calls=804 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-lessons ADMIT touches=0 calls=834 -- ADMIT
+FENCE-RUN refusal holds/h2_includeif_cond.py h2-inclif-gitdir-nomatch ADMIT touches=0 calls=1071 -- ADMIT
+FENCE-RUN honest battery44/u6_long_b.py u6_long_b-provenance-129hex ADMIT touches=0 calls=803 -- ADMIT
+FENCE-RUN honest battery42/o_scan.py o_scan-xo6-echoed-pass-row ADMIT touches=0 calls=1063 -- ADMIT
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-lane-path-manifest ADMIT touches=0 calls=804 -- ADMIT
+FENCE-RUN honest battery43/o_alt.py o_alt-bare-ok-late ADMIT touches=0 calls=1085 -- ADMIT
+FENCE-RUN honest battery43/a_url.py a_url-short-commit-shadow ADMIT touches=0 calls=821 -- ADMIT
+FENCE-RUN honest battery42/o_scan.py o_scan-xo7-timeout-rows ADMIT touches=0 calls=1063 -- ADMIT
+FENCE-RUN honest battery43/o_alt.py o_alt-prefixed-ok-blob ADMIT touches=0 calls=1083 -- ADMIT
+FENCE-RUN honest battery44/u6_long_b.py u6_long_b-index-pair-96hex ADMIT touches=0 calls=814 -- ADMIT
+FENCE-RUN refusal holds/h2_includeif_cond.py h2-inclif-onbranch-nomatch ADMIT touches=0 calls=1087 -- ADMIT
+FENCE-RUN honest battery42/o_scan.py o_scan-xo6-pass-verdict-row ADMIT touches=0 calls=1063 -- ADMIT
+FENCE-RUN honest battery43/a_url.py a_url-org-slash-registry ADMIT touches=0 calls=827 -- ADMIT
+FENCE-RUN refusal holds/h2_includeif_cond.py h2-inclif-gitdir-i ADMIT touches=14 calls=1085 first=access:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-33pp9nv3/fx/f8530e20ad127faa/side-h2-gitdir-i.cfg -- ADMIT
+FENCE-RUN refusal holds/h1_cr_include.py h1-cr-include-lf ADMIT touches=14 calls=1078 first=access:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-33pp9nv3/fx/6f6981dbe3bfa7df/side-h1-cr-lf.cfg -- ADMIT
+FENCE-RUN honest battery42/a_row.py a_row-x15-sibling-digest ADMIT touches=0 calls=825 -- ADMIT
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-uppercase-pair ADMIT touches=0 calls=1038 -- ADMIT
+FENCE-RUN refusal holds/argv_env.py argv-extra-token BREACH touches=0 calls=491 -- BREACH order argv is not the contract shape ['--lane', '--claims', '--receipt']
+FENCE-RUN honest battery43/o_excuse.py o_excuse-gate-prefix-late ADMIT touches=0 calls=1054 -- ADMIT
+FENCE-RUN refusal holds/link_hostiles.py link-objects-hardlink-out ADMIT touches=0 calls=1029 -- ADMIT
+FENCE-RUN refusal holds/g1_cdrel.py g1-cd-rel BREACH touches=0 calls=574 -- BREACH repo/.git/commondir present (store redirect)
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-round-xx-token ADMIT touches=0 calls=1065 -- ADMIT
+FENCE-RUN refusal holds/h3_bom_symlink.py h3-cr-include-anchor ADMIT touches=6 calls=829 first=access:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-33pp9nv3/fx/16655a21936b359c/side-h3-cr-anchor.cfg -- ADMIT
+FENCE-RUN honest battery43/a_url.py a_url-org-slash-single ADMIT touches=0 calls=816 -- ADMIT
+FENCE-RUN honest battery42/o_clause.py o_clause-freeze-pair-edited-after ADMIT touches=0 calls=1067 -- ADMIT
+FENCE-RUN refusal holds/g4_cdrel_hidden.py g4-cd-hidden ADMIT touches=51 calls=1496 first=access:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-33pp9nv3/fx/a13ad127762397af/g4-out/.git/objects -- ADMIT
+FENCE-RUN refusal holds/h2_includeif_cond.py h2-inclif-gitdir-exact ADMIT touches=14 calls=1085 first=access:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-33pp9nv3/fx/f8530e20ad127faa/side-h2-gitdir-exact.cfg -- ADMIT
+FENCE-RUN honest battery42/a_row.py a_row-x13-url-staged ADMIT touches=0 calls=822 -- ADMIT
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-registry-65 ADMIT touches=0 calls=808 -- ADMIT
+FENCE-RUN honest battery44/u7_twin_a.py u7_twin_a-provenance-table ADMIT touches=0 calls=803 -- ADMIT
+FENCE-RUN honest battery43/o_alt.py o_alt-two-echo-blobs ADMIT touches=0 calls=1085 -- ADMIT
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-canonical-control ADMIT touches=0 calls=1088 -- ADMIT
+FENCE-RUN honest battery43/o_scan.py o_scan-n5c-case-third-commit ADMIT touches=0 calls=1051 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-two ADMIT touches=0 calls=826 -- ADMIT
+FENCE-RUN honest battery42/a_row.py a_row-x15-manifest-sibling ADMIT touches=0 calls=827 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-longrow-multicap ADMIT touches=0 calls=827 -- ADMIT
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-underscore-name ADMIT touches=0 calls=1051 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-slug-manifest ADMIT touches=0 calls=813 -- ADMIT
+FENCE-RUN refusal holds/link_hostiles.py link-git-symlink-in BREACH touches=0 calls=533 -- BREACH lane/.git/.git is a symlink
+FENCE-RUN honest battery43/a_url.py a_url-short-commit-pair ADMIT touches=0 calls=823 -- ADMIT
+FENCE-RUN refusal holds/h3_bom_symlink.py h3-bom-include ADMIT touches=14 calls=1078 first=access:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-33pp9nv3/fx/16655a21936b359c/side-h3-bom-inc.cfg -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-short ADMIT touches=0 calls=818 -- ADMIT
+FENCE-RUN honest battery42/a_class.py a_class-x14-two-errata ADMIT touches=0 calls=829 -- ADMIT
+FENCE-RUN honest battery42/a_class.py a_class-x14-uppercase-token ADMIT touches=0 calls=822 -- ADMIT
+FENCE-RUN honest battery44/u7_twin_a.py u7_twin_a-rowpath-registry ADMIT touches=0 calls=815 -- ADMIT
+FENCE-RUN honest battery43/o_scan.py o_scan-n22a-gate-only ADMIT touches=0 calls=1049 -- ADMIT
+FENCE-RUN refusal holds/h2_includeif_cond.py h2-inclif-gitdir-star ADMIT touches=14 calls=1085 first=access:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-33pp9nv3/fx/f8530e20ad127faa/side-h2-gitdir-star.cfg -- ADMIT
+FENCE-RUN honest battery42/a_route.py a_route-x3-blob-url ADMIT touches=0 calls=823 -- ADMIT
+FENCE-RUN honest battery44/u9_worktree_b.py u9_worktree_b-erratum-retargeted-history ADMIT touches=0 calls=808 -- ADMIT
+FENCE-RUN honest battery42/a_route.py a_route-x1-provenance-table ADMIT touches=0 calls=818 -- ADMIT
+FENCE-RUN refusal holds/link_hostiles.py link-claims-symlink-out BREACH touches=2 calls=525 first=readlink:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-33pp9nv3/fx/b00c90fc9e1c65db/outside-claims -- BREACH --claims value 'lane/claims.md' resolves outside the fixture
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-history-200 ADMIT touches=0 calls=802 -- ADMIT
+FENCE-RUN honest battery43/o_scan.py o_scan-n22b-echoed-defect ADMIT touches=0 calls=1049 -- ADMIT
+FENCE-RUN refusal holds/h3_bom_symlink.py h3-bom-includeif ADMIT touches=10 calls=1097 first=access:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-33pp9nv3/fx/16655a21936b359c/side-h3-bom-inclif.cfg -- ADMIT
+FENCE-RUN honest battery43/a_row.py a_row-na1-tail12 ADMIT touches=0 calls=818 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-slug-blob ADMIT touches=0 calls=832 -- ADMIT
+FENCE-RUN honest battery43/a_err.py a_err-f3-stale-token-sibling-capture ADMIT touches=0 calls=821 -- ADMIT
+FENCE-RUN honest battery43/o_alt.py o_alt-inplace-gate-rewrite ADMIT touches=0 calls=1075 -- ADMIT
+FENCE-RUN refusal holds/configkeys.py config-core-attributes-file-outside ADMIT touches=0 calls=1064 -- ADMIT
+FENCE-RUN honest battery44/u5_short_a.py u5_short_a-manifest-registry ADMIT touches=0 calls=832 -- ADMIT
+FENCE-RUN honest battery42/o_scan.py o_scan-xo7-skipped-row-r38 ADMIT touches=0 calls=1063 -- ADMIT
+FENCE-RUN honest battery44/u7_twin_b.py u7_twin_b-prov-twin ADMIT touches=0 calls=818 -- ADMIT
+FENCE-RUN honest battery42/a_class.py a_class-x7-provenance-row ADMIT touches=0 calls=819 -- ADMIT
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-provenance-128 ADMIT touches=0 calls=804 -- ADMIT
+FENCE-RUN honest battery42/a_route.py a_route-x12-slashless-toml ADMIT touches=0 calls=818 -- ADMIT
+FENCE-RUN honest battery44/u5_short_a.py u5_short_a-abbrev-neighbour ADMIT touches=0 calls=814 -- ADMIT
+FENCE-RUN honest battery44/u7_twin_a.py u7_twin_a-url-two-tasks ADMIT touches=0 calls=823 -- ADMIT
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-nested-uppercase ADMIT touches=0 calls=1070 -- ADMIT
+FENCE-RUN honest battery44/u9_worktree_b.py u9_worktree_b-erratum-completed-in-place ADMIT touches=0 calls=804 -- ADMIT
+FENCE-RUN honest battery44/u9_worktree_b.py u9_worktree_b-registry-erratum-appended ADMIT touches=0 calls=806 -- ADMIT
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-draft-suffix ADMIT touches=0 calls=1092 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-longrow-late ADMIT touches=0 calls=811 -- ADMIT
+FENCE-RUN honest battery43/o_scan.py o_scan-n5b-amended-claims ADMIT touches=0 calls=1051 -- ADMIT
+FENCE-RUN honest battery42/a_row.py a_row-x13-staged-capture ADMIT touches=0 calls=813 -- ADMIT
+FENCE-RUN refusal holds/g3_wtmeta.py g3-wtmeta-out ADMIT touches=0 calls=1064 -- ADMIT
+FENCE-RUN honest battery42/a_class.py a_class-x7-fabricated-token ADMIT touches=0 calls=817 -- ADMIT
+FENCE-RUN honest battery43/o_excuse.py o_excuse-echo-freeze-claims ADMIT touches=0 calls=1056 -- ADMIT
+FENCE-RUN honest battery42/a_row.py a_row-x9-short-no-token ADMIT touches=0 calls=811 -- ADMIT
+FENCE-RUN honest battery42/a_class.py a_class-x6-stale-manifest ADMIT touches=0 calls=828 -- ADMIT
+FENCE-RUN honest battery42/a_route.py a_route-x3-provenance-url ADMIT touches=0 calls=816 -- ADMIT
+FENCE-RUN honest battery42/o_clause.py o_clause-freeze-single ADMIT touches=0 calls=1063 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-sibling ADMIT touches=0 calls=839 -- ADMIT
+FENCE-RUN honest battery43/a_err.py a_err-f2-two-rows-provenance-two-errata ADMIT touches=0 calls=827 -- ADMIT
+FENCE-RUN honest battery43/a_err.py a_err-f6-provenance-bound-unknown-stale ADMIT touches=0 calls=821 -- ADMIT
+FENCE-RUN refusal holds/h2_includeif_cond.py h2-inclif-hasconfig ADMIT touches=0 calls=1064 -- ADMIT
+FENCE-RUN honest battery43/a_err.py a_err-f4-manifest-only-second-capture ADMIT touches=0 calls=821 -- ADMIT
+FENCE-RUN honest battery43/o_scan.py o_scan-n5a-late-gate-file ADMIT touches=0 calls=1053 -- ADMIT
+FENCE-RUN honest battery42/a_route.py a_route-x12-two-tomls ADMIT touches=0 calls=825 -- ADMIT
+FENCE-RUN refusal holds/link_hostiles.py link-include-chain-in BREACH touches=0 calls=615 -- BREACH lane/.git/config carries an include
+FENCE-RUN refusal holds/link_hostiles.py link-objects-symlink-out ADMIT touches=0 calls=1029 -- ADMIT
+FENCE-RUN honest battery42/o_clause.py o_clause-receipt-withdrawn ADMIT touches=0 calls=1065 -- ADMIT
+FENCE-RUN honest battery44/u6_long_b.py u6_long_b-registry-80hex ADMIT touches=0 calls=809 -- ADMIT
+FENCE-RUN honest battery43/a_err.py a_err-f5-row-carrying-both-tokens ADMIT touches=0 calls=821 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-manifest ADMIT touches=0 calls=818 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-slug-deepest ADMIT touches=0 calls=824 -- ADMIT
+FENCE-RUN refusal holds/h3_bom_symlink.py h3-cr-include-symlink ADMIT touches=0 calls=1078 -- ADMIT
+FENCE-RUN honest battery43/a_row.py a_row-na1-wide20 ADMIT touches=0 calls=814 -- ADMIT
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-registry-url-task ADMIT touches=0 calls=813 -- ADMIT
+FENCE-RUN refusal holds/argv_env.py argv-nul-lane ERROR touches=0 calls=501 -- HARNESS-ERROR ValueError: lstat: embedded null character in path
+FENCE-RUN honest battery44/u7_twin_b.py u7_twin_b-mixed-trio ADMIT touches=0 calls=837 -- ADMIT
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-index-ref-staged ADMIT touches=0 calls=818 -- ADMIT
+FENCE-RUN honest battery42/a_class.py a_class-x6-sibling-digest ADMIT touches=0 calls=822 -- ADMIT
+FENCE-RUN honest battery42/a_route.py a_route-x1-two-row-registry ADMIT touches=0 calls=823 -- ADMIT
+FENCE-RUN honest battery42/o_scan.py o_scan-xo5-post-receipt-verdicts ADMIT touches=0 calls=1067 -- ADMIT
+FENCE-RUN honest battery42/o_scan.py o_scan-xo5-amended-claims-blob ADMIT touches=0 calls=1063 -- ADMIT
+FENCE-RUN honest battery42/o_clause.py o_clause-receipt-side-line ADMIT touches=0 calls=1058 -- ADMIT
+FENCE-RUN refusal holds/g2_gitfile.py g2-gitfile-pad BREACH touches=0 calls=538 -- BREACH lane/.git/.git is a file (gitdir redirect), not a directory
+FENCE-RUN refusal holds/h2_includeif_cond.py h2-inclif-onbranch ADMIT touches=10 calls=1097 first=access:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-33pp9nv3/fx/f8530e20ad127faa/side-h2-onbranch.cfg -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-shorturl-sibling ADMIT touches=0 calls=813 -- ADMIT
+FENCE-RUN honest battery42/a_row.py a_row-x9-registry-short-valid ADMIT touches=0 calls=825 -- ADMIT
+FENCE-RUN honest battery43/o_excuse.py o_excuse-bare-excused ADMIT touches=0 calls=1049 -- ADMIT
+FENCE-RUN honest battery43/o_scan.py o_scan-n22c-indented-gate ADMIT touches=0 calls=1051 -- ADMIT
+FENCE-RUN honest battery44/u9_worktree_a.py u9_worktree_a-history-abbrev ADMIT touches=0 calls=820 -- ADMIT
+FENCE-RUN honest battery43/a_row.py a_row-na1-mid13 ADMIT touches=0 calls=826 -- ADMIT
+FENCE-RUN honest battery43/o_alt.py o_alt-fenced-echo ADMIT touches=0 calls=1075 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-shorturl-samedir ADMIT touches=0 calls=820 -- ADMIT
+FENCE-RUN honest battery42/o_clause.py o_clause-clean-order ADMIT touches=0 calls=1063 -- ADMIT
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-subdir-nohyphen ADMIT touches=0 calls=1075 -- ADMIT
+FENCE-RUN honest battery44/u7_twin_b.py u7_twin_b-url-trio-identical ADMIT touches=0 calls=837 -- ADMIT
+FENCE-RUN refusal holds/argv_env.py argv-placeholder-lane-escape BREACH touches=0 calls=550 -- BREACH --lane resolves outside the fixture
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-registry-suffix ADMIT touches=0 calls=1079 -- ADMIT
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-upper ADMIT touches=0 calls=830 -- ADMIT
+FENCE-RUN refusal holds/h1_cr_include.py h1-cr-include-crlf ADMIT touches=14 calls=1078 first=access:/fast/scratch/hyaku/kengaku-r46/R46ExecC1Counter/w/k46-c1-33pp9nv3/fx/6f6981dbe3bfa7df/side-h1-cr-crlf.cfg -- ADMIT
+REFUSAL argv_env.py LEAKED fixtures=3 admitted=1 hung=0 touches=0
+REFUSAL h2_includeif_cond.py LEAKED fixtures=9 admitted=9 hung=0 touches=72
+REFUSAL configkeys.py LEAKED fixtures=1 admitted=1 hung=0 touches=0
+REFUSAL h1_cr_include.py LEAKED fixtures=2 admitted=2 hung=0 touches=28
+REFUSAL g2_gitfile.py clean fixtures=1 admitted=0 hung=0 touches=0
+REFUSAL link_hostiles.py LEAKED fixtures=5 admitted=2 hung=0 touches=2
+REFUSAL g4_cdrel_hidden.py LEAKED fixtures=1 admitted=1 hung=0 touches=51
+REFUSAL h3_bom_symlink.py LEAKED fixtures=4 admitted=4 hung=0 touches=30
+REFUSAL g1_cdrel.py clean fixtures=1 admitted=0 hung=0 touches=0
+REFUSAL g3_wtmeta.py LEAKED fixtures=1 admitted=1 hung=0 touches=0
+REFUSALS total=10 clean=2 leaked=8 read=0 hung=0 build_errors=0
+SEALED total=0 clean=0 leaked=0 read=0 hung=0 build_errors=0
+HONEST fixtures=104 admitted=104 refused=0 read=0 hung=0 build_errors=0
+CALIBRATION advertised=10 contradicted=8
+REASON refusals-not-clean,sealed-total=0<1,contradicted=8
+PREDICATE C1 fail
+ENVELOPE end 02:11:07 exit=1 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

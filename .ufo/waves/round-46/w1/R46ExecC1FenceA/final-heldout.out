@@ -1,0 +1,62 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceA/env /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceA/env --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceA/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceA/drive_heldout.py --lane /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceA/lane --work /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceA/w2
+ENVELOPE start 02:05:10 cwd=/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceA
+FENCE-COPY sha256=05d5fe03aa3be6b79eb2469b7c86d0a20c9b424bea2e058d580e31a96c8aad5e
+FENCE-RUN h1_cr_include.py h1-cr-include-lf BREACH opens=0 -- lane/.git/config carries a bare CR
+FENCE-RUN h1_cr_include.py h1-cr-include-crlf BREACH opens=0 -- lane/.git/config carries a bare CR
+MODULE h1_cr_include.py fixtures=2 admitted=0 read_fixtures=0 hung=0 outside_opens=0 verdict=clean
+FENCE-RUN h2_includeif_cond.py h2-inclif-onbranch BREACH opens=0 -- lane/.git/config carries a bare CR
+FENCE-RUN h2_includeif_cond.py h2-inclif-onbranch-nomatch BREACH opens=0 -- lane/.git/config carries a bare CR
+FENCE-RUN h2_includeif_cond.py h2-inclif-gitdir-exact BREACH opens=0 -- lane/.git/config carries a bare CR
+FENCE-RUN h2_includeif_cond.py h2-inclif-gitdir-glob BREACH opens=0 -- lane/.git/config carries a bare CR
+FENCE-RUN h2_includeif_cond.py h2-inclif-gitdir-i BREACH opens=0 -- lane/.git/config carries a bare CR
+FENCE-RUN h2_includeif_cond.py h2-inclif-gitdir-star BREACH opens=0 -- lane/.git/config carries a bare CR
+FENCE-RUN h2_includeif_cond.py h2-inclif-gitdir-nomatch BREACH opens=0 -- lane/.git/config carries a bare CR
+FENCE-RUN h2_includeif_cond.py h2-inclif-hasconfig BREACH opens=0 -- lane/.git/config carries a bare CR
+FENCE-RUN h2_includeif_cond.py h2-inclif-onbranch-anchor BREACH opens=0 -- lane/.git/config carries a bare CR
+MODULE h2_includeif_cond.py fixtures=9 admitted=0 read_fixtures=0 hung=0 outside_opens=0 verdict=clean
+FENCE-RUN h3_bom_symlink.py h3-bom-include BREACH opens=0 -- lane/.git/config carries a non-ASCII byte
+FENCE-RUN h3_bom_symlink.py h3-cr-include-symlink BREACH opens=0 -- lane/.git/config carries a bare CR
+FENCE-RUN h3_bom_symlink.py h3-bom-includeif BREACH opens=0 -- lane/.git/config carries a non-ASCII byte
+FENCE-RUN h3_bom_symlink.py h3-cr-include-anchor BREACH opens=0 -- lane/.git/config carries a bare CR
+MODULE h3_bom_symlink.py fixtures=4 admitted=0 read_fixtures=0 hung=0 outside_opens=0 verdict=clean
+FENCE-RUN h4_controls.py h4-plain-inclif-onbranch BREACH opens=0 -- lane/.git/config section header b'[includeIf "onbranch:master"]' is not plain
+FENCE-RUN h4_controls.py h4-mixedcase-inclif-gitdir BREACH opens=0 -- lane/.git/config section header b'[InClUdEiF "gitdir:/fast/scratch/hyaku/k' is not plain
+FENCE-RUN h4_controls.py h4-plain-inclif-gitdir-anchor BREACH opens=0 -- lane/.git/config section header b'[includeIf "gitdir:**/lane/.git"]' is not plain
+MODULE h4_controls.py fixtures=3 admitted=0 read_fixtures=0 hung=0 outside_opens=0 verdict=clean
+FENCE-RUN link_hostiles.py link-objects-symlink-out BREACH opens=0 -- lane/.git/objects is a symlink
+FENCE-RUN link_hostiles.py link-git-symlink-in BREACH opens=0 -- lane/.git is a symlink
+FENCE-RUN link_hostiles.py link-claims-symlink-out BREACH opens=0 -- lane/claims.md is a symlink
+FENCE-RUN link_hostiles.py link-objects-hardlink-out BREACH opens=0 -- 05/6b827f2bdbcacbd8fddc955f4ffc599f5f811c has more than one hard link
+FENCE-RUN link_hostiles.py link-include-chain-in BREACH opens=0 -- inc2 is a symlink
+MODULE link_hostiles.py fixtures=5 admitted=0 read_fixtures=0 hung=0 outside_opens=0 verdict=clean
+FENCE-RUN argv_env.py argv-placeholder-lane-escape BREACH opens=0 -- --lane value '{WORK}/../../outside' is a placeholder the fence cannot resolve
+FENCE-RUN argv_env.py argv-nul-lane BREACH opens=0 -- --lane value carries a NUL byte
+FENCE-RUN argv_env.py argv-extra-token BREACH opens=0 -- order argv is not the contract shape ['--lane', '--claims', '--receipt']
+MODULE argv_env.py fixtures=3 admitted=0 read_fixtures=0 hung=0 outside_opens=0 verdict=clean
+FENCE-RUN g1_cdrel.py g1-cd-rel BREACH opens=0 -- repo/.git/commondir is not a plain-init entry
+MODULE g1_cdrel.py fixtures=1 admitted=0 read_fixtures=0 hung=0 outside_opens=0 verdict=clean
+FENCE-RUN g2_gitfile.py g2-gitfile-pad BREACH opens=0 -- lane/.git is a file (gitdir redirect), not a directory
+MODULE g2_gitfile.py fixtures=1 admitted=0 read_fixtures=0 hung=0 outside_opens=0 verdict=clean
+FENCE-RUN g3_wtmeta.py g3-wtmeta-out BREACH opens=0 -- repo/.git/worktrees is not a plain-init entry
+MODULE g3_wtmeta.py fixtures=1 admitted=0 read_fixtures=0 hung=0 outside_opens=0 verdict=clean
+FENCE-RUN g4_cdrel_hidden.py g4-cd-hidden BREACH opens=0 -- repo/.git/modules is not a plain-init entry
+MODULE g4_cdrel_hidden.py fixtures=1 admitted=0 read_fixtures=0 hung=0 outside_opens=0 verdict=clean
+FENCE-RUN configkeys.py config-core-attributes-file-outside BREACH opens=0 -- lane/.git/config line b'attributesFile = /fast/scratch/hyaku/ken' is not a plain key=value
+MODULE configkeys.py fixtures=1 admitted=0 read_fixtures=0 hung=0 outside_opens=0 verdict=clean
+
+| module | fixtures | admitted | read | hung | outside opens | verdict |
+|---|---|---|---|---|---|---|
+| h1_cr_include.py (ho) | 2 | 0 | 0 | 0 | 0 | clean |
+| h2_includeif_cond.py (ho) | 9 | 0 | 0 | 0 | 0 | clean |
+| h3_bom_symlink.py (ho) | 4 | 0 | 0 | 0 | 0 | clean |
+| h4_controls.py (control) | 3 | 0 | 0 | 0 | 0 | clean |
+| link_hostiles.py (ho) | 5 | 0 | 0 | 0 | 0 | clean |
+| argv_env.py (ho) | 3 | 0 | 0 | 0 | 0 | clean |
+| g1_cdrel.py (ho) | 1 | 0 | 0 | 0 | 0 | clean |
+| g2_gitfile.py (ho) | 1 | 0 | 0 | 0 | 0 | clean |
+| g3_wtmeta.py (ho) | 1 | 0 | 0 | 0 | 0 | clean |
+| g4_cdrel_hidden.py (ho) | 1 | 0 | 0 | 0 | 0 | clean |
+| configkeys.py (ho) | 1 | 0 | 0 | 0 | 0 | clean |
+HELDOUT modules=10 clean=10 leaked=0 read=0 hung=0
+CONTROLS modules=1 verdicts=['clean']
+ENVELOPE end 02:05:24 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

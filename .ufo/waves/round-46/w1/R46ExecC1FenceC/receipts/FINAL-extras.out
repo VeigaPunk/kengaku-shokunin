@@ -1,0 +1,14 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/env /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/env --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/heldout_driver.py /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/lane /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/hoExF /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/extras.py
+ENVELOPE start 02:09:26 cwd=/home/vgpnk/Projects/shokunin
+LANE /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/lane
+FENCE sha256=13e5a4c9e4f91dccb9cc7df2f88a9c1f2b7bfd72963ac4a40996a6c1ce4bd528
+FENCE-RUN /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/extras.py x-bare-store-include BREACH opens=0 -- store/config sets core.bare
+FENCE-RUN /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/extras.py x-http-alternates BREACH opens=0 -- lane/.git/objects/info/http-alternates is an alternates file
+FENCE-RUN /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/extras.py x-core-worktree-inside BREACH opens=0 -- lane: worktree top level is lane/.git, not the repo directory
+FENCE-RUN /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/extras.py x-second-repo-inside ADMIT opens=0
+FENCE-RUN /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/extras.py x-core-worktree-outside BREACH opens=0 -- lane/.git/config sets core.worktree=/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/hoExF/fx/R46ExecC1FenceC-extras/wt
+FENCE-RUN /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/extras.py x-git-symlink-inside BREACH opens=0 -- lane/.git is a symlink, not a git dir
+FENCE-RUN /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/extras.py x-alternates-inside BREACH opens=0 -- lane/.git/objects/info/alternates is an alternates file
+FENCE-RUN /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/extras.py x-wtcfg-include-inside BREACH opens=0 -- lane/.git/config.worktree carries a [include] section
+HELDOUT /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceC/extras.py LEAKED fixtures=8 admitted=1 hung=0 opens=0
+ENVELOPE end 02:09:30 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

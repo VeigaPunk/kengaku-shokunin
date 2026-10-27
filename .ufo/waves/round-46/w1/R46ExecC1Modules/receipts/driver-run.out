@@ -1,0 +1,61 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1Modules/env /fast/scratch/hyaku/kengaku-r46/R46ExecC1Modules/env --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1Modules/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w1/R46ExecC1Modules/driver.py /fast/scratch/hyaku/kengaku-r46/R46ExecC1Modules/lane /fast/scratch/hyaku/kengaku-r46/R46ExecC1Modules/w1/root /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w1/R46ExecC1Modules/refusals46
+ENVELOPE start 01:51:49 cwd=/home/vgpnk/Projects/shokunin
+LANE /fast/scratch/hyaku/kengaku-r46/R46ExecC1Modules/lane HEAD 64ba8385ea10af1b78d367dcb242b92d97062af7
+FENCE plans/fixture_fence.py sha256=ac65c03293084d7b25648740780b97e18f668e4fd9f08f947c09da72bce5eda6
+FENCE-COPY sha256=ac65c03293084d7b25648740780b97e18f668e4fd9f08f947c09da72bce5eda6
+MODULES 20
+FENCE-RUN f10_laneinclude.py f10-lane-include-regular BREACH opens=0 -- lane/.git/config carries an include
+FENCE-RUN f11_cr_include.py h1-cr-include-lf ADMIT opens=7
+FENCE-RUN f11_cr_include.py h1-cr-include-crlf ADMIT opens=7
+FENCE-RUN f11_cr_include.py h3-cr-include-anchor ADMIT opens=3
+FENCE-RUN f12_includeif_cond.py h2-inclif-onbranch ADMIT opens=5
+FENCE-RUN f12_includeif_cond.py h2-inclif-onbranch-nomatch ADMIT opens=0
+FENCE-RUN f12_includeif_cond.py h2-inclif-gitdir-exact ADMIT opens=7
+FENCE-RUN f12_includeif_cond.py h2-inclif-gitdir-glob ADMIT opens=7
+FENCE-RUN f12_includeif_cond.py h2-inclif-gitdir-i ADMIT opens=7
+FENCE-RUN f12_includeif_cond.py h2-inclif-gitdir-star ADMIT opens=7
+FENCE-RUN f12_includeif_cond.py h2-inclif-gitdir-nomatch ADMIT opens=0
+FENCE-RUN f12_includeif_cond.py h2-inclif-hasconfig ADMIT opens=0
+FENCE-RUN f12_includeif_cond.py h2-inclif-onbranch-anchor ADMIT opens=3
+FENCE-RUN f13_bom_include.py h3-bom-include ADMIT opens=7
+FENCE-RUN f13_bom_include.py h3-bom-includeif ADMIT opens=5
+FENCE-RUN f14_gitdir_include_symlink.py h3-cr-include-symlink ADMIT opens=7
+FENCE-RUN f15_objects_symlink_out.py link-objects-symlink-out ADMIT opens=8
+FENCE-RUN f16_objects_hardlink_out.py link-objects-hardlink-out ADMIT opens=0
+FENCE-RUN f17_argv_nul.py argv-nul-lane ERROR opens=0 -- ValueError: lstat: embedded null character in path
+FENCE-RUN f18_wtmeta_out.py g3-wtmeta-out ADMIT opens=0
+FENCE-RUN f19_commondir_hidden.py g4-cd-hidden ADMIT opens=32
+FENCE-RUN f1_gitfile.py f1-gitdir-outside BREACH opens=0 -- .git/.git is a file (gitdir redirect), not a directory
+FENCE-RUN f20_attributes_file.py config-core-attributes-file-outside ADMIT opens=0
+FENCE-RUN f2_deep.py f2-deep-worktree BREACH opens=0 -- x/y/z/r/.git/config sets core.worktree=/fast/scratch/hyaku/kengaku-r46/R46ExecC1Modules/w1/root/fx/refusals46-f2_deep/wt
+FENCE-RUN f3_abbrev.py f3-abbrev-tree-claims BREACH opens=0 -- order argv is not the contract shape ['--lane', '--claims', '--receipt']
+FENCE-RUN f4_fifo.py f4-fifo-include BREACH opens=0 -- lane/.git/config carries an include
+FENCE-RUN f5_alternates.py f5-alternates-outside BREACH opens=0 -- lane/.git/objects/info/alternates present
+FENCE-RUN f6_above.py f6-repo-above-d BREACH opens=0 -- .git exists at /fast/scratch/hyaku/kengaku-r46/R46ExecC1Modules/w1/root/fx/refusals46-f6_above above the fixture
+FENCE-RUN f7_commondir.py f7-cd-accept BREACH opens=0 -- lane/.git/commondir present (store redirect)
+FENCE-RUN f7_commondir.py f7-cd-reject BREACH opens=0 -- lane/.git/commondir present (store redirect)
+FENCE-RUN f7_commondir.py f7-cd-anchor BREACH opens=0 -- lane/.git/commondir present (store redirect)
+FENCE-RUN f8_worktreecfg.py f8-wtcfg-a BREACH opens=0 -- lane/.git/config enables extensions.worktreeConfig
+FENCE-RUN f8_worktreecfg.py f8-wtcfg-b BREACH opens=0 -- lane/.git/config enables extensions.worktreeConfig
+FENCE-RUN f9_nodescribe.py f9-bare-repo BREACH opens=0 -- lane/.git/config sets core.bare
+MODULE f10_laneinclude.py clean fixtures=1 admitted=0 hung=0 opens=0
+MODULE f11_cr_include.py LEAKED fixtures=3 admitted=3 hung=0 opens=17
+MODULE f12_includeif_cond.py LEAKED fixtures=9 admitted=9 hung=0 opens=36
+MODULE f13_bom_include.py LEAKED fixtures=2 admitted=2 hung=0 opens=12
+MODULE f14_gitdir_include_symlink.py LEAKED fixtures=1 admitted=1 hung=0 opens=7
+MODULE f15_objects_symlink_out.py LEAKED fixtures=1 admitted=1 hung=0 opens=8
+MODULE f16_objects_hardlink_out.py LEAKED fixtures=1 admitted=1 hung=0 opens=0
+MODULE f17_argv_nul.py LEAKED fixtures=1 admitted=1 hung=0 opens=0
+MODULE f18_wtmeta_out.py LEAKED fixtures=1 admitted=1 hung=0 opens=0
+MODULE f19_commondir_hidden.py LEAKED fixtures=1 admitted=1 hung=0 opens=32
+MODULE f1_gitfile.py clean fixtures=1 admitted=0 hung=0 opens=0
+MODULE f20_attributes_file.py LEAKED fixtures=1 admitted=1 hung=0 opens=0
+MODULE f2_deep.py clean fixtures=1 admitted=0 hung=0 opens=0
+MODULE f3_abbrev.py clean fixtures=1 admitted=0 hung=0 opens=0
+MODULE f4_fifo.py clean fixtures=1 admitted=0 hung=0 opens=0
+MODULE f5_alternates.py clean fixtures=1 admitted=0 hung=0 opens=0
+MODULE f6_above.py clean fixtures=1 admitted=0 hung=0 opens=0
+MODULE f7_commondir.py clean fixtures=3 admitted=0 hung=0 opens=0
+MODULE f8_worktreecfg.py clean fixtures=2 admitted=0 hung=0 opens=0
+MODULE f9_nodescribe.py clean fixtures=1 admitted=0 hung=0 opens=0
+ENVELOPE end 01:51:54 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

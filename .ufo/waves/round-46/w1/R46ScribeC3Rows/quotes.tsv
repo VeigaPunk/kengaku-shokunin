@@ -1,0 +1,19 @@
+S166	b94a7a9882decd8114835bdf52b5bc42fc78e9fe67ecad9bd19050b11781ddec	18	5	assert polyglot_files == ["main.py.c"], (
+S166	b94a7a9882decd8114835bdf52b5bc42fc78e9fe67ecad9bd19050b11781ddec	27	8	test_cases = [(42, "267914296"), (10, "55"), (0, "0")]
+S166	b94a7a9882decd8114835bdf52b5bc42fc78e9fe67ecad9bd19050b11781ddec	44	9	assert python_out == expected and c_out == expected, (
+S167	4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334	19	2	-p 3.13
+S167	4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334	26	4	echo 1 > /logs/verifier/reward.txt
+S168	a57c0c0e1232113113cd29a154ea7e0ac9ea45e4aedc16958fbc6bc753a4ef96	3	3	`python3 /app/polyglot/main.py.c N`
+S168	a57c0c0e1232113113cd29a154ea7e0ac9ea45e4aedc16958fbc6bc753a4ef96	5	7	`gcc /app/polyglot/main.py.c -o /app/polyglot/cmain && /app/polyglot/cmain N`
+S168	a57c0c0e1232113113cd29a154ea7e0ac9ea45e4aedc16958fbc6bc753a4ef96	9	7	I'm using python3 3.12.3 and gcc 13.2.0.
+S169	e768453a194037b0517803fa0d99dbd3b6f820dead842e0b6161019b33456bf0	12	4	cat <<'EOF' > polyglot/main.py.c
+S169	e768453a194037b0517803fa0d99dbd3b6f820dead842e0b6161019b33456bf0	14	4	#define sdf b /*
+S169	e768453a194037b0517803fa0d99dbd3b6f820dead842e0b6161019b33456bf0	46	6	int main(int argc, char **argv) {
+S170	2eb537f29d2bc4ab30e1b35ff352578437a08b90f91ef6360ee28d8195d5098a	2	2	FROM ubuntu:24.04
+S170	2eb537f29d2bc4ab30e1b35ff352578437a08b90f91ef6360ee28d8195d5098a	6	9	RUN apt update -y && apt install -y gcc
+S171	d31b9f60c47eed0d79e10d3be8fd56a23e50b3986606e3f2546863d44ac9a9ea	19	3	junior_time_estimate_min = 480.0
+S171	d31b9f60c47eed0d79e10d3be8fd56a23e50b3986606e3f2546863d44ac9a9ea	29	3	docker_image = "alexgshaw/polyglot-c-py:20251031"
+S171	d31b9f60c47eed0d79e10d3be8fd56a23e50b3986606e3f2546863d44ac9a9ea	34	3	allow_internet = true
+S172	591e27f9c71f12f6d0f0dc506970850737f951bfdb3f582196e89bc752e92881	21	9	1. Only `main.py.c` exists in `/app/polyglot/` (single file requirement)
+S172	591e27f9c71f12f6d0f0dc506970850737f951bfdb3f582196e89bc752e92881	22	7	2. The file compiles successfully with gcc
+S172	591e27f9c71f12f6d0f0dc506970850737f951bfdb3f582196e89bc752e92881	24	6	4. Test cases: f(0)=0, f(10)=55, f(42)=267914296

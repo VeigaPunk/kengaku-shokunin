@@ -1,0 +1,7 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/env4 /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/env4 --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/env4/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/a3w1/R45HoArgvEnv/probe.py /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/lane /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB/h3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/a3w1/R45HoArgvEnv/argv_env.py
+ENVELOPE start 02:08:38 cwd=/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceB
+LANE fd4129eb74191cd7cc1cf5a0e6353fd8ce1a6c9f
+RESULT argv-placeholder-lane-escape BREACH opens=0 reason=--lane value '{WORK}/../../outside' is not a plain token
+RESULT argv-nul-lane BREACH opens=0 reason=--lane value 'lane\x00/../../outside' is not a plain token
+RESULT argv-extra-token BREACH opens=0 reason=order argv is not the contract shape ['--lane', '--claims', '--receipt']
+ENVELOPE end 02:08:41 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

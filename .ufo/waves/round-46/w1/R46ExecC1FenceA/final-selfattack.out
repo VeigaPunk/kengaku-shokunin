@@ -1,0 +1,17 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceA/env /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceA/env --bind /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceA/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceA/drive_selfattack.py /fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceA
+ENVELOPE start 02:05:27 cwd=/fast/scratch/hyaku/kengaku-r46/R46ExecC1FenceA
+FENCE-COPY sha256=05d5fe03aa3be6b79eb2469b7c86d0a20c9b424bea2e058d580e31a96c8aad5e
+FENCE-RUN sa-info-commitgraph BREACH opens=0 -- lane/.git/objects/info/commit-graph present (object-store redirect)
+FENCE-RUN sa-core-subsection BREACH opens=0 -- lane/.git/config section header b'[core "x"]' is not plain
+FENCE-RUN sa-symbolic-ref BREACH opens=0 -- heads/side is not a 40-hex ref
+FENCE-RUN sa-head-escape BREACH opens=0 -- lane/.git/HEAD is not a plain branch HEAD
+FENCE-RUN sa-packed-escape BREACH opens=0 -- lane/.git carries a ref name git does not write
+FENCE-RUN sa-index-symlink BREACH opens=0 -- lane/.git/index is a symlink
+FENCE-RUN sa-hook-real BREACH opens=0 -- pre-commit is not a hook sample
+FENCE-RUN sa-bare-truthy BREACH opens=0 -- lane/.git/config core.bare must be false
+FENCE-RUN sa-nlink-worktree BREACH opens=0 -- lane/claims.md has more than one hard link
+FENCE-RUN sa-dir-symlink-out BREACH opens=0 -- lane/linked is a symlink
+FENCE-RUN sa-objects-direct-file BREACH opens=0 -- lane/.git/objects/notadirectory is not a directory
+FENCE-RUN sa-logs-escape-name BREACH opens=0 -- outside has a name git does not write
+SELFATTACK fixtures=12 admitted=0
+ENVELOPE end 02:05:31 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

@@ -1,0 +1,61 @@
+R46RevRouted measurement excerpts — base 64ba8385ea10af1b78d367dcb242b92d97062af7
+
+Base clone/check:
+  git -C "$S/lane" rev-parse HEAD -> 64ba8385ea10af1b78d367dcb242b92d97062af7
+  sha256sum plans/round45_c2_verify.py plans/pkg_gate.py ->
+  ab6825e34596ba71f59a184a59fd4e672fd22dcf4b892c511cae5ead2b104f50  round45_c2_verify.py
+  ea63882240e67e9906e481f3d652f94366c288dc91991bafbfcd651a766edd41  pkg_gate.py
+
+Brace-prefix repro command:
+  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/claims/envelope.sh "$S/env" /usr/bin/python3 -c '<inline fixture driver>' "$S/lane/plans/fixture_fence.py" "$S"
+  Driver: initialize D with git -C D init -q; verify git -C D rev-parse --show-toplevel == D; call breach(D, [--lane D, --claims ../../etc/passwd, --receipt receipt.txt], order), then same with --claims {T}/../../etc/passwd.
+  ENVELOPE start 02:17:04 cwd=/home/vgpnk/Projects/shokunin
+  fixture_git_root=verified
+  plain=--claims value '../../etc/passwd' resolves outside the fixture
+  brace=None
+  ENVELOPE end 02:17:08 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged
+
+V11 repro command:
+  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/claims/envelope.sh "$S/env" /usr/bin/python3 -c '<inline in-memory entry override loop>' "$S/lane" "$S/v11-work3"
+  The loop imports plans/round45_c2_verify.py, reads each saved p1/p2/p3/p4 predictor in .ufo/waves/round-45/a3w1/R45CritV11Bypass/, substitutes its source only in the in-memory entry read, and calls v11(lane, unique_work_dir).
+  ENVELOPE start 02:19:27 cwd=/home/vgpnk/Projects/shokunin
+  p1-callidx-table.py (True, 'states=48 grader_pass=18 grader_fail=30 disagree=0')
+  p2-keyed-table.py (True, 'states=48 grader_pass=18 grader_fail=30 disagree=0')
+  p3-textidx-table.py (True, 'states=48 grader_pass=18 grader_fail=30 disagree=0')
+  p4-boundary-substr.py (True, 'states=48 grader_pass=18 grader_fail=30 disagree=0')
+  ENVELOPE end 02:19:32 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged
+
+C2 clean baseline / F1:
+  Command: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/claims/envelope.sh "$S/env" /usr/bin/env TMPDIR="$S/c2-clean2" /usr/bin/strace -f -qq -e trace=execve -o "$S/f1-retry.trace" /usr/bin/python3 "$S/lane/plans/round45_c2_verify.py" --lane "$S/lane" --work "$S/c2-clean2"
+  ENVELOPE start 02:20:51 cwd=/home/vgpnk/Projects/shokunin
+  gate: P9 ok untracked=0 first=0; gate: P10 ok probe_rerun=byte-equal bytes=4659
+  V11 ok states=48 grader_pass=18 grader_fail=30 disagree=0
+  checks=11 defects=0; PREDICATE C2 pass
+  ENVELOPE end 02:21:15 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged
+  Trace: execve("/home/vgpnk/.local/bin/uv", ["uv", "run", "--no-project", "--with", "biopython==1.85", "python3", "plans/password_recovery_probe.py", "--lane", "."], ...) = 0
+  Trace: execve("/home/vgpnk/.cache/uv/builds-v0/.tmp93d1jO/bin/python3", ["python3", "plans/password_recovery_probe.py", "--lane", "."], ...) = 0
+  Host check command: python3 -c 'import Bio'; command -v uv -> /home/vgpnk/.local/bin/uv; import_Bio_rc=1
+  Trace size/hash: 431384 bytes; sha256 0c505bccb5e6896f2557a188f33a52b6c1faa25475aa9f1639e600da8adf94e3
+
+Invalid attempt (not counted): same clean C2 counter command started at 02:19:44 with PATH digest ff187bb5c98aa6b5 and ended exit=0 with digest 7747d38e2042d398; envelope marked CHANGED and returned exit=4 / INVALID. Two immediate digest samples then both returned 7747d38e2042d398; the valid clean run above was repeated at the stable digest.
+
+F2 command:
+  envelope.sh "$S/env" /usr/bin/bash -c 'cd "$S/lane" && : > .r46-review-untracked && TMPDIR="$S/c2-untracked" python3 plans/round45_c2_verify.py --lane "$S/lane" --work "$S/c2-untracked"'
+  ENVELOPE start 02:21:51 cwd=/home/vgpnk/Projects/shokunin
+  gate: P9 DEFECT untracked=1 first=.r46-review-untracked; gate: P10 ok probe_rerun=byte-equal bytes=4659
+  checks=11 defects=1; PREDICATE C2 fail
+  ENVELOPE end 02:22:01 exit=1 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged
+
+F3 command:
+  envelope.sh "$S/env" /usr/bin/bash -c 'cd "$S/lane" && rm .r46-review-untracked && printf "\n" >> SCORECARD.md && git -C "$S/lane" status --porcelain && git -C "$S/lane" ls-files --others --exclude-standard | wc -l && TMPDIR="$S/c2-tracked" python3 plans/round45_c2_verify.py --lane "$S/lane" --work "$S/c2-tracked"'
+  ENVELOPE start 02:22:17 cwd=/home/vgpnk/Projects/shokunin
+  tracked-status= M SCORECARD.md; untracked-count=0
+  gate: P9 ok untracked=0 first=0; gate: P10 ok probe_rerun=byte-equal bytes=4659
+  checks=11 defects=0; PREDICATE C2 pass
+  ENVELOPE end 02:22:22 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged
+
+Routed ledger command:
+  python3 "$S/lane/plans/routed_open.py" --lane "$S/lane"
+  ROWS total=60 open=23 blocked=1 closed=34 refused=2
+  routed_open=24 oldest_round=39
+  corpus/routed-findings.jsonl:27 is R42-R3-08, class=gate-undeclared-dependency, status=open; it checks that biopython==1.85 is absent from plans/pkg_gate.py. Exact search for the three R45 report IDs and round-45 spotcheck source returned no matches.

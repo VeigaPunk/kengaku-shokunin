@@ -1,0 +1,84 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox/env-tight /fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox/env-tight --bind /fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox/env-tight/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- env R46_AS=256 R46_NPROC=16 /usr/bin/python3 /fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox/runner.py --root /fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox/work --variant hard --timeout 8 --only safe,mem,forks
+ENVELOPE start 02:28:50 cwd=/fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox
+== RESULT variant=hard lang=py mode=safe rc=0 secs=0.22 timed_out=False out_bytes=1215 app_files=[] app_bytes=0
+POLY lang=PY mode=safe uid=1000 host=k46sent ncpu=32
+LIMIT CPU soft=5 hard=5
+LIMIT NPROC soft=16 hard=16
+LIMIT FSIZE soft=1048576 hard=1048576
+LIMIT AS soft=268435456 hard=268435456
+LIMIT CORE soft=0 hard=0
+LIMIT NOFILE soft=512 hard=512
+WRITE app ok=1 n=1 errno=0 path=/app/inside.txt
+WRITE tmp ok=1 n=1 errno=0 path=/tmp/tmp-ok.txt
+WRITE root-tmpfs errno=30 Read-only file system path=/ESCAPE-root-tmpfs.txt
+WRITE dotdot errno=30 Read-only file system path=../ESCAPE-dotdot.txt
+WRITE etc errno=30 Read-only file system path=/etc/ESCAPE-etc.txt
+WRITE usr errno=30 Read-only file system path=/usr/ESCAPE-usr.txt
+WRITE home errno=2 No such file or directory path=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w1/R46SentC3Sandbox/ESCAPE-home.txt
+WRITE root-home errno=2 No such file or directory path=/root/ESCAPE-root.txt
+WRITE fast errno=2 No such file or directory path=/fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox/markers/ESCAPE-fast.txt
+WRITE proc1root errno=30 Read-only file system path=/proc/1/root/ESCAPE-proc1.txt
+NET 1.1.1.1:80 connect_rc=-1 errno=101 Network is unreachable
+NET 127.0.0.1:22 connect_rc=-1 errno=111 Connection refused
+FORK requested=32 ok=11 fail=21 errno_last=11
+== RESULT variant=hard lang=py mode=mem rc=0 secs=0.02 timed_out=False out_bytes=280 app_files=[] app_bytes=0
+POLY lang=PY mode=mem uid=1000 host=k46sent ncpu=32
+LIMIT CPU soft=5 hard=5
+LIMIT NPROC soft=16 hard=16
+LIMIT FSIZE soft=1048576 hard=1048576
+LIMIT AS soft=268435456 hard=268435456
+LIMIT CORE soft=0 hard=0
+LIMIT NOFILE soft=512 hard=512
+MEM alloc=FAIL bytes=536870912 MemoryError
+== RESULT variant=hard lang=py mode=forks rc=0 secs=0.22 timed_out=False out_bytes=285 app_files=[] app_bytes=0
+POLY lang=PY mode=forks uid=1000 host=k46sent ncpu=32
+LIMIT CPU soft=5 hard=5
+LIMIT NPROC soft=16 hard=16
+LIMIT FSIZE soft=1048576 hard=1048576
+LIMIT AS soft=268435456 hard=268435456
+LIMIT CORE soft=0 hard=0
+LIMIT NOFILE soft=512 hard=512
+FORK requested=96 ok=11 fail=85 errno_last=11
+== RESULT variant=hard lang=c mode=safe rc=0 secs=0.27 timed_out=False out_bytes=1214 app_files=[] app_bytes=0
+POLY lang=C mode=safe uid=1000 host=k46sent ncpu=32
+LIMIT CPU soft=5 hard=5
+LIMIT NPROC soft=16 hard=16
+LIMIT FSIZE soft=1048576 hard=1048576
+LIMIT AS soft=268435456 hard=268435456
+LIMIT CORE soft=0 hard=0
+LIMIT NOFILE soft=512 hard=512
+WRITE app ok=1 n=1 errno=0 path=/app/inside.txt
+WRITE tmp ok=1 n=1 errno=0 path=/tmp/tmp-ok.txt
+WRITE root-tmpfs errno=30 Read-only file system path=/ESCAPE-root-tmpfs.txt
+WRITE dotdot errno=30 Read-only file system path=../ESCAPE-dotdot.txt
+WRITE etc errno=30 Read-only file system path=/etc/ESCAPE-etc.txt
+WRITE usr errno=30 Read-only file system path=/usr/ESCAPE-usr.txt
+WRITE home errno=2 No such file or directory path=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w1/R46SentC3Sandbox/ESCAPE-home.txt
+WRITE root-home errno=2 No such file or directory path=/root/ESCAPE-root.txt
+WRITE fast errno=2 No such file or directory path=/fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox/markers/ESCAPE-fast.txt
+WRITE proc1root errno=30 Read-only file system path=/proc/1/root/ESCAPE-proc1.txt
+NET 1.1.1.1:80 connect_rc=-1 errno=101 Network is unreachable
+NET 127.0.0.1:22 connect_rc=-1 errno=111 Connection refused
+FORK requested=32 ok=11 fail=21 errno_last=11
+STDERR /app/main.py.c:2:3: warning: missing terminating ' character |     2 | ''' |       |   ^ | /app/main.py.c:125:3: warning: missing terminating ' character |   125 | ''' |       |   ^
+== RESULT variant=hard lang=c mode=mem rc=0 secs=0.04 timed_out=False out_bytes=276 app_files=[] app_bytes=0
+POLY lang=C mode=mem uid=1000 host=k46sent ncpu=32
+LIMIT CPU soft=5 hard=5
+LIMIT NPROC soft=16 hard=16
+LIMIT FSIZE soft=1048576 hard=1048576
+LIMIT AS soft=268435456 hard=268435456
+LIMIT CORE soft=0 hard=0
+LIMIT NOFILE soft=512 hard=512
+MEM alloc=FAIL bytes=536870912 errno=12
+STDERR /app/main.py.c:2:3: warning: missing terminating ' character |     2 | ''' |       |   ^ | /app/main.py.c:125:3: warning: missing terminating ' character |   125 | ''' |       |   ^
+== RESULT variant=hard lang=c mode=forks rc=0 secs=0.24 timed_out=False out_bytes=284 app_files=[] app_bytes=0
+POLY lang=C mode=forks uid=1000 host=k46sent ncpu=32
+LIMIT CPU soft=5 hard=5
+LIMIT NPROC soft=16 hard=16
+LIMIT FSIZE soft=1048576 hard=1048576
+LIMIT AS soft=268435456 hard=268435456
+LIMIT CORE soft=0 hard=0
+LIMIT NOFILE soft=512 hard=512
+FORK requested=96 ok=11 fail=85 errno_last=11
+STDERR /app/main.py.c:2:3: warning: missing terminating ' character |     2 | ''' |       |   ^ | /app/main.py.c:125:3: warning: missing terminating ' character |   125 | ''' |       |   ^
+ENVELOPE end 02:28:52 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged

@@ -1,0 +1,139 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox/env-draft /fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox/env-draft --bind /fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox/env-draft/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox/runner.py --root /fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox/work --variant draft --timeout 6 --json-out /fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox/ev/draft.json
+ENVELOPE start 02:19:06 cwd=/fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox
+== RESULT variant=draft lang=py mode=safe rc=0 secs=0.27 timed_out=False out_bytes=1176 app_files=['inside.txt', 'main.py.c'] app_bytes=7483
+POLY lang=PY mode=safe uid=1000 host=plazir27 ncpu=32
+LIMIT CPU soft=-1 hard=-1
+LIMIT NPROC soft=122865 hard=122865
+LIMIT FSIZE soft=274877906944 hard=-1
+LIMIT AS soft=-1 hard=-1
+LIMIT CORE soft=-1 hard=-1
+LIMIT NOFILE soft=524288 hard=524288
+WRITE app ok=1 n=1 errno=0 path=/app/inside.txt
+WRITE tmp ok=1 n=1 errno=0 path=/tmp/tmp-ok.txt
+WRITE root-tmpfs ok=1 n=1 errno=0 path=/ESCAPE-root-tmpfs.txt
+WRITE dotdot ok=1 n=1 errno=0 path=../ESCAPE-dotdot.txt
+WRITE etc errno=30 Read-only file system path=/etc/ESCAPE-etc.txt
+WRITE usr errno=30 Read-only file system path=/usr/ESCAPE-usr.txt
+WRITE home errno=2 No such file or directory path=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w1/R46SentC3Sandbox/ESCAPE-home.txt
+WRITE root-home errno=2 No such file or directory path=/root/ESCAPE-root.txt
+WRITE fast errno=2 No such file or directory path=/fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox/markers/ESCAPE-fast.txt
+WRITE proc1root ok=1 n=1 errno=0 path=/proc/1/root/ESCAPE-proc1.txt
+NET 1.1.1.1:80 connect_rc=-1 errno=101 Network is unreachable
+NET 127.0.0.1:22 connect_rc=-1 errno=111 Connection refused
+FORK requested=32 ok=32 fail=0 errno_last=0
+== RESULT variant=draft lang=py mode=forks rc=0 secs=0.28 timed_out=False out_bytes=288 app_files=['main.py.c'] app_bytes=7482
+POLY lang=PY mode=forks uid=1000 host=plazir27 ncpu=32
+LIMIT CPU soft=-1 hard=-1
+LIMIT NPROC soft=122865 hard=122865
+LIMIT FSIZE soft=274877906944 hard=-1
+LIMIT AS soft=-1 hard=-1
+LIMIT CORE soft=-1 hard=-1
+LIMIT NOFILE soft=524288 hard=524288
+FORK requested=96 ok=96 fail=0 errno_last=0
+== RESULT variant=draft lang=py mode=mem rc=0 secs=0.53 timed_out=False out_bytes=271 app_files=['main.py.c'] app_bytes=7482
+POLY lang=PY mode=mem uid=1000 host=plazir27 ncpu=32
+LIMIT CPU soft=-1 hard=-1
+LIMIT NPROC soft=122865 hard=122865
+LIMIT FSIZE soft=274877906944 hard=-1
+LIMIT AS soft=-1 hard=-1
+LIMIT CORE soft=-1 hard=-1
+LIMIT NOFILE soft=524288 hard=524288
+MEM alloc=OK bytes=536870912
+== RESULT variant=draft lang=py mode=fill rc=0 secs=0.1 timed_out=False out_bytes=267 app_files=['fill.bin', 'main.py.c'] app_bytes=5250362
+POLY lang=PY mode=fill uid=1000 host=plazir27 ncpu=32
+LIMIT CPU soft=-1 hard=-1
+LIMIT NPROC soft=122865 hard=122865
+LIMIT FSIZE soft=274877906944 hard=-1
+LIMIT AS soft=-1 hard=-1
+LIMIT CORE soft=-1 hard=-1
+LIMIT NOFILE soft=524288 hard=524288
+FILL ok written=5242880
+== RESULT variant=draft lang=py mode=bigout rc=0 secs=0.08 timed_out=False out_bytes=8388874 app_files=['main.py.c'] app_bytes=7482
+POLY lang=PY mode=bigout uid=1000 host=plazir27 ncpu=32
+LIMIT CPU soft=-1 hard=-1
+LIMIT NPROC soft=122865 hard=122865
+LIMIT FSIZE soft=274877906944 hard=-1
+LIMIT AS soft=-1 hard=-1
+LIMIT CORE soft=-1 hard=-1
+LIMIT NOFILE soft=524288 hard=524288
+== RESULT variant=draft lang=py mode=cpu rc=-9 secs=6.0 timed_out=True out_bytes=252 app_files=['main.py.c'] app_bytes=7482
+POLY lang=PY mode=cpu uid=1000 host=plazir27 ncpu=32
+LIMIT CPU soft=-1 hard=-1
+LIMIT NPROC soft=122865 hard=122865
+LIMIT FSIZE soft=274877906944 hard=-1
+LIMIT AS soft=-1 hard=-1
+LIMIT CORE soft=-1 hard=-1
+LIMIT NOFILE soft=524288 hard=524288
+CPU start
+== RESULT variant=draft lang=c mode=safe rc=0 secs=0.39 timed_out=False out_bytes=1301 app_files=['cmain', 'inside.txt', 'main.py.c'] app_bytes=24891
+POLY lang=C mode=safe uid=1000 host=plazir27 ncpu=32
+LIMIT CPU soft=18446744073709551615 hard=18446744073709551615
+LIMIT NPROC soft=122865 hard=122865
+LIMIT FSIZE soft=274877906944 hard=18446744073709551615
+LIMIT AS soft=18446744073709551615 hard=18446744073709551615
+LIMIT CORE soft=18446744073709551615 hard=18446744073709551615
+LIMIT NOFILE soft=524288 hard=524288
+WRITE app ok=1 n=1 errno=0 path=/app/inside.txt
+WRITE tmp ok=1 n=1 errno=0 path=/tmp/tmp-ok.txt
+WRITE root-tmpfs ok=1 n=1 errno=0 path=/ESCAPE-root-tmpfs.txt
+WRITE dotdot ok=1 n=1 errno=0 path=../ESCAPE-dotdot.txt
+WRITE etc errno=30 Read-only file system path=/etc/ESCAPE-etc.txt
+WRITE usr errno=30 Read-only file system path=/usr/ESCAPE-usr.txt
+WRITE home errno=2 No such file or directory path=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w1/R46SentC3Sandbox/ESCAPE-home.txt
+WRITE root-home errno=2 No such file or directory path=/root/ESCAPE-root.txt
+WRITE fast errno=2 No such file or directory path=/fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox/markers/ESCAPE-fast.txt
+WRITE proc1root ok=1 n=1 errno=0 path=/proc/1/root/ESCAPE-proc1.txt
+NET 1.1.1.1:80 connect_rc=-1 errno=101 Network is unreachable
+NET 127.0.0.1:22 connect_rc=-1 errno=111 Connection refused
+FORK requested=32 ok=32 fail=0 errno_last=0
+STDERR /app/main.py.c:2:3: warning: missing terminating ' character |     2 | ''' |       |   ^ | /app/main.py.c:125:3: warning: missing terminating ' character |   125 | ''' |       |   ^
+== RESULT variant=draft lang=c mode=forks rc=0 secs=0.39 timed_out=False out_bytes=413 app_files=['cmain', 'main.py.c'] app_bytes=24890
+POLY lang=C mode=forks uid=1000 host=plazir27 ncpu=32
+LIMIT CPU soft=18446744073709551615 hard=18446744073709551615
+LIMIT NPROC soft=122865 hard=122865
+LIMIT FSIZE soft=274877906944 hard=18446744073709551615
+LIMIT AS soft=18446744073709551615 hard=18446744073709551615
+LIMIT CORE soft=18446744073709551615 hard=18446744073709551615
+LIMIT NOFILE soft=524288 hard=524288
+FORK requested=96 ok=96 fail=0 errno_last=0
+STDERR /app/main.py.c:2:3: warning: missing terminating ' character |     2 | ''' |       |   ^ | /app/main.py.c:125:3: warning: missing terminating ' character |   125 | ''' |       |   ^
+== RESULT variant=draft lang=c mode=mem rc=0 secs=0.61 timed_out=False out_bytes=396 app_files=['cmain', 'main.py.c'] app_bytes=24890
+POLY lang=C mode=mem uid=1000 host=plazir27 ncpu=32
+LIMIT CPU soft=18446744073709551615 hard=18446744073709551615
+LIMIT NPROC soft=122865 hard=122865
+LIMIT FSIZE soft=274877906944 hard=18446744073709551615
+LIMIT AS soft=18446744073709551615 hard=18446744073709551615
+LIMIT CORE soft=18446744073709551615 hard=18446744073709551615
+LIMIT NOFILE soft=524288 hard=524288
+MEM alloc=OK bytes=536870912
+STDERR /app/main.py.c:2:3: warning: missing terminating ' character |     2 | ''' |       |   ^ | /app/main.py.c:125:3: warning: missing terminating ' character |   125 | ''' |       |   ^
+== RESULT variant=draft lang=c mode=fill rc=0 secs=0.25 timed_out=False out_bytes=392 app_files=['cmain', 'fill.bin', 'main.py.c'] app_bytes=5267770
+POLY lang=C mode=fill uid=1000 host=plazir27 ncpu=32
+LIMIT CPU soft=18446744073709551615 hard=18446744073709551615
+LIMIT NPROC soft=122865 hard=122865
+LIMIT FSIZE soft=274877906944 hard=18446744073709551615
+LIMIT AS soft=18446744073709551615 hard=18446744073709551615
+LIMIT CORE soft=18446744073709551615 hard=18446744073709551615
+LIMIT NOFILE soft=524288 hard=524288
+FILL ok written=5242880
+STDERR /app/main.py.c:2:3: warning: missing terminating ' character |     2 | ''' |       |   ^ | /app/main.py.c:125:3: warning: missing terminating ' character |   125 | ''' |       |   ^
+== RESULT variant=draft lang=c mode=bigout rc=0 secs=0.24 timed_out=False out_bytes=8388999 app_files=['cmain', 'main.py.c'] app_bytes=24890
+POLY lang=C mode=bigout uid=1000 host=plazir27 ncpu=32
+LIMIT CPU soft=18446744073709551615 hard=18446744073709551615
+LIMIT NPROC soft=122865 hard=122865
+LIMIT FSIZE soft=274877906944 hard=18446744073709551615
+LIMIT AS soft=18446744073709551615 hard=18446744073709551615
+LIMIT CORE soft=18446744073709551615 hard=18446744073709551615
+LIMIT NOFILE soft=524288 hard=524288
+STDERR /app/main.py.c:2:3: warning: missing terminating ' character |     2 | ''' |       |   ^ | /app/main.py.c:125:3: warning: missing terminating ' character |   125 | ''' |       |   ^
+== RESULT variant=draft lang=c mode=cpu rc=-9 secs=6.01 timed_out=True out_bytes=377 app_files=['cmain', 'main.py.c'] app_bytes=24890
+POLY lang=C mode=cpu uid=1000 host=plazir27 ncpu=32
+LIMIT CPU soft=18446744073709551615 hard=18446744073709551615
+LIMIT NPROC soft=122865 hard=122865
+LIMIT FSIZE soft=274877906944 hard=18446744073709551615
+LIMIT AS soft=18446744073709551615 hard=18446744073709551615
+LIMIT CORE soft=18446744073709551615 hard=18446744073709551615
+LIMIT NOFILE soft=524288 hard=524288
+CPU start
+STDERR /app/main.py.c:2:3: warning: missing terminating ' character |     2 | ''' |       |   ^ | /app/main.py.c:125:3: warning: missing terminating ' character |   125 | ''' |       |   ^
+ENVELOPE end 02:19:25 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

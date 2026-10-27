@@ -1,0 +1,20 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox/env-stop /fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox/env-stop --bind /fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox/env-stop/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox/runner.py --root /fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox/work --variant hard --timeout 6 --cap 65536 --stop-after 65536 --only bigout
+ENVELOPE start 02:20:38 cwd=/fast/scratch/hyaku/kengaku-r46/R46SentC3Sandbox
+== RESULT variant=hard lang=py mode=bigout rc=-9 secs=6.0 timed_out=True out_bytes=65536 app_files=[] app_bytes=0
+POLY lang=PY mode=bigout uid=1000 host=k46sent ncpu=32
+LIMIT CPU soft=5 hard=5
+LIMIT NPROC soft=48 hard=48
+LIMIT FSIZE soft=1048576 hard=1048576
+LIMIT AS soft=536870912 hard=536870912
+LIMIT CORE soft=0 hard=0
+LIMIT NOFILE soft=512 hard=512
+== RESULT variant=hard lang=c mode=bigout rc=-9 secs=6.0 timed_out=True out_bytes=65536 app_files=[] app_bytes=0
+POLY lang=C mode=bigout uid=1000 host=k46sent ncpu=32
+LIMIT CPU soft=5 hard=5
+LIMIT NPROC soft=48 hard=48
+LIMIT FSIZE soft=1048576 hard=1048576
+LIMIT AS soft=536870912 hard=536870912
+LIMIT CORE soft=0 hard=0
+LIMIT NOFILE soft=512 hard=512
+STDERR /app/main.py.c:2:3: warning: missing terminating ' character |     2 | ''' |       |   ^ | /app/main.py.c:125:3: warning: missing terminating ' character |   125 | ''' |       |   ^
+ENVELOPE end 02:20:53 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged

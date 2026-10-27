@@ -1,0 +1,63 @@
+# Receipt — pinned upstream reads for R46ScribeC3Index (network reads only, no graded execution)
+
+Raw base: `https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/polyglot-c-py/`
+Fetched 2026-10-27 into `/fast/scratch/hyaku/kengaku-r46/R46ScribeC3Index/` (scratch deleted per the scratch rule).
+
+## Command
+
+```
+B=https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/polyglot-c-py
+for f in tests/test_outputs.py tests/test.sh instruction.md task.toml README.md \
+         environment/Dockerfile solution/solve.sh .gitignore; do
+  curl -fsSL "$B/$f" -o "<scratch>/$f"
+done
+sha256sum tests/test_outputs.py tests/test.sh instruction.md task.toml README.md \
+          environment/Dockerfile solution/solve.sh .gitignore
+```
+
+## Output (sha256, verbatim)
+
+```
+b94a7a9882decd8114835bdf52b5bc42fc78e9fe67ecad9bd19050b11781ddec  tests/test_outputs.py     (46 lines)
+4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334  tests/test.sh             (29 lines)
+a57c0c0e1232113113cd29a154ea7e0ac9ea45e4aedc16958fbc6bc753a4ef96  instruction.md            (9 lines)
+d31b9f60c47eed0d79e10d3be8fd56a23e50b3986606e3f2546863d44ac9a9ea  task.toml                 (41 lines)
+591e27f9c71f12f6d0f0dc506970850737f951bfdb3f582196e89bc752e92881  README.md                 (23 lines)
+2eb537f29d2bc4ab30e1b35ff352578437a08b90f91ef6360ee28d8195d5098a  environment/Dockerfile    (6 lines)
+e768453a194037b0517803fa0d99dbd3b6f820dead842e0b6161019b33456bf0  solution/solve.sh         (57 lines)
+9a8dd8d9b6c3adb8e9e56328df27deef859a3e98fffc9b8133c8b22207c25953  .gitignore                (23 lines)
+```
+
+`tests/test.sh` is byte-identical to round 45's `password-recovery/tests/test.sh`
+(`corpus/SOURCES.md:168`, S153, sha256 `4770437ea96c…e6c334`) — one shared harness template across TB2 tasks.
+
+## Verified line numbers in `tests/test_outputs.py` (sha256 `b94a7a98…`)
+
+```
+17:    polyglot_files = os.listdir("/app/polyglot")
+18:    assert polyglot_files == ["main.py.c"], (
+23:    subprocess.run(
+24:        ["gcc", "/app/polyglot/main.py.c", "-o", "/app/polyglot/cmain"], check=True
+27:    test_cases = [(42, "267914296"), (10, "55"), (0, "0")]
+30-35: python3 subprocess.run(..., check=True)
+36:    python_out = py_result.stdout.strip()
+37-42: /app/polyglot/cmain subprocess.run(..., check=True)
+43:    c_out = c_result.stdout.strip()
+44:    assert python_out == expected and c_out == expected, (
+```
+
+## Line numbers in the other files cited by this seat's drafts
+
+```
+instruction.md:3   py3 invocation form        instruction.md:5   gcc invocation form
+instruction.md:9   "python3 3.12.3 and gcc 13.2.0"
+task.toml:22       [verifier] timeout_sec = 900.0
+task.toml:29       docker_image = "alexgshaw/polyglot-c-py:20251031"
+task.toml:34       allow_internet = true
+environment/Dockerfile:2  FROM ubuntu:24.04
+environment/Dockerfile:4  WORKDIR /app
+environment/Dockerfile:6  RUN apt update -y && apt install -y gcc        (no version pin)
+tests/test.sh:17-21       uvx -p 3.13 ... pytest ... /tests/test_outputs.py
+tests/test.sh:23-27       echo 1 / echo 0 > /logs/verifier/reward.txt
+solution/solve.sh:10-11   mkdir -p polyglot ; heredoc > polyglot/main.py.c  (relative path)
+```

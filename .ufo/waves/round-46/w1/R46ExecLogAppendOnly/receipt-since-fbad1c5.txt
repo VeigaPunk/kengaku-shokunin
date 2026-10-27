@@ -1,0 +1,11 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r46/R46ExecLogAppendOnly/env /fast/scratch/hyaku/kengaku-r46/R46ExecLogAppendOnly/env --bind /fast/scratch/hyaku/kengaku-r46/R46ExecLogAppendOnly/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-46/w1/R46ExecLogAppendOnly/plans/log_appendonly.py --lane /home/vgpnk/Projects/shokunin/kengaku-shokunin --since fbad1c5 --show-lines
+ENVELOPE start 02:13:56 cwd=/home/vgpnk/Projects/shokunin
+VIOLATION f660ae04a1c5 2026-10-27 deleted=2 at=1374,1388 first="## Round 45 (hyaku run 9, 2026-10-26) — advertised fixture fence closed "
+DEL f660ae04a1c5 :1374 -## Round 45 (hyaku run 9, 2026-10-26) — advertised fixture fence closed (10/10 refused, 104 honest a
+DEL f660ae04a1c5 :1388 -  counter `checks=11 defects=0`, `PREDICATE C2 pass` (A/B runs byte-equal); V11 `states=48 grader_pa
+VIOLATION 3d9ea54a558b 2026-10-27 deleted=2 at=1407,1408 first="- Wave `a3w1` (34 re-dispatched wave-2 items): held-out hostile modules "
+DEL 3d9ea54a558b :1407 -- Wave `a3w1` (34 re-dispatched wave-2 items): held-out hostile modules 7 of 9 admitted by the lande
+DEL 3d9ea54a558b :1408 -  (`a3w1/R45HoIncludeIf.md`, `R45HoSymlinks.md`, `R45HoArgvEnv.md`, `R45HoCommondir2.md`); fence mut
+LOG-APPENDONLY path=LOG.md head=fd4129eb7419 since=fbad1c56117e
+LOG-APPENDONLY commits=2 violations=2
+ENVELOPE end 02:13:58 exit=1 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

@@ -1,0 +1,103 @@
+diff --git i/corpus/knowledge/tb2-password-recovery-grader.md w/corpus/knowledge/tb2-password-recovery-grader.md
+index 6efbf8d..0788340 100644
+--- i/corpus/knowledge/tb2-password-recovery-grader.md
++++ w/corpus/knowledge/tb2-password-recovery-grader.md
+@@ -1,10 +1,10 @@
+ source: S149 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/password-recovery/tests/test_outputs.py — the two pytest functions that are this task's whole score: an existence assert at :9-10 and exact line membership of one embedded constant at :14-18, commit `2fd12b88aafdd04a52c298e3940bcb189f9766d6`, accessed 2026-10-26
+ source: S150 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/password-recovery/instruction.md — the request the grader is mapped against, lines 1-9, same commit, accessed 2026-10-26
+-source: S151 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/password-recovery/environment/setup.sh — the image seed that plants the two zip fragments at the 1MB and 3MB offsets, lines 1-45, same commit, accessed 2026-10-26
+-source: S152 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/password-recovery/environment/Dockerfile — the image recipe that installs the forensic tools and runs the seed, lines 1-16, same commit, accessed 2026-10-26
+-source: S153 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/password-recovery/tests/test.sh — the harness's reward mapping (pytest exit status), lines 1-31, same commit, accessed 2026-10-26
+-source: S154 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/password-recovery/README.md — the authors' own README for this task, lines 1-46, same commit, accessed 2026-10-26
+-source: S155 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/password-recovery/solution/solve.sh — the task oracle that window-scans the image and emits candidate lines, lines 1-70, same commit, accessed 2026-10-26
++source: S151 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/password-recovery/environment/setup.sh — the image seed that plants the two zip fragments at the 1MB and 3MB offsets, lines 1-43, same commit, accessed 2026-10-26
++source: S152 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/password-recovery/environment/Dockerfile — the image recipe that installs the forensic tools and runs the seed, lines 1-20, same commit, accessed 2026-10-26
++source: S153 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/password-recovery/tests/test.sh — the harness's reward mapping (pytest exit status), lines 1-29, same commit, accessed 2026-10-26
++source: S154 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/password-recovery/README.md — the authors' own README for this task, lines 1-33, same commit, accessed 2026-10-26
++source: S155 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/password-recovery/solution/solve.sh — the task oracle that window-scans the image and emits candidate lines, lines 1-68, same commit, accessed 2026-10-26
+ source: S156 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/password-recovery/task.toml — the authors' metadata: timeouts, image pin, internet flag, lines 1-41, same commit, accessed 2026-10-26
+ verified-at: 2026-10-26
+ recheck: 180d — from the lane root run `(cd corpus/evidence/round45/tb2-password-recovery && sha256sum -c SHA256SUMS)` (nine files), re-fetch the eight pinned URLs above and compare with the pin table in `plans/pkg-spec-r45.json`, then re-run `python3 plans/password_recovery_probe.py --lane .`; any capture digest, probe output or receipt change supersedes this entry
+@@ -124,7 +124,7 @@ The Findings section says, case by case, why that line decides it.
+ | `constant-crlf` | `test_outputs.py:14` | “guesses = Path("/app/recovered_passwords.txt").read_text()” |
+ | `constant-joined` | `test_outputs.py:18` | “in guesses, "Password not found"” |
+ | `dir-state` | `test_outputs.py:14` | “guesses = Path("/app/recovered_passwords.txt").read_text()” |
+-| `empty-file` | `test_outputs.py:16` | “assert len(guesses) > 0, "No guesses found"” |
++| `empty-file` | `test_outputs.py:18` | “assert "8XDP5Q2RT9ZK7VB3BV4WW54" in guesses, "Password not found"” |
+ | `wrong-23` | `test_outputs.py:18` | “"8XDP5Q2RT9ZK7VB3BV4WW54" in guesses” |
+ | `prefix-decoy` | `test_outputs.py:18` | “"8XDP5Q2RT9ZK7VB3BV4WW54" in guesses” |
+ | `sub-first` | `test_outputs.py:18` | “"8XDP5Q2RT9ZK7VB3BV4WW54" in guesses” |
+@@ -147,8 +147,8 @@ The Findings section says, case by case, why that line decides it.
+ 3. **Reading the public test file passes (`constant`, `constant-crlf`, `decoys-1000`; `PP`).** The answer is
+    hard-coded at `test_outputs.py:18`, and `allow_internet = true` (`task.toml:34`) plus the published repo
+    mean the constant is obtainable without touching the disk image at all. A CRLF line passes because
+-   `read_text()` runs universal-newline mode (`:14`); a thousand decoys pass because the check is membership,
+-   not exactness or count.
++   `read_text()` runs universal-newline mode (`:14`), which turns a lone `\r` into `\n` as well; a thousand
++   decoys pass because the check is membership, not exactness or count.
+ 4. **Format violations all fail on the same line (`constant-joined` through `password-eq`; `PF`).** Every
+    wrong shape lands at `:18`: a joined line (`<answer><decoy1><decoy2>`), a `PASSWORD=`-prefixed line, a
+    truncated, lowercased or wrong-content line — none is `in guesses` as an element. `dir-state` instead dies
+@@ -190,12 +190,16 @@ other than the pytest exit status; or (f) `task.toml` is shown to have `allow_in
+ 
+ ## Predictor
+ 
+-The grader's exact rule on the file content (or None when absent): the answer appears as a whole line after
+-`read_text`'s universal-newline read, `.strip()` and `.split("\n")`.
++The grader's exact rule on the file content (or None when absent): the text is first normalized to LF exactly as
++`read_text`'s universal-newline translation does it — every `\r\n` and then every lone `\r` becomes `\n` — then
++`.strip()`ped and split on `\n`; the answer passes iff one resulting element equals the 23-character constant.
+ 
+ ```python
+ def predict(text):
+-    return text is not None and "8XDP5Q2RT9ZK7VB3BV4WW54" in text.replace("\r\n", "\n").strip().split("\n")
++    if text is None:
++        return False
++    text = text.replace("\r\n", "\n").replace("\r", "\n")
++    return "8XDP5Q2RT9ZK7VB3BV4WW54" in text.strip().split("\n")
+ ```
+ 
+ ## Limits
+@@ -206,3 +210,42 @@ def predict(text):
+   reproduced byte-for-byte but noise content differs from a real image.
+ - The V11 predictor check cannot refuse an open-coded 48-bit truth table small enough to pass the lint;
+   non-author review of the predictor block is part of admission.
++
++## Errata (round 46)
++
++Round 45 landed this entry with one false rule and four mislocated citations; the round-45 closure
++(`corpus/lessons/round-45-verifier-spotcheck.md` §2 C2 row and §5 items 1-2) routed them. Rows S161, S162 and S163
++supersede S152, S153 and S154 under Q34; this entry's `source:` lines still name the rows of record. Each item below
++names the old text it replaces and the evidence that decides it.
++
++1. **`## Predictor` block — lone CR not translated (`lone-CR` gap).** Old block:
++   `text.replace("\r\n", "\n").strip().split("\n")`. The captured grader's `read_text()` (`test_outputs.py:14`)
++   reads in universal-newline mode, which turns a lone `\r` into `\n` too, so the old block false-negatived 6 of
++   the counter's 16 frozen states — `C\rD`, `D\rC`, `D\n\rC`, `C\r\r\nD`, `D\r\rC` and `D\r\nC\rD` — while the 2
++   CRLF controls and the 4 non-newline separators already agreed. Corroboration: closure §2, row "predictor
++   review" — for `C"\r"a`, `"x\r"+C` and `"x\n\r"+C` the "grader True, predictor False". The
++   block now replaces `\r\n` and then `\r`, and the round-46 counter's leg B over the same 16 frozen newline
++   states (9 carrying a lone `\r`, one CR-CR-LF, 4 non-newline separators — VT, FF, NEL, LS — and 2 CRLF
++   controls) reports `disagree=0`.
++2. **`## Predictor` and Finding 3 prose — claimed a read the block did not implement.** Old text (line numbers at
++   the base revision): "`read_text`'s universal-newline read, `.strip()` and `.split("\n")`" (`:193-194`), with
++   Finding 3 (`:150`) saying only that
++   "`read_text()` runs universal-newline mode (`:14`)". True of the captured grader, false of the old block, which
++   handled CRLF only; both places now state the same rule the code implements — `\r\n` and lone `\r` become `\n`,
++   then `.strip()`, then split on `\n` — and Finding 3 names the lone-`\r` case explicitly.
++3. **S152/S153/S154 anchor lines — quote and cited line disagree.** Old anchors: `Dockerfile:15`,
++   `test.sh:28`, `README.md:44`. The quotes sit at `Dockerfile:17` ("RUN bash /app/setup.sh"), at `test.sh:26`
++   ("echo 1 > /logs/verifier/reward.txt"; `:28` carries `echo 0`), and at `README.md:31`; `README.md` has 33
++   lines, so `:44` cannot exist. Superseded by S161, S162 and S163 (Q34). Evidence: closure §3 ("S153 anchor
++   quote … is verbatim in the re-opened `test.sh`, at `:26`, not the cited `:28`") and the captures.
++4. **`empty-file` Mechanism row — named the assert that cannot fire.** Old row: decisive line
++   `test_outputs.py:16`, quote `assert len(guesses) > 0, "No guesses found"`. For a zero-byte file the split yields
++   `['']`, so `:16` passes on every input; the case fails at `:18`, the membership assert the row now cites.
++   Evidence: `test_outputs.py:16,18`, the case table's `empty-file` cell and Finding 5, which already said "fails at
++   `:18`".
++5. **`source:` range cells — upper bounds past the end of the captures.** Old ranges, against line counts
++   re-measured on the captures at `corpus/evidence/round45/tb2-password-recovery/` (`bytes.decode(); .splitlines()`):
++   S151 `1-45` → 43, S152 `1-16` → 20, S153 `1-31` → 29, S154 `1-46` → 33, S155 `1-70` → 68. The S150 `1-9`,
++   S156 `1-41` and S149 `:9-10`/`:14-18` ranges were already exact and are unchanged. Evidence: the round-46
++   counter's leg C reported `source_ranges_bad=4` on the base (the four over-long bounds; the S152 short bound did
++   not trip it but still understated a 20-line file) and reports `source_ranges_bad=0` on this revision.
