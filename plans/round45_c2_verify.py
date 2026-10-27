@@ -73,22 +73,22 @@ import tempfile
 CAP = "corpus/evidence/round45/tb2-password-recovery"
 CAPTURES = {
     "README.md": "122bf15ef4a6ede562f21453f9f1c452fc10a3048bac7d46a013adbac6a13add",
-    "environment/Dockerfile": "6fabcb9e1fcb7155bf8cfe106c17f2dfa3344103e97960dab580c2444b6c9fe0",
-    "environment/setup.sh": "9fdde5d9cd74ae0d633bdd59e7249cc6d7385d27a98b1e2dbbeb11b05a6f2af8",
+    "Dockerfile": "6fabcb9e1fcb7155bf8cfe106c17f2dfa3344103e97960dab580c2444b6c9fe0",
+    "setup.sh": "9fdde5d9cd74ae0d633bdd59e7249cc6d7385d27a98b1e2dbbeb11b05a6f2af8",
     "gitignore": "9a8dd8d9b6c3adb8e9e56328df27deef859a3e98fffc9b8133c8b22207c25953",
     "instruction.md": "bc4f501148805bbccdb94a5c5b745f1ce9564f04ef0fe36bc37c3ca20b7810a5",
-    "solution/solve.sh": "c5f9fc70b6bae40befdd0088dde1a3bc6e909852c9fbb36a617c627b7b8d804f",
+    "solve.sh": "c5f9fc70b6bae40befdd0088dde1a3bc6e909852c9fbb36a617c627b7b8d804f",
     "task.toml": "cfd0362d201b957796f9bf1c02cc75646250cb2bd107ec88c768bfcfd091b24b",
-    "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
-    "tests/test_outputs.py": "2dc14fc180734b6fbb0ee00f27c4f866071247b57a2217f579465ff8ed3bfc9e",
+    "test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+    "test_outputs.py": "2dc14fc180734b6fbb0ee00f27c4f866071247b57a2217f579465ff8ed3bfc9e",
 }
 
 SPEC_REL = "plans/pkg-spec-r45.json"
-SPEC_SHA256 = "3eb696b47095627be39ab3fc284392d959c9efd58233cddb2037cc138571f317"
+SPEC_SHA256 = "2f924ffae0b6d0a3346e23b106ec3d5ea03689222923e82509891238649e8244"
 GATE_REL = "plans/pkg_gate.py"
 GATE_SHA256 = "ea63882240e67e9906e481f3d652f94366c288dc91991bafbfcd651a766edd41"
 PROBE_REL = "plans/password_recovery_probe.py"
-PROBE_SHA256 = "f87a9eebe464b29d95259cae24c00b56ea58de5bf93fef10884daa673e1488b5"
+PROBE_SHA256 = "9363e03e4ae3ef12f5cdc901c707922bf472222a98eecb079fa8075ac1beb4ab"
 DRY_REL = "corpus/evidence/round45/password-recovery-dry-cases-freeze.txt"
 DRY_SHA256 = "46036abe542aa8e50a59080bda82c154ae4735de25ac64416906de263f71aabb"
 ORDER_REL = "plans/order_check.py"
@@ -99,7 +99,7 @@ SOURCE_ROW = re.compile(r"^ {0,3}\|\s*(S\d{3,})\s*\|")
 SUMMARY = re.compile(r"^cases=(\d+) observed_pass=(\d+) observed_fail=(\d+) mismatches=(\d+)$")
 MAP_ROW = re.compile(r"^\|\s*`instruction\.md:(\d+)`\s*\|\s*`([a-z0-9-]+)`\s*\|\s*(enforced|unenforced|partly)\s*\|(.*)\|\s*$")
 CASE_ROW = re.compile(r"^\|\s*`([a-z0-9_-]+)`\s*\|\s*([PF-]+)\s*\|\s*(pass|fail)\s*\|.*\|\s*$")
-MECH_ROW = re.compile(r"^\|\s*`([a-z0-9_-]+)`\s*\|\s*`([A-Za-z0-9_.-]+):(\d+)`\s*\|\s*“(.+?)”\s*\|\s*$")
+MECH_ROW = re.compile(r"^\|\s*`([a-z0-9_-]+)`\s*\|\s*`([A-Za-z0-9_./-]+):(\d+)`\s*\|\s*“(.+?)”\s*\|\s*$")
 
 
 def sha256(p):
@@ -334,22 +334,22 @@ def v9(lane):
 # V10: the source lines that decide each frozen case (capture name -> 1-based line numbers), read by the L1 at the
 # freeze from the captures pinned above. Keys equal the frozen dry table's case ids.
 DECISIVE = {
-    "nop": {"tests/test_outputs.py": (9, 10)},                    # Path + exists() assert
-    "oracle-solve-sh": {"solution/solve.sh": (11, 51, 63)},       # find image; OUTPUT_FILE=; echo combined
-    "constant": {"tests/test_outputs.py": (18,)},                 # the embedded answer literal
-    "constant-crlf": {"tests/test_outputs.py": (14,)},            # read_text().strip().split
-    "constant-joined": {"tests/test_outputs.py": (14, 18)},
-    "dir-state": {"tests/test_outputs.py": (10, 14)},
-    "empty-file": {"tests/test_outputs.py": (16, 18)},            # the len>0 assert that cannot fire; :18 decides
-    "wrong-23": {"tests/test_outputs.py": (18,)},
-    "prefix-decoy": {"tests/test_outputs.py": (18,)},
-    "sub-first": {"tests/test_outputs.py": (18,)},
-    "sub-last": {"tests/test_outputs.py": (18,)},
-    "lower23": {"tests/test_outputs.py": (18,)},
-    "decoys-1000": {"tests/test_outputs.py": (14, 18)},
-    "password-eq": {"tests/test_outputs.py": (18,), "instruction.md": (4,)},
-    "crlf-line": {"tests/test_outputs.py": (14,)},
-    "under-varsea": {"tests/test_outputs.py": (9,)},
+    "nop": {"test_outputs.py": (9, 10)},                    # Path + exists() assert
+    "oracle-solve-sh": {"solve.sh": (11, 51, 63)},       # find image; OUTPUT_FILE=; echo combined
+    "constant": {"test_outputs.py": (18,)},                 # the embedded answer literal
+    "constant-crlf": {"test_outputs.py": (14,)},            # read_text().strip().split
+    "constant-joined": {"test_outputs.py": (14, 18)},
+    "dir-state": {"test_outputs.py": (10, 14)},
+    "empty-file": {"test_outputs.py": (16, 18)},            # the len>0 assert that cannot fire; :18 decides
+    "wrong-23": {"test_outputs.py": (18,)},
+    "prefix-decoy": {"test_outputs.py": (18,)},
+    "sub-first": {"test_outputs.py": (18,)},
+    "sub-last": {"test_outputs.py": (18,)},
+    "lower23": {"test_outputs.py": (18,)},
+    "decoys-1000": {"test_outputs.py": (14, 18)},
+    "password-eq": {"test_outputs.py": (18,), "instruction.md": (4,)},
+    "crlf-line": {"test_outputs.py": (14,)},
+    "under-varsea": {"test_outputs.py": (9, 10)},
 }
 
 
@@ -393,7 +393,7 @@ def v10(lane):
 
 # V11: held-out predictor, hardened per R44CritV11 (source lint + no at= leak + fresh seeded table).
 # STATES is a generator, not an answer key: no verdict is stored in this file.
-ANSWER_PATH = "tests/test_outputs.py"
+ANSWER_PATH = "test_outputs.py"
 ANSWER_RE = re.compile(r'"([0-9A-Z]{23})"')
 OUT_FILE = "/app/recovered_passwords.txt"
 STATE_KINDS = ("exact", "with-decoys", "crlf-file", "no-newline", "padded-lines", "joined", "password-eq",

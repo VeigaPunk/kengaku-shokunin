@@ -72,8 +72,8 @@ PINS = {
     "instruction.md": "bc4f501148805bbccdb94a5c5b745f1ce9564f04ef0fe36bc37c3ca20b7810a5",
     "test_outputs.py": "2dc14fc180734b6fbb0ee00f27c4f866071247b57a2217f579465ff8ed3bfc9e",
 }
-PUBLIC = {"instruction.md": "instruction.md", "test_outputs.py": "tests/test_outputs.py",
-          "solve.sh": "solution/solve.sh"}
+PUBLIC = {"instruction.md": "instruction.md", "test_outputs.py": "test_outputs.py",
+          "solve.sh": "solve.sh"}
 BWRAP = "/usr/bin/bwrap"
 TOOLS = ("/usr/bin/python3", "/usr/bin/bash", "/usr/bin/zip", "/usr/bin/dd", "/usr/bin/strings")
 TESTS = ("test_recovery_file_exists", "test_password_match")
@@ -244,8 +244,8 @@ def run_case(cap, root, case, mode):
         app.mkdir()
         tests.mkdir()
         (work / "zeros.bin").write_bytes(b"\0" * 65536)
-        shutil.copyfile(cap / "tests/test_outputs.py", tests / "test_outputs.py")
-        (work / "seed.sh").write_text((cap / "environment/setup.sh").read_text())
+        shutil.copyfile(cap / "test_outputs.py", tests / "test_outputs.py")
+        (work / "seed.sh").write_text((cap / "setup.sh").read_text())
         (work / "recipe.sh").write_text(case.recipe or ":\n")
         (work / "harness.py").write_text(HARNESS_PY)
         if mode == "stage":
@@ -307,8 +307,7 @@ def main():
               f" predicted_fail={sum(overall(c.predicted) == 'fail' for c in CASES)}")
         return 0
     for name, digest in PINS.items():
-        src = {"setup.sh": "environment/setup.sh", "solve.sh": "solution/solve.sh",
-               "instruction.md": "instruction.md", "test_outputs.py": "tests/test_outputs.py"}[name]
+        src = {name: name for name in ("setup.sh", "solve.sh", "instruction.md", "test_outputs.py")}[name]
         if not (cap / src).is_file() or sha256(cap / src) != digest:
             print(f"SETUP capture {name} missing or not at its pinned digest", file=sys.stderr)
             return 2
