@@ -1,0 +1,43 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45ScoutFenceArt/env /fast/scratch/hyaku/kengaku-r45/R45ScoutFenceArt/env --bind /fast/scratch/hyaku/kengaku-r45/R45ScoutFenceArt/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/w1/R45ScoutFenceArt/exp.sh /fast/scratch/hyaku/kengaku-r45/R45ScoutFenceArt
+ENVELOPE start 23:28:18 cwd=/home/vgpnk/Projects/shokunin
+git version 2.56.0
+== E1 include in .git/config (env isolated: NOSYSTEM + GLOBAL=/dev/null + HOME scratch)
+E1a git rev-parse HEAD rc=0 outside_refs=2 outside_successful_open=1 stdout=.git|
+E1b git status rc=0 outside_refs=4 outside_successful_open=2 stdout=
+E1c git -c include.path=/dev/null status rc=0 outside_refs=4 outside_successful_open=2 stdout=
+E1d git config user.name (default) rc=0 outside_refs=2 outside_successful_open=1 stdout=LEAKED|
+E1e git config --no-includes user.name rc=1 outside_refs=0 outside_successful_open=0 stdout=
+E1f git config --local --no-includes --get-regexp ^include rc=0 outside_refs=4 outside_successful_open=2 stdout=include.path /fast/scratch/hyaku/kengaku-r45/R45ScoutFenceAr
+E1g git config --file .git/config (default no includes) rc=0 outside_refs=2 outside_successful_open=1 stdout=include.path /fast/scratch/hyaku/kengaku-r45/R45ScoutFenceAr
+E1h git config --file .git/config --includes user.name rc=0 outside_refs=2 outside_successful_open=1 stdout=LEAKED|
+E1i GIT_CONFIG_COUNT override rc=0 outside_refs=4 outside_successful_open=2 stdout=
+E1j git --no-replace-objects? (no includes flag exists?) git --config-env rc=0 outside_refs=4 outside_successful_open=2 stdout=
+== E1k: git has global switch for includes?
+0
+== E2 config.worktree include, main worktree
+E2a worktree file present, extension OFF: git config user.name rc=1 outside_refs=0 outside_successful_open=0 stdout=
+E2b same, git status rc=0 outside_refs=0 outside_successful_open=0 stdout=
+E2c extension ON: git config user.name rc=0 outside_refs=2 outside_successful_open=1 stdout=LEAKED|
+E2d extension ON: git config --local user.name rc=1 outside_refs=2 outside_successful_open=1 stdout=
+E2e extension ON: git config --worktree --no-includes --get-regexp ^include rc=0 outside_refs=2 outside_successful_open=1 stdout=include.path /fast/scratch/hyaku/kengaku-r45/R45ScoutFenceAr
+E2f extension ON: git rev-parse --git-dir (plain discovery) rc=0 outside_refs=2 outside_successful_open=1 stdout=.git|
+E2g extension ON: git status rc=0 outside_refs=2 outside_successful_open=1 stdout=
+== E3 commondir delegation
+E3a d/.git has only HEAD+commondir(abs outside): git config user.name rc=0 outside_refs=2 outside_successful_open=1 stdout=LEAKED|
+E3b same: git rev-parse --git-dir --git-common-dir --show-toplevel rc=0 outside_refs=2 outside_successful_open=1 stdout=.git|/fast/scratch/hyaku/kengaku-r45/R45ScoutFenceArt/e3comm
+E3c same: git status rc=0 outside_refs=4 outside_successful_open=2 stdout=
+E3d relative commondir ../../e3common: git config user.name rc=0 outside_refs=2 outside_successful_open=1 stdout=LEAKED|
+== E3x: is commondir honoured w/o objects/ refs/ in gitdir?
+/fast/scratch/hyaku/kengaku-r45/R45ScoutFenceArt/e3common
+== E4 repo above d + GIT_CEILING_DIRECTORIES
+E4a no ceiling, cwd=d: git rev-parse --show-toplevel rc=0 outside_refs=2 outside_successful_open=1 stdout=/fast/scratch/hyaku/kengaku-r45/R45ScoutFenceArt/e4|
+E4b ceiling=X (parent of repo-root X is not listed; X itself listed) rc=128 outside_refs=0 outside_successful_open=0 stdout=fatal: not a git repository (or any of the parent directorie
+E4c ceiling=X/d (d itself) rc=0 outside_refs=2 outside_successful_open=1 stdout=/fast/scratch/hyaku/kengaku-r45/R45ScoutFenceArt/e4|
+E4d ceiling=dirname(d)=X ... plus config read: git status rc=128 outside_refs=0 outside_successful_open=0 stdout=fatal: not a git repository (or any of the parent directorie
+E4e ceiling=X/d, d contains its own .git (init) rc=0 outside_refs=0 outside_successful_open=0 stdout=/fast/scratch/hyaku/kengaku-r45/R45ScoutFenceArt/e4/d|
+== E5 alternates (object db) lazy read
+E5a git rev-parse --git-dir (alternates opened?) rc=0 outside_refs=0 outside_successful_open=0 stdout=.git|
+E5b git rev-parse HEAD (unborn) rc=128 outside_refs=0 outside_successful_open=0 stdout=fatal: ambiguous argument 'HEAD': unknown revision or path n
+E5c git cat-file -t deadbeefdeadbeefdeadbeefdeadbeefdeadbeef rc=128 outside_refs=0 outside_successful_open=0 stdout=fatal: git cat-file: could not get object info|
+E5d git status rc=0 outside_refs=0 outside_successful_open=0 stdout=
+ENVELOPE end 23:28:21 exit=0 local_bin_content_before=c263b11afb1cccf6 after=c263b11afb1cccf6 unchanged

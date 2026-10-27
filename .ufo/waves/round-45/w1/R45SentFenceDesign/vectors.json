@@ -1,0 +1,1473 @@
+{
+ "02_worktree_relative": {
+  "note": "",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/02_worktree_relative/fx/f000/lane",
+     "rev-parse",
+     "--show-toplevel"
+    ],
+    "inside_opens": 4,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "rev-parse-toplevel",
+    "rc": 128,
+    "stderr": "fatal: cannot chdir to '../side/wt': No such file or directory",
+    "stdout": ""
+   }
+  ],
+  "question": "core.worktree relative escapes d (r44 leg reads --local --no-includes)"
+ },
+ "03_inc_gitdir_true": {
+  "note": "",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/03_inc_gitdir_true/fx/f000/lane",
+     "config",
+     "--get",
+     "user.email"
+    ],
+    "inside_opens": 3,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 1,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/03_inc_gitdir_true/fx/side/inc.cfg"
+    ],
+    "probe": "config-user-email",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "OUTSIDE@invalid"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/03_inc_gitdir_true/fx/f000/lane",
+     "rev-parse",
+     "--show-toplevel"
+    ],
+    "inside_opens": 3,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 1,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/03_inc_gitdir_true/fx/side/inc.cfg"
+    ],
+    "probe": "rev-parse-toplevel",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/03_inc_gitdir_true/fx/f000/lane"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/03_inc_gitdir_true/fx/f000/lane",
+     "config",
+     "--local",
+     "--no-includes",
+     "--get-regexp",
+     "^include(if)?\\."
+    ],
+    "inside_opens": 5,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 2,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/03_inc_gitdir_true/fx/side/inc.cfg"
+    ],
+    "probe": "no-includes-getregexp",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "includeif.gitdir:/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/03_inc_gitdir_true/fx/f000/lane/.path /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/03_inc_gitdir_true/fx/side/inc.cfg"
+   }
+  ],
+  "question": "includeIf gitdir:<match> + outside path: does git parse it?"
+ },
+ "04_inc_gitdir_false": {
+  "note": "",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/04_inc_gitdir_false/fx/f000/lane",
+     "config",
+     "--get",
+     "user.email"
+    ],
+    "inside_opens": 3,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "config-user-email",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "local@invalid"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/04_inc_gitdir_false/fx/f000/lane",
+     "log",
+     "--oneline",
+     "-1"
+    ],
+    "inside_opens": 12,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "log-oneline",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "a8e8c97 c"
+   }
+  ],
+  "question": "includeIf gitdir:<non-match>: parsed but not applied (text scan still must refuse)"
+ },
+ "05_inc_onbranch": {
+  "note": "",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/05_inc_onbranch/fx/f000/lane",
+     "config",
+     "--get",
+     "user.email"
+    ],
+    "inside_opens": 5,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 1,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/05_inc_onbranch/fx/side/inc.cfg"
+    ],
+    "probe": "config-user-email",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "OUTSIDE@invalid"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/05_inc_onbranch/fx/f000/lane",
+     "status",
+     "--porcelain"
+    ],
+    "inside_opens": 27,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 1,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/05_inc_onbranch/fx/side/inc.cfg"
+    ],
+    "probe": "status-porcelain",
+    "rc": 0,
+    "stderr": "",
+    "stdout": ""
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/05_inc_onbranch/fx/f000/lane",
+     "log",
+     "--oneline",
+     "-1"
+    ],
+    "inside_opens": 14,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 1,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/05_inc_onbranch/fx/side/inc.cfg"
+    ],
+    "probe": "log-oneline",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "a8e8c97 c"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/05_inc_onbranch/fx/f000/lane",
+     "rev-parse",
+     "--show-toplevel"
+    ],
+    "inside_opens": 5,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 1,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/05_inc_onbranch/fx/side/inc.cfg"
+    ],
+    "probe": "rev-parse-toplevel",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/05_inc_onbranch/fx/f000/lane"
+   }
+  ],
+  "question": "includeIf onbranch:<HEAD branch> + outside path: which git commands apply it?"
+ },
+ "06_inc_tilde": {
+  "note": "fence env in round45_c1_verify.run_fence sets HOME=/nonexistent",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/06_inc_tilde/fx/f000/lane",
+     "config",
+     "--get",
+     "user.email"
+    ],
+    "inside_opens": 3,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "config-user-email-HOME-nonexistent",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "local@invalid"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/06_inc_tilde/fx/f000/lane",
+     "config",
+     "--get",
+     "user.email"
+    ],
+    "inside_opens": 3,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "config-user-email-HOME-writable",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "TILDE-OUTSIDE@invalid"
+   }
+  ],
+  "question": "include.path = ~/... : tilde expands to HOME (outside d)"
+ },
+ "07_inc_envvar": {
+  "note": "",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/07_inc_envvar/fx/f000/lane",
+     "config",
+     "--get",
+     "user.email"
+    ],
+    "inside_opens": 3,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "config-user-email",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "local@invalid"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/07_inc_envvar/fx/f000/lane",
+     "config",
+     "--get-all",
+     "include.path"
+    ],
+    "inside_opens": 4,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "config-get-all-include",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "$HOME/inc-env.cfg\n${HOME}/inc-env2.cfg"
+   }
+  ],
+  "question": "include.path = $HOME/... : git treats env syntax literally (no expansion)?"
+ },
+ "08_attributes_excludes": {
+  "note": "",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/08_attributes_excludes/fx/f000/lane",
+     "rev-parse",
+     "--show-toplevel"
+    ],
+    "inside_opens": 3,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "rev-parse-toplevel",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/08_attributes_excludes/fx/f000/lane"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/08_attributes_excludes/fx/f000/lane",
+     "config",
+     "--local",
+     "--no-includes",
+     "--get-regexp",
+     "^core\\."
+    ],
+    "inside_opens": 5,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "config-getregexp-core",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "core.repositoryformatversion 0\ncore.filemode true\ncore.bare false\ncore.logallrefupdates true\ncore.attributesfile /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/08_attributes_excludes/fx/side/attrs\ncore.excludesf"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/08_attributes_excludes/fx/f000/lane",
+     "check-attr",
+     "-a",
+     "--",
+     "a.txt"
+    ],
+    "inside_opens": 5,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 1,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/08_attributes_excludes/fx/side/attrs"
+    ],
+    "probe": "check-attr",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "a.txt: filter: outside-filter"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/08_attributes_excludes/fx/f000/lane",
+     "status",
+     "--porcelain"
+    ],
+    "inside_opens": 25,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 3,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/08_attributes_excludes/fx/side/attrs",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/08_attributes_excludes/fx/side/ign"
+    ],
+    "probe": "status-porcelain",
+    "rc": 0,
+    "stderr": "",
+    "stdout": ""
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/08_attributes_excludes/fx/f000/lane",
+     "ls-files",
+     "-o",
+     "--exclude-standard"
+    ],
+    "inside_opens": 7,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 1,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/08_attributes_excludes/fx/side/ign"
+    ],
+    "probe": "ls-files-others",
+    "rc": 0,
+    "stderr": "",
+    "stdout": ""
+   }
+  ],
+  "question": "core.attributesFile / core.excludesFile outside d: which commands parse?"
+ },
+ "09_hooks_fsmonitor": {
+  "note": "markers={'HOOK-RAN': True, 'FSM-RAN': True} (core.fsmonitor/core.hooksPath are env-pinned by r44 GIT_PINS)",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/09_hooks_fsmonitor/fx/f000/lane",
+     "rev-parse",
+     "--show-toplevel"
+    ],
+    "inside_opens": 3,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "rev-parse-toplevel",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/09_hooks_fsmonitor/fx/f000/lane"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/09_hooks_fsmonitor/fx/f000/lane",
+     "status",
+     "--porcelain"
+    ],
+    "inside_opens": 25,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "status-porcelain-pinned",
+    "rc": 0,
+    "stderr": "",
+    "stdout": ""
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/09_hooks_fsmonitor/fx/f000/lane",
+     "status",
+     "--porcelain"
+    ],
+    "inside_opens": 25,
+    "outside_attempts": [],
+    "outside_execs": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/09_hooks_fsmonitor/fx/side/fsmon.sh",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/09_hooks_fsmonitor/fx/side/hooks/post-index-change"
+    ],
+    "outside_opens": 4,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/09_hooks_fsmonitor/fx/side/FSM-RAN",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/09_hooks_fsmonitor/fx/side/HOOK-RAN",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/09_hooks_fsmonitor/fx/side/fsmon.sh",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/09_hooks_fsmonitor/fx/side/hooks/post-index-change"
+    ],
+    "probe": "status-porcelain-nopins",
+    "rc": 0,
+    "stderr": "warning: Empty last update token.",
+    "stdout": ""
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/09_hooks_fsmonitor/fx/f000/lane",
+     "update-index",
+     "-q",
+     "--refresh"
+    ],
+    "inside_opens": 7,
+    "outside_attempts": [],
+    "outside_execs": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/09_hooks_fsmonitor/fx/side/fsmon.sh",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/09_hooks_fsmonitor/fx/side/hooks/post-index-change"
+    ],
+    "outside_opens": 4,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/09_hooks_fsmonitor/fx/side/FSM-RAN",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/09_hooks_fsmonitor/fx/side/HOOK-RAN",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/09_hooks_fsmonitor/fx/side/fsmon.sh",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/09_hooks_fsmonitor/fx/side/hooks/post-index-change"
+    ],
+    "probe": "update-index-refresh-nopins",
+    "rc": 0,
+    "stderr": "warning: Empty last update token.",
+    "stdout": ""
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/09_hooks_fsmonitor/fx/f000/lane",
+     "log",
+     "--oneline",
+     "-1"
+    ],
+    "inside_opens": 12,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "log-oneline-nopins",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "c9cf394 c"
+   }
+  ],
+  "question": "core.hooksPath / core.fsmonitor outside d: executed by which commands, under which env?"
+ },
+ "10_mailmap": {
+  "note": "",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/10_mailmap/fx/f000/lane",
+     "rev-parse",
+     "--show-toplevel"
+    ],
+    "inside_opens": 3,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "rev-parse-toplevel",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/10_mailmap/fx/f000/lane"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/10_mailmap/fx/f000/lane",
+     "log",
+     "--use-mailmap",
+     "--format=%ae",
+     "-1"
+    ],
+    "inside_opens": 11,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 1,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/10_mailmap/fx/side/mailmap"
+    ],
+    "probe": "log-usemailmap",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "f@invalid"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/10_mailmap/fx/f000/lane",
+     "shortlog",
+     "-sne",
+     "HEAD"
+    ],
+    "inside_opens": 11,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 2,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/10_mailmap/fx/side/mailmap"
+    ],
+    "probe": "shortlog",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "1\tMapped <outside@invalid>"
+   }
+  ],
+  "question": "mailmap.file outside d: which commands parse?"
+ },
+ "11_submodule_absurl": {
+  "note": "",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/11_submodule_absurl/fx/f000/lane",
+     "rev-parse",
+     "--show-toplevel"
+    ],
+    "inside_opens": 3,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "rev-parse-toplevel",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/11_submodule_absurl/fx/f000/lane"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/11_submodule_absurl/fx/f000/lane",
+     "submodule",
+     "status"
+    ],
+    "inside_opens": 23,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "submodule-status",
+    "rc": 0,
+    "stderr": "",
+    "stdout": ""
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/11_submodule_absurl/fx/f000/lane",
+     "submodule",
+     "update",
+     "--init",
+     "--quiet"
+    ],
+    "inside_opens": 24,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "submodule-update-init",
+    "rc": 0,
+    "stderr": "",
+    "stdout": ""
+   }
+  ],
+  "question": "submodule url = file://<outside>: parsed by which commands, does init read outside?"
+ },
+ "12_alternates_relative": {
+  "note": "",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/12_alternates_relative/fx/f000/lane",
+     "cat-file",
+     "-t",
+     "768d8dea9b62a2197bbac37790d407bf202828f3"
+    ],
+    "inside_opens": 8,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "cat-file-borrowed",
+    "rc": 128,
+    "stderr": "5/R45SentFenceDesign/work/12_alternates_relative/fx/f000/lane/.git/objects/../../../../../side/store/.git/objects\nfatal: git cat-file: could not get object info",
+    "stdout": ""
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/12_alternates_relative/fx/f000/lane",
+     "rev-parse",
+     "--show-toplevel"
+    ],
+    "inside_opens": 4,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "rev-parse-toplevel",
+    "rc": 0,
+    "stderr": "ate object path: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/12_alternates_relative/fx/f000/lane/.git/objects/../../../../../side/store/.git/objects",
+    "stdout": "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/12_alternates_relative/fx/f000/lane"
+   }
+  ],
+  "question": "objects/info/alternates RELATIVE (../../../../../side/store/.git/objects) to an outside store: git reads it?"
+ },
+ "13_commondir_relative": {
+  "note": "",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/13_commondir_relative/fx/f000/lane",
+     "rev-parse",
+     "--git-common-dir"
+    ],
+    "inside_opens": 2,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "git-common-dir",
+    "rc": 128,
+    "stderr": "fatal: Invalid path '/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/13_commondir_relative/fx/f000/side': No such file or directory",
+    "stdout": ""
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/13_commondir_relative/fx/f000/lane",
+     "rev-parse",
+     "--show-toplevel"
+    ],
+    "inside_opens": 2,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "rev-parse-toplevel",
+    "rc": 128,
+    "stderr": "fatal: Invalid path '/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/13_commondir_relative/fx/f000/side': No such file or directory",
+    "stdout": ""
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/13_commondir_relative/fx/f000/lane",
+     "cat-file",
+     "-t",
+     "768d8dea9b62a2197bbac37790d407bf202828f3"
+    ],
+    "inside_opens": 2,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "cat-file-borrowed",
+    "rc": 128,
+    "stderr": "fatal: Invalid path '/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/13_commondir_relative/fx/f000/side': No such file or directory",
+    "stdout": ""
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/13_commondir_relative/fx/f000/lane",
+     "config",
+     "--get",
+     "user.email"
+    ],
+    "inside_opens": 2,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "config-user-email",
+    "rc": 128,
+    "stderr": "fatal: Invalid path '/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/13_commondir_relative/fx/f000/side': No such file or directory",
+    "stdout": ""
+   }
+  ],
+  "question": "commondir RELATIVE to an outside store: git resolves it and reads outside?"
+ },
+ "14_worktrees_meta": {
+  "note": "",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/14_worktrees_meta/fx/f000/lane",
+     "rev-parse",
+     "--show-toplevel"
+    ],
+    "inside_opens": 3,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "rev-parse-toplevel",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/14_worktrees_meta/fx/f000/lane"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/14_worktrees_meta/fx/f000/lane",
+     "worktree",
+     "list"
+    ],
+    "inside_opens": 12,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "worktree-list",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/14_worktrees_meta/fx/f000/lane 94e7c33 [master]\n/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/14_worktrees_meta/fx/side/wt   0000000 [master]"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/14_worktrees_meta/fx/f000/lane",
+     "config",
+     "--get",
+     "user.email"
+    ],
+    "inside_opens": 3,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "config-user-email",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "local@invalid"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/14_worktrees_meta/fx/side/wt",
+     "config",
+     "--get",
+     "user.email"
+    ],
+    "inside_opens": 1,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 1,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/14_worktrees_meta/fx/side/wt/.git"
+    ],
+    "probe": "config-user-email-in-outside-wt",
+    "rc": 128,
+    "stderr": "fatal: gitfile does not point to a valid repository: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/14_worktrees_meta/fx/side/wt/.git",
+    "stdout": ""
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/14_worktrees_meta/fx/side/wt",
+     "rev-parse",
+     "--show-toplevel"
+    ],
+    "inside_opens": 1,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 1,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/14_worktrees_meta/fx/side/wt/.git"
+    ],
+    "probe": "rev-parse-in-outside-wt",
+    "rc": 128,
+    "stderr": "fatal: gitfile does not point to a valid repository: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/14_worktrees_meta/fx/side/wt/.git",
+    "stdout": ""
+   }
+  ],
+  "question": ".git/worktrees/<n>/ metadata (gitdir outside + config.worktree include): parsed by which commands?"
+ },
+ "15_env_gitdir": {
+  "note": "round45_c1_verify.run_fence passes a literal env of 5 keys; no GIT_* passthrough",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/15_env_gitdir/fx/f000/lane",
+     "rev-parse",
+     "--show-toplevel"
+    ],
+    "inside_opens": 0,
+    "outside_attempts": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/15_env_gitdir/fx/side/store/.git/objects/info/alternates"
+    ],
+    "outside_execs": [],
+    "outside_opens": 3,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/15_env_gitdir/fx/side/store/.git/HEAD",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/15_env_gitdir/fx/side/store/.git/config"
+    ],
+    "probe": "rev-parse-with-GIT_DIR",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/15_env_gitdir/fx/f000/lane"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/15_env_gitdir/fx/f000/lane",
+     "rev-parse",
+     "--show-toplevel"
+    ],
+    "inside_opens": 0,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "rev-parse-no-env",
+    "rc": 128,
+    "stderr": "fatal: not a git repository (or any parent up to mount point /)\nStopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).",
+    "stdout": ""
+   }
+  ],
+  "question": "GIT_DIR in env redirects discovery outside d (fixture cannot set fence env)"
+ },
+ "16_gitfile_variants": {
+  "note": "",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/16_gitfile_variants/fx/relative/lane",
+     "rev-parse",
+     "--absolute-git-dir"
+    ],
+    "inside_opens": 0,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 1,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/16_gitfile_variants/fx/relative/lane/.git"
+    ],
+    "probe": "variant-relative",
+    "rc": 128,
+    "stderr": "fatal: gitfile does not point to a valid repository: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/16_gitfile_variants/fx/relative/lane/.git",
+    "stdout": ""
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/16_gitfile_variants/fx/spacing/lane",
+     "rev-parse",
+     "--absolute-git-dir"
+    ],
+    "inside_opens": 0,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 1,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/16_gitfile_variants/fx/spacing/lane/.git"
+    ],
+    "probe": "variant-spacing",
+    "rc": 128,
+    "stderr": "fatal: invalid gitfile format: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/16_gitfile_variants/fx/spacing/lane/.git",
+    "stdout": ""
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/16_gitfile_variants/fx/nospace/lane",
+     "rev-parse",
+     "--absolute-git-dir"
+    ],
+    "inside_opens": 0,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 1,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/16_gitfile_variants/fx/nospace/lane/.git"
+    ],
+    "probe": "variant-nospace",
+    "rc": 128,
+    "stderr": "fatal: invalid gitfile format: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/16_gitfile_variants/fx/nospace/lane/.git",
+    "stdout": ""
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/16_gitfile_variants/fx/upper/lane",
+     "rev-parse",
+     "--absolute-git-dir"
+    ],
+    "inside_opens": 0,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 1,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/16_gitfile_variants/fx/upper/lane/.git"
+    ],
+    "probe": "variant-upper",
+    "rc": 128,
+    "stderr": "fatal: invalid gitfile format: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/16_gitfile_variants/fx/upper/lane/.git",
+    "stdout": ""
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/16_gitfile_variants/fx/leading-nl/lane",
+     "rev-parse",
+     "--absolute-git-dir"
+    ],
+    "inside_opens": 0,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 1,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/16_gitfile_variants/fx/leading-nl/lane/.git"
+    ],
+    "probe": "variant-leading-nl",
+    "rc": 128,
+    "stderr": "fatal: invalid gitfile format: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/16_gitfile_variants/fx/leading-nl/lane/.git",
+    "stdout": ""
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/16_gitfile_variants/fx/trailing-space/lane",
+     "rev-parse",
+     "--absolute-git-dir"
+    ],
+    "inside_opens": 0,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 1,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/16_gitfile_variants/fx/trailing-space/lane/.git"
+    ],
+    "probe": "variant-trailing-space",
+    "rc": 128,
+    "stderr": "fatal: gitfile does not point to a valid repository: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/16_gitfile_variants/fx/trailing-space/lane/.git",
+    "stdout": ""
+   }
+  ],
+  "question": "`.git` FILE variants (relative target, spacing, case): which does git accept?"
+ },
+ "17_dotgit_symlink": {
+  "note": "",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/17_dotgit_symlink/fx/f000/lane",
+     "rev-parse",
+     "--show-toplevel"
+    ],
+    "inside_opens": 0,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 3,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/17_dotgit_symlink/fx/side/gitdir/HEAD",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/17_dotgit_symlink/fx/side/gitdir/config"
+    ],
+    "probe": "rev-parse-toplevel",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/17_dotgit_symlink/fx/f000/lane"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/17_dotgit_symlink/fx/f000/lane",
+     "rev-parse",
+     "--absolute-git-dir"
+    ],
+    "inside_opens": 0,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 3,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/17_dotgit_symlink/fx/side/gitdir/HEAD",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/17_dotgit_symlink/fx/side/gitdir/config"
+    ],
+    "probe": "rev-parse-absolute-git-dir",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/17_dotgit_symlink/fx/side/gitdir"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/17_dotgit_symlink/fx/f000/lane",
+     "config",
+     "--get",
+     "user.email"
+    ],
+    "inside_opens": 0,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 3,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/17_dotgit_symlink/fx/side/gitdir/HEAD",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/17_dotgit_symlink/fx/side/gitdir/config"
+    ],
+    "probe": "config-user-email",
+    "rc": 1,
+    "stderr": "",
+    "stdout": ""
+   }
+  ],
+  "question": "`.git` as SYMLINK to an outside git dir: does git follow it?"
+ },
+ "18_symlink_store_config": {
+  "note": "",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/18_symlink_store_config/fx/f000/lane",
+     "config",
+     "--get",
+     "user.email"
+    ],
+    "inside_opens": 1,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 2,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/18_symlink_store_config/fx/side/cfg-hard"
+    ],
+    "probe": "config-user-email",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "SYMLINK-CFG-OUTSIDE@invalid"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/18_symlink_store_config/fx/f000/lane",
+     "cat-file",
+     "-t",
+     "768d8dea9b62a2197bbac37790d407bf202828f3"
+    ],
+    "inside_opens": 4,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 3,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/18_symlink_store_config/fx/side/cfg-hard"
+    ],
+    "probe": "cat-file-via-objlink",
+    "rc": 128,
+    "stderr": "fatal: git cat-file: could not get object info",
+    "stdout": ""
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/18_symlink_store_config/fx/f000/lane",
+     "rev-parse",
+     "--show-toplevel"
+    ],
+    "inside_opens": 1,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 2,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/18_symlink_store_config/fx/side/cfg-hard"
+    ],
+    "probe": "rev-parse-toplevel",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/18_symlink_store_config/fx/f000/lane"
+   }
+  ],
+  "question": "symlinked `.git/config` and `.git/objects`-like store link to outside d"
+ },
+ "19_hardlink_objects": {
+  "note": "nlink(config)=2 nlink(object)=2; inode-shared with outside file",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/19_hardlink_objects/fx/f000/lane",
+     "cat-file",
+     "-t",
+     "f6038cb8a528f8dd1a9aaba837d0f851cfae25dc"
+    ],
+    "inside_opens": 7,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "cat-file-hardlinked",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "blob"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/19_hardlink_objects/fx/f000/lane",
+     "config",
+     "--get",
+     "user.email"
+    ],
+    "inside_opens": 3,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "config-user-email",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "HARDLINK-CFG-OUTSIDE@invalid"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/19_hardlink_objects/fx/f000/lane",
+     "rev-parse",
+     "--show-toplevel"
+    ],
+    "inside_opens": 3,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "rev-parse-toplevel",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/19_hardlink_objects/fx/f000/lane"
+   }
+  ],
+  "question": "HARDLINKED objects/config: content authored outside d, path inside d"
+ },
+ "20_case_variants": {
+  "note": "naive scan results on the fixture config: {'case_sensitive_[include': False, 'case_insensitive_[include': True, 'case_sensitive_include.path': False, 'case_insensitive_include.PATH': False}",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/20_case_variants/fx/f000/lane",
+     "config",
+     "--get",
+     "user.email"
+    ],
+    "inside_opens": 3,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 1,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/20_case_variants/fx/side/inc1.cfg"
+    ],
+    "probe": "config-user-email",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "CASE-OUTSIDE@invalid"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/20_case_variants/fx/f000/lane",
+     "rev-parse",
+     "--show-toplevel"
+    ],
+    "inside_opens": 3,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 1,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/20_case_variants/fx/side/inc1.cfg"
+    ],
+    "probe": "rev-parse-toplevel",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/20_case_variants/fx/f000/lane"
+   }
+  ],
+  "question": "case-variant section/key spelling `[Include]` / `include.PATH`: git parses it?"
+ },
+ "21_promisor_fetch": {
+  "note": "config: \trepositoryformatversion = 1 / \turl = file:///fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/21_promisor_fetch/fx/side/store / \tpromisor = true / \tpartialclonefilter = blob:none",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/21_promisor_fetch/fx/f000/lane",
+     "cat-file",
+     "-t",
+     "b4523084724bbbf05952585aa2acc9323b8bcbf1"
+    ],
+    "inside_opens": 9,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "cat-file-missing-blob",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "blob"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/21_promisor_fetch/fx/f000/lane",
+     "config",
+     "--local",
+     "--get-regexp",
+     "^remote\\.|^extensions\\.|^core\\.repositoryformatversion"
+    ],
+    "inside_opens": 5,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "config-get-promisor",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "core.repositoryformatversion 1\nremote.origin.url file:///fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/21_promisor_fetch/fx/side/store\nremote.origin.fetch +refs/heads/*:refs/remotes/origin/*\nremote.origin.promis"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/21_promisor_fetch/fx/f000/lane",
+     "rev-parse",
+     "--show-toplevel"
+    ],
+    "inside_opens": 3,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "rev-parse-toplevel",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/21_promisor_fetch/fx/f000/lane"
+   }
+  ],
+  "question": "promisor/partialClone remote (file:// outside): cat-file lazy-fetches outside d"
+ },
+ "22_config_fifo": {
+  "note": "naive open('.git/config') = BLOCKED (>3s); git probe rc=TIMEOUT",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/22_config_fifo/fx/f000/lane",
+     "rev-parse",
+     "--show-toplevel"
+    ],
+    "inside_opens": 1,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "rev-parse-toplevel-on-fifo-config",
+    "rc": "TIMEOUT",
+    "stderr": "",
+    "stdout": ""
+   }
+  ],
+  "question": "`.git/config` replaced by a FIFO: does git / a text scan hang?"
+ },
+ "23_gitdir_symlink_objects": {
+  "note": "",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/23_gitdir_symlink_objects/fx/f000/lane",
+     "cat-file",
+     "-t",
+     "4a1eebfe1512be1716941a478e7c20500b070b06"
+    ],
+    "inside_opens": 5,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 2,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/23_gitdir_symlink_objects/fx/side/store/.git/objects/4a/1eebfe1512be1716941a478e7c20500b070b06",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/23_gitdir_symlink_objects/fx/side/store/.git/objects/pack"
+    ],
+    "probe": "cat-file-via-objects-symlink",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "blob"
+   },
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/23_gitdir_symlink_objects/fx/f000/lane",
+     "rev-parse",
+     "--show-toplevel"
+    ],
+    "inside_opens": 3,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 0,
+    "outside_paths": [],
+    "probe": "rev-parse-toplevel",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/23_gitdir_symlink_objects/fx/f000/lane"
+   }
+  ],
+  "question": "`.git/objects` symlinked to an outside store: git reads outside through the link"
+ },
+ "24_argv_outside": {
+  "note": "build_module contract check accepts argv=True; d=/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/24_argv_outside/fx/f000, token=/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/24_argv_outside/fx/side/outside-lane",
+  "probes": [
+   {
+    "argv": [
+     "git",
+     "-C",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/24_argv_outside/fx/side/outside-lane",
+     "rev-parse",
+     "--show-toplevel"
+    ],
+    "inside_opens": 0,
+    "outside_attempts": [],
+    "outside_execs": [],
+    "outside_opens": 3,
+    "outside_paths": [
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/24_argv_outside/fx/side/outside-lane/.git/HEAD",
+     "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/24_argv_outside/fx/side/outside-lane/.git/config"
+    ],
+    "probe": "rev-parse-outside-argv",
+    "rc": 0,
+    "stderr": "",
+    "stdout": "/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/24_argv_outside/fx/side/outside-lane"
+   }
+  ],
+  "question": "argv token absolute OUTSIDE d: r45 build_module does not call path_ok"
+ }
+}

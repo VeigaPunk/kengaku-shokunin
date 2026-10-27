@@ -1,0 +1,31 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/env /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/env --bind /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/probe_vectors.py
+ENVELOPE start 23:29:29 cwd=/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign
+02_worktree_relative       no-outside-open  rev-parse-toplevel:rc=128,out=0,att=0 :: 
+03_inc_gitdir_true         PARSE            config-user-email:rc=0,out=1,att=0 :: OUTSIDE@invalid | rev-parse-toplevel:rc=0,out=1,att=0 :: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/03_i | no-includes-getregexp:rc=0,out=2,att=0 :: includeif.gitdir:/fast/scratch/hyaku/kengaku-r45/R45SentFenc
+04_inc_gitdir_false        no-outside-open  config-user-email:rc=0,out=0,att=0 :: local@invalid | log-oneline:rc=0,out=0,att=0 :: a8e8c97 c
+05_inc_onbranch            PARSE            config-user-email:rc=0,out=1,att=0 :: OUTSIDE@invalid | status-porcelain:rc=0,out=1,att=0 ::  | log-oneline:rc=0,out=1,att=0 :: a8e8c97 c | rev-parse-toplevel:rc=0,out=1,att=0 :: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/05_i
+06_inc_tilde               no-outside-open  config-user-email-HOME-nonexistent:rc=0,out=0,att=0 :: local@invalid | config-user-email-HOME-writable:rc=0,out=0,att=0 :: TILDE-OUTSIDE@invalid
+07_inc_envvar              no-outside-open  config-user-email:rc=0,out=0,att=0 :: local@invalid | config-get-all-include:rc=0,out=0,att=0 :: $HOME/inc-env.cfg
+${HOME}/inc-env2.cfg
+08_attributes_excludes     PARSE            rev-parse-toplevel:rc=0,out=0,att=0 :: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/08_a | config-getregexp-core:rc=0,out=0,att=0 :: core.repositoryformatversion 0
+core.filemode true
+core.bare  | check-attr:rc=0,out=1,att=0 :: a.txt: filter: outside-filter | status-porcelain:rc=0,out=3,att=0 ::  | ls-files-others:rc=0,out=1,att=0 :: 
+09_hooks_fsmonitor         PARSE            rev-parse-toplevel:rc=0,out=0,att=0 :: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/09_h | status-porcelain-pinned:rc=0,out=0,att=0 ::  | status-porcelain-nopins:rc=0,out=4,att=0,exec=2 ::  | update-index-refresh-nopins:rc=0,out=4,att=0,exec=2 ::  | log-oneline-nopins:rc=0,out=0,att=0 :: c9cf394 c
+10_mailmap                 PARSE            rev-parse-toplevel:rc=0,out=0,att=0 :: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/10_m | log-usemailmap:rc=0,out=1,att=0 :: f@invalid | shortlog:rc=0,out=2,att=0 :: 1	Mapped <outside@invalid>
+11_submodule_absurl        no-outside-open  rev-parse-toplevel:rc=0,out=0,att=0 :: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/11_s | submodule-status:rc=0,out=0,att=0 ::  | submodule-update-init:rc=0,out=0,att=0 :: 
+12_alternates_relative     no-outside-open  cat-file-borrowed:rc=128,out=0,att=0 ::  | rev-parse-toplevel:rc=0,out=0,att=0 :: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/12_a
+13_commondir_relative      no-outside-open  git-common-dir:rc=128,out=0,att=0 ::  | rev-parse-toplevel:rc=128,out=0,att=0 ::  | cat-file-borrowed:rc=128,out=0,att=0 ::  | config-user-email:rc=128,out=0,att=0 :: 
+14_worktrees_meta          PARSE            rev-parse-toplevel:rc=0,out=0,att=0 :: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/14_w | worktree-list:rc=0,out=0,att=0 :: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/14_w | config-user-email:rc=0,out=0,att=0 :: local@invalid | config-user-email-in-outside-wt:rc=128,out=1,att=0 ::  | rev-parse-in-outside-wt:rc=128,out=1,att=0 :: 
+15_env_gitdir              PARSE            rev-parse-with-GIT_DIR:rc=0,out=3,att=1 :: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/15_e | rev-parse-no-env:rc=128,out=0,att=0 :: 
+16_gitfile_variants        PARSE            variant-relative:rc=128,out=1,att=0 ::  | variant-spacing:rc=128,out=1,att=0 ::  | variant-nospace:rc=128,out=1,att=0 ::  | variant-upper:rc=128,out=1,att=0 ::  | variant-leading-nl:rc=128,out=1,att=0 ::  | variant-trailing-space:rc=128,out=1,att=0 :: 
+17_dotgit_symlink          PARSE            rev-parse-toplevel:rc=0,out=3,att=0 :: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/17_d | rev-parse-absolute-git-dir:rc=0,out=3,att=0 :: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/17_d | config-user-email:rc=1,out=3,att=0 :: 
+18_symlink_store_config    PARSE            config-user-email:rc=0,out=2,att=0 :: SYMLINK-CFG-OUTSIDE@invalid | cat-file-via-objlink:rc=128,out=3,att=0 ::  | rev-parse-toplevel:rc=0,out=2,att=0 :: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/18_s
+19_hardlink_objects        no-outside-open  cat-file-hardlinked:rc=0,out=0,att=0 :: blob | config-user-email:rc=0,out=0,att=0 :: HARDLINK-CFG-OUTSIDE@invalid | rev-parse-toplevel:rc=0,out=0,att=0 :: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/19_h
+20_case_variants           PARSE            config-user-email:rc=0,out=1,att=0 :: CASE-OUTSIDE@invalid | rev-parse-toplevel:rc=0,out=1,att=0 :: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/20_c
+21_promisor_fetch          no-outside-open  cat-file-missing-blob:rc=0,out=0,att=0 :: blob | config-get-promisor:rc=0,out=0,att=0 :: core.repositoryformatversion 1
+remote.origin.url file:///fas | rev-parse-toplevel:rc=0,out=0,att=0 :: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/21_p
+22_config_fifo             no-outside-open  rev-parse-toplevel-on-fifo-config:rc=TIMEOUT,out=0,att=0 :: 
+23_gitdir_symlink_objects  PARSE            cat-file-via-objects-symlink:rc=0,out=2,att=0 :: blob | rev-parse-toplevel:rc=0,out=0,att=0 :: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/23_g
+24_argv_outside            PARSE            rev-parse-outside-argv:rc=0,out=3,att=0 :: /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/24_a
+wrote /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/out/vectors.json
+ENVELOPE end 23:29:43 exit=0 local_bin_content_before=c263b11afb1cccf6 after=c263b11afb1cccf6 unchanged

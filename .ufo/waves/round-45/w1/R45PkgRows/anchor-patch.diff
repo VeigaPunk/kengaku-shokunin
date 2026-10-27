@@ -1,0 +1,20 @@
+--- /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/anchor_digest_check.py	2026-10-26 04:18:48.745918288 -0300
++++ /fast/scratch/hyaku/kengaku-r45/R45PkgRows/anchor_patched.py	2026-10-26 23:31:16.484449807 -0300
+@@ -335,9 +335,14 @@
+         if len(owners) != 1:
+             continue  # ambiguous: two evidence dirs claim the same task slug; bind nothing
+         d = owners[0]
+-        p = f"{d}/{base}"
+-        if p in idx["file_digest"] or (d, base) in idx["dir_entries"]:
+-            got.append((p, "url-task"))
++        rel = "/".join(comps[comps.index(hits[-1]) + 1:])   # path below the task component
++        cands = []
++        if (d, rel) in idx["dir_entries"] or f"{d}/{rel}" in idx["file_digest"]:
++            cands.append(f"{d}/{rel}")
++        if f"{d}/{base}" in idx["file_digest"] or (d, base) in idx["dir_entries"]:
++            cands.append(f"{d}/{base}")
++        if cands:
++            got.append((cands[0], "url-task"))
+     if not got:
+         for _, repo, _, subpath in urls:
+             if (repo, subpath) in idx["prov_url"]:

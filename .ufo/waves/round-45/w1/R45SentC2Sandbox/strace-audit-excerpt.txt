@@ -1,0 +1,36 @@
+trace.audit.txt:188
+5     execve("/usr/bin/bwrap", ["/usr/bin/bwrap", "--unshare-net", "--unshare-pid", "--unshare-ipc", "--die-with-parent", "--new-session", "--ro-bind", "/usr", "/usr", "--symlink", "usr/bin", "/bin", "--symlink", "usr/bin", "/sbin", "--symlink", "usr/lib", "/l
+
+trace.audit.txt:553
+8     openat(AT_FDCWD</app>, "/seed.sh", O_RDONLY) = 3</seed.sh>
+
+trace.audit.txt:3874
+68    openat(AT_FDCWD</app>, "/pub/test_outputs.py", O_WRONLY|O_CREAT|O_TRUNC, 0666) = -1 EROFS (Read-only file system)
+
+trace.audit.txt:3876
+95    execve("/usr/sbin/rm", ["rm", "-f", "/pub/test_outputs.py"], 0x5572e4819330 /* 9 vars */) = 0
+
+trace.audit.txt:3909
+68    openat(AT_FDCWD</app>, "/pub/newfile.txt", O_WRONLY|O_CREAT|O_TRUNC, 0666) = 3</pub/newfile.txt>
+
+trace.audit.txt:3957
+68    openat(AT_FDCWD</app>, "/tests/new", O_WRONLY|O_CREAT|O_TRUNC, 0666) = -1 EROFS (Read-only file system)
+
+trace.audit.txt:3958
+68    openat(AT_FDCWD</app>, "/seed.sh", O_WRONLY|O_CREAT|O_TRUNC, 0666) = -1 EROFS (Read-only file system)
+
+trace.audit.txt:3960
+68    openat(AT_FDCWD</app>, "/evil", O_WRONLY|O_CREAT|O_TRUNC, 0666) = 3</evil>
+
+trace.audit.txt:3995
+68    openat(AT_FDCWD</app>, "/tmp/x", O_WRONLY|O_CREAT|O_TRUNC, 0666) = 3</tmp/x>
+
+trace.audit.txt:4086
+68    openat(AT_FDCWD</app>, "/dev/newfile", O_WRONLY|O_CREAT|O_TRUNC, 0666) = 3</dev/newfile>
+
+trace.audit.txt:4326
+104   mount("/app", "/mnt", NULL, MS_BIND, NULL) = -1 EPERM (Operation not permitted)
+
+trace.audit.txt:4327
+104   mount("none", "/mnt", 0x7f5f7398c1d0, MS_BIND, NULL) = -1 EPERM (Operation not permitted)
+

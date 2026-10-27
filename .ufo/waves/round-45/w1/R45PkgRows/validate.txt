@@ -1,0 +1,63 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45PkgRows/env /fast/scratch/hyaku/kengaku-r45/R45PkgRows/env --bind /fast/scratch/hyaku/kengaku-r45/R45PkgRows/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/w1/R45PkgRows/validate.sh
+ENVELOPE start 23:30:48 cwd=/home/vgpnk/Projects/shokunin
+TIP 05b02e2b7894a9c83219685f2374905e11c1beda toplevel=/fast/scratch/hyaku/kengaku-r45/R45PkgRows/lane
+ROWS_BEFORE 141
+INSERTED_AFTER_LINE 163 added=8
+ROWS_AFTER 149
+== ROWCHECK (cells/upstream/verbatim-line/word-count/sha256-pin/entry_rules)
+ROWS parsed=8
+OK S149 capture=test_outputs.py upstream=tests/test_outputs.py line=18 verbatim=True words=7/7 range=3-25 sha256_pin=True cap=True meta=True teaches=64 cells=11
+OK S150 capture=instruction.md upstream=instruction.md line=9 verbatim=True words=20/20 range=3-25 sha256_pin=True cap=True meta=True teaches=58 cells=11
+OK S151 capture=setup.sh upstream=environment/setup.sh line=25 verbatim=True words=4/4 range=3-25 sha256_pin=True cap=True meta=True teaches=76 cells=11
+OK S152 capture=Dockerfile upstream=environment/Dockerfile line=17 verbatim=True words=3/3 range=3-25 sha256_pin=True cap=True meta=True teaches=71 cells=11
+OK S153 capture=test.sh upstream=tests/test.sh line=26 verbatim=True words=4/4 range=3-25 sha256_pin=True cap=True meta=True teaches=59 cells=11
+OK S154 capture=README.md upstream=README.md line=31 verbatim=True words=11/11 range=3-25 sha256_pin=True cap=True meta=True teaches=63 cells=11
+OK S155 capture=solve.sh upstream=solution/solve.sh line=63 verbatim=True words=4/4 range=3-25 sha256_pin=True cap=True meta=True teaches=79 cells=11
+OK S156 capture=task.toml upstream=task.toml line=22 verbatim=True words=3/3 range=3-25 sha256_pin=True cap=True meta=True teaches=59 cells=11
+DEFECTS 0
+ROWCHECK_exit=0
+== V3 (the frozen C2 counter's own function, read-only import, lane=clone)
+V3 ok=True rows=8 bad=0
+V3_exit=0
+== CENSUS green (rows in Registry, E11 placeholder present)
+file	W04	S040 duplicate url arxiv.org/abs/2301.09633 across scopes
+file	W04	S048 duplicate url aclanthology.org/2020.acl-main.442 across scopes
+file	W04	S057 duplicate url arxiv.org/abs/2405.11874 across scopes
+file	W04	S058 duplicate url github.com/UKGovernmentBEIS/inspect_ai/blob/63e45cc52d39b873b944124613da21fdad6f6dcc/src/inspect_ai/scorer/_pattern.py across scopes
+file	W04	S059 duplicate url www.rfc-editor.org/rfc/rfc8259 across scopes
+file	W04	S064 duplicate url spec.commonmark.org/0.31.2 across scopes
+file	W04	S065 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S066 duplicate url doi.org/10.1017/S0950268810000385 across scopes
+file	W04	S067 duplicate url doi.org/10.1017/S0950268810000385 across scopes
+file	W04	S068 duplicate url raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/config_files/test.raw.json across scopes
+file	W04	S069 duplicate url raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/evaluation_harness/evaluators.py across scopes
+file	W04	S071 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S075 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S076 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S100 duplicate url github.com/laude-institute/terminal-bench-2 across scopes
+file	ok	/fast/scratch/hyaku/kengaku-r45/R45PkgRows/lane/corpus/SOURCES.md
+CENSUS_exit_code=0
+CENSUS_counts W04=15 E-codes=0
+== CENSUS rows (registry total after append)
+file	rows	149
+file	tier.A	125
+SOURCE_ROW_regex_hits 149
+== CENSUS red control (E11 target removed -> E11 must fire on all eight rows)
+CENSUS_red_exit_code=1
+E11_rows_fired=8 E11_ids=S149 missing used-by corpus/knowledge/tb2-password-recovery-grader.md S150 missing used-by corpus/knowledge/tb2-password-recovery-grader.md S151 missing used-by corpus/knowledge/tb2-password-recovery-grader.md S152 missing used-by corpus/knowledge/tb2-password-recovery-grader.md S153 missing used-by corpus/knowledge/tb2-password-recovery-grader.md S154 missing used-by corpus/knowledge/tb2-password-recovery-grader.md S155 missing used-by corpus/knowledge/tb2-password-recovery-grader.md S156 missing used-by corpus/knowledge/tb2-password-recovery-grader.md 
+== ANCHOR green leg A (rows in Registry): each row's sha256 token binds to its own committed capture
+ANCHOR_exit=1
+DEFECT S149 anchor token=2dc14fc180734b6fbb0ee00f27c4f866071247b57a2217f579465ff8ed3bfc9e class=anchor-unbound detail=no-capture-for-upstream-password-recovery/tests/test_outputs.py-task=tests loc=corpus/SOURCES.md:164
+DEFECT S149 anchor token=2dc14fc180734b6fbb0ee00f27c4f866071247b57a2217f579465ff8ed3bfc9e class=anchor-unbound detail=no-capture-for-upstream-password-recovery/tests/test_outputs.py-task=tests loc=corpus/SOURCES.md:164
+DEFECT S151 anchor token=9fdde5d9cd74ae0d633bdd59e7249cc6d7385d27a98b1e2dbbeb11b05a6f2af8 class=anchor-unbound detail=no-capture-for-upstream-password-recovery/environment/setup.sh-task=environment loc=corpus/SOURCES.md:166
+DEFECT S152 anchor token=6fabcb9e1fcb7155bf8cfe106c17f2dfa3344103e97960dab580c2444b6c9fe0 class=anchor-unbound detail=no-capture-for-upstream-password-recovery/environment/Dockerfile-task=environment loc=corpus/SOURCES.md:167
+DEFECT S153 anchor token=4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334 class=anchor-unbound detail=no-capture-for-upstream-password-recovery/tests/test.sh-task=tests loc=corpus/SOURCES.md:168
+DEFECT S155 anchor token=c5f9fc70b6bae40befdd0088dde1a3bc6e909852c9fbb36a617c627b7b8d804f class=anchor-unbound detail=no-capture-for-upstream-password-recovery/solution/solve.sh-task=solution loc=corpus/SOURCES.md:170
+rows=149 tokens=55 defects=5
+== ANCHOR red control (S154 digest last nibble flipped -> one named defect)
+ANCHOR_mutant_exit=1
+DEFECT S154 anchor token=122bf15ef4a6ede562f21453f9f1c452fc10a3048bac7d46a013adbac6a13adf class=digest-unknown detail=not-committed-evidence-and-not-in-a-SHA256SUMS loc=corpus/SOURCES.md:169
+rows=149 tokens=55 defects=6
+RESTORED_rows=149
+GIT_STATUS_LINES 2
+ENVELOPE end 23:30:53 exit=0 local_bin_content_before=c263b11afb1cccf6 after=c263b11afb1cccf6 unchanged

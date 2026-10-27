@@ -1,0 +1,18 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45PlanNext/env /fast/scratch/hyaku/kengaku-r45/R45PlanNext/env --bind /fast/scratch/hyaku/kengaku-r45/R45PlanNext/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 plans/f1_leak_census.py --lane /fast/scratch/hyaku/kengaku-r45/R45PlanNext/c3/lane
+ENVELOPE start 23:30:34 cwd=/fast/scratch/hyaku/kengaku-r45/R45PlanNext/c3/lane
+TASK chess-best-move decide=25 tokens_present=yes channels=derivable,environment,instruction,readme spec_match=NO derivable=yes
+TASK code-from-image decide=30 tokens_present=yes channels=derivable,readme,solution spec_match=yes derivable=yes
+TASK count-dataset-tokens decide=8 tokens_present=yes channels=readme spec_match=yes derivable=no
+TASK crack-7z-hash decide=25 tokens_present=yes channels=derivable,readme,solution spec_match=yes derivable=yes
+TASK feal-linear-cryptanalysis decide=122 tokens_present=yes channels=derivable,other spec_match=NO derivable=yes
+TASK fix-git decide=19 tokens_present=yes channels=environment spec_match=NO derivable=no
+TASK fix-ocaml-gc decide=19 tokens_present=yes channels=readme,solution spec_match=yes derivable=no
+TASK gcode-to-text decide=17 tokens_present=yes channels=readme spec_match=yes derivable=no
+TASK log-summary-date-ranges decide=23 tokens_present=yes channels=derivable,environment spec_match=yes derivable=yes
+TASK mteb-leaderboard decide=11 tokens_present=yes channels=readme spec_match=yes derivable=no
+TASK mteb-retrieve decide=11 tokens_present=yes channels=environment,readme spec_match=yes derivable=no
+TASK password-recovery decide=18 tokens_present=yes channels=derivable,environment,readme,solution spec_match=NO derivable=yes
+TASK sqlite-db-truncate decide=9,10,11,12,13,14,15,16 tokens_present=yes channels=derivable,environment,readme spec_match=NO derivable=yes
+TASK vulnerable-secret decide=21 tokens_present=yes channels=environment,readme spec_match=yes derivable=no
+census tasks=14 grader_literal=12 nt_any=14 derivable=7 no_leak=0 spec_mismatches=5
+ENVELOPE end 23:30:36 exit=1 local_bin_content_before=c263b11afb1cccf6 after=c263b11afb1cccf6 unchanged

@@ -1,0 +1,74 @@
+### nop  predicted=F-  violates=write-file,one-guess,recover,forensic
+:   (nop: no recipe; harness runs the default ':')
+
+### oracle-solve-sh  predicted=PP  violates=
+bash /pub/solve.sh >/dev/null 2>&1 || true
+
+
+### constant  predicted=PP  violates=forensic
+PW=$(grep -ao '8XD[A-Z0-9]*' /pub/test_outputs.py | head -n1)
+printf '%s\n' "$PW" > /app/recovered_passwords.txt
+
+
+### constant-crlf  predicted=PP  violates=forensic
+PW=$(grep -ao '8XD[A-Z0-9]*' /pub/test_outputs.py | head -n1)
+printf '%s\r\n' "$PW" > /app/recovered_passwords.txt
+
+
+### constant-joined  predicted=PF  violates=one-per-line,forensic
+PW=$(grep -ao '8XD[A-Z0-9]*' /pub/test_outputs.py | head -n1)
+printf '%s\n' "${PW}8XDP5Q2RT9ZK7VB3BV4WW54Q2RT9ZK7VB3BV4WW54ZZ" > /app/recovered_passwords.txt
+
+
+### dir-state  predicted=PF  violates=write-file,one-guess,recover
+mkdir -p /app/recovered_passwords.txt
+PW=$(grep -ao '8XD[A-Z0-9]*' /pub/test_outputs.py | head -n1)
+printf '%s\n' "$PW" > /app/recovered_passwords.txt/x
+
+
+### empty-file  predicted=PF  violates=one-guess,recover,forensic
+: > /app/recovered_passwords.txt
+
+
+### wrong-23  predicted=PF  violates=prefix,suffix,recover,forensic
+printf '%s\n' 'ZZZZZZZZZZZZZZZZZZZZZZZ' > /app/recovered_passwords.txt
+
+
+### prefix-decoy  predicted=PF  violates=recover,forensic
+printf '%s\n' '8XDZZZZZZZZZZZZZZZZZW54' > /app/recovered_passwords.txt
+
+
+### sub-first  predicted=PF  violates=len23,suffix,recover,forensic
+PW=$(grep -ao '8XD[A-Z0-9]*' /pub/test_outputs.py | head -n1)
+printf '%s\n' "${PW:0:20}" > /app/recovered_passwords.txt
+
+
+### sub-last  predicted=PF  violates=len23,prefix,recover,forensic
+PW=$(grep -ao '8XD[A-Z0-9]*' /pub/test_outputs.py | head -n1)
+printf '%s\n' "${PW:3}" > /app/recovered_passwords.txt
+
+
+### lower23  predicted=PF  violates=charset,prefix,suffix,recover,forensic
+PW=$(grep -ao '8XD[A-Z0-9]*' /pub/test_outputs.py | head -n1)
+printf '%s\n' "$(printf '%s' "$PW" | tr 'A-Z' 'a-z')" > /app/recovered_passwords.txt
+
+
+### decoys-1000  predicted=PP  violates=forensic
+PW=$(grep -ao '8XD[A-Z0-9]*' /pub/test_outputs.py | head -n1)
+{ printf '%s\n' "$PW"; seq 1 1000 | sed 's/^/WRONGGUESS/'; } > /app/recovered_passwords.txt
+
+
+### password-eq  predicted=PF  violates=recover,forensic
+PW=$(grep -ao '8XD[A-Z0-9]*' /pub/test_outputs.py | head -n1)
+printf 'PASSWORD=%s\n' "$PW" > /app/recovered_passwords.txt
+
+
+### crlf-line  predicted=PP  violates=forensic
+PW=$(grep -ao '8XD[A-Z0-9]*' /pub/test_outputs.py | head -n1)
+printf '%s\r\nWRONGDECOY0\n' "$PW" > /app/recovered_passwords.txt
+
+
+### under-varsea  predicted=F-  violates=write-file,one-guess,recover
+cd /app/varsea && bash /pub/solve.sh >/dev/null 2>&1 || true
+
+

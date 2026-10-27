@@ -1,0 +1,35 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45ScoutFenceArt/env /fast/scratch/hyaku/kengaku-r45/R45ScoutFenceArt/env --bind /fast/scratch/hyaku/kengaku-r45/R45ScoutFenceArt/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/w1/R45ScoutFenceArt/exp2.sh /fast/scratch/hyaku/kengaku-r45/R45ScoutFenceArt
+ENVELOPE start 23:29:13 cwd=/home/vgpnk/Projects/shokunin
+git version 2.56.0
+== E8 pager hypothesis: which git invocations can read a config WITHOUT parsing the include target?
+E8a git config --local --no-includes --get-regexp (pager path) rc=0 outside_refs=4 outside_successful_open=2 stdout=include.path /fast/scratch/hyaku/kengaku-r45/R45ScoutFenceArt/outside/
+E8b git --no-pager config --local --no-includes --get-regexp rc=0 outside_refs=2 outside_successful_open=1 stdout=include.path /fast/scratch/hyaku/kengaku-r45/R45ScoutFenceArt/outside/
+E8c git --no-pager config --file .git/config --get-regexp rc=0 outside_refs=0 outside_successful_open=0 stdout=include.path /fast/scratch/hyaku/kengaku-r45/R45ScoutFenceArt/outside/
+E8d git config --file .git/config --get-regexp, GIT_PAGER_IN_USE-free: PAGER=cat GIT_PAGER=cat rc=0 outside_refs=2 outside_successful_open=1 stdout=include.path /fast/scratch/hyaku/kengaku-r45/R45ScoutFenceArt/outside/
+E8e git --no-pager config --file <path outside any repo> rc=0 outside_refs=0 outside_successful_open=0 stdout=include.path /fast/scratch/hyaku/kengaku-r45/R45ScoutFenceArt/outside/
+E8f same, but cwd inside repo that itself has the include rc=0 outside_refs=0 outside_successful_open=0 stdout=core.repositoryformatversion=0|core.filemode=true|core.bare=false|core
+E8g git config --blob/--stdin? git config --file - < cfg (stdin) rc=0 outside_refs=0 outside_successful_open=0 stdout=core.repositoryformatversion=0|core.filemode=true|core.bare=false|core
+== E9 bare repo layout ABOVE d (no .git entry) : does discovery find it?
+E9a cwd=d no ceiling: rev-parse --git-dir rc=0 outside_refs=2 outside_successful_open=1 stdout=/fast/scratch/hyaku/kengaku-r45/R45ScoutFenceArt/e9|
+E9b same with GIT_CEILING_DIRECTORIES=B (parent of d) rc=128 outside_refs=0 outside_successful_open=0 stdout=fatal: not a git repository (or any of the parent directories): .git|
+== E10 invalid/empty d/.git dir does NOT stop discovery
+E10a cwd=d (d/.git empty dir), no ceiling rc=0 outside_refs=2 outside_successful_open=1 stdout=/fast/scratch/hyaku/kengaku-r45/R45ScoutFenceArt/e10|
+== E11 relative include path and chains
+E11a relative include in .git/config -> ../../e11-out/a.cfg (chain to b.cfg) rc=0 outside_refs=2 outside_successful_open=2 stdout=CHAINED|
+== E12 includeIf (condition not matching) still read? gitdir:/nonmatching/
+E12a includeIf non-matching gitdir (file opened?) rc=1 outside_refs=0 outside_successful_open=0 stdout=
+E12b + onbranch non-matching rc=1 outside_refs=0 outside_successful_open=0 stdout=
+== E13 alternates (real target)
+E13a rev-parse --git-dir rc=0 outside_refs=3 outside_successful_open=0 stdout=.git|
+E13b status rc=0 outside_refs=3 outside_successful_open=0 stdout=
+E13c cat-file -t <missing sha> rc=128 outside_refs=10 outside_successful_open=0 stdout=fatal: git cat-file: could not get object info|
+E13d rev-parse HEAD (unborn) rc=128 outside_refs=3 outside_successful_open=0 stdout=fatal: ambiguous argument 'HEAD': unknown revision or path not in the 
+E13e rev-parse HEAD (born) rc=0 outside_refs=3 outside_successful_open=0 stdout=f98489fba61c78bd4907012b96b16d54d4f127ec|
+E13f cat-file -t HEAD (found locally) rc=0 outside_refs=3 outside_successful_open=0 stdout=commit|
+== E14 gitfile to outside: git reads target
+E14a gitfile -> other repo with include rc=0 outside_refs=2 outside_successful_open=1 stdout=/fast/scratch/hyaku/kengaku-r45/R45ScoutFenceArt/e1/.git|
+== E15 tilde include expands HOME; GIT_CONFIG_GLOBAL=/dev/null does not stop repo include
+E15a ~ include rc=0 outside_refs=2 outside_successful_open=1 stdout=HOMELEAK|
+== E16 core.worktree / core.bare / safe.directory: ownership check not applied to scratch (same uid)
+E16a core.worktree outside: git rev-parse --show-toplevel rc=0 outside_refs=2 outside_successful_open=0 stdout=/fast/scratch/hyaku/kengaku-r45/R45ScoutFenceArt/e16-wt|
+ENVELOPE end 23:29:15 exit=0 local_bin_content_before=c263b11afb1cccf6 after=c263b11afb1cccf6 unchanged

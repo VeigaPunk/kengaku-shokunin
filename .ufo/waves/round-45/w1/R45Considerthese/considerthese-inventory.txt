@@ -1,0 +1,85 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45Considerthese/env /fast/scratch/hyaku/kengaku-r45/R45Considerthese/env --bind /fast/scratch/hyaku/kengaku-r45/R45Considerthese/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /fast/scratch/hyaku/kengaku-r45/R45Considerthese/measure.sh
+ENVELOPE start 23:28:46 cwd=/home/vgpnk/Projects/shokunin
+## A. 10 per-round C2 counters
+10
+plans/round36_c2_verify.py lines=234 bytes=10599
+plans/round37_c2_verify.py lines=232 bytes=11084
+plans/round38_c2_verify.py lines=280 bytes=12444
+plans/round39_c2_verify.py lines=282 bytes=12713
+plans/round40_c2_verify.py lines=284 bytes=12892
+plans/round41_c2_verify.py lines=309 bytes=14534
+plans/round42_c2_verify.py lines=342 bytes=15981
+plans/round43_c2_verify.py lines=410 bytes=20432
+plans/round44_c2_verify.py lines=554 bytes=25740
+plans/round45_c2_verify.py lines=591 bytes=27897
+total_lines=3518 total_bytes=164316
+
+## B. consecutive drift (diff lines)
+r36->r37 421
+r37->r38 279
+r38->r39 76
+r39->r40 78
+r40->r41 111
+r41->r42 170
+r42->r43 219
+r43->r44 331
+r44->r45 355
+
+## C. standing counter present?
+ABSENT  plans/tb2_grader_admit.py
+ABSENT  plans/grader_admit.py
+
+## D. filler control artefacts, committed vs per-round
+-- plans/ (committed tree):
+  plans-hits=0
+-- per-round claims dirs:
+  .ufo/waves/round-40/claims filler_files=0
+  .ufo/waves/round-41/claims filler_files=0
+  .ufo/waves/round-42/claims filler_files=2
+  .ufo/waves/round-43/claims filler_files=2
+  .ufo/waves/round-44/claims filler_files=0
+  .ufo/waves/round-45/claims filler_files=0
+  .ufo/waves/round-42/claims/c2_filler_control.py 3921B
+  .ufo/waves/round-42/claims/control-c2-filler.txt 318B
+  .ufo/waves/round-43/claims/c2_filler_control.py 5979B
+  .ufo/waves/round-43/claims/control-c2-informed-filler.txt 1509B
+-- round-45 whole wave tree:
+  r45_files_mentioning_filler=1
+  r45_control_c2_filler_files=0
+
+## E. V9/V10 wording in the frozen r45 counter
+14:(`plans/round44_c2_verify.py`), re-pointed at the round-45 package; no V1-V10 check is relaxed. V11 is the
+45:  V9 content consistency: `## Case table` equal to the receipt; every spec row id outside the `source:` line;
+47:  V10 mechanism: `## Mechanism` rows per receipt case citing a frozen DECISIVE line with a >=2-word verbatim
+
+## F. SCORECARD's stale filing of the filler half
+1775:`considerthese/2026-10-26.md` proposal 2 (filler-control half) → V9. QUALITY Q33 (carried directions re-derived through
+`considerthese/2026-10-26.md` proposal 2 (filler-control half) → V9. QUALITY Q33 (carried directions re-derived through
+
+## G. 25-2 persistent defect ledger
+  corpus/defects.jsonl 1163
+  corpus/defects-round35.jsonl 1111
+  plans/defect_ledger.py 7064
+  plans/ledger_tip.py 13221
+  plans/tip_receipts.py 18778
+  plans/order_check.py 10300
+  plans/round_close.py 16418
+292:  `recurrence_of` is recorded, not enforced; checks are per-defect functions, so a new routed defect
+
+## H. 25-3 L0 packet (fleet file, read-only)
+1
+18844 .ufo/waves/round-33/build/R33L0Packet.md
+
+## I. 26-3 batch sweep / stability rider
+Pin: terminal-bench-2 @ `2fd12b88aafdd04a52c298e3940bcb189f9766d6`. No task was run; only static reads.
+| Assimilation: `considerthese/2026-10-26.md` proposal 3 (read 2026-10-26) | **Mined; landed as the probe's `regrade=` column and a measured sweep** | "fold in the novelty rider … grader re-run stabil
+
+## J. routed ledger (26-1) state
+rows=60 pending=24 oldest=39
+by_round=[(39, 3), (40, 1), (42, 20)]
+0
+
+## K. 25-1 model-diverse verification
+0
+DONE
+ENVELOPE end 23:28:48 exit=0 local_bin_content_before=c263b11afb1cccf6 after=c263b11afb1cccf6 unchanged

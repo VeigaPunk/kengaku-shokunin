@@ -1,0 +1,21 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/env /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/env --bind /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/probe_vectors2.py
+ENVELOPE start 23:33:12 cwd=/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign
+s_core_worktree_relative   ERROR RuntimeError: git config --local --get core.worktree: fatal: cannot chdir to '../../side/wt': No such file or directory
+
+11b_submodule_gitlink      no-outside submodule-status:rc=0,out=0,ex=0 :: '-1189abef78942b249998e9565a47daa2911ae972 x' | submodule-update-init:rc=1,out=0,ex=0 :: ''
+12b_alternates_relative    no-outside 
+12b_alternates_relative    
+relative-correct           cat-relative-correct:rc=0,out=2 :: 'blob'
+relative-dot               cat-relative-dot:rc=128,out=0 :: ''
+absolute-control           cat-absolute-control:rc=0,out=2 :: 'blob'
+13b_commondir_relative     PARSE     rev-parse-common-dir:rc=0,out=2,ex=0 :: '/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign' | rev-parse-toplevel:rc=0,out=2,ex=0 :: '/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign' | cat-file-borrowed:rc=0,out=6,ex=0 :: 'blob'
+s_gitfile_variants         ERROR IsADirectoryError: [Errno 21] Is a directory: '/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/work/16b_gitfile_variants/fx/f000/v-relative/lane/.git'
+14b_worktree_meta_valid    PARSE     main-rev-parse-toplevel:rc=0,out=0,ex=0 :: '/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign' | main-worktree-list:rc=0,out=0,ex=0 :: '/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign' | main-config-user-email:rc=0,out=0,ex=0 :: 'local@invalid' | outside-wt-config-user-email:rc=0,out=2,ex=0 :: 'WT-OUTSIDE@invalid' | outside-wt-rev-parse:rc=0,out=2,ex=0 :: '/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign'
+21b_promisor_manual        PARSE     cat-file-foreign-blob:rc=0,out=16,ex=0 :: 'blob' | rev-parse-toplevel:rc=0,out=0,ex=0 :: '/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign'
+25_textconv_exec           PARSE     show-textconv:rc=0,out=0,ex=0 :: 'hello' | diff-textconv:rc=0,out=1,ex=0 :: ''
+26_fence_crash             no-outside 
+22b_fifo_scan              no-outside git-rev-parse-on-fifo-config:rc=TIMEOUT,out=0,ex=0 :: ''
+27_key_spellings           PARSE     spelling-dotted-upper-key:rc=128,out=0,ex=0 :: '' | spelling-inline-section:rc=0,out=1,ex=0 :: 'SPELL-OUTSIDE@invalid' | spelling-section-lower-mixed:rc=0,out=1,ex=0 :: 'SPELL-OUTSIDE@invalid'
+17b_dotgit_symlink_scan    PARSE     walk-lists-.git-as-dir:rc=0,out=0,ex=0 :: "[('/fast/scratch/hyaku/kengaku-r45/R45SentFenceDes" | read-config-through-symlink:rc=0,out=1,ex=0 :: '[core]\n\trepositoryformatversion = 0\n\tfil' | git-rev-parse:rc=0,out=3,ex=0 :: '/fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign'
+wrote /fast/scratch/hyaku/kengaku-r45/R45SentFenceDesign/out/vectors2.json
+ENVELOPE end 23:33:27 exit=0 local_bin_content_before=c263b11afb1cccf6 after=c263b11afb1cccf6 unchanged

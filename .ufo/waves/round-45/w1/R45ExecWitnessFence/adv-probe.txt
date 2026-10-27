@@ -1,0 +1,10 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45ExecWitnessFence/env /fast/scratch/hyaku/kengaku-r45/R45ExecWitnessFence/env --bind /fast/scratch/hyaku/kengaku-r45/R45ExecWitnessFence/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r45/R45ExecWitnessFence/adv_probe.py /fast/scratch/hyaku/kengaku-r45/R45ExecWitnessFence/lane/plans/fixture_fence.py /fast/scratch/hyaku/kengaku-r45/R45ExecWitnessFence/adv
+ENVELOPE start 23:36:12 cwd=/home/vgpnk/Projects/shokunin
+CASE includeif-outside-regular expect=BREACH got=BREACH opens=0 secs=0.07 ok=True why='lane/.git/config carries an include section'
+CASE include-fifo-outside expect=BREACH got=BREACH opens=0 secs=0.08 ok=True why='lane/.git/config carries an include section'
+CASE worktreeconfig-no-file expect=BREACH got=BREACH opens=0 secs=0.09 ok=True why='lane/.git/config enables extensions.worktreeConfig'
+CASE gitfile-store-outside expect=BREACH got=BREACH opens=0 secs=0.07 ok=True why='lane/.git gitdir /fast/scratch/hyaku/kengaku-r45/R45ExecWitnessFence/adv/cases/gitfile-store-outside/side/stor'
+CASE gitfile-store-inside expect=ADMIT got=ADMIT opens=0 secs=0.12 ok=True
+CASE repo-above-build-root expect=ADMIT got=ADMIT opens=0 secs=0.08 ok=True
+ADV includeif-outside-regular=ok include-fifo-outside=ok worktreeconfig-no-file=ok gitfile-store-outside=ok gitfile-store-inside=ok repo-above-build-root=ok
+ENVELOPE end 23:36:14 exit=0 local_bin_content_before=c263b11afb1cccf6 after=c263b11afb1cccf6 unchanged

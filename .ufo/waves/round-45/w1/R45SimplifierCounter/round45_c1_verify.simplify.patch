@@ -1,0 +1,123 @@
+--- a/plans/round45_c1_verify.py
++++ b/plans/round45_c1_verify.py
+@@ -41,6 +41,8 @@
+   landing tip.
+ 
+ `--work DIR` puts the scratch root under DIR (it must lie outside the lane); `--jobs N` parallel fence runs.
++`K45_KEEP_STRACE=DIR` copies each fixture's strace log to `DIR/f<NNNNN>.txt` (DIR is created if absent; the
++wave-2 strace read proofs use it); unset, the logs are deleted with the scratch root.
+ Exit 0 pass, 1 fail, 2 setup error.
+ """
+ from __future__ import annotations
+@@ -171,6 +173,23 @@
+     return out
+ 
+ 
++def outside(p, scratch, d):
++    """True when strace reports p under the build scratch but outside the fixture dir d."""
++    return any(p.is_relative_to(s) for s in scratch) and not p.is_relative_to(d)
++
++
++def count(rows):
++    """(verdict counts, outside opens, fixtures with an outside open, fixtures admitted with no outside open)."""
++    c = {}
++    opens = read = adm_clean = 0
++    for _fx, v, _w, o in rows:
++        c[v] = c.get(v, 0) + 1
++        opens += o
++        read += o > 0
++        adm_clean += v == "ADMIT" and o == 0
++    return c, opens, read, adm_clean
++
++
+ def run_fence(k44, lane, root, fence_copy, fx, n):
+     """One fence decision in a read-only sandbox under strace -f -y -> (verdict, reason, outside_opens)."""
+     logdir = root / "strace" / f"s{n:05d}"
+@@ -194,7 +213,6 @@
+     except OSError:
+         lines = []
+     pending = {}
+-    first = ""
+     for line in lines:
+         pidm = re.match(r"^\s*(\d+)", line)
+         pid = pidm.group(1) if pidm else "-"
+@@ -206,22 +224,19 @@
+             pending[pid] = line
+             continue
+         done = DONE_RE.search(line)
+-        if not done or done.group(1).startswith("E") or done.group(1).startswith("-"):
++        if not done or not done.group(1).isdigit():
+             continue
+-        p = pathlib.Path(done.group(2) or "")
+-        if any(p == s or p.is_relative_to(s) for s in scratch) and not (p == d or p.is_relative_to(d)):
++        if outside(pathlib.Path(done.group(2) or ""), scratch, d):
+             opens += 1
+-            first = first or str(p)
+     for line in pending.values():
+         # an open that never returned (blocked on a FIFO, killed mid-syscall) still touched the path
+         for m in re.finditer(r'"(/[^"]+)"', line):
+-            p = pathlib.Path(m.group(1))
+-            if any(p == s or p.is_relative_to(s) for s in scratch) and not (p == d or p.is_relative_to(d)):
++            if outside(pathlib.Path(m.group(1)), scratch, d):
+                 opens += 1
+-                first = first or str(p)
+                 break
+     keep = os.environ.get('K45_KEEP_STRACE')
+     if keep:
++        pathlib.Path(keep).mkdir(parents=True, exist_ok=True)
+         shutil.copy(log, pathlib.Path(keep) / f'f{n:05d}.txt')
+     shutil.rmtree(logdir, ignore_errors=True)
+     out = r.stdout.strip()
+@@ -243,7 +258,7 @@
+         if not os.access(exe, os.X_OK):
+             print(f"SETUP {exe} is required", file=sys.stderr)
+             return 2
+-    if mism and K44_REL in mism:
++    if K44_REL in mism:
+         print("SETUP the round-44 counter (builder) is not at its pinned digest", file=sys.stderr)
+         return 2
+     if a.work:
+@@ -279,18 +294,22 @@
+                     build_errors[g] += 1
+                     print(f"BUILD-ERROR {g} {f.parent.name}/{f.name} {str(e)[:120]}")
+         jobs = [(g, f, fx) for g in built for f, fxs in built[g] for fx in fxs]
++        def one(item):
++            n, (_g, _f, fx) = item
++            return run_fence(k44, lane, root, fence_copy, fx, n)
++
+         with concurrent.futures.ThreadPoolExecutor(max(1, a.jobs)) as ex:
+-            res = list(ex.map(lambda t: run_fence(k44, lane, root, fence_copy, t[1][2], t[0]), enumerate(jobs)))
++            res = list(ex.map(one, enumerate(jobs)))
+         per = {}
+         for (g, f, fx), (verdict, why, opens) in zip(jobs, res):
+             per.setdefault((g, f), []).append((fx, verdict, why, opens))
+             print(f"FENCE-RUN {g} {fx['module']} {fx['fid']} {verdict} opens={opens}" + (f" -- {why}" if why else ""))
+         clean = leaked = read = hung = 0
+-        for f, fxs in built["refusal"]:
++        for f, _fxs in built["refusal"]:
+             rows = per.get(("refusal", f), [])
+-            n_admit = sum(v in ("ADMIT", "ERROR") for _fx, v, _w, _o in rows)
+-            n_hung = sum(v == "HUNG" for _fx, v, _w, _o in rows)
+-            n_open = sum(o for _fx, _v, _w, o in rows)
++            c, n_open, _read, _clean = count(rows)
++            n_admit = c.get("ADMIT", 0) + c.get("ERROR", 0)
++            n_hung = c.get("HUNG", 0)
+             if not rows or n_admit:
+                 verdict = "LEAKED"
+                 leaked += 1
+@@ -307,11 +326,10 @@
+         rtotal = len(groups["refusal"])
+         print(f"REFUSALS total={rtotal} clean={clean} leaked={leaked} read={read} hung={hung}"
+               f" build_errors={build_errors['refusal']}")
+-        hrows = [row for (g, _f), rows in per.items() if g == "honest" for row in rows]
+-        h_adm = sum(v == "ADMIT" and o == 0 for _fx, v, _w, o in hrows)
+-        h_ref = sum(v in ("BREACH", "ERROR") for _fx, v, _w, _o in hrows)
+-        h_read = sum(o > 0 for _fx, _v, _w, o in hrows)
+-        h_hung = sum(v == "HUNG" for _fx, v, _w, _o in hrows)
++        hrows = [row for f, _fxs in built["honest"] for row in per.get(("honest", f), [])]
++        c, _opens, h_read, h_adm = count(hrows)
++        h_ref = c.get("BREACH", 0) + c.get("ERROR", 0)
++        h_hung = c.get("HUNG", 0)
+         print(f"HONEST fixtures={len(hrows)} admitted={h_adm} refused={h_ref} read={h_read} hung={h_hung}"
+               f" build_errors={build_errors['honest']}")
+         contradicted = rtotal - clean + build_errors["refusal"]

@@ -1,0 +1,25 @@
+diff --git i/plans/round45_c2_verify.py w/plans/round45_c2_verify.py
+index a5092e6..10fa7f8 100644
+--- i/plans/round45_c2_verify.py
++++ w/plans/round45_c2_verify.py
+@@ -99,7 +99,7 @@ SOURCE_ROW = re.compile(r"^ {0,3}\|\s*(S\d{3,})\s*\|")
+ SUMMARY = re.compile(r"^cases=(\d+) observed_pass=(\d+) observed_fail=(\d+) mismatches=(\d+)$")
+ MAP_ROW = re.compile(r"^\|\s*`instruction\.md:(\d+)`\s*\|\s*`([a-z0-9-]+)`\s*\|\s*(enforced|unenforced|partly)\s*\|(.*)\|\s*$")
+ CASE_ROW = re.compile(r"^\|\s*`([a-z0-9_-]+)`\s*\|\s*([PF-]+)\s*\|\s*(pass|fail)\s*\|.*\|\s*$")
+-MECH_ROW = re.compile(r"^\|\s*`([a-z0-9_-]+)`\s*\|\s*`([A-Za-z0-9_.-]+):(\d+)`\s*\|\s*“(.+?)”\s*\|\s*$")
++MECH_ROW = re.compile(r"^\|\s*`([a-z0-9_-]+)`\s*\|\s*`([A-Za-z0-9_./-]+):(\d+)`\s*\|\s*“(.+?)”\s*\|\s*$")
+ 
+ 
+ def sha256(p):
+@@ -349,7 +349,7 @@ DECISIVE = {
+     "decoys-1000": {"tests/test_outputs.py": (14, 18)},
+     "password-eq": {"tests/test_outputs.py": (18,), "instruction.md": (4,)},
+     "crlf-line": {"tests/test_outputs.py": (14,)},
+-    "under-varsea": {"tests/test_outputs.py": (9,)},
++    "under-varsea": {"tests/test_outputs.py": (9, 10)},
+ }
+ 
+ 
+
+2026-10-26 23:29:43.273334828 -0300 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round45_c2_verify.py
+

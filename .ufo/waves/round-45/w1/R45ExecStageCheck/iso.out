@@ -1,0 +1,39 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45ExecStageCheck/env /fast/scratch/hyaku/kengaku-r45/R45ExecStageCheck/env --bind /fast/scratch/hyaku/kengaku-r45/R45ExecStageCheck/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r45/R45ExecStageCheck/sandbox_iso.py /fast/scratch/hyaku/kengaku-r45/R45ExecStageCheck/lane /fast/scratch/hyaku/kengaku-r45/R45ExecStageCheck
+ENVELOPE start 23:27:55 cwd=/home/vgpnk/Projects/shokunin
+SANDBOX rc=0
+ROOT_ENTRIES ['app', 'bin', 'dev', 'etc', 'harness.py', 'lib', 'lib64', 'proc', 'pub', 'recipe.sh', 'sbin', 'seed.sh', 'tests', 'tmp', 'usr']
+EXISTS /home False
+EXISTS /fast False
+EXISTS /fast/scratch False
+EXISTS /app True
+EXISTS /pub True
+EXISTS /tests True
+EXISTS /proc True
+MOUNTS 20
+MOUNT tmpfs / tmpfs rw,nosuid,nodev,relatime,uid=1000,gid=1000,inode64,huge=advise 0 0
+MOUNT /dev/mapper/root /usr btrfs ro,nosuid,nodev,noatime,compress=zstd:3,ssd,discard=async,space_cache=v2,subvolid=256,subvol=/@ 0 0
+MOUNT /dev/mapper/root /etc btrfs ro,nosuid,nodev,noatime,compress=zstd:3,ssd,discard=async,space_cache=v2,subvolid=256,subvol=/@ 0 0
+MOUNT tmpfs /dev tmpfs rw,nosuid,nodev,relatime,mode=755,uid=1000,gid=1000,inode64,huge=advise 0 0
+MOUNT dev /dev/null devtmpfs rw,nosuid,relatime,size=15668300k,nr_inodes=3917075,mode=755,inode64,huge=advise 0 0
+MOUNT dev /dev/zero devtmpfs rw,nosuid,relatime,size=15668300k,nr_inodes=3917075,mode=755,inode64,huge=advise 0 0
+MOUNT dev /dev/full devtmpfs rw,nosuid,relatime,size=15668300k,nr_inodes=3917075,mode=755,inode64,huge=advise 0 0
+MOUNT dev /dev/random devtmpfs rw,nosuid,relatime,size=15668300k,nr_inodes=3917075,mode=755,inode64,huge=advise 0 0
+MOUNT dev /dev/urandom devtmpfs rw,nosuid,relatime,size=15668300k,nr_inodes=3917075,mode=755,inode64,huge=advise 0 0
+MOUNT dev /dev/tty devtmpfs rw,nosuid,relatime,size=15668300k,nr_inodes=3917075,mode=755,inode64,huge=advise 0 0
+MOUNT tmpfs /tmp tmpfs rw,nosuid,nodev,relatime,mode=755,uid=1000,gid=1000,inode64,huge=advise 0 0
+MOUNT /dev/nvme1n1p2 /dev/urandom xfs ro,nosuid,nodev,noatime,inode64,logbufs=8,logbsize=256k,noquota 0 0
+MOUNT /dev/nvme1n1p2 /app xfs rw,nosuid,nodev,noatime,inode64,logbufs=8,logbsize=256k,noquota 0 0
+MOUNT /dev/nvme1n1p2 /tests xfs ro,nosuid,nodev,noatime,inode64,logbufs=8,logbsize=256k,noquota 0 0
+MOUNT /dev/nvme1n1p2 /pub/instruction.md xfs ro,nosuid,nodev,noatime,inode64,logbufs=8,logbsize=256k,noquota 0 0
+MOUNT /dev/nvme1n1p2 /pub/test_outputs.py xfs ro,nosuid,nodev,noatime,inode64,logbufs=8,logbsize=256k,noquota 0 0
+MOUNT /dev/nvme1n1p2 /pub/solve.sh xfs ro,nosuid,nodev,noatime,inode64,logbufs=8,logbsize=256k,noquota 0 0
+MOUNT /dev/nvme1n1p2 /seed.sh xfs ro,nosuid,nodev,noatime,inode64,logbufs=8,logbsize=256k,noquota 0 0
+MOUNT /dev/nvme1n1p2 /recipe.sh xfs ro,nosuid,nodev,noatime,inode64,logbufs=8,logbsize=256k,noquota 0 0
+MOUNT /dev/nvme1n1p2 /harness.py xfs ro,nosuid,nodev,noatime,inode64,logbufs=8,logbsize=256k,noquota 0 0
+WRITE /home/vgpnk/R45-CANARY-PROBE WROTE
+WRITE /app/write-ok WROTE
+WRITE /tmp/write-ok WROTE
+HOST_HOME_LISTING ['vgpnk']
+HOST_VGPNK_LISTING ['R45-CANARY-PROBE']
+
+ENVELOPE end 23:27:57 exit=0 local_bin_content_before=c263b11afb1cccf6 after=c263b11afb1cccf6 unchanged

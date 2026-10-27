@@ -1,0 +1,35 @@
+# check of the OTHER entry candidate in the lane (not R45PkgEntry's draft), 2026-10-26
+lane entry sha256 657a16ca6eeef5538329fb56c761d150ba69dec77c15e933161ad41853ad5e8d bytes 16088
+V4 ok cases=16 mismatches_named=0/0 bad=0
+V7 ok rows=9 tags=9 bad=0
+V9 DEFECT case_rows=16/16 bad=["row ids absent outside source lines: ['S149', 'S150', 'S151', 'S152', 'S153', 'S154', 'S155', 'S156']"]
+V10 DEFECT mechanism_rows=16/16 bad=['constant-crlf:tests/test_outputs.py:14 quote not on the line', 'dir-state:tests/test_outputs.py:14 quote not on the line', 'crlf-line:tests/test_outputs.py:14 quote not on the line', 'under-varsea:tests/test_outputs.py:10 quote not on the line']
+quote rows 19 flat-capture rows 17 flat names ['Dockerfile', 'README.md', 'instruction.md', 'setup.sh', 'solve.sh', 'task.toml', 'test.sh', 'test_outputs.py']
+gate-exact (capture_dir / name, no remap):
+  UNREADABLE test_outputs.py:8
+  UNREADABLE test.sh:26
+  UNREADABLE test.sh:28
+  UNREADABLE setup.sh:25
+  UNREADABLE setup.sh:30
+  UNREADABLE setup.sh:36
+  UNREADABLE solve.sh:16
+  UNREADABLE solve.sh:62
+  UNREADABLE solve.sh:51
+  UNREADABLE Dockerfile:15
+  unreadable rows: 10
+with flat names remapped to their nested capture:
+  MISMATCH test_outputs.py:8 actual_hits=[9]
+  MISMATCH test.sh:26 actual_hits=[25]
+  MISMATCH test.sh:28 actual_hits=[26]
+  MISMATCH Dockerfile:15 actual_hits=[17]
+  MISMATCH README.md:44 actual_hits=[31]
+  MISMATCH task.toml:24 actual_hits=[22, 25]
+  line mismatches: 6 of 19
+tests/test_outputs.py physical lines 18
+instruction.md physical lines 9
+solution/solve.sh physical lines 68
+environment/setup.sh physical lines 43
+tests/test.sh physical lines 29
+environment/Dockerfile physical lines 20
+README.md physical lines 33
+task.toml physical lines 41

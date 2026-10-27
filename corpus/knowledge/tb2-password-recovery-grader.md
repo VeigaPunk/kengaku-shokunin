@@ -121,9 +121,9 @@ The Findings section says, case by case, why that line decides it.
 | `nop` | `test_outputs.py:10` | “assert recovered_pass_path.exists(), "Recovery file not found"” |
 | `oracle-solve-sh` | `solve.sh:63` | “echo "$combined" >> "$OUTPUT_FILE"” |
 | `constant` | `test_outputs.py:18` | “assert "8XDP5Q2RT9ZK7VB3BV4WW54" in guesses, "Password not found"” |
-| `constant-crlf` | `test_outputs.py:14` | “read_text().strip().split("\n")” |
+| `constant-crlf` | `test_outputs.py:14` | “guesses = Path("/app/recovered_passwords.txt").read_text()” |
 | `constant-joined` | `test_outputs.py:18` | “in guesses, "Password not found"” |
-| `dir-state` | `test_outputs.py:14` | “read_text().strip().split("\n")” |
+| `dir-state` | `test_outputs.py:14` | “guesses = Path("/app/recovered_passwords.txt").read_text()” |
 | `empty-file` | `test_outputs.py:16` | “assert len(guesses) > 0, "No guesses found"” |
 | `wrong-23` | `test_outputs.py:18` | “"8XDP5Q2RT9ZK7VB3BV4WW54" in guesses” |
 | `prefix-decoy` | `test_outputs.py:18` | “"8XDP5Q2RT9ZK7VB3BV4WW54" in guesses” |
@@ -132,8 +132,8 @@ The Findings section says, case by case, why that line decides it.
 | `lower23` | `test_outputs.py:18` | “"8XDP5Q2RT9ZK7VB3BV4WW54" in guesses” |
 | `decoys-1000` | `test_outputs.py:18` | “assert "8XDP5Q2RT9ZK7VB3BV4WW54" in guesses” |
 | `password-eq` | `test_outputs.py:18` | “"8XDP5Q2RT9ZK7VB3BV4WW54" in guesses” |
-| `crlf-line` | `test_outputs.py:14` | “strip().split("\n")” |
-| `under-varsea` | `test_outputs.py:10` | “recovered_pass_path.exists()” |
+| `crlf-line` | `test_outputs.py:14` | “guesses = Path("/app/recovered_passwords.txt").read_text()” |
+| `under-varsea` | `test_outputs.py:10` | “assert recovered_pass_path.exists(), "Recovery file not found"” |
 
 ## Findings, each tied to its receipt cases
 

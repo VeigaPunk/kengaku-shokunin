@@ -1,0 +1,41 @@
+### M6 round_close --round 44
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45NoHarmBaseline/env /fast/scratch/hyaku/kengaku-r45/R45NoHarmBaseline/env --bind /fast/scratch/hyaku/kengaku-r45/R45NoHarmBaseline/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round_close.py --lane /fast/scratch/hyaku/kengaku-r45/R45NoHarmBaseline/lane --round 44
+ENVELOPE start 23:27:16 cwd=/fast/scratch/hyaku/kengaku-r45/R45NoHarmBaseline
+ROUND-CLOSE ERROR no census script (scripts/sources-census.sh); pass --census PATH
+ROUND-CLOSE RESULT ERROR
+ENVELOPE end 23:27:18 exit=2 local_bin_content_before=c263b11afb1cccf6 after=c263b11afb1cccf6 unchanged
+### M6 exit=2
+### M6b round_close --round 44 --census /home/vgpnk/Projects/shokunin/scripts/sources-census.sh
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45NoHarmBaseline/env /fast/scratch/hyaku/kengaku-r45/R45NoHarmBaseline/env --bind /fast/scratch/hyaku/kengaku-r45/R45NoHarmBaseline/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round_close.py --lane /fast/scratch/hyaku/kengaku-r45/R45NoHarmBaseline/lane --round 44 --census /home/vgpnk/Projects/shokunin/scripts/sources-census.sh
+ENVELOPE start 23:27:28 cwd=/fast/scratch/hyaku/kengaku-r45/R45NoHarmBaseline
+ROUND-CLOSE lane=/fast/scratch/hyaku/kengaku-r45/R45NoHarmBaseline/lane round=44
+ROUND-CLOSE claims=plans/round-44-claims.md sha256=9ab0f03504e411dae30016f6ef8c1108100ff54a27f22baf222edb4032fcc2d8
+ROUND-CLOSE order-tool=plans/order_check.py sha256=948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc
+ROUND-CLOSE receipts=1
+ORDER claims=plans/round-44-claims.md round=44 freeze=5f16ed04b04a80a17a5a1a060c12093d9a152a64
+ORDER receipt=corpus/evidence/round44/feal-linear-probe.txt receipt_commit=45dc0bc81e42e02ecd272712086c372c8844b108 claims_dir=.ufo/waves/round-44/claims/
+ORDER scanned commits=1 file_entries=32 distinct_blobs=32
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+ROUND-CLOSE order receipt=corpus/evidence/round44/feal-linear-probe.txt exit=0 verdict=PASS
+file	W04	S040 duplicate url arxiv.org/abs/2301.09633 across scopes
+file	W04	S048 duplicate url aclanthology.org/2020.acl-main.442 across scopes
+file	W04	S057 duplicate url arxiv.org/abs/2405.11874 across scopes
+file	W04	S058 duplicate url github.com/UKGovernmentBEIS/inspect_ai/blob/63e45cc52d39b873b944124613da21fdad6f6dcc/src/inspect_ai/scorer/_pattern.py across scopes
+file	W04	S059 duplicate url www.rfc-editor.org/rfc/rfc8259 across scopes
+file	W04	S064 duplicate url spec.commonmark.org/0.31.2 across scopes
+file	W04	S065 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S066 duplicate url doi.org/10.1017/S0950268810000385 across scopes
+file	W04	S067 duplicate url doi.org/10.1017/S0950268810000385 across scopes
+file	W04	S068 duplicate url raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/config_files/test.raw.json across scopes
+file	W04	S069 duplicate url raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/evaluation_harness/evaluators.py across scopes
+file	W04	S071 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S075 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S076 duplicate url docs.python.org/3/library/json.html across scopes
+file	W04	S100 duplicate url github.com/laude-institute/terminal-bench-2 across scopes
+file	ok	/fast/scratch/hyaku/kengaku-r45/R45NoHarmBaseline/lane/corpus/SOURCES.md
+ROUND-CLOSE census tool=/home/vgpnk/Projects/shokunin/scripts/sources-census.sh sha256=3fb7261569f46423dd80ecc23e0a23789a7926f667c7a3fc559d2439d4a64e30 cmd=/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --file /fast/scratch/hyaku/kengaku-r45/R45NoHarmBaseline/lane/corpus/SOURCES.md
+ROUND-CLOSE census exit=0 warnings=15 verdict=PASS
+ROUND-CLOSE RESULT PASS exit=0
+ENVELOPE end 23:27:30 exit=0 local_bin_content_before=c263b11afb1cccf6 after=c263b11afb1cccf6 unchanged
+### M6b exit=0

@@ -1,0 +1,54 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45Lesson/env /fast/scratch/hyaku/kengaku-r45/R45Lesson/env --bind /fast/scratch/hyaku/kengaku-r45/R45Lesson/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /fast/scratch/hyaku/kengaku-r45/R45Lesson/verify.sh
+ENVELOPE start 23:34:31 cwd=/home/vgpnk/Projects/shokunin
+# refetch at pin 2fd12b88 (UTC 02:34:31)
+tests/test_outputs.py http=200 bytes=594 newlines=18
+instruction.md http=200 bytes=644 newlines=9
+environment/setup.sh http=200 bytes=1582 newlines=42
+environment/Dockerfile http=200 bytes=497 newlines=20
+tests/test.sh http=200 bytes=608 newlines=29
+README.md http=200 bytes=2007 newlines=32
+solution/solve.sh http=200 bytes=3071 newlines=68
+task.toml http=200 bytes=949 newlines=41
+.gitignore http=200 bytes=177 newlines=23
+# cmp against captures
+tests/test_outputs.py identical
+instruction.md identical
+environment/setup.sh identical
+environment/Dockerfile identical
+tests/test.sh identical
+README.md identical
+solution/solve.sh identical
+task.toml identical
+gitignore identical
+# quote-line check of the landed entry
+ok instruction.md:2
+ok instruction.md:4
+ok instruction.md:6
+ok instruction.md:9
+MISMATCH test_outputs.py:8 quote='recovered_pass_path = Path("/app/recovered_passwords.txt")' found_on=[9] nlines=18
+ok tests/test_outputs.py:14
+ok tests/test_outputs.py:18
+MISMATCH test.sh:26 quote='if [ $? -eq 0 ]; then' found_on=[25] nlines=29
+MISMATCH test.sh:28 quote='echo 1 > /logs/verifier/reward.txt' found_on=[26] nlines=29
+ok setup.sh:25
+ok setup.sh:30
+ok setup.sh:36
+ok solve.sh:62
+ok solve.sh:51
+MISMATCH Dockerfile:15 quote='RUN bash /app/setup.sh \\' found_on=[17] nlines=20
+MISMATCH README.md:44 quote='That the correct password `8XDP5Q2RT9ZK7VB3BV4WW54` is among' found_on=[31] nlines=33
+MISMATCH task.toml:24 quote='timeout_sec = 900.0' found_on=[22, 25] nlines=41
+ok task.toml:34
+# physical line counts of the captures (last line counted without final newline)
+tests/test_outputs.py newlines=18 lastbyte=10 physical=18
+instruction.md newlines=9 lastbyte=10 physical=9
+environment/setup.sh newlines=42 lastbyte=116 physical=43
+environment/Dockerfile newlines=20 lastbyte=10 physical=20
+tests/test.sh newlines=29 lastbyte=10 physical=29
+README.md newlines=32 lastbyte=46 physical=33
+solution/solve.sh newlines=68 lastbyte=10 physical=68
+task.toml newlines=41 lastbyte=10 physical=41
+gitignore newlines=23 lastbyte=10 physical=23
+# entry digest at check time
+657a16ca6eeef5538329fb56c761d150ba69dec77c15e933161ad41853ad5e8d  /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/tb2-password-recovery-grader.md
+ENVELOPE end 23:34:35 exit=0 local_bin_content_before=c263b11afb1cccf6 after=c263b11afb1cccf6 unchanged

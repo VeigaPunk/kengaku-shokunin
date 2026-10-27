@@ -1,0 +1,8 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45PkgEntry/env /fast/scratch/hyaku/kengaku-r45/R45PkgEntry/env --bind /fast/scratch/hyaku/kengaku-r45/R45PkgEntry/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 plans/order_check.py --lane . --claims plans/round-45-claims.md --receipt corpus/evidence/round45/password-recovery-probe.txt
+ENVELOPE start 23:39:00 cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+ORDER claims=plans/round-45-claims.md round=45 freeze=b4fcd35141acda5fa0980a34dd29ab880b702ee6
+ORDER receipt=corpus/evidence/round45/password-recovery-probe.txt receipt_commit=05b02e2b7894a9c83219685f2374905e11c1beda claims_dir=.ufo/waves/round-45/claims/
+ORDER scanned commits=2 file_entries=32 distinct_blobs=18
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+ENVELOPE end 23:39:02 exit=0 local_bin_content_before=e396f23e40a69201 after=e396f23e40a69201 unchanged

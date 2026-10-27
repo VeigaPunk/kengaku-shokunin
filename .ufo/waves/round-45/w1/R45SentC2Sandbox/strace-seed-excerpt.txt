@@ -1,0 +1,28 @@
+== seed strace: setup.sh run (frozen probe, bwrap argv from sandbox-argv.txt) ==
+trace.seed.txt:738
+11    openat(AT_FDCWD</app>, "/dev/urandom", O_RDONLY) = 3</dev/urandom>
+
+trace.seed.txt:787
+15    execve("/usr/sbin/date", ["date", "+%s%N"], 0x56431a1727c0 /* 9 vars */) = 0
+
+trace.seed.txt:823
+16    execve("/usr/sbin/dd", ["dd", "if=/dev/urandom", "of=/app/varsea/tmp-00000000/1793068356174962335.bin", "bs=512", "count=10", "status=none"], 0x56431a16f9d0 /* 9 vars */) = 0
+
+trace.seed.txt:2325
+56    execve("/usr/sbin/dd", ["dd", "if=/dev/urandom", "of=/app/varsea/disks/sub1/subA/subAlpha/ae3f4c.dat", "bs=1M", "count=4", "status=none"], 0x56431a16f9d0 /* 9 vars */) = 0
+
+trace.seed.txt:2357
+56    openat(AT_FDCWD</app>, "/app/varsea/disks/sub1/subA/subAlpha/ae3f4c.dat", O_WRONLY|O_CREAT|O_TRUNC, 0666) = 3</app/varsea/disks/sub1/subA/subAlpha/ae3f4c.dat>
+
+trace.seed.txt:2358
+56    write(1</app/varsea/disks/sub1/subA/subAlpha/ae3f4c.dat>, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 65536) = 65536
+
+trace.seed.txt:2862
+64    write(1</app/varsea/disks/sub1/subA/subAlpha/ae3f4c.dat>, "PK\3\4\n\0\0\0\0\0\22\274Z]\304]r\260!\0\0\0!\0\0\0\22\0\34\0app/launchcode.txtUT\t\0\3D\r\340jD\r\340jux\v\0\1\4\350\3\0\0\4\350\3\0\0PASSWORD=8XDP5Q2RT9Z", 96) = 96
+
+trace.seed.txt:2899
+65    write(1</app/varsea/disks/sub1/subA/subAlpha/ae3f4c.dat>, "K7VB3BV4WW54\nPK\1\2\36\3\n\0\0\0\0\0\22\274Z]\304]r\260!\0\0\0!\0\0\0\22\0\30\0\0\0\0\0\1\0\0\0\244\201\0\0\0\0app/launchcode.txtUT\5\0\3D\r\340jux\v\0\1\4\350\3\0\0"..., 123) = 123
+
+trace.seed.txt:2938
+66    write(1</app/varsea/disks/sub1/subA/subAlpha/ae3f4c.dat>, "system check ok INFO: system check ok\n", 38) = 38
+
