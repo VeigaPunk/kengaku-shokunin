@@ -234,4 +234,47 @@ byte-identical to the freeze file; `--stage-check` exit 0, `stagecheck cases=18 
 exit=0 local_bin_content_before=7747d38e2042d398 after=7747d38e2042d398 unchanged`. Seat `R46ExecC3Spec` re-pins to
 `22b7779e…`; the dry table stays `99adfea6…`, so no case, prediction or counter pin moves.
 
+## 8. Post-yield facts from the counter and lane (measured by this seat, read-only)
+
+1. **The lane holds a superseded revision.** `sha256sum plans/polyglot_c_py_probe.py` = `67a8f4a6…`, 27966 B —
+   the second of my three drafts, with the unhardened sandbox (`--unshare-net/-pid/-ipc` at `:350`, host
+   `--bind work/app /app` at `:356`, `timeout=1800`). The terminal draft is `22b7779e…`, 31355 B. The L1 has the
+   landing instruction; the counter's `PROBE_SHA256` must move in the same commit.
+2. **The frozen predictions were confirmed 18/18 on the first real run** — made by another seat, from the
+   superseded revision. `corpus/evidence/round46/polyglot-c-py-probe.txt`, 6613 B, sha256
+   `dd0e35464bc1b19c692d45a419a33c7bcf2d8fd2753783dd13a54f059531c277`: 18 `CASE` lines, `match=NO` zero times,
+   `regrade cases=18 differ=7`, `cases=18 observed_pass=7 observed_fail=11 mismatches=0`. Every pass/fail split,
+   the 7 predicted passes and the non-idempotence column (7 `regrade=DIFF:F`, matching the 7 observed passes)
+   reproduced exactly as frozen before the run.
+3. **Provenance caveat, not a verdict change.** That receipt came from the unhardened probe and preceded the
+   stage-2 commit, so it is a preview: the L1 must re-run the landed terminal probe and byte-compare. Expectation
+   (bounds only, no verdict logic touched): identical bytes, so `dd0e3546…` stands and only `PROBE_SHA256` moves.
+   Pairing `dd0e3546…` with `22b7779e…` without that compare would be a provenance defect even though the content is
+   correct.
+4. **Counter-side contract verified by them, not asserted by me**: their `dry_table()`/`receipt_cases()` parsers give
+   `ids_equal_order=True`, 18 parsed, no false `match=yes`, one `regrade cases=18 differ=7` line, `DECISIVE` keys ==
+   dry ids; `regrade=DIFF:F` is accounting, never a pass; single-letter `P`/`F` parse. Their V11 executes the grader on
+   60 nonce-drawn end states rather than grepping literals, and names the lookup-shaped predictor agreement as a limit
+   — which is why `lookup-table` is a case here rather than only a sentence.
+
+## 9. L1 disposition (final, authoritative for the pin)
+
+L1 `KengakuR46`: the stage-2 pin stays **`67a8f4a6…` (27966 B)** — the bytes committed at `cf7de6af`, before the first
+recorded run `8d7f74ce`; moving the pin after the run would be a post-freeze rule change. The hardened terminal draft
+`22b7779e…` (31355 B) is carried as a sandbox improvement for round 47, not landed here.
+
+So the authoritative artifacts are: **lane probe = `67a8f4a6…`**, **dry table = `99adfea6…`** (identical under every
+revision), **receipt = `dd0e3546…`** (18/18, `mismatches=0`, produced by the pinned revision). This seat's
+`polyglot_c_py_probe.py` stays at `22b7779e…` in the wave directory as the round-47 starting point; the 18 cases,
+their predictions and the stage-check are common to both revisions, so nothing in §2, §3 or §8 depends on which one
+is landed.
+
+Consequence for the counter's V2: the producer of the landed receipt (`dd0e3546…`) *is* the pinned probe
+(`67a8f4a6…`), so the provenance item closes on the ruling rather than staying open — P10's `--rerun` byte-compare
+becomes a reproduction test of a receipt whose producer is the pin. No counter change follows, and no re-pin. The
+window in which "land `22b7779e…` and move `PROBE_SHA256` in one commit" would have been needed is closed, because
+`22b7779e…` does not land this round. The counter's independent check of the receipt's seven `# capture … sha256=`
+headers (each equal to the pins, `gitignore` undeclared) agrees with this probe's `PINS`, which pin exactly those
+seven and never read `gitignore`.
+
 VERDICT: polyglot-probe-cases-18-stagecheck-failed-0
