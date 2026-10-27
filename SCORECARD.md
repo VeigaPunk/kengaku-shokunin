@@ -2051,3 +2051,35 @@ operability 8, freshness 8, adjacency 8. Data walk: `.ufo/waves/round-45/w1/R45P
   wave evidence at the live tip); `R45CritV11Bypass` call-order and keyed-table predictors; `R45CritIntent` brace-prefix
   bypass for non-lane path options; considerthese `2026-10-26.md` proposal 2 (standing grader-admission counter with a
   red filler package); envelope v3 (`R44EnvelopeV3`) still not landed.
+
+
+## Round 46 (hyaku run 9, 2026-10-27): a fixture fence repaired and re-judged under a counter that hides its own names (C1 predicate met); round 45's false line-level detail superseded and marked (C2 predicate met); a twelfth TB2 grader executed whose frozen counter fails V7/V8 (C3 not admitted)
+
+Baseline lane tip `64ba8385ea10af1b78d367dcb242b92d97062af7`; stage-1 freeze `fd4129eb`; stage-2 instruments `cf7de6af`;
+amendment `4fdeebaa`; C1 controls `7768716c`; fence landing `420eec9f`; C2 landing `c1ec334c`; C3 receipt `8d7f74ce`, package
+`e9d20145`. Lowest non-retired axis: coverage 7 tied with novelty 7; coverage worked (C3), capped at 7 by L0
+`kengaku | round-33`. Every receipt below opens with the lane commit it measured (round-45 closure D3).
+
+| claim | axis | observed before → after, counting command | score / verdict |
+|---|---|---|---|
+| C1 the fixture fence's advertisement (refuse any fixture whose store, discovered repo or argv leaves `d`, without reading outside `d`) vs its observed behaviour, under a counter that hides its names (Q39) | **calibration** — contradiction count over 20 frozen refusal modules + 12 sealed held-out modules, with 104 honest fixtures that must be admitted | `python3 plans/round46_c1_verify.py --lane .`: before (base fence, `.ufo/waves/round-46/claims/control-c1-base-fence.txt`, measured `cf7de6af`) `REFUSALS total=20 clean=10 leaked=10`, `SEALED total=12 clean=0 leaked=12`, `CALIBRATION advertised=32 contradicted=22`, fail; 20 further controls fail incl. the round-45 keyed fence (`contradicted=32`) and 13 forged fences → after (`integrate/c1-landing.txt`, `420eec9f`) `PINS total=65 mismatched=0`, `REFUSALS total=20 clean=20`, `SEALED total=12 clean=12`, `HONEST fixtures=104 admitted=104`, `contradicted=0`, `PREDICATE C1 pass` | 8 → 8 held pending the wave-2 kill rule (verdict appended below) |
+| C2 round 45's mislocated anchors, false word counts/ranges and lone-CR predictor superseded and marked | **depth** — live defective line-cited anchors + predictor/grader disagreements + entry range defects + errata marks | `python3 plans/round46_c2_verify.py --lane .`: before (`claims/control-c2-nothing.txt`, base) `A live=8`, `B disagree=6`, `C source_ranges_bad=4 errata_marks=0/5`, fail → after (`integrate/c2-landing.txt`, `e9d20145`) `A live=0 repaired=8 base_changed=0`, `B disagree=0`, `C source_ranges_bad=0 errata_marks=5/5`, `D selftest exit=0`, `PREDICATE C2 pass`; four further controls fail (in-place fix, junk supersede, splitlines predictor, errata only) | 9 → 9 (harm repaired; no new depth credit) |
+| C3 pinned TB2 `polyglot-c-py` grader admitted with an executed 18-case probe (S166–S172) | **coverage** (lowest, tied) — knowledge files 52→53, SOURCES 149→165 (+9 C2, +7 C3), §Frontier 11→12 of 89 | `python3 plans/round46_c3_verify.py --lane .`: before (`claims/control-c3-base.txt`) `checks=13 defects=8`, fail → after (`integrate/c3-landing.txt`, `e9d20145`) `checks=13 defects=2` (V7: frozen tags `both-print`, `toolchain` violated by no case; V8: `control-c3-echo` ran the gate's P10 before the receipt), `PREDICATE C3 fail` | 7 → 7 (capped); **not admitted** on its counter; counted move real |
+
+### Round-46 capabilities (demonstrated this round)
+
+None admitted yet: `plans/fixture_fence.py` passes its frozen counter, but its capability row waits on the wave-2
+held-out kill rule. `plans/anchor_line_check.py` runs (`--selftest` red/green/junk; `live=0` at the tip) and is a gate
+tool, not a capability row.
+
+### Planned (round 47)
+
+Axis state carried: calibration 8, coverage 7 (capped by L0 `kengaku | round-33`), novelty 7, depth 9, operability 8,
+freshness 8, adjacency 8.
+
+- **Coverage (7, capped):** re-freeze C3's counter under Q40 (every frozen tag with a violating case; pre-receipt
+  controls with the gate's P10 disabled) and land the hardened probe revision `22b7779e…`
+  (`.ufo/waves/round-46/w1/R46ExecC3Probe/`), or the next TB2 grader by uncovered class.
+- **Novelty (7):** the F1 answer-leak census instrument (still unclaimed).
+- **Routed:** `corpus/routed-findings.jsonl` R45-S5-7b..7e (V11 lookup predictors, gate P10 unpinned `uv`, brace-prefix
+  intent, mutation re-attacks), the wave-2 findings appended below.

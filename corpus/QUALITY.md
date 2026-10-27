@@ -1085,3 +1085,24 @@ Line numbers are this file's.
   Lesson: `corpus/lessons/round-45.md` §Mistakes (attempt 3, keyed-control row). Supersedes: none; it extends Q31/Q37 —
   which ask whether the predicate is reachable without the work, or by work already in the lane — to the counter's
   own naming as an answer channel.
+
+## Round46 criterion — every frozen requirement tag has a frozen violating case before its counter is pinned
+
+- **Q40 — before a counter that derives requirement labels from a receipt is pinned, every `TAG` its frozen dry table
+  declares is carried by at least one frozen case's `violates=` set; and a control run before the first recorded probe
+  run never executes a leg that re-runs the probe.** Round 46's C3 pinned `plans/round46_c3_verify.py` against
+  `corpus/evidence/round46/polyglot-c-py-dry-cases-freeze.txt`, whose seven tags include `both-print` and `toolchain`
+  that no frozen case violates; V7 requires a violating case per tag, so C3 failed V7 whatever the package held
+  (`.ufo/waves/round-46/integrate/c3-landing.txt`). The same round's `control-c3-echo` ran V2, whose gate leg P10 runs
+  the probe, before the receipt existed; `plans/order_check.py` read the committed control receipt as
+  `probe-executed-before-receipt` and V8 failed.
+  Check (executable): `python3 -c "import re,sys; t=open(sys.argv[1]).read(); tags=re.findall(r'^TAG (\S+)',t,re.M);
+  v={x for m in re.findall(r' violates=(\S*)',t) for x in m.split(',') if x}; print(' '.join(x for x in tags if x not in
+  v) or '-')" <dry table>` must print `-`. Shown able to fail: on the round-46 table it prints `both-print toolchain`; on
+  `corpus/evidence/round45/password-recovery-dry-cases-freeze.txt` it prints `-`. Second leg: `python3 plans/order_check.py
+  --lane . --claims plans/round-N-claims.md --receipt <receipt>` must print `ORDER RESULT PASS` on the tip; on round 46 it
+  prints `ORDER HIT .ufo/waves/round-46/claims/control-c3-echo.txt@4fdeebaa546c:15 kind=gate-p10` and `ORDER RESULT FAIL`.
+  Limits: the tag check reads the dry table only (a tag the probe could violate but no case does is caught; a case that
+  lists a tag it does not in fact violate is not); the order leg sees only committed receipts.
+  Lesson: `corpus/lessons/round-46.md` §Mistakes (frozen-tag and stage-2-control rows). Supersedes: none; it extends
+  Q24 (a counter proved by its junk) with a positive precondition and Q30 (order) to the L1's own controls.
