@@ -1,0 +1,72 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45CritV11Bypass/env /fast/scratch/hyaku/kengaku-r45/R45CritV11Bypass/env --bind /fast/scratch/hyaku/kengaku-r45/R45CritV11Bypass/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r45/R45CritV11Bypass/v11_probe.py /fast/scratch/hyaku/kengaku-r45/R45CritV11Bypass/lane /fast/scratch/hyaku/kengaku-r45/R45CritV11Bypass /fast/scratch/hyaku/kengaku-r45/R45CritV11Bypass/rcpt
+ENVELOPE start 00:30:54 cwd=/home/vgpnk/Projects/shokunin
+counter_sha256 ab6825e34596ba71f59a184a59fd4e672fd22dcf4b892c511cae5ead2b104f50
+ANSWER 8XDP5Q2RT9ZK7VB3BV4WW54 states 48 kinds 16
+GRADED 111100000000011011110000000001101111000000000110 pass 18 fail 30 semantic_model_mismatches []
+  k=00 kind=exact          len= 24 verdict=1
+  k=01 kind=with-decoys    len= 72 verdict=1
+  k=02 kind=crlf-file      len= 50 verdict=1
+  k=03 kind=no-newline     len= 23 verdict=1
+  k=04 kind=padded-lines   len= 54 verdict=0
+  k=05 kind=joined         len= 47 verdict=0
+  k=06 kind=password-eq    len= 33 verdict=0
+  k=07 kind=format-decoy   len= 24 verdict=0
+  k=08 kind=decoys-only    len= 24 verdict=0
+  k=09 kind=absent         len=  - verdict=0
+  k=10 kind=empty          len=  0 verdict=0
+  k=11 kind=lower          len= 24 verdict=0
+  k=12 kind=truncated      len= 15 verdict=0
+  k=13 kind=leading-blank  len= 26 verdict=1
+  k=14 kind=duplicated     len= 72 verdict=1
+  k=15 kind=bom            len= 25 verdict=0
+  k=16 kind=exact          len= 24 verdict=1
+  k=17 kind=with-decoys    len= 72 verdict=1
+  k=18 kind=crlf-file      len= 50 verdict=1
+  k=19 kind=no-newline     len= 23 verdict=1
+  k=20 kind=padded-lines   len= 54 verdict=0
+  k=21 kind=joined         len= 47 verdict=0
+  k=22 kind=password-eq    len= 33 verdict=0
+  k=23 kind=format-decoy   len= 24 verdict=0
+  k=24 kind=decoys-only    len= 48 verdict=0
+  k=25 kind=absent         len=  - verdict=0
+  k=26 kind=empty          len=  0 verdict=0
+  k=27 kind=lower          len= 24 verdict=0
+  k=28 kind=truncated      len= 11 verdict=0
+  k=29 kind=leading-blank  len= 26 verdict=1
+  k=30 kind=duplicated     len= 72 verdict=1
+  k=31 kind=bom            len= 25 verdict=0
+  k=32 kind=exact          len= 24 verdict=1
+  k=33 kind=with-decoys    len= 72 verdict=1
+  k=34 kind=crlf-file      len= 50 verdict=1
+  k=35 kind=no-newline     len= 23 verdict=1
+  k=36 kind=padded-lines   len= 54 verdict=0
+  k=37 kind=joined         len= 47 verdict=0
+  k=38 kind=password-eq    len= 33 verdict=0
+  k=39 kind=format-decoy   len= 24 verdict=0
+  k=40 kind=decoys-only    len=120 verdict=0
+  k=41 kind=absent         len=  - verdict=0
+  k=42 kind=empty          len=  0 verdict=0
+  k=43 kind=lower          len= 24 verdict=0
+  k=44 kind=truncated      len= 21 verdict=0
+  k=45 kind=leading-blank  len= 26 verdict=1
+  k=46 kind=duplicated     len= 72 verdict=1
+  k=47 kind=bom            len= 25 verdict=0
+KEY (48, 1, 19)
+TABLE1 105619152396303
+TABLE2 9243193507842 digits 13
+tuple_bytes 1908
+PREDICTOR p0-membership bytes=127 lint=clean -> ok states=48 grader_pass=18 grader_fail=30 disagree=0
+PREDICTOR p1-callidx-table bytes=87 lint=clean -> ok states=48 grader_pass=18 grader_fail=30 disagree=0
+PREDICTOR p2-keyed-table bytes=127 lint=clean -> ok states=48 grader_pass=18 grader_fail=30 disagree=0
+PREDICTOR p3-textidx-table bytes=1981 lint=clean -> ok states=48 grader_pass=18 grader_fail=30 disagree=0
+PREDICTOR p4-boundary-substr bytes=163 lint=clean -> ok states=48 grader_pass=18 grader_fail=30 disagree=0
+PREDICTOR p5-chr-membership bytes=224 lint=clean -> ok states=48 grader_pass=18 grader_fail=30 disagree=0
+PREDICTOR p6-read-grader bytes=118 lint=open -> DEFECT lint
+PREDICTOR p7-import-states bytes=97 lint=import -> DEFECT lint
+PREDICTOR p9-crude-substr bytes=107 lint=clean -> DEFECT states=48 grader_pass=18 grader_fail=30 disagree=12
+PREDICTOR p10-split-heur bytes=115 lint=clean -> DEFECT states=48 grader_pass=18 grader_fail=30 disagree=3
+PREDICTOR p11-two-blocks blocks_found 2
+PREDICTOR p11-two-blocks -> (False, "'## Predictor' needs exactly one python block (found 2)")
+PREDICTOR p12-split-section blocks_found 0
+PREDICTOR p12-split-section -> (False, "'## Predictor' needs exactly one python block (found 0)")
+ENVELOPE end 00:30:56 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

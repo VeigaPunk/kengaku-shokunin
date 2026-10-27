@@ -1,0 +1,136 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/env /fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/env --bind /fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/lanes/m01_flip_inside/plans/round45_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/lanes/m01_flip_inside --work /fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside --jobs 4
+ENVELOPE start 00:30:33 cwd=/home/vgpnk/Projects/shokunin
+PINS total=33 mismatched=0
+FENCE plans/fixture_fence.py sha256=0ba43e686cb1c150ad754f27ea9e35541120608d21612b5a9177b608be92b9cc
+FENCE-RUN refusal refusals45/f10_laneinclude.py f10-lane-include-regular BREACH opens=0 -- --lane value 'lane' resolves outside the fixture
+FENCE-RUN refusal refusals45/f1_gitfile.py f1-gitdir-outside BREACH opens=0 -- --lane value '.' resolves outside the fixture
+FENCE-RUN refusal refusals45/f2_deep.py f2-deep-worktree BREACH opens=0 -- --lane value 'x/y/z/r' resolves outside the fixture
+FENCE-RUN refusal refusals45/f3_abbrev.py f3-abbrev-tree-claims BREACH opens=0 -- order argv is not the contract shape ['--lane', '--claims', '--receipt']
+FENCE-RUN refusal refusals45/f4_fifo.py f4-fifo-include BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/refusals45-f4_fi
+FENCE-RUN refusal refusals45/f5_alternates.py f5-alternates-outside BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/refusals45-f5_al
+FENCE-RUN refusal refusals45/f6_above.py f6-repo-above-d BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/refusals45-f6_ab
+FENCE-RUN refusal refusals45/f7_commondir.py f7-cd-accept BREACH opens=0 -- --lane value 'lane' resolves outside the fixture
+FENCE-RUN refusal refusals45/f7_commondir.py f7-cd-reject BREACH opens=0 -- --lane value 'lane' resolves outside the fixture
+FENCE-RUN refusal refusals45/f7_commondir.py f7-cd-anchor BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/refusals45-f7_co
+FENCE-RUN refusal refusals45/f8_worktreecfg.py f8-wtcfg-a BREACH opens=0 -- --lane value 'lane' resolves outside the fixture
+FENCE-RUN refusal refusals45/f8_worktreecfg.py f8-wtcfg-b BREACH opens=0 -- --lane value 'lane' resolves outside the fixture
+FENCE-RUN refusal refusals45/f9_nodescribe.py f9-bare-repo BREACH opens=0 -- --lane value 'lane' resolves outside the fixture
+FENCE-RUN honest battery42/a_class.py a_class-x6-sibling-digest BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-a_clas
+FENCE-RUN honest battery42/a_class.py a_class-x6-stale-manifest BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-a_clas
+FENCE-RUN honest battery42/a_class.py a_class-x7-fabricated-token BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-a_clas
+FENCE-RUN honest battery42/a_class.py a_class-x7-provenance-row BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-a_clas
+FENCE-RUN honest battery42/a_class.py a_class-x14-uppercase-token BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-a_clas
+FENCE-RUN honest battery42/a_class.py a_class-x14-two-errata BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-a_clas
+FENCE-RUN honest battery42/a_route.py a_route-x1-provenance-table BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-a_rout
+FENCE-RUN honest battery42/a_route.py a_route-x1-two-row-registry BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-a_rout
+FENCE-RUN honest battery42/a_route.py a_route-x3-provenance-url BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-a_rout
+FENCE-RUN honest battery42/a_route.py a_route-x3-blob-url BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-a_rout
+FENCE-RUN honest battery42/a_route.py a_route-x12-slashless-toml BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-a_rout
+FENCE-RUN honest battery42/a_route.py a_route-x12-two-tomls BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-a_rout
+FENCE-RUN honest battery42/a_row.py a_row-x9-short-no-token BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-a_row/
+FENCE-RUN honest battery42/a_row.py a_row-x9-registry-short-valid BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-a_row/
+FENCE-RUN honest battery42/a_row.py a_row-x13-staged-capture BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-a_row/
+FENCE-RUN honest battery42/a_row.py a_row-x13-url-staged BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-a_row/
+FENCE-RUN honest battery42/a_row.py a_row-x15-sibling-digest BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-a_row/
+FENCE-RUN honest battery42/a_row.py a_row-x15-manifest-sibling BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-a_row/
+FENCE-RUN honest battery42/o_clause.py o_clause-freeze-single BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-o_clau
+FENCE-RUN honest battery42/o_clause.py o_clause-freeze-pair-edited-after BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-o_clau
+FENCE-RUN honest battery42/o_clause.py o_clause-receipt-withdrawn BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-o_clau
+FENCE-RUN honest battery42/o_clause.py o_clause-receipt-side-line BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-o_clau
+FENCE-RUN honest battery42/o_clause.py o_clause-clean-order BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-o_clau
+FENCE-RUN honest battery42/o_scan.py o_scan-xo5-post-receipt-verdicts BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-o_scan
+FENCE-RUN honest battery42/o_scan.py o_scan-xo5-amended-claims-blob BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-o_scan
+FENCE-RUN honest battery42/o_scan.py o_scan-xo6-pass-verdict-row BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-o_scan
+FENCE-RUN honest battery42/o_scan.py o_scan-xo6-echoed-pass-row BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-o_scan
+FENCE-RUN honest battery42/o_scan.py o_scan-xo7-timeout-rows BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-o_scan
+FENCE-RUN honest battery42/o_scan.py o_scan-xo7-skipped-row-r38 BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery42-o_scan
+FENCE-RUN honest battery43/a_alt.py a_alt-longrow-copied BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_alt/
+FENCE-RUN honest battery43/a_alt.py a_alt-longrow-multicap BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_alt/
+FENCE-RUN honest battery43/a_alt.py a_alt-slug-deepest BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_alt/
+FENCE-RUN honest battery43/a_alt.py a_alt-slug-blob BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_alt/
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-manifest BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_alt/
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-sibling BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_alt/
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-short BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_alt/
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-upper BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_alt/
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-two BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_alt/
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-lessons BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_alt/
+FENCE-RUN honest battery43/a_alt.py a_alt-longrow-late BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_alt/
+FENCE-RUN honest battery43/a_alt.py a_alt-slug-manifest BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_alt/
+FENCE-RUN honest battery43/a_alt.py a_alt-shorturl-sibling BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_alt/
+FENCE-RUN honest battery43/a_alt.py a_alt-shorturl-samedir BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_alt/
+FENCE-RUN honest battery43/a_err.py a_err-f1-repaired-row-historical-erratum BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_err/
+FENCE-RUN honest battery43/a_err.py a_err-f2-two-rows-provenance-two-errata BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_err/
+FENCE-RUN honest battery43/a_err.py a_err-f3-stale-token-sibling-capture BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_err/
+FENCE-RUN honest battery43/a_err.py a_err-f4-manifest-only-second-capture BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_err/
+FENCE-RUN honest battery43/a_err.py a_err-f5-row-carrying-both-tokens BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_err/
+FENCE-RUN honest battery43/a_err.py a_err-f6-provenance-bound-unknown-stale BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_err/
+FENCE-RUN honest battery43/a_row.py a_row-na1-tail12 BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_row/
+FENCE-RUN honest battery43/a_row.py a_row-na1-mid13 BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_row/
+FENCE-RUN honest battery43/a_row.py a_row-na1-wide20 BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_row/
+FENCE-RUN honest battery43/a_url.py a_url-org-slash-single BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_url/
+FENCE-RUN honest battery43/a_url.py a_url-org-slash-registry BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_url/
+FENCE-RUN honest battery43/a_url.py a_url-short-commit-pair BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_url/
+FENCE-RUN honest battery43/a_url.py a_url-short-commit-shadow BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-a_url/
+FENCE-RUN honest battery43/o_alt.py o_alt-late-case-blob BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-o_alt/
+FENCE-RUN honest battery43/o_alt.py o_alt-inplace-gate-rewrite BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-o_alt/
+FENCE-RUN honest battery43/o_alt.py o_alt-fenced-echo BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-o_alt/
+FENCE-RUN honest battery43/o_alt.py o_alt-two-echo-blobs BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-o_alt/
+FENCE-RUN honest battery43/o_alt.py o_alt-bare-ok-late BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-o_alt/
+FENCE-RUN honest battery43/o_alt.py o_alt-prefixed-ok-blob BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery43-o_alt/
+FENCE-RUN honest battery43/o_excuse.py o_excuse-echo-freeze-claims BREACH opens=0 -- --lane value '.' resolves outside the fixture
+FENCE-RUN honest battery43/o_excuse.py o_excuse-gate-prefix-late BREACH opens=0 -- --lane value '.' resolves outside the fixture
+FENCE-RUN honest battery43/o_excuse.py o_excuse-bare-excused BREACH opens=0 -- --lane value '.' resolves outside the fixture
+FENCE-RUN honest battery43/o_scan.py o_scan-n5a-late-gate-file BREACH opens=0 -- --lane value '.' resolves outside the fixture
+FENCE-RUN honest battery43/o_scan.py o_scan-n5b-amended-claims BREACH opens=0 -- --lane value '.' resolves outside the fixture
+FENCE-RUN honest battery43/o_scan.py o_scan-n5c-case-third-commit BREACH opens=0 -- --lane value '.' resolves outside the fixture
+FENCE-RUN honest battery43/o_scan.py o_scan-n22a-gate-only BREACH opens=0 -- --lane value '.' resolves outside the fixture
+FENCE-RUN honest battery43/o_scan.py o_scan-n22b-echoed-defect BREACH opens=0 -- --lane value '.' resolves outside the fixture
+FENCE-RUN honest battery43/o_scan.py o_scan-n22c-indented-gate BREACH opens=0 -- --lane value '.' resolves outside the fixture
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-draft-suffix BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u14c_n
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-subdir-nohyphen BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u14c_n
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-uppercase-pair BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u14c_n
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-canonical-control BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u14c_n
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-registry-suffix BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u14c_n
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-nested-uppercase BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u14c_n
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-round-xx-token BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u14c_n
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-underscore-name BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u14c_n
+FENCE-RUN honest battery44/u5_short_a.py u5_short_a-manifest-registry BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u5_sho
+FENCE-RUN honest battery44/u5_short_a.py u5_short_a-index-staged BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u5_sho
+FENCE-RUN honest battery44/u5_short_a.py u5_short_a-abbrev-neighbour BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u5_sho
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-registry-url-task BREACH opens=0 -- --lane value '.' resolves outside the fixture
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-index-ref-staged BREACH opens=0 -- --lane value '.' resolves outside the fixture
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-lane-path-manifest BREACH opens=0 -- --lane value '.' resolves outside the fixture
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-history-truncation BREACH opens=0 -- --lane value '.' resolves outside the fixture
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-registry-65 BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u6_lon
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-manifest-96 BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u6_lon
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-provenance-128 BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u6_lon
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-history-200 BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u6_lon
+FENCE-RUN honest battery44/u6_long_b.py u6_long_b-registry-80hex BREACH opens=0 -- --lane value '.' resolves outside the fixture
+FENCE-RUN honest battery44/u6_long_b.py u6_long_b-provenance-129hex BREACH opens=0 -- --lane value '.' resolves outside the fixture
+FENCE-RUN honest battery44/u6_long_b.py u6_long_b-index-pair-96hex BREACH opens=0 -- --lane value '.' resolves outside the fixture
+FENCE-RUN honest battery44/u7_twin_a.py u7_twin_a-rowpath-registry BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u7_twi
+FENCE-RUN honest battery44/u7_twin_a.py u7_twin_a-provenance-table BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u7_twi
+FENCE-RUN honest battery44/u7_twin_a.py u7_twin_a-url-two-tasks BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u7_twi
+FENCE-RUN honest battery44/u7_twin_b.py u7_twin_b-url-trio-identical BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u7_twi
+FENCE-RUN honest battery44/u7_twin_b.py u7_twin_b-prov-twin BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u7_twi
+FENCE-RUN honest battery44/u7_twin_b.py u7_twin_b-mixed-trio BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u7_twi
+FENCE-RUN honest battery44/u9_worktree_a.py u9_worktree_a-registry-wrong-capture BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u9_wor
+FENCE-RUN honest battery44/u9_worktree_a.py u9_worktree_a-history-abbrev BREACH opens=0 -- --lane value '/fast/scratch/hyaku/kengaku-r45/R45MutLandedFence/work/m01_flip_inside/k45-c1-av67aje6/fx/battery44-u9_wor
+FENCE-RUN honest battery44/u9_worktree_b.py u9_worktree_b-registry-erratum-appended BREACH opens=0 -- --lane value '.' resolves outside the fixture
+FENCE-RUN honest battery44/u9_worktree_b.py u9_worktree_b-erratum-retargeted-history BREACH opens=0 -- --lane value '.' resolves outside the fixture
+FENCE-RUN honest battery44/u9_worktree_b.py u9_worktree_b-erratum-completed-in-place BREACH opens=0 -- --lane value '.' resolves outside the fixture
+REFUSAL f10_laneinclude.py clean fixtures=1 admitted=0 hung=0 opens=0
+REFUSAL f1_gitfile.py clean fixtures=1 admitted=0 hung=0 opens=0
+REFUSAL f2_deep.py clean fixtures=1 admitted=0 hung=0 opens=0
+REFUSAL f3_abbrev.py clean fixtures=1 admitted=0 hung=0 opens=0
+REFUSAL f4_fifo.py clean fixtures=1 admitted=0 hung=0 opens=0
+REFUSAL f5_alternates.py clean fixtures=1 admitted=0 hung=0 opens=0
+REFUSAL f6_above.py clean fixtures=1 admitted=0 hung=0 opens=0
+REFUSAL f7_commondir.py clean fixtures=3 admitted=0 hung=0 opens=0
+REFUSAL f8_worktreecfg.py clean fixtures=2 admitted=0 hung=0 opens=0
+REFUSAL f9_nodescribe.py clean fixtures=1 admitted=0 hung=0 opens=0
+REFUSALS total=10 clean=10 leaked=0 read=0 hung=0 build_errors=0
+HONEST fixtures=104 admitted=0 refused=104 read=0 hung=0 build_errors=0
+CALIBRATION advertised=10 contradicted=0
+PREDICATE C1 fail
+ENVELOPE end 00:30:47 exit=1 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

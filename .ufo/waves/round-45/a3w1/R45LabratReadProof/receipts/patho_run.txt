@@ -1,0 +1,13 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45LabratReadProof/env /fast/scratch/hyaku/kengaku-r45/R45LabratReadProof/env --bind /fast/scratch/hyaku/kengaku-r45/R45LabratReadProof/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/a3w1/R45LabratReadProof/patho_probe.py /fast/scratch/hyaku/kengaku-r45/R45LabratReadProof/lane /fast/scratch/hyaku/kengaku-r45/R45LabratReadProof/patho
+ENVELOPE start 00:25:24 cwd=/home/vgpnk/Projects/shokunin
+CONST ENTRY_CAP=200000 REPO_CAP=64 CONFIG_CAP=1048576 GIT_TIMEOUT=30 FENCE_TIMEOUT=120 harness_sha=cadf391c095544cb
+BUILD flat100k entries=100046 fill_seconds=0.8 dir=/fast/scratch/hyaku/kengaku-r45/R45LabratReadProof/patho/fx/flat100k/f000
+PROBE flat100k fence_seconds=1.77 rc=0 hung=False opens=0 out='ADMIT' stderr=''
+PROBE flat100k log=/fast/scratch/hyaku/kengaku-r45/R45LabratReadProof/patho/logs/flat100k/log bytes=52166
+BUILD flat199k entries=199046 fill_seconds=1.7 dir=/fast/scratch/hyaku/kengaku-r45/R45LabratReadProof/patho/fx/flat199k/f000
+PROBE flat199k fence_seconds=3.31 rc=0 hung=False opens=0 out='ADMIT' stderr=''
+PROBE flat199k log=/fast/scratch/hyaku/kengaku-r45/R45LabratReadProof/patho/logs/flat199k/log bytes=52166
+BUILD grouped201k entries=201247 fill_seconds=1.7 dir=/fast/scratch/hyaku/kengaku-r45/R45LabratReadProof/patho/fx/grouped201k/f000
+PROBE grouped201k fence_seconds=4.30 rc=0 hung=False opens=0 out='BREACH fixture tree exceeds 200000 entries' stderr=''
+PROBE grouped201k log=/fast/scratch/hyaku/kengaku-r45/R45LabratReadProof/patho/logs/grouped201k/log bytes=90666
+ENVELOPE end 00:25:40 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

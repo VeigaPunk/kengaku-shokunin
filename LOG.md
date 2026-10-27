@@ -1404,8 +1404,8 @@ commit `fbad1c5`. Motivating evidence for the attempt-3 verdict changes:
   pass` under the frozen counter (`claims/control-c1-fence-keyed_name.txt`) and `contradicted=10`, fail, under the
   name-blinded dev counter (`claims/dev-blind-c1-keyed.txt`); the landed fence passes both
   (`dev-blind-c1-landed.txt`). C1 → not admitted on its counter; QUALITY Q39.
-- Wave `a3w1` (34 re-dispatched wave-2 items): held-out hostile modules 7 of 9 admitted by the landed fence
-  (`a3w1/R45HoIncludeIf.md`, `R45HoSymlinks.md`, `R45HoArgvEnv.md`, `R45HoCommondir2.md`); fence mutants 7/15 caught
+- Wave `a3w1` (34 re-dispatched wave-2 items): held-out hostile modules 8 of 10 admitted by the landed fence
+  (`a3w1/R45HoIncludeIf.md`, `R45HoSymlinks.md`, `R45HoArgvEnv.md`, `R45HoCommondir2.md`, `R45HoConfigKeys.md`); two a3w1 seats died reportless (`R45MutC1Instrument2`, `R45MutC2Checks`: output not retained by the orchestrator); fence mutants 7/15 caught
   (`R45MutLandedFence.md`); C2 rows: 3 anchors cite the wrong line, 10 smaller cell defects (`R45RevRowCells.md`);
   entry predictor diverges from the grader on lone-CR states 3/9 (`R45RevEntryQuotes.md`); V11 admits 4 lint-clean
   lookup predictors (`R45CritV11Bypass.md`); gate P10 runs an unpinned `uv` fetch outside the sandbox when host

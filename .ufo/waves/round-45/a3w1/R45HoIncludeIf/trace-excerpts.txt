@@ -1,0 +1,12 @@
+Retained strace excerpt receipts copied by hand from the run; source paths are retained in /fast/scratch/hyaku/kengaku-r45/R45HoIncludeIf/kept/ until safe-rm.
+
+1) BOM `[include]`, module run f00012.txt, source line 146:
+openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45HoIncludeIf/w2/fx/R45HoIncludeIf-h3_bom_symlink/f000/lane>, "/fast/scratch/hyaku/kengaku-r45/R45HoIncludeIf/w2/fx/R45HoIncludeIf-h3_bom_symlink/side-h3-bom-inc.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45HoIncludeIf/w2/fx/R45HoIncludeIf-h3_bom_symlink/side-h3-bom-inc.cfg>
+
+2) `.git/inc.cfg` symlink target outside d, module run f00013.txt, source line 146:
+openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45HoIncludeIf/w2/fx/R45HoIncludeIf-h3_bom_symlink/f001/lane>, ".git/inc.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45HoIncludeIf/w2/fx/R45HoIncludeIf-h3_bom_symlink/side-h3-cr-symlink.cfg>
+
+3) matching gitdir exact, module run f00005.txt, source line 146:
+openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45HoIncludeIf/w2/fx/R45HoIncludeIf-h2_includeif_cond/f002/lane>, "/fast/scratch/hyaku/kengaku-r45/R45HoIncludeIf/w2/fx/R45HoIncludeIf-h2_includeif_cond/side-h2-gitdir-exact.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45HoIncludeIf/w2/fx/R45HoIncludeIf-h2_includeif_cond/side-h2-gitdir-exact.cfg>
+
+Each is a successful openat (fd 4), and the resolved path is in the module build root's fx tree but outside the fixture f000/f002/f001. The counter's own `run_fence` counted these as outside opens.

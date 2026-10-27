@@ -1,0 +1,47 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45CritIntent/env /fast/scratch/hyaku/kengaku-r45/R45CritIntent/env --bind /fast/scratch/hyaku/kengaku-r45/R45CritIntent/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /fast/scratch/hyaku/kengaku-r45/R45CritIntent/exp.sh
+ENVELOPE start 00:31:32 cwd=/home/vgpnk/Projects/shokunin
+=== A. honest baseline (order tool, lane repo) ===
+ADMIT
+=== A2. same honest tree under a refusal-family name ===
+ADMIT
+=== B. f1-shape hostile (separate-git-dir) under an honest-family name ===
+BREACH .git/.git is a file (gitdir redirect), not a directory
+-- .git at /fast/scratch/hyaku/kengaku-r45/R45CritIntent/lab/fx/battery42_a_class/f000 is:
+-rw-r--r-- 1 vgpnk vgpnk 91 Oct 27 00:31 /fast/scratch/hyaku/kengaku-r45/R45CritIntent/lab/fx/battery42_a_class/f000/.git
+=== C. .git/objects symlink to a stash inside fx (counter-region analog) ===
+ADMIT
+-- strace opens of stash (outside d, inside fx-analog):
+0
+=== D. .git/objects symlink to a stash outside the whole build root ===
+ADMIT
+-- strace opens of outside store (counted-region = lab/fx,lab/btmp only):
+0
+-- opens the r45 counter would count (scratch=lab/fx,lab/btmp, outside d):
+traceC: counted_opens=0
+traceD: counted_opens=0
+=== E. brace-placeholder carve-out ===
+-- --claims ../../etc :
+BREACH --claims value '../../etc' resolves outside the fixture
+-- --claims {T}/../../etc :
+ADMIT
+-- --lane {T}/../../etc :
+BREACH --lane resolves outside the fixture
+=== F. purity: same fixture twice ===
+ADMIT
+ADMIT
+ADMIT
+ADMIT
+=== G. timeout dependence: same fence source, GIT_TIMEOUT=0.001 ===
+25:GIT_TIMEOUT = 0.001
+ADMIT
+=== H. ceiling check: is the ceiling dir itself searched for .git? ===
+init ok; /fast/scratch/hyaku/kengaku-r45/R45CritIntent/lab/fx/ceiltest/.git exists: yes
+-- no ceiling:
+/fast/scratch/hyaku/kengaku-r45/R45CritIntent/lab/fx/ceiltest
+-- ceiling=/fast/scratch/hyaku/kengaku-r45/R45CritIntent/lab/fx/ceiltest:
+fatal: not a git repository (or any of the parent directories): .git
+-- ceiling=/fast/scratch/hyaku/kengaku-r45/R45CritIntent/lab/fx/ceiltest/sub:
+/fast/scratch/hyaku/kengaku-r45/R45CritIntent/lab/fx/ceiltest
+=== I. two violations in one dir, reason order over 20 runs ===
+     20 BREACH .git/.git is a file (gitdir redirect), not a directory
+ENVELOPE end 00:31:35 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

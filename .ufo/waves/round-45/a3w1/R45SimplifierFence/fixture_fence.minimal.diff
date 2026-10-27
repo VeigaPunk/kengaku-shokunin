@@ -1,0 +1,27 @@
+--- a/plans/fixture_fence.py
++++ b/plans/fixture_fence.py
+@@ -103,7 +103,7 @@
+     # fact 2: every argv value that is a path must resolve inside d (a `{...}` placeholder is the
+     # counter's own per-run token and is resolved by the harness, not here).
+     for opt, val in vals.items():
+-        if val is True or not isinstance(val, str) or val.startswith("{"):
++        if val is True or val.startswith("{"):
+             continue
+         cand = pathlib.Path(val) if val.startswith("/") else d / val
+         if not _inside(cand, d):
+@@ -111,13 +111,8 @@
+ 
+     # fact 3: no `.git` may sit ABOVE d up to the module build root (the fixture dir's parent): a repo
+     # there is what git discovery would adopt from a `--lane` that is a plain directory inside d.
+-    anc = d.parent
+-    while True:
+-        if os.path.lexists(anc / ".git"):
+-            return f".git exists at {anc} above the fixture", None, None
+-        if anc == d.parent or anc.parent == anc:
+-            break
+-        anc = anc.parent
++    if os.path.lexists(d.parent / ".git"):
++        return f".git exists at {d.parent} above the fixture", None, None
+ 
+     # fact 4: one walk of the whole fixture tree — `.git` files, `.git` symlink dirs, escaping symlinks,
+     # and non-regular special files — collecting every directory that holds a real `.git` directory.

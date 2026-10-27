@@ -1,0 +1,136 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45SimplifierFence/env /fast/scratch/hyaku/kengaku-r45/R45SimplifierFence/env --bind /fast/scratch/hyaku/kengaku-r45/R45SimplifierFence/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r45/R45SimplifierFence/a3/lane-cand/plans/round45_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r45/R45SimplifierFence/a3/lane-cand --work /fast/scratch/hyaku/kengaku-r45/R45SimplifierFence/a3/w-cand --jobs 12
+ENVELOPE start 00:27:09 cwd=/home/vgpnk/Projects/shokunin
+PINS total=33 mismatched=0
+FENCE plans/fixture_fence.py sha256=52c8eeac3a06eef26f758aca0aef37ec377716de0b2d144f98bdee7b736ee596
+FENCE-RUN refusal refusals45/f10_laneinclude.py f10-lane-include-regular BREACH opens=0 -- lane/.git/config carries an include
+FENCE-RUN refusal refusals45/f1_gitfile.py f1-gitdir-outside BREACH opens=0 -- .git/.git is a file (gitdir redirect), not a directory
+FENCE-RUN refusal refusals45/f2_deep.py f2-deep-worktree BREACH opens=0 -- x/y/z/r/.git/config sets core.worktree=/fast/scratch/hyaku/kengaku-r45/R45SimplifierFence/a3/w-cand/k45-c1-0o2qc56i/fx/r
+FENCE-RUN refusal refusals45/f3_abbrev.py f3-abbrev-tree-claims BREACH opens=0 -- order argv is not the contract shape ['--lane', '--claims', '--receipt']
+FENCE-RUN refusal refusals45/f4_fifo.py f4-fifo-include BREACH opens=0 -- lane/.git/config carries an include
+FENCE-RUN refusal refusals45/f5_alternates.py f5-alternates-outside BREACH opens=0 -- lane/.git/objects/info/alternates present
+FENCE-RUN refusal refusals45/f6_above.py f6-repo-above-d BREACH opens=0 -- .git exists at /fast/scratch/hyaku/kengaku-r45/R45SimplifierFence/a3/w-cand/k45-c1-0o2qc56i/fx/refusals45-f6_above above
+FENCE-RUN refusal refusals45/f7_commondir.py f7-cd-accept BREACH opens=0 -- lane/.git/commondir present (store redirect)
+FENCE-RUN refusal refusals45/f7_commondir.py f7-cd-reject BREACH opens=0 -- lane/.git/commondir present (store redirect)
+FENCE-RUN refusal refusals45/f7_commondir.py f7-cd-anchor BREACH opens=0 -- lane/.git/commondir present (store redirect)
+FENCE-RUN refusal refusals45/f8_worktreecfg.py f8-wtcfg-a BREACH opens=0 -- lane/.git/config enables extensions.worktreeConfig
+FENCE-RUN refusal refusals45/f8_worktreecfg.py f8-wtcfg-b BREACH opens=0 -- lane/.git/config enables extensions.worktreeConfig
+FENCE-RUN refusal refusals45/f9_nodescribe.py f9-bare-repo BREACH opens=0 -- lane/.git/config sets core.bare
+FENCE-RUN honest battery42/a_class.py a_class-x6-sibling-digest ADMIT opens=0
+FENCE-RUN honest battery42/a_class.py a_class-x6-stale-manifest ADMIT opens=0
+FENCE-RUN honest battery42/a_class.py a_class-x7-fabricated-token ADMIT opens=0
+FENCE-RUN honest battery42/a_class.py a_class-x7-provenance-row ADMIT opens=0
+FENCE-RUN honest battery42/a_class.py a_class-x14-uppercase-token ADMIT opens=0
+FENCE-RUN honest battery42/a_class.py a_class-x14-two-errata ADMIT opens=0
+FENCE-RUN honest battery42/a_route.py a_route-x1-provenance-table ADMIT opens=0
+FENCE-RUN honest battery42/a_route.py a_route-x1-two-row-registry ADMIT opens=0
+FENCE-RUN honest battery42/a_route.py a_route-x3-provenance-url ADMIT opens=0
+FENCE-RUN honest battery42/a_route.py a_route-x3-blob-url ADMIT opens=0
+FENCE-RUN honest battery42/a_route.py a_route-x12-slashless-toml ADMIT opens=0
+FENCE-RUN honest battery42/a_route.py a_route-x12-two-tomls ADMIT opens=0
+FENCE-RUN honest battery42/a_row.py a_row-x9-short-no-token ADMIT opens=0
+FENCE-RUN honest battery42/a_row.py a_row-x9-registry-short-valid ADMIT opens=0
+FENCE-RUN honest battery42/a_row.py a_row-x13-staged-capture ADMIT opens=0
+FENCE-RUN honest battery42/a_row.py a_row-x13-url-staged ADMIT opens=0
+FENCE-RUN honest battery42/a_row.py a_row-x15-sibling-digest ADMIT opens=0
+FENCE-RUN honest battery42/a_row.py a_row-x15-manifest-sibling ADMIT opens=0
+FENCE-RUN honest battery42/o_clause.py o_clause-freeze-single ADMIT opens=0
+FENCE-RUN honest battery42/o_clause.py o_clause-freeze-pair-edited-after ADMIT opens=0
+FENCE-RUN honest battery42/o_clause.py o_clause-receipt-withdrawn ADMIT opens=0
+FENCE-RUN honest battery42/o_clause.py o_clause-receipt-side-line ADMIT opens=0
+FENCE-RUN honest battery42/o_clause.py o_clause-clean-order ADMIT opens=0
+FENCE-RUN honest battery42/o_scan.py o_scan-xo5-post-receipt-verdicts ADMIT opens=0
+FENCE-RUN honest battery42/o_scan.py o_scan-xo5-amended-claims-blob ADMIT opens=0
+FENCE-RUN honest battery42/o_scan.py o_scan-xo6-pass-verdict-row ADMIT opens=0
+FENCE-RUN honest battery42/o_scan.py o_scan-xo6-echoed-pass-row ADMIT opens=0
+FENCE-RUN honest battery42/o_scan.py o_scan-xo7-timeout-rows ADMIT opens=0
+FENCE-RUN honest battery42/o_scan.py o_scan-xo7-skipped-row-r38 ADMIT opens=0
+FENCE-RUN honest battery43/a_alt.py a_alt-longrow-copied ADMIT opens=0
+FENCE-RUN honest battery43/a_alt.py a_alt-longrow-multicap ADMIT opens=0
+FENCE-RUN honest battery43/a_alt.py a_alt-slug-deepest ADMIT opens=0
+FENCE-RUN honest battery43/a_alt.py a_alt-slug-blob ADMIT opens=0
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-manifest ADMIT opens=0
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-sibling ADMIT opens=0
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-short ADMIT opens=0
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-upper ADMIT opens=0
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-two ADMIT opens=0
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-lessons ADMIT opens=0
+FENCE-RUN honest battery43/a_alt.py a_alt-longrow-late ADMIT opens=0
+FENCE-RUN honest battery43/a_alt.py a_alt-slug-manifest ADMIT opens=0
+FENCE-RUN honest battery43/a_alt.py a_alt-shorturl-sibling ADMIT opens=0
+FENCE-RUN honest battery43/a_alt.py a_alt-shorturl-samedir ADMIT opens=0
+FENCE-RUN honest battery43/a_err.py a_err-f1-repaired-row-historical-erratum ADMIT opens=0
+FENCE-RUN honest battery43/a_err.py a_err-f2-two-rows-provenance-two-errata ADMIT opens=0
+FENCE-RUN honest battery43/a_err.py a_err-f3-stale-token-sibling-capture ADMIT opens=0
+FENCE-RUN honest battery43/a_err.py a_err-f4-manifest-only-second-capture ADMIT opens=0
+FENCE-RUN honest battery43/a_err.py a_err-f5-row-carrying-both-tokens ADMIT opens=0
+FENCE-RUN honest battery43/a_err.py a_err-f6-provenance-bound-unknown-stale ADMIT opens=0
+FENCE-RUN honest battery43/a_row.py a_row-na1-tail12 ADMIT opens=0
+FENCE-RUN honest battery43/a_row.py a_row-na1-mid13 ADMIT opens=0
+FENCE-RUN honest battery43/a_row.py a_row-na1-wide20 ADMIT opens=0
+FENCE-RUN honest battery43/a_url.py a_url-org-slash-single ADMIT opens=0
+FENCE-RUN honest battery43/a_url.py a_url-org-slash-registry ADMIT opens=0
+FENCE-RUN honest battery43/a_url.py a_url-short-commit-pair ADMIT opens=0
+FENCE-RUN honest battery43/a_url.py a_url-short-commit-shadow ADMIT opens=0
+FENCE-RUN honest battery43/o_alt.py o_alt-late-case-blob ADMIT opens=0
+FENCE-RUN honest battery43/o_alt.py o_alt-inplace-gate-rewrite ADMIT opens=0
+FENCE-RUN honest battery43/o_alt.py o_alt-fenced-echo ADMIT opens=0
+FENCE-RUN honest battery43/o_alt.py o_alt-two-echo-blobs ADMIT opens=0
+FENCE-RUN honest battery43/o_alt.py o_alt-bare-ok-late ADMIT opens=0
+FENCE-RUN honest battery43/o_alt.py o_alt-prefixed-ok-blob ADMIT opens=0
+FENCE-RUN honest battery43/o_excuse.py o_excuse-echo-freeze-claims ADMIT opens=0
+FENCE-RUN honest battery43/o_excuse.py o_excuse-gate-prefix-late ADMIT opens=0
+FENCE-RUN honest battery43/o_excuse.py o_excuse-bare-excused ADMIT opens=0
+FENCE-RUN honest battery43/o_scan.py o_scan-n5a-late-gate-file ADMIT opens=0
+FENCE-RUN honest battery43/o_scan.py o_scan-n5b-amended-claims ADMIT opens=0
+FENCE-RUN honest battery43/o_scan.py o_scan-n5c-case-third-commit ADMIT opens=0
+FENCE-RUN honest battery43/o_scan.py o_scan-n22a-gate-only ADMIT opens=0
+FENCE-RUN honest battery43/o_scan.py o_scan-n22b-echoed-defect ADMIT opens=0
+FENCE-RUN honest battery43/o_scan.py o_scan-n22c-indented-gate ADMIT opens=0
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-draft-suffix ADMIT opens=0
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-subdir-nohyphen ADMIT opens=0
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-uppercase-pair ADMIT opens=0
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-canonical-control ADMIT opens=0
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-registry-suffix ADMIT opens=0
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-nested-uppercase ADMIT opens=0
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-round-xx-token ADMIT opens=0
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-underscore-name ADMIT opens=0
+FENCE-RUN honest battery44/u5_short_a.py u5_short_a-manifest-registry ADMIT opens=0
+FENCE-RUN honest battery44/u5_short_a.py u5_short_a-index-staged ADMIT opens=0
+FENCE-RUN honest battery44/u5_short_a.py u5_short_a-abbrev-neighbour ADMIT opens=0
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-registry-url-task ADMIT opens=0
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-index-ref-staged ADMIT opens=0
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-lane-path-manifest ADMIT opens=0
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-history-truncation ADMIT opens=0
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-registry-65 ADMIT opens=0
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-manifest-96 ADMIT opens=0
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-provenance-128 ADMIT opens=0
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-history-200 ADMIT opens=0
+FENCE-RUN honest battery44/u6_long_b.py u6_long_b-registry-80hex ADMIT opens=0
+FENCE-RUN honest battery44/u6_long_b.py u6_long_b-provenance-129hex ADMIT opens=0
+FENCE-RUN honest battery44/u6_long_b.py u6_long_b-index-pair-96hex ADMIT opens=0
+FENCE-RUN honest battery44/u7_twin_a.py u7_twin_a-rowpath-registry ADMIT opens=0
+FENCE-RUN honest battery44/u7_twin_a.py u7_twin_a-provenance-table ADMIT opens=0
+FENCE-RUN honest battery44/u7_twin_a.py u7_twin_a-url-two-tasks ADMIT opens=0
+FENCE-RUN honest battery44/u7_twin_b.py u7_twin_b-url-trio-identical ADMIT opens=0
+FENCE-RUN honest battery44/u7_twin_b.py u7_twin_b-prov-twin ADMIT opens=0
+FENCE-RUN honest battery44/u7_twin_b.py u7_twin_b-mixed-trio ADMIT opens=0
+FENCE-RUN honest battery44/u9_worktree_a.py u9_worktree_a-registry-wrong-capture ADMIT opens=0
+FENCE-RUN honest battery44/u9_worktree_a.py u9_worktree_a-history-abbrev ADMIT opens=0
+FENCE-RUN honest battery44/u9_worktree_b.py u9_worktree_b-registry-erratum-appended ADMIT opens=0
+FENCE-RUN honest battery44/u9_worktree_b.py u9_worktree_b-erratum-retargeted-history ADMIT opens=0
+FENCE-RUN honest battery44/u9_worktree_b.py u9_worktree_b-erratum-completed-in-place ADMIT opens=0
+REFUSAL f10_laneinclude.py clean fixtures=1 admitted=0 hung=0 opens=0
+REFUSAL f1_gitfile.py clean fixtures=1 admitted=0 hung=0 opens=0
+REFUSAL f2_deep.py clean fixtures=1 admitted=0 hung=0 opens=0
+REFUSAL f3_abbrev.py clean fixtures=1 admitted=0 hung=0 opens=0
+REFUSAL f4_fifo.py clean fixtures=1 admitted=0 hung=0 opens=0
+REFUSAL f5_alternates.py clean fixtures=1 admitted=0 hung=0 opens=0
+REFUSAL f6_above.py clean fixtures=1 admitted=0 hung=0 opens=0
+REFUSAL f7_commondir.py clean fixtures=3 admitted=0 hung=0 opens=0
+REFUSAL f8_worktreecfg.py clean fixtures=2 admitted=0 hung=0 opens=0
+REFUSAL f9_nodescribe.py clean fixtures=1 admitted=0 hung=0 opens=0
+REFUSALS total=10 clean=10 leaked=0 read=0 hung=0 build_errors=0
+HONEST fixtures=104 admitted=104 refused=0 read=0 hung=0 build_errors=0
+CALIBRATION advertised=10 contradicted=0
+PREDICATE C1 pass
+ENVELOPE end 00:27:16 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

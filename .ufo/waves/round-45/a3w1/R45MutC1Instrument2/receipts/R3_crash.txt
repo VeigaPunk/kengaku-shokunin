@@ -1,0 +1,137 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45MutC1Instrument2/env /fast/scratch/hyaku/kengaku-r45/R45MutC1Instrument2/env --bind /fast/scratch/hyaku/kengaku-r45/R45MutC1Instrument2/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r45/R45MutC1Instrument2/lane/plans/round45_c1_verify.py --lane /fast/scratch/hyaku/kengaku-r45/R45MutC1Instrument2/variants/lane_crash --work /fast/scratch/hyaku/kengaku-r45/R45MutC1Instrument2/w_crash --jobs 6
+ENVELOPE start 00:42:38 cwd=/fast/scratch/hyaku/kengaku-r45/R45MutC1Instrument2
+PINS total=33 mismatched=0
+FENCE plans/fixture_fence.py sha256=a7c810ed50aad313a3c1f940b127002ef443ecdc89b742b1a7b055be05e3309f
+FENCE-RUN refusal refusals45/f10_laneinclude.py f10-lane-include-regular ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN refusal refusals45/f1_gitfile.py f1-gitdir-outside ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN refusal refusals45/f2_deep.py f2-deep-worktree ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN refusal refusals45/f3_abbrev.py f3-abbrev-tree-claims ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN refusal refusals45/f4_fifo.py f4-fifo-include ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN refusal refusals45/f5_alternates.py f5-alternates-outside ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN refusal refusals45/f6_above.py f6-repo-above-d ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN refusal refusals45/f7_commondir.py f7-cd-accept ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN refusal refusals45/f7_commondir.py f7-cd-reject ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN refusal refusals45/f7_commondir.py f7-cd-anchor ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN refusal refusals45/f8_worktreecfg.py f8-wtcfg-a ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN refusal refusals45/f8_worktreecfg.py f8-wtcfg-b ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN refusal refusals45/f9_nodescribe.py f9-bare-repo ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/a_class.py a_class-x6-sibling-digest ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/a_class.py a_class-x6-stale-manifest ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/a_class.py a_class-x7-fabricated-token ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/a_class.py a_class-x7-provenance-row ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/a_class.py a_class-x14-uppercase-token ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/a_class.py a_class-x14-two-errata ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/a_route.py a_route-x1-provenance-table ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/a_route.py a_route-x1-two-row-registry ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/a_route.py a_route-x3-provenance-url ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/a_route.py a_route-x3-blob-url ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/a_route.py a_route-x12-slashless-toml ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/a_route.py a_route-x12-two-tomls ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/a_row.py a_row-x9-short-no-token ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/a_row.py a_row-x9-registry-short-valid ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/a_row.py a_row-x13-staged-capture ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/a_row.py a_row-x13-url-staged ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/a_row.py a_row-x15-sibling-digest ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/a_row.py a_row-x15-manifest-sibling ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/o_clause.py o_clause-freeze-single ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/o_clause.py o_clause-freeze-pair-edited-after ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/o_clause.py o_clause-receipt-withdrawn ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/o_clause.py o_clause-receipt-side-line ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/o_clause.py o_clause-clean-order ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/o_scan.py o_scan-xo5-post-receipt-verdicts ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/o_scan.py o_scan-xo5-amended-claims-blob ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/o_scan.py o_scan-xo6-pass-verdict-row ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/o_scan.py o_scan-xo6-echoed-pass-row ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/o_scan.py o_scan-xo7-timeout-rows ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery42/o_scan.py o_scan-xo7-skipped-row-r38 ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_alt.py a_alt-longrow-copied ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_alt.py a_alt-longrow-multicap ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_alt.py a_alt-slug-deepest ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_alt.py a_alt-slug-blob ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-manifest ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-sibling ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-short ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-upper ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-two ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_alt.py a_alt-erratum-lessons ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_alt.py a_alt-longrow-late ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_alt.py a_alt-slug-manifest ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_alt.py a_alt-shorturl-sibling ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_alt.py a_alt-shorturl-samedir ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_err.py a_err-f1-repaired-row-historical-erratum ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_err.py a_err-f2-two-rows-provenance-two-errata ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_err.py a_err-f3-stale-token-sibling-capture ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_err.py a_err-f4-manifest-only-second-capture ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_err.py a_err-f5-row-carrying-both-tokens ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_err.py a_err-f6-provenance-bound-unknown-stale ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_row.py a_row-na1-tail12 ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_row.py a_row-na1-mid13 ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_row.py a_row-na1-wide20 ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_url.py a_url-org-slash-single ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_url.py a_url-org-slash-registry ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_url.py a_url-short-commit-pair ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/a_url.py a_url-short-commit-shadow ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/o_alt.py o_alt-late-case-blob ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/o_alt.py o_alt-inplace-gate-rewrite ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/o_alt.py o_alt-fenced-echo ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/o_alt.py o_alt-two-echo-blobs ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/o_alt.py o_alt-bare-ok-late ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/o_alt.py o_alt-prefixed-ok-blob ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/o_excuse.py o_excuse-echo-freeze-claims ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/o_excuse.py o_excuse-gate-prefix-late ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/o_excuse.py o_excuse-bare-excused ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/o_scan.py o_scan-n5a-late-gate-file ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/o_scan.py o_scan-n5b-amended-claims ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/o_scan.py o_scan-n5c-case-third-commit ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/o_scan.py o_scan-n22a-gate-only ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/o_scan.py o_scan-n22b-echoed-defect ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery43/o_scan.py o_scan-n22c-indented-gate ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-draft-suffix ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-subdir-nohyphen ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-uppercase-pair ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u14c_name_a.py u14c_name_a-canonical-control ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-registry-suffix ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-nested-uppercase ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-round-xx-token ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-underscore-name ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u5_short_a.py u5_short_a-manifest-registry ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u5_short_a.py u5_short_a-index-staged ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u5_short_a.py u5_short_a-abbrev-neighbour ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-registry-url-task ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-index-ref-staged ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-lane-path-manifest ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u5_short_b.py u5_short_b-history-truncation ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-registry-65 ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-manifest-96 ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-provenance-128 ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u6_long_a.py u6_long_a-history-200 ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u6_long_b.py u6_long_b-registry-80hex ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u6_long_b.py u6_long_b-provenance-129hex ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u6_long_b.py u6_long_b-index-pair-96hex ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u7_twin_a.py u7_twin_a-rowpath-registry ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u7_twin_a.py u7_twin_a-provenance-table ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u7_twin_a.py u7_twin_a-url-two-tasks ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u7_twin_b.py u7_twin_b-url-trio-identical ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u7_twin_b.py u7_twin_b-prov-twin ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u7_twin_b.py u7_twin_b-mixed-trio ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u9_worktree_a.py u9_worktree_a-registry-wrong-capture ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u9_worktree_a.py u9_worktree_a-history-abbrev ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u9_worktree_b.py u9_worktree_b-registry-erratum-appended ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u9_worktree_b.py u9_worktree_b-erratum-retargeted-history ERROR opens=0 -- RuntimeError: boom
+FENCE-RUN honest battery44/u9_worktree_b.py u9_worktree_b-erratum-completed-in-place ERROR opens=0 -- RuntimeError: boom
+REFUSAL f10_laneinclude.py LEAKED fixtures=1 admitted=1 hung=0 opens=0
+REFUSAL f1_gitfile.py LEAKED fixtures=1 admitted=1 hung=0 opens=0
+REFUSAL f2_deep.py LEAKED fixtures=1 admitted=1 hung=0 opens=0
+REFUSAL f3_abbrev.py LEAKED fixtures=1 admitted=1 hung=0 opens=0
+REFUSAL f4_fifo.py LEAKED fixtures=1 admitted=1 hung=0 opens=0
+REFUSAL f5_alternates.py LEAKED fixtures=1 admitted=1 hung=0 opens=0
+REFUSAL f6_above.py LEAKED fixtures=1 admitted=1 hung=0 opens=0
+REFUSAL f7_commondir.py LEAKED fixtures=3 admitted=3 hung=0 opens=0
+REFUSAL f8_worktreecfg.py LEAKED fixtures=2 admitted=2 hung=0 opens=0
+REFUSAL f9_nodescribe.py LEAKED fixtures=1 admitted=1 hung=0 opens=0
+REFUSALS total=10 clean=0 leaked=10 read=0 hung=0 build_errors=0
+HONEST fixtures=104 admitted=0 refused=104 read=0 hung=0 build_errors=0
+CALIBRATION advertised=10 contradicted=10
+PREDICATE C1 fail
+ENVELOPE end 00:42:45 exit=1 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged
+RC=1

@@ -1,0 +1,14 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45HoCommondir2/env /fast/scratch/hyaku/kengaku-r45/R45HoCommondir2/env --bind /fast/scratch/hyaku/kengaku-r45/R45HoCommondir2/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/a3w1/R45HoCommondir2/driver.py /fast/scratch/hyaku/kengaku-r45/R45HoCommondir2/lane /fast/scratch/hyaku/kengaku-r45/R45HoCommondir2/w/root /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/a3w1/R45HoCommondir2/modules
+ENVELOPE start 00:39:14 cwd=/home/vgpnk/Projects/shokunin
+LANE /fast/scratch/hyaku/kengaku-r45/R45HoCommondir2/lane
+FENCE plans/fixture_fence.py sha256=ac65c03293084d7b25648740780b97e18f668e4fd9f08f947c09da72bce5eda6
+FENCE-COPY sha256=ac65c03293084d7b25648740780b97e18f668e4fd9f08f947c09da72bce5eda6
+FENCE-RUN g1_cdrel.py g1-cd-rel BREACH opens=0 -- repo/.git/commondir present (store redirect)
+FENCE-RUN g2_gitfile.py g2-gitfile-pad BREACH opens=0 -- lane/.git/.git is a file (gitdir redirect), not a directory
+FENCE-RUN g3_wtmeta.py g3-wtmeta-out ADMIT opens=0
+FENCE-RUN g4_cdrel_hidden.py g4-cd-hidden ADMIT opens=32
+HELDOUT g1_cdrel.py clean fixtures=1 admitted=0 hung=0 opens=0
+HELDOUT g2_gitfile.py clean fixtures=1 admitted=0 hung=0 opens=0
+HELDOUT g3_wtmeta.py LEAKED fixtures=1 admitted=1 hung=0 opens=0
+HELDOUT g4_cdrel_hidden.py LEAKED fixtures=1 admitted=1 hung=0 opens=32
+ENVELOPE end 00:39:16 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

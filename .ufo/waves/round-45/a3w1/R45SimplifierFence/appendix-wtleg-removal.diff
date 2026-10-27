@@ -1,0 +1,19 @@
+--- a/plans/fixture_fence.py
++++ b/plans/fixture_fence.py
+@@ -228,16 +228,6 @@
+         return f"git cannot resolve the git dir at {repo} (rc={gd[0]})"
+     if not _inside(pathlib.Path(gd[1]), d):
+         return f"rev-parse --absolute-git-dir={gd[1]} is outside the fixture"
+-    wt = _git(repo, ceiling, "config", "--local", "--no-includes", "--get", "core.worktree")
+-    if wt is None:
+-        return "git hung answering config core.worktree"
+-    if wt[0] == 0:
+-        p = pathlib.Path(wt[1])
+-        p = p if p.is_absolute() else repo / p
+-        if p.resolve() != repo:
+-            return f"core.worktree={wt[1]} leaves the repo directory"
+-    elif wt[0] != 1:
+-        return f"git config core.worktree failed (rc={wt[0]})"
+     return None
+ 
+ 

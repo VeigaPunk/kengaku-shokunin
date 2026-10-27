@@ -1,0 +1,16 @@
+# worktree_leg_probe
+VALUE            ADMIT/BREACH(reason)                        toplevel_rc  gitdir_rc  wt_rc  wt_out
+'.'              .: rev-parse --show-toplevel=/fast/scratch/hya 0            0          0      '.'
+'./'             .: rev-parse --show-toplevel=/fast/scratch/hya 0            0          0      './'
+'sub/..'         .: git cannot describe the worktree at /fast/s 128          128        128    ''
+''               .: git cannot describe the worktree at /fast/s 128          128        128    ''
+'"./."'          .: rev-parse --show-toplevel=/fast/scratch/hya 0            0          0      './.'
+'x/..'           .: git cannot describe the worktree at /fast/s 128          128        128    ''
+rc=0
+
+# malformed-config cases (appended)
+unterminated-section     verdict=.: git cannot describe the worktree at /fast/scratch/hyaku/kengaku-r45/R45SimplifierFence/a3/wtl2/cases/unterminated-section/d (rc=128) toplevel=(128, '') gitdir_rc=128 wt=(128, '', ['fatal: bad config line 6 in file .git/config'])
+unterminated-quote       verdict=.: git cannot describe the worktree at /fast/scratch/hyaku/kengaku-r45/R45SimplifierFence/a3/wtl2/cases/unterminated-quote/d (rc=128) toplevel=(128, '') gitdir_rc=128 wt=(128, '', ['fatal: bad config line 7 in file .git/config'])
+space-value              verdict=./.git/config sets core.worktree=a b c toplevel=(128, '') gitdir_rc=128 wt=(128, '', ["fatal: cannot chdir to 'a b c': No such file or directory"])
+dup-core-worktree        verdict=.: rev-parse --show-toplevel=/fast/scratch/hyaku/kengaku-r45/R45SimplifierFence/a3/wtl2/cases/dup-core-worktree/d/.git is not the repo directory toplevel=(0, '/fast/scratch/hyaku/kengaku-r45/R45SimplifierFence/a3/wtl2/cases/dup-core-worktree/d/.git') gitdir_rc=0 wt=(0, '.', [])
+worktree-in-subsection   verdict=ADMIT toplevel=(0, '/fast/scratch/hyaku/kengaku-r45/R45SimplifierFence/a3/wtl2/cases/worktree-in-subsection/d') gitdir_rc=0 wt=(1, '', [])

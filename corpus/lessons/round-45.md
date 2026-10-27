@@ -1,4 +1,4 @@
-# Round 45 — a fixture fence landed whose frozen counter a path-keyed control also passes (7 of 9 held-out modules admitted); an eleventh TB2 grader executed (2026-10-26/27, hyaku run 9; title corrected attempt 3)
+# Round 45 — a fixture fence landed whose frozen counter a path-keyed control also passes (8 of 10 held-out modules admitted); an eleventh TB2 grader executed (2026-10-26/27, hyaku run 9; title corrected attempt 3)
 
 L1 `KengakuR45` (planner seat; attempt 2 — attempt 1 died on an invalid_prompt policy refusal with no wave,
 report or commit, `/home/vgpnk/Projects/shokunin/.ufo/watchdog.log:1618`, 22:48; discarded drafts at `.ufo/waves/round-45/attempt1-unclaimed/`). Frozen claims `plans/round-45-claims.md` (freeze `b4fcd35` +
@@ -45,10 +45,11 @@ files of the task directory at ~23:05 -03 (`corpus/evidence/round45/tb2-password
   (`integrate/measure-final.txt`) and of `fbad1c5` (`integrate/a3-tip-c1.txt`). A fence that inspects nothing and
   keys on the counter's fixture path prints the same pass (`claims/control-c1-fence-keyed_name.txt`), so by the
   round contract's control rule the counter does not separate the claimed work from no work. Held-out modules
-  written in attempt 3 against the landed fence: of 9 held-out hostile modules, 7 are admitted (includeIf with CR /
+  written in attempt 3 against the landed fence: of 10 held-out hostile modules, 8 are admitted (includeIf with CR /
   BOM / conditional sections 3/3, `.git/objects` symlinked outside `d`, a NUL argv token the fence raises on, a
-  linked-worktree metadata dir, a relative commondir behind a hidden path) — `a3w1/R45HoIncludeIf.md`,
-  `R45HoSymlinks.md`, `R45HoArgvEnv.md`, `R45HoCommondir2.md`, confirmed independently by `R45CritLandedFence.md` and
+  linked-worktree metadata dir, a relative commondir behind a hidden path, a `core.attributesFile` outside `d` that
+  git honours) — `a3w1/R45HoIncludeIf.md`, `R45HoSymlinks.md`, `R45HoArgvEnv.md`, `R45HoCommondir2.md`,
+  `R45HoConfigKeys.md`, confirmed independently by `R45CritLandedFence.md` and
   `R45CritIntent.md` finding 2. Fence mutation: 7 of 15 single-edit mutants caught (`R45MutLandedFence.md`). What
   does hold: the fence reads no fixture name (`R45CritIntent` rename control A/A2), and the name-blinded counter
   separates it from the keyed control (`claims/dev-blind-c1-landed.txt` pass vs `dev-blind-c1-keyed.txt` fail).
@@ -79,6 +80,11 @@ Attempt 2's L1 and its 39 wave-2 seats were killed by the orchestrator session e
   (`w2/R45HoCommondir2/h2_gitfile.py`, `w2/R45MutC1Instrument2/receipts/*`) and `w2-results.json` (a dispatch record).
 - **Discarded:** the attempt-2 fleet report draft (it said both claims landed with wave 2 unread); this round's report
   is rewritten from the measurements above. The 34 killed wave-2 items were re-dispatched unchanged as wave `a3w1`.
+- **a3w1 settlement** (`.ufo/waves/round-45/a3w1-results.json`): 34 settled; 32 report files. Two seats left no report
+  and their output was not retained (`note`: "orchestrator kernel restarted mid-wave; seat output was delivered to the
+  orchestrator session but not retained"): `R45MutC1Instrument2` (partial files under `a3w1/R45MutC1Instrument2/`,
+  unverified, not cited) and `R45MutC2Checks` (nothing on disk). The reportless-seat class (round-43 D3) recurred: 2 in
+  w1 (recovered from results) and 2 here (unrecoverable) — the C1 instrument and C2 check mutation items are unattacked.
 
 ### Mistakes (attempt 3)
 

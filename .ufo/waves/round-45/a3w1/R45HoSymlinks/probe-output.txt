@@ -1,0 +1,10 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45HoSymlinks/env /fast/scratch/hyaku/kengaku-r45/R45HoSymlinks/env --bind /fast/scratch/hyaku/kengaku-r45/R45HoSymlinks/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/a3w1/R45HoSymlinks/run_probe.py /fast/scratch/hyaku/kengaku-r45/R45HoSymlinks/env/w2
+ENVELOPE start 00:34:26 cwd=/home/vgpnk/Projects/shokunin
+FENCE sha256=ac65c03293084d7b25648740780b97e18f668e4fd9f08f947c09da72bce5eda6
+FENCE-RUN link-objects-symlink-out ADMIT opens=8
+FENCE-RUN link-git-symlink-in BREACH opens=0 -- lane/.git/.git is a symlink
+FENCE-RUN link-claims-symlink-out BREACH opens=0 -- --claims value 'lane/claims.md' resolves outside the fixture
+FENCE-RUN link-objects-hardlink-out ADMIT opens=0
+FENCE-RUN link-include-chain-in BREACH opens=0 -- lane/.git/config carries an include
+SUMMARY modules=1 fixtures=5 admitted=2 read=1 errors=0
+ENVELOPE end 00:34:28 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged

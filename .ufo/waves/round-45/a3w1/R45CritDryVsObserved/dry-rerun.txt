@@ -1,0 +1,29 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45CritDryVsObserved/env /fast/scratch/hyaku/kengaku-r45/R45CritDryVsObserved/env --bind /fast/scratch/hyaku/kengaku-r45/R45CritDryVsObserved/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r45/R45CritDryVsObserved/lane/plans/password_recovery_probe.py --lane /fast/scratch/hyaku/kengaku-r45/R45CritDryVsObserved/lane --dry
+ENVELOPE start 00:29:37 cwd=/home/vgpnk/Projects/shokunin
+TAG forensic instruction.md:1
+TAG write-file instruction.md:9
+TAG one-per-line instruction.md:9
+TAG one-guess instruction.md:9
+TAG recover instruction.md:2
+TAG len23 instruction.md:5
+TAG prefix instruction.md:6
+TAG suffix instruction.md:6
+TAG charset instruction.md:7
+CASE nop predicted=fail tests=F- violates=write-file,one-guess,recover,forensic end=absent -- the seeded image state only - no recovered_passwords.txt
+CASE oracle-solve-sh predicted=pass tests=PP violates= end=recipe -- the task's published solve.sh: recover the two zip fragments from the disk image, emit candidate passwords one per line (the oracle writes a handful of guesses, the true one among them)
+CASE constant predicted=pass tests=PP violates=forensic end=recipe -- the 23-char answer read out of the public tests/test_outputs.py, written as one line - the grader cannot tell recovery from reading the public answer
+CASE constant-crlf predicted=pass tests=PP violates=forensic end=recipe -- the public answer on one CRLF-terminated line; read_text()'s universal-newline mode eats the carriage return
+CASE constant-joined predicted=fail tests=PF violates=one-per-line,forensic end=recipe -- the public answer concatenated with two decoys on ONE line - the line itself is not the answer
+CASE dir-state predicted=fail tests=PF violates=write-file,one-guess,recover end=recipe -- a DIRECTORY at /app/recovered_passwords.txt (plus the recovered password inside it): exists() is true, read_text() raises IsADirectoryError - the second test dies on a non-assert exception
+CASE empty-file predicted=fail tests=PF violates=one-guess,recover,forensic end=recipe -- a zero-byte recovered_passwords.txt: the len(guesses)>0 assert at :16 cannot fire (split of '' is ['']), the membership assert at :18 decides
+CASE wrong-23 predicted=fail tests=PF violates=prefix,suffix,recover,forensic end=recipe -- one 23-char uppercase/digit guess, format-conforming, wrong content
+CASE prefix-decoy predicted=fail tests=PF violates=recover,forensic end=recipe -- a guess that satisfies every published format constraint (23 chars, 8XD..W54, [A-Z0-9]) and is not the password - a partially recovered guess the grader cannot reward
+CASE sub-first predicted=fail tests=PF violates=len23,suffix,recover,forensic end=recipe -- the first 20 chars of the public answer - a truncated read
+CASE sub-last predicted=fail tests=PF violates=len23,prefix,recover,forensic end=recipe -- the last 20 chars of the public answer - the tail fragment only, missing the 8XD prefix
+CASE lower23 predicted=fail tests=PF violates=charset,prefix,suffix,recover,forensic end=recipe -- the public answer lowercased - case is part of the answer
+CASE decoys-1000 predicted=pass tests=PP violates=forensic end=recipe -- the public answer plus 1000 wrong guesses, shuffled: the membership test has no count or uniqueness check
+CASE password-eq predicted=fail tests=PF violates=recover,forensic end=recipe -- the recovered password written in the file's OWN format 'PASSWORD=8XDP5...' (what launchcode.txt contained, instruction.md:4): the grader wants the bare value among the guesses, not the assignment
+CASE crlf-line predicted=pass tests=PP violates=forensic end=recipe -- the public answer on a CRLF-terminated line followed by a second guess: read_text()'s universal-newline mode translates \r\n to \n before split, so a CRLF guess file still matches
+CASE under-varsea predicted=fail tests=F- violates=write-file,one-guess,recover end=recipe -- the oracle's recovery work done from inside /app/varsea (the solver's cwd elsewhere): the guesses land at /app/varsea/recovered_passwords.txt, never at the graded path
+cases=16 predicted_pass=5 predicted_fail=11
+ENVELOPE end 00:29:39 exit=0 local_bin_content_before=ff187bb5c98aa6b5 after=ff187bb5c98aa6b5 unchanged
