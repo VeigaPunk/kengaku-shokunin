@@ -1,0 +1,60 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env --bind /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe11.sh
+ENVELOPE start 23:39:17 cwd=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs
+
+===== Y1  relative gitdir: base = cwd? toplevel-parent? gitdir-parent? (one pattern per repo, isolated) =====
+--- case b_cwd pattern=repo/.git cwd=b_cwd
+---    probe
+  not opened
+--- case b_tp pattern=../repo/.git cwd=b_tp/repo/sub
+---    probe
+  not opened
+--- case b_tp2 pattern=../../repo/.git cwd=b_tp2/repo/sub
+---    probe
+  not opened
+--- case b_gd pattern=.git cwd=b_gd/repo
+---    probe
+  OPENED (fired)
+--- case b_gd2 pattern=repo/.git cwd=b_gd2/repo
+---    probe
+  OPENED (fired)
+
+===== Y2  the ABSOLUTE gitdir: pattern : exact match on the git dir path =====
+--- y2 absolute exact gitdir (cwd=Y2)
+  not opened
+--- y2 absolute exact gitdir (cwd=Y2/repo)
+  OPENED (fired)
+
+===== Y3  git rev-parse --git-common-dir : RELATIVE output when no commondir (path-format needed) =====
+--- y3 --git-common-dir (plain)
+.git
+[rc=0]
+--- y3 --path-format=absolute --git-common-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe11/y3/d/.git
+[rc=0]
+
+===== Y4  relative include.path base : the .git directory (not the work tree) =====
+--- y4 which rel.cfg is opened? (.git/rel.cfg)
+  OPENED (fired)
+--- y4 config --list --show-origin
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=true
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+file:.git/config	include.path=rel.cfg
+file:.git/rel.cfg	user.email=OUT@invalid
+command line:	core.fsmonitor=false
+command line:	core.hookspath=/dev/null
+command line:	gpg.program=/bin/true
+command line:	log.showsignature=false
+[rc=0]
+
+===== Y5  relative commondir base : the git dir (not the work tree) =====
+--- y5 --git-common-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe11/y5/d/.git/storeA
+[rc=0]
+--- y5 --path-format=absolute --git-common-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe11/y5/d/.git/storeA
+[rc=0]
+
+===== DONE =====
+ENVELOPE end 23:39:19 exit=0 local_bin_content_before=e396f23e40a69201 after=e396f23e40a69201 unchanged

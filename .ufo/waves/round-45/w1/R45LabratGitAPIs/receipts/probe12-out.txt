@@ -1,0 +1,58 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env --bind /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe12.sh
+ENVELOPE start 23:41:10 cwd=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs
+
+===== Z1  a LINKED WORKTREE : where does the 'commondir' file live? =====
+--- z1 wt/.git (a FILE)
+gitdir: /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe12/z1/main/.git/worktrees/wt
+[rc=0]
+--- z1 find: every file named commondir under main/.git
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe12/z1/main/.git/worktrees/wt/commondir
+[rc=0]
+--- z1 main/.git/commondir exists?
+ls: cannot access '/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe12/z1/main/.git/commondir': No such file or directory
+[rc=2]
+--- z1 the worktree's commondir content
+../..
+[rc=0]
+--- z1 wt --git-common-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe12/z1/main/.git
+[rc=0]
+--- z1 wt --absolute-git-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe12/z1/main/.git/worktrees/wt
+[rc=0]
+
+===== Z2  the fence runs with cwd=d : does a git probe from cwd=d read the LANE repo's config? =====
+--- z2 cwd=d, git -C d/lane rev-parse
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe12/z2/d/lane
+[rc=0]
+--- z2 cwd=d, git -C d rev-parse (d is not a repo)
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+[rc=128]
+
+===== Z3  does 'git config --local --no-includes' LIST an [includeIf] section in .git/config ? =====
+--- z3 --local --no-includes --get-regexp '^include(if)?\.'
+includeif.gitdir:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe12/z3/d/.git.path /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe12/z3/out.cfg
+[rc=0]
+--- z3 --local --no-includes --get-regexp '^includeif\.'
+includeif.gitdir:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe12/z3/d/.git.path /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe12/z3/out.cfg
+[rc=0]
+--- z3 --local --no-includes --list
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+includeif.gitdir:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe12/z3/d/.git.path=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe12/z3/out.cfg
+[rc=0]
+
+===== Z4  what does --no-includes do to the VALUES of the include? (does it still merge them?) =====
+--- z4 --local --no-includes --get user.email
+[rc=1]
+--- z4 --local --get user.email (includes on)
+[rc=1]
+--- z4 --get user.email (no scope)
+OUTSIDE-Z4@invalid
+[rc=0]
+
+===== DONE =====
+ENVELOPE end 23:41:11 exit=0 local_bin_content_before=e396f23e40a69201 after=e396f23e40a69201 unchanged

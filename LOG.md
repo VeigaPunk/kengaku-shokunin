@@ -1370,3 +1370,23 @@ batch `02287eed`. Lesson `corpus/lessons/round-44.md`.
   (`R44FlipLines`); no-harm set at the landing tip in `integrate/measure-final.txt`.
 - Round shape: one v2 wave (68 seats: executor 22, scribe 11, critic 9, scout 7, mutation-tester 5, reviewer 5,
   connector 4, sentinel 2, simplifier 2, revenger 1) + one residual call (8: reviewer 5, critic 3) = 76.
+
+## Round 45 (hyaku run 9, 2026-10-26) — advertised fixture fence closed (10/10 refused, 104 honest admitted); eleventh TB2 grader executed (second F1 exemplar)
+
+L1 `KengakuR45` (planner seat, attempt 2 of the lane's round-45 driver: attempt 1 died on an invalid_prompt
+policy refusal without a wave or a commit, `watchdog.log` 22:48; its uncommitted drafts were re-verified and split,
+disclosed in the claims file). Freeze `b4fcd35` + pre-data amendments `9271dda4`; first recorded probe run `05b02e2`
+(reframed to bare stdout at `7d062c0`); claim landings `7d062c0` (C2 package) + `8f9a898` (C1 fence).
+
+- C1 (calibration, predicate met): `plans/fixture_fence.py` (wave variant A) — `PINS total=33 mismatched=0`,
+  `REFUSALS total=10 clean=10 leaked=0 read=0 hung=0`, `HONEST fixtures=104 admitted=104 refused=0`,
+  `CALIBRATION advertised=10 contradicted=0`, `PREDICATE C1 pass`. The r44-fence control measured `contradicted=7`
+  (f7 commondir / f8 config.worktree / f9 refuse-to-describe leaked; f1/f4/f6/f10 read outside d) — the routed
+  round-44 defects are now inside the executable rule.
+- C2 (coverage, predicate met): TB2 `password-recovery` @ `2fd12b88`, S149–S156 (A), flat-basename captures;
+  probe `cases=16 observed_pass=5 observed_fail=11 mismatches=0`, `regrade cases=16 differ=0`; gate `defects=0`;
+  counter `checks=11 defects=0`, `PREDICATE C2 pass` (A/B runs byte-equal); V11 `states=48 grader_pass=18
+  grader_fail=30 disagree=0`. The second measured F1 exemplar: `constant`, `constant-crlf`, `decoys-1000` pass
+  from the public test file alone.
+- Final-tip re-measure: `.ufo/waves/round-45/integrate/measure-final.txt` — clean `--shared` clone of `8f9a898`
+  under the round-45 envelope: both counters `PREDICATE pass`, defects=0.

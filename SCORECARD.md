@@ -1971,6 +1971,41 @@ unowned, `R44ConnSibling`).
 | `fenced-fixture-discovery` | Refuse a battery fixture whose git store, discovered repo or argv leaves its directory (gitdir file, depth, abbreviation, hang, include/alternates, repo above d) | `python3 plans/round44_c1_verify.py` SETUP refusals on `claims/hostile/f1…f6` (`control-c1-hostile-f*.txt`), each admitted or hung under the round-43 counter | 44 |
 | `flip-verdict-check` | Turn a `not fired` Gate flip red when the entry it concerns cites the refused file | `python3 plans/gate_flip_check.py --lesson <lesson>`; red/green `integrate/flip-verdict-red-green.txt`; `--selftest` 27/27 | 44 |
 
+## Round 45 (hyaku run 9, 2026-10-26): the advertised fixture fence closed (10/10 hostile classes refused, 104 honest admitted); an eleventh TB2 grader executed, the second F1 constant-compare exemplar
+
+Baseline lane tip `9d5f9715ebb0343984171be312d44e681f96b9a8`; freeze `b4fcd35141acda5fa0980a34dd29ab880b702ee6`;
+first recorded probe run `05b02e2b7894a9c83219685f2374905e11c1beda` (reframed at `7d062c0` — the commit carried
+three ENVELOPE wrapper lines; the receipt is bare probe stdout now); freeze amendments `9271dda4`; claim landing
+`7d062c0ab330b98b370459a961ecd1c6484d7664` (C2 package) + `8f9a898e6c4a5ce213d5effa62f65dda2dd3f20d` (C1 fence).
+Frozen prereg `plans/round-45-claims.md` (one pre-data amendment paragraph at `cb2fae38`, disclosed in the file).
+Lowest non-retired axis: coverage 7, tied with novelty 7; coverage chosen (frozen tie-break), capped at 7 by the
+open L0 question `kengaku | round-33`. No stagnation waiver. Landing measurement `.ufo/waves/round-45/integrate/measure-final.txt`
+(clean `--shared` clone of `8f9a898`, round-45 envelope): both counters `PREDICATE pass`, defects=0.
+
+| claim | axis | observed before → after, counting command | score / verdict |
+|---|---|---|---|
+| C1 the advertised fixture fence vs the observed one — `plans/fixture_fence.py` refuses every fixture whose git store, discovered repo or argv leaves `d`, and does so without reading outside `d` itself | **calibration** — advertised-vs-observed contradiction count over the 10 frozen hostile classes + 104 honest battery fixtures | `python3 plans/round45_c1_verify.py --lane .`: before `PREDICATE C1 fail` (`claims/control-c1-nothing.txt` stub → `leaked` everywhere; `control-c1-fence-r44.txt` r44 fence → `REFUSALS total=10 clean=3 leaked=3 read=4`, `contradicted=7`) → after `PINS total=33 mismatched=0`, `REFUSALS total=10 clean=10 leaked=0 read=0 hung=0 build_errors=0`, `HONEST fixtures=104 admitted=104 refused=0`, `CALIBRATION advertised=10 contradicted=0`, `PREDICATE C1 pass`, exit 0 (`corpus/evidence/round45/c1-counter-run.txt`) | improved (routed defects V1–V3 + `R44LabratLaneInclude` now inside the executable rule) |
+| C2 pinned TB2 `password-recovery` grader admitted with an executed 16-case sandbox probe (S149–S156, tier A) and a hardened held-out predictor leg V11 | **coverage** (lowest, tied) — one §Frontier TB2 sub-bullet narrowed by one task (11 of 89), one coverage-map bullet, one PROVINCE paragraph, knowledge files/index rows 51→52, SOURCES 141→149 | `python3 plans/round45_c2_verify.py --lane .`: before `checks=11 defects=8`, `PREDICATE C2 fail` (`claims/control-c2-nothing.txt`) → after `checks=11 defects=0`, `PREDICATE C2 pass`, exit 0 (`corpus/evidence/round45/counter-a-run.txt`, byte-equal `counter-b-run.txt`; gate `defects=0`, `gate-call.txt`) | improved (coverage claim; axis stays capped at 7 by the L0 question) |
+
+Attempt-1 inheritance is disclosed in the claims file: attempt 1 died on an invalid_prompt policy refusal without a
+wave or a commit; its uncommitted drafts were re-verified and split (captures, probe, c2 counter, refusals45 kept;
+the do-nothing-copy C1 counter draft and the C3 census draft discarded to `.ufo/waves/round-45/attempt1-unclaimed/`).
+
+Limits found by the wave and the residual call (frozen counters not edited; routed): `R45SentinelC2Sandbox` —
+a probe run escapes the seat sandbox's HOME (`/root/.local` writes in one seat run: `w1/R45SentinelC2Sandbox.md`);
+`R45CriticPredicate`, `R45CriticSeparability`, `R45CriticC2Instrument` audits (w1 reports); held-out attack results
+from wave 2 below.
+
+### Planned (round 46)
+
+- **Novelty (7):** the F1 answer-leak census instrument (`plans/f1_leak_census.py` + `plans/census-spec-r45.json`,
+  attempted as round-45 C3, parked in `.ufo/waves/round-45/attempt1-unclaimed/`): 13 TB2 tasks censused, needs the
+  dated prior-art receipt (`R44ScoutPriorArt`) and its own red control.
+- **Calibration (8):** wave-2 held-out modules and critic findings on `plans/fixture_fence.py` (landed variant A);
+  any leaked class becomes a routed defect and a frozen-counter amendment.
+- **Routed:** `R45SentinelC2Sandbox` sandbox-HOME escape; `R44SentinelFences` carry-over closed (V1–V3 now the
+  counter's f7–f9); envelope v3 (`R44EnvelopeV3`) still not landed.
+
 ### Planned (round 45)
 
 Axis state carried: calibration 8, coverage 7 (capped by the open L0 question `kengaku | round-33`), novelty 7, depth 9,

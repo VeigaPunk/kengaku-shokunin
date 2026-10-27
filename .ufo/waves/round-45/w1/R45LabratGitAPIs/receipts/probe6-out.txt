@@ -1,0 +1,62 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env --bind /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe6.sh
+ENVELOPE start 23:32:50 cwd=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs
+
+===== T1  relative include.path : which directory is the base? (markers everywhere) =====
+--- t1 rev-parse : every open of rel.cfg
+[rc=0]
+    14    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe6/t1/base/d>, ".git/rel.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe6/t1/base/d/.git/rel.cfg>
+--- t1 config --list --show-origin
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=true
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+file:.git/config	include.path=rel.cfg
+file:.git/rel.cfg	user.email=MARK-REL@invalid
+command line:	core.fsmonitor=false
+command line:	core.hookspath=/dev/null
+command line:	gpg.program=/bin/true
+command line:	log.showsignature=false
+[rc=0]
+
+===== T2  relative include.path ESCAPING d (../outside.cfg) : which file is read? =====
+--- t2 rev-parse : every open of outside.cfg
+[rc=0]
+    28    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe6/t2/base/d>, ".git/../outside.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe6/t2/base/d/outside.cfg>
+
+===== T3  does 'git config --local --no-includes' open an includeIf target inside .git/config? =====
+--- t3 config --local --no-includes --get-regexp include (opens out.cfg?)
+[rc=0]
+    41    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe6/t3/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe6/t3/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe6/t3/out.cfg>
+    41    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe6/t3/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe6/t3/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe6/t3/out.cfg>
+--- t3 rev-parse (opens out.cfg?)
+[rc=0]
+    47    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe6/t3/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe6/t3/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe6/t3/out.cfg>
+
+===== T4  relative includeIf gitdir pattern : which base? (try several patterns, one repo) =====
+--- pattern "lane/.git" (cwd=lane/.git)
+    FIRED
+--- pattern "base/lane/.git" (cwd=base/lane/.git)
+    FIRED
+--- pattern "t4/base/lane/.git" (cwd=t4/base/lane/.git)
+    FIRED
+--- pattern "./lane/.git" (cwd=./lane/.git)
+    FIRED
+
+===== T5  can a hostile module make git hang the fence via include.path = a FIFO inside d's PARENT? =====
+--- timeout 5 git rev-parse (repo cwd)
+[rc=124] (124=blocked on the FIFO)
+--- timeout 5 git rev-parse with GIT_CEILING_DIRECTORIES=d.parent
+[rc=124]
+
+===== T6  does the fence have to worry about 'git -C <repo>' vs cwd? (probe inside d vs at d) =====
+--- t6 probe with cwd = the repo (lane)
+[rc=0]
+    100   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe6/t6/d/lane>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe6/t6/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe6/t6/out.cfg>
+--- t6 probe with cwd = d (parent of lane)
+[rc=128]
+--- t6 probe with cwd = d and --git-dir=lane/.git
+[rc=0]
+    112   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe6/t6/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe6/t6/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe6/t6/out.cfg>
+
+===== DONE =====
+ENVELOPE end 23:33:02 exit=0 local_bin_content_before=c263b11afb1cccf6 after=c263b11afb1cccf6 unchanged

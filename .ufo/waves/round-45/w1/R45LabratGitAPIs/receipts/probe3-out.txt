@@ -1,0 +1,174 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env --bind /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3.sh
+ENVELOPE start 23:29:57 cwd=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs
+
+===== R1  WHO opens an include target?  repo-setup read vs the explicit --no-includes read =====
+--- r1 (A) NON-repo cwd + --file copy --no-includes --list
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r1/out.cfg : NO
+--- r1 (B) NON-repo cwd + --file copy --list (includes on)
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r1/out.cfg : NO
+--- r1 (C) repo cwd + --file copy --no-includes --list
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r1/out.cfg : YES
+    27    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r1/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r1/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r1/out.cfg>
+--- r1 (D) repo cwd + --local --no-includes --list
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r1/out.cfg : YES
+    34    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r1/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r1/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r1/out.cfg>
+    34    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r1/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r1/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r1/out.cfg>
+--- r1 (E) NON-repo cwd + --file copy --no-includes --get include.path
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r1/out.cfg : NO
+--- r1 (F) NON-repo cwd + --file copy --get include.path (includes on)
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r1/out.cfg : NO
+
+===== R2  FIFO include : does every git call BLOCK? (f4 shape) =====
+--- r2 repo cwd: timeout 5 git config --local --no-includes --get-regexp include
+[rc=124]
+[rc=0] (124 = timeout/blocked)
+--- r2 repo cwd: timeout 5 git rev-parse --show-toplevel
+[rc=124]
+[rc=0] (124 = timeout/blocked)
+--- r2 repo cwd: timeout 5 git config --local --get-regexp include (includes ON)
+[rc=124]
+[rc=0] (124 = timeout/blocked)
+--- r2 NON-repo cwd: timeout 5 git config --file copy --no-includes --list
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+include.path=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r2/fifo.cfg
+[rc=0]
+[rc=0] (124 = timeout/blocked)
+--- r2 NON-repo cwd: timeout 5 git config --file copy --list (includes ON)
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+include.path=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r2/fifo.cfg
+[rc=0]
+[rc=0] (124 = timeout/blocked)
+
+===== R3  ancestor repo that sits AT d.parent (f6 shape): does a ceilinged probe read it? =====
+[run] no ceiling, from d.parent/sub/d
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r3/d.parent
+[rc=0]
+[run] ceiling = d.parent (the round-44 shape)
+fatal: not a git repository (or any of the parent directories): .git
+[rc=128]
+--- r3 NO ceiling: does it open d.parent/.git/config ?
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r3/d.parent/.git/config : YES
+    82    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r3/d.parent>, ".git/config", O_RDONLY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r3/d.parent/.git/config>
+    82    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r3/d.parent>, ".git/config", O_RDONLY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r3/d.parent/.git/config>
+--- r3 ceiling=d.parent: does it open d.parent/.git/config ?
+[rc=128]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r3/d.parent/.git/config : NO
+--- r3 ceiling=d.parent: git cat-file -t HEAD:x on the ancestor repo
+[rc=128]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r3/d.parent/.git/config : YES
+    94    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r3/d.parent>, ".git/config", O_RDONLY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r3/d.parent/.git/config>
+    94    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r3/d.parent>, ".git/config", O_RDONLY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r3/d.parent/.git/config>
+    94    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r3/d.parent>, ".git/config", O_RDONLY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r3/d.parent/.git/config>
+
+===== R4  path formats of the git-dir probes (a normal repo) =====
+--- r4 --git-dir (relative)
+.git
+[rc=0]
+--- r4 --path-format=absolute --git-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r4/d/.git
+[rc=0]
+--- r4 --git-common-dir
+.git
+[rc=0]
+--- r4 --path-format=absolute --git-common-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r4/d/.git
+[rc=0]
+--- r4 --absolute-git-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r4/d/.git
+[rc=0]
+--- r4 --show-toplevel
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r4/d
+[rc=0]
+--- r4 --show-superproject-working-tree
+[rc=0]
+--- r4 --show-prefix (from a subdir)
+
+[rc=0]
+
+===== R5  relative commondir, revisited: base = the git dir (not the cwd) =====
+--- r5 --git-common-dir (relative 'storeA')
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r5/d/.git/storeA
+[rc=0]
+--- r5 --absolute-git-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r5/d/.git
+[rc=0]
+--- r5 --show-toplevel
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r5/d
+[rc=0]
+--- r5 config --local --list --show-origin (whose config is used?)
+file:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r5/d/.git/storeA/config	core.repositoryformatversion=0
+file:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r5/d/.git/storeA/config	core.filemode=true
+file:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r5/d/.git/storeA/config	core.bare=true
+[rc=0]
+
+===== R6  includeIf gitdir: pattern forms (repeat, cleaner) + does --no-includes list it? =====
+--- case exact_abs pattern=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r6/exact_abs/lane/.git
+--- r6/exact_abs rev-parse
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r6/exact_abs/out.cfg : YES
+    133   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r6/exact_abs/lane>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r6/exact_abs/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r6/exact_abs/out.cfg>
+--- r6/exact_abs config --local --no-includes --get-regexp include
+includeif.gitdir:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r6/exact_abs/lane/.git.path /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r6/exact_abs/out.cfg
+[rc=0]
+--- case exact_abs_slash pattern=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r6/exact_abs_slash/lane/.git/
+--- r6/exact_abs_slash rev-parse
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r6/exact_abs_slash/out.cfg : NO
+--- r6/exact_abs_slash config --local --no-includes --get-regexp include
+includeif.gitdir:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r6/exact_abs_slash/lane/.git/.path /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r6/exact_abs_slash/out.cfg
+[rc=0]
+--- case rel_gitdir pattern=lane/.git
+--- r6/rel_gitdir rev-parse
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r6/rel_gitdir/out.cfg : YES
+    161   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r6/rel_gitdir/lane>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r6/rel_gitdir/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r6/rel_gitdir/out.cfg>
+--- r6/rel_gitdir config --local --no-includes --get-regexp include
+includeif.gitdir:lane/.git.path /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r6/rel_gitdir/out.cfg
+[rc=0]
+--- case rel_gitdir_slash pattern=lane/.git/
+--- r6/rel_gitdir_slash rev-parse
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r6/rel_gitdir_slash/out.cfg : NO
+--- r6/rel_gitdir_slash config --local --no-includes --get-regexp include
+includeif.gitdir:lane/.git/.path /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r6/rel_gitdir_slash/out.cfg
+[rc=0]
+--- case abs_glob pattern=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r6/exact_abs/lane/.git*
+--- r6/abs_glob rev-parse
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r6/abs_glob/out.cfg : NO
+--- r6/abs_glob config --local --no-includes --get-regexp include
+includeif.gitdir:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r6/exact_abs/lane/.git*.path /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r6/abs_glob/out.cfg
+[rc=0]
+
+===== R7  [includeIf "onbranch:"] and [includeIf "gitdir:~"] do not matter; check a plain include inside a repo with a worktree =====
+--- r7 worktree .git file
+gitdir: /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r7/d/.git/worktrees/wt
+[rc=0]
+--- r7 worktree: --git-common-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r7/d/.git
+[rc=0]
+--- r7 worktree: --git-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r7/d/.git/worktrees/wt
+[rc=0]
+--- r7 worktree: --absolute-git-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r7/d/.git/worktrees/wt
+[rc=0]
+--- r7 worktree: --show-toplevel
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe3/r7/wt
+[rc=0]
+
+===== DONE =====
+ENVELOPE end 23:30:14 exit=0 local_bin_content_before=c263b11afb1cccf6 after=c263b11afb1cccf6 unchanged

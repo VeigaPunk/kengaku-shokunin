@@ -1,0 +1,30 @@
+## C1: the four frozen predicate lines, byte-compared
+CONTROL c1-nothing vs control-c1-nothing.txt : 4 summary lines BYTE-IDENTICAL
+CONTROL c1-r44 vs control-c1-fence-r44.txt : 4 summary lines BYTE-IDENTICAL
+CONTROL c1-admit vs control-c1-fence-admit_all.txt : 4 summary lines BYTE-IDENTICAL
+CONTROL c1-refuse vs control-c1-fence-refuse_all.txt : 4 summary lines BYTE-IDENTICAL
+CONTROL c1-static vs control-c1-fence-static_only.txt : 4 summary lines BYTE-IDENTICAL
+
+## C1: per-fixture verdict + outside-open counts (FENCE-RUN fields 1-5, REFUSAL rows, summary lines)
+CONTROL c1-nothing vs control-c1-nothing.txt : 117 fixture verdicts + all REFUSAL rows IDENTICAL
+CONTROL c1-r44 vs control-c1-fence-r44.txt : 117 fixture verdicts + all REFUSAL rows IDENTICAL
+CONTROL c1-admit vs control-c1-fence-admit_all.txt : 117 fixture verdicts + all REFUSAL rows IDENTICAL
+CONTROL c1-refuse vs control-c1-fence-refuse_all.txt : 117 fixture verdicts + all REFUSAL rows IDENTICAL
+CONTROL c1-static vs control-c1-fence-static_only.txt : 117 fixture verdicts + all REFUSAL rows IDENTICAL
+
+## C2 nothing control (HEAD-era committed receipt, 8-row spec, 6 untracked at capture)
+BYTE-IDENTICAL
+
+## C2 nothing control (freeze-era committed receipt, 9-row spec, 151 untracked at capture)
+BYTE-IDENTICAL
+
+## C2 nothing control on a clean clone (P9 clean-tree clause reads untracked=0)
+/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/w1/R45ExecControls/out-c2-head.txt:    gate: P9 ok untracked=0 first=0
+/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/w1/R45ExecControls/out-c2-head.txt:    gate: defects=8
+/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/w1/R45ExecControls/out-c2-freeze.txt:    gate: P9 ok untracked=0 first=0
+/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/w1/R45ExecControls/out-c2-freeze.txt:    gate: defects=8
+
+## C2 predictor control (V11 red-as-required), freeze-era committed receipt
+BYTE-IDENTICAL (committed file's trailing timestamp line excluded)
+
+RESULT controls mismatched=0

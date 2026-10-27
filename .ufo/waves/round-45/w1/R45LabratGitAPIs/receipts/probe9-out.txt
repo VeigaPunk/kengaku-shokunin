@@ -1,0 +1,75 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env --bind /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe9.sh
+ENVELOPE start 23:37:16 cwd=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs
+
+===== W1  .git is a SYMLINK to an outside git dir =====
+--- w1 ls -ld .git
+lrwxrwxrwx 1 vgpnk vgpnk 69 Oct 26 23:37 /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe9/w1/d/.git -> /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe9/w1/store/.git
+[rc=0]
+--- w1 rev-parse --absolute-git-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe9/w1/store/.git
+[rc=0]
+--- w1 rev-parse --show-toplevel
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe9/w1/d
+[rc=0]
+--- w1 does a git probe open the outside store config?
+  OPENED the outside path
+--- w1 python: os.path.isdir(.git) is True, os.path.islink(.git) is True
+isdir True islink True
+[rc=0]
+
+===== W2  relative core.worktree : resolved against the GIT DIR or the WORK TREE? =====
+--- w2 --show-toplevel
+fatal: cannot chdir to 'wt': No such file or directory
+[rc=128]
+--- w2 --absolute-git-dir
+fatal: cannot chdir to 'wt': No such file or directory
+[rc=128]
+--- w2 config --local --no-includes --get core.worktree
+fatal: cannot chdir to 'wt': No such file or directory
+[rc=128]
+--- w2b --show-toplevel (../wt)
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe9/w2b/d/wt
+[rc=0]
+--- w2b --absolute-git-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe9/w2b/d/.git
+[rc=0]
+
+===== W3  .git/config.worktree present but extensions.worktreeConfig NOT set =====
+--- w3 config --list --show-origin
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=true
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+command line:	core.fsmonitor=false
+command line:	core.hookspath=/dev/null
+command line:	gpg.program=/bin/true
+command line:	log.showsignature=false
+[rc=0]
+--- w3 does a git probe open the worktree-config target?
+  not opened
+--- w3 config --worktree --get-regexp include (without the extension)
+[rc=1]
+--- w3b extension set, NO config.worktree file: config --list --show-origin
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=true
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+file:.git/config	extensions.worktreeconfig=true
+command line:	core.fsmonitor=false
+command line:	core.hookspath=/dev/null
+command line:	gpg.program=/bin/true
+command line:	log.showsignature=false
+[rc=0]
+--- w3b does a probe open a nonexistent worktree config?
+  not opened
+
+===== W4  text scan vs git: does a pure read of .git/config* ever open an outside file? =====
+--- w4 python text scan of .git/config
+  not opened
+
+===== W5  is a repo's own .git/config read by any git call? (i.e. is the repo's config inside d?) =====
+--- w5 rev-parse opens the repo's own .git/config (inside d)
+  OPENED the outside path
+
+===== DONE =====
+ENVELOPE end 23:37:18 exit=0 local_bin_content_before=e396f23e40a69201 after=e396f23e40a69201 unchanged

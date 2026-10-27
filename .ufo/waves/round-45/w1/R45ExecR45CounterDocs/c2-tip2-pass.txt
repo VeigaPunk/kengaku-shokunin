@@ -1,0 +1,27 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45ExecR45CounterDocs/env /fast/scratch/hyaku/kengaku-r45/R45ExecR45CounterDocs/env --bind /fast/scratch/hyaku/kengaku-r45/R45ExecR45CounterDocs/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- /usr/bin/python3 plans/round45_c2_verify.py --lane . --work /fast/scratch/hyaku/kengaku-r45/R45ExecR45CounterDocs/work/c2-pass
+ENVELOPE start 23:46:05 cwd=/fast/scratch/hyaku/kengaku-r45/R45ExecR45CounterDocs/lane-tip2
+V1 ok listed=9 bad=0 extra=0
+    gate: P1 ok pinned=2 mismatched=0
+    gate: P2 ok receipt_sha256=pinned
+    gate: P3 ok rows=19 distinct_quotes=19 distinct_lines=19 out_of_word_range=0
+    gate: P4 ok checked=19 bad=0 first=0
+    gate: P5 ok manifest_entries=9 bad=0 first=0
+    gate: P6 ok rows=8 bad=0 first=0
+    gate: P7 ok source_lines=8 bad=0 first=0
+    gate: P8 ok index_rows=52 knowledge_files=52 bad=0 first=0
+    gate: P9 ok untracked=0 first=0
+    gate: P10 ok probe_rerun=byte-equal bytes=4659
+    gate: defects=0
+V2 ok spec=frozen gate=frozen gate_exit=0
+V3 ok rows=8 bad=0
+V4 ok cases=16 mismatches_named=0/0 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 ok rows=9 tags=9 bad=0
+V8 ok order_exit=0 result=PASS
+V9 ok case_rows=16/16 bad=0
+V10 ok mechanism_rows=16/16 bad=0
+V11 ok states=48 grader_pass=18 grader_fail=30 disagree=0
+checks=11 defects=0
+PREDICATE C2 pass
+ENVELOPE end 23:46:10 exit=0 local_bin_content_before=e396f23e40a69201 after=e396f23e40a69201 unchanged

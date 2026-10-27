@@ -1,0 +1,106 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env --bind /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe8.sh
+ENVELOPE start 23:34:46 cwd=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs
+
+===== V1  relative includeIf gitdir : base = cwd? git dir? work tree? (separate git dir, absolute path) =====
+--- v1 .git file
+gitdir: /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe8/v1/gd/gitdir
+[rc=0]
+--- v1 --absolute-git-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe8/v1/gd/gitdir
+[rc=0]
+--- v1 --show-toplevel
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe8/v1/wt/work
+[rc=0]
+--- pattern "wt/work/.git"  (cwd=V1)
+--- v1 probe (cwd=V1)
+  not fired
+--- pattern "work/.git"  (cwd=V1)
+--- v1 probe (cwd=V1)
+  not fired
+--- pattern "gd/gitdir"  (cwd=V1)
+--- v1 probe (cwd=V1)
+  not fired
+--- pattern "gitdir"  (cwd=V1)
+--- v1 probe (cwd=V1)
+  not fired
+--- pattern "wt/work"  (cwd=V1)
+--- v1 probe (cwd=V1)
+  not fired
+--- pattern "work"  (cwd=V1)
+--- v1 probe (cwd=V1)
+  not fired
+
+===== V2  relative includeIf gitdir : base tested with a plain repo (no separate git dir) =====
+--- pattern "lane/.git"  (cwd=V2)
+--- v2 probe (cwd=V2)
+  not fired
+--- v2 probe (cwd=V2/lane)
+  FIRED (target opened)
+--- pattern "v2/lane/.git"  (cwd=V2)
+--- v2 probe (cwd=V2)
+  not fired
+--- v2 probe (cwd=V2/lane)
+  FIRED (target opened)
+--- pattern "lane"  (cwd=V2)
+--- v2 probe (cwd=V2)
+  not fired
+--- v2 probe (cwd=V2/lane)
+  FIRED (target opened)
+--- pattern "lane/"  (cwd=V2)
+--- v2 probe (cwd=V2)
+  not fired
+--- v2 probe (cwd=V2/lane)
+  FIRED (target opened)
+
+===== V3  does EVERY git probe of a repo read its config? (include target opened even with --no-includes) =====
+--- git rev-parse --show-toplevel   (cwd = the repo)
+--- v3
+  FIRED (target opened)
+--- git rev-parse --absolute-git-dir   (cwd = the repo)
+--- v3
+  FIRED (target opened)
+--- git rev-parse --git-common-dir   (cwd = the repo)
+--- v3
+  FIRED (target opened)
+--- git config --local --no-includes --get-regexp ^include(if)?\.   (cwd = the repo)
+--- v3
+  FIRED (target opened)
+--- git status --porcelain   (cwd = the repo)
+--- v3
+  FIRED (target opened)
+--- git cat-file -t HEAD   (cwd = the repo)
+--- v3
+  FIRED (target opened)
+--- git log --oneline -1   (cwd = the repo)
+--- v3
+  FIRED (target opened)
+--- git rev-parse --show-toplevel   (cwd = elsewhere, GIT_DIR explicit)
+--- v3 GIT_DIR
+  FIRED (target opened)
+
+===== V4  core.worktree RELATIVE : which git calls fail? =====
+--- git rev-parse --show-toplevel
+    fatal: cannot chdir to '../wt': No such file or directory
+    [rc=128]
+--- git rev-parse --absolute-git-dir
+    fatal: cannot chdir to '../wt': No such file or directory
+    [rc=128]
+--- git rev-parse --git-common-dir
+    fatal: cannot chdir to '../wt': No such file or directory
+    [rc=128]
+--- git config --local --no-includes --get core.worktree
+    fatal: cannot chdir to '../wt': No such file or directory
+    [rc=128]
+--- git config --local --no-includes --get-regexp ^include(if)?\.
+    fatal: cannot chdir to '../wt': No such file or directory
+    [rc=128]
+--- text of .git/config (a pure read never fails)
+    [core]
+    	repositoryformatversion = 0
+    	filemode = true
+    	bare = false
+    	logallrefupdates = true
+    	worktree = ../wt
+
+===== DONE =====
+ENVELOPE end 23:34:48 exit=0 local_bin_content_before=c263b11afb1cccf6 after=c263b11afb1cccf6 unchanged

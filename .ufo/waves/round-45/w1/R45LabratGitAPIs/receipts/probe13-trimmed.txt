@@ -1,0 +1,23 @@
+# trimmed extract of probe13-out.txt (full 228K file sha256 df8aae4ee8ac2eb335706d66ac7519e9f26208c30df9b4d0ebe85069c3222345)
+# kept: heading lines + every syscall whose path is the probe root or a file under it
+--- a1 python os.stat(outside.txt) + os.stat(outside/.git)
+8     openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13>
+8     newfstatat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13/outside.txt", {st_mode=S_IFREG|0644, st_size=2, ...}, 0) = 0
+--- a2 python read_text(outside.txt)
+13    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13>
+13    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13/outside.txt", O_RDONLY|O_CLOEXEC) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13/outside.txt>
+--- a3 python os.listdir(outside dir)
+18    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13>
+18    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13>
+--- a4 python os.walk(d)
+23    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13>
+23    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13/d", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13/d>
+--- a5 python Path.resolve(outside)
+28    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13>
+28    newfstatat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13/outside.txt", {st_mode=S_IFREG|0644, st_size=2, ...}, AT_SYMLINK_NOFOLLOW) = 0
+--- a6 python islink(d/link-out) + resolve()
+34    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13>
+34    newfstatat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13/d/link-out", {st_mode=S_IFLNK|0777, st_size=68, ...}, AT_SYMLINK_NOFOLLOW) = 0
+34    newfstatat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13/d/link-out", {st_mode=S_IFLNK|0777, st_size=68, ...}, AT_SYMLINK_NOFOLLOW) = 0
+34    readlink("/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13/d/link-out", "/fast/scratch/hyaku/kengaku-r45/"..., 4096) = 68
+34    newfstatat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe13/outside.txt", {st_mode=S_IFREG|0644, st_size=2, ...}, AT_SYMLINK_NOFOLLOW) = 0

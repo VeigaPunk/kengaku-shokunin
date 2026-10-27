@@ -1,0 +1,80 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env --bind /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe10.sh
+ENVELOPE start 23:38:20 cwd=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs
+
+===== X1  does 'git config --file <f>' FOLLOW include.path ? =====
+--- x1 config --file standalone --list  (does the included VALUE appear?)
+include.path=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe10/x1/out.cfg
+[rc=0]
+--- x1 config --file standalone --get user.email
+[rc=1]
+--- x1 does --file --list OPEN the include target?
+  not opened
+--- x1 same file via --file, with --includes
+include.path=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe10/x1/out.cfg
+user.email=OUTSIDE-X1@invalid
+[rc=0]
+--- x1 --includes: opened?
+  OPENED
+
+===== X2  a ceiling does NOT stop the repo's own config (include) from being read =====
+--- x2 rev-parse with ceiling=d.parent
+  OPENED
+--- x2 config --local --no-includes with ceiling=d.parent
+  OPENED
+--- and with --no-includes + GIT_CONFIG_NOSYSTEM etc, is the include still opened?
+--- x2 config --local --no-includes --list
+  OPENED
+
+===== X3  relative includeIf gitdir base : ISOLATED, one pattern per repo, cwd varied =====
+--- case c1 pattern=lane/.git cwd=
+---    probe
+  not opened
+--- case c2 pattern=lane/.git cwd=c2/lane
+---    probe
+  OPENED
+--- case c3 pattern=c3/lane/.git cwd=c3
+---    probe
+  not opened
+--- case c4 pattern=../c4/lane/.git cwd=c4/lane
+---    probe
+  not opened
+--- case c5 pattern=x3/c5/lane/.git cwd=x3
+---    probe
+  not opened
+
+===== X4  what does 'git rev-parse --git-common-dir' print for a repo with NO commondir? (relative!) =====
+--- x4 --git-common-dir
+.git
+[rc=0]
+--- x4 --path-format=absolute --git-common-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe10/x4/d/.git
+[rc=0]
+--- x4 --git-dir
+.git
+[rc=0]
+--- x4 --path-format=absolute --git-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe10/x4/d/.git
+[rc=0]
+--- x4 --show-toplevel
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe10/x4/d
+[rc=0]
+--- x4 --show-toplevel from a SUBDIR of the repo
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe10/x4/d
+[rc=0]
+
+===== X5  a repo whose HEAD points at a missing ref : what do the probes answer? =====
+--- x5 --absolute-git-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe10/x5/d/.git
+[rc=0]
+--- x5 --show-toplevel
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe10/x5/d
+[rc=0]
+--- x5 --git-common-dir
+.git
+[rc=0]
+--- x5 cat-file -t HEAD:nope
+fatal: invalid object name 'HEAD'.
+[rc=128]
+
+===== DONE =====
+ENVELOPE end 23:38:21 exit=0 local_bin_content_before=e396f23e40a69201 after=e396f23e40a69201 unchanged

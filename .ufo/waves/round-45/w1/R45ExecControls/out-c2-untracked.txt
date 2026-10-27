@@ -1,0 +1,27 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45ExecControls/env /fast/scratch/hyaku/kengaku-r45/R45ExecControls/env --bind /fast/scratch/hyaku/kengaku-r45/R45ExecControls/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- python3 /fast/scratch/hyaku/kengaku-r45/R45ExecControls/lane-untracked/plans/round45_c2_verify.py --lane /fast/scratch/hyaku/kengaku-r45/R45ExecControls/lane-untracked --work /fast/scratch/hyaku/kengaku-r45/R45ExecControls/w-c2u
+ENVELOPE start 23:43:44 cwd=/fast/scratch/hyaku/kengaku-r45/R45ExecControls
+V1 ok listed=9 bad=0 extra=0
+    gate: P1 ok pinned=2 mismatched=0
+    gate: P2 DEFECT receipt unreadable: corpus/evidence/round45/password-recovery-probe.txt
+    gate: P3 DEFECT no '## Located quotes' section
+    gate: P4 DEFECT no parsed quote
+    gate: P5 DEFECT manifest_entries=9 bad=5 first=S149: capture test_outputs.py is not pinned in the manifest
+    gate: P6 DEFECT rows=8 bad=8 first=S149: rows=0
+    gate: P7 DEFECT entry unreadable
+    gate: P8 DEFECT index_rows=51 knowledge_files=51 bad=2 first=index rows for knowledge/tb2-password-recovery-grader.md=0
+    gate: P9 DEFECT untracked=6 first=.ufo/waves/round-45/make_wave1_spec.py
+    gate: P10 DEFECT receipt unreadable
+    gate: defects=9
+V2 DEFECT spec=frozen gate=frozen gate_exit=1
+V3 DEFECT rows=8 bad=['S149:row', 'S150:row', 'S151:row', 'S152:row', 'S153:row', 'S154:row', 'S155:row', 'S156:row']
+V4 DEFECT receipt or entry absent
+V5 ok probe=frozen dry_byte_equal=True
+V6 ok census_exit=0
+V7 DEFECT receipt or entry absent
+V8 DEFECT order_exit=2 result=not-PASS
+V9 DEFECT receipt, entry, PROVINCE.md or README absent
+V10 DEFECT receipt or entry absent
+V11 DEFECT entry absent
+checks=11 defects=8
+PREDICATE C2 fail
+ENVELOPE end 23:43:46 exit=1 local_bin_content_before=e396f23e40a69201 after=e396f23e40a69201 unchanged

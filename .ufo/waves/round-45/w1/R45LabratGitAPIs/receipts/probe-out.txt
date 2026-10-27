@@ -1,0 +1,267 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env --bind /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe.sh
+ENVELOPE start 23:27:09 cwd=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs
+
+===== P1  [include] in .git/config : does rev-parse follow it? does --no-includes skip it? =====
+--- p1 .git/config contents
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[include]
+	path = /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg
+[rc=0]
+--- p1 config --local --no-includes --get-regexp ^include(if)?\.
+include.path /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg
+[rc=0]
+--- p1 config --local --get-regexp ^include(if)?\.  (includes ON)
+include.path /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg
+[rc=0]
+--- p1 config --local --get user.email  (value from the include?)
+[rc=1]
+--- p1 rev-parse --show-toplevel
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg : YES
+    19    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg>
+--- p1 status --porcelain
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg : YES
+    26    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg>
+    26    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg>
+--- p1 config --local --no-includes --get-regexp
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg : YES
+    33    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg>
+    33    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg>
+--- p1 config --local --get-regexp (includes ON)
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg : YES
+    40    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg>
+    40    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg>
+--- p1 rev-parse --absolute-git-dir
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg : YES
+    47    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p1/out1.cfg>
+
+===== P2  extensions.worktreeConfig + .git/config.worktree =====
+--- p2 .git/config
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[extensions]
+	worktreeConfig = true
+[rc=0]
+--- p2 .git/config.worktree
+[include]
+	path = /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p2/out2.cfg
+[rc=0]
+--- p2 config --local --no-includes --get-regexp include
+[rc=1]
+--- p2 config --worktree --get-regexp include
+include.path /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p2/out2.cfg
+[rc=0]
+--- p2 config --list --show-origin (which files?)
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=true
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+file:.git/config	extensions.worktreeconfig=true
+file:.git/config.worktree	include.path=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p2/out2.cfg
+file:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p2/out2.cfg	user.email=OUTSIDE-P2@invalid
+command line:	core.fsmonitor=false
+command line:	core.hookspath=/dev/null
+command line:	gpg.program=/bin/true
+command line:	log.showsignature=false
+[rc=0]
+--- p2 rev-parse --show-toplevel
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p2/out2.cfg : YES
+    67    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p2/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p2/out2.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p2/out2.cfg>
+--- p2 status --porcelain
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p2/out2.cfg : YES
+    74    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p2/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p2/out2.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p2/out2.cfg>
+--- p2 status --porcelain (config.worktree itself?)
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p2/d/.git/config.worktree : YES
+    81    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p2/d>, ".git/config.worktree", O_RDONLY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p2/d/.git/config.worktree>
+    81    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p2/d>, ".git/config.worktree", O_RDONLY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p2/d/.git/config.worktree>
+
+===== P3  relative commondir : resolved against the git dir? =====
+--- p3 commondir file
+../storeA
+[rc=0]
+--- p3 rev-parse --git-common-dir
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+[rc=128]
+--- p3 rev-parse --absolute-git-dir
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+[rc=128]
+--- p3 rev-parse --show-toplevel
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+[rc=128]
+--- p3 rev-parse --git-dir
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+[rc=128]
+--- p3 which storeA is the common dir (marker content)?
+MARKER-IN-GITDIR-STORE
+[rc=0]
+--- p3 cwd-relative storeA marker
+MARKER-IN-CWD-STORE
+[rc=0]
+
+===== P4  GIT_CEILING_DIRECTORIES : does it stop discovery above a repo-parent? =====
+--- p4 no ceiling: rev-parse --show-toplevel from D4/P/sub/d
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p4/P
+[rc=0]
+[run] ceiling=P (the repo root itself)
+fatal: not a git repository (or any of the parent directories): .git
+[rc=128]
+[run] ceiling=P/sub (below the repo root)
+fatal: not a git repository (or any of the parent directories): .git
+[rc=128]
+[run] ceiling=P/sub/d (the fixture dir itself)
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p4/P
+[rc=0]
+[run] ceiling=D4 (parent of the repo root)
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p4/P
+[rc=0]
+[run] ceiling=/ (nothing above is visible)
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p4/P
+[rc=0]
+[run] ceiling=P as a RELATIVE path from the cwd P/sub/d
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p4/P
+[rc=0]
+[run] multi-entry ceiling "A:B"
+fatal: not a git repository (or any of the parent directories): .git
+[rc=128]
+[run] ceiling with a trailing slash on the repo root
+fatal: not a git repository (or any of the parent directories): .git
+[rc=128]
+
+===== P5  [includeIf "gitdir:..."] : does it fire for a fixture path? =====
+--- p5 .git/config
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[includeIf "gitdir:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p5/lane/.git/"]
+	path = /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p5/out5.cfg
+[rc=0]
+--- p5 config --local --no-includes --get-regexp include
+includeif.gitdir:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p5/lane/.git/.path /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p5/out5.cfg
+[rc=0]
+--- p5 config --local --get-regexp include (includes ON)
+includeif.gitdir:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p5/lane/.git/.path /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p5/out5.cfg
+[rc=0]
+--- p5 config --local --get user.email
+[rc=1]
+--- p5 rev-parse --show-toplevel
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p5/out5.cfg : NO
+--- p5 status --porcelain
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p5/out5.cfg : NO
+--- p5 config --local --get-regexp (includes ON)
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p5/out5.cfg : NO
+--- p5b NON-matching gitdir includeIf : rev-parse
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p5b/out5b.cfg : NO
+
+===== P6  rev-parse --git-common-dir with an ABSOLUTE commondir (f7 shape) =====
+--- p6 commondir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p6/store/.git
+[rc=0]
+--- p6 rev-parse --git-common-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p6/store/.git
+[rc=0]
+--- p6 rev-parse --absolute-git-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p6/d/lane/.git
+[rc=0]
+--- p6 rev-parse --show-toplevel
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p6/d/lane
+[rc=0]
+--- p6 rev-parse --git-dir
+.git
+[rc=0]
+--- p6 rev-parse --is-inside-work-tree
+true
+[rc=0]
+
+===== P7  core.bare=true : what do the git probes answer? (f9 shape) =====
+--- p7 rev-parse --show-toplevel
+fatal: this operation must be run in a work tree
+[rc=128]
+--- p7 rev-parse --absolute-git-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p7/d/.git
+[rc=0]
+--- p7 rev-parse --git-common-dir
+.git
+[rc=0]
+--- p7 rev-parse --is-inside-work-tree
+false
+[rc=0]
+--- p7 config --local --no-includes --get-regexp include
+[rc=1]
+--- p7 status --porcelain
+fatal: this operation must be run in a work tree
+[rc=128]
+
+===== P8  core.worktree pointing outside d : what does rev-parse answer? =====
+--- p8 rev-parse --show-toplevel
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p8/outside
+[rc=0]
+--- p8 rev-parse --absolute-git-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p8/d/.git
+[rc=0]
+--- p8 config --local --no-includes --get core.worktree
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p8/outside
+[rc=0]
+
+===== P9  .git as a FILE with gitdir: redirect (f1 shape) : rev-parse answers? =====
+--- p9 rev-parse --absolute-git-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p9/store/.git
+[rc=0]
+--- p9 rev-parse --show-toplevel
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p9/d
+[rc=0]
+--- p9 rev-parse --git-common-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p9/store/.git
+[rc=0]
+
+===== P10 objects/info/alternates : does a probe git call read it? =====
+--- p10 rev-parse --show-toplevel
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p10/other.git/.git/objects : YES
+    224   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p10/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p10/other.git/.git/objects/info/alternates", O_RDONLY) = -1 ENOENT (No such file or directory)
+--- p10 status --porcelain
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p10/other.git/.git/objects : YES
+    231   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p10/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p10/other.git/.git/objects/info/alternates", O_RDONLY) = -1 ENOENT (No such file or directory)
+    231   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p10/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p10/other.git/.git/objects/info/commit-graph", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+    231   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p10/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p10/other.git/.git/objects/info/commit-graphs/commit-graph-chain", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+
+===== P11 how the ceiling interacts with a .git FILE above d (discovery shape) =====
+--- p11 no ceiling from D11/outer/deep/d
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p11/outer
+[rc=0]
+[run] ceiling = D11/outer/deep (parent of d, inside the repo)
+fatal: not a git repository (or any of the parent directories): .git
+[rc=128]
+[run] ceiling = D11/outer (the repo root itself)
+fatal: not a git repository (or any of the parent directories): .git
+[rc=128]
+[run] ceiling = D11 (above the repo root)
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe/p11/outer
+[rc=0]
+
+===== DONE =====
+ENVELOPE end 23:27:11 exit=0 local_bin_content_before=c263b11afb1cccf6 after=c263b11afb1cccf6 unchanged

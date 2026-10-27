@@ -1,0 +1,102 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env --bind /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe7.sh
+ENVELOPE start 23:33:58 cwd=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs
+
+===== U1  relative includeIf gitdir base : --separate-git-dir breaks the worktree/gitdir coincidence =====
+--- u1 .git file
+cat: /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe7/u1/wt/work/.git: No such file or directory
+[rc=1]
+--- u1 --absolute-git-dir
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+[rc=128]
+--- u1 --show-toplevel
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+[rc=128]
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe7.sh: line 33: /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe7/u1/gd/gitdir/config: No such file or directory
+--- pattern "wt/work/.git"
+--- u1 probe
+  not fired
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe7.sh: line 33: /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe7/u1/gd/gitdir/config: No such file or directory
+--- pattern "work/.git"
+--- u1 probe
+  not fired
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe7.sh: line 33: /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe7/u1/gd/gitdir/config: No such file or directory
+--- pattern "gd/gitdir"
+--- u1 probe
+  not fired
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe7.sh: line 33: /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe7/u1/gd/gitdir/config: No such file or directory
+--- pattern "gitdir"
+--- u1 probe
+  not fired
+
+===== U2  f9 detection rule : bare repo vs empty .git dir (both 'git cannot describe') =====
+--- bare
+--- u2 bare --absolute-git-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe7/u2/bare/.git
+[rc=0]
+--- u2 bare --show-toplevel
+fatal: this operation must be run in a work tree
+[rc=128]
+--- u2 bare --git-common-dir
+.git
+[rc=0]
+--- u2 bare --is-inside-work-tree
+false
+[rc=0]
+--- u2 bare config --local --no-includes --get-regexp include
+[rc=1]
+--- empty
+--- u2 empty --absolute-git-dir
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+[rc=128]
+--- u2 empty --show-toplevel
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+[rc=128]
+--- u2 empty --git-common-dir
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+[rc=128]
+--- u2 empty --is-inside-work-tree
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+[rc=128]
+--- u2 empty config --local --no-includes --get-regexp include
+fatal: --local can only be used inside a git repository
+[rc=128]
+
+===== U3  ceiling must be ABSOLUTE =====
+[run] relative ceiling "P" from cwd U3/P/sub/d
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe7/u3/P
+[rc=0]
+[run] absolute ceiling U3/P/sub (d.parent)
+fatal: not a git repository (or any of the parent directories): .git
+[rc=128]
+[run] absolute ceiling U3/P (the repo root)
+fatal: not a git repository (or any of the parent directories): .git
+[rc=128]
+
+===== U4  --local --no-includes : what it LISTS vs what it OPENS (a worktree-scoped include) =====
+--- u4 --local --no-includes --get-regexp include
+[rc=1]
+--- u4 --worktree --no-includes --get-regexp include
+include.path /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe7/u4/out.cfg
+[rc=0]
+--- u4 --list --show-origin (which config files are read?)
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=true
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+file:.git/config	extensions.worktreeconfig=true
+file:.git/config.worktree	include.path=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe7/u4/out.cfg
+file:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe7/u4/out.cfg	user.email=OUTSIDE-U4@invalid
+command line:	core.fsmonitor=false
+command line:	core.hookspath=/dev/null
+command line:	gpg.program=/bin/true
+command line:	log.showsignature=false
+[rc=0]
+
+===== DONE =====
+ENVELOPE end 23:34:00 exit=0 local_bin_content_before=c263b11afb1cccf6 after=c263b11afb1cccf6 unchanged

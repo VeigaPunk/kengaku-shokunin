@@ -1,0 +1,106 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env --bind /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5.sh
+ENVELOPE start 23:32:12 cwd=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs
+
+===== S1 base of a RELATIVE [includeIf "gitdir:..."] pattern : cwd? git-dir parent? work-tree root? =====
+--- git -C lane (cwd becomes the work tree) : pattern "lane/.git"
+--- s1 -C lane
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s1/out.cfg : YES
+    14    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s1/base/lane>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s1/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s1/out.cfg>
+--- GIT_DIR absolute, cwd = the work tree (lane) : pattern "lane/.git"
+--- s1 GIT_DIR abs, cwd=lane
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s1/out.cfg : YES
+    21    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s1/base/lane>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s1/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s1/out.cfg>
+--- GIT_DIR absolute, cwd = S1 (grandparent) : pattern "lane/.git"
+--- s1 GIT_DIR abs, cwd=S1
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s1/out.cfg : YES
+    28    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s1>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s1/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s1/out.cfg>
+--- GIT_DIR absolute, cwd = S1/base : pattern "lane/.git"
+--- s1 GIT_DIR abs, cwd=S1/base
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s1/out.cfg : YES
+    35    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s1/base>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s1/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s1/out.cfg>
+--- GIT_DIR absolute, cwd = S1/base/lane : pattern "lane/.git"  (candidate base = git-dir parent S1/base)
+--- s1 GIT_DIR abs, cwd=S1/base/lane
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s1/out.cfg : YES
+    42    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s1/base/lane>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s1/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s1/out.cfg>
+
+===== S2 [includeIf "onbranch:"] : can it open an outside file too? =====
+--- s2 rev-parse (branch master)
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s2/out.cfg : YES
+    56    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s2/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s2/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s2/out.cfg>
+--- s2 status
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s2/out.cfg : YES
+    63    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s2/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s2/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s2/out.cfg>
+--- s2 config --local --no-includes --get-regexp include
+includeif.onbranch:master.path /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s2/out.cfg
+[rc=0]
+--- s2 --show-origin --get-regexp include
+file:.git/config	includeif.onbranch:master.path /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s2/out.cfg
+[rc=0]
+--- s2 current branch
+master
+[rc=0]
+
+===== S3 an EXPLICIT GIT_DIR still triggers the setup read of the repo config (and its include) =====
+--- s3 GIT_DIR explicit, cwd outside the repo
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s3/out.cfg : YES
+    81    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s3/elsewhere>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s3/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s3/out.cfg>
+--- s3 --git-dir explicit, cwd outside the repo
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s3/out.cfg : YES
+    88    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s3/elsewhere>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s3/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s3/out.cfg>
+
+===== S4 [include] inside .git/config with a RELATIVE path : resolved against what? =====
+--- s4 config --list --show-origin (which file is read?)
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=true
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+file:.git/config	include.path=sub/rel.cfg
+command line:	core.fsmonitor=false
+command line:	core.hookspath=/dev/null
+command line:	gpg.program=/bin/true
+command line:	log.showsignature=false
+[rc=0]
+--- s4 does the relative include resolve inside d?
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s4/d/sub/rel.cfg : NO
+--- S4b: a relative include that escapes d
+--- s4b config --list --show-origin
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=true
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+file:.git/config	include.path=../outside.cfg
+command line:	core.fsmonitor=false
+command line:	core.hookspath=/dev/null
+command line:	gpg.program=/bin/true
+command line:	log.showsignature=false
+[rc=0]
+--- s4b does the escaping relative include get opened?
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s4b/outside.cfg : NO
+
+===== S5 --git-common-dir for a repo whose commondir points INSIDE d (honest shape) and the plain vs absolute form =====
+--- s5 wt --git-common-dir (plain)
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s5/main/.git
+[rc=0]
+--- s5 wt --path-format=absolute --git-common-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s5/main/.git
+[rc=0]
+--- s5 wt --git-dir (plain)
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s5/main/.git/worktrees/wt
+[rc=0]
+--- s5 wt --absolute-git-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe5/s5/main/.git/worktrees/wt
+[rc=0]
+
+===== DONE =====
+ENVELOPE end 23:32:14 exit=0 local_bin_content_before=c263b11afb1cccf6 after=c263b11afb1cccf6 unchanged

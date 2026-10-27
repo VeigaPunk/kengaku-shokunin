@@ -1,0 +1,317 @@
+ENVELOPE /usr/bin/bwrap --dev-bind / / --ro-bind /home/vgpnk /home/vgpnk --bind /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env --bind /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/env/home-cache /home/vgpnk/.cache --tmpfs /run/user/1000 --proc /proc --unshare-pid --die-with-parent -- bash /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2.sh
+ENVELOPE start 23:28:18 cwd=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs
+
+===== Q1  relative commondir : base of resolution (git dir vs cwd), with a BARE common dir =====
+--- q1 commondir
+../storeA
+[rc=0]
+--- q1 rev-parse --git-common-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q1/d/storeA
+[rc=0]
+--- q1 rev-parse --path-format=absolute --git-common-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q1/d/storeA
+[rc=0]
+--- q1 rev-parse --absolute-git-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q1/d/.git
+[rc=0]
+--- q1 rev-parse --show-toplevel
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q1/d
+[rc=0]
+--- q1 git-dir storeA marker (git-dir base)
+IN-GITDIR-STORE
+[rc=0]
+--- q1 cwd storeA marker (cwd base)
+IN-CWD-STORE
+[rc=0]
+--- q1 config --local --list --show-origin
+file:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q1/d/storeA/config	core.repositoryformatversion=0
+file:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q1/d/storeA/config	core.filemode=true
+file:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q1/d/storeA/config	core.bare=true
+[rc=0]
+
+===== Q2  includeIf gitdir: WHICH pattern forms actually fire? =====
+--- case abs_no_slash pattern=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_no_slash/lane/.git
+--- q2/abs_no_slash rev-parse --show-toplevel
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_no_slash/out.cfg : YES
+    27    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_no_slash/lane>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_no_slash/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_no_slash/out.cfg>
+--- q2/abs_no_slash config --list
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_no_slash/out.cfg : YES
+    34    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_no_slash/lane>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_no_slash/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_no_slash/out.cfg>
+    34    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_no_slash/lane>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_no_slash/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_no_slash/out.cfg>
+--- q2/abs_no_slash config --local --get-regexp include
+includeif.gitdir:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_no_slash/lane/.git.path /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_no_slash/out.cfg
+[rc=0]
+--- case abs_slash pattern=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_slash/lane/.git/
+--- q2/abs_slash rev-parse --show-toplevel
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_slash/out.cfg : NO
+--- q2/abs_slash config --list
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_slash/out.cfg : NO
+--- q2/abs_slash config --local --get-regexp include
+includeif.gitdir:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_slash/lane/.git/.path /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_slash/out.cfg
+[rc=0]
+--- case abs_star pattern=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_star/lane/.git/**
+--- q2/abs_star rev-parse --show-toplevel
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_star/out.cfg : NO
+--- q2/abs_star config --list
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_star/out.cfg : NO
+--- q2/abs_star config --local --get-regexp include
+includeif.gitdir:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_star/lane/.git/**.path /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/abs_star/out.cfg
+[rc=0]
+--- case rel_dotgit pattern=lane/.git
+--- q2/rel_dotgit rev-parse --show-toplevel
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/rel_dotgit/out.cfg : YES
+    85    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/rel_dotgit/lane>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/rel_dotgit/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/rel_dotgit/out.cfg>
+--- q2/rel_dotgit config --list
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/rel_dotgit/out.cfg : YES
+    92    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/rel_dotgit/lane>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/rel_dotgit/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/rel_dotgit/out.cfg>
+    92    openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/rel_dotgit/lane>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/rel_dotgit/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/rel_dotgit/out.cfg>
+--- q2/rel_dotgit config --local --get-regexp include
+includeif.gitdir:lane/.git.path /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/rel_dotgit/out.cfg
+[rc=0]
+--- case rel_dotgit_slash pattern=lane/.git/
+--- q2/rel_dotgit_slash rev-parse --show-toplevel
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/rel_dotgit_slash/out.cfg : NO
+--- q2/rel_dotgit_slash config --list
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/rel_dotgit_slash/out.cfg : NO
+--- q2/rel_dotgit_slash config --local --get-regexp include
+includeif.gitdir:lane/.git/.path /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q2/rel_dotgit_slash/out.cfg
+[rc=0]
+
+===== Q3  does --no-includes really skip the include? which command opens it? =====
+--- q3 config --list --show-origin (includes ON, all scopes)
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=true
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+file:.git/config	include.path=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/out.cfg
+file:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/out.cfg	user.email=OUTSIDE-Q3@invalid
+command line:	core.fsmonitor=false
+command line:	core.hookspath=/dev/null
+command line:	gpg.program=/bin/true
+command line:	log.showsignature=false
+[rc=0]
+--- q3 config --local --list --show-origin
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=true
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+file:.git/config	include.path=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/out.cfg
+[rc=0]
+--- q3 config --local --no-includes --list --show-origin
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=true
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+file:.git/config	include.path=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/out.cfg
+[rc=0]
+--- q3 config --file .git/config --no-includes --list (explicit file, no repo discovery?)
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+include.path=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/out.cfg
+[rc=0]
+--- q3 config --file .git/config --list (explicit file, includes ON)
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+include.path=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/out.cfg
+[rc=0]
+--- q3 config --file .git/config --no-includes --list
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/out.cfg : YES
+    131   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/out.cfg>
+--- q3 config --file .git/config --list
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/out.cfg : YES
+    138   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/out.cfg>
+--- q3 rev-parse --show-toplevel
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/out.cfg : YES
+    145   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/out.cfg>
+--- q3 rev-parse --git-dir
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/out.cfg : YES
+    152   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/out.cfg>
+--- q3 --version (no repo context)
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q3/out.cfg : NO
+
+===== Q4  alternates with an EXISTING alternate object store : successful outside open? =====
+--- q4 alternates file
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q4/other.git/objects
+[rc=0]
+--- q4 rev-parse --show-toplevel
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q4/other.git/objects : YES
+    173   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q4/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q4/other.git/objects/info/alternates", O_RDONLY) = -1 ENOENT (No such file or directory)
+--- q4 status --porcelain
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q4/other.git/objects : YES
+    180   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q4/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q4/other.git/objects/info/alternates", O_RDONLY) = -1 ENOENT (No such file or directory)
+    180   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q4/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q4/other.git/objects/info/commit-graph", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+    180   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q4/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q4/other.git/objects/info/commit-graphs/commit-graph-chain", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+--- q4 rev-parse --show-toplevel (the alternates FILE itself)
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q4/d/.git/objects/info/alternates : YES
+    187   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q4/d>, ".git/objects/info/alternates", O_RDONLY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q4/d/.git/objects/info/alternates>
+
+===== Q5  ceiling + ancestor repo : can any git probe SEE a repo above d? =====
+--- q5 no ceiling toplevel
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q5/P
+[rc=0]
+[run] ceiling = Q5/P/sub (the round-44 shape: ceiling=d.parent)
+fatal: not a git repository (or any of the parent directories): .git
+[rc=128]
+--- q5 NO ceiling: rev-parse --show-toplevel
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q5/P/.git/config : YES
+    204   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q5/P>, ".git/config", O_RDONLY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q5/P/.git/config>
+    204   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q5/P>, ".git/config", O_RDONLY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q5/P/.git/config>
+--- q5 ceiling=P/sub: rev-parse --show-toplevel
+[rc=128]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q5/P/.git/config : NO
+--- q5 NO ceiling: config --local --get user.email
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q5/P/.git/config : YES
+    216   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q5/P>, ".git/config", O_RDONLY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q5/P/.git/config>
+    216   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q5/P>, ".git/config", O_RDONLY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q5/P/.git/config>
+    216   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q5/P>, ".git/config", O_RDONLY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q5/P/.git/config>
+--- q5 filesystem: does Q5/P/sub/d have .git?
+.
+..
+[rc=0]
+
+===== Q6  core.worktree RELATIVE : base of resolution =====
+--- q6 rev-parse --show-toplevel (relative core.worktree)
+fatal: cannot chdir to '../wt': No such file or directory
+[rc=128]
+--- q6 config --local --no-includes --get core.worktree
+fatal: cannot chdir to '../wt': No such file or directory
+[rc=128]
+--- q6b rev-parse --show-toplevel (relative core.worktree 'wt')
+fatal: cannot chdir to 'wt': No such file or directory
+[rc=128]
+
+===== Q7  .git/config.worktree : which git calls read it, and does --no-includes see its include? =====
+--- q7 config --local --no-includes --get-regexp include
+[rc=1]
+--- q7 config --worktree --no-includes --get-regexp include
+include.path /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q7/out.cfg
+[rc=0]
+--- q7 config --local --get-regexp include (no --no-includes)
+[rc=1]
+--- q7 config --list --show-origin
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=true
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+file:.git/config	extensions.worktreeconfig=true
+file:.git/config.worktree	include.path=/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q7/out.cfg
+file:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q7/out.cfg	user.email=OUTSIDE-Q7@invalid
+command line:	core.fsmonitor=false
+command line:	core.hookspath=/dev/null
+command line:	gpg.program=/bin/true
+command line:	log.showsignature=false
+[rc=0]
+--- q7 rev-parse --show-toplevel
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q7/out.cfg : YES
+    255   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q7/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q7/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q7/out.cfg>
+--- q7 config --local --no-includes --get-regexp include
+[rc=1]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q7/out.cfg : YES
+    262   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q7/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q7/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q7/out.cfg>
+--- q7 config --worktree --no-includes --get-regexp include
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q7/out.cfg : YES
+    269   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q7/d>, "/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q7/out.cfg", O_RDONLY) = 4</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q7/out.cfg>
+--- q7 rev-parse --show-toplevel (config.worktree itself)
+[rc=0]
+OPENED /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q7/d/.git/config.worktree : YES
+    276   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q7/d>, ".git/config.worktree", O_RDONLY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q7/d/.git/config.worktree>
+    276   openat(AT_FDCWD</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q7/d>, ".git/config.worktree", O_RDONLY) = 3</fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q7/d/.git/config.worktree>
+
+===== Q8  .git/commondir ABSOLUTE : --git-common-dir path-format + inside/outside check =====
+--- q8 --git-common-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q8/store/.git
+[rc=0]
+--- q8 --path-format=absolute --git-common-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q8/store/.git
+[rc=0]
+--- q8 --absolute-git-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q8/d/lane/.git
+[rc=0]
+--- q8 --show-toplevel
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q8/d/lane
+[rc=0]
+--- q8 --git-dir
+.git
+[rc=0]
+--- q8 status --porcelain
+D  file.txt
+[rc=0]
+--- q8 config --local --list --show-origin
+file:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q8/store/.git/config	core.repositoryformatversion=0
+file:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q8/store/.git/config	core.filemode=true
+file:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q8/store/.git/config	core.bare=false
+file:/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q8/store/.git/config	core.logallrefupdates=true
+[rc=0]
+
+===== Q9  rc!=0 semantics: bare repo, non-repo dir, and a repo whose HEAD is broken =====
+--- q9 bare: rev-parse --show-toplevel
+fatal: this operation must be run in a work tree
+[rc=128]
+--- q9 bare: rev-parse --absolute-git-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q9/d/.git
+[rc=0]
+--- q9 bare: rev-parse --git-common-dir
+.git
+[rc=0]
+--- q9 bare: rev-parse --is-inside-work-tree
+false
+[rc=0]
+--- q9 plain dir (no repo): rev-parse --show-toplevel
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+[rc=128]
+--- q9 plain dir (no repo): rev-parse --absolute-git-dir
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+[rc=128]
+--- q9 plain dir (no repo): rev-parse --git-common-dir
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+[rc=128]
+--- q9 plain dir (no repo): config --local --no-includes --get-regexp include
+fatal: --local can only be used inside a git repository
+[rc=128]
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2.sh: line 151: /fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q9/broken/.git/HEAD: No such file or directory
+
+===== Q10 what does a bare-dir (.git as bare repo) look like: does rev-parse answer? =====
+--- q10 bare repo: rev-parse --absolute-git-dir
+/fast/scratch/hyaku/kengaku-r45/R45LabratGitAPIs/probe2/q10/store.git
+[rc=0]
+--- q10 bare repo: rev-parse --show-toplevel
+fatal: this operation must be run in a work tree
+[rc=128]
+--- q10 bare repo: rev-parse --git-common-dir
+.
+[rc=0]
+--- q10 bare repo: rev-parse --is-bare-repository
+true
+[rc=0]
+
+===== DONE =====
+ENVELOPE end 23:28:21 exit=0 local_bin_content_before=c263b11afb1cccf6 after=c263b11afb1cccf6 unchanged
