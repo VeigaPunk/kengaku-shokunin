@@ -1,0 +1,285 @@
+{
+ "lane": "kengaku",
+ "round": 45,
+ "wave": "w2",
+ "seats": 39,
+ "spawned": 39,
+ "outputs_recovered": 3,
+ "settled_by": "orchestrator session exit (no seat live)",
+ "note": "The orchestrator omp session exited at 2026-10-26T23:57:36-03:00 (SIGHUP during an operator-requested `omp update`); every L1 and seat running in it was killed. Seat outputs that reached that session before the exit are recovered verbatim from its transcript (~/.omp/agent/sessions/-Projects-shokunin/2026-10-26T15-10-35-484Z_01a178c3-6bdc-745c-b5ed-ce700e7035cd.jsonl); any other seat has output null - read its report file in the wave dir.",
+ "results": [
+  {
+   "name": "R45HoIncludeIf",
+   "agent": "mutation-tester",
+   "output": null,
+   "note": "spawned as job R45HoIncludeIf; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45HoCommondir2",
+   "agent": "mutation-tester",
+   "output": null,
+   "note": "spawned as job R45HoCommondir2; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45HoConfigKeys",
+   "agent": "mutation-tester",
+   "output": null,
+   "note": "spawned as job R45HoConfigKeys; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45HoSymlinks",
+   "agent": "mutation-tester",
+   "output": null,
+   "note": "spawned as job R45HoSymlinks; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45HoArgvEnv",
+   "agent": "mutation-tester",
+   "output": null,
+   "note": "spawned as job R45HoArgvEnv; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45CritLandedFence",
+   "agent": "critic",
+   "output": null,
+   "note": "spawned as job R45CritLandedFence; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45CritIntent",
+   "agent": "critic",
+   "output": null,
+   "note": "spawned as job R45CritIntent; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45MutLandedFence",
+   "agent": "mutation-tester",
+   "output": null,
+   "note": "spawned as job R45MutLandedFence-2; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45RevC1Receipt",
+   "agent": "reviewer",
+   "output": "{\n  \"seat\": \"R45RevC1Receipt\",\n  \"report\": \".ufo/waves/round-45/w2/R45RevC1Receipt.md\",\n  \"verdict\": \"c1-receipt-reproduced-yes-handchecked-2\",\n  \"summary\": {\n    \"counter_run1\": \"PINS total=33 mismatched=0; REFUSALS total=10 clean=10 leaked=0 read=0 hung=0 build_errors=0; HONEST fixtures=104 admitted=104 refused=0 read=0 hung=0 build_errors=0; CALIBRATION advertised=10 contradicted=0; PREDICATE C1 pass; exit 0; envelope local_bin digest e396f23e40a69201 unchanged\",\n    \"counter_run2_receipt\": \".ufo/waves/round-45/w2/R45RevC1Receipt/c1_receipt_run2.txt sha256=88ec073fbecb9fe1e0e87fd062cfdbcd17e01479a2fdf8194881cd10a8d7ae5f \u2014 identical numbers (104 honest FENCE-RUN lines, 13 refusal FENCE-RUN lines)\",\n    \"clone\": \"git clone -q --shared lane tip 4290d6432efa678327d3b69e43205d0d2954f652; toplevel verified = $S/lane; counter byte-identical across lane/clone/freeze commit 52d7486 (7745eb0a4bdf281acf46cde6e6a4c280a17d02f9668ea309d1020fff9ce1150d)\",\n    \"handcheck\": \"own strace -f -qq -y on f5_alternates.py (refused): BREACH 'lane/.git/objects/info/alternates present', succ_outside_d=0 failed_touch=0; battery44/u9_worktree_b.py (honest): 3/3 ADMIT, succ_outside_d=0 failed_touch=0; all resolved -y paths under scratch are fixture-internal or counter inputs (fence copy/harness); f5 refusal is stat-level (lexists), no open of the alternates file\",\n    \"parser_control\": \"positive+negative control PARSER-DETECTS: outside open caught (succ=1), inside-d open not counted (succ=0); counter's regex reads the real strace -y '= fd</resolved>' annotation, so opens=0 is measured not vacuous\",\n    \"finding_freeze_drift\": \"plans/round-45-claims.md (frozen 1e63c4ba\u2026 vs tip cb2fae38\u2026, +2 lines) and plans/round45_c2_verify.py (frozen 8c302709\u2026 vs tip ab6825e3\u2026, 50 lines) were amended after freeze commit 52d7486 by wave-1 commits 7d062c0 and 9271dda ('freeze amendments \u2026 re-pinned spec/counter'), self-documented at plans/round-45-claims.md:32 as pre-data corrections; C1 counter itself unchanged, so C1's receipt stands, but the orchestrator's freeze digest is stale for 2 of 4 frozen artifacts \u2014 L1 should re-pin or flag\",\n    \"residual_risks\": [\n      \"opens rule scopes outside to <root>/fx \u222a <root>/btmp; counter inputs under <root> excluded by construction (fixture-steered opens there implausible: argv constrained inside d, lane hidden)\",\n      \"never-returned-open (FIFO) branch exercised only by f4 in counter runs; my parser's pending branch ran only in the positive control\"\n    ],\n    \"hygiene\": \"no tool installs; all runs inside envelope.sh (4 runs, all digest-unchanged); scratch /fast/scratch/hyaku/kengaku-r45/R45RevC1Receipt removed via scratch_guard.py safe-rm (rc=0, 520.5 MiB); no lane files touched\"\n  }\n}",
+   "note": "output recovered from the orchestrator session transcript (job R45RevC1Receipt, status completed, delivered 2026-10-27T02:54:39.695Z)",
+   "report_file": ".ufo/waves/round-45/w2/R45RevC1Receipt.md"
+  },
+  {
+   "name": "R45LabratReadProof",
+   "agent": "executor",
+   "output": null,
+   "note": "spawned as job R45LabratReadProof; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45MutC1Instrument2",
+   "agent": "mutation-tester",
+   "output": null,
+   "note": "spawned as job R45MutC1Instrument2; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45CritReceipt",
+   "agent": "critic",
+   "output": null,
+   "note": "spawned as job R45CritReceipt; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45CritV11Bypass",
+   "agent": "critic",
+   "output": null,
+   "note": "spawned as job R45CritV11Bypass-2; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45MutC2Checks",
+   "agent": "mutation-tester",
+   "output": null,
+   "note": "spawned as job R45MutC2Checks-2; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45RevEntryQuotes",
+   "agent": "reviewer",
+   "output": null,
+   "note": "spawned as job R45RevEntryQuotes-2; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45RevRowCells",
+   "agent": "reviewer",
+   "output": null,
+   "note": "spawned as job R45RevRowCells-2; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45LabratRefetch",
+   "agent": "executor",
+   "output": "{\n  \"ticket\": \"R45LabratRefetch\",\n  \"round\": \"45\",\n  \"wave\": \"2\",\n  \"verdict\": \"refetch-identical-9/9-drift-none\",\n  \"report\": \"/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/w2/R45LabratRefetch.md\",\n  \"receipts\": [\n    \"/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/w2/R45LabratRefetch/refetch-compare.txt\",\n    \"/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/w2/R45LabratRefetch/tree-compare.txt\",\n    \"/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-45/w2/R45LabratRefetch/pin-verify.txt\"\n  ],\n  \"files_changed_in_lane\": [],\n  \"measurements\": {\n    \"pinned_vs_refetch\": \"9/9 BYTE-IDENTICAL (cmp, sha256, git blob)\",\n    \"head_ref_vs_pin\": \"9/9 IDENTICAL\",\n    \"head_sha\": \"2fd12b88aafdd04a52c298e3940bcb189f9766d6 (== pin == refs/heads/main, committer date 2026-04-30T05:53:30Z)\",\n    \"tree_pin_eq_head\": true,\n    \"local_blob_vs_github_tree_shas\": \"9/9 MATCH\",\n    \"sha256sum_-c_SHA256SUMS\": \"9/9 OK\",\n    \"pkg_spec_r45_rows_triple_match\": \"8/8\",\n    \"pin_table_extra_upstream_files\": \"none\",\n    \"receipt_digest\": \"cf74f451df90aa4adfcc45dc6d9023ba288bf456de939377c97e24ca3c6c924e declared==actual\",\n    \"gitignore_rejected_candidate\": \"sha256 9a8dd8d9\u202625953 matches upstream; no SOURCES row (correct)\"\n  },\n  \"envelope\": \"3 runs, each ~/.local/bin content digest e396f23e40a69201 before and after -> unchanged; home bound read-only; run-1 exit=1 from my own tree.json block bug (all comparison lines already printed, digest unchanged, no measurement invalidated), rewritten and re-run in run 2 exit=0\",\n  \"notes_for_L1\": [\n    \"capture pack flattens upstream layout and stores .gitignore as gitignore; flat-name raw URLs 404 (measured 5/9), mapping documented in plans/pkg-spec-r45.json rows and entry cites nested URLs correctly\",\n    \"four SOURCES line ranges overrun file length (S151 setup.sh 1-45 vs 43 lines incl unterminated; S153 test.sh 1-31 vs 29; S154 README.md 1-46 vs 33; S155 solve.sh 1-70 vs 68) - enclosing supersets, no content misquote; citation hygiene nit for C2/frontier\",\n    \"no-drift is a statement about now: HEAD is the pin today; 180d recheck remains the instrument and its sha256sum leg passes\"\n  ],\n  \"tools_installed\": \"none\",\n  \"scratch\": \"/fast/scratch/hyaku/kengaku-r45/R45LabratRefetch deleted via plans/scratch_guard.py safe-rm (662170 bytes, exit 0)\"\n}",
+   "note": "output recovered from the orchestrator session transcript (job R45LabratRefetch, status completed, delivered 2026-10-27T02:54:39.695Z)",
+   "report_file": ".ufo/waves/round-45/w2/R45LabratRefetch.md"
+  },
+  {
+   "name": "R45CritCaseFidelity",
+   "agent": "critic",
+   "output": null,
+   "note": "spawned as job R45CritCaseFidelity; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45SentC2Grader",
+   "agent": "sentinel",
+   "output": null,
+   "note": "spawned as job R45SentC2Grader-2; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45CritDryVsObserved",
+   "agent": "critic",
+   "output": null,
+   "note": "spawned as job R45CritDryVsObserved; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45RevLesson",
+   "agent": "reviewer",
+   "output": null,
+   "note": "spawned as job R45RevLesson; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45RevScorecard",
+   "agent": "reviewer",
+   "output": null,
+   "note": "spawned as job R45RevScorecard; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45ExecNoHarm",
+   "agent": "executor",
+   "output": null,
+   "note": "spawned as job R45ExecNoHarm; still running at the session exit and killed - no output delivered",
+   "report_file": ".ufo/waves/round-45/w2/R45ExecNoHarm.md"
+  },
+  {
+   "name": "R45CritC1Overclaim",
+   "agent": "critic",
+   "output": null,
+   "note": "spawned as job R45CritC1Overclaim-2; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45CritC2Overclaim",
+   "agent": "critic",
+   "output": null,
+   "note": "spawned as job R45CritC2Overclaim; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45RevWave1Reports",
+   "agent": "reviewer",
+   "output": null,
+   "note": "spawned as job R45RevWave1Reports; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45MutV11Lint",
+   "agent": "mutation-tester",
+   "output": null,
+   "note": "spawned as job R45MutV11Lint; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45CriticMistakes",
+   "agent": "critic",
+   "output": null,
+   "note": "spawned as job R45CriticMistakes; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45RevReadmeFrontier",
+   "agent": "reviewer",
+   "output": null,
+   "note": "spawned as job R45RevReadmeFrontier; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45RevProvince",
+   "agent": "reviewer",
+   "output": null,
+   "note": "spawned as job R45RevProvince; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45ExecCensusPost",
+   "agent": "executor",
+   "output": null,
+   "note": "spawned as job R45ExecCensusPost; still running at the session exit and killed - no output delivered",
+   "report_file": ".ufo/waves/round-45/w2/R45ExecCensusPost.md"
+  },
+  {
+   "name": "R45CritAssimilation",
+   "agent": "critic",
+   "output": "{\n  \"seat\": \"R45CritAssimilation\",\n  \"task\": \"Re-check wave-1 R45MergeRescreen\",\n  \"report\": \".ufo/waves/round-45/w2/R45CritAssimilation.md\",\n  \"findings\": {\n    \"collision_rerun\": \"CONFIRMED: reg-ids=149 staged-ids=175 collisions=73 on both working tree AND committed HEAD (d4c0cdf); all three receipt sha256s byte-identical to wave-1's (ba34916b\u2026/2df53989\u2026/1b311809\u2026); independent range re-derivation S077-086=10+S090-094=5+S097=1+S100-156=57=73\",\n    \"quarantine_awk\": \"CONFIRMED: register sha 5afe1810 unchanged @d4ab45f2; broad awk gives 3 lines (2 rows + summary), precise grep k=2 (S091,S105); NEVER-CHECKED 0 kengaku; cosmetic note: wave-1's rows receipt held broad-awk output not the described precise grep\",\n    \"drift\": \"Only drift: committed reg-ids 141\u2192149 \u2014 the exact integration wave-1's MEASUREMENT HAZARD predicted (S149-S156 draft committed); wave-1's working-tree pin was the durable number; no error\",\n    \"row_handcheck\": \"S091 (the row wave-1 could not fetch): NEC page now reachable with browser UA, http=200 60,334 B sha dc392edf\u2026, genuine Vol.75 No.2 article; registered quote occurs 0 times \u2014 payload-absent claim verified on cited bytes; byte-exact 120-char slice of SOURCES-PROPOSED.md:43 re-proven (offset 119/356). Same disposition as wave-1, stronger evidence: refuse, adopt nothing\"\n  },\n  \"envelope\": \"guard run exit=3, s091 fetch exit=0; local_bin_content before=after=e396f23e40a69201 unchanged; zero INVALID\",\n  \"verdict\": \"rescreen-confirmed-yes-row-verdict-S091-quote-absent-from-live-page-refuse-adopt-nothing\"\n}",
+   "note": "output recovered from the orchestrator session transcript (job R45CritAssimilation, status completed, delivered 2026-10-27T02:55:10.431Z)",
+   "report_file": ".ufo/waves/round-45/w2/R45CritAssimilation.md"
+  },
+  {
+   "name": "R45SimplifierFence",
+   "agent": "simplifier",
+   "output": null,
+   "note": "spawned as job R45SimplifierFence; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45ConnFrontiers",
+   "agent": "connector",
+   "output": null,
+   "note": "spawned as job R45ConnFrontiers; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45SentSeatAudit",
+   "agent": "sentinel",
+   "output": null,
+   "note": "spawned as job R45SentSeatAudit; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45MutHostileFixtures",
+   "agent": "mutation-tester",
+   "output": null,
+   "note": "spawned as job R45MutHostileFixtures-2; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45CritFrozenDigest",
+   "agent": "critic",
+   "output": null,
+   "note": "spawned as job R45CritFrozenDigest; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45RevDispatch",
+   "agent": "reviewer",
+   "output": null,
+   "note": "spawned as job R45RevDispatch; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  },
+  {
+   "name": "R45ExecTipRerun",
+   "agent": "executor",
+   "output": null,
+   "note": "spawned as job R45ExecTipRerun-2; still running at the session exit and killed - no output delivered",
+   "report_file": null
+  }
+ ]
+}

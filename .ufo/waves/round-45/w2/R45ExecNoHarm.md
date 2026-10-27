@@ -104,7 +104,7 @@ No measurement regressed: M1 `pass`, M3 `defects=0`, M4 counts and `routed_open=
 
 ## Claim reproduction from a clean clone (not quoted — re-run)
 
-- **C2**: my M8 body (non-`ENVELOPE` lines, 111 lines) is **byte-equal** to both frozen receipts —
+- **C2**: my M8 body (non-`ENVELOPE` lines, 24 lines) is **byte-equal** to both frozen receipts —
   `sha256 596d98b59ed7bbc8` for `corpus/evidence/round45/counter-a-run.txt` and `counter-b-run.txt`, measured body identical (`cmp`).
 - **C1**: my M7 body (133 lines) differs from `corpus/evidence/round45/c1-counter-run.txt` in **two lines only**, both echoing the
   absolute work dir (`/tmp/k45-c1-k77n5lri/…` in the receipt vs `$S/w45/k45-c1-89ei7lat/…` in mine, in the
