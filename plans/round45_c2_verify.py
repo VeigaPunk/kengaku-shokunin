@@ -84,7 +84,7 @@ CAPTURES = {
 }
 
 SPEC_REL = "plans/pkg-spec-r45.json"
-SPEC_SHA256 = "b8fc1e537acbdfa7dff1b641acaaf6f2409d7df0cbe446b4c2423bed332cba6b"
+SPEC_SHA256 = "3eb696b47095627be39ab3fc284392d959c9efd58233cddb2037cc138571f317"
 GATE_REL = "plans/pkg_gate.py"
 GATE_SHA256 = "ea63882240e67e9906e481f3d652f94366c288dc91991bafbfcd651a766edd41"
 PROBE_REL = "plans/password_recovery_probe.py"

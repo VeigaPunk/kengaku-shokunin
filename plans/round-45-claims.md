@@ -68,7 +68,7 @@ its counter. Causally separable: C1 changes `plans/fixture_fence.py` + fence evi
 
 ## C2 — coverage: the pinned TB2 `password-recovery` grader, an eleventh grader class exemplar (F1 exact line-membership of one constant)
 
-- **Surface:** `corpus/knowledge/tb2-password-recovery-grader.md`, `corpus/SOURCES.md` (rows S149–S157, tier A),
+- **Surface:** `corpus/knowledge/tb2-password-recovery-grader.md`, `corpus/SOURCES.md` (rows S149–S156, tier A),
   README index row + coverage bullet + §Frontier narrowing (11 of 89), PROVINCE paragraph,
   `corpus/evidence/round45/tb2-password-recovery/` (9 captures + SHA256SUMS, refetched `cmp`-identical at
   `2fd12b88`), `plans/password_recovery_probe.py` (16-case executed probe).
