@@ -248,3 +248,24 @@ close the holes the wave-1 critic names.
 this lane before this round are **vacuity candidates** (≥1 `P1` test) **and** each carries an
 independent second reader's confirmation whose located quote appears verbatim in the captured
 grader bytes.
+
+## Amendment A2 — 2026-10-28, before the scored after-run (implementation corrections)
+
+Wave-1 `C1ExecClassifier` and `C1ExecCounterRun` independently found two implementation defects
+in the frozen C1 counter before the scored after-run:
+
+1. `CAPTURES present` counted only the 89 primary graders used for classification but compared
+   that count with the frozen whole-population target of 184 files. The counter now enumerates
+   all paths in `capture_population`, counts every existing capture, and verifies every digest
+   against `SHA256SUMS`; the frozen target remains 184.
+2. `lane_read_tasks()` used prose regexes that recovered `{'0', 'this'}` rather than the 12
+   hand-read task ids from the knowledge-entry filenames. It now derives task ids from the
+   `tb2-*-grader.md` filenames, with the historical `git-webserver` entry mapped to
+   `configure-git-webserver`. This restores the frozen “never read by this lane” condition; it
+   does not change its meaning.
+
+These are counter-implementation fixes only: population, predicates, threshold, controls,
+kill rules and score rule are unchanged. The pre-A2 counter could never satisfy C1's capture leg
+even on complete data, and its new-task guard was ineffective; the amended counter re-counts the
+same frozen set and now enforces the already-declared novelty restriction. Wave-2 reviewer and
+critic seats must attack both fixes; the round report discloses them and cites their findings.

@@ -134,7 +134,10 @@ def load_sums(lane: Path) -> dict:
         for line in p.read_text(errors="replace").splitlines():
             parts = line.split(None, 1)
             if len(parts) == 2:
-                out[parts[1].strip().lstrip("*")] = parts[0].strip()
+                path = parts[1].strip().lstrip("*")
+                if path.startswith("./"):
+                    path = path[2:]
+                out[path] = parts[0].strip()
     return out
 
 
@@ -146,6 +149,21 @@ def collect(lane: Path):
     expected = pop["capture_file_count"]
     present = 0
     mismatched = 0
+    # The capture leg counts the WHOLE frozen capture population (every grader file of every
+    # task), not only the primary grader the classification reads.
+    capture_paths = sorted({p for files in pop.get("capture_population", {}).values() for p in files})
+    if not capture_paths:
+        capture_paths = sorted({f for files in tasks.values() for f in files})
+    for cp in capture_paths:
+        cf = cap_root / cp
+        if not cf.exists():
+            continue
+        present += 1
+        if cp in sums:
+            if sha256_bytes(cf.read_bytes()) != sums[cp]:
+                mismatched += 1
+        else:
+            mismatched += 1
     records = {}
     for task, files in sorted(tasks.items()):
         pg = primary_grader(files)
@@ -156,11 +174,8 @@ def collect(lane: Path):
         if not f.exists():
             records[task] = {"task": task, "class": "V0", "error": "capture absent", "features": {}}
             continue
-        present += 1
         body_bytes = f.read_bytes()
         digest = sha256_bytes(body_bytes)
-        if pg in sums and sums[pg] != digest:
-            mismatched += 1
         body = body_bytes.decode("utf-8", errors="replace")
         cls, feats = classify(body)
         tests = classify_tests(body)
@@ -188,14 +203,12 @@ def collect(lane: Path):
 
 
 def lane_read_tasks(lane: Path) -> set[str]:
-    """Tasks the lane had already read by hand before this round (the 12 tb2-* knowledge
-    entries).  A confirmation only counts as NEW if its task is not in this set."""
+    """Derive the pre-round hand-read task ids from the lane's named TB2 grader entries."""
     read = set()
     for p in sorted((lane / "corpus" / "knowledge").glob("tb2-*-grader.md")):
-        text = p.read_text(errors="replace")
-        m = re.search(r"task `([a-z0-9-]+)`", text) or re.search(r"\b([a-z0-9-]+)\b task", text)
-        if m:
-            read.add(m.group(1))
+        stem = p.name.removeprefix("tb2-").removesuffix("-grader.md")
+        # The lane's entry is named for the task's role; this one predates task-id naming.
+        read.add("configure-git-webserver" if stem == "git-webserver" else stem)
     return read
 
 
