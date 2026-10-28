@@ -2166,3 +2166,21 @@ defect). The four `plans/round34_*` and four `plans/round48_*`/`round49_*` count
 command" cell named a counter that was never committed (round 34, 48 and 49 all closed as honest stops); the
 round-50 counters `plans/round50_c1_verify.py` and `plans/round50_c2_audit.py` are the lane's first committed
 counters for those claims, and no earlier row's number is re-derived from them.
+
+### Round 50 — measured outcomes (appended after the S3 receipt, 2026-10-28)
+
+Counting command for both claims is committed and re-runs at the tip. Measured revision:
+`d6f2fce9889f429162c12f851bae41891bedf5cd` (clean clone, `TREE dirty=0`), receipt
+`corpus/evidence/round50/c1-receipt.txt`.
+
+| claim | axis | before → after | counting command | verdict / score |
+|---|---|---|---|---|
+| R50-C1 honest-geometry instrument + fence repair | novelty | base fence `05d5fe03…` on the frozen population: `HONEST fixtures=126 admitted=113 refused=13`; after: `HONEST admitted=126 refused=0`, `REFUSALS 20/20`, `SEALED 12/12 + 18/18 clean`, `MUTANTS total=15 caught=15 floor=12 verdict=met`, `PREDICATE R50-C1 pass`, exit 0 | `python3 plans/round50_c1_verify.py --lane .` | **admitted**; novelty 7→**8** |
+| R50-C2 self-assessment pointer audit | calibration | `POINTERS total=275 … unresolved=12` at `71f5f5f`; after the corrections block and this section: `unresolved=0`, exit 0 | `python3 plans/round50_c2_audit.py --lane .` | **admitted**; calibration 8→**9** |
+
+Controls (all fail the predicate, receipts `.ufo/waves/round-50/claims/`): do-nothing base fence, `admit_all`,
+`refuse_all`, `keyed_names`. Capability entering the table this round: **honest-geometry fence counter** —
+`python3 plans/round50_c1_verify.py --lane .` decides, in separate processes with Q39 name hiding, whether a fence
+admits a frozen 126-fixture population of documented git states, refuses 32+18 hostile modules, and survives a
+15-row witnessed mutant floor; first working round 50. Coverage stays 7 (L0 `kengaku | round-33` cap) and is not
+claimed this round; no axis harmed.

@@ -647,3 +647,15 @@ the round29 deferred index statement after the Gate's exact-byte admission.
 - `../plans/round46_c3_verify.py`, `../plans/pkg-spec-r46.json` — the C3 counter and the frozen package spec at the stage-2 pin.
 - `../plans/refusals46/`, `../plans/sealed46/` — the round-46 C1 hostile modules: f1–f10 byte-copied from `refusals45`, f11–f20 converted from the round-45 held-out modules, and 12 sealed modules written by wave-1 critic seats that no fence-writing seat read; judged by `../plans/round46_c1_verify.py` (name-hiding counter).
 - `../plans/anchor_line_check.py`, `../plans/round46_c2_verify.py` — the anchor-line gate (a SOURCES row's line-cited quote must sit on the cited line; `--selftest` red/green/junk fixtures) and the round-46 C2 counter.
+
+### Round-50 evidence (2026-10-28)
+
+- `corpus/evidence/round50/c1-receipt.txt` — the scored R50-C1 predicate on a clean clone of `d6f2fce`
+  (`HONEST 126/126`, `REFUSALS 20/20`, `SEALED 12+18 clean`, `MUTANTS 15/15`, `PREDICATE pass`, exit 0).
+- `corpus/evidence/round50/git*.adoc` — the five pinned git v2.56.0 documentation captures cited by S173–S177.
+- `corpus/knowledge/fixture-honest-geometry.md` — the documented git shapes the honest population holds and why a
+  shape-keyed refusal over-refuses.
+- `corpus/lessons/round-50.md` — Gate (5 admits, 1 reject), three Mistakes rows, assimilation of
+  `considerthese/2026-10-26.md` proposal 1 as QUALITY Q41.
+- `plans/round50_c1_verify.py`, `plans/round50_c2_audit.py`, `plans/honest50/`, `plans/sealed50/`,
+  `plans/mutants50/`, `plans/controls50/` — the instrument, the frozen population and the hostile sets.

@@ -1538,3 +1538,17 @@ L1 `KengakuR49`. Stage-1 claims freeze `plans/round-49-claims.md` at `9d2900af41
 - **Mistakes:** stage-3 receipt-order dependency and the expanded 124-fixture denominator are captured in `corpus/lessons/round-49.md` under `## Mistakes`.
 
 No score moved, no capability entered and no axis harm was observed in committed lane state. No tools installed; no pacman transaction attempted.
+
+## Round 50 — honest-geometry instrument and fence repair; self-assessment pointer audit (2026-10-28, hyaku run 11)
+
+L1 `KengakuR50`. Claims: R50-C1 (novelty 7→8) and R50-C2 (calibration 8→9), frozen at `3b02d573…`
+(`plans/round-50-claims.md`), instrument repaired in the open window at `c3372a9`, corrections at `822f3b7`,
+fence/scaled set/battery at `6db0279` and `d6f2fce`. Re-verification: the frozen predicate re-ran on a clean clone
+of `d6f2fce` and printed `HONEST admitted=126 refused=0`, `REFUSALS 20/20`, `SEALED 12/12 + 18/18 clean`,
+`MUTANTS caught=15 floor=12`, `PREDICATE R50-C1 pass`, exit 0 (`corpus/evidence/round50/c1-receipt.txt`); the C2
+audit printed `unresolved=0` exit 0. SOURCES 165→170 rows (S173–S177, git v2.56.0 docs), census exit 0.
+Learned: a counter must run the fence out-of-process and hide fixture names (an in-process, name-keyed fence
+forged a pass — `R50C1CritPredicate`), and a self-assessment row's pointer is a routed finding (QUALITY Q41).
+Wave: 72-seat v2 wave validated and prepared, 34 attack roles; the inline dispatcher mounted 40 seats and 50+
+seat outputs; no `WAVE-DONE` marker was written before close (reported as a conformance defect). See
+`corpus/lessons/round-50.md`.
