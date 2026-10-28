@@ -151,3 +151,9 @@ files, never commit, and write only their own report plus scratch under `/fast/s
 | when | instrument | old digest | new digest | measured defect | effect on the predicate |
 |---|---|---|---|---|---|
 | 2026-10-28, before any scored run | `plans/round50_c1_verify.py` | `f9b9873e602dd09228d0164412d450b2cef95c3055ce9347fa05b9377637bd76` | `d8787b34b0e0964edab9f117e63e5d4865c749eb5be8bcde3d39ef831f4a69e2` | module attribution keyed on `path.name`, so the same filename in `plans/battery42` and `plans/battery43` (e.g. `a_class.py`) made the hostile/honest leg attribution ambiguous; a leg could read another module's verdicts | none: predicate sentence, the four leg names, the literals `126`, `20`, `12`, `SEALED50_MIN` and the population pin are unchanged; re-measured do-nothing control still prints `HONEST fixtures=126 admitted=113 refused=13` and `PREDICATE R50-C1 fail` |
+
+## Open-window repair 2 (recorded after the first scored run; see the round report erratum)
+
+| when | instrument | old digest | new digest | measured defect | effect on the predicate |
+|---|---|---|---|---|---|
+| 2026-10-28, after the first receipt | `plans/round50_c1_verify.py` | `d8787b34b0e0964edab9f117e63e5d4865c749eb5be8bcde3d39ef831f4a69e2` | `850ec7906e9658344b66e319a5c902ed4403519a55f33605b6f008ae90912999` | `R50C1CritPredicate` measured that the in-process fence call lets a hostile fence rewrite the counter's globals and forge `caught`, and that fixture parent names carried the leg ("refusals46"/"sealed46") so a name-keyed fence passed `--skip-mutants` | none: predicate sentence, four leg names, literals `126`, `20`, `12`, `SEALED50_MIN` and the population pin unchanged. Deviation from "a repair after the first scored run is not this claim's instrument" is recorded, and the round's scored receipt is the post-repair re-run, not the earlier one |

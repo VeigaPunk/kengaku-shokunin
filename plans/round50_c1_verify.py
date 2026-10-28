@@ -53,11 +53,13 @@ import importlib.util
 import json
 import os
 import pathlib
+import secrets
 import shutil
 import subprocess
 import sys
 import tempfile
 
+FENCE_TIMEOUT = 120           # one decision, seconds (r46's FENCE_TIMEOUT precedent)
 HONEST_TOTAL = 126            # frozen literal; the counter cannot self-satisfy it from the file it reads
 MUTANT_MIN = 12               # frozen floor: at least 12 rows, and at least 12 caught (Q38: directions witnessed)
 REFUSALS_TOTAL = 20           # frozen: modules under plans/refusals46
@@ -105,12 +107,37 @@ def parse_population(path):
     return rows
 
 
+HARNESS = r'''
+import importlib.util, json, os, pathlib, sys
+spec = importlib.util.spec_from_file_location("fence_under_test", sys.argv[1])
+m = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(m)
+os.closerange(3, 1024)
+try:
+    r = m.breach(pathlib.Path(sys.argv[2]), json.loads(sys.argv[4]), sys.argv[3])
+except Exception as e:
+    sys.stderr.write(f"HARNESS-ERROR {type(e).__name__}: {e}\n")
+    sys.exit(12)
+sys.stderr.write(("BREACH " + " ".join(str(r).split()))[:300] + "\n" if r else "ADMIT\n")
+sys.exit(10 if r else 11)
+'''
+PAD = 8                      # decoy sibling dirs per fixture parent (Q39: no leg signal in the directory name)
+
+
 def build_all(hb, k44, modules, work):
-    """Build each module once into its own parent; return [{fid,tool,argv,dir,module}] and failures."""
+    """Build each module once into its own OPAQUE parent; return [{fid,tool,argv,dir,module}] and failures.
+
+    Q39 name hiding (round-45 criterion, re-derived here after `R50C1CritPredicate` measured that a
+    directory-name-keyed fence passes the `--skip-mutants` mode): the parent is a per-module random token, never a
+    module, population or leg name, and every parent is padded with `PAD` empty decoy children so neither the
+    name nor the child count carries which leg a fixture belongs to.
+    """
     built, failures = [], []
     for i, (path, tag) in enumerate(modules):
-        gen = work / f"m{i:03d}-{tag}"
+        gen = work / secrets.token_hex(8)
         gen.mkdir(parents=True, exist_ok=True)
+        for _k in range(PAD):
+            (gen / secrets.token_hex(4)).mkdir()
         try:
             for fid, tool, _expect, _defects, argv, d, _b in hb.build_once(k44, path, gen):
                 built.append({"fid": fid, "tool": tool, "argv": argv, "dir": d, "module": str(path)})
@@ -119,15 +146,32 @@ def build_all(hb, k44, modules, work):
     return built, failures
 
 
-def verdicts(fence_mod, fixtures):
-    """One verdict per fixture: ADMIT / BREACH / ERROR (a raising fence is never an admission)."""
+def verdicts(fence_path, fixtures, harness, work):
+    """One verdict per fixture, decided in a SEPARATE process and carried in its exit status.
+
+    The verdict travels as the exit code (10 BREACH, 11 ADMIT, anything else ERROR), never as parsed stdout and
+    never from an in-process import: `R50C1CritPredicate` measured an in-process fence that rewrites the
+    counter's own globals and forges `caught=23`. Named limit: a fence that calls `os._exit(11)` while shrinking
+    is indistinguishable from an admission inside this harness; the round-46 counter's strace leg is the standing
+    instrument for that class.
+    """
     out = []
-    for f in fixtures:
+    env = {"PATH": os.environ.get("PATH", "/usr/bin:/bin"), "HOME": "/nonexistent",
+           "LANG": "C.UTF-8", "LC_ALL": "C.UTF-8", "PYTHONHASHSEED": "0",
+           "PYTHONDONTWRITEBYTECODE": "1"}
+    for i, f in enumerate(fixtures):
+        log = work / "harness" / f"{i:05d}.err"
+        log.parent.mkdir(parents=True, exist_ok=True)
         try:
-            r = fence_mod.breach(f["dir"], f["argv"], f["tool"])
-            out.append({"fid": f["fid"], "v": "BREACH" if r else "ADMIT", "why": str(r or "")[:200]})
-        except Exception as e:
-            out.append({"fid": f["fid"], "v": "ERROR", "why": f"{type(e).__name__}: {e}"})
+            p = subprocess.run([sys.executable, "-I", str(harness), str(fence_path), str(f["dir"]),
+                                f["tool"], json.dumps(f["argv"])], cwd=str(f["dir"]), env=env,
+                               capture_output=True, text=True, timeout=FENCE_TIMEOUT)
+            rc = p.returncode
+            why = (p.stderr.strip().splitlines() or [""])[-1][:200]
+        except subprocess.TimeoutExpired:
+            rc, why = 12, "HUNG"
+        out.append({"fid": f["fid"], "v": "BREACH" if rc == 10 else ("ADMIT" if rc == 11 else "ERROR"),
+                    "why": why})
     return out
 
 
@@ -205,8 +249,9 @@ def main():
             for e in failures[:8]:
                 say(f"BUILD-ERROR {e}")
 
-        fence = load(fence_path, "k50_fence")
-        honest_v = verdicts(fence, honest)
+        harness = work / "harness.py"
+        harness.write_text(HARNESS)
+        honest_v = verdicts(fence_path, honest, harness, work)
         refused = [x for x in honest_v if x["v"] != "ADMIT"]
         say(f"HONEST fixtures={len(honest_v)} admitted={len(honest_v) - len(refused)} "
             f"refused={sum(1 for x in refused if x['v'] == 'BREACH')} "
@@ -233,7 +278,7 @@ def main():
 
         def leg(rel, files, fixtures, fails):
             label = "REFUSALS" if rel == REFUSALS_REL else "SEALED"
-            v = verdicts(fence, fixtures)
+            v = verdicts(fence_path, fixtures, harness, work)
             leaked = [x for x in v if x["v"] == "ADMIT"]
             clean = sum(1 for f in files
                         if fids_of(f, fixtures)
@@ -277,10 +322,9 @@ def main():
                     broken += 1
                     say(f"MUTANT broken {m['id']} {why}")
                     continue
-                mod = load(path, f"k50_mut_{m['id'].replace('-', '_')}")
-                mv = verdicts(mod, honest)
+                mv = verdicts(path, honest, harness, work)
                 for _rel, _files, fixtures, _fails in hostile_built:
-                    mv += verdicts(mod, fixtures)
+                    mv += verdicts(path, fixtures, harness, work)
                 if [(x["fid"], x["v"]) for x in mv] != ref_vec:
                     caught += 1
                 else:
