@@ -1,0 +1,293 @@
+{
+ "wave": "kengaku-r52-w1",
+ "milestone": "kengaku round 52 wave 1 (build): fetch+classify the Terminal-Bench 2.0 grader population (R52-C1, novelty) and derive the 28 missing gate-registry rows (R52-C2, operability)",
+ "reportDir": ".ufo/waves/round-52/w1",
+ "maxLanes": 35,
+ "axes": [
+  "novelty",
+  "operability"
+ ],
+ "context": "# Goal\nkengaku round 52 (hyaku run 11), WAVE 1 of 2 (build), lane repo /home/vgpnk/Projects/shokunin/kengaku-shokunin.\nThe round's two frozen claims live at /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round-52-claims.md \u2014 READ IT IN FULL FIRST;\nit binds every seat, and its predicate, thresholds, populations, controls and kill rules are\nfrozen (a change after scoring is a new round, never a patch).\n\n- **R52-C1 (novelty 8->9)** \u2014 a whole-benchmark grader-vacuity triage for Terminal-Bench 2.0:\n  frozen population `plans/round52-tasks.json` (89 tasks, 184 grader files at pin\n  2fd12b88aafdd04a52c298e3940bcb189f9766d6); frozen counter `plans/round52_c1_grader_audit.py`;\n  frozen classification rules in the claims file, section C1.\n- **R52-C2 (operability 8->9)** \u2014 every advertised verdict instrument gets a truthful row in\n  SKILL.md's *## Gate/probe registry*; frozen counter `plans/round52_c2_registry.py`\n  (MISSING 28, SELFTEST-UNBACKED 1 at the base tip).\n\nBase tip 30801b479e3418c11089b8586178b6960216f364. Two waves: this is the build wave (32 seats);\nwave 2 (32 falsify seats) is dispatched by the L1 after this wave returns.\n\n# Write scope \u2014 every seat\nWork ONLY inside your own scratch dir `/fast/scratch/hyaku/kengaku-r52/<your-seat-name>/` and your own wave report\nfile `/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-52/w1/<your-seat-name>/report.md`. Put every artefact you produce under your scratch\ndir; the L1 is the single integration owner and copies what it accepts into the lane tree.\nNEVER edit the lane tree, the fleet repo, a sibling lane, `.ufo/state/`, `.ufo/watchdog.log`,\n`templates/`, `scripts/`, `MANIFEST.json`, or `/home/vgpnk/Projects/shokunin/.scratch/`.\nNEVER run `git commit`, `git add`, `git push`, `git stash`, `git checkout`, `git reset`,\n`git pull`, or any mutating `jj` command anywhere \u2014 the L1 commits through the lane helper only.\nNEVER run a campaign tool inside /home/vgpnk/Projects/shokuknow (read it only).\nNever message agent://all; message only the seats you are told to address, by id.\n\n# Scratch discipline (operator directive 2026-10-25)\nEvery clone, work tree, fixture and temp file of this seat lives under\n`/fast/scratch/hyaku/kengaku-r52/<your-seat-name>/` (NVMe, ~536 GB free). Create it with `mkdir -p` and pass it\nexplicitly (`TMPDIR=/fast/scratch/hyaku/kengaku-r52/<your-seat-name>/tmp`, `--work`); never rely on an inherited\nTMPDIR and never write to /tmp except files under 50 MB. Remove your scratch dir before you\nyield (`rm -rf -- /fast/scratch/hyaku/kengaku-r52/<your-seat-name>/`) after copying any receipt you want kept into\nyour wave report dir. A seat that ends with its tree still on disk reports that as its own\ndefect. If you see ENOSPC, report the free space you saw and stop; do not retry blindly.\n\n# Tooling\nYou and every seat may install or upgrade tools that help the task \u2014 read\n/home/vgpnk/.omp/agent/RULES.md first (official channels, update-safety gate; record\ntool/version/channel/reason in your report). **pacman guard (orchestrator ruling 2026-10-20):\nall pacman transactions are PAUSED host-wide** \u2014 install via `uv tool` / `npx` / an official\nbinary in `~/.local/bin`, or file an L0 question. Never `pacman -Sy`, `-Syu`, `-U`, `-R`,\ndowngrade, or restart a host service.\n\n# Report contract (every seat)\nWrite your report to `/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-52/w1/<your-seat-name>/report.md` \u2014 that path is absolute; if a tool\nrenders a relative `Report:` trailer for you, it is relative to /home/vgpnk/Projects/shokunin/kengaku-shokunin \u2014 write it at\n/home/vgpnk/Projects/shokunin/kengaku-shokunin/<that path>. Your report must carry: what you did, the exact commands you ran, the\nmeasured numbers, the files you produced (absolute paths), and \u2014 for every attack seat \u2014 what\nyou attacked and the concrete evidence that your attack landed or failed to land. A seat that\nfinds nothing says what it searched and reports the negative; a seat that cannot finish says\nwhat it could not do and why. Never fabricate a number, a quote or a URL.\n",
+ "items": [
+  {
+   "name": "C1ExecFetchGraders",
+   "role": "executor",
+   "axes": [
+    "novelty"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C1ExecFetchGraders (executor).\n# Item\nFetch every file of the FROZEN population in `/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round52-tasks.json` (89 tasks, 184 files) from\n`https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/<path>`.\nWrite them byte-exact under `/fast/scratch/hyaku/kengaku-r52/C1ExecFetchGraders/graders/<path>` (keep the relative path),\nand write `/fast/scratch/hyaku/kengaku-r52/C1ExecFetchGraders/SHA256SUMS` in `sha256sum` format (`<hex>  <path>`).\nVerify: every expected path present, each digest matches, and the count of files equals\n`capture_file_count` (184). Record every 404 or empty response verbatim. Do not modify the\ncapture bytes (no trailing-newline edits). Report: fetched count, mismatched count, missing\npaths, total bytes, and the sha256 of your SHA256SUMS file."
+  },
+  {
+   "name": "C1ExecClassifier",
+   "role": "executor",
+   "axes": [
+    "novelty"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C1ExecClassifier (executor).\n# Item\nImplement the FROZEN classifier of `/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round-52-claims.md` \u00a7C1 as a standalone module in\n`/fast/scratch/hyaku/kengaku-r52/C1ExecClassifier/classify.py` (read `/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round52_c1_grader_audit.py` and mirror its\n`classify()` exactly \u2014 presence/content/behaviour markers, `def test_` count, class order\nV1,V2,V3,V4,V0 \u2014 do not change the rules). It must read the frozen population plus a captures dir\n(argv `--captures DIR`) and emit one JSON record per task: task, grader path, sha256, bytes, the\nfour feature booleans/count, and the class. Then run it over the captures fetched by\n`C1ExecFetchGraders` if that directory already exists (it may not yet \u2014 in that case run it over\nwhatever captures exist and say so). Report: the class histogram, the per-task records file path,\nand any rule case you could not decide (state the class you assigned and why)."
+  },
+  {
+   "name": "C1ExecCounterRun",
+   "role": "executor",
+   "axes": [
+    "novelty"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C1ExecCounterRun (executor).\n# Item\nRun the FROZEN counter `/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round52_c1_grader_audit.py --lane .` inside a scratch clone of the lane\n(`git clone --shared -b master /home/vgpnk/Projects/shokunin/kengaku-shokunin /fast/scratch/hyaku/kengaku-r52/C1ExecCounterRun/lane`; verify\n`git -C /fast/scratch/hyaku/kengaku-r52/C1ExecCounterRun/lane rev-parse --show-toplevel` equals that path before any git\ncommand) with the captures of `C1ExecFetchGraders` copied to\n`corpus/evidence/round52/graders/` inside the clone, and report its stdout and exit code\nverbatim. Also run `--selftest` and report. Do NOT change the counter; if a leg fails, say which\nleg and what evidence is missing. Report: the counter's full output, exit codes, and the list of\npredicate legs that still fail."
+  },
+  {
+   "name": "C2ExecRowFacts",
+   "role": "executor",
+   "axes": [
+    "operability"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C2ExecRowFacts (executor).\n# Item\nFor each of the 28 instruments the frozen counter reports as MISSING (run\n`python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round52_c2_registry.py --lane .` and read its MISSING list), extract\nMECHANICAL facts from the script bytes: argparse flags declared, exit codes it returns, whether\nit declares a `--selftest` flag and what that selftest prints, every file path it writes, whether\nit needs network, and the first line of its docstring. Write `/fast/scratch/hyaku/kengaku-r52/C2ExecRowFacts/facts.json`\nas one object per instrument. Do not write registry prose \u2014 the scribes do that from your facts.\nReport: the facts file path, the instruments whose facts you could not derive, and any script\nwhose exit-code behaviour contradicts its own docstring."
+  },
+  {
+   "name": "C2ExecRowRuns",
+   "role": "executor",
+   "axes": [
+    "operability"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C2ExecRowRuns (executor).\n# Item\nMeasure, do not guess, how each of the 28 missing instruments behaves when a stranger runs it.\nClone the lane (`git clone --shared -b master /home/vgpnk/Projects/shokunin/kengaku-shokunin /fast/scratch/hyaku/kengaku-r52/C2ExecRowRuns/lane`), and in the clone\nrun each instrument with the command its own `--help`/docstring implies, with\n`TMPDIR=/fast/scratch/hyaku/kengaku-r52/C2ExecRowRuns/tmp` and a per-instrument `--work`/scratch dir. Record exit code,\nwall time, the verdict line it prints, and whether it wrote anything into the clone.\nNever run one instrument inside the real lane tree. Report: one table row per instrument\n(name, command, exit code, verdict line, writes?) plus every instrument that crashed with a\ntraceback (paste the last 5 lines)."
+  },
+  {
+   "name": "C1ExecBlindLabels",
+   "role": "executor",
+   "axes": [
+    "novelty"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C1ExecBlindLabels (executor).\n# Item\nProduce a BLIND label set for the frozen classifier: choose a deterministic sample of 24 tasks\nfrom `plans/round52-tasks.json` (take every task whose index in sorted order is a multiple of 3,\nand say exactly which), fetch each task's primary grader bytes, read them yourself and assign a\nclass label per the frozen rules in `plans/round-52-claims.md` \u00a7C1 (V1 presence-only, V2\nbehavioural, V3 content-check, V4 assertion-sparse, V0 other). Do NOT look at\n`plans/round52_c1_grader_audit.py`'s output or at any other seat's labels. Write\n`/fast/scratch/hyaku/kengaku-r52/C1ExecBlindLabels/labels.json` as `{\"labels\": [{\"task\": ..., \"class\": ..., \"why\": \"<=20 words\"}]}`.\nReport: the sampled task ids, the label histogram, and every task whose class you found hard to\ndecide (with the reason)."
+  },
+  {
+   "name": "C1ExecReadFindings",
+   "role": "executor",
+   "axes": [
+    "novelty"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C1ExecReadFindings (executor).\n# Item\nRead the lane's 12 hand-read TB2 grader entries (`/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/tb2-*-grader.md`) and extract,\nper task, the lane's own recorded finding in one line each: what the grader actually checks, the\nvacuity or weakness class the lane found, and the exact file:line anchor it cites. Write\n`/fast/scratch/hyaku/kengaku-r52/C1ExecReadFindings/read-findings.json` (task -> a dict with keys task, checks, weakness, anchor, source_entry).\nReport: the 12 task ids with their recorded weakness class, and any entry whose weakness class\ncannot be stated from the entry text."
+  },
+  {
+   "name": "C2ExecOrderCheckFact",
+   "role": "executor",
+   "axes": [
+    "operability"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C2ExecOrderCheckFact (executor).\n# Item\nThe frozen counter reports one registry row as SELFTEST-UNBACKED: `order-check`. Establish the\nFACTS: does `/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/order_check.py` declare a `--selftest` flag? what flags does it declare?\nwhat does its own registry row in `SKILL.md` claim? What is the truthful self-test cell text for\nthat row (options: name a flag the script really accepts, or state plainly that the instrument has\nno self-test and why)? Evidence: quote the script's argparse block and the row's cells with\nline numbers. Report: the facts, the exact truthful replacement cell text you recommend, and any\nother row in the registry whose self-test claim you can already disprove from the script bytes."
+  },
+  {
+   "name": "C2ExecRegistryAudit",
+   "role": "executor",
+   "axes": [
+    "operability"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C2ExecRegistryAudit (executor).\n# Item\nAudit the 46 EXISTING registry rows in `SKILL.md`'s *## Gate/probe registry* for factual truth, not\ncompleteness: does each row's entry script exist? does the verdict map match the exit codes the\nscript actually returns (read the `return`/`sys.exit` sites)? does the self-test cell name a flag\nthe script accepts? Report every row whose text is factually wrong, with the script evidence and\nthe corrected cell text. Write `/fast/scratch/hyaku/kengaku-r52/C2ExecRegistryAudit/audit.json`. Do not edit SKILL.md."
+  },
+  {
+   "name": "C1ExecPopulationCheck",
+   "role": "executor",
+   "axes": [
+    "novelty"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C1ExecPopulationCheck (executor).\n# Item\nIndependently re-derive the frozen population: fetch\n`https://api.github.com/repos/harbor-framework/terminal-bench-2/git/trees/2fd12b88aafdd04a52c298e3940bcb189f9766d6?recursive=1`\nand recompute the task list and the grader-file list (files under `<task>/tests/` or\n`<task>/environment/tests/` named test_outputs.py, test.sh or verify.sh). Compare with\n`/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round52-tasks.json` row by row. Report: the recomputed task count, the recomputed\ncapture-file count, every task or file in one and not the other, and whether the pin is still\nreachable (HTTP status). If the remote tree has changed, say so and report the frozen file's\nsha256 per entry \u2014 the frozen file does not change either way."
+  },
+  {
+   "name": "C2ScribeRowsA",
+   "role": "scribe",
+   "axes": [
+    "operability"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C2ScribeRowsA (scribe).\n# Item\nDraft the missing SKILL.md *## Gate/probe registry* rows for these 5 instruments: `plans/adoption_check.py`, `plans/attrib_probe.py`, `plans/catalog_probe.py`, `plans/defect_ledger.py`, `plans/gate_flip_check.py`.\nRead each script yourself (docstring, argparse block, exit codes, what it writes) and, when\n`C2ExecRowFacts`/`C2ExecRowRuns` scratch artefacts are present under\n`/fast/scratch/hyaku/kengaku-r52/C2ExecRowFacts/facts.json` and `/fast/scratch/hyaku/kengaku-r52/C2ExecRowRuns/`, use their measurements \u2014\nif they are absent, derive the facts yourself and say so. Write your rows to\n`/fast/scratch/hyaku/kengaku-r52/C2ScribeRowsA/rows.md` as markdown table rows with EXACTLY the eight registry columns\n(name | kind | entry | verdict map | self-test | pinned values | write scope | owner), one row per\ninstrument, each cell non-empty and each claim true of the script. Use `kind` = `gate` or `probe`;\nthe self-test cell must name a spelling the script really accepts, or state plainly that the\ninstrument has no self-test and why. Report: your rows file path, each row's kind, and any row\nyou could not fill truthfully (and what blocked it)."
+  },
+  {
+   "name": "C2ScribeRowsB",
+   "role": "scribe",
+   "axes": [
+    "operability"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C2ScribeRowsB (scribe).\n# Item\nDraft the missing SKILL.md *## Gate/probe registry* rows for these 5 instruments: `plans/parser_policy_compare.py`, `plans/password_recovery_probe.py`, `plans/polyglot_c_py_probe.py`, `plans/round28_census.py`, `plans/round30_defects.py`.\nRead each script yourself (docstring, argparse block, exit codes, what it writes) and, when\n`C2ExecRowFacts`/`C2ExecRowRuns` scratch artefacts are present under\n`/fast/scratch/hyaku/kengaku-r52/C2ExecRowFacts/facts.json` and `/fast/scratch/hyaku/kengaku-r52/C2ExecRowRuns/`, use their measurements \u2014\nif they are absent, derive the facts yourself and say so. Write your rows to\n`/fast/scratch/hyaku/kengaku-r52/C2ScribeRowsB/rows.md` as markdown table rows with EXACTLY the eight registry columns\n(name | kind | entry | verdict map | self-test | pinned values | write scope | owner), one row per\ninstrument, each cell non-empty and each claim true of the script. Use `kind` = `gate` or `probe`;\nthe self-test cell must name a spelling the script really accepts, or state plainly that the\ninstrument has no self-test and why. Report: your rows file path, each row's kind, and any row\nyou could not fill truthfully (and what blocked it)."
+  },
+  {
+   "name": "C2ScribeRowsC",
+   "role": "scribe",
+   "axes": [
+    "operability"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C2ScribeRowsC (scribe).\n# Item\nDraft the missing SKILL.md *## Gate/probe registry* rows for these 5 instruments: `plans/round31_c1_verify.py`, `plans/round31_defects.py`, `plans/round33_c1_verify.py`, `plans/round33_defects.py`, `plans/round35_c1_verify.py`.\nRead each script yourself (docstring, argparse block, exit codes, what it writes) and, when\n`C2ExecRowFacts`/`C2ExecRowRuns` scratch artefacts are present under\n`/fast/scratch/hyaku/kengaku-r52/C2ExecRowFacts/facts.json` and `/fast/scratch/hyaku/kengaku-r52/C2ExecRowRuns/`, use their measurements \u2014\nif they are absent, derive the facts yourself and say so. Write your rows to\n`/fast/scratch/hyaku/kengaku-r52/C2ScribeRowsC/rows.md` as markdown table rows with EXACTLY the eight registry columns\n(name | kind | entry | verdict map | self-test | pinned values | write scope | owner), one row per\ninstrument, each cell non-empty and each claim true of the script. Use `kind` = `gate` or `probe`;\nthe self-test cell must name a spelling the script really accepts, or state plainly that the\ninstrument has no self-test and why. Report: your rows file path, each row's kind, and any row\nyou could not fill truthfully (and what blocked it)."
+  },
+  {
+   "name": "C2ScribeRowsD",
+   "role": "scribe",
+   "axes": [
+    "operability"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C2ScribeRowsD (scribe).\n# Item\nDraft the missing SKILL.md *## Gate/probe registry* rows for these 5 instruments: `plans/round35_hardening.py`, `plans/round36_c2_verify.py`, `plans/round45_c1_verify.py`, `plans/round45_c2_verify.py`, `plans/round46_c1_verify.py`.\nRead each script yourself (docstring, argparse block, exit codes, what it writes) and, when\n`C2ExecRowFacts`/`C2ExecRowRuns` scratch artefacts are present under\n`/fast/scratch/hyaku/kengaku-r52/C2ExecRowFacts/facts.json` and `/fast/scratch/hyaku/kengaku-r52/C2ExecRowRuns/`, use their measurements \u2014\nif they are absent, derive the facts yourself and say so. Write your rows to\n`/fast/scratch/hyaku/kengaku-r52/C2ScribeRowsD/rows.md` as markdown table rows with EXACTLY the eight registry columns\n(name | kind | entry | verdict map | self-test | pinned values | write scope | owner), one row per\ninstrument, each cell non-empty and each claim true of the script. Use `kind` = `gate` or `probe`;\nthe self-test cell must name a spelling the script really accepts, or state plainly that the\ninstrument has no self-test and why. Report: your rows file path, each row's kind, and any row\nyou could not fill truthfully (and what blocked it)."
+  },
+  {
+   "name": "C2ScribeRowsE",
+   "role": "scribe",
+   "axes": [
+    "operability"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C2ScribeRowsE (scribe).\n# Item\nDraft the missing SKILL.md *## Gate/probe registry* rows for these 5 instruments: `plans/round46_c2_verify.py`, `plans/round46_c3_verify.py`, `plans/round50_c1_verify.py`, `plans/round50_c2_audit.py`, `plans/round51_routing.py`.\nRead each script yourself (docstring, argparse block, exit codes, what it writes) and, when\n`C2ExecRowFacts`/`C2ExecRowRuns` scratch artefacts are present under\n`/fast/scratch/hyaku/kengaku-r52/C2ExecRowFacts/facts.json` and `/fast/scratch/hyaku/kengaku-r52/C2ExecRowRuns/`, use their measurements \u2014\nif they are absent, derive the facts yourself and say so. Write your rows to\n`/fast/scratch/hyaku/kengaku-r52/C2ScribeRowsE/rows.md` as markdown table rows with EXACTLY the eight registry columns\n(name | kind | entry | verdict map | self-test | pinned values | write scope | owner), one row per\ninstrument, each cell non-empty and each claim true of the script. Use `kind` = `gate` or `probe`;\nthe self-test cell must name a spelling the script really accepts, or state plainly that the\ninstrument has no self-test and why. Report: your rows file path, each row's kind, and any row\nyou could not fill truthfully (and what blocked it)."
+  },
+  {
+   "name": "C2ScribeRowsF",
+   "role": "scribe",
+   "axes": [
+    "operability"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C2ScribeRowsF (scribe).\n# Item\nDraft the missing SKILL.md *## Gate/probe registry* rows for these 3 instruments: `plans/round51_surfaces.py`, `plans/routed_open.py`, `plans/tb2_grader_probe.py`.\nRead each script yourself (docstring, argparse block, exit codes, what it writes) and, when\n`C2ExecRowFacts`/`C2ExecRowRuns` scratch artefacts are present under\n`/fast/scratch/hyaku/kengaku-r52/C2ExecRowFacts/facts.json` and `/fast/scratch/hyaku/kengaku-r52/C2ExecRowRuns/`, use their measurements \u2014\nif they are absent, derive the facts yourself and say so. Write your rows to\n`/fast/scratch/hyaku/kengaku-r52/C2ScribeRowsF/rows.md` as markdown table rows with EXACTLY the eight registry columns\n(name | kind | entry | verdict map | self-test | pinned values | write scope | owner), one row per\ninstrument, each cell non-empty and each claim true of the script. Use `kind` = `gate` or `probe`;\nthe self-test cell must name a spelling the script really accepts, or state plainly that the\ninstrument has no self-test and why. Report: your rows file path, each row's kind, and any row\nyou could not fill truthfully (and what blocked it)."
+  },
+  {
+   "name": "C1ScribeSources",
+   "role": "scribe",
+   "axes": [
+    "novelty"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C1ScribeSources (scribe).\n# Item\nPrepare the SOURCES-registry curation for this round. Read\n`/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md` (contract v1: 13 columns; see `/home/vgpnk/Projects/shokunin/CORPUS.md`\nsection *SOURCES.md \u2014 where a shokunin learns*) and the census parser at\n`/home/vgpnk/Projects/shokunin/scripts/sources-census.sh`. Draft, in\n`/fast/scratch/hyaku/kengaku-r52/C1ScribeSources/sources-draft.md`, THREE candidate rows for sources this round will\nopen: (1) the Terminal-Bench 2.0 repository tree at pin\n2fd12b88aafdd04a52c298e3940bcb189f9766d6 (tier A, kind `code`, status `mined`), (2) the raw\n`build-pmars/tests/test_outputs.py` capture at that pin (tier A), (3) a placeholder row shape for\nthe prior-art primary the scout seat fetches (do NOT invent a URL \u2014 write the row shape with a\n`__PRIOR_ART_ROW__` placeholder and say so). Every row must be 13 columns, carry the id the\nregistry will assign next, a valid ISO date in `recheck`, and a `used-by` naming exactly the\nentry that cites it. Also draft the `## Gate` block skeleton for\n`corpus/lessons/round-52.md` (candidates + verdict + reason/flip columns). Report: the draft\npath, the exact id you propose for each row, and any census column rule you could not satisfy."
+  },
+  {
+   "name": "C1ScoutPriorArt",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C1ScoutPriorArt (scout).\n# Item\nPRICE THE PRIOR ART of R52-C1 with fetched public primaries \u2014 this is the novelty claim's\nevidence. Fetch (with `curl`/`web_search`; record HTTP status and the fetched URL) at least FIVE\npublic sources that bear on the claim: published audits of Terminal-Bench 2.0 task graders, tools\nthat statically audit benchmark graders/tests for vacuity or weak assertions, and benchmark\nvalidity/audit literature. For each source give: URL, HTTP status, the \u226425-word located quote\n(with the anchor or line), and what it says about (a) whole-benchmark grader triage and (b) the\ntwo weakness classes the lane will look for. Write `/fast/scratch/hyaku/kengaku-r52/C1ScoutPriorArt/prior-art.md` with\nthe sources and a per-finding novelty verdict line of the form\n`FINDING <task-id> verdict=phenomenon-new|phenomenon-known|unclear because <evidence>`.\nReport: the draft path, the number of sources fetched with status 200, and your overall verdict\non whether a whole-benchmark grader-vacuity triage at instrument level is novel."
+  },
+  {
+   "name": "C1ScoutTaskShapes",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C1ScoutTaskShapes (scout).\n# Item\nReconnaissance of the frozen population's shape (read-only; fetch into your scratch dir): for the\n89 tasks in `/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round52-tasks.json`, report how the score is actually decided \u2014\npytest `tests/test_outputs.py`, a shell `tests/test.sh`/`verify.sh`, both, or neither \u2014 and how\nmany tasks have a `task.toml` and an `instruction.md` at the pin. Use the GitHub tree API and raw\nfetches only; do not run any grader. Write `/fast/scratch/hyaku/kengaku-r52/C1ScoutTaskShapes/shapes.json`. Report: the\nhistogram of score-deciding mechanism, the count of tasks with a task.toml, and any task whose\nshape the frozen classifier's rules cannot speak to (that is a finding \u2014 name it)."
+  },
+  {
+   "name": "C1ScoutLaneHistory",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C1ScoutLaneHistory (scout).\n# Item\nReconnaissance of the lane's own history with this benchmark series (read-only): read\n`/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/tb2-*-grader.md` (12 entries), `/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/lessons/round-3*.md` and\n`round-4*.md`, and the `## Frontier` section of `/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/README.md`. Report what question\neach of the 12 hand-read graders answered, which frontier clauses the series has discharged and\nwhich are still open, and the exact wording of the still-open clauses a whole-benchmark triage\nwould close. Write `/fast/scratch/hyaku/kengaku-r52/C1ScoutLaneHistory/frontier-open.md`. Report: the open clauses\nverbatim (with file:line) and the per-round question list."
+  },
+  {
+   "name": "C1ConnectSiblings",
+   "role": "connector",
+   "axes": [
+    "novelty"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C1ConnectSiblings (connector).\n# Item\nSibling-overlap scan (read-only) for R52-C1: do any sibling lanes\n(`/home/vgpnk/Projects/shokunin/*-shokunin`) already own benchmark-grader auditing, task-validity\naudits, or a gate-registry standard? Read their PROVINCE.md, SCORECARD.md and\ncorpus/README.md (do not write to them). Report per sibling: what it owns, the exact file:line\nof the claim, and whether the round-52 work is (a) inside this lane's province, (b) contested\n(must be reported out, not absorbed), or (c) a duplicate of an existing sibling artifact. Name\nthe report-outs this lane should record in PROVINCE.md."
+  },
+  {
+   "name": "C2ConnectIndex",
+   "role": "connector",
+   "axes": [
+    "operability"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C2ConnectIndex (connector).\n# Item\nCorpus-index reconnaissance for both claims (read-only): which rows of\n`/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/README.md` must change when the round lands (a new knowledge entry, a new\nevidence dir `corpus/evidence/round52/`, a new lesson `corpus/lessons/round-52.md`, a new\ninstrument `plans/round52_c1_grader_audit.py` and `plans/round52_c2_registry.py`)? Check the index\nin BOTH directions: every row points at a file that exists, every new file gets a row. Also\nreport whether any existing row conflicts with the round's new artefacts. Report: the exact rows\nto add, the exact rows to touch, and any conflict."
+  },
+  {
+   "name": "C1RevClaimsFreeze",
+   "role": "reviewer",
+   "axes": [
+    "novelty"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C1RevClaimsFreeze (reviewer).\n# Item\nReview the FROZEN claims file `/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round-52-claims.md` against the round contract\n(PROTOCOL \u00a79 in `/home/vgpnk/Projects/kimi-shokunin/skills/shokunin/protocol/PROTOCOL.md`): are the\ntwo claims causally separable, is each after-state one concrete re-derivable value, is every\ncontrol able to fail, is the target one a do-nothing control cannot reach, and is any clause\nuniversal (\"all\", \"every\", \"complete\") without a command that enumerates the set? Attack the\nFREEZE: can the after-state be met without doing the claimed work (e.g. by writing a\nconfirmations.json by hand, or by writing 28 registry rows that say nothing true)? For each\nattack, say whether the frozen predicate would catch it, and if not, name the smallest amendment\nthat would \u2014 but do NOT amend anything (the L1 decides). Report: a per-claim verdict\n(sound | unsound + why) and the amendment list."
+  },
+  {
+   "name": "C1RevCounterRule",
+   "role": "reviewer",
+   "axes": [
+    "novelty"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C1RevCounterRule (reviewer).\n# Item\nAttack the FROZEN counter `/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round52_c1_grader_audit.py` for vacuous legs (this is the\ninstrument the novelty claim is measured with). For each leg (CAPTURES present/mismatched, TASKS\nclassified, CONFIRMED new, PRIOR-ART urls, LABELS agreement) ask: what input makes it pass\nwithout the claimed work? Probe the `classify()` rules on hand-written byte fixtures in your\nscratch dir: a file that exists-checks AND reads content; a file with 3 asserts and no markers; a\nshell-only task; a grader whose only marker is the string `subprocess` inside a comment. Report:\nper-leg verdict (vacuous | sound), the fixture you used, its expected and observed class, and any\nleg whose predicate should have been tighter."
+  },
+  {
+   "name": "C2RevCounterRule",
+   "role": "reviewer",
+   "axes": [
+    "operability"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C2RevCounterRule (reviewer).\n# Item\nAttack the FROZEN counter `/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round52_c2_registry.py` for vacuous legs. Build fixture\nlanes in your scratch dir: (a) a lane whose registry has 8-cell rows for every advertised script\nbut whose rows are all `x`; (b) a lane whose self-test cell names a script+flag that the script\ndoes not accept, spelled so the counter's \"exactly one script and one flag\" test does not fire;\n(c) a lane that advertises a script only in `LOG.md`; (d) a lane whose registry table is missing\nthe heading line. For each, report whether the counter's four legs would still pass. Report:\nper-leg verdict (vacuous | sound) and the smallest tightening that closes each hole \u2014 do not\namend the counter yourself."
+  },
+  {
+   "name": "C1CritTrustBoundary",
+   "role": "critic",
+   "axes": [
+    "novelty"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C1CritTrustBoundary (critic).\n# Item\nFalsify R52-C1's CONFIRMED leg. It trusts `corpus/evidence/round52/confirmations.json`\n(task, quote, reader, confirmed). Show, by construction in your scratch dir, at least TWO ways a\nround could satisfy `CONFIRMED new >= 2` without a real second reader having confirmed a real\nweakness (e.g. a self-written confirmation, a quote not present in the grader bytes, a reader id\nthat is the author). For each, state whether the frozen counter would accept it, and what the\nsmallest check is that would reject it. Report: your constructions, the counter's actual answer to\neach (run it), and your recommended hardening \u2014 the L1 decides, do not change the counter."
+  },
+  {
+   "name": "C2CritPadding",
+   "role": "critic",
+   "axes": [
+    "operability"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C2CritPadding (critic).\n# Item\nFalsify R52-C2: is the after-state reachable by padding? Build in your scratch dir a set of 28\nregistry rows that are syntactically complete (8 non-empty cells) but say nothing true (e.g. all\ncells `x`), and show what the frozen counter reports for that lane. Then ask the harder question:\nthe counter cannot judge whether a row is TRUE \u2014 so what measurable evidence must accompany the\nrows for the claim to be honest (a run receipt? a quote from the script? a digest?). Propose the\ncheapest measurable evidence the L1 can demand per row, and name the rows for which you cannot\npropose one. Report: the padding fixture's counter output, and your per-row evidence proposal."
+  },
+  {
+   "name": "C1CritRoundShape",
+   "role": "critic",
+   "axes": [
+    "novelty"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C1CritRoundShape (critic).\n# Item\nAttack the ROUND, not the code. Check the round contract in\n`/home/vgpnk/Projects/shokunin/.ufo/prompts/kengaku-round-52.md` \u00a71-\u00a75 against what this round\nwill land: (a) is the lowest-axis obligation met or properly waived (coverage 7 is capped by open\nL0 questions \u2014 verify they are still open in `/home/vgpnk/Projects/shokunin/.ufo/l0-questions.md`);\n(b) does the frontier step (\u00a72b) have a sourced claim and a mined mistake; (c) will the report\ncarry every required section; (d) is any claim actually a re-scoring of a rule the lane already\nholds. Report: per-item verdict (conformant | defect + the exact defect), with file:line\nevidence, and the missing items the L1 must still produce."
+  },
+  {
+   "name": "C1MutCounters",
+   "role": "mutation-tester",
+   "axes": [
+    "operability"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C1MutCounters (mutation-tester).\n# Item\nMutation-test the two FROZEN counters `/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round52_c1_grader_audit.py` and\n`/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round52_c2_registry.py` \u2014 WITHOUT editing the originals. Copy them into your scratch\ndir and mutate the copies: for C1 flip one marker regex, change one class boundary, drop the\n`mismatched` check, raise the CONFIRMED threshold to 0; for C2 drop one leg, widen the ADVERTISED\nregex to match everything, make MISSING count only scripts under `plans/`. For each mutant say\nwhich control in `/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round-52-claims.md` should kill it, then RUN that control against\nthe mutant and report whether it was actually killed (a mutant that survives is a defect in the\nfrozen predicate \u2014 report it as such; do not fix the counter). Report: a mutant table (mutant,\nexpected killer control, killed yes/no, observed output)."
+  },
+  {
+   "name": "C1ScoutAgreement",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C1ScoutAgreement (scout).\n# Item\nEMPIRICAL PROBE (read-only): does the frozen classification scheme actually separate the graders\ninto distinguishable classes? Pick 15 tasks deterministically from `/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round52-tasks.json`\n(every task whose sorted index is a multiple of 5, say which ones), fetch their primary grader\nbytes, read them, and assign a class per the frozen rules in the claims file \u00a7C1. Compare your\nlabels with the frozen counter's classes for those tasks (run the counter in a scratch clone with\nthe captures you fetched). Do NOT write any label file (you are read-only) \u2014 report the table:\ntask, your label, the counter's label, agree yes/no, and the byte evidence for every disagreement.\nReport: agreement count out of 15 and every disagreement with its evidence."
+  },
+  {
+   "name": "C1ScoutVacuity",
+   "role": "scout",
+   "axes": [
+    "novelty"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C1ScoutVacuity (scout).\n# Item\nEMPIRICAL PROBE (read-only): how many of the 89 graders can be satisfied by the mere presence of\nan artefact? Fetch every task's primary grader bytes into your scratch dir and count, per task,\nthe assert statements that reduce to existence checks (`exists(`, `is_file(`, `is_dir(`) and\nwhether the file contains ANY content read or behaviour marker. Report the distribution\n(how many tasks have zero content/behaviour markers = the presence-only population), the largest\nfive by number of asserts, and three tasks that look presence-only to you with the located line\nthat makes you say so. This is a probe, not the claim: a number here is evidence for the wave-2\nconfirmation seats, and a negative result is a valid result."
+  },
+  {
+   "name": "C2RevRowIntent",
+   "role": "revenger",
+   "axes": [
+    "operability"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C2RevRowIntent (revenger).\n# Item\nReverse-engineer the INTENT of the 28 unregistered instruments (read-only): for each, what did the\nround that built it claim it did? Read its docstring, the SCORECARD.md/LOG.md paragraph that\nnames it, and its round's lesson under `/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/lessons/`. Produce one line per instrument:\nwhat it is FOR, whether it is still live or superseded by a later counter, and the truthful\n`kind` (gate/probe) and owner for its registry row. Report the table and name every instrument\nthat looks superseded (a superseded instrument still needs a row saying so \u2014 the registry records\nhistory, it does not prune it)."
+  },
+  {
+   "name": "C1RevSeriesIntent",
+   "role": "revenger",
+   "axes": [
+    "novelty"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C1RevSeriesIntent (revenger).\n# Item\nReverse-engineer the intent of the lane's 12-round hand-reading series of TB2 graders (read-only):\nrounds 35-46 each read one task grader. What was the series trying to establish, what did it\nconclude, and what would a whole-benchmark triage have to preserve to keep that series's\nconclusions true? Look at `/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/tb2-*-grader.md`, the lessons of those rounds,\nand `/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/README.md`'s `## Frontier`. Report: the series' question, its running\nconclusion, the per-task weakness classes it found, and the specific property a triage must not\nlose (name it)."
+  },
+  {
+   "name": "C1RevCaptureProvenance",
+   "role": "reviewer",
+   "axes": [
+    "novelty"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C1RevCaptureProvenance (reviewer).\n# Item\nReview the CAPTURE provenance (read-only): the round captures 184 grader files from a pinned\nGitHub raw URL. Establish whether that procedure can yield wrong bytes, and what would detect it.\nRe-fetch FIVE deterministically chosen paths from the frozen population (every 30th path in sorted\norder) yourself into your scratch dir and compare their sha256 with what the frozen population's\ndigest pin says they should be (the pin is in the lane's own captures once they land; until then,\ncompare the two fetches byte-for-byte and report the pin the L1 must record). Check specifically\nfor: an HTML error page stored as a grader, an empty file, a redirect body, a rate-limit body, and\na path that exists at another pin but not this one. Report: the five paths with both digests, the\nfailure modes you could construct, and the minimal digest/format checks the L1 must add to the\ncapture manifest."
+  },
+  {
+   "name": "C1RevPriorArtProtocol",
+   "role": "reviewer",
+   "axes": [
+    "novelty"
+   ],
+   "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim \u2014 let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Target\nkengaku round 52 wave-1 seat C1RevPriorArtProtocol (reviewer).\n# Item\nReview the PRIOR-ART protocol this round must follow (read-only): read\n`/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/eval-prior-art-calibration.md` and `/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/attrib-prior-art-r21.md`\nand say what a compliant prior-art file for R52-C1 must contain: how many fetched primaries, what\ncounts as a fetched URL, how a \"phenomenon-new vs phenomenon-known\" verdict must be justified, and\nwhat a located quote is. Then apply that standard to the NOVELTY claim itself and state the\nacceptance checklist the L1 will use when the scout's prior-art file arrives (and what would make\nthe verdict `unclear`, which does not move the score). Report the checklist and the standard's\nsource lines."
+  }
+ ]
+}
