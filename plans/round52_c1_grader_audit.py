@@ -41,6 +41,16 @@ BEHAVIOUR = re.compile(
 TESTFN = re.compile(r"^\s*def\s+test_", re.M)
 URL = re.compile(r"https?://[^\s)\"'`]+")
 
+# --- Amendment A1 (2026-10-28, before the scored after-run; see plans/round-52-claims.md) --
+# The classification UNIT moves from the grader file to the grader's TEST FUNCTIONS.  Same
+# marker vocabulary, mechanical split; the file-level classes above are kept and printed too.
+TESTDEF = re.compile(r"^def\s+(test_\w+)\s*\(", re.M)
+VALUE = re.compile(r"(==|!=|<=|>=|[<>]|allclose|len\(|np\.|torch\.|\.keys\(\)|\bin\b)")
+BEHAV_T = re.compile(
+    r"(subprocess|os\.system|os\.popen|Popen|socket|requests|urllib|http\.client|docker|bwrap|curl "
+    r"|multiprocessing|mp\.|threading|dist\.)"
+)
+
 CLASS_ORDER = ("V1", "V4", "V2", "V3", "V0")
 
 
@@ -70,6 +80,36 @@ def classify(body: str) -> tuple[str, dict]:
     else:
         cls = "V0"
     return cls, feats
+
+
+def split_tests(body: str) -> list[tuple[str, str]]:
+    ms = list(TESTDEF.finditer(body))
+    out = []
+    for i, m in enumerate(ms):
+        end = ms[i + 1].start() if i + 1 < len(ms) else len(body)
+        out.append((m.group(1), body[m.start():end]))
+    return out
+
+
+def classify_test(block: str) -> str:
+    """A1 per-test class: P1 presence-only · P2 behavioural · P3 content/value · P0 other.
+
+    P1 = the block asserts and, once the presence calls are removed, compares nothing:
+    the test is satisfied by the mere presence of the artefact."""
+    if "assert" not in block:
+        return "P0"
+    stripped = PRESENCE.sub(" ", block)
+    if BEHAV_T.search(stripped):
+        return "P2"
+    if VALUE.search(stripped):
+        return "P3"
+    if PRESENCE.search(block):
+        return "P1"
+    return "P0"
+
+
+def classify_tests(body: str) -> list[dict]:
+    return [{"test": n, "class": classify_test(b)} for n, b in split_tests(body)]
 
 
 def primary_grader(files: list[str]) -> str | None:
@@ -123,6 +163,8 @@ def collect(lane: Path):
             mismatched += 1
         body = body_bytes.decode("utf-8", errors="replace")
         cls, feats = classify(body)
+        tests = classify_tests(body)
+        p1 = [t["test"] for t in tests if t["class"] == "P1"]
         records[task] = {
             "task": task,
             "grader": pg,
@@ -130,7 +172,10 @@ def collect(lane: Path):
             "bytes": len(body_bytes),
             "class": cls,
             "features": feats,
-            "candidate": cls in ("V1", "V4"),
+            "tests": tests,
+            "test_count": len(tests),
+            "presence_only_tests": p1,
+            "candidate": bool(p1) or cls in ("V1", "V4"),
         }
     classified = sum(1 for r in records.values() if "error" not in r)
     fields_complete = sum(
@@ -207,22 +252,38 @@ def verdict(lane: Path) -> int:
         return 2
     conf = confirmations(lane)
     read = lane_read_tasks(lane)
+    cap_root = lane / "corpus" / "evidence" / "round52" / "graders"
     conf_new = []
+    rejected = []
     for c in conf:
         if not isinstance(c, dict):
             continue
         t = c.get("task")
         if not t or t in read:
+            rejected.append((t, "not-a-new-task"))
             continue
-        if not c.get("quote") or not c.get("reader"):
+        rec = records.get(t)
+        if not rec or "error" in rec:
+            rejected.append((t, "no-instrument-record"))
             continue
-        if not c.get("confirmed"):
+        if not rec.get("candidate"):
+            rejected.append((t, "not-an-instrument-candidate"))
+            continue
+        quote = c.get("quote")
+        if not quote or not c.get("reader") or not c.get("confirmed"):
+            rejected.append((t, "incomplete-receipt"))
+            continue
+        grader = cap_root / str(rec.get("grader"))
+        if not grader.exists() or quote not in grader.read_text(errors="replace"):
+            rejected.append((t, "quote-not-in-captured-bytes"))
             continue
         conf_new.append(t)
     conf_new = sorted(set(conf_new))
     pa_ok, pa_urls = prior_art(lane)
     agree, total = labels_agreement(lane, records)
     tasks_total = pop["task_count"]
+    p1_tests = sum(len(r.get("presence_only_tests") or []) for r in records.values())
+    p1_tasks = sum(1 for r in records.values() if r.get("presence_only_tests"))
     ok = (
         present == expected
         and mismatched == 0
@@ -236,10 +297,17 @@ def verdict(lane: Path) -> int:
     print(f"CAPTURES expected={expected} present={present} mismatched={mismatched}")
     counts = {c: sum(1 for r in records.values() if r.get("class") == c) for c in CLASS_ORDER}
     print("CLASS " + " ".join(f"{c}={counts[c]}" for c in CLASS_ORDER))
+    print(f"TESTCLASS presence_only_tests={p1_tests} tasks_with_presence_only={p1_tasks}")
     print(f"CANDIDATES total={len(candidates)}")
     for t in candidates:
-        print(f"  CANDIDATE {t} class={records[t].get('class')} grader={records[t].get('grader')}")
+        print(
+            f"  CANDIDATE {t} class={records[t].get('class')} "
+            f"presence_only={','.join(records[t].get('presence_only_tests') or []) or '-'} "
+            f"grader={records[t].get('grader')}"
+        )
     print(f"CONFIRMED new={len(conf_new)} {conf_new}")
+    for t, why in rejected:
+        print(f"  REJECTED {t} {why}")
     print(f"PRIOR-ART ok={pa_ok} urls={pa_urls}")
     print(f"LABELS agree={agree} of {total}")
     print(f"PREDICATE R52-C1 {'pass' if ok else 'fail'}")
@@ -261,6 +329,20 @@ def selftest(lane: Path) -> int:
             print(f"SELFTEST FAIL classify({want}) -> {got}")
             fails += 1
     print(f"SELFTEST classify cases={len(cases)} failures={fails}")
+    tcases = [
+        ("def test_p():\n    assert out.exists()\n", "P1"),
+        ("def test_p():\n    assert out.exists()\n    assert out.read_text() == 'x'\n", "P3"),
+        ("def test_p():\n    import subprocess\n    subprocess.run(['ls'])\n    assert out.exists()\n", "P2"),
+        ("def test_p():\n    assert True\n", "P0"),
+    ]
+    tfails = 0
+    for block, want in tcases:
+        got = classify_test(block)
+        if got != want:
+            print(f"SELFTEST FAIL classify_test({want}) -> {got}")
+            tfails += 1
+    print(f"SELFTEST classify_test cases={len(tcases)} failures={tfails}")
+    fails += tfails
     with tempfile.TemporaryDirectory() as td:
         t = Path(td)
         if prior_art(t)[0]:

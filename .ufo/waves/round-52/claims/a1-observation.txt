@@ -1,0 +1,36 @@
+A1 OBSERVATION RECEIPT — kengaku round 52, L1 KengakuR52a3, 2026-10-28 (post-freeze, pre-after-run)
+
+WHY THIS RECEIPT EXISTS
+Amendment A1 (plans/round-52-claims.md) was written after the L1 had seen the population's
+marker statistics.  This file records exactly what the L1 saw, so the amendment is disclosed
+rather than silent.
+
+WHAT THE L1 DID
+1. Hand-read three grader files at pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6
+   (harbor-framework/terminal-bench-2):
+     bn-fit-modify/tests/test_outputs.py               sha256 364069f893e336a0...  5892 B
+     pytorch-model-recovery/tests/test_outputs.py       sha256 (fetched 2026-10-28)   9249 B
+     torch-tensor-parallelism/tests/test_outputs.py    sha256 (fetched 2026-10-28)
+   plus build-pmars/tests/test_outputs.py (already read by the lane in round 38).
+2. Fetched all 89 primary graders of the frozen population and applied the FROZEN file-level
+   marker rules to each, to see how the frozen rule behaves on the population.
+
+WHAT THE L1 SAW (frozen file-level rules)
+  CLASS V1=2  V2=53  V3=32  V4=0  V0=2
+  the two V1 tasks are pytorch-model-recovery and torch-tensor-parallelism — both of which
+  compare tensors IN MEMORY (torch.allclose, set(keys()) == set(keys())) and therefore carry
+  no content or behaviour marker.  The file-level label "V1 = can be satisfied by the mere
+  presence of an artefact" is FALSE of those graders as a whole.
+  Per test function (the A1 unit): 308 test functions across the 89 graders, of which
+  54 are presence-only (P1) and 42 of the 89 tasks carry at least one.
+  The L1 confirmed by hand, in two never-read tasks:
+    pytorch-model-recovery      test_model_file_exists        -> assert hello_path.exists()
+    torch-tensor-parallelism   test_parallel_linear_exists  -> assert parallel_linear_path.exists()
+  and in one never-read task:
+    bn-fit-modify              test_bn_sample_exists         -> assert bn_sample_path.exists()
+
+WHAT THIS DOES NOT CHANGE
+  The claim's target (CONFIRMED >= 2), the population, the pin, the capture digest requirement,
+  the prior-art leg, the controls and the kill rules are unchanged.  The numbers in this
+  receipt are the L1's post-freeze observation, not the claim's output; the claim's output is
+  the counter's after-run at the landing revision.

@@ -198,3 +198,53 @@ Two v1 waves (policy v1, band 32–64), total **64 seats**: wave 1 *build* (32) 
 canonical §3 planner seat is held by the L1 (the wave validator rejects `planner` as a swarm
 role — orchestrator ruling 2026-10-19); a bounded planning data-walk rides a scout/connector
 item instead, and that mapping is recorded in the report.
+
+## Amendment A1 — 2026-10-28, before the scored after-run (disclosed)
+
+**What happened.** After the freeze commit (`1315234`) and after wave 1 was dispatched, the L1
+hand-read three grader files to test the frozen classification rules — `bn-fit-modify`,
+`pytorch-model-recovery` and `torch-tensor-parallelism` (`tests/test_outputs.py` at the pin) —
+and then fetched all 89 graders to measure how the frozen rules behave on the population. The
+frozen **file-level** class misdescribed two of them: `pytorch-model-recovery` and
+`torch-tensor-parallelism` contain no content or behaviour marker (their comparisons are
+in-memory tensor comparisons: `torch.allclose`, `set(...keys()) == set(...keys())`), so the
+file-level rule labelled them `V1` ("can be satisfied by the mere presence of an artefact"),
+which is **false** of those graders as a whole. The weakness the L1 could confirm by hand in
+both files is **per test function**: `test_model_file_exists` and `test_parallel_linear_exists`
+assert only artefact presence, while the surrounding tests of the same grader compare tensors.
+
+**What changes (and what does not).**
+
+- **Changed:** the classification *unit* moves from the grader file to the grader's **test
+  functions**. Same marker vocabulary, mechanical split at `^def test_<name>(`. Per-test classes
+  `P1` presence-only (the block asserts and, once the presence calls are removed, compares
+  nothing) · `P2` behavioural · `P3` content/value · `P0` other. A task is a **vacuity
+  candidate** when ≥1 of its tests is `P1`. The file-level classes `V1..V0` are kept and still
+  printed, so the before-state stays re-derivable.
+- **Changed (stricter, never weaker):** the `CONFIRMED` leg now requires, in addition to the
+  frozen conditions (never read by the lane before this round, a named reader, `confirmed`), that
+  (i) the task has an instrument record and is a **vacuity candidate**, and (ii) the located
+  **quote appears verbatim in the captured grader bytes**. Both checks can only fail more; the
+  counter prints every rejection with its reason.
+- **Unchanged:** the population (89 tasks, 184 capture files), the pin, the capture digest
+  requirement, the `CONFIRMED ≥ 2` threshold, the `PRIOR-ART ≥ 3 fetched URLs` leg, the control
+  set, the kill rules, and the claim's axis and score rule.
+
+**Disclosure (the amendment was written after the L1 had seen the population's marker
+statistics).** The L1's own scan of all 89 graders measured 54 presence-only test functions
+across 42 tasks — that measurement is the L1's post-freeze observation and is **not** the
+claim's output; the claim's output is the counter's after-run at the landing revision. The
+amendment does not change any threshold or target: `CONFIRMED ≥ 2` stays as frozen even though
+the candidate pool is far larger, and no axis score was re-set in light of the observation. The
+amended rule set was **not** tuned to enlarge the pool — it is the mechanical per-test split of
+the frozen marker vocabulary, and the per-test rule was already implied by the lane's own
+hand-read series (round 38's `build-pmars` entry records a canned 21-line C program passing on
+presence-level checks). Wave 2's reviewer and critic seats — which did not read the graders —
+must attack this amendment: whether a presence-only test that also compares something is
+misclassified, whether the split is applied consistently, and whether the two hardened checks
+close the holes the wave-1 critic names.
+
+**Effect on the frozen claim.** The after-state leg 3 now reads: at least two tasks never read by
+this lane before this round are **vacuity candidates** (≥1 `P1` test) **and** each carries an
+independent second reader's confirmation whose located quote appears verbatim in the captured
+grader bytes.
