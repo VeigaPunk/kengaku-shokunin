@@ -2132,3 +2132,37 @@ while its cap question is open. Full predicates, controls, kill rules, stages an
 |---|---|---|---|
 | R50-C1 honest-geometry instrument landed and the fixture fence repaired under it | novelty 7→8 | `python3 plans/round50_c1_verify.py --lane .` at `71f5f5f`: `HONEST fixtures=126 admitted=113 refused=13`, no committed counter produced that number before this round | `HONEST admitted=126 refused=0`, `REFUSALS 20/20`, `SEALED <S>/<S>` (≥18), `MUTANTS caught≥12`, `PREDICATE R50-C1 pass`, exit 0 |
 | R50-C2 every artifact pointer in the self-assessment files resolves | calibration 8→9 | `python3 plans/round50_c2_audit.py --lane .` at `71f5f5f`: `POINTERS total=271 … unresolved=12` | `POINTERS … unresolved=0`, exit 0 |
+
+## Round 50 — C2 corrections
+
+Append-only (PROTOCOL.md: corrections are new text, never a rewrite). The counting command is
+`python3 plans/round50_c2_audit.py --lane .`; the rule and the before measurement (`POINTERS total=275 …
+unresolved=12`) are frozen in `plans/round-50-claims.md` §C2. Each row below resolves one pointer that the
+self-assessment files still carry and that does not resolve at the tip. `never-landed` is used only where
+`git log --all --oneline -- <pointer>` is empty: the path was named in a row before it existed and never entered
+the lane's history.
+
+SUPERSEDED corpus/defects.json -> corpus/defects.jsonl
+SUPERSEDED corpus/evidence/analyze.py -> never-landed
+SUPERSEDED corpus/evidence/round9-replication/predictions-r9.sh -> corpus/evidence/round9-replication/predictions-r9.md
+SUPERSEDED corpus/knowledge/repo-git-state.md -> never-landed
+SUPERSEDED corpus/routed-findings.json -> corpus/routed-findings.jsonl
+SUPERSEDED plans/round34_c1_verify.py -> never-landed
+SUPERSEDED plans/round34_defects.py -> never-landed
+SUPERSEDED plans/round34_mutate.py -> never-landed
+SUPERSEDED plans/round48_c1_verify.py -> never-landed
+SUPERSEDED plans/round48_c2_verify.py -> never-landed
+SUPERSEDED plans/round49_c1_verify.py -> never-landed
+SUPERSEDED plans/round49_c2_verify.py -> never-landed
+
+Reasons, one line per pointer (evidence command in each): `corpus/defects.json` — the round-35 ledger landed as
+`defects.jsonl` (SCORECARD:1420 cites `corpus/defects.jsonl`; `git log --all -- corpus/defects.json` empty).
+`corpus/evidence/analyze.py` — SCORECARD:113 itself records `test -e` → absent; it is the documented absence of
+an analyzer that was replaced by `corpus/evidence/round9-fleet/probeA.py`. `predictions-r9.sh` — the round-9
+prediction guard is `predictions-r9.sha256.repo`, re-checked at SCORECARD:97; the `.sh` name never existed.
+`corpus/knowledge/repo-git-state.md` — PROVINCE:415 cites **Kasegi's** entry of that name; this lane never held a
+copy. `corpus/routed-findings.json` — the ledger landed as `routed-findings.jsonl` (same directory, one row per
+defect). The four `plans/round34_*` and four `plans/round48_*`/`round49_*` counters — each row's "counting
+command" cell named a counter that was never committed (round 34, 48 and 49 all closed as honest stops); the
+round-50 counters `plans/round50_c1_verify.py` and `plans/round50_c2_audit.py` are the lane's first committed
+counters for those claims, and no earlier row's number is re-derived from them.
