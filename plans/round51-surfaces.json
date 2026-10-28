@@ -1,0 +1,287 @@
+{
+  "version": 1,
+  "round": 51,
+  "anchor_file": "PROVINCE.md",
+  "sections": [
+    "## Surfaces",
+    "### Core"
+  ],
+  "resolve_floor": 13,
+  "note": "One entry per table row in PROVINCE.md sections listed in `sections`. `state` is the truthful probed state recorded by the round; `prose` is this lane's recorded reading of what the row asserts about the probed target (present | absent): `present` means the row asserts the target resolves. The counter (plans/round51_surfaces.py) fails when prose != state (the row must be corrected), when the probe disagrees with `state` (stale manifest), when an absent entry's row carries no dated ABSENT marker, when a count_claim disagrees with the probed count, and when the number of resolved surfaces falls below resolve_floor. `prose` values are audited row by row by wave seats; the reading is recorded, not inferred.",
+  "surfaces": [
+    {
+      "id": "SF01",
+      "section": "## Surfaces",
+      "anchor": "| Research notes (SSOT for eval craft) |",
+      "state": "absent",
+      "prose": "present",
+      "probe": {
+        "kind": "paths",
+        "targets": [
+          "~/Projects/webzites/repos/llm-wiki"
+        ]
+      },
+      "why": "the row's first path cell asserts the wiki tree resolves; round-15/25 rows already mark the older ~/wikillm path absent"
+    },
+    {
+      "id": "SF02",
+      "section": "## Surfaces",
+      "anchor": "`~/archive/bench-arena/` \u2014 relocated intact",
+      "state": "absent",
+      "prose": "present",
+      "probe": {
+        "kind": "paths",
+        "targets": [
+          "~/archive/bench-arena"
+        ]
+      },
+      "why": "the row asserts the relocated battery resolves at the archive path"
+    },
+    {
+      "id": "SF03",
+      "section": "## Surfaces",
+      "anchor": "`http://127.0.0.1:34113` \u2014 `/v1/models`",
+      "state": "absent",
+      "prose": "present",
+      "probe": {
+        "kind": "http",
+        "urls": [
+          "http://127.0.0.1:34113/health"
+        ]
+      },
+      "why": "the row declares a live served model endpoint"
+    },
+    {
+      "id": "SF04",
+      "section": "## Surfaces",
+      "anchor": "`~/Projects/bounties/ledger/telemetry.jsonl` \u2014 **ABSENT**",
+      "state": "absent",
+      "prose": "absent",
+      "probe": {
+        "kind": "paths",
+        "targets": [
+          "~/Projects/bounties/ledger/telemetry.jsonl"
+        ]
+      },
+      "why": "row already declares ABSENT but carries only a round number, not an ISO re-verification date"
+    },
+    {
+      "id": "SF05",
+      "section": "## Surfaces",
+      "anchor": "`~/.bailian/telemetry.jsonl`, `~/.bailian/wiki-sync-state.json`",
+      "state": "absent",
+      "prose": "absent",
+      "probe": {
+        "kind": "paths",
+        "targets": [
+          "~/.bailian/telemetry.jsonl"
+        ]
+      },
+      "why": "row marks the client CLI telemetry ABSENT 2026-10-20"
+    },
+    {
+      "id": "SF06",
+      "section": "## Surfaces",
+      "anchor": "`~/.bailian/skills/bailian-docs-llm-wiki/models/{index.md,models.jsonl}`",
+      "state": "absent",
+      "prose": "absent",
+      "probe": {
+        "kind": "paths",
+        "targets": [
+          "~/.bailian/skills/bailian-docs-llm-wiki/models/index.md"
+        ]
+      },
+      "why": "row marks the local model catalog ABSENT 2026-10-20"
+    },
+    {
+      "id": "SF07",
+      "section": "## Surfaces",
+      "anchor": "`corpus/evidence/round8-horizon/`, `round9-replication/`",
+      "state": "present",
+      "prose": "present",
+      "probe": {
+        "kind": "paths",
+        "targets": [
+          "corpus/evidence/round8-horizon",
+          "corpus/evidence/round9-replication",
+          "corpus/evidence/round12-ladder",
+          "corpus/evidence/round14-fleet",
+          "corpus/evidence/round13-coverage"
+        ]
+      },
+      "why": "own probe artifact trees are in-repo"
+    },
+    {
+      "id": "SF08",
+      "section": "## Surfaces",
+      "anchor": "| In-repo gate | `grader.py` (repo root;",
+      "state": "present",
+      "prose": "present",
+      "probe": {
+        "kind": "paths",
+        "targets": [
+          "grader.py"
+        ]
+      },
+      "why": "in-repo gate file"
+    },
+    {
+      "id": "SF09",
+      "section": "## Surfaces",
+      "anchor": "| Public literature | arXiv / ACL Anthology",
+      "state": "present",
+      "prose": "present",
+      "probe": {
+        "kind": "paths",
+        "targets": [
+          "corpus/knowledge/eval-prior-art-calibration.md"
+        ]
+      },
+      "why": "the row's anchor is a citation file in the lane"
+    },
+    {
+      "id": "SF10",
+      "section": "### Core",
+      "anchor": "| In-repo verdict gate | `test -e grader.py && sha256sum grader.py`",
+      "state": "present",
+      "prose": "present",
+      "probe": {
+        "kind": "sha256",
+        "target": "grader.py",
+        "pin": "90c87c88"
+      },
+      "why": "Core row pins the gate digest"
+    },
+    {
+      "id": "SF11",
+      "section": "### Core",
+      "anchor": "| Own probe artifacts | `for d in round8-horizon ",
+      "state": "present",
+      "prose": "present",
+      "probe": {
+        "kind": "paths",
+        "targets": [
+          "corpus/evidence/round9-fleet",
+          "corpus/evidence/round10-fleet",
+          "corpus/evidence/round11-power",
+          "corpus/evidence/round11-fleet",
+          "corpus/evidence/round12-fleet",
+          "corpus/evidence/round13-ack-state",
+          "corpus/evidence/round18-kimi-routing"
+        ]
+      },
+      "why": "the Core row's loop names twelve evidence dirs"
+    },
+    {
+      "id": "SF12",
+      "section": "### Core",
+      "anchor": "| Attribution instrument + frozen tables | `test -e plans/attrib_probe.py ",
+      "state": "present",
+      "prose": "present",
+      "probe": {
+        "kind": "sha256",
+        "target": "plans/attrib_probe.py",
+        "pin": "489f938a"
+      },
+      "why": "Core row pins the attribution probe digest (documented to float between trials)"
+    },
+    {
+      "id": "SF13",
+      "section": "### Core",
+      "anchor": "| Corpus gate docs | `test -e corpus/QUALITY.md`",
+      "state": "present",
+      "prose": "present",
+      "probe": {
+        "kind": "paths",
+        "targets": [
+          "corpus/QUALITY.md"
+        ]
+      },
+      "why": "admission bar file"
+    },
+    {
+      "id": "SF14",
+      "section": "### Core",
+      "anchor": "| Public-literature registry | `test -e corpus/SOURCES.md`",
+      "state": "present",
+      "prose": "present",
+      "probe": {
+        "kind": "count",
+        "target": "corpus/SOURCES.md",
+        "pattern": "^\\|\\s*S[0-9]{3,}\\s*\\|",
+        "label": "SOURCES rows"
+      },
+      "count_claim": 25,
+      "why": "Core row states the registry holds 25 rows"
+    },
+    {
+      "id": "SF15",
+      "section": "### Core",
+      "anchor": "| ds-flash-shim source (read-only) | `sha256sum ~/.local/share/ds-flash-shim/shim.py`",
+      "state": "present",
+      "prose": "present",
+      "probe": {
+        "kind": "sha256",
+        "target": "~/.local/share/ds-flash-shim/shim.py",
+        "pin": "42d86d99"
+      },
+      "why": "Core row pins the read-only shim digest"
+    },
+    {
+      "id": "SF16",
+      "section": "### Core",
+      "anchor": "| Live probe endpoint | `ss -ltn 'sport = :8791'`",
+      "state": "present",
+      "prose": "present",
+      "probe": {
+        "kind": "port",
+        "host": "127.0.0.1",
+        "port": 8791
+      },
+      "why": "Core row asserts a LISTEN socket"
+    },
+    {
+      "id": "SF17",
+      "section": "### Core",
+      "anchor": "| Public literature | URLs cited in `knowledge/eval-prior-art-calibration.md`",
+      "state": "present",
+      "prose": "present",
+      "probe": {
+        "kind": "paths",
+        "targets": [
+          "corpus/knowledge/eval-prior-art-calibration.md",
+          "corpus/knowledge/attrib-prior-art-r21.md"
+        ]
+      },
+      "why": "citation-only row; its in-repo anchors are the two knowledge files it names"
+    },
+    {
+      "id": "SF18",
+      "section": "### Core",
+      "anchor": "| Interval re-verdict instrument (round 25) | `python3 plans/attrib_calibration.py --summary`",
+      "state": "present",
+      "prose": "present",
+      "probe": {
+        "kind": "paths",
+        "targets": [
+          "plans/attrib_calibration.py"
+        ]
+      },
+      "why": "instrument exists in-repo"
+    },
+    {
+      "id": "SF19",
+      "section": "### Core",
+      "anchor": "| State-assertion check (round 25) | `python3 plans/state_check.py --summary`",
+      "state": "present",
+      "prose": "present",
+      "probe": {
+        "kind": "paths",
+        "targets": [
+          "plans/state_check.py"
+        ]
+      },
+      "why": "instrument exists in-repo"
+    }
+  ]
+}
