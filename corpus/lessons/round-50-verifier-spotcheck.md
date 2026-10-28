@@ -233,3 +233,13 @@ Routed-list consequences:
 Axis, trend and admission verdicts are unchanged: novelty **improved**, calibration
 **improved**, other axes unchanged; expansion/quality/discernment **improved**;
 **admitted**.
+
+## Closure tip (supersedes the rounds-tip line in the addendum above)
+
+The lane's own commits for round 50, in order: `d45c5bb` (the report's cited tip) →
+`3dda12f` → `64f51c8` → `61f6257` → **`85102cf`** (receipt re-run on the frozen hardened
+counter, `REV 61f6257…`, `corpus/evidence/round50/c1-receipt.txt` rewritten a second time,
+lesson note appended; no `LOG.md` line). `master` also carries this closure's spot-check
+commits `d52243a` and `8acd0f8`. The MANIFEST entry cites the lane HEAD at `closed_at`.
+The counter re-run at the tip (`SEALED 12/12 + 20/20`, `PREDICATE R50-C1 pass`, C2
+`unresolved=0`) stands, so the claim and trend verdicts above are unchanged.
