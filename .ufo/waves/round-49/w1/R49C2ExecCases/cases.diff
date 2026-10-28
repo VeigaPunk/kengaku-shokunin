@@ -1,0 +1,36 @@
+diff --git i/plans/polyglot_c_py_probe.py w/plans/polyglot_c_py_probe.py
+index f384711..b5a28f2 100755
+--- i/plans/polyglot_c_py_probe.py
++++ w/plans/polyglot_c_py_probe.py
+@@ -48,8 +48,10 @@ not see (a lookup table satisfies the graded fixed points without computing Fibo
+ 
+ Limits, stated before the first run: host gcc and host python3 stand in for the image's gcc 13.2.0 / python 3.12.3
+ (named divergence: this host runs a newer gcc, which warns where the image's would; warnings do not decide the
+-verdict); the task image is never pulled and its `apt install gcc` is not replayed (the sandbox binds host /usr; gcc
+-and python3 are checked before any case); pytest is not run; recipes run as the probing user, not root; no network;
++verdict, but the newer gcc's C23 default dialect does decide `toolchain-c23-bool` - its predicted verdict is this
++host's, and under gcc 13.2.0's gnu17 default it is the opposite); the task image is never pulled and its
++`apt install gcc` is not replayed (the sandbox binds host /usr; gcc and python3 are checked before any case);
++pytest is not run; recipes run as the probing user, not root; no network;
+ `tests/test.sh`'s uv/pytest bootstrap is not replayed. `--stage-check`'s `pycheck` is `compile()` of the file text
+ (parse only, nothing executed) and `ccheck` is `gcc -fsyntax-only` (parse only, no link, no run) - so `empty-file`'s
+ link failure and every run-time outcome stay predictions read off the source, not observations. Deterministic
+@@ -287,6 +289,18 @@ int main(int argc, char **argv) {
+          "strip() trims only the ends, so the compared string is two lines and no case fires the equality",
+          recipe=emit(poly(py='print(fib(_k))\nprint("decoy")',
+                           c='    printf("%llu\\n", a);\n    puts("decoy");'))),
++    Case("both-print-c-silent", "F", "F", ("both-print",),
++         "a valid polyglot whose python3 side prints the right value for every graded N while its C side compiles, "
++         "returns 0 and writes nothing to stdout (the printf is replaced by a discarded-value statement): "
++         "instruction.md:7 requires both runtimes to print, and the grader fails on the empty C stdout even though "
++         "the python3 run matched - the C side's silence is the violation, which no earlier case made observable",
++         recipe=emit(poly(c="    (void)a;  /* C side: no printf, nothing on stdout */"))),
++    Case("toolchain-c23-bool", "P", "F", ("toolchain",),
++         "a correct polyglot whose C side declares `bool emit = true;` without #include <stdbool.h>: C23 makes bool "
++         "a keyword, so this host's gcc default (-std=gnu23) compiles it and it prints the right value, while the "
++         "image's gcc 13.2.0 default (-std=gnu17) rejects the type as an unknown name - the verdict turns on a "
++         "toolchain the instruction fixes at gcc 13.2.0 / python 3.12.3 and the grader never checks",
++         recipe=emit(poly(c='    bool emit = true;\n    if (emit) {\n        printf("%llu\\n", a);\n    }'))),
+ ]
+ 
+ HARNESS_PY = r'''

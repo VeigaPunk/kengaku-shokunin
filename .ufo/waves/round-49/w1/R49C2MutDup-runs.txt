@@ -1,0 +1,59 @@
+# R49C2MutDup raw run transcripts (clone at 9d2900af41e4d1fc6022eff99010436fde6dbd93)
+
+== clone HEAD (final) ==
+9d2900af41e4d1fc6022eff99010436fde6dbd93
+(status-end)
+
+== dry table pristine sha256 ==
+99adfea6bd404b469a58a7fe8a6f44a3cc0a5b035fc589d1f5a4e58cb9489536  /fast/scratch/hyaku/kengaku-r49/R49C2MutDup/clone/corpus/evidence/round46/polyglot-c-py-dry-cases-freeze.txt
+
+== out-pristine.txt ==
+V3 ok rows=7 bad=0
+V4 ok cases=18 mismatches_named=0/0 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+V7 DEFECT rows=5 tags=7 bad=["unparsed row '| instruction.md:7 | both-print | not exercised | '", "unparsed row '| instruction.md:9 | toolchain | not exercised | n'", "tags missing=['both-print', 'toolchain'] duplicated=0"]
+V9 ok case_rows=18/18 bad=0
+V10 ok mechanism_rows=18/18 bad=0
+checks=6 defects=1
+PREDICATE C3 fail
+
+== out-m1-remove.txt ==
+V3 ok rows=7 bad=0
+V4 DEFECT cases=18 mismatches_named=0/0 bad=['case ids differ from the frozen table', 'summary disagrees with the CASE lines']
+V5 DEFECT probe or dry table not at its freeze digest
+V7 DEFECT rows=5 tags=7 bad=["unparsed row '| instruction.md:7 | both-print | not exercised | '", "unparsed row '| instruction.md:9 | toolchain | not exercised | n'", "tags missing=['both-print', 'toolchain'] duplicated=0"]
+V9 ok case_rows=18/18 bad=0
+V10 DEFECT DECISIVE keys differ from the frozen case ids (stage-2 pin not aligned)
+checks=6 defects=4
+PREDICATE C3 fail
+
+== out-restored-1.txt ==
+V3 ok rows=7 bad=0
+V4 ok cases=18 mismatches_named=0/0 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+V7 DEFECT rows=5 tags=7 bad=["unparsed row '| instruction.md:7 | both-print | not exercised | '", "unparsed row '| instruction.md:9 | toolchain | not exercised | n'", "tags missing=['both-print', 'toolchain'] duplicated=0"]
+V9 ok case_rows=18/18 bad=0
+V10 ok mechanism_rows=18/18 bad=0
+checks=6 defects=1
+PREDICATE C3 fail
+
+== out-m2-duplicate.txt ==
+V3 ok rows=7 bad=0
+V4 DEFECT cases=18 mismatches_named=0/0 bad=['case ids differ from the frozen table', 'summary disagrees with the CASE lines']
+V5 DEFECT probe or dry table not at its freeze digest
+V7 DEFECT rows=5 tags=7 bad=["unparsed row '| instruction.md:7 | both-print | not exercised | '", "unparsed row '| instruction.md:9 | toolchain | not exercised | n'", "tags missing=['both-print', 'toolchain'] duplicated=0"]
+V9 ok case_rows=18/18 bad=0
+V10 DEFECT DECISIVE keys differ from the frozen case ids (stage-2 pin not aligned)
+checks=6 defects=4
+PREDICATE C3 fail
+
+== out-restored-2.txt ==
+V3 ok rows=7 bad=0
+V4 ok cases=18 mismatches_named=0/0 bad=0
+V5 ok probe=frozen dry_byte_equal=True
+V7 DEFECT rows=5 tags=7 bad=["unparsed row '| instruction.md:7 | both-print | not exercised | '", "unparsed row '| instruction.md:9 | toolchain | not exercised | n'", "tags missing=['both-print', 'toolchain'] duplicated=0"]
+V9 ok case_rows=18/18 bad=0
+V10 ok mechanism_rows=18/18 bad=0
+checks=6 defects=1
+PREDICATE C3 fail
+

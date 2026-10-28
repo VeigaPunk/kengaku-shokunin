@@ -1527,3 +1527,14 @@ in `plans/round-48-claims.md` (stage 1 `a543d92083557dd9b33ee674e9b99b03411f80af
   mined but stays open.
 
 No score moved; no capability was entered; no axis harm was observed in committed lane files. No claim is admitted.
+
+## Round 49 (hyaku run 10, 2026-10-28) — C1/C2 stage-1 freezes and attack wave; neither claim admitted
+
+L1 `KengakuR49`. Stage-1 claims freeze `plans/round-49-claims.md` at `9d2900af41e4d1fc6022eff99010436fde6dbd93`; one v2 wave, 64 seats, 40 attack roles, WAVE-DONE for all 64, dispatch evidence `.ufo/waves/round-49/w1-{spec,dispatch,results}.json`. Round-49 lesson `corpus/lessons/round-49.md` records the claims, the mined mistakes, the Gate rows and the honest stop.
+
+- **R49-C1 calibration:** base fence on r48 120-fixture population `HONEST fixtures=120 admitted=112 refused=8`; fence A candidate `120/120` honest admissions and `20/20` refusals + `12/12` sealed in the r48 120-fixture development harness (`w1/R49C1ExecFenceA.md`). The new 124-fixture honest population is reproducible (three matching population hashes; `w1/R49C1ExecHonest.md`) but was not measured against the candidate. The v3 counter candidate `w1/R49C1ExecCounter/candidate.py` implements a MUTANTS leg and its selftests, but no counter/fence/pins landed in a stage-2 commit and no landing-tip predicate run occurred. **Not admitted; calibration 8→8 held.**
+- **R49-C2 coverage:** amended 20-case dry table has both `both-print` and `toolchain` violations (`w1/R49C2ExecCases/`); hardened probe v2 passes `--stage-check` 18/18 and demonstrates grade-path seed+recipe with a stub (`w1/R49C2ExecProbe.md`). The v4 counter candidate tests V7/V8/V14/V15 paths, but its scratch stage-2/3 fixture uses r46 stand-ins and still reports V7 defect; the real amendment, controls, spec, entry map, counter and fresh stage-3 receipt were not integrated or scored. **Not admitted; coverage 7→7 held** (L0 cap `kengaku | round-33`).
+- **Frontier:** start census `scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku` → 165 rows, tier A=141/B=22/C=2, status mined=149/queued=8/rejected=8, `kengaku ok`, exit 0. No SOURCE row was changed. S166 re-opened and byte-matched at the pinned URL; Gate candidate S166 accept + tbench.ai hub lead reject is recorded in round-49 lesson. Census end result is recorded in the round report.
+- **Mistakes:** stage-3 receipt-order dependency and the expanded 124-fixture denominator are captured in `corpus/lessons/round-49.md` under `## Mistakes`.
+
+No score moved, no capability entered and no axis harm was observed in committed lane state. No tools installed; no pacman transaction attempted.

@@ -1,0 +1,42 @@
+$ gcc -fsyntax-only toolchain-c23-bool.py.c   # host default dialect: __STDC_VERSION__ 202311L (C23)
+toolchain-c23-bool.py.c:27:18: warning: missing terminating " character
+   27 | #define pgtail """
+      |                  ^
+rc=0
+
+$ gcc -std=gnu17 -fsyntax-only toolchain-c23-bool.py.c   # gcc 13.2.0 default dialect: __STDC_VERSION__ 201710L
+toolchain-c23-bool.py.c: In function ‘main’:
+toolchain-c23-bool.py.c:21:5: error: unknown type name ‘bool’
+   21 |     bool emit = true;
+      |     ^~~~
+toolchain-c23-bool.py.c:16:1: note: ‘bool’ is defined in header ‘<stdbool.h>’; this is probably fixable by adding ‘#include <stdbool.h>’
+   15 | #include <stdlib.h>
+  +++ |+#include <stdbool.h>
+   16 | 
+toolchain-c23-bool.py.c:21:17: error: ‘true’ undeclared (first use in this function)
+   21 |     bool emit = true;
+      |                 ^~~~
+toolchain-c23-bool.py.c:21:17: note: ‘true’ is defined in header ‘<stdbool.h>’; this is probably fixable by adding ‘#include <stdbool.h>’
+toolchain-c23-bool.py.c:21:17: note: each undeclared identifier is reported only once for each function it appears in
+toolchain-c23-bool.py.c: At top level:
+toolchain-c23-bool.py.c:27:18: warning: missing terminating " character
+   27 | #define pgtail """
+      |                  ^
+rc=1
+
+$ gcc -std=gnu17 -fsyntax-only control-plain.py.c   # plain correct polyglot, same dialect
+control-plain.py.c:24:18: warning: missing terminating " character
+   24 | #define pgtail """
+      |                  ^
+rc=0
+
+$ gcc -std=gnu17 -fsyntax-only both-print-c-silent.py.c   # the other new case, same dialect
+both-print-c-silent.py.c:24:18: warning: missing terminating " character
+   24 | #define pgtail """
+      |                  ^
+rc=0
+
+$ gcc -dM -E - </dev/null | grep __STDC_VERSION__
+#define __STDC_VERSION__ 202311L
+$ gcc -std=gnu17 -dM -E - </dev/null | grep __STDC_VERSION__
+#define __STDC_VERSION__ 201710L

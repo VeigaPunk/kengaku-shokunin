@@ -1,0 +1,200 @@
+{
+ "claim": "R49-C2",
+ "count": 23,
+ "mut_n": 23,
+ "mut_floor": 12,
+ "floor": "fewer than <N>/2 caught -> MUTATION DEFECT; measured caught is reported per mutant below",
+ "provenance": {
+  "authored_by": "seat R49C2ExecMutBattery (round 49, wave 1)",
+  "frozen_base": "9d2900af41e4d1fc6022eff99010436fde6dbd93",
+  "payloads_derived_from": "committed round-46 package bytes at the frozen base; the spec payload is derived from plans/pkg-spec-r46.json projected only by repointing receipt/dry/probe to the round-49 slots",
+  "installation": "V14 installs one payload at a time in a symlink-mirror copy; the lane is never written",
+  "measurement": "content-level substantive legs (V3/V4/V7/V9/V10/V12) re-measured on the mirror before and after each install; the spec payload is refused by the frozen spec digest pin before any leg runs (caught by every content leg). Probe payloads change the probe's --dry output but no substantive leg reads the probe; they flip only V5, so V14 scores them CLEAN unless V5 is promoted to the substantive set."
+ },
+ "mutants": [
+  {
+   "name": "cap-test-outputs-values",
+   "class": "capture",
+   "target": "corpus/evidence/round46/tb2-polyglot-c-py/test_outputs.py",
+   "payload": "plans/mutants49/cap-test-outputs-values.payload",
+   "sha256": "352504fd9e739b058aea8966d59b00d30a88c92dca81c2bc02e573beb59f8d38",
+   "intent": "grader fixed point (42, 267914296) changed to 267914297; the decisive :27 line no longer says what the entry's mechanism row quotes"
+  },
+  {
+   "name": "cap-test-outputs-listing",
+   "class": "capture",
+   "target": "corpus/evidence/round46/tb2-polyglot-c-py/test_outputs.py",
+   "payload": "plans/mutants49/cap-test-outputs-listing.payload",
+   "sha256": "26187af6bdd62b768b9c4ca29ac11c0a5534e479c3f54e5b830c55682b8e6185",
+   "intent": "exact-directory assert widened to accept a second entry; the :18 line three mechanism rows quote changes"
+  },
+  {
+   "name": "cap-instruction-stdout",
+   "class": "capture",
+   "target": "corpus/evidence/round46/tb2-polyglot-c-py/instruction.md",
+   "payload": "plans/mutants49/cap-instruction-stdout.payload",
+   "sha256": "3b13e3902f8c4c5872383f501920d6e1892c5d5502699dd7efa381b9fa06ae5f",
+   "intent": "instruction.md:7 turns 'print to stdout' into 'print to stderr'; the stdout-only requirement's source line no longer states what the tag is anchored to"
+  },
+  {
+   "name": "cap-test-sh-reward",
+   "class": "capture",
+   "target": "corpus/evidence/round46/tb2-polyglot-c-py/test.sh",
+   "payload": "plans/mutants49/cap-test-sh-reward.payload",
+   "sha256": "6019725fcddf3d55401e6b3698e4c82b1bbb8fa11cb5d3c2dfd0d0f54240e011",
+   "intent": "harness reward mapping inverted on the success branch (echo 1 -> echo 0 on exit 0)"
+  },
+  {
+   "name": "cap-solve-sh-comment",
+   "class": "capture",
+   "target": "corpus/evidence/round46/tb2-polyglot-c-py/solve.sh",
+   "payload": "plans/mutants49/cap-solve-sh-comment.payload",
+   "sha256": "0ecd7fe927fbbbbce8d13de76848a076f9edd688426d5c26f7c847f0ea8ad435",
+   "intent": "oracle's C comment opener renamed (#define sdf b -> c): the polyglot's overlap mechanism no longer matches the prose the entry teaches"
+  },
+  {
+   "name": "cap-dockerfile-base",
+   "class": "capture",
+   "target": "corpus/evidence/round46/tb2-polyglot-c-py/Dockerfile",
+   "payload": "plans/mutants49/cap-dockerfile-base.payload",
+   "sha256": "bcc807e1bb3452a17ec9f7bd741047e5d39acbb2387298c5029422786cfd394c",
+   "intent": "image base ubuntu:24.04 -> ubuntu:22.04, the toolchain the instruction names no longer follows the recipe"
+  },
+  {
+   "name": "cap-task-toml-internet",
+   "class": "capture",
+   "target": "corpus/evidence/round46/tb2-polyglot-c-py/task.toml",
+   "payload": "plans/mutants49/cap-task-toml-internet.payload",
+   "sha256": "7bfa9a062c960fec04c93f9777a620debd67604deef7a1a5fe9077a78c0e1d96",
+   "intent": "allow_internet flips true -> false in the pinned metadata"
+  },
+  {
+   "name": "cap-readme-cases",
+   "class": "capture",
+   "target": "corpus/evidence/round46/tb2-polyglot-c-py/README.md",
+   "payload": "plans/mutants49/cap-readme-cases.payload",
+   "sha256": "5724eb3dc7933d866fb4c2f31ba2998f6d0354c60a1199c0ea93402a5d7724a9",
+   "intent": "authors' published case table README.md:24 f(42)=267914296 -> 267914297"
+  },
+  {
+   "name": "entry-casetable-verdict-flip",
+   "class": "entry",
+   "target": "corpus/knowledge/tb2-polyglot-c-py-grader.md",
+   "payload": "plans/mutants49/entry-casetable-verdict-flip.payload",
+   "sha256": "dfae65b862601cd1218e3909f59edaeb6f9b83dc328c2fbe4355d20c0e957f16",
+   "intent": "case table row trailing-ws flips Observed pass -> fail while the receipt says pass (case table vs receipt)"
+  },
+  {
+   "name": "entry-mechanism-line-shift",
+   "class": "entry",
+   "target": "corpus/knowledge/tb2-polyglot-c-py-grader.md",
+   "payload": "plans/mutants49/entry-mechanism-line-shift.payload",
+   "sha256": "8f5336f672a232c84f86c61bc8253a7bd4d4b8051e47d8aed82a0ff25afed995",
+   "intent": "mechanism row lookup-table cites test_outputs.py:27 -> :26, a line that does not decide it"
+  },
+  {
+   "name": "entry-source-id-removed",
+   "class": "entry",
+   "target": "corpus/knowledge/tb2-polyglot-c-py-grader.md",
+   "payload": "plans/mutants49/entry-source-id-removed.payload",
+   "sha256": "e31bd802f2e0b699633778175cf398f5e9619db7506b38742bd021af4a2a93eb",
+   "intent": "S169 removed from the entry body (outside source: lines); the entry no longer teaches a row the spec pins"
+  },
+  {
+   "name": "entry-reqmap-label-invert",
+   "class": "entry",
+   "target": "corpus/knowledge/tb2-polyglot-c-py-grader.md",
+   "payload": "plans/mutants49/entry-reqmap-label-invert.payload",
+   "sha256": "05be3b50ebe01777b1304eede3cb4382bf52ffe4c4837d13dc5b8e211ef201bd",
+   "intent": "requirement map label python-run enforced -> unenforced (receipt derives enforced from c-only)"
+  },
+  {
+   "name": "receipt-verdict-swap-compile-warning",
+   "class": "receipt",
+   "target": "corpus/evidence/round49/polyglot-c-py-probe.txt",
+   "payload": "plans/mutants49/receipt-verdict-swap-compile-warning.payload",
+   "sha256": "345ba9c3a5995bdffb1c0dd18ad184b5c8ecda76ed88dce4f10447847a316a7b",
+   "intent": "one CASE observed= pass -> fail (compile-warning) with the summary line untouched: the observation column and the summary stop agreeing"
+  },
+  {
+   "name": "receipt-prediction-drift",
+   "class": "receipt",
+   "target": "corpus/evidence/round49/polyglot-c-py-probe.txt",
+   "payload": "plans/mutants49/receipt-prediction-drift.payload",
+   "sha256": "d6f4bc388ae8fdbf474739111a9eb10ea2daa864cd253ca1a1f7d3160a2b638a",
+   "intent": "one CASE predicted= pass -> fail while observed= stays pass: the prediction table and the observation disagree under a match=yes line"
+  },
+  {
+   "name": "receipt-summary-splice",
+   "class": "receipt",
+   "target": "corpus/evidence/round49/polyglot-c-py-probe.txt",
+   "payload": "plans/mutants49/receipt-summary-splice.payload",
+   "sha256": "2e704869134ad2b3b6f52808040b02cfc439ed85d28f513f3a62cb08ccbf75f9",
+   "intent": "summary line observed_pass=7 -> 8 without changing any CASE line"
+  },
+  {
+   "name": "receipt-inventory-rename",
+   "class": "receipt",
+   "target": "corpus/evidence/round49/polyglot-c-py-probe.txt",
+   "payload": "plans/mutants49/receipt-inventory-rename.payload",
+   "sha256": "9c60138f766c469e8d9519cf06484f6c3785bf4997b672c4692c8f25857378bd",
+   "intent": "CASE id empty-file renamed empty-copy, so the receipt inventory no longer matches the frozen dry table"
+  },
+  {
+   "name": "dry-inventory-rename",
+   "class": "dry table",
+   "target": "corpus/evidence/round49/polyglot-c-py-dry-cases.txt",
+   "payload": "plans/mutants49/dry-inventory-rename.payload",
+   "sha256": "8d64b5485324101474c3d299d06ce6e45117900ee3e2253a566ae4a24ff4fb59",
+   "intent": "frozen dry table CASE id empty-file renamed empty-copy"
+  },
+  {
+   "name": "dry-inventory-duplicate",
+   "class": "dry table",
+   "target": "corpus/evidence/round49/polyglot-c-py-dry-cases.txt",
+   "payload": "plans/mutants49/dry-inventory-duplicate.payload",
+   "sha256": "192ce956621ef2591db54664b8c7a6c48eccfb70ce99af19ae40f063971f515d",
+   "intent": "frozen dry table duplicates its CASE nop line: 19 case ids against the receipt's 18"
+  },
+  {
+   "name": "spec-s168-digest-drift",
+   "class": "spec",
+   "target": "plans/pkg-spec-r49.json",
+   "payload": "plans/mutants49/spec-s168-digest-drift.payload",
+   "sha256": "d040c9a990df4d5dc676e55f4c5a271b04ff71ff169558d44537202eea48d929",
+   "intent": "spec row S168 sha256 off by one hex digit: the registry anchor no longer resolves the pinned capture"
+  },
+  {
+   "name": "spec-s172-capture-name",
+   "class": "spec",
+   "target": "plans/pkg-spec-r49.json",
+   "payload": "plans/mutants49/spec-s172-capture-name.payload",
+   "sha256": "2444410f46acf6dffb3ce125e1a304f8499a81722859e501c08b2a10c814f25f",
+   "intent": "spec row S172 capture name README.md -> readme.md: the digest resolves to a different filename"
+  },
+  {
+   "name": "spec-row-set-contraction",
+   "class": "spec",
+   "target": "plans/pkg-spec-r49.json",
+   "payload": "plans/mutants49/spec-row-set-contraction.payload",
+   "sha256": "4d7fa20d7c11047757a599ddf7c9fb5cfe2234448c06a1ad22412cee83b77ea9",
+   "intent": "spec drops row S172: invisible to V3/V9/V12 (they iterate the spec's own row set), so it is caught only by the spec digest pin when the pin is enforced"
+  },
+  {
+   "name": "probe-tags-line-shift",
+   "class": "probe",
+   "target": "plans/polyglot_c_py_probe.py",
+   "payload": "plans/mutants49/probe-tags-line-shift.payload",
+   "sha256": "a6ae7b32c8dbafafa3e46b8612b447e57bdac2495ee64d6f8095933b00713510",
+   "intent": "probe TAGS both-print line instruction.md:7 -> :9: the probe's --dry table no longer matches the freeze"
+  },
+  {
+   "name": "probe-case-expect-flip",
+   "class": "probe",
+   "target": "plans/polyglot_c_py_probe.py",
+   "payload": "plans/mutants49/probe-case-expect-flip.payload",
+   "sha256": "736e61dc92bc8f828ecbee810c5103baeed2a78eecb06d348c014fc27c67ceeb",
+   "intent": "probe Case nop predicted F -> P: the probe's --dry table predicts a different verdict"
+  }
+ ]
+}

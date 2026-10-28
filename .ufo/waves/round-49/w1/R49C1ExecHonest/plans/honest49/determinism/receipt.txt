@@ -1,0 +1,54 @@
+DETERMINISM receipt — round-49 C1 honest population (seat R49C1ExecHonest)
+REV 9d2900af41e4d1fc6022eff99010436fde6dbd93
+LANE-CLONE /fast/scratch/hyaku/kengaku-r49/R49C1ExecHonest/lane (git clone --shared of the lane at the stage-1 freeze; rev-parse --show-toplevel checked)
+WORK /fast/scratch/hyaku/kengaku-r49/R49C1ExecHonest/work (scratch, outside the lane; --work guard enforced by the builder)
+
+Three full builder passes, each --repeats 2, --jobs 8:
+  A  python3 plans/honest49/build_honest_population.py --lane <clone> --modules plans/honest49/modules --out <tree>          --work <scratch> --jobs 8 --repeats 2
+  B  same --out <scratch>/runB
+  C  same --out <scratch>/runC
+
+A(shipped)   population.txt     sha256=6af8841e1c4a8dec8c50f03a4633cccab72e0b73f53fb3d12447177cdd23c34e
+A(shipped)   population.sha256  sha256=60c374d6a6f92bc0c11e6a963847ef5a59dcf0c01d92272780af229d29ca1d5d
+A(shipped)   modules.sha256     sha256=efbaed1ea56dd7560822bd62912f566c0fa94b9210f48ba297506273b67acf3b
+A(shipped)   identity.jsonl     sha256=a7fc521ffdc5f11b84cc6abccd1427ef79c148ac2106193f7ecd5b523618cce2
+
+B            population.txt     sha256=6af8841e1c4a8dec8c50f03a4633cccab72e0b73f53fb3d12447177cdd23c34e
+B            population.sha256  sha256=60c374d6a6f92bc0c11e6a963847ef5a59dcf0c01d92272780af229d29ca1d5d
+B            modules.sha256     sha256=efbaed1ea56dd7560822bd62912f566c0fa94b9210f48ba297506273b67acf3b
+B            identity.jsonl     sha256=a7fc521ffdc5f11b84cc6abccd1427ef79c148ac2106193f7ecd5b523618cce2
+
+C            population.txt     sha256=6af8841e1c4a8dec8c50f03a4633cccab72e0b73f53fb3d12447177cdd23c34e
+C            population.sha256  sha256=60c374d6a6f92bc0c11e6a963847ef5a59dcf0c01d92272780af229d29ca1d5d
+C            modules.sha256     sha256=efbaed1ea56dd7560822bd62912f566c0fa94b9210f48ba297506273b67acf3b
+C            identity.jsonl     sha256=a7fc521ffdc5f11b84cc6abccd1427ef79c148ac2106193f7ecd5b523618cce2
+
+comparison: population.txt A==B==C -> True
+comparison: modules.sha256 A==B==C -> True
+comparison: identity.jsonl A==B==C -> True
+comparison: every one of the 124 per-fixture receipts byte-equal across A/B/C -> True
+
+PER-FIXTURE determinism: each fixture is built twice per pass in separate parents; the receipt line
+`IDENTITY … deterministic=1` is printed only when both normalized tree digests are equal. All 124 lines
+in builder-receipt.txt carry deterministic=1.
+
+CARRY-FORWARD cross-check against the round-48 population (wave 48, w1/R48C1ExecHonest/population.txt):
+  120 shared fids, 0 tree_sha256 mismatches, 0 tool mismatches, 0 population mismatches;
+  4 fids added (n17-n20); no r48 fid dropped.
+
+PRE-QUIESCENCE PASS (kept as evidence of the one fix this builder needed):
+  an earlier full pass (same base, same modules, builder without QUIET_ENV/retry_read) returned rc=1 with
+  `BUILD-FAIL [Errno 2] No such file or directory: …/gen/r1/76aa01d29eba/f013/repo/.git/objects/maintenance.lock`
+  (module battery43/a_alt.py, 14 fixtures): git's detached auto-maintenance child from a `git commit`
+  outlived the command and its transient lock raced a tree read. QUIET_ENV disables maintenance.auto /
+  gc.auto / gc.autoDetach by environment only, and retry_read re-reads a tree whose entry vanished.
+  That pass's 124 IDENTITY lines are byte-identical to this tree's builder-receipt.txt IDENTITY lines,
+  and its identity.jsonl sha256 a7fc521ffdc5f11b84cc6abccd1427ef79c148ac2106193f7ecd5b523618cce2
+  equals this tree's: the quiescence keys changed no fixture byte.
+
+HOST git=git version 2.56.0 python=3.14.8 platform=Linux-7.2.11-arch1-1-x86_64-with-glibc2.44
+AUTHORED 2026-10-28T09:26:45-0300
+SCORED none (no fence, gate or counter executed in any pass)
+
+BOUND: this receipt measures the builder's reproducibility. It does not measure, and makes no claim
+about, any fence's admission of these fixtures — that is the stage-2 counter's job.

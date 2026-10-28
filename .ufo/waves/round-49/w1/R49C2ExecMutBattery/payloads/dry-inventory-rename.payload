@@ -1,0 +1,26 @@
+TAG single-file instruction.md:1
+TAG python-run instruction.md:3
+TAG c-build instruction.md:5
+TAG both-print instruction.md:7
+TAG fib-kth instruction.md:7
+TAG stdout-only instruction.md:7
+TAG toolchain instruction.md:9
+CASE nop predicted=fail tests=F regrade=same violates=single-file end=absent -- the image seed only: WORKDIR /app exists, /app/polyglot does not - os.listdir raises FileNotFoundError before any assert
+CASE oracle-solve-sh predicted=pass tests=P regrade=DIFF:F violates= end=recipe -- the task's published solution/solve.sh run verbatim with cwd /app (it creates polyglot/ relatively): a real polyglot whose Fibonacci loop both runtimes run
+CASE lookup-table predicted=pass tests=P regrade=DIFF:F violates=fib-kth end=recipe -- a polyglot that hardcodes the three graded outputs, read out of the PUBLIC tests/test_outputs.py at recipe time and turned into a print table: the grader has exactly three fixed points and never inspects the source, so a lookup table is indistinguishable from computing
+CASE python-only predicted=fail tests=F regrade=same violates=c-build end=recipe -- valid Python that is not C (a plain import/def/raise program): python3 runs it, gcc fails with a parse error and check=True raises CalledProcessError
+CASE c-only predicted=fail tests=F regrade=same violates=python-run end=recipe -- valid C that is not Python (no # comment line, no Python expression): gcc builds it and it prints the right value, python3 aborts with a SyntaxError before the first expected value is compared
+CASE extra-file predicted=fail tests=F regrade=same violates=single-file end=recipe -- the oracle polyglot plus one unrelated file (NOTES.md) in /app/polyglot: the listing assert compares the whole list to ["main.py.c"], so a harmless extra file fails before gcc runs
+CASE leftover-cmain predicted=fail tests=F regrade=same violates=single-file end=recipe -- the oracle polyglot plus the binary that instruction.md:5 itself tells the agent to build (`gcc ... -o /app/polyglot/cmain && ./cmain N`): following the instruction leaves the second entry the grader's listing forbids - instruction and grader contradict each other
+CASE wrong-value predicted=fail tests=F regrade=same violates=fib-kth end=recipe -- a real polyglot whose f(42) is off by one (both runtimes print fib(n)+1 when N is 42): the value, not the shape, decides; the C loop also writes cmain, so the re-grade is what the listing sees
+CASE trailing-ws predicted=pass tests=P regrade=DIFF:F violates= end=recipe -- a correct polyglot that pads its output with leading and trailing spaces and blank lines in both runtimes: the grader compares stdout.strip(), which erases whitespace on both ends
+CASE nonzero-exit predicted=fail tests=F regrade=same violates= end=recipe -- a correct polyglot that prints the right value and then exits non-zero (python sys.exit(3) / C return 3): the grader runs both runtimes with check=True, so a non-zero status fails a run whose stdout matched - the instruction never says the exit status must be 0
+CASE stderr-noise predicted=pass tests=P regrade=DIFF:F violates= end=recipe -- a correct polyglot that also writes to stderr in both runtimes (python print(..., file=sys.stderr), C fprintf(stderr, ...)): the grader captures stderr and compares only stdout, so noise is invisible
+CASE n-parsed-differently predicted=fail tests=F regrade=same violates=fib-kth end=recipe -- a polyglot whose two sides read N differently - Python int(argv[1]), C the first digit only (argv[1][0]-'0') - so 42 and 10 disagree while 0 happens to match; no case proves both runtimes parsed N
+CASE compile-warning predicted=pass tests=P regrade=DIFF:F violates= end=recipe -- a correct polyglot carrying an explicit `#warning` line (a Python comment, a C preprocessing warning): gcc exits 0 with a diagnostic on stderr, and check=True only reads the exit status
+CASE regrade-same-state predicted=pass tests=P regrade=DIFF:F violates=single-file end=recipe -- the oracle's end state, graded and then graded again: the first grade's own gcc writes /app/polyglot/cmain, so the same untouched state fails the second time - the grader is not idempotent (this row is the deliberate re-grade of oracle-solve-sh's state; the per-case `regrade` column is its measurement)
+CASE empty-copy predicted=fail tests=F regrade=same violates=fib-kth end=recipe -- a zero-byte /app/polyglot/main.py.c: the listing passes, python3 prints nothing, and gcc links nothing with a main - both runtimes are wrong before any value is compared
+CASE dir-in-place predicted=fail tests=F regrade=same violates=c-build end=recipe -- a DIRECTORY at /app/polyglot/main.py.c: the listing is exactly ["main.py.c"] so the precondition passes, then gcc is handed a directory and check=True raises CalledProcessError
+CASE crlf-source predicted=pass tests=P regrade=DIFF:F violates= end=recipe -- a correct polyglot whose whole source uses CRLF line endings: CPython's tokenizer and gcc both accept CRLF, so the newline style of the source is invisible to this grader
+CASE value-plus-line predicted=fail tests=F regrade=same violates=stdout-only end=recipe -- a polyglot that prints the right value followed by a second line of output in both runtimes: strip() trims only the ends, so the compared string is two lines and no case fires the equality
+cases=18 predicted_pass=7 predicted_fail=11

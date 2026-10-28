@@ -1,0 +1,41 @@
+# control control-r49-c2-filler: the committed filler package plans/filler46/ scored as the package (--filler)
+# measured tree: clone of lane 9d2900af41e4d1fc6022eff99010436fde6dbd93 + committed transforms, run at /fast/scratch/hyaku/kengaku-r49/R49C2ExecControls/control-filler/lane
+# candidate counter plans/round49_c2_verify.py sha256=ed1b9c0cbaec39341f59fb88985e7ce21e10aec92ebb307166ba0cc091eafe28
+# transform: eacb5e1928dbf1d8b5ae568f4827caa0aba9b956 none (filler package scored via --filler)
+# transform: wave-1 control: round-49 C2 counter candidate (no stage-2 pin)
+# transform: 
+# transform:  plans/round49_c2_verify.py | 408 +++++++++++++++++++++++++++++++++++++++++++++
+# transform:  1 file changed, 408 insertions(+)
+# freeze 9d2900af41e4d1fc6022eff99010436fde6dbd93 2026-10-28T09:14:40-03:00 round-49: stage-1 freeze of C1 (fence over-refusal, v3 counter + mutant floor) and C2 (TB2 grader admission, Q40 counter, receipt ordering) claims (stage-1, plans/round-49-claims.md)
+ORDER receipt=corpus/evidence/round46/polyglot-c-py-probe.txt exit=1
+ORDER claims=plans/round-49-claims.md round=49 freeze=9d2900af41e4d1fc6022eff99010436fde6dbd93
+ORDER receipt=corpus/evidence/round46/polyglot-c-py-probe.txt receipt_commit=8d7f74ce63c25ad200c69fe0d90158cc7099def6 claims_dir=.ufo/waves/round-49/claims/
+ORDER FAIL freeze-contains-receipt 9d2900af41e4d1fc6022eff99010436fde6dbd93 already has corpus/evidence/round46/polyglot-c-py-probe.txt
+ORDER FAIL receipt-before-claims 8d7f74ce63c25ad200c69fe0d90158cc7099def6 is an ancestor of 9d2900af41e4d1fc6022eff99010436fde6dbd93
+ORDER scanned commits=0 file_entries=0 distinct_blobs=0
+ORDER FAIL freeze-contains-receipt receipt-before-claims hits=0
+ORDER RESULT FAIL
+ORDER receipt=corpus/evidence/round49/polyglot-c-py-probe.txt exit=2
+ORDER RESULT ERROR
+ORDER ERROR receipt not committed in HEAD: corpus/evidence/round49/polyglot-c-py-probe.txt
+ORDER run_utc=2026-10-28T12:24:37Z
+REV eacb5e1928dbf1d8b5ae568f4827caa0aba9b956
+REV_DIRTY 0
+MODE control --no-p10 (gate P10/fresh-probe leg disabled, frozen V8 fix)
+COUNTER imports plans/round46_c3_verify.py sha256=a971c24dd5d0cb880e97ad4dd80315fcf58afaa02f8cffb5cc2e803aa292a8d4 (pinned)
+PINS spec=filler46 (control package)
+V1 ok listed=8 wrong=0 extra=0
+V3 ok rows=7 bad=0
+V4 DEFECT cases=16 mismatches_named=0/0 bad=["match=yes on a mismatching case: ['float-c']"]
+V6 DEFECT census_exit=1 registry=plans/filler46/SOURCES-filler.md
+V7 DEFECT rows=4 tags=4 bad=['single-file: no receipt case violates it', 'python-run: no receipt case violates it', 'c-run: no receipt case violates it', 'fib: no receipt case violates it']
+V7P DEFECT tags=4 parsed_cases=16 map_rows=4 cited=0/4 bad=["frozen tags with no violating case: ['single-file', 'python-run', 'c-run', 'fib']"]
+V9 DEFECT case_rows=1/16 bad=['case table rows=1 receipt cases=16 equal=False', 'PROVINCE.md names the task and the entry on no line']
+V10 DEFECT DECISIVE keys differ from the frozen case ids (stage-2 pin not aligned)
+V12 DEFECT rows=7 defective=7 live=7 first=S166:line,words
+V14 DEFECT mutation floor <N> unpinned (stage-2 plan plans/mutants49/plan.json absent); wave-1 mutants absent
+V15 ok inputs=14 unresolved=0 tables_parsed=2 tags=4 bad=0
+content_defects=6 (V4,V7,V7P,V9,V10,V12)
+checks=11 defects=8
+PREDICATE R49-C2 fail
+# exit=1

@@ -1,0 +1,10 @@
+### supplementary discrimination probes (not a frozen control, not a scored run)
+# candidate counter plans/round49_c2_verify.py sha256=ed1b9c0cbaec39341f59fb88985e7ce21e10aec92ebb307166ba0cc091eafe28
+# base clone lane-base REV 9d2900af41e4d1fc6022eff99010436fde6dbd93
+$ python3 cand/supp_probes.py $SCRATCH/lane-base $SCRATCH/supp-work
+A v7p-frozen  DEFECT tags=7 parsed_cases=18 map_rows=7 cited=5/7 bad=["frozen tags with no violating case: ['both-print', 'toolchain']", 'both-print: round-46 V7 offender still uncovered', 'toolchain: round-46 V7 offender still uncovered']
+B v7p-amended ok tags=7 parsed_cases=20 map_rows=7 cited=7/7 bad=0
+C v14 2-flip+2-noop floor=2 ok total=4 caught=2 floor=2 verdict=met baseline_clean=['V3', 'V4', 'V9', 'V10', 'V12'] missed=['m-noop-a', 'm-noop-b']
+D v14 0-flip floor=1 DEFECT MUTATION DEFECT total=2 caught=0 floor=1 verdict=unmet baseline_clean=['V3', 'V4', 'V9', 'V10', 'V12'] missed=['m-noop-a', 'm-noop-b']
+SUPP ok failures=0
+EXIT=0

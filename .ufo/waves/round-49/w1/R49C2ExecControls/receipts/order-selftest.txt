@@ -1,0 +1,41 @@
+### tools: python3 plans/order_check.py from the frozen base clone (sha256 5d0ff0?)
+948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc  /fast/scratch/hyaku/kengaku-r49/R49C2ExecControls/lane-base/plans/order_check.py
+
+### NEGATIVE 1: receipt and claims land in one commit (freeze contains the receipt)
+$ git -C .../order-selftest/repo log --oneline
+716cd99 selftest: receipt before claims (negative case)
+a4830cb selftest: claims after receipt
+$ python3 plans/order_check.py --lane /fast/scratch/hyaku/kengaku-r49/R49C2ExecControls/order-selftest/repo --claims plans/round-49-claims.md --receipt corpus/evidence/round49/polyglot-c-py-probe.txt
+ORDER claims=plans/round-49-claims.md round=49 freeze=716cd992d98ad6da4e75c1783de3dd6529caa8ce
+ORDER receipt=corpus/evidence/round49/polyglot-c-py-probe.txt receipt_commit=716cd992d98ad6da4e75c1783de3dd6529caa8ce claims_dir=.ufo/waves/round-49/claims/
+ORDER FAIL freeze-contains-receipt 716cd992d98ad6da4e75c1783de3dd6529caa8ce already has corpus/evidence/round49/polyglot-c-py-probe.txt
+ORDER scanned commits=0 file_entries=0 distinct_blobs=0
+ORDER FAIL freeze-contains-receipt hits=0
+ORDER RESULT FAIL
+EXIT=1
+
+### POSITIVE: claims committed first, stage-3-shaped receipt after
+$ git -C .../order-selftest/repo-pos log --oneline
+7700288 selftest: claims frozen first
+a5d0f80 selftest: stage-3-shaped receipt after the claims
+$ python3 plans/order_check.py --lane /fast/scratch/hyaku/kengaku-r49/R49C2ExecControls/order-selftest/repo-pos --claims plans/round-49-claims.md --receipt corpus/evidence/round49/polyglot-c-py-probe.txt
+ORDER claims=plans/round-49-claims.md round=49 freeze=7700288a0ea324c4b65354dee45d98f76b3c0c5e
+ORDER receipt=corpus/evidence/round49/polyglot-c-py-probe.txt receipt_commit=a5d0f80283de5b3a9454100d8216f44c0827869c claims_dir=.ufo/waves/round-49/claims/
+ORDER scanned commits=0 file_entries=0 distinct_blobs=0
+ORDER ok no claims file committed at or before the receipt shows the frozen probe executed
+ORDER RESULT PASS
+EXIT=0
+
+### NEGATIVE 2: a claims/ blob committed before the receipt shows P10 executed (the r48 V8 defect)
+$ git -C .../order-selftest/repo-exec log --oneline
+2727671 selftest: claims frozen
+da93c86 selftest: a claims file showing P10 executed (the V8 defect)
+d4865f9 selftest: receipt after the claims
+$ python3 plans/order_check.py --lane /fast/scratch/hyaku/kengaku-r49/R49C2ExecControls/order-selftest/repo-exec --claims plans/round-49-claims.md --receipt corpus/evidence/round49/polyglot-c-py-probe.txt
+ORDER claims=plans/round-49-claims.md round=49 freeze=2727671542d546d0b063c6c403677c615fc862c4
+ORDER receipt=corpus/evidence/round49/polyglot-c-py-probe.txt receipt_commit=d4865f9fa74e7dbae7ade7f77251786489e486f5 claims_dir=.ufo/waves/round-49/claims/
+ORDER scanned commits=1 file_entries=1 distinct_blobs=1
+ORDER HIT .ufo/waves/round-49/claims/control-base.txt@da93c86d6045:1 kind=gate-p10 `gate: P10 ok probe_rerun=byte-equal bytes=123`
+ORDER FAIL probe-executed-before-receipt hits=1
+ORDER RESULT FAIL
+EXIT=1

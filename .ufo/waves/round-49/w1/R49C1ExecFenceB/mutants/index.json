@@ -1,0 +1,121 @@
+[
+ {
+  "file": "m01_objects_redirect_unguarded",
+  "path": "/fast/scratch/hyaku/kengaku-r49/R49C1ExecFenceB/cand/mutants/m01_objects_redirect_unguarded.py",
+  "targets": [
+   "p_info_redirect",
+   "s_objects_link",
+   "p_pack_redirect"
+  ],
+  "note": "objects/: the store may be redirected out (symlink + dir kind and the object-info name kind are dropped) - the redirect class is admitted or traced"
+ },
+ {
+  "file": "m02_objects_hardlink_off",
+  "path": "/fast/scratch/hyaku/kengaku-r49/R49C1ExecFenceB/cand/mutants/m02_objects_hardlink_off.py",
+  "targets": [
+   "f16_objects_hardlink_out"
+  ],
+  "note": "objects/: the multiply-linked loose object refusal is dropped"
+ },
+ {
+  "file": "m03_config_path_kind_off",
+  "path": "/fast/scratch/hyaku/kengaku-r49/R49C1ExecFenceB/cand/mutants/m03_config_path_kind_off.py",
+  "targets": [
+   "f20_attributes_file",
+   "c_core_attributes_path",
+   "c_excludes_file",
+   "f2_deep"
+  ],
+  "note": "config: path-kind keys are classified as inert scalars (no inside-d proof)"
+ },
+ {
+  "file": "m04_store_redirect_unguarded",
+  "path": "/fast/scratch/hyaku/kengaku-r49/R49C1ExecFenceB/cand/mutants/m04_store_redirect_unguarded.py",
+  "targets": [
+   "s_packed_refs",
+   "p_refs_redirect",
+   "s_refs_link",
+   "s_objects_link"
+  ],
+  "note": "store top level: symlink redirects are followed (refs, packed-refs and objects may live outside d)"
+ },
+ {
+  "file": "m05_config_path_absolute",
+  "path": "/fast/scratch/hyaku/kengaku-r49/R49C1ExecFenceB/cand/mutants/m05_config_path_absolute.py",
+  "targets": [
+   "f20_attributes_file",
+   "c_core_attributes_path",
+   "c_excludes_file"
+  ],
+  "note": "config: path-kind values are accepted absolute (an outside reader is allowed)"
+ },
+ {
+  "file": "m06_config_url_scalar",
+  "path": "/fast/scratch/hyaku/kengaku-r49/R49C1ExecFenceB/cand/mutants/m06_config_url_scalar.py",
+  "targets": [
+   "c_url_rewrite"
+  ],
+  "note": "config: the [url] section kind is treated as inert scalars (insteadOf admitted)"
+ },
+ {
+  "file": "m07_lane_membership_off",
+  "path": "/fast/scratch/hyaku/kengaku-r49/R49C1ExecFenceB/cand/mutants/m07_lane_membership_off.py",
+  "targets": [
+   "f6_above",
+   "a_phantom_order"
+  ],
+  "note": "decision: --lane need not name a collected repository (plain dir admitted)"
+ },
+ {
+  "file": "m08_refs_namespace_allowlist",
+  "path": "/fast/scratch/hyaku/kengaku-r49/R49C1ExecFenceB/cand/mutants/m08_refs_namespace_allowlist.py",
+  "targets": [
+   "n14_stash_entry",
+   "n16_notes_ref"
+  ],
+  "note": "refs: namespace allowlist restored (heads/tags only) - over-refusal kind"
+ },
+ {
+  "file": "m09_noncore_sections_refused",
+  "path": "/fast/scratch/hyaku/kengaku-r49/R49C1ExecFenceB/cand/mutants/m09_noncore_sections_refused.py",
+  "targets": [
+   "n12_local_config_user",
+   "n13_remote_origin"
+  ],
+  "note": "config: any section that is not core/extensions is unclassified"
+ },
+ {
+  "file": "m10_detached_head_refused",
+  "path": "/fast/scratch/hyaku/kengaku-r49/R49C1ExecFenceB/cand/mutants/m10_detached_head_refused.py",
+  "targets": [
+   "n03_detached_head",
+   "n08_tag_detached"
+  ],
+  "note": "store: HEAD must be symbolic (a detached HEAD is refused)"
+ },
+ {
+  "file": "m11_objects_info_refused",
+  "path": "/fast/scratch/hyaku/kengaku-r49/R49C1ExecFenceB/cand/mutants/m11_objects_info_refused.py",
+  "targets": [
+   "n15_commit_graph",
+   "n07_reflog_gc"
+  ],
+  "note": "objects/info: every entry is refused (pre-repair behaviour)"
+ },
+ {
+  "file": "m12_info_refs_refused",
+  "path": "/fast/scratch/hyaku/kengaku-r49/R49C1ExecFenceB/cand/mutants/m12_info_refs_refused.py",
+  "targets": [
+   "n07_reflog_gc"
+  ],
+  "note": "info/: git's `refs` list is refused (only `exclude` classified)"
+ },
+ {
+  "file": "m13_argv_shape_off",
+  "path": "/fast/scratch/hyaku/kengaku-r49/R49C1ExecFenceB/cand/mutants/m13_argv_shape_off.py",
+  "targets": [
+   "f3_abbrev"
+  ],
+  "note": "argv: the exact option-shape check is dropped (abbreviations admitted)"
+ }
+]

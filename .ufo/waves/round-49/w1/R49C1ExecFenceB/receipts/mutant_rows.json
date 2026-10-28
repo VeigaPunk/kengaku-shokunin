@@ -1,0 +1,108 @@
+[
+ {
+  "mutant": "m01_objects_redirect_unguarded",
+  "caught": true,
+  "flips": [
+   "sealed:clean=1/3 leaked=0"
+  ],
+  "note": "objects/: the store may be redirected out (symlink + dir kind and the object-info name kind are dropped) - the redirect class is admitted or traced"
+ },
+ {
+  "mutant": "m02_objects_hardlink_off",
+  "caught": true,
+  "flips": [
+   "refusals:clean=0/1 leaked=0"
+  ],
+  "note": "objects/: the multiply-linked loose object refusal is dropped"
+ },
+ {
+  "mutant": "m03_config_path_kind_off",
+  "caught": true,
+  "flips": [
+   "refusals:clean=0/2 leaked=0",
+   "sealed:clean=0/2 leaked=0"
+  ],
+  "note": "config: path-kind keys are classified as inert scalars (no inside-d proof)"
+ },
+ {
+  "mutant": "m04_store_redirect_unguarded",
+  "caught": true,
+  "flips": [
+   "sealed:clean=0/4 leaked=0"
+  ],
+  "note": "store top level: symlink redirects are followed (refs, packed-refs and objects may live outside d)"
+ },
+ {
+  "mutant": "m05_config_path_absolute",
+  "caught": true,
+  "flips": [
+   "refusals:clean=0/1 leaked=0",
+   "sealed:clean=0/2 leaked=0"
+  ],
+  "note": "config: path-kind values are accepted absolute (an outside reader is allowed)"
+ },
+ {
+  "mutant": "m06_config_url_scalar",
+  "caught": true,
+  "flips": [
+   "sealed:clean=0/1 leaked=0"
+  ],
+  "note": "config: the [url] section kind is treated as inert scalars (insteadOf admitted)"
+ },
+ {
+  "mutant": "m07_lane_membership_off",
+  "caught": true,
+  "flips": [
+   "refusals:clean=0/1 leaked=0"
+  ],
+  "note": "decision: --lane need not name a collected repository (plain dir admitted)"
+ },
+ {
+  "mutant": "m08_refs_namespace_allowlist",
+  "caught": true,
+  "flips": [
+   "honest:admitted=0/2 refused=2"
+  ],
+  "note": "refs: namespace allowlist restored (heads/tags only) - over-refusal kind"
+ },
+ {
+  "mutant": "m09_noncore_sections_refused",
+  "caught": true,
+  "flips": [
+   "honest:admitted=0/2 refused=2"
+  ],
+  "note": "config: any section that is not core/extensions is unclassified"
+ },
+ {
+  "mutant": "m10_detached_head_refused",
+  "caught": true,
+  "flips": [
+   "honest:admitted=0/2 refused=2"
+  ],
+  "note": "store: HEAD must be symbolic (a detached HEAD is refused)"
+ },
+ {
+  "mutant": "m11_objects_info_refused",
+  "caught": true,
+  "flips": [
+   "honest:admitted=0/2 refused=2"
+  ],
+  "note": "objects/info: every entry is refused (pre-repair behaviour)"
+ },
+ {
+  "mutant": "m12_info_refs_refused",
+  "caught": true,
+  "flips": [
+   "honest:admitted=0/1 refused=1"
+  ],
+  "note": "info/: git's `refs` list is refused (only `exclude` classified)"
+ },
+ {
+  "mutant": "m13_argv_shape_off",
+  "caught": true,
+  "flips": [
+   "refusals:clean=0/1 leaked=0"
+  ],
+  "note": "argv: the exact option-shape check is dropped (abbreviations admitted)"
+ }
+]

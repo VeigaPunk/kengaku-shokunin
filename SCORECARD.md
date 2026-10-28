@@ -2109,3 +2109,14 @@ The start and end SOURCES census both report 165 rows, tier A=141/B=22/C=2, stat
 ### Planned (round 49)
 
 Axis state held: calibration 8, coverage 7 (L0 `kengaku | round-33` cap), novelty 7, depth 9, operability 8, freshness 8, adjacency 8. Coverage remains the lowest non-retired axis tied with novelty. Start from the C2 probe defect findings in `corpus/lessons/round-48.md`; freeze a new claim/counter whose case table has a violating executable case for each requirement tag, whose probe passes `--stage-check` before the stage-2 freeze, and whose first full run is after that freeze. Do not reuse the failed 22b7779e probe as an admitted instrument without a fresh falsifiable control. Keep C1 routed as a separate calibration repair with the measured 8/120 base refusal, not the unreproducible r46 placeholder-argv 9/9 figure.
+
+## Round 49 — stage-1 claims frozen; neither admitted (hyaku run 10, 2026-10-28)
+
+Baseline lane tip `3a548330c4899c6c5df34168a44a59f66828ce74`; stage-1 freeze `9d2900af41e4d1fc6022eff99010436fde6dbd93`; wave dispatch `af88aab193e6034cb9b386472064e3c18fa90128`. Lowest non-retired axes: coverage 7 tied with novelty 7; coverage selected, calibration separate. One v2 wave: 64 seats, 40 attack roles; 61 named seat reports, 3 settled seats with no report file (`R49C2TagInv`, `R49C2MutOrder`, `R49C2MutReceipt`).
+
+| claim | axis | before → after measurement | counting command / measured revision | verdict / score |
+|---|---|---|---|---|
+| R49-C1 fence honest over-refusal repaired with v3 counter and committed mutant floor | calibration | Base fence on r48 population: `HONEST fixtures=120 admitted=112 refused=8`; variant-A candidate: `120/120` admitted, 20/20 refusals, 12/12 sealed on that same population. New population is 124 and has not been measured against the candidate; no stage-2 counter/pins or landing-tip predicate run. | Candidate evidence `w1/R49C1ExecCounter.md` + `R49C1ExecFenceA.md`; frozen command `python3 plans/round49_c1_verify.py --lane .` is not present at landing. | **not admitted / unverified**; calibration 8→8 held. |
+| R49-C2 TB2 `polyglot-c-py` package admitted under Q40 counter | coverage | New case table has 20 cases and all seven tags; old hardened probe stage-check 18/18 fail, repaired candidate 18/18 pass; no full run or stage-2/3 landing-tip counter run. | Candidate evidence `w1/R49C2ExecCases.md`, `R49C2ExecProbe.md`, `R49C2ExecCounter.md`; frozen command `python3 plans/round49_c2_verify.py --lane .` is not present at landing. | **not admitted / unverified**; coverage 7→7 held by L0 cap. |
+
+SOURCES census: 165 rows → 165 rows; A=141/B=22/C=2; mined=149/queued=8/rejected=8; start and end command `scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku` exit 0. S166 reopened and byte-matched at its pinned URL; no registry row added or touched. No capability row; no axis harm observed. See `corpus/lessons/round-49.md`.

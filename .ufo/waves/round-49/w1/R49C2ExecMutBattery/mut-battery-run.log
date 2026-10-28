@@ -1,0 +1,63 @@
+BASELINE V3=ok V4=ok V7=DEFECT V9=ok V10=ok V12=ok
+BASELINE-NOTE V3 rows=7 bad=0
+BASELINE-NOTE V4 cases=18 mismatches_named=0/0 bad=0
+BASELINE-NOTE V7 rows=7 tags=7 violated=5/7 bad=7 first=both-print:no committed case carries violates=both-print
+BASELINE-NOTE V9 case_rows=18/18 bad=0
+BASELINE-NOTE V10 mechanism_rows=18/18 bad=0
+BASELINE-NOTE V12 rows=7 defective=0 live=0
+MUTANT cap-test-outputs-values class=capture content_flips=V10,V12 spec_pin_refused=False caught=yes
+  NOTE-DELTA V10: mechanism_rows=18/18 bad=['nop:test_outputs.py capture not pinned', 'oracle-solve-sh:test_outputs.py capture not pinned', 'lookup-table:test_outputs.py capture not pinned', 'python-only:test_outputs.py capture not pinned
+  NOTE-DELTA V12: rows=7 defective=1 live=1 first=S166:capture_unresolved capture=0
+MUTANT cap-test-outputs-listing class=capture content_flips=V10,V12 spec_pin_refused=False caught=yes
+  NOTE-DELTA V10: mechanism_rows=18/18 bad=['nop:test_outputs.py capture not pinned', 'oracle-solve-sh:test_outputs.py capture not pinned', 'lookup-table:test_outputs.py capture not pinned', 'python-only:test_outputs.py capture not pinned
+  NOTE-DELTA V12: rows=7 defective=1 live=1 first=S166:capture_unresolved capture=0
+MUTANT cap-instruction-stdout class=capture content_flips=V12 spec_pin_refused=False caught=yes
+  NOTE-DELTA V12: rows=7 defective=1 live=1 first=S168:capture_unresolved capture=0
+MUTANT cap-test-sh-reward class=capture content_flips=V12 spec_pin_refused=False caught=yes
+  NOTE-DELTA V12: rows=7 defective=1 live=1 first=S167:capture_unresolved capture=0
+MUTANT cap-solve-sh-comment class=capture content_flips=V12 spec_pin_refused=False caught=yes
+  NOTE-DELTA V12: rows=7 defective=1 live=1 first=S169:capture_unresolved capture=0
+MUTANT cap-dockerfile-base class=capture content_flips=V12 spec_pin_refused=False caught=yes
+  NOTE-DELTA V12: rows=7 defective=1 live=1 first=S170:capture_unresolved capture=0
+MUTANT cap-task-toml-internet class=capture content_flips=V12 spec_pin_refused=False caught=yes
+  NOTE-DELTA V12: rows=7 defective=1 live=1 first=S171:capture_unresolved capture=0
+MUTANT cap-readme-cases class=capture content_flips=V12 spec_pin_refused=False caught=yes
+  NOTE-DELTA V12: rows=7 defective=1 live=1 first=S172:capture_unresolved capture=0
+MUTANT entry-casetable-verdict-flip class=entry content_flips=V9 spec_pin_refused=False caught=yes
+  NOTE-DELTA V9: case_rows=18/18 bad=['case table rows=18 receipt cases=18 equal=False']
+MUTANT entry-mechanism-line-shift class=entry content_flips=V10 spec_pin_refused=False caught=yes
+  NOTE-DELTA V10: mechanism_rows=18/18 bad=['lookup-table:test_outputs.py:26 not decisive']
+MUTANT entry-source-id-removed class=entry content_flips=V9 spec_pin_refused=False caught=yes
+  NOTE-DELTA V9: case_rows=18/18 bad=["row ids absent outside source lines: ['S169']"]
+MUTANT entry-reqmap-label-invert class=entry content_flips=NONE spec_pin_refused=False caught=no
+  NOTE-DELTA V7: rows=7 tags=7 violated=5/7 bad=8 first=both-print:no committed case carries violates=both-print
+MUTANT receipt-verdict-swap-compile-warning class=receipt content_flips=V4,V9 spec_pin_refused=False caught=yes
+  NOTE-DELTA V4: cases=18 mismatches_named=0/0 bad=['summary disagrees with the CASE lines', "match=yes on a mismatching case: ['compile-warning']"]
+  NOTE-DELTA V9: case_rows=18/18 bad=['case table rows=18 receipt cases=18 equal=False']
+MUTANT receipt-prediction-drift class=receipt content_flips=V4 spec_pin_refused=False caught=yes
+  NOTE-DELTA V4: cases=18 mismatches_named=0/0 bad=["match=yes on a mismatching case: ['stderr-noise']"]
+MUTANT receipt-summary-splice class=receipt content_flips=V4 spec_pin_refused=False caught=yes
+  NOTE-DELTA V4: cases=18 mismatches_named=0/0 bad=['summary disagrees with the CASE lines']
+MUTANT receipt-inventory-rename class=receipt content_flips=V4,V9,V10 spec_pin_refused=False caught=yes
+  NOTE-DELTA V4: cases=18 mismatches_named=0/0 bad=['case ids differ from the frozen table']
+  NOTE-DELTA V7: rows=7 tags=7 violated=5/7 bad=8 first=both-print:no committed case carries violates=both-print
+  NOTE-DELTA V9: case_rows=18/18 bad=['case table rows=18 receipt cases=18 equal=False']
+  NOTE-DELTA V10: mechanism_rows=18/18 bad=['mechanism rows=18 receipt cases=18 ids_equal=False']
+MUTANT dry-inventory-rename class=dry table content_flips=V4,V10 spec_pin_refused=False caught=yes
+  NOTE-DELTA V4: cases=18 mismatches_named=0/0 bad=['case ids differ from the frozen table']
+  NOTE-DELTA V10: DECISIVE keys differ from the frozen case ids (stage-2 pin not aligned)
+MUTANT dry-inventory-duplicate class=dry table content_flips=V4,V10 spec_pin_refused=False caught=yes
+  NOTE-DELTA V4: cases=18 mismatches_named=0/0 bad=['case ids differ from the frozen table', 'summary disagrees with the CASE lines']
+  NOTE-DELTA V10: DECISIVE keys differ from the frozen case ids (stage-2 pin not aligned)
+MUTANT spec-s168-digest-drift class=spec content_flips=V3,V12 spec_pin_refused=True caught=yes
+  NOTE-DELTA V3: rows=7 bad=['S168:anchor_digest']
+  NOTE-DELTA V12: rows=7 defective=1 live=1 first=S168:capture_unresolved capture=0
+MUTANT spec-s172-capture-name class=spec content_flips=V12 spec_pin_refused=True caught=yes
+  NOTE-DELTA V12: rows=7 defective=1 live=1 first=S172:capture_unresolved capture=['README.md']
+MUTANT spec-row-set-contraction class=spec content_flips=NONE spec_pin_refused=True caught=yes
+  NOTE-DELTA V3: rows=6 bad=0
+  NOTE-DELTA V12: rows=6 defective=0 live=0
+MUTANT probe-tags-line-shift class=probe content_flips=NONE spec_pin_refused=False caught=no
+MUTANT probe-case-expect-flip class=probe content_flips=NONE spec_pin_refused=False caught=no
+SUMMARY total=23 caught=20 floor=11.5 uncaught=entry-reqmap-label-invert,probe-tags-line-shift,probe-case-expect-flip
+EMITTED /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-49/w1/R49C2ExecMutBattery/plan.json mutants=23

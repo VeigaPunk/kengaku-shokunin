@@ -1,0 +1,12 @@
+$ git -C lane-base log -1 --format="%H %cI %s" 9d2900af41e4d1fc6022eff99010436fde6dbd93
+9d2900af41e4d1fc6022eff99010436fde6dbd93 2026-10-28T09:14:40-03:00 round-49: stage-1 freeze of C1 (fence over-refusal, v3 counter + mutant floor) and C2 (TB2 grader admission, Q40 counter, receipt ordering) claims
+$ git -C lane-base merge-base --is-ancestor 9d2900af41e4d1fc6022eff99010436fde6dbd93 HEAD; echo $?
+exit=0
+$ git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin log -1 --format="%H %cI %s"
+af88aab193e6034cb9b386472064e3c18fa90128 2026-10-28T09:18:20-03:00 round-49: w1 v2 wave spec + dispatch evidence (64 seats, 40 attack, policy v2 accepted)
+$ git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin merge-base --is-ancestor 9d2900af41e4d1fc6022eff99010436fde6dbd93 HEAD; echo $?
+exit=0
+$ git -C lane-base ls-tree -r --name-only HEAD | grep -cE "round49_c2_verify|round48_c2_verify"
+0
+$ date -u
+2026-10-28T12:25:46Z
