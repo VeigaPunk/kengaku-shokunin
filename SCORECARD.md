@@ -2203,6 +2203,10 @@ appended in `plans/round-51-claims.md`, both dated before the scored after-run.
 
 ### Round 51 — measured outcomes (appended after the landing receipts)
 
+Measured revision: `11e79380d33d6e811f0010f2a2a0c22a3cdc359e`, clean clone, `git status --porcelain` → 0 lines.
+Receipts: `corpus/evidence/round51/c1-after.txt`, `corpus/evidence/round51/c2-after.txt`; the before receipts
+sit beside them (`c1-before.txt`, `c2-before.txt`) with the four C1 control receipts.
+
 | claim | before → after | counting command | verdict / score |
 |---|---|---|---|
 | R51-C1 | `DRIFT 3 / UNVERDICTED 1 / NUMBER-DRIFT 1`, 19 surfaces, 13 resolving → `DRIFT 0 / UNVERDICTED 0 / NUMBER-DRIFT 0 / STALE 0`, 20 surfaces, 14 resolving | `python3 plans/round51_surfaces.py --lane .` | **admitted**; freshness 8→**9** |

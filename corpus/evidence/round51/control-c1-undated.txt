@@ -1,0 +1,119 @@
+# R51-C1 control 4 — undated-absence (seat C1CritUndated, round-51 w1)
+# command (frozen): python3 plans/round51_surfaces.py --lane .
+# measured tree: private clone of kengaku-shokunin, REV 4090c3db79d11279ab5e5121ba25e74aa316e6e7
+#   PROVINCE.md and plans/round51-surfaces.json are byte-identical to stage-1 freeze
+#   e07f131cf7037e58a21db6e1f3986cf401ad257c (git diff e07f131..HEAD touches only
+#   .ufo/waves/round-51/{build_spec.py,w1-dispatch.json,w1-spec.json}).
+# method: one private clone per section (`git clone --shared`), one- or two-line text edits applied to
+#   PROVINCE.md (and, in section B only, to the SF04 manifest anchor), frozen command re-run from the
+#   clone root. Every clone verified with `git -C <dir> rev-parse --show-toplevel` before any edit.
+# NOTE: the counter prints REV but no dirty-tree marker, so the edits below are recorded here by hand.
+#
+# SECTION A — literal item execution: real PROVINCE.md at line 16, SF05 marker
+#   "ABSENT 2026-10-20" -> "ABSENT" (word kept, ISO date stripped). Nothing else changed.
+#   OBSERVED: UNVERDICTED 2 (SF04 and SF05), exit 1 — not the item's expected "UNVERDICTED 1 naming
+#   SF05", because SF04 (PROVINCE.md:15, "**ABSENT**, reconfirmed round 14") is still undated at the
+#   frozen tip, so it already contributes the single UNVERDICTED the before receipt records.
+REV 4090c3db79d11279ab5e5121ba25e74aa316e6e7
+MANIFEST plans/round51-surfaces.json entries=19 sections=2
+ANCHORS total=19 dup=0 missing=0
+ROWS section="## Surfaces" rows=9 entries=9 uncovered=0
+ROWS section="### Core" rows=10 entries=10 uncovered=0
+PROBES run=19 present=13 absent=6 errors=0
+DRIFT 3
+  DETAIL DRIFT SF01 prose=present state=absent (the row's first path cell asserts the wiki tree resolves; round-15/25 rows alrea)
+  DETAIL DRIFT SF02 prose=present state=absent (the row asserts the relocated battery resolves at the archive path)
+  DETAIL DRIFT SF03 prose=present state=absent (the row declares a live served model endpoint)
+STALE 0
+UNVERDICTED 2
+  DETAIL UNVERDICTED SF04 row has no ABSENT <ISO date> marker
+  DETAIL UNVERDICTED SF05 row has no ABSENT <ISO date> marker
+NUMBER-DRIFT 1
+  DETAIL NUMBER-DRIFT SF14 row claims 25, probe says SOURCES rows=170
+ANCHOR-DUP 0
+ANCHOR-MISSING 0
+UNCOVERED 0
+SECTION-MISSING 0
+RESOLVE observed_present=13 floor=13 verdict=met
+PREDICATE R51-C1 fail
+EXIT=1
+#
+# SECTION B — the item's expected line, reproduced in the after-shape: SF04 dated
+#   "**ABSENT 2026-10-28**" (the landing edit) AND the SF04 manifest anchor shortened from
+#   "`~/Projects/bounties/ledger/telemetry.jsonl` — **ABSENT**" to
+#   "`~/Projects/bounties/ledger/telemetry.jsonl` — " ; SF05 marker stripped as in section A.
+#   The anchor edit is mandatory: without it the same tree reports ANCHOR-MISSING 1 (SF04) and
+#   UNCOVERED 1 (## Surfaces line 15), i.e. dating SF04 breaks its own anchor.
+REV 4090c3db79d11279ab5e5121ba25e74aa316e6e7
+MANIFEST plans/round51-surfaces.json entries=19 sections=2
+ANCHORS total=19 dup=0 missing=0
+ROWS section="## Surfaces" rows=9 entries=9 uncovered=0
+ROWS section="### Core" rows=10 entries=10 uncovered=0
+PROBES run=19 present=13 absent=6 errors=0
+DRIFT 3
+  DETAIL DRIFT SF01 prose=present state=absent (the row's first path cell asserts the wiki tree resolves; round-15/25 rows alrea)
+  DETAIL DRIFT SF02 prose=present state=absent (the row asserts the relocated battery resolves at the archive path)
+  DETAIL DRIFT SF03 prose=present state=absent (the row declares a live served model endpoint)
+STALE 0
+UNVERDICTED 1
+  DETAIL UNVERDICTED SF05 row has no ABSENT <ISO date> marker
+NUMBER-DRIFT 1
+  DETAIL NUMBER-DRIFT SF14 row claims 25, probe says SOURCES rows=170
+ANCHOR-DUP 0
+ANCHOR-MISSING 0
+UNCOVERED 0
+SECTION-MISSING 0
+RESOLVE observed_present=13 floor=13 verdict=met
+PREDICATE R51-C1 fail
+EXIT=1
+#
+# CONTROL RESULT: fails as required — exit 1 in both sections; UNVERDICTED names the stripped row
+# (SF05 in section B, SF04+SF05 in section A). Section B, not section A, is the line the claims text
+# predicts; section A is what the item's literal one-edit recipe produces at this revision.
+#
+# ATTACK PROBES on the UNVERDICTED date leg (not part of the control; recorded for the landing)
+# ABSENT_RE = re.compile(r"ABSENT\s+(\d{4}-\d{2}-\d{2})") — the captured date is never compared to
+# anything, so the leg is a presence-and-shape check, not a freshness check.
+#
+# P1 real tree, SF04 marker written "**ABSENT** 2026-10-28" (date present, after the closing bold —
+#    the one landing edit that keeps the frozen anchor intact): the date is invisible to the leg.
+== real tree, SF04 marker written as '**ABSENT** 2026-10-28' (date present, wrong shape; frozen anchor intact)
+ANCHORS total=19 dup=0 missing=0
+UNVERDICTED 1
+  DETAIL UNVERDICTED SF04 row has no ABSENT <ISO date> marker
+PREDICATE R51-C1 fail
+EXIT=1
+#
+# P2 real tree (SF04 anchor shortened), SF04 marker "**ABSENT 2019-01-01**" — a seven-year-stale date
+#    satisfies the leg outright.
+== real tree (SF04 manifest anchor shortened so the row stays covered), SF04 marker '**ABSENT 2019-01-01**', SF05 dated 2026-10-20
+ANCHORS total=19 dup=0 missing=0
+DRIFT 3
+UNVERDICTED 0
+NUMBER-DRIFT 1
+PREDICATE R51-C1 fail
+EXIT=1
+#
+# P3 synthetic full-pass fixtures (same frozen instrument, --lane/--manifest/--province overrides;
+#    one present row + one absent row, floor 2, every other leg consistent):
+#    a stale date and a future date both reach PREDICATE pass, exit 0; an undated marker fails.
+== synthetic full-pass fixtures (same frozen instrument, --lane/--manifest/--province overrides; one present + one absent row, floor 2)
+-- fx-dated-today
+UNVERDICTED 0
+PREDICATE R51-C1 pass
+EXIT=0
+-- fx-stale-2019
+UNVERDICTED 0
+PREDICATE R51-C1 pass
+EXIT=0
+-- fx-stale-future
+UNVERDICTED 0
+PREDICATE R51-C1 pass
+EXIT=0
+-- fx-undated
+UNVERDICTED 1
+  DETAIL UNVERDICTED SF02 row has no ABSENT <ISO date> marker
+PREDICATE R51-C1 fail
+EXIT=1
+#
+# The receipt's own scratch tree was removed after these bytes were copied into the lane.

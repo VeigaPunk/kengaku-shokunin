@@ -1592,4 +1592,5 @@ wave dir; `CritAdmission` did not settle before the wave closed — recorded as 
   `:1163`; the Hugging Face revision-pinning page rejected (HTTP 404, no locatable anchor). Census:
   170 rows → 171, `malformed=0`, `scripts/sources-census.sh validate --root … kengaku` exit 0 both times.
 - **Freshness of the round itself.** Every number above re-derives from the two committed counters; the
-  after-measurement runs in a clean clone of the landing commit.
+  after-measurement ran in a clean clone of `11e79380d33d6e811f0010f2a2a0c22a3cdc359e` (`git status --porcelain`
+  → 0 lines) and its receipts are `corpus/evidence/round51/c1-after.txt` and `c2-after.txt`.
