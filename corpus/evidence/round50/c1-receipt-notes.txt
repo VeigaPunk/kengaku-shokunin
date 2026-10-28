@@ -1,0 +1,18 @@
+# R50-C1 receipt notes (why every absolute path in c1-receipt.txt is not load-bearing)
+
+Run: clean `git clone --shared` of this lane at revision 61f6257c80ad74101d02a4da8fcead4cdb9cee65, checked out at
+that revision; `TREE dirty=0` in the receipt is the clone's own tree.
+
+The `FENCE <path> sha256=57adce4a…` line prints the path the counter was given, i.e. the clone under
+/fast/scratch/hyaku/kengaku-r50/receipt3/lane. That directory is scratch and will be reaped; the durable
+identifiers are the two digest fields on the same line and in this file:
+
+  plans/fixture_fence.py   sha256 57adce4a598e1ca8a365114b35047f20afdce9459aa83adc0c551712966383a1  (== HEAD)
+  plans/round50_c1_verify.py sha256 850ec7906e9658344b66e319a5c902ed4403519a55f33605b6f008ae90912999
+  plans/honest50/population.txt sha256 b5197f941a9f523eaedae6bd7be39531a0f80e10c6b05030687dbeacfb3fae69
+
+Every input the receipt scores is committed at that revision, so the run is reproducible from the lane alone:
+`git clone --shared <lane> /tmp/c1 && git -C /tmp/c1 checkout 61f6257 && cd /tmp/c1 && python3
+plans/round50_c1_verify.py --lane . --work <scratch>` must print the same four leg lines and `PREDICATE R50-C1
+pass`, exit 0. Paths under /fast/ or /tmp in the receipt are run-measured facts, never evidence pointers
+(receipt's own scratch was removed).
