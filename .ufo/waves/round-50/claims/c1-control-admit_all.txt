@@ -1,0 +1,51 @@
+# R50-C1 control: plans/controls50/admit_all.py on the S1 tree
+# command: python3 plans/round50_c1_verify.py --lane . --skip-mutants --fence plans/controls50/admit_all.py
+REV f7281bc90ca953ff3b84413a21023b9793ef2043
+TREE dirty=1
+FENCE /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/controls50/admit_all.py sha256=990147088c356a88afe1c3b2ceb43aa87a948a9baeae60227bbd5b5c30332212
+POPULATION fixtures=126 pin=b5197f941a9f523eaedae6bd7be39531a0f80e10c6b05030687dbeacfb3fae69 mismatched=0 build_errors=0
+HONEST fixtures=126 admitted=126 refused=0 error=0
+REFUSALS total=20 clean=0 leaked=34 build_errors=0
+REFUSALS-MISS f10_laneinclude.py f10-lane-include-regular ADMIT 
+REFUSALS-MISS f11_cr_include.py h1-cr-include-lf ADMIT 
+REFUSALS-MISS f11_cr_include.py h1-cr-include-crlf ADMIT 
+REFUSALS-MISS f12_includeif_cond.py h2-inclif-onbranch ADMIT 
+REFUSALS-MISS f12_includeif_cond.py h2-inclif-onbranch-nomatch ADMIT 
+REFUSALS-MISS f13_bom_include.py h3-bom-include ADMIT 
+REFUSALS-MISS f13_bom_include.py h3-bom-includeif ADMIT 
+REFUSALS-MISS f14_gitdir_include_symlink.py h3-cr-include-symlink ADMIT 
+REFUSALS-MISS f15_objects_symlink_out.py link-objects-symlink-out ADMIT 
+REFUSALS-MISS f16_objects_hardlink_out.py link-objects-hardlink-out ADMIT 
+REFUSALS-MISS f17_argv_nul.py argv-nul-lane ADMIT 
+REFUSALS-MISS f18_wtmeta_out.py g3-wtmeta-out ADMIT 
+REFUSALS-MISS f19_commondir_hidden.py g4-cd-hidden ADMIT 
+REFUSALS-MISS f1_gitfile.py f1-gitdir-outside ADMIT 
+REFUSALS-MISS f20_attributes_file.py config-core-attributes-file-outside ADMIT 
+REFUSALS-MISS f2_deep.py f2-deep-worktree ADMIT 
+REFUSALS-MISS f3_abbrev.py f3-abbrev-tree-claims ADMIT 
+REFUSALS-MISS f4_fifo.py f4-fifo-include ADMIT 
+REFUSALS-MISS f5_alternates.py f5-alternates-outside ADMIT 
+REFUSALS-MISS f6_above.py f6-repo-above-d ADMIT 
+REFUSALS-MISS f7_commondir.py f7-cd-accept ADMIT 
+REFUSALS-MISS f7_commondir.py f7-cd-reject ADMIT 
+REFUSALS-MISS f8_worktreecfg.py f8-wtcfg-a ADMIT 
+REFUSALS-MISS f8_worktreecfg.py f8-wtcfg-b ADMIT 
+REFUSALS-MISS f9_nodescribe.py f9-bare-repo ADMIT 
+SEALED total=12 clean=0 leaked=15 build_errors=0
+SEALED-MISS a_newline_anchor.py newline-anchor-accept ADMIT 
+SEALED-MISS a_newline_anchor.py newline-anchor-reject ADMIT 
+SEALED-MISS a_phantom_anchor.py phantom-anchor-accept ADMIT 
+SEALED-MISS a_phantom_anchor.py phantom-anchor-reject ADMIT 
+SEALED-MISS a_phantom_order.py phantom-order-accept ADMIT 
+SEALED-MISS a_phantom_order.py phantom-order-reject ADMIT 
+SEALED-MISS c_core_attributes_path.py sealed-core-attributes-path ADMIT 
+SEALED-MISS c_excludes_file.py sealed-core-excludes-file ADMIT 
+SEALED-MISS c_url_rewrite.py sealed-url-insteadof-path ADMIT 
+SEALED-MISS p_info_redirect.py sealed-info-redirect ADMIT 
+SEALED-MISS p_pack_redirect.py sealed-pack-redirect ADMIT 
+SEALED-MISS p_refs_redirect.py sealed-refs-redirect ADMIT 
+SEALED-MISS s_objects_link.py seal-objects-link ADMIT 
+SEALED-MISS s_packed_refs.py seal-packed-refs-link ADMIT 
+SEALED-MISS s_refs_link.py seal-refs-link ADMIT 
+PREDICATE R50-C1 fail
+# exit=1
