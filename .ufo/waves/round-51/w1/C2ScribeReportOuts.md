@@ -68,18 +68,18 @@ stands, and the file oscillated between the two inside 40 s.
 
 ## 3. The report-out list
 
-### 3.1 State A — what the live attribution hands over: nothing
+### 3.1 Variant A — what a 71-row landing hands over: nothing
 
 Zero rows carry a non-`kengaku` owner, therefore **zero lines**. This is not a gap this seat is
 papering over: `C2ConnProtocol.md` §4 reaches the same conclusion from the protocol text — *"the C2
 move is satisfied by **completing `owner` + `disposition` on lane-owned rows**, not by manufacturing
 routed-out rows. Any row marked `routed` or `referral` needs a non-`kengaku` owner *and* a `next`
-field; on the evidence above there is no row for which that is truthful today."* Under State A the
-round's report-out is carried entirely by the connector maps' class rulings (below), not by ledger
+field; on the evidence above there is no row for which that is truthful today."* Under this variant
+the round's report-out is carried entirely by the connector maps' class rulings (§4), not by ledger
 rows — and the L1 must say so in the round notes rather than let a `routed 0` receipt read as
 "nothing was reported out".
 
-### 3.2 State B — the four candidate handovers, each grounded in a row id and a map quote
+### 3.2 Variant B — the four candidate handovers, each grounded in a row id and a map quote
 
 If the L1 rules the row-count question in favour of the candidates, these are the lines. Format:
 **owner ← row id** · what is handed over · evidence pointer · quoted sibling line from the connector
@@ -167,8 +167,8 @@ all-`kengaku` fragment census in §2).
 
 ## 5. Counter measurements (scratch clones, read-only, no `--run-checks`)
 
-Both states were measured with the frozen command in a scratch clone at `4090c3d`, the candidate
-artifact copied over `corpus/routed-findings.jsonl`:
+Both variants were measured with the frozen command in a scratch clone at `4090c3d`, the artifact
+copied over `corpus/routed-findings.jsonl`:
 
 ```sh
 export TMPDIR=/fast/scratch/hyaku/kengaku-r51/C2ScribeReportOuts
@@ -179,7 +179,9 @@ cp .ufo/waves/round-51/w1/C2ExecLedgerMerge.jsonl "$TMPDIR/lane/corpus/routed-fi
 cd "$TMPDIR/lane" && python3 plans/round51_routing.py --lane .
 ```
 
-**State B artifact (75 rows, 15:34)** — verbatim:
+**Variant B artifact (75 rows, latest read 15:38:54, sha256 `cc5acda1…`)** — verbatim (the 15:34
+artifact printed the same counters; only the two `DETAIL` lines differed, showing the then
+`:line`-less sources):
 
 ```
 LEDGER corpus/routed-findings.jsonl rows=75
@@ -191,12 +193,12 @@ CHECKS present=75 absent=0
 VERIFIED ran=0 passed=0 failed=0
 CLOSE_REFS resolved=0 missing=0
 NEXT violations=0
-  DETAIL SOURCE R51-R2 source 'corpus/lessons/round-51.md' does not resolve
-  DETAIL SOURCE R51-R3 source 'corpus/evidence/round51/surfaces/paths.txt' does not resolve
+  DETAIL SOURCE R51-R2 source 'corpus/lessons/round-51.md:1' does not resolve
+  DETAIL SOURCE R51-R3 source 'corpus/evidence/round51/surfaces/paths.txt:1' does not resolve
 PREDICATE R51-C2 fail
 ```
 
-**State A artifact (71 rows, 15:38, current)** — verbatim:
+**Variant A artifact (71 rows, 15:38:13, md5 `3e381ce8…`)** — verbatim:
 
 ```
 LEDGER corpus/routed-findings.jsonl rows=71
@@ -212,10 +214,10 @@ PREDICATE R51-C2 pass
 EXIT=0
 ```
 
-Reading: the live artifact is structurally landable; the candidate artifact is not (two unresolved
-sources, both fixable by committing `corpus/lessons/round-51.md` and the evidence tree — the
-`integrate_ledger.py` sources are now `:line`-qualified, which fixes the `<path>:<line>` contract the
-reviewer's F1 named). Neither run executes the 41 `fixed-verified` checks; that hazard is cited from
+Reading: the 71-row variant is structurally landable; the 75-row variant is not, on two unresolved
+sources that are both fixable by committing `corpus/lessons/round-51.md` and the evidence tree — the
+`integrate_ledger.py` sources are now `:line`-qualified, which answers the `<path>:<line>` contract the
+reviewer's F1 named. Neither run executes the 41 `fixed-verified` checks; that hazard is cited from
 `C2ExecClosedChecks.md:125-136`: `VERIFIED ran=41 passed=2 failed=39` under the frozen invocation and
 `passed=41 failed=0` with `cwd=lane`.
 
@@ -258,15 +260,18 @@ so the row passes while citing nothing that carries it. Same class as ledger row
 cited sentence is `:29`. The map flags exactly this defect class in this lane (its F1/F2) and then
 commits it against a sibling; the sentence it quotes is real, the line number is not.
 
-**D-e — tool and artifact disagree.** `integrate_ledger.py:173` appends `NEW_ROWS`
-unconditionally, so a re-run reproduces the 75-row artifact the reviewer rejected; the 71-row file at
-15:38 is not that tool's output. Whoever lands must fix one of the two, or the next re-run silently
-changes the ledger the claim was measured on.
+**D-e — tool and artifact disagree, and the artifact oscillates.** `integrate_ledger.py:173` appends
+`NEW_ROWS` unconditionally, so a re-run reproduces the 75-row variant; the 71-row variant at 15:38:13
+is not that tool's output. Measured: the same path held 75 rows (15:34), 71 rows (15:38:13) and 75
+rows again (15:38:54). Whoever lands must pin which variant the claim is measured on, or the next
+re-run silently changes the ledger the predicate was scored against — and `rows=71` vs `rows=75` is
+the after-target's own number.
 
-**D-f — `next` is carried on 24 non-`routed` rows in the live artifact** (State A: 24 `accepted-risk`
-rows). There `next` means "re-open when …" (e.g. `R40-R5` "kengaku round 52 backlog"), not a routing
-target. No predicate violation (the counter requires `next` only for `routed`/`referral`, and extra
-keys are unchecked), but one field now carries two meanings in one file.
+**D-f — `next` carries two meanings in one file.** In the 75-row variant, 32 rows carry `next`: the 4
+`routed` rows (where it is a routing target) and 28 `accepted-risk` rows (where it means "re-open
+when …", e.g. `R40-R5` "kengaku round 52 backlog"). No predicate violation — the counter requires
+`next` only for `routed`/`referral` and ignores extra keys — but a reader of the ledger cannot tell a
+routing target from a backlog note without the disposition.
 
 **D-g — the connector brief named two files that do not exist.** `C2ConnProtocol`'s item names
 `protocol-shokunin/PROVINCE.md` and `aggregator-shokunin/PROVINCE.md`; measured here
@@ -290,8 +295,10 @@ df -h /fast                                     # /dev/nvme1n1p2 804G 249G used 
 wc -l corpus/routed-findings.jsonl              # 71
 git -C kengaku-shokunin rev-parse HEAD          # 4090c3db79d11279ab5e5121ba25e74aa316e6e7
 python3 -c "…json.loads C2Exec*.jsonl…"         # fragments 8, distinct ids 71, owners {kengaku:71}
-python3 -c "…C2ExecLedgerMerge.jsonl…"          # 15:34: 75 rows / 4 routed; 15:38: 71 rows / 0 routed
-stat -c '%s %y' C2ExecLedgerMerge.jsonl; md5sum  # 62532 B 15:38:13, 3e381ce8… (sha256 08a8d2b0…)
+python3 -c "…C2ExecLedgerMerge.jsonl…"          # 15:34: 75 rows/4 routed; 15:38:13: 71 rows/0 routed;
+                                                # 15:38:54: 75 rows/4 routed again (oscillation, D-e)
+stat -c '%s %y' C2ExecLedgerMerge.jsonl; md5sum; sha256sum
+                                                # 66130 B 15:38:54, md5 7b990ffd…, sha256 cc5acda1…
 python3 -c "…load_owners(Path('/home/vgpnk/Projects/shokunin'))…"   # 17 accepted, 7 conf lanes rejected
 for spec in kumitate:3,24,28,29 kotoba:3,13,68 chousa:5-6 tameshi:3-5 mori:46,136-137 \
             kama:10,12,13,42,44 souji/SKILL:381 AXES:16 PROTOCOL:117,118,207,208,241-245,326,352,356,377,398-400,435,457-459,464-466,468-469,475-476,502-503
@@ -310,16 +317,16 @@ from `C2ExecClosedChecks.md:125-136`.
 
 ## 8. Limits
 
-- The attribution moved twice inside this seat's window (§2). Everything here is pinned by hash and
-  mtime, but a third rewrite after this read would invalidate §3.1's "empty" claim and §5's numbers;
-  the fragment census (71/71 `kengaku`) is the most stable leg, because the eight fragments did not
-  change.
+- The attribution moved three times inside this seat's window (§2, D-e) and was still the 75-row
+  variant at the last read. Everything here is pinned by hash and mtime, but a further rewrite would
+  change which variant §3.1/§3.2 applies to; the fragment census (71/71 `kengaku`) is the most stable
+  leg, because the eight fragments did not change at all.
 - `REV 9baaeee8…` (fleet root) is quoted from `C2ConnProtocol.md`, not re-measured; the sibling lines
   themselves were re-read in the working trees of `kumitate`, `kotoba`, `chousa`, `tameshi`, `mori`,
   `kama`, `souji` and of the fleet root — readable and clean enough to quote, but not pinned by this
   seat.
-- §4's zero-row entries assert "no ledger row carries this class", a fact about the 71 rows, not about
-  the fleet's whole surface. A class nobody opened is invisible to C2 (claims §Limits).
+- §4's zero-row entries assert "no ledger row carries this class", a fact about the 71 base rows, not
+  about the fleet's whole surface. A class nobody opened is invisible to C2 (claims §Limits).
 - I did not decide any owner or any disposition. §3.2 reports what the candidate assigned and what the
   maps quote; where the maps disagree (D-h, §3.2 line 3) both readings are printed.
 - No check was executed; nothing here says which `fixed-verified` checks pass.
@@ -329,22 +336,22 @@ from `C2ExecClosedChecks.md:125-136`.
 ## 9. Scratch
 
 `/fast/scratch/hyaku/kengaku-r51/C2ScribeReportOuts` was created, held one `--shared` clone
-(`…/C2ScribeReportOuts/lane`, toplevel verified before any write) and the two counter runs, and was
+(`…/C2ScribeReportOuts/lane`, toplevel verified before any write) and three counter runs, and was
 removed before yield. Free space seen: `/dev/nvme1n1p2 804G 249G used 555G avail 31%`; nothing
 citable lives outside this wave directory and the lane tree.
 
-VERDICT: report-out list drafted in both states the artifact admits. **Live (71 rows, 15:38):** the
-attribution names **no sibling owner**, so the list is **empty** and the round's adjacency move rides
-on 71 in-lane attributions plus the connector maps' class rulings — the L1 must say that in the round
-notes, because `routed 0` otherwise reads as "nothing reported out". **Candidate (four `routed` rows
-in `integrate_ledger.py` `NEW_ROWS`):** four handovers, one line each — `kama` ← `R51-R1`
-(serving-plane identity pin; health/flag authority), `kama` ← `R51-R4` (qwen-coder unit retirement),
+VERDICT: report-out list drafted for both variants the attribution admits, because the artifact
+oscillated 75 → 71 → 75 rows inside this seat's window. **Variant B (75 rows, the last state read,
+sha256 `cc5acda1…`):** four handovers, one line each, each grounded in a ledger row id and a quoted
+connector-map line — `kama` ← `R51-R1` (LFM3 identity pin; health/flag authority handed over, pointer
+cites the wrong PROVINCE row), `kama` ← `R51-R4` (qwen-coder unit retirement, pointer correct),
 `protocol` ← `R51-R2` (fleet routed-finding ledger schema), `unowned:integrator` ← `R51-R3`
-(restore-or-retire three absent source trees) — each grounded in the row id and a quoted connector-map
-line, with the two kama lines re-verified against `kama-shokunin/PROVINCE.md` and the two others
-against `PROTOCOL.md`. Eight further sibling lanes are named by the maps with zero rows (aggregator is
-a live three-way disagreement), and seven rostered lanes are unrouteable under the frozen counter.
-Three candidate pointers do not resolve at the committed tip, `R51-R1`'s `source` cites the wrong
-PROVINCE row, one connector map's own line pin is off by one, and the integration tool no longer
-reproduces the artifact it wrote — all reported, none fixed, no sibling scope absorbed.
+(restore-or-retire three absent source trees). **Variant A (71 rows):** no sibling owner is named, so
+the list is **empty** and the round's adjacency move rides on 71 in-lane attributions plus the
+connector maps' class rulings — the L1 must say that in the round notes, because `routed 0` otherwise
+reads as "nothing reported out". Eight further sibling lanes are named by the maps with zero rows
+(aggregator is a live three-way disagreement), and seven rostered lanes are unrouteable under the
+frozen counter. Three candidate pointers do not resolve at the committed tip, one connector map's own
+line pin is off by one, and the integration tool no longer reproduces the artifact it wrote — all
+reported, none fixed, no sibling scope absorbed.
 REV 4090c3db79d11279ab5e5121ba25e74aa316e6e7

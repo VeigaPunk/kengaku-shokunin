@@ -238,14 +238,15 @@ and the conservative dispositions above.
 - Checks were executed as the fragments wrote them; this seat did not audit whether a green
   check re-derives its row's claim — `C2CritChecks`, `C2CritDisposition`, `C2CritSpotAttribution`
   own that.
-- 42 `fixed-verified` results are point-in-time at tip `4090c3d` with `TMPDIR` in my scratch.
+- The `fixed-verified` results (42 in my merge, 41 in the landed ledger) are point-in-time at tip
+  `4090c3d` with `TMPDIR` in my scratch.
 - `evidence` / `w1_check_note` (9 rows each) are carried as fragment-authored prose; I did not
   verify their statements.
 - No tool was installed or upgraded (no channel, version or reason to record).
 
 ## 7. Scratch
 
-`/fast/scratch/hyaku/kengaku-r51/C2ExecLedgerMerge` (clone 612 MB, receipts, merge scripts) is
+`/fast/scratch/hyaku/kengaku-r51/C2ExecLedgerMerge` (clone 613 MB, receipts, merge scripts) is
 removed before yield; receipts are quoted verbatim above, so nothing citable lives only in
 scratch. Free space seen: `/fast 804G total, 250G used, 555G avail (32%)`.
 

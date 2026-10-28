@@ -7,11 +7,10 @@ and routed, not absorbed"); **freshness** (C1 axis) — I measured nothing that 
 REV 4090c3db79d11279ab5e5121ba25e74aa316e6e7
 
 Lane HEAD I cloned and measured against; the stage-1 freeze is
-`e07f131cf7037e58a21db6e1f3986cf401ad257c`. The C2 artifact and the C2 instrument both moved
-while I measured — the artifact was rewritten four times (table below) and
-`plans/round51_routing.py` plus `plans/round-51-claims.md` carry uncommitted working-tree edits
-(amendments A1/A2). Every number below is bound to a sha256 and an mtime, and I state which
-revision of the instrument produced it.
+`e07f131cf7037e58a21db6e1f3986cf401ad257c`. The C2 artifact and the C2 instrument both moved while
+I measured: the artifact was rewritten **five** times (table below), and `plans/round51_routing.py`
+plus `plans/round-51-claims.md` carry uncommitted working-tree edits (amendments A1/A2). Every
+number below is bound to a sha256 and an mtime, and I say which instrument revision produced it.
 
 ## Method (mine, stated before the numbers)
 
@@ -27,8 +26,9 @@ I took no number from the L1 or from any executor. I derived:
    the lane (the counter's own rule); routed/referral without `next` = disposition in
    `{routed, referral}` and `next` missing/empty.
 3. **The frozen counter**, pointed at a candidate ledger inside a scratch `git clone --shared` of
-   the lane (`--ledger` outside `--lane` still crashes — F6), first with the committed instrument
-   at REV 4090c3d, then with the amended working-tree instrument.
+   the lane (`--ledger` outside `--lane` still crashes — F5), first with the committed instrument
+   at REV 4090c3d, then with the amended working-tree instrument, both with and without
+   `--run-checks`.
 
 ## Commands run (verbatim) and observed output
 
@@ -100,97 +100,140 @@ PREDICATE R51-C2 pass
 
 Counter selftest at REV 4090c3d: `[selftest] cases=11 failures=0` / `ALL PASS`.
 
-## The artifact moved four times while I measured
+## The artifact moved five times while I measured
 
 `.ufo/waves/round-51/w1/C2ExecLedgerMerge.jsonl`:
 
-| # | sha256 (first 12) | mtime | rows | owners | dispositions | counter (committed instrument) |
+| # | sha256 (first 12) | mtime | rows | owners | dispositions | measured outcome |
 |---|---|---|---|---|---|---|
-| a | `60de71131ce1` | 15:22:44 | 71 | kengaku 9, unattributed 62 | fv 6 / ar 3 | `FIELDS complete=9 incomplete=62` → fail |
-| b | `db970426d370` | 15:33:36 | 75 | 4 | fv 38 / ar 24 / fh 7 / routed 4 / refused 2 | `SOURCE missing=2` (at that instant) |
-| c | `dfed00196319` | 15:34:04 | 75 | 4 | fv 41 / ar 28 / routed 4 / refused 2 | clean clone: `SOURCE missing=2`, `CHECK_FAILED 1` → **fail** |
-| d | `08a8d2b0f5c1` | 15:38:13 | 71 | kengaku 71 | fv 42 / ar 24 / fh 3 / refused 2 | pristine clone, amended instrument: **pass** |
+| a | `60de71131ce1` | 15:22:44 | 71 | kengaku 9, unattributed 62 | fv 6 / ar 3 | committed instrument: `FIELDS complete=9 incomplete=62` → **fail** |
+| b | `db970426d370` | 15:33:36 | 75 | 4 | fv 38 / ar 24 / fh 7 / routed 4 / refused 2 | `SOURCE missing=2` |
+| c | `dfed00196319` | 15:34:04 | 75 | 4 | fv 41 / ar 28 / routed 4 / refused 2 | committed instrument, clean clone: `SOURCE missing=2`, `CHECK_FAILED 1` → **fail** |
+| d | `08a8d2b0f5c1` | 15:38:13 | 71 | kengaku 71 | fv 42 / ar 24 / fh 3 / refused 2 | amended instrument, pristine clone: **pass** (but drops all four `routed` rows) |
+| e | `cc5acda17ad8` | 15:38:54 | 75 | 4 | fv 41 / ar 28 / routed 4 / refused 2 | amended instrument, landing tip simulated: **pass**, 41/41 checks |
 
-Revision (d) is the artifact at the time of writing. My recount of (d), in-lane:
+Revision (e) is the artifact at the time of writing. My recount of (e), in-lane:
 
 ```
-ROWS 71
-PARSE-BAD 0 []
-IDS unique=71 duplicate=0
-OWNERS distinct=1 unattributed=0
+ROWS 75
+IDS unique=75   duplicates none
+OWNERS distinct=4 unattributed=0
   OWNER kengaku 71
+  OWNER kama 2
+  OWNER protocol 1
+  OWNER unowned:integrator 1
 DISPOSITIONS distinct=4 unset=0 off-enum=none
-  DISP fixed-verified 42
-  DISP accepted-risk 24
-  DISP fixed-historical 3
+  DISP fixed-verified 41
+  DISP accepted-risk 28
+  DISP routed 4
   DISP refused-out-of-scope 2
-CHECK-EMPTY 0 []
-SOURCE-MISSING 0 []
-ROUTED-OR-REFERRAL-NO-NEXT 0 []
-EXTRA-FIELDS {'owner': 71, 'disposition': 71, 'next': 28}
+CHECK-EMPTY []
+SOURCE-MISSING []
+ROUTED-OR-REFERRAL-NO-NEXT []
+next present on 32 rows
+STATUS closed 41 / open 31 / blocked 1 / refused 2
+open+fixed-verified []   (an earlier revision, db970426, had four: R42-R3-33, R42-R3-34, R45-S5-7b, R45-S5-7d)
 ```
 
-Revision (c), the last 75-row revision, recounted against the lane working tree:
+The four routed rows, exactly as amendment A2 tabulates them:
 
 ```
-ROWS 75   IDS unique=75   OWNERS distinct=4 (kengaku 71, kama 2, protocol 1, unowned:integrator 1)
-DISPOSITIONS fixed-verified 41, accepted-risk 28, routed 4, refused-out-of-scope 2
-CHECK-EMPTY 0   SOURCE-MISSING 1 [('R51-R2', 'corpus/lessons/round-51.md')]
-ROUTED-OR-REFERRAL-NO-NEXT 0   next on 32 rows
+R51-R1 | PROVINCE.md:15                              | kama               | routed | open
+R51-R2 | corpus/lessons/round-51.md:1                 | protocol           | routed | open
+R51-R3 | corpus/evidence/round51/surfaces/paths.txt:1 | unowned:integrator | routed | open
+R51-R4 | PROVINCE.md:14                              | kama               | routed | open
 ```
 
-Status × disposition (my cross-tab; the counter never computes it): in (c) `closed` 41 =
-`fixed-verified`, `open` 31 = 27 `accepted-risk` + 4 `routed`, `blocked` 1, `refused` 2 — no
-`open`+`fixed-verified` pair. An earlier revision (`db970426…`) had four: `R42-R3-33`,
-`R42-R3-34`, `R45-S5-7b`, `R45-S5-7d`.
+At a simulated landing tip (clone of REV 4090c3d + the candidate ledger + the two untracked source
+files committed), amended instrument, all checks run:
 
-## Findings, by severity
+```
+FIELDS complete=75 incomplete=0
+OWNERS attributed=75 unattributed=0
+DISPOSITIONS set=75 bad=0
+SOURCES resolved=75 missing=0
+CHECKS present=75 absent=0
+VERIFIED ran=41 passed=41 failed=0
+CLOSE_REFS resolved=0 missing=0
+NEXT violations=0
+PREDICATE R51-C2 pass
+```
 
-### F1 — BLOCKER for the 75-row revision: its four new rows break the lane's own ledger reader, and the failure cascades into a `fixed-verified` check
-
-`plans/routed_open.py` (the lane's round-close counter; its docstring fixes `source` as
-`<lesson file>:<line>`) refuses a row whose `source` carries no `:line`. On revision (c):
+and the lane's own reader is healthy there:
 
 ```
 $ python3 plans/routed_open.py --lane . --list ; echo rc=$?
+ROW R51-R1 status=open opened=51 source=PROVINCE.md:15
+…
+ROWS total=75 open=31 blocked=1 closed=41 refused=2
+routed_open=32 oldest_round=39
+rc=0
+```
+
+## Findings, by severity
+
+### F1 — RESOLVED in revision (e), was a blocker in (c): the four new rows broke the lane's own ledger reader
+
+In revision (c) the two new rows carried line-less sources (`corpus/lessons/round-51.md`,
+`corpus/evidence/round51/surfaces/paths.txt`). `plans/routed_open.py` fixes `source` as
+`<lesson file>:<line>` and refuses the whole file:
+
+```
 DEFECT line=73 source must read <path>:<line>
 DEFECT line=74 source must read <path>:<line>
-ROWS total=75 invalid=2
-rc=1
+ROWS total=75 invalid=2   rc=1
 ```
 
-Lines 73 and 74 are `R51-R2` (`"source": "corpus/lessons/round-51.md"`) and `R51-R3`
-(`"source": "corpus/evidence/round51/surfaces/paths.txt"`). `routed_open.py` withholds every
-`ROW …` line when the file is invalid, so `R42-R2`'s check —
+Because it then withholds every `ROW …` line, `R42-R2`'s `fixed-verified` check —
 `cd "$LANE" && python3 plans/routed_open.py --lane . --list | grep -qE '^ROW R42-R2\.[12] status=closed' && test -f plans/scratch_guard.py`
-— exits 1 while `R42-R2` is `fixed-verified`. That is the `CHECK_FAILED 1` in the (c) run, and it
-is the C2 predicate failing for a reason unrelated to attribution. Reproduced directly:
+— exited 1: that is the `CHECK_FAILED 1` measured on (c). The C2 counter cannot see this class at
+all, because its `SOURCE` leg only asks whether the file exists. Revision (e) adds `:1` to both
+sources and the reader returns `rc=0` at the simulated landing tip (quoted above). Keep it that way.
+
+### F2 — HIGH, live: the two source files are untracked, so a clean clone fails
+
+`corpus/lessons/round-51.md` (15:38) and `corpus/evidence/round51/surfaces/paths.txt` (15:35) exist
+only in the working tree. In a pristine clone of REV 4090c3d with revision (e) as the ledger:
 
 ```
-$ LANE=$PWD bash -lc 'cd "$LANE" && python3 plans/routed_open.py --lane . --list | grep -E "^ROW R42-R2" ; echo "grep-rc=$?"'
-grep-rc=1
+SOURCES resolved=73 missing=2
+DETAIL SOURCE R51-R2 source 'corpus/lessons/round-51.md' does not resolve
+DETAIL SOURCE R51-R3 source 'corpus/evidence/round51/surfaces/paths.txt' does not resolve
+DEFECT line=73 source file missing: corpus/lessons/round-51.md
+DEFECT line=74 source file missing: corpus/evidence/round51/surfaces/paths.txt
+ROWS total=75 invalid=2   rc=1
 ```
 
-The C2 counter cannot see this: its `SOURCE` leg only asks whether the file exists. Fix before
-landing if the four rows return: give `R51-R2` and `R51-R3` `<path>:<line>` sources (`R51-R1`/
-`R51-R4` already use `PROVINCE.md:14`/`:15`).
+The claim is measured "in a clean clone at the landing tip". Both files must be committed with the
+ledger (or the rows must point at committed evidence), or the predicate and the lane's own reader
+both fail at landing. This is the one landing dependency that is not yet satisfied.
 
-### F2 — HIGH: amendment A2 reconciles `rows=75`; the artifact now carries 71 rows and none of the four rows A2 tabulates
+### F3 — MEDIUM, live: the 57 rewritten `check` values are unnecessary and should be reverted
 
-`plans/round-51-claims.md` (uncommitted, +27 lines) adds **A2**: the landed ledger "carries 75 …
-the 71 base rows … plus four rows this round opens", with a table of `R51-R1..R4`
-(`kama`/`protocol`/`unowned:integrator`, all `routed`). Revision (d), written at 15:38:13, has
-**71 rows and zero `R51-*` ids**. One of the two is wrong at landing. A2's reasoning is sound and
-the counter indeed has no row-count leg — but the artifact must match the amendment, or the
-amendment must be withdrawn.
+Base vs. revision (e): `check` identical on 4 rows (`R45-S5-4..7a`), authored on the 10 that were
+empty, **changed on 57**. Most are path qualification (`"$LANE/…"`, `cd "$LANE" &&`, added
+`test -f … &&` guards); at least four change the predicate itself:
 
-This matters beyond bookkeeping: the four `R51-*` rows are the **only** `routed`/`referral` rows
-in any revision. In (d) distinct owners is back to **1** (`kengaku` 71/71) and the routing half of
-the schema — `next` for routed rows, control 3 `absorbed-routed` — is exercised by nothing. The
-adjacency gain then rests on a constant column, which cannot distinguish a right attribution from
-a wrong one. Keep the rows (repaired per F1); do not ship (d).
+- `R39-R5`: `test ! -e /fast/scratch/hyaku/kengaku-r39` → `test -z "$(ls -d /fast/scratch/hyaku/kengaku-r39* 2>/dev/null)"`
+- `R42-R3-21`: appended `&& [ "$(awk -F'|' '/^\| S[0-9]+/ && NF!=13' "$LANE/corpus/SOURCES.md" | wc -l)" -eq 0 ]`
+- `R42-R3-22`: appended `&& sed -n 25p "$LANE/plans/registry_check.py" | grep -q "def parse_registry"`
+- `R42-R3-25`: `grep … corpus/routed-findings.jsonl` → a `python3 -c` parse of the ledger itself
 
-### F3 — HIGH (pre-amendment, now addressed): the owner leg was enforced against a hardcoded list
+Those rewrites compensated for the old `cwd=<scratch>`; amendment A1.1 moves the check cwd to the
+lane root. Measured on revision (e) with **every base `check` restored verbatim** (only the 10
+empty ones and the 4 new rows' checks authored):
+
+```
+VERIFIED ran=41 passed=41 failed=0
+PREDICATE R51-C2 pass
+```
+
+So the ledger can be re-attributed without rewriting a single frozen check. Recommendation: revert
+the 57, keep the authored ones. This removes the "the seat that authored the check also certified
+it" problem; the ruling on whether a rewritten `check` is an allowed field addition belongs to
+`C2RevFieldLoss`, and this is the measurement it needs.
+
+### F4 — MEDIUM, addressed by amendment but verify it lands: the owner leg was enforced against a hardcoded list
 
 With the committed instrument, `load_owners()` matched `^\s{0,6}([a-z][a-z0-9-]{2,15}):\s*\{`
 against a `shokunin.conf` whose lane rows are `id|repo|axes`: **0 matches**, so the owner universe
@@ -213,40 +256,16 @@ owner=revenger -> DETAIL OWNER R39-R1 owner 'revenger' not a fleet lane | PREDIC
 owner=kumitate -> OWNERS attributed=71 unattributed=0 | PREDICATE R51-C2 pass
 ```
 
-A *correct* attribution to `tsukuroi` (host operability) or `revenger` (evidence discipline)
-failed the predicate, so the claim's sentence "every `owner` names a fleet lane from
-`../shokunin.conf`" was not what the counter checked. Amendment A1.3 replaces the regex with
-`id|` parsing plus a `*-shokunin` directory glob and names the same seven lanes — my measurement
-and the amendment agree independently. `FALLBACK_OWNERS` still lists `kumitate` three times.
+A *correct* attribution to `tsukuroi` (host operability) or `revenger` (evidence discipline) failed
+the predicate, so the claim's sentence "every `owner` names a fleet lane from `../shokunin.conf`"
+was not what the counter checked. Amendment A1.3 replaces the regex with `id|` parsing plus a
+`*-shokunin` directory glob and names the same seven lanes — my measurement and the amendment agree
+independently. `FALLBACK_OWNERS` still lists `kumitate` three times (harmless).
 
-### F4 — MEDIUM: the 57 `check` rewrites are now unnecessary and should be reverted
+### F5 — MEDIUM, live: amendment A1.4 is a partial fix — an outside `--ledger` still crashes
 
-Base vs. revision (d): `check` identical on 4 rows (`R45-S5-4..7a`), authored on the 10 that were
-empty, and **changed on 57**. Most are path qualification (`"$LANE/…"`, `cd "$LANE" &&`, added
-`test -f … &&` guards); at least four change the predicate itself:
-
-- `R39-R5`: `test ! -e /fast/scratch/hyaku/kengaku-r39` → `test -z "$(ls -d /fast/scratch/hyaku/kengaku-r39* 2>/dev/null)"`
-- `R42-R3-21`: appended `&& [ "$(awk -F'|' '/^\| S[0-9]+/ && NF!=13' "$LANE/corpus/SOURCES.md" | wc -l)" -eq 0 ]`
-- `R42-R3-22`: appended `&& sed -n 25p "$LANE/plans/registry_check.py" | grep -q "def parse_registry"`
-- `R42-R3-25`: `grep … corpus/routed-findings.jsonl` → a `python3 -c` parse of the ledger itself
-
-Those rewrites compensated for the old `cwd=<scratch>`; amendment A1.1 moves the check cwd to the
-lane root, so they are no longer needed. Measured: a variant of (d) that keeps **the 61 base
-`check` values verbatim** (only the 10 empty ones authored) passes under the amended instrument —
-
-```
-VERIFIED ran=42 passed=42 failed=0
-PREDICATE R51-C2 pass
-```
-
-So the ledger can be re-attributed without rewriting a single frozen check. Recommendation:
-revert the 57, keep the 10. This removes the "the seat that authored the check also certified it"
-problem (`C2RevFieldLoss` owns the ruling; this is the measurement it needs).
-
-### F5 — MEDIUM: amendment A1.4 is a partial fix — an outside `--ledger` still crashes
-
-A1.4 says "A relative `--ledger` raised `ValueError` in `relative_to`; the path is resolved
-first." Resolving helps only inside the lane. Measured against the amended instrument:
+A1.4 says "A relative `--ledger` raised `ValueError` in `relative_to`; the path is resolved first."
+Resolving helps only inside the lane. Measured against the amended instrument:
 
 ```
 $ python3 plans/round51_routing.py --lane <clone> --ledger /fast/scratch/…/snap-1538.jsonl
@@ -255,47 +274,45 @@ $ python3 plans/round51_routing.py --lane <clone> --ledger /fast/scratch/…/sna
 ValueError: '/fast/scratch/…/snap-1538.jsonl' is not in the subpath of '…/lane2'
 ```
 
-Traceback, no `PREDICATE … fail` line. A candidate outside the lane still cannot be measured, and
-a crash is distinguishable from a failing predicate only by the missing final line. A
-`try/except` around `relative_to` (or printing the absolute path) would close it.
+Traceback, no `PREDICATE … fail` line: a candidate outside the lane still cannot be measured, and a
+crash is distinguishable from a failing predicate only by the missing final line. A `try/except`
+around `relative_to`, or printing the absolute path, closes it.
 
-### F6 — MEDIUM: amendments A1 and A2 are uncommitted edits to the frozen instrument and the frozen claims
+### F6 — MEDIUM, live: amendments A1 and A2 are uncommitted edits to a frozen instrument and a frozen claims doc
 
 At 15:39 the working tree showed `M plans/round51_routing.py`, `M plans/round-51-claims.md`,
-`M corpus/SOURCES.md`, plus untracked `corpus/lessons/round-51.md`,
-`corpus/evidence/round51/`, `corpus/knowledge/served-endpoint-identity-pin.md`. A1.1 changes the
-*environment* the `fixed-verified` leg runs in (`cwd=<scratch>` → `cwd=<lane>`, timeout 60 → 90 s)
-— the legs are unchanged but their meaning is not: the before-receipt recorded `VERIFIED ran=0`,
-so no check ever ran under the frozen cwd, and the after-measurement will be the first run under
-the amended one. That is disclosed in A1, and the ordering claim ("written before the scored
-after-measurement") is not something I can verify from inside the wave. What I can verify: both
-amendments must be committed with the landing, and the landing measurement must name which
-instrument revision it used.
+`M corpus/SOURCES.md`, plus the untracked files of F2 and `corpus/knowledge/served-endpoint-identity-pin.md`.
+A1.1 changes the *environment* the `fixed-verified` leg runs in (`cwd=<scratch>` → `cwd=<lane>`,
+timeout 60 → 90 s): the legs are unchanged, their meaning is not. The before-receipt recorded
+`VERIFIED ran=0`, so no check ever ran under the frozen cwd and the after-measurement is the first
+run under the amended one — disclosed in A1, but the ordering claim ("written before the scored
+after-measurement") is not verifiable from inside the wave. Both amendments must be committed with
+the landing, and the landing measurement must name the instrument revision it used.
 
-I checked one consequence of `cwd=<lane>`: whether running the checks dirties the measured tree.
-After a full `--run-checks` pass in my clone, `git status --porcelain` showed only the files I had
-copied in myself — no check wrote into the tree. So the measurement is non-mutating for this
-ledger, measured, not assumed.
+One consequence of `cwd=<lane>` I did check: after a full `--run-checks` pass in my clone,
+`git status --porcelain` showed only the files I had copied in myself — no check wrote into the
+measured tree. Non-mutating, measured, not assumed.
 
-### F7 — LOW: two source pointers depend on files that were untracked at measurement time
+### F7 — observation: A2 and revision (e) agree; revision (d) did not
 
-`corpus/evidence/round51/surfaces/paths.txt` (15:35) and `corpus/lessons/round-51.md` (15:38)
-existed only in the working tree. A clean clone sees neither: the counter reports
-`SOURCE missing=2` for revision (c) in a clone, while my in-lane recount of (c) reports 1. For
-revision (d) this is moot (no `R51-*` rows, `SOURCES resolved=71` in a pristine clone, measured).
-If the four rows return, those two files must be committed, or the rows must point at committed
-evidence.
+A2 reconciles `rows=75` in the claim text and tabulates the four `R51-*` rows; revision (e) matches
+that table exactly (owners, dispositions, `next`). Revision (d), written between them, had 71 rows
+and none of the four — had it landed, A2 would have described rows that were not there. The four
+rows are also the only `routed`/`referral` rows in any revision: with them, distinct owners is 4 and
+the routing leg (`next` on routed rows, control 3 `absorbed-routed`) is exercised by data; without
+them it is back to a single constant owner column that cannot distinguish a right attribution from
+a wrong one. Keep them.
 
 ## Limits
 
 - I measured no C1 surface, digest or probe; nothing here bears on freshness.
 - My source leg is file-existence only, the counter's rule. Line-level resolution (`path:line`
   really carries the finding) is `C2ExecSourceResolve`'s item and I did not repeat it.
-- Check execution ran in my own `git clone --shared` of REV 4090c3d, not a clean `--no-local`
-  clone of a landing tip (none exists). Host-dependent checks (`/fast/scratch/hyaku/kengaku-r39*`,
+- Check execution ran in my own `git clone --shared` of REV 4090c3d, not a clean `--no-local` clone
+  of a landing tip (none exists). Host-dependent checks (`/fast/scratch/hyaku/kengaku-r39*`,
   network paths) reflect this host and this moment.
 - The artifact was live while I measured; the merge seat had no report file at 15:36 and was still
-  running. Revision (d) is the state at 15:38:13 and my numbers are bound to that sha; a later
+  running. Revision (e) is the state at 15:38:54 and my numbers are bound to that sha; a later
   rewrite invalidates the numbers, not the method.
 - I did not run `--run-checks` against revision (a): 62 rows were unattributed, so `FIELDS` fails
   before any check runs.
@@ -304,8 +321,8 @@ evidence.
 ## Scratch
 
 Scratch root `/fast/scratch/hyaku/kengaku-r51/C2RevRecount` (NVMe), `TMPDIR` exported there;
-`recount.py`, `merge.py`, the `--shared` clones, the snapshots and the counter runs lived there
-and were removed before this seat yielded. Nothing citable was left behind: every number above is
-re-derivable from the lane paths and the commands quoted verbatim.
+`recount.py`, `merge.py`, the `--shared` clones, the five snapshots and the counter runs lived
+there and were removed before this seat yielded. Nothing citable was left behind: every number
+above is re-derivable from the lane paths and the commands quoted verbatim.
 
-VERDICT: RECOUNT CONFIRMS the mechanical legs — base 71 rows / 71 unique ids / 10 empty checks / 0 unresolved sources; my own merge of the eight fragments 71 rows, 71 unique ids, 0 unattributed, 0 empty `check`, 0 unresolved `source`, 0 `routed`/`referral` without `next`, base order preserved, fragments A..H contiguous with no gap or overlap — and REJECTS both live candidates as they stand. Revision `dfed0019` (75 rows) fails the frozen predicate in a clean clone (`SOURCE missing=2`, `CHECK_FAILED 1` on `R42-R2`) because its two new rows break `plans/routed_open.py` (`invalid=2`, `source must read <path>:<line>`), which the C2 counter's file-existence leg cannot see. Revision `08a8d2b0` (71 rows) passes the amended predicate (42/42 checks in a clone, `SOURCES resolved=71` in a pristine clone) but contradicts amendment A2, which tabulates four `R51-*` rows it no longer contains, and it drops the only `routed` rows — leaving a single distinct owner and no exercised routing leg. Also open: A1.4 still crashes on an outside `--ledger`; the 57 rewritten `check` values are unnecessary under A1.1 (a base-check variant passes 42/42) and should be reverted; A1 and A2 are uncommitted edits to a frozen instrument and a frozen claims doc and must land with the measurement that cites them.
+VERDICT: RECOUNT CONFIRMS every mechanical leg I derived myself — base 71 rows / 71 unique ids / 10 empty `check` / 0 unresolved `source`; my own merge of the eight fragments 71 rows, 71 unique ids, 0 unattributed, 0 empty `check`, 0 unresolved `source`, 0 `routed`/`referral` without `next`, base order preserved, fragments A..H contiguous with no gap or overlap; the current artifact `cc5acda1` (75 rows) 75 unique ids, owners kengaku 71 / kama 2 / protocol 1 / unowned:integrator 1, dispositions 41 fixed-verified / 28 accepted-risk / 4 routed / 2 refused-out-of-scope, 0 empty `check`, 0 unresolved `source` in-lane, 0 routed without `next`. At a simulated landing tip (clone of REV 4090c3d with the two source files committed) the amended predicate prints `PREDICATE R51-C2 pass` with `VERIFIED ran=41 passed=41 failed=0`, and `plans/routed_open.py --list` returns `rc=0`, `invalid=0`, `routed_open=32 oldest_round=39`. One landing dependency is unmet: `corpus/lessons/round-51.md` and `corpus/evidence/round51/surfaces/paths.txt` are untracked, so a pristine clone fails both readers (`SOURCE missing=2`, `invalid=2`). Also live: the 57 rewritten `check` values are unnecessary under amendment A1.1 (a variant with every base `check` restored passes 41/41) and should be reverted; A1.4 still crashes on an outside `--ledger`; A1 and A2 are uncommitted edits to a frozen instrument and a frozen claims doc and must land with the measurement that cites them.
