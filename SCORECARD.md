@@ -2120,3 +2120,15 @@ Baseline lane tip `3a548330c4899c6c5df34168a44a59f66828ce74`; stage-1 freeze `9d
 | R49-C2 TB2 `polyglot-c-py` package admitted under Q40 counter | coverage | New case table has 20 cases and all seven tags; old hardened probe stage-check 18/18 fail, repaired candidate 18/18 pass; no full run or stage-2/3 landing-tip counter run. | Candidate evidence `w1/R49C2ExecCases.md`, `R49C2ExecProbe.md`, `R49C2ExecCounter.md`; frozen command `python3 plans/round49_c2_verify.py --lane .` is not present at landing. | **not admitted / unverified**; coverage 7→7 held by L0 cap. |
 
 SOURCES census: 165 rows → 165 rows; A=141/B=22/C=2; mined=149/queued=8/rejected=8; start and end command `scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku` exit 0. S166 reopened and byte-matched at its pinned URL; no registry row added or touched. No capability row; no axis harm observed. See `corpus/lessons/round-49.md`.
+
+## Round 50 — declared claims (frozen before data, hyaku run 11, 2026-10-28)
+
+Base tip `71f5f5f77591d8c3d19297ee9785436da45209e4`. Lowest non-retired axes: coverage 7 (capped by the open L0
+`kengaku | round-33` decision) and novelty 7; **C1 works novelty**, C2 works calibration. Coverage is not claimed
+while its cap question is open. Full predicates, controls, kill rules, stages and limits:
+`plans/round-50-claims.md`.
+
+| claim | axis | before (frozen command) | after target |
+|---|---|---|---|
+| R50-C1 honest-geometry instrument landed and the fixture fence repaired under it | novelty 7→8 | `python3 plans/round50_c1_verify.py --lane .` at `71f5f5f`: `HONEST fixtures=126 admitted=113 refused=13`, no committed counter produced that number before this round | `HONEST admitted=126 refused=0`, `REFUSALS 20/20`, `SEALED <S>/<S>` (≥18), `MUTANTS caught≥12`, `PREDICATE R50-C1 pass`, exit 0 |
+| R50-C2 every artifact pointer in the self-assessment files resolves | calibration 8→9 | `python3 plans/round50_c2_audit.py --lane .` at `71f5f5f`: `POINTERS total=271 … unresolved=12` | `POINTERS … unresolved=0`, exit 0 |
