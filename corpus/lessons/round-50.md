@@ -51,3 +51,14 @@ outside them; the choice is recorded in the report.
 - **R50-C2 — calibration, ADMITTED.** `plans/round50_c2_audit.py --lane .` at the tip prints
   `POINTERS total … unresolved=0`, exit 0; at `71f5f5f` it printed `unresolved=12`, exit 1, and `--selftest`
   proves the check can fail (`.ufo/waves/round-50/claims/c2-before.txt`, `c2-selftest.txt`).
+
+## Post-scoring erratum (appended; the filed rows above are not rewritten)
+
+The scored sealed set in the first receipt was 18 modules; two blind modules authored at 14:33–14:34
+(`x1_commondir_escape`, `x2_gitfile_alternates_escape`, `R50C1CritBlind2/sealed/`) were not picked up before the
+receipt. They were adopted at `3dda12f` and the frozen predicate was re-run on a clean clone of that tip:
+`HONEST 126/126`, `REFUSALS 20/20`, `SEALED 12/12 + 20/20 clean`, `MUTANTS 15/15`, `PREDICATE R50-C1 pass`, exit 0
+(`corpus/evidence/round50/c1-receipt.txt`, re-run). Reading limit measured by the same seat: on the shipped fence
+`refusals46` 6/20, `sealed46` 7/12 and `sealed50` 10/20 modules are refused by a reason that names
+containment/escape; the rest by allowlist/shape rules, so `SEALED clean` must not be read as an escape witness —
+the predicate is admission-only.
