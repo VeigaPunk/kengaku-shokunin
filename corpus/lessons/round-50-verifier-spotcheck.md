@@ -184,3 +184,52 @@ pre-existing rows (S040–S100), not this round's additions.
 
 Admission: both claims re-measured true, no axis harmed → **admitted**; the defects above
 are conformance/evidence defects and one routed correction, none of them bars the round.
+
+## Addendum — the lane tip moved while this spot-check was being landed
+
+The lane landed three further round-50 commits after the report and before this file's
+first commit: `3dda12f` (adopt two late blind modules, sealed50 18 → 20), `64f51c8`
+(re-run receipt, lesson post-scoring erratum), `61f6257` (land the hardened counter —
+out-of-process harness, Q39 name hiding; counter digest `d8787b34…` → `850ec790…`).
+Lane round tip at closure: `61f6257`; `master` also carries this closure's spot-check
+commit `d52243a`. Everything above was measured at `d45c5bb` and stays true of that
+revision; re-verified at the moved tip (clean clone, `TREE dirty=0`):
+
+```
+REV d52243afab26962c4ba2f469bf7917a491ce3870
+FENCE .../plans/fixture_fence.py sha256=57adce4a598e1ca8a365114b35047f20afdce9459aa83adc0c551712966383a1
+POPULATION fixtures=126 pin=b5197f94… mismatched=0 build_errors=0
+HONEST fixtures=126 admitted=126 refused=0 error=0
+REFUSALS total=20 clean=20 leaked=0 build_errors=0
+SEALED total=12 clean=12 leaked=0 build_errors=0
+SEALED total=20 clean=20 leaked=0 build_errors=0
+MUTANTS total=15 caught=15 broken=0 floor=12 verdict=met
+PREDICATE R50-C1 pass                                   (exit 0)
+POINTERS total=279 paths=219 hashes=60 resolved=279 exists=207 superseded=3 never-landed=9 unresolved=0   (exit 0)
+```
+
+The tip's `plans/round50_c1_verify.py` is sha256 `850ec790…` with the `HARNESS`
+subprocess path present and 20 sealed modules; the repaired instrument reproduces the
+repaired receipt. `plans/round-50-claims.md` records both open-window repairs with their
+digests and the deviation note.
+
+Routed-list consequences:
+
+- **closed at the tip:** D1 for the counter (the hardened bytes are committed),
+  D2 (SCORECARD:2182's "separate processes with Q39 name hiding" and the report's
+  mechanism sentences now match the shipped bytes). D6 remains as advice, not a defect.
+- **still open:** D1 for the wave outputs — `git status --porcelain` still shows
+  `?? .ufo/waves/round-50/w1.ready`, `?? .ufo/waves/round-50/w1.ready.partial`,
+  `?? .ufo/waves/round-50/w1/`; D3 (no WAVE-DONE), D5 (S175/S177 locations), D7.
+- **new, from the late landings:** (a) the filed report still reads "final lane tip
+  `d45c5bb`" and `SEALED total=18`, while the tip carries `61f6257` and 20 sealed modules —
+  the correction is in the lesson erratum only, and no erratum was appended after the
+  report's filed bytes in the fleet repo; (b) the cited receipt
+  `corpus/evidence/round50/c1-receipt.txt` was regenerated in place (4 lines rewritten,
+  `64f51c8`) rather than appended, so the report's pointer yields different numbers than
+  the report's text; (c) none of `3dda12f`, `64f51c8`, `61f6257` carries a `LOG.md`
+  `## Round 50` line, which the "landed changes tied to a LOG entry" contract requires.
+
+Axis, trend and admission verdicts are unchanged: novelty **improved**, calibration
+**improved**, other axes unchanged; expansion/quality/discernment **improved**;
+**admitted**.
