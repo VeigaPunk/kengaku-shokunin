@@ -1,0 +1,51 @@
+honest-n17                                   ADMIT
+honest-n20                                   ADMIT
+honest-n21                                   ADMIT
+honest-n22                                   ADMIT
+gitfile-out-rel                              BREACH wt/.git names '../../outside/store', which resolves outside the fixture
+gitfile-out-abs                              BREACH wt/.git names '/fast/scratch/hyaku/kengaku-r50/R50C1ExecRepair/adv/c06-gitfile-out-abs/outside/store', which resolves outside the fixture
+gitfile-missing                              BREACH wt/.git names '../nope', which does not exist
+gitfile-file-target                          BREACH wt/.git names '../afile', which is not a directory
+gitfile-symlink                              BREACH linkstore is a symlink
+gitfile-hardlink                             BREACH wt/.git has more than one hard link
+gitfile-two-lines                            BREACH wt/.git is not a single line
+gitfile-bom                                  BREACH wt/.git carries a non-ASCII byte
+gitfile-trailing-spaces                      BREACH wt/.git names '../store   ', which does not exist
+gitfile-no-space                             BREACH wt/.git is not a `gitdir: ` redirect
+gitfile-two-spaces                           BREACH wt/.git names ' ../store', which does not exist
+honest-gitfile-no-newline                    ADMIT
+commondir-out                                BREACH repo/.git/worktrees/wt/commondir names '../../../../../outside/store', which resolves outside the fixture
+wt-gitdir-out                                BREACH repo/.git/worktrees/wt/gitdir names '../../../../../outside/x.git', which resolves outside the fixture
+wt-gitdir-out-abs                            BREACH repo/.git/worktrees/wt/gitdir names '/fast/scratch/hyaku/kengaku-r50/R50C1ExecRepair/adv/c19-wt-gitdir-out-abs/outside/x.git', which resolves outside the fixture
+wt-unknown-entry                             BREACH repo/.git/worktrees/wt/locked is not worktree metadata git writes
+commondir-trailing-spaces                    BREACH repo/.git/worktrees/wt/commondir names '../..   ', which does not exist
+wt-gitdir-trailing-spaces                    BREACH repo/.git/worktrees/wt/gitdir names '../../../../wt/.git   ', which does not exist
+alt-rel-out                                  BREACH lane/.git/objects/info/alternates names '../../../../outside/objects', which resolves outside the fixture
+alt-abs-out                                  BREACH lane/.git/objects/info/alternates names '/fast/scratch/hyaku/kengaku-r50/R50C1ExecRepair/adv/c24-alt-abs-out/outside/objects', which resolves outside the fixture
+alt-dangling                                 BREACH lane/.git/objects/info/alternates names '../../../nope/.git/objects', which does not exist
+alt-symlink                                  BREACH main/linked-objects is a symlink
+alt-comment                                  BREACH lane/.git/objects/info/alternates carries a comment line git does not write
+alt-empty                                    BREACH lane/.git/objects/info/alternates names no object directory
+alt-hardlink                                 BREACH lane/hard has more than one hard link
+alt-two-lines                                BREACH lane/.git/objects/info/alternates names '../../../../outside/objects', which resolves outside the fixture
+alt-chain-repo                               BREACH a/.git/objects/info/alternates names '../../../../outside/c/.git/objects', which resolves outside the fixture
+alt-chain-bare                               BREACH lane/.git/objects/info/alternates -> '../../../b.git/objects' names '../../../outside/c/.git/objects', which resolves outside the fixture
+alt-chain-plain                              BREACH lane/.git/objects/info/alternates -> '../../../shared/objects' names '../../../outside/c/.git/objects', which resolves outside the fixture
+alt-trailing-space                           BREACH lane/.git/objects/info/alternates names '../../../main/.git/objects   ', which does not exist
+honest-alt-cycle                             ADMIT
+honest-alt-chain-inside                      ADMIT
+honest-alt-chain-4                           ADMIT
+alt-chain-cap5                               BREACH lane/.git/objects/info/alternates -> '../../../h1/objects' -> '../../h2/objects' -> '../../h3/objects' -> '../../h4/objects' chains deeper than 4 object stores
+alt-chain-cap-escape                         BREACH lane/.git/objects/info/alternates -> '../../../h1/objects' -> '../../h2/objects' -> '../../h3/objects' -> '../../h4/objects' names '../../../outside/store/.git/objects', which resolves outside the fixture
+ref-replace-nonhex                           BREACH ../../../adv/c40-ref-replace-nonhex/d/repo/.git/refs/replace/deadbeef is not a 40-hex replace ref
+ref-notes                                    BREACH repo/.git/refs/notes is not refs/heads, refs/tags or refs/replace
+ref-replace-nested                           BREACH ../../../adv/c42-ref-replace-nested/d/repo/.git/refs/replace/ab is a replace subdirectory git does not write
+ref-replace-badbody                          BREACH ../../../adv/c43-ref-replace-badbody/d/repo/.git/refs/replace/4d88795d2b61cd3050f970240b8628e8b6313c90 is not a 40-hex ref
+cfg-include                                  BREACH store (via wt/.git)/config section [include] is not allowlisted
+cfg-ext-objectformat                         BREACH store (via wt/.git)/config key extensions.objectformat is not allowlisted
+cfg-ext-v0                                   BREACH store (via wt/.git)/config [extensions] needs repositoryformatversion = 1
+cfg-v2                                       BREACH store (via wt/.git)/config core.repositoryformatversion='2' must be 0 or 1
+cfg-user                                     BREACH store (via wt/.git)/config section [user] is not allowlisted
+
+SUMMARY
+cases=48 mismatched=0

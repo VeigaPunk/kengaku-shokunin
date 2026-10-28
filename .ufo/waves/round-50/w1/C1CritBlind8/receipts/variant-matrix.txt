@@ -1,0 +1,14 @@
+== variant matrix: each shape built once, decided by the counter's own HARNESS against fence 57adce4a ==
+LANE /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind8/lane
+FENCE /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind8/lane/plans/fixture_fence.py sha256=57adce4a598e1ca8a365114b35047f20afdce9459aa83adc0c551712966383a1
+GIT git version 2.56.0
+p02-peel-dangling expect=error rc=11 verdict=ADMIT why=ADMIT
+p04-ref-target-outside expect=error rc=11 verdict=ADMIT why=ADMIT
+p05-chain-hex-outside-only expect=error rc=11 verdict=ADMIT why=ADMIT
+p06-chain-hex-nowhere expect=error rc=11 verdict=ADMIT why=ADMIT
+p07-honest-control expect=None rc=11 verdict=ADMIT why=ADMIT
+p08-peel-before-ref expect=error rc=11 verdict=ADMIT why=ADMIT
+p09-peel-41hex expect=error rc=10 verdict=BREACH why=BREACH repo/.git carries a bad peeled line
+p10-info-chain-direct expect=error rc=10 verdict=BREACH why=BREACH commit-graph-chain is not a plain object-info entry (object-store redirect)
+PROBE fixtures=8 unclean=6
+rc=1

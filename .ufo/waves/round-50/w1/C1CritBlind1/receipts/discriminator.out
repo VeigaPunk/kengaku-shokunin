@@ -1,0 +1,63 @@
+[
+  {
+    "kind": "blind",
+    "module": "s50_gitfile_symlink_chain",
+    "fid": "s50-gitfile-symlink-chain",
+    "tool": "order",
+    "base": "BREACH",
+    "base_why": "hop2 is a symlink",
+    "naive": "ADMIT",
+    "naive_why": null,
+    "correct": "BREACH",
+    "correct_why": "/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind1/cmp/s50_gitfile_symlink_chain/s50-gitfile-symlink-chain/f000/.git names /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind1/cmp/s50_gitfile_symlink_chain/s50-gitfile-symlink-chain/f000/hop1, outside d"
+  },
+  {
+    "kind": "blind",
+    "module": "s50_alternates_dotdot_abs",
+    "fid": "s50-alternates-dotdot-abs",
+    "tool": "order",
+    "base": "BREACH",
+    "base_why": "lane/.git/objects/info/alternates present (object-store redirect)",
+    "naive": "ADMIT",
+    "naive_why": null,
+    "correct": "BREACH",
+    "correct_why": "alternates entry '/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind1/cmp/s50_alternates_dotdot_abs/s50-alternates-dotdot-abs/f000/lane/.git/objects/../../../../store/.git/objects' resolves outside d"
+  },
+  {
+    "kind": "honest",
+    "module": "n20_linked_worktree",
+    "fid": "n20-linked-worktree",
+    "tool": "anchor",
+    "base": "BREACH",
+    "base_why": "wt/.git is a file (gitdir redirect), not a directory",
+    "naive": "ADMIT",
+    "naive_why": null,
+    "correct": "ADMIT",
+    "correct_why": null
+  },
+  {
+    "kind": "honest",
+    "module": "n21_separate_gitdir",
+    "fid": "n21-separate-gitdir",
+    "tool": "anchor",
+    "base": "BREACH",
+    "base_why": "wt/.git is a file (gitdir redirect), not a directory",
+    "naive": "ADMIT",
+    "naive_why": null,
+    "correct": "ADMIT",
+    "correct_why": null
+  },
+  {
+    "kind": "honest",
+    "module": "n22_alternates_in_d",
+    "fid": "n22-alternates-in-d",
+    "tool": "anchor",
+    "base": "BREACH",
+    "base_why": "lane/.git/objects/info/alternates present (object-store redirect)",
+    "naive": "ADMIT",
+    "naive_why": null,
+    "correct": "ADMIT",
+    "correct_why": null
+  }
+]
+DISCRIMINATING blinds=2/2

@@ -1,0 +1,59 @@
+# witness of the battery currently sitting uncommitted in the lane (fence 57adce4a, 22 rows 5f21b587)
+# NOT the item's row set (shares no id with R50C1ExecMutRebase's 19) — reported for routing
+RUNS tree-pinned tree-reverse
+FENCES 57adce4a598e1ca8a365114b35047f20afdce9459aa83adc0c551712966383a1
+REFDIGESTS 8cf173e9845387ffbf884fc200c28b1d3c516eee02b3ddfe77dc4115fb0d507f
+REF-ORDER-INVARIANT yes
+ROWS total=22 stable=9 dropped=0 not-applicable=0 survived=13 stable-tuples=15
+# rows that apply but change NO verdict (the 13 survivors):
+SURVIVED c50-10-inside-prefix
+SURVIVED c50-11-config-cr
+SURVIVED c50-12-config-include
+SURVIVED c50-13-no-symlink-leg
+SURVIVED c50-14-no-hardlink-leg
+SURVIVED c50-15-any-ref-namespace
+SURVIVED c50-16-hook-suffix
+SURVIVED c50-17-objinfo-fallthrough
+SURVIVED c50-18-wt-any-entry
+SURVIVED c50-20-argv-no-containment
+SURVIVED c50-21-ref-value-any
+SURVIVED c50-22-store-requirements-none
+SURVIVED c50-24-log-any-name
+# rows that kill (9):
+STABLE c50-01-gitfile-refused tuples=2 semantic=2 error-vector=0
+STABLE c50-02-gitfile-no-containment tuples=1 semantic=1 error-vector=0
+STABLE c50-03-no-fetch-head tuples=1 semantic=1 error-vector=0
+STABLE c50-04-no-shallow tuples=1 semantic=1 error-vector=0
+STABLE c50-05-no-refs-replace tuples=1 semantic=1 error-vector=0
+STABLE c50-07-alternates-skip tuples=1 semantic=1 error-vector=0
+STABLE c50-08-wt-store-as-plain tuples=1 semantic=1 error-vector=0
+STABLE c50-09-commondir-skip tuples=3 semantic=3 error-vector=0
+STABLE c50-19-config-any-key tuples=4 semantic=4 error-vector=0
+
+# --- the counter's OWN leg on the same pair (tree counter file, tree fence, tree battery, --allow-dirty
+#     because the three files are injected into a scratch clone; TREE dirty=3)
+# cmd: python3 plans/round50_c1_verify.py --lane . --work <ROOT> --allow-dirty
+REV 3b02d573d58cc6d2e0d27ef92ac0815354912252
+TREE dirty=3
+FENCE /fast/scratch/hyaku/kengaku-r50/R50C1ExecMutAttrib/lane-tree/plans/fixture_fence.py sha256=57adce4a598e1ca8a365114b35047f20afdce9459aa83adc0c551712966383a1
+POPULATION fixtures=126 pin=b5197f941a9f523eaedae6bd7be39531a0f80e10c6b05030687dbeacfb3fae69 mismatched=0 build_errors=0
+HONEST fixtures=126 admitted=126 refused=0 error=0
+REFUSALS total=20 clean=20 leaked=0 build_errors=0
+SEALED total=12 clean=12 leaked=0 build_errors=0
+MUTANT survived c50-10-inside-prefix
+MUTANT survived c50-11-config-cr
+MUTANT survived c50-12-config-include
+MUTANT survived c50-13-no-symlink-leg
+MUTANT survived c50-14-no-hardlink-leg
+MUTANT survived c50-15-any-ref-namespace
+MUTANT survived c50-16-hook-suffix
+MUTANT survived c50-17-objinfo-fallthrough
+MUTANT survived c50-18-wt-any-entry
+MUTANT survived c50-20-argv-no-containment
+MUTANT survived c50-21-ref-value-any
+MUTANT survived c50-22-store-requirements-none
+MUTANT survived c50-24-log-any-name
+MUTANTS total=22 caught=9 broken=0 floor=12 verdict=unmet
+PREDICATE R50-C1 fail
+# 13 survived ids are exactly the 13 my sweep reports SURVIVED (same set, same ids) — two independent runs agree.
+# the second root (t2) reproduced the same survivors before the 300 s command cap; the counter on this pair is slow.

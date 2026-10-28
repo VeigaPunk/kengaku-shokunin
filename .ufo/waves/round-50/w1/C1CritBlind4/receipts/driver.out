@@ -1,0 +1,43 @@
+BASE-FENCE-SHA 05d5fe03aa3be6b79eb2469b7c86d0a20c9b424bea2e058d580e31a96c8aad5e
+MODULES ['c4_gitfile_delimiter.py', 'c4_gitfile_store_include.py']
+
+FIXTURE b4a-gitfile-nul-two-stores tool anchor argv ['--lane', 'wt'] dir <S>/driver/c4_gitfile_delimiter/f000
+  base-fence verdict=BREACH reason='wt/.git is a file (gitdir redirect), not a directory'
+  git gitdir rc=0 resolved=<S>/driver/c4_gitfile_delimiter/side/store2 inside_d=False
+  git stderr=''
+  git log -1 rc=0 subject=OUTSIDE-STORE-COMMIT
+  git config --includes --get core.fsmonitor rc=1 out='' err=''
+  strace outside-include opens=0
+  probe[first-line-nul/full] -> REFUSE (gitfile target '../../side/store2' outside d)
+  probe[first-line-nul/names] -> REFUSE (gitfile target '../../side/store2' outside d)
+  probe[last-nul-segment/full] -> ADMIT
+  lane gitfile_index_paths -> RAISES ValueError: lstat: embedded null character in path
+
+FIXTURE b4a-gitfile-newline-two-pointers tool anchor argv ['--lane', 'wt'] dir <S>/driver/c4_gitfile_delimiter/f001
+  base-fence verdict=BREACH reason='wt/.git is a file (gitdir redirect), not a directory'
+  git gitdir rc=128 resolved=- inside_d=None
+  git stderr='fatal: gitfile does not point to a valid repository: <S>/driver/c4_gitfile_delimiter/f001/wt/.git'
+  git log -1 rc=128 subject=-
+  git config --includes --get core.fsmonitor rc=128 out='' err='fatal: gitfile does not point to a valid repository: <S>/driver/c4_gitfile_delimiter/f001/wt/.git'
+  strace outside-include opens=0
+  probe[first-line-nul/full] -> ADMIT
+  probe[first-line-nul/names] -> ADMIT
+  probe[last-nul-segment/full] -> ADMIT
+  lane gitfile_index_paths -> []
+
+FIXTURE b4b-gitfile-store-include tool anchor argv ['--lane', 'wt'] dir <S>/driver/c4_gitfile_store_include/f000
+  base-fence verdict=BREACH reason='wt/.git is a file (gitdir redirect), not a directory'
+  git gitdir rc=0 resolved=<S>/driver/c4_gitfile_store_include/f000/store inside_d=True
+  git stderr=''
+  git log -1 rc=0 subject=two
+  git config --includes --get core.fsmonitor rc=0 out='../../side/spy.sh' err=''
+  strace outside-include opens=1
+    openat(AT_FDCWD<<S>/driver/c4_gitfile_store_include/f000/wt>, "<S>/driver/c4_gitfile_store_include/f000/store/../../side/foreign.cfg", O_RDONLY) = 4<<S>/driver/c4_gitfile_store_include/side/foreign.cfg>
+  probe[first-line-nul/full] -> REFUSE (store/config section [include] is not allowlisted)
+  probe[first-line-nul/names] -> ADMIT
+  probe[last-nul-segment/full] -> REFUSE (store/config section [include] is not allowlisted)
+  lane gitfile_index_paths -> ['store/index']
+
+IDENTITY c4_gitfile_delimiter.py same=True {"b4a-gitfile-newline-two-pointers": "35efc6c783d1e32cc4c833811712334646d34a82357e698b62f068be86283185", "b4a-gitfile-nul-two-stores": "0cd9ce4d4c40fa54f288e589a0606d0804a603cf9a9b4686e0695e88f664c68b"}
+
+IDENTITY c4_gitfile_store_include.py same=True {"b4b-gitfile-store-include": "01f6c4a957bb68812ac778337551d114181b002af2c1c3409a5b2b5684814993"}

@@ -1,0 +1,7 @@
+MODULE /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind4/lane/plans/honest50/modules/novel50/n21_separate_gitdir.py sha256 fe248d925ce014a293024e62a3a1bf2005089d7705293420b4eff291450ef478
+HONEST-CONTROL n21-separate-gitdir argv ['--lane', 'wt']
+  base-fence verdict=BREACH reason='wt/.git is a file (gitdir redirect), not a directory'
+  probe[first-line-nul/full] -> ADMIT
+  probe[first-line-nul/names] -> ADMIT
+  probe[last-nul-segment/full] -> ADMIT
+  lane gitfile_index_paths -> ['store/index']

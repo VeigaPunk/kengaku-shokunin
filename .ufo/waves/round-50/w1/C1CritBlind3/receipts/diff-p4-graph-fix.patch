@@ -1,0 +1,159 @@
+--- /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind3/lane-c1/plans/fixture_fence.py	2026-10-28 14:28:10.767994324 -0300
++++ /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind3/cands/p4_graph_fix.py	2026-10-28 14:34:10.654429000 -0300
+@@ -62,7 +62,7 @@
+ REF_PATH = re.compile(r"\A[A-Za-z0-9_][A-Za-z0-9._/-]*\Z", re.ASCII)
+ 
+ GIT_TOP = {"HEAD", "ORIG_HEAD", "COMMIT_EDITMSG", "config", "description", "hooks", "index", "info",
+-           "logs", "objects", "refs", "packed-refs"}
++           "logs", "objects", "refs", "packed-refs", "FETCH_HEAD", "shallow"}
+ GIT_DIRS = {"hooks", "info", "logs", "objects", "refs"}
+ CFG_SECTIONS = {"core"}
+ CFG_KEYS = {
+@@ -285,6 +285,13 @@
+             return f"{_rel(q, label)} is a symlink"
+         if _linked(mode, _n):
+             return f"{_rel(q, label)} has more than one hard link"
++        if name == "replace":
++            if not stat.S_ISDIR(mode):
++                return f"{label}/{name} is not a directory"
++            why = _replace_tree(q, label)
++            if why:
++                return why
++            continue
+         if name not in ("heads", "tags"):
+             return f"{label}/{name} is not refs/heads or refs/tags"
+         if not stat.S_ISDIR(mode):
+@@ -295,6 +302,28 @@
+     return None
+ 
+ 
++
++def _replace_tree(p, label):
++    """refs/replace: 40-hex entry names, 40-hex bodies (the n17 shape)."""
++    ents = _entries(p)
++    if ents is None:
++        return f"{label} unreadable"
++    for name, mode, _s, _n in ents:
++        q = p / name
++        if stat.S_ISLNK(mode):
++            return f"{_rel(q, label)} is a symlink"
++        if _linked(mode, _n):
++            return f"{_rel(q, label)} has more than one hard link"
++        if not stat.S_ISREG(mode):
++            return f"{_rel(q, label)} is a special file"
++        if re.fullmatch(r"[0-9a-f]{40}", name, re.ASCII) is None:
++            return f"{_rel(q, label)} has a name git does not write"
++        body = _read(q, 200)
++        if body is None or HEX40.match(body) is None:
++            return f"{_rel(q, label)} is not a 40-hex ref"
++    return None
++
++
+ def _ref_tree(p, label):
+     ents = _entries(p)
+     if ents is None:
+@@ -324,7 +353,40 @@
+     return None
+ 
+ 
+-def _objects(p, label):
++def _alternates_checked(objects, d, label, depth=0, seen=None):
++    """Every alternates entry, at every level of the borrow graph, must resolve inside `d`."""
++    if seen is None:
++        seen = set()
++    key = os.path.normpath(str(objects))
++    if key in seen or depth > 8:
++        return None
++    seen.add(key)
++    info = objects / "info"
++    if not info.is_dir():
++        return None
++    for name, mode, _s, _n in _entries(info) or []:
++        if name != "alternates" or not stat.S_ISREG(mode):
++            return f"{label}/info/{name} present (object-store redirect)"
++        raw = _read(info / name, CONFIG_CAP)
++        if raw is None:
++            return f"{label}/info/{name} unreadable"
++        for line in raw.split(b"\n"):
++            if not line.strip():
++                continue
++            if any(b >= 0x80 for b in line):
++                return f"{label}/info/alternates carries a non-ASCII byte"
++            target = os.path.normpath(os.path.join(str(objects), line.decode("ascii")))
++            if not _inside(target, d):
++                return f"{label}/info/alternates entry {line[:40]!r} resolves outside the fixture"
++            if not os.path.isdir(target):
++                return f"{label}/info/alternates entry {line[:40]!r} names no object dir"
++            why = _alternates_checked(pathlib.Path(target), d, label, depth + 1, seen)
++            if why:
++                return why
++    return None
++
++
++def _objects(p, label, d):
+     ents = _entries(p)
+     if ents is None:
+         return f"{label} unreadable"
+@@ -335,11 +397,9 @@
+         if not stat.S_ISDIR(mode):
+             return f"{label}/{name} is not a directory"
+         if name == "info":
+-            inner = _entries(q)
+-            if inner is None:
+-                return f"{label}/info unreadable"
+-            if inner:
+-                return f"{label}/info/{inner[0][0]} present (object-store redirect)"
++            why = _alternates_checked(p, d, label)
++            if why:
++                return why
+             continue
+         if name == "pack":
+             inner = _entries(q)
+@@ -450,7 +510,7 @@
+     return None
+ 
+ 
+-def _store(gd, label):
++def _store(gd, label, d):
+     """Classify one `.git` directory, entry by entry, against what `git init` + commits writes."""
+     ents = _entries(gd)
+     if ents is None:
+@@ -471,6 +531,20 @@
+             return f"{label}/{name} is not a regular file"
+         if _linked(mode, n):
+             return f"{label}/{name} has more than one hard link"
++        if name in ("FETCH_HEAD", "shallow"):
++            body = _read(q, TEXT_CAP)
++            if body is None:
++                return f"{label}/{name} unreadable"
++            if name == "shallow":
++                if not all(HEX40.match(l + b"\n") for l in body.split(b"\n") if l):
++                    return f"{label}/shallow is not a list of 40-hex commits"
++            else:
++                for line in body.split(b"\n"):
++                    if not line:
++                        continue
++                    if HEX40.match(line.split(b"\t")[0] + b"\n") is None:
++                        return f"{label}/FETCH_HEAD carries a line that is not a fetch record"
++            continue
+         if name == "HEAD":
+             body = _read(q, 200)
+             if body is None or HEAD_REF.match(body) is None:
+@@ -516,7 +590,7 @@
+         why = _logs(gd / "logs", f"{label}/logs")
+         if why:
+             return why
+-    why = _objects(gd / "objects", f"{label}/objects")
++    why = _objects(gd / "objects", f"{label}/objects", d)
+     if why:
+         return why
+     why = _refs(gd / "refs", f"{label}/refs")
+@@ -555,7 +629,7 @@
+     if why:
+         return why
+     for repo in repos:
+-        why = _store(repo / ".git", f"{_rel(repo / '.git', d)}")
++        why = _store(repo / ".git", f"{_rel(repo / '.git', d)}", d)
+         if why:
+             return why
+     lane_tok = vals.get("--lane")

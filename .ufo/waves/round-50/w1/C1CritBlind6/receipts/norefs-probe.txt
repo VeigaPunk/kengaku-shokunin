@@ -1,0 +1,17 @@
+BUILT 5
+FIXTURE seal6-gitfile-up-outside module s6_gitfile_rel_objects_link.py argv ['--lane', '.', '--claims', '.ufo/waves/round-42/claims/round-42-claims.md', '--receipt', 'corpus/evidence/receipt.txt']
+  LIVE {".": {"d_dev": 66309, "gitfile_dev": 66309, "gitfile_kind": "file", "head": "cd03ed2c59f6", "rev_parse_rc": 0, "store_dev": 66309, "store_inside_d": false}}
+FIXTURE seal6-gitfile-up-inside-link module s6_gitfile_rel_objects_link.py argv ['--lane', 'sub/repo', '--claims', '.ufo/waves/round-42/claims/round-42-claims.md', '--receipt', 'corpus/evidence/receipt.txt']
+  LIVE {"sub/repo": {"d_dev": 66309, "gitfile_dev": 66309, "gitfile_kind": "file", "head": "cd03ed2c59f6", "rev_parse_rc": 0, "store_dev": 66309, "store_inside_d": true}}
+FIXTURE seal6-gitfile-submodule-store-link module s6_gitfile_rel_objects_link.py argv ['--lane', 'main', '--claims', '.ufo/waves/round-42/claims/round-42-claims.md', '--receipt', 'corpus/evidence/receipt.txt']
+  LIVE {"main": {"d_dev": 66309, "gitfile_dev": 66309, "gitfile_kind": "dir", "head": "cd03ed2c59f6", "rev_parse_rc": 0, "store_dev": 66309, "store_inside_d": true}, "second": {"d_dev": 66309, "gitfile_dev": 66309, "gitfile_kind": "file", "head": "cd03ed2c59f6", "rev_parse_rc": 0, "store_dev": 66309, "store_inside_d": false}}
+FIXTURE seal6-second-store-outside module s6_second_store_mount.py argv ['--lane', 'lane', '--claims', '.ufo/waves/round-42/claims/round-42-claims.md', '--receipt', '.ufo/waves/round-42/claims/round-42-claims.md']
+  LIVE {"lane": {"d_dev": 66309, "gitfile_dev": 66309, "gitfile_kind": "dir", "head": "3a65620f5af2", "rev_parse_rc": 0, "store_dev": 66309, "store_inside_d": true}, "other": {"d_dev": 66309, "gitfile_dev": 66309, "gitfile_kind": "file", "head": "3a65620f5af2", "rev_parse_rc": 0, "store_dev": 66309, "store_inside_d": false}}
+FIXTURE seal6-second-store-twin module s6_second_store_mount.py argv ['--lane', 'lane', '--claims', '.ufo/waves/round-42/claims/round-42-claims.md', '--receipt', '.ufo/waves/round-42/claims/round-42-claims.md']
+  LIVE {"lane": {"d_dev": 66309, "gitfile_dev": 66309, "gitfile_kind": "dir", "head": "3a65620f5af2", "rev_parse_rc": 0, "store_dev": 66309, "store_inside_d": true}, "other": {"d_dev": 66309, "gitfile_dev": 66309, "gitfile_kind": "dir", "head": "3a65620f5af2", "rev_parse_rc": 0, "store_dev": 66309, "store_inside_d": true}}
+FENCE /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind6/fences/repair_norefs.py sha256 3a71b17428128718b423b003d9b40a6717e4882e344b2bd6757ab4663c28e077
+  seal6-gitfile-up-outside         BREACH  .git names a store outside the fixture
+  seal6-gitfile-up-inside-link     BREACH  sub/store/objects is a symlink
+  seal6-gitfile-submodule-store-link BREACH  main/.git/modules/sub is a symlink
+  seal6-second-store-outside       BREACH  other/.git names a store outside the fixture
+  seal6-second-store-twin          BREACH  ../../../work3/m01-s6_second_store_mount/f001/other/.git/objects/3a/65620f5af2c2824b3388edb095ec74e17bacb0 has more than one hard link

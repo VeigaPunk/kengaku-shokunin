@@ -1,0 +1,65 @@
+honest-indirection  n21_separate_gitdir.py             n21-separate-gitdir      base=BREACH naive=ADMIT
+honest-indirection  n22_alternates_in_d.py             n22-alternates-in-d      base=BREACH naive=ADMIT
+honest-indirection  n20_linked_worktree.py             n20-linked-worktree      base=BREACH naive=ADMIT
+blind               x1_commondir_escape.py             x1-cd-abs                base=BREACH naive=BREACH
+blind               x1_commondir_escape.py             x1-cd-rel                base=BREACH naive=ADMIT
+blind               x2_gitfile_alternates_escape.py    x2-alt-abs               base=BREACH naive=ADMIT
+blind               x2_gitfile_alternates_escape.py    x2-alt-rel               base=BREACH naive=ADMIT
+refusals46          f10_laneinclude.py                 f10-lane-include-regular base=BREACH naive=BREACH
+refusals46          f11_cr_include.py                  h1-cr-include-lf         base=BREACH naive=BREACH
+refusals46          f11_cr_include.py                  h1-cr-include-crlf       base=BREACH naive=BREACH
+refusals46          f11_cr_include.py                  h3-cr-include-anchor     base=BREACH naive=BREACH
+refusals46          f12_includeif_cond.py              h2-inclif-onbranch       base=BREACH naive=BREACH
+refusals46          f12_includeif_cond.py              h2-inclif-onbranch-nomatch base=BREACH naive=BREACH
+refusals46          f12_includeif_cond.py              h2-inclif-gitdir-exact   base=BREACH naive=BREACH
+refusals46          f12_includeif_cond.py              h2-inclif-gitdir-glob    base=BREACH naive=BREACH
+refusals46          f12_includeif_cond.py              h2-inclif-gitdir-i       base=BREACH naive=BREACH
+refusals46          f12_includeif_cond.py              h2-inclif-gitdir-star    base=BREACH naive=BREACH
+refusals46          f12_includeif_cond.py              h2-inclif-gitdir-nomatch base=BREACH naive=BREACH
+refusals46          f12_includeif_cond.py              h2-inclif-hasconfig      base=BREACH naive=BREACH
+refusals46          f12_includeif_cond.py              h2-inclif-onbranch-anchor base=BREACH naive=BREACH
+refusals46          f13_bom_include.py                 h3-bom-include           base=BREACH naive=BREACH
+refusals46          f13_bom_include.py                 h3-bom-includeif         base=BREACH naive=BREACH
+refusals46          f14_gitdir_include_symlink.py      h3-cr-include-symlink    base=BREACH naive=BREACH
+refusals46          f15_objects_symlink_out.py         link-objects-symlink-out base=BREACH naive=BREACH
+refusals46          f16_objects_hardlink_out.py        link-objects-hardlink-out base=BREACH naive=BREACH
+refusals46          f17_argv_nul.py                    argv-nul-lane            base=BREACH naive=BREACH
+refusals46          f18_wtmeta_out.py                  g3-wtmeta-out            base=BREACH naive=BREACH
+refusals46          f19_commondir_hidden.py            g4-cd-hidden             base=BREACH naive=BREACH
+refusals46          f1_gitfile.py                      f1-gitdir-outside        base=BREACH naive=BREACH
+refusals46          f20_attributes_file.py             config-core-attributes-file-outside base=BREACH naive=BREACH
+refusals46          f2_deep.py                         f2-deep-worktree         base=BREACH naive=BREACH
+refusals46          f3_abbrev.py                       f3-abbrev-tree-claims    base=BREACH naive=BREACH
+refusals46          f4_fifo.py                         f4-fifo-include          base=BREACH naive=BREACH
+refusals46          f5_alternates.py                   f5-alternates-outside    base=BREACH naive=BREACH
+refusals46          f6_above.py                        f6-repo-above-d          base=BREACH naive=BREACH
+refusals46          f7_commondir.py                    f7-cd-accept             base=BREACH naive=BREACH
+refusals46          f7_commondir.py                    f7-cd-reject             base=BREACH naive=BREACH
+refusals46          f7_commondir.py                    f7-cd-anchor             base=BREACH naive=BREACH
+refusals46          f8_worktreecfg.py                  f8-wtcfg-a               base=BREACH naive=BREACH
+refusals46          f8_worktreecfg.py                  f8-wtcfg-b               base=BREACH naive=BREACH
+refusals46          f9_nodescribe.py                   f9-bare-repo             base=BREACH naive=BREACH
+sealed46            a_newline_anchor.py                newline-anchor-accept    base=BREACH naive=BREACH
+sealed46            a_newline_anchor.py                newline-anchor-reject    base=BREACH naive=BREACH
+sealed46            a_phantom_anchor.py                phantom-anchor-accept    base=BREACH naive=BREACH
+sealed46            a_phantom_anchor.py                phantom-anchor-reject    base=BREACH naive=BREACH
+sealed46            a_phantom_order.py                 phantom-order-accept     base=BREACH naive=BREACH
+sealed46            a_phantom_order.py                 phantom-order-reject     base=BREACH naive=BREACH
+sealed46            c_core_attributes_path.py          sealed-core-attributes-path base=BREACH naive=BREACH
+sealed46            c_excludes_file.py                 sealed-core-excludes-file base=BREACH naive=BREACH
+sealed46            c_url_rewrite.py                   sealed-url-insteadof-path base=BREACH naive=BREACH
+sealed46            p_info_redirect.py                 sealed-info-redirect     base=BREACH naive=BREACH
+sealed46            p_pack_redirect.py                 sealed-pack-redirect     base=BREACH naive=BREACH
+sealed46            p_refs_redirect.py                 sealed-refs-redirect     base=BREACH naive=BREACH
+sealed46            s_objects_link.py                  seal-objects-link        base=BREACH naive=BREACH
+sealed46            s_packed_refs.py                   seal-packed-refs-link    base=BREACH naive=BREACH
+sealed46            s_refs_link.py                     seal-refs-link           base=BREACH naive=BREACH
+
+LEG honest-indirection  fence=base  modules=3   clean=3   leaked=0 
+LEG honest-indirection  fence=naive modules=3   clean=0   leaked=3 n20_linked_worktree.py,n21_separate_gitdir.py,n22_alternates_in_d.py
+LEG blind               fence=base  modules=2   clean=2   leaked=0 
+LEG blind               fence=naive modules=2   clean=0   leaked=2 x1_commondir_escape.py,x2_gitfile_alternates_escape.py
+LEG refusals46          fence=base  modules=20  clean=20  leaked=0 
+LEG refusals46          fence=naive modules=20  clean=20  leaked=0 
+LEG sealed46            fence=base  modules=12  clean=12  leaked=0 
+LEG sealed46            fence=naive modules=12  clean=12  leaked=0 

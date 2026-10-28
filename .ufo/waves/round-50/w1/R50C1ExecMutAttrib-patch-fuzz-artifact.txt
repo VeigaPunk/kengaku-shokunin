@@ -1,0 +1,12 @@
+# c1-mut-03-drop-file-mountbound applied to the BASE fence 05d5fe03 (which has no mount-boundary leg; 'ddev' absent)
+# cmd: patch --batch -p1 -i <payload> <copy of base fence>
+patch rc 0
+patch stdout: Reversed (or previously applied) patch detected!  Assuming -R.
+              Hunk #1 succeeded at 215 with fuzz 2 (offset -50 lines).
+# base  contains 'ddev': False
+# mutant contains 'ddev': True   (the two 'deleted' lines were INSERTED)
+# counter apply_mutant returns (path, None) => the counter treats the row as a valid mutant
+# calling the mutant's breach() on fixture n05-gitignore (argv --lane repo, tool anchor):
+NameError: name 'st' is not defined
+# reference fence on the same fixture: breach -> None (admit)
+# => 164 per-fixture verdicts flip ADMIT->ERROR: a monotone fake kill, stable in every ordering.

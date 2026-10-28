@@ -1,0 +1,31 @@
+POPULATION sha256=b5197f941a9f523eaedae6bd7be39531a0f80e10c6b05030687dbeacfb3fae69 pin=b5197f941a9f523eaedae6bd7be39531a0f80e10c6b05030687dbeacfb3fae69
+HONEST base_fence.py sha256=05d5fe03aa3be6b79eb2469b7c86d0a20c9b424bea2e058d580e31a96c8aad5e fixtures=126 build_errors=0 admitted=113 refused=13 error=0
+IDENTITY base_fence.py mismatched=0 []
+HONEST r49_candidate.py sha256=b687b1d9dd78282f09fc10847c453fb74157f116ea56a0d498ef9cd91ec0ca52 fixtures=126 build_errors=0 admitted=121 refused=5 error=0
+IDENTITY r49_candidate.py mismatched=0 []
+HONEST repair_fence.py sha256=57adce4a598e1ca8a365114b35047f20afdce9459aa83adc0c551712966383a1 fixtures=126 build_errors=0 admitted=126 refused=0 error=0
+IDENTITY repair_fence.py mismatched=0 []
+DIFF base->r49_candidate.py changed=8
+  n03-detached-head: BREACH -> ADMIT   [BREACH repo/.git/HEAD is not a plain branch HEAD]
+  n07-reflog-gc: BREACH -> ADMIT   [BREACH repo/.git/info/refs is not git's exclude file]
+  n08-tag-detached: BREACH -> ADMIT   [BREACH repo/.git/HEAD is not a plain branch HEAD]
+  n12-local-config-user: BREACH -> ADMIT   [BREACH repo/.git/config section [user] is not allowlisted]
+  n13-remote-origin: BREACH -> ADMIT   [BREACH repo/.git/config section header b'[remote "origin"]' is not plain]
+  n14-stash-entry: BREACH -> ADMIT   [BREACH refs/stash has a name git does not write]
+  n15-commit-graph: BREACH -> ADMIT   [BREACH repo/.git/objects/info/commit-graph present (object-store redirect)]
+  n16-notes-ref: BREACH -> ADMIT   [BREACH refs/notes has a name git does not write]
+DIFF base->repair_fence.py changed=13
+  n03-detached-head: BREACH -> ADMIT   [BREACH repo/.git/HEAD is not a plain branch HEAD]
+  n07-reflog-gc: BREACH -> ADMIT   [BREACH repo/.git/info/refs is not git's exclude file]
+  n08-tag-detached: BREACH -> ADMIT   [BREACH repo/.git/HEAD is not a plain branch HEAD]
+  n12-local-config-user: BREACH -> ADMIT   [BREACH repo/.git/config section [user] is not allowlisted]
+  n13-remote-origin: BREACH -> ADMIT   [BREACH repo/.git/config section header b'[remote "origin"]' is not plain]
+  n14-stash-entry: BREACH -> ADMIT   [BREACH refs/stash has a name git does not write]
+  n15-commit-graph: BREACH -> ADMIT   [BREACH repo/.git/objects/info/commit-graph present (object-store redirect)]
+  n16-notes-ref: BREACH -> ADMIT   [BREACH refs/notes has a name git does not write]
+  n17-replace-ref: BREACH -> ADMIT   [BREACH repo/.git/refs/replace is not refs/heads or refs/tags]
+  n18-shallow-fetch: BREACH -> ADMIT   [BREACH repo/.git/FETCH_HEAD is not a plain-init entry]
+  n20-linked-worktree: BREACH -> ADMIT   [BREACH wt/.git is a file (gitdir redirect), not a directory]
+  n21-separate-gitdir: BREACH -> ADMIT   [BREACH wt/.git is a file (gitdir redirect), not a directory]
+  n22-alternates-in-d: BREACH -> ADMIT   [BREACH lane/.git/objects/info/alternates present (object-store redirect)]
+DIFF r49->repair changed=5

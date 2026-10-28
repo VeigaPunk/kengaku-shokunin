@@ -1,0 +1,19 @@
+FENCE base_fence.py sha256=05d5fe03aa3be6b79eb2469b7c86d0a20c9b424bea2e058d580e31a96c8aad5e fixtures=5
+FENCE r49_candidate.py sha256=b687b1d9dd78282f09fc10847c453fb74157f116ea56a0d498ef9cd91ec0ca52 fixtures=5
+FENCE repair_fence.py sha256=57adce4a598e1ca8a365114b35047f20afdce9459aa83adc0c551712966383a1 fixtures=5
+fid	base	r49	repair
+n17-replace-ref	BREACH	BREACH	ADMIT
+  base_fence.py: BREACH BREACH repo/.git/refs/replace is not refs/heads or refs/tags
+  repair_fence.py: ADMIT ADMIT
+n18-shallow-fetch	BREACH	BREACH	ADMIT
+  base_fence.py: BREACH BREACH repo/.git/FETCH_HEAD is not a plain-init entry
+  repair_fence.py: ADMIT ADMIT
+n20-linked-worktree	BREACH	BREACH	ADMIT
+  base_fence.py: BREACH BREACH wt/.git is a file (gitdir redirect), not a directory
+  repair_fence.py: ADMIT ADMIT
+n21-separate-gitdir	BREACH	BREACH	ADMIT
+  base_fence.py: BREACH BREACH wt/.git is a file (gitdir redirect), not a directory
+  repair_fence.py: ADMIT ADMIT
+n22-alternates-in-d	BREACH	BREACH	ADMIT
+  base_fence.py: BREACH BREACH lane/.git/objects/info/alternates present (object-store redirect)
+  repair_fence.py: ADMIT ADMIT

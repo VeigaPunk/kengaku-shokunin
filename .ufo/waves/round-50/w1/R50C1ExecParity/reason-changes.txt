@@ -1,0 +1,124 @@
+refusals46	g3-wtmeta-out
+  base: BREACH repo/.git/worktrees is not a plain-init entry
+  r49:  BREACH repo/.git/worktrees is not a plain-init entry
+  rep:  BREACH repo/.git/worktrees/g3-wt/gitdir points outside the fixture
+refusals46	f1-gitdir-outside
+  base: BREACH .git is a file (gitdir redirect), not a directory
+  r49:  BREACH .git is a file (gitdir redirect), not a directory
+  rep:  BREACH ../side/gitdir resolves outside the fixture
+refusals46	config-core-attributes-file-outside
+  base: BREACH lane/.git/config line b'attributesFile = /fast/scratch/hyaku/ken' is not a plain key=value
+  r49:  BREACH lane/.git/config key core.attributesfile is not allowlisted
+  rep:  BREACH lane/.git/config key core.attributesfile is not allowlisted
+refusals46	f2-deep-worktree
+  base: BREACH x/y/z/r/.git/config line b'worktree = /fast/scratch/hyaku/kengaku-r' is not a plain key=value
+  r49:  BREACH x/y/z/r/.git/config key core.worktree is not allowlisted
+  rep:  BREACH x/y/z/r/.git/config key core.worktree is not allowlisted
+refusals46	f5-alternates-outside
+  base: BREACH lane/.git/objects/info/alternates present (object-store redirect)
+  r49:  BREACH alternates is not a plain object-info entry (object-store redirect)
+  rep:  BREACH lane/.git/objects/info/alternates names a store outside the fixture
+refusals46	f7-cd-accept
+  base: BREACH lane/.git/commondir is not a plain-init entry
+  r49:  BREACH lane/.git/commondir is not a plain-init entry
+  rep:  BREACH lane/.git/commondir names a common dir outside the fixture
+refusals46	f7-cd-anchor
+  base: BREACH lane/.git/commondir is not a plain-init entry
+  r49:  BREACH lane/.git/commondir is not a plain-init entry
+  rep:  BREACH lane/.git/commondir names a common dir outside the fixture
+refusals46	f7-cd-reject
+  base: BREACH lane/.git/commondir is not a plain-init entry
+  r49:  BREACH lane/.git/commondir is not a plain-init entry
+  rep:  BREACH lane/.git/commondir names a common dir outside the fixture
+refusals46	f8-wtcfg-a
+  base: BREACH lane/.git/config section [extensions] is not allowlisted
+  r49:  BREACH lane/.git/config section [extensions] is not allowlisted
+  rep:  BREACH lane/.git/config key extensions.worktreeconfig is not allowlisted
+refusals46	f8-wtcfg-b
+  base: BREACH lane/.git/config section [extensions] is not allowlisted
+  r49:  BREACH lane/.git/config section [extensions] is not allowlisted
+  rep:  BREACH lane/.git/config key extensions.worktreeconfig is not allowlisted
+sealed46	sealed-core-attributes-path
+  base: BREACH lane/.git/config line b'attributesFile = /fast/scratch/hyaku/ken' is not a plain key=value
+  r49:  BREACH lane/.git/config key core.attributesfile is not allowlisted
+  rep:  BREACH lane/.git/config key core.attributesfile is not allowlisted
+sealed46	sealed-core-excludes-file
+  base: BREACH lane/.git/config line b'excludesFile = /fast/scratch/hyaku/kenga' is not a plain key=value
+  r49:  BREACH lane/.git/config key core.excludesfile is not allowlisted
+  rep:  BREACH lane/.git/config key core.excludesfile is not allowlisted
+sealed46	sealed-url-insteadof-path
+  base: BREACH lane/.git/config section header b'[url "file:///outside/"]' is not plain
+  r49:  BREACH lane/.git/config section [url "file:///outside/"] is not allowlisted
+  rep:  BREACH lane/.git/config section [url "file:///outside/"] is not allowlisted
+sealed46	sealed-pack-redirect
+  base: BREACH lane/.git/info/refs is not git's exclude file
+  r49:  BREACH pack is a symlink
+  rep:  BREACH pack is a symlink
+sealed50	b1-replace-target-outside-store
+  base: BREACH lane/.git/objects/info/alternates present (object-store redirect)
+  r49:  BREACH alternates is not a plain object-info entry (object-store redirect)
+  rep:  BREACH lane/.git/objects/info/alternates names a store outside the fixture
+sealed50	b2-fetch-head-hardlink-out
+  base: BREACH lane/.git/FETCH_HEAD is not a plain-init entry
+  r49:  BREACH lane/.git/FETCH_HEAD is not a plain-init entry
+  rep:  BREACH lane/.git/FETCH_HEAD has more than one hard link
+sealed50	b4a-gitfile-newline-two-pointers
+  base: BREACH wt/.git is a file (gitdir redirect), not a directory
+  r49:  BREACH wt/.git is a file (gitdir redirect), not a directory
+  rep:  BREACH wt/.git is a .git file that is not a gitdir line
+sealed50	b4a-gitfile-nul-two-stores
+  base: BREACH wt/.git is a file (gitdir redirect), not a directory
+  r49:  BREACH wt/.git is a file (gitdir redirect), not a directory
+  rep:  BREACH wt/.git is a .git file that is not a gitdir line
+sealed50	b4b-gitfile-store-include
+  base: BREACH wt/.git is a file (gitdir redirect), not a directory
+  r49:  BREACH wt/.git is a file (gitdir redirect), not a directory
+  rep:  BREACH store/config section [include] is not allowlisted
+sealed50	s50-03-unknown-ref-namespace
+  base: BREACH repo/.git/refs/weird is not refs/heads or refs/tags
+  r49:  BREACH repo/.git/refs/weird is not a ref namespace git writes
+  rep:  BREACH repo/.git/refs/weird is not a ref namespace git writes
+sealed50	s50-05-objinfo-unknown
+  base: BREACH repo/.git/objects/info/packsets present (object-store redirect)
+  r49:  BREACH packsets is not a plain object-info entry (object-store redirect)
+  rep:  BREACH packsets is not a plain object-info entry (object-store redirect)
+sealed50	s50-06-wt-extra-entry
+  base: BREACH wt/.git is a file (gitdir redirect), not a directory
+  r49:  BREACH wt/.git is a file (gitdir redirect), not a directory
+  rep:  BREACH repo/.git/worktrees/wt/extra is not a worktree-store entry
+sealed50	s50-alternates-dotdot-abs
+  base: BREACH lane/.git/objects/info/alternates present (object-store redirect)
+  r49:  BREACH alternates is not a plain object-info entry (object-store redirect)
+  rep:  BREACH lane/.git/objects/info/alternates names a store outside the fixture
+sealed50	seal6-gitfile-submodule-store-link
+  base: BREACH second/.git is a file (gitdir redirect), not a directory
+  r49:  BREACH second/.git is a file (gitdir redirect), not a directory
+  rep:  BREACH main/.git/modules is not a plain-init entry
+sealed50	seal6-gitfile-up-inside-link
+  base: BREACH sub/repo/.git is a file (gitdir redirect), not a directory
+  r49:  BREACH sub/repo/.git is a file (gitdir redirect), not a directory
+  rep:  BREACH sub/store/objects is a symlink
+sealed50	seal6-gitfile-up-outside
+  base: BREACH .git is a file (gitdir redirect), not a directory
+  r49:  BREACH .git is a file (gitdir redirect), not a directory
+  rep:  BREACH ../s6-store-up resolves outside the fixture
+sealed50	seal6-second-store-outside
+  base: BREACH other/.git is a file (gitdir redirect), not a directory
+  r49:  BREACH other/.git is a file (gitdir redirect), not a directory
+  rep:  BREACH ../s6-store-second resolves outside the fixture
+sealed50	x1-cd-abs
+  base: BREACH lane/.git/commondir is not a plain-init entry
+  r49:  BREACH lane/.git/commondir is not a plain-init entry
+  rep:  BREACH lane/.git/COMMIT_EDITMSG is not a worktree-store entry
+sealed50	x1-cd-rel
+  base: BREACH lane/.git/commondir is not a plain-init entry
+  r49:  BREACH lane/.git/commondir is not a plain-init entry
+  rep:  BREACH lane/.git/COMMIT_EDITMSG is not a worktree-store entry
+sealed50	x2-alt-abs
+  base: BREACH wt/.git is a file (gitdir redirect), not a directory
+  r49:  BREACH wt/.git is a file (gitdir redirect), not a directory
+  rep:  BREACH store/objects/info/alternates names a store outside the fixture
+sealed50	x2-alt-rel
+  base: BREACH wt/.git is a file (gitdir redirect), not a directory
+  r49:  BREACH wt/.git is a file (gitdir redirect), not a directory
+  rep:  BREACH store/objects/info/alternates names a store outside the fixture

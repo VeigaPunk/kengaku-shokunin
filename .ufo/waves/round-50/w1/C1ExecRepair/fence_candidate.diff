@@ -1,0 +1,552 @@
+--- /fast/scratch/hyaku/kengaku-r50/R50C1ExecRepair/lane/plans/fixture_fence.py	2026-10-28 14:41:13.734871817 -0300
++++ /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-50/w1/C1ExecRepair/fence_candidate.py	2026-10-28 14:41:56.049830288 -0300
+@@ -20,15 +20,23 @@
+   2. argv must be the tool's exact option shape; every value must be a path that stays inside `d` lexically
+      (no `..`, no absolute escape, no NUL, no `{...}` placeholder we cannot resolve).
+   3. one walk of `d` proves the tree has no symlink and no special file anywhere, and collects every directory
+-     holding a real `.git` directory (a `.git` file is refused).
++     holding a real `.git` directory, plus every directory whose `.git` is a *file*: that file must hold one
++     `gitdir: <path>` line that resolves inside `d` (round 50 admits n20/n21 instead of refusing the file).
+   4. each collected store is classified entry by entry against a plain-init allowlist: `HEAD`, `ORIG_HEAD`,
+-     `COMMIT_EDITMSG`, `config`, `description`, `hooks/` (`*.sample` only), `index`, `info/exclude` only
+-     (so no `alternates`), `logs/`, `objects/` (2-hex/38-hex loose objects, empty `info/`, pack files only),
+-     `refs/heads|tags` (40-hex refs), `packed-refs`. `config` is parsed line by line against a `[core]` key
+-     allowlist; any CR, any non-ASCII byte, any section or key not listed, or any line the parser does not
+-     fully understand is refused. This is what closes the CR/BOM/includeIf/attributesFile/worktree family.
+-  5. `--lane` must be one of the collected repositories.
+-  6. no git child is started at all: measured, every git subcommand resolves the fixture path component-wise
++     `FETCH_HEAD` (admitted by name, content never read), `COMMIT_EDITMSG`, `config`, `description`, `hooks/`
++     (`*.sample` only), `index`, `info/exclude` only, `logs/`, `objects/` (2-hex/38-hex loose objects, pack
++     files only, and `info/alternates` only when every line resolves inside `d`), `refs/heads|tags|replace`
++     (40-hex refs), `packed-refs`, `worktrees/` (per-worktree metadata, whose `gitdir` and `commondir` must
++     resolve inside `d`). `config` is parsed line by line against a `[core]` key allowlist plus the one
++     `[extensions]` key a relative-path linked worktree needs (`relativeWorktrees`, which git writes only with
++     `core.repositoryformatversion = 1`); any CR, any non-ASCII byte, any other section or key, or any line
++     the parser does not fully understand is refused. This is what closes the CR/BOM/includeIf/attributesFile
++     family.
++  5. a `.git` file is not a redirect until its target is proved: the target must be a directory inside `d`, and
++     either a store (classified as in 4) or a per-worktree metadata dir whose `commondir` resolves inside `d`.
++     An out-of-`d` or dangling target, and a `commondir` outside `d`, are refused.
++  6. `--lane` must be one of the collected repositories.
++  7. no git child is started at all: measured, every git subcommand resolves the fixture path component-wise
+      and stats `d`'s ancestors (paths under the build scratch outside `d`), which the advertisement and the
+      round-46 counter's B3/B5 legs forbid. The store classification is the proof instead.
+ 
+@@ -47,6 +55,7 @@
+ CONFIG_CAP = 1 << 20        # a `.git/config` larger than this is refused unread
+ INDEX_CAP = 1 << 24         # a `.git/index` larger than this is refused
+ TEXT_CAP = 1 << 16          # cap for HEAD / ORIG_HEAD / COMMIT_EDITMSG / logs
++ALTERNATES_DEPTH = 4        # hops of `objects/info/alternates` followed before the chain is refused
+ 
+ ORDER_SHAPE = ("--lane", "--claims", "--receipt")
+ ANCHOR_OPTS = {"--lane": True, "--evidence-ref": True, "--verbose": False}
+@@ -60,19 +69,25 @@
+ PACK_FILE = re.compile(r"\A[A-Za-z0-9_][A-Za-z0-9._-]*\.(?:pack|idx|rev|keep|bitmap|mtimes)\Z", re.ASCII)
+ SAFE_NAME = re.compile(r"\A[A-Za-z0-9_][A-Za-z0-9._-]*\Z", re.ASCII)
+ REF_PATH = re.compile(r"\A[A-Za-z0-9_][A-Za-z0-9._/-]*\Z", re.ASCII)
+-
+-GIT_TOP = {"HEAD", "ORIG_HEAD", "COMMIT_EDITMSG", "config", "description", "hooks", "index", "info",
+-           "logs", "objects", "refs", "packed-refs"}
+-GIT_DIRS = {"hooks", "info", "logs", "objects", "refs"}
+-CFG_SECTIONS = {"core"}
++REPLACE_NAME = re.compile(r"\A[0-9a-f]{40}\Z", re.ASCII)
++
++GIT_TOP = {"HEAD", "ORIG_HEAD", "FETCH_HEAD", "COMMIT_EDITMSG", "config", "description", "hooks", "index",
++           "info", "logs", "objects", "refs", "packed-refs", "worktrees"}
++GIT_DIRS = {"hooks", "info", "logs", "objects", "refs", "worktrees"}
++WORKTREE_TOP = {"HEAD", "ORIG_HEAD", "commondir", "gitdir", "index", "logs", "refs"}
++WORKTREE_DIRS = {"logs", "refs"}
++GIT_REF_NAMESPACES = {"heads", "tags", "replace"}
++GITDIR = b"gitdir: "          # git's own prefix, the single space included (`starts_with(buf, "gitdir: ")`)
++CFG_SECTIONS = {"core", "extensions"}
+ CFG_KEYS = {
+-    ("core", "repositoryformatversion"): "0",
++    ("core", "repositoryformatversion"): "version",
+     ("core", "filemode"): "bool",
+     ("core", "bare"): "false",
+     ("core", "logallrefupdates"): "bool",
+     ("core", "ignorecase"): "bool",
+     ("core", "precomposeunicode"): "bool",
+     ("core", "symlinks"): "bool",
++    ("extensions", "relativeworktrees"): "bool",
+ }
+ BOOL = {"true", "yes", "on", "1", "false", "no", "off", "0"}
+ FALSEY = {"false", "no", "off", "0"}
+@@ -130,6 +145,85 @@
+         return None
+ 
+ 
++def _one_line(p, label):
++    """The single ASCII line of a pointer file (`.git`, a worktree's `gitdir`/`commondir`), or a reason."""
++    raw = _read(p, TEXT_CAP)
++    if raw is None:
++        return None, f"{label} unreadable"
++    if len(raw) > TEXT_CAP:
++        return None, f"{label} exceeds {TEXT_CAP} bytes"
++    if b"\x00" in raw:
++        return None, f"{label} carries a NUL byte"
++    if b"\r" in raw:
++        return None, f"{label} carries a bare CR"
++    if any(b >= 0x80 for b in raw):
++        return None, f"{label} carries a non-ASCII byte"
++    body = raw[:-1] if raw.endswith(b"\n") else raw
++    if b"\n" in body:
++        return None, f"{label} is not a single line"
++    return body, None
++
++
++def _pointer(p, label, base, d, prefixed):
++    """(target, text, reason): a pointer file's path, resolved lexically against `base`, inside `d`.
++
++    `prefixed` is true for git's `gitdir: <path>` shape (one space, then the path), false for `commondir` and a
++    worktree's `gitdir` file, whose whole line is the path. Git does not trim these files: it reads one line and
++    takes the remainder verbatim (measured, git 2.56.0: `gitdir: ../store   ` is rejected while
++    `gitdir: ../store` without the newline is accepted), so nothing is trimmed here either. A bare CR is refused
++    (stricter than git, which tolerates a CRLF terminator; no fixture in the population writes one).
++    """
++    body, why = _one_line(p, label)
++    if why:
++        return None, None, why
++    if prefixed:
++        if not body.startswith(GITDIR):
++            return None, None, f"{label} is not a `gitdir: ` redirect"
++        body = body[len(GITDIR):]
++    text = body.decode("ascii")
++    if not text:
++        return None, None, f"{label} names an empty path"
++    raw = text if text.startswith("/") else os.path.join(str(base), text)
++    target = pathlib.Path(_norm(raw))
++    if not _inside(target, d):
++        return None, text, f"{label} names {text!r}, which resolves outside the fixture"
++    return target, text, None
++
++
++def _dir_ref(p, label, base, d, prefixed):
++    """A pointer that must name an existing directory inside `d`, and not a symlink."""
++    target, text, why = _pointer(p, label, base, d, prefixed)
++    if why:
++        return None, why
++    try:
++        st = os.lstat(target)
++    except OSError:
++        return None, f"{label} names {text!r}, which does not exist"
++    if stat.S_ISLNK(st.st_mode):
++        return None, f"{label} names {text!r}, which is a symlink"
++    if not stat.S_ISDIR(st.st_mode):
++        return None, f"{label} names {text!r}, which is not a directory"
++    return target, None
++
++
++def _file_ref(p, label, base, d, prefixed):
++    """A pointer that must name an existing single-link regular file inside `d`, and not a symlink."""
++    target, text, why = _pointer(p, label, base, d, prefixed)
++    if why:
++        return None, why
++    try:
++        st = os.lstat(target)
++    except OSError:
++        return None, f"{label} names {text!r}, which does not exist"
++    if stat.S_ISLNK(st.st_mode):
++        return None, f"{label} names {text!r}, which is a symlink"
++    if not stat.S_ISREG(st.st_mode):
++        return None, f"{label} names {text!r}, which is not a regular file"
++    if st.st_nlink > 1:
++        return None, f"{label} names {text!r}, which has more than one hard link"
++    return target, None
++
++
+ # ---------- fact 1/2: argv ----------
+ 
+ 
+@@ -177,13 +271,13 @@
+ 
+ 
+ def _tree(d):
+-    """Return (repos, reason): every directory holding a real `.git` dir, after refusing symlinks and
+-    special files anywhere in the fixture."""
+-    repos, seen = [], 0
++    """Return (repos, gitfiles, reason): every directory holding a real `.git` dir, every directory whose
++    `.git` is a file naming a store inside `d`, after refusing symlinks and special files anywhere."""
++    repos, gitfiles, seen = [], [], 0
+     for top, dirs, files in os.walk(str(d), followlinks=False):
+         seen += len(dirs) + len(files)
+         if seen > ENTRY_CAP:
+-            return None, f"fixture tree exceeds {ENTRY_CAP} entries"
++            return None, None, f"fixture tree exceeds {ENTRY_CAP} entries"
+         t = pathlib.Path(top)
+         keep = []
+         for name in dirs:
+@@ -191,11 +285,11 @@
+             try:
+                 mode = os.lstat(p).st_mode
+             except OSError:
+-                return None, f"{_rel(p, d)} cannot be lstat'ed"
++                return None, None, f"{_rel(p, d)} cannot be lstat'ed"
+             if stat.S_ISLNK(mode):
+-                return None, f"{_rel(p, d)} is a symlink"
++                return None, None, f"{_rel(p, d)} is a symlink"
+             if not stat.S_ISDIR(mode):
+-                return None, f"{_rel(p, d)} is not a directory"
++                return None, None, f"{_rel(p, d)} is not a directory"
+             if name == ".git":
+                 repos.append(t)
+                 continue
+@@ -206,18 +300,21 @@
+             try:
+                 mode = os.lstat(p).st_mode
+             except OSError:
+-                return None, f"{_rel(p, d)} cannot be lstat'ed"
++                return None, None, f"{_rel(p, d)} cannot be lstat'ed"
+             if stat.S_ISLNK(mode):
+-                return None, f"{_rel(p, d)} is a symlink"
+-            if name == ".git":
+-                return None, f"{_rel(p, d)} is a file (gitdir redirect), not a directory"
++                return None, None, f"{_rel(p, d)} is a symlink"
+             if not stat.S_ISREG(mode):
+-                return None, f"{_rel(p, d)} is a special file"
++                return None, None, f"{_rel(p, d)} is a special file"
+             if os.lstat(p).st_nlink > 1:
+-                return None, f"{_rel(p, d)} has more than one hard link"
++                return None, None, f"{_rel(p, d)} has more than one hard link"
++            if name == ".git":
++                target, why = _dir_ref(p, _rel(p, d), t, d, True)
++                if why:
++                    return None, None, why
++                gitfiles.append((t, target))
+     if len(repos) > REPO_CAP:
+-        return None, f"fixture holds more than {REPO_CAP} repos"
+-    return repos, None
++        return None, None, f"fixture holds more than {REPO_CAP} repos"
++    return repos, gitfiles, None
+ 
+ 
+ # ---------- fact 4: the store, classified against the plain-init allowlist ----------
+@@ -237,6 +334,8 @@
+     if any(b >= 0x80 for b in raw):
+         return f"{label}/config carries a non-ASCII byte"
+     sect = ""
++    version = "0"
++    saw_ext = False
+     for line in raw.split(b"\n"):
+         s = line.lstrip(b" \t")
+         if not s:
+@@ -258,20 +357,26 @@
+         need = CFG_KEYS.get((sect, key))
+         if need is None:
+             return f"{label}/config key {sect}.{key} is not allowlisted"
++        if sect == "extensions":
++            saw_ext = True
+         if m.group(2) is None:
+             if need != "bool":
+                 return f"{label}/config key {sect}.{key} needs a value"
+             continue
+         val = m.group(2).decode("ascii").lower()
+-        if need == "bool":
++        if need == "version":
++            if val not in ("0", "1"):
++                return f"{label}/config {sect}.{key}={val!r} must be 0 or 1"
++            if key == "repositoryformatversion":
++                version = val
++        elif need == "bool":
+             if val not in BOOL:
+                 return f"{label}/config {sect}.{key}={val!r} is not a boolean"
+         elif need == "false":
+             if val not in FALSEY:
+                 return f"{label}/config {sect}.{key} must be false"
+-        elif need == "0":
+-            if val not in ("0", ""):
+-                return f"{label}/config {sect}.{key} must be 0"
++    if saw_ext and version != "1":
++        return f"{label}/config [extensions] needs repositoryformatversion = 1"
+     return None
+ 
+ 
+@@ -285,17 +390,17 @@
+             return f"{_rel(q, label)} is a symlink"
+         if _linked(mode, _n):
+             return f"{_rel(q, label)} has more than one hard link"
+-        if name not in ("heads", "tags"):
+-            return f"{label}/{name} is not refs/heads or refs/tags"
++        if name not in GIT_REF_NAMESPACES:
++            return f"{label}/{name} is not refs/heads, refs/tags or refs/replace"
+         if not stat.S_ISDIR(mode):
+             return f"{label}/{name} is not a directory"
+-        why = _ref_tree(q, label)
++        why = _ref_tree(q, label, name)
+         if why:
+             return why
+     return None
+ 
+ 
+-def _ref_tree(p, label):
++def _ref_tree(p, label, ns=None):
+     ents = _entries(p)
+     if ents is None:
+         return f"{_rel(p, label)} unreadable"
+@@ -308,7 +413,9 @@
+         if stat.S_ISDIR(mode):
+             if not _ref_name_ok(name):
+                 return f"{_rel(q, label)} has a name git does not write"
+-            why = _ref_tree(q, label)
++            if ns == "replace":
++                return f"{_rel(q, label)} is a replace subdirectory git does not write"
++            why = _ref_tree(q, label, ns)
+             if why:
+                 return why
+             continue
+@@ -316,6 +423,8 @@
+             return f"{_rel(q, label)} is a special file"
+         if not _ref_name_ok(name):
+             return f"{_rel(q, label)} has a name git does not write"
++        if ns == "replace" and REPLACE_NAME.match(name) is None:
++            return f"{_rel(q, label)} is not a 40-hex replace ref"
+         body = _read(q, 200)
+         if body is None:
+             return f"{_rel(q, label)} unreadable"
+@@ -324,7 +433,71 @@
+     return None
+ 
+ 
+-def _objects(p, label):
++def _alternates(objects, label, d, seen=None, depth=0):
++    """`objects/info/alternates`: every line must name an object dir inside `d` — and so must every hop.
++
++    A relative entry resolves against the object dir that holds the file, which is how git reads it; git then
++    reads `<target>/info/alternates` as well (`link_alt_odb_entries` recurses), so a chain is followed here too.
++    Without that, an entry that is inside `d` but names a store which borrows from outside `d` would be an
++    escape. `seen` breaks cycles, `ALTERNATES_DEPTH` bounds the chain. Lines are taken verbatim: git trims
++    nothing (measured), so a trailing space fails here exactly where it fails in git. Comment lines are refused
++    (git writes none), and so is a file with no entry at all.
++    """
++    seen = set() if seen is None else seen
++    p = objects / "info" / "alternates"
++    try:
++        st = os.lstat(p)
++    except OSError:
++        return None if depth else f"{label} unreadable"
++    if stat.S_ISLNK(st.st_mode):
++        return f"{label} is a symlink"
++    if not stat.S_ISREG(st.st_mode):
++        return f"{label} is not a regular file"
++    if st.st_nlink > 1:
++        return f"{label} has more than one hard link"
++    raw = _read(p, TEXT_CAP)
++    if raw is None:
++        return f"{label} unreadable"
++    if len(raw) > TEXT_CAP:
++        return f"{label} exceeds {TEXT_CAP} bytes"
++    if b"\x00" in raw:
++        return f"{label} carries a NUL byte"
++    if b"\r" in raw:
++        return f"{label} carries a bare CR"
++    if any(b >= 0x80 for b in raw):
++        return f"{label} carries a non-ASCII byte"
++    lines = [line for line in raw.split(b"\n") if line]
++    if not lines:
++        return f"{label} names no object directory"
++    for line in lines:
++        if line.startswith(b"#"):
++            return f"{label} carries a comment line git does not write"
++        text = line.decode("ascii")
++        raw_target = text if text.startswith("/") else os.path.join(str(objects), text)
++        target = pathlib.Path(_norm(raw_target))
++        if not _inside(target, d):
++            return f"{label} names {text!r}, which resolves outside the fixture"
++        try:
++            tst = os.lstat(target)
++        except OSError:
++            return f"{label} names {text!r}, which does not exist"
++        if stat.S_ISLNK(tst.st_mode):
++            return f"{label} names {text!r}, which is a symlink"
++        if not stat.S_ISDIR(tst.st_mode):
++            return f"{label} names {text!r}, which is not a directory"
++        key = _norm(target)
++        if key in seen:
++            continue
++        seen.add(key)
++        if depth + 1 > ALTERNATES_DEPTH:
++            return f"{label} chains deeper than {ALTERNATES_DEPTH} object stores"
++        why = _alternates(target, f"{label} -> {text!r}", d, seen, depth + 1)
++        if why:
++            return why
++    return None
++
++
++def _objects(p, label, d):
+     ents = _entries(p)
+     if ents is None:
+         return f"{label} unreadable"
+@@ -338,8 +511,18 @@
+             inner = _entries(q)
+             if inner is None:
+                 return f"{label}/info unreadable"
+-            if inner:
+-                return f"{label}/info/{inner[0][0]} present (object-store redirect)"
++            for iname, imode, _is, _in in inner:
++                if stat.S_ISLNK(imode):
++                    return f"{label}/info/{iname} is a symlink"
++                if not stat.S_ISREG(imode):
++                    return f"{label}/info/{iname} is not a regular file"
++                if _linked(imode, _in):
++                    return f"{label}/info/{iname} has more than one hard link"
++                if iname != "alternates":
++                    return f"{label}/info/{iname} is not git's alternates file"
++                why = _alternates(p, f"{label}/info/{iname}", d)
++                if why:
++                    return why
+             continue
+         if name == "pack":
+             inner = _entries(q)
+@@ -450,8 +633,17 @@
+     return None
+ 
+ 
+-def _store(gd, label):
+-    """Classify one `.git` directory, entry by entry, against what `git init` + commits writes."""
++def _store(gd, label, d, seen=None):
++    """Classify one `.git` directory, entry by entry, against what `git init` + commits writes.
++
++    `seen` memoizes classified stores: a working tree's `.git` file, a worktree's `commondir` and a repo's
++    own store all name the same directory, and each directory is classified once.
++    """
++    key = _norm(gd)
++    seen = set() if seen is None else seen
++    if key in seen:
++        return None
++    seen.add(key)
+     ents = _entries(gd)
+     if ents is None:
+         return f"{label} unreadable"
+@@ -516,7 +708,11 @@
+         why = _logs(gd / "logs", f"{label}/logs")
+         if why:
+             return why
+-    why = _objects(gd / "objects", f"{label}/objects")
++    if "worktrees" in have:
++        why = _worktrees(gd / "worktrees", f"{label}/worktrees", d, seen)
++        if why:
++            return why
++    why = _objects(gd / "objects", f"{label}/objects", d)
+     if why:
+         return why
+     why = _refs(gd / "refs", f"{label}/refs")
+@@ -525,6 +721,92 @@
+     return None
+ 
+ 
++def _worktrees(p, label, d, seen):
++    """Classify `.git/worktrees`: one per-worktree metadata dir per linked worktree."""
++    ents = _entries(p)
++    if ents is None:
++        return f"{label} unreadable"
++    for name, mode, _s, _n in ents:
++        q = p / name
++        if stat.S_ISLNK(mode):
++            return f"{label}/{name} is a symlink"
++        if not stat.S_ISDIR(mode):
++            return f"{label}/{name} is not a directory"
++        if not SAFE_NAME.match(name):
++            return f"{label}/{name} has a name git does not write"
++        why = _worktree(q, f"{label}/{name}", d, seen)
++        if why:
++            return why
++    return None
++
++
++def _worktree(p, label, d, seen):
++    """Classify one per-worktree metadata dir: `.git/worktrees/<name>`, or the dir a `.git` file names.
++
++    Git writes `gitdir` (a back-pointer to the worktree's `.git` file), `commondir` (the common store),
++    `HEAD`, the per-worktree `index` stat cache, `ORIG_HEAD`, `logs/HEAD` and an empty `refs/`. Both pointers
++    must resolve inside `d`, and the common store is then classified as a store.
++    """
++    ents = _entries(p)
++    if ents is None:
++        return f"{label} unreadable"
++    have = set()
++    for name, mode, size, n in ents:
++        q = p / name
++        if stat.S_ISLNK(mode):
++            return f"{label}/{name} is a symlink"
++        if name not in WORKTREE_TOP:
++            return f"{label}/{name} is not worktree metadata git writes"
++        have.add(name)
++        if name in WORKTREE_DIRS:
++            if not stat.S_ISDIR(mode):
++                return f"{label}/{name} is not a directory"
++            continue
++        if not stat.S_ISREG(mode):
++            return f"{label}/{name} is not a regular file"
++        if _linked(mode, n):
++            return f"{label}/{name} has more than one hard link"
++        if name == "HEAD":
++            body = _read(q, 200)
++            if body is None or HEAD_REF.match(body) is None:
++                return f"{label}/HEAD is not a plain branch HEAD"
++        elif name == "ORIG_HEAD":
++            body = _read(q, 200)
++            if body is None or HEX40.match(body) is None:
++                return f"{label}/ORIG_HEAD is not a 40-hex sha"
++        elif name == "index":
++            if size > INDEX_CAP:
++                return f"{label}/index exceeds {INDEX_CAP} bytes"
++    for req in ("HEAD", "gitdir", "commondir"):
++        if req not in have:
++            return f"{label} has no {req}"
++    _back, why = _file_ref(p / "gitdir", f"{label}/gitdir", p, d, False)
++    if why:
++        return why
++    common, why = _dir_ref(p / "commondir", f"{label}/commondir", p, d, False)
++    if why:
++        return why
++    if "logs" in have:
++        why = _logs(p / "logs", f"{label}/logs")
++        if why:
++            return why
++    if "refs" in have:
++        why = _refs(p / "refs", f"{label}/refs")
++        if why:
++            return why
++    return _store(common, f"{label}/commondir store", d, seen)
++
++
++def _gitfile_store(target, label, d, seen):
++    """A `.git` file names a store (n21) or, when it carries `commondir`, a per-worktree metadata dir (n20)."""
++    ents = _entries(target)
++    if ents is None:
++        return f"{label} unreadable"
++    if "commondir" in {name for name, _m, _s, _n in ents}:
++        return _worktree(target, label, d, seen)
++    return _store(target, label, d, seen)
++
++
+ # ---------- the decision ----------
+ 
+ 
+@@ -551,11 +833,16 @@
+     vals, why = _argv(d, tool, argv)
+     if why:
+         return why
+-    repos, why = _tree(d)
++    repos, gitfiles, why = _tree(d)
+     if why:
+         return why
++    seen = set()
+     for repo in repos:
+-        why = _store(repo / ".git", f"{_rel(repo / '.git', d)}")
++        why = _store(repo / ".git", f"{_rel(repo / '.git', d)}", d, seen)
++        if why:
++            return why
++    for repo, target in gitfiles:
++        why = _gitfile_store(target, f"{_rel(target, d)} (via {_rel(repo / '.git', d)})", d, seen)
+         if why:
+             return why
+     lane_tok = vals.get("--lane")
+@@ -570,6 +857,6 @@
+         return f"--lane {lane_tok!r} is a symlink"
+     if not stat.S_ISDIR(lst.st_mode):
+         return f"--lane {lane_tok!r} is not a directory"
+-    if _norm(lane) not in {_norm(r) for r in repos}:
++    if _norm(lane) not in {_norm(r) for r in repos} | {_norm(r) for r, _t in gitfiles}:
+         return f"--lane {lane_tok!r} is not a repository inside the fixture"
+     return None

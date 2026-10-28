@@ -1,0 +1,38 @@
+== mutant A: delete the commit-graph-chain row loop in _graph_dir ==
+reference fence : 57adce4a598e1ca8a365114b35047f20afdce9459aa83adc0c551712966383a1  /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind8/lane/plans/fixture_fence.py
+mutant A fence  : 7ccee77baaef3856e9f1816c73fb045f0b58c138d0b9b562322fc7c63af2434c  /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind8/probe/fence_nochain.py
+--- /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind8/lane/plans/fixture_fence.py	2026-10-28 14:55:41.047086276 -0300
++++ /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind8/probe/fence_nochain.py	2026-10-28 14:59:08.362045197 -0300
+@@ -527,9 +527,6 @@
+             raw = _read(q, TEXT_CAP)
+             if raw is None:
+                 return f"{_rel(q, label)} unreadable"
+-            for line in raw.split(b"\n"):
+-                if line and CHAIN_ROW.match(line + b"\n") is None:
+-                    return f"{_rel(q, label)} carries a row git does not write"
+             continue
+         if GRAPH_NAME.match(name) is None:
+             return f"{_rel(q, label)} is not a graph file name"
+-- delivered modules under mutant A --
+GIT git version 2.56.0
+s50-11-packed-peel-outside-store expect=error rc=11 verdict=ADMIT why=ADMIT
+s50-12-commit-graph-chain-outside expect=error rc=11 verdict=ADMIT why=ADMIT
+PROBE fixtures=2 unclean=2
+
+== mutant B: delete the peeled-line HEX40 check in _packed ==
+mutant B fence  : 1597dfee935063e11df03d35ffdf265062fc074e14d81faf1171cf3b0a1eab49  /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind8/probe/fence_nopeel.py
+--- /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind8/lane/plans/fixture_fence.py	2026-10-28 14:55:41.047086276 -0300
++++ /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind8/probe/fence_nopeel.py	2026-10-28 14:59:20.315841233 -0300
+@@ -739,8 +739,6 @@
+                 return f"{label} carries an unknown header"
+             continue
+         if line.startswith(b"^"):
+-            if HEX40.match(line[1:] + b"\n") is None:
+-                return f"{label} carries a bad peeled line"
+             continue
+         sha, _, ref = line.partition(b" ")
+         if HEX40.match(sha + b"\n") is None:
+-- substitute witness s50_13 under mutant B --
+GIT git version 2.56.0
+s50-13-packed-peel-shape expect=error rc=11 verdict=ADMIT why=ADMIT
+PROBE fixtures=1 unclean=1

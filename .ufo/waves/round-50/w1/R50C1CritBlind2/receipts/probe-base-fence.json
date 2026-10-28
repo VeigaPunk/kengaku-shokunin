@@ -1,0 +1,102 @@
+[
+ {
+  "module": "x1_commondir_escape.py",
+  "fid": "x1-cd-abs",
+  "tool": "anchor",
+  "expect": "error",
+  "argv": [
+   "--lane",
+   "lane"
+  ],
+  "dir": "/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind2/work/probe/m-x1_commondir_escape/f000",
+  "verdict": "BREACH",
+  "why": "lane/.git/commondir is not a plain-init entry",
+  "git": [
+   {
+    "cmd": "rev-parse --git-common-dir",
+    "rc": 0,
+    "out": "/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind2/work/probe/m-x1_commondir_escape/cd-store-abs/.git"
+   },
+   {
+    "cmd": "config --get core.repositoryformatversion",
+    "rc": 0,
+    "out": "0"
+   }
+  ]
+ },
+ {
+  "module": "x1_commondir_escape.py",
+  "fid": "x1-cd-rel",
+  "tool": "anchor",
+  "expect": "error",
+  "argv": [
+   "--lane",
+   "lane"
+  ],
+  "dir": "/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind2/work/probe/m-x1_commondir_escape/f001",
+  "verdict": "BREACH",
+  "why": "lane/.git/commondir is not a plain-init entry",
+  "git": [
+   {
+    "cmd": "rev-parse --git-common-dir",
+    "rc": 0,
+    "out": "/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind2/work/probe/m-x1_commondir_escape/cd-store-rel/.git"
+   },
+   {
+    "cmd": "config --get core.repositoryformatversion",
+    "rc": 0,
+    "out": "0"
+   }
+  ]
+ },
+ {
+  "module": "x2_gitfile_alternates_escape.py",
+  "fid": "x2-alt-abs",
+  "tool": "anchor",
+  "expect": "error",
+  "argv": [
+   "--lane",
+   "wt"
+  ],
+  "dir": "/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind2/work/probe/m-x2_gitfile_alternates_escape/f000",
+  "verdict": "BREACH",
+  "why": "wt/.git is a file (gitdir redirect), not a directory",
+  "git": [
+   {
+    "cmd": "rev-parse --git-common-dir",
+    "rc": 0,
+    "out": "/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind2/work/probe/m-x2_gitfile_alternates_escape/f000/store"
+   },
+   {
+    "cmd": "count-objects -v",
+    "rc": 0,
+    "out": "count: 6\nsize: 24\nin-pack: 0\npacks: 0\nsize-pack: 0\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\nalternate: /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind2/work/probe/m-x2_gitfile_alternates_escape/alt-store-abs/.git/objects"
+   }
+  ]
+ },
+ {
+  "module": "x2_gitfile_alternates_escape.py",
+  "fid": "x2-alt-rel",
+  "tool": "anchor",
+  "expect": "error",
+  "argv": [
+   "--lane",
+   "wt"
+  ],
+  "dir": "/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind2/work/probe/m-x2_gitfile_alternates_escape/f001",
+  "verdict": "BREACH",
+  "why": "wt/.git is a file (gitdir redirect), not a directory",
+  "git": [
+   {
+    "cmd": "rev-parse --git-common-dir",
+    "rc": 0,
+    "out": "/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind2/work/probe/m-x2_gitfile_alternates_escape/f001/store"
+   },
+   {
+    "cmd": "count-objects -v",
+    "rc": 0,
+    "out": "count: 6\nsize: 24\nin-pack: 0\npacks: 0\nsize-pack: 0\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\nalternate: /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind2/work/probe/m-x2_gitfile_alternates_escape/alt-store-rel/.git/objects"
+   }
+  ]
+ }
+]

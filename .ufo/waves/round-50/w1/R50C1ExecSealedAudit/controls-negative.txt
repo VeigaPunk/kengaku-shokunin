@@ -1,0 +1,42 @@
+MODULE ctl_abs.py contract=FAIL deterministic=no root_independent=None host_paths=0 abs_root_in_fixture=0 dup_fid=0 leaks=0
+  CONTRACT-FAIL ctl_abs.py absolute path literal in source: /tmp/ctl-abs-marker
+  CONTRACT-FAIL ctl_abs.py build: TypeError: data must be str, not PosixPath
+  CONTRACT-FAIL ctl_abs.py fixture ctl-abs-literal: TypeError: data must be str, not PosixPath
+  CONTRACT-FAIL ctl_abs.py fixture ctl-abs-literal: TypeError: data must be str, not PosixPath
+  CONTRACT-FAIL ctl_abs.py fixture ctl-abs-literal: TypeError: data must be str, not PosixPath
+  BUILD-ERROR ctl_abs.py TypeError: data must be str, not PosixPath
+MODULE ctl_contract.py contract=FAIL deterministic=no root_independent=None host_paths=0 abs_root_in_fixture=0 dup_fid=0 leaks=0
+  CONTRACT-FAIL ctl_contract.py FIXTURES[0] missing expect,defects,build
+  CONTRACT-FAIL ctl_contract.py build: KeyError: 'build'
+  BUILD-ERROR ctl_contract.py KeyError: 'build'
+MODULE ctl_dup_a.py contract=ok deterministic=yes root_independent=True host_paths=0 abs_root_in_fixture=0 dup_fid=1 leaks=0
+  DUPLICATE-FID ctl_dup_a.py fid ctl-dup-fid in 2 modules
+  BASE ctl_dup_a.py ctl-dup-fid BREACH
+MODULE ctl_dup_b.py contract=ok deterministic=yes root_independent=True host_paths=0 abs_root_in_fixture=0 dup_fid=1 leaks=0
+  DUPLICATE-FID ctl_dup_b.py fid ctl-dup-fid in 2 modules
+  BASE ctl_dup_b.py ctl-dup-fid BREACH
+MODULE ctl_leak.py contract=ok deterministic=yes root_independent=True host_paths=0 abs_root_in_fixture=0 dup_fid=0 leaks=1
+  NAME-LEAK ctl_leak.py /fast/scratch/hyaku/kengaku-r50/R50C1ExecSealedAudit/controls/fence-writer-report.md seat=None needle=ctl-leak-needle
+  BASE ctl_leak.py ctl-leak-needle BREACH
+MODULE ctl_nondet.py contract=ok deterministic=no root_independent=False host_paths=0 abs_root_in_fixture=1 dup_fid=0 leaks=0
+  NONDETERMINISTIC ctl_nondet.py fids=ctl-nondet
+  ABS-BUILD-ROOT ctl_nondet.py ctl-nondet
+  BASE ctl_nondet.py ctl-nondet BREACH
+
+== CONTRACT-OK ==
+contract-ok ctl_abs.py NO
+contract-ok ctl_contract.py NO
+contract-ok ctl_dup_a.py yes
+contract-ok ctl_dup_b.py yes
+contract-ok ctl_leak.py yes
+contract-ok ctl_nondet.py yes
+== NONDETERMINISTIC ==
+nondeterministic ctl_nondet.py
+== IDENTITY-ROOT-DEPENDENT ==
+root-dependent ctl_nondet.py fids=ctl-nondet
+== DUPLICATE-FID ==
+duplicate-fid ctl_dup_a.py fid ctl-dup-fid in 2 modules
+duplicate-fid ctl_dup_b.py fid ctl-dup-fid in 2 modules
+== NAME-LEAKS ==
+name-leaks ctl_leak.py /fast/scratch/hyaku/kengaku-r50/R50C1ExecSealedAudit/controls/fence-writer-report.md seat=None needle=ctl-leak-needle
+SEALED50-CANDIDATES 0/6 

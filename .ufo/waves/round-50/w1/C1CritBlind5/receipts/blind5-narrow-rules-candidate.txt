@@ -1,0 +1,45 @@
+FIXTURE bl5-alternates-chain-out module=h_alternates_chain.py
+  FENCE       BREACH mid/.git/objects/info/alternates names '../../../../chain-out/.git/objects', which resolves outside the fixture
+  R1a alternates one-hop  ADMIT  1 direct line(s) inside d (does not read the target's own alternates)
+  R1b alternates transitive REFUSE hop 2: /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind5/nw2/h_alternates_chain/f000/mid/.git/objects -> /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind5/nw2/h_alternates_chain/chain-out/.git/objects outside d
+  R2a gitfile one-hop    n/a    no .git file
+  R2b gitfile+commondir   n/a    no .git file
+  R3a commondir text     n/a    no commondir
+  R3b commondir resolved  n/a    no commondir
+  REALGIT     rc=0     lane reads cc4a0bfcaf43 only present outside d -> 'outside bytes'
+FIXTURE bl5-wt-commondir-out module=h_wt_commondir_out.py
+  FENCE       BREACH wtadmin (via wt/.git)/commondir names '../../wt-common/.git', which resolves outside the fixture
+  R1a alternates one-hop  n/a    lane store has no alternates
+  R1b alternates transitive ADMIT  1 store(s), every hop inside d
+  R2a gitfile one-hop    ADMIT  1 gitfile(s), targets inside d (target classified as a store, bytes unread)
+  R2b gitfile+commondir   REFUSE wt/.git gitdir wtadmin commondir -> /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind5/nw2/h_wt_commondir_out/wt-common/.git outside d
+  R3a commondir text     ADMIT  1 commondir(s) hold a relative path (target never resolved)
+  R3b commondir resolved  REFUSE wtadmin/commondir -> /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind5/nw2/h_wt_commondir_out/wt-common/.git outside d
+  REALGIT     rc=0     common-dir=/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind5/nw2/h_wt_commondir_out/wt-common/.git log='a94edab seed' (no objects dir under d)
+FIXTURE n20-linked-worktree module=n20_linked_worktree.py
+  FENCE       ADMIT 
+  R1a alternates one-hop  n/a    lane store has no alternates
+  R1b alternates transitive ADMIT  1 store(s), every hop inside d
+  R2a gitfile one-hop    ADMIT  1 gitfile(s), targets inside d (target classified as a store, bytes unread)
+  R2b gitfile+commondir   ADMIT  1 gitfile(s) and their commondir(s) inside d
+  R3a commondir text     ADMIT  1 commondir(s) hold a relative path (target never resolved)
+  R3b commondir resolved  ADMIT  1 commondir(s) resolve inside d
+  REALGIT     -        honest class: outside read not required
+FIXTURE n21-separate-gitdir module=n21_separate_gitdir.py
+  FENCE       ADMIT 
+  R1a alternates one-hop  n/a    lane store has no alternates
+  R1b alternates transitive ADMIT  1 store(s), every hop inside d
+  R2a gitfile one-hop    ADMIT  1 gitfile(s), targets inside d (target classified as a store, bytes unread)
+  R2b gitfile+commondir   ADMIT  1 gitfile(s) and their commondir(s) inside d
+  R3a commondir text     n/a    no commondir
+  R3b commondir resolved  n/a    no commondir
+  REALGIT     -        honest class: outside read not required
+FIXTURE n22-alternates-in-d module=n22_alternates_in_d.py
+  FENCE       ADMIT 
+  R1a alternates one-hop  ADMIT  1 direct line(s) inside d (does not read the target's own alternates)
+  R1b alternates transitive ADMIT  2 store(s), every hop inside d
+  R2a gitfile one-hop    n/a    no .git file
+  R2b gitfile+commondir   n/a    no .git file
+  R3a commondir text     n/a    no commondir
+  R3b commondir resolved  n/a    no commondir
+  REALGIT     -        honest class: outside read not required

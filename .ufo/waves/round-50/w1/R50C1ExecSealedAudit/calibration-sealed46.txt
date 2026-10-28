@@ -1,0 +1,68 @@
+MODULE a_newline_anchor.py contract=ok deterministic=yes root_independent=True host_paths=0 abs_root_in_fixture=0 dup_fid=0 leaks=0
+  BASE a_newline_anchor.py newline-anchor-accept BREACH
+  BASE a_newline_anchor.py newline-anchor-reject BREACH
+MODULE a_phantom_anchor.py contract=ok deterministic=yes root_independent=True host_paths=0 abs_root_in_fixture=0 dup_fid=0 leaks=0
+  BASE a_phantom_anchor.py phantom-anchor-accept BREACH
+  BASE a_phantom_anchor.py phantom-anchor-reject BREACH
+MODULE a_phantom_order.py contract=ok deterministic=yes root_independent=True host_paths=0 abs_root_in_fixture=0 dup_fid=0 leaks=0
+  BASE a_phantom_order.py phantom-order-accept BREACH
+  BASE a_phantom_order.py phantom-order-reject BREACH
+MODULE c_core_attributes_path.py contract=ok deterministic=yes root_independent=False host_paths=1 abs_root_in_fixture=2 dup_fid=0 leaks=0
+  ABS-BUILD-ROOT c_core_attributes_path.py sealed-core-attributes-path,sealed-core-attributes-path:lane/.git/config
+  HOST-PATH c_core_attributes_path.py sealed-core-attributes-path:lane/.git/config:/fast/scratch
+  BASE c_core_attributes_path.py sealed-core-attributes-path BREACH
+MODULE c_excludes_file.py contract=ok deterministic=yes root_independent=False host_paths=1 abs_root_in_fixture=2 dup_fid=0 leaks=0
+  ABS-BUILD-ROOT c_excludes_file.py sealed-core-excludes-file,sealed-core-excludes-file:lane/.git/config
+  HOST-PATH c_excludes_file.py sealed-core-excludes-file:lane/.git/config:/fast/scratch
+  BASE c_excludes_file.py sealed-core-excludes-file BREACH
+MODULE c_url_rewrite.py contract=ok deterministic=yes root_independent=True host_paths=0 abs_root_in_fixture=0 dup_fid=0 leaks=0
+  BASE c_url_rewrite.py sealed-url-insteadof-path BREACH
+MODULE p_info_redirect.py contract=ok deterministic=yes root_independent=True host_paths=1 abs_root_in_fixture=1 dup_fid=0 leaks=0
+  ABS-BUILD-ROOT p_info_redirect.py sealed-info-redirect:lane/.git/objects/info
+  HOST-PATH p_info_redirect.py sealed-info-redirect:lane/.git/objects/info:/fast/scratch
+  BASE p_info_redirect.py sealed-info-redirect BREACH
+MODULE p_pack_redirect.py contract=ok deterministic=yes root_independent=True host_paths=1 abs_root_in_fixture=1 dup_fid=0 leaks=0
+  ABS-BUILD-ROOT p_pack_redirect.py sealed-pack-redirect:lane/.git/objects/pack
+  HOST-PATH p_pack_redirect.py sealed-pack-redirect:lane/.git/objects/pack:/fast/scratch
+  BASE p_pack_redirect.py sealed-pack-redirect BREACH
+MODULE p_refs_redirect.py contract=ok deterministic=yes root_independent=True host_paths=1 abs_root_in_fixture=1 dup_fid=0 leaks=0
+  ABS-BUILD-ROOT p_refs_redirect.py sealed-refs-redirect:lane/.git/refs
+  HOST-PATH p_refs_redirect.py sealed-refs-redirect:lane/.git/refs:/fast/scratch
+  BASE p_refs_redirect.py sealed-refs-redirect BREACH
+MODULE s_objects_link.py contract=ok deterministic=yes root_independent=True host_paths=1 abs_root_in_fixture=1 dup_fid=0 leaks=0
+  ABS-BUILD-ROOT s_objects_link.py seal-objects-link:lane/.git/objects
+  HOST-PATH s_objects_link.py seal-objects-link:lane/.git/objects:/fast/scratch
+  BASE s_objects_link.py seal-objects-link BREACH
+MODULE s_packed_refs.py contract=ok deterministic=yes root_independent=False host_paths=1 abs_root_in_fixture=2 dup_fid=0 leaks=0
+  ABS-BUILD-ROOT s_packed_refs.py seal-packed-refs-link,seal-packed-refs-link:lane/.git/packed-refs
+  HOST-PATH s_packed_refs.py seal-packed-refs-link:lane/.git/packed-refs:/fast/scratch
+  BASE s_packed_refs.py seal-packed-refs-link BREACH
+MODULE s_refs_link.py contract=ok deterministic=yes root_independent=True host_paths=1 abs_root_in_fixture=1 dup_fid=0 leaks=0
+  ABS-BUILD-ROOT s_refs_link.py seal-refs-link:lane/.git/refs
+  HOST-PATH s_refs_link.py seal-refs-link:lane/.git/refs:/fast/scratch
+  BASE s_refs_link.py seal-refs-link BREACH
+
+== CONTRACT-OK ==
+contract-ok a_newline_anchor.py yes
+contract-ok a_phantom_anchor.py yes
+contract-ok a_phantom_order.py yes
+contract-ok c_core_attributes_path.py yes
+contract-ok c_excludes_file.py yes
+contract-ok c_url_rewrite.py yes
+contract-ok p_info_redirect.py yes
+contract-ok p_pack_redirect.py yes
+contract-ok p_refs_redirect.py yes
+contract-ok s_objects_link.py yes
+contract-ok s_packed_refs.py yes
+contract-ok s_refs_link.py yes
+== NONDETERMINISTIC ==
+nondeterministic none
+== IDENTITY-ROOT-DEPENDENT ==
+root-dependent c_core_attributes_path.py fids=sealed-core-attributes-path,sealed-core-attributes-path:lane/.git/config
+root-dependent c_excludes_file.py fids=sealed-core-excludes-file,sealed-core-excludes-file:lane/.git/config
+root-dependent s_packed_refs.py fids=seal-packed-refs-link,seal-packed-refs-link:lane/.git/packed-refs
+== DUPLICATE-FID ==
+duplicate-fid none
+== NAME-LEAKS ==
+name-leaks none
+SEALED50-CANDIDATES 12/12 a_newline_anchor.py a_phantom_anchor.py a_phantom_order.py c_core_attributes_path.py c_excludes_file.py c_url_rewrite.py p_info_redirect.py p_pack_redirect.py p_refs_redirect.py s_objects_link.py s_packed_refs.py s_refs_link.py

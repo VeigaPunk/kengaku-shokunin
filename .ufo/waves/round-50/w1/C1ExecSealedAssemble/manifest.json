@@ -1,0 +1,718 @@
+{
+ "rev": "3b02d573d58cc6d2e0d27ef92ac0815354912252",
+ "fence": {
+  "path": "plans/fixture_fence.py",
+  "sha256": "05d5fe03aa3be6b79eb2469b7c86d0a20c9b424bea2e058d580e31a96c8aad5e"
+ },
+ "candidates": 30,
+ "modules_kept": 21,
+ "modules_dropped": 9,
+ "rows": [
+  {
+   "file": "b1_replace_ref_target_outside_store.py",
+   "sha256": "34354116e3c11fbf5b12be1dad8f5869fefddbec8fdf2dc0ee2be535457ae6c4",
+   "fixture": "b1-replace-target-outside-store",
+   "tool": "anchor",
+   "expected": "reject",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH lane/.git/objects/info/alternates present (object-store redirect)",
+   "tree_sha256": "63aa7e0a39cd5fe77c4e42de40fe107d091f9535e451565fff911fffaf8c63e5",
+   "tree_sha256_rep1": "63aa7e0a39cd5fe77c4e42de40fe107d091f9535e451565fff911fffaf8c63e5",
+   "tree_sha256_cross": "63aa7e0a39cd5fe77c4e42de40fe107d091f9535e451565fff911fffaf8c63e5",
+   "argv": [
+    "--lane",
+    "lane"
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "identity_instrument": "canonical",
+   "source": "lane50:lane50"
+  },
+  {
+   "file": "b2_fetch_head_hardlink_out.py",
+   "sha256": "6a15228b050b18b31be3f9ebaa1f465893467e2a190bd1427c0a13e787c3c3a9",
+   "fixture": "b2-fetch-head-hardlink-out",
+   "tool": "anchor",
+   "expected": "reject",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH lane/.git/FETCH_HEAD is not a plain-init entry",
+   "tree_sha256": "d5b079d35da877ddd2f894611ff173c62dacb036725f415370cced8904065d97",
+   "tree_sha256_rep1": "d5b079d35da877ddd2f894611ff173c62dacb036725f415370cced8904065d97",
+   "tree_sha256_cross": "d5b079d35da877ddd2f894611ff173c62dacb036725f415370cced8904065d97",
+   "argv": [
+    "--lane",
+    "lane"
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "identity_instrument": "canonical",
+   "source": "lane50:lane50"
+  },
+  {
+   "file": "c4_gitfile_store_include.py",
+   "sha256": "3c99e89ba2426b7022521417649e46b077c403800fb20496ed1704df1467b04a",
+   "fixture": "b4b-gitfile-store-include",
+   "tool": "anchor",
+   "expected": "accept",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH wt/.git is a file (gitdir redirect), not a directory",
+   "tree_sha256": "83d5cf46a47748900f0278cbd5a82a4afd2ceab15ece606d9e16fd9aae444b70",
+   "tree_sha256_rep1": "83d5cf46a47748900f0278cbd5a82a4afd2ceab15ece606d9e16fd9aae444b70",
+   "tree_sha256_cross": "83d5cf46a47748900f0278cbd5a82a4afd2ceab15ece606d9e16fd9aae444b70",
+   "argv": [
+    "--lane",
+    "wt"
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "identity_instrument": "canonical",
+   "source": "lane50:lane50"
+  },
+  {
+   "file": "h_alternates_chain.py",
+   "sha256": "35286a7076194a55ee66671d6120c8a9cf4a1316b690fe4c3f2fb82588f78bd4",
+   "fixture": "bl5-alternates-chain-out",
+   "tool": "anchor",
+   "expected": "breach",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH lane/.git/objects/info/alternates present (object-store redirect)",
+   "tree_sha256": "d2eee4543e936fad69c51b5e37c966f4540e3668593ce425325ce05ef266b202",
+   "tree_sha256_rep1": "d2eee4543e936fad69c51b5e37c966f4540e3668593ce425325ce05ef266b202",
+   "tree_sha256_cross": "d2eee4543e936fad69c51b5e37c966f4540e3668593ce425325ce05ef266b202",
+   "argv": [
+    "--lane",
+    "lane"
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "identity_instrument": "canonical",
+   "source": "blind:C1CritBlind5"
+  },
+  {
+   "file": "h_wt_commondir_out.py",
+   "sha256": "3e3ec5b6bcd2a5fb5dc1f72fc70fe6195382359a09d511179201d78fdbe5889d",
+   "fixture": "bl5-wt-commondir-out",
+   "tool": "anchor",
+   "expected": "breach",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH wt/.git is a file (gitdir redirect), not a directory",
+   "tree_sha256": "c539b09ce7ace518b2fd516211891483a5704e310ae87fb1616637c1ac04056a",
+   "tree_sha256_rep1": "c539b09ce7ace518b2fd516211891483a5704e310ae87fb1616637c1ac04056a",
+   "tree_sha256_cross": "c539b09ce7ace518b2fd516211891483a5704e310ae87fb1616637c1ac04056a",
+   "argv": [
+    "--lane",
+    "wt"
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "identity_instrument": "canonical",
+   "source": "blind:C1CritBlind5"
+  },
+  {
+   "file": "s50_01_stray_symlink.py",
+   "sha256": "efefb03de0acd4e58cc561234bafa385d5a295d614439f989fab528baed83035",
+   "fixture": "s50-01-stray-symlink",
+   "tool": "anchor",
+   "expected": "error",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH outside-link is a symlink",
+   "tree_sha256": "c86550af20459efd5828f4925e91e4fec83a057b12ffd52931298627a2549f69",
+   "tree_sha256_rep1": "c86550af20459efd5828f4925e91e4fec83a057b12ffd52931298627a2549f69",
+   "tree_sha256_cross": "c86550af20459efd5828f4925e91e4fec83a057b12ffd52931298627a2549f69",
+   "argv": [
+    "--lane",
+    "repo"
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "identity_instrument": "canonical",
+   "source": "lane50:lane50"
+  },
+  {
+   "file": "s50_02_hardlink_out.py",
+   "sha256": "4f9b12f919929bf7b9f32aba244d759b9dc97aea09ff1736e1addb28050f74a3",
+   "fixture": "s50-02-hardlink-outside",
+   "tool": "anchor",
+   "expected": "error",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH shared-link has more than one hard link",
+   "tree_sha256": "90a0bb80b8cd4ec0a1f7445b71188b4b03e13b559c8c16246d96245ee5a90df3",
+   "tree_sha256_rep1": "90a0bb80b8cd4ec0a1f7445b71188b4b03e13b559c8c16246d96245ee5a90df3",
+   "tree_sha256_cross": "90a0bb80b8cd4ec0a1f7445b71188b4b03e13b559c8c16246d96245ee5a90df3",
+   "argv": [
+    "--lane",
+    "repo"
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "identity_instrument": "canonical",
+   "source": "lane50:lane50"
+  },
+  {
+   "file": "s50_03_refs_namespace.py",
+   "sha256": "183990bf47625503e9b5a834330798ed319144067b49031b9c4c93fb55bd408d",
+   "fixture": "s50-03-unknown-ref-namespace",
+   "tool": "anchor",
+   "expected": "error",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH repo/.git/refs/weird is not refs/heads or refs/tags",
+   "tree_sha256": "4554fb7ae0f5fee9e1147daad4dbf0bf9990c6f2af8f5d8b84a27ad82b4a4061",
+   "tree_sha256_rep1": "4554fb7ae0f5fee9e1147daad4dbf0bf9990c6f2af8f5d8b84a27ad82b4a4061",
+   "tree_sha256_cross": "4554fb7ae0f5fee9e1147daad4dbf0bf9990c6f2af8f5d8b84a27ad82b4a4061",
+   "argv": [
+    "--lane",
+    "repo"
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "identity_instrument": "canonical",
+   "source": "lane50:lane50"
+  },
+  {
+   "file": "s50_04_live_hook.py",
+   "sha256": "9f0597a2e1c3f2e76ac128592b46a39c5dbf38170d1e6a28ef4464ae97e84040",
+   "fixture": "s50-04-live-hook",
+   "tool": "anchor",
+   "expected": "error",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH pre-commit is not a hook sample",
+   "tree_sha256": "c72792c20618e6afbfff9570dda99d672361cca1f6510858140caf619d760d4d",
+   "tree_sha256_rep1": "c72792c20618e6afbfff9570dda99d672361cca1f6510858140caf619d760d4d",
+   "tree_sha256_cross": "c72792c20618e6afbfff9570dda99d672361cca1f6510858140caf619d760d4d",
+   "argv": [
+    "--lane",
+    "repo"
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "identity_instrument": "canonical",
+   "source": "lane50:lane50"
+  },
+  {
+   "file": "s50_05_objinfo_unknown.py",
+   "sha256": "8d187b656d81bbb01d5e488974f3938e3de6d61aed2ffa4f7091e975f142f109",
+   "fixture": "s50-05-objinfo-unknown",
+   "tool": "anchor",
+   "expected": "error",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH repo/.git/objects/info/packsets present (object-store redirect)",
+   "tree_sha256": "3db589e663b7f71fecb15b3afa10451ac232a2b108cb49f543a6452aded9f648",
+   "tree_sha256_rep1": "3db589e663b7f71fecb15b3afa10451ac232a2b108cb49f543a6452aded9f648",
+   "tree_sha256_cross": "3db589e663b7f71fecb15b3afa10451ac232a2b108cb49f543a6452aded9f648",
+   "argv": [
+    "--lane",
+    "repo"
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "identity_instrument": "canonical",
+   "source": "lane50:lane50"
+  },
+  {
+   "file": "s50_06_wt_extra_entry.py",
+   "sha256": "c02af3a57e0b43e13dad8de2a0d27d7cc730f13da27a324aa99c5e9302f162af",
+   "fixture": "s50-06-wt-extra-entry",
+   "tool": "anchor",
+   "expected": "error",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH wt/.git is a file (gitdir redirect), not a directory",
+   "tree_sha256": "06ee36940544ece4be336aa4ceb4f2f5cffab1dd8e4ae85c351e4e9aafafb101",
+   "tree_sha256_rep1": "06ee36940544ece4be336aa4ceb4f2f5cffab1dd8e4ae85c351e4e9aafafb101",
+   "tree_sha256_cross": "06ee36940544ece4be336aa4ceb4f2f5cffab1dd8e4ae85c351e4e9aafafb101",
+   "argv": [
+    "--lane",
+    "repo"
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "identity_instrument": "canonical",
+   "source": "lane50:lane50"
+  },
+  {
+   "file": "s50_07_argv_escape.py",
+   "sha256": "9165c1b40a036ef311eab7c089f90fd481701662ec48ef6494b20b0782ee8daa",
+   "fixture": "s50-07-argv-escape",
+   "tool": "anchor",
+   "expected": "error",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH --lane value '../outside-lane' resolves outside the fixture",
+   "tree_sha256": "1a2cd9f4c244a02f7cb8ddae85f67bc090708c7f0880f6e20f6030cfdea5dc7e",
+   "tree_sha256_rep1": "1a2cd9f4c244a02f7cb8ddae85f67bc090708c7f0880f6e20f6030cfdea5dc7e",
+   "tree_sha256_cross": "1a2cd9f4c244a02f7cb8ddae85f67bc090708c7f0880f6e20f6030cfdea5dc7e",
+   "argv": [
+    "--lane",
+    "../outside-lane",
+    "--evidence-ref",
+    "repo/a.txt"
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "identity_instrument": "canonical",
+   "source": "lane50:lane50"
+  },
+  {
+   "file": "s50_08_ref_value_junk.py",
+   "sha256": "a07ba74fbea446239dca3137647d9f0d61964cdce6c13c7125ae4d708179ae87",
+   "fixture": "s50-08-ref-value-junk",
+   "tool": "anchor",
+   "expected": "error",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH heads/master is not a 40-hex ref",
+   "tree_sha256": "03a7e19c6cee7ca2289ab593f4af1add5b10d440617a472bdc85bae71fac354b",
+   "tree_sha256_rep1": "03a7e19c6cee7ca2289ab593f4af1add5b10d440617a472bdc85bae71fac354b",
+   "tree_sha256_cross": "03a7e19c6cee7ca2289ab593f4af1add5b10d440617a472bdc85bae71fac354b",
+   "argv": [
+    "--lane",
+    "repo"
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "identity_instrument": "canonical",
+   "source": "lane50:lane50"
+  },
+  {
+   "file": "s50_09_store_no_objects.py",
+   "sha256": "ace8b1d4604c4787f28ad7bf771c7c9cc2eba947e2b653e6402c32858eceeec1",
+   "fixture": "s50-09-store-no-objects",
+   "tool": "anchor",
+   "expected": "error",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH repo/.git has no objects",
+   "tree_sha256": "14fb55a3af25638ace5efa513e19cf74e4ad1f98fdc1c029be58b9162d1ae8c4",
+   "tree_sha256_rep1": "14fb55a3af25638ace5efa513e19cf74e4ad1f98fdc1c029be58b9162d1ae8c4",
+   "tree_sha256_cross": "14fb55a3af25638ace5efa513e19cf74e4ad1f98fdc1c029be58b9162d1ae8c4",
+   "argv": [
+    "--lane",
+    "repo"
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "identity_instrument": "canonical",
+   "source": "lane50:lane50"
+  },
+  {
+   "file": "s50_10_reflog_name.py",
+   "sha256": "1b042f6f0631f6600b2a49019cb55049f85f9796f25c9f9f4c234d1b8e42813c",
+   "fixture": "s50-10-reflog-name",
+   "tool": "anchor",
+   "expected": "error",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH refs/weird has a name git does not write",
+   "tree_sha256": "d81dc6205b17ea33dde84bbb0dc699576dd453ae6b9dcf9e34f693a2034844d1",
+   "tree_sha256_rep1": "d81dc6205b17ea33dde84bbb0dc699576dd453ae6b9dcf9e34f693a2034844d1",
+   "tree_sha256_cross": "d81dc6205b17ea33dde84bbb0dc699576dd453ae6b9dcf9e34f693a2034844d1",
+   "argv": [
+    "--lane",
+    "repo"
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "identity_instrument": "canonical",
+   "source": "lane50:lane50"
+  },
+  {
+   "file": "s50_alternates_dotdot_abs.py",
+   "sha256": "9fe77895491822abff0c2cf539c9eb8ea303732b3c4828e5363e6167c806d853",
+   "fixture": "s50-alternates-dotdot-abs",
+   "tool": "order",
+   "expected": "error",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH lane/.git/objects/info/alternates present (object-store redirect)",
+   "tree_sha256": "ca2f1105ec927de20cd6508526cf02811554ecb21aea6d5e92c3c37a907ecb39",
+   "tree_sha256_rep1": "ca2f1105ec927de20cd6508526cf02811554ecb21aea6d5e92c3c37a907ecb39",
+   "tree_sha256_cross": "659d8324f13dd7b10d39412c73fcd499e38c020b64a7f698131f2ec5e8a02100",
+   "argv": [
+    "--lane",
+    "lane",
+    "--claims",
+    "claims.md",
+    "--receipt",
+    "evidence/receipt.txt"
+   ],
+   "deterministic": true,
+   "root_independent": false,
+   "identity_instrument": "canonical",
+   "source": "lane50:lane50"
+  },
+  {
+   "file": "s50_gitfile_symlink_chain.py",
+   "sha256": "70705f02751b5d8b92ccd2001be573a74b5c2f065b007c327cc4bb6c2776c8f1",
+   "fixture": "s50-gitfile-symlink-chain",
+   "tool": "order",
+   "expected": "error",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH hop2 is a symlink",
+   "tree_sha256": "1303e66c8b06afa91c53d30533ef91994f581e0ba65b4eb8e417daa352a70c1b",
+   "tree_sha256_rep1": "1303e66c8b06afa91c53d30533ef91994f581e0ba65b4eb8e417daa352a70c1b",
+   "tree_sha256_cross": "1303e66c8b06afa91c53d30533ef91994f581e0ba65b4eb8e417daa352a70c1b",
+   "argv": [
+    "--lane",
+    ".",
+    "--claims",
+    "claims.md",
+    "--receipt",
+    "evidence/receipt.txt"
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "identity_instrument": "canonical",
+   "source": "lane50:lane50"
+  },
+  {
+   "file": "s6_gitfile_rel_objects_link.py",
+   "sha256": "efe4ad43bde65eaf43371893d535dde122ddf1d0c244f4d751ebc009445ffd4d",
+   "fixture": "seal6-gitfile-up-outside",
+   "tool": "order",
+   "expected": "reject",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH .git is a file (gitdir redirect), not a directory",
+   "tree_sha256": "4c61b155fd6b81f65b1b9c4ceb177bff23c3c2c46eb4afab7770307e56915e35",
+   "tree_sha256_rep1": "4c61b155fd6b81f65b1b9c4ceb177bff23c3c2c46eb4afab7770307e56915e35",
+   "tree_sha256_cross": "4c61b155fd6b81f65b1b9c4ceb177bff23c3c2c46eb4afab7770307e56915e35",
+   "argv": [
+    "--lane",
+    ".",
+    "--claims",
+    ".ufo/waves/round-42/claims/round-42-claims.md",
+    "--receipt",
+    "corpus/evidence/receipt.txt"
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "identity_instrument": "canonical",
+   "source": "lane50:lane50"
+  },
+  {
+   "file": "s6_gitfile_rel_objects_link.py",
+   "sha256": "efe4ad43bde65eaf43371893d535dde122ddf1d0c244f4d751ebc009445ffd4d",
+   "fixture": "seal6-gitfile-up-inside-link",
+   "tool": "order",
+   "expected": "reject",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH sub/repo/.git is a file (gitdir redirect), not a directory",
+   "tree_sha256": "5bd3b016b46c42726d5452450a5c9980f3851a5f0497366262fb4a1eaf90778f",
+   "tree_sha256_rep1": "5bd3b016b46c42726d5452450a5c9980f3851a5f0497366262fb4a1eaf90778f",
+   "tree_sha256_cross": "5bd3b016b46c42726d5452450a5c9980f3851a5f0497366262fb4a1eaf90778f",
+   "argv": [
+    "--lane",
+    "sub/repo",
+    "--claims",
+    ".ufo/waves/round-42/claims/round-42-claims.md",
+    "--receipt",
+    "corpus/evidence/receipt.txt"
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "identity_instrument": "canonical",
+   "source": "lane50:lane50"
+  },
+  {
+   "file": "s6_gitfile_rel_objects_link.py",
+   "sha256": "efe4ad43bde65eaf43371893d535dde122ddf1d0c244f4d751ebc009445ffd4d",
+   "fixture": "seal6-gitfile-submodule-store-link",
+   "tool": "order",
+   "expected": "reject",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH second/.git is a file (gitdir redirect), not a directory",
+   "tree_sha256": "08058a58224311ebfc8f9693624461798ebfcf7cf08e02524af995050d2715d3",
+   "tree_sha256_rep1": "08058a58224311ebfc8f9693624461798ebfcf7cf08e02524af995050d2715d3",
+   "tree_sha256_cross": "08058a58224311ebfc8f9693624461798ebfcf7cf08e02524af995050d2715d3",
+   "argv": [
+    "--lane",
+    "main",
+    "--claims",
+    ".ufo/waves/round-42/claims/round-42-claims.md",
+    "--receipt",
+    "corpus/evidence/receipt.txt"
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "identity_instrument": "canonical",
+   "source": "lane50:lane50"
+  },
+  {
+   "file": "s6_second_store_mount.py",
+   "sha256": "f2425983cc13e91db2fdbb09f46dd0681207d4b5d7cd5730d16ffc2fe399dc2c",
+   "fixture": "seal6-second-store-outside",
+   "tool": "order",
+   "expected": "reject",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH other/.git is a file (gitdir redirect), not a directory",
+   "tree_sha256": "7e8fc3f7f445240f1bf3dc3bae948bb1a21f4f73439781d33517d9f73898b790",
+   "tree_sha256_rep1": "7e8fc3f7f445240f1bf3dc3bae948bb1a21f4f73439781d33517d9f73898b790",
+   "tree_sha256_cross": "91cc6cd44018c51d6ce7024678c074e221be0cb0a8bf65f43579fa17039bf3a0",
+   "argv": [
+    "--lane",
+    "lane",
+    "--claims",
+    ".ufo/waves/round-42/claims/round-42-claims.md",
+    "--receipt",
+    ".ufo/waves/round-42/claims/round-42-claims.md"
+   ],
+   "deterministic": true,
+   "root_independent": false,
+   "identity_instrument": "canonical",
+   "source": "lane50:lane50"
+  },
+  {
+   "file": "s6_second_store_mount.py",
+   "sha256": "f2425983cc13e91db2fdbb09f46dd0681207d4b5d7cd5730d16ffc2fe399dc2c",
+   "fixture": "seal6-second-store-twin",
+   "tool": "order",
+   "expected": "reject",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH 3a/65620f5af2c2824b3388edb095ec74e17bacb0 has more than one hard link",
+   "tree_sha256": "cb896f197aeea46141c0048e07afd617063d41b2d8f35893d09f90fbc89954ab",
+   "tree_sha256_rep1": "cb896f197aeea46141c0048e07afd617063d41b2d8f35893d09f90fbc89954ab",
+   "tree_sha256_cross": "cb896f197aeea46141c0048e07afd617063d41b2d8f35893d09f90fbc89954ab",
+   "argv": [
+    "--lane",
+    "lane",
+    "--claims",
+    ".ufo/waves/round-42/claims/round-42-claims.md",
+    "--receipt",
+    ".ufo/waves/round-42/claims/round-42-claims.md"
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "identity_instrument": "canonical",
+   "source": "lane50:lane50"
+  },
+  {
+   "file": "x1_commondir_escape.py",
+   "sha256": "e60b2934995272d252f97813acc3e3cac8220382d0aebe9b958a1f2f10049b4a",
+   "fixture": "x1-cd-abs",
+   "tool": "anchor",
+   "expected": "error",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH lane/.git/commondir is not a plain-init entry",
+   "tree_sha256": "1ce62a8b75c862fdb7cd97d9cfe020dc4020658ee2914b1d0328c10c1d437961",
+   "tree_sha256_rep1": "1ce62a8b75c862fdb7cd97d9cfe020dc4020658ee2914b1d0328c10c1d437961",
+   "tree_sha256_cross": "99405a67da0e5cc332f959cabcb98bc9bcc29ad74c06e496b1769e44b06ca0f2",
+   "argv": [
+    "--lane",
+    "lane"
+   ],
+   "deterministic": true,
+   "root_independent": false,
+   "identity_instrument": "canonical",
+   "source": "blind:R50C1CritBlind2"
+  },
+  {
+   "file": "x1_commondir_escape.py",
+   "sha256": "e60b2934995272d252f97813acc3e3cac8220382d0aebe9b958a1f2f10049b4a",
+   "fixture": "x1-cd-rel",
+   "tool": "anchor",
+   "expected": "error",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH lane/.git/commondir is not a plain-init entry",
+   "tree_sha256": "3a839290e98e6a37528efb4498c075af6ddbce271f6cdc5d4ecbef8105e905f7",
+   "tree_sha256_rep1": "3a839290e98e6a37528efb4498c075af6ddbce271f6cdc5d4ecbef8105e905f7",
+   "tree_sha256_cross": "3a839290e98e6a37528efb4498c075af6ddbce271f6cdc5d4ecbef8105e905f7",
+   "argv": [
+    "--lane",
+    "lane"
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "identity_instrument": "canonical",
+   "source": "blind:R50C1CritBlind2"
+  },
+  {
+   "file": "x2_gitfile_alternates_escape.py",
+   "sha256": "5b0eadd40b75cb9ef87114424866d9d1a87ace8b54c8f2dc6563f71e0336f302",
+   "fixture": "x2-alt-abs",
+   "tool": "anchor",
+   "expected": "error",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH wt/.git is a file (gitdir redirect), not a directory",
+   "tree_sha256": "b21f935b959c6d2ab5a8352d9cf00d678975641aa6f9f52dbd3c94c6de1715be",
+   "tree_sha256_rep1": "b21f935b959c6d2ab5a8352d9cf00d678975641aa6f9f52dbd3c94c6de1715be",
+   "tree_sha256_cross": "4f2b587518f21ff651dcdab1bb227a64f2cf239a63803ab7532c4fb652c5e29d",
+   "argv": [
+    "--lane",
+    "wt"
+   ],
+   "deterministic": true,
+   "root_independent": false,
+   "identity_instrument": "canonical",
+   "source": "blind:R50C1CritBlind2"
+  },
+  {
+   "file": "x2_gitfile_alternates_escape.py",
+   "sha256": "5b0eadd40b75cb9ef87114424866d9d1a87ace8b54c8f2dc6563f71e0336f302",
+   "fixture": "x2-alt-rel",
+   "tool": "anchor",
+   "expected": "error",
+   "base_verdict": "BREACH",
+   "base_why": "BREACH wt/.git is a file (gitdir redirect), not a directory",
+   "tree_sha256": "b7fe5fc81b8e7ab59c39eb16ac40fdf28fe38df88e0467985281b5b96fb218d7",
+   "tree_sha256_rep1": "b7fe5fc81b8e7ab59c39eb16ac40fdf28fe38df88e0467985281b5b96fb218d7",
+   "tree_sha256_cross": "b7fe5fc81b8e7ab59c39eb16ac40fdf28fe38df88e0467985281b5b96fb218d7",
+   "argv": [
+    "--lane",
+    "wt"
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "identity_instrument": "canonical",
+   "source": "blind:R50C1CritBlind2"
+  }
+ ],
+ "dropped": [
+  {
+   "file": "b1_replace_ref_target_outside_store.py",
+   "sha256": "34354116e3c11fbf5b12be1dad8f5869fefddbec8fdf2dc0ee2be535457ae6c4",
+   "reason": "duplicate fid(s) ['b1-replace-target-outside-store'] kept in b1_replace_ref_target_outside_store.py"
+  },
+  {
+   "file": "b2_fetch_head_hardlink_out.py",
+   "sha256": "6a15228b050b18b31be3f9ebaa1f465893467e2a190bd1427c0a13e787c3c3a9",
+   "reason": "duplicate fid(s) ['b2-fetch-head-hardlink-out'] kept in b2_fetch_head_hardlink_out.py"
+  },
+  {
+   "file": "c4_gitfile_delimiter.py",
+   "sha256": "95429f872677b32c06a6d53c8edd09668b9798854fdfa5470075c7100a6142fa",
+   "reason": "gate: b4a-gitfile-nul-two-stores:reject base=BREACH det=False; b4a-gitfile-newline-two-pointers:reject base=BREACH det=False"
+  },
+  {
+   "file": "c4_gitfile_delimiter.py",
+   "sha256": "95429f872677b32c06a6d53c8edd09668b9798854fdfa5470075c7100a6142fa",
+   "reason": "gate: b4a-gitfile-nul-two-stores:reject base=BREACH det=False; b4a-gitfile-newline-two-pointers:reject base=BREACH det=False"
+  },
+  {
+   "file": "c4_gitfile_store_include.py",
+   "sha256": "3c99e89ba2426b7022521417649e46b077c403800fb20496ed1704df1467b04a",
+   "reason": "duplicate fid(s) ['b4b-gitfile-store-include'] kept in c4_gitfile_store_include.py"
+  },
+  {
+   "file": "s50_alternates_dotdot_abs.py",
+   "sha256": "9fe77895491822abff0c2cf539c9eb8ea303732b3c4828e5363e6167c806d853",
+   "reason": "duplicate fid(s) ['s50-alternates-dotdot-abs'] kept in s50_alternates_dotdot_abs.py"
+  },
+  {
+   "file": "s50_gitfile_symlink_chain.py",
+   "sha256": "70705f02751b5d8b92ccd2001be573a74b5c2f065b007c327cc4bb6c2776c8f1",
+   "reason": "duplicate fid(s) ['s50-gitfile-symlink-chain'] kept in s50_gitfile_symlink_chain.py"
+  },
+  {
+   "file": "s6_gitfile_rel_objects_link.py",
+   "sha256": "efe4ad43bde65eaf43371893d535dde122ddf1d0c244f4d751ebc009445ffd4d",
+   "reason": "duplicate fid(s) ['seal6-gitfile-up-outside', 'seal6-gitfile-up-inside-link', 'seal6-gitfile-submodule-store-link'] kept in s6_gitfile_rel_objects_link.py"
+  },
+  {
+   "file": "s6_second_store_mount.py",
+   "sha256": "cfb0005ddfe5011c23b3ca87cfefb10691f454408b0a412d1ea7162d8fb2a80d",
+   "reason": "duplicate fid(s) ['seal6-second-store-outside', 'seal6-second-store-twin'] kept in s6_second_store_mount.py"
+  }
+ ],
+ "module_notes": [
+  {
+   "file": "b1_replace_ref_target_outside_store.py",
+   "sha256": "34354116e3c11fbf5b12be1dad8f5869fefddbec8fdf2dc0ee2be535457ae6c4",
+   "abs_literals": []
+  },
+  {
+   "file": "b2_fetch_head_hardlink_out.py",
+   "sha256": "6a15228b050b18b31be3f9ebaa1f465893467e2a190bd1427c0a13e787c3c3a9",
+   "abs_literals": []
+  },
+  {
+   "file": "c4_gitfile_store_include.py",
+   "sha256": "3c99e89ba2426b7022521417649e46b077c403800fb20496ed1704df1467b04a",
+   "abs_literals": []
+  },
+  {
+   "file": "h_alternates_chain.py",
+   "sha256": "35286a7076194a55ee66671d6120c8a9cf4a1316b690fe4c3f2fb82588f78bd4",
+   "abs_literals": []
+  },
+  {
+   "file": "h_wt_commondir_out.py",
+   "sha256": "3e3ec5b6bcd2a5fb5dc1f72fc70fe6195382359a09d511179201d78fdbe5889d",
+   "abs_literals": []
+  },
+  {
+   "file": "s50_01_stray_symlink.py",
+   "sha256": "efefb03de0acd4e58cc561234bafa385d5a295d614439f989fab528baed83035",
+   "abs_literals": [
+    "/etc/hostname"
+   ]
+  },
+  {
+   "file": "s50_02_hardlink_out.py",
+   "sha256": "4f9b12f919929bf7b9f32aba244d759b9dc97aea09ff1736e1addb28050f74a3",
+   "abs_literals": []
+  },
+  {
+   "file": "s50_03_refs_namespace.py",
+   "sha256": "183990bf47625503e9b5a834330798ed319144067b49031b9c4c93fb55bd408d",
+   "abs_literals": []
+  },
+  {
+   "file": "s50_04_live_hook.py",
+   "sha256": "9f0597a2e1c3f2e76ac128592b46a39c5dbf38170d1e6a28ef4464ae97e84040",
+   "abs_literals": []
+  },
+  {
+   "file": "s50_05_objinfo_unknown.py",
+   "sha256": "8d187b656d81bbb01d5e488974f3938e3de6d61aed2ffa4f7091e975f142f109",
+   "abs_literals": []
+  },
+  {
+   "file": "s50_06_wt_extra_entry.py",
+   "sha256": "c02af3a57e0b43e13dad8de2a0d27d7cc730f13da27a324aa99c5e9302f162af",
+   "abs_literals": []
+  },
+  {
+   "file": "s50_07_argv_escape.py",
+   "sha256": "9165c1b40a036ef311eab7c089f90fd481701662ec48ef6494b20b0782ee8daa",
+   "abs_literals": []
+  },
+  {
+   "file": "s50_08_ref_value_junk.py",
+   "sha256": "a07ba74fbea446239dca3137647d9f0d61964cdce6c13c7125ae4d708179ae87",
+   "abs_literals": []
+  },
+  {
+   "file": "s50_09_store_no_objects.py",
+   "sha256": "ace8b1d4604c4787f28ad7bf771c7c9cc2eba947e2b653e6402c32858eceeec1",
+   "abs_literals": []
+  },
+  {
+   "file": "s50_10_reflog_name.py",
+   "sha256": "1b042f6f0631f6600b2a49019cb55049f85f9796f25c9f9f4c234d1b8e42813c",
+   "abs_literals": []
+  },
+  {
+   "file": "s50_alternates_dotdot_abs.py",
+   "sha256": "9fe77895491822abff0c2cf539c9eb8ea303732b3c4828e5363e6167c806d853",
+   "abs_literals": []
+  },
+  {
+   "file": "s50_gitfile_symlink_chain.py",
+   "sha256": "70705f02751b5d8b92ccd2001be573a74b5c2f065b007c327cc4bb6c2776c8f1",
+   "abs_literals": []
+  },
+  {
+   "file": "s6_gitfile_rel_objects_link.py",
+   "sha256": "efe4ad43bde65eaf43371893d535dde122ddf1d0c244f4d751ebc009445ffd4d",
+   "abs_literals": []
+  },
+  {
+   "file": "s6_second_store_mount.py",
+   "sha256": "f2425983cc13e91db2fdbb09f46dd0681207d4b5d7cd5730d16ffc2fe399dc2c",
+   "abs_literals": []
+  },
+  {
+   "file": "x1_commondir_escape.py",
+   "sha256": "e60b2934995272d252f97813acc3e3cac8220382d0aebe9b958a1f2f10049b4a",
+   "abs_literals": []
+  },
+  {
+   "file": "x2_gitfile_alternates_escape.py",
+   "sha256": "5b0eadd40b75cb9ef87114424866d9d1a87ace8b54c8f2dc6563f71e0336f302",
+   "abs_literals": []
+  }
+ ]
+}

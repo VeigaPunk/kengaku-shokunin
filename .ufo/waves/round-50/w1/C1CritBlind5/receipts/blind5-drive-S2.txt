@@ -1,0 +1,86 @@
+=== MODULE h_alternates_chain.py sha256=35286a7076194a55ee66671d6120c8a9cf4a1316b690fe4c3f2fb82588f78bd4
+BUILT fid=bl5-alternates-chain-out tool=anchor argv=['--lane', 'lane'] d=h_alternates_chain/f000
+TREE anomalies=0 []
+FENCE fid=bl5-alternates-chain-out verdict=BREACH why='mid/.git/objects/info/alternates names a store outside the fixture'
+OUTSIDE-ENTRIES ['chain-out']
+  FILE lane/.git/COMMIT_EDITMSG
+  FILE lane/.git/HEAD
+  FILE lane/.git/config
+  FILE lane/.git/description
+  FILE lane/.git/hooks/applypatch-msg.sample
+  FILE lane/.git/hooks/commit-msg.sample
+  FILE lane/.git/hooks/fsmonitor-watchman.sample
+  FILE lane/.git/hooks/post-update.sample
+  FILE lane/.git/hooks/pre-applypatch.sample
+  FILE lane/.git/hooks/pre-commit.sample
+  FILE lane/.git/hooks/pre-merge-commit.sample
+  FILE lane/.git/hooks/pre-push.sample
+  FILE lane/.git/hooks/pre-rebase.sample
+  FILE lane/.git/hooks/pre-receive.sample
+  FILE lane/.git/hooks/prepare-commit-msg.sample
+  FILE lane/.git/hooks/push-to-checkout.sample
+  FILE lane/.git/hooks/sendemail-validate.sample
+  FILE lane/.git/hooks/update.sample
+  FILE lane/.git/index
+  FILE lane/.git/info/exclude
+  FILE lane/.git/logs/HEAD
+  FILE lane/.git/logs/refs/heads/master
+  FILE lane/.git/objects/06/694fcf71ec9569e412d98748f4e9a53e0faf28
+  FILE lane/.git/objects/42/c7ff3952719dbbde24e15ff3e340cad7df3cd1
+  FILE lane/.git/objects/4d/0bc4fb1d72f8c3067eda9fe2faa57ace67e399
+  FILE lane/.git/objects/info/alternates
+  FILE lane/.git/refs/heads/master
+  FILE lane/lane.txt
+  FILE mid/.git/COMMIT_EDITMSG
+  FILE mid/.git/HEAD
+  FILE mid/.git/config
+  FILE mid/.git/description
+  FILE mid/.git/hooks/applypatch-msg.sample
+  FILE mid/.git/hooks/commit-msg.sample
+  FILE mid/.git/hooks/fsmonitor-watchman.sample
+  FILE mid/.git/hooks/post-update.sample
+  FILE mid/.git/hooks/pre-applypatch.sample
+  FILE mid/.git/hooks/pre-commit.sample
+  FILE mid/.git/hooks/pre-merge-commit.sample
+  FILE mid/.git/hooks/pre-push.sample
+  FILE mid/.git/hooks/pre-rebase.sample
+  FILE mid/.git/hooks/pre-receive.sample
+  FILE mid/.git/hooks/prepare-commit-msg.sample
+  FILE mid/.git/hooks/push-to-checkout.sample
+  FILE mid/.git/hooks/sendemail-validate.sample
+  FILE mid/.git/hooks/update.sample
+  FILE mid/.git/index
+  FILE mid/.git/info/exclude
+  FILE mid/.git/logs/HEAD
+  FILE mid/.git/logs/refs/heads/master
+  FILE mid/.git/objects/26/a096c5e44af845965baabeca59aa4c5f872fba
+  FILE mid/.git/objects/57/4e1d38ed41b51540e801be46cdea3e1ca31b0a
+  FILE mid/.git/objects/98/7fcca8789ee43acb66ca07ae8e78a84703b1a5
+  FILE mid/.git/objects/info/alternates
+  FILE mid/.git/refs/heads/master
+  FILE mid/mid.txt
+WITNESS bl5-alternates-chain-out outside-commit=cc4a0bfcaf43164a2c4420dbab49410c6dd7aceb
+WITNESS bl5-alternates-chain-out lane-rev-parse rc=0 exists=True
+WITNESS bl5-alternates-chain-out read-outside-object rc=0 stdout='outside bytes'
+WITNESS bl5-alternates-chain-out object-under-d=[] object-outside-d=['chain-out/.git/objects/cc/4a0bfcaf43164a2c4420dbab49410c6dd7aceb']
+WITNESS bl5-alternates-chain-out outside-moved-away rc=128 err=['error: unable to normalize alternate object path: /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind5/drive-s2/moveaway/chain/f000/mid/.git/objects/../../../../chain-out/.git/objects']
+=== MODULE h_wt_commondir_out.py sha256=3e3ec5b6bcd2a5fb5dc1f72fc70fe6195382359a09d511179201d78fdbe5889d
+BUILT fid=bl5-wt-commondir-out tool=anchor argv=['--lane', 'wt'] d=h_wt_commondir_out/f000
+TREE anomalies=0 []
+FENCE fid=bl5-wt-commondir-out verdict=BREACH why='wtadmin/commondir names a common dir outside the fixture'
+OUTSIDE-ENTRIES ['wt-common']
+  FILE wt/.git
+  FILE wt/seed.txt
+  FILE wtadmin/HEAD
+  FILE wtadmin/ORIG_HEAD
+  FILE wtadmin/commondir
+  FILE wtadmin/gitdir
+  FILE wtadmin/index
+  FILE wtadmin/logs/HEAD
+WITNESS bl5-wt-commondir-out toplevel rc=0 out=['/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind5/drive-s2/h_wt_commondir_out/f000/wt']
+WITNESS bl5-wt-commondir-out absolute-git-dir rc=0 out=['/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind5/drive-s2/h_wt_commondir_out/f000/wtadmin']
+WITNESS bl5-wt-commondir-out git-common-dir rc=0 out=['/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind5/drive-s2/h_wt_commondir_out/wt-common/.git']
+WITNESS bl5-wt-commondir-out log rc=0 out=['a94edab seed']
+WITNESS bl5-wt-commondir-out read-object rc=0 stdout='seed'
+WITNESS bl5-wt-commondir-out objects-dirs-under-d=[]
+WITNESS bl5-wt-commondir-out outside-moved-away rc=128 err=["fatal: Invalid path '/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind5/drive-s2/moveaway/wt/wt-common': No such file or directory"]

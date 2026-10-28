@@ -1,0 +1,66 @@
+--- /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind3/lane-c1/plans/fixture_fence.py	2026-10-28 14:28:10.767994324 -0300
++++ /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind3/cands/p1_shape_only.py	2026-10-28 14:34:10.636113727 -0300
+@@ -285,6 +285,13 @@
+             return f"{_rel(q, label)} is a symlink"
+         if _linked(mode, _n):
+             return f"{_rel(q, label)} has more than one hard link"
++        if name == "replace":
++            if not stat.S_ISDIR(mode):
++                return f"{label}/{name} is not a directory"
++            why = _replace_tree(q, label)
++            if why:
++                return why
++            continue
+         if name not in ("heads", "tags"):
+             return f"{label}/{name} is not refs/heads or refs/tags"
+         if not stat.S_ISDIR(mode):
+@@ -295,6 +302,28 @@
+     return None
+ 
+ 
++
++def _replace_tree(p, label):
++    """refs/replace: 40-hex entry names, 40-hex bodies (the n17 shape)."""
++    ents = _entries(p)
++    if ents is None:
++        return f"{label} unreadable"
++    for name, mode, _s, _n in ents:
++        q = p / name
++        if stat.S_ISLNK(mode):
++            return f"{_rel(q, label)} is a symlink"
++        if _linked(mode, _n):
++            return f"{_rel(q, label)} has more than one hard link"
++        if not stat.S_ISREG(mode):
++            return f"{_rel(q, label)} is a special file"
++        if re.fullmatch(r"[0-9a-f]{40}", name, re.ASCII) is None:
++            return f"{_rel(q, label)} has a name git does not write"
++        body = _read(q, 200)
++        if body is None or HEX40.match(body) is None:
++            return f"{_rel(q, label)} is not a 40-hex ref"
++    return None
++
++
+ def _ref_tree(p, label):
+     ents = _entries(p)
+     if ents is None:
+@@ -338,8 +367,18 @@
+             inner = _entries(q)
+             if inner is None:
+                 return f"{label}/info unreadable"
+-            if inner:
+-                return f"{label}/info/{inner[0][0]} present (object-store redirect)"
++            for iname, imode, _is_, _in in inner:
++                if iname != "alternates" or not stat.S_ISREG(imode):
++                    return f"{label}/info/{iname} present (object-store redirect)"
++                raw = _read(q / iname, CONFIG_CAP)
++                if raw is None:
++                    return f"{label}/info/{iname} unreadable"
++                for line in raw.split(b"\n"):
++                    if not line.strip():
++                        continue
++                    target = os.path.normpath(os.path.join(str(p), line.decode("utf-8", "replace")))
++                    if not os.path.isdir(target):
++                        return f"{label}/info/alternates entry {line[:40]!r} names no object dir"
+             continue
+         if name == "pack":
+             inner = _entries(q)

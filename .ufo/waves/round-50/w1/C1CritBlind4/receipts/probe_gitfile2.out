@@ -1,0 +1,50 @@
+CASE w0-honest bytes= 'gitdir: ../store\n'
+  git rc=0 resolved=<W>/cases/w0-honest/d/store inside_d=True
+  git stderr=[]
+  log rc=0 subject=INSIDE-STORE-COMMIT
+  builder_GITFILE_group='../store'  naive_first_line='../store'
+CASE w1-two-gitdir-lines bytes= 'gitdir: ../store\ngitdir: ../../side/store2\n'
+  git rc=128 resolved=- inside_d=None
+  git stderr=[fatal: gitfile does not point to a valid repository: <W>/cases/w1-two-gitdir-lines/d/wt/.git]
+  log rc=128 subject=-
+  builder_GITFILE_group=None  naive_first_line='../store'
+CASE w2-second-line-bare bytes= 'gitdir: ../store\n../../side/store2\n'
+  git rc=128 resolved=- inside_d=None
+  git stderr=[fatal: gitfile does not point to a valid repository: <W>/cases/w2-second-line-bare/d/wt/.git]
+  log rc=128 subject=-
+  builder_GITFILE_group=None  naive_first_line='../store'
+CASE w3-nul-outside-first bytes= 'gitdir: ../../side/store2\\0../store\n'
+  git rc=0 resolved=<W>/cases/w3-nul-outside-first/side/store2 inside_d=False
+  git stderr=[]
+  log rc=0 subject=OUTSIDE-STORE-COMMIT
+  builder_GITFILE_group='../../side/store2\x00../store'  naive_first_line='../../side/store2\x00../store'
+CASE w4-nul-inside-first bytes= 'gitdir: ../store\\0../../side/store2\n'
+  git rc=0 resolved=<W>/cases/w4-nul-inside-first/d/store inside_d=True
+  git stderr=[]
+  log rc=0 subject=INSIDE-STORE-COMMIT
+  builder_GITFILE_group='../store\x00../../side/store2'  naive_first_line='../store\x00../../side/store2'
+CASE w5-crlf-outside bytes= 'gitdir: ../../side/store2\r\n'
+  git rc=0 resolved=<W>/cases/w5-crlf-outside/side/store2 inside_d=False
+  git stderr=[]
+  log rc=0 subject=OUTSIDE-STORE-COMMIT
+  builder_GITFILE_group='../../side/store2\r'  naive_first_line='../../side/store2'
+CASE w6-trailing-space-inside bytes= 'gitdir: ../store \n'
+  git rc=128 resolved=- inside_d=None
+  git stderr=[fatal: gitfile does not point to a valid repository: <W>/cases/w6-trailing-space-inside/d/wt/.git]
+  log rc=128 subject=-
+  builder_GITFILE_group='../store'  naive_first_line='../store'
+CASE w7-outside-plain bytes= 'gitdir: ../../side/store2\n'
+  git rc=0 resolved=<W>/cases/w7-outside-plain/side/store2 inside_d=False
+  git stderr=[]
+  log rc=0 subject=OUTSIDE-STORE-COMMIT
+  builder_GITFILE_group='../../side/store2'  naive_first_line='../../side/store2'
+CASE w8-nul-only-outside bytes= 'gitdir: ../../side/store2\\0\n'
+  git rc=0 resolved=<W>/cases/w8-nul-only-outside/side/store2 inside_d=False
+  git stderr=[]
+  log rc=0 subject=OUTSIDE-STORE-COMMIT
+  builder_GITFILE_group='../../side/store2\x00'  naive_first_line='../../side/store2\x00'
+CASE w9-blank-then-outside bytes= 'gitdir: ../../side/store2\n\n'
+  git rc=0 resolved=<W>/cases/w9-blank-then-outside/side/store2 inside_d=False
+  git stderr=[]
+  log rc=0 subject=OUTSIDE-STORE-COMMIT
+  builder_GITFILE_group=None  naive_first_line='../../side/store2'

@@ -1,0 +1,82 @@
+# R50-C1 before-receipt — frozen predicate, BASE fence, clean clone at the stage-1 freeze
+seat          : R50C1ExecCleanRun (executor, leaf; no claim scored here)
+claim served  : R50-C1 novelty — this is the BEFORE control only ("Before." paragraph of plans/round-50-claims.md)
+date recorded : 2026-10-28
+axes named    : novelty (C1). Coverage not claimed this round (operator-capped); C2 calibration untouched by this seat.
+
+# Provenance of the tree measured
+lane (read-only, live checkout) : /home/vgpnk/Projects/shokunin/kengaku-shokunin
+lane tip at measurement         : 5c56819f7964f4af19c960de08a49cd8f95781ce  (dirty=5 lines, other seats' in-flight files; NEVER used for this measurement)
+freeze commit (stage 1)         : 3b02d573d58cc6d2e0d27ef92ac0815354912252  2026-10-28 14:18:09 -0300
+                                  "round-50: C1 four-control receipts and C2 before/selftest receipts (pre-data)"
+ancestry check                  : git -C <lane> merge-base --is-ancestor 3b02d57… 5c56819…  -> exit 0  (FREEZE_IS_ANCESTOR)
+clone                           : git clone --shared <lane> $S/lane ; git -C $S/lane checkout --detach 3b02d57…
+                                  (alternates -> <lane>/.git/objects; no objects copied, no full mirror)
+clone toplevel asserted         : /fast/scratch/hyaku/kengaku-r50/R50C1ExecCleanRun/lane  == $S/lane
+clone HEAD                      : 3b02d573d58cc6d2e0d27ef92ac0815354912252
+clone dirty                     : 0 lines (git status --porcelain) — predicate ran on a clean tree
+host                            : python 3.14.8, git 2.56.0, arch linux 7.2.11-arch1-1
+
+# Frozen literals re-hashed inside the clone (match plans/round-50-claims.md)
+05d5fe03aa3be6b79eb2469b7c86d0a20c9b424bea2e058d580e31a96c8aad5e  plans/fixture_fence.py      (base fence, unchanged)
+f9b9873e602dd09228d0164412d450b2cef95c3055ce9347fa05b9377637bd76  plans/round50_c1_verify.py (counter)
+b5197f941a9f523eaedae6bd7be39531a0f80e10c6b05030687dbeacfb3fae69  plans/honest50/population.txt (126 rows)
+
+# Exact command
+export TMPDIR=/fast/scratch/hyaku/kengaku-r50/R50C1ExecCleanRun
+mkdir -p "$TMPDIR/work"
+cd $TMPDIR/lane
+python3 plans/round50_c1_verify.py --lane . --work "$TMPDIR/work" --skip-mutants
+  (stdout -> run4.out, stderr -> run4.err; exit status captured with an errexit-safe `if … then rc=0; else rc=$?; fi`)
+  --skip-mutants: the frozen MUTANTS leg is the S2-side re-derivation (QUALITY Q38) and is not part of this before-receipt;
+  on a do-nothing control the mutant leg cannot inform the honest-geometry number. No other flag alters the three
+  honest/refusal/sealed legs. --work parent must pre-exist (mkdtemp creates the child only); the first attempt without
+  it died FileNotFoundError before any measurement and is not counted.
+  --allow-dirty was NOT passed: the clone is clean and the receipt must show TREE dirty=0.
+
+# Complete stdout, verbatim (single run; stderr empty, 0 bytes)
+REV 3b02d573d58cc6d2e0d27ef92ac0815354912252
+TREE dirty=0
+FENCE /fast/scratch/hyaku/kengaku-r50/R50C1ExecCleanRun/lane/plans/fixture_fence.py sha256=05d5fe03aa3be6b79eb2469b7c86d0a20c9b424bea2e058d580e31a96c8aad5e
+POPULATION fixtures=126 pin=b5197f941a9f523eaedae6bd7be39531a0f80e10c6b05030687dbeacfb3fae69 mismatched=0 build_errors=0
+HONEST fixtures=126 admitted=113 refused=13 error=0
+HONEST-REFUSED n12-local-config-user repo/.git/config section [user] is not allowlisted
+HONEST-REFUSED n13-remote-origin repo/.git/config section header b'[remote "origin"]' is not plain
+HONEST-REFUSED n14-stash-entry ../../../../work/k50-c1-b9dtndys/honest/m026-plans-honest50-modules-novel48-n14_stash_entry/f000/repo/.git/logs/refs/stash has a name git does not write
+HONEST-REFUSED n15-commit-graph repo/.git/objects/info/commit-graph present (object-store redirect)
+HONEST-REFUSED n16-notes-ref ../../../../work/k50-c1-b9dtndys/honest/m028-plans-honest50-modules-novel48-n16_notes_ref/f000/repo/.git/logs/refs/notes has a name git does not write
+HONEST-REFUSED n17-replace-ref repo/.git/refs/replace is not refs/heads or refs/tags
+HONEST-REFUSED n18-shallow-fetch repo/.git/FETCH_HEAD is not a plain-init entry
+HONEST-REFUSED n20-linked-worktree wt/.git is a file (gitdir redirect), not a directory
+HONEST-REFUSED n21-separate-gitdir wt/.git is a file (gitdir redirect), not a directory
+HONEST-REFUSED n22-alternates-in-d lane/.git/objects/info/alternates present (object-store redirect)
+HONEST-REFUSED n03-detached-head repo/.git/HEAD is not a plain branch HEAD
+HONEST-REFUSED n07-reflog-gc repo/.git/info/refs is not git's exclude file
+REFUSALS total=20 clean=20 leaked=0 build_errors=0
+SEALED total=12 clean=12 leaked=0 build_errors=0
+PREDICATE R50-C1 fail
+
+# Exit status
+EXIT=1  (measured by the shell at run time, saved to run4.rc; also the process exit of the python invocation)
+
+# Required match, item by item
+HONEST fixtures=126 admitted=113 refused=13   -> reproduced exactly  (PASS)
+REFUSALS total=20 clean=20                    -> reproduced exactly  (PASS)
+SEALED total=12 clean=12                      -> reproduced exactly  (PASS)
+exit 1                                        -> reproduced exactly  (PASS)
+Additionally reproduced: POPULATION fixtures=126 mismatched=0 build_errors=0, pin b5197f94…, TREE dirty=0, FENCE sha256 05d5fe03…
+PREDICATE R50-C1 fail is the expected outcome for the do-nothing control (plans/round-50-claims.md, control row 1:
+"PREDICATE fail on HONEST admitted=113").
+
+# Reproducibility observed
+Two independent invocations of the same command produced byte-identical stdout modulo the mkdtemp suffix
+(`s/k50-c1-[a-z0-9_]+/k50-c1-WORKDIR/`): cmp -s -> identical;
+sha256 of the normalized stdout 14380cfa4154036930a2666e334211be79b2cece97b11c7184729f157db112f2.
+(Only run4 is transcribed above; run4 = the invocation whose exit status was captured.)
+
+# Limits of this receipt
+- Measures admission decisions only, on this host (git 2.56.0). The five documented in-d classes (n17, n18, n20, n21, n22)
+  are refused; eight further honest fixtures are refused by the same base fence (n03, n07, n12, n13, n14, n15, n16),
+  which is what makes pop 126 -> admitted 113.
+- MUTANTS leg not run here (see command note); no mutant floor is claimed by this receipt.
+- No claim is admitted by this receipt and no production file was touched.

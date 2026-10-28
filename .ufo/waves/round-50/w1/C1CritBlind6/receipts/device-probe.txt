@@ -1,0 +1,24 @@
+# device-boundary probe for seat R50C1CritBlind6 (2026-10-28)
+## st_dev of candidate filesystems
+st_dev=66309 /fast
+st_dev=66308 /tmp
+st_dev=33 /dev/shm
+st_dev=56 /home
+
+## cross-device hardlink / rename (python os.link, os.rename)
+link /tmp -> EXDEV
+rename /tmp -> EXDEV
+link /dev/shm -> EXDEV
+rename /dev/shm -> EXDEV
+
+## in-process mount() without a namespace
+mount(/dev/shm -> a2) rc= -1 EPERM st_dev still 66309
+
+## private user+mount namespace (child process)
+child: st_dev=33
+## parent process after the child mount
+parent: st_dev=66309
+f
+
+## capability setting
+1

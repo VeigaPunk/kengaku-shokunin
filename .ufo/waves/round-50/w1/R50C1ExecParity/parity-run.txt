@@ -1,0 +1,74 @@
+FENCE base_fence.py sha256=05d5fe03aa3be6b79eb2469b7c86d0a20c9b424bea2e058d580e31a96c8aad5e
+FENCE r49_candidate.py sha256=b687b1d9dd78282f09fc10847c453fb74157f116ea56a0d498ef9cd91ec0ca52
+FENCE repair_fence.py sha256=57adce4a598e1ca8a365114b35047f20afdce9459aa83adc0c551712966383a1
+SET refusals46 modules=20
+SET sealed46 modules=12
+SET sealed50 modules=20
+BUILD base refusals46 fixtures=34 build_errors=0
+BUILD base sealed46 fixtures=15 build_errors=0
+BUILD base sealed50 fixtures=26 build_errors=0
+SCORE base fixtures=75
+BUILD r49 refusals46 fixtures=34 build_errors=0
+BUILD r49 sealed46 fixtures=15 build_errors=0
+BUILD r49 sealed50 fixtures=26 build_errors=0
+SCORE r49 fixtures=75
+BUILD repair refusals46 fixtures=34 build_errors=0
+BUILD repair sealed46 fixtures=15 build_errors=0
+BUILD repair sealed50 fixtures=26 build_errors=0
+SCORE repair fixtures=75
+PARITY refusals46 rows=34 base_breach=34 r49_breach=34 repair_breach=34
+PARITY sealed46 rows=15 base_breach=15 r49_breach=15 repair_breach=15
+PARITY sealed50 rows=26 base_breach=26 r49_breach=26 repair_breach=26
+CHANGED rows=0
+ALL-BREACH all_fences=True rows=75
+FENCE base_fence.py sha256=05d5fe03aa3be6b79eb2469b7c86d0a20c9b424bea2e058d580e31a96c8aad5e
+FENCE r49_candidate.py sha256=b687b1d9dd78282f09fc10847c453fb74157f116ea56a0d498ef9cd91ec0ca52
+FENCE repair_fence.py sha256=57adce4a598e1ca8a365114b35047f20afdce9459aa83adc0c551712966383a1
+SET refusals46 modules=20
+SET sealed46 modules=12
+SET sealed50 modules=20
+BUILD base refusals46 fixtures=34 build_errors=0
+BUILD base sealed46 fixtures=15 build_errors=0
+BUILD base sealed50 fixtures=26 build_errors=0
+SCORE base fixtures=75
+BUILD r49 refusals46 fixtures=34 build_errors=0
+BUILD r49 sealed46 fixtures=15 build_errors=0
+BUILD r49 sealed50 fixtures=26 build_errors=0
+SCORE r49 fixtures=75
+BUILD repair refusals46 fixtures=34 build_errors=0
+BUILD repair sealed46 fixtures=15 build_errors=0
+BUILD repair sealed50 fixtures=26 build_errors=0
+SCORE repair fixtures=75
+PARITY refusals46 rows=34 base_breach=34 r49_breach=34 repair_breach=34
+PARITY sealed46 rows=15 base_breach=15 r49_breach=15 repair_breach=15
+PARITY sealed50 rows=26 base_breach=26 r49_breach=26 repair_breach=26
+CHANGED rows=0
+ALL-BREACH all_fences=True rows=75
+FENCE base_fence.py sha256=05d5fe03aa3be6b79eb2469b7c86d0a20c9b424bea2e058d580e31a96c8aad5e
+FENCE r49_candidate.py sha256=b687b1d9dd78282f09fc10847c453fb74157f116ea56a0d498ef9cd91ec0ca52
+FENCE repair_fence.py sha256=57adce4a598e1ca8a365114b35047f20afdce9459aa83adc0c551712966383a1
+SET refusals46 modules=20
+SET sealed46 modules=12
+SET sealed50 modules=20
+BUILD base refusals46 fixtures=34 build_errors=0
+BUILD base sealed46 fixtures=15 build_errors=0
+BUILD base sealed50 fixtures=26 build_errors=0
+SCORE base fixtures=75
+BUILD r49 refusals46 fixtures=34 build_errors=0
+BUILD r49 sealed46 fixtures=15 build_errors=0
+BUILD r49 sealed50 fixtures=26 build_errors=0
+SCORE r49 fixtures=75
+BUILD repair refusals46 fixtures=34 build_errors=0
+BUILD repair sealed46 fixtures=15 build_errors=0
+BUILD repair sealed50 fixtures=26 build_errors=0
+SCORE repair fixtures=75
+PARITY refusals46 rows=34 base_breach=34 r49_breach=34 repair_breach=34
+PARITY sealed46 rows=15 base_breach=15 r49_breach=15 repair_breach=15
+PARITY sealed50 rows=26 base_breach=26 r49_breach=26 repair_breach=26
+CHANGED rows=0
+ALL-BREACH all_fences=True rows=75
+# determinism: three independent runs, three independent work roots
+$ cmp parity.tsv parity2.tsv && cmp parity.tsv parity3.tsv
+DETERMINISTIC_3RUNS rows=75
+$ sha256sum parity.tsv
+931247b3478addbfed96865f2ff304a3cae3e1158550b3a2dec6b2cbe68f4601  parity.tsv

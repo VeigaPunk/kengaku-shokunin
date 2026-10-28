@@ -1,0 +1,95 @@
+{
+  "s50-alternates-dotdot-abs": {
+    "module": "s50_alternates_dotdot_abs.py",
+    "fid": "s50-alternates-dotdot-abs",
+    "tool": "order",
+    "argv": [
+      "--lane",
+      "lane",
+      "--claims",
+      "claims.md",
+      "--receipt",
+      "evidence/receipt.txt"
+    ],
+    "d_exists": true,
+    "repos": [
+      "/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind1/work/s50_alternates_dotdot_abs/s50-alternates-dotdot-abs/f000/lane/.git"
+    ],
+    "fence_verdict": "BREACH",
+    "fence_reason": "lane/.git/objects/info/alternates present (object-store redirect)",
+    "escape": {
+      "lane_resolved": "/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind1/work/s50_alternates_dotdot_abs/s50-alternates-dotdot-abs/f000/lane",
+      "lane_inside_d": true,
+      "absolute_git_dir": {
+        "rc": 0,
+        "stdout": "/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind1/work/s50_alternates_dotdot_abs/s50-alternates-dotdot-abs/f000/lane/.git",
+        "stderr": ""
+      },
+      "log": {
+        "rc": 0,
+        "stdout": "a6bc34f receipt\n056b827 claims",
+        "stderr": ""
+      },
+      "git_dir_inside_d": true,
+      "store_head": "8e4c79a979197857ef833f1d814d9315f6bc076a",
+      "borrowed_object_readable_from_lane": {
+        "rc": 0,
+        "stdout_head": [
+          "tree 56661ed485ff151cf7f68d895e5b367918eb20a9",
+          "author fixture <fixture@kengaku.invalid> 1767225600 +0000",
+          "committer fixture <fixture@kengaku.invalid> 1767225600 +0000",
+          ""
+        ]
+      },
+      "borrowed_object_in_lane_odb": false
+    },
+    "naive": {
+      "N4_alternates_raw_prefix": "ADMIT",
+      "N4_line": "/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind1/work/s50_alternates_dotdot_abs/s50-alternates-dotdot-abs/f000/lane/.git/objects/../../../../store/.git/objects",
+      "N5_alternates_is_relative_to_unresolved": "ADMIT",
+      "N6_alternates_normpath_prefix": "REFUSE",
+      "N7_alternates_realpath_inside": "REFUSE",
+      "N8_alternates_target_exists": true
+    }
+  },
+  "s50-gitfile-symlink-chain": {
+    "module": "s50_gitfile_symlink_chain.py",
+    "fid": "s50-gitfile-symlink-chain",
+    "tool": "order",
+    "argv": [
+      "--lane",
+      ".",
+      "--claims",
+      "claims.md",
+      "--receipt",
+      "evidence/receipt.txt"
+    ],
+    "d_exists": true,
+    "repos": [
+      "/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind1/work/s50_gitfile_symlink_chain/s50-gitfile-symlink-chain/f000/.git"
+    ],
+    "fence_verdict": "BREACH",
+    "fence_reason": "hop2 is a symlink",
+    "escape": {
+      "lane_resolved": "/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind1/work/s50_gitfile_symlink_chain/s50-gitfile-symlink-chain/f000",
+      "lane_inside_d": true,
+      "absolute_git_dir": {
+        "rc": 0,
+        "stdout": "/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind1/work/s50_gitfile_symlink_chain/s50-gitfile-symlink-chain/gitdir",
+        "stderr": ""
+      },
+      "log": {
+        "rc": 0,
+        "stdout": "a6bc34f receipt\n056b827 claims",
+        "stderr": ""
+      },
+      "git_dir_inside_d": false
+    },
+    "naive": {
+      "N1_gitfile_normpath_prefix": "ADMIT",
+      "N1_path": "/fast/scratch/hyaku/kengaku-r50/R50C1CritBlind1/work/s50_gitfile_symlink_chain/s50-gitfile-symlink-chain/f000/hop1",
+      "N2_gitfile_is_relative_to": "ADMIT",
+      "N3_gitfile_realpath_inside": "REFUSE"
+    }
+  }
+}

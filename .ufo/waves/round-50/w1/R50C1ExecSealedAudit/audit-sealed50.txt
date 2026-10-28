@@ -1,0 +1,84 @@
+MODULE b1_replace_ref_target_outside_store.py contract=ok deterministic=yes root_independent=True host_paths=0 abs_root_in_fixture=0 dup_fid=0 leaks=0
+  BASE b1_replace_ref_target_outside_store.py b1-replace-target-outside-store BREACH
+MODULE b2_fetch_head_hardlink_out.py contract=ok deterministic=yes root_independent=True host_paths=0 abs_root_in_fixture=0 dup_fid=0 leaks=0
+  BASE b2_fetch_head_hardlink_out.py b2-fetch-head-hardlink-out BREACH
+MODULE c4_gitfile_delimiter.py contract=FAIL deterministic=no root_independent=None host_paths=0 abs_root_in_fixture=0 dup_fid=0 leaks=0
+  CONTRACT-FAIL c4_gitfile_delimiter.py build: ValueError: lstat: embedded null character in path
+  CONTRACT-FAIL c4_gitfile_delimiter.py fixture b4a-gitfile-nul-two-stores: ValueError: lstat: embedded null character in path
+  CONTRACT-FAIL c4_gitfile_delimiter.py fixture b4a-gitfile-nul-two-stores: ValueError: lstat: embedded null character in path
+  CONTRACT-FAIL c4_gitfile_delimiter.py fixture b4a-gitfile-nul-two-stores: ValueError: lstat: embedded null character in path
+  CONTRACT-FAIL c4_gitfile_delimiter.py cross-root build: ValueError: lstat: embedded null character in path
+  BUILD-ERROR c4_gitfile_delimiter.py ValueError: lstat: embedded null character in path
+  NONDETERMINISTIC c4_gitfile_delimiter.py fids=b4a-gitfile-newline-two-pointers
+  BASE c4_gitfile_delimiter.py b4a-gitfile-newline-two-pointers BREACH
+MODULE c4_gitfile_store_include.py contract=ok deterministic=yes root_independent=True host_paths=0 abs_root_in_fixture=0 dup_fid=0 leaks=0
+  BASE c4_gitfile_store_include.py b4b-gitfile-store-include BREACH
+MODULE s50_01_stray_symlink.py contract=FAIL deterministic=yes root_independent=True host_paths=0 abs_root_in_fixture=0 dup_fid=0 leaks=0
+  CONTRACT-FAIL s50_01_stray_symlink.py absolute path literal in source: /etc/hostname
+  BASE s50_01_stray_symlink.py s50-01-stray-symlink BREACH
+MODULE s50_02_hardlink_out.py contract=ok deterministic=yes root_independent=True host_paths=0 abs_root_in_fixture=0 dup_fid=0 leaks=0
+  BASE s50_02_hardlink_out.py s50-02-hardlink-outside BREACH
+MODULE s50_03_refs_namespace.py contract=ok deterministic=yes root_independent=True host_paths=0 abs_root_in_fixture=0 dup_fid=0 leaks=0
+  BASE s50_03_refs_namespace.py s50-03-unknown-ref-namespace BREACH
+MODULE s50_04_live_hook.py contract=ok deterministic=yes root_independent=True host_paths=0 abs_root_in_fixture=0 dup_fid=0 leaks=0
+  BASE s50_04_live_hook.py s50-04-live-hook BREACH
+MODULE s50_05_objinfo_unknown.py contract=ok deterministic=yes root_independent=True host_paths=0 abs_root_in_fixture=0 dup_fid=0 leaks=0
+  BASE s50_05_objinfo_unknown.py s50-05-objinfo-unknown BREACH
+MODULE s50_06_wt_extra_entry.py contract=ok deterministic=yes root_independent=True host_paths=0 abs_root_in_fixture=0 dup_fid=0 leaks=0
+  BASE s50_06_wt_extra_entry.py s50-06-wt-extra-entry BREACH
+MODULE s50_07_argv_escape.py contract=ok deterministic=yes root_independent=True host_paths=0 abs_root_in_fixture=0 dup_fid=0 leaks=0
+  BASE s50_07_argv_escape.py s50-07-argv-escape BREACH
+MODULE s50_08_ref_value_junk.py contract=ok deterministic=yes root_independent=True host_paths=0 abs_root_in_fixture=0 dup_fid=0 leaks=0
+  BASE s50_08_ref_value_junk.py s50-08-ref-value-junk BREACH
+MODULE s50_09_store_no_objects.py contract=ok deterministic=yes root_independent=True host_paths=0 abs_root_in_fixture=0 dup_fid=0 leaks=0
+  BASE s50_09_store_no_objects.py s50-09-store-no-objects BREACH
+MODULE s50_10_reflog_name.py contract=ok deterministic=yes root_independent=True host_paths=0 abs_root_in_fixture=0 dup_fid=0 leaks=0
+  BASE s50_10_reflog_name.py s50-10-reflog-name BREACH
+MODULE s50_alternates_dotdot_abs.py contract=ok deterministic=yes root_independent=False host_paths=1 abs_root_in_fixture=2 dup_fid=0 leaks=0
+  ABS-BUILD-ROOT s50_alternates_dotdot_abs.py s50-alternates-dotdot-abs,s50-alternates-dotdot-abs:lane/.git/objects/info/alternates
+  HOST-PATH s50_alternates_dotdot_abs.py s50-alternates-dotdot-abs:lane/.git/objects/info/alternates:/fast/scratch
+  BASE s50_alternates_dotdot_abs.py s50-alternates-dotdot-abs BREACH
+MODULE s50_gitfile_symlink_chain.py contract=ok deterministic=yes root_independent=True host_paths=0 abs_root_in_fixture=0 dup_fid=0 leaks=0
+  BASE s50_gitfile_symlink_chain.py s50-gitfile-symlink-chain BREACH
+MODULE s6_gitfile_rel_objects_link.py contract=ok deterministic=yes root_independent=True host_paths=2 abs_root_in_fixture=2 dup_fid=0 leaks=0
+  ABS-BUILD-ROOT s6_gitfile_rel_objects_link.py seal6-gitfile-up-inside-link:sub/store/objects,seal6-gitfile-submodule-store-link:main/.git/modules/sub
+  HOST-PATH s6_gitfile_rel_objects_link.py seal6-gitfile-up-inside-link:sub/store/objects:/fast/scratch
+  HOST-PATH s6_gitfile_rel_objects_link.py seal6-gitfile-submodule-store-link:main/.git/modules/sub:/fast/scratch
+  BASE s6_gitfile_rel_objects_link.py seal6-gitfile-up-outside BREACH
+  BASE s6_gitfile_rel_objects_link.py seal6-gitfile-up-inside-link BREACH
+  BASE s6_gitfile_rel_objects_link.py seal6-gitfile-submodule-store-link BREACH
+MODULE s6_second_store_mount.py contract=ok deterministic=yes root_independent=False host_paths=1 abs_root_in_fixture=2 dup_fid=0 leaks=0
+  ABS-BUILD-ROOT s6_second_store_mount.py seal6-second-store-outside,seal6-second-store-outside:other/.git
+  HOST-PATH s6_second_store_mount.py seal6-second-store-outside:other/.git:/fast/scratch
+  BASE s6_second_store_mount.py seal6-second-store-outside BREACH
+  BASE s6_second_store_mount.py seal6-second-store-twin BREACH
+
+== CONTRACT-OK ==
+contract-ok b1_replace_ref_target_outside_store.py yes
+contract-ok b2_fetch_head_hardlink_out.py yes
+contract-ok c4_gitfile_delimiter.py NO
+contract-ok c4_gitfile_store_include.py yes
+contract-ok s50_01_stray_symlink.py NO
+contract-ok s50_02_hardlink_out.py yes
+contract-ok s50_03_refs_namespace.py yes
+contract-ok s50_04_live_hook.py yes
+contract-ok s50_05_objinfo_unknown.py yes
+contract-ok s50_06_wt_extra_entry.py yes
+contract-ok s50_07_argv_escape.py yes
+contract-ok s50_08_ref_value_junk.py yes
+contract-ok s50_09_store_no_objects.py yes
+contract-ok s50_10_reflog_name.py yes
+contract-ok s50_alternates_dotdot_abs.py yes
+contract-ok s50_gitfile_symlink_chain.py yes
+contract-ok s6_gitfile_rel_objects_link.py yes
+contract-ok s6_second_store_mount.py yes
+== NONDETERMINISTIC ==
+nondeterministic c4_gitfile_delimiter.py
+== IDENTITY-ROOT-DEPENDENT ==
+root-dependent s50_alternates_dotdot_abs.py fids=s50-alternates-dotdot-abs,s50-alternates-dotdot-abs:lane/.git/objects/info/alternates
+root-dependent s6_second_store_mount.py fids=seal6-second-store-outside,seal6-second-store-outside:other/.git
+== DUPLICATE-FID ==
+duplicate-fid none
+== NAME-LEAKS ==
+name-leaks none
+SEALED50-CANDIDATES 16/18 b1_replace_ref_target_outside_store.py b2_fetch_head_hardlink_out.py c4_gitfile_store_include.py s50_02_hardlink_out.py s50_03_refs_namespace.py s50_04_live_hook.py s50_05_objinfo_unknown.py s50_06_wt_extra_entry.py s50_07_argv_escape.py s50_08_ref_value_junk.py s50_09_store_no_objects.py s50_10_reflog_name.py s50_alternates_dotdot_abs.py s50_gitfile_symlink_chain.py s6_gitfile_rel_objects_link.py s6_second_store_mount.py

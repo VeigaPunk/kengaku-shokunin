@@ -1,0 +1,24 @@
+--- a/plans/fixture_fence.py
++++ b/plans/fixture_fence.py
+@@ -245,7 +245,9 @@
+             except OSError:
+                 return None, f"{_rel(p, d)} cannot be lstat'ed"
+             if stat.S_ISLNK(st.st_mode):
+-                return None, f"{_rel(p, d)} is a symlink"
++                if not _inside(os.path.realpath(str(p)), d):
++                    return None, f"{_rel(p, d)} is a symlink"
++                continue
+             if not stat.S_ISDIR(st.st_mode):
+                 return None, f"{_rel(p, d)} is not a directory"
+             if st.st_dev != ddev:
+@@ -262,7 +264,9 @@
+             except OSError:
+                 return None, f"{_rel(p, d)} cannot be lstat'ed"
+             if stat.S_ISLNK(st.st_mode):
+-                return None, f"{_rel(p, d)} is a symlink"
++                if not _inside(os.path.realpath(str(p)), d):
++                    return None, f"{_rel(p, d)} is a symlink"
++                continue
+             if name == ".git":
+                 body = _read(p, 4096)
+                 if body is None:

@@ -1,0 +1,42 @@
+--- /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind3/lane-c1/plans/fixture_fence.py	2026-10-28 14:28:10.767994324 -0300
++++ /fast/scratch/hyaku/kengaku-r50/R50C1CritBlind3/cands/p2_narrow_link.py	2026-10-28 14:34:10.646010553 -0300
+@@ -62,7 +62,7 @@
+ REF_PATH = re.compile(r"\A[A-Za-z0-9_][A-Za-z0-9._/-]*\Z", re.ASCII)
+ 
+ GIT_TOP = {"HEAD", "ORIG_HEAD", "COMMIT_EDITMSG", "config", "description", "hooks", "index", "info",
+-           "logs", "objects", "refs", "packed-refs"}
++           "logs", "objects", "refs", "packed-refs", "FETCH_HEAD", "shallow"}
+ GIT_DIRS = {"hooks", "info", "logs", "objects", "refs"}
+ CFG_SECTIONS = {"core"}
+ CFG_KEYS = {
+@@ -213,7 +213,7 @@
+                 return None, f"{_rel(p, d)} is a file (gitdir redirect), not a directory"
+             if not stat.S_ISREG(mode):
+                 return None, f"{_rel(p, d)} is a special file"
+-            if os.lstat(p).st_nlink > 1:
++            if "/objects/" in p.as_posix() and os.lstat(p).st_nlink > 1:
+                 return None, f"{_rel(p, d)} has more than one hard link"
+     if len(repos) > REPO_CAP:
+         return None, f"fixture holds more than {REPO_CAP} repos"
+@@ -463,6 +463,21 @@
+         if name not in GIT_TOP:
+             return f"{label}/{name} is not a plain-init entry"
+         have.add(name)
++        if name in ("FETCH_HEAD", "shallow"):
++            body = _read(q, TEXT_CAP)
++            if body is None:
++                return f"{label}/{name} unreadable"
++            if name == "shallow":
++                if not all(HEX40.match(l + b"\n") for l in body.split(b"\n") if l):
++                    return f"{label}/shallow is not a list of 40-hex commits"
++            else:
++                for line in body.split(b"\n"):
++                    if not line:
++                        continue
++                    if HEX40.match(line.split(b"\t")[0] + b"\n") is None:
++                        return f"{label}/FETCH_HEAD carries a line that is not a fetch record"
++            have.add(name)
++            continue
+         if name in GIT_DIRS:
+             if not stat.S_ISDIR(mode):
+                 return f"{label}/{name} is not a directory"

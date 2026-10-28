@@ -1,0 +1,966 @@
+{
+ "lane": "/fast/scratch/hyaku/kengaku-r50/R50C1ExecSealedAudit/lane",
+ "modules": [
+  {
+   "module": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/sealed50/b1_replace_ref_target_outside_store.py",
+   "name": "b1_replace_ref_target_outside_store.py",
+   "stem": "b1_replace_ref_target_outside_store",
+   "problems": [],
+   "fixtures": [
+    {
+     "fid": "b1-replace-target-outside-store",
+     "tool": "anchor",
+     "expect": "reject",
+     "defects": [],
+     "argv": [
+      "--lane",
+      "lane"
+     ],
+     "tree_sha256": "63aa7e0a39cd5fe77c4e42de40fe107d091f9535e451565fff911fffaf8c63e5",
+     "masked": [
+      "lane/.git/index"
+     ],
+     "base": "BREACH"
+    }
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "host_paths": [],
+   "abs_root_in_fixture": [],
+   "base": {
+    "b1-replace-target-outside-store": "BREACH"
+   },
+   "build_error": null,
+   "duplicate_fid": [],
+   "leaks": [],
+   "triple": {
+    "a": {
+     "b1-replace-target-outside-store": "63aa7e0a39cd5fe77c4e42de40fe107d091f9535e451565fff911fffaf8c63e5"
+    },
+    "b": {
+     "b1-replace-target-outside-store": "63aa7e0a39cd5fe77c4e42de40fe107d091f9535e451565fff911fffaf8c63e5"
+    },
+    "c": {
+     "b1-replace-target-outside-store": "63aa7e0a39cd5fe77c4e42de40fe107d091f9535e451565fff911fffaf8c63e5"
+    }
+   },
+   "contract_ok": true,
+   "eligible": true
+  },
+  {
+   "module": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/sealed50/b2_fetch_head_hardlink_out.py",
+   "name": "b2_fetch_head_hardlink_out.py",
+   "stem": "b2_fetch_head_hardlink_out",
+   "problems": [],
+   "fixtures": [
+    {
+     "fid": "b2-fetch-head-hardlink-out",
+     "tool": "anchor",
+     "expect": "reject",
+     "defects": [],
+     "argv": [
+      "--lane",
+      "lane"
+     ],
+     "tree_sha256": "d5b079d35da877ddd2f894611ff173c62dacb036725f415370cced8904065d97",
+     "masked": [
+      "lane/.git/index"
+     ],
+     "base": "BREACH"
+    }
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "host_paths": [],
+   "abs_root_in_fixture": [],
+   "base": {
+    "b2-fetch-head-hardlink-out": "BREACH"
+   },
+   "build_error": null,
+   "duplicate_fid": [],
+   "leaks": [],
+   "triple": {
+    "a": {
+     "b2-fetch-head-hardlink-out": "d5b079d35da877ddd2f894611ff173c62dacb036725f415370cced8904065d97"
+    },
+    "b": {
+     "b2-fetch-head-hardlink-out": "d5b079d35da877ddd2f894611ff173c62dacb036725f415370cced8904065d97"
+    },
+    "c": {
+     "b2-fetch-head-hardlink-out": "d5b079d35da877ddd2f894611ff173c62dacb036725f415370cced8904065d97"
+    }
+   },
+   "contract_ok": true,
+   "eligible": true
+  },
+  {
+   "module": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/sealed50/c4_gitfile_delimiter.py",
+   "name": "c4_gitfile_delimiter.py",
+   "stem": "c4_gitfile_delimiter",
+   "problems": [
+    "build: ValueError: lstat: embedded null character in path",
+    "fixture b4a-gitfile-nul-two-stores: ValueError: lstat: embedded null character in path",
+    "fixture b4a-gitfile-nul-two-stores: ValueError: lstat: embedded null character in path",
+    "fixture b4a-gitfile-nul-two-stores: ValueError: lstat: embedded null character in path",
+    "cross-root build: ValueError: lstat: embedded null character in path"
+   ],
+   "fixtures": [
+    {
+     "fid": "b4a-gitfile-newline-two-pointers",
+     "tool": "anchor",
+     "expect": "accept",
+     "defects": [],
+     "argv": [
+      "--lane",
+      "wt"
+     ],
+     "tree_sha256": "632b17478b71e469aada3d9090145df59187d43586d649063e175e140793bb91",
+     "masked": [],
+     "base": "BREACH"
+    }
+   ],
+   "deterministic": false,
+   "root_independent": null,
+   "host_paths": [],
+   "abs_root_in_fixture": [],
+   "base": {
+    "b4a-gitfile-newline-two-pointers": "BREACH"
+   },
+   "build_error": "ValueError: lstat: embedded null character in path",
+   "duplicate_fid": [],
+   "leaks": [],
+   "fallback_pairs": [
+    [
+     "b4a-gitfile-newline-two-pointers",
+     "632b17478b71e469aada3d9090145df59187d43586d649063e175e140793bb91",
+     "babd189eece904091c56ade9da952fcbd2c7a58975308751513d1613fad4fb23",
+     "ed014af76e8025a66e71e8abeb4f2133053502132bf8dd796f7fadbd829185e9"
+    ]
+   ],
+   "triple": {
+    "a": {
+     "b4a-gitfile-newline-two-pointers": "632b17478b71e469aada3d9090145df59187d43586d649063e175e140793bb91"
+    },
+    "b": {
+     "b4a-gitfile-newline-two-pointers": "babd189eece904091c56ade9da952fcbd2c7a58975308751513d1613fad4fb23"
+    },
+    "c": {
+     "b2-fetch-head-hardlink-out": "d5b079d35da877ddd2f894611ff173c62dacb036725f415370cced8904065d97"
+    }
+   },
+   "contract_ok": false,
+   "eligible": false
+  },
+  {
+   "module": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/sealed50/c4_gitfile_store_include.py",
+   "name": "c4_gitfile_store_include.py",
+   "stem": "c4_gitfile_store_include",
+   "problems": [],
+   "fixtures": [
+    {
+     "fid": "b4b-gitfile-store-include",
+     "tool": "anchor",
+     "expect": "accept",
+     "defects": [],
+     "argv": [
+      "--lane",
+      "wt"
+     ],
+     "tree_sha256": "83d5cf46a47748900f0278cbd5a82a4afd2ceab15ece606d9e16fd9aae444b70",
+     "masked": [
+      "store/index"
+     ],
+     "base": "BREACH"
+    }
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "host_paths": [],
+   "abs_root_in_fixture": [],
+   "base": {
+    "b4b-gitfile-store-include": "BREACH"
+   },
+   "build_error": null,
+   "duplicate_fid": [],
+   "leaks": [],
+   "triple": {
+    "a": {
+     "b4b-gitfile-store-include": "83d5cf46a47748900f0278cbd5a82a4afd2ceab15ece606d9e16fd9aae444b70"
+    },
+    "b": {
+     "b4b-gitfile-store-include": "83d5cf46a47748900f0278cbd5a82a4afd2ceab15ece606d9e16fd9aae444b70"
+    },
+    "c": {
+     "b4b-gitfile-store-include": "83d5cf46a47748900f0278cbd5a82a4afd2ceab15ece606d9e16fd9aae444b70"
+    }
+   },
+   "contract_ok": true,
+   "eligible": true
+  },
+  {
+   "module": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/sealed50/s50_01_stray_symlink.py",
+   "name": "s50_01_stray_symlink.py",
+   "stem": "s50_01_stray_symlink",
+   "problems": [
+    "absolute path literal in source: /etc/hostname"
+   ],
+   "fixtures": [
+    {
+     "fid": "s50-01-stray-symlink",
+     "tool": "anchor",
+     "expect": "error",
+     "defects": [],
+     "argv": [
+      "--lane",
+      "repo"
+     ],
+     "tree_sha256": "c86550af20459efd5828f4925e91e4fec83a057b12ffd52931298627a2549f69",
+     "masked": [
+      "repo/.git/index"
+     ],
+     "base": "BREACH"
+    }
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "host_paths": [],
+   "abs_root_in_fixture": [],
+   "base": {
+    "s50-01-stray-symlink": "BREACH"
+   },
+   "build_error": null,
+   "duplicate_fid": [],
+   "leaks": [],
+   "triple": {
+    "a": {
+     "s50-01-stray-symlink": "c86550af20459efd5828f4925e91e4fec83a057b12ffd52931298627a2549f69"
+    },
+    "b": {
+     "s50-01-stray-symlink": "c86550af20459efd5828f4925e91e4fec83a057b12ffd52931298627a2549f69"
+    },
+    "c": {
+     "s50-01-stray-symlink": "c86550af20459efd5828f4925e91e4fec83a057b12ffd52931298627a2549f69"
+    }
+   },
+   "contract_ok": false,
+   "eligible": false
+  },
+  {
+   "module": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/sealed50/s50_02_hardlink_out.py",
+   "name": "s50_02_hardlink_out.py",
+   "stem": "s50_02_hardlink_out",
+   "problems": [],
+   "fixtures": [
+    {
+     "fid": "s50-02-hardlink-outside",
+     "tool": "anchor",
+     "expect": "error",
+     "defects": [],
+     "argv": [
+      "--lane",
+      "repo"
+     ],
+     "tree_sha256": "90a0bb80b8cd4ec0a1f7445b71188b4b03e13b559c8c16246d96245ee5a90df3",
+     "masked": [
+      "repo/.git/index"
+     ],
+     "base": "BREACH"
+    }
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "host_paths": [],
+   "abs_root_in_fixture": [],
+   "base": {
+    "s50-02-hardlink-outside": "BREACH"
+   },
+   "build_error": null,
+   "duplicate_fid": [],
+   "leaks": [],
+   "triple": {
+    "a": {
+     "s50-02-hardlink-outside": "90a0bb80b8cd4ec0a1f7445b71188b4b03e13b559c8c16246d96245ee5a90df3"
+    },
+    "b": {
+     "s50-02-hardlink-outside": "90a0bb80b8cd4ec0a1f7445b71188b4b03e13b559c8c16246d96245ee5a90df3"
+    },
+    "c": {
+     "s50-02-hardlink-outside": "90a0bb80b8cd4ec0a1f7445b71188b4b03e13b559c8c16246d96245ee5a90df3"
+    }
+   },
+   "contract_ok": true,
+   "eligible": true
+  },
+  {
+   "module": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/sealed50/s50_03_refs_namespace.py",
+   "name": "s50_03_refs_namespace.py",
+   "stem": "s50_03_refs_namespace",
+   "problems": [],
+   "fixtures": [
+    {
+     "fid": "s50-03-unknown-ref-namespace",
+     "tool": "anchor",
+     "expect": "error",
+     "defects": [],
+     "argv": [
+      "--lane",
+      "repo"
+     ],
+     "tree_sha256": "4554fb7ae0f5fee9e1147daad4dbf0bf9990c6f2af8f5d8b84a27ad82b4a4061",
+     "masked": [
+      "repo/.git/index"
+     ],
+     "base": "BREACH"
+    }
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "host_paths": [],
+   "abs_root_in_fixture": [],
+   "base": {
+    "s50-03-unknown-ref-namespace": "BREACH"
+   },
+   "build_error": null,
+   "duplicate_fid": [],
+   "leaks": [],
+   "triple": {
+    "a": {
+     "s50-03-unknown-ref-namespace": "4554fb7ae0f5fee9e1147daad4dbf0bf9990c6f2af8f5d8b84a27ad82b4a4061"
+    },
+    "b": {
+     "s50-03-unknown-ref-namespace": "4554fb7ae0f5fee9e1147daad4dbf0bf9990c6f2af8f5d8b84a27ad82b4a4061"
+    },
+    "c": {
+     "s50-03-unknown-ref-namespace": "4554fb7ae0f5fee9e1147daad4dbf0bf9990c6f2af8f5d8b84a27ad82b4a4061"
+    }
+   },
+   "contract_ok": true,
+   "eligible": true
+  },
+  {
+   "module": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/sealed50/s50_04_live_hook.py",
+   "name": "s50_04_live_hook.py",
+   "stem": "s50_04_live_hook",
+   "problems": [],
+   "fixtures": [
+    {
+     "fid": "s50-04-live-hook",
+     "tool": "anchor",
+     "expect": "error",
+     "defects": [],
+     "argv": [
+      "--lane",
+      "repo"
+     ],
+     "tree_sha256": "c72792c20618e6afbfff9570dda99d672361cca1f6510858140caf619d760d4d",
+     "masked": [
+      "repo/.git/index"
+     ],
+     "base": "BREACH"
+    }
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "host_paths": [],
+   "abs_root_in_fixture": [],
+   "base": {
+    "s50-04-live-hook": "BREACH"
+   },
+   "build_error": null,
+   "duplicate_fid": [],
+   "leaks": [],
+   "triple": {
+    "a": {
+     "s50-04-live-hook": "c72792c20618e6afbfff9570dda99d672361cca1f6510858140caf619d760d4d"
+    },
+    "b": {
+     "s50-04-live-hook": "c72792c20618e6afbfff9570dda99d672361cca1f6510858140caf619d760d4d"
+    },
+    "c": {
+     "s50-04-live-hook": "c72792c20618e6afbfff9570dda99d672361cca1f6510858140caf619d760d4d"
+    }
+   },
+   "contract_ok": true,
+   "eligible": true
+  },
+  {
+   "module": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/sealed50/s50_05_objinfo_unknown.py",
+   "name": "s50_05_objinfo_unknown.py",
+   "stem": "s50_05_objinfo_unknown",
+   "problems": [],
+   "fixtures": [
+    {
+     "fid": "s50-05-objinfo-unknown",
+     "tool": "anchor",
+     "expect": "error",
+     "defects": [],
+     "argv": [
+      "--lane",
+      "repo"
+     ],
+     "tree_sha256": "3db589e663b7f71fecb15b3afa10451ac232a2b108cb49f543a6452aded9f648",
+     "masked": [
+      "repo/.git/index"
+     ],
+     "base": "BREACH"
+    }
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "host_paths": [],
+   "abs_root_in_fixture": [],
+   "base": {
+    "s50-05-objinfo-unknown": "BREACH"
+   },
+   "build_error": null,
+   "duplicate_fid": [],
+   "leaks": [],
+   "triple": {
+    "a": {
+     "s50-05-objinfo-unknown": "3db589e663b7f71fecb15b3afa10451ac232a2b108cb49f543a6452aded9f648"
+    },
+    "b": {
+     "s50-05-objinfo-unknown": "3db589e663b7f71fecb15b3afa10451ac232a2b108cb49f543a6452aded9f648"
+    },
+    "c": {
+     "s50-05-objinfo-unknown": "3db589e663b7f71fecb15b3afa10451ac232a2b108cb49f543a6452aded9f648"
+    }
+   },
+   "contract_ok": true,
+   "eligible": true
+  },
+  {
+   "module": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/sealed50/s50_06_wt_extra_entry.py",
+   "name": "s50_06_wt_extra_entry.py",
+   "stem": "s50_06_wt_extra_entry",
+   "problems": [],
+   "fixtures": [
+    {
+     "fid": "s50-06-wt-extra-entry",
+     "tool": "anchor",
+     "expect": "error",
+     "defects": [],
+     "argv": [
+      "--lane",
+      "repo"
+     ],
+     "tree_sha256": "06ee36940544ece4be336aa4ceb4f2f5cffab1dd8e4ae85c351e4e9aafafb101",
+     "masked": [
+      "repo/.git/index",
+      "repo/.git/worktrees/wt/index"
+     ],
+     "base": "BREACH"
+    }
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "host_paths": [],
+   "abs_root_in_fixture": [],
+   "base": {
+    "s50-06-wt-extra-entry": "BREACH"
+   },
+   "build_error": null,
+   "duplicate_fid": [],
+   "leaks": [],
+   "triple": {
+    "a": {
+     "s50-06-wt-extra-entry": "06ee36940544ece4be336aa4ceb4f2f5cffab1dd8e4ae85c351e4e9aafafb101"
+    },
+    "b": {
+     "s50-06-wt-extra-entry": "06ee36940544ece4be336aa4ceb4f2f5cffab1dd8e4ae85c351e4e9aafafb101"
+    },
+    "c": {
+     "s50-06-wt-extra-entry": "06ee36940544ece4be336aa4ceb4f2f5cffab1dd8e4ae85c351e4e9aafafb101"
+    }
+   },
+   "contract_ok": true,
+   "eligible": true
+  },
+  {
+   "module": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/sealed50/s50_07_argv_escape.py",
+   "name": "s50_07_argv_escape.py",
+   "stem": "s50_07_argv_escape",
+   "problems": [],
+   "fixtures": [
+    {
+     "fid": "s50-07-argv-escape",
+     "tool": "anchor",
+     "expect": "error",
+     "defects": [],
+     "argv": [
+      "--lane",
+      "../outside-lane",
+      "--evidence-ref",
+      "repo/a.txt"
+     ],
+     "tree_sha256": "1a2cd9f4c244a02f7cb8ddae85f67bc090708c7f0880f6e20f6030cfdea5dc7e",
+     "masked": [
+      "repo/.git/index"
+     ],
+     "base": "BREACH"
+    }
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "host_paths": [],
+   "abs_root_in_fixture": [],
+   "base": {
+    "s50-07-argv-escape": "BREACH"
+   },
+   "build_error": null,
+   "duplicate_fid": [],
+   "leaks": [],
+   "triple": {
+    "a": {
+     "s50-07-argv-escape": "1a2cd9f4c244a02f7cb8ddae85f67bc090708c7f0880f6e20f6030cfdea5dc7e"
+    },
+    "b": {
+     "s50-07-argv-escape": "1a2cd9f4c244a02f7cb8ddae85f67bc090708c7f0880f6e20f6030cfdea5dc7e"
+    },
+    "c": {
+     "s50-07-argv-escape": "1a2cd9f4c244a02f7cb8ddae85f67bc090708c7f0880f6e20f6030cfdea5dc7e"
+    }
+   },
+   "contract_ok": true,
+   "eligible": true
+  },
+  {
+   "module": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/sealed50/s50_08_ref_value_junk.py",
+   "name": "s50_08_ref_value_junk.py",
+   "stem": "s50_08_ref_value_junk",
+   "problems": [],
+   "fixtures": [
+    {
+     "fid": "s50-08-ref-value-junk",
+     "tool": "anchor",
+     "expect": "error",
+     "defects": [],
+     "argv": [
+      "--lane",
+      "repo"
+     ],
+     "tree_sha256": "03a7e19c6cee7ca2289ab593f4af1add5b10d440617a472bdc85bae71fac354b",
+     "masked": [
+      "repo/.git/index"
+     ],
+     "base": "BREACH"
+    }
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "host_paths": [],
+   "abs_root_in_fixture": [],
+   "base": {
+    "s50-08-ref-value-junk": "BREACH"
+   },
+   "build_error": null,
+   "duplicate_fid": [],
+   "leaks": [],
+   "triple": {
+    "a": {
+     "s50-08-ref-value-junk": "03a7e19c6cee7ca2289ab593f4af1add5b10d440617a472bdc85bae71fac354b"
+    },
+    "b": {
+     "s50-08-ref-value-junk": "03a7e19c6cee7ca2289ab593f4af1add5b10d440617a472bdc85bae71fac354b"
+    },
+    "c": {
+     "s50-08-ref-value-junk": "03a7e19c6cee7ca2289ab593f4af1add5b10d440617a472bdc85bae71fac354b"
+    }
+   },
+   "contract_ok": true,
+   "eligible": true
+  },
+  {
+   "module": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/sealed50/s50_09_store_no_objects.py",
+   "name": "s50_09_store_no_objects.py",
+   "stem": "s50_09_store_no_objects",
+   "problems": [],
+   "fixtures": [
+    {
+     "fid": "s50-09-store-no-objects",
+     "tool": "anchor",
+     "expect": "error",
+     "defects": [],
+     "argv": [
+      "--lane",
+      "repo"
+     ],
+     "tree_sha256": "14fb55a3af25638ace5efa513e19cf74e4ad1f98fdc1c029be58b9162d1ae8c4",
+     "masked": [
+      "repo/.git/index"
+     ],
+     "base": "BREACH"
+    }
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "host_paths": [],
+   "abs_root_in_fixture": [],
+   "base": {
+    "s50-09-store-no-objects": "BREACH"
+   },
+   "build_error": null,
+   "duplicate_fid": [],
+   "leaks": [],
+   "triple": {
+    "a": {
+     "s50-09-store-no-objects": "14fb55a3af25638ace5efa513e19cf74e4ad1f98fdc1c029be58b9162d1ae8c4"
+    },
+    "b": {
+     "s50-09-store-no-objects": "14fb55a3af25638ace5efa513e19cf74e4ad1f98fdc1c029be58b9162d1ae8c4"
+    },
+    "c": {
+     "s50-09-store-no-objects": "14fb55a3af25638ace5efa513e19cf74e4ad1f98fdc1c029be58b9162d1ae8c4"
+    }
+   },
+   "contract_ok": true,
+   "eligible": true
+  },
+  {
+   "module": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/sealed50/s50_10_reflog_name.py",
+   "name": "s50_10_reflog_name.py",
+   "stem": "s50_10_reflog_name",
+   "problems": [],
+   "fixtures": [
+    {
+     "fid": "s50-10-reflog-name",
+     "tool": "anchor",
+     "expect": "error",
+     "defects": [],
+     "argv": [
+      "--lane",
+      "repo"
+     ],
+     "tree_sha256": "d81dc6205b17ea33dde84bbb0dc699576dd453ae6b9dcf9e34f693a2034844d1",
+     "masked": [
+      "repo/.git/index"
+     ],
+     "base": "BREACH"
+    }
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "host_paths": [],
+   "abs_root_in_fixture": [],
+   "base": {
+    "s50-10-reflog-name": "BREACH"
+   },
+   "build_error": null,
+   "duplicate_fid": [],
+   "leaks": [],
+   "triple": {
+    "a": {
+     "s50-10-reflog-name": "d81dc6205b17ea33dde84bbb0dc699576dd453ae6b9dcf9e34f693a2034844d1"
+    },
+    "b": {
+     "s50-10-reflog-name": "d81dc6205b17ea33dde84bbb0dc699576dd453ae6b9dcf9e34f693a2034844d1"
+    },
+    "c": {
+     "s50-10-reflog-name": "d81dc6205b17ea33dde84bbb0dc699576dd453ae6b9dcf9e34f693a2034844d1"
+    }
+   },
+   "contract_ok": true,
+   "eligible": true
+  },
+  {
+   "module": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/sealed50/s50_alternates_dotdot_abs.py",
+   "name": "s50_alternates_dotdot_abs.py",
+   "stem": "s50_alternates_dotdot_abs",
+   "problems": [],
+   "fixtures": [
+    {
+     "fid": "s50-alternates-dotdot-abs",
+     "tool": "order",
+     "expect": "error",
+     "defects": [],
+     "argv": [
+      "--lane",
+      "lane",
+      "--claims",
+      "claims.md",
+      "--receipt",
+      "evidence/receipt.txt"
+     ],
+     "tree_sha256": "bc703fb865c43f58ad4c00119e7d81428747f1b9d4dd561b5b8f412e9264e11b",
+     "masked": [
+      "lane/.git/index"
+     ],
+     "base": "BREACH"
+    }
+   ],
+   "deterministic": true,
+   "root_independent": false,
+   "host_paths": [
+    "s50-alternates-dotdot-abs:lane/.git/objects/info/alternates:/fast/scratch"
+   ],
+   "abs_root_in_fixture": [
+    "s50-alternates-dotdot-abs",
+    "s50-alternates-dotdot-abs:lane/.git/objects/info/alternates"
+   ],
+   "base": {
+    "s50-alternates-dotdot-abs": "BREACH"
+   },
+   "build_error": null,
+   "duplicate_fid": [],
+   "leaks": [],
+   "triple": {
+    "a": {
+     "s50-alternates-dotdot-abs": "bc703fb865c43f58ad4c00119e7d81428747f1b9d4dd561b5b8f412e9264e11b"
+    },
+    "b": {
+     "s50-alternates-dotdot-abs": "bc703fb865c43f58ad4c00119e7d81428747f1b9d4dd561b5b8f412e9264e11b"
+    },
+    "c": {
+     "s50-alternates-dotdot-abs": "bc703fb865c43f58ad4c00119e7d81428747f1b9d4dd561b5b8f412e9264e11b"
+    }
+   },
+   "contract_ok": true,
+   "eligible": true
+  },
+  {
+   "module": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/sealed50/s50_gitfile_symlink_chain.py",
+   "name": "s50_gitfile_symlink_chain.py",
+   "stem": "s50_gitfile_symlink_chain",
+   "problems": [],
+   "fixtures": [
+    {
+     "fid": "s50-gitfile-symlink-chain",
+     "tool": "order",
+     "expect": "error",
+     "defects": [],
+     "argv": [
+      "--lane",
+      ".",
+      "--claims",
+      "claims.md",
+      "--receipt",
+      "evidence/receipt.txt"
+     ],
+     "tree_sha256": "1303e66c8b06afa91c53d30533ef91994f581e0ba65b4eb8e417daa352a70c1b",
+     "masked": [],
+     "base": "BREACH"
+    }
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "host_paths": [],
+   "abs_root_in_fixture": [],
+   "base": {
+    "s50-gitfile-symlink-chain": "BREACH"
+   },
+   "build_error": null,
+   "duplicate_fid": [],
+   "leaks": [],
+   "triple": {
+    "a": {
+     "s50-gitfile-symlink-chain": "1303e66c8b06afa91c53d30533ef91994f581e0ba65b4eb8e417daa352a70c1b"
+    },
+    "b": {
+     "s50-gitfile-symlink-chain": "1303e66c8b06afa91c53d30533ef91994f581e0ba65b4eb8e417daa352a70c1b"
+    },
+    "c": {
+     "s50-gitfile-symlink-chain": "1303e66c8b06afa91c53d30533ef91994f581e0ba65b4eb8e417daa352a70c1b"
+    }
+   },
+   "contract_ok": true,
+   "eligible": true
+  },
+  {
+   "module": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/sealed50/s6_gitfile_rel_objects_link.py",
+   "name": "s6_gitfile_rel_objects_link.py",
+   "stem": "s6_gitfile_rel_objects_link",
+   "problems": [],
+   "fixtures": [
+    {
+     "fid": "seal6-gitfile-up-outside",
+     "tool": "order",
+     "expect": "reject",
+     "defects": [],
+     "argv": [
+      "--lane",
+      ".",
+      "--claims",
+      ".ufo/waves/round-42/claims/round-42-claims.md",
+      "--receipt",
+      "corpus/evidence/receipt.txt"
+     ],
+     "tree_sha256": "4c61b155fd6b81f65b1b9c4ceb177bff23c3c2c46eb4afab7770307e56915e35",
+     "masked": [],
+     "base": "BREACH"
+    },
+    {
+     "fid": "seal6-gitfile-up-inside-link",
+     "tool": "order",
+     "expect": "reject",
+     "defects": [],
+     "argv": [
+      "--lane",
+      "sub/repo",
+      "--claims",
+      ".ufo/waves/round-42/claims/round-42-claims.md",
+      "--receipt",
+      "corpus/evidence/receipt.txt"
+     ],
+     "tree_sha256": "5bd3b016b46c42726d5452450a5c9980f3851a5f0497366262fb4a1eaf90778f",
+     "masked": [
+      "sub/store/index"
+     ],
+     "base": "BREACH"
+    },
+    {
+     "fid": "seal6-gitfile-submodule-store-link",
+     "tool": "order",
+     "expect": "reject",
+     "defects": [],
+     "argv": [
+      "--lane",
+      "main",
+      "--claims",
+      ".ufo/waves/round-42/claims/round-42-claims.md",
+      "--receipt",
+      "corpus/evidence/receipt.txt"
+     ],
+     "tree_sha256": "08058a58224311ebfc8f9693624461798ebfcf7cf08e02524af995050d2715d3",
+     "masked": [
+      "main/.git/index"
+     ],
+     "base": "BREACH"
+    }
+   ],
+   "deterministic": true,
+   "root_independent": true,
+   "host_paths": [
+    "seal6-gitfile-up-inside-link:sub/store/objects:/fast/scratch",
+    "seal6-gitfile-submodule-store-link:main/.git/modules/sub:/fast/scratch"
+   ],
+   "abs_root_in_fixture": [
+    "seal6-gitfile-up-inside-link:sub/store/objects",
+    "seal6-gitfile-submodule-store-link:main/.git/modules/sub"
+   ],
+   "base": {
+    "seal6-gitfile-up-outside": "BREACH",
+    "seal6-gitfile-up-inside-link": "BREACH",
+    "seal6-gitfile-submodule-store-link": "BREACH"
+   },
+   "build_error": null,
+   "duplicate_fid": [],
+   "leaks": [],
+   "triple": {
+    "a": {
+     "seal6-gitfile-up-outside": "4c61b155fd6b81f65b1b9c4ceb177bff23c3c2c46eb4afab7770307e56915e35",
+     "seal6-gitfile-up-inside-link": "5bd3b016b46c42726d5452450a5c9980f3851a5f0497366262fb4a1eaf90778f",
+     "seal6-gitfile-submodule-store-link": "08058a58224311ebfc8f9693624461798ebfcf7cf08e02524af995050d2715d3"
+    },
+    "b": {
+     "seal6-gitfile-up-outside": "4c61b155fd6b81f65b1b9c4ceb177bff23c3c2c46eb4afab7770307e56915e35",
+     "seal6-gitfile-up-inside-link": "5bd3b016b46c42726d5452450a5c9980f3851a5f0497366262fb4a1eaf90778f",
+     "seal6-gitfile-submodule-store-link": "08058a58224311ebfc8f9693624461798ebfcf7cf08e02524af995050d2715d3"
+    },
+    "c": {
+     "seal6-gitfile-up-outside": "4c61b155fd6b81f65b1b9c4ceb177bff23c3c2c46eb4afab7770307e56915e35",
+     "seal6-gitfile-up-inside-link": "5bd3b016b46c42726d5452450a5c9980f3851a5f0497366262fb4a1eaf90778f",
+     "seal6-gitfile-submodule-store-link": "08058a58224311ebfc8f9693624461798ebfcf7cf08e02524af995050d2715d3"
+    }
+   },
+   "contract_ok": true,
+   "eligible": true
+  },
+  {
+   "module": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/sealed50/s6_second_store_mount.py",
+   "name": "s6_second_store_mount.py",
+   "stem": "s6_second_store_mount",
+   "problems": [],
+   "fixtures": [
+    {
+     "fid": "seal6-second-store-outside",
+     "tool": "order",
+     "expect": "reject",
+     "defects": [],
+     "argv": [
+      "--lane",
+      "lane",
+      "--claims",
+      ".ufo/waves/round-42/claims/round-42-claims.md",
+      "--receipt",
+      ".ufo/waves/round-42/claims/round-42-claims.md"
+     ],
+     "tree_sha256": "71011b2af1dace5dd00e9d5c1c752faa94f0adebf6313c6943008e3ebb850980",
+     "masked": [
+      "lane/.git/index"
+     ],
+     "base": "BREACH"
+    },
+    {
+     "fid": "seal6-second-store-twin",
+     "tool": "order",
+     "expect": "reject",
+     "defects": [],
+     "argv": [
+      "--lane",
+      "lane",
+      "--claims",
+      ".ufo/waves/round-42/claims/round-42-claims.md",
+      "--receipt",
+      ".ufo/waves/round-42/claims/round-42-claims.md"
+     ],
+     "tree_sha256": "cb896f197aeea46141c0048e07afd617063d41b2d8f35893d09f90fbc89954ab",
+     "masked": [
+      "lane/.git/index",
+      "other/.git/index"
+     ],
+     "base": "BREACH"
+    }
+   ],
+   "deterministic": true,
+   "root_independent": false,
+   "host_paths": [
+    "seal6-second-store-outside:other/.git:/fast/scratch"
+   ],
+   "abs_root_in_fixture": [
+    "seal6-second-store-outside",
+    "seal6-second-store-outside:other/.git"
+   ],
+   "base": {
+    "seal6-second-store-outside": "BREACH",
+    "seal6-second-store-twin": "BREACH"
+   },
+   "build_error": null,
+   "duplicate_fid": [],
+   "leaks": [],
+   "triple": {
+    "a": {
+     "seal6-second-store-outside": "71011b2af1dace5dd00e9d5c1c752faa94f0adebf6313c6943008e3ebb850980",
+     "seal6-second-store-twin": "cb896f197aeea46141c0048e07afd617063d41b2d8f35893d09f90fbc89954ab"
+    },
+    "b": {
+     "seal6-second-store-outside": "71011b2af1dace5dd00e9d5c1c752faa94f0adebf6313c6943008e3ebb850980",
+     "seal6-second-store-twin": "cb896f197aeea46141c0048e07afd617063d41b2d8f35893d09f90fbc89954ab"
+    },
+    "c": {
+     "seal6-second-store-outside": "71011b2af1dace5dd00e9d5c1c752faa94f0adebf6313c6943008e3ebb850980",
+     "seal6-second-store-twin": "cb896f197aeea46141c0048e07afd617063d41b2d8f35893d09f90fbc89954ab"
+    }
+   },
+   "contract_ok": true,
+   "eligible": true
+  }
+ ],
+ "eligible": [
+  "b1_replace_ref_target_outside_store.py",
+  "b2_fetch_head_hardlink_out.py",
+  "c4_gitfile_store_include.py",
+  "s50_02_hardlink_out.py",
+  "s50_03_refs_namespace.py",
+  "s50_04_live_hook.py",
+  "s50_05_objinfo_unknown.py",
+  "s50_06_wt_extra_entry.py",
+  "s50_07_argv_escape.py",
+  "s50_08_ref_value_junk.py",
+  "s50_09_store_no_objects.py",
+  "s50_10_reflog_name.py",
+  "s50_alternates_dotdot_abs.py",
+  "s50_gitfile_symlink_chain.py",
+  "s6_gitfile_rel_objects_link.py",
+  "s6_second_store_mount.py"
+ ]
+}
