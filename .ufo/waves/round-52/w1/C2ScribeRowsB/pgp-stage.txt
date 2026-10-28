@@ -1,0 +1,20 @@
+STAGECHECK nop rc=0 expect=absent file=absent dir=absent pycheck=n/a ccheck=n/a match=yes
+STAGECHECK oracle-solve-sh rc=0 expect=src file=bytes=872 dir=main.py.c pycheck=ok ccheck=ok cwarn=1 match=yes
+STAGECHECK lookup-table rc=0 expect=src file=bytes=582 dir=main.py.c pycheck=ok ccheck=ok cwarn=1 match=yes
+STAGECHECK python-only rc=0 expect=src file=bytes=205 dir=main.py.c pycheck=ok ccheck=fail cwarn=0 match=yes
+STAGECHECK c-only rc=0 expect=src file=bytes=288 dir=main.py.c pycheck=fail ccheck=ok cwarn=0 match=yes
+STAGECHECK extra-file rc=0 expect=src file=bytes=872 dir=NOTES.md,main.py.c pycheck=ok ccheck=ok cwarn=1 match=yes
+STAGECHECK leftover-cmain rc=0 expect=src file=bytes=872 dir=cmain,main.py.c pycheck=ok ccheck=ok cwarn=1 match=yes
+STAGECHECK wrong-value rc=0 expect=src file=bytes=537 dir=main.py.c pycheck=ok ccheck=ok cwarn=1 match=yes
+STAGECHECK trailing-ws rc=0 expect=src file=bytes=513 dir=main.py.c pycheck=ok ccheck=ok cwarn=1 match=yes
+STAGECHECK nonzero-exit rc=0 expect=src file=bytes=502 dir=main.py.c pycheck=ok ccheck=ok cwarn=1 match=yes
+STAGECHECK stderr-noise rc=0 expect=src file=bytes=554 dir=main.py.c pycheck=ok ccheck=ok cwarn=1 match=yes
+STAGECHECK n-parsed-differently rc=0 expect=src file=bytes=482 dir=main.py.c pycheck=ok ccheck=ok cwarn=1 match=yes
+STAGECHECK compile-warning rc=0 expect=src file=bytes=522 dir=main.py.c pycheck=ok ccheck=ok cwarn=2 match=yes
+STAGECHECK regrade-same-state rc=0 expect=src file=bytes=872 dir=main.py.c pycheck=ok ccheck=ok cwarn=1 match=yes
+STAGECHECK empty-file rc=0 expect=src file=bytes=0 dir=main.py.c pycheck=ok ccheck=ok cwarn=0 match=yes
+STAGECHECK dir-in-place rc=0 expect=dir file=dir dir=main.py.c pycheck=n/a ccheck=n/a match=yes
+STAGECHECK crlf-source rc=0 expect=src file=bytes=514 dir=main.py.c pycheck=ok ccheck=ok cwarn=1 match=yes
+STAGECHECK value-plus-line rc=0 expect=src file=bytes=524 dir=main.py.c pycheck=ok ccheck=ok cwarn=1 match=yes
+stagecheck cases=18 failed=0
+PGP STAGE EXIT=0

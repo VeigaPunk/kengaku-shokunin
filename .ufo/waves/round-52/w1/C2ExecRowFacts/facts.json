@@ -1,0 +1,1989 @@
+{
+  "plans/adoption_check.py": {
+    "argparse_flags": [
+      "--census",
+      "--expect",
+      "--help",
+      "--lane"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "base_tip_observed_exit_code": 2,
+    "base_tip_stdout_tail": [],
+    "declared_exit_codes": [
+      1
+    ],
+    "default_invocation": {
+      "stderr": "usage: adoption_check.py [-h] [--lane LANE] --expect EXPECT [--census]\nadoption_check.py: error: the following arguments are required: --expect\n",
+      "stdout": ""
+    },
+    "docstring_first_line": "Re-derive an adoption round's landed state from committed bytes.",
+    "file_writes": [],
+    "has_selftest_flag": false,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 2,
+      "help": 0
+    },
+    "script": "plans/adoption_check.py",
+    "selftest": {
+      "declared": false,
+      "observed": "not invoked: no --selftest flag"
+    }
+  },
+  "plans/attrib_probe.py": {
+    "argparse_flags": [
+      "--double-read",
+      "--frozen",
+      "--help",
+      "--out",
+      "--receipt",
+      "--shim",
+      "--trials"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "base_tip_observed_exit_code": 2,
+    "base_tip_stdout_tail": [],
+    "declared_exit_codes": [
+      0,
+      1,
+      2
+    ],
+    "default_invocation": {
+      "stderr": "usage: attrib_probe.py [-h]\n                       {block-sha,freeze-check,trials,force-trials,stream-trials,score} ...\nattrib_probe.py: error: the following arguments are required: cmd\n",
+      "stdout": ""
+    },
+    "docstring_first_line": "attrib_probe.py — blind cascade-leg attribution instrument (kengaku r21+r22).",
+    "file_writes": [
+      {
+        "call": "open('a')",
+        "in_function": "cmd_trials",
+        "line": 545,
+        "target": "<var:args>.out"
+      },
+      {
+        "call": "open('a')",
+        "in_function": "cmd_trials",
+        "line": 546,
+        "target": "<var:args>.receipt"
+      },
+      {
+        "call": "open('a')",
+        "in_function": "cmd_force_trials",
+        "line": 642,
+        "target": "<var:args>.out"
+      },
+      {
+        "call": "open('a')",
+        "in_function": "cmd_force_trials",
+        "line": 643,
+        "target": "<var:args>.receipt"
+      },
+      {
+        "call": "open('a')",
+        "in_function": "cmd_stream_trials",
+        "line": 766,
+        "target": "<var:args>.out"
+      },
+      {
+        "call": "open('a')",
+        "in_function": "cmd_stream_trials",
+        "line": 767,
+        "target": "<var:args>.receipt"
+      },
+      {
+        "call": "open('a')",
+        "in_function": "cmd_score",
+        "line": 1109,
+        "target": "<var:args>.receipt"
+      },
+      {
+        "call": "open('a')",
+        "in_function": "cmd_score",
+        "line": 1113,
+        "target": "<var:args>.out"
+      }
+    ],
+    "has_selftest_flag": false,
+    "network": {
+      "needs_network": true,
+      "network_scope": "HTTPConnection to 127.0.0.1 shim only; no external network observed/source."
+    },
+    "observed_exit_codes": {
+      "default": 2,
+      "help": 0
+    },
+    "script": "plans/attrib_probe.py",
+    "selftest": {
+      "declared": false,
+      "observed": "not invoked: no --selftest flag"
+    }
+  },
+  "plans/catalog_probe.py": {
+    "argparse_flags": [
+      "--capture",
+      "--diff",
+      "--help",
+      "--lane",
+      "--selftest",
+      "--verify"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "declared_exit_codes": [
+      0,
+      1
+    ],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "probed=2026-10-25 hf=ok openrouter=ok hf_models=50 or_models=457 hf_schema_delta=4 or_schema_delta=0 entry=ok\nHF missing fields: author, sha, lastModified, gated\n"
+    },
+    "docstring_first_line": "Re-probe the two live public model catalogs and check the catalog entry's freshness.",
+    "file_writes": [
+      {
+        "call": "mkdir",
+        "in_function": "capture",
+        "line": 92,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "write_bytes",
+        "in_function": "capture",
+        "line": 100,
+        "target": "<var:hf_raw>"
+      },
+      {
+        "call": "write_bytes",
+        "in_function": "capture",
+        "line": 101,
+        "target": "<var:or_raw>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "capture",
+        "line": 106,
+        "target": "f'{...}  {...}\n{...}  {...}\n'"
+      },
+      {
+        "call": "write_text",
+        "in_function": "capture",
+        "line": 118,
+        "target": "<var:summary>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "selftest",
+        "line": 315,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "selftest",
+        "line": 316,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "selftest",
+        "line": 318,
+        "target": "f'source: S101 — https://huggingface.co/api/models\nsource: S102 — https://openrouter.ai/api/v1/models\nverified-at: 2026-10-25\nreceipts: {...}\n'"
+      },
+      {
+        "call": "write_text",
+        "in_function": "selftest",
+        "line": 327,
+        "target": "'probed=2026-10-25 hf=ok openrouter=ok hf_models=50 or_models=467 hf_schema_delta=4 or_schema_delta=0 entry=ok\\nHF missing fields: author, sha, lastModified, gated\\n'"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "selftest",
+        "line": 341,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "write_bytes",
+        "in_function": "selftest",
+        "line": 345,
+        "target": "<var:hf_raw>"
+      },
+      {
+        "call": "write_bytes",
+        "in_function": "selftest",
+        "line": 346,
+        "target": "<var:or_raw>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "selftest",
+        "line": 347,
+        "target": "f'{...}  {...}\n{...}  {...}\n'"
+      },
+      {
+        "call": "write_text",
+        "in_function": "selftest",
+        "line": 352,
+        "target": "f'probed={...} hf=ok openrouter=ok hf_models=1 or_models=467 hf_schema_delta=0 or_schema_delta=0 entry=pending\n'"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "selftest",
+        "line": 357,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "selftest",
+        "line": 358,
+        "target": "f'{...}\n\nverified-at: {...}\nreceipts: {...}\nhf_models=1 or_models=467 hf_schema_delta=0 or_schema_delta=0\n'"
+      },
+      {
+        "call": "write_bytes",
+        "in_function": "selftest",
+        "line": 364,
+        "target": "encode(...)"
+      },
+      {
+        "call": "write_bytes",
+        "in_function": "selftest",
+        "line": 366,
+        "target": "<var:hf_raw>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "selftest",
+        "line": 368,
+        "target": "<var:text>"
+      }
+    ],
+    "has_selftest_flag": true,
+    "network": {
+      "needs_network": true,
+      "network_scope": "External HTTP GET to Hugging Face api/models and OpenRouter api/v1/models (urllib.request.urlopen); default invocation completed successfully."
+    },
+    "observed_exit_codes": {
+      "default": 0,
+      "help": 0
+    },
+    "script": "plans/catalog_probe.py",
+    "selftest": {
+      "observed_exit_code": 0,
+      "scratch_lane_writes": [],
+      "stderr": "",
+      "stdout": "raw=absent\nraw=ok hf_models=1 or_models=467 hf_schema_delta=0 or_schema_delta=0 verify=ok\nraw=invalid digest mismatch for hf.raw.json: the capture was altered or fabricated\nraw=ok entry-mismatch missing:## Re-probe 2026-10-25 (round 33)\nCASE hf-parses PASS\nCASE hf-missing-detected PASS\nCASE or-total-count-rederived PASS\nCASE or-missing-detected PASS\nCASE hf-empty-list-guard PASS\nCASE or-empty-data-guard PASS\nCASE entry-missing-red PASS\nCASE entry-receipt-missing-red PASS\nCASE entry-current-with-receipt-green PASS\nCASE verify-absent-red PASS\nCASE verify-fixture-green PASS\nCASE verify-digest-tamper-red PASS\nCASE verify-entry-block-red PASS\nSELFTEST checks=13 failed=0\n"
+    }
+  },
+  "plans/defect_ledger.py": {
+    "argparse_flags": [
+      "--help",
+      "--lane"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "declared_exit_codes": [],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "R34-D1 status=closed observed=pass agree=yes untracked=0\nR34-D2 status=closed observed=pass agree=yes committed_mirror_paths=0\nR34-D3 status=closed observed=pass agree=yes listed=6 evaluator_listed=True bad=0\nR34-D4 status=closed observed=pass agree=yes correction_lines=1\nR34-D5 status=closed observed=pass agree=yes erratum_lines=1 r35_mistake_row=True\nrows=5 closed=5 observed_pass=5 mismatches=0\nPREDICATE C2 pass\n"
+    },
+    "docstring_first_line": "Persistent routed-defect ledger checker (round 35, C2 calibration).",
+    "file_writes": [],
+    "has_selftest_flag": false,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 0,
+      "help": 0
+    },
+    "script": "plans/defect_ledger.py",
+    "selftest": {
+      "declared": false,
+      "observed": "not invoked: no --selftest flag"
+    }
+  },
+  "plans/gate_flip_check.py": {
+    "argparse_flags": [
+      "--entry",
+      "--help",
+      "--lesson",
+      "--selftest"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "base_tip_observed_exit_code": 2,
+    "base_tip_stdout_tail": [],
+    "declared_exit_codes": [
+      2
+    ],
+    "default_invocation": {
+      "stderr": "usage: gate_flip_check.py [-h] [--lesson LESSON] [--entry ENTRY] [--selftest]\ngate_flip_check.py: error: --lesson is required unless --selftest is given\n",
+      "stdout": ""
+    },
+    "docstring_first_line": "Require every conditional refusal in a lesson's Gate section to be resolved.",
+    "file_writes": [
+      {
+        "call": "rmtree",
+        "in_function": "run_selftest",
+        "line": 719,
+        "target": "<var:work>"
+      },
+      {
+        "call": "makedirs",
+        "in_function": "run_selftest",
+        "line": 691,
+        "target": "<var:lessons>"
+      },
+      {
+        "call": "makedirs",
+        "in_function": "run_selftest",
+        "line": 694,
+        "target": "dirname(...)"
+      },
+      {
+        "call": "open('w')",
+        "in_function": "run_selftest",
+        "line": 698,
+        "target": "<var:lesson>"
+      },
+      {
+        "call": "open('w')",
+        "in_function": "run_selftest",
+        "line": 695,
+        "target": "<var:path>"
+      }
+    ],
+    "has_selftest_flag": true,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 2,
+      "help": 0
+    },
+    "script": "plans/gate_flip_check.py",
+    "selftest": {
+      "observed_exit_code": 0,
+      "scratch_lane_writes": [],
+      "stderr": "",
+      "stdout": "SELFTEST case=reject-flip-unresolved expect=red got=red total=1 unresolved=1 not_fired=0 cite_red=0 rc=1 ok\nSELFTEST case=reject-flip-resolved expect=green got=green total=1 unresolved=0 not_fired=0 cite_red=0 rc=0 ok\nSELFTEST case=reject-flips-when-resolved expect=green got=green total=1 unresolved=0 not_fired=1 cite_red=0 rc=0 ok\nSELFTEST case=reject-flips-when-unresolved expect=red got=red total=1 unresolved=1 not_fired=0 cite_red=0 rc=1 ok\nSELFTEST case=resolution-before-row expect=red got=red total=1 unresolved=1 not_fired=0 cite_red=0 rc=1 ok\nSELFTEST case=resolution-wrong-item expect=red got=red total=1 unresolved=1 not_fired=0 cite_red=0 rc=1 ok\nSELFTEST case=resolution-placeholder-evidence expect=red got=red total=1 unresolved=1 not_fired=0 cite_red=0 rc=1 ok\nSELFTEST case=resolution-thin-evidence expect=red got=red total=1 unresolved=1 not_fired=0 cite_red=0 rc=1 ok\nSELFTEST case=resolution-round-before-lesson expect=red got=red total=1 unresolved=1 not_fired=0 cite_red=0 rc=1 ok\nSELFTEST case=resolution-ascii-separator expect=green got=green total=1 unresolved=0 not_fired=1 cite_red=0 rc=0 ok\nSELFTEST case=resolution-malformed-shape expect=red got=red total=1 unresolved=1 not_fired=0 cite_red=0 rc=1 ok\nSELFTEST case=admitted-row-with-flip-not-counted expect=green got=green total=0 unresolved=0 not_fired=0 cite_red=0 rc=0 ok\nSELFTEST case=plain-reject-without-flip expect=green got=green total=1 unresolved=0 not_fired=0 cite_red=0 rc=0 ok\nSELFTEST case=bullet-reject-flip-unresolved expect=red got=red total=1 unresolved=1 not_fired=0 cite_red=0 rc=1 ok\nSELFTEST case=bullet-reject-flip-resolved expect=green got=green total=1 unresolved=0 not_fired=1 cite_red=0 rc=0 ok\nSELFTEST case=companion-flip-unresolved expect=red got=red total=1 unresolved=1 not_fired=0 cite_red=0 rc=1 ok\nSELFTEST case=companion-flip-resolved expect=green got=green total=1 unresolved=0 not_fired=1 cite_red=0 rc=0 ok\nSELFTEST case=companion-flip-unmatched-candidate expect=green got=green total=0 unresolved=0 not_fired=0 cite_red=0 rc=0 ok\nSELFTEST case=no-gate-section expect=setup got=setup total=None unresolved=None not_fired=-1 cite_red=-1 rc=2 ok\nSELFTEST case=cite-not-fired-red expect=red got=red total=1 unresolved=0 not_fired=1 cite_red=1 rc=1 ok\nSELFTEST case=cite-not-fired-clear expect=green got=green total=1 unresolved=0 not_fired=1 cite_red=0 rc=0 ok\nSELFTEST case=cite-fired-not-tested expect=green got=green total=1 unresolved=0 not_fired=0 cite_red=0 rc=0 ok\nSELFTEST case=cite-entry-missing expect=green got=green total=1 unresolved=0 not_fired=1 cite_red=0 rc=0 ok\nSELFTEST case=cite-not-fired-names-no-file expect=green got=green total=1 unresolved=0 not_fired=1 cite_red=0 rc=0 ok\nSELFTEST case=cite-later-fired-supersedes expect=green got=green total=1 unresolved=0 not_fired=0 cite_red=0 rc=0 ok\nSELFTEST case=cite-later-not-fired-reopens expect=red got=red total=1 unresolved=0 not_fired=1 cite_red=1 rc=1 ok\nSELFTEST case=cite-entry-flag expect=red got=red total=1 unresolved=0 not_fired=1 cite_red=1 rc=1 ok\nSELFTEST ok=27/27\n"
+    }
+  },
+  "plans/parser_policy_compare.py": {
+    "argparse_flags": [
+      "--help",
+      "--json",
+      "--root",
+      "--selftest",
+      "--summary"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "declared_exit_codes": [
+      1
+    ],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "POLICY E0 name=lane n=1964 agree=1964 flip_pf=0 flip_fp=0 none=0 pass=1021 pass_rate=0.5199 delta_pp=+0.00 cp95_lo=0.998124 cp95_hi=1.000000\nPOLICY E1 name=first-fence n=1964 agree=1947 flip_pf=17 flip_fp=0 none=0 pass=1004 pass_rate=0.5112 delta_pp=-0.87 cp95_lo=0.986177 cp95_hi=0.994950\nPOLICY E2 name=bare-last n=1964 agree=1964 flip_pf=0 flip_fp=0 none=0 pass=1021 pass_rate=0.5199 delta_pp=+0.00 cp95_lo=0.998124 cp95_hi=1.000000\nPOLICY E3 name=bare-first n=1964 agree=1947 flip_pf=17 flip_fp=0 none=0 pass=1004 pass_rate=0.5112 delta_pp=-0.87 cp95_lo=0.986177 cp95_hi=0.994950\nPOLICY E4 name=strict-whole n=1964 agree=952 flip_pf=1012 flip_fp=0 none=1876 pass=9 pass_rate=0.0046 delta_pp=-51.53 cp95_lo=0.462405 cp95_hi=0.507091\nPOLICY E5 name=fence-only n=1964 agree=1938 flip_pf=26 flip_fp=0 none=145 pass=995 pass_rate=0.5066 delta_pp=-1.32 cp95_lo=0.980663 cp95_hi=0.991335\nPOLICY E6 name=any-label-fence n=1964 agree=1964 flip_pf=0 flip_fp=0 none=0 pass=1021 pass_rate=0.5199 delta_pp=+0.00 cp95_lo=0.998124 cp95_hi=1.000000\nPOLICY E7 name=decode-first n=1964 agree=1947 flip_pf=17 flip_fp=0 none=0 pass=1004 pass_rate=0.5112 delta_pp=-0.87 cp95_lo=0.986177 cp95_hi=0.994950\nPOLICY E8 name=decode-last n=1964 agree=1964 flip_pf=0 flip_fp=0 none=0 pass=1021 pass_rate=0.5199 delta_pp=+0.00 cp95_lo=0.998124 cp95_hi=1.000000\nSTRATUM E0 FJ1 n=1296 agree=1296\nSTRATUM E0 FJM n=492 agree=492\nSTRATUM E0 MULTI n=31 agree=31\nSTRATUM E0 DANGLE n=57 agree=57\nSTRATUM E0 BARE n=88 agree=88\nSTRATUM E1 FJ1 n=1296 agree=1296\nSTRATUM E1 FJM n=492 agree=492\nSTRATUM E1 MULTI n=31 agree=14\nSTRATUM E1 DANGLE n=57 agree=57\nSTRATUM E1 BARE n=88 agree=88\nSTRATUM E2 FJ1 n=1296 agree=1296\nSTRATUM E2 FJM n=492 agree=492\nSTRATUM E2 MULTI n=31 agree=31\nSTRATUM E2 DANGLE n=57 agree=57\nSTRATUM E2 BARE n=88 agree=88\nSTRATUM E3 FJ1 n=1296 agree=1296\nSTRATUM E3 FJM n=492 agree=492\nSTRATUM E3 MULTI n=31 agree=14\nSTRATUM E3 DANGLE n=57 agree=57\nSTRATUM E3 BARE n=88 agree=88\nSTRATUM E4 FJ1 n=1296 agree=586\nSTRATUM E4 FJM n=492 agree=224\nSTRATUM E4 MULTI n=31 agree=14\nSTRATUM E4 DANGLE n=57 agree=40\nSTRATUM E4 BARE n=88 agree=88\nSTRATUM E5 FJ1 n=1296 agree=1296\nSTRATUM E5 FJM n=492 agree=492\nSTRATUM E5 MULTI n=31 agree=31\nSTRATUM E5 DANGLE n=57 agree=40\nSTRATUM E5 BARE n=88 agree=79\nSTRATUM E6 FJ1 n=1296 agree=1296\nSTRATUM E6 FJM n=492 agree=492\nSTRATUM E6 MULTI n=31 agree=31\nSTRATUM E6 DANGLE n=57 agree=57\nSTRATUM E6 BARE n=88 agree=88\nSTRATUM E7 FJ1 n=1296 agree=1296\nSTRATUM E7 FJM n=492 agree=492\nSTR\n...[truncated 1335 chars]"
+    },
+    "docstring_first_line": "Extraction-policy comparison on the frozen round-26 response population (round 27, C1).",
+    "file_writes": [
+      {
+        "call": "copy",
+        "in_function": "_selftest_pin_rejection",
+        "line": 486,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "_selftest_pin_rejection",
+        "line": 497,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "copyfile",
+        "in_function": "_selftest_pin_rejection",
+        "line": 498,
+        "target": "<dynamic>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "_selftest_pin_rejection",
+        "line": 501,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "copyfile",
+        "in_function": "_selftest_pin_rejection",
+        "line": 502,
+        "target": "<dynamic>"
+      }
+    ],
+    "has_selftest_flag": true,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 0,
+      "help": 0
+    },
+    "script": "plans/parser_policy_compare.py",
+    "selftest": {
+      "observed_exit_code": 0,
+      "scratch_lane_writes": [],
+      "stderr": "",
+      "stdout": "SELFTEST pass policy=E0 probes=5 failed=[]\nSELFTEST KILLED E0 mutant=E0-no-bare-fallback by=bad-last-fence-to-bare\nSELFTEST pass policy=E1 probes=3 failed=[]\nSELFTEST KILLED E1 mutant=E1-swapped-to-last-fence by=first-fence-wins\nSELFTEST pass policy=E2 probes=3 failed=[]\nSELFTEST KILLED E2 mutant=E2-fence-leak by=fence-agnostic-last\nSELFTEST pass policy=E3 probes=2 failed=[]\nSELFTEST KILLED E3 mutant=E3-order-reversed by=first-candidate-wins\nSELFTEST pass policy=E4 probes=4 failed=[]\nSELFTEST KILLED E4 mutant=E4-strip-omitted by=strip-form-feed\nSELFTEST pass policy=E5 probes=3 failed=[]\nSELFTEST KILLED E5 mutant=E5-fallback-leak by=no-fence-no-fallback\nSELFTEST pass policy=E6 probes=4 failed=[]\nSELFTEST KILLED E6 mutant=E6-label-restricted by=any-label-fence-wins\nSELFTEST pass policy=E7 probes=4 failed=[]\nSELFTEST KILLED E7 mutant=E7-nesting-limited by=deep-nesting-outermost\nSELFTEST pass policy=E8 probes=4 failed=[]\nSELFTEST KILLED E8 mutant=E8-contained-span-reuse by=contained-span-skipped\nSELFTEST KILLED E6 mutant=E6-first-any-label-fence by=two-distinct-any-label-fences\nSELFTEST pass hand_cases=59 failed=[]\nSELFTEST pass pin-reject-before-policies summary_rc=1 json_rc=1 pin_error=True policy_calls=0\nSELFTEST total policies=9 cases=59 mutants=10 killed=10 failures=0\n"
+    }
+  },
+  "plans/password_recovery_probe.py": {
+    "argparse_flags": [
+      "--dry",
+      "--help",
+      "--lane",
+      "--stage-check",
+      "--work"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "declared_exit_codes": [
+      0,
+      2
+    ],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "# tb2 password-recovery grader probe (kengaku round 45) @ terminal-bench-2 2fd12b88\n# capture instruction.md sha256=bc4f501148805bbccdb94a5c5b745f1ce9564f04ef0fe36bc37c3ca20b7810a5\n# capture setup.sh sha256=9fdde5d9cd74ae0d633bdd59e7249cc6d7385d27a98b1e2dbbeb11b05a6f2af8\n# capture solve.sh sha256=c5f9fc70b6bae40befdd0088dde1a3bc6e909852c9fbb36a617c627b7b8d804f\n# capture test_outputs.py sha256=2dc14fc180734b6fbb0ee00f27c4f866071247b57a2217f579465ff8ed3bfc9e\nCASE nop predicted=fail observed=fail tests=F- predicted_tests=F- match=yes regrade=same violates=write-file,one-guess,recover,forensic -- the seeded image state only - no recovered_passwords.txt\nCASE oracle-solve-sh predicted=pass observed=pass tests=PP predicted_tests=PP match=yes regrade=same violates= -- the task's published solve.sh: recover the two zip fragments from the disk image, emit candidate passwords one per line (the oracle writes a handful of guesses, the true one among them)\nCASE constant predicted=pass observed=pass tests=PP predicted_tests=PP match=yes regrade=same violates=forensic -- the 23-char answer read out of the public tests/test_outputs.py, written as one line - the grader cannot tell recovery from reading the public answer\nCASE constant-crlf predicted=pass observed=pass tests=PP predicted_tests=PP match=yes regrade=same violates=forensic -- the public answer on one CRLF-terminated line; read_text()'s universal-newline mode eats the carriage return\nCASE constant-joined predicted=fail observed=fail tests=PF predicted_tests=PF match=yes regrade=same violates=one-per-line,forensic -- the public answer concatenated with two decoys on ONE line - the line itself is not the answer\nCASE dir-state predicted=fail observed=fail tests=PF predicted_tests=PF match=yes regrade=same violates=write-file,one-guess,recover error=IsADirectoryError -- a DIRECTORY at /app/recovered_passwords.txt (plus the recovered password inside it): exists() is true, read_text() raises IsADirectoryError - the second test dies on a non-assert exception\nCASE empty-file predicted=fail observed=fail tests=PF predicted_tests=PF match=yes regrade=same violates=one-guess,recover,forensic -- a zero-byte recovered_passwords.txt: the len(guesses)>0 assert at :16 cannot fire (split of '' is ['']), the membership assert at :18 decides\nCASE wrong-23 predicted=fail observed=fail tests=PF predicted_tests=PF match=yes regrade=same violates=prefix,suffix,recover,forensic -- one 23-char uppercase/digit guess, format-conforming, wr\n...[truncated 2159 chars]"
+    },
+    "docstring_first_line": "Round-45 C2 probe: the pinned Terminal-Bench 2.0 `password-recovery` grader, executed offline.",
+    "file_writes": [
+      {
+        "call": "mkdir",
+        "in_function": "run_case",
+        "line": 244,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "run_case",
+        "line": 245,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "write_bytes",
+        "in_function": "run_case",
+        "line": 246,
+        "target": "<dynamic>"
+      },
+      {
+        "call": "copyfile",
+        "in_function": "run_case",
+        "line": 247,
+        "target": "<dynamic>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "run_case",
+        "line": 248,
+        "target": "read_text(...)"
+      },
+      {
+        "call": "write_text",
+        "in_function": "run_case",
+        "line": 249,
+        "target": "<dynamic>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "run_case",
+        "line": 250,
+        "target": "<var:HARNESS_PY>"
+      },
+      {
+        "call": "rmtree",
+        "in_function": "run_case",
+        "line": 258,
+        "target": "<var:work>"
+      },
+      {
+        "call": "rmtree",
+        "in_function": "main",
+        "line": 360,
+        "target": "<var:root>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "main",
+        "line": 320,
+        "target": "<unresolved>"
+      }
+    ],
+    "has_selftest_flag": false,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 0,
+      "help": 0
+    },
+    "script": "plans/password_recovery_probe.py",
+    "selftest": {
+      "declared": false,
+      "observed": "not invoked: no --selftest flag"
+    }
+  },
+  "plans/polyglot_c_py_probe.py": {
+    "argparse_flags": [
+      "--dry",
+      "--help",
+      "--lane",
+      "--stage-check",
+      "--work"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "declared_exit_codes": [
+      0,
+      2
+    ],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "# tb2 polyglot-c-py grader probe (kengaku round 46) @ terminal-bench-2 2fd12b88\n# capture Dockerfile sha256=2eb537f29d2bc4ab30e1b35ff352578437a08b90f91ef6360ee28d8195d5098a\n# capture README.md sha256=591e27f9c71f12f6d0f0dc506970850737f951bfdb3f582196e89bc752e92881\n# capture instruction.md sha256=a57c0c0e1232113113cd29a154ea7e0ac9ea45e4aedc16958fbc6bc753a4ef96\n# capture solve.sh sha256=e768453a194037b0517803fa0d99dbd3b6f820dead842e0b6161019b33456bf0\n# capture task.toml sha256=d31b9f60c47eed0d79e10d3be8fd56a23e50b3986606e3f2546863d44ac9a9ea\n# capture test.sh sha256=4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334\n# capture test_outputs.py sha256=b94a7a9882decd8114835bdf52b5bc42fc78e9fe67ecad9bd19050b11781ddec\nCASE nop predicted=fail observed=fail tests=F predicted_tests=F match=yes regrade=same violates=single-file error=FileNotFoundError -- the image seed only: WORKDIR /app exists, /app/polyglot does not - os.listdir raises FileNotFoundError before any assert\nCASE oracle-solve-sh predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=DIFF:F violates= -- the task's published solution/solve.sh run verbatim with cwd /app (it creates polyglot/ relatively): a real polyglot whose Fibonacci loop both runtimes run\nCASE lookup-table predicted=pass observed=pass tests=P predicted_tests=P match=yes regrade=DIFF:F violates=fib-kth -- a polyglot that hardcodes the three graded outputs, read out of the PUBLIC tests/test_outputs.py at recipe time and turned into a print table: the grader has exactly three fixed points and never inspects the source, so a lookup table is indistinguishable from computing\nCASE python-only predicted=fail observed=fail tests=F predicted_tests=F match=yes regrade=same violates=c-build error=CalledProcessError -- valid Python that is not C (a plain import/def/raise program): python3 runs it, gcc fails with a parse error and check=True raises CalledProcessError\nCASE c-only predicted=fail observed=fail tests=F predicted_tests=F match=yes regrade=same violates=python-run error=CalledProcessError -- valid C that is not Python (no # comment line, no Python expression): gcc builds it and it prints the right value, python3 aborts with a SyntaxError before the first expected value is compared\nCASE extra-file predicted=fail observed=fail tests=F predicted_tests=F match=yes regrade=same violates=single-file -- the oracle polyglot plus one unrelated file (NOTES.md) in /app/polyglot: the listing assert compares the whole lis\n...[truncated 4113 chars]"
+    },
+    "docstring_first_line": "Round-46 C3 probe: the pinned Terminal-Bench 2.0 `polyglot-c-py` grader, executed offline.",
+    "file_writes": [
+      {
+        "call": "mkdir",
+        "in_function": "run_case",
+        "line": 381,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "run_case",
+        "line": 382,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "copyfile",
+        "in_function": "run_case",
+        "line": 383,
+        "target": "<dynamic>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "run_case",
+        "line": 384,
+        "target": "'@@WARN@@#define pgopen b /*\\nimport sys\\n\\ndef fib(n):\\n    a, b = 0, 1\\n    for _ in range(n):\\n        a, b = b, a + b\\n    return a\\n\\n_k = int(sys.argv[1])\\n@@PY@@\\n\"\"\"\\n#define pgclose b */\\n#include <stdio.h>\\n#include <stdlib.h>\\n\\nint main(int argc, char **argv) {\\n    unsigned long long a = 0, b = 1, t;\\n@@NPARSE@@\\n@@LOOP@@\\n@@C@@\\n    return @@RET@@;\\n}\\n#define pgtail \"\"\"\\n'"
+      },
+      {
+        "call": "write_text",
+        "in_function": "run_case",
+        "line": 385,
+        "target": "'mkdir -p /app\\n'"
+      },
+      {
+        "call": "write_text",
+        "in_function": "run_case",
+        "line": 386,
+        "target": "<dynamic>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "run_case",
+        "line": 387,
+        "target": "<var:HARNESS_PY>"
+      },
+      {
+        "call": "rmtree",
+        "in_function": "run_case",
+        "line": 395,
+        "target": "<var:work>"
+      },
+      {
+        "call": "rmtree",
+        "in_function": "main",
+        "line": 522,
+        "target": "<var:root>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "main",
+        "line": 472,
+        "target": "<unresolved>"
+      }
+    ],
+    "has_selftest_flag": false,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 0,
+      "help": 0
+    },
+    "script": "plans/polyglot_c_py_probe.py",
+    "selftest": {
+      "declared": false,
+      "observed": "not invoked: no --selftest flag"
+    }
+  },
+  "plans/round28_census.py": {
+    "argparse_flags": [
+      "--help",
+      "--revision",
+      "--root"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "base_tip_observed_exit_code": 2,
+    "base_tip_stdout_tail": [],
+    "declared_exit_codes": [],
+    "default_invocation": {
+      "stderr": "usage: round28_census.py [-h] [--root ROOT] --revision REVISION\nround28_census.py: error: the following arguments are required: --revision\n",
+      "stdout": ""
+    },
+    "docstring_first_line": "Read-only round28 counters. Revision label is caller-supplied, not inferred HEAD.",
+    "file_writes": [],
+    "has_selftest_flag": false,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 2,
+      "help": 0
+    },
+    "script": "plans/round28_census.py",
+    "selftest": {
+      "declared": false,
+      "observed": "not invoked: no --selftest flag"
+    }
+  },
+  "plans/round30_defects.py": {
+    "argparse_flags": [
+      "--help",
+      "--lane",
+      "--selftest"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "declared_exit_codes": [
+      1
+    ],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "ok D1 receipt-at-cited-path: repaired\nok D2 kappa-sweep-scope: repaired\nok D3 s078-line75-word-count: repaired\nok D4 uncommitted-wave-evidence: repaired\nok D5 s091-usedby-asymmetry: repaired\nchecks=5 defects=0\n"
+    },
+    "docstring_first_line": "Re-derive the five defect items round 29's non-author closure routed to this lane.",
+    "file_writes": [],
+    "has_selftest_flag": true,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 0,
+      "help": 0
+    },
+    "script": "plans/round30_defects.py",
+    "selftest": {
+      "observed_exit_code": 0,
+      "scratch_lane_writes": [],
+      "stderr": "",
+      "stdout": "CASE registry-complete PASS\nCASE D1-red-on-empty PASS\nCASE D2-red-on-empty PASS\nCASE D3-red-on-empty PASS\nCASE D4-red-on-empty PASS\nCASE D5-red-on-empty PASS\nSELFTEST checks=5 failed=0\n"
+    }
+  },
+  "plans/round31_c1_verify.py": {
+    "argparse_flags": [
+      "--help",
+      "--lane",
+      "--selftest"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "declared_exit_codes": [
+      1
+    ],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "checks=6 defects=0\n"
+    },
+    "docstring_first_line": "Second receipt for round 31's C1: the literals `adoption_check.py` does not read.",
+    "file_writes": [],
+    "has_selftest_flag": true,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 0,
+      "help": 0
+    },
+    "script": "plans/round31_c1_verify.py",
+    "selftest": {
+      "observed_exit_code": 0,
+      "scratch_lane_writes": [],
+      "stderr": "",
+      "stdout": "CASE registry-complete PASS\nCASE V1-red-on-empty PASS\nCASE V2-red-on-empty PASS\nCASE V3-red-on-empty PASS\nCASE V4-red-on-empty PASS\nCASE V5-red-on-empty PASS\nCASE V6-red-on-empty PASS\nSELFTEST checks=6 failed=0\n"
+    }
+  },
+  "plans/round31_defects.py": {
+    "argparse_flags": [
+      "--help",
+      "--lane",
+      "--selftest"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "declared_exit_codes": [
+      1
+    ],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "checks=10 defects=0\n"
+    },
+    "docstring_first_line": "Re-derive the ten defect items round 30's non-author closure routed to this lane.",
+    "file_writes": [],
+    "has_selftest_flag": true,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 0,
+      "help": 0
+    },
+    "script": "plans/round31_defects.py",
+    "selftest": {
+      "observed_exit_code": 0,
+      "scratch_lane_writes": [],
+      "stderr": "",
+      "stdout": "CASE registry-complete PASS\nCASE R1-red-on-empty PASS\nCASE R2-red-on-empty PASS\nCASE R3-red-on-empty PASS\nCASE R4-red-on-empty PASS\nCASE R5-red-on-empty PASS\nCASE R6-red-on-empty PASS\nCASE R7-red-on-empty PASS\nCASE R8-red-on-empty PASS\nCASE R9-red-on-empty PASS\nCASE R10-red-on-empty PASS\nSELFTEST checks=10 failed=0\n"
+    }
+  },
+  "plans/round33_c1_verify.py": {
+    "argparse_flags": [
+      "--help",
+      "--lane",
+      "--selftest"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "declared_exit_codes": [
+      1
+    ],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "checks=8 defects=0\n"
+    },
+    "docstring_first_line": "Second receipt for round 33's C1: the literals `adoption_check.py` does not read.",
+    "file_writes": [
+      {
+        "call": "mkdir",
+        "in_function": "selftest",
+        "line": 205,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "selftest",
+        "line": 223,
+        "target": "join(...) + '\\n'"
+      },
+      {
+        "call": "write_text",
+        "in_function": "selftest",
+        "line": 229,
+        "target": "join(...) + '\\n'"
+      }
+    ],
+    "has_selftest_flag": true,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 0,
+      "help": 0
+    },
+    "script": "plans/round33_c1_verify.py",
+    "selftest": {
+      "observed_exit_code": 0,
+      "scratch_lane_writes": [],
+      "stderr": "",
+      "stdout": "CASE registry-complete PASS\nCASE V1-red-on-empty PASS\nCASE V2-red-on-empty PASS\nCASE V3-red-on-empty PASS\nCASE V4-red-on-empty PASS\nCASE V5-red-on-empty PASS\nCASE V6-red-on-empty PASS\nCASE V7-red-on-empty PASS\nCASE V8-red-on-empty PASS\nCASE V8-green-refusal-fixture PASS\nCASE V8-teaches-erasure-red PASS\nSELFTEST cases=11 failed=0\n"
+    }
+  },
+  "plans/round33_defects.py": {
+    "argparse_flags": [
+      "--help",
+      "--lane",
+      "--selftest"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "declared_exit_codes": [],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "checks=6 defects=0\n"
+    },
+    "docstring_first_line": "Re-derive the six defect items round 32's non-author closure routed to this lane.",
+    "file_writes": [
+      {
+        "call": "write_text",
+        "in_function": "selftest",
+        "line": 187,
+        "target": "'cites a44b5a8 as the fix\\n'"
+      },
+      {
+        "call": "write_text",
+        "in_function": "selftest",
+        "line": 189,
+        "target": "'cites a44b5a8 as the fix\\n\\n## Erratum (round 33)\\n`a44b5a8` is a phantom hash, superseded: the locator fix landed at ae95fe0.\\n'"
+      },
+      {
+        "call": "write_text",
+        "in_function": "selftest",
+        "line": 196,
+        "target": "'tip bcd2a6c\\n'"
+      },
+      {
+        "call": "write_text",
+        "in_function": "selftest",
+        "line": 198,
+        "target": "'tip bcd2a6c\\n\\nAddendum (round 33): the round-32 closure tip 112091c landed after this report.\\n'"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "selftest",
+        "line": 212,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "selftest",
+        "line": 213,
+        "target": "'seat report\\n'"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "selftest",
+        "line": 214,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "selftest",
+        "line": 215,
+        "target": "'# Scorecard\\n\\n## Round 32 — record\\n'"
+      },
+      {
+        "call": "write_text",
+        "in_function": "selftest",
+        "line": 216,
+        "target": "\"precedence docstring (`:35-38`)\\n\\nCorrection (round 33): verifier_mode.py's precedence docstring is at :39-40 after the entry's fix.\\n\""
+      },
+      {
+        "call": "write_text",
+        "in_function": "selftest",
+        "line": 221,
+        "target": "'S083/S086 peer-reviewed)\\nentry `:78-81`)\\n\\nCorrection (round 33): the Q6 retraction now points at entry lines :72 and 82-83 (corrected).\\n\\nErratum (round 33): S086 is published without peer review; the :66 grouping is wrong.\\n'"
+      },
+      {
+        "call": "write_text",
+        "in_function": "selftest",
+        "line": 234,
+        "target": "'stray\\n'"
+      }
+    ],
+    "has_selftest_flag": true,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 0,
+      "help": 0
+    },
+    "script": "plans/round33_defects.py",
+    "selftest": {
+      "observed_exit_code": 0,
+      "scratch_lane_writes": [],
+      "stderr": "",
+      "stdout": "CASE registry-complete PASS\nCASE N3-red-unsuperseded PASS\nCASE N3-green-superseded PASS\nCASE N4-red-missing-tip PASS\nCASE N4-green-tip-named PASS\nCASE N1-red-on-empty PASS\nCASE N2-red-on-empty PASS\nCASE N5-red-on-empty PASS\nCASE N6-red-on-empty PASS\nCASE N1-green-tracked PASS\nCASE N2-green-section PASS\nCASE N5-green-corrected PASS\nCASE N6-green-corrected PASS\nCASE N1-red-untracked PASS\nSELFTEST checks=14 failed=0\n"
+    }
+  },
+  "plans/round35_c1_verify.py": {
+    "argparse_flags": [
+      "--fleet",
+      "--help",
+      "--lane"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "base_tip_observed_exit_code": 1,
+    "base_tip_stdout_tail": [
+      "V1 ok",
+      "V2 ok",
+      "V3 ok",
+      "V4 DEFECT knowledge files=55 index rows=54 (want 42/42)",
+      "V5 ok",
+      "V6 ok",
+      "checks=6 defects=1",
+      "PREDICATE C1 fail"
+    ],
+    "declared_exit_codes": [],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "V1 ok\nV2 ok\nV3 ok\nV4 DEFECT knowledge files=55 index rows=54 (want 42/42)\nV5 ok\nV6 ok\nchecks=6 defects=1\nPREDICATE C1 fail\n"
+    },
+    "docstring_first_line": "Round-35 C1 counter (coverage): pinned Terminal-Bench 2.0 `protein-assembly` grader admitted.",
+    "file_writes": [],
+    "has_selftest_flag": false,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network calls; raw GitHub URL is pinned metadata text only."
+    },
+    "observed_exit_codes": {
+      "default": 1,
+      "help": 0
+    },
+    "script": "plans/round35_c1_verify.py",
+    "selftest": {
+      "declared": false,
+      "observed": "not invoked: no --selftest flag"
+    }
+  },
+  "plans/round35_hardening.py": {
+    "argparse_flags": [
+      "--help",
+      "--lane",
+      "--repo",
+      "--skip"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "base_tip_observed_exit_code": 0,
+    "base_tip_stdout_tail": [
+      "H1 ok changed_since_freeze=0",
+      "H2 ok rows=22 unparsed=0 distinct_quotes=22 distinct_lines=22",
+      "H3 ok short_teaches=0",
+      "H4 ok draft_clause=True harness_clause=True green_word=True",
+      "H5 ok directional=True capture_pinned=True",
+      "H6 ok untracked_anywhere=0",
+      "hardening run=6 failed=0"
+    ],
+    "declared_exit_codes": [],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "H1 ok changed_since_freeze=0\nH2 ok rows=22 unparsed=0 distinct_quotes=22 distinct_lines=22\nH3 ok short_teaches=0\nH4 ok draft_clause=True harness_clause=True green_word=True\nH5 ok directional=True capture_pinned=True\nH6 FAIL untracked_anywhere=2\nhardening run=6 failed=1\n"
+    },
+    "docstring_first_line": "Round-35 POST-HOC hardening checks — NOT the rule of either frozen claim.",
+    "file_writes": [],
+    "has_selftest_flag": false,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 1,
+      "help": 0
+    },
+    "script": "plans/round35_hardening.py",
+    "selftest": {
+      "declared": false,
+      "observed": "not invoked: no --selftest flag"
+    }
+  },
+  "plans/round36_c2_verify.py": {
+    "argparse_flags": [
+      "--fleet",
+      "--help",
+      "--lane"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "base_tip_observed_exit_code": 1,
+    "base_tip_stdout_tail": [
+      "W1 ok",
+      "W2 ok",
+      "W3 ok",
+      "W4 DEFECT knowledge files=55 index rows=54 (want equal and >=43)",
+      "W5 ok",
+      "W6 ok",
+      "checks=6 defects=1",
+      "PREDICATE C2 fail"
+    ],
+    "declared_exit_codes": [],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "W1 ok\nW2 ok\nW3 ok\nW4 DEFECT knowledge files=55 index rows=54 (want equal and >=43)\nW5 ok\nW6 ok\nchecks=6 defects=1\nPREDICATE C2 fail\n"
+    },
+    "docstring_first_line": "Round-36 C2 counter (coverage): pinned Terminal-Bench 2.0 `regex-log` grader admitted.",
+    "file_writes": [],
+    "has_selftest_flag": false,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network calls; raw GitHub URL is pinned metadata text only."
+    },
+    "observed_exit_codes": {
+      "default": 1,
+      "help": 0
+    },
+    "script": "plans/round36_c2_verify.py",
+    "selftest": {
+      "declared": false,
+      "observed": "not invoked: no --selftest flag"
+    }
+  },
+  "plans/round45_c1_verify.py": {
+    "argparse_flags": [
+      "--help",
+      "--jobs",
+      "--lane",
+      "--work"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "declared_exit_codes": [
+      2
+    ],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "PINS total=33 mismatched=0\nFENCE plans/fixture_fence.py sha256=57adce4a598e1ca8a365114b35047f20afdce9459aa83adc0c551712966383a1\nFENCE-RUN refusal refusals45/f10_laneinclude.py f10-lane-include-regular BREACH opens=0 -- lane/.git/config section [include] is not allowlisted\nFENCE-RUN refusal refusals45/f1_gitfile.py f1-gitdir-outside BREACH opens=0 -- ../side/gitdir resolves outside the fixture\nFENCE-RUN refusal refusals45/f2_deep.py f2-deep-worktree BREACH opens=0 -- x/y/z/r/.git/config key core.worktree is not allowlisted\nFENCE-RUN refusal refusals45/f3_abbrev.py f3-abbrev-tree-claims BREACH opens=0 -- order argv is not the contract shape ['--lane', '--claims', '--receipt']\nFENCE-RUN refusal refusals45/f4_fifo.py f4-fifo-include BREACH opens=0 -- lane/.git/config section [include] is not allowlisted\nFENCE-RUN refusal refusals45/f5_alternates.py f5-alternates-outside BREACH opens=0 -- lane/.git/objects/info/alternates names a store outside the fixture\nFENCE-RUN refusal refusals45/f6_above.py f6-repo-above-d BREACH opens=0 -- --lane '/fast/scratch/hyaku/kengaku-r52/C2ExecRowFacts/tmp/k45-c1-uv0tqdvq/fx/refusals45-f6_above/f000/sub' is not a rep\nFENCE-RUN refusal refusals45/f7_commondir.py f7-cd-accept BREACH opens=0 -- lane/.git/commondir names a common dir outside the fixture\nFENCE-RUN refusal refusals45/f7_commondir.py f7-cd-reject BREACH opens=0 -- lane/.git/commondir names a common dir outside the fixture\nFENCE-RUN refusal refusals45/f7_commondir.py f7-cd-anchor BREACH opens=0 -- lane/.git/commondir names a common dir outside the fixture\nFENCE-RUN refusal refusals45/f8_worktreecfg.py f8-wtcfg-a BREACH opens=0 -- lane/.git/config key extensions.worktreeconfig is not allowlisted\nFENCE-RUN refusal refusals45/f8_worktreecfg.py f8-wtcfg-b BREACH opens=0 -- lane/.git/config key extensions.worktreeconfig is not allowlisted\nFENCE-RUN refusal refusals45/f9_nodescribe.py f9-bare-repo BREACH opens=0 -- lane/.git/config core.bare must be false\nFENCE-RUN honest battery42/a_class.py a_class-x6-sibling-digest ADMIT opens=0\nFENCE-RUN honest battery42/a_class.py a_class-x6-stale-manifest ADMIT opens=0\nFENCE-RUN honest battery42/a_class.py a_class-x7-fabricated-token ADMIT opens=0\nFENCE-RUN honest battery42/a_class.py a_class-x7-provenance-row ADMIT opens=0\nFENCE-RUN honest battery42/a_class.py a_class-x14-uppercase-token ADMIT opens=0\nFENCE-RUN honest battery42/a_class.py a_class-x14-two-errata ADMIT opens=0\nFENCE-RUN honest battery42/a_route.py a_route-x1-provenance-tab\n...[truncated 8473 chars]"
+    },
+    "docstring_first_line": "Round-45 C1 counter (calibration): does the lane's fixture fence do what the lane says it does?",
+    "file_writes": [
+      {
+        "call": "mkdir",
+        "in_function": "build_module",
+        "line": 136,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "build_module",
+        "line": 138,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "build_module",
+        "line": 140,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "build_module",
+        "line": 142,
+        "target": "read_text(...)"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "build_module",
+        "line": 144,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "run_fence",
+        "line": 177,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "rmtree",
+        "in_function": "run_fence",
+        "line": 226,
+        "target": "<var:logdir>"
+      },
+      {
+        "call": "copy",
+        "in_function": "run_fence",
+        "line": 225,
+        "target": "<var:log>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "main",
+        "line": 253,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "rmtree",
+        "in_function": "main",
+        "line": 257,
+        "target": "<var:root>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "main",
+        "line": 261,
+        "target": "'\\nimport importlib.util, json, pathlib, sys\\nspec = importlib.util.spec_from_file_location(\"fixture_fence_under_test\", sys.argv[1])\\nm = importlib.util.module_from_spec(spec)\\nspec.loader.exec_module(m)\\nr = m.breach(pathlib.Path(sys.argv[2]), json.loads(sys.argv[4]), sys.argv[3])\\nsys.stdout.write(\"BREACH \" + \" \".join(str(r).split()) if r else \"ADMIT\")\\n'"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "main",
+        "line": 262,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "rmtree",
+        "in_function": "main",
+        "line": 327,
+        "target": "<var:root>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "main",
+        "line": 266,
+        "target": "\"def breach(d, argv, tool):\\n    raise SystemExit('fence absent')\\n\""
+      },
+      {
+        "call": "write_bytes",
+        "in_function": "main",
+        "line": 268,
+        "target": "read_bytes(...)"
+      }
+    ],
+    "has_selftest_flag": false,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 0,
+      "help": 0
+    },
+    "script": "plans/round45_c1_verify.py",
+    "selftest": {
+      "declared": false,
+      "observed": "not invoked: no --selftest flag"
+    }
+  },
+  "plans/round45_c2_verify.py": {
+    "argparse_flags": [
+      "--help",
+      "--lane",
+      "--work"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "base_tip_observed_exit_code": 1,
+    "base_tip_stdout_tail": [
+      "V6 ok census_exit=0",
+      "V7 ok rows=9 tags=9 bad=0",
+      "V8 ok order_exit=0 result=PASS",
+      "V9 ok case_rows=16/16 bad=0",
+      "V10 ok mechanism_rows=16/16 bad=0",
+      "V11 ok states=48 grader_pass=18 grader_fail=30 disagree=0",
+      "checks=11 defects=1",
+      "PREDICATE C2 fail"
+    ],
+    "declared_exit_codes": [],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "V1 ok listed=9 bad=0 extra=0\n    gate: P1 ok pinned=2 mismatched=0\n    gate: P2 ok receipt_sha256=pinned\n    gate: P3 ok rows=19 distinct_quotes=19 distinct_lines=19 out_of_word_range=0\n    gate: P4 ok checked=19 bad=0 first=0\n    gate: P5 ok manifest_entries=9 bad=0 first=0\n    gate: P6 ok rows=8 bad=0 first=0\n    gate: P7 ok source_lines=8 bad=0 first=0\n    gate: P8 DEFECT index_rows=54 knowledge_files=55 bad=1 first=knowledge files=55 index rows=54\n    gate: P9 DEFECT untracked=2 first=.ufo/waves/round-52/w1.ready\n    gate: P10 ok probe_rerun=byte-equal bytes=4659\n    gate: defects=2\nV2 DEFECT spec=frozen gate=frozen gate_exit=1\nV3 ok rows=8 bad=0\nV4 ok cases=16 mismatches_named=0/0 bad=0\nV5 ok probe=frozen dry_byte_equal=True\nV6 ok census_exit=0\nV7 ok rows=9 tags=9 bad=0\nV8 ok order_exit=0 result=PASS\nV9 ok case_rows=16/16 bad=0\nV10 ok mechanism_rows=16/16 bad=0\nV11 ok states=48 grader_pass=18 grader_fail=30 disagree=0\nchecks=11 defects=1\nPREDICATE C2 fail\n"
+    },
+    "docstring_first_line": "Round-45 C2 counter (coverage): the pinned Terminal-Bench 2.0 `password-recovery` grader admitted as a",
+    "file_writes": [
+      {
+        "call": "write_text",
+        "in_function": "v2",
+        "line": 156,
+        "target": "dumps(...)"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "v11",
+        "line": 542,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "v11",
+        "line": 543,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "write_bytes",
+        "in_function": "v11",
+        "line": 544,
+        "target": "read_bytes(...)"
+      },
+      {
+        "call": "write_text",
+        "in_function": "v11",
+        "line": 546,
+        "target": "dumps(...)"
+      },
+      {
+        "call": "write_text",
+        "in_function": "v11",
+        "line": 547,
+        "target": "'\\nimport contextlib, importlib.util, io, json, os, sys\\nstates = json.load(open(\"/states.json\"))\\nspec = importlib.util.spec_from_file_location(\"tb2_grader\", \"/tests/test_outputs.py\")\\nmod = importlib.util.module_from_spec(spec)\\nspec.loader.exec_module(mod)\\nres = []\\nfor text in states:\\n    p = \"/app/recovered_passwords.txt\"\\n    if os.path.exists(p):\\n        os.remove(p)\\n    if text is not None:\\n        open(p, \"w\").write(text)\\n    ok = True\\n    for name in (\"test_recovery_file_exists\", \"test_password_match\"):\\n        try:\\n            with contextlib.redirect_stdout(io.StringIO()):\\n                getattr(mod, name)()\\n        except BaseException:\\n            ok = False\\n            break\\n    res.append(ok)\\nprint(json.dumps(res))\\n'"
+      },
+      {
+        "call": "write_text",
+        "in_function": "v11",
+        "line": 548,
+        "target": "'\\nimport json\\nstates = json.load(open(\"/states.json\"))\\nns = {}\\nexec(compile(open(\"/predictor.py\").read(), \"predictor\", \"exec\"), ns)\\nprint(json.dumps([bool(ns[\"predict\"](t)) for t in states]))\\n'"
+      },
+      {
+        "call": "write_text",
+        "in_function": "v11",
+        "line": 549,
+        "target": "<var:blocks>[...]"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "main",
+        "line": 571,
+        "target": "<unresolved>"
+      }
+    ],
+    "has_selftest_flag": false,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 1,
+      "help": 0
+    },
+    "script": "plans/round45_c2_verify.py",
+    "selftest": {
+      "declared": false,
+      "observed": "not invoked: no --selftest flag"
+    }
+  },
+  "plans/round46_c1_verify.py": {
+    "argparse_flags": [
+      "--fence",
+      "--help",
+      "--jobs",
+      "--lane",
+      "--refusals",
+      "--sealed",
+      "--seed",
+      "--work"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "declared_exit_codes": [
+      2
+    ],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "PINS total=65 mismatched=0\nFENCE source=/fast/scratch/hyaku/kengaku-r52/C2ExecRowFacts/lane/plans/fixture_fence.py sha256=57adce4a598e1ca8a365114b35047f20afdce9459aa83adc0c551712966383a1\nLAYOUT refusals=/fast/scratch/hyaku/kengaku-r52/C2ExecRowFacts/lane/plans/refusals46 sealed=/fast/scratch/hyaku/kengaku-r52/C2ExecRowFacts/lane/plans/sealed46 pad=24 jobs=8\nCOPY f10_laneinclude.py ok\nCOPY f1_gitfile.py ok\nCOPY f2_deep.py ok\nCOPY f3_abbrev.py ok\nCOPY f4_fifo.py ok\nCOPY f5_alternates.py ok\nCOPY f6_above.py ok\nCOPY f7_commondir.py ok\nCOPY f8_worktreecfg.py ok\nCOPY f9_nodescribe.py ok\nMODULES refusal total=20\nMODULES sealed total=12\nMODULES honest total=22\nFENCE-RUN honest battery42/o_scan.py o_scan-xo7-timeout-rows ADMIT touches=0 calls=553 -- ADMIT\nFENCE-RUN honest battery42/a_row.py a_row-x9-registry-short-valid ADMIT touches=0 calls=539 -- ADMIT\nFENCE-RUN honest battery43/a_alt.py a_alt-slug-blob ADMIT touches=0 calls=555 -- ADMIT\nFENCE-RUN honest battery42/a_class.py a_class-x14-uppercase-token ADMIT touches=0 calls=537 -- ADMIT\nFENCE-RUN honest battery44/u14c_name_b.py u14c_name_b-nested-uppercase ADMIT touches=0 calls=586 -- ADMIT\nFENCE-RUN honest battery43/o_excuse.py o_excuse-echo-freeze-claims ADMIT touches=0 calls=572 -- ADMIT\nFENCE-RUN honest battery44/u9_worktree_b.py u9_worktree_b-erratum-completed-in-place ADMIT touches=0 calls=520 -- ADMIT\nFENCE-RUN honest battery43/a_alt.py a_alt-erratum-lessons ADMIT touches=0 calls=561 -- ADMIT\nFENCE-RUN refusal refusals46/f17_argv_nul.py argv-nul-lane BREACH touches=0 calls=426 -- BREACH --lane value carries a NUL byte\nFENCE-RUN honest battery42/a_class.py a_class-x14-two-errata ADMIT touches=0 calls=563 -- ADMIT\nFENCE-RUN honest battery43/a_url.py a_url-short-commit-pair ADMIT touches=0 calls=548 -- ADMIT\nFENCE-RUN honest battery44/u7_twin_a.py u7_twin_a-provenance-table ADMIT touches=0 calls=535 -- ADMIT\nFENCE-RUN honest battery44/u9_worktree_a.py u9_worktree_a-history-abbrev ADMIT touches=0 calls=551 -- ADMIT\nFENCE-RUN honest battery42/o_scan.py o_scan-xo5-post-receipt-verdicts ADMIT touches=0 calls=577 -- ADMIT\nFENCE-RUN honest battery42/a_class.py a_class-x6-stale-manifest ADMIT touches=0 calls=561 -- ADMIT\nFENCE-RUN honest battery44/u7_twin_a.py u7_twin_a-rowpath-registry ADMIT touches=0 calls=538 -- ADMIT\nFENCE-RUN sealed sealed46/s_objects_link.py seal-objects-link BREACH touches=0 calls=468 -- BREACH lane/.git/objects is a symlink\nFENCE-RUN honest battery43/o_excuse.py o_excuse-bare-excused ADMIT t\n...[truncated 18434 chars]"
+    },
+    "docstring_first_line": "Round-46 C1 counter (calibration): does the lane's fixture fence do what the lane says it does?",
+    "file_writes": [
+      {
+        "call": "mkdir",
+        "in_function": "run_fence",
+        "line": 364,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "rmtree",
+        "in_function": "run_fence",
+        "line": 392,
+        "target": "<var:logdir>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "build_module",
+        "line": 407,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "build_module",
+        "line": 409,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "build_module",
+        "line": 411,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "build_module",
+        "line": 413,
+        "target": "read_text(...)"
+      },
+      {
+        "call": "copy",
+        "in_function": "run_fence",
+        "line": 391,
+        "target": "<var:log>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "build_module",
+        "line": 444,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "main",
+        "line": 506,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "rmtree",
+        "in_function": "main",
+        "line": 510,
+        "target": "<var:root>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "main",
+        "line": 518,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "main",
+        "line": 519,
+        "target": "'\\nimport importlib.util, json, os, pathlib, sys\\nspec = importlib.util.spec_from_file_location(\"fixture_fence_under_test\", sys.argv[1])\\nm = importlib.util.module_from_spec(spec)\\nspec.loader.exec_module(m)\\nos.closerange(3, 1024)          # rule (e): the fence never holds the log fd or any other inherited fd\\ntry:\\n    r = m.breach(pathlib.Path(sys.argv[2]), json.loads(sys.argv[4]), sys.argv[3])\\nexcept Exception as e:          # a raising fence is an ERROR, never an admission\\n    sys.stderr.write(f\"HARNESS-ERROR {type(e).__name__}: {e}\\\\n\")\\n    sys.exit(12)\\nsys.stderr.write((\"BREACH \" + \" \".join(str(r).split()))[:300] + \"\\\\n\" if r else \"ADMIT\\\\n\")\\nsys.exit(10 if r else 11)\\n'"
+      },
+      {
+        "call": "rmtree",
+        "in_function": "main",
+        "line": 630,
+        "target": "<var:empty>"
+      },
+      {
+        "call": "rmtree",
+        "in_function": "main",
+        "line": 631,
+        "target": "<var:root>"
+      },
+      {
+        "call": "rmtree",
+        "in_function": "run_fence",
+        "line": 382,
+        "target": "<var:logdir>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "main",
+        "line": 523,
+        "target": "\"def breach(d, argv, tool):\\n    raise RuntimeError('fence absent')\\n\""
+      },
+      {
+        "call": "write_bytes",
+        "in_function": "main",
+        "line": 525,
+        "target": "read_bytes(...)"
+      }
+    ],
+    "has_selftest_flag": false,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 0,
+      "help": 0
+    },
+    "script": "plans/round46_c1_verify.py",
+    "selftest": {
+      "declared": false,
+      "observed": "not invoked: no --selftest flag"
+    }
+  },
+  "plans/round46_c2_verify.py": {
+    "argparse_flags": [
+      "--help",
+      "--lane",
+      "--work"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "declared_exit_codes": [
+      1
+    ],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "PINS total=3 mismatched=0\nA anchorline live=0 repaired=8 base_rows=149 base_missing=0 base_changed=0 ok\nB predictor states=16 grader_pass=10 grader_fail=6 disagree=0 ok\nC entry source_ranges=9 source_ranges_bad=0 errata_marks=5/5 ok\nD selftest exit=0 ok\nchecks=4 defects=0\nPREDICATE C2 pass\n"
+    },
+    "docstring_first_line": "Round-46 C2 counter (depth): the false detail round 45 landed is superseded and marked, not left standing.",
+    "file_writes": [
+      {
+        "call": "mkdir",
+        "in_function": "leg_b",
+        "line": 144,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "leg_b",
+        "line": 145,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "write_bytes",
+        "in_function": "leg_b",
+        "line": 146,
+        "target": "read_bytes(...)"
+      },
+      {
+        "call": "write_text",
+        "in_function": "leg_b",
+        "line": 147,
+        "target": "dumps(...)"
+      },
+      {
+        "call": "write_text",
+        "in_function": "leg_b",
+        "line": 148,
+        "target": "replace(...)"
+      },
+      {
+        "call": "write_text",
+        "in_function": "leg_b",
+        "line": 149,
+        "target": "<var:r45>.PREDICT_PY"
+      },
+      {
+        "call": "write_text",
+        "in_function": "leg_b",
+        "line": 150,
+        "target": "<var:blocks>[...]"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "main",
+        "line": 207,
+        "target": "<unresolved>"
+      }
+    ],
+    "has_selftest_flag": false,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 0,
+      "help": 0
+    },
+    "script": "plans/round46_c2_verify.py",
+    "selftest": {
+      "declared": false,
+      "observed": "not invoked: no --selftest flag"
+    }
+  },
+  "plans/round46_c3_verify.py": {
+    "argparse_flags": [
+      "--filler",
+      "--help",
+      "--lane",
+      "--work"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "base_tip_observed_exit_code": 1,
+    "base_tip_stdout_tail": [
+      "    filler: V6 DEFECT census_exit=1 registry=plans/filler46/SOURCES-filler.md",
+      "    filler: V7 DEFECT rows=4 tags=4 bad=['single-file: no receipt case violates it', 'python-run: no receipt case violates it', 'c-run: no receipt case violates it', 'fib: no receipt case violates it']",
+      "    filler: V9 DEFECT case_rows=1/16 bad=['case table rows=1 receipt cases=16 equal=False', 'PROVINCE.md names the task and the entry on no line']",
+      "    filler: V10 DEFECT DECISIVE keys differ from the frozen case ids (stage-2 pin not aligned)",
+      "    filler: V12 DEFECT rows=7 defective=7 live=7 first=S166:line,words",
+      "V13 ok filler_checks=7 defects=6 substantive=V4,V7,V9,V10,V12",
+      "checks=13 defects=3",
+      "PREDICATE C3 fail"
+    ],
+    "declared_exit_codes": [
+      1
+    ],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "V1 ok listed=8 wrong=0 extra=0\n    gate: P1 ok pinned=2 mismatched=0\n    gate: P2 ok receipt_sha256=pinned\n    gate: P3 ok rows=20 distinct_quotes=20 distinct_lines=20 out_of_word_range=0\n    gate: P4 ok checked=20 bad=0 first=0\n    gate: P5 ok manifest_entries=8 bad=0 first=0\n    gate: P6 ok rows=7 bad=0 first=0\n    gate: P7 ok source_lines=7 bad=0 first=0\n    gate: P8 DEFECT index_rows=54 knowledge_files=55 bad=1 first=knowledge files=55 index rows=54\n    gate: P9 DEFECT untracked=2 first=.ufo/waves/round-52/w1.ready\n    gate: P10 ok probe_rerun=byte-equal bytes=6613\n    gate: defects=2\nV2 DEFECT spec=frozen gate=frozen gate_exit=1\nV3 ok rows=7 bad=0\nV4 ok cases=18 mismatches_named=0/0 bad=0\nV5 ok probe=frozen dry_byte_equal=True\nV6 ok census_exit=0 registry=corpus/SOURCES.md\nV7 DEFECT rows=5 tags=7 bad=[\"unparsed row '| instruction.md:7 | both-print | not exercised | '\", \"unparsed row '| instruction.md:9 | toolchain | not exercised | n'\", \"tags missing=['both-print', 'toolchain'] duplicated=0\"]\nV8 DEFECT order_exit=1 result=not-PASS\nV9 ok case_rows=18/18 bad=0\nV10 ok mechanism_rows=18/18 bad=0\nV11 ok states=60 grader_pass=15 grader_fail=45 disagree=0\nV12 ok rows=7 defective=0 live=0\n    filler: V3 ok rows=7 bad=0\n    filler: V4 DEFECT cases=16 mismatches_named=0/0 bad=[\"match=yes on a mismatching case: ['float-c']\"]\n    filler: V6 DEFECT census_exit=1 registry=plans/filler46/SOURCES-filler.md\n    filler: V7 DEFECT rows=4 tags=4 bad=['single-file: no receipt case violates it', 'python-run: no receipt case violates it', 'c-run: no receipt case violates it', 'fib: no receipt case violates it']\n    filler: V9 DEFECT case_rows=1/16 bad=['case table rows=1 receipt cases=16 equal=False', 'PROVINCE.md names the task and the entry on no line']\n    filler: V10 DEFECT DECISIVE keys differ from the frozen case ids (stage-2 pin not aligned)\n    filler: V12 DEFECT rows=7 defective=7 live=7 first=S166:line,words\nV13 ok filler_checks=7 defects=6 substantive=V4,V7,V9,V10,V12\nchecks=13 defects=3\nPREDICATE C3 fail\n"
+    },
+    "docstring_first_line": "Round-46 C3 counter (coverage): the pinned Terminal-Bench 2.0 `polyglot-c-py` grader admitted as a",
+    "file_writes": [
+      {
+        "call": "write_text",
+        "in_function": "v2",
+        "line": 258,
+        "target": "dumps(...)"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "v11",
+        "line": 789,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "v11",
+        "line": 790,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "write_bytes",
+        "in_function": "v11",
+        "line": 791,
+        "target": "read_bytes(...)"
+      },
+      {
+        "call": "write_text",
+        "in_function": "v11",
+        "line": 793,
+        "target": "dumps(...)"
+      },
+      {
+        "call": "write_text",
+        "in_function": "v11",
+        "line": 794,
+        "target": "dumps(...)"
+      },
+      {
+        "call": "write_text",
+        "in_function": "v11",
+        "line": 795,
+        "target": "<var:GRADE_PY>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "v11",
+        "line": 796,
+        "target": "'\\nimport json\\nstates = json.load(open(\"/states.json\"))\\nns = {}\\nexec(compile(open(\"/predictor.py\").read(), \"predictor\", \"exec\"), ns)\\nprint(json.dumps([bool(ns[\"predict\"](f, s)) for f, s in states]))\\n'"
+      },
+      {
+        "call": "write_text",
+        "in_function": "v11",
+        "line": 797,
+        "target": "<var:blocks>[...]"
+      },
+      {
+        "call": "write_text",
+        "in_function": "v11",
+        "line": 800,
+        "target": "read_text(...)"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "main",
+        "line": 869,
+        "target": "<unresolved>"
+      }
+    ],
+    "has_selftest_flag": false,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 1,
+      "help": 0
+    },
+    "script": "plans/round46_c3_verify.py",
+    "selftest": {
+      "declared": false,
+      "observed": "not invoked: no --selftest flag"
+    }
+  },
+  "plans/round50_c1_verify.py": {
+    "argparse_flags": [
+      "--allow-dirty",
+      "--fence",
+      "--help",
+      "--lane",
+      "--skip-mutants",
+      "--work"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "base_tip_observed_exit_code": 0,
+    "base_tip_stdout_tail": [
+      "FENCE /fast/scratch/hyaku/kengaku-r52/C2ExecRowFacts/base/plans/fixture_fence.py sha256=57adce4a598e1ca8a365114b35047f20afdce9459aa83adc0c551712966383a1",
+      "POPULATION fixtures=126 pin=b5197f941a9f523eaedae6bd7be39531a0f80e10c6b05030687dbeacfb3fae69 mismatched=0 build_errors=0",
+      "HONEST fixtures=126 admitted=126 refused=0 error=0",
+      "REFUSALS total=20 clean=20 leaked=0 build_errors=0",
+      "SEALED total=12 clean=12 leaked=0 build_errors=0",
+      "SEALED total=20 clean=20 leaked=0 build_errors=0",
+      "MUTANTS total=15 caught=15 broken=0 floor=12 verdict=met",
+      "PREDICATE R50-C1 pass"
+    ],
+    "declared_exit_codes": [
+      2
+    ],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "REV 1315234bdc8024499d943f0483dcb51fb5e4a618\nTREE dirty=2\nFENCE /fast/scratch/hyaku/kengaku-r52/C2ExecRowFacts/lane/plans/fixture_fence.py sha256=57adce4a598e1ca8a365114b35047f20afdce9459aa83adc0c551712966383a1\nPOPULATION fixtures=126 pin=b5197f941a9f523eaedae6bd7be39531a0f80e10c6b05030687dbeacfb3fae69 mismatched=0 build_errors=0\nHONEST fixtures=126 admitted=126 refused=0 error=0\nREFUSALS total=20 clean=20 leaked=0 build_errors=0\nSEALED total=12 clean=12 leaked=0 build_errors=0\nSEALED total=20 clean=20 leaked=0 build_errors=0\nMUTANTS total=15 caught=15 broken=0 floor=12 verdict=met\nPREDICATE R50-C1 fail\n"
+    },
+    "docstring_first_line": "Round-50 C1 counter: does the repaired fixture fence do what the lane says it does about HONEST fixtures?",
+    "file_writes": [
+      {
+        "call": "mkdir",
+        "in_function": "apply_mutant",
+        "line": 180,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "copyfile",
+        "in_function": "apply_mutant",
+        "line": 181,
+        "target": "<var:fence_path>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "apply_mutant",
+        "line": 183,
+        "target": "<dynamic>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "build_all",
+        "line": 138,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "verdicts",
+        "line": 164,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "main",
+        "line": 253,
+        "target": "'\\nimport importlib.util, json, os, pathlib, sys\\nspec = importlib.util.spec_from_file_location(\"fence_under_test\", sys.argv[1])\\nm = importlib.util.module_from_spec(spec)\\nspec.loader.exec_module(m)\\nos.closerange(3, 1024)\\ntry:\\n    r = m.breach(pathlib.Path(sys.argv[2]), json.loads(sys.argv[4]), sys.argv[3])\\nexcept Exception as e:\\n    sys.stderr.write(f\"HARNESS-ERROR {type(e).__name__}: {e}\\\\n\")\\n    sys.exit(12)\\nsys.stderr.write((\"BREACH \" + \" \".join(str(r).split()))[:300] + \"\\\\n\" if r else \"ADMIT\\\\n\")\\nsys.exit(10 if r else 11)\\n'"
+      },
+      {
+        "call": "rmtree",
+        "in_function": "main",
+        "line": 340,
+        "target": "<var:work>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "build_all",
+        "line": 140,
+        "target": "<unresolved>"
+      }
+    ],
+    "has_selftest_flag": false,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 1,
+      "help": 0
+    },
+    "script": "plans/round50_c1_verify.py",
+    "selftest": {
+      "declared": false,
+      "observed": "not invoked: no --selftest flag"
+    }
+  },
+  "plans/round50_c2_audit.py": {
+    "argparse_flags": [
+      "--help",
+      "--lane",
+      "--selftest"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "declared_exit_codes": [],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "TIP 1315234bdc8024499d943f0483dcb51fb5e4a618 branch=master\nPOINTERS total=292 paths=228 hashes=64 resolved=292 exists=216 superseded=3 never-landed=9 unresolved=0\n"
+    },
+    "docstring_first_line": "Round-50 C2 counting command: every artifact pointer the lane's self-assessment files carry resolves.",
+    "file_writes": [
+      {
+        "call": "rmtree",
+        "in_function": "selftest",
+        "line": 134,
+        "target": "<var:tmp>"
+      },
+      {
+        "call": "symlink_to",
+        "in_function": "selftest",
+        "line": 119,
+        "target": "<var:entry>"
+      },
+      {
+        "call": "copyfile",
+        "in_function": "selftest",
+        "line": 121,
+        "target": "<dynamic>"
+      },
+      {
+        "call": "open('a')",
+        "in_function": "selftest",
+        "line": 126,
+        "target": "<dynamic>"
+      }
+    ],
+    "has_selftest_flag": true,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 0,
+      "help": 0
+    },
+    "script": "plans/round50_c2_audit.py",
+    "selftest": {
+      "observed_exit_code": 0,
+      "scratch_lane_writes": [],
+      "stderr": "",
+      "stdout": "TIP c65f157c85c916d46c8c4d6d82d3a55ac3bfbc22 branch=HEAD\nPOINTERS total=292 paths=228 hashes=64 resolved=292 exists=216 superseded=3 never-landed=9 unresolved=0\nTIP c65f157c85c916d46c8c4d6d82d3a55ac3bfbc22 branch=HEAD\nPOINTERS total=293 paths=229 hashes=64 resolved=292 exists=216 superseded=3 never-landed=9 unresolved=1\nUNRESOLVED plans/round50_selftest_bogus.py\nSELFTEST pristine_rc=0 bogus_rc=1 new_unresolved=['plans/round50_selftest_bogus.py'] verdict=ok\n"
+    }
+  },
+  "plans/round51_routing.py": {
+    "argparse_flags": [
+      "--help",
+      "--lane",
+      "--ledger",
+      "--run-checks",
+      "--scratch",
+      "--selftest"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "declared_exit_codes": [],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "LEDGER corpus/routed-findings.jsonl rows=75\nFIELDS complete=75 incomplete=0\nOWNERS attributed=75 unattributed=0\nDISPOSITIONS set=75 bad=0\nSOURCES resolved=75 missing=0\nCHECKS present=75 absent=0\nVERIFIED ran=0 passed=0 failed=0\nCLOSE_REFS resolved=0 missing=0\nNEXT violations=0\nPREDICATE R51-C2 pass\n"
+    },
+    "docstring_first_line": "Round-51 C2 counter — every routed finding names an owner and a disposition.",
+    "file_writes": [
+      {
+        "call": "mkdir",
+        "in_function": "check",
+        "line": 92,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "_selftest",
+        "line": 181,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "_selftest",
+        "line": 182,
+        "target": "'e\\n'"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "_selftest",
+        "line": 183,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "_selftest",
+        "line": 184,
+        "target": "'lanes:\\n  kengaku: { cwd: x, axes: y }\\n  kama: { cwd: z, axes: w }\\n'"
+      },
+      {
+        "call": "rmtree",
+        "in_function": "check",
+        "line": 175,
+        "target": "<var:tmp>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "run",
+        "line": 199,
+        "target": "join(...)"
+      },
+      {
+        "call": "rmtree",
+        "in_function": "main",
+        "line": 239,
+        "target": "<var:tmp>"
+      }
+    ],
+    "has_selftest_flag": true,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 0,
+      "help": 0
+    },
+    "script": "plans/round51_routing.py",
+    "selftest": {
+      "observed_exit_code": 0,
+      "scratch_lane_writes": [],
+      "stderr": "",
+      "stdout": "LEDGER corpus/routed-findings.jsonl rows=1\nFIELDS complete=1 incomplete=0\nOWNERS attributed=1 unattributed=0\nDISPOSITIONS set=1 bad=0\nSOURCES resolved=1 missing=0\nCHECKS present=1 absent=0\nVERIFIED ran=1 passed=1 failed=0\nCLOSE_REFS resolved=0 missing=0\nNEXT violations=0\nPREDICATE R51-C2 pass\nLEDGER corpus/routed-findings.jsonl rows=1\nFIELDS complete=0 incomplete=1\nOWNERS attributed=0 unattributed=1\nDISPOSITIONS set=1 bad=0\nSOURCES resolved=1 missing=0\nCHECKS present=1 absent=0\nVERIFIED ran=1 passed=1 failed=0\nCLOSE_REFS resolved=0 missing=0\nNEXT violations=0\n  DETAIL FIELDS R1 missing owner\n  DETAIL OWNER R1 has no owner\nPREDICATE R51-C2 fail\nLEDGER corpus/routed-findings.jsonl rows=1\nFIELDS complete=1 incomplete=0\nOWNERS attributed=0 unattributed=1\nDISPOSITIONS set=1 bad=0\nSOURCES resolved=1 missing=0\nCHECKS present=1 absent=0\nVERIFIED ran=1 passed=1 failed=0\nCLOSE_REFS resolved=0 missing=0\nNEXT violations=0\n  DETAIL OWNER R1 owner 'nope-lane' not a fleet lane\nPREDICATE R51-C2 fail\nLEDGER corpus/routed-findings.jsonl rows=1\nFIELDS complete=1 incomplete=0\nOWNERS attributed=1 unattributed=0\nDISPOSITIONS set=0 bad=1\nSOURCES resolved=1 missing=0\nCHECKS present=1 absent=0\nVERIFIED ran=0 passed=0 failed=0\nCLOSE_REFS resolved=0 missing=0\nNEXT violations=0\n  DETAIL DISPOSITION R1 disposition 'whenever' not frozen value\nPREDICATE R51-C2 fail\nLEDGER corpus/routed-findings.jsonl rows=1\nFIELDS complete=1 incomplete=0\nOWNERS attributed=1 unattributed=0\nDISPOSITIONS set=1 bad=0\nSOURCES resolved=0 missing=1\nCHECKS present=1 absent=0\nVERIFIED ran=1 passed=1 failed=0\nCLOSE_REFS resolved=0 missing=0\nNEXT violations=0\n  DETAIL SOURCE R1 source 'corpus/absent.md:3' does not resolve\nPREDICATE R51-C2 fail\nLEDGER corpus/routed-findings.jsonl rows=1\nFIELDS complete=1 incomplete=0\nOWNERS attributed=1 unattributed=0\nDISPOSITIONS set=1 bad=0\nSOURCES resolved=1 missing=0\nCHECKS present=0 absent=1\nVERIFIED ran=0 passed=0 failed=0\nCLOSE_REFS resolved=0 missing=0\nNEXT violations=0\n  DETAIL CHECK R1 has no check command\nPREDICATE R51-C2 fail\nLEDGER corpus/routed-findings.jsonl rows=1\nFIELDS complete=1 incomplete=0\nOWNERS attributed=1 unattributed=0\nDISPOSITIONS set=1 bad=0\nSOURCES resolved=1 missing=0\nCHECKS present=1 absent=0\nVERIFIED ran=1 passed=0 failed=1\nCLOSE_REFS resolved=0 missing=0\nNEXT violations=0\n  DETAIL CHECK_FAILED R1 fixed-verified but check exits nonzero\nPREDICATE R51-C2 fail\nLEDGER corpus/routed-findings.jsonl rows=1\nFIELDS complete=1 incomplete=0\nOWNERS attributed=1 unattributed=0\nDISPOSITIONS set=1 bad=0\nSOURCES resolved=1 missing=0\nCHECKS present=1 absent=0\nVERIFIED ran=0 passed=0 failed=0\nCLOSE_REFS resolved=0 missing=0\nNEXT violations=2\n  DETAIL NEXT R1 is routed but owned by kengaku (absorbed, not routed)\n  DETAIL NEXT R1 is routed with no next field\nPREDICATE R51-C2 fail\nLEDGER corpus/routed-findings.jsonl rows=1\nFIELDS complete=1 incomplete=0\nOWNERS attributed=1 unattributed=0\nDISPOSITIONS set=1 bad=0\nSOURCES resolved=1 missing=0\nCHECKS present=1 absent=0\nVERIFIED ran=0 passed=0 failed=0\nCLOSE_REFS resolved=0 missing=0\nNEXT violations=0\nPREDICATE R51-C2 pass\nLEDGER corpus/routed-findings.jsonl rows=1\nFIELDS complete=1 incomplete=0\nOWNERS attributed=1 unattributed=0\nDISPOSITIONS set=1 bad=0\nSOURCES resolved=1 missing=0\nCHECKS present=1 absent=0\nVERIFIED ran=0 passed=0 failed=0\nCLOSE_REFS resolved=0 missing=1\nNEXT violations=0\n  DETAIL CLOSE_REF R1 close 'corpus/absent.md' does not resolve\nPREDICATE R51-C2 fail\nLEDGER corpus/routed-findings.jsonl rows=1\nFIELDS complete=1 incomplete=0\nOWNERS attributed=1 unattributed=0\nDISPOSITIONS set=1 bad=0\nSOURCES resolved=1 missing=0\nCHECKS present=1 absent=0\nVERIFIED ran=0 passed=0 failed=0\nCLOSE_REFS resolved=1 missing=0\nNEXT violations=0\nPREDICATE R51-C2 pass\n[selftest] cases=11 failures=0\n[selftest] ALL PASS\n"
+    }
+  },
+  "plans/round51_surfaces.py": {
+    "argparse_flags": [
+      "--help",
+      "--lane",
+      "--manifest",
+      "--province",
+      "--selftest"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "declared_exit_codes": [],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "REV 1315234bdc8024499d943f0483dcb51fb5e4a618\nMANIFEST plans/round51-surfaces.json entries=20 sections=2\nANCHORS total=20 dup=0 missing=0\nROWS section=\"## Surfaces\" rows=10 entries=10 uncovered=0\nROWS section=\"### Core\" rows=10 entries=10 uncovered=0\nPROBES run=20 present=14 absent=6 errors=0\nDRIFT 0\nSTALE 0\nUNVERDICTED 0\nNUMBER-DRIFT 0\nANCHOR-DUP 0\nANCHOR-MISSING 0\nUNCOVERED 0\nSECTION-MISSING 0\nRESOLVE observed_present=14 floor=13 verdict=met\nPREDICATE R51-C1 pass\n"
+    },
+    "docstring_first_line": "Round-51 C1 counter — every surface PROVINCE.md declares is machine-checked.",
+    "file_writes": [
+      {
+        "call": "write_text",
+        "in_function": "build",
+        "line": 240,
+        "target": "'# P\\n\\n## Surfaces\\n\\n| Surface | Path | Use |\\n|---|---|---|\\n' + <var:rows_a> + '\\n\\n### Core\\n\\n| Surface | Check | Result |\\n|---|---|---|\\n' + <var:rows_b> + '\\n'"
+      },
+      {
+        "call": "write_text",
+        "in_function": "build",
+        "line": 243,
+        "target": "dumps(...)"
+      },
+      {
+        "call": "mkdir",
+        "in_function": "build",
+        "line": 247,
+        "target": "<unresolved>"
+      },
+      {
+        "call": "write_text",
+        "in_function": "build",
+        "line": 248,
+        "target": "'x'"
+      },
+      {
+        "call": "rmtree",
+        "in_function": "main",
+        "line": 357,
+        "target": "<var:tmp>"
+      }
+    ],
+    "has_selftest_flag": true,
+    "network": {
+      "needs_network": false,
+      "network_scope": "Loopback-only HTTP/port probes (127.0.0.1); no external network."
+    },
+    "observed_exit_codes": {
+      "default": 0,
+      "help": 0
+    },
+    "script": "plans/round51_surfaces.py",
+    "selftest": {
+      "observed_exit_code": 0,
+      "scratch_lane_writes": [],
+      "stderr": "",
+      "stdout": "REV unknown\nMANIFEST m.json entries=2 sections=2\nANCHORS total=2 dup=0 missing=0\nROWS section=\"## Surfaces\" rows=1 entries=1 uncovered=0\nROWS section=\"### Core\" rows=1 entries=1 uncovered=0\nPROBES run=2 present=2 absent=0 errors=0\nDRIFT 0\nSTALE 0\nUNVERDICTED 0\nNUMBER-DRIFT 0\nANCHOR-DUP 0\nANCHOR-MISSING 0\nUNCOVERED 0\nSECTION-MISSING 0\nRESOLVE observed_present=2 floor=1 verdict=met\nPREDICATE R51-C1 pass\nREV unknown\nMANIFEST m.json entries=2 sections=2\nANCHORS total=2 dup=0 missing=0\nROWS section=\"## Surfaces\" rows=1 entries=1 uncovered=0\nROWS section=\"### Core\" rows=1 entries=1 uncovered=0\nPROBES run=2 present=1 absent=1 errors=0\nDRIFT 1\n  DETAIL DRIFT SF01 prose=present state=absent ()\nSTALE 0\nUNVERDICTED 0\nNUMBER-DRIFT 0\nANCHOR-DUP 0\nANCHOR-MISSING 0\nUNCOVERED 0\nSECTION-MISSING 0\nRESOLVE observed_present=1 floor=1 verdict=met\nPREDICATE R51-C1 fail\nREV unknown\nMANIFEST m.json entries=2 sections=2\nANCHORS total=2 dup=0 missing=0\nROWS section=\"## Surfaces\" rows=1 entries=1 uncovered=0\nROWS section=\"### Core\" rows=1 entries=1 uncovered=0\nPROBES run=2 present=1 absent=1 errors=0\nDRIFT 0\nSTALE 1\n  DETAIL STALE SF01 probe=absent state=present (missing: /fast/scratch/hyaku/kengaku-r52/C2ExecRowFacts/tmp/r51surf-drg03_i2/nope-a)\nUNVERDICTED 0\nNUMBER-DRIFT 0\nANCHOR-DUP 0\nANCHOR-MISSING 0\nUNCOVERED 0\nSECTION-MISSING 0\nRESOLVE observed_present=1 floor=1 verdict=met\nPREDICATE R51-C1 fail\nREV unknown\nMANIFEST m.json entries=2 sections=2\nANCHORS total=2 dup=0 missing=0\nROWS section=\"## Surfaces\" rows=1 entries=1 uncovered=0\nROWS section=\"### Core\" rows=1 entries=1 uncovered=0\nPROBES run=2 present=1 absent=1 errors=0\nDRIFT 0\nSTALE 0\nUNVERDICTED 1\n  DETAIL UNVERDICTED SF01 row has no ABSENT <ISO date> marker\nNUMBER-DRIFT 0\nANCHOR-DUP 0\nANCHOR-MISSING 0\nUNCOVERED 0\nSECTION-MISSING 0\nRESOLVE observed_present=1 floor=1 verdict=met\nPREDICATE R51-C1 fail\nREV unknown\nMANIFEST m.json entries=2 sections=2\nANCHORS total=2 dup=0 missing=0\nROWS section=\"## Surfaces\" rows=1 entries=1 uncovered=0\nROWS section=\"### Core\" rows=1 entries=1 uncovered=0\nPROBES run=2 present=2 absent=0 errors=0\nDRIFT 0\nSTALE 0\nUNVERDICTED 0\nNUMBER-DRIFT 1\n  DETAIL NUMBER-DRIFT SF01 row claims 3, probe says rows=0\nANCHOR-DUP 0\nANCHOR-MISSING 0\nUNCOVERED 0\nSECTION-MISSING 0\nRESOLVE observed_present=2 floor=1 verdict=met\nPREDICATE R51-C1 fail\nREV unknown\nMANIFEST m.json entries=2 sections=2\nANCHORS total=2 dup=0 missing=0\nROWS section=\"## Surfaces\" rows=2 entries=1 uncovered=1\nROWS section=\"### Core\" rows=1 entries=1 uncovered=0\nPROBES run=2 present=2 absent=0 errors=0\nDRIFT 0\nSTALE 0\nUNVERDICTED 0\nNUMBER-DRIFT 0\nANCHOR-DUP 0\nANCHOR-MISSING 0\nUNCOVERED 1\n  DETAIL UNCOVERED ## Surfaces row line 8 has no manifest entry\nSECTION-MISSING 0\nRESOLVE observed_present=2 floor=1 verdict=met\nPREDICATE R51-C1 fail\nREV unknown\nMANIFEST m.json entries=2 sections=2\nANCHORS total=2 dup=1 missing=0\nROWS section=\"## Surfaces\" rows=2 entries=1 uncovered=2\nROWS section=\"### Core\" rows=1 entries=1 uncovered=0\nPROBES run=2 present=2 absent=0 errors=0\nDRIFT 0\nSTALE 0\nUNVERDICTED 0\nNUMBER-DRIFT 0\nANCHOR-DUP 1\n  DETAIL ANCHOR-DUP SF01 anchor appears 2 times\nANCHOR-MISSING 0\nUNCOVERED 2\n  DETAIL UNCOVERED ## Surfaces row line 7 has no manifest entry\n  DETAIL UNCOVERED ## Surfaces row line 8 has no manifest entry\nSECTION-MISSING 0\nRESOLVE observed_present=2 floor=1 verdict=met\nPREDICATE R51-C1 fail\nREV unknown\nMANIFEST m.json entries=2 sections=2\nANCHORS total=2 dup=0 missing=0\nROWS section=\"## Surfaces\" rows=1 entries=1 uncovered=0\nROWS section=\"### Core\" rows=1 entries=1 uncovered=0\nPROBES run=2 present=0 absent=2 errors=0\nDRIFT 0\nSTALE 0\nUNVERDICTED 0\nNUMBER-DRIFT 0\nANCHOR-DUP 0\nANCHOR-MISSING 0\nUNCOVERED 0\nSECTION-MISSING 0\nRESOLVE observed_present=0 floor=1 verdict=violated\nPREDICATE R51-C1 fail\nREV unknown\nMANIFEST m.json entries=2 sections=2\nANCHORS total=2 dup=0 missing=1\nROWS section=\"## Surfaces\" rows=1 entries=1 uncovered=1\nROWS section=\"### Core\" rows=1 entries=1 uncovered=0\nPROBES run=2 present=2 absent=0 errors=0\nDRIFT 0\nSTALE 0\nUNVERDICTED 0\nNUMBER-DRIFT 0\nANCHOR-DUP 0\nANCHOR-MISSING 1\n  DETAIL ANCHOR-MISSING SF01 anchor not found: | Surface Z |\nUNCOVERED 1\n  DETAIL UNCOVERED ## Surfaces row line 7 has no manifest entry\nSECTION-MISSING 0\nRESOLVE observed_present=2 floor=1 verdict=met\nPREDICATE R51-C1 fail\n[selftest] cases=9 failures=0\n[selftest] ALL PASS\n"
+    }
+  },
+  "plans/routed_open.py": {
+    "argparse_flags": [
+      "--file",
+      "--help",
+      "--lane",
+      "--list",
+      "--observe",
+      "--selftest",
+      "--timeout"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "declared_exit_codes": [
+      1,
+      2
+    ],
+    "default_invocation": {
+      "stderr": "",
+      "stdout": "ROWS total=75 open=31 blocked=1 closed=41 refused=2\nrouted_open=32 oldest_round=39\n"
+    },
+    "docstring_first_line": "Routed-findings burn-down (kengaku round 41 rider, considerthese/2026-10-26.md proposal 1).",
+    "file_writes": [
+      {
+        "call": "write_text",
+        "in_function": "selftest",
+        "line": 167,
+        "target": "'R1 routed\\nR2 routed\\n'"
+      },
+      {
+        "call": "write_text",
+        "in_function": "selftest",
+        "line": 187,
+        "target": "join(...) + '\\n'"
+      }
+    ],
+    "has_selftest_flag": true,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 0,
+      "help": 0
+    },
+    "script": "plans/routed_open.py",
+    "selftest": {
+      "observed_exit_code": 0,
+      "scratch_lane_writes": [],
+      "stderr": "",
+      "stdout": "SELFTEST valid-closed rc=0 want=0 ok\nSELFTEST malformed-json rc=1 want=1 ok\nSELFTEST missing-key rc=1 want=1 ok\nSELFTEST duplicate-id rc=1 want=1 ok\nSELFTEST closed-without-evidence rc=1 want=1 ok\nSELFTEST blocked-without-blocker rc=1 want=1 ok\nSELFTEST bad-status rc=1 want=1 ok\nSELFTEST source-past-eof rc=1 want=1 ok\nSELFTEST source-missing-file rc=1 want=1 ok\nSELFTEST bad-opened-round rc=1 want=1 ok\nSELFTEST bad-id rc=1 want=1 ok\nSELFTEST defect-ledger-guard rc=2 want=2 ok\nSELFTEST 12/12\n"
+    }
+  },
+  "plans/tb2_grader_probe.py": {
+    "argparse_flags": [
+      "--help",
+      "--lane"
+    ],
+    "argparse_flags_source": "AST add_argument declarations unioned with observed --help (captures subparser flags omitted by top-level help).",
+    "argparse_usage_exit_code": 2,
+    "base_tip_observed_exit_code": 1,
+    "base_tip_stdout_tail": [],
+    "declared_exit_codes": [
+      2
+    ],
+    "default_invocation": {
+      "stderr": "Traceback (most recent call last):\n  File \"/fast/scratch/hyaku/kengaku-r52/C2ExecRowFacts/lane/plans/tb2_grader_probe.py\", line 168, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File \"/fast/scratch/hyaku/kengaku-r52/C2ExecRowFacts/lane/plans/tb2_grader_probe.py\", line 145, in main\n    import Bio  # noqa: F401  (fail loudly if Biopython is absent)\n    ^^^^^^^^^^\nModuleNotFoundError: No module named 'Bio'\n",
+      "stdout": ""
+    },
+    "docstring_first_line": "Offline probe of the pinned Terminal-Bench 2.0 `protein-assembly` grader (round 35, C1).",
+    "file_writes": [
+      {
+        "call": "write_text",
+        "in_function": "run_grader",
+        "line": 124,
+        "target": "<var:content>"
+      }
+    ],
+    "has_selftest_flag": false,
+    "network": {
+      "needs_network": false,
+      "network_scope": "No network requirement detected in imports/calls or documented invocation."
+    },
+    "observed_exit_codes": {
+      "default": 1,
+      "help": 0
+    },
+    "script": "plans/tb2_grader_probe.py",
+    "selftest": {
+      "declared": false,
+      "observed": "not invoked: no --selftest flag"
+    }
+  }
+}

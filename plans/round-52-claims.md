@@ -269,3 +269,25 @@ kill rules and score rule are unchanged. The pre-A2 counter could never satisfy 
 even on complete data, and its new-task guard was ineffective; the amended counter re-counts the
 same frozen set and now enforces the already-declared novelty restriction. Wave-2 reviewer and
 critic seats must attack both fixes; the round report discloses them and cites their findings.
+
+## Amendment A3 — 2026-10-28, before the scored after-run (C2 parser correction)
+
+The C2 counter's `SELFTEST-UNBACKED` check treated the words “no `--selftest` in the script” in
+the existing `order-check` registry cell as a claim that `order_check.py` accepts that flag.
+The script does not; the cell accurately says it has no self-test. The parser now ignores a flag
+explicitly negated by “no … --flag” before checking script support. This corrects a false positive
+in the counter, without changing C2's frozen predicate (a registry cell that claims a flag the
+script lacks still fails). The baseline `SELFTEST-UNBACKED 1` receipt remains historical and
+re-derivable under the frozen implementation; the final measurement uses the corrected parser.
+
+## Amendment A4 — 2026-10-28, correction to the A1 observation record
+
+The A1 observation receipt's `54 P1 tests / 42 tasks` figure came from the L1's preliminary
+scratch scan, whose value-marker regex was not identical to the committed `classify_test()`.
+Wave-1 `C1ExecClassifier` re-ran the committed A1 rules over the captured primary graders and
+measured `P1=33` across `27` tasks (89 graders, 308 test functions). The preliminary 54/42 count
+is therefore **not reproducible and is not evidence**; it remains in the historical receipt to
+preserve the disclosure, but must not be used in the report, entry, score or trend verdict. The
+claim's measured per-test count is the counter output at the final landing revision. This is a
+correction to a disclosed exploratory observation, not a change to the frozen population,
+classification rules, threshold, controls or target.

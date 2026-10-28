@@ -102,24 +102,26 @@ test, do NOT write a confirmation for it — write your negative finding in the 
 the located lines that show the test compares something. Report: the receipts written, the
 candidates refused, and for every refusal the located line."""))
 
-ITEMS.append(item("W2ExecConfirmB", "executor", ["novelty"], f"""BE AN INDEPENDENT READER for R52-C1, on the tasks the OTHER reader did not take.
-Take the NEXT FIVE `CANDIDATE` tasks printed by `python3 {LANE}/plans/round52_c1_grader_audit.py --lane {LANE}`
-(after the first five) and do exactly what the confirmation protocol says: open the captured
-grader bytes under `{LANE}/corpus/evidence/round52/graders/`, locate a test function whose only
-assertion is artefact presence, and write the receipt JSON
-`{{"task", "test", "quote", "line", "reader": "W2ExecConfirmB", "confirmed": true}}` to
-`{SCRATCH}/w2-W2ExecConfirmB/confirmations.json`. A candidate with no presence-only test gets no
-receipt — report the negative with located lines. Report: receipts written, candidates refused
-with their evidence."""))
+ITEMS.append(item("W2ExecConfirmB", "executor", ["novelty"], f"""BE A SECOND INDEPENDENT READER for the same first FIVE C1 candidates as W2ExecConfirmA.
+Run `python3 {LANE}/plans/round52_c1_grader_audit.py --lane {LANE}` and take its first FIVE
+`CANDIDATE` rows. Open each captured grader under `{LANE}/corpus/evidence/round52/graders/`,
+locate a test function whose only assertion is artefact presence, and write a JSON receipt for
+each true finding:
+`{{"task": "<id>", "test": "<test name>", "quote": "<exact assert line>", "line": <line>,
+"reader": "W2ExecConfirmB", "confirmed": true}}`. Do not copy W2ExecConfirmA's receipts; read the
+source bytes independently. A candidate without such a test gets no receipt; report the negative
+with located lines. Write `{SCRATCH}/w2-W2ExecConfirmB/confirmations.json` and copy it to
+`{WAVE_DIR}/W2ExecConfirmB/confirmations.json` before deleting scratch. Report: receipts written,
+refusals and evidence."""))
 
-ITEMS.append(item("W2ExecConfirmC", "executor", ["novelty"], f"""BE A THIRD INDEPENDENT READER for R52-C1, and cross-check the other two readers.
-Take the NEXT FIVE `CANDIDATE` tasks after the first ten printed by
-`python3 {LANE}/plans/round52_c1_grader_audit.py --lane {LANE}`, write receipts in the same JSON
-shape to `{SCRATCH}/w2-W2ExecConfirmC/confirmations.json`, then copy that receipt to `{WAVE_DIR}/W2ExecConfirmC/confirmations.json` before you clean your scratch dir, and ALSO independently re-check every
-receipt you can find from the other readers under `{SCRATCH}/w2-W2ExecConfirm*/confirmations.json`
-(if present): for each, open the captured bytes and verify the quote is verbatim and the line
-number is right. Report: your own receipts, and a table cross-checking every other reader's
-receipt (task, quote verbatim yes/no, line correct yes/no)."""))
+ITEMS.append(item("W2ExecConfirmC", "executor", ["novelty"], f"""Provide additional independent C1 confirmations, without depending on other seats' files.
+Run `python3 {LANE}/plans/round52_c1_grader_audit.py --lane {LANE}` and take candidate rows 6–10.
+Open each captured grader under `{LANE}/corpus/evidence/round52/graders/`, locate a test
+function whose only assertion is artefact presence, and write a JSON receipt for every true
+finding in the same schema, with reader `W2ExecConfirmC`. Do not copy another seat's receipts.
+Write `{SCRATCH}/w2-W2ExecConfirmC/confirmations.json` and copy it to
+`{WAVE_DIR}/W2ExecConfirmC/confirmations.json` before cleaning scratch. Report: receipts,
+refusals and evidence."""))
 
 ITEMS.append(item("W2ExecCapturesVerify", "executor", ["novelty"], f"""Verify the capture set that landed under `{LANE}/corpus/evidence/round52/graders/`.
 Re-fetch TEN deterministically chosen grader paths (every 19th path of the frozen population in
@@ -130,48 +132,41 @@ truncated response (report the byte length distribution and any file < 100 B). W
 `{SCRATCH}/w2-W2ExecCapturesVerify/capture-verification.json`. Report: the ten re-fetch digests,
 the two-way count comparison, and any defective capture."""))
 
-ITEMS.append(item("W2ExecRowsIntegrate", "executor", ["operability"], f"""Assemble the gate-registry rows for R52-C2 into ONE table. Read the rows wave 1 drafted
-(each scribe's scratch dir `{SCRATCH}/C2ScribeRows*/rows.md`; if a seat's dir is missing, derive
-the row yourself from the script) and the mechanical facts in
-`{SCRATCH}/C2ExecRowFacts/facts.json` and the measured runs in `{SCRATCH}/C2ExecRowRuns/`.
-Write `{SCRATCH}/w2-W2ExecRowsIntegrate/registry-rows.md` containing the 28 NEW rows in the
-exact 8-column markdown format of SKILL.md's *## Gate/probe registry* table (name | kind | entry |
-verdict map | self-test | pinned values | write scope | owner), in the order the counter prints
-`MISSING`. Every cell must be non-empty and every claim true of the script — if a row would have
-to be untrue, write the row with an explicit `unverified:` prefix in the cell and report it.
-Report: the merged file path, the number of rows, and every row you marked unverified."""))
+ITEMS.append(item("W2ExecRowsIntegrate", "executor", ["operability"], f"""Assemble the gate-registry rows for R52-C2 into ONE table. Read the retained wave-1 scribe
+artifacts in `{LANE}/.ufo/waves/round-52/w1/C2ScribeRows*/` (`rows.md` or
+`artifacts/rows.md`); if a retained file is missing, derive the row from the script. Use the
+frozen MISSING names in `{LANE}/.ufo/waves/round-52/claims/c2-before.txt` (the live counter now
+sees the already-integrated drafts). Read fact/run evidence in each scribe's report, not deleted
+scratch paths. Write `{SCRATCH}/w2-W2ExecRowsIntegrate/registry-rows.md` with rows for the 28
+base-tip missing instruments plus rows for both round-52 counters (they become advertised when
+SCORECARD/LOG cite them), exact 8-column format and counter-sort order. Every cell must be
+non-empty and factual; state `none declared` where there is no self-test. Copy the merged table to
+`{WAVE_DIR}/W2ExecRowsIntegrate/registry-rows.md` before cleaning scratch. Report count, names,
+and every unverified cell."""))
 
-ITEMS.append(item("W2ExecLabelsMerge", "executor", ["novelty"], f"""Merge wave 1's blind labels into the file the C1 counter reads. Find the blind label set
-wave 1 produced under `{SCRATCH}/C1ExecBlindLabels/labels.json` (and, if present,
-`{SCRATCH}/C1ScoutAgreement/`); if the blind label file is missing, say so and do NOT invent
-labels. Write `{SCRATCH}/w2-W2ExecLabelsMerge/labels.json` in the shape the counter reads:
-`{{"labels": [{{"task": ..., "class": ..., "why": ...}}]}}` where `class` is the FILE-level class
-the frozen rules define (V1/V2/V3/V4/V0) — the counter compares the blind label with the
-file-level class. Report: the number of labels, their class histogram, and whether every label
-came from a blind seat (quote the source path)."""))
+ITEMS.append(item("W2ExecLabelsMerge", "executor", ["novelty"], f"""Merge wave 1's blind labels from
+`{LANE}/.ufo/waves/round-52/w1/C1ExecBlindLabels/labels.json` (if absent, say so; do not invent
+labels). Write `{SCRATCH}/w2-W2ExecLabelsMerge/labels.json` in the counter's shape:
+`{{"labels": [{{"task": ..., "class": ..., "why": ...}}]}}`, with file-level class V1/V2/V3/V4/V0
+as required by `labels_agreement()`. Copy the file to
+`{WAVE_DIR}/W2ExecLabelsMerge/labels.json` before scratch cleanup. Report: count and histogram
+of labels, and whether every label was produced blind to the classifier."""))
 
-ITEMS.append(item("W2ExecPriorArtCheck", "executor", ["novelty"], f"""Audit the prior-art file that landed at
-`{LANE}/corpus/evidence/round52/prior-art.md` (if it exists): re-fetch EVERY URL it cites
-(checklist: HTTP status, the exact quoted words present at the cited anchor, the fetch date).
-Write `{SCRATCH}/w2-W2ExecPriorArtCheck/prior-art-audit.json`. If the file does not exist, fetch
-the sources yourself: at least FIVE public primaries that bear on (a) whole-benchmark grader
-triage instrumentation and (b) published audits of Terminal-Bench 2.0 task graders, and write a
-`prior-art.md` draft into your scratch dir with a per-finding verdict line of the form
-`FINDING <task-id> verdict=phenomenon-new|phenomenon-known|unclear because <evidence>`. Report:
-the audit table (url, status, quote present yes/no) and your overall novelty verdict."""))
+ITEMS.append(item("W2ExecPriorArtCheck", "executor", ["novelty"], f"""Audit the retained wave-1 prior-art file
+`{LANE}/.ufo/waves/round-52/w1/C1ScoutPriorArt/prior-art.md`: re-fetch every URL it cites and
+verify HTTP status, quote at the cited anchor, and date. Write
+`{SCRATCH}/w2-W2ExecPriorArtCheck/prior-art-audit.json`, then copy it to
+`{WAVE_DIR}/W2ExecPriorArtCheck/prior-art-audit.json` before cleaning scratch. If the file is
+missing, fetch at least five public primaries yourself and write a prior-art draft into scratch.
+Report: audit table and overall novelty verdict."""))
 
-ITEMS.append(item("W2ExecEntryDraft", "executor", ["depth"], f"""Draft the knowledge entry that the round's C1 claim lands:
-`{LANE}/corpus/knowledge/tb2-grader-vacuity-triage.md`. Read the frozen claims file
-(`plans/round-52-claims.md`, including Amendment A1), the C1 counter, the captures under
-`{LANE}/corpus/evidence/round52/graders/`, the confirmations, and the prior-art file. The entry
-must open with the three provenance lines the lane's format requires (`source:`, `verified-at:`,
-`recheck:`) naming the S### rows it rests on, then state: the population, the instrument, the
-per-test classes, the measured numbers (from the counter's own output — run it), the confirmed
-findings with their located quotes, the prior-art verdict, and the LIMITS (file-level classes are
-kept but misdescribe graders whose comparisons are in memory; a presence-only test is a weakness
-of that test, not of the whole grader; the triage says nothing about task validity).
-Write the draft to `{SCRATCH}/w2-W2ExecEntryDraft/entry.md`. Do NOT create the file in the lane
-tree — the L1 integrates. Report: the draft path and the numbers you quoted."""))
+ITEMS.append(item("W2ExecEntryDraft", "executor", ["novelty"], f"""Analyze the 29 current C1 candidates independently, without relying on wave-2 confirmations.
+Run `python3 {LANE}/plans/round52_c1_grader_audit.py --lane {LANE}`, open every candidate's
+captured bytes, identify each P1 test-function quote and line, and record what else the same
+grader checks (the limit that a test-level finding is not a whole-grader verdict). Write one JSON
+record per candidate to `{SCRATCH}/w2-W2ExecEntryDraft/candidate-audit.json` and copy it to
+`{WAVE_DIR}/W2ExecEntryDraft/candidate-audit.json` before cleaning scratch. Report: candidate
+count, tasks with verified presence-only tests, and any counter-classification disagreement."""))
 
 ITEMS.append(item("W2ExecLessonDraft", "executor", ["calibration"], f"""Draft the round lesson `{LANE}/corpus/lessons/round-52.md` for the L1 to integrate.
 Read `{LANE}/plans/round-52-claims.md` (incl. Amendment A1), the A1 observation receipt
@@ -195,15 +190,14 @@ line in this round). Write the draft to `{SCRATCH}/w2-W2ExecLessonDraft/lesson.m
 draft path and the mistakes you mined."""))
 
 # ------------------------------------------------------------------ scribes (4)
-ITEMS.append(item("W2ScribeRowsCheck", "scribe", ["operability"], f"""Check the 28 new gate-registry rows for TRUTHFULNESS (not completeness — the counter
-does completeness). For each row in `{SCRATCH}/w2-W2ExecRowsIntegrate/registry-rows.md` (or the
-wave-1 scribe scratch dirs): open the named script and verify each factual claim in the row —
-the entry command's flags exist, the verdict map's exit codes match the script's `return`/`sys.exit`
-sites, the self-test spelling is accepted by the script, the pinned values exist in the tree, the
-write scope names what the script actually writes. Write `{SCRATCH}/w2-W2ScribeRowsCheck/row-truth.json`
-with one object per row: row name, verdict `true`/`false`/`unverifiable`, and the evidence.
-Report: the count of true/false/unverifiable rows and, for every false row, the corrected cell
-text."""))
+ITEMS.append(item("W2ScribeRowsCheck", "scribe", ["operability"], f"""Check the base-tip new gate-registry rows for truthfulness, independently of the row assembler.
+Read retained wave-1 drafts under `{LANE}/.ufo/waves/round-52/w1/C2ScribeRows*/` (`rows.md` or
+`artifacts/rows.md`), open each named script, and verify entry flags, exit map, self-test claim,
+pinned-value paths, and write scope. Also check proposed rows for the two round-52 counters.
+Write `{SCRATCH}/w2-W2ScribeRowsCheck/row-truth.json` with one object per row: instrument,
+verdict `true`/`false`/`unverifiable`, and evidence. Copy it to
+`{WAVE_DIR}/W2ScribeRowsCheck/row-truth.json` before cleaning scratch. Report counts and
+corrected cell text for every false row."""))
 
 ITEMS.append(item("W2ScribeSourcesRows", "scribe", ["novelty"], f"""Prepare the SOURCES rows this round appends. Read the contract in
 `/home/vgpnk/Projects/shokunin/CORPUS.md` (section *SOURCES.md — where a shokunin learns*), the
@@ -293,36 +287,36 @@ membership, quote verbatim in the captured bytes) and the PRIOR-ART leg (≥3 di
 distinct how?). Name every place where a wrong input could pass. Report: per-leg verdict
 (sound | vacuous) with the exact input that would pass it."""))
 
-ITEMS.append(item("W2RevConfirmations", "reviewer", ["novelty"], f"""Independently re-read the C1 confirmations (read-only): for every receipt in the
-confirmation files wave 2 produced under `{SCRATCH}/w2-W2ExecConfirm*/confirmations.json`, open
-the captured grader bytes under `{LANE}/corpus/evidence/round52/graders/` and verify: the task is
-a vacuity candidate, the named test exists, the quote is verbatim at the cited line, and the test
-really asserts only artefact presence. Write
-`{SCRATCH}/w2-W2RevConfirmations/confirmations-review.json` (one verdict per receipt, with the
-located evidence). Report: the count of confirmed / refuted / unverifiable receipts, and every
-refutation with its located line."""))
+ITEMS.append(item("W2RevConfirmations", "reviewer", ["novelty"], f"""Independently re-read the first TWO C1 candidates (not other seats' work): run the C1 counter to
+get the candidate list, then open captured grader bytes for candidates 1 and 2 under
+`{LANE}/corpus/evidence/round52/graders/`. Verify whether each has a test function with only an
+artefact-presence assertion. If true, write your own JSON receipt with task id, test name, exact
+assert quote, line number, reader `W2RevConfirmations`, and `confirmed: true` to
+`{SCRATCH}/w2-W2RevConfirmations/confirmations.json`, then copy it to
+`{WAVE_DIR}/W2RevConfirmations/confirmations.json` before cleaning scratch. If false, write no
+receipt and report the comparison that invalidates it. Report per candidate with located lines."""))
 
-ITEMS.append(item("W2RevRowsA", "reviewer", ["operability"], f"""Review the first half of the 28 new registry rows (read-only): for each row in
-`{SCRATCH}/w2-W2ExecRowsIntegrate/registry-rows.md` (or the wave-1 scribe scratch dirs), open the
-named script and check the row against it: does the entry command exist with those flags? does
-the verdict map match the script's exit codes? is the self-test spelling real? are the pinned
-values in the tree? does the write scope name what the script writes? Write
-`{SCRATCH}/w2-W2RevRowsA/rows-review-a.json`. Report: per row a verdict and the offending cell
-for every false row."""))
+ITEMS.append(item("W2RevRowsA", "reviewer", ["operability"], f"""Review the first 14 of the 28 base-tip new registry rows (read-only): read the MISSING list in
+`{LANE}/.ufo/waves/round-52/claims/c2-before.txt`, find their retained wave-1 drafts under
+`{LANE}/.ufo/waves/round-52/w1/C2ScribeRows*/`, open each named script, and check entry flags,
+verdict map, self-test spelling, pinned values and write scope. Write
+`{SCRATCH}/w2-W2RevRowsA/rows-review-a.json`, copy it into your wave report directory before
+cleaning scratch, and report every false claim with its offending cell."""))
 
-ITEMS.append(item("W2RevRowsB", "reviewer", ["operability"], f"""Review the second half of the 28 new registry rows (read-only) and the EXISTING 46 rows
-for factual drift (the counter's `SELFTEST-UNBACKED` leg found one: `order-check`). Write
-`{SCRATCH}/w2-W2RevRowsB/rows-review-b.json`. Report: per row a verdict and the corrected cell
-text for every false row, and whether the `order-check` self-test cell can be made true by
-changing the row alone."""))
+ITEMS.append(item("W2RevRowsB", "reviewer", ["operability"], f"""Review the remaining 14 base-tip new registry rows and the existing `order-check` row (read-only).
+Use the MISSING list in `{LANE}/.ufo/waves/round-52/claims/c2-before.txt` and the retained
+wave-1 drafts under `{LANE}/.ufo/waves/round-52/w1/C2ScribeRows*/`; verify each factual cell
+against its script. For `order-check`, Amendment A3 says the parser treats a clearly negated
+`--selftest` mention as no self-test, not an unsupported claim. Write
+`{SCRATCH}/w2-W2RevRowsB/rows-review-b.json`, copy it into your wave report directory, and report
+each row's verdict with corrected cell text for every false claim."""))
 
-ITEMS.append(item("W2RevEntryLesson", "reviewer", ["depth"], f"""Review the round's prose artefacts (read-only): the knowledge entry draft
-(`{SCRATCH}/w2-W2ExecEntryDraft/entry.md`) and the lesson draft
-(`{SCRATCH}/w2-W2ExecLessonDraft/lesson.md`). Check every number in them against the counter's
-own output (run it), check the entry's provenance lines (`source:`, `verified-at:`, `recheck:`)
-name S### rows that exist, and check that the lesson's `## Gate` block carries the URL, the
-access date and a ≤25-word located quote for every new row. Report: every number that does not
-re-derive, every citation that does not resolve, and the sentence you would delete."""))
+ITEMS.append(item("W2RevEntryLesson", "reviewer", ["novelty"], f"""Independently audit the counter's test-function candidate set, not any other seat's receipts:
+run the C1 counter, inspect its first ten candidate lines against the captured grader bytes, and
+verify the named P1 test exists and contains no non-presence comparison. Note when the same
+grader has other substantive tests. Write `{SCRATCH}/w2-W2RevEntryLesson/candidate-review.json`
+and copy it into your wave report directory before cleaning scratch. Report false candidates,
+missed P1 tests, and the limits this imposes on the novelty claim."""))
 
 ITEMS.append(item("W2RevReportDraft", "reviewer", ["calibration"], f"""Pre-review the round report against its contract (read-only): the report lives at
 `/home/vgpnk/Projects/shokunin/.ufo/reports/round-52/kengaku.md` — if the L1 has not written it

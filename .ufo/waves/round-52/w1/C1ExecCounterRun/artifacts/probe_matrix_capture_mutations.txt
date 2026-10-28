@@ -1,0 +1,39 @@
+# R52-C1 counter probe matrix (scratch clone only; counter unmodified)
+# capture set: 184 frozen files, sha256-verified byte-exact vs raw.githubusercontent at pin 2fd12b88
+
+### P0  SHA256SUMS as shipped by C1ExecFetchGraders (sha256sum './*' form, keys './path')
+  sums-file-digest: b9ada6472642fa547935c6a1d4fb9474db4d84b412fb9ab3c1730fd65bc974c8  corpus/evidence/round52/graders/SHA256SUMS
+CAPTURES expected=184 present=89 mismatched=0
+PREDICATE R52-C1 fail
+EXIT=1
+
+### P1  SHA256SUMS rewritten to plain population paths (keys 'path')
+  sums-file-digest: 204a071d59ee906fa9e01d294b60d8793fe24df35afbd0e87202e26d44568a47  corpus/evidence/round52/graders/SHA256SUMS
+CAPTURES expected=184 present=89 mismatched=0
+PREDICATE R52-C1 fail
+EXIT=1
+
+### P4  drop NON-primary capture (adaptive-rejection-sampler/tests/test.sh), plain-path sums
+CAPTURES expected=184 present=89 mismatched=0
+PREDICATE R52-C1 fail
+EXIT=1
+
+### P5  drop PRIMARY capture (pytorch-model-recovery/tests/test_outputs.py), plain-path sums
+CAPTURES expected=184 present=88 mismatched=0
+PREDICATE R52-C1 fail
+EXIT=1
+
+### P6  corrupt PRIMARY capture bytes, plain-path sums
+CAPTURES expected=184 present=89 mismatched=1
+PREDICATE R52-C1 fail
+EXIT=1
+
+### P7  corrupt PRIMARY capture bytes, './'-prefixed sums
+CAPTURES expected=184 present=89 mismatched=0
+PREDICATE R52-C1 fail
+EXIT=1
+
+### P8  restored baseline, plain-path sums
+CAPTURES expected=184 present=89 mismatched=0
+PREDICATE R52-C1 fail
+EXIT=1

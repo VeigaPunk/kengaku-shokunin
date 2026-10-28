@@ -1,0 +1,86 @@
+{
+  "circuit-fibsqrt": {
+    "task": "circuit-fibsqrt",
+    "checks": "Three pytest functions: /app/gates.txt exists (test_outputs.py:11), has fewer than 32000 lines (:21-23), and a value test that compiles tests/sim.c at grading time (gcc -O3, :66) and compares /app/sim stdout with fibonacci(isqrt(N)) % 2**32 for a fixed 28-value table (:73-102, :113-137).",
+    "weakness": "Fixed graded-input table / lookup substitute: the graded set is 28 points, not the function - a 1195-line lookup circuit for exactly those 28 inputs scores 3 of 3 while failing both instruction examples (208, 20000); line order, comment lines and the instruction's 'last 32 lines' sentence are unenforced. Lane's own class wording: the graded artefact is not read by the grader at all, it is executed by a C program the grader compiles from its own read-only copy.",
+    "anchor": "tests/test_outputs.py:73-102",
+    "source_entry": "corpus/knowledge/tb2-circuit-fibsqrt-grader.md"
+  },
+  "polyglot-c-py": {
+    "task": "polyglot-c-py",
+    "checks": "One pytest function (test_outputs.py:10): exact directory listing equality ['main.py.c'] taken before any build (:17-18), a grading-time gcc build of the graded file into that same directory (:23-25), then python3 and the compiled binary are run on three fixed N (42, 10, 0) and stripped stdout compared with literals (:27-46).",
+    "weakness": "Dual-runtime execution over a three-point fixed table: three fixed points are not a Fibonacci definition - a polyglot that prints the three literals from a table passes; the grader also mutates the directory it just asserted on (writes cmain into it), so it is not idempotent (7 of 18 passing states fail a re-grade).",
+    "anchor": "tests/test_outputs.py:27",
+    "source_entry": "corpus/knowledge/tb2-polyglot-c-py-grader.md"
+  },
+  "password-recovery": {
+    "task": "password-recovery",
+    "checks": "Two pytest functions: /app/recovered_passwords.txt exists (:9-10) and its read_text().strip().split('\\n') contains one hard-coded 23-character constant as a whole line (:14-18).",
+    "weakness": "F1 constant-compare family (the lane's second exemplar): the answer is a literal in the grader, so reading the public test file passes with no forensic recovery of the disk image; 1000 decoy lines are free because the check is membership, not exactness or count.",
+    "anchor": "tests/test_outputs.py:18",
+    "source_entry": "corpus/knowledge/tb2-password-recovery-grader.md"
+  },
+  "feal-differential-cryptanalysis": {
+    "task": "feal-differential-cryptanalysis",
+    "checks": "One pytest function: builds the C extension at grading time, imports the agent's /app/attack.py into the grader's own interpreter, calls attack.attack(feal_in_c.encrypt) and asserts feal_in_c.get_keys()[5] == stolen (:20-30).",
+    "weakness": "In-process module import: the agent's module runs inside the grader's process with the answer's public accessor in the same namespace, so five cheats that never recover the key pass (import get_keys, sys.modules shadow, rebind get_keys, always-equal object, os._exit(0)); the instruction's 30-second budget is unenforced.",
+    "anchor": "tests/test_outputs.py:30",
+    "source_entry": "corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md"
+  },
+  "feal-linear-cryptanalysis": {
+    "task": "feal-linear-cryptanalysis",
+    "checks": "One pytest function (test_attack): opens /app/plaintexts.txt as one unparsed string and asserts each of 100 decimal constants occurs as a substring (assert c in data), with no count, order, format or exactness check (:4-103, :120-122).",
+    "weakness": "F1 constant-compare on a text file (the lane's first exemplar of the F1 class): the 100 expected values are published in the test file and regenerable from the public generator's literal keys and hash chain, so three attack-free states pass; shape (order, separators, padding, extra content) is free.",
+    "anchor": "tests/test_outputs.py:122",
+    "source_entry": "corpus/knowledge/tb2-feal-linear-cryptanalysis-grader.md"
+  },
+  "constraints-scheduling": {
+    "task": "constraints-scheduling",
+    "checks": "Three pytest functions over an ICS file read by regex: structure of the first VEVENT carrying the summary and all three emails, then a constraint-satisfaction model (_hard_ok, _overlap) and a minute-by-minute earliest-slot scan over three sha256-pinned input calendars (:88-209).",
+    "weakness": "Order-sensitive constraint model: the score depends on VEVENT order, not on the requested meeting (decoy VEVENT first passes 3 of 3; meeting first fails 2 of 3); the earliest test cannot reject an invalid submitted slot because only earlier slots are tested; input integrity compares decoded text, so a full CRLF rewrite of all three inputs passes.",
+    "anchor": "tests/test_outputs.py:135",
+    "source_entry": "corpus/knowledge/tb2-constraints-scheduling-grader.md"
+  },
+  "db-wal-recovery": {
+    "task": "db-wal-recovery",
+    "checks": "Seven pytest functions that all read only /app/recovered.json: existence (:9), JSON list shape (:14-18), per-item id/name/value types (:27-35), sorted ids (:44), completeness (11 records, ids 1..11, pinned values for ids 1-2, pinned names for ids 3-11, :53-80), uniqueness (:89), and a 'WAL decrypted' test that is only a row-count floor plus two cells (:98-107).",
+    "weakness": "Graded artefact is a JSON export whose source of truth (the SQLite database and the encrypted write-ahead log) is never opened: 'Fix the WAL file' is graded only through the export, only 22 of the 33 id/name/value cells are pinned, and hand-typed JSON passes 7 of 7 without opening the database.",
+    "anchor": "tests/test_outputs.py:64",
+    "source_entry": "corpus/knowledge/tb2-db-wal-recovery-grader.md"
+  },
+  "git-leak-recovery": {
+    "task": "git-leak-recovery",
+    "checks": "Five pytest functions: /app/secret.txt exists and strips to the literal 'secret[lost_and_found_in_git]' (:13-16); two git log --all searches print nothing (:21-48); log --oneline --all contains the init-message substring (:53-63); fsck --lost-found dangling objects' cat-file -p text lacks 'secret[' (:68-92); a pinned digest over the non-dot work tree (:97-112).",
+    "weakness": "Graded state is a repository history read through only four views, so 'the secret cannot be found anywhere in that repo' is not the union of those views: eight passing violators (echo-only, reflog expiry, gc-only, blob ref, tag message, stash, dot-file work tree, .git/config); recovery and provenance are never checked because the expected secret is a literal in the grader.",
+    "anchor": "tests/test_outputs.py:16",
+    "source_entry": "corpus/knowledge/tb2-git-leak-recovery-grader.md"
+  },
+  "protein-assembly": {
+    "task": "protein-assembly",
+    "checks": "One pytest function (test_gblock): /app/gblock.txt is exactly one lower-cased [atcg]+ line of at most 3000 nt (:13-23); the whole gBlock is translated with Biopython and the five expected subproteins (FLAG, donor, DHFR, acceptor, SNAP) are located by str.find as amino-acid literals, then order, boundaries, [GS]+ linkers of 5-20 residues and a 30-70 percent GC window are asserted (:27-73).",
+    "weakness": "Literals replace source lookups: the grader never opens the task's reference inputs (pdb_ids.txt, antibody.fasta, the plasmid, FPbase/PDB API results), so every requirement naming a source is enforced only through the literals; a G-only linker passes and failure messages misattribute (a one-residue error in a subprotein fails with the order message, because find returns -1).",
+    "anchor": "tests/test_outputs.py:25",
+    "source_entry": "corpus/knowledge/tb2-protein-assembly-grader.md"
+  },
+  "build-pmars": {
+    "task": "build-pmars",
+    "checks": "Four pytest functions: /usr/local/bin/pmars exists (:23-24); whatever 'pmars' resolves to on PATH prints at least two five-digit debugger addresses for each of two named warriors (:27-40); the last line of a 50-round battle matches 'Results: \\d+ \\d+ \\d+' at its start (:43-46); ldd output of the installed binary contains no libX11/libXt/libXext/libXaw string (:53-57); a one-level /app/pmars-* directory holds a 'debian' entry and a src directory with at least one *.c entry (:62-85).",
+    "weakness": "Build provenance read as shape, not history: nothing reads a package, checksum, build log, Makefile or mtime, so a canned 21-line program plus an empty debian/ directory and a zero-byte src/dummy.c pass 4 of 4; the Debian check is existence-only (a zero-byte regular file named 'debian' passes), the ldd scan is a DT_NEEDED scan blind to a run-time dlopen, and no exit status is ever read.",
+    "anchor": "tests/test_outputs.py:70",
+    "source_entry": "corpus/knowledge/tb2-build-pmars-grader.md"
+  },
+  "configure-git-webserver": {
+    "task": "configure-git-webserver",
+    "checks": "One pytest function: runs bash /tests/verify.sh as a subprocess, reads only its stdout and asserts the case-sensitive substring 'TEST PASSED' is present (:11-13); the helper fetches http://localhost:8080/hello.html twice (status first, then body) and compares the body with 'hello world'.",
+    "weakness": "Verdict channel and diagnostic channel are the same channel: a body containing only the token 'TEST PASSED' passes while the helper prints 'TEST FAILED', because verify.sh echoes the body into the graded stdout; and no assertion observes the clone, commit or push, so a static file with no repository, hook or push passes - only the first response's status and the second response's body are read.",
+    "anchor": "tests/test_outputs.py:13",
+    "source_entry": "corpus/knowledge/tb2-git-webserver-grader.md"
+  },
+  "regex-log": {
+    "task": "regex-log",
+    "checks": "One pytest function (test_regex_matches_dates): /app/regex.txt is read and stripped (:21-25), compiled (:27-30), run with re.findall(..., re.MULTILINE) against a 25-line log hard-coded in the test file (:34-68, :84-87), and the full match list compared for equality with nine literal expected dates (:70-81, :90).",
+    "weakness": "Fixed in-test fixture: the log and the nine expected dates are literals inside the test file, so a plain alternation of the nine strings is a passing 'regex'; several stated requirements are unobserved by that fixture (no-leading-zero octets, digit-adjacent dates, year width, month-length validity, the Feb-29 permitting side).",
+    "anchor": "tests/test_outputs.py:90",
+    "source_entry": "corpus/knowledge/tb2-regex-log-grader.md"
+  }
+}

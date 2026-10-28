@@ -1594,3 +1594,13 @@ wave dir; `CritAdmission` did not settle before the wave closed — recorded as 
 - **Freshness of the round itself.** Every number above re-derives from the two committed counters; the
   after-measurement ran in a clean clone of `11e79380d33d6e811f0010f2a2a0c22a3cdc359e` (`git status --porcelain`
   → 0 lines) and its receipts are `corpus/evidence/round51/c1-after.txt` and `c2-after.txt`.
+
+## Round-51 erratum (round 52; verifier-spotcheck correction)
+
+The round-51 line above says "63 of 64 seats wrote a report" and records `CritAdmission` as a
+dead seat. The committed `.ufo/waves/round-51/w1-results.json` has 64 entries with final output;
+the non-author spot-check independently counted 64 entries, 0 without output. The 63/64 statement
+was incorrect. Corrected reading: 64 of 64 seats produced final output; `CritAdmission` was not
+dead. This append-only correction is grounded in the round-51 verifier spot-check
+(`corpus/lessons/round-51-verifier-spotcheck.md`, "LOG/report disagreement") and the committed
+results file; the old text remains as historical record.

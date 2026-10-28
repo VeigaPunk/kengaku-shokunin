@@ -65,7 +65,11 @@ def step_captures(force: bool) -> None:
 
 def step_confirmations(force: bool) -> None:
     rows: list[dict] = []
-    for d in sorted(SCRATCH.glob("w2-W2ExecConfirm*/confirmations.json")):
+    sources = []
+    for base in (WAVE / "w2", SCRATCH):
+        sources.extend(sorted(base.glob("W2ExecConfirm*/confirmations.json")))
+        sources.extend(sorted(base.glob("W2RevConfirmations/confirmations.json")))
+    for d in sources:
         try:
             data = json.loads(d.read_text())
         except Exception as exc:  # noqa: BLE001
@@ -86,7 +90,13 @@ def step_confirmations(force: bool) -> None:
 
 
 def step_labels(force: bool) -> None:
-    for cand in (SCRATCH / "w2-W2ExecLabelsMerge" / "labels.json", SCRATCH / "C1ExecBlindLabels" / "labels.json"):
+    candidates = (
+        WAVE / "w2" / "W2ExecLabelsMerge" / "labels.json",
+        WAVE / "w1" / "C1ExecBlindLabels" / "labels.json",
+        SCRATCH / "w2-W2ExecLabelsMerge" / "labels.json",
+        SCRATCH / "C1ExecBlindLabels" / "labels.json",
+    )
+    for cand in candidates:
         if not cand.exists():
             continue
         try:
@@ -103,12 +113,15 @@ def step_labels(force: bool) -> None:
 
 
 def step_prior_art(force: bool) -> None:
-    for cand in (
+    candidates = (
+        WAVE / "w2" / "W2ExecPriorArtCheck" / "prior-art.md",
+        WAVE / "w1" / "C1ScoutPriorArt" / "prior-art.md",
+        WAVE / "w2" / "W2ScoutPriorArtFresh" / "prior-art.md",
         SCRATCH / "w2-W2ExecPriorArtCheck" / "prior-art.md",
         SCRATCH / "C1ScoutPriorArt" / "prior-art.md",
         SCRATCH / "w2-W2ScoutPriorArtFresh" / "prior-art.md",
-        SCRATCH / "w2-W2ExecPriorArtCheck" / "prior-art-audit.md",
-    ):
+    )
+    for cand in candidates:
         if cand.exists():
             EV.mkdir(parents=True, exist_ok=True)
             shutil.copy2(cand, EV / "prior-art.md")
@@ -118,49 +131,63 @@ def step_prior_art(force: bool) -> None:
 
 
 def step_rows(force: bool) -> None:
-    """Insert the new registry rows into SKILL.md's gate/probe registry table."""
-    src = SCRATCH / "w2-W2ExecRowsIntegrate" / "registry-rows.md"
-    if not src.exists():
-        for d in sorted(SCRATCH.glob("C2ScribeRows*/rows.md")):
-            src = d
-            break
-    if not src.exists():
-        print("SKIP no registry rows found")
-        return
-    rows = []
-    for line in src.read_text(errors="replace").splitlines():
-        line = line.strip()
-        if line.startswith("|") and line.endswith("|"):
+    """Merge all verified wave-1 / wave-2 row drafts, then insert into the registry table."""
+    candidates = [WAVE / "w2" / "W2ExecRowsIntegrate" / "registry-rows.md"]
+    for base in (WAVE / "w1", WAVE / "w2"):
+        if base.exists():
+            for d in sorted(base.glob("C2ScribeRows*")):
+                candidates.extend((d / "rows.md", d / "artifacts" / "rows.md"))
+    candidates.extend((SCRATCH / "w2-W2ExecRowsIntegrate" / "registry-rows.md",))
+    seen = set()
+    for src in candidates:
+        if not src.exists():
+            continue
+        for line in src.read_text(errors="replace").splitlines():
+            line = line.strip()
+            if not (line.startswith("|") and line.endswith("|")):
+                continue
             cells = [c.strip() for c in line.strip("|").split("|")]
-            if len(cells) != 8:
+            if len(cells) != 8 or set(cells[0]) <= set("-: "):
                 continue
-            if set(cells[0]) <= set("-: "):
+            if cells[0] in seen:
                 continue
-            rows.append(line)
-    if not rows:
-        print("SKIP no parsable registry rows in", src)
+            seen.add(cells[0])
+            row_lines.append(line)
+    if not row_lines:
+        print("SKIP no parsable registry rows found")
         return
+    rows = row_lines
     skill = LANE / "SKILL.md"
-    text = skill.read_text()
-    lines = text.splitlines()
+    lines = skill.read_text().splitlines()
     start = next((i for i, l in enumerate(lines) if l.startswith("## Gate/probe registry")), None)
     if start is None:
         print("SKIP registry heading not found")
         return
-    end = start
+    end = start + 1
     while end < len(lines) and (lines[end].startswith("|") or not lines[end].strip()):
         end += 1
-    existing = {l for l in lines[start:end]}
-    new = [r for r in rows if r not in existing]
+    existing = {
+        [c.strip() for c in l.strip("|").split("|")][0]
+        for l in lines[start:end]
+        if l.startswith("|") and len([c for c in l.strip("|").split("|")]) == 8
+    }
+    new = []
+    for r in rows:
+        first = [c.strip() for c in r.strip("|").split("|")][0]
+        if first not in existing:
+            existing.add(first)
+            new.append(r)
     if not new:
         print("all rows already present")
         return
-    insert_at = end - 1 if end > start and not lines[end - 1].strip() else end
+    insert_at = end
     while insert_at > start and not lines[insert_at - 1].strip():
         insert_at -= 1
     lines[insert_at:insert_at] = new
     skill.write_text("\n".join(lines) + "\n")
     print(f"inserted {len(new)} registry rows into SKILL.md at line {insert_at+1}")
+
+
 
 
 def step_measure(force: bool = False) -> None:

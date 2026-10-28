@@ -1,0 +1,312 @@
+===== adoption_check
+usage: adoption_check.py [-h] [--lane LANE] --expect EXPECT [--census]
+
+Re-derive an adoption round's landed state from committed bytes.
+
+options:
+  -h, --help       show this help message and exit
+  --lane LANE
+  --expect EXPECT
+  --census
+--exit=0
+===== attrib_probe
+usage: attrib_probe.py [-h]
+                       {block-sha,freeze-check,trials,force-trials,stream-trials,score} ...
+
+positional arguments:
+  {block-sha,freeze-check,trials,force-trials,stream-trials,score}
+
+options:
+  -h, --help            show this help message and exit
+--exit=0
+===== catalog_probe
+usage: catalog_probe.py [-h] [--lane LANE] [--diff] [--capture] [--verify]
+                        [--selftest]
+
+Re-probe the two live public model catalogs and check the catalog entry's
+freshness.
+
+options:
+  -h, --help   show this help message and exit
+  --lane LANE
+  --diff       accepted for the claim's counting command
+  --capture    round 33: fetch live and write bounded raw bytes
+  --verify     round 33: re-derive recorded numbers from committed bytes
+  --selftest
+--exit=0
+===== defect_ledger
+usage: defect_ledger.py [-h] [--lane LANE]
+
+options:
+  -h, --help   show this help message and exit
+  --lane LANE
+--exit=0
+===== gate_flip_check
+usage: gate_flip_check.py [-h] [--lesson LESSON] [--entry ENTRY] [--selftest]
+
+Require every conditional Gate refusal to be resolved by a recorded flip
+check.
+
+options:
+  -h, --help       show this help message and exit
+  --lesson LESSON  lesson markdown file whose `## Gate` section is checked
+  --entry ENTRY    entry markdown file (or a directory of them) the Gate
+                   concerns; repeatable; defaults to the `.md` names of the
+                   Gate section resolved under the lesson repo's
+                   corpus/knowledge/
+  --selftest       run the built fixtures and show the checker red and green
+--exit=0
+===== parser_policy_compare
+usage: parser_policy_compare.py [-h] [--root ROOT] [--summary | --json]
+                                [--selftest]
+
+Extraction-policy comparison on the frozen round-26 response population (round 27, C1).
+
+Responses and graders stay fixed; only the answer-extraction policy varies. E0..E8 are the
+pre-registered table in plans/round-27-claims.md, each a pure function of the raw response.
+Population, pins and per-record grader dispatch come from plans/grader_perturb.py; the exact
+Clopper-Pearson interval comes from plans/attrib_calibration.py. Offline, stdlib only.
+
+    python3 plans/parser_policy_compare.py [--root DIR] [--summary|--json] [--selftest]
+
+Exit 0: ran, and the pins and the E0 baseline reproduce. Exit 1: pin/baseline inconsistency, a
+policy or grader exception (a defect, never counted as FAIL), or selftest failure. Exit 2: usage.
+CP95 is a descriptive exact interval over these records, not a guarantee for future responses.
+
+options:
+  -h, --help   show this help message and exit
+  --root ROOT  repository root holding grader.py, plans/ and corpus/ (default:
+               this checkout)
+  --summary    one line per policy, then a TOTAL line (default)
+  --json       full machine-readable result
+  --selftest   kill seeded mutants with probes; alone, runs only the selftest
+--exit=0
+===== password_recovery_probe
+usage: password_recovery_probe.py [-h] [--lane LANE] [--dry | --stage-check]
+                                  [--work WORK]
+
+options:
+  -h, --help     show this help message and exit
+  --lane LANE
+  --dry
+  --stage-check
+  --work WORK    scratch parent, created if absent (default: $TMPDIR)
+--exit=0
+===== polyglot_c_py_probe
+usage: polyglot_c_py_probe.py [-h] [--lane LANE] [--dry | --stage-check]
+                              [--work WORK]
+
+options:
+  -h, --help     show this help message and exit
+  --lane LANE
+  --dry
+  --stage-check
+  --work WORK    scratch parent, created if absent (default: $TMPDIR)
+--exit=0
+===== round28_census
+usage: round28_census.py [-h] [--root ROOT] --revision REVISION
+
+Read-only round28 counters. Revision label is caller-supplied, not inferred
+HEAD.
+
+options:
+  -h, --help           show this help message and exit
+  --root ROOT
+  --revision REVISION  measured tree revision; caller must export or prove
+                       byte equality
+--exit=0
+===== round30_defects
+usage: round30_defects.py [-h] [--lane LANE] [--selftest]
+
+Re-derive the five defect items round 29's non-author closure routed to this
+lane.
+
+options:
+  -h, --help   show this help message and exit
+  --lane LANE
+  --selftest
+--exit=0
+===== round31_c1_verify
+usage: round31_c1_verify.py [-h] [--lane LANE] [--selftest]
+
+Second receipt for round 31's C1: the literals `adoption_check.py` does not
+read.
+
+options:
+  -h, --help   show this help message and exit
+  --lane LANE
+  --selftest
+--exit=0
+===== round31_defects
+usage: round31_defects.py [-h] [--lane LANE] [--selftest]
+
+Re-derive the ten defect items round 30's non-author closure routed to this
+lane.
+
+options:
+  -h, --help   show this help message and exit
+  --lane LANE
+  --selftest
+--exit=0
+===== round33_c1_verify
+usage: round33_c1_verify.py [-h] [--lane LANE] [--selftest]
+
+Second receipt for round 33's C1: the literals `adoption_check.py` does not
+read.
+
+options:
+  -h, --help   show this help message and exit
+  --lane LANE
+  --selftest
+--exit=0
+===== round33_defects
+usage: round33_defects.py [-h] [--lane LANE] [--selftest]
+
+Re-derive the six defect items round 32's non-author closure routed to this
+lane.
+
+options:
+  -h, --help   show this help message and exit
+  --lane LANE
+  --selftest
+--exit=0
+===== round35_c1_verify
+usage: round35_c1_verify.py [-h] [--lane LANE] [--fleet FLEET]
+
+options:
+  -h, --help     show this help message and exit
+  --lane LANE
+  --fleet FLEET
+--exit=0
+===== round35_hardening
+usage: round35_hardening.py [-h] [--lane LANE] [--repo REPO] [--skip SKIP]
+
+options:
+  -h, --help   show this help message and exit
+  --lane LANE
+  --repo REPO  git repo holding the freeze commit (default: --lane)
+  --skip SKIP
+--exit=0
+===== round36_c2_verify
+usage: round36_c2_verify.py [-h] [--lane LANE] [--fleet FLEET]
+
+options:
+  -h, --help     show this help message and exit
+  --lane LANE
+  --fleet FLEET
+--exit=0
+===== round45_c1_verify
+usage: round45_c1_verify.py [-h] [--lane LANE] [--work WORK] [--jobs JOBS]
+
+options:
+  -h, --help   show this help message and exit
+  --lane LANE
+  --work WORK
+  --jobs JOBS
+--exit=0
+===== round45_c2_verify
+usage: round45_c2_verify.py [-h] [--lane LANE] [--work WORK]
+
+options:
+  -h, --help   show this help message and exit
+  --lane LANE
+  --work WORK
+--exit=0
+===== round46_c1_verify
+usage: round46_c1_verify.py [-h] [--lane LANE] [--work WORK] [--jobs JOBS]
+                            [--refusals REFUSALS] [--sealed SEALED]
+                            [--fence FENCE] [--seed SEED]
+
+options:
+  -h, --help           show this help message and exit
+  --lane LANE
+  --work WORK
+  --jobs JOBS
+  --refusals REFUSALS  testing only: refusal module dir
+  --sealed SEALED      testing only: sealed module dir
+  --fence FENCE        testing only: fence file under test
+  --seed SEED          testing only: fixed token seed
+--exit=0
+===== round46_c2_verify
+usage: round46_c2_verify.py [-h] [--lane LANE] [--work WORK]
+
+options:
+  -h, --help   show this help message and exit
+  --lane LANE
+  --work WORK
+--exit=0
+===== round46_c3_verify
+usage: round46_c3_verify.py [-h] [--lane LANE] [--work WORK] [--filler]
+
+round-46 C3 counter (TB2 polyglot-c-py package)
+
+options:
+  -h, --help   show this help message and exit
+  --lane LANE
+  --work WORK
+  --filler     measure the plans/filler46/ control package instead of the
+               package under test
+--exit=0
+===== round50_c1_verify
+usage: round50_c1_verify.py [-h] [--lane LANE] [--work WORK] [--fence FENCE]
+                            [--skip-mutants] [--allow-dirty]
+
+options:
+  -h, --help      show this help message and exit
+  --lane LANE
+  --work WORK
+  --fence FENCE   fence under test (default plans/fixture_fence.py)
+  --skip-mutants  testing only: omit the mutant leg
+  --allow-dirty   testing only: score a dirty tree
+--exit=0
+===== round50_c2_audit
+usage: round50_c2_audit.py [-h] [--lane LANE] [--selftest]
+
+options:
+  -h, --help   show this help message and exit
+  --lane LANE
+  --selftest
+--exit=0
+===== round51_routing
+usage: round51_routing.py [-h] [--lane LANE] [--ledger LEDGER] [--run-checks]
+                          [--scratch SCRATCH] [--selftest]
+
+options:
+  -h, --help         show this help message and exit
+  --lane LANE
+  --ledger LEDGER
+  --run-checks
+  --scratch SCRATCH
+  --selftest
+--exit=0
+===== round51_surfaces
+usage: round51_surfaces.py [-h] [--lane LANE] [--manifest MANIFEST]
+                           [--province PROVINCE] [--selftest]
+
+options:
+  -h, --help           show this help message and exit
+  --lane LANE
+  --manifest MANIFEST
+  --province PROVINCE
+  --selftest
+--exit=0
+===== routed_open
+usage: routed_open.py [-h] [--lane LANE] [--file FILE] [--list] [--observe]
+                      [--timeout TIMEOUT] [--selftest]
+
+options:
+  -h, --help         show this help message and exit
+  --lane LANE
+  --file FILE        JSONL file (default: <lane>/corpus/routed-findings.jsonl)
+  --list             print one ROW line per finding
+  --observe          run each row's check against the lane tip
+  --timeout TIMEOUT  per-check timeout for --observe
+  --selftest
+--exit=0
+===== tb2_grader_probe
+usage: tb2_grader_probe.py [-h] [--lane LANE]
+
+options:
+  -h, --help   show this help message and exit
+  --lane LANE
+--exit=0

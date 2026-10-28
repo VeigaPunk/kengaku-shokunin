@@ -66,8 +66,13 @@ def entry_script(entry: str) -> str | None:
 
 
 def selftest_unbacked(cell: str, lane: Path) -> bool:
-    """True when the self-test cell names exactly one script and one flag that the
-    named script does not accept.  Ambiguous cells are not counted."""
+    """True when the self-test cell claims exactly one script+flag the script lacks.
+
+    A flag explicitly negated in prose (e.g. “no --selftest in the script”) is a
+    declaration that no self-test exists, not a claim that the script accepts it.
+    """
+    if re.search(r"\bno\b.{0,24}--[a-z][a-z0-9-]*", cell):
+        return False
     scripts = sorted(set(re.findall(r"(?:plans|corpus|grader)[A-Za-z0-9_./-]*\.py", cell)))
     flags = sorted(set(FLAG.findall(cell)))
     if len(scripts) != 1 or not flags:
