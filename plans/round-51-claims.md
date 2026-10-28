@@ -141,3 +141,52 @@ and be scored alone.
   scratch cwd; a check that needs a network or a live model counts as failed.
 - C1's resolve floor is a floor, not a target: adding a resolving surface raises the count, it
   never lowers it.
+
+## Instrument amendment A1 — 2026-10-28, written before the scored after-measurement
+
+Append-only. Three wave seats (`C2ExecG`, `C2ExecH`, `C2MutLedger`) and the survivor critic
+(`CritSurvivor`) measured the frozen C2 counter against the real ledger before any scored
+after-run, and found four instrument defects. The predicate legs are unchanged — none was added,
+removed or weakened; only the environment the existing legs run in, and the owner universe they
+validate against, are corrected. The C1 instrument is unchanged.
+
+1. **Check cwd.** `check()` ran each `fixed-verified` row's check with `cwd=<scratch tmp>`, while
+   61 of 61 pre-existing ledger checks are lane-relative. Measured: 6 pass under the scratch cwd,
+   **43 pass under the lane root** (`C2MutLedger`, `CritSurvivor`). The counter now runs checks
+   with `cwd=<lane>`; `$LANE` stays exported so a check that re-roots itself still works.
+2. **Check timeout.** 60 s → 90 s. No check in the ledger came near either bound; the change
+   removes a false-fail class for the two checks that shell out to a probe.
+3. **Owner universe.** `load_owners()` matched `name: {` against `../shokunin.conf`, whose lane
+   rows are `id|repo|axes`: measured **0 matches**, so seven real lane directories (`tsukuroi`,
+   `revenger`, `mado`, `lore`, `audio`, `game-dev-2d`, `game-dev-3d`) were rejected as owners.
+   The universe is now the curated set ∪ the `id|` rows of `shokunin.conf` ∪ every
+   `*-shokunin` directory on disk (24 owners at measurement).
+4. **`--ledger` path.** A relative `--ledger` raised `ValueError` in `relative_to`; the path is
+   resolved first.
+
+Disclosed consequence: the committed before-receipt (`claims/c2-before.txt`) is unaffected —
+it recorded `VERIFIED ran=0`, because no row carried a disposition at that point, so no check ran
+under either cwd. The after-measurement is the first run in which any check executes, and it runs
+under this amendment.
+
+## Ledger amendment A2 — 2026-10-28, written before the scored after-measurement
+
+Append-only. §C2's after-target says `rows=71`. The landed ledger carries **75**: the 71 base rows
+(all present, none deleted — verified as a subset by id) plus four rows this round opens for its own
+cross-domain findings:
+
+| id | finding | owner | disposition |
+|---|---|---|---|
+| R51-R1 | serving-plane identity pin for the live LFM3 server pair | `kama` | `routed` |
+| R51-R2 | no sibling routed-findings ledger carries owner/disposition | `protocol` | `routed` |
+| R51-R3 | three domain source trees absent operator-side | `unowned:integrator` | `routed` |
+| R51-R4 | `qwen-coder.service` unit absent; `:34113` dead | `kama` | `routed` |
+
+The predicate has no row-count leg, so the number is reconciled here, in the claim text, rather
+than by shrinking the artifact: the C2 target is "every row attributed", and 75 rows are attributed.
+
+Known survivors of the frozen predicate (measured by `C2MutLedger`, recorded, **not** fixed this
+round because a rule changed after data is not the claim's rule): duplicate `id`, row deletion,
+`check: "true"` as a `fixed-verified` check, `fixed-verified` on a `status: open` row, and a
+`source` that names a directory. Next round's amendment adds the legs; the landed artifact contains
+no instance of any of them (asserted in the round report).

@@ -1552,3 +1552,44 @@ forged a pass — `R50C1CritPredicate`), and a self-assessment row's pointer is 
 Wave: 72-seat v2 wave validated and prepared, 34 attack roles; the inline dispatcher mounted 40 seats and 50+
 seat outputs; no `WAVE-DONE` marker was written before close (reported as a conformance defect). See
 `corpus/lessons/round-50.md`.
+
+## Round 51 (hyaku run 11, 2026-10-28) — surface truth machine-checked (C1, freshness 8→9); every routed finding attributed (C2, adjacency 8→9)
+
+L1 `KengakuR51`. Claims frozen at `e07f131cf7037e58a21db6e1f3986cf401ad257c` (`plans/round-51-claims.md`),
+with instrument amendment A1 and ledger amendment A2 appended before the scored after-run. One v2 wave, 64
+seats (22 attack), spec/dispatch `4090c3db79d11279ab5e5121ba25e74aa316e6e7`; 63 of 64 seats wrote a report
+(`C2ExecLedgerMerge` delivered its fragment and findings by message and by a report written later in the
+wave dir; `CritAdmission` did not settle before the wave closed — recorded as a dead seat).
+
+- **R51-C1 (freshness 8→9).** `plans/round51_surfaces.py` + `plans/round51-surfaces.json` probe every row of
+  `PROVINCE.md`'s two surface tables. Base tip: `DRIFT 3` (research-notes, benchmark-battery and served-model
+  rows still asserted they resolve), `UNVERDICTED 1` (route telemetry absent without an ISO date),
+  `NUMBER-DRIFT 1` (the registry row said 25 rows, the registry held 170), `present=13 floor=13`,
+  `PREDICATE fail`, exit 1 (`.ufo/waves/round-51/claims/c1-before.txt`). After the landing:
+  `DRIFT 0 STALE 0 UNVERDICTED 0 NUMBER-DRIFT 0`, 20 entries over 10+10 rows, `present=14`, `PREDICATE pass`,
+  exit 0. Three surfaces were dated absent with receipts (`corpus/evidence/round51/surfaces/{paths,endpoints,pins}.txt`:
+  `~/Projects/webzites/repos/llm-wiki`, `~/archive/bench-arena`, `:34113`), the route-telemetry row gained its
+  date, the registry count was corrected to 171 (S178 appended this round), and a new surface row declares the
+  live LFM3 server pair with a capture-time identity pin.
+- **R51-C2 (adjacency 8→9).** `plans/round51_routing.py` requires an owner lane, a frozen disposition, a
+  resolving source, a non-empty check, a passing check for every `fixed-verified` row, a resolving close
+  reference for `fixed-historical`, and a non-`kengaku` owner plus `next` for every routed row. Base tip:
+  `FIELDS complete=0/71`, `OWNERS attributed=0/71`, `CHECKS present=61/71`, exit 1. After: `rows=75`
+  (71 base + R51-R1..R4), `attributed=75`, `CHECKS absent=0`, `VERIFIED ran=41 passed=41 failed=0`,
+  `NEXT violations=0`, exit 0.
+- **Wave findings that changed the instrument.** Four seats (`C2ExecG`, `C2ExecH`, `C2MutLedger`,
+  `CritSurvivor`) measured, before any scored after-run, that the frozen C2 counter ran every check from a
+  scratch cwd while 61/61 ledger checks are lane-relative (6 pass vs 43 pass), that its owner regex matched
+  0 lines of `shokunin.conf` and rejected seven real lane directories, and that `--ledger` crashed on a
+  relative path. Amendment A1 fixes those four; no predicate leg changed.
+- **Corrections recorded, not scored away.** `C1CritDeclareAllAbsent` proved control 1 fails on `STALE 13`,
+  not on the resolve floor (the floor counts probes, not declarations). `CritProseRead` ruled 18/19 `prose`
+  readings right and SF01 wrong under a stricter reading (the base-tip `DRIFT` would then be 2, not 3); the
+  frozen reading stands and the disagreement is in the report. `C2MutLedger` named five frozen-predicate
+  survivors (duplicate id, row deletion, `check:"true"`, `fixed-verified` on an open row, directory source);
+  the landed ledger contains none, and the legs wait for next round's amendment.
+- **Frontier.** S178 (llama.cpp server API reference @ `b7200`, `ab49f094`) admitted, tier A, quote located at
+  `:1163`; the Hugging Face revision-pinning page rejected (HTTP 404, no locatable anchor). Census:
+  170 rows → 171, `malformed=0`, `scripts/sources-census.sh validate --root … kengaku` exit 0 both times.
+- **Freshness of the round itself.** Every number above re-derives from the two committed counters; the
+  after-measurement runs in a clean clone of the landing commit.

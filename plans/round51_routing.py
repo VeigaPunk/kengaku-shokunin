@@ -47,13 +47,21 @@ FALLBACK_OWNERS = {"kengaku", "kama", "kagi", "kake", "kasegi", "kumitate",
 
 
 def load_owners(fleet: Path) -> set[str]:
-    conf = fleet / "shokunin.conf"
+    """Owner universe: the curated fallback set, the LANES rows of shokunin.conf
+    (`id|repo|axes`), and every `*-shokunin` lane directory on disk."""
     owners = set(FALLBACK_OWNERS)
+    conf = fleet / "shokunin.conf"
     if conf.is_file():
         for line in conf.read_text(errors="replace").split("\n"):
-            m = re.match(r"\s{0,6}([a-z][a-z0-9-]{2,15}):\s*\{", line)
+            m = re.match(r"\s*([a-z][a-z0-9-]{1,15})\s*\|", line)
             if m:
                 owners.add(m.group(1))
+    try:
+        for d in fleet.glob("*-shokunin"):
+            if d.is_dir():
+                owners.add(d.name[: -len("-shokunin")])
+    except OSError:
+        pass
     return owners
 
 
@@ -118,8 +126,8 @@ def check(lane: Path, ledger: Path, run_checks: bool, scratch: Path | None) -> i
         if disp == "fixed-verified" and cmd and run_checks:
             ran += 1
             try:
-                out = subprocess.run(["bash", "-lc", cmd], cwd=str(tmp),
-                                     capture_output=True, text=True, timeout=60,
+                out = subprocess.run(["bash", "-lc", cmd], cwd=str(lane),
+                                     capture_output=True, text=True, timeout=90,
                                      env={**os.environ, "TMPDIR": str(tmp),
                                           "LANE": str(lane)})
                 ok = out.returncode == 0
@@ -229,7 +237,7 @@ def main(argv=None) -> int:
             return _selftest(tmp)
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
-    ledger = Path(args.ledger) if args.ledger else lane / "corpus/routed-findings.jsonl"
+    ledger = Path(args.ledger).resolve() if args.ledger else lane / "corpus/routed-findings.jsonl"
     scratch = Path(args.scratch) if args.scratch else None
     return check(lane, ledger, args.run_checks, scratch)
 

@@ -1,0 +1,15 @@
+# round-51 surface probe — endpoints (2026-10-28)
+HTTP http://127.0.0.1:34113/health -> 000
+HTTP http://127.0.0.1:8791/ -> 200
+HTTP http://127.0.0.1:45669/health -> 200
+HTTP http://127.0.0.1:1234/health -> 200
+# listeners
+LISTEN 127.0.0.1:45669
+LISTEN 127.0.0.1:8791
+LISTEN 127.0.0.1:1234
+# served model identity (:45669 direct, :1234 router)
+MODELS45669 [('LFM3-1.7B', 'llamacpp', 32768)]
+MODELS1234 ['LFM3-1.7B', 'LFM3-1.7B-Uncensored', 'LFM3-Omni-2B', 'LFM3-VL-2B', 'LiquidAI/LFM3-1.7B-GGUF:Q8_0']
+ARGV45669 /home/vgpnk/src/llama.cpp/build/bin/llama-server --host 127.0.0.1 --jinja --log-colors off --port 45669 --alias LFM3-1.7B --ctx-size 32768 --model /home/vgpnk/models/lfm3/LFM3-1.7B/LFM3-1.7B-Q8_0.gguf --n-gpu-layers 99 
+ARGV1234  { path=/home/vgpnk/src/llama.cpp/build/bin/llama-server ; argv[]=/home/vgpnk/src/llama.cpp/build/bin/llama-server --models-dir /home/vgpnk/models/lfm3 --models-max 2 --host 127.0.0.1 --port 1234 -ngl 99 -c 32768 --jinja ; ignore_errors=no ; start_time=[Wed 202
+PROPS build_info=b1-39febd2 n_ctx=32768 temp=0.10000000149011612 total_slots=4

@@ -525,6 +525,7 @@ The earlier deferred round28 index statement is superseded by the actual Gate ad
 | `lessons/round-45-verifier-spotcheck.md` | Round-45 non-author closure (hyaku closure, not lane-authored): C1 not verified (keyed control passes the frozen counter; 8 of 10 held-out modules admitted), C2 counted move real but depth harmed (S152–S154 anchors, lone-CR predictor); routed defects §5 | closure of `3d9ea54`; routed into round 46 |
 | `lessons/round-46.md` | A frozen tag no case violates makes a counter leg unsatisfiable (Q40); a pre-receipt control that runs the gate's P10 executes the probe early (order check catches it); LOG in-place rewrite corrected by an appended entry; Gate with per-row located quotes | LOG.md round 46 |
 | `lessons/round-48.md` | Fresh-start C1/C2 claims: 120-fixture fence candidate and honest-population discrepancy (8/120, not r46's placeholder-argv 9/9); C2 V7/V8 defects and frozen probe stage-check failures; mined unsatisfiable tag table; S166 reopened; seven reportless seats | LOG.md round 48; `.ufo/waves/round-48/w1-results.json` |
+| `lessons/round-51.md` | Gate (S178 admit, Hugging Face revision page reject), six Mistakes rows (number-drift, stale-premise, landing, attribution, vacuous, survivor) and the round limits |
 | `evidence/round29-calibration/` | Round-start absence/census receipts; build and post-falsify repair summaries, selftests, JSON digests, cross-Python runs, mutation witnesses, projection-equality proof |
 | `../plans/config_projection.py` | Offline source-faithful projection of the pinned WebArena generator over 812 raw tasks × 3 synthetic profiles; not deployment configs or task validity |
 | `../plans/fixtures/r29/` | Pinned generator/profile manifest, seat-authored hand fixtures (digest-pinned in the instrument) and the persisted mutate-run-revert witness |
@@ -537,6 +538,7 @@ row or frontier discharge is asserted before returned complete second-seat re-re
 | Entry | Covers | Primary source |
 |---|---|---|
 | `knowledge/webarena-config-projection.md` | Offline pinned WebArena generator projection over812 tasks×3 synthetic profiles, occurrence/changed-field provenance and output-ordinal mapping; not deployment configs or task validity | S070–S074; S068 input pin; round29 Gate |
+| `knowledge/served-endpoint-identity-pin.md` | The six fields a served-endpoint identity pin must record (`id`+`owned_by`, alias/path, context+slots, generation defaults, build, process argv), the measured LFM3 pin of 2026-10-28, and the rule that a pin is host state, not a capability claim; S178 |
 
 | Coverage-map ground | Held now | Entry |
 |---|---|---|
@@ -659,3 +661,15 @@ the round29 deferred index statement after the Gate's exact-byte admission.
   `considerthese/2026-10-26.md` proposal 1 as QUALITY Q41.
 - `plans/round50_c1_verify.py`, `plans/round50_c2_audit.py`, `plans/honest50/`, `plans/sealed50/`,
   `plans/mutants50/`, `plans/controls50/` — the instrument, the frozen population and the hostile sets.
+
+
+### Round-51 evidence (2026-10-28)
+
+- `corpus/evidence/round51/surfaces/paths.txt`, `endpoints.txt`, `pins.txt` — the surface probes behind the
+  round-51 PROVINCE corrections: host paths (three absent, one present), endpoints (`:34113` 000; `:8791`,
+  `:45669`, `:1234` 200 with model identity and argv), and the digest/number claims (three pins match, 171
+  SOURCES rows, 12 evidence dirs, 28 root receipts, three selftests exit 0).
+- `../plans/round51_surfaces.py`, `../plans/round51-surfaces.json` — the surface-truth manifest counter and the
+  20-entry manifest (one entry per PROVINCE table row).
+- `../plans/round51_routing.py` — the routed-finding attribution counter (owner, disposition, check re-run,
+  close reference, routed-next).

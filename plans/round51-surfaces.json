@@ -14,7 +14,7 @@
       "section": "## Surfaces",
       "anchor": "| Research notes (SSOT for eval craft) |",
       "state": "absent",
-      "prose": "present",
+      "prose": "absent",
       "probe": {
         "kind": "paths",
         "targets": [
@@ -28,7 +28,7 @@
       "section": "## Surfaces",
       "anchor": "`~/archive/bench-arena/` \u2014 relocated intact",
       "state": "absent",
-      "prose": "present",
+      "prose": "absent",
       "probe": {
         "kind": "paths",
         "targets": [
@@ -42,7 +42,7 @@
       "section": "## Surfaces",
       "anchor": "`http://127.0.0.1:34113` \u2014 `/v1/models`",
       "state": "absent",
-      "prose": "present",
+      "prose": "absent",
       "probe": {
         "kind": "http",
         "urls": [
@@ -54,7 +54,7 @@
     {
       "id": "SF04",
       "section": "## Surfaces",
-      "anchor": "`~/Projects/bounties/ledger/telemetry.jsonl` \u2014 **ABSENT**",
+      "anchor": "`~/Projects/bounties/ledger/telemetry.jsonl` \u2014",
       "state": "absent",
       "prose": "absent",
       "probe": {
@@ -211,7 +211,7 @@
         "pattern": "^\\|\\s*S[0-9]{3,}\\s*\\|",
         "label": "SOURCES rows"
       },
-      "count_claim": 25,
+      "count_claim": 171,
       "why": "Core row states the registry holds 25 rows"
     },
     {
@@ -282,6 +282,21 @@
         ]
       },
       "why": "instrument exists in-repo"
+    },
+    {
+      "id": "SF20",
+      "section": "## Surfaces",
+      "anchor": "| Served local model (round 51 successor) |",
+      "state": "present",
+      "prose": "present",
+      "probe": {
+        "kind": "http",
+        "urls": [
+          "http://127.0.0.1:45669/health",
+          "http://127.0.0.1:1234/health"
+        ]
+      },
+      "why": "round-51 successor surface: the live OpenAI-compatible server pair on this host"
     }
   ]
 }

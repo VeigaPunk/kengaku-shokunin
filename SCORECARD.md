@@ -565,6 +565,7 @@ documents why stream:false was chosen and what stream:true changes).
 | pattern-valued-grader-probe | The pinned-grader-probe instrument on a grader whose graded artefact is an agent-authored regex file executed inside the grader against a fixed in-test log: 24 frozen candidate patterns, each mapped to one instruction requirement with a prediction written before the first run. Not task validity, not a regex-quality judgement. | `python3 plans/regex_log_probe.py --lane .` → `cases=24 observed_pass=8 observed_fail=16 mismatches=0`; receipt `corpus/evidence/round36/regex-log-probe.txt`, re-run byte-equal by `plans/round36_c2_verify.py` W5 | 36 |
 | gate-mutation-harness | Decide which advertised defect classes of a gate its own fixture battery demonstrates: one frozen byte-level silence mutant per branch, killed iff the gate's observable result (exit code plus the set of clauses printing `DEFECT`) changes on some fixture, with a null mutant for non-determinism and a renamed run so no fixture is recognised by its directory name. Survivors are advertised-but-undemonstrated clauses. Not proof that any check is the right check. | `python3 plans/round37_c1_verify.py --lane .` on a clean clone → `BATTERY fixtures=64 wrong=0 renamed_disagree=0`, `MUTANTS total=55 killed=55 survived=0 invalid=0 null_detected=0` (freeze control `killed=5`, `.ufo/waves/round-37/claims/control-c1-nothing.txt`) | 37 |
 | service-grader-probe | Execute a captured grader and its helper script offline in a per-case unprivileged bubblewrap sandbox (private network namespace, scratch HOME and /tmp, `/tests` read-only, `PATH` scoped to the named tools) against lane-built HTTP service states, and count observed verdicts against a frozen case table. Not task certification, not runtime inside the task image, not a reward measurement. | `python3 plans/git_webserver_probe.py --lane .` → `cases=22 observed_pass=9 observed_fail=13 mismatches=0` (read the summary line, not `$?`); receipt `corpus/evidence/round37/git-webserver-probe.txt`, re-run byte-equal by `plans/round37_c2_verify.py` V2/P10 | 37 |
+| surface-truth-manifest-counter | Decide whether every surface `PROVINCE.md` declares still resolves, whether an absent one carries a dated verdict, whether a declared count matches the count on disk, and whether the resolved set fell below a recorded floor | `python3 plans/round51_surfaces.py --lane .` → `ANCHORS 20/20`, `ROWS 10+10`, `DRIFT 0 STALE 0 UNVERDICTED 0 NUMBER-DRIFT 0`, `RESOLVE present=14 floor=13 verdict=met`, `PREDICATE R51-C1 pass`, exit 0; `--selftest` cases=9 failures=0 | 51 |
 
 Rows enter this table only through a round that demonstrates the capability running (`AXES.md` §Capabilities). The catalog receipt verifier entered in round 33 by passing its offline counter.
 The original round-24 capabilities — offline-replay-gate, frozen-table-pin-check, and sources-registry — entered through demonstration that round (commands re-run; output in `corpus/evidence/round24-census/after.txt`). The placeholder row was the scaffold, not a claim.
@@ -2184,3 +2185,53 @@ Controls (all fail the predicate, receipts `.ufo/waves/round-50/claims/`): do-no
 admits a frozen 126-fixture population of documented git states, refuses 32+18 hostile modules, and survives a
 15-row witnessed mutant floor; first working round 50. Coverage stays 7 (L0 `kengaku | round-33` cap) and is not
 claimed this round; no axis harmed.
+
+## Round 51 (hyaku run 11, 2026-10-28): every declared surface machine-checked (C1); every routed finding attributed (C2)
+
+Base tip `297e17927ba9342a87ba27a48cc5270a001de7cb`; stage-1 freeze `e07f131cf7037e58a21db6e1f3986cf401ad257c`;
+wave spec/dispatch `4090c3db79d11279ab5e5121ba25e74aa316e6e7`. One v2 wave, 64 seats (20 executor, 11 critic,
+10 scribe, 6 reviewer, 5 mutation-tester, 4 scout, 4 connector, 2 revenger, 2 simplifier), 22 attack seats
+(34 %). Lowest non-retired axis is coverage 7, whose own cap is open (`kengaku | round-25`, `kengaku | round-33`);
+the round therefore works the next-lowest band, the 8s. Instruments frozen before data: `plans/round51_surfaces.py`
++ `plans/round51-surfaces.json`, `plans/round51_routing.py`. Instrument amendment A1 and ledger amendment A2 are
+appended in `plans/round-51-claims.md`, both dated before the scored after-run.
+
+| claim | axis | before (frozen command, base tip) | after target |
+|---|---|---|---|
+| R51-C1 surface truth | freshness 8→9 | `python3 plans/round51_surfaces.py --lane .` → `DRIFT 3`, `UNVERDICTED 1`, `NUMBER-DRIFT 1`, `RESOLVE present=13 floor=13`, `PREDICATE fail`, exit 1 | `DRIFT 0`, `UNVERDICTED 0`, `NUMBER-DRIFT 0`, `STALE 0`, 20 entries covering 10+10 rows, `present=14 ≥ floor 13`, `PREDICATE pass`, exit 0 |
+| R51-C2 routed attribution | adjacency 8→9 | `python3 plans/round51_routing.py --lane . --run-checks` → `rows=71`, `FIELDS complete=0`, `OWNERS attributed=0`, `CHECKS present=61`, `PREDICATE fail`, exit 1 | `rows=75`, `unattributed=0`, `bad=0`, `CHECKS absent=0`, `VERIFIED ran=41 passed=41 failed=0`, `NEXT violations=0`, `PREDICATE pass`, exit 0 |
+
+### Round 51 — measured outcomes (appended after the landing receipts)
+
+| claim | before → after | counting command | verdict / score |
+|---|---|---|---|
+| R51-C1 | `DRIFT 3 / UNVERDICTED 1 / NUMBER-DRIFT 1`, 19 surfaces, 13 resolving → `DRIFT 0 / UNVERDICTED 0 / NUMBER-DRIFT 0 / STALE 0`, 20 surfaces, 14 resolving | `python3 plans/round51_surfaces.py --lane .` | **admitted**; freshness 8→**9** |
+| R51-C2 | `attributed=0/71`, `checks 61/71` → `attributed=75/75`, `checks 75/75`, `VERIFIED 41/41` | `python3 plans/round51_routing.py --lane . --run-checks` | **admitted**; adjacency 8→**9** |
+
+Controls (all fail the predicate; receipts `.ufo/waves/round-51/claims/`): C1 `declare-all-absent`
+(fails on `STALE 13`, **not** on the resolve floor — the floor counts probes, a correction recorded in the
+round report), `drop-one-entry` (`UNCOVERED 1`), `stale-pin` (`STALE 1`), `undated-absence`
+(`UNVERDICTED 1`), do-nothing (base tip, exit 1). C2 controls were run by the wave's mutation seat
+(`C2MutLedger`: seven named mutations, all killed) and by `CritClaimSizing`.
+
+Corrections and limits recorded, not scored away:
+
+- **Reading disagreement.** `CritProseRead` ruled 18/19 `prose` readings right and SF01 (the research-notes
+  row) wrong: the row already carried an `ABSENT 2026-10-20` marker, so a stricter reading of the row is
+  `absent` and the base-tip `DRIFT` would be 2, not 3. The frozen reading stands for the measurement (a
+  reading changed after data is not the claim's rule); the after-state is unaffected because both readings
+  agree once the row is dated.
+- **`DRIFT` is self-consistency.** It compares two manifest fields (`prose`, `state`); the external check is
+  the critic's row-by-row reading audit. Recorded as a `vacuous` mistake in `corpus/lessons/round-51.md`.
+- **Frozen-predicate survivors** (measured by `C2MutLedger`, recorded, not fixed post-data): duplicate `id`,
+  row deletion, `check: "true"` as a proof of fix, `fixed-verified` on an open row, a `source` naming a
+  directory. The landed artifact contains none of them (asserted in the round report).
+- **Instrument amendment A1** fixed four counter-environment defects found by wave seats before the
+  after-run (check cwd, timeout, owner universe, `--ledger` path). No predicate leg changed.
+- **Coverage stays 7** (L0 cap open) and is not claimed; novelty, operability, depth and calibration are
+  untouched this round.
+
+Capability entering the table this round: **surface-truth manifest counter** — `python3 plans/round51_surfaces.py
+--lane .` decides whether every surface `PROVINCE.md` declares still resolves, whether an absent one carries a
+dated verdict, whether a declared count matches the count on disk, and whether the resolved set fell below a
+floor; first working round 51.

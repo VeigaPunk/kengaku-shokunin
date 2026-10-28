@@ -1,0 +1,120 @@
+{
+  "seat": "C1ExecNewSurface",
+  "round": 51,
+  "claim": "R51-C1",
+  "axis": "freshness",
+  "captured_utc": "2026-10-28T18:26:47Z",
+  "rev_measured": "4090c3db79d11279ab5e5121ba25e74aa316e6e7",
+  "rev_freeze": "e07f131cf7037e58a21db6e1f3986cf401ad257c",
+  "surface": "the LFM3 model server and its router (llama-server router mode) live on this host at capture",
+  "placement": {
+    "section": "## Surfaces",
+    "row": "append as the last row of the `## Surfaces` table, immediately after the `| Public literature | arXiv ...` row (PROVINCE.md:20 at rev 4090c3db) and before the blank line that ends the table; in the validated scratch clone it landed at line 21",
+    "manifest": "append the `entry` object to `surfaces` in plans/round51-surfaces.json as the 20th entry (id SF20), after SF19"
+  },
+  "entry": {
+    "id": "SF20",
+    "section": "## Surfaces",
+    "anchor": "| LFM3 router + served instance (host state, pinned at capture) |",
+    "state": "present",
+    "prose": "present",
+    "probe": {
+      "kind": "http",
+      "urls": [
+        "http://127.0.0.1:1234/health"
+      ]
+    },
+    "why": "New round-51 declaration: the LFM3 model server and its router (llama-server router mode, `--models-dir ~/models/lfm3 --models-max 2`) answered on this host at capture (/health 200, /props role=router, /v1/models 200). The row asserts the router resolves, so prose=present and the probe must agree. http on /health is the machine check because the router assigns its child instance's port per spawn (:45669 at capture) and that port is instance state, not a declaration. Host state pinned at capture, not a capability: the lane records identity and liveness and sends no traffic; absence later is host state (operator-owned serving plane), not a lane defect."
+  },
+  "probe_spec": {
+    "chosen": {
+      "kind": "http",
+      "urls": [
+        "http://127.0.0.1:1234/health"
+      ],
+      "why": "the router's own health route returned 200 ({\"status\":\"ok\"}) on three consecutive calls; a 200 here proves both the HTTP surface and a LISTEN socket on 127.0.0.1:1234, which is the strongest single assertion the frozen counter can make for this row"
+    },
+    "port": {
+      "kind": "port",
+      "host": "127.0.0.1",
+      "port": 1234,
+      "why": "the same listener the http probe reaches; the row's printed check is `ss -ltn 'sport = :1234'` -> LISTEN. Use this only if the manifest prefers a bare listener assertion over the 200; it proves less (no HTTP semantics) and the counter accepts exactly one probe per entry, so it is offered as the alternative, not as a second entry"
+    },
+    "instance_port_capture_only": {
+      "kind": "port",
+      "host": "127.0.0.1",
+      "port": 45669,
+      "why": "the loaded child llama-server instance at capture. Deliberately NOT the manifest probe: the router assigns this port per spawn, so pinning it would declare instance state as a surface and go STALE at the next respawn"
+    }
+  },
+  "check_commands": [
+    "curl -fsS http://127.0.0.1:1234/health",
+    "curl -fsS http://127.0.0.1:1234/props",
+    "curl -fsS http://127.0.0.1:1234/v1/models",
+    "ss -ltn 'sport = :1234'",
+    "ss -ltn 'sport = :45669'"
+  ],
+  "row": "| LFM3 router + served instance (host state, pinned at capture) | `http://127.0.0.1:1234` — `/health`, `/props` (`role=router`, `max_instances=2`, `models_autoload=true`, build `b1-39febd2`), `/v1/models` over `--models-dir ~/models/lfm3 --models-max 2`; at capture the loaded child `llama-server` instance was `LFM3-1.7B` (`LFM3-1.7B-Q8_0.gguf`, `--ctx-size 32768`, `n_ctx_train=262144`) on `127.0.0.1:45669` | identity and liveness observation only, never a capability: operator-owned serving-plane host state (`## Adjacent` puts serving-plane health and endpoint identity with `kama`; `## Refusals` leaves flag-change authority unowned — escalate to the integrator, never remediate here); no completion request is sent and no capability number is derived; the router endpoint is the declared surface and is not a revival of the absent `:34113` endpoint above; the instance port is capture-time state the router reassigns on respawn, so a later absent probe is host state, not a lane defect **PINNED 2026-10-28** |",
+  "honesty": {
+    "state_vs_prose": "state is the probed truth (present at capture); prose is this lane's reading of what the row asserts (the row asserts the router resolves -> present). They agree, so the row introduces no DRIFT.",
+    "capability": "no completion request was made; no model output, latency or quality number is claimed. The row records that an endpoint exists and what it is, not what it can do.",
+    "pinning": "PINNED 2026-10-28 is a capture date, not a promise: endpoint probes are point-in-time (claims §Limits), and a later absent probe makes the counter report STALE against state=present, which is the intended behaviour.",
+    "ownership": "the serving plane is not this lane's to remediate (`## Refusals`: escalate flag changes to the integrator; `## Adjacent` puts serving-plane health and endpoint identity with kama). The row claims identity/liveness observation only."
+  },
+  "evidence": {
+    "captured_utc": "2026-10-28T18:26:47Z",
+    "health": "{\"status\":\"ok\"} (HTTP 200, 15 bytes)",
+    "props": "{\"role\":\"router\",\"max_instances\":2,\"models_autoload\":true,\"model_alias\":\"llama-server\",\"model_path\":\"none\",\"default_generation_settings\":{\"params\":null,\"n_ctx\":0},\"ui_settings\":{},\"build_info\":\"b1-39febd2\",\"cors_proxy_enabled\":false}",
+    "v1_models": "5 rows: LFM3-1.7B loaded (source=models_dir), LFM3-1.7B-Uncensored unloaded (models_dir), LFM3-Omni-2B unloaded (models_dir), LFM3-VL-2B unloaded (models_dir), LiquidAI/LFM3-1.7B-GGUF:Q8_0 unloaded (source=cache)",
+    "loaded_instance": {
+      "alias": "LFM3-1.7B",
+      "model": "/home/vgpnk/models/lfm3/LFM3-1.7B/LFM3-1.7B-Q8_0.gguf",
+      "ctx_size": 32768,
+      "n_ctx_train": 262144,
+      "n_params": 1728801600,
+      "ftype": "Q8_0",
+      "owned_by": "llamacpp",
+      "port": 45669
+    },
+    "models_dir": "/home/vgpnk/models/lfm3 -> LFM3-1.7B, LFM3-1.7B-Uncensored, LFM3-Omni-2B, LFM3-VL-2B",
+    "processes": [
+      {
+        "pid": 1706355,
+        "role": "router",
+        "argv": "/home/vgpnk/src/llama.cpp/build/bin/llama-server --models-dir /home/vgpnk/models/lfm3 --models-max 2 --host 127.0.0.1 --port 1234 -ngl 99 -c 32768 --jinja"
+      },
+      {
+        "pid": 242776,
+        "role": "loaded instance",
+        "argv": "/home/vgpnk/src/llama.cpp/build/bin/llama-server --host 127.0.0.1 --jinja --log-colors off --port 45669 --alias LFM3-1.7B --ctx-size 32768 --model /home/vgpnk/models/lfm3/LFM3-1.7B/LFM3-1.7B-Q8_0.gguf --n-gpu-layers 99"
+      }
+    ],
+    "sockets": "ss -ltn 'sport = :1234' -> LISTEN 127.0.0.1:1234; ss -ltn 'sport = :45669' -> LISTEN 127.0.0.1:45669",
+    "stability": "GET http://127.0.0.1:1234/health -> 200, 200, 200 on three consecutive calls",
+    "not_declared": "127.0.0.1:37323 is an ollama-spawned llama-server running a blob under /fast/scratch/hyaku/kama-r61-closure (kama's round-61 scratch run). It is scratch instance state owned by another lane, not a stable host surface, and is deliberately not declared."
+  },
+  "validation": {
+    "command": "python3 plans/round51_surfaces.py --lane .",
+    "cwd": "scratch clone at /fast/scratch/hyaku/kengaku-r51/C1ExecNewSurface/lane (git rev-parse --show-toplevel asserted == clone; HEAD 4090c3db; PROVINCE.md, plans/round51-surfaces.json, plans/round51_surfaces.py identical to freeze e07f131 per git diff --stat)",
+    "before": {
+      "entries": 19,
+      "anchors": "total=19 dup=0 missing=0",
+      "rows": "## Surfaces 9 rows / 9 entries / uncovered=0; ### Core 10 rows / 10 entries / uncovered=0",
+      "probes": "run=19 present=13 absent=6",
+      "problems": "DRIFT 3 (SF01, SF02, SF03), STALE 0, UNVERDICTED 1 (SF04), NUMBER-DRIFT 1 (SF14), ANCHOR-DUP 0, ANCHOR-MISSING 0, UNCOVERED 0, SECTION-MISSING 0",
+      "resolve": "observed_present=13 floor=13 verdict=met",
+      "predicate": "PREDICATE R51-C1 fail, exit 1"
+    },
+    "after": {
+      "entries": 20,
+      "anchors": "total=20 dup=0 missing=0",
+      "rows": "## Surfaces 10 rows / 10 entries / uncovered=0; ### Core 10 rows / 10 entries / uncovered=0",
+      "probes": "run=20 present=14 absent=6",
+      "problems": "DRIFT 3 (SF01, SF02, SF03 — unchanged, SF20 absent from every problem list), STALE 0, UNVERDICTED 1 (SF04), NUMBER-DRIFT 1 (SF14), ANCHOR-DUP 0, ANCHOR-MISSING 0, UNCOVERED 0, SECTION-MISSING 0",
+      "resolve": "observed_present=14 floor=13 verdict=met",
+      "predicate": "PREDICATE R51-C1 fail, exit 1 — the same three pre-landing corrections the L1 owns; SF20 adds no problem and raises present 13 -> 14"
+    },
+    "selftest": "python3 plans/round51_surfaces.py --selftest -> [selftest] cases=9 failures=0, [selftest] ALL PASS (instrument unchanged)",
+    "row_columns": "4 pipe characters -> 3 cells, matching the `## Surfaces` header; no escaped or embedded pipes"
+  }
+}
