@@ -35,6 +35,13 @@ after-run).  The frozen counters are `plans/round52_c1_grader_audit.py` and
   frozen population `plans/round52-tasks.json` (89 tasks, 184 grader files at pin
   2fd12b88aafdd04a52c298e3940bcb189f9766d6); captures under
   `corpus/evidence/round52/graders/`; the counter must print `PREDICATE R52-C1 pass`.
+- **Operator exclusion + Amendment A5 (read it in the claims file):** one pinned capture
+  (`sanitize-git-repo/tests/test_outputs.py`) is deliberately absent (GitHub GH013 push protection;
+  `corpus/evidence/round52/graders/EXCLUDED.md`), so the literal C1 counter reports
+  `present=183` of 184 and `classified=88` of 89 and prints `PREDICATE R52-C1 fail` regardless of
+  anything else; A5 adds a separate, additive `PREDICATE R52-C1-A5` line. Treat 183/184 as the
+  expected landed state — never re-fetch or re-add that file into the lane tree, and never count its
+  absence as a defect of your own item; every other leg (confirmations, prior art) is still live.
 - **R52-C2 (operability 8->9)** — every advertised verdict instrument has a truthful row in
   SKILL.md's *## Gate/probe registry*; the counter must print `PREDICATE R52-C2 pass`.
 
@@ -337,7 +344,10 @@ kill rule? does it make the predicate stricter or looser? could the claim have b
 the amendment? Then attack the amendment's own rule: is `P1` (presence-only) the right weakness
 class for a benchmark grader, or is it a trivial one that says nothing about task validity? Write
 `{SCRATCH}/w2-W2CritA1Amendment/a1-critique.md`. Report: your verdict (legitimate correction |
-fitted rule | indeterminate) with the evidence, and what you would freeze instead."""))
+fitted rule | indeterminate) with the evidence, and what you would freeze instead.
+ALSO attack Amendment A5 in the same file: it keeps the literal verdict (fail, 183/184) and adds
+an additive `PREDICATE R52-C1-A5`; does that launder a miss, hide a failed kill rule, or honestly
+price the exclusion? Verdict for A5 separately (honest-additive | launders-a-miss | indeterminate)."""))
 
 ITEMS.append(item("W2CritC1Reach", "critic", ["novelty"], f"""Falsify R52-C1's after-state end to end (read-only): can the C1 counter print
 `PREDICATE R52-C1 pass` without the claimed work being done? Enumerate every input that gets

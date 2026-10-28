@@ -202,6 +202,32 @@ def collect(lane: Path):
     return pop, records, expected, present, mismatched, candidates, sums
 
 
+
+def excluded_captures(lane: Path, sums: dict) -> list[dict]:
+    """A5: paths named in graders/EXCLUDED.md with a sha256; `pinned` = the digest equals the SHA256SUMS line."""
+    p = lane / "corpus" / "evidence" / "round52" / "graders" / "EXCLUDED.md"
+    if not p.exists():
+        return []
+    text = p.read_text(errors="replace")
+    m_path = re.search(r"Excluded path: `corpus/evidence/round52/graders/([^`]+)`", text)
+    m_sha = re.search(r"sha256: `([0-9a-f]{64})`", text)
+    if not m_path or not m_sha:
+        return []
+    path = m_path.group(1)
+    absent = not (lane / "corpus" / "evidence" / "round52" / "graders" / path).exists()
+    return [{"path": path, "pinned": absent and sums.get(path) == m_sha.group(1)}]
+
+
+def ok_without_capture_legs(present, mismatched, records, tasks_total, conf_new, pa_ok, exc_tasks) -> bool:
+    """Every frozen leg except the two the exclusion touches (capture count, classified count)."""
+    return (
+        mismatched == 0
+        and len(records) == tasks_total
+        and sum(1 for r in records.values() if r.get("features")) + len(exc_tasks) == tasks_total
+        and len(conf_new) >= 2
+        and pa_ok
+    )
+
 def lane_read_tasks(lane: Path) -> set[str]:
     """Derive the pre-round hand-read task ids from the lane's named TB2 grader entries."""
     read = set()
@@ -324,6 +350,23 @@ def verdict(lane: Path) -> int:
     print(f"PRIOR-ART ok={pa_ok} urls={pa_urls}")
     print(f"LABELS agree={agree} of {total}")
     print(f"PREDICATE R52-C1 {'pass' if ok else 'fail'}")
+    # --- Amendment A5 (2026-10-28, before the scored after-run): ADDITIVE report only.  The literal
+    # frozen predicate above is unchanged and decides the kill rule; this block prices what the
+    # operator's GH013 exclusion cost, so the closure can rule on both readings.
+    exc = excluded_captures(lane, sums)
+    exc_tasks = sorted(
+        t for t, files in pop["tasks"].items() if primary_grader(files) in {e["path"] for e in exc if e["pinned"]}
+    )
+    pinned = sum(1 for e in exc if e["pinned"])
+    a5_ok = (
+        ok_without_capture_legs(present, mismatched, records, tasks_total, conf_new, pa_ok, exc_tasks)
+        and present + pinned == expected
+        and sum(1 for r in records.values() if "error" not in r) + len(exc_tasks) == tasks_total
+    )
+    print(f"A5 EXCLUDED listed={len(exc)} digest_pinned={pinned} tasks={exc_tasks}")
+    print(f"A5 CAPTURES present+pinned_excluded={present + pinned} of {expected}")
+    print(f"A5 TASKS classified+excluded={sum(1 for r in records.values() if 'error' not in r) + len(exc_tasks)} of {tasks_total}")
+    print(f"PREDICATE R52-C1-A5 {'pass' if a5_ok else 'fail'}")
     return 0 if ok else 1
 
 

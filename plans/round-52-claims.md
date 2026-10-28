@@ -291,3 +291,21 @@ preserve the disclosure, but must not be used in the report, entry, score or tre
 claim's measured per-test count is the counter output at the final landing revision. This is a
 correction to a disclosed exploratory observation, not a change to the frozen population,
 classification rules, threshold, controls or target.
+
+## Amendment A5 — 2026-10-28, before the scored after-run (operator exclusion of one capture; additive report)
+
+At lane commit `bfbcb07` the operator excluded one pinned upstream capture
+(`sanitize-git-repo/tests/test_outputs.py`, sha256 `57e49041…b59e`) because GitHub push protection
+(GH013) flags a Hugging Face token pattern inside that public test fixture; the bytes were left out
+rather than bypassing push protection (`corpus/evidence/round52/graders/EXCLUDED.md`).
+Consequence under the **literal frozen predicate**: `CAPTURES present=183` (target 184) and
+`classified=88` (target 89) — legs 1 and 2 fail by one file, and by the frozen kill rule R52-C1 is
+then **not admitted**. That literal verdict stands and is what the report states; novelty stays 8.
+
+A5 changes **no frozen rule**. The counter adds three lines and one extra predicate, printed after
+the literal one: `A5 EXCLUDED` (path named in `EXCLUDED.md` whose sha256 equals its `SHA256SUMS`
+line and whose file is absent), `A5 CAPTURES present+pinned_excluded`, `A5 TASKS
+classified+excluded`, and `PREDICATE R52-C1-A5` (all frozen legs, with the excluded task counted as
+digest-pinned). The A5 predicate exists so the closure/operator can rule on whether a digest-pinned
+absence should count; it never replaces the literal verdict, and exit code follows the literal one.
+Wave-2 critic seats must attack A5 (does it launder a miss?).
