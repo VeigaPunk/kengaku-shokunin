@@ -1,261 +1,227 @@
 {
-  "target": "plans/fixture_fence.py (R48C1ExecFenceA candidate: \u00a77 diff applied to a543d920-era base)",
-  "candidate_fence_sha256": "b687b1d9dd78282f09fc10847c453fb74157f116ea56a0d498ef9cd91ec0ca52",
-  "payload_format": "inline unified diff payload; apply with git apply to the candidate fence. digest = resulting mutated fence SHA-256; payload_sha256 = diff bytes SHA-256.",
-  "count": 23,
-  "mutants": [
-    {
-      "id": "c1-mut-01-gitdir-file",
-      "class": "delete-leg",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -259,8 +259,6 @@\n                 return None, f\"{_rel(p, d)} cannot be lstat'ed\"\n             if stat.S_ISLNK(st.st_mode):\n                 return None, f\"{_rel(p, d)} is a symlink\"\n-            if name == \".git\":\n-                return None, f\"{_rel(p, d)} is a file (gitdir redirect), not a directory\"\n             if not stat.S_ISREG(st.st_mode):\n                 return None, f\"{_rel(p, d)} is a special file\"\n             if st.st_nlink > 1:\n",
-      "payload_sha256": "fbffc45e350a4a84905535eea3234a7587802e57c38960f736ad8480827a76d7",
-      "description": "Drop the `.git`-file (gitdir redirect) refusal leg in the tree walk's files loop.",
-      "expected_effect": "A fixture whose walked tree carries a `.git` FILE (gitdir: redirect, worktree/gitfile layout, submodule shape) is no longer refused at the tree leg; the counter catches it if a frozen module's refusal flips to admission (REFUSALS/SEALED clean<total) or the admitted module then reads outside d (LEAK).",
-      "payload_kind": "unified-diff",
-      "digest": "bfefa04840e4e05ffab263f0446c4017865eaa5fd1bb68e78e41c0bd90288ced",
-      "target_payload_path": "plans/mutants49/c1-mut-01-gitdir-file.patch"
-    },
-    {
-      "id": "c1-mut-02-symlink-dir-dead",
-      "class": "weaken-check",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -240,7 +240,7 @@\n                 st = os.lstat(p)\n             except OSError:\n                 return None, f\"{_rel(p, d)} cannot be lstat'ed\"\n-            if stat.S_ISLNK(st.st_mode):\n+            if stat.S_ISLNK(0):\n                 return None, f\"{_rel(p, d)} is a symlink\"\n             if not stat.S_ISDIR(st.st_mode):\n                 return None, f\"{_rel(p, d)} is not a directory\"\n",
-      "payload_sha256": "56e9f4cd86e69d3ec371e71b73f906f1845247670b44cb0a99a5c08968b1c9ed",
-      "description": "Dead-code the directory-symlink check in the tree walk: `stat.S_ISLNK(st.st_mode)` -> `stat.S_ISLNK(0)` (mode 0 is never a symlink).",
-      "expected_effect": "A symlinked directory inside the fixture (incl. a symlinked `.git` pointing outside d) is no longer refused; os.walk's followlinks=False already skips descent, so nothing downstream re-refuses it \u2014 a store reached through the link is classified from bytes outside d (LEAK leg catches; else SEALED clean drops).",
-      "payload_kind": "unified-diff",
-      "digest": "533a317039da3353742a40f7078bd64e913bc6298096b9e794b05703a4390964",
-      "target_payload_path": "plans/mutants49/c1-mut-02-symlink-dir-dead.patch"
-    },
-    {
-      "id": "c1-mut-03-drop-file-mountbound",
-      "class": "delete-leg",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -265,8 +265,6 @@\n                 return None, f\"{_rel(p, d)} is a special file\"\n             if st.st_nlink > 1:\n                 return None, f\"{_rel(p, d)} has more than one hard link\"\n-            if st.st_dev != ddev:\n-                return None, f\"{_rel(p, d)} crosses a mount boundary (device {st.st_dev} != {ddev})\"\n     if len(repos) > REPO_CAP:\n         return None, f\"fixture holds more than {REPO_CAP} repos\"\n     return repos, None\n",
-      "payload_sha256": "70ef4642c53e6ad0f0c563bc09ee6275692dc0fec0ba47bb7a3ce2a3eb6cb409",
-      "description": "Delete the per-file device-boundary check (mount boundary) in the tree walk.",
-      "expected_effect": "A file inside the fixture tree living on a different device (a mount crossing) is admitted; the advertised mount-point boundary is silently dropped \u2014 caught iff the population's mount-boundary module flips (needs a real mount; may SURVIVE on hosts without that fixture class, which is itself a coverage datum).",
-      "payload_kind": "unified-diff",
-      "digest": "f7c989ef5f2068f3ef9b7510d4d762c60ce50eb38b274aabd5228f15c1bf9700",
-      "target_payload_path": "plans/mutants49/c1-mut-03-drop-file-mountbound.patch"
-    },
-    {
-      "id": "c1-mut-04-hardlink-threshold",
-      "class": "flip-comparison",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -263,7 +263,7 @@\n                 return None, f\"{_rel(p, d)} is a file (gitdir redirect), not a directory\"\n             if not stat.S_ISREG(st.st_mode):\n                 return None, f\"{_rel(p, d)} is a special file\"\n-            if st.st_nlink > 1:\n+            if st.st_nlink > 1000:\n                 return None, f\"{_rel(p, d)} has more than one hard link\"\n             if st.st_dev != ddev:\n                 return None, f\"{_rel(p, d)} crosses a mount boundary (device {st.st_dev} != {ddev})\"\n",
-      "payload_sha256": "3b5d19920c29306b076b6107a7484d33bd58c3d6709095dc70ac1255b55f886a",
-      "description": "Raise the multi-link refusal threshold 1 -> 1000 in the tree walk's files loop.",
-      "expected_effect": "A regular file shared with a name outside d (st_nlink > 1) is admitted: its bytes are not provably the fixture's. Caught iff a frozen module carries a hardlinked file (expected in the hostile classes).",
-      "payload_kind": "unified-diff",
-      "digest": "11f76a0a3c12c8c86d4fba95429a5c40efaa60933eb89469e5f54a0c115846c5",
-      "target_payload_path": "plans/mutants49/c1-mut-04-hardlink-threshold.patch"
-    },
-    {
-      "id": "c1-mut-05-git-top-commondir",
-      "class": "weaken-allowlist",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -101,7 +101,7 @@\n REF_PATH = re.compile(r\"\\A[A-Za-z0-9_][A-Za-z0-9._/-]*\\Z\", re.ASCII)\n \n GIT_TOP = {\"HEAD\", \"ORIG_HEAD\", \"COMMIT_EDITMSG\", \"config\", \"description\", \"hooks\", \"index\", \"info\",\n-           \"logs\", \"objects\", \"refs\", \"packed-refs\"}\n+           \"logs\", \"objects\", \"refs\", \"packed-refs\", \"commondir\"}\n GIT_DIRS = {\"hooks\", \"info\", \"logs\", \"objects\", \"refs\"}\n REF_NAMESPACES = (\"heads\", \"tags\", \"notes\")     # directories under `refs/` git writes\n CFG_SECTIONS = {\"core\", \"user\", \"init\"}\n",
-      "payload_sha256": "ccf26b1732d92b7a1221296d1be018d43c5e4a8ffb4e4571c3be8d35feb8c36e",
-      "description": "Add `commondir` to the GIT_TOP allowlist.",
-      "expected_effect": "`.git/commondir` \u2014 the classic common-dir redirect \u2014 is classified as an ordinary regular file and admitted unchecked; git would resolve the object store outside d. SEALED/refusal modules in the commondir class flip to admission.",
-      "payload_kind": "unified-diff",
-      "digest": "baee4fa4e4bbe9131d0f4a841f08c2eb088def19e9b76ab9c4660de0061b40e6",
-      "target_payload_path": "plans/mutants49/c1-mut-05-git-top-commondir.patch"
-    },
-    {
-      "id": "c1-mut-06-objinfo-fallthrough",
-      "class": "weaken-check",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -563,7 +563,7 @@\n             if why:\n                 return why\n             continue\n-        return f\"{_rel(q, label)} is not a plain object-info entry (object-store redirect)\"\n+        continue\n     return None\n \n \n",
-      "payload_sha256": "8eb4dad28ac4b682acfee3f5b88865cc1d9e7d827d193dcc5e2bda08a52f3c1f",
-      "description": "Replace the `.git/objects/info/` fallthrough refusal with `continue`.",
-      "expected_effect": "Any name under `.git/objects/info/` \u2014 `alternates`, `http-alternates`, redirects \u2014 is admitted; object store can be redirected outside d. Frozen alternates-class modules flip to admission.",
-      "payload_kind": "unified-diff",
-      "digest": "bb5fec9ec5530c5d9a42590d4d6171c03c71eee981fb5dd2aa893a338f4e483e",
-      "target_payload_path": "plans/mutants49/c1-mut-06-objinfo-fallthrough.patch"
-    },
-    {
-      "id": "c1-mut-07-config-cr",
-      "class": "delete-leg",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -340,8 +340,6 @@\n         return f\"{label}/config exceeds {CONFIG_CAP} bytes\"\n     if b\"\\x00\" in raw:\n         return f\"{label}/config carries a NUL byte\"\n-    if b\"\\r\" in raw:\n-        return f\"{label}/config carries a bare CR\"\n     if any(b >= 0x80 for b in raw):\n         return f\"{label}/config carries a non-ASCII byte\"\n     sect, sub = \"\", None\n",
-      "payload_sha256": "90e01e62ac0566b3f2497d5454acf730c038249a81f2443fd2657b164bdd58ac",
-      "description": "Delete the bare-CR refusal in `.git/config` parsing.",
-      "expected_effect": "A config carrying a CR byte (the r45 '\\r'-before-section-header escape family) re-enters the parser unstripped \u2014 a CR-prefixed `[include]`/`[includeIf]`-adjacent line is classified differently than git reads it. Frozen CR-family modules flip.",
-      "payload_kind": "unified-diff",
-      "digest": "b61ca8512a672e4e6d1bc1311caad661889e7339d5e15356db3ce90d3a7b7c82",
-      "target_payload_path": "plans/mutants49/c1-mut-07-config-cr.patch"
-    },
-    {
-      "id": "c1-mut-08-config-unknown-key",
-      "class": "weaken-check",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -301,7 +301,7 @@\n             if VALUE_TEXT.match(val) is None:\n                 return f\"{label}/config {where} carries a value the parser cannot classify\"\n             return None\n-        return f\"{label}/config key {where} is not allowlisted\"\n+        return None\n     if not has:\n         if need != \"bool\":\n             return f\"{label}/config key {where} needs a value\"\n",
-      "payload_sha256": "a3c7832634d607defcd941116bd3b0e38c491c89680a568f24f9816913d6bdf5",
-      "description": "Change `_config_value`'s unknown-key refusal to `return None`.",
-      "expected_effect": "Any key under an allowlisted section is admitted: `core.hooksPath`, `core.attributesFile`, `core.excludesFile`, `core.fsmonitor`, `core.worktree`, `extensions.worktreeConfig` \u2014 the whole redirect-key family \u2014 now pass inside `[core]`/`[remote]`-style sections.",
-      "payload_kind": "unified-diff",
-      "digest": "47687d2c42b7cf8a393466420f18fd79b6ba001b58460959e6b6f6b04113402b",
-      "target_payload_path": "plans/mutants49/c1-mut-08-config-unknown-key.patch"
-    },
-    {
-      "id": "c1-mut-09-url-insteadof",
-      "class": "weaken-allowlist",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -105,7 +105,7 @@\n GIT_DIRS = {\"hooks\", \"info\", \"logs\", \"objects\", \"refs\"}\n REF_NAMESPACES = (\"heads\", \"tags\", \"notes\")     # directories under `refs/` git writes\n CFG_SECTIONS = {\"core\", \"user\", \"init\"}\n-CFG_SUB_SECTIONS = {\"remote\", \"branch\"}         # inert declarations: URLs and refspecs, no reads\n+CFG_SUB_SECTIONS = {\"remote\", \"branch\", \"url\"}         # inert declarations: URLs and refspecs, no reads\n CFG_KEYS = {\n     (\"core\", \"repositoryformatversion\"): \"0\",\n     (\"core\", \"filemode\"): \"bool\",\n@@ -118,7 +118,7 @@\n     (\"core\", \"safecrlf\"): \"safecrlf\",\n }\n CFG_TEXT = {(\"user\", \"name\"), (\"user\", \"email\"), (\"init\", \"defaultbranch\")}\n-CFG_SUB_KEYS = {(\"remote\", \"url\"), (\"remote\", \"fetch\"), (\"remote\", \"tagopt\"),\n+CFG_SUB_KEYS = {(\"remote\", \"url\"), (\"remote\", \"fetch\"), (\"remote\", \"tagopt\"), (\"url\", \"insteadof\"),\n                 (\"branch\", \"remote\"), (\"branch\", \"merge\")}\n BOOL = {\"true\", \"yes\", \"on\", \"1\", \"false\", \"no\", \"off\", \"0\"}\n FALSEY = {\"false\", \"no\", \"off\", \"0\"}\n",
-      "payload_sha256": "88caf5c67d973724c34028e7642af2c6a25b66f4c8d83b062b644cfb21e6f011",
-      "description": "Allowlist the `[url \"<base>\"]` subsection and its `insteadOf` key.",
-      "expected_effect": "`url.<base>.insteadOf` rewrites every fetch/push URL git performs \u2014 an inert-looking declaration that redirects network/local-path reads. Frozen url.insteadOf modules (include/url family) flip to admission.",
-      "payload_kind": "unified-diff",
-      "digest": "e474dc42538ea77982ccb744e43428446bf9d76f29dc5ab537d4ffff33380efa",
-      "target_payload_path": "plans/mutants49/c1-mut-09-url-insteadof.patch"
-    },
-    {
-      "id": "c1-mut-10-inside-prefix",
-      "class": "weaken-check",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -135,7 +135,7 @@\n \n def _inside(p, d):\n     p, d = _norm(p), _norm(d)\n-    return p == d or p.startswith(d + os.sep)\n+    return p == d or p.startswith(d)\n \n \n def _rel(p, d):\n",
-      "payload_sha256": "d17568e3ea5f7abd8c6f591ba02ee8e079836a0d6fd353c8f6c7a7eb67cf2ffc",
-      "description": "Widen `_inside` from `d + os.sep` prefix to bare `d` prefix.",
-      "expected_effect": "A sibling path that merely shares the fixture's leading bytes (`/d` vs `/d-evil/x`) is admitted as 'inside'; argv values can escape d lexically. Caught by any population module whose argv names a prefix-sibling path.",
-      "payload_kind": "unified-diff",
-      "digest": "d88085171bda1724ce94205130787a5495874a6c96f96529697074020d0cdcf0",
-      "target_payload_path": "plans/mutants49/c1-mut-10-inside-prefix.patch"
-    },
-    {
-      "id": "c1-mut-11-head-ref-widen",
-      "class": "weaken-check",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -83,7 +83,7 @@\n ANCHOR_OPTS = {\"--lane\": True, \"--evidence-ref\": True, \"--verbose\": False}\n \n HEX40 = re.compile(rb\"\\A[0-9a-f]{40}(?:\\n)?\\Z\")\n-HEAD_REF = re.compile(rb\"\\Aref: refs/heads/[A-Za-z0-9_][A-Za-z0-9._/-]*\\n\\Z\")\n+HEAD_REF = re.compile(rb\"\\Aref: refs/[A-Za-z0-9_][A-Za-z0-9._/-]*\\n\\Z\")\n HEAD_HEX = re.compile(rb\"\\A[0-9a-f]{40}\\n\\Z\")\n INFO_REFS = re.compile(rb\"\\A[0-9a-f]{40}\\t([A-Za-z0-9_][A-Za-z0-9._/-]*)(\\^\\{\\})?\\n\\Z\")\n PACKS_ROW = re.compile(rb\"\\AP ([A-Za-z0-9_][A-Za-z0-9._-]*\\.pack)\\n\\Z\")\n",
-      "payload_sha256": "c2de711113e5c608ee242681e0fd7bda947111205570da057453156af57476a5",
-      "description": "Widen HEAD_REF's symbolic-ref pattern from `refs/heads/` to `refs/`.",
-      "expected_effect": "`HEAD` may now point at any `refs/` subtree (`refs/remotes/...`, and dot/dot-ish tails the char class admits) \u2014 a clone-layout or traversal-shaped symbolic HEAD passes the plain-init check.",
-      "payload_kind": "unified-diff",
-      "digest": "10039879df8933677a73b51c66290751c1e33a5d3762db0675f660711bf4fc72",
-      "target_payload_path": "plans/mutants49/c1-mut-11-head-ref-widen.patch"
-    },
-    {
-      "id": "c1-mut-12-store-required",
-      "class": "delete-leg",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -735,7 +735,7 @@\n             why = _packed(q, label)\n             if why:\n                 return why\n-    for req in (\"HEAD\", \"config\", \"objects\", \"refs\"):\n+    for req in (\"HEAD\", \"config\", \"refs\"):\n         if req not in have:\n             return f\"{label} has no {req}\"\n     if \"hooks\" in have:\n",
-      "payload_sha256": "b2a568d15d27a2bb93c332441ad62f9aedc45b49571eeebd6add7cbdb95d9ec8",
-      "description": "Drop `objects` from the required `.git` entries.",
-      "expected_effect": "A `.git` with no `objects/` directory (store fully redirected/absent) is admitted as a repo; the plain-init proof no longer requires the object store to exist inside d.",
-      "payload_kind": "unified-diff",
-      "digest": "5b416bfe30bcaae2848c86fb2136cf4257c5ce503154137f1422055ee602f351",
-      "target_payload_path": "plans/mutants49/c1-mut-12-store-required.patch"
-    },
-    {
-      "id": "c1-mut-13-entry-cap-shrink",
-      "class": "flip-comparison",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -73,7 +73,7 @@\n import re\n import stat\n \n-ENTRY_CAP = 200000          # walked entries before the tree itself is refused as pathological\n+ENTRY_CAP = 20          # walked entries before the tree itself is refused as pathological\n REPO_CAP = 64               # collected repos before the fixture is refused as pathological\n CONFIG_CAP = 1 << 20        # a `.git/config` larger than this is refused unread\n INDEX_CAP = 1 << 24         # a `.git/index` larger than this is refused\n",
-      "payload_sha256": "599f27a50fd5c180ead29b7b8e9656635e82d2ab42997f548513213969890b7b",
-      "description": "Shrink ENTRY_CAP 200000 -> 20.",
-      "expected_effect": "Over-refusal mutant: every honest fixture whose tree exceeds 20 entries is refused at the tree leg. The counter's HONEST leg (refused=0) must catch it \u2014 exercises the refusal direction of the kill rule.",
-      "payload_kind": "unified-diff",
-      "digest": "e8f4ecfce531559472976a64d02f0c5f1489e5ab0a9d8e1024be3319a2dc271c",
-      "target_payload_path": "plans/mutants49/c1-mut-13-entry-cap-shrink.patch"
-    },
-    {
-      "id": "c1-mut-14-argv-placeholder",
-      "class": "delete-leg",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -213,8 +213,6 @@\n             return None, f\"{opt} value carries a NUL byte\"\n         if \"\\r\" in val or \"\\n\" in val:\n             return None, f\"{opt} value carries a newline\"\n-        if val.startswith(\"{\"):\n-            return None, f\"{opt} value {val!r} is a placeholder the fence cannot resolve\"\n         raw = val if val.startswith(\"/\") else os.path.join(str(d), val)\n         if not _inside(raw, d):\n             return None, f\"{opt} value {val!r} resolves outside the fixture\"\n",
-      "payload_sha256": "30e0a85815a87922cf70e2024150c367c0af2a5a7330df1858892c2c1ad07b95",
-      "description": "Delete the `{...}` placeholder refusal in argv value classification.",
-      "expected_effect": "Unresolvable `{WORK}`-style placeholder argv (the r46 non-reproduction family) is admitted and joins `vals`; downstream inside-checks see a literal `{...}` path. Caught if the population carries placeholder-argv modules or the admitted value escapes.",
-      "payload_kind": "unified-diff",
-      "digest": "74091d1f692fdfea5aabf31032ddae958ae80d01db688b4b3207c3121c26bbc7",
-      "target_payload_path": "plans/mutants49/c1-mut-14-argv-placeholder.patch"
-    },
-    {
-      "id": "c1-mut-15-hook-suffix",
-      "class": "weaken-check",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -617,7 +617,7 @@\n             return f\"{_rel(q, label)} is a symlink\"\n         if dev != ddev:\n             return f\"{_rel(q, label)} crosses a mount boundary\"\n-        if not stat.S_ISREG(mode) or not name.endswith(\".sample\"):\n+        if not stat.S_ISREG(mode) or not name.endswith(\"\"):\n             return f\"{_rel(q, label)} is not a hook sample\"\n         if _linked(mode, _n):\n             return f\"{_rel(q, label)} has more than one hard link\"\n",
-      "payload_sha256": "b26bbf5ace77d8474b869febca7c05652e624942d3775a2785c9c662cf141e82",
-      "description": "Empty the hooks `.sample` suffix requirement (`endswith(\"\")` is always true).",
-      "expected_effect": "Any regular file under `.git/hooks/` \u2014 an executable `post-commit`, `pre-rebase`, etc. git would run \u2014 is admitted, not just inert `*.sample`s.",
-      "payload_kind": "unified-diff",
-      "digest": "6e15a60fcfd8dc3a1f87da2a52e31f3f169bbb9b542a609de1d2b4afe41be196",
-      "target_payload_path": "plans/mutants49/c1-mut-15-hook-suffix.patch"
-    },
-    {
-      "id": "c1-mut-16-argv-shape-tail",
-      "class": "weaken-check",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -187,7 +187,7 @@\n         return None, \"argv is not a list of strings\"\n     vals = {}\n     if tool == \"order\":\n-        if len(argv) != 6 or tuple(argv[0::2]) != ORDER_SHAPE:\n+        if len(argv) < 6 or tuple(argv[0::2][:3]) != ORDER_SHAPE:\n             return None, f\"order argv is not the contract shape {list(ORDER_SHAPE)}\"\n         vals = dict(zip(argv[0::2], argv[1::2]))\n     elif tool == \"anchor\":\n",
-      "payload_sha256": "3fce755effa77b498dcfa5899063cac1449066e393c0418be34f5068a67a6e29",
-      "description": "Relax the `order` argv contract: `!= 6` -> `< 6` and truncate the option-shape tuple to the first three pairs.",
-      "expected_effect": "A trailing smuggled `--opt value` pair rides along on order argv; it is inside-checked as a path but the tool's exact-shape contract is broken \u2014 the fence stops enforcing the option set entirely beyond the first three.",
-      "payload_kind": "unified-diff",
-      "digest": "69f613085e501bb79e44dd74f87c4ac256a507c183aa45b0d310b7f8dfccd678",
-      "target_payload_path": "plans/mutants49/c1-mut-16-argv-shape-tail.patch"
-    },
-    {
-      "id": "c1-mut-17-config-value-backslash",
-      "class": "weaken-check",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -93,7 +93,7 @@\n SECTION_LINE = re.compile(rb\"\\A\\[([A-Za-z][A-Za-z0-9.-]*)\\]\\Z\")\n SECTION_SUB = re.compile(rb'\\A\\[([A-Za-z][A-Za-z0-9.-]*) \"([A-Za-z0-9_@:+-][A-Za-z0-9._/@:+-]{0,239})\"\\]\\Z')\n KEY_NAME = re.compile(rb\"\\A([A-Za-z][A-Za-z0-9-]*)\\Z\")\n-VALUE_TEXT = re.compile(rb\"\\A[\\x20-\\x5b\\x5d-\\x7e]{0,1024}\\Z\")\n+VALUE_TEXT = re.compile(rb\"\\A[\\x20-\\x7e]{0,1024}\\Z\")\n OBJ_DIR = re.compile(r\"\\A[0-9a-f]{2}\\Z\", re.ASCII)\n OBJ_FILE = re.compile(r\"\\A[0-9a-f]{38}\\Z\", re.ASCII)\n PACK_FILE = re.compile(r\"\\A[A-Za-z0-9_][A-Za-z0-9._-]*\\.(?:pack|idx|rev|keep|bitmap|mtimes)\\Z\", re.ASCII)\n",
-      "payload_sha256": "65b74702aef393821de4b24542abc95093477f42425a480ba55652a30dd203ea",
-      "description": "Admit backslash and double-quote bytes in config values (`\\x5c`, `\\x22`).",
-      "expected_effect": "Git treats `\\` in a config value as line-continuation/escape and `\"` as quoting: an attacker can smuggle a second logical directive inside a 'user.name' value, escaping the per-key allowlist through the value channel.",
-      "payload_kind": "unified-diff",
-      "digest": "e309031911798349514345f173cd39e42c1835492d6367a8cc567a248c8bb014",
-      "target_payload_path": "plans/mutants49/c1-mut-17-config-value-backslash.patch"
-    },
-    {
-      "id": "c1-mut-18-graph-magic-empty",
-      "class": "flip-comparison",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -89,7 +89,7 @@\n PACKS_ROW = re.compile(rb\"\\AP ([A-Za-z0-9_][A-Za-z0-9._-]*\\.pack)\\n\\Z\")\n GRAPH_NAME = re.compile(r\"\\Agraph-[0-9a-f]{8,64}\\.graph\\Z\", re.ASCII)\n CHAIN_ROW = re.compile(rb\"\\A[0-9a-f]{40}(?: [0-9]+)?\\n\\Z\")\n-CG_MAGIC = b\"CGPH\"\n+CG_MAGIC = b\"\"\n SECTION_LINE = re.compile(rb\"\\A\\[([A-Za-z][A-Za-z0-9.-]*)\\]\\Z\")\n SECTION_SUB = re.compile(rb'\\A\\[([A-Za-z][A-Za-z0-9.-]*) \"([A-Za-z0-9_@:+-][A-Za-z0-9._/@:+-]{0,239})\"\\]\\Z')\n KEY_NAME = re.compile(rb\"\\A([A-Za-z][A-Za-z0-9-]*)\\Z\")\n",
-      "payload_sha256": "dfdc22a0f7958efac60e4dee505fdc491b392c985b84f749b690e52dde05e5a9",
-      "description": "Empty the commit-graph magic constant; `head.startswith(b\"\")` is always true.",
-      "expected_effect": "`.git/objects/info/commit-graph` and `commit-graphs/graph-*.graph` content is no longer validated \u2014 any bytes pass as a 'commit-graph'; git trusts this file for commit walks.",
-      "payload_kind": "unified-diff",
-      "digest": "f7a8a60b4978a883c91572331b7c7ab23505176a06a042eba621cd5ee67a4727",
-      "target_payload_path": "plans/mutants49/c1-mut-18-graph-magic-empty.patch"
-    },
-    {
-      "id": "c1-mut-19-lane-membership",
-      "class": "delete-leg",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -805,6 +805,4 @@\n         return f\"--lane {lane_tok!r} is a symlink\"\n     if not stat.S_ISDIR(lst.st_mode):\n         return f\"--lane {lane_tok!r} is not a directory\"\n-    if _norm(lane) not in {_norm(r) for r in repos}:\n-        return f\"--lane {lane_tok!r} is not a repository inside the fixture\"\n-    return None\n+    return None\n",
-      "payload_sha256": "22a9fd70ae9f06827c62dae7001a8ec96c31ee2d87e4f91f0570e40fb67109e4",
-      "description": "Delete the `--lane`-is-a-collected-repo membership leg.",
-      "expected_effect": "`--lane` may now name any directory inside d \u2014 a plain dir, an unclassified subtree, a `.git`-file gitdir \u2014 breaking the contract that the lane is one of the proven repos. Pairs with gitdir/commondir modules for a full escape.",
-      "payload_kind": "unified-diff",
-      "digest": "0cdcc0163cf6b3ba09de7cac724e3ef92b8b91c7517963bd73da5ea3b80c306c",
-      "target_payload_path": "plans/mutants49/c1-mut-19-lane-membership.patch"
-    },
-    {
-      "id": "c1-mut-20-packedref-peel",
-      "class": "delete-leg",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -672,8 +672,6 @@\n                 return f\"{label} carries an unknown header\"\n             continue\n         if line.startswith(b\"^\"):\n-            if HEX40.match(line[1:] + b\"\\n\") is None:\n-                return f\"{label} carries a bad peeled line\"\n             continue\n         sha, _, ref = line.partition(b\" \")\n         if HEX40.match(sha + b\"\\n\") is None:\n",
-      "payload_sha256": "e8d2bd8d4613b9f0b6ef9012cf8b554c6974f6588cc1dc860532522ba4b6b31b",
-      "description": "Skip peeled-line validation in `packed-refs`.",
-      "expected_effect": "A `packed-refs` `^`-peeled line carrying non-hex (git would parse it as a peel of the previous ref) is admitted \u2014 malformed packed-refs content no longer refused.",
-      "payload_kind": "unified-diff",
-      "digest": "599229735b4dcd1c37a97de310f7d7737937f6358371d524b397c0080d471b5e",
-      "target_payload_path": "plans/mutants49/c1-mut-20-packedref-peel.patch"
-    },
-    {
-      "id": "c1-mut-21-log-namespace",
-      "class": "weaken-check",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -571,7 +571,7 @@\n     \"\"\"A reflog lives at `HEAD`, at `refs/stash`, or under git's ref namespaces with git's own name shape.\"\"\"\n     if rel in (\"HEAD\", \"refs/stash\"):\n         return True\n-    m = re.fullmatch(r\"refs/(?:heads|tags|notes)/(.+)\", rel, re.ASCII)\n+    m = re.fullmatch(r\"refs/(.+)\", rel, re.ASCII)\n     if not m:\n         return False\n     return all(SAFE_NAME.match(part) for part in m.group(1).split(\"/\"))\n",
-      "payload_sha256": "fa205dca341c34e7d246f5cf6940b2839271f6ea10b309fee6a21f27390f50fc",
-      "description": "Widen `_log_name_ok` from `refs/(heads|tags|notes)/...` to `refs/...`.",
-      "expected_effect": "Reflogs under namespaces git's log machinery does not write for plain init (`refs/remotes/`, `refs/bisect/`, `refs/original/`...) are admitted \u2014 the reflog allowlist stops matching the ref namespace allowlist.",
-      "payload_kind": "unified-diff",
-      "digest": "4f92b619094529ba538d57ce8f9b2232f2143edf53ea4f3d564002a9662b0d8b",
-      "target_payload_path": "plans/mutants49/c1-mut-21-log-namespace.patch"
-    },
-    {
-      "id": "c1-mut-22-fixture-symlink",
-      "class": "delete-leg",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -777,8 +777,6 @@\n         st = os.lstat(dpath)\n     except (OSError, ValueError, TypeError):\n         return \"fixture dir cannot be lstat'ed\"\n-    if stat.S_ISLNK(st.st_mode):\n-        return \"fixture dir is a symlink\"\n     if not stat.S_ISDIR(st.st_mode):\n         return \"fixture dir is not a directory\"\n     d = pathlib.Path(_norm(dpath))\n",
-      "payload_sha256": "f3891ea2fd57123b6c58b8dab159af4fa66854789118d2e663b8db16754c65d1",
-      "description": "Delete the `d`-itself-is-a-symlink refusal in `breach()`.",
-      "expected_effect": "If `d` is a symlink, `_norm` keeps the lexical path: every 'inside d' proof now classifies bytes reached through the link \u2014 outside d's real location. The strongest single-leg deletion; a symlinked fixture root is admitted.",
-      "payload_kind": "unified-diff",
-      "digest": "3d325157488fb92b6da78c5b406f27af9b838a3d0c24afd6d1b5dbd6f7369863",
-      "target_payload_path": "plans/mutants49/c1-mut-22-fixture-symlink.patch"
-    },
-    {
-      "id": "c1-mut-23-gitdir-repo-reorder",
-      "class": "reorder",
-      "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -240,15 +240,15 @@\n                 st = os.lstat(p)\n             except OSError:\n                 return None, f\"{_rel(p, d)} cannot be lstat'ed\"\n+            if name == \".git\":\n+                repos.append(t)\n+                continue\n             if stat.S_ISLNK(st.st_mode):\n                 return None, f\"{_rel(p, d)} is a symlink\"\n             if not stat.S_ISDIR(st.st_mode):\n                 return None, f\"{_rel(p, d)} is not a directory\"\n             if st.st_dev != ddev:\n                 return None, f\"{_rel(p, d)} crosses a mount boundary (device {st.st_dev} != {ddev})\"\n-            if name == \".git\":\n-                repos.append(t)\n-                continue\n             keep.append(name)\n         dirs[:] = sorted(keep)\n         for name in files:\n",
-      "payload_sha256": "b7f0e3a316d7e8226a3ae09fcb79ba8391fb4ffd480317407eff5c4207855e92",
-      "description": "Reorder the `.git` repo-collection leg ahead of the symlink/dir/dev checks in the tree walk.",
-      "expected_effect": "A `.git` that is a symlink (or non-directory, or on another device) is collected as a repo BEFORE the refusal legs run; `_store` then scandirs through the link \u2014 classification reads bytes outside d.",
-      "payload_kind": "unified-diff",
-      "digest": "896f8b9b0a5e3daa08cc764df92d9888e60a5959083f34ddccc0257d50fb9c76",
-      "target_payload_path": "plans/mutants49/c1-mut-23-gitdir-repo-reorder.patch"
-    }
-  ]
+ "target": "plans/fixture_fence.py (round-50 repair)",
+ "count": 22,
+ "payload_format": "inline unified diff payload; apply with patch -p1; digest = resulting mutated fence SHA-256",
+ "mutants": [
+  {
+   "id": "c50-01-gitfile-refused",
+   "class": "delete-leg",
+   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -273,8 +273,7 @@\n                 target = pathlib.Path(_norm(os.path.join(str(t), os.fsdecode(m.group(1)))))\n                 if not _inside(target, d):\n                     return None, f\"{_rel(target, d)} resolves outside the fixture\"\n-                stores.append((t, target))\n-                continue\n+                return None, f\"{_rel(p, d)} is a file (gitdir redirect), not a directory\"\n             if not stat.S_ISREG(st.st_mode):\n                 return None, f\"{_rel(p, d)} is a special file\"\n             if st.st_nlink > 1:\n",
+   "payload_sha256": "1d5f2f3a6ad40c2e61a56cd0d7ff180ae86803d5daec9788167c405df8aaef01",
+   "description": "refuses every `.git` gitfile again, so the two honest gitfile classes are over-refused",
+   "expected_effect": "refuses every `.git` gitfile again, so the two honest gitfile classes are over-refused",
+   "payload_kind": "unified-diff",
+   "digest": "5062ddce7d25152e7cd7b9405a431f98e31f04e2061fe136e621f5e604bf2386"
+  },
+  {
+   "id": "c50-02-gitfile-no-containment",
+   "class": "drop-check",
+   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -271,8 +271,6 @@\n                 if m is None:\n                     return None, f\"{_rel(p, d)} is a .git file that is not a gitdir line\"\n                 target = pathlib.Path(_norm(os.path.join(str(t), os.fsdecode(m.group(1)))))\n-                if not _inside(target, d):\n-                    return None, f\"{_rel(target, d)} resolves outside the fixture\"\n                 stores.append((t, target))\n                 continue\n             if not stat.S_ISREG(st.st_mode):\n",
+   "payload_sha256": "07b34a602cbd58e097af8d114d2a98d2e59c8bcabb7f86cf9fd84678f0653c86",
+   "description": "follows a gitfile without requiring the target inside d (the escape the repair exists to close)",
+   "expected_effect": "follows a gitfile without requiring the target inside d (the escape the repair exists to close)",
+   "payload_kind": "unified-diff",
+   "digest": "98963619fc100b6d36f8df4f005fd9a742476ddd6bfe90fa91f7d81ff71c3e0b"
+  },
+  {
+   "id": "c50-03-no-fetch-head",
+   "class": "delete-leg",
+   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -103,7 +103,7 @@\n REF_PATH = re.compile(r\"\\A[A-Za-z0-9_][A-Za-z0-9._/-]*\\Z\", re.ASCII)\n \n GIT_TOP = {\"HEAD\", \"ORIG_HEAD\", \"COMMIT_EDITMSG\", \"config\", \"description\", \"hooks\", \"index\", \"info\",\n-           \"logs\", \"objects\", \"refs\", \"packed-refs\", \"FETCH_HEAD\", \"commondir\", \"gitdir\", \"worktrees\",\n+           \"logs\", \"objects\", \"refs\", \"packed-refs\", \"commondir\", \"gitdir\", \"worktrees\",\n            \"shallow\"}\n GIT_DIRS = {\"hooks\", \"info\", \"logs\", \"objects\", \"refs\"}\n REF_NAMESPACES = (\"heads\", \"tags\", \"notes\", \"replace\", \"remotes\")  # `replace` names an object (S176)\n",
+   "payload_sha256": "b4f90e8edb02f966c5300b8a4b3835936896626dd9481e895f62e6646c10f204",
+   "description": "drops FETCH_HEAD from the store allowlist, over-refusing the shallow-fetch class",
+   "expected_effect": "drops FETCH_HEAD from the store allowlist, over-refusing the shallow-fetch class",
+   "payload_kind": "unified-diff",
+   "digest": "2d4975d32f1da44a820eae1fe577b60b95d5091a023dd4e0e7616f36a6e3b72a"
+  },
+  {
+   "id": "c50-04-no-shallow",
+   "class": "delete-leg",
+   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -104,7 +104,7 @@\n \n GIT_TOP = {\"HEAD\", \"ORIG_HEAD\", \"COMMIT_EDITMSG\", \"config\", \"description\", \"hooks\", \"index\", \"info\",\n            \"logs\", \"objects\", \"refs\", \"packed-refs\", \"FETCH_HEAD\", \"commondir\", \"gitdir\", \"worktrees\",\n-           \"shallow\"}\n+           }\n GIT_DIRS = {\"hooks\", \"info\", \"logs\", \"objects\", \"refs\"}\n REF_NAMESPACES = (\"heads\", \"tags\", \"notes\", \"replace\", \"remotes\")  # `replace` names an object (S176)\n CFG_SECTIONS = {\"core\", \"user\", \"init\", \"extensions\"}\n",
+   "payload_sha256": "c26a57223d130f0d880378140a27b5cabb6e25230ea6059d3044c9bea5831fb3",
+   "description": "drops `.git/shallow`, over-refusing the shallow-boundary class",
+   "expected_effect": "drops `.git/shallow`, over-refusing the shallow-boundary class",
+   "payload_kind": "unified-diff",
+   "digest": "e69ab33d6c17809e4c85842a1033ffdcc3f9d51e5ad04c3047c18c631e407599"
+  },
+  {
+   "id": "c50-05-no-refs-replace",
+   "class": "delete-leg",
+   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -106,7 +106,7 @@\n            \"logs\", \"objects\", \"refs\", \"packed-refs\", \"FETCH_HEAD\", \"commondir\", \"gitdir\", \"worktrees\",\n            \"shallow\"}\n GIT_DIRS = {\"hooks\", \"info\", \"logs\", \"objects\", \"refs\"}\n-REF_NAMESPACES = (\"heads\", \"tags\", \"notes\", \"replace\", \"remotes\")  # `replace` names an object (S176)\n+REF_NAMESPACES = (\"heads\", \"tags\", \"notes\", \"remotes\")  # `replace` names an object (S176)\n CFG_SECTIONS = {\"core\", \"user\", \"init\", \"extensions\"}\n CFG_SUB_SECTIONS = {\"remote\", \"branch\"}         # inert declarations: URLs and refspecs, no reads\n CFG_KEYS = {\n",
+   "payload_sha256": "3dd85bf47b6cd1effa0222c07ede8d5855cf3b5cf8693eee6a4b2f022b84ad0f",
+   "description": "drops the replace ref namespace, over-refusing the replace-ref class",
+   "expected_effect": "drops the replace ref namespace, over-refusing the replace-ref class",
+   "payload_kind": "unified-diff",
+   "digest": "6d76df4bc3970512c8424b8cb3cb70d11b994b4223fd09d34ff6351de940b384"
+  },
+  {
+   "id": "c50-07-alternates-skip",
+   "class": "delete-leg",
+   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -613,7 +613,7 @@\n                 if line and PACKS_ROW.match(line + b\"\\n\") is None:\n                     return f\"{_rel(q, label)} carries a row git does not write\"\n             continue\n-        if name == \"alternates\":\n+        if name == \"alternates-disabled\":\n             why = _alternates(q, p.parent, 0, set())\n             if why:\n                 return why\n",
+   "payload_sha256": "8196148739b0ab9c295420632e2271f03a47ad53fd8f2cea643597d3e3f9d5b1",
+   "description": "skips the alternates classification entirely, so the file falls through to the redirect refusal only",
+   "expected_effect": "skips the alternates classification entirely, so the file falls through to the redirect refusal only",
+   "payload_kind": "unified-diff",
+   "digest": "8d79f3ad5803b8cfcd191c6e663c504874f60ba66af07f16a6fc5e2fa341e4c1"
+  },
+  {
+   "id": "c50-08-wt-store-as-plain",
+   "class": "weaken",
+   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -948,8 +948,7 @@\n \n     def store_of(path):\n         \"\"\"One gitdir; a store whose `commondir` names another gitdir is classified with its common dir.\"\"\"\n-        why = _wt_store(path, f\"{_rel(path, d)}\", ddev) if (path / \"commondir\").exists() \\\n-            else _store(path, f\"{_rel(path, d)}\", ddev)\n+        why = _store(path, f\"{_rel(path, d)}\", ddev)\n         if why:\n             return why\n         cd = path / \"commondir\"\n",
+   "payload_sha256": "83955907de6c8f20a51474f47a528778635abbd656221a25aaeaf92b23661775",
+   "description": "classifies a worktree store as a plain store, over-refusing the linked-worktree class",
+   "expected_effect": "classifies a worktree store as a plain store, over-refusing the linked-worktree class",
+   "payload_kind": "unified-diff",
+   "digest": "987abc1a3094dcac44bf39f4a1439713d36414456862046622bf561c2f491251"
+  },
+  {
+   "id": "c50-09-commondir-skip",
+   "class": "delete-leg",
+   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -953,7 +953,7 @@\n         if why:\n             return why\n         cd = path / \"commondir\"\n-        if cd.exists():\n+        if False:\n             body = _read(cd, TEXT_CAP)\n             if body is None or not body.strip() or b\"\\x00\" in body or b\"\\r\" in body:\n                 return f\"{_rel(cd, d)} is not a plain pointer line\"\n",
+   "payload_sha256": "ce78bab737ccad4af744917eb8c60f23989c3fd919acaa6ebdf0ab2db0ff0a38",
+   "description": "never classifies the common dir a worktree store names",
+   "expected_effect": "never classifies the common dir a worktree store names",
+   "payload_kind": "unified-diff",
+   "digest": "9854dea7c25b98dc2614e88bda6ca3c1065e1a32c8efee15be5c5a5ba2b30bcb"
+  },
+  {
+   "id": "c50-10-inside-prefix",
+   "class": "weaken",
+   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -139,7 +139,7 @@\n \n def _inside(p, d):\n     p, d = _norm(p), _norm(d)\n-    return p == d or p.startswith(d + os.sep)\n+    return p == d or p.startswith(d)\n \n \n def _rel(p, d):\n",
+   "payload_sha256": "3225e6329a63aa556f662e3b253e29ec2c086be3a8cae7d64ec34b363457f96a",
+   "description": "turns the containment test into a string-prefix test (a sibling directory with the same prefix passes)",
+   "expected_effect": "turns the containment test into a string-prefix test (a sibling directory with the same prefix passes)",
+   "payload_kind": "unified-diff",
+   "digest": "f89dba64d0fc20adb499b2ec4e64ac9b5964221cd9553c192f9b62ffbb8ec475"
+  },
+  {
+   "id": "c50-11-config-cr",
+   "class": "delete-leg",
+   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -356,8 +356,6 @@\n         return f\"{label}/config exceeds {CONFIG_CAP} bytes\"\n     if b\"\\x00\" in raw:\n         return f\"{label}/config carries a NUL byte\"\n-    if b\"\\r\" in raw:\n-        return f\"{label}/config carries a bare CR\"\n     if any(b >= 0x80 for b in raw):\n         return f\"{label}/config carries a non-ASCII byte\"\n     sect, sub = \"\", None\n",
+   "payload_sha256": "b3b44eac0a6a1f4303b04b5ad4bc6251f380fe845fff9631d152d95c2941155b",
+   "description": "drops the bare-CR refusal in the config parser (CR smuggles a section header past a line parser)",
+   "expected_effect": "drops the bare-CR refusal in the config parser (CR smuggles a section header past a line parser)",
+   "payload_kind": "unified-diff",
+   "digest": "7e962a33e85ad216183ea18834b13c33069f75f3d2ec170a03378a38cadce51b"
+  },
+  {
+   "id": "c50-12-config-include",
+   "class": "widen",
+   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -107,7 +107,7 @@\n            \"shallow\"}\n GIT_DIRS = {\"hooks\", \"info\", \"logs\", \"objects\", \"refs\"}\n REF_NAMESPACES = (\"heads\", \"tags\", \"notes\", \"replace\", \"remotes\")  # `replace` names an object (S176)\n-CFG_SECTIONS = {\"core\", \"user\", \"init\", \"extensions\"}\n+CFG_SECTIONS = {\"core\", \"user\", \"init\", \"extensions\", \"include\"}\n CFG_SUB_SECTIONS = {\"remote\", \"branch\"}         # inert declarations: URLs and refspecs, no reads\n CFG_KEYS = {\n     (\"core\", \"repositoryformatversion\"): \"version\",\n",
+   "payload_sha256": "874f48b35afe5f8e706452e7538ed7c2f9ae89ad7e6ee43701d1e4308c255281",
+   "description": "allowlists `[include]`, the config redirect the fence exists to refuse",
+   "expected_effect": "allowlists `[include]`, the config redirect the fence exists to refuse",
+   "payload_kind": "unified-diff",
+   "digest": "b7de221c75813a1a59bf4f2adb27eac43f47fa35a789010526f1801a15a9cdec"
+  },
+  {
+   "id": "c50-13-no-symlink-leg",
+   "class": "delete-leg",
+   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -244,8 +244,6 @@\n                 st = os.lstat(p)\n             except OSError:\n                 return None, f\"{_rel(p, d)} cannot be lstat'ed\"\n-            if stat.S_ISLNK(st.st_mode):\n-                return None, f\"{_rel(p, d)} is a symlink\"\n             if not stat.S_ISDIR(st.st_mode):\n                 return None, f\"{_rel(p, d)} is not a directory\"\n             if st.st_dev != ddev:\n",
+   "payload_sha256": "87d8a04a2ba5bb75d18509390d289ef0e8778671c0cd43dac573e704c94570bf",
+   "description": "drops the directory-symlink refusal from the fixture walk",
+   "expected_effect": "drops the directory-symlink refusal from the fixture walk",
+   "payload_kind": "unified-diff",
+   "digest": "670d98b446f2fff5afe8f98b3ba373719231dd0084d91718cc7b4c7cf6b5b21f"
+  },
+  {
+   "id": "c50-14-no-hardlink-leg",
+   "class": "delete-leg",
+   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -277,8 +277,6 @@\n                 continue\n             if not stat.S_ISREG(st.st_mode):\n                 return None, f\"{_rel(p, d)} is a special file\"\n-            if st.st_nlink > 1:\n-                return None, f\"{_rel(p, d)} has more than one hard link\"\n             if st.st_dev != ddev:\n                 return None, f\"{_rel(p, d)} crosses a mount boundary (device {st.st_dev} != {ddev})\"\n     if len(repos) + len(stores) > REPO_CAP:\n",
+   "payload_sha256": "66cbb456b38bf5aab3d7feb3f708feb495fdc7a29d61468ac3bb380a7367f34b",
+   "description": "drops the hard-link refusal from the fixture walk",
+   "expected_effect": "drops the hard-link refusal from the fixture walk",
+   "payload_kind": "unified-diff",
+   "digest": "6fee0f8961d5a6174252befbc569287ff0bafdafae38bb1e9aff9fbb84dc38f9"
+  },
+  {
+   "id": "c50-15-any-ref-namespace",
+   "class": "widen",
+   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -416,7 +416,7 @@\n             if body is None or HEX40.match(body) is None:\n                 return f\"{label}/stash is not a 40-hex ref\"\n             continue\n-        if name not in REF_NAMESPACES:\n+        if False:\n             return f\"{label}/{name} is not a ref namespace git writes\"\n         if not stat.S_ISDIR(mode):\n             return f\"{label}/{name} is not a directory\"\n",
+   "payload_sha256": "36770b4492ccdfb492f2b75029d8fa62046ef7212e720700e892782ee79a59f9",
+   "description": "accepts any `refs/<name>` directory, not only the namespaces git writes",
+   "expected_effect": "accepts any `refs/<name>` directory, not only the namespaces git writes",
+   "payload_kind": "unified-diff",
+   "digest": "e302c2f594f9f7397b3233f08a87d55621f15e342f0a32a7fb3b6498107cb5ac"
+  },
+  {
+   "id": "c50-16-hook-suffix",
+   "class": "widen",
+   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -684,7 +684,7 @@\n             return f\"{_rel(q, label)} is a symlink\"\n         if dev != ddev:\n             return f\"{_rel(q, label)} crosses a mount boundary\"\n-        if not stat.S_ISREG(mode) or not name.endswith(\".sample\"):\n+        if not stat.S_ISREG(mode):\n             return f\"{_rel(q, label)} is not a hook sample\"\n         if _linked(mode, _n):\n             return f\"{_rel(q, label)} has more than one hard link\"\n",
+   "payload_sha256": "f070678e89dc9c1f90e232329c4c193b5f957b265f42ff2199e2f1f659f93d64",
+   "description": "admits a live (non-sample) hook file in the store",
+   "expected_effect": "admits a live (non-sample) hook file in the store",
+   "payload_kind": "unified-diff",
+   "digest": "28012962bc3a53d669417ace2c1eeecd8dafb59c8fcf2b7b85dbc767cee68fb3"
+  },
+  {
+   "id": "c50-17-objinfo-fallthrough",
+   "class": "weaken",
+   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -630,7 +630,7 @@\n             if why:\n                 return why\n             continue\n-        return f\"{_rel(q, label)} is not a plain object-info entry (object-store redirect)\"\n+        continue\n     return None\n \n \n",
+   "payload_sha256": "794dd533777eb307850622c3b282522c207b1b1c20e86b5d58b1fd2010f63eeb",
+   "description": "admits an unknown objects/info entry instead of refusing the redirect",
+   "expected_effect": "admits an unknown objects/info entry instead of refusing the redirect",
+   "payload_kind": "unified-diff",
+   "digest": "2a66dd2301ab1e08c103a07bf42b476ae1535a55600b589dab996d136a7e064a"
+  },
+  {
+   "id": "c50-18-wt-any-entry",
+   "class": "widen",
+   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -867,7 +867,7 @@\n             return f\"{label}/{name} is a symlink\"\n         if dev != ddev:\n             return f\"{label}/{name} crosses a mount boundary\"\n-        if name not in WT_TOP:\n+        if False:\n             return f\"{label}/{name} is not a worktree-store entry\"\n         have.add(name)\n         if name in (\"logs\", \"refs\"):\n",
+   "payload_sha256": "5b77224f1a0b234c6f38e09161fe7e25d0aa473523d8635e4640cdbdde27e399",
+   "description": "accepts any entry name in a worktree store",
+   "expected_effect": "accepts any entry name in a worktree store",
+   "payload_kind": "unified-diff",
+   "digest": "99336a4246118eecc5f1e7557b9275e8189736113cdef472864c592629c025e6"
+  },
+  {
+   "id": "c50-19-config-any-key",
+   "class": "widen",
+   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -317,7 +317,7 @@\n             if VALUE_TEXT.match(val) is None:\n                 return f\"{label}/config {where} carries a value the parser cannot classify\"\n             return None\n-        return f\"{label}/config key {where} is not allowlisted\"\n+        return None\n     if not has:\n         if need != \"bool\":\n             return f\"{label}/config key {where} needs a value\"\n",
+   "payload_sha256": "1485f340755ff580e204a7eed512b0e858929a02b9c2855f9d751dcb3de84d5f",
+   "description": "accepts any config key, so [include] and [url] redirects pass the parser",
+   "expected_effect": "accepts any config key, so [include] and [url] redirects pass the parser",
+   "payload_kind": "unified-diff",
+   "digest": "2c4a47656c399b9dbf44c0e6902bdddc1bf907f4a094c488c84a9507d27952c4"
+  },
+  {
+   "id": "c50-20-argv-no-containment",
+   "class": "drop-check",
+   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -220,7 +220,7 @@\n         if val.startswith(\"{\"):\n             return None, f\"{opt} value {val!r} is a placeholder the fence cannot resolve\"\n         raw = val if val.startswith(\"/\") else os.path.join(str(d), val)\n-        if not _inside(raw, d):\n+        if False:\n             return None, f\"{opt} value {val!r} resolves outside the fixture\"\n     return vals, None\n \n",
+   "payload_sha256": "0d25c1306524a607df35c578ea58e5e21259dbd1a3c291b773ab8a19bf405a36",
+   "description": "accepts an argv value that resolves outside the fixture",
+   "expected_effect": "accepts an argv value that resolves outside the fixture",
+   "payload_kind": "unified-diff",
+   "digest": "66b3ad72faa10db91dfd7a82d7655aaddfa47747d2a1e31f23f41ee97df4ee8b"
+  },
+  {
+   "id": "c50-21-ref-value-any",
+   "class": "weaken",
+   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -452,7 +452,7 @@\n         body = _read(q, 200)\n         if body is None:\n             return f\"{_rel(q, label)} unreadable\"\n-        if HEX40.match(body) is None:\n+        if False:\n             return f\"{_rel(q, label)} is not a 40-hex ref\"\n     return None\n \n",
+   "payload_sha256": "621e84b8b53f92a88dd12a68bf7d08c62ef38ba13fff308cdb19158b066ec71a",
+   "description": "accepts any ref file content, not only a 40-hex object name",
+   "expected_effect": "accepts any ref file content, not only a 40-hex object name",
+   "payload_kind": "unified-diff",
+   "digest": "c0c935f270cab9c21ba32658c2ea66f4526d063fd7195962a0d5d2d045fe36d4"
+  },
+  {
+   "id": "c50-22-store-requirements-none",
+   "class": "weaken",
+   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -828,7 +828,7 @@\n             why = _packed(q, label)\n             if why:\n                 return why\n-    for req in (\"HEAD\", \"config\", \"objects\", \"refs\"):\n+    for req in ():\n         if req not in have:\n             return f\"{label} has no {req}\"\n     if \"hooks\" in have:\n",
+   "payload_sha256": "d7a12ca34db42d30a82a5f83457c7259f165f6d2d383ca8a1ceff6531fbb94c6",
+   "description": "stops requiring HEAD/config/objects/refs in a store",
+   "expected_effect": "stops requiring HEAD/config/objects/refs in a store",
+   "payload_kind": "unified-diff",
+   "digest": "ebb7e921c970ff0dcb80fb93ff757b130fcd4fd3c5350342f09a30dd92f1d0f8"
+  },
+  {
+   "id": "c50-24-log-any-name",
+   "class": "widen",
+   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -667,7 +667,7 @@\n             continue\n         if not stat.S_ISREG(mode):\n             return f\"{_rel(q, label)} is a special file\"\n-        if not _log_name_ok(rel):\n+        if False:\n             return f\"{_rel(q, label)} has a name git does not write\"\n         if size > TEXT_CAP:\n             return f\"{_rel(q, label)} exceeds {TEXT_CAP} bytes\"\n",
+   "payload_sha256": "a3033c72e6ca175184cd22426ce60dbfe732db78a82f35fc8e21dcbcc783a2ea",
+   "description": "accepts any reflog name",
+   "expected_effect": "accepts any reflog name",
+   "payload_kind": "unified-diff",
+   "digest": "ef603b9f6adfd2af2abaf45af8b73a1455498a5a31495cf20dde0a09a2bf67c0"
+  }
+ ]
 }

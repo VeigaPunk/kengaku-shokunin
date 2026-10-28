@@ -1106,3 +1106,27 @@ Line numbers are this file's.
   lists a tag it does not in fact violate is not); the order leg sees only committed receipts.
   Lesson: `corpus/lessons/round-46.md` §Mistakes (frozen-tag and stage-2-control rows). Supersedes: none; it extends
   Q24 (a counter proved by its junk) with a positive precondition and Q30 (order) to the L1's own controls.
+
+## Round50 criterion — an artifact pointer in a self-assessment file is a routed finding that closes with a commit
+
+- **Q41 — every `plans/…` or `corpus/…` artifact path and every 40-hex hash named in `SCORECARD.md`, `SHONEN.md`
+  or `PROVINCE.md` resolves at the tip; a pointer that does not resolve is a routed finding carrying an id, a
+  status (`closed` when a correction names an existing target, `never-landed` when the path is in no history at
+  all) and the commit that added the correction — appended, never a rewrite of the row that carried it.**
+  Evidence: round 48 and round 49 both filed "counting command" cells naming `plans/round48_c*_verify.py` and
+  `plans/round49_c*_verify.py`, counters no commit ever held; a reader could not re-derive those rows' numbers and
+  nothing noticed for two rounds. Round 50 measured 12 such pointers in the three files
+  (`.ufo/waves/round-50/claims/c2-before.txt`: `POINTERS total=275 … unresolved=12`), resolved all 12 in the
+  append-only `## Round 50 — C2 corrections` block of `SCORECARD.md`, and re-measured `unresolved=0`.
+  Check (executable): `python3 plans/round50_c2_audit.py --lane .` must print `POINTERS … unresolved=0` and exit 0;
+  `python3 plans/round50_c2_audit.py --lane . --selftest` must print `new_unresolved=['plans/round50_selftest_bogus.py']`
+  and exit 0 (the check can fail). Shown able to fail: at `71f5f5f` the same command prints `unresolved=12` and exits 1;
+  the selftest's scratch copy adds exactly the bogus token as the only new unresolved row.
+  Limits: the surface is these three files and these two prefixes, so a pointer written as a bare filename or under
+  `.ufo/` is not counted (the extension list is frozen in `EXTS`); a path example quoted in prose counts as a pointer
+  (a false positive a correction must resolve explicitly); a `never-landed` verdict reads `git log --all` in this
+  clone only. Assimilation: this criterion adopts proposal 1 of `considerthese/2026-10-26.md` (2026-10-26, "a
+  routed-findings burn-down, not just a defect ledger") — every routed finding is a row with an id, a status and a
+  closing commit rather than a sentence routed to a round that never reads it.
+  Lesson: `corpus/lessons/round-50.md` §Gate and §Assimilation. Supersedes: none; it extends Q22 (a receipt must be
+  re-runnable at the tip) from numbers to the pointers that name the instrument.
