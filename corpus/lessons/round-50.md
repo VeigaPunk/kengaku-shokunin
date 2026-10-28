@@ -62,3 +62,15 @@ receipt. They were adopted at `3dda12f` and the frozen predicate was re-run on a
 `refusals46` 6/20, `sealed46` 7/12 and `sealed50` 10/20 modules are refused by a reason that names
 containment/escape; the rest by allowlist/shape rules, so `SEALED clean` must not be read as an escape witness —
 the predicate is admission-only.
+
+## Second erratum — instrument vs receipt reconciled (appended)
+
+The first two receipts were produced by the committed counter `d8787b34…` (in-process fence call, fixture parents
+named from the leg), while the hardened counter `850ec790…` (separate process per decision, exit-status verdict,
+Q39 opaque parents with decoys) sat uncommitted. `R50C1CritBlind2-3` flagged the mismatch. Resolved by committing
+the hardened instrument at `61f6257` with the digest change recorded in `plans/round-50-claims.md`, then re-running
+the frozen predicate on a clean clone of that tip: `TREE dirty=0`, `HONEST 126/126`, `REFUSALS 20/20`,
+`SEALED 12/12 + 20/20 clean`, `MUTANTS 15/15 floor 12 verdict=met`, `PREDICATE R50-C1 pass`, exit 0
+(`corpus/evidence/round50/c1-receipt.txt`). The earlier receipts are superseded; the round's scored instrument is
+`850ec790…` and its receipt names it. A repair after the first scored run is a deviation from the frozen
+open-window rule and is recorded as one, with predicate, leg names and literals unchanged.
