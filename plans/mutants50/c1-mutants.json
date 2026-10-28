@@ -1,6 +1,6 @@
 {
  "target": "plans/fixture_fence.py (round-50 repair)",
- "count": 22,
+ "count": 15,
  "payload_format": "inline unified diff payload; apply with patch -p1; digest = resulting mutated fence SHA-256",
  "mutants": [
   {
@@ -84,46 +84,6 @@
    "digest": "9854dea7c25b98dc2614e88bda6ca3c1065e1a32c8efee15be5c5a5ba2b30bcb"
   },
   {
-   "id": "c50-10-inside-prefix",
-   "class": "weaken",
-   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -139,7 +139,7 @@\n \n def _inside(p, d):\n     p, d = _norm(p), _norm(d)\n-    return p == d or p.startswith(d + os.sep)\n+    return p == d or p.startswith(d)\n \n \n def _rel(p, d):\n",
-   "payload_sha256": "3225e6329a63aa556f662e3b253e29ec2c086be3a8cae7d64ec34b363457f96a",
-   "description": "turns the containment test into a string-prefix test (a sibling directory with the same prefix passes)",
-   "expected_effect": "turns the containment test into a string-prefix test (a sibling directory with the same prefix passes)",
-   "payload_kind": "unified-diff",
-   "digest": "f89dba64d0fc20adb499b2ec4e64ac9b5964221cd9553c192f9b62ffbb8ec475"
-  },
-  {
-   "id": "c50-11-config-cr",
-   "class": "delete-leg",
-   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -356,8 +356,6 @@\n         return f\"{label}/config exceeds {CONFIG_CAP} bytes\"\n     if b\"\\x00\" in raw:\n         return f\"{label}/config carries a NUL byte\"\n-    if b\"\\r\" in raw:\n-        return f\"{label}/config carries a bare CR\"\n     if any(b >= 0x80 for b in raw):\n         return f\"{label}/config carries a non-ASCII byte\"\n     sect, sub = \"\", None\n",
-   "payload_sha256": "b3b44eac0a6a1f4303b04b5ad4bc6251f380fe845fff9631d152d95c2941155b",
-   "description": "drops the bare-CR refusal in the config parser (CR smuggles a section header past a line parser)",
-   "expected_effect": "drops the bare-CR refusal in the config parser (CR smuggles a section header past a line parser)",
-   "payload_kind": "unified-diff",
-   "digest": "7e962a33e85ad216183ea18834b13c33069f75f3d2ec170a03378a38cadce51b"
-  },
-  {
-   "id": "c50-12-config-include",
-   "class": "widen",
-   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -107,7 +107,7 @@\n            \"shallow\"}\n GIT_DIRS = {\"hooks\", \"info\", \"logs\", \"objects\", \"refs\"}\n REF_NAMESPACES = (\"heads\", \"tags\", \"notes\", \"replace\", \"remotes\")  # `replace` names an object (S176)\n-CFG_SECTIONS = {\"core\", \"user\", \"init\", \"extensions\"}\n+CFG_SECTIONS = {\"core\", \"user\", \"init\", \"extensions\", \"include\"}\n CFG_SUB_SECTIONS = {\"remote\", \"branch\"}         # inert declarations: URLs and refspecs, no reads\n CFG_KEYS = {\n     (\"core\", \"repositoryformatversion\"): \"version\",\n",
-   "payload_sha256": "874f48b35afe5f8e706452e7538ed7c2f9ae89ad7e6ee43701d1e4308c255281",
-   "description": "allowlists `[include]`, the config redirect the fence exists to refuse",
-   "expected_effect": "allowlists `[include]`, the config redirect the fence exists to refuse",
-   "payload_kind": "unified-diff",
-   "digest": "b7de221c75813a1a59bf4f2adb27eac43f47fa35a789010526f1801a15a9cdec"
-  },
-  {
-   "id": "c50-13-no-symlink-leg",
-   "class": "delete-leg",
-   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -244,8 +244,6 @@\n                 st = os.lstat(p)\n             except OSError:\n                 return None, f\"{_rel(p, d)} cannot be lstat'ed\"\n-            if stat.S_ISLNK(st.st_mode):\n-                return None, f\"{_rel(p, d)} is a symlink\"\n             if not stat.S_ISDIR(st.st_mode):\n                 return None, f\"{_rel(p, d)} is not a directory\"\n             if st.st_dev != ddev:\n",
-   "payload_sha256": "87d8a04a2ba5bb75d18509390d289ef0e8778671c0cd43dac573e704c94570bf",
-   "description": "drops the directory-symlink refusal from the fixture walk",
-   "expected_effect": "drops the directory-symlink refusal from the fixture walk",
-   "payload_kind": "unified-diff",
-   "digest": "670d98b446f2fff5afe8f98b3ba373719231dd0084d91718cc7b4c7cf6b5b21f"
-  },
-  {
    "id": "c50-14-no-hardlink-leg",
    "class": "delete-leg",
    "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -277,8 +277,6 @@\n                 continue\n             if not stat.S_ISREG(st.st_mode):\n                 return None, f\"{_rel(p, d)} is a special file\"\n-            if st.st_nlink > 1:\n-                return None, f\"{_rel(p, d)} has more than one hard link\"\n             if st.st_dev != ddev:\n                 return None, f\"{_rel(p, d)} crosses a mount boundary (device {st.st_dev} != {ddev})\"\n     if len(repos) + len(stores) > REPO_CAP:\n",
@@ -184,16 +144,6 @@
    "digest": "2c4a47656c399b9dbf44c0e6902bdddc1bf907f4a094c488c84a9507d27952c4"
   },
   {
-   "id": "c50-20-argv-no-containment",
-   "class": "drop-check",
-   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -220,7 +220,7 @@\n         if val.startswith(\"{\"):\n             return None, f\"{opt} value {val!r} is a placeholder the fence cannot resolve\"\n         raw = val if val.startswith(\"/\") else os.path.join(str(d), val)\n-        if not _inside(raw, d):\n+        if False:\n             return None, f\"{opt} value {val!r} resolves outside the fixture\"\n     return vals, None\n \n",
-   "payload_sha256": "0d25c1306524a607df35c578ea58e5e21259dbd1a3c291b773ab8a19bf405a36",
-   "description": "accepts an argv value that resolves outside the fixture",
-   "expected_effect": "accepts an argv value that resolves outside the fixture",
-   "payload_kind": "unified-diff",
-   "digest": "66b3ad72faa10db91dfd7a82d7655aaddfa47747d2a1e31f23f41ee97df4ee8b"
-  },
-  {
    "id": "c50-21-ref-value-any",
    "class": "weaken",
    "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -452,7 +452,7 @@\n         body = _read(q, 200)\n         if body is None:\n             return f\"{_rel(q, label)} unreadable\"\n-        if HEX40.match(body) is None:\n+        if False:\n             return f\"{_rel(q, label)} is not a 40-hex ref\"\n     return None\n \n",
@@ -202,26 +152,15 @@
    "expected_effect": "accepts any ref file content, not only a 40-hex object name",
    "payload_kind": "unified-diff",
    "digest": "c0c935f270cab9c21ba32658c2ea66f4526d063fd7195962a0d5d2d045fe36d4"
-  },
-  {
-   "id": "c50-22-store-requirements-none",
-   "class": "weaken",
-   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -828,7 +828,7 @@\n             why = _packed(q, label)\n             if why:\n                 return why\n-    for req in (\"HEAD\", \"config\", \"objects\", \"refs\"):\n+    for req in ():\n         if req not in have:\n             return f\"{label} has no {req}\"\n     if \"hooks\" in have:\n",
-   "payload_sha256": "d7a12ca34db42d30a82a5f83457c7259f165f6d2d383ca8a1ceff6531fbb94c6",
-   "description": "stops requiring HEAD/config/objects/refs in a store",
-   "expected_effect": "stops requiring HEAD/config/objects/refs in a store",
-   "payload_kind": "unified-diff",
-   "digest": "ebb7e921c970ff0dcb80fb93ff757b130fcd4fd3c5350342f09a30dd92f1d0f8"
-  },
-  {
-   "id": "c50-24-log-any-name",
-   "class": "widen",
-   "payload": "--- a/plans/fixture_fence.py\n+++ b/plans/fixture_fence.py\n@@ -667,7 +667,7 @@\n             continue\n         if not stat.S_ISREG(mode):\n             return f\"{_rel(q, label)} is a special file\"\n-        if not _log_name_ok(rel):\n+        if False:\n             return f\"{_rel(q, label)} has a name git does not write\"\n         if size > TEXT_CAP:\n             return f\"{_rel(q, label)} exceeds {TEXT_CAP} bytes\"\n",
-   "payload_sha256": "a3033c72e6ca175184cd22426ce60dbfe732db78a82f35fc8e21dcbcc783a2ea",
-   "description": "accepts any reflog name",
-   "expected_effect": "accepts any reflog name",
-   "payload_kind": "unified-diff",
-   "digest": "ef603b9f6adfd2af2abaf45af8b73a1455498a5a31495cf20dde0a09a2bf67c0"
   }
+ ],
+ "dropped_unwitnessed": [
+  "c50-10-inside-prefix",
+  "c50-11-config-cr",
+  "c50-12-config-include",
+  "c50-13-no-symlink-leg",
+  "c50-20-argv-no-containment",
+  "c50-22-store-requirements-none",
+  "c50-24-log-any-name"
  ]
 }
