@@ -113,7 +113,7 @@ def build_all(hb, k44, modules, work):
         gen.mkdir(parents=True, exist_ok=True)
         try:
             for fid, tool, _expect, _defects, argv, d, _b in hb.build_once(k44, path, gen):
-                built.append({"fid": fid, "tool": tool, "argv": argv, "dir": d, "module": path.name})
+                built.append({"fid": fid, "tool": tool, "argv": argv, "dir": d, "module": str(path)})
         except Exception as e:                                          # a build failure is a receipt
             failures.append(f"{path.name}: {type(e).__name__}: {e}")
     return built, failures
@@ -229,7 +229,7 @@ def main():
             hostile_built.append((rel, files, fixtures, fails))
 
         def fids_of(f, fixtures):
-            return {x["fid"] for x in fixtures if x["module"] == f.name}
+            return {x["fid"] for x in fixtures if x["module"] == str(f)}
 
         def leg(rel, files, fixtures, fails):
             label = "REFUSALS" if rel == REFUSALS_REL else "SEALED"
