@@ -1,0 +1,38 @@
+[
+ {
+  "task": "gcode-to-text",
+  "test_id": "gcode-to-text::test_hello_file_exists",
+  "quote": "assert hello_path.exists(), f\"File {hello_path} does not exist\"",
+  "reader": "C1ConfReadD",
+  "confirmed": true,
+  "line": 10,
+  "why": "Body is one Path.exists() assert on /app/out.txt; an empty file passes; the flag-content check lives in the sibling test."
+ },
+ {
+  "task": "mteb-leaderboard",
+  "test_id": "mteb-leaderboard::test_result_exists",
+  "quote": "assert os.path.exists(\"/app/result.txt\"), \"result.txt file does not exist\"",
+  "reader": "C1ConfReadD",
+  "confirmed": true,
+  "line": 7,
+  "why": "Single os.path.exists assert on /app/result.txt; touch satisfies it; test_data_matches separately checks the model name."
+ },
+ {
+  "task": "pytorch-model-recovery",
+  "test_id": "pytorch-model-recovery::test_model_file_exists",
+  "quote": "assert hello_path.exists(), f\"File {hello_path} does not exist\"",
+  "reader": "C1ConfReadD",
+  "confirmed": true,
+  "line": 108,
+  "why": "Only Path('/app/model.pt').exists(); empty file passes; loading, state-dict and loss checks are separate tests."
+ },
+ {
+  "task": "tune-mjcf",
+  "test_id": "tune-mjcf::test_tuned_model_exists",
+  "quote": "assert model_path.exists(), \"Tuned model file does not exist\"",
+  "reader": "C1ConfReadD",
+  "confirmed": true,
+  "line": 28,
+  "why": "Only (app_dir/'model.xml').exists(); empty file passes; correctness and speed are separate tests."
+ }
+]

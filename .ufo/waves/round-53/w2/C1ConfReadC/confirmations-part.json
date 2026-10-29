@@ -1,0 +1,38 @@
+[
+ {
+  "task": "fix-code-vulnerability",
+  "test_id": "fix-code-vulnerability::test_report_file_exists_example",
+  "quote": "assert report_path.exists(), f\"File {report_path} does not exist\"",
+  "reader": "C1ConfReadC",
+  "confirmed": true,
+  "line": 18,
+  "why": "Single assert on Path('/app/report.jsonl').exists(); no read, command or value check; an empty file passes. Other tests in the file read the report."
+ },
+ {
+  "task": "modernize-scientific-stack",
+  "test_id": "modernize-scientific-stack::test_dependency_file_exists",
+  "quote": "assert any(Path(f).exists() for f in dep_files)",
+  "reader": "C1ConfReadC",
+  "confirmed": true,
+  "line": 49,
+  "why": "Only any(Path.exists()) over requirements.txt / pyproject.toml; touching either passes; no content, version or command check in this test."
+ },
+ {
+  "task": "pytorch-model-cli",
+  "test_id": "pytorch-model-cli::test_weights_file_exists",
+  "quote": "assert weights_path.exists(), f\"File {weights_path} does not exist\"",
+  "reader": "C1ConfReadC",
+  "confirmed": true,
+  "line": 15,
+  "why": "Single exists() assert on /app/weights.json; empty file passes. Sibling tests read prediction and run the CLI."
+ },
+ {
+  "task": "torch-tensor-parallelism",
+  "test_id": "torch-tensor-parallelism::test_parallel_linear_exists",
+  "quote": "assert parallel_linear_path.exists(), f\"File {parallel_linear_path} does not exist\"",
+  "reader": "C1ConfReadC",
+  "confirmed": true,
+  "line": 25,
+  "why": "Single exists() assert on /app/parallel_linear.py; empty file passes. Parametrised tests import it and compare tensors."
+ }
+]

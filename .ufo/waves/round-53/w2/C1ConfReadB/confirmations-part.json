@@ -1,0 +1,38 @@
+[
+ {
+  "task": "extract-moves-from-video",
+  "test_id": "extract-moves-from-video::test_solution_file_exists",
+  "quote": "assert solution_path.exists(), f\"File {solution_path} does not exist\"",
+  "reader": "C1ConfReadB",
+  "confirmed": true,
+  "line": 334,
+  "why": "Sole assertion is Path('/app/solution.txt').exists(); no read, no command. Content is checked only by the sibling similarity test."
+ },
+ {
+  "task": "merge-diff-arc-agi-task",
+  "test_id": "merge-diff-arc-agi-task::test_git_repo_init",
+  "quote": "assert git_path.exists(), \"Git repository does not exist in /app/repo\"",
+  "reader": "C1ConfReadB",
+  "confirmed": true,
+  "line": 13,
+  "why": "Only asserts /app/repo/.git exists; an empty mkdir passes. Branches, algo.py import and example outputs are checked by other tests."
+ },
+ {
+  "task": "prove-plus-comm",
+  "test_id": "prove-plus-comm::test_compiled_proof_exists",
+  "quote": "assert os.path.exists(\"plus_comm.vo\"), (",
+  "reader": "C1ConfReadB",
+  "confirmed": true,
+  "line": 12,
+  "why": "Only os.path.exists on plus_comm.vo; an empty touch passes. Content and coqc compilation are checked by sibling tests."
+ },
+ {
+  "task": "torch-pipeline-parallelism",
+  "test_id": "torch-pipeline-parallelism::test_pipeline_parallel_exists",
+  "quote": "assert pipeline_parallel_path.exists(), (",
+  "reader": "C1ConfReadB",
+  "confirmed": true,
+  "line": 26,
+  "why": "Only Path('/app/pipeline_parallel.py').exists(); empty file passes. Hook scan and distributed numeric test_pipeline_parallel check content."
+ }
+]

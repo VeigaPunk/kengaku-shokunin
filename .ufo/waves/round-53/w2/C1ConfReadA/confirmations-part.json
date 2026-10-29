@@ -1,0 +1,38 @@
+[
+ {
+  "task": "cobol-modernization",
+  "test_id": "cobol-modernization::test_required_files_exist",
+  "quote": "assert Path(file_path).exists(), f\"Required file {file_path} does not exist\"",
+  "reader": "C1ConfReadA",
+  "confirmed": true,
+  "line": 18,
+  "why": "Only requires /app/program.py to exist; empty file passes. Real output comparison is in test_program_output."
+ },
+ {
+  "task": "log-summary-date-ranges",
+  "test_id": "log-summary-date-ranges::test_summary_file_exists",
+  "quote": "assert OUTPUT_FILE.exists(), f\"File {OUTPUT_FILE} does not exist\"",
+  "reader": "C1ConfReadA",
+  "confirmed": true,
+  "line": 29,
+  "why": "Single assert on /app/summary.csv existence; empty file passes. Header, rows and counts are checked in test_summary_structure_and_counts."
+ },
+ {
+  "task": "path-tracing-reverse",
+  "test_id": "path-tracing-reverse::test_image_c_exists",
+  "quote": "assert image_c_path.exists(), f\"File {image_c_path} does not exist\"",
+  "reader": "C1ConfReadA",
+  "confirmed": true,
+  "line": 17,
+  "why": "Only /app/mystery.c existence asserted; empty file passes. Compile, size and image similarity are checked by sibling tests."
+ },
+ {
+  "task": "sparql-university",
+  "test_id": "sparql-university::test_sparql_file_exists",
+  "quote": "assert SPARQL_PATH.exists(), f\"SPARQL query file {SPARQL_PATH} does not exist\"",
+  "reader": "C1ConfReadA",
+  "confirmed": true,
+  "line": 26,
+  "why": "Only /app/solution.sparql existence asserted; empty file passes. Query execution and result set checked by sibling tests."
+ }
+]

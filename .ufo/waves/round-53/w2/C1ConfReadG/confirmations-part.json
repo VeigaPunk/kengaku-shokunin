@@ -1,0 +1,38 @@
+[
+  {
+    "task": "llm-inference-batching-scheduler",
+    "test_id": "llm-inference-batching-scheduler::test_output_files_exist",
+    "quote": "assert os.path.exists(\"/app/task_file/output_data/plan_b1.jsonl\"), (",
+    "reader": "C1ConfReadG",
+    "confirmed": true,
+    "line": 97,
+    "why": "Body only asserts os.path.exists on plan_b1.jsonl and plan_b2.jsonl; no helper, content, command or value check. Empty touched files pass. Other tests check input hashes, schema and cost thresholds."
+  },
+  {
+    "task": "path-tracing",
+    "test_id": "path-tracing::test_image_c_exists",
+    "quote": "image_c_path = Path(\"/app/image.c\")",
+    "reader": "C1ConfReadG",
+    "confirmed": true,
+    "line": 15,
+    "why": "One Path('/app/image.c').exists() assertion; no helper or content read, so an empty touched file passes. Other tests compile it, size-check it and run a 0.99 similarity check."
+  },
+  {
+    "task": "sam-cell-seg",
+    "test_id": "sam-cell-seg::test_python_file_exists",
+    "quote": "output_path = Path(\"/app/convert_masks.py\")",
+    "reader": "C1ConfReadG",
+    "confirmed": true,
+    "line": 149,
+    "why": "One Path('/app/convert_masks.py').exists() assertion; no helper or content read, so an empty touched file passes. test_run_script and csv/IoU tests check content. test_csv_output_exists is presence-only too."
+  },
+  {
+    "task": "winning-avg-corewars",
+    "test_id": "winning-avg-corewars::test_warrior_exists",
+    "quote": "assert Path(\"/app/my_warrior.red\").exists(), \"my_warrior.red file not found\"",
+    "reader": "C1ConfReadG",
+    "confirmed": true,
+    "line": 41,
+    "why": "One Path('/app/my_warrior.red').exists() assertion; an empty touched file passes. The real check is test_warrior_performance, which runs pmars against the win-rate thresholds."
+  }
+]
