@@ -1,0 +1,313 @@
+{
+  "seat": "C1LabelScoutA",
+  "labels": {
+    "adaptive-rejection-sampler::test_ars_function_exists": {
+      "label": "N",
+      "why": "reads ars.R content, asserts regex match on file text"
+    },
+    "adaptive-rejection-sampler::test_implementation_is_modular": {
+      "label": "N",
+      "why": "counts function definitions in ars.R content; value comparison"
+    },
+    "adaptive-rejection-sampler::test_log_concavity_functionality": {
+      "label": "N",
+      "why": "runs Rscript subprocess, asserts PASS in combined output"
+    },
+    "bn-fit-modify::test_intervened_dag_structure_exists": {
+      "label": "Y",
+      "why": "only asserts /app/intervened_dag.csv exists"
+    },
+    "bn-fit-modify::test_sampled_csv_col_names": {
+      "label": "N",
+      "why": "pandas.read_csv parses content; empty check plus column membership"
+    },
+    "build-cython-ext::test_pyknotid_core_import": {
+      "label": "N",
+      "why": "find_spec import-machinery state and loader type check, no named path"
+    },
+    "build-cython-ext::test_cinvariants_cython_extension": {
+      "label": "N",
+      "why": "loader must be ExtensionFileLoader; touching empty file cannot satisfy"
+    },
+    "build-cython-ext::test_pyknotid_repository_tests": {
+      "label": "N",
+      "why": "subprocess git clone and pytest run, returncode assertion"
+    },
+    "build-pmars::test_debian_source_used": {
+      "label": "Y",
+      "why": "glob non-empty plus debian directory exists; presence-only"
+    },
+    "caffe-cifar-10::test_caffe_version_and_source": {
+      "label": "N",
+      "why": "runs caffe --version subprocess, returncode and output value"
+    },
+    "caffe-cifar-10::test_cpu_only_training_configured": {
+      "label": "N",
+      "why": "reads solver and Makefile.config content, substring assertions"
+    },
+    "cancel-async-tasks::test_tasks_obey_max_concurrent": {
+      "label": "N",
+      "why": "subprocess run, stdout counts and elapsed-time assertion"
+    },
+    "cancel-async-tasks::test_tasks_cancel_above_max_concurrent": {
+      "label": "N",
+      "why": "Popen with SIGINT, stdout count assertions"
+    },
+    "cobol-modernization::test_required_files_exist": {
+      "label": "Y",
+      "why": "four Path.exists assertions only"
+    },
+    "code-from-image::test_output_file_exists": {
+      "label": "Y",
+      "why": "only asserts /app/output.txt exists"
+    },
+    "configure-git-webserver::test_hello_html_exists": {
+      "label": "N",
+      "why": "subprocess bash verify.sh, stdout value assertion"
+    },
+    "constraints-scheduling::test_earliest_tiebreakers_and_carol_buffer": {
+      "label": "N",
+      "why": "parses ICS file content, datetime value logic throughout"
+    },
+    "custom-memory-heap-crash::test_program_compiles_debug": {
+      "label": "N",
+      "why": "reached helper runs g++ subprocess, pytest.fail on failure"
+    },
+    "custom-memory-heap-crash::test_release_build_runs_without_crash": {
+      "label": "N",
+      "why": "compiles and runs program, returncode assertion"
+    },
+    "db-wal-recovery::test_recovered_data_sorted": {
+      "label": "N",
+      "why": "json.load content, sorted order comparison"
+    },
+    "db-wal-recovery::test_wal_was_decrypted": {
+      "label": "N",
+      "why": "json.load content, record count and value checks"
+    },
+    "dna-assembly::test_primers": {
+      "label": "N",
+      "why": "reads primers content, oligotm subprocess, sequence equality checks"
+    },
+    "extract-elf::test_output_matches_reference": {
+      "label": "N",
+      "why": "gcc and node subprocesses, JSON value comparisons"
+    },
+    "filter-js-from-html::test_filter_blocks_xss": {
+      "label": "N",
+      "why": "subprocess filter.py runs and alert checks, content reads"
+    },
+    "financial-document-processor::test_invoices_moved_correctly": {
+      "label": "N",
+      "why": "hashes file contents, set equality against expected hashes"
+    },
+    "financial-document-processor::test_original_documents_dir_empty": {
+      "label": "N",
+      "why": "len(iterdir())==0 count comparison, not name membership"
+    },
+    "fix-code-vulnerability::test_cwe_id": {
+      "label": "N",
+      "why": "parses report.jsonl content, cwe value membership"
+    },
+    "fix-git::test_layout_file": {
+      "label": "N",
+      "why": "md5 hash comparison through reached helper"
+    },
+    "gcode-to-text::test_hello_file_content": {
+      "label": "N",
+      "why": "read_text equality with expected flag string"
+    },
+    "git-leak-recovery::test_repository_contents_checksum": {
+      "label": "N",
+      "why": "subprocess sha256sum pipeline, checksum value assertion"
+    },
+    "headless-terminal::test_import": {
+      "label": "N",
+      "why": "import statement only; no assertion anywhere"
+    },
+    "headless-terminal::test_shell_state_persists_between_commands": {
+      "label": "N",
+      "why": "drives deliverable class, read_text equality assertion"
+    },
+    "hf-model-inference::test_flask_api_running": {
+      "label": "N",
+      "why": "network requests.get, connection-based assertion"
+    },
+    "install-windows-3.11::test_windows_311_core_files_verification": {
+      "label": "N",
+      "why": "subprocess extraction helpers, sha256 hash verification"
+    },
+    "kv-store-grpc::test_grpc_tools_installation": {
+      "label": "N",
+      "why": "assertion depends on import success, process state"
+    },
+    "kv-store-grpc::test_grpc_server_functionality": {
+      "label": "N",
+      "why": "gRPC network calls, response value equality"
+    },
+    "large-scale-text-editing::test_apply_macros_runs": {
+      "label": "N",
+      "why": "vim subprocess returncode, second generator subprocess"
+    },
+    "largest-eigenval::test_speedup": {
+      "label": "N",
+      "why": "imports deliverable eigen module, timing comparison"
+    },
+    "llm-inference-batching-scheduler::test_generate_and_schema": {
+      "label": "N",
+      "why": "json.loads plan content, id-set and shape value checks"
+    },
+    "log-summary-date-ranges::test_summary_structure_and_counts": {
+      "label": "N",
+      "why": "csv content compared row-by-row to hardcoded values"
+    },
+    "mailman::test_join_announce_leave_flow": {
+      "label": "N",
+      "why": "subprocess useradd, SMTP sends, mailbox content assertions"
+    },
+    "make-mips-interpreter::test_frame_bmp_exists": {
+      "label": "N",
+      "why": "exists plus st_size > 0 size value"
+    },
+    "mcmc-sampling-stan::test_hierarchical_model_implemented": {
+      "label": "N",
+      "why": "subprocess R parses model file content"
+    },
+    "merge-diff-arc-agi-task::test_git_repo_init": {
+      "label": "Y",
+      "why": "only asserts /app/repo/.git exists"
+    },
+    "merge-diff-arc-agi-task::test_algo_py_has_map_function": {
+      "label": "N",
+      "why": "exec_module runs deliverable code, hasattr attribute checks"
+    },
+    "mteb-leaderboard::test_result_exists": {
+      "label": "Y",
+      "why": "only os.path.exists assertion on /app/result.txt"
+    },
+    "mteb-retrieve::test_data_matches": {
+      "label": "N",
+      "why": "reads lines, equality with expected string"
+    },
+    "nginx-request-logging::test_nginx_running": {
+      "label": "N",
+      "why": "network HTTP request, status-code assertion"
+    },
+    "nginx-request-logging::test_nginx_config_syntax": {
+      "label": "N",
+      "why": "subprocess nginx -t, returncode assertion"
+    },
+    "openssl-selfsigned-cert::test_key_file": {
+      "label": "N",
+      "why": "st_mode permission value and openssl subprocess output"
+    },
+    "openssl-selfsigned-cert::test_verification_file": {
+      "label": "N",
+      "why": "reads file content, regex assertions on text"
+    },
+    "overfull-hbox::test_input_file_matches": {
+      "label": "N",
+      "why": "reads tex content, token-by-token comparison"
+    },
+    "path-tracing::test_image_c_exists": {
+      "label": "Y",
+      "why": "only asserts /app/image.c exists"
+    },
+    "path-tracing-reverse::test_image_c_exists": {
+      "label": "Y",
+      "why": "only asserts /app/mystery.c exists"
+    },
+    "polyglot-c-py::test_fibonacci_polyglot": {
+      "label": "N",
+      "why": "full listdir equality plus gcc/python subprocess outputs"
+    },
+    "portfolio-optimization::test_performance_and_scalability": {
+      "label": "N",
+      "why": "imports deliverable module, timing speedup value"
+    },
+    "prove-plus-comm::test_compiled_proof_exists": {
+      "label": "Y",
+      "why": "only os.path.exists on plus_comm.vo"
+    },
+    "pytorch-model-cli::test_cli_tool_exists": {
+      "label": "Y",
+      "why": "only asserts /app/cli_tool exists"
+    },
+    "pytorch-model-cli::test_cli_tool_executable": {
+      "label": "N",
+      "why": "subprocess shell command, stdout value assertion"
+    },
+    "pytorch-model-recovery::test_state_dicts_match": {
+      "label": "N",
+      "why": "torch.load contents, allclose tensor comparisons"
+    },
+    "qemu-startup::test_version": {
+      "label": "N",
+      "why": "os.popen expect run, reads output file content"
+    },
+    "query-optimize::test_solution_contains_single_sql_query": {
+      "label": "N",
+      "why": "reads SQL content, parses via sqlite EXPLAIN"
+    },
+    "raman-fitting::test_G_Peak": {
+      "label": "N",
+      "why": "json.load numeric value tolerance comparisons"
+    },
+    "regex-chess::test_not_long": {
+      "label": "N",
+      "why": "reads re.json content, length value assertions"
+    },
+    "rstan-to-pystan::test_r_rstan_not_installed": {
+      "label": "N",
+      "why": "subprocess R probes, returncode-dependent assertions"
+    },
+    "rstan-to-pystan::test_beta_estimation_accuracy": {
+      "label": "N",
+      "why": "csv content parsed, range value checks"
+    },
+    "sam-cell-seg::test_csv_output_exists": {
+      "label": "Y",
+      "why": "only asserts /app/test_output.csv exists"
+    },
+    "sam-cell-seg::test_single_contiguous_mask_per_cell": {
+      "label": "N",
+      "why": "same-file helper reads CSV, geometric value checks"
+    },
+    "sparql-university::test_sparql_file_exists": {
+      "label": "Y",
+      "why": "only asserts /app/solution.sparql exists"
+    },
+    "sqlite-with-gcov::test_sqlite_in_path": {
+      "label": "N",
+      "why": "shutil.which plus subprocess run, returncode assertion"
+    },
+    "torch-pipeline-parallelism::test_no_hooks_in_pipeline_parallel": {
+      "label": "N",
+      "why": "reads source code, substring assertions"
+    },
+    "train-fasttext::test_accuracy": {
+      "label": "N",
+      "why": "loads model content, computed accuracy threshold"
+    },
+    "tune-mjcf::test_tuned_model_exists": {
+      "label": "Y",
+      "why": "only asserts /app/model.xml exists"
+    },
+    "video-processing::test_jump_analyzer_example_video": {
+      "label": "N",
+      "why": "same-file helper subprocess run, toml content, frame ranges"
+    },
+    "vulnerable-secret::test_results_file_exists": {
+      "label": "Y",
+      "why": "only asserts /app/results.txt exists"
+    },
+    "winning-avg-corewars::test_warrior_performance": {
+      "label": "N",
+      "why": "pmars subprocess runs, win-rate threshold values"
+    },
+    "write-compressor::test_compression_size": {
+      "label": "N",
+      "why": "stat st_size <= 2500 size value; setup helper"
+    }
+  }
+}

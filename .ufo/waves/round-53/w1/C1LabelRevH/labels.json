@@ -1,0 +1,309 @@
+{
+ "seat": "C1LabelRevH",
+ "labels": {
+  "adaptive-rejection-sampler::test_sample_files_generated": {
+   "label": "N",
+   "why": "Loads sample files via np.loadtxt and compares mean/std values; content read."
+  },
+  "adaptive-rejection-sampler::test_input_validation_functionality": {
+   "label": "N",
+   "why": "Runs Rscript subprocess and asserts on its output text."
+  },
+  "bn-fit-modify::test_learned_dag_structure": {
+   "label": "N",
+   "why": "Reads learned_dag.csv with pandas and compares edge sets."
+  },
+  "bn-fit-modify::test_intervened__data_structure": {
+   "label": "N",
+   "why": "Reads intervened_dag.csv with pandas and compares edge sets."
+  },
+  "build-cython-ext::test_repo_cloned": {
+   "label": "Y",
+   "why": "Only asserts /app/pyknotid and its .git entry exist and are directories; mkdir satisfies."
+  },
+  "build-cython-ext::test_ccomplexity_cython_extension": {
+   "label": "N",
+   "why": "Uses importlib find_spec and asserts loader class of deliverable module."
+  },
+  "build-cython-ext::test_example_usage": {
+   "label": "N",
+   "why": "Imports pyknotid and asserts computed determinant equals 5."
+  },
+  "build-pmars::test_headless_no_x11": {
+   "label": "N",
+   "why": "Runs ldd via helper subprocess and inspects its output."
+  },
+  "build-pov-ray::test_povray_built_from_correct_source": {
+   "label": "N",
+   "why": "Computes MD5 of source files and compares to hardcoded hashes."
+  },
+  "caffe-cifar-10::test_prototxt_files_exist": {
+   "label": "Y",
+   "why": "Two prototxt paths asserted to exist; touching both empty files satisfies."
+  },
+  "cancel-async-tasks::test_tasks_run_concurrently": {
+   "label": "N",
+   "why": "Runs subprocess and counts occurrences in captured stdout."
+  },
+  "cancel-async-tasks::test_tasks_cancel_at_max_concurrent": {
+   "label": "N",
+   "why": "Spawns process, sends signal, counts stdout markers."
+  },
+  "circuit-fibsqrt::test_sqrt_fib": {
+   "label": "N",
+   "why": "Compiles and runs /app/sim, comparing numeric outputs."
+  },
+  "cobol-modernization::test_program_output": {
+   "label": "N",
+   "why": "Runs program.py and compares exact DAT file contents."
+  },
+  "compile-compcert::test_compcert_rejects_unsupported_feature": {
+   "label": "N",
+   "why": "Runs ccomp via helper and asserts nonzero exit status."
+  },
+  "constraints-scheduling::test_constraints_conflicts_business_hours": {
+   "label": "N",
+   "why": "Reads and parses ICS calendar contents, compares timestamps."
+  },
+  "custom-memory-heap-crash::test_protected_files_not_modified": {
+   "label": "N",
+   "why": "Computes MD5 checksums of protected sources and compares."
+  },
+  "custom-memory-heap-crash::test_debug_build_runs_without_crash": {
+   "label": "N",
+   "why": "Compiles via helper subprocess and asserts process return code."
+  },
+  "db-wal-recovery::test_recovered_data_structure": {
+   "label": "N",
+   "why": "Parses recovered.json and asserts record field types."
+  },
+  "db-wal-recovery::test_no_duplicate_ids": {
+   "label": "N",
+   "why": "Parses recovered.json and compares id list length to set."
+  },
+  "distribution-search::test_kl_divergences": {
+   "label": "N",
+   "why": "Loads dist.npy and compares computed KL values to tolerance."
+  },
+  "extract-elf::test_extract_js_exists": {
+   "label": "Y",
+   "why": "Asserts /app/extract.js exists and is a regular file; touch satisfies."
+  },
+  "feal-linear-cryptanalysis::test_attack": {
+   "label": "N",
+   "why": "Reads plaintexts.txt content and checks membership of expected values."
+  },
+  "financial-document-processor::test_directories_created": {
+   "label": "Y",
+   "why": "Asserts /app/invoices and /app/other exist and are directories; mkdir satisfies."
+  },
+  "financial-document-processor::test_summary_csv_content": {
+   "label": "N",
+   "why": "Reads summary.csv with pandas and compares numeric amounts."
+  },
+  "fix-code-vulnerability::test_vul_file": {
+   "label": "N",
+   "why": "Parses report.jsonl and checks recorded file paths."
+  },
+  "fix-git::test_about_file": {
+   "label": "N",
+   "why": "Compares MD5 hashes of two about.md files via helper."
+  },
+  "gcode-to-text::test_hello_file_exists": {
+   "label": "Y",
+   "why": "Single assertion that /app/out.txt exists; touch satisfies."
+  },
+  "git-leak-recovery::test_no_secrets_in_unreachable_objects": {
+   "label": "N",
+   "why": "Runs git fsck/cat-file subprocesses and inspects output."
+  },
+  "gpt2-codegolf::test_gpt2_implementation": {
+   "label": "N",
+   "why": "Checks file size value, compiles and runs binary comparing output."
+  },
+  "headless-terminal::test_startup_files": {
+   "label": "N",
+   "why": "Runs shell command via subprocess and reads written file text."
+  },
+  "hf-model-inference::test_model_downloaded": {
+   "label": "N",
+   "why": "Loads model and tokenizer from directory, asserting non-null objects."
+  },
+  "install-windows-3.11::test_qemu_running_with_correct_params": {
+   "label": "N",
+   "why": "Fixtures run pgrep/proc reads; asserts SHA256 of disk image."
+  },
+  "kv-store-grpc::test_proto_file_creation": {
+   "label": "N",
+   "why": "Reads proto file content and asserts required definitions present."
+  },
+  "kv-store-grpc::test_grpc_protocol_handshake": {
+   "label": "N",
+   "why": "Performs gRPC network call and asserts returned value."
+  },
+  "large-scale-text-editing::test_apply_macros_well_formed": {
+   "label": "N",
+   "why": "Reads macro script text and validates each line by regex."
+  },
+  "largest-eigenval::test_dominance_eigenvalue": {
+   "label": "N",
+   "why": "Imports deliverable eigen module and compares eigenvalue magnitudes."
+  },
+  "llm-inference-batching-scheduler::test_input_data_integrity": {
+   "label": "N",
+   "why": "Computes SHA256 of input files and compares to expected hashes."
+  },
+  "log-summary-date-ranges::test_summary_file_exists": {
+   "label": "Y",
+   "why": "Single assertion that /app/summary.csv exists; touch satisfies."
+  },
+  "mailman::test_mlist_exists": {
+   "label": "N",
+   "why": "Asserts truthiness of mailing-list object from mailman API, not path existence."
+  },
+  "make-mips-interpreter::test_vm_execution": {
+   "label": "N",
+   "why": "Runs vm.js process and checks expected text in captured stdout."
+  },
+  "mcmc-sampling-stan::test_rstan_package_installed": {
+   "label": "N",
+   "why": "Runs R subprocess and asserts its exit status."
+  },
+  "mcmc-sampling-stan::test_stan_model_sampling": {
+   "label": "N",
+   "why": "Runs Rscript and matches sampling output patterns."
+  },
+  "merge-diff-arc-agi-task::test_algo_py_exists": {
+   "label": "Y",
+   "why": "Single assertion that /app/repo/algo.py exists; touch satisfies."
+  },
+  "modernize-scientific-stack::test_dependency_file_exists": {
+   "label": "Y",
+   "why": "Disjunction of two exists() checks only; touching requirements.txt satisfies."
+  },
+  "mteb-retrieve::test_result_exists": {
+   "label": "Y",
+   "why": "Single os.path.exists assertion on /app/result.txt; touch satisfies."
+  },
+  "nginx-request-logging::test_nginx_installed": {
+   "label": "N",
+   "why": "Runs which nginx subprocess and asserts return code."
+  },
+  "nginx-request-logging::test_custom_404_page": {
+   "label": "N",
+   "why": "Performs HTTP request and compares response body text."
+  },
+  "openssl-selfsigned-cert::test_directory_structure": {
+   "label": "Y",
+   "why": "Asserts /app/ssl exists and is a directory; mkdir satisfies."
+  },
+  "openssl-selfsigned-cert::test_combined_pem_file": {
+   "label": "N",
+   "why": "Reads PEM content and runs openssl subprocess checking output."
+  },
+  "overfull-hbox::test_no_overfull_hboxes": {
+   "label": "N",
+   "why": "Reads main.log text and searches for warning strings."
+  },
+  "password-recovery::test_password_match": {
+   "label": "N",
+   "why": "Reads recovered_passwords.txt and checks expected password membership."
+  },
+  "path-tracing::test_image_similarity": {
+   "label": "N",
+   "why": "Loads images and compares cosine similarity value."
+  },
+  "path-tracing-reverse::test_image_similarity": {
+   "label": "N",
+   "why": "Runs binaries via subprocess and compares image similarity value."
+  },
+  "portfolio-optimization::test_correctness_small": {
+   "label": "N",
+   "why": "Imports deliverable module and compares computed risk/return values."
+  },
+  "prove-plus-comm::test_proof_file_exists": {
+   "label": "Y",
+   "why": "Single os.path.exists assertion on plus_comm.v; touch satisfies."
+  },
+  "pytorch-model-cli::test_weights_file_exists": {
+   "label": "Y",
+   "why": "Single assertion that /app/weights.json exists; touch satisfies."
+  },
+  "pytorch-model-cli::test_prediction_file_content": {
+   "label": "N",
+   "why": "Reads prediction.txt text and compares to expected value."
+  },
+  "pytorch-model-recovery::test_model_loads_weights": {
+   "label": "N",
+   "why": "Loads torch modules and asserts loaded objects non-null."
+  },
+  "qemu-alpine-ssh::test_sshpass": {
+   "label": "N",
+   "why": "Runs sshpass subprocess and checks kernel version in stdout."
+  },
+  "query-optimize::test_outputs_match_exactly": {
+   "label": "N",
+   "why": "Executes SQL from files and compares returned rows/columns."
+  },
+  "raman-fitting::test_result_file_exists": {
+   "label": "Y",
+   "why": "Single assertion that /app/results.json exists; touch satisfies."
+  },
+  "regex-chess::test_naroditsky_ivanchuk": {
+   "label": "N",
+   "why": "Helper reads /app/re.json and compares generated moves to reference."
+  },
+  "reshard-c4-data::test_compress_decompress_workflow": {
+   "label": "N",
+   "why": "Runs compress/decompress subprocesses and compares file hashes."
+  },
+  "rstan-to-pystan::test_rho_estimation_accuracy": {
+   "label": "N",
+   "why": "Reads rho_est.csv and compares numeric values to ranges."
+  },
+  "sam-cell-seg::test_run_script": {
+   "label": "N",
+   "why": "Runs convert_masks.py subprocess with check=True and contains no assertion."
+  },
+  "sam-cell-seg::test_no_polyline_overlaps": {
+   "label": "N",
+   "why": "Reads predicted polyline CSV and compares polygon intersection areas."
+  },
+  "schemelike-metacircular-eval::test_interp": {
+   "label": "N",
+   "why": "Runs interpreter subprocesses and asserts zero failed comparisons."
+  },
+  "sqlite-with-gcov::test_sqlite_compiled": {
+   "label": "N",
+   "why": "Runs sqlite3 subprocess and asserts returned output non-empty."
+  },
+  "torch-pipeline-parallelism::test_pipeline_parallel_exists": {
+   "label": "Y",
+   "why": "Single assertion that /app/pipeline_parallel.py exists; touch satisfies."
+  },
+  "torch-tensor-parallelism::test_row_parallel_linear": {
+   "label": "N",
+   "why": "Compares computed layer weights/outputs numerically with torch.allclose."
+  },
+  "tune-mjcf::test_model_ref_unchanged": {
+   "label": "N",
+   "why": "Reads both XML files as text and compares equality."
+  },
+  "video-processing::test_test_video_exists": {
+   "label": "Y",
+   "why": "Single assertion that /tests/test_video.mp4 exists; touch satisfies."
+  },
+  "video-processing::test_jump_analyzer_imports": {
+   "label": "N",
+   "why": "Reads jump_analyzer.py source and parses its AST imports."
+  },
+  "winning-avg-corewars::test_warrior_exists": {
+   "label": "Y",
+   "why": "Single assertion that /app/my_warrior.red exists; touch satisfies."
+  },
+  "write-compressor::test_decompression_produces_original": {
+   "label": "N",
+   "why": "Runs decompressor via subprocess and compares stdout to file content."
+  }
+ }
+}

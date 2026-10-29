@@ -1,0 +1,309 @@
+{
+  "seat": "C1LabelScoutE",
+  "labels": {
+    "adaptive-rejection-sampler::test_can_generate_standard_distribution_samples": {
+      "label": "N",
+      "why": "Writes R script, runs Rscript subprocess, asserts PASS in command output"
+    },
+    "adaptive-rejection-sampler::test_sample_files_generated": {
+      "label": "N",
+      "why": "np.loadtxt parses file content; mean/std/count value assertions"
+    },
+    "bn-fit-modify::test_bn_sample_exists": {
+      "label": "Y",
+      "why": "Sole assertion is bn_sample_path.exists()"
+    },
+    "bn-fit-modify::test_learned_dag_structure": {
+      "label": "N",
+      "why": "read_csv content; learned edge set compared to expected set"
+    },
+    "bn-fit-modify::test_sampled_data": {
+      "label": "N",
+      "why": "read_csv; row/column counts and KS-test p-value comparisons"
+    },
+    "build-cython-ext::test_repo_cloned": {
+      "label": "Y",
+      "why": "Only exists, is_dir, and (.git).exists() assertions"
+    },
+    "build-cython-ext::test_chelpers": {
+      "label": "N",
+      "why": "Imports pyknotid deliverable; computed cross-product value compared"
+    },
+    "build-cython-ext::test_example_usage": {
+      "label": "N",
+      "why": "Imports deliverable; asserts computed polynomial/determinant equal 7/5"
+    },
+    "build-pmars::test_built_from_source": {
+      "label": "Y",
+      "why": "Two glob non-empty checks plus src_dir.exists(); empty files suffice"
+    },
+    "build-pov-ray::test_povray_built_from_correct_source": {
+      "label": "N",
+      "why": "calculate_md5 helper reads file contents; hash equality assertions"
+    },
+    "caffe-cifar-10::test_training_completed_500_iterations": {
+      "label": "N",
+      "why": "Opens training_output.txt; substring and length content assertions"
+    },
+    "cancel-async-tasks::test_tasks_run_concurrently": {
+      "label": "N",
+      "why": "subprocess.run of run.py; stdout occurrence counts equal 2"
+    },
+    "chess-best-move::test_move_correct": {
+      "label": "N",
+      "why": "read_text parsed; move list compared to expected moves"
+    },
+    "circuit-fibsqrt::test_sqrt_fib": {
+      "label": "N",
+      "why": "gcc compile then runs /app/sim subprocess; output values compared"
+    },
+    "code-from-image::test_output_is_correct": {
+      "label": "N",
+      "why": "Reads output.txt; content equality with hash string"
+    },
+    "compile-compcert::test_compcert_rejects_unsupported_feature": {
+      "label": "N",
+      "why": "Runs ccomp via _run subprocess; returncode comparison"
+    },
+    "count-dataset-tokens::test_command_output_content_example": {
+      "label": "N",
+      "why": "read_text content compared to expected integer string"
+    },
+    "custom-memory-heap-crash::test_protected_files_not_modified": {
+      "label": "N",
+      "why": "compute_md5 reads contents; checksum equality assertions"
+    },
+    "custom-memory-heap-crash::test_no_memory_leaks_with_valgrind": {
+      "label": "N",
+      "why": "compile_program helper plus valgrind subprocess returncode assert"
+    },
+    "db-wal-recovery::test_recovered_data_structure": {
+      "label": "N",
+      "why": "json.load parses content; field/type assertions on values"
+    },
+    "distribution-search::test_distribution_file_exists": {
+      "label": "N",
+      "why": "np.load parses array content; empty file raises and fails"
+    },
+    "distribution-search::test_kl_divergences": {
+      "label": "N",
+      "why": "np.load content; KL divergence value tolerance assertions"
+    },
+    "extract-moves-from-video::test_solution_file_exists": {
+      "label": "Y",
+      "why": "Sole assertion is solution_path.exists()"
+    },
+    "feal-linear-cryptanalysis::test_attack": {
+      "label": "N",
+      "why": "open().read() content; expected plaintext membership checks"
+    },
+    "financial-document-processor::test_other_documents_moved_correctly": {
+      "label": "N",
+      "why": "compute_file_hash SHA512 of contents; hash set equality"
+    },
+    "financial-document-processor::test_summary_csv_content": {
+      "label": "N",
+      "why": "read_csv content; amounts and hash identifiers compared"
+    },
+    "fix-code-vulnerability::test_hkey_basic_cases": {
+      "label": "N",
+      "why": "Imports bottle deliverable; return values compared to expected"
+    },
+    "fix-git::test_about_file": {
+      "label": "N",
+      "why": "compare_file_hashes helper asserts MD5 content equality"
+    },
+    "git-leak-recovery::test_flag_file_exists_and_correct": {
+      "label": "N",
+      "why": "read_text stripped and compared to secret value"
+    },
+    "git-leak-recovery::test_no_secrets_in_unreachable_objects": {
+      "label": "N",
+      "why": "Runs git fsck and cat-file subprocesses; output inspected"
+    },
+    "headless-terminal::test_send_non_interactive_command": {
+      "label": "N",
+      "why": "Imports headless_terminal deliverable; read_text equality check"
+    },
+    "headless-terminal::test_startup_files": {
+      "label": "N",
+      "why": "subprocess.run shell appends to .bashrc; content equality too"
+    },
+    "hf-model-inference::test_sentiment_endpoint": {
+      "label": "N",
+      "why": "HTTP POST requests; JSON response fields and values asserted"
+    },
+    "install-windows-3.11::test_qemu_running_with_correct_params": {
+      "label": "N",
+      "why": "qemu_pid/cmdline fixtures run pgrep/cat; image SHA256 checked"
+    },
+    "kv-store-grpc::test_protobuf_generation": {
+      "label": "Y",
+      "why": "Two assertions, both only Path.exists() on generated files"
+    },
+    "kv-store-grpc::test_grpc_protocol_handshake": {
+      "label": "N",
+      "why": "gRPC channel network call to server; response value asserted"
+    },
+    "large-scale-text-editing::test_input_equiv_expected": {
+      "label": "N",
+      "why": "_sha256 helper reads contents; digest equality assertion"
+    },
+    "largest-eigenval::test_dominance_eigenvalue": {
+      "label": "N",
+      "why": "Imports eigen deliverable; isclose value comparison"
+    },
+    "llm-inference-batching-scheduler::test_solution_shape_feasibility_and_batch_consistency": {
+      "label": "N",
+      "why": "Helpers json.load plan/request contents; many value comparisons"
+    },
+    "log-summary-date-ranges::test_summary_file_exists": {
+      "label": "Y",
+      "why": "Sole assertion is OUTPUT_FILE.exists()"
+    },
+    "make-doom-for-mips::test_vm_execution": {
+      "label": "N",
+      "why": "Popen node subprocess; stdout bytes content assertion"
+    },
+    "make-mips-interpreter::test_vm_execution": {
+      "label": "N",
+      "why": "Popen node subprocess; stdout bytes content assertion"
+    },
+    "mcmc-sampling-stan::test_r_script_created_and_used_rstan": {
+      "label": "N",
+      "why": "Runs R interpreter subprocess; stderr patterns and returncode"
+    },
+    "mcmc-sampling-stan::test_stan_model_sampling": {
+      "label": "N",
+      "why": "Rscript subprocess; returncode and sampling output patterns"
+    },
+    "merge-diff-arc-agi-task::test_algo_map_function_with_test_input": {
+      "label": "N",
+      "why": "Imports algo.py deliverable; grid element-wise value equality"
+    },
+    "modernize-scientific-stack::test_dependency_file_exists": {
+      "label": "Y",
+      "why": "any(Path(f).exists()) over two candidate names only"
+    },
+    "multi-source-data-merger::test_output_files_exist": {
+      "label": "Y",
+      "why": "Two os.path.exists assertions, nothing else"
+    },
+    "nginx-request-logging::test_nginx_installed": {
+      "label": "N",
+      "why": "which nginx subprocess; returncode assertion"
+    },
+    "nginx-request-logging::test_nginx_config_settings": {
+      "label": "N",
+      "why": "read_text of configs; regex searches on content"
+    },
+    "openssl-selfsigned-cert::test_directory_structure": {
+      "label": "Y",
+      "why": "Only os.path.exists and os.path.isdir assertions"
+    },
+    "openssl-selfsigned-cert::test_python_verification_script": {
+      "label": "N",
+      "why": "Runs python script subprocess; stdout content asserted"
+    },
+    "overfull-hbox::test_no_overfull_hboxes": {
+      "label": "N",
+      "why": "Reads main.log content; autouse fixture runs pdflatex"
+    },
+    "path-tracing::test_image_compiles": {
+      "label": "N",
+      "why": "gcc subprocess returncode; zlib-compressed source size check"
+    },
+    "path-tracing::test_image_similarity": {
+      "label": "N",
+      "why": "Opens PPM images; cosine similarity value threshold"
+    },
+    "polyglot-rust-c::test_fibonacci_polyglot": {
+      "label": "N",
+      "why": "os.popen compiles; compiled binaries run; outputs compared"
+    },
+    "portfolio-optimization::test_correctness_small": {
+      "label": "N",
+      "why": "Imports portfolio_optimized deliverable; value tolerance comparisons"
+    },
+    "prove-plus-comm::test_proof_contents": {
+      "label": "N",
+      "why": "Opens plus_comm.v; substring content assertion"
+    },
+    "pytorch-model-cli::test_weights_file_exists": {
+      "label": "Y",
+      "why": "Sole assertion is weights_path.exists()"
+    },
+    "pytorch-model-cli::test_cli_tool_output": {
+      "label": "N",
+      "why": "Downloads MNIST dataset; runs cli_tool subprocess; predictions compared"
+    },
+    "pytorch-model-recovery::test_model_loads_weights": {
+      "label": "N",
+      "why": "torch.jit.load and torch.load parse file contents"
+    },
+    "query-optimize::test_compare_golden_vs_my_sql_query_correctness": {
+      "label": "N",
+      "why": "Reads SQL files; executes queries; result rows equality"
+    },
+    "query-optimize::test_outputs_match_exactly": {
+      "label": "N",
+      "why": "Executes SQL queries; column and row equality assertions"
+    },
+    "raman-fitting::test_2D_Peak": {
+      "label": "N",
+      "why": "json.load content; peak parameter tolerance comparisons"
+    },
+    "regex-chess::test_naroditsky_ivanchuk": {
+      "label": "N",
+      "why": "do_test_game loads re.json content; move-set value comparisons"
+    },
+    "rstan-to-pystan::test_output_files_exist": {
+      "label": "Y",
+      "why": "Loop asserts os.path.exists on four paths only"
+    },
+    "rstan-to-pystan::test_rho_estimation_accuracy": {
+      "label": "N",
+      "why": "csv.reader parses values; count and range comparisons"
+    },
+    "sam-cell-seg::test_csv_shape_cols": {
+      "label": "N",
+      "why": "read_csv content; shape and columns equality"
+    },
+    "sam-cell-seg::test_no_polyline_overlaps": {
+      "label": "N",
+      "why": "read_csv polylines; computed intersection area ratios asserted"
+    },
+    "sparql-university::test_sparql_runs_without_error": {
+      "label": "N",
+      "why": "read_text query; RDF graph parse; query execution"
+    },
+    "sqlite-with-gcov::test_sqlite_compiled": {
+      "label": "N",
+      "why": "sqlite3 subprocess; returncode and stdout length checks"
+    },
+    "torch-pipeline-parallelism::test_pipeline_parallel": {
+      "label": "N",
+      "why": "mp.spawn helper imports deliverable; tensor value comparisons"
+    },
+    "torch-tensor-parallelism::test_row_parallel_linear": {
+      "label": "N",
+      "why": "mp.spawn helper imports deliverable; tensor value comparisons"
+    },
+    "tune-mjcf::test_correctness": {
+      "label": "N",
+      "why": "mujoco parses XML files; simulation states allclose"
+    },
+    "video-processing::test_test_video_exists": {
+      "label": "Y",
+      "why": "Sole assertion is video_path.exists()"
+    },
+    "vulnerable-secret::test_results_file_contains_secret_flag": {
+      "label": "N",
+      "why": "read_text equality with expected flag string"
+    },
+    "winning-avg-corewars::test_warrior_exists": {
+      "label": "Y",
+      "why": "Sole assertion is Path(/app/my_warrior.red).exists()"
+    }
+  }
+}
