@@ -1,0 +1,222 @@
+[
+ {
+  "task": "cobol-modernization",
+  "test_id": "cobol-modernization::test_required_files_exist",
+  "quote": "assert Path(file_path).exists(), f\"Required file {file_path} does not exist\"",
+  "reader": "C1ConfReadA",
+  "confirmed": true,
+  "line": 18,
+  "why": "Only requires /app/program.py to exist; empty file passes. Real output comparison is in test_program_output.",
+  "report": ".ufo/waves/round-53/w2/C1ConfReadA.md",
+  "report_sha256": "183f8b51945f76829173952c9c7b0e4d4ada62f4bede8412455f1a6f02f9a3ca"
+ },
+ {
+  "task": "log-summary-date-ranges",
+  "test_id": "log-summary-date-ranges::test_summary_file_exists",
+  "quote": "assert OUTPUT_FILE.exists(), f\"File {OUTPUT_FILE} does not exist\"",
+  "reader": "C1ConfReadA",
+  "confirmed": true,
+  "line": 29,
+  "why": "Single assert on /app/summary.csv existence; empty file passes. Header, rows and counts are checked in test_summary_structure_and_counts.",
+  "report": ".ufo/waves/round-53/w2/C1ConfReadA.md",
+  "report_sha256": "183f8b51945f76829173952c9c7b0e4d4ada62f4bede8412455f1a6f02f9a3ca"
+ },
+ {
+  "task": "path-tracing-reverse",
+  "test_id": "path-tracing-reverse::test_image_c_exists",
+  "quote": "assert image_c_path.exists(), f\"File {image_c_path} does not exist\"",
+  "reader": "C1ConfReadA",
+  "confirmed": true,
+  "line": 17,
+  "why": "Only /app/mystery.c existence asserted; empty file passes. Compile, size and image similarity are checked by sibling tests.",
+  "report": ".ufo/waves/round-53/w2/C1ConfReadA.md",
+  "report_sha256": "183f8b51945f76829173952c9c7b0e4d4ada62f4bede8412455f1a6f02f9a3ca"
+ },
+ {
+  "task": "sparql-university",
+  "test_id": "sparql-university::test_sparql_file_exists",
+  "quote": "assert SPARQL_PATH.exists(), f\"SPARQL query file {SPARQL_PATH} does not exist\"",
+  "reader": "C1ConfReadA",
+  "confirmed": true,
+  "line": 26,
+  "why": "Only /app/solution.sparql existence asserted; empty file passes. Query execution and result set checked by sibling tests.",
+  "report": ".ufo/waves/round-53/w2/C1ConfReadA.md",
+  "report_sha256": "183f8b51945f76829173952c9c7b0e4d4ada62f4bede8412455f1a6f02f9a3ca"
+ },
+ {
+  "task": "extract-moves-from-video",
+  "test_id": "extract-moves-from-video::test_solution_file_exists",
+  "quote": "assert solution_path.exists(), f\"File {solution_path} does not exist\"",
+  "reader": "C1ConfReadB",
+  "confirmed": true,
+  "line": 334,
+  "why": "Sole assertion is Path('/app/solution.txt').exists(); no read, no command. Content is checked only by the sibling similarity test.",
+  "report": ".ufo/waves/round-53/w2/C1ConfReadB.md",
+  "report_sha256": "1867bb836e986534344e1e1eada7ed3235c87a85af577c5b3ffd6f81363c4514"
+ },
+ {
+  "task": "merge-diff-arc-agi-task",
+  "test_id": "merge-diff-arc-agi-task::test_git_repo_init",
+  "quote": "assert git_path.exists(), \"Git repository does not exist in /app/repo\"",
+  "reader": "C1ConfReadB",
+  "confirmed": true,
+  "line": 13,
+  "why": "Only asserts /app/repo/.git exists; an empty mkdir passes. Branches, algo.py import and example outputs are checked by other tests.",
+  "report": ".ufo/waves/round-53/w2/C1ConfReadB.md",
+  "report_sha256": "1867bb836e986534344e1e1eada7ed3235c87a85af577c5b3ffd6f81363c4514"
+ },
+ {
+  "task": "prove-plus-comm",
+  "test_id": "prove-plus-comm::test_compiled_proof_exists",
+  "quote": "assert os.path.exists(\"plus_comm.vo\"), (",
+  "reader": "C1ConfReadB",
+  "confirmed": true,
+  "line": 12,
+  "why": "Only os.path.exists on plus_comm.vo; an empty touch passes. Content and coqc compilation are checked by sibling tests.",
+  "report": ".ufo/waves/round-53/w2/C1ConfReadB.md",
+  "report_sha256": "1867bb836e986534344e1e1eada7ed3235c87a85af577c5b3ffd6f81363c4514"
+ },
+ {
+  "task": "torch-pipeline-parallelism",
+  "test_id": "torch-pipeline-parallelism::test_pipeline_parallel_exists",
+  "quote": "assert pipeline_parallel_path.exists(), (",
+  "reader": "C1ConfReadB",
+  "confirmed": true,
+  "line": 26,
+  "why": "Only Path('/app/pipeline_parallel.py').exists(); empty file passes. Hook scan and distributed numeric test_pipeline_parallel check content.",
+  "report": ".ufo/waves/round-53/w2/C1ConfReadB.md",
+  "report_sha256": "1867bb836e986534344e1e1eada7ed3235c87a85af577c5b3ffd6f81363c4514"
+ },
+ {
+  "task": "fix-code-vulnerability",
+  "test_id": "fix-code-vulnerability::test_report_file_exists_example",
+  "quote": "assert report_path.exists(), f\"File {report_path} does not exist\"",
+  "reader": "C1ConfReadC",
+  "confirmed": true,
+  "line": 18,
+  "why": "Single assert on Path('/app/report.jsonl').exists(); no read, command or value check; an empty file passes. Other tests in the file read the report.",
+  "report": ".ufo/waves/round-53/w2/C1ConfReadC.md",
+  "report_sha256": "0892fd6b75a121c1bda4f06e78aff01a2de825431d53cecfcaf1396d7b683e75"
+ },
+ {
+  "task": "modernize-scientific-stack",
+  "test_id": "modernize-scientific-stack::test_dependency_file_exists",
+  "quote": "assert any(Path(f).exists() for f in dep_files)",
+  "reader": "C1ConfReadC",
+  "confirmed": true,
+  "line": 49,
+  "why": "Only any(Path.exists()) over requirements.txt / pyproject.toml; touching either passes; no content, version or command check in this test.",
+  "report": ".ufo/waves/round-53/w2/C1ConfReadC.md",
+  "report_sha256": "0892fd6b75a121c1bda4f06e78aff01a2de825431d53cecfcaf1396d7b683e75"
+ },
+ {
+  "task": "pytorch-model-cli",
+  "test_id": "pytorch-model-cli::test_weights_file_exists",
+  "quote": "assert weights_path.exists(), f\"File {weights_path} does not exist\"",
+  "reader": "C1ConfReadC",
+  "confirmed": true,
+  "line": 15,
+  "why": "Single exists() assert on /app/weights.json; empty file passes. Sibling tests read prediction and run the CLI.",
+  "report": ".ufo/waves/round-53/w2/C1ConfReadC.md",
+  "report_sha256": "0892fd6b75a121c1bda4f06e78aff01a2de825431d53cecfcaf1396d7b683e75"
+ },
+ {
+  "task": "torch-tensor-parallelism",
+  "test_id": "torch-tensor-parallelism::test_parallel_linear_exists",
+  "quote": "assert parallel_linear_path.exists(), f\"File {parallel_linear_path} does not exist\"",
+  "reader": "C1ConfReadC",
+  "confirmed": true,
+  "line": 25,
+  "why": "Single exists() assert on /app/parallel_linear.py; empty file passes. Parametrised tests import it and compare tensors.",
+  "report": ".ufo/waves/round-53/w2/C1ConfReadC.md",
+  "report_sha256": "0892fd6b75a121c1bda4f06e78aff01a2de825431d53cecfcaf1396d7b683e75"
+ },
+ {
+  "task": "gcode-to-text",
+  "test_id": "gcode-to-text::test_hello_file_exists",
+  "quote": "assert hello_path.exists(), f\"File {hello_path} does not exist\"",
+  "reader": "C1ConfReadD",
+  "confirmed": true,
+  "line": 10,
+  "why": "Body is one Path.exists() assert on /app/out.txt; an empty file passes; the flag-content check lives in the sibling test.",
+  "report": ".ufo/waves/round-53/w2/C1ConfReadD.md",
+  "report_sha256": "891161f9952fee7f8fe8006e782e54aae3754318e7ad54a3ed813d9f53cbf11b"
+ },
+ {
+  "task": "mteb-leaderboard",
+  "test_id": "mteb-leaderboard::test_result_exists",
+  "quote": "assert os.path.exists(\"/app/result.txt\"), \"result.txt file does not exist\"",
+  "reader": "C1ConfReadD",
+  "confirmed": true,
+  "line": 7,
+  "why": "Single os.path.exists assert on /app/result.txt; touch satisfies it; test_data_matches separately checks the model name.",
+  "report": ".ufo/waves/round-53/w2/C1ConfReadD.md",
+  "report_sha256": "891161f9952fee7f8fe8006e782e54aae3754318e7ad54a3ed813d9f53cbf11b"
+ },
+ {
+  "task": "pytorch-model-recovery",
+  "test_id": "pytorch-model-recovery::test_model_file_exists",
+  "quote": "assert hello_path.exists(), f\"File {hello_path} does not exist\"",
+  "reader": "C1ConfReadD",
+  "confirmed": true,
+  "line": 108,
+  "why": "Only Path('/app/model.pt').exists(); empty file passes; loading, state-dict and loss checks are separate tests.",
+  "report": ".ufo/waves/round-53/w2/C1ConfReadD.md",
+  "report_sha256": "891161f9952fee7f8fe8006e782e54aae3754318e7ad54a3ed813d9f53cbf11b"
+ },
+ {
+  "task": "tune-mjcf",
+  "test_id": "tune-mjcf::test_tuned_model_exists",
+  "quote": "assert model_path.exists(), \"Tuned model file does not exist\"",
+  "reader": "C1ConfReadD",
+  "confirmed": true,
+  "line": 28,
+  "why": "Only (app_dir/'model.xml').exists(); empty file passes; correctness and speed are separate tests.",
+  "report": ".ufo/waves/round-53/w2/C1ConfReadD.md",
+  "report_sha256": "891161f9952fee7f8fe8006e782e54aae3754318e7ad54a3ed813d9f53cbf11b"
+ },
+ {
+  "task": "llm-inference-batching-scheduler",
+  "test_id": "llm-inference-batching-scheduler::test_output_files_exist",
+  "quote": "assert os.path.exists(\"/app/task_file/output_data/plan_b1.jsonl\"), (",
+  "reader": "C1ConfReadG",
+  "confirmed": true,
+  "line": 97,
+  "why": "Body only asserts os.path.exists on plan_b1.jsonl and plan_b2.jsonl; no helper, content, command or value check. Empty touched files pass. Other tests check input hashes, schema and cost thresholds.",
+  "report": ".ufo/waves/round-53/w2/C1ConfReadG.md",
+  "report_sha256": "aa5835afb275b8303ef4e3f2b41001b7913daaf130bfc5aa358bbe90d01d4a7b"
+ },
+ {
+  "task": "path-tracing",
+  "test_id": "path-tracing::test_image_c_exists",
+  "quote": "image_c_path = Path(\"/app/image.c\")",
+  "reader": "C1ConfReadG",
+  "confirmed": true,
+  "line": 15,
+  "why": "One Path('/app/image.c').exists() assertion; no helper or content read, so an empty touched file passes. Other tests compile it, size-check it and run a 0.99 similarity check.",
+  "report": ".ufo/waves/round-53/w2/C1ConfReadG.md",
+  "report_sha256": "aa5835afb275b8303ef4e3f2b41001b7913daaf130bfc5aa358bbe90d01d4a7b"
+ },
+ {
+  "task": "sam-cell-seg",
+  "test_id": "sam-cell-seg::test_python_file_exists",
+  "quote": "output_path = Path(\"/app/convert_masks.py\")",
+  "reader": "C1ConfReadG",
+  "confirmed": true,
+  "line": 149,
+  "why": "One Path('/app/convert_masks.py').exists() assertion; no helper or content read, so an empty touched file passes. test_run_script and csv/IoU tests check content. test_csv_output_exists is presence-only too.",
+  "report": ".ufo/waves/round-53/w2/C1ConfReadG.md",
+  "report_sha256": "aa5835afb275b8303ef4e3f2b41001b7913daaf130bfc5aa358bbe90d01d4a7b"
+ },
+ {
+  "task": "winning-avg-corewars",
+  "test_id": "winning-avg-corewars::test_warrior_exists",
+  "quote": "assert Path(\"/app/my_warrior.red\").exists(), \"my_warrior.red file not found\"",
+  "reader": "C1ConfReadG",
+  "confirmed": true,
+  "line": 41,
+  "why": "One Path('/app/my_warrior.red').exists() assertion; an empty touched file passes. The real check is test_warrior_performance, which runs pmars against the win-rate thresholds.",
+  "report": ".ufo/waves/round-53/w2/C1ConfReadG.md",
+  "report_sha256": "aa5835afb275b8303ef4e3f2b41001b7913daaf130bfc5aa358bbe90d01d4a7b"
+ }
+]
