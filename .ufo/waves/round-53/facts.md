@@ -11,6 +11,8 @@ Every figure below carries its command or pointer. `[pending: …]` means the L1
 | amendment A1, final classifier + freeze file (one commit), README index repair | `d40b7055e0128d7998d09548fdeef431093ab321` |
 | the eight label files (strictly after the freeze commit) | `db90a6b7ecc9501e2e5de239a8794c5aa19cbf8d` |
 | registry rows `round53-c1`/`round53-c2`, initial ledger | `1ebf61f81f058a7a255cc23206e50a5331121b5b` |
+| A2, `plans/stage_scan.py` landed (registry row `stage-scan`, ledger entry), facts, wave-2 builder | `56fdff79911407a84f5ebf43d40c9fe04fab0427` |
+| wave-1 evidence, ledger corrected from run 1, counter diagnostic (**the commit wave 2 attacks**) | `587461803bfcfd9a59ff7af96a780b9048274033` |
 
 ## Wave 1 (35 seats; `.ufo/waves/round-53/w1/<seat>.md`)
 Role mix: executor 13, scout 9, reviewer 6, critic 2, mutation-tester 2, scribe 1, connector 1, sentinel 1 (`python3 .ufo/waves/round-53/build_spec_w1.py`). Pending at writing: `C1RevCounter`, `C2RevCounter` queued behind the host's concurrency cap (they review the pre-A1 counters; their reports, if they arrive, are historical).
@@ -42,7 +44,7 @@ PREDICATE R53-C1 fail      (confirmations and prior art are wave 2's work)
 - Confirmations: [pending: wave-2 readers `C1ConfRead*`]. Prior art: [pending: `C1PriorArt*`]. Touch-run (empty stub world, actual pytest): [pending: `C1ExecTouch*`]. Re-label (80 tests, blind): [pending: `C1RelabelRev*`].
 
 ## C2 — registry tip-state
-- Registry rows: 75 at the base tip (`python3 plans/round53_c2_tipstate.py --lane . --dry` at `536925b` → `ROWS registry=75 ledger=0 missing=75`), 77 after the two new rows.
+- Registry rows: 75 at the base tip (`python3 plans/round53_c2_tipstate.py --lane . --dry` at `536925b` → `ROWS registry=75 ledger=0 missing=75`), 78 after the three new rows (`round53-c1`, `round53-c2`, `stage-scan`).
 - Base-tip manual probe (one run per row in a clean shared clone, `.ufo/waves/round-53/claims/c2-before-manual-probe.txt`): 73 rows parsed, 60 runnable as written: 38 exit 0, 22 exit non-zero, 13 with a placeholder in the entry cell.
 - Wave-1 ledger (`C2ExecRowsA…I`, 75 rows measured in clean clones at `1373b6c`): 45 green entry + 2 green selftest + 28 red entry (`plans/round53-tipstate.json` before the L1 re-measurement; 74 entry argv + 3 selftest in the 77-row ledger).
 - One real defect explained ~16 of the red rows: `corpus/knowledge/fixture-honest-geometry.md` (round 50) had no row in `corpus/README.md`, so the package gate's check P8 saw 56 files against 55 index rows. Repaired in `d40b705` (index row added); `grep -c '^| `knowledge/' corpus/README.md` → 56, `ls corpus/knowledge | wc -l` → 56.
