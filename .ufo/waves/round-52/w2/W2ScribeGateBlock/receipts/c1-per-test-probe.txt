@@ -1,0 +1,20 @@
+== bn-fit-modify file-level ('V3', {'presence': True, 'content': True, 'behaviour': False, 'test_functions': 9})
+  test_bn_sample_exists                      class=P1 presence=True value_hits=[] behav_hits=[] lines=7
+  test_learned_dag_structure_exists          class=P1 presence=True value_hits=[] behav_hits=[] lines=7
+  test_learned_dag_structure_csv_col_names   class=P3 presence=False value_hits=['in'] behav_hits=[] lines=17
+  test_learned_dag_structure                 class=P3 presence=False value_hits=['==', 'in'] behav_hits=[] lines=14
+  test_intervened_dag_structure_exists       class=P1 presence=True value_hits=[] behav_hits=[] lines=7
+  test_intervened_dag_structure_csv_col_names class=P3 presence=False value_hits=['in'] behav_hits=[] lines=17
+  test_intervened__data_structure            class=P3 presence=False value_hits=['==', 'in'] behav_hits=[] lines=16
+  test_sampled_csv_col_names                 class=P3 presence=False value_hits=['in'] behav_hits=[] lines=17
+  test_sampled_data                          class=P3 presence=False value_hits=['==', '>=', 'in', 'len('] behav_hits=[] lines=38
+== pytorch-model-recovery file-level ('V1', {'presence': True, 'content': False, 'behaviour': False, 'test_functions': 5})
+  test_weights_file_unchanged                class=P3 presence=True value_hits=['.keys()', '==', 'allclose', 'in', 'torch.'] behav_hits=[] lines=20
+  test_model_file_exists                     class=P3 presence=True value_hits=['in'] behav_hits=[] lines=8
+  test_model_loads_weights                   class=P3 presence=False value_hits=['in', 'torch.'] behav_hits=[] lines=8
+  test_state_dicts_match                     class=P3 presence=False value_hits=['.keys()', '==', 'allclose', 'in', 'torch.'] behav_hits=[] lines=20
+  test_model_loss                            class=P3 presence=False value_hits=['<', '>=', 'torch.'] behav_hits=[] lines=30
+== torch-tensor-parallelism file-level ('V1', {'presence': True, 'content': False, 'behaviour': False, 'test_functions': 3})
+  test_parallel_linear_exists                class=P2 presence=True value_hits=['allclose', 'in', 'torch.'] behav_hits=['dist.'] lines=169
+  test_column_parallel_linear                class=P0 presence=False value_hits=[] behav_hits=['mp.'] lines=16
+  test_row_parallel_linear                   class=P0 presence=False value_hits=[] behav_hits=['mp.'] lines=9

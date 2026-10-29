@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Benchmarks as Software: A Case Study on Terminal-Bench — Lacuna</title>
+<meta name="description" content="Agentic benchmarks—the &quot;gold standard&quot; for evaluating AI coding agents—are prone to &quot;rot&quot; due to environment drift and buggy verifiers. This paper audits…">
+<meta name="robots" content="max-snippet:-1"><meta name="googlebot" content="noindex">
+<meta property="og:title" content="Benchmarks as Software: A Case Study on Terminal-Bench — Lacuna"><meta property="og:site_name" content="Lacuna by Tiptree Systems"><meta property="og:description" content="Agentic benchmarks—the &quot;gold standard&quot; for evaluating AI coding agents—are prone to &quot;rot&quot; due to environment drift and buggy verifiers. This paper audits…"><meta property="og:type" content="article"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Benchmarks as Software: A Case Study on Terminal-Bench — Lacuna"><meta name="twitter:description" content="Agentic benchmarks—the &quot;gold standard&quot; for evaluating AI coding agents—are prone to &quot;rot&quot; due to environment drift and buggy verifiers. This paper audits…"><meta name="twitter:image" content="https://lacuna.tiptreesystems.com/paper/art_e45e74b38697eafe630b82c63f40be79/share-card.png?v=2"><meta property="og:url" content="https://lacuna.tiptreesystems.com/work/benchmarks-as-software-a-case-study-on-terminal">
+<meta property="og:image" content="https://lacuna.tiptreesystems.com/paper/art_e45e74b38697eafe630b82c63f40be79/share-card.png?v=2"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<link rel="canonical" href="https://lacuna.tiptreesystems.com/work/benchmarks-as-software-a-case-study-on-terminal"><link rel="alternate" type="text/markdown" href="/work/benchmarks-as-software-a-case-study-on-terminal/md">
+<meta property="article:modified_time" content="2026-10-26">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Papers", "item": "https://lacuna.tiptreesystems.com/explore?view=papers"}, {"@type": "ListItem", "position": 2, "name": "Benchmarks as Software: A Case Study on Terminal-Bench", "item": "https://lacuna.tiptreesystems.com/work/benchmarks-as-software-a-case-study-on-terminal"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "@id": "https://lacuna.tiptreesystems.com/work/benchmarks-as-software-a-case-study-on-terminal", "url": "https://lacuna.tiptreesystems.com/work/benchmarks-as-software-a-case-study-on-terminal", "name": "Benchmarks as Software: A Case Study on Terminal-Bench", "isPartOf": {"@type": "WebSite", "name": "Lacuna", "url": "https://lacuna.tiptreesystems.com"}, "mainEntity": {"@type": "ScholarlyArticle", "@id": "https://lacuna.tiptreesystems.com/work/benchmarks-as-software-a-case-study-on-terminal#paper", "url": "https://lacuna.tiptreesystems.com/work/benchmarks-as-software-a-case-study-on-terminal", "headline": "Benchmarks as Software: A Case Study on Terminal-Bench", "name": "Benchmarks as Software: A Case Study on Terminal-Bench", "description": "Agentic benchmarks—the \"gold standard\" for evaluating AI coding agents—are prone to \"rot\" due to environment drift and buggy verifiers. This paper audits Terminal-Bench 2.0, finds defects in 31% of its tasks, and introduces a continuous-validation pipeline to ship Terminal-Bench 2.1. The key…", "abstract": "Agentic benchmarks accumulate defects on every axis: instructions can be overspecified, verifiers can be underspecified, and environments drift as external dependencies change after release. We audit Terminal-Bench~2.0 with a continuous-validation pipeline (automated CI checks, LLM-as-judge). We find task-side defects in 28 of 89 tasks (31\\%) in the benchmark. We ship the fixes as Terminal-Bench~2.1. Across 19 agents, scores rise by up to 12~pp, but agent ranking is stable (Spearman $\\rho = 0.958$). On the changed tasks, 28.8\\% of the tokens TB~2.0 charged to failed trials on changed tasks were spent on what TB~2.1 verifies as solvable work. Cost-aware curves show that the audit shifts per-agent efficiency in both directions: some agents gain coverage while becoming more token-efficient, others while becoming less. On TB~2.1 benchmark, switching from \\texttt{codex} to \\texttt{terminus-2} at fixed OpenAI model drops accuracy by up to 29.9 pp; raising the per-task budget closes the gap, indicating the harness effect is wall-clock-bound rather than capability-bound.", "image": "https://lacuna.tiptreesystems.com/paper/art_e45e74b38697eafe630b82c63f40be79/share-card.png?v=2", "author": [{"@type": "Person", "name": "E. Kelly Buchanan", "@id": "https://lacuna.tiptreesystems.com/author/e-kelly-buchanan#person", "url": "https://lacuna.tiptreesystems.com/author/e-kelly-buchanan"}, {"@type": "Person", "name": "Scott Linderman", "@id": "https://lacuna.tiptreesystems.com/author/scott-linderman#person", "url": "https://lacuna.tiptreesystems.com/author/scott-linderman"}, {"@type": "Person", "name": "Christopher Re", "@id": "https://lacuna.tiptreesystems.com/author/christopher-re#person", "url": "https://lacuna.tiptreesystems.com/author/christopher-re"}], "datePublished": "2026", "sameAs": ["https://openreview.net/forum?id=AhXMZPnOPS"], "isPartOf": {"@type": "CreativeWorkSeries", "name": "DL4C @ ICML"}}}</script>
+
+<script>!function(){var k="lacuna-cta-arm",a=["go-deeper", "ask-althea", "openreview"],q=null,s=null;try{q=new URLSearchParams(location.search).get('cta')}catch(e){}try{s=localStorage.getItem(k)}catch(e){}var v=a.indexOf(q)>=0?q:(a.indexOf(s)>=0?s:a[Math.floor(Math.random()*a.length)]);if(v!==s){try{localStorage.setItem(k,v)}catch(e){}}document.documentElement.dataset.lacunaCta=v;window.lacunaTrack=function(n,p){try{var d=document.documentElement.dataset,o={cta_variant:d.lacunaCta||'none',cta_label:matchMedia('(min-width:641px)').matches?'label':'icon',auth:d.lacunaAuth||'unresolved'};if(p)for(var x in p)o[x]=p[x];gtag('event',n,o)}catch(e){}}}()</script>
+<script>window.lacunaReadingQueue=[];window.lacunaReadingTrack=function(stage){window.lacunaReadingQueue.push(stage)};</script>
+<script defer src="/assets/reading-experiment.js?v=2"></script>
+<script defer src="/assets/social-follow.js?v=3"></script>
+<script defer src="/assets/openreview-signin.js?v=1"></script>
+<script>!function(){var p=localStorage.getItem("theme-pref")||(localStorage.getItem("theme")?localStorage.getItem("theme"):"system");if(p!=="light"&&p!=="dark")p="system";var t=p==="system"?(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light"):p;document.documentElement.dataset.theme=t;document.documentElement.dataset.themePref=p}()</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());var c={cta_variant:document.documentElement.dataset.lacunaCta||'none',cta_label:matchMedia('(min-width:641px)').matches?'label':'icon'};var k=document.cookie;var a=/(?:^|; )lcf_asn=([0-9]+)/.exec(k);if(a)c.cf_asn=a[1];if(/(?:^|; )lcf_bot=1(?:;|$)/.test(k)&&c.cf_asn!=='8075')c.traffic_type='bot';if(/^Linux/.test(navigator.platform||'')&&screen.width===1440&&screen.height===900)c.traffic_type='internal';var rv=/(?:^|; )lacuna-reading-visitor-v1=([0-9a-f]{32})(?:;|$)/.exec(k);var rc=/(?:^|; )lacuna-reading-ga-v1=([0-9]{1,20}\.[0-9]{1,20})(?:;|$)/.exec(k);if(rv&&rc)c.client_id=rc[1];gtag('config','G-1RSLE3QT8Z',c);window.addEventListener('load',function(){var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-1RSLE3QT8Z';document.head.appendChild(s)},{once:true})</script>
+<link rel="icon" type="image/svg+xml" sizes="any" href="/assets/lacuna-favicon.svg">
+<link rel="icon" type="image/png" sizes="96x96" href="/assets/lacuna-favicon-96.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Literata:ital,wght@0,400;0,700;1,400&display=optional" rel="stylesheet">
+
+<script>
+window.lacunaRenderMath=window.lacunaRenderMath||(function(){
+  var loading=null;
+  var options={delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}],throwOnError:false};
+  function render(root){if(window.renderMathInElement)window.renderMathInElement(root||document.body,options);}
+  return function(root){
+    var text=(root||document.body).textContent||'';
+    if(!/\$\$|\\\(|\\\[|\$(?!\s)[^$\n]+?\$/.test(text))return Promise.resolve();
+    if(window.renderMathInElement){render(root);return Promise.resolve();}
+    if(!loading){
+      if(!document.querySelector('link[data-lacuna-katex]')){
+        var css=document.createElement('link');css.rel='stylesheet';css.href='https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css';css.dataset.lacunaKatex='1';document.head.appendChild(css);
+      }
+      loading=new Promise(function(resolve,reject){
+        var core=document.createElement('script');core.src='https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js';core.onload=function(){
+          var autoRender=document.createElement('script');autoRender.src='https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js';autoRender.onload=resolve;autoRender.onerror=reject;document.head.appendChild(autoRender);
+        };core.onerror=reject;document.head.appendChild(core);
+      });
+    }
+    return loading.then(function(){render(root);}).catch(function(){});
+  };
+})();
+</script>
+
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="window.lacunaRenderMath(document.body)"></script>
+
+
+
+<link rel="stylesheet" href="/assets/site-6e9f8685b47c.css">
+</head><body>
+<div id="lacuna-app-shell" data-lacuna-app-shell>
+<div class="nav-bar"><a href="/" class="nav-logo"><img id="nav-logo-img" src="/assets/lacuna-full-logo-rgb-light.svg" alt="Lacuna"></a><span class="nav-spacer" aria-hidden="true"></span><div class="nav-search"><button type="button" class="nav-icon-button nav-search-mobile-trigger" data-lacuna-mobile-search-trigger aria-label="Search Lacuna"><svg class="nav-solar-icon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.5 18.5 22 22" stroke-linecap="round"/></svg></button><form action="/explore" method="get" class="nav-search-form search-interaction" id="nav-search-form"><input type="text" name="q" id="nav-search-input" placeholder="Search papers, authors, venues…" autocomplete="off"><button type="submit" class="nav-search-btn" aria-label="Search"><svg class="nav-solar-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false"><circle cx="11.5" cy="11.5" r="9.5"/><path d="M18.5 18.5 22 22" stroke-linecap="round"/></svg></button><button type="button" class="search-mobile-close" aria-label="Close search">Cancel</button><div class="search-dropdown" id="search-dropdown"></div></form></div><nav class="nav-wide-links" aria-label="Product and site navigation"><a class="nav-wide-link" href="/new">New</a><a class="nav-wide-link" href="/about">About</a><button class="nav-wide-theme theme-toggle" type="button" data-lacuna-theme-toggle aria-label="Appearance: system. Activate to cycle theme" title="Theme: system (click to cycle)"><svg class="nav-solar-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false" data-lacuna-theme-icon="sun"><circle cx="12" cy="12" r="6"/><path d="M12 2V3M12 21V22M22 12H21M3 12H2M19.0708 4.9292 18.678 5.32204M5.32178 18.6782 4.92894 19.0711M19.0708 19.0708 18.678 18.678M5.32178 5.32178 4.92894 4.92894" stroke-linecap="round"/></svg><svg class="nav-solar-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false" data-lacuna-theme-icon="moon"><path d="M21.0672 11.8568 20.4253 11.469M12.1432 2.93276 11.7553 2.29085M21.25 12C21.25 17.1086 17.1086 21.25 12 21.25V22.75C17.9371 22.75 22.75 17.9371 22.75 12H21.25ZM12 21.25C6.89137 21.25 2.75 17.1086 2.75 12H1.25C1.25 17.9371 6.06294 22.75 12 22.75V21.25ZM2.75 12C2.75 6.89137 6.89137 2.75 12 2.75V1.25C6.06294 1.25 1.25 6.06294 1.25 12H2.75ZM15.5 14.25C12.3244 14.25 9.75 11.6756 9.75 8.5H8.25C8.25 12.5041 11.4959 15.75 15.5 15.75V14.25ZM20.4253 11.469C19.4172 13.1373 17.5882 14.25 15.5 14.25V15.75C18.1349 15.75 20.4407 14.3439 21.7092 12.2447L20.4253 11.469ZM9.75 8.5C9.75 6.41182 10.8627 4.5828 12.531 3.57467L11.7553 2.29085C9.65609 3.5593 8.25 5.86509 8.25 8.5H9.75ZM12 2.75C11.9115 2.75 11.8077 2.71008 11.7324 2.63168C11.6686 2.56527 11.6538 2.50244 11.6503 2.47703C11.6461 2.44587 11.6482 2.35557 11.7553 2.29085L12.531 3.57467C13.0342 3.27065 13.196 2.71398 13.1368 2.27627C13.0754 1.82126 12.7166 1.25 12 1.25V2.75ZM21.7091 12.2447C21.6444 12.3518 21.5541 12.3539 21.523 12.3497C21.4976 12.3462 21.4347 12.3314 21.3683 12.2676C21.2899 12.1923 21.25 12.0885 21.25 12H22.75C22.75 11.2834 22.1787 10.9246 21.7237 10.8632C21.286 10.804 20.7293 10.9658 20.4253 11.469L21.7091 12.2447Z" fill="currentColor" stroke="none"/></svg><svg class="nav-solar-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false" data-lacuna-theme-icon="system"><path d="M2 10C2 6.22876 2 4.34315 3.17157 3.17157C4.34315 2 6.22876 2 10 2H14C17.7712 2 19.6569 2 20.8284 3.17157C22 4.34315 22 6.22876 22 10V11C22 13.8284 22 15.2426 21.1213 16.1213C20.2426 17 18.8284 17 16 17H8C5.17157 17 3.75736 17 2.87868 16.1213C2 15.2426 2 13.8284 2 11V10Z"/><path d="M16 22H8M12 17V22M22 13H2" stroke-linecap="round"/></svg></button></nav><button type="button" class="nav-chat-toggle nav-cta" data-lacuna-chat-open-button aria-label="Open Althea chat" aria-expanded="false" aria-describedby="lacuna-nav-chat-tooltip"><svg class="nav-cta-glyph" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 9v9H9"/></svg><span class="nav-chat-label" data-cta-arm="go-deeper">Go deeper</span><span class="nav-chat-label" data-cta-arm="ask-althea">Ask Althea</span><span class="nav-chat-label" data-cta-arm="openreview"><img src="/assets/openreview-mark.png" alt="" width="16" height="16">Sign in with OpenReview</span><span class="nav-chat-tooltip" id="lacuna-nav-chat-tooltip" role="tooltip">Press <kbd>⌘/</kbd> to show chat</span></button><div class="nav-overflow" data-lacuna-nav-overflow><button type="button" class="nav-icon-button" data-lacuna-nav-overflow-trigger aria-label="Open navigation menu" aria-haspopup="menu" aria-expanded="false" aria-controls="lacuna-nav-overflow-menu"><svg class="nav-solar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false"><path d="M20 7L4 7" stroke-linecap="round"/><path d="M20 12L4 12" stroke-linecap="round"/><path d="M20 17L4 17" stroke-linecap="round"/></svg></button><div id="lacuna-nav-overflow-menu" class="nav-overflow-popover" data-lacuna-nav-overflow-popover role="menu" hidden><a class="nav-overflow-item" href="https://tiptreesystems.com" role="menuitem"><img class="nav-tiptree-mark" src="/assets/tiptree-logo-dark.svg" alt="Tiptree Systems" aria-hidden="true"><span>Tiptree Systems</span></a><div class="nav-overflow-separator" role="separator"></div><a class="nav-overflow-item" href="/new" role="menuitem"><svg class="nav-solar-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false"><path d="M3 10C3 6.22876 3 4.34315 4.17157 3.17157C5.34315 2 7.22876 2 11 2H13C16.7712 2 18.6569 2 19.8284 3.17157C21 4.34315 21 6.22876 21 10V14C21 17.7712 21 19.6569 19.8284 20.8284C18.6569 22 16.7712 22 13 22H11C7.22876 22 5.34315 22 4.17157 20.8284C3 19.6569 3 17.7712 3 14V10Z"/><path d="M8 8H16M8 12H16M8 16H13" stroke-linecap="round"/></svg><span>New</span></a><a class="nav-overflow-item" href="/about" role="menuitem"><svg class="nav-solar-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M12 17V11" stroke-linecap="round"/><circle cx="12" cy="8" r="1" fill="currentColor" stroke="none"/></svg><span>About</span></a><a class="nav-overflow-item nav-overflow-signin nav-login" href="/account" role="menuitem" data-lacuna-overflow-signin><svg class="nav-solar-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false"><path d="M14 4h3a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3h-3"/><path d="M4 12h10M10 8l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Sign in</span></a><div class="nav-overflow-separator" role="separator"></div><button class="nav-overflow-item theme-toggle" type="button" data-lacuna-theme-toggle role="menuitem" aria-label="Appearance: system. Activate to cycle theme" title="Theme: system (click to cycle)"><svg class="nav-solar-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false" data-lacuna-theme-icon="sun"><circle cx="12" cy="12" r="6"/><path d="M12 2V3M12 21V22M22 12H21M3 12H2M19.0708 4.9292 18.678 5.32204M5.32178 18.6782 4.92894 19.0711M19.0708 19.0708 18.678 18.678M5.32178 5.32178 4.92894 4.92894" stroke-linecap="round"/></svg><svg class="nav-solar-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false" data-lacuna-theme-icon="moon"><path d="M21.0672 11.8568 20.4253 11.469M12.1432 2.93276 11.7553 2.29085M21.25 12C21.25 17.1086 17.1086 21.25 12 21.25V22.75C17.9371 22.75 22.75 17.9371 22.75 12H21.25ZM12 21.25C6.89137 21.25 2.75 17.1086 2.75 12H1.25C1.25 17.9371 6.06294 22.75 12 22.75V21.25ZM2.75 12C2.75 6.89137 6.89137 2.75 12 2.75V1.25C6.06294 1.25 1.25 6.06294 1.25 12H2.75ZM15.5 14.25C12.3244 14.25 9.75 11.6756 9.75 8.5H8.25C8.25 12.5041 11.4959 15.75 15.5 15.75V14.25ZM20.4253 11.469C19.4172 13.1373 17.5882 14.25 15.5 14.25V15.75C18.1349 15.75 20.4407 14.3439 21.7092 12.2447L20.4253 11.469ZM9.75 8.5C9.75 6.41182 10.8627 4.5828 12.531 3.57467L11.7553 2.29085C9.65609 3.5593 8.25 5.86509 8.25 8.5H9.75ZM12 2.75C11.9115 2.75 11.8077 2.71008 11.7324 2.63168C11.6686 2.56527 11.6538 2.50244 11.6503 2.47703C11.6461 2.44587 11.6482 2.35557 11.7553 2.29085L12.531 3.57467C13.0342 3.27065 13.196 2.71398 13.1368 2.27627C13.0754 1.82126 12.7166 1.25 12 1.25V2.75ZM21.7091 12.2447C21.6444 12.3518 21.5541 12.3539 21.523 12.3497C21.4976 12.3462 21.4347 12.3314 21.3683 12.2676C21.2899 12.1923 21.25 12.0885 21.25 12H22.75C22.75 11.2834 22.1787 10.9246 21.7237 10.8632C21.286 10.804 20.7293 10.9658 20.4253 11.469L21.7091 12.2447Z" fill="currentColor" stroke="none"/></svg><svg class="nav-solar-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false" data-lacuna-theme-icon="system"><path d="M2 10C2 6.22876 2 4.34315 3.17157 3.17157C4.34315 2 6.22876 2 10 2H14C17.7712 2 19.6569 2 20.8284 3.17157C22 4.34315 22 6.22876 22 10V11C22 13.8284 22 15.2426 21.1213 16.1213C20.2426 17 18.8284 17 16 17H8C5.17157 17 3.75736 17 2.87868 16.1213C2 15.2426 2 13.8284 2 11V10Z"/><path d="M16 22H8M12 17V22M22 13H2" stroke-linecap="round"/></svg><span>Appearance</span><span class="nav-overflow-item-meta" data-lacuna-theme-mode-label>System</span></button></div></div><span class="nav-auth-slot" data-lacuna-auth-control hidden></span></div>
+<div class="lacuna-shell-columns" id="lacuna-shell-columns">
+<aside class="lacuna-shell-rail-slot lacuna-shell-rail-slot-left" id="lacuna-left-rail-slot"></aside>
+<div class="lacuna-shell-main" id="lacuna-shell-main">
+<main id="lacuna-page-content" class="page">
+<div class="breadcrumb"><a href="/explore?view=papers" rel="nofollow"><img src="/assets/icon-paper.svg" width="18" height="18" alt="Paper" aria-hidden="true" style="margin-bottom:2px;vertical-align:middle;margin-right:4px;"><span>Papers</span></a></div>
+
+<div class="page-narrow">
+<h1>Benchmarks as Software: A Case Study on Terminal-Bench</h1>
+<p class="subtitle paper-meta-line"><span class="paper-authors-inline"><a href="/author/e-kelly-buchanan">E. Kelly Buchanan</a>, <a href="/author/scott-linderman">Scott Linderman</a>, <a href="/author/christopher-re">Christopher Re</a></span><span class="paper-venue-line"><span class="paper-venue-year"><span class="stat"><a href="/venue/dl4c-icml">DL4C @ ICML</a></span> <span class="stat"><a href="/venue/dl4c-icml/2026">2026</a></span></span>&nbsp;&middot; <a href="https://openreview.net/forum?id=AhXMZPnOPS" rel="noopener" target="_blank">OpenReview</a></span></p>
+<div class="external-links">
+<style>
+.rl-wrap { position: relative; display: inline-flex; align-items: center; }
+.rl-wrap[hidden] { display: none; }
+.rl-btn.on { border-color: var(--brand-primary); color: var(--brand-primary); background: var(--bg-tag); }
+.rl-btn .rl-stars { letter-spacing: 1px; }
+.rl-btn[aria-pressed=true] { border-color: var(--brand-primary); color: var(--brand-primary); background: var(--bg-tag); }
+.rl-note { margin-left: 8px; color: var(--text-muted); font-size: var(--tt-font-size-small); white-space: nowrap; }
+.rl-note[hidden] { display: none; }
+.rl-pop { position: absolute; top: calc(100% + 6px); left: 0; z-index: 30; min-width: 19rem; padding: 12px 14px; border: 1px solid var(--border-medium); border-radius: 12px; background: var(--bg-surface); box-shadow: 0 10px 30px rgba(0,0,0,0.12); font-size: 0.9em; display: grid; gap: 10px; }
+.rl-pop[hidden] { display: none; }
+.rl-status { display: flex; gap: 4px; }
+.rl-status button { flex: 1; padding: 5px 8px; white-space: nowrap; border: 1px solid var(--border-light); border-radius: 999px; background: transparent; color: var(--text-muted); font: inherit; font-size: 0.92em; cursor: pointer; }
+.rl-status button.on { background: color-mix(in srgb, var(--brand-primary) 84%, white 16%); border-color: transparent; color: var(--brand-contrast); font-weight: 700; }
+.rl-rate { display: flex; align-items: center; gap: 2px; }
+.rl-rate button { padding: 0 2px; border: 0; background: none; color: var(--border-medium); font-size: 1.35em; line-height: 1; cursor: pointer; }
+.rl-rate button.on { color: #d9a400; }
+.rl-rate .rl-rate-clear { margin-left: 6px; color: var(--text-light); font-size: 0.8em; }
+.rl-lists { display: grid; gap: 4px; }
+.rl-lists-head { color: var(--text-muted); font-size: var(--tt-font-size-small); }
+.rl-lists-items { display: grid; gap: 2px; max-height: 11rem; overflow-y: auto; }
+.rl-lists-items:empty { display: none; }
+.rl-li { display: flex; align-items: center; gap: 8px; min-height: var(--tt-control-small); padding: 0 6px; border-radius: 6px; cursor: pointer; }
+.rl-li:hover { background: var(--tt-color-row-hover); }
+.rl-li input { margin: 0; accent-color: var(--tt-color-accent); }
+.rl-newlist { display: flex; gap: 6px; }
+.rl-newlist input { flex: 1; min-width: 0; height: var(--tt-control-small); padding: 0 10px; border: 1px solid var(--border-light); border-radius: var(--tt-radius-full); background: var(--bg-surface); color: var(--text-main); font: inherit; font-size: 0.92em; }
+.rl-newlist button { height: var(--tt-control-small); padding: 0 12px; border: 1px solid var(--border-light); border-radius: var(--tt-radius-full); background: transparent; color: var(--text-main); font: inherit; font-size: 0.92em; cursor: pointer; }
+.rl-err { color: var(--tt-color-status-danger, #c0392b); font-size: var(--tt-font-size-small); }
+.rl-err:empty { display: none; }
+.rl-pop textarea { width: 100%; box-sizing: border-box; min-height: 60px; padding: 6px 8px; border: 1px solid var(--border-light); border-radius: 8px; background: var(--bg-surface); color: var(--text-main); font: inherit; font-size: 0.92em; resize: vertical; }
+.rl-actions { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.rl-actions button { padding: 5px 12px; border: 1px solid var(--border-light); border-radius: 999px; background: transparent; color: var(--text-muted); font: inherit; font-size: 0.9em; cursor: pointer; }
+.rl-actions .rl-save { background: var(--brand-primary); border-color: transparent; color: var(--brand-contrast); font-weight: 600; }
+.rl-actions .rl-remove { color: var(--text-light); border-color: transparent; }
+.rl-private { color: var(--text-light); font-size: 0.8em; }
+.rl-pop button:focus-visible, .rl-pop input:focus-visible, .rl-pop textarea:focus-visible { outline: var(--tt-focus-ring-width) solid var(--tt-color-focus-ring); outline-offset: var(--tt-focus-ring-offset); }
+</style>
+<span class="rl-wrap" data-auth-pending="true" data-artifact-id="art_e45e74b38697eafe630b82c63f40be79" data-item-type="paper" data-title="Benchmarks as Software: A Case Study on Terminal-Bench"><button type="button" class="bookmark-btn rl-btn" aria-pressed="false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M4 8C4 5.17157 4 3.75736 4.87868 2.87868C5.75736 2 7.17157 2 10 2H14C16.8284 2 18.2426 2 19.1213 2.87868C20 3.75736 20 5.17157 20 8V16C20 18.8284 20 20.2426 19.1213 21.1213C18.2426 22 16.8284 22 14 22H10C7.17157 22 5.75736 22 4.87868 21.1213C4 20.2426 4 18.8284 4 16V8Z"/><path d="M19.8978 16H7.89778C6.96781 16 6.50282 16 6.12132 16.1022C5.08604 16.3796 4.2774 17.1883 4 18.2235"/><path d="M8 7H16"/><path d="M8 10.5H13"/></svg><span class="rl-label">Add to list</span></button><template class="rl-pop-template"><div class="rl-pop" hidden><div class="rl-status"><button type="button" data-status="want">Want to read</button><button type="button" data-status="reading">Reading</button><button type="button" data-status="read">Read</button></div><div class="rl-rate"><button type="button" data-star="1" aria-label="1 of 5">&#9733;</button><button type="button" data-star="2" aria-label="2 of 5">&#9733;</button><button type="button" data-star="3" aria-label="3 of 5">&#9733;</button><button type="button" data-star="4" aria-label="4 of 5">&#9733;</button><button type="button" data-star="5" aria-label="5 of 5">&#9733;</button><button type="button" class="rl-rate-clear">clear</button></div><div class="rl-lists"><div class="rl-lists-head">Lists</div><div class="rl-lists-items" role="group" aria-label="Lists"></div><form class="rl-newlist"><input type="text" maxlength="120" placeholder="New list" aria-label="New list name"><button type="submit">Add</button></form><div class="rl-err" role="status"></div></div><textarea placeholder="A note to yourself (optional)"></textarea><div class="rl-actions"><button type="button" class="rl-remove" hidden>Remove</button><span class="rl-private">Only you see this</span><button type="button" class="rl-save">Done</button></div></div></template></span>
+<script>
+(function(){
+if(window.lacunaReading){window.lacunaReading.attach();return;}
+var API="/api/v1/reading-list",LISTS_API="/api/v1/reading-lists";
+var LABELS={"want": "Want to read", "reading": "Reading", "read": "Read"};
+var lists=null,listsP=null;
+var INTENT_KEY="lacuna:reading-intent",INTENT_MAX_AGE=15*60*1000;
+function stars(n){var s="";for(var i=1;i<=5;i++){s+=i<=n?"\u2605":"\u2606";}return s;}
+function track(name,params){try{if(typeof window.gtag==="function")window.gtag("event",name,params||{});}catch(e){}}
+function request(method,url,body){
+  var o={method:method,credentials:"same-origin",headers:{"Content-Type":"application/json"}};
+  if(body)o.body=JSON.stringify(body);
+  return fetch(url,o).then(function(r){return r.json().catch(function(){return {};}).then(function(d){
+    if(!r.ok){var e=new Error(d.error||"Couldn't save. Try again.");e.status=r.status;throw e;}return d;});});
+}
+// A press while signed out becomes an intent: which paper, which status. It
+// rides in the login's return URL (the claim flow's pattern) and in session
+// storage, and is finished, or dropped, once the session check runs here.
+function readIntent(){
+  var q=new URLSearchParams(location.search),fromUrl=q.get("save")?{artifact_id:q.get("paper")||"",status:q.get("save")}:null;
+  var stored=null;try{stored=JSON.parse(sessionStorage.getItem(INTENT_KEY)||"null");}catch(e){}
+  if(stored&&(!stored.at||Date.now()-stored.at>INTENT_MAX_AGE))stored=null;
+  if(fromUrl){if(stored&&(!fromUrl.artifact_id||stored.artifact_id===fromUrl.artifact_id))return stored;return fromUrl;}
+  return stored;
+}
+function clearIntent(){
+  try{sessionStorage.removeItem(INTENT_KEY);}catch(e){}
+  var q=new URLSearchParams(location.search);
+  if(!q.has("save")&&!q.has("paper"))return;
+  q.delete("save");q.delete("paper");var qs=q.toString();
+  try{history.replaceState(history.state,document.title,location.pathname+(qs?"?"+qs:"")+location.hash);}catch(e){}
+}
+function loginUrlWith(intent){
+  var c=window.LACUNA_CHAT_CONFIG,base=(c&&c.login_url)||"/account";
+  try{
+    var login=new URL(base,location.origin),back=new URL(login.searchParams.get("return_to")||location.href,location.origin);
+    back.searchParams.set("save",intent.status);back.searchParams.set("paper",intent.artifact_id);
+    login.searchParams.set("return_to",back.toString());
+    return login.toString();
+  }catch(e){return base;}
+}
+function note(wrap,text){
+  var n=wrap.querySelector(".rl-note");
+  if(!n){n=document.createElement("span");n.className="rl-note";n.setAttribute("role","status");wrap.appendChild(n);}
+  n.textContent=text||"";n.hidden=!text;
+}
+function returnWith(intent){
+  var back=new URL(location.href);
+  back.searchParams.set("save",intent.status);back.searchParams.set("paper",intent.artifact_id);
+  return back.toString();
+}
+// Signed out, the press is acknowledged on the page and a small popover
+// offers Sign in with OpenReview, which comes straight back here, or the
+// login page for every other way. The intent travels with the reader.
+function signIn(wrap,status){
+  var btn=wrap.querySelector(".rl-btn");
+  var intent={artifact_id:wrap.dataset.artifactId,status:status||"want",title:wrap.dataset.title||"",at:Date.now()};
+  try{sessionStorage.setItem(INTENT_KEY,JSON.stringify(intent));}catch(e){}
+  btn.setAttribute("aria-pressed","true");
+  track("reading_save_signin",{artifact_id:intent.artifact_id});
+  var url=loginUrlWith(intent),OR=window.lacunaOpenReview;
+  if(!OR||!OR.available()){
+    note(wrap,"Saving. Sign in to keep it.");
+    setTimeout(function(){location.href=url;},160);
+    return;
+  }
+  if(OR.isOpenFor(btn)){OR.close();return;}
+  note(wrap,"");
+  OR.open(btn,{
+    title:"Sign in to save this paper",
+    text:"Your reading list keeps it, with anything else you save.",
+    returnTo:returnWith(intent),loginUrl:url,
+    onSignIn:function(){track("reading_save_openreview",{artifact_id:intent.artifact_id});},
+    onOther:function(){track("reading_save_other_signin",{artifact_id:intent.artifact_id});},
+    onClose:function(){
+      if(document.visibilityState==="hidden")return;
+      try{sessionStorage.removeItem(INTENT_KEY);}catch(e){}
+      btn.setAttribute("aria-pressed","false");
+    }
+  });
+}
+function expired(wrap){
+  wrap.dataset.signin="1";
+  wrap.querySelector(".rl-btn").setAttribute("aria-pressed","false");
+  var pop=wrap.querySelector(".rl-pop");if(pop)pop.hidden=true;
+  note(wrap,"Your sign-in expired. Sign in again to save.");
+}
+function post(body){return request("POST",API,body);}
+function del(id){return request("DELETE",API,{artifact_id:id});}
+function get(ids){return fetch(API+"?ids="+encodeURIComponent(ids.join(",")),{credentials:"same-origin"}).then(function(r){return r.ok?r.json():{items:[]};});}
+function loadLists(){
+  if(lists)return Promise.resolve(lists);
+  if(!listsP)listsP=fetch(LISTS_API,{credentials:"same-origin"}).then(function(r){return r.ok?r.json():{lists:[]};}).then(function(d){lists=d.lists||[];return lists;}).catch(function(){listsP=null;return [];});
+  return listsP;
+}
+function listsChanged(){document.dispatchEvent(new CustomEvent("lacuna:lists-changed",{detail:{lists:lists}}));}
+function addList(label){return request("POST",LISTS_API,{label:label}).then(function(d){(lists=lists||[]).push(d.list);listsChanged();return d.list;});}
+function renameList(id,label){return request("PATCH",LISTS_API+"/"+encodeURIComponent(id),{label:label}).then(function(d){(lists||[]).forEach(function(l){if(l.id===id)l.label=d.list.label;});listsChanged();return d.list;});}
+function deleteList(id){return request("DELETE",LISTS_API+"/"+encodeURIComponent(id)).then(function(){lists=(lists||[]).filter(function(l){return l.id!==id;});listsChanged();});}
+function setMember(listId,type,id,title,on){
+  var url=LISTS_API+"/"+encodeURIComponent(listId)+"/items/"+encodeURIComponent(type)+"/"+encodeURIComponent(id);
+  return request(on?"PUT":"DELETE",url,on?{title:title}:null).then(function(d){return d.item;});
+}
+function paintButton(btn,row){
+  var label=btn.querySelector(".rl-label");
+  if(!row){btn.classList.remove("on");btn.setAttribute("aria-pressed","false");if(label)label.textContent="Add to list";btn.dataset.status="";return;}
+  btn.classList.add("on");btn.setAttribute("aria-pressed","true");btn.dataset.status=row.status;
+  var text=row.status==="want"?"✓ On your list":(LABELS[row.status]||row.status);
+  if(row.rating)text+=" \u00b7 "+stars(row.rating);
+  if(label)label.textContent=text;
+}
+function paintLists(pop,row){
+  var box=pop.querySelector(".rl-lists-items");if(!box)return;
+  var all=lists||[],on=row&&row.lists?row.lists:[];
+  var ids=all.map(function(l){return l.id+"\u0000"+l.label;}).join("\u0001");
+  if(box.dataset.ids!==ids){
+    box.textContent="";
+    all.forEach(function(l){
+      var lab=document.createElement("label");lab.className="rl-li";
+      var cb=document.createElement("input");cb.type="checkbox";cb.value=l.id;
+      var name=document.createElement("span");name.textContent=l.label;
+      lab.append(cb,name);box.appendChild(lab);
+    });
+    box.dataset.ids=ids;
+  }
+  box.querySelectorAll("input").forEach(function(cb){cb.checked=on.indexOf(cb.value)>=0;});
+  var head=pop.querySelector(".rl-lists-head");if(head)head.textContent=all.length?"Lists":"Sort it into a list";
+}
+function paintPop(pop,row){
+  pop.querySelectorAll(".rl-status button").forEach(function(b){b.classList.toggle("on",!!row&&b.dataset.status===row.status);});
+  var rating=row&&row.rating?row.rating:0;
+  pop.querySelectorAll(".rl-rate button[data-star]").forEach(function(b){b.classList.toggle("on",parseInt(b.dataset.star,10)<=rating);});
+  pop.dataset.rating=String(rating);
+  var ta=pop.querySelector("textarea");if(ta&&document.activeElement!==ta)ta.value=row&&row.comment?row.comment:"";
+  var rm=pop.querySelector(".rl-remove");if(rm)rm.hidden=!row;
+  var select=pop.querySelector(".rp-editor-status");if(select)select.value=row?row.status:"want";
+  paintLists(pop,row);
+}
+function wire(wrap){
+  if(wrap.rlSet)return;
+  var deferred=wrap.querySelector("template.rl-pop-template");
+  if(deferred)deferred.replaceWith(deferred.content.cloneNode(true));
+  var id=wrap.dataset.artifactId,title=wrap.dataset.title||"",type=wrap.dataset.itemType||"paper";
+  var btn=wrap.querySelector(".rl-btn"),pop=wrap.querySelector(".rl-pop"),err=pop.querySelector(".rl-err");
+  var row=null,errTimer=0,saving=false,shownAt=0;
+  function showErr(text){if(!err)return;err.textContent=text;clearTimeout(errTimer);errTimer=setTimeout(function(){err.textContent="";},5000);}
+  function apply(r){
+    row=r||null;paintButton(btn,row);paintPop(pop,row);
+    wrap.dispatchEvent(new CustomEvent("lacuna:reading-changed",{bubbles:true,detail:row||{artifact_id:id,removed:true}}));
+    return row;
+  }
+  function save(fields){
+    var body={artifact_id:id,title:title};for(var k in fields)body[k]=fields[k];
+    return post(body).then(function(d){note(wrap,"");btn.setAttribute("aria-pressed","false");return apply(d.item);}).catch(function(e){
+      btn.setAttribute("aria-pressed","false");
+      if(e&&e.status===401){expired(wrap);return null;}
+      if(pop.hidden)note(wrap,e.message);else showErr(e.message);
+      var select=pop.querySelector(".rp-editor-status");if(select)select.value=row?row.status:"want";
+      return null;
+    });
+  }
+  function open(){
+    pop.hidden=false;loadLists().then(function(){paintLists(pop,row);});
+  }
+  // The first save is one request however many presses ask for it, and it
+  // opens the popover once.
+  function first(status,event){
+    if(saving)return;
+    saving=true;
+    save({status:status||"want"}).then(function(r){saving=false;if(r){track(event,{artifact_id:id});if(type==="paper"&&window.lacunaReadingTrack)window.lacunaReadingTrack("save");open();shownAt=Date.now();}});
+  }
+  // Finish a press made before sign-in or during the session check. A paper
+  // already on the list opens the popover too, so the press still lands.
+  wrap.rlFinish=function(status){
+    if(!row){first(status,"reading_save_completed");return;}
+    note(wrap,"");open();shownAt=Date.now();
+  };
+  btn.addEventListener("click",function(ev){
+    ev.preventDefault();
+    // A press during the session check is queued; a save already on its way
+    // back from sign-in needs no second one.
+    if(wrap.dataset.authPending){if(!wrap.rlIntent)wrap.rlQueued="want";btn.setAttribute("aria-pressed","true");note(wrap,"Saving…");return;}
+    if(wrap.dataset.signin){signIn(wrap,"want");return;}
+    if(!row){first("want","reading_save");return;}
+    // A press that lands just as the popover opens does not close it again.
+    if(pop.hidden)open();else if(Date.now()-shownAt>600)pop.hidden=true;
+  });
+  // Back from sign-in with this paper's save pending: say so on first paint.
+  var pending=readIntent();
+  if(wrap.dataset.authPending&&pending&&pending.artifact_id===id){
+    wrap.rlIntent=pending.status||"want";btn.setAttribute("aria-pressed","true");note(wrap,"Saving…");
+  }
+  pop.querySelectorAll(".rl-status button").forEach(function(b){b.addEventListener("click",function(){save({status:b.dataset.status});});});
+  pop.querySelectorAll(".rl-rate button[data-star]").forEach(function(b){b.addEventListener("click",function(){var n=parseInt(b.dataset.star,10);save({rating:n===parseInt(pop.dataset.rating||"0",10)?0:n});});});
+  var clear=pop.querySelector(".rl-rate-clear");if(clear)clear.addEventListener("click",function(){save({rating:0});});
+  var box=pop.querySelector(".rl-lists-items");
+  if(box)box.addEventListener("change",function(ev){
+    var cb=ev.target;if(!cb||cb.type!=="checkbox")return;
+    cb.disabled=true;
+    setMember(cb.value,type,id,title,cb.checked).then(apply).catch(function(e){cb.checked=!cb.checked;showErr(e.message);}).then(function(){cb.disabled=false;});
+  });
+  var form=pop.querySelector(".rl-newlist");
+  if(form)form.addEventListener("submit",function(ev){
+    ev.preventDefault();
+    var input=form.querySelector("input"),label=input.value.trim();if(!label)return;
+    addList(label).then(function(l){input.value="";return setMember(l.id,type,id,title,true);}).then(apply).catch(function(e){showErr(e.message);});
+  });
+  var ta=pop.querySelector("textarea");
+  if(ta){ta.addEventListener("change",function(){save({comment:ta.value});});}
+  var saveBtn=pop.querySelector(".rl-save");if(saveBtn)saveBtn.addEventListener("click",function(){var f={};if(ta)f.comment=ta.value;save(f).then(function(){if(!wrap.dataset.inlineEditor)pop.hidden=true;});});
+  var rm=pop.querySelector(".rl-remove");
+  if(rm)rm.addEventListener("click",function(){
+    rm.disabled=true;
+    del(id).then(function(){apply(null);pop.hidden=true;}).catch(function(e){
+      if(e&&e.status===401)expired(wrap);else showErr(e.message);
+    }).then(function(){rm.disabled=false;});
+  });
+  document.addEventListener("click",function(ev){if(!wrap.dataset.inlineEditor&&!pop.hidden&&!wrap.contains(ev.target))pop.hidden=true;});
+  wrap.addEventListener("keydown",function(ev){if(ev.key==="Escape"&&!wrap.dataset.inlineEditor&&!pop.hidden){pop.hidden=true;btn.focus();}});
+  wrap.rlSet=function(r){row=r||null;paintButton(btn,row);paintPop(pop,row);};
+  wrap.rlRefreshLists=function(){paintLists(pop,row);};
+  if(wrap.dataset.row){try{wrap.rlSet(JSON.parse(wrap.dataset.row));}catch(e){}}
+}
+function load(wraps){
+  if(!wraps.length)return Promise.resolve();
+  var ids=wraps.map(function(w){return w.dataset.artifactId;});
+  return get(ids).then(function(d){var by={};(d.items||[]).forEach(function(r){by[r.artifact_id]=r;});wraps.forEach(function(w){w.rlSet(by[w.dataset.artifactId]||null);});}).catch(function(){});
+}
+function finishIntent(){
+  var intent=readIntent();if(!intent)return;
+  var wraps=Array.prototype.slice.call(document.querySelectorAll(".rl-wrap"));
+  var wrap=wraps.filter(function(w){return w.dataset.artifactId===intent.artifact_id;})[0];
+  clearIntent();
+  if(wrap&&wrap.rlFinish)wrap.rlFinish(intent.status);
+}
+// Signed in: show the real state, then finish what the reader pressed before
+// or during the session check.
+function reveal(){
+  delete document.documentElement.dataset.lacunaAuthWaiting;
+  var wraps=Array.prototype.slice.call(document.querySelectorAll(".rl-wrap[data-auth-pending]"));
+  wraps.forEach(function(w){w.hidden=false;delete w.dataset.authPending;delete w.dataset.signin;});
+  load(wraps).then(function(){
+    finishIntent();
+    wraps.forEach(function(w){
+      w.rlIntent=null;
+      if(w.rlQueued){var st=w.rlQueued;w.rlQueued=null;w.rlFinish(st);}
+    });
+  });
+}
+// Signed out: a press made during the session check starts the sign-in now,
+// and later presses carry their intent. A save that came back from sign-in
+// without a session says so rather than quietly letting go.
+function revealSignIn(){
+  delete document.documentElement.dataset.lacunaAuthWaiting;
+  clearIntent();
+  document.querySelectorAll(".rl-wrap[data-auth-pending]").forEach(function(w){
+    w.hidden=false;delete w.dataset.authPending;w.dataset.signin="1";
+    var returned=!!w.rlIntent;w.rlIntent=null;
+    if(w.rlQueued){w.rlQueued=null;signIn(w,"want");return;}
+    note(w,returned?"Sign-in didn't finish. Press again to sign in.":"");w.querySelector(".rl-btn").setAttribute("aria-pressed","false");
+  });
+}
+// Back from the login page without signing in, the browser may restore this
+// page as it was left, mid-press. Put the control back at rest.
+window.addEventListener("pageshow",function(e){
+  if(!e.persisted||!document.querySelector(".rl-wrap[data-signin]"))return;
+  clearIntent();
+  document.querySelectorAll(".rl-wrap[data-signin]").forEach(function(w){
+    note(w,"");w.querySelector(".rl-btn").setAttribute("aria-pressed","false");
+  });
+});
+function attach(){
+  // The reading list page hands over the reader's lists; take them once.
+  if(window.LACUNA_READING_LISTS){lists=window.LACUNA_READING_LISTS;window.LACUNA_READING_LISTS=null;}
+  // A save is waiting on sign-in to finish: the session check gives a fresh
+  // session longer to resolve before it calls the reader signed out.
+  if(readIntent())document.documentElement.dataset.lacunaAuthWaiting="save";
+  document.querySelectorAll(".rl-wrap").forEach(wire);
+  var config=window.LACUNA_CHAT_CONFIG;
+  if(config&&config.authenticated){reveal();return;}
+  window.addEventListener("lacuna:auth-reconciled",function(e){if(e.detail&&e.detail.authenticated)reveal();},{once:true});
+  if(document.documentElement.dataset.lacunaAuth==="anonymous")revealSignIn();
+  else window.addEventListener("lacuna:auth-anonymous",revealSignIn,{once:true});
+}
+window.lacunaReading={wire:wire,reveal:reveal,attach:attach,stars:stars,lists:function(){return lists||[];},loadLists:loadLists,addList:addList,renameList:renameList,deleteList:deleteList,setMember:setMember,request:request,loginUrl:loginUrlWith};
+attach();
+})();
+</script>
+<div class="share-group"><button class="btn-icon" onclick="togglePdfViewer()" id="btn-pdf-toggle" data-pdf-url="/pdf/art_e45e74b38697eafe630b82c63f40be79" title="Read the paper" aria-label="Read the paper" aria-pressed="false"><span class="btn-icon-label">PDF</span></button><button type="button" class="btn-icon paper-cite-copy" id="paper-cite-copy" onclick="copyBibtex()" title="Copy BibTeX" aria-label="Copy BibTeX"><span class="btn-icon-label">BIB</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><path stroke-linejoin="round" d="M5 13L9 17L19 7"/></svg></button><a class="btn-icon" href="/work/benchmarks-as-software-a-case-study-on-terminal/md" target="_blank" rel="nofollow noopener" title="View as Markdown" aria-label="Open Markdown" style="text-decoration:none;"><span class="btn-icon-label">MD</span></a><button class="btn-icon" type="button" onclick="shareLink()" title="Copy link" aria-label="Copy link"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M10.0464 14C8.54044 12.4882 8.67609 9.90087 10.3494 8.22108L15.197 3.35462C16.8703 1.67483 19.4476 1.53865 20.9536 3.05046C22.4596 4.56228 22.3239 7.14956 20.6506 8.82935L18.2268 11.2626"/><path d="M13.9536 10C15.4596 11.5118 15.3239 14.0991 13.6506 15.7789L11.2268 18.2121L8.80299 20.6454C7.12969 22.3252 4.55237 22.4613 3.0464 20.9495C1.54043 19.4377 1.67609 16.8504 3.34939 15.1706L5.77323 12.7373"/></svg></button><span class="row-menu-wrap"><button class="btn-icon" type="button" onclick="toggleRowMenu(this)" title="Share" aria-label="Share" aria-haspopup="menu" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M19.5 5.5C19.5 6.88071 18.3807 8 17 8C15.6193 8 14.5 6.88071 14.5 5.5C14.5 4.11929 15.6193 3 17 3C18.3807 3 19.5 4.11929 19.5 5.5Z"/><path d="M17 16C15.6193 16 14.5 17.1193 14.5 18.5C14.5 19.8807 15.6193 21 17 21C18.3807 21 19.5 19.8807 19.5 18.5C19.5 17.1193 18.3807 16 17 16Z"/><path d="M7 9.5C5.61929 9.5 4.5 10.6193 4.5 12C4.5 13.3807 5.61929 14.5 7 14.5C8.38071 14.5 9.5 13.3807 9.5 12C9.5 10.6193 8.38071 9.5 7 9.5Z"/><path d="M14.5 7L9.5 10.5M9.5 13.5L14.5 17"/></svg></button><div class="row-menu share-menu" role="menu" hidden><button class="row-menu-item" type="button" role="menuitem" onclick="shareTwitter()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span>Share on X</span></button><button class="row-menu-item" type="button" role="menuitem" onclick="shareLinkedIn()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg><span>Share on LinkedIn</span></button><button class="row-menu-item" type="button" role="menuitem" onclick="shareEmail()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12C22 15.7712 22 17.6569 20.8284 18.8284C19.6569 20 17.7712 20 14 20H10C6.22876 20 4.34315 20 3.17157 18.8284C2 17.6569 2 15.7712 2 12Z"/><path d="M6 8L8.1589 9.79908C9.99553 11.3296 10.9139 12.0949 12 12.0949C13.0861 12.0949 14.0045 11.3296 15.8411 9.79908L18 8"/></svg><span>Email</span></button></div></span></div></div>
+<template data-lacuna-pdf-rail-template><div class="pdf-rail-shell"><aside class="pdf-viewer-wrap" id="pdf-viewer" aria-hidden="true"><div class="pdf-viewer-bar"><span class="pdf-bar-left"><span id="pdf-page-info" class="pdf-page-info">PDF</span></span><span class="pdf-bar-right"><a href="https://openreview.net/pdf/39e77599781cf4788518f23a7f71df6b1126c517.pdf" target="_blank" rel="noopener">Open original</a> &middot; <a href="/pdf/art_e45e74b38697eafe630b82c63f40be79" target="_blank" rel="nofollow noopener">Open in new tab</a><button id="pdf-close" class="pdf-nav-btn pdf-close-btn" title="Close paper viewer" onclick="closePdfViewer()">&times;</button></span></div><div id="pdf-container" class="pdf-container" data-src="/pdf/art_e45e74b38697eafe630b82c63f40be79"></div></aside><div id="pdf-rail-resizer" class="pdf-rail-resizer" aria-hidden="true"></div></div></template><script>function syncPdfViewer(open){var w=document.getElementById("pdf-viewer");var b=document.getElementById("btn-pdf-toggle");if(!w||!b)return;document.body.classList.toggle("lacuna-pdf-rail-open",!!open);w.classList.toggle("visible",!!open);w.setAttribute("aria-hidden",open?"false":"true");b.classList.toggle("active",!!open);b.setAttribute("aria-pressed",open?"true":"false");if(open){requestAnimationFrame(function(){requestAnimationFrame(function(){window._lacunaPdfInit&&window._lacunaPdfInit();});});}}function togglePdfViewer(){var w=document.getElementById("pdf-viewer");var b=document.getElementById("btn-pdf-toggle");var pdfUrl=b&&b.getAttribute("data-pdf-url");if(window.matchMedia("(max-width: 768px)").matches&&pdfUrl){window.location.href=pdfUrl;return;}if(!w&&window.lacunaShellSyncPageRails)window.lacunaShellSyncPageRails();w=document.getElementById("pdf-viewer");syncPdfViewer(!(w&&w.classList.contains("visible")));}function closePdfViewer(){syncPdfViewer(false);}document.addEventListener("keydown",function(e){var figureDialog=document.getElementById("fig-lightbox");if(e.key==="Escape"&&!(figureDialog&&figureDialog.open))closePdfViewer();});document.addEventListener("click",function(e){var a=e.target.closest(".fig-source a[href]");if(!a)return;var m=a.getAttribute("href").match(/#page=(\d+)/);if(!m)return;if(window.matchMedia("(max-width: 768px)").matches)return;e.preventDefault();var pg=parseInt(m[1],10);var w=document.getElementById("pdf-viewer");if(!w&&window.lacunaShellSyncPageRails)window.lacunaShellSyncPageRails();syncPdfViewer(true);function tryScroll(attempts){if(window._lacunaPdfScrollToPage){window._lacunaPdfScrollToPage(pg);return;}if(attempts>0)setTimeout(function(){tryScroll(attempts-1);},200);}tryScroll(15);});</script>
+<div class="blog-content" data-lacuna-preview-scope="entity-prose"><h2 id="tldr">TL;DR</h2>
+<p>Agentic benchmarks—the "gold standard" for evaluating AI coding agents—are prone to "rot" due to environment drift and buggy verifiers. This paper audits <strong>Terminal-Bench 2.0</strong>, finds defects in 31% of its tasks, and introduces a continuous-validation pipeline to ship <strong>Terminal-Bench 2.1</strong>. The key takeaway: while model rankings remain stable after fixes, many reported "capability" gains are actually just reflections of how much time (wall-clock budget) an agent is allowed to spend.</p>
+<h2 id="what-problem-does-this-paper-address">What Problem Does This Paper Address?</h2>
+<p>Static benchmarks (like multiple-choice tests) are relatively stable, but <strong>agentic benchmarks</strong>—where an LLM interacts with a live Linux environment to solve a task—are fragile. They suffer from three main types of "rot":</p>
+<ol>
+<li><strong>Specification-Verification Mismatch:</strong> The instructions tell the agent to do X, but the grading script secretly requires Y.</li>
+<li><strong>Benchmark Drift:</strong> External dependencies (like a Python package or a URL) change or disappear after the benchmark is released, making the task impossible.</li>
+<li><strong>Resource Mismatch:</strong> The time or memory limits are so tight that even a perfect solution can't finish before the "referee" cuts it off.</li>
+</ol>
+<p>Because these benchmarks are "load-bearing" for the industry—used by OpenAI, Anthropic, and Google to claim state-of-the-art performance—defects in the benchmark itself can lead to misleading conclusions about model progress.</p>
+<h2 id="methods">Methods</h2>
+<p>The authors treat "benchmarks as software," moving away from one-off "verified" datasets toward a continuous-validation pipeline called <strong>TB-Audit</strong>. The pipeline uses:</p>
+<ul>
+<li><strong>Automated CI (/oracle):</strong> A programmatic check that re-runs the "known-correct" solution. If the oracle fails, the environment has drifted.</li>
+<li><strong>LLM-as-Judge (/audit):</strong> Models like GPT-4o and Gemini 2.5 Flash act as auditors. They review task instructions, grading code, and execution logs from previous agent runs to spot contradictions or resource starvation.</li>
+<li><strong>Human-in-the-Loop:</strong> The pipeline generates "Draft Pull Requests" with proposed fixes, which a human maintainer reviews before merging into the new version (Terminal-Bench 2.1).</li>
+</ul>
+<h2 id="datasets">Datasets</h2>
+<ul>
+<li><strong>Terminal-Bench 2.0:</strong> The original target of the audit, consisting of 89 complex terminal-based tasks.</li>
+<li><strong>Terminal-Bench 2.1:</strong> The updated version released by the authors, featuring fixes for 28 of the 89 tasks.</li>
+<li><strong>Audit Evidence (Dataset 1):</strong> A collection of public leaderboard submissions, GitHub issues, and community bug reports used to ground the LLM judges.</li>
+<li><strong>Evaluation Cohort (Dataset 2):</strong> New trials across 19 different "agents" (combinations of models like GPT-4, Claude 3.5, and Gemini, paired with different scaffolds/harnesses).</li>
+</ul>
+<h2 id="key-insights-and-ideas">Key Insights and Ideas</h2>
+<ul>
+<li><strong>Rankings are Robust, Scores are Not:</strong> Even though 31% of the tasks were broken, the relative ranking of models stayed almost identical (Spearman $\rho = 0.958$). This suggests that while absolute pass rates might be "wrong," the benchmark still correctly identifies which models are better than others.</li>
+<li><strong>The "Harness" Illusion:</strong> A "harness" is the scaffold (the loop, tools, and prompts) wrapped around an LLM. The paper found that switching harnesses could swing scores by 30 points. Surprisingly, this wasn't because one harness was "smarter," but because it was faster.</li>
+<li><strong>Efficiency vs. Capability:</strong> Many agents failed not because they lacked the "brainpower" to solve a task, but because they ran out of time. The authors argue that current leaderboards conflate <em>capability</em> (can the model do it?) with <em>efficiency</em> (can it do it in 5 minutes?).</li>
+<li><strong>Ghost Tokens:</strong> In the old version (TB 2.0), nearly 29% of the tokens spent on failed trials were actually spent on work that was correct but rejected by a buggy verifier.</li>
+</ul>
+<h2 id="key-results">Key Results</h2>
+<ul>
+<li><strong>Defect Rate:</strong> 28 out of 89 tasks (31%) had task-side defects.</li>
+<li><strong>Score Lifts:</strong> After fixing the verifiers in TB 2.1, agent scores rose by an average of 4.4 percentage points, with some gaining up to 12 points.</li>
+<li><strong>Closing the Gap:</strong> By simply increasing the per-task time budget (16x), the massive 29.9 point gap between different agent harnesses almost entirely disappeared. This proves the "harness effect" is largely a wall-clock bottleneck.</li>
+<li><strong>Failure Modes:</strong> For smaller models, timeouts are the primary cause of failure (56% of trials), whereas top-tier models fail mostly due to wrong answers (only 7% timeouts).</li>
+</ul>
+<h2 id="limitations-and-future-work">Limitations and Future Work</h2>
+<ul>
+<li><strong>Budget Awareness:</strong> In these tests, agents aren't told how much time they have left. Future work could explore if agents perform better if they are "aware" of their remaining budget.</li>
+<li><strong>Human Bottleneck:</strong> While the audit is highly automated, it still requires a human to hit "merge" on the fixes. Scaling this to thousands of tasks remains a challenge.</li>
+<li><strong>Generalization:</strong> The authors focused on Terminal-Bench; applying this "continuous audit" methodology to other major benchmarks like SWE-bench is a logical next step.</li>
+</ul></div>
+<details class="paper-cite" data-nosnippet ontoggle="if(this.open&&window.lacunaTrack)lacunaTrack('bibtex_view')"><summary>BibTeX</summary><pre class="paper-cite__bibtex" id="paper-bibtex">@inproceedings{buchanan2026benchmarks,
+  author = {E. Kelly Buchanan and Scott Linderman and Christopher Re},
+  title = {{Benchmarks as Software: A Case Study on Terminal-Bench}},
+  booktitle = {DL4C @ ICML},
+  year = {2026},
+  url = {https://openreview.net/forum?id=AhXMZPnOPS},
+}</pre><button type="button" class="paper-cite__copy" onclick="copyBibtex()">Copy BibTeX</button><script>function copyBibtex(){var node=document.getElementById('paper-bibtex');if(!node){return;}var text=node.textContent;if(window.lacunaTrack){lacunaTrack('bibtex_copy');}function done(){var b=document.getElementById('paper-cite-copy');if(b){b.classList.add('is-copied');setTimeout(function(){b.classList.remove('is-copied');},1600);}if(window.showToast){showToast('BibTeX copied');}}function show(){var d=node.closest('details');if(d){d.open=true;}var p=node.closest('.paper-cite__panel');if(p&&window.togglePaperCite){togglePaperCite(true);}var r=document.createRange();r.selectNodeContents(node);var s=window.getSelection();s.removeAllRanges();s.addRange(r);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,show);}else{show();}}</script></details>
+<div class="paper-deferred-extras" data-paper-extras-url="/paper/benchmarks-as-software-a-case-study-on-terminal-bench/art_e45e74b38697eafe630b82c63f40be79/sections/extras.html"><div class="tab-panel">
+<div class="tab-bar">
+<button class="tab-btn active" data-tab-id="directions" onclick="switchTab('directions')">Related Directions (1)</button>
+</div>
+<div class="tab-pane" id="tab-directions"><table class="directions-table"><tbody>
+<tr><td><a href="/direction/reproducible-benchmarking-in-dynamic-environments/txn_026a4e1769694701aaedda3a59c21d93">Reproducible Benchmarking in Dynamic Environments</a></td><td class="muted"></td></tr>
+</tbody></table></div>
+</div></div>
+<dialog class="figure-lightbox" id="fig-lightbox" aria-label="Expanded figure"><button class="figure-lightbox-close" type="button" data-figure-lightbox-close aria-label="Close expanded figure"><span aria-hidden="true">&times;</span></button><img id="lightbox-img" alt="Figure"><div class="figure-lightbox-footer"><span><span id="lightbox-caption-origin"></span><span id="lightbox-caption"></span></span><a id="lightbox-original" target="_blank" rel="noopener">Open full-resolution image</a></div></dialog>
+<script>
+function showToast(msg) {
+    var t = document.getElementById('share-toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(function() { t.classList.remove('show'); }, 2000);
+}
+function shareLink() {
+    var url = window.location.href;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(function() { showToast('Link copied'); });
+    } else { showToast('Link copied'); }
+}
+function shareTwitter() {
+    var url = encodeURIComponent(window.location.href);
+    var text = encodeURIComponent(document.title);
+    window.open('https://x.com/intent/tweet?url=' + url + '&text=' + text, '_blank', 'width=550,height=420');
+}
+function shareLinkedIn() {
+    var url = encodeURIComponent(window.location.href);
+    window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + url, '_blank', 'width=550,height=520');
+}
+function shareEmail() {
+    var subject = encodeURIComponent(document.title);
+    var body = encodeURIComponent(window.location.href);
+    window.location.href = 'mailto:?subject=' + subject + '&body=' + body;
+}
+
+function toggleRowMenu(btn) {
+    var menu = btn.parentNode.querySelector('.row-menu');
+    var open = menu.hidden;
+    closeRowMenus();
+    if (open) { menu.hidden = false; btn.setAttribute('aria-expanded', 'true'); }
+}
+function closeRowMenus(restoreFocus) {
+    document.querySelectorAll('.row-menu').forEach(function (m) {
+        if (m.hidden) return;
+        m.hidden = true;
+        var b = m.parentNode.querySelector('[aria-haspopup="menu"]');
+        if (b) { b.setAttribute('aria-expanded', 'false'); if (restoreFocus) b.focus(); }
+    });
+}
+if (!window.__lacunaRowMenus) {
+window.__lacunaRowMenus = true;
+document.addEventListener('click', function (e) { if (!e.target.closest('.row-menu-wrap')) closeRowMenus(); });
+document.addEventListener('click', function (e) { if (e.target.closest('.row-menu-item')) closeRowMenus(); });
+document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { closeRowMenus(!!(e.target.closest && e.target.closest('.row-menu-wrap'))); return; }
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    var wrap = e.target.closest && e.target.closest('.row-menu-wrap');
+    var menu = wrap && wrap.querySelector('.row-menu');
+    if (!menu) return;
+    e.preventDefault();
+    if (menu.hidden) toggleRowMenu(wrap.querySelector('[aria-haspopup="menu"]'));
+    var items = Array.prototype.slice.call(menu.querySelectorAll('[role="menuitem"]'));
+    var at = items.indexOf(document.activeElement);
+    var next = at < 0 ? (e.key === 'ArrowDown' ? 0 : items.length - 1) : (at + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length;
+    if (items[next]) items[next].focus();
+});
+}
+var activeFigureTrigger=null;
+function openLightbox(trigger){
+    var box=document.getElementById("fig-lightbox");
+    var lightboxImage=document.getElementById("lightbox-img");
+    var caption=document.getElementById("lightbox-caption");
+    var captionOrigin=document.getElementById("lightbox-caption-origin");
+    var original=document.getElementById("lightbox-original");
+    var sourceImage=trigger&&trigger.matches&&trigger.matches("img")
+        ?trigger
+        :(trigger&&trigger.querySelector?trigger.querySelector("img"):null);
+    if(!box||!lightboxImage||!sourceImage)return;
+    var src=sourceImage.dataset.fullSrc||sourceImage.src||"";
+    if(!src)return;
+    activeFigureTrigger=trigger&&trigger.closest
+        ?trigger.closest(".figure-expand-trigger")
+        :null;
+    lightboxImage.src=src;
+    lightboxImage.alt=sourceImage.alt||"Figure";
+    var triggerCaption=(trigger&&trigger.dataset&&trigger.dataset.figureCaption)||"";
+    var triggerOrigin=(trigger&&trigger.dataset&&trigger.dataset.figureCaptionOrigin)||"";
+    if(caption)caption.textContent=triggerCaption||sourceImage.alt||"";
+    if(captionOrigin){
+        captionOrigin.textContent=triggerOrigin==="source_pdf"?"Source PDF caption · ":"";
+    }
+    if(original)original.href=src;
+    document.documentElement.classList.add("figure-lightbox-open");
+    if(!box.open){
+        if(typeof box.showModal==="function")box.showModal();
+        else box.setAttribute("open","");
+    }
+    var closeButton=box.querySelector("[data-figure-lightbox-close]");
+    if(closeButton)closeButton.focus({preventScroll:true});
+}
+function closeLightbox(){
+    var box=document.getElementById("fig-lightbox");
+    if(!box||!box.hasAttribute("open"))return;
+    if(typeof box.close==="function")box.close();
+    else{
+        box.removeAttribute("open");
+        cleanupFigureLightbox();
+    }
+}
+function cleanupFigureLightbox(){
+    var lightboxImage=document.getElementById("lightbox-img");
+    var original=document.getElementById("lightbox-original");
+    document.documentElement.classList.remove("figure-lightbox-open");
+    if(lightboxImage){lightboxImage.removeAttribute("src");lightboxImage.alt="Figure";}
+    if(original)original.removeAttribute("href");
+    if(activeFigureTrigger&&document.contains(activeFigureTrigger)){
+        activeFigureTrigger.focus({preventScroll:true});
+    }
+    activeFigureTrigger=null;
+}
+(function(){
+    var box=document.getElementById("fig-lightbox");
+    if(box){
+        box.addEventListener("close",cleanupFigureLightbox);
+        box.addEventListener("click",function(event){
+            if(event.target===box)closeLightbox();
+        });
+    }
+    document.addEventListener("click",function(event){
+        var closeButton=event.target.closest&&event.target.closest("[data-figure-lightbox-close]");
+        if(closeButton){closeLightbox();return;}
+        var trigger=event.target.closest&&event.target.closest(".figure-expand-trigger");
+        if(trigger)openLightbox(trigger);
+    });
+})();
+
+(function(){
+    var extras=document.querySelector('.paper-deferred-extras[data-paper-extras-url]');
+    if(!extras)return;
+    function loadExtras(){
+        if(extras.dataset.loaded==='1'||extras.dataset.loading==='1')return;
+        extras.dataset.loading='1';
+        fetch(extras.dataset.paperExtrasUrl,{credentials:'same-origin'})
+            .then(function(r){
+                if(!r.ok)throw new Error('paper extras fetch failed');
+                return r.text();
+            })
+            .then(function(html){
+                var picked=extras.querySelector('.tab-btn.active');
+                picked=picked?picked.getAttribute('data-tab-id'):'';
+                extras.innerHTML=html;
+                if(picked&&window.switchTab&&extras.querySelector('.tab-btn[data-tab-id="'+picked+'"]'))switchTab(picked);
+                extras.dataset.loaded='1';
+                if(window.lacunaRenderMath)window.lacunaRenderMath(extras);
+            })
+            .catch(function(){
+                extras.dataset.loaded='0';
+            })
+            .finally(function(){
+                extras.dataset.loading='0';
+            });
+    }
+    if('IntersectionObserver' in window){
+        var observer=new IntersectionObserver(function(entries){
+            if(entries.some(function(entry){return entry.isIntersecting;})){
+                observer.disconnect();
+                loadExtras();
+            }
+        },{rootMargin:'800px 0px'});
+        observer.observe(extras);
+    }else if(window.requestIdleCallback){
+        requestIdleCallback(loadExtras,{timeout:1500});
+    }else{
+        setTimeout(loadExtras,0);
+    }
+})();
+
+</script>
+</div>
+</main>
+</div>
+<aside class="lacuna-shell-rail-slot lacuna-shell-rail-slot-right" id="lacuna-right-rail-slot"></aside>
+</div>
+<footer class="site-footer"><div class="site-footer-content"><div class="site-footer-section"><h2>Product</h2><ul><li><a href="https://tiptreesystems.com">Home</a></li><li><a href="/">Lacuna</a></li><li><a href="/directions">Research directions</a></li><li><a href="/authors">Authors</a></li><li><a href="/venues">Venues</a></li><li><a href="https://althea.tiptreesystems.com">Althea</a></li></ul></div><div class="site-footer-section"><h2>Developers</h2><ul><li><a href="/mcp">Lacuna MCP</a></li><li><a href="https://github.com/tiptreesystems" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a href="https://docs.tiptreesystems.com">Documentation</a></li></ul></div><div class="site-footer-section"><h2>Company</h2><ul><li><a href="/about">About Lacuna</a></li><li><a href="/how-lacuna-is-made">How Lacuna is made</a></li><li><a href="https://x.com/Lacuna_Research" id="lacuna-follow-footer" data-lacuna-follow="footer" target="_blank" rel="noopener noreferrer">Follow Lacuna on X</a></li><li><a href="https://tiptreesystems.com/privacy-policy">Privacy Policy</a></li><li><a href="https://tiptreesystems.com/terms">Terms of Service</a></li></ul></div></div><div class="site-footer-bottom"><p>&copy; 2026 Tiptree Advanced Systems Corporation. All rights reserved.</p></div></footer>
+</div>
+<script type="application/json" id="lacuna-shell-page-config">{"title": "Ask Althea about Benchmarks as Software: A Case Study on Terminal-Bench", "chat_enabled": true, "chat_launcher_enabled": true, "auth_resolution_deferred": true, "authenticated": false, "login_url": "https://althea.tiptreesystems.com/login?return_to=https%3A%2F%2Flacuna.tiptreesystems.com%2Fwork%2Fbenchmarks-as-software-a-case-study-on-terminal", "openreview_url": "https://althea.tiptreesystems.com/oauth2/lacuna/authorize", "althea_home_url": "https://althea.tiptreesystems.com", "assets_base": "/assets/althea-chat-3557ae023595", "storage_namespace": "lacuna:anonymous:work:wrk_96dd53f953e7eb0b1e930594986c3d21", "user": null, "context": {"entity_type": "work", "entity_id": "wrk_96dd53f953e7eb0b1e930594986c3d21", "entity_title": "Benchmarks as Software: A Case Study on Terminal-Bench", "entity_label": "work", "page_url": "https://lacuna.tiptreesystems.com/work/benchmarks-as-software-a-case-study-on-terminal", "context_key": "work:wrk_96dd53f953e7eb0b1e930594986c3d21", "links": [{"label": "Benchmarks as Software: A Case Study on Terminal-Bench", "url": "https://lacuna.tiptreesystems.com/work/benchmarks-as-software-a-case-study-on-terminal"}, {"label": "Read Paper", "url": "https://openreview.net/pdf/39e77599781cf4788518f23a7f71df6b1126c517.pdf"}], "context_url": "/api/v1/context/work/wrk_96dd53f953e7eb0b1e930594986c3d21"}, "track_visit": {"type": "paper", "id": "art_e45e74b38697eafe630b82c63f40be79", "title": "Benchmarks as Software: A Case Study on Terminal-Bench", "url": "/work/benchmarks-as-software-a-case-study-on-terminal"}, "chat_widget": {"version": "0.1.0+gf8ae28c2ca6b", "script_url": "/assets/chat-widget-735291597a5f/chat-widget.js", "stylesheet_urls": ["/assets/chat-widget-735291597a5f/chat-widget-tokens.css", "/assets/chat-widget-735291597a5f/chat-widget.css"], "api_base": "/api/v1/althea", "client_type": "lacuna", "external_media": {"althea-symbol-light.svg": "https://assets.tiptreesystems.com/public/assets/images/althea-symbol-light.45e39c4d.svg", "althea-wordmark-capital-a-white.svg": "https://assets.tiptreesystems.com/public/assets/images/althea-wordmark-capital-a-white.625b4c7d.svg", "althea-wordmark-dark.svg": "https://assets.tiptreesystems.com/public/assets/images/althea-wordmark-dark.0203b4eb.svg", "althea-wordmark-white.svg": "https://assets.tiptreesystems.com/public/assets/images/althea-wordmark-white.aef405e4.svg", "image-error.png": "https://assets.tiptreesystems.com/public/assets/images/image-error.4492bf1f.png", "althea-activity-signal-sweep-4x.webm": "https://assets.tiptreesystems.com/public/assets/images/althea-activity-signal-sweep-4x.fd91048d.webm", "althea-activity-signal-sweep-2x.mov": "https://assets.tiptreesystems.com/public/assets/images/althea-activity-signal-sweep-2x.97051aa2.mov", "althea-activity-signal-sweep-2x.webp": "https://assets.tiptreesystems.com/public/assets/images/althea-activity-signal-sweep-2x.dd60e1cb.webp", "althea-activity-magnet-clusters-4x.webm": "https://assets.tiptreesystems.com/public/assets/images/althea-activity-magnet-clusters-4x.5c830190.webm", "althea-activity-magnet-clusters-2x.mov": "https://assets.tiptreesystems.com/public/assets/images/althea-activity-magnet-clusters-2x.5b8ecaae.mov", "althea-activity-magnet-clusters-2x.webp": "https://assets.tiptreesystems.com/public/assets/images/althea-activity-magnet-clusters-2x.f16aecd7.webp", "althea-activity-split-rivers-4x.webm": "https://assets.tiptreesystems.com/public/assets/images/althea-activity-split-rivers-4x.bdbb6f56.webm", "althea-activity-split-rivers-2x.mov": "https://assets.tiptreesystems.com/public/assets/images/althea-activity-split-rivers-2x.e91f66e4.mov", "althea-activity-split-rivers-2x.webp": "https://assets.tiptreesystems.com/public/assets/images/althea-activity-split-rivers-2x.f8f974c0.webp", "althea-activity-scanline-sort-4x.webm": "https://assets.tiptreesystems.com/public/assets/images/althea-activity-scanline-sort-4x.f885026c.webm", "althea-activity-scanline-sort-2x.mov": "https://assets.tiptreesystems.com/public/assets/images/althea-activity-scanline-sort-2x.17e0d25e.mov", "althea-activity-scanline-sort-2x.webp": "https://assets.tiptreesystems.com/public/assets/images/althea-activity-scanline-sort-2x.20714471.webp", "althea-activity-real-repulse-loose-chat-gap-4x.webm": "https://assets.tiptreesystems.com/public/assets/images/althea-activity-real-repulse-loose-chat-gap-4x.622df2ce.webm", "althea-activity-real-repulse-loose-chat-gap-2x.mov": "https://assets.tiptreesystems.com/public/assets/images/althea-activity-real-repulse-loose-chat-gap-2x.24cb1e29.mov", "althea-activity-real-repulse-loose-chat-gap-2x.webp": "https://assets.tiptreesystems.com/public/assets/images/althea-activity-real-repulse-loose-chat-gap-2x.64a93fe5.webp"}}}</script>
+<script type="module" src="/assets/althea-chat-3557ae023595/js/lacunaAuthState.js"></script>
+<script>(function(){var KEY="lacuna:recent_pages",MAX=20;var entry={"type": "paper", "id": "art_e45e74b38697eafe630b82c63f40be79", "title": "Benchmarks as Software: A Case Study on Terminal-Bench", "url": "/work/benchmarks-as-software-a-case-study-on-terminal"};if(entry){entry.ts=Date.now();var items=[];try{items=JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){}items=items.filter(function(it){return it.url!==entry.url});items.unshift(entry);if(items.length>MAX)items=items.slice(0,MAX);try{localStorage.setItem(KEY,JSON.stringify(items))}catch(e){}}var recordVisit=true,signedIn=false,started=false;var ACTIVE_GAP_MS=60000,TICK_MS=15000,MAX_DELTA=30;var lastActive=Date.now(),accumMs=0,lastTick=Date.now();function tracked(){return !!(entry&&entry.type&&entry.id);}function bump(){lastActive=Date.now();}function active(){return document.visibilityState==="visible"&&(Date.now()-lastActive)<ACTIVE_GAP_MS;}function flush(useBeacon){var now=Date.now();if(active()){accumMs+=Math.min(now-lastTick,ACTIVE_GAP_MS);}lastTick=now;if(!tracked()){accumMs=0;return;}if(accumMs<1000)return;var delta=Math.min(accumMs/1000,MAX_DELTA);accumMs=0;var body=JSON.stringify({item_type:entry.type,item_id:entry.id,delta_seconds:delta,title:entry.title||""});try{if(useBeacon&&navigator.sendBeacon){navigator.sendBeacon("/api/v1/reading/heartbeat",new Blob([body],{type:"application/json"}));}else{fetch("/api/v1/reading/heartbeat",{method:"POST",headers:{"Content-Type":"application/json"},body:body,credentials:"same-origin",keepalive:true}).catch(function(){});}}catch(e){}}function startAuthenticatedTracking(){if(signedIn)return;signedIn=true;var k=tracked()&&entry.type+":"+entry.id,prev=window.__lacunaLastDeferredVisit;if(recordVisit&&k&&!(prev&&prev.key===k&&Date.now()-Number(prev.at||0)<5000)){window.__lacunaLastDeferredVisit={key:k,at:Date.now()};fetch("/api/v1/reading/visit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({item_type:entry.type,item_id:entry.id}),credentials:"same-origin",keepalive:true}).catch(function(){});}recordVisit=false;if(started)return;started=true;["mousemove","keydown","scroll","touchstart","click"].forEach(function(ev){window.addEventListener(ev,bump,{passive:true});});setInterval(function(){flush(false);},TICK_MS);document.addEventListener("visibilitychange",function(){if(document.visibilityState==="hidden")flush(true);});window.addEventListener("pagehide",function(){flush(true);});}window.lacunaReadingTracker={switchTo:function(next){if(next&&tracked()&&next.type===entry.type&&String(next.id)===String(entry.id))return;if(started)flush(false);entry=next||null;recordVisit=false;accumMs=0;lastTick=Date.now();}};window.addEventListener("lacuna:auth-reconciled",function(e){if(e.detail&&e.detail.authenticated)startAuthenticatedTracking();});})();</script>
+<div id="share-toast" class="share-toast"></div>
+<script src="/assets/shell-core-de56f12f7b08.js"></script>
+<script>
+!function(){
+  function syncHeaderOffset(){
+    var nav=document.querySelector('.nav-bar');
+    var height=nav?Math.ceil(nav.getBoundingClientRect().height):52;
+    document.documentElement.style.setProperty('--lacuna-header-offset',height+'px');
+  }
+  syncHeaderOffset();
+  window.addEventListener('resize',syncHeaderOffset);
+  var navEl=document.querySelector('.nav-bar');
+  if(navEl&&typeof ResizeObserver!=='undefined')new ResizeObserver(syncHeaderOffset).observe(navEl);
+}();
+</script>
+<script>
+!function(){
+  function syncPageShellRails(){
+    var leftSlot=document.getElementById('lacuna-left-rail-slot');
+    if(!leftSlot)return;
+    document.body.classList.remove('lacuna-pdf-rail-open');
+    leftSlot.innerHTML='';
+    leftSlot.setAttribute('data-has-rail','0');
+    window._lacunaPdfReset&&window._lacunaPdfReset();
+    var page=document.getElementById('lacuna-page-content');
+    var tpl=page&&page.querySelector('template[data-lacuna-pdf-rail-template]');
+    if(!tpl||!tpl.content)return;
+    leftSlot.appendChild(tpl.content.cloneNode(true));
+    leftSlot.setAttribute('data-has-rail','1');
+    window._lacunaPdfOnShellSync&&window._lacunaPdfOnShellSync();
+  }
+  window.lacunaShellSyncPageRails=syncPageShellRails;
+  syncPageShellRails();
+}();
+</script>
+
+<script src="/assets/shell-pdf-rail-6c1f51da107b.js"></script>
+<script src="/assets/shell-link-preview-064268e37485.js"></script>
+<script>(function(){var cssUrls=["/assets/chat-widget-735291597a5f/chat-widget-tokens.css", "/assets/chat-widget-735291597a5f/chat-widget.css", "/assets/althea-chat-3557ae023595/css/lacuna_chat_panel.css"],moduleUrl="/assets/althea-chat-3557ae023595/js/lacunaChatPanel.js",loadPromise=null;function loadCss(url){var existing=document.querySelector("link[data-lacuna-chat-css=\""+url+"\"]");if(existing)return Promise.resolve();return new Promise(function(resolve){var link=document.createElement("link");link.rel="stylesheet";link.href=url;link.dataset.lacunaChatCss=url;link.onload=resolve;link.onerror=resolve;document.head.appendChild(link);});}window.loadLacunaChatPanel=function(){if(!loadPromise)loadPromise=Promise.all(cssUrls.map(loadCss)).then(function(){return import(moduleUrl);});return loadPromise;};function schedule(){if(window.requestIdleCallback){requestIdleCallback(window.loadLacunaChatPanel,{timeout:2500});}else{setTimeout(window.loadLacunaChatPanel,1200);}}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",schedule,{once:true});else schedule();document.addEventListener("pointerdown",function(e){var target=e.target instanceof Element?e.target:null;if(target&&target.closest("[data-search-ask],[data-lacuna-chat-root],[data-lacuna-chat-open-button]"))window.loadLacunaChatPanel();},{capture:true,passive:true});document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target||!target.closest("[data-lacuna-chat-open-button]")||window.lacunaChatPanel)return;e.preventDefault();e.stopImmediatePropagation();window.__lacunaPendingChatOpen=true;window.loadLacunaChatPanel();},{capture:true});document.addEventListener("keydown",function(e){if((e.metaKey||e.ctrlKey)&&e.key==="/"&&!window.lacunaChatPanel){e.preventDefault();window.__lacunaPendingChatOpen=true;window.loadLacunaChatPanel();}},{capture:true});})();</script>
+<script src="/assets/shell-nav-overflow-8fb90b354bb0.js"></script>
+<script src="/assets/shell-theme-toggle-1dc7d9af1636.js"></script>
+</body></html>

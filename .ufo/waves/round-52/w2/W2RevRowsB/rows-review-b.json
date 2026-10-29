@@ -1,0 +1,283 @@
+{
+ "seat": "W2RevRowsB",
+ "lane_tip": "87301bacca90c03fa915716fbe6d7023762c5ab3 (clone of lane HEAD; SKILL.md rows identical to the wave-1 drafts cell-for-cell)",
+ "population": "c2-before.txt MISSING positions 15-28 (14 rows) + existing order-check row; mapping: round35_c1_verify, round35_hardening, round36_c2_verify, round45_c1_verify, round45_c2_verify, round46_c1_verify, round46_c2_verify, round46_c3_verify, round50_c1_verify, round50_c2_audit, round51_routing, round51_surfaces, routed_open, tb2_grader_probe",
+ "counts": {
+  "rows_reviewed": 15,
+  "true": 11,
+  "false_or_partly_false": 4,
+  "counter_defects": 1
+ },
+ "rows": [
+  {
+   "name": "order-check",
+   "lane_line": 590,
+   "verdict": "TRUE",
+   "false_claims": [],
+   "checked": [
+    "entry flags (3 required; plans/order_check.py:143-145)",
+    "verdict 0 strings and :204-206",
+    "verdict 1 clause names and :184-202 (ctl1 run)",
+    "verdict 2 ORDER ERROR/RESULT and :151-175,:207-210 (ctl2 run rc=2)",
+    "selftest: no --selftest in script (grep: no match)",
+    "falsifier mutants O04/O12/O14 exist in plans/round40_c1_verify.py:209,215,219; witness/ tracked",
+    "pinned freeze bbb1095 / receipt 055748f / claims_dir match live output",
+    "scope: git subcommands only (grep)"
+   ],
+   "notes": "A3 treatment accepts this cell (correct per Amendment A3). The counter-level masking defect is reported separately (counter_findings[0])."
+  },
+  {
+   "name": "round35-c1-coverage",
+   "lane_line": 624,
+   "verdict": "TRUE",
+   "false_claims": [],
+   "checked": [
+    "entry flags --lane/--fleet",
+    "verdict strings checks=6 defects=M / PREDICATE C1 pass|fail (main, lines 211-213)",
+    "--selftest rc=2 (measured)",
+    "V4 DEFECT knowledge files=55 index rows=54 (measured, matches cell)",
+    "pins 44a05a24/9ede4664/1bb2af1d match FILES table",
+    "uv fallback when Bio absent (lines 165-168)"
+   ],
+   "notes": "Cell already states the V4 red-by-construction; the 0-branch is not reached at 87301ba."
+  },
+  {
+   "name": "round35-hardening",
+   "lane_line": 625,
+   "verdict": "TRUE",
+   "false_claims": [],
+   "checked": [
+    "flags --lane --repo --skip (argparse)",
+    "--skip H6 -> \"H6 skipped\", hardening run=5 failed=0 (measured rc=0)",
+    "run=6 failed=0 at clean clone (measured rc=0)",
+    "H6 counts untracked: one untracked file -> H6 FAIL untracked_anywhere=1, rc=1 (measured; live-lane count 2 is tree-dependent and not re-measured)",
+    "FREEZE 11d6453 (line 25)",
+    "--selftest rc=2"
+   ],
+   "notes": "Live-lane figure untracked_anywhere=2 is a historical, tree-dependent number; the mechanism is confirmed."
+  },
+  {
+   "name": "round36-c2",
+   "lane_line": 626,
+   "verdict": "TRUE",
+   "false_claims": [],
+   "checked": [
+    "flags --lane --fleet",
+    "verdict strings checks=6 defects=n / PREDICATE C2 pass|fail (lines 228-230)",
+    "measured W4 DEFECT knowledge files=55 index rows=54 checks=6 defects=1 rc=1 (matches cell)",
+    "PROBE_SHA256 d58194c8 (line 41); captures 345c3bd0/4770437e/4f7ac05e (lines 42-50)",
+    "control-c2-nothing.txt and control-c2-skip.txt both read checks=6 defects=4",
+    "--selftest rc=2"
+   ],
+   "notes": "W5 ok at 87301ba (probe byte-equal to receipt)."
+  },
+  {
+   "name": "round45-c1",
+   "lane_line": 627,
+   "verdict": "TRUE",
+   "false_claims": [],
+   "checked": [
+    "flags --lane --work --jobs",
+    "SETUP --work inside lane -> rc 2 (line 251)",
+    "measured PINS total=33 mismatched=0; REFUSALS total=10 clean=10 leaked=0; HONEST fixtures=104 admitted=104; CALIBRATION advertised=10 contradicted=0; PREDICATE C1 pass rc=0 (all match cell)",
+    "round44 pin 6cf05323 (sha prefix matches)",
+    "battery42-44 = 22 modules; refusals45 = 10 modules",
+    "control-c1-nothing.txt (clean=0 leaked=10 contradicted=10 fail) and control-c1-fence-keyed_name.txt (contradicted=0 pass) match cell",
+    "clean clone git status --porcelain empty after run"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "round45-c2",
+   "lane_line": 628,
+   "verdict": "TRUE (disclosed tip result)",
+   "false_claims": [],
+   "checked": [
+    "flags --lane --work (created if absent, line 571)",
+    "V11 measured states=48 grader_pass=18 grader_fail=30 disagree=0 (matches)",
+    "controls: always-true disagree=30, substring 12, password-eq 21, lookup-table lint DEFECT, membership ok (all match)",
+    "spec 2f924ffa, gate ea638822, probe 9363e03e, dry table 46036abe (prefixes match)",
+    "measured at 87301ba: V2 DEFECT (P8 knowledge 55/54), checks=11 defects=1, rc=1 (matches the cell text; the 0-branch is not reached at this tip)",
+    "--selftest rc=2"
+   ],
+   "notes": "The verdict map 0-branch is not reached at 87301ba; the cell says so in its measured note."
+  },
+  {
+   "name": "round46-c1",
+   "lane_line": 629,
+   "verdict": "TRUE except control count (minor)",
+   "false_claims": [
+    {
+     "cell": "selftest",
+     "claim": "falsifiers are the 35 controls under .ufo/waves/round-46/claims/",
+     "measured": "34 files named control-*.txt in .ufo/waves/round-46/claims/ (38 entries total; stage2_controls.py is the generator script)",
+     "corrected": "the 34 `control-*.txt` files under .ufo/waves/round-46/claims/ (generator: stage2_controls.py)"
+    }
+   ],
+   "checked": [
+    "verdict strings all reproduced: PINS total=65 mismatched=0; REFUSALS total=20 clean=20 leaked=0 read=0 hung=0 build_errors=0; SEALED total=12 clean=12; HONEST fixtures=104 admitted=104; CALIBRATION advertised=32 contradicted=0; REASON -; PREDICATE C1 pass rc=0",
+    "REFUSAL_FLOOR=20, SEALED_FLOOR=12, HONEST_TOTAL=104, PAD=24 (lines 190-193)",
+    "refusals45 f1-f10 (10), refusals46 f1-f20 (20), sealed46 12, battery 22",
+    "--work outside lane (line 504)",
+    "c1-landing.txt and corpus/evidence/round45/c1-counter-run.txt exist",
+    "control-c1-base-fence.txt REFUSALS 20 clean=10 leaked=10 contradicted=22 REASON; control-c1-fence-keyed_name.txt contradicted=32"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "round46-c2",
+   "lane_line": 630,
+   "verdict": "TRUE",
+   "false_claims": [],
+   "checked": [
+    "flags --lane --work only; --selftest rc=2 (measured)",
+    "verdict lines A/B/C/D reproduced exactly (A anchorline live=0 repaired=8 base_rows=149 base_missing=0 base_changed=0; B states=16 grader_pass=10 grader_fail=6 disagree=0; C source_ranges=9 source_ranges_bad=0 errata_marks=5/5; D selftest exit=0; checks=4 defects=0; PREDICATE C2 pass)",
+    "SETUP path returns 1 (line 203-205), contrary to docstring 2 as the cell says",
+    "pins 35d02dc5, ab6825e3, 2dc14fc1 match sha256sum",
+    "base 64ba8385 is a commit in clone history"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "round46-c3",
+   "lane_line": 631,
+   "verdict": "FALSE in two claims (filler result, V2 attribution)",
+   "false_claims": [
+    {
+     "cell": "verdict",
+     "claim": "`checks=7 defects=0` under `--filler`",
+     "measured": "`--filler` run at 87301ba: checks=7 defects=6, PREDICATE C3 fail, rc=1 (V4, V6, V7, V9, V10, V12 DEFECT; V3 ok)",
+     "corrected": "under `--filler` (the do-nothing control, expected red) the counter prints `checks=7 defects=6`, `PREDICATE C3 fail`, exit 1; at 87301ba V4, V6, V7, V9, V10, V12 are DEFECT and V3 is ok"
+    },
+    {
+     "cell": "scope",
+     "claim": "the gate's own `P8`/`P9` fired on the clone's untracked wave files",
+     "measured": "clean clone at 87301ba: gate P8 DEFECT `index_rows=54 knowledge_files=55` (the round-36 W4 drift); P9 ok `untracked=0`",
+     "corrected": "the gate's own `P8` fires on `knowledge files=55 index rows=54` (the round-36 W4 drift); `P9` reports `untracked=0` in a clean clone"
+    }
+   ],
+   "checked": [
+    "flags --lane --work --filler",
+    "V1 ok listed=8 wrong=0 extra=0; V2 DEFECT spec=frozen gate=frozen gate_exit=1; V7 DEFECT rows=5 tags=7; V8 DEFECT order_exit=1 result=not-PASS; V11 ok states=60 grader_pass=15 grader_fail=45 disagree=0; V13 ok filler_checks=7 defects=6 substantive=V4,V7,V9,V10,V12 (all match)",
+    "default mode at 87301ba: checks=13 defects=3 PREDICATE C3 fail rc=1 (V2, V7, V8)",
+    "the 0-branch (checks=13 defects=0, PREDICATE C3 pass) is not reached at 87301ba",
+    "pkg-spec-r46 cell digest 560c7bfb is the masked digest (raw sha256 f9a0e3cc); cell says masked, so not a false claim"
+   ],
+   "notes": "The 0-branch remains unobserved at HEAD; state the current result beside it."
+  },
+  {
+   "name": "round50-c1",
+   "lane_line": 632,
+   "verdict": "TRUE",
+   "false_claims": [],
+   "checked": [
+    "flags --lane --work --fence --skip-mutants --allow-dirty",
+    "measured REV, TREE dirty=0, POPULATION fixtures=126 pin=b5197f94 mismatched=0, HONEST fixtures=126 admitted=126 refused=0 error=0, REFUSALS total=20 clean=20 leaked=0, SEALED total=12 clean=12 leaked=0 and SEALED total=20 clean=20 leaked=0, MUTANTS total=15 caught=15 broken=0 floor=12 verdict=met, PREDICATE R50-C1 pass rc=0 (all match)",
+    "fence sha256 57adce4a matches printed digest",
+    "--work must exist: absent -> FileNotFoundError rc=1 (measured)",
+    "mutants file has 15 mutants; docstring says total=23 (disclosed in cell)",
+    "TREE dirty path: code sets ok=False on dirty tree (lines 224-226); not re-run (6-minute run)"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "round50-c2",
+   "lane_line": 633,
+   "verdict": "TRUE",
+   "false_claims": [],
+   "checked": [
+    "flags --lane --selftest",
+    "measured POINTERS total=292 paths=228 hashes=64 resolved=292 exists=216 superseded=3 never-landed=9 unresolved=0 rc=0",
+    "--selftest: SELFTEST pristine_rc=0 bogus_rc=1 new_unresolved=[...] verdict=ok, rc=0 (exact match)",
+    "scanned files SCORECARD.md/SHONEN.md/PROVINCE.md present; 71f5f5f exists",
+    "before-count 12 at 71f5f5f is historical, not re-measured"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "round51-routing",
+   "lane_line": 634,
+   "verdict": "FALSE in two places",
+   "false_claims": [
+    {
+     "cell": "verdict",
+     "claim": "· no `2` path exists",
+     "measured": "`--bogus` -> argparse exit 2 (measured); unreadable --ledger -> FileNotFoundError exit 1 (measured)",
+     "corrected": "· `2` argparse usage only (measured `--bogus` → exit 2); the script declares no setup exit; an absent `--ledger` path raises `FileNotFoundError` with exit 1 (measured)"
+    },
+    {
+     "cell": "scope",
+     "claim": "writes only a mkdtemp scratch (kept with `--scratch`)",
+     "measured": "the script writes only its scratch; with --run-checks the 41 ledger `check` strings run under bash -lc with cwd=lane and are not sandboxed (observed 41 ran/41 passed at 87301ba; clean clone git status stayed empty)",
+     "corrected": "the script itself writes only a mkdtemp scratch (kept with `--scratch`); the ledger `check` strings it runs under `--run-checks` execute with cwd = lane and are not sandboxed, so any write is the row's command (none at 87301ba)"
+    }
+   ],
+   "checked": [
+    "flags --lane --ledger --run-checks --scratch --selftest (all match)",
+    "measured --selftest: cases=11 failures=0, ALL PASS, rc=0 (8 red / 3 green pattern confirmed in source lines 205-216)",
+    "without --run-checks figures from cell not re-measured; with --run-checks: LEDGER rows=75, FIELDS complete=75, OWNERS attributed=75, DISPOSITIONS set=75, SOURCES resolved=75, CHECKS present=75, VERIFIED ran=41 passed=41 failed=0, PREDICATE R51-C2 pass rc=0"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "round51-surfaces",
+   "lane_line": 635,
+   "verdict": "TRUE",
+   "false_claims": [],
+   "checked": [
+    "flags --lane --manifest --province --selftest",
+    "measured ANCHORS total=20 dup=0 missing=0; PROBES run=20 present=14 absent=6 errors=0; RESOLVE observed_present=14 floor=13 verdict=met; PREDICATE R51-C1 pass rc=0 (all match)",
+    "--selftest: cases=9 failures=0 ALL PASS rc=0",
+    "absent manifest -> FileNotFoundError rc=1 (matches)",
+    "--bogus -> rc=2 (matches)",
+    "manifest: 20 surfaces, 2 sections, resolve_floor 13; pins 90c87c88 (grader.py), 489f938a (attrib_probe.py), 42d86d99 (shim.py) all match live sha256 prefixes; port targets present in manifest"
+   ],
+   "notes": "Probe counts are host-state dependent (loopback services); the numbers match today, not guaranteed later."
+  },
+  {
+   "name": "routed-findings",
+   "lane_line": 636,
+   "verdict": "FALSE in one measured number",
+   "false_claims": [
+    {
+     "cell": "verdict",
+     "claim": "(:154-160; measured `mismatched=1`, exit 1)",
+     "measured": "clean clone at 87301ba: `OBSERVE rows=75 mismatched=43`, rc=1 with LANE unset; `OBSERVE rows=75 mismatched=12` with LANE exported. Checks read host paths (~/Projects/..., 127.0.0.1 ports) and ${LANE:?} (rc=127)",
+     "corrected": "(:154-160; measured at 87301ba in a clean clone: `OBSERVE rows=75 mismatched=43`, exit 1 with LANE unset and `mismatched=12` with LANE exported; host-state dependent because the checks read host paths, loopback ports and `${LANE:?}`)"
+    }
+   ],
+   "checked": [
+    "flags --lane --file --list --observe --timeout --selftest",
+    "measured ROWS total=75 open=31 blocked=1 closed=41 refused=2; routed_open=32 oldest_round=39; rc=0 (match)",
+    "invalid closed row -> DEFECT line=1 a closed row must carry closing evidence in `close`, ROWS total=1 invalid=1, rc=1 (exact match; routed_open line withheld)",
+    "--file corpus/defects.jsonl -> SETUP refusing defects.jsonl ... rc=2 (match); missing file -> SETUP ... rc=2 (match)",
+    "--selftest: SELFTEST 12/12, rc=0 (match)",
+    "--selftest ok; owner file considerthese/2026-10-26.md exists in the lane (kengaku-shokunin/considerthese/)"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "tb2-grader-probe",
+   "lane_line": 637,
+   "verdict": "TRUE",
+   "false_claims": [],
+   "checked": [
+    "flags: only --lane (argparse); --dry -> rc=2 (measured)",
+    "uv run --no-project --with biopython==1.85 ... -> cases=18 observed_pass=5 observed_fail=13 mismatches=0 rc=0 (exact match)",
+    "output byte-equal to corpus/evidence/round35/tb2-grader-probe.txt (diff empty; sha256 2359d906)",
+    "no Bio -> ModuleNotFoundError rc=1 (match)",
+    "grader sha256 44a05a24 (line 24) and TIP pin 2fd12b88; test.sh pins biopython==1.85 (line 21)",
+    "2766 = 3*((8+259+158+235+182)+80) (arithmetic verified)"
+   ],
+   "notes": "18 synthetic predictions written from a static reading: historical provenance, not re-checkable here."
+  }
+ ],
+ "counter_findings": [
+  {
+   "id": "A3-negation-mask",
+   "file": "plans/round52_c2_registry.py selftest_unbacked()",
+   "defect": "the negation test returns False for the WHOLE cell, so any `no ... --flag` mention within 24 chars suppresses the check for every flag in that cell. Amendment A3 says the parser ignores a flag explicitly negated; the code does more. Measured: `no \\`--selftest\\` in the script; self-test \\`python3 plans/order_check.py --selftest\\` (exit 0)` -> SELFTEST-UNBACKED False (should be True).",
+   "prototype": "/fast/scratch/hyaku/kengaku-r52/w2-W2RevRowsB/a3-fix-probe.py (span-scoped attribution: flags count only inside a backtick span that begins `python3 <script>`). Result: identical verdicts on all 74 registry rows versus the frozen counter, and the masked false claim is caught. A naive narrowing (strip only the negated flag, keep whole-cell attribution) FLAGS the landed order-check cell (false positive: --receipt/--claims are attributed to round40_c1_verify.py, which the cell names only as a mutant host)."
+  }
+ ]
+}

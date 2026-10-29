@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r52/w2-W2RevRowsB/lane/plans/round51_routing.py", line 246, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/fast/scratch/hyaku/kengaku-r52/w2-W2RevRowsB/lane/plans/round51_routing.py", line 242, in main
+    return check(lane, ledger, args.run_checks, scratch)
+  File "/fast/scratch/hyaku/kengaku-r52/w2-W2RevRowsB/lane/plans/round51_routing.py", line 82, in check
+    rows = rows_of(ledger)
+  File "/fast/scratch/hyaku/kengaku-r52/w2-W2RevRowsB/lane/plans/round51_routing.py", line 70, in rows_of
+    for n, line in enumerate(path.read_text().split("\n"), 1):
+                             ~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 787, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/fast/scratch/hyaku/kengaku-r52/w2-W2RevRowsB/nope.jsonl'

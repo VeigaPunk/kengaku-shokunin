@@ -1,0 +1,38 @@
+[
+  {
+    "task": "crack-7z-hash",
+    "test": "test_solution_file",
+    "quote": "def test_solution_file():\n    \"\"\"Test that the solution file exists at the expected path.\"\"\"\n    solution_path = Path(\"/app/solution.txt\")\n\n    assert os.path.exists(solution_path), (\n        f\"Solution file {solution_path} does not exist.\"",
+    "reader": "W2ExecConfirmC",
+    "confirmed": true,
+    "lines": "8-13",
+    "note": "asserts only os.path.exists(/app/solution.txt); content is checked only in the separate test_solution_content"
+  },
+  {
+    "task": "extract-elf",
+    "test": "test_extract_js_exists",
+    "quote": "def test_extract_js_exists():\n    \"\"\"Test that the extract.js file exists\"\"\"\n    extract_path = Path(\"/app/extract.js\")\n    assert extract_path.exists(), f\"File {extract_path} does not exist\"\n    assert extract_path.is_file(), f\"{extract_path} is not a file\"",
+    "reader": "W2ExecConfirmC",
+    "confirmed": true,
+    "lines": "309-313",
+    "note": "asserts only extract_path.exists() and is_file(); no content/run in this test (test_output_matches_reference runs it separately)"
+  },
+  {
+    "task": "financial-document-processor",
+    "test": "test_directories_created",
+    "quote": "def test_directories_created():\n    \"\"\"Test that invoices and other directories were created.\"\"\"\n    invoices_dir = Path(\"/app/invoices\")\n    other_dir = Path(\"/app/other\")\n\n    assert invoices_dir.exists() and invoices_dir.is_dir(), (\n        \"/app/invoices directory should exist\"\n    )\n    assert other_dir.exists() and other_dir.is_dir(), (\n        \"/app/other directory should exist\"\n    )",
+    "reader": "W2ExecConfirmC",
+    "confirmed": true,
+    "lines": "18-28",
+    "note": "asserts only exists() and is_dir() on /app/invoices and /app/other; an empty pair of directories satisfies it"
+  },
+  {
+    "task": "financial-document-processor",
+    "test": "test_summary_csv_exists",
+    "quote": "def test_summary_csv_exists():\n    \"\"\"Test that summary.csv exists in /app/invoices/.\"\"\"\n    summary_file = Path(\"/app/invoices/summary.csv\")\n    assert summary_file.exists(), \"/app/invoices/summary.csv should exist\"",
+    "reader": "W2ExecConfirmC",
+    "confirmed": true,
+    "lines": "100-103",
+    "note": "asserts only summary_file.exists() on /app/invoices/summary.csv (second presence-only test the counter did not list; content is in test_summary_csv_structure/_content)"
+  }
+]

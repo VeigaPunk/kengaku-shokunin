@@ -1,0 +1,11 @@
+--- tip/plans/round52_c2_registry.py	2026-10-28 20:43:53.000000000 -0300
++++ mut/M9.py	2026-10-28 20:59:32.221887315 -0300
+@@ -24,7 +24,7 @@
+ # The advertised universe: a lane-owned script named with a runnable command in one of
+ # the lane's self-assessment files.  Depth is bounded on purpose: fixture helpers under
+ # plans/fixtures/ are support code, not advertised instruments.
+-CMD = re.compile(r"python3 ((?:plans/[A-Za-z0-9_]+\.py|corpus/evidence/[A-Za-z0-9_]+/[A-Za-z0-9_]+\.py|grader\.py))")
++CMD = re.compile(r"([A-Za-z0-9_./-]+\.[a-z]+)")
+ FLAG = re.compile(r"(--[a-z][a-z0-9-]*)")
+ SELF_FILES = ("SCORECARD.md", "SKILL.md", "LOG.md", "corpus/README.md")
+ REGISTRY_HEADING = "## Gate/probe registry"

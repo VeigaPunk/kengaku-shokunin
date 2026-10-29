@@ -1,0 +1,22 @@
+grader=corpus/evidence/round35/tb2-eval/test_outputs.py sha256=44a05a2482aa7a8e70de95478de6560b6188e630336fca9d02b62dc69a096582 pin=2fd12b88aafdd04a52c298e3940bcb189f9766d6 biopython=1.85
+components_aa=8,259,158,235,182 max_passing_nt=2766 cap_nt=3000
+case=valid-balanced predicted=pass observed=pass match=yes nt=2586 gcwin=ok assertion='-' requirement='all bullets: GS linkers 5..20, order, no Met/stop, GC windows, <=3000 nt'
+case=uppercase predicted=pass observed=pass match=yes nt=2586 gcwin=ok assertion='-' requirement='file holds only the sequence (case is not specified)'
+case=no-trailing-newline predicted=pass observed=pass match=yes nt=2586 gcwin=ok assertion='-' requirement='file holds only the sequence'
+case=trailing-empty-line predicted=fail observed=fail match=yes nt=2586 gcwin=ok assertion='Invalid number of lines in gblock.txt.' requirement='No empty lines'
+case=start-codon-prefixed predicted=fail observed=fail match=yes nt=2589 gcwin=ok assertion='Start of gBlock must match flag protein.' requirement='no start codon / remove N-terminal Met'
+case=stop-codon-appended predicted=fail observed=fail match=yes nt=2589 gcwin=ok assertion='End of gBlock must match snap protein.' requirement='no stop codon'
+case=linker-4aa predicted=fail observed=fail match=yes nt=2583 gcwin=ok assertion='Linker must be between 5 and 20 amino acids long.' requirement='linkers 5..20 aa'
+case=linker-21aa predicted=fail observed=fail match=yes nt=2634 gcwin=ok assertion='Linker must be between 5 and 20 amino acids long.' requirement='linkers 5..20 aa'
+case=linker-20aa predicted=pass observed=pass match=yes nt=2631 gcwin=ok assertion='-' requirement='linkers 5..20 aa (upper bound inclusive)'
+case=linker-non-gs predicted=fail observed=fail match=yes nt=2586 gcwin=ok assertion='Linker must only contain G and S amino acids.' requirement='only GS linkers between subproteins'
+case=linker-g-only predicted=pass observed=pass match=yes nt=2586 gcwin=ok assertion='-' requirement='GS linkers (a G-only linker is not distinguished)'
+case=n-terminal-linker predicted=fail observed=fail match=yes nt=2601 gcwin=ok assertion='Start of gBlock must match flag protein.' requirement='no GS linker on the N terminus'
+case=c-terminal-linker predicted=fail observed=fail match=yes nt=2601 gcwin=ok assertion='End of gBlock must match snap protein.' requirement='no GS linker on the C terminus'
+case=donor-acceptor-swapped predicted=fail observed=fail match=yes nt=2586 gcwin=ok assertion='Fusion protein must be in the order flag - donor - dhfr - acceptor - snap' requirement='subprotein order'
+case=donor-one-substitution predicted=fail observed=fail match=yes nt=2586 gcwin=ok assertion='Fusion protein must be in the order flag - donor - dhfr - acceptor - snap' requirement='donor matches its PDB sequence'
+case=donor-repeated predicted=fail observed=fail match=yes nt=3378 gcwin=ok assertion='gBlock must be at most 3000 nucleotides.' requirement='do not repeat a protein'
+case=non-acgt-base predicted=fail observed=fail match=yes nt=2586 gcwin=ok assertion='gBlock must contain only A, T, C, G.' requirement='gBlock is a DNA sequence'
+case=gc-window-high predicted=fail observed=fail match=yes nt=2586 gcwin=violated assertion='GC content must be between 30 and 70% in all 50 nucleotide windows.' requirement='GC 30..70% in every 50-nt window'
+cases=18 observed_pass=5 observed_fail=13 mismatches=0
+rc=0

@@ -309,3 +309,19 @@ classified+excluded`, and `PREDICATE R52-C1-A5` (all frozen legs, with the exclu
 digest-pinned). The A5 predicate exists so the closure/operator can rule on whether a digest-pinned
 absence should count; it never replaces the literal verdict, and exit code follows the literal one.
 Wave-2 critic seats must attack A5 (does it launder a miss?).
+
+## Amendment A6 — 2026-10-28, after wave 2, before the scored after-run (C2 counter, stricter only; disclosed)
+
+Wave-2 `W2RevRowsA` and `W2MutC2` found that `parse_rows` dropped any registry row whose cell holds an
+escaped pipe (`\|`) — the pre-round `gate-flip-check` row (SKILL.md, old line 609) was therefore a *false
+MISSING* at the base tip, and wave 1 appended a second `gate-flip-check` row beside it (a stale duplicate
+with false pinned values: `SELFTEST ok=19/19`, really 27/27). Counter changes, each can only fail more:
+(i) cells are split on unescaped pipes and `\|` is unescaped before the 8-cell test; (ii) a `DUPLICATE`
+leg (same row name twice) joins the predicate. The stale row was deleted and 28 wave-1 rows were
+replaced by the wave-2-corrected set (`W2ExecRowsIntegrate`: 30 rows incl. the two round-52 counters;
+`W2ScribeRowsCheck`/`W2RevRowsB` corrections to `round46-c1/c3`, `round51-routing`, `routed-findings`
+applied). **Not adopted** (carried, named in the lesson): the span-scoped negation fix for
+`SELFTEST-UNBACKED` (`W2RevRowsB` finding A3-negation-mask — whole-cell negation masks a false
+`--selftest` claim), and the unfrozen mutation controls K5 (decoy table) and K7 (entry-missing) that
+`W2MutC2` showed survive in `--selftest`. Baseline numbers are unchanged and re-derivable
+(`c2-before.txt`: `MISSING 28`).

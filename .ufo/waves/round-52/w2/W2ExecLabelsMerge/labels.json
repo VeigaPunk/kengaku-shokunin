@@ -1,0 +1,154 @@
+{
+ "labels": [
+  {
+   "task": "adaptive-rejection-sampler",
+   "class": "V2",
+   "why": "runs Rscript subprocesses; also reads ars.R and checks regex content"
+  },
+  {
+   "task": "build-cython-ext",
+   "class": "V2",
+   "why": "behaviour marker subprocess.run (git clone, pytest); vocabulary finds no content read"
+  },
+  {
+   "task": "caffe-cifar-10",
+   "class": "V2",
+   "why": "subprocess runs caffe binary; reads solver content with open/re"
+  },
+  {
+   "task": "circuit-fibsqrt",
+   "class": "V2",
+   "why": "compiles and runs sim via subprocess; reads gates.txt line count"
+  },
+  {
+   "task": "compile-compcert",
+   "class": "V2",
+   "why": "subprocess drives ccomp probes; reads ELF magic and readelf output"
+  },
+  {
+   "task": "count-dataset-tokens",
+   "class": "V3",
+   "why": "no behaviour; reads answer.txt content and asserts token count substring"
+  },
+  {
+   "task": "db-wal-recovery",
+   "class": "V3",
+   "why": "no behaviour marker; opens recovered.json and compares structure, values"
+  },
+  {
+   "task": "dna-insert",
+   "class": "V2",
+   "why": "subprocess oligotm checks primer melting temperatures; reads primers.fasta content"
+  },
+  {
+   "task": "feal-differential-cryptanalysis",
+   "class": "V2",
+   "why": "os.popen compiles attack module; content hit only from popen substring"
+  },
+  {
+   "task": "financial-document-processor",
+   "class": "V3",
+   "why": "no behaviour; reads and hashes invoice files, parses summary.csv rows"
+  },
+  {
+   "task": "fix-ocaml-gc",
+   "class": "V3",
+   "why": "no behaviour; reads tests.txt and asserts pass-count substring"
+  },
+  {
+   "task": "git-multibranch",
+   "class": "V2",
+   "why": "os.popen runs embedded verify.sh; markers largely inside quoted shell script"
+  },
+  {
+   "task": "hf-model-inference",
+   "class": "V2",
+   "why": "requests hits Flask endpoints; presence-only os.path.exists otherwise"
+  },
+  {
+   "task": "large-scale-text-editing",
+   "class": "V2",
+   "why": "subprocess runs vim headlessly; reads macro script and keystroke outputs"
+  },
+  {
+   "task": "log-summary-date-ranges",
+   "class": "V3",
+   "why": "no behaviour; opens summary.csv and compares rows to hard-coded counts"
+  },
+  {
+   "task": "make-mips-interpreter",
+   "class": "V2",
+   "why": "Popen runs vm.js; reads frame.bmp pixels, compares stdout text"
+  },
+  {
+   "task": "model-extraction-relu-logits",
+   "class": "V2",
+   "why": "os.popen runs steal.py; loads stolen matrix, compares row ratios"
+  },
+  {
+   "task": "mteb-retrieve",
+   "class": "V3",
+   "why": "no behaviour; reads result.txt, asserts exact single-line content"
+  },
+  {
+   "task": "openssl-selfsigned-cert",
+   "class": "V2",
+   "why": "subprocess openssl queries key/cert; reads PEM and verification file content"
+  },
+  {
+   "task": "path-tracing",
+   "class": "V2",
+   "why": "subprocess compiles and chroot-runs image; reads source and output images"
+  },
+  {
+   "task": "polyglot-rust-c",
+   "class": "V2",
+   "why": "os.popen compiles both languages; subprocess runs binaries, compares outputs"
+  },
+  {
+   "task": "prove-plus-comm",
+   "class": "V2",
+   "why": "subprocess recompiles proof; reads plus_comm.v content and checks markers"
+  },
+  {
+   "task": "pytorch-model-recovery",
+   "class": "V1",
+   "why": "existence checks only hit vocabulary; torch.load/allclose comparisons aren't content markers"
+  },
+  {
+   "task": "query-optimize",
+   "class": "V3",
+   "why": "no behaviour; reads SQL files, executes sqlite queries, compares exact results"
+  },
+  {
+   "task": "regex-log",
+   "class": "V3",
+   "why": "no behaviour; reads regex file, compiles and applies it to logs"
+  },
+  {
+   "task": "sam-cell-seg",
+   "class": "V2",
+   "why": "subprocess runs convert_masks.py; reads CSVs, compares polygon IoU content"
+  },
+  {
+   "task": "sparql-university",
+   "class": "V3",
+   "why": "no behaviour; reads SPARQL file, executes query, compares result set"
+  },
+  {
+   "task": "torch-pipeline-parallelism",
+   "class": "V3",
+   "why": "no file-level behaviour marker; reads pipeline source, spawns local multiprocessing workers"
+  },
+  {
+   "task": "tune-mjcf",
+   "class": "V3",
+   "why": "no behaviour; reads XML models, simulates locally, compares final states"
+  },
+  {
+   "task": "winning-avg-corewars",
+   "class": "V2",
+   "why": "subprocess runs pmars tournaments; hashes and reads warrior files"
+  }
+ ]
+}

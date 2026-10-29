@@ -1,0 +1,37 @@
+== 1. Amended per-test class of the cited examples
+pytorch-model-recovery/test_model_file_exists: class=P3 file_cls=V1 BEHAV_T=None VALUE='in'
+   VALUE context: ' directory the agent operated in (the WORKDIR i'
+torch-tensor-parallelism/test_parallel_linear_exists: class=P2 file_cls=V1 BEHAV_T='dist.' VALUE='in'
+   VALUE context: ' named parallel_linear.py\n    in the expected d'
+   BEHAV context: '55"\n\n    backend = "gloo"\n    dist.init_process_gr'
+bn-fit-modify/test_bn_sample_exists: class=P1 file_cls=V3 BEHAV_T=None VALUE=None
+
+== 2. Candidate pool: frozen (file-level V1/V4) vs amended (>=1 P1 OR V1/V4)
+frozen pool (V1/V4): 2 ['pytorch-model-recovery', 'torch-tensor-parallelism']
+amended P1 tasks: 27
+amended pool (code): 29
+P1 tasks whose file-level class is V2/V3 (grader already has content/behaviour check): 27 of 27
+candidates with zero P1 tests admitted only by the V1/V4 OR-clause: ['pytorch-model-recovery', 'torch-tensor-parallelism']
+
+== 3. Sensitivity of the P1 pool to rule variants (same tests, different vocabulary)
+as-coded                                   P1 tests= 33 tasks= 27
+as-coded, comments/docstrings stripped     P1 tests= 46 tasks= 36
+as-coded minus bare `in`                   P1 tests= 59 tasks= 41
+comparison-only, original BEHAVIOUR        P1 tests= 61 tasks= 43
+
+== 4. Helper defs absorbed into a test block (split only at def test_)
+test blocks containing non-test defs: 9
+   ('build-pov-ray', 'test_povray_built_from_correct_source', ['calculate_md5'])
+   ('circuit-fibsqrt', 'test_gates_file_size', ['fibonacci', 'isqrt'])
+   ('custom-memory-heap-crash', 'test_protected_files_not_modified', ['compile_program', 'run_program'])
+   ('install-windows-3.11', 'test_qemu_running_with_correct_params', ['_calculate_file_hash', '_parse_dos_filename', '_run_mdir', '_extract_file', '_get_unique_filename', '_extract_all_files_from_disk', '_extract_core_files', '_verify_core_file'])
+   ('install-windows-3.11', 'test_windows_311_core_files_verification', ['_get_partition_offset'])
+   ('torch-pipeline-parallelism', 'test_no_hooks_in_pipeline_parallel', ['_setup_process_group', '_cleanup_process_group', '_register_hooks', '_test_pipeline_parallel'])
+   ('torch-tensor-parallelism', 'test_parallel_linear_exists', ['_setup_process_group', '_cleanup_process_group', '_test_column_parallel_linear', '_test_row_parallel_linear'])
+   ('tune-mjcf', 'test_tuned_model_exists', ['simulate_model'])
+   ('tune-mjcf', 'test_correctness', ['simulation_time', 'drop_extreme_percentiles'])
+
+== 5. Sole-check heuristic for P1 tests (artefact named by no other P2/P3 test)
+P1 tests: gate-like=25 sole-check=2 no-literal=6
+   sole: ('hf-model-inference', 'test_model_downloaded')
+   sole: ('sam-cell-seg', 'test_python_file_exists')

@@ -1,0 +1,167 @@
+{
+ "A_exists_plus_compare": {
+  "tests": [
+   {
+    "test": "test_a_exists_and_compare",
+    "class": "P3"
+   }
+  ],
+  "expected": {
+   "test_a_exists_and_compare": "P3"
+  },
+  "file_level": "V3"
+ },
+ "B_parametrised": {
+  "tests": [
+   {
+    "test": "test_c0_prev_presence",
+    "class": "P3"
+   },
+   {
+    "test": "test_c_param_exists",
+    "class": "P1"
+   }
+  ],
+  "expected": {
+   "test_c0_prev_presence": "P1",
+   "test_c_param_exists": "P1"
+  },
+  "file_level": "V1"
+ },
+ "C_assert_in_if_and_raise": {
+  "tests": [
+   {
+    "test": "test_c1_if_assert_true",
+    "class": "P1"
+   },
+   {
+    "test": "test_c2_if_compare",
+    "class": "P3"
+   },
+   {
+    "test": "test_c3_if_raise_presence",
+    "class": "P0"
+   },
+   {
+    "test": "test_c4_if_raise_compare",
+    "class": "P0"
+   }
+  ],
+  "expected": {
+   "test_c1_if_assert_true": "P1",
+   "test_c2_if_compare": "P3",
+   "test_c3_if_raise_presence": "P1",
+   "test_c4_if_raise_compare": "P3"
+  },
+  "file_level": "V3"
+ },
+ "D_helper_call": {
+  "tests": [
+   {
+    "test": "test_d1_helper_before",
+    "class": "P1"
+   },
+   {
+    "test": "test_d2_helper_after",
+    "class": "P3"
+   },
+   {
+    "test": "test_d3_presence_then_module_helper",
+    "class": "P3"
+   },
+   {
+    "test": "test_d4_next",
+    "class": "P1"
+   }
+  ],
+  "expected": {
+   "test_d1_helper_before": "P1 (literal block rule; intent: P3)",
+   "test_d2_helper_after": "P1 (literal; intent: P3)",
+   "test_d3_presence_then_module_helper": "P1",
+   "test_d4_next": "P1"
+  },
+  "file_level": "V3"
+ },
+ "E_annotation_and_docstring": {
+  "tests": [
+   {
+    "test": "test_e1_annotated",
+    "class": "P3"
+   },
+   {
+    "test": "test_e2_doc_in",
+    "class": "P3"
+   }
+  ],
+  "expected": {
+   "test_e1_annotated": "P1",
+   "test_e2_doc_in": "P1"
+  },
+  "file_level": "V1"
+ },
+ "F_class_async": {
+  "tests": [
+   {
+    "test": "test_f0_presence",
+    "class": "P3"
+   }
+  ],
+  "expected": {
+   "test_f0_presence": "P1",
+   "test_f1_method_exists": "P1 (method)",
+   "test_f2_async_compare": "P3 (async)"
+  },
+  "file_level": "V3"
+ },
+ "G_content_without_compare": {
+  "tests": [
+   {
+    "test": "test_g1_startswith",
+    "class": "P0"
+   },
+   {
+    "test": "test_g2_read_truthy",
+    "class": "P1"
+   },
+   {
+    "test": "test_g3_re_match",
+    "class": "P0"
+   }
+  ],
+  "expected": {
+   "test_g1_startswith": "P3",
+   "test_g2_read_truthy": "P3 (content read; ambiguous)",
+   "test_g3_re_match": "P3"
+  },
+  "file_level": "V3"
+ },
+ "H_decorator_leak": {
+  "tests": [
+   {
+    "test": "test_h1_presence_only",
+    "class": "P3"
+   },
+   {
+    "test": "test_h2_compare",
+    "class": "P3"
+   }
+  ],
+  "expected": {
+   "test_h1_presence_only": "P1",
+   "test_h2_compare": "P3"
+  },
+  "file_level": "V3"
+ },
+ "I_size_nonempty": {
+  "tests": [
+   {
+    "test": "test_i1_size",
+    "class": "P3"
+   }
+  ],
+  "expected": {
+   "test_i1_size": "P1 (presence+nonempty; ambiguous)"
+  },
+  "file_level": "V1"
+ }
+}

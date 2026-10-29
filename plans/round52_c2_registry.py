@@ -51,7 +51,7 @@ def parse_rows(block: str) -> list[list[str]]:
     for line in block.splitlines():
         if not line.startswith("|"):
             continue
-        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        cells = [c.strip().replace("\\|", "|") for c in re.split(r"(?<!\\)\|", line.strip().strip("|"))]
         if len(cells) != 8:
             continue
         if set(cells[0]) <= set("-: "):
@@ -105,12 +105,14 @@ def collect(lane: Path):
     missing = sorted(set(adv) - set(reg))
     incomplete = [r[0] for r in rows if not all(r)]
     entry_missing = sorted(s for s in reg if not (lane / s).exists())
+    names = [r[0] for r in rows]
+    duplicate = sorted({n for n in names if names.count(n) > 1})
     unbacked = [r[0] for r in rows if selftest_unbacked(r[4], lane)]
-    return adv, rows, reg, missing, incomplete, entry_missing, unbacked
+    return adv, rows, reg, missing, incomplete, entry_missing, unbacked, duplicate
 
 
 def verdict(lane: Path) -> int:
-    adv, rows, reg, missing, incomplete, entry_missing, unbacked = collect(lane)
+    adv, rows, reg, missing, incomplete, entry_missing, unbacked, duplicate = collect(lane)
     print(f"ADVERTISED total={len(adv)}")
     print(f"REGISTERED total={len(reg)} rows={len(rows)}")
     print(f"MISSING {len(missing)}")
@@ -125,7 +127,10 @@ def verdict(lane: Path) -> int:
     print(f"SELFTEST-UNBACKED {len(unbacked)}")
     for r in unbacked:
         print(f"  SELFTEST-UNBACKED {r}")
-    ok = not (missing or incomplete or entry_missing or unbacked)
+    print(f"DUPLICATE {len(duplicate)}")
+    for r in duplicate:
+        print(f"  DUPLICATE-ROW {r}")
+    ok = not (missing or incomplete or entry_missing or unbacked or duplicate)
     print(f"PREDICATE R52-C2 {'pass' if ok else 'fail'}")
     return 0 if ok else 1
 
@@ -153,7 +158,7 @@ def selftest(lane: Path) -> int:
         (t / "LOG.md").write_text("x\n")
         (t / "corpus" / "README.md").write_text("x\n")
         (t / "corpus" / "knowledge" / "k.md").write_text("x\n")
-        adv, rows, reg, missing, incomplete, entry_missing, unbacked = collect(t)
+        adv, rows, reg, missing, incomplete, entry_missing, unbacked, _dup = collect(t)
         if missing or incomplete or entry_missing or unbacked:
             print(f"SELFTEST FAIL clean-fixture: missing={missing} incomplete={incomplete} entry_missing={entry_missing} unbacked={unbacked}")
             fails += 1
@@ -163,7 +168,7 @@ def selftest(lane: Path) -> int:
         txt = (t / "SKILL.md").read_text()
         txt = "\n".join(l for l in txt.splitlines() if "`t`" not in l)
         (t / "SKILL.md").write_text(txt + "\n")
-        adv, rows, reg, missing, incomplete, entry_missing, unbacked = collect(t)
+        adv, rows, reg, missing, incomplete, entry_missing, unbacked, _dup = collect(t)
         if "plans/tool_a.py" not in missing:
             print("SELFTEST FAIL missing-fixture: a dropped registry row did not raise MISSING")
             fails += 1
@@ -172,7 +177,7 @@ def selftest(lane: Path) -> int:
         # blank cell -> INCOMPLETE must fire
         txt = (t / "SKILL.md").read_text().replace("| `g` | gate | `python3 grader.py` | 0 ok |", "| `g` | gate | `python3 grader.py` |  |")
         (t / "SKILL.md").write_text(txt + "\n")
-        adv, rows, reg, missing, incomplete, entry_missing, unbacked = collect(t)
+        adv, rows, reg, missing, incomplete, entry_missing, unbacked, _dup = collect(t)
         if not incomplete:
             print("SELFTEST FAIL incomplete-fixture: a blank cell did not raise INCOMPLETE")
             fails += 1

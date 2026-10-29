@@ -1,0 +1,288 @@
+{
+ "seat": "W2RevRowsA",
+ "round": 52,
+ "wave": 2,
+ "role": "reviewer (read-only)",
+ "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+ "head": "87301ba",
+ "scope": "first 14 of the 28 base-tip new registry rows: MISSING list in .ufo/waves/round-52/claims/c2-before.txt, lines 1-14 (adoption_check .. round33_defects)",
+ "counter_at_head": "ADVERTISED total=72 / REGISTERED total=74 rows / MISSING 0 / INCOMPLETE 0 / ENTRY-MISSING 0 / SELFTEST-UNBACKED 0 / PREDICATE R52-C2 pass (rc0)",
+ "counter_at_base_archive_30801b4": "MISSING 28 including plans/gate_flip_check.py although SKILL.md:609 holds a gate-flip-check row at that base; the escaped pipe in that row (9 naive cells) is the cause",
+ "rows_reviewed": 15,
+ "rows": [
+  {
+   "row": "adoption-check",
+   "skill_md_line": 610,
+   "instrument": "plans/adoption_check.py",
+   "verdict": "PARTIAL (verdict map incomplete, no false claim)",
+   "checks": {
+    "entry": "ok: --lane, --expect (required), --census (argparse rc2 measured; rc1 census=skipped measured)",
+    "verdict_map": "0 measured on round-33 expect (entries=1 ... census=ok rc0); 1 measured (census=skipped, FileNotFoundError); 2 measured (argparse)",
+    "self_test": "ok: none declared (no --selftest in script)",
+    "pinned": "ok: census helper hardcoded at plans/adoption_check.py:35 (/home/vgpnk/Projects/shokunin/scripts/sources-census.sh)",
+    "write_scope": "ok: no open(...,'w'/'a'); census via fixed argv"
+   },
+   "false_or_partial_cells": [
+    {
+     "cell": "verdict map, rc 1 class",
+     "issue": "omits uncaught KeyError when the expect JSON lacks access_date/entries; measured rc=1 traceback `KeyError: 'access_date'` on {\"entries\": [], \"round\": 0}. Same exit code as the documented 1, undocumented path."
+    }
+   ]
+  },
+  {
+   "row": "attrib-probe",
+   "skill_md_line": 611,
+   "instrument": "plans/attrib_probe.py",
+   "verdict": "PASS",
+   "checks": {
+    "entry": "ok: subcommands block-sha, freeze-check, trials, force-trials, stream-trials, score (argparse required=True measured rc2); --shim ds|glm (choices); --out/--receipt opened 'a' (attrib_probe.py:545-546,642-643,766-767,1109-1113)",
+    "verdict_map": "0 measured: freeze-check r21/r22/r23 OK rc0; block-sha rc0 1b2d6a01bfa431ec; 2 measured: no subcommand rc2, --shim glm on ds-only forcing rc2 ('refusing shim glm (exit 2)'), v1 table on force-trials rc2 ('no request sent'), no --out/--receipt created; score PASS/FAIL (exit 0/1 at :1115) code-read only, not executed",
+    "self_test": "ok: none declared (no --selftest flag; grep confirmed)",
+    "pinned": "ok: r21 block sha 9f0244bb0aa4463c, r23 1b2d6a01bfa431ec measured; r22 freeze OK measured at 77b8d4a0be3dc325 (row does not cite it)",
+    "write_scope": "ok: localhost shims :8791 (ds) and :8793 (glm) at attrib_probe.py:54-56; journalctl only in cmd_score (:884); trials record 'no journal read in this phase' (:544)"
+   },
+   "false_or_partial_cells": []
+  },
+  {
+   "row": "catalog-probe",
+   "skill_md_line": 612,
+   "instrument": "plans/catalog_probe.py",
+   "verdict": "PARTIAL (pinned value omitted; no false claim)",
+   "checks": {
+    "entry": "ok: --verify, --capture, --diff (accepted; grep args.diff empty), --selftest",
+    "verdict_map": "0 measured: `raw=ok ... verify=ok` rc0 with hf_models=50 or_models=467 hf_schema_delta=4 or_schema_delta=0; selftest checks=13 failed=0 rc0; verdict strings raw=absent/invalid/unparsable, receipt=absent, receipt-mismatch, entry-mismatch, entry=missing/stale/missing-receipt/invalid-receipt present in code; default probe returns 1 unless status ok and entry ok (catalog_probe.py:276)",
+    "self_test": "ok: `--selftest` SELFTEST checks=13 failed=0 measured",
+    "pinned": "ok: ACCESS_DATE 2026-10-25 (:28), RAW_CAP 64*1024 (:53), CAP_DIR round33 (:48), HF_FIELDS 11, OR_FIELDS 12 (:34-41)",
+    "write_scope": "ok: --capture writes hf.raw.json, or.raw.json, SHA256SUMS, after.txt under CAP_DIR (four files); default probe and --verify write nothing (main path read)"
+   },
+   "false_or_partial_cells": [
+    {
+     "cell": "pinned values",
+     "issue": "entry=ok leg reads RECEIPTS = corpus/evidence/round32/catalogs/after.txt (catalog_probe.py:32, 182-ish via entry_ok), a different receipt directory from the round33 CAP_DIR the row pins; the entry path corpus/knowledge/open-model-catalogs.md (catalog_probe.py:31) is not named. Not false, but a reader cannot see which receipt the entry=ok verdict depends on."
+    }
+   ]
+  },
+  {
+   "row": "defect-ledger",
+   "skill_md_line": 613,
+   "instrument": "plans/defect_ledger.py",
+   "verdict": "PASS",
+   "checks": {
+    "entry": "ok: --lane (default .) is the only flag",
+    "verdict_map": "0 measured: rows=5 closed=5 observed_pass=5 mismatches=0 then PREDICATE C2 pass rc0 exact; absent ledger on empty lane measured rc1 FileNotFoundError (row says exits 1)",
+    "self_test": "ok: none declared; control .ufo/waves/round-35/claims/control-c2-nothing.txt exists and records rows=5 closed=0 observed_pass=0, PREDICATE C2 fail, exit=1",
+    "pinned": "ok: corpus/defects.jsonl has 5 rows R34-D1..R34-D5 whose check fields are r34_d1..r34_d5 = CHECKS keys (defect_ledger.py:111); refs/heads/master and ls-files/ls-tree present",
+    "write_scope": "ok: no write sites (grep); git only via fixed argv"
+   },
+   "false_or_partial_cells": []
+  },
+  {
+   "row": "gate-flip-check (base-tip row)",
+   "skill_md_line": 609,
+   "instrument": "plans/gate_flip_check.py",
+   "verdict": "FALSE (stale duplicate row; cells contradict the landed script and tree)",
+   "checks": {
+    "entry": "FALSE/INCOMPLETE: `--lesson <path>` only; the script also takes repeatable --entry (gate_flip_check.py:728)",
+    "verdict_map": "INCOMPLETE: `0` omits the FLIP-CITE leg (rc0 requires red=0); `1` omits the citation contradiction path FLIP-CITE verdict=RED (rc1 measured in selftest case cite-not-fired-red)",
+    "self_test": "FALSE: claims `SELFTEST ok=19/19` (19 fixtures, 10 red, 8 green, 1 setup); measured `SELFTEST ok=27/27`, rc0",
+    "pinned": "FALSE: 'Red control: --lesson corpus/lessons/round-42.md -> FLIPS total=2 unresolved=2, exit 1'; measured at HEAD 87301ba: `FLIPS total=2 unresolved=0`, FLIP-CITE red=0, rc0 (round-42 lesson now carries the Flip-check resolution lines at HEAD)",
+    "write_scope": "ok: writes nothing; selftest mkdtemp only"
+   },
+   "false_or_partial_cells": [
+    {
+     "cell": "self-test",
+     "claimed": "SELFTEST ok=19/19",
+     "measured": "SELFTEST ok=27/27 rc0",
+     "command": "python3 plans/gate_flip_check.py --selftest"
+    },
+    {
+     "cell": "pinned values",
+     "claimed": "--lesson corpus/lessons/round-42.md -> FLIPS total=2 unresolved=2, exit 1",
+     "measured": "FLIPS total=2 unresolved=0, FLIP-CITE red=0, rc0",
+     "command": "python3 plans/gate_flip_check.py --lesson corpus/lessons/round-42.md"
+    },
+    {
+     "cell": "entry",
+     "claimed": "python3 plans/gate_flip_check.py --lesson <path> (one lesson file)",
+     "measured": "script also accepts repeatable --entry; row omits it"
+    },
+    {
+     "cell": "verdict map 0/1",
+     "claimed": "0 = every refusal resolved; 1 = unresolved>0",
+     "measured": "rc1 also from FLIP-CITE verdict=RED (selftest cite-not-fired-red rc1)"
+    },
+    {
+     "cell": "registry integrity",
+     "issue": "SKILL.md:609 contains an escaped pipe `fired\\|not fired` in the verdict-map cell. plans/round52_c2_registry.py parse_rows splits on bare '|' and drops it (9 cells != 8), so the counter cannot see this row. Base tip 30801b4 already had this row at line 609 (so the base-tip MISSING list naming plans/gate_flip_check.py was a counter artifact), and wave-1 added a second, correct row at 614 instead of repairing or removing 609. Landed registry now carries two gate-flip-check rows; the counter reports no duplicate leg (REGISTERED total=72 rows=74; rows counts the header row too)."
+    }
+   ]
+  },
+  {
+   "row": "gate-flip-check (wave-1 row)",
+   "skill_md_line": 614,
+   "instrument": "plans/gate_flip_check.py",
+   "verdict": "PASS",
+   "checks": {
+    "entry": "ok: --lesson <lesson.md> required (argparse rc2 measured); repeatable --entry (line 728)",
+    "verdict_map": "0 measured: FLIPS total=2 unresolved=0 + FLIP-CITE red=0 on round-42, rc0; 1 measured: round-51 FLIPS total=1 unresolved=1 rc1; FLIP-CITE verdict=RED path rc1 (selftest cite-not-fired-red); 2 measured: SETUP no '## Gate' section rc2 (nogate test), argparse rc2",
+    "self_test": "ok: `--selftest` SELFTEST ok=27/27 rc0 measured; cite-later-fired-supersedes green and cite-later-not-fired-reopens red measured",
+    "pinned": "ok: none in script; round-51 red measured",
+    "write_scope": "ok: no git, no network; selftest uses mkdtemp and rmtree (gate_flip_check.py:682,719)"
+   },
+   "false_or_partial_cells": []
+  },
+  {
+   "row": "extraction-policy-compare",
+   "skill_md_line": 615,
+   "instrument": "plans/parser_policy_compare.py",
+   "verdict": "PASS",
+   "checks": {
+    "entry": "ok: --summary (default), --json, --root DIR (default parents[1]), --selftest (argparse)",
+    "verdict_map": "0 measured: TOTAL population=1964 policies=8 compared_verdicts=15712 disagreements=1089 policies_with_flips=5, rc0; 1 strings DEFECT POPULATION, BASELINE E0 !=, POLICY-RAISE, GRADER-RAISE present",
+    "self_test": "ok: measured SELFTEST total policies=9 cases=59 mutants=10 killed=10 failures=0 rc0; pin-reject line matches the cell text exactly",
+    "pinned": "ok: population imported from plans/grader_perturb.py (4 hits); E0 vs grader.extract_json_block (3 hits); plans/round-27-claims.md E0-E8 table present (lines 37-42)",
+    "write_scope": "ok: selftest mktemp prefix r27-policy-pin- (parser_policy_compare.py:493); no network"
+   },
+   "false_or_partial_cells": []
+  },
+  {
+   "row": "password-recovery-probe",
+   "skill_md_line": 616,
+   "instrument": "plans/password_recovery_probe.py",
+   "verdict": "PASS",
+   "checks": {
+    "entry": "ok: --dry / --stage-check mutually exclusive (measured rc2 'not allowed with argument --dry'); --work default $TMPDIR",
+    "verdict_map": "0 measured: --dry cases=16 predicted_pass=5 predicted_fail=11; full run output byte-identical to corpus/evidence/round45/password-recovery-probe.txt (cmp); --stage-check stagecheck cases=16 failed=0 rc0",
+    "self_test": "ok: none (no --selftest flag)",
+    "pinned": "ok: setup.sh 9fdde5d9, solve.sh c5f9fc70, instruction.md bc4f5011, test_outputs.py 2dc14fc1 match captured bytes (sha256sum); tests test_recovery_file_exists, test_password_match present",
+    "write_scope": "ok: per-case mkdtemp k45-prp- removed in finally; bwrap --unshare-net present"
+   },
+   "false_or_partial_cells": []
+  },
+  {
+   "row": "polyglot-c-py-probe",
+   "skill_md_line": 617,
+   "instrument": "plans/polyglot_c_py_probe.py",
+   "verdict": "PASS",
+   "checks": {
+    "entry": "ok: --dry / --stage-check mutually exclusive (measured rc2); --work default $TMPDIR",
+    "verdict_map": "0 measured: full run byte-identical to corpus/evidence/round46/polyglot-c-py-probe.txt; regrade cases=18 differ=7; --dry cases=18 predicted_pass=7 predicted_fail=11; --stage-check stagecheck cases=18 failed=0 rc0",
+    "self_test": "ok: none (no --selftest flag)",
+    "pinned": "ok: seven digests (test_outputs b94a7a98, instruction a57c0c0e, solve e768453a, README 591e27f9, test.sh 4770437e, Dockerfile 2eb537f2, task.toml d31b9f60) match captured bytes; test_fibonacci_polyglot present",
+    "write_scope": "ok: mkdtemp k46-pgp- removed in finally; bwrap --unshare-net present"
+   },
+   "false_or_partial_cells": []
+  },
+  {
+   "row": "round28-census",
+   "skill_md_line": 618,
+   "instrument": "plans/round28_census.py",
+   "verdict": "PASS",
+   "checks": {
+    "entry": "ok: --revision required (argparse rc2 measured); --root defaults to checkout",
+    "verdict_map": "measured rc1 at HEAD 87301ba: state_check MISMATCH P3c.box.4.pointer.1:12 (SHONEN.md) and knowledge/fixture-honest-geometry.md unindexed, both as the row says; legs: benchmark_spec_audit exit 0 distinct_task_ids=812 selected_count=16; registry exit 0 source_rows_checked=13 findings=0; SOURCES rows=171 malformed=0; knowledge files=55 index_rows=54",
+    "self_test": "ok: none (no --selftest); row disclaims its own self-test",
+    "pinned": "ok: legs' pins as stated; measured numbers identical to the row's base-tip figures",
+    "write_scope": "ok: read-only; PYTHONDONTWRITEBYTECODE set in code"
+   },
+   "false_or_partial_cells": []
+  },
+  {
+   "row": "round30-defects",
+   "skill_md_line": 619,
+   "instrument": "plans/round30_defects.py",
+   "verdict": "PASS",
+   "checks": {
+    "entry": "ok: --lane, --selftest",
+    "verdict_map": "0 measured: ok D1..ok D5, checks=5 defects=0 rc0; 1: defects=len(CHECKS)+1 registry path (round30_defects.py:257) matches the row's defects=6",
+    "self_test": "ok: measured SELFTEST checks=5 failed=0 rc0; D1..D5-red-on-empty cases printed",
+    "pinned": "ok: D1..D5 labels match the run output exactly; anchors corpus/evidence/round29-attempt2/control-nothing.txt, corpus/lessons/round-29.md, .ufo/waves/round-29/attempt2/adoption-expect.json exist; the 8-word S078 quote NOT checked",
+    "write_scope": "ok: git cat-file / status only; temp tree for selftest"
+   },
+   "false_or_partial_cells": []
+  },
+  {
+   "row": "round31-c1-literals",
+   "skill_md_line": 620,
+   "instrument": "plans/round31_c1_verify.py",
+   "verdict": "PASS",
+   "checks": {
+    "entry": "ok: --lane, --selftest; no setup exit",
+    "verdict_map": "0 measured: checks=6 defects=0 rc0; 1 'VERIFY expect unreadable' and checks=6 defects=6 present in code, not re-run by me",
+    "self_test": "ok: measured SELFTEST checks=6 failed=0 rc0; 7 CASE lines (registry-complete + V1..V6)",
+    "pinned": "ok: PINS 6099b8cf, 66f92766, 2fd12b88 (round31_c1_verify.py:37); entry corpus/knowledge/benchmark-verifier-execution-model.md is 175 lines / 14087 bytes (>=40 / >=3000 claim holds); expect sha256 a6a7631ce9ec5d932d6702e7090f5256e32806a37906012a05f8b66db424a5c8 equals expect_sha256 in control-nothing.txt; control exit=1",
+    "write_scope": "ok: reads only; no tempfile in script, so selftest writes nothing"
+   },
+   "false_or_partial_cells": []
+  },
+  {
+   "row": "round31-defects",
+   "skill_md_line": 621,
+   "instrument": "plans/round31_defects.py",
+   "verdict": "PASS",
+   "checks": {
+    "entry": "ok: --lane, --selftest",
+    "verdict_map": "0 measured: checks=10 defects=0 rc0; registry path defects=len(CHECKS)+1 = 11 (round31_defects.py:373) matches row",
+    "self_test": "ok: measured SELFTEST checks=10 failed=0 rc0; 11 CASE lines (matches row)",
+    "pinned": "ok: baseline 0883e72e (round31_defects.py:53); falsify swarm-registry.json members=33 (measured); R30DraftGate.md Pass 9 check reads HEAD:.ufo/waves/round-30/build/R30DraftGate.md (the row does not give the path; it is not at .ufo/waves/round-30/ root); shokuknow staged-file path is in the script; the 3-URL check on that file was not run by me",
+    "write_scope": "ok: git -C lane diff --numstat, status --porcelain, cat-file; selftest tempfile only"
+   },
+   "false_or_partial_cells": []
+  },
+  {
+   "row": "round33-c1-literals",
+   "skill_md_line": 622,
+   "instrument": "plans/round33_c1_verify.py",
+   "verdict": "PASS",
+   "checks": {
+    "entry": "ok: --lane, --selftest",
+    "verdict_map": "0 measured: checks=8 defects=0 rc0; V0 'DEFECT V0 expect: ... is absent' present (round33_c1_verify.py:248)",
+    "self_test": "ok: measured SELFTEST cases=11 failed=0 rc0; V8 green-refusal and teaches-erasure cases present",
+    "pinned": "ok: PINS 66f92766, 9be8d8fe, 2412.05579 (:43); RENAMES S094->S103, S097->S104; REFUSAL_IDS S094,S097,S101,S102; entry benchmark-grader-semantics.md, LESSON round-33.md, expect and control-nothing.txt exist; the 80-character renumber proximity leg not run",
+    "write_scope": "ok: reads only; selftest TemporaryDirectory"
+   },
+   "false_or_partial_cells": []
+  },
+  {
+   "row": "round33-defects",
+   "skill_md_line": 623,
+   "instrument": "plans/round33_defects.py",
+   "verdict": "PASS",
+   "checks": {
+    "entry": "ok: --lane, --selftest",
+    "verdict_map": "0 measured: checks=6 defects=0 rc0; 2 argparse",
+    "self_test": "ok: measured SELFTEST checks=14 failed=0 rc0 over 14 CASE lines (count matches row)",
+    "pinned": "ok: closure tip 112091c, a44b5a8, ae95fe0 (round33_defects.py:47,105-110); fleet reports .ufo/reports/round-31/kengaku.md and round-32 exist at the fleet root (N3/N4 absolute paths)",
+    "write_scope": "ok: git ls-files + find; selftest git -C <tmp> init/add in tempfile tree"
+   },
+   "false_or_partial_cells": []
+  }
+ ],
+ "false_claims": [
+  {
+   "row": "gate-flip-check (SKILL.md:609)",
+   "cells": [
+    "self-test: 'SELFTEST ok=19/19'",
+    "pinned values: 'Red control: --lesson corpus/lessons/round-42.md -> FLIPS total=2 unresolved=2, exit 1'",
+    "entry: '--lesson <path>' only (omits --entry)",
+    "verdict map: omits FLIP-CITE verdict=RED exit-1 path and the citation leg in 0"
+   ],
+   "measured": [
+    "python3 plans/gate_flip_check.py --selftest -> SELFTEST ok=27/27 rc0",
+    "python3 plans/gate_flip_check.py --lesson corpus/lessons/round-42.md -> FLIPS total=2 unresolved=0, FLIP-CITE red=0, rc0"
+   ]
+  }
+ ],
+ "registry_defects": [
+  "SKILL.md:609 and :614 both register gate-flip-check; :609 is invisible to round52_c2_registry.py (escaped \\| in verdict-map cell splits to 9 cells) and is stale.",
+  "round52_c2_registry.py has no duplicate-name leg; its rows=74 count includes the header row."
+ ],
+ "summary": {
+  "SKILL_rows_reviewed": 15,
+  "instruments_reviewed": 14,
+  "PASS": 12,
+  "PARTIAL_no_false_claim": 2,
+  "FALSE": 1,
+  "note": "PARTIAL: adoption-check (SKILL.md:610), catalog-probe (SKILL.md:612). FALSE: gate-flip-check stale duplicate at SKILL.md:609 (the 614 duplicate passes)."
+ }
+}

@@ -1,0 +1,1374 @@
+{
+ "schema": "w2-W2ExecEntryDraft candidate audit",
+ "counter_output": {
+  "candidates": 29,
+  "P1_tests": 33,
+  "tasks_with_P1": 27
+ },
+ "independent_method": "ast: top-level test_ function bodies whose only assertions are exists/is_file/is_dir calls (no comparison, no other call except Path/join/str/setup()); line numbers 1-based in captured bytes",
+ "candidates": [
+  {
+   "task": "bn-fit-modify",
+   "grader": "corpus/evidence/round52/graders/bn-fit-modify/tests/test_outputs.py",
+   "sha256": "364069f893e336a021c907dd0ac11ff4c9e7ca7b4fa7ab506c360166960e455b",
+   "bytes": 5892,
+   "lines": 153,
+   "test_count": 9,
+   "counter_file_class": "V3",
+   "counter_P1_tests": [
+    "test_bn_sample_exists",
+    "test_learned_dag_structure_exists",
+    "test_intervened_dag_structure_exists"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_bn_sample_exists",
+     "def_line": 13,
+     "end_line": 17,
+     "assert_line": 17,
+     "quote": "assert bn_sample_path.exists(), f\"File {bn_sample_path} does not exist\"",
+     "counter_class": "P1"
+    },
+    {
+     "test": "test_learned_dag_structure_exists",
+     "def_line": 20,
+     "end_line": 24,
+     "assert_line": 24,
+     "quote": "assert learned_dag_path.exists(), f\"File {learned_dag_path} does not exist\"",
+     "counter_class": "P1"
+    },
+    {
+     "test": "test_intervened_dag_structure_exists",
+     "def_line": 58,
+     "end_line": 62,
+     "assert_line": 62,
+     "quote": "assert intervened_dag_path.exists(), f\"File {intervened_dag_path} does not exist\"",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_learned_dag_structure_csv_col_names",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_learned_dag_structure",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_intervened_dag_structure_csv_col_names",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_intervened__data_structure",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_sampled_csv_col_names",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_sampled_data",
+     "counter_class": "P3"
+    }
+   ],
+   "what_else_grader_checks": "6 non-presence tests: learned_dag.csv/intervened_dag.csv column names + non-empty, learned/intervened edge sets == true_dag, sampled CSV columns, 10k rows x 5 cols and a kstest p>=0.001 on the sampled data.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "build-cython-ext",
+   "grader": "corpus/evidence/round52/graders/build-cython-ext/tests/test_outputs.py",
+   "sha256": "6549f1a8e04b6163ec08877e6f6b9868bf94563f3a3c72ac1fba9c512c31689e",
+   "bytes": 5932,
+   "lines": 178,
+   "test_count": 11,
+   "counter_file_class": "V2",
+   "counter_P1_tests": [
+    "test_repo_cloned"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_repo_cloned",
+     "def_line": 31,
+     "end_line": 35,
+     "assert_line": 33,
+     "quote": "assert path.exists(), f\"{path} does not exist\"",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_numpy_version",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_pyknotid_core_import",
+     "counter_class": "P0"
+    },
+    {
+     "test": "test_chelpers_cython_extension",
+     "counter_class": "P0"
+    },
+    {
+     "test": "test_ccomplexity_cython_extension",
+     "counter_class": "P0"
+    },
+    {
+     "test": "test_cinvariants_cython_extension",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_chelpers",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_ccomplexity",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_cinvariants_python_vs_cython",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_example_usage",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_pyknotid_repository_tests",
+     "counter_class": "P2"
+    }
+   ],
+   "what_else_grader_checks": "Beyond test_repo_cloned: numpy==2.3.0, importlib spec checks that pyknotid core and three Cython extensions load as ExtensionFileLoader, numeric checks of chelpers/ccomplexity/cinvariants (python vs cython), example usage values (alexander_polynomial, determinant), and a subprocess run of the repo's own tests.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "caffe-cifar-10",
+   "grader": "corpus/evidence/round52/graders/caffe-cifar-10/tests/test_outputs.py",
+   "sha256": "10bc2d83f1a421804d122bd43aa34826d688703ec73288399aff4e827125e9f2",
+   "bytes": 6641,
+   "lines": 180,
+   "test_count": 6,
+   "counter_file_class": "V2",
+   "counter_P1_tests": [
+    "test_prototxt_files_exist"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_prototxt_files_exist",
+     "def_line": 45,
+     "end_line": 52,
+     "assert_line": 51,
+     "quote": "assert solver_file.exists(), f\"File {solver_file} does not exist\"",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_caffe_version_and_source",
+     "counter_class": "P2"
+    },
+    {
+     "test": "test_cifar10_model_exists",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_cpu_only_training_configured",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_training_completed_500_iterations",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_model_accuracy_verification",
+     "counter_class": "P2"
+    }
+   ],
+   "what_else_grader_checks": "caffe --version == 1.0.0; model file exists and >100000 bytes; solver contains solver_mode:CPU and max_iter:500; Makefile.config CPU_ONLY:=1; training log has Iteration 500 / loss / accuracy; re-runs caffe test and checks accuracy >0.45 and within 0.05 of training accuracy.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "cancel-async-tasks",
+   "grader": "corpus/evidence/round52/graders/cancel-async-tasks/tests/test_outputs.py",
+   "sha256": "d6f510b51fafc81b4e9b5cc95535aa13491c8753e0e4171db42c45f4de460ee7",
+   "bytes": 4225,
+   "lines": 173,
+   "test_count": 6,
+   "counter_file_class": "V2",
+   "counter_P1_tests": [
+    "test_run_py_file_exists"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_run_py_file_exists",
+     "def_line": 10,
+     "end_line": 14,
+     "assert_line": 14,
+     "quote": "assert run_path.exists(), f\"File {run_path} does not exist\"",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_tasks_run_concurrently",
+     "counter_class": "P2"
+    },
+    {
+     "test": "test_tasks_obey_max_concurrent",
+     "counter_class": "P2"
+    },
+    {
+     "test": "test_tasks_cancel_below_max_concurrent",
+     "counter_class": "P2"
+    },
+    {
+     "test": "test_tasks_cancel_at_max_concurrent",
+     "counter_class": "P2"
+    },
+    {
+     "test": "test_tasks_cancel_above_max_concurrent",
+     "counter_class": "P2"
+    }
+   ],
+   "what_else_grader_checks": "5 behavioural tests that subprocess-run /app/run.py and count 'Task started/finished/Cleaned up' markers, a >=6 s elapsed bound for max-concurrency, and SIGINT cancellation at/below/above the limit.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "code-from-image",
+   "grader": "corpus/evidence/round52/graders/code-from-image/tests/test_outputs.py",
+   "sha256": "b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a",
+   "bytes": 935,
+   "lines": 32,
+   "test_count": 2,
+   "counter_file_class": "V3",
+   "counter_P1_tests": [
+    "test_output_file_exists"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_output_file_exists",
+     "def_line": 10,
+     "end_line": 15,
+     "assert_line": 15,
+     "quote": "assert output_path.exists(), f\"File {output_path} does not exist\"",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_output_is_correct",
+     "counter_class": "P3"
+    }
+   ],
+   "what_else_grader_checks": "test_output_is_correct: output.txt stripped startswith 'bee26a' plus a second multi-line assert on the content.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "crack-7z-hash",
+   "grader": "corpus/evidence/round52/graders/crack-7z-hash/tests/test_outputs.py",
+   "sha256": "f18d7565f690727484ac43d012d36a4f386236419501e4a4277134a8e8fcfcc9",
+   "bytes": 789,
+   "lines": 28,
+   "test_count": 2,
+   "counter_file_class": "V3",
+   "counter_P1_tests": [
+    "test_solution_file"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_solution_file",
+     "def_line": 8,
+     "end_line": 14,
+     "assert_line": 12,
+     "quote": "assert os.path.exists(solution_path), (",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_solution_content",
+     "counter_class": "P3"
+    }
+   ],
+   "what_else_grader_checks": "test_solution_content: /app/solution.txt content == 'honeybear'.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "db-wal-recovery",
+   "grader": "corpus/evidence/round52/graders/db-wal-recovery/tests/test_outputs.py",
+   "sha256": "88dc5c2a3abba75bca0e0f9136223ae5bb585d5984b8d9eba51a7829c1d2ba49",
+   "bytes": 4263,
+   "lines": 108,
+   "test_count": 7,
+   "counter_file_class": "V3",
+   "counter_P1_tests": [
+    "test_recovered_json_exists"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_recovered_json_exists",
+     "def_line": 7,
+     "end_line": 9,
+     "assert_line": 9,
+     "quote": "assert os.path.exists(\"/app/recovered.json\"), \"recovered.json file does not exist\"",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_recovered_json_is_valid",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_recovered_data_structure",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_recovered_data_sorted",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_recovered_data_completeness",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_no_duplicate_ids",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_wal_was_decrypted",
+     "counter_class": "P3"
+    }
+   ],
+   "what_else_grader_checks": "6 content tests on /app/recovered.json: valid list, id/name/value schema+types, sorted by id, exactly 11 records with expected ids and per-record values (WAL updates 1,2 and inserts 6-11), no duplicate ids, WAL-decrypted records present.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "extract-elf",
+   "grader": "corpus/evidence/round52/graders/extract-elf/tests/test_outputs.py",
+   "sha256": "825569115217f1cea7b0f3c7547d60d21e6ea36f587d82cc9dfdd5dd98c04570",
+   "bytes": 12585,
+   "lines": 393,
+   "test_count": 2,
+   "counter_file_class": "V2",
+   "counter_P1_tests": [
+    "test_extract_js_exists"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_extract_js_exists",
+     "def_line": 309,
+     "end_line": 313,
+     "assert_line": 312,
+     "quote": "assert extract_path.exists(), f\"File {extract_path} does not exist\"",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_output_matches_reference",
+     "counter_class": "P2"
+    }
+   ],
+   "what_else_grader_checks": "test_output_matches_reference: gcc-compiles a reference, runs node extract.js and the reference script, compares the JSON memory maps value-by-value and requires a match percentage threshold.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "financial-document-processor",
+   "grader": "corpus/evidence/round52/graders/financial-document-processor/tests/test_outputs.py",
+   "sha256": "978f506ad5c1bfaf28f9bc774dfe4347d33d046ca009b8496eb513956b7f5a9a",
+   "bytes": 10336,
+   "lines": 227,
+   "test_count": 7,
+   "counter_file_class": "V3",
+   "counter_P1_tests": [
+    "test_directories_created"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_directories_created",
+     "def_line": 18,
+     "end_line": 28,
+     "assert_line": 23,
+     "quote": "assert invoices_dir.exists() and invoices_dir.is_dir(), (",
+     "counter_class": "P1"
+    },
+    {
+     "test": "test_summary_csv_exists",
+     "def_line": 100,
+     "end_line": 103,
+     "assert_line": 103,
+     "quote": "assert summary_file.exists(), \"/app/invoices/summary.csv should exist\"",
+     "counter_class": "P3"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_invoices_moved_correctly",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_other_documents_moved_correctly",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_summary_csv_structure",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_summary_csv_content",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_original_documents_dir_empty",
+     "counter_class": "P3"
+    }
+   ],
+   "what_else_grader_checks": "6 content tests: sha256 hashes of files moved into /app/invoices and /app/other equal the originals, summary.csv exists/headers/11 rows/per-row total_amount and VAT within 0.01, /app/original documents dir empty. test_summary_csv_exists is a second presence-only AST-P1 test the counter misclassified as P3.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": [
+    {
+     "kind": "counter-missed-presence-only",
+     "tests": [
+      "test_summary_csv_exists"
+     ]
+    }
+   ]
+  },
+  {
+   "task": "hf-model-inference",
+   "grader": "corpus/evidence/round52/graders/hf-model-inference/tests/test_outputs.py",
+   "sha256": "61a686d6caf833ac3c240f2a8ceddacfed82b9f392c51b48ed8359d3e0f87857",
+   "bytes": 4239,
+   "lines": 108,
+   "test_count": 4,
+   "counter_file_class": "V2",
+   "counter_P1_tests": [
+    "test_model_downloaded"
+   ],
+   "independent_P1_tests": [],
+   "verified_presence_only_test": false,
+   "other_tests": [
+    {
+     "test": "test_model_downloaded",
+     "counter_class": "P1"
+    },
+    {
+     "test": "test_flask_api_running",
+     "counter_class": "P2"
+    },
+    {
+     "test": "test_sentiment_endpoint",
+     "counter_class": "P2"
+    },
+    {
+     "test": "test_api_error_handling",
+     "counter_class": "P2"
+    }
+   ],
+   "what_else_grader_checks": "NOT presence-only: test_model_downloaded asserts the directory exists AND loads AutoModelForSequenceClassification/AutoTokenizer from it (from_pretrained). Other tests hit the Flask API on 0.0.0.0:5000 (sentiment endpoint values/types, 400 error handling).",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": [
+    {
+     "kind": "counter-false-P1",
+     "tests": [
+      "test_model_downloaded"
+     ]
+    }
+   ]
+  },
+  {
+   "task": "kv-store-grpc",
+   "grader": "corpus/evidence/round52/graders/kv-store-grpc/tests/test_outputs.py",
+   "sha256": "115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e",
+   "bytes": 6076,
+   "lines": 172,
+   "test_count": 7,
+   "counter_file_class": "V2",
+   "counter_P1_tests": [
+    "test_protobuf_generation"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_protobuf_generation",
+     "def_line": 50,
+     "end_line": 64,
+     "assert_line": 59,
+     "quote": "assert kv_store_pb2_path.exists(), (",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_proto_file_creation",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_grpc_tools_installation",
+     "counter_class": "P0"
+    },
+    {
+     "test": "test_server_file_creation",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_real_grpc_server_running",
+     "counter_class": "P2"
+    },
+    {
+     "test": "test_grpc_protocol_handshake",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_grpc_server_functionality",
+     "counter_class": "P2"
+    }
+   ],
+   "what_else_grader_checks": "proto file content strings (service KVStore, rpc GetVal/SetVal, messages); grpc importable; server.py defines class Server; port listening; live gRPC handshake and SetVal/GetVal round-trips returning 999/42/100.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "large-scale-text-editing",
+   "grader": "corpus/evidence/round52/graders/large-scale-text-editing/tests/test_outputs.py",
+   "sha256": "f5e69f4fedeefa23197745888a5847161529f454e6b5c32a4057363d9ae4cd43",
+   "bytes": 8935,
+   "lines": 222,
+   "test_count": 5,
+   "counter_file_class": "V2",
+   "counter_P1_tests": [
+    "test_apply_macros_exists"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_apply_macros_exists",
+     "def_line": 123,
+     "end_line": 125,
+     "assert_line": 125,
+     "quote": "assert APPLY_SCRIPT.exists(), f\"Missing macro script: {APPLY_SCRIPT}\"",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_apply_macros_well_formed",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_apply_macros_runs",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_input_equiv_expected",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_macros_nonempty_and_efficient",
+     "counter_class": "P3"
+    }
+   ],
+   "what_else_grader_checks": "4 further tests: macro script is well-formed (tokens/macros/:wq), runs under vim (returncode 0, expected.csv generated), input.csv sha256 == expected, keystroke total <200 with non-empty distinct macros.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "log-summary-date-ranges",
+   "grader": "corpus/evidence/round52/graders/log-summary-date-ranges/tests/test_outputs.py",
+   "sha256": "2fc06a6ce1944ad82f84fb437395fa75ed8c0eadd385b92e375c27e5bc9cb2b4",
+   "bytes": 1655,
+   "lines": 52,
+   "test_count": 2,
+   "counter_file_class": "V3",
+   "counter_P1_tests": [
+    "test_summary_file_exists"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_summary_file_exists",
+     "def_line": 27,
+     "end_line": 29,
+     "assert_line": 29,
+     "quote": "assert OUTPUT_FILE.exists(), f\"File {OUTPUT_FILE} does not exist\"",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_summary_structure_and_counts",
+     "counter_class": "P3"
+    }
+   ],
+   "what_else_grader_checks": "test_summary_structure_and_counts: header == [period,severity,count] and every row equals EXPECTED_ROWS.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "mteb-leaderboard",
+   "grader": "corpus/evidence/round52/graders/mteb-leaderboard/tests/test_outputs.py",
+   "sha256": "b28f8fc8b7614801305813c402be52f4be1e75de6658ecdfdf9383aa793892cf",
+   "bytes": 537,
+   "lines": 16,
+   "test_count": 2,
+   "counter_file_class": "V3",
+   "counter_P1_tests": [
+    "test_result_exists"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_result_exists",
+     "def_line": 6,
+     "end_line": 7,
+     "assert_line": 7,
+     "quote": "assert os.path.exists(\"/app/result.txt\"), \"result.txt file does not exist\"",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_data_matches",
+     "counter_class": "P3"
+    }
+   ],
+   "what_else_grader_checks": "test_data_matches: result.txt has exactly one line equal to the expected answer string.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "mteb-retrieve",
+   "grader": "corpus/evidence/round52/graders/mteb-retrieve/tests/test_outputs.py",
+   "sha256": "e4e6b21fed6662adb4a42aba23d35609450392839a2282f3ba77c70c8d907c0b",
+   "bytes": 559,
+   "lines": 16,
+   "test_count": 2,
+   "counter_file_class": "V3",
+   "counter_P1_tests": [
+    "test_result_exists"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_result_exists",
+     "def_line": 6,
+     "end_line": 7,
+     "assert_line": 7,
+     "quote": "assert os.path.exists(\"/app/result.txt\"), \"result.txt file does not exist\"",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_data_matches",
+     "counter_class": "P3"
+    }
+   ],
+   "what_else_grader_checks": "test_data_matches: result.txt has exactly one line equal to the expected answer string.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "multi-source-data-merger",
+   "grader": "corpus/evidence/round52/graders/multi-source-data-merger/tests/test_outputs.py",
+   "sha256": "a070888930cf829aeca039771260b1386bda990ea805f313468d381ba3608ca5",
+   "bytes": 1889,
+   "lines": 57,
+   "test_count": 3,
+   "counter_file_class": "V3",
+   "counter_P1_tests": [
+    "test_output_files_exist"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_output_files_exist",
+     "def_line": 11,
+     "end_line": 14,
+     "assert_line": 13,
+     "quote": "assert os.path.exists(\"/app/merged_users.parquet\"), \"merged_users.parquet not found\"",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_merged_data_exact_values",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_conflict_report_values",
+     "counter_class": "P3"
+    }
+   ],
+   "what_else_grader_checks": "test_merged_data_exact_values (4 users, ids, name/email/created_date for 101 and 104) and test_conflict_report_values (total_conflicts, user_101 conflict values and selected).",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "openssl-selfsigned-cert",
+   "grader": "corpus/evidence/round52/graders/openssl-selfsigned-cert/tests/test_outputs.py",
+   "sha256": "90970bb3c372e8e7fb6bb9ac5f649ba73eb38e1a5ea2e922a9057a72b6b4192d",
+   "bytes": 5878,
+   "lines": 161,
+   "test_count": 6,
+   "counter_file_class": "V2",
+   "counter_P1_tests": [
+    "test_directory_structure"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_directory_structure",
+     "def_line": 8,
+     "end_line": 12,
+     "assert_line": 11,
+     "quote": "assert os.path.exists(directory), f\"Directory {directory} does not exist\"",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_key_file",
+     "counter_class": "P2"
+    },
+    {
+     "test": "test_certificate_file",
+     "counter_class": "P2"
+    },
+    {
+     "test": "test_combined_pem_file",
+     "counter_class": "P2"
+    },
+    {
+     "test": "test_verification_file",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_python_verification_script",
+     "counter_class": "P2"
+    }
+   ],
+   "what_else_grader_checks": "key permission<=0600 and '2048 bit'; cert CN/org strings and 365-day validity; combined PEM has PRIVATE KEY+CERTIFICATE and openssl exit 0; verification file strings/dates/fingerprint regex; the python verification script runs and prints expected stdout.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "password-recovery",
+   "grader": "corpus/evidence/round52/graders/password-recovery/tests/test_outputs.py",
+   "sha256": "2dc14fc180734b6fbb0ee00f27c4f866071247b57a2217f579465ff8ed3bfc9e",
+   "bytes": 594,
+   "lines": 19,
+   "test_count": 2,
+   "counter_file_class": "V3",
+   "counter_P1_tests": [
+    "test_recovery_file_exists"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_recovery_file_exists",
+     "def_line": 8,
+     "end_line": 10,
+     "assert_line": 10,
+     "quote": "assert recovered_pass_path.exists(), \"Recovery file not found\"",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_password_match",
+     "counter_class": "P3"
+    }
+   ],
+   "what_else_grader_checks": "test_password_match: '8XDP5Q2RT9ZK7VB3BV4WW54' is among the lines of recovered_passwords.txt (substring/membership check, non-empty).",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "path-tracing",
+   "grader": "corpus/evidence/round52/graders/path-tracing/tests/test_outputs.py",
+   "sha256": "572e68b2843191d29592faf42a405861b7958d8e894868b74c5a8886b53eb879",
+   "bytes": 4172,
+   "lines": 116,
+   "test_count": 5,
+   "counter_file_class": "V2",
+   "counter_P1_tests": [
+    "test_image_c_exists"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_image_c_exists",
+     "def_line": 9,
+     "end_line": 16,
+     "assert_line": 16,
+     "quote": "assert image_c_path.exists(), f\"File {image_c_path} does not exist\"",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_image_compiles",
+     "counter_class": "P2"
+    },
+    {
+     "test": "test_no_deps",
+     "counter_class": "P2"
+    },
+    {
+     "test": "test_runs_and_produces_output",
+     "counter_class": "P2"
+    },
+    {
+     "test": "test_image_similarity",
+     "counter_class": "P3"
+    }
+   ],
+   "what_else_grader_checks": "image.c compresses to <2100 bytes, compiles, has no /app/ deps, runs and writes reconstructed.ppm, and pixel similarity >=0.99 to the reference.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "path-tracing-reverse",
+   "grader": "corpus/evidence/round52/graders/path-tracing-reverse/tests/test_outputs.py",
+   "sha256": "c4477b901887dcbc788eed138f30e32675a8c14710410733009071c11aa783c7",
+   "bytes": 3426,
+   "lines": 88,
+   "test_count": 3,
+   "counter_file_class": "V2",
+   "counter_P1_tests": [
+    "test_image_c_exists"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_image_c_exists",
+     "def_line": 9,
+     "end_line": 17,
+     "assert_line": 17,
+     "quote": "assert image_c_path.exists(), f\"File {image_c_path} does not exist\"",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_image_compiles",
+     "counter_class": "P2"
+    },
+    {
+     "test": "test_image_similarity",
+     "counter_class": "P2"
+    }
+   ],
+   "what_else_grader_checks": "mystery.c compresses to <2100 bytes, compiles; runs original binary and recompiled binary in chroot jails and requires image similarity >=0.995.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "prove-plus-comm",
+   "grader": "corpus/evidence/round52/graders/prove-plus-comm/tests/test_outputs.py",
+   "sha256": "02df5d8f2ab15eb9ec39493c5ce57b8699853304cd8dd5b853e1dcb8c4a13327",
+   "bytes": 1147,
+   "lines": 36,
+   "test_count": 4,
+   "counter_file_class": "V2",
+   "counter_P1_tests": [
+    "test_proof_file_exists",
+    "test_compiled_proof_exists"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_proof_file_exists",
+     "def_line": 7,
+     "end_line": 8,
+     "assert_line": 8,
+     "quote": "assert os.path.exists(\"plus_comm.v\"), \"The proof file plus_comm.v should exist\"",
+     "counter_class": "P1"
+    },
+    {
+     "test": "test_compiled_proof_exists",
+     "def_line": 11,
+     "end_line": 14,
+     "assert_line": 12,
+     "quote": "assert os.path.exists(\"plus_comm.vo\"), (",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_proof_contents",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_compiled_proof_content",
+     "counter_class": "P2"
+    }
+   ],
+   "what_else_grader_checks": "plus_comm.v contains 'n + m = m + n', 'Proof.', 'Qed.', no 'admit'; coqc compile returncode 0. Relative paths: the two exists tests resolve against the pytest cwd.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "pytorch-model-cli",
+   "grader": "corpus/evidence/round52/graders/pytorch-model-cli/tests/test_outputs.py",
+   "sha256": "370702c57a4e0c85f70ee37a5c357ae3a5df8480a275bb6263b0376f2f6c093b",
+   "bytes": 3181,
+   "lines": 145,
+   "test_count": 6,
+   "counter_file_class": "V2",
+   "counter_P1_tests": [
+    "test_weights_file_exists",
+    "test_cli_tool_exists",
+    "test_prediction_file_exists"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_weights_file_exists",
+     "def_line": 12,
+     "end_line": 15,
+     "assert_line": 15,
+     "quote": "assert weights_path.exists(), f\"File {weights_path} does not exist\"",
+     "counter_class": "P1"
+    },
+    {
+     "test": "test_cli_tool_exists",
+     "def_line": 18,
+     "end_line": 21,
+     "assert_line": 21,
+     "quote": "assert cli_path.exists(), f\"File {cli_path} does not exist\"",
+     "counter_class": "P1"
+    },
+    {
+     "test": "test_prediction_file_exists",
+     "def_line": 24,
+     "end_line": 27,
+     "assert_line": 27,
+     "quote": "assert prediction_path.exists(), f\"File {prediction_path} does not exist\"",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_prediction_file_content",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_cli_tool_executable",
+     "counter_class": "P2"
+    },
+    {
+     "test": "test_cli_tool_output",
+     "counter_class": "P2"
+    }
+   ],
+   "what_else_grader_checks": "test_prediction_file_content (== '2'), test_cli_tool_executable (output '2') and test_cli_tool_output (many-image prediction comparison).",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "pytorch-model-recovery",
+   "grader": "corpus/evidence/round52/graders/pytorch-model-recovery/tests/test_outputs.py",
+   "sha256": "5d4d57c43e6913bf3d0081da764ad36d1b7275e3bb114a05abda529afe563905",
+   "bytes": 5591,
+   "lines": 169,
+   "test_count": 5,
+   "counter_file_class": "V1",
+   "counter_P1_tests": [],
+   "independent_P1_tests": [
+    {
+     "test": "test_model_file_exists",
+     "def_line": 103,
+     "end_line": 108,
+     "assert_line": 108,
+     "quote": "assert hello_path.exists(), f\"File {hello_path} does not exist\"",
+     "counter_class": "P3"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_weights_file_unchanged",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_model_loads_weights",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_state_dicts_match",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_model_loss",
+     "counter_class": "P3"
+    }
+   ],
+   "what_else_grader_checks": "Counter shows presence_only=-; the candidate flag comes only from file-level V1. test_model_file_exists (lines 103-108) is presence-only (AST P1) but labelled P3 by the counter (docstring comment word 'in'). Sibling tests: weights unchanged (torch.allclose), model loads weights, state dict keys/values match except output_layer, agent MSE loss < true model loss. So the grader as a whole is NOT presence-satisfiable.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": [
+    {
+     "kind": "counter-missed-presence-only",
+     "tests": [
+      "test_model_file_exists"
+     ]
+    }
+   ]
+  },
+  {
+   "task": "raman-fitting",
+   "grader": "corpus/evidence/round52/graders/raman-fitting/tests/test_outputs.py",
+   "sha256": "171fae772ccf262aec8ddac5bd2c6c731eed842421f5d8439a330b158c9f8c13",
+   "bytes": 2029,
+   "lines": 70,
+   "test_count": 3,
+   "counter_file_class": "V3",
+   "counter_P1_tests": [
+    "test_result_file_exists"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_result_file_exists",
+     "def_line": 8,
+     "end_line": 11,
+     "assert_line": 11,
+     "quote": "assert result_path.exists(), f\"File {result_path} does not exist\"",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_G_Peak",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_2D_Peak",
+     "counter_class": "P3"
+    }
+   ],
+   "what_else_grader_checks": "test_G_Peak and test_2D_Peak: results.json x0/gamma/amplitude/offset each within tolerance of expected.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "sam-cell-seg",
+   "grader": "corpus/evidence/round52/graders/sam-cell-seg/tests/test_outputs.py",
+   "sha256": "908c4b6aa44e12b6c429c221b92eaa6b150880b9b3d74d9d5ef6869a570f4fd4",
+   "bytes": 10136,
+   "lines": 287,
+   "test_count": 9,
+   "counter_file_class": "V2",
+   "counter_P1_tests": [
+    "test_python_file_exists",
+    "test_csv_output_exists"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_python_file_exists",
+     "def_line": 147,
+     "end_line": 150,
+     "assert_line": 150,
+     "quote": "assert output_path.exists(), f\"File {output_path} does not exist\"",
+     "counter_class": "P1"
+    },
+    {
+     "test": "test_csv_output_exists",
+     "def_line": 177,
+     "end_line": 180,
+     "assert_line": 180,
+     "quote": "assert output_path.exists(), f\"File {output_path} does not exist\"",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_run_script",
+     "counter_class": "P0"
+    },
+    {
+     "test": "test_csv_shape_cols",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_masks_are_no_longer_rect",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_mask_alignment",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_no_polyline_overlaps",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_single_contiguous_mask_per_cell",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_coords_are_flat_lists",
+     "counter_class": "P3"
+    }
+   ],
+   "what_else_grader_checks": "test_run_script executes /app/convert_masks.py via subprocess (check=True), then CSV shape/columns, mask-no-longer-rectangular, mask alignment, no polyline overlaps, one contiguous mask per cell, flat-list coords.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "torch-tensor-parallelism",
+   "grader": "corpus/evidence/round52/graders/torch-tensor-parallelism/tests/test_outputs.py",
+   "sha256": "4ae4285e15fba1fcf13d7b7c0638ac8c2e2b0797c937abab1fb6b136fd508290",
+   "bytes": 7171,
+   "lines": 212,
+   "test_count": 3,
+   "counter_file_class": "V1",
+   "counter_P1_tests": [],
+   "independent_P1_tests": [
+    {
+     "test": "test_parallel_linear_exists",
+     "def_line": 18,
+     "end_line": 25,
+     "assert_line": 25,
+     "quote": "assert parallel_linear_path.exists(), f\"File {parallel_linear_path} does not exist\"",
+     "counter_class": "P2"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_column_parallel_linear",
+     "counter_class": "P0"
+    },
+    {
+     "test": "test_row_parallel_linear",
+     "counter_class": "P0"
+    }
+   ],
+   "what_else_grader_checks": "Counter shows presence_only=- (file-level V1 only). test_parallel_linear_exists (lines 18-25) is presence-only (AST P1) but labelled P2 because split_tests folds the following helper defs (dist.init_process_group) into its block. The two real tests (lines ~187/~203, parametrised over bias/world_size) mp.spawn gloo processes and torch.allclose-compare ColumnParallelLinear/RowParallelLinear weights, bias and outputs; counter labels them P0 (assert lives in the _test_* helper).",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": [
+    {
+     "kind": "counter-missed-presence-only",
+     "tests": [
+      "test_parallel_linear_exists"
+     ]
+    }
+   ]
+  },
+  {
+   "task": "vulnerable-secret",
+   "grader": "corpus/evidence/round52/graders/vulnerable-secret/tests/test_outputs.py",
+   "sha256": "f2b65f63ac81acd1e80e1ad4c59c1022131a0f9eb20f8ab3212c4ef8d8f0c753",
+   "bytes": 1346,
+   "lines": 40,
+   "test_count": 3,
+   "counter_file_class": "V3",
+   "counter_P1_tests": [
+    "test_results_file_exists"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_results_file_exists",
+     "def_line": 7,
+     "end_line": 10,
+     "assert_line": 10,
+     "quote": "assert results_path.exists(), f\"File {results_path} does not exist\"",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_results_file_contains_secret_flag",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_results_file_format",
+     "counter_class": "P3"
+    }
+   ],
+   "what_else_grader_checks": "test_results_file_contains_secret_flag (content == expected flag) and format (starts FLAG{, ends }, len>10).",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "winning-avg-corewars",
+   "grader": "corpus/evidence/round52/graders/winning-avg-corewars/tests/test_outputs.py",
+   "sha256": "252f78e5ce87ae3cf5852f192889aef5bd693ab0a13a6bf94cbb2fdce3218e93",
+   "bytes": 3521,
+   "lines": 109,
+   "test_count": 3,
+   "counter_file_class": "V2",
+   "counter_P1_tests": [
+    "test_warrior_exists"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_warrior_exists",
+     "def_line": 39,
+     "end_line": 41,
+     "assert_line": 41,
+     "quote": "assert Path(\"/app/my_warrior.red\").exists(), \"my_warrior.red file not found\"",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_opponents_integrity",
+     "counter_class": "P3"
+    },
+    {
+     "test": "test_warrior_performance",
+     "counter_class": "P2"
+    }
+   ],
+   "what_else_grader_checks": "opponent hash integrity; test_warrior_performance runs pmars battles and requires win rate >= threshold.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  },
+  {
+   "task": "write-compressor",
+   "grader": "corpus/evidence/round52/graders/write-compressor/tests/test_outputs.py",
+   "sha256": "809f486053e3ffbce852111dee1f63d80ab31297bd33172389e50278bed384e2",
+   "bytes": 2427,
+   "lines": 74,
+   "test_count": 3,
+   "counter_file_class": "V2",
+   "counter_P1_tests": [
+    "test_compressed_file_exists"
+   ],
+   "independent_P1_tests": [
+    {
+     "test": "test_compressed_file_exists",
+     "def_line": 18,
+     "end_line": 22,
+     "assert_line": 22,
+     "quote": "assert compressed_path.exists(), f\"File {compressed_path} does not exist\"",
+     "counter_class": "P1"
+    }
+   ],
+   "verified_presence_only_test": true,
+   "other_tests": [
+    {
+     "test": "test_decompression_produces_original",
+     "counter_class": "P2"
+    },
+    {
+     "test": "test_compression_size",
+     "counter_class": "P3"
+    }
+   ],
+   "what_else_grader_checks": "Setup compiles decomp.c with gcc; decompressor run on data.comp must reproduce original stdout exactly; compressed size <= max bytes.",
+   "whole_grader_verdict": "not vacuous: a test-level finding only; the grader as a whole also checks content/behaviour",
+   "counter_disagreement": []
+  }
+ ],
+ "non_candidate_counter_misses": [
+  {
+   "task": "circuit-fibsqrt",
+   "test": "test_gates_file_exists",
+   "def_line": 7,
+   "counter_class": "P3",
+   "independent_class": "P1"
+  },
+  {
+   "task": "extract-moves-from-video",
+   "test": "test_solution_file_exists",
+   "def_line": 327,
+   "counter_class": "P3",
+   "independent_class": "P1"
+  },
+  {
+   "task": "fix-code-vulnerability",
+   "test": "test_report_file_exists_example",
+   "def_line": 13,
+   "counter_class": "P3",
+   "independent_class": "P1"
+  },
+  {
+   "task": "gcode-to-text",
+   "test": "test_hello_file_exists",
+   "def_line": 6,
+   "counter_class": "P3",
+   "independent_class": "P1"
+  },
+  {
+   "task": "llm-inference-batching-scheduler",
+   "test": "test_output_files_exist",
+   "def_line": 91,
+   "counter_class": "P3",
+   "independent_class": "P1"
+  },
+  {
+   "task": "merge-diff-arc-agi-task",
+   "test": "test_git_repo_init",
+   "def_line": 10,
+   "counter_class": "P3",
+   "independent_class": "P1"
+  },
+  {
+   "task": "merge-diff-arc-agi-task",
+   "test": "test_algo_py_exists",
+   "def_line": 34,
+   "counter_class": "P3",
+   "independent_class": "P1"
+  },
+  {
+   "task": "sparql-university",
+   "test": "test_sparql_file_exists",
+   "def_line": 22,
+   "counter_class": "P3",
+   "independent_class": "P1"
+  },
+  {
+   "task": "torch-pipeline-parallelism",
+   "test": "test_pipeline_parallel_exists",
+   "def_line": 19,
+   "counter_class": "P3",
+   "independent_class": "P1"
+  },
+  {
+   "task": "tune-mjcf",
+   "test": "test_tuned_model_exists",
+   "def_line": 25,
+   "counter_class": "P3",
+   "independent_class": "P1"
+  },
+  {
+   "task": "video-processing",
+   "test": "test_example_video_exists",
+   "def_line": 81,
+   "counter_class": "P3",
+   "independent_class": "P1"
+  },
+  {
+   "task": "video-processing",
+   "test": "test_test_video_exists",
+   "def_line": 87,
+   "counter_class": "P3",
+   "independent_class": "P1"
+  }
+ ]
+}

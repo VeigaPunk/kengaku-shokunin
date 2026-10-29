@@ -1,0 +1,146 @@
+quotes verified verbatim in captured bytes
+=== F0-base: live state reproduction (no receipts)  exit=1
+    TASKS total=89 records=89 classified=88
+    CAPTURES expected=184 present=183 mismatched=0
+    CONFIRMED new=0 []
+    PRIOR-ART ok=False urls=0
+    LABELS agree=0 of 0
+    PREDICATE R52-C1 fail
+    A5 EXCLUDED listed=1 digest_pinned=1 tasks=['sanitize-git-repo']
+    A5 CAPTURES present+pinned_excluded=184 of 184
+    A5 TASKS classified+excluded=89 of 89
+    PREDICATE R52-C1-A5 fail
+=== F1-false-string: both readers wrote confirmed:"false" (string)  exit=1
+    TASKS total=89 records=89 classified=88
+    CAPTURES expected=184 present=183 mismatched=0
+    CONFIRMED new=2 ['mteb-leaderboard', 'multi-source-data-merger']
+    PRIOR-ART ok=True urls=3
+    LABELS agree=0 of 0
+    PREDICATE R52-C1 fail
+    A5 EXCLUDED listed=1 digest_pinned=1 tasks=['sanitize-git-repo']
+    A5 CAPTURES present+pinned_excluded=184 of 184
+    A5 TASKS classified+excluded=89 of 89
+    PREDICATE R52-C1-A5 pass
+=== F2-one-token-quote: quote = bare keyword "assert", no located line  exit=1
+    TASKS total=89 records=89 classified=88
+    CAPTURES expected=184 present=183 mismatched=0
+    CONFIRMED new=2 ['mteb-leaderboard', 'multi-source-data-merger']
+    PRIOR-ART ok=True urls=3
+    LABELS agree=0 of 0
+    PREDICATE R52-C1 fail
+    A5 EXCLUDED listed=1 digest_pinned=1 tasks=['sanitize-git-repo']
+    A5 CAPTURES present+pinned_excluded=184 of 184
+    A5 TASKS classified+excluded=89 of 89
+    PREDICATE R52-C1-A5 pass
+=== F3-V1-only-candidate: two tasks admitted only via file-level V1; their per-test P1 set is empty  exit=1
+    TASKS total=89 records=89 classified=88
+    CAPTURES expected=184 present=183 mismatched=0
+    CONFIRMED new=2 ['pytorch-model-recovery', 'torch-tensor-parallelism']
+    PRIOR-ART ok=True urls=3
+    LABELS agree=0 of 0
+    PREDICATE R52-C1 fail
+    A5 EXCLUDED listed=1 digest_pinned=1 tasks=['sanitize-git-repo']
+    A5 CAPTURES present+pinned_excluded=184 of 184
+    A5 TASKS classified+excluded=89 of 89
+    PREDICATE R52-C1-A5 pass
+=== F4-delete-knowledge-entry: delete the lane knowledge entry for password-recovery (a P1 task the lane read) -> counted as never-read  exit=1
+    TASKS total=89 records=89 classified=88
+    CAPTURES expected=184 present=183 mismatched=0
+    CONFIRMED new=2 ['multi-source-data-merger', 'password-recovery']
+    PRIOR-ART ok=True urls=3
+    LABELS agree=0 of 0
+    PREDICATE R52-C1 fail
+    A5 EXCLUDED listed=1 digest_pinned=1 tasks=['sanitize-git-repo']
+    A5 CAPTURES present+pinned_excluded=184 of 184
+    A5 TASKS classified+excluded=89 of 89
+    PREDICATE R52-C1-A5 pass
+=== F4-control-entry-present: control: same receipts, entry present -> must reject  exit=1
+    TASKS total=89 records=89 classified=88
+    CAPTURES expected=184 present=183 mismatched=0
+    CONFIRMED new=1 ['multi-source-data-merger']
+      REJECTED password-recovery not-a-new-task
+    PRIOR-ART ok=True urls=3
+    LABELS agree=0 of 0
+    PREDICATE R52-C1 fail
+    A5 EXCLUDED listed=1 digest_pinned=1 tasks=['sanitize-git-repo']
+    A5 CAPTURES present+pinned_excluded=184 of 184
+    A5 TASKS classified+excluded=89 of 89
+    PREDICATE R52-C1-A5 fail
+=== F5-new-entry-convention: L1 writes entry tb2-mteb-leaderboard-grader.md citing a valid confirmation  exit=1
+    TASKS total=89 records=89 classified=88
+    CAPTURES expected=184 present=183 mismatched=0
+    CONFIRMED new=1 ['multi-source-data-merger']
+      REJECTED mteb-leaderboard not-a-new-task
+    PRIOR-ART ok=True urls=3
+    LABELS agree=0 of 0
+    PREDICATE R52-C1 fail
+    A5 EXCLUDED listed=1 digest_pinned=1 tasks=['sanitize-git-repo']
+    A5 CAPTURES present+pinned_excluded=184 of 184
+    A5 TASKS classified+excluded=89 of 89
+    PREDICATE R52-C1-A5 fail
+=== F6-prior-art-spellings: one repo, three spellings (slash, angle brackets), no per-finding verdict  exit=1
+    TASKS total=89 records=89 classified=88
+    CAPTURES expected=184 present=183 mismatched=0
+    CONFIRMED new=2 ['mteb-leaderboard', 'multi-source-data-merger']
+    PRIOR-ART ok=True urls=3
+    LABELS agree=0 of 0
+    PREDICATE R52-C1 fail
+    A5 EXCLUDED listed=1 digest_pinned=1 tasks=['sanitize-git-repo']
+    A5 CAPTURES present+pinned_excluded=184 of 184
+    A5 TASKS classified+excluded=89 of 89
+    PREDICATE R52-C1-A5 pass
+=== F7-shrunk-population: population JSON edited to 88 tasks / 182 captures; counter never checks 89/184  exit=0
+    TASKS total=88 records=88 classified=88
+    CAPTURES expected=182 present=182 mismatched=0
+    CONFIRMED new=2 ['mteb-leaderboard', 'multi-source-data-merger']
+    PRIOR-ART ok=True urls=3
+    LABELS agree=0 of 0
+    PREDICATE R52-C1 pass
+    A5 EXCLUDED listed=1 digest_pinned=1 tasks=[]
+    A5 CAPTURES present+pinned_excluded=183 of 182
+    A5 TASKS classified+excluded=88 of 88
+    PREDICATE R52-C1-A5 fail
+=== F8-tamper-and-rewrite-sha: graded bytes edited, matching SHA256SUMS line rewritten  exit=1
+    TASKS total=89 records=89 classified=88
+    CAPTURES expected=184 present=183 mismatched=0
+    CONFIRMED new=2 ['mteb-leaderboard', 'multi-source-data-merger']
+    PRIOR-ART ok=True urls=3
+    LABELS agree=0 of 0
+    PREDICATE R52-C1 fail
+    A5 EXCLUDED listed=1 digest_pinned=1 tasks=['sanitize-git-repo']
+    A5 CAPTURES present+pinned_excluded=184 of 184
+    A5 TASKS classified+excluded=89 of 89
+    PREDICATE R52-C1-A5 pass
+=== F8b-duplicate-sha-line: original SHA line left stale; appended duplicate line carries new digest  exit=1
+    TASKS total=89 records=89 classified=88
+    CAPTURES expected=184 present=183 mismatched=0
+    CONFIRMED new=2 ['mteb-leaderboard', 'multi-source-data-merger']
+    PRIOR-ART ok=True urls=3
+    LABELS agree=0 of 0
+    PREDICATE R52-C1 fail
+    A5 EXCLUDED listed=1 digest_pinned=1 tasks=['sanitize-git-repo']
+    A5 CAPTURES present+pinned_excluded=184 of 184
+    A5 TASKS classified+excluded=89 of 89
+    PREDICATE R52-C1-A5 pass
+=== F9-A5-fake-exclusion: EXCLUDED.md names a non-population absent path with a self-written digest; sanitize still absent, no exclusion of it  exit=1
+    TASKS total=89 records=89 classified=88
+    CAPTURES expected=184 present=183 mismatched=0
+    CONFIRMED new=2 ['mteb-leaderboard', 'multi-source-data-merger']
+    PRIOR-ART ok=True urls=3
+    LABELS agree=0 of 0
+    PREDICATE R52-C1 fail
+    A5 EXCLUDED listed=1 digest_pinned=1 tasks=[]
+    A5 CAPTURES present+pinned_excluded=184 of 184
+    A5 TASKS classified+excluded=88 of 89
+    PREDICATE R52-C1-A5 fail
+=== F10-labels-drop: two rows with out-of-vocabulary label, one duplicate row  exit=1
+    TASKS total=89 records=89 classified=88
+    CAPTURES expected=184 present=183 mismatched=0
+    CONFIRMED new=0 []
+    PRIOR-ART ok=False urls=0
+    LABELS agree=3 of 3
+    PREDICATE R52-C1 fail
+    A5 EXCLUDED listed=1 digest_pinned=1 tasks=['sanitize-git-repo']
+    A5 CAPTURES present+pinned_excluded=184 of 184
+    A5 TASKS classified+excluded=89 of 89
+    PREDICATE R52-C1-A5 fail

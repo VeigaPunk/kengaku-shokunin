@@ -1,0 +1,11 @@
+--- tip/plans/round52_c2_registry.py	2026-10-28 20:43:53.000000000 -0300
++++ mut/M3.py	2026-10-28 20:58:34.757949006 -0300
+@@ -75,7 +75,7 @@
+         return False
+     scripts = sorted(set(re.findall(r"(?:plans|corpus|grader)[A-Za-z0-9_./-]*\.py", cell)))
+     flags = sorted(set(FLAG.findall(cell)))
+-    if len(scripts) != 1 or not flags:
++    if len(scripts) != 2 or not flags:
+         return False
+     path = lane / scripts[0]
+     if not path.exists():

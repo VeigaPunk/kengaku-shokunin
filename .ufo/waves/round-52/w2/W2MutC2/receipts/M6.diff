@@ -1,0 +1,11 @@
+--- tip/plans/round52_c2_registry.py	2026-10-28 20:43:53.000000000 -0300
++++ mut/M6.py	2026-10-28 20:58:34.767948996 -0300
+@@ -71,8 +71,6 @@
+     A flag explicitly negated in prose (e.g. “no --selftest in the script”) is a
+     declaration that no self-test exists, not a claim that the script accepts it.
+     """
+-    if re.search(r"\bno\b.{0,24}--[a-z][a-z0-9-]*", cell):
+-        return False
+     scripts = sorted(set(re.findall(r"(?:plans|corpus|grader)[A-Za-z0-9_./-]*\.py", cell)))
+     flags = sorted(set(FLAG.findall(cell)))
+     if len(scripts) != 1 or not flags:

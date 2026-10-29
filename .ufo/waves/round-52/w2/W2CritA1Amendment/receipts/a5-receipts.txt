@@ -1,0 +1,30 @@
+A5 receipts (W2CritA1Amendment). Lane tip 87301ba. All fixtures are scratch copies; the lane was not written.
+Counter: plans/round52_c1_grader_audit.py (lane copy, unmodified). Copies made with shutil into scratch a5-mut and a5-swap.
+
+[lane, unmodified, via python3 plans/round52_c1_grader_audit.py --lane <lane>]  exit=1
+TASKS total=89 records=89 classified=88
+CAPTURES expected=184 present=183 mismatched=0
+PREDICATE R52-C1 fail
+A5 EXCLUDED listed=1 digest_pinned=1 tasks=['sanitize-git-repo']
+A5 CAPTURES present+pinned_excluded=184 of 184
+A5 TASKS classified+excluded=89 of 89
+PREDICATE R52-C1-A5 fail
+
+[a5-mut: corpus/.../graders/bn-fit-modify/tests/test.sh deleted; EXCLUDED.md re-pointed at it with its SHA256SUMS digest ea2adeb7...c4]  exit=1
+TASKS total=89 records=89 classified=88
+CAPTURES expected=184 present=182 mismatched=0
+A5 EXCLUDED listed=1 digest_pinned=1 tasks=[]
+A5 CAPTURES present+pinned_excluded=183 of 184
+A5 TASKS classified+excluded=88 of 89
+PREDICATE R52-C1-A5 fail
+
+[a5-swap: as a5-mut, plus scratch-only placeholder bytes at sanitize-git-repo/tests/test_outputs.py with the SHA256SUMS line for that path rewritten to the placeholder digest (scratch only), i.e. the GH013-excluded path present locally]  exit=1
+TASKS total=89 records=89 classified=89
+CAPTURES expected=184 present=183 mismatched=0
+A5 EXCLUDED listed=1 digest_pinned=1 tasks=[]
+A5 CAPTURES present+pinned_excluded=184 of 184
+A5 TASKS classified+excluded=89 of 89
+PREDICATE R52-C1-A5 fail     (fails only on the unlanded confirmation and prior-art legs)
+
+Upstream digest cross-check cited (not run by this seat): .ufo/waves/round-52/w2/W2ExecCapturesVerify/report.md line 27
+(upstream sha256 57e4904177ac...b59e, 2687 B).

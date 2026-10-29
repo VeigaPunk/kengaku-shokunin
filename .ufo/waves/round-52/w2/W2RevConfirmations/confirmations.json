@@ -1,0 +1,24 @@
+[
+  {
+    "task": "bn-fit-modify",
+    "test": "test_bn_sample_exists",
+    "quote": "assert bn_sample_path.exists(), f\"File {bn_sample_path} does not exist\"",
+    "line": 17,
+    "file": "corpus/evidence/round52/graders/bn-fit-modify/tests/test_outputs.py",
+    "file_sha256": "364069f893e336a021c907dd0ac11ff4c9e7ca7b4fa7ab506c360166960e455b",
+    "reader": "W2RevConfirmations",
+    "confirmed": true,
+    "note": "Test body (lines 13-17) asserts only Path('/app/final_bn_sample.csv').exists(). Per-test class P1. The file as a whole is not presence-only: test_learned_dag_structure (line 44) and test_sampled_data (line 115) compare content, so the finding is per-test, per Amendment A1."
+  },
+  {
+    "task": "build-cython-ext",
+    "test": "test_repo_cloned",
+    "quote": "assert (path / \".git\").exists(), f\"{path} is not a git repository\"",
+    "line": 35,
+    "file": "corpus/evidence/round52/graders/build-cython-ext/tests/test_outputs.py",
+    "file_sha256": "6549f1a8e04b6163ec08877e6f6b9868bf94563f3a3c72ac1fba9c512c31689e",
+    "reader": "W2RevConfirmations",
+    "confirmed": true,
+    "note": "Test body (lines 31-35) asserts only path.exists() (line 33), path.is_dir() (line 34) and (path/'.git').exists() (line 35) on /app/pyknotid. Per-test class P1. The file as a whole is not presence-only: test_chelpers (line 82), test_ccomplexity (94), test_cinvariants_python_vs_cython (113) and test_pyknotid_repository_tests (140) execute and compare."
+  }
+]

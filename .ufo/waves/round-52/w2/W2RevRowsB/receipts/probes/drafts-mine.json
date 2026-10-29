@@ -1,0 +1,338 @@
+[
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsC/rows.md",
+  "line": 22,
+  "cells": [
+   "`round35-c1-coverage`",
+   "gate",
+   "`python3 plans/round35_c1_verify.py --lane .` (lane root; `--fleet DIR` defaults to `/home/vgpnk/Projects/shokunin`) \u2014 the pinned TB2 `protein-assembly` grader admission, as six checks V1\u2013V6",
+   "`0` `checks=6 defects=0` then `PREDICATE C1 pass` \u00b7 `1` any `V<n> DEFECT <reason>` \u2014 a check that raises prints `error <Class>: \u2026` and is a defect, never a pass \u2014 then `checks=6 defects=M` and `PREDICATE C1 fail` \u00b7 `2` argparse usage only (the script has no setup exit)",
+   "none \u2014 this counter has no self-test and no fixture tree: `--selftest` is rejected by argparse (`error: unrecognized arguments: --selftest`, exit 2, measured 2026-10-28). Its only falsifier is its own `V<n> DEFECT` lines on a lane that breaks a pin; measured red today on V4",
+   "TB2 pin `2fd12b88aafdd04a52c298e3940bcb189f9766d6` with three capture sha256: `44a05a24\u2026` (`test_outputs.py`), `9ede4664\u2026` (`test.sh`), `1bb2af1d\u2026` (`instruction.md`); rows S105/S106/S107 exactly once each, 11 cells, tier A, status `mined`, opened 2026-10-25; entry head lines 1\u20135 (three `source:` lines, `verified-at: 2026-10-25`, `recheck:`); \u22658 located quotes of \u226425 words, each verbatim in the cited capture; `knowledge files == index rows == 42` \u2014 **stale: measured 55 files / 54 index rows at the base tip `30801b47` and at HEAD, so V4 is red by construction and this row must not be read as \"lane clean\"**",
+   "none of its own, but it executes two other instruments: `plans/tb2_grader_probe.py` in the lane cwd (V5, output byte-compared to `corpus/evidence/round35/tb2-grader-probe.txt`) and `scripts/sources-census.sh` (V6: `validate --root <fleet> kengaku` on the live lane, `validate --file <lane>/corpus/SOURCES.md` on a clone); when `Bio` is not importable it runs the probe under `uv run --no-project --with biopython==1.85`, which reaches the network",
+   "kengaku round 35"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsC/rows.md",
+  "line": 22,
+  "cells": [
+   "`round35-c1-coverage`",
+   "gate",
+   "`python3 plans/round35_c1_verify.py --lane .` (lane root; `--fleet DIR` defaults to `/home/vgpnk/Projects/shokunin`) \u2014 the pinned TB2 `protein-assembly` grader admission, as six checks V1\u2013V6",
+   "`0` `checks=6 defects=0` then `PREDICATE C1 pass` \u00b7 `1` any `V<n> DEFECT <reason>` \u2014 a check that raises prints `error <Class>: \u2026` and is a defect, never a pass \u2014 then `checks=6 defects=M` and `PREDICATE C1 fail` \u00b7 `2` argparse usage only (the script has no setup exit)",
+   "none \u2014 this counter has no self-test and no fixture tree: `--selftest` is rejected by argparse (`error: unrecognized arguments: --selftest`, exit 2, measured 2026-10-28). Its only falsifier is its own `V<n> DEFECT` lines on a lane that breaks a pin; measured red today on V4",
+   "TB2 pin `2fd12b88aafdd04a52c298e3940bcb189f9766d6` with three capture sha256: `44a05a24\u2026` (`test_outputs.py`), `9ede4664\u2026` (`test.sh`), `1bb2af1d\u2026` (`instruction.md`); rows S105/S106/S107 exactly once each, 11 cells, tier A, status `mined`, opened 2026-10-25; entry head lines 1\u20135 (three `source:` lines, `verified-at: 2026-10-25`, `recheck:`); \u22658 located quotes of \u226425 words, each verbatim in the cited capture; `knowledge files == index rows == 42` \u2014 **stale: measured 55 files / 54 index rows at the base tip `30801b47` and at HEAD, so V4 is red by construction and this row must not be read as \"lane clean\"**",
+   "none of its own, but it executes two other instruments: `plans/tb2_grader_probe.py` in the lane cwd (V5, output byte-compared to `corpus/evidence/round35/tb2-grader-probe.txt`) and `scripts/sources-census.sh` (V6: `validate --root <fleet> kengaku` on the live lane, `validate --file <lane>/corpus/SOURCES.md` on a clone); when `Bio` is not importable it runs the probe under `uv run --no-project --with biopython==1.85`, which reaches the network",
+   "kengaku round 35"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsE/rows.md",
+  "line": 3,
+  "cells": [
+   "`round46-c2`",
+   "gate",
+   "`python3 plans/round46_c2_verify.py --lane .` (`--work DIR` scratch parent, created if absent; the clone needs base revision `64ba8385` in its history for leg A)",
+   "`0` pass (`checks=4 defects=0` then `PREDICATE C2 pass`; measured at tip `1315234b`: `PINS total=3 mismatched=0`, `A anchorline live=0 repaired=8 base_rows=149 base_missing=0 base_changed=0`, `B predictor states=16 grader_pass=10 grader_fail=6 disagree=0`, `C entry source_ranges=9 source_ranges_bad=0 errata_marks=5/5`, `D selftest exit=0`) \u00b7 `1` fail \u2014 any `A`\u2013`D` leg printing `DEFECT` (a leg that raises is a defect), `PINS \u2026 mismatched=<n>`, or a pinned tool off its freeze digest (`SETUP a pinned tool is not at its freeze digest` on stderr) \u00b7 `2` is declared in the docstring but not implemented: every setup failure returns 1, and an unknown flag is rejected by argparse with 2",
+   "no self-test of its own \u2014 no `--selftest` flag exists (measured: argparse exits 2 on it); leg D is the red-fixture leg and requires `plans/anchor_line_check.py --selftest` to exit 0",
+   "sha256 pins in code: `plans/anchor_line_check.py` `35d02dc55393bea18787e35cc2827cbab65f2d645b81a3c1946722065a4fdedf`, `plans/round45_c2_verify.py` `ab6825e34596ba71f59a184a59fd4e672fd22dcf4b892c511cae5ead2b104f50`, `corpus/evidence/round45/tb2-password-recovery/test_outputs.py` `2dc14fc180734b6fbb0ee00f27c4f866071247b57a2217f579465ff8ed3bfc9e`; base revision `64ba8385ea10af1b78d367dcb242b92d97062af7` for the SOURCES base-row comparison (cells 7, 9, 10 mutable only); 16 frozen newline state shapes and the 5 errata marks in code",
+   "none in the lane \u2014 writes only a temp dir under `--work`/`TMPDIR` (leg B's `app/`, `tests/`, `states.json`, `grade.py`, `predict.py`); leg A's `git show` and the `anchor_line_check` import are read-only; leg B runs the captured grader and the entry predictor under bubblewrap via the pinned round-45 sandbox helpers; no network",
+   "kengaku"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsE/rows.md",
+  "line": 4,
+  "cells": [
+   "`round46-c3`",
+   "gate",
+   "`python3 plans/round46_c3_verify.py --lane .` (`--work DIR` scratch parent, created if absent; `--filler` measures the `plans/filler46/` control package; V6 shells to the host-absolute `/home/vgpnk/Projects/shokunin/scripts/sources-census.sh`)",
+   "`0` pass (`checks=13 defects=0` then `PREDICATE C3 pass`; `checks=7 defects=0` under `--filler`, which runs V3, V4, V6, V7, V9, V10, V12) \u00b7 `1` fail \u2014 any `Vn DEFECT <note>` (a leg that raises is a defect), `PACKAGE unreadable: \u2026` (every leg except V13 then defects), or `FILLER unusable: \u2026`; measured in the C2ExecRowFacts clone (default mode, exit 1 in 3.87 s): `V1 ok listed=8 wrong=0 extra=0`, `V2 DEFECT spec=frozen gate=frozen gate_exit=1` (the gate's own `P8`/`P9` fired on the clone's untracked wave files, and V2 passes `--require-clean-tree`), `V7 DEFECT rows=5 tags=7 \u2026`, `V8 DEFECT order_exit=1 result=not-PASS`, `V11 ok states=60 grader_pass=15 grader_fail=45 disagree=0`, `V13 ok filler_checks=7 defects=6 substantive=V4,V7,V9,V10,V12`, then `checks=13 defects=3` and `PREDICATE C3 fail` \u00b7 `2` is declared in the docstring but not implemented: no code path returns 2",
+   "no self-test of its own \u2014 no `--selftest` flag exists (measured: argparse exits 2 on it); the frozen red control is the committed do-nothing package under `plans/filler46/`, and V13 requires at least three of V3, V4, V7, V9, V10, V12 to print DEFECT on it",
+   "eight captured file digests in code (for example `test_outputs.py` `b94a7a9882decd8114835bdf52b5bc42fc78e9fe67ecad9bd19050b11781ddec`); `plans/pkg-spec-r46.json` `560c7bfb3f12fcfeaed6cb33ed3adc4b881b59b1c8f5ca9e3a094f10c1513f6e` (its `receipt_sha256` masked), `plans/pkg_gate.py` `ea63882240e67e9906e481f3d652f94366c288dc91991bafbfcd651a766edd41`, `plans/polyglot_c_py_probe.py` `67a8f4a68fcdf1904484853053e1565f95dce503105732f43102a9e64db85f26`, dry table `99adfea6bd404b469a58a7fe8a6f44a3cc0a5b035fc589d1f5a4e58cb9489536`; 13 legs V1\u2013V13 frozen in code",
+   "none in the lane \u2014 writes only the temp dir under `--work`/`TMPDIR` (an effective spec plus V11's per-run states, grader copy and predictor block); V2 runs `plans/pkg_gate.py package --rerun --require-clean-tree`, which executes the graded program probe and cannot pass on a dirty tree, and the script's docstring reserves V2 for post-stage-2 runs rather than wave-1 seats; V11 runs the captured grader and the entry predictor under `/usr/bin/bwrap`; no network",
+   "kengaku"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsE/rows.md",
+  "line": 5,
+  "cells": [
+   "`round50-c1`",
+   "gate",
+   "`python3 plans/round50_c1_verify.py --lane . --work DIR` (`--work` must already exist \u2014 measured: an absent parent raises `FileNotFoundError` from `mkdtemp`; `--fence PATH` swaps the fence under test; `--skip-mutants` and `--allow-dirty` are labelled testing-only)",
+   "`0` pass (`REV <40-hex>`, `TREE dirty=0`, `POPULATION fixtures=126 pin=b5197f94\u2026 mismatched=0 build_errors=0`, `HONEST fixtures=126 admitted=126 refused=0 error=0`, `REFUSALS total=20 clean=20 leaked=0`, two `SEALED total=12 clean=12 leaked=0` and `SEALED total=20 clean=20 leaked=0` lines, `MUTANTS total=15 caught=15 broken=0 floor=12 verdict=met`, then `PREDICATE R50-C1 pass`) \u00b7 `1` fail \u2014 any leg short of its frozen count, `TREE dirty=<n>` in default mode (measured at tip `1315234b` with 4 untracked wave files: every other leg green and the predicate still `fail` on that line alone), `POPULATION-MISMATCH`, `HONEST-REFUSED`, `MUTANT survived`, `verdict=unmet` \u00b7 `2` setup (`SETUP missing <rel>` for the fence, population, builder or round-44 counter)",
+   "no self-test of its own \u2014 no `--selftest` flag exists (measured: argparse exits 2 on it); the instrument's own battery is the 15 inline-diff mutants in `plans/mutants50/c1-mutants.json` (measured `caught=15 broken=0`) against the frozen floor of 12 caught, and `--skip-mutants` / `--allow-dirty` are the labelled testing-only selectors",
+   "population pin `b5197f941a9f523eaedae6bd7be39531a0f80e10c6b05030687dbeacfb3fae69` over `plans/honest50/population.txt`; frozen literals `HONEST_TOTAL=126`, `MUTANT_MIN=12`, `REFUSALS_TOTAL=20`, `SEALED46_TOTAL=12`, `SEALED50_MIN=6`; the docstring's predicate sentence says `MUTANTS total=23` while the committed mutants file carries 15 and the leg enforces only total>=12 and caught>=12; fence digest printed and never pinned (measured `57adce4a598e1ca8a365114b35047f20afdce9459aa83adc0c551712966383a1`)",
+   "none in the lane \u2014 builds every fixture as a fresh git repository under the `--work`/`TMPDIR` tree in a random per-module parent padded with 8 decoy siblings, applies each mutant patch to a copy of the fence, and decides one verdict per fixture in a separate `python3 -I` process with a scrubbed env (verdict carried in the exit status); no network",
+   "kengaku"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsE/rows.md",
+  "line": 6,
+  "cells": [
+   "`round50-c2`",
+   "gate",
+   "`python3 plans/round50_c2_audit.py --lane .` (lane root; `--selftest`)",
+   "`0` every pointer and hash resolves (`POINTERS total=292 paths=228 hashes=64 resolved=292 exists=216 superseded=3 never-landed=9 unresolved=0`, measured at tip `1315234b`) \u00b7 `1` any unresolved pointer or hash (`UNRESOLVED <path>`, `UNRESOLVED-HASH <hash> missing` or `not-ancestor`) \u00b7 `2` setup (`SETUP missing SCORECARD.md` or another scanned file, or an audit result that is not an int)",
+   "`python3 plans/round50_c2_audit.py --selftest` \u2014 appends a bogus pointer to a scratch copy and requires the pristine copy green plus the bogus pointer the only new unresolved (`SELFTEST pristine_rc=0 bogus_rc=1 new_unresolved=['plans/round50_selftest_bogus.py'] verdict=ok`, measured exit 0)",
+   "the three scanned files `SCORECARD.md`, `SHONEN.md`, `PROVINCE.md` and the extension set (`md`, `py`, `json`, `jsonl`, `txt`, `patch`, `whl`, `sh`, `json5`, `tres`) frozen in code; corrections read only from `SUPERSEDED <pointer> -> <target>` rows; before-count 12 unresolved pointers at `71f5f5f`; no digests",
+   "none in the lane \u2014 read-only git plumbing (`rev-parse`, `log --all`, `cat-file -e`, `merge-base --is-ancestor`); `--selftest` writes only its own mkdtemp tree (symlinks to the lane plus a local `git init` and commit there)",
+   "kengaku"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsE/rows.md",
+  "line": 7,
+  "cells": [
+   "`round51-routing`",
+   "gate",
+   "`python3 plans/round51_routing.py --lane . --run-checks` (`--ledger PATH`, `--scratch DIR` keeps the scratch, `--selftest`; without `--run-checks` the `fixed-verified` checks are counted but not executed)",
+   "`0` `PREDICATE R51-C2 pass` (measured at tip `1315234b` without `--run-checks`: `LEDGER corpus/routed-findings.jsonl rows=75`, 75 complete, 75 attributed, 75 sources resolved, `VERIFIED ran=0`) \u00b7 `1` fail \u2014 any `  DETAIL <LEG>` line under PARSE, FIELDS, OWNER, DISPOSITION, SOURCE, CHECK, CHECK_FAILED, CLOSE_REF or NEXT (an unreadable ledger raises and exits 1 as well) \u00b7 no `2` path exists",
+   "`python3 plans/round51_routing.py --selftest` \u2014 11 frozen ledger cases on a temp lane (8 red: missing owner, foreign owner, bad disposition, absent source, empty check, failing check, absorbed routed row with no next, unresolvable close; 3 green: the baseline row, a properly routed row, a resolvable close), measured `[selftest] cases=11 failures=0` and `ALL PASS`, exit 0",
+   "field set, status set, disposition set and the fallback owner set frozen in code; the ledger `corpus/routed-findings.jsonl` (75 rows at the tip); owner universe = fallback set plus `shokunin.conf` lane rows plus every `*-shokunin` directory beside the lane; no digests",
+   "runs each `disposition=fixed-verified` row's `check` through `bash -lc` with cwd = lane, `TMPDIR` = scratch and a 90 s timeout, so the ledger text decides what executes; writes only a mkdtemp scratch (kept with `--scratch`); `--selftest` writes only its own temp tree; no network of its own",
+   "kengaku"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsE/rows.md",
+  "line": 3,
+  "cells": [
+   "`round46-c2`",
+   "gate",
+   "`python3 plans/round46_c2_verify.py --lane .` (`--work DIR` scratch parent, created if absent; the clone needs base revision `64ba8385` in its history for leg A)",
+   "`0` pass (`checks=4 defects=0` then `PREDICATE C2 pass`; measured at tip `1315234b`: `PINS total=3 mismatched=0`, `A anchorline live=0 repaired=8 base_rows=149 base_missing=0 base_changed=0`, `B predictor states=16 grader_pass=10 grader_fail=6 disagree=0`, `C entry source_ranges=9 source_ranges_bad=0 errata_marks=5/5`, `D selftest exit=0`) \u00b7 `1` fail \u2014 any `A`\u2013`D` leg printing `DEFECT` (a leg that raises is a defect), `PINS \u2026 mismatched=<n>`, or a pinned tool off its freeze digest (`SETUP a pinned tool is not at its freeze digest` on stderr) \u00b7 `2` is declared in the docstring but not implemented: every setup failure returns 1, and an unknown flag is rejected by argparse with 2",
+   "no self-test of its own \u2014 no `--selftest` flag exists (measured: argparse exits 2 on it); leg D is the red-fixture leg and requires `plans/anchor_line_check.py --selftest` to exit 0",
+   "sha256 pins in code: `plans/anchor_line_check.py` `35d02dc55393bea18787e35cc2827cbab65f2d645b81a3c1946722065a4fdedf`, `plans/round45_c2_verify.py` `ab6825e34596ba71f59a184a59fd4e672fd22dcf4b892c511cae5ead2b104f50`, `corpus/evidence/round45/tb2-password-recovery/test_outputs.py` `2dc14fc180734b6fbb0ee00f27c4f866071247b57a2217f579465ff8ed3bfc9e`; base revision `64ba8385ea10af1b78d367dcb242b92d97062af7` for the SOURCES base-row comparison (cells 7, 9, 10 mutable only); 16 frozen newline state shapes and the 5 errata marks in code",
+   "none in the lane \u2014 writes only a temp dir under `--work`/`TMPDIR` (leg B's `app/`, `tests/`, `states.json`, `grade.py`, `predict.py`); leg A's `git show` and the `anchor_line_check` import are read-only; leg B runs the captured grader and the entry predictor under bubblewrap via the pinned round-45 sandbox helpers; no network",
+   "kengaku"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsE/rows.md",
+  "line": 4,
+  "cells": [
+   "`round46-c3`",
+   "gate",
+   "`python3 plans/round46_c3_verify.py --lane .` (`--work DIR` scratch parent, created if absent; `--filler` measures the `plans/filler46/` control package; V6 shells to the host-absolute `/home/vgpnk/Projects/shokunin/scripts/sources-census.sh`)",
+   "`0` pass (`checks=13 defects=0` then `PREDICATE C3 pass`; `checks=7 defects=0` under `--filler`, which runs V3, V4, V6, V7, V9, V10, V12) \u00b7 `1` fail \u2014 any `Vn DEFECT <note>` (a leg that raises is a defect), `PACKAGE unreadable: \u2026` (every leg except V13 then defects), or `FILLER unusable: \u2026`; measured in the C2ExecRowFacts clone (default mode, exit 1 in 3.87 s): `V1 ok listed=8 wrong=0 extra=0`, `V2 DEFECT spec=frozen gate=frozen gate_exit=1` (the gate's own `P8`/`P9` fired on the clone's untracked wave files, and V2 passes `--require-clean-tree`), `V7 DEFECT rows=5 tags=7 \u2026`, `V8 DEFECT order_exit=1 result=not-PASS`, `V11 ok states=60 grader_pass=15 grader_fail=45 disagree=0`, `V13 ok filler_checks=7 defects=6 substantive=V4,V7,V9,V10,V12`, then `checks=13 defects=3` and `PREDICATE C3 fail` \u00b7 `2` is declared in the docstring but not implemented: no code path returns 2",
+   "no self-test of its own \u2014 no `--selftest` flag exists (measured: argparse exits 2 on it); the frozen red control is the committed do-nothing package under `plans/filler46/`, and V13 requires at least three of V3, V4, V7, V9, V10, V12 to print DEFECT on it",
+   "eight captured file digests in code (for example `test_outputs.py` `b94a7a9882decd8114835bdf52b5bc42fc78e9fe67ecad9bd19050b11781ddec`); `plans/pkg-spec-r46.json` `560c7bfb3f12fcfeaed6cb33ed3adc4b881b59b1c8f5ca9e3a094f10c1513f6e` (its `receipt_sha256` masked), `plans/pkg_gate.py` `ea63882240e67e9906e481f3d652f94366c288dc91991bafbfcd651a766edd41`, `plans/polyglot_c_py_probe.py` `67a8f4a68fcdf1904484853053e1565f95dce503105732f43102a9e64db85f26`, dry table `99adfea6bd404b469a58a7fe8a6f44a3cc0a5b035fc589d1f5a4e58cb9489536`; 13 legs V1\u2013V13 frozen in code",
+   "none in the lane \u2014 writes only the temp dir under `--work`/`TMPDIR` (an effective spec plus V11's per-run states, grader copy and predictor block); V2 runs `plans/pkg_gate.py package --rerun --require-clean-tree`, which executes the graded program probe and cannot pass on a dirty tree, and the script's docstring reserves V2 for post-stage-2 runs rather than wave-1 seats; V11 runs the captured grader and the entry predictor under `/usr/bin/bwrap`; no network",
+   "kengaku"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsE/rows.md",
+  "line": 5,
+  "cells": [
+   "`round50-c1`",
+   "gate",
+   "`python3 plans/round50_c1_verify.py --lane . --work DIR` (`--work` must already exist \u2014 measured: an absent parent raises `FileNotFoundError` from `mkdtemp`; `--fence PATH` swaps the fence under test; `--skip-mutants` and `--allow-dirty` are labelled testing-only)",
+   "`0` pass (`REV <40-hex>`, `TREE dirty=0`, `POPULATION fixtures=126 pin=b5197f94\u2026 mismatched=0 build_errors=0`, `HONEST fixtures=126 admitted=126 refused=0 error=0`, `REFUSALS total=20 clean=20 leaked=0`, two `SEALED total=12 clean=12 leaked=0` and `SEALED total=20 clean=20 leaked=0` lines, `MUTANTS total=15 caught=15 broken=0 floor=12 verdict=met`, then `PREDICATE R50-C1 pass`) \u00b7 `1` fail \u2014 any leg short of its frozen count, `TREE dirty=<n>` in default mode (measured at tip `1315234b` with 4 untracked wave files: every other leg green and the predicate still `fail` on that line alone), `POPULATION-MISMATCH`, `HONEST-REFUSED`, `MUTANT survived`, `verdict=unmet` \u00b7 `2` setup (`SETUP missing <rel>` for the fence, population, builder or round-44 counter)",
+   "no self-test of its own \u2014 no `--selftest` flag exists (measured: argparse exits 2 on it); the instrument's own battery is the 15 inline-diff mutants in `plans/mutants50/c1-mutants.json` (measured `caught=15 broken=0`) against the frozen floor of 12 caught, and `--skip-mutants` / `--allow-dirty` are the labelled testing-only selectors",
+   "population pin `b5197f941a9f523eaedae6bd7be39531a0f80e10c6b05030687dbeacfb3fae69` over `plans/honest50/population.txt`; frozen literals `HONEST_TOTAL=126`, `MUTANT_MIN=12`, `REFUSALS_TOTAL=20`, `SEALED46_TOTAL=12`, `SEALED50_MIN=6`; the docstring's predicate sentence says `MUTANTS total=23` while the committed mutants file carries 15 and the leg enforces only total>=12 and caught>=12; fence digest printed and never pinned (measured `57adce4a598e1ca8a365114b35047f20afdce9459aa83adc0c551712966383a1`)",
+   "none in the lane \u2014 builds every fixture as a fresh git repository under the `--work`/`TMPDIR` tree in a random per-module parent padded with 8 decoy siblings, applies each mutant patch to a copy of the fence, and decides one verdict per fixture in a separate `python3 -I` process with a scrubbed env (verdict carried in the exit status); no network",
+   "kengaku"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsE/rows.md",
+  "line": 6,
+  "cells": [
+   "`round50-c2`",
+   "gate",
+   "`python3 plans/round50_c2_audit.py --lane .` (lane root; `--selftest`)",
+   "`0` every pointer and hash resolves (`POINTERS total=292 paths=228 hashes=64 resolved=292 exists=216 superseded=3 never-landed=9 unresolved=0`, measured at tip `1315234b`) \u00b7 `1` any unresolved pointer or hash (`UNRESOLVED <path>`, `UNRESOLVED-HASH <hash> missing` or `not-ancestor`) \u00b7 `2` setup (`SETUP missing SCORECARD.md` or another scanned file, or an audit result that is not an int)",
+   "`python3 plans/round50_c2_audit.py --selftest` \u2014 appends a bogus pointer to a scratch copy and requires the pristine copy green plus the bogus pointer the only new unresolved (`SELFTEST pristine_rc=0 bogus_rc=1 new_unresolved=['plans/round50_selftest_bogus.py'] verdict=ok`, measured exit 0)",
+   "the three scanned files `SCORECARD.md`, `SHONEN.md`, `PROVINCE.md` and the extension set (`md`, `py`, `json`, `jsonl`, `txt`, `patch`, `whl`, `sh`, `json5`, `tres`) frozen in code; corrections read only from `SUPERSEDED <pointer> -> <target>` rows; before-count 12 unresolved pointers at `71f5f5f`; no digests",
+   "none in the lane \u2014 read-only git plumbing (`rev-parse`, `log --all`, `cat-file -e`, `merge-base --is-ancestor`); `--selftest` writes only its own mkdtemp tree (symlinks to the lane plus a local `git init` and commit there)",
+   "kengaku"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsE/rows.md",
+  "line": 7,
+  "cells": [
+   "`round51-routing`",
+   "gate",
+   "`python3 plans/round51_routing.py --lane . --run-checks` (`--ledger PATH`, `--scratch DIR` keeps the scratch, `--selftest`; without `--run-checks` the `fixed-verified` checks are counted but not executed)",
+   "`0` `PREDICATE R51-C2 pass` (measured at tip `1315234b` without `--run-checks`: `LEDGER corpus/routed-findings.jsonl rows=75`, 75 complete, 75 attributed, 75 sources resolved, `VERIFIED ran=0`) \u00b7 `1` fail \u2014 any `  DETAIL <LEG>` line under PARSE, FIELDS, OWNER, DISPOSITION, SOURCE, CHECK, CHECK_FAILED, CLOSE_REF or NEXT (an unreadable ledger raises and exits 1 as well) \u00b7 no `2` path exists",
+   "`python3 plans/round51_routing.py --selftest` \u2014 11 frozen ledger cases on a temp lane (8 red: missing owner, foreign owner, bad disposition, absent source, empty check, failing check, absorbed routed row with no next, unresolvable close; 3 green: the baseline row, a properly routed row, a resolvable close), measured `[selftest] cases=11 failures=0` and `ALL PASS`, exit 0",
+   "field set, status set, disposition set and the fallback owner set frozen in code; the ledger `corpus/routed-findings.jsonl` (75 rows at the tip); owner universe = fallback set plus `shokunin.conf` lane rows plus every `*-shokunin` directory beside the lane; no digests",
+   "runs each `disposition=fixed-verified` row's `check` through `bash -lc` with cwd = lane, `TMPDIR` = scratch and a 90 s timeout, so the ledger text decides what executes; writes only a mkdtemp scratch (kept with `--scratch`); `--selftest` writes only its own temp tree; no network of its own",
+   "kengaku"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsF.md",
+  "line": 98,
+  "cells": [
+   "`round51-surfaces`",
+   "gate",
+   "`python3 plans/round51_surfaces.py --lane .` (lane root; `--manifest PATH` default `plans/round51-surfaces.json`, `--province PATH` default `PROVINCE.md`, `--selftest`)",
+   "`0` frozen predicate holds \u2014 every problem counter `0` and `RESOLVE \u2026 verdict=met`, then `PREDICATE R51-C1 pass` (measured at tip `1315234`: `ANCHORS total=20 dup=0 missing=0`, `PROBES run=20 present=14 absent=6 errors=0`, `RESOLVE observed_present=14 floor=13 verdict=met`, exit 0) \u00b7 `1` any of DRIFT, STALE, UNVERDICTED, NUMBER-DRIFT, ANCHOR-DUP, ANCHOR-MISSING, UNCOVERED, SECTION-MISSING non-zero or `RESOLVE \u2026 verdict=violated`, each defect on a `DETAIL <KEY> \u2026` line, then `PREDICATE R51-C1 fail` (`plans/round51_surfaces.py:219-226`) \u00b7 `1` also when the manifest cannot be evaluated \u2014 an absent manifest path is a `FileNotFoundError` traceback with no `PREDICATE` line (measured, exit 1) and an unknown `probe.kind` prints `unknown probe kind '<kind>'` (`:139`, measured exit 1); a could-not-evaluate never prints `pass` \u00b7 `2` argparse usage only (`:345-348`, measured `--bogus` \u2192 exit 2)",
+   "`python3 plans/round51_surfaces.py --selftest` \u2014 nine fixtures S0\u2013S8 on one `tempfile.mkdtemp` that honours `TMPDIR` (`:352`): consistent pass, prose drift, stale manifest, unverdicted absent row, number drift, uncovered row, duplicate anchor, floor violated, missing anchor; measured `[selftest] cases=9 failures=0`, `[selftest] ALL PASS`, exit 0",
+   "nothing pinned in code \u2014 the manifest is read by path. `plans/round51-surfaces.json` carries 20 entries in 2 sections with `resolve_floor 13`, and the per-surface values the probes compare: sha256 prefix pins `grader.py 90c87c88`, `plans/attrib_probe.py 489f938a`, `~/.local/share/ds-flash-shim/shim.py 42d86d99` (prefix match, `h.startswith(pin)` at `:108`, so a short pin accepts any digest with that prefix); `count` probe `SOURCES rows` over `corpus/SOURCES.md`; `http`/`port` targets `127.0.0.1:34113`, `127.0.0.1:45669`, `127.0.0.1:1234`, `127.0.0.1:8791`",
+   "writes no lane byte \u2014 reads `PROVINCE.md`, the manifest and every probed target; `--selftest` writes only its one `mkdtemp` dir and `rmtree`s it (`:352-358`); the `http` and `port` probe kinds open `urllib.request.urlopen(url, timeout=3)` or a 1.5 s socket connect to the manifest's loopback URLs (`:116`, `:126`); one `git -C <lane> rev-parse master` for the `REV` line (`:51`); no other network",
+   "kengaku round 51"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsF.md",
+  "line": 99,
+  "cells": [
+   "`routed-findings`",
+   "gate",
+   "`python3 plans/routed_open.py --lane .` (lane root; `--file PATH` default `corpus/routed-findings.jsonl`, `--list`, `--observe`, `--timeout N` default 180 s, `--selftest`)",
+   "`0` every row valid, then `ROWS total=<n> open=\u2026 blocked=\u2026 closed=\u2026 refused=\u2026` and `routed_open=<n> oldest_round=<r or ->` (measured at tip `1315234`: `ROWS total=75 open=31 blocked=1 closed=41 refused=2`, `routed_open=32 oldest_round=39`, exit 0) \u00b7 `1` one `DEFECT line=<n> <reason>` per invalid row then `ROWS total=<n> invalid=<k>`, and the `routed_open=` line is withheld so a round close cannot quote a number off a broken file (`:226-230`; measured `DEFECT line=1 a closed row must carry closing evidence in close`, exit 1) \u00b7 `1` also on any `--observe` mismatch \u2014 `OBSERVE <id> rc=\u2026 observed=\u2026 self=\u2026 MISMATCH` then `OBSERVE rows=<n> mismatched=<k>` (`:154-160`; measured `mismatched=1`, exit 1) or a failed `--selftest` \u00b7 `2` setup: `--lane` not a directory (`:216`), a file named as a defect ledger \u2014 `corpus/defects*.jsonl` refused by name (`:48-50`, `:218-221`; measured `SETUP refusing defects.jsonl: \u2026`, exit 2), the findings file missing (`:224`; measured exit 2), argparse",
+   "`python3 plans/routed_open.py --selftest` \u2014 11 row cases plus a defect-ledger guard, all on `tempfile.TemporaryDirectory`: valid-closed, malformed JSON, missing key, duplicate id, closed without evidence, blocked without blocker, bad status, source past EOF, source missing file, bad opened_round, bad id; measured `SELFTEST 12/12`, exit 0",
+   "nothing pinned in code; the population is the named JSONL (default `corpus/routed-findings.jsonl`), measured at tip `1315234`: 75 rows (75 `ROW` lines under `--list`), open 31 \u00b7 blocked 1 \u00b7 closed 41 \u00b7 refused 2, `routed_open=32 oldest_round=39`. Schema literals in code: `STATUSES = open, closed, refused, blocked`; `REQUIRED = id, class, source, opened_round, status`; `ID_RE = [A-Za-z0-9][A-Za-z0-9._-]*`; `SOURCE_RE = <lane-relative path>:<line>` checked against real lane bytes",
+   "writes no lane byte \u2014 it reads the JSONL and every `source` file it validates. `--observe` runs each row's own `check` string through `subprocess.run(shell=True, cwd=<lane>, timeout=<--timeout>)` (`:148-149`), so any write there is the row's command, not the tool's; `--selftest` writes only inside its temp dir (`:167`, `:187`); no network, no commit, never reads or moves the pinned `corpus/defects*.jsonl`",
+   "kengaku round 41 rider (`considerthese/2026-10-26.md` proposal 1)"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsF.md",
+  "line": 100,
+  "cells": [
+   "`tb2-grader-probe`",
+   "probe",
+   "`uv run --no-project --with biopython==1.85 python3 plans/tb2_grader_probe.py --lane .` (the captured grader imports Biopython, which `test.sh` pins to 1.85; `--lane` is the only flag)",
+   "`0` every frozen prediction matched: `cases=18 observed_pass=5 observed_fail=13 mismatches=0` (measured at tip `1315234` under biopython 1.85, exit 0) \u00b7 `1` `mismatches>0`, reported on the summary line (`:163-164`) \u00b7 `2` the captured grader is not at its pin \u2014 `REFUSE grader digest <h> != pinned 44a05a24\u2026` (`:142-144`; measured with one appended comment line: `REFUSE grader digest 70ad2697\u2026 != pinned 44a05a24\u2026`, exit 2) \u2014 and argparse usage (`:136`; measured `--dry` \u2192 `unrecognized arguments: --dry`, exit 2) \u00b7 limit: a missing Biopython is a traceback under exit `1` (`ModuleNotFoundError: No module named 'Bio'` at `:145`, measured exit 1), not `2`",
+   "no `--selftest` in the script \u2014 only `--lane` is accepted (`:136`), so this row claims none; the probe is the frozen instrument and its verification is external: the committed receipt `corpus/evidence/round35/tb2-grader-probe.txt` (sha256 `2359d9067906f59d2c55b5802603d1ef45c376f653ad9997de1ef7da412b25b8`) re-runs byte-equal (measured today: `diff` empty, `BYTE-EQUAL`), and `plans/pkg_gate.py` `--rerun` byte-compares that receipt to the pin in `plans/pkg-spec-r35.json`",
+   "grader `corpus/evidence/round35/tb2-eval/test_outputs.py` sha256 `44a05a2482aa7a8e70de95478de6560b6188e630336fca9d02b62dc69a096582` (`:24`, checked before the grader is imported); TB2 pin `2fd12b88aafdd04a52c298e3940bcb189f9766d6`; the five literal components read out of the grader source (aa lengths 8, 259, 158, 235, 182 \u2192 `max_passing_nt=2766` against the grader's 3000 nt cap); 18 synthetic cases with predictions written from a static reading before the first run",
+   "writes only its own `tempfile.TemporaryDirectory` (`:122`) and monkeypatches the grader's `Path` so the hard-coded `/app/gblock.txt` resolves there; imports the captured grader through `importlib`; no network, no model, no container, no task certification, never the live `/app`",
+   "kengaku round 35"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsF/report.md",
+  "line": 98,
+  "cells": [
+   "`round51-surfaces`",
+   "gate",
+   "`python3 plans/round51_surfaces.py --lane .` (lane root; `--manifest PATH` default `plans/round51-surfaces.json`, `--province PATH` default `PROVINCE.md`, `--selftest`)",
+   "`0` frozen predicate holds \u2014 every problem counter `0` and `RESOLVE \u2026 verdict=met`, then `PREDICATE R51-C1 pass` (measured at tip `1315234`: `ANCHORS total=20 dup=0 missing=0`, `PROBES run=20 present=14 absent=6 errors=0`, `RESOLVE observed_present=14 floor=13 verdict=met`, exit 0) \u00b7 `1` any of DRIFT, STALE, UNVERDICTED, NUMBER-DRIFT, ANCHOR-DUP, ANCHOR-MISSING, UNCOVERED, SECTION-MISSING non-zero or `RESOLVE \u2026 verdict=violated`, each defect on a `DETAIL <KEY> \u2026` line, then `PREDICATE R51-C1 fail` (`plans/round51_surfaces.py:219-226`) \u00b7 `1` also when the manifest cannot be evaluated \u2014 an absent manifest path is a `FileNotFoundError` traceback with no `PREDICATE` line (measured, exit 1) and an unknown `probe.kind` prints `unknown probe kind '<kind>'` (`:139`, measured exit 1); a could-not-evaluate never prints `pass` \u00b7 `2` argparse usage only (`:345-348`, measured `--bogus` \u2192 exit 2)",
+   "`python3 plans/round51_surfaces.py --selftest` \u2014 nine fixtures S0\u2013S8 on one `tempfile.mkdtemp` that honours `TMPDIR` (`:352`): consistent pass, prose drift, stale manifest, unverdicted absent row, number drift, uncovered row, duplicate anchor, floor violated, missing anchor; measured `[selftest] cases=9 failures=0`, `[selftest] ALL PASS`, exit 0",
+   "nothing pinned in code \u2014 the manifest is read by path. `plans/round51-surfaces.json` carries 20 entries in 2 sections with `resolve_floor 13`, and the per-surface values the probes compare: sha256 prefix pins `grader.py 90c87c88`, `plans/attrib_probe.py 489f938a`, `~/.local/share/ds-flash-shim/shim.py 42d86d99` (prefix match, `h.startswith(pin)` at `:108`, so a short pin accepts any digest with that prefix); `count` probe `SOURCES rows` over `corpus/SOURCES.md`; `http`/`port` targets `127.0.0.1:34113`, `127.0.0.1:45669`, `127.0.0.1:1234`, `127.0.0.1:8791`",
+   "writes no lane byte \u2014 reads `PROVINCE.md`, the manifest and every probed target; `--selftest` writes only its one `mkdtemp` dir and `rmtree`s it (`:352-358`); the `http` and `port` probe kinds open `urllib.request.urlopen(url, timeout=3)` or a 1.5 s socket connect to the manifest's loopback URLs (`:116`, `:126`); one `git -C <lane> rev-parse master` for the `REV` line (`:51`); no other network",
+   "kengaku round 51"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsF/report.md",
+  "line": 99,
+  "cells": [
+   "`routed-findings`",
+   "gate",
+   "`python3 plans/routed_open.py --lane .` (lane root; `--file PATH` default `corpus/routed-findings.jsonl`, `--list`, `--observe`, `--timeout N` default 180 s, `--selftest`)",
+   "`0` every row valid, then `ROWS total=<n> open=\u2026 blocked=\u2026 closed=\u2026 refused=\u2026` and `routed_open=<n> oldest_round=<r or ->` (measured at tip `1315234`: `ROWS total=75 open=31 blocked=1 closed=41 refused=2`, `routed_open=32 oldest_round=39`, exit 0) \u00b7 `1` one `DEFECT line=<n> <reason>` per invalid row then `ROWS total=<n> invalid=<k>`, and the `routed_open=` line is withheld so a round close cannot quote a number off a broken file (`:226-230`; measured `DEFECT line=1 a closed row must carry closing evidence in close`, exit 1) \u00b7 `1` also on any `--observe` mismatch \u2014 `OBSERVE <id> rc=\u2026 observed=\u2026 self=\u2026 MISMATCH` then `OBSERVE rows=<n> mismatched=<k>` (`:154-160`; measured `mismatched=1`, exit 1) or a failed `--selftest` \u00b7 `2` setup: `--lane` not a directory (`:216`), a file named as a defect ledger \u2014 `corpus/defects*.jsonl` refused by name (`:48-50`, `:218-221`; measured `SETUP refusing defects.jsonl: \u2026`, exit 2), the findings file missing (`:224`; measured exit 2), argparse",
+   "`python3 plans/routed_open.py --selftest` \u2014 11 row cases plus a defect-ledger guard, all on `tempfile.TemporaryDirectory`: valid-closed, malformed JSON, missing key, duplicate id, closed without evidence, blocked without blocker, bad status, source past EOF, source missing file, bad opened_round, bad id; measured `SELFTEST 12/12`, exit 0",
+   "nothing pinned in code; the population is the named JSONL (default `corpus/routed-findings.jsonl`), measured at tip `1315234`: 75 rows (75 `ROW` lines under `--list`), open 31 \u00b7 blocked 1 \u00b7 closed 41 \u00b7 refused 2, `routed_open=32 oldest_round=39`. Schema literals in code: `STATUSES = open, closed, refused, blocked`; `REQUIRED = id, class, source, opened_round, status`; `ID_RE = [A-Za-z0-9][A-Za-z0-9._-]*`; `SOURCE_RE = <lane-relative path>:<line>` checked against real lane bytes",
+   "writes no lane byte \u2014 it reads the JSONL and every `source` file it validates. `--observe` runs each row's own `check` string through `subprocess.run(shell=True, cwd=<lane>, timeout=<--timeout>)` (`:148-149`), so any write there is the row's command, not the tool's; `--selftest` writes only inside its temp dir (`:167`, `:187`); no network, no commit, never reads or moves the pinned `corpus/defects*.jsonl`",
+   "kengaku round 41 rider (`considerthese/2026-10-26.md` proposal 1)"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsF/report.md",
+  "line": 100,
+  "cells": [
+   "`tb2-grader-probe`",
+   "probe",
+   "`uv run --no-project --with biopython==1.85 python3 plans/tb2_grader_probe.py --lane .` (the captured grader imports Biopython, which `test.sh` pins to 1.85; `--lane` is the only flag)",
+   "`0` every frozen prediction matched: `cases=18 observed_pass=5 observed_fail=13 mismatches=0` (measured at tip `1315234` under biopython 1.85, exit 0) \u00b7 `1` `mismatches>0`, reported on the summary line (`:163-164`) \u00b7 `2` the captured grader is not at its pin \u2014 `REFUSE grader digest <h> != pinned 44a05a24\u2026` (`:142-144`; measured with one appended comment line: `REFUSE grader digest 70ad2697\u2026 != pinned 44a05a24\u2026`, exit 2) \u2014 and argparse usage (`:136`; measured `--dry` \u2192 `unrecognized arguments: --dry`, exit 2) \u00b7 limit: a missing Biopython is a traceback under exit `1` (`ModuleNotFoundError: No module named 'Bio'` at `:145`, measured exit 1), not `2`",
+   "no `--selftest` in the script \u2014 only `--lane` is accepted (`:136`), so this row claims none; the probe is the frozen instrument and its verification is external: the committed receipt `corpus/evidence/round35/tb2-grader-probe.txt` (sha256 `2359d9067906f59d2c55b5802603d1ef45c376f653ad9997de1ef7da412b25b8`) re-runs byte-equal (measured today: `diff` empty, `BYTE-EQUAL`), and `plans/pkg_gate.py` `--rerun` byte-compares that receipt to the pin in `plans/pkg-spec-r35.json`",
+   "grader `corpus/evidence/round35/tb2-eval/test_outputs.py` sha256 `44a05a2482aa7a8e70de95478de6560b6188e630336fca9d02b62dc69a096582` (`:24`, checked before the grader is imported); TB2 pin `2fd12b88aafdd04a52c298e3940bcb189f9766d6`; the five literal components read out of the grader source (aa lengths 8, 259, 158, 235, 182 \u2192 `max_passing_nt=2766` against the grader's 3000 nt cap); 18 synthetic cases with predictions written from a static reading before the first run",
+   "writes only its own `tempfile.TemporaryDirectory` (`:122`) and monkeypatches the grader's `Path` so the hard-coded `/app/gblock.txt` resolves there; imports the captured grader through `importlib`; no network, no model, no container, no task certification, never the live `/app`",
+   "kengaku round 35"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsF/rows.md",
+  "line": 1,
+  "cells": [
+   "`round51-surfaces`",
+   "gate",
+   "`python3 plans/round51_surfaces.py --lane .` (lane root; `--manifest PATH` default `plans/round51-surfaces.json`, `--province PATH` default `PROVINCE.md`, `--selftest`)",
+   "`0` frozen predicate holds \u2014 every problem counter `0` and `RESOLVE \u2026 verdict=met`, then `PREDICATE R51-C1 pass` (measured at tip `1315234`: `ANCHORS total=20 dup=0 missing=0`, `PROBES run=20 present=14 absent=6 errors=0`, `RESOLVE observed_present=14 floor=13 verdict=met`, exit 0) \u00b7 `1` any of DRIFT, STALE, UNVERDICTED, NUMBER-DRIFT, ANCHOR-DUP, ANCHOR-MISSING, UNCOVERED, SECTION-MISSING non-zero or `RESOLVE \u2026 verdict=violated`, each defect on a `DETAIL <KEY> \u2026` line, then `PREDICATE R51-C1 fail` (`plans/round51_surfaces.py:219-226`) \u00b7 `1` also when the manifest cannot be evaluated \u2014 an absent manifest path is a `FileNotFoundError` traceback with no `PREDICATE` line (measured, exit 1) and an unknown `probe.kind` prints `unknown probe kind '<kind>'` (`:139`, measured exit 1); a could-not-evaluate never prints `pass` \u00b7 `2` argparse usage only (`:345-348`, measured `--bogus` \u2192 exit 2)",
+   "`python3 plans/round51_surfaces.py --selftest` \u2014 nine fixtures S0\u2013S8 on one `tempfile.mkdtemp` that honours `TMPDIR` (`:352`): consistent pass, prose drift, stale manifest, unverdicted absent row, number drift, uncovered row, duplicate anchor, floor violated, missing anchor; measured `[selftest] cases=9 failures=0`, `[selftest] ALL PASS`, exit 0",
+   "nothing pinned in code \u2014 the manifest is read by path. `plans/round51-surfaces.json` carries 20 entries in 2 sections with `resolve_floor 13`, and the per-surface values the probes compare: sha256 prefix pins `grader.py 90c87c88`, `plans/attrib_probe.py 489f938a`, `~/.local/share/ds-flash-shim/shim.py 42d86d99` (prefix match, `h.startswith(pin)` at `:108`, so a short pin accepts any digest with that prefix); `count` probe `SOURCES rows` over `corpus/SOURCES.md`; `http`/`port` targets `127.0.0.1:34113`, `127.0.0.1:45669`, `127.0.0.1:1234`, `127.0.0.1:8791`",
+   "writes no lane byte \u2014 reads `PROVINCE.md`, the manifest and every probed target; `--selftest` writes only its one `mkdtemp` dir and `rmtree`s it (`:352-358`); the `http` and `port` probe kinds open `urllib.request.urlopen(url, timeout=3)` or a 1.5 s socket connect to the manifest's loopback URLs (`:116`, `:126`); one `git -C <lane> rev-parse master` for the `REV` line (`:51`); no other network",
+   "kengaku round 51"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsF/rows.md",
+  "line": 2,
+  "cells": [
+   "`routed-findings`",
+   "gate",
+   "`python3 plans/routed_open.py --lane .` (lane root; `--file PATH` default `corpus/routed-findings.jsonl`, `--list`, `--observe`, `--timeout N` default 180 s, `--selftest`)",
+   "`0` every row valid, then `ROWS total=<n> open=\u2026 blocked=\u2026 closed=\u2026 refused=\u2026` and `routed_open=<n> oldest_round=<r or ->` (measured at tip `1315234`: `ROWS total=75 open=31 blocked=1 closed=41 refused=2`, `routed_open=32 oldest_round=39`, exit 0) \u00b7 `1` one `DEFECT line=<n> <reason>` per invalid row then `ROWS total=<n> invalid=<k>`, and the `routed_open=` line is withheld so a round close cannot quote a number off a broken file (`:226-230`; measured `DEFECT line=1 a closed row must carry closing evidence in close`, exit 1) \u00b7 `1` also on any `--observe` mismatch \u2014 `OBSERVE <id> rc=\u2026 observed=\u2026 self=\u2026 MISMATCH` then `OBSERVE rows=<n> mismatched=<k>` (`:154-160`; measured `mismatched=1`, exit 1) or a failed `--selftest` \u00b7 `2` setup: `--lane` not a directory (`:216`), a file named as a defect ledger \u2014 `corpus/defects*.jsonl` refused by name (`:48-50`, `:218-221`; measured `SETUP refusing defects.jsonl: \u2026`, exit 2), the findings file missing (`:224`; measured exit 2), argparse",
+   "`python3 plans/routed_open.py --selftest` \u2014 11 row cases plus a defect-ledger guard, all on `tempfile.TemporaryDirectory`: valid-closed, malformed JSON, missing key, duplicate id, closed without evidence, blocked without blocker, bad status, source past EOF, source missing file, bad opened_round, bad id; measured `SELFTEST 12/12`, exit 0",
+   "nothing pinned in code; the population is the named JSONL (default `corpus/routed-findings.jsonl`), measured at tip `1315234`: 75 rows (75 `ROW` lines under `--list`), open 31 \u00b7 blocked 1 \u00b7 closed 41 \u00b7 refused 2, `routed_open=32 oldest_round=39`. Schema literals in code: `STATUSES = open, closed, refused, blocked`; `REQUIRED = id, class, source, opened_round, status`; `ID_RE = [A-Za-z0-9][A-Za-z0-9._-]*`; `SOURCE_RE = <lane-relative path>:<line>` checked against real lane bytes",
+   "writes no lane byte \u2014 it reads the JSONL and every `source` file it validates. `--observe` runs each row's own `check` string through `subprocess.run(shell=True, cwd=<lane>, timeout=<--timeout>)` (`:148-149`), so any write there is the row's command, not the tool's; `--selftest` writes only inside its temp dir (`:167`, `:187`); no network, no commit, never reads or moves the pinned `corpus/defects*.jsonl`",
+   "kengaku round 41 rider (`considerthese/2026-10-26.md` proposal 1)"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsF/rows.md",
+  "line": 3,
+  "cells": [
+   "`tb2-grader-probe`",
+   "probe",
+   "`uv run --no-project --with biopython==1.85 python3 plans/tb2_grader_probe.py --lane .` (the captured grader imports Biopython, which `test.sh` pins to 1.85; `--lane` is the only flag)",
+   "`0` every frozen prediction matched: `cases=18 observed_pass=5 observed_fail=13 mismatches=0` (measured at tip `1315234` under biopython 1.85, exit 0) \u00b7 `1` `mismatches>0`, reported on the summary line (`:163-164`) \u00b7 `2` the captured grader is not at its pin \u2014 `REFUSE grader digest <h> != pinned 44a05a24\u2026` (`:142-144`; measured with one appended comment line: `REFUSE grader digest 70ad2697\u2026 != pinned 44a05a24\u2026`, exit 2) \u2014 and argparse usage (`:136`; measured `--dry` \u2192 `unrecognized arguments: --dry`, exit 2) \u00b7 limit: a missing Biopython is a traceback under exit `1` (`ModuleNotFoundError: No module named 'Bio'` at `:145`, measured exit 1), not `2`",
+   "no `--selftest` in the script \u2014 only `--lane` is accepted (`:136`), so this row claims none; the probe is the frozen instrument and its verification is external: the committed receipt `corpus/evidence/round35/tb2-grader-probe.txt` (sha256 `2359d9067906f59d2c55b5802603d1ef45c376f653ad9997de1ef7da412b25b8`) re-runs byte-equal (measured today: `diff` empty, `BYTE-EQUAL`), and `plans/pkg_gate.py` `--rerun` byte-compares that receipt to the pin in `plans/pkg-spec-r35.json`",
+   "grader `corpus/evidence/round35/tb2-eval/test_outputs.py` sha256 `44a05a2482aa7a8e70de95478de6560b6188e630336fca9d02b62dc69a096582` (`:24`, checked before the grader is imported); TB2 pin `2fd12b88aafdd04a52c298e3940bcb189f9766d6`; the five literal components read out of the grader source (aa lengths 8, 259, 158, 235, 182 \u2192 `max_passing_nt=2766` against the grader's 3000 nt cap); 18 synthetic cases with predictions written from a static reading before the first run",
+   "writes only its own `tempfile.TemporaryDirectory` (`:122`) and monkeypatches the grader's `Path` so the hard-coded `/app/gblock.txt` resolves there; imports the captured grader through `importlib`; no network, no model, no container, no task certification, never the live `/app`",
+   "kengaku round 35"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsF/rows.md",
+  "line": 1,
+  "cells": [
+   "`round51-surfaces`",
+   "gate",
+   "`python3 plans/round51_surfaces.py --lane .` (lane root; `--manifest PATH` default `plans/round51-surfaces.json`, `--province PATH` default `PROVINCE.md`, `--selftest`)",
+   "`0` frozen predicate holds \u2014 every problem counter `0` and `RESOLVE \u2026 verdict=met`, then `PREDICATE R51-C1 pass` (measured at tip `1315234`: `ANCHORS total=20 dup=0 missing=0`, `PROBES run=20 present=14 absent=6 errors=0`, `RESOLVE observed_present=14 floor=13 verdict=met`, exit 0) \u00b7 `1` any of DRIFT, STALE, UNVERDICTED, NUMBER-DRIFT, ANCHOR-DUP, ANCHOR-MISSING, UNCOVERED, SECTION-MISSING non-zero or `RESOLVE \u2026 verdict=violated`, each defect on a `DETAIL <KEY> \u2026` line, then `PREDICATE R51-C1 fail` (`plans/round51_surfaces.py:219-226`) \u00b7 `1` also when the manifest cannot be evaluated \u2014 an absent manifest path is a `FileNotFoundError` traceback with no `PREDICATE` line (measured, exit 1) and an unknown `probe.kind` prints `unknown probe kind '<kind>'` (`:139`, measured exit 1); a could-not-evaluate never prints `pass` \u00b7 `2` argparse usage only (`:345-348`, measured `--bogus` \u2192 exit 2)",
+   "`python3 plans/round51_surfaces.py --selftest` \u2014 nine fixtures S0\u2013S8 on one `tempfile.mkdtemp` that honours `TMPDIR` (`:352`): consistent pass, prose drift, stale manifest, unverdicted absent row, number drift, uncovered row, duplicate anchor, floor violated, missing anchor; measured `[selftest] cases=9 failures=0`, `[selftest] ALL PASS`, exit 0",
+   "nothing pinned in code \u2014 the manifest is read by path. `plans/round51-surfaces.json` carries 20 entries in 2 sections with `resolve_floor 13`, and the per-surface values the probes compare: sha256 prefix pins `grader.py 90c87c88`, `plans/attrib_probe.py 489f938a`, `~/.local/share/ds-flash-shim/shim.py 42d86d99` (prefix match, `h.startswith(pin)` at `:108`, so a short pin accepts any digest with that prefix); `count` probe `SOURCES rows` over `corpus/SOURCES.md`; `http`/`port` targets `127.0.0.1:34113`, `127.0.0.1:45669`, `127.0.0.1:1234`, `127.0.0.1:8791`",
+   "writes no lane byte \u2014 reads `PROVINCE.md`, the manifest and every probed target; `--selftest` writes only its one `mkdtemp` dir and `rmtree`s it (`:352-358`); the `http` and `port` probe kinds open `urllib.request.urlopen(url, timeout=3)` or a 1.5 s socket connect to the manifest's loopback URLs (`:116`, `:126`); one `git -C <lane> rev-parse master` for the `REV` line (`:51`); no other network",
+   "kengaku round 51"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsF/rows.md",
+  "line": 2,
+  "cells": [
+   "`routed-findings`",
+   "gate",
+   "`python3 plans/routed_open.py --lane .` (lane root; `--file PATH` default `corpus/routed-findings.jsonl`, `--list`, `--observe`, `--timeout N` default 180 s, `--selftest`)",
+   "`0` every row valid, then `ROWS total=<n> open=\u2026 blocked=\u2026 closed=\u2026 refused=\u2026` and `routed_open=<n> oldest_round=<r or ->` (measured at tip `1315234`: `ROWS total=75 open=31 blocked=1 closed=41 refused=2`, `routed_open=32 oldest_round=39`, exit 0) \u00b7 `1` one `DEFECT line=<n> <reason>` per invalid row then `ROWS total=<n> invalid=<k>`, and the `routed_open=` line is withheld so a round close cannot quote a number off a broken file (`:226-230`; measured `DEFECT line=1 a closed row must carry closing evidence in close`, exit 1) \u00b7 `1` also on any `--observe` mismatch \u2014 `OBSERVE <id> rc=\u2026 observed=\u2026 self=\u2026 MISMATCH` then `OBSERVE rows=<n> mismatched=<k>` (`:154-160`; measured `mismatched=1`, exit 1) or a failed `--selftest` \u00b7 `2` setup: `--lane` not a directory (`:216`), a file named as a defect ledger \u2014 `corpus/defects*.jsonl` refused by name (`:48-50`, `:218-221`; measured `SETUP refusing defects.jsonl: \u2026`, exit 2), the findings file missing (`:224`; measured exit 2), argparse",
+   "`python3 plans/routed_open.py --selftest` \u2014 11 row cases plus a defect-ledger guard, all on `tempfile.TemporaryDirectory`: valid-closed, malformed JSON, missing key, duplicate id, closed without evidence, blocked without blocker, bad status, source past EOF, source missing file, bad opened_round, bad id; measured `SELFTEST 12/12`, exit 0",
+   "nothing pinned in code; the population is the named JSONL (default `corpus/routed-findings.jsonl`), measured at tip `1315234`: 75 rows (75 `ROW` lines under `--list`), open 31 \u00b7 blocked 1 \u00b7 closed 41 \u00b7 refused 2, `routed_open=32 oldest_round=39`. Schema literals in code: `STATUSES = open, closed, refused, blocked`; `REQUIRED = id, class, source, opened_round, status`; `ID_RE = [A-Za-z0-9][A-Za-z0-9._-]*`; `SOURCE_RE = <lane-relative path>:<line>` checked against real lane bytes",
+   "writes no lane byte \u2014 it reads the JSONL and every `source` file it validates. `--observe` runs each row's own `check` string through `subprocess.run(shell=True, cwd=<lane>, timeout=<--timeout>)` (`:148-149`), so any write there is the row's command, not the tool's; `--selftest` writes only inside its temp dir (`:167`, `:187`); no network, no commit, never reads or moves the pinned `corpus/defects*.jsonl`",
+   "kengaku round 41 rider (`considerthese/2026-10-26.md` proposal 1)"
+  ]
+ },
+ {
+  "file": ".ufo/waves/round-52/w1/C2ScribeRowsF/rows.md",
+  "line": 3,
+  "cells": [
+   "`tb2-grader-probe`",
+   "probe",
+   "`uv run --no-project --with biopython==1.85 python3 plans/tb2_grader_probe.py --lane .` (the captured grader imports Biopython, which `test.sh` pins to 1.85; `--lane` is the only flag)",
+   "`0` every frozen prediction matched: `cases=18 observed_pass=5 observed_fail=13 mismatches=0` (measured at tip `1315234` under biopython 1.85, exit 0) \u00b7 `1` `mismatches>0`, reported on the summary line (`:163-164`) \u00b7 `2` the captured grader is not at its pin \u2014 `REFUSE grader digest <h> != pinned 44a05a24\u2026` (`:142-144`; measured with one appended comment line: `REFUSE grader digest 70ad2697\u2026 != pinned 44a05a24\u2026`, exit 2) \u2014 and argparse usage (`:136`; measured `--dry` \u2192 `unrecognized arguments: --dry`, exit 2) \u00b7 limit: a missing Biopython is a traceback under exit `1` (`ModuleNotFoundError: No module named 'Bio'` at `:145`, measured exit 1), not `2`",
+   "no `--selftest` in the script \u2014 only `--lane` is accepted (`:136`), so this row claims none; the probe is the frozen instrument and its verification is external: the committed receipt `corpus/evidence/round35/tb2-grader-probe.txt` (sha256 `2359d9067906f59d2c55b5802603d1ef45c376f653ad9997de1ef7da412b25b8`) re-runs byte-equal (measured today: `diff` empty, `BYTE-EQUAL`), and `plans/pkg_gate.py` `--rerun` byte-compares that receipt to the pin in `plans/pkg-spec-r35.json`",
+   "grader `corpus/evidence/round35/tb2-eval/test_outputs.py` sha256 `44a05a2482aa7a8e70de95478de6560b6188e630336fca9d02b62dc69a096582` (`:24`, checked before the grader is imported); TB2 pin `2fd12b88aafdd04a52c298e3940bcb189f9766d6`; the five literal components read out of the grader source (aa lengths 8, 259, 158, 235, 182 \u2192 `max_passing_nt=2766` against the grader's 3000 nt cap); 18 synthetic cases with predictions written from a static reading before the first run",
+   "writes only its own `tempfile.TemporaryDirectory` (`:122`) and monkeypatches the grader's `Path` so the hard-coded `/app/gblock.txt` resolves there; imports the captured grader through `importlib`; no network, no model, no container, no task certification, never the live `/app`",
+   "kengaku round 35"
+  ]
+ }
+]

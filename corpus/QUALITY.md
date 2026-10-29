@@ -1130,3 +1130,19 @@ Line numbers are this file's.
   closing commit rather than a sentence routed to a round that never reads it.
   Lesson: `corpus/lessons/round-50.md` §Gate and §Assimilation. Supersedes: none; it extends Q22 (a receipt must be
   re-runnable at the tip) from numbers to the pointers that name the instrument.
+- **Q42 — a counter that decides a claim must be run against a forged-but-complete input, not only against blanks;
+  a registry row's truth is a separate leg from its existence.** Round 52's two counters each printed `pass`
+  (or could print it) for inputs that did none of the work: C1's predicate reads a population JSON, a digest file,
+  a confirmations file and a prior-art file that the lane itself writes, and five routes to `PREDICATE pass` were
+  built without reading a grader (`.ufo/waves/round-52/w2/W2CritC1Reach/`); C2 passed 28 `x`-padded rows and seven
+  false cells (`W2ScribeRowsCheck`, `W2RevRowsA/B`), because it checks that a row exists, is complete and names a
+  script, never that its cell is true. Criterion for the next counter of either class: (a) freeze, before data, at
+  least one control that is *complete and well-formed but forged* (digest re-pinned, population shrunk, receipt
+  `confirmed:"false"`, padded rows) and show it fails; (b) pin every input the predicate trusts by digest or
+  by a committed reader that is not the file's author; (c) a row-existence counter is claimed as existence only —
+  "the registry is truthful" needs a second, executed leg per row. Limits: this criterion states a requirement; it
+  did not make round 52's counters meet it (C1 stays reachable; C2's `--selftest` still has 3 fixtures), and it
+  is not shown able to fail until a round freezes a forged-complete control and a counter fails it.
+  Lesson: `corpus/lessons/round-52.md` §Mistakes (`counter-reachable-without-the-work`, `false-registry-cell`).
+  Supersedes: none; extends Q39 (a counter that grades over its own fixtures) to counters whose inputs are
+  lane-authored receipts.

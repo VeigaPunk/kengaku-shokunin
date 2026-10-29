@@ -1,0 +1,246 @@
+[
+ {
+  "instrument": "adoption-check",
+  "verdict": "true",
+  "evidence": "argparse flags --lane/--expect/--census exist; no --selftest (adopt-st rc=2); `--expect` absent -> rc=2 (adopt-noexpect); `--expect .ufo/waves/round-33/claims/adoption-expect.json --census` -> `entries=1 indexed=1 cited_rows=3 rows_present=3 rows_mined=3 usedby_ok=1 census=ok` rc=0 (exact match to cell); without --census -> `census=skipped` rc=1; empty expectation -> `entries=0 cited_rows=0 required=0 -> empty expectation is not a pass` rc=1; unreadable expectation -> FileNotFoundError rc=1; pinned expect file and control-nothing.txt exist; no writes in source.",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true
+ },
+ {
+  "instrument": "attrib-probe",
+  "verdict": "true",
+  "evidence": "subcommands freeze-check/block-sha/trials/force-trials/stream-trials/score and flags --frozen/--shim/--out/--receipt exist in argparse; no subcommand -> rc=2; `freeze-check --frozen plans/attrib-r23-frozen.md` -> `block_sha=1b2d6a01bfa431ec pinned=1b2d6a01bfa431ec stable=True -> OK` rc=0; r21 -> `9f0244bb0aa4463c ... -> OK` rc=0 (both as cell); `block-sha` printed 1b2d6a01bfa431ec4e78…; no --selftest flag (cell says none); writes only open(args.out,'a')/open(args.receipt,'a'); journalctl only in cmd_score (grep line 21); ports 8791/8793 in source.",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true
+ },
+ {
+  "instrument": "catalog-probe",
+  "verdict": "true",
+  "evidence": "flags --verify/--lane/--capture/--diff exist (--diff store_true, documented as accepted); `--selftest` exists and `python3 plans/catalog_probe.py --selftest` -> `SELFTEST checks=13 failed=0` rc=0; `--verify --lane .` -> `raw=ok hf_models=50 or_models=467 hf_schema_delta=4 or_schema_delta=0 verify=ok` rc=0 (exact); capture() writes exactly 4 files (RAW_HF, RAW_OR, DIGESTS, AFTER) under CAP_DIR; corpus/evidence/round33/catalogs/ holds SHA256SUMS, hf.raw.json, or.raw.json, after.txt.",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true
+ },
+ {
+  "instrument": "defect-ledger",
+  "verdict": "true",
+  "evidence": "`--lane` is the only argparse flag; no --selftest; `python3 plans/defect_ledger.py --lane .` -> `rows=5 closed=5 observed_pass=5 mismatches=0` then `PREDICATE C2 pass` rc=0 (exact); return 0 if good else 1; corpus/defects.jsonl has 5 rows R34-D1..R34-D5; control-c2-nothing.txt exists; writes none (no write calls; git ls-files/ls-tree only).",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true
+ },
+ {
+  "instrument": "gate-flip-check",
+  "verdict": "true",
+  "evidence": "flags --lesson/--entry(action=append)/--selftest exist; no lesson -> parser.error -> rc=2 (`--lesson is required unless --selftest is given`); missing lesson -> `SETUP unreadable lesson` rc=2; `--lesson corpus/lessons/round-51.md` -> `FLIPS total=1 unresolved=1` rc=1 (exact); `--selftest` -> `SELFTEST ok=27/27` rc=0 (exact); writes only inside mkdtemp selftest fixture tree.",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true
+ },
+ {
+  "instrument": "extraction-policy-compare",
+  "verdict": "true",
+  "evidence": "flags --summary/--json/--root/--selftest exist; `--summary` -> `TOTAL population=1964 policies=8 compared_verdicts=15712 disagreements=1089 policies_with_flips=5` rc=0 (exact); `--selftest` -> `SELFTEST total policies=9 cases=59 mutants=10 killed=10 failures=0` rc=0 and the pin-reject line `SELFTEST pass pin-reject-before-policies summary_rc=1 json_rc=1 pin_error=True policy_calls=0` (exact); plans/round-27-claims.md and plans/grader_perturb.py exist; the only open('ab') is inside the mkdtemp pin-rejection selftest.",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true
+ },
+ {
+  "instrument": "password-recovery-probe",
+  "verdict": "true",
+  "evidence": "flags --dry/--stage-check (mutually exclusive group, line 286)/--work/--lane exist; no --selftest (row says none); `--dry` rc=0 `cases=16 predicted_pass=5 predicted_fail=11`; `--stage-check --work` rc=0 `stagecheck cases=16 failed=0` (exact); FULL default run rc=0 output is byte-identical (diff 0 lines) to corpus/evidence/round45/password-recovery-probe.txt; capture file digests 9fdde5d9/c5f9fc70/bc4f5011/2dc14fc1 match (sha256 prefixes); two graded tests test_recovery_file_exists, test_password_match exist.",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true
+ },
+ {
+  "instrument": "polyglot-c-py-probe",
+  "verdict": "true",
+  "evidence": "flags --dry/--stage-check (mutually exclusive, line 436)/--work/--lane exist; no --selftest (row says none); `--stage-check` rc=0 `stagecheck cases=18 failed=0` (exact); `--dry` rc=0 `cases=18 predicted_pass=7 predicted_fail=11`; FULL default run rc=0 byte-identical (diff 0 lines) to corpus/evidence/round46/polyglot-c-py-probe.txt; all seven capture digests (b94a7a98, a57c0c0e, e768453a, 591e27f9, 4770437e, 2eb537f2, d31b9f60) match; graded test test_fibonacci_polyglot exists.",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true
+ },
+ {
+  "instrument": "round28-census",
+  "verdict": "true",
+  "evidence": "`--revision` required (no revision -> argparse rc=2, measured); `--root` exists; no --selftest (rc=2 measured); default run `--root . --revision 30801b4` rc=1 with state_check `mismatch=1` incl. `P3c.box.4.pointer.1` (exact id present in state_check output) and unindexed `knowledge/fixture-honest-geometry.md`; benchmark_spec_audit `distinct_task_ids=812 selected_count=16` (exact); registry_check `TOTAL source_rows_checked=13 ... finding_count=0 exit=0`; fixture manifest/population.json exist; SOURCES rows 171 malformed 0 (receipt JSON).",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true
+ },
+ {
+  "instrument": "round30-defects",
+  "verdict": "true",
+  "evidence": "`--lane`, `--selftest` exist; default run `ok D1..ok D5 ... checks=5 defects=0` rc=0 (exact); `--selftest` -> `SELFTEST checks=5 failed=0` rc=0 (exact); five labels match exactly; anchors corpus/evidence/round29-attempt2/control-nothing.txt, corpus/lessons/round-29.md, .ufo/waves/round-29/attempt2/adoption-expect.json exist; reads via git cat-file/status only.",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true
+ },
+ {
+  "instrument": "round31-c1-literals",
+  "verdict": "true",
+  "evidence": "`--lane`/`--selftest` exist; default run `checks=6 defects=0` rc=0 (exact); `--selftest` -> `SELFTEST checks=6 failed=0` rc=0 (exact); entry corpus/knowledge/benchmark-verifier-execution-model.md, expect .ufo/waves/round-31/adoption-expect.json and control-nothing.txt (contains `expect_sha256=` and `exit=1`) exist; return 0/1 only.",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true
+ },
+ {
+  "instrument": "round31-defects",
+  "verdict": "true",
+  "evidence": "`--lane`/`--selftest` exist; default run `checks=10 defects=0` rc=0 (exact); `--selftest` -> `SELFTEST checks=10 failed=0` rc=0 with exactly 11 `CASE` lines (exact); .ufo/waves/round-30/falsify/swarm-registry.json has 33 members (exact); baseline commit 0883e72 exists; HEAD:.ufo/waves/round-30/build/R30DraftGate.md is the file the check reads (Pass 9 check in source).",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true
+ },
+ {
+  "instrument": "round33-c1-literals",
+  "verdict": "true",
+  "evidence": "`--lane`/`--selftest` exist; default run `checks=8 defects=0` rc=0 (exact); `--selftest` -> `SELFTEST cases=11 failed=0` rc=0 (exact); entry corpus/knowledge/benchmark-grader-semantics.md and corpus/lessons/round-33.md exist; selftest writes only under TemporaryDirectory (lane-relative writes are in the selftest branch).",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true
+ },
+ {
+  "instrument": "round33-defects",
+  "verdict": "true",
+  "evidence": "`--lane`/`--selftest` exist; default run `checks=6 defects=0` rc=0 (exact); `--selftest` -> `SELFTEST checks=14 failed=0` rc=0 with exactly 14 `CASE` lines (exact); commits 112091c and ae95fe0 exist, a44b5a8 absent (cell calls it phantom — consistent); N3/N4 read /home/vgpnk/Projects/shokunin/.ufo/reports/round-31 and round-32 (fleet, absolute; directories exist).",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true
+ },
+ {
+  "instrument": "round35-c1-coverage",
+  "verdict": "true",
+  "evidence": "`--lane`/`--fleet` exist; `--selftest` -> argparse rc=2 (exact: no self-test); default run rc=1 with `V4 DEFECT knowledge files=55 index rows=54 (want 42/42)` (the cell discloses this stale red; `PREDICATE C1 pass` is therefore unreachable at tip 87301ba); V1,V2,V3,V5,V6 ok; pins: tb2 test_outputs 44a05a24 (exact), test.sh 9ede4664 (exact), instruction.md 1bb2af1d (exact); S105/S106/S107 rows present in corpus/SOURCES.md; default fleet path /home/vgpnk/Projects/shokunin (source line 195).",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true,
+  "caveat": "caveat: the PASS verdict is unreachable at the current tip (V4); the cell says so. Exit-map and flag claims are true."
+ },
+ {
+  "instrument": "round35-hardening",
+  "verdict": "true",
+  "evidence": "`--lane/--repo/--skip` exist (`--skip` action=append); no --selftest (rc=2 measured); clean clone at base 30801b4 (`git clone` + checkout in scratch): `H6 ok untracked_anywhere=0` and `hardening run=6 failed=0` rc=0 (exact to cell); live lane: `H6 FAIL untracked_anywhere=N` rc=1 — cell's `=2` was the wave-1 value; now 214 (other seats' untracked files) — volatile; freeze commit 11d6453 exists; corpus/knowledge/tb2-protein-assembly-grader.md exists; round-34 erratum + nec-s091-reopen.html + quarantine-SHA256SUMS exist under .ufo/waves/round-34/assimilation/captures/.",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true,
+  "caveat": "caveat: the `untracked_anywhere=2` example is volatile (214 at check time); recommend a non-numeric cell or a dated figure."
+ },
+ {
+  "instrument": "round36-c2",
+  "verdict": "true",
+  "evidence": "`--lane/--fleet` exist; no --selftest (rc not run: cell says none; argparse only); default run `W4 DEFECT knowledge files=55 index rows=54 (want equal and >=43)`, `checks=6 defects=1 PREDICATE C2 fail` rc=1 (exact to cell); pins: plans/regex_log_probe.py d58194c8 (exact), tb2-regex-log test_outputs 345c3bd0 / test.sh 4770437e / instruction.md 4f7ac05e (exact); receipt corpus/evidence/round36/regex-log-probe.txt has `cases=24 observed_pass=8 observed_fail=16 mismatches=0`; control-c2-nothing.txt and control-c2-skip.txt exist.",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true
+ },
+ {
+  "instrument": "round45-c1",
+  "verdict": "true",
+  "evidence": "`--lane/--work/--jobs` exist (`--jobs` default 8); `--selftest` -> rc=2 (exact); full default run rc=0 with `PINS total=33 mismatched=0`, `REFUSALS total=10 clean=10 leaked=0 read=0 hung=0 build_errors=0`, `HONEST fixtures=104 admitted=104 refused=0`, `CALIBRATION advertised=10 contradicted=0`, `PREDICATE C1 pass` (all exact); plans/round44_c1_verify.py sha 6cf05323 (exact); 10 refusals45 modules; 22 battery modules; c1-counter-run.txt exists; --work inside lane refused (source 250-251); five named controls exist; keyed_name control receipt shows `contradicted=0`, `exit=0` (as cell).",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true
+ },
+ {
+  "instrument": "round45-c2",
+  "verdict": "true",
+  "evidence": "`--lane/--work` exist; `--selftest` -> argparse rc=2 (exact: no self-test spelling); default run rc=1 with `V2 DEFECT spec=frozen gate=frozen gate_exit=1`, `checks=11 defects=1`, `PREDICATE C2 fail` (exact to the cell's clean-clone measurement; also reproduced in clean clone); V11 `states=48 grader_pass=18 grader_fail=30 disagree=0` (exact); pins: pkg-spec-r45 2f924ffa (exact), pkg_gate ea638822 (exact), password_recovery_probe 9363e03e (exact), dry table 46036abe (exact), test_outputs 2dc14fc1 (exact); nine captures + SHA256SUMS; control-c2-predictor.txt and control-c2-nothing.txt exist; random.Random(45) in source.",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true
+ },
+ {
+  "instrument": "round46-c1",
+  "verdict": "false",
+  "evidence": "Flags, exit map, self-test absence, pins (round44 6cf05323 exact; refusals45 10 modules; refusals46 f1–f20 = 20 .py modules + __pycache__; sealed46 12 modules; 22 battery modules), receipt path and the full measured run are TRUE: `PINS total=65 mismatched=0`, `REFUSALS total=20 clean=20 leaked=0`, `SEALED total=12 clean=12`, `HONEST fixtures=104 admitted=104`, `CALIBRATION advertised=32 contradicted=0`, `REASON -`, `PREDICATE C1 pass` rc=0 (exact). FALSE clause: the falsifier count. `ls .ufo/waves/round-46/claims/ | grep '^control-.*\\.txt$'` = 34 control receipts; `grep -i control` = 35 only because it also matches the script stage2_controls.py, which is not a control receipt.",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true,
+  "corrected_cell": "corrected cell (SELFTEST): `no self-test spelling — the 65 pins, the two hostile legs with their floors and the honest leg are the battery; falsifiers are the 34 control receipts (control-*.txt) under .ufo/waves/round-46/claims/, e.g. control-c1-base-fence.txt (...), control-c1-fence-admit_all.txt (exit 1), control-c1-fence-refuse_all.txt (exit 1), control-c1-fence-keyed_name.txt (contradicted=32, exit 1)`"
+ },
+ {
+  "instrument": "round46-c2",
+  "verdict": "true",
+  "evidence": "`--lane/--work` exist; `--selftest` -> argparse rc=2 (exact: no self-test flag); default run `A anchorline live=0 repaired=8 base_rows=149 base_missing=0 base_changed=0 ok`, `B predictor states=16 grader_pass=10 grader_fail=6 disagree=0 ok`, `C entry source_ranges=9 source_ranges_bad=0 errata_marks=5/5 ok`, `D selftest exit=0 ok`, `checks=4 defects=0`, `PREDICATE C2 pass` rc=0 (exact); pins anchor_line_check 35d02dc5 (exact), round45_c2_verify ab6825e3 (exact), test_outputs 2dc14fc1 (exact); base commit 64ba8385 exists; `anchor_line_check.py --selftest` rc=0; source has no `return 2` (only 0/1), matching the cell's 'declared but not implemented'.",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true
+ },
+ {
+  "instrument": "round46-c3",
+  "verdict": "false",
+  "evidence": "Flags, the no-`2` exit claim, the no-self-test claim, the default-mode measured legs (V1, V2, V7, V8, V11, V13, `checks=13 defects=3`, `PREDICATE C3 fail` on the dirty lane), and the pins (plans/polyglot_c_py_probe.py 67a8f4a6 exact; plans/pkg_gate.py ea638822 exact; test_outputs b94a7a98 exact) are TRUE. FALSE clause: `--filler` is stated as `checks=7 defects=0` (pass). Measured: `python3 plans/round46_c3_verify.py --lane . --filler --work <scratch>` -> `V3 ok`, `V4 DEFECT`, `V6 DEFECT census_exit=1`, `V7 DEFECT`, `V9 DEFECT`, `V10 DEFECT`, `V12 DEFECT`, `checks=7 defects=6`, `PREDICATE C3 fail`, rc=1. The filler package is the do-nothing control and is red by design (the default-mode V13 line reports the same `filler_checks=7 defects=6`). Also: the pkg-spec-r46 digest 560c7bfb is over the file with receipt_sha256 masked (raw sha f9a0e3cc), so that digest is unverifiable byte-wise.",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true,
+  "corrected_cell": "corrected cell (VERDICT): `… checks=13 defects=0 then PREDICATE C3 pass (clean tree); under --filler, which runs V3, V4, V6, V7, V9, V10, V12 on the do-nothing control, the control must print checks=7 defects=6 and PREDICATE C3 fail (measured at tip 87301ba: V4, V6, V7, V9, V10, V12 DEFECT, rc=1) · …`"
+ },
+ {
+  "instrument": "round50-c1",
+  "verdict": "true",
+  "evidence": "`--lane/--work/--fence/--skip-mutants/--allow-dirty` exist; `--selftest` -> rc=2 (no flag, exact); `--work` absent parent -> FileNotFoundError from mkdtemp rc=1 (exact); full run rc=1 at tip 87301ba because `TREE dirty=24` (other seats' untracked files; the cell describes this failure mode) with `POPULATION fixtures=126 pin=b5197f94… mismatched=0`, `HONEST fixtures=126 admitted=126 refused=0 error=0`, `REFUSALS total=20 clean=20 leaked=0`, `SEALED total=12` and `SEALED total=20` clean, `MUTANTS total=15 caught=15 broken=0 floor=12 verdict=met` (all exact); fence = plans/fixture_fence.py sha 57adce4a (exact); docstring says `MUTANTS total=23` (exact, cell discloses mismatch); return 0/1/2 only in main.",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true
+ },
+ {
+  "instrument": "round50-c2",
+  "verdict": "true",
+  "evidence": "`--lane/--selftest` exist; default run `POINTERS total=292 paths=228 hashes=64 resolved=292 exists=216 superseded=3 never-landed=9 unresolved=0` rc=0 (exact); `--lane <lane> --selftest` -> `SELFTEST pristine_rc=0 bogus_rc=1 new_unresolved=['plans/round50_selftest_bogus.py'] verdict=ok` rc=0 (exact). NOTE: `--selftest` with no --lane only works from lane root (default `.`); from another cwd it dies with FileNotFoundError (rc=1), not a usage code; the cell does name 'lane root' in the entry column.",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true
+ },
+ {
+  "instrument": "round51-routing",
+  "verdict": "false",
+  "evidence": "Flags (--lane/--ledger/--run-checks/--scratch/--selftest), default run (`LEDGER corpus/routed-findings.jsonl rows=75`, `VERIFIED ran=0`, rc=0 pass), and selftest (`[selftest] cases=11 failures=0`, `ALL PASS`, rc=0) are TRUE. FALSE clause: the verdict map says `no 2 path exists`. The script's argparse rejects unknown flags with exit 2: `python3 plans/round51_routing.py --bogus` -> `error: unrecognized arguments: --bogus`, rc=2 (measured).",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true,
+  "corrected_cell": "corrected cell (VERDICT, last clause): `· 2 argparse usage only (unrecognized flag, measured --bogus → exit 2); the script has no setup exit`"
+ },
+ {
+  "instrument": "round51-surfaces",
+  "verdict": "true",
+  "evidence": "`--lane/--manifest/--province/--selftest` exist; `--bogus` -> rc=2 (exact); default run from lane root `REV 87301ba…`, `ANCHORS total=20 dup=0 missing=0`, `PROBES run=20 present=14 absent=6 errors=0`, `RESOLVE observed_present=14 floor=13 verdict=met`, `PREDICATE R51-C1 pass` rc=0 (exact to cell's tip-1315234 numbers); `--selftest` -> `[selftest] cases=9 failures=0`, `ALL PASS` rc=0 (exact); absent manifest -> FileNotFoundError rc=1 (exact); manifest has 20 surfaces, resolve_floor 13, pins 90c87c88 / 489f938a / 42d86d99 (shim sha256 42d86d99… matches exact), ports 34113/45669/1234 and port 8791 present.",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true,
+  "caveat": "caveat: probes resolve relative paths against the cwd; run from another directory the probe counts change (I observed `present=4 absent=16`, rc=1, `RESOLVE violated`). The cell's `--lane .` implies cwd = lane root; say so explicitly."
+ },
+ {
+  "instrument": "routed-findings",
+  "verdict": "true",
+  "evidence": "`--file/--lane/--list/--observe/--timeout/--selftest` exist; default run `ROWS total=75 open=31 blocked=1 closed=41 refused=2` / `routed_open=32 oldest_round=39` rc=0 (exact); `--file <missing>` -> `SETUP routed-findings file missing` rc=2 (exact); `--selftest` -> `SELFTEST 12/12` rc=0 (exact, 11 cases + guard); --timeout default 180; no writes to lane except via --observe's row checks.",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true
+ },
+ {
+  "instrument": "tb2-grader-probe",
+  "verdict": "true",
+  "evidence": "`--lane` is the only flag (`--dry` -> argparse rc=2, exact); `uv run --no-project --with biopython==1.85 python3 plans/tb2_grader_probe.py --lane .` -> `cases=18 observed_pass=5 observed_fail=13 mismatches=0` rc=0 (exact); output byte-identical (diff 0 lines) to corpus/evidence/round35/tb2-grader-probe.txt (sha 2359d906, exact); without Biopython -> ModuleNotFoundError traceback rc=1 (exact to cell); grader sha 44a05a24 (exact); test.sh pins biopython==1.85 (exact); pkg-spec-r35 e085b435 (exact); no --selftest (cell says none).",
+  "command_basis": "measured in lane cwd or with --lane (see receipts/runs/); TMPDIR=scratch",
+  "landed_in_skill_md": true,
+  "draft_identical": true
+ },
+ {
+  "instrument": "plans/round52_c1_grader_audit.py (R52-C1 counter)",
+  "no_row": true,
+  "verdict": "unverifiable",
+  "evidence": "No proposed registry row for this counter exists in any w1 draft (C2ScribeRows A-F), and it is not cited as `python3 plans/round52_c1_grader_audit.py` in SKILL.md, SCORECARD.md, LOG.md, corpus/README.md or corpus/knowledge (grep). Measured at tip 87301ba: rc=1, `CONFIRMED new=0`, `PRIOR-ART ok=False urls=0`, `PREDICATE R52-C1 fail`, `A5 CAPTURES present+pinned_excluded=184 of 184`, `A5 TASKS classified+excluded=89 of 89`, `PREDICATE R52-C1-A5 fail`. Not a row truth claim; reported for the L1.",
+  "corrected_cell": null
+ },
+ {
+  "instrument": "plans/round52_c2_registry.py (R52-C2 counter)",
+  "no_row": true,
+  "verdict": "unverifiable",
+  "evidence": "No proposed row in any w1 draft and no citation of this counter in the four advertised files (grep). Measured at tip 87301ba: `ADVERTISED total=72 REGISTERED total=72 rows=74 MISSING 0 INCOMPLETE 0 ENTRY-MISSING 0 SELFTEST-UNBACKED 0 PREDICATE R52-C2 pass` rc=0. Draft row C2ScribeRowsC mentions this counter only in prose.",
+  "corrected_cell": null
+ }
+]

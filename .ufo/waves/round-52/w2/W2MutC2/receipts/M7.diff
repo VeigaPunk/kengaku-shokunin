@@ -1,0 +1,11 @@
+--- tip/plans/round52_c2_registry.py	2026-10-28 20:43:53.000000000 -0300
++++ mut/M7.py	2026-10-28 20:58:34.771948992 -0300
+@@ -91,7 +91,7 @@
+         rel = str(f.relative_to(lane))
+         for m in CMD.finditer(text):
+             adv.setdefault(m.group(1), set()).add(rel)
+-    adv = {p: v for p, v in adv.items() if (lane / p).exists()}
++    adv = dict(adv)
+ 
+     skill = (lane / "SKILL.md").read_text(errors="replace")
+     block = registry_block(skill)

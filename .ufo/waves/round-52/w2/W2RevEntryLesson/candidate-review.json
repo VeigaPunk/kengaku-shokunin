@@ -1,0 +1,377 @@
+{
+ "seat": "W2RevEntryLesson",
+ "role": "reviewer (wave 2, falsify) — independent audit of the R52-C1 counter's test-function candidate set",
+ "lane_commit_base": "30801b479e3418c11089b8586178b6960216f364",
+ "captures_root": "corpus/evidence/round52/graders/",
+ "counter": {
+  "command": "python3 plans/round52_c1_grader_audit.py --lane .",
+  "exit": 1,
+  "output_lines": [
+   "TASKS total=89 records=89 classified=88",
+   "CAPTURES expected=184 present=183 mismatched=0",
+   "CLASS V1=2 V4=0 V2=53 V3=31 V0=3",
+   "TESTCLASS presence_only_tests=33 tasks_with_presence_only=27",
+   "CANDIDATES total=29",
+   "CONFIRMED new=0 []",
+   "PRIOR-ART ok=False urls=0",
+   "PREDICATE R52-C1 fail",
+   "A5 EXCLUDED listed=1 digest_pinned=1 tasks=['sanitize-git-repo']",
+   "A5 CAPTURES present+pinned_excluded=184 of 184",
+   "A5 TASKS classified+excluded=89 of 89",
+   "PREDICATE R52-C1-A5 fail"
+  ],
+  "note": "R52-C1-A5 fails on the CONFIRMED / PRIOR-ART legs (0 confirmations, no prior-art file), not on the GH013 exclusion; the exclusion itself is priced correctly (184 of 184, 89 of 89)."
+ },
+ "upstream_byte_check": {
+  "method": "curl raw.githubusercontent.com at pin 2fd12b88 for 12 primary graders; sha256 compared with captured bytes",
+  "result": "12 of 12 identical to upstream bytes (bn-fit-modify, build-cython-ext, caffe-cifar-10, cancel-async-tasks, code-from-image, crack-7z-hash, db-wal-recovery, extract-elf, financial-document-processor, hf-model-inference, pytorch-model-recovery, torch-tensor-parallelism)",
+  "sums_check": "counter reports mismatched=0; SHA256SUMS lines carry a './' prefix"
+ },
+ "first_ten_candidate_lines": [
+  {
+   "n": 1,
+   "task": "bn-fit-modify",
+   "counter_class": "V3",
+   "named_p1": [
+    "test_bn_sample_exists",
+    "test_learned_dag_structure_exists",
+    "test_intervened_dag_structure_exists"
+   ],
+   "named_p1_exists": true,
+   "non_presence_comparison_in_p1_block": false,
+   "verdict": "holds",
+   "other_tests": "6 P3 incl. test_sampled_data (KS test, p>=0.001) and test_learned_dag_structure (edge-set equality)"
+  },
+  {
+   "n": 2,
+   "task": "build-cython-ext",
+   "counter_class": "V2",
+   "named_p1": [
+    "test_repo_cloned"
+   ],
+   "named_p1_exists": true,
+   "non_presence_comparison_in_p1_block": false,
+   "verdict": "holds (exists / is_dir / .git exists)",
+   "other_tests": "P2 test_pyknotid_repository_tests; P3 test_numpy_version, test_cinvariants_cython_extension, test_chelpers, test_ccomplexity, test_cinvariants_python_vs_cython, test_example_usage; P0 test_pyknotid_core_import, test_chelpers_cython_extension, test_ccomplexity_cython_extension"
+  },
+  {
+   "n": 3,
+   "task": "caffe-cifar-10",
+   "counter_class": "V2",
+   "named_p1": [
+    "test_prototxt_files_exist"
+   ],
+   "named_p1_exists": true,
+   "non_presence_comparison_in_p1_block": false,
+   "verdict": "holds (two exists asserts)",
+   "other_tests": "P2 test_caffe_version_and_source, test_model_accuracy_verification; P3 test_cifar10_model_exists (size>100000), test_cpu_only_training_configured, test_training_completed_500_iterations"
+  },
+  {
+   "n": 4,
+   "task": "cancel-async-tasks",
+   "counter_class": "V2",
+   "named_p1": [
+    "test_run_py_file_exists"
+   ],
+   "named_p1_exists": true,
+   "non_presence_comparison_in_p1_block": false,
+   "verdict": "holds",
+   "other_tests": "5 P2 concurrency/cancel tests"
+  },
+  {
+   "n": 5,
+   "task": "code-from-image",
+   "counter_class": "V3",
+   "named_p1": [
+    "test_output_file_exists"
+   ],
+   "named_p1_exists": true,
+   "non_presence_comparison_in_p1_block": false,
+   "verdict": "holds",
+   "other_tests": "P3 test_output_is_correct"
+  },
+  {
+   "n": 6,
+   "task": "crack-7z-hash",
+   "counter_class": "V3",
+   "named_p1": [
+    "test_solution_file"
+   ],
+   "named_p1_exists": true,
+   "non_presence_comparison_in_p1_block": false,
+   "verdict": "holds (os.path.exists)",
+   "other_tests": "P3 test_solution_content"
+  },
+  {
+   "n": 7,
+   "task": "db-wal-recovery",
+   "counter_class": "V3",
+   "named_p1": [
+    "test_recovered_json_exists"
+   ],
+   "named_p1_exists": true,
+   "non_presence_comparison_in_p1_block": false,
+   "verdict": "holds (os.path.exists)",
+   "other_tests": "6 P3 (valid JSON, structure, sort order, completeness, duplicate ids, WAL decrypted)"
+  },
+  {
+   "n": 8,
+   "task": "extract-elf",
+   "counter_class": "V2",
+   "named_p1": [
+    "test_extract_js_exists"
+   ],
+   "named_p1_exists": true,
+   "non_presence_comparison_in_p1_block": false,
+   "verdict": "holds (exists + is_file)",
+   "other_tests": "P2 test_output_matches_reference"
+  },
+  {
+   "n": 9,
+   "task": "financial-document-processor",
+   "counter_class": "V3",
+   "named_p1": [
+    "test_directories_created"
+   ],
+   "named_p1_exists": true,
+   "non_presence_comparison_in_p1_block": false,
+   "verdict": "holds (exists/is_dir)",
+   "other_tests": "6 P3 (file moves, summary csv structure and content, empty-dir check)"
+  },
+  {
+   "n": 10,
+   "task": "hf-model-inference",
+   "counter_class": "V2",
+   "named_p1": [
+    "test_model_downloaded"
+   ],
+   "named_p1_exists": true,
+   "non_presence_comparison_in_p1_block": true,
+   "verdict": "FALSE P1",
+   "reason": "block loads the model and tokenizer (AutoModelForSequenceClassification.from_pretrained, AutoTokenizer.from_pretrained) and asserts 'model is not None' and 'tokenizer is not None' inside try/except; loader calls and 'is not None' are outside the frozen VALUE vocabulary, so the block is labelled P1 although it performs a substantive load check",
+   "other_tests": "3 P2 (flask_api_running, sentiment_endpoint, api_error_handling); the task's only P1 is this false one, so it leaves the candidate set under a correct rule"
+  }
+ ],
+ "named_in_amendment_a1": [
+  {
+   "task": "pytorch-model-recovery",
+   "test": "test_model_file_exists",
+   "counter_class": "P3",
+   "hand_class": "P1",
+   "exists": true,
+   "evidence": "block = docstring, comment '# Reference the directory the agent operated in (the WORKDIR in the Docker env)', one assert hello_path.exists(); the word 'in' in the comment matches VALUE \\bin\\b, so the counter labels it P3",
+   "counter_missed": true,
+   "grader_other_tests": "test_weights_file_unchanged (torch.allclose, set equality), test_state_dicts_match, test_model_loss (loss comparison), test_model_loads_weights"
+  },
+  {
+   "task": "torch-tensor-parallelism",
+   "test": "test_parallel_linear_exists",
+   "counter_class": "P2",
+   "hand_class": "P1",
+   "exists": true,
+   "evidence": "own body = one assert parallel_linear_path.exists(); the counter's split only breaks at '^def test_', so the block absorbs _setup_process_group, _cleanup_process_group, _test_column_parallel_linear and _test_row_parallel_linear (which use dist./mp.), and the block is labelled P2",
+   "counter_missed": true,
+   "grader_other_tests": "test_column_parallel_linear and test_row_parallel_linear (P0 by counter; both mp.spawn over tensor comparisons, substantive by hand)"
+  }
+ ],
+ "false_candidates": [
+  {
+   "task": "pytorch-model-recovery",
+   "listed_as": "CANDIDATE class=V1 presence_only=-",
+   "why": "candidacy comes from file-level V1 (candidate = bool(p1) or cls in (V1,V4)); zero per-test P1 by the counter. Amendment A1 declares the file-level V1 label false for this grader and states candidacy is >=1 P1. The task is a true candidate only through test_model_file_exists, which the counter does not flag."
+  },
+  {
+   "task": "torch-tensor-parallelism",
+   "listed_as": "CANDIDATE class=V1 presence_only=-",
+   "why": "same as above: file-level V1 with zero counter P1; A1 says file-level V1 is false here. The true P1 (test_parallel_linear_exists) is labelled P2 by the counter."
+  },
+  {
+   "task": "hf-model-inference",
+   "listed_as": "CANDIDATE class=V2 presence_only=test_model_downloaded",
+   "why": "the only P1 is a false P1 (see first_ten item 10)"
+  }
+ ],
+ "missed_p1_by_hand": {
+  "definite": [
+   {
+    "task": "circuit-fibsqrt",
+    "test": "test_gates_file_exists",
+    "counter": "P3",
+    "why": "docstring 'in the current directory' matches \\bin\\b; body = one exists assert"
+   },
+   {
+    "task": "cobol-modernization",
+    "test": "test_required_files_exist",
+    "counter": "P3",
+    "why": "'for file_path in required_files' matches \\bin\\b; body = for-loop of Path.exists asserts"
+   },
+   {
+    "task": "cobol-modernization",
+    "test": "test_data_files_exist",
+    "counter": "P3",
+    "why": "same for-loop pattern over data files"
+   },
+   {
+    "task": "extract-moves-from-video",
+    "test": "test_solution_file_exists",
+    "counter": "P3",
+    "why": "comment 'in the Docker env' matches \\bin\\b; body = one exists assert"
+   },
+   {
+    "task": "financial-document-processor",
+    "test": "test_summary_csv_exists",
+    "counter": "P3",
+    "why": "docstring 'exists in /app/invoices/' matches \\bin\\b; body = one exists assert (task is already a counter P1 task via test_directories_created)"
+   },
+   {
+    "task": "fix-code-vulnerability",
+    "test": "test_report_file_exists_example",
+    "counter": "P3",
+    "why": "comment 'in the Docker env'; body = one exists assert"
+   },
+   {
+    "task": "gcode-to-text",
+    "test": "test_hello_file_exists",
+    "counter": "P3",
+    "why": "docstring 'in the current directory'; one exists assert"
+   },
+   {
+    "task": "merge-diff-arc-agi-task",
+    "test": "test_git_repo_init",
+    "counter": "P3",
+    "why": "assert message 'does not exist in /app/repo' matches \\bin\\b; body = one exists assert"
+   },
+   {
+    "task": "merge-diff-arc-agi-task",
+    "test": "test_algo_py_exists",
+    "counter": "P3",
+    "why": "docstring 'in /app' and message 'in /app/repo'; one exists assert"
+   },
+   {
+    "task": "rstan-to-pystan",
+    "test": "test_output_files_exist",
+    "counter": "P3",
+    "why": "for-loop over four CSV paths with os.path.exists asserts; 'in' is the loop keyword"
+   },
+   {
+    "task": "sparql-university",
+    "test": "test_sparql_file_exists",
+    "counter": "P3",
+    "why": "docstring 'in the expected location'; one exists assert"
+   },
+   {
+    "task": "torch-pipeline-parallelism",
+    "test": "test_pipeline_parallel_exists",
+    "counter": "P3",
+    "why": "docstring 'in the expected directory'; one exists assert"
+   },
+   {
+    "task": "video-processing",
+    "test": "test_example_video_exists",
+    "counter": "P3",
+    "why": "docstring 'in the container'; one exists assert"
+   },
+   {
+    "task": "video-processing",
+    "test": "test_test_video_exists",
+    "counter": "P3",
+    "why": "docstring 'in the container'; one exists assert"
+   },
+   {
+    "task": "llm-inference-batching-scheduler",
+    "test": "test_output_files_exist",
+    "counter": "P3",
+    "why": "signature '-> None' matches the '>' in VALUE; body = two os.path.exists asserts"
+   },
+   {
+    "task": "build-pmars",
+    "test": "test_debian_source_used",
+    "counter": "P3",
+    "why": "assert message 'found in `/app`' matches \\bin\\b; body = glob-truthiness and debian_dir.exists()"
+   },
+   {
+    "task": "pytorch-model-recovery",
+    "test": "test_model_file_exists",
+    "counter": "P3",
+    "why": "named in amendment A1; see named_in_amendment_a1"
+   },
+   {
+    "task": "torch-tensor-parallelism",
+    "test": "test_parallel_linear_exists",
+    "counter": "P2",
+    "why": "named in amendment A1; see named_in_amendment_a1"
+   },
+   {
+    "task": "tune-mjcf",
+    "test": "test_tuned_model_exists",
+    "counter": "P3",
+    "why": "body = one exists assert; the block absorbs module-level helper simulate_model, whose NaN/Inf asserts set P3"
+   },
+   {
+    "task": "modernize-scientific-stack",
+    "test": "test_dependency_file_exists",
+    "counter": "P3",
+    "why": "body = any(Path(f).exists()); the block absorbs the trailing 'if __name__ == \"__main__\"' line, whose '==' sets P3"
+   },
+   {
+    "task": "build-pmars",
+    "test": "test_built_from_source",
+    "counter": "P3",
+    "why": "assert message 'found in `/app`' matches \\bin\\b; body = src_dir.exists() and glob('*.c') truthiness, presence-level"
+   }
+  ],
+  "borderline": [
+   {
+    "task": "make-doom-for-mips",
+    "test": "test_frame_bmp_exists",
+    "counter": "P3",
+    "why": "exists plus stat().st_size > 0; a non-empty check is presence-level but a '>' comparison by the frozen rule"
+   },
+   {
+    "task": "make-mips-interpreter",
+    "test": "test_frame_bmp_exists",
+    "counter": "P3",
+    "why": "same as make-doom-for-mips"
+   },
+   {
+    "task": "custom-memory-heap-crash",
+    "test": "test_program_compiles_debug / _release",
+    "counter": "P3",
+    "why": "block = compile_program(...) helper call plus os.path.exists; presence-only by block, but compilation happens in a helper outside the block, so the behavioural class is invisible"
+   }
+  ]
+ },
+ "counter_defects": [
+  "split_tests() breaks only at '^def test_'; helper defs and trailing module code are absorbed into the preceding test block (15 blocks across 10 tasks have absorbed top-level code; torch-tensor-parallelism, tune-mjcf and modernize-scientific-stack change class because of it)",
+  "VALUE = (==|!=|<=|>=|[<>]|allclose|len\\(|np\\.|torch\\.|\\.keys\\(\\)|\\bin\\b) is applied to the presence-stripped block including comments, docstrings, assert messages, for-loop keywords, '->' annotations and string literals; this turns presence-only tests into P3 (21 definite misses)",
+  "classify_test() does not use the CONTENT vocabulary or loader calls: from_pretrained/read_csv/torch.load and 'is not None' do not move a block off P1 (hf-model-inference false P1)",
+  "candidate rule in collect() is bool(p1) or cls in ('V1','V4'); amendment A1 text says a candidate is a task with >=1 P1 test. The same looser rule feeds the CONFIRMED leg check (i), so the hardened check is looser than A1 states; no confirmations exist yet, so the current verdict is unaffected",
+  "PRESENCE does not include importlib find_spec(...) checks; test_pyknotid_core_import / test_chelpers_cython_extension / test_ccomplexity_cython_extension (build-cython-ext) are P0 although they are presence-level module checks",
+  "tests whose assertions live in helpers (fix-git test_about_file / test_layout_file call hash/assert helpers) have no assert in their own block and are classed P0, so they are invisible to the triage",
+  "helpers that act outside the block (setup() in write-compressor, compile_program in custom-memory-heap-crash) are invisible; write-compressor::test_compressed_file_exists stays P1 by the block, which is defensible because only the artefact check is asserted"
+ ],
+ "counts_by_hand": {
+  "counter_p1_tests": 33,
+  "counter_p1_tasks": 27,
+  "counter_candidates": 29,
+  "definite_missed_p1_tests": 21,
+  "definite_missed_p1_tasks_not_already_counter_p1": 16,
+  "false_p1_tests": 1,
+  "false_p1_tasks": 1,
+  "hand_candidate_tasks_under_a1_rule": 42,
+  "hand_candidate_tasks_including_borderline": 45,
+  "note": "reviewer hand audit of the captured bytes; not counter output, not a substitute for the frozen counter; arithmetic: 27 counter P1 tasks - 1 false (hf-model-inference) + 16 new = 42; +3 borderline tasks (make-doom-for-mips, make-mips-interpreter, custom-memory-heap-crash) = 45"
+ },
+ "limits_on_novelty_claim": [
+  "The counter's per-test candidate set is not a reliable triage queue: it misses both amendment-A1 examples and about 16 further tasks by hand, and includes one false P1 task. Recall of the named A1 P1 tests is 0 of 2.",
+  "The counter's candidate test depends on the V1/V4 file-level rule that A1 declares false, so the candidate set is not what A1 defines. A1 requires >=1 P1 test; the code also accepts file-level V1/V4.",
+  "Candidacy is per-test, not per-task. No task among the 88 classified has every test P0/P1 (I checked: zero tasks whose tests are all P0/P1 with at least one P1); each first-ten candidate has substantive sibling tests (see first_ten items). A novelty claim phrased as 'grader vacuity' over whole graders is not supported by these data; the supported claim is 'a presence-only test exists in N tasks'.",
+  "Any confirmed finding must name a P1 test whose block the counter agrees with; the counter's P1 classification is wrong on at least one of the first ten (hf-model-inference) and on the 21 definite misses listed in missed_p1_by_hand. A confirmation pass that trusts the counter would be checking the wrong tests.",
+  "The phenomenon 'presence-only tests in TB2 graders' is not new as an observation by this round's evidence alone (round 38 build-pmars entry records the presence-level pattern, per the amendment A1 text); novelty scoring depends on the prior-art leg, which is not produced yet (PRIOR-ART ok=False urls=0)."
+ ],
+ "verification_commands": [
+  "python3 plans/round52_c1_grader_audit.py --lane . (exit 1; output saved at receipts/c1-run.txt)",
+  "python3 receipts/review.py (reviewer analysis script; reads only, writes analysis.json in scratch)",
+  "curl -fsS https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/<task>/tests/test_outputs.py | sha256sum (12 files, all equal the captured digests)"
+ ]
+}
