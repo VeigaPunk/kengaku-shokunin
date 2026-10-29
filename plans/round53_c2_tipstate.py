@@ -29,7 +29,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-REGISTRY_HEADING = re.compile(r"(?m)^## Gate/probe registry[ \t]*$")   # A1: line-anchored, exactly one
+REGISTRY_HEADING = re.compile(r"(?m)^## Gate/probe registry(?: \([^\n]*\))?[ \t]*$")   # A1: line-anchored, exactly one
 # A1 pins: the 75 registry names frozen at the claims commit (digest of the sorted names joined by newlines) plus the two
 # rows this round adds; a deleted, renamed or extra row cannot pass.
 FROZEN_NAMES_SHA = "df38a8fca5bc345cce62a8f8fcd31cd65dcb66b67270f4da7c8e6aaab4ddd0a4"

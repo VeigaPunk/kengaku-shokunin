@@ -376,6 +376,10 @@ HDR = re.compile(r"\A\s*SOURCE-URL:\s*(\S+)")
 
 
 def names_task(text: str, task: str, tests: list[str]) -> bool:
+    """Does the archive body name the task or one of its tests?  The SOURCE-URL header line is the archive's own label
+    (a search URL legitimately carries the task id), so it is not part of the body."""
+    if HDR.match(text):
+        text = text.split("\n", 1)[1] if "\n" in text else ""
     for n in [task, *tests]:
         if re.search(r"(?<![A-Za-z0-9_-])" + re.escape(n) + r"(?![A-Za-z0-9_-])", text):
             return True
@@ -665,6 +669,13 @@ def selftest() -> int:
     forge("forged-prior-art-header-url", pa=[dict(new, url="https://real.example.net/other")], want=("archive-header-url-does-not-match-row-url",))
     forge("forged-new-without-sweep", pa=[{k: v for k, v in new.items() if k != "sweep"}], want=("new-needs-two-sweep-fetches",))
     forge("forged-sweep-file-twice", pa=[dict(new, sweep=[new["sweep"][0], new["sweep"][0]])], want=("sweep-fetch-missing-duplicate",))
+    w(f"{RUN_DIR}/fetched/s3.html", "SOURCE-URL: https://real.example.net/search?q=t2\ntotal_count: 0\n")
+    w(f"{RUN_DIR}/fetched/s4.html", "SOURCE-URL: https://real.example.net/s4\nresult mentions task t2 here\n")
+    sw3 = [new["sweep"][0], {"file": f"{RUN_DIR}/fetched/s3.html", "file_sha256": d("s3.html")}]
+    sw4 = [new["sweep"][0], {"file": f"{RUN_DIR}/fetched/s4.html", "file_sha256": d("s4.html")}]
+    evidence(pa=[dict(new, sweep=sw3)])
+    run("sweep-header-may-carry-the-task-id", True, ("PREDICATE R53-C1-FIXTURE pass",))
+    forge("forged-sweep-body-names-the-task", pa=[dict(new, sweep=sw4)], want=("sweep-fetch-missing-duplicate",))
     forge("forged-sweep-headerless", pa=[dict(new, sweep=[new["sweep"][0], {"file": f"{RUN_DIR}/fetched/hdrless.html", "file_sha256": d("hdrless.html")}])],
           want=("sweep-fetch-missing-duplicate-headerless",))
     forge("forged-new-archive-names-task", pa=[dict(new, fetched=f"{RUN_DIR}/fetched/a.html", fetched_sha256=d("a.html"), url="https://real.example.net/a",
