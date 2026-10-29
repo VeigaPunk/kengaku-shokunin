@@ -209,3 +209,22 @@ receipt `.ufo/waves/round-52/w2/W2CritC1Reach/receipts/live_tests.json` records 
 (`C1CritCounterReach` R11); a P1 classifier that is correct cannot be told from a copy of the labels by the counter alone: independence of the label seats
 is a protocol property recorded in the seat reports, not something the counter can prove (`C1CritCounterReach` R4). A C2 ledger entry for a gate that cannot fail
 (a script that always exits 0) is still truthful; the counter measures declaration against observation, not the strength of the instrument.
+
+### A2 — 2026-10-28, after the freeze commit `d40b705` and the label commit `db90a6b`, before the confirmations, prior art or any C2 full run were scored (L1 `KengakuR53`)
+
+Four mechanical corrections, none of which touches the frozen classifier, the label files, a threshold, or the oracle result printed at `db90a6b`
+(`.ufo/waves/round-53/claims/c1-after-oracle.txt`: `disagree=0`, `ORACLE-CONTROL control_ok=yes`):
+
+1. **C1 `names_task` ignores the archive's own `SOURCE-URL:` header line.** A sweep of the tracker for task `X` is an archive whose header URL legitimately carries `X`
+   (`…/search/issues?q=…+X`); the A1 rule (a sweep archive must not name the task) was read against the whole file including that header, which made every honest negative sweep
+   unusable. The body must still not name the task or its tests (selftest `forged-sweep-body-names-the-task` fails it; `sweep-header-may-carry-the-task-id` passes).
+2. **C2 registry heading regex accepts the real suffix.** The registry heading in `SKILL.md` is `## Gate/probe registry (PROTOCOL §Gate standard)`; the A1 regex required the bare heading
+   and counted zero rows on the real file (found on the first `--dry` run; the selftest fixtures used the bare heading). The regex is now `^## Gate/probe registry( \(…\))?$`, still line-anchored and
+   still required exactly once; a prose mention inside a table cell does not match.
+3. **C2 pinned row set gains one name: `stage-scan`.** The wave-1 executor `C1ExecStageScan` delivered the pre-stage credential-pattern scan that the round-52 lesson proposed and did not land
+   (`plans/stage_scan.py`, 33-case selftest, `.ufo/waves/round-53/w1/C1ExecStageScan/`). Landing a runnable script requires a registry row (round-52 C2 rule), so the allowed extras are
+   `round53-c1`, `round53-c2`, `stage-scan` (registry = the 75 frozen names + these three = 78). The frozen-names digest `df38a8fc…` is unchanged.
+4. **Receipts.** `c1-selftest.txt` / `c2-selftest.txt` are regenerated after the A1/A2 edits; the A1 text's case counts (44 / 50) are superseded by the printed
+   `SELFTEST cases=<n> failures=0` lines of those receipts.
+
+Still frozen and untouched: every leg threshold, the 305-test population, the control rule, the confirmation and prior-art thresholds, the kill rules.

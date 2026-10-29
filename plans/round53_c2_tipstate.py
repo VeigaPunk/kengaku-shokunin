@@ -33,7 +33,7 @@ REGISTRY_HEADING = re.compile(r"(?m)^## Gate/probe registry(?: \([^\n]*\))?[ \t]
 # A1 pins: the 75 registry names frozen at the claims commit (digest of the sorted names joined by newlines) plus the two
 # rows this round adds; a deleted, renamed or extra row cannot pass.
 FROZEN_NAMES_SHA = "df38a8fca5bc345cce62a8f8fcd31cd65dcb66b67270f4da7c8e6aaab4ddd0a4"
-EXTRA_NAMES = frozenset({"round53-c1", "round53-c2"})
+EXTRA_NAMES = frozenset({"round53-c1", "round53-c2", "stage-scan"})
 SECRET_ENV = re.compile(r"(TOKEN|KEY|SECRET|PASSWORD|PASSWD|CREDENTIAL|^OP_|SSH_AUTH_SOCK|COOKIE)", re.I)
 SHELLS = {"sh", "bash", "dash", "zsh", "env", "cat", "true", "-c"}
 LEDGER = "plans/round53-tipstate.json"
@@ -538,7 +538,7 @@ def selftest() -> int:
     # the frozen constants the real run uses
     ncase[0] += 1
     ok = (FROZEN_NAMES_SHA == "df38a8fca5bc345cce62a8f8fcd31cd65dcb66b67270f4da7c8e6aaab4ddd0a4"
-          and EXTRA_NAMES == {"round53-c1", "round53-c2"} and MIN_REASON_WORDS == 10 and MAX_HELP_FRACTION == 0.10)
+          and EXTRA_NAMES == {"round53-c1", "round53-c2", "stage-scan"} and MIN_REASON_WORDS == 10 and MAX_HELP_FRACTION == 0.10)
     print(f"SELFTEST frozen-constants {'ok' if ok else 'FAIL'}")
     if not ok:
         fails.append("frozen-constants")
