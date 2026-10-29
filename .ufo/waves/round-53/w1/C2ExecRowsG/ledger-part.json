@@ -1,0 +1,123 @@
+{
+ "config-projection": {
+  "argv": [
+   "python3",
+   "plans/config_projection.py",
+   "--summary"
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 0.4,
+  "argv_source": "row entry cell verbatim (--summary); reads only the pinned plans/fixtures/r29 manifest, ends 'TOTAL findings=0 exit=0'"
+ },
+ "gate-flip-check": {
+  "argv": [
+   "python3",
+   "plans/gate_flip_check.py",
+   "--lesson",
+   "corpus/lessons/round-52.md"
+  ],
+  "exit": 1,
+  "state": "red",
+  "kind": "entry",
+  "reason": "The committed round-52 lesson has three Gate refusals S191 S192 S193 carrying flip conditions that no later Flip check line in that file resolves, so the gate reports three unresolved obligations",
+  "evidence": "FLIPS total=3 unresolved=3",
+  "tip_dependent": false,
+  "seconds": 0.1,
+  "argv_source": "row entry placeholder <lesson.md> replaced by corpus/lessons/round-52.md (newest committed lesson, the row text says round-51 is also red); no --entry given so no citation leg"
+ },
+ "order-check": {
+  "argv": [
+   "python3",
+   "plans/order_check.py",
+   "--lane",
+   ".",
+   "--claims",
+   "plans/round-40-claims.md",
+   "--receipt",
+   "corpus/evidence/round40/db-wal-probe.txt"
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 0.2,
+  "argv_source": "row entry cell verbatim (all three flags are required); reads git history only, ends 'ORDER RESULT PASS'"
+ },
+ "round31-c1-literals": {
+  "argv": [
+   "python3",
+   "plans/round31_c1_verify.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 0.1,
+  "argv_source": "row entry cell verbatim; prints 'checks=6 defects=0'"
+ },
+ "round37-c2": {
+  "argv": [
+   "python3",
+   "plans/round37_c2_verify.py",
+   "--lane",
+   "."
+  ],
+  "exit": 1,
+  "state": "red",
+  "kind": "entry",
+  "reason": "the knowledge-index check P8 inside the package gate (pkg_gate.py c_readme) fails because corpus/knowledge holds 56 .md files but corpus/README.md has only 55 backticked knowledge/ index table rows: fixture-honest-geometry.md (landed round-50, 822f3b7) is cited in a bullet at README line 664 but has no index row, so the nested gate exits 1 and the counter reports PREDICATE C2 fail",
+  "evidence": "gate: P8 DEFECT index_rows=55 knowledge_files=56",
+  "tip_dependent": true,
+  "seconds": 58.2,
+  "argv_source": "row entry cell verbatim (--work omitted: the counter sets TMPDIR); V2 is the only defect, ends 'checks=7 defects=1'. Re-measure after corpus/README.md or corpus/knowledge/*.md changes this round."
+ },
+ "round41-c2": {
+  "argv": [
+   "python3",
+   "plans/round41_c2_verify.py",
+   "--lane",
+   "."
+  ],
+  "exit": 1,
+  "state": "red",
+  "kind": "entry",
+  "reason": "the knowledge-index check P8 inside the package gate (pkg_gate.py c_readme) fails because corpus/knowledge holds 56 .md files but corpus/README.md has only 55 backticked knowledge/ index table rows: fixture-honest-geometry.md (landed round-50, 822f3b7) is cited in a bullet at README line 664 but has no index row, so the nested gate exits 1 and the counter reports PREDICATE C2 fail",
+  "evidence": "gate: P8 DEFECT index_rows=55 knowledge_files=56",
+  "tip_dependent": true,
+  "seconds": 27.9,
+  "argv_source": "row entry cell verbatim (--work omitted); V2 is the only defect, ends 'checks=8 defects=1'. Re-measure after corpus/README.md or corpus/knowledge/*.md changes this round."
+ },
+ "round46-c1": {
+  "argv": [
+   "python3",
+   "plans/round46_c1_verify.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 27.9,
+  "argv_source": "row entry cell verbatim (--work omitted; counter sets TMPDIR); needs bwrap and strace on the host; ends 'PREDICATE C1 pass'"
+ },
+ "routed-findings": {
+  "argv": [
+   "python3",
+   "plans/routed_open.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": true,
+  "seconds": 0.3,
+  "argv_source": "row entry cell verbatim; prints 'ROWS total=75 open=31 blocked=1 closed=41 refused=2' then 'routed_open=32 oldest_round=39'. Goes red or changes counts only if corpus/routed-findings.jsonl is edited this round; re-measure then."
+ }
+}

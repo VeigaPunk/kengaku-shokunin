@@ -1,0 +1,14 @@
+== T6d-mixed-known-new rc=0
+    FREEZE classifier_sha=ok order=freeze-before-labels authors=1
+    ORACLE tests=305 labelled_ok=305 bad_label_rows=0 decided=305 contested=0 oracle_Y=305 v2_P1=305 unclassified=0 disagree=0 limit=9.2
+    ORACLE-CONTROL r52_classifier_disagree=272 all_P0_disagree=305 control_ok=yes
+    CONFIRM candidates_never_read=63 new_confirmed=3 rejected=0 target>=3
+    PRIOR-ART rows=3 tasks_covered=3/3 known=2 new=1 urls=3 rejected=0 target: urls>=3 new>=1
+    PREDICATE R53-C1 pass
+== T7-all-U rc=1
+    FREEZE classifier_sha=ok order=freeze-before-labels authors=1
+    ORACLE tests=305 labelled_ok=305 bad_label_rows=0 decided=0 contested=305 oracle_Y=0 v2_P1=305 unclassified=0 disagree=0 limit=0.0
+    ORACLE-CONTROL r52_classifier_disagree=0 all_P0_disagree=0 control_ok=NO(leg vacuous)
+    CONFIRM candidates_never_read=63 new_confirmed=0 rejected=0 target>=3
+    PRIOR-ART rows=0 tasks_covered=0/0 known=0 new=0 urls=0 rejected=0 target: urls>=3 new>=1
+    PREDICATE R53-C1 fail

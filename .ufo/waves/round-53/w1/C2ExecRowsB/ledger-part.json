@@ -1,0 +1,140 @@
+{
+ "anchor-digest-check": {
+  "argv": [
+   "python3",
+   "plans/anchor_digest_check.py",
+   "--lane",
+   "."
+  ],
+  "exit": 1,
+  "state": "red",
+  "kind": "entry",
+  "reason": "21 SOURCES rows S173-S193 carry a sha256 anchor token but no capture locator, so each is class anchor-unbound; the row's cell still describes the older digest-unknown defects",
+  "evidence": "class=anchor-unbound detail=row-carries-no-capture-locator",
+  "tip_dependent": true,
+  "seconds": 0.2,
+  "argv_source": "entry cell `--lane DIR` with DIR=. (lane root, run from the clone root); optional flags omitted"
+ },
+ "defect-ledger": {
+  "argv": [
+   "python3",
+   "plans/defect_ledger.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 0.2,
+  "argv_source": "entry cell verbatim: `python3 plans/defect_ledger.py --lane .`"
+ },
+ "grader-perturb": {
+  "argv": [
+   "python3",
+   "plans/grader_perturb.py",
+   "--summary"
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 0.5,
+  "argv_source": "entry cell verbatim: `python3 plans/grader_perturb.py --summary`"
+ },
+ "regex-log-probe": {
+  "argv": [
+   "python3",
+   "plans/regex_log_probe.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 0.1,
+  "argv_source": "entry cell verbatim: `python3 plans/regex_log_probe.py --lane .` (no --dry)"
+ },
+ "round35-c1-coverage": {
+  "argv": [
+   "python3",
+   "plans/round35_c1_verify.py",
+   "--lane",
+   "."
+  ],
+  "exit": 1,
+  "state": "red",
+  "kind": "entry",
+  "reason": "check V4 hard-codes want 42 knowledge files equal 42 index rows in the script, so it can never pass while the lane holds 56 knowledge files and 55 index rows",
+  "evidence": "(want 42/42)",
+  "tip_dependent": false,
+  "seconds": 1.1,
+  "argv_source": "entry cell verbatim: `python3 plans/round35_c1_verify.py --lane .` (--fleet default left; V6 reads the live fleet lane, not the clone)"
+ },
+ "round39-c1-mutants": {
+  "argv": [
+   "python3",
+   "plans/round39_c1_verify.py",
+   "--lane",
+   "."
+  ],
+  "exit": 1,
+  "state": "red",
+  "kind": "entry",
+  "reason": "the package gate check P8 fails on every fixture because the unindexed knowledge file fixture-honest-geometry.md makes 56 files against 55 README index rows, wrong=54 and mutant M06 survives",
+  "evidence": "MUTANT M06 MAIN rc-mirror SURVIVED exhibits=none",
+  "tip_dependent": true,
+  "seconds": 143.6,
+  "argv_source": "entry cell: `python3 plans/round39_c1_verify.py --lane .` with no development selectors, no --work (counter sets TMPDIR)"
+ },
+ "round43-c2": {
+  "argv": [
+   "python3",
+   "plans/round43_c2_verify.py",
+   "--lane",
+   "."
+  ],
+  "exit": 1,
+  "state": "red",
+  "kind": "entry",
+  "reason": "embedded package gate check P8 reports 56 knowledge files against 55 README index rows because fixture-honest-geometry.md has no index table row, so V2 sees gate_exit=1",
+  "evidence": "V2 DEFECT spec=frozen gate=frozen gate_exit=1",
+  "tip_dependent": true,
+  "seconds": 105.5,
+  "argv_source": "entry cell verbatim: `python3 plans/round43_c2_verify.py --lane .` (no --work)"
+ },
+ "round50-c2": {
+  "argv": [
+   "python3",
+   "plans/round50_c2_audit.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 0.7,
+  "argv_source": "entry cell: `python3 plans/round50_c2_audit.py --lane .` (the optional `--selftest` not used)"
+ },
+ "tb2-grader-probe": {
+  "argv": [
+   "uv",
+   "run",
+   "--no-project",
+   "--with",
+   "biopython==1.85",
+   "python3",
+   "plans/tb2_grader_probe.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 0.4,
+  "argv_source": "entry cell verbatim; needs biopython==1.85 from the uv cache (network if the cache is cold)"
+ }
+}

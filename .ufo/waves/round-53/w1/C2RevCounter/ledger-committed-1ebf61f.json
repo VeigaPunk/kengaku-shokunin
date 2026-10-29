@@ -1,0 +1,922 @@
+{
+ "base": "see SKILL.md registry at the measured tip",
+ "rows": {
+  "adoption-check": {
+   "argv": [
+    "python3",
+    "plans/adoption_check.py",
+    "--lane",
+    ".",
+    "--expect",
+    ".ufo/waves/round-33/claims/adoption-expect.json",
+    "--census"
+   ],
+   "evidence": "census=fail",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "The census leg runs the hardcoded fleet sources-census.sh with --root set to the clone's parent directory and a lane name that is not a configured lane, so it cannot find shokunin.conf and exits 2, giving census=fail and exit 1 in any clone outside the fleet root.",
+   "state": "red"
+  },
+  "anchor-digest-check": {
+   "argv": [
+    "python3",
+    "plans/anchor_digest_check.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "class=anchor-unbound detail=row-carries-no-capture-locator",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "21 SOURCES rows S173-S193 carry a sha256 anchor token but no capture locator, so each is class anchor-unbound; the row's cell still describes the older digest-unknown defects",
+   "state": "red"
+  },
+  "attrib-probe": {
+   "argv": [
+    "python3",
+    "plans/attrib_probe.py",
+    "freeze-check",
+    "--frozen",
+    "plans/attrib-r23-frozen.md"
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "benchmark-spec-audit": {
+   "argv": [
+    "python3",
+    "plans/benchmark_spec_audit.py",
+    "--summary"
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "build-pmars-probe": {
+   "argv": [
+    "python3",
+    "plans/build_pmars_probe.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "catalog-probe": {
+   "argv": [
+    "python3",
+    "plans/catalog_probe.py",
+    "--verify",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "config-projection": {
+   "argv": [
+    "python3",
+    "plans/config_projection.py",
+    "--summary"
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "constraints-probe": {
+   "argv": [
+    "python3",
+    "plans/constraints_probe.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "coverage-census": {
+   "argv": [
+    "python3",
+    "corpus/evidence/round13-coverage/coverage_census.py"
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "db-wal-probe": {
+   "argv": [
+    "python3",
+    "plans/db_wal_probe.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "defect-ledger": {
+   "argv": [
+    "python3",
+    "plans/defect_ledger.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "extraction-policy-compare": {
+   "argv": [
+    "python3",
+    "plans/parser_policy_compare.py",
+    "--summary"
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "feal-linear-probe": {
+   "argv": [
+    "python3",
+    "plans/feal_linear_probe.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "feal-probe": {
+   "argv": [
+    "python3",
+    "plans/feal_probe.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "fibsqrt-probe": {
+   "argv": [
+    "python3",
+    "plans/fibsqrt_probe.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "gate-flip-check": {
+   "argv": [
+    "python3",
+    "plans/gate_flip_check.py",
+    "--lesson",
+    "corpus/lessons/round-52.md"
+   ],
+   "evidence": "FLIPS total=3 unresolved=3",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "The committed round-52 lesson has three Gate refusals S191 S192 S193 carrying flip conditions that no later Flip check line in that file resolves, so the gate reports three unresolved obligations",
+   "state": "red"
+  },
+  "gate-timing": {
+   "argv": [
+    "python3",
+    "plans/gate_timing_check.py",
+    "--lesson",
+    "corpus/lessons/round-26.md",
+    "--commit",
+    "536925b5320fa64298030b4ee76a58fc4b82723f"
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "git-leak-probe": {
+   "argv": [
+    "python3",
+    "plans/git_leak_probe.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "git-webserver-probe": {
+   "argv": [
+    "python3",
+    "plans/git_webserver_probe.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "grader-perturb": {
+   "argv": [
+    "python3",
+    "plans/grader_perturb.py",
+    "--summary"
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "hermetic-grader": {
+   "argv": [
+    "python3",
+    "grader.py"
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "interval-reverdict": {
+   "argv": [
+    "python3",
+    "plans/attrib_calibration.py",
+    "--summary"
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "ledger-tip": {
+   "argv": [
+    "python3",
+    "plans/ledger_tip.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "R35-D1 status=closed observed=fail agree=NO",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "Closed ledger row R35-D1 observes fail at the tip because its pkg_gate package rerun hits the P8 knowledge index defect: 56 knowledge files against 55 corpus/README.md index rows, so agree=NO and exit 1.",
+   "state": "red"
+  },
+  "mutant-direction-check": {
+   "argv": [
+    "python3",
+    "plans/mutant_direction_check.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "DIR N21 D5 declared=silence observed=mirror MISLABELLED",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "The frozen round-38 mutant list declares N21 as a silence mutant, but its manifest-lookup prefix edit only ever mirrors the reference, so the check flags it MISLABELLED by design; the landed list is frozen and cannot change.",
+   "state": "red"
+  },
+  "order-check": {
+   "argv": [
+    "python3",
+    "plans/order_check.py",
+    "--lane",
+    ".",
+    "--claims",
+    "plans/round-40-claims.md",
+    "--receipt",
+    "corpus/evidence/round40/db-wal-probe.txt"
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "package-gate": {
+   "argv": [
+    "python3",
+    "plans/pkg_gate.py",
+    "package",
+    "--root",
+    ".",
+    "--spec",
+    "plans/pkg-spec-r35.json",
+    "--require-clean-tree"
+   ],
+   "evidence": "P8 DEFECT index_rows=55 knowledge_files=56 bad=1",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "Check P8 fails because corpus/knowledge holds fixture-honest-geometry.md which has no corpus/README.md index row, so 56 knowledge files face 55 index rows; the other nine package checks pass.",
+   "state": "red"
+  },
+  "password-recovery-probe": {
+   "argv": [
+    "python3",
+    "plans/password_recovery_probe.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "polyglot-c-py-probe": {
+   "argv": [
+    "python3",
+    "plans/polyglot_c_py_probe.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "regex-log-probe": {
+   "argv": [
+    "python3",
+    "plans/regex_log_probe.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "registry-reference-check": {
+   "argv": [
+    "python3",
+    "plans/registry_check.py",
+    "--summary"
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "round-close-check": {
+   "argv": [
+    "python3",
+    "plans/round_close.py",
+    "--lane",
+    ".",
+    "--round",
+    "44",
+    "--census",
+    "/home/vgpnk/Projects/shokunin/scripts/sources-census.sh"
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "round28-census": {
+   "argv": [
+    "python3",
+    "plans/round28_census.py",
+    "--root",
+    ".",
+    "--revision",
+    "536925b5320fa64298030b4ee76a58fc4b82723f"
+   ],
+   "evidence": "\"MISMATCH\": 1,",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "The state_check leg reports one MISMATCH on assertion P3c.box.4.pointer.1 (PROVINCE.md:129 token absent) and the knowledge leg finds one unindexed file, so the census exits 1 regardless of index repair.",
+   "state": "red"
+  },
+  "round30-defects": {
+   "argv": [
+    "python3",
+    "plans/round30_defects.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "round31-c1-literals": {
+   "argv": [
+    "python3",
+    "plans/round31_c1_verify.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "round31-defects": {
+   "argv": [
+    "python3",
+    "plans/round31_defects.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "round33-c1-literals": {
+   "argv": [
+    "python3",
+    "plans/round33_c1_verify.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "round33-defects": {
+   "argv": [
+    "python3",
+    "plans/round33_defects.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "round35-c1-coverage": {
+   "argv": [
+    "python3",
+    "plans/round35_c1_verify.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "(want 42/42)",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "check V4 hard-codes want 42 knowledge files equal 42 index rows in the script, so it can never pass while the lane holds 56 knowledge files and 55 index rows",
+   "state": "red"
+  },
+  "round35-hardening": {
+   "argv": [
+    "python3",
+    "plans/round35_hardening.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "round36-c1-battery": {
+   "argv": [
+    "python3",
+    "plans/round36_c1_verify.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "FIXTURE P0 expect=accept observed=reject WRONG",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "The genuine round-35 package fixture P0 is rejected because pkg_gate check P8 finds 56 knowledge files but only 55 corpus/README.md index rows (fixture-honest-geometry.md has no index row), so R35-D1 disagrees",
+   "state": "red"
+  },
+  "round36-c2": {
+   "argv": [
+    "python3",
+    "plans/round36_c2_verify.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "W4 DEFECT knowledge files=56 index rows=55",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "Check W4 fails because corpus/knowledge holds 56 files but corpus/README.md indexes only 55, so defects=1 and the predicate fails at exit 1; indexing every new knowledge entry will turn it green.",
+   "state": "red"
+  },
+  "round37-c1-mutants": {
+   "argv": [
+    "python3",
+    "plans/round37_c1_verify.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "MUTANTS total=55 killed=52 survived=3 invalid=0 null_detected=0",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "The embedded gate's P8 README check fails on the lane because corpus/knowledge/fixture-honest-geometry.md has no corpus/README.md index row, so P8 mutants M35 M36 M37 survive.",
+   "state": "red"
+  },
+  "round37-c2": {
+   "argv": [
+    "python3",
+    "plans/round37_c2_verify.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "gate: P8 DEFECT index_rows=55 knowledge_files=56",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "the knowledge-index check P8 inside the package gate (pkg_gate.py c_readme) fails because corpus/knowledge holds 56 .md files but corpus/README.md has only 55 backticked knowledge/ index table rows: fixture-honest-geometry.md (landed round-50, 822f3b7) is cited in a bullet at README line 664 but has no index row, so the nested gate exits 1 and the counter reports PREDICATE C2 fail",
+   "state": "red"
+  },
+  "round38-c1-mutants": {
+   "argv": [
+    "python3",
+    "plans/round38_c1_verify.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "MUTANTS total=22 killed=21 survived=1 invalid=0 null_detected=0",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "Frozen mutant N21 survives because its silence direction is unreachable (killed=21 survived=1, same at the round-38 landing); at the tip 51 battery fixtures are also WRONG because P8 sees fixture-honest-geometry.md unindexed in README.",
+   "state": "red"
+  },
+  "round38-c2": {
+   "argv": [
+    "python3",
+    "plans/round38_c2_verify.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "V2 DEFECT spec=frozen gate=frozen gate_exit=1",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "The gate's P8 index check fails because corpus/knowledge holds 56 files but corpus/README.md indexes only 55 (fixture-honest-geometry.md unindexed), so V2 defects and the predicate fails.",
+   "state": "red"
+  },
+  "round39-c1-audit": {
+   "argv": [
+    "python3",
+    "plans/round39_c1_audit.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "PREDICATE C1 fail",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "Package gate clause P8 (README index) fails on every fixture because corpus/knowledge holds 56 files while corpus/README.md indexes 55; fixture-honest-geometry.md has no index row, so 54 of 90 battery fixtures are WRONG and one mutant (M06) survives.",
+   "state": "red"
+  },
+  "round39-c1-mutants": {
+   "argv": [
+    "python3",
+    "plans/round39_c1_verify.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "MUTANT M06 MAIN rc-mirror SURVIVED exhibits=none",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "the package gate check P8 fails on every fixture because the unindexed knowledge file fixture-honest-geometry.md makes 56 files against 55 README index rows, wrong=54 and mutant M06 survives",
+   "state": "red"
+  },
+  "round39-c2": {
+   "argv": [
+    "python3",
+    "plans/round39_c2_verify.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "gate: P8 DEFECT",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "check P8 of the embedded package gate finds 56 knowledge files but only 55 corpus/README.md index rows because fixture-honest-geometry.md has no index row, so V2 gate_exit is 1 and the predicate fails",
+   "state": "red"
+  },
+  "round40-c1-mutants": {
+   "argv": [
+    "python3",
+    "plans/round40_c1_verify.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "BATTERY fixtures=21 wrong=11 tampered=0 sidechannel=0",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "Eleven of 21 battery fixtures are wrong and ten mutants survive: the tip lane clone carries 21 SOURCES rows S173-S193 with no capture locator (anchor-unbound) and the README index lacks fixture-honest-geometry (R35-D1 fails), adding extra findings to every fixture",
+   "state": "red"
+  },
+  "round40-c2": {
+   "argv": [
+    "python3",
+    "plans/round40_c2_verify.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "gate: P8 DEFECT index_rows=55 knowledge_files=56",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "Gate leg P8 inside V2 fails with 56 knowledge files against 55 index rows in corpus/README.md, so V2 DEFECT gate_exit=1 and the predicate fails; all other checks V1 and V3 to V7 pass.",
+   "state": "red"
+  },
+  "round41-c1-mutants": {
+   "argv": [
+    "python3",
+    "plans/round41_c1_verify.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "round41-c2": {
+   "argv": [
+    "python3",
+    "plans/round41_c2_verify.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "gate: P8 DEFECT index_rows=55 knowledge_files=56",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "the knowledge-index check P8 inside the package gate (pkg_gate.py c_readme) fails because corpus/knowledge holds 56 .md files but corpus/README.md has only 55 backticked knowledge/ index table rows: fixture-honest-geometry.md (landed round-50, 822f3b7) is cited in a bullet at README line 664 but has no index row, so the nested gate exits 1 and the counter reports PREDICATE C2 fail",
+   "state": "red"
+  },
+  "round42-c1-mutants": {
+   "argv": [
+    "python3",
+    "plans/round42_c1_verify.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "round42-c2": {
+   "argv": [
+    "python3",
+    "plans/round42_c2_verify.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "V2 DEFECT spec=frozen gate=frozen gate_exit=1",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "The embedded gate's P8 index check fails: 56 knowledge files versus 55 README index rows (fixture-honest-geometry.md unindexed), giving V2 DEFECT and checks=9 defects=1; all other legs are green.",
+   "state": "red"
+  },
+  "round43-c1-mutants": {
+   "argv": [
+    "python3",
+    "plans/round43_c1_verify.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "round43-c2": {
+   "argv": [
+    "python3",
+    "plans/round43_c2_verify.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "V2 DEFECT spec=frozen gate=frozen gate_exit=1",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "embedded package gate check P8 reports 56 knowledge files against 55 README index rows because fixture-honest-geometry.md has no index table row, so V2 sees gate_exit=1",
+   "state": "red"
+  },
+  "round44-c1-mutants": {
+   "argv": [
+    "python3",
+    "plans/round44_c1_verify.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "round44-c2": {
+   "argv": [
+    "python3",
+    "plans/round44_c2_verify.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "gate: P8 DEFECT index_rows=55 knowledge_files=56 bad=1",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "Check V2 fails because the frozen pkg_gate P8 finds 56 knowledge files against 55 corpus/README.md index rows; fixture-honest-geometry.md lacks an index row, so checks=11 defects=1",
+   "state": "red"
+  },
+  "round45-c1": {
+   "argv": [
+    "python3",
+    "plans/round45_c1_verify.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "round45-c2": {
+   "argv": [
+    "python3",
+    "plans/round45_c2_verify.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "P8 DEFECT index_rows=55 knowledge_files=56 bad=1",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "V2 runs the embedded gate whose P8 compares corpus/README.md knowledge index rows (55) with corpus/knowledge files (56); fixture-honest-geometry.md was never indexed, so gate_exit=1 and the predicate fails.",
+   "state": "red"
+  },
+  "round46-c1": {
+   "argv": [
+    "python3",
+    "plans/round46_c1_verify.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "round46-c2": {
+   "argv": [
+    "python3",
+    "plans/round46_c2_verify.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "round46-c3": {
+   "argv": [
+    "python3",
+    "plans/round46_c3_verify.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "V8 DEFECT order_exit=1 result=not-PASS",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "Three legs defect: V2 via the gate's P8 knowledge-index drift (56 files, 55 rows), V7 because the entry requirement map lacks two frozen tags, and V8 because order_check finds a probe-executing control committed before the receipt.",
+   "state": "red"
+  },
+  "round50-c1": {
+   "argv": [
+    "python3",
+    "plans/round50_c1_verify.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "round50-c2": {
+   "argv": [
+    "python3",
+    "plans/round50_c2_audit.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "round51-routing": {
+   "argv": [
+    "python3",
+    "plans/round51_routing.py",
+    "--lane",
+    ".",
+    "--run-checks"
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "round51-surfaces": {
+   "argv": [
+    "python3",
+    "plans/round51_surfaces.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "NUMBER-DRIFT SF14 row claims 171, probe says SOURCES rows=186",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "Registry row SF14 claims 171 SOURCES rows while the probe counts 186 after round 52 appended S179-S193, so NUMBER-DRIFT fails the predicate; PROVINCE.md line 113 and manifest count_claim 171 were never updated",
+   "state": "red"
+  },
+  "round52-c1": {
+   "argv": [
+    "python3",
+    "plans/round52_c1_grader_audit.py",
+    "--lane",
+    "."
+   ],
+   "evidence": "CAPTURES expected=184 present=183 mismatched=0",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "The frozen literal predicate requires CAPTURES present=184 but the operator-excluded sanitize-git-repo capture is absent so present=183 and R52-C1 fails; only the amended A5 predicate passes, a tip-independent state.",
+   "state": "red"
+  },
+  "round52-c2": {
+   "argv": [
+    "python3",
+    "plans/round52_c2_registry.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "round53-c1": {
+   "argv": [
+    "python3",
+    "plans/round53_c1_triage.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "round53-c2": {
+   "argv": [
+    "python3",
+    "plans/round53_c2_tipstate.py",
+    "--selftest"
+   ],
+   "exit": 0,
+   "kind": "selftest",
+   "state": "green"
+  },
+  "routed-findings": {
+   "argv": [
+    "python3",
+    "plans/routed_open.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "scratch-root-guard": {
+   "argv": [
+    "python3",
+    "plans/scratch_guard.py",
+    "--selftest"
+   ],
+   "exit": 0,
+   "kind": "selftest",
+   "state": "green"
+  },
+  "sources-adopt": {
+   "argv": [
+    "python3",
+    "plans/sources_adopt.py",
+    "--selftest"
+   ],
+   "exit": 0,
+   "kind": "selftest",
+   "state": "green"
+  },
+  "state-assertion-check": {
+   "argv": [
+    "python3",
+    "plans/state_check.py",
+    "--summary"
+   ],
+   "evidence": "MISMATCH: P3c.box.4.pointer.1:12",
+   "exit": 1,
+   "kind": "entry",
+   "reason": "The frozen P3c assertion that the SHONEN.md box-4 pointer to PROVINCE.md line 129 names the token '### Adjacent' mismatches because that line is blank, so the verdict is FAIL with mismatch=1.",
+   "state": "red"
+  },
+  "tb2-grader-probe": {
+   "argv": [
+    "uv",
+    "run",
+    "--no-project",
+    "--with",
+    "biopython==1.85",
+    "python3",
+    "plans/tb2_grader_probe.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  },
+  "tip-receipts": {
+   "argv": [
+    "python3",
+    "plans/tip_receipts.py",
+    "--lane",
+    "."
+   ],
+   "exit": 0,
+   "kind": "entry",
+   "state": "green"
+  }
+ },
+ "schema": "r53-tipstate-v1"
+}

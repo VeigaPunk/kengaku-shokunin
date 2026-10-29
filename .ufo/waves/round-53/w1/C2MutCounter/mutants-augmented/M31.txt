@@ -1,0 +1,65 @@
+rc=1
+line=SELFTEST cases=41 failures=1
+--- stdout
+SELFTEST truthful rc=0 ok
+SELFTEST forged-all-green rc=1 ok
+SELFTEST forged-all-red rc=1 ok
+SELFTEST missing-ledger-row rc=1 ok
+SELFTEST extra-ledger-row rc=1 ok
+SELFTEST ledger-points-elsewhere rc=1 ok
+SELFTEST red-evidence-absent rc=1 ok
+SELFTEST red-reason-thin rc=1 ok
+SELFTEST state-exit-inconsistent rc=1 ok
+SELFTEST timeout rc=1 ok
+SELFTEST help-only-argv rc=1 ok
+SELFTEST partial-run-never-passes rc=1 ok
+SELFTEST ledger-absent rc=1 ok
+SELFTEST ledger-absent-no-rows rc=0 FAIL
+ROWS registry=0 ledger=0 missing=0 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+  LEDGER ledger absent: plans/round53-tipstate.json
+ARGV entry=0 selftest=0 help=0 help_limit=0.1
+PREDICATE R53-C2 pass
+SELFTEST duplicate-row-name rc=1 ok
+SELFTEST corpus-entry-script rc=0 ok
+SELFTEST ledger-schema-foreign rc=1 ok
+SELFTEST argv-one-element rc=1 ok
+SELFTEST argv-nonstring-element rc=1 ok
+SELFTEST exit-is-bool rc=1 ok
+SELFTEST state-outside-domain rc=1 ok
+SELFTEST kind-outside-domain rc=1 ok
+SELFTEST reason-exactly-10-words rc=0 ok
+SELFTEST reason-9-words rc=1 ok
+SELFTEST evidence-5-chars rc=1 ok
+SELFTEST evidence-padded-short rc=1 ok
+SELFTEST help-at-exact-limit rc=0 ok
+SELFTEST help-fraction-quarter rc=1 ok
+SELFTEST dry-truthful rc=0 ok
+SELFTEST dry-missing-row rc=1 ok
+SELFTEST dry-entry-mismatch rc=1 ok
+SELFTEST dry-bad-decl rc=1 ok
+SELFTEST entry-mismatch-not-executed rc=1 ok
+SELFTEST timeout-default-ignored rc=1 ok
+SELFTEST tally-two-green-one-red rc=0 ok
+SELFTEST only-every-row rc=1 ok
+SELFTEST only-one-row-count rc=1 ok
+SELFTEST git-dirty-source rc=1 ok
+SELFTEST neg-want-out rc=0 FAIL
+ROWS registry=2 ledger=2 missing=0 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+RUN executed=2 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=1 declared_red=1 observed_green=1 observed_red=1
+PREDICATE R53-C2 pass
+SELFTEST neg-want-in rc=0 FAIL
+ROWS registry=2 ledger=2 missing=0 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+RUN executed=2 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=1 declared_red=1 observed_green=1 observed_red=1
+PREDICATE R53-C2 pass
+SELFTEST neg-want-rc rc=0 FAIL
+ROWS registry=2 ledger=2 missing=0 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+RUN executed=2 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=1 declared_red=1 observed_green=1 observed_red=1
+PREDICATE R53-C2 pass
+SELFTEST cases=41 failures=1
+--- stderr

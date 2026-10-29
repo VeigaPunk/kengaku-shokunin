@@ -1,0 +1,128 @@
+{
+ "attrib-probe": {
+  "argv": [
+   "python3",
+   "plans/attrib_probe.py",
+   "freeze-check",
+   "--frozen",
+   "plans/attrib-r23-frozen.md"
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 0.1,
+  "argv_source": "row entry cell verbatim: subcommand freeze-check with --frozen plans/attrib-r23-frozen.md (file committed in lane; the row's own measured example)"
+ },
+ "extraction-policy-compare": {
+  "argv": [
+   "python3",
+   "plans/parser_policy_compare.py",
+   "--summary"
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 0.5,
+  "argv_source": "row entry cell verbatim: --summary (lane root)"
+ },
+ "hermetic-grader": {
+  "argv": [
+   "python3",
+   "grader.py"
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 0.4,
+  "argv_source": "row entry cell verbatim: python3 grader.py at repo root, no overrides"
+ },
+ "registry-reference-check": {
+  "argv": [
+   "python3",
+   "plans/registry_check.py",
+   "--summary"
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 0.1,
+  "argv_source": "row entry cell verbatim: --summary (lane root)"
+ },
+ "round35-hardening": {
+  "argv": [
+   "python3",
+   "plans/round35_hardening.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 0.5,
+  "argv_source": "row entry cell verbatim: --lane . (lane root; default --repo = lane; no --skip)"
+ },
+ "round39-c2": {
+  "argv": [
+   "python3",
+   "plans/round39_c2_verify.py",
+   "--lane",
+   "."
+  ],
+  "exit": 1,
+  "state": "red",
+  "kind": "entry",
+  "reason": "check P8 of the embedded package gate finds 56 knowledge files but only 55 corpus/README.md index rows because fixture-honest-geometry.md has no index row, so V2 gate_exit is 1 and the predicate fails",
+  "evidence": "gate: P8 DEFECT",
+  "tip_dependent": false,
+  "seconds": 17.4,
+  "argv_source": "row entry cell verbatim: --lane . (no --work; counter sets TMPDIR)"
+ },
+ "round44-c1-mutants": {
+  "argv": [
+   "python3",
+   "plans/round44_c1_verify.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 17.0,
+  "argv_source": "row entry cell verbatim: --lane . (lane root; no --work, no selectors; default --jobs 8)"
+ },
+ "round51-routing": {
+  "argv": [
+   "python3",
+   "plans/round51_routing.py",
+   "--lane",
+   ".",
+   "--run-checks"
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 2.1,
+  "argv_source": "row entry cell verbatim: --lane . --run-checks (executes the 41 fixed-verified ledger checks)"
+ },
+ "tip-receipts": {
+  "argv": [
+   "python3",
+   "plans/tip_receipts.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 168.2,
+  "argv_source": "row entry cell placeholder DIR replaced by . (lane root, same convention as sibling rows' --lane .); optional flags omitted"
+ }
+}

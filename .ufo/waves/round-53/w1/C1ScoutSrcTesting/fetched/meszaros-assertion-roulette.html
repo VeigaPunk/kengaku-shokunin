@@ -1,0 +1,412 @@
+
+			<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN'
+			'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"'>
+		<html>
+<head xmlns='http://www.w3.org/1999/xhtml'><title>Assertion Roulette at XUnitPatterns.com </title>
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-2890370-2";
+urchinTracker();
+</script>
+		
+</head><body>
+<link href='style.css' rel='StyleSheet' type='text/css' />
+<div id='topbar'>
+<div id='breadcrumbs'>You are here: <a href='index.html' class='breadcrumbs'>Home</a> > <a href='Test Smells.html' class='breadcrumbs'>Test Smells</a> > Assertion Roulette</div>
+<div id='sitename'><span class='logo'>xUnit Patterns</span>.com</div>
+<div id='sitehost'><span class='hosttext'>Hosted by:</span><a href='http://www.xprime.com.au'><img src='xprime Logo.gif' height='50' align='middle' width='150'></img></a></div>
+<div id='tagline'>Unit testing expertise at your fingertips!</div>
+			<!-- SiteSearch Google -->
+			<form id="search" method="get" action="http://www.google.com/custom" target="google_window">
+			<table border="0" bgcolor="#ffffff">
+			<tr class="tight">
+				<td class="tight" nowrap="nowrap" valign="top" align="left"></td>
+				<td class="tight" nowrap="nowrap">
+					<input type="hidden" name="domains" value="xunitpatterns.com"></input>
+					<label for="sbi" style="display: none">Enter your search terms</label>
+					<input type="text" name="q" size="31" maxlength="255" value="" id="sbi"></input>
+				</td>
+			</tr><tr>
+				<td class="tight">&nbsp;</td>
+				<td class="tight" nowrap="nowrap">
+					<table>
+						<tr>
+							<td class="tight">
+								<input type="radio" name="sitesearch" value="" checked id="ss1"></input>
+								<label for="ss0" title="Search the Web"><font size="-1" color="#000000">Web</font></label>
+							</td>
+							<td class="tight">
+								<input type="radio" name="sitesearch" value="xunitpatterns.com" id="ss0"></input>
+								<label for="ss1" title="Search xunitpatterns.com"><font size="-1" color="#000000">xunitpatterns.com</font></label>
+							</td>
+						</tr>
+					</table>
+					<label for="sbb" style="display: none">Submit search form</label>
+					<input type="submit" name="sa" value="Google Search" id="sbb"></input>
+					<input type="hidden" name="client" value="pub-2548472458685803"></input>
+					<input type="hidden" name="forid" value="1"></input>
+					<input type="hidden" name="ie" value="ISO-8859-1"></input>
+					<input type="hidden" name="oe" value="ISO-8859-1"></input>
+					<input type="hidden" name="cof" value="GALT:#008000;GL:1;DIV:#336699;VLC:663399;AH:center;BGC:FFFFFF;LBGC:336699;ALC:0000FF;LC:0000FF;T:000000;GFNT:0000FF;GIMP:0000FF;FORID:1"></input>
+					<input type="hidden" name="hl" value="en"></input>
+				</td>
+			</tr>
+			</table>
+			</form>
+			<!-- SiteSearch Google -->
+		
+<div id='utilities'><a href='index.html'>Home</a><b> | </b><a href='http://groups.yahoo.com/group/xunitpatterns/post'>Discuss </a><b> | </b><a href='Cross References & Lists.html'>Lists</a></div></div>
+			<div id='googleads'>			
+			<script type="text/javascript"><!--
+			google_ad_client = "pub-2548472458685803";
+			//728x90, created 11/12/07
+			google_ad_slot = "7681663526";
+			google_ad_width = 728;
+			google_ad_height = 90;
+			//--></script>
+			<script type="text/javascript"
+			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+			</script>			
+			</div>
+		
+<div id='content'>
+<td colspan='3'>
+<p>
+</p><a name='Assertion Roulette'></a>
+<h1>Assertion Roulette
+</h1><span class='note'>The book has now been published and the content of this chapter has likely changed substanstially.</span><br/><span class='note'>Please see page 224 of <a href='index.html' class='breadcrumbs'>xUnit Test Patterns</a> for the latest information.</span><br/><br/><span class='summary-statement'><b>It is hard to tell which of several assertions within the same test method 
+		caused a test failure.</b></span>
+<h2>Symptoms
+</h2>
+<p>A test fails. Upon examining the output of the <a href='Test Runner.html' class='PatternRef'>Test Runner</a><span class='first-file-ref'> (page X)</span>, 
+			we cannot determine exactly which assertion had failed.
+</p>
+<h2>Impact
+</h2>
+<p>When a test fails during an automated <a href='Integration Build.html' class='ExternalPatternsRef'>Integration Build</a>[SCM], it 
+			may be hard to tell exactly which assertion failed. If the problem cannot be 
+			reproduced on a developer's machine (as may be the case if the problem is caused 
+			by environmental issues or <a href='Erratic Test.html#Resource Optimism' class='SmellRef'><i>Resource Optimism</i></a><span class='first-var-and-file-ref'> (see Erratic Test on page X)</span>) fixing the problem may be difficult and 
+			time-consuming.
+</p>
+<h2>Causes
+</h2><a name='Eager Test'></a>
+<h3>Cause: Eager Test
+</h3>
+<p>A single test verifies too much functionality.
+</p>
+<h4>Symptoms
+</h4>
+<p>A test exercises several methods of the <a href='SUT.html' class='GlossaryRef'>system under test (SUT)</a> or calls the same method 
+					several times interspersed with fixture setup logic and assertions.
+</p>
+<pre class='codeblock'>
+   public void testFlightMileage_asKm2() throws Exception {
+      // setup fixture
+      // exercise contructor
+      Flight newFlight = new Flight(validFlightNumber);
+      // verify constructed object
+      assertEquals(validFlightNumber, newFlight.number);
+      assertEquals("", newFlight.airlineCode);
+      assertNull(newFlight.airline);
+      // setup mileage
+      newFlight.setMileage(1122);
+      // exercise mileage translater
+      int actualKilometres = newFlight.getMileageAsKm();    
+      // verify results
+      int expectedKilometres = 1810;
+      assertEquals( expectedKilometres, actualKilometres);
+      // now try it with a canceled flight:
+      newFlight.cancel();
+      try {
+         newFlight.getMileageAsKm();
+         fail("Expected exception");
+      } catch (InvalidRequestException e) {
+         assertEquals( "Cannot get cancelled flight mileage", e.getMessage());
+      }
+   }
+<span class='note'>Example EagerTest embedded from java/com/xunitpatterns/testtemplates/BadExamples.java</span><br/>
+</pre>
+<p>Another possible symptom is that the <a href='test automater.html' class='GlossaryRef'>test automater(s)</a> wants to modify the <a href='Test Automation Framework.html' class='PatternRef'>Test Automation Framework</a><span class='first-file-ref'> (page X)</span> to keep going after an assertion has 
+					failed so that the rest of the assertions can be executed.
+</p>
+<h4>Root Cause
+</h4>
+<p><i>Eager Test</i> is often caused by trying to minimize the number of unit 
+					tests (whether consciously or unconsciously) by verifying many <a href='test condition.html' class='GlossaryRef'>test conditions</a> in a single <a href='Test Method.html' class='PatternRef'>Test Method</a><span class='first-file-ref'> (page X)</span>. While this 
+					is a good practice for manually executed tests that have "<a href='liveware.html' class='GlossaryRef'>liveware</a>" interpreting the results and adjusting the tests in 
+					real time, it just doesn't work very well for <a href='Goals of Test Automation.html#Fully Automated Test' class='PatternRef'>Fully Automated Tests</a><span class='first-var-and-file-ref'> (see Goals of Test Automation on page X)</span>.
+</p>
+<p>Another common cause is using <a href='xUnit.html' class='GlossaryRef'>xUnit</a> to automate <a href='customer test.html' class='GlossaryRef'>customer tests</a> that require many steps thus verifying many aspects 
+					of the <a href='SUT.html' class='GlossaryRef'>SUT</a> in each test. These tests are necessarily longer than <a href='unit test.html' class='GlossaryRef'>unit tests</a> but care should be taken to keep them as short as 
+					possible (but no shorter!)
+</p>
+<h4>Possible Solution
+</h4>
+<p>For unit tests, we break up the test into a suite of <a href='Principles of Test Automation.html#Single Condition Test' class='PatternRef'>Single Condition Tests</a><span class='first-var-and-file-ref'> (see Principles of Test Automation on page X)</span> by teasing apart the <i>Eager Test</i>. It may be 
+					possible to do this by using <a href='Extract Method.html' class='RefactoringsRef'>Extract Method</a>[Fowler] refactoring to pull 
+					out independent pieces into their own <a href='Test Method.html' class='PatternRef'>Test Methods</a>. 
+					Sometimes, it is easier to clone the test once for each <a href='test condition.html' class='GlossaryRef'>test condition</a> and then clean up each Test Method by removing any 
+					code that is not required for that particular <a href='test condition.html' class='GlossaryRef'>test conditions</a>. Any code required to set up the fixture or put the 
+					<a href='SUT.html' class='GlossaryRef'>SUT</a> into the correct starting state can be extracted into a <a href='Creation Method.html' class='PatternRef'>Creation Method</a><span class='first-file-ref'> (page X)</span>. A good IDE or compiler will then help us determine 
+					what variables are no longer being used.
+</p>
+<p>If we are automating <a href='customer test.html' class='GlossaryRef'>customer tests</a> using <a href='xUnit.html' class='GlossaryRef'>xUnit</a> 
+					and this has resulted in many steps in each test because the work-flows 
+					require complex fixture setup,we could consider using some other way to 
+					set up the fixture for the latter parts of the test. If we can use <a href='Back Door Manipulation.html#Back Door Setup' class='PatternRef'>Back Door Setup</a><span class='first-var-and-file-ref'> (see Back Door Manipulation on page X)</span> to create the fixture for the last part of 
+					the test independently of the first part, we have just succeeded in 
+					turning one test into two and have improved our <a href='Goals of Test Automation.html#Defect Localization' class='PatternRef'>Defect Localization</a><span class='first-var-ref'> (see Goals of Test Automation)</span>. We should repeat the process as many times as 
+					it takes to make the tests short enough to be single glance readable and 
+					to <a href='Principles of Test Automation.html#Communicate Intent' class='PatternRef'>Communicate Intent</a><span class='first-var-ref'> (see Principles of Test Automation)</span> clearly.
+</p><a name='Missing Assertion Message'></a>
+<h3>Cause: Missing Assertion Message
+</h3>
+<h4>Symptoms
+</h4>
+<p>A test fails. Upon examining the output of the <a href='Test Runner.html' class='PatternRef'>Test Runner</a>, we cannot determine exactly which assertion had 
+					failed.
+</p>
+<h4>Root Cause
+</h4>
+<p>This is caused by the use of an <a href='Assertion Method.html' class='PatternRef'>Assertion Methods</a><span class='first-file-ref'> (page X)</span> calls 
+					with identical or missing <a href='Assertion Message.html' class='PatternRef'>Assertion Messages</a><span class='first-file-ref'> (page X)</span>. It is most 
+					commonly a problem when running tests using a <a href='Test Runner.html#Command-Line Test Runner' class='PatternRef'>Command-Line Test Runner</a><span class='first-var-ref'> (see Test Runner)</span> or a <a href='Test Runner.html' class='PatternRef'>Test Runner</a> that is 
+					not integrated with the program text editor or development environment. In 
+					this tests, we have a number of <a href='Assertion Method.html#Equality Assertion' class='PatternRef'>Equality Assertions</a><span class='first-var-ref'> (see Assertion Method)</span>:
+</p>
+<pre class='codeblock'>
+   public void testInvoice_addLineItem7() {
+      LineItem expItem = new LineItem(inv, product, QUANTITY);
+      // Exercise
+      inv.addItemQuantity(product, QUANTITY);
+      // Verify
+      List lineItems = inv.getLineItems();
+      LineItem actual = (LineItem)lineItems.get(0);
+      assertEquals(expItem.getInv(), actual.getInv());
+      assertEquals(expItem.getProd(), actual.getProd());
+      assertEquals(expItem.getQuantity(), actual.getQuantity());
+   }
+<span class='note'>Example NaiveInlineAssertions embedded from java/com/clrstream/camug/example/test/InvoiceTest.java</span><br/>
+</pre>
+<p>When an assertion fails, will we know which one it was? An <a href='Assertion Method.html#Equality Assertion' class='PatternRef'>Equality Assertions</a> typically prints out both the expected and 
+					actual values but it may be hard to tell which assertion failed if the 
+					expected values are similar or print out cryptically. A good rule of thumb 
+					is to include at least a minimal <a href='Assertion Message.html' class='PatternRef'>Assertion Message</a> whenever 
+					we have more that one call to the same kind of <a href='Assertion Method.html' class='PatternRef'>Assertion Method</a>.
+</p>
+<h4>Possible Solution
+</h4>
+<p>If the problem occurred while running a test using a <a href='Test Runner.html#Graphical Test Runner' class='PatternRef'>Graphical Test Runner</a><span class='first-var-ref'> (see Test Runner)</span> with IDE integration, we 
+					should be able to click on the appropriate line in the stack trace back to 
+					have the IDE highlight the failed assertion. Failing this, we can turn on 
+					the debugger and single-step through the test to see which assertion 
+					statement fails.
+</p>
+<p>If the problem occurred while running a test using a <a href='Test Runner.html#Command-Line Test Runner' class='PatternRef'>Command-Line Test Runner</a>, we can try running the 
+					test from a <a href='Test Runner.html#Graphical Test Runner' class='PatternRef'>Graphical Test Runner</a> with 
+					IDE integration to determine the offending assertion. If that doesn't 
+					work, we may have to resort to using line numbers (if available) or using 
+					a process of elimination to deduce which of the assertions it couldn't be 
+					to narrow down the choice. Of course, we could just bite the bullet and 
+					add a unique <a href='Assertion Message.html' class='PatternRef'>Assertion Message</a> (even just a number!) to 
+					each call to an <a href='Assertion Method.html' class='PatternRef'>Assertion Method</a>. 
+</p>
+<h3>Further Reading
+</h3>
+<p><i>Assertion Roulette</i> and <a href='#Eager Test'>Eager Test</a> were first described in a paper at 
+			XP2001 called "Refactoring Test Code" <a href='vanDeursen.html' class='ReferencesRef'>[RTC]</a>.
+</p><hr/>
+</td><hr/>
+<p><xmall> Page generated at Wed Feb 09 16:39:49 +1100 2011</small>
+</p>
+<p><small> Copyright &copy; 2003-2008 <a href="mailto:testautomationpatterns_at_gerardmeszaros.com">Gerard Meszaros</a> all rights reserved</small>
+</p></div>
+<div id='sidebarleft'>
+<div class='sidebarleft-block'>
+<table>
+<tr><td><b>All Categories</b></td>
+</tr>
+<tr>
+<td><a href='Introductory Narratives.html'>Introductory Narratives</a>
+</td>
+</tr>
+<tr>
+<td><a href='Web Site Instructions.html'>Web Site Instructions</a>
+</td>
+</tr>
+<tr>
+<td><a href='Code Refactorings.html'>Code Refactorings</a>
+</td>
+</tr>
+<tr>
+<td><a href='Database Patterns.html'>Database Patterns</a>
+</td>
+</tr>
+<tr>
+<td><a href='DfT Patterns.html'>DfT Patterns</a>
+</td>
+</tr>
+<tr>
+<td><a href='External Patterns.html'>External Patterns</a>
+</td>
+</tr>
+<tr>
+<td><a href='Fixture Setup Patterns.html'>Fixture Setup Patterns</a>
+</td>
+</tr>
+<tr>
+<td><a href='Fixture Teardown Patterns.html'>Fixture Teardown Patterns</a>
+</td>
+</tr>
+<tr>
+<td><a href='Front Matter.html'>Front Matter</a>
+</td>
+</tr>
+<tr>
+<td><a href='Glossary.html'>Glossary</a>
+</td>
+</tr>
+<tr>
+<td><a href='Misc.html'>Misc</a>
+</td>
+</tr>
+<tr>
+<td><a href='References.html'>References</a>
+</td>
+</tr>
+<tr>
+<td><a href='Result Verification Patterns.html'>Result Verification Patterns</a>
+</td>
+</tr>
+<tr>
+<td><a href='Sidebars.html'>Sidebars</a>
+</td>
+</tr>
+<tr>
+<td><a href='Terminology.html'>Terminology</a>
+</td>
+</tr>
+<tr>
+<td><a href='Test Double Patterns.html'>Test Double Patterns</a>
+</td>
+</tr>
+<tr>
+<td><a href='Test Organization.html'>Test Organization</a>
+</td>
+</tr>
+<tr>
+<td><a href='Test Refactorings.html'>Test Refactorings</a>
+</td>
+</tr>
+<tr>
+<td><a href='Test Smells.html'>Test Smells</a>
+</td>
+</tr>
+<tr>
+<td><a href='Test Strategy.html'>Test Strategy</a>
+</td>
+</tr>
+<tr>
+<td><a href='Tools.html'>Tools</a>
+</td>
+</tr>
+<tr>
+<td><a href='Value Patterns.html'>Value Patterns</a>
+</td>
+</tr>
+<tr>
+<td><a href='XUnit Basics.html'>XUnit Basics</a>
+</td>
+</tr>
+<tr>
+<td><a href='xUnit Members.html'>xUnit Members</a>
+</td>
+</tr>
+</table></div>
+<div class='sidebarleft-block'>
+<table>
+<tr><td><b>All "Test Smells"</b></td>
+</tr>
+<tr>
+<td><a href='Code Smells.html'><i>Code Smells</i></a>
+</td>
+</tr>
+<tr>
+<td><a href='Obscure Test.html'>--Obscure Test</a>
+</td>
+</tr>
+<tr>
+<td><a href='Conditional Test Logic.html'>--Conditional Test Logic</a>
+</td>
+</tr>
+<tr>
+<td><a href='Hard to Test Code.html'>--Hard-to-Test Code</a>
+</td>
+</tr>
+<tr>
+<td><a href='Test Code Duplication.html'>--Test Code Duplication</a>
+</td>
+</tr>
+<tr>
+<td><a href='Test Logic in Production.html'>--Test Logic in Production</a>
+</td>
+</tr>
+<tr>
+<td><a href='Behavior Smells.html'><i>Behavior Smells</i></a>
+</td>
+</tr>
+<tr>
+<td><a href='Assertion Roulette.html'>--Assertion Roulette</a>
+</td>
+</tr>
+<tr>
+<td><a href='Assertion Roulette.html#Eager Test'><i>----Eager Test</i></a>
+</td>
+</tr>
+<tr>
+<td><a href='Assertion Roulette.html#Missing Assertion Message'><i>----Missing Assertion Message</i></a>
+</td>
+</tr>
+<tr>
+<td><a href='Erratic Test.html'>--Erratic Test</a>
+</td>
+</tr>
+<tr>
+<td><a href='Fragile Test.html'>--Fragile Test</a>
+</td>
+</tr>
+<tr>
+<td><a href='Frequent Debugging.html'>--Frequent Debugging</a>
+</td>
+</tr>
+<tr>
+<td><a href='Manual Intervention.html'>--Manual Intervention</a>
+</td>
+</tr>
+<tr>
+<td><a href='Slow Tests.html'>--Slow Tests</a>
+</td>
+</tr>
+<tr>
+<td><a href='Project Smells.html'><i>Project Smells</i></a>
+</td>
+</tr>
+<tr>
+<td><a href='Buggy Tests.html'>--Buggy Tests</a>
+</td>
+</tr>
+<tr>
+<td><a href='Developers Not Writing Tests.html'>--Developers Not Writing Tests</a>
+</td>
+</tr>
+<tr>
+<td><a href='High Test Maintenance Cost.html'>--High Test Maintenance Cost</a>
+</td>
+</tr>
+<tr>
+<td><a href='Production Bugs.html'>--Production Bugs</a>
+</td>
+</tr>
+</table></div></div></body></html>

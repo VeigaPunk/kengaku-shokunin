@@ -1,0 +1,524 @@
+[
+ {
+  "id": "amb-assert-not-exists",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    assert not Path(\"/app/forbidden\").exists()\n",
+  "note": "Clause 2 allows `not`, but the definition says touching the paths must satisfy every assertion; `assert not exists` fails when the path is merely created.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-not-in-listing",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    assert \"secret.txt\" not in os.listdir(D)\n",
+  "note": "Same as above for a negative listing membership.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-eq-false",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    assert Path(OUT).exists() == False\n",
+  "note": "`== False` is a comparison to False (clause 2) but touching the path breaks it.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-not-or-exists",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    assert not os.path.exists(\"/a\") or os.path.exists(\"/b\")\n",
+  "note": "`not a or b`: allowed combinators, but `a` existing without `b` fails.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-self-fail-unittest",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nimport unittest\n\n\nclass TestA(unittest.TestCase):\n    def test_f(self):\n        if not os.path.exists(OUT):\n            self.fail(\"missing\")\n",
+  "note": "`self.fail` is not named in clause 1 (assert*, pytest.fail, raise AssertionError) but is the unittest equivalent.",
+  "reading_a": {
+   "TestA.test_f": "P1"
+  },
+  "reading_b": {
+   "TestA.test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-assertEqual-exists-true",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nimport unittest\n\n\nclass TestA(unittest.TestCase):\n    def test_f(self):\n        self.assertEqual(os.path.exists(OUT), True)\n",
+  "note": "unittest assertEqual/assertIs on an existence boolean vs True: comparison to True/False applies to `assert` only?",
+  "reading_a": {
+   "TestA.test_f": "P1"
+  },
+  "reading_b": {
+   "TestA.test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-assertFalse-exists",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nimport unittest\n\n\nclass TestA(unittest.TestCase):\n    def test_f(self):\n        self.assertFalse(os.path.exists(\"/app/gone\"))\n",
+  "note": "unittest negation of existence.",
+  "reading_a": {
+   "TestA.test_f": "P1"
+  },
+  "reading_b": {
+   "TestA.test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-missing-list-empty",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    missing = [p for p in [\"/a\", \"/b\"] if not os.path.exists(p)]\n    assert missing == []\n",
+  "note": "Existence encoded as an empty 'missing' list: depends only on existence but via a count/equality on a computed value.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-not-missing",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    missing = [p for p in [\"/a\", \"/b\"] if not os.path.exists(p)]\n    assert not missing\n",
+  "note": "`assert not missing` with missing = [non-existing paths].",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-len-glob-ge-1",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    assert len(glob.glob(\"/app/*.so\")) >= 1\n",
+  "note": "`len(glob(...)) >= 1` is logically `glob non-empty` (clause 2) but spelled as a count comparison (N: count).",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-listdir-truthy",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    assert os.listdir(D)\n",
+  "note": "Non-empty `os.listdir(d)` is listing non-emptiness, named only for glob.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-next-glob-none",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    assert next(Path(D).glob(\"*.so\"), None) is not None\n",
+  "note": "`next(Path.glob(...), None)` truthiness is glob non-empty in disguise.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-assert-true",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    assert True\n",
+  "note": "`assert True`: reaches an assertion whose condition depends on nothing (vacuously only-existence), names no path.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-assert-false-guarded",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    if not os.path.exists(OUT):\n        assert False, \"missing\"\n",
+  "note": "`if not exists: assert False` is clause 1's conditional-fail shape using an assert statement.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-raise-runtimeerror",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    if not os.path.exists(OUT):\n        raise RuntimeError(\"missing\")\n",
+  "note": "Conditional raise of a non-AssertionError exception: not listed in clause 1.",
+  "reading_a": {
+   "test_f": "P0"
+  },
+  "reading_b": {
+   "test_f": "P1"
+  }
+ },
+ {
+  "id": "amb-message-reads-file",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    assert os.path.exists(OUT), open(\"/app/log.txt\").read()\n",
+  "note": "Failure message calls read_text on a path that exists only when the assertion passes... evaluated only on failure.",
+  "reading_a": {
+   "test_f": "P0"
+  },
+  "reading_b": {
+   "test_f": "P1"
+  }
+ },
+ {
+  "id": "amb-autouse-fixture",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\n@pytest.fixture(autouse=True)\ndef _setup():\n    subprocess.run([\"true\"], check=True)\n\n\ndef test_f():\n    assert Path(OUT).exists()\n",
+  "note": "Autouse fixture runs a command but is not requested by argument name (spec: 'fixtures it requests by argument name').",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-setup-method-reads",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nimport unittest\n\n\nclass TestA(unittest.TestCase):\n    def setUp(self):\n        self.data = Path(OUT).read_text()\n\n    def test_f(self):\n        self.assertTrue(os.path.exists(OUT))\n",
+  "note": "unittest.setUp runs implicitly before each test; spec's reach does not list setUp.",
+  "reading_a": {
+   "TestA.test_f": "P1"
+  },
+  "reading_b": {
+   "TestA.test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-setUpClass-subprocess",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nimport unittest\n\n\nclass TestA(unittest.TestCase):\n    @classmethod\n    def setUpClass(cls):\n        subprocess.run([\"true\"], check=True)\n\n    def test_f(self):\n        self.assertTrue(os.path.exists(OUT))\n",
+  "note": "setUpClass/subprocess before an existence assertion.",
+  "reading_a": {
+   "TestA.test_f": "P1"
+  },
+  "reading_b": {
+   "TestA.test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-inherited-helper",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nclass Base:\n    def check(self):\n        return Path(OUT).read_text() == \"x\"\n\n\nclass TestB(Base):\n    def test_f(self):\n        assert self.check()\n",
+  "note": "Helper defined on a same-file base class: 'self. methods of the same class' vs inheritance.",
+  "reading_a": {
+   "TestB.test_f": "P0"
+  },
+  "reading_b": {
+   "TestB.test_f": "P1"
+  }
+ },
+ {
+  "id": "amb-inherited-test-method",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nclass Base:\n    def test_f(self):\n        assert Path(OUT).exists()\n\n\nclass Sub(Base):\n    pass\n",
+  "note": "A test method defined on a base class and inherited by a subclass: which key (Base.test_f / Sub.test_f)?",
+  "reading_a": {
+   "Base.test_f": "P1"
+  },
+  "reading_b": {
+   "Base.test_f": "P1",
+   "Sub.test_f": "P1"
+  }
+ },
+ {
+  "id": "amb-module-level-read-constant",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nCFG = json.load(open(\"/app/cfg.json\"))\n\n\ndef test_f():\n    assert Path(OUT).exists()\n",
+  "note": "Module-level constant computed by reading a file at import time: reachable only via collection.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-module-level-constant-used",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nTARGET = Path(\"/app/cfg.txt\").read_text().strip()\n\n\ndef test_f():\n    assert Path(TARGET).exists()\n",
+  "note": "Module-level constant that reads content, used in a path argument to an existence check.",
+  "reading_a": {
+   "test_f": "P0"
+  },
+  "reading_b": {
+   "test_f": "P1"
+  }
+ },
+ {
+  "id": "amb-tmp-path-builtin",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f(tmp_path):\n    (tmp_path / \"x\").write_text(\"1\")\n    assert (tmp_path / \"x\").exists()\n",
+  "note": "Built-in pytest fixture (not in the captured file) creating its own file: 'imports/fixtures not captured' vs existence-only.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-shutil-which",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nimport shutil\n\n\ndef test_f():\n    assert shutil.which(\"gcc\")\n",
+  "note": "`shutil.which` looks up executables on PATH: existence-like but process/env state; not in clause 2.",
+  "reading_a": {
+   "test_f": "P0"
+  },
+  "reading_b": {
+   "test_f": "P1"
+  }
+ },
+ {
+  "id": "amb-lexists-islnk-types",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_a():\n    assert os.path.lexists(\"/app/l\")\n\n\ndef test_b():\n    assert Path(\"/mnt\").is_mount()\n\n\ndef test_c():\n    assert Path(\"/tmp/sock\").is_socket()\n",
+  "note": "`os.path.lexists`, `Path.is_mount`, `Path.is_socket`: existence/type predicates absent from the clause 2 list.",
+  "reading_a": {
+   "test_a": "P1",
+   "test_b": "P1",
+   "test_c": "P1"
+  },
+  "reading_b": {
+   "test_a": "P0",
+   "test_b": "P0",
+   "test_c": "P0"
+  }
+ },
+ {
+  "id": "amb-stat-s-isreg",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nimport stat\n\n\ndef test_f():\n    assert stat.S_ISREG(os.stat(OUT).st_mode)\n",
+  "note": "Type via stat mode bits: `stat.S_ISREG(os.stat(p).st_mode)` is a type check but also 'mode as a value'.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-access-r-ok",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    assert os.access(OUT, os.R_OK)\n",
+  "note": "`os.access(p, os.R_OK)`: only F_OK is named; R_OK is satisfied by a plain touch but is a mode check.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-stat-bare",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    Path(OUT).stat()\n    assert True\n",
+  "note": "`Path.stat()` called for its FileNotFoundError, no value used.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-any-name-suffix",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_a():\n    assert any(p.name == \"out.txt\" for p in Path(D).iterdir())\n\n\ndef test_b():\n    assert any(p.suffix == \".py\" for p in Path(D).iterdir())\n",
+  "note": "Listing membership with a predicate on the name (suffix/endswith/equality).",
+  "reading_a": {
+   "test_a": "P1",
+   "test_b": "P0"
+  },
+  "reading_b": {
+   "test_a": "P0",
+   "test_b": "P0"
+  }
+ },
+ {
+  "id": "amb-exists-equal-exists",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    assert os.path.exists(\"/a\") == os.path.exists(\"/b\")\n",
+  "note": "Comparison of two existence values: touching both satisfies it, touching one does not.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-pytest-raises-open",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    with pytest.raises(FileNotFoundError):\n        open(\"/app/gone\")\n",
+  "note": "`pytest.raises(FileNotFoundError)` around a read: not an assert*/fail form; encodes (non-)existence by exception.",
+  "reading_a": {
+   "test_f": "P0"
+  },
+  "reading_b": {
+   "test_f": "P1"
+  }
+ },
+ {
+  "id": "amb-async-test",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nasync def test_f():\n    assert Path(OUT).exists()\n",
+  "note": "`async def test_*`: spec says 'def test_*'.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {}
+ },
+ {
+  "id": "amb-size-computed-not-asserted",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    n = os.path.getsize(OUT)\n    assert os.path.exists(OUT)\n",
+  "note": "Size computed but never asserted on; clause 3 says reachable code must not 'check size as a value'.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-env-derived-path",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    assert Path(os.environ[\"HOME\"], \"out.txt\").exists()\n",
+  "note": "Path from an environment variable/cwd: process state feeds only the path name.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-cwd-relative",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    assert Path(os.getcwd(), \"out.txt\").exists()\n",
+  "note": "Relative path resolved against os.getcwd() (process state).",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-mixed-exists-vs-count-of-exists",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    assert sum(os.path.exists(p) for p in [\"/a\", \"/b\"]) >= 1\n",
+  "note": "`sum(exists) >= 1` is `any(exists)` in disguise.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-trailing-read-nonasserted",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    assert os.path.exists(OUT)\n    _ = json.load(open(OUT))\n",
+  "note": "`json.load` result discarded after a pure existence assertion: reachable read, no assertion depends on it.",
+  "reading_a": {
+   "test_f": "P0"
+  },
+  "reading_b": {
+   "test_f": "P1"
+  }
+ },
+ {
+  "id": "amb-uncaptured-constant-in-path",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nfrom helpers import OUT_PATH\n\n\ndef test_f():\n    assert os.path.exists(OUT_PATH)\n",
+  "note": "Existence check on a path imported from an uncaptured local module (U?).",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-skip-conditional",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    if not os.path.exists(OUT):\n        pytest.skip(\"no out\")\n",
+  "note": "`pytest.skip` conditional on existence, with no assertion elsewhere.",
+  "reading_a": {
+   "test_f": "P0"
+  },
+  "reading_b": {
+   "test_f": "P1"
+  }
+ },
+ {
+  "id": "amb-assert-exists-in-except",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    try:\n        Path(OUT).resolve(strict=True)\n    except FileNotFoundError:\n        pytest.fail(\"missing\")\n",
+  "note": "Existence check used as a try/except on `Path.resolve(strict=True)`.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-dead-branch-read",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    assert os.path.exists(OUT)\n    if False:\n        Path(OUT).read_text()\n",
+  "note": "A read inside a syntactically reachable but constant-false branch: call-graph reach says N, execution says Y.",
+  "reading_a": {
+   "test_f": "P0"
+  },
+  "reading_b": {
+   "test_f": "P1"
+  }
+ },
+ {
+  "id": "amb-uncaptured-fixture-arg",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f(app_server):\n    assert Path(OUT).exists()\n",
+  "note": "Fixture argument not defined in the file (conftest): spec reach lists only same-file fixtures, U covers code not captured when the verdict depends on it.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-param-selects-branch",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\n@pytest.mark.parametrize(\"kind\", [\"file\", \"dir\"])\ndef test_f(kind):\n    p = Path(D, \"x\")\n    assert p.is_file() if kind == \"file\" else p.is_dir()\n",
+  "note": "Conditional expression selecting the existence predicate by a parametrised constant.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-isinstance-on-exists",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    assert isinstance(Path(OUT).exists(), bool) and Path(OUT).exists()\n",
+  "note": "Type assertion on an existence bool alongside a real existence check.",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "amb-fork-process",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    pid = os.fork()\n    if pid == 0:\n        os._exit(0)\n    os.waitpid(pid, 0)\n    assert os.path.exists(OUT)\n",
+  "note": "os.fork/waitpid creates a process but is neither subprocess nor a command.",
+  "reading_a": {
+   "test_f": "P0"
+  },
+  "reading_b": {
+   "test_f": "P1"
+  }
+ },
+ {
+  "id": "amb-any-name-equality-listdir",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    assert any(n == \"out.txt\" for n in os.listdir(D))\n",
+  "note": "Equality on names inside a listing generator (spec: membership of a name).",
+  "reading_a": {
+   "test_f": "P1"
+  },
+  "reading_b": {
+   "test_f": "P0"
+  }
+ }
+]

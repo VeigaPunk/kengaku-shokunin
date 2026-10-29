@@ -1,0 +1,41 @@
+rc=1
+line=None
+--- stdout
+SELFTEST truthful rc=0 ok
+SELFTEST forged-all-green rc=1 ok
+SELFTEST forged-all-red rc=1 ok
+SELFTEST missing-ledger-row rc=1 ok
+SELFTEST extra-ledger-row rc=1 ok
+SELFTEST ledger-points-elsewhere rc=1 ok
+SELFTEST red-evidence-absent rc=1 ok
+SELFTEST red-reason-thin rc=1 ok
+SELFTEST state-exit-inconsistent rc=1 ok
+SELFTEST timeout rc=1 ok
+SELFTEST help-only-argv rc=1 ok
+SELFTEST partial-run-never-passes rc=1 ok
+SELFTEST ledger-absent rc=1 ok
+SELFTEST ledger-absent-no-rows rc=1 ok
+SELFTEST duplicate-row-name rc=1 ok
+SELFTEST corpus-entry-script rc=0 ok
+SELFTEST ledger-schema-foreign rc=1 ok
+SELFTEST argv-one-element rc=1 ok
+SELFTEST argv-nonstring-element rc=1 ok
+SELFTEST exit-is-bool rc=1 ok
+SELFTEST state-outside-domain rc=1 ok
+--- stderr
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/m/M24/plans/round53_c2_tipstate.py", line 492, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/m/M24/plans/round53_c2_tipstate.py", line 482, in main
+    return selftest()
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/m/M24/plans/round53_c2_tipstate.py", line 409, in selftest
+    case("kind-outside-domain", two, set_("a", "kind", "bogus"), want_rc=1, want_in=("BAD-DECL a",))
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/m/M24/plans/round53_c2_tipstate.py", line 290, in case
+    rc, lines = evaluate(lane, lane, d / "work", 2, 20, only, dry)
+                ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/m/M24/plans/round53_c2_tipstate.py", line 185, in evaluate
+    kinds[k] += 1
+    ~~~~~^^^
+KeyError: 'bogus'

@@ -1,0 +1,254 @@
+#!/usr/bin/env python3
+"""Build triage_ext.py = pristine counter + extra selftest cases (kill cases for mutation survivors)."""
+import importlib.util, difflib
+from pathlib import Path
+S = Path("/fast/scratch/hyaku/kengaku-r53/C1MutCounter")
+PR = (S / "pristine_triage.py").read_text().split("\n")
+
+spec = importlib.util.spec_from_file_location("pristine_mod", S / "pristine_triage.py")
+pm = importlib.util.module_from_spec(spec); spec.loader.exec_module(pm)
+frozen_names = ["POP_SHA", "PIN_TREE_SHA", "TESTS_INDEX_SHA", "TESTS_TOTAL", "CAPTURES_EXPECTED", "EXCLUDED_PATH",
+                "EXCLUDED_BLOB", "CONFIRM_MIN", "URL_MIN", "ORACLE_MAX_DISAGREE", "ORACLE_MAX_CONTESTED",
+                "CONTROL_RATIO", "CONTROL_MIN", "QUOTE_MIN_CHARS"]
+frozen_lit = "{" + ", ".join(f"{k!r}: {getattr(pm, k)!r}" for k in frozen_names) + "}"
+
+MID = r'''
+    # ---- C1MutCounter kill cases (wave-1 mutation probe; proposed, not landed) ----
+    clf_path = lane / "plans/round53_c1_classify.py"
+    clf_orig = clf_path.read_bytes()
+    idx_orig = (lane / f"{RUN_DIR}/tests-index.json").read_bytes()
+    stub_orig = (lane / "plans/round52_c1_grader_audit.py").read_bytes()
+    Y_ = (["L1", "L2"], ["Y", "Y"])
+    N_ = (["L1", "L2"], ["N", "N"])
+    U_ = (["L1", "L2"], ["Y", "U"])
+
+    def setc(conf=None, pa=None):
+        w(f"{RUN_DIR}/confirmations.json", json.dumps([good] if conf is None else conf))
+        w(f"{RUN_DIR}/prior-art.json", json.dumps([pa_new] if pa is None else pa))
+
+    def setl(over=None, drop=()):
+        lab = {"t1::test_a": (["L1", "L2"], ["Y", "Y"]), "t1::test_b": (["L1", "L3"], ["N", "N"]),
+               "t2::test_c": (["L2", "L3"], ["Y", "Y"])}
+        for k in drop:
+            lab.pop(k, None)
+        lab.update(over or {})
+        w(f"{RUN_DIR}/oracle-labels.json",
+          json.dumps({"labels": {k: {"labelers": a, "labels": b} for k, (a, b) in lab.items()}}))
+
+    def ext(label, want_ok, want_in=(), conf=None, pa=None, over=None, drop=(), cfgx=None):
+        setc(conf, pa); setl(over, drop)
+        run(label, want_ok, want_in, cfgx)
+        setc(); setl()
+
+    # pins: tests-index digest clause (P11); excluded capture present (P12)
+    w(f"{RUN_DIR}/tests-index.json", idx_orig + b"\n", "wb")
+    run("ext-tests-index-digest", False, ("tests_index_sha=BAD",))
+    w(f"{RUN_DIR}/tests-index.json", idx_orig, "wb")
+    exf = lane / "corpus/evidence/round52/graders/tx/tests/test_outputs.py"
+    exf.parent.mkdir(parents=True, exist_ok=True)
+    exf.write_bytes(ex)
+    run("ext-excluded-capture-present", False, ("excluded_blob=BAD",))
+    exf.unlink()
+
+    # freeze ordering (F04/F05): labels first-added before the freeze file
+    rv = top / "rev"
+    rv.mkdir()
+    arch = subprocess.run(["git", "-C", str(lane), "archive", base], capture_output=True, check=True).stdout
+    subprocess.run(["tar", "-x", "-C", str(rv)], input=arch, check=True)
+    gv = lambda *a: subprocess.run(["git", "-C", str(rv), *a], check=True, capture_output=True)
+    gv("init", "-q"); gv("config", "user.email", "t@t.invalid"); gv("config", "user.name", "selftest")
+    gv("add", "-A"); gv("commit", "-q", "-m", "base")
+    (rv / RUN_DIR / "oracle-labels.json").parent.mkdir(parents=True, exist_ok=True)
+    (rv / RUN_DIR / "oracle-labels.json").write_text(json.dumps({"labels": {
+        "t1::test_a": {"labelers": ["L1", "L2"], "labels": ["Y", "Y"]},
+        "t1::test_b": {"labelers": ["L1", "L3"], "labels": ["N", "N"]},
+        "t2::test_c": {"labelers": ["L2", "L3"], "labels": ["Y", "Y"]}}}))
+    gv("add", "-A"); gv("commit", "-q", "-m", "labels")
+    (rv / "plans/round53-c1-freeze.json").write_text(json.dumps(
+        {"classifier_sha256": sha256_file(rv / "plans/round53_c1_classify.py"), "author_seats": ["AuthorSeat"]}))
+    gv("add", "-A"); gv("commit", "-q", "-m", "freeze")
+    rc_rv, lines_rv = verdict(rv, cfg)
+    t_rv = "\n".join(lines_rv)
+    ok_rv = rc_rv == 1 and "order=UNPROVEN" in t_rv
+    ncase[0] += 1
+    print(f"SELFTEST ext-freeze-after-labels rc={rc_rv} {'ok' if ok_rv else 'FAIL'}")
+    if not ok_rv:
+        fails.append("ext-freeze-after-labels"); print(t_rv)
+
+    # leg-level freeze clauses (F05 order, F06 authors), called directly
+    ok_fz_rv = leg_freeze(rv)[0]
+    ncase[0] += 1
+    print(f"SELFTEST ext-freeze-leg-order-clause rc={0 if ok_fz_rv else 1} {'ok' if ok_fz_rv is False else 'FAIL'}")
+    if ok_fz_rv is not False:
+        fails.append("ext-freeze-leg-order-clause")
+    fzj = lane / "plans/round53-c1-freeze.json"
+    fz_orig = fzj.read_bytes()
+    fzj.write_text(json.dumps({"classifier_sha256": sha256_file(clf_path), "author_seats": []}))
+    ok_noauth = leg_freeze(lane)[0]
+    fzj.write_bytes(fz_orig)
+    ncase[0] += 1
+    print(f"SELFTEST ext-freeze-leg-empty-authors rc={0 if ok_noauth else 1} {'ok' if ok_noauth is False else 'FAIL'}")
+    if ok_noauth is not False:
+        fails.append("ext-freeze-leg-empty-authors")
+
+    # oracle labels (L01 L03 L04 L05 L06 O05)
+    ext("ext-labelers-three-distinct", False, ("bad_label_rows=1",), over={"t2::test_c": (["L2", "L3", "L1"], ["Y", "Y"])})
+    ext("ext-label-domain-X", False, ("bad_label_rows=1",), over={"t2::test_c": (["L2", "L3"], ["X", "X"])})
+    ext("ext-label-disagree-contested", False, ("contested=1",), over={"t2::test_c": (["L2", "L3"], ["Y", "N"])})
+    ext("ext-label-row-missing", False, ("bad_label_rows=1",), drop=("t2::test_c",))
+    ext("ext-labelers-not-a-list", False, ("bad_label_rows=1",), over={"t2::test_c": ("ab", ["Y", "Y"])})
+    ext("ext-extra-label-row", False, (), over={"t9::nope": (["L1", "L2"], ["Y", "Y"])})
+
+    # confirm leg (K02 K03 K05 K06 K07 K09 K10 C10 C11)
+    rep1 = w(".ufo/waves/round-53/w2/ReaderSeat/report_t1.md", "reader report: t1 test_b reads a file via open\n")
+    rep6 = w(".ufo/waves/round-53/w2/KengakuR53C1/report.md", "reader report: t2 test_c checks presence only\n")
+    rep7 = w(".ufo/waves/round-53/w2/OtherSeat/report.md", "reader report: t2 test_c checks presence only\n")
+    ext("ext-candidate-v2-P0-rejected", False, ("t1:not-a-never-read-v2-P1-candidate",), pa=[],
+        conf=[dict(good, task="t1", test_id="t1::test_b", quote="assert open('/x').read() == 'hi'",
+                   report=str(rep1.relative_to(lane)), report_sha256=sha256_file(rep1))])
+    ext("ext-reader-KengakuR53-prefix", False, ("t2:reader-is-author",),
+        conf=[dict(good, reader="KengakuR53C1", report=str(rep6.relative_to(lane)), report_sha256=sha256_file(rep6))])
+    ext("ext-reader-not-in-report-path", False, ("t2:reader-report-missing-or-digest-mismatch",),
+        conf=[dict(good, report=str(rep7.relative_to(lane)), report_sha256=sha256_file(rep7))])
+    ext("ext-quote-spans-def-line", True, ("new_confirmed=1",), conf=[dict(good, quote="def test_c(): assert Path('/y')")])
+    ext("ext-task-testid-mismatch", False, ("t2:unknown-test-id",), conf=[dict(good, test_id="t1::test_a")])
+    s22 = "assert Path('/y').is_file()"
+    ext("ext-quote-exactly-20-chars", True, ("new_confirmed=1",), conf=[dict(good, quote=s22[:20])])
+    ext("ext-quote-19-chars-rejected", False, ("t2:quote-short-or-outside-test-span",), conf=[dict(good, quote=s22[:19])])
+    ext("ext-duplicate-task-row", True, ("new_confirmed=1 rejected=1",), conf=[good, good])
+
+    # prior-art leg (A01 A02 A03 A04 A05 A06 A07 A09 A10 A11 A12 A13 A14 A17)
+    wf = lane / f"{RUN_DIR}/fetched/w.html"
+    wf.write_text(" ".join(f"word{i}" for i in range(30)) + "\n")
+    wrow = lambda q_, **kw: dict(pa_new, fetched=f"{RUN_DIR}/fetched/w.html", fetched_sha256=sha256_file(wf), quote=q_, **kw)
+    qw = lambda k: " ".join(f"word{i}" for i in range(k))
+    ext("ext-prior-art-unconfirmed-task-row", False, ("t1:task-not-confirmed",), pa=[pa_new, dict(pa_new, task="t1")])
+    ext("ext-prior-art-bad-verdict", False, ("t2:bad-verdict",), pa=[pa_new, dict(pa_new, verdict="phenomenon-maybe")])
+    ext("ext-prior-art-url-not-a-url", False, ("t2:bad-url",), pa=[dict(pa_new, url="notaurl")])
+    ext("ext-prior-art-one-rejected-row", False, ("t2:bad-url",), pa=[pa_new, dict(pa_new, url="notaurl")])
+    ext("ext-quote-7-words-rejected", False, ("t2:quote-not-8to25-words-or-not-in-fetch",), pa=[wrow(qw(7))])
+    ext("ext-quote-8-words-accepted", True, ("new=1",), pa=[wrow(qw(8))])
+    ext("ext-quote-26-words-rejected", False, ("t2:quote-not-8to25-words-or-not-in-fetch",), pa=[wrow(qw(26))])
+    kn1 = lane / f"{RUN_DIR}/fetched/kn1.html"
+    kn1.write_text("the task t2 page only mentions the grader in plain words here\n")
+    kn2 = lane / f"{RUN_DIR}/fetched/kn2.html"
+    kn2.write_text("nothing relevant in this archived page at all really here\n")
+    krow = lambda f_, q_: dict(pa_known, task="t2", url="https://real.example.net/c", fetched=f"{RUN_DIR}/fetched/{f_}",
+                               fetched_sha256=sha256_file(lane / f"{RUN_DIR}/fetched/{f_}"), quote=q_)
+    ext("ext-known-names-task-not-tests", True, ("new=1",),
+        pa=[pa_new, krow("kn1.html", "the task t2 page only mentions the grader in plain words here")])
+    ext("ext-known-names-neither-rejected", False, ("t2:known-fetch-never-names-the-task-or-its-tests",),
+        pa=[pa_new, krow("kn2.html", "nothing relevant in this archived page at all really here")])
+    sw_s1 = {"file": f"{RUN_DIR}/fetched/s1.html", "file_sha256": sha256_file(s1)}
+    ext("ext-new-one-sweep-rejected", False, ("t2:new-needs-two-sweep-fetches",), pa=[dict(pa_new, sweep=[sw_s1])])
+    s3 = lane / f"{RUN_DIR}/fetched/s3.html"
+    s3.write_text("a page about t2 grader only\n")
+    s4 = lane / f"{RUN_DIR}/fetched/s4.html"
+    s4.write_text("a page about test_c only\n")
+    sw_with = lambda f_: [sw_s1, {"file": f"{RUN_DIR}/fetched/{f_}", "file_sha256": sha256_file(lane / f"{RUN_DIR}/fetched/{f_}")}]
+    ext("ext-sweep-names-task-rejected", False, ("t2:sweep-fetch-missing-or-names-the-task",), pa=[dict(pa_new, sweep=sw_with("s3.html"))])
+    ext("ext-sweep-names-test-rejected", False, ("t2:sweep-fetch-missing-or-names-the-task",), pa=[dict(pa_new, sweep=sw_with("s4.html"))])
+    outf = lane / "corpus/evidence/round53/outside.html"
+    outf.write_text("the grader test_c merely checks the file exists and nothing more\n")
+    ext("ext-fetch-outside-fetched-dir", False, ("t2:fetch-missing-or-digest-mismatch",),
+        pa=[dict(pa_new, fetched="corpus/evidence/round53/outside.html", fetched_sha256=sha256_file(outf))])
+
+    # oracle control clause, called directly (O11): tiny fixture is control-vacuous at the real minimum
+    CONTROL_MIN = 10
+    ok_tiny = leg_oracle(lane, cfg, {"authors": {"AuthorSeat"}})[0]
+    CONTROL_MIN = 1
+    ncase[0] += 1
+    print(f"SELFTEST ext-oracle-control-clause-in-leg rc={0 if ok_tiny else 1} {'ok' if ok_tiny is False else 'FAIL'}")
+    if ok_tiny is not False:
+        fails.append("ext-oracle-control-clause-in-leg")
+    ext("ext-tests-total-mismatch", False, (), cfgx=dict(cfg, TESTS_TOTAL=4))
+
+    # scale fixture: 100-test leg_oracle boundaries (O09 O10 O12 C04 C05 C06 O06)
+    import ast as _ast
+
+    def scale(name, spec, clf_text=None):
+        root = top / name
+        srcs, idx, labs = [], [], {}
+        for i, (pair, p1) in enumerate(spec):
+            call = "Path('/x').exists()" if p1 else "open('/x').read()"
+            srcs.append(f"def test_{i}():\n    assert {call}\n")
+        src = "\n".join(srcs)
+        for node in _ast.parse(src).body:
+            i = int(node.name[5:])
+            pair = spec[i][0]
+            idx.append({"id": f"s1::{node.name}", "task": "s1", "file": "s1/tests/test_outputs.py", "name": node.name,
+                        "class": None, "lineno": node.lineno, "end_lineno": node.end_lineno})
+            labs[f"s1::{node.name}"] = {"labelers": pair[0], "labels": pair[1]}
+        for rel, data in (("corpus/evidence/round52/graders/s1/tests/test_outputs.py", src),
+                          ("corpus/evidence/round53/tests-index.json", json.dumps({"tests": idx})),
+                          ("corpus/evidence/round53/oracle-labels.json", json.dumps({"labels": labs})),
+                          ("plans/round53_c1_classify.py", clf_text if clf_text is not None else clf_orig.decode()),
+                          ("plans/round52_c1_grader_audit.py", stub_orig.decode())):
+            p = root / rel
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text(data)
+        return leg_oracle(root, dict(cfg, TESTS_TOTAL=len(idx)), {"authors": {"AuthorSeat"}})[:2]
+
+    def scase(label, want, spec, clf_text=None):
+        ok_s, L_s = scale(label, spec, clf_text)
+        ncase[0] += 1
+        good_s = ok_s is want
+        print(f"SELFTEST {label} rc={0 if ok_s else 1} {'ok' if good_s else 'FAIL'}")
+        if not good_s:
+            fails.append(label); print("\n".join(L_s))
+
+    clf_custom = ("import ast\n\ndef classify_source(src):\n    out = {}\n    for n in ast.parse(src).body:\n"
+                  "        if isinstance(n, ast.FunctionDef) and n.name.startswith('test_') and int(n.name[5:]) >= 10:\n"
+                  "            out[n.name] = 'P1'\n    return out\n")
+    scase("ext-scale-null-100-decided", True, [(Y_, True)] * 100)
+    scase("ext-scale-disagree-at-limit-3", True, [(Y_, True)] * 97 + [(N_, True)] * 3)
+    scase("ext-scale-disagree-over-limit-4", False, [(Y_, True)] * 96 + [(N_, True)] * 4)
+    scase("ext-scale-contested-at-limit-15", True, [(Y_, True)] * 85 + [(U_, True)] * 15)
+    scase("ext-scale-contested-over-limit-16", False, [(Y_, True)] * 84 + [(U_, True)] * 16)
+    scase("ext-scale-disagree-3-of-85-decided", False, [(Y_, True)] * 82 + [(N_, True)] * 3 + [(U_, True)] * 15)
+    scase("ext-scale-control-ratio-1-vs-2", False, [(Y_, True)] * 1 + [(N_, False)] * 99)
+    scase("ext-scale-unclassified-10", False, [(N_, True)] * 10 + [(Y_, True)] * 90, clf_text=clf_custom)
+    scase("ext-scale-bad-label-row", False, [((["L1", "L2"], ["X", "X"]), True)] + [(Y_, True)] * 96 + [(N_, False)] * 3)
+
+    # never-read base texts (K12 K13): temp-lane commits, cfg BASE_TIP varied
+    w("corpus/evidence/round52/confirmations.json", json.dumps([{"task": "t2"}]))
+    sh("git", "-C", str(lane), "add", "-A"); sh("git", "-C", str(lane), "commit", "-q", "-m", "r52 list")
+    b_r52 = subprocess.run(["git", "-C", str(lane), "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
+    w("corpus/evidence/round52/confirmations.json", "[]")
+    w("LOG.md", "t2 is mentioned in this log\n")
+    sh("git", "-C", str(lane), "add", "-A"); sh("git", "-C", str(lane), "commit", "-q", "-m", "log mention")
+    b_seen = subprocess.run(["git", "-C", str(lane), "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
+    ext("ext-candidate-seen-in-base-excluded", False, ("t2:not-a-never-read-v2-P1-candidate",), cfgx=dict(cfg, BASE_TIP=b_seen))
+    ext("ext-candidate-r52-confirmed-excluded", False, ("t2:not-a-never-read-v2-P1-candidate",), cfgx=dict(cfg, BASE_TIP=b_r52))
+    w("LOG.md", "x\n")
+'''
+
+END = r'''
+    # ---- C1MutCounter kill cases, after CONTROL_MIN is restored to its module value ----
+    clf_path.write_bytes(clf_orig)
+    scase("ext-scale-control-min-at-10", True, [(Y_, True)] * 10 + [(N_, False)] * 90)
+    frozen = FROZEN_LITERAL
+    now = {k: globals()[k] for k in frozen}
+    bad = sorted(k for k in frozen if frozen[k] != now[k])
+    ncase[0] += 1
+    print(f"SELFTEST ext-frozen-constants rc={0 if not bad else 1} {'ok' if not bad else 'FAIL'}")
+    if bad:
+        fails.append("ext-frozen-constants"); print("drifted:", bad)
+'''
+MID = MID.replace("FROZEN_LITERAL", frozen_lit)
+END = END.replace("FROZEN_LITERAL", frozen_lit)
+
+out = list(PR)
+def find(sub):
+    hits = [i for i, l in enumerate(out) if sub in l]
+    assert len(hits) == 1, (sub, hits)
+    return hits[0]
+i_mid = find("    # classifier edited after the freeze")
+out[i_mid:i_mid] = MID.split("\n")[1:-1] if False else MID.strip("\n").split("\n")
+i_end = find("    shutil_rm(top)")
+out[i_end:i_end] = END.strip("\n").split("\n")
+ext_text = "\n".join(out)
+(S / "work/triage_ext.py").write_text(ext_text)
+diff = difflib.unified_diff(PR, out, "a/plans/round53_c1_triage.py", "b/plans/round53_c1_triage.py", lineterm="")
+(S / "work/survivor-kill-cases.diff").write_text("\n".join(diff) + "\n")
+print("ext lines", len(out), "diff lines", sum(1 for _ in difflib.unified_diff(PR, out, lineterm="")))

@@ -1,0 +1,1198 @@
+{
+  "baseline": {
+    "rc": 0,
+    "cases": "SELFTEST cases=12 failures=0"
+  },
+  "restored": {
+    "rc": 0,
+    "cases": "SELFTEST cases=12 failures=0"
+  },
+  "pristine_sha256_before": "859ec38d3d39d7b33ca91a1a33269606e8c174e4fbaf40eeaa28280f1dfccfc7",
+  "pristine_sha256_after": "859ec38d3d39d7b33ca91a1a33269606e8c174e4fbaf40eeaa28280f1dfccfc7",
+  "pristine_unchanged": true,
+  "mutants": [
+    {
+      "id": "M00",
+      "group": "NL",
+      "desc": "null: comment appended, no behaviour change",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 3.03,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M01",
+      "group": "SL",
+      "desc": "ledger absent: missing list emptied",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 3.07,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M02",
+      "group": "SL",
+      "desc": "argv length floor 2 -> 1",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 3.04,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M03",
+      "group": "SL",
+      "desc": "argv length floor 2 -> 3",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=7",
+      "verdict": "KILLED",
+      "wall_s": 0.64,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M04",
+      "group": "SL",
+      "desc": "argv all-str check disabled",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 3.03,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M05",
+      "group": "SL",
+      "desc": "script-None guard removed",
+      "predicted": "E",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 3.08,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M06",
+      "group": "SL",
+      "desc": "entry-script membership inverted",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=8",
+      "verdict": "KILLED",
+      "wall_s": 0.61,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M07",
+      "group": "SL",
+      "desc": "exit bool exclusion removed",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.97,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M08",
+      "group": "SL",
+      "desc": "state domain check removed",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.74,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M09",
+      "group": "SL",
+      "desc": "state/exit consistency test removed",
+      "predicted": "K",
+      "rc": 1,
+      "cases": null,
+      "verdict": "KILLED",
+      "wall_s": 0.6,
+      "stdout_identical_to_baseline": false,
+      "crash": true,
+      "crash_tail": "KeyError: 'evidence'"
+    },
+    {
+      "id": "M10",
+      "group": "SL",
+      "desc": "state/exit consistency operator != -> ==",
+      "predicted": "K",
+      "rc": 1,
+      "cases": null,
+      "verdict": "KILLED",
+      "wall_s": 0.17,
+      "stdout_identical_to_baseline": false,
+      "crash": true,
+      "crash_tail": "KeyError: 'evidence'"
+    },
+    {
+      "id": "M11",
+      "group": "SL",
+      "desc": "kind domain check removed",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.49,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M12",
+      "group": "SL",
+      "desc": "red-reason branch keyed on green",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=2",
+      "verdict": "KILLED",
+      "wall_s": 2.8,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M13",
+      "group": "SL",
+      "desc": "reason word floor < -> <=",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.84,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M14",
+      "group": "SL",
+      "desc": "MIN_REASON_WORDS 10 -> 9",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.77,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M15",
+      "group": "SL",
+      "desc": "MIN_REASON_WORDS 10 -> 17",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=1",
+      "verdict": "KILLED",
+      "wall_s": 2.75,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M16",
+      "group": "SL",
+      "desc": "MIN_REASON_WORDS 10 -> 1",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=1",
+      "verdict": "KILLED",
+      "wall_s": 2.84,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M17",
+      "group": "SL",
+      "desc": "evidence floor 6 -> 5",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.74,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M18",
+      "group": "SL",
+      "desc": "evidence floor 6 -> 9",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=1",
+      "verdict": "KILLED",
+      "wall_s": 2.8,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M19",
+      "group": "SL",
+      "desc": "evidence strip() dropped",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.51,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M20",
+      "group": "SL",
+      "desc": "evidence str-type check removed",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.84,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M21",
+      "group": "SL",
+      "desc": "help limit <= -> <",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.84,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M22",
+      "group": "SL",
+      "desc": "MAX_HELP_FRACTION 0.10 -> 0.50",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.83,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M23",
+      "group": "EV",
+      "desc": "help count reads entry kind",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=2",
+      "verdict": "KILLED",
+      "wall_s": 2.83,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M24",
+      "group": "EV",
+      "desc": "kind-count guard removed",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.81,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M25",
+      "group": "EV",
+      "desc": "static_ok: missing term removed",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.74,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M26",
+      "group": "EV",
+      "desc": "static_ok: extra term removed",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=1",
+      "verdict": "KILLED",
+      "wall_s": 2.56,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M27",
+      "group": "EV",
+      "desc": "static_ok: entry_mismatch term removed",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.6,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M28",
+      "group": "EV",
+      "desc": "static_ok: bad_decl term removed",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.53,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M29",
+      "group": "EV",
+      "desc": "static_ok: bad_reason term removed",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=1",
+      "verdict": "KILLED",
+      "wall_s": 2.56,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M30",
+      "group": "EV",
+      "desc": "static_ok: dups term removed",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.63,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M31",
+      "group": "EV",
+      "desc": "static_ok: ledger_err term removed",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.63,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M32",
+      "group": "EV",
+      "desc": "static_ok: help_ok and -> or",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=3",
+      "verdict": "KILLED",
+      "wall_s": 2.59,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M33",
+      "group": "EV",
+      "desc": "static_ok: help_ok dropped",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=1",
+      "verdict": "KILLED",
+      "wall_s": 2.61,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M34",
+      "group": "SL",
+      "desc": "extra computed as intersection",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=2",
+      "verdict": "KILLED",
+      "wall_s": 2.58,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M35",
+      "group": "SL",
+      "desc": "missing computed as intersection",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=2",
+      "verdict": "KILLED",
+      "wall_s": 2.51,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M36",
+      "group": "RV",
+      "desc": "row entry cell index 2 -> 1",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=7",
+      "verdict": "KILLED",
+      "wall_s": 0.15,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M37",
+      "group": "RV",
+      "desc": "entry regex loses corpus/grader prefixes",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.47,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M38",
+      "group": "RV",
+      "desc": "duplicate names not recorded",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.47,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M39",
+      "group": "RV",
+      "desc": "duplicate names: first-wins",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.46,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M40",
+      "group": "RV",
+      "desc": "ledger schema check removed",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.47,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M41",
+      "group": "EV",
+      "desc": "dry-run exit inverted",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.48,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M42",
+      "group": "EV",
+      "desc": "predicate fail exit 1 -> 2",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=11",
+      "verdict": "KILLED",
+      "wall_s": 2.46,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M43",
+      "group": "EV",
+      "desc": "help limit max(1,n_reg) -> n_reg",
+      "predicted": "E",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.51,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M44",
+      "group": "EV",
+      "desc": "clean test rewritten as is-not-False",
+      "predicted": "E",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.53,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M45",
+      "group": "EV",
+      "desc": "clean test widened to admit dirty clone",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.57,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M46",
+      "group": "EV",
+      "desc": "executed == n_reg relaxed to >=",
+      "predicted": "E",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.6,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M47",
+      "group": "EV",
+      "desc": "executed == n_reg dropped",
+      "predicted": "E",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.57,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M48",
+      "group": "EV",
+      "desc": "tmo == 0 dropped",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=1",
+      "verdict": "KILLED",
+      "wall_s": 2.56,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M49",
+      "group": "EV",
+      "desc": "mism == 0 dropped",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=2",
+      "verdict": "KILLED",
+      "wall_s": 2.55,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M50",
+      "group": "EV",
+      "desc": "evmiss == 0 dropped",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=1",
+      "verdict": "KILLED",
+      "wall_s": 2.56,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M51",
+      "group": "EV",
+      "desc": "only-is-None term dropped",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.5,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M52",
+      "group": "EV",
+      "desc": "only-is-None inverted",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=1",
+      "verdict": "KILLED",
+      "wall_s": 2.45,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M53",
+      "group": "EV",
+      "desc": "only filter disabled",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.9,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M54",
+      "group": "EV",
+      "desc": "entry_mismatch filter dropped from names",
+      "predicted": "S-diag",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.53,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M55",
+      "group": "EV",
+      "desc": "bad_decl filter dropped from names",
+      "predicted": "K",
+      "rc": 1,
+      "cases": null,
+      "verdict": "KILLED",
+      "wall_s": 0.49,
+      "stdout_identical_to_baseline": false,
+      "crash": true,
+      "crash_tail": "KeyError: 'evidence'"
+    },
+    {
+      "id": "M56",
+      "group": "EV",
+      "desc": "TIMEOUT branch disabled",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=1",
+      "verdict": "KILLED",
+      "wall_s": 2.66,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M57",
+      "group": "EV",
+      "desc": "timeout ignores per-row timeout_s",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 20.59,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M58",
+      "group": "EV",
+      "desc": "evidence containment inverted",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=2",
+      "verdict": "KILLED",
+      "wall_s": 2.54,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M59",
+      "group": "EV",
+      "desc": "evidence gate keyed on green",
+      "predicted": "K",
+      "rc": 1,
+      "cases": null,
+      "verdict": "KILLED",
+      "wall_s": 0.14,
+      "stdout_identical_to_baseline": false,
+      "crash": true,
+      "crash_tail": "KeyError: 'evidence'"
+    },
+    {
+      "id": "M60",
+      "group": "EV",
+      "desc": "rc mismatch test inverted",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=4",
+      "verdict": "KILLED",
+      "wall_s": 2.53,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M61",
+      "group": "EV",
+      "desc": "observed-green counter inverted",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.51,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M62",
+      "group": "EV",
+      "desc": "declared-green count reads red",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.62,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M63",
+      "group": "EV",
+      "desc": "executed counter not incremented",
+      "predicted": "K",
+      "rc": 1,
+      "cases": "SELFTEST cases=12 failures=1",
+      "verdict": "KILLED",
+      "wall_s": 2.64,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M64",
+      "group": "SX",
+      "desc": "selftest: want_out check removed",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.63,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M65",
+      "group": "SX",
+      "desc": "selftest: want_in check removed",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.38,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M66",
+      "group": "SX",
+      "desc": "selftest exit always 0",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.51,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M67",
+      "group": "SX",
+      "desc": "selftest cases line constant changed",
+      "predicted": "K",
+      "rc": 0,
+      "cases": "SELFTEST cases=112 failures=0",
+      "verdict": "KILLED",
+      "wall_s": 2.33,
+      "stdout_identical_to_baseline": false,
+      "crash": false,
+      "crash_tail": ""
+    },
+    {
+      "id": "M68",
+      "group": "SX",
+      "desc": "selftest: rc check made vacuous",
+      "predicted": "S",
+      "rc": 0,
+      "cases": "SELFTEST cases=12 failures=0",
+      "verdict": "SURVIVED",
+      "wall_s": 2.32,
+      "stdout_identical_to_baseline": true,
+      "crash": false,
+      "crash_tail": ""
+    }
+  ],
+  "timing": {
+    "baseline": {
+      "wall_s": 2.63,
+      "child_user_s_delta_approx": 0.25
+    },
+    "M06": {
+      "wall_s": 0.61,
+      "child_user_s_delta_approx": 0.08
+    },
+    "M03": {
+      "wall_s": 0.64,
+      "child_user_s_delta_approx": 0.15
+    },
+    "M09": {
+      "wall_s": 0.6,
+      "child_user_s_delta_approx": 0.21
+    },
+    "M10": {
+      "wall_s": 0.17,
+      "child_user_s_delta_approx": 0.07
+    },
+    "M07": {
+      "wall_s": 2.97,
+      "child_user_s_delta_approx": 0.7
+    },
+    "M00": {
+      "wall_s": 3.03,
+      "child_user_s_delta_approx": 0.97
+    },
+    "M02": {
+      "wall_s": 3.04,
+      "child_user_s_delta_approx": 1.23
+    },
+    "M04": {
+      "wall_s": 3.03,
+      "child_user_s_delta_approx": 1.5
+    },
+    "M01": {
+      "wall_s": 3.07,
+      "child_user_s_delta_approx": 1.77
+    },
+    "M05": {
+      "wall_s": 3.08,
+      "child_user_s_delta_approx": 2.04
+    },
+    "M08": {
+      "wall_s": 2.74,
+      "child_user_s_delta_approx": 2.21
+    },
+    "M11": {
+      "wall_s": 2.49,
+      "child_user_s_delta_approx": 2.1
+    },
+    "M12": {
+      "wall_s": 2.8,
+      "child_user_s_delta_approx": 2.09
+    },
+    "M14": {
+      "wall_s": 2.77,
+      "child_user_s_delta_approx": 1.81
+    },
+    "M15": {
+      "wall_s": 2.75,
+      "child_user_s_delta_approx": 1.8
+    },
+    "M17": {
+      "wall_s": 2.74,
+      "child_user_s_delta_approx": 1.51
+    },
+    "M13": {
+      "wall_s": 2.84,
+      "child_user_s_delta_approx": 2.86
+    },
+    "M16": {
+      "wall_s": 2.84,
+      "child_user_s_delta_approx": 2.32
+    },
+    "M18": {
+      "wall_s": 2.8,
+      "child_user_s_delta_approx": 2.04
+    },
+    "M19": {
+      "wall_s": 2.51,
+      "child_user_s_delta_approx": 2.04
+    },
+    "M21": {
+      "wall_s": 2.84,
+      "child_user_s_delta_approx": 1.79
+    },
+    "M20": {
+      "wall_s": 2.84,
+      "child_user_s_delta_approx": 2.31
+    },
+    "M22": {
+      "wall_s": 2.83,
+      "child_user_s_delta_approx": 2.05
+    },
+    "M25": {
+      "wall_s": 2.74,
+      "child_user_s_delta_approx": 1.52
+    },
+    "M23": {
+      "wall_s": 2.83,
+      "child_user_s_delta_approx": 2.32
+    },
+    "M24": {
+      "wall_s": 2.81,
+      "child_user_s_delta_approx": 2.3
+    },
+    "M26": {
+      "wall_s": 2.56,
+      "child_user_s_delta_approx": 2.05
+    },
+    "M27": {
+      "wall_s": 2.6,
+      "child_user_s_delta_approx": 2.05
+    },
+    "M28": {
+      "wall_s": 2.53,
+      "child_user_s_delta_approx": 1.54
+    },
+    "M29": {
+      "wall_s": 2.56,
+      "child_user_s_delta_approx": 1.79
+    },
+    "M32": {
+      "wall_s": 2.59,
+      "child_user_s_delta_approx": 1.53
+    },
+    "M33": {
+      "wall_s": 2.61,
+      "child_user_s_delta_approx": 1.53
+    },
+    "M31": {
+      "wall_s": 2.63,
+      "child_user_s_delta_approx": 2.58
+    },
+    "M30": {
+      "wall_s": 2.63,
+      "child_user_s_delta_approx": 2.32
+    },
+    "M34": {
+      "wall_s": 2.58,
+      "child_user_s_delta_approx": 2.06
+    },
+    "M36": {
+      "wall_s": 0.15,
+      "child_user_s_delta_approx": 1.61
+    },
+    "M35": {
+      "wall_s": 2.51,
+      "child_user_s_delta_approx": 2.15
+    },
+    "M37": {
+      "wall_s": 2.47,
+      "child_user_s_delta_approx": 1.87
+    },
+    "M38": {
+      "wall_s": 2.47,
+      "child_user_s_delta_approx": 1.87
+    },
+    "M39": {
+      "wall_s": 2.46,
+      "child_user_s_delta_approx": 1.29
+    },
+    "M40": {
+      "wall_s": 2.47,
+      "child_user_s_delta_approx": 1.54
+    },
+    "M41": {
+      "wall_s": 2.48,
+      "child_user_s_delta_approx": 1.78
+    },
+    "M42": {
+      "wall_s": 2.46,
+      "child_user_s_delta_approx": 1.76
+    },
+    "M43": {
+      "wall_s": 2.51,
+      "child_user_s_delta_approx": 1.94
+    },
+    "M44": {
+      "wall_s": 2.53,
+      "child_user_s_delta_approx": 1.9
+    },
+    "M45": {
+      "wall_s": 2.57,
+      "child_user_s_delta_approx": 1.91
+    },
+    "M49": {
+      "wall_s": 2.55,
+      "child_user_s_delta_approx": 1.46
+    },
+    "M48": {
+      "wall_s": 2.56,
+      "child_user_s_delta_approx": 1.96
+    },
+    "M47": {
+      "wall_s": 2.57,
+      "child_user_s_delta_approx": 2.2
+    },
+    "M46": {
+      "wall_s": 2.6,
+      "child_user_s_delta_approx": 2.68
+    },
+    "M51": {
+      "wall_s": 2.5,
+      "child_user_s_delta_approx": 1.72
+    },
+    "M50": {
+      "wall_s": 2.56,
+      "child_user_s_delta_approx": 2.21
+    },
+    "M59": {
+      "wall_s": 0.14,
+      "child_user_s_delta_approx": 0.07
+    },
+    "M52": {
+      "wall_s": 2.45,
+      "child_user_s_delta_approx": 2.05
+    },
+    "M55": {
+      "wall_s": 0.49,
+      "child_user_s_delta_approx": 1.28
+    },
+    "M54": {
+      "wall_s": 2.53,
+      "child_user_s_delta_approx": 1.79
+    },
+    "M58": {
+      "wall_s": 2.54,
+      "child_user_s_delta_approx": 1.3
+    },
+    "M56": {
+      "wall_s": 2.66,
+      "child_user_s_delta_approx": 2.05
+    },
+    "M60": {
+      "wall_s": 2.53,
+      "child_user_s_delta_approx": 1.51
+    },
+    "M61": {
+      "wall_s": 2.51,
+      "child_user_s_delta_approx": 1.53
+    },
+    "M53": {
+      "wall_s": 2.9,
+      "child_user_s_delta_approx": 3.59
+    },
+    "M62": {
+      "wall_s": 2.62,
+      "child_user_s_delta_approx": 1.8
+    },
+    "M67": {
+      "wall_s": 2.33,
+      "child_user_s_delta_approx": 0.73
+    },
+    "M65": {
+      "wall_s": 2.38,
+      "child_user_s_delta_approx": 1.49
+    },
+    "M68": {
+      "wall_s": 2.32,
+      "child_user_s_delta_approx": 0.96
+    },
+    "M63": {
+      "wall_s": 2.64,
+      "child_user_s_delta_approx": 2.52
+    },
+    "M64": {
+      "wall_s": 2.63,
+      "child_user_s_delta_approx": 2.51
+    },
+    "M66": {
+      "wall_s": 2.51,
+      "child_user_s_delta_approx": 2.22
+    },
+    "M57": {
+      "wall_s": 20.59,
+      "child_user_s_delta_approx": 4.53
+    },
+    "restored": {
+      "wall_s": 2.49,
+      "child_user_s_delta_approx": 0.2
+    }
+  }
+}

@@ -1,0 +1,81 @@
+rc=1
+line=SELFTEST cases=12 failures=11
+--- stdout
+SELFTEST truthful rc=0 ok
+SELFTEST forged-all-green rc=2 FAIL
+ROWS registry=2 ledger=2 missing=0 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+  MISMATCH b declared exit=0 observed exit=1 sec=0.0
+RUN executed=2 timeout=0 mismatched=1 evidence_missing=0
+TIPSTATE declared_green=2 declared_red=0 observed_green=1 observed_red=1
+PREDICATE R53-C2 fail
+SELFTEST forged-all-red rc=2 FAIL
+ROWS registry=2 ledger=2 missing=0 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+  MISMATCH a declared exit=1 observed exit=0 sec=0.0
+RUN executed=2 timeout=0 mismatched=1 evidence_missing=0
+TIPSTATE declared_green=0 declared_red=2 observed_green=1 observed_red=1
+PREDICATE R53-C2 fail
+SELFTEST missing-ledger-row rc=2 FAIL
+ROWS registry=2 ledger=1 missing=1 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+  MISSING b
+ARGV entry=1 selftest=0 help=0 help_limit=0.2
+RUN executed=1 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=1 declared_red=0 observed_green=1 observed_red=0
+PREDICATE R53-C2 fail
+SELFTEST extra-ledger-row rc=2 FAIL
+ROWS registry=2 ledger=3 missing=0 extra=1 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+  EXTRA ghost
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+RUN executed=2 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=1 declared_red=1 observed_green=1 observed_red=1
+PREDICATE R53-C2 fail
+SELFTEST ledger-points-elsewhere rc=2 FAIL
+ROWS registry=2 ledger=2 missing=0 extra=0 entry_mismatch=1 bad_decl=0 bad_reason=0 duplicate_names=0
+  ENTRY-MISMATCH a
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+RUN executed=1 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=0 declared_red=1 observed_green=0 observed_red=1
+PREDICATE R53-C2 fail
+SELFTEST red-evidence-absent rc=2 FAIL
+ROWS registry=2 ledger=2 missing=0 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+  EVIDENCE-MISSING b fragment not in output
+RUN executed=2 timeout=0 mismatched=0 evidence_missing=1
+TIPSTATE declared_green=1 declared_red=1 observed_green=1 observed_red=1
+PREDICATE R53-C2 fail
+SELFTEST red-reason-thin rc=2 FAIL
+ROWS registry=2 ledger=2 missing=0 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=1 duplicate_names=0
+  BAD-REASON b
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+RUN executed=2 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=1 declared_red=1 observed_green=1 observed_red=1
+PREDICATE R53-C2 fail
+SELFTEST state-exit-inconsistent rc=2 FAIL
+ROWS registry=2 ledger=2 missing=0 extra=0 entry_mismatch=0 bad_decl=1 bad_reason=0 duplicate_names=0
+  BAD-DECL a
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+RUN executed=1 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=0 declared_red=1 observed_green=0 observed_red=1
+PREDICATE R53-C2 fail
+SELFTEST timeout rc=2 FAIL
+ROWS registry=2 ledger=2 missing=0 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+  TIMEOUT h after 2s
+RUN executed=2 timeout=1 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=2 declared_red=0 observed_green=1 observed_red=0
+PREDICATE R53-C2 fail
+SELFTEST help-only-argv rc=2 FAIL
+ROWS registry=2 ledger=2 missing=0 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+ARGV entry=0 selftest=0 help=2 help_limit=0.2
+RUN executed=2 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=1 declared_red=1 observed_green=1 observed_red=1
+PREDICATE R53-C2 fail
+SELFTEST partial-run-never-passes rc=2 FAIL
+ROWS registry=2 ledger=2 missing=0 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+RUN executed=1 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=1 declared_red=0 observed_green=1 observed_red=0
+PREDICATE R53-C2 fail
+SELFTEST cases=12 failures=11
+--- stderr

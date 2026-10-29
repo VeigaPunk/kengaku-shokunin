@@ -1,0 +1,121 @@
+{
+ "catalog-probe": {
+  "argv": [
+   "python3",
+   "plans/catalog_probe.py",
+   "--verify",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 0.1,
+  "argv_source": "row entry cell verbatim (`--verify --lane .`, offline re-derivation from committed corpus/evidence/round33/catalogs raw bytes; no network)"
+ },
+ "fibsqrt-probe": {
+  "argv": [
+   "python3",
+   "plans/fibsqrt_probe.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 73.0,
+  "argv_source": "row entry cell `--lane .` (no --work, counter sets TMPDIR); runs 76.6 s and 69.5 s on 4 CPUs under 8-way load; needs /usr/bin/bwrap, gcc"
+ },
+ "mutant-direction-check": {
+  "argv": [
+   "python3",
+   "plans/mutant_direction_check.py",
+   "--lane",
+   "."
+  ],
+  "exit": 1,
+  "state": "red",
+  "kind": "entry",
+  "reason": "The frozen round-38 mutant list declares N21 as a silence mutant, but its manifest-lookup prefix edit only ever mirrors the reference, so the check flags it MISLABELLED by design; the landed list is frozen and cannot change.",
+  "evidence": "DIR N21 D5 declared=silence observed=mirror MISLABELLED",
+  "tip_dependent": false,
+  "seconds": 159.2,
+  "argv_source": "row entry cell `--lane .` with the default `--counter plans/round38_c1_verify.py` (the bracketed options omitted)"
+ },
+ "round30-defects": {
+  "argv": [
+   "python3",
+   "plans/round30_defects.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": true,
+  "seconds": 0.35,
+  "argv_source": "row entry cell `--lane .`; --selftest not needed because the entry runs green"
+ },
+ "round37-c1-mutants": {
+  "argv": [
+   "python3",
+   "plans/round37_c1_verify.py",
+   "--lane",
+   "."
+  ],
+  "exit": 1,
+  "state": "red",
+  "kind": "entry",
+  "reason": "The embedded gate's P8 README check fails on the lane because corpus/knowledge/fixture-honest-geometry.md has no corpus/README.md index row, so P8 mutants M35 M36 M37 survive.",
+  "evidence": "MUTANTS total=55 killed=52 survived=3 invalid=0 null_detected=0",
+  "tip_dependent": true,
+  "seconds": 193.3,
+  "argv_source": "row entry cell `--lane .` (no --battery/--work/--only selectors)"
+ },
+ "round41-c1-mutants": {
+  "argv": [
+   "python3",
+   "plans/round41_c1_verify.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 12.5,
+  "argv_source": "row entry cell `--lane .` (no --work: default tempdir under TMPDIR, outside the lane; default --jobs 8)"
+ },
+ "round45-c2": {
+  "argv": [
+   "python3",
+   "plans/round45_c2_verify.py",
+   "--lane",
+   "."
+  ],
+  "exit": 1,
+  "state": "red",
+  "kind": "entry",
+  "reason": "V2 runs the embedded gate whose P8 compares corpus/README.md knowledge index rows (55) with corpus/knowledge files (56); fixture-honest-geometry.md was never indexed, so gate_exit=1 and the predicate fails.",
+  "evidence": "P8 DEFECT index_rows=55 knowledge_files=56 bad=1",
+  "tip_dependent": true,
+  "seconds": 5.0,
+  "argv_source": "row entry cell `--lane .` (no --work)"
+ },
+ "round52-c2": {
+  "argv": [
+   "python3",
+   "plans/round52_c2_registry.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": true,
+  "seconds": 0.25,
+  "argv_source": "row entry cell `--lane .`; scans SCORECARD/SKILL/LOG/README/knowledge for advertised plans/*.py scripts"
+ }
+}

@@ -1,0 +1,136 @@
+{
+ "adoption-check": {
+  "argv": [
+   "python3",
+   "plans/adoption_check.py",
+   "--lane",
+   ".",
+   "--expect",
+   ".ufo/waves/round-33/claims/adoption-expect.json",
+   "--census"
+  ],
+  "exit": 1,
+  "state": "red",
+  "kind": "entry",
+  "seconds": 0.1,
+  "argv_source": ".ufo/waves/round-33/claims/adoption-expect.json: the --expect file the row itself names as its pinned measurement (row pinned cell); --lane . and --census from the entry cell",
+  "tip_dependent": false,
+  "reason": "The census leg runs the hardcoded fleet sources-census.sh with --root set to the clone's parent directory and a lane name that is not a configured lane, so it cannot find shokunin.conf and exits 2, giving census=fail and exit 1 in any clone outside the fleet root.",
+  "evidence": "census=fail"
+ },
+ "db-wal-probe": {
+  "argv": [
+   "python3",
+   "plans/db_wal_probe.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "seconds": 3.6,
+  "argv_source": "entry cell verbatim with --lane . (no --dry/--stage-check/--work: the counter sets TMPDIR)",
+  "tip_dependent": false
+ },
+ "git-webserver-probe": {
+  "argv": [
+   "python3",
+   "plans/git_webserver_probe.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "seconds": 55.6,
+  "argv_source": "entry cell verbatim with --lane . (no --dry/--smoke/--work)",
+  "tip_dependent": false
+ },
+ "polyglot-c-py-probe": {
+  "argv": [
+   "python3",
+   "plans/polyglot_c_py_probe.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "seconds": 3.9,
+  "argv_source": "entry cell verbatim with --lane . (no --dry/--stage-check/--work; default scratch is $TMPDIR)",
+  "tip_dependent": false
+ },
+ "round33-defects": {
+  "argv": [
+   "python3",
+   "plans/round33_defects.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "seconds": 0.1,
+  "argv_source": "entry cell verbatim with --lane .",
+  "tip_dependent": false
+ },
+ "round39-c1-audit": {
+  "argv": [
+   "python3",
+   "plans/round39_c1_audit.py",
+   "--lane",
+   "."
+  ],
+  "exit": 1,
+  "state": "red",
+  "kind": "entry",
+  "seconds": 110.6,
+  "argv_source": "entry cell verbatim with --lane . (--work omitted: mkdtemp falls back to $TMPDIR set by the counter; no dev selectors)",
+  "tip_dependent": true,
+  "reason": "Package gate clause P8 (README index) fails on every fixture because corpus/knowledge holds 56 files while corpus/README.md indexes 55; fixture-honest-geometry.md has no index row, so 54 of 90 battery fixtures are WRONG and one mutant (M06) survives.",
+  "evidence": "PREDICATE C1 fail"
+ },
+ "round43-c1-mutants": {
+  "argv": [
+   "python3",
+   "plans/round43_c1_verify.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "seconds": 22.7,
+  "argv_source": "entry cell verbatim with --lane . (--work omitted: mkdtemp uses the counter's TMPDIR, outside the lane; default --jobs 8)",
+  "tip_dependent": false
+ },
+ "round50-c1": {
+  "argv": [
+   "python3",
+   "plans/round50_c1_verify.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "seconds": 112.5,
+  "argv_source": "entry cell with --lane . ; --work omitted (mkdtemp(dir=None) uses the counter's TMPDIR, which already exists)",
+  "tip_dependent": false
+ },
+ "state-assertion-check": {
+  "argv": [
+   "python3",
+   "plans/state_check.py",
+   "--summary"
+  ],
+  "exit": 1,
+  "state": "red",
+  "kind": "entry",
+  "seconds": 2.5,
+  "argv_source": "entry cell verbatim: --summary",
+  "tip_dependent": true,
+  "reason": "The frozen P3c assertion that the SHONEN.md box-4 pointer to PROVINCE.md line 129 names the token '### Adjacent' mismatches because that line is blank, so the verdict is FAIL with mismatch=1.",
+  "evidence": "MISMATCH: P3c.box.4.pointer.1:12"
+ }
+}

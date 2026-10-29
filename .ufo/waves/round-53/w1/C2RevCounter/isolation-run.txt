@@ -1,0 +1,16 @@
+# verbatim: isolation run, same commit 1ebf61f, the seven red->green rows only, --jobs 7 so each row has a fresh clone with no prior row on its worker
+# command: python3 plans/round53_c2_tipstate.py --lane <clone> --source <clone> --work <scratch> --jobs 7 --only ledger-tip,package-gate,round36-c2,round38-c2,round40-c2,round41-c2,round45-c2
+# wall time 245.37 s. --only never passes by contract; this run is a measurement, not a verdict.
+ROWS registry=77 ledger=77 missing=0 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0 bad_table_lines=0 headings=1 row_set_pinned=ok
+ARGV entry=74 selftest=3 help=0 help_limit=7.7
+SOURCE rev=1ebf61f81f058a7a255cc23206e50a5331121b5b clean=yes lane_rev_equal=yes
+  MISMATCH ledger-tip declared exit=1 observed exit=0 sec=16.7
+  MISMATCH package-gate declared exit=1 observed exit=0 sec=0.7
+  MISMATCH round36-c2 declared exit=1 observed exit=0 sec=5.4
+  MISMATCH round38-c2 declared exit=1 observed exit=0 sec=13.1
+  MISMATCH round40-c2 declared exit=1 observed exit=0 sec=13.0
+  MISMATCH round41-c2 declared exit=1 observed exit=0 sec=39.7
+  MISMATCH round45-c2 declared exit=1 observed exit=0 sec=20.5
+RUN executed=7 timeout=0 mismatched=7 evidence_missing=0
+TIPSTATE declared_green=0 declared_red=7 observed_green=7 observed_red=0
+PREDICATE R53-C2 fail

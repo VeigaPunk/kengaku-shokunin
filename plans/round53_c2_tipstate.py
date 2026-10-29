@@ -201,6 +201,11 @@ def static_legs(root: Path, pins: bool = True):
     return res
 
 
+def _keep(work: Path, r: dict) -> None:
+    """Diagnostic only (no leg): keep the output of a row that disagreed so the cause can be read without a rerun."""
+    (work / f"disagreed-{re.sub(r'[^A-Za-z0-9_.-]', '_', r['name'])}.txt").write_text(f"exit={r['rc']} sec={r['sec']}\n{r['out']}")
+
+
 def git_rev(d: Path):
     p = subprocess.run(["git", "-C", str(d), "rev-parse", "HEAD"], capture_output=True, text=True)
     return p.stdout.strip() if p.returncode == 0 else None
@@ -294,10 +299,12 @@ def evaluate(lane: Path, source: Path | None, work: Path | None, jobs: int, time
             if rc != sp["exit"]:
                 mism += 1
                 lines.append(f"  MISMATCH {r['name']} declared exit={sp['exit']} observed exit={rc} sec={r['sec']}")
+                _keep(work, r)
                 continue
             if sp["state"] == "red" and sp["evidence"] not in r["out"]:
                 evmiss += 1
                 lines.append(f"  EVIDENCE-MISSING {r['name']} fragment not in output")
+                _keep(work, r)
         for w in workers:
             shutil.rmtree(w.dir.parent, ignore_errors=True)
         dg = sum(1 for n in names if s["ledger"]["rows"][n]["state"] == "green")

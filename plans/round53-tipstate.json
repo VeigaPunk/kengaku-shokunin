@@ -254,11 +254,9 @@
     "--lane",
     "."
    ],
-   "evidence": "R35-D1 status=closed observed=fail agree=NO",
-   "exit": 1,
+   "exit": 0,
    "kind": "entry",
-   "reason": "Closed ledger row R35-D1 observes fail at the tip because its pkg_gate package rerun hits the P8 knowledge index defect: 56 knowledge files against 55 corpus/README.md index rows, so agree=NO and exit 1.",
-   "state": "red"
+   "state": "green"
   },
   "mutant-direction-check": {
    "argv": [
@@ -299,11 +297,9 @@
     "plans/pkg-spec-r35.json",
     "--require-clean-tree"
    ],
-   "evidence": "P8 DEFECT index_rows=55 knowledge_files=56 bad=1",
-   "exit": 1,
+   "exit": 0,
    "kind": "entry",
-   "reason": "Check P8 fails because corpus/knowledge holds fixture-honest-geometry.md which has no corpus/README.md index row, so 56 knowledge files face 55 index rows; the other nine package checks pass.",
-   "state": "red"
+   "state": "green"
   },
   "password-recovery-probe": {
    "argv": [
@@ -375,7 +371,7 @@
    "evidence": "\"MISMATCH\": 1,",
    "exit": 1,
    "kind": "entry",
-   "reason": "The state_check leg reports one MISMATCH on assertion P3c.box.4.pointer.1 (PROVINCE.md:129 token absent) and the knowledge leg finds one unindexed file, so the census exits 1 regardless of index repair.",
+   "reason": "The embedded state_check leg reports one MISMATCH on assertion P3c.box.4.pointer.1 because the SHONEN box-4 pointer PROVINCE.md:129 now points at a blank line (the Adjacent heading moved to line 130), so the census exits 1; its knowledge-index leg reports 56 files and 56 index rows.",
    "state": "red"
   },
   "round30-defects": {
@@ -443,7 +439,7 @@
    "evidence": "(want 42/42)",
    "exit": 1,
    "kind": "entry",
-   "reason": "check V4 hard-codes want 42 knowledge files equal 42 index rows in the script, so it can never pass while the lane holds 56 knowledge files and 55 index rows",
+   "reason": "Check V4 of the round-35 verifier hard-codes the want 42 knowledge files against 42 index rows inside the script, so it can never pass while the lane holds 56 knowledge files and 56 index rows; the check was frozen at a past tree and nothing re-pins it.",
    "state": "red"
   },
   "round35-hardening": {
@@ -464,11 +460,9 @@
     "--lane",
     "."
    ],
-   "evidence": "FIXTURE P0 expect=accept observed=reject WRONG",
-   "exit": 1,
+   "exit": 0,
    "kind": "entry",
-   "reason": "The genuine round-35 package fixture P0 is rejected because pkg_gate check P8 finds 56 knowledge files but only 55 corpus/README.md index rows (fixture-honest-geometry.md has no index row), so R35-D1 disagrees",
-   "state": "red"
+   "state": "green"
   },
   "round36-c2": {
    "argv": [
@@ -477,11 +471,9 @@
     "--lane",
     "."
    ],
-   "evidence": "W4 DEFECT knowledge files=56 index rows=55",
-   "exit": 1,
+   "exit": 0,
    "kind": "entry",
-   "reason": "Check W4 fails because corpus/knowledge holds 56 files but corpus/README.md indexes only 55, so defects=1 and the predicate fails at exit 1; indexing every new knowledge entry will turn it green.",
-   "state": "red"
+   "state": "green"
   },
   "round37-c1-mutants": {
    "argv": [
@@ -490,11 +482,9 @@
     "--lane",
     "."
    ],
-   "evidence": "MUTANTS total=55 killed=52 survived=3 invalid=0 null_detected=0",
-   "exit": 1,
+   "exit": 0,
    "kind": "entry",
-   "reason": "The embedded gate's P8 README check fails on the lane because corpus/knowledge/fixture-honest-geometry.md has no corpus/README.md index row, so P8 mutants M35 M36 M37 survive.",
-   "state": "red"
+   "state": "green"
   },
   "round37-c2": {
    "argv": [
@@ -503,11 +493,9 @@
     "--lane",
     "."
    ],
-   "evidence": "gate: P8 DEFECT index_rows=55 knowledge_files=56",
-   "exit": 1,
+   "exit": 0,
    "kind": "entry",
-   "reason": "the knowledge-index check P8 inside the package gate (pkg_gate.py c_readme) fails because corpus/knowledge holds 56 .md files but corpus/README.md has only 55 backticked knowledge/ index table rows: fixture-honest-geometry.md (landed round-50, 822f3b7) is cited in a bullet at README line 664 but has no index row, so the nested gate exits 1 and the counter reports PREDICATE C2 fail",
-   "state": "red"
+   "state": "green"
   },
   "round38-c1-mutants": {
    "argv": [
@@ -519,7 +507,7 @@
    "evidence": "MUTANTS total=22 killed=21 survived=1 invalid=0 null_detected=0",
    "exit": 1,
    "kind": "entry",
-   "reason": "Frozen mutant N21 survives because its silence direction is unreachable (killed=21 survived=1, same at the round-38 landing); at the tip 51 battery fixtures are also WRONG because P8 sees fixture-honest-geometry.md unindexed in README.",
+   "reason": "Frozen mutant N21 survives because its silence direction is unreachable, so the mutant run reports killed=21 survived=1 and the predicate fails, exactly as at the round-38 landing; the other twenty-one mutants are killed and no battery fixture is wrong at this tip.",
    "state": "red"
   },
   "round38-c2": {
@@ -529,11 +517,9 @@
     "--lane",
     "."
    ],
-   "evidence": "V2 DEFECT spec=frozen gate=frozen gate_exit=1",
-   "exit": 1,
+   "exit": 0,
    "kind": "entry",
-   "reason": "The gate's P8 index check fails because corpus/knowledge holds 56 files but corpus/README.md indexes only 55 (fixture-honest-geometry.md unindexed), so V2 defects and the predicate fails.",
-   "state": "red"
+   "state": "green"
   },
   "round39-c1-audit": {
    "argv": [
@@ -542,11 +528,9 @@
     "--lane",
     "."
    ],
-   "evidence": "PREDICATE C1 fail",
-   "exit": 1,
+   "exit": 0,
    "kind": "entry",
-   "reason": "Package gate clause P8 (README index) fails on every fixture because corpus/knowledge holds 56 files while corpus/README.md indexes 55; fixture-honest-geometry.md has no index row, so 54 of 90 battery fixtures are WRONG and one mutant (M06) survives.",
-   "state": "red"
+   "state": "green"
   },
   "round39-c1-mutants": {
    "argv": [
@@ -555,11 +539,9 @@
     "--lane",
     "."
    ],
-   "evidence": "MUTANT M06 MAIN rc-mirror SURVIVED exhibits=none",
-   "exit": 1,
+   "exit": 0,
    "kind": "entry",
-   "reason": "the package gate check P8 fails on every fixture because the unindexed knowledge file fixture-honest-geometry.md makes 56 files against 55 README index rows, wrong=54 and mutant M06 survives",
-   "state": "red"
+   "state": "green"
   },
   "round39-c2": {
    "argv": [
@@ -568,11 +550,9 @@
     "--lane",
     "."
    ],
-   "evidence": "gate: P8 DEFECT",
-   "exit": 1,
+   "exit": 0,
    "kind": "entry",
-   "reason": "check P8 of the embedded package gate finds 56 knowledge files but only 55 corpus/README.md index rows because fixture-honest-geometry.md has no index row, so V2 gate_exit is 1 and the predicate fails",
-   "state": "red"
+   "state": "green"
   },
   "round40-c1-mutants": {
    "argv": [
@@ -581,10 +561,10 @@
     "--lane",
     "."
    ],
-   "evidence": "BATTERY fixtures=21 wrong=11 tampered=0 sidechannel=0",
+   "evidence": "BATTERY fixtures=21 wrong=8 tampered=0 sidechannel=0",
    "exit": 1,
    "kind": "entry",
-   "reason": "Eleven of 21 battery fixtures are wrong and ten mutants survive: the tip lane clone carries 21 SOURCES rows S173-S193 with no capture locator (anchor-unbound) and the README index lacks fixture-honest-geometry (R35-D1 fails), adding extra findings to every fixture",
+   "reason": "Eight of 21 anchor-tool battery fixtures are wrong and seven mutants survive, because the lane registry the fixtures are built from still carries 21 rows S173 to S193 with a sha256 anchor and no capture locator (anchor-unbound), which adds an extra finding to every fixture that expects a different class.",
    "state": "red"
   },
   "round40-c2": {
@@ -594,11 +574,9 @@
     "--lane",
     "."
    ],
-   "evidence": "gate: P8 DEFECT index_rows=55 knowledge_files=56",
-   "exit": 1,
+   "exit": 0,
    "kind": "entry",
-   "reason": "Gate leg P8 inside V2 fails with 56 knowledge files against 55 index rows in corpus/README.md, so V2 DEFECT gate_exit=1 and the predicate fails; all other checks V1 and V3 to V7 pass.",
-   "state": "red"
+   "state": "green"
   },
   "round41-c1-mutants": {
    "argv": [
@@ -618,11 +596,9 @@
     "--lane",
     "."
    ],
-   "evidence": "gate: P8 DEFECT index_rows=55 knowledge_files=56",
-   "exit": 1,
+   "exit": 0,
    "kind": "entry",
-   "reason": "the knowledge-index check P8 inside the package gate (pkg_gate.py c_readme) fails because corpus/knowledge holds 56 .md files but corpus/README.md has only 55 backticked knowledge/ index table rows: fixture-honest-geometry.md (landed round-50, 822f3b7) is cited in a bullet at README line 664 but has no index row, so the nested gate exits 1 and the counter reports PREDICATE C2 fail",
-   "state": "red"
+   "state": "green"
   },
   "round42-c1-mutants": {
    "argv": [
@@ -642,11 +618,9 @@
     "--lane",
     "."
    ],
-   "evidence": "V2 DEFECT spec=frozen gate=frozen gate_exit=1",
-   "exit": 1,
+   "exit": 0,
    "kind": "entry",
-   "reason": "The embedded gate's P8 index check fails: 56 knowledge files versus 55 README index rows (fixture-honest-geometry.md unindexed), giving V2 DEFECT and checks=9 defects=1; all other legs are green.",
-   "state": "red"
+   "state": "green"
   },
   "round43-c1-mutants": {
    "argv": [
@@ -666,11 +640,9 @@
     "--lane",
     "."
    ],
-   "evidence": "V2 DEFECT spec=frozen gate=frozen gate_exit=1",
-   "exit": 1,
+   "exit": 0,
    "kind": "entry",
-   "reason": "embedded package gate check P8 reports 56 knowledge files against 55 README index rows because fixture-honest-geometry.md has no index table row, so V2 sees gate_exit=1",
-   "state": "red"
+   "state": "green"
   },
   "round44-c1-mutants": {
    "argv": [
@@ -690,11 +662,9 @@
     "--lane",
     "."
    ],
-   "evidence": "gate: P8 DEFECT index_rows=55 knowledge_files=56 bad=1",
-   "exit": 1,
+   "exit": 0,
    "kind": "entry",
-   "reason": "Check V2 fails because the frozen pkg_gate P8 finds 56 knowledge files against 55 corpus/README.md index rows; fixture-honest-geometry.md lacks an index row, so checks=11 defects=1",
-   "state": "red"
+   "state": "green"
   },
   "round45-c1": {
    "argv": [
@@ -714,11 +684,9 @@
     "--lane",
     "."
    ],
-   "evidence": "P8 DEFECT index_rows=55 knowledge_files=56 bad=1",
-   "exit": 1,
+   "exit": 0,
    "kind": "entry",
-   "reason": "V2 runs the embedded gate whose P8 compares corpus/README.md knowledge index rows (55) with corpus/knowledge files (56); fixture-honest-geometry.md was never indexed, so gate_exit=1 and the predicate fails.",
-   "state": "red"
+   "state": "green"
   },
   "round46-c1": {
    "argv": [
@@ -752,7 +720,7 @@
    "evidence": "V8 DEFECT order_exit=1 result=not-PASS",
    "exit": 1,
    "kind": "entry",
-   "reason": "Three legs defect: V2 via the gate's P8 knowledge-index drift (56 files, 55 rows), V7 because the entry requirement map lacks two frozen tags, and V8 because order_check finds a probe-executing control committed before the receipt.",
+   "reason": "Two legs defect at the tip: V7 because the entry requirement map lacks the frozen tags both-print and toolchain, and V8 because the order check exits 1 with result not-PASS; V2 (the gate leg) passes now that the knowledge index row for fixture-honest-geometry exists.",
    "state": "red"
   },
   "round50-c1": {

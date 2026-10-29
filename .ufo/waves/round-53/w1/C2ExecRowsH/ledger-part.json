@@ -1,0 +1,123 @@
+{
+ "constraints-probe": {
+  "argv": [
+   "python3",
+   "plans/constraints_probe.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 25.2,
+  "argv_source": "row entry cell: `python3 plans/constraints_probe.py --lane .`, lane root as the cell states; no placeholder"
+ },
+ "gate-timing": {
+  "argv": [
+   "python3",
+   "plans/gate_timing_check.py",
+   "--lesson",
+   "corpus/lessons/round-26.md",
+   "--commit",
+   "536925b5320fa64298030b4ee76a58fc4b82723f"
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 0.2,
+  "argv_source": "row entry cell `--lesson corpus/lessons/round-26.md --commit REV`: REV chosen as the base tip 536925b5320fa64298030b4ee76a58fc4b82723f (full sha, an ancestor of every landing tip; lesson round-26 is the row's own example, committed)"
+ },
+ "package-gate": {
+  "argv": [
+   "python3",
+   "plans/pkg_gate.py",
+   "package",
+   "--root",
+   ".",
+   "--spec",
+   "plans/pkg-spec-r35.json",
+   "--require-clean-tree"
+  ],
+  "exit": 1,
+  "state": "red",
+  "kind": "entry",
+  "reason": "Check P8 fails because corpus/knowledge holds fixture-honest-geometry.md which has no corpus/README.md index row, so 56 knowledge files face 55 index rows; the other nine package checks pass.",
+  "evidence": "P8 DEFECT index_rows=55 knowledge_files=56 bad=1",
+  "tip_dependent": true,
+  "seconds": 0.2,
+  "argv_source": "row entry cell `package --root DIR --spec plans/pkg-spec-r35.json [--require-clean-tree]`: DIR=`.` (lane root, the clone itself is the root; spec path verbatim from the cell), `--require-clean-tree` taken from the cell, `--rerun` omitted (cell marks both optional)"
+ },
+ "round31-defects": {
+  "argv": [
+   "python3",
+   "plans/round31_defects.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 0.6,
+  "argv_source": "row entry cell: `python3 plans/round31_defects.py --lane .`"
+ },
+ "round38-c1-mutants": {
+  "argv": [
+   "python3",
+   "plans/round38_c1_verify.py",
+   "--lane",
+   "."
+  ],
+  "exit": 1,
+  "state": "red",
+  "kind": "entry",
+  "reason": "Frozen mutant N21 survives because its silence direction is unreachable (killed=21 survived=1, same at the round-38 landing); at the tip 51 battery fixtures are also WRONG because P8 sees fixture-honest-geometry.md unindexed in README.",
+  "evidence": "MUTANTS total=22 killed=21 survived=1 invalid=0 null_detected=0",
+  "tip_dependent": false,
+  "seconds": 176.9,
+  "argv_source": "row entry cell: `python3 plans/round38_c1_verify.py --lane .` (dev selectors and --work omitted)"
+ },
+ "round42-c1-mutants": {
+  "argv": [
+   "python3",
+   "plans/round42_c1_verify.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 16.0,
+  "argv_source": "row entry cell: `python3 plans/round42_c1_verify.py --lane .` (dev selectors, --work, --jobs omitted: default work dir is under TMPDIR)"
+ },
+ "round46-c2": {
+  "argv": [
+   "python3",
+   "plans/round46_c2_verify.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 1.7,
+  "argv_source": "row entry cell: `python3 plans/round46_c2_verify.py --lane .` (--work omitted)"
+ },
+ "scratch-root-guard": {
+  "argv": [
+   "python3",
+   "plans/scratch_guard.py",
+   "--selftest"
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "selftest",
+  "tip_dependent": false,
+  "seconds": 0.1,
+  "argv_source": "entry cell needs <root> with a round sentinel (the round-42 sentinel is deleted, the lane holds none); used the row's self-test cell `python3 plans/scratch_guard.py --selftest`"
+ }
+}

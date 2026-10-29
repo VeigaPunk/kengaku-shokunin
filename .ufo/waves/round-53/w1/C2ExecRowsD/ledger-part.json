@@ -1,0 +1,124 @@
+{
+ "benchmark-spec-audit": {
+  "argv": [
+   "python3",
+   "plans/benchmark_spec_audit.py",
+   "--summary"
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 0.4,
+  "argv_source": "registry entry cell verbatim (--summary, lane root); runs 0.1-0.4 s, final line 'TOTAL task_count=812 ... findings=0 exit=0'"
+ },
+ "feal-linear-probe": {
+  "argv": [
+   "python3",
+   "plans/feal_linear_probe.py",
+   "--lane",
+   "."
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 10.4,
+  "argv_source": "registry entry cell verbatim (--lane .); output ends 'cases=14 observed_pass=8 observed_fail=6 mismatches=0'; needs /usr/bin/bwrap and gcc (present)"
+ },
+ "interval-reverdict": {
+  "argv": [
+   "python3",
+   "plans/attrib_calibration.py",
+   "--summary"
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": false,
+  "seconds": 0.6,
+  "argv_source": "registry entry cell verbatim (--summary, lane root)"
+ },
+ "round-close-check": {
+  "argv": [
+   "python3",
+   "plans/round_close.py",
+   "--lane",
+   ".",
+   "--round",
+   "44",
+   "--census",
+   "/home/vgpnk/Projects/shokunin/scripts/sources-census.sh"
+  ],
+  "exit": 0,
+  "state": "green",
+  "kind": "entry",
+  "tip_dependent": true,
+  "seconds": 0.4,
+  "argv_source": "entry cell form with N=44 (round-44 claims name receipt corpus/evidence/round44/feal-linear-probe.txt; round 52 gives exit 2 'claims name no readable receipt'); --census is the fleet script absolute path (outside lane, required because a /fast/scratch clone has no census in its parents). Census leg reads the clone's corpus/SOURCES.md, exits 0 unless an E-code appears (15 W04 warnings now), so re-measure after SOURCES.md changes"
+ },
+ "round36-c1-battery": {
+  "argv": [
+   "python3",
+   "plans/round36_c1_verify.py",
+   "--lane",
+   "."
+  ],
+  "exit": 1,
+  "state": "red",
+  "kind": "entry",
+  "reason": "The genuine round-35 package fixture P0 is rejected because pkg_gate check P8 finds 56 knowledge files but only 55 corpus/README.md index rows (fixture-honest-geometry.md has no index row), so R35-D1 disagrees",
+  "evidence": "FIXTURE P0 expect=accept observed=reject WRONG",
+  "tip_dependent": true,
+  "seconds": 19.2,
+  "argv_source": "registry entry cell verbatim (--lane .); timing 19.2 s first run, 8.4 s second"
+ },
+ "round40-c1-mutants": {
+  "argv": [
+   "python3",
+   "plans/round40_c1_verify.py",
+   "--lane",
+   "."
+  ],
+  "exit": 1,
+  "state": "red",
+  "kind": "entry",
+  "reason": "Eleven of 21 battery fixtures are wrong and ten mutants survive: the tip lane clone carries 21 SOURCES rows S173-S193 with no capture locator (anchor-unbound) and the README index lacks fixture-honest-geometry (R35-D1 fails), adding extra findings to every fixture",
+  "evidence": "BATTERY fixtures=21 wrong=11 tampered=0 sidechannel=0",
+  "tip_dependent": true,
+  "seconds": 157.7,
+  "argv_source": "registry entry cell verbatim (--lane .; no --work, default --jobs 8); 157.7 s first run, 136.1 s second"
+ },
+ "round44-c2": {
+  "argv": [
+   "python3",
+   "plans/round44_c2_verify.py",
+   "--lane",
+   "."
+  ],
+  "exit": 1,
+  "state": "red",
+  "kind": "entry",
+  "reason": "Check V2 fails because the frozen pkg_gate P8 finds 56 knowledge files against 55 corpus/README.md index rows; fixture-honest-geometry.md lacks an index row, so checks=11 defects=1",
+  "evidence": "gate: P8 DEFECT index_rows=55 knowledge_files=56 bad=1",
+  "tip_dependent": true,
+  "seconds": 13.4,
+  "argv_source": "registry entry cell verbatim (--lane .); 13.4 s first run, 8.9 s second"
+ },
+ "round51-surfaces": {
+  "argv": [
+   "python3",
+   "plans/round51_surfaces.py",
+   "--lane",
+   "."
+  ],
+  "exit": 1,
+  "state": "red",
+  "kind": "entry",
+  "reason": "Registry row SF14 claims 171 SOURCES rows while the probe counts 186 after round 52 appended S179-S193, so NUMBER-DRIFT fails the predicate; PROVINCE.md line 113 and manifest count_claim 171 were never updated",
+  "evidence": "NUMBER-DRIFT SF14 row claims 171, probe says SOURCES rows=186",
+  "tip_dependent": true,
+  "seconds": 0.2,
+  "argv_source": "registry entry cell verbatim (--lane ., default manifest and PROVINCE.md); probe also touches loopback ports, observed absent=6 errors=0"
+ }
+}

@@ -1,0 +1,119 @@
+rc=1
+line=SELFTEST cases=41 failures=9
+--- stdout
+SELFTEST truthful rc=1 FAIL
+ROWS registry=2 ledger=2 missing=2 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+  MISSING a
+  MISSING b
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+RUN executed=2 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=1 declared_red=1 observed_green=1 observed_red=1
+PREDICATE R53-C2 fail
+SELFTEST forged-all-green rc=1 ok
+SELFTEST forged-all-red rc=1 ok
+SELFTEST missing-ledger-row rc=1 FAIL
+ROWS registry=2 ledger=1 missing=1 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+  MISSING a
+ARGV entry=1 selftest=0 help=0 help_limit=0.2
+RUN executed=1 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=1 declared_red=0 observed_green=1 observed_red=0
+PREDICATE R53-C2 fail
+SELFTEST extra-ledger-row rc=1 ok
+SELFTEST ledger-points-elsewhere rc=1 ok
+SELFTEST red-evidence-absent rc=1 ok
+SELFTEST red-reason-thin rc=1 ok
+SELFTEST state-exit-inconsistent rc=1 ok
+SELFTEST timeout rc=1 ok
+SELFTEST help-only-argv rc=1 ok
+SELFTEST partial-run-never-passes rc=1 ok
+SELFTEST ledger-absent rc=1 ok
+SELFTEST ledger-absent-no-rows rc=1 ok
+SELFTEST duplicate-row-name rc=1 ok
+SELFTEST corpus-entry-script rc=1 FAIL
+ROWS registry=2 ledger=2 missing=2 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+  MISSING a
+  MISSING b
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+RUN executed=2 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=2 declared_red=0 observed_green=2 observed_red=0
+PREDICATE R53-C2 fail
+SELFTEST ledger-schema-foreign rc=1 ok
+SELFTEST argv-one-element rc=1 ok
+SELFTEST argv-nonstring-element rc=1 ok
+SELFTEST exit-is-bool rc=1 ok
+SELFTEST state-outside-domain rc=1 ok
+SELFTEST kind-outside-domain rc=1 ok
+SELFTEST reason-exactly-10-words rc=1 FAIL
+ROWS registry=2 ledger=2 missing=2 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+  MISSING a
+  MISSING b
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+RUN executed=2 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=1 declared_red=1 observed_green=1 observed_red=1
+PREDICATE R53-C2 fail
+SELFTEST reason-9-words rc=1 ok
+SELFTEST evidence-5-chars rc=1 ok
+SELFTEST evidence-padded-short rc=1 ok
+SELFTEST help-at-exact-limit rc=1 FAIL
+ROWS registry=10 ledger=10 missing=10 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+  MISSING a
+  MISSING b
+  MISSING c
+  MISSING d
+  MISSING e
+  MISSING f
+  MISSING g
+  MISSING h
+  MISSING i
+  MISSING j
+ARGV entry=9 selftest=0 help=1 help_limit=1.0
+RUN executed=10 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=10 declared_red=0 observed_green=10 observed_red=0
+PREDICATE R53-C2 fail
+SELFTEST help-fraction-quarter rc=1 ok
+SELFTEST dry-truthful rc=1 FAIL
+ROWS registry=2 ledger=2 missing=2 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+  MISSING a
+  MISSING b
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+DRY static legs only: no predicate
+SELFTEST dry-missing-row rc=1 FAIL
+ROWS registry=2 ledger=1 missing=1 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+  MISSING a
+ARGV entry=1 selftest=0 help=0 help_limit=0.2
+DRY static legs only: no predicate
+SELFTEST dry-entry-mismatch rc=1 ok
+SELFTEST dry-bad-decl rc=1 ok
+SELFTEST entry-mismatch-not-executed rc=1 ok
+SELFTEST timeout-default-ignored rc=1 ok
+SELFTEST tally-two-green-one-red rc=1 FAIL
+ROWS registry=3 ledger=3 missing=3 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+  MISSING a
+  MISSING b
+  MISSING c
+ARGV entry=3 selftest=0 help=0 help_limit=0.3
+RUN executed=3 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=2 declared_red=1 observed_green=2 observed_red=1
+PREDICATE R53-C2 fail
+SELFTEST only-every-row rc=1 ok
+SELFTEST only-one-row-count rc=1 ok
+SELFTEST git-dirty-source rc=1 ok
+SELFTEST neg-want-out rc=1 FAIL
+ROWS registry=2 ledger=2 missing=2 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+  MISSING a
+  MISSING b
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+RUN executed=2 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=1 declared_red=1 observed_green=1 observed_red=1
+PREDICATE R53-C2 fail
+SELFTEST neg-want-in rc=1 FAIL
+ROWS registry=2 ledger=2 missing=2 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+  MISSING a
+  MISSING b
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+RUN executed=2 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=1 declared_red=1 observed_green=1 observed_red=1
+PREDICATE R53-C2 fail
+SELFTEST neg-want-rc rc=1 ok
+SELFTEST cases=41 failures=9
+--- stderr

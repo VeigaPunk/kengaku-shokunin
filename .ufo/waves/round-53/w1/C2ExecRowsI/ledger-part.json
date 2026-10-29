@@ -1,0 +1,117 @@
+{
+  "coverage-census": {
+    "argv": [
+      "python3",
+      "corpus/evidence/round13-coverage/coverage_census.py"
+    ],
+    "exit": 0,
+    "state": "green",
+    "kind": "entry",
+    "tip_dependent": false,
+    "seconds": 0.1,
+    "argv_source": "entry cell with the optional --revision omitted (working-tree census; needs no input)"
+  },
+  "git-leak-probe": {
+    "argv": [
+      "python3",
+      "plans/git_leak_probe.py",
+      "--lane",
+      "."
+    ],
+    "exit": 0,
+    "state": "green",
+    "kind": "entry",
+    "tip_dependent": false,
+    "seconds": 9.9,
+    "argv_source": "entry cell `--lane .` verbatim (no --dry/--stage-check/--work)"
+  },
+  "password-recovery-probe": {
+    "argv": [
+      "python3",
+      "plans/password_recovery_probe.py",
+      "--lane",
+      "."
+    ],
+    "exit": 0,
+    "state": "green",
+    "kind": "entry",
+    "tip_dependent": false,
+    "seconds": 4.1,
+    "argv_source": "entry cell `--lane .` verbatim"
+  },
+  "round33-c1-literals": {
+    "argv": [
+      "python3",
+      "plans/round33_c1_verify.py",
+      "--lane",
+      "."
+    ],
+    "exit": 0,
+    "state": "green",
+    "kind": "entry",
+    "tip_dependent": false,
+    "seconds": 0.1,
+    "argv_source": "entry cell `--lane .` verbatim"
+  },
+  "round38-c2": {
+    "argv": [
+      "python3",
+      "plans/round38_c2_verify.py",
+      "--lane",
+      "."
+    ],
+    "exit": 1,
+    "state": "red",
+    "kind": "entry",
+    "reason": "The gate's P8 index check fails because corpus/knowledge holds 56 files but corpus/README.md indexes only 55 (fixture-honest-geometry.md unindexed), so V2 defects and the predicate fails.",
+    "evidence": "V2 DEFECT spec=frozen gate=frozen gate_exit=1",
+    "tip_dependent": true,
+    "seconds": 3.4,
+    "argv_source": "entry cell `--lane .` verbatim (no --work)"
+  },
+  "round42-c2": {
+    "argv": [
+      "python3",
+      "plans/round42_c2_verify.py",
+      "--lane",
+      "."
+    ],
+    "exit": 1,
+    "state": "red",
+    "kind": "entry",
+    "reason": "The embedded gate's P8 index check fails: 56 knowledge files versus 55 README index rows (fixture-honest-geometry.md unindexed), giving V2 DEFECT and checks=9 defects=1; all other legs are green.",
+    "evidence": "V2 DEFECT spec=frozen gate=frozen gate_exit=1",
+    "tip_dependent": true,
+    "seconds": 92.2,
+    "argv_source": "entry cell `--lane .` verbatim (no --work; scratch via TMPDIR)"
+  },
+  "round46-c3": {
+    "argv": [
+      "python3",
+      "plans/round46_c3_verify.py",
+      "--lane",
+      "."
+    ],
+    "exit": 1,
+    "state": "red",
+    "kind": "entry",
+    "reason": "Three legs defect: V2 via the gate's P8 knowledge-index drift (56 files, 55 rows), V7 because the entry requirement map lacks two frozen tags, and V8 because order_check finds a probe-executing control committed before the receipt.",
+    "evidence": "V8 DEFECT order_exit=1 result=not-PASS",
+    "tip_dependent": false,
+    "seconds": 4.2,
+    "argv_source": "entry cell `--lane .` default mode (not --filler; no --work)"
+  },
+  "sources-adopt": {
+    "argv": [
+      "python3",
+      "plans/sources_adopt.py",
+      "--selftest"
+    ],
+    "exit": 0,
+    "state": "green",
+    "kind": "selftest",
+    "tip_dependent": false,
+    "seconds": 0.0,
+    "argv_source": "entry needs --package /home/vgpnk/Projects/shokuknow/merge/kengaku/SOURCES.append.md, outside the lane; self-test cell `python3 plans/sources_adopt.py --selftest` (17 cases)"
+  }
+}

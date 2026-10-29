@@ -1,0 +1,20 @@
+rc=1
+line=None
+--- stdout
+--- stderr
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/m/M59/plans/round53_c2_tipstate.py", line 377, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/m/M59/plans/round53_c2_tipstate.py", line 367, in main
+    return selftest()
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/m/M59/plans/round53_c2_tipstate.py", line 299, in selftest
+    case("truthful", two, want_rc=0, want_in=("PREDICATE R53-C2 pass", "declared_green=1 declared_red=1 observed_green=1 observed_red=1"))
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/m/M59/plans/round53_c2_tipstate.py", line 290, in case
+    rc, lines = evaluate(lane, lane, d / "work", 2, 20, only, dry)
+                ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/m/M59/plans/round53_c2_tipstate.py", line 240, in evaluate
+    if sp["state"] == "green" and sp["evidence"] not in r["out"]:
+                                  ~~^^^^^^^^^^^^
+KeyError: 'evidence'

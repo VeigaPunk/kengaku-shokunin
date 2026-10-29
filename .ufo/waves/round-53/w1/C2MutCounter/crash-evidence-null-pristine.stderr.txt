@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/demo/pristine.py", line 377, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/demo/pristine.py", line 370, in main
+    rc, lines = evaluate(lane, Path(a.source).resolve() if a.source else None,
+                ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                         Path(a.work).resolve() if a.work else None, a.jobs, a.timeout, only, a.dry)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/demo/pristine.py", line 240, in evaluate
+    if sp["state"] == "red" and sp["evidence"] not in r["out"]:
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'in <string>' requires string as left operand, not NoneType

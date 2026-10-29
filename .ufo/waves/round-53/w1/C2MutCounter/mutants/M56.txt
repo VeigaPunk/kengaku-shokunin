@@ -1,0 +1,23 @@
+rc=1
+line=SELFTEST cases=12 failures=1
+--- stdout
+SELFTEST truthful rc=0 ok
+SELFTEST forged-all-green rc=1 ok
+SELFTEST forged-all-red rc=1 ok
+SELFTEST missing-ledger-row rc=1 ok
+SELFTEST extra-ledger-row rc=1 ok
+SELFTEST ledger-points-elsewhere rc=1 ok
+SELFTEST red-evidence-absent rc=1 ok
+SELFTEST red-reason-thin rc=1 ok
+SELFTEST state-exit-inconsistent rc=1 ok
+SELFTEST timeout rc=1 FAIL
+ROWS registry=2 ledger=2 missing=0 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+  MISMATCH h declared exit=0 observed exit=TIMEOUT sec=2.0
+RUN executed=2 timeout=0 mismatched=1 evidence_missing=0
+TIPSTATE declared_green=2 declared_red=0 observed_green=1 observed_red=1
+PREDICATE R53-C2 fail
+SELFTEST help-only-argv rc=1 ok
+SELFTEST partial-run-never-passes rc=1 ok
+SELFTEST cases=12 failures=1
+--- stderr

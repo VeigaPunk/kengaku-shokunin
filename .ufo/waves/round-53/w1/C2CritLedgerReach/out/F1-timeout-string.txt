@@ -1,0 +1,33 @@
+$ python3 /fast/scratch/hyaku/kengaku-r53/C2CritLedgerReach/bin/counter.py --lane /fast/scratch/hyaku/kengaku-r53/C2CritLedgerReach/fx/F1-lane --source /fast/scratch/hyaku/kengaku-r53/C2CritLedgerReach/fx/A-src --work /fast/scratch/hyaku/kengaku-r53/C2CritLedgerReach/fx/F1-timeout-string/work --jobs 4
+exit=1
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r53/C2CritLedgerReach/bin/counter.py", line 377, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/fast/scratch/hyaku/kengaku-r53/C2CritLedgerReach/bin/counter.py", line 370, in main
+    rc, lines = evaluate(lane, Path(a.source).resolve() if a.source else None,
+                ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                         Path(a.work).resolve() if a.work else None, a.jobs, a.timeout, only, a.dry)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r53/C2CritLedgerReach/bin/counter.py", line 223, in evaluate
+    results = list(ex.map(job, names))
+  File "/usr/lib/python3.14/concurrent/futures/_base.py", line 645, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/usr/lib/python3.14/concurrent/futures/_base.py", line 312, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/usr/lib/python3.14/concurrent/futures/_base.py", line 447, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.14/concurrent/futures/_base.py", line 396, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/usr/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/fast/scratch/hyaku/kengaku-r53/C2CritLedgerReach/bin/counter.py", line 217, in job
+    return run_row(workers[i], n, s["ledger"]["rows"][n], timeout, work)
+  File "/fast/scratch/hyaku/kengaku-r53/C2CritLedgerReach/bin/counter.py", line 105, in run_row
+    t = int(spec.get("timeout_s") or default_timeout)
+ValueError: invalid literal for int() with base 10: '2.5'

@@ -1,0 +1,26 @@
+import importlib.util, subprocess, shutil
+from pathlib import Path
+LANE=Path('/home/vgpnk/Projects/shokunin/kengaku-shokunin')
+spec=importlib.util.spec_from_file_location('c2', LANE/'plans/round53_c2_tipstate.py')
+c2=importlib.util.module_from_spec(spec); spec.loader.exec_module(c2)
+root=Path('/fast/scratch/hyaku/kengaku-r53/C2RevCounter/t/w11'); shutil.rmtree(root, ignore_errors=True); root.mkdir(parents=True)
+d=root/'src'; d.mkdir()
+subprocess.run(['git','-C',str(d),'init','-q','-b','main'],check=True)
+(d/'f.txt').write_text('v1'); subprocess.run(['git','-C',str(d),'add','-A'],check=True)
+subprocess.run(['git','-C',str(d),'-c','user.email=a@b','-c','user.name=a','commit','-qm','one'],check=True)
+w0=c2.Worker(d, root/'work', 0)
+w1=c2.Worker(d, root/'work', 1)
+print("worker dirs:", w0.dir, w1.dir, " distinct:", w0.dir!=w1.dir)
+print("both share the source object store via alternates:",
+      (w0.dir/'.git'/'objects'/'info'/'alternates').read_text().strip() == (w1.dir/'.git'/'objects'/'info'/'alternates').read_text().strip())
+# worker 0 commits a new object
+subprocess.run(['git','-C',str(w0.dir),'config','user.email','a@b'],check=True)
+subprocess.run(['git','-C',str(w0.dir),'config','user.name','a'],check=True)
+(w0.dir/'ONLY_W0.txt').write_text('x')
+subprocess.run(['git','-C',str(w0.dir),'add','-A'],check=True)
+subprocess.run(['git','-C',str(w0.dir),'commit','-qm','w0'],check=True)
+sha=subprocess.run(['git','-C',str(w0.dir),'rev-parse','HEAD'],capture_output=True,text=True).stdout.strip()
+print("w0 committed:", sha[:8])
+print("w0 sees it:", subprocess.run(['git','-C',str(w0.dir),'cat-file','-e',sha],capture_output=True).returncode==0)
+print("w1 sees it:", subprocess.run(['git','-C',str(w1.dir),'cat-file','-e',sha],capture_output=True).returncode==0, "(must be False -> isolated)")
+print("SOURCE sees it:", subprocess.run(['git','-C',str(d),'cat-file','-e',sha],capture_output=True).returncode==0, "(must be False -> the shared store is not polluted)")

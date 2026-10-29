@@ -1,0 +1,920 @@
+[
+ {
+  "id": "ex-1-exists",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    assert Path(\"/app/out.txt\").exists()\n",
+  "expected": {
+   "test_f": "P1"
+  }
+ },
+ {
+  "id": "ex-2-content-strip",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    p = Path(\"/app/out.txt\")\n    assert p.exists()\n    assert p.read_text().strip() == \"42\"\n",
+  "expected": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "ex-3-isfile-and-isdir",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    assert os.path.isfile(OUT) and os.path.isdir(D)\n",
+  "expected": {
+   "test_f": "P1"
+  }
+ },
+ {
+  "id": "ex-4-getsize",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    assert os.path.getsize(OUT) > 0\n",
+  "expected": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "ex-5-subprocess-then-exists",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    subprocess.run([\"python3\", \"/app/run.py\"], check=True)\n    assert Path(OUT).exists()\n",
+  "expected": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "ex-6-helper-exists",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef _ok():\n    return Path(OUT).exists()\n\n\ndef test_f():\n    assert _ok()\n",
+  "expected": {
+   "test_f": "P1"
+  }
+ },
+ {
+  "id": "ex-7-helper-json",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef _ok():\n    return json.loads(Path(OUT).read_text())[\"k\"] == 1\n\n\ndef test_f():\n    assert _ok()\n",
+  "expected": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "ex-8-pass",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    pass\n",
+  "expected": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "ex-9-all-examples-one-module",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef _ok():\n    return Path(OUT).exists()\n\n\ndef _ok2():\n    return json.loads(Path(OUT).read_text())[\"k\"] == 1\n\n\ndef test_a():\n    assert Path(\"/app/out.txt\").exists()\n\n\ndef test_b():\n    p = Path(\"/app/out.txt\")\n    assert p.exists()\n    assert p.read_text().strip() == \"42\"\n\n\ndef test_c():\n    assert os.path.isfile(OUT) and os.path.isdir(D)\n\n\ndef test_d():\n    assert os.path.getsize(OUT) > 0\n\n\ndef test_e():\n    subprocess.run([\"true\"], check=True)\n    assert Path(OUT).exists()\n\n\ndef test_g():\n    assert _ok()\n\n\ndef test_h():\n    assert _ok2()\n\n\ndef test_i():\n    pass\n",
+  "expected": {
+   "test_a": "P1",
+   "test_b": "P0",
+   "test_c": "P1",
+   "test_d": "P0",
+   "test_e": "P0",
+   "test_g": "P1",
+   "test_h": "P0",
+   "test_i": "P0"
+  }
+ },
+ {
+  "id": "cl1-no-assert-forms",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_pass():\n    pass\n\n\ndef test_docstring_only():\n    \"\"\"assert Path(OUT).exists()\"\"\"\n\n\ndef test_bare_expr():\n    Path(OUT).exists()\n\n\ndef test_return_bool():\n    return Path(OUT).exists()\n\n\ndef test_commented_assert():\n    # assert Path(OUT).exists()\n    x = 1\n\n\ndef test_assert_in_string():\n    msg = \"assert Path(OUT).exists()\"\n    print(msg)\n\n\ndef test_prints():\n    print(Path(OUT).exists())\n\n\ndef test_ellipsis():\n    ...\n",
+  "expected": {
+   "test_pass": "P0",
+   "test_docstring_only": "P0",
+   "test_bare_expr": "P0",
+   "test_return_bool": "P0",
+   "test_commented_assert": "P0",
+   "test_assert_in_string": "P0",
+   "test_prints": "P0",
+   "test_ellipsis": "P0"
+  }
+ },
+ {
+  "id": "cl1-helper-no-assert",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef _check():\n    return Path(OUT).exists()\n\n\ndef test_f():\n    _check()\n",
+  "expected": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "cl1-unconditional-fail-or-raise",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_fail():\n    pytest.fail(\"always\")\n\n\ndef test_raise():\n    raise AssertionError(\"always\")\n\n\ndef test_skip():\n    pytest.skip(\"not today\")\n",
+  "expected": {
+   "test_fail": "P0",
+   "test_raise": "P0",
+   "test_skip": "P0"
+  }
+ },
+ {
+  "id": "cl1-assert-statement-kinds",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_plain():\n    assert os.path.exists(OUT)\n\n\ndef test_with_msg():\n    assert os.path.exists(OUT), \"out missing\"\n\n\ndef test_two_asserts():\n    assert os.path.exists(OUT)\n    assert os.path.isdir(D)\n",
+  "expected": {
+   "test_plain": "P1",
+   "test_with_msg": "P1",
+   "test_two_asserts": "P1"
+  }
+ },
+ {
+  "id": "cl1-skipif-decorators-ignored",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\n@pytest.mark.skipif(os.name == \"nt\", reason=\"posix only\")\ndef test_a():\n    assert Path(OUT).exists()\n\n\n@pytest.mark.timeout(30)\n@pytest.mark.xfail(strict=False)\ndef test_b():\n    assert Path(OUT).exists()\n\n\n@pytest.mark.timeout(30)\ndef test_c():\n    pass\n",
+  "expected": {
+   "test_a": "P1",
+   "test_b": "P1",
+   "test_c": "P0"
+  }
+ },
+ {
+  "id": "cl1-nontest-functions-ignored",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef check_exists():\n    assert Path(OUT).read_text() == \"x\"\n\n\ndef helper_test():\n    assert os.path.getsize(OUT) > 3\n\n\ndef _test_private():\n    assert 1 == 2\n\n\ndef test_real():\n    assert Path(OUT).exists()\n",
+  "expected": {
+   "test_real": "P1"
+  }
+ },
+ {
+  "id": "cl1-mixed-vacuous-assert",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f():\n    assert Path(OUT).exists()\n    assert 1 + 1 == 2\n",
+  "expected": {
+   "test_f": "P0"
+  }
+ },
+ {
+  "id": "cl1-assert-no-path",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_arith():\n    assert 1 + 1 == 2\n\n\ndef test_str():\n    assert \"a\" in \"abc\"\n\n\ndef test_env():\n    assert os.environ.get(\"HOME\")\n",
+  "expected": {
+   "test_arith": "P0",
+   "test_str": "P0",
+   "test_env": "P0"
+  }
+ },
+ {
+  "id": "cl2-pathlib-forms",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_exists():\n    assert Path(\"/app/a\").exists()\n\n\ndef test_is_file():\n    assert Path(\"/app/a\").is_file()\n\n\ndef test_is_dir():\n    assert Path(\"/app\").is_dir()\n\n\ndef test_is_symlink():\n    assert Path(\"/app/link\").is_symlink()\n\n\ndef test_parent():\n    assert Path(OUT).parent.is_dir()\n\n\ndef test_resolve():\n    assert Path(OUT).resolve().exists()\n\n\ndef test_slash():\n    assert (Path(\"/app\") / \"sub\" / \"x.bin\").is_file()\n\n\ndef test_path_parts():\n    assert Path(\"/app\", \"sub\", \"x.bin\").exists()\n",
+  "expected": {
+   "test_exists": "P1",
+   "test_is_file": "P1",
+   "test_is_dir": "P1",
+   "test_is_symlink": "P1",
+   "test_parent": "P1",
+   "test_resolve": "P1",
+   "test_slash": "P1",
+   "test_path_parts": "P1"
+  }
+ },
+ {
+  "id": "cl2-ospath-forms",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_exists():\n    assert os.path.exists(\"/app/a\")\n\n\ndef test_isfile():\n    assert os.path.isfile(\"/app/a\")\n\n\ndef test_isdir():\n    assert os.path.isdir(\"/app\")\n\n\ndef test_islink():\n    assert os.path.islink(\"/app/l\")\n\n\ndef test_realpath():\n    assert os.path.exists(os.path.realpath(\"/app/l\"))\n\n\ndef test_join():\n    assert os.path.isfile(os.path.join(D, \"sub\", \"x\"))\n\n\ndef test_expanduser():\n    assert os.path.exists(os.path.expanduser(\"~/x\"))\n",
+  "expected": {
+   "test_exists": "P1",
+   "test_isfile": "P1",
+   "test_isdir": "P1",
+   "test_islink": "P1",
+   "test_realpath": "P1",
+   "test_join": "P1",
+   "test_expanduser": "P1"
+  }
+ },
+ {
+  "id": "cl2-from-imports",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nfrom os.path import exists, isfile as is_regular\nfrom os import listdir\nfrom glob import glob as g\nimport pathlib as pl\n\n\ndef test_a():\n    assert exists(OUT)\n\n\ndef test_b():\n    assert is_regular(OUT)\n\n\ndef test_c():\n    assert \"out.txt\" in listdir(D)\n\n\ndef test_d():\n    assert pl.Path(OUT).exists()\n",
+  "expected": {
+   "test_a": "P1",
+   "test_b": "P1",
+   "test_c": "P1",
+   "test_d": "P1"
+  }
+ },
+ {
+  "id": "cl2-os-access",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_f_ok():\n    assert os.access(OUT, os.F_OK)\n\n\ndef test_f_ok_kw():\n    assert os.access(OUT, mode=os.F_OK)\n\n\ndef test_two():\n    assert os.access(OUT, os.F_OK) and os.access(D, os.F_OK)\n\n\ndef test_x_ok():\n    assert os.access(OUT, os.X_OK)\n\n\ndef test_rw():\n    assert os.access(OUT, os.R_OK | os.W_OK)\n",
+  "expected": {
+   "test_f_ok": "P1",
+   "test_f_ok_kw": "P1",
+   "test_two": "P1",
+   "test_x_ok": "P0",
+   "test_rw": "P0"
+  }
+ },
+ {
+  "id": "cl2-listing-membership",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_listdir():\n    assert \"out.txt\" in os.listdir(\"/app\")\n\n\ndef test_listdir_var():\n    needle = \"out.txt\"\n    assert needle in os.listdir(D)\n\n\ndef test_iterdir_set():\n    assert \"out.txt\" in {p.name for p in Path(D).iterdir()}\n\n\ndef test_iterdir_list():\n    assert \"out.txt\" in [p.name for p in Path(D).iterdir()]\n\n\ndef test_scandir():\n    assert \"out.txt\" in [e.name for e in os.scandir(D)]\n\n\ndef test_path_listdir():\n    names = os.listdir(Path(D) / \"sub\")\n    assert \"x.bin\" in names\n",
+  "expected": {
+   "test_listdir": "P1",
+   "test_listdir_var": "P1",
+   "test_iterdir_set": "P1",
+   "test_iterdir_list": "P1",
+   "test_scandir": "P1",
+   "test_path_listdir": "P1"
+  }
+ },
+ {
+  "id": "cl2-glob-nonempty",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_glob():\n    assert glob.glob(\"/app/*.so\")\n\n\ndef test_path_glob():\n    assert list(Path(D).glob(\"*.csv\"))\n\n\ndef test_rglob():\n    assert list(Path(D).rglob(\"*.py\"))\n\n\ndef test_any_glob():\n    assert any(Path(D).glob(\"*.txt\"))\n\n\ndef test_glob_count_eq():\n    assert len(glob.glob(\"/app/*.so\")) == 2\n\n\ndef test_glob_equal_list():\n    assert glob.glob(\"/app/*.so\") == [\"/app/a.so\"]\n",
+  "expected": {
+   "test_glob": "P1",
+   "test_path_glob": "P1",
+   "test_rglob": "P1",
+   "test_any_glob": "P1",
+   "test_glob_count_eq": "P0",
+   "test_glob_equal_list": "P0"
+  }
+ },
+ {
+  "id": "cl2-listing-counts",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_len_eq():\n    assert len(os.listdir(D)) == 3\n\n\ndef test_len_gt():\n    assert len(os.listdir(D)) > 0\n\n\ndef test_len_iterdir():\n    assert len(list(Path(D).iterdir())) == 3\n\n\ndef test_sorted_eq():\n    assert sorted(os.listdir(D)) == [\"a\", \"b\"]\n\n\ndef test_set_eq():\n    assert set(os.listdir(D)) == {\"a\", \"b\"}\n\n\ndef test_sum_exists():\n    assert sum(os.path.exists(p) for p in [\"/a\", \"/b\", \"/c\"]) == 3\n\n\ndef test_endswith_loop():\n    for f in os.listdir(D):\n        assert f.endswith(\".txt\")\n",
+  "expected": {
+   "test_len_eq": "P0",
+   "test_len_gt": "P0",
+   "test_len_iterdir": "P0",
+   "test_sorted_eq": "P0",
+   "test_set_eq": "P0",
+   "test_sum_exists": "P0",
+   "test_endswith_loop": "P0"
+  }
+ },
+ {
+  "id": "cl2-boolean-combinators",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_and():\n    assert Path(\"/a\").exists() and Path(\"/b\").is_dir()\n\n\ndef test_or():\n    assert os.path.exists(\"/a\") or os.path.exists(\"/b\")\n\n\ndef test_or_other():\n    a = Path(\"/app/a\")\n    b = Path(\"/app/b\")\n    assert a.exists() or b.exists()\n\n\ndef test_mixed():\n    assert (os.path.isfile(OUT) and os.path.isdir(D)) or os.path.islink(OUT)\n\n\ndef test_all_gen():\n    assert all(os.path.exists(p) for p in [\"/a\", \"/b\"])\n\n\ndef test_any_gen():\n    assert any(Path(p).exists() for p in (\"/a\", \"/b\"))\n\n\ndef test_all_list():\n    assert all([Path(\"/a\").exists(), Path(\"/b\").exists()])\n\n\ndef test_or_content():\n    assert Path(OUT).exists() or Path(OUT).read_text() == \"x\"\n\n\ndef test_and_content():\n    assert Path(OUT).exists() and Path(OUT).read_text()\n",
+  "expected": {
+   "test_and": "P1",
+   "test_or": "P1",
+   "test_or_other": "P1",
+   "test_mixed": "P1",
+   "test_all_gen": "P1",
+   "test_any_gen": "P1",
+   "test_all_list": "P1",
+   "test_or_content": "P0",
+   "test_and_content": "P0"
+  }
+ },
+ {
+  "id": "cl2-comparison-to-bool",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_eq_true():\n    assert Path(OUT).exists() == True\n\n\ndef test_is_true():\n    assert Path(OUT).exists() is True\n\n\ndef test_bool_call():\n    assert bool(Path(OUT).exists())\n\n\ndef test_ne_false():\n    assert Path(OUT).exists() != False\n\n\ndef test_isfile_eq_true():\n    assert os.path.isfile(OUT) == True\n",
+  "expected": {
+   "test_eq_true": "P1",
+   "test_is_true": "P1",
+   "test_bool_call": "P1",
+   "test_ne_false": "P1",
+   "test_isfile_eq_true": "P1"
+  }
+ },
+ {
+  "id": "cl2-variable-indirection",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_flag():\n    ok = Path(OUT).exists()\n    assert ok\n\n\ndef test_flag_content():\n    ok = Path(OUT).read_text() == \"1\"\n    assert ok\n\n\ndef test_flags_and():\n    a = os.path.exists(\"/a\")\n    b = os.path.isdir(\"/b\")\n    assert a and b\n\n\ndef test_loop():\n    for p in [\"/a\", \"/b\", \"/c\"]:\n        assert os.path.exists(p), p\n\n\ndef test_comprehension():\n    ok = [os.path.exists(p) for p in [\"/a\", \"/b\"]]\n    assert all(ok)\n\n\ndef test_content_flag():\n    exists = Path(OUT).read_text()\n    assert exists\n",
+  "expected": {
+   "test_flag": "P1",
+   "test_flag_content": "P0",
+   "test_flags_and": "P1",
+   "test_loop": "P1",
+   "test_comprehension": "P1",
+   "test_content_flag": "P0"
+  }
+ },
+ {
+  "id": "cl2-assert-messages",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_msg_in():\n    assert Path(OUT).exists(), \"file x in /app is missing\"\n\n\ndef test_msg_eq():\n    assert Path(OUT).exists(), \"expected a == b but not found\"\n\n\ndef test_msg_fstring():\n    p = Path(OUT)\n    assert p.exists(), f\"{p} not in listing\"\n\n\ndef test_msg_percent():\n    assert os.path.isfile(OUT), \"%s != present (%d == 0)\" % (OUT, 0)\n\n\ndef test_msg_content_word():\n    assert Path(OUT).is_file(), \"read_text and subprocess are not called here\"\n\n\ndef test_msg_concat():\n    assert os.path.exists(OUT), \"missing \" + OUT + \" in \" + D\n",
+  "expected": {
+   "test_msg_in": "P1",
+   "test_msg_eq": "P1",
+   "test_msg_fstring": "P1",
+   "test_msg_percent": "P1",
+   "test_msg_content_word": "P1",
+   "test_msg_concat": "P1"
+  }
+ },
+ {
+  "id": "cl2-string-built-paths",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nCFG = \"/app/cfg.txt\"\nNAMES = [\"a\", \"b\", \"c\"]\n\n\ndef test_fstring():\n    name = \"out\"\n    assert Path(f\"/app/{name}.txt\").exists()\n\n\ndef test_format():\n    assert os.path.exists(\"/app/{}.txt\".format(\"out\"))\n\n\ndef test_percent():\n    assert os.path.exists(\"/app/%s.txt\" % \"out\")\n\n\ndef test_concat():\n    assert os.path.exists(\"/app/\" + \"out\" + \".txt\")\n\n\ndef test_join_star():\n    parts = [\"/app\", \"sub\", \"x\"]\n    assert os.path.isfile(os.path.join(*parts))\n\n\ndef test_loop_names():\n    for n in NAMES:\n        assert Path(D, n + \".bin\").is_file()\n\n\ndef test_const_slash():\n    base = Path(\"/app\")\n    assert (base / \"out.txt\").exists()\n\n\ndef test_from_read():\n    target = Path(CFG).read_text().strip()\n    assert Path(target).exists()\n\n\ndef test_from_json():\n    target = json.load(open(CFG))[\"out\"]\n    assert os.path.exists(target)\n",
+  "expected": {
+   "test_fstring": "P1",
+   "test_format": "P1",
+   "test_percent": "P1",
+   "test_concat": "P1",
+   "test_join_star": "P1",
+   "test_loop_names": "P1",
+   "test_const_slash": "P1",
+   "test_from_read": "P0",
+   "test_from_json": "P0"
+  }
+ },
+ {
+  "id": "cl2-ordering-and-position",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_assert_then_read():\n    p = Path(OUT)\n    assert p.exists()\n    data = p.read_text()\n\n\ndef test_read_then_assert():\n    data = Path(OUT).read_bytes()\n    assert Path(OUT).exists()\n\n\ndef test_read_unused():\n    json.load(open(OUT))\n    assert os.path.exists(OUT)\n\n\ndef test_assert_then_subprocess():\n    assert os.path.exists(OUT)\n    subprocess.run([\"rm\", OUT])\n",
+  "expected": {
+   "test_assert_then_read": "P0",
+   "test_read_then_assert": "P0",
+   "test_read_unused": "P0",
+   "test_assert_then_subprocess": "P0"
+  }
+ },
+ {
+  "id": "cl2-writes-are-not-reads",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_open_w():\n    with open(\"/tmp/scratch.w\", \"w\") as f:\n        f.write(\"x\")\n    assert Path(OUT).exists()\n\n\ndef test_open_wb():\n    with open(\"/tmp/scratch.bin\", \"wb\") as f:\n        f.write(b\"x\")\n    assert Path(OUT).exists()\n\n\ndef test_open_a():\n    with open(\"/tmp/scratch.log\", \"a\") as f:\n        f.write(\"x\")\n    assert os.path.isfile(OUT)\n\n\ndef test_open_mode_kw():\n    open(\"/tmp/scratch.txt\", mode=\"w\").close()\n    assert os.path.exists(OUT)\n\n\ndef test_path_open_w():\n    with Path(\"/tmp/s\").open(\"w\") as f:\n        f.write(\"1\")\n    assert Path(OUT).exists()\n\n\ndef test_write_text():\n    Path(\"/tmp/s2\").write_text(\"1\")\n    assert Path(OUT).exists()\n\n\ndef test_touch():\n    Path(\"/tmp/s3\").touch()\n    assert Path(\"/tmp/s3\").exists()\n\n\ndef test_mkdir():\n    Path(\"/tmp/s4\").mkdir(exist_ok=True)\n    assert Path(\"/tmp/s4\").is_dir()\n\n\ndef test_open_default_read():\n    with open(OUT) as f:\n        pass\n    assert Path(OUT).exists()\n\n\ndef test_open_r():\n    f = open(OUT, \"r\")\n    f.close()\n    assert os.path.exists(OUT)\n\n\ndef test_open_rb():\n    f = open(OUT, \"rb\")\n    f.close()\n    assert os.path.exists(OUT)\n\n\ndef test_open_encoding_only():\n    f = open(OUT, encoding=\"utf-8\")\n    f.close()\n    assert os.path.exists(OUT)\n\n\ndef test_path_open_default():\n    with Path(OUT).open() as f:\n        pass\n    assert Path(OUT).exists()\n",
+  "expected": {
+   "test_open_w": "P1",
+   "test_open_wb": "P1",
+   "test_open_a": "P1",
+   "test_open_mode_kw": "P1",
+   "test_path_open_w": "P1",
+   "test_write_text": "P1",
+   "test_touch": "P1",
+   "test_mkdir": "P1",
+   "test_open_default_read": "P0",
+   "test_open_r": "P0",
+   "test_open_rb": "P0",
+   "test_open_encoding_only": "P0",
+   "test_path_open_default": "P0"
+  }
+ },
+ {
+  "id": "cl2-polling-loops",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nimport time\n\n\ndef test_poll():\n    for _ in range(10):\n        if Path(OUT).exists():\n            break\n        time.sleep(1)\n    assert Path(OUT).exists()\n\n\ndef test_poll_for_else():\n    for _ in range(10):\n        if os.path.exists(OUT):\n            break\n        time.sleep(0.5)\n    else:\n        pytest.fail(\"never appeared\")\n\n\ndef test_poll_timeout_assert():\n    t0 = time.time()\n    while not os.path.exists(OUT):\n        time.sleep(0.1)\n    assert time.time() - t0 < 5\n",
+  "expected": {
+   "test_poll": "P1",
+   "test_poll_for_else": "P1",
+   "test_poll_timeout_assert": "P0"
+  }
+ },
+ {
+  "id": "cl2-no-path-obj-attrs",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_parent_parts():\n    p = Path(\"/app/sub/x.bin\")\n    assert p.parent.parent.is_dir() and p.parent.is_dir()\n\n\ndef test_name_cmp():\n    p = Path(\"/app/sub/x.bin\")\n    assert p.name == \"x.bin\"\n",
+  "expected": {
+   "test_parent_parts": "P1",
+   "test_name_cmp": "P0"
+  }
+ },
+ {
+  "id": "cl2n-size-mtime-mode",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_getsize():\n    assert os.path.getsize(OUT) == 0\n\n\ndef test_getsize_nonzero():\n    assert os.path.exists(OUT) and os.path.getsize(OUT)\n\n\ndef test_st_size():\n    assert os.stat(OUT).st_size > 10\n\n\ndef test_stat_size_path():\n    assert Path(OUT).stat().st_size > 0\n\n\ndef test_mtime():\n    assert Path(OUT).stat().st_mtime > 0\n\n\ndef test_getmtime():\n    assert os.path.getmtime(OUT) > 1.0\n\n\ndef test_st_mode():\n    assert Path(OUT).stat().st_mode & 0o777 == 0o644\n\n\ndef test_exec_bit():\n    assert os.access(OUT, os.X_OK)\n\n\ndef test_exists_and_size():\n    p = Path(OUT)\n    assert p.exists()\n    assert p.stat().st_size > 0\n\n\ndef test_stat_value():\n    assert os.stat(OUT).st_size\n",
+  "expected": {
+   "test_getsize": "P0",
+   "test_getsize_nonzero": "P0",
+   "test_st_size": "P0",
+   "test_stat_size_path": "P0",
+   "test_mtime": "P0",
+   "test_getmtime": "P0",
+   "test_st_mode": "P0",
+   "test_exec_bit": "P0",
+   "test_exists_and_size": "P0",
+   "test_stat_value": "P0"
+  }
+ },
+ {
+  "id": "cl2n-computed-value-compare",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_resolve_eq():\n    assert Path(\"/app/link\").resolve() == Path(\"/app/target\")\n\n\ndef test_readlink_eq():\n    assert os.readlink(\"/app/link\") == \"target\"\n\n\ndef test_len_compare():\n    files = [p for p in Path(D).iterdir() if p.is_file()]\n    assert len(files) >= 2\n\n\ndef test_name_eq():\n    assert Path(OUT).name == \"out.txt\"\n\n\ndef test_suffix_eq():\n    assert Path(OUT).suffix == \".txt\"\n\n\ndef test_parent_eq():\n    assert Path(OUT).parent == Path(\"/app\")\n",
+  "expected": {
+   "test_resolve_eq": "P0",
+   "test_readlink_eq": "P0",
+   "test_len_compare": "P0",
+   "test_name_eq": "P0",
+   "test_suffix_eq": "P0",
+   "test_parent_eq": "P0"
+  }
+ },
+ {
+  "id": "cl3-subprocess-forms",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nimport os as _os\nimport subprocess as sp\nfrom subprocess import run as sh_run\n\n\ndef test_run():\n    subprocess.run([\"true\"])\n    assert Path(OUT).exists()\n\n\ndef test_check_output():\n    subprocess.check_output([\"ls\", D])\n    assert os.path.isdir(D)\n\n\ndef test_popen():\n    proc = subprocess.Popen([\"true\"])\n    proc.wait()\n    assert Path(OUT).is_file()\n\n\ndef test_call():\n    subprocess.call(\"true\", shell=True)\n    assert os.path.exists(OUT)\n\n\ndef test_os_system():\n    os.system(\"true\")\n    assert os.path.exists(OUT)\n\n\ndef test_os_popen():\n    os.popen(\"true\").close()\n    assert os.path.exists(OUT)\n\n\ndef test_from_import():\n    sh_run([\"true\"])\n    assert os.path.exists(OUT)\n\n\ndef test_alias():\n    sp.run([\"true\"])\n    assert os.path.exists(OUT)\n\n\ndef test_dunder_import():\n    __import__(\"subprocess\").run([\"true\"])\n    assert os.path.exists(OUT)\n\n\ndef test_shell_cmd_test_f():\n    assert os.system(\"test -f /app/out.txt\") == 0\n",
+  "expected": {
+   "test_run": "P0",
+   "test_check_output": "P0",
+   "test_popen": "P0",
+   "test_call": "P0",
+   "test_os_system": "P0",
+   "test_os_popen": "P0",
+   "test_from_import": "P0",
+   "test_alias": "P0",
+   "test_dunder_import": "P0",
+   "test_shell_cmd_test_f": "P0"
+  }
+ },
+ {
+  "id": "cl3-content-reads",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nimport csv\nimport sqlite3\nimport configparser\n\n\ndef test_read_text():\n    assert Path(OUT).exists()\n    Path(OUT).read_text()\n\n\ndef test_read_bytes():\n    assert Path(OUT).exists()\n    Path(OUT).read_bytes()\n\n\ndef test_open_read():\n    assert Path(OUT).exists()\n    open(OUT).read()\n\n\ndef test_json_load():\n    assert os.path.exists(OUT)\n    with open(OUT) as f:\n        json.load(f)\n\n\ndef test_json_loads():\n    assert os.path.exists(OUT)\n    json.loads(Path(OUT).read_text())\n\n\ndef test_yaml():\n    import yaml\n    assert os.path.exists(OUT)\n    yaml.safe_load(open(OUT))\n\n\ndef test_pickle():\n    import pickle\n    assert os.path.exists(OUT)\n    pickle.load(open(OUT, \"rb\"))\n\n\ndef test_np_load():\n    import numpy as np\n    assert os.path.exists(OUT)\n    np.load(OUT)\n\n\ndef test_torch_load():\n    import torch\n    assert os.path.exists(OUT)\n    torch.load(OUT)\n\n\ndef test_csv():\n    assert os.path.exists(OUT)\n    list(csv.reader(open(OUT)))\n\n\ndef test_sqlite():\n    assert os.path.exists(OUT)\n    sqlite3.connect(OUT).execute(\"select 1\")\n\n\ndef test_tomllib():\n    import tomllib\n    assert os.path.exists(OUT)\n    tomllib.load(open(OUT, \"rb\"))\n\n\ndef test_configparser():\n    cp = configparser.ConfigParser()\n    cp.read(OUT)\n    assert os.path.exists(OUT)\n\n\ndef test_pil():\n    from PIL import Image\n    assert os.path.exists(OUT)\n    Image.open(OUT)\n\n\ndef test_path_open_ctx():\n    assert os.path.exists(OUT)\n    with Path(OUT).open(\"r\") as f:\n        f.read()\n\n\ndef test_readlines():\n    assert os.path.exists(OUT)\n    open(OUT).readlines()\n\n\ndef test_iter_lines():\n    assert os.path.exists(OUT)\n    for line in open(OUT):\n        pass\n\n\ndef test_in_content():\n    assert \"ok\" in Path(OUT).read_text()\n",
+  "expected": {
+   "test_read_text": "P0",
+   "test_read_bytes": "P0",
+   "test_open_read": "P0",
+   "test_json_load": "P0",
+   "test_json_loads": "P0",
+   "test_yaml": "P0",
+   "test_pickle": "P0",
+   "test_np_load": "P0",
+   "test_torch_load": "P0",
+   "test_csv": "P0",
+   "test_sqlite": "P0",
+   "test_tomllib": "P0",
+   "test_configparser": "P0",
+   "test_pil": "P0",
+   "test_path_open_ctx": "P0",
+   "test_readlines": "P0",
+   "test_iter_lines": "P0",
+   "test_in_content": "P0"
+  }
+ },
+ {
+  "id": "cl3-deliverable-import-and-call",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nimport sys\n\n\ndef test_from_import_call():\n    from solution import solve\n    solve(1)\n    assert Path(OUT).exists()\n\n\ndef test_module_call():\n    import app\n    app.run()\n    assert Path(OUT).exists()\n\n\ndef test_importlib_call():\n    import importlib\n    importlib.import_module(\"solution\").main()\n    assert Path(OUT).exists()\n\n\ndef test_import_but_not_called():\n    import solution\n    assert Path(OUT).exists()\n\n\ndef test_sys_path_then_call():\n    sys.path.insert(0, \"/app\")\n    from solution import solve\n    assert os.path.exists(solve())\n",
+  "expected": {
+   "test_from_import_call": "P0",
+   "test_module_call": "P0",
+   "test_importlib_call": "P0",
+   "test_import_but_not_called": "P1",
+   "test_sys_path_then_call": "P0"
+  }
+ },
+ {
+  "id": "cl3-network",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_urlopen():\n    import urllib.request\n    urllib.request.urlopen(\"http://localhost:8080\")\n    assert Path(OUT).exists()\n\n\ndef test_requests():\n    import requests\n    requests.get(\"http://localhost:8080\")\n    assert Path(OUT).exists()\n\n\ndef test_socket():\n    import socket\n    socket.create_connection((\"localhost\", 8080))\n    assert Path(OUT).exists()\n\n\ndef test_http_client():\n    import http.client\n    http.client.HTTPConnection(\"localhost\", 8080).request(\"GET\", \"/\")\n    assert Path(OUT).exists()\n",
+  "expected": {
+   "test_urlopen": "P0",
+   "test_requests": "P0",
+   "test_socket": "P0",
+   "test_http_client": "P0"
+  }
+ },
+ {
+  "id": "cl3-value-and-state-asserts",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef _compute():\n    return 3\n\n\ndef test_arith_with_path():\n    assert os.path.exists(OUT) and 2 * 2 == 4\n\n\ndef test_return_value():\n    assert _compute() == 3\n\n\ndef test_process_state():\n    assert os.getpid() > 0 and os.path.exists(OUT)\n\n\ndef test_equal_exists_const():\n    assert os.path.exists(OUT) == True\n\n\ndef test_enum_count():\n    assert len([\"a\", \"b\"]) == 2 and os.path.exists(OUT)\n",
+  "expected": {
+   "test_arith_with_path": "P0",
+   "test_return_value": "P0",
+   "test_process_state": "P0",
+   "test_equal_exists_const": "P1",
+   "test_enum_count": "P0"
+  }
+ },
+ {
+  "id": "reach-helper-depth-1-2-3",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef _a1():\n    return Path(OUT).exists()\n\n\ndef _a2():\n    return _a1()\n\n\ndef _a3():\n    return _a2()\n\n\ndef _b1():\n    return Path(OUT).read_text() == \"1\"\n\n\ndef _b2():\n    return _b1()\n\n\ndef _b3():\n    return _b2()\n\n\ndef test_d1_yes():\n    assert _a1()\n\n\ndef test_d2_yes():\n    assert _a2()\n\n\ndef test_d3_yes():\n    assert _a3()\n\n\ndef test_d1_no():\n    assert _b1()\n\n\ndef test_d2_no():\n    assert _b2()\n\n\ndef test_d3_no():\n    assert _b3()\n",
+  "expected": {
+   "test_d1_yes": "P1",
+   "test_d2_yes": "P1",
+   "test_d3_yes": "P1",
+   "test_d1_no": "P0",
+   "test_d2_no": "P0",
+   "test_d3_no": "P0"
+  }
+ },
+ {
+  "id": "reach-helper-deep-pollution",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef _l1():\n    return _l2() and os.path.isdir(D)\n\n\ndef _l2():\n    return _l3() or os.path.exists(\"/x\")\n\n\ndef _l3():\n    return Path(OUT).is_file()\n\n\ndef _p1():\n    return _p2()\n\n\ndef _p2():\n    return _p3()\n\n\ndef _p3():\n    subprocess.run([\"true\"])\n    return True\n\n\ndef _s1():\n    return _s2() and os.path.exists(OUT)\n\n\ndef _s2():\n    return os.path.getsize(OUT) > 0\n\n\ndef test_clean():\n    assert _l1()\n\n\ndef test_deep_subprocess():\n    assert _p1() and Path(OUT).exists()\n\n\ndef test_deep_size():\n    assert _s1()\n",
+  "expected": {
+   "test_clean": "P1",
+   "test_deep_subprocess": "P0",
+   "test_deep_size": "P0"
+  }
+ },
+ {
+  "id": "reach-mutual-recursion-clean",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef _ping(n=3):\n    return _pong(n - 1) if n else Path(OUT).exists()\n\n\ndef _pong(n):\n    return _ping(n) or os.path.isdir(D)\n\n\ndef test_even():\n    assert _ping()\n\n\ndef test_odd():\n    assert _pong(2)\n",
+  "expected": {
+   "test_even": "P1",
+   "test_odd": "P1"
+  }
+ },
+ {
+  "id": "reach-mutual-recursion-dirty",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef _ping(n=3):\n    return _pong(n - 1) if n else Path(OUT).exists()\n\n\ndef _pong(n):\n    if n == 0:\n        return json.loads(Path(OUT).read_text())[\"k\"] == 1\n    return _ping(n - 1)\n\n\ndef test_ping():\n    assert _ping()\n\n\ndef test_pong():\n    assert _pong(2)\n",
+  "expected": {
+   "test_ping": "P0",
+   "test_pong": "P0"
+  }
+ },
+ {
+  "id": "reach-triple-mutual-recursion",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef _a(n):\n    return _b(n) or _c(n)\n\n\ndef _b(n):\n    return _c(n - 1) if n else os.path.exists(OUT)\n\n\ndef _c(n):\n    return _a(n - 1) if n else Path(D).is_dir()\n\n\ndef _d(n):\n    return _e(n)\n\n\ndef _e(n):\n    return _d(n - 1) if n else os.path.getsize(OUT) > 0\n\n\ndef test_a():\n    assert _a(2)\n\n\ndef test_b():\n    assert _d(2)\n",
+  "expected": {
+   "test_a": "P1",
+   "test_b": "P0"
+  }
+ },
+ {
+  "id": "reach-self-recursion",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef _wait(n):\n    return _wait(n - 1) if n else Path(OUT).exists()\n\n\ndef _wait_dirty(n):\n    return _wait_dirty(n - 1) if n else Path(OUT).read_text() == \"x\"\n\n\ndef test_wait_ok():\n    assert _wait(3)\n\n\ndef test_wait_dirty():\n    assert _wait_dirty(3)\n",
+  "expected": {
+   "test_wait_ok": "P1",
+   "test_wait_dirty": "P0"
+  }
+ },
+ {
+  "id": "reach-helper-with-own-assert",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef _check(p):\n    assert os.path.exists(p)\n\n\ndef _check_dirty(p):\n    assert Path(p).read_text() == \"1\"\n\n\ndef _noop(p):\n    return os.path.exists(p)\n\n\ndef test_via_helper():\n    _check(OUT)\n\n\ndef test_via_dirty_helper():\n    _check_dirty(OUT)\n\n\ndef test_helper_noassert_test_noassert():\n    _noop(OUT)\n\n\ndef test_helper_assert_plus_own():\n    _check(D)\n    assert Path(OUT).exists()\n",
+  "expected": {
+   "test_via_helper": "P1",
+   "test_via_dirty_helper": "P0",
+   "test_helper_noassert_test_noassert": "P0",
+   "test_helper_assert_plus_own": "P1"
+  }
+ },
+ {
+  "id": "reach-uncalled-helper-not-reachable",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef _dirty():\n    return Path(OUT).read_text() == \"1\"\n\n\ndef _clean():\n    return Path(OUT).exists()\n\n\ndef test_ignores_dirty_helper():\n    assert _clean()\n\n\ndef test_calls_dirty_helper():\n    assert _clean() and _dirty()\n\n\ndef test_other_ignores():\n    assert os.path.exists(OUT)\n",
+  "expected": {
+   "test_ignores_dirty_helper": "P1",
+   "test_calls_dirty_helper": "P0",
+   "test_other_ignores": "P1"
+  }
+ },
+ {
+  "id": "reach-helper-with-args-and-return",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef _has(p, kind=\"file\"):\n    return os.path.isfile(p) if kind == \"file\" else os.path.isdir(p)\n\n\ndef _out_path():\n    return Path(D) / \"out.txt\"\n\n\ndef _out_text():\n    return (Path(D) / \"out.txt\").read_text()\n\n\ndef test_arg_helper():\n    assert _has(OUT)\n\n\ndef test_arg_helper_loop():\n    assert all(_has(p) for p in [\"/a\", \"/b\"])\n\n\ndef test_kwargs_helper():\n    assert _has(D, kind=\"dir\")\n\n\ndef test_helper_returns_path():\n    assert _out_path().exists()\n\n\ndef test_helper_returns_content():\n    assert _out_text()\n",
+  "expected": {
+   "test_arg_helper": "P1",
+   "test_arg_helper_loop": "P1",
+   "test_kwargs_helper": "P1",
+   "test_helper_returns_path": "P1",
+   "test_helper_returns_content": "P0"
+  }
+ },
+ {
+  "id": "reach-helper-name-lies",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef check_exists(p):\n    return Path(p).read_text() != \"\"\n\n\ndef read_text_summary(p):\n    return os.path.exists(p)\n\n\ndef exists(p):\n    return os.path.getsize(p) > 0\n\n\ndef is_file(p):\n    return Path(p).read_text() == \"ok\"\n\n\ndef test_named_exists_but_reads():\n    assert check_exists(OUT)\n\n\ndef test_named_read_but_exists():\n    assert read_text_summary(OUT)\n\n\ndef test_shadow_exists():\n    assert exists(OUT)\n\n\ndef test_shadow_is_file():\n    assert is_file(OUT)\n\n\ndef test_shadow_var():\n    exists = Path(OUT).read_text()\n    assert exists\n",
+  "expected": {
+   "test_named_exists_but_reads": "P0",
+   "test_named_read_but_exists": "P1",
+   "test_shadow_exists": "P0",
+   "test_shadow_is_file": "P0",
+   "test_shadow_var": "P0"
+  }
+ },
+ {
+  "id": "reach-main-and-toplevel-guard-not-reachable",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef main():\n    subprocess.run([\"true\"])\n    print(Path(OUT).read_text())\n\n\ndef test_a():\n    assert Path(OUT).exists()\n\n\nif __name__ == \"__main__\":\n    main()\n    pytest.main([__file__])\n",
+  "expected": {
+   "test_a": "P1"
+  }
+ },
+ {
+  "id": "reach-inner-function-called",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_inner_dirty():\n    def check():\n        return Path(OUT).read_text() == \"1\"\n    assert check()\n\n\ndef test_inner_clean():\n    def check():\n        return Path(OUT).exists()\n    assert check()\n",
+  "expected": {
+   "test_inner_dirty": "P0",
+   "test_inner_clean": "P1"
+  }
+ },
+ {
+  "id": "reach-lambda-helper",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_lambda_clean():\n    has = lambda p: os.path.exists(p)\n    assert has(OUT)\n\n\ndef test_lambda_dirty():\n    has = lambda p: Path(p).read_text() == \"1\"\n    assert has(OUT)\n",
+  "expected": {
+   "test_lambda_clean": "P1",
+   "test_lambda_dirty": "P0"
+  }
+ },
+ {
+  "id": "reach-fixture-clean-and-dirty",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\n@pytest.fixture\ndef out_path():\n    return Path(OUT)\n\n\n@pytest.fixture\ndef out_text():\n    return Path(OUT).read_text()\n\n\n@pytest.fixture\ndef unused_dirty():\n    subprocess.run([\"true\"])\n\n\ndef test_clean_fix(out_path):\n    assert out_path.exists()\n\n\ndef test_dirty_fix(out_path, out_text):\n    assert out_path.exists()\n\n\ndef test_both(out_path, out_text):\n    assert out_path.exists() and out_text\n\n\ndef test_no_fix():\n    assert Path(OUT).exists()\n\n\ndef test_param_fix_unrelated(out_path):\n    assert os.path.exists(D)\n",
+  "expected": {
+   "test_clean_fix": "P1",
+   "test_dirty_fix": "P0",
+   "test_both": "P0",
+   "test_no_fix": "P1",
+   "test_param_fix_unrelated": "P1"
+  }
+ },
+ {
+  "id": "reach-fixture-chain",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\n@pytest.fixture\ndef base_dirty():\n    subprocess.run([\"true\"], check=True)\n    return Path(OUT)\n\n\n@pytest.fixture\ndef mid_dirty(base_dirty):\n    return base_dirty\n\n\n@pytest.fixture\ndef top_dirty(mid_dirty):\n    return mid_dirty\n\n\n@pytest.fixture\ndef base_clean():\n    return Path(OUT)\n\n\n@pytest.fixture\ndef top_clean(base_clean):\n    return base_clean\n\n\ndef test_chain_dirty(mid_dirty):\n    assert mid_dirty.exists()\n\n\ndef test_chain_clean(top_clean):\n    assert top_clean.exists()\n\n\ndef test_chain_depth3(top_dirty):\n    assert top_dirty.exists()\n",
+  "expected": {
+   "test_chain_dirty": "P0",
+   "test_chain_clean": "P1",
+   "test_chain_depth3": "P0"
+  }
+ },
+ {
+  "id": "reach-fixture-yield-and-scope",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\n@pytest.fixture\ndef staged():\n    yield Path(OUT)\n    Path(\"/tmp/x\").unlink(missing_ok=True)\n\n\n@pytest.fixture(scope=\"module\")\ndef mod_dirty():\n    data = json.load(open(\"/app/cfg.json\"))\n    return data\n\n\n@pytest.fixture(scope=\"function\")\ndef yield_dirty():\n    yield Path(OUT)\n    print(Path(OUT).read_text())\n\n\ndef test_yield_clean(staged):\n    assert staged.exists()\n\n\ndef test_yield_dirty(yield_dirty):\n    assert yield_dirty.exists()\n\n\ndef test_module_scope_dirty(mod_dirty):\n    assert Path(OUT).exists()\n",
+  "expected": {
+   "test_yield_clean": "P1",
+   "test_yield_dirty": "P0",
+   "test_module_scope_dirty": "P0"
+  }
+ },
+ {
+  "id": "reach-fixture-value-assertions",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\n@pytest.fixture\ndef n_files():\n    return len(os.listdir(D))\n\n\n@pytest.fixture\ndef out_dir():\n    return Path(D)\n\n\n@pytest.fixture(params=[\"a.txt\", \"b.txt\"])\ndef fname(request):\n    return request.param\n\n\ndef test_value_fix_cmp(n_files):\n    assert n_files == 3\n\n\ndef test_value_fix_exists(out_dir):\n    assert out_dir.is_dir()\n\n\ndef test_fixture_with_params(fname):\n    assert Path(D, fname).exists()\n\n\n@pytest.mark.parametrize(\"n\", [1, 2, 3])\ndef test_parametrized_value(n):\n    assert len(os.listdir(D)) == n\n",
+  "expected": {
+   "test_value_fix_cmp": "P0",
+   "test_value_fix_exists": "P1",
+   "test_fixture_with_params": "P1",
+   "test_parametrized_value": "P0"
+  }
+ },
+ {
+  "id": "reach-parametrize-clean",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\n@pytest.mark.parametrize(\"name\", [\"a.txt\", \"b.txt\"])\ndef test_param_exists(name):\n    assert Path(D, name).exists()\n\n\n@pytest.mark.parametrize(\"name,kind\", [(\"a\", \"file\"), (\"b\", \"dir\")])\ndef test_param_names(name, kind):\n    p = Path(D, name)\n    assert p.is_file() or p.is_dir()\n\n\n@pytest.mark.parametrize(\"name,size\", [(\"a\", 1), (\"b\", 2)])\ndef test_param_cmp(name, size):\n    assert Path(D, name).stat().st_size == size\n",
+  "expected": {
+   "test_param_exists": "P1",
+   "test_param_names": "P1",
+   "test_param_cmp": "P0"
+  }
+ },
+ {
+  "id": "reach-fixture-in-class",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\n@pytest.fixture\ndef clean():\n    return Path(OUT)\n\n\n@pytest.fixture\ndef dirty():\n    return Path(OUT).read_text()\n\n\nclass TestF:\n    def test_clean(self, clean):\n        assert clean.exists()\n\n    def test_dirty(self, dirty):\n        assert Path(OUT).exists()\n",
+  "expected": {
+   "TestF.test_clean": "P1",
+   "TestF.test_dirty": "P0"
+  }
+ },
+ {
+  "id": "cls-plain-class-methods",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nclass TestA:\n    def test_one(self):\n        assert Path(OUT).exists()\n\n    def test_two(self):\n        assert Path(OUT).read_text() == \"x\"\n\n    def test_three(self):\n        pass\n\n    def helper_not_a_test(self):\n        assert 1 == 2\n\n\nclass Checks:\n    def test_x(self):\n        assert os.path.isfile(OUT)\n",
+  "expected": {
+   "TestA.test_one": "P1",
+   "TestA.test_two": "P0",
+   "TestA.test_three": "P0",
+   "Checks.test_x": "P1"
+  }
+ },
+ {
+  "id": "cls-same-name-module-and-method",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_a():\n    assert Path(OUT).exists()\n\n\nclass TestA:\n    def test_a(self):\n        assert Path(OUT).read_text() == \"x\"\n\n\nclass TestB:\n    def test_a(self):\n        assert os.path.exists(OUT)\n",
+  "expected": {
+   "test_a": "P1",
+   "TestA.test_a": "P0",
+   "TestB.test_a": "P1"
+  }
+ },
+ {
+  "id": "cls-self-helper-methods",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nclass TestH:\n    OUT_PATH = \"/app/out.txt\"\n\n    def _clean(self):\n        return Path(OUT).exists()\n\n    def _dirty(self):\n        return Path(OUT).read_text() == \"1\"\n\n    def _mid(self):\n        return self._clean()\n\n    def _mid_dirty(self):\n        return self._dirty()\n\n    @staticmethod\n    def _static():\n        return os.path.isfile(OUT)\n\n    def test_clean(self):\n        assert self._clean()\n\n    def test_dirty(self):\n        assert self._dirty()\n\n    def test_depth2(self):\n        assert self._mid()\n\n    def test_depth2_dirty(self):\n        assert self._mid_dirty()\n\n    def test_static(self):\n        assert self._static()\n\n    def test_classattr(self):\n        assert os.path.exists(self.OUT_PATH)\n",
+  "expected": {
+   "TestH.test_clean": "P1",
+   "TestH.test_dirty": "P0",
+   "TestH.test_depth2": "P1",
+   "TestH.test_depth2_dirty": "P0",
+   "TestH.test_static": "P1",
+   "TestH.test_classattr": "P1"
+  }
+ },
+ {
+  "id": "cls-self-vs-module-helper-shadow",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef check():\n    return Path(OUT).read_text() == \"1\"\n\n\ndef test_module():\n    assert check()\n\n\nclass TestS:\n    def check(self):\n        return Path(OUT).exists()\n\n    def test_self(self):\n        assert self.check()\n\n    def test_via_module_name(self):\n        assert check()\n",
+  "expected": {
+   "test_module": "P0",
+   "TestS.test_self": "P1",
+   "TestS.test_via_module_name": "P0"
+  }
+ },
+ {
+  "id": "cls-module-helper-from-class",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef _exists():\n    return Path(OUT).exists()\n\n\ndef _content():\n    return Path(OUT).read_text()\n\n\nclass TestM:\n    def test_clean(self):\n        assert _exists()\n\n    def test_dirty(self):\n        assert _content() == \"x\"\n",
+  "expected": {
+   "TestM.test_clean": "P1",
+   "TestM.test_dirty": "P0"
+  }
+ },
+ {
+  "id": "cls-sibling-method-pollution",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nclass TestP:\n    def test_bad(self):\n        assert Path(OUT).read_text() == \"x\"\n        subprocess.run([\"true\"])\n\n    def test_ok(self):\n        assert Path(OUT).exists()\n",
+  "expected": {
+   "TestP.test_ok": "P1",
+   "TestP.test_bad": "P0"
+  }
+ },
+ {
+  "id": "unittest-basic-styles",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nimport unittest\n\n\nclass TestU(unittest.TestCase):\n    def test_true(self):\n        self.assertTrue(os.path.exists(OUT))\n\n    def test_isfile(self):\n        self.assertTrue(Path(OUT).is_file())\n\n    def test_in_listdir(self):\n        self.assertIn(\"out.txt\", os.listdir(D))\n\n    def test_and(self):\n        self.assertTrue(os.path.exists(OUT) and os.path.isdir(D))\n\n    def test_msg(self):\n        self.assertTrue(os.path.exists(OUT), \"out.txt in /app == missing\")\n\n    def test_assertTrue_isdir(self):\n        self.assertTrue(os.path.isdir(D), msg=\"no dir\")\n\n    def test_assertTrue_glob(self):\n        self.assertTrue(glob.glob(\"/app/*.so\"))\n",
+  "expected": {
+   "TestU.test_true": "P1",
+   "TestU.test_isfile": "P1",
+   "TestU.test_in_listdir": "P1",
+   "TestU.test_and": "P1",
+   "TestU.test_msg": "P1",
+   "TestU.test_assertTrue_isdir": "P1",
+   "TestU.test_assertTrue_glob": "P1"
+  }
+ },
+ {
+  "id": "unittest-content-styles",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nimport re\nimport unittest\n\n\nclass TestV(unittest.TestCase):\n    def test_equal_size(self):\n        self.assertEqual(os.path.getsize(OUT), 0)\n\n    def test_len_listdir(self):\n        self.assertEqual(len(os.listdir(D)), 3)\n\n    def test_true_len(self):\n        self.assertTrue(len(os.listdir(D)) > 0)\n\n    def test_greater(self):\n        self.assertGreater(Path(OUT).stat().st_size, 0)\n\n    def test_equal_text(self):\n        self.assertEqual(Path(OUT).read_text(), \"x\")\n\n    def test_in_content(self):\n        self.assertIn(\"ok\", Path(OUT).read_text())\n\n    def test_regex(self):\n        self.assertRegex(Path(OUT).read_text(), r\"^x+$\")\n\n    def test_count_equal(self):\n        self.assertCountEqual(os.listdir(D), [\"a\", \"b\"])\n\n    def test_raises_style(self):\n        with self.assertRaises(ValueError):\n            json.loads(Path(OUT).read_text())\n\n    def test_exists_then_size(self):\n        self.assertTrue(os.path.exists(OUT))\n        self.assertGreater(os.path.getsize(OUT), 0)\n\n    def test_almost(self):\n        self.assertAlmostEqual(os.path.getmtime(OUT), 0.0, delta=1e12)\n\n    def test_is_not_none(self):\n        self.assertIsNotNone(re.search(\"x\", Path(OUT).read_text()))\n",
+  "expected": {
+   "TestV.test_equal_size": "P0",
+   "TestV.test_len_listdir": "P0",
+   "TestV.test_true_len": "P0",
+   "TestV.test_greater": "P0",
+   "TestV.test_equal_text": "P0",
+   "TestV.test_in_content": "P0",
+   "TestV.test_regex": "P0",
+   "TestV.test_count_equal": "P0",
+   "TestV.test_raises_style": "P0",
+   "TestV.test_exists_then_size": "P0",
+   "TestV.test_almost": "P0",
+   "TestV.test_is_not_none": "P0"
+  }
+ },
+ {
+  "id": "unittest-no-assertions",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nimport unittest\n\n\nclass TestW(unittest.TestCase):\n    def test_skip(self):\n        self.skipTest(\"later\")\n\n    def test_pass(self):\n        pass\n\n    def test_call_only(self):\n        os.path.exists(OUT)\n\n    def test_exists_unused(self):\n        ok = Path(OUT).exists()\n        print(ok)\n",
+  "expected": {
+   "TestW.test_skip": "P0",
+   "TestW.test_pass": "P0",
+   "TestW.test_call_only": "P0",
+   "TestW.test_exists_unused": "P0"
+  }
+ },
+ {
+  "id": "unittest-helper-methods",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nimport unittest\n\n\nclass TestX(unittest.TestCase):\n    def _assert_there(self, p):\n        self.assertTrue(os.path.exists(p))\n\n    def _assert_text(self, p):\n        self.assertEqual(Path(p).read_text(), \"x\")\n\n    def _chain(self):\n        self._assert_there(OUT)\n\n    def test_helper_assert(self):\n        self._assert_there(OUT)\n\n    def test_helper_dirty(self):\n        self._assert_text(OUT)\n\n    def test_helper_chain(self):\n        self._chain()\n        self._assert_there(D)\n",
+  "expected": {
+   "TestX.test_helper_assert": "P1",
+   "TestX.test_helper_dirty": "P0",
+   "TestX.test_helper_chain": "P1"
+  }
+ },
+ {
+  "id": "unittest-module-level-and-class-mix",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nimport unittest\n\n\ndef test_plain():\n    assert os.path.exists(OUT)\n\n\nclass TestY(unittest.TestCase):\n    def test_ut(self):\n        self.assertTrue(os.path.isdir(D))\n\n    def test_ut_dirty(self):\n        self.assertTrue(subprocess.run([\"true\"]).returncode == 0)\n",
+  "expected": {
+   "test_plain": "P1",
+   "TestY.test_ut": "P1",
+   "TestY.test_ut_dirty": "P0"
+  }
+ },
+ {
+  "id": "unittest-classmethod-helper",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nimport unittest\n\n\nclass TestZ(unittest.TestCase):\n    @classmethod\n    def _present(cls):\n        return os.path.exists(OUT)\n\n    @classmethod\n    def _text(cls):\n        return Path(OUT).read_text()\n\n    def test_cm(self):\n        self.assertTrue(self._present())\n\n    def test_cm_dirty(self):\n        self.assertTrue(self._text())\n",
+  "expected": {
+   "TestZ.test_cm": "P1",
+   "TestZ.test_cm_dirty": "P0"
+  }
+ },
+ {
+  "id": "fail-branches-existence",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_fail_not_exists():\n    if not Path(OUT).exists():\n        pytest.fail(\"missing out.txt\")\n\n\ndef test_raise_not_isfile():\n    if not os.path.isfile(OUT):\n        raise AssertionError(\"out.txt is not a file\")\n\n\ndef test_fail_loop():\n    for p in [\"/a\", \"/b\"]:\n        if not os.path.exists(p):\n            pytest.fail(f\"{p} missing in /app\")\n\n\ndef test_fail_else():\n    if os.path.exists(OUT):\n        pass\n    else:\n        pytest.fail(\"gone\")\n\n\ndef test_fail_and():\n    if os.path.exists(OUT) and not os.path.isfile(OUT):\n        pytest.fail(\"not a regular file\")\n\n\ndef test_fail_elif():\n    if os.path.isfile(OUT):\n        return\n    elif os.path.isdir(OUT):\n        return\n    else:\n        raise AssertionError(\"neither\")\n\n\ndef test_fail_return_early():\n    if Path(OUT).exists():\n        return\n    pytest.fail(\"never created\")\n",
+  "expected": {
+   "test_fail_not_exists": "P1",
+   "test_raise_not_isfile": "P1",
+   "test_fail_loop": "P1",
+   "test_fail_else": "P1",
+   "test_fail_and": "P1",
+   "test_fail_elif": "P1",
+   "test_fail_return_early": "P1"
+  }
+ },
+ {
+  "id": "fail-branches-content",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_fail_content():\n    if Path(OUT).read_text() != \"x\":\n        pytest.fail(\"bad content\")\n\n\ndef test_raise_size():\n    if os.path.getsize(OUT) == 0:\n        raise AssertionError(\"empty\")\n\n\ndef test_fail_returncode():\n    r = subprocess.run([\"true\"])\n    if r.returncode != 0:\n        pytest.fail(\"cmd failed\")\n\n\ndef test_fail_count():\n    if len(os.listdir(D)) != 2:\n        raise AssertionError(\"count\")\n\n\ndef test_fail_plus_exists_assert():\n    assert Path(OUT).exists()\n    if Path(OUT).read_text() == \"\":\n        pytest.fail(\"empty\")\n\n\ndef test_fail_value_cmp():\n    n = 3\n    if n != 3:\n        pytest.fail(\"n\")\n",
+  "expected": {
+   "test_fail_content": "P0",
+   "test_raise_size": "P0",
+   "test_fail_returncode": "P0",
+   "test_fail_count": "P0",
+   "test_fail_plus_exists_assert": "P0",
+   "test_fail_value_cmp": "P0"
+  }
+ },
+ {
+  "id": "fail-mixed-assert-and-fail",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_assert_and_fail_clean():\n    assert os.path.isdir(D)\n    if not os.path.exists(OUT):\n        pytest.fail(\"nope\")\n\n\ndef test_fail_clean_assert_dirty():\n    if not os.path.exists(OUT):\n        pytest.fail(\"nope\")\n    assert os.path.getsize(OUT) > 0\n",
+  "expected": {
+   "test_assert_and_fail_clean": "P1",
+   "test_fail_clean_assert_dirty": "P0"
+  }
+ },
+ {
+  "id": "fail-in-helper",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef _require(p):\n    if not os.path.exists(p):\n        pytest.fail(f\"need {p}\")\n\n\ndef _require_text(p):\n    if Path(p).read_text() != \"ok\":\n        pytest.fail(f\"need ok in {p}\")\n\n\ndef test_helper_fail():\n    _require(OUT)\n\n\ndef test_helper_fail_dirty():\n    _require_text(OUT)\n",
+  "expected": {
+   "test_helper_fail": "P1",
+   "test_helper_fail_dirty": "P0"
+  }
+ },
+ {
+  "id": "code-comments-docstrings-clean",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\n\"\"\"Module docstring: uses subprocess.run and Path.read_text() everywhere (it does not).\"\"\"\n\n\ndef test_comment_read_text():\n    # old version: assert Path(OUT).read_text() == \"x\"\n    # subprocess.run([\"true\"])\n    assert Path(OUT).exists()\n\n\ndef test_docstring_subprocess():\n    \"\"\"Runs subprocess.run([\"x\"]) and open(OUT).read(); json.load(f) too -- not really.\"\"\"\n    assert os.path.exists(OUT)\n\n\ndef test_trailing_comment():\n    assert os.path.isfile(OUT)  # read_text json.load open(OUT) subprocess.run getsize == 0\n\n\nclass TestC:\n    \"\"\"Class doc: subprocess.check_output, read_bytes, np.load.\"\"\"\n\n    def test_method_doc(self):\n        \"\"\"read_text() == 'x' and os.path.getsize(OUT) > 0\"\"\"\n        assert Path(OUT).exists()\n",
+  "expected": {
+   "test_comment_read_text": "P1",
+   "test_docstring_subprocess": "P1",
+   "test_trailing_comment": "P1",
+   "TestC.test_method_doc": "P1"
+  }
+ },
+ {
+  "id": "code-comments-docstrings-cannot-rescue",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_doc_assert():\n    \"\"\"assert Path(OUT).exists()\"\"\"\n    pass\n\n\ndef test_comment_assert():\n    # assert os.path.exists(OUT)\n    pass\n\n\ndef test_doc_exists_but_content():\n    \"\"\"only checks existence\"\"\"\n    assert Path(OUT).read_text() == \"x\"\n\n\ndef test_str_assert():\n    code = \"assert os.path.exists(OUT)\"\n    assert code == \"assert os.path.exists(OUT)\"\n\n\nclass TestC2:\n    def test_doc(self):\n        \"\"\"assert Path(OUT).exists()\"\"\"\n",
+  "expected": {
+   "test_doc_assert": "P0",
+   "test_comment_assert": "P0",
+   "test_doc_exists_but_content": "P0",
+   "test_str_assert": "P0",
+   "TestC2.test_doc": "P0"
+  }
+ },
+ {
+  "id": "code-string-literals-are-not-code",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nSCRIPT = \"\"\"\nimport subprocess\nsubprocess.run([\"true\"])\nprint(open(\"/app/out.txt\").read())\n\"\"\"\n\n\ndef test_script_string():\n    script = \"\"\"import json; json.load(open('/app/out.txt'))\"\"\"\n    assert os.path.exists(OUT)\n\n\ndef test_heredoc_string():\n    text = \"cat /app/out.txt | wc -l\"\n    print(text)\n    assert Path(OUT).exists()\n\n\ndef test_string_executed():\n    subprocess.run([\"python3\", \"-c\", SCRIPT])\n    assert Path(OUT).exists()\n\n\ndef test_fstring_text():\n    label = f\"subprocess.run read_text {OUT}\"\n    assert os.path.exists(OUT), label\n\n\ndef test_script_run_subprocess():\n    r = subprocess.run([\"bash\", \"-c\", \"cat /app/out.txt\"], capture_output=True)\n    assert Path(OUT).exists()\n",
+  "expected": {
+   "test_script_string": "P1",
+   "test_heredoc_string": "P1",
+   "test_string_executed": "P0",
+   "test_fstring_text": "P1",
+   "test_script_run_subprocess": "P0"
+  }
+ },
+ {
+  "id": "code-fstring-embedded-code",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_fstring_embedded_exists():\n    assert os.path.exists(OUT), f\"{Path(OUT).exists()} missing\"\n\n\ndef test_fstring_embedded_read():\n    msg = f\"content: {Path(OUT).read_text()}\"\n    assert os.path.exists(OUT), msg\n",
+  "expected": {
+   "test_fstring_embedded_exists": "P1",
+   "test_fstring_embedded_read": "P0"
+  }
+ },
+ {
+  "id": "u-uncaptured-helper-module",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nimport helpers\nfrom helpers import check_output_file\nfrom utils import OUT_DIR\n\n\ndef test_call_uncaptured():\n    assert check_output_file()\n\n\ndef test_attr_uncaptured():\n    assert helpers.ok(OUT)\n\n\ndef test_exists_only():\n    assert Path(OUT).exists()\n\n\ndef test_uncaptured_in_message_only():\n    assert Path(OUT).exists(), \"see helpers for details\"\n\n\ndef test_uncaptured_constant_unused():\n    assert os.path.isdir(D)\n",
+  "expected": {
+   "test_call_uncaptured": "P0",
+   "test_attr_uncaptured": "P0",
+   "test_exists_only": "P1",
+   "test_uncaptured_in_message_only": "P1",
+   "test_uncaptured_constant_unused": "P1"
+  }
+ },
+ {
+  "id": "u-relative-and-star-imports",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nfrom . import support\nfrom helpers import *\n\n\ndef test_relative_call():\n    assert support.ready()\n\n\ndef test_star_name_call():\n    assert verify_output()\n\n\ndef test_clean():\n    assert Path(OUT).exists()\n",
+  "expected": {
+   "test_relative_call": "P0",
+   "test_star_name_call": "P0",
+   "test_clean": "P1"
+  }
+ },
+ {
+  "id": "u-imported-stdlib-results",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nimport shutil\nimport pathlib\nimport fnmatch\n\n\ndef test_stdlib_exists():\n    assert pathlib.Path(OUT).exists()\n\n\ndef test_stdlib_content():\n    assert pathlib.Path(OUT).read_text()\n\n\ndef test_stdlib_compare():\n    assert fnmatch.fnmatch(\"out.txt\", \"*.txt\") and os.path.exists(OUT)\n\n\ndef test_stdlib_glob():\n    assert glob.glob(D + \"/*\")\n",
+  "expected": {
+   "test_stdlib_exists": "P1",
+   "test_stdlib_content": "P0",
+   "test_stdlib_compare": "P0",
+   "test_stdlib_glob": "P1"
+  }
+ },
+ {
+  "id": "u-deliverable-import-unused-and-used",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nimport numpy as np\nimport solution\n\n\ndef test_import_unused():\n    assert Path(OUT).exists()\n\n\ndef test_import_used():\n    assert solution.answer() and Path(OUT).exists()\n",
+  "expected": {
+   "test_import_unused": "P1",
+   "test_import_used": "P0"
+  }
+ },
+ {
+  "id": "struct-nested-def-not-called",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_outer():\n    def test_inner():\n        assert Path(OUT).read_text() == \"x\"\n    assert Path(OUT).exists()\n",
+  "expected": {
+   "test_outer": "P1"
+  },
+  "must_not_include": [
+   "test_inner"
+  ]
+ },
+ {
+  "id": "struct-with-and-try",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nimport contextlib\n\n\ndef test_with_ctx():\n    with contextlib.suppress(Exception):\n        assert os.path.exists(OUT)\n\n\ndef test_try_except():\n    try:\n        assert os.path.exists(OUT)\n    except AssertionError:\n        raise\n\n\ndef test_try_finally_dirty():\n    try:\n        assert os.path.exists(OUT)\n    finally:\n        print(Path(OUT).read_text())\n\n\ndef test_with_pytest_raises_dirty():\n    with pytest.raises(json.JSONDecodeError):\n        json.loads(Path(OUT).read_text())\n    assert os.path.exists(OUT)\n",
+  "expected": {
+   "test_with_ctx": "P1",
+   "test_try_except": "P1",
+   "test_try_finally_dirty": "P0",
+   "test_with_pytest_raises_dirty": "P0"
+  }
+ },
+ {
+  "id": "struct-conditional-expression",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_ifexp_clean():\n    assert (os.path.isdir(OUT) if os.path.exists(OUT) else os.path.isfile(OUT))\n\n\ndef test_ifexp_dirty():\n    assert (os.path.exists(OUT) if Path(OUT).read_text() else False)\n",
+  "expected": {
+   "test_ifexp_clean": "P1",
+   "test_ifexp_dirty": "P0"
+  }
+ },
+ {
+  "id": "struct-walrus-and-chained",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_walrus():\n    assert (p := Path(OUT)).exists()\n\n\ndef test_chained_compare_dirty():\n    assert 0 < os.path.getsize(OUT) < 100\n",
+  "expected": {
+   "test_walrus": "P1",
+   "test_chained_compare_dirty": "P0"
+  }
+ },
+ {
+  "id": "struct-module-constants-paths",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nOUT_P = Path(\"/app/out.txt\")\nFILES = (\"/app/a\", \"/app/b\")\nSPEC = {\"a\": \"/app/a\", \"b\": \"/app/b\"}\n\n\ndef test_const_path():\n    assert OUT_P.exists()\n\n\ndef test_const_tuple():\n    assert all(Path(f).is_file() for f in FILES)\n\n\ndef test_const_dict():\n    for k, v in SPEC.items():\n        assert os.path.isfile(v), k\n",
+  "expected": {
+   "test_const_path": "P1",
+   "test_const_tuple": "P1",
+   "test_const_dict": "P1"
+  }
+ },
+ {
+  "id": "struct-decorated-helpers",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\nimport contextlib\nimport functools\n\n\n@functools.lru_cache(maxsize=None)\ndef _has_out():\n    return Path(OUT).exists()\n\n\n@functools.lru_cache(maxsize=None)\ndef _out_text():\n    return Path(OUT).read_text()\n\n\n@contextlib.contextmanager\ndef _staged():\n    yield Path(OUT)\n\n\ndef test_cached_helper():\n    assert _has_out()\n\n\ndef test_cached_dirty():\n    assert _out_text() == \"x\"\n\n\ndef test_contextmanager_helper():\n    with _staged() as p:\n        assert p.exists()\n",
+  "expected": {
+   "test_cached_helper": "P1",
+   "test_cached_dirty": "P0",
+   "test_contextmanager_helper": "P1"
+  }
+ },
+ {
+  "id": "struct-test-prefix-edge",
+  "source": "import os\nimport glob\nimport json\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\nOUT = \"/app/out.txt\"\nD = \"/app\"\n\ndef test_():\n    assert Path(OUT).exists()\n\n\ndef test_1():\n    assert Path(OUT).exists()\n\n\ndef tests_not_a_test():\n    assert Path(OUT).read_text() == \"x\"\n\n\ndef testnounderscore():\n    assert Path(OUT).read_text() == \"x\"\n",
+  "expected": {
+   "test_": "P1",
+   "test_1": "P1"
+  },
+  "must_not_include": [
+   "tests_not_a_test",
+   "testnounderscore"
+  ]
+ }
+]

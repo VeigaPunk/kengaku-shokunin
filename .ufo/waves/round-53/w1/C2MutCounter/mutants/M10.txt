@@ -1,0 +1,63 @@
+rc=1
+line=None
+--- stdout
+SELFTEST truthful rc=1 FAIL
+ROWS registry=2 ledger=2 missing=0 extra=0 entry_mismatch=0 bad_decl=2 bad_reason=0 duplicate_names=0
+  BAD-DECL a
+  BAD-DECL b
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+RUN executed=0 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=0 declared_red=0 observed_green=0 observed_red=0
+PREDICATE R53-C2 fail
+SELFTEST forged-all-green rc=1 FAIL
+ROWS registry=2 ledger=2 missing=0 extra=0 entry_mismatch=0 bad_decl=2 bad_reason=0 duplicate_names=0
+  BAD-DECL a
+  BAD-DECL b
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+RUN executed=0 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=0 declared_red=0 observed_green=0 observed_red=0
+PREDICATE R53-C2 fail
+SELFTEST forged-all-red rc=1 FAIL
+ROWS registry=2 ledger=2 missing=0 extra=0 entry_mismatch=0 bad_decl=2 bad_reason=0 duplicate_names=0
+  BAD-DECL a
+  BAD-DECL b
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+RUN executed=0 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=0 declared_red=0 observed_green=0 observed_red=0
+PREDICATE R53-C2 fail
+SELFTEST missing-ledger-row rc=1 ok
+SELFTEST extra-ledger-row rc=1 ok
+SELFTEST ledger-points-elsewhere rc=1 ok
+SELFTEST red-evidence-absent rc=1 FAIL
+ROWS registry=2 ledger=2 missing=0 extra=0 entry_mismatch=0 bad_decl=2 bad_reason=0 duplicate_names=0
+  BAD-DECL a
+  BAD-DECL b
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+RUN executed=0 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=0 declared_red=0 observed_green=0 observed_red=0
+PREDICATE R53-C2 fail
+SELFTEST red-reason-thin rc=1 FAIL
+ROWS registry=2 ledger=2 missing=0 extra=0 entry_mismatch=0 bad_decl=2 bad_reason=0 duplicate_names=0
+  BAD-DECL a
+  BAD-DECL b
+ARGV entry=2 selftest=0 help=0 help_limit=0.2
+RUN executed=0 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=0 declared_red=0 observed_green=0 observed_red=0
+PREDICATE R53-C2 fail
+--- stderr
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/m/M10/plans/round53_c2_tipstate.py", line 377, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/m/M10/plans/round53_c2_tipstate.py", line 367, in main
+    return selftest()
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/m/M10/plans/round53_c2_tipstate.py", line 336, in selftest
+    case("state-exit-inconsistent", two, inconsistent, want_rc=1, want_in=("BAD-DECL a",))
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/m/M10/plans/round53_c2_tipstate.py", line 290, in case
+    rc, lines = evaluate(lane, lane, d / "work", 2, 20, only, dry)
+                ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/m/M10/plans/round53_c2_tipstate.py", line 240, in evaluate
+    if sp["state"] == "red" and sp["evidence"] not in r["out"]:
+                                ~~^^^^^^^^^^^^
+KeyError: 'evidence'

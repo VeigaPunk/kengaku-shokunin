@@ -1,0 +1,28 @@
+rc=1
+line=None
+--- stdout
+SELFTEST truthful rc=0 ok
+SELFTEST forged-all-green rc=1 ok
+SELFTEST forged-all-red rc=1 ok
+SELFTEST missing-ledger-row rc=1 ok
+SELFTEST extra-ledger-row rc=1 ok
+SELFTEST ledger-points-elsewhere rc=1 ok
+SELFTEST red-evidence-absent rc=1 ok
+SELFTEST red-reason-thin rc=1 ok
+--- stderr
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/m/M55/plans/round53_c2_tipstate.py", line 492, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/m/M55/plans/round53_c2_tipstate.py", line 482, in main
+    return selftest()
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/m/M55/plans/round53_c2_tipstate.py", line 336, in selftest
+    case("state-exit-inconsistent", two, inconsistent, want_rc=1, want_in=("BAD-DECL a",))
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/m/M55/plans/round53_c2_tipstate.py", line 290, in case
+    rc, lines = evaluate(lane, lane, d / "work", 2, 20, only, dry)
+                ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/m/M55/plans/round53_c2_tipstate.py", line 240, in evaluate
+    if sp["state"] == "red" and sp["evidence"] not in r["out"]:
+                                ~~^^^^^^^^^^^^
+KeyError: 'evidence'

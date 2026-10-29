@@ -1,0 +1,129 @@
+{
+  "build-pmars-probe": {
+    "argv": [
+      "python3",
+      "plans/build_pmars_probe.py",
+      "--lane",
+      "."
+    ],
+    "exit": 0,
+    "state": "green",
+    "kind": "entry",
+    "tip_dependent": false,
+    "seconds": 1.7,
+    "argv_source": "entry cell: --lane . (lane root); no --work, counter sets TMPDIR"
+  },
+  "feal-probe": {
+    "argv": [
+      "python3",
+      "plans/feal_probe.py",
+      "--lane",
+      "."
+    ],
+    "exit": 0,
+    "state": "green",
+    "kind": "entry",
+    "tip_dependent": false,
+    "seconds": 99.2,
+    "argv_source": "entry cell: --lane . (lane root); no --work, counter sets TMPDIR"
+  },
+  "ledger-tip": {
+    "argv": [
+      "python3",
+      "plans/ledger_tip.py",
+      "--lane",
+      "."
+    ],
+    "exit": 1,
+    "state": "red",
+    "kind": "entry",
+    "reason": "Closed ledger row R35-D1 observes fail at the tip because its pkg_gate package rerun hits the P8 knowledge index defect: 56 knowledge files against 55 corpus/README.md index rows, so agree=NO and exit 1.",
+    "evidence": "R35-D1 status=closed observed=fail agree=NO",
+    "tip_dependent": true,
+    "tip_dependent_files": "corpus/README.md knowledge index and corpus/knowledge/*.md (re-measure after the round's knowledge entries are indexed; the check also needs a clean tree and refs/heads/master equal to the audited commit)",
+    "seconds": 5.1,
+    "argv_source": "entry cell control mode `--lane <clone>` with the lane root `.`; the `--source/--work` form needs --work which the counter forbids"
+  },
+  "round28-census": {
+    "argv": [
+      "python3",
+      "plans/round28_census.py",
+      "--root",
+      ".",
+      "--revision",
+      "536925b5320fa64298030b4ee76a58fc4b82723f"
+    ],
+    "exit": 1,
+    "state": "red",
+    "kind": "entry",
+    "reason": "The state_check leg reports one MISMATCH on assertion P3c.box.4.pointer.1 (PROVINCE.md:129 token absent) and the knowledge leg finds one unindexed file, so the census exits 1 regardless of index repair.",
+    "evidence": "\"MISMATCH\": 1,",
+    "tip_dependent": false,
+    "seconds": 1.9,
+    "argv_source": "entry cell `--root . --revision REV`; REV = base tip sha from the claims file (any caller-supplied label is valid, must be a constant)"
+  },
+  "round36-c2": {
+    "argv": [
+      "python3",
+      "plans/round36_c2_verify.py",
+      "--lane",
+      "."
+    ],
+    "exit": 1,
+    "state": "red",
+    "kind": "entry",
+    "reason": "Check W4 fails because corpus/knowledge holds 56 files but corpus/README.md indexes only 55, so defects=1 and the predicate fails at exit 1; indexing every new knowledge entry will turn it green.",
+    "evidence": "W4 DEFECT knowledge files=56 index rows=55",
+    "tip_dependent": true,
+    "tip_dependent_files": "corpus/README.md (knowledge index rows) and corpus/knowledge/*.md after the round's knowledge entry lands",
+    "seconds": 0.5,
+    "argv_source": "entry cell: --lane . ; --fleet left at its default"
+  },
+  "round40-c2": {
+    "argv": [
+      "python3",
+      "plans/round40_c2_verify.py",
+      "--lane",
+      "."
+    ],
+    "exit": 1,
+    "state": "red",
+    "kind": "entry",
+    "reason": "Gate leg P8 inside V2 fails with 56 knowledge files against 55 index rows in corpus/README.md, so V2 DEFECT gate_exit=1 and the predicate fails; all other checks V1 and V3 to V7 pass.",
+    "evidence": "gate: P8 DEFECT index_rows=55 knowledge_files=56",
+    "tip_dependent": true,
+    "tip_dependent_files": "corpus/README.md (knowledge index rows) and corpus/knowledge/*.md after the round's knowledge entry lands",
+    "seconds": 3.2,
+    "argv_source": "entry cell: --lane . ; --work omitted (script default None)"
+  },
+  "round45-c1": {
+    "argv": [
+      "python3",
+      "plans/round45_c1_verify.py",
+      "--lane",
+      "."
+    ],
+    "exit": 0,
+    "state": "green",
+    "kind": "entry",
+    "tip_dependent": false,
+    "seconds": 8.9,
+    "argv_source": "entry cell: --lane . ; --work omitted (script uses TMPDIR via mkdtemp)"
+  },
+  "round52-c1": {
+    "argv": [
+      "python3",
+      "plans/round52_c1_grader_audit.py",
+      "--lane",
+      "."
+    ],
+    "exit": 1,
+    "state": "red",
+    "kind": "entry",
+    "reason": "The frozen literal predicate requires CAPTURES present=184 but the operator-excluded sanitize-git-repo capture is absent so present=183 and R52-C1 fails; only the amended A5 predicate passes, a tip-independent state.",
+    "evidence": "CAPTURES expected=184 present=183 mismatched=0",
+    "tip_dependent": false,
+    "seconds": 0.6,
+    "argv_source": "entry cell: --lane . (live run, not --selftest)"
+  }
+}

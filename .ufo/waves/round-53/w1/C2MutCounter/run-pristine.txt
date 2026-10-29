@@ -1,0 +1,72 @@
+BASELINE rc=0 line=SELFTEST cases=12 failures=0
+MUTANTS total=69 killed=28 survived=41 driver_errors=0
+RESTORED rc=0 line=SELFTEST cases=12 failures=0 pristine_unchanged=True
+M00 NL pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: null: comment appended, no behaviour change
+M01 SL pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: ledger absent: missing list emptied
+M02 SL pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: argv length floor 2 -> 1
+M03 SL pred=K KILLED rc=1 line=SELFTEST cases=12 failures=7 :: argv length floor 2 -> 3
+M04 SL pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: argv all-str check disabled
+M05 SL pred=E SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: script-None guard removed
+M06 SL pred=K KILLED rc=1 line=SELFTEST cases=12 failures=8 :: entry-script membership inverted
+M07 SL pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: exit bool exclusion removed
+M08 SL pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: state domain check removed
+M09 SL pred=K KILLED rc=1 line=None :: state/exit consistency test removed
+M10 SL pred=K KILLED rc=1 line=None :: state/exit consistency operator != -> ==
+M11 SL pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: kind domain check removed
+M12 SL pred=K KILLED rc=1 line=SELFTEST cases=12 failures=2 :: red-reason branch keyed on green
+M13 SL pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: reason word floor < -> <=
+M14 SL pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: MIN_REASON_WORDS 10 -> 9
+M15 SL pred=K KILLED rc=1 line=SELFTEST cases=12 failures=1 :: MIN_REASON_WORDS 10 -> 17
+M16 SL pred=K KILLED rc=1 line=SELFTEST cases=12 failures=1 :: MIN_REASON_WORDS 10 -> 1
+M17 SL pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: evidence floor 6 -> 5
+M18 SL pred=K KILLED rc=1 line=SELFTEST cases=12 failures=1 :: evidence floor 6 -> 9
+M19 SL pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: evidence strip() dropped
+M20 SL pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: evidence str-type check removed
+M21 SL pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: help limit <= -> <
+M22 SL pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: MAX_HELP_FRACTION 0.10 -> 0.50
+M23 EV pred=K KILLED rc=1 line=SELFTEST cases=12 failures=2 :: help count reads entry kind
+M24 EV pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: kind-count guard removed
+M25 EV pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: static_ok: missing term removed
+M26 EV pred=K KILLED rc=1 line=SELFTEST cases=12 failures=1 :: static_ok: extra term removed
+M27 EV pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: static_ok: entry_mismatch term removed
+M28 EV pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: static_ok: bad_decl term removed
+M29 EV pred=K KILLED rc=1 line=SELFTEST cases=12 failures=1 :: static_ok: bad_reason term removed
+M30 EV pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: static_ok: dups term removed
+M31 EV pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: static_ok: ledger_err term removed
+M32 EV pred=K KILLED rc=1 line=SELFTEST cases=12 failures=3 :: static_ok: help_ok and -> or
+M33 EV pred=K KILLED rc=1 line=SELFTEST cases=12 failures=1 :: static_ok: help_ok dropped
+M34 SL pred=K KILLED rc=1 line=SELFTEST cases=12 failures=2 :: extra computed as intersection
+M35 SL pred=K KILLED rc=1 line=SELFTEST cases=12 failures=2 :: missing computed as intersection
+M36 RV pred=K KILLED rc=1 line=SELFTEST cases=12 failures=7 :: row entry cell index 2 -> 1
+M37 RV pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: entry regex loses corpus/grader prefixes
+M38 RV pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: duplicate names not recorded
+M39 RV pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: duplicate names: first-wins
+M40 RV pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: ledger schema check removed
+M41 EV pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: dry-run exit inverted
+M42 EV pred=K KILLED rc=1 line=SELFTEST cases=12 failures=11 :: predicate fail exit 1 -> 2
+M43 EV pred=E SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: help limit max(1,n_reg) -> n_reg
+M44 EV pred=E SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: clean test rewritten as is-not-False
+M45 EV pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: clean test widened to admit dirty clone
+M46 EV pred=E SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: executed == n_reg relaxed to >=
+M47 EV pred=E SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: executed == n_reg dropped
+M48 EV pred=K KILLED rc=1 line=SELFTEST cases=12 failures=1 :: tmo == 0 dropped
+M49 EV pred=K KILLED rc=1 line=SELFTEST cases=12 failures=2 :: mism == 0 dropped
+M50 EV pred=K KILLED rc=1 line=SELFTEST cases=12 failures=1 :: evmiss == 0 dropped
+M51 EV pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: only-is-None term dropped
+M52 EV pred=K KILLED rc=1 line=SELFTEST cases=12 failures=1 :: only-is-None inverted
+M53 EV pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: only filter disabled
+M54 EV pred=S-diag SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: entry_mismatch filter dropped from names
+M55 EV pred=K KILLED rc=1 line=None :: bad_decl filter dropped from names
+M56 EV pred=K KILLED rc=1 line=SELFTEST cases=12 failures=1 :: TIMEOUT branch disabled
+M57 EV pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: timeout ignores per-row timeout_s
+M58 EV pred=K KILLED rc=1 line=SELFTEST cases=12 failures=2 :: evidence containment inverted
+M59 EV pred=K KILLED rc=1 line=None :: evidence gate keyed on green
+M60 EV pred=K KILLED rc=1 line=SELFTEST cases=12 failures=4 :: rc mismatch test inverted
+M61 EV pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: observed-green counter inverted
+M62 EV pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: declared-green count reads red
+M63 EV pred=K KILLED rc=1 line=SELFTEST cases=12 failures=1 :: executed counter not incremented
+M64 SX pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: selftest: want_out check removed
+M65 SX pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: selftest: want_in check removed
+M66 SX pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: selftest exit always 0
+M67 SX pred=K KILLED rc=0 line=SELFTEST cases=112 failures=0 :: selftest cases line constant changed
+M68 SX pred=S SURVIVED rc=0 line=SELFTEST cases=12 failures=0 :: selftest: rc check made vacuous

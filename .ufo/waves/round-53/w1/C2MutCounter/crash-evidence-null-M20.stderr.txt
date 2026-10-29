@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/demo/mut20.py", line 377, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/demo/mut20.py", line 370, in main
+    rc, lines = evaluate(lane, Path(a.source).resolve() if a.source else None,
+                ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                         Path(a.work).resolve() if a.work else None, a.jobs, a.timeout, only, a.dry)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/demo/mut20.py", line 162, in evaluate
+    s = static_legs(lane)
+  File "/fast/scratch/hyaku/kengaku-r53/C2MutCounter/demo/mut20.py", line 155, in static_legs
+    if len(reason.split()) < MIN_REASON_WORDS or len(ev.strip()) < 6:
+                                                     ^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'strip'
