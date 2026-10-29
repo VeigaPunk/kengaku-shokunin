@@ -109,6 +109,8 @@ class Worker:
         if (source / ".git").exists():
             subprocess.run(["git", "clone", "-q", "--shared", str(source), str(self.dir)], check=True)
             self.git = True
+            self.base = subprocess.run(["git", "-C", str(self.dir), "rev-parse", "HEAD"], capture_output=True, text=True,
+                                       check=True).stdout.strip()
         else:
             shutil.copytree(source, self.dir)
             self.git = False
@@ -116,13 +118,15 @@ class Worker:
     def reset(self):
         """A1: a failed reset is an error, never a silent contamination of the next row."""
         if self.git:
-            subprocess.run(["git", "-C", str(self.dir), "clean", "-q", "-fdx"], check=True, capture_output=True)
-            subprocess.run(["git", "-C", str(self.dir), "reset", "-q", "--hard"], check=True, capture_output=True)
+            # A3: back to the clone-time revision (a row that commits inside its clone cannot leak into the next row),
+            # and `-ff` also removes nested repositories a row created
+            subprocess.run(["git", "-C", str(self.dir), "reset", "-q", "--hard", self.base], check=True, capture_output=True)
+            subprocess.run(["git", "-C", str(self.dir), "clean", "-q", "-ffdx"], check=True, capture_output=True)
 
 
 def run_row(w: Worker, name: str, spec: dict, default_timeout: int, tmp_root: Path) -> dict:
     argv = spec.get("argv")
-    t = int(spec.get("timeout_s") or default_timeout)
+    t = min(int(spec.get("timeout_s") or default_timeout), default_timeout)   # A3: the operator's --timeout is a cap
     tmp = tmp_root / f"tmp-{re.sub(r'[^A-Za-z0-9_.-]', '_', name)}"
     tmp.mkdir(parents=True, exist_ok=True)
     env = {k: v for k, v in os.environ.items() if not SECRET_ENV.search(k)}   # A1: no credentials reach a row or the ledger
@@ -496,6 +500,17 @@ def selftest() -> int:
     check("env-token-not-visible-to-row", rc, lines, 0, ("observed_green=1",), ())
     os.environ.pop("R53C2_FAKE_TOKEN", None)
 
+    # ---- A3: reset target, nested repo, timeout cap (C2RevCounter F1-F3) ---------------------------------------------
+    committer = ("import subprocess,sys\nsubprocess.run(['git','-c','user.name=x','-c','user.email=x@x.invalid','commit','-q','--allow-empty','-m','leak'],check=True)\n"
+                 "open('leak.txt','w').write('x')\nsubprocess.run(['git','add','leak.txt'],check=True)\n"
+                 "subprocess.run(['git','-c','user.name=x','-c','user.email=x@x.invalid','commit','-q','-m','leak2'],check=True)\n"
+                 "subprocess.run(['git','init','-q','nested'],check=True)\nsys.exit(0)\n")
+    observer = ("import os,sys\nsys.exit(1 if os.path.exists('leak.txt') or os.path.exists('nested') else 0)\n")
+    case("row-commit-does-not-leak-to-next-row", {"a": (committer, 0, None), "b": (observer, 0, None)}, want_rc=0,
+         want_in=("PREDICATE R53-C2 pass",), jobs=1)
+    slow = ("import time\ntime.sleep(8)\n", 0, None)
+    case("operator-timeout-caps-the-ledger-timeout", {"s": slow}, set_("s", "timeout_s", 600), want_rc=1,
+         want_in=("TIMEOUT s",), timeout=2)
     # ledger with a duplicate JSON key
     d = top / "dup-json-key"
     lane = d / "lane"

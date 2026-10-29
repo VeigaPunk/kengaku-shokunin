@@ -228,3 +228,12 @@ Four mechanical corrections, none of which touches the frozen classifier, the la
    `SELFTEST cases=<n> failures=0` lines of those receipts.
 
 Still frozen and untouched: every leg threshold, the 305-test population, the control rule, the confirmation and prior-art thresholds, the kill rules.
+
+### A3 — 2026-10-28, after wave-1 reviewers `C1RevCounter`/`C2RevCounter` returned and before any confirmation, prior-art or full C2 run was scored (L1 `KengakuR53`)
+
+1. **C2: a row's worker is reset to its clone-time revision** (`git reset --hard <rev>` then `git clean -ffdx`), not to whatever HEAD the previous row left; the old reset left a
+   row's own commit and nested repository to the next row (`C2RevCounter` F1/F2; red-before: with the A1 reset the fixture `row-commit-does-not-leak-to-next-row` prints `MISMATCH b declared exit=0 observed exit=1`,
+   `.ufo/waves/round-53/claims/c2-a3-redbefore.txt`).
+2. **C2: the operator's `--timeout` caps a ledger entry's `timeout_s`** (min of the two); a ledger could otherwise lengthen the run it is measured by (`C2RevCounter` F3).
+3. **C1: exactly one prior-art row per confirmed task** (`duplicate-task-row`), as the frozen leg-4 sentence says ("one row per confirmed task"); two valid rows for one task were accepted (`C1RevCounter` D5).
+Receipts regenerated; no threshold, population, classifier or label file touched.

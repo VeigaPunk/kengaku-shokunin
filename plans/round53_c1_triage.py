@@ -408,7 +408,9 @@ def leg_prior_art(lane: Path, cfg: dict, confirmed: list[str], idx: list[dict]):
         try:
             v, task = r.get("verdict"), r.get("task")
             tl = tests_of.get(task, [])
-            if task not in confirmed:
+            if task in covered:
+                why = "duplicate-task-row"            # A3: exactly one row per confirmed task
+            elif task not in confirmed:
                 why = "task-not-confirmed"
             elif v not in ("phenomenon-new", "phenomenon-known"):
                 why = "bad-verdict"
@@ -632,13 +634,13 @@ def selftest() -> int:
 
     def evidence(conf=None, pa=None):
         w(f"{RUN_DIR}/confirmations.json", json.dumps([conf or good]))
-        w(f"{RUN_DIR}/prior-art.json", json.dumps(pa if pa is not None else [known, new]))
+        w(f"{RUN_DIR}/prior-art.json", json.dumps(pa if pa is not None else [new]))
         commit("evidence")
 
     evidence(pa=[known])
     run("known-only-fails-score-rule", False, ("new=0",))
     evidence()
-    run("genuine-fixture-passes", True, ("PREDICATE R53-C1-FIXTURE pass", "new_confirmed=1", "new=1", "known=1", "per_label_agree=1.000"))
+    run("genuine-fixture-passes", True, ("PREDICATE R53-C1-FIXTURE pass", "new_confirmed=1", "new=1", "known=0", "per_label_agree=1.000"))
 
     def forge(label, conf=None, pa=None, want=()):
         evidence(conf, pa)
@@ -676,6 +678,7 @@ def selftest() -> int:
     evidence(pa=[dict(new, sweep=sw3)])
     run("sweep-header-may-carry-the-task-id", True, ("PREDICATE R53-C1-FIXTURE pass",))
     forge("forged-sweep-body-names-the-task", pa=[dict(new, sweep=sw4)], want=("sweep-fetch-missing-duplicate",))
+    forge("forged-two-rows-for-one-task", pa=[known, new], want=("duplicate-task-row",))
     forge("forged-sweep-headerless", pa=[dict(new, sweep=[new["sweep"][0], {"file": f"{RUN_DIR}/fetched/hdrless.html", "file_sha256": d("hdrless.html")}])],
           want=("sweep-fetch-missing-duplicate-headerless",))
     forge("forged-new-archive-names-task", pa=[dict(new, fetched=f"{RUN_DIR}/fetched/a.html", fetched_sha256=d("a.html"), url="https://real.example.net/a",
