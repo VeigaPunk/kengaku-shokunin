@@ -159,4 +159,53 @@ validator rejects `planner`). Total 64–128 seats; attack share ≥ 25 %.
 
 ## Amendments
 
-(none yet — dated entries are appended here, never edited in place)
+Dated entries are appended here, never edited in place. Frozen text above stays as written; where an amendment changes a
+rule, the amendment is the rule from its date and the before-state stays re-derivable from commit `a34838f`.
+
+### A1 — 2026-10-28, after wave 1, before any scored run (L1 `KengakuR53`)
+
+**Why.** Wave 1 attacked both frozen counters before data (`C1CritCounterReach`, `C1MutCounter`, `C1SentinelScreen`,
+`C2CritLedgerReach`, `C2MutCounter`; reports `.ufo/waves/round-53/w1/<seat>.md`). They landed: C1 passed with an all-`P1`
+"classifier" and labels copied from it (the order leg only compared commit order; the planned "labels copied" control could not
+fail); a classifier + freeze-digest edit in a later commit passed FREEZE; a contested budget excluded 45 wrong tests from the
+disagreement count; report/archive paths escaped by `..` or an absolute path; a sweep of one file listed twice passed; a
+`phenomenon-known` row only had to name the task id once; the selftest killed 25 of 81 mutants. C2 passed with zero rows, with a
+renamed heading, with 70 of 75 rows, with argv `python3 -c pass <script>` or `sh -c "...; exit 0" <script>`, with a source clone
+older than the lane, with a non-git source, and ran every row under the full environment (nine credential-shaped variables).
+No seat had scored a claim: no label file had been opened by the L1, no classifier output compared to a label, no ledger measured.
+
+**What changed (both counters rewritten; `--selftest` now `plans/round53_c1_triage.py` 44 cases, `plans/round53_c2_tipstate.py` 50 cases, each
+recorded under `.ufo/waves/round-53/claims/` with the forged-complete routes above as named cases).**
+
+*C1.* (1) FREEZE: the classifier and `plans/round53-c1-freeze.json` must be added in **one** commit and never touched by any later
+commit (`git log -- path` has exactly one entry each); the freeze file pins by sha256 the classifier, the eight label-seat files and the
+eight shard files; the label-seat files are added in **strictly later** commits and never touched again; the tree must be clean.
+(2) The oracle is merged by the counter from the eight seats' own files `.ufo/waves/round-53/w1/<seat>/labels.json` over the pinned shards
+(each test in exactly two shards, the labeler files must cover exactly their shard), there is no separately authored label file; a
+labeler named in `author_seats` voids its rows; `author_seats` may not hold a `C1Label*` seat. (3) The ORACLE leg adds: the classifier agrees with
+**≥ 90 %** of the individual non-`U` labels, and decided `Y` and decided `N` each reach **≥ 10** (an all-`Y` copy cannot pass). The 3 % disagreement bound, the 15 %
+contested bound, the 305-test total and the control rule stay as frozen. (4) `plans/round52_c1_grader_audit.py` (the control) is pinned by
+sha256 `0b1d4213…a7b3`; the classifier module is imported only after FREEZE holds. (5) CONFIRM: `report` must resolve inside
+`.ufo/waves/round-53/` (no `..`, no absolute path, no symlink), name the task as a whole token, and the reader may not be a `C1Label*` seat; an
+unavailable `BASE_TIP` fails closed. (6) PRIOR-ART: archive and sweep paths resolve inside `corpus/evidence/round53/fetched/` (no `..`, no symlink);
+each archive's first line is `SOURCE-URL: <url>` and must equal the row's URL; a `phenomenon-known` row's **quote** must name the task or one of its tests;
+a `phenomenon-new` row's archive must not name the task or its tests, and its sweep must be ≥ 2 **distinct** archives with headers that do not
+name them. The thresholds (≥ 3 URLs, ≥ 1 `phenomenon-new`, ≥ 3 confirmed) are unchanged.
+
+*C2.* (1) The registry heading is matched line-anchored, exactly once; table lines whose first cell is not a backticked name fail (`BAD-NAME`);
+the row set must equal the 75 frozen names (digest `df38a8fc…d0a4` of the sorted names, the file `.ufo/waves/round-53/c2-row-names.json`) plus the two rows this round adds
+(`round53-c1`, `round53-c2`). (2) Registry and ledger are read from `--source` (the clean tree under test), not from `--lane`; `--source` must be a clean git work tree whose
+HEAD equals the lane's HEAD. (3) argv is `python3 <row script> …` or `uv … python3 <row script> …`; no shell, no `-c`, no wrapper; `kind` must match the argv
+(`--help` ⇔ `help`, `--selftest` ⇔ `selftest`, else `entry`); the ledger is rejected on a duplicate JSON key; evidence must be a string. (4) Rows run with credential-shaped
+environment variables removed (`TOKEN`, `KEY`, `SECRET`, `PASSWORD`, `OP_*`, `SSH_AUTH_SOCK`, `COOKIE`), and a failed worker reset is an error. The 10 % help-kind cap,
+≥ 10-word reasons, verbatim evidence and the exact-exit rule are unchanged.
+
+**Containment (recommended invocation, not a leg).** The C1 counter imports a seat-written classifier: run the scored command as
+`bwrap --unshare-net --ro-bind / / --dev /dev --bind <scratch> /tmp --setenv TMPDIR /tmp --chdir <clean clone> python3 plans/round53_c1_triage.py --lane .`
+(verified by `C1SentinelScreen` to pass both selftests).
+
+**Not changed (named, not hidden).** "Never-read" still means *not named in the base-tip lane texts and not confirmed in round 52*: the round-52 critic's machine
+receipt `.ufo/waves/round-52/w2/W2CritC1Reach/receipts/live_tests.json` records per-test classes for the same tasks and the counter does not consult it
+(`C1CritCounterReach` R11); a P1 classifier that is correct cannot be told from a copy of the labels by the counter alone: independence of the label seats
+is a protocol property recorded in the seat reports, not something the counter can prove (`C1CritCounterReach` R4). A C2 ledger entry for a gate that cannot fail
+(a script that always exits 0) is still truthful; the counter measures declaration against observation, not the strength of the instrument.
