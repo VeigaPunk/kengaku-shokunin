@@ -1604,3 +1604,27 @@ was incorrect. Corrected reading: 64 of 64 seats produced final output; `CritAdm
 dead. This append-only correction is grounded in the round-51 verifier spot-check
 (`corpus/lessons/round-51-verifier-spotcheck.md`, "LOG/report disagreement") and the committed
 results file; the old text remains as historical record.
+
+## Round 52 (hyaku run 11, 2026-10-28): a whole-benchmark grader triage that does not clear its own bar; every advertised gate gets a registry row
+
+L1 `KengakuR52a4`, attempt 4; attempt 3 built and ran wave 1 and prepared wave 2, then stopped at its request budget.
+Inherited and re-verified: the frozen claims and counters, wave-1 outputs and the wave-2 spec (re-validated after
+Amendment A5; spec and dispatch committed at `87301ba`); discarded: attempt 3's `w2.ready` (it named attempt 3 as L1) and the
+untracked duplicate capture dir under `.ufo/waves/round-52/w1/C1ExecFetchGraders/artifacts/graders/`, which held the GH013-flagged
+upstream bytes.
+
+Motivating evidence and outcome:
+
+- **R52-C1 (novelty)** — 89 Terminal-Bench 2.0 graders read as a population at pin `2fd12b88aafdd04a52c298e3940bcb189f9766d6`:
+  33 presence-only test functions in 27 tasks by the committed counter; 8 never-read tasks with a located quote; prior art priced
+  against 14 fetched URLs. `PREDICATE R52-C1 fail` at `434382945c28`: `CAPTURES 183/184`, `classified 88/89` (one capture excluded by the
+  operator, GH013). Not admitted; novelty stays 8. Wave 2 also showed the per-test split misclassifies the two tests that motivated
+  Amendment A1 and that the counter's predicate is reachable by a forged-complete input (Q42).
+- **R52-C2 (operability)** — `MISSING 28 → 0`; seven false registry cells and one stale duplicate row found by wave-2 reviewers
+  and repaired; Amendment A6 (counter: escape-aware cell split, duplicate leg). `PREDICATE R52-C2 pass` at `434382945c28`.
+- **Sources** — S179–S190 admitted (S186 tier B), S191–S193 rejected with flip conditions; `corpus/knowledge/tb2-grader-vacuity-triage.md`
+  cites S179–S190.
+- **Round-51 closure D1–D4** — D1 closed by the C2 rows for `round51_surfaces.py`/`round51_routing.py`; D2 by the erratum above; D3/D4
+  named in the lesson and carried.
+
+Evidence: `plans/round-52-claims.md`, `.ufo/waves/round-52/`, `corpus/lessons/round-52.md`, `corpus/evidence/round52/`.

@@ -2239,3 +2239,55 @@ Capability entering the table this round: **surface-truth manifest counter** —
 --lane .` decides whether every surface `PROVINCE.md` declares still resolves, whether an absent one carries a
 dated verdict, whether a declared count matches the count on disk, and whether the resolved set fell below a
 floor; first working round 51.
+
+## Round 52 (hyaku run 11, 2026-10-28): a whole-benchmark grader triage that does not clear its own bar (C1 not admitted); every advertised gate has a registry row (C2 met)
+
+Base tip `30801b479e3418c11089b8586178b6960216f364`; claims frozen at `1315234` (`plans/round-52-claims.md`, amendments
+A1–A6 each dated before the scored after-run). L1 `KengakuR52a4` (attempts 1–3 died; attempt 3 ran wave 1). Two v1
+waves, 35 + 33 = 68 seats, 0 dead, attack seats 9/35 and 12/33. Lowest non-retired axis is coverage 7, capped by the open
+L0 questions `kengaku | round-25`, `round-33`, `round-51`; the round works the 8s (novelty, operability), as rounds
+48–51 did. Stagnation nudge not invoked.
+
+| claim | axis | before (frozen command, base tip) | after target | measured after (landing revision `434382945c289a3fbf9e2a2ffd97c5964918a5e7`) |
+|---|---|---|---|---|
+| R52-C1 grader-vacuity triage, TB2 pin `2fd12b88` | novelty 8→9 | `python3 plans/round52_c1_grader_audit.py --lane .` → `CAPTURES present=0`, `classified=0`, `CONFIRMED new=0`, `PRIOR-ART urls=0`, `PREDICATE R52-C1 fail` | `CAPTURES 184/184`, `classified 89/89`, `CONFIRMED new≥2`, `PRIOR-ART urls≥3` | `CAPTURES 183/184`, `classified 88/89`, `CONFIRMED new=8`, `PRIOR-ART urls=14`, `PREDICATE R52-C1 fail` (exit 1); additive `PREDICATE R52-C1-A5 pass` |
+| R52-C2 gate-registry closure | operability 8→9 | `python3 plans/round52_c2_registry.py --lane .` → `ADVERTISED 72`, `REGISTERED 44`, `MISSING 28`, `SELFTEST-UNBACKED 1`, `PREDICATE R52-C2 fail` | `MISSING 0 INCOMPLETE 0 ENTRY-MISSING 0 SELFTEST-UNBACKED 0`, pass | `ADVERTISED 74`, `REGISTERED 74`, `MISSING 0 INCOMPLETE 0 ENTRY-MISSING 0 SELFTEST-UNBACKED 0 DUPLICATE 0`, `PREDICATE R52-C2 pass` (exit 0) |
+
+Receipts: `.ufo/waves/round-52/claims/` (`c1-before.txt`, `c1-after.txt`, `c2-before.txt`, `c2-after.txt`, both selftests and the
+eight control receipts `c1-control-*`, `c2-control-*`; the `drop-capture` control expects `present=182` because the
+tree already holds 183).
+
+### Round 52 — verdicts
+
+- **R52-C1 — not admitted; novelty stays 8.** The frozen kill rule fails legs 1 and 2 (one capture withheld by the operator
+  because GitHub push protection GH013 flagged a fake Hugging Face token inside the upstream fixture;
+  `corpus/evidence/round52/graders/EXCLUDED.md`). Under the A5 reading (digest-pinned absence counts) every leg holds and
+  the prior-art leg would price 4 of the 5 priced confirmed tasks phenomenon-new at weakness level (`caffe-cifar-10`:
+  unclear; three more confirmed tasks unpriced) — but wave-2 attacks that landed make the instrument itself unsound as a
+  triage: its per-test split misclassifies both tests that motivated A1 (`P3`, `P2`), independent counts of presence-only tests
+  are 47 (AST) against its 33, and the predicate is reachable without reading a grader (five routes,
+  `.ufo/waves/round-52/w2/W2CritC1Reach/`); 0 of 16 mutants were killed by a frozen control's named leg
+  (`W2MutC1`). No capability row enters (see below); the reading closures should take is the literal one.
+- **R52-C2 — met on its frozen counter (stricter after A6); operability 8→9 recorded as `unprovable-but-better` beyond the
+  counter.** 28 advertised instruments gained a registry row; wave-2 reviewers then measured 7 false cells in those rows
+  and one stale duplicate (`gate-flip-check`), all repaired before the after-run. The counter proves existence, completeness,
+  entry-script presence and absence of duplicates; it does not prove a cell true (Q42). No named non-author verifier has re-run
+  the repaired cells: the verifier spot-check is the closure's.
+- **No axis harmed:** coverage 7, calibration 9, depth 9, freshness 9, adjacency 9 held; novelty 8 held; operability 9.
+
+Axis state carried: calibration 9, coverage 7 (L0 `kengaku | round-33` cap), novelty 8, depth 9, operability 9, freshness 9, adjacency 9.
+
+### Round-52 capabilities
+
+| capability | state |
+|---|---|
+| per-test grader presence triage (`plans/round52_c1_grader_audit.py`) | **runs, output verifies partially, not admitted** — the instrument runs and its selftest passes, its classes disagree with independent counts and its predicate is forgeable; no row enters the capabilities table |
+| registry-closure counter (`plans/round52_c2_registry.py`) | enters as a tool row in `SKILL.md`'s Gate/probe registry (`round52-c2`); it is an existence counter, not a truth gate |
+
+### Planned (round 53)
+
+Start from the carried defects, not a new surface: (1) make the C1 counter unforgeable (pin `plans/round52-tasks.json` by
+digest, per-finding verdict lines in `prior-art.md`, `confirmed is True`) and repair the per-test split (AST body,
+comments/docstrings stripped, helper attribution) under a frozen forged-complete control (Q42); (2) price the three unpriced
+confirmed tasks; (3) the span-scoped `SELFTEST-UNBACKED` negation fix and unfrozen controls K5/K7 for the C2 counter.
+Coverage stays capped by the open L0 questions.
