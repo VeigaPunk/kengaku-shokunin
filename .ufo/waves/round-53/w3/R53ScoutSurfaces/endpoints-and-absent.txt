@@ -1,0 +1,75 @@
+# endpoint / historical-absent probes — 2026-10-30, read-only, no model traffic
+
+$ ss -ltn 'sport = :8791'
+State  Recv-Q Send-Q Local Address:Port Peer Address:Port
+LISTEN 0      512        127.0.0.1:8791      0.0.0.0:*
+
+$ curl -s -m 5 http://127.0.0.1:45669/health
+curl_exit=7
+
+$ curl -s -m 5 http://127.0.0.1:1234/health
+curl_exit=7
+
+$ systemctl --user status lfm3-server.service
+○ lfm3-server.service - llama.cpp router serving LFM3 models (OpenAI-compatible)
+     Loaded: loaded (/home/vgpnk/.config/systemd/user/lfm3-server.service; enabled; preset: enabled)
+     Active: inactive (dead) since Thu 2026-10-29 07:58:02 -03; 17h ago
+   Duration: 4h 38min 7.975s
+ Invocation: 6bab5ae44e7b495e8ff0e098286a6415
+    Process: 272392 ExecStart=/home/vgpnk/src/llama.cpp/build/bin/llama-server --models-dir /home/vgpnk/models/lfm3 --models-preset /home/vgpnk/models/lfm3/presets.ini --models-max 2 --host 127.0.0.1 --port 1234 --jinja (code=exited, status=0/SUCCESS)
+   Main PID: 272392 (code=exited, status=0/SUCCESS)
+   Mem peak: 3G (swap: 1G)
+        CPU: 6min 1.556s
+
+Oct 29 05:07:27 plazir27 llama-server[272392]: [38435] 52.32.978.519 I que    start_loop: entering sleeping state
+Oct 29 05:07:27 plazir27 llama-server[272392]: [38435] 52.32.988.745 I srv  handle_sleep: server is entering sleeping state
+
+$ test -e ~/Projects/webzites/repos/llm-wiki
+ABSENT
+$ test -e ~/archive/bench-arena
+ABSENT
+$ test -e ~/Projects/bounties
+ABSENT
+
+# listeners (full, no filter)
+State  Recv-Q Send-Q      Local Address:Port  Peer Address:Port
+LISTEN 0      511             127.0.0.1:48671      0.0.0.0:*
+LISTEN 0      511             127.0.0.1:48672      0.0.0.0:*
+LISTEN 0      4096           172.17.0.1:53         0.0.0.0:*
+LISTEN 0      4096        127.0.0.53%lo:53         0.0.0.0:*
+LISTEN 0      4096           127.0.0.54:53         0.0.0.0:*
+LISTEN 0      10              127.0.0.1:44865      0.0.0.0:*
+LISTEN 0      5               127.0.0.1:43591      0.0.0.0:*
+LISTEN 0      5               127.0.0.1:43151      0.0.0.0:*
+LISTEN 0      4096            127.0.0.1:10086      0.0.0.0:*
+LISTEN 0      5               127.0.0.1:8796       0.0.0.0:*
+LISTEN 0      5               127.0.0.1:8795       0.0.0.0:*
+LISTEN 0      512             127.0.0.1:8793       0.0.0.0:*
+LISTEN 0      5               127.0.0.1:8790       0.0.0.0:*
+LISTEN 0      512             127.0.0.1:8791       0.0.0.0:*
+LISTEN 0      5               127.0.0.1:8788       0.0.0.0:*
+LISTEN 0      5               127.0.0.1:8789       0.0.0.0:*
+LISTEN 0      256             127.0.0.1:8787       0.0.0.0:*
+LISTEN 0      511             127.0.0.1:41649      0.0.0.0:*
+LISTEN 0      512             127.0.0.1:41465      0.0.0.0:*
+LISTEN 0      511             127.0.0.1:41057      0.0.0.0:*
+LISTEN 0      511             127.0.0.1:40711      0.0.0.0:*
+LISTEN 0      4096            127.0.0.1:8188       0.0.0.0:*
+LISTEN 0      128             127.0.0.1:5037       0.0.0.0:*
+LISTEN 0      5               127.0.0.1:4651       0.0.0.0:*
+LISTEN 0      5               127.0.0.1:4741       0.0.0.0:*
+LISTEN 0      511             127.0.0.1:4789       0.0.0.0:*
+LISTEN 0      512             127.0.0.1:37323      0.0.0.0:*
+LISTEN 0      512             127.0.0.1:36599      0.0.0.0:*
+LISTEN 0      4096              0.0.0.0:5355       0.0.0.0:*
+LISTEN 0      5               127.0.0.1:51734      0.0.0.0:*
+LISTEN 0      4096            127.0.0.1:34433      0.0.0.0:*
+LISTEN 0      4096            127.0.0.1:631        0.0.0.0:*
+LISTEN 0      511             127.0.0.1:49713      0.0.0.0:*
+LISTEN 0      50     [::ffff:127.0.0.1]:40313            *:*
+LISTEN 0      50     [::ffff:127.0.0.1]:39085            *:*
+LISTEN 0      511                     *:3104             *:*
+LISTEN 0      511                     *:3101             *:*
+LISTEN 0      511                     *:3100             *:*
+LISTEN 0      4096                [::1]:631           [::]:*
+LISTEN 0      4096                 [::]:5355          [::]:*

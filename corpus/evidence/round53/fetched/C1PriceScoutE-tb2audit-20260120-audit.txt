@@ -1,0 +1,3688 @@
+SOURCE-URL: https://raw.githubusercontent.com/JonathanGabor/terminal-bench-2-audit/main/audit_results/20260120_125158/audit.txt
+============================================================
+Challenge: build-cython-ext
+Rating: 4
+============================================================
+
+## Analysis of Test Coverage
+
+### Task Requirements
+1. Clone pyknotid v0.5.3 to `/app/pyknotid`
+2. Fix Numpy 2.3.0 compatibility issues
+3. Compile Cython extensions (chelpers, ccomplexity, cinvariants)
+4. Install to global Python environment
+5. Ensure example code runs without errors
+
+### Test Coverage Assessment
+
+**Structural Tests:**
+- `test_repo_cloned()` - Verifies repo exists at correct location with `.git`
+- `test_pyknotid_core_import()` - Verifies pyknotid is installed as source
+- `test_chelpers_cython_extension()`, `test_ccomplexity_cython_extension()`, `test_cinvariants_cython_extension()` - Verify extensions are built as actual Cython modules (using `ExtensionFileLoader` check, not just importable)
+
+**Compatibility Tests:**
+- `test_numpy_version()` - Ensures numpy 2.3.0 is preserved (prevents downgrading as a workaround)
+
+**Functional Tests:**
+- `test_chelpers()` - Tests chelpers cross product computation
+- `test_ccomplexity()` - Tests ccomplexity writhe calculation with numpy arrays
+- `test_cinvariants_python_vs_cython()` - Validates Cython matches Python fallback
+- `test_example_usage()` - Runs the exact example from task description plus additional computations
+
+**Comprehensive Test:**
+- `test_pyknotid_repository_tests()` - Runs the original test suite from the repository (excluding known broken tests)
+
+### Strengths
+1. Tests verify extensions are actual Cython extensions (not just Python imports)
+2. Functional tests exercise the extensions with real computations
+3. Numpy version is explicitly checked to prevent downgrade workarounds
+4. The original repository test suite provides broad coverage of edge cases in numpy compatibility
+5. Tests use numpy arrays with specific dtypes (float64, int64) which would fail if numpy compat fixes are missing
+
+### Potential Gaps
+1. Some specific sed replacements might have edge cases not covered, but the repository tests mitigate this
+2. The solution could potentially use different fix approaches (which is acceptable if tests pass)
+
+### Could an Incorrect Solution Pass?
+Unlikely because:
+- Extensions must be compiled (ExtensionFileLoader check)
+- Extensions must work with numpy 2.3.0 arrays
+- Repository tests exercise many code paths with numpy operations
+- Example usage directly tests the required functionality
+
+Coverage rating: 4
+
+============================================================
+Challenge: break-filter-js-from-html
+Rating: 4
+============================================================
+
+## Analysis of Test Coverage
+
+### What the test verifies:
+1. **File existence**: Checks that `/app/out.html` exists
+2. **Filter execution**: Runs the filter script and verifies it completes successfully
+3. **Alert detection**: Uses a real headless Chrome browser to verify that JavaScript `alert()` is triggered after filtering
+4. **No interaction required**: Uses a 5-second timeout waiting for automatic alert triggering
+
+### Strengths:
+1. **Real browser testing**: The test uses Selenium with Chromium, meaning JavaScript must actually execute - no way to fake this
+2. **Filter is applied before testing**: The test explicitly filters the file before opening it in the browser, so the solution must survive the filter
+3. **Protected filter copy**: The test uses `/tests/filter.py` rather than `/app/filter.py`, preventing the agent from modifying the filter to pass tests
+4. **Automatic triggering**: The test doesn't interact with the page, ensuring the solution triggers without user action
+
+### Potential weaknesses:
+1. **No negative test**: There's no test verifying that a simple `<script>alert(1)</script>` would be blocked, though this is less critical since the agent can see the filter code
+2. **Alert text not verified**: The test accepts any alert, but this is actually appropriate since it allows for creative solutions
+3. **Single test case**: Only one test, but it comprehensively covers the core requirement
+
+### Could an incorrect solution pass?
+An incorrect solution cannot easily pass because:
+- The filter is actually applied to the file
+- A real browser must execute JavaScript
+- The alert must trigger automatically within 5 seconds
+- The agent cannot modify the filter used by the test
+
+The only way to pass is to genuinely create an HTML file that exploits a parsing difference between BeautifulSoup and the browser (like the malformed comment technique in the example solution).
+
+### Conclusion:
+The test provides robust verification of the task requirements. It uses practical, end-to-end testing with a real browser and prevents cheating by using a protected copy of the filter. The absence of negative test cases is a minor gap, but doesn't allow incorrect solutions to pass.
+
+Coverage rating: 4
+
+============================================================
+Challenge: adaptive-rejection-sampler
+Rating: 3
+============================================================
+
+## Analysis of Test Coverage
+
+### Strengths of the Test Suite:
+
+1. **Basic structure verification**: Tests check for required files (`ars.R`), function names (`ars`, `test`), and modular design (at least 3 functions).
+
+2. **Functional testing for standard distributions**: `test_can_generate_standard_distribution_samples()` verifies that normal distribution samples have approximately correct mean (within 0.2) and std (0.8-1.2).
+
+3. **Input validation testing**: `test_input_validation_functionality()` checks that negative sample counts and invalid domains are rejected.
+
+4. **Log-concavity checking**: `test_log_concavity_functionality()` tests with a bimodal (non-log-concave) distribution.
+
+5. **Sample file validation**: Tests verify that generated sample files contain statistically reasonable values.
+
+6. **Test output format verification**: Checks for "PASS"/"FAIL" format and mean statistics.
+
+### Weaknesses and Gaps:
+
+1. **Algorithm verification is weak**: The tests don't verify that adaptive rejection sampling is actually implemented. A solution using `rnorm()` directly would pass the normal distribution test easily.
+
+2. **Loose statistical tolerances**: Mean within 0.5 and std between 0.5-1.5 for normal samples is too permissive. Even moderately incorrect samplers could pass.
+
+3. **Log-concavity test is weak**: The condition `"PASS" in output or "concave" in output.lower()` means any output containing "concave" passes, including error messages unrelated to actual detection.
+
+4. **No verification of adaptive behavior**: There's no test checking that the algorithm updates its hull during sampling.
+
+5. **Modularity check is superficial**: Just counting function definitions doesn't ensure proper modular design or that auxiliary functions work correctly.
+
+6. **Limited distribution testing**: Only normal distribution is rigorously tested in the functional tests. The sample file test for exponential is optional.
+
+7. **No edge case testing**: Small sample sizes, boundary conditions, and numerical stability aren't tested.
+
+An implementation that simply wraps R's built-in samplers with basic input validation and a simple log-concavity check could potentially pass all tests without implementing the actual ARS algorithm.
+
+Coverage rating: 3
+
+============================================================
+Challenge: bn-fit-modify
+Rating: 4
+============================================================
+
+Looking at the test cases and comparing them to the task requirements:
+
+## Test Coverage Analysis
+
+**What's being tested:**
+1. File existence tests for all three output files (learned_dag.csv, intervened_dag.csv, final_bn_sample.csv)
+2. Column name validation for DAG files ("from", "to") and sample file (U, R, Y, M, D)
+3. Exact DAG structure verification - both learned and intervened DAGs are checked against the true structures with exact edge matching
+4. Statistical test on column D using KS test with specific expected parameters calculated from the correct solution
+
+**Strengths:**
+- The exact DAG structure tests are very strong - the agent must recover the precise 6 edges for the learned DAG and 5 edges for the intervened DAG
+- The statistical test for D is well-designed since D depends on both U and the intervened Y, making it a good proxy for checking if the intervention was done correctly
+- The expected parameters for D are pre-calculated based on the correct solution, making it difficult to pass without proper implementation
+
+**Weaknesses:**
+- Y is not explicitly tested to verify it's set to 0.0 after intervention (though D's distribution indirectly depends on this)
+- Other variables (U, R, M) are not statistically tested to ensure they maintain their original distributions
+- The number of samples (10k) is not explicitly verified, though the KS test would likely fail with significantly different sample sizes
+- No validation that the BN was actually learned from the data vs. parameters being hardcoded
+
+**Could an incorrect solution pass?**
+It would be difficult because:
+- The exact DAG structures must match precisely
+- The distribution of D must match expected parameters from correct intervention
+- However, Y being 0 is not directly verified, and an agent could theoretically manipulate other aspects while getting lucky on the D distribution test
+
+The tests provide good but not comprehensive coverage. The combination of exact structural matching and statistical testing makes it unlikely an incorrect solution would pass, but testing Y directly and other variables would strengthen coverage.
+
+Coverage rating: 4
+
+============================================================
+Challenge: build-pov-ray
+Rating: 4
+============================================================
+
+## Analysis of Test Coverage
+
+### What the tests verify:
+
+1. **`test_illum1_render_and_verify()`**: 
+   - Executes the built POV-Ray binary to render a scene
+   - Verifies the output image dimensions (640x480)
+   - Uses SSIM comparison (threshold 0.87) against a reference image
+   - Ensures the renderer actually produces correct output
+
+2. **`test_povray_version()`**:
+   - Confirms the version string contains "2.2"
+   - Prevents using a different POV-Ray version
+
+3. **`test_povray_built_from_correct_source()`**:
+   - Verifies `/app/povray-2.2` directory exists
+   - Checks MD5 hashes of specific POV-Ray 2.2 files (documentation, include files)
+   - Verifies the scene file `illum1.pov` hasn't been modified (anti-cheat measure)
+
+### Strengths:
+- **Hash verification of source files** prevents using wrong versions or modified sources
+- **Scene file integrity check** prevents cheating by modifying the input
+- **SSIM comparison** ensures the rendered output matches expected results
+- **Version check** confirms correct POV-Ray version
+- Multiple layers of verification make circumvention difficult
+
+### Potential gaps:
+- The tests don't explicitly verify that compilation actually occurred (e.g., checking for object files or build artifacts)
+- Someone could theoretically download the source archives for hash verification while using a pre-built binary
+- However, finding a working POV-Ray 2.2 binary for modern systems would be extremely difficult (it's from 1995 and requires patches to compile)
+
+### Assessment:
+The combination of source file hash verification, version checking, and rendering comparison provides strong coverage. The SSIM threshold ensures correct rendering behavior. While there's no explicit compilation verification, the practical difficulty of finding a pre-built POV-Ray 2.2 binary makes this gap largely theoretical. The anti-cheating measure for the scene file is a good addition.
+
+Coverage rating: 4
+
+============================================================
+Challenge: build-pmars
+Rating: 4
+============================================================
+
+Looking at this task and the test cases, let me evaluate the coverage:
+
+**Task Requirements:**
+1. Build pMARS from source
+2. Get source from Debian packages
+3. Extract source to `/app`
+4. Build without X11 support
+5. Install binary to `/usr/local/bin/pmars`
+6. Debugger must work properly
+
+**Test Case Analysis:**
+
+1. **test_pmars_works()**: 
+   - Verifies binary exists at `/usr/local/bin/pmars`
+   - Tests debugger functionality with `-e` flag and stepping commands
+   - Validates battle output format with "Results: X Y Z"
+   - Good functional coverage
+
+2. **test_headless_no_x11()**:
+   - Uses `ldd` to check for X11 library dependencies
+   - Checks for libX11, libXt, libXext, libXaw
+   - This directly validates the "no X11" requirement
+
+3. **test_debian_source_used()**:
+   - Verifies `pmars-*` directory exists in `/app`
+   - Checks for `debian/` subdirectory (unique to Debian packages)
+   - Prevents using the original koth.org source
+
+4. **test_built_from_source()**:
+   - Checks for `src/` directory and `.c` files
+   - Validates source presence
+
+**Potential Gaps:**
+- Someone could theoretically `apt-get source pmars` to satisfy source tests and then install a pre-built package. However, the default Debian package likely has X11 dependencies, so `test_headless_no_x11` would catch this.
+- There's no direct verification that the binary was compiled from the specific source in `/app` (e.g., checking timestamps or object files).
+- No verification of ncurses support being enabled (just that X11 is disabled).
+
+**Strengths:**
+- The combination of tests makes it difficult to cheat - you need both Debian source present AND a working binary without X11.
+- Debugger testing is thorough (pattern matching for stepping through addresses).
+- The X11 dependency check via `ldd` is reliable.
+
+The tests effectively enforce all key requirements and would be difficult to bypass without actually solving the task correctly.
+
+Coverage rating: 4
+
+============================================================
+Challenge: cancel-async-tasks
+Rating: 4
+============================================================
+
+Looking at this task, I need to analyze whether the test cases adequately verify that the `run_tasks` function:
+1. Runs tasks asynchronously
+2. Respects the `max_concurrent` limit
+3. Properly handles cancellation (KeyboardInterrupt) and ensures cleanup code runs
+
+**Test Coverage Analysis:**
+
+1. **test_run_py_file_exists()** - Basic file existence check. ✓
+
+2. **test_tasks_run_concurrently()** - Tests that 2 tasks with max_concurrent=2 complete within 5 seconds (each task takes 3s total). Verifies tasks actually run in parallel. ✓
+
+3. **test_tasks_obey_max_concurrent()** - Tests that with max_concurrent=1, 2 tasks take >= 6 seconds (sequential execution). Verifies the concurrency limit is enforced. ✓
+
+4. **test_tasks_cancel_below_max_concurrent()** - Tests cancellation with n_tasks < max_concurrent. Verifies cleanup runs on SIGINT. ✓
+
+5. **test_tasks_cancel_at_max_concurrent()** - Tests cancellation when n_tasks = max_concurrent. ✓
+
+6. **test_tasks_cancel_above_max_concurrent()** - Critical test! Tests cancellation with queued tasks (3 tasks, max 2). This catches the common asyncio.gather pitfall where existing tasks don't get cancelled properly. Only 2 tasks should start and clean up. ✓
+
+**Strengths:**
+- Tests cover the tricky cancellation scenarios that distinguish correct implementations from incorrect ones
+- Threading-based solutions would fail the cancellation tests
+- Solutions without proper semaphore would fail the timing test
+- Solutions using naive asyncio.gather would fail the "above max concurrent" cancellation test
+- The test helper task includes a `finally` block with async cleanup to verify proper cancellation handling
+
+**Gaps:**
+- No test for empty task list
+- No test for max_concurrent = 0 or negative values
+- No test for tasks that raise exceptions
+- No test verifying tasks start in order
+- Timing-based tests could theoretically be flaky on very slow systems
+
+**Potential incorrect solutions:**
+Most naive implementations would fail at least one test - either the timing constraints or the cancellation scenarios. The tests specifically target common implementation mistakes.
+
+Coverage rating: 4
+
+============================================================
+Challenge: caffe-cifar-10
+Rating: 4
+============================================================
+
+Looking at this task and its test cases, I need to evaluate how well the tests verify the requirements.
+
+**Task Requirements Coverage:**
+
+1. **BVLC Caffe version 1.0.0**: `test_caffe_version_and_source()` verifies the version by running the caffe binary and checking for "1.0.0" in output. However, it doesn't explicitly verify the BVLC source repository.
+
+2. **Clone to /app/caffe**: Implicitly verified through all file path checks that reference `/app/caffe/`.
+
+3. **CPU-only execution**: `test_cpu_only_training_configured()` checks both `Makefile.config` for `CPU_ONLY := 1` and the solver file for `solver_mode: CPU`.
+
+4. **Exactly 500 iterations**: `test_training_completed_500_iterations()` checks for "Iteration 500" presence and "Iteration 501" absence, and `test_cpu_only_training_configured()` verifies `max_iter: 500` in the solver file.
+
+5. **Training output file**: Multiple tests verify `/app/caffe/training_output.txt` exists with realistic content (loss, accuracy, multiple iterations, length > 1000 chars).
+
+6. **Accuracy requirements**: `test_model_accuracy_verification()` actually runs `caffe test` with 100 iterations, verifies accuracy > 45%, and checks it's within 5% of training accuracy.
+
+7. **Model file location/naming**: `test_cifar10_model_exists()` verifies the exact path and filename, plus checks file size > 100KB to prevent dummy files.
+
+**Anti-Cheating Measures:**
+- Model file size check (>100KB)
+- Training output length check (>1000 chars)
+- Multiple iteration log checks (>10 occurrences)
+- Actual model execution and accuracy verification
+- Pattern matching for realistic training output (loss/accuracy patterns)
+
+**Potential Weaknesses:**
+- No explicit verification of BVLC repository origin (though version 1.0.0 check helps)
+- A sophisticated attacker could theoretically create training_output.txt manually, but the model accuracy test would still fail without proper training
+- Doesn't verify the git clone actually happened (though achieving all requirements essentially requires it)
+
+**Overall Assessment:**
+The tests are comprehensive and interconnected. The actual model testing that runs the caffe binary with the trained weights is particularly strong - this cannot be faked without actually training a working model. The combination of configuration checks, file existence/size checks, training output verification, and live model testing makes it very difficult to pass without completing the task properly.
+
+Coverage rating: 4
+
+============================================================
+Challenge: chess-best-move
+Rating: 4
+============================================================
+
+Looking at this task, I need to evaluate whether the test cases adequately verify that the agent correctly analyzed the chess board image and found the optimal move(s).
+
+**Task Analysis:**
+- Agent must analyze a chess board image (`chess_board.png`)
+- Find the best move(s) for white
+- Write to `/app/move.txt` in format like `e2e4`
+- If multiple winning moves exist, print all of them
+
+**Test Case Analysis:**
+The test checks:
+1. That `/app/move.txt` exists and can be read
+2. That it contains exactly two moves: `g2g4` and `e2e4` (in any order)
+3. Uses `.split()` which handles both newlines and spaces as delimiters
+
+**Strengths:**
+- The test requires both specific checkmate-in-one moves to be found
+- An agent cannot easily hardcode these moves without actually solving the problem (they can't see the test file)
+- The sorted comparison allows for any order, which is reasonable
+- The specificity of requiring exactly two particular moves makes random guessing virtually impossible
+
+**Potential Weaknesses:**
+- Only one test case for one position (though this is inherent to the task)
+- The format check is lenient (space-separated would pass even though "one per line" was specified)
+- No validation of the image processing itself, only final output
+
+**Hardcoding Concern:**
+While the test could theoretically be passed by hardcoding `g2g4` and `e2e4`, the agent has no way to know these specific moves without actually:
+1. Processing the chess board image
+2. Determining the position
+3. Finding the checkmate-in-one moves
+
+The moves are specific enough that guessing them is extremely unlikely.
+
+**Conclusion:**
+The test provides good coverage for this specific task. An incorrect solution (e.g., one that misidentifies pieces, miscalculates the position, or finds wrong moves) would almost certainly fail. The test verifies the correct solution without giving away the answer.
+
+Coverage rating: 4
+
+============================================================
+Challenge: cobol-modernization
+Rating: 3
+============================================================
+
+Looking at this task and the test cases provided, I need to evaluate how well the tests ensure a correct Python reimplementation of the COBOL program.
+
+**Test Coverage Analysis:**
+
+1. **Basic file existence tests**: The tests verify that `/app/program.py` exists and that all data files exist. This is necessary but minimal coverage.
+
+2. **Functional test (`test_program_output`)**: This is the main test that:
+   - Sets up known initial states for all three DAT files
+   - Runs three sequential transactions with different scenarios
+   - Verifies the exact final content of all three files
+
+**Strengths of the test coverage:**
+- Multiple sequential transactions test state persistence and cumulative effects
+- Exact string matching ensures correct fixed-width record formatting (10-digit balances with leading zeros, proper field widths)
+- Tests ownership transfers across a chain (B003: U003→U001→U002, B001: U001→U002)
+- Tests balance calculations for both buyers (decrease) and sellers (increase)
+- Transaction logging format is verified exactly
+- The sequential nature tests that reading/writing maintains data integrity
+
+**Weaknesses of the test coverage:**
+- **No validation error cases**: The COBOL program validates buyer existence, seller existence, book existence, and ownership. None of these failure paths are tested. A solution that skips all validation would pass.
+- **No edge cases**: No tests for invalid inputs, malformed data, or boundary conditions
+- **Only valid transactions tested**: All three test transactions are valid, so incorrect validation logic wouldn't be caught
+- **Single initial state**: Only tests one specific configuration of accounts and books
+- **Input length validation untested**: The example solution shows a check for input > 22 chars, but this isn't tested
+
+**Could an incorrect solution pass?**
+Yes - a solution that:
+- Doesn't implement validation (buyer/seller/book/ownership checks) would still pass
+- Has incorrect error handling would pass
+- Has wrong validation logic would pass
+
+However, the core business logic (balance updates, ownership transfer, transaction logging, fixed-width formatting) is well-tested through exact string comparison across multiple transactions.
+
+Coverage rating: 3
+
+============================================================
+Challenge: circuit-fibsqrt
+Rating: 4
+============================================================
+
+Looking at this task, I need to evaluate whether the test cases adequately verify that a gates.txt file correctly computes `fib(isqrt(N)) % (2^32)`.
+
+## Test Analysis
+
+**Test 1: `test_gates_file_exists()`** - Basic file existence check.
+
+**Test 2: `test_gates_file_size()`** - Verifies the <32,000 lines constraint.
+
+**Test 3: `test_sqrt_fib()`** - The main functional test with 28 test cases:
+
+The test values include:
+- Small values (1, 4, 8, 12) testing basic isqrt/fib
+- Medium values (41, 42, 107, 209, 220, 366) 
+- Perfect squares (12², 41², 42², 107², 209², 220²)
+- Values just below perfect squares (n²-1) - should give isqrt = n-1
+- Values just above perfect squares (n²+1) - should give isqrt = n
+
+## Strengths
+
+1. **Comprehensive isqrt testing**: The n², n²-1, n²+1 patterns rigorously test integer square root edge cases
+2. **Range coverage**: Tests span from fib(1)=1 to fib(220) which is astronomically large, thoroughly testing the modulo 2^32 behavior
+3. **Hardcoding prevention**: 28 distinct test cases with varied inputs make hardcoding impractical
+4. **Constraints verified**: File size constraint is explicitly checked
+
+## Potential Weaknesses
+
+1. **Missing N=0 edge case**: isqrt(0)=0, fib(0)=0 not tested
+2. **Example values from problem not directly tested**: N=208 and N=20000 mentioned in the problem aren't in the test suite
+3. **No very large N values**: Near 2^32 range not tested
+4. **Maximum isqrt tested is 220**: While this produces a very large Fibonacci number, higher isqrt values aren't tested
+
+## Assessment
+
+The 28 diverse test cases covering perfect square boundaries and large Fibonacci values that overflow 32 bits make it extremely unlikely that an incorrect implementation could pass. The combination of isqrt edge cases and fib computation with modulo makes gaming the tests nearly impossible without a correct implementation.
+
+Coverage rating: 4
+
+============================================================
+Challenge: code-from-image
+Rating: 4
+============================================================
+
+## Analysis
+
+**Task Overview**: The agent must interpret pseudocode from an image (`/app/code.png`), implement the logic, and write the result to `/app/output.txt`. The solution involves computing a SHA256 hash with specific parameters.
+
+**Test Case Evaluation**:
+
+1. **`test_output_file_exists`**: Basic existence check for the output file.
+
+2. **`test_output_is_correct`**: Verifies that the output:
+   - Starts with "bee26a" (matches the hint)
+   - Exactly equals `bee26a133f103b9ecda444c70ec22cafef6e31a3de7af6d047974dc90ce3defe`
+
+**Strengths**:
+- The test requires an **exact 64-character SHA256 hash match**, which is extremely specific
+- SHA256 is cryptographically secure - any deviation in the implementation (wrong salt, wrong slice indices, wrong concatenation order, wrong algorithm) would produce a completely different hash
+- The agent only sees the hint prefix "bee26a" (6 chars of 64), making hardcoding infeasible
+- The agent cannot see the test cases, so they can't extract the expected full hash
+
+**Weaknesses**:
+- The test doesn't explicitly verify that the agent actually processed the image or used the correct methodology - only the final result
+- If an agent somehow obtained the expected hash through other means, they could technically hardcode it (though this is practically impossible given the constraints)
+
+**Hardcoding Risk Assessment**: Very low. The agent would need to either:
+1. Correctly implement the pseudocode logic, or
+2. Somehow guess a 256-bit hash knowing only 6 characters - computationally infeasible
+
+The exact hash match effectively serves as a cryptographic proof that the correct logic was implemented correctly.
+
+Coverage rating: 4
+
+============================================================
+Challenge: compile-compcert
+Rating: 4
+============================================================
+
+## Analysis
+
+The test suite provides comprehensive coverage for verifying a properly built CompCert compiler:
+
+### Test 1: `test_compcert_exists_and_executable`
+- Verifies `/tmp/CompCert/ccomp` exists and is executable
+- Checks version output contains "3.13" (the expected output for 3.13.1)
+
+### Test 2: `test_compcert_valid_and_functional`
+- **Authenticity check via macro**: Uses `positive_probe.c` which has `#ifndef __COMPCERT__` that would cause failure if compiled with other compilers
+- **Binary artifact analysis**: Checks `.comment` section for forbidden signatures (clang, llvm, gnu c) to detect fake implementations
+- **Functional testing**: Runs compiled binary with randomized input (`secrets.token_hex(8)`) to verify correct string reversal
+- **Edge case testing**: Tests no arguments and empty string scenarios
+
+### Test 3: `test_compcert_rejects_unsupported_feature`
+- Verifies CompCert rejects VLAs (Variable-Length Arrays), a CompCert-specific limitation
+- GCC/Clang would compile this successfully, so faking would fail
+
+### Potential Cheating Vectors Addressed:
+1. **Symlinking to GCC/Clang**: Would fail macro check, comment section check, and VLA test
+2. **Using `-D__COMPCERT__` with other compilers**: Would fail comment section check and VLA test
+3. **Downloading pre-built binary**: CompCert 3.13.1 pre-built binaries aren't commonly available
+
+### Minor Gaps:
+1. Tests don't explicitly verify the source was cloned and built (no check for build artifacts, Makefile, or source files in `/tmp/CompCert/`)
+2. Tests don't verify the build was configured for the correct architecture (though a misconfigured build would fail the functional tests)
+3. The "freshly built from source" requirement isn't directly verified, though it's practically enforced by the difficulty of obtaining a compatible pre-built binary
+
+The combination of multiple authenticity checks (macro, binary analysis, VLA rejection) with functional testing using randomized input makes it extremely difficult to pass these tests without a genuine CompCert build.
+
+Coverage rating: 4
+
+============================================================
+Challenge: count-dataset-tokens
+Rating: 4
+============================================================
+
+## Analysis
+
+**Task Requirements:**
+1. Load the `ryanmarten/OpenThoughts-1k-sample` dataset from Hugging Face
+2. Filter to "science domain" (chemistry, biology, physics based on the solution)
+3. Count deepseek tokens (`deepseek_reasoning` and `deepseek_solution` fields)
+4. Use the Qwen2.5-1.5B-Instruct tokenizer
+5. Write the integer count to `/app/answer.txt`
+
+**Test Coverage Evaluation:**
+
+The test checks if "79586" is contained in the answer.txt file.
+
+**Strengths:**
+- The expected answer (79586) is highly specific and not a round number that could be guessed
+- Getting this exact count requires:
+  - Using the correct tokenizer (different tokenizers produce different token counts)
+  - Filtering to the correct domains (wrong filtering = wrong count)
+  - Counting the correct fields (`deepseek_reasoning` + `deepseek_solution`)
+- The agent cannot see the test cases, so cannot hardcode the answer without doing the actual computation
+- This is essentially a computational task where the answer serves as proof of correct implementation
+
+**Weaknesses:**
+- The test uses `in` rather than exact match, which could theoretically pass with strings like "179586" or "795860" (though this is highly unlikely in practice)
+- No validation that the specific tokenizer was actually used (though using wrong tokenizer would yield different count)
+- No intermediate validation steps
+
+**Potential False Positives:**
+An incorrect solution passing is very unlikely because:
+1. The specific number 79586 would only result from the correct computation
+2. Any deviation in tokenizer, domain filtering, or field selection would produce a different count
+3. The agent has no way to know the expected answer to hardcode it
+
+The test effectively validates the core requirements through the final answer, which is a reasonable approach for a deterministic computation task.
+
+Coverage rating: 4
+
+============================================================
+Challenge: configure-git-webserver
+Rating: 4
+============================================================
+
+Looking at this task and the test coverage:
+
+**Task Requirements:**
+1. Set up a git server accessible via SSH at `/git/server`
+2. Configure a post-receive hook to deploy pushed content to a web server
+3. Run a web server on port 8080 serving the deployed content
+
+**Test Coverage Analysis:**
+
+The test (`verify.sh`) performs the following:
+1. Uses `expect` to clone the git repository via SSH (`git@localhost:/git/server`) with password authentication
+2. Creates `hello.html` with "hello world" content in the cloned repo
+3. Commits and pushes the changes to the remote
+4. Verifies the web server on port 8080 returns HTTP 200
+5. Checks that the content is exactly "hello world"
+
+**Strengths:**
+- Tests the complete end-to-end workflow: clone → commit → push → web server serves content
+- Verifies exact content matching ("hello world")
+- Tests SSH authentication with password
+- Tests the post-receive hook deployment mechanism implicitly
+- Tests web server availability on correct port
+
+**Potential Weaknesses:**
+1. An agent could potentially pre-populate `/var/www/html/hello.html` with the correct content and set up a web server, which would pass the curl test even if the git workflow partially fails. However, this would require the agent to anticipate the exact test content without seeing the tests.
+
+2. The test uses a specific user "git" with password "password" - agents must correctly set up these credentials. The task says "I'll setup login with the server to work, you don't have to worry about that" which is slightly misleading since the test expects specific credentials.
+
+3. The expect script doesn't explicitly verify that git operations succeeded before checking the web server, relying on the assumption that content wouldn't appear unless the full workflow works.
+
+**Verdict:**
+The test provides solid coverage by executing the actual workflow described in the task rather than just checking static files. The full integration test (SSH → git → post-receive → web server) makes it difficult to pass without a proper implementation. The main concern is the theoretical ability to pre-populate content, but this is unlikely without access to the test cases.
+
+Coverage rating: 4
+
+============================================================
+Challenge: constraints-scheduling
+Rating: 4
+============================================================
+
+## Analysis of Test Coverage
+
+### Test 1: `test_structure_event_title_attendees_duration_window`
+This test validates:
+- Input calendar integrity via SHA256 hash verification (prevents modification)
+- ICS format structure (headers, VCALENDAR, VEVENT blocks)
+- Meeting title is "Team Planning Meeting"
+- All three attendees are included with proper ATTENDEE properties
+- Meeting duration is exactly 1 hour
+- Meeting falls within Jan 15-19, 2024 on a weekday
+
+### Test 2: `test_constraints_conflicts_business_hours`
+This test validates:
+- All hard constraints via `_hard_ok()`:
+  - Alice: 9 AM start, end by 2 PM
+  - Bob: 10 AM start, Tue/Thu end by 4:30 PM
+  - Carol: end by 5 PM, no overlap with 12:00-12:30 lunch
+  - Business hours and weekday requirements
+- No conflicts with any existing calendar entries
+
+### Test 3: `test_earliest_tiebreakers_and_carol_buffer`
+This test validates:
+- **Earliest slot at minute granularity**: Exhaustively checks every minute from Jan 15 9:00 AM to scheduled time to ensure no earlier valid slot exists
+- **Monday avoidance tie-breaker**: If same-time candidates exist on both Monday and other weekdays, Monday should be avoided
+- **Morning preference assertion**: Directly checks that scheduled hour is 9-11 (assumes dataset has valid morning slot)
+- **Carol's 15-min buffer**: Checks both directions for late-ending meetings
+
+### Strengths
+1. **Exhaustive earliest-slot verification** - minute-by-minute checking is very rigorous
+2. **Input integrity protection** - hash verification prevents cheating by modifying inputs
+3. **Complete constraint coverage** - all hard constraints are explicitly tested
+4. **Tie-breaker validation** - Monday avoidance and morning preference are verified
+
+### Potential Weaknesses
+1. The morning preference assertion (`9 <= sched.hour < 12`) is somewhat hardcoded to the expected dataset outcome
+2. Carol's buffer check for late-ending meetings (4:45 PM+) would never apply to the team meeting itself since Alice's constraint caps it at 2 PM
+3. Bob's "informational only" afternoon preference is correctly excluded, but this is a minor consideration
+
+### Could an Incorrect Solution Pass?
+Very unlikely. The minute-by-minute exhaustive search for earlier slots makes it nearly impossible for a solution to pass unless it correctly:
+- Parses all calendars
+- Implements all constraints correctly
+- Finds the truly earliest valid slot
+- Applies tie-breakers appropriately
+
+The combination of hash verification, exhaustive slot checking, and comprehensive constraint validation provides strong coverage.
+
+Coverage rating: 4
+
+============================================================
+Challenge: crack-7z-hash
+Rating: 4
+============================================================
+
+## Analysis of Test Coverage
+
+**Task Requirements:**
+- Create `/app/solution.txt` containing the word from `secret_file.txt` inside the password-protected `secrets.7z` archive
+
+**Test Cases:**
+1. `test_solution_file()` - Verifies `/app/solution.txt` exists
+2. `test_solution_content()` - Verifies the content is exactly "honeybear"
+
+**Coverage Assessment:**
+
+**Strengths:**
+- The tests verify the correct final output (existence and exact content)
+- Since the agent cannot see the test cases, they have no way to know the expected answer "honeybear" without actually solving the task
+- The word "honeybear" doesn't appear anywhere in the provided files (I checked the file contents), so the agent must genuinely crack the archive to discover it
+- The task requires a multi-step process: extract hash with 7z2john, crack with john, extract archive, read secret file
+
+**Potential Weaknesses:**
+- Tests don't verify intermediate steps (e.g., that the archive was actually extracted, that john was used)
+- Tests don't verify that `secret_file.txt` was the source of the answer
+- No verification of the methodology used
+
+**Hardcoding Consideration:**
+The note mentions that for flag-based tasks, checking the output content is often sufficient because the agent must solve the task to determine the flag. This applies here - the agent has no other way to discover "honeybear" without cracking the 7z archive.
+
+**Could an incorrect solution pass?**
+An incorrect solution could theoretically pass only if the agent somehow guessed "honeybear" randomly, which is extremely unlikely. Any solution that produces the correct output must have found a way to access the encrypted content, which means the core task was accomplished.
+
+Coverage rating: 4
+
+============================================================
+Challenge: custom-memory-heap-crash
+Rating: 4
+============================================================
+
+## Analysis of Test Coverage
+
+### Test Cases Overview
+The test suite includes:
+1. **test_protected_files_not_modified**: MD5 checksum verification for `main.cpp` and `user.h`
+2. **test_program_compiles_debug/release**: Ensures both builds compile
+3. **test_debug_build_runs_without_crash**: Verifies debug build doesn't crash (baseline)
+4. **test_release_build_runs_without_crash**: Verifies release build doesn't crash (core requirement)
+5. **test_no_memory_leaks_with_valgrind**: Detects memory leaks with `--errors-for-leak-kinds=definite`
+
+### Coverage Strengths
+1. **File integrity verification**: The MD5 checksum test ensures only `user.cpp` is modified, preventing solutions that hack `main.cpp` or `user.h`.
+
+2. **Core functionality test**: The release build must run without crashing (return code 0), which directly tests the main requirement.
+
+3. **Anti-cheat mechanism**: The Valgrind test prevents common workarounds like:
+   - Using `quick_exit()` or `_Exit()` to skip static destructors
+   - Using `abort()` or `exit()` prematurely
+   - Any approach that doesn't properly clean up memory
+
+4. **Both debug and release tested**: Ensures the fix doesn't break either mode.
+
+### Potential Gaps
+1. **Output content not verified**: The tests don't check if the Monte Carlo output is correct, but this seems intentional since the bug is about crashes, not computation.
+
+2. **Valgrind configuration**: Using `--errors-for-leak-kinds=definite` excludes "still reachable" and "possible" leaks. Some creative workarounds might escape detection, though these would be unlikely to be stable.
+
+3. **No verification of the mechanism**: The tests don't verify *how* the fix works, just that it works. An agent could potentially find an alternative valid solution that differs from the expected one - but this could also be acceptable.
+
+### Incorrect Solutions Analysis
+Given the constraints (only modifying `user.cpp` where functions are called at specific points), it's difficult to conceive of an incorrect solution that would pass all tests. The `user_init()` is the only place to trigger facet initialization before the custom heap exists, which aligns with the correct solution approach.
+
+Coverage rating: 4
+
+============================================================
+Challenge: db-wal-recovery
+Rating: 4
+============================================================
+
+Looking at this task and test coverage:
+
+## Task Analysis
+The task requires:
+1. Fixing an XOR-encrypted WAL file (with key 0x42)
+2. Extracting all 11 records from the database
+3. Creating a properly formatted JSON file
+
+## Test Coverage Analysis
+
+**Strengths:**
+1. `test_recovered_data_completeness` checks multiple specific data points:
+   - Exactly 11 records with IDs 1-11
+   - Updated values from WAL: id=1 has value 150, id=2 has value 250
+   - Specific names for records 3-11 (cherry, date, elderberry, fig, grape, honeydew, kiwi, lemon, mango)
+
+2. The tests verify WAL-specific changes that cannot be obtained without proper decryption:
+   - Records 6-11 only exist in the WAL
+   - Updated values for records 1-2 only exist in the WAL
+
+3. Structure validation ensures correct JSON format, types, and sorting
+
+4. Since the agent cannot see the tests, they cannot simply hardcode values like "150" or "fig" - they must actually decrypt the WAL to discover these values.
+
+**Minor Weaknesses:**
+- Not all values are verified (e.g., values for records 3-11 aren't checked)
+- Names for records 1-2 aren't verified (though values are)
+- No verification of the decryption method itself (just the outcome)
+
+## Conclusion
+
+The test coverage is strong. An agent would need to actually:
+1. Discover the WAL is XOR encrypted
+2. Determine the correct key (0x42)
+3. Properly decrypt and apply the WAL changes
+4. Extract and format the data correctly
+
+The specific data points checked (like value=150 for id=1, name="fig" for id=6) can only be obtained through proper decryption of the WAL file. While not every single field is verified, enough critical data points from both the base database and WAL changes are checked to ensure the solution is legitimate.
+
+Coverage rating: 4
+
+============================================================
+Challenge: distribution-search
+Rating: 4
+============================================================
+
+Looking at this task and the test cases, I need to evaluate whether an incorrect solution could pass the tests.
+
+**Task Requirements:**
+1. Find a probability distribution P with vocabulary size 150,000
+2. Forward KL divergence KL(P||U) = 10.0 (±0.001)
+3. Backward KL divergence KL(U||P) = 10.0 (±0.001)
+4. Save to `/app/dist.npy`
+5. Must be a valid probability distribution
+
+**Test Coverage Analysis:**
+
+1. `test_distribution_file_exists()` - Verifies the output file exists and loads properly
+2. `test_distribution_shape()` - Checks 1D array with exactly 150,000 elements
+3. `test_distribution_validity()` - Validates:
+   - All values finite
+   - All values positive (min > 0)
+   - All values ≤ 1.0
+   - Sum is 1.0 within 1e-5
+4. `test_kl_divergences()` - Directly verifies both KL divergences are within 0.001 of 10.0
+
+**Strengths:**
+- The tests use the exact same KL divergence formulas specified in the task
+- The mathematical constraints are highly specific - finding a distribution where BOTH forward and backward KL are exactly 10.0 is non-trivial
+- All validity requirements for a probability distribution are checked
+- The tolerance matches the task specification
+
+**Potential Weaknesses:**
+- In `test_kl_divergences()`, the distribution is renormalized (`P = P / P.sum()`) before checking KL, though `test_distribution_validity()` already enforces sum ≈ 1.0
+- No check that the solution wasn't simply hardcoded, but this is mitigated by the fact that any hardcoded solution must still satisfy the mathematical constraints
+
+**Could an incorrect solution pass?**
+The core challenge is finding a distribution satisfying both KL constraints simultaneously. Forward KL measures how peaked the distribution is (entropy-related), while backward KL measures how spread out/light-tailed it is. Getting both to equal exactly 10.0 requires careful mathematical construction. There's no trivial or "cheating" approach that would accidentally satisfy these precise numerical constraints.
+
+The tests comprehensively verify all stated requirements, and the mathematical specificity of the KL constraints makes it extremely unlikely that an incorrect approach would pass.
+
+Coverage rating: 4
+
+============================================================
+Challenge: dna-assembly
+Rating: 4
+============================================================
+
+Looking at this task and the test cases, I need to evaluate how well the tests cover the requirements for designing Golden Gate assembly primers.
+
+## Test Coverage Analysis
+
+**What the tests check:**
+
+1. **File existence and format**: Verifies `primers.fasta` exists with exactly 16 lines (8 primers × 2 lines each), headers start with `>`, and sequences contain only valid nucleotides.
+
+2. **Primer naming**: Checks all 8 required primers are present with correct names (`input_fwd`, `input_rev`, `egfp_fwd`, etc.).
+
+3. **BsaI site validation**: The `parse_bsai_primer` function validates:
+   - Presence of `ggtctc` recognition site
+   - At least 1 nucleotide clamp before the site
+   - Proper 4-nucleotide overhang after the site
+   - Sufficient annealing region after overhang
+
+4. **Primer annealing validation**: Checks that:
+   - Forward primer anneals to template
+   - Reverse primer anneals downstream of forward primer
+   - Annealing regions are 15-45 nucleotides
+
+5. **Melting temperature validation**: Uses the exact `oligotm` parameters specified in the task to verify:
+   - Tm between 58-72°C for all primers
+   - Forward/reverse pairs within 5°C of each other
+
+6. **Overhang matching for Golden Gate**: Verifies proper overhang complementarity:
+   - egfp_left == rc(vector_right)
+   - flag_left == rc(egfp_right)
+   - snap_left == rc(flag_right)
+   - vector_left == rc(snap_right) (circular closure)
+
+7. **Unique overhangs**: Ensures all 4 junction overhangs are unique to prevent mis-assembly.
+
+8. **Assembly correctness**: Final check verifies the assembled sequence matches the expected output plasmid.
+
+**Potential weaknesses:**
+- Blank line check is implicit (via line count) rather than explicit
+- The `in output + output` check for circular plasmid matching is slightly permissive but works given unique overhang constraints
+
+**Strengths:**
+- The test actually performs the Golden Gate assembly simulation and verifies the result
+- All Tm calculations use the exact specified parameters
+- Comprehensive validation of primer structure per NEB requirements
+- The final assembly must match the expected output sequence exactly
+
+An incorrect solution would be very unlikely to pass because the tests verify both the individual primer properties AND that the assembly produces the correct output sequence. The tests effectively perform a complete validation of the Golden Gate assembly design.
+
+Coverage rating: 4
+
+============================================================
+Challenge: extract-elf
+Rating: 3
+============================================================
+
+## Analysis of Test Coverage
+
+### What the Tests Check
+
+1. **`test_extract_js_exists`**: Basic check that the file exists.
+
+2. **`test_output_matches_reference`**: 
+   - Creates a *new* C program different from the original `hi.c`
+   - Compiles it to a new binary (`new.o`)
+   - Runs the student's solution and the reference solution on this new binary
+   - Verifies no address has a different value than the reference
+   - Verifies at least 75% of reference addresses are present
+
+### Strengths
+
+1. **Prevents hardcoding**: By testing against a dynamically created binary (`new.o`) rather than the original `a.out`, students cannot simply hardcode values.
+
+2. **Validates correctness**: Any included address must have the exact correct value - no partial credit for wrong values.
+
+3. **Uses reference comparison**: The comparison against the reference solution ensures the student must actually parse ELF format correctly.
+
+4. **Tests actual ELF parsing**: The student must implement real ELF parsing logic to match the reference output.
+
+### Weaknesses
+
+1. **Only one test binary**: Only tests one additional compiled program, which may not cover all ELF parsing edge cases.
+
+2. **No 32-bit vs 64-bit testing**: Only tests whatever the default compilation produces.
+
+3. **No endianness testing**: Only tests one endianness format.
+
+4. **75% threshold is somewhat lenient**: A solution missing significant sections (like `.rodata`) could potentially still pass if those sections are small enough.
+
+5. **No explicit format validation**: Doesn't explicitly check if values are integers vs strings (relies on implicit JSON comparison).
+
+6. **Doesn't test original `a.out`**: The task mentions `/app/a.out` specifically, but the test only uses a different binary.
+
+### Could an Incorrect Solution Pass?
+
+A solution with subtle bugs in ELF parsing might pass if:
+- It correctly parses the specific test binary structure
+- It happens to extract enough of the right sections to meet the 75% threshold
+- Any bugs only manifest in edge cases not covered by the test
+
+However, the dynamic binary generation and reference comparison make it difficult to pass without implementing genuine ELF parsing.
+
+Coverage rating: 3
+
+============================================================
+Challenge: dna-insert
+Rating: 4
+============================================================
+
+Looking at this primer design task, I need to evaluate how well the test cases verify that a solution correctly designs primers for Q5 site-directed mutagenesis.
+
+## Test Coverage Analysis
+
+### What the tests check:
+
+1. **File existence and format**: Verifies `primers.fasta` exists and has exactly 4 lines (enforcing minimum primer pairs requirement)
+
+2. **Valid nucleotide sequences**: Ensures primers only contain A, T, C, G characters
+
+3. **Correct insert encoding**: The test concatenates `rc(rev_primer) + fwd_primer` and verifies the insert sequence is present, checking that the primers will actually produce the desired output
+
+4. **Annealing region verification**: 
+   - Extracts the portions before and after the insert
+   - Verifies these match the expected vector sequences (`vector1` and `vector2`)
+   - This ensures primers bind to correct positions on the input plasmid
+
+5. **Length constraints**: Checks annealed portions are between 15-45 nucleotides
+
+6. **Melting temperature requirements**: 
+   - Verifies both primers have Tm between 58-72°C
+   - Verifies Tm difference is ≤5°C
+   - Uses the exact oligotm parameters specified in the task
+
+### Strengths:
+- Comprehensive verification that primers will produce the correct output sequence
+- Tests all specified constraints (length, Tm, Tm difference)
+- Uses the correct oligotm calculation method
+- Enforces minimum primer pairs by checking line count
+- Verifies primer orientation (forward listed first) by checking vector overlaps
+
+### Potential weaknesses:
+- Doesn't verify FASTA header format (only checks sequence lines)
+- Doesn't explicitly test circularity considerations
+- Test relies on hardcoded vector/insert sequences, but these are necessary to verify correctness
+
+### Could an incorrect solution pass?
+Unlikely. An agent would need to:
+- Correctly identify the insert sequence
+- Design primers that anneal to the correct vector positions
+- Satisfy all thermodynamic constraints
+
+This effectively requires solving the problem correctly.
+
+Coverage rating: 4
+
+============================================================
+Challenge: extract-moves-from-video
+Rating: 3
+============================================================
+
+## Analysis
+
+**Task Requirements:**
+1. Download a specific YouTube video of Zork gameplay
+2. Transcribe the text content from the video
+3. Create `/app/solution.txt` with all player inputs, one per line
+
+**Test Coverage Assessment:**
+
+The tests include:
+1. `test_solution_file_exists()` - Verifies the output file exists
+2. `test_solution_content_similarity()` - Uses Levenshtein distance to verify content is at least 90% similar to the expected solution
+
+**Strengths:**
+- The expected solution is very specific (~200+ Zork commands from a particular video), making it extremely difficult to guess or fabricate without actually watching the video
+- Using Levenshtein distance is appropriate for transcription tasks where minor errors can occur
+- The 90% threshold is reasonable - strict enough to require substantial accuracy but tolerant of minor transcription errors
+- The comparison accounts for both content and ordering, which is important for game moves
+
+**Weaknesses:**
+- No verification that the agent actually downloaded the video (though this is hard to fake given the specific expected output)
+- The 90% threshold could theoretically allow a solution missing up to ~20 commands
+- No intermediate checks (e.g., that video exists, transcription was performed)
+- An agent could potentially find this exact playthrough documented elsewhere online rather than actually transcribing
+
+**Hardcoding Consideration:**
+The solution contains very specific commands in a particular sequence from a particular video. While theoretically the agent could find this documented elsewhere, it would still need to match the expected format. The specificity of the expected output (including typos like "drpo boat" that appear in the video) suggests the test effectively validates actual transcription work.
+
+The tests provide solid verification of the final output, though the 90% threshold is somewhat permissive and there's no process verification.
+
+Coverage rating: 3
+
+============================================================
+Challenge: feal-differential-cryptanalysis
+Rating: 4
+============================================================
+
+Looking at this test case analysis:
+
+## Task Requirements
+- Implement a chosen plaintext attack in `/app/attack.py`
+- The `attack(encrypt_fn)` function should recover and return the uint32 value of `key[5]`
+- Attack should run in under 30 seconds
+
+## Test Coverage Analysis
+
+**Strengths:**
+
+1. **Prevents trivial cheating via Python globals**: The test uses a C implementation (`feal_in_c`) rather than the Python `feal.py`. The test only calls `feal_in_c.create_random_keys()`, so the Python module's global `key` array remains `[0] * 6`. An agent trying `from feal import key; return key[5]` would get 0, not the actual key.
+
+2. **Random keys prevent hardcoding**: Keys are generated randomly at test time using `srand(time(NULL))` in the C code. The agent cannot predict or hardcode the expected value.
+
+3. **Black-box interface**: The attack function only receives `encrypt_fn` as a parameter, forcing the agent to use chosen plaintext queries rather than accessing internal state.
+
+4. **Correct implementation verification**: The test verifies that the returned value exactly matches `feal_in_c.get_keys()[5]`, ensuring the correct key is recovered.
+
+**Weaknesses:**
+
+1. **Single test run**: Only one test with one random key set. Edge cases for specific key values might not be caught.
+
+2. **Theoretical cheating possibility**: An agent could theoretically import `feal_in_c` and call `get_keys()[5]` directly. However, since the agent cannot see the test files and doesn't know `feal_in_c` or `get_keys()` exists, this is unlikely to be guessed.
+
+3. **No explicit timing verification**: The 30-second constraint isn't explicitly tested.
+
+4. **Single assertion point**: If the attack returns wrong values intermittently due to probabilistic nature, this might not be caught.
+
+The test effectively prevents the most obvious incorrect solutions (hardcoding, reading Python globals, returning arbitrary values) while requiring genuine cryptanalysis work. The use of a separate C implementation is clever test design.
+
+Coverage rating: 4
+
+============================================================
+Challenge: feal-linear-cryptanalysis
+Rating: 4
+============================================================
+
+## Analysis
+
+**Task Requirements:**
+The task requires implementing a linear cryptanalysis attack on a FEAL-like cipher to recover 4 round keys (each derived from a 20-bit seed), then decrypt 100 ciphertexts and save results to `/app/plaintexts.txt`.
+
+**Test Case Evaluation:**
+
+The test case checks that all 100 expected plaintext values appear in the output file using `c in data` for each expected plaintext.
+
+**Strengths:**
+1. **Correct key is required:** The only way to produce all 100 correct plaintext values is to successfully recover the encryption key. These are specific 64-bit integers that cannot be guessed.
+2. **Complete verification:** All 100 decrypted values must be present, ensuring the entire decryption process worked correctly.
+3. **No hardcoding shortcut:** The agent cannot see the expected plaintexts in the test cases, so they must actually solve the cryptanalysis problem.
+
+**Weaknesses:**
+1. **Loose format checking:** Using `c in data` only checks substring presence, not exact line-by-line matching or order. A solution with extra garbage content would still pass if all plaintexts are present.
+2. **Order not verified:** The test doesn't ensure plaintexts appear in the same order as the ciphertexts.
+3. **No structural validation:** The test doesn't verify the file has exactly 100 lines or proper formatting.
+
+**Could an incorrect solution pass?**
+Practically, no. An incorrect cryptanalysis implementation would recover wrong keys, leading to wrong plaintexts for the decryption phase. With 100 different 17-19 digit numbers to match, there's essentially zero probability of an incorrect solution accidentally producing all correct values.
+
+The test provides strong functional coverage for the core requirement (correct key recovery and decryption) but lacks strict format validation.
+
+Coverage rating: 4
+
+============================================================
+Challenge: filter-js-from-html
+Rating: 4
+============================================================
+
+Looking at the test cases for this XSS filter task:
+
+## Test Analysis
+
+### Test 1: `test_filter_blocks_xss()`
+**Strengths:**
+- Downloads real XSS attack vectors from a reputable security testbed (html-sanitizer-testbed)
+- Tests 20+ embedded attack vectors covering various attack types:
+  - Script tags (basic, case variations, tabs, null bytes, malformed)
+  - Event handlers (onerror, onload, onfocus, etc.)
+  - JavaScript URLs and data URIs with base64
+  - Object/embed/iframe tags
+  - SVG attacks, form actions, meta refresh
+- Uses actual browser execution (Selenium/Chrome) to detect if JavaScript runs
+- This is a strong functional test - if an alert fires, the filter failed
+
+### Test 2: `test_clean_html_unchanged()`
+**Strengths:**
+- Tests 12 different clean HTML samples covering tables, forms, navigation, semantic HTML5, lists, media elements, text formatting, special characters
+- Ensures legitimate content is preserved
+
+**Weaknesses:**
+- The comparison normalizes through BeautifulSoup and strips whitespace:
+  ```python
+  normalized_original.replace(" ", "").replace("\n", "") != filtered_content.replace(" ", "").replace("\n", "")
+  ```
+- This means formatting changes are essentially ignored, despite the task explicitly stating "Do not alter the formatting of the HTML content in any way"
+
+## Potential for Incorrect Solutions to Pass
+
+1. **Formatting issues**: A solution using BeautifulSoup (like the example) could alter formatting (quote styles, tag normalization, whitespace) and still pass because the tests strip whitespace and use BeautifulSoup normalization.
+
+2. **Over-aggressive filtering**: A solution could remove benign content not covered by the 12 test samples.
+
+3. **XSS edge cases**: While the external testbed is comprehensive, some advanced evasion techniques (Unicode normalization, mutation XSS, browser-specific quirks) might not be covered.
+
+The browser-based XSS testing is particularly strong as it tests actual JavaScript execution. However, the formatting requirement is essentially untested, which is a significant gap given the explicit task requirements.
+
+Coverage rating: 4
+
+============================================================
+Challenge: financial-document-processor
+Rating: 5
+============================================================
+
+Looking at the test cases, I need to evaluate how well they cover the task requirements.
+
+## Test Coverage Analysis
+
+**Task Requirements vs Test Coverage:**
+
+1. **Classification (invoice vs other)**: The tests `test_invoices_moved_correctly()` and `test_other_documents_moved_correctly()` verify this using SHA512 file hashes. This is excellent because:
+   - It verifies exactly which files should be in each directory
+   - Uses content-based hashes rather than filenames, making it impossible to game
+   - 10 specific invoices and 7 specific other documents must be correctly classified
+
+2. **File Movement**: Tests verify files are in correct directories via hashes, and `test_original_documents_dir_empty()` ensures source directory is empty.
+
+3. **Financial Data Extraction**: `test_summary_csv_content()` verifies:
+   - Exact total_amount values for each of the 10 invoices
+   - Exact vat_amount values (some have VAT, some have empty/"" values)
+   - Uses file hashes to match invoices with their expected values
+   - Tolerance of 0.01 for floating point comparison
+
+4. **Summary CSV Structure**: `test_summary_csv_structure()` verifies:
+   - Correct headers: filename, total_amount, vat_amount
+   - Exactly 11 rows (10 invoices + 1 total)
+
+5. **Total Row Calculation**: `test_summary_csv_content()` verifies the "total" row has correct aggregated values (81315.20 and 5402.48).
+
+6. **Special Case (Total vs Amount Due)**: Not explicitly tested, but implicitly covered since expected values must match.
+
+**Could an incorrect solution pass?**
+
+- **Hardcoding classification**: Impossible without seeing test file hashes and processing documents to identify them
+- **Hardcoding financial values**: Would need to know both file hashes AND their expected values, which requires actually processing the documents
+- **Wrong OCR/parsing**: Would fail on the exact value matching
+- **Missing total row**: Would fail row count check
+- **Wrong total calculations**: Would fail the exact value checks
+
+The tests are comprehensive and use file content hashes to verify classification, combined with exact financial value verification. An agent cannot pass these tests without actually implementing proper document processing, classification, and data extraction.
+
+Coverage rating: 5
+
+============================================================
+Challenge: fix-code-vulnerability
+Rating: 3
+============================================================
+
+Looking at this task and the test cases, I need to evaluate how well the tests ensure the vulnerability is correctly identified and fixed.
+
+**Task Summary:**
+- Identify CWE-93 (CRLF Injection) vulnerability in `/app/bottle.py`
+- Create a report file identifying the vulnerability
+- Fix the vulnerability by making `_hkey` and `_hval` functions raise ValueError for control characters
+
+**Test Coverage Analysis:**
+
+**Strengths:**
+1. `test_report_file_exists_example()` - Verifies the report file is created
+2. `test_vul_file()` - Verifies `/app/bottle.py` is correctly identified as vulnerable
+3. `test_cwe_id()` - Verifies CWE-93 is correctly identified for the vulnerable file
+4. `test_hkey_basic_cases()` - Tests that basic header normalization still works after the fix
+5. `test_hkey_error_cases()` - Tests that `_hkey` raises ValueError for `\n`, `\r`, and `\0` characters
+6. `test_hkey_real_world_examples()` - Tests real-world header names work correctly
+
+**Weaknesses:**
+1. **Missing `_hval` tests**: The example solution fixes BOTH `_hkey` and `_hval` functions, but the tests only verify the `_hkey` function. An agent could fix only `_hkey`, leaving `_hval` vulnerable, and still pass all tests. This is a significant gap since CRLF injection through header values is equally dangerous.
+
+2. **Partial fix would pass**: The tests would pass even if only half of the vulnerability fix is implemented.
+
+3. **No integration tests**: There are no tests verifying that actual HTTP response handling is protected from CRLF injection.
+
+**Potential for Incorrect Solutions to Pass:**
+An agent that:
+- Correctly identifies CWE-93 in `/app/bottle.py` ✓
+- Fixes only `_hkey` but not `_hval` ✓ (would still pass all tests)
+
+This represents a meaningful gap because the CRLF injection vulnerability through header values would remain exploitable.
+
+The tests are well-designed for what they cover (the `_hkey` function), but they only cover half of what the example solution demonstrates is needed for a complete fix.
+
+Coverage rating: 3
+
+============================================================
+Challenge: fix-git
+Rating: 2
+============================================================
+
+## Analysis
+
+### Task Overview
+The task asks the agent to find lost changes in a Git repository (after checking out master) and merge them back into master. This is a Git recovery task that should involve using git reflog or git logs to find the lost commits and properly merge them.
+
+### Test Case Evaluation
+
+The test cases verify:
+1. `test_about_file()` - Checks that `/app/personal-site/_includes/about.md` matches the expected content from `/app/resources/patch_files/about.md`
+2. `test_layout_file()` - Checks that `/app/personal-site/_layouts/default.html` matches the expected content from `/app/resources/patch_files/default.html`
+
+### Strengths
+- Tests verify the correct end-state of the actual files that need to be recovered
+- Uses hash comparison to ensure exact content match
+- Covers both files that were presumably changed
+
+### Weaknesses
+
+1. **No Git verification**: The tests only check file contents, not whether proper Git operations were performed. The task specifically asks to "merge them into master," but the tests don't verify:
+   - That a branch was created
+   - That a merge was performed
+   - That the Git history is correct
+   - That master is in the correct state from Git's perspective
+
+2. **Visible shortcut exists**: The `/app/resources/patch_files/` directory is visible in the initial container state. An agent could potentially:
+   - Notice these files while exploring the filesystem
+   - Simply copy them directly to their destinations: `cp /app/resources/patch_files/about.md /app/personal-site/_includes/about.md`
+   - This would pass all tests without using Git at all
+
+3. **Task intent not fully tested**: The task emphasizes Git workflow ("find those changes," "merge them"), but tests only verify file content outcomes, not the process.
+
+### Likelihood of Incorrect Solution Passing
+An agent exploring the filesystem could discover the patch_files directory and simply copy the files, completely bypassing the intended Git workflow. While the agent can't see the tests, the presence of similarly-named files in a "patch_files" directory is a reasonable discovery path.
+
+Coverage rating: 2
+
+============================================================
+Challenge: fix-ocaml-gc
+Rating: 4
+============================================================
+
+Looking at this task and test case:
+
+**Task:** Fix a bug in the OCaml garbage collector (specifically in run-length compressing code) that causes the compiler to crash during bootstrapping. The agent must then verify the fix by running the basic testsuite.
+
+**Example Solution:** A single line change in `/app/ocaml/runtime/shared_heap.c` at line 650, replacing `Whsize_hd(hd)` with `wh`.
+
+**Test Case Analysis:**
+The test checks:
+1. That `/app/ocaml/tests.txt` exists
+2. That it contains "40 tests passed"
+
+**Strengths:**
+1. **Functional verification**: The test verifies that the fix actually works by running the real OCaml testsuite. If the garbage collector bug isn't fixed, the compiler would crash during bootstrapping or tests would fail.
+2. **Anti-cheating measure**: The comment explicitly states the file is overwritten by the test runner, preventing the agent from simply creating a fake output file.
+3. **Appropriate granularity**: For a garbage collector bug that causes crashes, passing 40 tests is strong evidence the fix is correct - GC bugs typically manifest as crashes or memory corruption that would cause test failures.
+
+**Weaknesses:**
+1. **Only basic tests**: The test only verifies basic testsuite passes, not comprehensive coverage. A subtly incorrect fix might pass basic tests but fail under more intensive scenarios.
+2. **No verification of specific fix**: The test doesn't check that the exact correct line was modified - it only verifies functional correctness. An alternative fix that happens to work could pass.
+3. **Exact string matching**: The test depends on "40 tests passed" appearing exactly, which could be fragile if test count varies.
+
+**Could an incorrect solution pass?**
+Given the nature of GC bugs (they typically cause crashes or corruption), it's unlikely that a completely wrong fix would allow the compiler to bootstrap successfully and pass 40 tests. The test provides reasonable assurance that any passing solution functionally fixes the issue.
+
+Coverage rating: 4
+
+============================================================
+Challenge: gcode-to-text
+Rating: 4
+============================================================
+
+## Analysis
+
+**Task**: Parse a G-code file for a 3D printer and determine what text would be printed, writing the result to /app/out.txt.
+
+**Test Cases**:
+1. Checks that /app/out.txt exists
+2. Checks that the file contains exactly "flag{gc0d3_iz_ch4LLenGiNg}"
+
+**Coverage Assessment**:
+
+Strengths:
+- The test requires an exact match to a very specific flag: "flag{gc0d3_iz_ch4LLenGiNg}"
+- This flag uses leetspeak-style substitutions (gc0d3_iz_ch4LLenGiNg = "gcode is challenging") which would be extremely difficult to guess without actually analyzing the G-code
+- The flag format and content are non-obvious and require proper parsing/visualization of the G-code file to discover
+- The solution involves multiple complex steps (G-code parsing, 3D rendering, rotation, OCR), and the exact output string must be derived from this process
+
+Weaknesses:
+- No verification of intermediate steps or methodology
+- Theoretically, if the flag appeared as a comment in the G-code file, an agent could extract it without proper visualization (though this would still require some form of analysis)
+- Only checks final output, not the process used to arrive at it
+
+**Verdict**: The flag is sufficiently complex and specific that an agent cannot reasonably pass without genuinely solving the task. The leetspeak encoding ("gc0d3_iz_ch4LLenGiNg") makes random guessing practically impossible. Any solution that produces this exact output must have correctly interpreted the G-code file's printing path in some meaningful way.
+
+Coverage rating: 4
+
+============================================================
+Challenge: git-multibranch
+Rating: 4
+============================================================
+
+## Analysis
+
+The test case covers the core functionality of this Git server setup task:
+
+**Strengths:**
+1. **SSH Authentication**: Tests password authentication by using `expect` to send "password" when cloning and pushing
+2. **Repository Path**: Verifies the repository is accessible at `git@localhost:/git/project`
+3. **Multi-branch Deployment**: Tests that both main and dev branches deploy to their respective endpoints
+4. **HTTPS**: Uses `https://localhost:8443` which verifies TLS is working (the `-k` flag just skips cert validation, but HTTPS is still required)
+5. **Dynamic Content**: The test pushes specific content ("main branch content" / "dev branch content") and verifies it appears - this prevents hardcoding since the agent doesn't see test cases
+
+**Weaknesses:**
+1. **3-Second Deployment Requirement**: The task specifies deployment within 3 seconds, but the test allows up to ~13 seconds (3 second initial wait + 5 retries × 2 seconds). A slow mechanism could pass.
+2. **Post-receive Hook Verification**: Doesn't verify that a post-receive hook specifically exists - only that deployment happens after push. Alternative mechanisms (cron, file watcher) could technically pass.
+3. **No Update Testing**: Only tests initial pushes, not subsequent updates to branches
+4. **Self-signed Certificate**: Doesn't specifically verify the certificate is self-signed (vs. any valid TLS configuration)
+5. **Nginx Verification**: Doesn't confirm Nginx is the web server being used
+
+**Could an incorrect solution pass?**
+An agent could theoretically use a non-hook-based deployment mechanism or have slower-than-specified deployment times. However, the test effectively validates the main user-facing requirements: SSH with password auth, Git operations, and HTTPS content serving for both branches.
+
+Coverage rating: 4
+
+============================================================
+Challenge: gpt2-codegolf
+Rating: 3
+============================================================
+
+Looking at this task and test coverage:
+
+**Task Requirements:**
+1. C program under 5000 bytes
+2. Reads GPT-2 checkpoint (.ckpt) and vocab file (.bpe)
+3. Implements forward pass with argmax sampling
+4. Generates next 20 tokens for given input
+5. Must compile with `gcc -O3 -lm`
+
+**Test Coverage Analysis:**
+
+The test checks:
+1. ✓ File exists at `/app/gpt2.c`
+2. ✓ File size < 5000 bytes
+3. ✓ Compilation succeeds
+4. ✓ Program runs without error
+5. ✓ One specific input-output test: `'THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT'` → should contain `"WARRANTY OF ANY KIND, EXPRESS OR IMPLIED"`
+
+**Strengths:**
+- The single test case is meaningful because argmax sampling is deterministic - the output should always be the same for a given input
+- Getting the correct continuation of this legal text phrase strongly indicates the model weights are loaded correctly, BPE tokenization works, and the transformer forward pass is properly implemented
+- Hardcoding would be impractical since the agent would need to know the expected output in advance, and the complexity of actually implementing GPT-2 inference makes it far easier to just solve the problem correctly
+
+**Weaknesses:**
+- Only one input is tested - bugs that happen to not affect this particular tokenization/inference path would go undetected
+- No test verifying exactly 20 tokens are generated
+- No edge cases tested (empty input, special characters, very short/long inputs)
+- No test for different types of prompts that exercise different vocabulary/token paths
+- Could potentially pass with a broken implementation that happens to work for this specific case
+
+The test provides reasonable confidence that a core GPT-2 implementation works, but the single test case leaves room for subtle bugs or incorrect implementations that coincidentally produce the right output for this specific input.
+
+Coverage rating: 3
+
+============================================================
+Challenge: headless-terminal
+Rating: 4
+============================================================
+
+Looking at the test cases and the task requirements, let me analyze the coverage:
+
+**Requirements from task:**
+1. Mimics a terminal with interactive bash shell
+2. Commands executed by typing characters and hitting Enter
+3. Supports interactive programs
+4. Supports modifier keys like `\x03` for Ctrl+C
+5. Sources startup files (e.g. ~/.bashrc)
+
+**Test case analysis:**
+
+1. **test_import()**: Basic import check - minimal but necessary.
+
+2. **test_send_non_interactive_command()**: Tests basic command execution with echo and file output. Verifies the fundamental keystroke-to-execution flow.
+
+3. **test_send_interactive_command()**: Excellent test using vim - this requires a real PTY implementation. Tests insert mode, escape key (`\x1b`), and command mode. Very difficult to fake without proper terminal emulation.
+
+4. **test_cancel_command()**: Tests `\x03` (Ctrl+C) modifier key to interrupt a running command. Verifies the file isn't created after cancellation.
+
+5. **test_startup_files()**: Tests that ~/.bashrc is sourced by setting an environment variable there and using it in the terminal. Directly validates the interactive shell requirement.
+
+6. **test_shell_state_persists_between_commands()**: Tests that environment variables persist across multiple send_keystrokes calls - ensures it's a single persistent shell session, not spawning new shells.
+
+7. **test_background_commands()**: Tests running a background HTTP server and making requests to it. Validates proper shell job control support.
+
+**Strengths:**
+- All stated requirements are tested
+- The vim test is particularly strong as it requires proper PTY handling
+- Tests state persistence and interactive shell behavior
+- Multiple modifier keys tested (`\x03`, `\x1b`)
+- Background process support tested
+
+**Potential weaknesses:**
+- No explicit test for the `wait_sec` parameter actually waiting (only side effects)
+- No test for multiple terminal instances
+- No cleanup/resource management testing
+- Timing-dependent tests could theoretically be flaky
+
+The test suite is comprehensive and would be very difficult to pass with an incorrect implementation. The vim interaction test especially ensures proper pseudo-terminal implementation since vim requires a real TTY.
+
+Coverage rating: 4
+
+============================================================
+Challenge: git-leak-recovery
+Rating: 4
+============================================================
+
+Looking at this task and the test cases, I need to evaluate how well the tests cover the three requirements:
+
+1. **Recover the secret and write to /app/secret.txt**
+2. **Clean up the secret so it cannot be found anywhere in the repo**
+3. **Keep irrelevant files and commit messages untouched**
+
+## Test Analysis:
+
+**test_flag_file_exists_and_correct()**: 
+- Checks for exact secret value "secret[lost_and_found_in_git]"
+- The agent must actually find and extract the secret to pass this (hardcoding unlikely due to specific format)
+
+**test_no_secrets_in_commits()**:
+- Checks commit messages with `--grep` for "secret["
+- Checks commit content with `-S` pickaxe search
+- Covers all reachable commit history
+
+**test_good_commits_preserved()**:
+- Verifies a specific commit "chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc" exists
+- The UUID makes this very specific and prevents over-aggressive cleanup
+
+**test_no_secrets_in_unreachable_objects()**:
+- Uses `git fsck --lost-found` to find dangling objects
+- Explicitly checks dangling commits, blobs, AND trees for "secret["
+- This is crucial as the secret was "removed by rewriting history" - it would exist as a dangling object
+
+**test_repository_contents_checksum()**:
+- Verifies file checksums in the working directory
+- Ensures repository contents remain unchanged
+
+## Potential Gaps:
+- Doesn't explicitly check `git reflog` entries (though fsck should catch objects if they become dangling after cleanup)
+- Doesn't explicitly check stashes (though fsck would find stash-related dangling objects)
+- Doesn't check packed objects directly (though fsck handles these)
+
+## Strengths:
+- Multiple layers of verification for the cleanup
+- Specific UUID in commit message prevents accidental deletion of legitimate commits
+- Checksum verification prevents modification of repo files
+- The fsck-based check for dangling objects is quite thorough for this type of task
+- Covers both commit messages and content in the pickaxe search
+
+The tests are well-designed for this git history recovery/cleanup task. The combination of checking reachable commits and unreachable/dangling objects provides good coverage. An incorrect solution would have difficulty passing all tests simultaneously - either failing to recover the secret, failing to clean it up, or accidentally destroying legitimate commits.
+
+Coverage rating: 4
+
+============================================================
+Challenge: hf-model-inference
+Rating: 4
+============================================================
+
+Looking at the test cases against the task requirements:
+
+## Test Coverage Analysis
+
+**Requirement 1 (Download model to specific path):**
+- `test_model_downloaded()` explicitly checks that `/app/model_cache/sentiment_model` exists and that the model/tokenizer can be loaded from that path. ✓
+
+**Requirement 2 (Flask API with /sentiment endpoint accepting POST with JSON):**
+- `test_sentiment_endpoint()` sends POST requests to `/sentiment` with JSON data. ✓
+- Tests verify correct response structure with `sentiment` and `confidence` fields. ✓
+
+**Requirement 3 (Return sentiment results with confidence scores):**
+- Tests verify response contains `sentiment` (string), `confidence.positive` (float), and `confidence.negative` (float). ✓
+- Tests verify sentiment matches confidence scores (internal consistency). ✓
+- Tests 6 different texts and validates expected sentiment classification, which helps verify actual model inference is happening. ✓
+
+**Requirement 4 (Port 5000, accessible from 0.0.0.0):**
+- `test_flask_api_running()` explicitly tests connection to `http://0.0.0.0:5000`. ✓
+
+**Requirement 5 (Run in background):**
+- Implicitly tested by the tests being able to connect to the service. ✓
+
+**Error Handling:**
+- `test_api_error_handling()` verifies 400 status and error field for missing text. ✓
+
+## Potential Gaps:
+- The specific model identity (distilbert-base-uncased-finetuned-sst-2-english) isn't directly verified by name, though the sentiment classification tests would likely fail with a different model
+- No test for empty string input
+- No test for very long text (truncation behavior)
+
+## Strengths:
+- Good variety of test texts (6 cases) including nuanced cases like "not bad" and "horribly beautiful"
+- Verifies both structure AND content of responses
+- Tests internal consistency (sentiment matches confidence scores)
+- Explicitly tests the specific path and host binding requirements
+
+The tests provide solid coverage that would catch most incorrect implementations. An agent cannot easily fake the results without actually using the correct model.
+
+Coverage rating: 4
+
+============================================================
+Challenge: kv-store-grpc
+Rating: 4
+============================================================
+
+Looking at the test cases for this gRPC KV store task, let me analyze the coverage:
+
+**What the tests cover well:**
+
+1. **File existence checks**: Tests verify `/app/kv-store.proto`, `/app/kv_store_pb2.py`, `/app/kv_store_pb2_grpc.py`, and `/app/server.py` all exist.
+
+2. **Proto file content**: Checks for required service name (`KVStore`), RPC names (`GetVal`, `SetVal`), and message definitions (`GetValRequest`, `SetValResponse`).
+
+3. **Server implementation**: Verifies `class Server` exists in server.py.
+
+4. **Port verification**: Tests that port 5328 is listening.
+
+5. **Functional testing**: 
+   - `test_grpc_protocol_handshake` verifies actual gRPC protocol is being used (not a mock server)
+   - `test_grpc_server_functionality` tests SetVal and GetVal with key-value operations
+   - Tests updating existing keys
+
+**Potential gaps:**
+
+1. **Version verification**: Tests don't verify grpcio==1.73.0 and grpcio-tools==1.73.0 are specifically installed. An agent could install different versions.
+
+2. **Missing message check**: Tests check for `GetValRequest` and `SetValResponse` but don't explicitly check for `GetValResponse` and `SetValRequest` in the proto file (though these are implicitly tested via functionality).
+
+3. **Non-existent key behavior**: The example solution returns 0 for non-existent keys, but this edge case isn't tested.
+
+4. **Multiple keys**: Tests only use one or two keys at a time; doesn't verify the dict can properly store multiple distinct key-value pairs simultaneously.
+
+5. **Field type verification**: Doesn't verify int types in proto (int32 vs int64) though both would work functionally.
+
+**Overall assessment**: The tests provide solid functional coverage. An agent cannot pass these tests without creating a working gRPC server with proper proto definitions and functional SetVal/GetVal operations. The anti-cheating tests (`test_real_grpc_server_running` and `test_grpc_protocol_handshake`) effectively prevent mock implementations. The main gaps are version checking and edge case testing, but the core functionality is well-verified.
+
+Coverage rating: 4
+
+============================================================
+Challenge: install-windows-3.11
+Rating: 4
+============================================================
+
+Looking at this task and test coverage, let me analyze what's being tested against what's required:
+
+**Task Requirements:**
+1. Run Windows 3.11 using QEMU with image `/app/isos/win311.img`
+2. VNC display :1 on port 5901
+3. Web interface (nginx) on port 80
+4. Snapshot mode for immutability
+5. Programmatic keyboard input capability (QEMU monitor)
+6. VM at Windows 3.11 desktop
+
+**Test Coverage Analysis:**
+
+1. **test_network_status**: Verifies VNC on port 5901 ✓ and port 80 listening ✓. However, doesn't verify it's specifically nginx - just that something is listening.
+
+2. **test_qemu_running_with_correct_params**: 
+   - Verifies QEMU process running ✓
+   - Verifies snapshot mode (`snapshot=on` or `-snapshot`) ✓
+   - Verifies correct image path ✓
+   - **Cryptographic verification** of disk image with SHA256 hash ✓
+   - Verifies VGA configuration ✓
+   - Verifies architecture compatibility ✓
+
+3. **test_windows_311_core_files_verification**: Cryptographically verifies Windows 3.11 system files (WIN.COM, PROGMAN.EXE, etc.) with hardcoded SHA256 hashes. Requires ≥5 verified files. This prevents using a fake/different image.
+
+4. **test_windows_keys_with_visual_feedback**: 
+   - Uses QEMU monitor socket (`/tmp/qemu-monitor.sock`) for keyboard input ✓
+   - Takes VNC screenshots and compares before/after key presses ✓
+   - Verifies the VM is responsive to programmatic input ✓
+
+**Strengths:**
+- Strong cryptographic verification of both the disk image and core Windows files
+- Functional verification of keyboard input via monitor socket with visual feedback
+- Checks for essential QEMU configuration parameters
+
+**Gaps:**
+- Doesn't verify nginx specifically (could be any web server on port 80)
+- Doesn't verify QEMU 5.2.0 version specifically
+- Doesn't explicitly verify VM is at the desktop state (though the visual keyboard test partially addresses this)
+- No verification that websockify/NoVNC is properly configured for web access
+
+**Could an incorrect solution pass?**
+The cryptographic verification of files makes it very hard to cheat with a different image. The keyboard visual feedback test ensures the VM is responsive. However, an agent could technically use a different web server than nginx or a different QEMU version and still pass.
+
+Coverage rating: 4
+
+============================================================
+Challenge: large-scale-text-editing
+Rating: 4
+============================================================
+
+## Analysis of Test Coverage
+
+### What the tests check:
+
+1. **`test_apply_macros_exists`**: Basic file existence check.
+
+2. **`test_apply_macros_well_formed`**: Validates script structure:
+   - Checks for required exit commands (`:wq` or `:x`)
+   - Verifies all three macros (a, b, c) are defined via `setreg`
+   - Verifies all three macros are executed via `:%normal! @[abc]`
+   - Each line is validated against allowed patterns
+   - Keystroke content is validated against forbidden commands (file reading, shell escapes, scripting languages)
+
+3. **`test_apply_macros_runs`**: Executes Vim headlessly and crucially **generates expected.csv AFTER running the agent's script** - this is a strong anti-cheating measure.
+
+4. **`test_input_equiv_expected`**: SHA-256 comparison ensures byte-for-byte match of 1 million rows.
+
+5. **`test_macros_nonempty_and_efficient`**: 
+   - Verifies each macro has > 0 keystrokes
+   - Verifies all three macros are pairwise distinct
+   - Verifies total keystrokes < 200
+
+### Strengths:
+- **Anti-cheating**: Expected file is generated post-execution, preventing agents from copying it
+- **Strict format validation**: Only allowed command patterns are accepted
+- **Forbidden command blocking**: Comprehensive list of file reading, shell escapes, and scripting commands
+- **Efficiency enforcement**: < 200 keystroke limit prevents hardcoding solutions
+- **Distinctness requirement**: All three macros must be different and non-empty
+- **Exact output matching**: SHA-256 hash comparison is rigorous
+
+### Potential weaknesses:
+- The regex patterns for validation, while comprehensive, could theoretically have edge cases
+- Order of test execution relies on pytest's default behavior
+- Some obscure Vim commands might bypass the forbidden list (though major vectors are covered)
+
+### Could an incorrect solution pass?
+Given the constraints:
+- Must transform 1 million rows exactly
+- Under 200 keystrokes total
+- Using only allowed commands (essentially `:s/` substitutions)
+- Three distinct, functional macros required
+
+The transformation is specific (whitespace cleanup, field reversal, uppercase, delimiter change, suffix addition). An incorrect solution would fail the SHA-256 comparison. The keystroke limit makes it infeasible to encode expected content. The format validation catches non-compliant scripts.
+
+Coverage rating: 4
+
+============================================================
+Challenge: largest-eigenval
+Rating: 4
+============================================================
+
+Looking at the test cases provided, let me analyze the coverage:
+
+## Test Coverage Analysis
+
+**Tests Provided:**
+
+1. **`test_eigen_pair`** - Verifies:
+   - Eigenvector is non-zero
+   - Eigenvalue is not NaN/Inf
+   - The eigenvalue equation Ax = λx is satisfied using `np.allclose`
+   - Tested for matrix sizes 2-10
+
+2. **`test_dominance_eigenvalue`** - Verifies:
+   - The returned eigenvalue has the largest magnitude compared to all eigenvalues from numpy's reference
+   - Tested for matrix sizes 2-10
+
+3. **`test_speedup`** - Verifies:
+   - The implementation is faster than the numpy reference solution
+   - Uses median timing over 100 iterations with process isolation
+
+**Strengths:**
+- Tests mathematical correctness (Ax = λx must hold)
+- Explicitly tests that the dominant eigenvalue is returned (not just any eigenvalue)
+- Performance requirement prevents simply wrapping numpy with overhead
+- Anti-monkeypatching: captures numpy functions before importing candidate code
+- Process isolation for timing prevents CPU interference tricks
+- Tests 9 different matrix sizes (2-10)
+
+**Potential Weaknesses:**
+- Uses fixed random seed, so only one specific matrix is tested per size for correctness (limited diversity)
+- No explicit tests with matrices known to have complex eigenvalues
+- No edge cases like matrices with repeated eigenvalues of same magnitude
+- Random matrices with seed=0 could theoretically be pre-computed and hardcoded (though the mathematical relationship check mitigates this)
+
+**Hardcoding Risk Assessment:**
+A hardcoded solution would need to:
+1. Return values that satisfy Ax = λx mathematically
+2. Return the actual dominant eigenvalue
+3. Be faster than numpy
+
+This is quite difficult to cheat since the solution must satisfy genuine mathematical properties on specific matrices, and the performance requirement is hard to fake.
+
+The test suite provides solid coverage of the core requirements with reasonable anti-cheating measures, but could benefit from more diverse test matrices and explicit edge case testing.
+
+Coverage rating: 4
+
+============================================================
+Challenge: log-summary-date-ranges
+Rating: 5
+============================================================
+
+Looking at this task and the test cases:
+
+**Task Requirements:**
+- Parse log files with YYYY-MM-DD_<source>.log naming pattern
+- Count ERROR, WARNING, INFO severities across 5 date ranges
+- Output a specific CSV format with 15 data rows
+
+**Test Case Analysis:**
+
+1. **File existence check**: Basic validation that summary.csv exists.
+
+2. **Structure and counts validation**: This is comprehensive:
+   - Validates exact header format
+   - Checks exact number of rows (15)
+   - Validates every single row against hardcoded expected values
+
+**Coverage Strengths:**
+
+1. **All 15 rows are validated with exact counts**: The expected values (e.g., today ERROR=370, last_7_days ERROR=2969, total ERROR=14160) are very specific numbers that can only be obtained by correctly:
+   - Parsing all log files
+   - Extracting dates from filenames correctly
+   - Identifying severity patterns correctly
+   - Calculating each date range correctly (including "last 7 days" = today minus 6 days, etc.)
+
+2. **Overlapping date ranges test different logic**: 
+   - "today" tests exact date matching
+   - "last_7_days" and "last_30_days" test relative date calculations
+   - "month_to_date" tests first-of-month logic
+   - "total" tests complete aggregation
+
+3. **Cannot be hardcoded**: The agent cannot see the test cases, so they must actually compute the values from the log files.
+
+4. **Format validation**: Header, column order, and row order are all validated.
+
+**Potential Weaknesses:**
+- Doesn't test error handling (invalid log files, etc.)
+- Doesn't verify processing logic separately from output
+
+However, given that all output values must match exactly, and these values are derived from specific log content with specific dates, an incorrect solution (wrong date math, wrong severity parsing, wrong file filtering) would produce different counts and fail.
+
+Coverage rating: 5
+
+============================================================
+Challenge: llm-inference-batching-scheduler
+Rating: 4
+============================================================
+
+## Analysis of Test Coverage
+
+### What's Being Tested
+
+1. **File Existence** (`test_output_files_exist`): Basic check that both plan files exist.
+
+2. **Input Data Integrity** (`test_input_data_integrity`): SHA256 hash verification prevents cheating by modifying input files.
+
+3. **Schema Validation** (`test_generate_and_schema`):
+   - Coverage: all request_ids present exactly once
+   - Alignment: seq_align % 64 == 0
+   - Fixed dimensions: heads_align == 32, hidden_align == 4096
+   - Shape limit: ≤8 shapes per bucket
+
+4. **Shape Feasibility and Batch Consistency** (`test_solution_shape_feasibility_and_batch_consistency`):
+   - seq_align >= aligned prompt_len for each request
+   - All requests in a batch share identical shapes
+   - Batch shape accommodates max aligned prompt in batch
+
+5. **Coverage Completeness** (`test_solution_coverage_no_duplicates`): No missing or duplicate requests.
+
+6. **Performance Thresholds** (`test_performance_thresholds`):
+   - All four metrics (cost, pad_ratio, p95_latency, sequential_timecost) for both buckets
+   - Combined unique shapes across both buckets ≤ 8
+
+### Strengths
+- Input integrity verification prevents tampering
+- Schema validation is comprehensive
+- Feasibility checks ensure shapes actually fit the requests
+- Batch consistency requirements are verified
+- Performance thresholds are strict enough that the baseline solution fails significantly
+- Global shape constraint (8 shapes across both buckets) is tested
+
+### Potential Gaps
+- No explicit validation of batch_id uniqueness/format (though cost model aggregates correctly)
+- No bounds checking on seq_align being unnecessarily large (but would fail performance thresholds)
+- Empty batch handling isn't explicitly tested
+
+### Could an Incorrect Solution Pass?
+The combination of:
+1. Fixed input data (hash-verified)
+2. Strict schema/feasibility validation
+3. Tight performance thresholds (baseline fails by 10x on some metrics)
+4. Consistent cost model usage
+
+...makes it very difficult for an incorrect solution to pass. An agent must actually implement a correct, optimized batching strategy.
+
+The tests thoroughly validate correctness constraints and use numerical thresholds that require genuine optimization rather than trivial solutions.
+
+Coverage rating: 4
+
+============================================================
+Challenge: mailman
+Rating: 4
+============================================================
+
+Looking at this task and test coverage:
+
+**Task Requirements:**
+1. Set up mailing list server at reading-group@local.edu
+2. Join functionality via reading-group-join@local.edu (with confirmation)
+3. Leave functionality via reading-group-leave@local.edu (with confirmation)
+4. Announcement posting to reading-group@local.edu
+5. Configuration saved at /etc/mailman3/mailman.cfg
+6. Mail delivery to /var/mail/<username>
+7. Open subscription policy (no owner approval, but user confirmation required)
+
+**Test Coverage Analysis:**
+
+1. `test_simple_local_delivery()`: Tests postfix delivers mail to local users at `/var/mail/{username}`. Uses a fixed but non-obvious username "bobgreen" to prevent trivial hardcoding.
+
+2. `test_mlist_exists()`: Verifies the mailing list exists by initializing via the config file path and querying the list manager.
+
+3. `test_join_announce_leave_flow()`: This is comprehensive and tests:
+   - Join flow with confirmation requirement
+   - Announcement posting and receipt
+   - Leave flow with confirmation requirement
+   - Verifies membership state at each step
+
+**Strengths:**
+- Dynamic user creation prevents hardcoding (random-ish usernames)
+- Tests actual email flows, not just configuration files
+- Verifies the confirmation mechanism works
+- Tests the complete user lifecycle (join → announce → leave)
+- Uses retry logic to handle async mail delivery
+
+**Potential Gaps:**
+- Doesn't test multiple subscribers receiving the same announcement (only tests self-receipt)
+- The eval.py visible to the agent only tests join flow, but actual tests include leave and announce - could catch incomplete solutions
+- Doesn't explicitly verify configuration file contents
+- Doesn't test edge cases like unauthorized posting attempts
+
+**Important Note:** The eval.py the agent sees has a simpler `test_join_flow()` that doesn't test announcements or leave functionality, while the actual test has `test_join_announce_leave_flow()` which tests all three features. This helps catch solutions that only implement joining.
+
+The tests provide solid coverage of the core functionality with good protection against hardcoding through dynamic user creation.
+
+Coverage rating: 4
+
+============================================================
+Challenge: make-mips-interpreter
+Rating: 4
+============================================================
+
+Looking at this task and test cases, I need to evaluate whether the tests adequately verify that a MIPS interpreter was correctly implemented to run DOOM and save frames.
+
+**Test Analysis:**
+
+1. **test_vm_execution()**: Runs `node /app/vm.js`, waits for `/tmp/frame.bmp` to be created, and verifies specific DOOM initialization text (`I_InitGraphics: DOOM screen size: w x h: 320 x 200`) appears in output. This confirms DOOM boots properly.
+
+2. **test_frame_bmp_exists()**: Verifies that `/tmp/frame.bmp` exists and is non-empty, confirming frame saving functionality works.
+
+3. **test_frame_bmp_similar_to_reference()**: Compares the generated frame to a reference image using pixel-by-pixel L1 distance with a 95% similarity threshold. This is a strong verification that the rendered frame is correct.
+
+**Coverage Strengths:**
+- End-to-end testing validates that the MIPS interpreter correctly executes the complex DOOM binary
+- The 95% image similarity check is stringent - achieving this requires accurate MIPS instruction execution, memory management, and system calls
+- The specific boot text check confirms proper execution flow
+- An incorrect MIPS implementation would likely fail either the boot text check or the image comparison
+
+**Coverage Weaknesses:**
+- No direct testing of individual MIPS instructions
+- Only tests the first frame, not ongoing execution
+- Doesn't explicitly verify syscall implementations independently
+- A subtle bug that doesn't affect the first frame could go undetected
+
+**Could an incorrect solution pass?**
+Very unlikely. To produce the correct first frame with 95% similarity, the agent must correctly implement most MIPS instructions, memory operations, and file I/O syscalls. The combination of boot text verification and pixel-accurate frame comparison provides robust functional coverage.
+
+The tests effectively verify the core requirements through functional testing rather than unit testing, which is appropriate for this complex integration task.
+
+Coverage rating: 4
+
+============================================================
+Challenge: mcmc-sampling-stan
+Rating: 4
+============================================================
+
+Looking at this task and the test cases, I need to evaluate how well the tests verify the solution requirements.
+
+## Test Analysis
+
+**test_rstan_package_installed**: Verifies RStan is installed and loadable. Basic but necessary check.
+
+**test_hierarchical_model_implemented**: Checks that the Stan file exists and can be parsed. However, it doesn't validate that the model structure is correct (binomial likelihood, beta prior, specific (alpha+beta)^(-5/2) prior).
+
+**test_r_script_created_and_used_rstan**: Verifies the R script exists and runs without fatal errors. Doesn't check for specific MCMC settings (4 chains, 100,000 iterations, seed=1).
+
+**test_posterior_alpha_estimation**: Checks alpha posterior mean is in [2.84, 2.91] - a range of only 0.07.
+
+**test_posterior_beta_estimation**: Checks beta posterior mean is in [16.1, 16.7] - a range of 0.6.
+
+**test_stan_model_sampling**: Verifies MCMC sampling actually runs by checking for sampling output patterns.
+
+## Coverage Strengths
+
+1. The posterior mean ranges are fairly tight, which implicitly requires correct model specification - wrong priors or model structure would likely produce different estimates.
+2. The combination of Stan model parsing AND correct posterior means makes hardcoding difficult.
+3. Both alpha and beta are tested, reducing the chance of partially correct solutions passing.
+4. The sampling output patterns verify that actual MCMC was performed.
+
+## Coverage Weaknesses
+
+1. **MCMC settings not verified**: The specific requirements of 4 chains, 100,000 iterations, and seed=1 are not directly tested.
+2. **Model structure not deeply validated**: The tests don't explicitly verify the binomial likelihood, beta prior structure, or the specific (alpha+beta)^(-5/2) prior form.
+3. **Data loading not tested**: No verification that '/app/data.csv' is actually loaded correctly.
+4. **Prior could be wrong**: A slightly different prior formulation might produce similar posterior means within the tolerance range.
+
+## Could an incorrect solution pass?
+
+A solution with:
+- Slightly different prior specification that happens to give similar results
+- Fewer iterations that happen to converge to values in range
+- Wrong seed but still converging
+
+could potentially pass. However, the tight posterior mean ranges provide reasonable implicit verification of model correctness, as the hierarchical model with the specific prior is needed to achieve those values.
+
+Coverage rating: 4
+
+============================================================
+Challenge: merge-diff-arc-agi-task
+Rating: 3
+============================================================
+
+## Analysis of Test Coverage
+
+**What the tests cover:**
+
+1. **`test_git_repo_init`**: Verifies that a git repository exists at `/app/repo/.git` - covers the basic repo initialization requirement.
+
+2. **`test_both_bundles_fetched`**: Checks that `branch1` and `branch2` exist in the repository - verifies bundles were fetched into the correct branch names.
+
+3. **`test_algo_py_exists`**: Verifies `/app/repo/algo.py` exists.
+
+4. **`test_algo_py_has_map_function`**: Verifies the `map` function exists and is callable.
+
+5. **`test_algo_map_function_with_test_input`**: Tests the `map` function against test.json which includes 4 examples (one hidden that's not in examples.json).
+
+**Strengths:**
+- The hidden test case (4th example in test.json) tests generalization, preventing simple hardcoding
+- Branch existence is verified
+- Functional correctness of algo.py is well tested
+
+**Weaknesses:**
+1. **No verification of actual merge**: The tests only check that both branches exist, but don't verify that branch2 was actually merged INTO branch1. An agent could create the branches and never merge them.
+
+2. **No conflict resolution verification**: There's no check that conflicts were actually resolved through a merge process. The example solution shows a `git reset --hard branch2` which discards branch1's content entirely rather than performing a proper merge.
+
+3. **No verification of merge commit**: No test checks the git history for evidence of a merge operation.
+
+4. **Bundle content not validated**: No test verifies what content actually came from the bundles.
+
+**Can an incorrect solution pass?**
+Yes. An agent could:
+- Create branches from bundles (or even create empty branches named branch1/branch2)
+- Skip the actual merge entirely
+- Write algo.py from scratch with the correct algorithm
+- Pass all tests
+
+The core algorithm test is solid with the hidden case, but the git merge/conflict resolution aspects of the task are largely untested.
+
+Coverage rating: 3
+
+============================================================
+Challenge: model-extraction-relu-logits
+Rating: 3
+============================================================
+
+Looking at this task and test coverage:
+
+**Task Summary:** The agent must query a ReLU neural network to extract the weight matrix A1 (up to permutation and scaling) by writing a `steal.py` script.
+
+**Test Case Analysis:**
+
+1. **Anti-hardcoding measure:** The test replaces `forward.py` with a completely different network before running `steal.py`:
+   - Original: 20 hidden neurons, seed 0, 0.1 scaling
+   - Test: 30 hidden neurons, seed 5, 0.3 scaling
+   
+   This is an excellent anti-cheating measure - the agent cannot simply read the original file to extract A1.
+
+2. **Verification approach:** The test checks if each row of the true A1 can be matched to a row in the stolen matrix up to a scaling factor with tolerance 1e-4. This correctly handles the "up to permutation and scaling" requirement.
+
+**Weaknesses:**
+
+1. **Single test configuration:** Only one network configuration is tested. Multiple seeds/sizes would provide better coverage.
+
+2. **No spurious row check:** The test doesn't verify the stolen matrix doesn't contain many extra garbage rows. An agent could output 1000 rows where only 30 match - it would still pass.
+
+3. **No check on matrix size:** The test doesn't verify the agent correctly identified the hidden layer size (30 neurons).
+
+4. **One-way matching:** Only checks that original rows exist in stolen, not that stolen doesn't have too many unmatched rows.
+
+**Strengths:**
+
+- Effectively prevents reading forward.py directly
+- Tests against a different network than what the agent initially sees
+- Appropriate numerical tolerance for the matching criterion
+- Correctly handles permutation invariance
+
+The test would catch an agent that hardcodes values or reads the file, but could potentially pass an agent that outputs excessive extra rows or uses a brute-force approach that happens to work.
+
+Coverage rating: 3
+
+============================================================
+Challenge: modernize-scientific-stack
+Rating: 3
+============================================================
+
+## Analysis of Test Coverage
+
+### What the tests verify:
+1. **Script existence**: Checks that `/app/analyze_climate_modern.py` exists
+2. **Script execution**: Verifies the script runs successfully without errors
+3. **Correct output for both stations**: 
+   - Validates Station 101 mean temperature is approximately -15.5°C
+   - Validates Station 102 mean temperature is approximately 30.3°C
+4. **Dependency file existence**: Checks that either `requirements.txt` or `pyproject.toml` exists in `/app/`
+
+### What the tests do NOT verify:
+1. **Dependency file contents**: No validation that:
+   - numpy, pandas are included
+   - matplotlib or scipy is included
+   - Version constraints (>=, ==, ~=) are specified
+   
+2. **Code modernization patterns**: No validation that:
+   - `pathlib.Path` is used for file paths
+   - UTF-8 encoding is explicitly specified in pandas read_csv
+   - `configparser` is used to read config.ini
+   - No Python 2 syntax is present
+
+3. **Exact output format**: The regex matching is loose and doesn't strictly verify the format "Station {id} mean temperature: {value:.1f}°C"
+
+### Potential for incorrect solutions to pass:
+- A solution with an empty or minimal `requirements.txt` (just existing) would pass test 2
+- A solution using `os.path` instead of `pathlib` would pass
+- A solution not reading `config.ini` at all would pass
+- A solution with Python 2 compatible (but also Python 3 valid) syntax would pass
+- A solution without proper version constraints in dependencies would pass
+
+### Strengths:
+- The numerical accuracy checks are strict (within 0.1 tolerance), ensuring the core data processing is correct
+- The agent cannot hardcode values since they don't know the expected outputs
+
+Coverage rating: 3
+
+============================================================
+Challenge: mteb-leaderboard
+Rating: 4
+============================================================
+
+## Analysis
+
+**Task Requirements:**
+- Find the best embedding model on the Scandinavian MTEB leaderboard (highest Mean Task)
+- Data must be "as of August 2025"
+- Write the result in `organization/model_name` format to `/app/result.txt`
+
+**Test Coverage:**
+1. `test_result_exists()` - Verifies the output file exists
+2. `test_data_matches()` - Checks for exact match of `GritLM/GritLM-7B` with single line validation
+
+**Strengths:**
+- The test checks for a very specific answer (`GritLM/GritLM-7B`) that requires the agent to correctly:
+  - Access the right leaderboard (Scandinavian MTEB)
+  - Compute/find the highest Mean (Task) score
+  - Format the answer correctly
+- The single-line requirement prevents extraneous output
+- The format check ensures proper `organization/model_name` structure
+
+**Potential Weaknesses:**
+- The test only validates the final output, not the methodology
+- If `GritLM/GritLM-7B` is well-known in training data as a top Scandinavian embedding model, an agent could potentially guess it without properly accessing the August 2025 snapshot
+- No verification that the agent actually used the specific commit/timeframe
+- An agent with knowledge of MTEB leaderboards might make an educated guess
+
+**Risk Assessment:**
+The specific answer `GritLM/GritLM-7B` provides reasonable coverage since it's tied to a specific point in time (August 2025). However, GritLM-7B is a known high-performing multilingual model, so there's some possibility an agent could guess this without proper verification of the exact timestamp. The task doesn't provide any files to start with, so the agent must actively retrieve the information.
+
+Coverage rating: 4
+
+============================================================
+Challenge: mteb-retrieve
+Rating: 4
+============================================================
+
+Looking at this task and test coverage:
+
+**Task Requirements:**
+- Use the query "terminal-bench" to find the 5th highest cosine similarity document
+- Use specific embedding model (bge-small-zh-v1.5) at a specific revision
+- Read documents from /app/data.txt
+- Write result to /app/result.txt
+
+**Test Cases Analysis:**
+1. `test_result_exists()`: Verifies the output file exists
+2. `test_data_matches()`: Checks for exact content match "MTEB: Massive Text Embedding Benchmark" and ensures exactly one line
+
+**Strengths:**
+- The expected answer is specific to using the correct model, correct revision, and correct similarity computation
+- Since the agent cannot see the test cases, they cannot know the expected answer without actually computing it
+- The exact string match ensures the correct document (5th highest similarity) was identified
+- Verifies single line output (no extra content)
+
+**Potential Weaknesses:**
+- Doesn't explicitly verify the model was loaded correctly
+- Doesn't verify cosine similarity was used vs other metrics
+- Doesn't verify the ranking logic directly
+
+**Evaluation:**
+The key point is that the agent has no way to know "MTEB: Massive Text Embedding Benchmark" is the expected answer without performing the actual embedding computation with the specified model. The specific model revision and the specificity of "5th highest" make guessing extremely unlikely. Different models, different similarity metrics, or ranking errors would almost certainly produce different results.
+
+The tests effectively serve as an end-to-end verification - getting the exact expected output requires following the correct process. This is good coverage because the output is deterministic and specific to the exact requirements.
+
+Coverage rating: 4
+
+============================================================
+Challenge: multi-source-data-merger
+Rating: 3
+============================================================
+
+Looking at this task and the test coverage:
+
+## Test Analysis
+
+**What the tests cover:**
+1. Both output files exist (`merged_users.parquet` and `conflicts.json`)
+2. Exactly 4 users are present with specific IDs {101, 102, 103, 104}
+3. User 101's data from source_a (highest priority): verifies name, email, and created_date
+4. User 104's data from source_c (only source): verifies name, email, and created_date
+5. Conflict report has at least 1 conflict and the count matches the list length
+6. User 101 has conflicts, and if email conflict exists, the values and selection are correct
+
+**What the tests don't cover:**
+1. **Users 102 and 103**: No verification of their merged values - an incorrect solution could mishandle these users
+2. **Status field**: Not tested at all despite being in the requirements
+3. **Data types**: No explicit check that user_id is an integer type
+4. **Complete conflict detection**: Only checks user 101's email conflict; doesn't verify all conflicts are captured correctly
+5. **All field mappings**: Only indirectly tested through specific values; could miss mapping issues in untested fields
+6. **Date format conversion**: Only checks final values, not that dates from different formats were properly converted
+
+**Hardcoding potential:**
+The specific values tested (like "John Doe", "john@a.com", "Alice Brown") would require reading the input files to determine, which prevents simple hardcoding. However, someone could create a solution that only correctly handles users 101 and 104 while mishandling 102 and 103.
+
+**Gaps:**
+- A solution that ignores the status field entirely would pass
+- A solution that incorrectly merges users 102/103 would pass
+- A solution that misses some conflicts (other than user 101's email) would pass
+- Field mapping could be partially implemented and still pass
+
+The tests verify the core priority mechanism and basic structure but leave significant portions of the requirements untested, particularly around complete data verification for all users.
+
+Coverage rating: 3
+
+============================================================
+Challenge: nginx-request-logging
+Rating: 3
+============================================================
+
+Looking at the test cases against the task requirements, let me analyze the coverage:
+
+**Well-Covered Requirements:**
+1. ✓ Nginx installation (`test_nginx_installed`)
+2. ✓ Server listening on port 8080 (`test_nginx_running`, `test_nginx_config_settings`)
+3. ✓ Document root `/var/www/html` (`test_nginx_config_settings`)
+4. ✓ Custom log format with required fields ($time_local, $request_method, $status, $http_user_agent) (`test_nginx_config_settings`, `test_log_file_format`)
+5. ✓ Access log at `/var/log/nginx/benchmark-access.log` (`test_log_file_creation`)
+6. ✓ Configuration file at `/etc/nginx/conf.d/benchmark-site.conf` (`test_nginx_config_settings`)
+7. ✓ index.html content exactly matched (`test_index_page_content`)
+8. ✓ 404.html content exactly matched (`test_custom_404_page`)
+9. ✓ Nginx configuration syntax (`test_nginx_config_syntax`)
+10. ✓ User agent in double quotes in logs (`test_log_file_format`)
+
+**Missing or Weak Coverage:**
+1. ✗ **Error logging** - No test verifies `/var/log/nginx/benchmark-error.log` exists or is configured
+2. ✗ **Rate limiting burst capacity** - Only checks `rate=10r/s` but not `burst=10`
+3. ✗ **Rate limiting memory zone** - No check for 10MB zone (`:10m`)
+4. ✗ **`limit_req` in server block** - Only verifies `limit_req_zone` exists, not that `limit_req` is applied
+5. ✗ **Default site removal** - No test checks if `/etc/nginx/sites-enabled/default` was removed
+6. ✗ **Functional rate limiting test** - No test sends rapid requests to verify rate limiting works
+
+**Potential for Incorrect Solutions to Pass:**
+- An agent could completely skip error logging configuration
+- An agent could use wrong burst capacity (e.g., `burst=5`) 
+- An agent could use wrong memory zone size (e.g., `5m` instead of `10m`)
+- An agent could define `limit_req_zone` but never apply `limit_req` in the server block
+- An agent could leave the default site enabled
+
+The tests cover the core functionality well (server running, pages served correctly, log format fields, config file location), but several specific requirements could be missed without failing any tests. The error logging and complete rate limiting configuration gaps are particularly notable.
+
+Coverage rating: 3
+
+============================================================
+Challenge: openssl-selfsigned-cert
+Rating: 4
+============================================================
+
+## Test Coverage Analysis
+
+Let me analyze how well the test cases cover the requirements:
+
+### Covered Requirements:
+
+1. **Directory structure** (`test_directory_structure`): Verifies `/app/ssl/` exists and is a directory ✓
+
+2. **Private key** (`test_key_file`): 
+   - Checks file existence ✓
+   - Verifies permissions are ≤ 600 ✓
+   - Confirms 2048-bit RSA key ✓
+
+3. **Certificate** (`test_certificate_file`):
+   - Checks file existence ✓
+   - Verifies Common Name "dev-internal.company.local" ✓
+   - Verifies Organization "DevOps Team" (case-insensitive) ✓
+   - Validates exactly 365 days validity ✓
+
+4. **Combined PEM** (`test_combined_pem_file`):
+   - Checks file existence ✓
+   - Verifies contains both "PRIVATE KEY" and "CERTIFICATE" markers ✓
+   - Tests that openssl can extract certificate ✓
+
+5. **Verification file** (`test_verification_file`):
+   - Checks existence ✓
+   - Validates CN and Organization in content ✓
+   - Checks for date format (flexible) ✓
+   - Validates SHA-256 fingerprint format ✓
+
+6. **Python script** (`test_python_verification_script`):
+   - Checks existence ✓
+   - Verifies successful execution ✓
+   - Checks for success message, CN, and date format in output ✓
+
+### Potential Gaps:
+
+1. The PEM file test doesn't verify that the key and certificate inside actually match each other - someone could concatenate mismatched files.
+
+2. The Python script test only checks output strings. A script could potentially hardcode "Certificate verification successful", the Common Name, and a date without actually loading/verifying the certificate. However, since the tests verify the certificate is valid and the script must run without errors, this is somewhat mitigated.
+
+3. No explicit verification that the certificate is self-signed (though the process of creation makes this implicit).
+
+4. The verification.txt doesn't validate that the dates correspond to the actual certificate - just that dates exist in some format.
+
+### Overall Assessment:
+
+The tests provide solid coverage of all major requirements. They verify file existence, content, permissions, and cryptographic properties. While there are some theoretical gaps (like the PEM file matching check), most incorrect solutions would fail one or more tests due to the interconnected nature of the requirements.
+
+Coverage rating: 4
+
+============================================================
+Challenge: password-recovery
+Rating: 4
+============================================================
+
+## Analysis
+
+**Task Overview:** Recover a deleted password from forensic data. The password is exactly 23 characters long, starts with "8XD", ends with "W54", and contains only uppercase letters and digits.
+
+**Test Cases:**
+1. `test_recovery_file_exists()` - Checks that the recovery file exists
+2. `test_password_match()` - Checks that the exact password "8XDP5Q2RT9ZK7VB3BV4WW54" is present in the guesses
+
+**Coverage Analysis:**
+
+**Strengths:**
+- The test checks for a specific 23-character password that must be found in the output
+- The password is complex enough (23 characters with uppercase letters and digits) that brute-forcing is computationally infeasible (36^17 possible combinations for the middle characters)
+- An agent cannot realistically guess this password without actually extracting it from the forensic data
+- The test allows multiple guesses as the task permits, which is appropriate
+
+**Weaknesses:**
+- No validation that all guesses conform to the specified format (starting with "8XD", ending with "W54", 23 chars, alphanumeric only)
+- No limit on number of guesses - theoretically an agent could output many spurious entries alongside valid ones
+- No verification that the agent actually performed forensic recovery vs. other methods
+
+**Hardcoding Risk:**
+Low. The specific password "8XDP5Q2RT9ZK7VB3BV4WW54" is unique and 23 characters long. An agent would need to actually analyze the disk image to discover this exact string. There's no reasonable way to guess it without solving the task.
+
+**Conclusion:**
+The test coverage is solid for the primary goal - ensuring the correct password is recovered. The specific password requirement effectively validates that the agent performed the necessary forensic analysis. Minor improvements could include format validation and guess count limits, but these don't significantly impact the core task validation.
+
+Coverage rating: 4
+
+============================================================
+Challenge: overfull-hbox
+Rating: 5
+============================================================
+
+Looking at this task and test coverage:
+
+## Task Requirements:
+1. Compile main.tex with no "overfull hbox" warnings
+2. Only edit input.tex by replacing words with synonyms from synonyms.txt
+3. Cannot modify main.tex or synonyms.txt
+
+## Test Coverage Analysis:
+
+**test_main_synonyms_not_modified**: Verifies that main.tex and synonyms.txt are unchanged by comparing against originals stored in /tests/. This directly enforces the "do not edit" constraint.
+
+**test_compilation_successful**: Checks for "Output written on main.pdf" in the log, confirming successful compilation.
+
+**test_no_overfull_hboxes**: Explicitly checks that "Overfull \\hbox" doesn't appear in the log - the main objective.
+
+**test_input_file_matches**: This is comprehensive - it:
+- Tokenizes both the original and modified input.tex
+- Verifies token counts match (prevents deletions/additions)
+- For each token, verifies it's either identical OR a valid synonym from the same family
+- Preserves punctuation checking (prefix/suffix `\W*` patterns)
+- Handles em-dashes specially
+
+**Fixture protections**:
+- Reinstalls texlive-latex-base to prevent manipulated compilers
+- Recompiles with original main.tex (copied to main_original.tex) which uses the agent's input.tex
+- Regenerates main.log, preventing log file manipulation
+
+## Potential Weaknesses:
+- None significant found. The tests cover:
+  - Both constraints (immutable files, synonym-only changes)
+  - Both objectives (compilation success, no overfull warnings)
+  - Edge cases (punctuation, em-dashes, case sensitivity in synonyms)
+
+An incorrect solution that either violates the constraints or fails to eliminate overfull hbox warnings would be caught. The comprehensive token-by-token comparison in test_input_file_matches prevents arbitrary text manipulation while allowing valid synonym substitutions.
+
+Coverage rating: 5
+
+============================================================
+Challenge: path-tracing
+Rating: 4
+============================================================
+
+Looking at this task, I need to analyze whether the test cases adequately verify that a C program algorithmically generates an image matching the reference.
+
+**Test Case Analysis:**
+
+1. **test_image_c_exists**: Basic file existence check - necessary but minimal.
+
+2. **test_image_compiles**: 
+   - Verifies successful compilation
+   - Checks compressed size < 2100 bytes using `zlib.compress`
+   - This effectively prevents embedding raw image data directly
+
+3. **test_no_deps**:
+   - Uses `gcc -H` to check include dependencies
+   - Ensures no `/app/` paths are included
+   - Prevents including custom headers that might contain encoded data
+
+4. **test_runs_and_produces_output**:
+   - **Critical protection**: Runs the binary in a chroot jail (`/jail`)
+   - The compiled binary is isolated from `/app/image.ppm`
+   - This prevents runtime file reading cheats
+   - Verifies output file creation
+
+5. **test_image_similarity**:
+   - Computes normalized L2 (cosine) similarity between images
+   - Requires ≥0.99 similarity threshold - very strict
+   - Uses PIL and numpy for accurate comparison
+
+**Strengths:**
+- Chroot isolation effectively prevents reading the original at runtime
+- Compression limit prevents data embedding (can't fit meaningful image data in <2KB)
+- Header dependency check closes the `#include` workaround
+- 0.99 similarity is strict enough to require accurate algorithmic reconstruction
+- Multiple overlapping protections against cheating
+
+**Potential Weaknesses:**
+- Minor: Test uses `zlib.compress` while task mentions `gzip | wc`, though these use similar compression
+- The test doesn't explicitly verify the output format is valid PPM, but the similarity test implicitly validates this via PIL loading
+
+**Conclusion:**
+The tests form a comprehensive suite that would be very difficult to pass without implementing the actual ray tracing algorithm. The combination of size constraints, chroot isolation, and high similarity requirements effectively ensures the solution must be algorithmic. An incorrect solution that somehow produces 0.99 similarity without correctly implementing the scene geometry would be extremely unlikely.
+
+Coverage rating: 4
+
+============================================================
+Challenge: path-tracing-reverse
+Rating: 4
+============================================================
+
+Looking at this task, I need to evaluate whether the test cases adequately verify that a reverse-engineered C program produces identical output to the original binary.
+
+**Test Analysis:**
+
+1. **`test_image_c_exists()`**: Basic check that the file exists. Minimal but necessary.
+
+2. **`test_image_compiles()`**: 
+   - Verifies the code compiles with gcc
+   - Checks compressed size is under ~2100 bytes (close to the 2k requirement)
+   - Moves the original binary aside before testing
+
+3. **`test_image_similarity()`**:
+   - Runs the original binary to produce a reference image
+   - Runs the reverse-engineered code in a **chroot jail** without access to the original binary
+   - Compares outputs using cosine similarity with a 99.5% threshold
+
+**Strengths:**
+- The chroot jail isolation is excellent - it completely prevents the solution from invoking the original binary, even if the code tried to shell out or call it
+- The 99.5% cosine similarity is quite strict for image comparison - a ray tracer with incorrect geometry, lighting, or algorithms would fail
+- The size constraint (2k compressed) effectively prevents hardcoding pixel data for an 800x600 image
+- The test validates the actual functional output (the generated PPM image) rather than just structural aspects
+
+**Potential Weaknesses:**
+- The 99.5% threshold theoretically allows small algorithmic differences that happen to produce similar visual results
+- No explicit verification that the code doesn't contain `system()` calls or other shell invocations (though chroot makes these fail anyway)
+- No verification of exact byte-for-byte output match (though 99.5% is close enough for floating-point raytracing)
+
+**Could an incorrect solution pass?**
+Given the chroot isolation, size constraints, and high similarity threshold, it would be extremely difficult for an incorrect solution to pass. The agent must essentially understand and replicate the raytracing algorithm to achieve 99.5% similarity on a complex rendered image.
+
+Coverage rating: 4
+
+============================================================
+Challenge: polyglot-c-py
+Rating: 4
+============================================================
+
+## Analysis
+
+The test cases cover the following aspects:
+
+1. **Single file requirement**: Verifies that only `main.py.c` exists in `/app/polyglot`, preventing solutions that use separate Python and C files.
+
+2. **GCC compilation**: Confirms the file compiles successfully with gcc, ensuring valid C syntax.
+
+3. **Python execution**: Confirms the file runs with python3, ensuring valid Python syntax (or at least syntax that Python can handle).
+
+4. **Correctness with multiple test cases**: Tests three different Fibonacci inputs:
+   - f(0) = 0 (base case)
+   - f(10) = 55 (small value)
+   - f(42) = 267914296 (larger value requiring correct iterative implementation)
+
+5. **Both implementations verified**: Each test case checks both Python and C outputs against expected values.
+
+**Strengths:**
+- Multiple test values make hardcoding impractical - the agent must implement actual Fibonacci logic
+- Tests both execution paths (Python and compiled C)
+- Includes edge case f(0) = 0
+- Enforces single-file constraint
+- The combination of f(0), f(10), and f(42) would catch off-by-one errors and incorrect base cases
+
+**Minor gaps:**
+- f(1) is not explicitly tested (though it's implied by other tests working)
+- No error handling tests (invalid input, missing arguments)
+- No large number/overflow testing
+- Doesn't verify the exit codes explicitly (though `check=True` ensures non-zero exit would fail)
+
+**Could an incorrect solution pass?**
+It's very unlikely. A solution would need to correctly implement Fibonacci for both languages with the right indexing (f(0)=0). The three diverse test values make it impractical to hardcode or use an incorrect formula.
+
+Coverage rating: 4
+
+============================================================
+Challenge: polyglot-rust-c
+Rating: 4
+============================================================
+
+## Analysis of Test Coverage
+
+### What the tests check:
+1. **Single file requirement**: Verifies that only `main.rs` exists in `/app/polyglot` - this prevents solutions with multiple helper files.
+
+2. **Dual compilation**: Compiles with both `rustc` and `g++ -x c++`, though error handling is implicit (failures would cascade to execution phase).
+
+3. **Fibonacci correctness for both languages**: Tests 5 different inputs:
+   - f(0) = 1 (base case)
+   - f(1) = 1 (base case)
+   - f(2) = 2 (first non-trivial)
+   - f(10) = 89 (medium value)
+   - f(42) = 433494437 (large value, tests integer handling)
+
+4. **Consistent output**: Both Rust and C++ versions must produce identical correct results.
+
+### Strengths:
+- Tests the fundamental polyglot requirement by compiling and running with both compilers
+- Multiple test points catch off-by-one errors and wrong algorithms
+- The specific Fibonacci definition (f(0)=1, f(1)=1) is tested explicitly
+- Large input (42) tests for potential overflow issues
+- Verifies both outputs match expected values, not just each other
+
+### Potential weaknesses:
+- Compilation errors aren't explicitly checked (uses `os.popen().read()` without error verification), though execution would fail anyway
+- No test for compilation warnings being treated as errors
+- A sophisticated hardcoded solution matching these exact 5 test cases could theoretically pass, though this would be impractical given the polyglot complexity
+
+### Could an incorrect solution pass?
+It would be very difficult. The agent cannot see the test cases, and creating a polyglot that hardcodes specific values while working in both languages would be more complex than just implementing Fibonacci correctly. The variety of test inputs (0, 1, 2, 10, 42) makes pattern-guessing unlikely.
+
+Coverage rating: 4
+
+============================================================
+Challenge: portfolio-optimization
+Rating: 4
+============================================================
+
+Looking at the test cases provided, I'll analyze the coverage:
+
+## Test Coverage Analysis
+
+**1. `test_c_extension_exists()`**
+- Verifies a compiled C extension exists (not a .py file)
+- Checks for .so, .pyd, or .dll extension
+- Ensures required functions exist
+- **This prevents pure Python workarounds**
+
+**2. `test_baseline_functionality()`**
+- Tests the Python baseline works correctly
+- Not directly testing the solution implementation
+
+**3. `test_correctness_small()`**
+- Tests correctness on 100-asset portfolio
+- Uses protected baseline (agent can't modify)
+- 1e-10 tolerance is very strict
+
+**4. `test_performance_and_scalability(n)` for n in [5000, 6000, 8000]**
+- Tests correctness at multiple sizes with tight tolerance
+- Verifies 1.2x speedup requirement
+- Uses protected baseline for comparison
+
+## Strengths:
+- **Anti-hardcoding**: The 1e-10 tolerance across 4 different portfolio sizes (100, 5000, 6000, 8000) makes hardcoding practically impossible
+- **C extension verification**: Explicitly checks the module is a compiled extension, not Python
+- **Protected baseline**: Uses a separate `portfolio_baseline_protected.py` that the agent cannot modify
+- **Performance validation**: Requires actual speedup, not just correctness
+- **Multiple sizes tested**: Covers the required size range
+
+## Weaknesses:
+- Only one random seed (42) is used for test data generation
+- No edge case testing (empty arrays, single elements, non-contiguous arrays)
+- No explicit error handling tests
+- No tests for potential memory issues
+
+## Could an incorrect solution pass?
+Given the tight 1e-10 tolerance across multiple sizes, the requirement for actual C code, and performance benchmarks, it would be very difficult for an incorrect solution to pass. The mathematical correctness must be essentially perfect, and performance must exceed the baseline.
+
+Coverage rating: 4
+
+============================================================
+Challenge: prove-plus-comm
+Rating: 4
+============================================================
+
+Looking at this task and the test cases, I need to evaluate whether an incorrect solution could pass while not actually solving the problem.
+
+## Analysis of Test Cases
+
+The tests check:
+1. **File existence** - `plus_comm.v` exists
+2. **Compiled proof exists** - `plus_comm.vo` exists  
+3. **Content checks** - The file contains "n + m = m + n", "Proof.", "Qed.", and does NOT contain "admit"
+4. **Compilation verification** - Running `coqc plus_comm.v` returns code 0
+
+## Strengths of Coverage
+
+- **Coq's proof verification is leveraged**: The most important aspect is that `coqc` must succeed. Coq is a proof assistant with a sound type system - if a proof compiles with `Qed.` (not `Admitted`), it is mathematically correct.
+- **No admit checking**: Explicitly prevents use of `admit` tactic which would allow incomplete proofs
+- **String checks for theorem**: Ensures "n + m = m + n" appears in the file
+- **Qed requirement**: The proof must be complete, not admitted
+
+## Potential Weaknesses
+
+1. **String matching is imprecise**: The string "n + m = m + n" could theoretically appear in a comment while a different (trivial) theorem is proven
+2. **No axiom checking**: An agent could theoretically add an axiom to bypass the proof (e.g., `Axiom cheat : forall n m, n + m = m + n.`)
+3. **No theorem name verification**: The tests don't verify the theorem is specifically named `plus_comm`
+
+## Practical Assessment
+
+In practice, cheating would require fairly sophisticated knowledge of Coq to:
+- Either rewrite the file with a trivial proof while having the theorem string in a comment
+- Or inject an axiom to bypass the proof requirement
+
+Given that the agent starts with an incomplete proof file and must make it compile successfully, the most natural path is to actually complete the proof. The combination of Coq's built-in verification with the content checks provides strong coverage for the intended task.
+
+The tests effectively verify that a mathematically valid Coq proof exists and compiles, which is the core requirement. The edge cases (axiom injection, string in comments) are theoretically possible but unlikely shortcuts.
+
+Coverage rating: 4
+
+============================================================
+Challenge: protein-assembly
+Rating: 4
+============================================================
+
+Looking at this test case, I need to evaluate how well it covers the requirements from the task.
+
+**What the test checks:**
+1. ✓ File existence and format (single line, only ATCG characters)
+2. ✓ Length constraint (≤3000 nucleotides)
+3. ✓ Exact protein sequences for all five components (FLAG, donor, DHFR, acceptor, SNAP) - these are hardcoded expected values
+4. ✓ Correct protein order (flag < donor < dhfr < acceptor < snap)
+5. ✓ Linkers between proteins only contain G and S amino acids
+6. ✓ Linker length constraints (5-20 amino acids)
+7. ✓ No linkers at N-terminus (flag_idx == 0) or C-terminus (snap ends at gblock end)
+8. ✓ GC content sliding window check (30-70% in all 50-nucleotide windows)
+
+**Implicit verification through exact sequence matching:**
+- N-terminal methionines are removed (expected sequences don't start with M)
+- Stop codons not present (translation would fail or produce different sequences)
+- Correct identification of donor (505nm excitation) and acceptor (610nm emission) from fpbase
+- Correct identification of SNAP as benzylguanine binder from the SMILES
+- Correct identification of FLAG as the antibody target
+- DHFR extracted correctly from plasmid.gb
+
+**Strengths:**
+- The hardcoded sequences ensure the agent must correctly query PDB, fpbase, and identify the correct proteins from chemical/antibody information
+- Comprehensive structural checks ensure proper fusion protein construction
+- GC content verification ensures proper codon optimization
+
+**Potential gaps:**
+- Doesn't explicitly verify that proteins came from the pdb_ids.txt file (though the exact sequences implicitly verify this)
+- Doesn't verify there are no internal stop codons in the DNA (though translation would fail)
+- A solution that somehow guesses all exact sequences could pass, but this is practically impossible without solving the actual problem
+
+The test effectively verifies that the agent solved the biological research problem correctly - identifying the right proteins from various sources, constructing them in the right order with proper linkers, and optimizing the codon usage.
+
+Coverage rating: 4
+
+============================================================
+Challenge: pypi-server
+Rating: 4
+============================================================
+
+Looking at this task and the test coverage:
+
+**Task Requirements:**
+1. Create a Python package called `vectorops`
+2. Package version must be `0.1.0`
+3. Set up a PyPI server on port 8080
+4. Package must be installable via `pip install --index-url http://localhost:8080/simple vectorops==0.1.0`
+5. `dotproduct` function must be in `__init__.py` and importable as `from vectorops import dotproduct`
+6. `dotproduct` should correctly compute dot products of two lists
+
+**Test Coverage Analysis:**
+
+The tests verify:
+- ✅ PyPI server is running on localhost:8080 (install command uses this URL)
+- ✅ Package name is `vectorops` (install command specifies exact name)
+- ✅ Package version is `0.1.0` (install command uses `vectorops==0.1.0`, which would fail if version doesn't match)
+- ✅ `dotproduct` is accessible from the package root (`v.dotproduct` works, which means it's in `__init__.py`)
+- ✅ `dotproduct` computes correctly (tested with 4 different vector pairs including various dimensions, zeros, negatives, and floats)
+
+**Potential Gaps:**
+- The test uses `import vectorops as v` instead of `from vectorops import dotproduct` as specified in the requirements, though functionally this verifies the same thing (that `dotproduct` is in `__init__.py`)
+- No tests for edge cases like empty vectors or mismatched lengths (though not specified in requirements)
+
+**Hardcoding Risk:**
+Low - the agent would need to:
+1. Actually set up a working PyPI server on port 8080
+2. Build and upload a valid package with correct name and version
+3. Implement a `dotproduct` function that works for 4 different test cases
+
+An incorrect or incomplete solution is unlikely to pass because:
+- The install would fail if the server isn't properly set up
+- The version specification `==0.1.0` enforces exact version matching
+- Multiple diverse test cases for `dotproduct` prevent simple hardcoding
+
+The tests provide strong functional coverage of all the stated requirements.
+
+Coverage rating: 4
+
+============================================================
+Challenge: pytorch-model-cli
+Rating: 4
+============================================================
+
+Looking at this task and test coverage:
+
+**Task Requirements:**
+1. Create a command line tool called "cli_tool" that takes weights.json and image.png as arguments
+2. Output only the predicted digit (0-9)
+3. Create weights.json file for model weights
+4. Create prediction.txt with the predicted digit
+5. Everything in /app directory
+
+**Test Analysis:**
+
+1. **File Existence Tests** (`test_weights_file_exists`, `test_cli_tool_exists`, `test_prediction_file_exists`): Basic checks that required files are created.
+
+2. **Prediction Content Test** (`test_prediction_file_content`): Verifies prediction.txt contains "2" for the provided image.
+
+3. **CLI Execution Test** (`test_cli_tool_executable`): Runs the tool and verifies output is "2".
+
+4. **Comprehensive Validation** (`test_cli_tool_output`): This is the key test - it downloads 50 MNIST images and validates predictions against known correct outputs (TRUE_PRED_CLASSES). This effectively validates:
+   - Correct weight conversion from .pth to .json
+   - Correct neural network forward pass implementation
+   - Correct image loading and preprocessing
+   - Correct argmax/prediction logic
+
+**Strengths:**
+- The 50-image test makes hardcoding essentially impossible since the agent cannot see the expected predictions
+- Tests the entire pipeline end-to-end
+- Validates that the model architecture (784→16→16→10 with ReLU) is correctly implemented
+- Any bugs in weight loading, matrix multiplication, or activation functions would likely cause failures
+
+**Weaknesses:**
+- Doesn't verify cli_tool is truly a native binary (could be a Python script)
+- No error handling tests (wrong arguments, missing files)
+- Doesn't test edge cases in image formats
+
+**Could an incorrect solution pass?**
+The 50-image validation is quite robust. An incorrect neural network implementation would almost certainly produce wrong predictions for at least some images. The agent would need to correctly implement the model forward pass to pass these tests.
+
+Coverage rating: 4
+
+============================================================
+Challenge: qemu-alpine-ssh
+Rating: 4
+============================================================
+
+## Analysis
+
+The task requires:
+1. Starting the Alpine ISO in QEMU
+2. Configuring SSH server on the VM
+3. Making SSH accessible on port 2222
+4. Setting root password to `password123`
+5. User should be able to SSH in and get a shell
+
+The test case (`test_sshpass`) verifies:
+1. ✅ SSH connection works on port 2222
+2. ✅ Root authentication with password `password123` succeeds
+3. ✅ Commands can be executed (runs `uname -r`)
+4. ✅ The Alpine Linux VM is actually running (checks for kernel version `6.6.4-1-lts`)
+
+**Strengths of the test coverage:**
+- The kernel version check (`6.6.4-1-lts`) is crucial - it ensures the agent can't just set up any random SSH server on port 2222. They must actually run the Alpine VM from the provided ISO.
+- All explicit requirements are tested: correct port, correct password, root access
+- The test implicitly verifies networking/port forwarding is configured correctly in QEMU
+
+**Potential gaps:**
+- The test runs a single command rather than testing an interactive shell session, but command execution through SSH inherently proves shell access capability
+- Doesn't verify the VM was started using the specific ISO/disk files, but the kernel version check effectively enforces this
+
+**Hardcoding concerns:**
+- An agent cannot hardcode this - they must actually start QEMU with proper networking, install/configure SSH, and set the correct password. The kernel version check prevents shortcuts.
+
+The test is well-designed and effectively validates all the core requirements. The kernel version check is a clever way to ensure the actual Alpine VM is running rather than some alternative solution.
+
+Coverage rating: 4
+
+============================================================
+Challenge: qemu-startup
+Rating: 4
+============================================================
+
+## Analysis
+
+**Task Requirements:**
+1. Start /app/alpine.iso in QEMU
+2. Make it accessible via `telnet 127.0.0.1 6665`
+3. User should see a login prompt when connecting
+4. Run QEMU in the background
+5. Block until the system is ready
+
+**Test Coverage Assessment:**
+
+The test does the following:
+- Creates an expect script that connects to telnet on localhost:6665
+- Attempts to log in as root
+- Runs `uname -r` to get the kernel version
+- Verifies the kernel version is "6.6.4-1-lts"
+
+**What the test validates:**
+1. ✅ Telnet connection works on 127.0.0.1:6665 - explicitly tested
+2. ✅ Login prompt appears and login works - the expect script requires "localhost login:" prompt
+3. ✅ Correct Alpine image is running - kernel version check validates this
+4. ✅ QEMU is running in background - since test runs after solution completes, QEMU must be backgrounded
+5. ⚠️ "Block until ready" - implicitly tested (if solution doesn't wait, test may fail), but not explicitly verified
+
+**Could an incorrect solution pass?**
+- An agent would need to either correctly configure QEMU or create an elaborate fake telnet server that implements login, responds to uname with the exact kernel version. The latter would be significantly more complex than the actual solution.
+- Using the wrong ISO or misconfiguring QEMU would fail the kernel version check
+- Using incorrect port configuration would fail the telnet connection
+
+**Weaknesses:**
+- The "block until ready" requirement isn't explicitly verified (test has its own 30-second timeout which provides buffer)
+- Doesn't explicitly verify the image started from alpine.iso vs some other method
+
+The test is well-designed with a specific version check that makes bypassing the actual task very difficult.
+
+Coverage rating: 4
+
+============================================================
+Challenge: pytorch-model-recovery
+Rating: 4
+============================================================
+
+Looking at the test cases and comparing them to the task requirements:
+
+**Test Coverage Analysis:**
+
+1. **`test_weights_file_unchanged()`**: Verifies that `/app/weights.pt` was not modified by comparing against a ground truth file. This properly covers the requirement "You must not modify the /app/weights.pt file."
+
+2. **`test_model_file_exists()`**: Basic check that the output model exists at `/app/model.pt`.
+
+3. **`test_model_loads_weights()`**: Verifies the TorchScript model can load the original weights without errors. This implicitly tests that the architecture is correct - if the model had wrong layer names, shapes, or structure, loading would fail.
+
+4. **`test_state_dicts_match()`**: Checks that all parameters EXCEPT `output_layer` are identical between the saved model and original weights. This verifies that other layers remained frozen during training.
+
+5. **`test_model_loss()`**: Computes MSE loss using both the original model (with original weights) and the agent's model, ensuring the agent's loss is lower. This tests the core optimization requirement.
+
+**Strengths:**
+- All success criteria are covered
+- The architecture must be correct or weight loading would fail
+- Frozen layer verification is comprehensive (compares all non-output_layer parameters)
+- Loss comparison is done properly using the actual dataset
+
+**Potential Gaps:**
+- No explicit test of the forward() method implementation - while weight shapes must match, a different forward implementation could theoretically produce different outputs. However, if the architecture (weights) match and loss is better, this is unlikely to be an issue.
+- The tests don't verify the agent actually computed the initial MSE loss before tuning (though this was more of a task step than a success criterion).
+
+**Hardcoding Possibility:**
+An agent cannot easily hardcode a solution because:
+- The model must be able to load the original weights (requires correct architecture)
+- All non-output_layer parameters must exactly match the original
+- The model must produce lower loss on the actual dataset
+
+Coverage rating: 4
+
+============================================================
+Challenge: query-optimize
+Rating: 4
+============================================================
+
+## Analysis of Test Coverage
+
+### Test Cases Overview:
+
+1. **`test_compare_golden_vs_my_sql_query_correctness`**: Sanity check that the original query matches the golden query output.
+
+2. **`test_check_for_db_modifications`**: Prevents database tampering via SHA256 hash verification.
+
+3. **`test_compare_golden_vs_solution_runtime`**: Ensures the solution performs within 5% of the golden query's median runtime.
+
+4. **`test_outputs_match_exactly`**: Comprehensive correctness check - verifies exact column names, order, row count, and all values match the golden query.
+
+5. **`test_solution_contains_single_sql_query`**: Anti-reward-hacking measure ensuring only one SELECT/WITH statement, no multi-statement tricks.
+
+6. **`test_solution_is_small`**: Size limit of 2000 characters prevents bloated solutions.
+
+### Strengths:
+- **Exact output matching** is very strong - column names, order, row values must all match precisely
+- **Anti-cheating measures** are comprehensive: DB hash check, single query requirement, size limit
+- **SQLite syntax validation** via EXPLAIN QUERY PLAN
+- **Performance benchmarking** with multiple iterations and alternating order to reduce cache bias
+
+### Potential Weaknesses:
+1. **Performance threshold is lenient** (5% tolerance) - an agent could potentially submit a query that's not truly optimized if the original is already close to optimal
+2. **No verification the solution differs from the original** - agent could potentially just copy the original query if it happens to meet the performance threshold
+3. **The golden.sql matches the example solution exactly** - this seems intentional but suggests the "optimization" task may have a specific expected answer
+
+### Could an incorrect solution pass?
+- An incorrect solution producing wrong output would fail `test_outputs_match_exactly`
+- A cheating solution with multiple statements would fail `test_solution_contains_single_sql_query`
+- A solution that modifies the DB would fail `test_check_for_db_modifications`
+- A semantically equivalent but structurally different query would pass (which is acceptable)
+
+The tests provide strong correctness guarantees and prevent most forms of cheating. The main gap is that they don't strictly enforce that the solution is "more optimized" than the original - just that it produces correct results within the time limit.
+
+Coverage rating: 4
+
+============================================================
+Challenge: raman-fitting
+Rating: 4
+============================================================
+
+## Analysis of Test Coverage
+
+### Test Cases Overview:
+1. **test_result_file_exists()**: Verifies the output file exists at the correct path
+2. **test_G_Peak()**: Validates all four fitting parameters (x0, gamma, amplitude, offset) for the G peak against expected values with tolerances
+3. **test_2D_Peak()**: Validates all four fitting parameters for the 2D peak against expected values with tolerances
+
+### Strengths:
+- Tests verify the correct JSON structure with proper keys ("G", "2D", and their sub-keys)
+- All 8 numerical parameters are checked (4 per peak)
+- The expected values are specific to the actual data file (e.g., x0=1580.3, gamma=9.06, etc.)
+- Tolerances are reasonable for curve fitting: x0 within 5 units, gamma within 1 unit, amplitude within 5%, offset within 10%
+- To pass these tests, an agent must actually:
+  - Parse the data file correctly (including handling the comma-decimal format)
+  - Convert wavelength (nm) to wavenumber (cm⁻¹)
+  - Identify and isolate appropriate spectral regions
+  - Perform proper Lorentzian curve fitting
+  - Extract and format parameters correctly
+
+### Weaknesses:
+- No validation of intermediate steps (data parsing, unit conversion)
+- Doesn't explicitly verify the fitting function used (Lorentzian vs Gaussian)
+- Tolerances, while reasonable, could allow slightly incorrect implementations to pass
+
+### Hardcoding Concern:
+Hardcoding would require knowing the exact expected values, which are derived from the actual data file. The combination of 8 specific numerical values makes guessing essentially impossible. An agent would need to perform proper curve fitting to obtain values within the specified tolerances.
+
+### Conclusion:
+The test cases provide solid coverage for this numerical fitting task. The specific expected values tied to the actual data file mean an agent must properly solve the problem to pass. The tolerances appropriately account for minor variations in fitting implementations while still being restrictive enough to reject fundamentally incorrect solutions.
+
+Coverage rating: 4
+
+============================================================
+Challenge: regex-log
+Rating: 3
+============================================================
+
+Looking at this test case coverage, I need to analyze what the tests check versus what could be missed.
+
+**What the tests cover well:**
+- Basic matching of dates with valid IPv4 addresses
+- Multiple dates in one line (correctly picking the last)
+- Multiple IPs in one line
+- Invalid IP addresses (octets > 255 like 256.x.x.x, 123.456.78.90)
+- Word boundaries - alphanumeric before/after both IPs and dates
+- Invalid dates: month = 00, month > 12, day = 00, day > 31
+- Month-specific day validation: Feb 30 (invalid), April 31 (invalid)
+- Edge IPs: 0.0.0.0 and 255.255.255.255
+- Date-like strings that aren't valid (1234-56-7890)
+- Various positions (date at start, end, middle)
+
+**Significant gaps in coverage:**
+
+1. **Leading zeros in IP octets**: The task explicitly states "without leading zeros in each octet," but there's no test case for IPs like "192.168.01.1" or "010.0.0.1". An incorrect solution accepting leading zeros would pass.
+
+2. **Limited 30-day month testing**: Only April 31 is tested as invalid. June 31, September 31, and November 31 are not tested. A regex that only handles February and April specially could pass.
+
+3. **No test for malformed date formats**: Like "2023-1-05" or "2023-01-5" (single-digit month/day without leading zero).
+
+4. **The example solution itself has issues**: Looking at the IP pattern `1?\d?\d`, this actually matches "01" as a valid octet, meaning even the "correct" solution doesn't fully implement the "no leading zeros" requirement mentioned in the task.
+
+The test suite is fairly comprehensive for the core functionality, but the explicit requirement about "no leading zeros in IP octets" being untested is a notable gap. An incorrect solution that accepts malformed IPs with leading zeros or incorrectly validates some months would pass.
+
+Coverage rating: 3
+
+============================================================
+Challenge: reshard-c4-data
+Rating: 4
+============================================================
+
+## Analysis of Test Coverage
+
+### What the tests verify:
+
+1. **Compression constraints are properly checked:**
+   - Maximum 15MB file size is verified for all files
+   - Maximum 30 files/folders per directory is verified
+   - Uses `os.walk()` to check all directories recursively
+
+2. **Data integrity through hash verification:**
+   - Original files are hashed before compression
+   - After decompression, each file's hash is compared to the original
+   - This catches any data corruption, ordering issues, or content mismatches
+
+3. **Full workflow testing:**
+   - Compress → decompress round-trip is tested
+   - Original input is deleted before decompress to prevent cheating
+   - File set equality is verified (same filenames after decompression)
+
+4. **Uses unseen test data:**
+   - Tests generate data from C4 shard 00009 while agent only sees sample data
+   - Tests 10,000 files which is substantial
+   - Tests generalization capabilities
+
+5. **Environment setup:**
+   - Tests that `uv sync` and `uv run` work correctly
+   - Tests that output directory is created when it doesn't exist
+
+### Potential gaps:
+
+1. **No testing of nested directory structures** - The test data appears flat, but the constraint mentions "folders in each directory" suggesting hierarchical output might be needed
+
+2. **No files larger than 15MB** - The test doesn't verify proper handling of individual files that exceed the 15MB limit
+
+3. **No edge cases tested** - Empty directories, special characters in filenames, or boundary conditions
+
+4. **Only tests JSONL files** - Though this matches the stated use case
+
+5. **No explicit command-line argument error handling tests** - Missing arguments, invalid paths, etc.
+
+### Why an incorrect solution would likely fail:
+
+The SHA256 hash verification is very thorough. Any solution that doesn't properly:
+- Track which lines belong to which original files
+- Preserve exact content and ordering
+- Handle the in-place decompression correctly
+
+...would fail the hash comparison. The test uses 10,000 files from a different shard, making it difficult to hardcode.
+
+Coverage rating: 4
+
+============================================================
+Challenge: regex-chess
+Rating: 3
+============================================================
+
+Looking at the test coverage for this chess move generator task:
+
+**What the tests cover well:**
+1. **Basic piece movements** - Three complete games (Immortal Game, Game of the Century, Naroditsky-Ivanchuk) test a wide variety of positions with different piece configurations
+2. **Multiple positions** - Tests approximately 60+ white-to-move positions across the three games
+3. **Check positions** - All three games contain check positions which must be handled correctly
+4. **Size constraints** - Explicitly tests file size limits (under 10MB and under 100,000 pairs)
+5. **FEN comparison** - Compares full FEN strings (minus move counters), which includes castling rights tracking
+
+**Potential gaps in coverage:**
+
+1. **Pawn Promotion** - None of the three games appear to include a pawn reaching the 8th rank. A solution that incorrectly handles promotion could potentially pass.
+
+2. **En-passant** - Looking at the games, I don't see clear opportunities where white has an en-passant capture available. The test checks all legal moves at each position, but if no position has en-passant as legal, this feature won't be validated.
+
+3. **White Castling** - In the Immortal Game, white moves Kf1 early. In Game of the Century, white moves Rd1 then Kf1. While the starting position is tested (with full castling rights), it's unclear if any middle-game position actually has castling as a legal white move.
+
+4. **Limited position variety** - Only 3 games means certain tactical patterns (discovered checks from specific piece types, complex pins, specific promotion scenarios) might not appear.
+
+**Mitigating factors:**
+- The `verify_legal_moves` function checks ALL legal moves at each position, not just moves played
+- The FEN comparison includes castling availability strings, catching tracking errors
+- The check.py includes the Morphy Opera Game which the agent can use during development
+
+However, an incorrect solution that properly handles regular moves but fails on promotion or en-passant edge cases could plausibly pass all tests.
+
+Coverage rating: 3
+
+============================================================
+Challenge: rstan-to-pystan
+Rating: 4
+============================================================
+
+Looking at this task and the test cases, I need to evaluate how well the tests verify that the agent correctly converted the R script to Python using PyStan 3.10.0.
+
+**Test Coverage Analysis:**
+
+1. **`test_r_rstan_not_installed`**: Verifies the constraint that R/RStan cannot be installed. This is good coverage for one of the explicit constraints.
+
+2. **`test_output_files_exist`**: Checks that all four required output files exist (alpha_est.csv, sigma_est.csv, rho_est.csv, beta_est.csv).
+
+3. **Statistical accuracy tests** (`test_alpha_estimation_accuracy`, `test_sigma_estimation_accuracy`, `test_rho_estimation_accuracy`, `test_beta_estimation_accuracy`): These tests verify that posterior means fall within narrow ranges estimated from running the correct solution with 10 different seeds:
+   - alpha: [1.08, 1.1]
+   - sigma: [0.133, 0.136]
+   - rho values: specific ranges for each of 3 values
+   - beta values: specific ranges for each of 3 values
+
+**Strengths:**
+- The statistical accuracy tests are well-designed with narrow ranges that would catch incorrect Stan model implementations, wrong priors, incorrect data loading, or significantly different hyperparameters
+- The ranges account for MCMC variability while being tight enough to detect errors
+- Verifies dimensionality (3 rho values, 3 beta values)
+
+**Gaps:**
+- No verification that `/app/pystan_analysis.py` exists (explicit requirement)
+- No verification that PyStan 3.10.0 specifically is used (could use different version)
+- No verification that `random_seed=1` is used in `stan.build` (explicit requirement)
+- No verification that cmdstanpy is NOT used
+- No verification that the specific sampling hyperparameters match (adapt_delta=0.93, max_treedepth=14, etc.)
+
+**Could an incorrect solution pass?**
+An agent that uses cmdstanpy instead of PyStan, or uses a different PyStan version, or different random seeds might potentially still produce results within the acceptable ranges since MCMC has inherent variability. However, getting all 8 parameters (alpha, sigma, 3 rho, 3 beta) simultaneously within narrow ranges with an incorrect implementation is unlikely.
+
+The tests provide good functional coverage through statistical accuracy checks but miss some explicit requirements like verifying the Python script exists and checking the specific PyStan version/random_seed constraint.
+
+Coverage rating: 4
+
+============================================================
+Challenge: sam-cell-seg
+Rating: 4
+============================================================
+
+Looking at the test cases provided, I'll evaluate the coverage for this MobileSAM mask conversion task.
+
+## Test Coverage Analysis
+
+**Tests Included:**
+
+1. `test_python_file_exists()` - Verifies script exists at expected location
+2. `test_run_script()` - Executes the script with test data to ensure it runs
+3. `test_csv_output_exists()` - Checks output file is created
+4. `test_csv_shape_cols()` - Validates CSV structure matches expected format
+5. `test_masks_are_no_longer_rect()` - Ensures all output masks are non-rectangular polylines
+6. `test_mask_alignment()` - Compares output masks with expected output using IoU ≥ 0.5
+7. `test_no_polyline_overlaps()` - Verifies no significant overlaps between masks
+8. `test_single_contiguous_mask_per_cell()` - Confirms each mask is a single connected region
+9. `test_coords_are_flat_lists()` - Validates coordinate format
+
+**Strengths:**
+
+- Tests cover all key requirements: non-rectangular output, no overlaps, contiguous masks
+- Uses hidden test data (test_img.png, test_metadata.csv) different from demo files, preventing hardcoding
+- IoU test against expected output ensures reasonable mask quality
+- Test data includes both polyline inputs (rows 0-16) and rectangle inputs (rows 17-31), testing both conversion scenarios
+- Format validation ensures proper output structure
+
+**Potential Gaps:**
+
+- No explicit verification that MobileSAM is actually used (though achieving IoU ≥ 0.5 without a proper segmentation model would be very difficult)
+- The 0.5 IoU threshold is somewhat lenient - a mediocre solution could potentially pass
+- No test verifies the `weights_path` argument is actually being used vs. hardcoded
+- No test for edge cases like empty masks or invalid coordinates
+
+**Hardcoding Risk Assessment:**
+
+The hidden test images and expected output (correct_output.csv) make hardcoding infeasible. The IoU requirement effectively forces the agent to implement actual segmentation functionality.
+
+**Overall:** The tests provide comprehensive coverage of functional requirements and output quality. The combination of format validation, geometric constraints (non-rectangular, no overlap, contiguous), and IoU comparison against expected output makes it very difficult for an incorrect solution to pass. The main weakness is the lack of explicit MobileSAM verification, but this is mitigated by the IoU requirements.
+
+Coverage rating: 4
+
+============================================================
+Challenge: schemelike-metacircular-eval
+Rating: 4
+============================================================
+
+Looking at this task and test coverage:
+
+**Task Requirements:**
+1. Create `eval.scm` - a metacircular evaluator for the Scheme dialect
+2. Read a file path from STDIN and interpret that file
+3. Pass remaining input to the interpreted program
+4. Must interpret all test programs in `test/`
+5. Must be able to interpret itself (metacircular evaluation)
+
+**Test Analysis:**
+
+*Strengths:*
+1. **Extensive test suite**: Tests cover ~30+ test files including factorial, fibonacci, list operations, higher-order functions, closures, mutual recursion, Y combinator, Church numerals, continuation-passing style, lazy evaluation, file I/O, etc.
+
+2. **Shadow tests**: The `/tests/shadow_test/` directory contains modified versions of tests with different values and function names, preventing hardcoding of expected outputs.
+
+3. **Metacircular testing**: The test explicitly tests metacircular evaluation (eval.scm interpreting eval.scm) for files `05-simple-io.scm`, `calculator.scm`, and `closures.scm`.
+
+4. **Output comparison**: Tests compare direct execution through `interp.py` with execution through `eval.scm`, ensuring behavioral equivalence.
+
+5. **I/O handling**: Tests verify proper input redirection to interpreted programs (`test_read.scm`, `calculator.scm`, `06-interactive-io.scm`).
+
+*Weaknesses:*
+1. **Limited metacircular coverage**: Only 3 files test the double-metacircular scenario (eval.scm interpreting eval.scm), though this is a key requirement.
+
+2. **No explicit error handling tests**: The tests don't check for proper error handling in the interpreter.
+
+3. **No negative tests**: All tests assume valid input; there's no testing of malformed programs.
+
+4. **Timing considerations**: 60-second timeout might be generous enough to allow inefficient implementations.
+
+The combination of comprehensive feature testing, shadow tests with different values, and metacircular evaluation verification makes it difficult for an incorrect solution to pass. An implementation would need to correctly handle most Scheme features and be able to interpret itself.
+
+Coverage rating: 4
+
+============================================================
+Challenge: sanitize-git-repo
+Rating: 4
+============================================================
+
+Looking at this task, I need to analyze whether the test cases adequately verify that API keys are properly sanitized from the repository.
+
+**Test Case Analysis:**
+
+1. **`test_removal_of_secret_information()`**: Checks that 5 specific fake secrets (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, GitHub token, and two HuggingFace tokens) are NOT present in 3 contaminated files. Uses case-insensitive comparison which is good for catching variations.
+
+2. **`test_correct_replacement_of_secret_information()`**: Compares the contaminated files against expected decontaminated versions provided as helper files. This is a strong test because it verifies:
+   - Correct placeholder values are used (`<your-aws-access-key-id>`, `<your-aws-secret-access-key>`, etc.)
+   - The exact format of replacements matches expected output
+   - No additional unintended modifications within those files
+
+3. **`test_no_other_files_changed()`**: Uses git diff to verify that ONLY the contaminated files were modified. This prevents false positives where an agent might delete or modify unrelated files.
+
+**Strengths:**
+- Tests cover all 4 types of credentials mentioned in the task (AWS key, AWS secret, GitHub token, HuggingFace token)
+- Exact file comparison ensures proper placeholder values are used
+- Tests prevent accidental modification of clean files
+- Case-insensitive checking catches variations in secret formatting
+
+**Potential Gaps:**
+- Tests only verify 3 specific files - if secrets existed in other undiscovered files, they wouldn't be detected
+- The tests rely on predefined knowledge of which files are contaminated
+- If the agent used a different (but valid) placeholder format, the exact comparison would fail even if secrets were properly removed
+
+**Could an incorrect solution pass?**
+An incorrect solution would have difficulty passing because:
+1. The exact file comparison requires precise replacement with correct placeholders
+2. The git diff check prevents accidental file modifications
+3. Multiple secret types are verified
+
+Coverage rating: 4
+
+============================================================
+Challenge: sparql-university
+Rating: 4
+============================================================
+
+Looking at this task and test coverage, I need to analyze whether the tests adequately verify the SPARQL query requirements.
+
+## Task Requirements:
+1. Find full professors only
+2. Work in at least one department of a university in an EU country
+3. At least one of their departments has >10 currently enrolled students
+4. Use 2025-08-16 as reference date for enrollment status
+5. Return professor name and all countries where they work
+
+## Test Data Analysis:
+
+**Professors in test data:**
+- Giorgos Stamou (Full Prof) - GR, US - works in CS_NTUA (EU, >10 students)
+- Athanasios Voulodimos (Assistant Prof) - GR only - should be excluded
+- Chrysoula Zerva (Full Prof) - PT, GR - works in CS_NTUA (>10 students)
+- Aristotle Tympas (Full Prof) - GR - works in dept with >10 students
+- John Smith (Full Prof) - US only - should be excluded (no EU)
+- Marie Dubois (Full Prof) - FR - only ~6 current students (filtered out)
+- Stefan Mueller (Assistant Prof) - DE - should be excluded
+- Alex Dimakis (Full Prof) - US, ES, CH - EU via ES, >10 via Berkeley
+
+**Edge cases covered:**
+- ✅ Filters out assistant professors (Voulodimos, Mueller)
+- ✅ Filters out professors only in non-EU countries (John Smith)
+- ✅ Filters out professors without >10 students (Marie Dubois - only 6 current)
+- ✅ Tests graduation date filtering (some students graduated before reference date)
+- ✅ Tests professors in multiple departments/countries
+- ✅ Alex Dimakis tests the tricky case: EU dept (ES) but >10 students in non-EU dept (US)
+
+**Potential weaknesses:**
+1. No department with exactly 10 students to test ">10" vs ">=10" boundary
+2. The EU country list isn't rigorously tested - a solution with minor EU list errors could still pass
+3. Date comparison edge cases (exact dates) aren't heavily tested
+
+**Could incorrect solutions pass?**
+- Missing "full professor" filter → Would include Voulodimos/Mueller → FAIL
+- Missing EU filter → Would include John Smith → FAIL  
+- Missing >10 filter → Would include Marie Dubois → FAIL
+- Wrong date handling → Could affect student counts, likely FAIL
+
+The test verifies exact matching of 4 specific professors with their correct country lists. The test data is well-designed with multiple filtering scenarios. However, boundary conditions (exactly 10 students) and comprehensive EU country verification are not present.
+
+Coverage rating: 4
+
+============================================================
+Challenge: sqlite-db-truncate
+Rating: 3
+============================================================
+
+Looking at this task and test cases, I need to evaluate the coverage for recovering data from a corrupted SQLite database.
+
+**Task Analysis:**
+- Recover rows from a truncated SQLite database
+- Output JSON with format `[{"word": "testwordXY", "value": M}, ...]`
+
+**Test Coverage Analysis:**
+
+1. **Format Verification:** The test loads the JSON file and accesses "word" and "value" keys, implicitly verifying the expected structure.
+
+2. **Data Accuracy:** The test compares exact (word, value) tuples using set intersection against 8 known entries. This requires precise recovery of both the word strings and their associated numeric values.
+
+3. **Threshold Requirement:** Requires more than 6 correct matches out of 8 possible entries (~87.5% accuracy minimum). This prevents trivial partial solutions.
+
+4. **Hardcoding Concerns:** An agent couldn't easily hardcode the solution without actually parsing the database - the specific values (10.0, 25.0, 42.0, 50.0, 75.0, 99.0, 99.99, 0.5) and which word numbers exist (02-09, notably missing 01) are specific to the database content.
+
+**Weaknesses:**
+
+1. **No false positive penalty:** The test only counts correct entries but doesn't penalize extra incorrect entries. An agent could dump garbage data along with correct recoveries.
+
+2. **Float comparison:** Using exact float equality in set comparison could be fragile with precision issues, though values stored/read consistently should match.
+
+3. **Allows some failures:** Allows 1 entry to be wrong/missing, which might let slightly buggy solutions pass.
+
+4. **No structural validation:** Doesn't check for proper sorting or validate there aren't duplicate entries.
+
+**Strengths:**
+- Verifies correct recovery of specific database content
+- Requires high accuracy (7+ of 8 entries)
+- Tests both integer-like values and floating point decimals (0.5, 99.99)
+
+The test provides reasonable coverage of the core task but has gaps around false positives and allows some margin for error.
+
+Coverage rating: 3
+
+============================================================
+Challenge: sqlite-with-gcov
+Rating: 4
+============================================================
+
+Looking at the test cases against the task requirements:
+
+**Task Requirements:**
+1. Compile SQLite in /app/sqlite
+2. Enable gcov instrumentation
+3. Make sqlite3 available in PATH
+4. Use the pre-vendored source tarball
+
+**Test Coverage Analysis:**
+
+1. `test_sqlite_compiled()`: Verifies that SQLite was compiled successfully by running a version query. This confirms a working binary exists.
+
+2. `test_sqlite_in_path()`: Uses `shutil.which()` to verify sqlite3 is in PATH and can execute. This covers the PATH requirement.
+
+3. `test_gcov_enabled()`: This is well-designed - it checks for:
+   - `.gcda` files (generated at runtime when gcov-instrumented code runs)
+   - `.gcno` files (generated at compile time with gcov flags)
+   
+   Both checks are specifically in `/app/sqlite`, ensuring that:
+   - Compilation happened in the correct directory
+   - gcov instrumentation was properly enabled
+
+**Potential gaps:**
+- The tests don't explicitly verify that the vendored tarball at `/app/vendor/sqlite-fossil-release.tar.gz` was used (though this is typically enforced by network restrictions)
+- No verification of the SHA256 checksum being validated
+
+**What couldn't pass these tests incorrectly:**
+- Installing system SQLite (wouldn't generate gcov files in /app/sqlite)
+- Compiling without gcov flags (no .gcno/.gcda files)
+- Compiling in wrong directory (gcov files wouldn't be in /app/sqlite)
+- Not adding to PATH (which() would fail)
+
+The tests form a good logical chain: running sqlite3 from PATH generates .gcda files in /app/sqlite, which proves the PATH binary is the gcov-instrumented one compiled in that directory.
+
+The only minor weakness is not verifying the specific source was used, but this is difficult to test and usually enforced by container network restrictions.
+
+Coverage rating: 4
+
+============================================================
+Challenge: torch-pipeline-parallelism
+Rating: 4
+============================================================
+
+Looking at this task and the test cases, I need to evaluate how well the tests cover the implementation requirements for pipeline parallel training with AFAB scheduling.
+
+## Test Analysis
+
+**test_pipeline_parallel_exists**: Basic sanity check for file existence.
+
+**test_no_hooks_in_pipeline_parallel**: Ensures implementation doesn't use hooks (which are reserved for testing).
+
+**test_pipeline_parallel**: The main functional test that:
+1. Tests with world_size 1 and 2
+2. Creates a reference model and pipeline model with same weights
+3. Runs reference forward/backward with gradient accumulation (4 microbatches)
+4. Runs pipeline parallel version via `train_step_pipeline_afab`
+5. Uses hooks to capture all forward and backward activations
+6. Verifies:
+   - Layer count per rank is reasonable
+   - AFAB ordering (no forwards after backwards detected)
+   - All activations match reference within tolerance (1e-5)
+
+## Strengths
+- **Comprehensive activation checking**: By registering hooks on all layers, the test captures intermediate forward and backward values, making it very difficult for an incorrect solution to pass
+- **AFAB verification**: Explicitly checks that forward hooks complete before backward hooks start
+- **Layer partitioning verification**: Checks that each rank has a reasonable number of layers
+- **Reference comparison**: Compares against a non-pipelined reference implementation for mathematical correctness
+- **Multiple microbatches**: Tests with 4 microbatches, verifying gradient accumulation
+
+## Weaknesses
+- **Limited world sizes**: Only tests 1 and 2 (though 2 is sufficient to test inter-rank communication)
+- **Small model**: 4 hidden layers is minimal
+- **Single configuration**: Fixed sequence length, batch size, and model dimensions
+- **Doesn't verify parameter gradients**: Only checks hook outputs, not final gradient values on model parameters
+- **No edge cases**: Doesn't test different microbatch counts or unusual configurations
+
+## Potential for incorrect solutions to pass
+It would be very difficult for an incorrect implementation to pass because:
+1. The hook-based comparison checks all intermediate activations
+2. Both forward and backward passes must match exactly
+3. The AFAB ordering is explicitly verified
+4. Communication errors would cause activation mismatches
+
+The test essentially validates the mathematical equivalence between single-device and pipeline-parallel execution, which is the core correctness criterion.
+
+Coverage rating: 4
+
+============================================================
+Challenge: train-fasttext
+Rating: 4
+============================================================
+
+## Analysis
+
+### Test Coverage Assessment
+
+**What the tests verify:**
+1. **Model existence and format**: The test loads the model using `fasttext.load_model("/app/model.bin")`, ensuring a valid fasttext model exists at the correct path.
+2. **Model size constraint**: Explicitly checks the model is under 150MB.
+3. **Accuracy threshold**: Tests against a private test set that's not visible to the agent, requiring 0.62+ accuracy.
+
+**Strengths:**
+- The private test set (`private_test.txt` from `private_test.tar.gz`) is hidden from the agent, preventing hardcoding of specific predictions
+- Both key requirements (size < 150MB, accuracy > 0.62) are explicitly tested
+- The model format is implicitly validated through the fasttext library loading
+
+**Potential gaps:**
+- The tests don't explicitly verify that the model was trained on the training parquet file specifically (vs. the test parquet file that's also available in `/app/data/`)
+- However, this is a minor concern since both files likely come from the same distribution
+
+**Could an incorrect solution pass?**
+- Hardcoding is effectively prevented by the private test set with an accuracy requirement
+- A model trained on random/different data would likely fail the accuracy threshold since it must work on yelp review distribution
+- The agent could theoretically train on the test parquet instead of train parquet, but this would still produce a valid model from the same distribution
+
+**Overall assessment:**
+The tests provide solid coverage of the core requirements. The private test set is the key safeguard - an agent cannot game the accuracy test without training a legitimate model that generalizes to unseen yelp reviews. The combination of accuracy threshold and model size constraint ensures the agent must find an appropriate balance in their hyperparameters.
+
+Coverage rating: 4
+
+============================================================
+Challenge: torch-tensor-parallelism
+Rating: 4
+============================================================
+
+Looking at the test cases provided, I need to evaluate their coverage for the tensor parallelism implementation task.
+
+## Test Coverage Analysis
+
+**What the tests cover:**
+
+1. **File existence test**: Verifies `/app/parallel_linear.py` exists.
+
+2. **ColumnParallelLinear tests** (parametrized with bias=True/False and world_size=1,2,4):
+   - Weight initialization: Checks that each rank gets the correct slice of master_weight (rows `[start:end, :]`)
+   - Bias initialization: Verifies bias is zero-initialized and sharded correctly
+   - Forward pass: Compares output against reference `nn.Linear` layer
+   - Backward pass: Verifies weight and bias gradients match expected slices
+
+3. **RowParallelLinear tests** (parametrized with bias=True/False and world_size=1,2,4):
+   - Weight initialization: Checks that each rank gets correct slice of master_weight (columns `[:, start:end]`)
+   - Bias initialization: Verifies bias is zero-initialized and remains full on each rank
+   - Forward pass: Uses scattered input and compares against reference layer
+   - Backward pass: Verifies weight and bias gradients match expected values
+
+**Strengths:**
+- Tests multiple world sizes (1, 2, 4) ensuring distributed functionality works
+- Tests both bias=True and bias=False configurations
+- Uses actual distributed processes via `mp.spawn` ensuring real communication
+- Compares against reference `nn.Linear` implementation for correctness
+- Tests both forward and backward passes, catching gradient errors
+- Explicitly checks weight/bias sharding patterns for each rank
+
+**Potential gaps:**
+- Only tests one set of dimensions (batch_size=2, in_features=64, out_features=48)
+- Doesn't test varying input shapes or larger batch sizes
+- Doesn't explicitly verify the communication primitives are called (though this is implicitly tested through correctness)
+
+**Could an incorrect solution pass?**
+It would be very difficult for an incorrect solution to pass because:
+- The tests run with actual multi-process distributed setup
+- Each rank only has its partition of weights, so proper communication is required for correct output
+- Both forward output AND backward gradients are verified against a reference implementation
+- Multiple world sizes ensure the sharding logic scales correctly
+
+The test suite is well-designed and provides comprehensive coverage of the core functionality: initialization, sharding, forward computation, and gradient computation across multiple configurations.
+
+Coverage rating: 4
+
+============================================================
+Challenge: tune-mjcf
+Rating: 4
+============================================================
+
+Looking at this task and the test cases provided:
+
+**Task Requirements:**
+1. Tune MuJoCo model to run in ≤60% of original time
+2. Final physics state must match within atol=1e-5
+3. No NaN or Inf values
+4. Original model_ref.xml must remain unchanged
+5. Tuned model saved as /app/model.xml
+
+**Test Coverage Analysis:**
+
+1. **`test_model_ref_unchanged()`**: Compares /app/model_ref.xml against a stored copy to ensure the agent didn't cheat by modifying the reference. Good anti-cheating measure.
+
+2. **`test_tuned_model_exists()`**: Basic existence check for model.xml.
+
+3. **`test_correctness()`**: 
+   - Simulates both models with the same random seed
+   - Compares final physics states with atol=1e-5
+   - Checks for NaN/Inf values
+   - This directly tests the physics preservation requirement
+
+4. **`test_model_speed()`**: 
+   - Runs 20 simulations for both models
+   - Uses percentile filtering (5-95%) to handle outliers
+   - Verifies the 60% time target
+
+**Potential Weaknesses:**
+
+1. **Single random seed per test run**: The correctness test uses only one randomly selected seed. However, the tight tolerance (1e-5) makes it unlikely that a solution would pass for one seed but fail for others when the physics are truly preserved.
+
+2. **No explicit check for model structure validity**: However, invalid models would fail during `mujoco.MjModel.from_xml_path()` or produce incorrect states.
+
+**Strengths:**
+
+- The tests closely mirror the eval.py provided to the agent, ensuring consistent evaluation
+- Anti-tampering protection for the reference model
+- Statistical handling of timing variance with multiple runs and percentile filtering
+- The tight tolerance requirement (1e-5) effectively prevents solutions that change physics behavior
+- The solution (changing solver to PGS) is a legitimate optimization that the tests would correctly validate
+
+The tests comprehensively cover the stated requirements. An incorrect solution would be very unlikely to pass both the correctness test (state matching) and speed test simultaneously.
+
+Coverage rating: 4
+
+============================================================
+Challenge: video-processing
+Rating: 4
+============================================================
+
+## Analysis of Test Coverage
+
+### Test Cases Overview:
+1. **test_example_video_exists** - Basic file existence check
+2. **test_test_video_exists** - Checks for hidden test video
+3. **test_jump_analyzer_example_video** - Tests on example video with frame ranges (takeoff: 50-54, landing: 62-64)
+4. **test_jump_analyzer_test_video** - Tests on hidden video with frame ranges (takeoff: 219-223, landing: 231-234)
+5. **test_jump_analyzer_imports** - AST-based validation of allowed imports only
+
+### Strengths:
+1. **Anti-hardcoding protection**: The two test videos have significantly different frame numbers (takeoff ~52 vs ~221), making simple hardcoding impossible
+2. **Reasonably tight tolerances**: Frame ranges of 4-5 frames require actual detection accuracy
+3. **Hidden test video**: The agent cannot see `/tests/test_video.mp4`, so they must develop a general solution
+4. **Import validation**: Ensures only cv2, numpy, and toml are used
+5. **TOML structure validation**: Checks that required fields exist
+
+### Weaknesses:
+1. **Only 2 test videos**: Limited sample size means a coincidentally correct algorithm might pass
+2. **No edge cases**: No testing for unusual scenarios (very fast/slow jumps, different lighting, etc.)
+3. **Both videos share same background/camera position**: Task states this, so algorithm doesn't need to generalize to different setups
+4. **No validation of the detection method**: An algorithm could potentially use some heuristic that happens to work on these specific videos
+
+### Hardcoding Feasibility:
+Given the vastly different frame numbers between videos (52 vs 221), and the hidden nature of the test video, a solution cannot simply hardcode values. The solution must actually analyze video content to detect jumps correctly.
+
+### Conclusion:
+The test coverage is good but not comprehensive. The use of two videos with different characteristics provides reasonable protection against gaming, and the tight frame tolerances ensure actual detection accuracy. However, with only 2 test videos, there's still a possibility that a suboptimal algorithm could coincidentally pass both tests while failing on other videos.
+
+Coverage rating: 4
+
+============================================================
+Challenge: vulnerable-secret
+Rating: 4
+============================================================
+
+Looking at this task and the test cases:
+
+**Task Summary:** Extract a secret key from a vulnerable binary by exploiting a buffer overflow vulnerability and write it to `/app/results.txt`.
+
+**Test Cases Analysis:**
+
+1. `test_results_file_exists()` - Basic check that the output file was created
+2. `test_results_file_contains_secret_flag()` - Checks for the exact flag: `FLAG{b4ff3r_0v3rfl0w_m4st3r_k3y_2024}`
+3. `test_results_file_format()` - Validates the FLAG format (starts with `FLAG{`, ends with `}`, length > 10)
+
+**Strengths:**
+- The exact string match in `test_results_file_contains_secret_flag()` is the primary verification mechanism
+- The flag is specific and complex enough (`b4ff3r_0v3rfl0w_m4st3r_k3y_2024`) that it cannot be trivially guessed
+- Multiple tests provide redundancy in verification
+
+**Potential Weaknesses:**
+- The flag might be extractable via `strings vulnerable | grep FLAG` without actually exploiting the buffer overflow vulnerability. However, this is still a valid method of "extracting" the secret from the binary.
+- Tests don't verify the method used (exploitation vs. static analysis), but since the task says "extract" rather than "exploit," alternative methods should be acceptable.
+- Test 3 is largely redundant given test 2's exact match requirement.
+
+**Could an incorrect solution pass?**
+No. The exact flag match ensures that only a solution that successfully extracts the correct flag (by any method - exploitation, static analysis, debugging) will pass. The agent cannot pass these tests without actually extracting the flag from the binary in some way.
+
+The tests effectively validate the core objective: obtaining the secret key from the program and writing it to the output file.
+
+Coverage rating: 4
+
+============================================================
+Challenge: winning-avg-corewars
+Rating: 4
+============================================================
+
+Looking at this task and test cases, I need to evaluate whether the tests adequately verify that a CoreWars warrior meets the required win rate thresholds.
+
+**Test Analysis:**
+
+1. **`test_opponents_integrity()`**: Verifies SHA256 hashes of all opponent files, preventing the agent from cheating by modifying opponents. This is crucial for task integrity.
+
+2. **`test_warrior_exists()`**: Basic check that the solution file was created.
+
+3. **`test_warrior_performance()`**: The core test that:
+   - Runs exactly 100 battles against each opponent using the specified command
+   - Parses pmars output to extract wins
+   - Checks against the exact thresholds specified (75% for stone/vampire/paper, 33% for snake/g2-clear)
+
+**Coverage Strengths:**
+- Opponent integrity verification prevents cheating
+- Uses the exact pmars command specified in the task
+- Tests all five opponents with their specific thresholds
+- Implicitly verifies valid Redcode syntax (pmars would fail on invalid code)
+- No way to hardcode a solution - must actually write a functional warrior
+
+**Potential Weaknesses:**
+- Statistical variance with 100 rounds means a solution achieving ~73% might occasionally pass with luck at 75%, or a 76% solution might occasionally fail
+- The output parsing (`split("\n")[-1].split()[1]`) assumes specific pmars output format
+- No verification that the warrior is under the instruction limit (though pmars would enforce this)
+
+**Could an incorrect solution pass?**
+- An invalid or empty file would cause pmars to error
+- A warrior with insufficient performance would fail the win rate assertions
+- The statistical variance could allow marginally incorrect solutions to pass occasionally, but this is inherent to the probabilistic nature of CoreWars battles
+
+The tests effectively verify the actual task requirements - creating a warrior that wins battles at specified rates. The integrity check prevents gaming the system, and the performance tests directly measure what matters.
+
+Coverage rating: 4
+
+============================================================
+Challenge: write-compressor
+Rating: 4
+============================================================
+
+Looking at this task and the test cases, I need to evaluate whether the tests adequately verify that the agent has correctly created a compressed file.
+
+## Analysis of Test Coverage
+
+**Test 1: `test_compressed_file_exists`**
+- Simply checks that `/app/data.comp` exists
+- Basic sanity check
+
+**Test 2: `test_decompression_produces_original`**
+- Verifies that `cat data.comp | decomp2` produces exactly the original `data.txt` content
+- Uses string comparison for the full output
+- Critically, the setup function restores `original-decomp.c` and `original-data.txt`, preventing tampering
+
+**Test 3: `test_compression_size`**
+- Enforces the 2500 byte limit on the compressed file
+
+## Strengths of the Coverage
+
+1. **Tamper protection**: The setup function copies the original files back before each test, so the agent cannot:
+   - Modify the decompressor to accept any input
+   - Modify `data.txt` to be shorter/easier to compress
+   
+2. **Full content verification**: The decompressed output must match the original text exactly (a substantial ~4KB text about data compression)
+
+3. **Size constraint enforced**: The 2500 byte limit is explicitly tested
+
+4. **Uses freshly compiled decompressor**: Tests compile `decomp2` from the restored source, not using the provided binary
+
+## Potential Weaknesses
+
+1. No verification of *how* the compression was achieved - but the task explicitly allows any method
+2. Relies on the complexity of the arithmetic coding algorithm to prevent brute-force approaches
+
+## Could an Incorrect Solution Pass?
+
+To pass these tests, a solution must produce a valid compressed file that:
+- Decompresses to exactly the original 4KB+ text
+- Is ≤ 2500 bytes
+
+Given the arithmetic coding with context-based probability models used by the decompressor, creating a valid compressed file requires genuinely understanding and implementing the compression algorithm. There's no obvious shortcut that would produce a passing but "incorrect" solution.
+
+The tests effectively verify the functional requirements of the task without allowing cheating through file tampering.
+
+Coverage rating: 4
+

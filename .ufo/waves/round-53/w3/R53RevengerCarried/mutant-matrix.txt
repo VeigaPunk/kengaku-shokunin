@@ -1,0 +1,21 @@
+CURRENT   unmutated                                  selftest_rc=0 selftest_fails=0 lane_rc=0 lane=['SELFTEST-UNBACKED 0', 'PREDICATE R52-C2 pass']
+CURRENT   M1-entry-missing-dropped-from-predicate    selftest_rc=0 selftest_fails=0 lane_rc=0 lane=['SELFTEST-UNBACKED 0', 'PREDICATE R52-C2 pass']
+CURRENT   M2-registry-block-not-cut-at-next-heading  selftest_rc=0 selftest_fails=0 lane_rc=0 lane=['SELFTEST-UNBACKED 0', 'PREDICATE R52-C2 pass']
+CURRENT   M5-unbacked-leg-disabled                   selftest_rc=0 selftest_fails=0 lane_rc=0 lane=['SELFTEST-UNBACKED 0', 'PREDICATE R52-C2 pass']
+CURRENT   M3-whole-cell-negation-restored            selftest_rc=0 selftest_fails=0 lane_rc=1 lane=['SELFTEST-UNBACKED 1', 'PREDICATE R52-C2 fail']
+CURRENT   M4-unbacked-predicate-disabled             selftest_rc=0 selftest_fails=0 lane_rc=0 lane=['SELFTEST-UNBACKED 0', 'PREDICATE R52-C2 pass']
+PROPOSED  unmutated                                  selftest_rc=0 selftest_fails=0 lane_rc=0 lane=['SELFTEST-UNBACKED 0', 'PREDICATE R52-C2 pass']
+PROPOSED  M1-entry-missing-dropped-from-predicate    selftest_rc=1 selftest_fails=1 lane_rc=0 lane=['SELFTEST-UNBACKED 0', 'PREDICATE R52-C2 pass']
+      SELFTEST FAIL K7 entry-missing rc=0 want=1 'ENTRY-MISSING 1'
+PROPOSED  M2-registry-block-not-cut-at-next-heading  selftest_rc=1 selftest_fails=1 lane_rc=0 lane=['SELFTEST-UNBACKED 0', 'PREDICATE R52-C2 pass']
+      SELFTEST FAIL K5 decoy-table rc=0 want=1 'MISSING 1'
+PROPOSED  M5-unbacked-leg-disabled                   selftest_rc=1 selftest_fails=3 lane_rc=0 lane=['SELFTEST-UNBACKED 0', 'PREDICATE R52-C2 pass']
+      SELFTEST FAIL false-selftest-claim rc=0 want=1 'SELFTEST-UNBACKED 1'
+      SELFTEST FAIL negated-flag-masks-claim rc=0 want=1 'SELFTEST-UNBACKED 1'
+      SELFTEST FAIL negation-in-other-clause-not-masking rc=0 want=1 'SELFTEST-UNBACKED 1'
+PROPOSED  M3-clause-negation-removed                 selftest_rc=1 selftest_fails=1 lane_rc=0 lane=['SELFTEST-UNBACKED 0', 'PREDICATE R52-C2 pass']
+      SELFTEST FAIL negated-flag-honest rc=1 want=0 'PREDICATE R52-C2 pass'
+PROPOSED  M4-unbacked-predicate-disabled             selftest_rc=1 selftest_fails=3 lane_rc=0 lane=['SELFTEST-UNBACKED 0', 'PREDICATE R52-C2 pass']
+      SELFTEST FAIL false-selftest-claim rc=0 want=1 'SELFTEST-UNBACKED 1'
+      SELFTEST FAIL negated-flag-masks-claim rc=0 want=1 'SELFTEST-UNBACKED 1'
+      SELFTEST FAIL negation-in-other-clause-not-masking rc=0 want=1 'SELFTEST-UNBACKED 1'

@@ -1,0 +1,88 @@
+Seat: R53CritDoNothing
+Axes: calibration, novelty
+Current-tip clone revision: 9ead4476bf55b1ea6490d0204b668195db4a4d1d
+Frozen base: 536925b5320fa64298030b4ee76a58fc4b82723f
+Counter SHA256 C1: d36e31f941776556a9728f1a56c84ab982bc4edffd684cc6ca90cce065b9d34f
+Counter SHA256 C2: 942d589d3012659edba783898e68a82649b99936ed18b15e2cb5026c65cf57cc
+
+BASE C1 (current counter copied into base checkout; base has no counter scripts):
+PINS population_sha=ok pin_tree_sha=BAD tests_index_sha=BAD r52_audit_sha=ok captures_blob_match=0 blob_bad=0 absent=0 excluded_blob=BAD files=-1
+FREEZE absent missing=18 first=plans/round53-c1-freeze.json
+ORACLE not evaluable (pins or freeze failed)
+CONFIRM new_confirmed=0
+PRIOR-ART rows=0
+PREDICATE R53-C1 fail
+exit=1
+
+BASE C2 --dry (all 75 MISSING lines omitted here; report lists the names):
+ROWS registry=75 ledger=0 missing=75 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0 bad_table_lines=0 headings=1 row_set_pinned=BAD
+  LEDGER ledger absent: plans/round53-tipstate.json
+ARGV entry=0 selftest=0 help=0 help_limit=7.5
+DRY static legs only: no predicate
+exit=1
+
+UNMODIFIED TIP C1:
+CONFIRM candidates_never_read=28 new_confirmed=20 rejected=0 target>=3
+PRIOR-ART rows=0 tasks_covered=0/20 known=0 new=0 urls=0 rejected=0 target: urls>=3 new>=1
+PREDICATE R53-C1 fail
+exit=1
+
+DELETION C1, dirty working tree:
+FREEZE clean=NO classifier_and_freeze_one_commit=yes classifier_sha=ok label_files_pinned=ok shards_pinned=ok labels_after_freeze_and_untouched=yes authors=4
+ORACLE not evaluable (pins or freeze failed)
+CONFIRM new_confirmed=0
+PRIOR-ART rows=0
+PREDICATE R53-C1 fail
+exit=1
+
+DELETION C1, clean committed deletion e35f15ea9f09edb2f63e8ae2feba7b522de6525a:
+PINS population_sha=ok pin_tree_sha=ok tests_index_sha=ok r52_audit_sha=ok captures_blob_match=183 blob_bad=0 absent=0 excluded_blob=ok files=184
+FREEZE clean=yes classifier_and_freeze_one_commit=yes classifier_sha=ok label_files_pinned=ok shards_pinned=ok labels_after_freeze_and_untouched=yes authors=4
+ORACLE tests=305 bad_label_files=0 bad_label_rows=0 decided=305 contested=0 oracle_Y=52 oracle_N=253 v2_P1=52 unclassified=0 disagree=0 limit=9.2 per_label_agree=1.000 (min 0.9)
+ORACLE-CONTROL r52_classifier_disagree=23 all_P0_disagree=52 control_ok=yes
+CONFIRM candidates_never_read=28 new_confirmed=0 rejected=0 target>=3
+PRIOR-ART rows=0 tasks_covered=0/0 known=0 new=0 urls=0 rejected=0 target: urls>=3 new>=1
+PREDICATE R53-C1 fail
+exit=1
+
+DELETION C2, same clean deletion clone:
+ROWS registry=78 ledger=0 missing=78 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0 bad_table_lines=0 headings=1 row_set_pinned=ok
+  LEDGER ledger absent: plans/round53-tipstate.json
+ARGV entry=0 selftest=0 help=0 help_limit=7.8
+PREDICATE R53-C2 fail
+exit=1
+
+SELFTESTS at tip, both exit=0:
+SELFTEST cases=47 failures=0
+SELFTEST cases=52 failures=0
+
+C1 FABRICATED PRIOR ART, all 20 real confirmations preserved, local revision ffff88755cbcb51ee32461e622bf2f1417acbb7c:
+CONFIRM candidates_never_read=28 new_confirmed=20 rejected=0 target>=3
+PRIOR-ART rows=20 tasks_covered=20/20 known=1 new=19 urls=20 rejected=0 target: urls>=3 new>=1
+PREDICATE R53-C1 pass
+exit=0
+
+C1 FABRICATED CONFIRMATIONS AND PRIOR ART, 3 tasks:
+CONFIRM candidates_never_read=28 new_confirmed=3 rejected=0 target>=3
+PRIOR-ART rows=3 tasks_covered=3/3 known=1 new=2 urls=3 rejected=0 target: urls>=3 new>=1
+PREDICATE R53-C1 pass
+exit=0
+
+C2 truthful declaration control, local revision ab40fe43146274def4bc7e67064f9649c298ec6f (only round53-c1 changed from green/0 to red/1):
+ROWS registry=78 ledger=78 missing=0 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0 bad_table_lines=0 headings=1 row_set_pinned=ok
+ARGV entry=74 selftest=4 help=0 help_limit=7.8
+SOURCE rev=ab40fe43146274def4bc7e67064f9649c298ec6f clean=yes lane_rev_equal=yes
+RUN executed=78 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=65 declared_red=13 observed_green=65 observed_red=13
+PREDICATE R53-C2 pass
+
+C2 earlier re-point run (NOT a global pass; shared-work interference prevents causal attribution of other failures):
+ROWS registry=78 ledger=78 missing=0 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0 bad_table_lines=0 headings=1 row_set_pinned=ok
+ARGV entry=70 selftest=8 help=0 help_limit=7.8
+SOURCE rev=95dae3088e2d971bb7dd35dba95638a9837e6781 clean=yes lane_rev_equal=yes
+  MISMATCH round43-c2 declared exit=0 observed exit=1 sec=98.9
+  MISMATCH round50-c1 declared exit=0 observed exit=1 sec=63.4
+  MISMATCH tip-receipts declared exit=0 observed exit=1 sec=58.9
+RUN executed=78 timeout=0 mismatched=3 evidence_missing=0
+TIPSTATE declared_green=69 declared_red=9 observed_green=66 observed_red=12
+PREDICATE R53-C2 fail

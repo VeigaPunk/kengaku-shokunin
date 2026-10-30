@@ -1,0 +1,254 @@
+[
+ {
+  "name": "M01-join-KN-to-K",
+  "family": "join-lattice",
+  "note": "join() maps {K,N} to N instead of K (one comparison result flipped)",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M01-join-KN-to-K.py"
+ },
+ {
+  "name": "M02-join-KL-to-N",
+  "family": "join-lattice",
+  "note": "join() maps {K,L}/{N,L} to N instead of L",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M02-join-KL-to-N.py"
+ },
+ {
+  "name": "M03-join-BQ-to-B",
+  "family": "join-lattice",
+  "note": "join() maps {B,Q} to B instead of Q",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M03-join-BQ-to-B.py"
+ },
+ {
+  "name": "M04-join_all-empty-to-X",
+  "family": "join-lattice",
+  "note": "join_all() of an empty set is X instead of K (default kind dropped)",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M04-join_all-empty-to-X.py"
+ },
+ {
+  "name": "M05-is_num_const-accepts-bool",
+  "family": "constant-check",
+  "note": "is_num_const() drops the 'not bool' guard (Constant-value check weakened)",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M05-is_num_const-accepts-bool.py"
+ },
+ {
+  "name": "M06-request-param-to-X",
+  "family": "constant-check",
+  "note": "request.param (a fixture parameter value) is treated as unknown",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M06-request-param-to-X.py"
+ },
+ {
+  "name": "M07-boolop-drop-B-branch",
+  "family": "join-lattice",
+  "note": "e_BoolOp drops the B/Q/V/C branch (a boolean predicate in an 'and' is no longer a predicate)",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M07-boolop-drop-B-branch.py"
+ },
+ {
+  "name": "M08-existq-B-to-K",
+  "family": "exist-query",
+  "note": "os.path.exists() returns a constant instead of an existence predicate",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M08-existq-B-to-K.py"
+ },
+ {
+  "name": "M09-listq-drop-scandir",
+  "family": "list-query",
+  "note": "os.scandir is removed from LIST_Q (a listing call is no longer recognised)",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M09-listq-drop-scandir.py"
+ },
+ {
+  "name": "M10-cmp-count-not-flagged",
+  "family": "comparison",
+  "note": "a count comparison (len(...) == 3) is not a clause-2 violation",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M10-cmp-count-not-flagged.py"
+ },
+ {
+  "name": "M11-const-cmp-in-assert-allowed",
+  "family": "assertion",
+  "note": "a value comparison inside an assertion is allowed (the assertion-context check is dropped)",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M11-const-cmp-in-assert-allowed.py"
+ },
+ {
+  "name": "M12-record-assert-constant-ok",
+  "family": "assertion",
+  "note": "an assertion that depends on no path state is not a violation",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M12-record-assert-constant-ok.py"
+ },
+ {
+  "name": "M13-record-assert-unknown-ok",
+  "family": "assertion",
+  "note": "an assertion depending on content/value/unknown is not a violation",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M13-record-assert-unknown-ok.py"
+ },
+ {
+  "name": "M14-unconditional-fail-ok",
+  "family": "assertion",
+  "note": "an unconditional / constant-guarded failure is not a violation",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M14-unconditional-fail-ok.py"
+ },
+ {
+  "name": "M15-open-write-modes-drop-w",
+  "family": "write-vs-read",
+  "note": "open() in mode 'w' is no longer write-only (a write is read as content)",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M15-open-write-modes-drop-w.py"
+ },
+ {
+  "name": "M16-all-over-listing-allowed",
+  "family": "universality",
+  "note": "all() over a listing is not a universal-quantifier violation",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M16-all-over-listing-allowed.py"
+ },
+ {
+  "name": "M17-try-handler-never-path-state",
+  "family": "control-flow",
+  "note": "an exception handler never encodes path state (try/except pytest.fail loses its predicate)",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M17-try-handler-never-path-state.py"
+ },
+ {
+  "name": "M18-if-exit-guard-without-exits",
+  "family": "control-flow",
+  "note": "the 'if <exists>: return' exit guard is set even when the block does not exit",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M18-if-exit-guard-without-exits.py"
+ },
+ {
+  "name": "M19-for-break-guard-any",
+  "family": "control-flow",
+  "note": "a break guard is honoured even when the condition is not path state",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M19-for-break-guard-any.py"
+ },
+ {
+  "name": "M20-no-assertion-reason-dropped",
+  "family": "assertion",
+  "note": "a test with no path assertion is not flagged (the 'no assertion reached' reason is dropped)",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M20-no-assertion-reason-dropped.py"
+ },
+ {
+  "name": "M21-async-fixture-not-scanned",
+  "family": "async-vs-sync",
+  "note": "Module._scan drops AsyncFunctionDef: an async fixture is not registered",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M21-async-fixture-not-scanned.py"
+ },
+ {
+  "name": "M22-async-test-not-a-unit",
+  "family": "async-vs-sync",
+  "note": "test_units drops AsyncFunctionDef: an async test is not a test unit",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M22-async-test-not-a-unit.py"
+ },
+ {
+  "name": "M23-decorators-as-body",
+  "family": "decorators",
+  "note": "a test's decorators are analysed as body statements",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M23-decorators-as-body.py"
+ },
+ {
+  "name": "M24-parametrize-listing-K",
+  "family": "parametrize",
+  "note": "a listing-valued parametrize argument is a constant instead of a name",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M24-parametrize-listing-K.py"
+ },
+ {
+  "name": "M25-elem-listing-to-K",
+  "family": "element-kind",
+  "note": "the element kind of a listing is a constant instead of a name",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M25-elem-listing-to-K.py"
+ },
+ {
+  "name": "M26-subscript-pick-is-listing",
+  "family": "subscript",
+  "note": "picking a named entry out of a listing stays a listing instead of a name",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M26-subscript-pick-is-listing.py"
+ },
+ {
+  "name": "M27-assert-context-flag-off",
+  "family": "assertion",
+  "note": "s_Assert does not mark the assertion context (in_assert stays False)",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M27-assert-context-flag-off.py"
+ },
+ {
+  "name": "M28-implicit-setup-off",
+  "family": "helper-visit",
+  "note": "the implicit setUp/setup_module helper visit is switched off",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M28-implicit-setup-off.py"
+ },
+ {
+  "name": "M29-class-chain-no-inheritance",
+  "family": "helper-visit",
+  "note": "the class chain does not follow base classes (an inherited method is not found)",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M29-class-chain-no-inheritance.py"
+ },
+ {
+  "name": "M30-module-helper-not-registered",
+  "family": "helper-visit",
+  "note": "a module-level helper is not registered, so calls into it are undefined",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M30-module-helper-not-registered.py"
+ },
+ {
+  "name": "M31-is_bool_const-any-constant",
+  "family": "constant-check",
+  "note": "is_bool_const() accepts any Constant as a boolean (the bool-value check is dropped)",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M31-is_bool_const-any-constant.py"
+ },
+ {
+  "name": "M32-e_Constant-unknown",
+  "family": "constant-check",
+  "note": "a literal constant is unknown instead of a known value",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M32-e_Constant-unknown.py"
+ },
+ {
+  "name": "M33-known-k-modules-drop-os",
+  "family": "constant-check",
+  "note": "the 'os' module is not a known-value module",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M33-known-k-modules-drop-os.py"
+ },
+ {
+  "name": "M34-exist-q-drop-os-path-exists",
+  "family": "exist-query",
+  "note": "os.path.exists is not an existence query",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M34-exist-q-drop-os-path-exists.py"
+ },
+ {
+  "name": "M35-list-m-drop-iterdir",
+  "family": "list-query",
+  "note": "Path.iterdir is not a listing method",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M35-list-m-drop-iterdir.py"
+ },
+ {
+  "name": "M36-pure-q-drop-pathlib",
+  "family": "constant-check",
+  "note": "pathlib.Path is not a pure-value constructor",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M36-pure-q-drop-pathlib.py"
+ },
+ {
+  "name": "M37-membership-not-a-predicate",
+  "family": "comparison",
+  "note": "membership over names is not an existence predicate",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M37-membership-not-a-predicate.py"
+ },
+ {
+  "name": "M38-write-count-not-a-count",
+  "family": "write-vs-read",
+  "note": "a write that returns a byte count is not a count value",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M38-write-count-not-a-count.py"
+ },
+ {
+  "name": "M39-mutate-drops-var",
+  "family": "write-vs-read",
+  "note": "a mutating call does not update the variable it mutates",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M39-mutate-drops-var.py"
+ },
+ {
+  "name": "M40-class-attr-self-only",
+  "family": "helper-visit",
+  "note": "a class attribute is only read from the exact class, not its chain",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M40-class-attr-self-only.py"
+ },
+ {
+  "name": "M41-fixture-autouse-dropped",
+  "family": "helper-visit",
+  "note": "an autouse fixture is not run",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M41-fixture-autouse-dropped.py"
+ },
+ {
+  "name": "M42-tmp-fixtures-dropped",
+  "family": "helper-visit",
+  "note": "tmp_path/tmpdir are not pure fixtures",
+  "path": "/fast/scratch/hyaku/kengaku-r53/C1MutClassifier/mutants/M42-tmp-fixtures-dropped.py"
+ }
+]

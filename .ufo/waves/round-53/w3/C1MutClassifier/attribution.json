@@ -1,0 +1,1482 @@
+[
+ {
+  "mutant": "M01-join-KN-to-K",
+  "r1_selftest_cases_differing": 0,
+  "r1_first": [],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 0,
+  "r3_class_moved": 0,
+  "r3_first": [],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M02-join-KL-to-N",
+  "r1_selftest_cases_differing": 0,
+  "r1_first": [],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 0,
+  "r3_class_moved": 0,
+  "r3_first": [],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M03-join-BQ-to-B",
+  "r1_selftest_cases_differing": 0,
+  "r1_first": [],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 0,
+  "r3_class_moved": 0,
+  "r3_first": [],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M04-join_all-empty-to-X",
+  "r1_selftest_cases_differing": 0,
+  "r1_first": [],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 0,
+  "r3_class_moved": 0,
+  "r3_first": [],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M05-is_num_const-accepts-bool",
+  "r1_selftest_cases_differing": 0,
+  "r1_first": [],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 0,
+  "r3_class_moved": 0,
+  "r3_first": [],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M06-request-param-to-X",
+  "r1_selftest_cases_differing": 1,
+  "r1_first": [
+   {
+    "case": "request.param fixture used in a path Y",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['.exists() on an unknown/content value@9', 'assertion depends on content/value/unknown@9']"
+    ]
+   }
+  ],
+  "r2_adv_cases_differing": 1,
+  "r2_first": [
+   {
+    "case": "reach-fixture-value-assertions",
+    "diff": [
+     "test_fixture_with_params: class P1->P0",
+     "test_fixture_with_params: reasons [] -> ['.exists() on an unknown/content value@36', 'assertion depends on content/value/unknown@36']"
+    ]
+   }
+  ],
+  "r3_pop_ids_differing": 0,
+  "r3_class_moved": 0,
+  "r3_first": [],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M07-boolop-drop-B-branch",
+  "r1_selftest_cases_differing": 0,
+  "r1_first": [],
+  "r2_adv_cases_differing": 1,
+  "r2_first": [
+   {
+    "case": "reach-mutual-recursion-clean",
+    "diff": [
+     "test_even: class P1->P0",
+     "test_even: reasons [] -> ['assertion depends on content/value/unknown@21']"
+    ]
+   }
+  ],
+  "r3_pop_ids_differing": 0,
+  "r3_class_moved": 0,
+  "r3_first": [],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M08-existq-B-to-K",
+  "r1_selftest_cases_differing": 19,
+  "r1_first": [
+   {
+    "case": "spec3 isfile and isdir",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['assertion depends on no path state (constant/computed value)@6']"
+    ]
+   },
+   {
+    "case": "helper chain depth 3",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['assertion depends on no path state (constant/computed value)@9']"
+    ]
+   },
+   {
+    "case": "recursion Y",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['assertion depends on no path state (constant/computed value)@9']"
+    ]
+   }
+  ],
+  "r2_adv_cases_differing": 41,
+  "r2_first": [
+   {
+    "case": "ex-3-isfile-and-isdir",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['assertion depends on no path state (constant/computed value)@13']"
+    ]
+   },
+   {
+    "case": "ex-9-all-examples-one-module",
+    "diff": [
+     "test_c: class P1->P0",
+     "test_c: reasons [] -> ['assertion depends on no path state (constant/computed value)@31']"
+    ]
+   },
+   {
+    "case": "cl1-assert-statement-kinds",
+    "diff": [
+     "test_plain: class P1->P0",
+     "test_plain: reasons [] -> ['assertion depends on no path state (constant/computed value)@13']",
+     "test_two_asserts: class P1->P0",
+     "test_two_asserts: reasons [] -> ['assertion depends on no path state (constant/computed value)@21', 'assertion depends on no path state (constant/computed value)@22']"
+    ]
+   }
+  ],
+  "r3_pop_ids_differing": 26,
+  "r3_class_moved": 10,
+  "r3_first": [
+   {
+    "id": "crack-7z-hash::test_solution_file",
+    "diff": [
+     "class P1->P0",
+     "reasons [] -> ['assertion depends on no path state (constant/computed value)@12']"
+    ]
+   },
+   {
+    "id": "custom-memory-heap-crash::test_protected_files_not_modified",
+    "diff": [
+     "same class P0, reasons ['call into hashlib.md5 (not a plain existence predicate)@21', 'open() reads a file@22'] -> ['call into hashlib.md5 (not a plain existence predicate)@21', 'open() reads a file@22']"
+    ]
+   },
+   {
+    "id": "custom-memory-heap-crash::test_program_compiles_debug",
+    "diff": [
+     "same class P0, reasons ['call into subprocess.run (not a plain existence predicate)@88', 'branch on unknown/content value@90'] -> ['call into subprocess.run (not a plain existence predicate)@88', 'branch on unknown/content value@90']"
+    ]
+   }
+  ],
+  "oracle_disagree": 10,
+  "class_equivalent": false
+ },
+ {
+  "mutant": "M09-listq-drop-scandir",
+  "r1_selftest_cases_differing": 0,
+  "r1_first": [],
+  "r2_adv_cases_differing": 1,
+  "r2_first": [
+   {
+    "case": "cl2-listing-membership",
+    "diff": [
+     "test_scandir: class P1->P0",
+     "test_scandir: reasons [] -> ['os.scandir (size/stat/exec/mutation/other os call)@30', 'assertion depends on content/value/unknown@30']"
+    ]
+   }
+  ],
+  "r3_pop_ids_differing": 0,
+  "r3_class_moved": 0,
+  "r3_first": [],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M10-cmp-count-not-flagged",
+  "r1_selftest_cases_differing": 7,
+  "r1_first": [
+   {
+    "case": "glob via len > 0 is a count N",
+    "diff": [
+     "test_f: reasons ['count/size comparison (a count is a value, not a path state)@7', 'assertion depends on content/value/unknown@7'] -> ['assertion depends on no path state (constant/computed value)@7']"
+    ]
+   },
+   {
+    "case": "len(listdir) == 3 count N",
+    "diff": [
+     "test_f: reasons ['count/size comparison (a count is a value, not a path state)@6', 'assertion depends on content/value/unknown@6'] -> ['assertion depends on no path state (constant/computed value)@6']"
+    ]
+   },
+   {
+    "case": "len(listdir) >= 3 count N",
+    "diff": [
+     "test_f: reasons ['count/size comparison (a count is a value, not a path state)@6', 'assertion depends on content/value/unknown@6'] -> ['assertion depends on no path state (constant/computed value)@6']"
+    ]
+   }
+  ],
+  "r2_adv_cases_differing": 6,
+  "r2_first": [
+   {
+    "case": "cl2-glob-nonempty",
+    "diff": [
+     "test_glob_count_eq: reasons ['count/size comparison (a count is a value, not a path state)@29', 'assertion depends on content/value/unknown@29'] -> ['assertion depends on no path state (constant/computed value)@29']"
+    ]
+   },
+   {
+    "case": "cl2-listing-counts",
+    "diff": [
+     "test_len_eq: reasons ['count/size comparison (a count is a value, not a path state)@13', 'assertion depends on content/value/unknown@13'] -> ['assertion depends on no path state (constant/computed value)@13']",
+     "test_len_gt: reasons ['count/size comparison (a count is a value, not a path state)@17', 'assertion depends on content/value/unknown@17'] -> ['assertion depends on no path state (constant/computed value)@17']",
+     "test_len_iterdir: reasons ['count/size comparison (a count is a value, not a path state)@21', 'assertion depends on content/value/unknown@21'] -> ['assertion depends on no path state (constant/computed value)@21']"
+    ]
+   },
+   {
+    "case": "cl2n-computed-value-compare",
+    "diff": [
+     "test_len_compare: reasons ['count/size comparison (a count is a value, not a path state)@22', 'assertion depends on content/value/unknown@22'] -> ['assertion depends on no path state (constant/computed value)@22']"
+    ]
+   }
+  ],
+  "r3_pop_ids_differing": 4,
+  "r3_class_moved": 0,
+  "r3_first": [
+   {
+    "id": "financial-document-processor::test_original_documents_dir_empty",
+    "diff": [
+     "same class P0, reasons ['count/size comparison (a count is a value, not a path state)@224', 'assertion depends on content/value/unknown@224'] -> ['assertion depends on no path state (constant/computed value)@224']"
+    ]
+   },
+   {
+    "id": "install-windows-3.11::test_windows_311_core_files_verification",
+    "diff": [
+     "same class P0, reasons ['call into tempfile.TemporaryDirectory (not a plain existence predicate)@265', 'call into subprocess.run (not a plain existence predicate)@309'] -> ['call into tempfile.TemporaryDirectory (not a plain existence predicate)@265', 'call into subprocess.run (not a plain existence predicate)@309']"
+    ]
+   },
+   {
+    "id": "schemelike-metacircular-eval::test_interp",
+    "diff": [
+     "same class P0, reasons ['call into tempfile.TemporaryDirectory (not a plain existence predicate)@130', 'open() reads a file@101'] -> ['call into tempfile.TemporaryDirectory (not a plain existence predicate)@130', 'open() reads a file@101']"
+    ]
+   }
+  ],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M11-const-cmp-in-assert-allowed",
+  "r1_selftest_cases_differing": 2,
+  "r1_first": [
+   {
+    "case": "constant assertion only N",
+    "diff": [
+     "test_f: reasons ['value comparison of computed values@6', 'assertion depends on content/value/unknown@6'] -> ['assertion depends on no path state (constant/computed value)@6']"
+    ]
+   },
+   {
+    "case": "value arithmetic inside the assertion condition N",
+    "diff": [
+     "test_f: class P0->P1",
+     "test_f: reasons ['value comparison of computed values@6', 'assertion depends on content/value/unknown@6'] -> []"
+    ]
+   }
+  ],
+  "r2_adv_cases_differing": 6,
+  "r2_first": [
+   {
+    "case": "cl1-mixed-vacuous-assert",
+    "diff": [
+     "test_f: reasons ['value comparison of computed values@14', 'assertion depends on content/value/unknown@14'] -> ['assertion depends on no path state (constant/computed value)@14']"
+    ]
+   },
+   {
+    "case": "cl1-assert-no-path",
+    "diff": [
+     "test_arith: reasons ['value comparison of computed values@13', 'assertion depends on content/value/unknown@13'] -> ['assertion depends on no path state (constant/computed value)@13']",
+     "test_str: reasons ['value comparison of computed values@17', 'assertion depends on content/value/unknown@17'] -> ['assertion depends on no path state (constant/computed value)@17']"
+    ]
+   },
+   {
+    "case": "cl2-no-path-obj-attrs",
+    "diff": [
+     "test_name_cmp: reasons ['value comparison of computed values@19', 'assertion depends on content/value/unknown@19'] -> ['assertion depends on no path state (constant/computed value)@19']"
+    ]
+   }
+  ],
+  "r3_pop_ids_differing": 3,
+  "r3_class_moved": 0,
+  "r3_first": [
+   {
+    "id": "circuit-fibsqrt::test_gates_file_size",
+    "diff": [
+     "same class P0, reasons ['open() reads a file@20', 'value comparison of computed values@23'] -> ['open() reads a file@20', 'assertion depends on no path state (constant/computed value)@23']"
+    ]
+   },
+   {
+    "id": "video-processing::test_jump_analyzer_example_video",
+    "diff": [
+     "same class P0, reasons ['call into subprocess.run (not a plain existence predicate)@28', 'assertion depends on content/value/unknown@35'] -> ['call into subprocess.run (not a plain existence predicate)@28', 'assertion depends on content/value/unknown@35']"
+    ]
+   },
+   {
+    "id": "video-processing::test_jump_analyzer_test_video",
+    "diff": [
+     "same class P0, reasons ['call into subprocess.run (not a plain existence predicate)@28', 'assertion depends on content/value/unknown@35'] -> ['call into subprocess.run (not a plain existence predicate)@28', 'assertion depends on content/value/unknown@35']"
+    ]
+   }
+  ],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M12-record-assert-constant-ok",
+  "r1_selftest_cases_differing": 0,
+  "r1_first": [],
+  "r2_adv_cases_differing": 1,
+  "r2_first": [
+   {
+    "case": "cl1-assert-no-path",
+    "diff": [
+     "test_env: class P0->P1",
+     "test_env: reasons ['assertion depends on no path state (constant/computed value)@21'] -> []"
+    ]
+   }
+  ],
+  "r3_pop_ids_differing": 4,
+  "r3_class_moved": 0,
+  "r3_first": [
+   {
+    "id": "break-filter-js-from-html::test_out_html_bypasses_filter",
+    "diff": [
+     "same class P0, reasons ['call into tempfile.NamedTemporaryFile (not a plain existence predicate)@28', '.read_text() on a path/name (read/write/stat/command)@30'] -> ['call into tempfile.NamedTemporaryFile (not a plain existence predicate)@28', '.read_text() on a path/name (read/write/stat/command)@30']"
+    ]
+   },
+   {
+    "id": "constraints-scheduling::test_constraints_conflicts_business_hours",
+    "diff": [
+     "same class P0, reasons ['.read_text() on a path/name (read/write/stat/command)@14', 're over fs-derived data@41'] -> ['.read_text() on a path/name (read/write/stat/command)@14', 're over fs-derived data@41']"
+    ]
+   },
+   {
+    "id": "large-scale-text-editing::test_apply_macros_well_formed",
+    "diff": [
+     "same class P0, reasons ['.read_text() on a path/name (read/write/stat/command)@133', '.split() on an unknown/content value@137'] -> ['.read_text() on a path/name (read/write/stat/command)@133', '.split() on an unknown/content value@137']"
+    ]
+   }
+  ],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M13-record-assert-unknown-ok",
+  "r1_selftest_cases_differing": 26,
+  "r1_first": [
+   {
+    "case": "spec2 content",
+    "diff": [
+     "test_f: reasons ['.read_text() on a path/name (read/write/stat/command)@7', '.strip() on an unknown/content value@7', 'assertion depends on content/value/unknown@7'] -> ['.read_text() on a path/name (read/write/stat/command)@7', '.strip() on an unknown/content value@7']"
+    ]
+   },
+   {
+    "case": "spec4 size",
+    "diff": [
+     "test_f: reasons ['os.path.getsize (size/stat/exec/mutation/other os call)@6', 'assertion depends on content/value/unknown@6'] -> ['os.path.getsize (size/stat/exec/mutation/other os call)@6']"
+    ]
+   },
+   {
+    "case": "spec7 helper N",
+    "diff": [
+     "test_f: reasons ['.read_text() on a path/name (read/write/stat/command)@6', 'call into json.loads (not a plain existence predicate)@6', 'assertion depends on content/value/unknown@7'] -> ['.read_text() on a path/name (read/write/stat/command)@6', 'call into json.loads (not a plain existence predicate)@6']"
+    ]
+   }
+  ],
+  "r2_adv_cases_differing": 52,
+  "r2_first": [
+   {
+    "case": "ex-2-content-strip",
+    "diff": [
+     "test_f: reasons ['.read_text() on a path/name (read/write/stat/command)@15', '.strip() on an unknown/content value@15', 'assertion depends on content/value/unknown@15'] -> ['.read_text() on a path/name (read/write/stat/command)@15', '.strip() on an unknown/content value@15']"
+    ]
+   },
+   {
+    "case": "ex-4-getsize",
+    "diff": [
+     "test_f: reasons ['os.path.getsize (size/stat/exec/mutation/other os call)@13', 'assertion depends on content/value/unknown@13'] -> ['os.path.getsize (size/stat/exec/mutation/other os call)@13']"
+    ]
+   },
+   {
+    "case": "ex-7-helper-json",
+    "diff": [
+     "test_f: reasons ['.read_text() on a path/name (read/write/stat/command)@13', 'call into json.loads (not a plain existence predicate)@13', 'assertion depends on content/value/unknown@17'] -> ['.read_text() on a path/name (read/write/stat/command)@13', 'call into json.loads (not a plain existence predicate)@13']"
+    ]
+   }
+  ],
+  "r3_pop_ids_differing": 229,
+  "r3_class_moved": 0,
+  "r3_first": [
+   {
+    "id": "adaptive-rejection-sampler::test_ars_function_exists",
+    "diff": [
+     "same class P0, reasons ['.read_text() on a path/name (read/write/stat/command)@24', 're over fs-derived data@26'] -> ['.read_text() on a path/name (read/write/stat/command)@24', 're over fs-derived data@26']"
+    ]
+   },
+   {
+    "id": "adaptive-rejection-sampler::test_can_generate_standard_distribution_samples",
+    "diff": [
+     "same class P0, reasons ['call into subprocess.run (not a plain existence predicate)@73', 'assertion depends on content/value/unknown@81'] -> ['call into subprocess.run (not a plain existence predicate)@73']"
+    ]
+   },
+   {
+    "id": "adaptive-rejection-sampler::test_formal_testing_with_known_truth",
+    "diff": [
+     "same class P0, reasons ['call into subprocess.run (not a plain existence predicate)@131', 'assertion depends on content/value/unknown@141'] -> ['call into subprocess.run (not a plain existence predicate)@131', '.lower() on an unknown/content value@147']"
+    ]
+   }
+  ],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M14-unconditional-fail-ok",
+  "r1_selftest_cases_differing": 2,
+  "r1_first": [
+   {
+    "case": "unconditional pytest.fail is not existence",
+    "diff": [
+     "test_f: reasons ['unconditional or constant-guarded failure@7'] -> ['no assertion reached that tests path existence']"
+    ]
+   },
+   {
+    "case": "in-test import of third party N",
+    "diff": [
+     "test_f: reasons ['unconditional or constant-guarded failure@10'] -> ['no assertion reached that tests path existence']"
+    ]
+   }
+  ],
+  "r2_adv_cases_differing": 2,
+  "r2_first": [
+   {
+    "case": "cl1-unconditional-fail-or-raise",
+    "diff": [
+     "test_fail: reasons ['unconditional or constant-guarded failure@13'] -> ['no assertion reached that tests path existence']",
+     "test_raise: reasons ['unconditional or constant-guarded failure@17'] -> ['no assertion reached that tests path existence']"
+    ]
+   },
+   {
+    "case": "fail-branches-content",
+    "diff": [
+     "test_fail_value_cmp: reasons ['unconditional or constant-guarded failure@42'] -> ['no assertion reached that tests path existence']"
+    ]
+   }
+  ],
+  "r3_pop_ids_differing": 29,
+  "r3_class_moved": 0,
+  "r3_first": [
+   {
+    "id": "build-pmars::test_pmars_works",
+    "diff": [
+     "same class P0, reasons ['call into subprocess.check_output (not a plain existence predicate)@12', '.strip() on an unknown/content value@12'] -> ['call into subprocess.check_output (not a plain existence predicate)@12', '.strip() on an unknown/content value@12']"
+    ]
+   },
+   {
+    "id": "build-pmars::test_headless_no_x11",
+    "diff": [
+     "same class P0, reasons ['call into subprocess.check_output (not a plain existence predicate)@12', '.strip() on an unknown/content value@12'] -> ['call into subprocess.check_output (not a plain existence predicate)@12', '.strip() on an unknown/content value@12']"
+    ]
+   },
+   {
+    "id": "build-pov-ray::test_illum1_render_and_verify",
+    "diff": [
+     "same class P0, reasons ['call into subprocess.run (not a plain existence predicate)@15', 'branch on unknown/content value@38'] -> ['call into subprocess.run (not a plain existence predicate)@15', 'branch on unknown/content value@38']"
+    ]
+   }
+  ],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M15-open-write-modes-drop-w",
+  "r1_selftest_cases_differing": 1,
+  "r1_first": [
+   {
+    "case": "write-mode open then exists Y",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['open() reads a file@7', '.write() on an unknown/content value@8']"
+    ]
+   }
+  ],
+  "r2_adv_cases_differing": 1,
+  "r2_first": [
+   {
+    "case": "cl2-writes-are-not-reads",
+    "diff": [
+     "test_open_a: class P1->P0",
+     "test_open_a: reasons [] -> ['open() reads a file@25', '.write() on an unknown/content value@26']",
+     "test_open_mode_kw: class P1->P0",
+     "test_open_mode_kw: reasons [] -> ['open() reads a file@31', '.close() on an unknown/content value@31']"
+    ]
+   }
+  ],
+  "r3_pop_ids_differing": 3,
+  "r3_class_moved": 0,
+  "r3_first": [
+   {
+    "id": "extract-elf::test_output_matches_reference",
+    "diff": [
+     "same class P0, reasons ['call into subprocess.run (not a plain existence predicate)@333', 'assertion depends on content/value/unknown@336'] -> ['open() reads a file@321', '.write() on an unknown/content value@322']"
+    ]
+   },
+   {
+    "id": "git-multibranch::test_multi_branch_https_deploy",
+    "diff": [
+     "same class P0, reasons ['os.popen (size/stat/exec/mutation/other os call)@96', '.read() on an unknown/content value@96'] -> ['open() reads a file@8', '.write() on an unknown/content value@8']"
+    ]
+   },
+   {
+    "id": "qemu-startup::test_version",
+    "diff": [
+     "same class P0, reasons ['os.popen (size/stat/exec/mutation/other os call)@56', '.read() on an unknown/content value@56'] -> ['open() reads a file@54', '.write() on an unknown/content value@55']"
+    ]
+   }
+  ],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M16-all-over-listing-allowed",
+  "r1_selftest_cases_differing": 1,
+  "r1_first": [
+   {
+    "case": "all() over a listing is universal N",
+    "diff": [
+     "test_f: class P0->P1",
+     "test_f: reasons ['all(...) over a listing (universal: depends on absence of other entries)@6', 'assertion depends on content/value/unknown@6'] -> []"
+    ]
+   }
+  ],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 0,
+  "r3_class_moved": 0,
+  "r3_first": [],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M17-try-handler-never-path-state",
+  "r1_selftest_cases_differing": 1,
+  "r1_first": [
+   {
+    "case": "try/except pytest.fail Y",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['unconditional or constant-guarded failure@10']"
+    ]
+   }
+  ],
+  "r2_adv_cases_differing": 1,
+  "r2_first": [
+   {
+    "case": "struct-with-and-try",
+    "diff": [
+     "test_try_except: class P1->P0",
+     "test_try_except: reasons [] -> ['unconditional or constant-guarded failure@24']"
+    ]
+   }
+  ],
+  "r3_pop_ids_differing": 1,
+  "r3_class_moved": 0,
+  "r3_first": [
+   {
+    "id": "install-windows-3.11::test_windows_keys_with_visual_feedback",
+    "diff": [
+     "same class P0, reasons ['call into subprocess.run (not a plain existence predicate)@358', 'assertion depends on content/value/unknown@358'] -> ['call into subprocess.run (not a plain existence predicate)@358', 'assertion depends on content/value/unknown@358']"
+    ]
+   }
+  ],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M18-if-exit-guard-without-exits",
+  "r1_selftest_cases_differing": 0,
+  "r1_first": [],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 5,
+  "r3_class_moved": 0,
+  "r3_first": [
+   {
+    "id": "build-pov-ray::test_illum1_render_and_verify",
+    "diff": [
+     "same class P0, reasons ['call into subprocess.run (not a plain existence predicate)@15', 'branch on unknown/content value@38'] -> ['call into subprocess.run (not a plain existence predicate)@15', 'branch on unknown/content value@38']"
+    ]
+   },
+   {
+    "id": "mcmc-sampling-stan::test_stan_model_sampling",
+    "diff": [
+     "same class P0, reasons ['call into subprocess.run (not a plain existence predicate)@149', 're over fs-derived data@163'] -> ['call into subprocess.run (not a plain existence predicate)@149', 're over fs-derived data@163']"
+    ]
+   },
+   {
+    "id": "rstan-to-pystan::test_alpha_estimation_accuracy",
+    "diff": [
+     "same class P0, reasons ['open() reads a file@74', '.read() on an unknown/content value@75'] -> ['open() reads a file@74', '.read() on an unknown/content value@75']"
+    ]
+   }
+  ],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M19-for-break-guard-any",
+  "r1_selftest_cases_differing": 0,
+  "r1_first": [],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 0,
+  "r3_class_moved": 0,
+  "r3_first": [],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M20-no-assertion-reason-dropped",
+  "r1_selftest_cases_differing": 2,
+  "r1_first": [
+   {
+    "case": "spec8 pass",
+    "diff": [
+     "test_f: class P0->P1",
+     "test_f: reasons ['no assertion reached that tests path existence'] -> []"
+    ]
+   },
+   {
+    "case": "no assertion N",
+    "diff": [
+     "test_f: class P0->P1",
+     "test_f: reasons ['no assertion reached that tests path existence'] -> []"
+    ]
+   }
+  ],
+  "r2_adv_cases_differing": 10,
+  "r2_first": [
+   {
+    "case": "ex-8-pass",
+    "diff": [
+     "test_f: class P0->P1",
+     "test_f: reasons ['no assertion reached that tests path existence'] -> []"
+    ]
+   },
+   {
+    "case": "ex-9-all-examples-one-module",
+    "diff": [
+     "test_i: class P0->P1",
+     "test_i: reasons ['no assertion reached that tests path existence'] -> []"
+    ]
+   },
+   {
+    "case": "cl1-no-assert-forms",
+    "diff": [
+     "test_assert_in_string: class P0->P1",
+     "test_assert_in_string: reasons ['no assertion reached that tests path existence'] -> []",
+     "test_bare_expr: class P0->P1",
+     "test_bare_expr: reasons ['no assertion reached that tests path existence'] -> []"
+    ]
+   }
+  ],
+  "r3_pop_ids_differing": 1,
+  "r3_class_moved": 1,
+  "r3_first": [
+   {
+    "id": "headless-terminal::test_import",
+    "diff": [
+     "class P0->P1",
+     "reasons ['no assertion reached that tests path existence'] -> []"
+    ]
+   }
+  ],
+  "oracle_disagree": 1,
+  "class_equivalent": false
+ },
+ {
+  "mutant": "M21-async-fixture-not-scanned",
+  "r1_selftest_cases_differing": 0,
+  "r1_first": [],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 0,
+  "r3_class_moved": 0,
+  "r3_first": [],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M22-async-test-not-a-unit",
+  "r1_selftest_cases_differing": 0,
+  "r1_first": [],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 0,
+  "r3_class_moved": 0,
+  "r3_first": [],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M23-decorators-as-body",
+  "r1_selftest_cases_differing": 0,
+  "r1_first": [],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 0,
+  "r3_class_moved": 0,
+  "r3_first": [],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M24-parametrize-listing-K",
+  "r1_selftest_cases_differing": 0,
+  "r1_first": [],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 0,
+  "r3_class_moved": 0,
+  "r3_first": [],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M25-elem-listing-to-K",
+  "r1_selftest_cases_differing": 0,
+  "r1_first": [],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 0,
+  "r3_class_moved": 0,
+  "r3_first": [],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M26-subscript-pick-is-listing",
+  "r1_selftest_cases_differing": 1,
+  "r1_first": [
+   {
+    "case": "pick first glob match then exists Y",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['arithmetic on fs-derived value@9', '.exists() on an unknown/content value@9', 'assertion depends on content/value/unknown@9']"
+    ]
+   }
+  ],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 2,
+  "r3_class_moved": 2,
+  "r3_first": [
+   {
+    "id": "build-pmars::test_debian_source_used",
+    "diff": [
+     "class P1->P0",
+     "reasons [] -> ['arithmetic on fs-derived value@69', '.exists() on an unknown/content value@70']"
+    ]
+   },
+   {
+    "id": "build-pmars::test_built_from_source",
+    "diff": [
+     "class P1->P0",
+     "reasons [] -> ['arithmetic on fs-derived value@81', '.exists() on an unknown/content value@82']"
+    ]
+   }
+  ],
+  "oracle_disagree": 2,
+  "class_equivalent": false
+ },
+ {
+  "mutant": "M27-assert-context-flag-off",
+  "r1_selftest_cases_differing": 2,
+  "r1_first": [
+   {
+    "case": "constant assertion only N",
+    "diff": [
+     "test_f: reasons ['value comparison of computed values@6', 'assertion depends on content/value/unknown@6'] -> ['assertion depends on no path state (constant/computed value)@6']"
+    ]
+   },
+   {
+    "case": "value arithmetic inside the assertion condition N",
+    "diff": [
+     "test_f: class P0->P1",
+     "test_f: reasons ['value comparison of computed values@6', 'assertion depends on content/value/unknown@6'] -> []"
+    ]
+   }
+  ],
+  "r2_adv_cases_differing": 6,
+  "r2_first": [
+   {
+    "case": "cl1-mixed-vacuous-assert",
+    "diff": [
+     "test_f: reasons ['value comparison of computed values@14', 'assertion depends on content/value/unknown@14'] -> ['assertion depends on no path state (constant/computed value)@14']"
+    ]
+   },
+   {
+    "case": "cl1-assert-no-path",
+    "diff": [
+     "test_arith: reasons ['value comparison of computed values@13', 'assertion depends on content/value/unknown@13'] -> ['assertion depends on no path state (constant/computed value)@13']",
+     "test_str: reasons ['value comparison of computed values@17', 'assertion depends on content/value/unknown@17'] -> ['assertion depends on no path state (constant/computed value)@17']"
+    ]
+   },
+   {
+    "case": "cl2-no-path-obj-attrs",
+    "diff": [
+     "test_name_cmp: reasons ['value comparison of computed values@19', 'assertion depends on content/value/unknown@19'] -> ['assertion depends on no path state (constant/computed value)@19']"
+    ]
+   }
+  ],
+  "r3_pop_ids_differing": 3,
+  "r3_class_moved": 0,
+  "r3_first": [
+   {
+    "id": "circuit-fibsqrt::test_gates_file_size",
+    "diff": [
+     "same class P0, reasons ['open() reads a file@20', 'value comparison of computed values@23'] -> ['open() reads a file@20', 'assertion depends on no path state (constant/computed value)@23']"
+    ]
+   },
+   {
+    "id": "video-processing::test_jump_analyzer_example_video",
+    "diff": [
+     "same class P0, reasons ['call into subprocess.run (not a plain existence predicate)@28', 'assertion depends on content/value/unknown@35'] -> ['call into subprocess.run (not a plain existence predicate)@28', 'assertion depends on content/value/unknown@35']"
+    ]
+   },
+   {
+    "id": "video-processing::test_jump_analyzer_test_video",
+    "diff": [
+     "same class P0, reasons ['call into subprocess.run (not a plain existence predicate)@28', 'assertion depends on content/value/unknown@35'] -> ['call into subprocess.run (not a plain existence predicate)@28', 'assertion depends on content/value/unknown@35']"
+    ]
+   }
+  ],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M28-implicit-setup-off",
+  "r1_selftest_cases_differing": 2,
+  "r1_first": [
+   {
+    "case": "unittest self.assertTrue exists + setUp attr",
+    "diff": [
+     "T.test_x: class P1->P0",
+     "T.test_x: reasons [] -> ['.exists() on an unknown/content value@9', 'assertion depends on content/value/unknown@9']"
+    ]
+   },
+   {
+    "case": "unittest setUp runs a command",
+    "diff": [
+     "T.test_x: class P0->P1",
+     "T.test_x: reasons ['call into subprocess.run (not a plain existence predicate)@8'] -> []"
+    ]
+   }
+  ],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 4,
+  "r3_class_moved": 0,
+  "r3_first": [
+   {
+    "id": "overfull-hbox::test_main_synonyms_not_modified",
+    "diff": [
+     "same class P0, reasons ['os.system (size/stat/exec/mutation/other os call)@18', 'call into shutil.copy2 (not a plain existence predicate)@19'] -> ['open() reads a file@33', '.read() on an unknown/content value@34']"
+    ]
+   },
+   {
+    "id": "overfull-hbox::test_compilation_successful",
+    "diff": [
+     "same class P0, reasons ['os.system (size/stat/exec/mutation/other os call)@18', 'call into shutil.copy2 (not a plain existence predicate)@19'] -> ['open() reads a file@54', '.read() on an unknown/content value@55']"
+    ]
+   },
+   {
+    "id": "overfull-hbox::test_no_overfull_hboxes",
+    "diff": [
+     "same class P0, reasons ['os.system (size/stat/exec/mutation/other os call)@18', 'call into shutil.copy2 (not a plain existence predicate)@19'] -> ['open() reads a file@65', '.read() on an unknown/content value@66']"
+    ]
+   }
+  ],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M29-class-chain-no-inheritance",
+  "r1_selftest_cases_differing": 0,
+  "r1_first": [],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 0,
+  "r3_class_moved": 0,
+  "r3_first": [],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M30-module-helper-not-registered",
+  "r1_selftest_cases_differing": 6,
+  "r1_first": [
+   {
+    "case": "spec6 helper Y",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['call into undefined name _ok@7', 'assertion depends on content/value/unknown@7']"
+    ]
+   },
+   {
+    "case": "spec7 helper N",
+    "diff": [
+     "test_f: reasons ['.read_text() on a path/name (read/write/stat/command)@6', 'call into json.loads (not a plain existence predicate)@6', 'assertion depends on content/value/unknown@7'] -> ['call into undefined name _ok@7', 'assertion depends on content/value/unknown@7']"
+    ]
+   },
+   {
+    "case": "helper chain depth 3",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['call into undefined name c@9', 'assertion depends on content/value/unknown@9']"
+    ]
+   }
+  ],
+  "r2_adv_cases_differing": 19,
+  "r2_first": [
+   {
+    "case": "ex-6-helper-exists",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['call into undefined name _ok@17', 'assertion depends on content/value/unknown@17']"
+    ]
+   },
+   {
+    "case": "ex-7-helper-json",
+    "diff": [
+     "test_f: reasons ['.read_text() on a path/name (read/write/stat/command)@13', 'call into json.loads (not a plain existence predicate)@13', 'assertion depends on content/value/unknown@17'] -> ['call into undefined name _ok@17', 'assertion depends on content/value/unknown@17']"
+    ]
+   },
+   {
+    "case": "ex-9-all-examples-one-module",
+    "diff": [
+     "test_g: class P1->P0",
+     "test_g: reasons [] -> ['call into undefined name _ok@44', 'assertion depends on content/value/unknown@44']",
+     "test_h: reasons ['.read_text() on a path/name (read/write/stat/command)@17', 'call into json.loads (not a plain existence predicate)@17', 'assertion depends on content/value/unknown@48'] -> ['call into undefined name _ok2@48', 'assertion depends on content/value/unknown@48']"
+    ]
+   }
+  ],
+  "r3_pop_ids_differing": 60,
+  "r3_class_moved": 0,
+  "r3_first": [
+   {
+    "id": "build-pmars::test_pmars_works",
+    "diff": [
+     "same class P0, reasons ['call into subprocess.check_output (not a plain existence predicate)@12', '.strip() on an unknown/content value@12'] -> ['call into undefined name run_shell_command@27', 'call into undefined name run_shell_command@28']"
+    ]
+   },
+   {
+    "id": "build-pmars::test_headless_no_x11",
+    "diff": [
+     "same class P0, reasons ['call into subprocess.check_output (not a plain existence predicate)@12', '.strip() on an unknown/content value@12'] -> ['call into undefined name run_shell_command@53', 'assertion depends on content/value/unknown@57']"
+    ]
+   },
+   {
+    "id": "build-pov-ray::test_povray_built_from_correct_source",
+    "diff": [
+     "same class P0, reasons ['call into hashlib.md5 (not a plain existence predicate)@142', 'open() reads a file@143'] -> ['call into undefined name calculate_md5@120', 'assertion depends on content/value/unknown@121']"
+    ]
+   }
+  ],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M31-is_bool_const-any-constant",
+  "r1_selftest_cases_differing": 0,
+  "r1_first": [],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 0,
+  "r3_class_moved": 0,
+  "r3_first": [],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M32-e_Constant-unknown",
+  "r1_selftest_cases_differing": 72,
+  "r1_first": [
+   {
+    "case": "spec1 exists",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['.exists() on an unknown/content value@6', 'assertion depends on content/value/unknown@6']"
+    ]
+   },
+   {
+    "case": "spec2 content",
+    "diff": [
+     "test_f: reasons ['.read_text() on a path/name (read/write/stat/command)@7', '.strip() on an unknown/content value@7', 'assertion depends on content/value/unknown@7'] -> ['.exists() on an unknown/content value@7', 'assertion depends on content/value/unknown@7', '.read_text() on an unknown/content value@7', '.strip() on an unknown/content value@7', 'assertion depends on content/value/unknown@7']"
+    ]
+   },
+   {
+    "case": "spec3 isfile and isdir",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['assertion depends on content/value/unknown@6']"
+    ]
+   }
+  ],
+  "r2_adv_cases_differing": 87,
+  "r2_first": [
+   {
+    "case": "ex-1-exists",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['.exists() on an unknown/content value@13', 'assertion depends on content/value/unknown@13']"
+    ]
+   },
+   {
+    "case": "ex-2-content-strip",
+    "diff": [
+     "test_f: reasons ['.read_text() on a path/name (read/write/stat/command)@15', '.strip() on an unknown/content value@15', 'assertion depends on content/value/unknown@15'] -> ['.exists() on an unknown/content value@14', 'assertion depends on content/value/unknown@14', '.read_text() on an unknown/content value@15', '.strip() on an unknown/content value@15', 'assertion depends on content/value/unknown@15']"
+    ]
+   },
+   {
+    "case": "ex-3-isfile-and-isdir",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['assertion depends on content/value/unknown@13']"
+    ]
+   }
+  ],
+  "r3_pop_ids_differing": 220,
+  "r3_class_moved": 52,
+  "r3_first": [
+   {
+    "id": "adaptive-rejection-sampler::test_ars_function_exists",
+    "diff": [
+     "same class P0, reasons ['.read_text() on a path/name (read/write/stat/command)@24', 're over fs-derived data@26'] -> ['.exists() on an unknown/content value@19', 'assertion depends on content/value/unknown@19']"
+    ]
+   },
+   {
+    "id": "adaptive-rejection-sampler::test_can_generate_standard_distribution_samples",
+    "diff": [
+     "same class P0, reasons ['call into subprocess.run (not a plain existence predicate)@73', 'assertion depends on content/value/unknown@81'] -> ['.write_text() on an unknown/content value@71', 'call into subprocess.run (not a plain existence predicate)@73']"
+    ]
+   },
+   {
+    "id": "adaptive-rejection-sampler::test_has_test_function",
+    "diff": [
+     "same class P0, reasons ['.read_text() on a path/name (read/write/stat/command)@99', 're over fs-derived data@101'] -> ['.glob() on an unknown/content value@94', '.read_text() on an unknown/content value@99']"
+    ]
+   }
+  ],
+  "oracle_disagree": 52,
+  "class_equivalent": false
+ },
+ {
+  "mutant": "M33-known-k-modules-drop-os",
+  "r1_selftest_cases_differing": 0,
+  "r1_first": [],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 0,
+  "r3_class_moved": 0,
+  "r3_first": [],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M34-exist-q-drop-os-path-exists",
+  "r1_selftest_cases_differing": 22,
+  "r1_first": [
+   {
+    "case": "helper chain depth 3",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['os.path.exists (size/stat/exec/mutation/other os call)@6', 'assertion depends on content/value/unknown@9']"
+    ]
+   },
+   {
+    "case": "recursion Y",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['os.path.exists (size/stat/exec/mutation/other os call)@8', 'assertion depends on content/value/unknown@9']"
+    ]
+   },
+   {
+    "case": "unittest setUp runs a command",
+    "diff": [
+     "T.test_x: reasons ['call into subprocess.run (not a plain existence predicate)@8'] -> ['call into subprocess.run (not a plain existence predicate)@8', 'os.path.exists (size/stat/exec/mutation/other os call)@9', 'assertion depends on content/value/unknown@9']"
+    ]
+   }
+  ],
+  "r2_adv_cases_differing": 40,
+  "r2_first": [
+   {
+    "case": "cl1-assert-statement-kinds",
+    "diff": [
+     "test_plain: class P1->P0",
+     "test_plain: reasons [] -> ['os.path.exists (size/stat/exec/mutation/other os call)@13', 'assertion depends on content/value/unknown@13']",
+     "test_two_asserts: class P1->P0",
+     "test_two_asserts: reasons [] -> ['os.path.exists (size/stat/exec/mutation/other os call)@21', 'assertion depends on content/value/unknown@21']"
+    ]
+   },
+   {
+    "case": "cl2-ospath-forms",
+    "diff": [
+     "test_exists: class P1->P0",
+     "test_exists: reasons [] -> ['os.path.exists (size/stat/exec/mutation/other os call)@13', 'assertion depends on content/value/unknown@13']",
+     "test_expanduser: class P1->P0",
+     "test_expanduser: reasons [] -> ['os.path.exists (size/stat/exec/mutation/other os call)@37', 'assertion depends on content/value/unknown@37']"
+    ]
+   },
+   {
+    "case": "cl2-from-imports",
+    "diff": [
+     "test_a: class P1->P0",
+     "test_a: reasons [] -> ['os.path.exists (size/stat/exec/mutation/other os call)@19', 'assertion depends on content/value/unknown@19']"
+    ]
+   }
+  ],
+  "r3_pop_ids_differing": 30,
+  "r3_class_moved": 10,
+  "r3_first": [
+   {
+    "id": "crack-7z-hash::test_solution_file",
+    "diff": [
+     "class P1->P0",
+     "reasons [] -> ['os.path.exists (size/stat/exec/mutation/other os call)@12', 'assertion depends on content/value/unknown@12']"
+    ]
+   },
+   {
+    "id": "custom-memory-heap-crash::test_protected_files_not_modified",
+    "diff": [
+     "same class P0, reasons ['call into hashlib.md5 (not a plain existence predicate)@21', 'open() reads a file@22'] -> ['os.path.exists (size/stat/exec/mutation/other os call)@31', 'branch on unknown/content value@31']"
+    ]
+   },
+   {
+    "id": "custom-memory-heap-crash::test_program_compiles_debug",
+    "diff": [
+     "same class P0, reasons ['call into subprocess.run (not a plain existence predicate)@88', 'branch on unknown/content value@90'] -> ['call into subprocess.run (not a plain existence predicate)@88', 'branch on unknown/content value@90']"
+    ]
+   }
+  ],
+  "oracle_disagree": 10,
+  "class_equivalent": false
+ },
+ {
+  "mutant": "M35-list-m-drop-iterdir",
+  "r1_selftest_cases_differing": 6,
+  "r1_first": [
+   {
+    "case": "name set from iterdir Y",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['.iterdir() on a path/name (read/write/stat/command)@7', 'assertion depends on content/value/unknown@8']"
+    ]
+   },
+   {
+    "case": "any over iterdir name Y",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['.iterdir() on a path/name (read/write/stat/command)@6', 'assertion depends on content/value/unknown@6']"
+    ]
+   },
+   {
+    "case": "any over iterdir suffix Y",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['.iterdir() on a path/name (read/write/stat/command)@6', 'assertion depends on content/value/unknown@6']"
+    ]
+   }
+  ],
+  "r2_adv_cases_differing": 3,
+  "r2_first": [
+   {
+    "case": "cl2-listing-membership",
+    "diff": [
+     "test_iterdir_list: class P1->P0",
+     "test_iterdir_list: reasons [] -> ['.iterdir() on a path/name (read/write/stat/command)@26', 'assertion depends on content/value/unknown@26']",
+     "test_iterdir_set: class P1->P0",
+     "test_iterdir_set: reasons [] -> ['.iterdir() on a path/name (read/write/stat/command)@22', 'assertion depends on content/value/unknown@22']"
+    ]
+   },
+   {
+    "case": "cl2-listing-counts",
+    "diff": [
+     "test_len_iterdir: reasons ['count/size comparison (a count is a value, not a path state)@21', 'assertion depends on content/value/unknown@21'] -> ['.iterdir() on a path/name (read/write/stat/command)@21', 'assertion depends on content/value/unknown@21']"
+    ]
+   },
+   {
+    "case": "cl2n-computed-value-compare",
+    "diff": [
+     "test_len_compare: reasons ['count/size comparison (a count is a value, not a path state)@22', 'assertion depends on content/value/unknown@22'] -> ['.iterdir() on a path/name (read/write/stat/command)@21', '.is_file() on an unknown/content value@21', 'assertion depends on content/value/unknown@22']"
+    ]
+   }
+  ],
+  "r3_pop_ids_differing": 3,
+  "r3_class_moved": 0,
+  "r3_first": [
+   {
+    "id": "financial-document-processor::test_invoices_moved_correctly",
+    "diff": [
+     "same class P0, reasons ['open() reads a file@13', 'call into hashlib.file_digest (not a plain existence predicate)@14'] -> ['.iterdir() on a path/name (read/write/stat/command)@52', '.is_file() on an unknown/content value@53']"
+    ]
+   },
+   {
+    "id": "financial-document-processor::test_other_documents_moved_correctly",
+    "diff": [
+     "same class P0, reasons ['open() reads a file@13', 'call into hashlib.file_digest (not a plain existence predicate)@14'] -> ['.iterdir() on a path/name (read/write/stat/command)@86', '.is_file() on an unknown/content value@86']"
+    ]
+   },
+   {
+    "id": "financial-document-processor::test_original_documents_dir_empty",
+    "diff": [
+     "same class P0, reasons ['count/size comparison (a count is a value, not a path state)@224', 'assertion depends on content/value/unknown@224'] -> ['.iterdir() on a path/name (read/write/stat/command)@222', '.is_file() on an unknown/content value@222']"
+    ]
+   }
+  ],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M36-pure-q-drop-pathlib",
+  "r1_selftest_cases_differing": 33,
+  "r1_first": [
+   {
+    "case": "spec1 exists",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['call into pathlib.Path (not a plain existence predicate)@6', '.exists() on an unknown/content value@6', 'assertion depends on content/value/unknown@6']"
+    ]
+   },
+   {
+    "case": "spec2 content",
+    "diff": [
+     "test_f: reasons ['.read_text() on a path/name (read/write/stat/command)@7', '.strip() on an unknown/content value@7', 'assertion depends on content/value/unknown@7'] -> ['call into pathlib.Path (not a plain existence predicate)@7', '.exists() on an unknown/content value@7', 'assertion depends on content/value/unknown@7', '.read_text() on an unknown/content value@7', '.strip() on an unknown/content value@7', 'assertion depends on content/value/unknown@7']"
+    ]
+   },
+   {
+    "case": "spec5 subprocess",
+    "diff": [
+     "test_f: reasons ['call into subprocess.run (not a plain existence predicate)@7'] -> ['call into subprocess.run (not a plain existence predicate)@7', 'call into pathlib.Path (not a plain existence predicate)@8', '.exists() on an unknown/content value@8', 'assertion depends on content/value/unknown@8']"
+    ]
+   }
+  ],
+  "r2_adv_cases_differing": 79,
+  "r2_first": [
+   {
+    "case": "ex-1-exists",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['call into pathlib.Path (not a plain existence predicate)@13', '.exists() on an unknown/content value@13', 'assertion depends on content/value/unknown@13']"
+    ]
+   },
+   {
+    "case": "ex-2-content-strip",
+    "diff": [
+     "test_f: reasons ['.read_text() on a path/name (read/write/stat/command)@15', '.strip() on an unknown/content value@15', 'assertion depends on content/value/unknown@15'] -> ['call into pathlib.Path (not a plain existence predicate)@13', '.exists() on an unknown/content value@14', 'assertion depends on content/value/unknown@14', '.read_text() on an unknown/content value@15', '.strip() on an unknown/content value@15', 'assertion depends on content/value/unknown@15']"
+    ]
+   },
+   {
+    "case": "ex-5-subprocess-then-exists",
+    "diff": [
+     "test_f: reasons ['call into subprocess.run (not a plain existence predicate)@13'] -> ['call into subprocess.run (not a plain existence predicate)@13', 'call into pathlib.Path (not a plain existence predicate)@14', '.exists() on an unknown/content value@14', 'assertion depends on content/value/unknown@14']"
+    ]
+   }
+  ],
+  "r3_pop_ids_differing": 159,
+  "r3_class_moved": 43,
+  "r3_first": [
+   {
+    "id": "adaptive-rejection-sampler::test_ars_function_exists",
+    "diff": [
+     "same class P0, reasons ['.read_text() on a path/name (read/write/stat/command)@24', 're over fs-derived data@26'] -> ['call into pathlib.Path (not a plain existence predicate)@15', '.exists() on an unknown/content value@19']"
+    ]
+   },
+   {
+    "id": "adaptive-rejection-sampler::test_can_generate_standard_distribution_samples",
+    "diff": [
+     "same class P0, reasons ['call into subprocess.run (not a plain existence predicate)@73', 'assertion depends on content/value/unknown@81'] -> ['call into pathlib.Path (not a plain existence predicate)@34', '.write_text() on an unknown/content value@71']"
+    ]
+   },
+   {
+    "id": "adaptive-rejection-sampler::test_has_test_function",
+    "diff": [
+     "same class P0, reasons ['.read_text() on a path/name (read/write/stat/command)@99', 're over fs-derived data@101'] -> ['call into pathlib.Path (not a plain existence predicate)@91', '.glob() on an unknown/content value@94']"
+    ]
+   }
+  ],
+  "oracle_disagree": 43,
+  "class_equivalent": false
+ },
+ {
+  "mutant": "M37-membership-not-a-predicate",
+  "r1_selftest_cases_differing": 3,
+  "r1_first": [
+   {
+    "case": "os.listdir membership Y",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['assertion depends on no path state (constant/computed value)@6']"
+    ]
+   },
+   {
+    "case": "os.listdir membership via variable",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['assertion depends on no path state (constant/computed value)@8']"
+    ]
+   },
+   {
+    "case": "name set from iterdir Y",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['assertion depends on no path state (constant/computed value)@8']"
+    ]
+   }
+  ],
+  "r2_adv_cases_differing": 3,
+  "r2_first": [
+   {
+    "case": "cl2-from-imports",
+    "diff": [
+     "test_c: class P1->P0",
+     "test_c: reasons [] -> ['assertion depends on no path state (constant/computed value)@27']"
+    ]
+   },
+   {
+    "case": "cl2-listing-membership",
+    "diff": [
+     "test_iterdir_list: class P1->P0",
+     "test_iterdir_list: reasons [] -> ['assertion depends on no path state (constant/computed value)@26']",
+     "test_iterdir_set: class P1->P0",
+     "test_iterdir_set: reasons [] -> ['assertion depends on no path state (constant/computed value)@22']"
+    ]
+   },
+   {
+    "case": "unittest-basic-styles",
+    "diff": [
+     "TestU.test_in_listdir: class P1->P0",
+     "TestU.test_in_listdir: reasons [] -> ['assertion depends on no path state (constant/computed value)@23']"
+    ]
+   }
+  ],
+  "r3_pop_ids_differing": 0,
+  "r3_class_moved": 0,
+  "r3_first": [],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M38-write-count-not-a-count",
+  "r1_selftest_cases_differing": 0,
+  "r1_first": [],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 0,
+  "r3_class_moved": 0,
+  "r3_first": [],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M39-mutate-drops-var",
+  "r1_selftest_cases_differing": 0,
+  "r1_first": [],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 1,
+  "r3_class_moved": 0,
+  "r3_first": [
+   {
+    "id": "sqlite-with-gcov::test_gcov_enabled",
+    "diff": [
+     "same class P0, reasons ['call into subprocess.run (not a plain existence predicate)@40', 'assertion depends on content/value/unknown@43'] -> ['call into subprocess.run (not a plain existence predicate)@40', 'assertion depends on content/value/unknown@43']"
+    ]
+   }
+  ],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M40-class-attr-self-only",
+  "r1_selftest_cases_differing": 0,
+  "r1_first": [],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 0,
+  "r3_class_moved": 0,
+  "r3_first": [],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M41-fixture-autouse-dropped",
+  "r1_selftest_cases_differing": 0,
+  "r1_first": [],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 4,
+  "r3_class_moved": 0,
+  "r3_first": [
+   {
+    "id": "overfull-hbox::test_main_synonyms_not_modified",
+    "diff": [
+     "same class P0, reasons ['os.system (size/stat/exec/mutation/other os call)@18', 'call into shutil.copy2 (not a plain existence predicate)@19'] -> ['open() reads a file@33', '.read() on an unknown/content value@34']"
+    ]
+   },
+   {
+    "id": "overfull-hbox::test_compilation_successful",
+    "diff": [
+     "same class P0, reasons ['os.system (size/stat/exec/mutation/other os call)@18', 'call into shutil.copy2 (not a plain existence predicate)@19'] -> ['open() reads a file@54', '.read() on an unknown/content value@55']"
+    ]
+   },
+   {
+    "id": "overfull-hbox::test_no_overfull_hboxes",
+    "diff": [
+     "same class P0, reasons ['os.system (size/stat/exec/mutation/other os call)@18', 'call into shutil.copy2 (not a plain existence predicate)@19'] -> ['open() reads a file@65', '.read() on an unknown/content value@66']"
+    ]
+   }
+  ],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ },
+ {
+  "mutant": "M42-tmp-fixtures-dropped",
+  "r1_selftest_cases_differing": 1,
+  "r1_first": [
+   {
+    "case": "tmp_path fixture is pure",
+    "diff": [
+     "test_f: class P1->P0",
+     "test_f: reasons [] -> ['.exists() on an unknown/content value@6', 'assertion depends on content/value/unknown@6']"
+    ]
+   }
+  ],
+  "r2_adv_cases_differing": 0,
+  "r2_first": [],
+  "r3_pop_ids_differing": 0,
+  "r3_class_moved": 0,
+  "r3_first": [],
+  "oracle_disagree": 0,
+  "class_equivalent": true
+ }
+]

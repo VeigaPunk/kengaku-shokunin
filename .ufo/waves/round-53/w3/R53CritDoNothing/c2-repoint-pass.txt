@@ -1,0 +1,13 @@
+Command (TMPDIR=/fast/scratch/hyaku/kengaku-r53/R53CritDoNothing/tmp; cwd=/fast/scratch/hyaku/kengaku-r53/R53CritDoNothing/tipc2):
+timeout 900 python3 plans/round53_c2_tipstate.py --lane . --source . --work /fast/scratch/hyaku/kengaku-r53/R53CritDoNothing/work-solo2 --jobs 8
+
+ROWS registry=78 ledger=78 missing=0 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0 bad_table_lines=0 headings=1 row_set_pinned=ok
+ARGV entry=70 selftest=8 help=0 help_limit=7.8
+SOURCE rev=95dae3088e2d971bb7dd35dba95638a9837e6781 clean=yes lane_rev_equal=yes
+RUN executed=78 timeout=0 mismatched=0 evidence_missing=0
+TIPSTATE declared_green=69 declared_red=9 observed_green=69 observed_red=9
+PREDICATE R53-C2 pass
+exit=0
+Wall time: 274.55 seconds
+
+Four rows changed from their entry argv to --selftest on the same script, declared green/0: state-assertion-check, round51-surfaces, round52-c1, gate-flip-check. The stale round53-c1 declaration was separately corrected from green/0 to red/1, with evidence PRIOR-ART rows=0. No instrument source or registry row was changed.

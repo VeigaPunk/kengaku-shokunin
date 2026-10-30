@@ -1,0 +1,22 @@
+# growth evidence — SF14 count_claim vs corpus/SOURCES.md
+$ grep -cE '^\|\s*S[0-9]{3,}\s*\|' corpus/SOURCES.md  # HEAD 9ead4476
+186
+$ git show 11e79380:corpus/SOURCES.md | grep -cE ...  # round-51 manifest landing
+171
+$ git show 536925b:corpus/SOURCES.md | grep -cE ...  # round-52 base tip
+186
+$ git log --oneline -- corpus/SOURCES.md | head -3
+43438294 round-52: wave-2 evidence, corrected registry rows (A6), confirmations/prior-art/labels, knowledge entry, S179-S193, lesson, Q42
+11e79380 round-51: C1 surface truth landed (PROVINCE dated verdicts + successor endpoint row + manifest) and C2 routed-finding attribution (75 rows, owner+disposition)
+822f3b74 round-50: C2 corrections (12 pointers resolved append-only), git-doc sources S173-S177, honest-geometry knowledge entry
+$ git diff 11e79380..43438294 -- corpus/SOURCES.md | grep -cE '^\+\| *S[0-9]{3,}'   # rows added by round 52
+15
+
+# PROVINCE.md row 113 (SF14 anchor) at HEAD
+| Public-literature registry | `test -e corpus/SOURCES.md` | present; 171 rows (round 51: `grep -cE '^\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|' corpus/SOURCES.md` → 171; 170 at the round-51 base tip plus S178), contract-v1 census clean (`corpus/evidence/round24-census/after.txt`); receipts `corpus/evidence/round24-sources/gate.md` |
+
+# PROVINCE.md row 15 (SF20 anchor) at HEAD
+| Served local model (round 51 successor) | `http://127.0.0.1:45669` (direct llama.cpp server) and `http://127.0.0.1:1234` (router, `lfm3-server.service`) — `/v1/models`, `/health`, `/props`; model id `LFM3-1.7B`, `owned_by=llamacpp`, n_ctx 32768, slots 4, build `b1-39ebd2`, alias `LFM3-1.7B`, `--model /home/vgpnk/models/lfm3/LFM3-1.7B/LFM3-1.7B-Q8_0.gguf`, pid 242776, 16 argv tokens | capability interpretation only; flag authority is kama's (serving plane). Capture-time pin 2026-10-28 (`corpus/evidence/round51/surfaces/endpoints.txt`), not a capability claim |
+
+# git diff --stat b1f79a54..9ead4476 -- PROVINCE.md plans/round51-surfaces.json corpus/SOURCES.md  # empty => no change between my two clones
+(end)

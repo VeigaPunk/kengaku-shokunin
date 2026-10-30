@@ -1,0 +1,27 @@
+# counter hygiene: selftest + cwd sensitivity (calibration observation)
+
+$ python3 plans/round51_surfaces.py --selftest   # from lane root
+PREDICATE R51-C1 fail
+[selftest] cases=9 failures=0
+[selftest] ALL PASS
+
+# --lane does NOT rebase relative path probes: the 'paths' probe resolves relative targets
+# against the process CWD (expand() -> Path(p)), not against --lane.
+$ python3 lane2/plans/round51_surfaces.py --lane lane2    # run from the scratch dir, not the lane root
+REV 9ead4476bf55b1ea6490d0204b668195db4a4d1d
+MANIFEST plans/round51-surfaces.json entries=20 sections=2
+PROBES run=20 present=3 absent=17 errors=0
+DRIFT 0
+STALE 11
+UNVERDICTED 0
+NUMBER-DRIFT 1
+RESOLVE observed_present=3 floor=13 verdict=violated
+PREDICATE R51-C1 fail
+
+# same command from the lane root (the registry's documented invocation):
+REV 9ead4476bf55b1ea6490d0204b668195db4a4d1d
+PROBES run=20 present=13 absent=7 errors=0
+STALE 1
+NUMBER-DRIFT 1
+RESOLVE observed_present=13 floor=13 verdict=met
+PREDICATE R51-C1 fail

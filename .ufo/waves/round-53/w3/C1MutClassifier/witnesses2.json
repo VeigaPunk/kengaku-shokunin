@@ -1,0 +1,197 @@
+{
+ "M01-join-KN-to-K": [
+  {
+   "desc": "join(K,N): a ternary whose branches are a constant and a name picked out of a listing",
+   "src": "def test_f():\n    names = os.listdir(D)\n    x = 1 if True else names[0]\n    assert x\n",
+   "pristine": {
+    "test_f": "P1"
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": []
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "assertion depends on no path state (constant/computed value)@9"
+    ]
+   },
+   "class_moved": true
+  },
+  {
+   "desc": "join(K,N): the same, compared to a name",
+   "src": "def test_f():\n    names = os.listdir(D)\n    x = 1 if True else names[0]\n    assert x == 'a'\n",
+   "pristine": {
+    "test_f": "P1"
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": []
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "value comparison of computed values@9",
+     "assertion depends on content/value/unknown@9"
+    ]
+   },
+   "class_moved": true
+  }
+ ],
+ "M02-join-KL-to-N": [
+  {
+   "desc": "join(K,L): a ternary whose branches are a constant and a listing, compared to a name",
+   "src": "def test_f():\n    x = 1 if True else os.listdir(D)\n    assert x == 'a'\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "mutant": {
+    "test_f": "P1"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "equality on a listing (exact contents/count/emptiness)@8",
+     "assertion depends on content/value/unknown@8"
+    ]
+   },
+   "mutant_reasons": {
+    "test_f": []
+   },
+   "class_moved": true
+  }
+ ],
+ "M03-join-BQ-to-B": [
+  {
+   "desc": "join(B,Q): a ternary whose branches are an existence predicate and a qualified-predicate generator, compared",
+   "src": "def test_f():\n    x = os.path.exists(OUT) if True else (os.path.exists(p) for p in ['/a'])\n    assert x == True\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "mutant": {
+    "test_f": "P1"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "value comparison@8",
+     "assertion depends on content/value/unknown@8"
+    ]
+   },
+   "mutant_reasons": {
+    "test_f": []
+   },
+   "class_moved": true
+  }
+ ],
+ "M05-is_num_const-accepts-bool": [],
+ "M23-decorators-as-body": [],
+ "M24-parametrize-listing-K": [
+  {
+   "desc": "a parametrize whose values are a listing, compared to a name",
+   "src": "import pytest\n@pytest.mark.parametrize('p', os.listdir(D))\ndef test_f(p): assert p == 'a'\n",
+   "pristine": {
+    "test_f": "P1"
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": []
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "value comparison of computed values@8",
+     "assertion depends on content/value/unknown@8"
+    ]
+   },
+   "class_moved": true
+  }
+ ],
+ "M33-known-k-modules-drop-os": [
+  {
+   "desc": "the 'os' module bound to a name and branched on",
+   "src": "def test_f():\n    x = os\n    if x:\n        assert os.path.exists(OUT)\n",
+   "pristine": {
+    "test_f": "P1"
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": []
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "branch on unknown/content value@8"
+    ]
+   },
+   "class_moved": true
+  },
+  {
+   "desc": "a plain os attribute bound to a name",
+   "src": "def test_f():\n    p = os.getcwd\n    assert p\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "assertion depends on no path state (constant/computed value)@8"
+    ]
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "assertion depends on content/value/unknown@8"
+    ]
+   },
+   "class_moved": false
+  }
+ ],
+ "M39-mutate-drops-var": [
+  {
+   "desc": "a mutated empty list whose element is a listing",
+   "src": "def test_f():\n    x = []\n    x.append(os.listdir(D))\n    assert x\n",
+   "pristine": {
+    "test_f": "P1"
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": []
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "assertion depends on no path state (constant/computed value)@9"
+    ]
+   },
+   "class_moved": true
+  },
+  {
+   "desc": "a mutated empty list compared to a name",
+   "src": "def test_f():\n    x = []\n    x.append(os.listdir(D))\n    assert x == ['a']\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "equality on a listing (exact contents/count/emptiness)@9",
+     "assertion depends on content/value/unknown@9"
+    ]
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "value comparison of computed values@9",
+     "assertion depends on content/value/unknown@9"
+    ]
+   },
+   "class_moved": false
+  }
+ ]
+}

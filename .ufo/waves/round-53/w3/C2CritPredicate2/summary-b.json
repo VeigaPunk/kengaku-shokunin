@@ -1,0 +1,34 @@
+[
+ {
+  "label": "B1-launder-one-red-row-to-green-via---help",
+  "expected": "PREDICATE R53-C2 pass",
+  "rc": 0,
+  "verdict": "LANDED(pass)",
+  "seen": "PREDICATE R53-C2 pass",
+  "notes": "the row's DOCUMENTED command exits 1; the ledger's argv (--help) exits 0"
+ },
+ {
+  "label": "B2-launder-seven-red-rows-via---help",
+  "expected": "PREDICATE R53-C2 pass",
+  "rc": 0,
+  "verdict": "LANDED(pass)",
+  "seen": "PREDICATE R53-C2 pass",
+  "notes": "7 help-kind rows = 8.97% of 78, under the 10% cap"
+ },
+ {
+  "label": "B3-launder-all-twelve-red-rows",
+  "expected": "help_limit",
+  "rc": 0,
+  "verdict": "LANDED(pass)",
+  "seen": "ARGV entry=74 selftest=4 help=0 help_limit=7.8",
+  "notes": "12 help-kind rows = 15.4% of 78 -> should trip the 10% cap"
+ },
+ {
+  "label": "B4-git-config-leak-survives-A3-reset",
+  "expected": "PREDICATE R53-C2",
+  "rc": 0,
+  "verdict": "LANDED(pass)",
+  "seen": "PREDICATE R53-C2 pass",
+  "notes": "jobs1 rc=0 / jobs4 rc=1: same tree, same ledger, different verdict"
+ }
+]

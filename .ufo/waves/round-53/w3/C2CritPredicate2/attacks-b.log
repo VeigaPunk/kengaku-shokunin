@@ -1,0 +1,10 @@
+[LANDED(pass)] B1-launder-one-red-row-to-green-via---help: rc=0 expect~ 'PREDICATE R53-C2 pass' seen='PREDICATE R53-C2 pass' the row's DOCUMENTED command exits 1; the ledger's argv (--help) exits 0
+[LANDED(pass)] B2-launder-seven-red-rows-via---help: rc=0 expect~ 'PREDICATE R53-C2 pass' seen='PREDICATE R53-C2 pass' 7 help-kind rows = 8.97% of 78, under the 10% cap
+[LANDED(pass)] B3-launder-all-twelve-red-rows: rc=0 expect~ 'help_limit' seen='ARGV entry=74 selftest=4 help=0 help_limit=7.8' 12 help-kind rows = 15.4% of 78 -> should trip the 10% cap
+[LANDED(pass)] B4-git-config-leak-survives-A3-reset: rc=0 expect~ 'PREDICATE R53-C2' seen='PREDICATE R53-C2 pass' jobs1 rc=0 / jobs4 rc=1: same tree, same ledger, different verdict
+
+=== summary ===
+LANDED(pass)   B1-launder-one-red-row-to-green-via---help           rc=0  seen='PREDICATE R53-C2 pass'
+LANDED(pass)   B2-launder-seven-red-rows-via---help                 rc=0  seen='PREDICATE R53-C2 pass'
+LANDED(pass)   B3-launder-all-twelve-red-rows                       rc=0  seen='ARGV entry=74 selftest=4 help=0 help_limit=7.8'
+LANDED(pass)   B4-git-config-leak-survives-A3-reset                 rc=0  seen='PREDICATE R53-C2 pass'

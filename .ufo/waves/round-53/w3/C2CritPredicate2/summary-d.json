@@ -1,0 +1,26 @@
+[
+ {
+  "label": "D1-launder-all-twelve-red-rows-via---help",
+  "expected": "help_limit",
+  "rc": 1,
+  "verdict": "CAUGHT",
+  "seen": "ARGV entry=62 selftest=4 help=12 help_limit=7.8",
+  "notes": "12 help-kind rows = 15.4% of 78 -> the 10% cap should trip"
+ },
+ {
+  "label": "D2-mixed-help-plus-selftest-laundering",
+  "expected": "PREDICATE R53-C2 pass",
+  "rc": 0,
+  "verdict": "LANDED(pass)",
+  "seen": "PREDICATE R53-C2 pass",
+  "notes": "all 12 red rows laundered; 7 help (under cap) + 5 selftest (uncapped)"
+ },
+ {
+  "label": "D3-launder-all-twelve-red-rows-via---selftest",
+  "expected": "PREDICATE R53-C2 pass",
+  "rc": 0,
+  "verdict": "LANDED(pass)",
+  "seen": "PREDICATE R53-C2 pass",
+  "notes": "selftest kind has NO fraction cap; 12/78 = 15.4%"
+ }
+]

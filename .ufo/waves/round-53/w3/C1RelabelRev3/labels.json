@@ -1,0 +1,25 @@
+{
+  "seat": "C1RelabelRev3",
+  "labels": {
+    "prove-plus-comm::test_proof_file_exists": {"label":"Y","why":"Only checks the proof path exists; no reached helpers or fixtures."},
+    "openssl-selfsigned-cert::test_directory_structure": {"label":"Y","why":"Both assertions check directory existence or type only."},
+    "kv-store-grpc::test_grpc_tools_installation": {"label":"N","why":"Conditional assertion depends on successful package import, not filesystem existence or type."},
+    "portfolio-optimization::test_correctness_small": {"label":"N","why":"Calls deliverable functions and compares numerical return values against baseline results."},
+    "fix-code-vulnerability::test_report_file_exists_example": {"label":"Y","why":"Only asserts the report path exists."},
+    "headless-terminal::test_cancel_command": {"label":"N","why":"Imports and calls the task deliverable, sending shell commands before the absence assertion."},
+    "kv-store-grpc::test_grpc_protocol_handshake": {"label":"N","why":"Uses network RPC and asserts response attributes and returned value."},
+    "bn-fit-modify::test_intervened_dag_structure_exists": {"label":"Y","why":"Only asserts the intervened DAG CSV path exists."},
+    "make-mips-interpreter::test_frame_bmp_exists": {"label":"N","why":"Also requires positive file size; an empty touched file fails."},
+    "financial-document-processor::test_summary_csv_exists": {"label":"Y","why":"Only asserts the summary CSV path exists."},
+    "build-pmars::test_debian_source_used": {"label":"Y","why":"Checks glob nonemptiness and existence of the matched source directory's Debian child."},
+    "build-cython-ext::test_chelpers_cython_extension": {"label":"N","why":"Asserts import specification and extension loader type, not filesystem path type."},
+    "mteb-leaderboard::test_result_exists": {"label":"Y","why":"Only asserts result path existence."},
+    "build-cython-ext::test_cinvariants_python_vs_cython": {"label":"N","why":"Calls deliverable computation and compares Python and Cython return values."},
+    "pytorch-model-cli::test_cli_tool_executable": {"label":"N","why":"Runs a subprocess and compares captured output to the expected prediction."},
+    "financial-document-processor::test_original_documents_dir_empty": {"label":"N","why":"Asserts a directory file count equals zero; count comparisons are explicitly P0."},
+    "winning-avg-corewars::test_warrior_exists": {"label":"Y","why":"Only asserts warrior path existence."},
+    "sam-cell-seg::test_csv_output_exists": {"label":"Y","why":"Only asserts output CSV existence; separate script-running test is not called."},
+    "llm-inference-batching-scheduler::test_output_files_exist": {"label":"Y","why":"Both assertions only check output path existence; imported cost-model helpers are not reached."},
+    "train-fasttext::test_model_size": {"label":"N","why":"Reads file size and compares it against a maximum; existence alone is insufficient."}
+  }
+}

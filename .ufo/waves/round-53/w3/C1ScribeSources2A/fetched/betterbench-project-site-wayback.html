@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+
+  <meta property="og:site_name" content="BetterBench" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="BetterBench" />
+  <meta property="og:description" content="Assessing AI Benchmarks, Uncovering Issues, and Establishing Best Practices" />
+  <meta property="og:url" content="https://betterbench.stanford.edu/" />
+  <meta property="og:image" content="https://web.stanford.edu/class/cs120/stanfordlogo.jpg" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="BetterBench" />
+  <meta name="twitter:description" content="Assessing AI Benchmarks, Uncovering Issues, and Establishing Best Practices"" />
+  <meta name="twitter:url" content="https://betterbench.stanford.edu/" />
+  <meta name="twitter:image" content="https://web.stanford.edu/class/cs329h/stanfordlogo.jpg" />
+  <meta name="twitter:site" content="@ankareuel" />
+
+  <title>BetterBench | Assessing AI Benchmarks, Uncovering Issues, and Establishing Best Practices</title>
+
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+  <!-- Google fonts -->
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-MQGJWPF');</script>
+  <!-- End Google Tag Manager -->
+
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MQGJWPF" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <!-- <script src="header.js"></script> -->
+  <!-- Navbar -->
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand brand" href="index.html">BetterBench</a>
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+          data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div class="centered-nav">
+          <ul class="nav navbar-nav">
+            <li><a href="index.html">Overview</a></li>
+            <li><a href="database.html">Database</a></li>
+            <li><a href="checklist.html">Checklist</a></li>
+            <li><a href="methodology.html">Methodology</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+  </nav>
+
+  <!-- Header -->
+  <div id="header" style="text-align:center">
+    <img src="blank.png" class="logo-left">
+    <a href="http://stanford.edu/">
+      <img src="stanfordlogo.png" class="logo-right">
+    </a>
+    <h1>BetterBench</h1>
+    <h4>A repository of AI benchmark assessments for informed benchmark selection through quality evaluation and best practice analysis</h4>
+    <h5>Anka Reuel*, Amelia Hardy*, Chandler Smith, Max Lamparth, Malcolm Hardy, Mykel Kochenderfer</h5>
+    <div class="header-buttons">
+      <a href="https://arxiv.org/abs/2411.12990" class="header-button">Paper</a>
+      <a href="database.html" class="header-button">Database</a>
+    </div>
+  </div>
+
+  <div class="announcement-box">
+    BetterBench got accepted as a Spotlight to NeurIPS 2024! Come talk to us at the conference in Vancouver!
+  </div>
+
+  <div class="container sec" id="course">
+    <h2>The problem</h2>
+    <p>Benchmarks are widely used to measure attributes like fairness, safety, or general capabilities, compare model performances, track progress, and identify weaknesses of AI systems. However, the quality of these benchmarks varies significantly depending on their design and usability. Poor quality benchmarks can lead to misleading comparisons and inaccurate assessments of AI models, potentially resulting in the deployment of suboptimal or even harmful systems in real-world applications.​</p>
+  </div>
+
+  <div class="header-image">
+    <img src="Scatterplot_all_Benchmarks.png" alt="Description of the image">
+    <figcaption>Figure 1: Scatterplot showing quality differences in benchmarks based on our assessment</figcaption>
+    <br>
+  </div>
+
+  <div class="container sec" id="course">
+    <h2>How we're contributing to a solution</h2>
+    <p>To address the issue of varying benchmark quality, we have developed a novel AI benchmark assessment framework that evaluates the quality of AI benchmarks based on 46 criteria derived from expert interviews and domain literature. By applying this framework to 24 widely used AI benchmarks, including both foundation model and non-foundation-model benchmarks, we have identified statistically significant quality differences within and across both categories. Our findings provide insights into prevalent issues in AI benchmarking and highlight the need for improved benchmark design and usability.​</p>
+    <p>We have made available a living repository of benchmark assessments, allowing users to analyze the appropriateness of different benchmarks for their specific contexts. Additionally, to support benchmark developers in aligning with best practices, we have created a checklist for minimum quality assurance based on our assessment. This checklist serves as a guide for developers to ensure that their benchmarks meet essential quality standards, promoting more reliable and informative model evaluations.</p>
+    <p>By providing these resources, we aim to foster the development and adoption of high-quality AI benchmarks, ultimately leading to more accurate assessments of AI models and informed decision-making in their deployment.</p>
+  </div>
+
+  <div class="header-image">
+    <img src="Boxplot_Comp.png" alt="Description of the image">
+    <figcaption>Figure 2: Average and individual scores of all assessed benchmarks per lifecycle stage.</figcaption>
+    <br>
+  </div>
+
+  <div class="container sec" id="course">
+    <h2>Where to start</h2>
+    <p>If you’re a benchmark user: Check out our searchable repository of benchmarks and their assessments&nbsp;<a href="database.html" style="color: inherit; text-decoration: underline;">here</a>.​</p>
+    <p>If you're a benchmark developer: Find our checklist for best practices 
+      <a href="checklist.html" style="color: inherit; text-decoration: underline;">here</a>
+      and submit your benchmark for assessment 
+      <a href="contact.html" style="color: inherit; text-decoration: underline;">here</a>
+      . If you disagree with an existing assessment, you can submit a request for re-assessment 
+      <a href="contact.html" style="color: inherit; text-decoration: underline;">here</a>.</p>
+  </div>
+
+  <div class="container sec" id="course">
+    <h2>How to cite us</h2>
+        <p>As with every research project, a lot of time and passion were put into this initiative. If you found our work useful, we’d appreciate it if you’d cite us. Some standard citations can be found below:</p>
+<pre style="font-size: 14px; font-weight: 400; white-space: pre-wrap; line-height: 1.2; font-family: monospace; background-color: #f0f0f0; border: 1px solid #e0e0e0; padding: 10px; margin: 0;">@inproceedings{reuel2024betterbench,
+  title={BetterBench: Assessing AI Benchmarks, Uncovering Issues, and Establishing Best Practices},
+  author={Reuel, Anka and Hardy, Amelia and Smith, Chandler and Lamparth, Max and Hardy, Malcolm and Kochenderfer, Mykel J.},
+  booktitle={Advances in Neural Information Processing Systems (NeurIPS)},
+  url = {https://betterbench.stanford.edu},
+  year = {2024}
+}</pre>
+  </div>
+
+  <div class="sec" id="course">
+    <div class="overview-box">
+        
+<hr>
+    </div>
+</div>
+
+  <div class="sechighlight">
+    <div class="container sec" id="instructors">
+      <h3>Team</h3>
+      <div class="col-md-3">
+        <div class="instructor">
+          <a rel="noopener noreferrer" target="_blank" href="https://www.ankareuel.com">
+            <div class="instructorphoto"><img src="Anka.jpeg"></div>
+            <div>Anka Reuel</div>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="instructor">
+          <a rel="noopener noreferrer" target="_blank" href="https://www.linkedin.com/in/ameliahardy/">
+            <div class="instructorphoto"><img src="Amelia.jpeg"></div>
+            <div>Amelia Hardy</div>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="instructor">
+          <a rel="noopener noreferrer" target="_blank" href="https://www.linkedin.com/in/chandlerdsmith/">
+            <div class="instructorphoto"><img src="Chandler.jpeg"></div>
+            <div>Chandler Smith</div>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="instructor">
+          <a target="_blank" rel="noopener noreferrer" href="https://www.maxlamparth.com">
+            <div class="instructorphoto"><img src="lamparth.jpg"></div>
+            <div>Max Lamparth</div>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="instructor">
+          <a rel="noopener noreferrer" target="_blank" href="https://mykel.kochenderfer.com">
+            <div class="instructorphoto"><img src="Mykel.jpeg"></div>
+            <div>Mykel Kochenderfer</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery and Bootstrap -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>

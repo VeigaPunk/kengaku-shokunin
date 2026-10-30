@@ -1,0 +1,82 @@
+# per-surface probe detail — lane HEAD 9ead4476, cwd=lane root
+# manifest: plans/round51-surfaces.json (20 entries), anchors in PROVINCE.md
+SF01  section=## Surfaces  state=absent  prose=absent  observed=absent  count_claim=None 
+    anchor: | Research notes (SSOT for eval craft) |
+    probe : {"kind": "paths", "targets": ["~/Projects/webzites/repos/llm-wiki"]}
+    detail: missing: ~/Projects/webzites/repos/llm-wiki
+SF02  section=## Surfaces  state=absent  prose=absent  observed=absent  count_claim=None 
+    anchor: `~/archive/bench-arena/` — relocated intact
+    probe : {"kind": "paths", "targets": ["~/archive/bench-arena"]}
+    detail: missing: ~/archive/bench-arena
+SF03  section=## Surfaces  state=absent  prose=absent  observed=absent  count_claim=None 
+    anchor: `http://127.0.0.1:34113` — `/v1/models`
+    probe : {"kind": "http", "urls": ["http://127.0.0.1:34113/health"]}
+    detail: http://127.0.0.1:34113/health -> <urlopen error [Errno 111] Connection refused>
+SF04  section=## Surfaces  state=absent  prose=absent  observed=absent  count_claim=None 
+    anchor: `~/Projects/bounties/ledger/telemetry.jsonl` —
+    probe : {"kind": "paths", "targets": ["~/Projects/bounties/ledger/telemetry.jsonl"]}
+    detail: missing: ~/Projects/bounties/ledger/telemetry.jsonl
+SF05  section=## Surfaces  state=absent  prose=absent  observed=absent  count_claim=None 
+    anchor: `~/.bailian/telemetry.jsonl`, `~/.bailian/wiki-sync-state.json`
+    probe : {"kind": "paths", "targets": ["~/.bailian/telemetry.jsonl"]}
+    detail: missing: ~/.bailian/telemetry.jsonl
+SF06  section=## Surfaces  state=absent  prose=absent  observed=absent  count_claim=None 
+    anchor: `~/.bailian/skills/bailian-docs-llm-wiki/models/{index.md,models.jsonl}`
+    probe : {"kind": "paths", "targets": ["~/.bailian/skills/bailian-docs-llm-wiki/models/index.md"]}
+    detail: missing: ~/.bailian/skills/bailian-docs-llm-wiki/models/index.md
+SF07  section=## Surfaces  state=present prose=present observed=present count_claim=None 
+    anchor: `corpus/evidence/round8-horizon/`, `round9-replication/`
+    probe : {"kind": "paths", "targets": ["corpus/evidence/round8-horizon", "corpus/evidence/round9-replication", "corpus/evidence/round12-ladder", "corpus/evidence/round14-fleet", "corpus/evidence/round13-coverage"]}
+    detail: all 5 targets resolve
+SF08  section=## Surfaces  state=present prose=present observed=present count_claim=None 
+    anchor: | In-repo gate | `grader.py` (repo root;
+    probe : {"kind": "paths", "targets": ["grader.py"]}
+    detail: all 1 targets resolve
+SF09  section=## Surfaces  state=present prose=present observed=present count_claim=None 
+    anchor: | Public literature | arXiv / ACL Anthology
+    probe : {"kind": "paths", "targets": ["corpus/knowledge/eval-prior-art-calibration.md"]}
+    detail: all 1 targets resolve
+SF10  section=### Core     state=present prose=present observed=present count_claim=None 
+    anchor: | In-repo verdict gate | `test -e grader.py && sha256sum grader.py`
+    probe : {"kind": "sha256", "target": "grader.py", "pin": "90c87c88"}
+    detail: digest 90c87c88… matches pin
+SF11  section=### Core     state=present prose=present observed=present count_claim=None 
+    anchor: | Own probe artifacts | `for d in round8-horizon 
+    probe : {"kind": "paths", "targets": ["corpus/evidence/round9-fleet", "corpus/evidence/round10-fleet", "corpus/evidence/round11-power", "corpus/evidence/round11-fleet", "corpus/evidence/round12-fleet", "corpus/evidence/round13-ack-state", "corpus/evidence/round18-kimi-routing"]}
+    detail: all 7 targets resolve
+SF12  section=### Core     state=present prose=present observed=present count_claim=None 
+    anchor: | Attribution instrument + frozen tables | `test -e plans/attrib_probe.py 
+    probe : {"kind": "sha256", "target": "plans/attrib_probe.py", "pin": "489f938a"}
+    detail: digest 489f938a… matches pin
+SF13  section=### Core     state=present prose=present observed=present count_claim=None 
+    anchor: | Corpus gate docs | `test -e corpus/QUALITY.md`
+    probe : {"kind": "paths", "targets": ["corpus/QUALITY.md"]}
+    detail: all 1 targets resolve
+SF14  section=### Core     state=present prose=present observed=present count_claim=171  
+    anchor: | Public-literature registry | `test -e corpus/SOURCES.md`
+    probe : {"kind": "count", "target": "corpus/SOURCES.md", "pattern": "^\\|\\s*S[0-9]{3,}\\s*\\|", "label": "SOURCES rows"}
+    detail: SOURCES rows=186
+SF15  section=### Core     state=present prose=present observed=present count_claim=None 
+    anchor: | ds-flash-shim source (read-only) | `sha256sum ~/.local/share/ds-flash-shim/shim.py`
+    probe : {"kind": "sha256", "target": "~/.local/share/ds-flash-shim/shim.py", "pin": "42d86d99"}
+    detail: digest 42d86d99… matches pin
+SF16  section=### Core     state=present prose=present observed=present count_claim=None 
+    anchor: | Live probe endpoint | `ss -ltn 'sport = :8791'`
+    probe : {"kind": "port", "host": "127.0.0.1", "port": 8791}
+    detail: LISTEN on 127.0.0.1:8791
+SF17  section=### Core     state=present prose=present observed=present count_claim=None 
+    anchor: | Public literature | URLs cited in `knowledge/eval-prior-art-calibration.md`
+    probe : {"kind": "paths", "targets": ["corpus/knowledge/eval-prior-art-calibration.md", "corpus/knowledge/attrib-prior-art-r21.md"]}
+    detail: all 2 targets resolve
+SF18  section=### Core     state=present prose=present observed=present count_claim=None 
+    anchor: | Interval re-verdict instrument (round 25) | `python3 plans/attrib_calibration.py --summary`
+    probe : {"kind": "paths", "targets": ["plans/attrib_calibration.py"]}
+    detail: all 1 targets resolve
+SF19  section=### Core     state=present prose=present observed=present count_claim=None 
+    anchor: | State-assertion check (round 25) | `python3 plans/state_check.py --summary`
+    probe : {"kind": "paths", "targets": ["plans/state_check.py"]}
+    detail: all 1 targets resolve
+SF20  section=## Surfaces  state=present prose=present observed=absent  count_claim=None 
+    anchor: | Served local model (round 51 successor) |
+    probe : {"kind": "http", "urls": ["http://127.0.0.1:45669/health", "http://127.0.0.1:1234/health"]}
+    detail: http://127.0.0.1:1234/health -> <urlopen error [Errno 111] Connection refused>

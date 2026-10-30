@@ -1,0 +1,341 @@
+======================================================================
+bn-fit-modify::test_bn_sample_exists
+def test_bn_sample_exists():
+    """Test that the sampled data from the fitted BN exists"""
+    bn_sample_path = Path('/app/final_bn_sample.csv')
+    assert bn_sample_path.exists(), f'File {bn_sample_path} does not exist'
+======================================================================
+bn-fit-modify::test_learned_dag_structure_exists
+def test_learned_dag_structure_exists():
+    """Test that the learned DAG structure csv exists"""
+    learned_dag_path = Path('/app/learned_dag.csv')
+    assert learned_dag_path.exists(), f'File {learned_dag_path} does not exist'
+======================================================================
+bn-fit-modify::test_intervened_dag_structure_exists
+def test_intervened_dag_structure_exists():
+    """Test that the learned DAG structure csv exists"""
+    intervened_dag_path = Path('/app/intervened_dag.csv')
+    assert intervened_dag_path.exists(), f'File {intervened_dag_path} does not exist'
+======================================================================
+build-cython-ext::test_repo_cloned
+def test_repo_cloned():
+    path = Path('/app/pyknotid')
+    assert path.exists(), f'{path} does not exist'
+    assert path.is_dir(), f'{path} is not a directory'
+    assert (path / '.git').exists(), f'{path} is not a git repository'
+======================================================================
+build-pmars::test_debian_source_used
+def test_debian_source_used():
+    """Verify pmars source was obtained from Debian packages."""
+    source_dirs = list(Path('/app').glob('pmars-*'))
+    assert source_dirs, 'No pmars source directory found in `/app`,Source must be extracted to `/app` as instructed.'
+    debian_dir = source_dirs[0] / 'debian'
+    assert debian_dir.exists(), 'No debian/ directory - not from Debian packages'
+======================================================================
+build-pmars::test_built_from_source
+def test_built_from_source():
+    """Verify pmars was actually built from source code."""
+    source_dirs = list(Path('/app').glob('pmars-*'))
+    assert source_dirs, 'No pmars source directory found in `/app`,Source must be extracted to `/app` as instructed.'
+    src_dir = source_dirs[0] / 'src'
+    assert src_dir.exists(), 'No src directory found'
+    c_files = list(src_dir.glob('*.c'))
+    assert c_files, 'No C source files found'
+======================================================================
+caffe-cifar-10::test_prototxt_files_exist
+def test_prototxt_files_exist():
+    """Test that CIFAR-10 prototxt files exist"""
+    caffe_base = Path('/app/caffe')
+    solver_file = caffe_base / 'examples/cifar10/cifar10_quick_solver.prototxt'
+    network_file = caffe_base / 'examples/cifar10/cifar10_quick_train_test.prototxt'
+    assert solver_file.exists(), f'File {solver_file} does not exist'
+    assert network_file.exists(), f'File {network_file} does not exist'
+======================================================================
+cancel-async-tasks::test_run_py_file_exists
+def test_run_py_file_exists():
+    """Ensure that the run.py file exists."""
+    run_path = Path('/app/run.py')
+    assert run_path.exists(), f'File {run_path} does not exist'
+======================================================================
+circuit-fibsqrt::test_gates_file_exists
+def test_gates_file_exists():
+    """Test that gates.txt file exists in the current directory."""
+    gate_path = Path('/app/gates.txt')
+    assert gate_path.exists(), f'File {gate_path} does not exist'
+======================================================================
+cobol-modernization::test_required_files_exist
+def test_required_files_exist():
+    """Test that all required Python files exist"""
+    required_files = ['/app/program.py']
+    for file_path in required_files:
+        assert Path(file_path).exists(), f'Required file {file_path} does not exist'
+======================================================================
+cobol-modernization::test_data_files_exist
+def test_data_files_exist():
+    """Test that all required data files exist"""
+    data_files = ['/app/data/ACCOUNTS.DAT', '/app/data/BOOKS.DAT', '/app/data/TRANSACTIONS.DAT', '/app/src/INPUT.DAT']
+    for file_path in data_files:
+        assert Path(file_path).exists(), f'Data file {file_path} does not exist'
+======================================================================
+code-from-image::test_output_file_exists
+def test_output_file_exists():
+    """
+    Verify the output file exists
+    """
+    output_path = Path('/app/output.txt')
+    assert output_path.exists(), f'File {output_path} does not exist'
+======================================================================
+crack-7z-hash::test_solution_file
+def test_solution_file():
+    """Test that the solution file exists at the expected path."""
+    solution_path = Path('/app/solution.txt')
+    assert os.path.exists(solution_path), f'Solution file {solution_path} does not exist.'
+======================================================================
+db-wal-recovery::test_recovered_json_exists
+def test_recovered_json_exists():
+    """Test that the recovered.json file exists."""
+    assert os.path.exists('/app/recovered.json'), 'recovered.json file does not exist'
+======================================================================
+extract-elf::test_extract_js_exists
+def test_extract_js_exists():
+    """Test that the extract.js file exists"""
+    extract_path = Path('/app/extract.js')
+    assert extract_path.exists(), f'File {extract_path} does not exist'
+    assert extract_path.is_file(), f'{extract_path} is not a file'
+======================================================================
+extract-moves-from-video::test_solution_file_exists
+def test_solution_file_exists():
+    """
+    Test that the solution file exists
+    """
+    solution_path = Path('/app/solution.txt')
+    assert solution_path.exists(), f'File {solution_path} does not exist'
+======================================================================
+financial-document-processor::test_directories_created
+def test_directories_created():
+    """Test that invoices and other directories were created."""
+    invoices_dir = Path('/app/invoices')
+    other_dir = Path('/app/other')
+    assert invoices_dir.exists() and invoices_dir.is_dir(), '/app/invoices directory should exist'
+    assert other_dir.exists() and other_dir.is_dir(), '/app/other directory should exist'
+======================================================================
+financial-document-processor::test_summary_csv_exists
+def test_summary_csv_exists():
+    """Test that summary.csv exists in /app/invoices/."""
+    summary_file = Path('/app/invoices/summary.csv')
+    assert summary_file.exists(), '/app/invoices/summary.csv should exist'
+======================================================================
+fix-code-vulnerability::test_report_file_exists_example
+def test_report_file_exists_example():
+    """Test whether the report.jsonl file was successfully created."""
+    report_path = Path('/app/report.jsonl')
+    assert report_path.exists(), f'File {report_path} does not exist'
+======================================================================
+gcode-to-text::test_hello_file_exists
+def test_hello_file_exists():
+    """Test that out.txt file exists in the current directory."""
+    hello_path = Path('/app/out.txt')
+    assert hello_path.exists(), f'File {hello_path} does not exist'
+======================================================================
+kv-store-grpc::test_protobuf_generation
+def test_protobuf_generation():
+    """
+    Test that the protobuf files were generated from the proto file.
+    This verifies the agent used the protoc compiler to generate the Python bindings.
+    """
+    kv_store_pb2_path = Path('/app/kv_store_pb2.py')
+    kv_store_pb2_grpc_path = Path('/app/kv_store_pb2_grpc.py')
+    assert kv_store_pb2_path.exists(), f'Generated protobuf file {kv_store_pb2_path} does not exist'
+    assert kv_store_pb2_grpc_path.exists(), f'Generated gRPC file {kv_store_pb2_grpc_path} does not exist'
+======================================================================
+large-scale-text-editing::test_apply_macros_exists
+def test_apply_macros_exists():
+    """Ensure the Vim macros script is present at /app/apply_macros.vim."""
+    assert APPLY_SCRIPT.exists(), f'Missing macro script: {APPLY_SCRIPT}'
+======================================================================
+llm-inference-batching-scheduler::test_output_files_exist
+def test_output_files_exist() -> None:
+    """Test that both required output files exist.
+
+    This test verifies that the agent has generated the required output files
+    before running any validation logic. This is a prerequisite for all other tests.
+    """
+    assert os.path.exists('/app/task_file/output_data/plan_b1.jsonl'), 'Missing required output file: /app/task_file/output_data/plan_b1.jsonl'
+    assert os.path.exists('/app/task_file/output_data/plan_b2.jsonl'), 'Missing required output file: /app/task_file/output_data/plan_b2.jsonl'
+======================================================================
+log-summary-date-ranges::test_summary_file_exists
+def test_summary_file_exists():
+    """Check if summary.csv exists."""
+    assert OUTPUT_FILE.exists(), f'File {OUTPUT_FILE} does not exist'
+======================================================================
+merge-diff-arc-agi-task::test_git_repo_init
+def test_git_repo_init():
+    """Test that git bundles were pulled and merged"""
+    git_path = Path('/app/repo/.git')
+    assert git_path.exists(), 'Git repository does not exist in /app/repo'
+======================================================================
+merge-diff-arc-agi-task::test_algo_py_exists
+def test_algo_py_exists():
+    """Test that algo.py file exists in /app"""
+    algo_path = Path('/app/repo/algo.py')
+    assert algo_path.exists(), 'algo.py file does not exist in /app/repo'
+======================================================================
+modernize-scientific-stack::test_dependency_file_exists
+def test_dependency_file_exists():
+    """Test that a dependency file was created"""
+    dep_files = ['/app/requirements.txt', '/app/pyproject.toml']
+    assert any((Path(f).exists() for f in dep_files)), 'Must create either requirements.txt or pyproject.toml in /app/'
+======================================================================
+mteb-leaderboard::test_result_exists
+def test_result_exists():
+    assert os.path.exists('/app/result.txt'), 'result.txt file does not exist'
+======================================================================
+mteb-retrieve::test_result_exists
+def test_result_exists():
+    assert os.path.exists('/app/result.txt'), 'result.txt file does not exist'
+======================================================================
+multi-source-data-merger::test_output_files_exist
+def test_output_files_exist():
+    """Test that output files exist."""
+    assert os.path.exists('/app/merged_users.parquet'), 'merged_users.parquet not found'
+    assert os.path.exists('/app/conflicts.json'), 'conflicts.json not found'
+======================================================================
+openssl-selfsigned-cert::test_directory_structure
+def test_directory_structure():
+    """Test that the required directory structure exists."""
+    directory = '/app/ssl'
+    assert os.path.exists(directory), f'Directory {directory} does not exist'
+    assert os.path.isdir(directory), f'{directory} is not a directory'
+======================================================================
+password-recovery::test_recovery_file_exists
+def test_recovery_file_exists():
+    recovered_pass_path = Path('/app/recovered_passwords.txt')
+    assert recovered_pass_path.exists(), 'Recovery file not found'
+======================================================================
+path-tracing-reverse::test_image_c_exists
+def test_image_c_exists():
+    """Test that the reverse-engineered C source file exists.
+    
+    Verifies that the agent successfully created mystery.c, which should be
+    a reverse-engineered implementation of the path tracing algorithm from
+    the provided binary.
+    """
+    image_c_path = Path('/app/mystery.c')
+    assert image_c_path.exists(), f'File {image_c_path} does not exist'
+======================================================================
+path-tracing::test_image_c_exists
+def test_image_c_exists():
+    """Test that the image.c source file exists.
+    
+    Verifies that the agent successfully created an image.c file that will
+    generate a path-traced image matching the provided reference.
+    """
+    image_c_path = Path('/app/image.c')
+    assert image_c_path.exists(), f'File {image_c_path} does not exist'
+======================================================================
+prove-plus-comm::test_proof_file_exists
+def test_proof_file_exists():
+    assert os.path.exists('plus_comm.v'), 'The proof file plus_comm.v should exist'
+======================================================================
+prove-plus-comm::test_compiled_proof_exists
+def test_compiled_proof_exists():
+    assert os.path.exists('plus_comm.vo'), 'The compiled proof file plus_comm.vo should exist'
+======================================================================
+pytorch-model-cli::test_weights_file_exists
+def test_weights_file_exists():
+    weights_path = Path('/app/weights.json')
+    assert weights_path.exists(), f'File {weights_path} does not exist'
+======================================================================
+pytorch-model-cli::test_cli_tool_exists
+def test_cli_tool_exists():
+    cli_path = Path('/app/cli_tool')
+    assert cli_path.exists(), f'File {cli_path} does not exist'
+======================================================================
+pytorch-model-cli::test_prediction_file_exists
+def test_prediction_file_exists():
+    prediction_path = Path('/app/prediction.txt')
+    assert prediction_path.exists(), f'File {prediction_path} does not exist'
+======================================================================
+pytorch-model-recovery::test_model_file_exists
+def test_model_file_exists():
+    """Checks if the model file exists"""
+    hello_path = Path('/app/model.pt')
+    assert hello_path.exists(), f'File {hello_path} does not exist'
+======================================================================
+raman-fitting::test_result_file_exists
+def test_result_file_exists():
+    result_path = Path('/app/results.json')
+    assert result_path.exists(), f'File {result_path} does not exist'
+======================================================================
+rstan-to-pystan::test_output_files_exist
+def test_output_files_exist():
+    """Test that all required output CSV files exist."""
+    required_files = ['/app/alpha_est.csv', '/app/sigma_est.csv', '/app/rho_est.csv', '/app/beta_est.csv']
+    for file_path in required_files:
+        assert os.path.exists(file_path), f'Required output file not found: {file_path}'
+======================================================================
+sam-cell-seg::test_python_file_exists
+def test_python_file_exists():
+    """Check if the required file exists."""
+    output_path = Path('/app/convert_masks.py')
+    assert output_path.exists(), f'File {output_path} does not exist'
+======================================================================
+sam-cell-seg::test_csv_output_exists
+def test_csv_output_exists():
+    """Check if the output CSV file exists."""
+    output_path = Path('/app/test_output.csv')
+    assert output_path.exists(), f'File {output_path} does not exist'
+======================================================================
+sparql-university::test_sparql_file_exists
+def test_sparql_file_exists():
+    """
+    Test that the SPARQL query file exists in the expected location.
+    """
+    assert SPARQL_PATH.exists(), f'SPARQL query file {SPARQL_PATH} does not exist'
+======================================================================
+torch-pipeline-parallelism::test_pipeline_parallel_exists
+def test_pipeline_parallel_exists():
+    """
+    Checks that the agent creates a file named pipeline_parallel.py
+    in the expected directory.
+    """
+    pipeline_parallel_path = Path('/app/pipeline_parallel.py')
+    assert pipeline_parallel_path.exists(), f'File {pipeline_parallel_path} does not exist'
+======================================================================
+torch-tensor-parallelism::test_parallel_linear_exists
+def test_parallel_linear_exists():
+    """
+    Checks that the agent creates a file named parallel_linear.py
+    in the expected directory.
+    """
+    parallel_linear_path = Path('/app/parallel_linear.py')
+    assert parallel_linear_path.exists(), f'File {parallel_linear_path} does not exist'
+======================================================================
+tune-mjcf::test_tuned_model_exists
+def test_tuned_model_exists():
+    """Test that the tuned model exists"""
+    model_path = app_dir / 'model.xml'
+    assert model_path.exists(), 'Tuned model file does not exist'
+======================================================================
+video-processing::test_example_video_exists
+def test_example_video_exists():
+    """Test that example_video.mp4 exists in the container."""
+    video_path = Path('/app/example_video.mp4')
+    assert video_path.exists(), f'Example video file {video_path} does not exist'
+======================================================================
+video-processing::test_test_video_exists
+def test_test_video_exists():
+    """Test that test_video.mp4 exists in the container."""
+    video_path = Path('/tests/test_video.mp4')
+    assert video_path.exists(), f'Test video file {video_path} does not exist'
+======================================================================
+vulnerable-secret::test_results_file_exists
+def test_results_file_exists():
+    """Test that the results.txt file was created."""
+    results_path = Path('/app/results.txt')
+    assert results_path.exists(), f'File {results_path} does not exist'
+======================================================================
+winning-avg-corewars::test_warrior_exists
+def test_warrior_exists():
+    """Test that my_warrior.red file is created."""
+    assert Path('/app/my_warrior.red').exists(), 'my_warrior.red file not found'

@@ -1,0 +1,1431 @@
+[
+ {
+  "mutant": "M06-request-param-to-X",
+  "family": "constant-check",
+  "note": "request.param (a fixture parameter value) is treated as unknown",
+  "D1_selftest": "K",
+  "D2_adv": "K",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 1,
+  "R2_adv_reasons": 1,
+  "R3_pop_reasons": 0,
+  "site_hits": 2,
+  "site_cases": 2,
+  "killed_by_any": true,
+  "witness": null,
+  "witness_count": 0,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": "request.param fixture used in a path Y",
+  "first_adv_case": "reach-fixture-value-assertions",
+  "first_pop_id": null
+ },
+ {
+  "mutant": "M07-boolop-drop-B-branch",
+  "family": "join-lattice",
+  "note": "e_BoolOp drops the B/Q/V/C branch (a boolean predicate in an 'and' is no longer a predicate)",
+  "D1_selftest": "s",
+  "D2_adv": "K",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 0,
+  "R2_adv_reasons": 1,
+  "R3_pop_reasons": 0,
+  "site_hits": 61,
+  "site_cases": 40,
+  "killed_by_any": true,
+  "witness": null,
+  "witness_count": 0,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": null,
+  "first_adv_case": "reach-mutual-recursion-clean",
+  "first_pop_id": null
+ },
+ {
+  "mutant": "M08-existq-B-to-K",
+  "family": "exist-query",
+  "note": "os.path.exists() returns a constant instead of an existence predicate",
+  "D1_selftest": "K",
+  "D2_adv": "K",
+  "D3_population": "K",
+  "population_moved": 10,
+  "oracle_disagree": 10,
+  "oracle_leg_breaks": true,
+  "counter_leg_ok": false,
+  "R1_selftest_reasons": 19,
+  "R2_adv_reasons": 41,
+  "R3_pop_reasons": 26,
+  "site_hits": 331,
+  "site_cases": 126,
+  "killed_by_any": true,
+  "witness": null,
+  "witness_count": 0,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": "spec3 isfile and isdir",
+  "first_adv_case": "ex-3-isfile-and-isdir",
+  "first_pop_id": "crack-7z-hash::test_solution_file"
+ },
+ {
+  "mutant": "M09-listq-drop-scandir",
+  "family": "list-query",
+  "note": "os.scandir is removed from LIST_Q (a listing call is no longer recognised)",
+  "D1_selftest": "s",
+  "D2_adv": "K",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 0,
+  "R2_adv_reasons": 1,
+  "R3_pop_reasons": 0,
+  "site_hits": 44,
+  "site_cases": 28,
+  "killed_by_any": true,
+  "witness": null,
+  "witness_count": 0,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": null,
+  "first_adv_case": "cl2-listing-membership",
+  "first_pop_id": null
+ },
+ {
+  "mutant": "M11-const-cmp-in-assert-allowed",
+  "family": "assertion",
+  "note": "a value comparison inside an assertion is allowed (the assertion-context check is dropped)",
+  "D1_selftest": "K",
+  "D2_adv": "K",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 2,
+  "R2_adv_reasons": 6,
+  "R3_pop_reasons": 3,
+  "site_hits": 37,
+  "site_cases": 16,
+  "killed_by_any": true,
+  "witness": null,
+  "witness_count": 0,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": "constant assertion only N",
+  "first_adv_case": "cl1-mixed-vacuous-assert",
+  "first_pop_id": "circuit-fibsqrt::test_gates_file_size"
+ },
+ {
+  "mutant": "M12-record-assert-constant-ok",
+  "family": "assertion",
+  "note": "an assertion that depends on no path state is not a violation",
+  "D1_selftest": "s",
+  "D2_adv": "K",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 0,
+  "R2_adv_reasons": 1,
+  "R3_pop_reasons": 4,
+  "site_hits": 22,
+  "site_cases": 19,
+  "killed_by_any": true,
+  "witness": null,
+  "witness_count": 0,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": null,
+  "first_adv_case": "cl1-assert-no-path",
+  "first_pop_id": "break-filter-js-from-html::test_out_html_bypasses_filter"
+ },
+ {
+  "mutant": "M15-open-write-modes-drop-w",
+  "family": "write-vs-read",
+  "note": "open() in mode 'w' is no longer write-only (a write is read as content)",
+  "D1_selftest": "K",
+  "D2_adv": "K",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 1,
+  "R2_adv_reasons": 1,
+  "R3_pop_reasons": 3,
+  "site_hits": 417,
+  "site_cases": 163,
+  "killed_by_any": true,
+  "witness": null,
+  "witness_count": 0,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": "write-mode open then exists Y",
+  "first_adv_case": "cl2-writes-are-not-reads",
+  "first_pop_id": "extract-elf::test_output_matches_reference"
+ },
+ {
+  "mutant": "M16-all-over-listing-allowed",
+  "family": "universality",
+  "note": "all() over a listing is not a universal-quantifier violation",
+  "D1_selftest": "K",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 1,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 0,
+  "site_hits": 1,
+  "site_cases": 1,
+  "killed_by_any": true,
+  "witness": null,
+  "witness_count": 0,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": "all() over a listing is universal N",
+  "first_adv_case": null,
+  "first_pop_id": null
+ },
+ {
+  "mutant": "M17-try-handler-never-path-state",
+  "family": "control-flow",
+  "note": "an exception handler never encodes path state (try/except pytest.fail loses its predicate)",
+  "D1_selftest": "K",
+  "D2_adv": "K",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 1,
+  "R2_adv_reasons": 1,
+  "R3_pop_reasons": 1,
+  "site_hits": 354,
+  "site_cases": 130,
+  "killed_by_any": true,
+  "witness": null,
+  "witness_count": 0,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": "try/except pytest.fail Y",
+  "first_adv_case": "struct-with-and-try",
+  "first_pop_id": "install-windows-3.11::test_windows_keys_with_visual_feedback"
+ },
+ {
+  "mutant": "M20-no-assertion-reason-dropped",
+  "family": "assertion",
+  "note": "a test with no path assertion is not flagged (the 'no assertion reached' reason is dropped)",
+  "D1_selftest": "K",
+  "D2_adv": "K",
+  "D3_population": "K",
+  "population_moved": 1,
+  "oracle_disagree": 1,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 2,
+  "R2_adv_reasons": 10,
+  "R3_pop_reasons": 1,
+  "site_hits": 31,
+  "site_cases": 19,
+  "killed_by_any": true,
+  "witness": null,
+  "witness_count": 0,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": "spec8 pass",
+  "first_adv_case": "ex-8-pass",
+  "first_pop_id": "headless-terminal::test_import"
+ },
+ {
+  "mutant": "M26-subscript-pick-is-listing",
+  "family": "subscript",
+  "note": "picking a named entry out of a listing stays a listing instead of a name",
+  "D1_selftest": "K",
+  "D2_adv": "s",
+  "D3_population": "K",
+  "population_moved": 2,
+  "oracle_disagree": 2,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 1,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 2,
+  "site_hits": 9,
+  "site_cases": 5,
+  "killed_by_any": true,
+  "witness": null,
+  "witness_count": 0,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": "pick first glob match then exists Y",
+  "first_adv_case": null,
+  "first_pop_id": "build-pmars::test_debian_source_used"
+ },
+ {
+  "mutant": "M27-assert-context-flag-off",
+  "family": "assertion",
+  "note": "s_Assert does not mark the assertion context (in_assert stays False)",
+  "D1_selftest": "K",
+  "D2_adv": "K",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 2,
+  "R2_adv_reasons": 6,
+  "R3_pop_reasons": 3,
+  "site_hits": 3873,
+  "site_cases": 451,
+  "killed_by_any": true,
+  "witness": null,
+  "witness_count": 0,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": "constant assertion only N",
+  "first_adv_case": "cl1-mixed-vacuous-assert",
+  "first_pop_id": "circuit-fibsqrt::test_gates_file_size"
+ },
+ {
+  "mutant": "M28-implicit-setup-off",
+  "family": "helper-visit",
+  "note": "the implicit setUp/setup_module helper visit is switched off",
+  "D1_selftest": "K",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 2,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 4,
+  "site_hits": 1980,
+  "site_cases": 475,
+  "killed_by_any": true,
+  "witness": null,
+  "witness_count": 0,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": "unittest self.assertTrue exists + setUp attr",
+  "first_adv_case": null,
+  "first_pop_id": "overfull-hbox::test_main_synonyms_not_modified"
+ },
+ {
+  "mutant": "M30-module-helper-not-registered",
+  "family": "helper-visit",
+  "note": "a module-level helper is not registered, so calls into it are undefined",
+  "D1_selftest": "K",
+  "D2_adv": "K",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 6,
+  "R2_adv_reasons": 19,
+  "R3_pop_reasons": 60,
+  "site_hits": 2390,
+  "site_cases": 463,
+  "killed_by_any": true,
+  "witness": null,
+  "witness_count": 0,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": "spec6 helper Y",
+  "first_adv_case": "ex-6-helper-exists",
+  "first_pop_id": "build-pmars::test_pmars_works"
+ },
+ {
+  "mutant": "M32-e_Constant-unknown",
+  "family": "constant-check",
+  "note": "a literal constant is unknown instead of a known value",
+  "D1_selftest": "K",
+  "D2_adv": "K",
+  "D3_population": "K",
+  "population_moved": 52,
+  "oracle_disagree": 52,
+  "oracle_leg_breaks": true,
+  "counter_leg_ok": false,
+  "R1_selftest_reasons": 72,
+  "R2_adv_reasons": 87,
+  "R3_pop_reasons": 220,
+  "site_hits": 17366,
+  "site_cases": 472,
+  "killed_by_any": true,
+  "witness": null,
+  "witness_count": 0,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": "spec1 exists",
+  "first_adv_case": "ex-1-exists",
+  "first_pop_id": "adaptive-rejection-sampler::test_ars_function_exists"
+ },
+ {
+  "mutant": "M34-exist-q-drop-os-path-exists",
+  "family": "exist-query",
+  "note": "os.path.exists is not an existence query",
+  "D1_selftest": "K",
+  "D2_adv": "K",
+  "D3_population": "K",
+  "population_moved": 10,
+  "oracle_disagree": 10,
+  "oracle_leg_breaks": true,
+  "counter_leg_ok": false,
+  "R1_selftest_reasons": 22,
+  "R2_adv_reasons": 40,
+  "R3_pop_reasons": 30,
+  "site_hits": 5000,
+  "site_cases": 466,
+  "killed_by_any": true,
+  "witness": null,
+  "witness_count": 0,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": "helper chain depth 3",
+  "first_adv_case": "cl1-assert-statement-kinds",
+  "first_pop_id": "crack-7z-hash::test_solution_file"
+ },
+ {
+  "mutant": "M35-list-m-drop-iterdir",
+  "family": "list-query",
+  "note": "Path.iterdir is not a listing method",
+  "D1_selftest": "K",
+  "D2_adv": "K",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 6,
+  "R2_adv_reasons": 3,
+  "R3_pop_reasons": 3,
+  "site_hits": 840,
+  "site_cases": 254,
+  "killed_by_any": true,
+  "witness": null,
+  "witness_count": 0,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": "name set from iterdir Y",
+  "first_adv_case": "cl2-listing-membership",
+  "first_pop_id": "financial-document-processor::test_invoices_moved_correctly"
+ },
+ {
+  "mutant": "M36-pure-q-drop-pathlib",
+  "family": "constant-check",
+  "note": "pathlib.Path is not a pure-value constructor",
+  "D1_selftest": "K",
+  "D2_adv": "K",
+  "D3_population": "K",
+  "population_moved": 43,
+  "oracle_disagree": 43,
+  "oracle_leg_breaks": true,
+  "counter_leg_ok": false,
+  "R1_selftest_reasons": 33,
+  "R2_adv_reasons": 79,
+  "R3_pop_reasons": 159,
+  "site_hits": 4598,
+  "site_cases": 431,
+  "killed_by_any": true,
+  "witness": null,
+  "witness_count": 0,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": "spec1 exists",
+  "first_adv_case": "ex-1-exists",
+  "first_pop_id": "adaptive-rejection-sampler::test_ars_function_exists"
+ },
+ {
+  "mutant": "M37-membership-not-a-predicate",
+  "family": "comparison",
+  "note": "membership over names is not an existence predicate",
+  "D1_selftest": "K",
+  "D2_adv": "K",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 3,
+  "R2_adv_reasons": 3,
+  "R3_pop_reasons": 0,
+  "site_hits": 18,
+  "site_cases": 7,
+  "killed_by_any": true,
+  "witness": null,
+  "witness_count": 0,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": "os.listdir membership Y",
+  "first_adv_case": "cl2-from-imports",
+  "first_pop_id": null
+ },
+ {
+  "mutant": "M42-tmp-fixtures-dropped",
+  "family": "helper-visit",
+  "note": "tmp_path/tmpdir are not pure fixtures",
+  "D1_selftest": "K",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 1,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 0,
+  "site_hits": 3,
+  "site_cases": 3,
+  "killed_by_any": true,
+  "witness": null,
+  "witness_count": 0,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": "tmp_path fixture is pure",
+  "first_adv_case": null,
+  "first_pop_id": null
+ },
+ {
+  "mutant": "M01-join-KN-to-K",
+  "family": "join-lattice",
+  "note": "join() maps {K,N} to N instead of K (one comparison result flipped)",
+  "D1_selftest": "s",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 0,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 0,
+  "site_hits": 0,
+  "site_cases": 0,
+  "killed_by_any": false,
+  "witness": {
+   "desc": "join(K,N): a ternary whose branches are a constant and a name picked out of a listing",
+   "src": "def test_f():\n    names = os.listdir(D)\n    x = 1 if True else names[0]\n    assert x\n",
+   "pristine": {
+    "test_f": "P1"
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": []
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "assertion depends on no path state (constant/computed value)@9"
+    ]
+   },
+   "class_moved": true
+  },
+  "witness_count": 2,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": true,
+  "first_selftest_case": null,
+  "first_adv_case": null,
+  "first_pop_id": null
+ },
+ {
+  "mutant": "M02-join-KL-to-N",
+  "family": "join-lattice",
+  "note": "join() maps {K,L}/{N,L} to N instead of L",
+  "D1_selftest": "s",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 0,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 0,
+  "site_hits": 0,
+  "site_cases": 0,
+  "killed_by_any": false,
+  "witness": {
+   "desc": "join(K,L): a ternary whose branches are a constant and a listing, compared to a name",
+   "src": "def test_f():\n    x = 1 if True else os.listdir(D)\n    assert x == 'a'\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "mutant": {
+    "test_f": "P1"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "equality on a listing (exact contents/count/emptiness)@8",
+     "assertion depends on content/value/unknown@8"
+    ]
+   },
+   "mutant_reasons": {
+    "test_f": []
+   },
+   "class_moved": true
+  },
+  "witness_count": 1,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": true,
+  "first_selftest_case": null,
+  "first_adv_case": null,
+  "first_pop_id": null
+ },
+ {
+  "mutant": "M03-join-BQ-to-B",
+  "family": "join-lattice",
+  "note": "join() maps {B,Q} to B instead of Q",
+  "D1_selftest": "s",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 0,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 0,
+  "site_hits": 0,
+  "site_cases": 0,
+  "killed_by_any": false,
+  "witness": {
+   "desc": "join(B,Q): a ternary whose branches are an existence predicate and a qualified-predicate generator, compared",
+   "src": "def test_f():\n    x = os.path.exists(OUT) if True else (os.path.exists(p) for p in ['/a'])\n    assert x == True\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "mutant": {
+    "test_f": "P1"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "value comparison@8",
+     "assertion depends on content/value/unknown@8"
+    ]
+   },
+   "mutant_reasons": {
+    "test_f": []
+   },
+   "class_moved": true
+  },
+  "witness_count": 1,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": true,
+  "first_selftest_case": null,
+  "first_adv_case": null,
+  "first_pop_id": null
+ },
+ {
+  "mutant": "M04-join_all-empty-to-X",
+  "family": "join-lattice",
+  "note": "join_all() of an empty set is X instead of K (default kind dropped)",
+  "D1_selftest": "s",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 0,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 0,
+  "site_hits": 1548,
+  "site_cases": 282,
+  "killed_by_any": false,
+  "witness": {
+   "src": "def h():\n    pass\ndef test_f():\n    assert h() is None\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "value comparison of computed values@9",
+     "assertion depends on content/value/unknown@9"
+    ]
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "assertion depends on content/value/unknown@9"
+    ]
+   },
+   "class_moved": false
+  },
+  "witness_count": 1,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": null,
+  "first_adv_case": null,
+  "first_pop_id": null
+ },
+ {
+  "mutant": "M05-is_num_const-accepts-bool",
+  "family": "constant-check",
+  "note": "is_num_const() drops the 'not bool' guard (Constant-value check weakened)",
+  "D1_selftest": "s",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 0,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 0,
+  "site_hits": 4,
+  "site_cases": 3,
+  "killed_by_any": false,
+  "witness": null,
+  "witness_count": 0,
+  "structural_equivalence": "assign_name() tests is_bool_const(vnode) FIRST (elif chain), so is_num_const() never sees a bool; the mutant's removed guard is unreachable",
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": null,
+  "first_adv_case": null,
+  "first_pop_id": null
+ },
+ {
+  "mutant": "M10-cmp-count-not-flagged",
+  "family": "comparison",
+  "note": "a count comparison (len(...) == 3) is not a clause-2 violation",
+  "D1_selftest": "s",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 7,
+  "R2_adv_reasons": 6,
+  "R3_pop_reasons": 4,
+  "site_hits": 35,
+  "site_cases": 28,
+  "killed_by_any": false,
+  "witness": {
+   "desc": "a count compared for equality inside an assertion",
+   "src": "def test_f(): assert len(os.listdir(D)) == 3\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "count/size comparison (a count is a value, not a path state)@6",
+     "assertion depends on content/value/unknown@6"
+    ]
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "assertion depends on no path state (constant/computed value)@6"
+    ]
+   },
+   "class_moved": false
+  },
+  "witness_count": 2,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": "glob via len > 0 is a count N",
+  "first_adv_case": "cl2-glob-nonempty",
+  "first_pop_id": "financial-document-processor::test_original_documents_dir_empty"
+ },
+ {
+  "mutant": "M13-record-assert-unknown-ok",
+  "family": "assertion",
+  "note": "an assertion depending on content/value/unknown is not a violation",
+  "D1_selftest": "s",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 26,
+  "R2_adv_reasons": 52,
+  "R3_pop_reasons": 229,
+  "site_hits": 2852,
+  "site_cases": 379,
+  "killed_by_any": false,
+  "witness": {
+   "desc": "an assertion whose only dependency is an unknown value",
+   "src": "def test_f():\n    x = json.loads('{}')['k']\n    assert x\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "call into json.loads (not a plain existence predicate)@7",
+     "assertion depends on content/value/unknown@8"
+    ]
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "call into json.loads (not a plain existence predicate)@7"
+    ]
+   },
+   "class_moved": false
+  },
+  "witness_count": 2,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": "spec2 content",
+  "first_adv_case": "ex-2-content-strip",
+  "first_pop_id": "adaptive-rejection-sampler::test_ars_function_exists"
+ },
+ {
+  "mutant": "M14-unconditional-fail-ok",
+  "family": "assertion",
+  "note": "an unconditional / constant-guarded failure is not a violation",
+  "D1_selftest": "s",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 2,
+  "R2_adv_reasons": 2,
+  "R3_pop_reasons": 29,
+  "site_hits": 174,
+  "site_cases": 83,
+  "killed_by_any": false,
+  "witness": {
+   "desc": "an unconditional pytest.fail",
+   "src": "def test_f():\n    pytest.fail('no')\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "unconditional or constant-guarded failure@7"
+    ]
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "no assertion reached that tests path existence"
+    ]
+   },
+   "class_moved": false
+  },
+  "witness_count": 2,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": "unconditional pytest.fail is not existence",
+  "first_adv_case": "cl1-unconditional-fail-or-raise",
+  "first_pop_id": "build-pmars::test_pmars_works"
+ },
+ {
+  "mutant": "M18-if-exit-guard-without-exits",
+  "family": "control-flow",
+  "note": "the 'if <exists>: return' exit guard is set even when the block does not exit",
+  "D1_selftest": "s",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 0,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 5,
+  "site_hits": 56,
+  "site_cases": 26,
+  "killed_by_any": false,
+  "witness": {
+   "desc": "an 'if <exists>:' block that does NOT exit, followed by an unconditional fail",
+   "src": "def test_f():\n    if os.path.exists(OUT):\n        pass\n    pytest.fail('no')\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "unconditional or constant-guarded failure@9"
+    ]
+   },
+   "mutant": {
+    "test_f": "P1"
+   },
+   "mutant_reasons": {
+    "test_f": []
+   },
+   "class_moved": true
+  },
+  "witness_count": 1,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": null,
+  "first_adv_case": null,
+  "first_pop_id": "build-pov-ray::test_illum1_render_and_verify"
+ },
+ {
+  "mutant": "M19-for-break-guard-any",
+  "family": "control-flow",
+  "note": "a break guard is honoured even when the condition is not path state",
+  "D1_selftest": "s",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 0,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 0,
+  "site_hits": 27,
+  "site_cases": 10,
+  "killed_by_any": false,
+  "witness": {
+   "src": "def test_f():\n    for f in os.listdir(D):\n        if len(f) == 1:\n            break\n    else:\n        pytest.fail('never')\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "count/size comparison (a count is a value, not a path state)@8",
+     "branch on unknown/content value@8"
+    ]
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "count/size comparison (a count is a value, not a path state)@8",
+     "branch on unknown/content value@8"
+    ]
+   },
+   "class_moved": false
+  },
+  "witness_count": 1,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": null,
+  "first_adv_case": null,
+  "first_pop_id": null
+ },
+ {
+  "mutant": "M21-async-fixture-not-scanned",
+  "family": "async-vs-sync",
+  "note": "Module._scan drops AsyncFunctionDef: an async fixture is not registered",
+  "D1_selftest": "s",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 0,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 0,
+  "site_hits": 2486,
+  "site_cases": 476,
+  "killed_by_any": false,
+  "witness": {
+   "desc": "an async fixture that builds a deliverable",
+   "src": "import asyncio\n@pytest.fixture\nasync def built():\n    subprocess.run(['make'], check=True)\n    return Path(OUT)\ndef test_f(built): assert built.is_file()\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "call into subprocess.run (not a plain existence predicate)@9"
+    ]
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "mutant_reasons": {
+    "test_f": [
+     ".is_file() on an unknown/content value@11",
+     "assertion depends on content/value/unknown@11"
+    ]
+   },
+   "class_moved": false
+  },
+  "witness_count": 1,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": null,
+  "first_adv_case": null,
+  "first_pop_id": null
+ },
+ {
+  "mutant": "M22-async-test-not-a-unit",
+  "family": "async-vs-sync",
+  "note": "test_units drops AsyncFunctionDef: an async test is not a test unit",
+  "D1_selftest": "s",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 0,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 0,
+  "site_hits": 1920,
+  "site_cases": 460,
+  "killed_by_any": false,
+  "witness": {
+   "desc": "an async test function",
+   "src": "import asyncio\nasync def test_f():\n    assert os.path.exists(OUT)\n",
+   "pristine": {
+    "test_f": "P1"
+   },
+   "pristine_reasons": {
+    "test_f": []
+   },
+   "mutant": {},
+   "mutant_reasons": {},
+   "class_moved": true
+  },
+  "witness_count": 1,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": null,
+  "first_adv_case": null,
+  "first_pop_id": null
+ },
+ {
+  "mutant": "M23-decorators-as-body",
+  "family": "decorators",
+  "note": "a test's decorators are analysed as body statements",
+  "D1_selftest": "s",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 0,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 0,
+  "site_hits": 1980,
+  "site_cases": 475,
+  "killed_by_any": false,
+  "witness": null,
+  "witness_count": 0,
+  "structural_equivalence": "exec_stmts() dispatches on the statement type; a decorator is an ast.Call/ast.Attribute, not a statement, and Run has no s_Call handler, so a decorator in the body list is silently ignored",
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": null,
+  "first_adv_case": null,
+  "first_pop_id": null
+ },
+ {
+  "mutant": "M24-parametrize-listing-K",
+  "family": "parametrize",
+  "note": "a listing-valued parametrize argument is a constant instead of a name",
+  "D1_selftest": "s",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 0,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 0,
+  "site_hits": 33,
+  "site_cases": 16,
+  "killed_by_any": false,
+  "witness": {
+   "desc": "a parametrize whose values are a listing, compared to a name",
+   "src": "import pytest\n@pytest.mark.parametrize('p', os.listdir(D))\ndef test_f(p): assert p == 'a'\n",
+   "pristine": {
+    "test_f": "P1"
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": []
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "value comparison of computed values@8",
+     "assertion depends on content/value/unknown@8"
+    ]
+   },
+   "class_moved": true
+  },
+  "witness_count": 1,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": null,
+  "first_adv_case": null,
+  "first_pop_id": null
+ },
+ {
+  "mutant": "M25-elem-listing-to-K",
+  "family": "element-kind",
+  "note": "the element kind of a listing is a constant instead of a name",
+  "D1_selftest": "s",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 0,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 0,
+  "site_hits": 1080,
+  "site_cases": 225,
+  "killed_by_any": false,
+  "witness": {
+   "desc": "a loop over a listing whose element is compared to a name",
+   "src": "def test_f():\n    for f in os.listdir(D):\n        assert f == 'a.txt'\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "assertion inside a loop over a listing (universal: depends on absence of other entries)@8"
+    ]
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "value comparison of computed values@8",
+     "assertion inside a loop over a listing (universal: depends on absence of other entries)@8"
+    ]
+   },
+   "class_moved": false
+  },
+  "witness_count": 1,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": null,
+  "first_adv_case": null,
+  "first_pop_id": null
+ },
+ {
+  "mutant": "M29-class-chain-no-inheritance",
+  "family": "helper-visit",
+  "note": "the class chain does not follow base classes (an inherited method is not found)",
+  "D1_selftest": "s",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 0,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 0,
+  "site_hits": 462,
+  "site_cases": 20,
+  "killed_by_any": false,
+  "witness": {
+   "desc": "a test class inheriting a helper method from a same-file base class",
+   "src": "class B:\n    def helper(self):\n        return Path(OUT)\nclass T(B):\n    def test_a(self):\n        assert self.helper().exists()\n",
+   "pristine": {
+    "T.test_a": "P1"
+   },
+   "pristine_reasons": {
+    "T.test_a": []
+   },
+   "mutant": {
+    "T.test_a": "P0"
+   },
+   "mutant_reasons": {
+    "T.test_a": [
+     "self.helper(...) not defined in the file@11",
+     ".exists() on an unknown/content value@11",
+     "assertion depends on content/value/unknown@11"
+    ]
+   },
+   "class_moved": true
+  },
+  "witness_count": 1,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": null,
+  "first_adv_case": null,
+  "first_pop_id": null
+ },
+ {
+  "mutant": "M31-is_bool_const-any-constant",
+  "family": "constant-check",
+  "note": "is_bool_const() accepts any Constant as a boolean (the bool-value check is dropped)",
+  "D1_selftest": "s",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 0,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 0,
+  "site_hits": 984,
+  "site_cases": 125,
+  "killed_by_any": false,
+  "witness": {
+   "src": "def test_f():\n    n = 0\n    if os.path.exists(OUT):\n        n = 1\n    assert n\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "mutant": {
+    "test_f": "P1"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "assertion depends on content/value/unknown@10"
+    ]
+   },
+   "mutant_reasons": {
+    "test_f": []
+   },
+   "class_moved": true
+  },
+  "witness_count": 1,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": null,
+  "first_adv_case": null,
+  "first_pop_id": null
+ },
+ {
+  "mutant": "M33-known-k-modules-drop-os",
+  "family": "constant-check",
+  "note": "the 'os' module is not a known-value module",
+  "D1_selftest": "s",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 0,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 0,
+  "site_hits": 101,
+  "site_cases": 32,
+  "killed_by_any": false,
+  "witness": {
+   "desc": "the 'os' module bound to a name and branched on",
+   "src": "def test_f():\n    x = os\n    if x:\n        assert os.path.exists(OUT)\n",
+   "pristine": {
+    "test_f": "P1"
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": []
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "branch on unknown/content value@8"
+    ]
+   },
+   "class_moved": true
+  },
+  "witness_count": 2,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": null,
+  "first_adv_case": null,
+  "first_pop_id": null
+ },
+ {
+  "mutant": "M38-write-count-not-a-count",
+  "family": "write-vs-read",
+  "note": "a write that returns a byte count is not a count value",
+  "D1_selftest": "s",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 0,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 0,
+  "site_hits": 120,
+  "site_cases": 35,
+  "killed_by_any": false,
+  "witness": {
+   "src": "def test_f():\n    n = Path(OUT).write_text('x')\n    assert n == 1\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "count/size comparison (a count is a value, not a path state)@8",
+     "assertion depends on content/value/unknown@8"
+    ]
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "value comparison of computed values@8",
+     "assertion depends on content/value/unknown@8"
+    ]
+   },
+   "class_moved": false
+  },
+  "witness_count": 1,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": null,
+  "first_adv_case": null,
+  "first_pop_id": null
+ },
+ {
+  "mutant": "M39-mutate-drops-var",
+  "family": "write-vs-read",
+  "note": "a mutating call does not update the variable it mutates",
+  "D1_selftest": "s",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 0,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 1,
+  "site_hits": 15,
+  "site_cases": 11,
+  "killed_by_any": false,
+  "witness": {
+   "desc": "a mutated empty list whose element is a listing",
+   "src": "def test_f():\n    x = []\n    x.append(os.listdir(D))\n    assert x\n",
+   "pristine": {
+    "test_f": "P1"
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": []
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "assertion depends on no path state (constant/computed value)@9"
+    ]
+   },
+   "class_moved": true
+  },
+  "witness_count": 2,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": null,
+  "first_adv_case": null,
+  "first_pop_id": "sqlite-with-gcov::test_gcov_enabled"
+ },
+ {
+  "mutant": "M40-class-attr-self-only",
+  "family": "helper-visit",
+  "note": "a class attribute is only read from the exact class, not its chain",
+  "D1_selftest": "s",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 0,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 0,
+  "site_hits": 1,
+  "site_cases": 1,
+  "killed_by_any": false,
+  "witness": {
+   "src": "class B:\n    p = Path(OUT)\nclass T(B):\n    def test_a(self):\n        assert self.p.exists()\n",
+   "pristine": {
+    "T.test_a": "P1"
+   },
+   "mutant": {
+    "T.test_a": "P0"
+   },
+   "pristine_reasons": {
+    "T.test_a": []
+   },
+   "mutant_reasons": {
+    "T.test_a": [
+     ".exists() on an unknown/content value@10",
+     "assertion depends on content/value/unknown@10"
+    ]
+   },
+   "class_moved": true
+  },
+  "witness_count": 1,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": null,
+  "first_adv_case": null,
+  "first_pop_id": null
+ },
+ {
+  "mutant": "M41-fixture-autouse-dropped",
+  "family": "helper-visit",
+  "note": "an autouse fixture is not run",
+  "D1_selftest": "s",
+  "D2_adv": "s",
+  "D3_population": "s",
+  "population_moved": 0,
+  "oracle_disagree": 0,
+  "oracle_leg_breaks": false,
+  "counter_leg_ok": true,
+  "R1_selftest_reasons": 0,
+  "R2_adv_reasons": 0,
+  "R3_pop_reasons": 4,
+  "site_hits": 4,
+  "site_cases": 4,
+  "killed_by_any": false,
+  "witness": {
+   "src": "import pytest\n@pytest.fixture(autouse=True)\ndef built():\n    subprocess.run(['make'], check=True)\ndef test_f(): assert os.path.exists(OUT)\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "mutant": {
+    "test_f": "P1"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "call into subprocess.run (not a plain existence predicate)@9"
+    ]
+   },
+   "mutant_reasons": {
+    "test_f": []
+   },
+   "class_moved": true
+  },
+  "witness_count": 1,
+  "structural_equivalence": null,
+  "corpus_never_reaches_site": false,
+  "first_selftest_case": null,
+  "first_adv_case": null,
+  "first_pop_id": "overfull-hbox::test_main_synonyms_not_modified"
+ }
+]

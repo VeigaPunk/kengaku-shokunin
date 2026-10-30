@@ -1,0 +1,85 @@
+{
+  "seat": "C1RelabelRev2",
+  "labels": {
+    "build-cython-ext::test_ccomplexity_cython_extension": {
+      "label": "N",
+      "why": "Loader metadata and returned spec are compared; filesystem existence alone cannot establish the required extension loader."
+    },
+    "pytorch-model-cli::test_prediction_file_exists": {
+      "label": "Y",
+      "why": "Only prediction path existence is asserted; no helpers or fixtures are reached."
+    },
+    "extract-elf::test_extract_js_exists": {
+      "label": "Y",
+      "why": "Both assertions check path existence or file type only."
+    },
+    "password-recovery::test_recovery_file_exists": {
+      "label": "Y",
+      "why": "Only recovered-password path existence is asserted."
+    },
+    "large-scale-text-editing::test_apply_macros_exists": {
+      "label": "Y",
+      "why": "Only macro script existence is asserted; validation and execution helpers are not called."
+    },
+    "sparql-university::test_sparql_file_exists": {
+      "label": "Y",
+      "why": "Only the SPARQL query path existence is asserted."
+    },
+    "video-processing::test_example_video_exists": {
+      "label": "Y",
+      "why": "Only example video path existence is asserted; analyzer helper is not called."
+    },
+    "build-cython-ext::test_pyknotid_core_import": {
+      "label": "N",
+      "why": "Returned module spec and loader class are compared, exceeding filesystem existence or type checks."
+    },
+    "bn-fit-modify::test_bn_sample_exists": {
+      "label": "Y",
+      "why": "Only sampled CSV path existence is asserted; no content checks are reached."
+    },
+    "code-from-image::test_output_file_exists": {
+      "label": "Y",
+      "why": "Only output path existence is asserted."
+    },
+    "multi-source-data-merger::test_output_files_exist": {
+      "label": "Y",
+      "why": "Both assertions check output path existence only."
+    },
+    "build-cython-ext::test_cinvariants_cython_extension": {
+      "label": "N",
+      "why": "Returned spec and extension loader class are compared, not merely filesystem path existence or type."
+    },
+    "gcode-to-text::test_hello_file_exists": {
+      "label": "Y",
+      "why": "Only output path existence is asserted; content test is separate."
+    },
+    "log-summary-date-ranges::test_summary_file_exists": {
+      "label": "Y",
+      "why": "Only summary path existence is asserted; CSV parsing test is separate."
+    },
+    "build-cython-ext::test_repo_cloned": {
+      "label": "Y",
+      "why": "Assertions require repository directory and git path existence only."
+    },
+    "make-doom-for-mips::test_frame_bmp_exists": {
+      "label": "N",
+      "why": "Also asserts positive file size; an empty touched file fails."
+    },
+    "merge-diff-arc-agi-task::test_algo_py_has_map_function": {
+      "label": "N",
+      "why": "Executes deliverable module and checks attribute presence and callability; empty files cannot satisfy these assertions."
+    },
+    "kv-store-grpc::test_protobuf_generation": {
+      "label": "Y",
+      "why": "Only generated protobuf paths existence is asserted; neither generated module is imported here."
+    },
+    "prove-plus-comm::test_compiled_proof_exists": {
+      "label": "Y",
+      "why": "Only compiled proof path existence is asserted; compilation and content checks belong to separate tests."
+    },
+    "kv-store-grpc::test_grpc_server_functionality": {
+      "label": "N",
+      "why": "Performs network RPC calls and compares returned values; missing imported modules cannot erase this decisive exclusion."
+    }
+  }
+}

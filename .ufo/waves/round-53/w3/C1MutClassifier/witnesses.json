@@ -1,0 +1,253 @@
+{
+ "M01-join-KN-to-K": [],
+ "M02-join-KL-to-N": [],
+ "M03-join-BQ-to-B": [],
+ "M04-join_all-empty-to-X": [],
+ "M05-is_num_const-accepts-bool": [],
+ "M10-cmp-count-not-flagged": [
+  {
+   "desc": "a count compared for equality inside an assertion",
+   "src": "def test_f(): assert len(os.listdir(D)) == 3\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "count/size comparison (a count is a value, not a path state)@6",
+     "assertion depends on content/value/unknown@6"
+    ]
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "assertion depends on no path state (constant/computed value)@6"
+    ]
+   },
+   "class_moved": false
+  },
+  {
+   "desc": "a count compared with > inside an assertion",
+   "src": "def test_f(): assert len(os.listdir(D)) > 0\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "count/size comparison (a count is a value, not a path state)@6",
+     "assertion depends on content/value/unknown@6"
+    ]
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "assertion depends on no path state (constant/computed value)@6"
+    ]
+   },
+   "class_moved": false
+  }
+ ],
+ "M13-record-assert-unknown-ok": [
+  {
+   "desc": "an assertion whose only dependency is an unknown value",
+   "src": "def test_f():\n    x = json.loads('{}')['k']\n    assert x\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "call into json.loads (not a plain existence predicate)@7",
+     "assertion depends on content/value/unknown@8"
+    ]
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "call into json.loads (not a plain existence predicate)@7"
+    ]
+   },
+   "class_moved": false
+  },
+  {
+   "desc": "an assertion over content read into a value",
+   "src": "def test_f():\n    data = Path(OUT).read_text()\n    assert data\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     ".read_text() on a path/name (read/write/stat/command)@7",
+     "assertion depends on content/value/unknown@8"
+    ]
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "mutant_reasons": {
+    "test_f": [
+     ".read_text() on a path/name (read/write/stat/command)@7"
+    ]
+   },
+   "class_moved": false
+  }
+ ],
+ "M14-unconditional-fail-ok": [
+  {
+   "desc": "an unconditional pytest.fail",
+   "src": "def test_f():\n    pytest.fail('no')\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "unconditional or constant-guarded failure@7"
+    ]
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "no assertion reached that tests path existence"
+    ]
+   },
+   "class_moved": false
+  },
+  {
+   "desc": "an unconditional raise AssertionError",
+   "src": "def test_f():\n    raise AssertionError('no')\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "unconditional or constant-guarded failure@7"
+    ]
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "no assertion reached that tests path existence"
+    ]
+   },
+   "class_moved": false
+  }
+ ],
+ "M18-if-exit-guard-without-exits": [
+  {
+   "desc": "an 'if <exists>:' block that does NOT exit, followed by an unconditional fail",
+   "src": "def test_f():\n    if os.path.exists(OUT):\n        pass\n    pytest.fail('no')\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "unconditional or constant-guarded failure@9"
+    ]
+   },
+   "mutant": {
+    "test_f": "P1"
+   },
+   "mutant_reasons": {
+    "test_f": []
+   },
+   "class_moved": true
+  }
+ ],
+ "M19-for-break-guard-any": [],
+ "M21-async-fixture-not-scanned": [
+  {
+   "desc": "an async fixture that builds a deliverable",
+   "src": "import asyncio\n@pytest.fixture\nasync def built():\n    subprocess.run(['make'], check=True)\n    return Path(OUT)\ndef test_f(built): assert built.is_file()\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "call into subprocess.run (not a plain existence predicate)@9"
+    ]
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "mutant_reasons": {
+    "test_f": [
+     ".is_file() on an unknown/content value@11",
+     "assertion depends on content/value/unknown@11"
+    ]
+   },
+   "class_moved": false
+  }
+ ],
+ "M22-async-test-not-a-unit": [
+  {
+   "desc": "an async test function",
+   "src": "import asyncio\nasync def test_f():\n    assert os.path.exists(OUT)\n",
+   "pristine": {
+    "test_f": "P1"
+   },
+   "pristine_reasons": {
+    "test_f": []
+   },
+   "mutant": {},
+   "mutant_reasons": {},
+   "class_moved": true
+  }
+ ],
+ "M23-decorators-as-body": [],
+ "M24-parametrize-listing-K": [],
+ "M25-elem-listing-to-K": [
+  {
+   "desc": "a loop over a listing whose element is compared to a name",
+   "src": "def test_f():\n    for f in os.listdir(D):\n        assert f == 'a.txt'\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "assertion inside a loop over a listing (universal: depends on absence of other entries)@8"
+    ]
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "value comparison of computed values@8",
+     "assertion inside a loop over a listing (universal: depends on absence of other entries)@8"
+    ]
+   },
+   "class_moved": false
+  }
+ ],
+ "M29-class-chain-no-inheritance": [
+  {
+   "desc": "a test class inheriting a helper method from a same-file base class",
+   "src": "class B:\n    def helper(self):\n        return Path(OUT)\nclass T(B):\n    def test_a(self):\n        assert self.helper().exists()\n",
+   "pristine": {
+    "T.test_a": "P1"
+   },
+   "pristine_reasons": {
+    "T.test_a": []
+   },
+   "mutant": {
+    "T.test_a": "P0"
+   },
+   "mutant_reasons": {
+    "T.test_a": [
+     "self.helper(...) not defined in the file@11",
+     ".exists() on an unknown/content value@11",
+     "assertion depends on content/value/unknown@11"
+    ]
+   },
+   "class_moved": true
+  }
+ ]
+}

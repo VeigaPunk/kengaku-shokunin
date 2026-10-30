@@ -1,0 +1,25 @@
+{
+  "seat": "C1RelabelRev1",
+  "labels": {
+    "modernize-scientific-stack::test_dependency_file_exists": {"label":"Y","why":"Any of two path-existence predicates suffices; no content or command is reached."},
+    "build-cython-ext::test_chelpers": {"label":"N","why":"Calls compiled deliverable function and compares numeric result against tolerance."},
+    "db-wal-recovery::test_recovered_json_exists": {"label":"Y","why":"Only asserts recovered output path exists; sibling content tests are not called."},
+    "hf-model-inference::test_model_downloaded": {"label":"N","why":"Loads model and tokenizer from directory contents; asserts returned objects are nonnull."},
+    "torch-pipeline-parallelism::test_pipeline_parallel_exists": {"label":"Y","why":"Only asserts pipeline implementation path exists; distributed helpers are not reached."},
+    "vulnerable-secret::test_results_file_exists": {"label":"Y","why":"Only asserts results path exists; content assertions belong to separate tests."},
+    "build-cython-ext::test_numpy_version": {"label":"N","why":"Parses installed package version and compares it with a required version value."},
+    "fix-code-vulnerability::test_hkey_real_world_examples": {"label":"N","why":"Calls imported normalization function and compares each returned header with expected text."},
+    "torch-tensor-parallelism::test_parallel_linear_exists": {"label":"Y","why":"Only asserts implementation path exists; parallel computation helpers are not called."},
+    "portfolio-optimization::test_c_extension_exists": {"label":"N","why":"Checks module attribute value, filename suffixes, and function attributes rather than filesystem existence."},
+    "merge-diff-arc-agi-task::test_git_repo_init": {"label":"Y","why":"Only checks .git path existence; no git command or repository structure inspection occurs."},
+    "sam-cell-seg::test_python_file_exists": {"label":"Y","why":"Only asserts conversion script path exists; script execution test is separate."},
+    "merge-diff-arc-agi-task::test_algo_py_exists": {"label":"Y","why":"Only checks algorithm path exists; neither imports nor reads algorithm contents."},
+    "bn-fit-modify::test_learned_dag_structure_exists": {"label":"Y","why":"Only asserts learned DAG CSV path exists; no CSV reader is reached."},
+    "caffe-cifar-10::test_prototxt_files_exist": {"label":"Y","why":"Both assertions check path existence; no configuration content is read."},
+    "headless-terminal::test_import": {"label":"N","why":"Imports class but reaches no assertion; explicit no-assertion rule decides N."},
+    "circuit-fibsqrt::test_gates_file_exists": {"label":"Y","why":"Only asserts gates path exists; size and simulation tests are separate."},
+    "cobol-modernization::test_data_files_exist": {"label":"Y","why":"Loop checks only existence of four fixed data paths."},
+    "rstan-to-pystan::test_output_files_exist": {"label":"Y","why":"Loop checks only existence of four fixed CSV paths."},
+    "mteb-retrieve::test_result_exists": {"label":"Y","why":"Only asserts result path exists; separate content test is not reached."}
+  }
+}

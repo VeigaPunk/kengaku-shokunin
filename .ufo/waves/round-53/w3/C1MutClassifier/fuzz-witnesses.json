@@ -1,0 +1,142 @@
+{
+ "M01-join-KN-to-K": [],
+ "M02-join-KL-to-N": [],
+ "M03-join-BQ-to-B": [],
+ "M04-join_all-empty-to-X": [
+  {
+   "src": "def h():\n    pass\ndef test_f():\n    assert h() is None\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "value comparison of computed values@9",
+     "assertion depends on content/value/unknown@9"
+    ]
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "assertion depends on content/value/unknown@9"
+    ]
+   },
+   "class_moved": false
+  }
+ ],
+ "M05-is_num_const-accepts-bool": [],
+ "M19-for-break-guard-any": [
+  {
+   "src": "def test_f():\n    for f in os.listdir(D):\n        if len(f) == 1:\n            break\n    else:\n        pytest.fail('never')\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "count/size comparison (a count is a value, not a path state)@8",
+     "branch on unknown/content value@8"
+    ]
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "count/size comparison (a count is a value, not a path state)@8",
+     "branch on unknown/content value@8"
+    ]
+   },
+   "class_moved": false
+  }
+ ],
+ "M23-decorators-as-body": [],
+ "M24-parametrize-listing-K": [],
+ "M31-is_bool_const-any-constant": [
+  {
+   "src": "def test_f():\n    n = 0\n    if os.path.exists(OUT):\n        n = 1\n    assert n\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "mutant": {
+    "test_f": "P1"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "assertion depends on content/value/unknown@10"
+    ]
+   },
+   "mutant_reasons": {
+    "test_f": []
+   },
+   "class_moved": true
+  }
+ ],
+ "M33-known-k-modules-drop-os": [],
+ "M38-write-count-not-a-count": [
+  {
+   "src": "def test_f():\n    n = Path(OUT).write_text('x')\n    assert n == 1\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "mutant": {
+    "test_f": "P0"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "count/size comparison (a count is a value, not a path state)@8",
+     "assertion depends on content/value/unknown@8"
+    ]
+   },
+   "mutant_reasons": {
+    "test_f": [
+     "value comparison of computed values@8",
+     "assertion depends on content/value/unknown@8"
+    ]
+   },
+   "class_moved": false
+  }
+ ],
+ "M39-mutate-drops-var": [],
+ "M40-class-attr-self-only": [
+  {
+   "src": "class B:\n    p = Path(OUT)\nclass T(B):\n    def test_a(self):\n        assert self.p.exists()\n",
+   "pristine": {
+    "T.test_a": "P1"
+   },
+   "mutant": {
+    "T.test_a": "P0"
+   },
+   "pristine_reasons": {
+    "T.test_a": []
+   },
+   "mutant_reasons": {
+    "T.test_a": [
+     ".exists() on an unknown/content value@10",
+     "assertion depends on content/value/unknown@10"
+    ]
+   },
+   "class_moved": true
+  }
+ ],
+ "M41-fixture-autouse-dropped": [
+  {
+   "src": "import pytest\n@pytest.fixture(autouse=True)\ndef built():\n    subprocess.run(['make'], check=True)\ndef test_f(): assert os.path.exists(OUT)\n",
+   "pristine": {
+    "test_f": "P0"
+   },
+   "mutant": {
+    "test_f": "P1"
+   },
+   "pristine_reasons": {
+    "test_f": [
+     "call into subprocess.run (not a plain existence predicate)@9"
+    ]
+   },
+   "mutant_reasons": {
+    "test_f": []
+   },
+   "class_moved": true
+  }
+ ]
+}

@@ -1,0 +1,46 @@
+### E0-baseline  exit=1
+    PROBES run=20 present=13 absent=7 errors=0
+    DRIFT 0
+    STALE 1
+    UNVERDICTED 0
+    NUMBER-DRIFT 1
+    RESOLVE observed_present=13 floor=13 verdict=met
+    PREDICATE R51-C1 fail
+
+### E1-three-repairs  exit=0
+    PROBES run=20 present=13 absent=7 errors=0
+    DRIFT 0
+    STALE 0
+    UNVERDICTED 0
+    NUMBER-DRIFT 0
+    RESOLVE observed_present=13 floor=13 verdict=met
+    PREDICATE R51-C1 pass
+
+### E2-floor12  exit=0
+    PROBES run=20 present=13 absent=7 errors=0
+    DRIFT 0
+    STALE 0
+    UNVERDICTED 0
+    NUMBER-DRIFT 0
+    RESOLVE observed_present=13 floor=12 verdict=met
+    PREDICATE R51-C1 pass
+
+### E3-count-only  exit=1
+    PROBES run=20 present=13 absent=7 errors=0
+    DRIFT 0
+    STALE 1
+    UNVERDICTED 0
+    NUMBER-DRIFT 0
+    RESOLVE observed_present=13 floor=13 verdict=met
+    PREDICATE R51-C1 fail
+
+### E4-no-province-marker  exit=1
+    PROBES run=20 present=13 absent=7 errors=0
+    DRIFT 0
+    STALE 0
+    UNVERDICTED 1
+    NUMBER-DRIFT 0
+    RESOLVE observed_present=13 floor=13 verdict=met
+    PREDICATE R51-C1 fail
+
+NOTE: E1-E4 ran on COPIES of the manifest and PROVINCE.md under the scratch dir; the lane tree was not modified.

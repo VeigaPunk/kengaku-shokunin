@@ -1,0 +1,26 @@
+error: unable to create file corpus/defects-round35.jsonl: No such file or directory
+error: unable to create file corpus/defects.jsonl: No such file or directory
+fatal: cannot create directory at 'corpus/evidence': No such file or directory
+warning: Clone succeeded, but checkout failed.
+You can inspect what was checked out with 'git status'
+and retry with 'git restore --source=HEAD :/'
+
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r53/R53CritDoNothing/tipc2/plans/round53_c2_tipstate.py", line 594, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/fast/scratch/hyaku/kengaku-r53/R53CritDoNothing/tipc2/plans/round53_c2_tipstate.py", line 587, in main
+    rc, lines = evaluate(lane, Path(a.source).resolve() if a.source else None,
+                ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                         Path(a.work).resolve() if a.work else None, a.jobs, a.timeout, only, a.dry, True)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r53/R53CritDoNothing/tipc2/plans/round53_c2_tipstate.py", line 275, in evaluate
+    workers = [Worker(source, work, i) for i in range(max(1, jobs))]
+               ~~~~~~^^^^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r53/R53CritDoNothing/tipc2/plans/round53_c2_tipstate.py", line 110, in __init__
+    subprocess.run(["git", "clone", "-q", "--shared", str(source), str(self.dir)], check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'clone', '-q', '--shared', '/fast/scratch/hyaku/kengaku-r53/R53CritDoNothing/tipc2', '/fast/scratch/hyaku/kengaku-r53/R53CritDoNothing/work-tipc2/w5/src']' returned non-zero exit status 128.

@@ -1,0 +1,27 @@
+SOURCE-URL: https://raw.githubusercontent.com/JonathanGabor/terminal-bench-2-audit/main/audit_results/20260120_125158/human-notes.txt
+Major issues:
+fix-git: target versions of the files are visible to the agent on master branch in resources/patch_files
+fix-code-vulnerability: only checks that _hkey is fixed, not _hval
+model-extraction-relu-logits: some models refuse task (to "steal" neural network weights)
+regex-log: reference solution incorrectly allows leading 0s in certain IP octets, no tests for this
+
+Minor issues:
+cobol-modernization: some edge cases are not tested
+gpt2-codegolf: only one input tested
+merge-diff-arc-agi-task: Doesn't actually verify that a git merge occured.
+multi-source-data-manager: not everything is tested, but it's unlikely that those tets would fail.
+
+Edge cases:
+sqlite-db-truncate: allows extra garbage rows, maybe some float comparison issues?
+modernize-scientific-stack: Doesn't check for everything, but seems hard to pass incorrectly.
+
+False positives:
+extract-moves-from-video: complains about 90% threshhold, which is allowed by instructions
+regex-chess: incorrectly believes some edge cases aren't tested because they're never played.  However, they are all possible moves for white in at least one game.
+
+Uncertain (don't know enough to say):
+adaptive-rejection-sampler: claims that a non-adaptive sampler can pass the tests
+extract-elf: don't know enough about ELF to say
+nginx-request-logging: claims various features aren't tested
+
+

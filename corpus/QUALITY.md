@@ -1146,3 +1146,14 @@ Line numbers are this file's.
   Lesson: `corpus/lessons/round-52.md` §Mistakes (`counter-reachable-without-the-work`, `false-registry-cell`).
   Supersedes: none; extends Q39 (a counter that grades over its own fixtures) to counters whose inputs are
   lane-authored receipts.
+
+- **Q43 — distinguish content agreement, provenance integrity, and per-row exit calibration.**
+  Round 53's oracle content survived independent reads while its integrity guarantee did not
+  (`.ufo/waves/round-53/w3/C1CritOracle2.md`); independent C2 executions exposed a premature green
+  declaration (`C2MeasureExecA.md`, `C2MeasureExecB.md` in that directory). A declaration matches
+  only the observed revision, command and environment; neither agreement nor matching exits proves
+  the instrument cannot be forged. Keep forged-complete controls and report surviving routes,
+  without changing the frozen predicate after scoring. A source under examination cannot price
+  its own novelty. The existing counter selftests demonstrate named forged controls failing;
+  the mutation and integrity survivors bound that demonstration rather than disappearing from it.
+  Lesson: `corpus/lessons/round-53.md` §Mistakes. Extends Q42; does not supersede its requirements.

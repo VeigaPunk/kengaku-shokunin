@@ -1628,3 +1628,32 @@ Motivating evidence and outcome:
   named in the lesson and carried.
 
 Evidence: `plans/round-52-claims.md`, `.ufo/waves/round-52/`, `corpus/lessons/round-52.md`, `corpus/evidence/round52/`.
+
+## Round 53 — frozen triage and tip-state calibration, resumed 2026-10-30
+
+L1 KengakuR53. The 2026-10-28 operator wrap-up landed partial work without closure; this re-dispatch
+completes the same frozen claims (`plans/round-53-claims.md`, A1–A3 unchanged), not a newly narrowed target.
+Inherited lane tip b1f79a54fec13c09e36eeae9b1bc8ba4d54aabbe; confirmations integration landed
+9ead4476bf55b1ea6490d0204b668195db4a4d1d. Two deleted tracked round-50 ready files were restored byte-for-byte.
+
+- C1, novelty 8→9 target: 305-test AST/oracle triage with pinned inputs, blind labels, confirmations and
+  archived prior-art pricing. Counter: `python3 plans/round53_c1_triage.py --lane .` on a clean clone.
+  Before: pin/freeze/confirmation/prior-art legs fail (`claims/c1-before.txt` beneath `.ufo/waves/round-53/`).
+  Content evidence: oracle 305/305 agreement, control 23 disagreements; 20 confirmations integrated.
+  Additional re-labels agree 80/80. The L1's synthetic touch run records 26/26 selected tests passing
+  (`w3/C1TouchExecL1/`); no task-image or model-performance claim.
+- C2, calibration 9→10 target: declare and re-execute every registry row. Counter:
+  `python3 plans/round53_c2_tipstate.py --lane . --source <clean-clone> --work <scratch> --jobs 3`.
+  Before: 75 registry rows, zero ledger rows. Independent w3/C2MeasureExecA/B runs at b1f79a54 execute
+  78 rows and find one mismatch, the prematurely green round53-c1 declaration. Truthful red declarations
+  are allowed; green does not mean a gate is sound.
+- Wave evidence: w1 35 seats; w2 42 dispatched then stopped by operator; w3 32 completion seats.
+  Canonical planner seat is L1; role routing unchanged. Round total dispatched 109.
+- Q43 and `corpus/lessons/round-53.md` record forged-complete controls, integrity and mutation survivors,
+  and the distinction between never-read and never mechanically examined. S194–S196 ground the bounded
+  knowledge entry; S197 rejects failure-localization material. Other source proposals remain unadmitted.
+  `tb2-paper-full.html` is absent; unsafe third-party archives are withheld under sentinel F1/F2.
+- Tooling: scratch-only pytest 9.2.0 installed using existing uv (`uv pip` / official Python package index)
+  for no-network bwrap synthetic checks. No pacman transaction or serving-plane mutation.
+
+Final measurement revision and verdicts follow in an appended close entry; no score bump is implied here.

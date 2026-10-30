@@ -1,0 +1,38 @@
+[LANDED(pass)] control-honest-green: rc=0 expect~ 'PREDICATE R53-C2 pass' seen='PREDICATE R53-C2 pass' 
+[CAUGHT] A1-ledger-zero-rows-heading-renamed: rc=1 expect~ 'row_set_pinned=BAD' seen='ROWS registry=0 ledger=0 missing=0 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0 bad_table_lines=0 headings=0 row_set_pinned=BAD' 
+[CAUGHT] A2-77-of-78-rows: rc=1 expect~ 'row_set_pinned=BAD' seen='ROWS registry=77 ledger=77 missing=0 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0 bad_table_lines=0 headings=1 row_set_pinned=BAD' 
+[CAUGHT] A3-argv-python3-c-pass: rc=1 expect~ 'ENTRY-MISMATCH adoption-check' seen='ENTRY-MISMATCH adoption-check' 
+[CAUGHT] A3b-argv-shell-wrapper: rc=1 expect~ 'ENTRY-MISMATCH adoption-check' seen='ENTRY-MISMATCH adoption-check' 
+[CAUGHT] A4-source-non-git-dir: rc=1 expect~ 'clean=NO' seen='SOURCE not a git work tree clean=NO' 
+[CAUGHT] A5-source-older-commit: rc=1 expect~ 'lane_rev_equal=NO' seen='SOURCE rev=af4ebb29f7bc7a097ad61c3592ea9b36b8747142 clean=yes lane_rev_equal=NO' 
+[CAUGHT] A6-red-evidence-borrowed-from-other-row: rc=1 expect~ 'EVIDENCE-MISSING anchor-digest-check' seen=None 
+[CAUGHT] A7-ledger-timeout-above-operator-cap: rc=1 expect~ 'TIMEOUT adoption-check' seen='TIMEOUT adoption-check after 100000s' 
+[LANDED(pass)] A8-row-commit-leaks-to-next-row: rc=0 expect~ 'MISMATCH anchor-digest-check' seen=None 
+[LANDED(pass)] A9-gate-that-cannot-fail-declared-green: rc=0 expect~ 'PREDICATE R53-C2 pass' seen='PREDICATE R53-C2 pass' counter certifies green; instrument bytes are unpinned
+[LANDED(pass)] A10-argv-argument-substitution: rc=0 expect~ 'PREDICATE R53-C2 pass' seen='PREDICATE R53-C2 pass' entry_mismatch is script-path-only
+[LANDED(pass)] A11-git-config-contamination-jobs1: rc=0 expect~ 'PREDICATE R53-C2 pass' seen='PREDICATE R53-C2 pass' row order decides the observation
+[CAUGHT] A11-git-config-contamination-jobs4: rc=1 expect~ 'MISMATCH anchor-digest-check' seen='MISMATCH anchor-digest-check declared exit=0 observed exit=1 sec=0.3' same tree+ledger, different --jobs
+[CAUGHT] A12-malformed-timeout_s: rc=1 expect~ 'PREDICATE R53-C2' seen=None no PREDICATE line => the counter died before the verdict
+[LANDED(pass)] A13-registry-entry-cell-rewritten-to-another-instrument: rc=0 expect~ 'PREDICATE R53-C2 pass' seen='PREDICATE R53-C2 pass' row names stay pinned; the cell that names the script does not
+[LANDED(pass)] A14-worker-runs-git-gc-in-shared-clone: rc=0 expect~ 'PREDICATE R53-C2' seen='PREDICATE R53-C2 pass' source fsck rc=0
+[LANDED(pass)] A15-same-tree-jobs1-vs-jobs4: rc=0 expect~ 'PREDICATE R53-C2' seen='PREDICATE R53-C2 pass' jobs1 rc=0 / jobs4 rc=0 (same tree, same ledger)
+
+=== summary ===
+LANDED(pass)   control-honest-green                             rc=0  seen='PREDICATE R53-C2 pass'
+CAUGHT         A1-ledger-zero-rows-heading-renamed              rc=1  seen='ROWS registry=0 ledger=0 missing=0 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0 bad_table_lines=0 headings=0 row_set_pinned=BAD'
+CAUGHT         A2-77-of-78-rows                                 rc=1  seen='ROWS registry=77 ledger=77 missing=0 extra=0 entry_mismatch=0 bad_decl=0 bad_reason=0 duplicate_names=0 bad_table_lines=0 headings=1 row_set_pinned=BAD'
+CAUGHT         A3-argv-python3-c-pass                           rc=1  seen='ENTRY-MISMATCH adoption-check'
+CAUGHT         A3b-argv-shell-wrapper                           rc=1  seen='ENTRY-MISMATCH adoption-check'
+CAUGHT         A4-source-non-git-dir                            rc=1  seen='SOURCE not a git work tree clean=NO'
+CAUGHT         A5-source-older-commit                           rc=1  seen='SOURCE rev=af4ebb29f7bc7a097ad61c3592ea9b36b8747142 clean=yes lane_rev_equal=NO'
+CAUGHT         A6-red-evidence-borrowed-from-other-row          rc=1  seen=None
+CAUGHT         A7-ledger-timeout-above-operator-cap             rc=1  seen='TIMEOUT adoption-check after 100000s'
+LANDED(pass)   A8-row-commit-leaks-to-next-row                  rc=0  seen=None
+LANDED(pass)   A9-gate-that-cannot-fail-declared-green          rc=0  seen='PREDICATE R53-C2 pass'
+LANDED(pass)   A10-argv-argument-substitution                   rc=0  seen='PREDICATE R53-C2 pass'
+LANDED(pass)   A11-git-config-contamination-jobs1               rc=0  seen='PREDICATE R53-C2 pass'
+CAUGHT         A11-git-config-contamination-jobs4               rc=1  seen='MISMATCH anchor-digest-check declared exit=0 observed exit=1 sec=0.3'
+CAUGHT         A12-malformed-timeout_s                          rc=1  seen=None
+LANDED(pass)   A13-registry-entry-cell-rewritten-to-another-instrument rc=0  seen='PREDICATE R53-C2 pass'
+LANDED(pass)   A14-worker-runs-git-gc-in-shared-clone           rc=0  seen='PREDICATE R53-C2 pass'
+LANDED(pass)   A15-same-tree-jobs1-vs-jobs4                     rc=0  seen='PREDICATE R53-C2 pass'

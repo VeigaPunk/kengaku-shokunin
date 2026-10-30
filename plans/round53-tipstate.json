@@ -720,7 +720,7 @@
    "evidence": "V8 DEFECT order_exit=1 result=not-PASS",
    "exit": 1,
    "kind": "entry",
-   "reason": "Two legs defect at the tip: V7 because the entry requirement map lacks the frozen tags both-print and toolchain, and V8 because the order check exits 1 with result not-PASS; V2 (the gate leg) passes now that the knowledge index row for fixture-honest-geometry exists.",
+   "reason": "V7 rejects the both-print and toolchain requirement-map rows as unexercised or unparsed, rather than those tags being absent from source content; V8 reports order_exit=1 and result=not-PASS. The gate leg V2 passes after knowledge-index parity was restored.",
    "state": "red"
   },
   "round50-c1": {
@@ -764,10 +764,10 @@
     "--lane",
     "."
    ],
-   "evidence": "NUMBER-DRIFT SF14 row claims 171, probe says SOURCES rows=186",
+   "evidence": "NUMBER-DRIFT SF14 row claims 171, probe says SOURCES rows=190",
    "exit": 1,
    "kind": "entry",
-   "reason": "Registry row SF14 claims 171 SOURCES rows while the probe counts 186 after round 52 appended S179-S193, so NUMBER-DRIFT fails the predicate; PROVINCE.md line 113 and manifest count_claim 171 were never updated",
+   "reason": "SF14 pins 171 SOURCES rows while the registry legitimately grew through rounds 52 and 53; the count mismatch remains and SF20 is now absent after the host serving unit stopped. These frozen expectations are recorded red rather than silently rewritten.",
    "state": "red"
   },
   "round52-c1": {

@@ -1,0 +1,1657 @@
+[
+ {
+  "mutant": "PRISTINE",
+  "family": "-",
+  "note": "frozen classifier",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M01-join-KN-to-K",
+  "family": "join-lattice",
+  "note": "join() maps {K,N} to N instead of K (one comparison result flipped)",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M02-join-KL-to-N",
+  "family": "join-lattice",
+  "note": "join() maps {K,L}/{N,L} to N instead of L",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M03-join-BQ-to-B",
+  "family": "join-lattice",
+  "note": "join() maps {B,Q} to B instead of Q",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M04-join_all-empty-to-X",
+  "family": "join-lattice",
+  "note": "join_all() of an empty set is X instead of K (default kind dropped)",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M05-is_num_const-accepts-bool",
+  "family": "constant-check",
+  "note": "is_num_const() drops the 'not bool' guard (Constant-value check weakened)",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M06-request-param-to-X",
+  "family": "constant-check",
+  "note": "request.param (a fixture parameter value) is treated as unknown",
+  "d1_selftest": {
+   "rc": 1,
+   "failures": 1,
+   "tail": [
+    "FAIL request.param fixture used in a path Y want {'test_f': 'P1'} got {'test_f': 'P0'} {'test_f': ('P0', ['.exists() on an unknown/content value@9', 'assertion depends on content/value/unknown@9'])}",
+    "cases=83 failures=1"
+   ]
+  },
+  "d2_adv": {
+   "rc": 1,
+   "case_fail": 1,
+   "test_fail": 1,
+   "fails": [
+    "FAIL reach-fixture-value-assertions: test_fixture_with_params: want P1 got P0"
+   ]
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": true,
+   "d2": true,
+   "d3": false
+  },
+  "killed_by_any": true,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M07-boolop-drop-B-branch",
+  "family": "join-lattice",
+  "note": "e_BoolOp drops the B/Q/V/C branch (a boolean predicate in an 'and' is no longer a predicate)",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 1,
+   "case_fail": 1,
+   "test_fail": 1,
+   "fails": [
+    "FAIL reach-mutual-recursion-clean: test_even: want P1 got P0"
+   ]
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": true,
+   "d3": false
+  },
+  "killed_by_any": true,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M08-existq-B-to-K",
+  "family": "exist-query",
+  "note": "os.path.exists() returns a constant instead of an existence predicate",
+  "d1_selftest": {
+   "rc": 1,
+   "failures": 15,
+   "tail": [
+    "FAIL lambda helper Y / N want {'test_a': 'P1', 'test_b': 'P0'} got {'test_a': 'P0', 'test_b': 'P0'} {'test_a': ('P0', ['assertion depends on no path state (constant/computed value)@8']), 'test_b': ('P0', ['.read_text() on a path/name (read/write/stat/command)@10', 'assertion depends on content/value/unknown@11'])}",
+    "FAIL contextlib.suppress around an existence assert Y want {'test_f': 'P1'} got {'test_f': 'P0'} {'test_f': ('P0', ['assertion depends on no path state (constant/computed value)@9'])}",
+    "cases=83 failures=15"
+   ]
+  },
+  "d2_adv": {
+   "rc": 1,
+   "case_fail": 36,
+   "test_fail": 70,
+   "fails": [
+    "FAIL ex-3-isfile-and-isdir: test_f: want P1 got P0",
+    "FAIL ex-9-all-examples-one-module: test_c: want P1 got P0",
+    "FAIL cl1-assert-statement-kinds: test_plain: want P1 got P0; test_with_msg: want P1 got P0; test_two_asserts: want P1 got P0",
+    "FAIL cl2-ospath-forms: test_exists: want P1 got P0; test_isfile: want P1 got P0; test_isdir: want P1 got P0; test_islink: want P1 got P0; test_realpath: want P1",
+    "FAIL cl2-from-imports: test_a: want P1 got P0; test_b: want P1 got P0",
+    "FAIL cl2-boolean-combinators: test_or: want P1 got P0; test_mixed: want P1 got P0; test_all_gen: want P1 got P0",
+    "FAIL cl2-comparison-to-bool: test_isfile_eq_true: want P1 got P0",
+    "FAIL cl2-variable-indirection: test_flags_and: want P1 got P0; test_loop: want P1 got P0; test_comprehension: want P1 got P0",
+    "FAIL cl2-assert-messages: test_msg_percent: want P1 got P0; test_msg_concat: want P1 got P0",
+    "FAIL cl2-string-built-paths: test_format: want P1 got P0; test_percent: want P1 got P0; test_concat: want P1 got P0; test_join_star: want P1 got P0",
+    "FAIL cl2-writes-are-not-reads: test_open_a: want P1 got P0; test_open_mode_kw: want P1 got P0",
+    "FAIL cl2-polling-loops: test_poll_for_else: want P1 got P0"
+   ]
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 10,
+   "moved_ids": [
+    "crack-7z-hash::test_solution_file",
+    "db-wal-recovery::test_recovered_json_exists",
+    "llm-inference-batching-scheduler::test_output_files_exist",
+    "mteb-leaderboard::test_result_exists",
+    "mteb-retrieve::test_result_exists",
+    "multi-source-data-merger::test_output_files_exist",
+    "openssl-selfsigned-cert::test_directory_structure",
+    "prove-plus-comm::test_compiled_proof_exists",
+    "prove-plus-comm::test_proof_file_exists",
+    "rstan-to-pystan::test_output_files_exist"
+   ],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 10,
+   "oracle_leg_breaks": true
+  },
+  "killed": {
+   "d1": true,
+   "d2": true,
+   "d3": true
+  },
+  "killed_by_any": true,
+  "killed_by_all": true
+ },
+ {
+  "mutant": "M09-listq-drop-scandir",
+  "family": "list-query",
+  "note": "os.scandir is removed from LIST_Q (a listing call is no longer recognised)",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 1,
+   "case_fail": 1,
+   "test_fail": 1,
+   "fails": [
+    "FAIL cl2-listing-membership: test_scandir: want P1 got P0"
+   ]
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": true,
+   "d3": false
+  },
+  "killed_by_any": true,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M10-cmp-count-not-flagged",
+  "family": "comparison",
+  "note": "a count comparison (len(...) == 3) is not a clause-2 violation",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M11-const-cmp-in-assert-allowed",
+  "family": "assertion",
+  "note": "a value comparison inside an assertion is allowed (the assertion-context check is dropped)",
+  "d1_selftest": {
+   "rc": 1,
+   "failures": 1,
+   "tail": [
+    "FAIL value arithmetic inside the assertion condition N want {'test_f': 'P0'} got {'test_f': 'P1'} {'test_f': ('P1', [])}",
+    "cases=83 failures=1"
+   ]
+  },
+  "d2_adv": {
+   "rc": 1,
+   "case_fail": 1,
+   "test_fail": 2,
+   "fails": [
+    "FAIL cl3-value-and-state-asserts: test_arith_with_path: want P0 got P1; test_enum_count: want P0 got P1"
+   ]
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": true,
+   "d2": true,
+   "d3": false
+  },
+  "killed_by_any": true,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M12-record-assert-constant-ok",
+  "family": "assertion",
+  "note": "an assertion that depends on no path state is not a violation",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 1,
+   "case_fail": 1,
+   "test_fail": 1,
+   "fails": [
+    "FAIL cl1-assert-no-path: test_env: want P0 got P1"
+   ]
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": true,
+   "d3": false
+  },
+  "killed_by_any": true,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M13-record-assert-unknown-ok",
+  "family": "assertion",
+  "note": "an assertion depending on content/value/unknown is not a violation",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M14-unconditional-fail-ok",
+  "family": "assertion",
+  "note": "an unconditional / constant-guarded failure is not a violation",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M15-open-write-modes-drop-w",
+  "family": "write-vs-read",
+  "note": "open() in mode 'w' is no longer write-only (a write is read as content)",
+  "d1_selftest": {
+   "rc": 1,
+   "failures": 1,
+   "tail": [
+    "FAIL write-mode open then exists Y want {'test_f': 'P1'} got {'test_f': 'P0'} {'test_f': ('P0', ['open() reads a file@7', '.write() on an unknown/content value@8'])}",
+    "cases=83 failures=1"
+   ]
+  },
+  "d2_adv": {
+   "rc": 1,
+   "case_fail": 1,
+   "test_fail": 4,
+   "fails": [
+    "FAIL cl2-writes-are-not-reads: test_open_w: want P1 got P0; test_open_a: want P1 got P0; test_open_mode_kw: want P1 got P0; test_path_open_w: want P1 got P0"
+   ]
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": true,
+   "d2": true,
+   "d3": false
+  },
+  "killed_by_any": true,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M16-all-over-listing-allowed",
+  "family": "universality",
+  "note": "all() over a listing is not a universal-quantifier violation",
+  "d1_selftest": {
+   "rc": 1,
+   "failures": 1,
+   "tail": [
+    "FAIL all() over a listing is universal N want {'test_f': 'P0'} got {'test_f': 'P1'} {'test_f': ('P1', [])}",
+    "cases=83 failures=1"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": true,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": true,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M17-try-handler-never-path-state",
+  "family": "control-flow",
+  "note": "an exception handler never encodes path state (try/except pytest.fail loses its predicate)",
+  "d1_selftest": {
+   "rc": 1,
+   "failures": 1,
+   "tail": [
+    "FAIL try/except pytest.fail Y want {'test_f': 'P1'} got {'test_f': 'P0'} {'test_f': ('P0', ['unconditional or constant-guarded failure@10'])}",
+    "cases=83 failures=1"
+   ]
+  },
+  "d2_adv": {
+   "rc": 1,
+   "case_fail": 1,
+   "test_fail": 1,
+   "fails": [
+    "FAIL struct-with-and-try: test_try_except: want P1 got P0"
+   ]
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": true,
+   "d2": true,
+   "d3": false
+  },
+  "killed_by_any": true,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M18-if-exit-guard-without-exits",
+  "family": "control-flow",
+  "note": "the 'if <exists>: return' exit guard is set even when the block does not exit",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M19-for-break-guard-any",
+  "family": "control-flow",
+  "note": "a break guard is honoured even when the condition is not path state",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M20-no-assertion-reason-dropped",
+  "family": "assertion",
+  "note": "a test with no path assertion is not flagged (the 'no assertion reached' reason is dropped)",
+  "d1_selftest": {
+   "rc": 1,
+   "failures": 2,
+   "tail": [
+    "FAIL spec8 pass want {'test_f': 'P0'} got {'test_f': 'P1'} {'test_f': ('P1', [])}",
+    "FAIL no assertion N want {'test_f': 'P0'} got {'test_f': 'P1'} {'test_f': ('P1', [])}",
+    "cases=83 failures=2"
+   ]
+  },
+  "d2_adv": {
+   "rc": 1,
+   "case_fail": 10,
+   "test_fail": 22,
+   "fails": [
+    "FAIL ex-8-pass: test_f: want P0 got P1",
+    "FAIL ex-9-all-examples-one-module: test_i: want P0 got P1",
+    "FAIL cl1-no-assert-forms: test_pass: want P0 got P1; test_docstring_only: want P0 got P1; test_bare_expr: want P0 got P1; test_return_bool: want P0 got P1; test",
+    "FAIL cl1-helper-no-assert: test_f: want P0 got P1",
+    "FAIL cl1-unconditional-fail-or-raise: test_skip: want P0 got P1",
+    "FAIL cl1-skipif-decorators-ignored: test_c: want P0 got P1",
+    "FAIL reach-helper-with-own-assert: test_helper_noassert_test_noassert: want P0 got P1",
+    "FAIL cls-plain-class-methods: TestA.test_three: want P0 got P1",
+    "FAIL unittest-no-assertions: TestW.test_skip: want P0 got P1; TestW.test_pass: want P0 got P1; TestW.test_call_only: want P0 got P1; TestW.test_exists_unused: w",
+    "FAIL code-comments-docstrings-cannot-rescue: test_doc_assert: want P0 got P1; test_comment_assert: want P0 got P1; TestC2.test_doc: want P0 got P1"
+   ]
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 1,
+   "moved_ids": [
+    "headless-terminal::test_import"
+   ],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 1,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": true,
+   "d2": true,
+   "d3": true
+  },
+  "killed_by_any": true,
+  "killed_by_all": true
+ },
+ {
+  "mutant": "M21-async-fixture-not-scanned",
+  "family": "async-vs-sync",
+  "note": "Module._scan drops AsyncFunctionDef: an async fixture is not registered",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M22-async-test-not-a-unit",
+  "family": "async-vs-sync",
+  "note": "test_units drops AsyncFunctionDef: an async test is not a test unit",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M23-decorators-as-body",
+  "family": "decorators",
+  "note": "a test's decorators are analysed as body statements",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M24-parametrize-listing-K",
+  "family": "parametrize",
+  "note": "a listing-valued parametrize argument is a constant instead of a name",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M25-elem-listing-to-K",
+  "family": "element-kind",
+  "note": "the element kind of a listing is a constant instead of a name",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M26-subscript-pick-is-listing",
+  "family": "subscript",
+  "note": "picking a named entry out of a listing stays a listing instead of a name",
+  "d1_selftest": {
+   "rc": 1,
+   "failures": 1,
+   "tail": [
+    "FAIL pick first glob match then exists Y want {'test_f': 'P1'} got {'test_f': 'P0'} {'test_f': ('P0', ['arithmetic on fs-derived value@9', '.exists() on an unknown/content value@9', 'assertion depends on content/value/unknown@9'])}",
+    "cases=83 failures=1"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 2,
+   "moved_ids": [
+    "build-pmars::test_built_from_source",
+    "build-pmars::test_debian_source_used"
+   ],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 2,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": true,
+   "d2": false,
+   "d3": true
+  },
+  "killed_by_any": true,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M27-assert-context-flag-off",
+  "family": "assertion",
+  "note": "s_Assert does not mark the assertion context (in_assert stays False)",
+  "d1_selftest": {
+   "rc": 1,
+   "failures": 1,
+   "tail": [
+    "FAIL value arithmetic inside the assertion condition N want {'test_f': 'P0'} got {'test_f': 'P1'} {'test_f': ('P1', [])}",
+    "cases=83 failures=1"
+   ]
+  },
+  "d2_adv": {
+   "rc": 1,
+   "case_fail": 1,
+   "test_fail": 2,
+   "fails": [
+    "FAIL cl3-value-and-state-asserts: test_arith_with_path: want P0 got P1; test_enum_count: want P0 got P1"
+   ]
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": true,
+   "d2": true,
+   "d3": false
+  },
+  "killed_by_any": true,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M28-implicit-setup-off",
+  "family": "helper-visit",
+  "note": "the implicit setUp/setup_module helper visit is switched off",
+  "d1_selftest": {
+   "rc": 1,
+   "failures": 2,
+   "tail": [
+    "FAIL unittest self.assertTrue exists + setUp attr want {'T.test_x': 'P1'} got {'T.test_x': 'P0'} {'T.test_x': ('P0', ['.exists() on an unknown/content value@9', 'assertion depends on content/value/unknown@9'])}",
+    "FAIL unittest setUp runs a command want {'T.test_x': 'P0'} got {'T.test_x': 'P1'} {'T.test_x': ('P1', [])}",
+    "cases=83 failures=2"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": true,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": true,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M29-class-chain-no-inheritance",
+  "family": "helper-visit",
+  "note": "the class chain does not follow base classes (an inherited method is not found)",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M30-module-helper-not-registered",
+  "family": "helper-visit",
+  "note": "a module-level helper is not registered, so calls into it are undefined",
+  "d1_selftest": {
+   "rc": 1,
+   "failures": 3,
+   "tail": [
+    "FAIL helper chain depth 3 want {'test_f': 'P1'} got {'test_f': 'P0'} {'test_f': ('P0', ['call into undefined name c@9', 'assertion depends on content/value/unknown@9'])}",
+    "FAIL recursion Y want {'test_f': 'P1'} got {'test_f': 'P0'} {'test_f': ('P0', ['call into undefined name up@9', 'assertion depends on content/value/unknown@9'])}",
+    "cases=83 failures=3"
+   ]
+  },
+  "d2_adv": {
+   "rc": 1,
+   "case_fail": 14,
+   "test_fail": 22,
+   "fails": [
+    "FAIL ex-6-helper-exists: test_f: want P1 got P0",
+    "FAIL ex-9-all-examples-one-module: test_g: want P1 got P0",
+    "FAIL reach-helper-depth-1-2-3: test_d1_yes: want P1 got P0; test_d2_yes: want P1 got P0; test_d3_yes: want P1 got P0",
+    "FAIL reach-helper-deep-pollution: test_clean: want P1 got P0",
+    "FAIL reach-mutual-recursion-clean: test_even: want P1 got P0; test_odd: want P1 got P0",
+    "FAIL reach-triple-mutual-recursion: test_a: want P1 got P0",
+    "FAIL reach-self-recursion: test_wait_ok: want P1 got P0",
+    "FAIL reach-helper-with-own-assert: test_via_helper: want P1 got P0; test_helper_assert_plus_own: want P1 got P0",
+    "FAIL reach-uncalled-helper-not-reachable: test_ignores_dirty_helper: want P1 got P0",
+    "FAIL reach-helper-with-args-and-return: test_arg_helper: want P1 got P0; test_arg_helper_loop: want P1 got P0; test_kwargs_helper: want P1 got P0; test_helper_r",
+    "FAIL reach-helper-name-lies: test_named_read_but_exists: want P1 got P0",
+    "FAIL cls-module-helper-from-class: TestM.test_clean: want P1 got P0"
+   ]
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": true,
+   "d2": true,
+   "d3": false
+  },
+  "killed_by_any": true,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M31-is_bool_const-any-constant",
+  "family": "constant-check",
+  "note": "is_bool_const() accepts any Constant as a boolean (the bool-value check is dropped)",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M32-e_Constant-unknown",
+  "family": "constant-check",
+  "note": "a literal constant is unknown instead of a known value",
+  "d1_selftest": {
+   "rc": 1,
+   "failures": 43,
+   "tail": [
+    "FAIL early return then pytest.fail Y want {'test_f': 'P1'} got {'test_f': 'P0'} {'test_f': ('P0', ['.exists() on an unknown/content value@7', 'branch on unknown/content value@7', 'unconditional or constant-guarded failure@9'])}",
+    "FAIL contextlib.suppress around an existence assert Y want {'test_f': 'P1'} got {'test_f': 'P0'} {'test_f': ('P0', ['assertion depends on content/value/unknown@9'])}",
+    "cases=83 failures=43"
+   ]
+  },
+  "d2_adv": {
+   "rc": 1,
+   "case_fail": 68,
+   "test_fail": 175,
+   "fails": [
+    "FAIL ex-1-exists: test_f: want P1 got P0",
+    "FAIL ex-3-isfile-and-isdir: test_f: want P1 got P0",
+    "FAIL ex-6-helper-exists: test_f: want P1 got P0",
+    "FAIL ex-9-all-examples-one-module: test_a: want P1 got P0; test_c: want P1 got P0; test_g: want P1 got P0",
+    "FAIL cl1-assert-statement-kinds: test_plain: want P1 got P0; test_with_msg: want P1 got P0; test_two_asserts: want P1 got P0",
+    "FAIL cl1-skipif-decorators-ignored: test_a: want P1 got P0; test_b: want P1 got P0",
+    "FAIL cl1-nontest-functions-ignored: test_real: want P1 got P0",
+    "FAIL cl2-pathlib-forms: test_exists: want P1 got P0; test_is_file: want P1 got P0; test_is_dir: want P1 got P0; test_is_symlink: want P1 got P0; test_parent: wa",
+    "FAIL cl2-ospath-forms: test_exists: want P1 got P0; test_isfile: want P1 got P0; test_isdir: want P1 got P0; test_islink: want P1 got P0; test_realpath: want P1",
+    "FAIL cl2-from-imports: test_a: want P1 got P0; test_b: want P1 got P0; test_c: want P1 got P0; test_d: want P1 got P0",
+    "FAIL cl2-os-access: test_f_ok: want P1 got P0; test_f_ok_kw: want P1 got P0; test_two: want P1 got P0",
+    "FAIL cl2-listing-membership: test_listdir: want P1 got P0; test_listdir_var: want P1 got P0; test_iterdir_set: want P1 got P0; test_iterdir_list: want P1 got P0"
+   ]
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 52,
+   "moved_ids": [
+    "bn-fit-modify::test_bn_sample_exists",
+    "bn-fit-modify::test_intervened_dag_structure_exists",
+    "bn-fit-modify::test_learned_dag_structure_exists",
+    "build-cython-ext::test_repo_cloned",
+    "build-pmars::test_built_from_source",
+    "build-pmars::test_debian_source_used",
+    "caffe-cifar-10::test_prototxt_files_exist",
+    "cancel-async-tasks::test_run_py_file_exists",
+    "circuit-fibsqrt::test_gates_file_exists",
+    "cobol-modernization::test_data_files_exist",
+    "cobol-modernization::test_required_files_exist",
+    "code-from-image::test_output_file_exists",
+    "crack-7z-hash::test_solution_file",
+    "db-wal-recovery::test_recovered_json_exists",
+    "extract-elf::test_extract_js_exists",
+    "extract-moves-from-video::test_solution_file_exists",
+    "financial-document-processor::test_directories_created",
+    "financial-document-processor::test_summary_csv_exists",
+    "fix-code-vulnerability::test_report_file_exists_example",
+    "gcode-to-text::test_hello_file_exists"
+   ],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 52,
+   "oracle_leg_breaks": true
+  },
+  "killed": {
+   "d1": true,
+   "d2": true,
+   "d3": true
+  },
+  "killed_by_any": true,
+  "killed_by_all": true
+ },
+ {
+  "mutant": "M33-known-k-modules-drop-os",
+  "family": "constant-check",
+  "note": "the 'os' module is not a known-value module",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M34-exist-q-drop-os-path-exists",
+  "family": "exist-query",
+  "note": "os.path.exists is not an existence query",
+  "d1_selftest": {
+   "rc": 1,
+   "failures": 13,
+   "tail": [
+    "FAIL lambda helper Y / N want {'test_a': 'P1', 'test_b': 'P0'} got {'test_a': 'P0', 'test_b': 'P0'} {'test_a': ('P0', ['os.path.exists (size/stat/exec/mutation/other os call)@7', 'assertion depends on content/value/unknown@8']), 'test_b': ('P0', ['.read_text() on a path/name (read/write/stat/command)@10', 'assertion depends on content/value/unknown@11'])}",
+    "FAIL contextlib.suppress around an existence assert Y want {'test_f': 'P1'} got {'test_f': 'P0'} {'test_f': ('P0', ['os.path.exists (size/stat/exec/mutation/other os call)@9', 'assertion depends on content/value/unknown@9'])}",
+    "cases=83 failures=13"
+   ]
+  },
+  "d2_adv": {
+   "rc": 1,
+   "case_fail": 31,
+   "test_fail": 48,
+   "fails": [
+    "FAIL cl1-assert-statement-kinds: test_plain: want P1 got P0; test_with_msg: want P1 got P0; test_two_asserts: want P1 got P0",
+    "FAIL cl2-ospath-forms: test_exists: want P1 got P0; test_realpath: want P1 got P0; test_expanduser: want P1 got P0",
+    "FAIL cl2-from-imports: test_a: want P1 got P0",
+    "FAIL cl2-boolean-combinators: test_or: want P1 got P0; test_all_gen: want P1 got P0",
+    "FAIL cl2-variable-indirection: test_flags_and: want P1 got P0; test_loop: want P1 got P0; test_comprehension: want P1 got P0",
+    "FAIL cl2-assert-messages: test_msg_concat: want P1 got P0",
+    "FAIL cl2-string-built-paths: test_format: want P1 got P0; test_percent: want P1 got P0; test_concat: want P1 got P0",
+    "FAIL cl2-writes-are-not-reads: test_open_mode_kw: want P1 got P0",
+    "FAIL cl2-polling-loops: test_poll_for_else: want P1 got P0",
+    "FAIL cl3-value-and-state-asserts: test_equal_exists_const: want P1 got P0",
+    "FAIL reach-helper-deep-pollution: test_clean: want P1 got P0",
+    "FAIL reach-triple-mutual-recursion: test_a: want P1 got P0"
+   ]
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 10,
+   "moved_ids": [
+    "crack-7z-hash::test_solution_file",
+    "db-wal-recovery::test_recovered_json_exists",
+    "llm-inference-batching-scheduler::test_output_files_exist",
+    "mteb-leaderboard::test_result_exists",
+    "mteb-retrieve::test_result_exists",
+    "multi-source-data-merger::test_output_files_exist",
+    "openssl-selfsigned-cert::test_directory_structure",
+    "prove-plus-comm::test_compiled_proof_exists",
+    "prove-plus-comm::test_proof_file_exists",
+    "rstan-to-pystan::test_output_files_exist"
+   ],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 10,
+   "oracle_leg_breaks": true
+  },
+  "killed": {
+   "d1": true,
+   "d2": true,
+   "d3": true
+  },
+  "killed_by_any": true,
+  "killed_by_all": true
+ },
+ {
+  "mutant": "M35-list-m-drop-iterdir",
+  "family": "list-query",
+  "note": "Path.iterdir is not a listing method",
+  "d1_selftest": {
+   "rc": 1,
+   "failures": 3,
+   "tail": [
+    "FAIL any over iterdir name Y want {'test_f': 'P1'} got {'test_f': 'P0'} {'test_f': ('P0', ['.iterdir() on a path/name (read/write/stat/command)@6', 'assertion depends on content/value/unknown@6'])}",
+    "FAIL any over iterdir suffix Y want {'test_f': 'P1'} got {'test_f': 'P0'} {'test_f': ('P0', ['.iterdir() on a path/name (read/write/stat/command)@6', 'assertion depends on content/value/unknown@6'])}",
+    "cases=83 failures=3"
+   ]
+  },
+  "d2_adv": {
+   "rc": 1,
+   "case_fail": 1,
+   "test_fail": 2,
+   "fails": [
+    "FAIL cl2-listing-membership: test_iterdir_set: want P1 got P0; test_iterdir_list: want P1 got P0"
+   ]
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": true,
+   "d2": true,
+   "d3": false
+  },
+  "killed_by_any": true,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M36-pure-q-drop-pathlib",
+  "family": "constant-check",
+  "note": "pathlib.Path is not a pure-value constructor",
+  "d1_selftest": {
+   "rc": 1,
+   "failures": 21,
+   "tail": [
+    "FAIL request.param fixture used in a path Y want {'test_f': 'P1'} got {'test_f': 'P0'} {'test_f': ('P0', ['call into pathlib.Path (not a plain existence predicate)@9', '.exists() on an unknown/content value@9', 'assertion depends on content/value/unknown@9'])}",
+    "FAIL early return then pytest.fail Y want {'test_f': 'P1'} got {'test_f': 'P0'} {'test_f': ('P0', ['call into pathlib.Path (not a plain existence predicate)@7', '.exists() on an unknown/content value@7', 'branch on unknown/content value@7', 'unconditional or constant-guarded failure@9'])}",
+    "cases=83 failures=21"
+   ]
+  },
+  "d2_adv": {
+   "rc": 1,
+   "case_fail": 53,
+   "test_fail": 96,
+   "fails": [
+    "FAIL ex-1-exists: test_f: want P1 got P0",
+    "FAIL ex-6-helper-exists: test_f: want P1 got P0",
+    "FAIL ex-9-all-examples-one-module: test_a: want P1 got P0; test_g: want P1 got P0",
+    "FAIL cl1-skipif-decorators-ignored: test_a: want P1 got P0; test_b: want P1 got P0",
+    "FAIL cl1-nontest-functions-ignored: test_real: want P1 got P0",
+    "FAIL cl2-pathlib-forms: test_exists: want P1 got P0; test_is_file: want P1 got P0; test_is_dir: want P1 got P0; test_is_symlink: want P1 got P0; test_parent: wa",
+    "FAIL cl2-from-imports: test_d: want P1 got P0",
+    "FAIL cl2-listing-membership: test_iterdir_set: want P1 got P0; test_iterdir_list: want P1 got P0; test_path_listdir: want P1 got P0",
+    "FAIL cl2-glob-nonempty: test_path_glob: want P1 got P0; test_rglob: want P1 got P0; test_any_glob: want P1 got P0",
+    "FAIL cl2-boolean-combinators: test_and: want P1 got P0; test_or_other: want P1 got P0; test_any_gen: want P1 got P0; test_all_list: want P1 got P0",
+    "FAIL cl2-comparison-to-bool: test_eq_true: want P1 got P0; test_is_true: want P1 got P0; test_bool_call: want P1 got P0; test_ne_false: want P1 got P0",
+    "FAIL cl2-variable-indirection: test_flag: want P1 got P0"
+   ]
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 43,
+   "moved_ids": [
+    "bn-fit-modify::test_bn_sample_exists",
+    "bn-fit-modify::test_intervened_dag_structure_exists",
+    "bn-fit-modify::test_learned_dag_structure_exists",
+    "build-cython-ext::test_repo_cloned",
+    "build-pmars::test_built_from_source",
+    "build-pmars::test_debian_source_used",
+    "caffe-cifar-10::test_prototxt_files_exist",
+    "cancel-async-tasks::test_run_py_file_exists",
+    "circuit-fibsqrt::test_gates_file_exists",
+    "cobol-modernization::test_data_files_exist",
+    "cobol-modernization::test_required_files_exist",
+    "code-from-image::test_output_file_exists",
+    "crack-7z-hash::test_solution_file",
+    "extract-elf::test_extract_js_exists",
+    "extract-moves-from-video::test_solution_file_exists",
+    "financial-document-processor::test_directories_created",
+    "financial-document-processor::test_summary_csv_exists",
+    "fix-code-vulnerability::test_report_file_exists_example",
+    "gcode-to-text::test_hello_file_exists",
+    "kv-store-grpc::test_protobuf_generation"
+   ],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 43,
+   "oracle_leg_breaks": true
+  },
+  "killed": {
+   "d1": true,
+   "d2": true,
+   "d3": true
+  },
+  "killed_by_any": true,
+  "killed_by_all": true
+ },
+ {
+  "mutant": "M37-membership-not-a-predicate",
+  "family": "comparison",
+  "note": "membership over names is not an existence predicate",
+  "d1_selftest": {
+   "rc": 1,
+   "failures": 3,
+   "tail": [
+    "FAIL os.listdir membership via variable want {'test_f': 'P1'} got {'test_f': 'P0'} {'test_f': ('P0', ['assertion depends on no path state (constant/computed value)@8'])}",
+    "FAIL name set from iterdir Y want {'test_f': 'P1'} got {'test_f': 'P0'} {'test_f': ('P0', ['assertion depends on no path state (constant/computed value)@8'])}",
+    "cases=83 failures=3"
+   ]
+  },
+  "d2_adv": {
+   "rc": 1,
+   "case_fail": 3,
+   "test_fail": 8,
+   "fails": [
+    "FAIL cl2-from-imports: test_c: want P1 got P0",
+    "FAIL cl2-listing-membership: test_listdir: want P1 got P0; test_listdir_var: want P1 got P0; test_iterdir_set: want P1 got P0; test_iterdir_list: want P1 got P0",
+    "FAIL unittest-basic-styles: TestU.test_in_listdir: want P1 got P0"
+   ]
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": true,
+   "d2": true,
+   "d3": false
+  },
+  "killed_by_any": true,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M38-write-count-not-a-count",
+  "family": "write-vs-read",
+  "note": "a write that returns a byte count is not a count value",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M39-mutate-drops-var",
+  "family": "write-vs-read",
+  "note": "a mutating call does not update the variable it mutates",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M40-class-attr-self-only",
+  "family": "helper-visit",
+  "note": "a class attribute is only read from the exact class, not its chain",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M41-fixture-autouse-dropped",
+  "family": "helper-visit",
+  "note": "an autouse fixture is not run",
+  "d1_selftest": {
+   "rc": 0,
+   "failures": 0,
+   "tail": [
+    "cases=83 failures=0"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": false,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": false,
+  "killed_by_all": false
+ },
+ {
+  "mutant": "M42-tmp-fixtures-dropped",
+  "family": "helper-visit",
+  "note": "tmp_path/tmpdir are not pure fixtures",
+  "d1_selftest": {
+   "rc": 1,
+   "failures": 1,
+   "tail": [
+    "FAIL tmp_path fixture is pure want {'test_f': 'P1'} got {'test_f': 'P0'} {'test_f': ('P0', ['.exists() on an unknown/content value@6', 'assertion depends on content/value/unknown@6'])}",
+    "cases=83 failures=1"
+   ]
+  },
+  "d2_adv": {
+   "rc": 0,
+   "case_fail": 0,
+   "test_fail": 0,
+   "fails": []
+  },
+  "d3_population": {
+   "ids": 305,
+   "moved": 0,
+   "moved_ids": [],
+   "unclassified": 0,
+   "error": null,
+   "oracle_disagree": 0,
+   "oracle_leg_breaks": false
+  },
+  "killed": {
+   "d1": true,
+   "d2": false,
+   "d3": false
+  },
+  "killed_by_any": true,
+  "killed_by_all": false
+ }
+]

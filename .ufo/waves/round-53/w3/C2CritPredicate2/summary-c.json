@@ -1,0 +1,26 @@
+[
+ {
+  "label": "C1-launder-red-row-via-selftest-kind",
+  "expected": "PREDICATE R53-C2 pass",
+  "rc": 0,
+  "verdict": "LANDED(pass)",
+  "seen": "PREDICATE R53-C2 pass",
+  "notes": "selftest kind has NO fraction cap (only `help` does)"
+ },
+ {
+  "label": "C2-launder-all-twelve-red-rows",
+  "expected": "help_limit",
+  "rc": 0,
+  "verdict": "LANDED(pass)",
+  "seen": "ARGV entry=74 selftest=4 help=0 help_limit=7.8",
+  "notes": "12 help rows = 15.4% > 10% cap -> must be caught"
+ },
+ {
+  "label": "C3-mixed-help-and-selftest-laundering",
+  "expected": "PREDICATE R53-C2 pass",
+  "rc": 0,
+  "verdict": "LANDED(pass)",
+  "seen": "PREDICATE R53-C2 pass",
+  "notes": "7 help (under cap) + 5 selftest (uncapped) -> all 12 red rows laundered"
+ }
+]
