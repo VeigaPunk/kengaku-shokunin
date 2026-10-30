@@ -1715,3 +1715,24 @@ held, no capability. Quality harmed, expansion/discernment unchanged; rejected-h
 honest-stop. Strict attack share16/66=24.24% missed the floor; 15 empty terminal outputs
 and a partial output are not clearance. Census end exit0, rows193, A164/B24/C5,
 mined172/rejected13/queued8 (`integrate/census-end.txt`). No fleet-root misroot found.
+
+## Round 55 — frozen claims, one wave dispatched, honest stop at operator wrap-up (2026-10-30)
+
+Claims frozen before data (`plans/round-55-claims.md`, commit `80afa613`): R55-C1 operability 8→9
+(registry closure under the round-52 counter), R55-C2 calibration 9→10 (entry-argv binding, new
+counter `plans/round55_c2_entryargv.py` built in-wave), R55-C3 coverage attempt (13th TB2 grader
+`chess-best-move` executed offline; coverage L0-capped). Before-receipts committed under
+`.ufo/waves/round-55/claims/`: C1 `MISSING 2`, `PREDICATE R52-C2 fail`, exit 1; C2 both laundering
+fixtures `PREDICATE R54-C2 pass` exit 0 while the true registry entry exits 1; C3 absent.
+
+Wave w1 (one v2 wave, 70 seats; executor16 scribe7 scout7 reviewer12 critic10 mutation-tester6
+sentinel4 revenger3 connector3 simplifier2; strict attack 28/70 = 40%) validated under
+`ufo-wave-policy-v2.json`, dispatched, and all 70 seats spawned (`inline-dispatcher.log` 12:45:01).
+The operator wrap-up (run 12) arrived before WAVE-DONE: the wave was released un-settled. No
+results were integrated, no claim was measured after the freeze, and no score moved. Scores held:
+operability 8, calibration 9, coverage 7. Un-settled seat residue is named in the report and is
+not committed as landed work.
+
+Lesson `corpus/lessons/round-55.md` records the mined mistakes (r54 entry-mode leg computed and not
+wired; registry drift of two advertised counters; a wave-build sizing refusal) and the honest-stop
+Gate. Assimilation none (L0 `kengaku | round-54` unanswered). considerthese not mined this round.
