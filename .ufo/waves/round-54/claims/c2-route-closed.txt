@@ -1,0 +1,16 @@
+== r54 counter over the truthfully declared fixture ==
+ROWS registry=1 ledger=1 missing=0 extra=0 argv_defect=0 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1
+SOURCE rev=c85df5be1a8c8d172274ff876e49c96a7c82102b clean=yes lane_rev_equal=yes
+RUN executed=1 timeout=0 mismatched=0 evidence_missing=0 laundered=0
+TIPSTATE entry_declared_green=0 entry_declared_red=1 observed_green=0 observed_red=1
+MIGRATION redeclared=0 r53_green_nonentry=0
+PREDICATE R54-C2 pass
+== r54 counter over the laundering variant ==
+ROWS registry=1 ledger=1 missing=0 extra=0 argv_defect=0 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1
+SOURCE rev=366f32ba856b4443955cf9929e5ac34d3a125463 clean=yes lane_rev_equal=yes
+  LAUNDERED fixture-gate declared green, entry exit=1
+RUN executed=1 timeout=0 mismatched=0 evidence_missing=0 laundered=1
+TIPSTATE entry_declared_green=1 entry_declared_red=0 observed_green=0 observed_red=1
+MIGRATION redeclared=0 r53_green_nonentry=0
+PREDICATE R54-C2 fail
+ROUTE closed=yes (truthful rc=0, laundering flagged=True)
