@@ -1,0 +1,18 @@
+++ date -u +%FT%TZ
++ echo '# C1 do-nothing control at base 1355e84c (2026-10-30T18:46:50Z) — command run from the base tree (cwd=clone):'
+# C1 do-nothing control at base 1355e84c (2026-10-30T18:46:50Z) — command run from the base tree (cwd=clone):
++ cd /fast/scratch/hyaku/kengaku-r56/l1/base-clone
++ python3 plans/round56_landcheck.py --lane /fast/scratch/hyaku/kengaku-r56/l1/base-clone
+python3: can't open file '/fast/scratch/hyaku/kengaku-r56/l1/base-clone/plans/round56_landcheck.py': [Errno 2] No such file or directory
++ echo EXIT=2
+EXIT=2
++ cd /home/vgpnk/Projects/shokunin/kengaku-shokunin
++ echo '# Observation (informative): the four legs themselves pass at base — the before-state is the absent instrument:'
+# Observation (informative): the four legs themselves pass at base — the before-state is the absent instrument:
+++ python3 plans/round56_landcheck.py --lane /fast/scratch/hyaku/kengaku-r56/l1/base-clone
+++ tail -6
+[PASS] L-reg registry closure (MISSING 0, PREDICATE R52-C2 pass)
+[PASS] L-chess chess probe re-run == committed receipt (cases=12 observed_pass=5 observed_fail=7 mismatches=0)
+[PASS] L-selftest entryargv selftest (4/4 PASS)
+[PASS] L-grader grader replay+selftest (CHECKS n=733 mismatches=0, ALL PASS)
+LANDCHECK PASS n=4
