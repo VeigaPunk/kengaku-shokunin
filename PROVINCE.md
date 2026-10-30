@@ -647,3 +647,25 @@ Erratum (round 43, L1 self-review): the round-43 paragraph's "plus a ninth pass 
 **Round 45 (2026-10-26).** `knowledge/tb2-password-recovery-grader.md` reads and executes an eleventh Terminal-Bench 2.0 task's scoring code — `password-recovery/tests/test_outputs.py` @ `2fd12b88` with `tests/test.sh`, `instruction.md`, `environment/setup.sh`, `environment/Dockerfile`, `README.md`, `solution/solve.sh` and `task.toml` (S149-S156) — over 16 frozen end states (`cases=16 observed_pass=5 observed_fail=11 mismatches=0`, `regrade cases=16 differ=0`), run under the `bwrap` envelope. The graded artefact is an agent-written guesses file: the second measured F1 constant-compare exemplar after feal-linear. The password itself, and how an agent should recover it, stay the task's and the authors' business — not this lane's.
 
 **Round 46 (2026-10-27).** `knowledge/tb2-polyglot-c-py-grader.md` reads and executes a twelfth Terminal-Bench 2.0 task's scoring code — `polyglot-c-py/tests/test_outputs.py` @ `2fd12b88` with `tests/test.sh`, `instruction.md`, `environment/Dockerfile`, `README.md`, `solution/solve.sh`, `task.toml` and `.gitignore` (S166, S167, S168, S169, S170, S171, S172) — over 18 frozen end states (`cases=18 observed_pass=7 observed_fail=11 mismatches=0`, `regrade cases=18 differ=7`), each case run in its own `bwrap` sandbox. The graded artefact is one polyglot source file that must run as a Python script and compile as C, each printing the same literal at three fixed inputs, after an exact-directory listing the grader's own compile then invalidates: the first dual-runtime exemplar in this lane. Polyglot construction as a technique, and how an agent should build the file, stay the task's and the authors' business — not this lane's.
+
+## Round55 partial frontier admission (2026-10-30)
+
+**Core addition:** static interpretation and offline synthetic-fixture execution of one more pinned
+Terminal-Bench 2.0 grader — `chess-best-move/tests/test_outputs.py` at terminal-bench-2 `2fd12b88`
+(capture sha256 `a540714e…b8f286`, byte-identical to upstream at the pin; rows S201 grader and S202
+instruction opened this round, with runner semantics citing held S109 — the chess `tests/test.sh` is
+byte-identical to the regex-log runner, so no third row is opened per Amendment A1) — over 12 frozen
+synthetic `move.txt` artefacts, via `corpus/knowledge/tb2-chess-best-move-grader.md`,
+`plans/round55_c3_chess_probe.py` and receipt `corpus/evidence/round55/chess-best-move-probe.txt`
+(`cases=12 observed_pass=5 observed_fail=7 mismatches=0`, `PREDICATE R55-C3 pass`). The graded artefact is a class
+distinct from round 45's line-split membership: an agent-written move-token file judged by
+order-insensitive FULL-MULTISET equality over whitespace-split tokens, so partial answers fail, order
+is free, duplicates break equality, and no case or unicode normalization exists — the instruction's own
+example literal `h1h8` would fail. What it owns: reading and executing the captured scoring code against
+its `instruction.md` with predictions written before the first run. What it refuses: the task image, the
+harness (`tests/test.sh`'s runner path is read via the held S109 identity, not executed here), real
+submissions, runtime task validity, contamination, model behaviour, and the remaining 76 unread TB2 task
+graders. This narrows the "remaining TB2 tasks" clause of the round35–46 paragraphs for this one task
+only: 13 of 89 read. The earlier paragraphs stay as written.
+
+**Reported out (round 55):** none absorbed.
