@@ -1,0 +1,132 @@
+{
+ "round54-c1": {
+  "present": true,
+  "kind": "gate",
+  "entry_cell": "`python3 plans/round54_c1_anchor.py verify --anchor corpus/evidence/round54/anchor --claims plans/round-54-claims.md --source . --work work/anchor-verify-row --controls` (the frozen counting command of plans/round-54-claims.md; subcommands `stamp`/`upgrade` write the anchor and need network + the `ots` CLI; the bare-host entry measurement is red \u2014 see the verdict map)",
+  "entry_span": "python3 plans/round54_c1_anchor.py verify --anchor corpus/evidence/round54/anchor --claims plans/round-54-claims.md --source . --work work/anchor-verify-row --controls",
+  "script": "plans/round54_c1_anchor.py",
+  "script_in_lane": true,
+  "script_in_clone": true,
+  "verdict_map": "`0` predicate holds \u2014 every leg recomputes from committed bytes: `BINDING ok rev=\u2026 digest=\u2026`, `ATTESTATION ok height=\u2026 attestations=\u2026`, `HEADER ok block=\u2026 time=\u2026`, `EXTERNAL-PIN ok receipts=\u2026 sources=\u2026` (\u22652 distinct explorer receipts), `CONTROLS forged=4 failed=0`, `PREDICATE R54-C1 pass` \u00b7 `1` a leg recomputes otherwise (`BINDING digest mismatch \u2026`, `ATTESTATION \u2026`, `HEADER \u2026`, `TIME \u2026`, `EXTERNAL-PIN \u2026`, `SOURCE not clean \u2026`, `CONTROLS forged=4 failed=<n>0`), then `PREDICATE R54-C1 fail` \u2014 at the tip's bare host python3 (no `opentimestamps` library) the entry dies on `ModuleNotFoundError` and exits 1, measured 2026-10-30 \u00b7 `2` setup/usage (argparse; `SETUP \u2026` lines \u2014 an absent anchor/header prints `SETUP \u2026 PREDICATE R54-C1 fail` and exits 1, a bad schema/freeze_rev exits 2)",
+  "selftest_cell": "`python3 plans/round54_c1_anchor.py selftest` \u2014 measured `8/8 PASS`, exit 0, under the round-54 `opentimestamps` venv (uv venv + `opentimestamps==0.5.0` `opentimestamps-client==0.8.0`, per the script docstring); on a bare host python3 it exits 1 (`ModuleNotFoundError`)",
+  "pinned_cell": "`plans/round54_c1_anchor.py` sha256 `e08152a55fefa54a`",
+  "scope_cell": "decides whether the round-54 claims digest is externally anchored \u2014 OTS Bitcoin attestation vs the 80-byte block header + \u22652 explorer receipts, with forged-proof controls; no lane write: anchor assets land only via `stamp`/`upgrade`",
+  "owner_cell": "kengaku",
+  "sha_actual": "e08152a55fef",
+  "sha_in_pinned": true,
+  "selftest_unbacked": false,
+  "st_scripts": [
+   "plans/round54_c1_anchor.py"
+  ],
+  "st_flags": [],
+  "st_flags_in_body": {}
+ },
+ "round54-c2": {
+  "present": true,
+  "kind": "gate",
+  "entry_cell": "`python3 plans/round54_c2_entrytruth.py --lane .` (flags implemented: `--lane --source --work --jobs --timeout --dry --selftest`; the entry truthfully needs `--source <clean clone> --work <scratch>` to execute \u2014 the bare ledger argv exits 2 `SETUP --source and --work are required unless --dry`, measured 2026-10-30; `--dry` prints the static legs with `DRY static legs only: no predicate` and never executes)",
+  "entry_span": "python3 plans/round54_c2_entrytruth.py --lane .",
+  "script": "plans/round54_c2_entrytruth.py",
+  "script_in_lane": true,
+  "script_in_clone": true,
+  "verdict_map": "`0` `ROWS registry=<n> ledger=<n> missing=0 extra=0 argv_defect=0 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1`, `RUN executed=<n> timeout=0 mismatched=0 evidence_missing=0 laundered=0`, `TIPSTATE entry_declared_green=\u2026 entry_declared_red=\u2026 observed_green=\u2026 observed_red=\u2026` with observed equal to declared, `PREDICATE R54-C2 pass` \u00b7 `1` any leg fails \u2014 one `  MISSING/EXTRA/BAD-DECL/DUPLICATE/LEDGER \u2026` line per static defect, `  ARGV-DEFECT \u2026`, `  TIMEOUT \u2026`, `  LAUNDERED <name> declared green, entry exit=<rc>`, `  MISMATCH \u2026`, `  EVIDENCE-MISSING \u2026` \u2014 then `PREDICATE R54-C2 fail` \u00b7 `2` setup/usage (`SETUP --source and --work are required unless --dry`, `SETUP SKILL.md absent`, argparse); `--dry` alone exits 0/1 on the static legs",
+  "selftest_cell": "`python3 plans/round54_c2_entrytruth.py --selftest` \u2014 measured `[selftest] 7/7 PASS`, exit 0",
+  "pinned_cell": "`plans/round54_c2_entrytruth.py` sha256 `44c3f41285239645`",
+  "scope_cell": "decides whether every registry row's ledger-declared entry argv is truthfully green or red on a clean checkout \u2014 the r54 entry-truth counter over a hermetic git env with secrets scrubbed; round 55 re-points this claim at `round55-c2`'s binding legs",
+  "owner_cell": "kengaku",
+  "sha_actual": "44c3f4128523",
+  "sha_in_pinned": true,
+  "selftest_unbacked": false,
+  "st_scripts": [
+   "plans/round54_c2_entrytruth.py"
+  ],
+  "st_flags": [
+   "--selftest"
+  ],
+  "st_flags_in_body": {
+   "--selftest": true
+  }
+ },
+ "round55-c2": {
+  "present": true,
+  "kind": "gate",
+  "entry_cell": "`python3 plans/round55_c2_entryargv.py` (flags implemented: `--lane --source --work --jobs --timeout --dry --selftest`, the frozen R55-C2 contract; the entry truthfully needs `--source <clean clone> --work <scratch>` to execute \u2014 the bare ledger argv exits 2 `SETUP --source and --work are required unless --dry`, measured 2026-10-30; `--dry` prints the static legs with `DRY static legs only: no predicate` and never executes)",
+  "entry_span": "python3 plans/round55_c2_entryargv.py",
+  "script": "plans/round55_c2_entryargv.py",
+  "script_in_lane": true,
+  "script_in_clone": true,
+  "verdict_map": "`0` `ROWS registry=<n> ledger=<n> missing=0 extra=0 argv_defect=0 wrapper_defect=0 abbrev_defect=0 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1`, `BINDING l1=0 l2=0 l3=0`, `SOURCE \u2026 clean=yes lane_rev_equal=yes`, `RUN executed=<n> timeout=0 mismatched=0 evidence_missing=0 laundered=0`, `TIPSTATE \u2026` with observed equal to declared, `PREDICATE R55-C2 pass` \u00b7 `1` any leg fails \u2014 per-row `  ARGV-DEFECT <row>: \u2026` (ledger argv \u2260 registry cell argv), `  WRAPPER-DEFECT <row>: \u2026` (argv[0] not an interpreter, or a wrapper / inline `-c` token), `  ABBREV-DEFECT <row>: \u2026` (flag-prefix abbreviation), `  MISSING/EXTRA/BAD-DECL/DUPLICATE/LEDGER \u2026`, `  TIMEOUT \u2026`, `  LAUNDERED \u2026`, `  MISMATCH \u2026`, `  EVIDENCE-MISSING \u2026` \u2014 then `PREDICATE R55-C2 fail` \u00b7 `2` setup/usage (`SETUP plans/round54_c2_entrytruth.py absent`, `SETUP --source and --work are required unless --dry`, `SETUP SKILL.md absent`, argparse); `--dry` alone exits 0/1 on the static legs",
+  "selftest_cell": "`python3 plans/round55_c2_entryargv.py --selftest [--work <scratch>]` \u2014 measured `[selftest] 4/4 PASS`, exit 0",
+  "pinned_cell": "`plans/round55_c2_entryargv.py` sha256 `2bf9e66ce3d5bace`",
+  "scope_cell": "decides whether the entry ledger is structurally bound to the registry \u2014 L1 ledger\u2194registry argv token identity, L2 interpreter identity (no wrappers), L3 no flag prefix abbreviation, L4 per-row hermetic ground truth \u2014 importing the unchanged r54 counter",
+  "owner_cell": "kengaku",
+  "sha_actual": "2bf9e66ce3d5",
+  "sha_in_pinned": true,
+  "selftest_unbacked": false,
+  "st_scripts": [
+   "plans/round55_c2_entryargv.py"
+  ],
+  "st_flags": [
+   "--selftest",
+   "--work"
+  ],
+  "st_flags_in_body": {
+   "--selftest": true,
+   "--work": true
+  }
+ },
+ "round55-c2-controls": {
+  "present": true,
+  "kind": "gate",
+  "entry_cell": "`python3 plans/round55_c2_controls.py` (flags implemented: `--case {abbreviated-selftest,uv-decoy-script}` and `--selftest` in a required group, plus `--against {r54,r55}` default `r54`; a bare run exits 2 argparse `one of the arguments --case --selftest is required`, measured 2026-10-30)",
+  "entry_span": "python3 plans/round55_c2_controls.py",
+  "script": "plans/round55_c2_controls.py",
+  "script_in_lane": true,
+  "script_in_clone": true,
+  "verdict_map": "`0` the demonstrated state holds \u2014 measured 2026-10-30: `--case abbreviated-selftest --against r54` and `--case uv-decoy-script --against r54` each print `ROUTE laundering demonstrated (r54 rc=0, true entry exit=1)` (the fixture passes the unchanged r54 counter while the registry-declared entry exits 1, the frozen red-before); `--case abbreviated-selftest --against r55` prints `ARGV-DEFECT fixture-gate: \u2026` with `ABBREV-DEFECT fixture-gate: \u2026` and `--case uv-decoy-script --against r55` prints `ARGV-DEFECT fixture-gate: \u2026` with `WRAPPER-DEFECT fixture-gate: \u2026`, each `COUNTER EXIT 1` and `ROUTE kill demonstrated (r55 rc=1)` \u00b7 `1` the demonstrated state does not hold (`ROUTE laundering NOT demonstrated` / `ROUTE kill NOT demonstrated`) \u00b7 `2` setup (`SETUP r54 counter absent`, `SETUP plans/round55_c2_entryargv.py absent`, `SETUP --against must be r54 or r55`)",
+  "selftest_cell": "`python3 plans/round55_c2_controls.py --selftest` \u2014 measured `SELFTEST cases=4 failures=0`, exit 0",
+  "pinned_cell": "`plans/round55_c2_controls.py` sha256 `c7591bc6d682c542`",
+  "scope_cell": "decides whether the two frozen R55-C2 laundering fixtures demonstrate the red-before state (the r54 counter passes them) and the after-state kills (the r55 binding counter attributes the defect) \u2014 builds scratch git fixtures and runs both counters over them",
+  "owner_cell": "kengaku",
+  "sha_actual": "c7591bc6d682",
+  "sha_in_pinned": true,
+  "selftest_unbacked": false,
+  "st_scripts": [
+   "plans/round55_c2_controls.py"
+  ],
+  "st_flags": [
+   "--selftest"
+  ],
+  "st_flags_in_body": {
+   "--selftest": true
+  }
+ },
+ "round55-c3": {
+  "present": true,
+  "kind": "probe",
+  "entry_cell": "`python3 plans/round55_c3_chess_probe.py` (flags implemented: `--lane --work --receipt --selftest`; the R55-C3 receipt run adds `--lane . --work <scratch> --receipt corpus/evidence/round55/chess-best-move-probe.txt`; the bare entry runs the whole battery with a fresh `$TMPDIR` work dir and no receipt)",
+  "entry_span": "python3 plans/round55_c3_chess_probe.py",
+  "script": "plans/round55_c3_chess_probe.py",
+  "script_in_lane": true,
+  "script_in_clone": true,
+  "verdict_map": "`0` every case's observed verdict equals its frozen prediction \u2014 `cases=12 observed_pass=<P> observed_fail=<F> mismatches=0` then `PREDICATE R55-C3 pass` (measured bare entry 2026-10-30: `cases=12 observed_pass=5 observed_fail=7 mismatches=0`, exit 0) \u00b7 `1` an observed\u2260predicted case \u2014 `mismatches>0`, `PREDICATE R55-C3 fail` (mismatches are carried on the summary line and in the exit code) \u00b7 `2` setup \u2014 the capture off its pinned sha256 (`SETUP grader sha256 <h> != frozen pin \u2026`), a bwrap/sandbox failure, or any case observing `SETUP` (`SETUP cases=\u2026`)",
+  "selftest_cell": "`python3 plans/round55_c3_chess_probe.py --selftest [--work <scratch>]` \u2014 measured `SELFTEST cases=2 failures=0`, exit 0",
+  "pinned_cell": "`plans/round55_c3_chess_probe.py` sha256 `7bd2863ca745f165`",
+  "scope_cell": "decides whether the captured TB2 `chess-best-move` grader (pin `2fd12b88\u2026`) judges an agent-written token file by order-insensitive full-multiset equality over whitespace-split tokens exactly as the 12 frozen predictions claim \u2014 a coverage probe over committed capture bytes, not a capability",
+  "owner_cell": "kengaku",
+  "sha_actual": "7bd2863ca745",
+  "sha_in_pinned": true,
+  "selftest_unbacked": false,
+  "st_scripts": [
+   "plans/round55_c3_chess_probe.py"
+  ],
+  "st_flags": [
+   "--selftest",
+   "--work"
+  ],
+  "st_flags_in_body": {
+   "--selftest": true,
+   "--work": true
+  }
+ }
+}

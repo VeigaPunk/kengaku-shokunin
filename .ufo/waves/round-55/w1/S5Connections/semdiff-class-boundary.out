@@ -1,0 +1,34 @@
+case                          r45 shape  r55 real   r55 pred  verdict
+both moves, one per line           True      True      P      OK
+both moves, reversed order         True      True      P      OK
+both moves, one line space        False      True      P      OK
+both moves, one line tab          False      True      P      OK
+both moves, NBSP separated        False      True      P      OK
+both moves, CRLF                   True      True      P      OK
+both moves, padded                False      True      P      OK
+PARTIAL: only g2g4                 True     False      F      OK
+PARTIAL: only e2e4                False     False      F      OK
+EXTRA decoy token                  True     False      F      OK
+DUPLICATE winner                   True     False      F      OK
+UPPERCASE token                   False     False      F      OK
+FULLWIDTH digit                   False     False      F      OK
+JOINED on one line                False     False      F      OK
+EMPTY file                        False     False      F      OK
+instruction example h1h8          False     False      F      OK
+
+r55 predictions reproduced: 16/16  (mismatches=0)
+shapes disagree on 7/16 cases
+
+-- the two relations are incomparable (witnesses on identical bytes) --
+  A 'g2g4 e2e4'      r45-shape=False  r55-real=True
+  B 'g2g4\nnope\n'   r45-shape=True   r55-real=False
+
+-- normalization surface --
+  r55 split(): splits on any of 29 Unicode whitespace code points (incl. U+00A0, U+3000); r45 split('\n'): only U+000A (after universal-newline translation)
+  r55 case folding: none (str.upper never applied); digit-width folding: none (U+FF12 != '2'); unicode normalization: none (raw str equality)
+  r45 newline handling: read_text() universal newlines, so lone \r also separates lines
+  r45 tokenization is LINE-based (split('\n')); r55 tokenization is TOKEN-based (split())
+
+-- multiplicity --
+  r55 compares sorted LISTS: a duplicate adds an element -> equality breaks
+  r45 membership ignores multiplicity entirely: the same line 1000 times still passes

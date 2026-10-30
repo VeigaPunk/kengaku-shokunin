@@ -1,0 +1,18 @@
+FIXTURE f6-envkill run=neutral
+COUNTER EXIT 1
+ROWS registry=1 ledger=1 missing=0 extra=0 argv_defect=0 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1
+SOURCE rev=d633185a650009d7ac5476367ef4cb17a33e23eb clean=yes lane_rev_equal=yes
+  LAUNDERED red-gate declared green, entry exit=7
+RUN executed=1 timeout=0 mismatched=0 evidence_missing=0 laundered=1
+TIPSTATE entry_declared_green=1 entry_declared_red=0 observed_green=0 observed_red=1
+MIGRATION redeclared=0 r53_green_nonentry=0
+PREDICATE R54-C2 fail
+PYTHONPATH=<empty>
+COUNTER-EXIT 1
+NEUTRAL-TRUTH ["python3", "plans/red.py"] exit=7
+entry failed: red gate is red in a neutral environment
+
+PATH-SHIM PROOF argv[0]='python3' resolved via caller PATH: exit=7 intercepted=True
+PATH-SHIM python3 intercepted argv: plans/red.py
+entry failed: red gate is red in a neutral environment
+

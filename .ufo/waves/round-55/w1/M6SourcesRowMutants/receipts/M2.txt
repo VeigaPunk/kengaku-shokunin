@@ -1,0 +1,32 @@
+=== label=M2 mutant=M2 ===
+pristine sha256: 1b8bd31430537cc8df4ca273bed54bca89dc32d2f9ecab42ac0c651369c7d8fa
+--- mutate ---
+applied M2 sha256=230162ed2dd0745d291e48be8d51fdfa6a69d6e1af6013290152ec1407715c06
+mutate exit=0
+target sha256: 230162ed2dd0745d291e48be8d51fdfa6a69d6e1af6013290152ec1407715c06
+=== D1 CORPUS.md §Census manual commands (cwd=/fast/scratch/hyaku/kengaku-r55/M6SourcesRowMutants/lane) ===
+--- D1a rows ---
+195
+exit=0
+--- D1b malformed (NF!=13) must be 0 ---
+0
+exit=0
+--- D1c tier histogram ---
+A=166 B=24 C=5 
+exit=0
+--- D1d status histogram ---
+mined=174 queued=8 rejected=13 
+exit=0
+--- D1e duplicate ids must print nothing ---
+exit=0
+--- D1f enum violations + tier inflation must print nothing ---
+exit=0
+--- D1g mined rows whose used-by paths do not exist must print nothing ---
+exit=0
+=== D2 sources-census.sh validate --file ===
+D2 exit=0
+=== D3 anchor_digest_check.py (lane advertised gate) ===
+DEFECT S201 anchor token=a540714e0156fc14564badedcb48d1f7b69a4b457d876036535439b30cb8f286 class=token-outside-anchor detail=sha256-claim-in-cell-7-of-11 loc=corpus/SOURCES.md:216
+DEFECT S202 anchor token=6ba25be4e291a4ad04ae42b2dddefcdaef67ca45ca9d5dce661a2e517b19ce7a class=anchor-unbound detail=no-capture-for-upstream-chess-best-move/instruction.md-task=chess-best-move loc=corpus/SOURCES.md:217
+rows=195 tokens=94 defects=23
+D3 exit=1

@@ -1,0 +1,41 @@
+SEAT: E11SelftestReceipts — R55-C1 frozen leg 2 self-test receipt
+ROW: round55-c3
+DATE: 2026-10-30
+
+COMMITTED ROW STATE
+  Row exists only in the UNCOMMITTED working tree (SKILL.md:646); the instrument
+  `plans/round55_c3_chess_probe.py` is UNCOMMITTED residue (`git status` -> `??`). Neither
+  the row nor the script is in the committed tip 248a42b8. Cell text quoted from work tree.
+
+ROW CELL TEXT (SKILL.md working tree, line 646)
+  self-test (field 5): `python3 plans/round55_c3_chess_probe.py --selftest [--work <scratch>]`
+    — measured `SELFTEST cases=2 failures=0`, exit 0.
+
+CLAIMED SELF-TEST OUTCOME
+  `SELFTEST cases=2 failures=0`, exit 0.
+
+EXECUTED FROM CLEAN CLONE (authoritative leg-2 method)
+  BLOCKED. `plans/round55_c3_chess_probe.py` is ABSENT from a clean shared clone at tip
+  248a42b8 (uncommitted residue). The self-test cannot be run "from a clean clone at the
+  current tip" until the L1 commits the instrument.
+  Attempt: python3 plans/round55_c3_chess_probe.py --selftest --work <scratch> -> "can't
+  open file ... No such file or directory" (exit 2).
+
+WORK-TREE DIAGNOSTIC (NOT the clean-clone leg-2 run; clearly labeled supplementary)
+  CMD: python3 plans/round55_c3_chess_probe.py --selftest --work <scratch>  (cwd = lane work tree)
+  EXIT: 0
+  OUTPUT:
+      SELFTEST CASE toy-pass predicted=P observed=P rc=0
+      SELFTEST CASE toy-fail predicted=F observed=F rc=1
+      SELFTEST cases=2 failures=0
+
+COMPARISON
+  clean-clone run: not possible at tip 248a42b8 (instrument uncommitted) -> leg 2 PENDING.
+  work-tree diagnostic: observed `SELFTEST cases=2 failures=0`, exit 0 == cell claim -> would
+    MATCH once the instrument is committed.
+
+FINDING
+  Leg 2 cannot be fully evidenced for round55-c3 at the current tip: the row and its
+  instrument are uncommitted, so the clean-clone self-test is not yet runnable. The
+  work-tree behavior matches the cell (cases=2 failures=0, exit 0); no verdict disagreement
+  observed.

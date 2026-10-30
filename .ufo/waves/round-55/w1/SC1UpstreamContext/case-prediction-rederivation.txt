@@ -1,0 +1,21 @@
+# static re-derivation of the frozen R55-C3 12-case prediction table
+# oracle: the UPSTREAM grader's own assertion, parsed from the fetched bytes at the pin
+#   move = Path('/app/move.txt').read_text().strip().split()
+#   assert sorted(move) == sorted(['g2g4', 'e2e4'])
+# upstream grader sha256 a540714e0156fc14564badedcb48d1f7b69a4b457d876036535439b30cb8f286 (971 B)
+# target multiset parsed from upstream source: ['g2g4', 'e2e4']
+# NOTE: static re-derivation only; the grader was NOT executed here.
+CASE both-lowercase-two-lines predicted=P observed=P tokens=['g2g4', 'e2e4']
+CASE both-space-separated predicted=P observed=P tokens=['g2g4', 'e2e4']
+CASE reversed-order predicted=P observed=P tokens=['e2e4', 'g2g4']
+CASE single-move-only predicted=F observed=F tokens=['g2g4']
+CASE uppercase-white predicted=F observed=F tokens=['G2G4', 'e2e4']
+CASE extra-decoy-move predicted=F observed=F tokens=['g2g4', 'e2e4', 'a2a3']
+CASE duplicate-move predicted=F observed=F tokens=['g2g4', 'e2e4', 'e2e4']
+CASE whitespace-padded predicted=P observed=P tokens=['g2g4', 'e2e4']
+CASE empty-file predicted=F observed=F tokens=[]
+CASE crlf-line-endings predicted=P observed=P tokens=['g2g4', 'e2e4']
+CASE instruction-example-h1h8 predicted=F observed=F tokens=['h1h8', 'e2e4']
+CASE fullwidth-unicode-digit predicted=F observed=F tokens=['g２g4', 'e2e4']
+cases=12 mismatches=0
+PREDICATE (static re-derivation) R55-C3-consistent

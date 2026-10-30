@@ -1,0 +1,65 @@
+{
+ "round35-c1": {
+  "argv": [
+   "python3",
+   "plans/round35_c1_verify.py",
+   "--lane",
+   "."
+  ],
+  "rc": 1,
+  "sec": 0.5
+ },
+ "round54-c1": {
+  "argv": [
+   "python3",
+   "plans/round54_c1_anchor.py",
+   "verify",
+   "--anchor",
+   "corpus/evidence/round54/anchor",
+   "--claims",
+   "plans/round-54-claims.md",
+   "--source",
+   ".",
+   "--work",
+   "work/anchor-verify-row",
+   "--controls"
+  ],
+  "rc": 1,
+  "sec": 0.4
+ },
+ "round54-c2": {
+  "argv": [
+   "python3",
+   "plans/round54_c2_entrytruth.py",
+   "--lane",
+   "."
+  ],
+  "rc": 2,
+  "sec": 0.6
+ },
+ "round55-c2": {
+  "argv": [
+   "python3",
+   "plans/round55_c2_entryargv.py"
+  ],
+  "rc": 2,
+  "sec": 0.1
+ },
+ "round55-c2-controls": {
+  "argv": [
+   "python3",
+   "plans/round55_c2_controls.py"
+  ],
+  "rc": 2,
+  "sec": 0.3
+ },
+ "round55-c3": {
+  "argv": [
+   "python3",
+   "plans/round55_c3_chess_probe.py"
+  ],
+  "rc": 0,
+  "sec": 0.4
+ },
+ "_note": "round54-c2 measured hermetically as `python3 plans/round54_c2_entrytruth.py --lane .` (SETUP exit 2). A separate full-flags run (`--lane . --source . --work work/entrytruth-row --jobs 3 --timeout 900`) took 426.3s and exited 1: PREDICATE R54-C2 fail with EVIDENCE-MISSING round35-c1-coverage and LAUNDERED round52-c2 \u2014 both repaired this round; the full-flags form was not declared (see report)."
+}

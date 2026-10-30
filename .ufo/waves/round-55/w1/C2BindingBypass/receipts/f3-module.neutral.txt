@@ -1,0 +1,13 @@
+FIXTURE f3-module run=neutral
+COUNTER EXIT 1
+ROWS registry=1 ledger=1 missing=0 extra=0 argv_defect=1 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1
+  ARGV-DEFECT mod-gate: argv shape
+SOURCE rev=780cbcb003461f5d20ae919bbb7f00872af8980c clean=yes lane_rev_equal=yes
+RUN executed=0 timeout=0 mismatched=0 evidence_missing=0 laundered=0
+TIPSTATE entry_declared_green=0 entry_declared_red=0 observed_green=0 observed_red=0
+MIGRATION redeclared=0 r53_green_nonentry=0
+PREDICATE R54-C2 fail
+  ROWS registry=1 ledger=1 missing=0 extra=0 argv_defect=1 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1
+    ARGV-DEFECT mod-gate: argv shape
+  PREDICATE R54-C2 fail
+SOURCELESS-PYC python3 -m plans.gate with only plans/gate.pyc tracked: exit=0 out='module gate ran'

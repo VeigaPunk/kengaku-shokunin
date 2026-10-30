@@ -1,0 +1,11 @@
+--- pristine/plans/round55_c2_entryargv.py
++++ mutants/M4-L4-ledger-argv/plans/round55_c2_entryargv.py
+@@ -251,7 +251,7 @@
+                 # Execution uses the REGISTRY cell argv — identical to the ledger argv once
+                 # L1 is clean — through the unchanged r54 Worker/run_row hermetic path.
+                 spec = dict(s["ledger"]["rows"][n])
+-                spec["entry_argv"] = registry_entry_argv(s["rows"][n])
++                spec["entry_argv"] = list(s["ledger"]["rows"][n]["entry_argv"])  # MUTANT M4: ledger-argv execution (r54 behavior)
+                 return m.run_row(workers[i], n, spec, timeout, work)
+             finally:
+                 with lock:

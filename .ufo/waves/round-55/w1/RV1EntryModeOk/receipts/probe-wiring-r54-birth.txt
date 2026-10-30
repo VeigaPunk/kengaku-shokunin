@@ -1,0 +1,13 @@
+== 1. entry_mode_ok on probe argvs (script=plans/gate.py)
+  'exact --selftest'                                                     -> 'non-entry flag --selftest'
+  'abbrev --selft'                                                       -> None
+  'abbrev --hel'                                                         -> None
+  'uv decoy -cprint'                                                     -> None
+  "registry cell extra arg check ['python3','plans/gate.py','check','.']" -> None
+  'non-entry flag after --'                                              -> 'non-entry flag --selftest'
+== 2. static legs (dry) on fixtures: registry cell vs ledger argv
+  A-exact-entry                      dry rc=0 ['ROWS registry=1 ledger=1 missing=0 extra=0 argv_defect=0 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1', 'DRY static legs only: no predicate']
+  B-cell-has-check-arg-ledger-bare   dry rc=0 ['ROWS registry=1 ledger=1 missing=0 extra=0 argv_defect=0 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1', 'DRY static legs only: no predicate']
+  C-ledger-abbrev                    dry rc=0 ['ROWS registry=1 ledger=1 missing=0 extra=0 argv_defect=0 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1', 'DRY static legs only: no predicate']
+  D-ledger-exact-selftest            dry rc=1 ['ROWS registry=1 ledger=1 missing=0 extra=0 argv_defect=1 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1', '  ARGV-DEFECT gate: non-entry flag --selftest', 'DRY static legs only: no predicate']
+  E-cell-check-ledger-other-arg      dry rc=0 ['ROWS registry=1 ledger=1 missing=0 extra=0 argv_defect=0 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1', 'DRY static legs only: no predicate']

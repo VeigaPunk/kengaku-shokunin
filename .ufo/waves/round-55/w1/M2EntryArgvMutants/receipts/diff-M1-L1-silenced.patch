@@ -1,0 +1,11 @@
+--- pristine/plans/round55_c2_entryargv.py
++++ mutants/M1-L1-silenced/plans/round55_c2_entryargv.py
+@@ -154,7 +154,7 @@
+             continue
+         led = sp.get("entry_argv")
+         reg = registry_entry_argv(s["rows"][n])
+-        if led != reg:
++        if False and led != reg:  # MUTANT M1: L1 comparison silenced
+             why = (f"{n}: registry entry cell has no python3 command"
+                    if reg is None else
+                    f"{n}: ledger entry_argv != registry cell argv {led!r} != {reg!r}")

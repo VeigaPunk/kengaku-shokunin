@@ -1,0 +1,42 @@
+seat=SN3CorpusHygiene
+lane=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+HEAD=80afa61314fa1bd7baa38f9afbeedb4dd0aa81eb
+--- digests ---
+a540714e0156fc14564badedcb48d1f7b69a4b457d876036535439b30cb8f286  corpus/evidence/round52/graders/chess-best-move/tests/test_outputs.py
+4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334  corpus/evidence/round52/graders/chess-best-move/tests/test.sh
+4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334  corpus/evidence/round52/graders/regex-log/tests/test.sh
+de0826692f8b81c832b8d0633cfe8fa080f2d6142ee9d71b597eba6be9d8aaca  corpus/evidence/round55/chess-best-move-probe.txt
+6ba25be4e291a4ad04ae42b2dddefcdaef67ca45ca9d5dce661a2e517b19ce7a  /tmp/r55insn.md
+--- upstream instruction.md line1 ---
+The file chess_board.png has an image of a chess board. It is currently white to move. Write the best move for white to play to /app/move.txt in the form [src][dst], for example, e2e4 or h1h8. If there are multiple winning moves, print them all, one per line.
+--- GUID census ---
+corpus/knowledge/tb2-chess-best-move-grader.md GUID=0
+corpus/evidence/round55/chess-best-move-probe.txt GUID=0
+corpus/lessons/round-55.md GUID=0
+corpus/evidence/round52/graders/chess-best-move/tests/test_outputs.py GUID=1
+--- receipt verbatim ---
+CASE both-lowercase-two-lines predicted=P observed=P rc=0
+CASE both-space-separated predicted=P observed=P rc=0
+CASE reversed-order predicted=P observed=P rc=0
+CASE single-move-only predicted=F observed=F rc=1
+CASE uppercase-white predicted=F observed=F rc=1
+CASE extra-decoy-move predicted=F observed=F rc=1
+CASE duplicate-move predicted=F observed=F rc=1
+CASE whitespace-padded predicted=P observed=P rc=0
+CASE empty-file predicted=F observed=F rc=1
+CASE crlf-line-endings predicted=P observed=P rc=0
+CASE instruction-example-h1h8 predicted=F observed=F rc=1
+CASE fullwidth-unicode-digit predicted=F observed=F rc=1
+cases=12 observed_pass=5 observed_fail=7 mismatches=0
+PREDICATE R55-C3 pass
+--- post-seat state drift (L1 integration commit) ---
+HEAD_now=248a42b8c73b6415963f16b13127a9aa6d4c997c
+HEAD_at_inspection=80afa61314fa1bd7baa38f9afbeedb4dd0aa81eb
+claims_drift_80afa613..HEAD=0 lines
+entry_sha256=0bf175b1d72d50f606681fd1b7d99dd395524e620f3e0d4401472a27af675821
+entry_lines=178 quoted_span_lines=15 guid=0 op=0
+lesson_r55_guid=0 lesson_r55_cred=0
+sources_md_delta= 1 file changed, 2 insertions(+)
+--- D1 evidence ---
+ls-tree_80afa613_round55_c3=0 (0 = file absent at the named freeze commit)
+ls-tree_80afa613_round55=plans/round55_c2_controls.py 

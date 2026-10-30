@@ -1,0 +1,11 @@
+--- pristine/plans/round55_c2_entryargv.py
++++ mutants/M3-L3-silenced/plans/round55_c2_entryargv.py
+@@ -169,7 +169,7 @@
+             p = root / script
+             if p.is_file():
+                 body_flags = set(BODY_FLAG.findall(p.read_text(errors="replace")))
+-        a = _abbrev_defect(n, led, body_flags)
++        a = None  # MUTANT M3: L3 abbreviation check silenced
+         if a:
+             s["abbrev_defect"].append(a)
+     return s

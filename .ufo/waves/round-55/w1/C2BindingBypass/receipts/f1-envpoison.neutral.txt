@@ -1,0 +1,14 @@
+FIXTURE f1-envpoison run=neutral
+COUNTER EXIT 1
+ROWS registry=1 ledger=1 missing=0 extra=0 argv_defect=0 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1
+SOURCE rev=d814ffbfcb60c08036159e509469e9c0df274b7f clean=yes lane_rev_equal=yes
+  LAUNDERED env-gate declared green, entry exit=7
+RUN executed=1 timeout=0 mismatched=0 evidence_missing=0 laundered=1
+TIPSTATE entry_declared_green=1 entry_declared_red=0 observed_green=0 observed_red=1
+MIGRATION redeclared=0 r53_green_nonentry=0
+PREDICATE R54-C2 fail
+NEUTRAL-TRUTH ["python3", "plans/envgate.py"] exit=7
+entry failed: env-gate is red in a neutral environment
+
+DECLARED 0/green (fixed); caller-env poisoned=False
+neutral run is the SAFE direction: counter flags the false green

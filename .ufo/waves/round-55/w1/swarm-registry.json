@@ -1,0 +1,730 @@
+{
+  "schema": "ufo-swarm-registry-v1",
+  "wave": "kengaku-r55-w1",
+  "createdAt": "2026-10-30T15:20:53.887Z",
+  "updatedAt": "2026-10-30T15:20:53.887Z",
+  "reportDir": ".ufo/waves/round-55/w1",
+  "members": {
+    "E1RegistryRows": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "executor",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\n/home/vgpnk/Projects/shokunin/kengaku-shokunin/SKILL.md — ONLY the `## Gate/probe registry` table (nothing else in the file).\n# Change\nAppend exactly five rows, in this order, to the registry table: round54-c1 (python3 plans/round54_c1_anchor.py), round54-c2 (python3 plans/round54_c2_entrytruth.py), round55-c2 (python3 plans/round55_c2_entryargv.py), round55-c2-controls (python3 plans/round55_c2_controls.py), round55-c3 (python3 plans/round55_c3_chess_probe.py).\nCell contract (8 columns: name | kind | entry | verdict map | self-test | pinned | scope | owner):\n- entry cell: the first backtick span MUST be exactly `python3 plans/<script>.py` plus only flags\n  the script actually implements — read each script's argparse FIRST\n  (plans/round54_c1_anchor.py, plans/round54_c2_entrytruth.py, plans/round55_c2_controls.py\n  already exist; plans/round55_c2_entryargv.py and plans/round55_c3_chess_probe.py are being\n  built this wave with the frozen CLI contracts: entryargv `--lane --source --work --jobs\n  --timeout --dry --selftest`; chess probe `--lane --receipt --selftest`). If a flag is not in\n  the script body yet but IS in its frozen contract, write the row with that flag and note\n  \"flag per frozen contract\" in the self-test cell.\n- verdict map: `0`/`1`/`2` semantics copied from each script's docstring.\n- self-test cell: name the script's real selftest flag if implemented (--selftest), else write\n  `none declared` — never claim a flag the script lacks (the SELFTEST-UNBACKED leg greps the body).\n- pinned: the sha256 (first 8+ chars) of each script file; scope: what the gate decides; owner: kengaku.\n# Acceptance\n`python3 plans/round52_c2_registry.py --lane /home/vgpnk/Projects/shokunin/kengaku-shokunin` printed on your tree afterwards reports\nMISSING 0 (it may still report other legs until sibling seats land — that is expected; report\nwhat you saw). No other SKILL.md byte changes (`git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin diff --stat -- SKILL.md` names one file).\n# Bounds\nWrite only SKILL.md. Scratch under /fast/scratch/hyaku/kengaku-r55/E1RegistryRows/.\n",
+      "axes": [
+        "operability"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "E2EntryArgvCounter": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "executor",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nNEW file /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round55_c2_entryargv.py — the R55-C2 binding counter (frozen contract in\nplans/round-55-claims.md §R55-C2; DO NOT modify plans/round54_c2_entrytruth.py — import it).\n# Change\n- Import the r54 module (importlib, same pattern as plans/round55_c2_controls.py::_load) and\n  reuse registry_rows, row_script, load_ledger, hermetic_env, Worker, run_row, git_rev,\n  MIN_REASON_WORDS, REGISTRY/LEDGER/SCHEMA constants.\n- registry_entry_argv(line): parse the FIRST backtick span in the entry cell that starts with\n  `python3`; shlex.split it; return the token list (None if absent).\n- binding_static_legs(root): r54 static legs PLUS three new defect lists, each printed on its\n  own ROWS-line field and its own `  <TAG> <name>: <why>` line:\n  L1 ARGV-DEFECT — ledger row entry_argv tokens != registry cell tokens (exact list equality);\n  L2 WRAPPER-DEFECT — argv[0] not in {python3, python}, or any argv token is a known wrapper\n  (uv/pipx/poetry/npx/uvx) or starts with `-c` (inline program);\n  L3 ABBREV-DEFECT — a flag token that does NOT appear verbatim in the script body but IS a\n  proper prefix of a flag string that does appear (catches argparse prefix abbreviation\n  without executing).\n- evaluate(lane, source, work, jobs, timeout, dry): identical shape to r54's evaluate — same\n  ROWS line plus `wrapper_defect=N abbrev_defect=N`, same RUN/TIPSTATE/MIGRATION lines, plus a\n  `BINDING l1=N l2=N l3=N` line; predicate line `PREDICATE R55-C2 pass|fail`; exit 0/1/2.\n  static_ok now also requires the three new defect lists empty. Execution per row uses the\n  REGISTRY cell argv (identical to ledger argv once L1 is clean) through r54's Worker/run_row\n  (hermetic env, scratch work dir argument, per-row timeout). `--dry` runs static legs only.\n- CLI: `--lane --source --work --jobs --timeout --dry --selftest` exactly.\n- --selftest (temp fixtures under the --work dir or TMPDIR, never /tmp hardcoded): (1) truthful\n  fixture passes; (2) ledger-tampered argv fixture -> ARGV-DEFECT + fail; (3) uv wrapper fixture\n  -> WRAPPER-DEFECT + fail; (4) --selft abbreviation fixture -> ABBREV-DEFECT + fail. Reuse the\n  fixture-building shape of plans/round55_c2_controls.py (argparse gate whose --selft abbreviates).\n# Acceptance\n`python3 plans/round55_c2_entryargv.py --selftest` exits 0 printing one line per case;\n`--dry --lane /home/vgpnk/Projects/shokunin/kengaku-shokunin` exits 0/1 with the ROWS line printing current static state (it WILL show\ndefects on the working tree mid-wave — expected; report them, fix nothing outside your file).\n# Bounds\nWrite only plans/round55_c2_entryargv.py. Scratch under /fast/scratch/hyaku/kengaku-r55/E2EntryArgvCounter/.\n",
+      "axes": [
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "E3ControlsVerify": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "executor",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nVerify the frozen fixture builder /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round55_c2_controls.py (already committed at\n80afa61314fa1bd7baa38f9afbeedb4dd0aa81eb); write nothing in the lane tree.\n# Change\nRun, capturing full output: (1) `python3 plans/round55_c2_controls.py --selftest`;\n(2) `--case abbreviated-selftest --against r54`; (3) `--case uv-decoy-script --against r54`.\nCompare each against the committed receipts /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-55/claims/\nc2-before-abbreviated-selftest.txt and c2-before-uv-decoy-script.txt: the PREDICATE/ROUTE/EXIT\nlines must match (fixture revision hashes differ — that is expected; say so).\n# Acceptance\nreport.md carries all three outputs, the diff-vs-receipt analysis, and any drift finding.\n# Bounds\nScratch under /fast/scratch/hyaku/kengaku-r55/E3ControlsVerify/. No lane writes.\n",
+      "axes": [
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "E4LedgerTruth": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "executor",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\n/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round54-entrytruth.json — data corrections only (R55-C2's ledger truth step; the\nfile is the lane's self-assessment ledger, schema r54-entrytruth-v1, 78 rows).\n# Change\nWork on a clean shared clone at 798f5e9ef30ef39291295565209b65a17343c00e + the working tree; measure BEFORE you declare.\n1. Row `round35-c1-coverage`: run `python3 plans/round35_c1_verify.py --lane <clone>` — capture\n   the FULL output. Its declared evidence fragment no longer appears (r54 receipt:\n   EVIDENCE-MISSING round35-c1-coverage). Correct the row truthfully: entry_exit/entry_state\n   from the observed run, evidence = a verbatim ≥6-char fragment of the CURRENT output, reason\n   (red rows) ≥10 words explaining the current state. Commit the observed output as\n   .ufo/waves/round-55/w1/E4LedgerTruth/round35-c1-output.txt.\n2. Add ledger rows for the five registry rows landing this round (round54-c1 (python3 plans/round54_c1_anchor.py), round54-c2 (python3 plans/round54_c2_entrytruth.py), round55-c2 (python3 plans/round55_c2_entryargv.py), round55-c2-controls (python3 plans/round55_c2_controls.py), round55-c3 (python3 plans/round55_c3_chess_probe.py)) — each declared\n   from ITS OWN measured behavior via a r54-style hermetic run (import r54 module, Worker/\n   run_row pattern, scratch work dir): round54-c1 and round54-c2 entries with their real flags;\n   round55-c2 bare entry exits 2 SETUP (`SETUP --source and --work are required unless --dry`)\n   — declare red with that evidence and a ≥10-word reason; round55-c2-controls bare entry runs\n   argparse-required group (declare what you measure); round55-c3 bare entry runs the real\n   probe (if its file is absent when you measure, declare truthfully what you observed and say\n   the row needs the L1's re-measure at integration — do not guess).\n3. Touch NO other row. Keep schema/keys/shapes identical to existing rows (chosen/entry_argv/\n   entry_exit/entry_state/reason/evidence/timeout_s/sec as applicable).\n# Acceptance\n`python3 -c \"import json;d=json.load(open('/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round54-entrytruth.json'));print(len(d['rows']))\"`\nprints 83 (78 + 5) unless you measured otherwise — report the exact count. JSON parses; no row\nelsewhere changed (diff shows only your edits).\n# Bounds\nWrite only plans/round54-entrytruth.json + your report/outputs under\n.ufo/waves/round-55/w1/E4LedgerTruth/. Scratch under /fast/scratch/hyaku/kengaku-r55/E4LedgerTruth/.\n",
+      "axes": [
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "E5ChessProbe": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "executor",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nNEW file /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round55_c3_chess_probe.py — the R55-C3 instrument (frozen contract in\nplans/round-55-claims.md §R55-C3).\n# Change\n- Case table: EXACTLY these 12 frozen cases (name | move.txt bytes | predicted), embedded with\n  predictions written NOW, before the first run — do not run the grader before the table is in\n  the file:\n  both-lowercase-two-lines | 'g2g4\\\\ne2e4\\\\n' | PASS\n  both-space-separated | 'g2g4 e2e4' | PASS\n  reversed-order | 'e2e4 g2g4' | PASS\n  single-move-only | 'g2g4\\\\n' | FAIL\n  uppercase-white | 'G2G4\\\\ne2e4\\\\n' | FAIL\n  extra-decoy-move | 'g2g4\\\\ne2e4\\\\na2a3\\\\n' | FAIL\n  duplicate-move | 'g2g4\\\\ne2e4\\\\ne2e4\\\\n' | FAIL\n  whitespace-padded | '  g2g4   e2e4  \\\\n\\\\n' | PASS\n  empty-file | '' | FAIL\n  crlf-line-endings | 'g2g4\\\\r\\\\ne2e4\\\\r\\\\n' | PASS\n  instruction-example-h1h8 | 'h1h8\\\\ne2e4\\\\n' | FAIL\n  fullwidth-unicode-digit | 'g\\\\uFF12g4\\\\ne2e4\\\\n' | FAIL\n- Per case: materialize /app/move.txt content in a case dir; materialize /tests/test_outputs.py\n  as a byte-copy of /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round52/graders/chess-best-move/tests/test_outputs.py\n  (read it, do not fetch the network); run in a bubblewrap sandbox:\n  `bwrap --unshare-all --die-with-parent --ro-bind /tests <t> --bind <casedir> /app --tmpfs /tmp\n   --tmpfs /home --proc /proc --dev /dev python3 -c \"import sys; sys.path.insert(0,'/tests');\n   import test_outputs as t; t.test_move_correct()\"` (adapt bind targets to your layout; keep\n  /tests read-only and /app case-owned and writable; verify bwrap exists else exit 2 SETUP).\n- observed PASS = exit 0; observed FAIL = nonzero exit with AssertionError in output; anything\n  else (bwrap error, missing file, OSError) = SETUP error for that case -> print it, exit 2.\n- Output: one `CASE <name> predicted=<P|F> observed=<P|F> rc=<n>` line per case, then\n  `cases=12 observed_pass=P observed_fail=F mismatches=M` where M counts observed!=predicted;\n  final `PREDICATE R55-C3 pass` iff M==0 else `fail`; exit 0 iff pass, 1 fail, 2 setup.\n- CLI: `--lane` (default .), `--receipt <path>` (also tee the full output there), `--selftest`:\n  runs the same bwrap pipeline against a toy test file + toy artefacts (2 internal cases, one\n  pass one fail) proving the plumbing without touching the TB2 capture; prints\n  `SELFTEST cases=2 failures=N`.\n- No network, no /tmp hardcode (scratch dirs under the --work argument or TMPDIR).\n# Acceptance\n`python3 plans/round55_c3_chess_probe.py --selftest` exits 0. Do NOT run the real 12-case\nbattery (a sibling seat runs it) — but if you do run it once to verify, keep the output and say\nso in report.md; the prediction table is already frozen either way.\n# Bounds\nWrite only plans/round55_c3_chess_probe.py. Scratch under /fast/scratch/hyaku/kengaku-r55/E5ChessProbe/.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "E6ChessReceipt": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "executor",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\n/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round55/chess-best-move-probe.txt — the R55-C3 receipt (the run output).\n# Change\nWait for /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round55_c3_chess_probe.py to exist (check every 60 s, up to 25 min; if\nstill absent, report SETUP-absent honestly and stop). Then run TWICE from a clean shared clone\nat the CURRENT lane tip:\n  python3 plans/round55_c3_chess_probe.py --lane <clone> --receipt <scratch>/run1.txt\n  python3 plans/round55_c3_chess_probe.py --lane <clone> --receipt <scratch>/run2.txt\nByte-compare run1 vs run2 (determinism; probe output must not embed timestamps/paths that\ndiffer — if they differ, report the diff and the offending lines). Land the FIRST run's bytes at\ncorpus/evidence/round55/chess-best-move-probe.txt (mkdir -p the dir) and both runs + the cmp\nresult under .ufo/waves/round-55/w1/E6ChessReceipt/.\n# Acceptance\nThe receipt's summary line reads `cases=12 observed_pass=P observed_fail=F mismatches=0` with\nP+F=12 and `PREDICATE R55-C3 pass` — or, if any mismatch/setup, the receipt lands anyway and\nyour report says exactly what mismatched (an honest red receipt is landing evidence; do not\ntune cases — they are frozen).\n# Bounds\nWrite only corpus/evidence/round55/chess-best-move-probe.txt + your wave dir. Scratch under\n/fast/scratch/hyaku/kengaku-r55/E6ChessReceipt/.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "E7KnowledgeEntry": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "executor",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\n/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/knowledge/tb2-chess-best-move-grader.md — the R55-C3 knowledge entry.\n# Change\nWait (60 s steps, max 25 min) for /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round55/chess-best-move-probe.txt.\nWrite the entry per corpus/QUALITY.md Q1-Q17:\n- first three lines: `source:` (S201 grader URL+anchor, S202 instruction URL+anchor, S109 runner —\n  URLs in plans/round-55-claims.md §R55-C3 and the planned SOURCES rows in the E8 item text),\n  `verified-at:` (today, this round's receipts), `recheck:` (the exact receipt re-run command).\n- body (research-note structure per SKILL.md): one-line thesis; evidence table = the 12 frozen\n  cases with predicted/observed raw from the receipt (copy, do not re-derive); mechanism section\n  (order-insensitive full-multiset equality over whitespace-split tokens; no case/unicode\n  normalization; strip+split tolerance; duplicates break equality; the instruction's example\n  literal h1h8 is not a winner per the grader pair); limits section (does not establish chess\n  correctness, task validity, the image's content, model performance, contamination; one task\n  of 89; the graded artefact is an agent-authored token file — class distinction from r45's\n  line-split membership F1 (password-recovery) — full-multiset equality, no partial credit).\n- connections: [[benchmark-verifier-execution-model]], r45/r46 entries — one line each why.\n- Q13/Q14: leave admission to the L1; put `second-seat re-read: pending (R3)` honestly.\nIf the receipt never lands, write NOTHING and report SETUP-absent.\n# Acceptance\nEntry exists, cites S201/S202/S109 with anchors + sha256 pins, carries the raw 12-row table,\nand names its limits. No capability or score claim inside the entry.\n# Bounds\nWrite only corpus/knowledge/tb2-chess-best-move-grader.md. Scratch /fast/scratch/hyaku/kengaku-r55/E7KnowledgeEntry/.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "E8SourcesRows": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "executor",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\n/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md — append exactly two rows (append-only; nothing else changes).\n# Change\nVerify first: the registry's highest existing id (grep the last S-row; expect S200) and that no\nchess row exists. Then append, directly under the last row of the Registry table, these two rows\n verbatim (fix ONLY if the column count is wrong — 11 columns, no literal pipe inside cells):\n| S201 | Terminal-Bench 2.0 chess-best-move task grader (tests/test_outputs.py) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/chess-best-move/tests/test_outputs.py | code | A | the executed scoring predicate of one Terminal-Bench 2.0 task at a pinned commit — which output property test_move_correct asserts and how — for the code's own behaviour; the docstring's mate-in-one reading is the authors' self-report | commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, tests/test_outputs.py:25 \\\"assert sorted(move) == sorted([\\\\\\\"g2g4\\\\\\\", \\\\\\\"e2e4\\\\\\\"])\\\" (6 words); sha256 a540714e0156fc14564badedcb48d1f7b69a4b457d876036535439b30cb8f286 | the task score is one assertion: the whitespace-split token multiset of /app/move.txt must equal the sorted pair g2g4+e2e4 exactly — order-free, no partial credit, no case or unicode normalization | mined | 2026-10-30 | 180d | corpus/knowledge/tb2-chess-best-move-grader.md |\n| S202 | Terminal-Bench 2.0 chess-best-move task instruction (instruction.md) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/chess-best-move/instruction.md | docs | A | the requirement bullets this one task states to the agent at a pinned commit, as the maintainer's own specification the grader is mapped against | commit 2fd12b88aafdd04a52c298e3940bcb189f9766d6, instruction.md:1 \\\"If there are multiple winning moves, print them all, one per line.\\\" (12 words); sha256 6ba25be4e291a4ad04ae42b2dddefcdaef67ca45ca9d5dce661a2e517b19ce7a | one-line requirement sentence: read a board image, write best move(s) for white to /app/move.txt, all winning moves one per line — the grader hardcodes the two-move pair, so the plural rule is score-critical | mined | 2026-10-30 | 180d | corpus/knowledge/tb2-chess-best-move-grader.md |\nBoth rows were OPENED this round by the L1 (2026-10-30; upstream bytes fetched and sha-pinned;\nquotes located at tests/test_outputs.py:25 and instruction.md:1). status mined with used-by the\nentry path. Then run:\n  /home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku\nand save full output + exit code to .ufo/waves/round-55/w1/E8SourcesRows/census-after-rows.txt.\nExit 0 required (the 15 pre-existing W04 duplicate-URL warnings are known and fine; any NEW\nW04/E03/E04 finding on YOUR rows is a defect to fix before yielding).\n# Acceptance\n`grep -cE '^\\|[[:space:]]*S[0-9]{3,}[[:space:]]*\\|' /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md` prints 195\n(193+2). Census exit 0.\n# Bounds\nWrite only corpus/SOURCES.md + your wave dir. Scratch /fast/scratch/hyaku/kengaku-r55/E8SourcesRows/.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "E9IndexAndReadme": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "executor",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Targets\n/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/README.md and /home/vgpnk/Projects/shokunin/kengaku-shokunin/PROVINCE.md — index parity + frontier narrowing (R55-C3 landing).\n# Change\nREADME.md: (1) add the knowledge index row for corpus/knowledge/tb2-chess-best-move-grader.md\n(match the existing table's column shape exactly); (2) add the evidence row for\ncorpus/evidence/round55/ (dir + probe receipt; match the evidence table shape); (3) in `## Frontier`,\nappend as a new sub-bullet under the agentic-benchmark item: - *Partly discharged round 55 (2026-10-30):* `knowledge/tb2-chess-best-move-grader.md` reads and executes a thirteenth Terminal-Bench 2.0 task's scoring code (`chess-best-move/tests/test_outputs.py` @ `2fd12b88`; S201, S202; runner semantics cite held S109 — the chess `test.sh` is byte-identical to the regex-log runner) against its `instruction.md`, probe `plans/round55_c3_chess_probe.py`, receipt `corpus/evidence/round55/chess-best-move-probe.txt`. The graded artefact is an agent-written move-token file judged by order-insensitive FULL-MULTISET equality over whitespace-split tokens — a class distinct from round 45's line-split membership: partial answers fail, order is free, duplicates break equality, and no case or unicode normalization exists, so the instruction's own example literal h1h8 would fail. `cases=12 observed_pass=P observed_fail=F mismatches=0` (fill from the receipt). The clause is **narrowed for that one task only**; it stays open for the remaining TB2 task graders (13 of 89 read), for any SWE-bench Pro V2 grader beyond the round-31 one, and for runtime task validity (which `PROVINCE.md` refuses to this lane).\n(adjust only the `observed_pass=P observed_fail=F` fill from the receipt if present; if the\nreceipt is absent when you finish, keep the literal `P`/`F` placeholders OUT — write\n`cases=12` with the counts left as `(receipt pending at index time; see the receipt)`).\nPROVINCE.md: append at the end a `## Round55 partial frontier admission (2026-10-30)` section\nwith one Core-addition paragraph: static interpretation + offline synthetic-fixture execution of\nthe chess-best-move grader at the pin; what it owns (reading/executing captured scoring code);\nwhat it refuses (task image, harness, real submissions, runtime validity, contamination, model\nbehaviour, the remaining 86 unread graders); the 12->13 narrowing sentence; reported-out: none\nabsorbed. Match the established section style (round 37/38 paragraphs).\n# Acceptance\n`grep -c chess-best-move /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/README.md` >= 3 and `/home/vgpnk/Projects/shokunin/kengaku-shokunin/PROVINCE.md` contains\n`13 of 89 read`. Both files parse as before (no broken tables).\n# Bounds\nWrite only README.md + PROVINCE.md + your wave dir. Scratch /fast/scratch/hyaku/kengaku-r55/E9IndexAndReadme/.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "E10NoharmRuns": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "executor",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nNo-harm evidence for the round: the lane's standing gates still hold while round-55 bytes land.\n# Change\nFrom a clean shared clone at the CURRENT lane tip (re-clone fresh when you start; the tip moves\nduring the wave — record the rev you measured), run and capture (command + exit code each):\n1. `python3 grader.py` (expect CHECKS n=733 mismatches=0, VERDICT PASS, exit 0)\n2. `python3 grader.py --selftest` (expect ALL PASS, exit 0)\n3. `python3 plans/round52_c2_registry.py --selftest` (expect SELFTEST cases=3 failures=0)\n4. `python3 plans/round55_c2_controls.py --selftest` (expect cases=4 failures=0)\n5. `python3 plans/round51_surfaces.py --lane <clone>` (expect ANCHORS 20/20 + PREDICATE R51-C1 pass)\n6. `python3 plans/defect_ledger.py --lane <clone>` (record the open/closed counts verbatim)\n7. `python3 plans/round54_c2_entrytruth.py --selftest` (expect its own selftest green)\nSave each output under .ufo/waves/round-55/w1/E10NoharmRuns/<name>.txt with the rev recorded in\nreport.md. A non-green result is a FINDING, not something to fix — report it exactly.\n# Acceptance\nAll seven outputs captured with exit codes; report.md lists rev + per-check verdict table.\n# Bounds\nNo lane writes. Scratch /fast/scratch/hyaku/kengaku-r55/E10NoharmRuns/.\n",
+      "axes": [
+        "operability",
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "E11SelftestReceipts": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "executor",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nC1 frozen leg 2 evidence: every registry row ADDED in round 55 had its self-test executed with\nthe observed verdict matching the row's verdict-map cell.\n# Change\nWait (60 s steps, max 25 min) for the five new rows to appear in /home/vgpnk/Projects/shokunin/kengaku-shokunin/SKILL.md's\n`## Gate/probe registry` (round54-c1 (python3 plans/round54_c1_anchor.py), round54-c2 (python3 plans/round54_c2_entrytruth.py), round55-c2 (python3 plans/round55_c2_entryargv.py), round55-c2-controls (python3 plans/round55_c2_controls.py), round55-c3 (python3 plans/round55_c3_chess_probe.py)). For each row: extract the entry + self-test cells; run the\nclaimed self-test command from a clean shared clone at the current tip; capture output + exit;\ncompare to the verdict-map cell text. Save per-row receipts under\n.ufo/waves/round-55/w1/E11SelftestReceipts/<row>.txt and a summary table in report.md.\nAny mismatch (claimed flag absent, exit semantics differ) is a FINDING against C1 leg 2 —\nreport it exactly; do not edit SKILL.md (E1 owns it; the L1 arbitrates).\n# Acceptance\nFive receipts + summary; every mismatch named with command + exit + the cell text claimed.\n# Bounds\nNo lane writes. Scratch /fast/scratch/hyaku/kengaku-r55/E11SelftestReceipts/.\n",
+      "axes": [
+        "operability"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "E12ScratchHygiene": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "executor",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nScratch-discipline + disk audit for round 55 (addendum §7 duty).\n# Change\n1. `df -h /fast/scratch /tmp` — record free space.\n2. Read the round's new/changed scripts (plans/round55_c2_controls.py and, when present,\n   plans/round55_c2_entryargv.py, plans/round55_c3_chess_probe.py): verify no hardcoded /tmp,\n   that work dirs honour an argument or TMPDIR, and that fixtures clean up. Report per script.\n3. `find /fast/scratch/hyaku/kengaku-r55 -maxdepth 1 -type d | sort` — record seat dirs present\n   (this is a mid-wave census, not a cleanup pass; do NOT delete other seats' dirs).\n4. Check `ls /tmp` for any kengaku-r55 artifacts (expect none; report any).\n# Acceptance\nreport.md carries the four sections with verbatim outputs; any violation named with file:line.\n# Bounds\nRead-only + your wave dir. Scratch /fast/scratch/hyaku/kengaku-r55/E12ScratchHygiene/.\n",
+      "axes": [
+        "operability",
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "E13BindingScan": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "executor",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nPre-integration data for R55-C2: enumerate how the CURRENT ledger/registry pair scores under\nthe frozen binding legs (before the new counter exists).\n# Change\nFrom a clean clone at the current tip: parse SKILL.md's registry rows (first backtick span\nstarting with python3 -> shlex tokens) and every ledger row in plans/round54-entrytruth.json.\nClassify each of the 78 rows: L1-OK (tokens equal) / L1-DIFF (list the token diff);\nL2 flag (argv[0] or wrapper/inline tokens); L3 flag (flag token not verbatim in the script body\nbut a proper prefix of one that is — read each referenced script's body). ALSO flag rows whose\nregistry cell command cannot be parsed (no backtick python3 span). Write the full 78-row table\nto .ufo/waves/round-55/w1/E13BindingScan/binding-scan.tsv (columns: row, l1, l2, l3, note) and\na summary in report.md: counts per class + the list of rows E4/L1 must correct as data.\n# Acceptance\nTable covers all 78 rows; summary counts reconcile; at minimum the two r54 laundering routes are\nabsent from the REAL ledger (they were fixture-only) — say so explicitly.\n# Bounds\nNo lane writes. Scratch /fast/scratch/hyaku/kengaku-r55/E13BindingScan/.\n",
+      "axes": [
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "E14CaptureIdentity": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "executor",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nByte-identity receipt for the R55-C3 capture (the freeze asserts it; prove it on committed bytes).\n# Change\n1. sha256sum the in-repo captures: corpus/evidence/round52/graders/chess-best-move/tests/\n   test_outputs.py, tests/test.sh, and regex-log/tests/test.sh (runner-identity cross-check:\n   chess test.sh sha must equal 4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334\n   AND equal the regex-log runner sha).\n2. Fetch (read-only GET) the upstream files at pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6:\n   chess-best-move/tests/test_outputs.py, tests/test.sh, instruction.md, task.toml from\n   raw.githubusercontent.com/harbor-framework/terminal-bench-2/<pin>/...; sha256 each; compare.\n3. `curl -fsS https://api.github.com/repos/harbor-framework/terminal-bench-2/commits/<pin>`\n   — record sha + commit date (pin exists).\nSave everything to .ufo/waves/round-55/w1/E14CaptureIdentity/identity.txt.\n# Acceptance\nAll three sha256 pairs match (or every mismatch named — a mismatch fires the C3 kill rule).\n# Bounds\nRead-only + your wave dir. Scratch /fast/scratch/hyaku/kengaku-r55/E14CaptureIdentity/.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "E15DefectLedgerSweep": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "executor",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nOpen routed-defect state for the round lesson (Q23 duty).\n# Change\n1. `python3 plans/defect_ledger.py --lane <clean clone>` — capture verbatim.\n2. Read corpus/defects.jsonl: list every row with status open, each with its check name.\n3. For each open row: run (or read, if the check is expensive) its named check at the tip and\n   record still-open/closed-mismatch. In particular the r52-repair carry (order-check regression\n   + masked K7 control): verify it is still an open row and name its check.\n4. Write the table to .ufo/waves/round-55/w1/E15DefectLedgerSweep/open-rows.md.\n# Acceptance\nEvery open row has a current state + evidence pointer; discrepancies named exactly.\n# Bounds\nNo lane writes. Scratch /fast/scratch/hyaku/kengaku-r55/E15DefectLedgerSweep/.\n",
+      "axes": [
+        "operability",
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "E16Drafts": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "executor",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nDRAFT files (NOT the shared files — the L1 splices): .ufo/waves/round-55/w1/E16Drafts/\nlog-entry.md, scorecard-section.md.\n# Change\nRead plans/round-55-claims.md + .ufo/waves/round-55/claims/*.txt (committed before-receipts) and\nLOG.md's round-53/54 entries for house style. Draft:\n1. log-entry.md — `## Round 55 ...` entry: base tip, freeze commit 80afa61314fa1bd7baa38f9afbeedb4dd0aa81eb, the three\n   claims with their frozen before commands + observed before outputs (quote the receipts),\n   wave shape placeholder `(wave w1: <N> seats, role mix — L1 fills after settle)`, and empty\n   `### Round-55 measured close` subsection with placeholder markers the L1 fills.\n2. scorecard-section.md — `### Planned (round 56)` skeleton + a `## Round 55` claims table with\n   before column filled from the receipts and after cells marked `(measured close pending)`.\nMark every number you could not verify as `PENDING-L1`. Do not invent results.\n# Acceptance\nTwo draft files, house style matched, no fabricated numbers.\n# Bounds\nWrite only your wave dir. Scratch /fast/scratch/hyaku/kengaku-r55/E16Drafts/.\n",
+      "axes": [
+        "operability",
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "S1CaseProse": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "scribe",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\n.ufo/waves/round-55/w1/S1CaseProse/case-requirements.md — prose mapping each of the 12 frozen\nchess probe cases to the instruction requirement it exercises (E7 consumes).\n# Change\nRead the frozen case list in the E5 item of the wave spec (or .ufo/waves/round-55/w1-dispatch.json\nonce written) and the instruction text (S202 row). For each case: requirement exercised (quote\nthe instruction words), why the predicted verdict follows from the grader's ONE assertion\n(tests/test_outputs.py:25), and what a contrary verdict would mean. Keep it under 120 lines.\n# Acceptance\n12 sections, each naming requirement + grader line + prediction rationale.\n# Bounds\nWrite only your wave dir.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "S2PriorArt": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "scribe",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\n.ufo/waves/round-55/w1/S2PriorArt/prior-art.md — prior-art pricing for the R55-C3 class claim.\n# Change\nWeb-search (read-only): are public writeups/papers describing (a) the TB2 chess-best-move task\nor its grader, (b) order-insensitive multiset/set-equality output graders in agent benchmarks,\n(c) benchmark grader semantics surveys covering token-set scoring? For each hit: URL, what it\nestablishes, phenomenon-new vs instrument-new verdict for this lane's reading. Price honestly:\nif the class is already published, say the entry is a replication of the class, novel only as\nthis lane's instrument instance.\n# Acceptance\n>=3 evaluated hits with URLs + verdicts; a final `PRICING:` line.\n# Bounds\nWrite only your wave dir.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "S3GateQuotes": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "scribe",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\n.ufo/waves/round-55/w1/S3GateQuotes/gate-block.md — the round lesson's `## Gate` row table for\nthe two new SOURCES rows (the L1 splices it into corpus/lessons/round-55.md).\n# Change\nRows S201 + S202, columns: row | URL and location | access date | located quote (<=25 words) |\ndecision. Use exactly: S201 — URL .../chess-best-move/tests/test_outputs.py, location\ntests/test_outputs.py:25, access 2026-10-30, quote: assert sorted(move) == sorted([\"g2g4\", \"e2e4\"])\n(5 words), decision: admit A, executed scoring predicate for the code's own behaviour. S202 —\nURL .../chess-best-move/instruction.md, location instruction.md:1, access 2026-10-30, quote:\nIf there are multiple winning moves, print them all, one per line. (12 words), decision: admit A,\nmaintainer requirement the grader is mapped against. Add the flip-check line: runner row dropped\nas duplicate of S109 (byte-identical test.sh, sha 4770437e...) — no status/recheck/used-by cell\nof any existing row changed.\n# Acceptance\nTable renders in md; quotes verbatim; the flip-check named.\n# Bounds\nWrite only your wave dir.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "S4SearchLog": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "scribe",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\n.ufo/waves/round-55/w1/S4SearchLog/search-log.md — the SOURCES.md Search-log note for this\nround's bounded search (the L1 splices it).\n# Change\nDocument the 13th-grader selection as a PRISMA-style bounded search: question (which TB2 task\ngrader to execute 13th), where (the in-repo round-52 capture set = 89 tasks at pin\n2fd12b88, minus the 12 already read, minus the GH013-excluded sanitize-git-repo), screening\n(candidates chess-best-move / cancel-async-tasks / dna-insert / count-dataset-tokens /\nextract-elf screened by grader size + offline executability + no new capture needed), included\n(chess-best-move: 25-line grader, stdlib-only, absolute-/app read executed under bwrap),\nexcluded (extract-elf 392 lines heavy; cancel-async-tasks 172 lines runtime-dependent;\ndna-insert needs oligotm binary; count-dataset-tokens 13 lines but dataset-dependent constant),\nstop rationale (one task per round is the established cadence). Counts: identified 89,\nexcluded 12 already-read + 1 push-protection-blocked + 4 screened-out = 17, included 1.\n# Acceptance\nOne bounded-search note with all counts + reasons.\n# Bounds\nWrite only your wave dir.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "S5Connections": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "scribe",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\n.ufo/waves/round-55/w1/S5Connections/connections-and-limits.md — the entry's connections and\nlimits sections, drafted against the held corpus (E7 consumes).\n# Change\nRead corpus/knowledge/tb2-password-recovery-grader.md (r45), tb2-polyglot-c-py-grader.md (r46),\nbenchmark-verifier-execution-model.md. Draft: (1) connections — one line each naming what the\nchess entry extends and never overwrites; (2) limits — what the chess entry does NOT establish\n(the full refusal list from PROVINCE's round-37 style: no task image, no harness run, no real\nsubmission, no task validity, no contamination, no model behaviour, 86 graders still unread);\n(3) the class-boundary paragraph: r45 line-split membership vs r55 full-multiset equality —\nname the exact semantic differences (partial credit, order, duplicates, normalization).\n# Acceptance\nThree sections, every claim tied to a named held file.\n# Bounds\nWrite only your wave dir.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "S6ReadmeInventory": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "scribe",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\n.ufo/waves/round-55/w1/S6ReadmeInventory/round55-artifacts.md — the corpus/README\n`Round-55 supporting artifacts` section draft (the L1 splices).\n# Change\nMatch the style of README's `## Round26 supporting artifacts` section. Inventory this round's\nartifacts: plans/round-55-claims.md (freeze, 80afa61314fa1bd7baa38f9afbeedb4dd0aa81eb), plans/round55_c2_controls.py,\n.ufo/waves/round-55/claims/* (five before receipts + census-before), and (pending, marked\nPENDING-L1) the counter, probe, receipt, entry. One line each with path + what it is.\n# Acceptance\nSection draft matches house style; pending items explicitly marked.\n# Bounds\nWrite only your wave dir.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "SC1UpstreamContext": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "scout",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\n.ufo/waves/round-55/w1/SC1UpstreamContext/context.md — upstream context for chess-best-move at\npin 2fd12b88aafdd04a52c298e3940bcb189f9766d6.\n# Change\nRead-only GETs to raw.githubusercontent.com / api.github.com: (1) the task tree listing\n(chess-best-move/ dir contents at the pin); (2) task.toml (difficulty medium, games category,\nauthor, timeouts); (3) whether a solution/ dir exists and what it contains (names only);\n(4) neighbors: which other tasks carry a `move.txt`-style token artefact. Write findings with\nURLs + fetched bytes where short.\n# Acceptance\nTree listing + task.toml summary + solution-dir names + neighbor note.\n# Bounds\nRead-only + your wave dir. No heavy fetches (<2 MB total).\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "SC2DefectRowTruth": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "scout",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\n.ufo/waves/round-55/w1/SC2DefectRowTruth/round35-truth.md — independent truth for the\nround35-c1-coverage ledger row (double-run beside E4).\n# Change\nFrom a clean shared clone at the current tip: run `python3 plans/round35_c1_verify.py --lane\n<clone>`; capture FULL stdout+stderr + exit. Identify the verdict lines (V1..Vn) and the exact\nevidence fragment a truthful red declaration should carry NOW. Compare with the ledger's\ndeclared fragment (plans/round54-entrytruth.json row round35-c1-coverage) and name precisely\nwhich output lines changed vs the declared evidence.\n# Acceptance\nFull output captured; proposed fragment quoted verbatim; delta vs declared named.\n# Bounds\nNo lane writes. Scratch /fast/scratch/hyaku/kengaku-r55/SC2DefectRowTruth/.\n",
+      "axes": [
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "SC3ArgvUniverse": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "scout",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\n.ufo/waves/round-55/w1/SC3ArgvUniverse/universe.md — independent binding-leg scan (cross-check\nfor E13).\n# Change\nImplement your OWN scan (different code from E13's, same definition): registry cell first\nbacktick python3 span -> shlex tokens vs ledger entry_argv, per row of the 78; plus wrapper\ntokens (uv/uvx/pipx/poetry/npx/-c) and flag-prefix abbreviation candidates (flag not verbatim\nin script body but proper prefix of one that is). Output the full table + counts + the rows a\nbinding counter would flag TODAY.\n# Acceptance\nTable + counts; discrepancies vs E13's table (if theirs exists when you finish) named.\n# Bounds\nNo lane writes. Scratch /fast/scratch/hyaku/kengaku-r55/SC3ArgvUniverse/.\n",
+      "axes": [
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "SC4ProbePrior": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "scout",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\n.ufo/waves/round-55/w1/SC4ProbePrior/pattern.md — the established probe pattern, extracted.\n# Change\nRead plans/password_recovery_probe.py, plans/polyglot_c_py_probe.py, plans/build_pmars_probe.py:\nextract (1) the exact bwrap flag pattern each uses (quote the lines), (2) how the frozen case\ntable + predictions are embedded (data structure), (3) how observed vs predicted and mismatches\nare printed, (4) CLI conventions (--lane/--receipt/--selftest), (5) exit-code contract. Write\nthe pattern note so E5's implementation can be checked against it.\n# Acceptance\nAll five items with file:line quotes.\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "SC5VacuityRead": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "scout",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\n.ufo/waves/round-55/w1/SC5VacuityRead/vacuity.md — independent semantic read of the chess\ngrader (second pair of eyes beside the entry).\n# Change\nRead corpus/evidence/round52/graders/chess-best-move/tests/test_outputs.py (25 lines) and\ninstruction.md. Enumerate EVERY pass/fail semantic you can derive: split() behavior (any\nwhitespace run), sorted() multiset equality (order-free, duplicates break), no strip per token\n(split handles it), case sensitivity, unicode, the empty file, non-UTF8 bytes. Then the\ninstruction-vs-grader gaps: the board image the grader never looks at; the example literal\nh1h8; the one-per-line guidance vs split() reality; multiple-winning-moves plural rule. End\nwith `GAPS:` list — anything a 12-case table could still mispredict.\n# Acceptance\nSemantics enumerated with line refs; GAPS list honest.\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "SC6RegistryHealth": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "scout",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\n.ufo/waves/round-55/w1/SC6RegistryHealth/health.md — registry/ledger health census at tip.\n# Change\nFrom a clean clone at the current tip: run the r54 counter dry\n(`python3 plans/round54_c2_entrytruth.py --lane <clone> --dry`) and the r52 registry counter\n(`python3 plans/round52_c2_registry.py --lane <clone>`); capture both. Also count: registry\nrows, ledger rows, rows with entry_state red, rows with evidence cell, rows whose registry cell\ncarries a flag the script body does not contain (spot-check 5 rows by reading the scripts).\n# Acceptance\nBoth counter outputs verbatim + your counts table.\n# Bounds\nNo lane writes. Scratch /fast/scratch/hyaku/kengaku-r55/SC6RegistryHealth/.\n",
+      "axes": [
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "R1C1BeforeRepro": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "reviewer",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nIndependent reproduction of the R55-C1 before-state (falsifier of the freeze's before receipt).\n# Change\nFresh clean shared clone at 798f5e9ef30ef39291295565209b65a17343c00e; run `python3 plans/round52_c2_registry.py --lane <clone>`;\ncapture output + exit. Compare with the committed .ufo/waves/round-55/claims/c1-before.txt:\nMISSING set must be exactly {plans/round54_c1_anchor.py, plans/round54_c2_entrytruth.py},\nADVERTISED 79, REGISTERED 77, exit 1. Also verify the counter's advertised-universe scan cannot\nmiss an advertisement: pick 2 advertised scripts and confirm the files that advertise them are\namong the scanned set (SCORECARD/SKILL/LOG/README/knowledge).\n# Acceptance\nreport.md: your output, the diff vs receipt (expect byte-equal modulo the clone path), the\nscan-completeness check.\n# Bounds\nNo lane writes. Scratch /fast/scratch/hyaku/kengaku-r55/R1C1BeforeRepro/.\n",
+      "axes": [
+        "operability"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "R2C2FixturesRepro": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "reviewer",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nIndependent rebuild of the two R55-C2 laundering fixtures (do NOT reuse\nplans/round55_c2_controls.py — write your own minimal fixture builder) and re-demonstration of\nthe red-before state.\n# Change\nBuild one-row scratch git fixtures (your own code) matching the frozen cases:\nabbreviated-selftest (ledger argv `python3 plans/fixture_gate.py --selft`, argparse-prefix of\n--selftest, declared green) and uv-decoy-script (uv wrapper + inline -c program, declared\ngreen); registry cell `python3 plans/fixture_gate.py`; gate entry exits 1. Run the r54 counter\nover both (import it unchanged): expect PREDICATE R54-C2 pass + exit 0 on both, and the registry\nentry run directly exits 1. Compare with the committed before-receipts.\n# Acceptance\nYour fixtures reproduce the laundering; any divergence from the receipts named exactly.\n# Bounds\nNo lane writes. Scratch /fast/scratch/hyaku/kengaku-r55/R2C2FixturesRepro/.\n",
+      "axes": [
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "R3ChessSourcesReopen": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "reviewer",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nQ10/Q13 second-seat re-read of the round's two new sources (S201 grader, S202 instruction).\n# Change\nRe-open BOTH upstream URLs at pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6 (read-only GET).\nVerify: (1) the located quotes are verbatim at the named locations (tests/test_outputs.py:25;\ninstruction.md:1); (2) sha256s match the freeze's pins (a540714e... for the grader,\n6ba25be4... for the instruction); (3) the quotes are <=25 words; (4) the `teaches` cells' claims\nfollow from the quotes. Write the re-read record with agree/disagree per row to\n.ufo/waves/round-55/w1/R3ChessSourcesReopen/reopen.md.\n# Acceptance\nBoth rows re-opened with verdicts; any disagreement is a finding, not a fix.\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "R4ClaimsSizing": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "reviewer",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nAdversarial sizing audit of plans/round-55-claims.md (frozen; you audit, never edit).\n# Change\nCheck each claim: (1) after-state re-derivable with ONE command over committed bytes?\n(2) universal clauses only over enumerated sets? (3) do-nothing control truly cannot reach the\ntarget (name the cheapest skip-work control you can think of and show it fails the predicate);\n(4) kill rules decidable? (5) any target a first-answer baseline would meet? Write findings to\n.ufo/waves/round-55/w1/R4ClaimsSizing/findings.md with a severity per finding.\n# Acceptance\nPer-claim verdicts + concrete attack attempts you actually ran (commands + outputs).\n# Bounds\nNo lane writes. Scratch /fast/scratch/hyaku/kengaku-r55/R4ClaimsSizing/.\n",
+      "axes": [
+        "operability",
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "R5LedgerCorrectionAudit": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "reviewer",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nAudit E4's ledger corrections (bounded-wait for plans/round54-entrytruth.json to change; 60 s\nsteps, max 25 min; if unchanged, audit the PLAN in the E4 item text instead).\n# Change\nFor row round35-c1-coverage: independently run `python3 plans/round35_c1_verify.py --lane\n<clean clone>`; the new evidence fragment must be verbatim from YOUR output too. For each of the\nfive new rows: re-measure the entry yourself (hermetic env; scratch); the declared exit/state\nmust match YOUR measurement. Also verify no other row changed (`git -C <clone> diff` on the\nledger at integration is the L1's job — you compare current bytes vs the committed base ledger\nat 798f5e9ef30ef39291295565209b65a17343c00e via `git -C <clone> show 798f5e9ef30ef39291295565209b65a17343c00e:plans/round54-entrytruth.json`).\n# Acceptance\nPer-row agree/disagree table with your measured exits.\n# Bounds\nNo lane writes. Scratch /fast/scratch/hyaku/kengaku-r55/R5LedgerCorrectionAudit/.\n",
+      "axes": [
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "R6RegistryCellAudit": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "reviewer",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nAudit the five new SKILL.md registry rows (bounded-wait for them to appear; 60 s steps, max\n25 min; if absent, audit the E1 item's cell contract instead and say which cells WILL be false).\n# Change\nFor each new row: run the entry cell's command with --help-less care (use --dry or bare\ninvocation in a scratch clone; never a full 78-row run) and check the verdict-map cell's claimed\nexit semantics; verify the self-test cell's flag exists in the script body (SELFTEST-UNBACKED\npre-check via `python3 plans/round52_c2_registry.py --lane <working tree>` AFTER E1+E2+E5 land —\nif you run mid-wave and legs fire on absent sibling files, record that context honestly).\n# Acceptance\nPer-row cell-truth table; any false cell named with the observed vs claimed behavior.\n# Bounds\nNo lane writes (read SKILL.md, run scripts from a clone). Scratch /fast/scratch/hyaku/kengaku-r55/R6RegistryCellAudit/.\n",
+      "axes": [
+        "operability"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "R7ProbeOracleAudit": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "reviewer",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nOracle audit of plans/round55_c3_chess_probe.py (bounded-wait, 60 s steps, max 25 min).\n# Change\nRead the probe end to end. Verify: (1) the observed verdict derives ONLY from executing the\ncaptured grader's own test function in bwrap — no lane-side reimplementation of the assertion;\n(2) /tests is bound read-only and the capture is a byte-copy of the in-repo file (compare sha at\nruntime); (3) the 12-case table matches the frozen list byte-for-byte (cases, bytes, predictions);\n(4) a mismatch necessarily changes the printed M and the exit code; (5) no case's outcome can\ndepend on wall-clock/network/env. Write findings to .ufo/waves/round-55/w1/R7ProbeOracleAudit/.\n# Acceptance\nFive checked properties with evidence; any hole named with the attack input that would exploit it.\n# Bounds\nNo lane writes. Scratch /fast/scratch/hyaku/kengaku-r55/R7ProbeOracleAudit/.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "R8CounterSoundness": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "reviewer",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nSoundness hunt in plans/round55_c2_entryargv.py (bounded-wait, 60 s steps, max 25 min; until it\nlands, derive candidate routes from the frozen leg definitions in plans/round-55-claims.md and\nthe r54 counter's entry_mode_ok code).\n# Change\nHunt FALSE-PASS routes: ledger argv tampering that survives L1 (unicode look-alikes in tokens?\nshlex quoting divergences between cell text and JSON list?); wrapper forms L2 misses (python -m?\nenv? exec -a? direct interpreter path /usr/bin/python3?); abbreviation forms L3 misses (flags\nbuilt at runtime? combined short flags? --selftest=true?); L4 ground-truth gaps (evidence\nfragment substring-spoofing by the script's own output?). For each candidate: write the exact\nfixture (files + argv + ledger row) that would demonstrate it, into\n.ufo/waves/round-55/w1/R8CounterSoundness/routes.md. Runnable attempts beat prose: build the top-2\nfixtures and run them against the counter if it exists.\n# Acceptance\nRoute list with demonstrable fixtures; each marked survives/fails-with-evidence.\n# Bounds\nNo lane writes. Scratch /fast/scratch/hyaku/kengaku-r55/R8CounterSoundness/.\n",
+      "axes": [
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "R9HeldGroundCheck": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "reviewer",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nR55-C3 novelty-of-ground check: the 13th grader must not re-state held ground.\n# Change\ngrep the corpus for chess/multiset ground: `grep -rn \"chess\" corpus/ PROVINCE.md --include=\"*.md\"`;\n`grep -rln \"sorted(\" corpus/knowledge/`; read the 12 tb2-* knowledge entries' class sentences.\nVerify: (1) chess-best-move is absent from SOURCES/README/PROVINCE/knowledge before this round\n(at 798f5e9ef30ef39291295565209b65a17343c00e: `git -C <clone> grep -c chess-best-move 798f5e9ef30ef39291295565209b65a17343c00e -- corpus PROVINCE.md` -> 0);\n(2) no prior entry already describes full-multiset equality grading (r45 membership vs r55 —\nquote the r45 class sentence); (3) the S201/S202 URLs are not near-duplicates of existing rows\n(census W04 check at the pin + URL prefix compare).\n# Acceptance\nreport.md: the three checks with commands + outputs + a held/verdict line each.\n# Bounds\nNo lane writes. Scratch /fast/scratch/hyaku/kengaku-r55/R9HeldGroundCheck/.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "R10ScorecardBasis": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "reviewer",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nVerify the freeze's carried axis numbers against SCORECARD.md at the tip.\n# Change\nSCORECARD.md + the round-54 measured-close correction say: calibration 9, coverage 7 (L0 cap),\nnovelty 8, depth 9, operability 8 (harmed 9->8), freshness 9, adjacency 9. Locate each number's\nrow/line (file:line quotes) and confirm the freeze's §axis-state paragraph quotes them\nfaithfully. Also confirm the freeze's claim that no stagnation waiver is invoked is consistent\nwith the declared saturation line 8 / window 4 (SCORECARD `## Saturation`).\n# Acceptance\nTable: axis | scorecard line | freeze line | match.\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "operability",
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "R11R52Carry": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "reviewer",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nThe carried r52 repair, made concrete: the refused E3 patch's order-check regression and masked\nK7 control (spot-check obligation 5; production counters stay untouched).\n# Change\nRead .ufo/waves/round-52/w2/ (R4's patch demonstration) and .ufo/waves/round-54/w1/E3R52RegistryFix.md.\nReconstruct: (1) which grader.py check the patch touched and what regression the order-check\ndemonstration showed (name the check + the input that flips); (2) the masked K7 control (which\nfixture the patch made invisible). Reproduce BOTH on scratch copies (never edit grader.py in\nplace; copy to scratch, apply the patch idea, run the two demonstrations). Write the recipe +\nobserved outputs to .ufo/waves/round-55/w1/R11R52Carry/recipe.md so a future round can land the\nfix with red-before evidence.\n# Acceptance\nBoth demonstrations reproduced on scratch copies with outputs; the recipe is runnable.\n# Bounds\nNo lane writes. Scratch /fast/scratch/hyaku/kengaku-r55/R11R52Carry/.\n",
+      "axes": [
+        "operability",
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "R12ShonenEvidence": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "reviewer",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nEvidence for the report's SHONEN lines (the 4 promotion boxes are [~] asserted-by-author; you\nprovide the non-author evidence pointers).\n# Change\nFor each SHONEN.md box: (1) SKILL decision tables/error patterns/checklists with cited sources —\nverify 2 sampled citations resolve (run/visit them); (2) an end-to-end domain task executed and\nlogged — verify LOG.md's latest round entry names a real executed task with receipts;\n(3) instructions executable without oral context — pick ONE instruction (e.g. the r55 controls\nselftest) and execute it cold from the written bytes only; (4) no cross-domain bleed / PROVINCE\naccurate — check PROVINCE.md's Core table entries still resolve (spot 3). Write per-box verdicts\n+ pointers to .ufo/waves/round-55/w1/R12ShonenEvidence/boxes.md.\n# Acceptance\nFour boxes, each with evidence pointers you actually exercised.\n# Bounds\nNo lane writes. Scratch /fast/scratch/hyaku/kengaku-r55/R12ShonenEvidence/.\n",
+      "axes": [
+        "operability",
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "C1PredicateReach": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "critic",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nFalsify R55-C1: can the predicate pass without the repair being real?\n# Change\nAttack surfaces: (1) de-advertising — if LOG.md simply dropped the round-54 commands, MISSING\nwould empty without new rows; the spot-check obligation says register OR stop advertising. Is\nde-advertising consistent with the frozen after-predicate (\"the advertised set at that revision\nincludes every script this round's landing adds\")? Read the freeze and rule; (2) registry-row\ncells that are empty strings but whitespace-padded (INCOMPLETE leg's all() check); (3) duplicate\nentry scripts across two rows (REGISTERED dict collapses — does a second row for the same script\nhide a missing one?); (4) renaming a script so the advertisement regex misses it. For each: try\nit on a scratch copy of the tree and report whether the counter still catches it.\n# Acceptance\nFour attempted bypasses with commands + observed counter output each.\n# Bounds\nNo lane writes (scratch copies only). Scratch /fast/scratch/hyaku/kengaku-r55/C1PredicateReach/.\n",
+      "axes": [
+        "operability"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "C2BindingBypass": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "critic",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nFalsify R55-C2's binding legs BEFORE the counter lands: find routes the frozen L1-L4 miss.\n# Change\nFrom the leg definitions (plans/round-55-claims.md §R55-C2) + the r54 counter's entry_mode_ok:\nconstruct concrete laundering fixtures for: (a) `python -m plans.gate` style entries; (b) argv[0]\nas an absolute interpreter path (/usr/bin/python3) — L2 allows {python3, python} only; does the\nREGISTRY cell convention ever use absolute paths? (check the 78 real registry cells); (c) ledger\nargv equal to registry tokens but the SCRIPT swapped by a sibling file (import shadowing via\ncwd/plans/__pycache__ — does the counter's hermetic env/clean clone protect?); (d) evidence\nfragment substring spoof (a red script that prints another row's evidence string); (e) a registry\ncell whose first backtick span is benign but a SECOND span carries the real command (parser takes\nfirst — is that exploitable?). Build runnable fixtures for your top-3 and record observed\nbehavior under the r54 counter; the L1 replays them against the new counter at integration.\n# Acceptance\n>=5 routes analyzed, top-3 with runnable fixtures + observed outputs.\n# Bounds\nNo lane writes. Scratch /fast/scratch/hyaku/kengaku-r55/C2BindingBypass/.\n",
+      "axes": [
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "C3VacuityAttack": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "critic",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nFalsify R55-C3's oracle: cases whose prediction the grader source underdetermines.\n# Change\nRead the 12 frozen cases (E5 item / spec) against the grader's one assertion. For each case,\nderive the verdict YOURSELF from the assertion only (`Path('/app/move.txt').read_text().strip()\n.split()` then sorted equality). Flag any case where your derivation differs from the frozen\nprediction — that is a pre-run prediction error to surface BEFORE the receipt lands (the\npredictions are frozen; an error must be reported, never silently tuned). Pay special attention\nto: crlf case (does read_text() translate \\r\\n? open() defaults vs Path.read_text()), the\nfullwidth digit case (which bytes exactly), whitespace-padded (strip+split order). Write your\nindependent 12-row table to .ufo/waves/round-55/w1/C3VacuityAttack/derivation.md.\n# Acceptance\nYour 12 derivations + delta vs frozen predictions; every delta named as a real prediction risk.\n# Bounds\nRead-only + your wave dir (do NOT run the grader; derive from source).\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "C4ClassNovelty": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "critic",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nIs full-multiset equality REALLY a graded-artefact class new to this lane (the C3 entry's claim)?\n# Change\nRead corpus/knowledge/tb2-password-recovery-grader.md (r45: split-newline membership), \ntb2-regex-log-grader.md (r36), tb2-polyglot-c-py-grader.md (r46: dual-runtime literal compare),\ntb2-protein-assembly-grader.md (r35: chain comparisons). For each: what does partial credit look\nlike, is order free, are duplicates possible, is normalization present? Then rule: does r55's\nsorted-multiset equality differ on at least one axis every prior class treats differently, or is\nit a re-label of r45's membership? Write the ruling with quotes to\n.ufo/waves/round-55/w1/C4ClassNovelty/ruling.md. An honest \"re-label\" verdict caps the entry's\nclass claim and must be reported, not buried.\n# Acceptance\nPer-entry axis table + a final ruling.\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "C5KillRuleScope": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "critic",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nAttack the R55-C2 kill rule's wording for holes (frozen text, plans/round-55-claims.md).\n# Change\nThe rule: calibration held at 9 if any attack seat constructs a runnable fixture with ALL static\nlegs clean that passes the new counter while the registry-declared entry truly exits otherwise;\nregistry-cell hand-rewrites are excluded as documentation attacks. Probe: (1) does the exclusion\ncreate a laundering lane where the LEDGER is honest but the REGISTRY cell lies (declared green\nfor a red entry)? Who catches that — name the exact other leg/seat; (2) \"all static legs clean\"\n— enumerate exactly which fields that covers; is a row with bad_decl excluded from names and\ntherefore unexecuted (r54 evaluate skips bad_decl/argv_defect rows — could a row opt OUT of\nexecution by carrying a defect)? (3) is the rule decidable by the closure (one command)? Write\nthe analysis to .ufo/waves/round-55/w1/C5KillRuleScope/analysis.md with a sound/unsound verdict\nper probe.\n# Acceptance\nThree probes analyzed with verdicts; any unsoundness is a report finding, not a rule edit.\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "C6Separability": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "critic",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nCausally-separable audit of the three frozen claims.\n# Change\nAXES.md: each claim verifiable without the others having landed. Check: (1) R55-C2's after-run\nexecutes the row round52-c2 whose TRUE green depends on R55-C1's rows landing — does that make\nC2 non-separable, or is separability about verification (each counter independently runnable)\nrather than pass-in-isolation? Read AXES.md's exact wording and rule; (2) C3 shares no instrument\nwith C1/C2 — verify; (3) the round's admission rule (every claim verifies AND no axis harmed):\nwhich single landing could harm an axis (e.g. new registry rows with false cells harming\ncalibration)? Write the analysis + the verdict framing the report should use to\n.ufo/waves/round-55/w1/C6Separability/analysis.md.\n# Acceptance\nRuling on separability with quoted definitions + report-framing recommendation.\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "operability",
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "C7IndexParity": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "critic",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nCoverage no-harm data: index parity both directions at landing time.\n# Change\nBounded-wait until corpus/knowledge/tb2-chess-best-move-grader.md exists (60 s steps, max 25\nmin); then on the working tree: (1) count knowledge files vs README knowledge index rows;\n(2) lessons files vs rows; (3) evidence dirs vs rows; (4) confirm the new entry + round55\nevidence have rows (E9 owns them — if absent, that is the finding). Also confirm no OLD row went\nstale (sample 5 rows -> files exist). Output the four parity numbers + findings to\n.ufo/waves/round-55/w1/C7IndexParity/parity.md.\n# Acceptance\nFour parity counts + per-finding rows.\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "C8TrendEvidence": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "critic",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nThe evidence checklist each trend verdict needs at close (LEARNING.md definitions).\n# Change\nRead LEARNING.md's three-trends table + corpus/lessons/round-54-verifier-spotcheck.md §5 (last\nround's verdicts: expansion unchanged, quality harmed, discernment improved). For EACH trend\nwrite what a `improved`/`harmed`/`unchanged` verdict requires THIS round, which artifact would\ncarry it (receipt paths), and the trap that would make the verdict dishonest (e.g. calling the\nregistry repair \"quality improved\" while a new false cell sits uncaught). Save to\n.ufo/waves/round-55/w1/C8TrendEvidence/checklist.md.\n# Acceptance\nThree checklists, each tied to named artifacts.\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "operability",
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "C9AttackShare": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "critic",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nDerive and verify the round's strict attack share before dispatch is claimed as met.\n# Change\nRead .ufo/waves/round-55/w1-spec.json (when present) or w1-dispatch.json: count roles; strict\nattack = reviewer+critic+mutation-tester (sentinels NOT counted — r54 spot-check ruling). Compute\nn_attack/total; the floor is >=25% inside the 64-128 band. Also verify the band: total seats in\n[64,128], maxLanes field, one wave. Write the formula + numbers to\n.ufo/waves/round-55/w1/C9AttackShare/share.md.\n# Acceptance\nNumbers + floor verdict; any shortfall named loudly.\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "operability",
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "C10AmendmentDiscipline": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "critic",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nFreeze-integrity audit: the frozen rules must not have drifted after 80afa61314fa1bd7baa38f9afbeedb4dd0aa81eb.\n# Change\n1. `git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin show 80afa61314fa1bd7baa38f9afbeedb4dd0aa81eb --stat` — the freeze commit's file list; verify it\ncontains exactly plans/round-55-claims.md, plans/round55_c2_controls.py,\n.ufo/waves/round-55/claims/ (5 files + census). 2. Re-run the three frozen before-commands\n(c1 registry counter on a fresh 798f5e9ef30ef39291295565209b65a17343c00e clone; both c2 control cases against r54; the three c3\nabsence checks at 798f5e9ef30ef39291295565209b65a17343c00e) and diff against the committed receipts (modulo clone paths). 3. Check\nplans/round-55-claims.md working-tree bytes == the committed blob (no unstated edit; the A1\namendment line is IN the committed bytes — verify).\n# Acceptance\nThree sections with outputs; any drift named exactly.\n# Bounds\nNo lane writes. Scratch /fast/scratch/hyaku/kengaku-r55/C10AmendmentDiscipline/.\n",
+      "axes": [
+        "operability",
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "M1RegistryMutants": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "mutation-tester",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nMutation-test plans/round52_c2_registry.py (production counter — copy to scratch, never edit in\nplace).\n# Change\nBuild a minimal fixture lane (plans/tool.py + SKILL registry + SCORECARD advertisement) in\nscratch. Single-defect mutants, one per leg: (1) MISSING leg returns [] always; (2) INCOMPLETE\nleg ignores empty cells; (3) ENTRY-MISSING leg skipped; (4) SELFTEST-UNBACKED returns False\nalways; (5) DUPLICATE check removed; (6) the advertised-universe regex narrowed (misses\nknowledge/*.md). Each mutant must flip the observable result (exit code or a DEFECT line) on a\nfixture that exercises that leg; record killed/survived per mutant to\n.ufo/waves/round-55/w1/M1RegistryMutants/mutants.md. A surviving mutant = an\nadvertised-but-undemonstrated leg (finding, not a fix).\n# Acceptance\nSix mutants with kill evidence each.\n# Bounds\nScratch copies only. Scratch /fast/scratch/hyaku/kengaku-r55/M1RegistryMutants/.\n",
+      "axes": [
+        "operability"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "M2EntryArgvMutants": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "mutation-tester",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nMutation-test plans/round55_c2_entryargv.py's NEW legs (bounded-wait, 60 s steps, max 25 min;\nscratch copy only).\n# Change\nUsing the controls fixtures (import plans/round55_c2_controls.py's CASES or rebuild them):\nsingle-leg silence mutants: (1) L1 comparison removed; (2) L2 wrapper check removed; (3) L3\nabbreviation check removed; (4) L4 registry-cell ground truth replaced by ledger-argv execution\n(the r54 behavior). Each mutant must flip the fixture outcome (killed fixture passes again = the\nleg was load-bearing). Record per-mutant kill evidence to\n.ufo/waves/round-55/w1/M2EntryArgvMutants/mutants.md; a surviving leg is dead weight (finding).\n# Acceptance\nFour mutants with kill evidence; the L4 mutant must re-introduce the laundering (proving L4 is\nthe load-bearing leg).\n# Bounds\nScratch copies only. Scratch /fast/scratch/hyaku/kengaku-r55/M2EntryArgvMutants/.\n",
+      "axes": [
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "M3ChessProbeMutants": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "mutation-tester",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nMutation-test plans/round55_c3_chess_probe.py (bounded-wait; scratch copy only).\n# Change\nMutants on a copy: (1) invert verdict mapping (pass<->fail) — the receipt must flip to\nmismatches>0 / PREDICATE fail; (2) mismatch counter skipped — summary must still change\n(observed_pass/observed_fail swap) or the case lines must expose it (if NOTHING observable\nchanges, the mismatch leg is decorative — finding); (3) null mutant (reorder case execution) —\noutput must be equivalent (order-insensitive summary). Record to\n.ufo/waves/round-55/w1/M3ChessProbeMutants/mutants.md with observed diffs.\n# Acceptance\nThree mutants with observed output diffs.\n# Bounds\nScratch copies only. Scratch /fast/scratch/hyaku/kengaku-r55/M3ChessProbeMutants/.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "M4ControlsMutants": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "mutation-tester",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nMutation-test plans/round55_c2_controls.py's fixture realism (scratch copy only).\n# Change\nMutant A: gate argparse allow_abbrev=False -> the abbreviated-selftest case must FAIL to\ndemonstrate laundering against r54 (route dead) — proving the fixture really depends on argparse\nabbreviation. Mutant B: gate entry exit flipped to 0 -> the true-entry check must flip the ROUTE\nline to NOT demonstrated. Mutant C: ledger entry_exit flipped to 1/red -> the r54 counter must\nflag a MISMATCH (not pass). Record observed outputs to\n.ufo/waves/round-55/w1/M4ControlsMutants/mutants.md.\n# Acceptance\nThree mutants with observed flips.\n# Bounds\nScratch copies only. Scratch /fast/scratch/hyaku/kengaku-r55/M4ControlsMutants/.\n",
+      "axes": [
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "M5LedgerDeclMutants": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "mutation-tester",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nDo ledger declarations bind? Mutate a COPY of plans/round54-entrytruth.json in scratch.\n# Change\nMutant 1: flip one green row's entry_exit to 1 (keep state green) -> r54 counter must report\nbad_decl (green!=exit0). Mutant 2: flip a green row's state to red with a bogus evidence ->\nMISMATCH/LAUNDERED on execution. Mutant 3: delete a row -> missing=N + EXTRA? (observe which\ndirection fires). Mutant 4: duplicate a row's name in the JSON (object_pairs_hook no_dup) ->\nledger unreadable. Record observed outputs to .ufo/waves/round-55/w1/M5LedgerDeclMutants/mutants.md.\n# Acceptance\nFour mutants with observed counter behavior.\n# Bounds\nScratch copies only. Scratch /fast/scratch/hyaku/kengaku-r55/M5LedgerDeclMutants/.\n",
+      "axes": [
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "M6SourcesRowMutants": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "mutation-tester",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nDo the census/gate catch defective SOURCES rows? Mutants on a scratch copy of corpus/SOURCES.md.\n# Change\nBuild a scratch copy; apply one defect at a time to the DRAFT S201/S202 rows (or, if not yet\nappended, to a copy of an existing row renamed S901): (1) drop one pipe (10 columns); (2) sha256\ntoken moved out of the anchor cell; (3) tier 'D'; (4) status 'mined!' (enum break); (5) duplicate\nid. Run the frozen census commands (CORPUS.md §Census + scripts/sources-census.sh validate\n--file <scratch copy>) per mutant; record caught/missed to\n.ufo/waves/round-55/w1/M6SourcesRowMutants/mutants.md — a missed defect is a reviewer-eyes item\n(feeds the lesson).\n# Acceptance\nFive mutants with caught/missed per command.\n# Bounds\nScratch copies only. Scratch /fast/scratch/hyaku/kengaku-r55/M6SourcesRowMutants/.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "SN1SecretScreen": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "sentinel",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nPush-protection / credential screen over every byte this round may commit.\n# Change\nScan the lane working tree diff vs 798f5e9ef30ef39291295565209b65a17343c00e (`git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin diff --name-only 798f5e9ef30ef39291295565209b65a17343c00e` + untracked\nfiles under plans/, corpus/, .ufo/waves/round-55/) for credential-shaped strings:\nghp_[A-Za-z0-9]{30,}, github_pat_[A-Za-z0-9_](20,), hf_[A-Za-z0-9](30,), AKIA[0-9A-Z]16,\nxox[baprs]-, sk-[A-Za-z0-9](20,), -----BEGIN .* PRIVATE KEY-----, ops_ (1Password service),\nconnection strings (postgres://.*:.*@). The chess captures carry the TB2 canary GUID string —\nthat is a canary, not a secret: verify it matches the string already pushed at 798f5e9ef30ef39291295565209b65a17343c00e\n(git show 798f5e9ef30ef39291295565209b65a17343c00e:corpus/evidence/round52/graders/chess-best-move/tests/test_outputs.py | sha256sum)\nso no NEW canary byte lands. Report every hit with file:line; expected: zero real hits.\nWrite to .ufo/waves/round-55/w1/SN1SecretScreen/screen.md.\n# Acceptance\nPattern list + scan counts + per-hit verdicts (real/canary/false-positive).\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "operability",
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "SN2NetworkSafety": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "sentinel",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nNetwork-use receipt for the round: every fetch read-only and in-scope.\n# Change\nRead the round's fetching code/paths: plans/round55_c3_chess_probe.py (must be offline-only —\nverify no urllib/requests/socket usage), the E14/SC1/SC3/R3 items' planned GETs (raw.\ngithubusercontent.com, api.github.com). grep the working tree's new files for network calls\n(`grep -rn \"requests\\|urllib\\|http://\\|https://\" plans/round55_* corpus/knowledge/tb2-chess*`\nwhen present). Verify no fetch can POST, authenticate, or reach a model-serving endpoint. Write\nto .ufo/waves/round-55/w1/SN2NetworkSafety/network.md.\n# Acceptance\nPer-file verdict: offline-only / read-only-GET-in-scope; any violation named.\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "operability",
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "SN3CorpusHygiene": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "sentinel",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nCorpus hygiene over the round's new corpus bytes.\n# Change\nWhen corpus/knowledge/tb2-chess-best-move-grader.md + the SOURCES rows exist (bounded-wait 25\nmin max): verify no credential material (CORPUS rule), no op:// refs, no session URLs, no\ncanary GUID quoted OUTSIDE its evidentiary context, quotes carry locations, the entry's claims\nstay inside its quotes (Q3 spot-read 3 load-bearing sentences vs the sources).\n# Acceptance\nChecklist with per-item pass/fail + evidence.\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "operability",
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "SN4FreezeIntegrity": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "sentinel",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nFreeze commit integrity + working-tree drift audit.\n# Change\n1. `git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin show --stat 80afa61314fa1bd7baa38f9afbeedb4dd0aa81eb` — file list exactly: plans/round-55-claims.md,\nplans/round55_c2_controls.py, .ufo/waves/round-55/claims/{c1-before.txt,\nc2-before-abbreviated-selftest.txt, c2-before-uv-decoy-script.txt, c3-before.txt,\ncensus-before.txt}. 2. Verify the working tree's plans/round-55-claims.md blob == committed\nblob (`git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin diff 80afa61314fa1bd7baa38f9afbeedb4dd0aa81eb -- plans/round-55-claims.md` empty). 3. List every\nlane file modified since 80afa61314fa1bd7baa38f9afbeedb4dd0aa81eb (`git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin diff --name-only 80afa61314fa1bd7baa38f9afbeedb4dd0aa81eb` +\nstatus --porcelain) and check each against the wave's declared write scopes (a seat writing\noutside its scope = finding). Write to .ufo/waves/round-55/w1/SN4FreezeIntegrity/integrity.md.\n# Acceptance\nThree sections; any out-of-scope write named with file + seat.\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "operability",
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "RV1EntryModeOk": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "revenger",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nReverse-engineer why round-54's counter computed `entry_mode_ok` but never wired it into the\npredicate (the hole R55-C2 closes).\n# Change\nRead plans/round54_c2_entrytruth.py history (`git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin log --oneline -- <file>`,\n`git show <rev>:<file>` for its birth revision), the r54 wave artifacts\n(.ufo/waves/round-54/w1/R2C2Counter/review.md, E2LedgerRefine.md), and plans/round-54-claims.md.\nRule: was the leg deliberately deferred (a documented open window), an oversight, or a\npredicate-scope decision (static legs vs execution legs)? Reconstruct the original intent with\nevidence quotes. Write to .ufo/waves/round-55/w1/RV1EntryModeOk/findings.md.\n# Acceptance\nA dated reconstruction with evidence pointers; the intent question answered.\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "RV2Round35Fragment": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "revenger",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nWhy did round35-c1-coverage's declared evidence fragment stop matching the entry's output?\n# Change\n`git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin log --oneline -- plans/round35_c1_verify.py` — find revisions touching the V4\noutput wording after the ledger was built; diff the wording (`git show <rev>:plans/\nround35_c1_verify.py | grep -n \"V4\"`); name the exact change that broke the fragment and the\nround that landed it. Also state whether the row's TRUE verdict (exit/state) changed or only the\nwording. Write to .ufo/waves/round-55/w1/RV2Round35Fragment/root-cause.md.\n# Acceptance\nRoot cause with revision hashes + the diff hunk; verdict wording-only vs truth-change.\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "RV3R52PatchAnatomy": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "revenger",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nAnatomy of the refused r52 E3 patch (why order-check regressed and K7 got masked).\n# Change\nRead .ufo/waves/round-52/w2/*R4*/ (the patch review), .ufo/waves/round-54/w1/E3R52RegistryFix.md\nand E8NoharmR53C2.md, and grader.py's r11 order check (grep -n \"check_r11_ordering\" grader.py).\nProduce: the patch's claimed fix, the order-check regression mechanism, the K7 masking mechanism,\nand what a correct fix must do differently. Write to\n.ufo/waves/round-55/w1/RV3R52PatchAnatomy/anatomy.md.\n# Acceptance\nMechanisms with code line refs; the correct-fix sketch.\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "operability",
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "CN1SiblingArgv": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "connector",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nSibling overlap: does any sibling lane already own entry-argv binding / ledger-truth /\nregistry-closure instruments?\n# Change\nScan sibling repos' tools dirs (read-only): ../kumitate-shokunin (gate registries), \n../tameshi-shokunin (mutation fences), ../chousa-shokunin (capture/citation), ../kama-shokunin\n(endpoint identity pins). For each candidate: name + what it binds + one-line ruling\nduplicate/adjacent/different-data. Also verify the r14 ruling (no sibling owns an\nevidence-replay gate) still holds at current sibling HEADs for the NEW instruments (argv\nbinding, multiset grader probe). Write to .ufo/waves/round-55/w1/CN1SiblingArgv/overlap.md.\n# Acceptance\nPer-sibling ruling table + the standing-ruling re-check.\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "operability",
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "CN2CrossSource": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "connector",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nCross-source pattern: the 13 TB2 grader entries as one dataset.\n# Change\nRead the 12 held tb2-* knowledge entries (+ the new chess one when it lands). Build the class\ntable: task | graded artefact | grader operation (membership / literal / ldd-scan / chain-compare\n/ multiset) | partial credit | receipt cases. Where does chess-best-move sit; which sibling\nshould receive the fleet-level pattern (tameshi: fixture craft? kotoba: instruction-vs-grader gap\ncraft?). Write to .ufo/waves/round-55/w1/CN2CrossSource/class-table.md.\n# Acceptance\n13-row table + the routing recommendation.\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "operability",
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "CN3ReportOuts": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "connector",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\n.ufo/waves/round-55/w1/CN3ReportOuts/routing.md — what this round routes OUT (evidence sent,\nnever absorbed).\n# Change\nCollect: (1) the standing L0 caps (round-25/33/51 coverage; round-52 GH013; round-54 assimilation\ndrift) — verify each is still unanswered in /home/vgpnk/Projects/shokunin/.ufo/l0-questions.md;\n(2) serving-plane status (do NOT probe endpoints; just note the standing refusal); (3) any\nfinding from the wave that belongs to another lane (name it + the owning lane). One routing line\nper item, report-ready.\n# Acceptance\nRouting lines ready to paste; unanswered-L0 verification quoted.\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "operability",
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "SP1CounterScope": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "simplifier",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nYAGNI pass over plans/round55_c2_entryargv.py (bounded-wait; propose, never edit).\n# Change\nWhen the counter lands: is any leg redundant GIVEN the others (e.g. is L3 dead once L1 enforces\ntoken equality — answer: L3 guards the registry cell itself, but check whether L2+L1 already\nimply it)? Is any borrowed r54 machinery unused (dead imports/branches)? Propose minimal diffs\n(no behavior change) to .ufo/waves/round-55/w1/SP1CounterScope/proposals.md; each proposal names\nthe leg it removes and why behavior is preserved (or why the leg must stay).\n# Acceptance\nPer-leg keep/remove ruling with reasoning.\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "operability",
+        "calibration"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "SP2RowCells": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "simplifier",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\nCell-verbosity pass over the five new SKILL.md registry rows (bounded-wait; propose diffs only).\n# Change\nWhen E1's rows land: compare their cell prose with the established house style (rows round52-c1/\nround52-c2). Propose trims where a cell says what the entry cell already says; NEVER propose\ndropping a truth-bearing cell (verdict map, self-test). Output unified diffs to\n.ufo/waves/round-55/w1/SP2RowCells/trims.diff (the L1 applies or rejects).\n# Acceptance\nDiff output + per-hunk rationale.\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "operability"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "SO1CensusSeries": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "scribe",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\n.ufo/waves/round-55/w1/SO1CensusSeries/census-series.txt — the frozen census numbers before vs\nworking-tree-now.\n# Change\nRun the CORPUS.md §Census commands on (a) a clean clone at 798f5e9ef30ef39291295565209b65a17343c00e and (b) the working tree:\nrows count, malformed count, tier histogram, status histogram, duplicate-id check, enum\nviolations, mined-used-by existence. Paste both blocks with the command lines. (Do NOT run the\ncensus --validate CLI here; the raw commands only, so the series is comparable.)\n# Acceptance\nBoth blocks complete; deltas summarized in three lines.\n# Bounds\nRead-only + your wave dir. Scratch /fast/scratch/hyaku/kengaku-r55/SO1CensusSeries/.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    },
+    "SO2ClassTable": {
+      "kind": "spawn",
+      "agentId": null,
+      "role": "scout",
+      "item": "/skill:godspeed\n\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n# Target\n.ufo/waves/round-55/w1/SO2ClassTable/table.tsv — the 12 held TB2 entries' receipt numbers,\ncollected mechanically.\n# Change\nFor each corpus/knowledge/tb2-*.md: extract task, probe path, receipt path, and the receipt's\n`cases=N observed_pass=P observed_fail=F mismatches=M` line (grep the receipts under\ncorpus/evidence/round3*/round4*/). One TSV row each; missing receipt -> `RECEIPT-MISSING` (do not\nguess). End with the totals line.\n# Acceptance\n12 rows + totals; only observed numbers.\n# Bounds\nRead-only + your wave dir.\n",
+      "axes": [
+        "coverage"
+      ],
+      "milestone": "kengaku round 55 wave 1 (v2, build+attack): registry closure (R55-C1, operability 8->9), entry-argv structural binding (R55-C2, calibration 9->10), 13th TB2 grader executed (R55-C3, coverage, L0-capped)"
+    }
+  }
+}

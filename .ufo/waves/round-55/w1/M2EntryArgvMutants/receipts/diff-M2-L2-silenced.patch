@@ -1,0 +1,11 @@
+--- pristine/plans/round55_c2_entryargv.py
++++ mutants/M2-L2-silenced/plans/round55_c2_entryargv.py
+@@ -160,7 +160,7 @@
+                    f"{n}: ledger entry_argv != registry cell argv {led!r} != {reg!r}")
+             s["binding_l1"].append(why)
+             s["argv_defect"].append(why)
+-        w = _wrapper_defect(n, led)
++        w = None  # MUTANT M2: L2 wrapper check silenced
+         if w:
+             s["wrapper_defect"].append(w)
+         script = m.row_script(s["rows"][n])

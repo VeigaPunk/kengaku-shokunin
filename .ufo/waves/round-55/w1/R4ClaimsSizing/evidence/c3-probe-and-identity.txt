@@ -1,0 +1,30 @@
+=== C3 probe selftest ===
+SELFTEST CASE toy-pass predicted=P observed=P rc=0
+SELFTEST CASE toy-fail predicted=F observed=F rc=1
+SELFTEST cases=2 failures=0
+EXIT=0
+
+=== C3 full probe (my run) ===
+CASE both-lowercase-two-lines predicted=P observed=P rc=0
+CASE both-space-separated predicted=P observed=P rc=0
+CASE reversed-order predicted=P observed=P rc=0
+CASE single-move-only predicted=F observed=F rc=1
+CASE uppercase-white predicted=F observed=F rc=1
+CASE extra-decoy-move predicted=F observed=F rc=1
+CASE duplicate-move predicted=F observed=F rc=1
+CASE whitespace-padded predicted=P observed=P rc=0
+CASE empty-file predicted=F observed=F rc=1
+CASE crlf-line-endings predicted=P observed=P rc=0
+CASE instruction-example-h1h8 predicted=F observed=F rc=1
+CASE fullwidth-unicode-digit predicted=F observed=F rc=1
+cases=12 observed_pass=5 observed_fail=7 mismatches=0
+PREDICATE R55-C3 pass
+EXIT=0
+
+=== receipt diff vs wave working-tree receipt ===
+IDENTICAL
+
+=== upstream identity at pin ===
+a540714e0156fc14564badedcb48d1f7b69a4b457d876036535439b30cb8f286  upstream-test_outputs.py
+a540714e0156fc14564badedcb48d1f7b69a4b457d876036535439b30cb8f286  clone/corpus/evidence/round52/graders/chess-best-move/tests/test_outputs.py
+4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334  upstream-test.sh

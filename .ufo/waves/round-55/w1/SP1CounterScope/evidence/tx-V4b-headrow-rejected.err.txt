@@ -1,0 +1,21 @@
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r55/SP1CounterScope/lab/prove.py", line 157, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/fast/scratch/hyaku/kengaku-r55/SP1CounterScope/lab/prove.py", line 152, in main
+    print(transcript(tag))
+          ~~~~~~~~~~^^^^^
+  File "/fast/scratch/hyaku/kengaku-r55/SP1CounterScope/lab/prove.py", line 146, in transcript
+    out.append(norm(selftest_capture(mod, base / "work-selftest")))
+                    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r55/SP1CounterScope/lab/prove.py", line 93, in selftest_capture
+    rc = mod.selftest(work)
+  File "/fast/scratch/hyaku/kengaku-r55/SP1CounterScope/lab/lane/plans/round55_c2_entryargv.py", line 370, in selftest
+    root, (rc, lines) = run(1, _case_ledger(ENTRY_ARGV, 1, "red"))
+                        ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r55/SP1CounterScope/lab/lane/plans/round55_c2_entryargv.py", line 361, in run
+    root = _mk_fixture(base / f"t{case_no}", ledger_rows)
+  File "/fast/scratch/hyaku/kengaku-r55/SP1CounterScope/lab/lane/plans/round55_c2_entryargv.py", line 328, in _mk_fixture
+    (root / "SKILL.md").write_text("\n".join(m.HEAD_ROW + [REGISTRY_LINE]) + "\n")
+                                             ^
+NameError: name 'm' is not defined

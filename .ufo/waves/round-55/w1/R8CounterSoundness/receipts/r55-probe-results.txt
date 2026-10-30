@@ -1,0 +1,74 @@
+
+### f1-env-fingerprint -> r55 counter exit=0
+    ROWS registry=1 ledger=1 missing=0 extra=0 argv_defect=0 wrapper_defect=0 abbrev_defect=0 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1
+    BINDING l1=0 l2=0 l3=0
+    RUN executed=1 timeout=0 mismatched=0 evidence_missing=0 laundered=0
+    TIPSTATE entry_declared_green=1 entry_declared_red=0 observed_green=1 observed_red=0
+    PREDICATE R55-C2 pass
+    truth hermetic-env exit=0 | plain-env exit=1
+
+### f2-evidence-spoof -> r55 counter exit=0
+    ROWS registry=1 ledger=1 missing=0 extra=0 argv_defect=0 wrapper_defect=0 abbrev_defect=0 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1
+    BINDING l1=0 l2=0 l3=0
+    RUN executed=1 timeout=0 mismatched=0 evidence_missing=0 laundered=0
+    TIPSTATE entry_declared_green=0 entry_declared_red=1 observed_green=0 observed_red=1
+    PREDICATE R55-C2 pass
+    truth hermetic-env exit=1 | plain-env exit=1
+
+### f3-homoglyph -> r55 counter exit=1
+    ROWS registry=1 ledger=1 missing=0 extra=0 argv_defect=1 wrapper_defect=0 abbrev_defect=0 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1
+      ARGV-DEFECT fixture-gate: script mismatch
+    BINDING l1=0 l2=0 l3=0
+    RUN executed=0 timeout=0 mismatched=0 evidence_missing=0 laundered=0
+    TIPSTATE entry_declared_green=0 entry_declared_red=0 observed_green=0 observed_red=0
+    PREDICATE R55-C2 fail
+    truth hermetic-env exit=0 | plain-env exit=0
+
+### f4a-dynflag -> r55 counter exit=1
+    ROWS registry=1 ledger=1 missing=0 extra=0 argv_defect=0 wrapper_defect=0 abbrev_defect=1 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1
+      ABBREV-DEFECT fixture-gate: flag '--selft' abbreviates a script flag (prefix, not verbatim)
+    BINDING l1=0 l2=0 l3=1
+    RUN executed=0 timeout=0 mismatched=0 evidence_missing=0 laundered=0
+    TIPSTATE entry_declared_green=0 entry_declared_red=0 observed_green=0 observed_red=0
+    PREDICATE R55-C2 fail
+    truth hermetic-env exit=0 | plain-env exit=0
+
+### f4b-eqform -> r55 counter exit=0
+    ROWS registry=1 ledger=1 missing=0 extra=0 argv_defect=0 wrapper_defect=0 abbrev_defect=0 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1
+    BINDING l1=0 l2=0 l3=0
+    RUN executed=1 timeout=0 mismatched=0 evidence_missing=0 laundered=0
+    TIPSTATE entry_declared_green=1 entry_declared_red=0 observed_green=1 observed_red=0
+    PREDICATE R55-C2 pass
+    truth hermetic-env exit=0 | plain-env exit=0
+
+### F5 registry_entry_argv(cell) characterization
+    plain                  cell='`python3 plans/fixture_gate.py`'
+                           -> ['python3', 'plans/fixture_gate.py']
+    quoted-path            cell="`python3 'plans/fixture_gate.py'`"
+                           -> ['python3', 'plans/fixture_gate.py']
+    two-python3-spans      cell='`python3 plans/fixture_gate.py` then `python3 other.py`'
+                           -> ['python3', 'plans/fixture_gate.py']
+    paren-prose-after      cell='`python3 plans/fixture_gate.py` (lane root; `--selftest`)'
+                           -> ['python3', 'plans/fixture_gate.py']
+    unbalanced-quote       cell="`python3 plans/fixture_gate.py --x 'a`"
+                           -> None
+    python-only            cell='`python plans/fixture_gate.py`'
+                           -> None
+    uppercase              cell='`Python3 plans/fixture_gate.py`'
+                           -> None
+    dash-c-alone           cell='`python3 -c print(1)`'
+                           -> ['python3', '-c', 'print(1)']
+    wrapper-first          cell='`uv run python3 plans/fixture_gate.py`'
+                           -> None
+    leading-space-span     cell='` python3 plans/fixture_gate.py`'
+                           -> ['python3', 'plans/fixture_gate.py']
+
+### unit probes
+    wrapper --config token             wrapper=None abbrev=None
+    wrapper -c attached                wrapper="probe: inline program token '-cprint(1)' (-c)" abbrev=None
+    wrapper -c separate                wrapper="probe: inline program token '-c' (-c)" abbrev=None
+    wrapper uv token mid               wrapper="probe: wrapper token 'uv'" abbrev=None
+    abbrev --selft vs --selftest       wrapper=None abbrev="probe: flag '--selft' abbreviates a script flag (prefix, not verbatim)"
+    abbrev --mod=x equals form         wrapper=None abbrev=None
+    abbrev --selft vs runtime --self   wrapper=None abbrev=None
+    exact flag verbatim ok             wrapper=None abbrev=None

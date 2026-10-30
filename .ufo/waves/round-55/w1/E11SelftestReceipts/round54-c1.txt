@@ -1,0 +1,42 @@
+SEAT: E11SelftestReceipts — R55-C1 frozen leg 2 self-test receipt
+ROW: round54-c1
+DATE: 2026-10-30
+
+COMMITTED ROW STATE AT MEASUREMENT
+  The five round-55 rows exist only in the UNCOMMITTED working tree (SKILL.md:642,
+  `git status` -> ` M SKILL.md`); the committed tip is 248a42b8 and contains none of them.
+  The row text below is quoted from the working-tree cell authored by E1RegistryRows.
+
+ROW CELL TEXT (SKILL.md working tree, line 642)
+  entry (field 3): `python3 plans/round54_c1_anchor.py verify --anchor ... --controls`
+  self-test (field 5): `python3 plans/round54_c1_anchor.py selftest` — measured `8/8 PASS`,
+    exit 0, under the round-54 `opentimestamps` venv (uv venv + `opentimestamps==0.5.0`
+    `opentimestamps-client==0.8.0`, per the script docstring); on a bare host python3 it
+    exits 1 (`ModuleNotFoundError`).
+  verdict map (field 4) `1` branch explicitly documents: "at the tip's bare host python3
+    (no `opentimestamps` library) the entry dies on `ModuleNotFoundError` and exits 1".
+
+CLAIMED SELF-TEST OUTCOME
+  Under the otsenv venv: 8/8 PASS, exit 0. On bare host python3: exit 1 (ModuleNotFoundError).
+
+EXECUTED (authoritative clean-clone run)
+  clone: git clone --shared of the lane at tip 248a42b8 -> /fast/.../E11SelftestReceipts/lane
+         (round54_c1_anchor.py is committed, so present in the clean clone)
+  venv:  uv venv <scratch>/otsenv; uv pip install opentimestamps==0.5.0 opentimestamps-client==0.8.0
+  CMD:   <otsenv>/bin/python plans/round54_c1_anchor.py selftest   (cwd = clone root)
+  EXIT:  0
+  OUTPUT (tail):
+      [selftest] PASS bitcoinlib-present
+      [selftest] PASS forged-proof-fails deserialize or leg failure
+      [selftest] 8/8 PASS
+  bare-host control: python3 plans/round54_c1_anchor.py selftest (cwd = clone root)
+  EXIT: 1 — ModuleNotFoundError: No module named 'opentimestamps' (matches cell)
+
+COMPARISON
+  venv run:    observed 8/8 PASS exit 0  ==  cell claim (8/8 PASS, exit 0)   -> MATCH
+  bare host:   observed exit 1 (ModuleNotFoundError) == cell claim (exit 1)  -> MATCH
+
+FINDING
+  NONE — the self-test cell is truthful on both branches. The venv dependency is documented
+  in the cell itself, so the bare-host exit 1 is an expected documented outcome, NOT a leg-2
+  kill. (Earlier concern withdrawn after reading the committed cell text.)

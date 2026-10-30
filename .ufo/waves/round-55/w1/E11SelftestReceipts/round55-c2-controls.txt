@@ -1,0 +1,31 @@
+SEAT: E11SelftestReceipts — R55-C1 frozen leg 2 self-test receipt
+ROW: round55-c2-controls
+DATE: 2026-10-30
+
+COMMITTED ROW STATE
+  Row exists only in the UNCOMMITTED working tree (SKILL.md:645). Committed tip 248a42b8
+  has none of the five rows. The instrument round55_c2_controls.py IS committed (present in
+  a clean clone). Cell text quoted from working tree.
+
+ROW CELL TEXT (SKILL.md working tree, line 645)
+  self-test (field 5): `python3 plans/round55_c2_controls.py --selftest` — measured
+    `SELFTEST cases=4 failures=0`, exit 0.
+
+CLAIMED SELF-TEST OUTCOME
+  `SELFTEST cases=4 failures=0`, exit 0.
+
+EXECUTED (authoritative clean-clone run)
+  clone: git clone --shared at tip 248a42b8 (round55_c2_controls.py committed -> present)
+  CMD:   python3 plans/round55_c2_controls.py --selftest   (cwd = clone root, bare host)
+  EXIT:  0
+  OUTPUT (tail):
+      SELFTEST ok abbreviation-live (--selft exits 0)
+      SELFTEST cases=4 failures=0
+
+COMPARISON
+  observed `SELFTEST cases=4 failures=0`, exit 0  ==  cell claim  -> MATCH
+
+FINDING
+  NONE for the self-test verdict. Caveat: the row is not yet committed, so leg 2's
+  "committed row at the tip" premise is pending the L1 integration commit; the self-test
+  behavior itself matches the cell exactly.

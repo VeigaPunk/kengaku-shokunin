@@ -1,0 +1,14 @@
+CASE uv-decoy-script
+ARGV ["uv", "run", "--no-project", "--offline", "python3", "-cprint('wrapper green')", "python3", "plans/fixture_gate.py"]
+== r55 binding counter over the laundering fixture ==
+ROWS registry=1 ledger=1 missing=0 extra=0 argv_defect=1 wrapper_defect=1 abbrev_defect=0 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1
+  ARGV-DEFECT fixture-gate: ledger entry_argv != registry cell argv ['uv', 'run', '--no-project', '--offline', 'python3', "-cprint('wrapper green')", 'python3', 'plans/fixture_gate.py'] != ['python3', 'plans/fixture_gate.py']
+  WRAPPER-DEFECT fixture-gate: argv[0]='uv' is not an interpreter (python3/python)
+BINDING l1=1 l2=1 l3=0
+SOURCE rev=cb1791e0ff60dae97ab8a16fc26847cdd01c59db clean=yes lane_rev_equal=yes
+RUN executed=0 timeout=0 mismatched=0 evidence_missing=0 laundered=0
+TIPSTATE entry_declared_green=0 entry_declared_red=0 observed_green=0 observed_red=0
+MIGRATION redeclared=0 r53_green_nonentry=0
+PREDICATE R55-C2 fail
+COUNTER EXIT 1
+ROUTE kill demonstrated (r55 rc=1)

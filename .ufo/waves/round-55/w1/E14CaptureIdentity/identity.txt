@@ -1,0 +1,38 @@
+R55-C3 capture byte-identity receipt
+seat: E14CaptureIdentity
+date: 2026-10-30
+lane: /home/vgpnk/Projects/shokunin/kengaku-shokunin (base tip 798f5e9ef30ef39291295565209b65a17343c00e)
+pin:  2fd12b88aafdd04a52c298e3940bcb189f9766d6 (harbor-framework/terminal-bench-2)
+
+== in-repo sha256 (lane repo, committed bytes) ==
+a540714e0156fc14564badedcb48d1f7b69a4b457d876036535439b30cb8f286  corpus/evidence/round52/graders/chess-best-move/tests/test_outputs.py (971 bytes)
+4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334  corpus/evidence/round52/graders/chess-best-move/tests/test.sh (608 bytes)
+4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334  corpus/evidence/round52/graders/regex-log/tests/test.sh (608 bytes)
+
+== upstream sha256 at pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6 ==
+raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/chess-best-move/tests/test_outputs.py
+a540714e0156fc14564badedcb48d1f7b69a4b457d876036535439b30cb8f286 (971 bytes)
+raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/chess-best-move/tests/test.sh
+4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334 (608 bytes)
+raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/regex-log/tests/test.sh
+4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334 (608 bytes)
+
+additional upstream files fetched at pin (for the S201/S202 source rows):
+instruction.md  sha256 6ba25be4e291a4ad04ae42b2dddefcdaef67ca45ca9d5dce661a2e517b19ce7a (260 bytes)
+task.toml      sha256 d8f01d3c84ed5836edbb49c6c3b3cc7b5b96d951cf01a0987467c9206fb22f9e (849 bytes)
+
+== byte-compare (cmp -s) ==
+in-repo chess-best-move/tests/test_outputs.py  vs upstream chess-best-move/tests/test_outputs.py : IDENTICAL
+in-repo chess-best-move/tests/test.sh           vs upstream chess-best-move/tests/test.sh           : IDENTICAL
+in-repo regex-log/tests/test.sh                 vs upstream regex-log/tests/test.sh                 : IDENTICAL
+
+== pair verdicts (seat acceptance: all three pairs match) ==
+pair 1  chess-best-move/tests/test_outputs.py  in-repo <-> upstream : MATCH  a540714e0156fc14564badedcb48d1f7b69a4b457d876036535439b30cb8f286
+pair 2  chess-best-move/tests/test.sh         in-repo <-> frozen 4770437e…c334 : MATCH
+pair 3  runner-identity cross-check           chess test.sh == regex-log test.sh in-repo, and both == upstream at pin : MATCH
+pin existence: GitHub API commits/2fd12b88aafdd04a52c298e3940bcb189f9766d6 →
+  sha: 2fd12b88aafdd04a52c298e3940bcb189f9766d6
+  committer date: 2026-04-30T05:53:30Z
+  message: Add task metadata to task manifests
+
+RESULT: all three sha256 pairs match; no mismatch observed. C3 kill rule (c) NOT fired.

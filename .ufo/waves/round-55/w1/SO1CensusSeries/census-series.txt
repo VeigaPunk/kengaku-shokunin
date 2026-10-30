@@ -1,0 +1,220 @@
+# Census series — kengaku round 55 wave 1 — seat SO1CensusSeries
+
+Generated 2026-10-30 (UTC) by seat SO1CensusSeries. Frozen-census numbers, before vs
+working-tree-now.
+
+**Scope.** The `### Census — run from the lane root` frozen v1 command block of
+`/home/vgpnk/Projects/shokunin/CORPUS.md:131-148`, run verbatim from a lane root on
+(a) a clean tree at base `798f5e9ef30ef39291295565209b65a17343c00e` and (b) the working
+tree now. The maintained `scripts/sources-census.sh validate` CLI was deliberately NOT
+run (seat scope: "the raw commands only, so the series is comparable"), so both blocks
+below are the frozen manual census.
+
+**Command provenance.** The 7 command lines were extracted mechanically from CORPUS.md,
+not retyped:
+
+    awk '/^### Census — run from the lane root/{f=1} f&&/^```sh/{s=1;next} s&&/^```/{exit} s&&!/^#/{print}' CORPUS.md > cmds.sh
+
+Each line was then executed with `eval` from the lane root; the line printed above each
+block is the verbatim CORPUS.md command, followed by its stdout and its exit code.
+
+**Base tree provenance.** `/fast/scratch/hyaku/kengaku-r55/SO1CensusSeries/base` is a
+`git archive 798f5e9e… | tar -x` export of the base commit (no `.git`, no untracked
+files, read-only on the lane repo). Fidelity check: `sha256(corpus/SOURCES.md)` in the
+export = `82e2228c4674143b56cd3af7c6494a0a7a8f1b0c28d12987711513478687f4f1` =
+`git show 798f5e9e…:corpus/SOURCES.md | sha256sum` (identical).
+
+
+## (a) BEFORE — clean tree at base 798f5e9ef30ef39291295565209b65a17343c00e
+
+```text
+### CENSUS BLOCK (CORPUS.md §Census, verbatim commands) — root=/fast/scratch/hyaku/kengaku-r55/SO1CensusSeries/base
+### cwd=/fast/scratch/hyaku/kengaku-r55/SO1CensusSeries/base  utc=2026-10-30T15:47:17Z  git-describe=n/a
+
+$ grep -cE '^\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|' corpus/SOURCES.md
+--- output ---
+193
+--- exit 0 ---
+
+$ awk -F'|' '/^\|[[:space:]]*S[0-9][0-9][0-9]+[[:space:]]*\|/ && NF!=13 {n++} END{print n+0}' corpus/SOURCES.md
+--- output ---
+0
+--- exit 0 ---
+
+$ awk -F'|' '/^\|[[:space:]]*S[0-9][0-9][0-9]+[[:space:]]*\|/ {t=$5; gsub(/[[:space:]]/,"",t); n[t]++} END{for(k in n) printf "%s=%d ", k, n[k]; print ""}' corpus/SOURCES.md
+--- output ---
+A=164 B=24 C=5 
+--- exit 0 ---
+
+$ awk -F'|' '/^\|[[:space:]]*S[0-9][0-9][0-9]+[[:space:]]*\|/ {s=$9; gsub(/[[:space:]]/,"",s); n[s]++} END{for(k in n) printf "%s=%d ", k, n[k]; print ""}' corpus/SOURCES.md
+--- output ---
+mined=172 queued=8 rejected=13 
+--- exit 0 ---
+
+$ awk -F'|' '/^\|[[:space:]]*S[0-9][0-9][0-9]+[[:space:]]*\|/ {i=$2; gsub(/[[:space:]]/,"",i); print i}' corpus/SOURCES.md | sort | uniq -d
+--- output ---
+--- exit 0 ---
+
+$ awk -F'|' '/^\|[[:space:]]*S[0-9][0-9][0-9]+[[:space:]]*\|/ && NF==13 {i=$2;k=$4;t=$5;s=$9; gsub(/[[:space:]]/,"",i); gsub(/[[:space:]]/,"",k); gsub(/[[:space:]]/,"",t); gsub(/[[:space:]]/,"",s); if (t !~ /^[ABC]$/) print "tier", i, t; if (s !~ /^(queued|mined|rejected)$/) print "status", i, s; if (k !~ /^(spec|docs|paper|code|tool|dataset|talk|book|community|own-work)$/) print "kind", i, k; if (t=="A" && k=="community") print "tier-inflation", i}' corpus/SOURCES.md
+--- output ---
+--- exit 0 ---
+
+$ awk -F'|' '/^\|[[:space:]]*S[0-9][0-9][0-9]+[[:space:]]*\|/ && NF==13 {s=$9; gsub(/[[:space:]]/,"",s); if (s=="mined") {n=split($12, a, /[,;]/); for (j=1;j<=n;j++) {p=a[j]; gsub(/^[[:space:]]+|[[:space:]]+$/,"",p); if (p!="" && p!="—") print p}}}' corpus/SOURCES.md | while read -r p; do [ -e "$p" ] || echo "missing: $p"; done
+--- output ---
+--- exit 0 ---
+
+### END CENSUS BLOCK — root=/fast/scratch/hyaku/kengaku-r55/SO1CensusSeries/base
+```
+
+## (b) AFTER — working tree now (HEAD 80afa613 + uncommitted changes + untracked files)
+
+```text
+### CENSUS BLOCK (CORPUS.md §Census, verbatim commands) — root=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+### cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin  utc=2026-10-30T15:47:17Z  git-describe=80afa613
+
+$ grep -cE '^\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|' corpus/SOURCES.md
+--- output ---
+195
+--- exit 0 ---
+
+$ awk -F'|' '/^\|[[:space:]]*S[0-9][0-9][0-9]+[[:space:]]*\|/ && NF!=13 {n++} END{print n+0}' corpus/SOURCES.md
+--- output ---
+0
+--- exit 0 ---
+
+$ awk -F'|' '/^\|[[:space:]]*S[0-9][0-9][0-9]+[[:space:]]*\|/ {t=$5; gsub(/[[:space:]]/,"",t); n[t]++} END{for(k in n) printf "%s=%d ", k, n[k]; print ""}' corpus/SOURCES.md
+--- output ---
+A=166 B=24 C=5 
+--- exit 0 ---
+
+$ awk -F'|' '/^\|[[:space:]]*S[0-9][0-9][0-9]+[[:space:]]*\|/ {s=$9; gsub(/[[:space:]]/,"",s); n[s]++} END{for(k in n) printf "%s=%d ", k, n[k]; print ""}' corpus/SOURCES.md
+--- output ---
+mined=174 queued=8 rejected=13 
+--- exit 0 ---
+
+$ awk -F'|' '/^\|[[:space:]]*S[0-9][0-9][0-9]+[[:space:]]*\|/ {i=$2; gsub(/[[:space:]]/,"",i); print i}' corpus/SOURCES.md | sort | uniq -d
+--- output ---
+--- exit 0 ---
+
+$ awk -F'|' '/^\|[[:space:]]*S[0-9][0-9][0-9]+[[:space:]]*\|/ && NF==13 {i=$2;k=$4;t=$5;s=$9; gsub(/[[:space:]]/,"",i); gsub(/[[:space:]]/,"",k); gsub(/[[:space:]]/,"",t); gsub(/[[:space:]]/,"",s); if (t !~ /^[ABC]$/) print "tier", i, t; if (s !~ /^(queued|mined|rejected)$/) print "status", i, s; if (k !~ /^(spec|docs|paper|code|tool|dataset|talk|book|community|own-work)$/) print "kind", i, k; if (t=="A" && k=="community") print "tier-inflation", i}' corpus/SOURCES.md
+--- output ---
+--- exit 0 ---
+
+$ awk -F'|' '/^\|[[:space:]]*S[0-9][0-9][0-9]+[[:space:]]*\|/ && NF==13 {s=$9; gsub(/[[:space:]]/,"",s); if (s=="mined") {n=split($12, a, /[,;]/); for (j=1;j<=n;j++) {p=a[j]; gsub(/^[[:space:]]+|[[:space:]]+$/,"",p); if (p!="" && p!="—") print p}}}' corpus/SOURCES.md | while read -r p; do [ -e "$p" ] || echo "missing: $p"; done
+--- output ---
+--- exit 0 ---
+
+### END CENSUS BLOCK — root=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+```
+
+## (c) INTERMEDIATE — clean tree at HEAD 80afa61314fa1bd7baa38f9afbeedb4dd0aa81eb (claims freeze; no corpus change)
+
+```text
+### CENSUS BLOCK (CORPUS.md §Census, verbatim commands) — root=/fast/scratch/hyaku/kengaku-r55/SO1CensusSeries/head
+### cwd=/fast/scratch/hyaku/kengaku-r55/SO1CensusSeries/head  utc=2026-10-30T15:47:17Z  git-describe=n/a
+
+$ grep -cE '^\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|' corpus/SOURCES.md
+--- output ---
+193
+--- exit 0 ---
+
+$ awk -F'|' '/^\|[[:space:]]*S[0-9][0-9][0-9]+[[:space:]]*\|/ && NF!=13 {n++} END{print n+0}' corpus/SOURCES.md
+--- output ---
+0
+--- exit 0 ---
+
+$ awk -F'|' '/^\|[[:space:]]*S[0-9][0-9][0-9]+[[:space:]]*\|/ {t=$5; gsub(/[[:space:]]/,"",t); n[t]++} END{for(k in n) printf "%s=%d ", k, n[k]; print ""}' corpus/SOURCES.md
+--- output ---
+A=164 B=24 C=5 
+--- exit 0 ---
+
+$ awk -F'|' '/^\|[[:space:]]*S[0-9][0-9][0-9]+[[:space:]]*\|/ {s=$9; gsub(/[[:space:]]/,"",s); n[s]++} END{for(k in n) printf "%s=%d ", k, n[k]; print ""}' corpus/SOURCES.md
+--- output ---
+mined=172 queued=8 rejected=13 
+--- exit 0 ---
+
+$ awk -F'|' '/^\|[[:space:]]*S[0-9][0-9][0-9]+[[:space:]]*\|/ {i=$2; gsub(/[[:space:]]/,"",i); print i}' corpus/SOURCES.md | sort | uniq -d
+--- output ---
+--- exit 0 ---
+
+$ awk -F'|' '/^\|[[:space:]]*S[0-9][0-9][0-9]+[[:space:]]*\|/ && NF==13 {i=$2;k=$4;t=$5;s=$9; gsub(/[[:space:]]/,"",i); gsub(/[[:space:]]/,"",k); gsub(/[[:space:]]/,"",t); gsub(/[[:space:]]/,"",s); if (t !~ /^[ABC]$/) print "tier", i, t; if (s !~ /^(queued|mined|rejected)$/) print "status", i, s; if (k !~ /^(spec|docs|paper|code|tool|dataset|talk|book|community|own-work)$/) print "kind", i, k; if (t=="A" && k=="community") print "tier-inflation", i}' corpus/SOURCES.md
+--- output ---
+--- exit 0 ---
+
+$ awk -F'|' '/^\|[[:space:]]*S[0-9][0-9][0-9]+[[:space:]]*\|/ && NF==13 {s=$9; gsub(/[[:space:]]/,"",s); if (s=="mined") {n=split($12, a, /[,;]/); for (j=1;j<=n;j++) {p=a[j]; gsub(/^[[:space:]]+|[[:space:]]+$/,"",p); if (p!="" && p!="—") print p}}}' corpus/SOURCES.md | while read -r p; do [ -e "$p" ] || echo "missing: $p"; done
+--- output ---
+--- exit 0 ---
+
+### END CENSUS BLOCK — root=/fast/scratch/hyaku/kengaku-r55/SO1CensusSeries/head
+```
+
+## (d) LANDING SIMULATION — HEAD tree + working-tree corpus/SOURCES.md, WITHOUT the untracked knowledge entry
+
+`corpus/knowledge/tb2-chess-best-move-grader.md` is untracked in the working tree but is
+the `used-by` target of S201 and S202. This tree reproduces what a landing revision would
+print if the SOURCES rows landed without the knowledge entry. Only the differing leg is
+quoted; every other leg is byte-identical to block (c).
+
+```text
+$ awk -F'|' '/^\|[[:space:]]*S[0-9][0-9][0-9]+[[:space:]]*\|/ && NF==13 {s=$9; gsub(/[[:space:]]/,"",s); if (s=="mined") {n=split($12, a, /[,;]/); for (j=1;j<=n;j++) {p=a[j]; gsub(/^[[:space:]]+|[[:space:]]+$/,"",p); if (p!="" && p!="—") print p}}}' corpus/SOURCES.md | while read -r p; do [ -e "$p" ] || echo "missing: $p"; done
+--- output ---
+missing: corpus/knowledge/tb2-chess-best-move-grader.md
+missing: corpus/knowledge/tb2-chess-best-move-grader.md
+--- exit 0 ---
+```
+
+## Delta summary (three lines)
+
+1. **Rows 193 → 195 (+2: S201, S202).** The delta sits entirely in the uncommitted
+   working tree: `corpus/SOURCES.md` is byte-identical between base `798f5e9e…` and HEAD
+   `80afa613` (sha256 `82e2228c…` on both sides), so the round-55 C3 rows are the whole
+   difference; HEAD itself is census-identical to base (block (c) == block (a)).
+2. **Tiers A 164→166, B 24→24, C 5→5; statuses mined 172→174, queued 8→8,
+   rejected 13→13.** Both new rows are tier `A` / status `mined`, so each histogram moves
+   by exactly +2 in one bucket and no tier or status mix shifts.
+3. **All four "must print nothing" legs stay empty in both blocks** — malformed rows 0,
+   duplicate ids none, enum/tier-inflation none, mined-used-by missing none — with one
+   caveat: leg 7 passes in the working tree only because
+   `corpus/knowledge/tb2-chess-best-move-grader.md` exists as an **untracked** file;
+   block (d) shows a landing revision that commits S201/S202 without that entry printing
+   `missing: corpus/knowledge/tb2-chess-best-move-grader.md` twice (exit code still 0 —
+   the leg's contract is "print nothing", not a non-zero exit).
+
+## Defects / findings for the integrator
+
+- **D1 (landing ordering, blocks the mined-used-by leg at the landing revision).**
+  `corpus/knowledge/tb2-chess-best-move-grader.md` is untracked (`git status` shows
+  `?? corpus/knowledge/tb2-chess-best-move-grader.md`) yet is the `used-by` target of both
+  new rows S201 and S202. It is the only one of the 37 distinct mined `used-by` paths that
+  is not git-tracked. If the SOURCES rows land without the knowledge entry, the frozen
+  census leg 7 prints two `missing:` lines (reproduced in block (d)). The L1 must land
+  `corpus/knowledge/tb2-chess-best-move-grader.md` in the same commit as (or before) the
+  `corpus/SOURCES.md` rows. Not a defect in the working tree as it stands.
+- **D2 (pre-existing, unchanged by round 55 — out of scope, reported not fixed).** The
+  source-id sequence has gaps at S087–S089, S095–S096 and S098–S099 (195 rows, max
+  S202). The identical gaps exist at base 798f5e9e (193 rows, max S200), so this is a
+  historical id-sequence property, not a round-55 regression. The frozen census block
+  does not test id contiguity, so it is invisible to the census.
+- **D3 (context, not a defect).** The round's own before-receipt
+  `.ufo/waves/round-55/claims/census-before.txt` is the output of the maintained
+  `scripts/sources-census.sh validate` CLI (it ends with `kengaku ok …/corpus/SOURCES.md`
+  and lists 13 `W04 duplicate url` warnings). The frozen manual census block has no
+  duplicate-URL check, so the two artifacts are not directly comparable; this series is
+  the manual-census series only, as the seat scope requires.
+
+## Commands run (with exit codes)
+
+| # | command | exit |
+|---|---|---|
+| 1 | `cd <lane> && git archive 798f5e9e… \| tar -x -C <scratch>/base` | 0 |
+| 2 | `cd <lane> && git archive 80afa613… \| tar -x -C <scratch>/head` | 0 |
+| 3 | `cp -a <scratch>/head <scratch>/landsim && cp <lane>/corpus/SOURCES.md <scratch>/landsim/corpus/SOURCES.md` | 0 |
+| 4 | `awk … > cmds.sh` (extract the 7 CORPUS.md §Census lines) | 0 |
+| 5 | `./run-census.sh <scratch>/base cmds.sh` | 0 (all 7 legs exit 0) |
+| 6 | `./run-census.sh <lane> cmds.sh` (working tree) | 0 (all 7 legs exit 0) |
+| 7 | `./run-census.sh <scratch>/head cmds.sh` | 0 (all 7 legs exit 0) |
+| 8 | `./run-census.sh <scratch>/landsim cmds.sh` | 0 (all 7 legs exit 0; leg 7 prints 2 lines) |
+
+No `git` mutation was performed anywhere (no add/commit/push/stash/checkout/reset); only
+`git archive`, `git show`, `git rev-parse`, `git status`, `git ls-files` (read-only).
+No network, no installs, no writes outside the seat's wave dir and scratch.

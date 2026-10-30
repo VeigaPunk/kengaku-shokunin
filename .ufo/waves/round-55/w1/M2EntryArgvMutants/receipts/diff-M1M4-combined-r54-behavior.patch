@@ -1,0 +1,20 @@
+--- pristine/plans/round55_c2_entryargv.py
++++ mutants/M1M4-combined-r54-behavior/plans/round55_c2_entryargv.py
+@@ -154,7 +154,7 @@
+             continue
+         led = sp.get("entry_argv")
+         reg = registry_entry_argv(s["rows"][n])
+-        if led != reg:
++        if False and led != reg:  # MUTANT M1: L1 comparison silenced
+             why = (f"{n}: registry entry cell has no python3 command"
+                    if reg is None else
+                    f"{n}: ledger entry_argv != registry cell argv {led!r} != {reg!r}")
+@@ -251,7 +251,7 @@
+                 # Execution uses the REGISTRY cell argv — identical to the ledger argv once
+                 # L1 is clean — through the unchanged r54 Worker/run_row hermetic path.
+                 spec = dict(s["ledger"]["rows"][n])
+-                spec["entry_argv"] = registry_entry_argv(s["rows"][n])
++                spec["entry_argv"] = list(s["ledger"]["rows"][n]["entry_argv"])  # MUTANT M4: ledger-argv execution (r54 behavior)
+                 return m.run_row(workers[i], n, spec, timeout, work)
+             finally:
+                 with lock:

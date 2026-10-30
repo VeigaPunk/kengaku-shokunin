@@ -1,0 +1,765 @@
+{
+  "meta": {
+    "prod_path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round52_c2_registry.py",
+    "prod_sha256": "9e6f41a457ec2d847f81d513d30545d982e0a118b4cfa8452af34e1d1a509e6b",
+    "lane_head": "80afa61314fa1bd7baa38f9afbeedb4dd0aa81eb",
+    "counter_copy_sha256": "9e6f41a457ec2d847f81d513d30545d982e0a118b4cfa8452af34e1d1a509e6b",
+    "detector": "python3 <counter-copy> --lane <fixture> -> defect fingerprint + exit code"
+  },
+  "baseline": {
+    "f1_missing": {
+      "expected": {
+        "exit": 1,
+        "missing": 1,
+        "incomplete": 0,
+        "entry_missing": 0,
+        "unbacked": 0,
+        "duplicate": 0
+      },
+      "actual": {
+        "exit": 1,
+        "advertised": 1,
+        "registered": 0,
+        "missing": 1,
+        "incomplete": 0,
+        "entry_missing": 0,
+        "unbacked": 0,
+        "duplicate": 0,
+        "predicate": "fail",
+        "detail": [
+          "  MISSING plans/orphan_tool.py"
+        ]
+      },
+      "ok": true,
+      "stderr": ""
+    },
+    "f2_incomplete": {
+      "expected": {
+        "exit": 1,
+        "missing": 0,
+        "incomplete": 1,
+        "entry_missing": 0,
+        "unbacked": 0,
+        "duplicate": 0
+      },
+      "actual": {
+        "exit": 1,
+        "advertised": 1,
+        "registered": 1,
+        "missing": 0,
+        "incomplete": 1,
+        "entry_missing": 0,
+        "unbacked": 0,
+        "duplicate": 0,
+        "predicate": "fail",
+        "detail": [
+          "  INCOMPLETE-ROW `t`"
+        ]
+      },
+      "ok": true,
+      "stderr": ""
+    },
+    "f3_entry_missing": {
+      "expected": {
+        "exit": 1,
+        "missing": 0,
+        "incomplete": 0,
+        "entry_missing": 1,
+        "unbacked": 0,
+        "duplicate": 0
+      },
+      "actual": {
+        "exit": 1,
+        "advertised": 0,
+        "registered": 1,
+        "missing": 0,
+        "incomplete": 0,
+        "entry_missing": 1,
+        "unbacked": 0,
+        "duplicate": 0,
+        "predicate": "fail",
+        "detail": [
+          "  ENTRY-MISSING plans/ghost_tool.py"
+        ]
+      },
+      "ok": true,
+      "stderr": ""
+    },
+    "f4_unbacked": {
+      "expected": {
+        "exit": 1,
+        "missing": 0,
+        "incomplete": 0,
+        "entry_missing": 0,
+        "unbacked": 1,
+        "duplicate": 0
+      },
+      "actual": {
+        "exit": 1,
+        "advertised": 1,
+        "registered": 1,
+        "missing": 0,
+        "incomplete": 0,
+        "entry_missing": 0,
+        "unbacked": 1,
+        "duplicate": 0,
+        "predicate": "fail",
+        "detail": [
+          "  SELFTEST-UNBACKED `u`"
+        ]
+      },
+      "ok": true,
+      "stderr": ""
+    },
+    "f5_duplicate": {
+      "expected": {
+        "exit": 1,
+        "missing": 0,
+        "incomplete": 0,
+        "entry_missing": 0,
+        "unbacked": 0,
+        "duplicate": 1
+      },
+      "actual": {
+        "exit": 1,
+        "advertised": 1,
+        "registered": 1,
+        "missing": 0,
+        "incomplete": 0,
+        "entry_missing": 0,
+        "unbacked": 0,
+        "duplicate": 1,
+        "predicate": "fail",
+        "detail": [
+          "  DUPLICATE-ROW `t`"
+        ]
+      },
+      "ok": true,
+      "stderr": ""
+    },
+    "f6_knowledge": {
+      "expected": {
+        "exit": 1,
+        "missing": 1,
+        "incomplete": 0,
+        "entry_missing": 0,
+        "unbacked": 0,
+        "duplicate": 0
+      },
+      "actual": {
+        "exit": 1,
+        "advertised": 2,
+        "registered": 1,
+        "missing": 1,
+        "incomplete": 0,
+        "entry_missing": 0,
+        "unbacked": 0,
+        "duplicate": 0,
+        "predicate": "fail",
+        "detail": [
+          "  MISSING plans/kb_tool.py"
+        ]
+      },
+      "ok": true,
+      "stderr": ""
+    },
+    "combined": {
+      "expected": {
+        "exit": 1,
+        "missing": 2,
+        "incomplete": 1,
+        "entry_missing": 1,
+        "unbacked": 1,
+        "duplicate": 1
+      },
+      "actual": {
+        "exit": 1,
+        "advertised": 3,
+        "registered": 2,
+        "missing": 2,
+        "incomplete": 1,
+        "entry_missing": 1,
+        "unbacked": 1,
+        "duplicate": 1,
+        "predicate": "fail",
+        "detail": [
+          "  MISSING plans/kb_tool.py",
+          "  MISSING plans/orphan_tool.py",
+          "  INCOMPLETE-ROW `blank`",
+          "  ENTRY-MISSING plans/ghost_tool.py",
+          "  SELFTEST-UNBACKED `unbacked`",
+          "  DUPLICATE-ROW `dup`"
+        ]
+      },
+      "ok": true,
+      "stderr": ""
+    }
+  },
+  "mutants": [
+    {
+      "id": "M1-missing-always-empty",
+      "leg": "MISSING",
+      "defect": "MISSING leg returns [] always (advertised-but-unregistered instruments invisible)",
+      "old": "missing = sorted(set(adv) - set(reg))",
+      "new": "missing = []",
+      "replacement_occurrences": 1,
+      "sha256": "5b8ae1f7e62d0cea7d6352d4b322283c1ef38dd61ae42104607468aadc861f42",
+      "focused": {
+        "fixture": "f1_missing",
+        "pristine": {
+          "exit": 1,
+          "advertised": 1,
+          "registered": 0,
+          "missing": 1,
+          "incomplete": 0,
+          "entry_missing": 0,
+          "unbacked": 0,
+          "duplicate": 0,
+          "predicate": "fail",
+          "detail": [
+            "  MISSING plans/orphan_tool.py"
+          ]
+        },
+        "mutant": {
+          "exit": 0,
+          "advertised": 1,
+          "registered": 0,
+          "missing": 0,
+          "incomplete": 0,
+          "entry_missing": 0,
+          "unbacked": 0,
+          "duplicate": 0,
+          "predicate": "pass",
+          "detail": []
+        },
+        "stderr": ""
+      },
+      "combined": {
+        "pristine": {
+          "exit": 1,
+          "advertised": 3,
+          "registered": 2,
+          "missing": 2,
+          "incomplete": 1,
+          "entry_missing": 1,
+          "unbacked": 1,
+          "duplicate": 1,
+          "predicate": "fail",
+          "detail": [
+            "  MISSING plans/kb_tool.py",
+            "  MISSING plans/orphan_tool.py",
+            "  INCOMPLETE-ROW `blank`",
+            "  ENTRY-MISSING plans/ghost_tool.py",
+            "  SELFTEST-UNBACKED `unbacked`",
+            "  DUPLICATE-ROW `dup`"
+          ]
+        },
+        "mutant": {
+          "exit": 1,
+          "advertised": 3,
+          "registered": 2,
+          "missing": 0,
+          "incomplete": 1,
+          "entry_missing": 1,
+          "unbacked": 1,
+          "duplicate": 1,
+          "predicate": "fail",
+          "detail": [
+            "  INCOMPLETE-ROW `blank`",
+            "  ENTRY-MISSING plans/ghost_tool.py",
+            "  SELFTEST-UNBACKED `unbacked`",
+            "  DUPLICATE-ROW `dup`"
+          ]
+        }
+      },
+      "verdict": "killed",
+      "focus_changed_families": [
+        "missing"
+      ]
+    },
+    {
+      "id": "M2-incomplete-ignores-blanks",
+      "leg": "INCOMPLETE",
+      "defect": "INCOMPLETE test all->any: fires only on fully-empty rows, which the separator guard already drops -> rows with blank cells are ignored",
+      "old": "incomplete = [r[0] for r in rows if not all(r)]",
+      "new": "incomplete = [r[0] for r in rows if not any(r)]",
+      "replacement_occurrences": 1,
+      "sha256": "ad48df934cb5d6e07d5596e776bf6d4dad1e2381a5556bad9f2a0cf1bb99729b",
+      "focused": {
+        "fixture": "f2_incomplete",
+        "pristine": {
+          "exit": 1,
+          "advertised": 1,
+          "registered": 1,
+          "missing": 0,
+          "incomplete": 1,
+          "entry_missing": 0,
+          "unbacked": 0,
+          "duplicate": 0,
+          "predicate": "fail",
+          "detail": [
+            "  INCOMPLETE-ROW `t`"
+          ]
+        },
+        "mutant": {
+          "exit": 0,
+          "advertised": 1,
+          "registered": 1,
+          "missing": 0,
+          "incomplete": 0,
+          "entry_missing": 0,
+          "unbacked": 0,
+          "duplicate": 0,
+          "predicate": "pass",
+          "detail": []
+        },
+        "stderr": ""
+      },
+      "combined": {
+        "pristine": {
+          "exit": 1,
+          "advertised": 3,
+          "registered": 2,
+          "missing": 2,
+          "incomplete": 1,
+          "entry_missing": 1,
+          "unbacked": 1,
+          "duplicate": 1,
+          "predicate": "fail",
+          "detail": [
+            "  MISSING plans/kb_tool.py",
+            "  MISSING plans/orphan_tool.py",
+            "  INCOMPLETE-ROW `blank`",
+            "  ENTRY-MISSING plans/ghost_tool.py",
+            "  SELFTEST-UNBACKED `unbacked`",
+            "  DUPLICATE-ROW `dup`"
+          ]
+        },
+        "mutant": {
+          "exit": 1,
+          "advertised": 3,
+          "registered": 2,
+          "missing": 2,
+          "incomplete": 0,
+          "entry_missing": 1,
+          "unbacked": 1,
+          "duplicate": 1,
+          "predicate": "fail",
+          "detail": [
+            "  MISSING plans/kb_tool.py",
+            "  MISSING plans/orphan_tool.py",
+            "  ENTRY-MISSING plans/ghost_tool.py",
+            "  SELFTEST-UNBACKED `unbacked`",
+            "  DUPLICATE-ROW `dup`"
+          ]
+        }
+      },
+      "verdict": "killed",
+      "focus_changed_families": [
+        "incomplete"
+      ]
+    },
+    {
+      "id": "M3-entry-missing-skipped",
+      "leg": "ENTRY-MISSING",
+      "defect": "ENTRY-MISSING leg skipped (registry rows naming absent scripts pass)",
+      "old": "entry_missing = sorted(s for s in reg if not (lane / s).exists())",
+      "new": "entry_missing = []",
+      "replacement_occurrences": 1,
+      "sha256": "15b22319bccd85d63efd7ffc2ae64c377cb7fa823d40ea8d1a13956985de015d",
+      "focused": {
+        "fixture": "f3_entry_missing",
+        "pristine": {
+          "exit": 1,
+          "advertised": 0,
+          "registered": 1,
+          "missing": 0,
+          "incomplete": 0,
+          "entry_missing": 1,
+          "unbacked": 0,
+          "duplicate": 0,
+          "predicate": "fail",
+          "detail": [
+            "  ENTRY-MISSING plans/ghost_tool.py"
+          ]
+        },
+        "mutant": {
+          "exit": 0,
+          "advertised": 0,
+          "registered": 1,
+          "missing": 0,
+          "incomplete": 0,
+          "entry_missing": 0,
+          "unbacked": 0,
+          "duplicate": 0,
+          "predicate": "pass",
+          "detail": []
+        },
+        "stderr": ""
+      },
+      "combined": {
+        "pristine": {
+          "exit": 1,
+          "advertised": 3,
+          "registered": 2,
+          "missing": 2,
+          "incomplete": 1,
+          "entry_missing": 1,
+          "unbacked": 1,
+          "duplicate": 1,
+          "predicate": "fail",
+          "detail": [
+            "  MISSING plans/kb_tool.py",
+            "  MISSING plans/orphan_tool.py",
+            "  INCOMPLETE-ROW `blank`",
+            "  ENTRY-MISSING plans/ghost_tool.py",
+            "  SELFTEST-UNBACKED `unbacked`",
+            "  DUPLICATE-ROW `dup`"
+          ]
+        },
+        "mutant": {
+          "exit": 1,
+          "advertised": 3,
+          "registered": 2,
+          "missing": 2,
+          "incomplete": 1,
+          "entry_missing": 0,
+          "unbacked": 1,
+          "duplicate": 1,
+          "predicate": "fail",
+          "detail": [
+            "  MISSING plans/kb_tool.py",
+            "  MISSING plans/orphan_tool.py",
+            "  INCOMPLETE-ROW `blank`",
+            "  SELFTEST-UNBACKED `unbacked`",
+            "  DUPLICATE-ROW `dup`"
+          ]
+        }
+      },
+      "verdict": "killed",
+      "focus_changed_families": [
+        "entry_missing"
+      ]
+    },
+    {
+      "id": "M4-selftest-unbacked-false",
+      "leg": "SELFTEST-UNBACKED",
+      "defect": "selftest_unbacked() returns False always (unbacked self-test claims pass)",
+      "old": "return all(f not in body for f in flags)",
+      "new": "return False",
+      "replacement_occurrences": 1,
+      "sha256": "c9fcf63beb74dfffb79fbd7007632b8cd26e53bc64696a672e18889015cbf6b6",
+      "focused": {
+        "fixture": "f4_unbacked",
+        "pristine": {
+          "exit": 1,
+          "advertised": 1,
+          "registered": 1,
+          "missing": 0,
+          "incomplete": 0,
+          "entry_missing": 0,
+          "unbacked": 1,
+          "duplicate": 0,
+          "predicate": "fail",
+          "detail": [
+            "  SELFTEST-UNBACKED `u`"
+          ]
+        },
+        "mutant": {
+          "exit": 0,
+          "advertised": 1,
+          "registered": 1,
+          "missing": 0,
+          "incomplete": 0,
+          "entry_missing": 0,
+          "unbacked": 0,
+          "duplicate": 0,
+          "predicate": "pass",
+          "detail": []
+        },
+        "stderr": ""
+      },
+      "combined": {
+        "pristine": {
+          "exit": 1,
+          "advertised": 3,
+          "registered": 2,
+          "missing": 2,
+          "incomplete": 1,
+          "entry_missing": 1,
+          "unbacked": 1,
+          "duplicate": 1,
+          "predicate": "fail",
+          "detail": [
+            "  MISSING plans/kb_tool.py",
+            "  MISSING plans/orphan_tool.py",
+            "  INCOMPLETE-ROW `blank`",
+            "  ENTRY-MISSING plans/ghost_tool.py",
+            "  SELFTEST-UNBACKED `unbacked`",
+            "  DUPLICATE-ROW `dup`"
+          ]
+        },
+        "mutant": {
+          "exit": 1,
+          "advertised": 3,
+          "registered": 2,
+          "missing": 2,
+          "incomplete": 1,
+          "entry_missing": 1,
+          "unbacked": 0,
+          "duplicate": 1,
+          "predicate": "fail",
+          "detail": [
+            "  MISSING plans/kb_tool.py",
+            "  MISSING plans/orphan_tool.py",
+            "  INCOMPLETE-ROW `blank`",
+            "  ENTRY-MISSING plans/ghost_tool.py",
+            "  DUPLICATE-ROW `dup`"
+          ]
+        }
+      },
+      "verdict": "killed",
+      "focus_changed_families": [
+        "unbacked"
+      ]
+    },
+    {
+      "id": "M5-duplicate-check-removed",
+      "leg": "DUPLICATE",
+      "defect": "DUPLICATE check removed (registry rows may repeat a name)",
+      "old": "duplicate = sorted({n for n in names if names.count(n) > 1})",
+      "new": "duplicate = []",
+      "replacement_occurrences": 1,
+      "sha256": "a3bd11a83b12e9a89de4a241ae41ad34b37bd2848e67187ee4b3fceecebcca1a",
+      "focused": {
+        "fixture": "f5_duplicate",
+        "pristine": {
+          "exit": 1,
+          "advertised": 1,
+          "registered": 1,
+          "missing": 0,
+          "incomplete": 0,
+          "entry_missing": 0,
+          "unbacked": 0,
+          "duplicate": 1,
+          "predicate": "fail",
+          "detail": [
+            "  DUPLICATE-ROW `t`"
+          ]
+        },
+        "mutant": {
+          "exit": 0,
+          "advertised": 1,
+          "registered": 1,
+          "missing": 0,
+          "incomplete": 0,
+          "entry_missing": 0,
+          "unbacked": 0,
+          "duplicate": 0,
+          "predicate": "pass",
+          "detail": []
+        },
+        "stderr": ""
+      },
+      "combined": {
+        "pristine": {
+          "exit": 1,
+          "advertised": 3,
+          "registered": 2,
+          "missing": 2,
+          "incomplete": 1,
+          "entry_missing": 1,
+          "unbacked": 1,
+          "duplicate": 1,
+          "predicate": "fail",
+          "detail": [
+            "  MISSING plans/kb_tool.py",
+            "  MISSING plans/orphan_tool.py",
+            "  INCOMPLETE-ROW `blank`",
+            "  ENTRY-MISSING plans/ghost_tool.py",
+            "  SELFTEST-UNBACKED `unbacked`",
+            "  DUPLICATE-ROW `dup`"
+          ]
+        },
+        "mutant": {
+          "exit": 1,
+          "advertised": 3,
+          "registered": 2,
+          "missing": 2,
+          "incomplete": 1,
+          "entry_missing": 1,
+          "unbacked": 1,
+          "duplicate": 0,
+          "predicate": "fail",
+          "detail": [
+            "  MISSING plans/kb_tool.py",
+            "  MISSING plans/orphan_tool.py",
+            "  INCOMPLETE-ROW `blank`",
+            "  ENTRY-MISSING plans/ghost_tool.py",
+            "  SELFTEST-UNBACKED `unbacked`"
+          ]
+        }
+      },
+      "verdict": "killed",
+      "focus_changed_families": [
+        "duplicate"
+      ]
+    },
+    {
+      "id": "M6-universe-drops-knowledge",
+      "leg": "advertised-universe",
+      "defect": "self_assessment_files() no longer scans corpus/knowledge/*.md (instruments advertised only there become invisible to MISSING)",
+      "old": "files += sorted(kdir.glob(\"*.md\"))",
+      "new": "pass",
+      "replacement_occurrences": 1,
+      "sha256": "6b611f9d9cd8c9a097c696b161ff7f70e5253986c6a71c4a84d7b2c220903487",
+      "focused": {
+        "fixture": "f6_knowledge",
+        "pristine": {
+          "exit": 1,
+          "advertised": 2,
+          "registered": 1,
+          "missing": 1,
+          "incomplete": 0,
+          "entry_missing": 0,
+          "unbacked": 0,
+          "duplicate": 0,
+          "predicate": "fail",
+          "detail": [
+            "  MISSING plans/kb_tool.py"
+          ]
+        },
+        "mutant": {
+          "exit": 0,
+          "advertised": 1,
+          "registered": 1,
+          "missing": 0,
+          "incomplete": 0,
+          "entry_missing": 0,
+          "unbacked": 0,
+          "duplicate": 0,
+          "predicate": "pass",
+          "detail": []
+        },
+        "stderr": ""
+      },
+      "combined": {
+        "pristine": {
+          "exit": 1,
+          "advertised": 3,
+          "registered": 2,
+          "missing": 2,
+          "incomplete": 1,
+          "entry_missing": 1,
+          "unbacked": 1,
+          "duplicate": 1,
+          "predicate": "fail",
+          "detail": [
+            "  MISSING plans/kb_tool.py",
+            "  MISSING plans/orphan_tool.py",
+            "  INCOMPLETE-ROW `blank`",
+            "  ENTRY-MISSING plans/ghost_tool.py",
+            "  SELFTEST-UNBACKED `unbacked`",
+            "  DUPLICATE-ROW `dup`"
+          ]
+        },
+        "mutant": {
+          "exit": 1,
+          "advertised": 2,
+          "registered": 2,
+          "missing": 1,
+          "incomplete": 1,
+          "entry_missing": 1,
+          "unbacked": 1,
+          "duplicate": 1,
+          "predicate": "fail",
+          "detail": [
+            "  MISSING plans/orphan_tool.py",
+            "  INCOMPLETE-ROW `blank`",
+            "  ENTRY-MISSING plans/ghost_tool.py",
+            "  SELFTEST-UNBACKED `unbacked`",
+            "  DUPLICATE-ROW `dup`"
+          ]
+        }
+      },
+      "verdict": "killed",
+      "focus_changed_families": [
+        "missing"
+      ]
+    }
+  ],
+  "selftest_battery": [
+    {
+      "variant": "pristine",
+      "exit": 0
+    },
+    {
+      "variant": "M1-missing-always-empty",
+      "exit": 1
+    },
+    {
+      "variant": "M2-incomplete-ignores-blanks",
+      "exit": 1
+    },
+    {
+      "variant": "M3-entry-missing-skipped",
+      "exit": 0
+    },
+    {
+      "variant": "M4-selftest-unbacked-false",
+      "exit": 0
+    },
+    {
+      "variant": "M5-duplicate-check-removed",
+      "exit": 0
+    },
+    {
+      "variant": "M6-universe-drops-knowledge",
+      "exit": 0
+    }
+  ],
+  "restoration": {
+    "prod_sha256_after": "9e6f41a457ec2d847f81d513d30545d982e0a118b4cfa8452af34e1d1a509e6b",
+    "prod_unchanged": true,
+    "restored_copy_sha256": "9e6f41a457ec2d847f81d513d30545d982e0a118b4cfa8452af34e1d1a509e6b",
+    "restored_fingerprint": {
+      "exit": 1,
+      "advertised": 3,
+      "registered": 2,
+      "missing": 2,
+      "incomplete": 1,
+      "entry_missing": 1,
+      "unbacked": 1,
+      "duplicate": 1,
+      "predicate": "fail",
+      "detail": [
+        "  MISSING plans/kb_tool.py",
+        "  MISSING plans/orphan_tool.py",
+        "  INCOMPLETE-ROW `blank`",
+        "  ENTRY-MISSING plans/ghost_tool.py",
+        "  SELFTEST-UNBACKED `unbacked`",
+        "  DUPLICATE-ROW `dup`"
+      ]
+    },
+    "pristine_fingerprint": {
+      "exit": 1,
+      "advertised": 3,
+      "registered": 2,
+      "missing": 2,
+      "incomplete": 1,
+      "entry_missing": 1,
+      "unbacked": 1,
+      "duplicate": 1,
+      "predicate": "fail",
+      "detail": [
+        "  MISSING plans/kb_tool.py",
+        "  MISSING plans/orphan_tool.py",
+        "  INCOMPLETE-ROW `blank`",
+        "  ENTRY-MISSING plans/ghost_tool.py",
+        "  SELFTEST-UNBACKED `unbacked`",
+        "  DUPLICATE-ROW `dup`"
+      ]
+    },
+    "identical_output": true
+  }
+}

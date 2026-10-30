@@ -1,0 +1,12 @@
+CASE uv-decoy-script
+ARGV ["uv", "run", "--no-project", "--offline", "python3", "-cprint('wrapper green')", "python3", "plans/fixture_gate.py"]
+== r54 counter over the laundering fixture (unchanged module) ==
+ROWS registry=1 ledger=1 missing=0 extra=0 argv_defect=0 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1
+SOURCE rev=6682f5c37340274c801e8b1ee7c2ae379a426f68 clean=yes lane_rev_equal=yes
+RUN executed=1 timeout=0 mismatched=0 evidence_missing=0 laundered=0
+TIPSTATE entry_declared_green=1 entry_declared_red=0 observed_green=1 observed_red=0
+MIGRATION redeclared=0 r53_green_nonentry=0
+PREDICATE R54-C2 pass
+COUNTER EXIT 0
+TRUE REGISTRY ENTRY ["python3", "plans/fixture_gate.py"] exit=1 out=entry failed: fixture gate is broken on purpose
+ROUTE laundering demonstrated (r54 rc=0, true entry exit=1)

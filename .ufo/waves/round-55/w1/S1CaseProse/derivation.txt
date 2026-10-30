@@ -1,0 +1,22 @@
+# S1CaseProse — re-derivation receipt (not a grader run)
+# command: python3 /fast/scratch/hyaku/kengaku-r55/S1CaseProse/derive_cases.py
+# host: plazir27  date: 2026-10-30T15:30:46Z
+
+python: 3.14.8 | locale preferred encoding: UTF-8
+grader sha256 pin: a540714e0156fc14564badedcb48d1f7b69a4b457d876036535439b30cb8f286
+both-lowercase-two-lines   predicted=PASS derived=PASS tokens=['g2g4', 'e2e4']
+both-space-separated       predicted=PASS derived=PASS tokens=['g2g4', 'e2e4']
+reversed-order             predicted=PASS derived=PASS tokens=['e2e4', 'g2g4']
+single-move-only           predicted=FAIL derived=FAIL tokens=['g2g4']
+uppercase-white            predicted=FAIL derived=FAIL tokens=['G2G4', 'e2e4']
+extra-decoy-move           predicted=FAIL derived=FAIL tokens=['g2g4', 'e2e4', 'a2a3']
+duplicate-move             predicted=FAIL derived=FAIL tokens=['g2g4', 'e2e4', 'e2e4']
+whitespace-padded          predicted=PASS derived=PASS tokens=['g2g4', 'e2e4']
+empty-file                 predicted=FAIL derived=FAIL tokens=[]
+crlf-line-endings          predicted=PASS derived=PASS tokens=['g2g4', 'e2e4']
+instruction-example-h1h8   predicted=FAIL derived=FAIL tokens=['h1h8', 'e2e4']
+fullwidth-unicode-digit    predicted=FAIL derived=FAIL tokens=['g２g4', 'e2e4']
+cases=12 derived_agree=12 disagreements=[]
+NBSP separator (not in the frozen table) -> ['g2g4', 'e2e4'] passes: True
+U+FF12 is whitespace: False
+exit=0
