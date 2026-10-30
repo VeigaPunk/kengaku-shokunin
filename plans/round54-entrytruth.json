@@ -475,9 +475,9 @@
    ],
    "entry_exit": 1,
    "entry_state": "red",
-   "evidence": "V4 DEFECT knowledge files=57 index rows=57 (want 42/42)",
-   "reason": "the instrument exits 1 on the clean tree at this tip; the evidence fragment is verbatim from its own output",
-   "sec": 0.7
+   "evidence": "V4 DEFECT knowledge files=58 index rows=58 (want 42/42)",
+   "reason": "re-measured at the round-55 base tip: the instrument still exits 1 on the clean tree and the declared fragment is re-derived verbatim from its current output, replacing the stale round-54 fragment",
+   "sec": 0.5
   },
   "round35-hardening": {
    "chosen": "r53-entry",
@@ -887,6 +887,76 @@
    "evidence": "SETUP --source and --work are required unless --dry",
    "reason": "the tip-state counter has no argument-free entry mode: bare invocation prints usage and exits 2; its entry contract requires --source and --work scratch arguments which the registry cell does not name",
    "sec": 0.1
+  },
+  "round54-c1": {
+   "chosen": "hand-contract",
+   "entry_argv": [
+    "python3",
+    "plans/round54_c1_anchor.py",
+    "verify",
+    "--anchor",
+    "corpus/evidence/round54/anchor",
+    "--claims",
+    "plans/round-54-claims.md",
+    "--source",
+    ".",
+    "--work",
+    "work/anchor-verify-row",
+    "--controls"
+   ],
+   "entry_exit": 1,
+   "entry_state": "red",
+   "evidence": "ModuleNotFoundError: No module named 'opentimestamps'",
+   "reason": "the advertised verify entry needs the opentimestamps python library, which lived only in the round-54 scratch venv and is importable by no interpreter on this host now, so the entry dies at import with exit 1",
+   "sec": 0.4
+  },
+  "round54-c2": {
+   "chosen": "hand-contract",
+   "entry_argv": [
+    "python3",
+    "plans/round54_c2_entrytruth.py",
+    "--lane",
+    "."
+   ],
+   "entry_exit": 2,
+   "entry_state": "red",
+   "evidence": "SETUP --source and --work are required unless --dry",
+   "reason": "the counter's entry without --source and --work exits 2 printing the SETUP line, at the base tip and identically at the landing tip; the fragment is verbatim from its own output on the measured tree",
+   "sec": 0.6
+  },
+  "round55-c2": {
+   "chosen": "bare",
+   "entry_argv": [
+    "python3",
+    "plans/round55_c2_entryargv.py"
+   ],
+   "entry_exit": 2,
+   "entry_state": "red",
+   "evidence": "SETUP --source and --work are required unless --dry",
+   "reason": "the new binding counter's bare entry requires --source and --work and exits 2 printing the SETUP line on stderr; the evidence fragment is verbatim from its own output on the measured tree",
+   "sec": 0.1
+  },
+  "round55-c2-controls": {
+   "chosen": "bare",
+   "entry_argv": [
+    "python3",
+    "plans/round55_c2_controls.py"
+   ],
+   "entry_exit": 2,
+   "entry_state": "red",
+   "evidence": "one of the arguments --case --selftest is required",
+   "reason": "the fixture builder's bare entry meets argparse's required mutually exclusive group and exits 2 with a usage error; the evidence fragment is verbatim from its own stderr on the measured tree",
+   "sec": 0.3
+  },
+  "round55-c3": {
+   "chosen": "bare",
+   "entry_argv": [
+    "python3",
+    "plans/round55_c3_chess_probe.py"
+   ],
+   "entry_exit": 0,
+   "entry_state": "green",
+   "sec": 0.4
   },
   "routed-findings": {
    "chosen": "r53-entry",
