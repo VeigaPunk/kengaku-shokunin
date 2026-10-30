@@ -1703,3 +1703,15 @@ Before commands and exits are committed in `corpus/evidence/round54/c1-before.tx
 - Tools: opentimestamps-client 0.8.0 and opentimestamps 0.5.0, uv pip official Python index,
   scratch venv for timestamp experiment; E9 also installed the same client via uv tool and
   isolated uv execution. No pacman. Failed demonstration is not a capability-table entry.
+
+### Round-54 measured close
+
+Clean revision `9a0746bec7c809e1eca2a88070d1fc6a941c39a7`: C1 exit1, header absent;
+C2 exit1, executed78, evidence_missing1, laundered1, green61/red17, redeclared4.
+Receipts `.ufo/waves/round-54/integrate/c1-after.txt`, `c2-after.txt`.
+Registry closure regressed: two new counter paths advertised without rows
+(`integrate/round52-c2-regression.txt`). Operability9→8 harmed; all other axis scores
+held, no capability. Quality harmed, expansion/discernment unchanged; rejected-harmed
+honest-stop. Strict attack share16/66=24.24% missed the floor; 15 empty terminal outputs
+and a partial output are not clearance. Census end exit0, rows193, A164/B24/C5,
+mined172/rejected13/queued8 (`integrate/census-end.txt`). No fleet-root misroot found.

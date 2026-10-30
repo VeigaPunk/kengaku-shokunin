@@ -72,3 +72,21 @@ actionability 3/5 (Q44 and concrete reproducers identify repairs), conciseness 2
 counter drafts). Average 2.8/5. Highest-impact next-round changes: real positive OTS path before
 freeze; structural interpreter/entry binding before ledger scoring. The user should not treat this
 round as an admitted improvement; the published record explicitly says so.
+
+## Final measurement correction
+
+At `9a0746bec7c809e1eca2a88070d1fc6a941c39a7` the canonical C2 run executes 78 rows
+and fails: evidence_missing1, laundered1, observed green61/red17. The earlier 62/16
+was a declaration count, not the final observation. `integrate/round52-c2-regression.txt`
+shows a real operability regression: the old registry counter sees two newly advertised
+round54 counters without rows. SKILL.md is intentionally unchanged under the frozen rule,
+so operability is harmed (9→8), not held. Quality harmed; expansion and discernment unchanged.
+The r53 E8 no-harm receipt applies only to its earlier measured tip, not this landing.
+
+Additional mistake: documentation changes are counter inputs; measuring the ledger before
+integrating documentation missed this regression. Captured-by: Q41/Q43 and final canonical
+run. Disposition: mark the harm now; repair under the next freeze, not by changing this rule.
+Strict attack roles total16/66 (24.24%), not the broad initial18/66 including sentinels:
+the strict floor missed. Empty terminal outputs15 and partial C1Forge are not clearance
+(`integrate/wave-accounting.txt`). Two GitHub HTML captures with scanner hits were withheld
+before staging; raw docs remain (`EXCLUDED.txt`). No credential values printed or used.

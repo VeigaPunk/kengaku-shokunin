@@ -2371,3 +2371,27 @@ Re-freeze only after a real canonical positive OTS proof parses and header trust
 bind interpreter and entry arguments structurally, including abbreviations and uv decoys,
 before another registry truth claim. Re-execute migrated rows against the final measurement
 revision. Carry r52 repair until its order-check regression and masked K7 control are fixed.
+
+### Round-54 measured close — correction to the held-operability statement above
+
+Measured revision `9a0746bec7c809e1eca2a88070d1fc6a941c39a7`, clean shared clone.
+C1 canonical command: anchor header absent, predicate fail, exit 1.
+C2 canonical command: executed 78, timeout 0, mismatched 0, evidence_missing 1,
+laundered 1; declared green62/red16 versus observed green61/red17; redeclared4;
+predicate fail, exit 1. Receipts `integrate/c1-after.txt`, `c2-after.txt` beneath
+`.ufo/waves/round-54/`.
+
+**Operability harmed, 9→8**, superseding this section's earlier “remain 9” for operability:
+`integrate/round52-c2-regression.txt` records the prior registry counter reporting
+two missing newly advertised counter rows (`plans/round54_c1_anchor.py`,
+`plans/round54_c2_entrytruth.py`), exit 1. The frozen instruction forbids changing
+SKILL.md during this claim; the regression is exposed, not silently repaired or waived.
+Quality trend harmed on that concrete regression; expansion unchanged; discernment unchanged
+pending outside admit/reject spot-check. All other scores remain as recorded.
+No claim admitted and no capability enters. The round is rejected-harmed / honest-stop,
+not a successful no-harm improvement.
+
+Next-round prerequisite: restore registry closure under a newly frozen rule and remeasure
+the entry ledger after documentation integration, before new scope. Strict attack-role count
+is reviewer5+critic7+mutation-tester4=16/66 (24.24%); the initial 18/66 included sentinels.
+That strict 25% floor was missed and is a conformance defect; roles are not relabelled.
