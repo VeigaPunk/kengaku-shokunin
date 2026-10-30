@@ -22,3 +22,13 @@ The exact P1 definition is `.ufo/waves/round-53/p1-spec.md`. The frozen classifi
 ## Tip-state calibration
 
 `plans/round53-tipstate.json` is a self-assessment, including truthful red rows. `plans/round53_c2_tipstate.py` re-executes its declarations in isolated worker clones. A matching declaration measures calibration, not instrument quality: even an always-green gate can be described truthfully. Independent runs at b1f79a54 recorded one mismatch, the prematurely green `round53-c1` declaration (`w3/C2MeasureExecA.md`, `w3/C2MeasureExecB.md`). The final scored receipt must name its own revision.
+
+## Final measured predicates
+
+At clean revision d244d4d324636953cd7192f2586fe0332b874e57 both frozen commands exit 0:
+C1 prior-art rows 20, known 7 / bounded-search new 13, URLs 13, rejected 0; C2 executes
+78 declarations with no mismatch, timeout or missing evidence (green 66, red 12).
+Receipts: `.ufo/waves/round-53/claims/c1-final.txt`, `c2-final.txt`.
+These are literal predicate results, not independent round admission. SCORECARD keeps the
+novelty/calibration scores held because the recorded integrity, prior-examination and
+entry-argv limitations survive.

@@ -1657,3 +1657,20 @@ Inherited lane tip b1f79a54fec13c09e36eeae9b1bc8ba4d54aabbe; confirmations integ
   for no-network bwrap synthetic checks. No pacman transaction or serving-plane mutation.
 
 Final measurement revision and verdicts follow in an appended close entry; no score bump is implied here.
+
+### Round-53 measured close
+
+Both unchanged predicates pass on clean revision d244d4d324636953cd7192f2586fe0332b874e57:
+C1 confirmations 20, prior-art 20/20 (known 7, new 13, URLs 13), oracle 305/305;
+C2 executed 78, mismatched 0, evidence_missing 0, timeout 0, declared/observed green 66 and red 12.
+Commands and outputs: `.ufo/waves/round-53/claims/c1-final.txt`, `c2-final.txt`.
+WAVE-DONE w3 received; `.ufo/waves/round-53/w3-results.json` preserves all 32 settled outputs.
+B returned no pricing handoff and its wake failed HTTP 429 (retry-after-ms 13394000);
+the L1 completed that bounded source work directly, without a replacement seat. Touch B returned
+an error without mechanical results; mutation-counter output remained partial. None counts as clearance.
+
+The literal predicates are met, but novelty/calibration scores are held at 8/9: integrity,
+prior-examination and argv-laundering findings remain (`w3/C1CritOracle2.md`, `C1CritNeverRead.md`,
+`C2CritPredicate2.md`). Outside closure decides admission; no classifier or counter was changed
+to bury those findings. Final census 190 rows, exit 0; before 186, exit 0
+(`claims/census-round53.txt`). No new capability or coverage-score move is claimed.

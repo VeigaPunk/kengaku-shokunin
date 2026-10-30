@@ -41,3 +41,21 @@ Only the frozen predicates decide admission. Static presence-only labels concern
 ## Assimilation
 
 Assimilation: none. No considerthese proposal taken; frozen claims unchanged. Coverage cap questions remain open (kengaku round-25, round-33, round-51).
+
+## Measured close
+
+Unchanged C1 and C2 predicates both pass at d244d4d324636953cd7192f2586fe0332b874e57
+(`.ufo/waves/round-53/claims/c1-final.txt`, `c2-final.txt`). Prior art covers 20/20 confirmed
+tasks, known 7 / bounded-search new 13 / 13 URLs; C2 re-executes 78/78, zero mismatches or
+missing evidence, green 66 / red 12. These measurements do not erase the integrity/argv critiques:
+the SCORECARD holds novelty 8 and calibration 9 rather than claiming outside admission.
+
+W3 WAVE-DONE received with 32 settled results; round total dispatched 109. Scout B's empty output
+and failed wake (HTTP 429, retry-after-ms 13394000), Touch B's environment error and partial
+mutation-counter output remain in results; they are not independent clearance. The L1 completed
+the four missing pricing tasks from bounded archived tracker searches, without respawning a seat.
+No further attack or bypass reproduction followed the orchestrator's defensive/documentary boundary.
+
+Final census: 186→190 rows, exit 0→0; added tier A 3 and B 1, mined 3 and rejected 1.
+Fleet misroot sweep found only orchestrator `.scratch/` and Mori's `count-c1.cover`/`count-c2.cover`
+(owner path confirmed with `strings`); no kengaku misroot copied or deleted.

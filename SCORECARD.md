@@ -2291,3 +2291,45 @@ digest, per-finding verdict lines in `prior-art.md`, `confirmed is True`) and re
 comments/docstrings stripped, helper attribution) under a frozen forged-complete control (Q42); (2) price the three unpriced
 confirmed tasks; (3) the span-scoped `SELFTEST-UNBACKED` negation fix and unfrozen controls K5/K7 for the C2 counter.
 Coverage stays capped by the open L0 questions.
+
+## Round 53 — completed frozen measurements after operator-wrap-up re-dispatch
+
+Frozen claims: `plans/round-53-claims.md`, base 536925b5320fa64298030b4ee76a58fc4b82723f;
+classifier/freeze d40b7055, labels db90a6b7. No predicate, classifier, label or threshold changed
+after the resumed attempt began. The lowest axis remains coverage 7, capped by open L0 questions;
+the round continues its existing novelty/calibration claims and invokes no stagnation waiver.
+
+Measured revision for both final receipts: **d244d4d324636953cd7192f2586fe0332b874e57**, clean shared clone.
+
+| claim / axis | before → observed after | counting command | predicate / score disposition |
+|---|---|---|---|
+| R53-C1 / novelty | PINS/FREEZE absent or bad, confirmations 0, prior art 0 → 183 capture blobs matched, 305/305 oracle agreement, control disagreements 23, confirmations 20, prior-art rows 20 (known 7, new 13, URLs 13), no rejected rows | `python3 plans/round53_c1_triage.py --lane .` | **frozen predicate pass**, exit 0; novelty **8→8 held**, not independently admitted as a novelty improvement |
+| R53-C2 / calibration | registry 75, ledger 0 → registry/ledger 78, executed 78, mismatched 0, evidence_missing 0, timeout 0; declared/observed green 66, red 12 | `python3 plans/round53_c2_tipstate.py --lane . --source <clean clone> --work <scratch> --jobs 3 --timeout 900` | **frozen predicate pass**, exit 0; calibration **9→9 held** pending outside judgment of the bounded selected-argv claim |
+
+Receipts: `.ufo/waves/round-53/claims/c1-final.txt`, `c2-final.txt`; before receipts beside them.
+Do not silently replace the frozen rule with a stricter one: the literal measured predicates pass.
+The held scores distinguish that result from an unqualified expertise/admission claim:
+
+- `w3/C1CritOracle2.md` beneath `.ufo/waves/round-53/` shows forged coordinated history can preserve
+  FREEZE/ORACLE agreement. Content survived the critic's reads, but integrity was not proved.
+- `w3/C1CritNeverRead.md` finds prior examination of the same assertions; the frozen blocklist explicitly
+  excludes that evidence. Its narrow never-read definition passes, not a claim of never examined.
+- `w3/C2CritPredicate2.md` shows that selected selftest/help argv can launder a documented red entry
+  command, and that git configuration can contaminate workers. The landed ledger retains twelve red
+  entries; matching their declared exits is not a whole-registry semantic-truth proof.
+
+All other scores held: coverage 7, depth 9, operability 9, freshness 9, adjacency 9.
+No capability enters merely because these counters print pass. Existing registry rows remain
+instrument inventories, not outside admission. Source-backed interpretation and Q43 land without
+claiming new coverage; `corpus/lessons/round-53.md` records limitations and rejected material.
+
+Round shape: w1 35 seats, operator-stopped w2 42 dispatched, completion w3 32 settled = **109 dispatched**.
+W3's qualifying attack roles are reviewer 6 + critic 4 + mutation-tester 2 = 12/32 (37.5%).
+No replacement seats; missing/provider-failed outputs are not review clearance.
+
+### Planned (round 54)
+
+Await outside closure and usable provider routes. Any further claim must distinguish an immutable external
+history anchor from internally re-pinnable inputs, distinguish entry-command arguments from selftest/help
+arguments, and avoid calling already-examined tests novel. Carried round-52 SELFTEST-UNBACKED/K5/K7 fixes
+remain unlanded; no frozen predicate is retroactively amended here.
