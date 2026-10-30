@@ -1,0 +1,404 @@
+{
+ "lane": "kengaku",
+ "round": 54,
+ "wave": "w1",
+ "seats": 66,
+ "results": [
+  {
+   "name": "E1AnchorConfirm",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E1AnchorConfirm.md\"\n  ],\n  \"behavior\": \"Attempted the frozen proof upgrade twice; both returned exit 1. Did not write header or explorer receipts because no attestation was available.\",\n  \"evidence\": \"Both attempts printed `UPGRADE rc=1` with no details; attempted Python deserialization inspection failed because `DetachedTimestampFile.open` is unavailable. Disk guard reported 388.5G free on /fast/scratch/hyaku before timing out.\",\n  \"risks\": [\n    \"C1 attestation is still pending/unconfirmed; external-pin artifact acceptance is unmet.\",\n    \"Upgrade stderr is suppressed by the frozen counter, so the failure cause is not established.\"\n  ],\n  \"blockers\": [\n    \"No confirmed height/digest means no valid header.bin or explorer receipt can be fetched or produced.\",\n    \"Verify command was not run because there were no external-pin artifacts to verify.\"\n  ]\n}",
+   "note": null
+  },
+  {
+   "name": "E2LedgerRefine",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E2LedgerRefine/round54-entrytruth-refined.json\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E2LedgerRefine.md\"\n  ],\n  \"behavior\": \"Executed all 16 red entry argv rows hermetically in individual shared clones and refined only their reason/evidence fields. Preserved entry argv, exit, and state values.\",\n  \"evidence\": {\n    \"red_rows\": 16,\n    \"mismatches\": [\n      {\n        \"name\": \"scratch-root-guard\",\n        \"declared\": 2,\n        \"observed\": 1\n      }\n    ],\n    \"matching_rows\": 15,\n    \"examples\": [\n      \"adoption-check: evidence `entries=1 indexed=1 cited_rows=3 rows_present=3 rows_mined=3 usedby_ok=1 census=fail`\",\n      \"anchor-digest-check: evidence `rows=190 tokens=92 defects=21`\",\n      \"gate-flip-check: evidence `FLIPS total=3 unresolved=3`\"\n    ]\n  },\n  \"risks_and_blockers\": [\n    \"scratch-root-guard has a declared exit 2 but observed exit 1; retained frozen declaration unchanged and documented the discrepancy.\"\n  ],\n  \"verification\": \"Refinement helper parsed the emitted ledger JSON, counted 16 red rows, checked each evidence string against captured output, and listed the exit mismatch. No build/lint/test was run.\"\n}",
+   "note": null
+  },
+  {
+   "name": "E3R52RegistryFix",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \".ufo/waves/round-54/w1/E3R52RegistryFix/round52_c2_registry.py\",\n    \".ufo/waves/round-54/w1/E3R52RegistryFix/fixture-k5.md\",\n    \".ufo/waves/round-54/w1/E3R52RegistryFix/fixture-k7.md\",\n    \".ufo/waves/round-54/w1/E3R52RegistryFix/controls.json\",\n    \".ufo/waves/round-54/w1/E3R52RegistryFix/old-selftest.txt\",\n    \".ufo/waves/round-54/w1/E3R52RegistryFix/patched-selftest.txt\",\n    \".ufo/waves/round-54/w1/E3R52RegistryFix/old-lane.txt\",\n    \".ufo/waves/round-54/w1/E3R52RegistryFix/patched-lane.txt\",\n    \".ufo/waves/round-54/w1/E3R52RegistryFix/delta.diff\",\n    \".ufo/waves/round-54/w1/E3R52RegistryFix.md\"\n  ],\n  \"behavior\": \"Span-scoped negation now suppresses only the explicitly negated flag, retaining checks for the rest of the advertised selftest span. Adds K5 decoy-table and K7 entry-missing controls and selftest coverage. Old live lane run passed without reporting order-check; patched run reports SELFTEST-UNBACKED `order-check` and fails (expected red exposure).\",\n  \"exact_retained_evidence\": {\n    \"old_live_lane\": \"ADVERTISED total=77; REGISTERED total=77 rows=79; MISSING 0; INCOMPLETE 0; ENTRY-MISSING 0; SELFTEST-UNBACKED 0; DUPLICATE 0; PREDICATE R52-C2 pass; exit 0.\",\n    \"patched_live_lane\": \"ADVERTISED total=77; REGISTERED total=77 rows=79; MISSING 0; INCOMPLETE 0; ENTRY-MISSING 0; SELFTEST-UNBACKED 1; SELFTEST-UNBACKED `order-check`; DUPLICATE 0; PREDICATE R52-C2 fail; exit 1.\",\n    \"selftests\": \"Original: cases=3 failures=0, exit 0. Patched: cases=6 failures=0, exit 0; span-scoped-negation-fixture, K5-decoy-table and K7-entry-missing each `ok`.\",\n    \"K5_K7_fixtures\": \"`fixture-k5.md`, `fixture-k7.md`, and `controls.json` specify red expectations: K5 MISSING 1 / predicate fail / exit 1; K7 ENTRY-MISSING 1 / predicate fail / exit 1.\",\n    \"diff\": \"`delta.diff`: only changes are negation behavior and selftest additions for negation, K5 and K7.\"\n  },\n  \"risks\": [\n    \"Patched live lane is red for the existing `order-check` declaration; do not integrate as a clean lane verdict without resolving that row under L1 direction.\"\n  ],\n  \"blockers\": [],\n  \"checks_not_run\": \"Build/lint/test/formatter suites not run per fleet instructions; no git/jj mutation or tool installation. Commands and resulting counter/selftest outputs are retained in the wave directory.\"\n}",
+   "note": null
+  },
+  {
+   "name": "E4MigrationAudit",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \".ufo/waves/round-54/w1/E4MigrationAudit/migration.json\",\n    \".ufo/waves/round-54/w1/E4MigrationAudit/migration.md\",\n    \".ufo/waves/round-54/w1/E4MigrationAudit.md\"\n  ],\n  \"behavior\": \"Computed R54 migration from the two ledgers; REDECLARED 4; regression candidates 0; sampled live-registry cross-checks 5/5 matching.\",\n  \"exact_retained_evidence\": \"The 4 rows are round53-c2, scratch-root-guard, sources-adopt, and stage-scan; all R53 green/selftest and R54 entry red with entry_exit 2. The row-by-row prior argv, entry argv, reason, and five sampled script paths are retained in migration.json and migration.md.\",\n  \"risks_and_blockers\": \"No blockers. No gate reruns, tests, installs, or production/frozen-file edits.\"\n}",
+   "note": null
+  },
+  {
+   "name": "E5CensusGate",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \".ufo/waves/round-54/assimilation/reg-ids\",\n    \".ufo/waves/round-54/assimilation/staged-ids\",\n    \".ufo/waves/round-54/assimilation/collisions\",\n    \".ufo/waves/round-54/w1/E5CensusGate/census-mid.txt\",\n    \".ufo/waves/round-54/w1/E5CensusGate/mini-registry-proof.txt\",\n    \".ufo/waves/round-54/w1/E5CensusGate.md\"\n  ],\n  \"behavior\": \"Id collision census found 114 collisions (190 registered IDs, 175 staged IDs), so mass drift was recorded and the L0/adoption stop triggered. Census validation succeeded with 15 W04 warnings. The three-space mini-registry row collided successfully under the same 0\u20133-space grep anchor.\",\n  \"retained_evidence\": \"Counts: 190/175/114. Top five collisions: S077, S078, S079, S080, S081. Census exit 0; final line `kengaku\\\\tok\\\\t/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md`; warnings 15. Mini proof matched S077. Scratch removed; no tools installed.\",\n  \"risks_or_blockers\": []\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit01",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit01.md\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit01/audit.json\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit01/audit.md\"\n  ],\n  \"behavior\": \"Independently re-executed all three ledger entry argv commands in a shared clone using the counter's hermetic environment and 600-second per-row timeout. All script paths existed and all argv vectors were entry mode.\",\n  \"verdicts\": [\n    {\n      \"name\": \"adoption-check\",\n      \"declared\": 1,\n      \"observed\": 1,\n      \"fragment-match\": true,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"anchor-digest-check\",\n      \"declared\": 1,\n      \"observed\": 1,\n      \"fragment-match\": true,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"attrib-probe\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    }\n  ],\n  \"evidence\": \"audit.md records exact commands, execution tails, method, and evidence matches. No mismatches or timeouts. Scratch clone and driver removed. No tools installed.\",\n  \"risks_or_blockers\": []\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit02",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \".ufo/waves/round-54/w1/E6RowAudit02/audit.json\",\n    \".ufo/waves/round-54/w1/E6RowAudit02/audit.md\",\n    \".ufo/waves/round-54/w1/E6RowAudit02.md\"\n  ],\n  \"behavior\": \"Independently re-executed the three committed entry argv commands against shared clone 62e9bba5e4a0bed376890299aa6a09039db7e68 under counter hermetic_env with TMPDIR in seat scratch; each command had a 600-second timeout. All three scripts exist and all argv are entry-mode (no forbidden flags). Green rows declare no evidence fragments, so fragment-match is true/not applicable.\",\n  \"verdicts\": [\n    {\n      \"name\": \"benchmark-spec-audit\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": true,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"build-pmars-probe\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": true,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"catalog-probe\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": true,\n      \"verdict\": \"CONFIRMED\"\n    }\n  ],\n  \"evidence\": [\n    \"benchmark-spec-audit output: TOTAL task_count=812 distinct_task_ids=812 site_eval_strata=27 selected_count=16 program_html_targets=651 findings=0 exit=0\",\n    \"build-pmars-probe output: cases=22 observed_pass=7 observed_fail=15 mismatches=0\",\n    \"catalog-probe output: raw=ok hf_models=50 or_models=467 hf_schema_delta=4 or_schema_delta=0 verify=ok\"\n  ],\n  \"risks_and_blockers\": \"None observed for the audited rows. No tools installed or updated. Scratch was removed before yielding.\"\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit03",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \".ufo/waves/round-54/w1/E6RowAudit03/audit.json\",\n    \".ufo/waves/round-54/w1/E6RowAudit03/audit.md\",\n    \".ufo/waves/round-54/w1/E6RowAudit03.md\"\n  ],\n  \"behavior\": \"Independently re-executed each assigned entry argv in a shared clone using the frozen counter's hermetic_env and a 600-second timeout; all three declared exits matched, each script existed, and each argv was entry mode.\",\n  \"verdicts\": [\n    {\n      \"name\": \"config-projection\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"constraints-probe\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"coverage-census\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    }\n  ],\n  \"evidence\": \"Clone tip 62e9bba5e4a0bed376890299aa6a09039db7e68e. Commands and output-tail excerpts retained in audit.md; structured results in audit.json. Each is green, with no declared evidence fragment, so fragment-match is N/A rather than a failure. Seat scratch removed before completion.\",\n  \"risks\": [],\n  \"blockers\": [],\n  \"tooling\": \"No tools installed or updated.\"\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit04",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit04/audit.json\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit04/audit.md\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit04.md\"\n  ],\n  \"behavior\": \"Independent hermetic re-execution of the three assigned entry argv; script paths existed, argv were entry mode, observed exits matched declarations, none timed out. All evidence fields were empty, so fragment matching was not applicable.\",\n  \"verdicts\": [\n    {\n      \"name\": \"db-wal-probe\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"defect-ledger\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"extraction-policy-compare\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    }\n  ],\n  \"evidence\": \"Full executed argv and output tails are saved in audit.md; structured verdicts in audit.json. Disk status reported /fast/scratch/hyaku at 52% use with 390.6G free before clone. Scratch clone/driver removed. No tools installed or updated.\",\n  \"risks\": [],\n  \"blockers\": []\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit05",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \".ufo/waves/round-54/w1/E6RowAudit05/audit.json\",\n    \".ufo/waves/round-54/w1/E6RowAudit05/audit.md\",\n    \".ufo/waves/round-54/w1/E6RowAudit05.md\"\n  ],\n  \"behavior\": \"Independently re-executed all three entry argv commands under the counter's hermetic environment in a shared clone. Each argv passed entry-mode validation and each script existed. All declared exits were 0 and all observed exits were 0; green rows had no declared evidence fragment, so fragment-match is not applicable.\",\n  \"verdicts\": [\n    {\n      \"name\": \"feal-linear-probe\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment_match\": null,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"feal-probe\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment_match\": null,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"fibsqrt-probe\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment_match\": null,\n      \"verdict\": \"CONFIRMED\"\n    }\n  ],\n  \"evidence\": \"audit.md includes the three exact commands, run durations, script/argv checks, and captured output tails. Full captured output was used for comparison; working scratch clone and driver were removed before yield.\",\n  \"risks\": [],\n  \"blockers\": [],\n  \"verification\": \"Runs completed within the 600-second per-row timeout. No builds, tests, linters, formatters, or other verification were run.\"\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit06",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \".ufo/waves/round-54/w1/E6RowAudit06/audit.json\",\n    \".ufo/waves/round-54/w1/E6RowAudit06/audit.md\",\n    \".ufo/waves/round-54/w1/E6RowAudit06.md\"\n  ],\n  \"behavior\": \"Re-executed the three ledger entry argv in a shared clone at current tip using the counter's hermetic environment and per-row TMPDIR under seat scratch. Each script existed; all argv were entry mode; timeout was 600 seconds.\",\n  \"verdicts\": [\n    {\n      \"name\": \"gate-flip-check\",\n      \"declared\": 1,\n      \"observed\": 1,\n      \"fragment-match\": true,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"gate-timing\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"git-leak-probe\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    }\n  ],\n  \"evidence\": \"Clone HEAD 62e9bba5e4a0bed376890299aa6a09039db7e68e. Output tails and commands saved in audit.md; git-leak-probe final tail line was clipped in tool capture and that limitation is recorded. Scratch removed. No tools installed; no build/lint/test/formatter verification run.\",\n  \"risks_or_blockers\": \"git-leak-probe command exited as declared (0); clipped captured final tail line limits exact output-tail retention.\"\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit07",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit07/audit.json\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit07/audit.md\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit07.md\"\n  ],\n  \"behavior\": \"Independently reran all three declared entry argv in a shared clone using the counter's hermetic_env, with 600-second per-row timeout and scratch TMPDIR. All entry scripts existed and argv passed the entry-mode exclusions.\",\n  \"verdicts\": [\n    {\n      \"name\": \"git-webserver-probe\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"grader-perturb\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"hermetic-grader\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    }\n  ],\n  \"evidence\": \"Outputs and exact commands/tails are captured in audit.md. All rows are green; declared evidence fragments are not applicable (the red-row-only condition). Scratch clone and driver removed after receipts were copied.\",\n  \"risks\": [],\n  \"blockers\": [],\n  \"tooling_changes\": []\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit08",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit08/audit.json\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit08/audit.md\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit08.md\"\n  ],\n  \"behavior\": \"Independently re-executed all three assigned entry commands under counter hermetic environment; verified entry mode and script presence. All verdicts confirmed.\",\n  \"evidence\": {\n    \"clone_tip\": \"62e9bba5e4a0bed376890299aa6a09039db7e68e\",\n    \"verdicts\": [\n      {\n        \"name\": \"interval-reverdict\",\n        \"declared\": 0,\n        \"observed\": 0,\n        \"fragment_match\": null,\n        \"verdict\": \"CONFIRMED\"\n      },\n      {\n        \"name\": \"ledger-tip\",\n        \"declared\": 0,\n        \"observed\": 0,\n        \"fragment_match\": null,\n        \"verdict\": \"CONFIRMED\"\n      },\n      {\n        \"name\": \"mutant-direction-check\",\n        \"declared\": 1,\n        \"observed\": 1,\n        \"fragment_match\": true,\n        \"verdict\": \"CONFIRMED\"\n      }\n    ],\n    \"output_evidence\": [\n      \"interval-reverdict TOTAL ... stored_checks=119 mismatches=0\",\n      \"ledger-tip rows=9 closed=9 observed_pass=9 mismatches=0\",\n      \"mutant-direction-check fragment found; DIRECTIONS total=22 mislabelled=1\"\n    ]\n  },\n  \"risks_or_blockers\": \"No mismatch or unrun row. Green rows have no declared evidence fragment; fragment match is not applicable.\",\n  \"checks\": \"Only assigned entry-command re-executions were run; no build/lint/test/format checks.\"\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit09",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \".ufo/waves/round-54/w1/E6RowAudit09/audit.json\",\n    \".ufo/waves/round-54/w1/E6RowAudit09/audit.md\",\n    \".ufo/waves/round-54/w1/E6RowAudit09.md\"\n  ],\n  \"behavior\": \"Independently re-executed order-check, package-gate, and password-recovery-probe from the current shared-clone tip using counter hermetic_env and 600s per-row timeout. All script paths existed; all argv passed entry-mode validation. All observed exits match declaration; all rows confirmed. Green rows had no evidence fragment, so fragment-match is N/A.\",\n  \"evidence\": {\n    \"clone_tip\": \"62e9bba5e4a0bed376890299aa6a09039db7e68e\",\n    \"verdicts\": [\n      {\n        \"name\": \"order-check\",\n        \"declared\": 0,\n        \"observed\": 0,\n        \"fragment-match\": null,\n        \"verdict\": \"CONFIRMED\"\n      },\n      {\n        \"name\": \"package-gate\",\n        \"declared\": 0,\n        \"observed\": 0,\n        \"fragment-match\": null,\n        \"verdict\": \"CONFIRMED\"\n      },\n      {\n        \"name\": \"password-recovery-probe\",\n        \"declared\": 0,\n        \"observed\": 0,\n        \"fragment-match\": null,\n        \"verdict\": \"CONFIRMED\"\n      }\n    ],\n    \"scratch\": \"Removed before handoff\"\n  },\n  \"risks_or_blockers\": \"None observed. No checks, installs, git mutations, or out-of-scope changes.\"\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit10",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \".ufo/waves/round-54/w1/E6RowAudit10/audit.json\",\n    \".ufo/waves/round-54/w1/E6RowAudit10/audit.md\",\n    \".ufo/waves/round-54/w1/E6RowAudit10.md\"\n  ],\n  \"behavior\": \"Re-executed all three ledger entry argv in shared clone HEAD 62e9bba5e4a0bed376890299aa6a09039db7e68 with counter hermetic environment and 600-second row timeout. All scripts existed, all argv were valid entry mode, and each observed exit was 0 matching declared 0. Green rows declare no evidence fragment, so fragment match is not applicable.\",\n  \"verdicts\": [\n    \"polyglot-c-py-probe: declared 0, observed 0, fragment-match n/a, CONFIRMED\",\n    \"regex-log-probe: declared 0, observed 0, fragment-match n/a, CONFIRMED\",\n    \"registry-reference-check: declared 0, observed 0, fragment-match n/a, CONFIRMED\"\n  ],\n  \"evidence\": \"Scoped audit.json and audit.md written. Output tails are recorded per row in audit.md.\",\n  \"risks_or_blockers\": \"None identified. No tools installed. Scratch directory removed. No tests/build/lint/formatter run.\"\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit11",
+   "agent": "executor",
+   "output": "{\n  \"status\": \"complete\",\n  \"files_changed\": [\n    \".ufo/waves/round-54/w1/E6RowAudit11/audit.json\",\n    \".ufo/waves/round-54/w1/E6RowAudit11/audit.md\",\n    \".ufo/waves/round-54/w1/E6RowAudit11.md\"\n  ],\n  \"verdicts\": [\n    {\n      \"name\": \"round-close-check\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment_match\": null,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"round28-census\",\n      \"declared\": 1,\n      \"observed\": 1,\n      \"fragment_match\": false,\n      \"verdict\": \"MISMATCH\"\n    },\n    {\n      \"name\": \"round30-defects\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment_match\": null,\n      \"verdict\": \"CONFIRMED\"\n    }\n  ],\n  \"evidence\": \"All three entry invocations were entry-mode and each script exists in clone tip 62e9bba5e4a0bed376890299aa6a09039db7e68e. Commands and observed output tails are recorded in audit.md. round28-census had matching exit code, but its declared evidence fragment was not verbatim in pretty-printed output.\",\n  \"risks_or_blockers\": \"No blockers. Scratch removed; no tools installed.\"\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit12",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \".ufo/waves/round-54/w1/E6RowAudit12/audit.json\",\n    \".ufo/waves/round-54/w1/E6RowAudit12/audit.md\",\n    \".ufo/waves/round-54/w1/E6RowAudit12.md\"\n  ],\n  \"behavior\": \"All three assigned rows were independently re-executed hermetically; each entry argv and script path were valid, and each declared exit matched the observed exit. Green rows had no evidence fragment, so fragment-match is n/a.\",\n  \"verdicts\": [\n    \"round31-c1-literals: declared 0, observed 0, fragment-match n/a \u2014 CONFIRMED\",\n    \"round31-defects: declared 0, observed 0, fragment-match n/a \u2014 CONFIRMED\",\n    \"round33-c1-literals: declared 0, observed 0, fragment-match n/a \u2014 CONFIRMED\"\n  ],\n  \"evidence\": \"Observed outputs: checks=6 defects=0; checks=10 defects=0; checks=8 defects=0. Full commands and results are recorded in audit.md and audit.json.\",\n  \"risks_or_blockers\": [],\n  \"verification\": \"No build, lint, tests, or formatters run, per wave instruction. Scratch clone and driver removed.\"\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit13",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit13/audit.json\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit13/audit.md\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit13.md\"\n  ],\n  \"behavior\": \"Independently reran the three assigned ledger entry argv under the counter hermetic environment from a shared clone of current tip. Confirmed all three declared exits; the red row's evidence fragment matched exactly. All argv were entry-mode and corresponding scripts existed.\",\n  \"evidence\": {\n    \"clone_tip\": \"62e9bba5e4a0bed376890299aa6a09039db7e68e\",\n    \"verdicts\": [\n      {\n        \"name\": \"round33-defects\",\n        \"declared\": 0,\n        \"observed\": 0,\n        \"fragment-match\": null,\n        \"verdict\": \"CONFIRMED\"\n      },\n      {\n        \"name\": \"round35-c1-coverage\",\n        \"declared\": 1,\n        \"observed\": 1,\n        \"fragment-match\": true,\n        \"verdict\": \"CONFIRMED\"\n      },\n      {\n        \"name\": \"round35-hardening\",\n        \"declared\": 0,\n        \"observed\": 0,\n        \"fragment-match\": null,\n        \"verdict\": \"CONFIRMED\"\n      }\n    ],\n    \"checks_run\": \"Only assigned entry-argv row executions; no build/lint/tests/formatter.\"\n  },\n  \"risks_or_blockers\": \"None. Scratch clone removed; no tools installed.\"\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit14",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \".ufo/waves/round-54/w1/E6RowAudit14/audit.json\",\n    \".ufo/waves/round-54/w1/E6RowAudit14/audit.md\",\n    \".ufo/waves/round-54/w1/E6RowAudit14.md\"\n  ],\n  \"behavior\": \"Independent hermetic entry-argv re-execution of the three assigned rows at shared-clone tip 62e9bba5e4a0bed376890299aa6a09039db7e68e. Each command completed within 600 seconds; all argv were entry mode and scripts existed.\",\n  \"verdicts\": [\n    {\n      \"name\": \"round36-c1-battery\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"round36-c2\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"round37-c1-mutants\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    }\n  ],\n  \"evidence\": \"Per-command commands, durations, and captured output tails are in audit.md; machine-readable verdicts in audit.json. Scratch clone and driver removed.\",\n  \"risks\": [],\n  \"blockers\": []\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit15",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit15/audit.json\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit15/audit.md\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit15.md\"\n  ],\n  \"behavior\": \"Independently reran all three assigned ledger entry commands in the current shared clone with the counter's hermetic environment. Every script existed and each invocation qualified as entry mode.\",\n  \"verdicts\": [\n    {\n      \"name\": \"round37-c2\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"round38-c1-mutants\",\n      \"declared\": 1,\n      \"observed\": 1,\n      \"fragment-match\": true,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"round38-c2\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    }\n  ],\n  \"evidence\": \"round37-c2 output had checks=7 defects=0 and PREDICATE C2 pass. round38-c1-mutants output contained exact fragment PINS total=14 mismatched=0 and exited 1. round38-c2 output had checks=7 defects=0 and exited 0. Commands and evidence recorded in audit.md.\",\n  \"risks_or_blockers\": [],\n  \"scratch\": \"Removed before handoff; no tools installed or updated.\"\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit16",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit16/audit.json\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit16/audit.md\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit16.md\"\n  ],\n  \"behavior\": \"Independently re-executed all three assigned entry argv in a shared clone using round54_c2_entrytruth.hermetic_env, scratch TMPDIR, and 600-second per-row limits. All scripts existed and argv were entry mode; all completed with observed exit 0 matching declared exit 0. Green rows have no evidence fragment, so fragment matching is N/A.\",\n  \"verdicts\": [\n    \"round39-c1-audit: declared=0 observed=0 fragment-match=N/A CONFIRMED\",\n    \"round39-c1-mutants: declared=0 observed=0 fragment-match=N/A CONFIRMED\",\n    \"round39-c2: declared=0 observed=0 fragment-match=N/A CONFIRMED\"\n  ],\n  \"retained_evidence\": \"audit.json contains three verdict lines; audit.md records exact argv and output tails. No mismatches, unrun rows, or timeouts. Scratch directory removed. No tools installed or updated.\",\n  \"risks_or_blockers\": []\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit17",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit17/audit.json\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit17/audit.md\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit17.md\"\n  ],\n  \"behavior\": \"Audited the three requested ledger entries independently at clone tip 62e9bba5e4a0bed376890299aa6a09039db7e68e using the frozen hermetic_env helper and 600-second per-entry timeout. Confirmed declared argv are entry mode and scripts exist.\",\n  \"verdicts\": [\n    {\n      \"name\": \"round40-c1-mutants\",\n      \"declared\": 1,\n      \"observed\": 1,\n      \"fragment_match\": true,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"round40-c2\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment_match\": null,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"round41-c1-mutants\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment_match\": null,\n      \"verdict\": \"CONFIRMED\"\n    }\n  ],\n  \"evidence\": \"Detailed commands/output excerpts are in audit.md; machine-readable verdicts in audit.json. First execution took 331.3s; second 3.1s; third 6.3s. No mismatch or unrun row. Disk guard showed 369.6G free on /fast/scratch/hyaku before its status command timed out. Scratch clone and driver were removed.\",\n  \"risks_or_blockers\": \"Tool response truncated display of output tails; exact excerpts with display truncation markers are recorded in audit.md. No tool installations or updates.\"\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit18",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit18/audit.json\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit18/audit.md\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit18.md\"\n  ],\n  \"behavior\": \"Re-executed all three assigned entry argv hermetically on clone tip 62e9bba5e4a0bed376890299aa6a09039db7e68e. Each declared exit 0 and observed exit 0; each referenced script exists and argv is entry mode. No timeouts. Green ledger rows have no evidence fragment, so fragment-match is N/A.\",\n  \"verdicts\": [\n    {\n      \"name\": \"round41-c2\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"round42-c1-mutants\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"round42-c2\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    }\n  ],\n  \"retained_evidence\": [\n    \".ufo/waves/round-54/w1/E6RowAudit18/audit.json\",\n    \".ufo/waves/round-54/w1/E6RowAudit18/audit.md\"\n  ],\n  \"risks_or_blockers\": \"None observed. Scratch clone and driver removed; no tools installed.\"\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit19",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit19.md\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit19/audit.md\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit19/audit.json\"\n  ],\n  \"behavior\": \"Independently re-executed the three assigned entry argv commands under imported round54 hermetic_env in a shared clone. All declared and observed exits matched; all were entry-mode argv with existing scripts. Green rows declare no evidence fragments.\",\n  \"verdicts\": [\n    {\n      \"name\": \"round43-c1-mutants\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment_match\": null,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"round43-c2\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment_match\": null,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"round44-c1-mutants\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment_match\": null,\n      \"verdict\": \"CONFIRMED\"\n    }\n  ],\n  \"evidence\": \"audit.md contains exact argv, referenced registry line numbers, and output-tail notes; audit.json records the verdicts. Scratch was deleted before yield. No tools installed or updated; no blockers observed.\"\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit20",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit20/audit.json\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit20/audit.md\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit20.md\"\n  ],\n  \"behavior\": \"Re-executed the three assigned registry entries in an isolated shared clone using the frozen counter hermetic_env. Each declared exit matched; scripts existed; argv had none of the prohibited non-entry switches. None of these green rows declares an evidence fragment, so fragment-match is n/a.\",\n  \"verdicts\": [\n    \"round44-c2 declared=0 observed=0 fragment-match=n/a CONFIRMED\",\n    \"round45-c1 declared=0 observed=0 fragment-match=n/a CONFIRMED\",\n    \"round45-c2 declared=0 observed=0 fragment-match=n/a CONFIRMED\"\n  ],\n  \"evidence\": \"audit.json records required verdict rows; audit.md records commands and observed output tails. Scratch clone removed. No checks run beyond the assigned row executions.\",\n  \"risks\": [],\n  \"blockers\": []\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit21",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \".ufo/waves/round-54/w1/E6RowAudit21/audit.json\",\n    \".ufo/waves/round-54/w1/E6RowAudit21/audit.md\",\n    \".ufo/waves/round-54/w1/E6RowAudit21.md\"\n  ],\n  \"behavior\": \"Re-executed the three assigned entry argv in a shared clone using imported hermetic_env and a per-row scratch TMPDIR. Verified each argv's entry mode and script existence. Removed seat scratch before finishing.\",\n  \"evidence\": {\n    \"clone_head\": \"62e9bba5e4a0bed376890299aa6a09039db7e68e\",\n    \"timeout_seconds_per_row\": 600,\n    \"verdicts\": [\n      {\n        \"name\": \"round46-c1\",\n        \"declared\": 0,\n        \"observed\": 0,\n        \"fragment_match\": null,\n        \"verdict\": \"CONFIRMED\"\n      },\n      {\n        \"name\": \"round46-c2\",\n        \"declared\": 0,\n        \"observed\": 0,\n        \"fragment_match\": null,\n        \"verdict\": \"CONFIRMED\"\n      },\n      {\n        \"name\": \"round46-c3\",\n        \"declared\": 1,\n        \"observed\": 1,\n        \"fragment_match\": true,\n        \"verdict\": \"CONFIRMED\"\n      }\n    ],\n    \"evidence_fragment\": \"round46-c3: V1 ok listed=8 wrong=0 extra=0\"\n  },\n  \"risks\": [],\n  \"blockers\": [],\n  \"checks_not_run\": \"No build, lint, test, formatter, or additional verification run.\"\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit22",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \".ufo/waves/round-54/w1/E6RowAudit22.md\",\n    \".ufo/waves/round-54/w1/E6RowAudit22/audit.json\",\n    \".ufo/waves/round-54/w1/E6RowAudit22/audit.md\"\n  ],\n  \"behavior\": \"Independently reran the three assigned ledger entry commands from a shared clone at 62e9bba5e4a0bed376890299aa6a09039db7e68e using the counter's hermetic_env and 600-second row timeouts. All declared entry arguments were valid entry mode, scripts existed in clone, and observed exits matched declarations. All are green rows without evidence fragments.\",\n  \"verdicts\": [\n    {\n      \"name\": \"round50-c1\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"round50-c2\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"round51-routing\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    }\n  ],\n  \"evidence\": \"Exact commands, runtime, and complete observed output tails are in .ufo/waves/round-54/w1/E6RowAudit22/audit.md. Structured verdicts are in audit.json. Scratch was removed after evidence capture.\",\n  \"risks\": [],\n  \"blockers\": [],\n  \"verification\": \"No builds, tests, lint, or formatters run. No tools installed or updated.\",\n  \"report\": \".ufo/waves/round-54/w1/E6RowAudit22.md\"\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit23",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit23.md\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit23/audit.json\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit23/audit.md\"\n  ],\n  \"behavior\": \"Independently reran the three declared entry argv commands in a shared clone at 62e9bba5e4a0bed376890299aa6a09039db7e68e using the frozen counter's hermetic_env and 600-second row timeout. Each argv passed entry-mode check; all scripts existed; all rows completed in 0.1 seconds.\",\n  \"verdicts\": [\n    {\n      \"name\": \"round51-surfaces\",\n      \"declared\": 1,\n      \"observed\": 1,\n      \"fragment-match\": false,\n      \"verdict\": \"NOT CONFIRMED\"\n    },\n    {\n      \"name\": \"round52-c1\",\n      \"declared\": 1,\n      \"observed\": 1,\n      \"fragment-match\": true,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"round52-c2\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    }\n  ],\n  \"evidence\": \"round51-surfaces declared fragment for rev 17f90355... was absent; actual output reported rev 62e9bba5... and ended with RESOLVE observed_present=12 floor=13 verdict=violated / PREDICATE R51-C1 fail. round52-c1 fragment appeared verbatim; its output ended with PREDICATE R52-C1-A5 pass. round52-c2 exited 0 and ended with PREDICATE R52-C2 pass.\",\n  \"risks_or_blockers\": \"round51-surfaces is unconfirmed despite matching exit because its declared evidence fragment does not match the observed clone revision. No tools were installed. Seat scratch was removed.\",\n  \"report_path\": \".ufo/waves/round-54/w1/E6RowAudit23.md\"\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit24",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit24/audit.json\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit24/audit.md\",\n    \"kengaku-shokunin/.ufo/waves/round-54/w1/E6RowAudit24.md\"\n  ],\n  \"behavior\": \"Re-executed all three ledger entry argv values in a shared clone at 62e9bba5e4a0bed376890299aa6a09039db7e68e, applying the frozen hermetic_env helper and 600-second timeout per row. All scripts existed and all argv values passed entry-mode checks; scratch was removed.\",\n  \"verdicts\": [\n    {\n      \"name\": \"round53-c1\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"round53-c2\",\n      \"declared\": 2,\n      \"observed\": 2,\n      \"fragment-match\": true,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"routed-findings\",\n      \"declared\": 0,\n      \"observed\": 0,\n      \"fragment-match\": null,\n      \"verdict\": \"CONFIRMED\"\n    }\n  ],\n  \"evidence\": \"Commands and observed output tails in audit.md; structured verdict rows in audit.json. No mismatches or timeouts. No tools installed.\",\n  \"risks\": [],\n  \"blockers\": []\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit25",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \".ufo/waves/round-54/w1/E6RowAudit25/audit.json\",\n    \".ufo/waves/round-54/w1/E6RowAudit25/audit.md\",\n    \".ufo/waves/round-54/w1/E6RowAudit25.md\"\n  ],\n  \"behavior\": \"Re-executed the three ledger argv in a shared current-tip clone using the frozen hermetic_env helper and 600-second per-row timeout. All script paths exist and argv are entry mode.\",\n  \"verdicts\": [\n    {\n      \"name\": \"scratch-root-guard\",\n      \"declared\": 2,\n      \"observed\": 1,\n      \"fragment_match\": true,\n      \"verdict\": \"MISMATCH\"\n    },\n    {\n      \"name\": \"sources-adopt\",\n      \"declared\": 2,\n      \"observed\": 2,\n      \"fragment_match\": true,\n      \"verdict\": \"CONFIRMED\"\n    },\n    {\n      \"name\": \"stage-scan\",\n      \"declared\": 2,\n      \"observed\": 2,\n      \"fragment_match\": true,\n      \"verdict\": \"CONFIRMED\"\n    }\n  ],\n  \"retained_evidence\": \"Audit files preserve commands, exit comparisons, evidence-fragment matches, and exact output tails. scratch-root-guard tail: CHECK red reason=sentinel-missing. Sources-adopt tail: argparse usage then unrecognized arguments. Stage-scan tail: ERROR unknown option --lane.\",\n  \"risks\": [\n    \"scratch-root-guard's committed declared exit (2) disagrees with observed exit (1); its textual reason describes exit 1.\"\n  ],\n  \"blockers\": [],\n  \"verification\": \"Only assigned executions were run; no builds, tests, linters, or formatters. Scratch removed before yield; no tool installs.\"\n}",
+   "note": null
+  },
+  {
+   "name": "E6RowAudit26",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \".ufo/waves/round-54/w1/E6RowAudit26/audit.json\",\n    \".ufo/waves/round-54/w1/E6RowAudit26/audit.md\",\n    \".ufo/waves/round-54/w1/E6RowAudit26.md\"\n  ],\n  \"behavior\": \"Independently re-executed the three specified ledger entry argv on shared clone HEAD 62e9bba5e4a0bed376890299aa6a09039db7e68. Used imported counter hermetic_env, row-specific scratch TMPDIR, and 600-second timeout. Each argv was verified entry-mode and each script existed in the clone.\",\n  \"evidence\": {\n    \"verdicts\": [\n      {\n        \"name\": \"state-assertion-check\",\n        \"declared\": 1,\n        \"observed\": 1,\n        \"fragment-match\": true,\n        \"verdict\": \"CONFIRMED\"\n      },\n      {\n        \"name\": \"tb2-grader-probe\",\n        \"declared\": 0,\n        \"observed\": 0,\n        \"fragment-match\": null,\n        \"verdict\": \"CONFIRMED\"\n      },\n      {\n        \"name\": \"tip-receipts\",\n        \"declared\": 0,\n        \"observed\": 0,\n        \"fragment-match\": null,\n        \"verdict\": \"CONFIRMED\"\n      }\n    ],\n    \"receipt\": \"Exact commands and output tails are recorded in .ufo/waves/round-54/w1/E6RowAudit26/audit.md; machine verdict lines in audit.json.\"\n  },\n  \"risks\": null,\n  \"blockers\": null\n}",
+   "note": null
+  },
+  {
+   "name": "E7NoharmR53C1",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \".ufo/waves/round-54/w1/E7NoharmR53C1.md\"\n  ],\n  \"behavior\": \"No files outside the assigned report path were modified. R53-C1 triage and selftest evidence are recorded; the supported triage invocation was used because the frozen script does not accept --work.\",\n  \"evidence\": \"Triage: PINS captures_blob_match=183; ORACLE tests=305 decided=305 disagree=0; PRIOR-ART rows=20; PREDICATE R53-C1 pass; exit 0. Selftest: cases=47 failures=0; exit 0. Compared with the provided round-53 final receipt, these requested values are unchanged.\",\n  \"risks_or_blockers\": \"The task's requested --work argument is unsupported by the frozen counter (initial invocation exited 2); the report documents this and the successful supported command. Disk guard status reported 368.4G free before its command timed out.\"\n}",
+   "note": null
+  },
+  {
+   "name": "E8NoharmR53C2",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \".ufo/waves/round-54/w1/E8NoharmR53C2.md\"\n  ],\n  \"behavior\": \"Recorded tip-state counter run and frozen-artifact diff result. R53-C2 predicate remains unchanged: 78 executed, 0 mismatches, 0 missing evidence, 66 green / 12 red.\",\n  \"exact_retained_evidence\": \"Counter stdout and exit 0 are in the report. `git diff --stat 17f90355c3ec17dcf15f7980d83f1943ae428fe5..HEAD -- SKILL.md plans/round53-tipstate.json plans/round53_c2_tipstate.py` produced no output (exit 0).\",\n  \"risks\": [],\n  \"blockers\": []\n}",
+   "note": null
+  },
+  {
+   "name": "E9CapabilityRun",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \".ufo/waves/round-54/w1/E9CapabilityRun/blocker.txt\"\n  ],\n  \"behavior\": \"The requested externally anchored freeze demonstration did not run. The initial verifier lacked `opentimestamps`; `uv tool install opentimestamps-client==0.8.0` installed the tool, but it did not make the module available to system Python. An isolated uv environment was installed, but the execution retry exited 128 before verification (the shared clone target existed/non-empty). No successful verification, deterministic-output hashes, or forged-integrity result were produced.\",\n  \"exact_retained_evidence\": \"`blocker.txt` records the attempted-run failure. Disk guard status reported /fast/scratch/hyaku at 55% use with 367.9G free. Tool installed: opentimestamps-client 0.8.0 via `uv tool install` (reason: verifier dependency).\",\n  \"risks_and_blockers\": \"Capability acceptance is unmet; only failed-attempt evidence is retained. Scratch cleanup did not complete: `/fast/scratch/hyaku/kengaku-r54/E9CapabilityRun` and `/fast/scratch/hyaku/kengaku-r54/E9CapabilityRun-venv` remain. No lane production files were modified.\"\n}",
+   "note": null
+  },
+  {
+   "name": "E10DigestChain",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \".ufo/waves/round-54/w1/E10DigestChain.md\",\n    \".ufo/waves/round-54/w1/E10DigestChain/walker.py\",\n    \".ufo/waves/round-54/w1/E10DigestChain/walker-output.txt\"\n  ],\n  \"behavior\": \"Independently verified all four claims-file digest sources match the frozen digest and found exactly one post-base commit touching the claims file. Parsed claims.ots with a separately written tree walker; its file digest matches, but it contains only four PendingAttestation values and no Bitcoin attestation, so no Bitcoin height/attested-digest path can be reported. Scratch clone and venv were removed before yield.\",\n  \"evidence\": \"Exact four digests and the one commit are stated in the report. Walker code and captured output are saved in the seat report directory.\",\n  \"risks_or_blockers\": [\n    \"Proof currently contains no BitcoinBlockHeaderAttestation; therefore this seat's independent evidence does not establish C1's Bitcoin-attestation leg.\"\n  ],\n  \"tooling\": \"Installed opentimestamps-client 0.8.0 and dependency opentimestamps 0.5.0 in isolated scratch using uv pip; reason: system Python lacked parser.\"\n}",
+   "note": null
+  },
+  {
+   "name": "S1KnowledgeEntry",
+   "agent": "scribe",
+   "output": "{\n  \"status\": \"complete\",\n  \"artifacts\": [\n    \".ufo/waves/round-54/w1/S1KnowledgeEntry/external-anchor-freeze.md\",\n    \".ufo/waves/round-54/w1/S1KnowledgeEntry.md\"\n  ],\n  \"integration_provenance_update\": \"S2SourcesRows reports six proposed rows at .ufo/waves/round-54/w1/S2SourcesRows/rows.md, including known preregistration prior art. This is peer-reported, not independently inspected here. Draft remains conditional and asserts no positive novelty verdict.\"\n}",
+   "note": null
+  },
+  {
+   "name": "S2SourcesRows",
+   "agent": "scribe",
+   "output": "{\n  \"status\": \"complete\",\n  \"behavior\": \"Drafted six SOURCES rows with placeholder ids TBD-S198 through TBD-S203 and per-row Gate material.\",\n  \"artifacts\": [\n    \".ufo/waves/round-54/w1/S2SourcesRows/rows.md\",\n    \".ufo/waves/round-54/w1/S2SourcesRows.md\"\n  ],\n  \"findings\": [\n    \"OTS sources describe known timestamping mechanisms, not novelty-award evidence.\",\n    \"Independently opened Zenodo 22769923 section 9 specifies Bitcoin-anchored preregistration before acquisition; its status explicitly remains NOT LOCKED, so no execution is inferred.\"\n  ],\n  \"gates\": \"No verification runtime or parser executed; reviewer notified for table-shape check.\",\n  \"limits\": [\n    \"Proposed mined status requires simultaneous knowledge-entry integration.\",\n    \"L1 assigns final ids and migrates hash-bearing captures to committed evidence before admission.\"\n  ],\n  \"touched_surfaces\": \"Only scoped draft/report files; empty seat scratch removed.\",\n  \"out_of_scope\": [\n    \"Production integration\",\n    \"Counter execution\",\n    \"Canonical judgment and scoring\",\n    \"Git mutations\"\n  ]\n}",
+   "note": null
+  },
+  {
+   "name": "S3LessonLogDrafts",
+   "agent": "scribe",
+   "output": "{\n  \"behavior\": \"Created all three scoped drafts, mirroring round-53 house style; pending measurements carry TBD and fill commands.\",\n  \"gates\": \"Inspected existing before, laundering-route, closed-route, environment and E5 receipts; no experiments or verification rerun.\",\n  \"touched_surfaces\": [\n    \".ufo/waves/round-54/w1/S3LessonLogDrafts/round-54.md\",\n    \".ufo/waves/round-54/w1/S3LessonLogDrafts/log-draft.md\",\n    \".ufo/waves/round-54/w1/S3LessonLogDrafts/scorecard-draft.md\",\n    \".ufo/waves/round-54/w1/S3LessonLogDrafts.md\"\n  ],\n  \"findings\": [\n    \"Selected-argv-laundering mistake pre-filled once, with red-before and failing closed-route evidence.\",\n    \"Assimilation remains TBD, expected none \u2014 mass id drift, attributed to E5.\",\n    \"No scores, actual wave counts or outside admission invented.\"\n  ],\n  \"out_of_scope\": \"No product edits, runtime execution, judge, git mutations, installs or scratch creation.\",\n  \"artifact_paths\": {\n    \"report\": \".ufo/waves/round-54/w1/S3LessonLogDrafts.md\",\n    \"draft_directory\": \".ufo/waves/round-54/w1/S3LessonLogDrafts/\"\n  }\n}",
+   "note": null
+  },
+  {
+   "name": "SC1PriorArt",
+   "agent": "scout",
+   "output": "{\n  \"seat\": \"SC1PriorArt\",\n  \"question\": \"Is anchoring research/measurement preregistration digests in a public blockchain (OpenTimestamps or equivalent) published practice?\",\n  \"answer\": \"Yes \u2014 verdict: known. Zenodo 22769923 (Phase 22.E prereg, 15 Sep 2026) publishes the full leg-(a) procedure: deposit prereg \u2192 ots stamp \u2192 wait for Bitcoin-block anchoring, record block height \u2192 only then acquire data and ots stamp the data CSV \u2192 report the block-height interval as 'the evidence of blinding' (\u00a79), with tools gated on the deposited SHA-256 (\u00a78). Mechanism legs are standard published practice (opentimestamps.org, Wikipedia: Bitcoin block header attestation + merkle verification; IETF draft-fassbender-scitt-time-anchor-08: VERIFY-ANCHOR, single-explorer verifier explicitly insufficient, false-finality/forged-commitment threats over an AI-safety-evaluation example). No fetched source bundles digest-before-measurement + \u22652-explorer receipt verification + forged-proof controls as one practice \u2192 R54-C1 instrument remainder = instrument-new; frozen rubric's replication clause applies: honest verdict replication/instrument-new, novelty holds at 8.\",\n  \"sweep\": {\n    \"queries\": 6,\n    \"fetch_attempts\": 7,\n    \"fetch_ok\": 6,\n    \"fetch_failed\": 1,\n    \"failures\": [\n      {\n        \"url\": \"tandfonline.com/doi/full/10.1080/29974100.2026.2639409\",\n        \"status\": \"HTTP 403\"\n      }\n    ],\n    \"stop_rationale\": \"item bound the sweep (3\u20136 fetches); after 6 fetches all three verdict dimensions (a)/(b)/(c) had primary-quote coverage; Q5 already answered the question directly\"\n  },\n  \"deliverables\": {\n    \"prior_art\": \".ufo/waves/round-54/w1/SC1PriorArt/prior-art.md\",\n    \"report\": \".ufo/waves/round-54/w1/SC1PriorArt.md\",\n    \"receipts_dir\": \".ufo/waves/round-54/w1/SC1PriorArt/fetched/ (7 files: 6 fetched + 1 failed, each with URL, access date 2026-10-30, verbatim located quotes)\",\n    \"fetched_urls\": [\n      \"https://zenodo.org/records/22769923 (files/184_phase22E_prereg_v1.md) \u2014 known (leg a published)\",\n      \"https://zenodo.org/records/22764720 (files/165_phase22_prereg_v1.md) \u2014 adjacent\",\n      \"https://datatracker.ietf.org/doc/draft-fassbender-scitt-time-anchor/ \u2014 known (b + adversarial c)\",\n      \"https://arxiv.org/html/2606.10625v1 \u2014 adjacent\",\n      \"https://opentimestamps.org/ \u2014 known (mechanism)\",\n      \"https://en.wikipedia.org/wiki/OpenTimestamps \u2014 known mechanism / adjacent research use\"\n    ]\n  },\n  \"risks_for_l1\": [\n    \"Provenance caution: Zenodo records' style closely matches this fleet's culture (phases, verdict tables, numbered lessons, OTS\u2192Bitcoin blinding interval); author \u03a7\u03c1\u03ae\u03c3\u03c4\u03bf\u03c2 \u03a0\u03b1\u03c0\u03b1\u03bd\u03b9\u03ba\u03bf\u03bb\u03ac\u03bf\u03c5 overlap with lane operator unresolved; lane greps show no prior citation of them. If same-origin, still external published artifacts but weaker independent prior art; IETF draft + OTS standard carry 'known' regardless.\",\n    \"Observed mid-wave: E1AnchorConfirm/E10DigestChain report claims.ots still pending-only (no Bitcoin attestation yet) \u2014 kill-rule relevant, outside my item.\",\n    \"IETF draft independently supports the \u22652-explorer-receipts leg: single-explorer verifier 'yields unverifiable rather than valid'.\"\n  ],\n  \"bounds\": {\n    \"subagents\": 0,\n    \"git_jj_mutations\": 0,\n    \"lane_production_files_touched\": 0,\n    \"scratch\": \"/fast/scratch/hyaku/kengaku-r54/SC1PriorArt created empty, removed before yield\",\n    \"tools_installed\": \"none\",\n    \"secrets\": \"none\"\n  }\n}",
+   "note": null
+  },
+  {
+   "name": "SC2OtsDocs",
+   "agent": "scout",
+   "output": "{\n  \"report\": \".ufo/waves/round-54/w1/SC2OtsDocs.md\",\n  \"rows_material\": \".ufo/waves/round-54/w1/SC2OtsDocs/rows-material.md\",\n  \"receipt_manifest\": \".ufo/waves/round-54/w1/SC2OtsDocs/fetched/manifest.json\",\n  \"source_blocks\": 6,\n  \"fetched_receipts\": 8,\n  \"confidence\": \"High for located documentary statements; no anchor verification or novelty adjudication performed.\",\n  \"key_findings\": [\n    \"Pending timestamps differ from Bitcoin-confirmed proofs.\",\n    \"BitcoinBlockHeaderAttestation binds the commitment digest to the header merkle root; header trust remains separate.\",\n    \"Independent Bitcoin reference grounds header[36:68] through documented field order and sizes.\"\n  ],\n  \"remaining_unknowns\": [\n    \"Upstream commit/version equivalence to installed tooling.\",\n    \"Novelty of the specific preregistration application; these sources document existing mechanisms.\"\n  ],\n  \"tools_installed\": [],\n  \"scratch_remaining\": false\n}",
+   "note": null
+  },
+  {
+   "name": "SC3ForgeRead",
+   "agent": "scout",
+   "output": "{\n  \"report\": \".ufo/waves/round-54/w1/SC3ForgeRead.md\",\n  \"vectors\": \".ufo/waves/round-54/w1/SC3ForgeRead/vectors.md\",\n  \"findings\": \"18 numbered attack mappings with frozen-claims quotations; eight routed gaps/boundaries copied into report.\",\n  \"priority_candidates\": [\n    \"A10: non-forbidden argument substitution remains unchecked against documented argv.\",\n    \"A11/B4: worker-local .git/config restoration absent.\",\n    \"A12: malformed timeout conversion remains unguarded; nonzero crash, not false PASS.\",\n    \"A2/A13: registry population/cell authenticity relies on frozen-artifact discipline.\"\n  ],\n  \"confidence\": \"High for quoted reports and inspected source; residual attack outcomes are inferences, not fresh reproductions.\",\n  \"verification\": \"No execution or tests performed. LSP unavailable; literal source fallback recorded.\",\n  \"cleanup\": \"No scratch created, tools installed, or git mutations performed.\"\n}",
+   "note": null
+  },
+  {
+   "name": "SC4BtcHeader",
+   "agent": "scout",
+   "output": "{\n  \"conclusion\": \"Latest-block sha256d agrees across all three explorers at height 973815; C1 anchor-block check remains PENDING: supplied proof has four PendingAttestations and no BitcoinBlockHeaderAttestation.\",\n  \"computed_hash\": \"00000000000000000000c4d9520d136813ac60c7ee8807435c19508eba9fa4a4\",\n  \"confidence\": \"High for header derivation and source agreement; no claim of C1 inclusion or chainwork verification.\",\n  \"report\": \".ufo/waves/round-54/w1/SC4BtcHeader.md\",\n  \"derivation\": \".ufo/waves/round-54/w1/SC4BtcHeader/header-check.md\",\n  \"receipts\": \".ufo/waves/round-54/w1/SC4BtcHeader/fetch-log.json\",\n  \"remaining_unknown\": \"Actual C1 Bitcoin attestation height unavailable; scratch-copy upgrade exited 1 waiting for confirmations.\",\n  \"scratch_removed\": true,\n  \"tools_installed\": []\n}",
+   "note": null
+  },
+  {
+   "name": "SC5SpotcheckDebt",
+   "agent": "scout",
+   "output": "{\n  \"report\": \".ufo/waves/round-54/w1/SC5SpotcheckDebt.md\",\n  \"deliverable\": \".ufo/waves/round-54/w1/SC5SpotcheckDebt/debts.md\",\n  \"findings\": \"Five debt-coverage rows completed. Three coverage L0 questions quoted at fleet queue lines 72, 163, 200; no corresponding queue resolution found. E3 repair exists but R4 reports DO-NOT-INTEGRATE. Mutation batteries are assigned, not demonstrated closed; never-examined guarantee remains unaddressed.\",\n  \"confidence\": \"High for documentary evidence; mid-wave snapshot only.\",\n  \"operations\": \"No counter executions, installations, git mutations, production edits, or scratch created.\"\n}",
+   "note": null
+  },
+  {
+   "name": "R1C1Counter",
+   "agent": "reviewer",
+   "output": "{\n  \"report\": \".ufo/waves/round-54/w1/R1C1Counter.md\",\n  \"review\": \".ufo/waves/round-54/w1/R1C1Counter/review.md\",\n  \"recommendation\": \"Do not rely on counter for C1 admission.\",\n  \"blockers\": [\n    \"Valid proofs rejected: deserialize receives raw stream instead of StreamDeserializationContext.\",\n    \"Independent walk uses nonexistent library attributes and returns integer keys consumed as timestamp objects.\",\n    \"Verifier wrongly requires attested Merkle root equal original file digest instead of reachable derived digest.\"\n  ],\n  \"verification\": {\n    \"literal_--selftest\": \"exit 2; unsupported spelling\",\n    \"selftest\": \"exit 0; 8/8 PASS, with vacuous pending/forged integrity cases\",\n    \"diagnostic_probe\": \"exit 0; reader/walker/control defects reproduced\",\n    \"lsp\": \"Unavailable: no mounted device\"\n  },\n  \"additional_findings\": \"Controls swallow wrong-arity exception as rejection; flipped byte is magic, not op path; failure count misreported. Receipt provenance/freshness, landing-time ordering, landing-tip and committed-anchor checks missing. Exit/diagnostic contracts inconsistent.\",\n  \"scratch_removed\": true,\n  \"production_changes\": false\n}",
+   "note": null
+  },
+  {
+   "name": "R2C2Counter",
+   "agent": "reviewer",
+   "output": "{\n  \"report\": \".ufo/waves/round-54/w1/R2C2Counter.md\",\n  \"review\": \".ufo/waves/round-54/w1/R2C2Counter/review.md\",\n  \"findings\": [\n    {\n      \"severity\": \"BLOCKER\",\n      \"finding\": \"Argparse --selft abbreviation launders a failing registry entry into a passing green declaration.\",\n      \"evidence\": \"laundering-probes.txt: true entry exit 1; unchanged full counter exit 0.\"\n    },\n    {\n      \"severity\": \"BLOCKER\",\n      \"finding\": \"uv validation accepts a decoy interpreter/script pair while inline Python executes instead of the gate.\",\n      \"evidence\": \"laundering-probes.txt: true entry exit 1; unchanged full counter exit 0.\"\n    },\n    {\n      \"severity\": \"MAJOR\",\n      \"finding\": \"ENV control is absent from the scoring predicate; standalone control passes with a no-scrubbing inherited-environment helper.\"\n    },\n    {\n      \"severity\": \"MINOR\",\n      \"finding\": \"Candidate provenance fields do not reproduce attempted candidates; bare-tagged ledger commands contain --lane.\"\n    },\n    {\n      \"severity\": \"MINOR\",\n      \"finding\": \"Frozen REDECLARED diagnostic is not emitted.\"\n    }\n  ],\n  \"verification\": {\n    \"selftest\": \"7/7 PASS; exit 0\",\n    \"dry\": \"78 registry / 78 ledger; zero static defects; exit 0; no predicate\",\n    \"full_registry_execution\": \"Not performed\",\n    \"lsp\": \"Unavailable: no mounted lsp device\",\n    \"scratch\": \"Removed\",\n    \"production_edits\": false,\n    \"tools_installed\": false\n  },\n  \"recommendation\": \"Do not treat C2 closure as established; two reproduced routes meet its frozen kill condition. Recommendation only, not scoring or admission.\"\n}",
+   "note": null
+  },
+  {
+   "name": "R3KnowledgeSources",
+   "agent": "reviewer",
+   "output": "{\n  \"report\": \".ufo/waves/round-54/w1/R3KnowledgeSources.md\",\n  \"review\": \".ufo/waves/round-54/w1/R3KnowledgeSources/review.md\",\n  \"knowledge_verdict\": \"Not conformant yet: four findings, each with quoted line and replacement text.\",\n  \"sources_verdict\": \"Final draft text/shape conformant; admission conditional on committed evidence, allocated ids and integrated citations/index/coverage.\",\n  \"checks\": {\n    \"table\": \"rows=6 malformed=0; exit 0\",\n    \"quote_words\": [\n      13,\n      19,\n      10,\n      11,\n      10,\n      10\n    ],\n    \"id_collisions\": \"No current S198\u2013S203 matches in registry\",\n    \"lsp\": \"Unavailable\"\n  },\n  \"production_edits\": false,\n  \"tools_installed\": false\n}",
+   "note": null
+  },
+  {
+   "name": "R4R52Fix",
+   "agent": "reviewer",
+   "output": "{\n  \"verdict\": \"DO-NOT-INTEGRATE\",\n  \"findings\": [\n    {\n      \"severity\": \"P1\",\n      \"finding\": \"Patched entry falsely rejects currently green order-check row; baseline exits 0, patch exits 1. Required no-harm equivalence fails.\",\n      \"path\": \".ufo/waves/round-54/w1/E3R52RegistryFix/round52_c2_registry.py:74-83\"\n    },\n    {\n      \"severity\": \"P2\",\n      \"finding\": \"K7 selftest survives removal of entry_missing from verdict because unrelated MISSING failures mask the mutation.\",\n      \"path\": \".ufo/waves/round-54/w1/E3R52RegistryFix/round52_c2_registry.py:199-206\"\n    }\n  ],\n  \"review\": \".ufo/waves/round-54/w1/R4R52Fix/review.md\",\n  \"report\": \".ufo/waves/round-54/w1/R4R52Fix.md\",\n  \"evidence\": \".ufo/waves/round-54/w1/R4R52Fix/evidence.json\",\n  \"checks\": \"Independent targeted fixture proves intended defect closure; original 3 selftests preserved, patched 6 pass; independent delta limited to negation handling and added cases. Neither counter supports --dry; supported read-only entry comparison fails equivalence.\",\n  \"gaps\": \"LSP device unavailable; source checks used literal fallback. No broad downstream entrytruth rerun.\",\n  \"cleanup\": \"Scratch removed; no tools installed or production files edited.\"\n}",
+   "note": null
+  },
+  {
+   "name": "C1Forge",
+   "agent": "critic",
+   "output": "Selftest 8/8 passes \u2014 but my parse traceback reveals something suspicious. Let me dig into the installed library's API and reproduce exactly what the counter does.Both tooling bugs confirmed at the library-API level. Now I'll build the full attack harness: a scratch-patched copy (3 minimal tooling fixes, documented) to test the verification *logic*, plus the mutation matrix.",
+   "note": null
+  },
+  {
+   "name": "C2Launder",
+   "agent": "critic",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "C3ClaimsSizing",
+   "agent": "critic",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "C4MigrationHonesty",
+   "agent": "critic",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "C5Separability",
+   "agent": "critic",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "M1C1Mutants",
+   "agent": "mutation-tester",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "M2C2Mutants",
+   "agent": "mutation-tester",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "M3BuilderMutants",
+   "agent": "mutation-tester",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "M4R52FixMutants",
+   "agent": "mutation-tester",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "SN1OtsNetwork",
+   "agent": "sentinel",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "SN2FixtureHygiene",
+   "agent": "sentinel",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "RV1Oracle2Replay",
+   "agent": "revenger",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "RV2ArgvReplay",
+   "agent": "revenger",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "CN1SiblingOverlap",
+   "agent": "connector",
+   "output": "{\n  \"report\": \".ufo/waves/round-54/w1/CN1SiblingOverlap.md\",\n  \"overlap\": \".ufo/waves/round-54/w1/CN1SiblingOverlap/overlap.md\",\n  \"evidence\": [\n    \"Bounded sibling opentimestamps|entry_argv scan returned no matches.\",\n    \"Tameshi gate-row-exit-map documents cloned registry argv execution and selftest/entry divergence.\",\n    \"Kumitate agent-isolation-substrates documents git-config contamination and isolation guards.\",\n    \"Kasegi r47-mutbat establishes inherited own-counter mutation precedent.\"\n  ],\n  \"affected_axes\": [\n    \"novelty\",\n    \"calibration\"\n  ],\n  \"proposed_move\": \"Separate R54 instrument deltas from inherited controls/substrate provenance in one report table; change no frozen predicate or runtime.\",\n  \"risks\": [\n    \"Keyword absence does not establish external novelty.\",\n    \"Generic registry-entry execution and environment isolation already have sibling precedents.\",\n    \"C1 published-practice replication hold remains binding.\"\n  ],\n  \"verification\": \"L1 checks attribution against cited local evidence and uses existing R54 receipts for their exact measured surfaces. No counters or tests executed here.\",\n  \"cleanup\": \"No scratch created; no tools installed.\"\n}",
+   "note": null
+  },
+  {
+   "name": "CN2CrossSource",
+   "agent": "connector",
+   "output": "{\n  \"report\": \".ufo/waves/round-54/w1/CN2CrossSource.md\",\n  \"patterns\": \".ufo/waves/round-54/w1/CN2CrossSource/patterns.md\",\n  \"axes\": [\n    \"novelty\",\n    \"calibration\"\n  ],\n  \"proposed_move\": \"Index assertions by exact evidence identity; prevent internal agreement or declaration-derived summaries substituting for external witnessing or actual entry execution.\",\n  \"contradiction\": \"E4MigrationAudit declares scratch-root-guard exit 2; E6RowAudit25 observes exit 1 with CHECK red reason=sentinel-missing. Preserve the discrepancy separately from REDECLARED 4.\",\n  \"additional_evidence\": [\n    \"E1AnchorConfirm and E10DigestChain agree on pending-only Bitcoin proof; digest agreement does not prove external anchoring.\",\n    \"E6RowAudit11 reports matching exit but missing verbatim evidence for round28-census.\",\n    \"Source ownership proposed: SC2OtsDocs fetch/quote owner, S2SourcesRows sole row drafter; no completed duplicate fetch asserted.\"\n  ],\n  \"risks\": [\n    \"Mid-wave snapshot; many reports unpublished.\",\n    \"Evidence index must not become a second predicate or replace receipts.\"\n  ],\n  \"verification\": \"Read-only artifact and counter-source scan; no tests, counter runs, installs, production changes, or scratch created.\"\n}",
+   "note": null
+  },
+  {
+   "name": "SP1CounterSimplify",
+   "agent": "simplifier",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "C6KillRules",
+   "agent": "critic",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "R5LedgerStatic",
+   "agent": "reviewer",
+   "output": "{\n  \"verdict\": \"DEFECTS\",\n  \"report\": \".ufo/waves/round-54/w1/R5LedgerStatic.md\",\n  \"review\": \".ufo/waves/round-54/w1/R5LedgerStatic/review.md\",\n  \"findings\": [\n    {\n      \"severity\": \"high\",\n      \"rows\": [\n        \"scratch-root-guard\"\n      ],\n      \"finding\": \"Declared exit 2 contradicts recorded CHECK-red evidence, reason, and canonical return-1 branch.\"\n    },\n    {\n      \"severity\": \"medium\",\n      \"rows\": [\n        \"adoption-check\",\n        \"anchor-digest-check\",\n        \"gate-flip-check\",\n        \"mutant-direction-check\",\n        \"round28-census\",\n        \"round35-c1-coverage\",\n        \"round38-c1-mutants\",\n        \"round40-c1-mutants\",\n        \"round46-c3\",\n        \"round51-surfaces\",\n        \"round52-c1\",\n        \"state-assertion-check\"\n      ],\n      \"finding\": \"Reasons satisfy length but name no cause; boilerplate only restates nonzero exit.\"\n    },\n    {\n      \"severity\": \"medium\",\n      \"rows\": [\n        \"round53-c2\",\n        \"sources-adopt\",\n        \"stage-scan\"\n      ],\n      \"finding\": \"chosen=bare contradicts recorded --lane . argument lists.\"\n    },\n    {\n      \"severity\": \"medium\",\n      \"rows\": [\n        \"round53-c2\"\n      ],\n      \"finding\": \"Reason falsely says registry omits required --source/--work; SKILL.md:640 explicitly names both.\"\n    }\n  ],\n  \"verification\": \"Static audit executed successfully: 78/78 registry equality, strict parsing, exact fields, canonical entry_mode_ok/script matches, 74/74 r53-entry matches, no green noise, reason/evidence bounds pass. Full defect rows pasted in review.\",\n  \"gaps\": [\n    \"No runtime gate execution; observed exits and fragment provenance unverified.\",\n    \"LSP device unavailable; source inspection used as fallback.\"\n  ],\n  \"scratch\": \"No scratch artifacts created; no cleanup needed.\",\n  \"installs\": []\n}",
+   "note": null
+  },
+  {
+   "name": "C7PriorArtPrices",
+   "agent": "critic",
+   "output": "",
+   "note": null
+  }
+ ]
+}

@@ -1,0 +1,4 @@
+Command: id=$(head -n 1 staged-ids); printf '   | %s | mini entry row\n' "$id" > mini-registry.md; grep -oE '^ {0,3}\|[[:space:]]*S[0-9]{3,}' mini-registry.md | grep -oE 'S[0-9]+' | sort > mini-ids; comm -12 staged-ids mini-ids > mini-collisions
+Output:
+   | S077 | mini entry row
+matched collision: S077

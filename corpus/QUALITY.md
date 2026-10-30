@@ -1157,3 +1157,16 @@ Line numbers are this file's.
   its own novelty. The existing counter selftests demonstrate named forged controls failing;
   the mutation and integrity survivors bound that demonstration rather than disappearing from it.
   Lesson: `corpus/lessons/round-53.md` §Mistakes. Extends Q42; does not supersede its requirements.
+
+- **Q44 — a real positive path precedes integrity selftest credit, and entry argv is structurally bound.**
+  A timestamp counter must parse one ordinary confirmed proof through its canonical command before
+  pending-proof rejection can count as verification evidence. A command ledger must reject abbreviated
+  selftest modes and interpreter decoys, not just exact forbidden strings.
+  `round-54/w1/R1C1Counter.md` shows parser exceptions making negative controls vacuous;
+  `round-54/w1/R2C2Counter/laundering-probes.txt` shows the unchanged counter accepting
+  abbreviated selftest and uv-decoy fixtures. Both paths are beneath `.ufo/waves/`.
+  The proposed r52 repair is refused: `round-54/w1/R4R52Fix.md` demonstrates an order-check
+  regression and a masked K7 test. A passing selftest is not no-harm evidence.
+  This mines proposal 2 of `considerthese/2026-10-26.md` (opened 2026-10-30): a standing
+  admission counter needs a filler control that stays red. It adopts the criterion, not a
+  claim that the proposed standing TB2 counter has been implemented.

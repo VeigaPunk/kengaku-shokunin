@@ -2333,3 +2333,41 @@ Await outside closure and usable provider routes. Any further claim must disting
 history anchor from internally re-pinnable inputs, distinguish entry-command arguments from selftest/help
 arguments, and avoid calling already-examined tests novel. Carried round-52 SELFTEST-UNBACKED/K5/K7 fixes
 remain unlanded; no frozen predicate is retroactively amended here.
+
+## Round 54 — honest stop: anchor positive path broken; entry-argv laundering survives
+
+Base `6c919180260ea545589c2c0a007a06f554b529d3`; frozen claims and instruments
+`17f90355c3ec17dcf15f7980d83f1943ae428fe5`; ledger `6e0a19155c15836252c160c4b67817ba571f9291`;
+dispatch `62e9bba5e4a0bed376890299aa6a09039db7e68e`. Frozen predicates:
+`plans/round-54-claims.md`. Neither instrument changed after the review findings.
+
+| claim / axis | before → after evidence | counting command | verdict / score |
+|---|---|---|---|
+| R54-C1 / novelty | anchor absent, predicate fail exit 1 → submission exists but completed anchor not certified; reviewer demonstrates ordinary-proof parser/walker defects and incorrect digest identity check | `python3 plans/round54_c1_anchor.py verify --anchor corpus/evidence/round54/anchor --claims plans/round-54-claims.md --source CLEAN_CLONE --work SCRATCH --controls` (OTS venv required) | **not admitted; 8→8 held** |
+| R54-C2 / calibration | ledger absent, 78 missing exit 1 → ledger 78, declared entry green 62/red 16; four previous selftest-green rows re-declared red; reviewer observes abbreviated-selftest and uv-decoy fixtures passing the unchanged counter while their real entry is red | `python3 plans/round54_c2_entrytruth.py --lane . --source CLEAN_CLONE --work SCRATCH --jobs 3 --timeout 900` | **not admitted; 9→9 held — frozen kill rule fires** |
+
+Canonical after-run receipts name their measured commit and exits:
+`.ufo/waves/round-54/integrate/c1-after.txt`, `c2-after.txt`. Review evidence:
+`w1/R1C1Counter.md`, `w1/R2C2Counter/laundering-probes.txt`, beneath the same wave root.
+Passing toy controls and selftests (8/8, 7/7) do not erase those findings.
+Corrected ledger data: scratch-root-guard exit 2→1 (observed check mode); revision-sensitive
+and collapsed-multiline evidence replaced by observed fragments. No counter rewrite or score bump.
+
+Coverage remains 7 (open L0 cap round-25/33/51; not waived); depth/operability/freshness/adjacency
+remain 9. No capability enters. SOURCES 190→193 rows (command: fleet sources-census validate,
+receipt `integrate/census-end.txt`); new S198/S199 mined, S200 rejected; no old cells changed.
+This is sourced interpretation of a failed tool, not new uncovered-ground expansion.
+Q44 records the positive-path/argv-binding lesson and mines considerthese proposal 2
+(`considerthese/2026-10-26.md`). The proposed r52 patch is refused on a demonstrated regression;
+its evidence stays in the wave directory, production remains unchanged.
+
+Round shape: one v2 wave, 66 settled seats, no replacements; role counts and terminal-output
+completeness are derived from `w1-results.json`, not inferred from report-file presence.
+WAVE-DONE received before filing. Lane-dispatched reviews are not outside admission.
+
+### Planned (round 55)
+
+Re-freeze only after a real canonical positive OTS proof parses and header trust is scoped;
+bind interpreter and entry arguments structurally, including abbreviations and uv decoys,
+before another registry truth claim. Re-execute migrated rows against the final measurement
+revision. Carry r52 repair until its order-check regression and masked K7 control are fixed.

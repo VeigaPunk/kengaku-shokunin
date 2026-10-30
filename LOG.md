@@ -1674,3 +1674,32 @@ prior-examination and argv-laundering findings remain (`w3/C1CritOracle2.md`, `C
 `C2CritPredicate2.md`). Outside closure decides admission; no classifier or counter was changed
 to bury those findings. Final census 190 rows, exit 0; before 186, exit 0
 (`claims/census-round53.txt`). No new capability or coverage-score move is claimed.
+
+## Round 54 — externally anchored freeze and entry truth, both honestly stopped (2026-10-30)
+
+Claims: R54-C1 novelty 8→9, R54-C2 calibration 9→10; both **not admitted**, scores held at 8/9.
+Freeze `17f90355c3ec17dcf15f7980d83f1943ae428fe5`; ledger `6e0a1915`; dispatch `62e9bba5`.
+Before commands and exits are committed in `corpus/evidence/round54/c1-before.txt`,
+`c2-before-dry.txt`; after commands, measured revision and exits are in
+`.ufo/waves/round-54/integrate/c1-after.txt`, `c2-after.txt`.
+
+- C1 stamp digest is recorded in `corpus/evidence/round54/anchor/anchor.json`; no completed
+  externally validated freeze is claimed. R1 proves incompatible reader/walker APIs and an
+  invalid identity condition; the frozen instrument stays unchanged (`w1/R1C1Counter.md`).
+- C2 ledger declares 78 entries (62 green, 16 red), four formerly selftest-only green rows now
+  red at entry. Original toy laundering control closes, but reviewer reproduces two different
+  laundering routes against the unchanged counter; frozen kill rule fires (`w1/R2C2Counter.md`).
+  Scratch-root-guard exit and unstable evidence fragments corrected as data, not a rule change.
+- WAVE-DONE w1: 66 seats settled, one v2 wave; terminal results retained in `w1-results.json`.
+  Missing/empty outputs are not clearance. No replacement or residual wave.
+- S198/S199 source the bounded interpretation entry; S200 rejects merkle-root matching as sole
+  chain-membership evidence. Census before 190 rows, end receipt `integrate/census-end.txt`.
+  Q44 and lesson `corpus/lessons/round-54.md` retain mistakes and the considerthese proposal-2
+  filler-control criterion. Assimilation none: 114 collisions of 190 registry/175 staged IDs;
+  L0 question and count correction filed. No staged row appended.
+- R52 patch proposal refused: R4 demonstrates order-check regression and a confounded K7 case.
+  No prior frozen counter or SKILL registry was edited; E8 reproduces r53 C2 at 62e9bba5
+  (78 executed, no mismatches, green66/red12).
+- Tools: opentimestamps-client 0.8.0 and opentimestamps 0.5.0, uv pip official Python index,
+  scratch venv for timestamp experiment; E9 also installed the same client via uv tool and
+  isolated uv execution. No pacman. Failed demonstration is not a capability-table entry.

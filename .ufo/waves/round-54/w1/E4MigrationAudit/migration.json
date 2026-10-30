@@ -1,0 +1,61 @@
+{
+  "schema": "r54-migration-audit-v1",
+  "source": {
+    "r53": "plans/round53-tipstate.json",
+    "entrytruth": "plans/round54-entrytruth.json",
+    "registry": "SKILL.md ## Gate/probe registry"
+  },
+  "counts": {
+    "r53_rows": 78,
+    "redeclared": 4,
+    "regression_candidates": 0,
+    "sampled_registry_crosschecks": 5,
+    "sampled_registry_mismatches": 0
+  },
+  "redeclared": [
+    {
+      "name": "round53-c2",
+      "r53_kind": "selftest",
+      "r53_argv": ["python3", "plans/round53_c2_tipstate.py", "--selftest"],
+      "entry_argv": ["python3", "plans/round53_c2_tipstate.py", "--lane", "."],
+      "entry_exit": 2,
+      "reason": "the tip-state counter has no argument-free entry mode: bare invocation prints usage and exits 2; its entry contract requires --source and --work scratch arguments which the registry cell does not name"
+    },
+    {
+      "name": "scratch-root-guard",
+      "r53_kind": "selftest",
+      "r53_argv": ["python3", "plans/scratch_guard.py", "--selftest"],
+      "entry_argv": ["python3", "plans/scratch_guard.py", "check", "."],
+      "entry_exit": 2,
+      "reason": "the gate's check entry requires the round sentinel file which exists only in an active round tree, so on a bare clean checkout it reports sentinel-missing and exits 1"
+    },
+    {
+      "name": "sources-adopt",
+      "r53_kind": "selftest",
+      "r53_argv": ["python3", "plans/sources_adopt.py", "--selftest"],
+      "entry_argv": ["python3", "plans/sources_adopt.py", "--lane", "."],
+      "entry_exit": 2,
+      "reason": "the adoption gate has no argument-free entry mode: bare invocation prints its usage and exits 2; its entry contract requires an adoption task (package and admit ids) which the registry cell does not name"
+    },
+    {
+      "name": "stage-scan",
+      "r53_kind": "selftest",
+      "r53_argv": ["python3", "plans/stage_scan.py", "--selftest"],
+      "entry_argv": ["python3", "plans/stage_scan.py", "--lane", "."],
+      "entry_exit": 2,
+      "reason": "the stage scanner has no argument-free entry mode: bare invocation rejects the registry cell's --lane flag and exits 2; its entry contract takes positional stage inputs which the cell does not name"
+    }
+  ],
+  "regression_candidates": [],
+  "registry_crosscheck": [
+    {"name": "round53-c2", "script": "plans/round53_c2_tipstate.py", "registry_cell_matches_script_path": true},
+    {"name": "scratch-root-guard", "script": "plans/scratch_guard.py", "registry_cell_matches_script_path": true},
+    {"name": "sources-adopt", "script": "plans/sources_adopt.py", "registry_cell_matches_script_path": true},
+    {"name": "stage-scan", "script": "plans/stage_scan.py", "registry_cell_matches_script_path": true},
+    {"name": "state-assertion-check", "script": "plans/state_check.py", "registry_cell_matches_script_path": true}
+  ],
+  "evidence": [
+    "Read round53-tipstate.json .rows and round54-entrytruth.json .rows.",
+    "Live registry cells observed in SKILL.md lines 567, 573, 608, 640, 641; sampled script paths match."
+  ]
+}

@@ -1,0 +1,60 @@
+--- /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round52_c2_registry.py
++++ /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-54/w1/E3R52RegistryFix/round52_c2_registry.py
+@@ -66,15 +66,14 @@
+ 
+ 
+ def selftest_unbacked(cell: str, lane: Path) -> bool:
+-    """True when the self-test cell claims exactly one script+flag the script lacks.
+-
+-    A flag explicitly negated in prose (e.g. “no --selftest in the script”) is a
+-    declaration that no self-test exists, not a claim that the script accepts it.
++    """True when a claimed self-test flag is absent from its script.
++
++    A local negation suppresses only the flag it names; it must not mask another
++    advertised flag elsewhere in the self-test cell.
+     """
+-    if re.search(r"\bno\b.{0,24}--[a-z][a-z0-9-]*", cell):
+-        return False
+     scripts = sorted(set(re.findall(r"(?:plans|corpus|grader)[A-Za-z0-9_./-]*\.py", cell)))
+-    flags = sorted(set(FLAG.findall(cell)))
++    negated = set(re.findall(r"\bno\b.{0,24}?(--[a-z][a-z0-9-]*)", cell, re.IGNORECASE))
++    flags = sorted(set(FLAG.findall(cell)) - negated)
+     if len(scripts) != 1 or not flags:
+         return False
+     path = lane / scripts[0]
+@@ -183,8 +182,34 @@
+             fails += 1
+         else:
+             print("SELFTEST ok incomplete-fixture")
++        # A negated --selftest is local; it must not hide a separately advertised flag.
++        if selftest_unbacked("no --selftest; python3 plans/tool_a.py --check", t):
++            print("SELFTEST ok span-scoped-negation-fixture")
++        else:
++            print("SELFTEST FAIL span-scoped-negation-fixture: unrelated flag was masked")
++            fails += 1
++        # K5: a decoy table under a later heading is not registry content.
++        if "| `ghost` |" not in registry_block(
++            REGISTRY_HEADING + "\n| registry | row |\n\n## Decoy inventory\n| `ghost` |"
++        ):
++            print("SELFTEST ok K5-decoy-table")
++        else:
++            print("SELFTEST FAIL K5-decoy-table: decoy entered registry block")
++            fails += 1
++        # K7: an extra row pointing at an absent entry must remain red.
++        k7 = "| `ghost-tool` | gate | `python3 plans/ghost_tool.py --summary` | 0 ok | none | none | read-only | kengaku |"
++        (t / "SKILL.md").write_text(
++            REGISTRY_HEADING + "\n| name | kind | entry | verdict map | self-test | pinned values | write scope | owner |\n"
++            "|---|---|---|---|---|---|---|---|\n" + k7 + "\n"
++        )
++        *_, entry_missing, _unbacked, _duplicate = collect(t)
++        if "plans/ghost_tool.py" in entry_missing and verdict(t) == 1:
++            print("SELFTEST ok K7-entry-missing")
++        else:
++            print("SELFTEST FAIL K7-entry-missing: missing entry did not fail")
++            fails += 1
+         shutil.rmtree(t, ignore_errors=True)
+-    print(f"SELFTEST cases=3 failures={fails}")
++    print(f"SELFTEST cases=6 failures={fails}")
+     return 0 if fails == 0 else 1
+ 
+ 

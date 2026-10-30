@@ -1,0 +1,23 @@
+Probes invoke the unchanged imported counter, one-row scratch git fixtures; guard verifies each fixture root before commit.
+CASE abbreviated-selftest
+ARGV ["python3", "plans/gate.py", "--selft"]
+entry_mode_ok=None
+TRUE REGISTRY ENTRY exit=1 out=entry broken
+ROWS registry=1 ledger=1 missing=0 extra=0 argv_defect=0 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1
+SOURCE rev=08b56d129613dd96b6b1163ca949408e00a59175 clean=yes lane_rev_equal=yes
+RUN executed=1 timeout=0 mismatched=0 evidence_missing=0 laundered=0
+TIPSTATE entry_declared_green=1 entry_declared_red=0 observed_green=1 observed_red=0
+MIGRATION redeclared=0 r53_green_nonentry=0
+PREDICATE R54-C2 pass
+COUNTER EXIT 0
+CASE uv-decoy-script
+ARGV ["uv", "run", "--no-project", "--offline", "python3", "-cprint('wrapper green')", "python3", "plans/gate.py"]
+entry_mode_ok=None
+TRUE REGISTRY ENTRY exit=1 out=entry broken
+ROWS registry=1 ledger=1 missing=0 extra=0 argv_defect=0 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1
+SOURCE rev=a4f72e763aeee94aca8c505fb16834e3f4f1b9a9 clean=yes lane_rev_equal=yes
+RUN executed=1 timeout=0 mismatched=0 evidence_missing=0 laundered=0
+TIPSTATE entry_declared_green=1 entry_declared_red=0 observed_green=1 observed_red=0
+MIGRATION redeclared=0 r53_green_nonentry=0
+PREDICATE R54-C2 pass
+COUNTER EXIT 0

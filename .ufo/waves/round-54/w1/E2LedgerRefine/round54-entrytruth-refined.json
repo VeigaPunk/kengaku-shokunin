@@ -1,0 +1,989 @@
+{
+  "rows": {
+    "adoption-check": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/adoption_check.py",
+        "--lane",
+        ".",
+        "--expect",
+        ".ufo/waves/round-33/claims/adoption-expect.json",
+        "--census"
+      ],
+      "entry_exit": 1,
+      "entry_state": "red",
+      "evidence": "entries=1 indexed=1 cited_rows=3 rows_present=3 rows_mined=3 usedby_ok=1 census=fail",
+      "reason": "The adoption census reports census=fail despite three indexed cited rows being present; this gate returns nonzero because the round-level adoption census condition is unsatisfied.",
+      "sec": 0.2
+    },
+    "anchor-digest-check": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/anchor_digest_check.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 1,
+      "entry_state": "red",
+      "evidence": "rows=190 tokens=92 defects=21",
+      "reason": "The digest audit finds source rows whose anchor tokens lack capture locators; its 21 anchor-unbound defects in SOURCES.md cause the failed audit exit.",
+      "sec": 3.9
+    },
+    "attrib-probe": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/attrib_probe.py",
+        "freeze-check",
+        "--frozen",
+        "plans/attrib-r23-frozen.md"
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 2.8
+    },
+    "benchmark-spec-audit": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/benchmark_spec_audit.py",
+        "--summary"
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 1.1
+    },
+    "build-pmars-probe": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/build_pmars_probe.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 4.0
+    },
+    "catalog-probe": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/catalog_probe.py",
+        "--verify",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.2
+    },
+    "config-projection": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/config_projection.py",
+        "--summary"
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.4
+    },
+    "constraints-probe": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/constraints_probe.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 15.2
+    },
+    "coverage-census": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "corpus/evidence/round13-coverage/coverage_census.py"
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.4
+    },
+    "db-wal-probe": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/db_wal_probe.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 2.3
+    },
+    "defect-ledger": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/defect_ledger.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.2
+    },
+    "extraction-policy-compare": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/parser_policy_compare.py",
+        "--summary"
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.5
+    },
+    "feal-linear-probe": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/feal_linear_probe.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 5.2
+    },
+    "feal-probe": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/feal_probe.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 98.4
+    },
+    "fibsqrt-probe": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/fibsqrt_probe.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 62.2
+    },
+    "gate-flip-check": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/gate_flip_check.py",
+        "--lesson",
+        "corpus/lessons/round-52.md"
+      ],
+      "entry_exit": 1,
+      "entry_state": "red",
+      "evidence": "FLIPS total=3 unresolved=3",
+      "reason": "The round-52 lesson records three flip decisions with unresolved no-line resolutions; these unresolved flips and missing citations make the gate fail.",
+      "sec": 0.1
+    },
+    "gate-timing": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/gate_timing_check.py",
+        "--lesson",
+        "corpus/lessons/round-26.md",
+        "--commit",
+        "536925b5320fa64298030b4ee76a58fc4b82723f"
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.1
+    },
+    "git-leak-probe": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/git_leak_probe.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 3.1
+    },
+    "git-webserver-probe": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/git_webserver_probe.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 53.4
+    },
+    "grader-perturb": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/grader_perturb.py",
+        "--summary"
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.7
+    },
+    "hermetic-grader": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "grader.py"
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.3
+    },
+    "interval-reverdict": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/attrib_calibration.py",
+        "--summary"
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.1
+    },
+    "ledger-tip": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/ledger_tip.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 1.7
+    },
+    "mutant-direction-check": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/mutant_direction_check.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 1,
+      "entry_state": "red",
+      "evidence": "DIRECTIONS total=22 mislabelled=1",
+      "reason": "The directional mutant inventory detects one mislabeled surviving N21 D5 case, where mirror was observed although silence was declared; this defect fails the check.",
+      "sec": 76.5
+    },
+    "order-check": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/order_check.py",
+        "--lane",
+        ".",
+        "--claims",
+        "plans/round-40-claims.md",
+        "--receipt",
+        "corpus/evidence/round40/db-wal-probe.txt"
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 3.2
+    },
+    "package-gate": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/pkg_gate.py",
+        "package",
+        "--root",
+        ".",
+        "--spec",
+        "plans/pkg-spec-r35.json",
+        "--require-clean-tree"
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.2
+    },
+    "password-recovery-probe": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/password_recovery_probe.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 2.1
+    },
+    "polyglot-c-py-probe": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/polyglot_c_py_probe.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 4.5
+    },
+    "regex-log-probe": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/regex_log_probe.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.1
+    },
+    "registry-reference-check": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/registry_check.py",
+        "--summary"
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.1
+    },
+    "round-close-check": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round_close.py",
+        "--lane",
+        ".",
+        "--round",
+        "44",
+        "--census",
+        "/home/vgpnk/Projects/shokunin/scripts/sources-census.sh"
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.6
+    },
+    "round28-census": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round28_census.py",
+        "--root",
+        ".",
+        "--revision",
+        "536925b5320fa64298030b4ee76a58fc4b82723f"
+      ],
+      "entry_exit": 1,
+      "entry_state": "red",
+      "evidence": "\"exit\": 1,\n    \"p4_ids\": 51",
+      "reason": "The census embeds historical-state exit 1 and reports a frozen state assertion mismatch; that carried mismatch causes this census command to return nonzero.",
+      "sec": 2.1
+    },
+    "round30-defects": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round30_defects.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.1
+    },
+    "round31-c1-literals": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round31_c1_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.1
+    },
+    "round31-defects": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round31_defects.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.2
+    },
+    "round33-c1-literals": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round33_c1_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.1
+    },
+    "round33-defects": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round33_defects.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.1
+    },
+    "round35-c1-coverage": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round35_c1_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 1,
+      "entry_state": "red",
+      "evidence": "V4 DEFECT knowledge files=57 index rows=57 (want 42/42)",
+      "reason": "Coverage check V4 finds 57 knowledge files and index rows instead of its required 42 each; that count mismatch is its sole reported defect.",
+      "sec": 0.7
+    },
+    "round35-hardening": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round35_hardening.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.1
+    },
+    "round36-c1-battery": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round36_c1_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 2.7
+    },
+    "round36-c2": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round36_c2_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.5
+    },
+    "round37-c1-mutants": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round37_c1_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 133.3
+    },
+    "round37-c2": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round37_c2_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 53.6
+    },
+    "round38-c1-mutants": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round38_c1_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 1,
+      "entry_state": "red",
+      "evidence": "MUTANTS total=22 killed=21 survived=1 invalid=0 null_detected=0",
+      "reason": "The mutation battery reports one surviving N21 D5 mutant and 21 killed of 22; that surviving mutant causes the predicate failure.",
+      "sec": 115.6
+    },
+    "round38-c2": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round38_c2_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 2.2
+    },
+    "round39-c1-audit": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round39_c1_audit.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 51.5
+    },
+    "round39-c1-mutants": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round39_c1_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 59.3
+    },
+    "round39-c2": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round39_c2_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 3.7
+    },
+    "round40-c1-mutants": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round40_c1_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 1,
+      "entry_state": "red",
+      "evidence": "BATTERY fixtures=21 wrong=8 tampered=0 sidechannel=0",
+      "reason": "The mutation battery reports eight wrong outcomes and only 14 of 21 mutants killed, including wrong anchor acceptance cases; those failures fail the predicate.",
+      "sec": 102.3
+    },
+    "round40-c2": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round40_c2_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 2.2
+    },
+    "round41-c1-mutants": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round41_c1_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 6.7
+    },
+    "round41-c2": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round41_c2_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 13.6
+    },
+    "round42-c1-mutants": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round42_c1_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 5.2
+    },
+    "round42-c2": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round42_c2_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 64.0
+    },
+    "round43-c1-mutants": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round43_c1_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 4.6
+    },
+    "round43-c2": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round43_c2_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 97.6
+    },
+    "round44-c1-mutants": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round44_c1_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 3.3
+    },
+    "round44-c2": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round44_c2_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 5.0
+    },
+    "round45-c1": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round45_c1_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 4.3
+    },
+    "round45-c2": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round45_c2_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 3.4
+    },
+    "round46-c1": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round46_c1_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 5.6
+    },
+    "round46-c2": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round46_c2_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.3
+    },
+    "round46-c3": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round46_c3_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 1,
+      "entry_state": "red",
+      "evidence": "checks=13 defects=2",
+      "reason": "The C3 verification reports two defects, including order_exit=1 and failing filler checks; the overall predicate consequently fails.",
+      "sec": 3.9
+    },
+    "round50-c1": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round50_c1_verify.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 63.7
+    },
+    "round50-c2": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round50_c2_audit.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.2
+    },
+    "round51-routing": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round51_routing.py",
+        "--lane",
+        ".",
+        "--run-checks"
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.5
+    },
+    "round51-surfaces": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round51_surfaces.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 1,
+      "entry_state": "red",
+      "evidence": "RESOLVE observed_present=12 floor=13 verdict=violated",
+      "reason": "Surface resolution observes only 12 present probes against the required floor of 13; the unmet resolve floor causes the R51-C1 predicate failure.",
+      "sec": 0.1
+    },
+    "round52-c1": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round52_c1_grader_audit.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 1,
+      "entry_state": "red",
+      "evidence": "TASKS total=89 records=89 classified=88",
+      "reason": "The R52-C1 audit reports one capture missing and one unclassified task among 89; its main predicate fails although the separate A5 predicate passes.",
+      "sec": 0.1
+    },
+    "round52-c2": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round52_c2_registry.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.1
+    },
+    "round53-c1": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/round53_c1_triage.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 1.0
+    },
+    "round53-c2": {
+      "chosen": "bare",
+      "entry_argv": [
+        "python3",
+        "plans/round53_c2_tipstate.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 2,
+      "entry_state": "red",
+      "evidence": "SETUP --source and --work are required unless --dry",
+      "reason": "The counter requires --source and --work unless --dry; this entry argv supplies neither, so setup exits 2 before evaluating ledger rows.",
+      "sec": 0.1
+    },
+    "routed-findings": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/routed_open.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.1
+    },
+    "scratch-root-guard": {
+      "chosen": "hand-contract",
+      "entry_argv": [
+        "python3",
+        "plans/scratch_guard.py",
+        "check",
+        "."
+      ],
+      "entry_exit": 2,
+      "entry_state": "red",
+      "evidence": "CHECK red reason=sentinel-missing round=None want=* seats=5",
+      "reason": "The scratch guard reports that .ROUND-ROOT-SENTINEL is absent in this checkout, so its check verdict is red with sentinel-missing.",
+      "sec": 0.1
+    },
+    "sources-adopt": {
+      "chosen": "bare",
+      "entry_argv": [
+        "python3",
+        "plans/sources_adopt.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 2,
+      "entry_state": "red",
+      "evidence": "sources_adopt.py: error: unrecognized arguments: --lane .",
+      "reason": "The registry argv passes unsupported --lane .; argparse reports unrecognized arguments and exits 2 before adoption work begins.",
+      "sec": 0.1
+    },
+    "stage-scan": {
+      "chosen": "bare",
+      "entry_argv": [
+        "python3",
+        "plans/stage_scan.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 2,
+      "entry_state": "red",
+      "evidence": "ERROR unknown option --lane",
+      "reason": "The registry argv passes unsupported --lane; the scanner explicitly reports ERROR unknown option --lane and exits 2.",
+      "sec": 0.1
+    },
+    "state-assertion-check": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/state_check.py",
+        "--summary"
+      ],
+      "entry_exit": 1,
+      "entry_state": "red",
+      "evidence": "mismatch=1",
+      "reason": "The state assertion check reports one mismatch among 329 assertions, specifically a P3c pointer targeting a blank PROVINCE.md line; the mismatch makes the check exit 1.",
+      "sec": 1.3
+    },
+    "tb2-grader-probe": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "uv",
+        "run",
+        "--no-project",
+        "--with",
+        "biopython==1.85",
+        "python3",
+        "plans/tb2_grader_probe.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 0.2
+    },
+    "tip-receipts": {
+      "chosen": "r53-entry",
+      "entry_argv": [
+        "python3",
+        "plans/tip_receipts.py",
+        "--lane",
+        "."
+      ],
+      "entry_exit": 0,
+      "entry_state": "green",
+      "sec": 101.4
+    }
+  },
+  "schema": "r54-entrytruth-v1"
+}

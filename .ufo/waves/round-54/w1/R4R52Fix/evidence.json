@@ -1,0 +1,110 @@
+{
+  "old-selftest": {
+    "argv": [
+      "python3",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round52_c2_registry.py",
+      "--lane",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "--selftest"
+    ],
+    "exit": 0,
+    "stdout": "SELFTEST ok clean-fixture\nSELFTEST ok missing-fixture\nSELFTEST ok incomplete-fixture\nSELFTEST cases=3 failures=0\n",
+    "stderr": ""
+  },
+  "old-dry": {
+    "argv": [
+      "python3",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round52_c2_registry.py",
+      "--dry",
+      "--lane",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": "usage: round52_c2_registry.py [-h] [--lane LANE] [--selftest]\nround52_c2_registry.py: error: unrecognized arguments: --dry\n"
+  },
+  "old-lane": {
+    "argv": [
+      "python3",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round52_c2_registry.py",
+      "--lane",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin"
+    ],
+    "exit": 0,
+    "stdout": "ADVERTISED total=77\nREGISTERED total=77 rows=79\nMISSING 0\nINCOMPLETE 0\nENTRY-MISSING 0\nSELFTEST-UNBACKED 0\nDUPLICATE 0\nPREDICATE R52-C2 pass\n",
+    "stderr": ""
+  },
+  "patched-selftest": {
+    "argv": [
+      "python3",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-54/w1/E3R52RegistryFix/round52_c2_registry.py",
+      "--lane",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "--selftest"
+    ],
+    "exit": 0,
+    "stdout": "SELFTEST ok clean-fixture\nSELFTEST ok missing-fixture\nSELFTEST ok incomplete-fixture\nSELFTEST ok span-scoped-negation-fixture\nSELFTEST ok K5-decoy-table\nADVERTISED total=2\nREGISTERED total=1 rows=2\nMISSING 2\n  MISSING grader.py\n  MISSING plans/tool_a.py\nINCOMPLETE 0\nENTRY-MISSING 1\n  ENTRY-MISSING plans/ghost_tool.py\nSELFTEST-UNBACKED 0\nDUPLICATE 0\nPREDICATE R52-C2 fail\nSELFTEST ok K7-entry-missing\nSELFTEST cases=6 failures=0\n",
+    "stderr": ""
+  },
+  "patched-dry": {
+    "argv": [
+      "python3",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-54/w1/E3R52RegistryFix/round52_c2_registry.py",
+      "--dry",
+      "--lane",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": "usage: round52_c2_registry.py [-h] [--lane LANE] [--selftest]\nround52_c2_registry.py: error: unrecognized arguments: --dry\n"
+  },
+  "patched-lane": {
+    "argv": [
+      "python3",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-54/w1/E3R52RegistryFix/round52_c2_registry.py",
+      "--lane",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin"
+    ],
+    "exit": 1,
+    "stdout": "ADVERTISED total=77\nREGISTERED total=77 rows=79\nMISSING 0\nINCOMPLETE 0\nENTRY-MISSING 0\nSELFTEST-UNBACKED 1\n  SELFTEST-UNBACKED `order-check`\nDUPLICATE 0\nPREDICATE R52-C2 fail\n",
+    "stderr": ""
+  },
+  "old-red-control": {
+    "argv": [
+      "python3",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round52_c2_registry.py",
+      "--lane",
+      "/fast/scratch/hyaku/kengaku-r54/R4R52Fix/negation"
+    ],
+    "exit": 0,
+    "stdout": "ADVERTISED total=1\nREGISTERED total=1 rows=1\nMISSING 0\nINCOMPLETE 0\nENTRY-MISSING 0\nSELFTEST-UNBACKED 0\nDUPLICATE 0\nPREDICATE R52-C2 pass\n",
+    "stderr": ""
+  },
+  "patched-red-control": {
+    "argv": [
+      "python3",
+      "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-54/w1/E3R52RegistryFix/round52_c2_registry.py",
+      "--lane",
+      "/fast/scratch/hyaku/kengaku-r54/R4R52Fix/negation"
+    ],
+    "exit": 1,
+    "stdout": "ADVERTISED total=1\nREGISTERED total=1 rows=1\nMISSING 0\nINCOMPLETE 0\nENTRY-MISSING 0\nSELFTEST-UNBACKED 1\n  SELFTEST-UNBACKED `t`\nDUPLICATE 0\nPREDICATE R52-C2 fail\n",
+    "stderr": ""
+  },
+  "row-differences": [
+    {
+      "name": "`order-check`",
+      "cell": "no `--selftest` in the script; falsifiers are external \u2014 `plans/round40_c1_verify.py` mutants `O04` (`rc-silence`), `O12` (`rc-error`), `O14` (`error`), each witnessed pre-freeze (`.ufo/waves/round-40/claims/witness/`), and the measured controls `--receipt corpus/evidence/round39/git-leak-probe.txt` \u2192 `ORDER FAIL freeze-contains-receipt receipt-before-claims hits=0`, exit 1; `--claims plans/round-99-claims.md` \u2192 `ORDER ERROR claims not committed in HEAD`, exit 2",
+      "old": false,
+      "patched": true
+    }
+  ],
+  "K7-verdict-mutant": {
+    "exit": 0,
+    "stdout": "SELFTEST ok clean-fixture\nSELFTEST ok missing-fixture\nSELFTEST ok incomplete-fixture\nSELFTEST ok span-scoped-negation-fixture\nSELFTEST ok K5-decoy-table\nADVERTISED total=2\nREGISTERED total=1 rows=2\nMISSING 2\n  MISSING grader.py\n  MISSING plans/tool_a.py\nINCOMPLETE 0\nENTRY-MISSING 1\n  ENTRY-MISSING plans/ghost_tool.py\nSELFTEST-UNBACKED 0\nDUPLICATE 0\nPREDICATE R52-C2 fail\nSELFTEST ok K7-entry-missing\nSELFTEST cases=6 failures=0\n"
+  },
+  "sha256": {
+    "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round52_c2_registry.py": "9e6f41a457ec2d847f81d513d30545d982e0a118b4cfa8452af34e1d1a509e6b",
+    "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-54/w1/E3R52RegistryFix/round52_c2_registry.py": "83667e8f23e75146584bca0ac94aeffb122e554571528c1c027e3c462754dc6d"
+  }
+}
