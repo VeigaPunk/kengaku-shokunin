@@ -1786,3 +1786,20 @@ SF20 connection refused; RESOLVE 11/13). Census start exit 0 (W04 duplicate-url 
 pre-existing); census end receipt under `.ufo/waves/round-56/integrate/`. Assimilation: none —
 shokuknow unreachable (L0 `kengaku | round-54` unanswered); `considerthese/` mined, nothing
 adopted this round.
+
+Round-56 corrections (2026-11-01, post-landing `1192e465`, data class per the frozen
+corrections rule): (1) the R56-F1 routed finding's `source` field violated the ledger's strict
+`<path>:<line>` shape and the findings counter rejected it (`DEFECT line=76 source must read
+<path>:<line>`); corrected to `corpus/SOURCES.md:216` with the history moved to `note`. (2)
+`round50-c1` re-declared red with measured fragment: its population pin (per-fixture canonical
+tree hashes built on the round-50 host) mismatches 125/126 on this host at base AND at the
+landing revision, every other leg green — first executed on this host because the row was
+argv-defect-excluded from the earlier base batteries; the entry-truth run of record is the
+post-correction counter. (3) The r55 controls instrument hardcodes the old-host scratch root
+`/fast/scratch/hyaku/kengaku-r55` (provisioned empty on this host) and its uv-decoy fixture
+needs `uv` on PATH (installed 0.13.6); with both, the two kills fire attributed
+(ARGV/ABBREV-DEFECT and ARGV/WRAPPER-DEFECT naming `fixture-gate`, `PREDICATE R55-C2 fail`)
+and the controls selftest is 4/4. Polarity note: the controls tool exits 0 when the expected
+kill state holds (its own docstring), while the frozen claim text expected "exit 1" — the
+receipts carry the full output; polarity read from the instrument, disclosed, not silently
+reinterpreted.

@@ -217,3 +217,16 @@ fresh L1 session on the new host; the three frozen claims stand with these subst
   driver). The L2 floor is met by one batched dynamic-workflow dispatch of read-only
   verification seats (re-derivation, census, prior-art, surface probes); the L1 performs the
   landings, measurements and verdicts.
+
+## Amendment A3 — post-landing data corrections (2026-11-01, after S=`1192e465`, before the measured close)
+
+1. R56-F1's `source` corrected to the strict `<path>:<line>` shape the findings counter
+   enforces (`corpus/SOURCES.md:216`); the counter had rejected the landed prose form.
+2. `round50-c1` re-declared red (measured at base and at S): the r50 population pins drift
+   125/126 under this host's fixture rebuilds, all other legs green. First executed on this
+   host post-correction; the claim predicate is unaffected (it is the counter's own truth
+   condition).
+3. Controls provisioning for the C2 fixture-kill receipts: the controls instrument hardcodes
+   `/fast/scratch/hyaku/kengaku-r55` (created empty) and needs `uv` (installed 0.13.6).
+   Polarity: the controls tool exits 0 when the expected kill state holds (its docstring);
+   the freeze's "exit 1" line misstated the polarity — the receipts are the record.
