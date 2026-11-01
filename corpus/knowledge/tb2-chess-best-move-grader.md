@@ -1,7 +1,9 @@
 source: S201 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/chess-best-move/tests/test_outputs.py — the decisive assert at `tests/test_outputs.py:25` (`assert sorted(move) == sorted(["g2g4", "e2e4"]), "File is wrong"`) and the tokenization at `:23` (`move = move_file.read_text().strip().split()`), commit `2fd12b88aafdd04a52c298e3940bcb189f9766d6`, sha256 `a540714e0156fc14564badedcb48d1f7b69a4b457d876036535439b30cb8f286`, accessed 2026-10-30
 source: S202 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/chess-best-move/instruction.md — the one-line requirement at `instruction.md:1` ("If there are multiple winning moves, print them all, one per line."), same commit, sha256 `6ba25be4e291a4ad04ae42b2dddefcdaef67ca45ca9d5dce661a2e517b19ce7a`, accessed 2026-10-30
 source: S109 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/regex-log/tests/test.sh — the reward mapping at `tests/test.sh:26` ("echo 1 > /logs/verifier/reward.txt"), same commit, sha256 `4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334`, accessed 2026-10-30 — the chess-best-move `tests/test.sh` is byte-identical to this pinned regex-log runner (amendment A1, claims 2026-10-30, both files sha256 `4770437e…`), so no new SOURCES row was opened and this entry cites S109 for runner semantics
-verified-at: 2026-10-30 — probe receipt `corpus/evidence/round55/chess-best-move-probe.txt` (sha256 `de0826692f8b81c832b8d0633cfe8fa080f2d6142ee9d71b597eba6be9d8aaca` at writing) and the in-repo captures named above
+source: S203 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/chess-best-move/task.toml — the task's declared behaviour at `[task] description` (`task.toml:6`), commit `2fd12b88aafdd04a52c298e3940bcb189f9766d6`, sha256 `d8f01d3c84ed5836edbb49c6c3b3cc7b5b96d951cf01a0987467c9206fb22f9e`, accessed 2026-10-31 (round 56)
+source: S204 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/chess-best-move/solution/solve.sh — the maintainer reference solution's all-mating-moves enumeration (`solution/solve.sh:180-189`, append at `:186`, write-all at `:232`), same commit, sha256 `53b5c5e2278ca915b0930eedfd44565ca84ef21c7346fd6601434484cf76151f`, accessed 2026-10-31 (round 56)
+verified-at: 2026-10-30 — probe receipt `corpus/evidence/round55/chess-best-move-probe.txt` (sha256 `de0826692f8b81c832b8d0633cfe8fa080f2d6142ee9d71b597eba6be9d8aaca` at writing) and the in-repo captures named above; round-56 addendum re-verified 2026-10-31 — the S201 capture digest re-derived from a fresh fetch at the same pin, and the oracle mapping below (`corpus/evidence/round56/chess-oracle.md`)
 recheck: 180d — from the lane root re-run `python3 plans/round55_c3_chess_probe.py --lane . --work <scratch-dir> --receipt corpus/evidence/round55/chess-best-move-probe.txt` and require the byte-identical predicate block (`cases=12 observed_pass=5 observed_fail=7 mismatches=0`, `PREDICATE R55-C3 pass`, receipt sha256 `de082669…`); re-fetch the three pinned URLs at commit `2fd12b88aafdd04a52c298e3940bcb189f9766d6` and compare sha256 against the pins above; any probe, digest or receipt drift supersedes this entry
 writer: E7KnowledgeEntry (round 55, wave 1) — second-seat re-read: pending (R3)
 
@@ -176,3 +178,33 @@ move (it does not — it is a format example only).
 
 `second-seat re-read: pending (R3)` — admission is the L1's call; no second-seat report is cited
 by this entry.
+
+## Round 56 addendum (2026-10-31): the maintainer oracle (S203, S204)
+
+Round 56 completes the citation chain the round-55 verifier spot-check routed as defect 3: the
+expected-answer reading this entry rested on the grader (S201) plus the instruction (S202) alone
+is now grounded in the task's own definition and the maintainer's reference solution, both
+fetched 2026-10-31 at the same pin `2fd12b88aafdd04a52c298e3940bcb189f9766d6` and recorded in
+`corpus/evidence/round56/chess-oracle.md` (sha256s there; no upstream capture bytes are
+committed this round — the r52 GH013 push-protection L0 stays unanswered).
+
+- **S203 (task.toml, spec, tier A)** — the task declares the plural behaviour in its own
+  `[task] description`: analyze a board image, use an engine, find "the best move(s)", and
+  "handle multiple valid solutions" (`task.toml:6`). The plural is the task's declared
+  contract, not a reader's inference.
+- **S204 (solution/solve.sh, code, tier A)** — the maintainer oracle enumerates **every legal
+  move that mates** (`for move in board.legal_moves:` `:180`, `if board.is_checkmate():`
+  `:185`, `best_moves.append(move.uci())` `:186`), returns all of them when any exist
+  (`:192-194`; Stockfish only when none do), and writes them newline-joined to `/app/move.txt`
+  (`:232`). The grader's two-move literal is therefore the complete mating set for this task's
+  position, and a correct agent under the oracle emits exactly the multiset S201's assertion
+  rewards — the oracle behaviour and the twelve-case probe table
+  (`corpus/evidence/round55/chess-best-move-probe.txt`) agree line by line.
+- This closes the round-55 addendum's "expected-answer reading rests on the grader alone"
+  gap without rewriting any round-55 claim: the full-multiset class, the mechanism table and
+  the negative space above stand as written; the oracle adds the second primary source the
+  entry's own negative-space section asked for.
+
+Writer note: addendum by the round-56 L1 (Windows host); identity receipts in
+`corpus/evidence/round56/chess-oracle.md`; the `plans/round56_landcheck.py` re-run of the
+round-55 probe is the entry's round-56 re-verification leg.

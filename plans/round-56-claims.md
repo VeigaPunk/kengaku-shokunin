@@ -170,3 +170,50 @@ re-verification is the L1's integration duty plus the outside closure.
   committed this round (S203/S204 rows cite pinned URLs and record sha256 in the lesson and
   oracle note; no fixture tree is committed), so no push-protection surface is touched. The
   r55 erratum (defect 2) is filed in the round report.
+
+## Amendment A2 — host move before any seat scored (2026-10-31, L1 KengakuR56, Windows host)
+
+The round-56 wave (§Round shape, 32 seats, inline-spawn handoff on the old Linux host) never
+dispatched: the prior L1 run stopped after the freeze (commit `8db18e23`) and the host was
+retired. No seat has scored, so this amendment precedes all data. The round is executed by a
+fresh L1 session on the new host; the three frozen claims stand with these substitutions —
+
+- **Runtime.** All instrument executions run inside the new host's WSL2 Ubuntu-24.04
+  (`python3` = CPython 3.12.3; the Windows-side `python3` is a Store stub, exit 49). The
+  Windows-side `python` (3.13.15) is used only for corpus editing and the fleet commit helper.
+  Every frozen predicate string `python3 <cmd>` is executed verbatim inside WSL.
+- **Scratch.** The frozen `/fast/scratch/hyaku/kengaku-r56/` is absent on this host; machine-run
+  scratch is `/root/kengaku-r56/` inside WSL (deleted at round end) and the round contract's
+  Windows scratch dir; receipts are committed under `.ufo/waves/round-56/` as before.
+- **Provisioning (recorded, measured).** To run the frozen instruments the WSL distro received:
+  bubblewrap 0.9.0 (apt; the chess probe requires `/usr/bin/bwrap`), gcc, sqlite3, zip, strace,
+  python-is-python3, libx11-dev (build-pmars-probe links `-lX11`), python3-pip + biopython 1.85
+  (`pip3 install --break-system-packages biopython==1.85`; correction (c) attempt 1 for
+  tb2-grader-probe), and git 2.56 (git-core PPA; the round-45 fence's plain-init allowlist
+  predates `git init` losing `.git/branches`, present under 2.43). Each provision flips an
+  instrument back to its designed green; no declared state is greened by faking a path or
+  masking the refusals.
+- **C2 corrections on this host.** The base tip re-measured 2026-10-31 (battery receipt:
+  full counter at `8db18e23`, `RUN executed=66 timeout=0 mismatched=0 evidence_missing=2
+  laundered=14`) shows 16 rows whose declared green is false HERE: two defect ledgers and ten
+  c2-family counters hardcode the old host's absolute `/home/vgpnk/...` paths (shokuknow,
+  fleet reports, census script), one surfaces counter loses three old-host surfaces
+  (RESOLVE 11/13), one routing check rides the r46 anchorline gate, one coverage census's V4
+  expectation is stale (58→59, already red since r55 with a drifted fragment). These land as
+  correction-class data per the freeze's own rule: ledger argv corrections where an argument
+  routes around the move (round-close-check `--census`, round36-c2 `--fleet` — both measured
+  green at the new paths), honest green→red re-declarations with measured fragments everywhere
+  else, evidence-fragment refreshes where an already-red row's output drifted. No counter,
+  schema, predicate or kill rule changes.
+- **stage-scan entry correction (b), measured.** The r54 argv `--lane .` was never executable
+  (`stage_scan.py` takes PATH args; measured exit 2 `ERROR unknown option --lane`), and the
+  counter's entry contract forbids a `--selftest` argv (`FORBIDDEN_ARGV_TOKENS`), so the
+  corrected entry is the designed whole-tree scan `.` — red at this tip (860 documented
+  generic-rule hits), fragment `hits=860`.
+- **C3 unchanged** except location: S203/S204 opened 2026-10-31 from this host via curl at the
+  same pin; the `corpus/evidence/round56/chess-oracle.md` identity note substitutes for
+  committing capture bytes (the r52 GH013 push-protection L0 stays unanswered).
+- **Wave shape.** The 32-seat inline-spawn wave is not executable on this host (no hyaku-inline
+  driver). The L2 floor is met by one batched dynamic-workflow dispatch of read-only
+  verification seats (re-derivation, census, prior-art, surface probes); the L1 performs the
+  landings, measurements and verdicts.

@@ -110,7 +110,7 @@ Surfaces that resolve today, each with the check actually run and its result:
 | Own probe artifacts | `for d in round8-horizon round9-replication round9-fleet round10-fleet round11-power round11-fleet round12-ladder round12-fleet round13-ack-state round13-coverage round14-fleet round18-kimi-routing; do test -d corpus/evidence/$d || echo missing $d; done` (prints nothing) | all present; plus 28 root receipt logs indexed in `corpus/README.md` |
 | Attribution instrument + frozen tables | `test -e plans/attrib_probe.py && sha256sum plans/attrib_probe.py`; `test -e plans/attrib-r21-frozen.md` / `-r22-` / `-r23-` | all present; probe sha256 today `489f938a…16e06b` (floats between trials and landing per the r21 lesson — frozen anchors live in the `-frozen.md` files) |
 | Corpus gate docs | `test -e corpus/QUALITY.md` | present (admission bar Q1–Q8 + round-closure criteria, created round 24) |
-| Public-literature registry | `test -e corpus/SOURCES.md` | present; 171 rows (round 51: `grep -cE '^\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|' corpus/SOURCES.md` → 171; 170 at the round-51 base tip plus S178), contract-v1 census clean (`corpus/evidence/round24-census/after.txt`); receipts `corpus/evidence/round24-sources/gate.md` |
+| Public-literature registry | `test -e corpus/SOURCES.md` | present; 195 rows (round 56 re-count 2026-10-31: `grep -cE '^\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|' corpus/SOURCES.md` → 195, incl. S203/S204 opened this round; 171 at round 51, 170 at the round-51 base tip plus S178), contract-v1 census clean (`corpus/evidence/round24-census/after.txt`; round-56 census receipt under `.ufo/waves/round-56/integrate/`); receipts `corpus/evidence/round24-sources/gate.md` |
 | ds-flash-shim source (read-only) | `sha256sum ~/.local/share/ds-flash-shim/shim.py` | present; `42d86d99…15a386` — identical to the disclosed pin in `evidence/attrib-r22-*.log` / `attrib-r23-stream.log` |
 | Live probe endpoint | `ss -ltn 'sport = :8791'` | LISTEN on `127.0.0.1:8791` (ds-flash-shim, read-only shim; `:8793` not probed this round) |
 | Public literature | URLs cited in `knowledge/eval-prior-art-calibration.md`, `attrib-prior-art-r21.md`, and the ART dossier | reachable-by-citation only — documentation reads only this round, no live model/endpoint traffic |
@@ -669,3 +669,30 @@ graders. This narrows the "remaining TB2 tasks" clause of the round35–46 parag
 only: 13 of 89 read. The earlier paragraphs stay as written.
 
 **Reported out (round 55):** none absorbed.
+
+## Round56 completion: the thirteenth grader's maintainer oracle, and the host move (2026-10-31)
+
+**Core completion.** The thirteenth read TB2 task grader — `chess-best-move` — gains its
+maintainer oracle, closing the round-55 spot-check's defect 3: rows **S203** (the task's
+machine-readable definition, `task.toml`, tier A spec) and **S204** (the maintainer reference
+solution, `solution/solve.sh`, tier A code) were opened 2026-10-31 at the same pin `2fd12b88`
+and mapped to the grader in `corpus/evidence/round56/chess-oracle.md`; the oracle enumerates
+**every immediate mating move** and writes them all, so the entry
+`corpus/knowledge/tb2-chess-best-move-grader.md` carries a dated round-56 addendum grounding
+the expected-answer reading in a second primary source. Still 13 of 89 TB2 task graders read —
+this round adds the oracle, not a fourteenth task. What it refuses is unchanged: the task
+image, the harness, real submissions, runtime task validity, contamination, model behaviour,
+and the remaining 76 unread TB2 task graders.
+
+**Host correction (dated 2026-10-31).** The lane's measurement host moved again: the old Linux
+host is gone and this lane now runs on a Windows host, with instrument executions inside its
+WSL2 Ubuntu-24.04 (provisioned: bubblewrap 0.9.0, gcc, sqlite3, zip, strace,
+python-is-python3, libx11-dev, biopython 1.85, git 2.56 via ppa — recorded in
+`plans/round-56-claims.md` amendments). Surface truth on this host: `~/Projects/webzites/repos/llm-wiki`
+stays absent (marked 2026-10-28); three more probed surfaces present on the round-51 host do
+not resolve here — SF15 `~/.local/share/ds-flash-shim/shim.py` (missing file), SF16 (local
+service, connection refused), SF20 `http://127.0.0.1:1234/health` (connection refused) — so
+`plans/round51_surfaces.py` measures `RESOLVE observed_present=11 floor=13 verdict=violated`
+on this host and the finding ledger rows that ride those surfaces are re-declared red with
+measured fragments (`plans/round54-entrytruth.json` round-56 corrections). The SF14 row's
+registry count is corrected in place above (171 → 195, dated). Reported out: none absorbed.

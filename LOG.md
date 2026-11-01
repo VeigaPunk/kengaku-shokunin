@@ -1736,3 +1736,53 @@ not committed as landed work.
 Lesson `corpus/lessons/round-55.md` records the mined mistakes (r54 entry-mode leg computed and not
 wired; registry drift of two advertised counters; a wave-build sizing refusal) and the honest-stop
 Gate. Assimilation none (L0 `kengaku | round-54` unanswered). considerthese not mined this round.
+
+## Round 56 — frozen claims measured across a host move; ledger truth restored; oracle completed (2026-10-31)
+
+Base `8db18e230d6fbee90f1f8306c9a2e903157ca50b` (the prior run's freeze; its 32-seat wave never
+dispatched — the old host was retired). Host: Windows + WSL2 Ubuntu-24.04 (python3 3.12.3,
+bwrap 0.9.0, git 2.56, biopython 1.85; provisioning listed in `plans/round-56-claims.md`
+Amendment A2). No seat had scored; Amendment A2 precedes all data.
+
+Re-derived before-states at base (WSL): C2 `BINDING l1=17 l2=1 l3=0` matches the committed
+`.ufo/waves/round-56/claims/c2-before.txt`; C1's instrument absent at the pre-freeze base;
+C3 greps 0. Full counter at base on this host: `executed=66 timeout=0 mismatched=0
+evidence_missing=2 laundered=14` — sixteen declared-green rows are false here (old-host
+absolute paths: shokuknow staged file, fleet reports, census scripts; three surfaces gone:
+RESOLVE 11/13; one stale coverage expectation; one routing check riding the r46 anchorline
+gate).
+
+C2 corrections landed as data (`plans/round54-entrytruth.json` + 17 SKILL.md registry cells):
+(a) every registry entry cell's first backtick span is now the literal ledger argv; (b)
+measured argv corrections that stay green — round-close-check `--census` and round36-c2
+`--fleet` now name this host's fleet checkout (both re-measured exit 0), stage-scan's
+never-executable `--lane .` argv corrected to the designed whole-tree scan (red, `hits=860`);
+(c) tb2-grader-probe re-declared at the bare interpreter (Biopython 1.85 provisioned; probe
+re-run `cases=18 observed_pass=5 observed_fail=13 mismatches=0`, byte-equal receipt); (d)
+fifteen honest green→red re-declarations with verbatim measured fragments (old-host paths,
+lost surfaces, stale expectations, the r46 anchorline gate's S201 false positive), plus
+evidence refreshes on two already-red rows. Static legs after corrections:
+`BINDING l1=0 l2=0 l3=0`, `MISSING 0`, `PREDICATE R52-C2 pass`. After-run receipts and the
+landcheck verdict land under `.ufo/waves/round-56/integrate/`.
+
+C3: S203 (`task.toml`, spec, tier A) and S204 (`solution/solve.sh`, code, tier A) opened
+2026-10-31 at pin `2fd12b88`; identity (sha256) recorded in
+`corpus/evidence/round56/chess-oracle.md` — the oracle enumerates every immediate mating move
+and writes them all, mapping line-by-line onto S201's full-multiset assertion;
+`corpus/knowledge/tb2-chess-best-move-grader.md` carries the dated round-56 addendum;
+PROVINCE.md gains the round-56 section naming the chess task as the thirteenth grader read
+(13 of 89) and correcting the SF14 registry count in place (171→195, dated). Grader identity
+re-derived from a fresh fetch: sha256 `a540714e…8f286` matches the r52 capture pin.
+
+New routed finding R56-F1 (open, routed-to-future-claim): S201's anchor citation is byte-true,
+but `plans/anchor_line_check.py`'s QUOTE_RE terminates at the first double quote inside the
+cell's `\"` escape, so the r46 anchorline gate false-positives on escaped-quote anchors; legs
+riding it (round46-c2 leg A, R45-S5-1) are re-declared red with measured fragments instead of
+silently repaired — fixing the checker needs its own frozen claim.
+
+Host corrections: PROVINCE round-56 section records the Windows/WSL move and the three
+surfaces present on the round-51 host that do not resolve here (SF15 file missing, SF16 and
+SF20 connection refused; RESOLVE 11/13). Census start exit 0 (W04 duplicate-url warnings
+pre-existing); census end receipt under `.ufo/waves/round-56/integrate/`. Assimilation: none —
+shokuknow unreachable (L0 `kengaku | round-54` unanswered); `considerthese/` mined, nothing
+adopted this round.
