@@ -2458,3 +2458,46 @@ claim with falsifier fixtures (R56-F1); host-scope or re-pin the r50 population 
 red: 125/126 fixture identities drift under this host's rebuilds — root cause named open, not
 guessed); act on the L0 rulings (L2-floor surface; ledger schema v2 host column) if they land;
 carry R56-F2's two scoping rules into every future measurement receipt.
+
+## Round 57 (hyaku run 13, 2026-11-01): the branch tip's advertised surface re-runs green (C1 admitted — the R56-V1 repair), and the corpus's first performance-gate grader is read and executed (C2 predicate met, coverage held at its L0 cap)
+
+Base `c9ce9a71` (the round-56 verifier spot-check tip); wave A (the R56-V1 fix)
+`f754593b`; freeze `c0e7e100` (predictions before the first capture run; probe sha256
+`4f2b8beb…5f105` frozen in `plans/round-57-claims.md`). Environment: WSL Ubuntu-24.04, uv
+absent (the r56 A3.4 canonical environment preserved; no provision this round). Receipts
+`.ufo/waves/round-57/` (fix/ before-receipts; claims/ probe runs; integrate/ tip counters).
+
+| claim / axis | before → after evidence | counting command | verdict / score |
+|---|---|---|---|
+| R57-C1 / operability | before (measured at base `c9ce9a71`, receipts `fix/c1-before-*.txt`): `ADVERTISED total=83 / REGISTERED total=82 rows=84`, `MISSING plans/round56_landcheck.py`, `PREDICATE R52-C2 fail`, exit 1; full entry-truth run `executed=83 … laundered=2` (`LAUNDERED round52-c2`, `LAUNDERED routed-findings`), `PREDICATE R55-C2 fail`, exit 1 — two tip-only regressions, both landed by the round-56 close commit after the canonical measured revision (the unregistered landcheck advertisement; the R56-F2 findings row's `source` field off the strict shape) → after (wave A `f754593b`): landcheck registry row + landcheck ledger row (the r54/r55 counters enforce registry↔ledger bijection) + the R56-F2 `source` corrected to `corpus/lessons/round-56.md:60`; both counters re-run green at every later tip of this round (see integrate receipts) | `python3 plans/round52_c2_registry.py --lane <tip clone>` → `MISSING 0`, `PREDICATE R52-C2 pass`, exit 0; `python3 plans/round55_c2_entryargv.py --lane <tip> --source <clean clone of the same tip> --work <scratch> --jobs 6 --timeout 900` → `laundered=0`, `PREDICATE R55-C2 pass`, exit 0 (WSL) | **admitted; 9→10** — the property "every advertised command is registered and green at the branch tip" is what the two counters measure; at 9 the r56 close held it only at its measured revision, not at the pushed tip (R56-V1 is exactly that gap) |
+| R57-C2 / coverage (L0-capped, the lowest owned axis) | before: `grep -c 'fourteenth' PROVINCE.md` → 0; `grep -c S205 corpus/SOURCES.md` → 0; the probe instrument does not exist at base → after: S205 (`task.toml`), S206 (`tests/test_outputs.py`), S207 (`solution/solve.sh` — the oracle: the same eigensolve behind an `eigenpy` C++ binding), S208 (`instruction.md`) opened 2026-11-01 at pin `2fd12b88`, capture bytes committed (`corpus/evidence/round57/tb2-eigenval/`, push-protection-clean); the corpus's first performance-gate grader read and executed offline: 24 frozen lane-written candidates (3 implementations × 3 legs × sampled sizes; predictions written before the first capture run, frozen at `c0e7e100`) — `cases=24 observed_pass=15 observed_fail=9 mismatches=0 setup=0`, `PREDICATE R57-C2 pass`; grader-class findings recorded with receipts: exact-but-slow FAILS (`eig-sleep`: both correctness legs P at every size, task still failed on the median race), timing-equal is host noise (`eig-bare` U cases F/P within one run, F/F on re-run), maximally-wrong WINS the speed leg (`zero-e1`: correctness F/F, speed P/P); PROVINCE names the fourteenth grader (14 of 89); knowledge entry + index row + oracle note landed with the registration | `python3 plans/round57_c2_eigen_probe.py --lane . --work <scratch> --receipt <path>` → receipt `corpus/evidence/round57/eigen-probe.txt` sha256 `4638777…8c784`; `grep -c 'fourteenth' PROVINCE.md` → ≥1; `grep -cE '^\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|' corpus/SOURCES.md` → 201 (197→201); capture sha-refusal kill: one byte appended in a scratch clone → `SETUP grader sha256 … != frozen pin`, exit 2 (`claims/c2-sha-kill.txt`) | **predicate met; score HELD at 7** — the claim's own design, unchanged from r56-C3: the coverage cap is the unanswered L0 `kengaku | round-25/33/51`; no kill fired on any P/F prediction; the U cases are recorded observed-only, never laundered into predictions |
+
+**Capabilities** — new row: `timing-gate-grader-probe` → executes a captured benchmark
+grader whose decisive leg is a wall-clock median comparison against an in-grader reference,
+on a frozen table of lane-written candidates with static-reading predictions (U marks for
+cases whose outcome is not derivable from the grader's semantics, observed-only) →
+`plans/round57_c2_eigen_probe.py --lane .` → first working round 57.
+
+**No owned axis harmed.** depth 9 (the knowledge entry's mechanism/negative-space work;
+additive), freshness 9 (host surfaces unchanged, census re-run at round start and end,
+dated), adjacency 9 (the round-56 closure defects repaired as routed, nothing absorbed),
+novelty 8 (a new grader class executed with a recorded non-transferability finding —
+instrument-known, phenomenon entry new), calibration 10 (held; the R56-V3 precision block
+tightens the round-56 cells' wording at the same score), operability 9→10, coverage held 7
+(predicate met). One capability enters. SOURCES 197→201 rows. The round-56 closure's four
+routed defects (V1 load-bearing, V2, V3, V4) are all discharged this round; the carried
+r50-c1 population-pin root cause and R56-F1's checker repair remain open routes (planned
+below). **Round verdict: both declared claims verify (C1 admitted 9→10; C2 predicate met
+with the score held by its own L0 design); no axis harmed — self-admitted, subject to the
+non-author closure.**
+
+### Planned (round 58)
+
+Repair `plans/anchor_line_check.py`'s QUOTE_RE for escaped-quote anchors under its own frozen
+claim with falsifier fixtures (R56-F1, carried twice now — it should stop being routed);
+host-scope or re-pin the r50 population (`round50-c1` red: 125/126 fixture identities drift
+under this host's rebuilds — root cause named open, not guessed); if the coverage-cap L0
+(`kengaku | round-25/33/51`) gains an operator ruling, move coverage off its held score;
+register the fifteenth grader read only if a NEW grader class is found — the per-round
+one-more-grader pattern saturates its novelty unless each read buys a class the corpus
+lacks.

@@ -696,3 +696,35 @@ service, connection refused), SF20 `http://127.0.0.1:1234/health` (connection re
 on this host and the finding ledger rows that ride those surfaces are re-declared red with
 measured fragments (`plans/round54-entrytruth.json` round-56 corrections). The SF14 row's
 registry count is corrected in place above (171 → 195, dated). Reported out: none absorbed.
+
+## Round 57: the fourteenth grader read and executed — the corpus's first performance gate (2026-11-01)
+
+**Coverage ground.** The fourteenth read TB2 task grader — `largest-eigenval` — is read and
+executed offline at the same pin `2fd12b88aafdd04a52c298e3940bcb189f9766d6`: rows **S205**
+(the task's machine-readable definition, tier A spec), **S206** (the grader, tier A code),
+**S207** (the maintainer reference solution, tier A code — the oracle: the same eigensolve
+behind an `eigenpy` C++ binding), **S208** (the agent-facing instruction, tier A docs) opened
+2026-11-01; capture bytes committed at `corpus/evidence/round57/tb2-eigenval/`
+(push-protection-clean; the r52 GH013 lesson does not apply to these files); oracle note
+`corpus/evidence/round57/eigen-oracle.md`. The graded property is new to the corpus: three
+pytest legs whose decisive one is a **wall-clock median speedup assert** against
+`np.linalg.eig` itself — a mathematically exact but slower answer fails, a maximally-wrong
+answer wins the speed leg, and a correctness-identical answer's timing verdict flips between
+runs. The lane's offline probe (`plans/round57_c2_eigen_probe.py`, frozen with
+`plans/round-57-claims.md` at `c0e7e100`) executed the captured grader against 24 frozen
+lane-written candidates: `cases=24 observed_pass=15 observed_fail=9 mismatches=0 setup=0`,
+`PREDICATE R57-C2 pass` (receipt `corpus/evidence/round57/eigen-probe.txt`, sha256-pinned in
+the oracle note). **14 of 89** TB2 task graders read — the frontier count moves 13 → 14.
+What it refuses is unchanged: the task image, the harness, real submissions, runtime task
+validity, contamination, model behaviour, and the remaining 75 unread TB2 task graders.
+
+**Carried round-56 closure work (status-neutral, landed this round before the freeze):**
+R56-V1's head-tip registry regression repaired (the landcheck's registry row + its
+entry-truth ledger row landed, and the second laundering root cause the round-56 close
+carried — the R56-F2 findings row's `source` field off the strict `<path>:<line>` shape —
+corrected to `corpus/lessons/round-56.md:60`); both counters green at the round's tips
+(receipts `.ufo/waves/round-57/`). R56-V2: the SF14 row's registry count re-counted and
+dated (197; the round-56 cell's 195 was that round's before-count). R56-V3: the round-56
+SCORECARD section carries the dated 14-flips + 2-refreshes + 1-argv-redeclaration
+decomposition. R56-V4: this round's ledger/registry writers are byte-stable over existing
+rows (text insertion, no JSON re-encoding). Reported out: none absorbed.

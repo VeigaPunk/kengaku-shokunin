@@ -1864,3 +1864,33 @@ stage-scan's argv re-declaration is the honest decomposition of its "seventeen",
 "sixteen declared-green rows false here" is 14 declared-green-measured-false + 2
 declared-red rows whose evidence fragment went missing — R56-V3). Counting commands and
 receipts land with the claims freeze and the measured close, below.
+
+Round-57 measured close: freeze `c0e7e100` (C1/C2 claims + falsifiable befores + the probe's
+24-case prediction table frozen BEFORE the first capture run; probe sha256
+`4f2b8beb…5f105` pinned at freeze). The eigen probe's first capture run at the freeze tip:
+plumbing selftest 2/2 on a toy grader (capture untouched), then
+`cases=24 observed_pass=15 observed_fail=9 mismatches=0 setup=0`, `PREDICATE R57-C2 pass`
+exit 0 (receipt `corpus/evidence/round57/eigen-probe.txt`, sha256
+`4638777…8c784`; `.ufo/waves/round-57/claims/c2-first-run.txt`). Second bare run: green
+again with the two observed-only U cases flipped (s10 P→F) — the timing-leg nondeterminism
+demonstrated across runs, recorded not laundered (`claims/c2-bare-run.txt`). Capture
+sha-refusal kill: one byte appended to the capture in a scratch clone →
+`SETUP grader sha256 418ba750… != frozen pin cdc58e3a…`, exit 2 (`claims/c2-sha-kill.txt`).
+Grader-class findings: (1) the first wall-clock-performance gate in the executed corpus — a
+mathematically exact answer (bit-identical to the grader's own reference on both correctness
+legs) fails the task on the median race; (2) a maximally-wrong answer (eigenvalue 0, unit
+vector, no eigensolve) wins the speed leg at every sampled size; (3) a correctness-identical
+answer's timing verdict is host noise — the grader's pass boundary measures the host, then
+grades the agent; the gate hardens its own reference with a pre-import monkeypatch capture
+and an isolated-process reference — the corpus's first anti-monkeypatch capture. The
+maintainer oracle (S207 + S208) reads consistent: the intended fast-correct answer is the
+same eigensolve at lower constant factors (`eigenpy.EigenSolver`), declared in the
+agent-facing instruction. SOURCES 197→201 (S205–S208, opened this round); knowledge entry
+`corpus/knowledge/tb2-largest-eigenval-grader.md` + index row + PROVINCE coverage row (14
+of 89) landed with the probe's registration (registry row + entry-truth ledger row,
+byte-stable insertions). Probe registration keeps the counters' bijection: registry 85,
+ledger 85, executed 85 at the close tips. Lesson `corpus/lessons/round-57.md` records the
+Gate (four admits) and two mined mistakes (the stale-index `git diff` trap on this host; the
+byte-stable ledger insertion's brace bug caught by validation before any commit).
+Assimilation: `considerthese/` mined (eight files, unchanged since 2026-10-26 — the same set
+round 56 mined; nothing new adoptable); `Assimilation: none — shokuknow unreachable`.
