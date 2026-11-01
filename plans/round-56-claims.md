@@ -230,3 +230,14 @@ fresh L1 session on the new host; the three frozen claims stand with these subst
    `/fast/scratch/hyaku/kengaku-r55` (created empty) and needs `uv` (installed 0.13.6).
    Polarity: the controls tool exits 0 when the expected kill state holds (its docstring);
    the freeze's "exit 1" line misstated the polarity — the receipts are the record.
+
+4. Environment scoping (2026-11-01, before the canonical close): uv was installed for the
+   C2 controls receipts (the uv-decoy fixture needs the wrapper to genuinely run; receipts
+   recorded with it present) and then REMOVED, because three r41 receipt-control fixtures
+   (`r_ctl-t08-*-uv-absent`, `r_ctl-t06-*`) declare a uv-ABSENT environment — with uv present
+   they observe runs where their frozen expectation says skip(`dependency-missing`), and one
+   r41 mutant survives. The canonical counter environment is therefore uv-less WSL Ubuntu-24.04
+   (python3 3.12.3, bwrap 0.9.0, gcc, sqlite3, zip, strace, python-is-python3, libx11-dev,
+   biopython 1.85, git 2.56, /fast/scratch/hyaku/kengaku-r55 present). Per-instrument
+   environment scoping, not a predicate change: the controls' receipts and the counter's run
+   each name their own environment.
