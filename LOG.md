@@ -1813,3 +1813,54 @@ both fixture kills fired attributed, controls selftest 4/4 in its scoped uv-pres
 clones); C3 predicate met with the score held at the L0 cap. Scores: operability 8→9,
 calibration 9→10, coverage held 7, others unchanged; one capability enters
 (`landed-evidence landcheck`). Round self-admitted pending the non-author closure.
+
+## Round 57 — head-tip registry closure restored (the round-56 verifier's load-bearing defect, R56-V1, plus the second laundering root cause it carried)
+
+Base `c9ce9a713de770b2cb0c594fe3f9ad5019b64e0f` (the round-56 verifier spot-check tip). Host:
+Windows + WSL2 Ubuntu-24.04 (python 3.12.3, bwrap 0.9.0, git 2.56, numpy 2.5.4, biopython 1.85;
+`uv` absent — the canonical r56 A3.4 counter environment is preserved; no environment was
+mutated this round). Census at round start: `bash scripts/sources-census.sh validate --root
+<fleet> kengaku` → exit 0, verdict `ok`, the same 15 pre-existing W04 duplicate-url warnings
+(`.ufo/waves/round-57/census-start.txt`).
+
+Re-derived before-states at the tip (WSL, clean clone at `c9ce9a71`, receipts
+`.ufo/waves/round-57/fix/`): the registry counter prints `ADVERTISED total=83 / REGISTERED
+total=82 rows=84`, `MISSING plans/round56_landcheck.py`, `PREDICATE R52-C2 fail`, exit 1; the
+entry-truth counter's full run prints `executed=83 … laundered=2` — `LAUNDERED round52-c2`
+(declared green, entry exit=1: the registry gate itself is red at the tip) and
+`LAUNDERED routed-findings` — `PREDICATE R55-C2 fail`, exit 1. Exactly the round-56
+non-author closure's R56-V1.
+
+Two root causes, both tip-only regressions landed by the round-56 close commit `d834d89d`
+AFTER the canonical measured revision `9bc20ab7`:
+
+1. the SCORECARD round-56 section advertised `python3 plans/round56_landcheck.py` but the
+   `## Gate/probe registry` held no row for it — the L-reg leg of the landcheck itself fails
+   at any tip that carries the advertisement, which is why `round52-c2` (the registry gate)
+   launders;
+2. the R56-F2 findings row landed with `"source": "corpus/lessons/round-56.md:Corrections"` —
+   prose after the path, violating the findings ledger's strict `<path>:<line>` shape — the
+   same shape defect the round-56 corrections table already recorded for R56-F1's row (line
+   76) and fixed there; the F2 row landed unfixed, which is why `routed-findings` launders.
+
+Fix landed (this commit, three edits): (a) the landcheck's registry row (name, kind, bare
+entry with the literal ledger argv as the first backtick span, verdict map measured at
+`9bc20ab7` plus the three tampered-clone mutation kills, self-test spelling, pinned values,
+write scope, owner) in `SKILL.md`; (b) the landcheck's ledger row in
+`plans/round54-entrytruth.json` (`entry_exit` 0, green, `sec` 6.7 measured on this host at
+the pre-verified fix clone — the registry↔ledger bijection the r54/r55 counters enforce
+means a registry row without a ledger row would itself regress the counters); (c) the R56-F2
+`source` field corrected to the strict shape `corpus/lessons/round-56.md:60` (line 60 is the
+Corrections section the field cited), with the correction history appended to the row's note
+— the ledger edit was a byte-stable text insertion and a two-byte-field surgical replace;
+every other byte of both files is unchanged (the round-56 findings append had re-encoded the
+25 pre-existing rows' JSON escaping; this round's writer is byte-stable over existing rows,
+R56-V4's rule, adopted).
+
+Correction work riding the same commit: PROVINCE SF14's row re-counted and dated (197, the
+round-56 cell's "195" was the before-count — R56-V2); the round-56 SCORECARD section gains a
+dated precision block (14 literal green→red flips + 2 already-red fragment refreshes +
+stage-scan's argv re-declaration is the honest decomposition of its "seventeen", and
+"sixteen declared-green rows false here" is 14 declared-green-measured-false + 2
+declared-red rows whose evidence fragment went missing — R56-V3). Counting commands and
+receipts land with the claims freeze and the measured close, below.

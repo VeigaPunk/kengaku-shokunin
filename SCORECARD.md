@@ -2435,6 +2435,22 @@ kills) plus the outside closure. **Round verdict: all three declared claims veri
 admitted 8→9, C2 admitted 9→10, C3 predicate met with the score held by its own L0 design);
 no axis harmed — self-admitted, subject to the non-author closure.**
 
+### Round-56 verifier-routed precision corrections (appended 2026-11-01, round 57 — the cells above stay as written)
+
+Non-author closure R56-V3, re-derived from `plans/round54-entrytruth.json` and the
+`round54-entrytruth.json` diff base→head by this round's L1: the R56-C2 cell's "seventeen
+honest green→red re-declarations" decomposes as **14 literal green→red state flips**
+(round31-defects, round33-defects, round37-c2 through round46-c2 ×10, round50-c1,
+round51-routing) **+ 2 already-red rows' evidence-fragment refreshes** (round35-c1-coverage,
+round51-surfaces) **+ stage-scan's argv re-declaration** (a red row whose entry argv was
+corrected, not a state flip); its "sixteen declared-green rows false here" is likewise
+**14 declared-green-measured-false** (`laundered=14` in the committed before receipt
+`claims/c2-before.txt`'s this-host full run) **+ 2 rows that were declared RED at base** and
+re-observed with their evidence fragment missing (`evidence_missing=2`) — not
+declared-green rows. The data is honest and complete; the two labels overcounted by 3 and by
+2 respectively. Counting command: `python3 -c` ledger diff base `8db18e23`→head at the round-56
+tip (verifier §2; re-derived 2026-11-01 — 14 flips, 2 refreshes, 1 argv re-declaration).
+
 ### Planned (round 57)
 
 Repair `plans/anchor_line_check.py`'s QUOTE_RE for escaped-quote anchors under its own frozen
