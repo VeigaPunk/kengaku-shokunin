@@ -1907,3 +1907,43 @@ any closure. Fix: the pin shortened to the house short form in PROVINCE (full sh
 the SOURCES rows and the oracle note, unscanned), and the red row's fragment refreshed with
 a dated note (byte-stable, 60/60, class unchanged). Both re-verified on a scratch clone
 (`POINTERS … unresolved=0`; the V4/V6 defects are the row's declared red, fragment matches).
+
+## Round 58 — the R56-F1 gate repair (with the defect it exposes), the r50 population root cause and re-pin, and the corpus's first tolerance-band grader (2026-11-01)
+
+Base `a6b209cf` (the round-57 verifier spot-check tip). Freeze BEFORE any capture execution:
+`plans/round-58-claims.md` + probe `plans/round58_c2_kl_probe.py` (sha256 `51c192f2…760`)
++ captures `corpus/evidence/round58/tb2-distribution-search/` + SOURCES S209–S212 (201→205)
++ the pre-freeze evidence under `.ufo/waves/round-58/recon/`. R57-W1 discharged first: the
+cited r57 before-count `grep -c 'fourteenth' PROVINCE.md` → 0 is re-measured against the
+base commit's bytes as 1 (the round-56 section's own negation "not a fourteenth task",
+PROVINCE.md:683 — the dated erratum is in the claims freeze and the round report); every
+before-anchor this round is re-run against base bytes or a clean base-tip clone, and prose
+anchors are replaced with structural ones (the standing R57-W1 rule).
+
+Carried opens, evidence before dispositions: (1) R56-F1 — the r46 checker's QUOTE_RE
+truncated S201's escaped-quote anchor (false `line` defect, `live=1`, exit 1 at base,
+receipt `recon/anchor-before.txt`); falsifier fixtures built and measured at base BEFORE
+the fix (fx-good false positive, fx-red true positive, fx-words the hidden words defect —
+`recon/esc-falsifier.txt`), and the repair prediction is frozen: fixing the parse EXPOSES a
+real, previously invisible defect — S201's own `(6 words)` cell miscounts its quote (5 by
+the checker's wc -w convention), so the fix lands with a Q34 supersession row. (2)
+round50-c1 — root cause closed with measurements, not guesses: per-fixture rebuild of all
+126 population fixtures in the counter's own native-fs environment gives 1/126 matcher
+(n10-empty-repo, the only fixture whose build runs no git plumbing beyond `git init`,
+stable and EQ-pin across three rebuilds) and 125 deterministic drifters; a full double-build
+discriminator shows 0 unstable fixtures on this host (`recon/r50-ev2n/`, `r50-ev3n/`) —
+the pin froze git-plumbing store bytes (template/config/object artifacts of the r50 host's
+git + zlib + clocks), which no cross-host byte-identity pin can carry; branch A (re-pin on
+this host) is therefore sound. New pin sha256 `f41db91b…26c3`, dated header, old-host pin
+in git history. (3) The three L0 questions (`kengaku | round-25/33/51` coverage cap,
+`kengaku | round-56` L2 surface + ledger host column) stay open; nothing assumed answered
+— coverage is claimed predicate-met with the score held at 7 again.
+
+Coverage ground (C3): the fifteenth TB2 task grader, `distribution-search` @ the same pin
+`2fd12b88`, read and executed offline — the corpus's first numeric-TOLERANCE gate (|KL(P||U)
+− 10| ≤ 1e-3 AND |KL(U||P) − 10| ≤ 1e-3, 150000 atoms), in the lane's home domain (the
+instruction frames it as LLM-confidence metrics, S212). Class novelty checked against the
+corpus's own taxonomy before the freeze. The maintainer oracle (S211) is a three-level
+count-scan Newton; its accepted point was reproduced at authoring time and frozen as
+literals (`corpus/evidence/round58/kl-oracle.md`). The probe's 48-leg prediction table
+carries ZERO U marks — the deterministic contrast with the r57 timing gate.
