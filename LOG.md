@@ -1894,3 +1894,16 @@ Gate (four admits) and two mined mistakes (the stale-index `git diff` trap on th
 byte-stable ledger insertion's brace bug caught by validation before any commit).
 Assimilation: `considerthese/` mined (eight files, unchanged since 2026-10-26 — the same set
 round 56 mined; nothing new adoptable); `Assimilation: none — shokuknow unreachable`.
+
+Round-57 correction at the close tip (pre-closure, same day): the wave-C corpus growth
+laundered one green row and stale-fragmented one red row — the r50 pointer audit resolves
+40-hex tokens in SCORECARD/SHONEN/PROVINCE against lane objects only, and the round-57
+PROVINCE section had cited the upstream TB2 pin in full 40-hex form (`round50-c2` declared
+green, entry exit=1, `UNRESOLVED-HASH 2fd12b88… missing`); the r35 coverage checker's stale
+index expectation moved 59→60 with the new knowledge entry, so `round35-c1-coverage`'s
+declared red fragment no longer matched its re-run (`EVIDENCE-MISSING`). Captured by the
+round's own tip-C counters (`.ufo/waves/round-57/integrate/tipc-entryargv-full.txt`) before
+any closure. Fix: the pin shortened to the house short form in PROVINCE (full sha stays in
+the SOURCES rows and the oracle note, unscanned), and the red row's fragment refreshed with
+a dated note (byte-stable, 60/60, class unchanged). Both re-verified on a scratch clone
+(`POINTERS … unresolved=0`; the V4/V6 defects are the row's declared red, fragment matches).

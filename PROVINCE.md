@@ -700,7 +700,9 @@ registry count is corrected in place above (171 → 195, dated). Reported out: n
 ## Round 57: the fourteenth grader read and executed — the corpus's first performance gate (2026-11-01)
 
 **Coverage ground.** The fourteenth read TB2 task grader — `largest-eigenval` — is read and
-executed offline at the same pin `2fd12b88aafdd04a52c298e3940bcb189f9766d6`: rows **S205**
+executed offline at the same pin `2fd12b88` (full sha in the SOURCES rows and the oracle
+note — the r50 pointer audit resolves 40-hex tokens in this file against lane objects
+only): rows **S205**
 (the task's machine-readable definition, tier A spec), **S206** (the grader, tier A code),
 **S207** (the maintainer reference solution, tier A code — the oracle: the same eigensolve
 behind an `eigenpy` C++ binding), **S208** (the agent-facing instruction, tier A docs) opened
