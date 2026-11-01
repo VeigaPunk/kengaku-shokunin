@@ -66,3 +66,11 @@ unanswered); `considerthese/` mined (eight files, 2026-10-19…26): proposal 2(c
 | provider — the r55 controls instrument hardcodes the old-host scratch root and needs `uv` on PATH for the uv-decoy fixture to genuinely run; both kills had crashed (exit 1 via traceback) before provisioning, which reads exactly like a fired kill | `c2-kill-*.txt` pre-battery-6 tracebacks vs post-provisioning receipts | the receipts' full output (a traceback is not a kill line) | provisioned `/fast/scratch/hyaku/kengaku-r55` (empty dir) and uv 0.13.6; kills now fire attributed (ARGV/ABBREV-DEFECT, ARGV/WRAPPER-DEFECT naming `fixture-gate`), selftest 4/4; polarity of the controls exit read from the instrument's own docstring (0 = expected kill state demonstrated), disclosed against the freeze's "exit 1" wording |
 
 | scope — installing `uv` for the C2 controls silently flipped three r41 receipt-control fixtures that DECLARE a uv-absent environment (`r_ctl-t08-derived-uv-absent` observed runs where its frozen expectation says `skip:dependency-missing`; one mutant survived) — the same provision one instrument needed broke another instrument's declared environment | T' full-run receipt (`c2-after-full.txt`: laundered=1 round41-c1-mutants) + solo rerun `r41-solo.txt` (BATTERY wrong=3, deterministic) vs the S run (green, uv absent then) | the counter's own wrong-fixture lines name the skip expectations; the fixture names carry `uv-absent` | Amendment A3 item 4: per-instrument environment scoping — uv recorded for the controls receipts, then removed; the canonical counter environment is uv-less and named in full |
+
+## Measured close (2026-11-01)
+
+Canonical revision `9bc20ab7` (master checkout, uv-less): C1 `LANDCHECK PASS n=4` with three
+single-leg mutation kills; C2 `PREDICATE R55-C2 pass` (executed=83, laundered=0, TIPSTATE
+equal); C3 predicate met, score held 7. The two scoping rules of R56-F2 (uv-less canonical
+counter; master-checkout measurement clones) and the four Mistakes rows above are the round's
+transferable content. considerthese mined, nothing adopted; assimilation none.

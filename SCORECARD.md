@@ -2395,3 +2395,50 @@ Next-round prerequisite: restore registry closure under a newly frozen rule and 
 the entry ledger after documentation integration, before new scope. Strict attack-role count
 is reviewer5+critic7+mutation-tester4=16/66 (24.24%); the initial 18/66 included sentinels.
 That strict 25% floor was missed and is a conformance defect; roles are not relabelled.
+
+## Round 56 (hyaku run 12, 2026-10-31/11-01): the host moved; the landed-evidence gate verified with mutation kills (C1 admitted), the entry ledger brought to this host's truth (C2 admitted), the thirteenth grader gained its maintainer oracle (C3 predicate met, score held at the L0 cap)
+
+Base `8db18e23` (the prior run's freeze; its 32-seat wave never dispatched — host retired
+pre-data, no seat scored). Amendment A2 (host move, WSL Ubuntu-24.04 measurement runtime)
+precedes all data; Amendments A3.1–A3.4 are post-landing data corrections and environment
+scoping. Landing `1192e465`; corrections `4a5dc42e`; scoping `9bc20ab7` = the measured
+revision of the canonical runs. Receipts `.ufo/waves/round-56/integrate/`.
+
+| claim / axis | before → after evidence | counting command | verdict / score |
+|---|---|---|---|
+| R56-C1 / operability | before (frozen receipt `.ufo/waves/round-56/claims/c1-before.txt`, pre-freeze base `1355e84c`): the gate instrument does not exist → after: `LANDCHECK PASS n=4`, exit 0, four legs green (registry closure `MISSING 0` / `PREDICATE R52-C2 pass`; chess probe re-run summary byte-equal to the committed r55 receipt `cases=12 observed_pass=5 observed_fail=7 mismatches=0`; entryargv selftest `4/4 PASS`; grader `CHECKS n=733 mismatches=0` + `[selftest] ALL PASS`); checker selftest 7/7; the frozen mutation duty: three tampered clones each kill exactly one leg (`LANDCHECK FAIL failed-legs=1` — a registry row dropped, the chess receipt byte flipped, grader-pinned evidence flipped) | `python3 plans/round56_landcheck.py --lane <clean master clone at 9bc20ab7> --work <scratch> --receipt integrate/c1-after-landcheck.txt` (WSL) | **admitted; 8→9** — the r54 prerequisite (restored registry closure) demonstrated, not assumed; no kill fired |
+| R56-C2 / calibration | before (frozen receipt `claims/c2-before.txt`, base `1355e84c`, old host): static `BINDING l1=17 l2=1 l3=0`; on this host the base full run adds `executed=66 … laundered=14 evidence_missing=2` — sixteen declared-green rows false here (old-host absolute paths: shokuknow staged files, fleet reports, hardcoded census scripts; lost surfaces RESOLVE 11/13; stale expectations; my own malformed finding row) → corrections landed as data: 17 registry entry cells carry the literal ledger argv; measured argv corrections that stay green (round-close-check `--census`, round36-c2 `--fleet` — both re-measured exit 0 at this host's fleet path); stage-scan's never-executable `--lane .` argv corrected to its designed tree scan (honest red, `hits=860`); tb2-grader-probe re-declared at the bare interpreter (Biopython 1.85 provisioned; probe re-run `cases=18 … mismatches=0`, receipt byte-equal); seventeen honest green→red re-declarations with verbatim measured fragments (incl. round50-c1's population-pin drift, first executed on this host); R56-F1's finding-row shape corrected after the findings counter rejected it → after at `9bc20ab7` (canonical: master checkout, uv-less, A3.4): static `BINDING l1=0 l2=0 l3=0`, `RUN executed=83 timeout=0 mismatched=0 evidence_missing=0 laundered=0`, `TIPSTATE entry_declared_green=49 entry_declared_red=34` equal to observed, `PREDICATE R55-C2 pass`, exit 0 | `python3 plans/round55_c2_entryargv.py --lane <clean master clone at 9bc20ab7> --source <same> --work <scratch> --jobs 4 --timeout 900` (WSL) | **admitted; 9→10** — fixture kills fire attributed (abbreviated-selftest → `ARGV-DEFECT`+`ABBREV-DEFECT`; uv-decoy → `ARGV-DEFECT`+`WRAPPER-DEFECT`, both naming `fixture-gate`, `PREDICATE R55-C2 fail`, demonstrated-state exit 0; controls selftest 4/4 in its own uv-present scope per A3.4); no soundness break constructed or observed; declaring truly-red rows red is the claim's design. The scoping lessons are captured as R56-F2 (uv presence flips the three r41 `*-uv-absent` fixtures; detached-HEAD clones break ref-shaped checks — measure on a master checkout) |
+| R56-C3 / coverage (L0-capped) | before (frozen receipt `claims/c3-before.txt`): `grep -c S203/S204/thirteenth` → `0 0 0`, oracle note absent → after: S203 (`task.toml`, spec, A) and S204 (`solution/solve.sh`, code, A) opened 2026-10-31 at pin `2fd12b88`; registry 195→197 rows census-clean (malformed 0, duplicates 0, enum 0, used-by paths exist); `corpus/evidence/round56/chess-oracle.md` pins both sha256s (`d8f01d3c…`, `53b5c5e2…`) plus the S201 grader cross-check (re-fetched `a540714e…`, byte-identical); PROVINCE names the chess task as the **thirteenth** grader read (13 of 89) and corrects the SF14 count in place (171→195, dated); the knowledge entry carries the dated round-56 addendum | `grep -c S203 corpus/SOURCES.md` → 1; `grep -c S204 corpus/SOURCES.md` → 1; `grep -c thirteenth PROVINCE.md` → 1; `test -e corpus/evidence/round56/chess-oracle.md` → present | **predicate met; score HELD at 7** — the claim's own design: capped by the unanswered L0 `kengaku | round-25/33/51`; no kill fired (oracle consistent with the grader; identities hold; census exit 0) |
+
+**Capabilities** — new row: `landed-evidence landcheck` → re-verifies the full landed
+r55/r56 evidence set (registry closure, chess-probe receipt byte-equality, entryargv
+selftest, grader replay + selftest) in one command, failing per leg →
+`plans/round56_landcheck.py --lane <clone> --work <scratch>` → first working round 56.
+
+**Carried duty (r55 spot-check defects 1–3)** — defect 1 discharged: every piece of run-12
+wrap-up seat content named unverified is verified with committed receipts (registry closure
+via L-reg; the chess probe via L-chess byte-equality; the entryargv counter via L-selftest
+and the full counter; S201/S202 via the identity cross-check and the census) before any
+SCORECARD move rode them. Defect 3 discharged by the oracle chain above. Defect 2's erratum
+is filed in the round report.
+
+**No owned axis harmed.** depth 9 (addendum only), freshness 9 (host surfaces re-probed and
+dated in PROVINCE; no new drift pin), adjacency 9 (two routed findings + two L0 lines filed,
+nothing absorbed), novelty 8 (a second primary source for an existing admission — no new
+phenomenon claim), calibration 9→10, operability 8→9, coverage held 7. One capability enters.
+SOURCES 195→197 rows (`validate` exit 0 at round start and end; W04 duplicate-url warnings
+pre-existing). The freeze's wave shape (32 seats, inline spawn) never ran: the host lacks the
+driver and this session's workflow surface refused execution (L0 `kengaku | round-56` records
+the ruling request); the round's adversarial coverage is the frozen instruments' own
+falsification machinery (checker selftest 7/7, three mutation kills, two attributed controls
+kills) plus the outside closure. **Round verdict: all three declared claims verify (C1
+admitted 8→9, C2 admitted 9→10, C3 predicate met with the score held by its own L0 design);
+no axis harmed — self-admitted, subject to the non-author closure.**
+
+### Planned (round 57)
+
+Repair `plans/anchor_line_check.py`'s QUOTE_RE for escaped-quote anchors under its own frozen
+claim with falsifier fixtures (R56-F1); host-scope or re-pin the r50 population (`round50-c1`
+red: 125/126 fixture identities drift under this host's rebuilds — root cause named open, not
+guessed); act on the L0 rulings (L2-floor surface; ledger schema v2 host column) if they land;
+carry R56-F2's two scoping rules into every future measurement receipt.

@@ -1803,3 +1803,13 @@ and the controls selftest is 4/4. Polarity note: the controls tool exits 0 when 
 kill state holds (its own docstring), while the frozen claim text expected "exit 1" — the
 receipts carry the full output; polarity read from the instrument, disclosed, not silently
 reinterpreted.
+
+Round-56 measured close (2026-11-01, canonical revision `9bc20ab7`): C1 `LANDCHECK PASS n=4`
+exit 0 + checker selftest 7/7 + three single-leg mutation kills (receipts
+`.ufo/waves/round-56/integrate/`); C2 `PREDICATE R55-C2 pass` — `executed=83 timeout=0
+mismatched=0 evidence_missing=0 laundered=0`, `TIPSTATE` declared 49g/34r equal to observed,
+both fixture kills fired attributed, controls selftest 4/4 in its scoped uv-present side-run
+(R56-F2 closes as two scoping rules: uv-less canonical counter, master-checkout measurement
+clones); C3 predicate met with the score held at the L0 cap. Scores: operability 8→9,
+calibration 9→10, coverage held 7, others unchanged; one capability enters
+(`landed-evidence landcheck`). Round self-admitted pending the non-author closure.
