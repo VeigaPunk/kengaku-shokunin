@@ -1,0 +1,19 @@
+=== the FIXED checker (round-58 QUOTE_RE) on the same falsifier lanes ===
+predictions (frozen in plans/round-58-claims.md): fx-good clean (exit 0, live=0); fx-red line:1 (exit 1); fx-words words:1 (exit 1)
+-- fx-good
+ANCHORLINE rows=1 cited=1 captured=1 uncaptured=0 defective=0 repaired=0 live=0 cells=0
+   exit=0
+-- fx-red
+ROW S902 state=live defects=line:1
+ANCHORLINE rows=1 cited=1 captured=1 uncaptured=0 defective=1 repaired=0 live=1 cells=1
+   exit=0
+-- fx-words
+ROW S903 state=live defects=words:1
+ANCHORLINE rows=1 cited=1 captured=1 uncaptured=0 defective=1 repaired=0 live=1 cells=1
+   exit=0
+=== fixed checker selftest ===
+SELFTEST ESC-GOOD rc=0 want_rc=0 ok :: ANCHORLINE rows=1 cited=1 captured=1 uncaptured=0 defective=0 repaired=0 live=0 cells=0
+SELFTEST ESC-RED rc=1 want_rc=1 ok :: ANCHORLINE rows=1 cited=1 captured=1 uncaptured=0 defective=1 repaired=0 live=1 cells=1
+SELFTEST ESC-WORDS rc=1 want_rc=1 ok :: ANCHORLINE rows=1 cited=1 captured=1 uncaptured=0 defective=1 repaired=0 live=1 cells=1
+SELFTEST pass
+SELFTEST-EXIT=0
