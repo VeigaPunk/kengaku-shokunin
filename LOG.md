@@ -2298,3 +2298,72 @@ live=0, round46-c2 pass, r51 green, r50 pass, r35 red-as-declared) and land with
 receipts commit. Round verdict stands: C1 admitted (coverage HELD 7 at its L0 cap), C2
 admitted (operability HELD 10); no owned axis harmed — self-admitted, subject to the
 non-author closure.
+## Round 61 (hyaku run 14, 2026-11-02) — wave F (freeze): the seventeenth grader frozen before any scored run, and the D1 carry-in lands
+
+Freeze `215a7029`: plans/round-61-claims.md (claims + leg rule + the generated 72-leg
+zero-U table), the r61 capture (byte-identical to the r52 population capture; sha
+`d6f510b5…60ee7`), the probe instrument (self-pin `7d448487…f9f59`; plumbing proven only
+against toys: selftest 2/2 green at the base worktree), S224+S225 opened live and adopted
+through the adoption gate (quotes 7/7 located+bound; collisions=0, malformed=0,
+duplicates=0; SOURCES 216→218), and the round-60 closure's routed D1 landing: the
+byte-true mirror (headerless — the file IS the fleet working-tree append, cmp-identical,
+sha `2a2f952c…af2a21`), the dated ERRATUM appended to the round-60 mirror naming the
+encoding defect (9 characters cp1252-double-encoded: 5 em-dash-class + 4 arrow-class;
+S225 grounds the mapping) and one surplus trailing blank line, the content-mirror vs
+byte-mirror status downgrade, and the fidelity receipt with runner-captured exits. The
+freeze's own commit carried a defect the round mined immediately: the SOURCES append was
+written through Windows text mode and flipped the registry's line endings (the whole file
+rewritten); repaired same-round at `b9920576` by restoring the parent blob bytes and
+re-inserting the two rows as a pure byte append (net diff vs base: +2 rows, 0 removed,
+0 CR bytes) — mined in the round-61 lesson. LOG re-verification lines for every touched
+claim: this entry and wave M/close.
+
+## Round 61 (hyaku run 14, 2026-11-02) — wave A+M (the honest fail, the Q25 re-freeze, the green of record): four author defects caught by the round's own instruments, all dated, none papered over
+
+The FIRST scored battery (at the repair tip, instrument `7d448487…f9f59`) FAILED its own
+frozen predicate: mismatches=2, `PREDICATE R61-C1 fail`, exit 1 — and the receipt of
+record was committed AS-IS (`.ufo/waves/round-61/recon/c1-first-run-FAIL.txt`), never
+re-scored (Q25). The amended probe (`0e62b479`, self-pin superseded
+`7d448487…f9f59` → `92facdc7…fe7f87`, both named) fixes four author defects, all named in
+plans/round-61-claims.md Amendment 1: (a) the simulator never read the declared handler
+property (the kbdint-no-handler case installed the cancelling handler and passed legs it
+should fail); (b) premature_start double-printed its marker; (c) the freeze's embedded
+table carried ONE hand-transcribed row (no-max-enforcement concur/obey swapped — the r59
+freeze-transcription class AGAIN; the mined fix finally made mechanical: the amendment
+embeds the tool's own table-rendering output byte-identically, verified by the
+table-identity receipt); (d) the prediction model's asyncio else-branch asserted
+"asyncio + handler" without checking handler — the same blind spot as (a), on the model
+side. The SECOND scored run (fresh clean WSL-native-fs clone, receipt written outside the
+measured clone) is the receipt of record at `corpus/evidence/round61/cancel-async-probe.txt`:
+cases=12 legs=72 mismatches=0 setup=0 predicted_u=0, `PREDICATE R61-C1 pass`, exit 0; the
+generated table at the scored tip is byte-identical to Amendment 1's embedded block and
+the output-side cross-check agrees 12/12. The measured do-nothing controls caught ONE
+MORE author defect: the freeze's claimed before-anchor (the word "seventeenth" at base
+counting 0) was wrong — the round-60 planned text already contains it; the correct
+frontier anchor counts 0 at base and 1 at the landing — dated-corrected in Amendment 1
+addendum 2, never silently repaired (receipt `.ufo/waves/round-61/measurements.txt`,
+controls section). LOG re-verification lines for every touched claim: this entry and the
+close entry.
+
+## Round 61 (hyaku run 14, 2026-11-02) — close: both claims verified and admitted (C1 predicate met with coverage held 7 at its L0 cap; C2 admitted with calibration held at ceiling, exercised); the round-60 closure's D1 discharged with byte-true evidence
+
+The landing: PROVINCE's round-61 section (17 of 89 — the frontier count moves 16 → 17),
+the knowledge entry (the class narrowly worded + three class observations: the
+ThreadPoolExecutor warning is only visible at above-max, SIG_IGN is indistinguishable
+from success while the work fits the window, and threads-vs-asyncio show different
+no-handler signatures) + its README index row, the SKILL registry row
+`round61-c1-cancel-probe` (RED first run and GREEN of record both recorded), the
+entrytruth ledger row (green; both runs' receipts cited), the capability row
+`signal-cancellation-grader-probe`, and the SCORECARD round-61 section — registration in
+the same commit as the SCORECARD section (the r58 lesson-3 rule). C2's landing: the
+byte-true mirror + the dated erratum + the fidelity receipt (the round-60 mirror's bytes
+above the erratum untouched — the defective bytes ARE the history the erratum describes).
+The fleet-root landing of the authoritative append stays routed to the orchestrator (the
+append was re-verified intact in the fleet working tree at the round's measurement).
+Round verdict: C1 predicate met (coverage HELD 7, L0 cap `kengaku | round-25/33/51` still
+open — nothing assumed answered), C2 admitted (calibration HELD 10, exercised); no axis
+harmed — self-admitted, subject to the non-author closure. SOURCES 216→218 (S224+S225,
+both opened live this round; census receipts in the round report). L0 questions
+`kengaku | round-25/33/51` and `kengaku | round-56`: still open, routed around. Lesson:
+`corpus/lessons/round-61.md`. LOG re-verification lines for every touched claim: waves F,
+A+M, and this entry.

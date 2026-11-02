@@ -2709,3 +2709,61 @@ now watches every claims doc's dated-correction sections at the tip: corrections
 re-deriving (R12) or carry a dated erratum naming the gate.
 
 - **R26-E11 (2026-11-02)** supersedes `P3c.box.4.pointer.1` — now `pointer=PROVINCE.md:129` `pointer_count=1` `target=PROVINCE.md:129` `token=### Adjacent` `token_hits=0` `line_text=<blank>`.
+## Round 61 (hyaku run 14, 2026-11-02): the seventeenth grader executed as a NEW class — signal-propagated cancellation semantics (C1 predicate met 72/72 after an honest first-run fail and a Q25 re-freeze, coverage held at the L0 cap), and the round-60 mirror's false byte-fidelity claim corrected with the byte-true mirror and a dated erratum (C2, calibration held at ceiling) — the round-60 closure's D1 discharged
+
+Base `f97e5b7b` (the round-60 non-author closure tip, admitted). Freeze `215a7029` (claims +
+capture + S224/S225 + probe + the C2 mirror landing, BEFORE the first scored run; probe
+self-pin `7d448487…f9f59`) + the SOURCES EOL repair `b9920576` (the freeze's own write
+defect: a Windows text-mode write flipped the registry's line endings — the blob restored
+to the parent's exact bytes with the two new rows re-inserted as a pure byte append, mined)
++ amendment wave `0e62b479` (the first run's fail of record committed AS-IS + Amendment 1:
+four author defects named, instrument superseded `7d448487…f9f59` → `92facdc7…fe7f87`, the
+amended table embedded BYTE-IDENTICALLY from the tool's own `--render-table` output) +
+measurements `ddbb93ec` (the second scored run's receipt of record + the measured controls,
+which caught the freeze's own wrong before-anchor — dated-corrected in addendum 2).
+Environment: WSL Ubuntu-24.04 (python 3.12.3, bwrap 0.9.0, git 2.56.0; uv/pytest absent —
+the canonical counter environment preserved); scored runs on fresh clean WSL-native-fs
+clones, receipts kept outside the measured clone, every exit captured inside the runner.
+Lowest owned axis: **coverage 7** (L0-capped, `kengaku | round-25/33/51` still open —
+nothing assumed answered), worked by C1; no stagnation waiver invoked.
+
+| claim / axis | before → after evidence | counting command | verdict / score |
+|---|---|---|---|
+| R61-C1 / coverage (lowest owned axis, L0-capped) — the seventeenth grader read and executed: a NEW grader class, signal-propagated cancellation semantics | before (base `f97e5b7b`, measured controls): the probe, the r61 capture dir, the knowledge entry and the frontier sentence are ALL absent (`git cat-file -e` rc=128 ×3; the frontier anchor `17 of 89` counts 0 at base and `16 of 89` counts 3; the freeze's original claimed anchor — the word "seventeenth" — was WRONG, count 1, dated-corrected in Amendment 1 addendum 2); SOURCES 216 at base → after: S224 opened live at the pin and byte-compared to the committed r52 population capture (sha `d6f510b5…60ee7`); the probe ran TWICE — the first scored run honestly FAILED (receipt of record `.ufo/waves/round-61/recon/c1-first-run-FAIL.txt`: mismatches=2, `PREDICATE R61-C1 fail`, exit 1 — the simulator never read the declared `handler` property and `premature_start` double-printed; two further defects caught before the re-run: a hand-transcribed freeze-table row and a model else-branch blind to the same property — ALL dated in Amendment 1); the corrected re-freeze (the r59→r60 mechanism, both digests named) is the receipt of record `corpus/evidence/round61/cancel-async-probe.txt` at `0e62b479`: `cases=12 legs=72 mismatches=0 setup=0 predicted_u=0`, `PREDICATE R61-C1 pass`, exit 0; PROVINCE names the seventeenth grader (**17 of 89**, the frontier sentence count 0→1); knowledge entry + README index row landed; the class is NEW — the only `send_signal` grader in the 184-capture population | `python3 plans/round61_c1_cancel_probe.py --lane .` → `PREDICATE R61-C1 pass`, exit 0 (the bare run re-executes the battery; ~3–4 min — the entrytruth ledger's sec field is declared at 210 s from the measured receipt window); `grep -c '17 of 89' PROVINCE.md` → 1 at the landing tip (0 at base); `grep -cE '^\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|' corpus/SOURCES.md` → 218 (216→218); do-nothing controls: probe/capture/evidence-dir/knowledge-entry all rc=128 at base | **predicate met — admitted; coverage HELD at 7** (the standing unanswered L0 cap; the ground and the class line move — 16→17 read — the capped number does not; the first-run fail is part of the claim's record, not errata to it) |
+| R61-C2 / calibration (held at ceiling 10, exercised) — the round-60 mirror's false byte-fidelity claim corrected: the byte-true mirror lands, the false claim is downgraded by dated erratum | before (base `f97e5b7b`): the byte-true file absent (`git cat-file -e` rc=128) and the false "byte-for-byte" claim standing in five landed artifacts; the defect measured at base AND re-priced at the amendment tip (receipt `.ufo/waves/round-61/mirror-fidelity-receipt.txt`): authoritative append 26 lines / 2141 bytes / sha `2a2f952c…af2a21` with 9 clean non-ASCII chars (5 em-dash, 4 arrow) and ZERO double-encoded sequences; the round-60 block 2206 bytes with 5 em-dash-class + 4 arrow-class cp1252-double-encoded sequences (27 mojibake chars), cmp differs at byte 39, line 2, one surplus trailing blank line → after: the byte-true mirror `.ufo/waves/round-61/r58-report-corrections-append-byte-true.md` (headerless — the file IS the append) cmp-identical to the authoritative bytes; the dated ERRATUM appended to the round-60 mirror naming the encoding defect (byte triples named; S225's windows-1252 index grounds the mapping: 0x80→U+20AC :7, 0x86→U+2020 :13, 0x92→U+2019 :25, 0x94→U+201D :27, 0xE2→U+00E2 :105) and downgrading it to the content-mirror of record; the round-60 bytes above the erratum untouched (append-only) | the fidelity receipt's runner legs: `cmp <authoritative extract> <byte-true mirror>` → exit 0 (byte-identical) and `cmp <authoritative extract> <round-60 mirror block>` → exit 1, first difference byte 39 line 2 (the defect, as declared); `git cat-file -e f97e5b7b:.ufo/waves/round-61/r58-report-corrections-append-byte-true.md` → rc=128 (the do-nothing control) | **admitted; calibration HELD at 10, exercised** — the false byte-level claim of the previous round is caught (by the non-author closure), owned, downgraded where the evidence demands, and replaced by a mechanically verifiable artifact; the rubric anchors (SCORECARD/SHONEN entries match observed repo state) are repaired, not re-numbered (the r58/r60 held shape) |
+
+**Capabilities** — new row: `signal-cancellation-grader-probe` → executes a captured
+benchmark grader whose decisive legs deliver SIGINT to a lane-authored candidate and price
+its cleanup discipline in captured stdout, on a frozen zero-U full-commitment prediction
+table derived at run time → `plans/round61_c1_cancel_probe.py --lane .` → first working
+round 61 (the r58 class-gated precedent: the class is new to the executed corpus).
+
+**No owned axis harmed.** depth 9 (the knowledge entry's mechanism + three class
+observations; additive), coverage held 7 (predicate met at the L0 cap), operability 10
+(held — the round's instrument is a probe registration, no gate moved), freshness 10
+(held — LOG re-verification lines for every touched claim; all citations resolve at the
+tip), calibration 10 held and exercised (C2, plus the round's own four defects caught by
+its own instruments and dated, never papered over), adjacency 9 (nothing absorbed; the
+fleet erratum routed with byte-true evidence, not absorbed), novelty 8 (the class line
+rides the executed grader's registration; no new phenomenon claim). SOURCES 216→218 (both
+rows opened live this round; census receipts in the round report). Registration:
+`round61-c1-cancel-probe` SKILL registry row + entrytruth ledger row + the capability row
+in the same commit as this section (the r58 lesson-3 rule). R13 separability: C1 and C2
+share no artifact but the claims doc — C1's artifacts are the probe, the capture, its
+receipts and the knowledge entry; C2's are the byte-true mirror, the erratum and the
+fidelity receipt. **Round verdict: both declared claims verify (C1 predicate met with
+coverage held at its L0 cap — the first-run fail honestly carried as part of the record;
+C2 admitted with calibration held at ceiling); no axis harmed — self-admitted, subject to
+the non-author closure.**
+
+### Planned (round 62)
+
+The one-more-grader pattern stays class-gated: an eighteenth grader only if a NEW grader
+class is found in the 89-task population (the signal class was the last obviously-new
+mechanism in a first sweep; remaining classes need a survey pass before any claim).
+Carry the L0 questions (`kengaku | round-25/33/51` coverage cap; `kengaku | round-56` L2
+surface + ledger host column). Re-pin discipline and receipt discipline stand (receipts
+outside the measured clone; runner-captured exits; tables always embedded from
+`--render-table` output by script, never by hand). The byte-mirror of record for any
+future fleet-root routing is a headerless byte-copy with a cmp receipt — prose byte-fidelity
+claims are barred by the round-61 erratum.

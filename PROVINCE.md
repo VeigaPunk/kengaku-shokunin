@@ -845,3 +845,48 @@ stale-by-S222 touch-up; and the fleet-root round-58 report erratum append (still
 in the fleet working tree — this lane may not mutate the fleet root) mirrored byte-for-byte
 to `.ufo/waves/round-60/r58-report-corrections-mirror.md` with the fleet-root landing routed
 to the orchestrator in the round report.
+## Round 61: the seventeenth grader read and executed — the corpus's first signal-propagated cancellation-semantics gate; the round-60 mirror byte-fidelity correction (2026-11-02)
+
+**Coverage ground.** The seventeenth read TB2 task grader — `cancel-async-tasks` — is read
+and executed at TB2 pin `2fd12b88` (S224, opened live and byte-compared to the round-52
+population capture, sha256 `d6f510b5…60ee7`). Its decisive legs spawn the candidate as a
+child process, deliver SIGINT mid-flight (capture :93/:126/:162) and price the cleanup
+discipline in captured stdout (:102-103/:135-136/:171-172) — a signal-propagated
+cancellation-semantics gate no executed grader touches (the only `send_signal` grader in
+the 184-capture population). The probe (`plans/round61_c1_cancel_probe.py`, the r58/r59
+sandbox pattern) ran 12 cases x 6 legs twice: the first scored run FAILED on four author
+defects (receipt of record `.ufo/waves/round-61/recon/c1-first-run-FAIL.txt` — the
+simulator never read the declared `handler` property, `premature_start` double-printed,
+one freeze-table row was hand-transcribed wrong, and the model's asyncio else-branch
+never checked `handler`); the corrected re-freeze (`plans/round-61-claims.md` Amendment 1,
+instrument `92facdc7…fe7f87`) ran `cases=12 legs=72 mismatches=0 setup=0 predicted_u=0`,
+`PREDICATE R61-C1 pass`, exit 0 (receipt `corpus/evidence/round61/cancel-async-probe.txt`).
+The entry carries three class observations: the capture's own ThreadPoolExecutor warning is
+only visible at above-max (an uncancelled pool passes the n=2 cancel legs), a SIG_IGN
+candidate is indistinguishable from success while the work fits the communicate window,
+and threads-vs-asyncio show different no-handler signatures (uncancelled completion vs
+loop-death with zero cleanups). **17 of 89** TB2 task graders read — the frontier count
+moves 16 -> 17.
+
+**The round-60 mirror byte-fidelity correction (the round-60 closure's routed D1,
+status-neutral, claimed as R61-C2).** The round-60 claim that
+`.ufo/waves/round-60/r58-report-corrections-mirror.md` mirrored the fleet working-tree
+append "byte-for-byte" was false at the byte level: measured against the authoritative
+append (26 lines, 2141 bytes, sha256 `2a2f952c…af2a21`, still uncommitted in the fleet
+working tree at measurement — the orchestrator owns the landing), the round-60 block
+carried 9 cp1252-double-encoded characters (5 em-dash-class + 4 arrow-class — 27 mojibake
+characters; S225's windows-1252 index pins the byte mapping) and one surplus trailing
+blank line; cmp differs at byte 39, line 2. The correction lands the byte-true mirror
+`.ufo/waves/round-61/r58-report-corrections-append-byte-true.md` (headerless — the file IS
+the append, cmp exit 0 in the fidelity receipt, so byte verification needs no
+marker-stripping step) and appends the dated ERRATUM to the round-60 mirror naming the
+defect and downgrading it to the content-mirror of record (the byte-mirror of record is
+the round-61 file). Receipt: `.ufo/waves/round-61/mirror-fidelity-receipt.txt`.
+
+What it refuses stays refused: the task's reference `test.py` simulator is not in the
+capture population (the r52 program captured `test_outputs.py` + `test.sh` per task), so
+the probe's candidate surfaces are lane-authored reconstructions declared per case — the
+grader's predicates, not the task's full semantics, are what the receipt executes. The L0
+questions `kengaku | round-25/33/51` (coverage cap) and `kengaku | round-56` (L2 surface;
+ledger host column) remain open — routed around, nothing assumed answered; the coverage
+score is HELD at 7 by that standing cap.
