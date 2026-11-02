@@ -2118,3 +2118,16 @@ SHONEN box-4 pointer targets PROVINCE.md:129 whose `### Adjacent` heading line m
 this round; verified red at the round base `5420eac9` with the same output), closed by the
 full-value supersession R26-E11 per the state_check P3 protocol. All repairs land in this
 wave; the final receipts (wave W3) re-run everything at the repaired tip.
+
+## Round 59 (hyaku run 14, 2026-11-02) — wave W2b: two stale red declarations honestly flipped green (both caused by this round's own repairs)
+
+The W3 verification's entryargv caught two MISMATCH rows declared red whose instruments now
+pass: (1) `state-assertion-check` — its last frozen mismatch was P3c.box.4.pointer.1, the
+SHONEN box-4 pointer's pinned PROVINCE.md:129 target drifting BEFORE this round (verified red
+at the round base `5420eac9` with identical output — the do-nothing control), closed by this
+round's R26-E11 full-value supersession; flipped green with the verbatim fragment
+`assertions=329 match=317 mismatch=0 superseded=7 offline_unverifiable=5`. (2)
+`round28-census` — its leg chain includes the state_check leg, so the same repair flipped it:
+green at `fea67b2c` with a verbatim fragment (`rows: 215`, no unindexed/dangling/duplicates);
+flip reason names the mechanism and the last-red tip. Both flips carry dated reasons per the
+r58 flip discipline; TIPSTATE at the final tip must now read 59g/30r declared==observed.
