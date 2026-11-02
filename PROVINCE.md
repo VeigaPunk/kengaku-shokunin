@@ -730,3 +730,49 @@ dated (197; the round-56 cell's 195 was that round's before-count). R56-V3: the 
 SCORECARD section carries the dated 14-flips + 2-refreshes + 1-argv-redeclaration
 decomposition. R56-V4: this round's ledger/registry writers are byte-stable over existing
 rows (text insertion, no JSON re-encoding). Reported out: none absorbed.
+
+## Round 58: the fifteenth grader read and executed — the corpus's first tolerance-band gate; the R56-F1 gate repair; the r50 pin root-caused and re-pinned (2026-11-01)
+
+**Coverage ground.** The fifteenth read TB2 task grader — `distribution-search` — is read and
+executed offline at the same pin `2fd12b88` (full sha in the SOURCES rows and the oracle
+note): rows **S209** (the task's machine-readable definition, tier A spec), **S210** (the
+grader, tier A code), **S211** (the maintainer reference solution — the oracle: a
+three-level count-scan Newton over integer atom counts, tier A code), **S212** (the
+agent-facing instruction, tier A docs — the task is in the lane's home domain: LLM
+confidence metrics via KL divergence) opened 2026-11-01; capture bytes committed at
+`corpus/evidence/round58/tb2-distribution-search/`. The graded property is new to the
+executed corpus: the decisive leg asserts **|KL(P||U) − 10.0| ≤ 1e-3 AND |KL(U||P) − 10.0|
+≤ 1e-3** — a numeric tolerance band on two aggregated functionals, not an exact comparison;
+the corpus's executed graders previously decided exact predicates only. The offline probe
+(`plans/round58_c2_kl_probe.py`, frozen with `plans/round-58-claims.md` at d6bc6027 before
+the first capture run) executed the captured grader against 12 lane-written candidates:
+`cases=12 legs=48 mismatches=0 setup=0 predicted_u=0`, `PREDICATE R58-C3 pass` (receipt
+`corpus/evidence/round58/kl-probe.txt`, sha256 `3c93e06a…53c1f`) — deterministic, zero U
+marks, 48/48 predictions confirmed on the first run. Oracle note
+`corpus/evidence/round58/kl-oracle.md`. **15 of 89** TB2 task graders read — the frontier
+count moves 14 → 15. What it refuses is unchanged: the task image, the harness, real
+submissions, runtime task validity, contamination, model behaviour, and the remaining 74
+unread TB2 task graders.
+
+**Gate repair (R56-F1, routed twice, discharged).** The r46 anchor checker's QUOTE_RE was
+escape-blind: S201's byte-true escaped-quote anchor false-positived as a live `line` defect
+(`live=1`, exit 1 at base). Repaired under the frozen claim `plans/round-58-claims.md` with
+three escaped-quote falsifier fixtures (the false positive, the retained true positive, and
+the miscounted-words class the old parse hid); the repair exposed real anchor defects —
+S201's `(6 words)` cell miscounts its quote (5) and S140's anchor quoted an ELIDED text
+that never was a substring — repaired by Q34 supersessions **S213–S217** (same sources and
+captures, corrected anchors). The checker's anchor coverage is fully restored:
+`ANCHORLINE rows=210 cited=64 captured=57 live=0`, exit 0; `round46_c2_verify` →
+`PREDICATE C2 pass`, exit 0 (PINS + registry + ledger honestly refreshed, dated).
+
+**The r50 population pin root-caused and re-pinned.** The round-50 cross-host population
+pin froze git-plumbing store bytes: 125/126 fixtures drift deterministically under this
+host's rebuild, the sole matcher (`n10-empty-repo`) is the one fixture whose build runs no
+git plumbing beyond `git init`, and a full double-build discriminator shows 0 unstable
+fixtures on this host — the re-pin is sound and landed (pin `f41db91b`, dated header, rows
+byte-preserved): `PREDICATE R50-C1 pass`, exit 0. The carried `round50-c1` root cause is
+CLOSED with measurements; findings R56-F1 (repaired), R58-F1 (the exposed words miscount)
+and R58-F2 (the unescaped/elided anchor class) are closed with the supersessions.
+
+What it refuses is unchanged: the task image, the harness, real submissions, runtime task
+validity, contamination, model behaviour, and the surfaces refused in earlier rounds.

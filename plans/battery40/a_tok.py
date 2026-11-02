@@ -4,6 +4,12 @@ One fixture per advertised token behaviour of `plans/anchor_digest_check.py`: th
 (`digest-uppercase`), and the 8-63 lowercase-hex abbreviation window (floor and ceiling). Each fixture
 edits one existing `corpus/SOURCES.md` anchor claim in the working tree of a fresh `--shared` clone; the
 tool reads SOURCES.md from the working tree and evidence from HEAD, so no commit is needed.
+
+Round-58 scoping (2026-11-01): the S111 digest is now carried by TWO rows — S111 and its Q34
+supersession S214 (the round-58 R56-F1 repair re-anchored this class with corrected escapes) — so
+`build_upper`'s edit is scoped to the `| S111 |` row line. The whole-file uniqueness assumption broke
+when the corpus legitimately grew; the fixture's target (the S111 anchor claim) and its expected defect
+class are unchanged.
 """
 
 import hashlib
@@ -26,10 +32,28 @@ def _edit(lane, old, new):
     return ["--lane", str(lane)]
 
 
+def _edit_row(lane, row_id, old, new):
+    """Replace exactly one occurrence of `old` within the `| <row_id> |` row line; return the tool argv."""
+    p = lane / SOURCES
+    text = p.read_text(encoding="utf-8")
+    hit = None
+    for line in text.splitlines(keepends=True):
+        if line.startswith(f"| {row_id} |"):
+            if hit is not None:
+                raise RuntimeError(f"SOURCES.md holds multiple {row_id} rows")
+            hit = line
+    if hit is None:
+        raise RuntimeError(f"SOURCES.md holds no {row_id} row")
+    if hit.count(old) != 1:
+        raise RuntimeError(f"the {row_id} row holds {hit.count(old)} copies of the token to rewrite, not 1")
+    p.write_text(text.replace(hit, hit.replace(old, new, 1), 1), encoding="utf-8")
+    return ["--lane", str(lane)]
+
+
 def build_upper(ctx, d):
     """A 64-character anchor token in uppercase: the shape test is lowercase-only, so it is digest-uppercase."""
     lane = ctx.clone(d / "lane")
-    return _edit(lane, "sha256 " + S111, "sha256 " + S111.upper())
+    return _edit_row(lane, "S111", "sha256 " + S111, "sha256 " + S111.upper())
 
 
 def build_abbrev_floor(ctx, d):

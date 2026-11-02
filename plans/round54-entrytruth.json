@@ -846,11 +846,11 @@
     ".",
     "--run-checks"
    ],
-   "entry_exit": 1,
-   "entry_state": "red",
+   "entry_exit": 0,
+   "entry_state": "green",
    "sec": 0.5,
-   "evidence": "DETAIL CHECK_FAILED R45-S5-1 fixed-verified but check exits nonzero",
-   "reason": "round 56 host move (Windows + WSL Ubuntu-24.04 measurement host): the R45-S5-1 closure check (plans/anchor_line_check.py) exits nonzero at this tip: S201's escaped-quote anchor trips the r46 checker's QUOTE_RE (routed finding R56-F1); measured fragment verbatim."
+   "evidence": "PREDICATE R51-C2 pass",
+   "reason": "ROUND-58 FLIP (green, 2026-11-01): three repairs landed with wave F/C3 — (1) the R56-F1 QUOTE_RE repair makes R45-S5-1's closure check exit 0 (the declared red fragment's cause); (2) R56-F1/R56-F2 closed with dispositions normalized into the frozen vocabulary and their landed check fields repaired (one greped a file that never existed; one held prose, not an executable command — correction history in the findings rows); (3) R58-F1/R58-F2 born closed with executable checks. `DISPOSITIONS set=79 bad=0`, `VERIFIED ran=43 passed=43 failed=0`, `PREDICATE R51-C2 pass`, exit 0. Prior state: round 56 host move (Windows + WSL Ubuntu-24.04 measurement host): the R45-S5-1 closure check (plans/anchor_line_check.py) exits nonzero at this tip: S201's escaped-quote anchor trips the r46 checker's QUOTE_RE (routed finding R56-F1); measured fragment verbatim."
   },
   "round51-surfaces": {
    "chosen": "r53-entry",
@@ -1097,6 +1097,24 @@
    "entry_exit": 0,
    "entry_state": "green",
    "sec": 6.2
+  },
+  "round58-c2": {
+   "chosen": "r58-entry",
+   "entry_argv": [
+    "python3",
+    "plans/round58_c2_kl_probe.py",
+    "--lane",
+    ".",
+    "--work",
+    "<existing dir>",
+    "--receipt",
+    "corpus/evidence/round58/kl-probe.txt"
+   ],
+   "entry_exit": 0,
+   "entry_state": "green",
+   "sec": 2.2,
+   "evidence": "cases=12 legs=48 mismatches=0 setup=0 predicted_u=0",
+   "reason": "round 58 registration (wave C3): the round-58 KL probe, frozen before the first capture run; first capture run and tip re-run both green (receipts .ufo/waves/round-58/wavec/)."
   }
  },
  "schema": "r54-entrytruth-v1"
