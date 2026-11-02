@@ -2427,3 +2427,30 @@ net +2/−0) and landed in the same two dated appends; R61-D2 (the S225 gloss po
 discharged by the superseding row S227 (its teaches cell opens supersedes S225; S225's own
 cells stay byte-identical per Q34). LOG re-verification lines for every touched claim: this
 entry and the close entry.
+
+## Round 62 (2026-11-02) — wave A+M (the SETUP catch, the amendment, the scored run of record): the clean-clone discipline caught a ten-round-old untracked-input gap before any census result existed
+
+The FIRST scored run (at the freeze tip 93f19d1a, fresh clean WSL-native-fs clone, instrument
+unchanged) priced SETUP — receipt of record committed AS-IS
+(.ufo/waves/round-62/recon/scored-run-SETUP.txt, CLASS-SURVEY-EXIT=2): the five population
+bookkeeping files the claims name as committed population-of-record (all_tasks.lst,
+executed17.lst, missing.lst, unexec.lst, unexec72.lst — the round-52 capture program's own
+lists) were NEVER tracked by git; the pre-freeze dry run ran against the Windows worktree,
+which had them on disk, and could not see the gap (the worktree lies — the r61 environment
+lesson, mined a second way). Amendment 1 (968f6ae7) commits the five files byte-as-is
+(provenance named; CR-COUNT=0 per file in the runner); dated amendment appended to
+plans/round-62-claims.md; nothing re-scored and nothing converted (a setup is not a fail —
+no census result existed). The scored run of record is the run at the amendment tip:
+PREDICATE R62-C1 pass, CLASS-SURVEY-EXIT=0, receipt corpus/evidence/round62/class-survey.txt
+(sha ee30c698…5613, 5528 bytes, written OUTSIDE the measured clone, worktree copy
+sha-identical; determinism leg green; run sec 0.4). The census of record: roster=89 ==
+tree-dirs=89, sha256sums-rows=184, captures-committed=183 (sha-mismatch=0, the one
+pinned-but-absent row exactly the excluded capture), graders-classified=93, unclassified=0,
+classes=16, the signal-delivery sentinel holds (count=1 member=cancel-async-tasks), and
+EXECUTED-COVERAGE executed=17 classified=17 classes-covered=12 classes-uncovered=network-
+service, process-environment, db-state, container-image — the eighteenth-grader gate's survey
+input. Measurements receipt (.ufo/waves/round-62/measurements.txt): the after-counters
+re-priced at the amendment tip (the three correction counters at 3/1/1; the wrong-gloss token
+stays 1 by Q34 immutability, the superseding row S227 is the correction) and the correction
+gate re-run green (PREDICATE R60-C2 pass, defects=0 errata=5 — the stable r60 tip truth) at
+this tip. LOG re-verification lines for every touched claim: this entry and the close entry.
