@@ -1,0 +1,20 @@
+# round-61 table identity: the freeze's embedded block vs the amended --render-table output
+# (REV lines excluded; measured at the amendment worktree)
+DIFF freeze-block vs amended-tool-output:
+2c2
+< |---|---|---|---|---|---|---|---|
+---
+> |---|---|---|---|---|---|---|---|---|
+6c6
+< | sequential-sync | sequential execution: concurrency leg times out | F | P | F | F | F | F |
+---
+> | sequential-sync | sequential execution: concurrency leg times out | P | F | P | F | F | F |
+13c13
+< | no-max-enforcement | max-concurrent ignored (semaphore absent) | P | F | P | P | P | F |
+---
+> | no-max-enforcement | max-concurrent ignored (semaphore absent) | P | P | F | P | P | F |
+DIFF amendment-embedded vs amended-tool-output:
+AMENDED-SELFTEST (dev check, worktree):
+REV b99205767bac69358bc827a2da9da783d707125b
+SELFTEST toy-sigint got=P/F want=P/F ok
+SELFTEST pass

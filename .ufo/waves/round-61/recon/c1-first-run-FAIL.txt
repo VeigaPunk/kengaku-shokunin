@@ -1,0 +1,17 @@
+REV b99205767bac69358bc827a2da9da783d707125b
+CASE compliant-signal-handler predicted=P/P/P/P/P/P observed=P/P/P/P/P/P ok
+CASE threadpool-uncancelled predicted=P/P/P/P/P/F observed=P/P/P/P/P/F ok
+MISMATCH kbdint-no-handler test_tasks_cancel_above_max_concurrent:predicted-F-observed-P
+CASE kbdint-no-handler predicted=P/P/P/P/P/F observed=P/P/P/P/P/P FAIL
+CASE sequential-sync predicted=P/F/P/F/F/F observed=P/F/P/F/F/F ok
+CASE cleanup-missing predicted=P/F/F/F/F/F observed=P/F/F/F/F/F ok
+CASE cleanup-double predicted=P/F/F/F/F/F observed=P/F/F/F/F/F ok
+MISMATCH started-premature test_tasks_run_concurrently:predicted-P-observed-F; test_tasks_obey_max_concurrent:predicted-P-observed-F; test_tasks_cancel_below_max_concurrent:predicted-P-observed-F; test_tasks_cancel_at_max_concurrent:predicted-P-observed-F
+CASE started-premature predicted=P/P/P/P/P/F observed=P/F/F/F/F/F FAIL
+CASE partial-cancel predicted=P/P/P/F/F/F observed=P/P/P/F/F/F ok
+CASE ignore-sigint predicted=P/P/P/P/P/F observed=P/P/P/P/P/F ok
+CASE late-cancel-cleanup predicted=P/P/P/F/F/F observed=P/P/P/F/F/F ok
+CASE no-max-enforcement predicted=P/P/F/P/P/F observed=P/P/F/P/P/F ok
+CASE no-run-py predicted=F/P/P/P/P/P observed=F/P/P/P/P/P ok
+cases=12 legs=72 mismatches=2 setup=0 predicted_u=0
+PREDICATE R61-C1 fail

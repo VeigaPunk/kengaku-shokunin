@@ -58,6 +58,24 @@ Run as:
   python3 plans/round61_c1_cancel_probe.py --selftest --work <scratch>
   python3 plans/round61_c1_cancel_probe.py --render-table
   python3 plans/round61_c1_cancel_probe.py --check-receipt corpus/evidence/round61/cancel-async-probe.txt
+
+Round-61 amendment (Q25 new-claim re-freeze, dated 2026-11-02; the r59->r60 mechanism —
+the first scored run's receipt of record is committed AS-IS and is NOT re-scored): the
+first battery at the repair tip `b9920576` caught TWO builder defects, both the author's —
+(a) the simulator never read the declared `handler` property (the add_signal_handler
+branch was gated only on ignore_sigint, so the kbdint-no-handler case installed the
+cancelling handler and behaved exactly like the compliant case: predicted F/F/F on the
+cancel legs, observed P/P/P); (b) premature_start double-printed the started marker
+(once at submit AND once in the task body), so every count leg of started-premature saw
+started=2N and failed. The amended simulator honors both declared properties: the
+started marker prints at submit INSTEAD of in the task body when premature_start is set,
+and the cancelling handler is installed only when the case declares handler=True.
+CASES, predict_legs, the leg rule, the sandbox, the exit map and the generated
+prediction table are UNCHANGED — the freeze's table (embedded verbatim in
+plans/round-61-claims.md) is the amended probe's table; `--render-table` output at the
+amended tip is byte-identical to it modulo the REV line. Instrument self-pin superseded
+`7d448487…f9f59` -> the amended digest named in plans/round-61-claims.md Amendment 1 and
+.ufo/waves/round-61/recon/probe-selfpin.txt.
 """
 import argparse
 import hashlib
@@ -120,26 +138,32 @@ def main():
     a = ap.parse_args()
     n, m = a.n_tasks, a.max_concurrent
     impl = SPEC["impl"]
+    premature = SPEC.get("premature_start")
+    def mark_started():
+        if not premature:
+            log("Task started.")
     if impl == "sequential":
         if SPEC.get("ignore_sigint"):
             signal.signal(signal.SIGINT, signal.SIG_IGN)
         for i in range(n):
-            log("Task started.")
+            if premature:
+                log("Task started.")
+            else:
+                mark_started()
             time.sleep(3.0)
             run_task_body()
     elif impl == "threads":
-        import threading
         from concurrent.futures import ThreadPoolExecutor
         import concurrent.futures as cf
         workers = m if SPEC.get("enforce_max", True) else n
         def work(i):
-            log("Task started.")
+            mark_started()
             time.sleep(3.0)
             run_task_body()
         with ThreadPoolExecutor(max_workers=workers) as pool:
             futs = []
             for i in range(n):
-                if SPEC.get("premature_start"):
+                if premature:
                     log("Task started.")
                 futs.append(pool.submit(work, i))
             cf.wait(futs)
@@ -151,12 +175,12 @@ def main():
         async def task(i):
             acquired = False
             if sem is None:
-                log("Task started.")
+                mark_started()
                 acquired = True
             else:
                 await sem.acquire()
                 acquired = True
-                log("Task started.")
+                mark_started()
             try:
                 await asyncio.sleep(3.0)
                 run_task_body()
@@ -170,7 +194,7 @@ def main():
         async def amain():
             tasks = []
             for i in range(n):
-                if SPEC.get("premature_start"):
+                if premature:
                     log("Task started.")
                 tasks.append(loop.create_task(task(i)))
             def on_sigint():
@@ -180,13 +204,13 @@ def main():
                     return
                 for t in tasks:
                     t.cancel()
-            if not SPEC.get("ignore_sigint"):
+            if SPEC.get("ignore_sigint"):
+                signal.signal(signal.SIGINT, signal.SIG_IGN)
+            elif SPEC.get("handler"):
                 try:
                     loop.add_signal_handler(signal.SIGINT, on_sigint)
                 except (NotImplementedError, ValueError):
                     pass
-            else:
-                signal.signal(signal.SIGINT, signal.SIG_IGN)
             try:
                 await asyncio.gather(*tasks)
             except (KeyboardInterrupt, asyncio.CancelledError):
@@ -332,8 +356,10 @@ def predict_legs(cfg):
         below = at = cleanup_ok     # completes as if untouched
     elif late:
         below = at = False          # marker lands after the 5 s window
-    else:                            # asyncio + handler
-        below = at = cleanup_ok
+    elif handler:
+        below = at = cleanup_ok     # SIGINT cancels every started task
+    else:                            # asyncio, NO handler: KeyboardInterrupt kills
+        below = at = False           # the loop, pending tasks die uncleaned
     if partial:
         below = at = False          # one cleanup marker, not two
 

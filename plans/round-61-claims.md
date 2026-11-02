@@ -187,3 +187,79 @@ standing and the routed carry-in unaddressed.
 - L0: the coverage cap trio `kengaku | round-25/33/51` and the `kengaku | round-56` pair
   stay open; routed around; nothing assumed answered (the cap is why C1's score is HELD
   and not raised).
+
+## Amendment 1 (dated 2026-11-02, the Q25-sanctioned re-freeze — written and committed BEFORE the second scored run; the cells above stay as written)
+
+The first scored run (at the repair tip `b9920576`; receipt of record committed AS-IS at
+`.ufo/waves/round-61/recon/c1-first-run-FAIL.txt` with its runner transcript
+`c1-first-run-stdout.txt`: `cases=12 legs=72 mismatches=2 setup=0 predicted_u=0`,
+`PREDICATE R61-C1 fail`, exit 1) caught the author THREE times, and the amended probe is
+re-frozen per the r59→r60 mechanism (the observed run is never re-scored; the corrected
+re-freeze is a new claim with a new scored run):
+
+1. SIMULATOR DEFECT (a) — the simulator never read the declared `handler` property: the
+   add_signal_handler branch was gated only on ignore_sigint, so the kbdint-no-handler
+   case installed the cancelling handler and behaved exactly like the compliant case
+   (predicted F/F/F on the three cancel legs, observed P/P/P). Fix: the amended simulator
+   installs the cancelling loop handler only when the case declares handler=True; SIG_IGN
+   wins when ignore_sigint is declared.
+2. SIMULATOR DEFECT (b) — premature_start double-printed the started marker (once at
+   submit AND once in the task body), so every count leg of started-premature saw twice
+   the declared count and failed. Fix: the started marker prints at submit INSTEAD of in
+   the task body when premature_start is declared (mark_started() no-ops in the body).
+3. FREEZE-TRANSCRIPTION DEFECT — the embedded table above carried one hand-transcribed
+   row: no-max-enforcement's concur/obey legs were swapped at transcription (the freeze
+   row reads P/F/P/P/P/F; the generated table — and the first run's predicted AND
+   observed vectors — read P/P/F/P/P/F). The r59 freeze-transcription class again, caught
+   this round by diffing the amended `--render-table` output against the freeze's
+   embedded block (receipt `.ufo/waves/round-61/recon/table-identity.txt`); the mined fix
+   stands: the table of record is ALWAYS the tool's `--render-table` output, never a
+   hand-copied rendering of it. The generated table below (verbatim at the amended tip)
+   supersedes the block above for that one row; the other eleven rows are identical.
+
+**The amended table of record** (verbatim `--render-table` output of the amended probe at
+the amendment worktree, REV `b9920576` — the scored run's receipt re-derives it at its own
+tip; identical to the freeze's block on 11 of 12 rows):
+
+```
+| case | defect class exercised | file | concur | obey | below | at | above |
+|---|---|---|---|---|---|---|---|---|
+| compliant-signal-handler | none -- the compliant asyncio candidate | P | P | P | P | P | P |
+| threadpool-uncancelled | ThreadPoolExecutor does not propagate cancellation (:77-79) | P | P | P | P | P | F |
+| kbdint-no-handler | no SIGINT handler: KeyboardInterrupt kills the loop, tasks die uncleaned | P | P | P | F | F | F |
+| sequential-sync | sequential execution: concurrency leg times out | P | F | P | F | F | F |
+| cleanup-missing | no cleanup handler: the cleanup-marker count is zero | P | F | F | F | F | F |
+| cleanup-double | cleanup marker printed twice per task | P | F | F | F | F | F |
+| started-premature | started marker printed at submit time (accounting wart) | P | P | P | P | P | F |
+| partial-cancel | handler cancels one task and abandons the other | P | P | P | F | F | F |
+| ignore-sigint | SIG_IGN: the signal is swallowed, work completes anyway | P | P | P | P | P | F |
+| late-cancel-cleanup | cleanup marker arrives after the 5 s communicate window | P | P | P | F | F | F |
+| no-max-enforcement | max-concurrent ignored (semaphore absent) | P | P | F | P | P | F |
+| no-run-py | run.py absent (artifact-absence is a leg failure, not setup) | F | P | P | P | P | P |
+TABLE cases=12 legs=72 predicted_u=0 source=CASES+predict_legs
+```
+
+Instrument self-pin superseded `7d448487170ae54dc373c5758cb3c522a4137f877a86330e94302be2fe5f9f59`
+→ `92facdc762bdb29c581eb92b5951f0855bec0de7dc56c8d2308136c889fe7f87` (the intermediate `c1341c24…28272` fixed the simulator only and was never a receipt of record) (both digests named
+per Q25; recorded in `.ufo/waves/round-61/recon/probe-selfpin.txt`). Unchanged: CASES
+declarations, predict_legs, the leg rule, the leg anchors, the sandbox, the sha-refusal
+kill class, the exit map, the capture pin, the zero-U property. The claim of record for
+R61-C1 is the SECOND scored run of the amended probe; the first run's fail stands as
+history and is mined in `corpus/lessons/round-61.md`.
+
+**Amendment 1 addendum (dated 2026-11-02, still before the second scored run):** a fourth
+defect, named before any receipt of record of the amended instrument — the prediction
+MODEL shared defect (a)'s blind spot: predict_legs' asyncio else-branch asserted
+"asyncio + handler" in its comment but never checked the handler property, so the model
+predicted P on the below/at legs for kbdint-no-handler while its above formula (which
+does check handler) predicted F — that split is exactly the first run's kbdint mismatch
+shape (predicted F only at above, observed P everywhere: the broken simulator installed
+the handler, agreeing with the else-branch below/at and disagreeing with the above
+formula). The amended model checks handler explicitly (P on the cancel legs iff
+handler=True for the asyncio family, keep-alive semantics for threads, ignore, late and
+partial handled by their own branches). The amended generated table — which the block
+above now embeds byte-identically from the tool's own `--render-table` output — prices
+kbdint-no-handler P/P/P/F/F/F: identical to the freeze's embedded row for that case, so
+the freeze block's only remaining defect stays the one transcribed row
+(no-max-enforcement). The selftest stays green at the amended worktree (receipt
+`recon/table-identity.txt` carries the full identity + selftest record).
