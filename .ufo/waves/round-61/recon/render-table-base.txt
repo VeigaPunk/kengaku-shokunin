@@ -1,0 +1,16 @@
+REV f97e5b7b81d02084b63042631e0f3a1897af25c7
+| case | defect class exercised | file | concur | obey | below | at | above |
+|---|---|---|---|---|---|---|---|---|
+| compliant-signal-handler | none -- the compliant asyncio candidate | P | P | P | P | P | P |
+| threadpool-uncancelled | ThreadPoolExecutor does not propagate cancellation (:77-79) | P | P | P | P | P | F |
+| kbdint-no-handler | no SIGINT handler: KeyboardInterrupt kills the loop, tasks die uncleaned | P | P | P | P | P | F |
+| sequential-sync | sequential execution: concurrency leg times out | P | F | P | F | F | F |
+| cleanup-missing | no cleanup handler: the cleanup-marker count is zero | P | F | F | F | F | F |
+| cleanup-double | cleanup marker printed twice per task | P | F | F | F | F | F |
+| started-premature | started marker printed at submit time (accounting wart) | P | P | P | P | P | F |
+| partial-cancel | handler cancels one task and abandons the other | P | P | P | F | F | F |
+| ignore-sigint | SIG_IGN: the signal is swallowed, work completes anyway | P | P | P | P | P | F |
+| late-cancel-cleanup | cleanup marker arrives after the 5 s communicate window | P | P | P | F | F | F |
+| no-max-enforcement | max-concurrent ignored (semaphore absent) | P | P | F | P | P | F |
+| no-run-py | run.py absent (artifact-absence is a leg failure, not setup) | F | P | P | P | P | P |
+TABLE cases=12 legs=72 predicted_u=0 source=CASES+predict_legs

@@ -40,3 +40,35 @@ Every line below the marker is the working-tree append with the leading `+` stri
    receipt-consistency gate's redâ†’green receipts as the record.
 
 === END MIRROR ===
+
+## ERRATUM (round 61, 2026-11-02 — the byte-fidelity correction; everything above this line stays as written)
+
+The round-60 claim that this file mirrors the fleet working-tree append "byte-for-byte" is
+FALSE at the byte level. Caught by the round-60 non-author closure (defect D1), re-measured
+this round by byte comparison against the authoritative bytes (the append is still
+uncommitted in the fleet working tree at the measurement; fleet HEAD and both sha256s are in
+the receipt `.ufo/waves/round-61/mirror-fidelity-receipt.txt`):
+
+1. ENCODING DEFECT — the append's 9 non-ASCII characters (5 em-dashes U+2014, 4 arrows
+   U+2192) are cp1252-double-encoded here: each UTF-8 triple was mis-decoded as
+   windows-1252 and re-encoded, producing 27 mojibake characters — the em-dash class as
+   byte triple `C3 A2 E2 82 AC E2 80 9D` (a-circumflex + euro + right-double-quote) and the
+   arrow class as `C3 A2 E2 80 A0 E2 80 99` (a-circumflex + dagger + right-single-quote);
+   5 em-dash-class and 4 arrow-class sequences in this file. Grounding: the WHATWG
+   windows-1252 index (S225, capture
+   `corpus/evidence/round61/whatwg-windows1252/index-windows-1252.txt`) maps cp1252 byte
+   0x80 to U+20AC (:7), byte 0x86 to U+2020 (:13), byte 0x92 to U+2019 (:25), byte 0x94 to
+   U+201D (:27), and byte 0xE2 to U+00E2 (:105) — exactly the mis-decode that produced
+   these triples. First differing byte against the authoritative append: byte 39, line 2.
+2. LINE-COUNT DEFECT — the block between the MIRROR markers measures 27 newline-terminated
+   lines against the append's 26: one surplus trailing blank line.
+3. THE CORRECTION — the byte-true mirror of record is
+   `.ufo/waves/round-61/r58-report-corrections-append-byte-true.md`: byte-identical to the
+   authoritative append (26 lines, 2141 bytes, sha256
+   `2a2f952ca9809c426d91ec22feb3713fb485e0d7e393dea0fd3cecf939af2a21`; the fidelity
+   receipt's cmp leg prices it). It carries no header: the file IS the append, so byte
+   verification needs no marker-stripping step — the step whose absence hid this defect.
+4. STATUS DOWNGRADE — this round-60 file is the CONTENT-mirror of record (every line
+   present; the encoding defect and surplus blank stay uncorrected above by the
+   append-only rule); the BYTE-mirror of record is the round-61 file. A future byte-fidelity
+   claim cites a byte-compare receipt, never prose.
