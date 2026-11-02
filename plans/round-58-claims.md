@@ -212,3 +212,23 @@ this round: none (all four opens admitted; the same fetch-hash-commit discipline
 Flip check: no existing SOURCES row's status/recheck/used-by cell changes this round,
 EXCEPT the Q34 supersession pair in R58-C1 (S201 keeps its cells as landed; S213 is a NEW
 row superseding it — the corrections convention; no in-place row rewrite).
+
+## Dated corrections (appended after the measurements; the freeze text above stays as written)
+
+- **2026-11-01, post-first-run (R58-C3):** the sha-refusal kill measures **KILL-EXIT=1**
+  (uncaught SetupError → traceback), not the exit 2 this freeze wrote; the refusal property
+  itself holds — the drifted capture is never materialized nor executed (receipt
+  `.ufo/waves/round-58/wavec/kl-sha-kill.txt`; mined in `corpus/lessons/round-58.md`).
+- **2026-11-01, post-landing (R58-C1):** the S213 supersession carries the SAME capture
+  sha as S201, which broke `plans/battery40/a_tok.py`'s whole-file uniqueness assumption
+  (`SOURCES.md holds 2 copies of the token to rewrite`) — the fixture's edit is now scoped
+  to the `| S111 |` row line (dated note in the fixture); `round40_c1_verify` returns to
+  its declared red state (exit 1, the `PINS total=3 mismatched=0` fragment present).
+  Likewise the repair's cascade into `round51_routing`'s disposition vocabulary (R56-F1/F2
+  normalized into it, dated notes in the findings rows) and check fields (repaired,
+  dated) — round51-routing honestly flipped green.
+- **2026-11-01, R57-W1 rule upheld:** every before-anchor above was re-run against base
+  bytes or a clean base-tip clone before the freeze; the one prose anchor risk
+  (`fifteenth`) measured 0 at base from base bytes, and the landed PROVINCE section uses
+  the word only in its own prose (measured 2 at the landing tip, both in the round-58
+  section, none in a negation).

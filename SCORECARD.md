@@ -2501,3 +2501,50 @@ under this host's rebuilds — root cause named open, not guessed); if the cover
 register the fifteenth grader read only if a NEW grader class is found — the per-round
 one-more-grader pattern saturates its novelty unless each read buys a class the corpus
 lacks.
+
+## Round 58 (hyaku run 13, 2026-11-01): the R56-F1 gate repair closes with the defect it exposes, the r50 population pin is root-caused and re-pinned, and the corpus's first tolerance-band grader is read and executed
+
+Base `a6b209cf` (the round-57 verifier spot-check tip); freeze `d6bc6027` (predictions before
+the first capture run; probe sha256 `51c192f2…760` frozen in `plans/round-58-claims.md`);
+receipts `0e60ec31`; wave F `f58c0d6a`; wave P `c39d0e40`; wave C3 `b0b1d729`. Environment:
+WSL Ubuntu-24.04, uv/pytest absent (the r56 A3.4 canonical environment preserved). Receipts
+`.ufo/waves/round-58/` (recon/ pre-freeze measurements; wavec/ probe runs + kills;
+wavec-tip/ tip counters). R57-W1 discharged first: every before-anchor re-run against base
+bytes (`git show <base>:<path> | grep -c`) or a clean base-tip clone; the superseded r57
+"0" erratum-dated in the claims doc and the round report.
+
+| claim / axis | before → after evidence | counting command | verdict / score |
+|---|---|---|---|
+| R58-C1 / operability (the R56-F1 repair, routed twice) | before (base clone, receipt `recon/anchor-before.txt`): `ROW S201 state=live defects=line:1` … `ANCHORLINE … live=1 cells=1`, exit 1 — a FALSE positive (the byte-true escaped-quote anchor truncated by the escape-blind QUOTE_RE); the falsifier fixtures measured at base BEFORE the fix (`recon/esc-falsifier.txt`): fx-good false-positives, fx-red true positive, fx-words hides a real words defect → after (wave F): QUOTE_RE escape-aware + 3 falsifier fixtures in `--selftest` (6/6), and the repair EXPOSES real defects — S201's `(6 words)` cell miscounts its quote (5) and S140's anchor quoted an ELIDED text — repaired by Q34 supersessions S213–S217: `ANCHORLINE rows=210 cited=64 captured=57 live=0`, exit 0; `round46_c2_verify` → `PINS total=3 mismatched=0`, `A anchorline live=0 repaired=9 base_rows=149 base_missing=0 base_changed=0`, `PREDICATE C2 pass`, exit 0 (PINS + registry + ledger refreshed, dated) | `python3 plans/anchor_line_check.py --lane .` → live=0 exit 0; `python3 plans/round46_c2_verify.py --lane . --work <scratch>` → `PREDICATE C2 pass` exit 0; `python3 plans/anchor_line_check.py --selftest` → 6/6 | **admitted; operability held 10** — the gate's verdict is now correct on the full registry sample with falsifier fixtures in both directions; the score was already 10 (the false positive postdated it and was honestly routed, not hidden) — held, with the ceiling unchanged |
+| R58-C2 / freshness (round50-c1, carried since r56) | before (base clone, full run, receipt `recon/round50-before.txt`): `POPULATION fixtures=126 pin=b5197f94… mismatched=125 build_errors=0`, `PREDICATE R50-C1 fail`, exit 1 → root cause closed with measurements (receipts `recon/r50-ev3n/`, `r50-ev2n/`): per-fixture rebuild in the counter's own native-fs environment = 1/126 matcher (`n10-empty-repo`, the only fixture whose build runs no git plumbing beyond `git init`; stable + EQ-pin across 3 rebuilds) and 125 deterministic drifters; a full double-build discriminator = `match_b1=1 unstable=0` — every fixture build-deterministic on this host; the pin froze git-plumbing store bytes no cross-host rebuild reproduces → after (wave P): population re-pinned on this host (pin `f41db91b`, dated header, rows byte-preserved — diff outside the tree column empty), `POPULATION_SHA` refreshed with the old pin named: `POPULATION fixtures=126 pin=f41db91b… mismatched=0 build_errors=0`, `HONEST 126/126`, `REFUSALS 20/20`, `SEALED 12+20 clean`, `MUTANTS 15/15 caught floor=12`, `PREDICATE R50-C1 pass`, exit 0 | `python3 plans/round50_c1_verify.py --lane .` → mismatched=0, `PREDICATE R50-C1 pass`, exit 0 | **admitted; freshness 9→10** — the last stale pinned expectation is root-caused and re-resolves in-repo on the live host; the rubric's +1 anchor (LOG re-verification lines for every touched claim; citations re-resolve) and its cap lines (no round without a re-verification line; no expected values pinned outside the repo — the population pin is in-repo) both clear |
+| R58-C3 / coverage (lowest owned axis, L0-capped) | before (base bytes, R57-W1 rule): `git show a6b209cf:PROVINCE.md \| grep -c fifteenth` → 0 (rc 1); `git show a6b209cf:corpus/SOURCES.md \| grep -c S209` → 0; probe absent at base → after: S209–S212 opened at pin `2fd12b88` (captures committed at the freeze), the fifteenth grader `distribution-search` read and executed — the corpus's first numeric-TOLERANCE gate (|KL(P\|\|U) − 10| ≤ 1e-3 AND |KL(U\|\|P) − 10| ≤ 1e-3), in the lane's home domain (LLM confidence metrics, S212); the maintainer oracle (S211) re-run at authoring time, accepted point frozen as literals (`corpus/evidence/round58/kl-oracle.md`); probe `cases=12 legs=48 mismatches=0 setup=0 predicted_u=0`, `PREDICATE R58-C3 pass`, exit 0 — ZERO U marks, 48/48 on the first run (the deterministic contrast with r57); sha-refusal kill measured (exit 1, dated correction); PROVINCE names the fifteenth grader (15 of 89); knowledge entry + index row landed | `python3 plans/round58_c2_kl_probe.py --lane . --work <scratch> --receipt corpus/evidence/round58/kl-probe.txt` → `PREDICATE R58-C3 pass` exit 0 (receipt sha256 `3c93e06a…53c1f`); `grep -c fifteenth PROVINCE.md` → 2; `grep -cE '^\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|' corpus/SOURCES.md` → 210 (201→210) | **predicate met; score HELD at 7** — the standing unanswered L0 `kengaku \| round-25/33/51` cap, the r56-C3/r57-C2 shape; the ground and the class line move, the capped number does not |
+
+**Capabilities** — new row: `tolerance-band-grader-probe` → executes a captured benchmark
+grader whose decisive leg is a numeric tolerance band on two aggregated functionals of a
+lane-written answer, on a frozen zero-U full-commitment prediction table with an
+oracle-derived passing candidate → `plans/round58_c2_kl_probe.py --lane .` → first working
+round 58.
+
+**No owned axis harmed.** depth 9 (the knowledge entry's mechanism/negative-space work;
+additive), adjacency 9 (four counters' breakages repaired as routed with dated notes — the
+r40 fixture scoping, the r51 disposition normalization, the r56 check-field typos — nothing
+absorbed), novelty 8 (a new grader class executed; instrument-known pattern, phenomenon
+entry new), calibration 10 (held; the kill-exit correction is dated in the freeze), coverage
+held 7 (predicate met), operability 10 (held with the repair landed), freshness 9→10. One
+capability enters. SOURCES 201→210 rows (4 opened + 5 Q34 supersessions; census exit 0 at
+round end, 20 W04 warnings = 15 pre-existing + 5 supersession duplicates, named in the
+lesson). The repair cascade honestly re-declared: round51-routing red→green (dated),
+round46-c2 red→green (dated), round50-c1 red→green (dated); round40-c1-mutants and the
+stage-scan rows stay as declared. **Round verdict: all three declared claims verify (C1
+admitted held-10; C2 admitted 9→10; C3 predicate met with the score held by its own L0
+design); no axis harmed — self-admitted, subject to the non-author closure.**
+
+### Planned (round 59)
+
+The r58-C1 repair's supersession pattern worked — sweep the REMAINING backtick-style
+uncaptured anchor rows (cited=64 of captured=57; the uncaptured 7 named in every anchor
+receipt) only if a round's claim needs them; do not churn rows without a claim. The r57
+eigen probe and the r58 KL probe now cover two grader classes — register a third only if a
+NEW class is found (the one-more-grader pattern stays class-gated). Carry the L0 questions
+(coverage cap; L2 surface; ledger host column). Re-pin discipline: any future cross-host
+pin must stamp the host fingerprint (git version, fs) in-file at freeze time.

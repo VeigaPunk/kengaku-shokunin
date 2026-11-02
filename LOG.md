@@ -1947,3 +1947,25 @@ corpus's own taxonomy before the freeze. The maintainer oracle (S211) is a three
 count-scan Newton; its accepted point was reproduced at authoring time and frozen as
 literals (`corpus/evidence/round58/kl-oracle.md`). The probe's 48-leg prediction table
 carries ZERO U marks — the deterministic contrast with the r57 timing gate.
+
+Round-58 measured close (2026-11-01): all three declared claims verified at their measured
+revisions — R58-C1 (operability, the R56-F1 repair): the repaired checker parses escaped-quote
+anchors whole, the falsifier fixtures hold in both directions (fx-good clean / fx-red line:1 /
+fx-words words:1), the repair EXPOSED real defects (S201's words miscount; the unescaped/elided
+anchors) repaired by S213–S217, lane scan `live=0` exit 0, `round46_c2_verify PREDICATE C2 pass`
+exit 0; R58-C2 (freshness, round50-c1): root cause closed with measurements (125/126
+deterministic drift, sole matcher n10-empty-repo, 0 unstable on this host), population re-pinned
+`f41db91b`, `PREDICATE R50-C1 pass` exit 0; R58-C3 (coverage, held at its L0 cap): the fifteenth
+grader executed — `cases=12 legs=48 mismatches=0 setup=0 predicted_u=0`, `PREDICATE R58-C3 pass`
+exit 0, 48/48 full-commitment predictions confirmed on the first run, sha-refusal kill measured
+(exit 1, dated correction in the freeze — the refusal property holds). The repair cascade broke
+four tip counters before closure and every break was repaired and honestly re-declared: the
+round36-c2 W4 leg caught the doubled README/PROVINCE rows (a mid-flight edit race), the
+round51-routing disposition vocabulary caught the two out-of-vocabulary dispositions and two
+broken landed check fields, the r40 a_tok fixture caught S214's duplicate digest, and the
+round-close E11 leg held the used-by paths until the knowledge entry landed — the designed
+capture, receipts under `.ufo/waves/round-58/`. LOG re-verification lines for every claim
+touched: this entry + the wave entries; SCORECARD round-58 section; lesson
+`corpus/lessons/round-58.md` (Gate: four admits; Mistakes: freeze-exit-path, non-idempotent
+edit script, fixture byte-derivation). Census at round end: exit 0, verdict ok (20 W04
+duplicate-url warnings = 15 pre-existing + 5 from the supersession rows, named in the lesson).
