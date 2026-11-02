@@ -2150,3 +2150,50 @@ repaired tip. The first take of this receipt (measured at the same tip minutes e
 a `PROBE-EXIT=0` label from a `tail` pipeline — the r58 finding-(b) class in my own capture —
 and was discarded uncommitted for exactly that reason; this take captures every exit with
 PIPESTATUS and the header says so.
+
+## Round 60 (hyaku run 14, 2026-11-02) — wave F: the corrected zero-U re-freeze of the sixteenth grader's 72-leg prediction table, and the counting-command reproduction gate — frozen before any scored run
+
+Base `9482c840` (the r59 non-author closure tip; the r59 verdict `rejected-honest-stop`
+with R59-C2 admitted and R59-C1 honestly carried). Lowest owned axis: **coverage 7**
+(L0-capped, `kengaku | round-25/33/51` still open — nothing assumed answered), worked by
+C1; no stagnation waiver invoked. Freeze BEFORE the first scored run of either instrument
+(r57–r59 discipline; plumbing proven on toys/fixtures only: probe `--selftest` 2/2 toy
+green + three read-only modes green at the base worktree; gate `--selftest` 6/6).
+
+R60-C1 (coverage, L0-capped): the Q25-sanctioned NEW claim that re-freezes — the probe's
+predictions are no longer stored in CASES: `predict_legs()` derives every leg at run time
+from the case definitions (each predicate grounded in the capture's own assertions, every
+anchor line verified against the committed capture bytes), `--render-table` prints the
+generated table, `--check-frozen-table` shows the correction is EXACTLY the r59
+transposition (10 rows byte-identical, 2 rows differing exactly at dir/key), and
+`--check-receipt` records the output-side 12/12 agreement the closure re-derived. Probe
+amended under both digests (`a7c9b231…` → `6faf217c…`); the r59 receipt of record is NOT
+re-scored and stays byte-identical; the scored run is new (`corpus/evidence/round60/
+openssl-probe-refreeze.txt`, lands with the measurements wave). Frozen predicate: one clean
+battery run at this freeze tip → `cases=12 legs=72 mismatches=0 setup=0 predicted_u=0`,
+`PREDICATE R59-C1 pass`, exit 0; registry/ledger rows flip green with dated reasons at the
+same landing as the SCORECARD counting command.
+
+R60-C2 (operability, held at ceiling 10): `plans/correction_command_check.py` — the
+counting-command reproduction gate over claims-doc dated-correction sections (population,
+command class, erratum discipline and named limits frozen in `plans/round-60-claims.md`);
+closes the r59 routed defect 3 (a dated correction's grep does not reproduce — the phrase
+is line-wrapped at LOG.md:1961-1962). Pre-freeze survey landed BEFORE the gate existed
+(`.ufo/waves/round-60/recon/cmd-terrain-scan.txt`, measured at base): 3 commands — 1
+reproduces, 1 fails (the routed defect), 1 fleet-root path the frozen gate classifies
+out-of-scope. Before-state of record at this freeze tip (receipt lands with the
+measurements wave): `defects=1`, `PREDICATE R60-C2 fail`, exit 1. After: a dated ERRATUM
+block on `plans/round-59-claims.md` carrying the reproducing command
+(`grep -c 'four tip counters' LOG.md` → 1), then `defects=0 errata=1`, `PREDICATE R60-C2
+pass`, exit 0.
+
+Sourced claim: **S223** (GNU Grep manual, `-c`/`--count`) opened 2026-11-02 — grep -c
+counts matching LINES (a phrase spanning a wrapped line does not match): the defect's
+mechanism and the gate's scope-fence grounding; capture committed
+(`corpus/evidence/round60/grep-manual/grep.html`, sha256 `517177d0…75f37`, quote at :379,
+11 words derived by command); adopted through `plans/sources_adopt.py` exit 0 (quote
+validation + registry admission; 215→216 rows, collisions=0, malformed=0, duplicates=0).
+SOURCES 215 → 216 rows. Instrument self-pins at freeze: probe `6faf217c…64646`, gate
+`b8ad6bd6…0c690`. R13 separability: C1 and C2 share no artifact but this claims doc.
+LOG re-verification line for every touched claim: this entry + the wave entries to follow;
+SCORECARD round-60 section at the corrections landing.

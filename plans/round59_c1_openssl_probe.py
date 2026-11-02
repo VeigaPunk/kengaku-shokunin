@@ -30,23 +30,43 @@ probe-owns-its-stub pattern as the round-58 pytest stub.
 Leg rule (declared in plans/round-59-claims.md before the first capture run): a leg is P iff
 its test function returns normally; F on AssertionError OR any other exception escaping the
 function (the artifact under test made the check fail -- pytest scores a raising test as
-not-pass either way, and the reward is binary); SETUP only when the probe's own builder fails
-or the sandbox cannot run (no LEGS line). The grader is deterministic given the artifact set:
+not-pass either way, and the reward is binary); SETUP only when the probe's own builder
+fails or the sandbox cannot run (no LEGS line). The grader is deterministic given the artifact set:
 every asserted property (mode bits, bit length, subject strings, day count, substring/format
 checks, exit codes) is a fixed function of what the builder wrote -- zero U marks, full
 commitment.
 
+Round-60 amendment (Q25 new-claim re-freeze, dated 2026-11-02; the r59 lesson's mined fix
+mechanism, "the probe gains a table-rendering mode; the freeze embeds that output verbatim"):
+the predicted vectors are no longer stored in CASES. The r59 freeze's hand transcription
+carried two rows (perm-loose, key-1024) with their first two legs transposed -- the
+author-retyped second artifact the r59 lesson mines. CASES now carry (name, defect class,
+cfg) only; the prediction for every case is DERIVED at run time by predict_legs(), a static
+model of the six legs over the candidate's declared builder properties, each predicate
+grounded in the capture's own assertions (test_outputs.py:8-12 dir; :22 + :31 key;
+:47-80 cert; :84-102 pem; :105-136 verif; :139-158 script). --render-table prints the
+generated table; --check-frozen-table re-derives it and compares against the r59 frozen
+table parsed from plans/round-59-claims.md (expects exactly the two transposed rows
+differing, each exactly at the dir/key legs); --check-receipt compares the derived
+predictions against a receipt's observed CASE vectors (output-side cross-check only -- the
+derivation never reads either artifact). The r59 receipt of record
+(corpus/evidence/round59/openssl-probe.txt, mismatches=2) is NOT re-scored: the corrected
+zero-U re-freeze is a new claim with a new scored run.
+
 Run as:
   python3 plans/round59_c1_openssl_probe.py --lane . --work <scratch> \
-      --receipt corpus/evidence/round59/openssl-probe.txt
-Plumbing check without touching the TB2 capture:
+      --receipt <path>                      # the scored battery (r59 entry form, bare = battery)
   python3 plans/round59_c1_openssl_probe.py --selftest --work <scratch>
+  python3 plans/round59_c1_openssl_probe.py --render-table
+  python3 plans/round59_c1_openssl_probe.py --check-frozen-table
+  python3 plans/round59_c1_openssl_probe.py --check-receipt corpus/evidence/round59/openssl-probe.txt
 """
 import argparse
 import hashlib
 import json
 import os
 import pathlib
+import re
 import subprocess
 import sys
 import tempfile
@@ -142,59 +162,98 @@ if WITH_SCRIPT:
     pathlib.Path('/app/check_cert.py').write_text(SCRIPT)
 '''
 
-# Lane-written candidate artifact sets; predictions frozen in plans/round-59-claims.md
-# BEFORE the first capture run (zero U marks). Leg order = TEST_NAMES.
+# Lane-written candidate artifact sets (round-60 amendment): (name, defect class, cfg).
+# Predictions are NOT stored here -- they are derived at run time by predict_legs()
+# (the r59 lesson's mined fix: generated from the case definitions, never retyped).
+# The r59 freeze's class annotations are carried verbatim. Leg order = TEST_NAMES.
 CASES = [
     # the maintainer oracle's construction (solve.sh) as builder constants: all six legs pass.
-    ("sol", dict(bits=2048, mode=0o600, days=365, cn=CN_OK, org=ORG, pem_mode="both",
-                 verif_fp=True, script=SCRIPT_SOL, with_script=True, with_ssl=True),
-     ("P", "P", "P", "P", "P", "P")),
+    ("sol", "none -- the maintainer oracle's construction (S220)",
+     dict(bits=2048, mode=0o600, days=365, cn=CN_OK, org=ORG, pem_mode="both",
+          verif_fp=True, script=SCRIPT_SOL, with_script=True, with_ssl=True)),
     # key left group/other readable: the permission-bits leg -- the class's filesystem-metadata leg.
-    ("perm-loose", dict(bits=2048, mode=0o644, days=365, cn=CN_OK, org=ORG, pem_mode="both",
-                        verif_fp=True, script=SCRIPT_SOL, with_script=True, with_ssl=True),
-     ("F", "P", "P", "P", "P", "P")),
+    ("perm-loose", "key mode 0644 (the permission-bits leg)",
+     dict(bits=2048, mode=0o644, days=365, cn=CN_OK, org=ORG, pem_mode="both",
+          verif_fp=True, script=SCRIPT_SOL, with_script=True, with_ssl=True)),
     # 1024-bit key: the openssl rsa -text size leg; the cert built from it still passes.
-    ("key-1024", dict(bits=1024, mode=0o600, days=365, cn=CN_OK, org=ORG, pem_mode="both",
-                      verif_fp=True, script=SCRIPT_SOL, with_script=True, with_ssl=True),
-     ("F", "P", "P", "P", "P", "P")),
+    ("key-1024", "1024-bit key (the openssl rsa size leg)",
+     dict(bits=1024, mode=0o600, days=365, cn=CN_OK, org=ORG, pem_mode="both",
+          verif_fp=True, script=SCRIPT_SOL, with_script=True, with_ssl=True)),
     # 30-day validity: the notAfter-notBefore window leg; nothing else moves.
-    ("days-30", dict(bits=2048, mode=0o600, days=30, cn=CN_OK, org=ORG, pem_mode="both",
-                     verif_fp=True, script=SCRIPT_SOL, with_script=True, with_ssl=True),
-     ("P", "P", "F", "P", "P", "P")),
+    ("days-30", "30-day validity window",
+     dict(bits=2048, mode=0o600, days=30, cn=CN_OK, org=ORG, pem_mode="both",
+          verif_fp=True, script=SCRIPT_SOL, with_script=True, with_ssl=True)),
     # wrong Common Name: the cert subject leg, and with it the verification file and script legs.
-    ("cn-wrong", dict(bits=2048, mode=0o600, days=365, cn=CN_BAD, org=ORG, pem_mode="both",
-                      verif_fp=True, script=SCRIPT_SOL, with_script=True, with_ssl=True),
-     ("P", "P", "F", "P", "F", "F")),
+    ("cn-wrong", "wrong Common Name (cert + verification + script legs)",
+     dict(bits=2048, mode=0o600, days=365, cn=CN_BAD, org=ORG, pem_mode="both",
+          verif_fp=True, script=SCRIPT_SOL, with_script=True, with_ssl=True)),
     # PEM holds the key only: the content-substring half of the PEM leg.
-    ("pem-keyonly", dict(bits=2048, mode=0o600, days=365, cn=CN_OK, org=ORG, pem_mode="keyonly",
-                         verif_fp=True, script=SCRIPT_SOL, with_script=True, with_ssl=True),
-     ("P", "P", "P", "F", "P", "P")),
+    ("pem-keyonly", "PEM holds the key only (substring tooth)",
+     dict(bits=2048, mode=0o600, days=365, cn=CN_OK, org=ORG, pem_mode="keyonly",
+          verif_fp=True, script=SCRIPT_SOL, with_script=True, with_ssl=True)),
     # PEM carries both banner lines but a corrupt certificate block: the substring half passes,
     # the openssl-parse half fails -- the same leg's other tooth.
-    ("pem-garbage", dict(bits=2048, mode=0o600, days=365, cn=CN_OK, org=ORG, pem_mode="garbage",
-                         verif_fp=True, script=SCRIPT_SOL, with_script=True, with_ssl=True),
-     ("P", "P", "P", "F", "P", "P")),
+    ("pem-garbage", "PEM banners present, certificate block corrupt (openssl-parse tooth)",
+     dict(bits=2048, mode=0o600, days=365, cn=CN_OK, org=ORG, pem_mode="garbage",
+          verif_fp=True, script=SCRIPT_SOL, with_script=True, with_ssl=True)),
     # verification.txt without the SHA-256 fingerprint: the fingerprint-format leg only.
-    ("fp-absent", dict(bits=2048, mode=0o600, days=365, cn=CN_OK, org=ORG, pem_mode="both",
-                       verif_fp=False, script=SCRIPT_SOL, with_script=True, with_ssl=True),
-     ("P", "P", "P", "P", "F", "P")),
+    ("fp-absent", "verification.txt without the SHA-256 fingerprint",
+     dict(bits=2048, mode=0o600, days=365, cn=CN_OK, org=ORG, pem_mode="both",
+          verif_fp=False, script=SCRIPT_SOL, with_script=True, with_ssl=True)),
     # check_cert.py exits 0 silently: the script leg's string assertions.
-    ("script-silent", dict(bits=2048, mode=0o600, days=365, cn=CN_OK, org=ORG, pem_mode="both",
-                           verif_fp=True, script=SCRIPT_SILENT, with_script=True, with_ssl=True),
-     ("P", "P", "P", "P", "P", "F")),
+    ("script-silent", "check_cert.py exits 0 silently",
+     dict(bits=2048, mode=0o600, days=365, cn=CN_OK, org=ORG, pem_mode="both",
+          verif_fp=True, script=SCRIPT_SILENT, with_script=True, with_ssl=True)),
     # nothing under /app/ssl: every artifact leg fails; the script leg fails on its own read.
-    ("dir-absent", dict(bits=2048, mode=0o600, days=365, cn=CN_OK, org=ORG, pem_mode="both",
-                        verif_fp=True, script=SCRIPT_SOL, with_script=True, with_ssl=False),
-     ("F", "F", "F", "F", "F", "F")),
+    ("dir-absent", "no /app/ssl at all",
+     dict(bits=2048, mode=0o600, days=365, cn=CN_OK, org=ORG, pem_mode="both",
+          verif_fp=True, script=SCRIPT_SOL, with_script=True, with_ssl=False)),
     # Organization written in caps: the grader's stated leniency (lowercased compare) -- all pass.
-    ("org-upper", dict(bits=2048, mode=0o600, days=365, cn=CN_OK, org=ORG_UPPER, pem_mode="both",
-                       verif_fp=True, script=SCRIPT_SOL, with_script=True, with_ssl=True),
-     ("P", "P", "P", "P", "P", "P")),
+    ("org-upper", "Organization in caps (the grader's stated leniency)",
+     dict(bits=2048, mode=0o600, days=365, cn=CN_OK, org=ORG_UPPER, pem_mode="both",
+          verif_fp=True, script=SCRIPT_SOL, with_script=True, with_ssl=True)),
     # check_cert.py absent: the subprocess leg raises (artifact-absence is a leg failure, not setup).
-    ("script-missing", dict(bits=2048, mode=0o600, days=365, cn=CN_OK, org=ORG, pem_mode="both",
-                            verif_fp=True, script=SCRIPT_SOL, with_script=False, with_ssl=True),
-     ("P", "P", "P", "P", "P", "F")),
+    ("script-missing", "check_cert.py absent (artifact-absence is a leg failure, not setup)",
+     dict(bits=2048, mode=0o600, days=365, cn=CN_OK, org=ORG, pem_mode="both",
+          verif_fp=True, script=SCRIPT_SOL, with_script=False, with_ssl=True)),
 ]
+
+
+def predict_legs(cfg):
+    """Derive a case's six-leg prediction from its declared builder properties.
+
+    The static model of the captured grader (round-60 freeze; each predicate is
+    grounded in the capture's own assertions):
+      dir   test_directory_structure  -- passes iff /app/ssl is created (:8-12).
+      key   test_key_file             -- passes iff the dir exists, the mode bits
+             satisfy <= 0o600 (:22) and openssl rsa -text reports 2048 bit (:31);
+             the rsa read also needs the key file, hence with_ssl.
+      cert  test_certificate_file     -- passes iff the cert exists with the right
+             CN (:47) and the validity window is exactly 365 days (:79-80); the
+             Organization compare is case-insensitive (:52-53), so ORG never moves
+             this leg (the org-upper leniency case).
+      pem   test_combined_pem_file    -- passes iff the PEM holds BOTH blocks
+             (substring teeth :93-94) and the certificate block openssl-parses
+             (:98-102); only pem_mode='both' satisfies both teeth.
+      verif test_verification_file    -- passes iff verification.txt exists with the
+             right CN (:114), a date line (always written by openssl), and the
+             SHA-256 fingerprint (:134) -- absent when verif_fp is False.
+      script test_python_verification_script -- passes iff check_cert.py exists,
+             exits 0 printing the success line, the CN and an ISO expiration
+             (:139-158); the sol script reads the cert through openssl, so a
+             missing /app/ssl fails it too (with_ssl), and a wrong CN prints the
+             wrong name.
+    """
+    with_ssl = bool(cfg["with_ssl"])
+    dir_ok = with_ssl
+    key_ok = with_ssl and cfg["mode"] <= 0o600 and cfg["bits"] == 2048
+    cert_ok = with_ssl and cfg["cn"] == CN_OK and cfg["days"] == 365
+    pem_ok = with_ssl and cfg["pem_mode"] == "both"
+    verif_ok = with_ssl and cfg["verif_fp"] and cfg["cn"] == CN_OK
+    script_ok = (bool(cfg["with_script"]) and with_ssl
+                 and cfg["script"] == SCRIPT_SOL and cfg["cn"] == CN_OK)
+    return tuple("P" if ok else "F"
+                 for ok in (dir_ok, key_ok, cert_ok, pem_ok, verif_ok, script_ok))
 
 
 class SetupError(Exception):
@@ -286,7 +345,8 @@ def run_battery(lane, work, lines):
     stub_dir = make_stub_dir(work)
     cases_dir = work / "cases"
     mismatches = setup_cases = 0
-    for name, cfg, predicted in CASES:
+    for name, _klass, cfg in CASES:
+        predicted = predict_legs(cfg)
         casedir = cases_dir / name
         (casedir / "app").mkdir(parents=True)
         legs, rc, out = run_in_sandbox(tests_dir, casedir / "app", stub_dir,
@@ -376,6 +436,75 @@ def run_selftest(work, lines):
     return 0 if ok_all else 1
 
 
+FROZEN_TABLE_DOC = "plans/round-59-claims.md"
+
+
+def render_table(lines):
+    """Print the prediction table GENERATED from the case definitions (never retyped)."""
+    lines.append("| case | defect class exercised | dir | key | cert | pem | verif | script |")
+    lines.append("|---|---|---|---|---|---|---|---|")
+    for name, klass, cfg in CASES:
+        pred = "/".join(predict_legs(cfg))
+        lines.append(f"| {name} | {klass} | {pred.replace('/', ' | ')} |")
+    lines.append(f"TABLE cases={len(CASES)} legs={len(CASES) * len(TEST_NAMES)} "
+                 f"predicted_u=0 source=CASES+predict_legs")
+
+
+def parse_frozen_table(lane):
+    """Parse the r59 freeze's frozen prediction table (the historical expectation)."""
+    text = (pathlib.Path(lane) / FROZEN_TABLE_DOC).read_text(encoding="utf-8")
+    table = {}
+    pat = re.compile(
+        r"^\| (\S+) \|[^|]+\| ([FPU]) \| ([FPU]) \| ([FPU]) \| ([FPU]) \| ([FPU]) \| ([FPU]) \|",
+        re.M)
+    for m in pat.finditer(text):
+        table[m.group(1)] = tuple(m.group(i) for i in range(2, 8))
+    return table
+
+
+def check_frozen_table(lane, lines):
+    """Falsifier-direction check: the derived table must differ from the r59 frozen
+    table on EXACTLY the two transposed rows, each exactly at the dir/key legs."""
+    frozen = parse_frozen_table(lane)
+    missing = [n for n, _k, _c in CASES if n not in frozen]
+    diffs = []
+    derived_by_name = {}
+    for name, _klass, cfg in CASES:
+        got = predict_legs(cfg)
+        derived_by_name[name] = got
+        want = frozen.get(name)
+        if want is None or want == got:
+            continue
+        cells = [i for i, (a, b) in enumerate(zip(want, got)) if a != b]
+        diffs.append((name, cells))
+    ok = (not missing and len(diffs) == 2
+          and all(cells == [0, 1] for _n, cells in diffs)
+          and {n for n, _ in diffs} == {"perm-loose", "key-1024"})
+    for name, cells in diffs:
+        lines.append(f"DIFF {name} legs={cells} "
+                     f"frozen={'/'.join(frozen[name])} derived={'/'.join(derived_by_name[name])}")
+    lines.append(f"FROZEN-TABLE rows={len(frozen)} differing={len(diffs)} "
+                 f"missing={len(missing)} {'ok' if ok else 'FAIL'}")
+    return 0 if ok else 1
+
+
+def check_receipt(lane, receipt_path, lines):
+    """Output-side cross-check: derived predictions vs a receipt's observed vectors.
+    The derivation never reads this file; this mode is provenance documentation."""
+    text = pathlib.Path(receipt_path).read_text(encoding="utf-8")
+    observed = {}
+    for m in re.finditer(r"^CASE (\S+) predicted=[FPU/]+ observed=([FPU/]+)", text, re.M):
+        observed[m.group(1)] = tuple(m.group(2).split("/"))
+    agree = sum(1 for n, _k, c in CASES
+                if n in observed and observed[n] == predict_legs(c))
+    for n, _k, c in CASES:
+        if n in observed and observed[n] != predict_legs(c):
+            lines.append(f"DISAGREE {n} observed={'/'.join(observed[n])} "
+                         f"derived={'/'.join(predict_legs(c))}")
+    lines.append(f"OBSERVED-CHECK cases={len(observed)} agree={agree}")
+    return 0 if agree == len(observed) == len(CASES) else 1
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--lane", default=".")
@@ -383,11 +512,32 @@ def main(argv=None):
     ap.add_argument("--receipt", default=None,
                     help="write the final text here as well as stdout")
     ap.add_argument("--selftest", action="store_true")
+    ap.add_argument("--render-table", action="store_true",
+                    help="print the prediction table generated from the case definitions")
+    ap.add_argument("--check-frozen-table", action="store_true",
+                    help="compare the derived table against the r59 frozen table")
+    ap.add_argument("--check-receipt", default=None,
+                    help="compare the derived table against a receipt's observed vectors")
     a = ap.parse_args(argv)
     lines = []
     rev = subprocess.run(["git", "-C", str(a.lane), "rev-parse", "HEAD"],
                          capture_output=True, text=True).stdout.strip()
     lines.append(f"REV {rev}")
+    if a.render_table:
+        render_table(lines)
+        text = "\n".join(lines) + "\n"
+        print(text, end="")
+        return 0
+    if a.check_frozen_table:
+        rc = check_frozen_table(pathlib.Path(a.lane), lines)
+        text = "\n".join(lines) + "\n"
+        print(text, end="")
+        return rc
+    if a.check_receipt:
+        rc = check_receipt(pathlib.Path(a.lane), pathlib.Path(a.check_receipt), lines)
+        text = "\n".join(lines) + "\n"
+        print(text, end="")
+        return rc
     with tempfile.TemporaryDirectory(prefix="k59-c1-", dir=a.work) as work:
         if a.selftest:
             rc = run_selftest(pathlib.Path(work), lines)

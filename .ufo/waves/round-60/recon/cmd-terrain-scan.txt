@@ -1,0 +1,11 @@
+# kengaku round-60 pre-freeze survey: counting commands in plans/round-*-claims.md dated-correction sections
+# measured at revision 9482c8408f62e2a13a69f27870f1825bbbe73d8b (clean WSL-native-fs clone), 2026-11-02
+# scanner: the scratch prototype (cmd_terrain.py) of the population the frozen gate
+# plans/correction_command_check.py prices; the survey ran BEFORE the gate or the freeze existed
+# exit captured inside the runner (the wsl.exe harness swallows $? for inline chains)
+OK   plans/round-59-claims.md :: grep -cE '^\| (freeze|landing|fixture authoring) ' corpus/lessons/round-58.md -> 4 (want 4)
+FAIL plans/round-59-claims.md :: grep -c 'broke four tip counters' LOG.md -> '0' (want 1)  [1. **The round-58 report's Sources-and-frontier prose says the round-58 lesson mines "three]
+FAIL plans/round-59-claims.md :: grep -c 'broke six tip-counter surfaces' ./.ufo/reports/round-58/kengaku.md -> '' (want 1)  [1. **The round-58 report's Sources-and-frontier prose says the round-58 lesson mines "three]
+
+TOTAL commands=3 reproduced=1 failed=2 skipped=0
+SCAN-EXIT=0
