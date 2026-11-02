@@ -262,3 +262,13 @@ imprecise — both the receipt and the erratum land in commit 85ef87e5; the MEAS
 where the receipt file does not yet exist. Measured-at vs landed-at is now named per citation in the
 registry row and PROVINCE (round-60 precision fixes). ===
 
+
+=== ERRATUM CONTINUATION (round 60, 2026-11-02, dated at the corrections-2 landing) — the gate's SECOND live catch, same self-quoting mechanism, larger blast radius: the wave-C LOG entry quoted BOTH reproducing commands with their then-current results, and each quotation added a line containing the quoted token to LOG.md, drifting both counts AGAIN before the final tip could price them (at the corrections tip e26b330e the gate printed defects=0 errata=3 — the two new drifts converted beside the original wrapped-phrase defect; the row's stored evidence fragment read defects=0 errata=1, so the entry-truth counter correctly flagged the fragment as missing and the tip run FAILED PREDICATE R55-C2 — the counters caught the drift, the honest-stop machinery working). The two commands are re-priced here at CURRENT truth (one command per line); the r59-tip values (1 and 2) are named as history; the mined rule hardens: a LOG entry never quotes a counting-command literal at all (name the class, not the command), because every quotation of a token adds a line containing it:
+
+`grep -c 'The repair cascade broke' LOG.md` → 2
+
+(re-priced: got=2 — 1 at the r59 tip; the wave-C LOG entry's own quotation of this fragment added the second line)
+
+`grep -c 'four tip counters' LOG.md` → 3
+
+(re-priced: got=3 — 1 at the r59 tip, 2 after the wave-F entry quoted it, 3 after wave-C quoted it again; the ladder is the mined mechanism made visible)

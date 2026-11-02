@@ -2246,3 +2246,32 @@ ROUTED to the orchestrator in the round-60 report (this lane may not mutate the 
 root). Lesson: `corpus/lessons/round-60.md`. SOURCES 215→216 (S223 adopted this round;
 census receipts in the round report). LOG re-verification lines for every touched claim:
 this entry + wave M + wave F. Lowest owned axis: coverage 7 (L0-capped, still open).
+
+## Round 60 (hyaku run 14, 2026-11-02) — close: both claims verified and admitted (C1 completion with coverage held 7 at its L0 cap; C2 with operability held at ceiling); the final-tip battery caught the round's own close wave twice — both honestly repaired before the receipts landed; the r59 closure's four routed defects discharged
+
+The first final-tip take FAILED, twice over, and both failures are the designed machinery
+working: (1) the runner wrote its receipts into the measured clone, so the tree was dirty —
+the receipt-consistency gate printed SETUP and the entry-truth source read `clean=NO`
+(the take was discarded uncommitted, the r59 wave-W3 rule); the landed take keeps receipts
+outside the measured clone. (2) the wave-C LOG entry quoted both reproducing commands
+(with their then-current results), drifting both counts before the tip — the corrections
+tip `e26b330e` truth was `defects=0 errata=3` against the row's stored `errata=1`, so
+entry-truth flagged the fragment missing and FAILED `PREDICATE R55-C2` — the gate's second
+live catch, the counters catching their own landing. Repairs, both dated: the erratum
+continuation in `plans/round-59-claims.md` re-prices both commands at current truth
+(`The repair cascade broke` → 2; `four tip counters` → 3; the original block's historical
+expectations convert permanently — errata=3 is the stable tip truth), the ledger row's
+evidence fragment is refreshed to `defects=0 errata=3` with the mechanism named, and the
+SCORECARD close-tip addendum records the whole cascade. The mined rule HARDENS: a LOG entry
+never quotes a counting-command literal at all — name the class, not the command; every
+quotation of a token adds a line containing it (the ladder 1→2→3 is the mechanism made
+visible). Everything else held on the first take and re-runs green at the close tip
+(registry `ADVERTISED total=89` / `REGISTERED total=89`, landcheck `PASS n=4`, state_check
+PASS, probe `PREDICATE R59-C1 pass` exit 0, anchor `rows=216 cited=69 live=0`,
+round46-c2 `PREDICATE C2 pass`, r51 green, r50 `mismatched=0`, r35 red-as-declared); the
+final receipts re-run at the close tip with clean-tree discipline and land with this
+commit's receipts commit. Round verdict: C1 admitted (the completion; coverage HELD 7, L0
+cap `kengaku | round-25/33/51` still open — nothing assumed answered), C2 admitted
+(operability HELD 10, ceiling unchanged); no owned axis harmed — self-admitted, subject to
+the non-author closure. SOURCES 215→216 (S223; census receipts in the round report). LOG
+re-verification lines for every touched claim: this entry + waves F / M / C.

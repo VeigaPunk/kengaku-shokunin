@@ -2655,6 +2655,29 @@ but the claims doc (stated in the freeze).
 with coverage held at its L0 cap; C2 admitted with operability held at ceiling); no axis
 harmed — self-admitted, subject to the non-author closure.**
 
+#### Round-60 close-tip addendum (appended 2026-11-02, at the close commit — the cells above stay as written)
+
+The final-tip battery caught this round's close wave doing EXACTLY what the round's gate
+prices: the wave-C LOG entry quoted both reproducing commands (with their then-current
+results), and each quotation added a line containing its token to LOG.md, drifting both
+counts before the tip could price them. At the corrections tip `e26b330e` the gate printed
+`defects=0 errata=3` (the two new drifts converted beside the original wrapped-phrase
+defect) against the row's stored `errata=1`, so the entry-truth counter correctly flagged
+the fragment missing and FAILED `PREDICATE R55-C2` — the counters caught their own landing.
+The erratum continuation (dated, in `plans/round-59-claims.md`) re-prices both commands at
+current truth (→ 2 and → 3); the original block's historical expectations convert
+permanently, so the stable tip truth is `CMDPOP files=37 sections=2 commands=7 ok=3
+out_of_scope=1 defects=0 errata=3`, `PREDICATE R60-C2 pass`, exit 0 — the ledger row's
+evidence fragment is refreshed to match (dated). The first final-tip take also wrote its
+receipts into the measured tree (dirty tree: the receipt-consistency leg printed SETUP and
+the entry-truth source read clean=NO); the landed take keeps receipts outside the measured
+clone. Both failures are honest captures, mined in `corpus/lessons/round-60.md`; the first
+take's receipt was discarded uncommitted (the r59 wave-W3 rule). Every other leg held on
+the first take: registry 89/89 (`ADVERTISED total=89`, `REGISTERED total=89`), landcheck
+`PASS n=4`, state_check PASS, probe tip re-run green (`PREDICATE R59-C1 pass`, exit 0),
+anchor scan `rows=216 cited=69 live=0`, round46-c2 `PINS total=3 mismatched=0` +
+`PREDICATE C2 pass`, r51 routing green, r50 `mismatched=0`, r35 red-as-declared.
+
 ### Planned (round 61)
 
 The one-more-grader pattern stays class-gated (the r58/r59 planned discipline): a
