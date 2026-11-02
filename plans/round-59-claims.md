@@ -272,3 +272,13 @@ registry row and PROVINCE (round-60 precision fixes). ===
 `grep -c 'four tip counters' LOG.md` → 3
 
 (re-priced: got=3 — 1 at the r59 tip, 2 after the wave-F entry quoted it, 3 after wave-C quoted it again; the ladder is the mined mechanism made visible)
+
+=== ERRATUM CONTINUATION 2 (round 60, dated at the close-2 landing) — the ladder's third rung, and the structural stop: the close LOG entry and the SCORECARD close-tip addendum quoted the two erratum-priced fragments AGAIN (naming their continuation-1 results while closing out the cascade), so both counts moved once more before the final tip could price them (the corrections tip printed errata=3; the close tip printed errata=5; the entry-truth counter flagged the stale fragment again — the counters kept catching their own close-out prose). This continuation prices both fragments at the CURRENT tip truth; the two older priced lines (continuation-1's) convert permanently beside the original block's, which is the visible history of the ladder (1→2→3→4 and 1→2→3 across the landings). THE HARD STOP, in force from this landing: no lane prose quotes these fragments again — later rounds name the CLASS (the self-quoting drift of erratum-priced counting commands) without the literal token; every quotation of a token adds a line containing it and moves the priced count. The re-priced pair, one per line:
+
+`grep -c 'The repair cascade broke' LOG.md` → 3
+
+(got=3 at the close tip — 1 at the r59 tip, 2 after wave-C, 3 after the close entry's quotation)
+
+`grep -c 'four tip counters' LOG.md` → 4
+
+(got=4 at the close tip — 1 at the r59 tip, 2 after wave-F, 3 after wave-C, 4 after the close entry's quotation)

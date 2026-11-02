@@ -59,3 +59,14 @@ orchestrator's; the lane's mirror is durable evidence either way).
   surface; ledger host column): STILL OPEN, nothing assumed answered — coverage is claimed
   predicate-met this round with the score held at 7; the L2 surface was routed around again
   (no in-session second seat; the L0 record stands).
+
+## Mistakes (appended at the close-2 landing, 2026-11-02 — the ladder's third rung)
+
+| class | evidence pointer | captured-by | fix |
+|---|---|---|---|
+| self-quoting ladder, rung 3 — the close LOG entry and the SCORECARD close-tip addendum quoted the two erratum-priced fragments (naming their continuation-1 results while closing out the cascade), moving both counts AGAIN before the final tip: the corrections tip printed errata=3, the close tip errata=5, and the entry-truth counter flagged the stale fragment both times | the final-tip takes: take 1 `RUN executed=90 … evidence_missing=1 laundered=1` + `TIPSTATE declared 61g/29r vs observed 60g/30r` (stale fragment); take 2 the same flag on the refreshed-then-re-staled fragment; `ERRATUM CONTINUATION 2` in `plans/round-59-claims.md` (the ladder 1→2→3→4 written out) | the round's own entry-truth counter and gate — the designed capture, twice in a row | STRUCTURAL STOP, in force from the close-2 landing: no lane prose quotes an erratum-priced fragment again — later text names the CLASS (the self-quoting drift of erratum-priced counting commands), never the token; ERRATUM CONTINUATION 2 prices the current truth (one command per line); the older priced lines convert permanently (errata=5 is the stable tip truth) and the ledger fragment follows, dated |
+| receipt quotation clip — this round's Q20 gate receipt quotes the probe selftest as a tail -3 context clip whose bare summary carries no rc/want line inside the quote: the r59 W2 vacuous-pass class, caught by the r59 gate at the final tip (`FILE .ufo/waves/round-60/gate-receipt.txt defects=1 :: line 13`) | `.ufo/waves/round-60/gate-receipt.txt` + the appended dated erratum | the r59 receipt-consistency gate at the final tip | the same r59 rule, re-learned at a new site: a receipt that QUOTES another instrument's summary carries the quoting context or the full block; the erratum names the clipped lines and the run-level exit label below the quote |
+
+The close-2 rule for every future round: when a landed text must reference an
+erratum-priced counting command, it cites the erratum's location — never the command's
+literal pattern.

@@ -2678,6 +2678,26 @@ the first take: registry 89/89 (`ADVERTISED total=89`, `REGISTERED total=89`), l
 anchor scan `rows=216 cited=69 live=0`, round46-c2 `PINS total=3 mismatched=0` +
 `PREDICATE C2 pass`, r51 routing green, r50 `mismatched=0`, r35 red-as-declared.
 
+#### Round-60 close-tip addendum 2 (appended 2026-11-02, at the close-2 commit — addendum 1's cells stay as written)
+
+The ladder ran a third rung: addendum 1 and the close LOG entry quoted the two
+erratum-priced fragments while closing out the cascade, so both counts moved again before
+the final tip could price them (the corrections tip printed `defects=0 errata=3`; the close
+tip printed `defects=0 errata=5`; the entry-truth counter flagged the stale fragment
+again). ERRATUM CONTINUATION 2 (dated, in `plans/round-59-claims.md`) prices both fragments
+at the current tip truth and states THE HARD STOP: from this landing no lane prose quotes
+these fragments — later text names the class (the self-quoting drift of erratum-priced
+counting commands), never the token; the older priced lines convert permanently, so the
+stable tip truth is `CMDPOP files=37 sections=2 commands=9 ok=3 out_of_scope=1 defects=0
+errata=5`, `PREDICATE R60-C2 pass`, exit 0, and the ledger row's fragment is refreshed to
+match (dated). The same final tip exposed one more receipt defect, caught by the r59 gate:
+the round-60 Q20 roster receipt's probe-selftest quotation is a tail -3 context clip whose
+bare summary carries no rc/want line inside the quote (the r59 W2 vacuous-pass class,
+receipt `.ufo/waves/round-60/gate-receipt.txt:13`) — closed by the R1-form erratum appended
+to that receipt (dated), `PREDICATE R59-C2 pass` again at the close-2 tip. The final
+receipts (landed with this round's receipts commit) re-run the whole surface at the close-2
+tip with receipts kept OUTSIDE the measured clone.
+
 ### Planned (round 61)
 
 The one-more-grader pattern stays class-gated (the r58/r59 planned discipline): a

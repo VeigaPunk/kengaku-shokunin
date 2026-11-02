@@ -2275,3 +2275,26 @@ cap `kengaku | round-25/33/51` still open — nothing assumed answered), C2 admi
 (operability HELD 10, ceiling unchanged); no owned axis harmed — self-admitted, subject to
 the non-author closure. SOURCES 215→216 (S223; census receipts in the round report). LOG
 re-verification lines for every touched claim: this entry + waves F / M / C.
+
+## Round 60 (hyaku run 14, 2026-11-02) — close 2: the ladder's third rung caught and stopped structurally; the receipt gate's vacuous-pass catch on this round's own Q20 quotation; the final receipts re-run at the close-2 tip
+
+The close-out prose (the close entry and the SCORECARD addendum) quoted the two
+erratum-priced fragments once more, so the counts moved again before the final tip (the
+corrections tip printed errata=3; the close tip errata=5; entry-truth flagged the stale
+fragment again — the counters kept catching their own close-out writing). The repair is
+structural, not another re-price alone: ERRATUM CONTINUATION 2 prices both fragments at the
+current tip truth AND states the hard stop — from this landing, no lane prose quotes these
+fragments; later text names the class (the self-quoting drift of erratum-priced counting
+commands) without the token. The older priced lines convert permanently (errata=5 is the
+stable tip truth); the ledger fragment is refreshed to match, dated. The same final tip
+handed the r59 receipt gate its catch on THIS round's own quotation: the round-60 Q20
+roster receipt's probe-selftest clip carries a bare summary with no rc/want context inside
+the quote (the r59 W2 vacuous-pass class, `.ufo/waves/round-60/gate-receipt.txt:13`) —
+closed by the R1-form erratum appended to that receipt. Both repairs are dated; the receipt
+bytes stay as captured. Everything else re-verified green at the close-2 tip and the final
+receipts re-run the whole surface there (registry 89/89, landcheck n=4, entry-truth
+executed=90 with declared==observed, state_check PASS, probe green, gate green, anchor
+live=0, round46-c2 pass, r51 green, r50 pass, r35 red-as-declared) and land with the
+receipts commit. Round verdict stands: C1 admitted (coverage HELD 7 at its L0 cap), C2
+admitted (operability HELD 10); no owned axis harmed — self-admitted, subject to the
+non-author closure.
