@@ -89,3 +89,11 @@ maintenance/R61 repairs are not new credit. Cloud duplicate62 only supplement.
 Sequential passes plus independent review use approved OPERATOR-ADAPTATION.
 No64 closure self-attestation, no65 before parent closure. General methodology
 stays chousa-owned; this is scoped to LLM evaluation decisions.
+
+### Pre-challenge attribution correction
+
+Direct re-read at23:22UTC narrows the opening shorthand: agent-time-horizon-and-
+task-validity.md distinguishes human-duration horizon from agent runtime; it is
+NOT itself a timeout-design recipe. The concrete historical timeout analysis is
+bench-arena-task27-timeout-anatomy.md. Neither is claimed newly acquired here.
+This wording error is preserved for Mistakes; model and gate above unchanged.

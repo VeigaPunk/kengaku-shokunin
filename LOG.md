@@ -2532,3 +2532,7 @@ not another disconnected fact sheet. Gap evidence and exact task/source model
 in plans/round-64-proposal.md. New primary sources opened as bytes; no runtime
 counter, oracle generator or provider call. Parent-appointed non-author reviewer
 will challenge frozen scope. Scalar7/TB2 17/89/Q23 open unchanged.
+
+Round64 pre-challenge correction: direct source re-read caught overbroad shorthand
+calling the horizon entry timeout design; appended distinction in proposal.
+No task answers observed and no gate/model change.
