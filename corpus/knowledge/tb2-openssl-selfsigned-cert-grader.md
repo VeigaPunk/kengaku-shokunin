@@ -74,3 +74,18 @@ negatives above are over the committed round-52 population, not the upstream his
 Extends `corpus/knowledge/tb2-distribution-search-grader.md` (the fifteenth) and the
 grader-semantics line in `corpus/knowledge/benchmark-grader-semantics.md`: the executed-corpus
 class set grows to exact / timing / tolerance-band / crypto-credential+fs-metadata.
+
+## Round-60 addendum (2026-11-02): the corrected zero-U re-freeze completes the admission — 72/72
+
+The round-59 run's two prediction misses were author transcription, not grader behaviour;
+round 60 lands the Q25-sanctioned new-claim re-freeze (`plans/round-60-claims.md`, freeze
+`9e37311f`): the probe's predictions are derived at run time from the case definitions
+(`predict_legs()`, each predicate grounded in this entry's capture anchors), the correction
+is proven to be exactly the transposition (`--check-frozen-table`: 10 rows byte-identical,
+perm-loose/key-1024 differing exactly at dir/key), and the derived table agrees with the r59
+receipt's observed vectors 12/12 (`--check-receipt`; the r59 receipt of record stays
+byte-identical). Scored run at the freeze tip, clean WSL clone: `cases=12 legs=72
+mismatches=0 setup=0 predicted_u=0`, `PREDICATE R59-C1 pass`, exit 0 — receipt
+`corpus/evidence/round60/openssl-probe-refreeze.txt` (measured at `9e37311f`; the grader's
+six legs answer exactly as this entry describes, now under a full-commitment clean verdict).
+No leg's semantics changed; no new ground is claimed — still 16 of 89 TB2 task graders read.

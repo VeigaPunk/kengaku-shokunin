@@ -236,3 +236,29 @@ leg matches the class analysis, the two misses are author-transcription errors, 
 is mined in `corpus/lessons/round-59.md`, and a corrected zero-U re-freeze is next round's
 work if a round needs it. Re-derive: `python3 plans/round59_c1_openssl_probe.py --lane .` →
 `mismatches=2` and the two MISMATCH lines name the same four cells.
+
+=== ERRATUM (round 60, 2026-11-02) — the counting command in correction 2 of the section above does not
+reproduce: the backticked `grep -c 'broke four tip counters' LOG.md` form prints 0, not 1, on the committed
+bytes — the phrase is line-wrapped at LOG.md:1961-1962 ("The repair cascade broke⏎four tip counters before
+closure") and grep -c counts matching LINES (S223, corpus/evidence/round60/grep-manual/grep.html:379): a
+phrase spanning a wrapped line does not match. This is the round-59 non-author closure's routed defect 3,
+and it is the red-before defect of record for the round-60 counting-command reproduction gate
+(plans/correction_command_check.py; red-before receipt .ufo/waves/round-60/recon/c2-red-before.txt at the
+freeze tip 9e37311f names it as the population's one defect). Two reproducing commands, each on its own
+line so the gate's same-line pairing is unambiguous, both priced at the corrections tip:
+
+`grep -c 'The repair cascade broke' LOG.md` → 1
+
+(the sentence-start fragment: unwrapped, unique, stable — got=1 want=1 ok)
+
+`grep -c 'four tip counters' LOG.md` → 2
+
+(got=2, honestly priced: the r59 spotcheck's suggested unwrapped-token form printed 1 at the r59 tip, and
+THIS round's own wave-F LOG entry quoted the token, doubling the count — the gate's first live catch, a new
+instance of exactly the class it prices, created and captured in the same round; mined in
+corpus/lessons/round-60.md). The same erratum corrects the citation precision the r59 closure routed as
+defect 2: the carry-in (b) sentence "the red-before receipt is committed BEFORE the erratum lands" is
+imprecise — both the receipt and the erratum land in commit 85ef87e5; the MEASUREMENT was made at e0512854,
+where the receipt file does not yet exist. Measured-at vs landed-at is now named per citation in the
+registry row and PROVINCE (round-60 precision fixes). ===
+

@@ -2594,4 +2594,75 @@ and the probe's registry/ledger rows flipped green with dated reasons. Then the 
 discipline stands: new grader classes only (17 of 89), no row churn without a claim, L0
 questions carried, and any cross-host pin stamps the host fingerprint at freeze time.
 
+### Round-59 verifier-routed precision corrections (appended 2026-11-02, round 60 — the cells above stay as written)
+
+Non-author closure R59 (`corpus/lessons/round-59-verifier-spotcheck.md` §6), all four routed
+items discharged this round: **(1)** the fleet-repo round-58 report erratum append is still
+uncommitted in the fleet working tree; this lane may not mutate the fleet root, so the append
+is mirrored byte-for-byte at `.ufo/waves/round-60/r58-report-corrections-mirror.md` and the
+fleet-root landing is routed to the orchestrator in the round-60 report. **(2)** the two
+`path@hash` citations that missed the landing commits are precision-fixed in place with dated
+notes — the `receipt-consistency-check` registry row and the PROVINCE round-59 paragraph now
+name measured-at AND landed-at for both receipts (the fleet-report occurrences ride the
+mirror + report). **(3)** the dated correction whose counting command does not reproduce
+(`grep -c 'broke four tip counters' LOG.md` → 0 on committed bytes; the phrase is
+line-wrapped at LOG.md:1961-1962) is the red-before defect of record for R60-C2's gate and is
+closed by a dated erratum on `plans/round-59-claims.md` carrying reproducing commands
+(stable fragment → 1; the spotcheck's unwrapped-token form drifted to 2 when this round's own
+wave-F LOG entry quoted the token — the gate's first live catch, mined). **(4)** the cell
+below says SOURCES "210→214"; S222 landed later at `fea67b2c`, so the r59 tip count was 215,
+and this round's S223 makes it 216 — dated touch-up: **210→215 at the r59 tip; 215→216 this
+round** (`grep -cE '^\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|' corpus/SOURCES.md`).
+
+## Round 60 (hyaku run 14, 2026-11-02): the sixteenth grader's corrected zero-U re-freeze completes its admission 72/72 (C1, coverage held at the L0 cap), and the counting-command reproduction gate closes the r59 routed-defect-3 class red→green (C2, operability held at ceiling) — the r59 closure's four routed defects discharged
+
+Base `9482c840` (the round-59 non-author closure tip). Freeze `9e37311f` (claims + amended
+probe + new gate + S223 + survey receipt, BEFORE the scored run; instrument self-pins
+`6faf217c…d4646` probe (superseding `a7c9b231…a18cd`, both named) and `b8ad6bd6…0c690`
+gate). Environment: WSL Ubuntu-24.04 (python 3.12.3, bwrap 0.9.0, git 2.56.0, OpenSSL
+3.0.13; uv/pytest absent — the canonical counter environment preserved); all scored runs on
+clean WSL-native-fs clones; every receipt exit captured inside the runner (the host harness
+swallows `$?` for inline chains — first-hand re-observation of the r58 finding-(b) capture
+class, mined). Lowest owned axis: **coverage 7** (L0-capped, `kengaku | round-25/33/51`
+still open — nothing assumed answered), worked by C1; no stagnation waiver invoked.
+
+| claim / axis | before → after evidence | counting command | verdict / score |
+|---|---|---|---|
+| R60-C1 / coverage (lowest owned axis, L0-capped) — the corrected zero-U re-freeze of the sixteenth grader's 72-leg prediction table completes the r59 admission (the Q25-sanctioned new claim) | before (base `9482c840`): the registered entry declares RED and re-derives red (`mismatches=2`, `PREDICATE R59-C1 fail`, exit 1 — the judge re-derived it byte-identically from the committed r59 receipt); the amended instrument, the new receipt path and the claims doc are absent at base (`git cat-file -e 9482c840:corpus/evidence/round60` fails) → after: the probe's predictions are DERIVED at run time from the case definitions (`predict_legs()`, each predicate grounded in the capture's own assertions with anchors verified against the committed capture bytes; the r59 lesson M-1 mechanism: generated, never retyped); `--render-table` embeds the generated table verbatim in the freeze; `--check-frozen-table` proves the correction is EXACTLY the transposition (10 rows byte-identical, perm-loose/key-1024 differing exactly at legs [0,1]); `--check-receipt` records the 12/12 output-side agreement (the derivation never reads the receipt); scored run at the freeze tip on a clean WSL clone: `cases=12 legs=72 mismatches=0 setup=0 predicted_u=0`, `PREDICATE R59-C1 pass`, exit 0, receipt `corpus/evidence/round60/openssl-probe-refreeze.txt` (REV `9e37311f`); the r59 receipt of record is untouched; registry/ledger rows flipped GREEN with dated reasons | `python3 plans/round59_c1_openssl_probe.py --lane .` → `PREDICATE R59-C1 pass`, exit 0 (5.4 s; tip re-run in the round's final receipts); do-nothing control: `git cat-file -e 9482c840:corpus/evidence/round60` → absent; sha-refusal kill class inherited unchanged | **predicate met — the completion is admitted; coverage HELD at 7** (the standing unanswered L0 cap; the ground and the class line are the r59 registration — this claim completes its admission, it opens no new ground: still 16 of 89 read) |
+| R60-C2 / operability (held at ceiling 10) — the counting-command reproduction gate closes the r59 routed-defect-3 class red→green | before: the routed defect is committed bytes (`plans/round-59-claims.md:195` prints `grep -c 'broke four tip counters' LOG.md` → 1; the bytes give 0 — the phrase is line-wrapped at LOG.md:1961-1962; S223 grounds the mechanism: grep -c counts matching LINES); the pre-freeze survey (receipt at base, BEFORE the gate existed): 3 commands — 1 reproduces, 1 fails, 1 fleet-root path → after: gate frozen + `--selftest` 6/6; red-before of record at the freeze tip: `defects=1 errata=0`, `PREDICATE R60-C2 fail`, exit 1 (receipt `c2-red-before.txt`); dated ERRATUM on the r59 claims doc (one command per line; stable fragment → 1 ok; the drifted token honestly priced → 2 — the gate's first live catch: this round's own wave-F LOG entry quoted the token and doubled the count, mined); green-after: `defects=0 errata=1`, `PREDICATE R60-C2 pass`, exit 0; registration: SKILL registry row + ledger row in this commit | `python3 plans/correction_command_check.py --lane .` → `CMDPOP files=37 sections=2 commands=5 ok=3 out_of_scope=1 defects=0 errata=1`, `PREDICATE R60-C2 pass`, exit 0 (0.3 s; tip re-run in the final receipts); do-nothing control: the wrapped-phrase command is a committed byte at base and the erratum block is what converts it, so a no-op round stays exit 1 | **admitted; operability HELD at 10** (ceiling unchanged — the r58/r59 held-at-ceiling shape: the class the closure caught by eye is now mechanical) |
+
+**Capabilities** — no new row this round: C1 completes the sixteenth grader's EXISTING
+registration (no new class; the r52/r59 precedent — a capability row enters only through a
+round that demonstrates a NEW capability running clean, and the C2 gate is an instrument
+row in the registry, not a capability-class demonstration).
+
+**No owned axis harmed.** depth 9 (the knowledge entry gains a dated completion addendum;
+additive), adjacency 9 (nothing absorbed; the r58-report erratum is mirrored and routed,
+not absorbed; the fleet-root landing is the orchestrator's), novelty 8 (no new phenomenon
+claim; the class line is the r59 registration), calibration 10 (held — and exercised: the
+gate's first live catch is THIS round's own wave-F LOG entry doubling a token count, priced
+honestly and mined, not papered over), operability 10 (held with C2 landed), freshness 10
+(held — LOG re-verification lines for every touched claim; all citations resolve at the
+tip), coverage held 7 (predicate met, L0-capped). SOURCES 215→216 rows (S223 opened and
+adopted through `plans/sources_adopt.py` exit 0: quote validation + registry admission,
+collisions=0, malformed=0, duplicates=0). Census receipts at round start and end in the
+round report. Registration: `correction-command-check` registry + ledger rows in the same
+commit as this section (the r58 lesson-3 rule); `round59-c1-openssl-probe` rows flipped
+green with dated reasons in the same commit. R13 separability: C1 and C2 share no artifact
+but the claims doc (stated in the freeze).
+
+**Round verdict: both declared claims verify (C1 predicate met — the completion admitted
+with coverage held at its L0 cap; C2 admitted with operability held at ceiling); no axis
+harmed — self-admitted, subject to the non-author closure.**
+
+### Planned (round 61)
+
+The one-more-grader pattern stays class-gated (the r58/r59 planned discipline): a
+seventeenth grader only if a NEW grader class is found. Carry the L0 questions
+(`kengaku | round-25/33/51` coverage cap; `kengaku | round-56` L2 surface + ledger host
+column). The r60 gate's same-line pairing limit and the harness exit-capture hazard are
+recorded — future receipts keep the runner-captured-exit form. The correction-command gate
+now watches every claims doc's dated-correction sections at the tip: corrections must keep
+re-deriving (R12) or carry a dated erratum naming the gate.
+
 - **R26-E11 (2026-11-02)** supersedes `P3c.box.4.pointer.1` — now `pointer=PROVINCE.md:129` `pointer_count=1` `target=PROVINCE.md:129` `token=### Adjacent` `token_hits=0` `line_text=<blank>`.

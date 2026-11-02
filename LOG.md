@@ -2197,3 +2197,52 @@ SOURCES 215 → 216 rows. Instrument self-pins at freeze: probe `6faf217c…6464
 `b8ad6bd6…0c690`. R13 separability: C1 and C2 share no artifact but this claims doc.
 LOG re-verification line for every touched claim: this entry + the wave entries to follow;
 SCORECARD round-60 section at the corrections landing.
+
+## Round 60 (hyaku run 14, 2026-11-02) — wave M: the scored runs at the freeze tip — 72/72 on the corrected re-freeze; the gate's red-before on record; the Q20 roster green
+
+Runs (clean WSL-native-fs clone at `9e37311f`, master checkout; receipts land with the
+corrections commit): (1) C1 battery — the round's only scored run of the probe:
+`cases=12 legs=72 mismatches=0 setup=0 predicted_u=0`, `PREDICATE R59-C1 pass`, exit 0
+(C1-PROBE-EXIT=0, runner-captured) — receipt `corpus/evidence/round60/openssl-probe-refreeze.txt`
+(REV `9e37311f`): the table derived from the case definitions confirmed the captured grader's
+behaviour on every leg; the r59 receipt of record stays byte-identical (the observed run is
+not re-scored). (2) C2 red-before of record at the same tip: `defects=1 errata=0`,
+`PREDICATE R60-C2 fail`, exit 1 — the wrapped-phrase command (`got=0 want=1`), receipt
+`.ufo/waves/round-60/recon/c2-red-before.txt`. (3) Q20 gate roster on a `git archive`
+extraction of the freeze commit: grader `CHECKS n=733 mismatches=0` + `VERDICT: PASS`
+(GRADER-EXIT=0), the touched tools' own rows green (probe `--selftest` 2/2, exit 0; gate
+`--selftest` 6/6, exit 0), the six standing roster selftests green — receipt
+`.ufo/waves/round-60/gate-receipt.txt`. Every exit label captured inside the runner script;
+the host harness swallows `$?` for inline chains (first-hand re-observation of the r58
+finding-(b) capture class — the gate's own first interactive invocation printed exit 0 under
+it while printing `PREDICATE R60-C2 fail`; runner-captured rc=1; mined).
+
+## Round 60 (hyaku run 14, 2026-11-02) — wave C: the corrections landing — the admission completed, the gate green, the r59 closure's four routed defects discharged, rows flipped green with dated reasons
+
+The R1-form erratum lands on `plans/round-59-claims.md` (routed defect 3; ONE command per
+line so the gate's same-line pairing stays unambiguous): the stable fragment
+`grep -c 'The repair cascade broke' LOG.md` → 1 (got=1 want=1 ok) and the drifted token
+`grep -c 'four tip counters' LOG.md` → 2 (got=2 want=2, honestly priced — the gate's FIRST
+LIVE CATCH: this round's own wave-F LOG entry quoted the token and doubled the count from
+the r59 spotcheck's 1; a new instance of exactly the class the gate prices, created and
+captured in the same round, mined in the lesson). Gate green-after: `CMDPOP files=37
+sections=2 commands=5 ok=3 out_of_scope=1 defects=0 errata=1`, `PREDICATE R60-C2 pass`,
+exit 0 (receipt `c2-green-after.txt` lands with the round's receipts commit). The claims
+doc gains Amendment 1 naming the drift and the gate's same-line pairing limit (the gate's
+frozen bytes are untouched — receipts of record exist). SKILL registry:
+`round59-c1-openssl-probe` amended + flipped GREEN (dated; pin `a7c9b231…`→`6faf217c…`;
+the r59 fail of record stands as history), `receipt-consistency-check` citation precision
+(routed defect 2: measured-at AND landed-at named for both receipts), NEW
+`correction-command-check` row (self-pin `b8ad6bd6…`; selftest 6/6; S223 grounding; the
+live-catch note). Ledger: probe row red→green (exit 0; evidence
+`cases=12 legs=72 mismatches=0 setup=0 predicted_u=0`; sec 5.4), receipt-gate reason
+precision note, new gate row (green, exit 0, sec 0.3). PROVINCE: the two citations
+precision-fixed in place with dated notes + the `Round59 completion` paragraph (16 of 89
+unchanged). SCORECARD: the round-60 section + the r59 precision-corrections block (routed
+defects 1–4; SOURCES 210→215 at the r59 tip, 215→216 this round). Knowledge entry: dated
+round-60 addendum. The fleet-root round-58 report erratum append is mirrored byte-for-byte
+to `.ufo/waves/round-60/r58-report-corrections-mirror.md` and the fleet-root landing is
+ROUTED to the orchestrator in the round-60 report (this lane may not mutate the fleet
+root). Lesson: `corpus/lessons/round-60.md`. SOURCES 215→216 (S223 adopted this round;
+census receipts in the round report). LOG re-verification lines for every touched claim:
+this entry + wave M + wave F. Lowest owned axis: coverage 7 (L0-capped, still open).

@@ -206,3 +206,24 @@ a defect; the fences case (5) shows out-of-lane and expectation-less commands ar
 not priced.
 
 R13 separability: stated under C1 — disjoint artifacts both ways.
+
+## Amendment 1 (round 60, dated 2026-11-02, after the freeze; the gate instrument is unchanged — this corrects this file's AFTER-state prose only)
+
+The after-state paragraph above said the erratum carries "`grep -c 'four tip counters' LOG.md`
+→ 1 — measured got=1 want=1 ok". The r59 spotcheck's suggested unwrapped-token form printed 1
+at the r59 tip — and then went stale before this round landed, because this round's own
+wave-F LOG entry quotes the token, doubling the count to 2. The gate priced the freeze doc's
+own erratum draft live (`CMD-DEFECT got=2 want=1` under the then-current text, converted by
+the marker) — its first live catch, a new instance of exactly the class it prices, created
+and captured in the same round; mined in `corpus/lessons/round-60.md`. The LANDED erratum
+(one command per line, so the gate's same-line pairing stays unambiguous) prices both forms
+at current truth: `grep -c 'The repair cascade broke' LOG.md` → 1 (the stable sentence-start
+fragment) and `grep -c 'four tip counters' LOG.md` → 2 (the drifted token, honestly priced).
+Green-after of record at the corrections tip: `CMDPOP files=37 sections=2 commands=5 ok=3
+out_of_scope=1 defects=0 errata=1`, `PREDICATE R60-C2 pass`, exit 0 (receipt
+`.ufo/waves/round-60/recon/c2-green-after.txt`, lands with the round's receipts commit). The
+gate's frozen bytes are NOT touched here — receipts of record exist (the red-before ran at the
+frozen sha), so a docstring edit would be a post-receipt instrument change; the same-line
+pairing limit is instead named HERE as the instrument's recorded limit: a line carrying two
+backticked grep commands pairs the first with the first following arrow, so erratum and
+correction text carries ONE command per line (the landed erratum obeys this).

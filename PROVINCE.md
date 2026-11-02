@@ -807,11 +807,41 @@ task validity, contamination, model behaviour, and the remaining 73 unread TB2 t
 frozen and then amended once in the Q25 window before any receipt of record — the
 unanchored-label tooth removed with both digests named) closes the round-58 closure's finding
 (b) class mechanically: red-before `defects=2 errata=0` (both the r58 finding-(b) labels,
-receipt `.ufo/waves/round-59/recon/c2-red-before.txt` at e0512854), the R1-form erratum
+receipt `.ufo/waves/round-59/recon/c2-red-before.txt` — measured at `e0512854`, first landed at `85ef87e5` (round-60 precision fix, the r59 closure's routed defect 2)), the R1-form erratum
 appended to the r58 receipt naming the wrong labels, the right values and the reason, green
-after `defects=0 errata=2` (receipt `corpus/evidence/round59/receipt-consistency.txt` at
-85ef87e), `PREDICATE R59-C2 pass`.
+after `defects=0 errata=2` (receipt `corpus/evidence/round59/receipt-consistency.txt` — measured at
+`85ef87e5`, first landed at `22ffccc7` (round-60 precision fix)), `PREDICATE R59-C2 pass`.
 
 Reported out: none absorbed. Carried L0 questions unchanged (`kengaku | round-25/33/51`
 coverage cap; `kengaku | round-56` L2 surface + ledger host column — nothing assumed
 answered).
+
+## Round59 completion (2026-11-02): the sixteenth grader's corrected zero-U re-freeze completes its admission — still 16 of 89 read
+
+The round-59 closure carried R59-C1 honestly red (two author-transcription misses in the
+frozen 72-leg table; Q25 forbade re-freezing to the observation). Round 60 lands the
+sanctioned completion as a NEW claim (`plans/round-60-claims.md`, freeze `9e37311f`): the
+probe's predictions are no longer stored at all — `predict_legs()` derives every leg at run
+time from the case definitions (each predicate grounded in the capture's own assertions,
+anchors verified against the committed capture bytes), the generated table is embedded
+verbatim in the freeze, `--check-frozen-table` proves the correction is EXACTLY the r59
+transposition (10 rows byte-identical, 2 rows differing exactly at dir/key), and
+`--check-receipt` records the output-side 12/12 agreement with the r59 receipt of record
+(which stays byte-identical — the observed run is not re-scored). One clean scored run at
+the freeze tip on a clean WSL clone: `cases=12 legs=72 mismatches=0 setup=0 predicted_u=0`,
+`PREDICATE R59-C1 pass`, exit 0 (receipt `corpus/evidence/round60/openssl-probe-refreeze.txt`,
+measured at `9e37311f`, first lands with the round-60 corrections landing). **16 of 89**
+TB2 task graders read — unchanged from round 59; this paragraph completes the sixteenth's
+admission, it opens no seventeenth ground. What it refuses is unchanged: the task image,
+the harness, real submissions, runtime task validity, contamination, model behaviour, and
+the remaining 73 unread TB2 task graders.
+
+Also landed this round (status-neutral, from the r59 closure's four routed defects): the
+in-lane citation precision fixes above; the counting-command reproduction gate
+(`plans/correction_command_check.py`, the r59 routed defect 3 closed red→green — the
+wrapped-phrase correction command in `plans/round-59-claims.md` now prices clean under its
+dated erratum, S223 grounds the mechanism); the SCORECARD round-59 cell's SOURCES 210→214
+stale-by-S222 touch-up; and the fleet-root round-58 report erratum append (still uncommitted
+in the fleet working tree — this lane may not mutate the fleet root) mirrored byte-for-byte
+to `.ufo/waves/round-60/r58-report-corrections-mirror.md` with the fleet-root landing routed
+to the orchestrator in the round report.

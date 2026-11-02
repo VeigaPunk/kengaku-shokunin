@@ -1,0 +1,32 @@
+# kengaku round-60 wave M — the scored runs at the freeze tip
+# measured revision: 9e37311f76f7495a3ed6d7e68982d77a39005d38 (clean WSL-native-fs clone, master checkout)
+# every exit label below was captured inside the runner (rc=$? after each command);
+# the host wsl.exe harness swallows $? for inline chains and is never trusted here
+
+=== C1 battery: the round's only scored run (amended probe at the freeze tip) ===
+REV 9e37311f76f7495a3ed6d7e68982d77a39005d38
+CASE sol predicted=P/P/P/P/P/P observed=P/P/P/P/P/P ok
+CASE perm-loose predicted=P/F/P/P/P/P observed=P/F/P/P/P/P ok
+CASE key-1024 predicted=P/F/P/P/P/P observed=P/F/P/P/P/P ok
+CASE days-30 predicted=P/P/F/P/P/P observed=P/P/F/P/P/P ok
+CASE cn-wrong predicted=P/P/F/P/F/F observed=P/P/F/P/F/F ok
+CASE pem-keyonly predicted=P/P/P/F/P/P observed=P/P/P/F/P/P ok
+CASE pem-garbage predicted=P/P/P/F/P/P observed=P/P/P/F/P/P ok
+CASE fp-absent predicted=P/P/P/P/F/P observed=P/P/P/P/F/P ok
+CASE script-silent predicted=P/P/P/P/P/F observed=P/P/P/P/P/F ok
+CASE dir-absent predicted=F/F/F/F/F/F observed=F/F/F/F/F/F ok
+CASE org-upper predicted=P/P/P/P/P/P observed=P/P/P/P/P/P ok
+CASE script-missing predicted=P/P/P/P/P/F observed=P/P/P/P/P/F ok
+cases=12 legs=72 mismatches=0 setup=0 predicted_u=0
+PREDICATE R59-C1 pass
+C1-PROBE-EXIT=0
+
+=== C2 red-before of record (the gate over the freeze-tip committed tree) ===
+C2-GATE-EXIT=1
+SECTION plans/round-59-claims.md:175 ## Dated corrections (the cosmetic carry-in; measured commands; the su
+OK plans/round-59-claims.md:181 got=4 want=4
+CMD-DEFECT plans/round-59-claims.md:195 got=0 want=1
+SKIP plans/round-59-claims.md:196 path-outside-lane (<fleet>/.ufo/reports/round-58/kengaku.md)
+CMDPOP files=37 sections=1 commands=3 ok=1 out_of_scope=1 defects=1 errata=0
+PREDICATE R60-C2 fail
+
