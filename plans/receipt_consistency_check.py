@@ -15,9 +15,11 @@ bytes (run on a clean clone or a clean worktree; a dirty tree is refused, exit 2
 
 Rules (each compares two fields the receipt itself carries):
   R1 exit-vs-payload — a bare `exit=<n>` label line must agree with the nearest preceding
-     `ANCHORLINE … live=<k>` line in the same file: n == 1 iff k > 0. A bare `exit=` line
-     with no preceding ANCHORLINE in the file is an `unanchored` defect (a label nothing in
-     the file supports).
+     `ANCHORLINE … live=<k>` line in the same file: n == 1 iff k > 0. (Named limit, amended
+     round 59 before any receipt of record landed: a bare `exit=` label with NO preceding
+     ANCHORLINE is skipped, not a defect — several committed receipt families label
+     arbitrary command exits, and an unsupported label is uncheckable, not contradictory.
+     The gate prices contradiction, not unsupported labels.)
   R2 selftest-label — a `SELFTEST <id> rc=<a> want_rc=<b> <label>` line must carry `ok`
      only when a == b, and `FAIL` only when a != b.
   R3 selftest-summary — a `SELFTEST pass` summary line is a defect when any SELFTEST
@@ -73,10 +75,7 @@ def file_state(text: str):
             continue
         e = EXIT_RE.match(ln)
         if e:
-            if last_live is None:
-                defects.append((f"line {lineno}: bare exit={e.group(1)} with no preceding "
-                                f"ANCHORLINE (unanchored label)", "unanchored"))
-            else:
+            if last_live is not None:
                 want = 1 if last_live > 0 else 0
                 if int(e.group(1)) != want:
                     defects.append((f"line {lineno}: exit={e.group(1)} after ANCHORLINE "
@@ -225,14 +224,15 @@ def selftest() -> int:
             fails += 1
         else:
             print("SELFTEST ok bad2 (live=0 exit=1)")
-        # 3. unanchored exit label fails
+        # 3. unanchored exit label: skipped, not a defect (the amended round-59 scope —
+        # the gate prices contradiction, not unsupported labels)
         make(UNANCHORED)
         rc, summ, _ = run()
-        if rc != 1 or "defects=1 errata=0" not in summ:
-            print(f"SELFTEST FAIL unanchored: rc={rc} {summ}")
+        if rc != 0 or "defects=0 errata=0" not in summ:
+            print(f"SELFTEST FAIL unanchored-skip: rc={rc} {summ}")
             fails += 1
         else:
-            print("SELFTEST ok unanchored")
+            print("SELFTEST ok unanchored-skip (no ANCHORLINE payload, not a defect)")
         # 4. selftest label contradiction: line defect + whitewashing summary = 2
         make(SELF_BAD)
         rc, summ, _ = run()

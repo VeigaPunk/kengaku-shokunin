@@ -2027,3 +2027,27 @@ discharged before this freeze at `5420eac9`; carry-in (b) lands as C2's erratum 
 red-before receipt; carry-in (cosmetic) dated corrections are in the freeze's closing section,
 to be mirrored into the round-58 report's Corrections section and the close LOG entry.
 SOURCES 210 → 214 rows. Census receipts land at round end.
+
+## Round 59 (hyaku run 14, 2026-11-02) — wave M: measurements at the freeze tip, honest; one instrument amendment in the Q25 window; the C1 predicate fails on two transcribed predictions
+
+Runs (clean WSL-native-fs clone at `002cde8e`, one mkdtemp stumble documented): (0) the first
+battery invocation died at `mkdtemp` (`--work` parent absent) BEFORE any capture byte was
+read — a setup stumble, no scoring; (1) Q20 gate roster on a `git archive` extraction of the
+freeze commit: grader `CHECKS n=733 mismatches=0` PASS, the six roster selftests green, and
+the two new instruments' selftests green (receipt
+`.ufo/waves/round-59/q20-gate-receipt.txt`, lands with the close); (2) C1 battery — the only
+capture run: `cases=12 legs=72 mismatches=2 setup=0 predicted_u=0`, `PREDICATE R59-C1 fail`,
+exit 1 — the frozen table's perm-loose and key-1024 rows transposed their first two legs
+(the freeze's own defect-class annotations name the true failing legs); per Q25 the table is
+NOT re-frozen to the observation: **R59-C1's predicate FAIL is honestly carried**, dated
+correction appended to `plans/round-59-claims.md`, mined in the round-59 lesson; the receipt
+is committed as-is (`corpus/evidence/round59/openssl-probe.txt`); (3) C2 red-before with the
+FROZEN gate: `defects=15` — 13 of them the frozen gate's `unanchored` tooth flagging
+legitimate arbitrary-command exit labels in five historical receipt files (no contradiction
+among them; the freeze's before-state statement of 2 was right, the frozen instrument
+over-counted). Amendment 1 in the Q25 window (no C2 receipt of record existed): the
+unanchored-defect branch removed, selftest case 3 flipped to the skip expectation as the
+scope fence, both digests named in the claims-doc amendment (frozen `efd50ef6…` → amended
+`3767a447…`); the over-count run receipt kept at
+`.ufo/waves/round-59/recon/c2-overcount-frozen-gate.txt`. The C2 red-before of record
+re-runs on the amendment tip next.

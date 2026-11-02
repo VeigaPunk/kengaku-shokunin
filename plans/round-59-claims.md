@@ -195,3 +195,44 @@ C1 is the round's sourced claim (rides S218–S221). Rejections kept: none this 
    Counting commands: `grep -c 'broke four tip counters' LOG.md` → 1 (the wave-E unit);
    `grep -c 'broke six tip-counter surfaces' <fleet>/.ufo/reports/round-58/kengaku.md` → 1
    (the report's surfaces unit).
+
+## Amendment 1 to the C2 instrument (dated 2026-11-02, BEFORE any C2 receipt of record landed — the Q25 window)
+
+The freeze pinned `plans/receipt_consistency_check.py` sha256
+`efd50ef6811b44935d9a456f4acbc0a4786b13168e671e5277b7efed66c44b77`. Its R1 rule carried an
+extra tooth this freeze's own before-state never used: a bare `exit=` label with NO preceding
+ANCHORLINE was counted as an `unanchored` DEFECT. Measured over the real committed population
+at the freeze tip (clean clone, receipt not landed): that tooth flags 13 labels across five
+historical receipt files (K26RecoveryEvidence.txt ×3 in four copied fixture trees,
+defs-repro.txt, R42ScratchGuard RECEIPT.txt ×3) whose exit labels refer to arbitrary commands —
+uncheckable, NOT contradictory. No contradiction among them; the freeze's "before-state =
+defects=2" statement (from the dev survey, which priced contradiction only) was right and the
+frozen instrument over-counted. Amended per Q25's window (no C2 receipt of record existed):
+the amended instrument sha256 is
+`3767a4476c26c0c53b80fcb2978be1716d64d97bbca619b82ea1c69884848faa` — the change is exactly the
+removal of the unanchored-defect branch (R1 now prices only exit labels that follow an
+ANCHORLINE) and selftest case 3 flips from "unanchored fails" to "unanchored skips" as the
+scope-fence case, named here. Unmoved: the other seven selftest expectations byte-identical,
+the finding-(b) detection (2 defects, both in esc-falsifier-fixed-checker.txt), the erratum
+conversion, the before→after numbers this section froze. The C1 battery receipt landed in the
+same window is a different instrument and is untouched.
+
+## Dated correction: R59-C1's frozen prediction table mispredicted 2 of 72 legs (measured at the first and only capture run, 2026-11-02)
+
+The freeze's table rows for `perm-loose` and `key-1024` read F/P in their first two columns
+(dir, key); the correct predictions — which the freeze's OWN "defect class exercised" column
+names (the permission-bits leg; the openssl-rsa size leg) — are P/F: in both candidates the
+/app/ssl directory exists (dir passes) and the KEY property fails. I transcribed the two legs
+transposed for exactly those two rows, in both the markdown table and the probe's CASES
+tuples (one source, retyped twice — the r58 fixture-bytes lesson in a new form). The scored
+run (the only capture run; freeze `002cde8e` precedes it; receipt
+`corpus/evidence/round59/openssl-probe.txt`) observed
+`perm-loose observed=P/F/P/P/P/P` and `key-1024 observed=P/F/P/P/P/P` against
+`predicted=F/P/P/P/P/P`; the other 70 legs matched (`cases=12 legs=72 mismatches=2 setup=0
+predicted_u=0`, `PREDICATE R59-C1 fail`, exit 1). Per Q25's last sentence the table is NOT
+re-frozen to match the observation and the observed run cannot be re-scored: **R59-C1's
+frozen predicate (mismatches=0) is FAIL, honestly carried** — the grader's behaviour on every
+leg matches the class analysis, the two misses are author-transcription errors, the correction
+is mined in `corpus/lessons/round-59.md`, and a corrected zero-U re-freeze is next round's
+work if a round needs it. Re-derive: `python3 plans/round59_c1_openssl_probe.py --lane .` →
+`mismatches=2` and the two MISMATCH lines name the same four cells.
