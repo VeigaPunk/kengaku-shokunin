@@ -2536,3 +2536,9 @@ will challenge frozen scope. Scalar7/TB2 17/89/Q23 open unchanged.
 Round64 pre-challenge correction: direct source re-read caught overbroad shorthand
 calling the horizon entry timeout design; appended distinction in proposal.
 No task answers observed and no gate/model change.
+
+Round64 first independent challenge answer: corpus/evidence/round64/first-audit-memo.md,
+manual integrated audit committed before oracle release; exact bounds, policy
+intersection and separate population HOLD. Read-only census initial failure kept;
+unchanged script with parent-supplied genuine task-local gawk succeeded, per-command
+PATH only. No counter/fixture execution.
