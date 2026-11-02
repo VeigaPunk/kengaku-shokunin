@@ -91,3 +91,17 @@ population of record is the committed capture set (the excluded capture's bytes 
 EXCLUDED.md and are not part of any class count); classification is of `test_outputs.py`
 graders only — `test.sh` wrappers and the one extra `verify.sh` capture are byte-verified
 against SHA256SUMS but not classified.
+
+## Dated provenance erratum — round63, 2026-11-02 (R62-D1)
+
+The original entry omitted verified-at/recheck. Its original bytes above remain
+unchanged. This append supplies the missing provenance metadata, not a fresh
+execution result or a retroactive rewrite of the round62 verification.
+
+source: S226 — pinned task-tree capture corpus/evidence/round62/tb2-tree-2fd12b88.json; S224 — captured cancel-async-tasks grader; corpus/evidence/round62/class-survey.txt; corpus/lessons/round-62-verifier-spotcheck.md
+verified-at: 2026-11-02 — canonical round62 source/receipt verification, independently recorded in corpus/lessons/round-62-verifier-spotcheck.md at c78749a565dfd186f10a1d8ac98e19dac2429666; round63 re-read these artifacts, did NOT rerun the survey
+recheck: 180d or changed capture/population pin; inspect source pins and roster, then run plans/round62_c1_class_survey.py --lane . only inside the required authorized execution envelope; current cloud execution remains blocked, not passed
+
+R62-D1 metadata omission is corrected by this append. Its literal Q23 canonical
+ledger/check registration is still pending: no historical red-at-entry invented,
+no unknown check mapped to observed failure, and no perpetual-check claim made.

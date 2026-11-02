@@ -730,3 +730,14 @@ the round29 deferred index statement after the Gate's exact-byte admission.
   the probe receipt's sha; the capture sha-refusal kill. Capture bytes committed at
   `corpus/evidence/round57/tb2-eigenval/` (push-protection-clean). Rows S205-S208 opened this
   round; the knowledge entry and its index row land with this section.
+
+## Round63 coverage addition — fixed-family multiplicity
+
+| Ground | Entry | Evidence boundary |
+|---|---|---|
+| Exact multiplicity-aware model comparisons | knowledge/multiplicity-model-comparisons.md | Holm/BH/BY adjusted values, dependence/error targets, family-selection and non-rejection interpretation; independent manual challenge10/10, no executable capability |
+
+This develops the preexisting statistical-reporting warning into a worked decision
+surface; it does not claim multiplicity was wholly absent. Frontier remains
+runtime parity, adaptive/online selection, missing-test/API semantics and valid
+cluster-aware input tests. TB2 coverage17/89 and score7 unchanged.

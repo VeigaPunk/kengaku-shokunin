@@ -1,0 +1,22 @@
+Source census baseline09424fa1fef4635df97b92034fe3196f2f11943f versus intended content working tree
+COMMAND: awk -F pipe on S-number rows; tier column5/status column9
+BASELINE
+rows=220
+B 24
+A 191
+C 5
+rejected 13
+queued 8
+mined 199
+CURRENT
+rows=223
+B 24
+A 194
+C 5
+rejected 13
+queued 8
+mined 202
+COMMAND git diff --check
+EXIT=0
+Exact awk program used on baseline git-show pipe and current corpus/SOURCES.md:
+awk -F'|' '/^\|[[:space:]]*S[0-9][0-9][0-9]+[[:space:]]*\|/ {t=$5;s=$9;gsub(/[[:space:]]/,"",t);gsub(/[[:space:]]/,"",s);a[t]++;b[s]++;n++} END {print "rows="n;for(k in a)print k,a[k];for(k in b)print k,b[k]}'

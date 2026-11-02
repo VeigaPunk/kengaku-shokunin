@@ -950,3 +950,14 @@ the gate with a live re-open (sha256 `2c5fa192…60795` byte-identical to the S2
 re-open capture committed at
 `corpus/evidence/round62/whatwg-windows1252-reopen/index-windows-1252.txt`); index :105 is
 pointer 98 (cp1252 byte 0xE2 = 0x80 + 98 → U+00E2).
+
+## Round63 — exact multiplicity decision surface
+
+Core addition: fixed-complete-family model-comparison decisions, source-grounded
+Holm/BH/BY hand calculations and inferential refusals. Entry
+corpus/knowledge/multiplicity-model-comparisons.md and first frozen manual answers
+corpus/evidence/round63/manual-answers.md. Extends existing generic paired-eval
+multiplicity guidance; not a new statistical method, eighteenth TB2 grader or
+runtime tool. TB2 remains17/89, coverage cap7 unchanged. Adaptive/online selection,
+missing-test APIs and implementation parity remain frontier. General research
+method stays chousa-owned; provider execution/serving/routing stays outside lane.

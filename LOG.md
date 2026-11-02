@@ -2494,3 +2494,27 @@ sha a314f97aaeb99008c8bc9d52be9763fd5dff5638c7f786330cd27c05bc175863.
 Six arithmetic panels and four interpretation cases answered by hand with exact
 fractions in corpus/evidence/round63/manual-answers.md, before oracle release.
 Candidate synthesis remains plans/round63-knowledge-draft.md, not admitted.
+
+Round63 maintenance: re-read canonical62 routed R62-D1; direct grep found no
+verified-at/recheck (exit1), exact prior digest in recon/provenance-before.txt.
+Append-only provenance erratum supplies historical verification and future
+recheck conditions; does not claim a new runtime pass. Pending sidecar records
+literal Q23 registration still not established. No closed defect row fabricated;
+R61 factual corrections unchanged and reconciliation's Q23 discrepancy stays open.
+
+Round63 independent manual result: parent-appointed reviewer reports first answers
+10/10 correct, source/formula and Holm proof reviewed. Landed synthesis, SKILL
+rules, coverage/index and S228–S230 ground exact decisions beyond generic warning.
+Source rows are new→mined, no old row changes. Lesson round-63 mines source-fetch
+and branch-identity mistakes; maintenance erratum preserves old entry prefix.
+No executable counter/provider call, benchmark, new capability or cap lift.
+
+Round63 source-anchor strengthening after independent package inspection: reviewer
+requested exact report pointers and short source fragments for BH suffix minima,
+BY harmonic factor and PRDS/theorem scope. Lesson Gate now locates these explicitly;
+no formula, claim, question or frozen answer changed. Old source rows untouched.
+
+Round63 final non-author integration returned: C1 manual knowledge admitted,
+all arithmetic/source/quote/append-only checks agree, bounded trends supported.
+.ufo/waves/round-63/review/FINAL-INTEGRATION.md copied byte-as-is into the content
+commit. Q23 and runtime restrictions remain expressly unresolved, no cap lift.

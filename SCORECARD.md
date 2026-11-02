@@ -2823,3 +2823,37 @@ round-56` L2 surface + ledger host column). Standing discipline, extended this r
 committed-input claims are ls-files-verified at the freeze; scored runs only in clean clones;
 registry rows are inserted after the last registry row; exit labels are captured pipe-free;
 tables and member lists are quoted from receipts, never hand-tabulated.
+
+## Round63 — fixed-family multiplicity (2026-11-02)
+
+C1 / coverage: before generic family/multiplicity warning but no worked
+Holm/BH/BY decision surface; after sourced exact algorithms, hand-checked examples
+and misuse refusals in corpus/knowledge/multiplicity-model-comparisons.md.
+Baseline09424fa1fef4635df97b92034fe3196f2f11943f path absent (`git cat-file -e` exit128);
+working-tree after exists (`test -f` exit0), discoverability only. Content-commit
+binding follows after landing. Independent first-answer result10/10 at
+ e8754f2a9d5361cf836695b2e4ea0efdf7332cc9, before oracle release; reviewer
+.ufo/waves/round-63/review/REVIEW.md and frozen source/proposal
+3bfa5bd97fc64227201264f328373a934c72deb6. Exact manual values, not executed counters.
+New source rows220→223, S228–S230; old rows unchanged. Metadata commands/output
+.ufo/waves/round-63/recon/metadata-content.txt; census-content.txt exit0.
+
+Bounded all-axis assessment: depth9 held with exact rules/proof; coverage7 held
+under operator cap with new decision detail; operability10 historical score held
+NOT runtime-revalidated; freshness10 held source pins opened; calibration10 held
+limits and uncertainty explicit; adjacency9 held no scope absorption; historical
+novelty8 mapping held, no new-mathematics claim. No new executable capability or
+registry row. TB2 remains17/89. Canonical62 survey/captures/instrument unchanged.
+
+Trends proposed for independent final inspection: expansion improved (new worked
+decision layer); quality improved (generic guidance operationalized and provenance
+metadata corrected, no runtime claims); discernment improved (independent admit
+AND reject agreement, exact first answers). These are bounded content judgments,
+not scalar increases or evidence that all legacy gates pass on this host.
+
+Maintenance R62-D1: dated append supplies provenance fields without rewriting
+old entry; historical round62 verification distinguished from round63 re-read.
+corpus/defects-pending.jsonl is honest tracking only. Literal Q23 registration /
+red-at-entry/perpetual-check remains unresolved; no durable discharge claimed.
+R61 factual corrections already canonical, not repeated for credit. No round64
+before parent closes63. All standing operator questions/cap remain unanswered.

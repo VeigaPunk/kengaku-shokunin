@@ -1382,3 +1382,23 @@ image's `pip install setuptools==80.9.0` is not replayed; recipes run as the pro
 not agents. A property of this capture at `2fd12b88`; not a task-validity, difficulty or gameability verdict, not
 solver advice, not a statement about linear cryptanalysis, the FEAL cipher or `sha256` in general, and not a
 statement about any agent's behaviour.
+
+## Fixed-family model comparison decisions — round63 (manual knowledge)
+
+Source: `corpus/knowledge/multiplicity-model-comparisons.md` (S228–S230);
+exact independent challenge: `corpus/evidence/round63/manual-answers.md`.
+
+| Evaluation decision | Rule | Avoid |
+|---|---|---|
+| Confirmatory family, control any false rejection | Holm: sorted prefix max of (m-i+1)p_i, capped1 | carrying a smaller later product past first failure |
+| Exploratory FDR, independence or justified PRDS | BH: sorted suffix min of mp_i/i, capped1; largest qualifying rank | stopping at first rank failure |
+| Exploratory FDR with arbitrary dependence | BY: BH with harmonic factor H_m | claiming ordinary BH guarantee from shared tasks |
+| Select best after seeing all m comparisons | preserve intended family / use independent confirmation | reset m=1 after selection |
+| Adjusted p not significant | insufficient evidence under this design | equivalence, practical insignificance or posterior truth |
+| Clustered generations on few tasks | valid task/design-aware input inference first | assuming BY fixes pseudoreplication or task transport |
+
+Checklist: freeze hypothesis IDs/family, estimand, sidedness, error target and
+method; justify marginal p-value validity and dependence assumptions; preserve
+labels/ties; compare exact values inclusively; report effect sizes and uncertainty
+alongside decisions. FDR is an expectation, not a per-realization FDP bound or
+FWER generally. Code was read, not executed; no gate/probe/capability is added.
