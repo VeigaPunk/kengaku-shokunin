@@ -1,0 +1,37 @@
+ROUND62 READ-ONLY METADATA RECEIPT
+Measured revision: bdb936eed65745dd8fd08fe64ff97aa60e92949a
+Worktree status:
+?? .ufo/waves/round-62/recon/metadata-content-tip.txt
+
+COMMAND git cat-file -e BASE:corpus/knowledge/repeated-trial-estimands.md
+fatal: path 'corpus/knowledge/repeated-trial-estimands.md' exists on disk, but not in 'c55a3f8868f352280538cf7d786135d34ac6542f'
+RUNNER_EXIT=128
+
+COMMAND git cat-file -e HEAD:corpus/knowledge/repeated-trial-estimands.md
+RUNNER_EXIT=0
+
+COMMAND git show BASE:corpus/SOURCES.md | grep -cE anchored-S-row
+218
+RUNNER_EXIT=0
+
+COMMAND grep -cE anchored-S-row corpus/SOURCES.md
+223
+RUNNER_EXIT=0
+
+COMMAND git diff --numstat BASE HEAD -- corpus/defects.jsonl plans/defect_ledger.py SHONEN.md
+RUNNER_EXIT=0
+
+No new permanent-defect or promotion edits; no executable verification claimed.
+
+COMMAND sha256sum manual answers and copied reviewer artifacts
+cd2961b8454d9bcebcd03cfdc59c743749316e8503bfb14cf2251b937acf4c08  corpus/evidence/round62/manual-answers.md
+ac96246a85408b2a245837dec649763277a9846749928b724f8023befc3a2844  .ufo/waves/round-62/review/C2-independent.md
+7c55342ca24baea6d59d0545291566591a020eb3f226b72b7e3360083ce885b4  .ufo/waves/round-62/review/REVIEW.md
+0db9d5bea16ef6ca665e5a08a6fca0cc05a2d848b1d7b87a7121a08a35cbb942  .ufo/waves/round-62/review/manual-challenge.md
+4168ec0f4cfcc17e8711c43b226e95105b7d3fd7528c4b74985c3632b397d96a  .ufo/waves/round-62/review/manual-oracle-released.md
+RUNNER_EXIT=0
+
+COMMAND du -sk corpus/evidence/round62 .ufo/waves/round-62
+2912	corpus/evidence/round62
+68	.ufo/waves/round-62
+RUNNER_EXIT=0

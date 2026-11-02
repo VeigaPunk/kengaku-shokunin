@@ -1,0 +1,58 @@
+Historical precision re-derivation only; new metric instrument not executed.
+REV 8eeeb5301b885204d89a273c06dcb5121456d4f4
+COMMAND git show f97e5b7b:corpus/SOURCES.md | python byte census
+{"revision": "f97e5b7b81d02084b63042631e0f3a1897af25c7", "sha256": "02d9687f1174396e482b4b4e9984e0499b41de6dd89af8830a672ab926021f8d", "LF": 272, "CR": 0, "CRLF": 0}
+RUNNER_EXIT=0
+COMMAND git show 215a7029:corpus/SOURCES.md | python byte census
+{"revision": "215a70291349abfbfaba8de9dd8d3d1f330a0002", "sha256": "14b105f8c591c49131f0f876beb0f076ba3619bb433d89d3968918b11e17cc7e", "LF": 274, "CR": 274, "CRLF": 274}
+RUNNER_EXIT=0
+COMMAND git show b9920576:corpus/SOURCES.md | python byte census
+{"revision": "b99205767bac69358bc827a2da9da783d707125b", "sha256": "8d2f54874c301e6d391f9de7d7dd919f7b5389cf1acc133460bf2e66d85432e0", "LF": 274, "CR": 0, "CRLF": 0}
+RUNNER_EXIT=0
+COMMAND git --version
+git version 2.52.0
+
+RUNNER_EXIT=0
+COMMAND git diff --numstat f97e5b7b 215a7029 -- corpus/SOURCES.md
+274	272	corpus/SOURCES.md
+
+RUNNER_EXIT=0
+COMMAND git diff --numstat f97e5b7b b9920576 -- corpus/SOURCES.md
+2	0	corpus/SOURCES.md
+
+RUNNER_EXIT=0
+D3 discrepancy: prior reviewer claims +274/-237=511; this exact diff yields +274/-272=546. No cause established. Literal blob counts above do not depend on diff heuristics.
+D2 live capture line105:  98	0x00E2	â (LATIN SMALL LETTER A WITH CIRCUMFLEX)
+D1 preserved receipt below (not a new probe run):
+# round-61 table identity: the freeze's embedded block vs the amended --render-table output
+# (REV lines excluded; measured at the amendment worktree)
+DIFF freeze-block vs amended-tool-output:
+2c2
+< |---|---|---|---|---|---|---|---|
+---
+> |---|---|---|---|---|---|---|---|---|
+6c6
+< | sequential-sync | sequential execution: concurrency leg times out | F | P | F | F | F | F |
+---
+> | sequential-sync | sequential execution: concurrency leg times out | P | F | P | F | F | F |
+13c13
+< | no-max-enforcement | max-concurrent ignored (semaphore absent) | P | F | P | P | P | F |
+---
+> | no-max-enforcement | max-concurrent ignored (semaphore absent) | P | P | F | P | P | F |
+DIFF amendment-embedded vs amended-tool-output:
+AMENDED-SELFTEST (dev check, worktree):
+REV b99205767bac69358bc827a2da9da783d707125b
+SELFTEST toy-sigint got=P/F want=P/F ok
+SELFTEST pass
+
+ERRATUM (round 61, 2026-11-02 — the receipt-consistency gate's vacuous-pass catch; R1 form, receipt bytes above stay as captured): line 20's bare `SELFTEST pass` summary (quoted from the amendment worktree's selftest run inside this identity receipt) carries no rc/want line inside the clip (the r59 W2 vacuous-pass class, the gate's second live catch this round). The context: the same clip's line 19 carries the got/want pair (`SELFTEST toy-sigint got=P/F want=P/F ok`) and the run-level exit was captured by the runner: SELFTEST-EXIT=0 at the amendment worktree (instrument 92facdc7…fe7f87). Both toy legs are plumbing-only; the TB2 capture is untouched.
+=== ERRATUM (round 61, 2026-11-02) — the bare 'SELFTEST pass' summary clip above is a vacuous pass (recorded for plans/receipt_consistency_check.py, which caught it live) ===
+The selftest transcript embedded above (the amendment worktree's plumbing proof) quotes its
+bare summary without a rc/want line inside the clip — the r59 W2 vacuous-pass class, the
+gate's second live catch this round. The context: the same embedded transcript carries the
+got/want pair one line up (`SELFTEST toy-sigint got=P/F want=P/F ok`) and the run-level exit
+was captured by the runner script: SELFTEST-EXIT=0 at the amendment worktree (instrument
+92facdc7…fe7f87, REV b9920576). Both toy legs are plumbing-only; the TB2 capture is
+untouched. This erratum is appended, the receipt bytes above stay as captured (R1); this
+file counts defects=1 before this erratum and errata=1 after it.
+

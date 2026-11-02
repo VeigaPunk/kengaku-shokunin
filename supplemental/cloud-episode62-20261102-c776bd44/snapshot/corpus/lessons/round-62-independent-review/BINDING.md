@@ -1,0 +1,10 @@
+# Independent reviewer artifact binding
+Reviewer /root/judge_kengaku_round62; author is kengaku-shokunin-round62. Parent adopts verified C1 only, original stronger C2 durable discharge UNMET; no all-claims-pass.
+
+Author final lane HEAD5410cfb344a37a43eb76b712a345a38b19d72903, clean before reviewer additions. Fleet author report commit635ab0fdb692f6021698ee98e739270d433686c8 path.ufo/reports/round-62/kengaku.md. Reviewer read staged report, confirmed scope and read back committed report hash00b7d1707d8157bbecb0b405c66ebf4d75c2e41f3f706db648a4f50d90cd8ad2. No fleet changes by reviewer.
+
+Manual challenge SHA2560db9d5bea16ef6ca665e5a08a6fca0cc05a2d848b1d7b87a7121a08a35cbb942; manual oracle SHA2564168ec0f4cfcc17e8711c43b226e95105b7d3fd7528c4b74985c3632b397d96a, frozen before author answers21d46b6c94cc4e0540e1b64a4c34219dcc35c7b7 answer SHA256cd2961b8454d9bcebcd03cfdc59c743749316e8503bfb14cf2251b937acf4c08. Oracle disclosed only after answer freeze. Original exploration remains in parent audit: oracle.json SHA256d5ece5ac31f92a276a489aa754b756c8bee73b555ac40de5d1252ca814d710c4; invalid-oracle.json SHA2560ec84acc06e1f057fccde60024635e8f91ef9959d14a950fff7ee5d1d2bf52aa. Their generator ran without Q32 envelope, nonconforming and excluded, not compliant execution. Preserved immutable hashes/disclosures suffice here; generated exploratory data is not copied into admitted evidence.
+
+FREEZE.md's initial source line references use web-rendered line positions; author/manual review source references use physical local capture lines as clarified in REVIEW.md. Initial candidate pending language is historical and superseded only by later signed admission; original C2 discharge remains unmet in final integration.
+
+Review package copied byte-for-byte from reviewer audit except this binding note. No implementation edits, gate runs, publication, fleet closure or scalar uplift. Parent-authorized pathspec reviewer commit contains only this directory; authorship identity is non-author reviewer.
