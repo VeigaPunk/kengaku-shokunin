@@ -2524,3 +2524,11 @@ committed knowledge and independent review resolve; source rows223; source hashe
 match freeze; original census-end and disk guard exit0. Receipts explicitly
 name their measured commit/self-inclusion boundary. Final report staged only
 after this lane commit, parent owns fleet write/closure. No64 started.
+
+## Round64 proposal freeze (2026-11-02)
+
+Exploratory C1 coverage: integrated LLM deployment-mixture/missing-outcome audit,
+not another disconnected fact sheet. Gap evidence and exact task/source model
+in plans/round-64-proposal.md. New primary sources opened as bytes; no runtime
+counter, oracle generator or provider call. Parent-appointed non-author reviewer
+will challenge frozen scope. Scalar7/TB2 17/89/Q23 open unchanged.
