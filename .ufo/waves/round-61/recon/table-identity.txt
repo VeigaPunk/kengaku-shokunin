@@ -18,3 +18,5 @@ AMENDED-SELFTEST (dev check, worktree):
 REV b99205767bac69358bc827a2da9da783d707125b
 SELFTEST toy-sigint got=P/F want=P/F ok
 SELFTEST pass
+
+ERRATUM (round 61, 2026-11-02 — the receipt-consistency gate's vacuous-pass catch; R1 form, receipt bytes above stay as captured): line 20's bare `SELFTEST pass` summary (quoted from the amendment worktree's selftest run inside this identity receipt) carries no rc/want line inside the clip (the r59 W2 vacuous-pass class, the gate's second live catch this round). The context: the same clip's line 19 carries the got/want pair (`SELFTEST toy-sigint got=P/F want=P/F ok`) and the run-level exit was captured by the runner: SELFTEST-EXIT=0 at the amendment worktree (instrument 92facdc7…fe7f87). Both toy legs are plumbing-only; the TB2 capture is untouched.

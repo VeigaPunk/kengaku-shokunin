@@ -1,3 +1,5 @@
 REV f97e5b7b81d02084b63042631e0f3a1897af25c7
 SELFTEST toy-sigint got=P/F want=P/F ok
 SELFTEST pass
+
+ERRATUM (round 61, 2026-11-02 — the receipt-consistency gate's vacuous-pass catch; R1 form, receipt bytes above stay as captured): line 3's bare `SELFTEST pass` summary carries no rc/want line inside the clip (the r59 W2 vacuous-pass class — the gate's own catch on this round's first receipt). The quoting context IS in the clip's line 2 (`SELFTEST toy-sigint got=P/F want=P/F ok` — the got/want pair) and the run-level exit label was captured by the runner: SELFTEST-EXIT=0 (rc=0 measured by the amend runner script, the plumbing-proof take at the freeze worktree, REV f97e5b7b). Both toy legs are plumbing-only; the TB2 capture is untouched.
