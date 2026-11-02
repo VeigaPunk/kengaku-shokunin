@@ -20,3 +20,12 @@ SELFTEST toy-sigint got=P/F want=P/F ok
 SELFTEST pass
 
 ERRATUM (round 61, 2026-11-02 — the receipt-consistency gate's vacuous-pass catch; R1 form, receipt bytes above stay as captured): line 20's bare `SELFTEST pass` summary (quoted from the amendment worktree's selftest run inside this identity receipt) carries no rc/want line inside the clip (the r59 W2 vacuous-pass class, the gate's second live catch this round). The context: the same clip's line 19 carries the got/want pair (`SELFTEST toy-sigint got=P/F want=P/F ok`) and the run-level exit was captured by the runner: SELFTEST-EXIT=0 at the amendment worktree (instrument 92facdc7…fe7f87). Both toy legs are plumbing-only; the TB2 capture is untouched.
+=== ERRATUM (round 61, 2026-11-02) — the bare 'SELFTEST pass' summary clip above is a vacuous pass (recorded for plans/receipt_consistency_check.py, which caught it live) ===
+The selftest transcript embedded above (the amendment worktree's plumbing proof) quotes its
+bare summary without a rc/want line inside the clip — the r59 W2 vacuous-pass class, the
+gate's second live catch this round. The context: the same embedded transcript carries the
+got/want pair one line up (`SELFTEST toy-sigint got=P/F want=P/F ok`) and the run-level exit
+was captured by the runner script: SELFTEST-EXIT=0 at the amendment worktree (instrument
+92facdc7…fe7f87, REV b9920576). Both toy legs are plumbing-only; the TB2 capture is
+untouched. This erratum is appended, the receipt bytes above stay as captured (R1); this
+file counts defects=1 before this erratum and errata=1 after it.
