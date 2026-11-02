@@ -2488,3 +2488,9 @@ Source R4.5.1 R/Rd prep copied from held old lane and sha256 verified; author-ho
 BY2001 full PDF newly opened (Theorems1.2/1.3). Failed Euclid HTML excluded.
 No challenge seen, no executable/model/provider work. Fresh census/disk checks
 exit0: .ufo/waves/round-63/recon/{census-before,disk-before}.txt.
+
+Round63 manual challenge: independent public questions released only after freeze,
+sha a314f97aaeb99008c8bc9d52be9763fd5dff5638c7f786330cd27c05bc175863.
+Six arithmetic panels and four interpretation cases answered by hand with exact
+fractions in corpus/evidence/round63/manual-answers.md, before oracle release.
+Candidate synthesis remains plans/round63-knowledge-draft.md, not admitted.
