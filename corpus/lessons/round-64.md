@@ -66,3 +66,8 @@ correct while the joined release recommendation is wrong. The audit retains
 both a justified fictional GO and genuine HOLD with explicit flip conditions.
 General research methodology stays chousa-owned. TB2 17/89, cap7, literalQ23 and
 strict-envelope block unchanged; no next round before parent closure.
+
+Final integration: d79e6cdfc8433dd74296163866b342ac217e82db co-lands reviewed
+content. Independent review/final-metadata.md clears archival contingency and
+confirms unprovable-but-better. Old source rows and historical artifacts unchanged.
+No new claim or rerun; final report staged outside fleet for parent closure.

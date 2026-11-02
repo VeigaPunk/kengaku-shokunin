@@ -2553,3 +2553,8 @@ REVIEW/source-review/first-answer-review/challenge/released oracle preserved und
 .ufo/waves/round-64/review/. Source rows S231/S232 only; earlier rows unchanged.
 Own prior-art shorthand and census PATH mistake mined in lesson. No runtime
 capability, score increase, Q23 discharge, eighteenth TB2 or new round claimed.
+
+Round64 final binding: parent-appointed reviewer final-metadata.md confirms
+content d79e6cdfc8433dd74296163866b342ac217e82db, exact source/review copies,
+old source rows preserved and entry/index/source co-landing. Exploratory verdict
+now final unprovable-but-better. Report staged outside fleet; parent closure only.

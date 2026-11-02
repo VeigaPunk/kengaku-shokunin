@@ -2886,3 +2886,10 @@ Source rows223→225 (two A), old rows intact. Read-only census command and outp
 in round64 recon; first missing-gawk failure retained, existing genuine binary
 provided via per-command PATH. Source count is indexing, not expertise magnitude.
 LiteralQ23 discrepancy and Q32 execution block remain. Final commit binding follows.
+
+Round64 measured-content binding: entry/index/source/reviewer evidence co-landed
+at d79e6cdfc8433dd74296163866b342ac217e82db. Non-author final-metadata.md
+independently verifies original source/review hashes, unchanged old source rows,
+entry=draft and required co-landing; archival contingency discharged. Current
+metadata receipt recon/content-tip.txt records that exact commit; no runtime
+semantic gate executed. Parent still owns fleet closure.
