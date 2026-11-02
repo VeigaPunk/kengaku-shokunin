@@ -169,3 +169,19 @@ carry-in unaddressed and the gates unpriced.
 - Exploratory claims: none this round; both claims carry counting commands in receipts.
 - L0: the coverage cap trio `kengaku | round-25/33/51` and the `kengaku | round-56` pair stay
   open; routed around; nothing assumed answered (the cap is why C1's score is HELD, not raised).
+
+## Amendment 1 (dated 2026-11-02, before any scored census completed — the Q25 window; the cells above stay as written)
+
+The FIRST scored run (at the freeze tip `93f19d1a`, fresh clean WSL-native-fs clone, instrument
+unchanged) priced SETUP — receipt of record committed AS-IS at
+`.ufo/waves/round-62/recon/scored-run-SETUP.txt`, `CLASS-SURVEY-EXIT=2`: the population
+bookkeeping files the sections above name as "population of record (all committed bytes)" —
+`all_tasks.lst`, `executed17.lst`, `missing.lst`, `unexec.lst`, `unexec72.lst` — were NEVER
+TRACKED by git (round-52 capture bookkeeping that sat untracked in the Windows worktree for
+ten rounds; the pre-freeze dry run ran against that worktree and could not see the gap — the
+worktree lies, the r61 environment lesson again, mined a second way). The amendment commits
+the five files byte-as-is (provenance: the round-52 capture program's own bookkeeping lists,
+unmodified; EXCLUDED.md and SHA256SUMS were already tracked). No census result existed yet, so
+nothing is re-scored and no fail is converted: the receipt of record is the run at THIS
+amendment tip. The instrument is unchanged (self-pin still `9414af9c…85d6`); the detector
+table is unchanged.
