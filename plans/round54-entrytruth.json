@@ -1110,7 +1110,33 @@
    "evidence": "cases=12 legs=48 mismatches=0 setup=0 predicted_u=0",
    "reason": "round 58 registration (wave C3): the round-58 KL probe, frozen before the first capture run; first capture run and tip re-run both green (receipts .ufo/waves/round-58/wavec/). Argv aligned to the registry cell token (DIR) 2026-11-01 — the r55 L1 binding checks ledger argv == registry cell argv verbatim. Argv set BARE 2026-11-01 (the r57 eigen-probe form): the literal `--work DIR` token crashes the run (the work dir must exist) and the L1 binding requires the ledger argv to equal the registry cell argv verbatim; the committed receipt stays the registered artifact."
   },
-  "anchor-line-check": {
+    "round59-c1-openssl-probe": {
+   "chosen": "r58-entry",
+   "entry_argv": [
+    "python3",
+    "plans/round59_c1_openssl_probe.py"
+   ],
+   "entry_exit": 1,
+   "entry_state": "red",
+   "sec": 12.0,
+   "evidence": "PREDICATE R59-C1 fail",
+   "reason": "round 59 registration (wave M, honest red): the sixteenth-grader probe runs and its plumbing is green, but the frozen 72-leg prediction table carries 2 author-transcription misses (perm-loose/key-1024 first two legs swapped), so the frozen predicate mismatches=0 is FAIL at the round-59 tip (receipt corpus/evidence/round59/openssl-probe.txt); the table is not re-frozen to the observation (Q25) — the row flips green only when a corrected zero-U re-freeze lands."
+  },
+  "receipt-consistency-check": {
+   "chosen": "r58-entry",
+   "entry_argv": [
+    "python3",
+    "plans/receipt_consistency_check.py",
+    "--lane",
+    "."
+   ],
+   "entry_exit": 0,
+   "entry_state": "green",
+   "sec": 6.0,
+   "evidence": "defects=0 errata=2",
+   "reason": "round 59 registration (wave E2): the receipt self-consistency gate closes the r58 closure's finding (b) class — red at the amendment tip e0512854 (defects=2 errata=0, both the esc-falsifier-fixed-checker.txt exit labels, receipt .ufo/waves/round-59/recon/c2-red-before.txt), the R1-form erratum appended to that receipt, green at 85ef87e (defects=0 errata=2, receipt corpus/evidence/round59/receipt-consistency.txt); declared green while the erratum stands and no undeclared contradiction exists in the population."
+  },
+"anchor-line-check": {
    "chosen": "r58-entry",
    "entry_argv": [
     "python3",

@@ -776,3 +776,42 @@ and R58-F2 (the unescaped/elided anchor class) are closed with the supersessions
 
 What it refuses is unchanged: the task image, the harness, real submissions, runtime task
 validity, contamination, model behaviour, and the surfaces refused in earlier rounds.
+
+## Round 59: the sixteenth grader read and executed — the corpus's first cryptographic-credential + filesystem-metadata gate; the receipt self-consistency gate (2026-11-02)
+
+**Coverage ground.** The sixteenth read TB2 task grader — `openssl-selfsigned-cert` — is read
+and executed offline at the same pin `2fd12b88` (full sha in the SOURCES rows and the oracle
+note): rows **S218** (the task's machine-readable definition, tier A spec), **S219** (the
+grader, tier A code — byte-identical to the r52 population capture of the same path, two
+independent fetches), **S220** (the maintainer reference solution — the oracle: genrsa 2048 →
+chmod 600 → one req -x509 -days 365 → concatenated PEM → openssl-written verification.txt → a
+load_cert_chain-backed check_cert.py, tier A code), **S221** (the agent-facing instruction,
+tier A docs) opened 2026-11-02; capture bytes committed at
+`corpus/evidence/round59/tb2-openssl-selfsigned-cert/` (no key material, certificate bytes or
+generated artifacts committed anywhere — the r52 GH013 lesson; the probe's builder generates
+inside the sandbox). The graded property is new to the executed corpus: six legs whose
+decisive ones read the credential through the openssl CLI (`openssl rsa -text` size,
+`openssl x509 -text/-dates` subject + exactly-365-day window), assert POSIX permission bits
+(`st_mode & 0o777 <= 0o600`), and price a child-process contract on `python
+/app/check_cert.py`. The offline probe (`plans/round59_c1_openssl_probe.py`, frozen with
+`plans/round-59-claims.md` at 002cde8e before the first capture run) executed the captured
+grader against 12 lane-built candidates: `cases=12 legs=72 mismatches=2 setup=0
+predicted_u=0` — 70/72 legs confirmed; the 2 misses are the author's transcription (first two
+legs swapped on perm-loose/key-1024; the freeze's own annotations name the true failing legs),
+dated-corrected in `plans/round-59-claims.md`, `PREDICATE R59-C1 fail` honestly carried, mined
+in `corpus/lessons/round-59.md`. **16 of 89** TB2 task graders read — the frontier count moves
+15 → 16. What it refuses is unchanged: the task image, the harness, real submissions, runtime
+task validity, contamination, model behaviour, and the remaining 73 unread TB2 task graders.
+
+**Operability ground.** The receipt self-consistency gate (`plans/receipt_consistency_check.py`,
+frozen and then amended once in the Q25 window before any receipt of record — the
+unanchored-label tooth removed with both digests named) closes the round-58 closure's finding
+(b) class mechanically: red-before `defects=2 errata=0` (both the r58 finding-(b) labels,
+receipt `.ufo/waves/round-59/recon/c2-red-before.txt` at e0512854), the R1-form erratum
+appended to the r58 receipt naming the wrong labels, the right values and the reason, green
+after `defects=0 errata=2` (receipt `corpus/evidence/round59/receipt-consistency.txt` at
+85ef87e), `PREDICATE R59-C2 pass`.
+
+Reported out: none absorbed. Carried L0 questions unchanged (`kengaku | round-25/33/51`
+coverage cap; `kengaku | round-56` L2 surface + ledger host column — nothing assumed
+answered).

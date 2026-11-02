@@ -2548,3 +2548,48 @@ eigen probe and the r58 KL probe now cover two grader classes — register a thi
 NEW class is found (the one-more-grader pattern stays class-gated). Carry the L0 questions
 (coverage cap; L2 surface; ledger host column). Re-pin discipline: any future cross-host
 pin must stamp the host fingerprint (git version, fs) in-file at freeze time.
+
+## Round 59 (hyaku run 14, 2026-11-02): the sixteenth grader executed with two honest prediction misses (C1's zero-U predicate FAILS, dated-corrected), and the receipt self-consistency gate closes the r58 finding-(b) class red→green (C2 admitted); the r58 closure's four routed items discharged
+
+Base `5420eac9` (the wave-R receipt re-landing); freeze `002cde8e` (claims + captures + S218–S221
+before the first capture run; probe self-pin `a7c9b231…a18cd`, gate self-pin
+`efd50ef6…4b77`); amendment + measurements `e0512854` (wave M); erratum + red-before
+`85ef87e` (wave E2). Environment: WSL Ubuntu-24.04 (python 3.12.3, bwrap 0.9.0, git 2.56.0,
+OpenSSL 3.0.13; uv/pytest absent — the canonical counter environment preserved). Carry-in from
+the round-58 non-author closure (`corpus/lessons/round-58-verifier-spotcheck.md` §5–6),
+discharged first: **(a)** the five orphaned receipts re-landed at their cited paths at
+`5420eac9` (each instrument re-run green at tip `e0cfa97a`, dated re-landing headers, LOG
+wave-R rule: receipts cited by landed rows are committed at landing); **(b)** the
+fixed-checker receipt's exit labels corrected by R59-C2's erratum; **(cosmetic)** the two
+counting-unit/prose corrections dated in the claims doc + the round-58 report's Corrections
+section + the close LOG entry.
+
+| claim / axis | before → after evidence | counting command | verdict / score |
+|---|---|---|---|
+| R59-C1 / coverage (lowest owned axis, L0-capped) — the sixteenth grader read and executed; its zero-U predicate FAILS on two transcribed predictions | before (base bytes, structural anchors per the R57-W1 rule): `git show 5420eac9:PROVINCE.md \| grep -c sixteenth` → 0 (rc 1); `git show 5420eac9:corpus/SOURCES.md \|` row-count → 210; `git cat-file -e 5420eac9:corpus/evidence/round59` → absent → after: S218–S221 opened at pin `2fd12b88` (S219 byte-identical to the r52 population capture), the sixteenth grader read and executed (the corpus's first crypto-credential + filesystem-metadata gate: only openssl-CLI grader in the 184-capture population, none of the 15 executed graders touch st_mode); probe receipt `corpus/evidence/round59/openssl-probe.txt`: `cases=12 legs=72 mismatches=2 setup=0 predicted_u=0`, `PREDICATE R59-C1 fail` exit 1 — 70/72 legs confirmed, the 2 misses are the author's transcription (perm-loose/key-1024 first two legs swapped; the freeze's own defect-class annotations name the true failing legs), dated correction in `plans/round-59-claims.md`, NOT re-frozen to the observation (Q25); PROVINCE names the sixteenth grader (16 of 89); knowledge entry + index row landed | `git show 5420eac9:PROVINCE.md \| grep -c sixteenth` → 0 ; `grep -c sixteenth PROVINCE.md` → 2; `grep -cE '^\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|' corpus/SOURCES.md` → 214 (210→214); `python3 plans/round59_c1_openssl_probe.py --lane .` → mismatches=2, `PREDICATE R59-C1 fail` exit 1 (declared RED in the registry/ledger until a corrected zero-U re-freeze) | **predicate NOT met — not admitted; coverage held 7 (L0 cap).** The ground moved (grader read + executed, class registered, SOURCES 210→214, entry + PROVINCE landed) and the execution verified 70 legs — but the claim's frozen verify condition (mismatches=0) failed on the author's own transcription, and the honest verdict is the fail; the calibration value is mined (lesson M-2) and the corrected re-freeze is next round's work |
+| R59-C2 / operability (held at ceiling 10) — the receipt self-consistency gate closes the r58 finding-(b) class red→green | before (the whole committed population, measured at the freeze tip): the r58 closure caught by eye — `esc-falsifier-fixed-checker.txt` :9/:13 print `exit=0` under `live=1` payloads while the same file's selftest records `rc=1 want_rc=1 ok`; gate red-before of record at `e0512854` (receipt `.ufo/waves/round-59/recon/c2-red-before.txt`): `files=6854 anchored-exit-pairs=13 selftest-lines=1 defects=2 errata=0`, `PREDICATE R59-C2 fail`, exit 1 → the R1-form erratum appended to the receipt (wrong labels named, right values, reason, dated, marker naming the gate) → green after at `85ef87e` (receipt `corpus/evidence/round59/receipt-consistency.txt`): `files=6855 anchored-exit-pairs=13 selftest-lines=1 defects=0 errata=2`, `PREDICATE R59-C2 pass`, exit 0; one Q25-window instrument amendment before any receipt of record (the unanchored tooth removed — it flagged 13 legitimate arbitrary-command labels; both digests named in the claims doc; over-count receipt kept) | `python3 plans/receipt_consistency_check.py --lane .` → `defects=0 errata=2`, `PREDICATE R59-C2 pass`, exit 0; selftest 8/8 | **admitted; operability held 10** — the class the closure caught by eye is now mechanical, the correction row is the claim's landing, the score was already 10 (held, ceiling unchanged) |
+
+**Capabilities** — no new row this round: the probe enters the registry/ledger as an
+instrument but its capability-class demonstration carries the C1 predicate fail, and a
+capability row enters only through a round that demonstrates the capability running clean
+(the r52 precedent: no row enters on a not-admitted claim).
+
+**No owned axis harmed.** depth 9 (the knowledge entry's mechanism + negative-space work;
+additive), adjacency 9 (nothing absorbed; the corrections are the closure's own routed items
+discharged), novelty 8 (no new phenomenon claim made — the class line rides the executed
+grader's registration), calibration 10 (held — and exercised: the two transcription misses
+are dated, mined, and NOT papered over; the amendment window was used before any receipt of
+record, per Q25), coverage held 7 (predicate NOT met, honestly carried), operability 10
+(held with C2 landed), freshness 10 (held — LOG re-verification lines for every touched
+claim; all citations resolve at the tip). SOURCES 210→214 rows (4 opened; census exit 0 at
+round end). **Round verdict: C1 not admitted (predicate fail, honest), C2 admitted; no axis
+harmed — self-admission is therefore FALSE for this round** (AXES.md: a round admits only
+when every claim verifies), subject to the non-author closure.
+
+### Planned (round 60)
+
+First: the corrected zero-U re-freeze of the 72-leg table (generated FROM the case
+definitions, never retyped — the mined fix), one clean battery run, `PREDICATE R59-C1 pass`,
+and the probe's registry/ledger rows flipped green with dated reasons. Then the r58 planned
+discipline stands: new grader classes only (17 of 89), no row churn without a claim, L0
+questions carried, and any cross-host pin stamps the host fingerprint at freeze time.

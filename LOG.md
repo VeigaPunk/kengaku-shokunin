@@ -2064,3 +2064,34 @@ the wrong labels named, the right values (1 under both fx-red and fx-words), the
 (capture-script bug; the payload ANCHORLINE lines and the file's own `rc=1 want_rc=1 ok`
 selftest lines are the red-direction evidence of record), dated, marker naming the gate —
 the capture bytes above it stay as written. Green-after lands next.
+
+## Round 59 (hyaku run 14, 2026-11-02) — close: R59-C2 admitted (operability held 10), R59-C1 predicate FAIL carried honestly (coverage held 7), the r58 closure's four routed items discharged; self-admission FALSE by the every-claim-verifies rule
+
+Lowest owned axis: coverage 7 (L0-capped, `kengaku | round-25/33/51` still open) — worked by
+C1 and honestly failed at the predicate. C2 (operability, held 10): the receipt
+self-consistency gate red→green with receipts — red-before `defects=2 errata=0` at `e0512854`
+(both the r58 finding-(b) labels, `.ufo/waves/round-59/recon/c2-red-before.txt`), the R1-form
+erratum on the r58 receipt, green-after `defects=0 errata=2` at `85ef87e`
+(`corpus/evidence/round59/receipt-consistency.txt`), `PREDICATE R59-C2 pass` exit 0, selftest
+8/8; one Q25-window amendment before any receipt of record (unanchored tooth removed; both
+digests named in the claims doc; the over-count receipt kept). C1 (coverage): the sixteenth
+grader read + executed (S218–S221 opened, captures committed; the corpus's first
+crypto-credential + filesystem-metadata gate; PROVINCE 16 of 89) — and its frozen zero-U
+predicate FAILED on 2 of 72 author-transcribed predictions (perm-loose/key-1024 first two
+legs swapped; 70/72 confirmed; `PREDICATE R59-C1 fail` exit 1; receipt committed as-is; the
+table NOT re-frozen to the observation per Q25) — **verdict: not admitted**, dated-corrected
+in `plans/round-59-claims.md`, mined in `corpus/lessons/round-59.md` (freeze-transcription:
+tables are generated from case definitions, never retyped), corrected re-freeze planned as
+r60's first work. Because one of the two declared claims does not verify, **the round is NOT
+self-admitted** (AXES.md admission rule); reported for the non-author closure to re-derive.
+No owned axis harmed: depth 9, adjacency 9, novelty 8, calibration 10, operability 10,
+freshness 10, coverage 7 — all held. Registration: `round59-c1-openssl-probe` registry +
+ledger rows declared RED (honest current state) and `receipt-consistency-check` rows GREEN —
+ADVERTISED 88 / REGISTERED 88 expected at the close tip; the final tip trio re-runs green in
+the close receipt. LOG re-verification lines for every touched claim: this entry + wave R /
+F / M / E2 entries; SCORECARD round-59 section; lesson `corpus/lessons/round-59.md` (Gate:
+two admits + two reject-equivalents; Mistakes: freeze-transcription, instrument-scope,
+receipt-pointer). Census at round end: exit 0 (receipts in the round report). The r58
+closure's cosmetic carry-in: the "three rows vs four" and "six surfaces vs four counters"
+counting-unit corrections dated in `plans/round-59-claims.md` §Dated corrections and mirrored
+into the round-58 report's Corrections section.
