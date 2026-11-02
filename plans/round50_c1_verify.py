@@ -10,7 +10,7 @@ while still refusing every frozen hostile module, under a mutant floor?
 
 Frozen predicate (`plans/round-50-claims.md` §C1; the same sentence is the receipt label):
   C1 passes iff `python3 plans/round50_c1_verify.py --lane .` prints
-    `POPULATION fixtures=126 pin=b5197f94… mismatched=0`,
+    `POPULATION fixtures=126 pin=f41db91b… mismatched=0` (round-58 re-pin),
     `HONEST fixtures=126 admitted=126 refused=0 error=0`,
     `REFUSALS total=20 clean=20 leaked=0`,
     `SEALED total=<S> clean=<S> leaked=0`,
@@ -65,7 +65,11 @@ MUTANT_MIN = 12               # frozen floor: at least 12 rows, and at least 12 
 REFUSALS_TOTAL = 20           # frozen: modules under plans/refusals46
 SEALED46_TOTAL = 12           # frozen: modules under plans/sealed46
 SEALED50_MIN = 6              # frozen: blind held-out modules authored in round 50 wave 1
-POPULATION_SHA = "b5197f941a9f523eaedae6bd7be39531a0f80e10c6b05030687dbeacfb3fae69"
+# round-58 re-pin (2026-11-01, plans/round-58-claims.md R58-C2): the round-50-host pin
+# b5197f941a9f523eaedae6bd7be39531a0f80e10c6b05030687dbeacfb3fae69 froze git-plumbing store
+# bytes that no cross-host rebuild reproduces (root cause + 0-unstable discriminator in the
+# claims freeze; the old pin stays in git history).
+POPULATION_SHA = "f41db91b8dc430f2d4137d47cf71ea10474fdc4988982cdab03ba57cd7fd26c3"
 
 FENCE_REL = "plans/fixture_fence.py"
 POP_REL = "plans/honest50/population.txt"
