@@ -2864,3 +2864,25 @@ metadata in .ufo/waves/round-63/recon/content-tip.txt confirms knowledge/review
 paths exist, source rows223 and exact source hashes. census-end.txt original
 fleet census exit0; no executable claim counter was run. Reviewer final verdict
 supports proposed bounded trends; parent still owns fleet closure.
+
+## Round64 — integrated release audit (2026-11-02)
+
+C1 coverage, exploratory: before generic paired-eval and timeout guidance but no
+integrated target-mixture/missing-outcome/cost screen (bounded term sweep in
+.ufo/waves/round-64/recon/gap-sweep.txt); after reusable memo and decision table
+corpus/knowledge/deployment-mixture-missing-outcome-audit.md. Named non-author
+/root/judge_kengaku_round64 verdict unprovable-but-better, reasons in
+.ufo/waves/round-64/review/REVIEW.md. First exact manual answer at
+6576c75f6661ce25ce054345f4555c0c286a54dc agrees with independently frozen hand
+oracle; diagnostic only, NOT a generalization score or executed test count.
+
+Coverage7 cap held, depth9 held, operability10 historical held not runtime-
+revalidated, freshness10 held on opened scoped sources, calibration10 held on
+explicit finite-panel/population separation, adjacency9 held; historical novelty8
+held, no new math claim. No capability row. TB2 remains17/89. Independent review
+finds all-axis no-harm within content scope and three bounded trends improved:
+new decision surface, more actionable integrated guidance, admit/reject agreement.
+Source rows223→225 (two A), old rows intact. Read-only census command and outputs
+in round64 recon; first missing-gawk failure retained, existing genuine binary
+provided via per-command PATH. Source count is indexing, not expertise magnitude.
+LiteralQ23 discrepancy and Q32 execution block remain. Final commit binding follows.

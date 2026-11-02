@@ -246,6 +246,9 @@ method stays chousa's (`../chousa-shokunin/SKILL.md`).
 | S229 | R stats p.adjust manual source — https://svn.r-project.org/R/tags/R-4-5-1/src/library/stats/man/p.adjust.Rd | docs | A | R4.5.1 documented FWER/FDR distinction and Holm dependence scope | R4.5.1 Details lines44–61; capture corpus/evidence/round63/sources/p.adjust.Rd, sha256 3fb8b4f5620f8b2acf2e400630c4e8fd372b381e948775f1a5419ae1c8d92900 | Holm strong FWER versus BH/BY FDR; arbitrary dependence does not waive valid marginal p-values | mined | 2026-11-02 | 180d | corpus/knowledge/multiplicity-model-comparisons.md, corpus/lessons/round-63.md |
 | S230 | The control of the false discovery rate in multiple testing under dependency — https://doi.org/10.1214/aos/1013699998 | paper | A | canonical BH independence/PRDS and BY arbitrary-dependence guarantees, not empirical model rankings | Benjamini and Yekutieli2001, Annals of Statistics29(4):1165–1188; section1.2 p1167 and Theorems1.2/1.3 pp1168–1169; author-hosted capture corpus/evidence/round63/sources/BY2001.pdf | BH step-up and FDR definition; PRDS condition on true nulls; harmonic modification controls FDR under general dependence | mined | 2026-11-02 | 180d | corpus/knowledge/multiplicity-model-comparisons.md, corpus/lessons/round-63.md |
 
+| S231 | Examining the robustness of LLM evaluation to the distributional assumptions of benchmarks — https://arxiv.org/html/2404.16966v1 | paper | A | original study on application-specific weights and ranking sensitivity, not measured deployment mixture | Ailem et al.25Apr2024 v1, sections1 and3.3; capture corpus/evidence/round64/sources/ailem2024.html line438 | target distribution is application-dependent; weighted comparisons can differ from benchmark aggregate | mined | 2026-11-02 | 180d | corpus/knowledge/deployment-mixture-missing-outcome-audit.md, corpus/lessons/round-64.md |
+| S232 | Inference with Imputed Data: The Allure of Making Stuff Up — https://arxiv.org/pdf/2205.07388v1 | paper | A | bounded-support missing-outcome identification logic, not sample confidence intervals or blanket rejection of imputation | Manski May2022 section1 printedp1 and section3.1 printedp7 equations1–2; capture corpus/evidence/round64/sources/manski2022.pdf | credible assumptions determine missing-outcome identification; binary finite-record specialization derived in entry | mined | 2026-11-02 | 180d | corpus/knowledge/deployment-mixture-missing-outcome-audit.md, corpus/lessons/round-64.md |
+
 ## Paths
 
 - contamination audit — S001 → S002 → S004 → S005 → S006 → S022: map the detection space first, then the concealment failure mode, then resistant design, then two lab self-audits showing what detection failure costs in practice, then a live refresh mechanism.
@@ -282,3 +285,14 @@ method stays chousa's (`../chousa-shokunin/SKILL.md`).
 ## Round63 bounded search (2026-11-02)
 
 Question: which primary sources ground exact fixed-family multiplicity decisions beyond the existing generic warning? Identified/screened4 source identities: R p.adjust implementation, its manual, Holm1979 original paper, BY2001 original paper. Included3 (S228–S230); excluded Holm full paper as inaccessible (JSTOR stub), not as scientifically rejected. R guessed GitHub tag404; official SVN code succeeded, manual transient503 then succeeded. Euclid returned HTML rather than PDF; author-hosted BY PDF succeeded and was read. R4.6.0 live manual was preparation/context only, R4.5.1 code/manual are the frozen algorithm version. Stop: exact arithmetic, error targets and dependence conditions supported; no global novelty search or model tests. False inference interpretations are rejected in round63 lesson, not invented rejected-source rows.
+
+## Round64 bounded search (2026-11-02)
+
+Question: what anchors application-mixture sensitivity and binary missing-outcome
+regions beyond generic paired inference? Included S231/S232, both older original
+research opened from pinned arXiv versions. Lee2005 selection/trimming paper was
+opened but excluded from this claim: stronger treatment-selection framework not
+needed; PDF text encoding corrupt. Flip requires relevant trimming claim and
+readable source. Manski HTML404 was only an access failure; actual PDF opened.
+No search snippets admitted. Stop after source support for stated synthesis;
+not global novelty research. Details .ufo/waves/round-64/recon/source-openings.md.

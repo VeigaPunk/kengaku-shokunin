@@ -961,3 +961,13 @@ multiplicity guidance; not a new statistical method, eighteenth TB2 grader or
 runtime tool. TB2 remains17/89, coverage cap7 unchanged. Adaptive/online selection,
 missing-test APIs and implementation parity remain frontier. General research
 method stays chousa-owned; provider execution/serving/routing stays outside lane.
+
+## Round64 — decision integration, not executable expansion
+
+Manual model-evaluation audit now connects deployment-mixture sensitivity,
+binary missing-outcome identification, deadline scoring and joint cost/margin
+eligibility. corpus/knowledge/deployment-mixture-missing-outcome-audit.md extends
+paired uncertainty and historical timeout work. General statistics methodology
+remains chousa-owned; real deployment/serving/provider operations remain outside
+scope. Unknown deployment transport and sampling inference remain frontier.
+TB2 17/89 and scalar coverage7 unchanged; Q32/Q23 blockers remain.

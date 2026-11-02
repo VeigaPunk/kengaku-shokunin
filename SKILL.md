@@ -1402,3 +1402,26 @@ method; justify marginal p-value validity and dependence assumptions; preserve
 labels/ties; compare exact values inclusively; report effect sizes and uncertainty
 alongside decisions. FDR is an expectation, not a per-realization FDP bound or
 FWER generally. Code was read, not executed; no gate/probe/capability is added.
+
+## Mixture/missing-outcome release audit — round64 (manual design knowledge)
+
+Use corpus/knowledge/deployment-mixture-missing-outcome-audit.md (S231/S232) and
+corpus/evidence/round64/first-audit-memo.md when ranking systems with different
+completion patterns. This is a finite-panel audit, not a population PASS or
+executable evaluation tool.
+
+| Situation | Decision rule | Failure pattern |
+|---|---|---|
+| Completed-only aggregate reverses stratum rankings | Compare common prospective weights, then audit within-stratum unknowns | Removing composition bias does not remove missingness selection |
+| Binary outcomes unknown on assigned attempts | Bound each stratum by[s/n,(s+u)/n]; weighted contrast endpoints use opposite system extremes | Identification sets called confidence intervals |
+| Deadline miss known but late answer correct | Keep zero under success-by-deadline; distinguish lost logs | Post-hoc endpoint rewriting |
+| Candidate quality and cost move oppositely with mixture | Intersect margin-feasible and cost-feasible weight regions | Selecting favorable weights or success-only cost denominator |
+| Original logs recoverable | Recover original outcomes with identity/time provenance, preserving costs and failed attempts | Selectively rerun failures until success |
+
+Checklist: freeze estimand and target weights; reconcile s+f+u=n; calculate
+identified score/contrast sets; count all assigned costs; test joint policy
+conditions across every allowed mixture; issue only conditional panel eligibility;
+separately require transport, design-matched uncertainty/Q11 and actual authority
+for population release. Never substitute a positive panel bound for a statistical
+claim. Example: margin1/20 and cost27/5 yield eligible weights[1/5,15/52] in the
+frozen case, not all[1/5,3/10]. General formula and limits are in the entry.

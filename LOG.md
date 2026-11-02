@@ -2542,3 +2542,14 @@ manual integrated audit committed before oracle release; exact bounds, policy
 intersection and separate population HOLD. Read-only census initial failure kept;
 unchanged script with parent-supplied genuine task-local gawk succeeded, per-command
 PATH only. No counter/fixture execution.
+
+## Round64 content integration (2026-11-02)
+
+Independent reviewer /root/judge_kengaku_round64 supports exploratory C1 as
+unprovable-but-better, not synthetic numeric accuracy. Entry/source/index/SKILL
+integrate mixture and missing-outcome bounds with margin-cost tradeoff and honest
+population HOLD. All hand calculations in first committed memo agree; no retry.
+REVIEW/source-review/first-answer-review/challenge/released oracle preserved under
+.ufo/waves/round-64/review/. Source rows S231/S232 only; earlier rows unchanged.
+Own prior-art shorthand and census PATH mistake mined in lesson. No runtime
+capability, score increase, Q23 discharge, eighteenth TB2 or new round claimed.

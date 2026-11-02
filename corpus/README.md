@@ -741,3 +741,16 @@ This develops the preexisting statistical-reporting warning into a worked decisi
 surface; it does not claim multiplicity was wholly absent. Frontier remains
 runtime parity, adaptive/online selection, missing-test/API semantics and valid
 cluster-aware input tests. TB2 coverage17/89 and score7 unchanged.
+
+## Round64 coverage addition — integrated release-audit decision
+
+| Ground | Entry | Evidence boundary |
+|---|---|---|
+| Deployment mixture × missing outcome × cost feasibility | knowledge/deployment-mixture-missing-outcome-audit.md | S231/S232; one independently challenged manual end-to-end audit, finite-panel decisions only; no runtime or population-rate admission |
+
+Index: corpus/evidence/round64/first-audit-memo.md preserves the first response;
+.ufo/waves/round-64/review/ holds original question, released hand oracle and
+non-author reviews. Extends paired-eval uncertainty guidance, not new pairing
+knowledge. Frontier: design-valid sampling uncertainty with partial identification,
+real target-mixture evidence, missing cost bounds and runtime implementation.
+Coverage cap7/TB2 17/89 unchanged. No general methodology province absorbed.
