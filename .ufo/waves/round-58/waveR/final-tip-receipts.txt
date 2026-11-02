@@ -1,0 +1,36 @@
+=== re-landed 2026-11-02 (round 59): the round-58 waveR final-tip receipt trio, regenerated at lane tip e0cfa97ae8cae38dbd888963611ce9f2d9e3a3e8 ===
+The original waveR capture (2026-11-01, measured at bf48fd2072) lived only in round scratch
+and was never committed — the round-58 non-author closure finding (a); the corrected final
+version WAS committed as waveR/final-tip-receipts-r3.txt (measured at bf48fd2072), and this
+file additionally re-runs the same three-instrument trio (round52_c2_registry, round56_landcheck,
+round55_c2_entryargv full) on a clean WSL-native-fs clone at the CURRENT tip so the
+corpus/lessons/round-58.md citation resolves at every later tip too. Predicate fields match
+final-tip-receipts-r3.txt field for field. Payload below is the fresh run, unedited.
+
+--- registry
+ADVERTISED total=86
+REGISTERED total=86 rows=88
+MISSING 0
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 pass
+REG-EXIT=0
+
+--- landcheck
+[PASS] L-reg registry closure (MISSING 0, PREDICATE R52-C2 pass)
+[PASS] L-chess chess probe re-run == committed receipt (cases=12 observed_pass=5 observed_fail=7 mismatches=0)
+[PASS] L-selftest entryargv selftest (4/4 PASS)
+[PASS] L-grader grader replay+selftest (CHECKS n=733 mismatches=0, ALL PASS)
+LANDCHECK PASS n=4
+LANDCHECK-EXIT=0
+
+--- full entry-truth (jobs 6, timeout 900)
+BINDING l1=0 l2=0 l3=0
+SOURCE rev=e0cfa97ae8cae38dbd888963611ce9f2d9e3a3e8 clean=yes lane_rev_equal=yes
+RUN executed=87 timeout=0 mismatched=0 evidence_missing=0 laundered=0
+TIPSTATE entry_declared_green=56 entry_declared_red=31 observed_green=56 observed_red=31
+MIGRATION redeclared=4 r53_green_nonentry=4
+PREDICATE R55-C2 pass
+FULL-EXIT=0

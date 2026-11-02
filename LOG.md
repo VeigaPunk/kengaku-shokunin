@@ -1969,3 +1969,35 @@ touched: this entry + the wave entries; SCORECARD round-58 section; lesson
 `corpus/lessons/round-58.md` (Gate: four admits; Mistakes: freeze-exit-path, non-idempotent
 edit script, fixture byte-derivation). Census at round end: exit 0, verdict ok (20 W04
 duplicate-url warnings = 15 pre-existing + 5 from the supersession rows, named in the lesson).
+
+## Round 59 (hyaku run 14, 2026-11-02) — wave R: the five orphaned round-58 receipts re-landed at their cited paths (the closure's orphaned-evidence duty, discharged first)
+
+The round-58 non-author closure (`corpus/lessons/round-58-verifier-spotcheck.md` §6 finding (a))
+checked five cited receipt paths against the tip with `git cat-file -e` and found none resolvable:
+the original captures were measured in round scratch and deleted at round end, never committed.
+Routed to round 59 with the fix named ("commit every cited receipt at landing, or re-point the
+citations"). Discharged by re-running each cited instrument on a clean WSL-native-fs clone
+(python 3.12.3, bwrap, git 2.56.0 — the canonical counter environment) at the current lane tip
+`e0cfa97a` and landing the fresh output at the cited paths under a dated re-landing header that
+names what was re-run and why the original is absent; no landed prose was edited. All five
+green, predicate fields matching the committed close receipts field for field:
+- `.ufo/waves/round-58/wavep/r50-after.txt` — round50-c1 full population run, clean clone, no
+  flags: `POPULATION fixtures=126 pin=f41db91b… mismatched=0`, `MUTANTS 15/15 caught`,
+  `PREDICATE R50-C1 pass`, R50-EXIT=0 (the round58-c2 ledger flip's citation now resolves).
+- `.ufo/waves/round-58/fix/r46c2-after.txt` — round46-c2: `PINS total=3 mismatched=0`,
+  anchorline `live=0 repaired=9`, `PREDICATE C2 pass`, R46C2-EXIT=0 (the round46-c2 ledger
+  flip's citation now resolves).
+- `.ufo/waves/round-58/wavec/kl-sha-kill.txt` — the sha-refusal kill re-fired (one newline
+  appended to the pinned capture in the clone): `SetupError: grader sha256 … != frozen pin`,
+  KILL-EXIT=1 (the lesson mistakes-row and claims-dated-correction citations now resolve; the
+  measured exit 1 matches the dated correction).
+- `.ufo/waves/round-58/wavec-tip/entryargv-full.txt` — full entry-truth, jobs 6, timeout 900:
+  `executed=87 timeout=0 mismatched=0 evidence_missing=0 laundered=0`, TIPSTATE 56g/31r
+  declared==observed, `PREDICATE R55-C2 pass`, FULL-EXIT=0.
+- `.ufo/waves/round-58/waveR/final-tip-receipts.txt` — the three-instrument tip trio re-run at
+  the CURRENT tip (registry `ADVERTISED 86 / REGISTERED 86`, `PREDICATE R52-C2 pass`;
+  landcheck `LANDCHECK PASS n=4`; full entry-truth green) so the lesson's citation resolves at
+  every later tip; the corrected round-58 version remains committed beside it as
+  `waveR/final-tip-receipts-r3.txt` (measured at `bf48fd20`).
+Rule adopted (the closure's fix): every receipt a landed row cites is committed in the same
+round it is cited, at landing — a receipt that lives only in scratch is not evidence.

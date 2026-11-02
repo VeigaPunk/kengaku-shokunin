@@ -1,0 +1,25 @@
+=== re-landed 2026-11-02 (round 59): the round-58 wavec KL sha-refusal kill receipt, regenerated at lane tip e0cfa97ae8cae38dbd888963611ce9f2d9e3a3e8 ===
+The original wavec capture (2026-11-01) lived only in round scratch and was never committed —
+the round-58 non-author closure finding (a), routed to round 59 and discharged by this
+re-landing. This file re-fires the same tamper kill on a clean WSL-native-fs clone at the
+current tip: one newline appended to the pinned TB2 capture
+corpus/evidence/round58/tb2-distribution-search/tests/test_outputs.py in the clone, then
+plans/round58_c2_kl_probe.py --lane . — the capture digest must refuse (SetupError, the
+drifted capture is never materialized nor executed) and the measured exit is 1 (the freeze
+wrote exit 2; the dated correction in plans/round-58-claims.md records the measured 1). The
+frozen pin and the drifted digest below are both printed by the instrument itself. Payload
+below is the fresh run, unedited.
+
+Traceback (most recent call last):
+  File "/tmp/kengaku-r59/kill/plans/round58_c2_kl_probe.py", line 501, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/tmp/kengaku-r59/kill/plans/round58_c2_kl_probe.py", line 490, in main
+    rc = run_battery(pathlib.Path(a.lane), pathlib.Path(work), lines)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/kengaku-r59/kill/plans/round58_c2_kl_probe.py", line 378, in run_battery
+    materialize(lane, tests_dir)
+  File "/tmp/kengaku-r59/kill/plans/round58_c2_kl_probe.py", line 364, in materialize
+    raise SetupError(f"grader sha256 {digest} != frozen pin {GRADER_SHA256}")
+SetupError: grader sha256 8f1a4401eabb61d71173eda2f1c21893559c54cd506df7963b8e928043bceac5 != frozen pin 02bca54db4849b7c911253fb92f941e21db8b1eea13261a7e5a9871fca68b4ed
+KILL-EXIT=1
