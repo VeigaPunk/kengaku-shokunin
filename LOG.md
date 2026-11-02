@@ -2454,3 +2454,25 @@ re-priced at the amendment tip (the three correction counters at 3/1/1; the wron
 stays 1 by Q34 immutability, the superseding row S227 is the correction) and the correction
 gate re-run green (PREDICATE R60-C2 pass, defects=0 errata=5 — the stable r60 tip truth) at
 this tip. LOG re-verification lines for every touched claim: this entry and the close entry.
+
+## Round 62 (2026-11-02) — close: both claims verified and admitted (C1 predicate met with coverage held 7 at its L0 cap; C2 admitted with calibration held at ceiling, exercised); the round-61 closure's three findings discharged with re-deriving receipts
+
+The landing: PROVINCE's round-62 section (the class census — still 17 of 89 read and executed;
+the census is a new surface, not an eighteenth read), the knowledge entry
+`corpus/knowledge/tb2-grader-class-census.md` (the census quoted from the receipt, the two new
+mechanism classes read, the eighteenth-grader gate's survey input) + its README index row, the
+SKILL registry row `round62-c1-class-survey`, the entrytruth ledger row (SETUP first run and
+green of record both recorded), the capability row `grader-class-census-survey`, and the
+SCORECARD round-62 section — registration in the same commit as the SCORECARD section (the r58
+lesson-3 rule). C2's landing was already in the freeze: the two dated errata appends (the
+round-61 claims doc's dated-correction section + the round-61 lesson's erratum) and the
+superseding registry row S227. The round's own gates caught the author twice before any census
+result existed (the census E12 on the misplaced sources append — repaired pre-commit; the
+clean-clone SETUP on the ten-rounds-untracked population inputs — amended before the receipt of
+record), both mined in `corpus/lessons/round-62.md` with their receipts. Round verdict: C1
+predicate met (coverage HELD 7, L0 cap `kengaku | round-25/33/51` still open — nothing assumed
+answered), C2 admitted (calibration HELD 10, exercised); no axis harmed — self-admitted,
+subject to the non-author closure. SOURCES 218→220 (S226+S227, both opened live this round;
+census receipts in the round report). L0 questions `kengaku | round-25/33/51` and
+`kengaku | round-56`: still open, routed around. Lesson: `corpus/lessons/round-62.md`. LOG
+re-verification lines for every touched claim: waves F, A+M, and this entry.

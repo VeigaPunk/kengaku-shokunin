@@ -890,3 +890,63 @@ grader's predicates, not the task's full semantics, are what the receipt execute
 questions `kengaku | round-25/33/51` (coverage cap) and `kengaku | round-56` (L2 surface;
 ledger host column) remain open — routed around, nothing assumed answered; the coverage
 score is HELD at 7 by that standing cap.
+## Round 62: the population's first grader-class census — every committed grader classified over a frozen 16-detector table; the round-61 closure's three findings land as dated corrections (2026-11-02)
+
+**Coverage ground.** The planned round-62 precondition is landed: the survey pass over the
+89-task population exists as a mechanized instrument and a receipt. `plans/round62_c1_class_survey.py`
+(stdlib-only, deterministic, a built-in determinism leg) byte-verifies all 183 committed
+captures against the pinned SHA256SUMS (184 rows; the one pinned-but-absent row is exactly the
+push-protection-excluded capture), grounds the roster against the LIVE-opened pin tree (S226,
+the git-trees API capture: 89 task dirs == the round-52 `all_tasks.lst` roster, priced
+`roster==tree=True`), and classifies every committed `test_outputs.py` grader (93 files) over a
+frozen 16-detector table: `PREDICATE R62-C1 pass`, exit 0, receipt of record
+`corpus/evidence/round62/class-survey.txt` (measured at the amendment tip `968f6ae7` on a fresh
+clean WSL-native-fs clone; determinism leg green). Census: file-artifact 76, subprocess-exec
+45, stdout-inspection 29, crypto-credential 12, numeric-band 10, filesystem-metadata 10,
+serialization-schema 10, timing-wall 9, network-service 8, shell-exec 6, candidate-import 6,
+process-environment 3, git-plumbing 3, db-state 2, signal-delivery 1, container-image 0 —
+unclassified 0. The sentinel holds mechanically: `signal-delivery count=1 member=cancel-async-tasks`
+(the r59/r61 prose negatives are now a frozen invariant). `EXECUTED-COVERAGE executed=17
+classified=17 classes-covered=12 classes-uncovered=network-service,process-environment,
+db-state,container-image` — the eighteenth-grader gate's survey input: the only uncovered
+classes with members are network-service (8 graders), process-environment (3) and db-state (2).
+**Still 17 of 89 TB2 task graders read and executed** — the frontier count does not move this
+round; the census is a new surface (the population's mechanism-class structure), not an
+eighteenth read. The instrument's own pre-freeze catch is part of the record: take 1 of the
+dry run priced the first detector table RED (the executed `feal-differential-cryptanalysis`
+grader unclassified — its mechanism is grader-imports-candidate + an `os.popen` build step;
+`candidate-import` and `shell-exec` were added before the freeze; both takes kept in
+`.ufo/waves/round-62/recon/census-dryrun-worktree.txt`). The first SCORED run at the freeze tip
+priced SETUP exit 2 (the five population bookkeeping files — the round-52 capture program's
+`all_tasks.lst`/`executed17.lst`/`missing.lst`/`unexec.lst`/`unexec72.lst` — had sat untracked
+for ten rounds; receipt `.ufo/waves/round-62/recon/scored-run-SETUP.txt` committed AS-IS;
+amendment `968f6ae7` commits them byte-as-is; nothing re-scored). The L0 questions
+`kengaku | round-25/33/51` (coverage cap) and `kengaku | round-56` (L2 surface; ledger host
+column) remain open — routed around, nothing assumed answered; the coverage score is HELD at 7
+by that standing cap.
+
+The census of record, quoted verbatim from the receipt's first line:
+
+```
+CLASS-CENSUS roster=89 tree-dirs=89 sha256sums-rows=184 captures-committed=183 captures-unpinned=0 sha-mismatch=0 absent-pinned=1 graders-classified=93 unclassified=0 classes=16
+```
+
+**The round-61 closure's three findings land as dated corrections (status-neutral, claimed as
+R62-C2).** R61-D1: the round-61 amendment prose and lesson undercounted the table-identity
+receipt's diff — THREE differing lines (the separator row 8-vs-9 cells, sequential-sync,
+no-max-enforcement; both data rows already wrong at the freeze; no scored run affected) — the
+dated-correction section in `plans/round-61-claims.md` re-derives the corrected count from the
+receipt's own hunk lines (priced green by the correction gate at the pre-freeze check, the
+measurements tip and the close receipt), with a dated erratum appended to
+`corpus/lessons/round-61.md` (rows byte-identical, R1). R61-D3: the EOL counts were idealized —
+measured from the git objects (receipt `.ufo/waves/round-62/recon/carryin-facts.txt`): base
+272 lines / 0 CR; freeze 274 lines / 274 CR; numstat +274/−272 = 546 changed lines (the
+lesson's "546" matches the numstat total; its "273-line" idealized 272→274); repair pure LF,
+net +2/−0; landed in the same two dated appends (the spot-check's "+274/−237 = 511" variant
+could not be re-derived and is superseded by the measured numbers). R61-D2: the S225 gloss
+swapped pointer and byte for the 0xE2 mapping — corrected by the superseding registry row S227
+(teaches opens `supersedes S225 —`, per Q34; S225's own cells byte-identical), adopted through
+the gate with a live re-open (sha256 `2c5fa192…60795` byte-identical to the S225 capture; the
+re-open capture committed at
+`corpus/evidence/round62/whatwg-windows1252-reopen/index-windows-1252.txt`); index :105 is
+pointer 98 (cp1252 byte 0xE2 = 0x80 + 98 → U+00E2).

@@ -2767,3 +2767,59 @@ outside the measured clone; runner-captured exits; tables always embedded from
 `--render-table` output by script, never by hand). The byte-mirror of record for any
 future fleet-root routing is a headerless byte-copy with a cmp receipt — prose byte-fidelity
 claims are barred by the round-61 erratum.
+
+## Round 62 (2026-11-02): the population's first grader-class census (the planned survey pass, mechanized — 93 graders, 16 classes, 0 unclassified, coverage held at the L0 cap) and the round-61 closure's three findings landed as dated corrections with re-deriving receipts (calibration held at ceiling, exercised)
+
+Base `c55a3f88` (the round-61 non-author closure tip, admitted; a retry session — the prior
+round-62 attempt landed no work, verified against the base tree). Freeze `93f19d1a` (claims +
+instrument + captures + S226/S227 + the R61-D1/D3 dated corrections, BEFORE the first scored
+run; instrument self-pin `9414af9c…85d6`) + amendment `968f6ae7` (the SETUP catch: the five
+population bookkeeping files were untracked — committed byte-as-is, the first scored run's
+receipt committed AS-IS, nothing re-scored) + measurements `629f1267` (the scored receipt of
+record + the after-counters + the correction gate green at the tip). Environment: WSL
+Ubuntu-24.04 (python 3.12.3, bwrap 0.9.0, git 2.56.0; uv/pytest absent — the canonical counter
+environment preserved); scored runs on fresh clean WSL-native-fs clones, receipts kept outside
+the measured clone, every exit captured inside the runner. Lowest owned axis: **coverage 7**
+(L0-capped, `kengaku | round-25/33/51` still open — nothing assumed answered), worked by C1; no
+stagnation waiver invoked.
+
+| claim / axis | before → after evidence | counting command | verdict / score |
+|---|---|---|---|
+| R62-C1 / coverage (lowest owned axis, L0-capped) — the population's first grader-class census: the planned survey pass, mechanized | before (base `c55a3f88`, measured controls `.ufo/waves/round-62/recon/base-controls.txt`): the instrument, the pin-tree capture, the re-open capture and the knowledge entry are ALL absent (`git cat-file -e` rc=128 ×4); the PROVINCE anchor `^## Round 62` counts 0 and `CLASS-CENSUS` counts 0 in PROVINCE at base; SOURCES 218; the census cannot run at base (its own file absent — the do-nothing control's red) → after: the census ran at the amendment tip `968f6ae7` on a fresh clean WSL-native-fs clone — `PREDICATE R62-C1 pass`, exit 0 (receipt of record `corpus/evidence/round62/class-survey.txt`, sha `ee30c698…5613`, determinism leg green; the FIRST scored run at the freeze `93f19d1a` priced SETUP exit 2 — the five population bookkeeping files untracked — receipt committed AS-IS at `.ufo/waves/round-62/recon/scored-run-SETUP.txt`, the amendment commits them byte-as-is, nothing re-scored); roster=89 == tree-dirs=89 (S226, the live-opened pin tree); sha256sums-rows=184, captures-committed=183, sha-mismatch=0, absent-pinned=1 (exactly the excluded capture); graders-classified=93, unclassified=0, classes=16; the sentinel holds: `signal-delivery count=1 member=cancel-async-tasks`; `EXECUTED-COVERAGE executed=17 classified=17 classes-covered=12 classes-uncovered=network-service,process-environment,db-state,container-image` — the eighteenth-grader gate's survey input (the only uncovered classes with members: network-service 8, process-environment 3, db-state 2); PROVINCE gains the round-62 section; knowledge entry + README index row land; SOURCES 218→220 (S226+S227, both opened live this round) | `python3 plans/round62_c1_class_survey.py --lane .` → `PREDICATE R62-C1 pass`, exit 0 (re-executes the census; ~0.5 s, committed bytes only); `grep -c '^## Round 62' PROVINCE.md` → 1 at the landing tip (0 at base); `grep -cE '^\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|' corpus/SOURCES.md` → 220 (218→220); do-nothing controls: instrument/captures/knowledge rc=128 ×4 at base | **predicate met — admitted; coverage HELD at 7** (the standing unanswered L0 cap; the ground moves — the population's mechanism-class structure is now a receipt-priced surface and the r59/r61 class-line negatives are command-re-derivable — the capped number does not) |
+| R62-C2 / calibration (held at ceiling 10, exercised) — the round-61 closure's three findings land as dated corrections with re-deriving receipts | before (base `c55a3f88`, measured controls): `supersedes S225` counts 0 in SOURCES; `R61-LESSON-ERRATUM-62` counts 0 in the lesson; no dated-correction section in `plans/round-61-claims.md`; the wrong gloss token `pointer 226 byte 0xE2` counts 1 (it STAYS 1 — Q34 immutability; the superseding row is the correction) → after: all three correction counters at 1; the D1 corrected fact re-derives from the receipt's own hunk lines (count 3); the D3 counts measured from the git objects (base 272 lines / 0 CR; freeze 274 lines / 274 CR; numstat +274/−272 = 546 changed lines; repair 0-CR net +2/−0 — receipt `.ufo/waves/round-62/recon/carryin-facts.txt`; the spot-check's "+274/−237 = 511" variant could not be re-derived and is superseded by the measured numbers); the correction gate prices the dated-correction sections green at the pre-freeze check, the measurements tip and the close receipt (`PREDICATE R60-C2 pass`, defects=0 errata=5 — the stable r60 tip truth) | the dated-correction section's own commands (priced by `plans/correction_command_check.py` at every tip): `grep -cE '^[0-9]+c[0-9]+$' .ufo/waves/round-61/recon/table-identity.txt` → 3; `grep -c 'supersedes S225' corpus/SOURCES.md` → 1; `grep -c 'R61-LESSON-ERRATUM-62' corpus/lessons/round-61.md` → 1 | **admitted; calibration HELD at 10, exercised** — three external catches owned and corrected by dated appends whose commands keep re-deriving (R12), the defective original text preserved as history (R1/Q34), never silently rewritten; plus the round's own two catches (the E12 placement, the SETUP untracked inputs) mined in `corpus/lessons/round-62.md` with their receipts |
+
+**Capabilities** — new row: `grader-class-census-survey` → prices a mechanized mechanism-class
+census over the pinned 184-row TB2 grader population: byte-verifies every committed capture
+against SHA256SUMS, grounds the roster against a live-opened pin-tree capture, classifies every
+committed grader over a frozen 16-detector table, and prices the executed-coverage cross-tab
+the eighteenth-grader gate reads → `python3 plans/round62_c1_class_survey.py --lane .` → first
+working round 62 (green of record at the amendment tip `968f6ae7`; the SETUP first run is part
+of the row's record).
+
+**No owned axis harmed.** depth 9 (the knowledge entry is additive; nothing removed), coverage
+held 7 (predicate met at the L0 cap), operability 10 (held — the survey is a registration;
+every gate green at the tip), freshness 10 (held — LOG waves F, A+M and the close entry; every
+citation resolves at the tip), calibration 10 held and exercised (C2, plus the round's own two
+catches mined with dated receipts), adjacency 9 (nothing absorbed; the corrections stay
+in-lane), novelty 8 (held — the census is a map, not a new-phenomenon claim; the two new
+mechanism classes are classified, not claimed novel). SOURCES 218→220 (both rows opened live
+this round; census receipts in the round report). Registration: `round62-c1-class-survey` SKILL
+registry row + entrytruth ledger row + the capability row in the same commit as this section
+(the r58 lesson-3 rule). R13 separability: C1 and C2 share no artifact but the claims doc —
+C1's artifacts are the instrument, the tree capture, the census receipt and the
+knowledge/PROVINCE/registry landing; C2's are the two dated errata appends and the superseding
+registry row. **Round verdict: both declared claims verify (C1 predicate met with coverage held
+at its L0 cap — the SETUP first run honestly carried as part of the record; C2 admitted with
+calibration held at ceiling, exercised); no axis harmed — self-admitted, subject to the
+non-author closure.**
+
+### Planned (round 63)
+
+The one-more-grader pattern stays class-gated: an eighteenth grader only from the survey's
+uncovered-with-members classes — network-service (8 graders), process-environment (3) or
+db-state (2) — read and executed at the pin like r59/r61 (the survey-pass precondition is now
+discharged). Carry the L0 questions (`kengaku | round-25/33/51` coverage cap; `kengaku |
+round-56` L2 surface + ledger host column). Standing discipline, extended this round:
+committed-input claims are ls-files-verified at the freeze; scored runs only in clean clones;
+registry rows are inserted after the last registry row; exit labels are captured pipe-free;
+tables and member lists are quoted from receipts, never hand-tabulated.
