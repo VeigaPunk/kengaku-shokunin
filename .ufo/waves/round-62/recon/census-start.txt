@@ -1,0 +1,34 @@
+# round-62 census PRE-FREEZE re-run receipt (fleet tree) -- this re-run CAUGHT the misplaced
+# sources append: E12 (row outside Registry section) on S226 and S227, because the adoption's
+# 'cat >>' landed the rows at the file end, inside the '## Leads (unopened)' trailing section.
+# The census exited NON-ZERO here (the E-class); the repair receipt follows in
+# sources-adopt-run.txt (rows re-positioned after the S225 registry row pre-commit). This
+# receipt is the catch of record; the corrected pre-freeze census is census-prefreeze.out.
+# NOTE: the CENSUS-START-EXIT echo was swallowed by the runner's set -e inside the piped group
+# when the census exited non-zero -- the runner defect is named here rather than papered over;
+# the post-repair exit is captured pipe-free in census-prefreeze-rc.txt.
+# ---- captured output follows ----
+# round-62 census START receipt (fleet tree; runner-captured), 2026-11-02T21:09:52Z
+kengaku	W04	S040 duplicate url arxiv.org/abs/2301.09633 across scopes
+kengaku	W04	S048 duplicate url aclanthology.org/2020.acl-main.442 across scopes
+kengaku	W04	S057 duplicate url arxiv.org/abs/2405.11874 across scopes
+kengaku	W04	S058 duplicate url github.com/UKGovernmentBEIS/inspect_ai/blob/63e45cc52d39b873b944124613da21fdad6f6dcc/src/inspect_ai/scorer/_pattern.py across scopes
+kengaku	W04	S059 duplicate url www.rfc-editor.org/rfc/rfc8259 across scopes
+kengaku	W04	S064 duplicate url spec.commonmark.org/0.31.2 across scopes
+kengaku	W04	S065 duplicate url docs.python.org/3/library/json.html across scopes
+kengaku	W04	S066 duplicate url doi.org/10.1017/S0950268810000385 across scopes
+kengaku	W04	S067 duplicate url doi.org/10.1017/S0950268810000385 across scopes
+kengaku	W04	S068 duplicate url raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/config_files/test.raw.json across scopes
+kengaku	W04	S069 duplicate url raw.githubusercontent.com/web-arena-x/webarena/dce04686a56253aefba7b18a4fa0937cf1dc987b/evaluation_harness/evaluators.py across scopes
+kengaku	W04	S071 duplicate url docs.python.org/3/library/json.html across scopes
+kengaku	W04	S075 duplicate url docs.python.org/3/library/json.html across scopes
+kengaku	W04	S076 duplicate url docs.python.org/3/library/json.html across scopes
+kengaku	W04	S100 duplicate url github.com/laude-institute/terminal-bench-2 across scopes
+kengaku	W04	S213 duplicate url raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/chess-best-move/tests/test_outputs.py across scopes
+kengaku	W04	S214 duplicate url raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/configure-git-webserver/tests/test_outputs.py across scopes
+kengaku	W04	S215 duplicate url raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/configure-git-webserver/tests/verify.sh across scopes
+kengaku	W04	S216 duplicate url raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/configure-git-webserver/instruction.md across scopes
+kengaku	W04	S217 duplicate url raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/feal-linear-cryptanalysis/environment/task-deps/gen.py across scopes
+kengaku	W04	S222 duplicate url raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/openssl-selfsigned-cert/instruction.md across scopes
+kengaku	E12	S226 row outside Registry section
+kengaku	E12	S227 row outside Registry section

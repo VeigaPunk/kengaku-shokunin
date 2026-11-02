@@ -2367,3 +2367,63 @@ both opened live this round; census receipts in the round report). L0 questions
 `kengaku | round-25/33/51` and `kengaku | round-56`: still open, routed around. Lesson:
 `corpus/lessons/round-61.md`. LOG re-verification lines for every touched claim: waves F,
 A+M, and this entry.
+
+## Round 62 (2026-11-02) — wave F (freeze): the population's grader-class census frozen before the scored run; the round-61 closure's three findings land as dated corrections
+
+The freeze: plans/round-62-claims.md (the survey claim R62-C1 + the corrections claim R62-C2;
+before-anchors measured at base in .ufo/waves/round-62/recon/base-controls.txt — the retry is
+clean: no round-62 commit and no round-62 path existed at base), the instrument
+plans/round62_c1_class_survey.py (self-pin 9414af9c…85d6; selftest 3/3 green at the round-62
+worktree, receipt .ufo/waves/round-62/recon/selftest-worktree.txt; the frozen detector table is
+the TAKE-2 table — take 1 of the pre-freeze dry run priced the first table RED, the executed
+feal-differential-cryptanalysis grader unclassified by a table with no detector for
+grader-imports-candidate or popen builds, amended BEFORE the freeze, both takes kept in the
+recon receipt), the pin-tree capture (S226, opened live at the pin through the git-trees API;
+the census's denominator grounding) and the windows-1252 re-open capture (S227), SOURCES
+218→220 (adopted through the gate: collisions=0 malformed=0 duplicates=0 defects=0, quotes 4/4
+located+bound, exit 0 on both legs; the first byte append landed the rows at the file END,
+inside the trailing Leads section, and the pre-freeze census priced E12 on both rows —
+repaired PRE-COMMIT by re-positioning the rows immediately after the last registry row, every
+other byte preserved, repair receipt beside the adopt receipt), and the round-61 carry-in's
+dated corrections: R61-D1 (the amendment prose and lesson undercounted the table-identity
+receipt's diff — THREE differing lines: separator 8-vs-9 cells, sequential-sync,
+no-max-enforcement; both data rows already wrong at the freeze; no scored run affected) landed
+as a dated-correction section in plans/round-61-claims.md whose commands price green under the
+correction gate at the pre-freeze check, plus the dated erratum appended to
+corpus/lessons/round-61.md; R61-D3 (the idealized EOL counts) measured from the git objects
+(base 272 lines / 0 CR; freeze 274 lines / 274 CR; numstat +274/−272 = 546 changed lines — the
+lesson's 546 matches the numstat total while its 273-line idealized 272→274; repair pure LF,
+net +2/−0) and landed in the same two dated appends; R61-D2 (the S225 gloss pointer/byte swap)
+discharged by the superseding row S227 (its teaches cell opens supersedes S225; S225's own
+cells stay byte-identical per Q34). LOG re-verification lines for every touched claim: this
+entry and the close entry.
+
+## Round 62 (2026-11-02) — wave F (freeze): the population's grader-class census frozen before the scored run; the round-61 closure's three findings land as dated corrections
+
+The freeze: plans/round-62-claims.md (the survey claim R62-C1 + the corrections claim R62-C2;
+before-anchors measured at base in .ufo/waves/round-62/recon/base-controls.txt — the retry is
+clean: no round-62 commit and no round-62 path existed at base), the instrument
+plans/round62_c1_class_survey.py (self-pin 9414af9c…85d6; selftest 3/3 green at the round-62
+worktree, receipt .ufo/waves/round-62/recon/selftest-worktree.txt; the frozen detector table is
+the TAKE-2 table — take 1 of the pre-freeze dry run priced the first table RED, the executed
+feal-differential-cryptanalysis grader unclassified by a table with no detector for
+grader-imports-candidate or popen builds, amended BEFORE the freeze, both takes kept in the
+recon receipt), the pin-tree capture (S226, opened live at the pin through the git-trees API;
+the census's denominator grounding) and the windows-1252 re-open capture (S227), SOURCES
+218→220 (adopted through the gate: collisions=0 malformed=0 duplicates=0 defects=0, quotes 4/4
+located+bound, exit 0 on both legs; the first byte append landed the rows at the file END,
+inside the trailing Leads section, and the pre-freeze census priced E12 on both rows —
+repaired PRE-COMMIT by re-positioning the rows immediately after the last registry row, every
+other byte preserved, repair receipt beside the adopt receipt), and the round-61 carry-in's
+dated corrections: R61-D1 (the amendment prose and lesson undercounted the table-identity
+receipt's diff — THREE differing lines: separator 8-vs-9 cells, sequential-sync,
+no-max-enforcement; both data rows already wrong at the freeze; no scored run affected) landed
+as a dated-correction section in plans/round-61-claims.md whose commands price green under the
+correction gate at the pre-freeze check, plus the dated erratum appended to
+corpus/lessons/round-61.md; R61-D3 (the idealized EOL counts) measured from the git objects
+(base 272 lines / 0 CR; freeze 274 lines / 274 CR; numstat +274/−272 = 546 changed lines — the
+lesson's 546 matches the numstat total while its 273-line idealized 272→274; repair pure LF,
+net +2/−0) and landed in the same two dated appends; R61-D2 (the S225 gloss pointer/byte swap)
+discharged by the superseding row S227 (its teaches cell opens supersedes S225; S225's own
+cells stay byte-identical per Q34). LOG re-verification lines for every touched claim: this
+entry and the close entry.

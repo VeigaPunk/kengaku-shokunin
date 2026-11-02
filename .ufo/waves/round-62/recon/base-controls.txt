@@ -1,0 +1,25 @@
+# round-62 before-anchor controls, measured at base c55a3f8868f352280538cf7d786135d34ac6542f (clean WSL-native-fs clone, 2026-11-02T21:08:21Z)
+-- retry check: any round-62 commit in history?
+0
+-- retry check: any round-62 path in the base tree?
+0
+
+## C1 do-nothing controls (absence at base)
+ABSENT(rc=128) plans/round62_c1_class_survey.py
+ABSENT(rc=128) corpus/evidence/round62/tb2-tree-2fd12b88.json
+ABSENT(rc=128) corpus/evidence/round62/whatwg-windows1252-reopen/index-windows-1252.txt
+ABSENT(rc=128) corpus/knowledge/tb2-grader-class-census.md
+-- frontier anchor at base:
+grep -c '^## Round 62' PROVINCE.md -> 0
+grep -c 'CLASS-CENSUS' PROVINCE.md -> 0
+-- SOURCES rows at base:
+grep -cE S-rows -> 218
+
+## C2 do-nothing controls (the uncorrected state at base)
+grep -c 'supersedes S225' SOURCES.md -> 0
+grep -c 'R61-LESSON-ERRATUM-62' corpus/lessons/round-61.md -> 0
+grep -c 'AMDT1 dated correction marker (round 62' plans/round-61-claims.md -> 0
+grep -c 'pointer 226 byte 0xE2' SOURCES.md -> 1
+-- census instrument at base:
+python3: can't open file '/root/r62-controls-clone/plans/round62_c1_class_survey.py': [Errno 2] No such file or directory
+CENSUS-AT-BASE-EXIT=2

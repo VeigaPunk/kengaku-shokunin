@@ -1,0 +1,30 @@
+# round-62 carry-in fact re-measurement (D1 + D3), runner: recon1.sh, 2026-11-02T21:05:39Z
+
+## D1: the table-identity receipt diff hunks (the freeze block vs the amended tool output)
+-- grep -cE of diff hunk-header lines (^[0-9]+c[0-9]+$) in .ufo/waves/round-61/recon/table-identity.txt:
+3
+-- the hunks themselves:
+4:2c2
+8:6c6
+12:13c13
+
+## D3: the SOURCES.md EOL event, measured from the git objects
+-- base f97e5b7b SOURCES.md: total-lines / CR-bytes:
+272
+0
+-- freeze 215a7029 SOURCES.md: total-lines / CR-bytes:
+274
+274
+-- freeze numstat vs base (added/removed):
+274	272	corpus/SOURCES.md
+-- repair b9920576 numstat vs freeze (added/removed):
+274	274	corpus/SOURCES.md
+-- repair CR-bytes:
+0
+-- repair vs base net numstat:
+2	0	corpus/SOURCES.md
+
+## D2: the S225 gloss fact, from the committed capture line 105 (tab-separated: pointer, codepoint, name)
+ 98	0x00E2	â (LATIN SMALL LETTER A WITH CIRCUMFLEX)
+-- the wrong gloss token in the live registry (count of lines):
+1

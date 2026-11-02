@@ -75,3 +75,23 @@ addendum 2 dates the correction and the measurements receipt carries the measure
 The close rule for every future round: tables are embedded from the tool's own output by
 script; before-anchors are measured; declared properties are wired by construction; and
 append-only registries are never touched by Windows text-mode writes.
+
+## Erratum (round 62, 2026-11-02) — R61-LESSON-ERRATUM-62: two precision corrections to the Mistakes table (rows stay byte-identical, R1; the round-61 closure's R61-D1 + R61-D3)
+
+- Freeze-transcription row: the row says "ONE table row (no-max-enforcement) hand-transcribed...
+  exactly that row differs". The row's own evidence pointer (`.ufo/waves/round-61/recon/table-identity.txt`)
+  shows the freeze block differing from the amended tool output on THREE lines — the separator row
+  (8 vs 9 cells), the sequential-sync row, and no-max-enforcement — and both data rows were
+  already wrong at the freeze (`recon/render-table-base.txt` at `f97e5b7b`). No scored run was
+  affected (the receipts' prediction columns are tool-derived). The mechanical fix as mined
+  stands; only the count was wrong. Re-priced by the dated correction in `plans/round-62-claims.md`
+  and the erratum appended to `plans/round-61-claims.md` (both dated 2026-11-02).
+- Windows-text-mode row: the row's counts were idealized narrations, not measured numbers.
+  Measured from the git objects (receipt `.ufo/waves/round-62/recon/carryin-facts.txt`):
+  base `f97e5b7b` = 272 lines / 0 CR bytes; freeze `215a7029` = 274 lines / 274 CR bytes
+  (diff --numstat vs base +274/−272 = 546 changed lines — the row's "546" matches the numstat
+  total, its "273-line" idealized 272→274); repair `b9920576` = pure LF (0 CR), net vs base
+  +2/−0.
+- Mined fix, extending both rows: prose that describes a diff or quotes counts is written from
+  the receipt's own measured numbers with the counting command recorded at write time — never
+  narrated from memory (the class the round-62 lesson prices as receipt-from-memory prose).

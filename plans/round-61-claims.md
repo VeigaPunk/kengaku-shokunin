@@ -276,3 +276,52 @@ unchanged in substance (no seventeenth-grader read-ground exists at base; the pr
 capture, the knowledge entry and the frontier sentence are all absent at base — every
 absence control returned rc=128); only the stated anchor command was wrong, and it is
 corrected here rather than silently repaired.
+
+## Dated correction (round 62, 2026-11-02): Amendment 1's defect-3 count and the lesson's freeze-transcription row undercount the table-identity receipt's diff — three differing lines, not one; the EOL counts were idealized (the round-61 non-author closure's R61-D1 + R61-D3, status-neutral)
+
+The round-61 verifier spot-check (`corpus/lessons/round-61-verifier-spotcheck.md` §6) priced two
+precision defects in THIS document and in the round-61 lesson. Both are corrected here and by a
+dated erratum appended to `corpus/lessons/round-61.md`; the receipts stay as captured (R1).
+
+1. AMENDMENT-1 UNDERCOUNT (R61-D1). Amendment 1's defect 3 says the freeze's embedded table
+   carried ONE hand-transcribed row and "the other eleven rows are identical"; the addendum
+   repeats "the freeze block's only remaining defect stays the one transcribed row". The cited
+   receipt (`.ufo/waves/round-61/recon/table-identity.txt`) itself shows the freeze block
+   differing from the amended tool output on THREE lines: the separator row (8 cells vs 9), the
+   sequential-sync row, and no-max-enforcement. Both data rows were already wrong at the freeze
+   (`recon/render-table-base.txt` at `f97e5b7b` reads P/F/P and P/P/F); no scored run was affected
+   (every receipt's prediction columns are tool-derived — the first run's receipt already shows
+   sequential-sync predicted P/F/P), and Amendment 1's embedded block IS byte-identical to the
+   tool (the claim's byte-identity leg never moved). The defect is in the prose count only, and
+   the count of record is the receipt's own hunk count, re-derived:
+
+`grep -cE '^[0-9]+c[0-9]+$' .ufo/waves/round-61/recon/table-identity.txt` → 3
+
+2. THE EOL COUNTS (R61-D3). The round-61 lesson's windows-text-mode row quotes "the whole
+   273-line file" and "546 changed lines" — idealized narrations, not measured numbers. Measured
+   this round from the git objects (receipt `.ufo/waves/round-62/recon/carryin-facts.txt`,
+   runner-captured): base `f97e5b7b` = 272 lines / 0 CR bytes; freeze `215a7029` = 274 lines /
+   274 CR bytes, `git diff --numstat f97e5b7b 215a7029 -- corpus/SOURCES.md` = +274/−272 (546
+   changed lines — the row's "546" matches the numstat total, while "273-line" idealized
+   272→274); repair `b9920576` = pure LF (0 CR bytes), net vs base +2/−0. The spot-check's own
+   variant fragment ("+274/−237 = 511") could NOT be re-derived by this round's numstat and is
+   superseded by the measured numbers here. The lesson's erratum names the measured numbers; the
+   row's original text stays byte-identical (R1).
+
+3. THE S225 GLOSS (R61-D2, discharged beside this correction). The S225 row's gloss swapped
+   pointer and byte for the 0xE2 mapping ("pointer 226 byte 0xE2"); the WHATWG index's :105 line
+   is pointer 98 (cp1252 byte 0xE2 = 0x80 + 98 → U+00E2). Corrected by the superseding row S227
+   (whose teaches cell opens "supersedes S225 —"), adopted through the adoption gate this round
+   with a live re-open (sha256 2c5fa192…60795, byte-identical to the S225 capture); S225's own
+   cells stay byte-identical (Q34: registry cells are immutable under their id except
+   status/recheck/used-by; a correction is a new row). The supersession counter:
+
+`grep -c 'supersedes S225' corpus/SOURCES.md` → 1
+
+and the lesson erratum's presence pin (the token is coined once, in the lesson's erratum heading):
+
+`grep -c 'R61-LESSON-ERRATUM-62' corpus/lessons/round-61.md` → 1
+
+(The three commands above are priced by `plans/correction_command_check.py` at every future tip;
+measured at this section's landing and kept re-deriving per R12. The older erratum-priced
+fragments of the round-59/60 ladders are NOT re-quoted here, per the close-2 HARD STOP.)

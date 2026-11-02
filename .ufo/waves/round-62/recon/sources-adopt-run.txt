@@ -1,0 +1,37 @@
+# round-62 sources adoption (S226+S227), 2026-11-02T21:07:17Z
+-- adoption gate leg 1: registry check + out-block
+registry=218 staged=2 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+wrote .ufo/waves/round-62/recon/sources-append.md rows=2
+ADOPT-GATE-EXIT=0
+-- adoption gate leg 2: quote validation + citation binding
+QUOTE rows=2 spans=4 located=4 found=4 overlong=0 absent=0 malformed=0 cap=25 artifacts=tb2-tree-2fd12b88.json,whatwg-windows1252-reopen/index-windows-1252.txt mismatch=0 unmapped=0 urlmap=sources-urlmap.json entries=2
+  ok S226 words=1 at tb2-tree-2fd12b88.json quote="cancel-async-tasks" bound=tb2-tree-2fd12b88.json->https://api.github.com/repos/harbor-framework/terminal-bench-2/git/trees/2fd12b88aafdd04a52c298e3940bcb189f9766d6
+  ok S226 words=1 at tb2-tree-2fd12b88.json quote="truncated" bound=tb2-tree-2fd12b88.json->https://api.github.com/repos/harbor-framework/terminal-bench-2/git/trees/2fd12b88aafdd04a52c298e3940bcb189f9766d6
+  ok S227 words=6 at whatwg-windows1252-reopen/index-windows-1252.txt quote="(LATIN SMALL LETTER A WITH CIRCUMFLEX)" bound=whatwg-windows1252-reopen/index-windows-1252.txt->https://encoding.spec.whatwg.org/index-windows-1252.txt
+  ok S227 words=2 at whatwg-windows1252-reopen/index-windows-1252.txt quote="(EURO SIGN)" bound=whatwg-windows1252-reopen/index-windows-1252.txt->https://encoding.spec.whatwg.org/index-windows-1252.txt
+QUOTE-GATE-EXIT=0
+-- byte append: lines 274 -> 276; CR-bytes 0 -> 0; S-rows now: 220
+-- tail check (last 2 row ids):
+| S226
+| S227
+-- new W04 duplicate-url pairs expected at census end (S227 shares S225's URL): named in the round report
+# round-62 sources-append REPAIR receipt (pre-commit; the adopt receipt above stays as captured), 2026-11-02T21:13:52Z
+-- defect: the two adopted rows were appended at the file END, landing inside the '## Leads (unopened)'
+   trailing section; the fleet census priced E12 (row outside Registry section) on S226 and S227 at the
+   round-start census re-run. The registry's rows live before the '## Paths' section (S225 is the last
+   registry row); the r61 append inserted after the last row -- this round's 'cat >>' used the wrong
+   mechanism for a sectioned file. Repair: the two rows re-positioned immediately after the S225 row;
+   every other byte preserved; nothing had been committed (the worktree blob is repaired in place).
+-- post-repair verification:
+lines: 276  CR-bytes: 0  S-rows: 220
+-- row order at the registry tail (id column, last 4):
+| S224
+| S225
+| S226
+| S227
+-- census re-run after repair:
+kengaku	E11	S226 missing used-by corpus/knowledge/tb2-grader-class-census.md
+kengaku	E11	S226 missing used-by corpus/lessons/round-62.md
+kengaku	E11	S227 missing used-by corpus/knowledge/tb2-grader-class-census.md
+kengaku	E11	S227 missing used-by corpus/lessons/round-62.md
+CENSUS-AFTER-REPAIR-EXIT=0
