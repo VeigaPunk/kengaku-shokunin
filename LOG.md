@@ -2001,3 +2001,29 @@ green, predicate fields matching the committed close receipts field for field:
   `waveR/final-tip-receipts-r3.txt` (measured at `bf48fd20`).
 Rule adopted (the closure's fix): every receipt a landed row cites is committed in the same
 round it is cited, at landing — a receipt that lives only in scratch is not evidence.
+
+## Round 59 (hyaku run 14, 2026-11-02) — wave F: claims frozen before data (C1 the sixteenth grader + C2 the receipt-consistency gate)
+
+Lowest owned axis: coverage 7 (L0-capped, `kengaku | round-25/33/51` still open — nothing
+assumed answered); C1 works it. Freeze `plans/round-59-claims.md` written and committed before
+the first capture run (the r57/r58 discipline). Instruments self-pinned in the freeze:
+`plans/round59_c1_openssl_probe.py` (sha256 a7c9b231…a18cd; toy selftest 2/2 — bwrap pipeline,
+permission-bits leg, openssl tool leg, python shim) and `plans/receipt_consistency_check.py`
+(sha256 efd50ef6…4b77; fixture selftest 8/8 — both exit-map directions, unanchored label, both
+selftest-label contradictions, erratum conversion, foreign-block refusal, vacuous pass). C1:
+the sixteenth TB2 grader `openssl-selfsigned-cert` read at pin 2fd12b88 (S218–S221 opened
+2026-11-02, bytes hashed on arrival; S219 byte-identical to the r52 population capture — two
+independent fetches agree) — the corpus's first cryptographic-credential +
+filesystem-metadata gate (only grader in the 184-capture population invoking the openssl CLI;
+none of the 15 executed graders touch st_mode); 12 cases × 6 legs = 72 full-commitment
+predictions frozen with zero U; no key material, certificate bytes or generated artifacts are
+committed anywhere (the r52 GH013 lesson) — the builder generates inside the sandbox; the
+`python`-shim is probe-owned and declared in the freeze. C2: the receipt self-consistency
+gate over `.ufo/waves`+`corpus/evidence` `.txt`/`.log` receipts (R1 exit-vs-payload, R2
+selftest-label, R3 selftest-summary; dated erratum naming the gate converts defects to
+errata); before-state on the committed population: 2 defects, both the r58 closure's finding
+(b) labels in `.ufo/waves/round-58/recon/esc-falsifier-fixed-checker.txt`. Carry-in (a)
+discharged before this freeze at `5420eac9`; carry-in (b) lands as C2's erratum after the
+red-before receipt; carry-in (cosmetic) dated corrections are in the freeze's closing section,
+to be mirrored into the round-58 report's Corrections section and the close LOG entry.
+SOURCES 210 → 214 rows. Census receipts land at round end.
