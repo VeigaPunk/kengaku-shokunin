@@ -54,7 +54,11 @@ R45_REL = "plans/round45_c2_verify.py"
 GRADER_REL = "corpus/evidence/round45/tb2-password-recovery/test_outputs.py"
 ENTRY_REL = "corpus/knowledge/tb2-password-recovery-grader.md"
 PINS = {
-    ALC_REL: "35d02dc55393bea18787e35cc2827cbab65f2d645b81a3c1946722065a4fdedf",
+    # round-58 refresh (R56-F1 repair, authorized by plans/round-58-claims.md): the
+    # QUOTE_RE escaped-quote fix + the three falsifier selftest fixtures changed the
+    # checker's digest; the round-56 freeze value was
+    # 35d02dc55393bea18787e35cc2827cbab65f2d645b81a3c1946722065a4fdedf (git history).
+    ALC_REL: "bc63effaad9cf6d902c7345e4ba25b01a2448431bfb16076b2f785246ea95c0c",
     R45_REL: "ab6825e34596ba71f59a184a59fd4e672fd22dcf4b892c511cae5ead2b104f50",
     GRADER_REL: "2dc14fc180734b6fbb0ee00f27c4f866071247b57a2217f579465ff8ed3bfc9e",
 }
