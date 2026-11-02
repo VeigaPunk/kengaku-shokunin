@@ -2095,3 +2095,26 @@ receipt-pointer). Census at round end: exit 0 (receipts in the round report). Th
 closure's cosmetic carry-in: the "three rows vs four" and "six surfaces vs four counters"
 counting-unit corrections dated in `plans/round-59-claims.md` §Dated corrections and mirrored
 into the round-58 report's Corrections section.
+
+## Round 59 (hyaku run 14, 2026-11-02) — wave W2: the close-tip counter cascade caught the round's own close wave; four landing defects repaired before the round's receipts landed
+
+The final-tip verification at `22ffccc7` (registry 88/88 PASS, landcheck PASS n=4) surfaced:
+(1) `LAUNDERED receipt-consistency-check declared green, entry exit=1` — the round's own gate
+flagged its own Q20 roster receipt (a bare `tail -1` `SELFTEST pass` summary with no rc/want
+lines = the vacuous-pass shape); repaired by a dated erratum on the receipt (the gate's first
+live catch on its own round's receipt); (2) `LAUNDERED round46-c2` — the S221 row's first
+quote was annotated (6 words) where the count is 7 (the anchorline leg went live=1), which
+also failed all three anchor-scan routing checks (R45-S5-1, R56-F1, R58-F2) under
+`--run-checks`; repaired by the Q34 supersession S222 (count re-derived) — and R58-F2's check
+fragment `cited=64 captured=57` was stale within one round (the S218–S222 rows grew the
+counts), so its check now greps the property it verifies (`live=0`), dated note in the row;
+(3) `EVIDENCE-MISSING round35-c1-coverage` — the stale-index class's FOURTH occurrence
+(61/61 → 62/62 with the new knowledge entry), fragment refreshed verbatim with the dated
+house-style note; (4) the round46-c2 row's evidence field still carried its r56-era red
+anchorline line while the row has been green since the round-58 flip — refreshed to the
+round-58-measured state (a fields-contradict-reason instance of the gate's own class).
+state_check at the close tip printed one MISMATCH: P3c.box.4.pointer.1 — PRE-EXISTING (the
+SHONEN box-4 pointer targets PROVINCE.md:129 whose `### Adjacent` heading line moved before
+this round; verified red at the round base `5420eac9` with the same output), closed by the
+full-value supersession R26-E11 per the state_check P3 protocol. All repairs land in this
+wave; the final receipts (wave W3) re-run everything at the repaired tip.

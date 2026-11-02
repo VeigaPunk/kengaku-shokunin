@@ -9,3 +9,6 @@ SELFTEST clean cases=67 hand_expected_scorer_contract,scorer_product_mutation,ha
 [selftest] ALL PASS (canonical seed, pointers, out-of-population box, pointer-only, R25–R29-E exact-token supersession, P2/P3 R27/R29 corrections, P4 R27-only supersession, P2e/P3c OUT_OF_POPULATION retention, P3a–P3e and P4a–P4e red mutations)
 SELFTEST pass
 SELFTEST cases=8 failures=0
+
+=== ERRATUM (round 59, 2026-11-02) — the bare `SELFTEST pass` line above is a `tail -1` quotation, not a whitewash (recorded for plans/receipt_consistency_check.py) ===
+This roster receipt quotes each gate's selftest with a one-line `tail -1`, so the probe's `SELFTEST pass` summary appears with NO `rc=`/`want_rc=` lines before it in THIS file — the receipt-consistency gate's vacuous-pass rule reads exactly that shape as a defect (measured at the close tip 22ffccc7: `FILE .ufo/waves/round-59/q20-gate-receipt.txt defects=1`). The probe's full selftest (2/2, with per-case lines) is in the wave-M runs and the Q20 roster line itself is `SELFTEST pass` verbatim; the summary quotes real green output, nothing is whitewashed. The erratum is appended; the capture bytes above stay as written (R1). The gate counts this file defects=0 errata=1 after this erratum.

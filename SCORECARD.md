@@ -2593,3 +2593,5 @@ definitions, never retyped — the mined fix), one clean battery run, `PREDICATE
 and the probe's registry/ledger rows flipped green with dated reasons. Then the r58 planned
 discipline stands: new grader classes only (17 of 89), no row churn without a claim, L0
 questions carried, and any cross-host pin stamps the host fingerprint at freeze time.
+
+- **R26-E11 (2026-11-02)** supersedes `P3c.box.4.pointer.1` — now `pointer=PROVINCE.md:129` `pointer_count=1` `target=PROVINCE.md:129` `token=### Adjacent` `token_hits=0` `line_text=<blank>`.

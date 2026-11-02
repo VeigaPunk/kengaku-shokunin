@@ -52,3 +52,22 @@ kept as the amendment's evidence).
   surface; ledger host column): STILL OPEN, nothing assumed answered — coverage is claimed
   predicate-FAILED this round with the score held at 7; the L2 surface was routed around
   again (no in-session second seat; the L0 record stands).
+
+## Mistakes (appended at the close-tip counter cascade, 2026-11-02 — the counters caught the round's own close wave)
+
+| class | evidence pointer | captured-by | fix |
+|---|---|---|---|
+| anchor authoring — the S221 row's first quote was annotated `(6 words)` where the whitespace-split count is 7 (`"2." "Generate" "a" "2048-bit" "RSA" "private" "key:"`); the round46-c2 anchorline leg went live on it at the close tip (`live=1`), which laundered round46-c2 and failed all three anchor-scan routing checks (R45-S5-1, R56-F1, R58-F2) at the entryargv verification | `plans/round-59-claims.md` (the (21 words)/(9 words)/(13 words) annotations were derived and correct — the (6) was retyped); the cascade receipt (final-tip-receipts, wave W2) | the entryargv counter at the close tip — the designed capture | same mined rule as the first row, applied to SOURCES anchors: quote annotations are DERIVED by the counting command at authoring time, never retyped; corrected by the Q34 supersession S222 (count re-derived) |
+| evidence receipt quoting — the Q20 roster receipt quotes each gate's selftest with a one-line `tail -1`, so the probe's bare `SELFTEST pass` summary landed in a file with no `rc=`/`want_rc=` lines, and the round's own consistency gate flagged it (vacuous pass) at the close tip | `.ufo/waves/round-59/q20-gate-receipt.txt` (the dated erratum appended); the gate's close-tip FILE line | the round's own receipt-consistency gate — its first live catch on its own round's receipt | a receipt that QUOTES another instrument's summary line carries the quoting context (erratum, dated) or the full block; summary-only quotations of pass lines are the whitewash shape the vacuous-pass rule exists to catch |
+
+## Post-close cascade (appended 2026-11-02)
+
+The final-tip verification at the close commit caught four landing defects in the round's own
+close wave, all repaired before the round's receipts were committed: the S221 words miscount
+(S222 supersession), the r35 stale-index fragment (62/62 dated refresh, the class's fourth
+occurrence), the r46-c2 row's stale evidence field (refreshed to its round-58-measured state),
+and the Q20 roster receipt's bare summary line (erratum). The r58 closure's fix rule held:
+every receipt cited at landing is committed at landing, and the counters read them at the tip.
+The pre-existing SHONEN box-4 pointer drift (the pinned PROVINCE.md:129 target line moved
+before this round — verified red at the round base `5420eac9` too) was closed by the full-value
+supersession R26-E11 in SCORECARD per the state_check P3 correction protocol.
