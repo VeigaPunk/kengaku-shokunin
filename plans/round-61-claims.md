@@ -263,3 +263,16 @@ kbdint-no-handler P/P/P/F/F/F: identical to the freeze's embedded row for that c
 the freeze block's only remaining defect stays the one transcribed row
 (no-max-enforcement). The selftest stays green at the amended worktree (receipt
 `recon/table-identity.txt` carries the full identity + selftest record).
+
+**Amendment 1 addendum 2 (dated 2026-11-02, after the second scored run, before the
+landing):** the freeze's claimed before-anchor for PROVINCE was wrong — the freeze says
+`grep -c seventeenth` prints 0 at base, and the measured truth is **1** (the round-60
+planned section's own sentence "a seventeenth grader only if a NEW grader class is
+found" already contains the word). Measured against the base bytes via a clean clone's
+object store (receipt `.ufo/waves/round-61/measurements.txt`, controls section, every
+control re-run): the CORRECT before-anchor for the frontier move is `17 of 89` — count 0
+at base (`16 of 89` count 3 at base), 1 at the landing tip. The claim's before→after is
+unchanged in substance (no seventeenth-grader read-ground exists at base; the probe, the
+capture, the knowledge entry and the frontier sentence are all absent at base — every
+absence control returned rc=128); only the stated anchor command was wrong, and it is
+corrected here rather than silently repaired.

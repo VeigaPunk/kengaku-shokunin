@@ -1,0 +1,43 @@
+# round-61 measurements — every exit label captured inside the runner (rc=$? after each
+# command); the host wsl.exe harness is never trusted (the r60 lesson's capture rule)
+
+=== R61-C1 scored run of record: the amended probe, fresh clean WSL-native-fs clone at 0e62b479 (receipt written OUTSIDE the measured clone) ===
+REV 0e62b47951cd2f732e409de502b46785f6c05493
+instrument self-pin 92facdc762bdb29c581eb92b5951f0855bec0de7dc56c8d2308136c889fe7f87 (supersedes the freeze pin 7d448487…f9f59 per Amendment 1)
+cases=12 legs=72 mismatches=0 setup=0 predicted_u=0
+PREDICATE R61-C1 pass
+BATTERY2-EXIT=0
+
+=== the amended generated table at the scored tip is byte-identical to the amendment's embedded block (REV lines excluded) ===
+TABLE-STABLE-EXIT=0
+
+=== output-side cross-check: derived predictions vs the receipt's observed vectors ===
+OBSERVED-CHECK cases=12 agree=12
+CHECK-RECEIPT2-EXIT=0
+
+=== C2 mirror fidelity re-priced at the amendment tip (committed bytes; the authoritative extract re-taken from the live fleet working tree) ===
+AUTH bytes=2141 sha256=2a2f952ca9809c426d91ec22feb3713fb485e0d7e393dea0fd3cecf939af2a21 newlines=26
+AUTH nonascii=9 classes=5-em-dash+4-arrow double-encoded=0
+MIRROR-BLOCK bytes=2206 sha256=83d518786b76b6ecad4c9492af0925754f547258f0bafac74effd0e7b334ec33 newlines=28
+MIRROR-BLOCK nonascii=27 double-encoded-em-class=5 arrow-class=4
+MIRROR-BLOCK-LINES 28  AUTH-LINES 26  TRAILING-NEWLINES block=1 auth=1
+BYTE-TRUE sha256=2a2f952ca9809c426d91ec22feb3713fb485e0d7e393dea0fd3cecf939af2a21
+CMP-BYTE-TRUE-EXIT=0  CMP-OLD-MIRROR-BLOCK-EXIT=1 (differ byte 39 line 2 — the defect, as declared)
+
+=== do-nothing controls, MEASURED (base bytes via a clean clone's object store; R57-W1 rule) ===
+CONTROL probe-at-base rc=128 (128 = absent, the do-nothing round cannot run the battery)
+CONTROL byte-true-at-base rc=128 (128 = absent)
+CONTROL r61-evidence-dir-at-base rc=128 (128 = absent)
+CONTROL province-seventeenth-at-base count=1 — the freeze's claimed before-anchor was WRONG
+  (the round-60 planned text already contains the word); dated correction in
+  plans/round-61-claims.md Amendment 1 addendum 2; the correct before-anchor:
+CONTROL province-17of89-at-base count=0 (the frontier sentence does not exist at base)
+CONTROL province-16of89-at-base count=3
+CONTROL knowledge-entry-at-base rc=128 (absent)
+CONTROL sources-rows-at-base count=216 (218 at the round tip)
+
+=== the first run's fail of record (history, not re-scored) ===
+REV b99205767bac69358bc827a2da9da783d707125b  instrument 7d448487…f9f59
+cases=12 legs=72 mismatches=2 setup=0 predicted_u=0
+PREDICATE R61-C1 fail
+BATTERY-EXIT=1 (the first receipt: .ufo/waves/round-61/recon/c1-first-run-FAIL.txt)
