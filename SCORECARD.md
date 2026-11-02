@@ -2857,3 +2857,10 @@ corpus/defects-pending.jsonl is honest tracking only. Literal Q23 registration /
 red-at-entry/perpetual-check remains unresolved; no durable discharge claimed.
 R61 factual corrections already canonical, not repeated for credit. No round64
 before parent closes63. All standing operator questions/cap remain unanswered.
+
+Round63 measured-commit binding: admitted content and final non-author review
+co-land at4ec388e606d0c3fe7557e070a3092ebfadcfc672. Read-only committed-tree
+metadata in .ufo/waves/round-63/recon/content-tip.txt confirms knowledge/review
+paths exist, source rows223 and exact source hashes. census-end.txt original
+fleet census exit0; no executable claim counter was run. Reviewer final verdict
+supports proposed bounded trends; parent still owns fleet closure.
