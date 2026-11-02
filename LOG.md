@@ -2476,3 +2476,15 @@ subject to the non-author closure. SOURCES 218→220 (S226+S227, both opened liv
 census receipts in the round report). L0 questions `kengaku | round-25/33/51` and
 `kengaku | round-56`: still open, routed around. Lesson: `corpus/lessons/round-62.md`. LOG
 re-verification lines for every touched claim: waves F, A+M, and this entry.
+
+## Round63 — revised proposal after branch reconciliation (2026-11-02)
+
+Baseline09424fa1fef4635df97b92034fe3196f2f11943f preserves canonical62 and namespaced
+supplemental cloud62. Read canonical62 review; factual R61 repairs already landed,
+Q23 ledger discrepancy still open, provenance-trio omission carried. Proposal
+plans/round-63-proposal.md targets exact fixed-family multiplicity reasoning beyond
+existing generic warning, one coverage claim with manual independent challenge.
+Source R4.5.1 R/Rd prep copied from held old lane and sha256 verified; author-hosted
+BY2001 full PDF newly opened (Theorems1.2/1.3). Failed Euclid HTML excluded.
+No challenge seen, no executable/model/provider work. Fresh census/disk checks
+exit0: .ufo/waves/round-63/recon/{census-before,disk-before}.txt.
