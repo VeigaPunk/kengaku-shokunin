@@ -1,0 +1,87 @@
+=== round-60 final tip receipts at 2684d8ddf28c269a79be2ac42dd72adbcfca6398 — clean WSL-native-fs clone at the corrections tip itself ===
+# every exit label captured inside this runner (rc=$?); the wsl.exe harness is never trusted
+
+--- registry (R52-C2)
+ADVERTISED total=89
+REGISTERED total=89 rows=91
+MISSING 0
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 pass
+REG-EXIT=0
+
+--- landcheck (R56)
+[PASS] L-grader grader replay+selftest (CHECKS n=733 mismatches=0, ALL PASS)
+LANDCHECK PASS n=4
+LANDCHECK-EXIT=0
+
+--- full entry-truth (R55-C2, jobs 6, timeout 900)
+ROWS registry=90 ledger=90 missing=0 extra=0 argv_defect=0 wrapper_defect=0 abbrev_defect=0 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1
+BINDING l1=0 l2=0 l3=0
+SOURCE rev=2684d8ddf28c269a79be2ac42dd72adbcfca6398 clean=yes lane_rev_equal=yes
+RUN executed=90 timeout=0 mismatched=0 evidence_missing=0 laundered=0
+TIPSTATE entry_declared_green=61 entry_declared_red=29 observed_green=61 observed_red=29
+MIGRATION redeclared=4 r53_green_nonentry=4
+PREDICATE R55-C2 pass
+FULL-EXIT=0
+
+--- state_check (R12)
+assertions=329 match=317 mismatch=0 superseded=7 offline_unverifiable=5
+VERDICT: PASS — all comparable frozen assertions match
+STATE-EXIT=0
+
+--- receipt consistency gate (R59-C2)
+files=6865 anchored-exit-pairs=15 selftest-lines=1 defects=0 errata=4
+PREDICATE R59-C2 pass
+RCG-EXIT=0
+
+--- the sixteenth-grader probe (declared GREEN since the corrections landing: the completed admission; exit 0 is the row's declared state)
+cases=12 legs=72 mismatches=0 setup=0 predicted_u=0
+PREDICATE R59-C1 pass
+PROBE-EXIT=0
+
+--- the counting-command gate (R60-C2; this section is the green-after receipt of record)
+ERRATUM plans/round-59-claims.md converts=5
+CMDPOP files=37 sections=2 commands=9 ok=3 out_of_scope=1 defects=0 errata=5
+PREDICATE R60-C2 pass
+C2GATE-EXIT=0
+
+--- anchor scan
+ANCHORLINE rows=216 cited=69 captured=62 uncaptured=7 defective=10 repaired=10 live=0 cells=0
+ANCHOR-EXIT=0
+
+--- round46-c2 (PINS + registry + ledger + anchorline)
+PINS total=3 mismatched=0
+PREDICATE C2 pass
+R46-EXIT=0
+
+--- r51 routing with checks (declared GREEN)
+NEXT violations=0
+PREDICATE R51-C2 pass
+R51RC-EXIT=0
+
+--- r50 population
+POPULATION fixtures=126 pin=f41db91b8dc430f2d4137d47cf71ea10474fdc4988982cdab03ba57cd7fd26c3 mismatched=0 build_errors=0
+PREDICATE R50-C1 pass
+R50-EXIT=0
+
+--- r35 (declared RED: the stale-expectation row; exit 1 is the row's declared state)
+checks=6 defects=2
+PREDICATE C1 fail
+R35-EXIT=1
+
+=== pushed-head verification note (appended at the receipts landing, 2026-11-02) ===
+The receipt above was measured at e1a022b7 (the close-2 tip) and landed at 2684d8d (the
+receipts commit) per the wave-R rule; this verification re-runs the same surface at the
+pushed head 2684d8d itself with receipts kept outside the measured clone. Result: every leg
+green exactly as above, with the two known self-inclusion drifts from the landed receipt
+files themselves — the R59-C2 population count 6863 -> 6865 (+2 files) and anchored-exit-pairs
+14 -> 15 (+1, the landed final-tip receipt's own registry block) — verdicts unchanged, the
+r59 spotcheck precedent (its judge re-run at the head after the W3 receipt landed found the
+same +1-file drift and named it). All PREDICATE lines and TIPSTATE identical: R52-C2 pass,
+LANDCHECK PASS n=4, R55-C2 pass (executed=90, evidence_missing=0, laundered=0, TIPSTATE
+61g/29r declared==observed), state_check PASS, R59-C2 pass (defects=0 errata=4), probe
+PREDICATE R59-C1 pass exit 0, gate PREDICATE R60-C2 pass exit 0, anchor live=0, round46-c2
+pass, r51 pass, r50 pass, r35 red-as-declared exit 1.
