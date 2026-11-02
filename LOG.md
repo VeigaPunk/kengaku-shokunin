@@ -2051,3 +2051,16 @@ scope fence, both digests named in the claims-doc amendment (frozen `efd50ef6…
 `3767a447…`); the over-count run receipt kept at
 `.ufo/waves/round-59/recon/c2-overcount-frozen-gate.txt`. The C2 red-before of record
 re-runs on the amendment tip next.
+
+## Round 59 (hyaku run 14, 2026-11-02) — wave E2: the finding-(b) correction row landed (erratum), red-before on record
+
+C2 red-before of record (amended gate, clean clone at `e0512854`):
+`.ufo/waves/round-59/recon/c2-red-before.txt` — `files=6854 anchored-exit-pairs=13
+selftest-lines=1 defects=2 errata=0`, both defects the r58 closure's finding (b) labels in
+`.ufo/waves/round-58/recon/esc-falsifier-fixed-checker.txt` (its :9 fx-red and :13 fx-words
+`exit=0` after `live=1`), `PREDICATE R59-C2 fail`, exit 1 — the freeze's stated before-state
+reproduced mechanically. The correction row is the R1-form erratum appended to that receipt:
+the wrong labels named, the right values (1 under both fx-red and fx-words), the reason
+(capture-script bug; the payload ANCHORLINE lines and the file's own `rc=1 want_rc=1 ok`
+selftest lines are the red-direction evidence of record), dated, marker naming the gate —
+the capture bytes above it stay as written. Green-after lands next.

@@ -17,3 +17,14 @@ SELFTEST ESC-RED rc=1 want_rc=1 ok :: ANCHORLINE rows=1 cited=1 captured=1 uncap
 SELFTEST ESC-WORDS rc=1 want_rc=1 ok :: ANCHORLINE rows=1 cited=1 captured=1 uncaptured=0 defective=1 repaired=0 live=1 cells=1
 SELFTEST pass
 SELFTEST-EXIT=0
+
+=== ERRATUM (round 59, 2026-11-02) — the exit= labels under fx-red and fx-words above are WRONG (recorded for plans/receipt_consistency_check.py) ===
+The `exit=0` labels printed under fx-red and fx-words are a capture-script bug: the anchor
+checker's frozen exit map is 1 iff any live defect, and both sections' own ANCHORLINE lines
+above carry `live=1` — the true exit under both is 1. The same file's selftest lines record
+`rc=1 want_rc=1 ok` for both classes, which is the red-direction exit evidence of record,
+and the round-58 non-author closure re-measured the red direction live (its finding (b)).
+The ANCHORLINE payload lines are correct and stay as captured; this erratum is appended, the
+capture is not rewritten (R1). plans/receipt_consistency_check.py (round 59) counts this
+file defects=2 before this erratum and errata=2 after it — the red-before receipt is
+`.ufo/waves/round-59/recon/c2-red-before.txt` (measured at e0512854, the amendment tip).
