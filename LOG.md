@@ -2131,3 +2131,22 @@ round's R26-E11 full-value supersession; flipped green with the verbatim fragmen
 green at `fea67b2c` with a verbatim fragment (`rows: 215`, no unindexed/dangling/duplicates);
 flip reason names the mechanism and the last-red tip. Both flips carry dated reasons per the
 r58 flip discipline; TIPSTATE at the final tip must now read 59g/30r declared==observed.
+
+## Round 59 (hyaku run 14, 2026-11-02) — wave W3: the round's final receipts, measured at the repaired tip itself; every exit label is the instrument's own exit (PIPESTATUS), declared==observed everywhere
+
+`.ufo/waves/round-59/final-tip-receipts.txt` at `12a76950` (clean clone at that tip): registry
+`PREDICATE R52-C2 pass` (ADVERTISED 88 / REGISTERED 88, exit 0); landcheck `LANDCHECK PASS n=4`
+(exit 0); full entry-truth `ROWS registry=89 ledger=89 missing=0 extra=0 argv_defect=0
+wrapper_defect=0 abbrev_defect=0 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1`,
+`BINDING l1=0 l2=0 l3=0`, `RUN executed=89 timeout=0 mismatched=0 evidence_missing=0
+laundered=0`, `TIPSTATE entry_declared_green=59 entry_declared_red=30 observed_green=59
+observed_red=30` — declared==observed, `PREDICATE R55-C2 pass`, exit 0; state_check
+`mismatch=0 superseded=7`, `VERDICT: PASS`, exit 0; the C2 gate `defects=0 errata=3`,
+`PREDICATE R59-C2 pass`, exit 0; the C1 probe `mismatches=2`, `PREDICATE R59-C1 fail`,
+PROBE-EXIT=1 — its declared red, observed red, honestly carried; r51 `PREDICATE R51-C2 pass`;
+anchor scan `live=0` (S221 repaired by S222); r50 `PREDICATE R50-C1 pass`; r35 exit 1 with the
+refreshed fragment. The round-57 closure property ("re-derive at lane head") reproduces at the
+repaired tip. The first take of this receipt (measured at the same tip minutes earlier) carried
+a `PROBE-EXIT=0` label from a `tail` pipeline — the r58 finding-(b) class in my own capture —
+and was discarded uncommitted for exactly that reason; this take captures every exit with
+PIPESTATUS and the header says so.

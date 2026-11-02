@@ -1,0 +1,45 @@
+=== round-59 final tip receipts at 12a76950462c4e7fc045cf29cb3165fea072ee54 — clean WSL-native-fs clone at the repaired tip itself; every EXIT line is the instrument's own exit code captured with PIPESTATUS (the r58 finding-(b) rule: a receipt's exit label must be the measured instrument exit, not the pipe's) ===
+--- registry
+DUPLICATE 0
+PREDICATE R52-C2 pass
+REG-EXIT=0
+--- landcheck
+[PASS] L-grader grader replay+selftest (CHECKS n=733 mismatches=0, ALL PASS)
+LANDCHECK PASS n=4
+LANDCHECK-EXIT=0
+--- full entry-truth (jobs 6, timeout 900)
+ROWS registry=89 ledger=89 missing=0 extra=0 argv_defect=0 wrapper_defect=0 abbrev_defect=0 bad_decl=0 duplicate_names=0 bad_table_lines=0 headings=1
+BINDING l1=0 l2=0 l3=0
+SOURCE rev=12a76950462c4e7fc045cf29cb3165fea072ee54 clean=yes lane_rev_equal=yes
+RUN executed=89 timeout=0 mismatched=0 evidence_missing=0 laundered=0
+TIPSTATE entry_declared_green=59 entry_declared_red=30 observed_green=59 observed_red=30
+MIGRATION redeclared=4 r53_green_nonentry=4
+PREDICATE R55-C2 pass
+FULL-EXIT=0
+--- state_check (R12)
+assertions=329 match=317 mismatch=0 superseded=7 offline_unverifiable=5
+VERDICT: PASS — all comparable frozen assertions match
+STATE-EXIT=0
+--- receipt consistency gate (C2)
+files=6857 anchored-exit-pairs=13 selftest-lines=1 defects=0 errata=3
+PREDICATE R59-C2 pass
+GATE-EXIT=0
+--- the sixteenth-grader probe (declared RED: the honest C1 predicate fail; exit 1 is the row's declared state)
+cases=12 legs=72 mismatches=2 setup=0 predicted_u=0
+PREDICATE R59-C1 fail
+PROBE-EXIT=1
+--- r51 routing with checks
+NEXT violations=0
+PREDICATE R51-C2 pass
+R51RC-EXIT=0
+--- anchor scan
+ROW S221 state=repaired by=S222 defects=words:1
+ANCHORLINE rows=215 cited=69 captured=62 uncaptured=7 defective=10 repaired=10 live=0 cells=0
+ANCHOR-EXIT=0
+--- r50 population
+MUTANTS total=15 caught=15 broken=0 floor=12 verdict=met
+PREDICATE R50-C1 pass
+R50-EXIT=0
+--- r35 coverage counter (declared RED, fragment match)
+V4 DEFECT knowledge files=62 index rows=62 (want 42/42)
+R35-EXIT=1
