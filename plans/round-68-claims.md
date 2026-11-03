@@ -344,3 +344,49 @@ C2 (the sourced-claim duty is carried by C1 via S240).
    `AttributeError`/`FileNotFoundError` instead of the documented `SETUP` + rc 2
    (`CounterMutate` F7, `CounterMutate-evidence/extra-out.txt`). The `--check-receipt` path is
    unaffected (`base-probe-bytes` fires correctly); scored verdict unaffected.
+
+---
+
+## Amendment A2 (dated 2026-11-03, attempt 2 — resumed round; does not change any predicate, vector, case, kill rule or counter)
+
+1. **Resume cause.** Attempt 1 landed the lane work (freeze `a8883187`, argparse fix `d5b3c309`,
+   landing `0e52fb5d`, all pushed) but the fleet report it filed (fleet commit `a7575677`) carried
+   neither `## SHONEN` nor `## Trend verdicts`, so the driver's content check failed
+   (`lane-dead-no-report kengaku round=68`, `.ufo/watchdog.log:2132`) and the round relaunched as
+   attempt 2. The frozen claims below are unchanged; attempt 2 re-derives both predicates on the
+   committed bytes and lands the missing report contract as a gate.
+2. **Frozen claims unchanged.** R68-C1 and R68-C2 predicates, case tables, vectors, counters, kill
+   rules and targets are exactly as frozen at `a8883187`/`d5b3c309`. Attempt 2 re-runs each counting
+   command and records the exit; no rule is edited, no target narrowed.
+3. **New gate, declared before its data — `plans/round68_report_contract.py`** (built by the L1 at this freeze commit, before its red fixture is scored; the wave verifies and mutation-tests it). The round's own
+   mistake (item 1) is the report contract the driver enforces; the lane had no executable check for
+   it. The gate's predicate:
+   `python3 plans/round68_report_contract.py <report> --shonen SHONEN.md` exits 0 and prints
+   `PREDICATE R68-A2 pass` with `DEFECTS n=0` iff all of S1–S6 hold:
+   - **S1 headings:** each of `## Work performed`, `## Landed changes`,
+     `## Before → after measurements`, `## Sources & frontier`, `## Trend verdicts`, `## SHONEN`
+     appears exactly once, in that order.
+   - **S2 SHONEN boxes:** `## SHONEN` occurs once and the section carries exactly one
+     `- [x]`/`- [~]`/`- [ ]` line per box in `SHONEN.md` (4 boxes), matched by the box's first five
+     whitespace-normalized words.
+   - **S3 trend verdicts:** the `## Trend verdicts` section names `expansion:`, `quality:` and
+     `discernment:` each with one of `improved|harmed|unchanged|unprovable-but-better`.
+   - **S4 evidence pointers:** the `## Before → after measurements` section carries at least two
+     table rows and every claim row carries a backticked token or a 7+-hex commit hash.
+   - **S5 placeholders:** no `TODO`, `TBD`, `FIXME`, `lorem ipsum` or `<placeholder>` in the report.
+   - **S6 driver parity:** the report is ≥ 400 bytes and carries ≥ 3 `##` sections.
+   **Red fixtures (`--selftest`, built in scratch):** (r1) the attempt-1 report bytes, copied to
+   `.ufo/waves/round-68/w2/report-fixtures/attempt1-report.md` before the gate existed → must fail
+   S1/S2/S3; (r2) a compliant skeleton with the SHONEN section cut to 3 box lines → S2 fails;
+   (r3) the skeleton with `discernment:` removed → S3 fails; (r4) the skeleton with a `TODO` → S5
+   fails; (r5) the compliant skeleton → passes. Every check must fail on its own red fixture, and
+   the gate prints `SELFTEST n=5 red-refused=4 green-ok=1` (four red fixtures, one green).
+   **Kill rules:** (a) the gate passes the attempt-1 report → the gate is vacuous, not admitted;
+   (b) a check cannot fail on its own red fixture → vacuous, not admitted; (c) the gate fails the
+   landed attempt-2 report for a reason the report cannot fix → the defect is reported, the checks
+   are not narrowed after data.
+4. **Wave w2 (attempt 2):** ONE v1 wave, 10 seats (`.ufo/waves/round-68/w2-spec.json`), band 8–16
+   under `scripts/hyaku/ufo-wave-policy.json`; re-verification and attack of the landed bytes plus
+   the report-contract gate. Attack roles reviewer 2 + critic 1 + mutation-tester 1 = 4/10 = 40 %;
+   connector 1 (≤2); one scout re-opens S240 live. The round total is w1 12 + w2 10 = 22 seats;
+   no residual call.

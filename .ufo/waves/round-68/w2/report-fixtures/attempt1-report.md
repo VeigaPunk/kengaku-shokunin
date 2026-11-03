@@ -1,0 +1,61 @@
+# kengaku — round 68 (hyaku run 15, attempt 1), 2026-11-03
+
+Lane-root base, stated once: `/home/vgpnk/Projects/shokunin/kengaku-shokunin`. Wave paths below are relative to it (`.ufo/waves/round-68/w1/...`). Lane tip at filing: see §Landed commits (the lane is pushed; `git -C <lane> ls-remote origin refs/heads/master` prints the final hash). Base `d2ed4ca3`; freeze `a8883187` (+`d5b3c309`, a pre-scored argparse fix, same session); landing `0e52fb5d`.
+
+## Work performed
+
+**Declared claims (2).**
+- **R68-C1 — coverage** (lowest owned axis, L0-capped at 7; capability acquisition `offline-network-service-grader-probe`). Replay the TB2 `pypi-server` grader offline against a lane-built PEP 503 index under the corrected stderr clause (`host='localhost'` + `port=8080` + a connection-refused marker — the clause round 63's frozen text missed). **Verdict: admitted on the frozen predicate** — `PREDICATE R68-C1 pass`, `--check-receipt` rc 0, vector P/F/F/F; the round-63 receipt of record stays MISS (L0 `kengaku | round-63` open, not re-scored).
+- **R68-C2 — calibration** (held at ceiling 10, exercised). Land the round-67 non-author closure's five routed defects as dated corrections: `## Erratum (round 68)` on `plans/round-67-claims.md` (wrong-sha citation, 7-refused count, before-value correction), `ERRATUM-68` on `a1-mutants.txt`, the committed selftest tally, and the two registry rows. **Verdict: admitted on the frozen predicate** — `DEFECTS n=5` → `DEFECTS n=0`, `PREDICATE R68-C2 pass`, rc 0; selftest `5/5 fail-in-fake`. Kill rules not triggered.
+
+Frontier step (inside the claim cap, not a claim): S240 opened live (urllib3 `src/urllib3/connection.py` tag 2.7.0, sha256 `668b37ab…`, located quote `:164`); mistakes mined into `corpus/lessons/round-68.md`; knowledge-entry addendum `corpus/knowledge/tb2-network-service-offline-grader.md`; considerthese scanned (27 verdicts, SourcesRows); assimilation: none (L0 `kengaku | round-54` open).
+
+**Work items, each with its evidence pointer.**
+- Protocol load: `skill://godspeed`, the round prompt in full, `RULES.md`, MISSION/AXES, SCORECARD (round-67 post-move), SHONEN, PROVINCE, QUALITY, README frontier, round-67 closure (`corpus/lessons/round-67-verifier-spotcheck.md`).
+- Dev build check (disclosed; no table change): the probe and gate each run once in scratch (`/fast/scratch/hyaku/kengaku-r68/dev`) before the freeze; outputs discarded, scored run is the receipt of record.
+- Frozen artifacts at `a8883187`/`d5b3c309`: `plans/round-68-claims.md`, `plans/round68_c1_pypi_finish.py`, `plans/round68_c2_correction_gate.py`, `.ufo/waves/round-68/census-before.txt` (exit 0, 24 pre-existing W04 warnings), `.ufo/waves/round-68/w1-spec.json` + `w1-validate.out` + `w1-dispatch.json` (12 seats validated), `w1/gate/red-before.txt` (`DEFECTS n=5`, rc 1), `corpus/evidence/round68/controls/control-old-receipt.txt` (do-nothing control: target receipt absent at base rc 128; the round-63 run1 receipt misses 5 necessary fields).
+- Scored battery (post-freeze): `corpus/evidence/round68/pypi/receipt.txt` (`PREDICATE R68-C1 pass`, `CLASS-PROBE-EXIT=0`), per-case stderr captures `stderr/`, K1 `server-log.txt`, live witness `battery-run.txt` (battery + `--check-receipt` + `--selftest` in-runner captures). Selftest `red_refused=5/5 green_ok=1`.
+- **Amendment A1 (dated, `plans/round-68-claims.md`, appended)**: (1) S240 re-sourced — the opened bytes show `http.client.HTTPConnection` has no `__repr__`/`__str__` at v3.14.8; the renderer is urllib3 2.7.0 `HTTPConnection.__str__` (`connection.py:163-164`); clause semantics unchanged (`literal-possible=False`, RenderingTrace). (2) Kill rule (c) named misstated — `LEG_TIMEOUT = 900` is dead code; the operative bound is 180 s and a timeout scores `F` under the leg rule (ForgeScan M-1); the scored run saw no timeout. (3) C2 gate E1 strengthened to its own frozen "exactly one" sentence (ForgeScan M-2), red→green evidence `corpus/evidence/round68/c2-e1-exactly-one.txt` (duplicate-heading fixture refuses). (4) CounterMutate F7 instrument defect recorded (base-probe load raises traceback not `SETUP`+rc 2; `--check-receipt` unaffected).
+- Wave `w1` (12 seats, §Round shape): PypiReplicate `vector=match stderr-shas=diff` (vector + all CASE fields identical; K2/K4 stderr byte-identical; K1/K3 differ by one venv-path `Location:` line; index_pids differ as expected). GateRedRun reproduced the freeze red-before (`DEFECTS n=5`) + clause-by-clause gate review. SelftestTally committed the round-67 probe's selftest tally (`corpus/evidence/round68/r67-probe-selftest.txt`, rc 0). RegistryRows + SourcesRows drafted all integrated rows (scribe; L1 integrated). SourceOpen opened S240/urllib3 live with receipts. ReceiptReview `clauses=11/11 implemented receipt=consistent verdict=pass`. ClaimFalsify: all forgeries refused; kill rule (c) misstatement reported. CounterMutate `n=22 survived=21` (21 mutants each proved their clause load-bearing; 1 killed by an independent binding; F7 instrument defect reported). ForgeScan `must-fix=2 should-fix=9` (M-1, M-2 above; s-boundaries stated). RenderingTrace `grounded=True literal-possible=False` (urllib3 `__str__` chain, byte-verified). SiblingOverlap `surface-level=0 term-level=21 routed=0` (round-37 own-gate-mutation ruling holds at tips).
+- Lesson `corpus/lessons/round-68.md` (Gate: S240 admitted as the urllib3 row, CPython row rejected as specified; Mistakes rows: the round-67 closure's wrong-sha citation + count drift plus this wave's mechanism-attribution, kill-rule-misstatement and counter-under-enforcement rows); README index row + round-68 block; knowledge addendum; trio gate `TRIO pass`.
+
+## Landed changes
+
+| change | LOG.md entry | commit |
+|---|---|---|
+| Frozen claims doc, two instruments, wave spec + validated dispatch, census-before, red-before, controls | LOG.md Round 68 (Frozen claims) | `a8883187` (freeze, pushed) |
+| Freeze argparse fix (`--check-receipt` restored) | same | `d5b3c309` |
+| Receipt of record + evidence; errata on `plans/round-67-claims.md` and `a1-mutants.txt`; selftest tally; registry rows; SKILL class row `executed 2 of 8`; S240 row; knowledge addendum; lesson; README; SCORECARD; amendment A1; wave w1 evidence | LOG.md Round 68 (Landed, Wave w1, Verification, Open, Erratum-68 note) | `0e52fb5d` |
+
+Fleet side: no new L0 questions opened this round (carried: `kengaku | round-25/33/51`, `round-56`, `round-63`, `round-54`, `round-66`, `round-67`).
+
+**Corrections section (round-67 record, dated, append-only — the round-67 report is not edited).** (a) The round-67 report and `a1-mutants.txt` cite probe sha `32bacf1d…`; the committed post-amendment probe re-hashes `03793f4f9e184e8f829916ef848e0f0d41d94b1bef8ed17eda0fe3c28b0a9f1e`. (b) The A1-mutant tally is 7 refused + 1 accepted by design (+1 base row), not "8 killed". (c) The R67-C1 before-value is `recipe-unexecuted`, not "executed 1 of 3". All three land in `## Erratum (round 68)` on the claims doc and the `ERRATUM-68` trailer on `a1-mutants.txt`.
+
+## Before → after measurements
+
+| claim / axis | before | after | counting command | verdict / score |
+|---|---|---|---|---|
+| R68-C1 / coverage (capability) | `git cat-file -e d2ed4ca3:corpus/evidence/round68/pypi/receipt.txt` → rc 128 absent; `git show d2ed4ca3:SKILL.md \| grep -c 'executed 1 of 8'` → 1 | `python3 plans/round68_c1_pypi_finish.py --check-receipt corpus/evidence/round68/pypi/receipt.txt; echo $?` → `CHECK ok cases=4`, `PREDICATE R68-C1 pass`, exit 0; `grep -c 'executed 2 of 8' SKILL.md` → 1; `grep -cE '^\|[[:space:]]*S240[[:space:]]*\|' corpus/SOURCES.md` → 1 | the command above; `--selftest` → `red_refused=5/5 green_ok=1` | predicate met; capability enters; coverage held at 7 |
+| R68-C2 / calibration (held at 10) | `python3 plans/round68_c2_correction_gate.py` → `DEFECTS n=5`, `PREDICATE R68-C2 fail`, rc 1 (freeze receipt `.ufo/waves/round-68/w1/gate/red-before.txt`) | same command → `E1..E5 ok`, `DEFECTS n=0`, `PREDICATE R68-C2 pass`, rc 0 (`corpus/evidence/round68/c2-green.txt`); anchors: `grep -c '^## Erratum (round 68)' plans/round-67-claims.md` → 1; `grep -c 'ERRATUM-68' corpus/evidence/round67/pipe/a1-mutants.txt` → 1; `test -e corpus/evidence/round68/r67-probe-selftest.txt`; `grep -c 'round67_c1_pipeline_probe' SKILL.md` → 2 | the gate command; `--selftest` → `defects-in-fake=5 want=5 all-fail=True` | predicate met; score held at 10 |
+
+Scores after the round: coverage 7 (held, L0 cap), calibration 10 (held, exercised), operability 10 (held), depth 10 (held; depth gate `ROWS n=16 class_match=True count_mismatch=0 share=1.00`, `PREDICATE R63-C2 pass`), freshness 10 (held; S240 opened live), adjacency 9 (held; 21 term-level overlaps, none routed), novelty 8 (held). No axis harmed.
+
+## Sources & frontier
+
+- **SOURCES before → after.** Data rows (`grep -cE '^\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|' corpus/SOURCES.md`): before `231` (at `d2ed4ca3`), after `232` at `0e52fb5d`. Added: `A` 1 (S240 urllib3 2.7.0 `src/urllib3/connection.py`, code; `used-by` the knowledge entry). Census: `sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku` exit 0 at start (`.ufo/waves/round-68/census-before.txt`) and end (`corpus/evidence/round68/census-after.txt`); 24 pre-existing W04 duplicate-url warnings unchanged at both ends.
+- **Sources opened this round.** S240 (admitted): urllib3 `src/urllib3/connection.py` tag `2.7.0`, HTTP 200, sha256 `668b37ab12835bdf8643a695a9f050551339b280742231f163fc575a925a1532`, located quote `:164`; byte-identical to pip 26.2.1's vendored urllib3. Rejected-as-specified: CPython `Lib/http/client.py` v3.14.8 (HTTP 200, sha256 `016aa766…`; `HTTPConnection` defines no `__repr__`/`__str__` — the frozen anchor does not exist; rejection recorded in the lesson Gate and amendment A1).
+- **Mistakes mined** (`corpus/lessons/round-68.md` `## Mistakes`): wrong-sha citation and count drift carried from the round-67 closure (fixes: the errata + gate E1–E5); this wave's mechanism-attribution, kill-rule-misstatement and counter-under-enforcement rows (fixes: amendment A1, recorded-not-patched limitations).
+- **considerthese.** 27 verdicts (`.ufo/waves/round-68/w1/SourcesRows.md`): the 2026-10-26 class-histogram proposal is implemented by rounds 62–67 (round 68 extends the chain — `pypi-server` is the second network-service member); the remaining proposals are recorded still-open with pointers.
+- **Assimilation.** None (L0 `kengaku | round-54` unresolved).
+
+## Named limitations (found this round, stated as found)
+
+(i) `--check-receipt` is consistency, not provenance — the live-run evidence is `battery-run.txt` + the K1 server log (L0 `kengaku | round-67` open). (ii) Kill rule (c)'s "900 s" is dead code; the effective bound is 180 s, timeout → `F` not exit-2 (ForgeScan M-1). (iii) K1/K3 stderr captures are not byte-stable across runs (venv-path `Location:` lines; PypiReplicate) — the receipt binds its own committed bytes only. (iv) Base-probe drift/absence raises a traceback not `SETUP`+rc 2 (CounterMutate F7). (v) E1's exactly-one was under-enforced at the freeze (ForgeScan M-2) — closed by amendment A1 with red→green evidence.
+
+## Round shape
+
+ONE v1 wave, 12 seats (`w1-spec.json`, validated under `scripts/hyaku/ufo-wave-policy.json`, band 8–16): executor ×3 (PypiReplicate, GateRedRun, SelftestTally), scribe ×2 (RegistryRows, SourcesRows), scout ×1 (SourceOpen), reviewer ×1 (ReceiptReview), critic ×1 (ClaimFalsify), mutation-tester ×1 (CounterMutate), sentinel ×1 (ForgeScan), revenger ×1 (RenderingTrace), connector ×1 (SiblingOverlap). Attack seats 6/12 = 50% (≥25%); connector 1 (≤2); all 12 settled with reports (`w1-results.json`; orchestrator kernel restarted mid-wave — per-seat outputs delivered to the orchestrator session but not retained; wave-dir reports are the evidence). No dead seats. No residual task call needed. The labrat role is rejected by the wave policy (L0 `kengaku | round-67` open); falsifiable-hypothesis work rode the revenger and scout items (recorded mapping).
+
+## Tooling record
+
+No installs this round (pacman paused per the operator guard; nothing needed — the probe builds its own venv via stdlib `venv` + bundled `ensurepip` inside the work dir, no network). Host state at freeze: Python 3.14.8, bwrap 0.13.1, uv 0.13.0 present, port 8080 free.
