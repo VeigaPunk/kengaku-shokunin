@@ -505,6 +505,7 @@ def main(argv=None):
     ap.add_argument("--work")
     ap.add_argument("--receipt")
     ap.add_argument("--evidence-dir")
+    ap.add_argument("--check-receipt")
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--green-receipt")
     ap.add_argument("--render-table", action="store_true")
