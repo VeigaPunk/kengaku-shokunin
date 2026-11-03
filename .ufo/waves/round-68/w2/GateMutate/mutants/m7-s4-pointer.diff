@@ -1,0 +1,11 @@
+--- gate.py
++++ m7-s4-pointer.py
+@@ -127,7 +127,7 @@
+             continue
+         rows.append(stripped)
+     pointed = sum(1 for row in rows if "`" in row or HEX_RE.search(row))
+-    ok = len(rows) >= 2 and pointed == len(rows)
++    ok = len(rows) >= 2
+     results.append(("S4", ok, f"rows={len(rows)} pointed={pointed}"))
+ 
+     # S5 — placeholders.

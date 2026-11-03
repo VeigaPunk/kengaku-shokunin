@@ -1,0 +1,11 @@
+--- gate.py
++++ m1-s1-order.py
+@@ -89,7 +89,7 @@
+             dup.append(f"{heading} x{len(hits)}")
+         if hits:
+             positions.append(hits[0])
+-    ordered = positions == sorted(positions) and len(positions) == len(HEADINGS)
++    ordered = len(positions) == len(HEADINGS)
+     ok = not missing and not dup and ordered
+     results.append(("S1", ok, f"headings={len(positions)}/6 missing={missing} dup={dup} ordered={ordered}"))
+ 

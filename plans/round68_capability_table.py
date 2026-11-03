@@ -42,6 +42,7 @@ DECLARED = {
 }
 
 BACKTICK_RE = re.compile(r"`([^`]+)`")
+PATH_RE = re.compile(r"(?:plans|corpus)/[A-Za-z0-9_./-]+")
 
 
 def table_rows(scorecard: str) -> list[list[str]]:
@@ -84,7 +85,11 @@ def check(scorecard: str, lane: Path) -> list[tuple[str, list[str]]]:
         if rnd not in first_round:
             bad_round.append(f"T2 {name}: want round {rnd}, got {first_round!r}")
         evidence = row[2] if len(row) > 2 else ""
-        paths = [tok.split()[0] for tok in BACKTICK_RE.findall(evidence) if tok.startswith(("plans/", "corpus/"))]
+        # A backticked evidence cell may carry a whole command; the path inside it
+        # is the evidence pointer the frozen sentence names.
+        paths = []
+        for tok in BACKTICK_RE.findall(evidence):
+            paths.extend(PATH_RE.findall(tok))
         if not paths:
             bad_evidence.append(f"T3 {name}: no backticked evidence path")
         else:

@@ -417,3 +417,92 @@ C2 (the sourced-claim duty is carried by C1 via S240).
    and re-derivable evidence pointers; no existing row is edited. This is a correction, not a
    claim: the round's two claims (R68-C1, R68-C2) are unchanged, and the correction is recorded in
    the lesson's `## Mistakes` and the round report.
+
+---
+
+## Amendment A4 (dated 2026-11-03, attempt 2 — erratum on A2's seat arithmetic; no predicate, counter, case, vector, kill rule or target changes)
+
+A2 item 4 states "ONE v1 wave, 10 seats". The wave actually dispatched and run is **12 seats**
+(`.ufo/waves/round-68/w2-spec.json`, `w2-dispatch.json`, `w2.ready`): the executor count grew to 4
+(the §3 L2 floor plus the evidence-index item) and a sentinel seat was added while the spec was being
+written, after A2's prose was drafted. The run shape is 12 seats — executor 4 (ReceiptReverify,
+GateReverify, ReportGateVerify, EvidenceIndex), reviewer 2 (ReceiptReview2, CensusAudit), critic 1
+(ClaimFalsify2), mutation-tester 1 (GateMutate), scout 1 (SourceReopen), scribe 1 (ScribeAttempt2),
+connector 1 (SiblingOverlap), sentinel 1 (SecurityScan); attack roles 4/12 = 33 % (>= 25 %); connector
+1 (<= 2). Round total: w1 12 + w2 12 = 24 seats; no residual call. The frozen claims are unchanged.
+
+---
+
+## Amendment A5 (dated 2026-11-03, attempt 2 — the A2 gate's selftest coverage extended after GateMutate's finding; no check, threshold, heading list, verdict list or exit contract changes)
+
+1. **Finding.** GateMutate's mutation pass on the A2 gate (frozen at `7803bdd4`, sha256
+   `18fbfc2111d747ae9f40220333f0bbd56062c89e93bcd7c2477358228a0723f4`) scored
+   `n=10 survived=8 killed=2` against the gate's own 5-fixture `--selftest`: S1 order/missing/duplicate,
+   S2 count/label, S4 pointer, S6 size and the selftest accounting were not exercised by a fixture, so a
+   mutant deleting them still printed `SELFTEST n=5 red-refused=4 green-ok=1`
+   (`.ufo/waves/round-68/w2/GateMutate.md` §3). Each surviving deletion WAS caught by a targeted fixture
+   the seat built (`GateMutate/probes/`), so the checks were live; the selftest's coverage was not. Under
+   A2 kill rule (b) the gate is not admitted until every check fails on its own fixture.
+2. **Fix (fixtures only).** `--selftest` now builds 11 fixtures and requires the exact defect-code set per
+   fixture: r1 attempt-1 {S1,S2,S3}; r2 three boxes {S2}; r3 no discernment {S3}; r4 placeholder {S5};
+   r6 wrong labels {S2}; r7 order swapped {S1}; r8 duplicate heading {S1}; r9 unpointed rows {S4};
+   r10 minimal {S1,S2,S3,S4,S6}; r11 five boxes {S2}; r5 green pass → `SELFTEST n=11 red-refused=10
+   green-ok=1`. The gate's verdict on any given report is unchanged from `7803bdd4`; the amended bytes
+   hash `f30ed74631b13bf9d67d80b32622bc2b9c961e0d216f2871393156f8c040248c` (11324 B). Receipt:
+   `.ufo/waves/round-68/w2/report-gate/selftest-extended.txt` (selftest rc 0; attempt-1 red rc 1,
+   `DEFECTS n=3`).
+3. **Re-mutation (this amendment's own receipt).** Ten single-check deletions rebuilt from the amended
+   bytes: `n=10 killed=8 survived=2`
+   (`.ufo/waves/round-68/w2/report-gate/mutants-rerun.txt`). `m2-s1-missing` is an equivalent mutant —
+   the `missing` clause is redundant with the `len(positions) == len(HEADINGS)` guard, since a missing
+   heading already fails `ordered`; `m10-accounting` is a meta-mutant that only changes the selftest's own
+   bookkeeping, which a data fixture cannot distinguish. No non-equivalent mutant survives.
+
+---
+
+## Amendment A6 (dated 2026-11-03, attempt 2 — A2's heading match normalized to its frozen sentence; no threshold or verdict-word changes)
+
+1. **Finding.** ClaimFalsify2's a8 attack: a report carrying a second `##  SHONEN` (two spaces after the
+   hashes) passed the whole A2 gate (`PREDICATE R68-A2 pass`) because S1 compared
+   `line.strip() == heading` and `section()` matched the exact string; markdown renders both as an
+   `<h2>SHONEN</h2>` (cmark 0.31.2, `ClaimFalsify2.md` A2-1). The frozen S2 sentence says "`## SHONEN`
+   occurs once" — the implementation was narrower than the sentence, so this is an implementation fix,
+   not a rule change.
+2. **Fix.** Heading matching in S1, `section()` and the S6 section count collapses whitespace
+   (`norm(line) == norm(heading)`), and a section boundary is any ATX h2 (`^#{2}\s`). A duplicate
+   heading in any spacing is refused at S1. New fixture r12 (`##  SHONEN` duplicate) expects exactly
+   `{S1}` → `SELFTEST n=12 red-refused=11 green-ok=1`. Amended bytes: sha256
+   `dd09a96bb402678ff477e2b7af21e8947a02a54f0b7b2b0495c8185d7f7b262f`, 11477 B. Receipt
+   `.ufo/waves/round-68/w2/report-gate/selftest-extended.txt` (selftest rc 0; attempt-1 red rc 1,
+   `DEFECTS n=3`; compliant skeleton green rc 0).
+3. **Re-mutation.** Eleven single-check deletions rebuilt from the amended bytes: `n=11 killed=9
+   survived=2` (`.ufo/waves/round-68/w2/report-gate/mutants-rerun-a6.txt`). Survivors: `m2-s1-missing`
+   (equivalent — redundant with the position-length guard) and `m10-accounting` (meta — changes only the
+   selftest's bookkeeping, indistinguishable by a data fixture). No non-equivalent mutant survives.
+
+---
+
+## Amendment A7 (dated 2026-11-03, attempt 2 — input hardening and the S2 box-count pin after SecurityScan's F2/F5/F6/F7 findings; no threshold or verdict-word changes)
+
+1. **Findings.** SecurityScan F2: S2 is vacuous when the SHONEN file itself carries zero boxes
+   (`--shonen empty-shonen.md` → `S2 ok box-lines=0 want=0 matched=0`, `DEFECTS n=0`), while the frozen
+   S2 sentence names "(4 boxes)". F5: a FIFO report hung (`rc 124`), `/dev/zero` raised `MemoryError`,
+   invalid UTF-8 raised a traceback with rc 1 instead of a typed `SETUP`. F6: `--shonen` was cwd-relative
+   and unprinted. F7: the default `--work` was a predictable reused path.
+2. **Fix.** S2 requires the SHONEN file to carry exactly four boxes (`EXPECTED_BOXES = 4`); report and
+   SHONEN inputs must be regular files of at most 2 MiB and decode as UTF-8, else
+   `SETUP could-not-evaluate` + rc 2; the resolved `--shonen` path is printed on every run; the default
+   work dir is `tempfile.mkdtemp`. New fixtures r13 (zero-box SHONEN) and r14 (empty SHONEN section +
+   zero-box SHONEN file) both expect exactly `{S2}` → `SELFTEST n=14 red-refused=13 green-ok=1`. Receipt
+   `.ufo/waves/round-68/w2/report-gate/hardening.txt` (zero-box rc 1; FIFO rc 2; `/dev/zero` rc 2;
+   invalid UTF-8 rc 2). Amended bytes: sha256
+   `d857babef833584b1438d5328acfed9f658351d6c83bc130c669b0c3733bcf43`, 12831 B. Receipt
+   `.ufo/waves/round-68/w2/report-gate/selftest-extended.txt` (selftest rc 0; attempt-1 red rc 1,
+   `DEFECTS n=3`; compliant skeleton green rc 0).
+3. **Re-mutation.** Twelve single-check deletions rebuilt from the amended bytes: `n=12 killed=10
+   survived=2` (`.ufo/waves/round-68/w2/report-gate/mutants-rerun-a7.txt`); survivors are `m2-s1-missing`
+   (equivalent) and `m10-accounting` (meta).
+4. **Not fixed (recorded, routed).** F1/C3/C4 (a contentless report, a foreign report, or a prior-round
+   report can satisfy the six formal checks) and F4 (fence-blind parsing) are the frozen form contract's
+   own strength plus the L1-authored-input assumption; they are named limitations in the round report, not
+   patched after data. F8/F9/F10/F11 are notes.

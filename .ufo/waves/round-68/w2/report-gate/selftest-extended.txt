@@ -1,0 +1,42 @@
+# A2 gate --selftest, final attempt-2 bytes (A5+A6+A7)
+# command: python3 plans/round68_report_contract.py --selftest --work <scratch>
+SELFTEST r1-attempt1 want=['S1', 'S2', 'S3'] got=['S1', 'S2', 'S3'] ok
+SELFTEST r2-three-boxes want=['S2'] got=['S2'] ok
+SELFTEST r3-no-discernment want=['S3'] got=['S3'] ok
+SELFTEST r4-placeholder want=['S5'] got=['S5'] ok
+SELFTEST r6-wrong-labels want=['S2'] got=['S2'] ok
+SELFTEST r7-order-swapped want=['S1'] got=['S1'] ok
+SELFTEST r8-duplicate-heading want=['S1'] got=['S1'] ok
+SELFTEST r9-unpointed-rows want=['S4'] got=['S4'] ok
+SELFTEST r10-minimal want=['S1', 'S2', 'S3', 'S4', 'S6'] got=['S1', 'S2', 'S3', 'S4', 'S6'] ok
+SELFTEST r11-five-boxes want=['S2'] got=['S2'] ok
+SELFTEST r12-spaced-dup-heading want=['S1'] got=['S1'] ok
+SELFTEST r5-green want=pass got=pass ok
+SELFTEST r13-zero-box-shonen want=['S2'] got=['S2'] ok
+SELFTEST r14-empty-shonen-empty-report want=['S2'] got=['S2'] ok
+SELFTEST n=14 red-refused=13 green-ok=1
+rc=0
+
+# red on the attempt-1 fixture
+SHONEN /home/vgpnk/Projects/shokunin/kengaku-shokunin/SHONEN.md
+S1 defect headings=4/6 missing=['## Trend verdicts', '## SHONEN'] dup=[] ordered=False
+S2 defect no ## SHONEN section (boxes=4)
+S3 defect expansion=None quality=None discernment=None
+S4 ok rows=2 pointed=2
+S5 ok placeholders=[]
+S6 ok bytes=12415 sections=7
+DEFECTS n=3
+PREDICATE R68-A2 fail
+rc=1
+
+# green on a compliant skeleton
+SHONEN /home/vgpnk/Projects/shokunin/kengaku-shokunin/SHONEN.md
+S1 ok headings=6/6 missing=[] dup=[] ordered=True
+S2 ok box-lines=4 want=4 (SHONEN.md boxes=4) matched=4
+S3 ok expansion=improved quality=improved discernment=unchanged
+S4 ok rows=2 pointed=2
+S5 ok placeholders=[]
+S6 ok bytes=1215 sections=6
+DEFECTS n=0
+PREDICATE R68-A2 pass
+rc=0

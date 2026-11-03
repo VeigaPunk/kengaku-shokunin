@@ -1,0 +1,20 @@
+--- gate.py
++++ m10m6-composed.py
+@@ -107,7 +107,7 @@
+     # S3 — the three trend verdicts.
+     sec = section(report, "## Trend verdicts") or ""
+     found = {}
+-    for trend in ("expansion", "quality", "discernment"):
++    for trend in ("expansion", "quality"):
+         m = re.search(rf"{trend}\s*:\s*\**\s*({'|'.join(VERDICTS)})", sec)
+         found[trend] = m.group(1) if m else None
+     ok = all(found.values())
+@@ -192,7 +192,7 @@
+         got = "fail" if defects else "pass"
+         detail = "; ".join(f"{code}:{d}" for code, ok, d in results if not ok) or "all ok"
+         print(f"SELFTEST {name} want={want} got={got} defects={defects or 'none'} {detail}")
+-        if want == "fail" and got == "fail":
++        if want == "fail":
+             refused += 1
+         if want == "pass" and got == "pass":
+             green_ok += 1

@@ -1,0 +1,11 @@
+--- gate.py
++++ m4-s2-count.py
+@@ -101,7 +101,7 @@
+     else:
+         got = [norm(m.group(1)) for m in (CHECK_RE.match(line) for line in sec.splitlines()) if m]
+         matched = sum(1 for key in keys if any(g.startswith(key) for g in got))
+-        ok = len(got) == len(keys) and matched == len(keys)
++        ok = matched == len(keys)
+         results.append(("S2", ok, f"box-lines={len(got)} want={len(keys)} matched={matched}"))
+ 
+     # S3 — the three trend verdicts.

@@ -566,7 +566,10 @@ documents why stream:false was chosen and what stream:true changes).
 | gate-mutation-harness | Decide which advertised defect classes of a gate its own fixture battery demonstrates: one frozen byte-level silence mutant per branch, killed iff the gate's observable result (exit code plus the set of clauses printing `DEFECT`) changes on some fixture, with a null mutant for non-determinism and a renamed run so no fixture is recognised by its directory name. Survivors are advertised-but-undemonstrated clauses. Not proof that any check is the right check. | `python3 plans/round37_c1_verify.py --lane .` on a clean clone → `BATTERY fixtures=64 wrong=0 renamed_disagree=0`, `MUTANTS total=55 killed=55 survived=0 invalid=0 null_detected=0` (freeze control `killed=5`, `.ufo/waves/round-37/claims/control-c1-nothing.txt`) | 37 |
 | service-grader-probe | Execute a captured grader and its helper script offline in a per-case unprivileged bubblewrap sandbox (private network namespace, scratch HOME and /tmp, `/tests` read-only, `PATH` scoped to the named tools) against lane-built HTTP service states, and count observed verdicts against a frozen case table. Not task certification, not runtime inside the task image, not a reward measurement. | `python3 plans/git_webserver_probe.py --lane .` → `cases=22 observed_pass=9 observed_fail=13 mismatches=0` (read the summary line, not `$?`); receipt `corpus/evidence/round37/git-webserver-probe.txt`, re-run byte-equal by `plans/round37_c2_verify.py` V2/P10 | 37 |
 | surface-truth-manifest-counter | Decide whether every surface `PROVINCE.md` declares still resolves, whether an absent one carries a dated verdict, whether a declared count matches the count on disk, and whether the resolved set fell below a recorded floor | `python3 plans/round51_surfaces.py --lane .` → `ANCHORS 20/20`, `ROWS 10+10`, `DRIFT 0 STALE 0 UNVERDICTED 0 NUMBER-DRIFT 0`, `RESOLVE present=14 floor=13 verdict=met`, `PREDICATE R51-C1 pass`, exit 0; `--selftest` cases=9 failures=0 | 51 |
-
+| offline-network-service-grader-probe | Run a TB2 grader whose `install` step reaches a localhost index the lane builds (PEP 503 on a checked-free 127.0.0.1:8080 inside bwrap), with the leg vector frozen and the corrected stderr clause byte-bound; not task certification | `python3 plans/round68_c1_pypi_finish.py --check-receipt corpus/evidence/round68/pypi/receipt.txt` → `PREDICATE R68-C1 pass`, exit 0; first member `kv-store-grpc` round 64 (`plans/round64_c1_kvstore_probe.py`) | 64 (re-demonstrated 68) |
+| offline-db-state-grader-probe | Run a TB2 grader whose graded state is a gcov-instrumented `sqlite3` the lane compiles in place and PATH-stages inside bwrap against the host binary; not task certification | `python3 plans/round65_c1_sqlite_probe.py --check-receipt corpus/evidence/round65/sqlite-gcov-probe.txt` → `PREDICATE R65-C1 pass`, exit 0 | 65 |
+| offline-torch-tensor-parallel-grader-probe | Run the TB2 `torch-tensor-parallelism` grader's own pytest module offline in per-case bwrap against five frozen cases, gloo on a checked-free port under a flock; not task certification | `python3 plans/round66_c1_tensor_probe.py --check-receipt corpus/evidence/round66/tensor/receipt.txt` → `PREDICATE R66-C1 pass`, exit 0 | 66 |
+| offline-torch-pipeline-parallel-grader-probe | Run the TB2 `torch-pipeline-parallelism` grader offline in per-case bwrap against six frozen cases over four legs, gloo under a flock; not task certification | `python3 plans/round67_c1_pipeline_probe.py --check-receipt corpus/evidence/round67/pipe/receipt.txt` → `PREDICATE R67-C1 pass`, exit 0 | 67 |
 Rows enter this table only through a round that demonstrates the capability running (`AXES.md` §Capabilities). The catalog receipt verifier entered in round 33 by passing its offline counter.
 The original round-24 capabilities — offline-replay-gate, frozen-table-pin-check, and sources-registry — entered through demonstration that round (commands re-run; output in `corpus/evidence/round24-census/after.txt`). The placeholder row was the scaffold, not a claim.
 
@@ -2952,3 +2955,49 @@ Base `d2ed4ca3` (round-67 closure tip). Freeze `a8883187` (+`d5b3c309` arg fix):
 **Trend verdicts (round 68).** expansion: improved (a second `network-service` member replayed; S240 opened live and grounds the corrected clause's mechanism). quality: improved (the new counter enforces every clause it was mutation-tested on — 22/22 mutants load-bearing; the correction gate's own check was strengthened to its frozen sentence after a sentinel finding). discernment: unchanged (no exploratory claim; the attribution and kill-rule misstatements are mined as lesson rows, counted against calibration, not self-attested).
 
 **Planned (round 69).** (1) Carry the F7 instrument-defect: give the probe's base-probe load a typed `SETUP`+rc 2 path (new instrument + new receipt, frozen before data). (2) The round-63 stderr-form choice — urllib3's `__str__` renders `host=..., port=...`; a pip/CPython combination that changes the render needs a new re-freeze (the S240 recheck cadence); `install-windows-3.11` stays the next unexecuted process-environment member. (3) Carry round-67 lesson rows 8–10 and the `round66_c1_tensor_probe` registry-row absence (RegistryRows finding 2). L0 carried: `kengaku | round-25/33/51`, `round-56`, `round-63`, `round-54`, `round-67` (labrat role).
+
+### Round 68 attempt 2 addendum (2026-11-03)
+
+Attempt 2 is a resume of the same frozen round, not a new one: no predicate, case table, vector, counter,
+kill rule or target changed (Amendment A2 item 2), and attempt 1's lane landing stays `0e52fb5d` (freeze
+`a8883187`, argparse fix `d5b3c309`). New freezes this attempt: the report-contract gate
+`plans/round68_report_contract.py` (`7803bdd4`, amendments A2/A5/A6), the capability-table gate
+`plans/round68_capability_table.py` (`27f649f8`, amendment A3), and the A4 erratum on A2's seat count.
+Attempt 2 re-derived both predicates on the committed bytes rather than re-scoring them.
+
+| re-derived | command | attempt-2 result | receipt |
+|---|---|---|---|
+| R68-C1 | `python3 plans/round68_c1_pypi_finish.py --check-receipt corpus/evidence/round68/pypi/receipt.txt` | `CHECK ok cases=4 vector=P/F/F/F`, `PREDICATE R68-C1 pass`, rc 0 | `.ufo/waves/round-68/w2/ReceiptReverify/receipt-check.txt` |
+| R68-C1 selftest | `python3 plans/round68_c1_pypi_finish.py --selftest --work <scratch> --green-receipt corpus/evidence/round68/pypi/receipt.txt` | `red_refused=5/5 green_ok=1 ok=True`, rc 0 | `.ufo/waves/round-68/w2/ReceiptReverify/selftest.txt` |
+| R68-C1 clause review | adversarial clause-by-clause read of `check_receipt` against the frozen sentence | 20/20 clauses implemented as written; five forgery families accepted as scoped limitations (C1-1…C1-3, `ReceiptReview2` M-a…M-e) | `.ufo/waves/round-68/w2/ReceiptReview2.md` |
+| R68-C2 | `python3 plans/round68_c2_correction_gate.py` | `E1..E5 ok`, `DEFECTS n=0`, `PREDICATE R68-C2 pass`, rc 0 | `.ufo/waves/round-68/w2/GateReverify/green.txt` |
+| R68-C2 selftest + E1 liveness | `--selftest --work <scratch>`; fake-root duplicate-heading and golden-sha-only fixtures | `defects-in-fake=5 want=5 all-fail=True`; both fake roots refused at E1 (`DEFECTS n=1`) | `.ufo/waves/round-68/w2/GateReverify/` |
+| anchors re-counted | `grep -c '^## Erratum (round 68)' plans/round-67-claims.md`; `grep -c 'ERRATUM-68' corpus/evidence/round67/pipe/a1-mutants.txt`; `test -e corpus/evidence/round68/r67-probe-selftest.txt`; `grep -c 'round67_c1_pipeline_probe' SKILL.md` | 1, 1, 0 (exists), 2 — all as declared | `.ufo/waves/round-68/w2/ReceiptReverify/anchors.txt` |
+| R68-A2 red | `python3 plans/round68_report_contract.py .ufo/waves/round-68/w2/report-fixtures/attempt1-report.md --shonen SHONEN.md` | `DEFECTS n=3` (S1/S2/S3), `PREDICATE R68-A2 fail`, rc 1 | `.ufo/waves/round-68/w2/report-gate/selftest-extended.txt` |
+| R68-A2 selftest | `python3 plans/round68_report_contract.py --selftest --work <scratch>` | `SELFTEST n=12 red-refused=11 green-ok=1`, rc 0 | same |
+| R68-A2 green | gate on a compliant skeleton built by the seat | `DEFECTS n=0`, `PREDICATE R68-A2 pass`, rc 0 | `.ufo/waves/round-68/w2/ReportGateVerify/green.txt` |
+| R68-A2 mutation | 11 single-check deletions rebuilt from the amended bytes | `n=11 killed=9 survived=2` (equivalent + meta mutants only) | `.ufo/waves/round-68/w2/report-gate/mutants-rerun-a6.txt` |
+| R68-A3 red → green | `python3 plans/round68_capability_table.py --lane .` | `MISMATCH n=4` → `MISMATCH n=0`, `PREDICATE R68-A3 pass`; selftest `n=5 red-refused=4 green-ok=1` | `.ufo/waves/round-68/w2/capability-table/red-before.txt`, `green.txt` |
+| registry + census | `sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku` | exit 0 at attempt-2 start and end; 232 rows; 24 pre-existing W04 warnings both ends | `.ufo/waves/round-68/w2/census-before.txt`; `corpus/evidence/round68/census-after.txt` |
+| S240 re-open | live re-fetch of the admitted urllib3 URL and the rejected CPython URL | admitted row's sha/bytes/anchor stand; CPython rejection confirmed; row status was `queued` → fixed to `mined` | `.ufo/waves/round-68/w2/SourceReopen.md` |
+| depth gate (no axis harmed) | `python3 plans/round63_gate_checks.py depth --skill SKILL.md --receipt corpus/evidence/round62/class-survey.txt` | `ROWS n=16 class_match=True count_mismatch=0 paths total=33 resolved=33 share=1.00`, `PREDICATE R63-C2 pass`, rc 0 | command output (round report) |
+| provenance trio | `python3 plans/round63_gate_checks.py trio corpus/knowledge/tb2-network-service-offline-grader.md` | `TRIO pass` | command output (round report) |
+
+**Corrections landed in attempt 2 (not claims; each with a re-deriving counter).** (1) The `## Capabilities`
+table gains the four rows the rounds 64–68 declared entered (`offline-network-service-grader-probe`
+round 64 re-demonstrated 68, `offline-db-state-grader-probe` 65, `offline-torch-tensor-parallel-grader-probe`
+66, `offline-torch-pipeline-parallel-grader-probe` 67): `MISMATCH n=4` → `n=0` under
+`plans/round68_capability_table.py` (A3). (2) S240's status `queued` → `mined` (its `used-by` already cited
+the knowledge entry; the contract defines `mined` that way; the change is logged old→new in
+`corpus/lessons/round-68.md` `## Gate`). (3) `round66_c1_tensor_probe` gains its missing
+`## Gate/probe registry` row (`grep -c` 0 → 2; its command re-derives `CHECK ok cases=5`,
+`PREDICATE R66-C1 pass`, rc 0). (4) `corpus/lessons/round-68.md`'s `## Mistakes` table is merged (a blank
+line split it) and its orphan duplicate paragraph removed; five attempt-2 mistake rows are appended.
+
+**Verdicts unchanged.** R68-C1 admitted on its frozen predicate (coverage held at 7, L0 cap
+`kengaku | round-25/33/51`); R68-C2 admitted (calibration held at 10, exercised). No owned axis harmed:
+depth 10 held (depth gate green), operability 10 held (the two new gates are runnable and mutation-tested),
+freshness 10 held (S240 re-opened live; registry status corrected), adjacency 9 held (SiblingOverlap found
+term-level overlaps only, plus the fleet-wide report-contract prior art routed, not absorbed), novelty 8
+held. L0 carried: `kengaku | round-25/33/51`, `round-54`, `round-56`, `round-63`, `round-65`, `round-66`,
+`round-67` (labrat role).

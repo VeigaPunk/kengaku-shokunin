@@ -1,0 +1,17 @@
+# R68-A3 green (attempt 2): the capabilities table after the four rows land
+# command: python3 plans/round68_capability_table.py --lane .
+T1 ok n=0
+T2 ok n=0
+T3 ok n=0
+T4 ok n=0
+MISMATCH n=0
+PREDICATE R68-A3 pass
+rc=0
+# selftest: python3 plans/round68_capability_table.py --selftest --work <scratch>
+SELFTEST s5-compliant want=0 got=0 findings=none
+SELFTEST s1-pre-fix want=4 got=4 findings=['T1 offline-network-service-grader-probe: no row', 'T1 offline-db-state-grader-probe: no row', 'T1 offline-torch-tensor-parallel-grader-probe: no row', 'T1 offline-torch-pipeline-parallel-grader-probe: no row']
+SELFTEST s2-wrong-round want=1 got=1 findings=["T2 offline-network-service-grader-probe: want round 64, got '99'"]
+SELFTEST s3-absent-evidence want=1 got=1 findings=["T3 offline-db-state-grader-probe: absent evidence path ['plans/absent_probe.py']"]
+SELFTEST s4-duplicate want=1 got=1 findings=['T4 offline-network-service-grader-probe: duplicate row']
+SELFTEST n=5 red-refused=4 green-ok=1
+rc=0

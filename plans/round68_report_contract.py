@@ -39,10 +39,13 @@ HEADINGS = [
     "## SHONEN",
 ]
 VERDICTS = ("improved", "harmed", "unchanged", "unprovable-but-better")
+EXPECTED_BOXES = 4  # SHONEN.md carries four boxes (frozen A2 S2 sentence)
 BOX_RE = re.compile(r"^- \[[x~ ]\]\s+(.*)$")
 CHECK_RE = re.compile(r"^\s*- \[[x~ ]\]\s+(.*)$")
 HEX_RE = re.compile(r"\b[0-9a-f]{7,}\b")
+H2_RE = re.compile(r"^#{2}\s")
 PLACEHOLDERS = ("TODO", "TBD", "FIXME", "lorem ipsum", "<placeholder>")
+MAX_INPUT_BYTES = 2 * 1024 * 1024
 
 
 def norm(text: str) -> str:
@@ -62,12 +65,12 @@ def box_keys(shonen_text: str) -> list[str]:
 def section(report: str, heading: str) -> str | None:
     lines = report.splitlines()
     try:
-        start = next(i for i, line in enumerate(lines) if line.strip() == heading)
+        start = next(i for i, line in enumerate(lines) if norm(line) == norm(heading))
     except StopIteration:
         return None
     out = []
     for line in lines[start + 1:]:
-        if line.startswith("## "):
+        if H2_RE.match(line):
             break
         out.append(line)
     return "\n".join(out)
@@ -82,7 +85,7 @@ def check(report: str, shonen: str) -> list[tuple[str, bool, str]]:
     missing = []
     dup = []
     for heading in HEADINGS:
-        hits = [i for i, line in enumerate(lines) if line.strip() == heading]
+        hits = [i for i, line in enumerate(lines) if norm(line) == norm(heading)]
         if not hits:
             missing.append(heading)
         if len(hits) > 1:
@@ -101,8 +104,8 @@ def check(report: str, shonen: str) -> list[tuple[str, bool, str]]:
     else:
         got = [norm(m.group(1)) for m in (CHECK_RE.match(line) for line in sec.splitlines()) if m]
         matched = sum(1 for key in keys if any(g.startswith(key) for g in got))
-        ok = len(got) == len(keys) and matched == len(keys)
-        results.append(("S2", ok, f"box-lines={len(got)} want={len(keys)} matched={matched}"))
+        ok = len(keys) == EXPECTED_BOXES and len(got) == len(keys) and matched == len(keys)
+        results.append(("S2", ok, f"box-lines={len(got)} want={len(keys)} (SHONEN.md boxes={EXPECTED_BOXES}) matched={matched}"))
 
     # S3 — the three trend verdicts.
     sec = section(report, "## Trend verdicts") or ""
@@ -137,7 +140,7 @@ def check(report: str, shonen: str) -> list[tuple[str, bool, str]]:
 
     # S6 — driver parity.
     size = len(report.encode("utf-8"))
-    sections = sum(1 for line in lines if line.startswith("## "))
+    sections = sum(1 for line in lines if H2_RE.match(line))
     ok = size >= 400 and sections >= 3
     results.append(("S6", ok, f"bytes={size} sections={sections}"))
     return results
@@ -162,40 +165,73 @@ def skeleton(shonen: str) -> str:
     )
 
 
+def _mutate(text: str, old: str, new: str) -> str:
+    if old not in text:
+        raise SystemExit(f"selftest fixture construction failed: {old!r} absent")
+    return text.replace(old, new, 1)
+
+
 def selftest(lane: Path, work: Path) -> int:
     work.mkdir(parents=True, exist_ok=True)
     shonen = (lane / "SHONEN.md").read_text(encoding="utf-8")
     attempt1 = lane / ".ufo/waves/round-68/w2/report-fixtures/attempt1-report.md"
-    fixtures: list[tuple[str, str, str]] = []
-    if attempt1.is_file():
-        fixtures.append(("r1-attempt1", attempt1.read_text(encoding="utf-8"), "fail"))
-    else:
+    if not attempt1.is_file():
         print(f"SELFTEST r1-attempt1 missing fixture {attempt1}")
         return 2
     good = skeleton(shonen)
-    fixtures.append(("r5-green", good, "pass"))
-    boxes = [ln for ln in good.splitlines() if ln.strip().startswith("- [")]
-    cut = [ln for ln in boxes if "round-68.md" in ln][:3]
-    r2 = good.replace("\n".join(cut), "\n".join(cut[:-1])) if cut else good
-    fixtures.append(("r2-three-boxes", r2, "fail"))
-    fixtures.append(("r3-no-discernment", good.replace("- discernment:", "- judgement:"), "fail"))
-    fixtures.append(("r4-placeholder", good.replace("Claim R68-C1", "TODO Claim R68-C1"), "fail"))
+    boxes = [ln for ln in good.splitlines() if ln.strip().startswith("- [") and "round-68.md" in ln]
+    three = good.replace("\n".join(boxes), "\n".join(boxes[:3]))
+    wrong_labels = good.replace("- [~] SKILL.md contains", "- [~] The skill contains", 1)
+    swapped = _mutate(good, "## Work performed", "## TEMP")
+    swapped = _mutate(swapped, "## Landed changes", "## Work performed")
+    swapped = _mutate(swapped, "## TEMP", "## Landed changes")
+    duplicated = good + "\n## Landed changes\n\nduplicate section\n"
+    rows_start = good.index("| R68-C1 |")
+    rows_end = good.index("\n\n## Sources", rows_start)
+    unpointed_rows = good[:rows_start] + "| R68-C1 | absent | pass | none | pass |\n| R68-C2 | n=5 | n=0 | none | pass |" + good[rows_end:]
+    minimal = "## Work performed\n\nx\n"
+    five_boxes = good + "- [~] An extra checklist line no SHONEN.md box matches — evidence: `corpus/lessons/round-68.md`\n"
+    spaced_dup = good + "\n##  SHONEN\n\n- [~] duplicate section\n"
 
+    fixtures: list[tuple[str, str, set[str]]] = [
+        ("r1-attempt1", attempt1.read_text(encoding="utf-8"), {"S1", "S2", "S3"}),
+        ("r2-three-boxes", three, {"S2"}),
+        ("r3-no-discernment", good.replace("- discernment:", "- judgement:"), {"S3"}),
+        ("r4-placeholder", good.replace("Claim R68-C1", "TODO Claim R68-C1"), {"S5"}),
+        ("r6-wrong-labels", wrong_labels, {"S2"}),
+        ("r7-order-swapped", swapped, {"S1"}),
+        ("r8-duplicate-heading", duplicated, {"S1"}),
+        ("r9-unpointed-rows", unpointed_rows, {"S4"}),
+        ("r10-minimal", minimal, {"S1", "S2", "S3", "S4", "S6"}),
+        ("r11-five-boxes", five_boxes, {"S2"}),
+        ("r12-spaced-dup-heading", spaced_dup, {"S1"}),
+        ("r5-green", good, set()),
+    ]
     refused = 0
     green_ok = 0
     total = len(fixtures)
-    for name, text, want in fixtures:
+    for name, text, expected in fixtures:
         path = work / f"{name}.md"
         path.write_text(text, encoding="utf-8")
         results = check(text, shonen)
-        defects = [code for code, ok, _ in results if not ok]
-        got = "fail" if defects else "pass"
-        detail = "; ".join(f"{code}:{d}" for code, ok, d in results if not ok) or "all ok"
-        print(f"SELFTEST {name} want={want} got={got} defects={defects or 'none'} {detail}")
-        if want == "fail" and got == "fail":
+        got = {code for code, ok, _ in results if not ok}
+        ok = got == expected
+        print(f"SELFTEST {name} want={sorted(expected) or 'pass'} got={sorted(got) or 'pass'} {'ok' if ok else 'MISMATCH'}")
+        if expected and ok:
             refused += 1
-        if want == "pass" and got == "pass":
+        if not expected and ok:
             green_ok += 1
+    zero_codes = {code for code, ok_, _ in check(good, "") if not ok_}
+    zero_ok = zero_codes == {"S2"}
+    print(f"SELFTEST r13-zero-box-shonen want=['S2'] got={sorted(zero_codes) or 'pass'} {'ok' if zero_ok else 'MISMATCH'}")
+    total += 1
+    refused += 1 if zero_ok else 0
+    empty_shonen_report = good.split("## SHONEN")[0] + "## SHONEN\n\n"
+    vacuous_codes = {code for code, ok_, _ in check(empty_shonen_report, "") if not ok_}
+    vacuous_ok = vacuous_codes == {"S2"}
+    print(f"SELFTEST r14-empty-shonen-empty-report want=['S2'] got={sorted(vacuous_codes) or 'pass'} {'ok' if vacuous_ok else 'MISMATCH'}")
+    total += 1
+    refused += 1 if vacuous_ok else 0
     ok = refused == total - 1 and green_ok == 1
     print(f"SELFTEST n={total} red-refused={refused} green-ok={green_ok}")
     return 0 if ok else 1
@@ -213,7 +249,11 @@ def main(argv: list[str]) -> int:
     lane = Path(args.lane).resolve()
     shonen_path = Path(args.shonen) if args.shonen else lane / "SHONEN.md"
     if args.selftest:
-        work = Path(args.work) if args.work else Path(os.environ.get("TMPDIR", "/tmp")) / "r68-a2-selftest"
+        if args.work:
+            work = Path(args.work)
+        else:
+            import tempfile
+            work = Path(tempfile.mkdtemp(prefix="r68-a2-selftest-"))
         try:
             return selftest(lane, work)
         except OSError as exc:
@@ -223,10 +263,19 @@ def main(argv: list[str]) -> int:
         print("usage: round68_report_contract.py <report> [--shonen SHONEN.md] [--selftest]", file=sys.stderr)
         return 2
     report_path = Path(args.report)
+    resolved_shonen = shonen_path.resolve()
+    print(f"SHONEN {resolved_shonen}")
+    for path in (report_path, resolved_shonen):
+        if not path.is_file():
+            print(f"SETUP could-not-evaluate {path} is not a regular file")
+            return 2
+        if path.stat().st_size > MAX_INPUT_BYTES:
+            print(f"SETUP could-not-evaluate {path} exceeds {MAX_INPUT_BYTES} bytes")
+            return 2
     try:
-        report = report_path.read_text(encoding="utf-8")
-        shonen = shonen_path.read_text(encoding="utf-8")
-    except OSError as exc:
+        report = report_path.read_bytes().decode("utf-8")
+        shonen = resolved_shonen.read_bytes().decode("utf-8")
+    except (OSError, UnicodeDecodeError) as exc:
         print(f"SETUP could-not-evaluate {exc}")
         return 2
     results = check(report, shonen)

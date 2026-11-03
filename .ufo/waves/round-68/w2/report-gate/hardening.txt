@@ -1,0 +1,55 @@
+# A7 hardening probes (SecurityScan F2/F5/F6/F7)
+
+## zero-box SHONEN (C15): must refuse
+SHONEN /fast/scratch/hyaku/kengaku-r68/empty-shonen.md
+S1 ok headings=6/6 missing=[] dup=[] ordered=True
+S2 defect box-lines=4 want=0 (SHONEN.md boxes=4) matched=0
+S3 ok expansion=improved quality=improved discernment=unchanged
+S4 ok rows=2 pointed=2
+S5 ok placeholders=[]
+S6 ok bytes=1215 sections=6
+DEFECTS n=1
+PREDICATE R68-A2 fail
+rc=1
+
+## FIFO report: typed SETUP rc 2, no hang
+SHONEN /home/vgpnk/Projects/shokunin/kengaku-shokunin/SHONEN.md
+SETUP could-not-evaluate /fast/scratch/hyaku/kengaku-r68/fifo.md is not a regular file
+rc=2
+
+## /dev/zero: typed SETUP rc 2, no MemoryError
+SHONEN /home/vgpnk/Projects/shokunin/kengaku-shokunin/SHONEN.md
+SETUP could-not-evaluate /dev/zero is not a regular file
+rc=2
+
+## invalid UTF-8: typed SETUP rc 2, no traceback
+SHONEN /home/vgpnk/Projects/shokunin/kengaku-shokunin/SHONEN.md
+SETUP could-not-evaluate 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte
+rc=2
+
+## resolved --shonen path is printed
+SHONEN /home/vgpnk/Projects/shokunin/kengaku-shokunin/SHONEN.md
+Traceback (most recent call last):
+  File "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round68_report_contract.py", line 282, in <module>
+    raise SystemExit(main(sys.argv[1:]))
+                     ~~~~^^^^^^^^^^^^^^
+  File "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round68_report_contract.py", line 273, in main
+    print(f"{code} {'ok' if ok else 'defect'} {detail}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+BrokenPipeError: [Errno 32] Broken pipe
+
+## selftest
+SELFTEST r1-attempt1 want=['S1', 'S2', 'S3'] got=['S1', 'S2', 'S3'] ok
+SELFTEST r2-three-boxes want=['S2'] got=['S2'] ok
+SELFTEST r3-no-discernment want=['S3'] got=['S3'] ok
+SELFTEST r4-placeholder want=['S5'] got=['S5'] ok
+SELFTEST r6-wrong-labels want=['S2'] got=['S2'] ok
+SELFTEST r7-order-swapped want=['S1'] got=['S1'] ok
+SELFTEST r8-duplicate-heading want=['S1'] got=['S1'] ok
+SELFTEST r9-unpointed-rows want=['S4'] got=['S4'] ok
+SELFTEST r10-minimal want=['S1', 'S2', 'S3', 'S4', 'S6'] got=['S1', 'S2', 'S3', 'S4', 'S6'] ok
+SELFTEST r11-five-boxes want=['S2'] got=['S2'] ok
+SELFTEST r12-spaced-dup-heading want=['S1'] got=['S1'] ok
+SELFTEST r5-green want=pass got=pass ok
+SELFTEST n=12 red-refused=11 green-ok=1
+rc=0
