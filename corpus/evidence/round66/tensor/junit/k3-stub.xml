@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="12" skipped="0" tests="13" time="12.050" timestamp="2026-11-03T18:01:54.546236-03:00" hostname="plazir27"><testcase classname="test_outputs" name="test_parallel_linear_exists" time="0.000" /><testcase classname="test_outputs" name="test_column_parallel_linear[1-True]" time="0.685"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 0 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 60, in _test_column_parallel_linear&#10;    parallel_layer = ColumnParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = True, world_size = 1
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="12" skipped="0" tests="13" time="11.646" timestamp="2026-11-03T18:04:12.501324-03:00" hostname="plazir27"><testcase classname="test_outputs" name="test_parallel_linear_exists" time="0.000" /><testcase classname="test_outputs" name="test_column_parallel_linear[1-True]" time="0.803"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 0 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 60, in _test_column_parallel_linear&#10;    parallel_layer = ColumnParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = True, world_size = 1
 
     @pytest.mark.parametrize("bias", [True, False])
     @pytest.mark.parametrize("world_size", [1, 2, 4])
@@ -25,7 +25,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
               ^^^^^^^^^^^^^^
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7f57378df8c0&gt;
+self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7fd5927f78c0&gt;
 timeout = None, grace_period = None
 
     def join(self, timeout: float | None = None, grace_period: float | None = None):
@@ -139,7 +139,7 @@ E         File "/app/parallel_linear.py", line 9, in __init__
 E           raise NotImplementedError("ColumnParallelLinear is not implemented")
 E       NotImplementedError: ColumnParallelLinear is not implemented
 
-/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:220: ProcessRaisedException</failure></testcase><testcase classname="test_outputs" name="test_column_parallel_linear[1-False]" time="0.680"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 0 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 60, in _test_column_parallel_linear&#10;    parallel_layer = ColumnParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = False, world_size = 1
+/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:220: ProcessRaisedException</failure></testcase><testcase classname="test_outputs" name="test_column_parallel_linear[1-False]" time="0.701"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 0 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 60, in _test_column_parallel_linear&#10;    parallel_layer = ColumnParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = False, world_size = 1
 
     @pytest.mark.parametrize("bias", [True, False])
     @pytest.mark.parametrize("world_size", [1, 2, 4])
@@ -166,7 +166,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
               ^^^^^^^^^^^^^^
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7f57377b8e10&gt;
+self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7fd5926d0e10&gt;
 timeout = None, grace_period = None
 
     def join(self, timeout: float | None = None, grace_period: float | None = None):
@@ -280,7 +280,7 @@ E         File "/app/parallel_linear.py", line 9, in __init__
 E           raise NotImplementedError("ColumnParallelLinear is not implemented")
 E       NotImplementedError: ColumnParallelLinear is not implemented
 
-/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:220: ProcessRaisedException</failure></testcase><testcase classname="test_outputs" name="test_column_parallel_linear[2-True]" time="1.462"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 1 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 60, in _test_column_parallel_linear&#10;    parallel_layer = ColumnParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = True, world_size = 2
+/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:220: ProcessRaisedException</failure></testcase><testcase classname="test_outputs" name="test_column_parallel_linear[2-True]" time="0.791"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 0 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 60, in _test_column_parallel_linear&#10;    parallel_layer = ColumnParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = True, world_size = 2
 
     @pytest.mark.parametrize("bias", [True, False])
     @pytest.mark.parametrize("world_size", [1, 2, 4])
@@ -307,7 +307,148 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
               ^^^^^^^^^^^^^^
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7f57a40c8b90&gt;
+self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7fd5febccb90&gt;
+timeout = None, grace_period = None
+
+    def join(self, timeout: float | None = None, grace_period: float | None = None):
+        r"""Join one or more processes within spawn context.
+    
+        Attempt to join one or more processes in this spawn context.
+        If one of them exited with a non-zero exit status, this function
+        kills the remaining processes (optionally with a grace period)
+        and raises an exception with the cause of the first process exiting.
+    
+        Returns ``True`` if all processes have been joined successfully,
+        ``False`` if there are more processes that need to be joined.
+    
+        Args:
+            timeout (float): Wait this long (in seconds) before giving up on waiting.
+            grace_period (float): When any processes fail, wait this long (in seconds)
+                for others to shutdown gracefully before terminating them. If they
+                still don't exit, wait another grace period before killing them.
+        """
+        # Ensure this function can be called even when we're done.
+        if len(self.sentinels) == 0:
+            return True
+    
+        # Wait for any process to fail or all of them to succeed.
+        ready = multiprocessing.connection.wait(
+            self.sentinels.keys(),
+            timeout=timeout,
+        )
+    
+        error_index = None
+        for sentinel in ready:
+            index = self.sentinels.pop(sentinel)
+            process = self.processes[index]
+            process.join()
+            if process.exitcode != 0:
+                error_index = index
+                break
+    
+        # Return if there was no error.
+        if error_index is None:
+            # Return whether or not all processes have been joined.
+            return len(self.sentinels) == 0
+        # An error occurred. Clean-up all processes before returning.
+        # First, allow a grace period for processes to shutdown themselves.
+        if grace_period is not None:
+            self._join_procs_with_timeout(grace_period)
+        # Then, terminate processes that are still alive. Try SIGTERM first.
+        for process in self.processes:
+            if process.is_alive():
+                log.warning("Terminating process %s via signal SIGTERM", process.pid)
+                process.terminate()
+    
+        # Try SIGKILL if the process isn't going down after another grace_period.
+        # The reason is related to python signal handling is limited
+        # to main thread and if that is in c/c++ land and stuck it won't
+        # handle it. We have seen processes getting stuck not handling
+        # SIGTERM for the above reason.
+        self._join_procs_with_timeout(30 if grace_period is None else grace_period)
+        for process in self.processes:
+            if process.is_alive():
+                log.warning(
+                    "Unable to shutdown process %s via SIGTERM , forcefully exiting via SIGKILL",
+                    process.pid,
+                )
+                process.kill()
+            process.join()
+    
+        # The file will only be created if the process crashed.
+        failed_process = self.processes[error_index]
+        if not os.access(self.error_files[error_index], os.R_OK):
+            exitcode = self.processes[error_index].exitcode
+            if exitcode &lt; 0:
+                try:
+                    name = signal.Signals(-exitcode).name
+                except ValueError:
+                    name = f"&lt;Unknown signal {-exitcode}&gt;"
+                raise ProcessExitedException(
+                    f"process {error_index:d} terminated with signal {name}",
+                    error_index=error_index,
+                    error_pid=failed_process.pid,
+                    exit_code=exitcode,
+                    signal_name=name,
+                )
+            else:
+                raise ProcessExitedException(
+                    f"process {error_index:d} terminated with exit code {exitcode:d}",
+                    error_index=error_index,
+                    error_pid=failed_process.pid,
+                    exit_code=exitcode,
+                )
+    
+        with open(self.error_files[error_index], "rb") as fh:
+            original_trace = pickle.load(fh)
+        msg = f"\n\n-- Process {error_index:d} terminated with the following error:\n"
+        msg += original_trace
+&gt;       raise ProcessRaisedException(msg, error_index, failed_process.pid)
+E       torch.multiprocessing.spawn.ProcessRaisedException: 
+E       
+E       -- Process 0 terminated with the following error:
+E       Traceback (most recent call last):
+E         File "/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py", line 89, in _wrap
+E           fn(i, *args)
+E           ~~^^^^^^^^^^
+E         File "/tests/test_outputs.py", line 60, in _test_column_parallel_linear
+E           parallel_layer = ColumnParallelLinear(
+E               in_features,
+E           ...&lt;2 lines&gt;...
+E               master_weight=reference_layer.weight.clone().detach(),
+E           )
+E         File "/app/parallel_linear.py", line 9, in __init__
+E           raise NotImplementedError("ColumnParallelLinear is not implemented")
+E       NotImplementedError: ColumnParallelLinear is not implemented
+
+/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:220: ProcessRaisedException</failure></testcase><testcase classname="test_outputs" name="test_column_parallel_linear[2-False]" time="0.784"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 1 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 60, in _test_column_parallel_linear&#10;    parallel_layer = ColumnParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = False, world_size = 2
+
+    @pytest.mark.parametrize("bias", [True, False])
+    @pytest.mark.parametrize("world_size", [1, 2, 4])
+    def test_column_parallel_linear(bias, world_size):
+        """
+        Checks that ColumnParallelLinear slices weights and bias correctly,
+        and produces correct output and gradients for different world sizes
+        and bias settings.
+        """
+&gt;       mp.spawn(
+            _test_column_parallel_linear,
+            args=(world_size, bias),
+            nprocs=world_size,
+            join=True,
+        )
+
+/tests/test_outputs.py:193: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:349: in spawn
+    return start_processes(fn, args, nprocs, join, daemon, start_method="spawn")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:305: in start_processes
+    while not context.join():
+              ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7fd592660fc0&gt;
 timeout = None, grace_period = None
 
     def join(self, timeout: float | None = None, grace_period: float | None = None):
@@ -421,7 +562,7 @@ E         File "/app/parallel_linear.py", line 9, in __init__
 E           raise NotImplementedError("ColumnParallelLinear is not implemented")
 E       NotImplementedError: ColumnParallelLinear is not implemented
 
-/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:220: ProcessRaisedException</failure></testcase><testcase classname="test_outputs" name="test_column_parallel_linear[2-False]" time="0.759"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 1 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 60, in _test_column_parallel_linear&#10;    parallel_layer = ColumnParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = False, world_size = 2
+/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:220: ProcessRaisedException</failure></testcase><testcase classname="test_outputs" name="test_column_parallel_linear[4-True]" time="0.844"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 2 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 60, in _test_column_parallel_linear&#10;    parallel_layer = ColumnParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = True, world_size = 4
 
     @pytest.mark.parametrize("bias", [True, False])
     @pytest.mark.parametrize("world_size", [1, 2, 4])
@@ -448,7 +589,148 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
               ^^^^^^^^^^^^^^
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7f573774cfc0&gt;
+self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7fd592661e00&gt;
+timeout = None, grace_period = None
+
+    def join(self, timeout: float | None = None, grace_period: float | None = None):
+        r"""Join one or more processes within spawn context.
+    
+        Attempt to join one or more processes in this spawn context.
+        If one of them exited with a non-zero exit status, this function
+        kills the remaining processes (optionally with a grace period)
+        and raises an exception with the cause of the first process exiting.
+    
+        Returns ``True`` if all processes have been joined successfully,
+        ``False`` if there are more processes that need to be joined.
+    
+        Args:
+            timeout (float): Wait this long (in seconds) before giving up on waiting.
+            grace_period (float): When any processes fail, wait this long (in seconds)
+                for others to shutdown gracefully before terminating them. If they
+                still don't exit, wait another grace period before killing them.
+        """
+        # Ensure this function can be called even when we're done.
+        if len(self.sentinels) == 0:
+            return True
+    
+        # Wait for any process to fail or all of them to succeed.
+        ready = multiprocessing.connection.wait(
+            self.sentinels.keys(),
+            timeout=timeout,
+        )
+    
+        error_index = None
+        for sentinel in ready:
+            index = self.sentinels.pop(sentinel)
+            process = self.processes[index]
+            process.join()
+            if process.exitcode != 0:
+                error_index = index
+                break
+    
+        # Return if there was no error.
+        if error_index is None:
+            # Return whether or not all processes have been joined.
+            return len(self.sentinels) == 0
+        # An error occurred. Clean-up all processes before returning.
+        # First, allow a grace period for processes to shutdown themselves.
+        if grace_period is not None:
+            self._join_procs_with_timeout(grace_period)
+        # Then, terminate processes that are still alive. Try SIGTERM first.
+        for process in self.processes:
+            if process.is_alive():
+                log.warning("Terminating process %s via signal SIGTERM", process.pid)
+                process.terminate()
+    
+        # Try SIGKILL if the process isn't going down after another grace_period.
+        # The reason is related to python signal handling is limited
+        # to main thread and if that is in c/c++ land and stuck it won't
+        # handle it. We have seen processes getting stuck not handling
+        # SIGTERM for the above reason.
+        self._join_procs_with_timeout(30 if grace_period is None else grace_period)
+        for process in self.processes:
+            if process.is_alive():
+                log.warning(
+                    "Unable to shutdown process %s via SIGTERM , forcefully exiting via SIGKILL",
+                    process.pid,
+                )
+                process.kill()
+            process.join()
+    
+        # The file will only be created if the process crashed.
+        failed_process = self.processes[error_index]
+        if not os.access(self.error_files[error_index], os.R_OK):
+            exitcode = self.processes[error_index].exitcode
+            if exitcode &lt; 0:
+                try:
+                    name = signal.Signals(-exitcode).name
+                except ValueError:
+                    name = f"&lt;Unknown signal {-exitcode}&gt;"
+                raise ProcessExitedException(
+                    f"process {error_index:d} terminated with signal {name}",
+                    error_index=error_index,
+                    error_pid=failed_process.pid,
+                    exit_code=exitcode,
+                    signal_name=name,
+                )
+            else:
+                raise ProcessExitedException(
+                    f"process {error_index:d} terminated with exit code {exitcode:d}",
+                    error_index=error_index,
+                    error_pid=failed_process.pid,
+                    exit_code=exitcode,
+                )
+    
+        with open(self.error_files[error_index], "rb") as fh:
+            original_trace = pickle.load(fh)
+        msg = f"\n\n-- Process {error_index:d} terminated with the following error:\n"
+        msg += original_trace
+&gt;       raise ProcessRaisedException(msg, error_index, failed_process.pid)
+E       torch.multiprocessing.spawn.ProcessRaisedException: 
+E       
+E       -- Process 2 terminated with the following error:
+E       Traceback (most recent call last):
+E         File "/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py", line 89, in _wrap
+E           fn(i, *args)
+E           ~~^^^^^^^^^^
+E         File "/tests/test_outputs.py", line 60, in _test_column_parallel_linear
+E           parallel_layer = ColumnParallelLinear(
+E               in_features,
+E           ...&lt;2 lines&gt;...
+E               master_weight=reference_layer.weight.clone().detach(),
+E           )
+E         File "/app/parallel_linear.py", line 9, in __init__
+E           raise NotImplementedError("ColumnParallelLinear is not implemented")
+E       NotImplementedError: ColumnParallelLinear is not implemented
+
+/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:220: ProcessRaisedException</failure></testcase><testcase classname="test_outputs" name="test_column_parallel_linear[4-False]" time="1.504"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 1 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 60, in _test_column_parallel_linear&#10;    parallel_layer = ColumnParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = False, world_size = 4
+
+    @pytest.mark.parametrize("bias", [True, False])
+    @pytest.mark.parametrize("world_size", [1, 2, 4])
+    def test_column_parallel_linear(bias, world_size):
+        """
+        Checks that ColumnParallelLinear slices weights and bias correctly,
+        and produces correct output and gradients for different world sizes
+        and bias settings.
+        """
+&gt;       mp.spawn(
+            _test_column_parallel_linear,
+            args=(world_size, bias),
+            nprocs=world_size,
+            join=True,
+        )
+
+/tests/test_outputs.py:193: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:349: in spawn
+    return start_processes(fn, args, nprocs, join, daemon, start_method="spawn")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:305: in start_processes
+    while not context.join():
+              ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7fd59265a7b0&gt;
 timeout = None, grace_period = None
 
     def join(self, timeout: float | None = None, grace_period: float | None = None):
@@ -562,289 +844,7 @@ E         File "/app/parallel_linear.py", line 9, in __init__
 E           raise NotImplementedError("ColumnParallelLinear is not implemented")
 E       NotImplementedError: ColumnParallelLinear is not implemented
 
-/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:220: ProcessRaisedException</failure></testcase><testcase classname="test_outputs" name="test_column_parallel_linear[4-True]" time="1.341"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 2 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 60, in _test_column_parallel_linear&#10;    parallel_layer = ColumnParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = True, world_size = 4
-
-    @pytest.mark.parametrize("bias", [True, False])
-    @pytest.mark.parametrize("world_size", [1, 2, 4])
-    def test_column_parallel_linear(bias, world_size):
-        """
-        Checks that ColumnParallelLinear slices weights and bias correctly,
-        and produces correct output and gradients for different world sizes
-        and bias settings.
-        """
-&gt;       mp.spawn(
-            _test_column_parallel_linear,
-            args=(world_size, bias),
-            nprocs=world_size,
-            join=True,
-        )
-
-/tests/test_outputs.py:193: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:349: in spawn
-    return start_processes(fn, args, nprocs, join, daemon, start_method="spawn")
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:305: in start_processes
-    while not context.join():
-              ^^^^^^^^^^^^^^
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7f573774de00&gt;
-timeout = None, grace_period = None
-
-    def join(self, timeout: float | None = None, grace_period: float | None = None):
-        r"""Join one or more processes within spawn context.
-    
-        Attempt to join one or more processes in this spawn context.
-        If one of them exited with a non-zero exit status, this function
-        kills the remaining processes (optionally with a grace period)
-        and raises an exception with the cause of the first process exiting.
-    
-        Returns ``True`` if all processes have been joined successfully,
-        ``False`` if there are more processes that need to be joined.
-    
-        Args:
-            timeout (float): Wait this long (in seconds) before giving up on waiting.
-            grace_period (float): When any processes fail, wait this long (in seconds)
-                for others to shutdown gracefully before terminating them. If they
-                still don't exit, wait another grace period before killing them.
-        """
-        # Ensure this function can be called even when we're done.
-        if len(self.sentinels) == 0:
-            return True
-    
-        # Wait for any process to fail or all of them to succeed.
-        ready = multiprocessing.connection.wait(
-            self.sentinels.keys(),
-            timeout=timeout,
-        )
-    
-        error_index = None
-        for sentinel in ready:
-            index = self.sentinels.pop(sentinel)
-            process = self.processes[index]
-            process.join()
-            if process.exitcode != 0:
-                error_index = index
-                break
-    
-        # Return if there was no error.
-        if error_index is None:
-            # Return whether or not all processes have been joined.
-            return len(self.sentinels) == 0
-        # An error occurred. Clean-up all processes before returning.
-        # First, allow a grace period for processes to shutdown themselves.
-        if grace_period is not None:
-            self._join_procs_with_timeout(grace_period)
-        # Then, terminate processes that are still alive. Try SIGTERM first.
-        for process in self.processes:
-            if process.is_alive():
-                log.warning("Terminating process %s via signal SIGTERM", process.pid)
-                process.terminate()
-    
-        # Try SIGKILL if the process isn't going down after another grace_period.
-        # The reason is related to python signal handling is limited
-        # to main thread and if that is in c/c++ land and stuck it won't
-        # handle it. We have seen processes getting stuck not handling
-        # SIGTERM for the above reason.
-        self._join_procs_with_timeout(30 if grace_period is None else grace_period)
-        for process in self.processes:
-            if process.is_alive():
-                log.warning(
-                    "Unable to shutdown process %s via SIGTERM , forcefully exiting via SIGKILL",
-                    process.pid,
-                )
-                process.kill()
-            process.join()
-    
-        # The file will only be created if the process crashed.
-        failed_process = self.processes[error_index]
-        if not os.access(self.error_files[error_index], os.R_OK):
-            exitcode = self.processes[error_index].exitcode
-            if exitcode &lt; 0:
-                try:
-                    name = signal.Signals(-exitcode).name
-                except ValueError:
-                    name = f"&lt;Unknown signal {-exitcode}&gt;"
-                raise ProcessExitedException(
-                    f"process {error_index:d} terminated with signal {name}",
-                    error_index=error_index,
-                    error_pid=failed_process.pid,
-                    exit_code=exitcode,
-                    signal_name=name,
-                )
-            else:
-                raise ProcessExitedException(
-                    f"process {error_index:d} terminated with exit code {exitcode:d}",
-                    error_index=error_index,
-                    error_pid=failed_process.pid,
-                    exit_code=exitcode,
-                )
-    
-        with open(self.error_files[error_index], "rb") as fh:
-            original_trace = pickle.load(fh)
-        msg = f"\n\n-- Process {error_index:d} terminated with the following error:\n"
-        msg += original_trace
-&gt;       raise ProcessRaisedException(msg, error_index, failed_process.pid)
-E       torch.multiprocessing.spawn.ProcessRaisedException: 
-E       
-E       -- Process 2 terminated with the following error:
-E       Traceback (most recent call last):
-E         File "/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py", line 89, in _wrap
-E           fn(i, *args)
-E           ~~^^^^^^^^^^
-E         File "/tests/test_outputs.py", line 60, in _test_column_parallel_linear
-E           parallel_layer = ColumnParallelLinear(
-E               in_features,
-E           ...&lt;2 lines&gt;...
-E               master_weight=reference_layer.weight.clone().detach(),
-E           )
-E         File "/app/parallel_linear.py", line 9, in __init__
-E           raise NotImplementedError("ColumnParallelLinear is not implemented")
-E       NotImplementedError: ColumnParallelLinear is not implemented
-
-/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:220: ProcessRaisedException</failure></testcase><testcase classname="test_outputs" name="test_column_parallel_linear[4-False]" time="0.831"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 2 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 60, in _test_column_parallel_linear&#10;    parallel_layer = ColumnParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = False, world_size = 4
-
-    @pytest.mark.parametrize("bias", [True, False])
-    @pytest.mark.parametrize("world_size", [1, 2, 4])
-    def test_column_parallel_linear(bias, world_size):
-        """
-        Checks that ColumnParallelLinear slices weights and bias correctly,
-        and produces correct output and gradients for different world sizes
-        and bias settings.
-        """
-&gt;       mp.spawn(
-            _test_column_parallel_linear,
-            args=(world_size, bias),
-            nprocs=world_size,
-            join=True,
-        )
-
-/tests/test_outputs.py:193: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:349: in spawn
-    return start_processes(fn, args, nprocs, join, daemon, start_method="spawn")
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:305: in start_processes
-    while not context.join():
-              ^^^^^^^^^^^^^^
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7f57377467b0&gt;
-timeout = None, grace_period = None
-
-    def join(self, timeout: float | None = None, grace_period: float | None = None):
-        r"""Join one or more processes within spawn context.
-    
-        Attempt to join one or more processes in this spawn context.
-        If one of them exited with a non-zero exit status, this function
-        kills the remaining processes (optionally with a grace period)
-        and raises an exception with the cause of the first process exiting.
-    
-        Returns ``True`` if all processes have been joined successfully,
-        ``False`` if there are more processes that need to be joined.
-    
-        Args:
-            timeout (float): Wait this long (in seconds) before giving up on waiting.
-            grace_period (float): When any processes fail, wait this long (in seconds)
-                for others to shutdown gracefully before terminating them. If they
-                still don't exit, wait another grace period before killing them.
-        """
-        # Ensure this function can be called even when we're done.
-        if len(self.sentinels) == 0:
-            return True
-    
-        # Wait for any process to fail or all of them to succeed.
-        ready = multiprocessing.connection.wait(
-            self.sentinels.keys(),
-            timeout=timeout,
-        )
-    
-        error_index = None
-        for sentinel in ready:
-            index = self.sentinels.pop(sentinel)
-            process = self.processes[index]
-            process.join()
-            if process.exitcode != 0:
-                error_index = index
-                break
-    
-        # Return if there was no error.
-        if error_index is None:
-            # Return whether or not all processes have been joined.
-            return len(self.sentinels) == 0
-        # An error occurred. Clean-up all processes before returning.
-        # First, allow a grace period for processes to shutdown themselves.
-        if grace_period is not None:
-            self._join_procs_with_timeout(grace_period)
-        # Then, terminate processes that are still alive. Try SIGTERM first.
-        for process in self.processes:
-            if process.is_alive():
-                log.warning("Terminating process %s via signal SIGTERM", process.pid)
-                process.terminate()
-    
-        # Try SIGKILL if the process isn't going down after another grace_period.
-        # The reason is related to python signal handling is limited
-        # to main thread and if that is in c/c++ land and stuck it won't
-        # handle it. We have seen processes getting stuck not handling
-        # SIGTERM for the above reason.
-        self._join_procs_with_timeout(30 if grace_period is None else grace_period)
-        for process in self.processes:
-            if process.is_alive():
-                log.warning(
-                    "Unable to shutdown process %s via SIGTERM , forcefully exiting via SIGKILL",
-                    process.pid,
-                )
-                process.kill()
-            process.join()
-    
-        # The file will only be created if the process crashed.
-        failed_process = self.processes[error_index]
-        if not os.access(self.error_files[error_index], os.R_OK):
-            exitcode = self.processes[error_index].exitcode
-            if exitcode &lt; 0:
-                try:
-                    name = signal.Signals(-exitcode).name
-                except ValueError:
-                    name = f"&lt;Unknown signal {-exitcode}&gt;"
-                raise ProcessExitedException(
-                    f"process {error_index:d} terminated with signal {name}",
-                    error_index=error_index,
-                    error_pid=failed_process.pid,
-                    exit_code=exitcode,
-                    signal_name=name,
-                )
-            else:
-                raise ProcessExitedException(
-                    f"process {error_index:d} terminated with exit code {exitcode:d}",
-                    error_index=error_index,
-                    error_pid=failed_process.pid,
-                    exit_code=exitcode,
-                )
-    
-        with open(self.error_files[error_index], "rb") as fh:
-            original_trace = pickle.load(fh)
-        msg = f"\n\n-- Process {error_index:d} terminated with the following error:\n"
-        msg += original_trace
-&gt;       raise ProcessRaisedException(msg, error_index, failed_process.pid)
-E       torch.multiprocessing.spawn.ProcessRaisedException: 
-E       
-E       -- Process 2 terminated with the following error:
-E       Traceback (most recent call last):
-E         File "/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py", line 89, in _wrap
-E           fn(i, *args)
-E           ~~^^^^^^^^^^
-E         File "/tests/test_outputs.py", line 60, in _test_column_parallel_linear
-E           parallel_layer = ColumnParallelLinear(
-E               in_features,
-E           ...&lt;2 lines&gt;...
-E               master_weight=reference_layer.weight.clone().detach(),
-E           )
-E         File "/app/parallel_linear.py", line 9, in __init__
-E           raise NotImplementedError("ColumnParallelLinear is not implemented")
-E       NotImplementedError: ColumnParallelLinear is not implemented
-
-/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:220: ProcessRaisedException</failure></testcase><testcase classname="test_outputs" name="test_row_parallel_linear[1-True]" time="0.676"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 0 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 129, in _test_row_parallel_linear&#10;    parallel_layer = RowParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = True, world_size = 1
+/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:220: ProcessRaisedException</failure></testcase><testcase classname="test_outputs" name="test_row_parallel_linear[1-True]" time="0.704"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 0 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 129, in _test_row_parallel_linear&#10;    parallel_layer = RowParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = True, world_size = 1
 
     @pytest.mark.parametrize("bias", [True, False])
     @pytest.mark.parametrize("world_size", [1, 2, 4])
@@ -868,7 +868,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
               ^^^^^^^^^^^^^^
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7f57377c5260&gt;
+self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7fd5926dd260&gt;
 timeout = None, grace_period = None
 
     def join(self, timeout: float | None = None, grace_period: float | None = None):
@@ -982,7 +982,7 @@ E         File "/app/parallel_linear.py", line 14, in __init__
 E           raise NotImplementedError("RowParallelLinear is not implemented")
 E       NotImplementedError: RowParallelLinear is not implemented
 
-/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:220: ProcessRaisedException</failure></testcase><testcase classname="test_outputs" name="test_row_parallel_linear[1-False]" time="0.663"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 0 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 129, in _test_row_parallel_linear&#10;    parallel_layer = RowParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = False, world_size = 1
+/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:220: ProcessRaisedException</failure></testcase><testcase classname="test_outputs" name="test_row_parallel_linear[1-False]" time="0.678"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 0 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 129, in _test_row_parallel_linear&#10;    parallel_layer = RowParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = False, world_size = 1
 
     @pytest.mark.parametrize("bias", [True, False])
     @pytest.mark.parametrize("world_size", [1, 2, 4])
@@ -1006,7 +1006,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
               ^^^^^^^^^^^^^^
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7f57377c56a0&gt;
+self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7fd5926dd6a0&gt;
 timeout = None, grace_period = None
 
     def join(self, timeout: float | None = None, grace_period: float | None = None):
@@ -1120,7 +1120,7 @@ E         File "/app/parallel_linear.py", line 14, in __init__
 E           raise NotImplementedError("RowParallelLinear is not implemented")
 E       NotImplementedError: RowParallelLinear is not implemented
 
-/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:220: ProcessRaisedException</failure></testcase><testcase classname="test_outputs" name="test_row_parallel_linear[2-True]" time="0.733"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 0 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 129, in _test_row_parallel_linear&#10;    parallel_layer = RowParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = True, world_size = 2
+/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:220: ProcessRaisedException</failure></testcase><testcase classname="test_outputs" name="test_row_parallel_linear[2-True]" time="0.737"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 0 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 129, in _test_row_parallel_linear&#10;    parallel_layer = RowParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = True, world_size = 2
 
     @pytest.mark.parametrize("bias", [True, False])
     @pytest.mark.parametrize("world_size", [1, 2, 4])
@@ -1144,7 +1144,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
               ^^^^^^^^^^^^^^
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7f573a579d50&gt;
+self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7fd595491c50&gt;
 timeout = None, grace_period = None
 
     def join(self, timeout: float | None = None, grace_period: float | None = None):
@@ -1258,7 +1258,7 @@ E         File "/app/parallel_linear.py", line 14, in __init__
 E           raise NotImplementedError("RowParallelLinear is not implemented")
 E       NotImplementedError: RowParallelLinear is not implemented
 
-/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:220: ProcessRaisedException</failure></testcase><testcase classname="test_outputs" name="test_row_parallel_linear[2-False]" time="1.468"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 0 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 129, in _test_row_parallel_linear&#10;    parallel_layer = RowParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = False, world_size = 2
+/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:220: ProcessRaisedException</failure></testcase><testcase classname="test_outputs" name="test_row_parallel_linear[2-False]" time="0.741"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 1 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 129, in _test_row_parallel_linear&#10;    parallel_layer = RowParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = False, world_size = 2
 
     @pytest.mark.parametrize("bias", [True, False])
     @pytest.mark.parametrize("world_size", [1, 2, 4])
@@ -1282,283 +1282,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
               ^^^^^^^^^^^^^^
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7f57377f5650&gt;
-timeout = None, grace_period = None
-
-    def join(self, timeout: float | None = None, grace_period: float | None = None):
-        r"""Join one or more processes within spawn context.
-    
-        Attempt to join one or more processes in this spawn context.
-        If one of them exited with a non-zero exit status, this function
-        kills the remaining processes (optionally with a grace period)
-        and raises an exception with the cause of the first process exiting.
-    
-        Returns ``True`` if all processes have been joined successfully,
-        ``False`` if there are more processes that need to be joined.
-    
-        Args:
-            timeout (float): Wait this long (in seconds) before giving up on waiting.
-            grace_period (float): When any processes fail, wait this long (in seconds)
-                for others to shutdown gracefully before terminating them. If they
-                still don't exit, wait another grace period before killing them.
-        """
-        # Ensure this function can be called even when we're done.
-        if len(self.sentinels) == 0:
-            return True
-    
-        # Wait for any process to fail or all of them to succeed.
-        ready = multiprocessing.connection.wait(
-            self.sentinels.keys(),
-            timeout=timeout,
-        )
-    
-        error_index = None
-        for sentinel in ready:
-            index = self.sentinels.pop(sentinel)
-            process = self.processes[index]
-            process.join()
-            if process.exitcode != 0:
-                error_index = index
-                break
-    
-        # Return if there was no error.
-        if error_index is None:
-            # Return whether or not all processes have been joined.
-            return len(self.sentinels) == 0
-        # An error occurred. Clean-up all processes before returning.
-        # First, allow a grace period for processes to shutdown themselves.
-        if grace_period is not None:
-            self._join_procs_with_timeout(grace_period)
-        # Then, terminate processes that are still alive. Try SIGTERM first.
-        for process in self.processes:
-            if process.is_alive():
-                log.warning("Terminating process %s via signal SIGTERM", process.pid)
-                process.terminate()
-    
-        # Try SIGKILL if the process isn't going down after another grace_period.
-        # The reason is related to python signal handling is limited
-        # to main thread and if that is in c/c++ land and stuck it won't
-        # handle it. We have seen processes getting stuck not handling
-        # SIGTERM for the above reason.
-        self._join_procs_with_timeout(30 if grace_period is None else grace_period)
-        for process in self.processes:
-            if process.is_alive():
-                log.warning(
-                    "Unable to shutdown process %s via SIGTERM , forcefully exiting via SIGKILL",
-                    process.pid,
-                )
-                process.kill()
-            process.join()
-    
-        # The file will only be created if the process crashed.
-        failed_process = self.processes[error_index]
-        if not os.access(self.error_files[error_index], os.R_OK):
-            exitcode = self.processes[error_index].exitcode
-            if exitcode &lt; 0:
-                try:
-                    name = signal.Signals(-exitcode).name
-                except ValueError:
-                    name = f"&lt;Unknown signal {-exitcode}&gt;"
-                raise ProcessExitedException(
-                    f"process {error_index:d} terminated with signal {name}",
-                    error_index=error_index,
-                    error_pid=failed_process.pid,
-                    exit_code=exitcode,
-                    signal_name=name,
-                )
-            else:
-                raise ProcessExitedException(
-                    f"process {error_index:d} terminated with exit code {exitcode:d}",
-                    error_index=error_index,
-                    error_pid=failed_process.pid,
-                    exit_code=exitcode,
-                )
-    
-        with open(self.error_files[error_index], "rb") as fh:
-            original_trace = pickle.load(fh)
-        msg = f"\n\n-- Process {error_index:d} terminated with the following error:\n"
-        msg += original_trace
-&gt;       raise ProcessRaisedException(msg, error_index, failed_process.pid)
-E       torch.multiprocessing.spawn.ProcessRaisedException: 
-E       
-E       -- Process 0 terminated with the following error:
-E       Traceback (most recent call last):
-E         File "/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py", line 89, in _wrap
-E           fn(i, *args)
-E           ~~^^^^^^^^^^
-E         File "/tests/test_outputs.py", line 129, in _test_row_parallel_linear
-E           parallel_layer = RowParallelLinear(
-E               in_features,
-E           ...&lt;2 lines&gt;...
-E               master_weight=reference_layer.weight.clone().detach(),
-E           )
-E         File "/app/parallel_linear.py", line 14, in __init__
-E           raise NotImplementedError("RowParallelLinear is not implemented")
-E       NotImplementedError: RowParallelLinear is not implemented
-
-/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:220: ProcessRaisedException</failure></testcase><testcase classname="test_outputs" name="test_row_parallel_linear[4-True]" time="1.415"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 2 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 129, in _test_row_parallel_linear&#10;    parallel_layer = RowParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = True, world_size = 4
-
-    @pytest.mark.parametrize("bias", [True, False])
-    @pytest.mark.parametrize("world_size", [1, 2, 4])
-    def test_row_parallel_linear(bias, world_size):
-        """
-        Checks that RowParallelLinear slices weights and bias correctly,
-        and produces correct output and gradients for different world sizes
-        and bias settings.
-        """
-&gt;       mp.spawn(
-            _test_row_parallel_linear, args=(world_size, bias), nprocs=world_size, join=True
-        )
-
-/tests/test_outputs.py:209: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:349: in spawn
-    return start_processes(fn, args, nprocs, join, daemon, start_method="spawn")
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:305: in start_processes
-    while not context.join():
-              ^^^^^^^^^^^^^^
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7f57376b8320&gt;
-timeout = None, grace_period = None
-
-    def join(self, timeout: float | None = None, grace_period: float | None = None):
-        r"""Join one or more processes within spawn context.
-    
-        Attempt to join one or more processes in this spawn context.
-        If one of them exited with a non-zero exit status, this function
-        kills the remaining processes (optionally with a grace period)
-        and raises an exception with the cause of the first process exiting.
-    
-        Returns ``True`` if all processes have been joined successfully,
-        ``False`` if there are more processes that need to be joined.
-    
-        Args:
-            timeout (float): Wait this long (in seconds) before giving up on waiting.
-            grace_period (float): When any processes fail, wait this long (in seconds)
-                for others to shutdown gracefully before terminating them. If they
-                still don't exit, wait another grace period before killing them.
-        """
-        # Ensure this function can be called even when we're done.
-        if len(self.sentinels) == 0:
-            return True
-    
-        # Wait for any process to fail or all of them to succeed.
-        ready = multiprocessing.connection.wait(
-            self.sentinels.keys(),
-            timeout=timeout,
-        )
-    
-        error_index = None
-        for sentinel in ready:
-            index = self.sentinels.pop(sentinel)
-            process = self.processes[index]
-            process.join()
-            if process.exitcode != 0:
-                error_index = index
-                break
-    
-        # Return if there was no error.
-        if error_index is None:
-            # Return whether or not all processes have been joined.
-            return len(self.sentinels) == 0
-        # An error occurred. Clean-up all processes before returning.
-        # First, allow a grace period for processes to shutdown themselves.
-        if grace_period is not None:
-            self._join_procs_with_timeout(grace_period)
-        # Then, terminate processes that are still alive. Try SIGTERM first.
-        for process in self.processes:
-            if process.is_alive():
-                log.warning("Terminating process %s via signal SIGTERM", process.pid)
-                process.terminate()
-    
-        # Try SIGKILL if the process isn't going down after another grace_period.
-        # The reason is related to python signal handling is limited
-        # to main thread and if that is in c/c++ land and stuck it won't
-        # handle it. We have seen processes getting stuck not handling
-        # SIGTERM for the above reason.
-        self._join_procs_with_timeout(30 if grace_period is None else grace_period)
-        for process in self.processes:
-            if process.is_alive():
-                log.warning(
-                    "Unable to shutdown process %s via SIGTERM , forcefully exiting via SIGKILL",
-                    process.pid,
-                )
-                process.kill()
-            process.join()
-    
-        # The file will only be created if the process crashed.
-        failed_process = self.processes[error_index]
-        if not os.access(self.error_files[error_index], os.R_OK):
-            exitcode = self.processes[error_index].exitcode
-            if exitcode &lt; 0:
-                try:
-                    name = signal.Signals(-exitcode).name
-                except ValueError:
-                    name = f"&lt;Unknown signal {-exitcode}&gt;"
-                raise ProcessExitedException(
-                    f"process {error_index:d} terminated with signal {name}",
-                    error_index=error_index,
-                    error_pid=failed_process.pid,
-                    exit_code=exitcode,
-                    signal_name=name,
-                )
-            else:
-                raise ProcessExitedException(
-                    f"process {error_index:d} terminated with exit code {exitcode:d}",
-                    error_index=error_index,
-                    error_pid=failed_process.pid,
-                    exit_code=exitcode,
-                )
-    
-        with open(self.error_files[error_index], "rb") as fh:
-            original_trace = pickle.load(fh)
-        msg = f"\n\n-- Process {error_index:d} terminated with the following error:\n"
-        msg += original_trace
-&gt;       raise ProcessRaisedException(msg, error_index, failed_process.pid)
-E       torch.multiprocessing.spawn.ProcessRaisedException: 
-E       
-E       -- Process 2 terminated with the following error:
-E       Traceback (most recent call last):
-E         File "/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py", line 89, in _wrap
-E           fn(i, *args)
-E           ~~^^^^^^^^^^
-E         File "/tests/test_outputs.py", line 129, in _test_row_parallel_linear
-E           parallel_layer = RowParallelLinear(
-E               in_features,
-E           ...&lt;2 lines&gt;...
-E               master_weight=reference_layer.weight.clone().detach(),
-E           )
-E         File "/app/parallel_linear.py", line 14, in __init__
-E           raise NotImplementedError("RowParallelLinear is not implemented")
-E       NotImplementedError: RowParallelLinear is not implemented
-
-/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:220: ProcessRaisedException</failure></testcase><testcase classname="test_outputs" name="test_row_parallel_linear[4-False]" time="0.803"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 1 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 129, in _test_row_parallel_linear&#10;    parallel_layer = RowParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = False, world_size = 4
-
-    @pytest.mark.parametrize("bias", [True, False])
-    @pytest.mark.parametrize("world_size", [1, 2, 4])
-    def test_row_parallel_linear(bias, world_size):
-        """
-        Checks that RowParallelLinear slices weights and bias correctly,
-        and produces correct output and gradients for different world sizes
-        and bias settings.
-        """
-&gt;       mp.spawn(
-            _test_row_parallel_linear, args=(world_size, bias), nprocs=world_size, join=True
-        )
-
-/tests/test_outputs.py:209: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:349: in spawn
-    return start_processes(fn, args, nprocs, join, daemon, start_method="spawn")
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:305: in start_processes
-    while not context.join():
-              ^^^^^^^^^^^^^^
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7f57376b9040&gt;
+self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7fd59256d550&gt;
 timeout = None, grace_period = None
 
     def join(self, timeout: float | None = None, grace_period: float | None = None):
@@ -1658,6 +1382,282 @@ timeout = None, grace_period = None
 E       torch.multiprocessing.spawn.ProcessRaisedException: 
 E       
 E       -- Process 1 terminated with the following error:
+E       Traceback (most recent call last):
+E         File "/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py", line 89, in _wrap
+E           fn(i, *args)
+E           ~~^^^^^^^^^^
+E         File "/tests/test_outputs.py", line 129, in _test_row_parallel_linear
+E           parallel_layer = RowParallelLinear(
+E               in_features,
+E           ...&lt;2 lines&gt;...
+E               master_weight=reference_layer.weight.clone().detach(),
+E           )
+E         File "/app/parallel_linear.py", line 14, in __init__
+E           raise NotImplementedError("RowParallelLinear is not implemented")
+E       NotImplementedError: RowParallelLinear is not implemented
+
+/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:220: ProcessRaisedException</failure></testcase><testcase classname="test_outputs" name="test_row_parallel_linear[4-True]" time="1.349"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 3 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 129, in _test_row_parallel_linear&#10;    parallel_layer = RowParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = True, world_size = 4
+
+    @pytest.mark.parametrize("bias", [True, False])
+    @pytest.mark.parametrize("world_size", [1, 2, 4])
+    def test_row_parallel_linear(bias, world_size):
+        """
+        Checks that RowParallelLinear slices weights and bias correctly,
+        and produces correct output and gradients for different world sizes
+        and bias settings.
+        """
+&gt;       mp.spawn(
+            _test_row_parallel_linear, args=(world_size, bias), nprocs=world_size, join=True
+        )
+
+/tests/test_outputs.py:209: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:349: in spawn
+    return start_processes(fn, args, nprocs, join, daemon, start_method="spawn")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:305: in start_processes
+    while not context.join():
+              ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7fd5925bc320&gt;
+timeout = None, grace_period = None
+
+    def join(self, timeout: float | None = None, grace_period: float | None = None):
+        r"""Join one or more processes within spawn context.
+    
+        Attempt to join one or more processes in this spawn context.
+        If one of them exited with a non-zero exit status, this function
+        kills the remaining processes (optionally with a grace period)
+        and raises an exception with the cause of the first process exiting.
+    
+        Returns ``True`` if all processes have been joined successfully,
+        ``False`` if there are more processes that need to be joined.
+    
+        Args:
+            timeout (float): Wait this long (in seconds) before giving up on waiting.
+            grace_period (float): When any processes fail, wait this long (in seconds)
+                for others to shutdown gracefully before terminating them. If they
+                still don't exit, wait another grace period before killing them.
+        """
+        # Ensure this function can be called even when we're done.
+        if len(self.sentinels) == 0:
+            return True
+    
+        # Wait for any process to fail or all of them to succeed.
+        ready = multiprocessing.connection.wait(
+            self.sentinels.keys(),
+            timeout=timeout,
+        )
+    
+        error_index = None
+        for sentinel in ready:
+            index = self.sentinels.pop(sentinel)
+            process = self.processes[index]
+            process.join()
+            if process.exitcode != 0:
+                error_index = index
+                break
+    
+        # Return if there was no error.
+        if error_index is None:
+            # Return whether or not all processes have been joined.
+            return len(self.sentinels) == 0
+        # An error occurred. Clean-up all processes before returning.
+        # First, allow a grace period for processes to shutdown themselves.
+        if grace_period is not None:
+            self._join_procs_with_timeout(grace_period)
+        # Then, terminate processes that are still alive. Try SIGTERM first.
+        for process in self.processes:
+            if process.is_alive():
+                log.warning("Terminating process %s via signal SIGTERM", process.pid)
+                process.terminate()
+    
+        # Try SIGKILL if the process isn't going down after another grace_period.
+        # The reason is related to python signal handling is limited
+        # to main thread and if that is in c/c++ land and stuck it won't
+        # handle it. We have seen processes getting stuck not handling
+        # SIGTERM for the above reason.
+        self._join_procs_with_timeout(30 if grace_period is None else grace_period)
+        for process in self.processes:
+            if process.is_alive():
+                log.warning(
+                    "Unable to shutdown process %s via SIGTERM , forcefully exiting via SIGKILL",
+                    process.pid,
+                )
+                process.kill()
+            process.join()
+    
+        # The file will only be created if the process crashed.
+        failed_process = self.processes[error_index]
+        if not os.access(self.error_files[error_index], os.R_OK):
+            exitcode = self.processes[error_index].exitcode
+            if exitcode &lt; 0:
+                try:
+                    name = signal.Signals(-exitcode).name
+                except ValueError:
+                    name = f"&lt;Unknown signal {-exitcode}&gt;"
+                raise ProcessExitedException(
+                    f"process {error_index:d} terminated with signal {name}",
+                    error_index=error_index,
+                    error_pid=failed_process.pid,
+                    exit_code=exitcode,
+                    signal_name=name,
+                )
+            else:
+                raise ProcessExitedException(
+                    f"process {error_index:d} terminated with exit code {exitcode:d}",
+                    error_index=error_index,
+                    error_pid=failed_process.pid,
+                    exit_code=exitcode,
+                )
+    
+        with open(self.error_files[error_index], "rb") as fh:
+            original_trace = pickle.load(fh)
+        msg = f"\n\n-- Process {error_index:d} terminated with the following error:\n"
+        msg += original_trace
+&gt;       raise ProcessRaisedException(msg, error_index, failed_process.pid)
+E       torch.multiprocessing.spawn.ProcessRaisedException: 
+E       
+E       -- Process 3 terminated with the following error:
+E       Traceback (most recent call last):
+E         File "/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py", line 89, in _wrap
+E           fn(i, *args)
+E           ~~^^^^^^^^^^
+E         File "/tests/test_outputs.py", line 129, in _test_row_parallel_linear
+E           parallel_layer = RowParallelLinear(
+E               in_features,
+E           ...&lt;2 lines&gt;...
+E               master_weight=reference_layer.weight.clone().detach(),
+E           )
+E         File "/app/parallel_linear.py", line 14, in __init__
+E           raise NotImplementedError("RowParallelLinear is not implemented")
+E       NotImplementedError: RowParallelLinear is not implemented
+
+/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:220: ProcessRaisedException</failure></testcase><testcase classname="test_outputs" name="test_row_parallel_linear[4-False]" time="1.428"><failure message="torch.multiprocessing.spawn.ProcessRaisedException: &#10;&#10;-- Process 3 terminated with the following error:&#10;Traceback (most recent call last):&#10;  File &quot;/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py&quot;, line 89, in _wrap&#10;    fn(i, *args)&#10;    ~~^^^^^^^^^^&#10;  File &quot;/tests/test_outputs.py&quot;, line 129, in _test_row_parallel_linear&#10;    parallel_layer = RowParallelLinear(&#10;        in_features,&#10;    ...&lt;2 lines&gt;...&#10;[+5 more lines; full report in element text]">bias = False, world_size = 4
+
+    @pytest.mark.parametrize("bias", [True, False])
+    @pytest.mark.parametrize("world_size", [1, 2, 4])
+    def test_row_parallel_linear(bias, world_size):
+        """
+        Checks that RowParallelLinear slices weights and bias correctly,
+        and produces correct output and gradients for different world sizes
+        and bias settings.
+        """
+&gt;       mp.spawn(
+            _test_row_parallel_linear, args=(world_size, bias), nprocs=world_size, join=True
+        )
+
+/tests/test_outputs.py:209: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:349: in spawn
+    return start_processes(fn, args, nprocs, join, daemon, start_method="spawn")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py:305: in start_processes
+    while not context.join():
+              ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;torch.multiprocessing.spawn.ProcessContext object at 0x7fd5925bd040&gt;
+timeout = None, grace_period = None
+
+    def join(self, timeout: float | None = None, grace_period: float | None = None):
+        r"""Join one or more processes within spawn context.
+    
+        Attempt to join one or more processes in this spawn context.
+        If one of them exited with a non-zero exit status, this function
+        kills the remaining processes (optionally with a grace period)
+        and raises an exception with the cause of the first process exiting.
+    
+        Returns ``True`` if all processes have been joined successfully,
+        ``False`` if there are more processes that need to be joined.
+    
+        Args:
+            timeout (float): Wait this long (in seconds) before giving up on waiting.
+            grace_period (float): When any processes fail, wait this long (in seconds)
+                for others to shutdown gracefully before terminating them. If they
+                still don't exit, wait another grace period before killing them.
+        """
+        # Ensure this function can be called even when we're done.
+        if len(self.sentinels) == 0:
+            return True
+    
+        # Wait for any process to fail or all of them to succeed.
+        ready = multiprocessing.connection.wait(
+            self.sentinels.keys(),
+            timeout=timeout,
+        )
+    
+        error_index = None
+        for sentinel in ready:
+            index = self.sentinels.pop(sentinel)
+            process = self.processes[index]
+            process.join()
+            if process.exitcode != 0:
+                error_index = index
+                break
+    
+        # Return if there was no error.
+        if error_index is None:
+            # Return whether or not all processes have been joined.
+            return len(self.sentinels) == 0
+        # An error occurred. Clean-up all processes before returning.
+        # First, allow a grace period for processes to shutdown themselves.
+        if grace_period is not None:
+            self._join_procs_with_timeout(grace_period)
+        # Then, terminate processes that are still alive. Try SIGTERM first.
+        for process in self.processes:
+            if process.is_alive():
+                log.warning("Terminating process %s via signal SIGTERM", process.pid)
+                process.terminate()
+    
+        # Try SIGKILL if the process isn't going down after another grace_period.
+        # The reason is related to python signal handling is limited
+        # to main thread and if that is in c/c++ land and stuck it won't
+        # handle it. We have seen processes getting stuck not handling
+        # SIGTERM for the above reason.
+        self._join_procs_with_timeout(30 if grace_period is None else grace_period)
+        for process in self.processes:
+            if process.is_alive():
+                log.warning(
+                    "Unable to shutdown process %s via SIGTERM , forcefully exiting via SIGKILL",
+                    process.pid,
+                )
+                process.kill()
+            process.join()
+    
+        # The file will only be created if the process crashed.
+        failed_process = self.processes[error_index]
+        if not os.access(self.error_files[error_index], os.R_OK):
+            exitcode = self.processes[error_index].exitcode
+            if exitcode &lt; 0:
+                try:
+                    name = signal.Signals(-exitcode).name
+                except ValueError:
+                    name = f"&lt;Unknown signal {-exitcode}&gt;"
+                raise ProcessExitedException(
+                    f"process {error_index:d} terminated with signal {name}",
+                    error_index=error_index,
+                    error_pid=failed_process.pid,
+                    exit_code=exitcode,
+                    signal_name=name,
+                )
+            else:
+                raise ProcessExitedException(
+                    f"process {error_index:d} terminated with exit code {exitcode:d}",
+                    error_index=error_index,
+                    error_pid=failed_process.pid,
+                    exit_code=exitcode,
+                )
+    
+        with open(self.error_files[error_index], "rb") as fh:
+            original_trace = pickle.load(fh)
+        msg = f"\n\n-- Process {error_index:d} terminated with the following error:\n"
+        msg += original_trace
+&gt;       raise ProcessRaisedException(msg, error_index, failed_process.pid)
+E       torch.multiprocessing.spawn.ProcessRaisedException: 
+E       
+E       -- Process 3 terminated with the following error:
 E       Traceback (most recent call last):
 E         File "/home/vgpnk/.local/share/kengaku-r66/venv-torch/lib/python3.14/site-packages/torch/multiprocessing/spawn.py", line 89, in _wrap
 E           fn(i, *args)
