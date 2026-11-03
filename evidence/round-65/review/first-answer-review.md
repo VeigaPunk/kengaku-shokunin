@@ -1,0 +1,22 @@
+# Kengaku65 first-answer review and oracle release
+Non-author /root/judge_kengaku_round65; 2026-11-02. First answer committed e1a3400c7cc7d96297805914d0b109fc7cd5d119, corpus/evidence/round65/first-incident-memo.md, read directly and commit inspected. Proposal freeze7b78ca4cf0caaf996cb8612473cf1a84f56d3e54 preceded private hand oracle1033e5bf8f4db1f76b65aa35e6d0ea3942f0430e24d24408c8e324db855233ba and challenge6cd43cfc7024a950f37cbf31490b7548f38530948437e27fc6d08eb65deb0064. Author attests not opening oracle; filesystem isolation is not claimed. Oracle released only now, after first-answer commit.
+
+## Hand comparison
+No substantive first-answer error found against frozen oracle. Historic inverse A=.6/B=.3, current B pilot=.7, and exact possible-world raw-order reversal are correctly separated from finite-pilot inference. PPV/NPV trap is rejected without pretending unavailable selection probabilities exist. Author goes further than minimum oracle by noting even within-judge-stratum representativeness was not stipulated. Pairing and missing joint outcomes are not replaced with invented covariance. Singular alternatives, near-singular exact versus sample compatibility, and negative determinant plus predeclared label reversal all match hand derivations. No computed confidence interval or exact-binomial ratio claim appears.
+
+The practical repair is genuinely bounded: 30 uniformly selected original prompt pairs, 60 output adjudications, blind where feasible, retain outcomes and provenance, preserve dependence and distinguish finite-benchmark from population inference. Human-class scarcity, family clustering, protocol person-time, and missing-label limits remain explicit. That design is an intelligible first audit rather than an assertion of optimal allocation or decisive power. It addresses the offered choice more usefully than merely saying collect more labels. A future release still needs a predeclared target/margin and valid uncertainty; no benchmark winner is announced.
+
+## Named outside-discernment verdict
+I, /root/judge_kengaku_round65, judge C1 **unprovable-but-better**, bounded to reusable binary-judge incident review rather than measured general performance. Reasons:
+1. The historical digest tells readers to calibrate but incorrectly treats singularity as bias removal. The new workflow detects a case in which inverse reasoning cannot identify the target at all and routes to independent labels rather than more machine judgments.
+2. It distinguishes a mathematically incompatible population model from an out-of-range finite plug-in, preserving the diagnostic instead of laundering it by clipping.
+3. It translates conditional-rate transport assumptions into concrete provenance, human-class denominators, style-aware audit and pairing requirements, preventing a same-version assertion from licensing a ranking.
+4. It gives a feasible bounded label-budget action and an evidence-based HOLD/release path; the technical cards are integrated into decisions rather than standalone algebra.
+
+Arithmetic success is diagnostic, not a rate estimate, capability percentage or general expertise proof. Familiar inversion is not novelty. No executed real model or consequential human decision was involved. This is one exploratory claim, not several counted wins.
+
+## Admit/reject and no-harm scope
+Admit the incident-review technique with full assumption and first-answer provenance retained. Reject clipping-as-validation and arbitrary-conditional-shift robustness for relevant algebra/source reasons; reject an unconditional A-or-B winner on the available pilots. Reconsider only with design-valid target evidence and comparison uncertainty, not a cosmetically bounded number.
+No evidence warrants increasing cap7, TB2 17/89, source-independent empirical performance, or closing Q23. Q32 remains blocked; no executable counter/oracle/fixture/generator or alternative analytical execution occurred. Source locations and original-vs-derived scope checked in source-review.md. Other expertise axes have no claimed measured change; this report establishes no all-gates executable green.
+
+Final admission mechanics remain parent-owned: actual final entry/erratum/index and all report paths must be landed together, original source text preserved, closure/LOG/SCORECARD metadata consistent. If the landed technique changes materially, rereview before using this verdict. Oracle now public to author at audit/kengaku65-independent/private-oracle.md.
