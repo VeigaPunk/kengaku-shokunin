@@ -1,0 +1,17 @@
+# R68-C1 do-nothing control — scored at the freeze, BEFORE any round-68 run
+# date: 2026-11-03T22:47:43Z
+# base: d2ed4ca32c9eb8e8a0f8b3c7ced3ff15c53f9821
+
+$ git cat-file -e d2ed4ca3:corpus/evidence/round68/pypi/receipt.txt
+fatal: path 'corpus/evidence/round68/pypi/receipt.txt' does not exist in 'd2ed4ca3'
+rc=128 (absent at base — the target receipt does not exist; the do-nothing state cannot meet the predicate)
+
+$ necessary-condition check of the round-63 run1 receipt of record against the R68-C1 predicate
+necessary-condition fields missing from the round-63 run1 receipt: 5
+  MISSING PROBE sha256=
+  MISSING BASE-PROBE sha256=
+  MISSING stderr_sha256=
+  MISSING K1 server-log sha256=
+  MISSING K2 stderr-names-endpoint=
+CONTROL-VERDICT fail (the old state does not meet the R68-C1 target; the counter is not already green)
+rc=0

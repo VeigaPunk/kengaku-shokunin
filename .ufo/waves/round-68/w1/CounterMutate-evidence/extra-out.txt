@@ -1,0 +1,14 @@
+(a) BASE-PROBE committed-bytes branch (post-load byte swap)
+  base-swap-m00    rc=1 defects=['base-probe-bytes committed cf804c0ab025d13f69d30d770357e1302b2c3d6b2a8ad2b9ec1e8bc259824427', 'exit-agreement CLASS-PROBE-EXIT=0 want CLASS-PROBE-EXIT=1', 'stored-predicate pass != derived']
+  base-swap-m2     rc=0 defects=[]
+(b) adjacent base probe already drifted at load time
+  base-drift-load-m00  rc=1 traceback=True stdout=[] stderr_last=["AttributeError: 'NoneType' object has no attribute 'SetupError'"]
+  base-drift-load-m2   rc=1 traceback=True stdout=[] stderr_last=["AttributeError: 'NoneType' object has no attribute 'SetupError'"]
+EXTRA ok=True
+
+(c) adjacent base probe ABSENT at load time (frozen probe copy, no base probe in plans/)
+$ python3 fix/base-absent/plans/round68_c1_pypi_finish.py --check-receipt <record>
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/base-absent/plans/round63_c1_pypi_probe.py'
+rc=1

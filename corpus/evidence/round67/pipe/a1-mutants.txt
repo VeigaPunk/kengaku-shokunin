@@ -14,3 +14,10 @@ v4_unknown_case            rc=1  CHECK defect: unknown case q7-fake in CASE line
 v6_grader_extra_field      rc=1  CHECK defect: GRADER line missing, malformed or not the pinned sha/path
 x_drop_junit_q3            rc=1  CHECK defect: junit missing for q3-stub
 v1_vector_before_case      rc=0  CHECK ok cases=6 (line order is not part of the frozen predicate; each case is still bound)
+
+# ERRATUM-68 (dated 2026-11-03, appended to the round-67 record — nothing above is edited):
+# (1) the header's "PROBE sha 32bacf1d..." is the PRE-AMENDMENT probe at the freeze (dcc39ea3);
+#     the committed post-amendment plans/round67_c1_pipeline_probe.py re-hashes
+#     sha256 03793f4f9e184e8f829916ef848e0f0d41d94b1bef8ed17eda0fe3c28b0a9f1e.
+# (2) the tally is 7 refused + 1 accepted by design + this base row = 9 lines; the round-67
+#     report's "8 killed" counted the base row.

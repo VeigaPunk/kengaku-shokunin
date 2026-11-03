@@ -304,3 +304,43 @@ C2 (the sourced-claim duty is carried by C1 via S240).
 - Host state: no listener on 8080 at the freeze (`ss -ltn | grep -c 8080` → 0); the probe re-checks
   port freedom before every case (round-63 machinery).
 - Kill rules: stated per claim; no rule is changed after data.
+
+---
+
+## Amendment A1 (dated 2026-11-03, after the receipt of record and the wave's settled attacks; does not change any predicate, vector, case or kill rule)
+
+1. **S240 re-sourced (mechanism attribution corrected, clause semantics unchanged).** The wave's
+   scout and revenger seats established from the opened bytes that CPython's
+   `Lib/http/client.py` `HTTPConnection` defines **no** `__repr__`/`__str__` at v3.14.8
+   (`S240 opened`, `.ufo/waves/round-68/w1/recon/S240-receipt.md`; `S240-client-py.txt`, sha256
+   `016aa7664201a82f0f37ddfb11ed662dd1f07aa23c9470c6a3cb3278aa479230`). The renderer of
+   `HTTPConnection(host='localhost', port=8080)` is **urllib3's `HTTPConnection.__str__`**
+   (`pip/_vendor/urllib3/connection.py:163-164`, byte-identical to upstream urllib3 2.7.0,
+   sha256 `668b37ab12835bdf8643a695a9f050551339b280742231f163fc575a925a1532`,
+   `.ufo/waves/round-68/w1/RenderingTrace.md` §5 chain). S240's registry row therefore names the
+   urllib3 source at tag 2.7.0 (`corpus/SOURCES.md`), and every claim-doc mention of S240's
+   attribution reads "urllib3 `HTTPConnection.__str__`" — the frozen clause's semantics
+   (`host='localhost'` + `port=8080` + a connection-refused marker; the contiguous literal
+   `localhost:8080` absent) are confirmed unchanged (`literal-possible=False`).
+2. **Kill rule (c) named limitation, stated as found (not instrumented, not patched).** The
+   frozen text names "the 900 s bound"; the instrument's own `LEG_TIMEOUT = 900` is dead code —
+   the operative bound is the round-63 module's `LEG_TIMEOUT = 180`, and a timeout maps to a
+   leg `F` under the frozen leg rule, not exit-2 (`ForgeScan` M-1, `.ufo/waves/round-68/w1/ForgeScan.md`;
+   `ClaimFalsify` kill-rule review agrees). The scored run observed no timeout (K1 P with a
+   non-`none` pid; K2/K3/K4 `CalledProcessError`/`AssertionError` within bounds), so the
+   verdict stands; a timed-out leg would have scored `F` under the same leg rule — an
+   evaluation, not a hang — while a `SETUP`/rc-2 surface is not implemented by the frozen
+   instrument.
+3. **C2 gate E1 strengthened to its own frozen sentence (counter amendment, R67-A1 pattern).**
+   The frozen E1 says "exactly one `## Erratum (round 68)` heading"; the committed gate found
+   the first heading only, so a duplicated section passed (`ForgeScan` M-2, fake-root fixture;
+   `GateRedRun` clause fixtures agree). A1 makes E1 count the heading lines and require exactly
+   one. Evidence: `corpus/evidence/round68/c2-e1-exactly-one.txt` (the duplicate-heading fixture
+   refuses with `E1 defect … heading count 2` post-patch). Nothing else in the gate changed;
+   its red-before (5 defects against the pre-landing tree) and selftest (5/5 fail-in-fake)
+   receipts are recorded against the frozen bytes.
+4. **CounterMutate F7 instrument defect recorded (not patched — the probe's `PROBE` line pins
+   its bytes):** with the base probe absent or drifted, `run_battery` raises
+   `AttributeError`/`FileNotFoundError` instead of the documented `SETUP` + rc 2
+   (`CounterMutate` F7, `CounterMutate-evidence/extra-out.txt`). The `--check-receipt` path is
+   unaffected (`base-probe-bytes` fires correctly); scored verdict unaffected.

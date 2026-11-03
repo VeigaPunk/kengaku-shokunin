@@ -1,0 +1,54 @@
+BUILT mutants=22 fixtures=31
+  m1   sha=3d1353d32c14 lines=[250, 254] PROBE binding deleted
+  m2   sha=f0ffe73707b3 lines=[256, 264] BASE-PROBE binding deleted
+  m3   sha=ed23687a51d2 lines=[274, 276] grader-bytes re-hash deleted
+  m4   sha=2749b9a009cd lines=[293, 294] duplicate-CASE detection deleted
+  m5   sha=0323f83e7727 lines=[295, 297] unknown-case detection deleted
+  m6   sha=dfde9865bfe9 lines=[353, 354] K2 clause-bytes check deleted
+  m7   sha=a1770bd47ec2 lines=[358, 368] per-case stderr binding deleted
+  m8   sha=d7916f1d05f8 lines=[332, 335] server-log fetch-proof checks deleted
+  m9   sha=f1c5c9490eb7 lines=[390, 391] exit-agreement check deleted
+  m10  sha=be5348f47ab2 lines=[392, 393] stored-predicate agreement deleted
+  m11  sha=373d1f1666b3 lines=[306, 309] per-case observed/expected checks deleted
+  m12  sha=b6f998b8170f lines=[270, 273] GRADER receipt sha+pin checks deleted
+  m13  sha=86cf9bfb4340 lines=[315, 316] K1 index_pid check deleted
+  m14  sha=4ec91c4460ae lines=[318, 319] K1 wheel-sha check deleted
+  m15  sha=3247156c1c07 lines=[329, 330] server-log sha binding deleted
+  m16  sha=4ef1b80ea600 lines=[341, 342] K2 clause line check deleted
+  m17  sha=337aea892ecc lines=[355, 356] K2 connection-refused check deleted
+  m18  sha=98659cdb81ed lines=[371, 372] CLASS line check deleted
+  m19  sha=e4160f314d88 lines=[378, 381] PREDICTION-VECTOR line checks deleted
+  m20  sha=153642a12bbd lines=[310, 311] per-case leg check deleted
+  m21  sha=f4979490b5ef lines=[302, 302] case-missing defect deleted
+  m22  sha=bbb32e269402 lines=[336, 337] server-log flags check deleted
+  FIX F-probe          lane=kengaku-shokunin           expect=probe-sha
+  FIX F-base           lane=kengaku-shokunin           expect=base-probe-sha
+  FIX F-dup            lane=kengaku-shokunin           expect=case-duplicate
+  FIX F-unknown        lane=kengaku-shokunin           expect=case-unknown
+  FIX F-k1-stderr      lane=kengaku-shokunin           expect=K1-stderr-sha
+  FIX F-k3-stderr      lane=kengaku-shokunin           expect=K3-stderr-sha
+  FIX F-exit           lane=kengaku-shokunin           expect=exit-agreement
+  FIX F-stored         lane=kengaku-shokunin           expect=stored-predicate
+  FIX F-log-flags      lane=kengaku-shokunin           expect=server-log-flags
+  FIX F-grader-sha     lane=kengaku-shokunin           expect=grader-sha
+  FIX F-k1-observed    lane=kengaku-shokunin           expect=K1-observed
+  FIX F-k1-pid         lane=kengaku-shokunin           expect=K1-index-pid
+  FIX F-k1-wheel       lane=kengaku-shokunin           expect=K1-wheel-sha
+  FIX F-k1-leg         lane=kengaku-shokunin           expect=K1-leg
+  FIX F-missing        lane=kengaku-shokunin           expect=K4-case-missing
+  FIX F-log-sha        lane=kengaku-shokunin           expect=server-log-sha
+  FIX F-k2-line        lane=kengaku-shokunin           expect=k2-clause-line
+  FIX F-class          lane=kengaku-shokunin           expect=class-line
+  FIX F-pred           lane=kengaku-shokunin           expect=prediction-vector
+  FIX F-grader-pin     lane=kengaku-shokunin           expect=grader-pin
+  FIX F-k1-expected    lane=kengaku-shokunin           expect=K1-expected
+  FIX F-k2-stderr-sha  lane=kengaku-shokunin           expect=k2-stderr-sha
+  FIX F-vector         lane=kengaku-shokunin           expect=K2-observed
+  FIX F-grader-bytes   lane=lane-grader-drift          expect=grader-bytes
+  FIX F-k2-clause      lane=lane-k2-clause             expect=k2-clause-bytes
+  FIX F-k2-refused     lane=lane-k2-refused            expect=k2-refused
+  FIX F-log-no-simple  lane=lane-f-log-no-simple       expect=server-log-simple
+  FIX F-log-no-wheel   lane=lane-f-log-no-wheel        expect=server-log-wheel
+  FIX F-k2-capture-missing lane=lane-k2-capture-missing    expect=k2-stderr-capture
+  FIX F-log-missing    lane=lane-log-missing           expect=server-log
+  FIX F-k4-capture     lane=lane-k4-capture            expect=K4-stderr-capture

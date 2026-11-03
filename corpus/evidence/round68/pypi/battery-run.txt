@@ -1,0 +1,27 @@
+PREDICT K1=P K2=F K3=F K4=F
+SERVED K1 requests=2 paths=['/simple/vectorops/', '/packages/vectorops-0.1.0-py3-none-any.whl']
+CASE K1 leg=test_api observed=P expected=P exception=none index_pid=1323016 wheel_sha256=6fad8ea86492def2ce9bb48ba80c11e2b35ce88d8d2ea3757c276754c9d0ced6 stderr_sha256=268c02efc4bcdefb1d142a0f3e218eccf6429eaefea2f767a6dd664a90ffecb3
+K2 ENDPOINT form=urllib3-host-port stderr_bytes=1526 file=k2-pip-stderr.txt
+CASE K2 leg=test_api observed=F expected=F exception=CalledProcessError index_pid=none wheel_sha256=none stderr_sha256=dedbc20d70cc292e39eec807222312473313ee274e3a8db8476e3e0d8565375d
+SERVED K3 requests=2 paths=['/simple/vectorops/', '/packages/vectorops-0.1.0-py3-none-any.whl']
+CASE K3 leg=test_api observed=F expected=F exception=AssertionError index_pid=1367817 wheel_sha256=df8d66ab40465261894ca5f17b354a3b079061303e12e97f9fc7d1d1393c07aa stderr_sha256=9c7014b3b55bad773f6b5ac8bf950338e191a40f1ea7e002a25f7a9e1f2b4a58
+SERVED K4 requests=1 paths=['/simple/vectorops/']
+CASE K4 leg=test_api observed=F expected=F exception=CalledProcessError index_pid=1369862 wheel_sha256=b97edcfcd8870426abed8d8100aab73ad26f022ed4a32d6756b7d6b1c4f9fe92 stderr_sha256=6a0ccd86a8b5606aa190add39cd8095eb5346b71d2a39eb08200b77e58e777ef
+PREDICATE R68-C1 pass
+
+# in-runner captures appended post-run (L1):
+$ python3 plans/round68_c1_pypi_finish.py --check-receipt corpus/evidence/round68/pypi/receipt.txt
+CHECK ok cases=4 vector=P/F/F/F wheel_sha256=6fad8ea86492...
+CHECK stored-predicate=pass derived=pass
+PREDICATE R68-C1 pass
+CHECK-RC=0
+
+$ python3 plans/round68_c1_pypi_finish.py --selftest --work /fast/scratch/hyaku/kengaku-r68/scored --green-receipt corpus/evidence/round68/pypi/receipt.txt
+RED r1-all-p rc=1 refused=True
+RED r2-probe-sha rc=1 refused=True
+RED r3-dup-case rc=1 refused=True
+RED r4-no-k2-clause rc=1 refused=True
+RED r5-stderr-sha rc=1 refused=True
+GREEN receipt rc=0 accepted=True
+SELFTEST red_refused=5/5 green_ok=1 ok=True
+SELFTEST-RC=0

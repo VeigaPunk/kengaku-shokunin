@@ -1,0 +1,21 @@
+RECORD           rc=0 PREDICATE R68-C1 pass
+F-probe          rc=1 CHECK defect probe-sha 0000000000000000000000000000000000000000000000000000000000000000 != 4a6fae5328e1cacd3b667fb59f50622d1602574a5763f741bda7dc0293b3fdfc
+F-base           rc=1 CHECK defect base-probe-sha 0000000000000000000000000000000000000000000000000000000000000000 != 2ebaf54ea427475f2f897304b7d31f6bea26eb4e5074a759447f0f710919b929
+F-dup            rc=1 CHECK defect case-duplicate K1
+F-unknown        rc=1 CHECK defect case-unknown K9
+F-k1-stderr      rc=1 CHECK defect K1-stderr-sha receipt 0000000000000000000000000000000000000000000000000000000000000000 != committed 268c02efc4bcdefb1d142a0f3e218eccf6429eaefea2f767a6dd664a90ffecb3
+F-k3-stderr      rc=1 CHECK defect K3-stderr-sha receipt 0000000000000000000000000000000000000000000000000000000000000000 != committed 9c7014b3b55bad773f6b5ac8bf950338e191a40f1ea7e002a25f7a9e1f2b4a58
+F-exit           rc=1 CHECK defect exit-agreement CLASS-PROBE-EXIT=1 want CLASS-PROBE-EXIT=0
+F-stored         rc=1 CHECK defect stored-predicate fail != derived
+F-log-flags      rc=1 CHECK defect server-log-flags K1 server-log sha256=574c3a2f7594d05d45ab06526baa61fc36bcc3ee60ec04cc6716e88f1c47af28 served_simple=True served_wheel=False
+F-grader-sha     rc=1 CHECK defect grader-sha 0000000000000000000000000000000000000000000000000000000000000000 != 82c6351722e9aa984ff1d701bf57df3150ce51466df2b70afa1aa62d2650be4c
+F-k1-observed    rc=1 CHECK defect K1-observed F != P
+F-k1-pid         rc=1 CHECK defect K1-index-pid empty or none
+F-k1-wheel       rc=1 CHECK defect K1-wheel-sha not a sha256: xyz
+F-k1-leg         rc=1 CHECK defect K1-leg test_other != test_api
+F-missing        rc=1 CHECK defect K4-case-missing line absent
+F-log-sha        rc=1 CHECK defect server-log-sha receipt 0000000000000000000000000000000000000000000000000000000000000000 != committed 574c3a2f7594d05d45ab06526baa61fc36bcc3ee60ec04cc6716e88f1c47af28
+F-k2-line        rc=1 CHECK defect k2-clause-line K2 stderr-names-endpoint=False
+F-class          rc=1 CHECK defect class-line CLASS network-service executed=2 absent
+F-pred           rc=1 CHECK defect prediction-vector PREDICTION-VECTOR P/F/F/F derived=F/F/F/F
+F-vector         rc=1 CHECK defect K2-observed P != F

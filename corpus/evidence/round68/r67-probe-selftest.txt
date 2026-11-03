@@ -1,0 +1,14 @@
+# R67 probe --selftest tally (round 68: routed defect 3, committed evidence)
+# date: 2026-11-03T23:00:47Z
+PROBE sha256=03793f4f9e184e8f829916ef848e0f0d41d94b1bef8ed17eda0fe3c28b0a9f1e
+python3 plans/round67_c1_pipeline_probe.py --selftest --work /fast/scratch/hyaku/kengaku-r68/SelftestTally/tally
+CHECK ok cases=6
+PREDICATE R67-C1 pass
+CHECK defect: q1-ref vector FPPP != frozen PPPP
+CHECK defect: q1-ref frozen label match contradicts vector FPPP
+CHECK defect: q1-ref rc=0 is not the pytest status for vector FPPP (want 1)
+CHECK defect: VECTOR q1-ref FPPP disagrees with its junit PPPP
+CHECK findings=4
+PREDICATE R67-C1 fail
+SELFTEST green_rc=0 red_rc=1 ok
+rc=0

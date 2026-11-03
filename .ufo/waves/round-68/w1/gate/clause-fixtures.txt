@@ -1,0 +1,59 @@
+# GateRedRun clause fixtures — R68-C2 gate, scratch copies only (lane untouched)
+
+# Each fixture is a minimal lane-shaped root under S/clause-fixtures/<name>;
+# the instrument is the committed plans/round68_c2_correction_gate.py run with --root.
+
+# common construction: real plans/round-67-claims.md + a synthetic valid erratum section
+#   (both frozen shas, '7 refused', '1 accepted by design', 'recipe-unexecuted',
+#   'executed 2 of 3'), real plans/round67_c1_pipeline_probe.py, real tally copy, and
+#   SKILL.md with a round67_c1_pipeline_probe row inserted inside the registry heading
+#   and ' --strict' appended to the round65-c1-sqlite-probe line.
+
+=== fixture: green
+# landed-tree simulation: all five corrections present
+$ python3 plans/round68_c2_correction_gate.py --root /fast/scratch/hyaku/kengaku-r68/GateRedRun/clause-fixtures/green
+E1 ok section present, correct-sha=True, wrong-sha-named=True
+E2 ok 7-refused=True, 1-accepted-by-design=True
+E3 ok probe-line=True, selftest-line=True, rc-capture=True, probe-rehash=ok
+E4 ok pipeline-row=True, sqlite-row-strict=True
+E5 ok recipe-unexecuted=True, executed-2-of-3=True
+DEFECTS n=0
+PREDICATE R68-C2 pass
+rc=0
+
+=== fixture: dup-heading
+# green + a SECOND empty `## Erratum (round 68)` heading appended
+$ python3 plans/round68_c2_correction_gate.py --root /fast/scratch/hyaku/kengaku-r68/GateRedRun/clause-fixtures/dup-heading
+E1 ok section present, correct-sha=True, wrong-sha-named=True
+E2 ok 7-refused=True, 1-accepted-by-design=True
+E3 ok probe-line=True, selftest-line=True, rc-capture=True, probe-rehash=ok
+E4 ok pipeline-row=True, sqlite-row-strict=True
+E5 ok recipe-unexecuted=True, executed-2-of-3=True
+DEFECTS n=0
+PREDICATE R68-C2 pass
+rc=0
+
+=== fixture: no-registry-heading
+# green minus the `## Gate/probe registry ...` heading (row text still in SKILL.md)
+$ python3 plans/round68_c2_correction_gate.py --root /fast/scratch/hyaku/kengaku-r68/GateRedRun/clause-fixtures/no-registry-heading
+E1 ok section present, correct-sha=True, wrong-sha-named=True
+E2 ok 7-refused=True, 1-accepted-by-design=True
+E3 ok probe-line=True, selftest-line=True, rc-capture=True, probe-rehash=ok
+E4 defect registry section absent (## Gate/probe registry (PROTOCOL §Gate standard))
+E5 ok recipe-unexecuted=True, executed-2-of-3=True
+DEFECTS n=1
+PREDICATE R68-C2 fail
+rc=1
+
+=== fixture: loose-tally
+# green with the tally replaced by `XPROBE sha256=<frozen> trailing\nNOTSELFTEST blob rc=0\n`
+$ python3 plans/round68_c2_correction_gate.py --root /fast/scratch/hyaku/kengaku-r68/GateRedRun/clause-fixtures/loose-tally
+E1 ok section present, correct-sha=True, wrong-sha-named=True
+E2 ok 7-refused=True, 1-accepted-by-design=True
+E3 ok probe-line=True, selftest-line=True, rc-capture=True, probe-rehash=ok
+E4 ok pipeline-row=True, sqlite-row-strict=True
+E5 ok recipe-unexecuted=True, executed-2-of-3=True
+DEFECTS n=0
+PREDICATE R68-C2 pass
+rc=0
+

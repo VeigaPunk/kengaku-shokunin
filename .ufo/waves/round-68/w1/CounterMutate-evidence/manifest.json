@@ -1,0 +1,428 @@
+{
+  "frozen_probe_sha256": "4a6fae5328e1cacd3b667fb59f50622d1602574a5763f741bda7dc0293b3fdfc",
+  "mutants": [
+    {
+      "id": "m1",
+      "label": "PROBE binding deleted",
+      "lines": [
+        250,
+        254
+      ],
+      "defect_key": "probe-sha",
+      "removed_sha256": "cd845f546f04813d240308f9b26ee71f165cd82ff8b67d0613b9d8bfb4b9b15d",
+      "mutant_sha256": "3d1353d32c14fc8ca057f52290e361815c7706b5c0ba28e64ee19239da7f6333",
+      "removed_block": "    # PROBE binding: the receipt names THIS file's bytes.\n    probe = next((ln for ln in lines if ln.startswith(\"PROBE sha256=\")), \"\")\n    probe_sha = _kv(probe.split(\" \", 1)[1]) if probe else \"\"\n    if probe_sha != own_sha256():\n        defect(\"probe-sha\", f\"{probe_sha or '(none)'} != {own_sha256()}\")\n"
+    },
+    {
+      "id": "m2",
+      "label": "BASE-PROBE binding deleted",
+      "lines": [
+        256,
+        264
+      ],
+      "defect_key": "base-probe-sha + base-probe-bytes",
+      "removed_sha256": "6aec09558a377a8ab674cab4583e5d48d320db24737bb72a142edece4ee2b4ed",
+      "mutant_sha256": "f0ffe73707b3ea64334f9004274c84bf4cd96671f6743e42711c7b8adceeb571",
+      "removed_block": "    # BASE-PROBE binding: the committed round-63 probe bytes.\n    base = next((ln for ln in lines if ln.startswith(\"BASE-PROBE sha256=\")), \"\")\n    base_sha = _kv(base.split(\" \", 1)[1]) if base else \"\"\n    base_path = pathlib.Path(__file__).resolve().parent / BASE_PROBE_NAME\n    base_actual = sha256_file(base_path) if base_path.is_file() else \"\"\n    if base_sha != BASE_PROBE_SHA256:\n        defect(\"base-probe-sha\", f\"{base_sha or '(none)'} != {BASE_PROBE_SHA256}\")\n    if base_actual != BASE_PROBE_SHA256:\n        defect(\"base-probe-bytes\", f\"committed {base_actual or '(absent)'}\")\n"
+    },
+    {
+      "id": "m3",
+      "label": "grader-bytes re-hash deleted",
+      "lines": [
+        274,
+        276
+      ],
+      "defect_key": "grader-bytes",
+      "removed_sha256": "0575606572fb93bdf417204d42a1264b0658066f785eff331f1c5967bd4dd3fc",
+      "mutant_sha256": "ed23687a51d2d38a67ded07b9d6b6d50d5d5513239482f93deafae2b92c35958",
+      "removed_block": "    grader_path = lane / m.GRADER_REL\n    if not grader_path.is_file() or sha256_file(grader_path) != GRADER_SHA256:\n        defect(\"grader-bytes\", \"committed capture missing or drifted\")\n"
+    },
+    {
+      "id": "m4",
+      "label": "duplicate-CASE detection deleted",
+      "lines": [
+        293,
+        294
+      ],
+      "defect_key": "case-duplicate",
+      "removed_sha256": "ee4a2928d8de40e04c27c9e0a5deb4e8091ee6901f582c46fe1abaa6c863d46f",
+      "mutant_sha256": "2749b9a009cdb3aafef3c57d79057b306db0d4c8d1a00c8220e7c9e210034a31",
+      "removed_block": "    for name in dup:\n        defect(\"case-duplicate\", name)\n"
+    },
+    {
+      "id": "m5",
+      "label": "unknown-case detection deleted",
+      "lines": [
+        295,
+        297
+      ],
+      "defect_key": "case-unknown",
+      "removed_sha256": "9ab6cf5de1904c0484671af3b76a59466884aef20f4598f60e68fc6d722ab735",
+      "mutant_sha256": "0323f83e772720ba7b7d1c07905207575eca7a3a15d6048062fa13d91352770e",
+      "removed_block": "    for name in cases:\n        if name not in CASE_NAMES:\n            defect(\"case-unknown\", name)\n"
+    },
+    {
+      "id": "m6",
+      "label": "K2 clause-bytes check deleted",
+      "lines": [
+        353,
+        354
+      ],
+      "defect_key": "k2-clause-bytes",
+      "removed_sha256": "44f335f76cb59f684d133a5d0764689bbb81ce8291c46a9577c17524817629a1",
+      "mutant_sha256": "dfde9865bfe9ca5d92c5a7bda49dd0a74c5180494d9ad4f00760654cc37ef0c5",
+      "removed_block": "        if K2_HOST not in k2_text or K2_PORT not in k2_text:\n            defect(\"k2-clause-bytes\", \"committed K2 stderr does not carry the host/port pair\")\n"
+    },
+    {
+      "id": "m7",
+      "label": "per-case stderr binding deleted",
+      "lines": [
+        358,
+        368
+      ],
+      "defect_key": "*-stderr-sha + *-stderr-capture",
+      "removed_sha256": "7685c3319f30a23988b811db6700e9f3897fc619e22d83b86a915e9abc2ff147",
+      "mutant_sha256": "a1770bd47ec200968b8c1bad16befffa0f4bfe7fe8b9d63127026e41b60d386f",
+      "removed_block": "    # Per-case stderr binding for every case.\n    for name in CASE_NAMES:\n        fields = cases.get(name, {})\n        want = fields.get(\"stderr_sha256\", \"\")\n        cap = lane / STDERR_DIR / f\"{name}.txt\"\n        if not cap.is_file():\n            defect(f\"{name}-stderr-capture\", \"committed capture missing\")\n            continue\n        actual = sha256_file(cap)\n        if want != actual:\n            defect(f\"{name}-stderr-sha\", f\"receipt {want or '(none)'} != committed {actual}\")\n"
+    },
+    {
+      "id": "m8",
+      "label": "server-log fetch-proof checks deleted",
+      "lines": [
+        332,
+        335
+      ],
+      "defect_key": "server-log-simple + server-log-wheel",
+      "removed_sha256": "32f3b13a9c66261d2ef98c5f12a692e82ddcd790b10ebb16f67b633140b57cde",
+      "mutant_sha256": "d7916f1d05f813394bc1683773e658d0a5a8e1a456ad39d080fb930ff64a2127",
+      "removed_block": "        if \"/simple/vectorops\" not in log_text:\n            defect(\"server-log-simple\", \"no /simple/vectorops fetch in the committed log\")\n        if \"/packages/vectorops-0.1.0-\" not in log_text:\n            defect(\"server-log-wheel\", \"no wheel fetch in the committed log\")\n"
+    },
+    {
+      "id": "m9",
+      "label": "exit-agreement check deleted",
+      "lines": [
+        390,
+        391
+      ],
+      "defect_key": "exit-agreement",
+      "removed_sha256": "de310acecb61e0df8e97045dd6425a8f1c04e39b0ca02900a4a0d542eb8be2af",
+      "mutant_sha256": "f1c5c9490eb7b6cd22b07ce817d23b74ff56f8e99563b9431c94d070b954b50e",
+      "removed_block": "    if exit_val != want_exit:\n        defect(\"exit-agreement\", f\"{exit_line or '(line missing)'} want CLASS-PROBE-EXIT={want_exit}\")\n"
+    },
+    {
+      "id": "m10",
+      "label": "stored-predicate agreement deleted",
+      "lines": [
+        392,
+        393
+      ],
+      "defect_key": "stored-predicate",
+      "removed_sha256": "4362b909265c6df70343fc8ad9677b0ba245fa49f266236532b88747f797084f",
+      "mutant_sha256": "be5348f47ab28db22cfd571a1da1270e135f19a13307845b82d27299bb51cd81",
+      "removed_block": "    if stored_verdict != (\"pass\" if derived_pass else \"fail\"):\n        defect(\"stored-predicate\", f\"{stored_verdict} != derived\")\n"
+    },
+    {
+      "id": "m11",
+      "label": "per-case observed/expected checks deleted",
+      "lines": [
+        306,
+        309
+      ],
+      "defect_key": "*-observed + *-expected",
+      "removed_sha256": "343753971c514d52ef991dbdf22149a66b611de35f7a6d9d80bc9d0d85844f50",
+      "mutant_sha256": "373d1f1666b3ac65f4d8c8579b523c9b3468b24667f183f4a6f2959ed085fd60",
+      "removed_block": "        if fields.get(\"expected\") != expected_frozen:\n            defect(f\"{name}-expected\", f\"{fields.get('expected')} != {expected_frozen}\")\n        if fields.get(\"observed\") != expected_frozen:\n            defect(f\"{name}-observed\", f\"{fields.get('observed')} != {expected_frozen}\")\n"
+    },
+    {
+      "id": "m12",
+      "label": "GRADER receipt sha+pin checks deleted",
+      "lines": [
+        270,
+        273
+      ],
+      "defect_key": "grader-sha + grader-pin",
+      "removed_sha256": "fb0895b615df01f07eed03fd408a2ea9d9c1cccb201fb011d1770409896414df",
+      "mutant_sha256": "b6f998b8170fd49428b7e611906edac8abaeeef2390a4a9d8177fd1b3fac61a8",
+      "removed_block": "    if g_sha != GRADER_SHA256:\n        defect(\"grader-sha\", f\"{g_sha or '(none)'} != {GRADER_SHA256}\")\n    if g_pin != TB2_PIN:\n        defect(\"grader-pin\", f\"{g_pin or '(none)'} != {TB2_PIN}\")\n"
+    },
+    {
+      "id": "m13",
+      "label": "K1 index_pid check deleted",
+      "lines": [
+        315,
+        316
+      ],
+      "defect_key": "K1-index-pid",
+      "removed_sha256": "8bd5bc4b0af2d4a10cc34f1307c6cfe1172d8e70a18cd2dc774a9e134fec605a",
+      "mutant_sha256": "86cf9bfb43409838494d93dc620d1884555fb3274c106e1e9dba4c74d3d0c0f4",
+      "removed_block": "    if _kv(\"index_pid=\" + k1.get(\"index_pid\", \"\")) in (\"\", \"none\"):\n        defect(\"K1-index-pid\", \"empty or none\")\n"
+    },
+    {
+      "id": "m14",
+      "label": "K1 wheel-sha check deleted",
+      "lines": [
+        318,
+        319
+      ],
+      "defect_key": "K1-wheel-sha",
+      "removed_sha256": "2ce8463d4b5ab1b5003b5c8df94bf1d2787babe73159ef2efae9cbb48f434721",
+      "mutant_sha256": "4ec91c4460aeb27b2d79471748eaec9d3641849068e5b48ba2c2d3e8179a79d4",
+      "removed_block": "    if len(wheel) != 64 or any(c not in \"0123456789abcdef\" for c in wheel):\n        defect(\"K1-wheel-sha\", f\"not a sha256: {wheel or '(none)'}\")\n"
+    },
+    {
+      "id": "m15",
+      "label": "server-log sha binding deleted",
+      "lines": [
+        329,
+        330
+      ],
+      "defect_key": "server-log-sha",
+      "removed_sha256": "52f1425d6406f9e272a92e01c7033470ee7dd1aa62162c1274315b2410f6ff15",
+      "mutant_sha256": "3247156c1c073cddb7987ce4e0e78e89457823e127fc7b2d8b63539e6a509307",
+      "removed_block": "        if log_sha != actual:\n            defect(\"server-log-sha\", f\"receipt {log_sha or '(none)'} != committed {actual}\")\n"
+    },
+    {
+      "id": "m16",
+      "label": "K2 clause line check deleted",
+      "lines": [
+        341,
+        342
+      ],
+      "defect_key": "k2-clause-line",
+      "removed_sha256": "9dc384b88253a64e9592f686721094e1af7c3b9a3c0def296d83bed8b0232d57",
+      "mutant_sha256": "4ef1b80ea6004c8183eafda7b79182e598fd4537f378669a462c91bb567075a8",
+      "removed_block": "    if k2_line != \"K2 stderr-names-endpoint=True\":\n        defect(\"k2-clause-line\", f\"{k2_line or '(line missing)'}\")\n"
+    },
+    {
+      "id": "m17",
+      "label": "K2 connection-refused check deleted",
+      "lines": [
+        355,
+        356
+      ],
+      "defect_key": "k2-refused",
+      "removed_sha256": "7c35ecbae31fea51576d7217997d46338a00f4152a672df4179b342a38c0eb8a",
+      "mutant_sha256": "337aea892eccf1c11ffed89d92ce224721952e0bed88d6ee15548a278fd0672e",
+      "removed_block": "        if not any(r in k2_text for r in K2_REFUSED):\n            defect(\"k2-refused\", \"committed K2 stderr does not say connection-refused\")\n"
+    },
+    {
+      "id": "m18",
+      "label": "CLASS line check deleted",
+      "lines": [
+        371,
+        372
+      ],
+      "defect_key": "class-line",
+      "removed_sha256": "9adf358963cf234183545ed4f80b163ba3236b50e7dc5f9bf99e37ea74c5da69",
+      "mutant_sha256": "98659cdb81ed2fe8e209e6bd59add1b11e36932184ec20c1988ba986e85aae4e",
+      "removed_block": "    if \"CLASS network-service executed=2\" not in lines:\n        defect(\"class-line\", \"CLASS network-service executed=2 absent\")\n"
+    },
+    {
+      "id": "m19",
+      "label": "PREDICTION-VECTOR line checks deleted",
+      "lines": [
+        378,
+        381
+      ],
+      "defect_key": "prediction-vector + prediction-drift",
+      "removed_sha256": "3473fe03902010e366adb0f5d00f2956cd802a06c95683d6f81c90a0a5d117b4",
+      "mutant_sha256": "e4160f314d88581f150a400fdf0c1426cbe851df7c214d012fc29a01ec83a9a3",
+      "removed_block": "        if vec.split(\"derived=\", 1)[-1] != \"/\".join(FROZEN_VECTOR):\n            defect(\"prediction-vector\", f\"{vec}\")\n        if derived_now != \"/\".join(FROZEN_VECTOR):\n            defect(\"prediction-drift\", f\"derived={derived_now}\")\n"
+    },
+    {
+      "id": "m20",
+      "label": "per-case leg check deleted",
+      "lines": [
+        310,
+        311
+      ],
+      "defect_key": "*-leg",
+      "removed_sha256": "66c043d9fdc06d8ff54cfdf74332c08795ed7e2430c4db9c3c1cf25734ec5833",
+      "mutant_sha256": "153642a12bbdcf3eabc349ab5fc1f9555e66af42b0e5b2ec76f5bce0072965bb",
+      "removed_block": "        if fields.get(\"leg\") != \"test_api\":\n            defect(f\"{name}-leg\", f\"{fields.get('leg')} != test_api\")\n"
+    },
+    {
+      "id": "m21",
+      "label": "case-missing defect deleted",
+      "lines": [
+        302,
+        302
+      ],
+      "defect_key": "*-case-missing",
+      "removed_sha256": "54f647eb8af8e31d3984dd0c7fc54d7e24fc62102d4cf62d978ab77f6dab4f21",
+      "mutant_sha256": "f4979490b5eff8327348758e14f970f415756bab4f1860aa99238db24d7180f8",
+      "removed_block": "            defect(f\"{name}-case-missing\", \"line absent\")\n"
+    },
+    {
+      "id": "m22",
+      "label": "server-log flags check deleted",
+      "lines": [
+        336,
+        337
+      ],
+      "defect_key": "server-log-flags",
+      "removed_sha256": "87eff4b2ec92a23065a39dda23e892add1ff0c11e128a96104136896bbe839bd",
+      "mutant_sha256": "bbb32e26940253dcafe0f4cd5bdf9c283b2070bfcce25d0c98343e320be8b35f",
+      "removed_block": "    if \"served_simple=True\" not in log_line or \"served_wheel=True\" not in log_line:\n        defect(\"server-log-flags\", f\"{log_line or '(line missing)'}\")\n"
+    }
+  ],
+  "fixtures": {
+    "F-probe": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-probe.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "probe-sha"
+    },
+    "F-base": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-base.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "base-probe-sha"
+    },
+    "F-dup": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-dup.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "case-duplicate"
+    },
+    "F-unknown": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-unknown.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "case-unknown"
+    },
+    "F-k1-stderr": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-k1-stderr.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "K1-stderr-sha"
+    },
+    "F-k3-stderr": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-k3-stderr.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "K3-stderr-sha"
+    },
+    "F-exit": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-exit.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "exit-agreement"
+    },
+    "F-stored": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-stored.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "stored-predicate"
+    },
+    "F-log-flags": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-log-flags.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "server-log-flags"
+    },
+    "F-grader-sha": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-grader-sha.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "grader-sha"
+    },
+    "F-k1-observed": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-k1-observed.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "K1-observed"
+    },
+    "F-k1-pid": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-k1-pid.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "K1-index-pid"
+    },
+    "F-k1-wheel": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-k1-wheel.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "K1-wheel-sha"
+    },
+    "F-k1-leg": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-k1-leg.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "K1-leg"
+    },
+    "F-missing": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-missing.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "K4-case-missing"
+    },
+    "F-log-sha": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-log-sha.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "server-log-sha"
+    },
+    "F-k2-line": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-k2-line.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "k2-clause-line"
+    },
+    "F-class": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-class.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "class-line"
+    },
+    "F-pred": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-pred.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "prediction-vector"
+    },
+    "F-grader-pin": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-grader-pin.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "grader-pin"
+    },
+    "F-k1-expected": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-k1-expected.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "K1-expected"
+    },
+    "F-k2-stderr-sha": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-k2-stderr-sha.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "k2-stderr-sha"
+    },
+    "F-vector": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-vector.txt",
+      "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin",
+      "expect": "K2-observed"
+    },
+    "F-grader-bytes": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-grader-bytes.txt",
+      "lane": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/lane-grader-drift",
+      "expect": "grader-bytes"
+    },
+    "F-k2-clause": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-k2-clause.txt",
+      "lane": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/lane-k2-clause",
+      "expect": "k2-clause-bytes"
+    },
+    "F-k2-refused": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-k2-refused.txt",
+      "lane": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/lane-k2-refused",
+      "expect": "k2-refused"
+    },
+    "F-log-no-simple": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-log-no-simple.txt",
+      "lane": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/lane-f-log-no-simple",
+      "expect": "server-log-simple"
+    },
+    "F-log-no-wheel": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-log-no-wheel.txt",
+      "lane": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/lane-f-log-no-wheel",
+      "expect": "server-log-wheel"
+    },
+    "F-k2-capture-missing": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-k2-capture-missing.txt",
+      "lane": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/lane-k2-capture-missing",
+      "expect": "k2-stderr-capture"
+    },
+    "F-log-missing": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-log-missing.txt",
+      "lane": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/lane-log-missing",
+      "expect": "server-log"
+    },
+    "F-k4-capture": {
+      "receipt": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/F-k4-capture.txt",
+      "lane": "/fast/scratch/hyaku/kengaku-r68/CounterMutate/fix/lane-k4-capture",
+      "expect": "K4-stderr-capture"
+    }
+  },
+  "record_receipt_sha256": "c6ed306e80bf01a36a35b8f0c38f0f9e13fdff276d53444ca03caecf20a665de",
+  "lane": "/home/vgpnk/Projects/shokunin/kengaku-shokunin"
+}

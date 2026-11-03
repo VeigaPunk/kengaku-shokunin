@@ -1,0 +1,31 @@
+# RenderingTrace live evidence — 2026-11-03
+# runtime: 3.14.8, pip 26.2.1, vendored urllib3 2.7.0
+# port used: 18099 (no listener before run). Port 8080 was never bound and never contacted.
+
+## A. default-verbosity stderr, 18099 normalised to 8080 (cmp-identical to corpus/evidence/round68/pypi/stderr/K2.txt)
+WARNING: Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=8080): Failed to establish a new connection: [Errno 111] Connection refused")': /simple/vectorops/
+WARNING: Retrying (Retry(total=3, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=8080): Failed to establish a new connection: [Errno 111] Connection refused")': /simple/vectorops/
+WARNING: Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=8080): Failed to establish a new connection: [Errno 111] Connection refused")': /simple/vectorops/
+WARNING: Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=8080): Failed to establish a new connection: [Errno 111] Connection refused")': /simple/vectorops/
+WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=8080): Failed to establish a new connection: [Errno 111] Connection refused")': /simple/vectorops/
+ERROR: Could not find a version that satisfies the requirement vectorops==0.1.0 (from versions: none)
+ERROR: No matching distribution found for vectorops==0.1.0
+
+## B. -vvv stderr: literal 'localhost:18099' count = 0; line levels:
+      2 ERROR
+      5 WARNING
+
+## C. -vvv stdout lines containing the literal (count = 13)
+9:Looking in indexes: http://localhost:18099/simple
+11:* http://localhost:18099/simple/vectorops/
+12:Fetching project page and analyzing links: http://localhost:18099/simple/vectorops/
+13:Getting page http://localhost:18099/simple/vectorops/
+14:Found index url http://localhost:18099/simple/
+15:Starting new HTTP connection (1): localhost:18099
+17:Starting new HTTP connection (2): localhost:18099
+19:Starting new HTTP connection (3): localhost:18099
+21:Starting new HTTP connection (4): localhost:18099
+23:Starting new HTTP connection (5): localhost:18099
+25:Starting new HTTP connection (6): localhost:18099
+26:Could not fetch URL http://localhost:18099/simple/vectorops/: connection error: [Errno 111] Connection refused - skipping
+27:Skipping link: not a file: http://localhost:18099/simple/vectorops/

@@ -111,3 +111,26 @@ clause was written before any captured K2 stderr existed; the control receipt
 (`corpus/lessons/round-63.md`, `## Mistakes`).
 
 The receipts' `index_pid` values differ between runs; the leg vectors and the wheel digests do not.
+
+## Round-68 landing — the corrected stderr re-freeze (R68-C1 pass)
+
+A new frozen predicate (`plans/round-68-claims.md`, round-60 Q25 pattern — the round-63 receipt
+stays MISS of record) re-runs the same four cases through the same round-63 machinery via
+`plans/round68_c1_pypi_finish.py` (byte-import of `plans/round63_c1_pypi_probe.py`, BASE-PROBE
+sha256 `2ebaf54e…`). Receipt of record `corpus/evidence/round68/pypi/receipt.txt`:
+`PREDICATE R68-C1 pass` under `--check-receipt` (rc 0), vector P/F/F/F, every evidence byte
+sha-bound (per-case stderr captures, K1 server log, grader at pin, both probe shas). Live
+witness `corpus/evidence/round68/pypi/battery-run.txt`.
+
+**Mechanism correction (wave finding):** the renderer of
+`HTTPConnection(host='localhost', port=8080)` is urllib3's `HTTPConnection.__str__`
+(`pip/_vendor/urllib3/connection.py:163-164`, vendored urllib3 2.7.0), not
+`http.client.HTTPConnection.__repr__` — CPython's class defines neither at v3.14.8
+(S240 re-sourced to urllib3 `src/urllib3/connection.py` tag 2.7.0; see the wave receipts
+`.ufo/waves/round-68/w1/recon/S240-receipt.md` and `RenderingTrace.md`). The corrected clause's
+semantics are unchanged: `host='localhost'` AND `port=8080` in K2's captured pip stderr plus a
+connection-refused marker; the contiguous literal `localhost:8080` is not a form this renderer
+produces (`literal-possible=False`, demonstrated against the vendored bytes).
+
+recheck (added): a pip or urllib3 release that changes `HTTPConnection.__str__`'s field order,
+or a CPython that adds `HTTPConnection.__repr__` — then the clause needs a new re-freeze.

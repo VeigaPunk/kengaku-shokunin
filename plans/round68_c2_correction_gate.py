@@ -93,11 +93,17 @@ def check(root):
         results.append((n, ok, detail))
         print(f"E{n} {'ok' if ok else 'defect'} {detail}")
 
-    # E1 — erratum section with both shas.
+    # E1 — erratum section with both shas; the frozen clause says "exactly one"
+    # `## Erratum (round 68)` heading, so the heading count is bound (amendment A1,
+    # round-68 claims doc: the first-match read under-counted duplicates).
     claims = root / CLAIMS
-    sec = erratum_section(claims.read_text(encoding="utf-8")) if claims.is_file() else None
+    text = claims.read_text(encoding="utf-8") if claims.is_file() else ""
+    n_headings = sum(1 for ln in text.splitlines() if ln.strip() == ERRATUM_HEADING)
+    sec = erratum_section(text) if text else None
     if sec is None:
         rec(1, False, f"{ERRATUM_HEADING} section absent in {CLAIMS}")
+    elif n_headings != 1:
+        rec(1, False, f"{ERRATUM_HEADING} heading count {n_headings} (want exactly 1)")
     else:
         has_new = R67_PROBE_SHA in sec
         has_old = WRONG_SHA in sec
