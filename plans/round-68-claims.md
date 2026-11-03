@@ -390,3 +390,30 @@ C2 (the sourced-claim duty is carried by C1 via S240).
    the report-contract gate. Attack roles reviewer 2 + critic 1 + mutation-tester 1 = 4/10 = 40 %;
    connector 1 (≤2); one scout re-opens S240 live. The round total is w1 12 + w2 10 = 22 seats;
    no residual call.
+
+---
+
+## Amendment A3 (dated 2026-11-03, attempt 2 — a self-assessment correction found during attempt 2's re-derivation; no frozen claim is changed)
+
+1. **Finding (measured, before the fix).** The SCORECARD `## Capabilities` table stops at round 51
+   (`surface-truth-manifest-counter`), yet the round sections 64–68 each say their capability
+   "enters" — `offline-network-service-grader-probe` (round 64, re-demonstrated 68),
+   `offline-db-state-grader-probe` (65), `offline-torch-tensor-parallel-grader-probe` (66),
+   `offline-torch-pipeline-parallel-grader-probe` (67). Counting command:
+   `python3 plans/round68_capability_table.py --lane .` → `MISMATCH n=4`, `PREDICATE R68-A3 fail`,
+   rc 1 (receipt `.ufo/waves/round-68/w2/capability-table/red-before.txt`). This is a calibration
+   mismatch between the lane's self-assessment and its committed repo state (AXES.md
+   §Capabilities: a row enters only through a demonstrating round; four did, none was written).
+2. **Fix (frozen counter, declared before the rows are added).** `plans/round68_capability_table.py`:
+   T1 every declared capability has exactly one row; T2 the row's first-working-round cell names
+   the declaring round; T3 the row's evidence cell carries a backticked path that exists; T4 no
+   duplicate capability name. Predicate R68-A3: the command above exits 0 and prints
+   `PREDICATE R68-A3 pass` with `MISMATCH n=0`; `--selftest --work <scratch>` prints
+   `SELFTEST n=5 red-refused=4 green-ok=1`. Kill rules: (a) the gate passes the pre-fix table →
+   vacuous, not admitted; (b) a check cannot fail on its own fixture → vacuous, not admitted;
+   (c) the gate fails the landed table for a reason the rows cannot fix → reported, checks not
+   narrowed after data.
+3. **Scope.** Four rows are appended to the `## Capabilities` table with their first-working rounds
+   and re-derivable evidence pointers; no existing row is edited. This is a correction, not a
+   claim: the round's two claims (R68-C1, R68-C2) are unchanged, and the correction is recorded in
+   the lesson's `## Mistakes` and the round report.
