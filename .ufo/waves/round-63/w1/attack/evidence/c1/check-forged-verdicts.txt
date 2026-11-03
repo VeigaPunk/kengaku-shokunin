@@ -1,0 +1,17 @@
+== forge1-fake-pid-and-sha.txt rc=0
+CHECK ok cases=4 vector=P/F/F/F wheel_sha256=aaaaaaaaaaaa...
+CHECK stored-predicate=pass derived=pass
+PREDICATE R63-C1 pass
+== forge2-k2-observed-P.txt rc=1
+CHECK fail K2 observed P != F
+CHECK fail observed-vector P/P/F/F != P/F/F/F
+CHECK stored-predicate=pass derived=fail
+PREDICATE R63-C1 fail
+== forge3-no-k2-stderr-line.txt rc=1
+CHECK fail k2-stderr (line missing)
+CHECK stored-predicate=pass derived=fail
+PREDICATE R63-C1 fail
+== forge4-short-sha.txt rc=1
+CHECK fail K1 wheel_sha256 not a sha256: abc
+CHECK stored-predicate=pass derived=fail
+PREDICATE R63-C1 fail

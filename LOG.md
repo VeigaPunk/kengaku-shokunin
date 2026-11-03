@@ -2476,3 +2476,18 @@ subject to the non-author closure. SOURCES 218→220 (S226+S227, both opened liv
 census receipts in the round report). L0 questions `kengaku | round-25/33/51` and
 `kengaku | round-56`: still open, routed around. Lesson: `corpus/lessons/round-62.md`. LOG
 re-verification lines for every touched claim: waves F, A+M, and this entry.
+
+## Round 63 (2026-11-03) — the TB2 `pypi-server` grader replayed offline (R63-C1 MISS on the frozen stderr clause; amended detector routed to the operator) and the grader-class decision table landed (R63-C2 PASS on the frozen sentence, depth 9→10 proposed)
+
+Base `c78749a5`. Freeze `9ebde3a7` (claims doc, do-nothing control receipt K2 = F, wave spec, validated dispatch), before the scored wave. Wave `.ufo/waves/round-63/w1` (v1, 12 seats). Dated amendment A1 at the end of `plans/round-63-claims.md`, written after the wave ran.
+
+Re-verification this round (every touched claim): grader pin `sha256 82c63517…650be4c` = `SHA256SUMS` line 134 (`sha256sum`, scout + SourceReview both); S228 and S229 re-fetched by two seats, byte-identical; control receipt `73f1fa33…` re-hashed by FreezeReview; host state: no 8080 listener at round start (`ss -ltnp`).
+
+- R63-C1 (coverage, L0-capped): run 1 (receipt of record) leg vector P/F/F/F, `PREDICATE R63-C1 fail` on the literal stderr clause (`K2 stderr_mentions_8080=False`; pip renders `host='localhost', port=8080`). Amended detector runs 2–3 `PREDICATE R63-C1 pass`, evidence only. Verdict of record: MISS. No capability row; coverage counts no network-service execution; score 7 unchanged.
+- R63-C2 (depth): `plans/round63_gate_checks.py depth` on base `PREDICATE R63-C2 fail` rc 1; on the new SKILL.md section `ROWS n=16 class_match=True count_mismatch=0 paths total=24 resolved=24 share=1.00`, `PREDICATE R63-C2 pass` rc 0. Proposed depth 9→10, pending non-author closure; recipe text drafted by a scribe, not independently re-executed.
+- Trio gate: red on `corpus/knowledge/tb2-grader-class-census.md`, green on `corpus/knowledge/tb2-network-service-offline-grader.md`.
+- SOURCES 220 → 222 (S228, S229, opened 2026-11-03). Census exit 0 at both ends (`.ufo/waves/round-63/frontier/`).
+- Lesson `corpus/lessons/round-63.md`: Gate, five Mistakes rows. QUALITY Q45 (round-63 criterion). README rows for the entry, the lesson and the evidence dir.
+- Non-author findings that changed the round: FreezeReview (2 blockers, 14 majors) → counter corrected (`resolved == total`), coverage counter re-pointed at the receipt verdict (A1). Critic: `--check-receipt` re-derives text only (named limitation).
+
+Evidence: `corpus/evidence/round63/` and `.ufo/waves/round-63/w1/`. L0 question opened: `kengaku | round-63` (admit the amended K2 detector or not). Lesson: `corpus/lessons/round-63.md`.

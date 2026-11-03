@@ -2823,3 +2823,18 @@ round-56` L2 surface + ledger host column). Standing discipline, extended this r
 committed-input claims are ls-files-verified at the freeze; scored runs only in clean clones;
 registry rows are inserted after the last registry row; exit labels are captured pipe-free;
 tables and member lists are quoted from receipts, never hand-tabulated.
+
+## Round 63 (2026-11-03): the network-service grader replayed offline (R63-C1, MISS on the frozen stderr clause) and the grader-class decision table (R63-C2, PASS on the frozen sentence)
+
+Base `c78749a5`; freeze `9ebde3a7`; claims doc amendment A1 (dated, post-wave) in `plans/round-63-claims.md`. Lowest owned axis: **coverage 7** (L0-capped, `kengaku | round-25/33/51` still open), worked by C1. Second claim C2 on **depth 9**.
+
+| claim / axis | before → after evidence | counting command | verdict / score |
+|---|---|---|---|
+| R63-C1 / coverage (capability `offline-network-service-grader-probe`, not entered) | before: `CLASS network-service executed=0` (census receipt `corpus/evidence/round62/class-survey.txt:11`) → after, receipt of record `corpus/evidence/round63/pypi-probe-run1-literal-detector-fail.txt`: leg vector P/F/F/F, K2 stderr clause missed on the literal | `python3 plans/round63_c1_pypi_probe.py --check-receipt corpus/evidence/round63/pypi-probe-run1-literal-detector-fail.txt` → `PREDICATE R63-C1 fail`, rc 1 | MISS; coverage held 7 (L0 cap); amended-detector runs (`pypi-probe.txt`, `pypi-probe-rerun.txt`) pass as evidence only, routed to the operator (`kengaku | round-63`) |
+| R63-C2 / depth | before: `python3 plans/round63_gate_checks.py depth --skill <base SKILL.md> --receipt corpus/evidence/round62/class-survey.txt` → `PREDICATE R63-C2 fail`, rc 1 (`corpus/evidence/round63/depth-before.txt`) → after: `ROWS n=16 class_match=True count_mismatch=0 paths total=24 resolved=24 share=1.00`, `PREDICATE R63-C2 pass`, rc 0 (`depth-after.txt`) | `python3 plans/round63_gate_checks.py depth --skill SKILL.md --receipt corpus/evidence/round62/class-survey.txt --root .` | PASS on the frozen sentence → depth 9 → 10 proposed, pending non-author closure; recipe text not re-executed this round |
+
+**Capabilities:** no new row (R63-C1's capability is not admitted; the amended-detector pass awaits operator ruling).
+
+**No owned axis harmed.** coverage held 7 (miss, L0 cap); calibration 10 held; operability 10 held (gate and trio added, both shown red-before and green-after); freshness 10 held (every touched claim re-verified, see LOG round 63); adjacency 9 held (nothing sibling-owned absorbed; the SiblingOverlap connector found no owned overlap); novelty 8 held; depth 9 → 10 proposed on C2.
+
+**Planned (round 64).** Carry the L0 questions (`kengaku | round-25/33/51`, `kengaku | round-56`, `kengaku | round-63`). If the operator admits the amended K2 detector, re-evaluate R63-C1 by a dated decision, never by re-scoring run 1. Next network-service grader candidates from the census: kv-store-grpc, nginx-request-logging, headless-terminal (each needs its own stderr/output captured before the freeze, per QUALITY Q45).

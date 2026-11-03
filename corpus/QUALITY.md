@@ -1170,3 +1170,16 @@ Line numbers are this file's.
   This mines proposal 2 of `considerthese/2026-10-26.md` (opened 2026-10-30): a standing
   admission counter needs a filler control that stays red. It adopts the criterion, not a
   claim that the proposed standing TB2 counter has been implemented.
+
+## Round63 criterion — a frozen predicate that reads a tool's output is checked against captured output before the freeze
+
+- **Q45 — a predicate sentence that names a string a tool prints is checked against a captured instance of that output before it is frozen; a knowledge entry opens with its provenance trio.**
+  Round 63 froze "K2's captured pip stderr names localhost:8080" with a control receipt that recorded only the exception
+  class. The first scored run then found the literal absent: pip 26.2.1 renders `HTTPConnection(host='localhost', port=8080)`
+  (`corpus/evidence/round63/k2-pip-stderr.txt`, `grep -c 'localhost:8080'` → 0). The predicate missed as frozen
+  (`corpus/evidence/round63/pypi-probe-run1-literal-detector-fail.txt`, `PREDICATE R63-C1 fail`). Admission: capture the
+  tool's actual output in the control receipt before the sentence is written, and quote the captured bytes, not a
+  remembered rendering. Separately, `plans/round63_gate_checks.py trio` enforces the CORPUS.md provenance trio on new
+  knowledge entries; red on `corpus/knowledge/tb2-grader-class-census.md` (`corpus/evidence/round63/trio-red.txt`), green on
+  `corpus/knowledge/tb2-network-service-offline-grader.md` (`corpus/evidence/round63/trio-green.txt`). Source: `corpus/lessons/round-63.md`
+  `## Mistakes` rows 1 and 4. This criterion does not rewrite the Q-series criteria above.

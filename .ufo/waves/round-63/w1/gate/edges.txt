@@ -1,0 +1,76 @@
+trio green.md
+rc=0
+TRIO pass /fast/scratch/hyaku/kengaku-r63/GateBuild/edges/green.md
+
+trio order.md
+rc=1
+TRIO fail missing=recheck file=/fast/scratch/hyaku/kengaku-r63/GateBuild/edges/order.md
+
+trio late.md
+rc=1
+TRIO fail missing=source,verified-at,recheck file=/fast/scratch/hyaku/kengaku-r63/GateBuild/edges/late.md
+
+trio head.md
+rc=1
+TRIO fail missing=source,verified-at,recheck file=/fast/scratch/hyaku/kengaku-r63/GateBuild/edges/head.md
+
+trio nodash.md
+rc=1
+TRIO fail missing=verified-at file=/fast/scratch/hyaku/kengaku-r63/GateBuild/edges/nodash.md
+
+usage no-args
+rc=2
+usage: round63_gate_checks.py [-h] [--selftest] [--work WORK]
+                              {trio,depth,selftest} ...
+error: expected 'trio <file>', 'depth ...' or '--selftest --work <dir>'
+
+usage trio-missing-file
+rc=2
+SETUP cannot read /fast/scratch/hyaku/kengaku-r63/GateBuild/edges/nope.md: [Errno 2] No such file or directory: '/fast/scratch/hyaku/kengaku-r63/GateBuild/edges/nope.md'
+
+usage selftest-no-work
+rc=2
+usage: round63_gate_checks.py [-h] [--selftest] [--work WORK]
+                              {trio,depth,selftest} ...
+error: selftest requires --work <dir>
+
+usage depth-missing-flag
+rc=2
+usage: round63_gate_checks.py depth [-h] --skill SKILL --receipt RECEIPT
+                                    [--root ROOT]
+round63_gate_checks.py depth: error: the following arguments are required: --receipt
+
+share floor 9/10 = 0.90 (inclusive)
+rc=0
+ROWS n=16 class_match=True count_mismatch=0 paths total=10 resolved=9 share=0.90
+PREDICATE R63-C2 pass
+
+share 8/10 = 0.80
+rc=1
+ROWS n=16 class_match=True count_mismatch=0 paths total=10 resolved=8 share=0.80
+DETAIL unresolved=corpus/evidence/round63/gone1.md,corpus/nope/x.py
+PREDICATE R63-C2 fail
+
+structural 4-cell row
+rc=1
+ROWS n=16 class_match=True count_mismatch=0 paths total=9 resolved=9 share=1.00
+DETAIL structural-rows=candidate-import(cells=4)
+DETAIL row-pointer=candidate-import:missing-pointer-cell
+PREDICATE R63-C2 fail
+
+structural 6-cell row
+rc=1
+ROWS n=16 class_match=True count_mismatch=0 paths total=9 resolved=9 share=1.00
+DETAIL structural-rows=candidate-import(cells=6)
+PREDICATE R63-C2 fail
+
+header 'Grader class'
+rc=0
+ROWS n=16 class_match=True count_mismatch=0 paths total=1 resolved=1 share=1.00
+PREDICATE R63-C2 pass
+
+backticked URL excluded
+rc=0
+ROWS n=16 class_match=True count_mismatch=0 paths total=1 resolved=1 share=1.00
+PREDICATE R63-C2 pass
+

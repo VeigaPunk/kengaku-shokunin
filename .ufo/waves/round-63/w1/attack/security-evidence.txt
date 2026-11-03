@@ -1,0 +1,55 @@
+# SecurityScan evidence — round 63 w1
+
+## E1 — TOCTOU on 127.0.0.1:8080 lets a foreign wheel execute inside the probe's bwrap sandbox
+
+Command: python3 (import probe module from .ufo/waves/round-63/w1/build/round63_c1_pypi_probe.py)
+  - start a FOREIGN http.server on 127.0.0.1:8080 serving vectorops-0.1.0 whose
+    vectorops/__init__.py writes a marker into $HOME at import time
+  - force the TOCTOU: require_port_free() passes, THEN the foreign server binds 8080
+  - run probe main --lane L --work W --receipt R
+
+Output:
+  PREDICT K1=P K2=F K3=F K4=F
+  SERVED K1 requests=0 paths=[]
+  SETUP K1 confounded: own server served no /simple/vectorops request (log 0 lines)
+  === probe exit code: 2
+  === receipt written?: False
+  === FOREIGN code executed inside probe sandbox (marker in host-visible HOME): True
+      marker: FOREIGN_CODE_EXECUTED_IN_SANDBOX
+
+Reading: the probe's own bwrap child lost the bind (exit 1) and the FOREIGN index answered.
+The foreign wheel's module-level code ran inside the probe's sandbox BEFORE the K1
+access-log ownership guard fired. The receipt was NOT written and the exit code was 2,
+so the claim counter is not falsified -- but foreign code did execute in the sandbox.
+
+## E2 — foreign 404 index makes pip's stderr contain the LITERAL 'localhost:8080'
+
+  pip stderr vs a FOREIGN 200/404 index: 'ERROR: HTTP error 404 while getting
+    http://localhost:8080/simple/vectorops/vectorops-0.1.0-py3-none-any.whl'
+  literal 'localhost:8080' in stderr: True
+  'Errno 111' present: False | 'Connection refused' present: False
+  => a checker matching the literal string alone would PASS on a confounded window;
+     the probe's extra guard (requires Errno 111 / Connection refused) rejects it. Measured:
+     current probe raises 'SETUP K2 confounded: stderr does not say connection-refused'.
+
+## E3 — depth-gate path resolution escapes the lane root
+
+Command: import gate_checks.py from .ufo/waves/round-63/w1/gate/; depth_measure(synthetic_table, receipt, lane_root)
+  with ONE row whose receipt pointer is '/home/vgpnk/.config/uv/uv-receipt.json' (absolute,
+  outside the repo) and 15 rows pointing at corpus/evidence/round62/class-survey.txt:
+  ROWS n=16 class_match=True count_mismatch=0 paths total=2 resolved=2 share=1.00
+  rc: 0  ->  PREDICATE R63-C2 pass
+  gate._resolves(lane_root, tok) -> True ; resolved location:
+    /home/vgpnk/.config/uv/uv-receipt.json ; inside lane root? False
+
+## E4 — sandbox namespace/credential surface (measured inside the probe's own sandbox_argv)
+  uid/gid inside sandbox: 1000 1000
+  host PIDs visible: 2478
+  REACHABLE 127.0.0.1:10086 (host kimi-webbridge)
+  REACHABLE 127.0.0.1:1234 (host llama-server)
+  REACHABLE 1.1.1.1:443 (public IP literal)
+  DNS example.com: gaierror (no /etc/resolv.conf)
+  host home visible: False | .ssh: False | .netrc: False | .omp: False | .config/uv: False
+  env var count inside: 6   HOME=<work>/home   PIP_CONFIG_FILE=/dev/null
+  /proc/<host pid>/cmdline READABLE inside sandbox -> token-shaped argv leaks in
+  /proc/<host pid>/environ DENIED (ptrace-mode read)

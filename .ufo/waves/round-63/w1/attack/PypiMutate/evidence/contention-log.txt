@@ -1,0 +1,58 @@
+# Port-8080 contention log — seat PypiMutate, r63 w1
+# Every line below is an observation made at the time with the command shown.
+# Scored legs are unaffected: each leg's own record (results.json) carries
+# server_pid, server_pid_is_holder=true, its server access log, and port_after_stop=null.
+
+15:06:0x  $ ss -ltnp | grep ':8080 '            -> no output (8080 free)
+15:07:1x  $ ss -ltnp | grep ':8080 '
+          -> LISTEN 0 5 127.0.0.1:8080 0.0.0.0:* users:(("python",pid=2647985,fd=3))
+             (grep of /proc/2647985/cmdline 30 s later: "No such file or directory" — already dead)
+          $ ps -eo pid,ppid,etime,args | grep -E 'http\.server|8080'
+          -> 2649092 ./venv/bin/python -m pip install --index-url http://localhost:8080/simple vectorops==0.1.0
+          => transient peer probe leg; no leg of this seat was running (preflight only, binds nothing).
+             Not killed (never kill a process I did not start).
+
+15:08:0x  First batch attempt: harness aborted M0 *before* any bind.
+          results["legs"]["M0"].status = aborted-port-busy, occupant=null,
+          peer = [".../bash -l -c B=.../round63_c1_pypi_probe.py; for i in $(seq 1 20); ... sleep 60 ..."]
+          => my detector matched a *bash watch loop that only mentions* the probe filename.
+             No server started; port never held. Detector narrowed to python/pip comms.
+
+15:09:0x  Batch-1 rerun (M0..K2) succeeded. Server logs contain only this seat's requests.
+
+15:09:5x  Batch-2 attempt aborted M4 before any bind:
+          peer = ["3124138 python /fast/scratch/.../ControlProbe/venv/bin/python -m pip install --index-url http://localhost:8080/..."]
+          => a sibling's `bwrap --unshare-net` pip (private netns; cannot reach host 8080).
+             No server started. Detector narrowed to same-netns processes; ss stays the gate.
+
+15:10:1x  Batch-2 rerun (M4,M0R,X1,X2,M3B) + mechanism probes all ran; all server logs clean.
+
+15:10:19  MP-EMPTY (no server of mine; ss free at gate) was CONFOUNDED:
+          pip stderr: "ERROR: HTTP error 404 while getting
+            http://localhost:8080/simple/vectorops/vectorops-0.1.0-py3-none-any.whl"
+          A foreign index answered GET /simple/vectorops/ 200 with a wheel named
+          `vectorops-0.1.0-py3-none-any.whl` (no build tag; no wheel of this seat has that name)
+          and its href resolved under /simple/vectorops/ -> 404. pip failed in 0.17 s.
+          => EXCLUDED as confounded; replaced by MP-REFUSED on an uncontended port (18080),
+             which binds nothing: 5x "[Errno 111] Connection refused", 7.68 s, then
+             "Could not find a version that satisfies the requirement vectorops==0.1.0 (from versions: none)".
+             K2 (same command, empty 8080) took 7.88 s with 5 retries => same mechanism.
+          A foreign 404/200 index answers in ~0.17 s, so K2's 7.88 s is not a foreign-service answer.
+
+15:10:2x  $ ss -ltnp | grep ':8080 '
+          -> LISTEN ... users:(("python3",pid=3341980,fd=3))   (appeared just after my last leg;
+             not mine, not touched; vanished within seconds while I read /proc)
+
+Peer protocol observed: PypiProbeBuild announced its holds as `8080 HOLD ... Ns` / `8080 free`;
+this seat announced every hold and every release the same way.
+
+15:13:27  $ ss -ltnp | grep ':8080 '   -> no output (free)
+          Clean re-run of the empty-8080 mechanism (binds nothing; no server):
+          $ /usr/bin/env -i PATH=$S/venv/bin:/usr/bin:/bin HOME=$S/home PIP_CONFIG_FILE=/dev/null \
+              python -m pip install --index-url http://localhost:8080/simple vectorops==0.1.0
+          -> 5 x NewConnectionError("HTTPConnection(host='localhost', port=8080): Failed to establish a new
+             connection: [Errno 111] Connection refused"), 7.70 s, then
+             "Could not find a version that satisfies the requirement vectorops==0.1.0 (from versions: none)";
+             ss empty after.
+          => K2's 7.88 s/5-retry signature is connection-refused on the real port; the confounded MP-EMPTY answer
+             (0.17 s, foreign 404 index) is a different mechanism. Evidence: evidence/run/MP-EMPTY-CLEAN/.

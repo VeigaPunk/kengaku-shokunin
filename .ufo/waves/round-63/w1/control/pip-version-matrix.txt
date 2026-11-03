@@ -1,0 +1,12 @@
+pip version matrix — repr of pip's vendored urllib3 HTTPConnection(host='localhost', port=8080),
+and what pip's K2 stderr renders (connection refused, no listener).
+pip 26.2.1 (host python3.14 venv) vendored urllib3 2.7.0:
+   repr: <HTTPConnection(host='localhost', port=8080) at 0x7f314b2ade80>
+   K2 stderr literal 'localhost:8080': 0  pair host/port: 5
+pip 25.3 (uv cpython-3.9) vendored urllib3 1.26.20:
+   repr: <pip._vendor.urllib3.connection.HTTPConnection object at 0x7f0e4723bcb0>
+   K2 stderr literal 'localhost:8080': 0  pair: 0  any '8080': 0
+pip 23.0.1 (venv39 python3.9) vendored urllib3 1.26.14:
+   repr: <pip._vendor.urllib3.connection.HTTPConnection object at 0x7fc947164550>
+urllib3 1.26's HTTPConnection defines no __repr__ (grep -c '__repr__' in connection.py): 0
+urllib3 2.7.0 repr source line: 164:        return f"{type(self).__name__}(host={self.host!r}, port={self.port!r})"

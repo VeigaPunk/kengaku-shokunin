@@ -147,3 +147,40 @@ captures the class for future entries.
 - Do-nothing control: K2 (receipt committed before the freeze).
 - Before-state counters: C2 base run (`depth-before.txt`), trio red (`trio-red.txt`, produced from base bytes before the new knowledge entry exists), C1 host state (`ss -ltnp` shows no 8080 listener, recorded in `.ufo/waves/round-63/w1/recon/`).
 - Kill rules: stated per claim above; no rule is changed after data.
+
+---
+
+## Amendment A1 — dated 2026-11-03, AFTER the wave ran (the scored receipts below are the record)
+
+The wave (`.ufo/waves/round-63/w1`, dispatched after the freeze `9ebde3a7`) produced three things the freeze
+did not anticipate. Each is recorded here; nothing above is edited.
+
+1. **C1 stderr clause — the receipt of record is a FAIL.** The first battery (`corpus/evidence/round63/pypi-probe-run1-literal-detector-fail.txt`,
+   `check-receipt-run1.txt` → `PREDICATE R63-C1 fail`, rc 1) returned the frozen leg vector P/F/F/F with
+   `K2 stderr_mentions_8080=False`. Measured on the captured K2 stderr (`corpus/evidence/round63/k2-pip-stderr.txt`):
+   the literal `localhost:8080` occurs 0 times; pip 26.2.1 renders the endpoint as `HTTPConnection(host='localhost', port=8080)`
+   (5 occurrences of `port=8080`), and writes the index URL to stdout. The freeze's K2 control recorded the
+   exception class only (`corpus/evidence/round63/control-k2.txt`), so the clause was never checked against captured stderr.
+   **Verdict of record for R63-C1: MISS on the frozen stderr clause.** No re-freeze. No narrowing.
+2. **The amended detector (runs 2–3) is evidence about the rendering, not the verdict.** The probe's detector now accepts
+   the `host='localhost', port=8080` form as naming localhost:8080. Cases, leg rule, sentence and kill rules are unchanged.
+   Re-derived: `corpus/evidence/round63/pypi-probe.txt` and `pypi-probe-rerun.txt` → `PREDICATE R63-C1 pass`
+   (`check-receipt-amended.txt`). Whether that detector may stand is routed to the operator
+   (`.ufo/l0-questions.md`, `kengaku | round-63`). Until ruled, no capability row enters and coverage counts no network-service execution.
+3. **C1 coverage counter (FreezeReview FR-02).** `grep -c 'CLASS network-service executed=1'` is a literal written by the
+   probe and is not an independent check. The coverage counter for C1 is the `--check-receipt` verdict on the receipt of record
+   (run 1 → FAIL → 0 classes newly executed under the frozen predicate). Score unchanged at 7 (L0 cap).
+   Limitation, measured by the critic (`.ufo/waves/round-63/w1/attack/critic.md`): `--check-receipt` re-derives text
+   fields only and cannot prove that `index_pid` is a live probe-started process. The live evidence is the probe's own
+   server access logs in `.ufo/waves/round-63/w1/build/evidence/`.
+4. **C2 counter corrected to the frozen sentence before any real-section measurement.** The gate's first version
+   tested `share >= 0.90` only (FreezeReview FR-01, FR-24). The frozen sentence requires every backticked repo-relative
+   path to resolve AND share ≥ 0.90; `plans/round63_gate_checks.py` now requires `resolved == total` and `share >= 0.90`.
+   Base (before) run unchanged: `corpus/evidence/round63/depth-before.txt` → `PREDICATE R63-C2 fail`, rc 1.
+   The real section (SKILL.md, after the wave) → `corpus/evidence/round63/depth-after.txt` → `ROWS n=16 class_match=True count_mismatch=0 paths total=24 resolved=24 share=1.00`, `PREDICATE R63-C2 pass`, rc 0.
+   The network-service row is `recipe-unexecuted` (not `executed`) because the class's frozen predicate was missed (item 1).
+
+**Verdicts after A1 (per the frozen rules):** R63-C1 MISS (item 1; coverage held at 7, no capability row).
+R63-C2 PASS on the frozen sentence (depth 9 → 10 proposed; subject to the non-author closure; the recipe column's
+content was drafted by a scribe from committed probe code and is not independently re-executed this round — named limitation).
+No axis harmed. The do-nothing control K2 did not reach the target (F), so the kill rule for K2 did not fire.

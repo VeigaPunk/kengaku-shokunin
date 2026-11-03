@@ -1,0 +1,39 @@
+grader sha: 82c6351722e9aa984ff1d701bf57df3150ce51466df2b70afa1aa62d2650be4c
+netns: 1 listening sockets before anything starts
+=========== K2 do-nothing (nothing on 8080) ===========
+port check: ss -ltnp 8080 -> 'none'
+LEG-F test_api CalledProcessError: Command '['python', '-m', 'pip', 'install', '--index-url', 'http://localhost:8080/simple', 'vectorops==0.1.0']' returned non-zero exit status 1.
+PIPERR WARNING: The directory '/home/vgpnk/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and 
+PIPERR WARNING: Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=8080):
+PIPERR WARNING: Retrying (Retry(total=3, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=8080):
+PIPERR WARNING: Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=8080):
+PIPERR WARNING: Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=8080):
+PIPERR WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=8080):
+PIPERR ERROR: Could not find a version that satisfies the requirement vectorops==0.1.0 (from versions: none)
+PIPERR ERROR: No matching distribution found for vectorops==0.1.0
+
+=========== K1 compliant ===========
+index pid=3093963 owner-line: LISTEN 0      5          127.0.0.1:8080      0.0.0.0:*    users:(("python",pid=3093963,fd=3))
+served href sha: sha256=0e2c37a9701197e6a5020fb665f8d7642d64ec3557e4ce76ecb2b39698c2c3bc
+wheel file sha:  0e2c37a9701197e6a5020fb665f8d7642d64ec3557e4ce76ecb2b39698c2c3bc  (vectorops-0.1.0-py3-none-any.whl)
+LEG-P test_api returned normally
+requests: 3 -> /simple/vectorops/ /simple/vectorops/ /packages/vectorops-0.1.0-py3-none-any.whl 
+
+=========== K3 wrong math (+1) ===========
+index pid=3101637 owner-line: LISTEN 0      5          127.0.0.1:8080      0.0.0.0:*    users:(("python",pid=3101637,fd=3))
+served href sha: sha256=d83ae53dd3f5807fd3a8def0a31289fdaf4591fbe7dc8e1074eeea07364ee0aa
+wheel file sha:  d83ae53dd3f5807fd3a8def0a31289fdaf4591fbe7dc8e1074eeea07364ee0aa  (vectorops-0.1.0-py3-none-any.whl)
+LEG-F test_api AssertionError: (empty message)
+requests: 3 -> /simple/vectorops/ /simple/vectorops/ /packages/vectorops-0.1.0-py3-none-any.whl 
+
+=========== K4 only 0.2.0 ===========
+index pid=3111583 owner-line: LISTEN 0      5          127.0.0.1:8080      0.0.0.0:*    users:(("python",pid=3111583,fd=3))
+served href sha: sha256=b928ce455c896cd272d9beff0a4b922ea3d8b9f262f5ca918c14aca69e642e35
+wheel file sha:  b928ce455c896cd272d9beff0a4b922ea3d8b9f262f5ca918c14aca69e642e35  (vectorops-0.2.0-py3-none-any.whl)
+LEG-F test_api CalledProcessError: Command '['python', '-m', 'pip', 'install', '--index-url', 'http://localhost:8080/simple', 'vectorops==0.1.0']' returned non-zero exit status 1.
+PIPERR WARNING: The directory '/home/vgpnk/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and 
+PIPERR ERROR: Could not find a version that satisfies the requirement vectorops==0.1.0 (from versions: 0.2.0)
+PIPERR ERROR: No matching distribution found for vectorops==0.1.0
+requests: 2 -> /simple/vectorops/ /simple/vectorops/ 
+
+=========== end: 8080 -> 'none' ===========

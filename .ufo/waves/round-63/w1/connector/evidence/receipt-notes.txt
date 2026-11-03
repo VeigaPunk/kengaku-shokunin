@@ -1,0 +1,45 @@
+SIBLINGOVERLAP MEASUREMENT RECEIPTS — kengaku r63 w1, seat SiblingOverlap
+scratch: /fast/scratch/hyaku/kengaku-r63/SiblingOverlap  (removed at seat end)
+
+[1] Sibling scan counts (files/lines), corpus/ SKILL.md PROVINCE.md plans/:
+    PAT='pypi-server|vectorops|PEP 503|pep-0503|grader-class|class-survey|bwrap|offline replay'
+    cmd: grep -rilE "$PAT" $T | wc -l ; grep -riE "$PAT" $T | wc -l
+    audio 0/0 | chousa 1/2 | gamedev2d 0/0 | gamedev3d 0/0 | kagi 2/2 |
+    kaidoku 9/19 | kake 1/2 | kama 8/11 | kasegi 0/0 | kotoba 2/3 | kotodama 0/0 |
+    kumitate 20/68 | lore 0/0 | mado 8/16 | mori 3/5 | revenger 0/0 | souji 4/7 |
+    tabi 0/0 | tameshi 20/53 | tsukuroi 1/1
+    TOTAL 79 files / 188 lines
+    term split: bwrap 149 | offline replay 14 | claim-specific terms 0
+[2] Fleet reports: round-60 1 file/1 line, round-61 1/1, round-62 2/9.
+    Only kengaku.md (own lane) + kumitate.md (duplicate bubblewrap bwrap.xml URL).
+[3] Claim-specific term sub-scan over siblings: 0 files (empty output).
+[4] Base SKILL.md at c78749a5: grader.class|network-service -> 0 ; '^## .*TB2 .*grader' -> 9
+[5] control-k2.txt sha256 73f1fa33...009c9 ; grader sha256 82c63517...be4c
+[6] Port 8080 occupancy during the wave:
+    ss -ltnp | grep :8080 -> pid 2648510 (python3 -m http.server 8080 --bind 127.0.0.1
+      --directory /fast/scratch/hyaku/kengaku-r63/PypiProbeBuild/index), later pid
+      2689887, 82641, 110000 (transient peer PypiProbeBuild servers).
+[7] Peer index correctness: peer simple/vectorops/index.html href sha256=0e2c37a9...
+      equals the peer wheel's own sha256 -> a correct vectorops 0.1.0 index.
+[8] bwrap --unshare-net behaviour:
+    host-bound 8080 from inside ns  -> UNREACHABLE ConnectionRefusedError
+    server bound INSIDE the ns       -> BIND-OK + SELF-CONNECT-OK
+    host ss -ltnp while ns server ran -> no :8080 line with that pid (invisible)
+    host fetch of ns marker file      -> '' (host cannot reach it)
+[9] Frozen vector under contention (host squatter on 8080 for the whole run, probe in --unshare-net):
+    K1 LEG P | K2 LEG F CalledProcessError | K3 LEG F AssertionError | K4 LEG F CalledProcessError
+    -> P/F/F/F ; host still shows exactly 1 listener at end.
+[10] Draft probe against a foreign 8080 listener:
+    SETUP port-8080-occupied (K1 before start) ; exit 2  (refuses, does not grade through)
+[11] Draft probe clean run (no squatter): PREDICATE R63-C1 pass ; PREDICT K1=P K2=F K3=F K4=F ;
+    K2 ENDPOINT form=urllib3-host-port
+[12] pip rendering of the endpoint:
+    pip stderr -> host='localhost', port=8080   (literal 'localhost:8080' count = 0)
+    pip stdout -> http://localhost:8080/simple  (literal count = 1)
+    grader CalledProcessError command repr -> literal 'localhost:8080' present
+[13] Wheel RECORD findings (contamination probe):
+    proper RECORD -> install ok, uninstall ok
+    empty RECORD  -> install ok, pip rewrites RECORD, uninstall ok
+    missing RECORD-> pip install itself fails (rc=1); nothing installed
+    dist-info name != filename version -> pip rejects (rc=1)
+    no case produced a lingering dist-info that broke a later uninstall.
