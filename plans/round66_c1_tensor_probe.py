@@ -6,7 +6,13 @@ inside a bubblewrap sandbox whose /app is the case directory and whose /tests/te
 is the byte-pinned grader. Each case yields 13 test outcomes (the existence check plus 12
 parametrised layer tests); the vector of P/F outcomes is compared to the frozen table below.
 
-Grader under execution (lane capture, byte-verified at run time):
+Amendment A1 (plans/round-66-claims.md, dated 2026-11-03): the counter now enforces the frozen
+predicate sentence as written -- every case has a CASE line, every case_sha and junit_sha equals
+committed bytes, the grader is re-hashed on every check, each VECTOR line agrees with the junit
+bytes it names, malformed or unknown lines are named findings (never tracebacks) -- and the
+sandbox unshares the network and PID namespaces. The frozen table, cases and kill rules are unchanged.
+
+Grader under execution (lane capture, byte-verified at run time and at every check):
     corpus/evidence/round52/graders/torch-tensor-parallelism/tests/test_outputs.py
     sha256 4ae4285e15fba1fcf13d7b7c0638ac8c2e2b0797c937abab1fb6b136fd508290
     (corpus/evidence/round52/graders/SHA256SUMS line 171)
@@ -24,19 +30,20 @@ Leg rule (frozen): P iff the junit testcase has no failure/error child; F otherw
 Setup failures (grader sha drift, missing venv, port 12355 busy, bwrap refusal, missing junit)
 are SETUP, exit 2 (could-not-evaluate), never a verdict.
 
+The junit bytes of a receipt live beside it at <receipt-stem>.junit/ (for corpus/evidence/round66/tensor/
+receipt.txt: receipt.junit/), so a later run never overwrites an earlier receipt's bytes.
+
 Usage:
-    python3 plans/round66_c1_tensor_probe.py --run --receipt corpus/evidence/round66/tensor/receipt.txt --work <scratch>
+    python3 plans/round66_c1_tensor_probe.py --run --receipt <path> --work <scratch>
     python3 plans/round66_c1_tensor_probe.py --check-receipt <receipt>
     python3 plans/round66_c1_tensor_probe.py --selftest --work <scratch>
 
-Exit: 0 pass, 1 predicate failed, 2 could-not-evaluate. Scratch is taken from --work only;
-nothing is written under /tmp except the sandbox's own tmpfs.
+Exit: 0 pass, 1 predicate failed, 2 could-not-evaluate. Scratch is taken from --work only.
 """
 
 import argparse
 import fcntl
 import hashlib
-import os
 import re
 import shutil
 import socket
@@ -49,14 +56,14 @@ from pathlib import Path
 LANE = Path(__file__).resolve().parents[1]
 GRADER = LANE / "corpus/evidence/round52/graders/torch-tensor-parallelism/tests/test_outputs.py"
 GRADER_SHA256 = "4ae4285e15fba1fcf13d7b7c0638ac8c2e2b0797c937abab1fb6b136fd508290"
+GRADER_LINE = f"GRADER sha256={GRADER_SHA256} path=corpus/evidence/round52/graders/torch-tensor-parallelism/tests/test_outputs.py"
 CASES_DIR = LANE / "corpus/evidence/round66/tensor/cases"
-JUNIT_DIR = LANE / "corpus/evidence/round66/tensor/junit"
+RECORD_RECEIPT = LANE / "corpus/evidence/round66/tensor/receipt.txt"
 VENV_ROOT = Path.home() / ".local/share/kengaku-r66/venv-torch"
 VENV_PY = VENV_ROOT / "bin/python"
 LOCK = Path.home() / ".local/share/kengaku-r66/port-12355.lock"
 PORT = 12355
 TORCH = "2.15.0+cpu"
-PROBE_SHA_SELF = True  # the probe's own sha is recorded at run time (see probe_sha())
 
 CASES = ["k1-ref", "k2-none", "k3-stub", "k4-col-nogather", "k5-row-noreduce"]
 LAYER_KEYS = [f"{k}-ws{w}-bias{b}" for k in ("column", "row") for w in (1, 2, 4) for b in ("True", "False")]
@@ -105,16 +112,33 @@ def probe_sha() -> str:
     return sha256(Path(__file__).resolve())
 
 
+def junit_dir_for(receipt: Path) -> Path:
+    return receipt.parent / (receipt.stem + ".junit")
+
+
 def key_of(testname: str) -> str:
     if testname == "test_parallel_linear_exists":
         return "exists"
-    m = re.fullmatch(r"test_(column|row)_parallel_linear\[(.+)\]", testname)
+    m = re.fullmatch(r"test_(column|row)_parallel_linear\[(.+)\]", testname or "")
     if not m:
         raise ValueError(f"unexpected testcase name: {testname}")
     kind, params = m.group(1), m.group(2).split("-")
     bias = next(p for p in params if p in ("True", "False"))
     ws = next(p for p in params if p in ("1", "2", "4"))
     return f"{kind}-ws{ws}-bias{bias}"
+
+
+def junit_outcomes(junit: Path) -> tuple:
+    """Return ({key: P|F}, {key: first failure message}) from a junit file."""
+    tree = ET.parse(junit)
+    outcomes, msgs = {}, {}
+    for tc in tree.iter("testcase"):
+        k = key_of(tc.get("name"))
+        bad = [c for c in tc if c.tag in ("failure", "error")]
+        outcomes[k] = "F" if bad else "P"
+        if bad:
+            msgs[k] = (bad[0].get("message") or "")[:160].replace("\n", " ")
+    return outcomes, msgs
 
 
 def port_busy() -> bool:
@@ -137,7 +161,7 @@ def run_case(case: str, case_dir: Path, work: Path) -> dict:
     shutil.rmtree(ctl, ignore_errors=True)
     ctl.mkdir(parents=True)
     cmd = [
-        "bwrap", "--die-with-parent",
+        "bwrap", "--die-with-parent", "--unshare-net", "--unshare-pid",
         "--ro-bind", "/usr", "/usr",
         "--symlink", "usr/bin", "/bin",
         "--symlink", "usr/sbin", "/sbin",
@@ -164,20 +188,12 @@ def run_case(case: str, case_dir: Path, work: Path) -> dict:
     junit = ctl / "junit.xml"
     if not junit.exists():
         return {"case": case, "rc": proc.returncode, "error": "no junit", "tail": (proc.stdout + proc.stderr)[-800:]}
-    tree = ET.parse(junit)
-    outcomes = {}
-    for tc in tree.iter("testcase"):
-        name = tc.get("name")
-        bad = any(child.tag in ("failure", "error") for child in tc)
-        outcomes[key_of(name)] = "F" if bad else "P"
-        if bad:
-            msg = next((c.get("message") or "" for c in tc if c.tag in ("failure", "error")), "")
-            outcomes.setdefault("_msg", {})[key_of(name)] = msg[:160].replace("\n", " ")
+    outcomes, msgs = junit_outcomes(junit)
     return {
         "case": case,
         "rc": proc.returncode,
         "outcomes": {k: outcomes[k] for k in KEYS if k in outcomes},
-        "msgs": outcomes.get("_msg", {}),
+        "msgs": msgs,
         "junit": junit,
         "case_sha": sha256(case_dir / "parallel_linear.py") if (case_dir / "parallel_linear.py").exists() else "none",
         "junit_sha": sha256(junit),
@@ -204,6 +220,7 @@ def cmd_run(receipt: Path, work: Path) -> int:
     if not VENV_PY.exists():
         return setup_error(f"venv missing at {VENV_ROOT}; recreate: uv venv --python /usr/bin/python3 {VENV_ROOT} && uv pip install --python {VENV_PY} --index-url https://download.pytorch.org/whl/cpu torch==2.15.0 && uv pip install --python {VENV_PY} transformers==5.22.1 pytest==9.2.0")
     LOCK.parent.mkdir(parents=True, exist_ok=True)
+    jdir = junit_dir_for(receipt)
     with open(LOCK, "w") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
         results = []
@@ -218,13 +235,12 @@ def cmd_run(receipt: Path, work: Path) -> int:
             r = run_case(case, case_dir, work)
             if "error" in r:
                 return setup_error(f"{case}: {r['error']} rc={r['rc']} tail={r['tail']!r}")
-            jdir = receipt.parent / "junit"
             jdir.mkdir(parents=True, exist_ok=True)
             shutil.copy(r["junit"], jdir / f"{case}.xml")
             results.append(r)
     ok, lines = verdict_lines(results)
     out = [
-        f"GRADER sha256={GRADER_SHA256} path=corpus/evidence/round52/graders/torch-tensor-parallelism/tests/test_outputs.py",
+        GRADER_LINE,
         f"TORCH version={TORCH} python={sys.version.split()[0]} bwrap={subprocess.run(['bwrap','--version'],capture_output=True,text=True).stdout.strip()}",
         f"PROBE sha256={probe_sha()}",
         *lines,
@@ -237,39 +253,67 @@ def cmd_run(receipt: Path, work: Path) -> int:
 
 
 def check_receipt(receipt: Path) -> tuple:
-    """Re-derive the verdict from the receipt and the committed bytes it names."""
+    """Re-derive the verdict from the receipt and the committed bytes it names (A1 counter)."""
     text = receipt.read_text().splitlines()
     problems = []
-    if not any(l == f"GRADER sha256={GRADER_SHA256} path=corpus/evidence/round52/graders/torch-tensor-parallelism/tests/test_outputs.py" for l in text):
+    jdir = junit_dir_for(receipt)
+    if GRADER_LINE not in text:
         problems.append("grader line does not name the pinned sha")
+    if not GRADER.exists() or sha256(GRADER) != GRADER_SHA256:
+        problems.append("committed grader bytes do not match the pinned sha")
     if not any(l.startswith("PROBE sha256=") and l.split("=", 1)[1] == probe_sha() for l in text):
         problems.append("probe sha does not match the committed probe")
     seen = {}
     for l in text:
         m = re.match(r"VECTOR (\S+) (.*) frozen=(\S+)$", l)
-        if m:
-            case = m.group(1)
-            vec = dict(tok.split("=") for tok in m.group(2).split())
-            seen[case] = vec
-            if m.group(3) != "match":
-                problems.append(f"{case} vector marked MISMATCH")
-            if any(vec.get(k) != FROZEN_TABLE[case][k] for k in KEYS):
-                problems.append(f"{case} vector differs from the frozen table")
-    for case in CASES:
-        if case not in seen:
-            problems.append(f"{case} has no VECTOR line")
+        if not m:
+            continue
+        case = m.group(1)
+        if case not in FROZEN_TABLE:
+            problems.append(f"unknown case {case!r} in a VECTOR line")
+            continue
+        try:
+            vec = dict(tok.split("=", 1) for tok in m.group(2).split())
+        except ValueError:
+            problems.append(f"{case} VECTOR line has a malformed token")
+            continue
+        seen[case] = vec
+        if m.group(3) != "match":
+            problems.append(f"{case} vector marked MISMATCH")
+        if any(vec.get(k) != FROZEN_TABLE[case][k] for k in KEYS):
+            problems.append(f"{case} vector differs from the frozen table")
+    cases_seen = {}
     for l in text:
         m = re.match(r"CASE (\S+) case_sha=(\S+) junit_sha=(\S+)", l)
         if not m:
             continue
         case, case_sha, junit_sha = m.groups()
+        if case not in FROZEN_TABLE:
+            problems.append(f"unknown case {case!r} in a CASE line")
+            continue
+        cases_seen[case] = (case_sha, junit_sha)
+    for case in CASES:
+        if case not in seen:
+            problems.append(f"{case} has no VECTOR line")
+        if case not in cases_seen:
+            problems.append(f"{case} has no CASE line")
+            continue
+        case_sha, junit_sha = cases_seen[case]
         case_file = CASES_DIR / case / "parallel_linear.py"
         actual_case = sha256(case_file) if case_file.exists() else "none"
         if actual_case != case_sha:
             problems.append(f"{case} case_sha does not match committed bytes")
-        jfile = receipt.parent / "junit" / f"{case}.xml"
+        jfile = jdir / f"{case}.xml"
         if not jfile.exists() or sha256(jfile) != junit_sha:
             problems.append(f"{case} junit_sha does not match committed junit bytes")
+            continue
+        try:
+            outs, _ = junit_outcomes(jfile)
+        except (ET.ParseError, ValueError) as e:
+            problems.append(f"{case} junit bytes are not a readable junit file ({type(e).__name__})")
+            continue
+        if case in seen and any(outs.get(k, "?") != seen[case].get(k) for k in KEYS):
+            problems.append(f"{case} VECTOR disagrees with the outcomes its junit bytes record")
     if not any(l == "PREDICATE R66-C1 pass" for l in text):
         problems.append("receipt does not carry PREDICATE R66-C1 pass")
     return (not problems), problems
@@ -278,7 +322,7 @@ def check_receipt(receipt: Path) -> tuple:
 def cmd_check(receipt: Path) -> int:
     ok, problems = check_receipt(receipt)
     if ok:
-        print("CHECK ok cases=5")
+        print(f"CHECK ok cases={len(CASES)}")
         print("PREDICATE R66-C1 pass")
         return 0
     for p in problems:
@@ -288,34 +332,46 @@ def cmd_check(receipt: Path) -> int:
 
 
 def cmd_selftest(work: Path) -> int:
-    """Self-test over isolated fixtures: a mutated vector and a missing junit must both be refused."""
+    """Self-test over isolated fixtures: a valid receipt is accepted; a mutated vector, a receipt
+    with no CASE lines, and a malformed or unknown VECTOR line are each refused by name."""
     fx = Path(tempfile.mkdtemp(dir=work, prefix="selftest-"))
     try:
         good = fx / "good.txt"
-        lines = [
-            f"GRADER sha256={GRADER_SHA256} path=corpus/evidence/round52/graders/torch-tensor-parallelism/tests/test_outputs.py",
-            f"PROBE sha256={probe_sha()}",
-        ]
+        lines = [GRADER_LINE, f"PROBE sha256={probe_sha()}"]
         for case in CASES:
             r = FROZEN_TABLE[case]
             vec = " ".join(f"{k}={r[k]}" for k in KEYS)
             case_file = CASES_DIR / case / "parallel_linear.py"
             case_sha = sha256(case_file) if case_file.exists() else "none"
-            junit_sha = sha256(JUNIT_DIR / f"{case}.xml") if (JUNIT_DIR / f"{case}.xml").exists() else "none"
+            junit_sha = sha256(JUNIT_DIR_RECORD / f"{case}.xml")
             lines.append(f"CASE {case} case_sha={case_sha} junit_sha={junit_sha} rc=0 port_free=True")
             lines.append(f"VECTOR {case} {vec} frozen=match")
         lines.append("PREDICATE R66-C1 pass")
         good.write_text("\n".join(lines) + "\n")
-        shutil.copytree(JUNIT_DIR, fx / "junit")
+        shutil.copytree(JUNIT_DIR_RECORD, junit_dir_for(good))
         ok_good, _ = check_receipt(good)
         mutated = fx / "mutated.txt"
         mutated.write_text(good.read_text().replace("VECTOR k1-ref exists=P", "VECTOR k1-ref exists=F", 1))
         ok_mut, _ = check_receipt(mutated)
-        results = {"good_accepted": ok_good, "mutated_refused": not ok_mut}
+        nocase = fx / "nocase.txt"
+        nocase.write_text("\n".join(l for l in lines if not l.startswith("CASE ")) + "\nPREDICATE R66-C1 pass\n")
+        ok_nocase, _ = check_receipt(nocase)
+        malformed = fx / "malformed.txt"
+        malformed.write_text(good.read_text().replace("VECTOR k2-none exists=F", "VECTOR k2-none exists", 1))
+        ok_malformed, _ = check_receipt(malformed)
+        results = {
+            "good_accepted": ok_good,
+            "mutated_refused": not ok_mut,
+            "nocase_refused": not ok_nocase,
+            "malformed_refused": not ok_malformed,
+        }
         print(f"SELFTEST {results}")
         return 0 if all(results.values()) else 1
     finally:
         shutil.rmtree(fx, ignore_errors=True)
+
+
+JUNIT_DIR_RECORD = junit_dir_for(RECORD_RECEIPT)
 
 
 def main() -> int:
@@ -324,7 +380,7 @@ def main() -> int:
     g.add_argument("--run", action="store_true")
     g.add_argument("--check-receipt", type=Path)
     g.add_argument("--selftest", action="store_true")
-    ap.add_argument("--receipt", type=Path, default=LANE / "corpus/evidence/round66/tensor/receipt.txt")
+    ap.add_argument("--receipt", type=Path, default=RECORD_RECEIPT)
     ap.add_argument("--work", type=Path)
     a = ap.parse_args()
     if a.run:

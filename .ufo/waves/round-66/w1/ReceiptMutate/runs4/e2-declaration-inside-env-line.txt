@@ -1,0 +1,8 @@
+$ python3 /fast/scratch/hyaku/kengaku-r66/ReceiptMutate/proposed/probe.py --check-receipt /fast/scratch/hyaku/kengaku-r66/ReceiptMutate/fixtures/e2-declaration-inside-env-line.txt --strict
+exit=1
+--- stdout ---
+CHECK strict probe sha256=f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb rel=plans/round65_c1_sqlite_probe.py
+CHECK defect: fabrication-declaration 'RUN G1 driver="fabricated - nothing ran"'
+PREDICATE R65-C1 strict-fail
+--- stderr ---
+probe_sha=b131e66eb74964c0dfc1001d6191115fd5e14587059e3ddc834a6fec0c3854af fixture_sha_before=02e4716c10e6ab314c8a6ae9988976f9dcc61ebe53d1743d37ae823f46c63ae8 fixture_sha_after=02e4716c10e6ab314c8a6ae9988976f9dcc61ebe53d1743d37ae823f46c63ae8

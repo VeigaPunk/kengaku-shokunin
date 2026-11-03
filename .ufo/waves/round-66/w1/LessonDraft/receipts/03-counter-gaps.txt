@@ -1,0 +1,30 @@
+# LessonDraft seat receipts (round 66, w1) — part 3: gaps in the frozen R66-C1 receipt checker, reproduced by this seat.
+# date: 2026-11-03. Fixtures built in $S/LessonDraft only; the lane is untouched.
+
+== R7: a receipt with every CASE line removed is ACCEPTED (byte-binding clause not enumerated) ==
+$ grep -v '^CASE ' corpus/evidence/round66/tensor/receipt.txt > $S/LessonDraft/nocase.txt
+$ python3 plans/round66_c1_tensor_probe.py --check-receipt $S/LessonDraft/nocase.txt
+CHECK ok cases=5
+PREDICATE R66-C1 pass
+rc=0
+
+== R8: an unknown case name in a VECTOR line crashes with a traceback, not a named finding ==
+$ sed 's/^VECTOR k3-stub /VECTOR bogus /' corpus/evidence/round66/tensor/receipt.txt > $S/LessonDraft/bogus.txt
+$ python3 plans/round66_c1_tensor_probe.py --check-receipt $S/LessonDraft/bogus.txt
+    if any(vec.get(k) != FROZEN_TABLE[case][k] for k in KEYS):
+                         ~~~~~~~~~~~~^^^^^^
+KeyError: 'bogus'
+
+== R9: sha / row-count facts used in the lesson ==
+$ sha256sum plans/round66_c1_tensor_probe.py plans/round65_c1_sqlite_probe.py
+c5ef1b54c89fc9023129220e2846f43b6c6c358f92dce7d74ab4e9beb08ad5f3  /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round66_c1_tensor_probe.py
+f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb  /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round65_c1_sqlite_probe.py
+$ grep -cE '^\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|' corpus/SOURCES.md
+227
+$ git show 12a62551:corpus/SOURCES.md | grep -cE '^\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|'   # round-65 base
+224
+$ grep -cE '^(BUILD|RUN|FILES|ENV) ' corpus/evidence/round65/battery-run.txt corpus/evidence/round65/sqlite-gcov-probe.txt
+/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round65/battery-run.txt:0
+/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round65/sqlite-gcov-probe.txt:20
+$ grep -c 'S234' corpus/evidence/round65/census-before.txt
+1

@@ -1,0 +1,14 @@
+# Census check of the PROPOSED S236/S237 rows (QuoteGateBuild/proposed/rows.md) inserted into a scratch copy of corpus/SOURCES.md.
+# date: 2026-11-03  seat: LessonDraft (round 66, w1). Lane untouched; copy under $S/LessonDraft/lanecopy.
+# command: /home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --today 2026-11-03 $S/lanecopy
+
+$ ... validate --today 2026-11-03 $S/lanecopy   # rows as proposed by QuoteGateBuild
+lanecopy	W04	S234 duplicate url raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/kv-store-grpc/tests/test_outputs.py across scopes
+lanecopy	E04	S236 duplicate url sqlite.org/2026/sqlite-amalgamation-3540100.zip within scope offline instrument builds for db-state graders (R65-C1): the compile-input bytes the probe pins
+lanecopy	W04	S237 duplicate url raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/kv-store-grpc/tests/test_outputs.py across scopes
+
+$ ... validate --today 2026-11-03 $S/lanecopy2  # same rows, teaches cell opened 'supersedes S0NN —'
+lanecopy2	W04	S234 duplicate url raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/kv-store-grpc/tests/test_outputs.py across scopes
+lanecopy2	W04	S237 duplicate url raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/kv-store-grpc/tests/test_outputs.py across scopes
+
+# E04 clause: scripts/sources-census.sh:646-649 — within-scope duplicate URL is an error unless the TEACHES cell matches /supersedes S[0-9]{3}/.

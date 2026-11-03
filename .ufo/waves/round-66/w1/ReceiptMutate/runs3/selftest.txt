@@ -1,0 +1,107 @@
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+CHECK fail G2 vector P/F/F != F/F/F
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R65-C1 fail
+CHECK fail fragment G4 leg3 'No .gcda files found' lacks 'No .gcno files found'
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R65-C1 fail
+CHECK fail G2 leg-2 fragment does not carry the frozen fragment
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R65-C1 fail
+CHECK fail amalgamation-sha 0000000000000000000000000000000000000000000000000000000000000000 != 0a9c8e34352dad46006aa82836d5383bff9dc6bc9ce5a60553c05aa30e6ad1f9
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R65-C1 fail
+CHECK fail G3 no-bind-observation-missing
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R65-C1 fail
+CHECK fail grader-line-missing
+CHECK fail grader-sha (none) != b165f8504bb93a901451b80c4ea73344b71b6af377ebdabef745fbcdd1d2993b
+CHECK fail grader-pin (none) != 2fd12b88aafdd04a52c298e3940bcb189f9766d6
+CHECK fail amalgamation-line-missing
+CHECK fail amalgamation-sha (none) != 0a9c8e34352dad46006aa82836d5383bff9dc6bc9ce5a60553c05aa30e6ad1f9
+CHECK fail amalgamation-url (none) != https://sqlite.org/2026/sqlite-amalgamation-3540100.zip
+CHECK fail toolchain-line-missing
+CHECK fail no-bind-at-battery-start not recorded
+CHECK fail G1 vector-line-missing
+CHECK fail G1 case-line-missing
+CHECK fail G1 no-bind-observation-missing
+CHECK fail G1 driver-invocation-missing
+CHECK fail G1 build-line-missing
+CHECK fail G1 leg-lines 0 != 3
+CHECK fail G2 vector-line-missing
+CHECK fail G2 case-line-missing
+CHECK fail G2 no-bind-observation-missing
+CHECK fail G2 driver-invocation-missing
+CHECK fail G2 build-line-missing
+CHECK fail G2 leg-lines 0 != 3
+CHECK fail G3 vector-line-missing
+CHECK fail G3 case-line-missing
+CHECK fail G3 no-bind-observation-missing
+CHECK fail G3 driver-invocation-missing
+CHECK fail G3 build-line-missing
+CHECK fail G3 leg-lines 0 != 3
+CHECK fail G4 vector-line-missing
+CHECK fail G4 case-line-missing
+CHECK fail G4 no-bind-observation-missing
+CHECK fail G4 driver-invocation-missing
+CHECK fail G4 build-line-missing
+CHECK fail G4 leg-lines 0 != 3
+CHECK fail G5 vector-line-missing
+CHECK fail G5 case-line-missing
+CHECK fail G5 no-bind-observation-missing
+CHECK fail G5 driver-invocation-missing
+CHECK fail G5 build-line-missing
+CHECK fail G5 leg-lines 0 != 3
+CHECK fail fragment G2 leg2 '(missing)' lacks 'sqlite3 not found in PATH'
+CHECK fail G2 leg-2 fragment does not carry the frozen fragment
+CHECK fail fragment G4 leg3 '(missing)' lacks 'No .gcno files found'
+CHECK fail G4 leg-3 fragment does not carry the frozen fragment
+CHECK fail predicate-line-missing
+PREDICATE R65-C1 fail
+SETUP receipt-missing work/selftest/absent-receipt.txt
+CHECK strict probe sha256=f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb rel=plans/round65_c1_sqlite_probe.py
+CHECK ok cases=5 strict=yes
+PREDICATE R65-C1 strict-pass
+CHECK strict probe sha256=f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb rel=plans/round65_c1_sqlite_probe.py
+CHECK defect: probe-sha 0000000000000000000000000000000000000000000000000000000000000000 != committed f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb
+PREDICATE R65-C1 strict-fail
+CHECK strict probe sha256=f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb rel=plans/round65_c1_sqlite_probe.py
+CHECK defect: probe-binding-missing (neither a 'PROBE sha256=' line nor an '# instrument plans/round65_c1_sqlite_probe.py version=r65-c1/1' line)
+PREDICATE R65-C1 strict-fail
+CHECK strict probe sha256=f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb rel=plans/round65_c1_sqlite_probe.py
+CHECK defect: toolchain-mismatch gcc='99.9.9' != banner '16.2.1'
+PREDICATE R65-C1 strict-fail
+CHECK strict probe sha256=f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb rel=plans/round65_c1_sqlite_probe.py
+CHECK fail G2 vector P/F/F != F/F/F
+CHECK fail stored-predicate pass disagrees with derived fail
+CHECK defect: vector-mismatch G2=P/F/F != F/F/F
+PREDICATE R65-C1 strict-fail
+CHECK strict probe sha256=f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb rel=plans/round65_c1_sqlite_probe.py
+CHECK fail G3 no-bind-observation-missing
+CHECK fail stored-predicate pass disagrees with derived fail
+CHECK defect: nobind-missing G3
+PREDICATE R65-C1 strict-fail
+CHECK strict probe sha256=f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb rel=plans/round65_c1_sqlite_probe.py
+CHECK defect: fabrication-declaration '# FABRICATED RECEPT -- contains NO live-run data'
+PREDICATE R65-C1 strict-fail
+SELFTEST render-table         observed=0 expected=0 pass
+SELFTEST predict-legs         observed=0 expected=0 pass
+SELFTEST valid-receipt        observed=0 expected=0 pass
+SELFTEST tampered-vector      observed=1 expected=1 pass
+SELFTEST no-g4-fragment       observed=1 expected=1 pass
+SELFTEST no-g2-leg-fragment   observed=1 expected=1 pass
+SELFTEST bad-amalgamation-sha observed=1 expected=1 pass
+SELFTEST no-nobind-g3         observed=1 expected=1 pass
+SELFTEST empty-receipt        observed=1 expected=1 pass
+SELFTEST missing-receipt      observed=2 expected=2 pass
+SELFTEST strict-valid-receipt observed=0 expected=0 pass
+SELFTEST strict-wrong-probe   observed=1 expected=1 pass
+SELFTEST strict-no-binding    observed=1 expected=1 pass
+SELFTEST strict-bad-toolchain observed=1 expected=1 pass
+SELFTEST strict-vector-drift  observed=1 expected=1 pass
+SELFTEST strict-no-nobind     observed=1 expected=1 pass
+SELFTEST strict-declared-fabricated observed=1 expected=1 pass
+SELFTEST note: synthesized receipts exercise text-field mechanics only; the live predicate's evidence is the per-case BUILD/RUN/FILES/ENV lines
+SELFTEST pass
+selftest_rc=0

@@ -1,0 +1,19 @@
+# Green: the proposed S236/S237 rows and the two verbatim quotes, run against the proposed counter.
+# date: 2026-11-03  seat: QuoteGateBuild (round 66, w1)
+
+$ python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-66/w1/QuoteGateBuild/proposed/round66_registry_check.py meta /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-66/w1/QuoteGateBuild/proposed/rows.md
+CHECK meta rows=2 findings=0 teaches_column=6
+CHECK ok meta
+exit=0
+
+$ python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-66/w1/QuoteGateBuild/proposed/round66_registry_check.py quote /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-66/w1/QuoteGateBuild/green/green-lesson.md --root /home/vgpnk/Projects/shokunin/kengaku-shokunin
+QUOTE S236 capture=corpus/evidence/round66/sources/sqlite-amalgamation-3540100.unzip-l.txt result=FOUND needle='sqlite-amalgamation-3540100/sqlite3.c'
+QUOTE S237 capture=corpus/evidence/round66/sources/kv-store-grpc-test_outputs.py result=FOUND needle='assert result == 0, f"Port {port} is not listening - no real gRPC server is running"'
+CHECK quote quotes=2 misses=0
+CHECK ok quote
+exit=0
+
+$ python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-66/w1/QuoteGateBuild/proposed/round66_registry_check.py meta /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-66/w1/QuoteGateBuild/proposed/rows.md S236 S237
+CHECK meta rows=2 findings=0 teaches_column=6
+CHECK ok meta
+exit=0

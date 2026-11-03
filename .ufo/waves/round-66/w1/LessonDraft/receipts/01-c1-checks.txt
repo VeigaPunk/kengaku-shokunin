@@ -1,0 +1,29 @@
+# LessonDraft seat receipts (round 66, w1). date: 2026-11-03. Lane untouched: every command below reads the lane or the scratch copy under $S/LessonDraft.
+
+== R1: R66-C1 receipt of record re-checked ==
+$ python3 plans/round66_c1_tensor_probe.py --check-receipt corpus/evidence/round66/tensor/receipt.txt
+CHECK ok cases=5
+PREDICATE R66-C1 pass
+rc=0
+
+== R2: frozen control receipt prefreeze-run2.txt re-checked (junit bytes were overwritten by the post-freeze run) ==
+$ python3 plans/round66_c1_tensor_probe.py --check-receipt corpus/evidence/round66/tensor/prefreeze-run2.txt
+CHECK defect: k1-ref junit_sha does not match committed junit bytes
+CHECK defect: k2-none junit_sha does not match committed junit bytes
+CHECK defect: k3-stub junit_sha does not match committed junit bytes
+CHECK defect: k4-col-nogather junit_sha does not match committed junit bytes
+CHECK defect: k5-row-noreduce junit_sha does not match committed junit bytes
+PREDICATE R66-C1 fail
+rc=1
+
+== R3: K2 alone cannot meet the predicate (kill rule d) ==
+$ grep '^VECTOR k2-none' corpus/evidence/round66/tensor/receipt.txt > $S/LessonDraft/k2-only.txt; python3 plans/round66_c1_tensor_probe.py --check-receipt $S/LessonDraft/k2-only.txt
+CHECK defect: grader line does not name the pinned sha
+CHECK defect: probe sha does not match the committed probe
+CHECK defect: k1-ref has no VECTOR line
+CHECK defect: k3-stub has no VECTOR line
+CHECK defect: k4-col-nogather has no VECTOR line
+CHECK defect: k5-row-noreduce has no VECTOR line
+CHECK defect: receipt does not carry PREDICATE R66-C1 pass
+PREDICATE R66-C1 fail
+rc=1

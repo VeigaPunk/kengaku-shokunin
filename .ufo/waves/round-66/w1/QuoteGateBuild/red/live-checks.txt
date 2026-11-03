@@ -1,0 +1,41 @@
+# Extra live checks against the real lane root (not fixtures).
+# date: 2026-11-03  seat: QuoteGateBuild (round 66, w1)
+
+$ python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-66/w1/QuoteGateBuild/proposed/round66_registry_check.py meta /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md
+CHECK defect: meta S234 phrase='word bar' in teaches cell (line 250): "supersedes S230 — same source and capture, anchor quotes the grader's own f-string verbatim, teaches is one benefit within the word bar"
+CHECK defect: meta S234 phrase='teaches is one benefit' in teaches cell (line 250): "supersedes S230 — same source and capture, anchor quotes the grader's own f-string verbatim, teaches is one benefit within the word bar"
+CHECK defect: meta S234 phrase='same source and capture' in teaches cell (line 250): "supersedes S230 — same source and capture, anchor quotes the grader's own f-string verbatim, teaches is one benefit within the word bar"
+CHECK meta rows=227 findings=3 teaches_column=6
+CHECK meta fail
+exit=1
+
+$ printf '## Gate\n\nQUOTE S990 | corpus/SOURCES.md | # SOURCES\n' > /fast/scratch/hyaku/kengaku-r66/QuoteGateBuild/work/refuse-live.md
+$ python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-66/w1/QuoteGateBuild/proposed/round66_registry_check.py quote /fast/scratch/hyaku/kengaku-r66/QuoteGateBuild/work/refuse-live.md --root /home/vgpnk/Projects/shokunin/kengaku-shokunin
+CHECK defect: quote S990 refused capture outside corpus/evidence/: corpus/SOURCES.md
+CHECK quote quotes=1 misses=1
+CHECK quote fail
+exit=1
+
+$ printf '## Gate\n\nQUOTE S991 | corpus/evidence/round66/sources/absent.txt | anything\n' > /fast/scratch/hyaku/kengaku-r66/QuoteGateBuild/work/missing-live.md
+$ python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-66/w1/QuoteGateBuild/proposed/round66_registry_check.py quote /fast/scratch/hyaku/kengaku-r66/QuoteGateBuild/work/missing-live.md --root /home/vgpnk/Projects/shokunin/kengaku-shokunin
+CHECK defect: quote S991 miss capture=corpus/evidence/round66/sources/absent.txt (capture file missing)
+CHECK quote quotes=1 misses=1
+CHECK quote fail
+exit=1
+
+$ python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-66/w1/QuoteGateBuild/proposed/round66_registry_check.py
+usage: round66_registry_check.py [-h] [--root ROOT] [--selftest] [--work WORK]
+                                 {quote,meta} ...
+SETUP subcommand required: quote <lesson.md> or meta <SOURCES.md> [ids ...]
+exit=2
+
+$ python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-66/w1/QuoteGateBuild/proposed/round66_registry_check.py --selftest
+SETUP --work required for --selftest
+exit=2
+
+$ KENGAKU_ROOT=/home/vgpnk/Projects/shokunin/kengaku-shokunin python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-66/w1/QuoteGateBuild/proposed/round66_registry_check.py quote /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-66/w1/QuoteGateBuild/green/green-lesson.md   # env fallback, no --root
+QUOTE S236 capture=corpus/evidence/round66/sources/sqlite-amalgamation-3540100.unzip-l.txt result=FOUND needle='sqlite-amalgamation-3540100/sqlite3.c'
+QUOTE S237 capture=corpus/evidence/round66/sources/kv-store-grpc-test_outputs.py result=FOUND needle='assert result == 0, f"Port {port} is not listening - no real gRPC server is running"'
+CHECK quote quotes=2 misses=0
+CHECK ok quote
+exit=0

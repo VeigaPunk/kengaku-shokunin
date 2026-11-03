@@ -1,0 +1,9 @@
+$ python3 /fast/scratch/hyaku/kengaku-r66/ReceiptMutate/proposed/probe.py --check-receipt /fast/scratch/hyaku/kengaku-r66/ReceiptMutate/fixtures/c2-escalation-plus-banners.txt --strict
+exit=1
+--- stdout ---
+CHECK strict probe sha256=f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb rel=plans/round65_c1_sqlite_probe.py
+CHECK defect: fabrication-declaration '# FABRICATED RECEPT — ClaimFalsifier-3 cheapest-path attack, contains NO live-run data'
+CHECK defect: probe-binding-missing (neither a 'PROBE sha256=' line nor an '# instrument plans/round65_c1_sqlite_probe.py version=r65-c1/1' line)
+PREDICATE R65-C1 strict-fail
+--- stderr ---
+probe_sha=92eee5720a5c01b8d8918c385a87c684b3eaee38dc474702119f5a1c4a23a173 fixture_sha_before=c882f8400dec88acef51415a163da1e3a82fc524549009efaf1b26aa99243c15 fixture_sha_after=c882f8400dec88acef51415a163da1e3a82fc524549009efaf1b26aa99243c15

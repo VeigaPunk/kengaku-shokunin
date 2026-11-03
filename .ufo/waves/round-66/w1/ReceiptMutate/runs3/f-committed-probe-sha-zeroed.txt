@@ -1,0 +1,8 @@
+$ python3 /fast/scratch/hyaku/kengaku-r66/ReceiptMutate/proposed/probe.py --check-receipt /fast/scratch/hyaku/kengaku-r66/ReceiptMutate/fixtures/f-committed-probe-sha-zeroed.txt --strict
+exit=1
+--- stdout ---
+CHECK strict probe sha256=f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb rel=plans/round65_c1_sqlite_probe.py
+CHECK defect: probe-sha 0000000000000000000000000000000000000000000000000000000000000000 != committed f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb
+PREDICATE R65-C1 strict-fail
+--- stderr ---
+probe_sha=062702702d752058842fcddc90c4271e6d1e8ac0c31f8e8c8645683814ed47d4 fixture_sha_before=7727cd0d7c0d24474a8d5b76ab800bc8935e891fea1ed3dec54e3aa1fa3f171a fixture_sha_after=7727cd0d7c0d24474a8d5b76ab800bc8935e891fea1ed3dec54e3aa1fa3f171a

@@ -1,0 +1,343 @@
+--- a/plans/round65_c1_sqlite_probe.py
++++ b/plans/round65_c1_sqlite_probe.py
+@@ -77,11 +77,24 @@
+ prove a live run.  The live evidence is the per-case compile+leg run recorded in the
+ receipt (BUILD/RUN/FILES/ENV lines) and the wave seat's run log.
+ 
++Strict mode (`--strict`, R66-C2) binds every value the receipt names to the bytes it
++names: the GRADER sha to the committed grader bytes, the AMALG sha to the frozen sha,
++TOOLCHAIN to its own well-formedness and to its CC/GCOV/BWRAP banners, the probe
++binding to the committed plans/round65_c1_sqlite_probe.py bytes at this revision (a
++`PROBE sha256=` line when the receipt carries one, otherwise the
++`# instrument plans/round65_c1_sqlite_probe.py version=` header the committed receipt
++carries), every VECTOR line to the frozen table, and NOBIND G1-G5 with delta=0.  A
++receipt whose probe-authored lines declare it fabricated or never run (`FABRICATED`,
++`nothing ran`, `no driver run`, `no live-run data`) is refused as
++`fabrication-declaration`; `LEG`/`ENV` lines (grader-printed text) are never scanned.
++Each miss prints `CHECK defect: <name> ...` and exits 1; default mode is unchanged.
++
+ Run as:
+ 
+   python3 plans/round65_c1_sqlite_probe.py --lane <lane> --work <scratch> \
+       --receipt <path>                       # the battery (G1..G5) + receipt
+   python3 plans/round65_c1_sqlite_probe.py --check-receipt <receipt>
++  python3 plans/round65_c1_sqlite_probe.py --check-receipt <receipt> --strict
+   python3 plans/round65_c1_sqlite_probe.py --selftest --work <scratch>
+   python3 plans/round65_c1_sqlite_probe.py --render-table
+ 
+@@ -112,6 +125,20 @@
+ CC = "gcc"
+ GCOV = "gcov"
+ PROBE_VERSION = "r65-c1/1"
++PROBE_REL = "plans/round65_c1_sqlite_probe.py"
++# Strict mode binds a receipt to committed bytes, so it must find the lane root even
++# when the probe runs from a proposed copy under .ufo/waves/ or from a scratch copy:
++# walk up for these markers, then fall back to the path the frozen requirement names.
++STRICT_LANE_MARKERS = (PROBE_REL, "corpus/SOURCES.md")
++LANE_ROOT_FALLBACK = "/home/vgpnk/Projects/shokunin/kengaku-shokunin"
++SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
++VERSION_RE = re.compile(r"^\d+\.\d+(?:\.\d+)?$")
++TOOLCHAIN_KEYS = ("gcc", "gcov", "bwrap", "python")
++TOOLCHAIN_BANNERS = (("gcc", "CC "), ("gcov", "GCOV "), ("bwrap", "BWRAP "))
++# A receipt is evidence; one that says it is fabricated or never ran is refused on its
++# own words.  The phrases are admissions of non-execution, not vocabulary to avoid.
++FABRICATION_RE = re.compile(
++    r"(?i)(fabricat|nothing ran|no driver run|no live[- ]run data)")
+ LEG_NAMES = (
+     "test_sqlite_compiled",
+     "test_sqlite_in_path",
+@@ -781,18 +808,208 @@
+     return failures
+ 
+ 
+-def check_receipt(path):
++def lane_root():
++    """Lane root holding the committed probe and the committed grader bytes.
++
++    Strict mode must compare a receipt against committed bytes, so it must not trust
++    the running file's own directory: the probe also runs from a proposed copy under
++    .ufo/waves/ and from scratch copies.  Walk up from this file for the committed
++    markers, then fall back to the path the frozen strict requirement names.
++    """
++    here = pathlib.Path(__file__).resolve()
++    for parent in here.parents:
++        if all((parent / marker).is_file() for marker in STRICT_LANE_MARKERS):
++            return parent
++    return pathlib.Path(LANE_ROOT_FALLBACK)
++
++
++def _fields(line, skip):
++    """The `key=value` tokens of a receipt line, from token index `skip`."""
++    out = {}
++    for token in line.split()[skip:]:
++        if "=" in token:
++            key, value = token.split("=", 1)
++            out[key] = value
++    return out
++
++
++def strict_defects(text, root):
++    """Refuse a receipt whose named values do not match the bytes they name.
++
++    Frozen in plans/round-66-claims.md R66-C2 ("Strict-mode requirements"): the GRADER
++    sha equals the committed grader bytes, the AMALG sha equals the frozen sha,
++    TOOLCHAIN is well-formed and equal to its own CC/GCOV/BWRAP banners, the probe
++    binding equals the committed plans/round65_c1_sqlite_probe.py bytes at this
++    revision, every VECTOR line equals the frozen table, and NOBIND G1-G5 is present
++    with delta=0.  A receipt whose probe-authored lines declare it fabricated or never
++    run is refused on its own words, before any value is compared.  Only `LEG` and
++    `ENV` lines are exempt: they carry grader-printed text (exception class, message
++    fragment, binary version), so a live receipt can never be refused for a word the
++    grader printed.  A missing reference file is a SETUP error: nothing can be
++    evaluated.
++    """
++    lines = text.splitlines()
++    defects = []
++
++    for line in lines:
++        if line.split(" ", 1)[0] in ("LEG", "ENV"):
++            continue
++        if FABRICATION_RE.search(line):
++            defects.append("fabrication-declaration %r" % line.strip()[:160])
++            break
++
++    grader = [line for line in lines if line.startswith("GRADER ")]
++    if len(grader) != 1:
++        defects.append("grader-line-count %d != 1" % len(grader))
++    else:
++        fields = _fields(grader[0], 1)
++        if fields.get("sha256") != GRADER_SHA256:
++            defects.append("grader-sha %s != %s"
++                           % (fields.get("sha256"), GRADER_SHA256))
++        if fields.get("pin") != TB2_PIN:
++            defects.append("grader-pin %s != %s" % (fields.get("pin"), TB2_PIN))
++        if fields.get("rel") != GRADER_REL:
++            defects.append("grader-rel %s != %s" % (fields.get("rel"), GRADER_REL))
++        committed = root / GRADER_REL
++        if not committed.is_file():
++            raise SetupError("grader-bytes-missing %s" % committed)
++        committed_sha = sha256_file(committed)
++        if committed_sha != fields.get("sha256"):
++            defects.append("grader-bytes %s != receipt %s"
++                           % (committed_sha, fields.get("sha256")))
++
++    amalg = [line for line in lines if line.startswith("AMALG ")]
++    if len(amalg) != 1:
++        defects.append("amalg-line-count %d != 1" % len(amalg))
++    else:
++        fields = _fields(amalg[0], 1)
++        if fields.get("sha256") != AMALG_SHA256:
++            defects.append("amalg-sha %s != %s"
++                           % (fields.get("sha256"), AMALG_SHA256))
++        if fields.get("url") != AMALG_URL:
++            defects.append("amalg-url %s != %s" % (fields.get("url"), AMALG_URL))
++
++    toolchain = [line for line in lines if line.startswith("TOOLCHAIN ")]
++    if len(toolchain) != 1:
++        defects.append("toolchain-line-count %d != 1" % len(toolchain))
++    else:
++        fields = _fields(toolchain[0], 1)
++        for key in TOOLCHAIN_KEYS:
++            value = fields.get(key, "")
++            if not VERSION_RE.match(value):
++                defects.append("toolchain-not-well-formed %s=%r" % (key, value))
++        for key, prefix in TOOLCHAIN_BANNERS:
++            banners = [line for line in lines if line.startswith(prefix)]
++            if len(banners) != 1:
++                defects.append("toolchain-banner-count %s %d != 1"
++                               % (key, len(banners)))
++                continue
++            token = version_token(banners[0][len(prefix):])
++            if fields.get(key) != token:
++                defects.append("toolchain-mismatch %s=%r != banner %r"
++                               % (key, fields.get(key), token))
++
++    probe = root / PROBE_REL
++    if not probe.is_file():
++        raise SetupError("probe-bytes-missing %s" % probe)
++    probe_sha = sha256_file(probe)
++    probe_lines = [line for line in lines if line.startswith("PROBE ")]
++    instrument = [line for line in lines
++                  if line.startswith("# instrument %s version=" % PROBE_REL)]
++    if len(probe_lines) > 1:
++        defects.append("probe-line-count %d > 1" % len(probe_lines))
++    if probe_lines:
++        value = _fields(probe_lines[0], 1).get("sha256", "")
++        if not SHA256_RE.match(value):
++            defects.append("probe-sha-not-well-formed %r" % value)
++        elif value != probe_sha:
++            defects.append("probe-sha %s != committed %s" % (value, probe_sha))
++    if len(instrument) > 1:
++        defects.append("probe-instrument-count %d > 1" % len(instrument))
++    elif instrument:
++        version = instrument[0].rsplit("version=", 1)[1].strip()
++        if version != PROBE_VERSION:
++            defects.append("probe-version %r != %r" % (version, PROBE_VERSION))
++    if not probe_lines and not instrument:
++        defects.append("probe-binding-missing (neither a 'PROBE sha256=' line nor an "
++                       "'# instrument %s version=%s' line)"
++                       % (PROBE_REL, PROBE_VERSION))
++
++    vectors = {}
++    for line in lines:
++        if not line.startswith("VECTOR "):
++            continue
++        body = line[len("VECTOR "):]
++        if "=" not in body:
++            defects.append("vector-line-malformed %r" % line)
++            continue
++        name, value = body.split("=", 1)
++        if name in vectors:
++            defects.append("vector-duplicate %s" % name)
++        vectors[name] = value
++    for name, frozen in sorted(FROZEN_VECTORS.items()):
++        frozen_text = "/".join(frozen)
++        if name not in vectors:
++            defects.append("vector-missing %s" % name)
++        elif vectors[name] != frozen_text:
++            defects.append("vector-mismatch %s=%s != %s"
++                           % (name, vectors[name], frozen_text))
++    for name in sorted(set(vectors) - set(FROZEN_VECTORS)):
++        defects.append("vector-unknown %s" % name)
++
++    for name in sorted(FROZEN_VECTORS):
++        rows = [line for line in lines if line.startswith("NOBIND %s " % name)]
++        if not rows:
++            defects.append("nobind-missing %s" % name)
++            continue
++        for row in rows:
++            fields = _fields(row, 2)
++            if fields.get("delta") != "0":
++                defects.append("nobind-delta %s=%s != 0"
++                               % (name, fields.get("delta")))
++            before = fields.get("listeners_before")
++            after = fields.get("listeners_after")
++            if before is not None and after is not None:
++                try:
++                    delta = int(after) - int(before)
++                except ValueError:
++                    defects.append("nobind-listeners-not-integer %s" % name)
++                else:
++                    if delta != 0:
++                        defects.append("nobind-listeners %s %s->%s"
++                                       % (name, before, after))
++
++    return defects
++
++
++def check_receipt(path, strict=False):
+     path = pathlib.Path(path)
+     if not path.is_file():
+         print("SETUP receipt-missing %s" % path)
+         return 2
+-    failures = receipt_failures(path.read_text(encoding="utf-8"))
++    text = path.read_text(encoding="utf-8")
++    failures = receipt_failures(text)
++    defects = []
++    if strict:
++        try:
++            root = lane_root()
++            defects = strict_defects(text, root)
++        except SetupError as exc:
++            print("SETUP %s" % exc)
++            return 2
++        print("CHECK strict probe sha256=%s rel=%s"
++              % (sha256_file(root / PROBE_REL), PROBE_REL))
+     for failure in failures:
+         print("CHECK fail %s" % failure)
+-    if not failures:
+-        print("CHECK ok cases=%d" % len(CASES))
+-    ok = not failures
+-    print("PREDICATE R65-C1 %s" % ("pass" if ok else "fail"))
++    for defect in defects:
++        print("CHECK defect: %s" % defect)
++    ok = not failures and not defects
++    if ok:
++        print("CHECK ok cases=%d%s" % (len(CASES), " strict=yes" if strict else ""))
++    if strict:
++        print("PREDICATE R65-C1 %s" % ("strict-pass" if ok else "strict-fail"))
++    else:
++        print("PREDICATE R65-C1 %s" % ("pass" if ok else "fail"))
+     return 0 if ok else 1
+ 
+ 
+@@ -869,6 +1086,22 @@
+     return "\n".join(lines) + "\n"
+ 
+ 
++def strict_receipt():
++    """synth_receipt() plus the strict-only items: the instrument header, the tool
++    banners and a PROBE sha line.  Still synthesized: mechanics only, no live run."""
++    lines = synth_receipt().splitlines()
++    probe = lane_root() / PROBE_REL
++    probe_sha = sha256_file(probe) if probe.is_file() else "0" * 64
++    extra = [
++        "PROBE sha256=%s" % probe_sha,
++        "CC gcc (GCC) 16.2.1 20260810",
++        "GCOV gcov (GCC) 16.2.1 20260810",
++        "BWRAP bubblewrap 0.13.1",
++        "# instrument %s version=%s" % (PROBE_REL, PROBE_VERSION),
++    ]
++    return "\n".join(lines[:1] + extra + lines[1:]) + "\n"
++
++
+ def table_lines():
+     out = ["case  setup                                                          frozen vector"]
+     for case in CASES:
+@@ -964,6 +1197,38 @@
+         rc = check_receipt(path)
+         results.append((label, rc, expected))
+ 
++    # strict mode (R66-C2): one synthesized receipt that satisfies every strict item,
++    # then one mutation per strict family.  Without the lane bytes strict can only
++    # return SETUP (2), which is the expected value on such a host.
++    strict_ready = ((lane_root() / GRADER_REL).is_file()
++                    and (lane_root() / PROBE_REL).is_file())
++    strict_good = strict_receipt()
++    strict_path = root / "strict-valid-receipt.txt"
++    strict_path.write_text(strict_good, encoding="utf-8")
++    strict_mutants = [
++        ("strict-wrong-probe", _replace_line(
++            strict_good, "PROBE ", "PROBE sha256=%s" % ("0" * 64))),
++        ("strict-no-binding", _drop_line(
++            _drop_line(strict_good, "PROBE "), "# instrument ")),
++        ("strict-bad-toolchain", _replace_line(
++            strict_good, "TOOLCHAIN ",
++            "TOOLCHAIN gcc=99.9.9 gcov=16.2.1 bwrap=0.13.1 python=3.14.8")),
++        ("strict-vector-drift", _replace_line(
++            strict_good, "VECTOR G2=",
++            "VECTOR G2=%s" % "/".join(("P",) + FROZEN_VECTORS["G2"][1:]))),
++        ("strict-no-nobind", _drop_line(strict_good, "NOBIND G3 ")),
++        ("strict-declared-fabricated",
++         "# FABRICATED RECEPT -- contains NO live-run data\n" + strict_good),
++    ]
++    strict_fixtures = [("strict-valid-receipt", strict_path, 0)]
++    for label, text in strict_mutants:
++        path = root / ("%s.txt" % label)
++        path.write_text(text, encoding="utf-8")
++        strict_fixtures.append((label, path, 1))
++    for label, path, expected in strict_fixtures:
++        rc = check_receipt(path, strict=True)
++        results.append((label, rc, expected if strict_ready else 2))
++
+     for label, observed, expected in results:
+         print("SELFTEST %-20s observed=%d expected=%d %s"
+               % (label, observed, expected,
+@@ -983,12 +1248,16 @@
+     ap.add_argument("--work")
+     ap.add_argument("--receipt")
+     ap.add_argument("--check-receipt")
++    ap.add_argument("--strict", action="store_true")
+     ap.add_argument("--selftest", action="store_true")
+     ap.add_argument("--render-table", action="store_true")
+     args = ap.parse_args(argv)
+ 
+     if args.check_receipt:
+-        return check_receipt(args.check_receipt)
++        return check_receipt(args.check_receipt, strict=args.strict)
++    if args.strict:
++        print("SETUP strict-requires-check-receipt")
++        return 2
+     if args.render_table:
+         return render_table()
+ 

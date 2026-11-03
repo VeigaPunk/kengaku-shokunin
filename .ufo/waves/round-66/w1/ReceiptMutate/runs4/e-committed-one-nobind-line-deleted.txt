@@ -1,0 +1,10 @@
+$ python3 /fast/scratch/hyaku/kengaku-r66/ReceiptMutate/proposed/probe.py --check-receipt /fast/scratch/hyaku/kengaku-r66/ReceiptMutate/fixtures/e-committed-one-nobind-line-deleted.txt --strict
+exit=1
+--- stdout ---
+CHECK strict probe sha256=f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb rel=plans/round65_c1_sqlite_probe.py
+CHECK fail G4 no-bind-observation-missing
+CHECK fail stored-predicate pass disagrees with derived fail
+CHECK defect: nobind-missing G4
+PREDICATE R65-C1 strict-fail
+--- stderr ---
+probe_sha=b131e66eb74964c0dfc1001d6191115fd5e14587059e3ddc834a6fec0c3854af fixture_sha_before=f4476ecd30a426388a0fd9dc28283e8a3dfe4a2a7db95e585f81b08e8c3074fc fixture_sha_after=f4476ecd30a426388a0fd9dc28283e8a3dfe4a2a7db95e585f81b08e8c3074fc

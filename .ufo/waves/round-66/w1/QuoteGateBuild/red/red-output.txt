@@ -1,0 +1,21 @@
+# Red-before: the current S233 and S234 rows and the S233 composite quote, run against the proposed counter.
+# date: 2026-11-03  seat: QuoteGateBuild (round 66, w1)
+# rows extracted read-only: grep -E '^\|[[:space:]]*S(233|234)[[:space:]]*\|' corpus/SOURCES.md > red/rows-current.md
+
+$ python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-66/w1/QuoteGateBuild/proposed/round66_registry_check.py meta /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-66/w1/QuoteGateBuild/red/rows-current.md
+CHECK defect: meta S234 phrase='word bar' in teaches cell (line 2): "supersedes S230 — same source and capture, anchor quotes the grader's own f-string verbatim, teaches is one benefit within the word bar"
+CHECK defect: meta S234 phrase='teaches is one benefit' in teaches cell (line 2): "supersedes S230 — same source and capture, anchor quotes the grader's own f-string verbatim, teaches is one benefit within the word bar"
+CHECK defect: meta S234 phrase='same source and capture' in teaches cell (line 2): "supersedes S230 — same source and capture, anchor quotes the grader's own f-string verbatim, teaches is one benefit within the word bar"
+CHECK meta rows=2 findings=3 teaches_column=6
+CHECK meta fail
+exit=1
+
+$ python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-66/w1/QuoteGateBuild/proposed/round66_registry_check.py quote /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-66/w1/QuoteGateBuild/red/red-lesson.md --root /home/vgpnk/Projects/shokunin/kengaku-shokunin
+CHECK defect: quote S233 miss capture=corpus/evidence/round66/sources/sqlite-amalgamation-3540100.unzip-l.txt needle='sqlite3.c, shell.c, sqlite3.h, sqlite3ext.h'
+CHECK quote quotes=1 misses=1
+CHECK quote fail
+exit=1
+
+$ grep -c -F 'sqlite3.c, shell.c, sqlite3.h, sqlite3ext.h' /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round66/sources/sqlite-amalgamation-3540100.unzip-l.txt
+0
+exit=1

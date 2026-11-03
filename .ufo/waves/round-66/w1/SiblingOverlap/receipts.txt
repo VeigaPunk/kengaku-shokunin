@@ -1,0 +1,53 @@
+# SiblingOverlap receipts — kengaku round 66 w1
+# host: Linux 7.2.11-arch1-1 x86_64; cwd guard: fleet root
+
+=== R1: PROVINCE.md overlap scan (exact seat regex) ===
+$ cd /home/vgpnk/Projects/shokunin && for f in */PROVINCE.md (skip kengaku-shokunin); do grep -n -i -E 'torch|tensor.parallel|gloo|bwrap|sqlite.*gcov|kv-store|grader' "$f"; done
+### kumitate-shokunin/PROVINCE.md
+38:Round-73 host correction (2026-11-02; the paragraphs above stay as written, dated additions only): the `plan-before-ready` map arm's ARCHIVE failure is REPAIRED on this host (round-73 `cf58f1d0…`: disclosed sanitized extraction excluding exactly the listed symlink members, fail-closed preserved
+R1_EXIT=0
+R1_HITS=1 (kumitate-shokunin/PROVINCE.md:38, term=bwrap)
+
+=== R2: per-term counts across 20 sibling PROVINCE.md ===
+term=torch hits=0
+term=tensor.parallel hits=0
+term=gloo hits=0
+term=bwrap hits=1
+term=sqlite.*gcov hits=0
+term=kv-store hits=0
+term=grader hits=0
+
+=== R3: sibling plans/ + corpus/ scan for this grader ===
+$ grep -rn -E 'torch-tensor-parallelism|tensor-parallel|offline-torch' <sibling plans corpus dirs>
+R3_FILES_WITH_HITS=0
+
+=== R4: repo-wide (excl kengaku) torch-tensor-parallelism ===
+./.ufo/reports/round-53/kengaku.md
+./souji-shokunin/.ufo/waves/round-43/w1/R43connectorA.md
+./souji-shokunin/census/round-43/waves/w1/R43connectorA.md
+
+=== R5: sibling SOURCES.md rows naming this grader ===
+kengaku-shokunin/corpus/SOURCES.md lines=1
+
+=== R6: sibling lane owning a torch/tensor-named file ===
+./kumitate-shokunin/.ufo/waves/round-36/build/ConnectorChecklistConsumers.md
+./tsukuroi-shokunin/.ufo/waves/round-17/falsify/FxOperatorChecks.md
+(both are 'Opera**torCh**ecklist'/'Opera**torCh**ecks' substring hits, not torch)
+=== R7: sibling PROVINCE file count ===
+sibling_PROVINCE_files=20 (kumitate-shokinin has none)
+
+=== R8: EXTENDED scan (adds sqlite|gcov|tensor|kv_store) — near-miss lines ===
+### kagi-shokunin/PROVINCE.md
+29:fixed: `transcript-scan`/`surface-census` selftests need a `sqlite3`
+### kaidoku-shokunin/PROVINCE.md
+352:Addition to Core for REA's SQLite reader (the Core table above is not rewritten; the Frontier list is unchanged by this round). The lane's one earlier run of this ope
+356:| Offline SQLite schema via `inspect-sqlite-database` (`inspect_sqlite_database`) | none (REA's own snapshot copy plus an owned node:sqlite worker, SQLite 3.53.4 in n
+358:Limits: three schema families, one pin, Linux host, all files UTF-8 without WAL. The reader reports SQLite's own catalog; it is not an integrity check, it never execu
+
+=== R9: proposal-2 implementation state (kengaku) ===
+per-round _c2_verify.py copies: 11
+files containing a V9 leg: plans/round42_c2_verify.py plans/round43_c2_verify.py plans/round44_c2_verify.py plans/round45_c2_verify.py 
+files referencing the committed filler package: plans/round46_c3_verify.py 
+tb2_grader_admit hits in plans corpus SCORECARD.md: 0
+per-round probe copies (roundNN_c*_probe.py): 9
+tb2-*-grader.md knowledge entries: 20

@@ -1,0 +1,34 @@
+# LessonDraft seat receipts (round 66, w1) — part 2: R66-C2 strict proposal, counter gaps, registry-row shape.
+# date: 2026-11-03. The lane file plans/round65_c1_sqlite_probe.py was NOT edited; the strict copy is $S/LessonDraft/probe.py.
+
+== R4: proposed strict mode over the fabricated fixture ==
+$ python3 $S/LessonDraft/probe.py --check-receipt corpus/evidence/round66/red/fabricated-r65.txt --strict
+CHECK strict probe sha256=f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb rel=plans/round65_c1_sqlite_probe.py
+CHECK defect: fabrication-declaration '# FABRICATED RECEPT — ClaimFalsifier-3 cheapest-path attack, contains NO live-run data'
+CHECK defect: toolchain-not-well-formed gcc='fabricated'
+CHECK defect: toolchain-not-well-formed gcov='fabricated'
+CHECK defect: toolchain-not-well-formed bwrap='fabricated'
+CHECK defect: toolchain-not-well-formed python='fabricated'
+CHECK defect: toolchain-banner-count gcc 0 != 1
+CHECK defect: toolchain-banner-count gcov 0 != 1
+CHECK defect: toolchain-banner-count bwrap 0 != 1
+CHECK defect: probe-binding-missing (neither a 'PROBE sha256=' line nor an '# instrument plans/round65_c1_sqlite_probe.py version=r65-c1/1' line)
+PREDICATE R65-C1 strict-fail
+rc=1
+
+== R5: proposed strict mode over the committed R65 receipt ==
+$ python3 $S/LessonDraft/probe.py --check-receipt corpus/evidence/round65/sqlite-gcov-probe.txt --strict
+CHECK strict probe sha256=f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb rel=plans/round65_c1_sqlite_probe.py
+CHECK ok cases=5 strict=yes
+PREDICATE R65-C1 strict-pass
+rc=0
+
+== R6: default mode is unchanged (the M-1 defect still live at default) ==
+$ python3 $S/LessonDraft/probe.py --check-receipt corpus/evidence/round65/sqlite-gcov-probe.txt
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+rc=0
+$ python3 $S/LessonDraft/probe.py --check-receipt corpus/evidence/round66/red/fabricated-r65.txt
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+rc=0

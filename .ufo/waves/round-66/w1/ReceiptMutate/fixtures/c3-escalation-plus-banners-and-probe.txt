@@ -1,0 +1,54 @@
+# FABRICATED RECEPT — ClaimFalsifier-3 cheapest-path attack, contains NO live-run data
+# No compile, no bwrap sandbox, no driver run, no file walk produced this file.
+GRADER sha256=b165f8504bb93a901451b80c4ea73344b71b6af377ebdabef745fbcdd1d2993b pin=2fd12b88aafdd04a52c298e3940bcb189f9766d6 rel=corpus/evidence/round52/graders/sqlite-with-gcov/tests/test_outputs.py
+AMALG url=https://sqlite.org/2026/sqlite-amalgamation-3540100.zip sha256=0a9c8e34352dad46006aa82836d5383bff9dc6bc9ce5a60553c05aa30e6ad1f9 bytes=2990966
+PROBE sha256=f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb
+TOOLCHAIN gcc=16.2.1 gcov=16.2.1 bwrap=0.13.1 python=3.14.8
+CC gcc (GCC) 16.2.1 20260810
+GCOV gcov (GCC) 16.2.1 20260810
+BWRAP bubblewrap 0.13.1
+NOBIND before-battery listeners=35 probe_pid=3169329 probe_listening=0
+NOBIND after-battery listeners=35 probe_pid=3169329 probe_listening=0
+VECTOR G1=P/P/P
+VECTOR G2=F/F/F
+VECTOR G3=P/P/F
+VECTOR G4=P/P/F
+VECTOR G5=P/P/F
+CASE G1 observed=P/P/P expected=P/P/P build=coverage masked=yes
+NOBIND G1 listeners_before=35 listeners_after=35 delta=0
+RUN G1 driver="fabricated - nothing ran"
+BUILD G1 kind=coverage
+LEG G1 1 test_sqlite_compiled P exc=- frag=-
+LEG G1 2 test_sqlite_in_path P exc=- frag=-
+LEG G1 3 test_gcov_enabled P exc=- frag=-
+CASE G2 observed=F/F/F expected=F/F/F build=none masked=yes
+NOBIND G2 listeners_before=35 listeners_after=35 delta=0
+RUN G2 driver="fabricated - nothing ran"
+BUILD G2 kind=none
+LEG G2 1 test_sqlite_compiled F exc=PermissionError frag=fabricated
+LEG G2 2 test_sqlite_in_path F exc=AssertionError frag=sqlite3 not found in PATH
+LEG G2 3 test_gcov_enabled F exc=PermissionError frag=fabricated
+CASE G3 observed=P/P/F expected=P/P/F build=plain masked=yes
+NOBIND G3 listeners_before=35 listeners_after=35 delta=0
+RUN G3 driver="fabricated - nothing ran"
+BUILD G3 kind=plain
+LEG G3 1 test_sqlite_compiled P exc=- frag=-
+LEG G3 2 test_sqlite_in_path P exc=- frag=-
+LEG G3 3 test_gcov_enabled F exc=AssertionError frag=No .gcda files found, gcov instrumentation may not be enabled
+CASE G4 observed=P/P/F expected=P/P/F build=arcs masked=yes
+NOBIND G4 listeners_before=35 listeners_after=35 delta=0
+RUN G4 driver="fabricated - nothing ran"
+BUILD G4 kind=arcs
+LEG G4 1 test_sqlite_compiled P exc=- frag=-
+LEG G4 2 test_sqlite_in_path P exc=- frag=-
+LEG G4 3 test_gcov_enabled F exc=AssertionError frag=No .gcno files found, gcov instrumentation may not be enabled
+CASE G5 observed=P/P/F expected=P/P/F build=none masked=no
+NOBIND G5 listeners_before=35 listeners_after=35 delta=0
+RUN G5 driver="fabricated - nothing ran"
+BUILD G5 kind=none
+LEG G5 1 test_sqlite_compiled P exc=- frag=-
+LEG G5 2 test_sqlite_in_path P exc=- frag=-
+LEG G5 3 test_gcov_enabled F exc=AssertionError frag=No .gcda files found, gcov instrumentation may not be enabled
+FRAGMENT G2 leg2=sqlite3 not found in PATH
+FRAGMENT G4 leg3=No .gcno files found, gcov instrumentation may not be enabled
+PREDICATE R65-C1 pass

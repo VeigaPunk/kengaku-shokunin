@@ -1,0 +1,47 @@
+GRADER sha256=4ae4285e15fba1fcf13d7b7c0638ac8c2e2b0797c937abab1fb6b136fd508290 path=corpus/evidence/round52/graders/torch-tensor-parallelism/tests/test_outputs.py
+TORCH version=2.15.0+cpu python=3.14.8 bwrap=bubblewrap 0.13.1
+PROBE sha256=7640a639bbfeeb5276763fe05f63d25e14d2544d5ffc98faa0fabff1e172106e
+CASE k1-ref case_sha=1537da2a2ea07293ec757641a0d2faee5e507518da9f96de45bebfd788193fc1 junit_sha=3445881807c544609006275485189dd12310a35dd00faa94b383163980c43ac6 rc=0 port_free=True
+VECTOR k1-ref exists=P column-ws1-biasTrue=P column-ws1-biasFalse=P column-ws2-biasTrue=P column-ws2-biasFalse=P column-ws4-biasTrue=P column-ws4-biasFalse=P row-ws1-biasTrue=P row-ws1-biasFalse=P row-ws2-biasTrue=P row-ws2-biasFalse=P row-ws4-biasTrue=P row-ws4-biasFalse=P frozen=match
+CASE k2-none case_sha=none junit_sha=2db0f9ecd6f4359135c240e00e62f5ae8bf311fc805fb5b401567e0b4f93c657 rc=1 port_free=True
+VECTOR k2-none exists=F column-ws1-biasTrue=F column-ws1-biasFalse=F column-ws2-biasTrue=F column-ws2-biasFalse=F column-ws4-biasTrue=F column-ws4-biasFalse=F row-ws1-biasTrue=F row-ws1-biasFalse=F row-ws2-biasTrue=F row-ws2-biasFalse=F row-ws4-biasTrue=F row-ws4-biasFalse=F frozen=match
+FRAGMENT k2-none column-ws1-biasFalse torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 0 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k2-none column-ws1-biasTrue torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 0 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k2-none column-ws2-biasFalse torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 1 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k2-none column-ws2-biasTrue torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 1 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k2-none column-ws4-biasFalse torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 2 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k2-none column-ws4-biasTrue torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 0 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k2-none exists AssertionError: File /app/parallel_linear.py does not exist assert False  +  where False = exists()  +    where exists = PosixPath('/app/parallel_linear.py').ex
+FRAGMENT k2-none row-ws1-biasFalse torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 0 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k2-none row-ws1-biasTrue torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 0 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k2-none row-ws2-biasFalse torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 0 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k2-none row-ws2-biasTrue torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 1 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k2-none row-ws4-biasFalse torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 3 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k2-none row-ws4-biasTrue torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 1 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+CASE k3-stub case_sha=316630cd45f0a3e2332bd38f98f4147977eba3d84aa54c5203edc5923986eadf junit_sha=90c6577fcd09f39efcf72d418f895fe8ea3e20b8d5c4186f2408484e2ab01202 rc=1 port_free=True
+VECTOR k3-stub exists=P column-ws1-biasTrue=F column-ws1-biasFalse=F column-ws2-biasTrue=F column-ws2-biasFalse=F column-ws4-biasTrue=F column-ws4-biasFalse=F row-ws1-biasTrue=F row-ws1-biasFalse=F row-ws2-biasTrue=F row-ws2-biasFalse=F row-ws4-biasTrue=F row-ws4-biasFalse=F frozen=match
+FRAGMENT k3-stub column-ws1-biasFalse torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 0 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k3-stub column-ws1-biasTrue torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 0 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k3-stub column-ws2-biasFalse torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 0 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k3-stub column-ws2-biasTrue torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 1 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k3-stub column-ws4-biasFalse torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 0 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k3-stub column-ws4-biasTrue torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 3 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k3-stub row-ws1-biasFalse torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 0 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k3-stub row-ws1-biasTrue torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 0 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k3-stub row-ws2-biasFalse torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 0 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k3-stub row-ws2-biasTrue torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 1 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k3-stub row-ws4-biasFalse torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 0 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k3-stub row-ws4-biasTrue torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 0 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+CASE k4-col-nogather case_sha=37a3c21b324c262a5a777389cd242b8b3129b33cc4d1adb31d715cd806082b83 junit_sha=8ec8dc44be14aff15c1440824e99a965a47251bdeaee9b74f1c94120965de461 rc=1 port_free=True
+VECTOR k4-col-nogather exists=P column-ws1-biasTrue=P column-ws1-biasFalse=P column-ws2-biasTrue=F column-ws2-biasFalse=F column-ws4-biasTrue=F column-ws4-biasFalse=F row-ws1-biasTrue=P row-ws1-biasFalse=P row-ws2-biasTrue=P row-ws2-biasFalse=P row-ws4-biasTrue=P row-ws4-biasFalse=P frozen=match
+FRAGMENT k4-col-nogather column-ws2-biasFalse torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 0 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k4-col-nogather column-ws2-biasTrue torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 1 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k4-col-nogather column-ws4-biasFalse torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 1 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k4-col-nogather column-ws4-biasTrue torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 1 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+CASE k5-row-noreduce case_sha=edf7cab1ee5798e135affe6ea9f884696cea4165d6f11d0e49bd3e458c291881 junit_sha=b960bffa69586ce03651699c393b9ed903360df89fcb605bdd620f2fdd01a3cb rc=1 port_free=True
+VECTOR k5-row-noreduce exists=P column-ws1-biasTrue=P column-ws1-biasFalse=P column-ws2-biasTrue=P column-ws2-biasFalse=P column-ws4-biasTrue=P column-ws4-biasFalse=P row-ws1-biasTrue=P row-ws1-biasFalse=P row-ws2-biasTrue=F row-ws2-biasFalse=F row-ws4-biasTrue=F row-ws4-biasFalse=F frozen=match
+FRAGMENT k5-row-noreduce row-ws2-biasFalse torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 0 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k5-row-noreduce row-ws2-biasTrue torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 0 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k5-row-noreduce row-ws4-biasFalse torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 1 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+FRAGMENT k5-row-noreduce row-ws4-biasTrue torch.multiprocessing.spawn.ProcessRaisedException:   -- Process 2 terminated with the following error: Traceback (most recent call last):   File "/home/vgpnk/.
+PREDICATE R66-C1 pass

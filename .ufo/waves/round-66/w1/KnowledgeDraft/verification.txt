@@ -1,0 +1,76 @@
+SEAT KnowledgeDraft verification receipt — R66-C1 knowledge draft
+DATE 2026-11-03
+CWD  /home/vgpnk/Projects/shokunin/kengaku-shokunin (lane root)
+
+--- 1. R66-C1 counting command (after) ---
+$ python3 plans/round66_c1_tensor_probe.py --check-receipt corpus/evidence/round66/tensor/receipt.txt; echo $?
+CHECK ok cases=5
+PREDICATE R66-C1 pass
+exit=0
+
+--- 2. probe selftest ---
+$ python3 plans/round66_c1_tensor_probe.py --selftest --work /fast/scratch/hyaku/kengaku-r66/KnowledgeDraft
+SELFTEST {'good_accepted': True, 'mutated_refused': True}
+exit=0
+
+--- 3. grader sha (committed bytes) ---
+$ sha256sum corpus/evidence/round52/graders/torch-tensor-parallelism/tests/test_outputs.py
+4ae4285e15fba1fcf13d7b7c0638ac8c2e2b0797c937abab1fb6b136fd508290  corpus/evidence/round52/graders/torch-tensor-parallelism/tests/test_outputs.py
+$ sha256sum corpus/evidence/round66/sources/torch-tensor-parallelism-test_outputs.py
+4ae4285e15fba1fcf13d7b7c0638ac8c2e2b0797c937abab1fb6b136fd508290  corpus/evidence/round66/sources/torch-tensor-parallelism-test_outputs.py
+$ sed -n '171p' corpus/evidence/round52/graders/SHA256SUMS
+4ae4285e15fba1fcf13d7b7c0638ac8c2e2b0797c937abab1fb6b136fd508290  ./torch-tensor-parallelism/tests/test_outputs.py
+$ wc -l -c corpus/evidence/round66/sources/torch-tensor-parallelism-test_outputs.py
+ 211 7171 corpus/evidence/round66/sources/torch-tensor-parallelism-test_outputs.py
+
+--- 4. case shas ---
+$ sha256sum corpus/evidence/round66/tensor/cases/*/parallel_linear.py
+1537da2a2ea07293ec757641a0d2faee5e507518da9f96de45bebfd788193fc1  corpus/evidence/round66/tensor/cases/k1-ref/parallel_linear.py
+316630cd45f0a3e2332bd38f98f4147977eba3d84aa54c5203edc5923986eadf  corpus/evidence/round66/tensor/cases/k3-stub/parallel_linear.py
+37a3c21b324c262a5a777389cd242b8b3129b33cc4d1adb31d715cd806082b83  corpus/evidence/round66/tensor/cases/k4-col-nogather/parallel_linear.py
+edf7cab1ee5798e135affe6ea9f884696cea4165d6f11d0e49bd3e458c291881  corpus/evidence/round66/tensor/cases/k5-row-noreduce/parallel_linear.py
+
+--- 5. junit testcase counts ---
+corpus/evidence/round66/tensor/junit/k1-ref.xml 13
+corpus/evidence/round66/tensor/junit/k2-none.xml 13
+corpus/evidence/round66/tensor/junit/k3-stub.xml 13
+corpus/evidence/round66/tensor/junit/k4-col-nogather.xml 13
+corpus/evidence/round66/tensor/junit/k5-row-noreduce.xml 13
+
+--- 6. before-counts ---
+$ grep -c torch-tensor-parallelism corpus/evidence/round52/graders/executed17.lst
+0
+$ grep -n 'CLASS process-environment' corpus/evidence/round62/class-survey.txt
+14:CLASS process-environment count=3 members=install-windows-3.11,torch-pipeline-parallelism,torch-tensor-parallelism
+$ grep -n 'EXECUTED-COVERAGE' corpus/evidence/round62/class-survey.txt
+21:EXECUTED-COVERAGE executed=17 classified=17 classes-covered=12 classes-uncovered=network-service,process-environment,db-state,container-image
+
+--- 7. host toolchain ---
+$ bwrap --version
+bubblewrap 0.13.1
+$ ~/.local/bin/uv --version
+uv 0.13.0 (x86_64-unknown-linux-gnu)
+$ venv python: torch version / gloo / py
+torch 2.15.0+cpu gloo True py 3.14.8
+$ venv pytest --version
+pytest 9.2.0
+
+--- 8. mutant AST diff (class-qualified method bodies) ---
+k3-stub differing method bodies = ['ColumnParallelLinear.__init__', 'ColumnParallelLinear.forward', 'RowParallelLinear.__init__', 'RowParallelLinear.forward']
+k4-col-nogather differing method bodies = ['ColumnParallelLinear.forward']
+k5-row-noreduce differing method bodies = ['RowParallelLinear.forward']
+
+--- 9. K2-only receipt is refused ---
+$ python3 plans/round66_c1_tensor_probe.py --check-receipt <scratch>/k2only.txt
+CHECK defect: k1-ref has no VECTOR line
+CHECK defect: k3-stub has no VECTOR line
+CHECK defect: k4-col-nogather has no VECTOR line
+CHECK defect: k5-row-noreduce has no VECTOR line
+PREDICATE R66-C1 fail
+exit=1
+
+--- 10. hand-written full receipt with copied bytes is ACCEPTED (named limitation) ---
+$ python3 plans/round66_c1_tensor_probe.py --check-receipt <scratch>/handwritten.txt
+CHECK ok cases=5
+PREDICATE R66-C1 pass
+exit=0

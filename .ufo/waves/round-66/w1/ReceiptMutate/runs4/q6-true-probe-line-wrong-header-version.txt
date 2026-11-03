@@ -1,0 +1,8 @@
+$ python3 /fast/scratch/hyaku/kengaku-r66/ReceiptMutate/proposed/probe.py --check-receipt /fast/scratch/hyaku/kengaku-r66/ReceiptMutate/fixtures/q6-true-probe-line-wrong-header-version.txt --strict
+exit=1
+--- stdout ---
+CHECK strict probe sha256=f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb rel=plans/round65_c1_sqlite_probe.py
+CHECK defect: probe-version 'r65-c1/0' != 'r65-c1/1'
+PREDICATE R65-C1 strict-fail
+--- stderr ---
+probe_sha=b131e66eb74964c0dfc1001d6191115fd5e14587059e3ddc834a6fec0c3854af fixture_sha_before=e8d2b8919e487b3cb9756c32fcf2c4e32598e0ff74eadfbb1e5d977c771dc8bd fixture_sha_after=e8d2b8919e487b3cb9756c32fcf2c4e32598e0ff74eadfbb1e5d977c771dc8bd

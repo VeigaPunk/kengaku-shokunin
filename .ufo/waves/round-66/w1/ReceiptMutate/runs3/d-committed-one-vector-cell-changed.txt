@@ -1,0 +1,10 @@
+$ python3 /fast/scratch/hyaku/kengaku-r66/ReceiptMutate/proposed/probe.py --check-receipt /fast/scratch/hyaku/kengaku-r66/ReceiptMutate/fixtures/d-committed-one-vector-cell-changed.txt --strict
+exit=1
+--- stdout ---
+CHECK strict probe sha256=f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb rel=plans/round65_c1_sqlite_probe.py
+CHECK fail G3 vector P/F/P != P/P/F
+CHECK fail stored-predicate pass disagrees with derived fail
+CHECK defect: vector-mismatch G3=P/F/P != P/P/F
+PREDICATE R65-C1 strict-fail
+--- stderr ---
+probe_sha=062702702d752058842fcddc90c4271e6d1e8ac0c31f8e8c8645683814ed47d4 fixture_sha_before=28b8a9349cf69edd244701a2614eae52cdca2ce27e91f337ef573f33ff0f4564 fixture_sha_after=28b8a9349cf69edd244701a2614eae52cdca2ce27e91f337ef573f33ff0f4564

@@ -1,0 +1,15 @@
+$ python3 /fast/scratch/hyaku/kengaku-r66/ReceiptMutate/proposed/probe.py --check-receipt /fast/scratch/hyaku/kengaku-r66/ReceiptMutate/fixtures/b-fabricated-plus-correct-probe-line.txt --strict
+exit=1
+--- stdout ---
+CHECK strict probe sha256=f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb rel=plans/round65_c1_sqlite_probe.py
+CHECK defect: fabrication-declaration '# FABRICATED RECEPT — ClaimFalsifier-3 cheapest-path attack, contains NO live-run data'
+CHECK defect: toolchain-not-well-formed gcc='fabricated'
+CHECK defect: toolchain-not-well-formed gcov='fabricated'
+CHECK defect: toolchain-not-well-formed bwrap='fabricated'
+CHECK defect: toolchain-not-well-formed python='fabricated'
+CHECK defect: toolchain-banner-count gcc 0 != 1
+CHECK defect: toolchain-banner-count gcov 0 != 1
+CHECK defect: toolchain-banner-count bwrap 0 != 1
+PREDICATE R65-C1 strict-fail
+--- stderr ---
+probe_sha=062702702d752058842fcddc90c4271e6d1e8ac0c31f8e8c8645683814ed47d4 fixture_sha_before=2cf79467e90b9fe1a6e087bf595c067db273f3f2c96e49ca334651b9f4c453fb fixture_sha_after=2cf79467e90b9fe1a6e087bf595c067db273f3f2c96e49ca334651b9f4c453fb

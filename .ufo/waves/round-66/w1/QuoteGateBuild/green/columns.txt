@@ -1,0 +1,12 @@
+# 11-column shape check: awk -F'|' NF==13 (11 cells + two edge fields) for every line of proposed/rows.md
+$ awk -F'|' '{printf "line %d NF=%d\n", NR, NF}' /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-66/w1/QuoteGateBuild/proposed/rows.md
+line 1 NF=13
+line 2 NF=13
+line 3 NF=13
+line 4 NF=13
+
+$ awk -F'|' 'NF!=13 {print "BAD line " NR " NF=" NF; bad=1} END {if (!bad) print "ALL LINES 11-COLUMN (NF=13)"}' /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-66/w1/QuoteGateBuild/proposed/rows.md
+ALL LINES 11-COLUMN (NF=13)
+
+$ awk -F'|' 'NF==13 {n++} END {print "rows_with_NF_13=" n}' /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-66/w1/QuoteGateBuild/proposed/rows.md
+rows_with_NF_13=4

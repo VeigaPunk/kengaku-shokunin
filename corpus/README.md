@@ -750,3 +750,12 @@ the round29 deferred index statement after the Gate's exact-byte admission.
   the probe receipt's sha; the capture sha-refusal kill. Capture bytes committed at
   `corpus/evidence/round57/tb2-eigenval/` (push-protection-clean). Rows S205-S208 opened this
   round; the knowledge entry and its index row land with this section.
+
+## Round-66 supporting artifacts (2026-11-03)
+
+- Knowledge: `corpus/knowledge/tb2-torch-tensor-parallel-offline.md` — the TB2 `torch-tensor-parallelism` grader replayed offline (R66-C1); source S183.
+- Lesson: `corpus/lessons/round-66.md` — Gate, Mistakes rows 1–13 and two mistakes mined at landing, landing verdicts (C1 admitted on the amended counter; C2 not admitted).
+- Registry: S236 (supersedes S233) and S237 (supersedes S234) — `corpus/SOURCES.md`; census `corpus/evidence/round66/census-start.txt` and `census-end.txt` (exit 0 both).
+- Evidence: `corpus/evidence/round66/tensor/` (cases K1–K5, receipt of record `receipt.txt`, control `control-a1.txt`, superseded `prefreeze-run1.txt` and `prefreeze-run2.txt`, per-receipt junit dirs), `corpus/evidence/round66/sources/` (three source captures), `corpus/evidence/round66/red/` (sentinel fabricated receipt and its red-before checker output).
+- Counters: `plans/round66_c1_tensor_probe.py` (R66-C1, amended by A1), `plans/round66_registry_check.py` (quote and meta checks, selftest 13/13).
+- Coverage map: process-environment class has one executed member (torch-tensor-parallelism); the other two members stay unexecuted (install-windows-3.11 needs qemu, absent on this host; torch-pipeline-parallelism unmeasured).
