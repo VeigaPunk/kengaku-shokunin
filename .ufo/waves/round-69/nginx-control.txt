@@ -1,0 +1,19 @@
+$ git cat-file -e a518980e:corpus/evidence/round69/nginx/receipt.txt
+rc=128
+$ grep -c 'executed 3 of 8' SKILL.md
+0
+$ python3 plans/round69_c1_nginx_probe.py --check-receipt corpus/evidence/round69/nginx/receipt.txt
+SETUP receipt-missing corpus/evidence/round69/nginx/receipt.txt
+rc=2
+$ python3 plans/round69_c1_nginx_probe.py --render-table
+case  setup                                                     vector
+K1    all-green end state: service, bodies, config, shim, access log PPPPPPPP
+K2    index body differs by one character (server otherwise green) PPFPPPPP
+K3    service answers but writes no access log                   PPPPPPFF
+K4    config lacks the limit_req_zone rate clause                PPPPPFPP
+K5    no nginx binary on PATH (shim absent)                      FPPPFPPP
+FROZEN-VECTOR PPPPPPPP/PPFPPPPP/PPPPPPFF/PPPPPFPP/FPPPFPPP
+LEGS 8
+FROZEN-SHA plans/round69_c1_nginx_probe.py 66b5128dffbb1637b710f9a5d6fb8cacbe7639d89218dfa4b5010539070100ea
+FROZEN-SHA plans/round69_c2_routed_defects.py ea28b006d528a99befdc193c5463ef552b0a15d0b71b03a091ec011fae115485
+FROZEN-SHA plans/round-69-claims.md 0088cfb0034897ccf3e57e4dd86a532d5ca0882249d40bc033a1fe7786a53a41
