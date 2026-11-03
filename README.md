@@ -1,3 +1,11 @@
+# Kengaku reviewed selective export
+
+Current addition: checkpoint011. Start with PUBLICATION-011.md, OMISSIONS-011.md and PROVENANCE-011.json. Rounds69–70: exploratory manual knowledge, unprovable-but-better. Round71: useful synthesis, depth/quality and discernment unprovable-but-better, expansion unchanged/tie. No model execution, causal effect or numerical gain.
+
+No training code was executed for packaging. New export commits are not original training commits.
+
+## Earlier export description, preserved as historical context
+
 # Kengaku reviewed learning export
 
 This is a new, history-free export of closed rounds 65, 66. It is not the complete training repository, a runnable reproduction package, or a replacement for the immutable original evidence. Its new commit identity is not the identity of the tested/reviewed original. Original commit, blob and SHA256 identifiers are recorded in PROVENANCE.json. First answers and released review decisions are copied without alteration. No private or unreleased oracle is included.

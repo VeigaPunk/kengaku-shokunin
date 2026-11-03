@@ -1,0 +1,40 @@
+# Immutable first answers: sequential evaluation
+
+2026-11-03; after independent freeze2aa42c5492e2d8ed5e1adaa7a85c13ff650c9ae5 and primary study; reviewer private expectations NOT read. Original manual derivations; no simulated/model data or executable inference implementation.
+
+## 1
+
+Independent coverage events give simultaneous coverage .95^3=.857375, hence miscoverage .142625. Exact marginal95% is not simultaneous95%. Dependence would change the product; without the stated independence one cannot use it. A genuine95% confidence sequence covers its defined target at all times on an event of probability at least.95, so choosing a time from the observed history does not destroy that guarantee. It is not a95% posterior probability for the observed target and says nothing about a different deployment population unless appropriate transport assumptions/design support it. Changing to simultaneous construction or prospectively allocating error across the three fixed looks can repair the first claim.
+
+## 2
+
+For X=0 factor1-lambda/2>=0, for X=1 factor1+lambda/2>=1, using0<=lambda<=2. M is adapted and nonnegative. Since lambda_t and M_(t-1) are known at F_(t-1),
+E[M_t|F_(t-1)]=M_(t-1){1+lambda_t(E[X_t|F_(t-1)]-.5)}<=M_(t-1).
+Finite bounded factors ensure finite-time integrability from M0=1. Thus it is a test supermartingale for the stated conditional null, not necessarily a martingale for every null distribution. Ville gives P_H0(ever M_t>=20)<=.05.
+At lambda1, M8=(3/2)^8=6561/256=25.62890625; M9=M8/2=6561/512=12.814453125. M7=2187/128=17.0859375, so first crossing is8. Current wealth crosses at8, not9; the historical-crossing sequential test has rejected by8 and that event is not erased by9. Current e-value genuinely falls. A stopped wealth process at the first crossing preserves its stopped value; one cannot silently replace the full evolving process by its largest value and call that an e-process. Nothing proves the alternative or its practical effect size with certainty.
+
+## 3
+
+M2=2.25 when Z=1 and.25 when Z=0. Expectation=(2.25+.25)/2=1.25>1. The marginal mean condition is inadequate: E[X2|X1=1]=1, violating<=.5 on an event of probability.5. Repeated copies of one response do not become independent fresh observations or satisfy the stronger conditional null merely by each retaining the same marginal correctness. Need the actual task/run dependence and a design-valid evidence process; count one original unit or derive an appropriate dependence-aware design rather than multiply copies as new evidence. Independence is sufficient here with fair bits, not universally necessary for conditional validity.
+
+## 4
+
+Hindsight stakes yield1+.5=1.5 for either outcome, so expected one-step factor1.5, not1. Nonnegativity is satisfied but fair conditional expectation is not, and lambda_t was not predictable. This is invalid even under the equality null of iid fair bits. In contrast lambda1=0 and later sign chosen from the preceding outcome is predictable. Conditional on the past the next fair bit still has mean.5, each factor is.5 or1.5, and expectation is1. Therefore the alternative strategy gives a nonnegative martingale from capital1: legal adaptation, not a forbidden peek. Negative stakes here rely on equality; under the one-sided<=.5 composite null of case2, negative stakes generally violate the needed inequality. Must not transplant this equality-null positive control into that one-sided test.
+
+## 5
+
+There is a wording inconsistency if 'neither has crossed20 earlier' means including now, since current30 crosses20; read earlier as strictly prior times. Selecting maximum30 after seeing both does not retain a generic .05 guarantee over this two-strategy family. Equal mixture current(30+2)/2=16<20; prior each<20 implies prior mixture<20, so no mixture crossing. Independence of the strategies is not needed for a prechosen convex mixture valid under the same filtration/null. With .025 per strategy, threshold40 for each;30 and2 fail, and prior values<20 also fail. Union-bound control is<=.05, without independence. Neither approach declares a result here. A single strategy truly chosen before observation could validly reject at30 under its original.05 contract, but that's not the data-selected protocol stated.
+A predictable switch only in future valid unit bets, retaining actual capital and respecting their conditional validity under the shared information, can be a valid strategy. It is not the free hindsight allocation of all starting capital to whichever complete historical path won. We need conditional-valid future factors, not merely two marginally valid current e-values, to establish switching validity.
+
+## 6
+
+Under the stated independent exact.05 null risks, any success across at most two attempts has probability1-.95^2=.0975. The second only occurring after first non-rejection yields the same .05+.95*.05. Erasing failed attempts does not alter this sampling probability. A single never-reset nonnegative test wealth with valid conditional factors and initial1 has ever-crossing20 probability<=.05. Two prospectively allocated.025 protocols have union risk<=.05; if each is exact.025 and independent, it is1-.975^2=.049375. The latter exactness was not stipulated for the adjusted protocols, so the unconditional guarantee is the union bound, not an asserted measured/exact rate. Anytime means continued valid evidence under one accounting scheme, not free replenishment of starting capital/error budget. Retain all attempts and design allocation before use; cannot erase into validity retrospectively.
+
+## 7
+
+Including M0=1, running max=25; anytime p3=min(1,1/25)=.04. Reciprocal current wealth1/10=.1. Historical crossing at2 supports rejection under a threshold20 sequential rule despite current10. The running maximum itself is generally NOT an e-value/e-process: maximizing over history can increase expectation beyond1; optional stopping concerns a stopping time, not retrospective argmax using future information. Simple counterexample: one fair step makes wealth2 or0. Running max including initial1 has expectation(2+1)/2=1.5. Optional stopping at a prospectively recognizable first threshold hit produces valid stopped wealth; it does not authorize replacing every path by its hindsight peak. Nor are arbitrary e-values automatically multiplicative: need independence or suitable conditional e-validity for the proposed composition. Do not multiply25 as guaranteed valid new evidence merely because.04 is a valid anytime p-value.
+
+## 8
+
+Pool-wide unweighted mean<=.5 does not imply selected-stream E[X_t|F_(t-1)]<=.5. For a concrete null-compatible pool half items deterministically succeed and half fail, informed selection can choose successes first, with conditional expectation1 even though pool mean.5. Predictable lambda alone repairs neither task-selection bias nor the null mismatch. Sampling without replacement also changes conditional probabilities as the pool depletes; uniform random sampling is not automatically the iid conditional-null recipe. Need a sampling/weighting/inference method justified for the target finite pool, or explicitly adopt and justify the stronger conditional null for the actual evaluator stream including task choices/information.
+If that narrower premise and all wealth assumptions hold,24>20 means reject the stated conditional-null model at sequential level.05, not95% proof that any particular broad superiority claim is true. It does not quantify a practically important improvement, compare to a rival unless that contrast was the estimand, establish general deployment transport, or establish a causal gain from this card. The card has no randomized/matched pre-study causal evaluation. Preserve actual stream, identities, bets before outcomes, selection policy, failures and evidence history; obtain the missing design evidence before making a population claim. A valid conditional-null rejection is still a useful limited statement, not grounds to reject all sequential methods.
