@@ -1,0 +1,55 @@
+# Host state — GraderRecon seat, round 65 w1, measured 2026-11-03T20:06:03Z
+
+$ sqlite3 --version
+3.54.0 2026-10-09 15:46:58 be8d059e9a49089ab2dce5ed26dd87aaf598fdc5fbe0b107c0dd758464bcalt1 (64-bit)
+rc=0
+$ gcc --version
+gcc (GCC) 16.2.1 20260810
+rc=0
+$ gcov --version
+gcov (GCC) 16.2.1 20260810
+rc=0
+$ bwrap --version
+bubblewrap 0.13.1
+rc=0
+$ python3 --version
+Python 3.14.8
+rc=0
+$ uv --version
+uv 0.13.0 (x86_64-unknown-linux-gnu)
+rc=0
+$ /home/vgpnk/.local/bin/uv --version
+uv 0.13.0 (x86_64-unknown-linux-gnu)
+rc=0
+
+$ which -a sqlite3 gcc gcov bwrap python3
+/usr/bin/sqlite3
+/usr/bin/gcc
+/usr/bin/gcov
+/usr/bin/bwrap
+/usr/bin/python3
+
+$ ss -ltn
+State  Recv-Q Send-Q Local Address:Port  Peer Address:Port
+LISTEN 0      512        127.0.0.1:1234       0.0.0.0:*
+LISTEN 0      4096         0.0.0.0:5355       0.0.0.0:*
+LISTEN 0      4096       127.0.0.1:631        0.0.0.0:*
+LISTEN 0      511        127.0.0.1:36031      0.0.0.0:*
+LISTEN 0      511        127.0.0.1:36509      0.0.0.0:*
+LISTEN 0      4096      127.0.0.54:53         0.0.0.0:*
+LISTEN 0      511        127.0.0.1:35125      0.0.0.0:*
+LISTEN 0      511        127.0.0.1:34827      0.0.0.0:*
+LISTEN 0      511        127.0.0.1:35417      0.0.0.0:*
+LISTEN 0      4096   127.0.0.53%lo:53         0.0.0.0:*
+LISTEN 0      511        127.0.0.1:38121      0.0.0.0:*
+LISTEN 0      4096      172.17.0.1:53         0.0.0.0:*
+LISTEN 0      511        127.0.0.1:7456       0.0.0.0:*
+LISTEN 0      511        127.0.0.1:40921      0.0.0.0:*
+LISTEN 0      4096       127.0.0.1:8188       0.0.0.0:*
+LISTEN 0      511        127.0.0.1:23001      0.0.0.0:*
+LISTEN 0      511        127.0.0.1:39551      0.0.0.0:*
+LISTEN 0      511        127.0.0.1:42033      0.0.0.0:*
+LISTEN 0      511        127.0.0.1:42035      0.0.0.0:*
+ss_rc=0
+
+no-bind observation: the sqlite-with-gcov grader executes no network call (imports os, shutil, subprocess only); this seat opens curl fetches only (S232/S233 re-open) and binds no listening socket. ss -ltn above lists host listeners not owned by this seat; the seat's own python/curl children are short-lived outbound clients (no LISTEN entry attributable to the probe).

@@ -1,0 +1,66 @@
+source: S232 (corpus/SOURCES.md) — Terminal-Bench 2.0 sqlite-with-gcov grader, tests/test_outputs.py at pin 2fd12b88 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/sqlite-with-gcov/tests/test_outputs.py (sha256 b165f8504bb93a901451b80c4ea73344b71b6af377ebdabef745fbcdd1d2993b)
+verified-at: round 65 freeze (base 12a6255170bcc466029bf82037885fd69e20370f; instrument receipt corpus/evidence/round65/sqlite-gcov-probe.txt)
+recheck: python3 plans/round65_c1_sqlite_probe.py --check-receipt corpus/evidence/round65/sqlite-gcov-probe.txt
+source: S233 (corpus/SOURCES.md) — SQLite amalgamation 3.54.1 — https://sqlite.org/2026/sqlite-amalgamation-3540100.zip (zip sha256 0a9c8e34352dad46006aa82836d5383bff9dc6bc9ce5a60553c05aa30e6ad1f9; four-file layout `sqlite3.c`, `shell.c`, `sqlite3.h`, `sqlite3ext.h`)
+
+# TB2 `sqlite-with-gcov` — a toolchain-artifact grader replayed offline against a lane-built gcov-instrumented `sqlite3`
+
+## What the grader asserts (the three-leg contract)
+
+Task `sqlite-with-gcov`, `tests/test_outputs.py` at pin `2fd12b88aafdd04a52c298e3940bcb189f9766d6`: sha256 `b165f8504bb93a901451b80c4ea73344b71b6af377ebdabef745fbcdd1d2993b` — the lane's committed capture `corpus/evidence/round52/graders/sqlite-with-gcov/tests/test_outputs.py` and `corpus/evidence/round52/graders/SHA256SUMS` line 167. Three test functions, graded in file order (S232 line numbers):
+
+| # | leg (S232 line) | PASS condition (the grader's own asserts) |
+|---|---|---|
+| 1 | `test_sqlite_compiled` :8 | `subprocess.run(["sqlite3", ":memory:", "SELECT sqlite_version();"])` (:12) returns 0 — asserted as `f"SQLite execution failed: {result.stderr}"` (:17) — and stdout is non-empty — asserted as `"SQLite version output is empty"` (:18) |
+| 2 | `test_sqlite_in_path` :21 | `shutil.which("sqlite3")` (:24) is not None — asserted as `"sqlite3 not found in PATH"` (:25) — and the PATH-resolved binary answers `SELECT 1;` (:28), asserted as `f"SQLite execution from PATH failed: {result.stderr}"` (:33) |
+| 3 | `test_gcov_enabled` :36 | the grader itself runs `sqlite3 :memory: "SELECT 1;"` (:40), asserted as `"Failed to run SQLite"` (:43); then a walk of `/app/sqlite` (:47) must find ≥1 `.gcda` — asserted as `"No .gcda files found, gcov instrumentation may not be enabled"` (:51) — and ≥1 `.gcno` (:56), asserted as `"No .gcno files found, gcov instrumentation may not be enabled"` (:60) |
+
+Leg rule (frozen in `plans/round-65-claims.md`): **P** iff the test function returns normally, **F** on any exception. Legs run in file order inside one sandbox process per case.
+
+## The frozen five-case × three-leg vector
+
+`plans/round-65-claims.md` freezes five cases; the vector is DERIVED at run time from the case declarations and compared to this literal (a derivation that disagrees aborts the battery, r59 lesson M-1). The last column is the pre-freeze control capture committed at the freeze landing (`sha256sum` over each file; its `LEGS` line is the captured vector).
+
+| case | setup | frozen vector (legs 1-3) | pre-freeze capture (sha256) and captured legs |
+|---|---|---|---|
+| G1 | compliant: `--coverage` build (gcda+gcno) in `/app/sqlite`, on PATH, system binary masked | `P P P` | `corpus/evidence/round65/g1-capture.txt` (`4ce2cfe024cbe2fc97774d847d6006c3009aac48594c8b1210f67653dcabc692`) — `P / P / P`, `which_sqlite3=/app/sqlite/sqlite3`, `sqlite3_version 3.54.1` |
+| G2 | do-nothing control: empty `/app`, masked | `F F F` | `corpus/evidence/round65/g2-capture.txt` (`837d3fb83ba28e87c7859a88c848af10a017069d9b3a8ce492c12ac996a266e3`) — `F(PermissionError) / F(AssertionError: sqlite3 not found in PATH) / F(PermissionError)`, `which_sqlite3=null` |
+| G3 | no-instrumentation build (plain `gcc -O0 -g`, no coverage flags), on PATH, masked | `P P F` — leg 3 names `No .gcda files found` | none: no committed pre-freeze capture; the cell is frozen and exercised by the scored battery |
+| G4 | arcs-only build (`-fprofile-arcs`, no `-ftest-coverage`), on PATH, masked | `P P F` — leg 3 names `No .gcno files found` | `corpus/evidence/round65/g4-capture.txt` (`5cc817ab7aba9493ca5d9fb0aceeeb0d2c44d4167926c060d47ae3c00f38ac8e`) — `P / P / F(AssertionError: No .gcno files found, gcov instrumentation may not be enabled)` |
+| G5 | masking-off control: empty `/app`, NO `/dev/null` bind — the host `sqlite3` 3.54.0 answers legs 1-2 | `P P F` — leg 3 names `No .gcda files found` | `corpus/evidence/round65/g5-capture.txt` (`8e1d927d103f79ba0dccc9af433c1cbc3e7b5f80266abd90bb7ddd502257a9e2`) — `P / P / F(AssertionError: No .gcda files found, gcov instrumentation may not be enabled)`, unmasked, `which_sqlite3=/usr/bin/sqlite3` (3.54.0) |
+
+G3, G4 and G5 share the `P P F` shape; the frozen per-leg message fragments separate their mechanisms (`No .gcda` for G3/G5, `No .gcno` for G4). G5 is the negative control for the masking discipline: without the bind, legs 1-2 pass spuriously on the host binary — the demonstration that every G1-G4 leg-1/2 PASS is attributable to the lane-built candidate. G2 and G5 differ from G1 in the legs that matter (G2 in all three, G5 in leg 3), so neither a do-nothing run nor an unmasked run can satisfy the frozen predicate.
+
+**Predicate R65-C1 (frozen, `plans/round-65-claims.md`):** pass iff the receipt of record's observed vector for each case G1-G5 equals the table above, AND the G2 receipt records the leg-2 fragment `sqlite3 not found in PATH`, AND the G4 receipt records the leg-3 fragment `No .gcno files found`, AND the receipt records the grader sha256 `b165f8504bb93a901451b80c4ea73344b71b6af377ebdabef745fbcdd1d2993b`, the amalgamation zip sha256 `0a9c8e34352dad46006aa82836d5383bff9dc6bc9ce5a60553c05aa30e6ad1f9`, the host gcc/gcov version line, and a no-bind observation for every case. **Counting command:** `python3 plans/round65_c1_sqlite_probe.py --check-receipt corpus/evidence/round65/sqlite-gcov-probe.txt; echo $?` → last line `PREDICATE R65-C1 pass`. **Named limitation of `--check-receipt`:** it re-derives **text fields only** and cannot prove a live run (r63/r64 precedent); the live evidence is the per-case compile+leg run inside the battery, and the receipt file does not exist on a fresh clone, so the counting command cannot pass there.
+
+## The two load-bearing mechanics
+
+**1. The `/dev/null` mask, and its measured exception surface.** The host's real `/usr/bin/sqlite3` (3.54.0) is masked in G1-G4 by a bwrap `--ro-bind /dev/null /usr/bin/sqlite3`, so a leg-1/leg-2 PASS can only come from the lane-built binary. Measured pre-freeze (G2 capture): `shutil.which("sqlite3")` → **None**, so leg 2 fails on the grader's own assert with `AssertionError: sqlite3 not found in PATH` (:25); `subprocess.run(["sqlite3", ...])` raises **`PermissionError: [Errno 13] Permission denied: 'sqlite3'`** — not `FileNotFoundError`, because the masked path still exists and is simply not executable — so legs 1 and 3 fail with that exception (the `subprocess.run` at :12 and :40 never reaches the grader's asserts).
+
+**2. The compile-time-absolute `.gcda` path, and the dual-bind / in-place-compile design.** libgcov writes `.gcda` files at process exit to the **absolute path recorded at COMPILE time**, so a binary compiled in dir X emits its `.gcda` inside the sandbox only if X exists there. The probe therefore compiles each case's build **in place under the case dir** (host side) and binds that case dir at **BOTH** `/app` and its host absolute path (writable), so the recorded compile-time path resolves inside the sandbox and lands under the `/app/sqlite` tree the grader walks (:47, :56). The `.gcno` files are different: the compiler writes them next to the object files at build time, so they are present in the case dir from the start; G4 (`-fprofile-arcs` without `-ftest-coverage`) separates the two, producing `.gcda` but no `.gcno`, so leg 3 fails on the `.gcno` assert ("No .gcno files found", :60) rather than the `.gcda` one. The frozen claims note that this compile-path behaviour is what case G4 pins, and record the pre-flight measurement — a binary copied from a foreign compile dir emits NO `.gcda` inside the sandbox — as pre-flight evidence, not a scored case. The build itself is the lane's own candidate, compiled from the pinned S233 amalgamation (`sqlite3.c` + `shell.c`): `gcc -O0 -g --coverage -o sqlite3 sqlite3.c shell.c -I. -ldl -lm -lpthread` (~4 s), placed at `/app/sqlite/sqlite3` and staged on PATH by the driver.
+
+## The class observation: `db-state` splits into two kinds of state
+
+The round-62 class census prices the task into the `db-state` class: `corpus/evidence/round62/class-survey.txt` line 16 — `CLASS db-state count=2 members=query-optimize,sqlite-with-gcov`. At base neither member was executed: line 21 reads `EXECUTED-COVERAGE executed=17 classified=17 classes-covered=12 classes-uncovered=network-service,process-environment,db-state,container-image`, and `grep -c sqlite-with-gcov corpus/evidence/round52/graders/executed17.lst` → `0`, rc 1 (observed at the round-65 freeze). Round 65 executes the first member, and the class turns out not to be one kind of state at all:
+
+- **toolchain-artifact state** — `sqlite-with-gcov` grades the *build artefacts* of a database toolchain: a `sqlite3` binary on PATH plus the `.gcda`/`.gcno` coverage files under `/app/sqlite`. Its three legs are deterministic and artifact-shaped, so the lane can build the candidate and read the grader's own verdict. **Executed offline in round 65.**
+- **query-plan / timing state** — `query-optimize` grades the *behaviour of a query* against a golden query on a real database: `corpus/evidence/round52/graders/query-optimize/tests/test_outputs.py` asserts `summary["solution"]["median_s"] <= 1.05 * summary["golden"]["median_s"]` (:142) — a median-ratio timing threshold — and pins the external database by sha256 (`expected_hash = "89eab7555b6b86a74b8e0ee5a7db7beec0b2575a45cd2b22fe132eae79f5ad5a"`, :78, over `/app/oewn.sqlite`). A median-ratio threshold is a wall-clock measurement and the database is an external, sha-pinned input, so those legs are **not freezable offline on this host**. **Stays recipe-unexecuted.**
+
+So "db-state" names two graders whose graded state shares no property; the class row reads `executed 1 of 2` rather than flipping wholesale. Member counts are untouched (`2`).
+
+## Named environment deltas (this host, this round)
+
+- **No venv in the house shape.** The r63/r64 sandbox venv is REPLACED by the sandbox's own `/usr/bin/python3`: the grader imports stdlib only — `os`, `shutil`, `subprocess` (AST scan receipt `corpus/evidence/round65/grader-import-scan.txt`, sha256 `f6a9e6c7729980c09e9deef62f5ee4e44c0c0a610b35e83e7a0ee0369502330c`, `stdlib-only: True`) — so no venv is needed and no PyPI open was made this round.
+- **`PermissionError`, not `FileNotFoundError`, under the mask.** A missing binary would raise `FileNotFoundError`; the `/dev/null` bind leaves a non-executable file at the path, so the measured exception is `PermissionError: [Errno 13] Permission denied: 'sqlite3'` (G2 legs 1, 3).
+- **Host `sqlite3` 3.54.0 vs the built 3.54.1.** The G5 (unmasked) receipt answers with the host's `/usr/bin/sqlite3` 3.54.0; the G1 and G4 receipts answer with the lane-built binary at `/app/sqlite/sqlite3`, version `3.54.1 2026-10-16 14:45:20 555e07ef33f69a0957d24d8e555b70246`.
+- **Host toolchain** (observed): `gcc (GCC) 16.2.1 20260810`, `gcov (GCC) 16.2.1 20260810`, `bubblewrap 0.13.1`, `Python 3.14.8`, `uv 0.13.0`; host `sqlite3` 3.54.0 at `/usr/bin/sqlite3`. The amalgamation bytes (S233): `sha256sum .ufo/waves/round-65/w1/sqlite-amalgamation-3540100.zip` → `0a9c8e34352dad46006aa82836d5383bff9dc6bc9ce5a60553c05aa30e6ad1f9`; the zip listing (`.ufo/waves/round-65/w1/GraderRecon/amalgamation-listing.txt`) shows the four-file layout `sqlite3.c` (9582521 bytes), `shell.c` (1270623), `sqlite3.h` (695729), `sqlite3ext.h` (39547).
+- **No port is bound** by any leg of this grader — the probe records a no-bind observation instead of the r64 port discipline, and never kills a PID.
+
+## NOT claimed
+
+- **No claim that the grader is solvable by any model.** This entry prices a *replay*: the probe builds the candidate the grader expects and reads the grader's own verdict.
+- **No claim about the task's own `tests/test.sh` wrapper** — the lane's capture holds it as bytes, but it was not opened, read or characterized here.
+- **No claim that `query-optimize` is replayable offline on this host.** Its median-ratio timing threshold and its sha-pinned external database are the named reasons it stays recipe-unexecuted; the two members of `db-state` share a class label, not a graded state.
+- **No claim that the r64 `network-service` replay changed.** `corpus/knowledge/tb2-kv-store-grpc-offline.md` (S230/S234) and the r64 receipt of record stand as they are.
+
+The entry extends `corpus/knowledge/tb2-grader-class-census.md` (the 16-class census that prices this grader) and `corpus/knowledge/tb2-kv-store-grpc-offline.md` (the first network-service replay, r64): it adds the `db-state` class's first executed member, and the first replay of a grader whose graded state is a *toolchain artifact* rather than a service or a data file.

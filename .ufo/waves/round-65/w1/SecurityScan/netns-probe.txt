@@ -1,0 +1,10 @@
+# SecurityScan — sandbox network-namespace isolation probe — 2026-11-03T20:34:11Z
+# read-only: bwrap runs a python that prints readlink /proc/self/ns/net; nothing is bound.
+
+$ python3 -  # bwrap house shape as built in ProbeBuild/round65_c1_sqlite_probe.py:387-398
+host netns: net:[4026531833]
+  house-shape (probe's argv: no --unshare-net): rc=0 sandbox_netns=net:[4026531833]
+  same shape + --unshare-net: rc=0 sandbox_netns=net:[4026533769]
+
+conclusion: with the probe's argv the sandbox netns == host netns (shared); adding --unshare-net yields a distinct netns.
+no socket was bound by either invocation.

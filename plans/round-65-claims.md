@@ -232,3 +232,17 @@ additionally requires: no owned axis harmed (depth 10, calibration 10, operabili
 10, adjacency 9, novelty 8, coverage 7 L0-capped — each re-stated with evidence in the round
 report), the census exit 0 at round end, and the frontier step landed (census before→after, the
 round lesson's `## Gate` + `## Mistakes`, the sourced-claim clause carried by C1 via S232).
+
+---
+
+## Amendment A1 (dated 2026-11-03)
+
+Written after the wave's seats settled (FreezeReview F1/F2/F7/F8, ClaimFalsifier C2(h) and C2(g)) and before any R65-C2 after-receipt was scored or any landing re-run of the byte-prefix clause. Predicates for R65-C1 are unchanged. The lesson of record is `corpus/lessons/round-65.md` `## Mistakes` rows 1, 2 and 7.
+
+- **(a) Byte-prefix clause, restated.** The clause "all keep their base bytes as a byte-prefix" is replaced for R65-C2 by: for each touched file, `git diff --numstat 12a6255170bcc466029bf82037885fd69e20370f -- <file>` reports zero deleted lines, AND `diff <(git show 12a6255170bcc466029bf82037885fd69e20370f:<file>) <file> | grep -c '^<'` is `0`. Intent kept: no filed byte is rewritten or removed. Reason: the freeze's own registry rows were placed between S231 and `## Paths` (the census-required insertion point), so the literal byte-prefix reading was unsatisfiable by any append-only landing. Shown able to fail: `corpus/evidence/round65/a1-prefix-check.txt` (five touched files `deleted_base_lines=0`; a fixture with one base line removed `deleted_base_lines=1`).
+- **(b) SCORECARD placement.** The round-64 correction block is appended at end of file, not before `### Planned (round 65)` (that placement would have been a mid-file insertion under the same append-only intent).
+- **(c) Counter 1.** `grep -c 'supersedes S230' corpus/SOURCES.md` is already `1` at the freeze tip (S234 landed with the freeze). Its target is therefore read as an end-of-round value (`= 1`), not a base-relative "moved" count. Counters 2–4 keep the base-relative reading (`0` at base, target `1` / `≥1` / `1`).
+- **(d) Landing tip.** "At the landing tip" means the round-end tip.
+- **(e) Named limits carried, not amended.** ClaimFalsifier C1(e) (a fabricated receipt passes `--check-receipt`) and C2(g) (content-free appends satisfy the four greps) are carried as named limitations; the lesson's `## Mistakes` rows 5 and 7 record them as open.
+
+Scope of A1 is limited to the byte-prefix clause, the SCORECARD placement, and the reading of counter 1 and the landing-tip phrase. It does not change any vector, fragment, sha pin, kill rule, or counting command for R65-C1.

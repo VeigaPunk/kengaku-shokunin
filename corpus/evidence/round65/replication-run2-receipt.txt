@@ -1,0 +1,67 @@
+# R65-C1 receipt -- TB2 sqlite-with-gcov grader offline under bwrap
+# instrument plans/round65_c1_sqlite_probe.py version=r65-c1/1
+# named limitation: --check-receipt re-derives TEXT fields only; the live
+#   evidence is the per-case BUILD/RUN/FILES/ENV lines below.
+GRADER sha256=b165f8504bb93a901451b80c4ea73344b71b6af377ebdabef745fbcdd1d2993b pin=2fd12b88aafdd04a52c298e3940bcb189f9766d6 rel=corpus/evidence/round52/graders/sqlite-with-gcov/tests/test_outputs.py
+AMALG url=https://sqlite.org/2026/sqlite-amalgamation-3540100.zip sha256=0a9c8e34352dad46006aa82836d5383bff9dc6bc9ce5a60553c05aa30e6ad1f9 bytes=2990966
+TOOLCHAIN gcc=16.2.1 gcov=16.2.1 bwrap=0.13.1 python=3.14.8
+CC gcc (GCC) 16.2.1 20260810
+GCOV gcov (GCC) 16.2.1 20260810
+BWRAP bubblewrap 0.13.1
+NOBIND before-battery listeners=35 probe_pid=3167591 probe_listening=0
+SHAPE binds=/app+hostpath tests=/tests/test_outputs.py driver=/ctl/driver.py python=/usr/bin/python3 masked=G1:yes,G2:yes,G3:yes,G4:yes,G5:no
+BUILD G1 kind=coverage rc=0 elapsed_ms=3820 gcda=0 gcno=2 cmd="gcc -O0 -g --coverage -o sqlite3 sqlite3.c shell.c -I. -ldl -lm -lpthread" members="sqlite3.c=9582521 shell.c=1270623 sqlite3.h=695729 sqlite3ext.h=39547"
+RUN G1 driver="/usr/bin/python3 /ctl/driver.py" rc=0 masked=yes path=/app/sqlite:/usr/local/bin:/usr/bin argv_sha256=8eb40aef3d7532ea
+FILES G1 gcda=/app/sqlite/sqlite3-shell.gcda,/app/sqlite/sqlite3-sqlite3.gcda gcno=/app/sqlite/sqlite3-shell.gcno,/app/sqlite/sqlite3-sqlite3.gcno
+ENV G1 which_sqlite3=/app/sqlite/sqlite3 version=3.54.1 2026-10-16 14:45:20 555e07ef33f69a0957d24d8e555b702464a131d6f1607f4c3c1e4551e8e6ca76 (64-bit)
+NOBIND G1 listeners_before=35 listeners_after=35 delta=0
+CASE G1 observed=P/P/P expected=P/P/P build=coverage masked=yes gcda=2 gcno=2
+LEG G1 1 test_sqlite_compiled P exc=- frag=-
+LEG G1 2 test_sqlite_in_path P exc=- frag=-
+LEG G1 3 test_gcov_enabled P exc=- frag=-
+BUILD G2 kind=none rc=none elapsed_ms=0 gcda=0 gcno=0 cmd="none" members=""
+RUN G2 driver="/usr/bin/python3 /ctl/driver.py" rc=0 masked=yes path=/usr/local/bin:/usr/bin argv_sha256=a4f4ce540737a22f
+FILES G2 gcda=(none) gcno=(none)
+ENV G2 which_sqlite3=None version=PermissionError: [Errno 13] Permission denied: 'sqlite3'
+NOBIND G2 listeners_before=35 listeners_after=35 delta=0
+CASE G2 observed=F/F/F expected=F/F/F build=none masked=yes gcda=0 gcno=0
+LEG G2 1 test_sqlite_compiled F exc=PermissionError frag=[Errno 13] Permission denied: 'sqlite3'
+LEG G2 2 test_sqlite_in_path F exc=AssertionError frag=sqlite3 not found in PATH
+LEG G2 3 test_gcov_enabled F exc=PermissionError frag=[Errno 13] Permission denied: 'sqlite3'
+BUILD G3 kind=plain rc=0 elapsed_ms=2762 gcda=0 gcno=0 cmd="gcc -O0 -g -o sqlite3 sqlite3.c shell.c -I. -ldl -lm -lpthread" members="sqlite3.c=9582521 shell.c=1270623 sqlite3.h=695729 sqlite3ext.h=39547"
+RUN G3 driver="/usr/bin/python3 /ctl/driver.py" rc=0 masked=yes path=/app/sqlite:/usr/local/bin:/usr/bin argv_sha256=811254a6a24d6cd7
+FILES G3 gcda=(none) gcno=(none)
+ENV G3 which_sqlite3=/app/sqlite/sqlite3 version=3.54.1 2026-10-16 14:45:20 555e07ef33f69a0957d24d8e555b702464a131d6f1607f4c3c1e4551e8e6ca76 (64-bit)
+NOBIND G3 listeners_before=35 listeners_after=35 delta=0
+CASE G3 observed=P/P/F expected=P/P/F build=plain masked=yes gcda=0 gcno=0
+LEG G3 1 test_sqlite_compiled P exc=- frag=-
+LEG G3 2 test_sqlite_in_path P exc=- frag=-
+LEG G3 3 test_gcov_enabled F exc=AssertionError frag=No .gcda files found, gcov instrumentation may not be enabled
+BUILD G4 kind=arcs rc=0 elapsed_ms=3599 gcda=0 gcno=0 cmd="gcc -O0 -g -fprofile-arcs -o sqlite3 sqlite3.c shell.c -I. -ldl -lm -lpthread" members="sqlite3.c=9582521 shell.c=1270623 sqlite3.h=695729 sqlite3ext.h=39547"
+RUN G4 driver="/usr/bin/python3 /ctl/driver.py" rc=0 masked=yes path=/app/sqlite:/usr/local/bin:/usr/bin argv_sha256=4c4d9f4c0b166c96
+FILES G4 gcda=/app/sqlite/sqlite3-shell.gcda,/app/sqlite/sqlite3-sqlite3.gcda gcno=(none)
+ENV G4 which_sqlite3=/app/sqlite/sqlite3 version=3.54.1 2026-10-16 14:45:20 555e07ef33f69a0957d24d8e555b702464a131d6f1607f4c3c1e4551e8e6ca76 (64-bit)
+NOBIND G4 listeners_before=35 listeners_after=35 delta=0
+CASE G4 observed=P/P/F expected=P/P/F build=arcs masked=yes gcda=2 gcno=0
+LEG G4 1 test_sqlite_compiled P exc=- frag=-
+LEG G4 2 test_sqlite_in_path P exc=- frag=-
+LEG G4 3 test_gcov_enabled F exc=AssertionError frag=No .gcno files found, gcov instrumentation may not be enabled
+BUILD G5 kind=none rc=none elapsed_ms=0 gcda=0 gcno=0 cmd="none" members=""
+RUN G5 driver="/usr/bin/python3 /ctl/driver.py" rc=0 masked=no path=/usr/local/bin:/usr/bin argv_sha256=53c332e1e695ed8b
+FILES G5 gcda=(none) gcno=(none)
+ENV G5 which_sqlite3=/usr/bin/sqlite3 version=3.54.0 2026-10-09 15:46:58 be8d059e9a49089ab2dce5ed26dd87aaf598fdc5fbe0b107c0dd758464bcalt1 (64-bit)
+NOBIND G5 listeners_before=35 listeners_after=35 delta=0
+CASE G5 observed=P/P/F expected=P/P/F build=none masked=no gcda=0 gcno=0
+LEG G5 1 test_sqlite_compiled P exc=- frag=-
+LEG G5 2 test_sqlite_in_path P exc=- frag=-
+LEG G5 3 test_gcov_enabled F exc=AssertionError frag=No .gcda files found, gcov instrumentation may not be enabled
+NOBIND after-battery listeners=35 probe_pid=3167591 probe_listening=0
+VECTOR G1=P/P/P
+VECTOR G2=F/F/F
+VECTOR G3=P/P/F
+VECTOR G4=P/P/F
+VECTOR G5=P/P/F
+PREDICTION G1=P/P/P G2=F/F/F G3=P/P/F G4=P/P/F G5=P/P/F
+FRAGMENT G2 leg2=sqlite3 not found in PATH
+FRAGMENT G4 leg3=No .gcno files found, gcov instrumentation may not be enabled
+PREDICATE R65-C1 pass

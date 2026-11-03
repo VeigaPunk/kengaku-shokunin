@@ -1249,6 +1249,20 @@
    "sec": 0.4,
    "evidence": "PREDICATE R62-C1 pass; CLASS-SURVEY-EXIT=0 (roster=89 tree-dirs=89 sha256sums-rows=184 captures-committed=183 sha-mismatch=0 graders-classified=93 unclassified=0 classes=16; SENTINEL signal-delivery count=1 member=cancel-async-tasks; EXECUTED-COVERAGE executed=17 classified=17 classes-covered=12)",
    "reason": "round-62 registration (wave A/M, SETUP then green): the first scored run at the freeze tip 93f19d1a priced SETUP exit 2 (the five population bookkeeping files untracked for ten rounds; receipt of record .ufo/waves/round-62/recon/scored-run-SETUP.txt committed AS-IS); amendment 1 = 968f6ae7 commits them byte-as-is, nothing re-scored; the receipt of record is the run at the amendment tip: corpus/evidence/round62/class-survey.txt (sha ee30c698…5613, determinism leg green, run sec 0.4)."
+  },
+  "round65-c1-sqlite-probe": {
+   "chosen": "check-receipt",
+   "entry_argv": [
+    "python3",
+    "plans/round65_c1_sqlite_probe.py",
+    "--check-receipt",
+    "corpus/evidence/round65/sqlite-gcov-probe.txt"
+   ],
+   "entry_exit": 0,
+   "entry_state": "green",
+   "sec": 0.03,
+   "evidence": "CHECK ok cases=5; PREDICATE R65-C1 pass",
+   "reason": "round-65 registration (wave w1, claim R65-C1): the offline db-state grader probe's receipt of record (sqlite-with-gcov, five frozen cases x three legs, the lane-built gcov sqlite3 compiled in place and bwrap-masked; run 1 of two, run 2 kept as corpus/evidence/round65/replication-run2-receipt.txt); the counting command is the check-receipt form above; the live witness is corpus/evidence/round65/battery-run.txt."
   }
  },
  "schema": "r54-entrytruth-v1"

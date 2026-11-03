@@ -1,0 +1,49 @@
+# LessonDraft seat receipt — round 65 (2026-11-03)
+# Every line below is observed output of the command named on it. Nothing here is asserted from memory.
+
+## host toolchain (command: gcc --version | head -1; gcov --version | head -1; bwrap --version; /usr/bin/python3 --version; /usr/bin/sqlite3 --version)
+gcc (GCC) 16.2.1 20260810
+gcov (GCC) 16.2.1 20260810
+bubblewrap 0.13.1
+Python 3.14.8
+3.54.0 2026-10-09 15:46:58 be8d059e9a49089ab2dce5ed26dd87aaf598fdc5fbe0b107c0dd758464bcalt1 (64-bit)
+
+## S232 grader sha (command: sha256sum corpus/evidence/round52/graders/sqlite-with-gcov/tests/test_outputs.py)
+b165f8504bb93a901451b80c4ea73344b71b6af377ebdabef745fbcdd1d2993b  /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round52/graders/sqlite-with-gcov/tests/test_outputs.py
+## S232 quote line numbers (command: grep -n 'sqlite3 not found in PATH\|No .gcda files found\|No .gcno files found' <grader>)
+25:    assert sqlite_path is not None, "sqlite3 not found in PATH"
+51:        "No .gcda files found, gcov instrumentation may not be enabled"
+60:        "No .gcno files found, gcov instrumentation may not be enabled"
+
+## S234 grader sha + line 96 (command: sha256sum <kv-store-grpc grader>; grep -n 'is not listening' <kv-store-grpc grader>)
+115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e  /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round52/graders/kv-store-grpc/tests/test_outputs.py
+96:    assert result == 0, f"Port {port} is not listening - no real gRPC server is running"
+    assert result == 0, f"Port {port} is not listening - no real gRPC server is running"
+
+## S233 amalgamation zip sha + layout (command: sha256sum W/sqlite-amalgamation-3540100.zip; unzip -l <zip>)
+0a9c8e34352dad46006aa82836d5383bff9dc6bc9ce5a60553c05aa30e6ad1f9  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-65/w1/sqlite-amalgamation-3540100.zip
+Archive:  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-65/w1/sqlite-amalgamation-3540100.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  2026-10-16 12:19   sqlite-amalgamation-3540100/
+  9582521  2026-10-16 12:19   sqlite-amalgamation-3540100/sqlite3.c
+  1270623  2026-10-16 12:19   sqlite-amalgamation-3540100/shell.c
+   695729  2026-10-16 12:19   sqlite-amalgamation-3540100/sqlite3.h
+    39547  2026-10-16 12:19   sqlite-amalgamation-3540100/sqlite3ext.h
+---------                     -------
+ 11588420                     5 files
+
+## no-bind observation on the grader (command: grep -nE 'socket|\.bind\(|listen\(|AF_INET|SOCK_STREAM|http|requests|urllib|127\.0\.0\.1|localhost|:[0-9]{4}' <grader>)
+NO_MATCH_BIND_PRIMITIVES
+
+## R65-C2 counters at the freeze tip b5032ff8 (commands: grep -c on the four frozen patterns)
+grep -c 'supersedes S230' corpus/SOURCES.md -> 1
+grep -c 'R64-ERRATUM-65' corpus/lessons/round-64.md -> 0
+grep -c 'addendum-classified' SCORECARD.md -> 0
+grep -c 'Q47 —' corpus/QUALITY.md -> 0
+
+## quote word counts (command: printf <quote> | wc -w)
+10
+5
+4
+16

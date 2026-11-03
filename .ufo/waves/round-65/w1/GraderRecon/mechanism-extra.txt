@@ -1,0 +1,15 @@
+== pytest availability on the sandbox interpreter ==
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import pytest
+ModuleNotFoundError: No module named 'pytest'
+import_pytest_rc=1
+m_pytest_rc=1
+
+== os.walk on a nonexistent dir: silent-empty? ==
+hits= []
+walk_returned_normally=True
+walk_rc=0
+
+== os.listdir would raise instead (contrast) ==
+FileNotFoundError: [Errno 2] No such file or directory: '/app/sqlite-does-not-exist-65'

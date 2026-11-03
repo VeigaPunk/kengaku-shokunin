@@ -1,0 +1,47 @@
+# C1 falsification attacks — ClaimFalsifier-3 — observed 2026-11-03T20:13:29Z
+probe: copy of w1/ProbeBuild/round65_c1_sqlite_probe.py (sha256 f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb)
+receipt under test: copy of w1/ProbeBuild/sqlite-gcov-probe.txt (sha256 103caa419ed27900be39c92e427f7a1815146edd5b0d7d3f1af99db2d1ac9fb3)
+
+== baseline: --check-receipt on the unmodified receipt copy
+rc=0
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+
+== attack (a) missing receipt path
+rc=2
+SETUP receipt-missing /fast/scratch/hyaku/kengaku-r65/ClaimFalsifier/atk/nope-missing.txt
+
+== attack (b) one vector cell tampered: VECTOR G1=P/P/P -> P/P/F
+rc=1
+CHECK fail G1 vector P/P/F != P/P/P
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R65-C1 fail
+
+== attack (c) G2 leg-2 fragment 'sqlite3 not found in PATH' -> 'X' (vectors intact)
+rc=1
+CHECK fail fragment G2 leg2 'X' lacks 'sqlite3 not found in PATH'
+CHECK fail G2 leg-2 fragment does not carry the frozen fragment
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R65-C1 fail
+
+== attack (d) grader sha line tampered (last hex byte 3b -> 3c)
+rc=1
+CHECK fail grader-sha b165f8504bb93a901451b80c4ea73344b71b6af377ebdabef745fbcdd1d2993c != b165f8504bb93a901451b80c4ea73344b71b6af377ebdabef745fbcdd1d2993b
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R65-C1 fail
+
+== attack (e) FABRICATED receipt, zero live-run data, no compile/sandbox/run
+fabricated bytes: 2540
+rc=0
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+
+== receipt observed vectors (from the real receipt)
+CASE G1 observed=P/P/P expected=P/P/P build=coverage masked=yes gcda=2 gcno=2
+CASE G2 observed=F/F/F expected=F/F/F build=none masked=yes gcda=0 gcno=0
+CASE G3 observed=P/P/F expected=P/P/F build=plain masked=yes gcda=0 gcno=0
+CASE G4 observed=P/P/F expected=P/P/F build=arcs masked=yes gcda=2 gcno=0
+CASE G5 observed=P/P/F expected=P/P/F build=none masked=no gcda=0 gcno=0
+
+== frozen-vector vs committed-capture consistency
+g1-capture LEGS: P P P; g2: F F F frag 'sqlite3 not found in PATH'; g4: P P F frag 'No .gcno'; g5: P P F frag 'No .gcda'  (corpus/evidence/round65/g*-capture.txt)

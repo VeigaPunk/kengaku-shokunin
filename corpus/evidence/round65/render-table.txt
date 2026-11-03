@@ -1,0 +1,8 @@
+case  setup                                                          frozen vector
+G1    compliant: --coverage build (gcda+gcno) in /app/sqlite, on PATH, system binary masked P/P/P
+G2    do-nothing control: empty /app, masked                         F/F/F
+G3    no-instrumentation build (plain gcc -O0 -g), on PATH, masked   P/P/F
+G4    arcs-only build (-fprofile-arcs, no -ftest-coverage), on PATH, masked P/P/F
+G5    masking-off control: empty /app, no /dev/null bind, host sqlite3 answers P/P/F
+FROZEN-VECTOR G1=P/P/P G2=F/F/F G3=P/P/F G4=P/P/F G5=P/P/F
+FROZEN-FRAGMENT G2-leg2=sqlite3 not found in PATH G4-leg3=No .gcno files found

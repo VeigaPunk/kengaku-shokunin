@@ -1,0 +1,105 @@
+# ControlOrigin r65 evidence — commands and observed bytes (seat: ControlOrigin, wave w1)
+# lane: /home/vgpnk/Projects/shokunin/kengaku-shokunin ; r64 tip 21b13dc7 ; base 12a62551 ; freeze b5032ff8
+
+$ git show 21b13dc7:corpus/SOURCES.md | grep -n "^| S230 " | cut -c1-100
+246:| S230 | Terminal-Bench 2.0 kv-store-grpc grader, tests/test_outputs.py at pin 2fd12b88 — http
+
+$ git show 21b13dc7:corpus/SOURCES.md | awk -F"|" "/^\\| S230 /{print \$7}"
+ re-fetched live 2026-11-03 by curl at the pin (HTTP 200, 6076 bytes); sha256 115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e = corpus/evidence/round52/graders/SHA256SUMS line 80, byte-identical by cmp; located quotes "Port 5328 is not listening - no real gRPC server is running" (line 96) and "except grpc.RpcError" (line 128) 
+
+$ git show 21b13dc7:corpus/SOURCES.md | awk -F"|" "/^\\| S230 /{print \$6}"
+ the grader's seven-leg contract: seven test functions run in file order; leg 5 fails with the fragment "Port 5328 is not listening - no real gRPC server is running"; the handshake leg tolerates only grpc.RpcError 
+
+$ git show 21b13dc7:corpus/lessons/round-64.md | sed -n "12p;20p"
+## Gate
+  to the lane capture. Located quotes (≤25 words): `"Port 5328 is not listening - no real gRPC server is running"` (line 96),
+
+$ sha256sum corpus/evidence/round52/graders/kv-store-grpc/tests/test_outputs.py
+115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e  corpus/evidence/round52/graders/kv-store-grpc/tests/test_outputs.py
+$ sed -n "96p" corpus/evidence/round52/graders/kv-store-grpc/tests/test_outputs.py
+    assert result == 0, f"Port {port} is not listening - no real gRPC server is running"
+$ grep -c "Port 5328 is not listening" <grader>   # rendered literal
+0
+$ grep -c "f\"Port {port} is not listening - no real gRPC server is running\"" <grader>
+1
+
+$ git show 21b13dc7:SCORECARD.md | grep -n "freshness 10"
+2583:(held with C2 landed), freshness 10 (held — LOG re-verification lines for every touched
+2644:honestly and mined, not papered over), operability 10 (held with C2 landed), freshness 10
+2743:(held — the round's instrument is a probe registration, no gate moved), freshness 10
+2801:every gate green at the tip), freshness 10 (held — LOG waves F, A+M and the close entry; every
+2838:**No owned axis harmed.** coverage held 7 (miss, L0 cap); calibration 10 held; operability 10 held (gate and trio a
+2860:**No owned axis harmed.** depth 10 (held; the new kv-store decision row and knowledge entry are additive), calibrat
+$ git show 21b13dc7:SCORECARD.md | grep -c "freshness 10"
+6
+$ git show 21b13dc7:SCORECARD.md | grep -c "addendum-classified"
+0
+
+$ grep -n -o "`[^`]*\.ufo/waves/[^`]*`" .ufo/reports/round-64/kengaku.md   # fleet repo, read-only
+17:`.ufo/waves/round-64/frontier/gates-at-start.txt`
+18:`.ufo/waves/round-64/claims/before-state.txt`
+19:`.ufo/waves/round-64/w1/GraderRecon/s231-quotes.txt`
+20:`.ufo/waves/round-64/w1`
+31:`.ufo/waves/round-64/claims`
+92:`.ufo/waves/round-64/w1/`
+110:`.ufo/waves/round-64/w1/SiblingOverlap/sibling-overlap.md`
+114:`.ufo/waves/round-63/w1.ready.dispatched`
+$ grep -ci "lane-root\|kengaku-shokunin/\.ufo" .ufo/reports/round-64/kengaku.md
+0
+
+$ git show 21b13dc7:corpus/SOURCES.md | awk -F"|" "/^\\| S230 /{print \$8}" | wc -w
+34
+$ ... same cell | tr "-" " " | wc -w
+37
+$ ... same cell | tr "/" " " | wc -w
+35
+$ for c in 6b0908a5 7c2217ed 21b13dc7; do ... S230 teaches wc -w; done
+6b0908a5 0
+7c2217ed 34
+21b13dc7 34
+
+$ git diff --numstat 12a62551 b5032ff8 -- corpus/SOURCES.md
+3	0	corpus/SOURCES.md
+$ git diff -U0 12a62551 b5032ff8 -- corpus/SOURCES.md | grep -E "^@@"
+@@ -247,0 +248,3 @@ method stays chousa's (`../chousa-shokunin/SKILL.md`).
+$ head -c <base bytes> corpus/SOURCES.md | cmp - base ; echo ok||rc
+- /fast/scratch/hyaku/kengaku-r65/ControlOrigin/SOURCES.base.md differ: char 181789, line 248
+cmp rc=1 (1 = base is NOT a byte-prefix)
+$ stat -c%s base new
+base=192299 new=194833
+$ git show 12a62551:corpus/SOURCES.md | grep "^| S230 " > a ; grep "^| S230 " corpus/SOURCES.md > b ; cmp a b
+S230 row byte-identical (1083 bytes)
+
+# current freeze tip b5032ff8 counters
+$ grep -c "supersedes S230" corpus/SOURCES.md
+1
+$ grep -c "R64-ERRATUM-65" corpus/lessons/round-64.md
+0
+$ grep -c "addendum-classified" SCORECARD.md
+0
+$ grep -c "Q47 —" corpus/QUALITY.md
+0
+$ grep -c "Q47" corpus/QUALITY.md
+0
+
+$ awk -F"|" "/^\\| S234 /{print \$7}" corpus/SOURCES.md ; awk ... \$8 | wc -w
+ re-verified live 2026-11-03 at the pin; sha256 115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e (= SHA256SUMS line 80, unchanged); located quote, verbatim source line 96: `assert result == 0, f"Port {port} is not listening - no real gRPC server is running"` (the S230 cell quoted the f-string rendered at port 5328) 
+ supersedes S230 — same source and capture, anchor quotes the grader's own f-string verbatim, teaches is one benefit within the word bar 
+22
+$ git rev-parse HEAD
+b5032ff8391dcb5939c3be53516b31a50ab340a0
+
+$ TMPDIR=... python3 plans/anchor_line_check.py --lane . | tail -2
+ROW S221 state=repaired by=S222 defects=words:1
+ANCHORLINE rows=227 cited=71 captured=64 uncaptured=7 defective=10 repaired=10 live=0 cells=0
+$ ... --verbose | grep -E "S230|S234" | wc -l
+0
+
+$ grep -n "^## Erratum" corpus/lessons/round-61.md corpus/lessons/round-34.md corpus/lessons/2026-10-16-round23-stream-surface.md
+corpus/lessons/round-61.md:79:## Erratum (round 62, 2026-11-02) — R61-LESSON-ERRATUM-62: two precision corrections to the Mistakes table (rows stay byte-identical, R1; the round-61 closure's R61-D1 + R61-D3)
+corpus/lessons/round-34.md:43:## Erratum (appended round 35, 2026-10-25)
+corpus/lessons/2026-10-16-round23-stream-surface.md:182:## Erratum (appended round 25, 2026-10-20; QUALITY R5)
+
+$ grep -n "^- \*\*Q46" corpus/QUALITY.md ; grep -n "Q34 —" corpus/QUALITY.md
+1189:- **Q46 — a counter's green line is reachable only when every clause of its frozen sentence holds on the bytes it
+761:- **Q34 — every cell of a `corpus/SOURCES.md` registry row except `status`, `recheck` and `used-by` is immutable

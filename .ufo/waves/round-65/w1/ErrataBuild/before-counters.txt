@@ -1,0 +1,33 @@
+# R65-C2 before-counters, re-derived by seat ErrataBuild (2026-11-03)
+# lane: /home/vgpnk/Projects/shokunin/kengaku-shokunin
+# base tip: 12a6255170bcc466029bf82037885fd69e20370f
+# command shape: git -C <lane> show <base>:<path> | grep -c '<pattern>'; rc captured
+
+1. supersedes S230 in corpus/SOURCES.md
+   cmd: git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin show 12a6255170bcc466029bf82037885fd69e20370f:corpus/SOURCES.md | grep -c 'supersedes S230'
+   out: 0
+   rc: 1
+
+2. R64-ERRATUM-65 in corpus/lessons/round-64.md
+   cmd: git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin show 12a6255170bcc466029bf82037885fd69e20370f:corpus/lessons/round-64.md | grep -c 'R64-ERRATUM-65'
+   out: 0
+   rc: 1
+
+3. addendum-classified in SCORECARD.md
+   cmd: git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin show 12a6255170bcc466029bf82037885fd69e20370f:SCORECARD.md | grep -c 'addendum-classified'
+   out: 0
+   rc: 1
+
+4. Q47 — in corpus/QUALITY.md
+   cmd: git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin show 12a6255170bcc466029bf82037885fd69e20370f:corpus/QUALITY.md | grep -c 'Q47 —'
+   out: 0
+   rc: 1
+
+# base blob evidence (git rev-parse / git cat-file -s)
+corpus/SOURCES.md: blob 2f618fc91c6a9c4be6a3ff35458c55f379b4a03a bytes 192299
+corpus/lessons/round-64.md: blob a609c0400c704890e3a7b40c4f13695c8b7a07d8 bytes 13548
+SCORECARD.md: blob d118ebf5c244a7bec9fffde9ccf0c252870df2a1 bytes 344735
+corpus/QUALITY.md: blob 5a2e88fdf4bef25c63d3135b21e656cd40eba1b7 bytes 115160
+
+# frozen target values (plans/round-65-claims.md R65-C2): 1 / 1 / >=1 / 1
+# all four before-values are 0 at base: the red-before state holds

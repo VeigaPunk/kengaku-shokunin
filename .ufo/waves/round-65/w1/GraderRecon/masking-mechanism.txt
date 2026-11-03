@@ -1,0 +1,31 @@
+== line anchors in committed grader (sha b165f85…) ==
+8:def test_sqlite_compiled():
+12:    result = subprocess.run(
+17:    assert result.returncode == 0, f"SQLite execution failed: {result.stderr}"
+18:    assert len(result.stdout.strip()) > 0, "SQLite version output is empty"
+21:def test_sqlite_in_path():
+24:    sqlite_path = shutil.which("sqlite3")
+25:    assert sqlite_path is not None, "sqlite3 not found in PATH"
+28:    result = subprocess.run(
+33:    assert result.returncode == 0, f"SQLite execution from PATH failed: {result.stderr}"
+36:def test_gcov_enabled():
+40:    result = subprocess.run(
+43:    assert result.returncode == 0, "Failed to run SQLite"
+47:    for root, _, files in os.walk("/app/sqlite"):
+48:        gcda_files.extend([os.path.join(root, f) for f in files if f.endswith(".gcda")])
+50:    assert len(gcda_files) > 0, (
+56:    for root, _, files in os.walk("/app/sqlite"):
+57:        gcno_files.extend([os.path.join(root, f) for f in files if f.endswith(".gcno")])
+59:    assert len(gcno_files) > 0, (
+
+== /dev/null mode (masking mechanism) ==
+/dev/null mode=crw-rw-rw- octal=666 type=character special file
+
+== which() over a 0755-less file (no bwrap needed) ==
+lrwxrwxrwx 1 vgpnk vgpnk 9 Nov  3 17:06 /fast/scratch/hyaku/kengaku-r65/GraderRecon/tmp.44qKUIAMXi/sqlite3 -> /dev/null
+which_sqlite3= /usr/bin/sqlite3
+
+== direct exec of that file ==
+RAISED PermissionError [Errno 13] Permission denied: '/fast/scratch/hyaku/kengaku-r65/GraderRecon/tmp.44qKUIAMXi/sqlite3'
+== which() when the masked entry is the ONLY PATH entry (G2 mechanism) ==
+PATH-only masked -> which_sqlite3 = None

@@ -1,0 +1,22 @@
+# ClaimFalsifier — round-65 w1 seat report (2026-11-03)
+
+Lane-root base for every relative path below: `kengaku-shokunin/`. Base tip `12a6255170bcc466029bf82037885fd69e20370f`; freeze landing tip `b5032ff8391dcb5939c3be53516b31a50ab340a0`. Full record with per-attack evidence: `.ufo/waves/round-65/w1/ClaimFalsifier/falsifier.md` (receipts: `.ufo/waves/round-65/w1/ClaimFalsifier/atk/`, `c1-attacks.txt`, `c2-evidence.txt`, `sqlite-gcov-probe.txt` copy, `s230-row-*.txt`, `s234-row.txt`). Tooling installed: none (pacman guard respected; nothing needed).
+
+## C1 (coverage / offline-db-state-grader-probe) — attacks vs `--check-receipt`
+
+- KILLED (a) missing receipt path → rc=2 `SETUP receipt-missing` (fresh clone cannot pass).
+- KILLED (b) one vector cell tampered (`VECTOR G1=P/P/P`→`P/P/F`) → rc=1 `G1 vector P/P/F != P/P/P`.
+- KILLED (c) G2 leg-2 fragment `sqlite3 not found in PATH`→`X`, vectors intact → rc=1 (FRAGMENT-line guard AND LEG-line guard both fire).
+- KILLED (d) grader sha line tampered (`…2993b`→`…2993c`) → rc=1 `grader-sha … != …`.
+- SURVIVED (e) cheapest path: a hand-fabricated 2 540-byte receipt with ZERO live-run data (no compile, no sandbox, no driver run; `TOOLCHAIN gcc=fabricated …`) → rc=0 `CHECK ok cases=5` / `PREDICATE R65-C1 pass`. This is the claim's NAMED limitation (receipt re-derives TEXT only; seat log is the run witness) — a priced tradeoff, not a hidden defect. Unpriced nuance for the judge: `receipt_failures` checks TOOLCHAIN/RUN/BUILD/FILES lines for presence only — values (even the host gcc/gcov/bwrap/python literals) are never compared, so the "records the host version line" clause is forge-weak at checker level. Baseline: unmodified receipt copy → rc=0; receipt's observed vectors equal the frozen five (G1=P/P/P G2=F/F/F G3=P/P/F G4=P/P/F G5=P/P/F).
+
+## C2 (calibration / four routed defects) — attacks
+
+- KILLED (f) do-nothing control: all four greps independently re-derived at base (`git show 12a62551…:FILE | grep -c`, `Q47 —` with em-dash) → 0/0/0/0, rc=1 each — matches `corpus/evidence/round65/c2-before-counters.txt`; a do-nothing landing reaches no target.
+- SURVIVED (g) token-stuffing shortest path: one commit with four content-free one-line EOF appends satisfies the greps 1/1/1/1 with strict byte-prefix (`cmp` EOF-on-file1 proven in scratch). The counting commands cannot distinguish real corrections from token lines; repair SHAPE is only enforced by L1 review. Fragility: `R64-ERRATUM-65` and `Q47 —` are exactly-1 targets — the real repairs and any second mention of a token in the same file are mutually exclusive.
+- SURVIVED (h) **byte-prefix clause already falsified by the freeze landing**: `cmp` base→landing on `corpus/SOURCES.md` reports `differ: char 181789, line 248` (NOT `EOF on file1`); base 280 lines vs landing 283. S232–S234 were inserted between row S231 and `## Paths`, so base is NOT a byte-prefix of the landing tip — and no permitted future operation can make it one. As literally frozen ("all keep their base bytes as a byte-prefix"), C2's cmp clause cannot be satisfied at close, by the claims doc's own mandated landing. The diff is 3 insertions / 0 deletions and S230's row is byte-identical, so the repair obeys "no filed byte is rewritten" but not the parenthetical's byte-prefix definition. Smallest safe correction: a dated L1 amendment (before further scored receipts, kumitate r42) re-scoping "pure append" for the registry table to zero-deletion row insertion at the table terminus; strict byte-prefix stays satisfiable for the four prose appends still to land. Impacted axis: calibration (R65-C2) only.
+- KILLED (i) S234 form/repair integrity: landing `grep -c 'supersedes S230'` = 1; S230's own row token-free and byte-identical; teaches ($8) = 22 words ≤ 25; 11 columns (12 pipes), no embedded pipes, kind=`code`, tier=`A`.
+
+## Verdict summary
+
+C1's checker kills every single-field tamper and refuses missing receipts; the only surviving attack is the claim's own named text-only limitation, demonstrated at 2 540 bytes / one commit. C2's counters are genuinely at 0 at base and the landed S234 row is census-clean; the surviving attacks are (g) grep-shallow counters (priced by review practice) and (h) a real frozen-predicate self-contradiction: the byte-prefix clause as written is unsatisfiable for SOURCES.md at any future tip because the mandated freeze landing inserted the rows mid-file. Seat edits no lane rule; the canonical judge owns (h).

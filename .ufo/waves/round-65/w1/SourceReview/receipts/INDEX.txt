@@ -1,0 +1,31 @@
+Receipts — seat SourceReview, round-65 w1 (2026-11-03). Every observed value below was produced by the command shown, run with scratch cwd /fast/scratch/hyaku/kengaku-r65/SourceReview.
+
+1. refetch-sha256.txt — command:
+   curl -fsSL -o s232.py 'https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/sqlite-with-gcov/tests/test_outputs.py' && curl -fsSL -o s233.zip 'https://sqlite.org/2026/sqlite-amalgamation-3540100.zip' && curl -fsSL -o s234.py 'https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/kv-store-grpc/tests/test_outputs.py' && sha256sum s232.py s233.zip s234.py && wc -c s232.py s233.zip s234.py
+   observed: b165f8504bb93a901451b80c4ea73344b71b6af377ebdabef745fbcdd1d2993b s232.py (2166 B); 0a9c8e34352dad46006aa82836d5383bff9dc6bc9ce5a60553c05aa30e6ad1f9 s233.zip (2990966 B); 115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e s234.py (6076 B)
+
+2. cmp-receipts.txt — command: cmp -s <refetch> <committed> for S232 vs corpus/evidence/round52/graders/sqlite-with-gcov/tests/test_outputs.py, S234 vs corpus/evidence/round52/graders/kv-store-grpc/tests/test_outputs.py, S233 vs .ufo/waves/round-65/w1/sqlite-amalgamation-3540100.zip; observed rc=0, rc=0, rc=0 (all byte-identical).
+
+3. unzip-l.txt — command: unzip -l s233.zip; observed: sqlite-amalgamation-3540100/ (0), sqlite3.c (9582521), shell.c (1270623), sqlite3.h (695729), sqlite3ext.h (39547) — 5 entries, four files.
+
+4. Download page re-open — command: curl -fsSL 'https://sqlite.org/download.html' -o download-page.html && sha256sum download-page.html && wc -c download-page.html; observed d0e3fb1a3d9a813560fb525c7124e0088f976a3bd66c330a64963649eb5b2a77 (18299 B) = S233 anchor cell's page sha. (Page bytes not retained; sha is the receipt.)
+
+5. s230-base.txt / s230-current.txt — commands:
+   git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin show 12a6255170bcc466029bf82037885fd69e20370f:corpus/SOURCES.md | awk -F'|' '$2 ~ /^ S230 $/' > s230-base.txt
+   awk -F'|' '$2 ~ /^ S230 $/' /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md > s230-current.txt
+   cmp s230-base.txt s230-current.txt → identical (1083 bytes each). git log -1: b5032ff8391dcb5939c3be53516b31a50ab340a0 round-65: freeze; git status --porcelain on corpus/SOURCES.md: clean.
+
+6. Line-number verifications (grep -n, committed bytes; refetched bytes cmp-identical):
+   sqlite-with-gcov/tests/test_outputs.py:25 = `    assert sqlite_path is not None, "sqlite3 not found in PATH"`; :51 = `        "No .gcda files found, gcov instrumentation may not be enabled"`; :59-61 gcno assert.
+   kv-store-grpc/tests/test_outputs.py:96 = `    assert result == 0, f"Port {port} is not listening - no real gRPC server is running"`.
+
+7. Census commands (corpus/SOURCES.md):
+   awk -F'|' 'NR==246||NR==248||NR==249||NR==250 {print NR, NF}' → 246/248/249/250 all NF=13.
+   awk -F'|' teaches (field 8) word counts → S230=34, S232=15, S233=14, S234=22.
+   grep -c 'supersedes S230' corpus/SOURCES.md → 1. grep -c S234 corpus/knowledge/tb2-kv-store-grpc-offline.md → 0. corpus/knowledge/tb2-sqlite-gcov-offline.md → ABSENT; tb2-kv-store-grpc-offline.md → EXISTS.
+   grep -c 'R64-ERRATUM-65' corpus/lessons/round-64.md → 0; grep -c 'addendum-classified' SCORECARD.md → 0; grep -c 'Q47 —' corpus/QUALITY.md → 0 (all four C2 counters pending at HEAD — expected: freeze landed rows only).
+   Superseding-row precedent: S039 status=mined used-by=corpus/knowledge/attribution-interval-calibration.md; S040 same; S227 status=mined used-by=plans/round-62-claims.md + census entry + round-62 lesson.
+
+8. s232.py / s234.py — the refetched bytes themselves, retained here; the 2.99 MB zip was not retained because the cmp-identical copy is committed at .ufo/waves/round-65/w1/sqlite-amalgamation-3540100.zip.
+
+No tools were installed or upgraded this seat (curl/unzip/awk/sha256sum/cmp/git read-only sufficient); pacman untouched.

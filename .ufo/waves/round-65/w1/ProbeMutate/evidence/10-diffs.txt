@@ -1,0 +1,141 @@
+# single-point mutation surface: pristine probe vs each mutant
+# pristine sha256: f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb
+
+===== m10_legfrag_half.py sha256=4d28d9bb723aff42e58e28f0bd988c927638a969d56534d4201bd1c20e3d2fc1
+--- orig/round65_c1_sqlite_probe.py	2026-11-03 17:11:18.508922781 -0300
++++ mutants/m10_legfrag_half.py	2026-11-03 17:15:59.751607885 -0300
+@@ -768,7 +768,7 @@
+         if literal not in recorded:
+             failures.append("fragment %s leg%d %r lacks %r"
+                             % (case_name, leg_index, recorded or "(missing)", literal))
+-        if literal not in leg_frags.get(case_name, {}).get(leg_index, ""):
++        if False:   # MUTANT: LEG-line half of the fragment clause disabled
+             failures.append("%s leg-%d fragment does not carry the frozen fragment"
+                             % (case_name, leg_index))
+ 
+
+===== m1_vector_flip.py sha256=a84825310b0394d3b805f7d94b5a4b120e80c106393aaad41312b1a276b121ec
+--- orig/round65_c1_sqlite_probe.py	2026-11-03 17:11:18.508922781 -0300
++++ mutants/m1_vector_flip.py	2026-11-03 17:14:22.022359553 -0300
+@@ -127,7 +127,7 @@
+ # Frozen prediction: per case, per leg (verdict, grader-printed fragment that the
+ # mechanism implies).  Legs without a fragment literal only pin the verdict.
+ FROZEN_LEGS = {
+-    "G1": (("P", None), ("P", None), ("P", None)),
++    "G1": (("P", None), ("P", None), ("F", FRAG_GCDA)),
+     "G2": (("F", None), ("F", FRAG_G2), ("F", None)),
+     "G3": (("P", None), ("P", None), ("F", FRAG_GCDA)),
+     "G4": (("P", None), ("P", None), ("F", FRAG_G4)),
+@@ -285,7 +285,7 @@
+         if not finds_binary:
+             leg3 = ("F", None)                      # the grader's own run fails first
+         elif case.build == "coverage":
+-            leg3 = ("P", None)
++            leg3 = ("F", FRAG_GCDA)                 # MUTANT: derivation follows the flip
+         elif case.build == "arcs":
+             leg3 = ("F", FRAG_G4)                   # gcda present, gcno absent
+         else:
+
+===== m2_mask_drop.py sha256=31f9baf1b8bc6048c215dffdb506b429bd09d7f7f72102910be58c16bee7ea4e
+--- orig/round65_c1_sqlite_probe.py	2026-11-03 17:11:18.508922781 -0300
++++ mutants/m2_mask_drop.py	2026-11-03 17:14:22.026359563 -0300
+@@ -396,7 +396,7 @@
+             "--bind", str(app), str(app),
+             "--dir", "/tests", "--ro-bind", str(tests_file), "/tests/test_outputs.py",
+             "--dir", "/ctl", "--ro-bind", str(driver), "/ctl/driver.py"]
+-    if case.masked:
++    if case.masked and case.name == "G5":   # MUTANT: mask dropped for G1-G4
+         argv += ["--ro-bind", "/dev/null", "/usr/bin/sqlite3"]
+     path = PATH_APP if case.path_env == "app" else PATH_SYSTEM
+     argv += ["--clearenv",
+
+===== m3_fragment_weaken.py sha256=5d6990f0347b4f61f20d03cacdd4e759d867a80f4dada32070312795b36f7309
+--- orig/round65_c1_sqlite_probe.py	2026-11-03 17:11:18.508922781 -0300
++++ mutants/m3_fragment_weaken.py	2026-11-03 17:14:22.030359573 -0300
+@@ -136,7 +136,7 @@
+ FROZEN_VECTORS = {name: tuple(verdict for verdict, _frag in rows)
+                   for name, rows in FROZEN_LEGS.items()}
+ # The predicate of record names exactly two grader-printed fragments.
+-FROZEN_FRAGMENTS = {("G2", 2): FRAG_G2, ("G4", 3): FRAG_G4}
++FROZEN_FRAGMENTS = {("G4", 3): FRAG_G4}   # MUTANT: G2 leg-2 clause deleted
+ 
+ DRIVER_SRC = '''import json
+ import os
+
+===== m4_sha_swap.py sha256=cb142de32cecab59714f11cda90db43670ec5cebeae02b3da76d736ebf54aea1
+--- orig/round65_c1_sqlite_probe.py	2026-11-03 17:11:18.508922781 -0300
++++ mutants/m4_sha_swap.py	2026-11-03 17:14:22.033359580 -0300
+@@ -106,7 +106,7 @@
+ GRADER_SHA256 = "b165f8504bb93a901451b80c4ea73344b71b6af377ebdabef745fbcdd1d2993b"
+ AMALG_REL = ".ufo/waves/round-65/w1/sqlite-amalgamation-3540100.zip"
+ AMALG_URL = "https://sqlite.org/2026/sqlite-amalgamation-3540100.zip"
+-AMALG_SHA256 = "0a9c8e34352dad46006aa82836d5383bff9dc6bc9ce5a60553c05aa30e6ad1f9"
++AMALG_SHA256 = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+ AMALG_MEMBERS = ("sqlite3.c", "shell.c", "sqlite3.h", "sqlite3ext.h")
+ BWRAP = "/usr/bin/bwrap"
+ CC = "gcc"
+
+===== m5_derive_drift.py sha256=3ae16acc79dbf79be0ff1f2576b097b567319c5a4529947fce72369f5bfa46d8
+--- orig/round65_c1_sqlite_probe.py	2026-11-03 17:11:18.508922781 -0300
++++ mutants/m5_derive_drift.py	2026-11-03 17:14:22.037359590 -0300
+@@ -130,7 +130,7 @@
+     "G1": (("P", None), ("P", None), ("P", None)),
+     "G2": (("F", None), ("F", FRAG_G2), ("F", None)),
+     "G3": (("P", None), ("P", None), ("F", FRAG_GCDA)),
+-    "G4": (("P", None), ("P", None), ("F", FRAG_G4)),
++    "G4": (("P", None), ("P", None), ("P", None)),   # MUTANT: frozen only, derivation untouched
+     "G5": (("P", None), ("P", None), ("F", FRAG_GCDA)),
+ }
+ FROZEN_VECTORS = {name: tuple(verdict for verdict, _frag in rows)
+
+===== m6_legrow_weaken.py sha256=21fecc75b011127370b736bf6b4a3a30a777d8d3dd58ca45fa082d68ec057a39
+--- orig/round65_c1_sqlite_probe.py	2026-11-03 17:11:18.508922781 -0300
++++ mutants/m6_legrow_weaken.py	2026-11-03 17:14:22.041359600 -0300
+@@ -759,7 +759,7 @@
+                             % (name, len(verdicts), len(LEG_NAMES)))
+         else:
+             row = "".join(verdicts[index] for index in range(1, len(LEG_NAMES) + 1))
+-            if row != frozen.replace("/", ""):
++            if False:   # MUTANT: LEG-row cross-check disabled
+                 failures.append("%s leg-verdicts %s != %s"
+                                 % (name, row, frozen.replace("/", "")))
+ 
+
+===== m7_predicate_line.py sha256=b77744d6f0d568f0d65489e2ae15e30d8a6f4fb8ff5c61a3ae9a3c285e8568aa
+--- orig/round65_c1_sqlite_probe.py	2026-11-03 17:11:18.508922781 -0300
++++ mutants/m7_predicate_line.py	2026-11-03 17:14:22.044359607 -0300
+@@ -775,7 +775,7 @@
+     stored = next((line for line in lines if line.startswith("PREDICATE R65-C1 ")), "")
+     if not stored:
+         failures.append("predicate-line-missing")
+-    elif stored.split()[-1] != ("pass" if not failures else "fail"):
++    elif False:   # MUTANT: stored-predicate agreement clause disabled
+         failures.append("stored-predicate %s disagrees with derived %s"
+                         % (stored.split()[-1], "pass" if not failures else "fail"))
+     return failures
+
+===== m8_nobind_weaken.py sha256=f99cadab4079822820f3f86e2d973ef6b39cd915fd3cb585e801378e7f200982
+--- orig/round65_c1_sqlite_probe.py	2026-11-03 17:11:18.508922781 -0300
++++ mutants/m8_nobind_weaken.py	2026-11-03 17:15:29.848530921 -0300
+@@ -747,7 +747,7 @@
+             if fields.get("build") != case.build:
+                 failures.append("%s build %s != %s"
+                                 % (name, fields.get("build"), case.build))
+-        if not any(line.startswith("NOBIND %s " % name) for line in lines):
++        if False:   # MUTANT: per-case no-bind observation clause disabled
+             failures.append("%s no-bind-observation-missing" % name)
+         if not any(line.startswith("RUN %s " % name) for line in lines):
+             failures.append("%s driver-invocation-missing" % name)
+
+===== m9_grader_sha_swap.py sha256=89b6382dac1cb3e4eba31830ced2f17fbc963c616631ce3fbf4ffa48b19a7a89
+--- orig/round65_c1_sqlite_probe.py	2026-11-03 17:11:18.508922781 -0300
++++ mutants/m9_grader_sha_swap.py	2026-11-03 17:15:59.742607861 -0300
+@@ -103,7 +103,7 @@
+ 
+ TB2_PIN = "2fd12b88aafdd04a52c298e3940bcb189f9766d6"
+ GRADER_REL = "corpus/evidence/round52/graders/sqlite-with-gcov/tests/test_outputs.py"
+-GRADER_SHA256 = "b165f8504bb93a901451b80c4ea73344b71b6af377ebdabef745fbcdd1d2993b"
++GRADER_SHA256 = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+ AMALG_REL = ".ufo/waves/round-65/w1/sqlite-amalgamation-3540100.zip"
+ AMALG_URL = "https://sqlite.org/2026/sqlite-amalgamation-3540100.zip"
+ AMALG_SHA256 = "0a9c8e34352dad46006aa82836d5383bff9dc6bc9ce5a60553c05aa30e6ad1f9"

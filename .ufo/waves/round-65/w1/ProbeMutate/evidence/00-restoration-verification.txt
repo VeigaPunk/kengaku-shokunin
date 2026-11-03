@@ -1,0 +1,12 @@
+# restoration verification 2026-11-03T20:16:29Z
+$ sha256sum <seat-dir original probe> <scratch copy>
+f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-65/w1/ProbeBuild/round65_c1_sqlite_probe.py
+f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb  /fast/scratch/hyaku/kengaku-r65/ProbeMutate/orig/round65_c1_sqlite_probe.py
+$ stat -c '%y %s' <seat-dir original probe>
+2026-11-03 17:11:18.508922781 -0300 44770
+$ cmp <seat-dir original> <scratch copy>
+cmp: identical (exit 0)
+$ cmp <seat-dir receipt of record> <pre-run copy>
+cmp: identical (exit 0)
+$ sha256sum <seat-dir receipt of record>
+25c7cab7da00c44b32ab2a939ca9b1626dc0539e870ce9759654bea1535b3ba0  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-65/w1/ProbeBuild/sqlite-gcov-probe.txt

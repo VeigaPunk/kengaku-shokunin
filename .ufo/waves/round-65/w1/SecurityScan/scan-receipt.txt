@@ -1,0 +1,28 @@
+# SecurityScan receipt — kengaku r65 w1 — 2026-11-03T20:22:10Z
+# all commands read-only; no network open; no port bound; no install; no git mutation
+
+== C1: credential-material sweep (claims doc + round65 evidence + wave dir) ==
+$ grep -rniE '(api[_-]?key|secret[_-]?key|password|bearer |authorization:|session[_-]?id|op://|\.netrc|ghp_|gho_|github_pat_|AKIA[0-9A-Z]{16}|BEGIN [A-Z ]*PRIVATE KEY|xox[baprs]-)' <targets> | grep -v Binary
+.ufo/waves/round-65/w1/SiblingOverlap.md:30:1Password … and the /tmp seat DBs" — a host-consumer audit of a CLI tool, incidental. **Not an
+.ufo/waves/round-65/w1/SiblingOverlap/overlap-scan.md:30:1Password … and the /tmp seat DBs" — a host-consumer audit of a CLI tool, incidental. **Not an
+.ufo/waves/round-65/w1/SiblingOverlap/scan-receipt.txt:114:souji-shokunin/LOG.md:405:dirs. sqlite3 (3.53.4) checked per operator: live consumers = 1Password
+rc=0 (no matches above = clean)
+
+== C1b: credential-bearing path strings (op://, ~/.ssh, ~/.config/gh, ~/.netrc, ~/.omp) ==
+.ufo/waves/round-65/w1/SiblingOverlap.md:85:~/.omp/agent/skill-descriptions.db
+.ufo/waves/round-65/w1/SiblingOverlap/overlap-scan.md:85:~/.omp/agent/skill-descriptions.db
+.ufo/waves/round-65/w1/SiblingOverlap/scan-receipt.txt:130:~/.omp/agent/skill-descriptions.db
+rc=0 (no matches above = clean)
+
+== C2: URL inventory of the named-open surfaces ==
+     19 https://sqlite.org
+     10 https://raw.githubusercontent.com
+
+== C2b: hosts named inside the captured download page (page CONTENT, not opens) ==
+fossil-scm.org github.com sqlite.org system.data.sqlite.org www2.sqlite.org www3.sqlite.org www.fossil-scm.org www.tcl-lang.org 
+
+== C2c: grpc.github.io — which registry row carries it? ==
+247:| S231 | gRPC Python API reference, grpc.RpcError and st
+S230/S234 rows:
+ S230  no-grpc-url
+ S234  no-grpc-url

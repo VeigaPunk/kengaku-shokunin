@@ -1,0 +1,41 @@
+# R65-C2 S234 registry validation, by seat ErrataBuild (2026-11-03)
+# tip: b5032ff8391dcb5939c3be53516b31a50ab340a0
+
+# cmd: git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin show HEAD:corpus/SOURCES.md | awk -F'|' '/^\| S234 \|/ {print $0}'  (row below, 1 of 1)
+| S234 | Terminal-Bench 2.0 kv-store-grpc grader, tests/test_outputs.py at pin 2fd12b88 (supersedes S230 form) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/kv-store-grpc/tests/test_outputs.py | code | A | network-service grader offline execution (R64-C1); corrected anchor and teaches form for the same source and capture | re-verified live 2026-11-03 at the pin; sha256 115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e (= SHA256SUMS line 80, unchanged); located quote, verbatim source line 96: `assert result == 0, f"Port {port} is not listening - no real gRPC server is running"` (the S230 cell quoted the f-string rendered at port 5328) | supersedes S230 — same source and capture, anchor quotes the grader's own f-string verbatim, teaches is one benefit within the word bar | mined | 2026-11-03 | 90d | corpus/knowledge/tb2-kv-store-grpc-offline.md |
+
+# cmd: git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin show HEAD:corpus/SOURCES.md | grep -c '^| S234 |'
+s234_rows: 1
+
+# cmd: git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin show HEAD:corpus/SOURCES.md | awk -F'|' '/^\| S234 \|/ {print NF}'
+nf: 13
+
+# cmd: git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin show HEAD:corpus/SOURCES.md | awk -F'|' '/^\| S234 \|/ {print $8}' | wc -w
+teaches_words: 22
+
+# cmd: git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin show HEAD:corpus/SOURCES.md | awk -F'|' '/^\| S234 \|/ {print $4, $5, $9, $12}'
+kind/tier/status/used-by: code / A / mined / corpus/knowledge/tb2-kv-store-grpc-offline.md
+
+# cmd: git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin show HEAD:corpus/SOURCES.md | grep -c 'supersedes S230'
+supersedes_total: 1
+
+# cmd: git show 12a62551...:corpus/SOURCES.md | grep '^| S230 |' vs HEAD same
+s230_row_byte_identical_base_to_head: yes
+
+# cmd: sha256sum /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round52/graders/kv-store-grpc/tests/test_outputs.py
+grader_sha256: 115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e
+
+# verdicts (claims kill rule: NF 13 / teaches <=25 / opens 'supersedes S230 —' / census enums)
+PASS  S234 row count == 1
+PASS  NF == 13 (11 census columns, no pipe inside cells)
+PASS  kind enum == code
+PASS  tier enum == A
+PASS  teaches words <= 25
+PASS  teaches opens 'supersedes S230 —'
+PASS  anchor quotes the verbatim f-string (line 96)
+PASS  status == mined
+PASS  used-by == corpus/knowledge/tb2-kv-store-grpc-offline.md
+PASS  grader sha == 115de2e9... (SHA256SUMS line 80)
+PASS  S230 row byte-identical base -> HEAD
+
+PREDICATE S234-ROW pass

@@ -1,0 +1,32 @@
+# SecurityScan independent verification — 2026-11-03T20:24:07Z
+$ sha256sum $P
+f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-65/w1/ProbeBuild/round65_c1_sqlite_probe.py
+
+== V1: the probe's own checker against the FABRICATED receipt (no live-run data) ==
+$ python3 $P --check-receipt /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-65/w1/ClaimFalsifier/atk/fabricated.txt ; echo $?
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+rc=0
+
+== V2: same checker against the two live receipts ==
+-- ProbeBuild receipt of record:
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+rc=0
+-- ClaimFalsifier's copy:
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+rc=0
+
+== V3: sha of every receipt named in wave bytes ==
+25c7cab7da00c44b32ab2a939ca9b1626dc0539e870ce9759654bea1535b3ba0  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-65/w1/ProbeBuild/sqlite-gcov-probe.txt
+103caa419ed27900be39c92e427f7a1815146edd5b0d7d3f1af99db2d1ac9fb3  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-65/w1/ClaimFalsifier/sqlite-gcov-probe.txt
+17436b58893d046d9a8c0c0cc7a389c27287df135666c44755c2b61b22d5a296  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-65/w1/ClaimFalsifier/atk/fabricated.txt
+4928238aa10ada4ac7c74a8419b23b4c5b2a10da24a5e604f1a9e597f27c7679  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-65/w1/ProbeMutate/evidence/02-baseline-battery-receipt.txt
+
+== V4: which sha do the wave reports cite for the receipt of record? ==
+/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-65/w1/ClaimFalsifier.md:3:Lane-root base for every relative path below: `kengaku-shokunin/`. Base tip `12a6255170bcc466029bf82037885fd69e20370f`; freeze lan
+/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-65/w1/ProbeBuild.md:83:  (sha above) for `--check-receipt corpus/evidence/round65/sqlite-gcov-probe.txt` to
+/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-65/w1/KnowledgeDraft/skill-dbstate-flip.md:21:| db-state | 2 | executed 1 of 2 (round 65, R65-C1 pass): sqlite-with-gcov replayed offline; query-optimize st
+/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-65/w1/KnowledgeDraft/tb2-sqlite-gcov-offline.md:34:**Predicate R65-C1 (frozen, `plans/round-65-claims.md`):** pass iff the receipt of record's observed vect
+/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-65/w1/ClaimFalsifier/c1-attacks.txt:3:receipt under test: copy of w1/ProbeBuild/sqlite-gcov-probe.txt (sha256 103caa419ed27900be39c92e427f7a1815146edd5b0d7d

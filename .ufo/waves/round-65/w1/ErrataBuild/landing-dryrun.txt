@@ -1,0 +1,34 @@
+# R65-C2 landing dry-run, seat ErrataBuild (2026-11-03) — simulation only, lane files untouched
+# scratch copy root: /fast/scratch/hyaku/kengaku-r65/ErrataBuild/dryrun (HEAD b5032ff8 file bytes + the four seat artifacts appended)
+
+# after-values, commands run with cwd=dryrun root
+1. cmd: grep -c 'supersedes S230' corpus/SOURCES.md  -> 1 (rc 0)
+2. cmd: grep -c 'R64-ERRATUM-65' corpus/lessons/round-64.md  -> 1 (rc 0)
+3. cmd: grep -c 'addendum-classified' SCORECARD.md  -> 2 (rc 0)
+4. cmd: grep -c 'Q47 —' corpus/QUALITY.md  -> 1 (rc 0)
+
+# byte-prefix check: base 12a62551 bytes must be a prefix of each dry-run file
+cmd: cmp -n 344735 <(git show 12a6255170bcc466029bf82037885fd69e20370f:SCORECARD.md) SCORECARD.md  -> identical-prefix (rc 0)
+cmd: cmp -n 13548 <(git show 12a6255170bcc466029bf82037885fd69e20370f:corpus/lessons/round-64.md) corpus/lessons/round-64.md  -> identical-prefix (rc 0)
+cmd: cmp -n 115160 <(git show 12a6255170bcc466029bf82037885fd69e20370f:corpus/QUALITY.md) corpus/QUALITY.md  -> identical-prefix (rc 0)
+cmd: cmp -n 15034 <(git show 12a6255170bcc466029bf82037885fd69e20370f:corpus/knowledge/tb2-kv-store-grpc-offline.md) corpus/knowledge/tb2-kv-store-grpc-offline.md  -> identical-prefix (rc 0)
+cmd: cmp -n 192299 <(git show 12a6255170bcc466029bf82037885fd69e20370f:corpus/SOURCES.md) corpus/SOURCES.md  -> PREFIX-BROKEN (rc 1)
+# note (SOURCES.md): this seat appended nothing to SOURCES.md. The freeze landing inserted 3 rows
+# (S232/S233/S234) at byte offset 181788 (line 248), before the trailing '## Paths' footer:
+# corpus/SOURCES.md | 3 +++
+ 1 file changed, 3 insertions(+)
+# no filed byte is rewritten (0 deletions), but under the strict 12a62551 reading the base bytes
+# are not a prefix. Under the per-landing reading (base = freeze tip b5032ff8) SOURCES.md is
+# untouched by the C2 repair and trivially prefix-clean. Reported to the L1, not repaired here.
+
+# control: the seat-spec's insertion placement (before '### Planned (round 65)') is NOT a pure append
+cmd: cmp -n 344735 <(git show 12a6255170bcc466029bf82037885fd69e20370f:SCORECARD.md) dryrun-insert/SCORECARD.md -> PREFIX-BROKEN (rc 1)
+# note: insertion splits the prefix at byte offset 343957 (line 2864, the '### Planned (round 65)' heading) — control only, not applied.
+# => the correction block must be appended at EOF to satisfy the frozen byte-prefix clause;
+#    the seat spec's 'before the Planned (round 65) block' ordering clause conflicts and is reported, not applied.
+
+# artifact sha256 (the exact bytes the dry-run appended)
+601f241fc8b0656e80c491bead63040e6a18bb97b987a4094b652f7594580f45  erratum-round64-lesson.md  (743 bytes)
+c3daed6eeae914996460c09a8466686be5d347b692d344f5e21d191966759ded  kvstore-entry-addendum.md  (577 bytes)
+7cee976dde9ea79cca32a40fbefb77852a1ded71e7b4435a3f6563d4b4383c2a  quality-q47.md  (700 bytes)
+fbd9a1d25ea8d65d90ad1b7bf47d96029ffacbfe10436c501f858d9fa3e5e051  scorecard-correction.md  (685 bytes)

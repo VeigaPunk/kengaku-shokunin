@@ -1,0 +1,133 @@
+# R65-C1 probe mutation-test transcript (seat ProbeMutate), 2026-11-03T20:16:18Z
+# pristine probe sha256: f44b72834d8662cb6986e192dfbdf236daf6c99a174768294e504f7b634db4eb
+# receipt of record sha256: 25c7cab7da00c44b32ab2a939ca9b1626dc0539e870ce9759654bea1535b3ba0
+
+== BASELINE: pristine on the receipt of record ==
+$ python3 orig/round65_c1_sqlite_probe.py --check-receipt orig/sqlite-gcov-probe.txt
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+[rc=0]
+
+== PRISTINE on each forgery (the detector's reject direction) ==
+$ python3 orig/round65_c1_sqlite_probe.py --check-receipt forged/forged-g2-fragment.txt
+CHECK fail fragment G2 leg2 'ok' lacks 'sqlite3 not found in PATH'
+CHECK fail G2 leg-2 fragment does not carry the frozen fragment
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R65-C1 fail
+[rc=1]
+
+$ python3 orig/round65_c1_sqlite_probe.py --check-receipt forged/forged-legrow.txt
+CHECK fail G2 leg-verdicts PFF != FFF
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R65-C1 fail
+[rc=1]
+
+$ python3 orig/round65_c1_sqlite_probe.py --check-receipt forged/forged-nobind-g3.txt
+CHECK fail G3 no-bind-observation-missing
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R65-C1 fail
+[rc=1]
+
+$ python3 orig/round65_c1_sqlite_probe.py --check-receipt forged/forged-predicate-fail.txt
+CHECK fail stored-predicate fail disagrees with derived pass
+PREDICATE R65-C1 fail
+[rc=1]
+
+$ python3 orig/round65_c1_sqlite_probe.py --check-receipt forged/forged-legfrag-only.txt
+CHECK fail G2 leg-2 fragment does not carry the frozen fragment
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R65-C1 fail
+[rc=1]
+
+== M3 fragment-weaken on forged-g2-fragment ==
+$ python3 mutants/m3_fragment_weaken.py --check-receipt forged/forged-g2-fragment.txt
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+[rc=0]
+
+== M6 leg-row-weaken on forged-legrow ==
+$ python3 mutants/m6_legrow_weaken.py --check-receipt forged/forged-legrow.txt
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+[rc=0]
+
+== M7 predicate-line-weaken on forged-predicate-fail ==
+$ python3 mutants/m7_predicate_line.py --check-receipt forged/forged-predicate-fail.txt
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+[rc=0]
+
+== M8 nobind-weaken on forged-nobind-g3 ==
+$ python3 mutants/m8_nobind_weaken.py --check-receipt forged/forged-nobind-g3.txt
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+[rc=0]
+
+== M10 legfrag-half on forged-legfrag-only ==
+$ python3 mutants/m10_legfrag_half.py --check-receipt forged/forged-legfrag-only.txt
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+[rc=0]
+
+== Each weakening mutant on the REAL receipt (invisible to the real bytes) ==
+$ python3 mutants/m3_fragment_weaken.py --check-receipt orig/sqlite-gcov-probe.txt
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+[rc=0]
+
+$ python3 mutants/m6_legrow_weaken.py --check-receipt orig/sqlite-gcov-probe.txt
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+[rc=0]
+
+$ python3 mutants/m7_predicate_line.py --check-receipt orig/sqlite-gcov-probe.txt
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+[rc=0]
+
+$ python3 mutants/m8_nobind_weaken.py --check-receipt orig/sqlite-gcov-probe.txt
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+[rc=0]
+
+$ python3 mutants/m10_legfrag_half.py --check-receipt orig/sqlite-gcov-probe.txt
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+[rc=0]
+
+== Constant-swap mutants on the real receipt ==
+$ python3 mutants/m1_vector_flip.py --check-receipt orig/sqlite-gcov-probe.txt
+CHECK fail G1 vector P/P/P != P/P/F
+CHECK fail G1 observed P/P/P != P/P/F
+CHECK fail G1 expected P/P/P != P/P/F
+CHECK fail G1 leg-verdicts PPP != PPF
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R65-C1 fail
+[rc=1]
+
+$ python3 mutants/m2_mask_drop.py --check-receipt orig/sqlite-gcov-probe.txt
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+[rc=0]
+
+$ python3 mutants/m4_sha_swap.py --check-receipt orig/sqlite-gcov-probe.txt
+CHECK fail amalgamation-sha 0a9c8e34352dad46006aa82836d5383bff9dc6bc9ce5a60553c05aa30e6ad1f9 != aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R65-C1 fail
+[rc=1]
+
+$ python3 mutants/m5_derive_drift.py --check-receipt orig/sqlite-gcov-probe.txt
+CHECK fail G4 vector P/P/F != P/P/P
+CHECK fail G4 observed P/P/F != P/P/P
+CHECK fail G4 expected P/P/F != P/P/P
+CHECK fail G4 leg-verdicts PPF != PPP
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R65-C1 fail
+[rc=1]
+
+$ python3 mutants/m9_grader_sha_swap.py --check-receipt orig/sqlite-gcov-probe.txt
+CHECK fail grader-sha b165f8504bb93a901451b80c4ea73344b71b6af377ebdabef745fbcdd1d2993b != aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R65-C1 fail
+[rc=1]
+

@@ -1,0 +1,36 @@
+== unzip -l reconciliation (live zip) ==
+Archive:  sqlite-amalgamation-3540100.live.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  2026-10-16 12:19   sqlite-amalgamation-3540100/
+  9582521  2026-10-16 12:19   sqlite-amalgamation-3540100/sqlite3.c
+  1270623  2026-10-16 12:19   sqlite-amalgamation-3540100/shell.c
+   695729  2026-10-16 12:19   sqlite-amalgamation-3540100/sqlite3.h
+    39547  2026-10-16 12:19   sqlite-amalgamation-3540100/sqlite3ext.h
+---------                     -------
+ 11588420                     5 files
+
+== cmp listing vs wave-dir zip ==
+1c1
+< Archive:  sqlite-amalgamation-3540100.live.zip
+---
+> Archive:  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-65/w1/sqlite-amalgamation-3540100.zip
+== unzip -t (integrity of the live-fetched zip) ==
+Archive:  sqlite-amalgamation-3540100.live.zip
+    testing: sqlite-amalgamation-3540100/   OK
+    testing: sqlite-amalgamation-3540100/sqlite3.c   OK
+    testing: sqlite-amalgamation-3540100/shell.c   OK
+    testing: sqlite-amalgamation-3540100/sqlite3.h   OK
+    testing: sqlite-amalgamation-3540100/sqlite3ext.h   OK
+No errors detected in compressed data of sqlite-amalgamation-3540100.live.zip.
+
+== version identity inside the artifact (sqlite3.h) ==
+$ unzip -p sqlite-amalgamation-3540100.live.zip sqlite-amalgamation-3540100/sqlite3.h | grep -n 'define SQLITE_VERSION'
+149:#define SQLITE_VERSION        "3.54.1"
+150:#define SQLITE_VERSION_NUMBER 3054001
+
+$ unzip -p ... sqlite3.c | grep -m2 -n 'SQLITE_SOURCE_ID\|SQLITE_VERSION '
+458:** system</a>.  ^The SQLITE_SOURCE_ID macro evaluates to
+460:** within its configuration management system.  ^The SQLITE_SOURCE_ID
+$ unzip -p sqlite-amalgamation-3540100.live.zip sqlite-amalgamation-3540100/sqlite3.h | grep -n 'define SQLITE_SOURCE_ID'
+151:#define SQLITE_SOURCE_ID      "2026-10-16 14:45:20 555e07ef33f69a0957d24d8e555b702464a131d6f1607f4c3c1e4551e8e6ca76"

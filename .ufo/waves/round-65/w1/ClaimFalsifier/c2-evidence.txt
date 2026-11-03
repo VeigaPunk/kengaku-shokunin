@@ -1,0 +1,53 @@
+# C2 falsification evidence — ClaimFalsifier-3 — all commands observed 2026-11-03T20:13:29Z
+
+## [1] four counting greps re-derived at base 12a6255170bcc466029bf82037885fd69e20370f (git show | grep -c)
+$ git show 12a6255170bcc466029bf82037885fd69e20370f:corpus/SOURCES.md | grep -c 'supersedes S230'
+0
+rc=1
+$ git show 12a6255170bcc466029bf82037885fd69e20370f:corpus/lessons/round-64.md | grep -c 'R64-ERRATUM-65'
+0
+rc=1
+$ git show 12a6255170bcc466029bf82037885fd69e20370f:SCORECARD.md | grep -c 'addendum-classified'
+0
+rc=1
+$ git show 12a6255170bcc466029bf82037885fd69e20370f:corpus/QUALITY.md | grep -c 'Q47 —'
+0
+rc=1
+
+## [2] counting greps at landing tip b5032ff8391dcb5939c3be53516b31a50ab340a0 / working tree
+$ git show b5032ff8391dcb5939c3be53516b31a50ab340a0:corpus/SOURCES.md | grep -c 'supersedes S230'
+1
+rc=0
+$ grep -c 'supersedes S230' corpus/SOURCES.md  (worktree)
+1
+rc=0
+
+## [3] S230 own row token scan at landing (expect 0)
+0
+rc=1
+
+## [4] S230 row byte-identity base vs landing
+IDENTICAL
+
+## [5] BYTE-PREFIX test: cmp base:SOURCES.md landing:SOURCES.md
+/fast/scratch/hyaku/kengaku-r65/ClaimFalsifier/sources-base.md /fast/scratch/hyaku/kengaku-r65/ClaimFalsifier/sources-landing.md differ: char 181789, line 248
+cmp rc=1 (differ = NOT a byte-prefix; EOF-on-file1 would be pure append)
+line counts: base=280 landing=283
+
+## [6] git diff base..landing -- corpus/SOURCES.md --stat
+ corpus/SOURCES.md | 3 +++
+ 1 file changed, 3 insertions(+)
+
+## [7] S234 census
+pipes=12 awkNF=13 teaches_words=22
+teaches[$8]:  supersedes S230 — same source and capture, anchor quotes the grader's own f-string verbatim, teaches is one benefit within the word bar 
+kind[$4]: code  tier[$5]: A 
+
+## [8] token-stuffing simulation (a7 dir): one-line appends at EOF
+$ grep -c "supersedes S230" sources-landing.md -> 1
+$ grep -c "R64-ERRATUM-65" a7/round-64.md -> 1
+$ grep -c "addendum-classified" a7/SCORECARD.md -> 1
+$ grep -c "Q47 —" a7/QUALITY.md -> 1
+$ cmp base:round-64.md a7/round-64.md ->
+cmp: EOF on /fast/scratch/hyaku/kengaku-r65/ClaimFalsifier/a7/r64-base.md after byte 13548
+cmp rc=1 (EOF on file1 = strict byte-prefix holds for stuffed append)
