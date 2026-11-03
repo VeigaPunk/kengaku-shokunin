@@ -1,0 +1,7 @@
+# command: bwrap house shape (ro-bind /usr, /dev/null over /usr/bin/sqlite3 if masked, case at /app + host path, grader ro at /tests/test_outputs.py, driver at /ctl/driver.py)
+# masked=yes PATH_SET=/usr/local/bin:/usr/bin
+ENV {"python": "3.14.8", "sqlite3_version": "PermissionError: [Errno 13] Permission denied: 'sqlite3'", "which_sqlite3": null}
+LEGS [["test_sqlite_compiled", "F", "PermissionError: [Errno 13] Permission denied: 'sqlite3'"], ["test_sqlite_in_path", "F", "AssertionError: sqlite3 not found in PATH"], ["test_gcov_enabled", "F", "PermissionError: [Errno 13] Permission denied: 'sqlite3'"]]
+# grader sha256: b165f8504bb93a901451b80c4ea73344b71b6af377ebdabef745fbcdd1d2993b
+# amalgamation zip sha256: 0a9c8e34352dad46006aa82836d5383bff9dc6bc9ce5a60553c05aa30e6ad1f9 (https://sqlite.org/2026/sqlite-amalgamation-3540100.zip)
+# captured: 2026-11-03T20:00:39Z
