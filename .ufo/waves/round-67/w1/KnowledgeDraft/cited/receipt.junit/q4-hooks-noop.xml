@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="4" time="12.880" timestamp="2026-11-03T18:54:07.067652-03:00" hostname="plazir27"><testcase classname="test_outputs" name="test_pipeline_parallel_exists" time="0.000" /><testcase classname="test_outputs" name="test_no_hooks_in_pipeline_parallel" time="0.001"><failure message="AssertionError: register_forward_hook must not be used in implementation&#10;assert 'register_forward_hook' not in '&quot;&quot;&quot;Referenc...=rank - 1)\n'&#10;  &#10;  'register_forward_hook' is contained here:&#10;    odel.norm.register_forward_hook(lambda module, args, output: None)&#10;  ?           +++++++++++++++++++++&#10;        rank = dist.get_rank()&#10;        world = dist.get_world_size()&#10;        last = world - 1...&#10;  &#10;  ...Full output truncated, use '-vv' to show">def test_no_hooks_in_pipeline_parallel():
+        """
+        Checks that pipeline_parallel.py does not use forward/backward hooks,
+        since hooks are only allowed in the test for validation.
+        """
+        with open("/app/pipeline_parallel.py") as f:
+            code = f.read()
+&gt;       assert "register_forward_hook" not in code, (
+            "register_forward_hook must not be used in implementation"
+        )
+E       AssertionError: register_forward_hook must not be used in implementation
+E       assert 'register_forward_hook' not in '"""Referenc...=rank - 1)\n'
+E         
+E         'register_forward_hook' is contained here:
+E           odel.norm.register_forward_hook(lambda module, args, output: None)
+E         ?           +++++++++++++++++++++
+E               rank = dist.get_rank()
+E               world = dist.get_world_size()
+E               last = world - 1...
+E         
+E         ...Full output truncated, use '-vv' to show
+
+/tests/test_outputs.py:38: AssertionError</failure></testcase><testcase classname="test_outputs" name="test_pipeline_parallel[1]" time="4.438" /><testcase classname="test_outputs" name="test_pipeline_parallel[2]" time="5.264" /></testsuite></testsuites>

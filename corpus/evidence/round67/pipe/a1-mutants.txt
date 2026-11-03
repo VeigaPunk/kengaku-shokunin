@@ -1,0 +1,16 @@
+# R67-C1 counter A1 -- mutant results (red-before on the pre-amendment counter is ProbeMutate's
+# mutations.md; this file records the amended counter, plans/round67_c1_pipeline_probe.py PROBE sha 32bacf1d...)
+# Method: each mutant is the record receipt (corpus/evidence/round67/pipe/receipt.txt) with one change,
+# built in a scratch directory (/fast/scratch/hyaku/kengaku-r67/mut-a1), checked with
+#   python3 plans/round67_c1_pipeline_probe.py --check-receipt <mutant>
+# Exit codes and the first defect line are recorded verbatim from the run.
+
+base                       rc=0  CHECK ok cases=6 / PREDICATE R67-C1 pass
+m02_drop_vector_q3         rc=1  CHECK defect: missing CASE or VECTOR line for q3-stub
+m11_rc_tamper_q4           rc=1  CHECK defect: q4-hooks-noop rc=7 is not the pytest status for vector PFPP (want 1)
+m12_label_mismatch_q4      rc=1  CHECK defect: q4-hooks-noop frozen label mismatch contradicts vector PFPP
+v3_dup_case_q1             rc=1  CHECK defect: duplicate CASE line for q1-ref
+v4_unknown_case            rc=1  CHECK defect: unknown case q7-fake in CASE line
+v6_grader_extra_field      rc=1  CHECK defect: GRADER line missing, malformed or not the pinned sha/path
+x_drop_junit_q3            rc=1  CHECK defect: junit missing for q3-stub
+v1_vector_before_case      rc=0  CHECK ok cases=6 (line order is not part of the frozen predicate; each case is still bound)

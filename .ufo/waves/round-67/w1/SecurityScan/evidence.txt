@@ -1,0 +1,114 @@
+# SecurityScan evidence — observed outputs (copied from this seat's shell runs; scratch dir removed after)
+# All sandbox runs: bwrap 0.13.1 (/usr/bin/bwrap), argv = run_case flags (probe lines 154-179) with --chdir /app.
+# No grader run; no listener on 12355; host listener only on 127.0.0.1:23456 (test) and an abstract unix name.
+
+## E1  sandbox introspection (bwrap rc=0)
+cmd: bwrap [run_case-equivalent argv] /usr/bin/python3 -c '<introspection>'
+uid,gid: 1000 1000
+uid_map: 1000          0          1          (user namespace; uid 1000 maps to 0 inside)
+env: {"PATH": "/usr/bin:/bin", "HOME": "/tmp", "PYTHONDONTWRITEBYTECODE": "1", "PYTHONNOUSERSITE": "1", "HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1", "PWD": "/app", "LC_CTYPE": "C.UTF-8"}
+ls /home => ['vgpnk']          ls /home/vgpnk => ['.local']          ls .local/share => ['kengaku-r67']
+ssh? False   netrc? False   config? False
+etc/shadow readable => PermissionError [Errno 13] Permission denied
+stat -f -c %T /tmp => tmpfs     /app => btrfs     /ctl => xfs     venv => btrfs
+ip -o addr => lo 127.0.0.1/8, lo ::1/128 only
+write /app/x => OSError [Errno 30] Read-only file system
+write venv/x => OSError [Errno 30] Read-only file system
+write /etc/x => OSError [Errno 30] Read-only file system
+write /ctl/x, /tmp/x => succeeded (2 bytes each)
+mountinfo (selected):
+  root: 570 263 0:72 /newroot / rw,nosuid,nodev   (tmpfs, ephemeral)
+  /usr  ro,nosuid,nodev  (btrfs @/usr)
+  /etc  ro,nosuid,nodev  (btrfs @/etc)
+  /proc rw,nosuid,nodev,noexec  (proc)
+  /tmp  rw,nosuid,nodev  (tmpfs)
+  venv  ro,nosuid,nodev  (btrfs @home/.../venv-pipe)
+  /app  ro,nosuid,nodev  (btrfs case dir)
+  /tests/test_outputs.py ro,nosuid,nodev  (btrfs grader file)
+  /ctl  rw,nosuid,nodev,noatime  (xfs, scratch ctl dir only)
+  no mount of /fast/scratch other than the ctl dir; no mount of /home/vgpnk except venv.
+
+## E3  network (bwrap rc=0)
+tcp host 127.0.0.1:23456 => ConnectionRefusedError [Errno 111]
+tcp external 1.1.1.1:443 => OSError [Errno 101] Network is unreachable
+abstract unix socket of host => ConnectionRefusedError [Errno 111]
+ip -o addr => lo only
+
+## E4  pid and fds (bwrap rc=0)
+pid self => 2 ; proc count => 2 ; proc1 cmd => bwrap --die-with-parent --unshare-net --unshare-pid ...
+fd0 target => /dev/null (caller stdin in this shell)
+fd list => ['0', '1', '16', '18', '2', '3']   (16 and 18 -> /dev/pts/1: inherited because this
+  seat's bash passed them to bwrap directly; subprocess.run with close_fds=True does not, see E8)
+Note for S-1: if the probe is run from an interactive terminal, fd 0 is that tty and is inherited.
+
+## E5  namespaces (sandbox vs host)
+sandbox: ipc:[4026531839] uts:[4026531838] user:[4026533822] net:[4026533761] pid:[4026533759]
+host:    ipc:[4026531839] uts:[4026531838] user:[4026531837] net:[4026531833] pid:[4026531836]
+=> ipc and uts shared with host (S-2); user, net, pid differ.
+
+## E6  teardown on SIGKILL of bwrap (daemon child beats every 0.2 s)
+beat bytes at kill+0.5 s = 11, at +2.0 s = 11  => daemon stopped with sandbox
+surviving bwrap processes: 0
+
+## E7  TIOCSTI gate
+cat /proc/sys/dev/tty/legacy_tiocsti => 0
+
+## E8  fd inheritance from subprocess.run (close_fds default)
+parent opened fd 3 (/dev/null); child `sh -c 'ls /proc/self/fd'` => 0 1 2 3
+(the 3 is ls's own directory handle; the parent's extra fd was not inherited)
+
+## E9  results-channel forgery (dummy writer, no grader; bwrap rc=0)
+cmd: forgery-demo.sh (case dir q3-stub mounted as /app; daemon waits for "REAL-FAIL", then rewrites)
+host reads /ctl/junit.xml: FORGED-ALL-PASS
+
+## E10 committed junit metadata (grep)
+cmd: grep -o 'hostname="[^"]*"' receipt.junit/*.xml | sort | uniq -c
+  6 hostname="plazir27" (one per case file)
+cmd: grep -oE '.{0,60}(/home/vgpnk|/fast/scratch|vgpnk)...' receipt.junit/*.xml
+  q2-none 6, q3-stub 6, q5-full-model 3, q6-unscaled-loss 6 matches of
+  /home/vgpnk/.local/share/kengaku-r67/venv-pipe/lib/python3.14/site-packages/torch/multiproc... (tracebacks)
+
+## E11 secret grep (exact commands and outputs)
+cmd: grep -nE 'token|secret|password|api[_-]?key|http' corpus/evidence/round67/pipe/cases/
+     -> grep: corpus/evidence/round67/pipe/cases/: Is a directory   (exit 2; directory without -r)
+cmd: grep -rnE 'token|secret|password|api[_-]?key|http' corpus/evidence/round67/pipe/cases/
+     corpus/evidence/round67/pipe/cases/q1-ref/pipeline_parallel.py:39:            h = model.model.embed_tokens(...)
+     corpus/evidence/round67/pipe/cases/q4-hooks-noop/pipeline_parallel.py:39:            h = model.model.embed_tokens(...)
+     corpus/evidence/round67/pipe/cases/q5-full-model/pipeline_parallel.py:26:        h = model.model.embed_tokens(...)
+     corpus/evidence/round67/pipe/cases/q6-unscaled-loss/pipeline_parallel.py:37:            h = model.model.embed_tokens(...)
+     (exit 0; all four are the substring "embed_tokens", a false positive)
+cmd: grep -nE 'token|secret|password|api[_-]?key|http' plans/round67_c1_pipeline_probe.py  -> no output (exit 1)
+cmd: grep -rnE 'socket|urllib|requests|import os|subprocess|os\.system|eval\(|exec\(|https?:' cases/ -> no output (exit 1)
+cmd: grep -nE 'socket|urllib|requests|subprocess|os\.system|eval\(|exec\(' plans/round67_c1_pipeline_probe.py
+     50:import socket   51:import subprocess   124:    s = socket.socket()   180:        proc = subprocess.run(...)   (exit 0)
+
+## E12 sources
+cmd: ls -la corpus/evidence/round67/sources/ -> two files: torch-pipeline-parallelism-instruction.md (1885 B), torch-pipeline-parallelism-test_outputs.py (6065 B)
+cmd: sha256sum corpus/evidence/round67/sources/* corpus/evidence/round52/graders/torch-pipeline-parallelism/tests/test_outputs.py
+     989bfcf0c54baf6c8cdc391743dbb2f9e858c5779dd85112536875d4d1b2dcd2  ...-instruction.md
+     23574246a407163a8e6581c84287cc2f1eb745efbaad2a317a5a28c39958c64f  ...-test_outputs.py
+     23574246a407163a8e6581c84287cc2f1eb745efbaad2a317a5a28c39958c64f  round52 test_outputs.py
+cmd: cmp <round67 test_outputs> <round52 test_outputs> -> identical
+cmd: grep -n 'torch-pipeline-parallelism' corpus/evidence/round52/graders/SHA256SUMS
+     169:23574246a407163a8e6581c84287cc2f1eb745efbaad2a317a5a28c39958c64f  ./torch-pipeline-parallelism/tests/test_outputs.py
+     170:cc9fd28b6590993fc37e4a99da771cbf04726c8c62fe308e802612241da69dea  ./torch-pipeline-parallelism/tests/test.sh
+cmd: file corpus/evidence/round67/sources/*  -> ASCII text executable (both)
+cmd: grep -nE 'https?://|token|secret|password|api[_-]?key' sources/*  -> only test_outputs.py:143 (comment "embed_tokens"), exit 0
+
+## E13 junit cause greps (receipt.junit)
+q3-stub: 2 x "NotImplementedError: stub: pipeline schedule not implemented"
+q5-full-model: 1 x "too many layers: 8"
+q6-unscaled-loss: 2 x "mismatch at lm_head.bwd, microbatch 0, max diff=0.10"
+q2-none: exists FileNotFound/AssertionError; q4-hooks-noop: no_hooks "register_forward_hook must not be used"
+
+## E14 probe line references (grep -nE)
+65 LOCK; 123 port_busy; 148 run_case; 154 bwrap argv start; 160 --ro-bind /etc; 164 venv ro;
+167 --bind ctl /ctl; 168 --chdir; 169 --clearenv; 177 --junitxml=/ctl/junit.xml; 180 subprocess.run(timeout=900);
+190 junit_outcomes; 197 run(); 204-207 lock + port_busy; 225 shutil.copyfile(junit); 236 receipt write; 241 check_receipt
+
+## Exit codes of the seat's commands (summary)
+ls/cat/read: 0 ; grep -nE over cases dir (no -r): 2 ; grep -rnE cases: 0 ; grep over probe (secrets): 1 ; grep socket/subprocess probe: 0 ;
+grep cases net: 1 ; bwrap introspection: 0 ; bwrap network/fd/ns: 0 ; teardown: 0 ; fd/close_fds python: 0 ;
+sha256sum/cmp: 0 ; junit greps: 0 ; forgery demo: 0 ; mkdir: 0.
+Commands that did not run: no grader; no `--run`, no `--selftest`, no `--check-receipt` (not needed).
+Installs: none (no tool installed; RULES.md read).

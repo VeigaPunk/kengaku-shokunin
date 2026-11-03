@@ -1,0 +1,17 @@
+# R67-C1 receipt -- TB2 torch-pipeline-parallelism grader offline under bwrap
+# instrument plans/round67_c1_pipeline_probe.py version=r67-c1/1
+PROBE sha256=03793f4f9e184e8f829916ef848e0f0d41d94b1bef8ed17eda0fe3c28b0a9f1e version=r67-c1/1
+GRADER sha256=23574246a407163a8e6581c84287cc2f1eb745efbaad2a317a5a28c39958c64f path=corpus/evidence/round52/graders/torch-pipeline-parallelism/tests/test_outputs.py
+VENV torch=2.15.0+cpu transformers=5.22.1 pytest=9.2.0 python=3.14.8 install=uv-pip-pypi+pytorch-cpu
+CASE q1-ref case_sha256=5aab7e05c846d0fe7ca364a910018cf6b29fdb607724cd3303dbf6137abb3452 junit_sha256=766c86c24dbb501910831f6e437b5a9d8146329adfaa7234321f496908317b39 rc=0
+VECTOR q1-ref exists=P no_hooks=P ws1=P ws2=P frozen=match
+CASE q2-none case_sha256=none junit_sha256=872ded5086a3befca80c9d90cedfaa157f72909f9b771755705bd0e42142786d rc=1
+VECTOR q2-none exists=F no_hooks=F ws1=F ws2=F frozen=match
+CASE q3-stub case_sha256=324da1b5e3f32419cfd5d2bdfcb698277c75841d86e3b5fd5c76b37955851e69 junit_sha256=5aedd8325abaf878e495ff7c38131ad0ca30ec2fdc1537794c999ca7009c0657 rc=1
+VECTOR q3-stub exists=P no_hooks=P ws1=F ws2=F frozen=match
+CASE q4-hooks-noop case_sha256=815ad9bf1a51ea073afc6eff253e3dcffd86a804da050ec4300ea0afe6a6bcd9 junit_sha256=496ed930b246de9205d5e12d8e8239c719f5eb35a99a5c58ff4c37ff7131010c rc=1
+VECTOR q4-hooks-noop exists=P no_hooks=F ws1=P ws2=P frozen=match
+CASE q5-full-model case_sha256=b1cb96c81a979a1d6fc21e1241f3e3f92f7ade7718963063fa6967eadc91aa43 junit_sha256=2d65d044152f899cbe7b91e10c262e0329f9df8bd7fe5b16453ecb25e1342d65 rc=1
+VECTOR q5-full-model exists=P no_hooks=P ws1=P ws2=F frozen=match
+CASE q6-unscaled-loss case_sha256=0bb52dd1af4ca13c25d5ec8136698a9efb2cb551da0a657c476383f170672518 junit_sha256=d4573a57f501c361ff494fc149cc5154cdb3a0e526e64426e98703acb4d82719 rc=1
+VECTOR q6-unscaled-loss exists=P no_hooks=P ws1=F ws2=F frozen=match

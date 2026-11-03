@@ -1,0 +1,50 @@
+# committed default-mode behavior (--check-receipt WITHOUT --strict) over the R67-C2 mutation corpus
+# command: python3 plans/round65_c1_sqlite_probe.py --check-receipt <fixture>   [cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin]
+=== base.txt
+rc=0
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+=== fab.txt
+rc=0
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+=== fixtures/m-s1-1.txt
+rc=0
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+=== fixtures/m-s1-2.txt
+rc=0
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+=== fixtures/m-s2-1.txt
+rc=1
+CHECK fail grader-sha 0000000000000000000000000000000000000000000000000000000000000000 != b165f8504bb93a901451b80c4ea73344b71b6af377ebdabef745fbcdd1d2993b
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R65-C1 fail
+=== fixtures/m-s3-1.txt
+rc=1
+CHECK fail amalgamation-sha 0000000000000000000000000000000000000000000000000000000000000000 != 0a9c8e34352dad46006aa82836d5383bff9dc6bc9ce5a60553c05aa30e6ad1f9
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R65-C1 fail
+=== fixtures/m-s4-1.txt
+rc=0
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+=== fixtures/m-s5-1.txt
+rc=0
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+=== fixtures/m-s5-2.txt
+rc=0
+CHECK ok cases=5
+PREDICATE R65-C1 pass
+=== fixtures/m-s5-3.txt
+rc=1
+CHECK fail G3 no-bind-observation-missing
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R65-C1 fail
+=== fixtures/m-s6-1.txt
+rc=1
+CHECK fail G3 vector P/P/P != P/P/F
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R65-C1 fail

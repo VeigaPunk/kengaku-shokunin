@@ -27,6 +27,13 @@ Frozen table (plans/round-67-claims.md, R67-C1), vector order exists/no_hooks/ws
     q5-full-model     PPPF   no partition: every rank runs all layers (layer-count assertion fails at ws2)
     q6-unscaled-loss  PPFF   correct schedule, loss not divided by the microbatch count
 
+Amendment A1 (plans/round-67-claims.md, dated 2026-11-03): the counter now enforces the frozen predicate
+sentence as written -- exactly one CASE and one VECTOR line per frozen case, no duplicate, unknown or
+malformed line, a VECTOR line before its CASE line is bound the same way, the frozen label must agree with
+the vector, the CASE rc must equal pytest's exit status for the junit outcomes (0 iff all four legs P), the
+GRADER line is matched whole, and an unreadable junit is a named finding. The run refuses to overwrite an
+existing receipt. The frozen table, cases and kill rules are unchanged.
+
 Setup failures (grader sha drift, missing venv, port 12355 busy, bwrap refusal, missing junit, timeout)
 are SETUP, exit 2 (could-not-evaluate), never a verdict.
 
@@ -106,7 +113,7 @@ def key_of(testname: str) -> str:
 
 
 def junit_outcomes(junit: Path) -> dict:
-    """Return {key: P|F} from a junit file; raises ValueError on an unknown testcase name."""
+    """Return {key: P|F} from a junit file; raises ValueError or ET.ParseError on unreadable input."""
     tree = ET.parse(junit)
     outcomes = {}
     for tc in tree.iter("testcase"):
@@ -184,10 +191,14 @@ def run_case(case: str, work: Path) -> dict:
     if not junit.exists():
         return {"case": case, "error": "no junit", "rc": proc.returncode,
                 "tail": (proc.stdout + proc.stderr)[-600:]}
+    try:
+        outcomes = junit_outcomes(junit)
+    except (ValueError, ET.ParseError) as e:
+        return {"case": case, "error": f"junit unreadable: {e}"}
     return {
         "case": case,
         "rc": proc.returncode,
-        "outcomes": junit_outcomes(junit),
+        "outcomes": outcomes,
         "junit": junit,
         "case_sha": sha256(app / CASE_FILE) if (app / CASE_FILE).exists() else "none",
         "junit_sha": sha256(junit),
@@ -195,6 +206,8 @@ def run_case(case: str, work: Path) -> dict:
 
 
 def run(receipt: Path, work: Path) -> int:
+    if receipt.exists():
+        return setup_error(f"receipt exists, refusing to overwrite: {receipt}")
     if not GRADER.exists() or sha256(GRADER) != GRADER_SHA256:
         return setup_error("grader sha drift or missing grader")
     if not VENV_PY.exists():
@@ -202,14 +215,16 @@ def run(receipt: Path, work: Path) -> int:
     if not Path("/usr/bin/bwrap").exists():
         return setup_error("missing bwrap")
     LOCK.parent.mkdir(parents=True, exist_ok=True)
+    results = []
     with open(LOCK, "w") as lockf:
         fcntl.flock(lockf, fcntl.LOCK_EX)
         if port_busy():
             return setup_error(f"port {PORT} busy")
-        results = [run_case(c, work) for c in CASES]
-    for r in results:
-        if "error" in r:
-            return setup_error(f"case {r['case']}: {r['error']}")
+        for c in CASES:
+            r = run_case(c, work)
+            if "error" in r:
+                return setup_error(f"case {r['case']}: {r['error']}")
+            results.append(r)
     jdir = junit_dir_for(receipt)
     shutil.rmtree(jdir, ignore_errors=True)
     jdir.mkdir(parents=True)
@@ -234,8 +249,7 @@ def run(receipt: Path, work: Path) -> int:
         )
     receipt.parent.mkdir(parents=True, exist_ok=True)
     receipt.write_text("\n".join(lines) + "\n")
-    rc = check_receipt(receipt)
-    return rc
+    return check_receipt(receipt)
 
 
 def check_receipt(path: Path) -> int:
@@ -260,56 +274,82 @@ def check_receipt(path: Path) -> int:
             if m.group(2) != PROBE_VERSION:
                 findings.append("defect: PROBE version does not match the probe")
     grader_line = [l for l in lines if l.startswith("GRADER ")]
-    if len(grader_line) != 1 or f"sha256={GRADER_SHA256}" not in grader_line[0]:
-        findings.append("defect: GRADER line missing or not the pinned sha")
+    gm = re.fullmatch(r"GRADER sha256=([0-9a-f]{64}) path=(\S+)", grader_line[0]) if len(grader_line) == 1 else None
+    if gm is None or gm.group(1) != GRADER_SHA256 or gm.group(2) != GRADER_REL:
+        findings.append("defect: GRADER line missing, malformed or not the pinned sha/path")
     if not GRADER.exists() or sha256(GRADER) != GRADER_SHA256:
         findings.append("defect: committed grader bytes do not match the pinned sha")
-    seen = {}
+
+    case_lines = {}
     for l in lines:
-        if l.startswith("CASE "):
-            m = re.fullmatch(r"CASE (\S+) case_sha256=(\S+) junit_sha256=([0-9a-f]{64}) rc=(-?\d+)", l)
-            if not m:
-                findings.append(f"defect: malformed CASE line: {l[:80]}")
-                continue
-            case, case_sha, junit_sha = m.group(1), m.group(2), m.group(3)
-            seen[case] = (case_sha, junit_sha)
-        elif l.startswith("VECTOR "):
-            m = re.fullmatch(r"VECTOR (\S+) " + " ".join(f"{k}=([PF])" for k in KEYS) + r" frozen=(match|mismatch)", l)
-            if not m:
-                findings.append(f"defect: malformed VECTOR line: {l[:80]}")
-                continue
-            case = m.group(1)
-            vec = "".join(m.group(i + 2) for i in range(len(KEYS)))
-            if case not in FROZEN_TABLE:
-                findings.append(f"defect: unknown case {case}")
-            elif vec != FROZEN_TABLE[case]:
-                findings.append(f"defect: {case} vector {vec} != frozen {FROZEN_TABLE[case]}")
-            if case in seen:
-                case_sha, junit_sha = seen[case]
-                jx = jdir / f"{case}.xml"
-                if not jx.exists():
-                    findings.append(f"defect: junit missing for {case}")
-                else:
-                    if sha256(jx) != junit_sha:
-                        findings.append(f"defect: junit sha mismatch for {case}")
-                    try:
-                        derived = vector_of(junit_outcomes(jx))
-                    except (ValueError, ET.ParseError) as e:
-                        findings.append(f"defect: junit unreadable for {case}: {e}")
-                    else:
-                        if derived != vec:
-                            findings.append(f"defect: VECTOR {case} {vec} disagrees with its junit {derived}")
-                app = CASES_DIR / case / CASE_FILE
-                want = sha256(app) if app.exists() else "none"
-                if case_sha != want:
-                    findings.append(f"defect: case_sha mismatch for {case}")
-    missing = [c for c in CASES if c not in seen]
-    if missing:
-        findings.append("defect: missing CASE/VECTOR for " + ",".join(missing))
+        if not l.startswith("CASE "):
+            continue
+        m = re.fullmatch(r"CASE (\S+) case_sha256=(\S+) junit_sha256=([0-9a-f]{64}) rc=(-?\d+)", l)
+        if not m:
+            findings.append(f"defect: malformed CASE line: {l[:80]}")
+            continue
+        case = m.group(1)
+        if case not in FROZEN_TABLE:
+            findings.append(f"defect: unknown case {case} in CASE line")
+            continue
+        if case in case_lines:
+            findings.append(f"defect: duplicate CASE line for {case}")
+            continue
+        case_lines[case] = (m.group(2), m.group(3), int(m.group(4)))
+
+    vector_lines = {}
+    for l in lines:
+        if not l.startswith("VECTOR "):
+            continue
+        m = re.fullmatch(r"VECTOR (\S+) " + " ".join(f"{k}=([PF])" for k in KEYS) + r" frozen=(match|mismatch)", l)
+        if not m:
+            findings.append(f"defect: malformed VECTOR line: {l[:80]}")
+            continue
+        case = m.group(1)
+        if case not in FROZEN_TABLE:
+            findings.append(f"defect: unknown case {case} in VECTOR line")
+            continue
+        if case in vector_lines:
+            findings.append(f"defect: duplicate VECTOR line for {case}")
+            continue
+        vec = "".join(m.group(i + 2) for i in range(len(KEYS)))
+        vector_lines[case] = (vec, m.group(len(KEYS) + 2))
+
+    for case in CASES:
+        if case not in case_lines or case not in vector_lines:
+            findings.append(f"defect: missing CASE or VECTOR line for {case}")
+            continue
+        vec, label = vector_lines[case]
+        case_sha, junit_sha, rc = case_lines[case]
+        if vec != FROZEN_TABLE[case]:
+            findings.append(f"defect: {case} vector {vec} != frozen {FROZEN_TABLE[case]}")
+        if (label == "match") != (vec == FROZEN_TABLE[case]):
+            findings.append(f"defect: {case} frozen label {label} contradicts vector {vec}")
+        want_rc = 0 if vec == "PPPP" else 1
+        if rc != want_rc:
+            findings.append(f"defect: {case} rc={rc} is not the pytest status for vector {vec} (want {want_rc})")
+        jx = jdir / f"{case}.xml"
+        if not jx.exists():
+            findings.append(f"defect: junit missing for {case}")
+            continue
+        if sha256(jx) != junit_sha:
+            findings.append(f"defect: junit sha mismatch for {case}")
+        try:
+            derived = vector_of(junit_outcomes(jx))
+        except (ValueError, ET.ParseError) as e:
+            findings.append(f"defect: junit unreadable for {case}: {e}")
+        else:
+            if derived != vec:
+                findings.append(f"defect: VECTOR {case} {vec} disagrees with its junit {derived}")
+        app = CASES_DIR / case / CASE_FILE
+        want = sha256(app) if app.exists() else "none"
+        if case_sha != want:
+            findings.append(f"defect: case_sha mismatch for {case}")
+
     for f in findings:
         print(f"CHECK {f}")
     ok = not findings
-    print(f"CHECK ok cases={len(seen)}" if ok else f"CHECK findings={len(findings)}")
+    print(f"CHECK ok cases={len(case_lines)}" if ok else f"CHECK findings={len(findings)}")
     print(f"PREDICATE R67-C1 {'pass' if ok else 'fail'}")
     return 0 if ok else 1
 
@@ -319,8 +359,8 @@ def selftest(work: Path) -> int:
     if not base.exists():
         return setup_error("no committed receipt for selftest")
     red = work / "selftest" / "receipt.txt"
-    red.parent.mkdir(parents=True, exist_ok=True)
-    shutil.rmtree(red.parent / "receipt.junit", ignore_errors=True)
+    shutil.rmtree(red.parent, ignore_errors=True)
+    red.parent.mkdir(parents=True)
     shutil.copytree(junit_dir_for(base), red.parent / "receipt.junit")
     text = base.read_text()
     flipped = re.sub(r"VECTOR q1-ref exists=P", "VECTOR q1-ref exists=F", text, count=1)

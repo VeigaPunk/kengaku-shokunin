@@ -796,6 +796,173 @@ def check_receipt(path):
     return 0 if ok else 1
 
 
+# --- strict gate (R67-C2: clauses s1-s6) -------------------------------------
+
+STRICT_PROBE_REL = "plans/round65_c1_sqlite_probe.py"
+STRICT_DRIVER = "/usr/bin/python3 /ctl/driver.py"
+STRICT_SESSION_NOBIND = ("NOBIND before-battery ", "NOBIND after-battery ")
+
+
+def strict_lane():
+    """The lane root this probe belongs to: <lane>/plans/<this file>."""
+    return pathlib.Path(__file__).resolve().parents[1]
+
+
+def strict_tokens(line):
+    """key=value tokens of a receipt line, first `=` splitting the value."""
+    return {key: value for key, value in
+            (token.split("=", 1) for token in line.split()[1:] if "=" in token)}
+
+
+def strict_failures(text, lane):
+    """Re-derive the frozen R67-C2 clauses s1-s6 from a receipt's text fields."""
+    lines = [line.rstrip() for line in text.splitlines()]
+    defects = []
+
+    # s1: the instrument header carries the PROBE_VERSION declared by the probe bytes.
+    version = ""
+    probe_path = lane / STRICT_PROBE_REL
+    if not probe_path.is_file():
+        defects.append("s1 probe-bytes-missing %s" % probe_path)
+    else:
+        match = re.search(r'^PROBE_VERSION\s*=\s*"([^"]+)"',
+                          probe_path.read_text(encoding="utf-8", errors="replace"),
+                          re.M)
+        if match is None:
+            defects.append("s1 probe-version-not-found %s" % probe_path)
+        else:
+            version = match.group(1)
+    headers = [line for line in lines if line.startswith(
+        "# instrument plans/round65_c1_sqlite_probe.py version=")]
+    if not headers:
+        defects.append("s1 header-missing")
+    for header in headers:
+        recorded = header.split("version=", 1)[1].strip()
+        if not version:
+            defects.append("s1 header-version-unverifiable %r" % recorded)
+        elif recorded != version:
+            defects.append("s1 header-version %r != probe PROBE_VERSION %r"
+                           % (recorded, version))
+
+    # s2: the receipt names the frozen grader sha AND the committed bytes carry it.
+    grader_sha = strict_tokens(next(
+        (line for line in lines if line.startswith("GRADER ")), "")).get("sha256", "")
+    if grader_sha != GRADER_SHA256:
+        defects.append("s2 grader-sha %s != %s"
+                       % (grader_sha or "(none)", GRADER_SHA256))
+    grader_path = lane / GRADER_REL
+    if not grader_path.is_file():
+        defects.append("s2 grader-bytes-missing %s" % grader_path)
+    else:
+        grader_bytes_sha = sha256_file(grader_path)
+        if grader_bytes_sha != GRADER_SHA256:
+            defects.append("s2 grader-bytes-sha %s != %s"
+                           % (grader_bytes_sha, GRADER_SHA256))
+
+    # s3: the amalgamation sha is the frozen one.
+    amalg_sha = strict_tokens(next(
+        (line for line in lines if line.startswith("AMALG ")), "")).get("sha256", "")
+    if amalg_sha != AMALG_SHA256:
+        defects.append("s3 amalgamation-sha %s != %s"
+                       % (amalg_sha or "(none)", AMALG_SHA256))
+
+    # s4: toolchain gcc/gcov/bwrap are version tokens, equal to the CC/GCOV/BWRAP
+    # lines; a literal `fabricated` value is refused.
+    toolchain = strict_tokens(next(
+        (line for line in lines if line.startswith("TOOLCHAIN ")), ""))
+    for field, prefix in (("gcc", "CC "), ("gcov", "GCOV "), ("bwrap", "BWRAP ")):
+        value = toolchain.get(field, "")
+        source = next((line for line in lines if line.startswith(prefix)), "")
+        if not source:
+            defects.append("s4 %s-line-missing" % field)
+            continue
+        if not value or value == "fabricated":
+            defects.append("s4 toolchain-%s %r is fabricated/empty"
+                           % (field, value))
+            continue
+        token = version_token(source[len(prefix):])
+        if token == "(none)":
+            defects.append("s4 %s-line carries no version token %r"
+                           % (field, source))
+        elif value != token:
+            defects.append("s4 toolchain-%s %s != %s-line token %s"
+                           % (field, value, field, token))
+
+    # s5: every RUN line is the frozen driver with rc=0, every case-scoped NOBIND
+    # line observes delta=0, and BUILD/FILES/ENV exist for G1-G5.  The
+    # before-/after-battery NOBIND lines are session markers, not case lines.
+    for line in lines:
+        if line.startswith("RUN "):
+            rc = re.search(r"(?:^|\s)rc=(\S+)", line)
+            driver = re.search(r'driver="([^"]*)"', line)
+            if rc is None:
+                defects.append("s5 run-line-without-rc %r" % line)
+            elif rc.group(1) != "0":
+                defects.append("s5 run-line rc=%s != 0" % rc.group(1))
+            if driver is None:
+                defects.append("s5 run-line-without-driver %r" % line)
+            elif driver.group(1) != STRICT_DRIVER:
+                defects.append("s5 run-driver %r != %r"
+                               % (driver.group(1), STRICT_DRIVER))
+    for line in lines:
+        if not line.startswith("NOBIND ") or line.startswith(STRICT_SESSION_NOBIND):
+            continue
+        delta = strict_tokens(line).get("delta")
+        if delta is None:
+            defects.append("s5 nobind-line-without-delta %r" % line)
+        elif delta != "0":
+            defects.append("s5 nobind delta=%s != 0" % delta)
+    for name in FROZEN_VECTORS:
+        if not any(line.startswith("NOBIND %s " % name) for line in lines):
+            defects.append("s5 %s nobind-line-missing" % name)
+        for kind in ("BUILD", "FILES", "ENV"):
+            if not any(line.startswith("%s %s " % (kind, name)) for line in lines):
+                defects.append("s5 %s %s-line-missing" % (name, kind.lower()))
+
+    # s6: each VECTOR line equals the frozen table, once per case, no strangers.
+    declared = {}
+    for line in lines:
+        if not line.startswith("VECTOR "):
+            continue
+        body = line[len("VECTOR "):]
+        if "=" not in body:
+            defects.append("s6 vector-malformed %r" % line)
+            continue
+        name, vector = body.split("=", 1)
+        if name in declared:
+            defects.append("s6 vector-duplicate %s" % name)
+        declared[name] = vector
+    for name, frozen in FROZEN_VECTORS.items():
+        expected = "/".join(frozen)
+        if name not in declared:
+            defects.append("s6 vector-line-missing %s" % name)
+        elif declared[name] != expected:
+            defects.append("s6 %s vector %s != %s"
+                           % (name, declared[name], expected))
+    for name in declared:
+        if name not in FROZEN_VECTORS:
+            defects.append("s6 vector-unknown-case %s" % name)
+
+    return defects
+
+
+def check_receipt_strict(path):
+    path = pathlib.Path(path)
+    if not path.is_file():
+        print("SETUP receipt-missing %s" % path)
+        return 2
+    text = path.read_text(encoding="utf-8")
+    failures = receipt_failures(text)
+    defects = strict_failures(text, strict_lane())
+    for failure in failures:
+        print("CHECK fail %s" % failure)
+    for defect in defects:
+        print("CHECK defect: %s" % defect)
+    ok = not failures and not defects
+    print("PREDICATE R65-C1 strict-%s" % ("pass" if ok else "fail"))
+    return 0 if ok else 1
+
+
 # --- selftest ----------------------------------------------------------------
 
 def _replace_line(text, prefix, new_line):
@@ -983,11 +1150,15 @@ def main(argv=None):
     ap.add_argument("--work")
     ap.add_argument("--receipt")
     ap.add_argument("--check-receipt")
+    ap.add_argument("--strict", action="store_true",
+                    help="with --check-receipt: enforce R67-C2 clauses s1-s6")
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--render-table", action="store_true")
     args = ap.parse_args(argv)
 
     if args.check_receipt:
+        if args.strict:
+            return check_receipt_strict(args.check_receipt)
         return check_receipt(args.check_receipt)
     if args.render_table:
         return render_table()

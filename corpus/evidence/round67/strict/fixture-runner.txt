@@ -1,0 +1,64 @@
+FIXTURE ../base.txt clause=base expected_rc=0 observed_rc=0 PASS
+    | PREDICATE R65-C1 strict-pass
+FIXTURE ../fab.txt clause=multiple(s1,s4,s5) expected_rc=1 observed_rc=1 PASS
+    | CHECK defect: s1 header-missing
+    | CHECK defect: s4 gcc-line-missing
+    | CHECK defect: s4 gcov-line-missing
+    | CHECK defect: s4 bwrap-line-missing
+    | CHECK defect: s5 run-line-without-rc 'RUN G1 driver="fabricated - nothing ran"'
+    | CHECK defect: s5 run-driver 'fabricated - nothing ran' != '/usr/bin/python3 /ctl/driver.py'
+    | CHECK defect: s5 run-line-without-rc 'RUN G2 driver="fabricated - nothing ran"'
+    | CHECK defect: s5 run-driver 'fabricated - nothing ran' != '/usr/bin/python3 /ctl/driver.py'
+    | CHECK defect: s5 run-line-without-rc 'RUN G3 driver="fabricated - nothing ran"'
+    | CHECK defect: s5 run-driver 'fabricated - nothing ran' != '/usr/bin/python3 /ctl/driver.py'
+    | CHECK defect: s5 run-line-without-rc 'RUN G4 driver="fabricated - nothing ran"'
+    | CHECK defect: s5 run-driver 'fabricated - nothing ran' != '/usr/bin/python3 /ctl/driver.py'
+    | CHECK defect: s5 run-line-without-rc 'RUN G5 driver="fabricated - nothing ran"'
+    | CHECK defect: s5 run-driver 'fabricated - nothing ran' != '/usr/bin/python3 /ctl/driver.py'
+    | CHECK defect: s5 G1 files-line-missing
+    | CHECK defect: s5 G1 env-line-missing
+    | CHECK defect: s5 G2 files-line-missing
+    | CHECK defect: s5 G2 env-line-missing
+    | CHECK defect: s5 G3 files-line-missing
+    | CHECK defect: s5 G3 env-line-missing
+    | CHECK defect: s5 G4 files-line-missing
+    | CHECK defect: s5 G4 env-line-missing
+    | CHECK defect: s5 G5 files-line-missing
+    | CHECK defect: s5 G5 env-line-missing
+    | PREDICATE R65-C1 strict-fail
+FIXTURE m-s1-1.txt clause=s1 expected_rc=1 observed_rc=1 PASS
+    | CHECK defect: s1 header-missing
+    | PREDICATE R65-C1 strict-fail
+FIXTURE m-s1-2.txt clause=s1 expected_rc=1 observed_rc=1 PASS
+    | CHECK defect: s1 header-version 'r65-c1/9' != probe PROBE_VERSION 'r65-c1/1'
+    | PREDICATE R65-C1 strict-fail
+FIXTURE m-s2-1.txt clause=s2 expected_rc=1 observed_rc=1 PASS
+    | CHECK fail grader-sha 0000000000000000000000000000000000000000000000000000000000000000 != b165f8504bb93a901451b80c4ea73344b71b6af377ebdabef745fbcdd1d2993b
+    | CHECK fail stored-predicate pass disagrees with derived fail
+    | CHECK defect: s2 grader-sha 0000000000000000000000000000000000000000000000000000000000000000 != b165f8504bb93a901451b80c4ea73344b71b6af377ebdabef745fbcdd1d2993b
+    | PREDICATE R65-C1 strict-fail
+FIXTURE m-s3-1.txt clause=s3 expected_rc=1 observed_rc=1 PASS
+    | CHECK fail amalgamation-sha 0000000000000000000000000000000000000000000000000000000000000000 != 0a9c8e34352dad46006aa82836d5383bff9dc6bc9ce5a60553c05aa30e6ad1f9
+    | CHECK fail stored-predicate pass disagrees with derived fail
+    | CHECK defect: s3 amalgamation-sha 0000000000000000000000000000000000000000000000000000000000000000 != 0a9c8e34352dad46006aa82836d5383bff9dc6bc9ce5a60553c05aa30e6ad1f9
+    | PREDICATE R65-C1 strict-fail
+FIXTURE m-s4-1.txt clause=s4 expected_rc=1 observed_rc=1 PASS
+    | CHECK defect: s4 toolchain-gcc 15.0.0 != gcc-line token 16.2.1
+    | PREDICATE R65-C1 strict-fail
+FIXTURE m-s5-1.txt clause=s5 expected_rc=1 observed_rc=1 PASS
+    | CHECK defect: s5 run-line rc=1 != 0
+    | PREDICATE R65-C1 strict-fail
+FIXTURE m-s5-2.txt clause=s5 expected_rc=1 observed_rc=1 PASS
+    | CHECK defect: s5 run-driver 'fabricated - nothing ran' != '/usr/bin/python3 /ctl/driver.py'
+    | PREDICATE R65-C1 strict-fail
+FIXTURE m-s5-3.txt clause=s5 expected_rc=1 observed_rc=1 PASS
+    | CHECK fail G3 no-bind-observation-missing
+    | CHECK fail stored-predicate pass disagrees with derived fail
+    | CHECK defect: s5 G3 nobind-line-missing
+    | PREDICATE R65-C1 strict-fail
+FIXTURE m-s6-1.txt clause=s6 expected_rc=1 observed_rc=1 PASS
+    | CHECK fail G3 vector P/P/P != P/P/F
+    | CHECK fail stored-predicate pass disagrees with derived fail
+    | CHECK defect: s6 G3 vector P/P/P != P/P/F
+    | PREDICATE R65-C1 strict-fail
+RESULT fixtures=11 mismatches=0
