@@ -1,0 +1,5 @@
+$ sha256sum corpus/evidence/round13-coverage/surface-receipt.json corpus/evidence/round10-fleet/models-34113.json && python3 -c "import json;d=json.load(open('corpus/evidence/round13-coverage/surface-receipt.json'));m=json.load(open('corpus/evidence/round10-fleet/models-34113.json'));print([(p['path'],p['exists']) for p in d['paths'] if 'bench-arena' in p['path']],d['endpoint']['error'],'created',m['data'][0]['created'])"
+c3372d805887842ffa66abea871ac5076f52d434d36e699f064f7c358edd680f  corpus/evidence/round13-coverage/surface-receipt.json
+5399f26f78c33f7d9565675ea125f54fc32c0616a5e3b2d764e02cb0bc21f8bf  corpus/evidence/round10-fleet/models-34113.json
+[('~/archive/bench-arena', False), ('~/bench-arena', False)] <urlopen error [Errno 111] Connection refused> created 1790633228
+exit 0

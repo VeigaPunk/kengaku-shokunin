@@ -1,0 +1,5 @@
+## Freshness addendum (round 64)
+
+- verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+- recheck: md5sum corpus/evidence/round8-horizon/horizon.py corpus/evidence/round8-horizon/results.jsonl corpus/evidence/round8-horizon/run.log corpus/evidence/round8-horizon/critic-defects.md && python3 -c "import json;rs=[json.loads(l) for l in open('corpus/evidence/round8-horizon/results.jsonl')];print('records',len(rs),'finish_stop',sum(1 for r in rs if r.get('finish')=='stop'),'finish_bearing',sum(1 for r in rs if r.get('finish')))" && grep -cE '^\[[0-9]+/78\]' corpus/evidence/round8-horizon/run.log
+- result: exit 0; md5 horizon.py=1c157e2a5f5cd3b8516d30c3d4a9c01d, results.jsonl=df154cb524bf210782fb0f4a46fd1bdc, run.log=fc3b232ffc532717e50c1d06e0549acc, critic-defects.md=33864062dbd7314300577f38c87f97cf (= the entry's pins); records 268, finish_stop 258, finish_bearing 258; run.log job lines 78

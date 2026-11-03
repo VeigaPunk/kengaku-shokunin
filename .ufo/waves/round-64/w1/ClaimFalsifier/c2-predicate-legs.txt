@@ -1,0 +1,34 @@
+### T6a committed escape fixture under BASE lane gate (red-before repro)
+ROWS n=16 class_match=True count_mismatch=0 paths total=2 resolved=2 share=1.00
+PREDICATE R63-C2 pass
+FIXTURE absolute-token=/home/vgpnk/.config/uv/uv-receipt.json inside_root=False
+RC 0
+rc=0
+
+### T6b committed escape fixture under PATCHED clone gate
+ROWS n=16 class_match=True count_mismatch=0 paths total=2 resolved=1 share=0.50
+DETAIL escape=/home/vgpnk/.config/uv/uv-receipt.json
+DETAIL row-pointer=cls-00:/home/vgpnk/.config/uv/uv-receipt.json
+DETAIL unresolved=/home/vgpnk/.config/uv/uv-receipt.json
+PREDICATE R63-C2 fail
+FIXTURE absolute-token=/home/vgpnk/.config/uv/uv-receipt.json inside_root=False
+RC 1
+rc=1
+
+### T7 patched gate selftest (4 cases)
+SELFTEST GOOD rc=0 expect=0 n=16 class_match=True count_mismatch=0 finding=ok ok
+SELFTEST BAD-COUNT rc=1 expect=1 n=16 class_match=True count_mismatch=1 finding=ok ok
+SELFTEST NO-SECTION rc=1 expect=1 n=0 class_match=False count_mismatch=0 finding=ok ok
+SELFTEST BAD-ESCAPE rc=1 expect=1 n=16 class_match=True count_mismatch=0 finding=ok ok
+SELFTEST pass
+rc=0
+
+### T8 real SKILL section under PATCHED gate
+ROWS n=16 class_match=True count_mismatch=0 paths total=24 resolved=24 share=1.00
+PREDICATE R63-C2 pass
+rc=0
+
+### T8b real SKILL section under BASE gate (parity)
+ROWS n=16 class_match=True count_mismatch=0 paths total=24 resolved=24 share=1.00
+PREDICATE R63-C2 pass
+rc=0

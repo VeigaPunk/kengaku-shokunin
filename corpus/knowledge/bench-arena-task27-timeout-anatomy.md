@@ -82,3 +82,9 @@ timeout nor logic bug).
 Artifacts: `/tmp/bench-r6/t27/{test27_instr.py,r5_sol.py,r5_sol_active.py,
 r6_sol.py,ref_sol.py}` (ephemeral); instrumented test derived from
 `~/bench-arena/tasks/27-rwlock-writer-pref/test.sh`.
+
+## Freshness addendum (round 64)
+
+verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+recheck: git show 859ac24f41061bffde588b9ed5d5adfea5ca8e27:corpus/knowledge/bench-arena-task27-timeout-anatomy.md | sha256sum
+result: exit 0; committed blob at 859ac24 sha256=e51c1e4692bf156b4fc0817f1ed45770416a1bcb02426e4c407c924df7dcb676 = the round-17 census pin in .ufo/round-17/initial-state.json (record bytes unchanged); the cited /tmp/bench-r6/t27 artifacts are uncommitted, so only the committed record is re-verifiable from repo bytes

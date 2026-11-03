@@ -688,3 +688,8 @@ ones); `corpus/knowledge/attrib-r21.md` (§3 scored results, §4 mimicry,
 §7 defects, §8 limits); `corpus/knowledge/attrib-prior-art-r21.md`
 (INSTRUMENT-NOVEL / PHENOMENON-INCREMENTAL — the fold adds no novelty
 claim). Template §11 is the standing form; this §11 is the fold record.
+
+## Freshness addendum (round 64)
+verified-at: 2026-11-03 (observed 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106))
+recheck: sed -n '1,/FROZEN-PREDICTIONS-ANCHOR/p' plans/probe-battery-r19.md | sha256sum | cut -d' ' -f1; ls corpus/evidence/probe-r19-*.log | wc -l
+result: freeze-2 hash re-derived from committed bytes = e1a867773ef14ce457a0d560180587324dd07b4deea1ec76d0c2adf65aaa00a1 (line :415, exact match); receipt inventory = 19 probe-r19-*.log files

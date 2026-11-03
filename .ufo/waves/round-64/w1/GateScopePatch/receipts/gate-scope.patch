@@ -1,0 +1,227 @@
+diff --git i/plans/round63_gate_checks.py w/plans/round63_gate_checks.py
+index 5f493348..46e007f2 100755
+--- i/plans/round63_gate_checks.py
++++ w/plans/round63_gate_checks.py
+@@ -26,9 +26,12 @@ Subcommands
+     class-name set (16 names) and each row's count must equal the receipt's
+     count. Every backticked token in the section containing ``/`` and ending
+     in .py .md .json .txt .sh .lst .yml or ``/`` is a repo-relative path; it
+-    resolves iff ``root/token`` exists; share = resolved / total must be
+-    >= 0.90 with total > 0, and each row's receipt-pointer cell must hold at
+-    least one such token and at least one of them must resolve. Prints::
++    resolves iff it is relative, carries no ``..`` segment, and its lexically
++    normalized ``root/token`` stays inside ``root`` (r64-C2: an absolute,
++    ``..``-bearing or escaping token is a finding, never a resolution);
++    share = resolved / total must be >= 0.90 with total > 0, and each row's
++    receipt-pointer cell must hold at least one such token and at least one
++    of them must resolve. Prints::
+ 
+         ROWS n=<n> class_match=<True|False> count_mismatch=<k> paths total=<T> resolved=<R> share=<x.xx>
+         [DETAIL ...]                       (only on fail)
+@@ -37,10 +40,12 @@ Subcommands
+     Exit 0 on pass, 1 on fail, 2 on usage.
+ 
+ ``--selftest --work <dir>`` (alias ``selftest --work <dir>``)
+-    Builds, inside ``mkdtemp(dir=work)``, three fixtures — GOOD (16 rows
++    Builds, inside ``mkdtemp(dir=work)``, four fixtures — GOOD (16 rows
+     matching a 16-CLASS fixture receipt, all paths resolving: must pass),
+-    BAD-COUNT (one count cell wrong: must fail) and NO-SECTION (must fail) —
+-    and exits 0 iff all three behave. Fixtures are removed afterwards.
++    BAD-COUNT (one count cell wrong: must fail), NO-SECTION (must fail) and
++    BAD-ESCAPE (one row's receipt pointer is an absolute out-of-root path,
++    plus one ``..`` token: must fail with ``DETAIL escape=``) — and exits 0
++    iff all four behave. Fixtures are removed afterwards.
+ 
+ Ambiguity resolutions (the frozen rule is unchanged; see the seat report)
+ -----------------------------------------------------------------------
+@@ -64,11 +69,17 @@ Ambiguity resolutions (the frozen rule is unchanged; see the seat report)
+   suffix and are therefore not path tokens — the frozen definition is
+   syntactic and is applied as written;
+ * an unreadable ``--skill`` / ``--receipt`` / argv file is a setup error
+-  (exit 2), never a vacuous pass.
++  (exit 2), never a vacuous pass;
++* (2026-11-03, r64-C2) path tokens are confined to the root: an absolute
++  token, a token carrying a ``..`` segment, or a token whose normalized
++  ``root/token`` leaves the root is not resolved; the depth command reports
++  the set as ``DETAIL escape=<tokens>`` and fails when it is nonempty, even
++  when the >= 0.90 share clause alone would pass.
+ """
+ from __future__ import annotations
+ 
+ import argparse
++import os
+ import pathlib
+ import re
+ import shutil
+@@ -189,7 +200,27 @@ def _path_tokens(chunk: str) -> list[str]:
+     return toks
+ 
+ 
++def _escape_reason(root: pathlib.Path, token: str) -> str | None:
++    """Why *token* is not a root-confined relative path, or None.
++
++    A token counts as a candidate path only when it is relative, has no
++    ``..`` segment, and its lexically normalized ``root/token`` stays inside
++    ``root`` (r64-C2, routed defect L-1).
++    """
++    pure = pathlib.PurePosixPath(token)
++    if pure.is_absolute():
++        return "absolute"
++    if ".." in pure.parts:
++        return "dotdot"
++    target = pathlib.Path(os.path.normpath(os.path.join(str(root), token)))
++    if not target.is_relative_to(pathlib.Path(os.path.normpath(str(root)))):
++        return "outside-root"
++    return None
++
++
+ def _resolves(root: pathlib.Path, token: str) -> bool:
++    if _escape_reason(root, token) is not None:
++        return False
+     try:
+         return (root / token).exists()
+     except OSError:
+@@ -275,6 +306,7 @@ def depth_measure(
+         seen.add(tok)
+         tokens.append(tok)
+     resolved_tokens = [tok for tok in tokens if _resolves(root, tok)]
++    escapes = [tok for tok in tokens if _escape_reason(root, tok) is not None]
+     total = len(tokens)
+     resolved = len(resolved_tokens)
+     share = Fraction(resolved, total) if total else Fraction(0)
+@@ -296,6 +328,7 @@ def depth_measure(
+         and count_mismatch == 0
+         and not struct_bad
+         and not row_ptr_bad
++        and not escapes
+         and total > 0
+         and resolved == total
+         and share >= SHARE_FLOOR
+@@ -310,6 +343,8 @@ def depth_measure(
+         if not section_present:
+             out.append(f"DETAIL section-absent heading={DEPTH_HEADING!r}")
+         else:
++            if escapes:
++                out.append(f"DETAIL escape={_short(escapes)}")
+             if len(receipt) != EXPECTED_CLASS_ROWS:
+                 out.append(
+                     f"DETAIL receipt-classes={len(receipt)} expected={EXPECTED_CLASS_ROWS}"
+@@ -365,10 +400,17 @@ def _fixture_classes(count: int = EXPECTED_CLASS_ROWS) -> list[tuple[str, int]]:
+     return [(f"class-{i:02d}", 1 + 3 * i) for i in range(count)]
+ 
+ 
++# r64-C2 BAD-ESCAPE fixture tokens: an existing absolute host path outside any
++# fixture root (the unpatched gate resolved it) and a ``..`` token.
++SELFTEST_ESCAPE_TOKEN = "/usr/bin/"
++SELFTEST_DOTDOT_TOKEN = "../escapee.json"
++
++
+ def _write_fixture(
+     dirpath: pathlib.Path,
+     *,
+     wrong_count_on: int | None = None,
++    escape_pointer_on: int | None = None,
+     with_section: bool = True,
+ ) -> dict[str, pathlib.Path]:
+     dirpath.mkdir(parents=True, exist_ok=True)
+@@ -398,12 +440,18 @@ def _write_fixture(
+         md.append("|---|---|---|---|---|")
+         for i, (name, count) in enumerate(classes):
+             cell_count = count + 1 if wrong_count_on == i else count
++            pointer = f"`records/{name}.txt`"
++            if escape_pointer_on == i:
++                pointer = f"`{SELFTEST_ESCAPE_TOKEN}`"
+             md.append(
+                 f"| {name} | {cell_count} | 0 | "
+-                f"recipe-unexecuted: stub | `records/{name}.txt` |"
++                f"recipe-unexecuted: stub | {pointer} |"
+             )
+         md.append("")
+-        md.append("See also `records/` and `notes/summary.md`.")
++        see_also = "See also `records/` and `notes/summary.md`."
++        if escape_pointer_on is not None:
++            see_also += f" And `{SELFTEST_DOTDOT_TOKEN}`."
++        md.append(see_also)
+     else:
+         md.append("## Grader ledger (not the decision table)")
+         md.append("")
+@@ -431,16 +479,42 @@ def run_selftest(work_arg: str) -> tuple[int, list[str]]:
+         return 2, []
+     work.mkdir(parents=True, exist_ok=True)
+     tmp = pathlib.Path(tempfile.mkdtemp(prefix="r63-gate-", dir=str(work)))
+-    # label, fixture kwargs, expected rc, required fields on the ROWS line
++    # label, fixture kwargs, expected rc, required fields on the ROWS line,
++    # expected stable finding line (membership, verbatim)
+     legs = [
+-        ("GOOD", {}, 0, {"n": "16", "class_match": "True", "count_mismatch": "0"}),
+-        ("BAD-COUNT", {"wrong_count_on": 2}, 1, {"n": "16", "count_mismatch": "1"}),
+-        ("NO-SECTION", {"with_section": False}, 1, {"n": "0", "class_match": "False"}),
++        (
++            "GOOD",
++            {},
++            0,
++            {"n": "16", "class_match": "True", "count_mismatch": "0"},
++            ["PREDICATE R63-C2 pass"],
++        ),
++        (
++            "BAD-COUNT",
++            {"wrong_count_on": 2},
++            1,
++            {"n": "16", "count_mismatch": "1"},
++            ["DETAIL count-mismatch=class-02:got=8,want=7"],
++        ),
++        (
++            "NO-SECTION",
++            {"with_section": False},
++            1,
++            {"n": "0", "class_match": "False"},
++            [f"DETAIL section-absent heading={DEPTH_HEADING!r}"],
++        ),
++        (
++            "BAD-ESCAPE",
++            {"escape_pointer_on": 0},
++            1,
++            {"n": "16", "class_match": "True", "count_mismatch": "0"},
++            [f"DETAIL escape={SELFTEST_ESCAPE_TOKEN},{SELFTEST_DOTDOT_TOKEN}"],
++        ),
+     ]
+     out: list[str] = []
+     ok = True
+     try:
+-        for label, kwargs, expect_rc, expect_fields in legs:
++        for label, kwargs, expect_rc, expect_fields, expect_lines in legs:
+             fixture = _write_fixture(
+                 tmp / label.lower().replace("-", "_"), **kwargs
+             )
+@@ -450,14 +524,20 @@ def run_selftest(work_arg: str) -> tuple[int, list[str]]:
+                 fixture["root"],
+             )
+             fields = _rows_fields(lines[0])
+-            leg_ok = rc == expect_rc and all(
+-                fields.get(key) == want for key, want in expect_fields.items()
++            finding_ok = all(line in lines for line in expect_lines)
++            leg_ok = (
++                rc == expect_rc
++                and all(
++                    fields.get(key) == want for key, want in expect_fields.items()
++                )
++                and finding_ok
+             )
+             ok = ok and leg_ok
+             out.append(
+                 f"SELFTEST {label} rc={rc} expect={expect_rc} "
+                 f"n={fields.get('n')} class_match={fields.get('class_match')} "
+                 f"count_mismatch={fields.get('count_mismatch')} "
++                f"finding={'ok' if finding_ok else 'BAD'} "
+                 f"{'ok' if leg_ok else 'BAD'}"
+             )
+         out.append(f"SELFTEST {'pass' if ok else 'fail'}")
+@@ -475,7 +555,7 @@ def main(argv: list[str] | None = None) -> int:
+         prog="round63_gate_checks.py",
+         description="R63-C2 depth gate and provenance-trio gate (frozen round-63 claims).",
+     )
+-    parser.add_argument("--selftest", action="store_true", help="run the three-fixture selftest")
++    parser.add_argument("--selftest", action="store_true", help="run the four-fixture selftest")
+     parser.add_argument("--work", default=None, help="work dir for --selftest (mkdtemp parent)")
+     sub = parser.add_subparsers(dest="cmd")
+ 

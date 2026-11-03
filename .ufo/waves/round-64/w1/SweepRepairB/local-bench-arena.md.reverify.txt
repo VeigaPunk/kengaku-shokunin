@@ -1,0 +1,15 @@
+# R64-C3 freshness re-verification — corpus/knowledge/local-bench-arena.md
+# seat SweepRepairB, round 64, observed 2026-11-03T19:13:08Z
+# clone /fast/scratch/hyaku/kengaku-r64/SweepRepairB/clone (git clone --shared), HEAD 859ac24f41061bffde588b9ed5d5adfea5ca8e27
+# entry sha256 before append: 2da3584d2ab5b13a2cc140789c35571a3ee3c8ba70219e9b991509d82d4462d3  corpus/knowledge/local-bench-arena.md
+# cwd: clone root; network: none
+$ sha256sum corpus/evidence/round13-coverage/surface-receipt.json; grep -A1 -e '"path": "~/bench-arena"' -e '"path": "~/archive/bench-arena"' corpus/evidence/round13-coverage/surface-receipt.json; test -e ~/bench-arena && echo present || echo absent; test -e ~/archive/bench-arena && echo present || echo absent
+c3372d805887842ffa66abea871ac5076f52d434d36e699f064f7c358edd680f  corpus/evidence/round13-coverage/surface-receipt.json
+      "path": "~/archive/bench-arena",
+      "exists": false
+--
+      "path": "~/bench-arena",
+      "exists": false
+absent
+absent
+[exit=0]

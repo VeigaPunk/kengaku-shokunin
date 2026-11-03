@@ -1,0 +1,121 @@
+# SecurityScan sandbox audit — round 64 w1 R64-C1 probe
+# seat: SecurityScan (read-only). Generated 2026-11-03.
+# Instrument audited: .ufo/waves/round-64/w1/ProbeBuild/round64_c1_kvstore_probe.py
+#   sha256 9f56d25ddb33e14474c6439c16f25dd5545da99e542a051d342113a88b306843
+# Method: read the probe's OWN sandbox_argv() (lines 496-517) and reproduced that argv
+#   byte-for-byte in a bwrap run with an instrumented driver (read-only probes only).
+#   The grader file was bound at its real path; NOTHING was graded; no port was bound
+#   by this seat on 5328 (see PORT DISCIPLINE below).
+
+=== PROBE sandbox_argv() (verbatim, ProbeBuild lines 496-517) ===
+    argv = [BWRAP, "--die-with-parent", "--new-session",
+            "--ro-bind", "/usr", "/usr",
+            "--symlink", "usr/bin", "/bin",
+            "--symlink", "usr/bin", "/sbin",
+            "--symlink", "usr/lib", "/lib",
+            "--symlink", "usr/lib", "/lib64",
+            "--ro-bind", "/etc", "/etc",
+            "--proc", "/proc", "--dev", "/dev", "--tmpfs", "/tmp",
+            "--dir", "/app", "--bind", str(case_app), "/app",
+            "--dir", "/tests", "--ro-bind", str(tests_file), "/tests/test_outputs.py",
+            "--dir", "/venv", "--ro-bind", str(venv), "/venv",
+            "--dir", "/ctl", "--ro-bind", str(driver), "/ctl/driver.py",
+            "--clearenv",
+            "--setenv", "PATH", "/venv/bin:/usr/bin:/bin",
+            "--setenv", "HOME", "/tmp",
+            "--setenv", "PYTHONDONTWRITEBYTECODE", "1",
+            "--setenv", "LC_ALL", "C.UTF-8",
+            "--chdir", "/app",
+            "--"]
+
+=== MEASURED INSIDE THE SANDBOX (this seat's own bwrap run) ===
+HOME= /tmp
+env keys: ['HOME', 'LC_ALL', 'PATH', 'PWD', 'PYTHONDONTWRITEBYTECODE']   (5 vars, --clearenv honoured)
+
+exists /home/vgpnk                 False
+exists /home/vgpnk/.ssh            False
+exists /home/vgpnk/.config         False
+exists /home/vgpnk/.netrc          False
+exists /home/vgpnk/.omp            False
+exists /home/vgpnk/.config/uv      False
+exists /root                      False
+
+READABLE     /etc/passwd
+NOT-READABLE /etc/shadow           (PermissionError)
+NOT-READABLE /etc/gshadow          (PermissionError)
+NOT-READABLE /etc/sudoers          (PermissionError)
+NOT-READABLE /etc/ssh/ssh_host_ed25519_key (FileNotFoundError)
+NOT-READABLE /etc/ssh/ssh_host_rsa_key      (FileNotFoundError)
+NOT-READABLE /etc/pki              (IsADirectoryError)
+
+host PIDs visible inside sandbox: 1523
+/proc/<host pid>/cmdline  READABLE  (e.g. /home/vgpnk/.config/Codex/artifact-sessions/... node ...)
+/proc/<host pid>/environ  DENIED    (PermissionError)
+
+REACHABLE 127.0.0.1:1234   True    (host loopback service)
+REACHABLE 127.0.0.1:7456   True    (host loopback service)
+REACHABLE 127.0.0.1:39101  True    (host loopback service)
+REACHABLE 127.0.0.1:5328   False   (free at measurement time)
+REACHABLE 1.1.1.1:443      True    (public IP literal)
+DNS pypi.org              gaierror (Temporary failure in name resolution)
+  -> /etc/resolv.conf is a symlink to /run/systemd/resolve/stub-resolv.conf and
+     /run is NOT bound, so DNS fails; a bare IP literal still routes.
+
+=== PROCESS CLEANUP (bwrap child survival test) ===
+bwrap started with a child holding a listening socket on 127.0.0.1:15328 (a NON-5328
+port; 5328 was never bound by this seat).
+  bwrap pid=3579344 ; child pid=3579345 (CHILD_LISTENING)
+  kill -9 <bwrap>
+  -> child alive after bwrap kill?  NO (child gone)
+  -> port 15328 still bound?         NO (port free)
+  --die-with-parent --new-session reaps the sandbox child tree. No orphaned listener.
+
+=== PORT DISCIPLINE (5328) ===
+$ ss -ltn | grep -E ':5328\b'  ->  (no match; 5328 FREE)
+This seat did NOT bind, listen on, or start a server on 5328 at any point. The
+single TOCTOU experiment (foreign listener) was run on 127.0.0.1:15328 instead, and
+the foreign process was started AND stopped by this seat (never killed a process it
+did not start). The 5328 foreign-listener probe in the receipt set below was run
+against the rewritten 15328 copy of the probe.
+
+=== PORT-CHECK / KILL DISCIPLINE IN THE PROBE ITSELF (read from source) ===
+require_port_free(when):  ss -ltnH / ss -ltn scan for :5328 -> SetupError
+                          "port-5328-occupied (when) <line>" ; plus a real
+                          bind() test -> SetupError "port-5328-bind-failed".
+  called at: "battery start", and "<case> before exec" for EVERY case (K1..K5).
+release_port(case,pid):  kills ONLY the recorded pid AND ONLY after
+                        pid_is_our_server(pid) reads /proc/<pid>/cmdline and finds
+                        b"/app/server.py" in it; then waits for ss_hits() to clear.
+  -> it never kills a foreign listener and never kills by name/pattern.
+K2 leg-5 = P while the port was observed free -> SetupError
+  "k2-leg5-answered-with-port-free (port discipline wrong; refusing to grade
+   through a foreign listener)"  (probe lines ~690-694).
+
+=== ENVIRONMENT FOR THE NETWORK STEP (install_grpc, probe lines 408-425) ===
+    proc = subprocess.run([uv, "pip", "install", "--python", str(py),
+                           "grpcio", "grpcio-tools"],
+                          capture_output=True, text=True)
+  -> NO env= kwarg, NO --index-url pin, NO PIP_CONFIG_FILE/UV_* clearing.
+     The full ambient environment is inherited. See finding M-1 (report SecurityScan.md).
+uv is found by shutil.which("uv") or ~/.local/bin/uv; the venv is created with
+`uv venv --python /usr/bin/python3` (the correct uv-managed-python trap avoidance).
+
+=== UV CREDENTIAL-CONFIG REACH (measured, isolated) ===
+HOME=<scratch>/home with a uv.toml carrying an index username/password:
+  -> uv resolved grpcio from pypi.org, NOT the configured index: the [[index]]
+     block was NOT honoured as default by this uv version (0.13.0).
+HOME=<scratch>/home2 with a .netrc naming machine 127.0.0.1 / NETRCUSER / NETRCPASS:
+  -> uv DID send the credential. Local index log (verbatim):
+       REQ /simple/grpcio/ auth=(none)
+       REQ /simple/grpcio/ auth=Basic TkVUUkNVU0VSOk5FVFJDUEFTUw==
+     (base64 of NETRCUSER:NETRCPASS — DECODED FROM THE LOCAL ECHO INDEX I RAN,
+      NOT from any real credential.)
+UV_INDEX_URL=http://SECRETUSER:SECRETPASS@127.0.0.1:9/secret/  -> honoured:
+     uv requested http://127.0.0.1:9/secret/grpcio/ (connection refused).
+PIP_INDEX_URL=http://SECRETUSER:SECRETPASS@... -> NOT honoured by uv (uv ignores it).
+=> uv's netrc and UV_INDEX_URL paths are live on this host. On THIS host
+   /home/vgpnk/.netrc is absent, so nothing leaks today; see M-1.
+
+=== CREDENTIAL ENV VARS IN THE AMBIENT ENVIRONMENT (presence only) ===
+UV_*/PIP_*/HF_*/GITHUB_*/GH_*/AWS_*/OPENAI_*: 5 present, values never printed.
+OPENAI_CODEX_TOKEN is among them. `uv pip install` inherits them unchanged.

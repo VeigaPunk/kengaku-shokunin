@@ -1,0 +1,86 @@
+# SecurityScan — R64-C3 addendum-grammar mismatch (the two instruments disagree)
+# seat: SecurityScan (read-only). Generated 2026-11-03.
+# Instrument under test: plans/round64_trio_sweep.py
+#   sha256 56638ea1dfc0ca47ee91dfc0afec9c9fcbbefa9b15d3e163ad423b7f8dbf8bb0
+#   (byte-identical to .ufo/waves/round-64/w1/SweepBuild/round64_trio_sweep.py)
+# The classifier's two regexes, verbatim from the landed file:
+    VERIFIED_RE = re.compile(r"^verified-at:[ \t]*2026-11-03(?:[ \t]|$)")
+    RECHECK_RE  = re.compile(r"^recheck:[ \t]*\S")
+  Both are anchored at ^ (line start) and RECHECK_RE requires >=1 non-space char
+  after "recheck:".
+
+=== WHAT THE TWO REPAIR SEATS ACTUALLY EMIT ===
+SweepRepairA/emit.py line 138-141 (verbatim):
+    block = ("## Freshness addendum (round 64)\n"
+             "\n"
+             "- verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)\n"
+             "- recheck: " + r["cmd"] + "\n"
+             "- result: " + result + "\n")
+  -> BOTH keys are prefixed with a markdown bullet "- ". The "^" anchor rejects them.
+
+SweepRepairB addendum blocks, verbatim first three lines of each of its 14 files:
+    ## Freshness addendum (round 64)
+    (blank)
+    verified-at: 2026-11-03T19:12:56Z (round-64 freshness sweep; clean shared clone at 859ac24f4106)
+    recheck: sha256sum corpus/evidence/... ; grep -A1 ... ; test -e ... && echo present || echo absent
+  -> "verified-at:" IS at line start (ok), but the value is "2026-11-03T19:12:56Z":
+     the regex requires 2026-11-03 followed by [ \t] or END-OF-LINE, and the next
+     character is "T". So it does NOT match. The "recheck:" line DOES match.
+
+=== DIRECT CLASSIFICATION OF THE REAL ADDENDA (landed sweep, imported) ===
+SweepRepairA: ADDENDUM=0  RED=15
+    attrib-prior-art-r21.addendum.txt -> TRIO-RED
+       note: addendum-incomplete missing=verified-at: 2026-11-03,recheck:
+SweepRepairB: ADDENDUM=0  RED=14
+    eval-design-digest-3.md.addendum.txt -> TRIO-RED
+       note: addendum-incomplete missing=verified-at: 2026-11-03
+(15 + 14 = 29 = the frozen list size; A and B cover disjoint halves — comm -12 of
+their addendum basenames is empty. Coverage is complete; the GRAMMAR is not.)
+
+=== END-TO-END INTEGRATION SIMULATION (all 29 real addenda, verbatim, in a scratch lane) ===
+applied real addenda: 29
+LANDED SWEEP on real addenda -> rc=1
+  SWEEP files=29 trio_open=0 addendum=0 red=29
+  PREDICATE R64-C3 fail
+  first NOTE: NOTE addendum-incomplete missing=verified-at: 2026-11-03,recheck: file=corpus/knowledge/attrib-prior-art-r21.md
+
+=> If the L1 appends the repair seats' addenda blocks verbatim (the natural
+   integration), R64-C3's predicate FAILS with red=29. The frozen claim
+   ("the file carries a dated `## Freshness addendum (round 64)` block containing
+   `verified-at: 2026-11-03` and a `recheck:` line") is met by the SEATS' bytes
+   (a `verified-at:` line and a `recheck:` line, both present, carrying 2026-11-03);
+   it is the TOOL's two anchored regexes that reject them.
+
+=== WHAT THE TOOL DOES ACCEPT (also measured) ===
+  "## Freshness addendum (round 64)\n\nverified-at: 2026-11-03\nrecheck: x\n"
+     -> TRIO-ADDENDUM   (a one-character recheck value is enough)
+  "## Freshness addendum (round 64)\n\nverified-at: 2026-11-03T19:12:56Z (r64)\nrecheck: sha256sum x\n"
+     -> TRIO-RED  note: addendum-incomplete missing=verified-at: 2026-11-03
+  "## Freshness addendum (round 64)\n\n- verified-at: 2026-11-03 (r64)\n- recheck: sha256sum x\n"
+     -> TRIO-RED  note: addendum-incomplete missing=verified-at: 2026-11-03,recheck:
+
+=== VACUITY / SUBSTITUTION PROBES ON THE LANDED TOOL ===
+T1  29 boilerplate addenda ("recheck: x")        -> rc=0 SWEEP ... addendum=29 red=0 PREDICATE R64-C3 pass
+T2  29 well-formed addenda (real recheck command) -> rc=0 SWEEP ... addendum=29 red=0 PREDICATE R64-C3 pass
+    (T1 and T2 are indistinguishable to the tool: it never executes the recheck
+     command and never checks a result line; the claim's "re-verification" is
+     asserted by the addendum's prose, not derived by the instrument.)
+T3  empty knowledge dir                            -> rc=2 SETUP frozen-entry-missing (correct)
+T4  one frozen entry deleted                       -> rc=2 SETUP frozen-entry-missing (correct)
+T5  frozen list REPLACED by an EMPTY file
+    (--frozen-list pointing elsewhere)            -> rc=0 SWEEP files=29 ... red=0 PREDICATE R64-C3 pass
+       stderr INFO frozen-list=frozen-empty.txt sha256=e3b0c442... entries=0
+    -> the tool PRINTS the frozen list's sha256 but never compares it to the
+       committed fe0498fb20b5102b50d80a3eca1258784cdf9d66edf4d9654b10fa99653a080a.
+       Any substitute list with the same entries passes; an EMPTY list passes too.
+T6  lane-local frozen list absent -> resolve_frozen_list falls back to
+    FROZEN_LIST_ABS, an ABSOLUTE path OUTSIDE the lane
+    (/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round64/trio-red-at-base.txt)
+    -> "inside lane? False". This is the same out-of-root absolute-path shape the
+       round's own C2 repair forbids for the depth gate, appearing in the round's
+       own new instrument.
+
+=== GATE SYMMETRY (the R64-C2 repair) ===
+The patched gate's escape rule rejects absolute, ".."-bearing and out-of-root tokens
+with `DETAIL escape=`. The sweep's frozen-list resolver accepts exactly such an
+absolute out-of-root token as a fallback. Recorded as finding L-3.

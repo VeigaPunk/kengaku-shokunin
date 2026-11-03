@@ -1,0 +1,15 @@
+# R64-C3 sweep selftest (fixtures RED/ADDENDUM/OPEN + sweep pipeline before/after repair)
+cmd: /usr/bin/python3 -B plans/round64_trio_sweep.py --selftest --work /fast/scratch/hyaku/kengaku-r64/SweepBuild
+cwd: /fast/scratch/hyaku/kengaku-r64/SweepBuild/clone
+# clone: /fast/scratch/hyaku/kengaku-r64/SweepBuild/clone rev-parse HEAD 859ac24f41061bffde588b9ed5d5adfea5ca8e27
+# tool: /fast/scratch/hyaku/kengaku-r64/SweepBuild/clone/plans/round64_trio_sweep.py sha256 56638ea1dfc0ca47ee91dfc0afec9c9fcbbefa9b15d3e163ad423b7f8dbf8bb0
+# frozen list: corpus/evidence/round64/trio-red-at-base.txt sha256 fe0498fb20b5102b50d80a3eca1258784cdf9d66edf4d9654b10fa99653a080a entries 29
+# --- stdout ---
+SELFTEST classify case=RED got=TRIO-RED expect=TRIO-RED ok
+SELFTEST classify case=ADDENDUM got=TRIO-ADDENDUM expect=TRIO-ADDENDUM ok
+SELFTEST classify case=OPEN got=TRIO-OPEN expect=TRIO-OPEN ok
+SELFTEST sweep-base rc=1 expect=1 red=1 trio_open=1 addendum=1 ok
+SELFTEST sweep-repaired rc=0 expect=0 red=0 addendum=2 ok
+SELFTEST pass
+# --- stderr ---
+# exit=0

@@ -100,3 +100,9 @@ analysis_r11.md stored line, verdict-rule consistency, bundle hash chain,
 ordering). `python3 corpus/evidence/round11-power/recompute_r11.py
 --selftest` → 58 checks green; regenerating `analysis_r11.md` from the
 committed jsonl reproduces the pinned bytes.
+
+## Freshness addendum (round 64)
+
+verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+recheck: python3 grader.py && md5sum corpus/evidence/round11-power/results-r11.jsonl corpus/evidence/round11-power/run.log && python3 corpus/evidence/round11-power/recompute_r11.py --selftest
+result: exit 0; CHECKS n=733 mismatches=0 errata_pinned=1, VERDICT: PASS - stored evidence fully re-derives offline; results-r11.jsonl md5=c42fe3d10b6d7a1ed14c4485af03357b and run.log md5=281cb530702995854f162e807ee66ff3 (= the entry's pins); recompute_r11 selftest: 58 checks, 0 failures

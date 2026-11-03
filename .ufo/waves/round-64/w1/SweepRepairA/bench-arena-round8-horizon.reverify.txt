@@ -1,0 +1,8 @@
+$ md5sum corpus/evidence/round8-horizon/horizon.py corpus/evidence/round8-horizon/results.jsonl corpus/evidence/round8-horizon/run.log corpus/evidence/round8-horizon/critic-defects.md && python3 -c "import json;rs=[json.loads(l) for l in open('corpus/evidence/round8-horizon/results.jsonl')];print('records',len(rs),'finish_stop',sum(1 for r in rs if r.get('finish')=='stop'),'finish_bearing',sum(1 for r in rs if r.get('finish')))" && grep -cE '^\[[0-9]+/78\]' corpus/evidence/round8-horizon/run.log
+1c157e2a5f5cd3b8516d30c3d4a9c01d  corpus/evidence/round8-horizon/horizon.py
+df154cb524bf210782fb0f4a46fd1bdc  corpus/evidence/round8-horizon/results.jsonl
+fc3b232ffc532717e50c1d06e0549acc  corpus/evidence/round8-horizon/run.log
+33864062dbd7314300577f38c87f97cf  corpus/evidence/round8-horizon/critic-defects.md
+records 268 finish_stop 258 finish_bearing 258
+78
+exit 0

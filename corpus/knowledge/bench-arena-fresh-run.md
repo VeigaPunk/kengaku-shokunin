@@ -106,3 +106,9 @@ Artifacts (ephemeral): `/tmp/bench-r4/{run.py,telemetry-kq-r4.csv,out/,graded/,r
   The `loop.sh` fix belongs to the bench-arena tooling owner; recorded here
   and reported out, not patched in-place (operator rule: domain surfaces
   read-only for this lane mid-round).
+
+## Freshness addendum (round 64)
+
+verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+recheck: sha256sum corpus/evidence/round13-coverage/surface-receipt.json corpus/evidence/round10-fleet/models-34113.json && python3 -c "import json;d=json.load(open('corpus/evidence/round13-coverage/surface-receipt.json'));m=json.load(open('corpus/evidence/round10-fleet/models-34113.json'));print([(p['path'],p['exists']) for p in d['paths'] if 'bench-arena' in p['path']],d['endpoint']['error'],'created',m['data'][0]['created'])"
+result: exit 0; surface-receipt.json sha256=c3372d805887842ffa66abea871ac5076f52d434d36e699f064f7c358edd680f; [('~/archive/bench-arena', False), ('~/bench-arena', False)]; endpoint <urlopen error [Errno 111] Connection refused>; retained capture models-34113.json sha256=5399f26f78c33f7d9565675ea125f54fc32c0616a5e3b2d764e02cb0bc21f8bf, data[0].created=1790633228 (reproduces corpus/evidence/round12-fleet/r12-review-citations.md:354)

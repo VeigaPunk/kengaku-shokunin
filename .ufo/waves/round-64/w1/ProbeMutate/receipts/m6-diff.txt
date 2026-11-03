@@ -1,0 +1,32 @@
+--- /fast/scratch/hyaku/kengaku-r64/ProbeMutate/pristine/round64_trio_sweep.py
++++ /fast/scratch/hyaku/kengaku-r64/ProbeMutate/mutants/m6/round64_trio_sweep.py
+@@ -232,28 +232,5 @@
+     err.extend(notes)
+ 
+-    if red:
+-        observed = sorted(red)
+-        expected = sorted(frozen_set)
+-        if observed != expected:
+-            extra = [item for item in observed if item not in expected]
+-            missing = [item for item in expected if item not in observed]
+-            err.append(
+-                "DETAIL frozen=<{0}> observed=<{1}> extra=<{2}> missing=<{3}>".format(
+-                    len(expected), len(observed), ",".join(extra[:8]) or "-",
+-                    ",".join(missing[:8]) or "-",
+-                )
+-            )
+-            return 2, ["SETUP frozen-list-mismatch"], err
+-
+-    if not red:
+-        present = {path.relative_to(lane).as_posix() for path in paths}
+-        absent = [entry for entry in sorted(frozen_set) if entry not in present]
+-        if absent:
+-            err.append(
+-                "DETAIL frozen-entries-absent=<{0}> first=<{1}>".format(
+-                    len(absent), ",".join(absent[:8])
+-                )
+-            )
+-            return 2, ["SETUP frozen-entry-missing"], err
++    # mutant m6: the SETUP frozen-list cross-check is dropped
+ 
+     out = [

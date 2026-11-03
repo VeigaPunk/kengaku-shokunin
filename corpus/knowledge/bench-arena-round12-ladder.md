@@ -283,3 +283,8 @@ descriptors pins and the bundle/ordering chain).
   `?? round12-fleet/`, `?? round13-ack-state/`, `M SKILL.md`, `M grader.py`;
   `LOG.md`'s newest entry was round 11). Until the round-14 landing lands, this
   entry's numbers are repo-durable but not corpus-indexed.
+## Freshness addendum (round 64)
+
+verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+recheck: sha256sum -c corpus/evidence/round12-ladder/prereg-bundle.sha256 && sha256sum corpus/evidence/round12-ladder/results-r12.jsonl && python3 corpus/evidence/round12-ladder/recompute_r12.py --selftest
+result: exit 0; prereg bundle 9/9 OK; results-r12.jsonl sha256=ad9c88e79068fa2833c90f071ec6da4035ff37371ff95d84f581dd4e8db842f1 (= the entry's pin); recompute_r12 SELFTEST 165/165 PASS

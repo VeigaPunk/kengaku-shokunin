@@ -32,3 +32,9 @@ reframe-discovery rate.
 Sequencing: custom mechanism battery → 1–2 public transfer slices →
 heavy public suites. Public results are transfer checks, not mechanism
 proof (`godspeed-umwelt-iteration-3-alpha-shittycodex.md`, "Bottom Line").
+
+## Freshness addendum (round 64)
+
+verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+recheck: sha256sum corpus/evidence/round13-coverage/surface-receipt.json && python3 -c "import json;d=json.load(open('corpus/evidence/round13-coverage/surface-receipt.json'));print([(p['path'],p['exists']) for p in d['paths'] if p['path']=='~/Projects/webzites/repos/llm-wiki'],d['observed_at'])"
+result: exit 0; corpus/evidence/round13-coverage/surface-receipt.json sha256=c3372d805887842ffa66abea871ac5076f52d434d36e699f064f7c358edd680f; [('~/Projects/webzites/repos/llm-wiki', False)] observed 2026-10-15T04:49:50Z - wiki source absence re-derived from the committed capture

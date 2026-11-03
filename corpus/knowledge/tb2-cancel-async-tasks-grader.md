@@ -86,3 +86,8 @@ S224 (the grader, tier A code, opened live 2026-11-02 at the pin, byte-identical
 round-52 population capture `corpus/evidence/round52/graders/cancel-async-tasks/tests/test_outputs.py`,
 sha256 `d6f510b5…60ee7`); S225 (the WHATWG windows-1252 index, tier A docs, opened live
 2026-11-02) grounds the round's other claim, not this grader.
+
+## Freshness addendum (round 64)
+verified-at: 2026-11-03 (observed 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106))
+recheck: sha256sum plans/round61_c1_cancel_probe.py corpus/evidence/round52/graders/cancel-async-tasks/tests/test_outputs.py; grep -c 'PREDICATE R61-C1 pass' corpus/evidence/round61/cancel-async-probe.txt
+result: instrument plans/round61_c1_cancel_probe.py sha256=92facdc762bdb29c581eb92b5951f0855bec0de7dc56c8d2308136c889fe7f87 (matches the entry's 92facdc7…fe7f87); pinned grader capture cancel-async-tasks/tests/test_outputs.py sha256=d6f510b5…4de460ee7 (= SHA256SUMS row); 'PREDICATE R61-C1 pass' occurrences=1

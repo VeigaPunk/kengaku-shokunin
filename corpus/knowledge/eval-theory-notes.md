@@ -81,3 +81,8 @@ Eval design is the research surface: prefer pairwise/comparative signals,
 measure diversity explicitly, treat every scalar judge as a proxy needing
 a KL-analog (fresh re-grounding in primary evidence), and expect knowledge-
 heavy eval hacks to be eaten by the next scale step.
+
+## Freshness addendum (round 64)
+verified-at: 2026-11-03 (observed 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106))
+recheck: sha256sum corpus/evidence/round13-coverage/surface-receipt.json; grep -A1 '"path": "~/Projects/webzites/repos/llm-wiki"' corpus/evidence/round13-coverage/surface-receipt.json; test -e ~/Projects/webzites/repos/llm-wiki/wiki && echo present || echo absent
+result: sha256=c3372d805887842ffa66abea871ac5076f52d434d36e699f064f7c358edd680f (committed round-13 availability receipt, unchanged); committed capture prints "exists": false for the cited root; live re-check 2026-11-03: absent

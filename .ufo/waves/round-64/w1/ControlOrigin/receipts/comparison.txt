@@ -1,0 +1,34 @@
+== K2 ==
+committed_vector FPFFFFF
+frozen_vector    FPFFFFF
+mine_vector      FPFFFFF
+names_equal True nlegs 7 7
+MATCH     test_proto_file_creation F AssertionError | 'AssertionError: Proto file /app/kv-store.proto was not created by the agent' | 'AssertionError: Proto file /app/kv-store.proto was not created by the agent'
+MATCH     test_grpc_tools_installation P  | '' | ''
+MATCH     test_protobuf_generation F AssertionError | 'AssertionError: Generated protobuf file /app/kv_store_pb2.py does not exist' | 'AssertionError: Generated protobuf file /app/kv_store_pb2.py does not exist'
+MATCH     test_server_file_creation F AssertionError | 'AssertionError: Server file /app/server.py was not created' | 'AssertionError: Server file /app/server.py was not created'
+MATCH     test_real_grpc_server_running F AssertionError | 'AssertionError: Port 5328 is not listening - no real gRPC server is running' | 'AssertionError: Port 5328 is not listening - no real gRPC server is running'
+MATCH     test_grpc_protocol_handshake F ModuleNotFoundError | "ModuleNotFoundError: No module named 'kv_store_pb2'" | "ModuleNotFoundError: No module named 'kv_store_pb2'"
+MATCH     test_grpc_server_functionality F ModuleNotFoundError | "ModuleNotFoundError: No module named 'kv_store_pb2'" | "ModuleNotFoundError: No module named 'kv_store_pb2'"
+== K4 ==
+committed_vector PPFFFFF
+frozen_vector    PPFFFFF
+mine_vector      PPFFFFF
+names_equal True nlegs 7 7
+MATCH     test_proto_file_creation P  | '' | ''
+MATCH     test_grpc_tools_installation P  | '' | ''
+MATCH     test_protobuf_generation F AssertionError | 'AssertionError: Generated protobuf file /app/kv_store_pb2.py does not exist' | 'AssertionError: Generated protobuf file /app/kv_store_pb2.py does not exist'
+MATCH     test_server_file_creation F AssertionError | 'AssertionError: Server file /app/server.py was not created' | 'AssertionError: Server file /app/server.py was not created'
+MATCH     test_real_grpc_server_running F AssertionError | 'AssertionError: Port 5328 is not listening - no real gRPC server is running' | 'AssertionError: Port 5328 is not listening - no real gRPC server is running'
+MATCH     test_grpc_protocol_handshake F ModuleNotFoundError | "ModuleNotFoundError: No module named 'kv_store_pb2'" | "ModuleNotFoundError: No module named 'kv_store_pb2'"
+MATCH     test_grpc_server_functionality F ModuleNotFoundError | "ModuleNotFoundError: No module named 'kv_store_pb2'" | "ModuleNotFoundError: No module named 'kv_store_pb2'"
+SUMMARY legs_compared=14 exact_matches=14 mismatches=0
+LEG5_K2 LEG5_MESSAGE AssertionError: Port 5328 is not listening - no real gRPC server is running
+LEG5_K4 LEG5_MESSAGE AssertionError: Port 5328 is not listening - no real gRPC server is running
+LEG5_FROZEN_FRAGMENT_RECORDED "Port 5328 is not listening - no real gRPC server is running"
+LEG5_FRAGMENT_CONTAINED_K2 True
+LEG5_FRAGMENT_CONTAINED_K4 True
+SUPPLEMENT_KMUT_vector LEGS_VECTOR F P F F F F F
+SUPPLEMENT_KMUT_leg1_msg LEGS [["test_proto_file_creation", "F", "AssertionError: Proto file must define SetVal RPC
+BWRAP_RC_K2 BWRAP_RC 0
+BWRAP_RC_K4 BWRAP_RC 0

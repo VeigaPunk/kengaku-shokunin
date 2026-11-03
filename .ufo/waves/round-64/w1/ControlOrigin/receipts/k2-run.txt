@@ -1,0 +1,10 @@
+===== CASE K2 =====
+GRADER /tests/test_outputs.py
+GRADER_SHA256 115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e
+FILE_ORDER 7 test_proto_file_creation test_grpc_tools_installation test_protobuf_generation test_server_file_creation test_real_grpc_server_running test_grpc_protocol_handshake test_grpc_server_functionality
+✓ grpcio successfully imported
+LEGS [["test_proto_file_creation", "F", "AssertionError: Proto file /app/kv-store.proto was not created by the agent", "    assert proto_path.exists(), f\"Proto file {proto_path} was not created by the agent\""], ["test_grpc_tools_installation", "P", ""], ["test_protobuf_generation", "F", "AssertionError: Generated protobuf file /app/kv_store_pb2.py does not exist", "    assert kv_store_pb2_path.exists(), ("], ["test_server_file_creation", "F", "AssertionError: Server file /app/server.py was not created", "    assert server_py_path.exists(), f\"Server file {server_py_path} was not created\""], ["test_real_grpc_server_running", "F", "AssertionError: Port 5328 is not listening - no real gRPC server is running", "    assert result == 0, f\"Port {port} is not listening - no real gRPC server is running\""], ["test_grpc_protocol_handshake", "F", "ModuleNotFoundError: No module named 'kv_store_pb2'", "  File \"/tests/test_outputs.py\", line 105, in test_grpc_protocol_handshake"], ["test_grpc_server_functionality", "F", "ModuleNotFoundError: No module named 'kv_store_pb2'", "  File \"/tests/test_outputs.py\", line 144, in test_grpc_server_functionality"]]
+LEGS_VECTOR F P F F F F F
+LEG5_MESSAGE AssertionError: Port 5328 is not listening - no real gRPC server is running
+LEG6_MESSAGE ModuleNotFoundError: No module named 'kv_store_pb2'
+BWRAP_RC 0

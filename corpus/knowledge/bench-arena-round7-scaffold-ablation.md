@@ -133,3 +133,9 @@ BENCH_ROOT=/tmp/bench-r7 bash ~/bench-arena/grade.sh kq-r7-E{0..4}[-r{1..3}]
 Config touched: `~/.config/opencode/opencode.json` — `cap34113` provider
 added for capture, then file restored byte-identical
 (`/tmp/bench-r7/opencode.json.bak`).
+
+## Freshness addendum (round 64)
+
+verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+recheck: git show 859ac24f41061bffde588b9ed5d5adfea5ca8e27:corpus/knowledge/bench-arena-round7-scaffold-ablation.md | sha256sum
+result: exit 0; committed blob at 859ac24 sha256=b1c9bd99a3a973c982021c84e27ffea0f12b4bc359dc5b17ee1096144dc815d0 = the round-17 census pin in .ufo/round-17/initial-state.json (record bytes unchanged); the cited /tmp/bench-r7 artifacts are uncommitted, so only the committed record is re-verifiable from repo bytes

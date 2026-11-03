@@ -1,0 +1,68 @@
+# SecurityScan credential-pattern sweep — round 64 w1
+# seat: SecurityScan (read-only security review). Generated 2026-11-03.
+#
+# COMMAND (one sweep over every new instrument file in the wave):
+grep -rnEI 'op://|hf_[A-Za-z0-9]{10,}|ghp_[A-Za-z0-9]{10,}|gho_[A-Za-z0-9]{10,}|github_pat_[A-Za-z0-9_]{20,}|BEGIN [A-Z ]*PRIVATE KEY|AKIA[0-9A-Z]{16}|ASIA[0-9A-Z]{16}|xox[baprs]-[A-Za-z0-9-]{10,}|sk-[A-Za-z0-9]{20,}|AIza[0-9A-Za-z_-]{35}|-----BEGIN|password[[:space:]]*=|passwd[[:space:]]*=|secret[[:space:]]*=|token[[:space:]]*=|api[_-]?key[[:space:]]*=|authorization[[:space:]]*=|Bearer[[:space:]]+[A-Za-z0-9._-]{10,}|\.netrc|\.ssh/|id_rsa|\.pem' \
+    .ufo/waves/round-64/w1/ProbeBuild \
+    .ufo/waves/round-64/w1/GateScopePatch \
+    .ufo/waves/round-64/w1/SweepBuild \
+    .ufo/waves/round-64/w1/SweepRepairA \
+    .ufo/waves/round-64/w1/SweepRepairB \
+    plans/round64_trio_sweep.py \
+    plans/round64_c1_kvstore_probe.py \
+    plans/round63_gate_checks.py
+# cwd: /home/vgpnk/Projects/shokunin/kengaku-shokunin
+
+=== RESULT: 8 hits over the instrument files above, every one a SELF-REFERENCE (a
+    local variable name or the escape fixture's path string). ZERO real secret
+    material. ===
+(Over the WHOLE wave directory .ufo/waves/round-64/w1/ the count is 46; 23 of those
+ are this seat's own report/receipt text quoting the pattern list, and the other 23
+ are the 8 above plus ProbeMutate/'s preserved pristine+mutant copies of the same
+ two instruments (13 hits) and ClaimFalsifier/'s + GateScopePatch.md's quotation of
+ the same escape fixture path (3 hits). Every whole-wave hit is one of those three
+ self-reference forms:
+   grep -rnEI "$PAT" .ufo/waves/round-64/w1/ | grep -vE 'log_token = |token = line\.strip\(\)|absolute-token=/home/vgpnk/\.config/uv/uv-receipt\.json'
+ -> only this seat's own files (SecurityScan.md + receipts/) remain, i.e. the
+    pattern list itself.)
+
+PROBE (ProbeBuild/round64_c1_kvstore_probe.py)
+707:            log_token = "_".join((parsed["server_log"] or "").split()) or "none"
+709:            log_token = "none"
+  -> Python local variable named `log_token`. The pattern `token *=` matched the
+     identifier, not a credential. No value is a secret.
+
+SWEEP (SweepBuild/round64_trio_sweep.py:146 AND plans/round64_trio_sweep.py:146 —
+       the two files are byte-identical, sha256
+       56638ea1dfc0ca47ee91dfc0afec9c9fcbbefa9b15d3e163ad423b7f8dbf8bb0, so the
+       pattern matched in both paths)
+146:        token = line.strip()
+  -> Python local variable named `token`; holds one line of the frozen list.
+
+GATE (GateScopePatch/red/escape_red_repro.py:28, red/escape_red_repro_head.py:28,
+      receipts/escape-after.txt:23, receipts/escape-red-repro.txt:21)
+FIXTURE absolute-token=/home/vgpnk/.config/uv/uv-receipt.json inside_root=False
+  -> The escape FIXTURE PATH is the red-before marker used by R64-C2. It is a path
+     string naming a file the fixture would point at, not its contents. The same
+     string appears in ClaimFalsifier/ (2 hits), FreezeReview/, GateScopePatch.md.
+  -> `/home/vgpnk/.config/uv/uv-receipt.json` EXISTS on this host (existence
+     checked only; CONTENTS NEVER READ). No byte of it was read, copied, or
+     embedded in any artifact.
+
+=== HOST CREDENTIAL-SURFACE EXISTENCE CHECK (presence only; contents never opened) ===
+$ for p in /home/vgpnk/.netrc /home/vgpnk/.config/pip/pip.conf /home/vgpnk/.config/uv/uv.toml \
+           /home/vgpnk/.config/uv/uv-receipt.json /home/vgpnk/.ssh /home/vgpnk/.config/gh /home/vgpnk/.omp; do ...
+absent   /home/vgpnk/.netrc
+absent   /home/vgpnk/.config/pip/pip.conf
+absent   /home/vgpnk/.config/uv/uv.toml
+EXISTS   /home/vgpnk/.config/uv/uv-receipt.json
+EXISTS   /home/vgpnk/.ssh
+EXISTS   /home/vgpnk/.config/gh
+EXISTS   /home/vgpnk/.omp
+
+=== ENV-VAR PRESENCE (values redacted, never printed) ===
+$ env | grep -iE '^(UV_|PIP_|HF_|GITHUB_|GH_|AWS_|NPM_|OPENAI_|ANTHROPIC_)' | sed 's/=.*/=<redacted-present>/'
+5 credential-shaped vars present in the ambient environment, including
+OPENAI_CODEX_TOKEN. Their VALUES were never printed. See finding M-1 in
+SecurityScan.md: the probe's `uv pip install` inherits this environment verbatim
+(no env= kwarg, no PIP_CONFIG_FILE/UV_* clearing).

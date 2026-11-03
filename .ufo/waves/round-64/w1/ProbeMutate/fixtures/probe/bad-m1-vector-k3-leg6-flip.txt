@@ -1,0 +1,66 @@
+# R64-C1 receipt -- TB2 kv-store-grpc grader offline under bwrap
+# instrument plans/round64_c1_kvstore_probe.py version=r64-c1/1
+# named limitation: --check-receipt re-derives TEXT fields only; the live
+#   evidence is server_pid + server_log, raw bytes in the sidecar beside this receipt.
+GRADER sha256=115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e pin=2fd12b88aafdd04a52c298e3940bcb189f9766d6
+VENV python=3.14.8 grpcio=1.85.1 grpcio-tools=1.85.1
+PORTFREE before-battery True
+PORTFREE before K1 True
+CASE K1 observed=P/P/P/P/P/P/P expected=P/P/P/P/P/P/P server_pid=3561122 pid_before_legs=True server_ready=True server_log=SERVER_UP_5328
+LEG K1 1 test_proto_file_creation P exc=- frag=-
+LEG K1 2 test_grpc_tools_installation P exc=- frag=-
+LEG K1 3 test_protobuf_generation P exc=- frag=-
+LEG K1 4 test_server_file_creation P exc=- frag=-
+LEG K1 5 test_real_grpc_server_running P exc=- frag=-
+LEG K1 6 test_grpc_protocol_handshake P exc=- frag=-
+LEG K1 7 test_grpc_server_functionality P exc=- frag=-
+PORTFREE after K1 True
+PORTFREE before K2 True
+CASE K2 observed=F/P/F/F/F/F/F expected=F/P/F/F/F/F/F server_pid=none pid_before_legs=none server_ready=none server_log=none
+LEG K2 1 test_proto_file_creation F exc=AssertionError frag=Proto file /app/kv-store.proto was not created by the agent
+LEG K2 2 test_grpc_tools_installation P exc=- frag=-
+LEG K2 3 test_protobuf_generation F exc=AssertionError frag=Generated protobuf file /app/kv_store_pb2.py does not exist
+LEG K2 4 test_server_file_creation F exc=AssertionError frag=Server file /app/server.py was not created
+LEG K2 5 test_real_grpc_server_running F exc=AssertionError frag=Port 5328 is not listening - no real gRPC server is running
+LEG K2 6 test_grpc_protocol_handshake F exc=ModuleNotFoundError frag=No module named 'kv_store_pb2'
+LEG K2 7 test_grpc_server_functionality F exc=ModuleNotFoundError frag=No module named 'kv_store_pb2'
+PORTFREE after K2 True
+PORTFREE before K3 True
+CASE K3 observed=P/P/P/P/P/F/F expected=P/P/P/P/P/F/F server_pid=3561190 pid_before_legs=True server_ready=True server_log=SERVER_UP_5328
+LEG K3 1 test_proto_file_creation P exc=- frag=-
+LEG K3 2 test_grpc_tools_installation P exc=- frag=-
+LEG K3 3 test_protobuf_generation P exc=- frag=-
+LEG K3 4 test_server_file_creation P exc=- frag=-
+LEG K3 5 test_real_grpc_server_running P exc=- frag=-
+LEG K3 6 test_grpc_protocol_handshake F exc=AssertionError frag=Not a real gRPC server: gRPC server must return the correct value
+LEG K3 7 test_grpc_server_functionality F exc=AssertionError frag=SetVal returned wrong value: 43
+PORTFREE after K3 True
+PORTFREE before K4 True
+CASE K4 observed=P/P/F/F/F/F/F expected=P/P/F/F/F/F/F server_pid=none pid_before_legs=none server_ready=none server_log=none
+LEG K4 1 test_proto_file_creation P exc=- frag=-
+LEG K4 2 test_grpc_tools_installation P exc=- frag=-
+LEG K4 3 test_protobuf_generation F exc=AssertionError frag=Generated protobuf file /app/kv_store_pb2.py does not exist
+LEG K4 4 test_server_file_creation F exc=AssertionError frag=Server file /app/server.py was not created
+LEG K4 5 test_real_grpc_server_running F exc=AssertionError frag=Port 5328 is not listening - no real gRPC server is running
+LEG K4 6 test_grpc_protocol_handshake F exc=ModuleNotFoundError frag=No module named 'kv_store_pb2'
+LEG K4 7 test_grpc_server_functionality F exc=ModuleNotFoundError frag=No module named 'kv_store_pb2'
+PORTFREE after K4 True
+PORTFREE before K5 True
+CASE K5 observed=P/P/P/P/F/P/F expected=P/P/P/P/F/P/F server_pid=none pid_before_legs=none server_ready=none server_log=none
+LEG K5 1 test_proto_file_creation P exc=- frag=-
+LEG K5 2 test_grpc_tools_installation P exc=- frag=-
+LEG K5 3 test_protobuf_generation P exc=- frag=-
+LEG K5 4 test_server_file_creation P exc=- frag=-
+LEG K5 5 test_real_grpc_server_running F exc=AssertionError frag=Port 5328 is not listening - no real gRPC server is running
+LEG K5 6 test_grpc_protocol_handshake P exc=- frag=-
+LEG K5 7 test_grpc_server_functionality F exc=_InactiveRpcError frag=<_InactiveRpcError of RPC that terminated with: status = StatusCode.UNAVAILABLE details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:5328: Failed to connect to remote host: Connection refused" debug_error_string = "UNAVAILABLE:failed to connect to all addresses; last er
+PORTFREE after K5 True
+K2-FRAGMENT Port 5328 is not listening - no real gRPC server is running
+VECTOR K1=P/P/P/P/P/P/P
+VECTOR K2=F/P/F/F/F/F/F
+VECTOR K3=P/P/P/P/P/P/F
+VECTOR K4=P/P/F/F/F/F/F
+VECTOR K5=P/P/P/P/F/P/F
+PREDICTION K1=P/P/P/P/P/P/P K2=F/P/F/F/F/F/F K3=P/P/P/P/P/F/F K4=P/P/F/F/F/F/F K5=P/P/P/P/F/P/F
+SERVERLOG file=kvstore-probe.txt.server-log
+PREDICATE R64-C1 pass

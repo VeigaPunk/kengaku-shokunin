@@ -59,3 +59,9 @@ one command invocation.
 4. Absence of `model` fields: this corpus cannot rank models — it
    ranks *endpoints/commands*. Model attribution needs the lane
    ledger (`corpus/knowledge/ledger-route-telemetry.md`).
+
+## Freshness addendum (round 64)
+
+verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+recheck: sha256sum corpus/evidence/round13-coverage/surface-receipt.json && python3 -c "import json;d=json.load(open('corpus/evidence/round13-coverage/surface-receipt.json'));print([(p['path'],p['exists']) for p in d['paths'] if p['path']=='~/.bailian'],d['observed_at'])"
+result: exit 0; corpus/evidence/round13-coverage/surface-receipt.json sha256=c3372d805887842ffa66abea871ac5076f52d434d36e699f064f7c358edd680f; [('~/.bailian', False)] observed 2026-10-15T04:49:50Z - source absence re-derived from the committed capture

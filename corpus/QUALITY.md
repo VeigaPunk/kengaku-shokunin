@@ -1183,3 +1183,17 @@ Line numbers are this file's.
   knowledge entries; red on `corpus/knowledge/tb2-grader-class-census.md` (`corpus/evidence/round63/trio-red.txt`), green on
   `corpus/knowledge/tb2-network-service-offline-grader.md` (`corpus/evidence/round63/trio-green.txt`). Source: `corpus/lessons/round-63.md`
   `## Mistakes` rows 1 and 4. This criterion does not rewrite the Q-series criteria above.
+
+## Round64 criterion — a counter's pass path prices every clause of the frozen sentence, and every instrument is shown able to fail
+
+- **Q46 — a counter's green line is reachable only when every clause of its frozen sentence holds on the bytes it
+  reads; a repair that satisfies the counter's shape while violating the sentence is a named fixture, and the fixture must
+  stay red.** Round 64 froze "every previously-red entry carries a dated round-64 addendum" for the provenance-trio sweep.
+  The first counter's pass path tested only `red == 0`, so 29 opening-byte edits printed `PREDICATE R64-C3 pass`
+  (reproduced by the non-author FreezeReview: `.ufo/waves/round-64/w1/FreezeReview/openedit-sim.txt`). Admission: the pass
+  path enumerates the frozen list and requires each entry's class; the forbidden form is a selftest leg
+  (`sweep-openedit`, rc 1 `not-addendum=<1>`, `corpus/evidence/round64/sweep-selftest.txt`). Two siblings of the same
+  defect were admitted with it: a frozen path with an absolute fallback (fail closed instead,
+  `SETUP frozen-list-unreadable`) and an unpinned frozen list (`SETUP frozen-list-substituted`), each exercised by a
+  command receipt (`corpus/evidence/round64/sweep-fail-closed.txt`). Source: `corpus/lessons/round-64.md` `## Mistakes`
+  rows 2–4.

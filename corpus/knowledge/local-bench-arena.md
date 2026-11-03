@@ -68,3 +68,8 @@ telemetry_source, telemetry_available`
 3. `12-knapsack-reconstruct`, `05-semver-regex`, `27-rwlock-writer-pref`,
    `33-metaclass-shadowing` are discriminating tasks (both fail) — keep
    them in any local battery; dropping them removes headroom signal.
+
+## Freshness addendum (round 64)
+verified-at: 2026-11-03 (observed 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106))
+recheck: sha256sum corpus/evidence/round13-coverage/surface-receipt.json; grep -A1 -e '"path": "~/bench-arena"' -e '"path": "~/archive/bench-arena"' corpus/evidence/round13-coverage/surface-receipt.json; test -e ~/bench-arena && echo present || echo absent; test -e ~/archive/bench-arena && echo present || echo absent
+result: sha256=c3372d805887842ffa66abea871ac5076f52d434d36e699f064f7c358edd680f; committed receipt: "exists": false for ~/bench-arena and ~/archive/bench-arena; live re-check 2026-11-03: present-lines=0 absent-lines=2

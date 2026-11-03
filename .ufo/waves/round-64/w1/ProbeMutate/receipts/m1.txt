@@ -1,0 +1,152 @@
+# m1..m4 mutation battery — R64-C1 probe
+ts=2026-11-03T16:19:55
+pristine=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/pristine/round64_c1_kvstore_probe.py
+pristine_sha256=9f56d25ddb33e14474c6439c16f25dd5545da99e542a051d342113a88b306843
+probe_source=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/ProbeBuild/round64_c1_kvstore_probe.py
+probe_source_sha256_at_battery=9f56d25ddb33e14474c6439c16f25dd5545da99e542a051d342113a88b306843
+real_receipt_present=True
+
+anchor=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/probe/good-receipt.txt kind=receipt-of-record sha256=a87cd119784ed92c23ed6854e365b9a3d8e0b19954668b8579ceb4218c3b2842
+# mutation m1
+defect=receipt-of-contract anchor: mutant must fail the good receipt
+mutant=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/mutants/m1/round64_c1_kvstore_probe.py
+mutant_sha256=c9258674d4f7e54771b7249b0f301c11067f624d589c47ab106b847b0193109c
+changed=True
+
+## pristine-good [m1]
+cmd=/usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/ProbeMutate/pristine/round64_c1_kvstore_probe.py --check-receipt /fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/probe/good-receipt.txt
+cwd=/fast/scratch/hyaku/kengaku-r64/ProbeMutate
+rc=0 expect=0
+elapsed=0.03s
+--- stdout ---
+CHECK ok cases=5
+PREDICATE R64-C1 pass
+--- stderr ---
+(empty)
+
+## pristine-corrupt [m1]
+cmd=/usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/ProbeMutate/pristine/round64_c1_kvstore_probe.py --check-receipt /fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/probe/bad-m1-vector-k3-leg6-flip.txt
+cwd=/fast/scratch/hyaku/kengaku-r64/ProbeMutate
+rc=1 expect=1
+elapsed=0.03s
+--- stdout ---
+CHECK fail K3 vector P/P/P/P/P/P/F != P/P/P/P/P/F/F
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+--- stderr ---
+(empty)
+
+## mutant-corrupt [m1]
+cmd=/usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/ProbeMutate/mutants/m1/round64_c1_kvstore_probe.py --check-receipt /fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/probe/bad-m1-vector-k3-leg6-flip.txt
+cwd=/fast/scratch/hyaku/kengaku-r64/ProbeMutate
+rc=1 expect=0 => SURVIVED
+elapsed=0.03s
+--- stdout ---
+CHECK fail K3 observed P/P/P/P/P/F/F != P/P/P/P/P/P/F
+CHECK fail K3 expected P/P/P/P/P/F/F != P/P/P/P/P/P/F
+CHECK fail K3 leg-verdicts PPPPPFF != PPPPPPF
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+--- stderr ---
+(empty)
+
+## mutant-good [m1]
+cmd=/usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/ProbeMutate/mutants/m1/round64_c1_kvstore_probe.py --check-receipt /fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/probe/good-receipt.txt
+cwd=/fast/scratch/hyaku/kengaku-r64/ProbeMutate
+rc=1 expect=0
+elapsed=0.03s
+--- stdout ---
+CHECK fail K3 vector P/P/P/P/P/F/F != P/P/P/P/P/P/F
+CHECK fail K3 observed P/P/P/P/P/F/F != P/P/P/P/P/P/F
+CHECK fail K3 expected P/P/P/P/P/F/F != P/P/P/P/P/P/F
+CHECK fail K3 leg-verdicts PPPPPFF != PPPPPPF
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+--- stderr ---
+(empty)
+
+## selftest-pristine [m1]
+cmd=/usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/ProbeMutate/pristine/round64_c1_kvstore_probe.py --selftest --work /fast/scratch/hyaku/kengaku-r64/ProbeMutate/work/probe/st-pristine-m1
+cwd=/fast/scratch/hyaku/kengaku-r64/ProbeMutate
+rc=0 expect=0
+elapsed=0.03s
+--- stdout ---
+CHECK ok cases=5
+PREDICATE R64-C1 pass
+CHECK fail K2 vector P/P/F/F/F/F/F != F/P/F/F/F/F/F
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+CHECK fail K1 server_pid not recorded: none
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+CHECK fail port-free-at-battery-start not recorded
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+CHECK fail k2-fragment unrelated message lacks 'Port 5328 is not listening'
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+SETUP receipt-missing /fast/scratch/hyaku/kengaku-r64/ProbeMutate/work/probe/st-pristine-m1/selftest/absent-receipt.txt
+SELFTEST render-table     observed=0 expected=0 pass
+SELFTEST valid-receipt    observed=0 expected=0 pass
+SELFTEST tampered-vector  observed=1 expected=1 pass
+SELFTEST no-server-pid    observed=1 expected=1 pass
+SELFTEST port-not-free    observed=1 expected=1 pass
+SELFTEST no-k2-fragment   observed=1 expected=1 pass
+SELFTEST missing-receipt  observed=2 expected=2 pass
+SELFTEST note: synthesized receipts exercise text-field mechanics only; the live predicate's evidence is server_pid + server_log
+SELFTEST pass
+--- stderr ---
+(empty)
+
+## selftest-mutant [m1]
+cmd=/usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/ProbeMutate/mutants/m1/round64_c1_kvstore_probe.py --selftest --work /fast/scratch/hyaku/kengaku-r64/ProbeMutate/work/probe/st-mutant-m1
+cwd=/fast/scratch/hyaku/kengaku-r64/ProbeMutate
+rc=0 expect=0
+elapsed=0.03s
+--- stdout ---
+CHECK ok cases=5
+PREDICATE R64-C1 pass
+CHECK fail K2 vector P/P/F/F/F/F/F != F/P/F/F/F/F/F
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+CHECK fail K1 server_pid not recorded: none
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+CHECK fail port-free-at-battery-start not recorded
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+CHECK fail k2-fragment unrelated message lacks 'Port 5328 is not listening'
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+SETUP receipt-missing /fast/scratch/hyaku/kengaku-r64/ProbeMutate/work/probe/st-mutant-m1/selftest/absent-receipt.txt
+SELFTEST render-table     observed=0 expected=0 pass
+SELFTEST valid-receipt    observed=0 expected=0 pass
+SELFTEST tampered-vector  observed=1 expected=1 pass
+SELFTEST no-server-pid    observed=1 expected=1 pass
+SELFTEST port-not-free    observed=1 expected=1 pass
+SELFTEST no-k2-fragment   observed=1 expected=1 pass
+SELFTEST missing-receipt  observed=2 expected=2 pass
+SELFTEST note: synthesized receipts exercise text-field mechanics only; the live predicate's evidence is server_pid + server_log
+SELFTEST pass
+--- stderr ---
+(empty)
+
+--- mutation diff ---
+--- /fast/scratch/hyaku/kengaku-r64/ProbeMutate/pristine/round64_c1_kvstore_probe.py
++++ /fast/scratch/hyaku/kengaku-r64/ProbeMutate/mutants/m1/round64_c1_kvstore_probe.py
+@@ -130,5 +130,5 @@
+     "K1": ("P", "P", "P", "P", "P", "P", "P"),
+     "K2": ("F", "P", "F", "F", "F", "F", "F"),
+-    "K3": ("P", "P", "P", "P", "P", "F", "F"),
++    "K3": ("P", "P", "P", "P", "P", "P", "F"),
+     "K4": ("P", "P", "F", "F", "F", "F", "F"),
+     "K5": ("P", "P", "P", "P", "F", "P", "F"),
+
+
+--- summary ---
+pristine_on_good_rc=0 (expect 0)
+mutant_on_good_rc=1 (drift detector)
+pristine_on_vector-flip_rc=1 (control, expect 1)
+selftest_pristine_rc=0 (expect 0)
+selftest_mutant_rc=0 (0 => selftest blind)
+VERDICT m1=KILLED mechanism=--check-receipt on the contract anchor

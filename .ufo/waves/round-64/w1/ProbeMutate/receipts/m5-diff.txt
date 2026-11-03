@@ -1,0 +1,10 @@
+--- /fast/scratch/hyaku/kengaku-r64/ProbeMutate/pristine/round64_trio_sweep.py
++++ /fast/scratch/hyaku/kengaku-r64/ProbeMutate/mutants/m5/round64_trio_sweep.py
+@@ -103,5 +103,6 @@
+     """(heading present, missing lines of the first block that lacks any)."""
+     lines = text.splitlines()
+-    headings = [i for i, line in enumerate(lines) if line.rstrip() == ADDENDUM_HEADING]
++    headings = [i for i, line in enumerate(lines) if line.rstrip() == ADDENDUM_HEADING
++                  or line.rstrip() == "## Freshness addendum (round 63)"]
+     if not headings:
+         return False, []

@@ -1,0 +1,158 @@
+# KnowledgeDraft verification receipts — round 64, wave 1, seat KnowledgeDraft
+# date 2026-11-03; every line below is an observed command output.
+
+== 1. trio gate on the drafted entry ==
+TRIO pass .ufo/waves/round-64/w1/KnowledgeDraft/tb2-kv-store-grpc-offline.md
+rc=0
+
+== 2. sha256 of the committed evidence this entry cites ==
+115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e  corpus/evidence/round52/graders/kv-store-grpc/tests/test_outputs.py
+ae0a78ee657108a697fae965dc71e7d79f80cd9850d9ec00b2261ba2476f9887  corpus/evidence/round64/k2-empty-capture.txt
+b262cfe5791cfb93d115a021a8ed392b5a60c07c8f6426dfb8b5b1f9964e4bdb  corpus/evidence/round64/k4-protoonly-capture.txt
+c89bcb1c3b3da00b437a721d7f9d7b76bd778ca567ca1c077f21339fc8a50e0c  corpus/evidence/round64/control-k4-kv-store.proto
+
+== 3. the grader digest equals SHA256SUMS line 80 ==
+115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e  ./kv-store-grpc/tests/test_outputs.py
+
+== 4. class membership ==
+11:CLASS network-service count=8 members=filter-js-from-html,git-multibranch,headless-terminal,hf-model-inference,install-windows-3.11,kv-store-grpc,nginx-request-logging,pypi-server
+
+== 5. the census's own executed-coverage line at the freeze ==
+21:EXECUTED-COVERAGE executed=17 classified=17 classes-covered=12 classes-uncovered=network-service,process-environment,db-state,container-image
+
+== 6. kv-store-grpc is NOT on executed17.lst at base ==
+0
+grep rc=1 (1 = no match, count 0)
+
+== 7. the five observed vectors + predicate, from the wave receipt ==
+VECTOR K1=P/P/P/P/P/P/P
+VECTOR K2=F/P/F/F/F/F/F
+VECTOR K3=P/P/P/P/P/F/F
+VECTOR K4=P/P/F/F/F/F/F
+VECTOR K5=P/P/P/P/F/P/F
+PREDICATE R64-C1 pass
+
+== 8. determinism: VECTOR/PREDICATE lines byte-equal across the two battery receipts ==
+cmp rc=0 (0 = identical)
+
+== 9. the two receipts' own digests (they differ: the recorded server PIDs differ) ==
+a87cd119784ed92c23ed6854e365b9a3d8e0b19954668b8579ceb4218c3b2842  kvstore-probe.txt
+3e53a498e24a29cef68bc525923d771222d69e6dd6ce4e7c3d42560df9688cee  kvstore-probe-rerun.txt
+f83e871e2c090f9c097a5fc1632ff55b07a49f37779dbd58371fb803f46d7351  kvstore-probe.txt.server-log
+de447c764328d20a7cc4fcd44dc973e82258b2f11a43dc48fc40f4b632e271b0  selftest.txt
+d5e01ea59c9e23586f447cd89627e9f0e3894d7ff0e96d89d881bf6d5a5d10b8  determinism.txt
+d98596d56311f9cbf567bb386bf67f7a3ec7e9fb71e773d0ebc57c5b5b02d05a  check-receipt.txt
+
+== 10. the live-evidence sidecar (server_pid + server_log) ==
+case=K1 pid=3561122
+SERVER UP 5328
+case=K3 pid=3561190
+SERVER UP 5328
+
+== 11. the receipt's port-free + pid + fragment lines ==
+PORTFREE before-battery True
+PORTFREE before K1 True
+CASE K1 observed=P/P/P/P/P/P/P expected=P/P/P/P/P/P/P server_pid=3561122 pid_before_legs=True server_ready=True server_log=SERVER_UP_5328
+PORTFREE after K1 True
+PORTFREE before K2 True
+CASE K2 observed=F/P/F/F/F/F/F expected=F/P/F/F/F/F/F server_pid=none pid_before_legs=none server_ready=none server_log=none
+PORTFREE after K2 True
+PORTFREE before K3 True
+CASE K3 observed=P/P/P/P/P/F/F expected=P/P/P/P/P/F/F server_pid=3561190 pid_before_legs=True server_ready=True server_log=SERVER_UP_5328
+PORTFREE after K3 True
+PORTFREE before K4 True
+CASE K4 observed=P/P/F/F/F/F/F expected=P/P/F/F/F/F/F server_pid=none pid_before_legs=none server_ready=none server_log=none
+PORTFREE after K4 True
+PORTFREE before K5 True
+CASE K5 observed=P/P/P/P/F/P/F expected=P/P/P/P/F/P/F server_pid=none pid_before_legs=none server_ready=none server_log=none
+PORTFREE after K5 True
+K2-FRAGMENT Port 5328 is not listening - no real gRPC server is running
+
+== 12. the probe's selftest verdict ==
+SETUP receipt-missing /fast/scratch/hyaku/kengaku-r64/ProbeBuild/selftest/absent-receipt.txt
+SELFTEST render-table     observed=0 expected=0 pass
+SELFTEST valid-receipt    observed=0 expected=0 pass
+SELFTEST tampered-vector  observed=1 expected=1 pass
+SELFTEST no-server-pid    observed=1 expected=1 pass
+SELFTEST port-not-free    observed=1 expected=1 pass
+SELFTEST no-k2-fragment   observed=1 expected=1 pass
+SELFTEST missing-receipt  observed=2 expected=2 pass
+SELFTEST note: synthesized receipts exercise text-field mechanics only; the live predicate's evidence is server_pid + server_log
+SELFTEST pass
+
+== 13. the receipt header's named limitation ==
+# R64-C1 receipt -- TB2 kv-store-grpc grader offline under bwrap
+# instrument plans/round64_c1_kvstore_probe.py version=r64-c1/1
+# named limitation: --check-receipt re-derives TEXT fields only; the live
+#   evidence is server_pid + server_log, raw bytes in the sidecar beside this receipt.
+GRADER sha256=115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e pin=2fd12b88aafdd04a52c298e3940bcb189f9766d6
+
+== 14. SKILL decision-table FLIP TEST -- RED while the two new paths were absent (measured 16:26Z) ==
+# scratch copy of SKILL.md with the network-service row flipped; --root = the lane root.
+# At this moment corpus/evidence/round64/kvstore-probe.txt and plans/round64_c1_kvstore_probe.py
+# were NOT yet in the lane tree (the L1 landed both at 16:28:35).
+cd "/home/vgpnk/Projects/shokunin/kengaku-shokunin" && python3 plans/round63_gate_checks.py depth --skill "/fast/scratch/hyaku/kengaku-r64/KnowledgeDraft/SKILL-flip-test.md" --receipt corpus/evidence/round62/class-survey.txt --root . ; echo "rc=$?"
+ROWS n=16 class_match=True count_mismatch=0 paths total=26 resolved=24 share=0.92
+DETAIL unresolved=corpus/evidence/round64/kvstore-probe.txt,plans/round64_c1_kvstore_probe.py
+PREDICATE R63-C2 fail
+rc=1
+
+== 15. the same flip against a shadow root that DOES contain both new artifacts =="
+# shadow root: corpus/evidence/round64/kvstore-probe.txt and plans/round64_c1_kvstore_probe.py present
+cd "/home/vgpnk/Projects/shokunin/kengaku-shokunin" && python3 plans/round63_gate_checks.py depth --skill "/fast/scratch/hyaku/kengaku-r64/KnowledgeDraft/SKILL-flip-test.md" --receipt corpus/evidence/round62/class-survey.txt --root "/fast/scratch/hyaku/kengaku-r64/KnowledgeDraft/shadow-root" ; echo "rc=$?"
+ROWS n=16 class_match=True count_mismatch=0 paths total=26 resolved=26 share=1.00
+PREDICATE R63-C2 pass
+rc=0
+
+== 15b. the same flip against the LANE root AFTER the L1 landed both artifacts (16:28:35) =="
+# the L1 landed corpus/evidence/round64/kvstore-probe.txt and plans/round64_c1_kvstore_probe.py
+# (both byte-identical to the ProbeBuild wave copies -- cmp rc=0 for each). Re-measured after that.
+cd "/home/vgpnk/Projects/shokunin/kengaku-shokunin" && python3 plans/round63_gate_checks.py depth --skill "/fast/scratch/hyaku/kengaku-r64/KnowledgeDraft/SKILL-flip-test.md" --receipt corpus/evidence/round62/class-survey.txt --root . ; echo "rc=$?"
+ROWS n=16 class_match=True count_mismatch=0 paths total=26 resolved=26 share=1.00
+PREDICATE R63-C2 pass
+rc=0
+
+== 15c. the UNFLIPPED lane SKILL.md at the same moment (before state, still green) =="
+cd "/home/vgpnk/Projects/shokunin/kengaku-shokunin" && python3 plans/round63_gate_checks.py depth --skill SKILL.md --receipt corpus/evidence/round62/class-survey.txt --root . ; echo "rc=$?"
+ROWS n=16 class_match=True count_mismatch=0 paths total=24 resolved=24 share=1.00
+PREDICATE R63-C2 pass
+rc=0
+
+== 15d. digests of the artifacts the L1 landed, and their identity with the wave copies =="
+cd "/home/vgpnk/Projects/shokunin/kengaku-shokunin" && sha256sum plans/round64_c1_kvstore_probe.py corpus/evidence/round64/kvstore-probe.txt
+cd "/home/vgpnk/Projects/shokunin/kengaku-shokunin" && cmp plans/round64_c1_kvstore_probe.py .ufo/waves/round-64/w1/ProbeBuild/round64_c1_kvstore_probe.py; echo "probe cmp rc=$?"
+cd "/home/vgpnk/Projects/shokunin/kengaku-shokunin" && cmp corpus/evidence/round64/kvstore-probe.txt .ufo/waves/round-64/w1/ProbeBuild/kvstore-probe.txt; echo "receipt cmp rc=$?"
+
+== 16. the depth gate's pass condition (resolved == total, not merely share >= 0.90) ==
+333:        and resolved == total
+
+== 17. the flipped row, as tested ==
+78:| network-service | 8 | executed (kv-store-grpc, r64) | a lane-built gRPC server (proto + grpcio-tools generation + `server.py` on 127.0.0.1:5328) inside bubblewrap with shared loopback, the server
+
+== 18. the UNFLIPPED lane row at the freeze tip (the before state) ==
+78:| network-service | 8 | recipe-unexecuted | a lane-built PEP 503 index served on 127.0.0.1:8080 (the port the grader hardcodes) inside bubblewrap with shared loopback, with the index PID and wheel 
+
+== 19. the DRAFTED SKILL registry row + the DRAFTED entry, on a shadow lane root ==
+# shadow root: a copy of SKILL.md with the drafted row spliced after the last registry row,
+# the drafted entry at corpus/knowledge/tb2-kv-store-grpc-offline.md, everything else symlinked.
+ADVERTISED total=94
+REGISTERED total=94 rows=96
+MISSING 0
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 pass
+rc=0
+
+== 20. COUNTERFACTUAL: the same shadow with the drafted row REMOVED, entry kept ==
+# shows the coupling: the entry alone advertises plans/round64_c1_kvstore_probe.py.
+ADVERTISED total=94
+REGISTERED total=93 rows=95
+MISSING 1
+  MISSING plans/round64_c1_kvstore_probe.py
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 fail

@@ -80,3 +80,8 @@ is mis-scoped and must be re-worded (sweep performed round 9: see
   same-round re-fetch; GitHub issue state flips on comments and is not part
   of the evidentiary claim. All 23 URLs across this corpus re-resolved HTTP
   200 at round 10 (reviewer L2, `local://r10-review-cites.md`).
+
+## Freshness addendum (round 64)
+verified-at: 2026-11-03 (observed 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106))
+recheck: sha256sum corpus/evidence/round9-fleet/prior-art.md corpus/evidence/round8-horizon/run.log corpus/knowledge/bench-arena-round9-replication.md; sed -n '80,84p' corpus/evidence/round8-horizon/run.log
+result: prior-art.md sha256=5f9eead6…1cb157f; run.log sha256=c977c6aa…b3bef64; bench-arena-round9-replication.md sha256=cee2e1f9…4498c8; run.log:80-84 reads === SUMMARY === / A-INC: 7/10 / A-MONO: 0/10 / A-CKPT: 1/10

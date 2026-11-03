@@ -1,0 +1,21 @@
+# R64-C2 landing check — the patch applied to a fresh freeze-tip clone reproduces the patched file byte-exact
+# cmd: git clone --shared /home/vgpnk/Projects/shokunin/kengaku-shokunin /fast/scratch/hyaku/kengaku-r64/GateScopePatch/land-check && git -C /fast/scratch/hyaku/kengaku-r64/GateScopePatch/land-check rev-parse HEAD
+  859ac24f41061bffde588b9ed5d5adfea5ca8e27
+# cmd: git -C /fast/scratch/hyaku/kengaku-r64/GateScopePatch/land-check apply /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/GateScopePatch/gate-scope.patch
+# apply rc=0
+# cmd: sha256sum /fast/scratch/hyaku/kengaku-r64/GateScopePatch/land-check/plans/round63_gate_checks.py /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/GateScopePatch/patched-round63_gate_checks.py
+  a98d9c0f75600ea4f99573d2ca291b1ffd97cffc18a53a3a65dce7b7941dfe17  /fast/scratch/hyaku/kengaku-r64/GateScopePatch/land-check/plans/round63_gate_checks.py
+  a98d9c0f75600ea4f99573d2ca291b1ffd97cffc18a53a3a65dce7b7941dfe17  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/GateScopePatch/patched-round63_gate_checks.py
+# cmd: cd /fast/scratch/hyaku/kengaku-r64/GateScopePatch/land-check && /usr/bin/python3 plans/round63_gate_checks.py --selftest --work /fast/scratch/hyaku/kengaku-r64/GateScopePatch/land-selftest
+SELFTEST GOOD rc=0 expect=0 n=16 class_match=True count_mismatch=0 finding=ok ok
+SELFTEST BAD-COUNT rc=1 expect=1 n=16 class_match=True count_mismatch=1 finding=ok ok
+SELFTEST NO-SECTION rc=1 expect=1 n=0 class_match=False count_mismatch=0 finding=ok ok
+SELFTEST BAD-ESCAPE rc=1 expect=1 n=16 class_match=True count_mismatch=0 finding=ok ok
+SELFTEST pass
+# selftest rc=0
+# cmd: cd /fast/scratch/hyaku/kengaku-r64/GateScopePatch/land-check && /usr/bin/python3 plans/round63_gate_checks.py depth --skill SKILL.md --receipt corpus/evidence/round62/class-survey.txt --root .
+ROWS n=16 class_match=True count_mismatch=0 paths total=24 resolved=24 share=1.00
+PREDICATE R63-C2 pass
+# depth rc=0
+# cmd: sha256sum /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round63_gate_checks.py   (lane tree after all seat work: still the freeze bytes)
+  797085c242a63d0b38f875b6f67550848ddac34dd7f5dbd20861ad3849e7a18a  /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round63_gate_checks.py

@@ -204,3 +204,9 @@ $ curl -s https://arxiv.org/abs/2508.09021 | grep -oE '<title>[^<]+</title>'
 
 Every abstract quoted in §2 was read from the fetched abs page (FetchURL,
 in-session), not from search snippets.
+
+## Freshness addendum (round 64)
+
+verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+recheck: grep -c 'leg=1/zai OK status=200 stream=True 2.097s' corpus/evidence/probe-r19-P4-glm.log corpus/knowledge/probe-battery-r19.md && grep -cE '^\| (4d|5b|7b) \|' corpus/knowledge/probe-battery-r19.md
+result: exit 0; cited anchors re-derived from committed r19 bytes: shim-journal line x1 in corpus/evidence/probe-r19-P4-glm.log:139 and x1 in corpus/knowledge/probe-battery-r19.md:152; §2 rows 4d/5b/7b = 3; §7 arXiv fetch not re-run (no network in this sweep)

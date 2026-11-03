@@ -1,0 +1,81 @@
+# SecurityScan — write-scope audit, round 64 w1
+# seat: SecurityScan (read-only). Generated 2026-11-03.
+# Question: did any w1 seat write a file outside its own W/<seat>/ dir and its own
+# scratch dir S/<seat>/ ? (The L1 integrates; seats may not.)
+
+=== LANE REPO STATUS ===
+$ git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin status --porcelain
+ M SKILL.md
+ M plans/round54-entrytruth.json
+?? .ufo/waves/round-63/w1.ready.dispatched
+?? .ufo/waves/round-64/frontier/gates-at-start-v2.txt
+?? .ufo/waves/round-64/frontier/gates-at-start.txt
+?? .ufo/waves/round-64/frontier/landcheck-start.txt
+?? .ufo/waves/round-64/w1-dispatch.json
+?? .ufo/waves/round-64/w1-spec.json
+?? .ufo/waves/round-64/w1.ready
+?? .ufo/waves/round-64/w1.ready.dispatched
+?? .ufo/waves/round-64/w1/
+?? plans/round64_trio_sweep.py
+
+  M SKILL.md                          mtime 2026-11-03 16:18:28  (two new registry rows)
+  M plans/round54-entrytruth.json     mtime 2026-11-03 16:18:57  (two new registry rows)
+  -> These are the L1's round-64 round-start registry repair, NOT a seat's write:
+     the diff text says so in its own `reason` fields ("round-64 round-start repair:
+     the round-63 close advertised ... without a SKILL registry row or a ledger row,
+     so the registry closure leg failed at round-64 start (MISSING 2)"), and the
+     measurement receipts .ufo/waves/round-64/frontier/landcheck-start.txt and
+     gates-at-start.txt (mtimes 16:12-16:13) are the L1's own round-start battery.
+     A seat-authored change would carry no such provenance. No w1 seat claims
+     either file in its report.
+
+=== NO CORPUS / NO LESSONS / NO PLANS-INSTRUMENT EDIT BY A SEAT ===
+$ git status --porcelain corpus/
+(empty — no corpus file was modified by any seat; the 29 addenda blocks exist only
+ as .addendum.txt files inside SweepRepairA/ and SweepRepairB/, NOT applied to
+ corpus/knowledge/*.md. The append-only integration is the L1's job.)
+$ git status --porcelain plans/
+ M plans/round54-entrytruth.json      (L1 registry row, above)
+ ?? plans/round64_trio_sweep.py        (the L1 landing the SweepBuild instrument —
+                                        sha256 56638ea1dfc0ca47ee91dfc0afec9c9
+                                        fcbbefa9b15d3e163ad423b7f8dbf8bb0, byte-
+                                        identical to SweepBuild's copy)
+
+=== WRITE PATHS OF EACH INSTRUMENT (read from source) ===
+PROBE  ProbeBuild/round64_c1_kvstore_probe.py
+  - sandbox-internal writes (inside bwrap): /app/server.log, /app/server.py,
+    /app/kv-store.proto, /app/kv_store_pb2*.py   (all under the probe-owned
+    --work/cases/<case>/app, bound at /app)
+  - host-side writes: work/tests/test_outputs.py, work/driver.py, work/venv/,
+    work/selftest/, and (--receipt given) <receipt> and <receipt>.server-log
+  - the --receipt path is supplied by the caller; the probe never picks a lane path
+    on its own. Nothing under corpus/, plans/, SKILL.md or MANIFEST.json is written
+    by the probe.
+
+SWEEP  plans/round64_trio_sweep.py (== SweepBuild copy)
+  - --selftest writes ONLY inside the caller-supplied --work dir, under
+    tempfile.mkdtemp(prefix="r64-sweep-", dir=str(work)), and removes it in a
+    finally block. --sweep writes nothing at all (read-only over the lane).
+  - no absolute or lane-relative write path exists in the module.
+
+GATE   GateScopePatch/patched-round63_gate_checks.py
+  - --selftest writes ONLY inside tempfile.mkdtemp(prefix="r63-gate-", dir=work)
+    and removes it. depth/trio write nothing.
+  - the patch itself is a .diff against plans/round63_gate_checks.py; the L1 applies it.
+
+=== FLEET REPO (read-only for this lane) ===
+$ git -C /home/vgpnk/Projects/shokunin status --porcelain
+ M .scratch/run15-state.json
+?? .scratch/run13-state.json
+  -> Pre-existing fleet scratch state, not written by any kengaku w1 seat and not
+     written by this seat.
+
+=== SCRATCH DISCIPLINE ===
+This seat's scratch is /fast/scratch/hyaku/kengaku-r64/SecurityScan/ and is removed
+before yield (shutil.rmtree). Every receipt this seat cites is copied into
+.ufo/waves/round-64/w1/SecurityScan/receipts/ first.
+Peer seats' scratch dirs (SweepBuild/, SweepRepairA/, GateScopePatch/, ...) are
+other seats' and were not touched by this seat beyond reading their published
+artifacts; the GateScopePatch scratch was already removed by that seat before this
+seat finished reading it (the seat's published copies under
+.ufo/waves/round-64/w1/GateScopePatch/ are the durable bytes cited here).

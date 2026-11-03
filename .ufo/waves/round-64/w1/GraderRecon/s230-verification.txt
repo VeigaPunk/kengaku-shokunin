@@ -1,0 +1,25 @@
+# S230 live open — fetched bytes, sha256 and byte-identity vs committed grader
+# seat: GraderRecon (round 64, w1)
+# UTC: 2026-11-03T19:11:44Z
+
+$ curl -sS -o s230-test_outputs.py -w "http_code=%{http_code} size=%{size_download}\n" https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/kv-store-grpc/tests/test_outputs.py
+http_code=200 size=6076
+
+$ sha256sum s230-test_outputs.py
+115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/GraderRecon/s230-test_outputs.py
+
+$ sha256sum /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round52/graders/kv-store-grpc/tests/test_outputs.py
+115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e  /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round52/graders/kv-store-grpc/tests/test_outputs.py
+
+$ cmp s230-test_outputs.py <committed grader>; echo $?
+cmp_rc=0
+
+$ wc -c s230-test_outputs.py; sha256sum corpus/evidence/round52/graders/SHA256SUMS
+6076 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/GraderRecon/s230-test_outputs.py
+b9ada6472642fa547935c6a1d4fb9474db4d84b412fb9ab3c1730fd65bc974c8  /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round52/graders/SHA256SUMS
+
+# SHA256SUMS line 80 (the row naming this grader):
+$ sed -n "80p" corpus/evidence/round52/graders/SHA256SUMS
+115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e  ./kv-store-grpc/tests/test_outputs.py
+
+VERDICT S230: sha256 == 115de2e9...b1b0e AND cmp identical -> the live raw.githubusercontent bytes at pin 2fd12b88 are the committed grader bytes.

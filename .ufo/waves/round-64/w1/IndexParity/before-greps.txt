@@ -1,0 +1,20 @@
+# BEFORE-STATE RECEIPT — R64-C3(b) seat IndexParity
+# date: 2026-11-03 ; lane: /home/vgpnk/Projects/shokunin/kengaku-shokunin
+# base tip: 5f517fe7147831f96a9900c9642c07ee71031940 (freeze commit 859ac24f)
+
+$ git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin rev-parse HEAD
+859ac24f41061bffde588b9ed5d5adfea5ca8e27
+
+$ for n in 57 58 59 60 61 62; do grep -c "lessons/round-$n.md" corpus/README.md; done   # cwd=lane root
+n=57 0
+n=58 0
+n=59 0
+n=60 0
+n=61 0
+n=62 0
+
+$ for n in 51 52 53 63; do grep -c "lessons/round-$n.md" corpus/README.md; done   # reference rows (expect 1)
+n=51 1
+n=52 1
+n=53 1
+n=63 1

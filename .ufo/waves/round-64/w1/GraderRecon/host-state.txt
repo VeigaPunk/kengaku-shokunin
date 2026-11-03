@@ -1,0 +1,25 @@
+# host-state — GraderRecon seat, round 64 w1
+# UTC: 2026-11-03T19:12:04Z
+
+$ uname -srm
+Linux 7.2.11-arch1-1 x86_64
+
+$ bwrap --version
+bubblewrap 0.13.1
+
+$ /usr/bin/python3 --version
+Python 3.14.8
+
+$ ~/.local/bin/uv --version
+uv 0.13.0 (x86_64-unknown-linux-gnu)
+
+$ ss -ltn | grep -E ":(5328|8080)\b" || echo "(no output: no listener on 5328 or 8080)"
+(no output: no listener on 5328 or 8080)
+
+$ ss -ltnH | awk -F: "{print \$NF}" | grep -cE "^(5328|8080)$"    # count of matching listeners
+0
+
+$ ss -ltnH | wc -l                                                # total listening sockets on host
+38
+
+VERDICT host-state: port 5328 FREE, port 8080 FREE (zero matching listeners); bwrap 0.13.1 present; python 3.14.8 at /usr/bin/python3; uv 0.13.0.

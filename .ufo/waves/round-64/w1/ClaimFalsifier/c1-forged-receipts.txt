@@ -1,0 +1,90 @@
+### FORGED f1-empty.txt
+rc=1
+    CHECK fail grader-line-missing
+    CHECK fail grader-sha (none) != 115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e
+    CHECK fail grader-pin (none) != 2fd12b88aafdd04a52c298e3940bcb189f9766d6
+    CHECK fail port-free-at-battery-start not recorded
+    CHECK fail K1 vector-line-missing
+    CHECK fail K1 case-line-missing
+    CHECK fail K1 port-not-recorded-free-before
+    CHECK fail K1 port-not-recorded-free-after
+    CHECK fail K1 leg-lines 0 != 7
+    CHECK fail K2 vector-line-missing
+    CHECK fail K2 case-line-missing
+    CHECK fail K2 port-not-recorded-free-before
+    CHECK fail K2 port-not-recorded-free-after
+    CHECK fail K2 leg-lines 0 != 7
+    CHECK fail K3 vector-line-missing
+    CHECK fail K3 case-line-missing
+    CHECK fail K3 port-not-recorded-free-before
+    CHECK fail K3 port-not-recorded-free-after
+    CHECK fail K3 leg-lines 0 != 7
+    CHECK fail K4 vector-line-missing
+    CHECK fail K4 case-line-missing
+    CHECK fail K4 port-not-recorded-free-before
+    CHECK fail K4 port-not-recorded-free-after
+    CHECK fail K4 leg-lines 0 != 7
+    CHECK fail K5 vector-line-missing
+    CHECK fail K5 case-line-missing
+    CHECK fail K5 port-not-recorded-free-before
+    CHECK fail K5 port-not-recorded-free-after
+    CHECK fail K5 leg-lines 0 != 7
+    CHECK fail k2-fragment (missing) lacks 'Port 5328 is not listening'
+    CHECK fail k2 leg-5 fragment does not carry the frozen fragment
+    CHECK fail K1 server_pid not recorded: (none)
+    CHECK fail K1 server_pid not recorded before legs: (none)
+    CHECK fail K1 server not recorded ready: (none)
+    CHECK fail K1 server_log not recorded: (none)
+    CHECK fail predicate-line-missing
+    PREDICATE R64-C1 fail
+
+### FORGED f2-no-portlines.txt
+rc=1
+    CHECK fail port-free-at-battery-start not recorded
+    CHECK fail K1 port-not-recorded-free-before
+    CHECK fail K1 port-not-recorded-free-after
+    CHECK fail K2 port-not-recorded-free-before
+    CHECK fail K2 port-not-recorded-free-after
+    CHECK fail K3 port-not-recorded-free-before
+    CHECK fail K3 port-not-recorded-free-after
+    CHECK fail K4 port-not-recorded-free-before
+    CHECK fail K4 port-not-recorded-free-after
+    CHECK fail K5 port-not-recorded-free-before
+    CHECK fail K5 port-not-recorded-free-after
+    CHECK fail stored-predicate pass disagrees with derived fail
+    PREDICATE R64-C1 fail
+
+### FORGED f3-no-fragment.txt
+rc=1
+    CHECK fail k2-fragment (missing) lacks 'Port 5328 is not listening'
+    CHECK fail stored-predicate pass disagrees with derived fail
+    PREDICATE R64-C1 fail
+
+### FORGED f4-fragment-not-on-leg5.txt
+rc=1
+    CHECK fail k2 leg-5 fragment does not carry the frozen fragment
+    CHECK fail stored-predicate pass disagrees with derived fail
+    PREDICATE R64-C1 fail
+
+### FORGED f5-k5leg6-flipped.txt
+rc=1
+    CHECK fail K5 vector P/P/P/P/F/F/F != P/P/P/P/F/P/F
+    CHECK fail stored-predicate pass disagrees with derived fail
+    PREDICATE R64-C1 fail
+
+### FORGED f6-wrong-grader-sha.txt
+rc=1
+    CHECK fail grader-sha 0000000000000000000000000000000000000000000000000000000000000000 != 115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e
+    CHECK fail stored-predicate pass disagrees with derived fail
+    PREDICATE R64-C1 fail
+
+### FORGED f7-k1-pid-none.txt
+rc=1
+    CHECK fail K1 server_pid not recorded: none
+    CHECK fail stored-predicate pass disagrees with derived fail
+    PREDICATE R64-C1 fail
+
+### CONTROL real receipt (unmodified)
+rc=0
+    CHECK ok cases=5
+    PREDICATE R64-C1 pass

@@ -1,0 +1,88 @@
+# restoration leg — originals untouched; preserved copies re-detected
+ts=2026-11-03T16:20:24
+
+original_probe=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/ProbeBuild/round64_c1_kvstore_probe.py
+original_sha256_now=9f56d25ddb33e14474c6439c16f25dd5545da99e542a051d342113a88b306843
+battery_sha256=9f56d25ddb33e14474c6439c16f25dd5545da99e542a051d342113a88b306843
+preserved_copy=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/ProbeMutate/pristine/round64_c1_kvstore_probe.py
+preserved_sha256=9f56d25ddb33e14474c6439c16f25dd5545da99e542a051d342113a88b306843
+byte_identical_to_battery_source=True
+
+original_sweep=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/SweepBuild/round64_trio_sweep.py
+original_sha256_now=56638ea1dfc0ca47ee91dfc0afec9c9fcbbefa9b15d3e163ad423b7f8dbf8bb0
+battery_sha256=56638ea1dfc0ca47ee91dfc0afec9c9fcbbefa9b15d3e163ad423b7f8dbf8bb0
+preserved_copy=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/ProbeMutate/pristine/round64_trio_sweep.py
+preserved_sha256=56638ea1dfc0ca47ee91dfc0afec9c9fcbbefa9b15d3e163ad423b7f8dbf8bb0
+byte_identical_to_battery_source=True
+
+original_gate=/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round63_gate_checks.py
+original_sha256_now=797085c242a63d0b38f875b6f67550848ddac34dd7f5dbd20861ad3849e7a18a
+battery_sha256=797085c242a63d0b38f875b6f67550848ddac34dd7f5dbd20861ad3849e7a18a
+preserved_copy=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/ProbeMutate/pristine/round63_gate_checks.py
+preserved_sha256=797085c242a63d0b38f875b6f67550848ddac34dd7f5dbd20861ad3849e7a18a
+byte_identical_to_battery_source=True
+
+## probe-check-receipt
+cmd=/usr/bin/python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/ProbeMutate/pristine/round64_c1_kvstore_probe.py --check-receipt /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/ProbeMutate/fixtures/probe/good-receipt.txt
+rc=0 expect=0 ok
+--- stdout ---
+CHECK ok cases=5
+PREDICATE R64-C1 pass
+--- stderr ---
+(empty)
+
+## probe-selftest
+cmd=/usr/bin/python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/ProbeMutate/pristine/round64_c1_kvstore_probe.py --selftest --work /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/ProbeMutate/work/st-probe
+rc=0 expect=0 ok
+--- stdout ---
+CHECK ok cases=5
+PREDICATE R64-C1 pass
+CHECK fail K2 vector P/P/F/F/F/F/F != F/P/F/F/F/F/F
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+CHECK fail K1 server_pid not recorded: none
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+CHECK fail port-free-at-battery-start not recorded
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+CHECK fail k2-fragment unrelated message lacks 'Port 5328 is not listening'
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+SETUP receipt-missing /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/ProbeMutate/work/st-probe/selftest/absent-receipt.txt
+SELFTEST render-table     observed=0 expected=0 pass
+SELFTEST valid-receipt    observed=0 expected=0 pass
+SELFTEST tampered-vector  observed=1 expected=1 pass
+SELFTEST no-server-pid    observed=1 expected=1 pass
+SELFTEST port-not-free    observed=1 expected=1 pass
+SELFTEST no-k2-fragment   observed=1 expected=1 pass
+SELFTEST missing-receipt  observed=2 expected=2 pass
+SELFTEST note: synthesized receipts exercise text-field mechanics only; the live predicate's evidence is server_pid + server_log
+SELFTEST pass
+--- stderr ---
+(empty)
+
+## sweep-m5-lane
+cmd=/usr/bin/python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/ProbeMutate/pristine/round64_trio_sweep.py --sweep --lane /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/ProbeMutate/fixtures/sweep/lane-m5 --frozen-list /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/ProbeMutate/fixtures/sweep/lane-m5/frozen.txt
+rc=1 expect=1 ok
+--- stdout ---
+SWEEP files=1 trio_open=0 addendum=0 red=1
+RED corpus/knowledge/wrong-date.md
+PREDICATE R64-C3 fail
+--- stderr ---
+INFO frozen-list=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/ProbeMutate/fixtures/sweep/lane-m5/frozen.txt sha256=a3bd8909a6a3581d5654bd3d6b989168840f176380b80d81aa2d029532ae8599 entries=1
+
+## sweep-selftest
+cmd=/usr/bin/python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/ProbeMutate/pristine/round64_trio_sweep.py --selftest --work /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/ProbeMutate/work/st-sweep
+rc=0 expect=0 ok
+--- stdout ---
+SELFTEST classify case=RED got=TRIO-RED expect=TRIO-RED ok
+SELFTEST classify case=ADDENDUM got=TRIO-ADDENDUM expect=TRIO-ADDENDUM ok
+SELFTEST classify case=OPEN got=TRIO-OPEN expect=TRIO-OPEN ok
+SELFTEST sweep-base rc=1 expect=1 red=1 trio_open=1 addendum=1 ok
+SELFTEST sweep-repaired rc=0 expect=0 red=0 addendum=2 ok
+SELFTEST pass
+--- stderr ---
+(empty)
+
+RESTORATION pass

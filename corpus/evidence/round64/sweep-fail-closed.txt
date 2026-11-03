@@ -1,0 +1,9 @@
+# fail-closed cases of the R64-C3 sweep (run against the landed tool, 2026-11-03)
+$ python3 plans/round64_trio_sweep.py --sweep --lane <scratch lane with no corpus/evidence/round64 list>
+SETUP frozen-list-unreadable
+SETUP no lane-local frozen list at /fast/scratch/hyaku/kengaku-r64/sweep3/nolist/corpus/evidence/round64/trio-red-at-base.txt (and no --frozen override)
+rc=2
+$ python3 plans/round64_trio_sweep.py --sweep --lane <scratch lane with a substituted 1-line list>
+SETUP frozen-list-substituted
+SETUP frozen list sha256=c51b16495e01d8a4efe6faabaf48db7ece5bfeea1004b322a6cf5f18916c7e6c != pin fe0498fb20b5102b50d80a3eca1258784cdf9d66edf4d9654b10fa99653a080a (/fast/scratch/hyaku/kengaku-r64/sweep3/subst/corpus/evidence/round64/trio-red-at-base.txt)
+rc=2

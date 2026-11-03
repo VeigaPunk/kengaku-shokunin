@@ -665,3 +665,9 @@ Appended; the lines above stay as written. The point verdicts quoted in this ent
 registered last-block population (19/19 pooled with run 1 would PASS — population-dependent); every `0/0 -> FAIL`
 target line is **UNTESTED**, not a failure. The overall-accuracy PASSes (20/20, 22/22, 20/20, 30/30) hold, as
 trial-level PASSes over 1–3 request bodies.
+
+## Freshness addendum (round 64)
+
+verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+recheck: sha256sum plans/attrib-r21-frozen.md && python3 plans/attrib_probe.py freeze-check --double-read
+result: exit 0; plans/attrib-r21-frozen.md sha256=43ac5132c88715586de6e94da6d41bb7e135eea4b4b3ce0db7766044dc7cb732 (= the pinned file sha in this entry); FREEZE-CHECK: reads=2 block_sha=9f0244bb0aa4463c pinned=9f0244bb0aa4463c stable=True -> OK

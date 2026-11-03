@@ -1,0 +1,17 @@
+# R64-C3 freshness re-verification — corpus/knowledge/tb2-grader-vacuity-triage.md
+# seat SweepRepairB, round 64, observed 2026-11-03T19:13:08Z
+# clone /fast/scratch/hyaku/kengaku-r64/SweepRepairB/clone (git clone --shared), HEAD 859ac24f41061bffde588b9ed5d5adfea5ca8e27
+# entry sha256 before append: 2fdf990794c7c2def6bdc7488f26c90bccd0e4eb4433132ea63b3e38ef7decbc  corpus/knowledge/tb2-grader-vacuity-triage.md
+# cwd: clone root; network: none
+$ python3 plans/round52_c1_grader_audit.py --lane . | grep -E 'TASKS total|CAPTURES expected|CLASS V1|TESTCLASS|CANDIDATES total|PREDICATE R52-C1'; (cd corpus/evidence/round52/graders && sha256sum -c SHA256SUMS 2>&1 | grep -v ': OK$')
+TASKS total=89 records=89 classified=88
+CAPTURES expected=184 present=183 mismatched=0
+CLASS V1=2 V4=0 V2=53 V3=31 V0=3
+TESTCLASS presence_only_tests=33 tasks_with_presence_only=27
+CANDIDATES total=29
+PREDICATE R52-C1 fail
+PREDICATE R52-C1-A5 pass
+sha256sum: ./sanitize-git-repo/tests/test_outputs.py: No such file or directory
+./sanitize-git-repo/tests/test_outputs.py: FAILED open or read
+sha256sum: WARNING: 1 listed file could not be read
+[exit=0]

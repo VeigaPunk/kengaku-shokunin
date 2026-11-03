@@ -1,0 +1,36 @@
+# S231 live open — gRPC Python API reference (grpc.github.io/grpc/python/grpc.html)
+# seat: GraderRecon (round 64, w1)
+# UTC: 2026-11-03T19:12:04Z
+
+$ curl -sS -o s231-grpc-python.html -w "http_code=%{http_code} size=%{size_download}\n" https://grpc.github.io/grpc/python/grpc.html
+http_code=200 size=250738
+
+$ sha256sum s231-grpc-python.html
+d68676105b4bbf7f701eb3458e95db7efd5fe6129408eba4b574dff23ea083e4  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/GraderRecon/s231-grpc-python.html
+
+# Located quotes (page headings are <h3> sections; anchors are the page ids)
+
+QUOTE-1  section "gRPC Exceptions" -> entity "exception grpc.RpcError" (anchor #grpc.RpcError):
+  "Raised by the gRPC library to indicate non-OK-status RPC termination."   [10 words]
+
+QUOTE-2  section "Multi-Callable Interfaces" -> grpc.UnaryUnaryMultiCallable.__call__ (anchor #grpc.UnaryUnaryMultiCallable.__call__), Raises: field:
+  "Raises: RpcError - Indicating that the RPC terminated with non-OK status."   [11 words]
+  ...continuing in the same field: "The raised RpcError will also be a Call for the RPC affording the RPC's metadata, status code, and details."   [20 words]
+
+QUOTE-3  section "gRPC Status Code" -> grpc.StatusCode.UNAVAILABLE (anchor #grpc.StatusCode.UNAVAILABLE):
+  "UNAVAILABLE - The service is currently unavailable."   [6 words + code name]
+
+# What the page says, and what it does NOT say (honest scope of S231):
+#  The page contains no literal sentence of the form "UNAVAILABLE surfaces as RpcError".
+#  It states (a) RpcError is raised for non-OK-status RPC termination, (b) a unary call raises
+#  RpcError on non-OK status and the raised object affords the status code, (c) UNAVAILABLE is one
+#  grpc.StatusCode, documented as "The service is currently unavailable."
+
+# Empirically closed (scratch venv, grpcio 1.85.1 for cp314, client-only, port 5329 verified closed by ss):
+grpc 1.85.1
+CAUGHT_AS_grpc_RpcError: _InactiveRpcError
+isinstance_RpcError: True
+code: StatusCode.UNAVAILABLE | code_is_UNAVAILABLE: True
+details: failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:5329: Failed to connect to remote host: Connection refused
+
+VERDICT S231: opened live (http 200, 250738 bytes); RpcError/StatusCode.UNAVAILABLE documented and quoted above; a unary call to a closed loopback port raises _InactiveRpcError, isinstance grpc.RpcError == True, code == StatusCode.UNAVAILABLE -> the grader leg-6 `except grpc.RpcError` tolerates it while leg-7 (no except) does not.

@@ -1,0 +1,26 @@
+# m5..m6 mutation battery — R64-C3 trio sweep
+ts=2026-11-03T16:19:56
+pristine=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/pristine/round64_trio_sweep.py
+pristine_sha256=56638ea1dfc0ca47ee91dfc0afec9c9fcbbefa9b15d3e163ad423b7f8dbf8bb0
+sweep_source=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/SweepBuild/round64_trio_sweep.py
+sweep_source_sha256_at_battery=56638ea1dfc0ca47ee91dfc0afec9c9fcbbefa9b15d3e163ad423b7f8dbf8bb0
+gate_dependency=/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round63_gate_checks.py
+gate_dependency_sha256_at_battery=797085c242a63d0b38f875b6f67550848ddac34dd7f5dbd20861ad3849e7a18a
+fixture_lane_m5=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/sweep/lane-m5
+fixture_lane_m5_control=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/sweep/lane-m5-control
+fixture_lane_m6=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/sweep/lane-m6-vacuous
+fixture_lane_m6_mismatch=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/sweep/lane-m6-mismatch
+VERDICT m5=SURVIVED mechanism=NONE
+  pristine-wrongdate_rc=1 expect=1
+  pristine-control-rightdate_rc=0 expect=0
+  mutant-wrongdate_rc=0 expect=0 => SURVIVED
+  mutant-control-rightdate_rc=0 expect=0
+  selftest_pristine_rc=0 (expect 0)
+  selftest_mutant_rc=0 (0 => selftest blind)
+VERDICT m6=SURVIVED mechanism=NONE
+  pristine-vacuous-lane_rc=2 expect=2
+  mutant-vacuous-lane_rc=0 expect=0 => SURVIVED
+  pristine-mismatch-lane_rc=2 expect=2
+  mutant-mismatch-lane_rc=1 expect=1 => SURVIVED (graded)
+  selftest_pristine_rc=0 (expect 0)
+  selftest_mutant_rc=0 (0 => selftest blind)

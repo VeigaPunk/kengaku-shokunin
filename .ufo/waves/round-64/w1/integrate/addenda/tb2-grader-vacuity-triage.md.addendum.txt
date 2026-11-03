@@ -1,0 +1,5 @@
+
+## Freshness addendum (round 64)
+verified-at: 2026-11-03 (observed 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106))
+recheck: python3 plans/round52_c1_grader_audit.py --lane . | grep -E 'TASKS total|CAPTURES expected|CLASS V1|TESTCLASS|CANDIDATES total|PREDICATE R52-C1'; (cd corpus/evidence/round52/graders && sha256sum -c SHA256SUMS 2>&1 | grep -v ': OK$')
+result: pinned tool re-run on committed bytes: TASKS total=89 records=89 classified=88; CAPTURES expected=184 present=183 mismatched=0; CLASS V1=2 V4=0 V2=53 V3=31 V0=3; TESTCLASS presence_only_tests=33 tasks_with_presence_only=27; CANDIDATES total=29; PREDICATE R52-C1 fail (A5 pass); sha256sum -c SHA256SUMS = 183 OK + exactly one unreadable row (sanitize-git-repo, the operator-excluded capture)

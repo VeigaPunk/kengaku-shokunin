@@ -38,3 +38,8 @@ one-line-per-model scans beat wiki prose for spec lookups; wiki prose
 beats it for rationale. Verified shape on `kimi-k2-thinking` /
 `kimi-k2.5` / `kimi-k2.6` rows (contextWindow 262144, maxOutputTokens
 16384 observed).
+
+## Freshness addendum (round 64)
+verified-at: 2026-11-03 (observed 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106))
+recheck: sha256sum corpus/evidence/round13-coverage/surface-receipt.json; grep -A1 '"path": "~/.bailian"' corpus/evidence/round13-coverage/surface-receipt.json; test -e ~/.bailian/skills/bailian-docs-llm-wiki/models/index.md && echo present || echo absent; test -e ~/.bailian/wiki-sync-state.json && echo present || echo absent
+result: sha256=c3372d805887842ffa66abea871ac5076f52d434d36e699f064f7c358edd680f (committed round-13 availability receipt, unchanged); committed capture prints "exists": false for the cited root; live re-check 2026-11-03: absent

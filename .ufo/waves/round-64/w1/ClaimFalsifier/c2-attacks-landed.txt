@@ -1,0 +1,61 @@
+### ATTACK t1a_dotdot_nosuffix
+gate=landed rc=1
+    ROWS n=16 class_match=True count_mismatch=0 paths total=15 resolved=15 share=1.00
+    DETAIL row-pointer=cls-00:no-path-token
+    PREDICATE R63-C2 fail
+gate=base rc=1
+    ROWS n=16 class_match=True count_mismatch=0 paths total=15 resolved=15 share=1.00
+    DETAIL row-pointer=cls-00:no-path-token
+    PREDICATE R63-C2 fail
+### ATTACK t1b_dotdot_existing
+gate=landed rc=1
+    ROWS n=16 class_match=True count_mismatch=0 paths total=16 resolved=15 share=0.94
+    DETAIL escape=../../../../etc/
+    DETAIL row-pointer=cls-15:../../../../etc/
+    DETAIL unresolved=../../../../etc/
+    PREDICATE R63-C2 fail
+gate=base rc=1
+    ROWS n=16 class_match=True count_mismatch=0 paths total=16 resolved=15 share=0.94
+    DETAIL row-pointer=cls-15:../../../../etc/
+    DETAIL unresolved=../../../../etc/
+    PREDICATE R63-C2 fail
+### ATTACK t2_dir_inside_root
+gate=landed rc=0
+    ROWS n=16 class_match=True count_mismatch=0 paths total=16 resolved=16 share=1.00
+    PREDICATE R63-C2 pass
+gate=base rc=0
+    ROWS n=16 class_match=True count_mismatch=0 paths total=16 resolved=16 share=1.00
+    PREDICATE R63-C2 pass
+### ATTACK t3_url_in_prose
+gate=landed rc=0
+    ROWS n=16 class_match=True count_mismatch=0 paths total=16 resolved=16 share=1.00
+    PREDICATE R63-C2 pass
+gate=base rc=0
+    ROWS n=16 class_match=True count_mismatch=0 paths total=16 resolved=16 share=1.00
+    PREDICATE R63-C2 pass
+### ATTACK t3b_url_pointer_cell
+gate=landed rc=1
+    ROWS n=16 class_match=True count_mismatch=0 paths total=15 resolved=15 share=1.00
+    DETAIL row-pointer=cls-00:no-path-token
+    PREDICATE R63-C2 fail
+gate=base rc=1
+    ROWS n=16 class_match=True count_mismatch=0 paths total=15 resolved=15 share=1.00
+    DETAIL row-pointer=cls-00:no-path-token
+    PREDICATE R63-C2 fail
+### ATTACK t4_absolute_inside_root
+gate=landed rc=1
+    ROWS n=16 class_match=True count_mismatch=0 paths total=16 resolved=15 share=0.94
+    DETAIL escape=/fast/scratch/hyaku/kengaku-r64/ClaimFalsifier/c2/t4_absolute_inside_root/records/cls-00.txt
+    DETAIL row-pointer=cls-00:/fast/scratch/hyaku/kengaku-r64/ClaimFalsifier/c2/t4_absolute_inside_root/records/cls-00.txt
+    DETAIL unresolved=/fast/scratch/hyaku/kengaku-r64/ClaimFalsifier/c2/t4_absolute_inside_root/records/cls-00.txt
+    PREDICATE R63-C2 fail
+gate=base rc=0
+    ROWS n=16 class_match=True count_mismatch=0 paths total=16 resolved=16 share=1.00
+    PREDICATE R63-C2 pass
+### ATTACK t5_symlink_escape
+gate=landed rc=0
+    ROWS n=16 class_match=True count_mismatch=0 paths total=16 resolved=16 share=1.00
+    PREDICATE R63-C2 pass
+gate=base rc=0
+    ROWS n=16 class_match=True count_mismatch=0 paths total=16 resolved=16 share=1.00
+    PREDICATE R63-C2 pass

@@ -1,0 +1,25 @@
+# R64-C2 step 4a — the SAME escape fixture under the PATCHED gate: rc 1 + DETAIL escape=
+# driver: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/GateScopePatch/red/escape_red_repro.py = committed escape_red_before.py with only the LANE
+# constant retargeted at the patched clone (diff below).
+# diff committed driver vs repro driver:
+--- /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/claims/escape_red_before.py	2026-11-03 16:08:02.206889675 -0300
++++ /fast/scratch/hyaku/kengaku-r64/GateScopePatch/red/escape_red_repro.py	2026-11-03 16:11:47.316072743 -0300
+@@ -4,7 +4,7 @@
+ import pathlib
+ import sys
+ 
+-LANE = pathlib.Path("/home/vgpnk/Projects/shokunin/kengaku-shokunin")
++LANE = pathlib.Path("/fast/scratch/hyaku/kengaku-r64/GateScopePatch/clone")
+ spec = importlib.util.spec_from_file_location("gate", LANE / "plans/round63_gate_checks.py")
+ gate = importlib.util.module_from_spec(spec)
+ spec.loader.exec_module(gate)
+# cmd: TMPDIR=/fast/scratch/hyaku/kengaku-r64/GateScopePatch /usr/bin/python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/GateScopePatch/red/escape_red_repro.py /fast/scratch/hyaku/kengaku-r64/GateScopePatch/red/work-patched
+# gate under test: /fast/scratch/hyaku/kengaku-r64/GateScopePatch/clone/plans/round63_gate_checks.py (sha256 a98d9c0f75600ea4f99573d2ca291b1ffd97cffc18a53a3a65dce7b7941dfe17)
+ROWS n=16 class_match=True count_mismatch=0 paths total=2 resolved=1 share=0.50
+DETAIL escape=/home/vgpnk/.config/uv/uv-receipt.json
+DETAIL row-pointer=cls-00:/home/vgpnk/.config/uv/uv-receipt.json
+DETAIL unresolved=/home/vgpnk/.config/uv/uv-receipt.json
+PREDICATE R63-C2 fail
+FIXTURE absolute-token=/home/vgpnk/.config/uv/uv-receipt.json inside_root=False
+RC 1
+# shell rc=1

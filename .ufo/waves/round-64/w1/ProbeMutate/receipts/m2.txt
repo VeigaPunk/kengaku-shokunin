@@ -1,0 +1,150 @@
+# m1..m4 mutation battery — R64-C1 probe
+ts=2026-11-03T16:19:55
+pristine=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/pristine/round64_c1_kvstore_probe.py
+pristine_sha256=9f56d25ddb33e14474c6439c16f25dd5545da99e542a051d342113a88b306843
+probe_source=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/ProbeBuild/round64_c1_kvstore_probe.py
+probe_source_sha256_at_battery=9f56d25ddb33e14474c6439c16f25dd5545da99e542a051d342113a88b306843
+real_receipt_present=True
+
+anchor=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/probe/good-receipt.txt kind=receipt-of-record sha256=a87cd119784ed92c23ed6854e365b9a3d8e0b19954668b8579ceb4218c3b2842
+# mutation m2
+defect=corrupt receipt: K2 fragment replaced
+mutant=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/mutants/m2/round64_c1_kvstore_probe.py
+mutant_sha256=54bedcc7355d09e0a530b0e5d4d689035d08b2369fc43a128bfe2eb9c7934781
+changed=True
+
+## pristine-good [m2]
+cmd=/usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/ProbeMutate/pristine/round64_c1_kvstore_probe.py --check-receipt /fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/probe/good-receipt.txt
+cwd=/fast/scratch/hyaku/kengaku-r64/ProbeMutate
+rc=0 expect=0
+elapsed=0.03s
+--- stdout ---
+CHECK ok cases=5
+PREDICATE R64-C1 pass
+--- stderr ---
+(empty)
+
+## pristine-corrupt [m2]
+cmd=/usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/ProbeMutate/pristine/round64_c1_kvstore_probe.py --check-receipt /fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/probe/bad-m2-no-k2-fragment.txt
+cwd=/fast/scratch/hyaku/kengaku-r64/ProbeMutate
+rc=1 expect=1
+elapsed=0.03s
+--- stdout ---
+CHECK fail k2-fragment unrelated message lacks 'Port 5328 is not listening'
+CHECK fail k2 leg-5 fragment does not carry the frozen fragment
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+--- stderr ---
+(empty)
+
+## mutant-corrupt [m2]
+cmd=/usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/ProbeMutate/mutants/m2/round64_c1_kvstore_probe.py --check-receipt /fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/probe/bad-m2-no-k2-fragment.txt
+cwd=/fast/scratch/hyaku/kengaku-r64/ProbeMutate
+rc=0 expect=0 => SURVIVED
+elapsed=0.03s
+--- stdout ---
+CHECK ok cases=5
+PREDICATE R64-C1 pass
+--- stderr ---
+(empty)
+
+## mutant-good [m2]
+cmd=/usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/ProbeMutate/mutants/m2/round64_c1_kvstore_probe.py --check-receipt /fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/probe/good-receipt.txt
+cwd=/fast/scratch/hyaku/kengaku-r64/ProbeMutate
+rc=0 expect=0
+elapsed=0.03s
+--- stdout ---
+CHECK ok cases=5
+PREDICATE R64-C1 pass
+--- stderr ---
+(empty)
+
+## selftest-pristine [m2]
+cmd=/usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/ProbeMutate/pristine/round64_c1_kvstore_probe.py --selftest --work /fast/scratch/hyaku/kengaku-r64/ProbeMutate/work/probe/st-pristine-m2
+cwd=/fast/scratch/hyaku/kengaku-r64/ProbeMutate
+rc=0 expect=0
+elapsed=0.03s
+--- stdout ---
+CHECK ok cases=5
+PREDICATE R64-C1 pass
+CHECK fail K2 vector P/P/F/F/F/F/F != F/P/F/F/F/F/F
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+CHECK fail K1 server_pid not recorded: none
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+CHECK fail port-free-at-battery-start not recorded
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+CHECK fail k2-fragment unrelated message lacks 'Port 5328 is not listening'
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+SETUP receipt-missing /fast/scratch/hyaku/kengaku-r64/ProbeMutate/work/probe/st-pristine-m2/selftest/absent-receipt.txt
+SELFTEST render-table     observed=0 expected=0 pass
+SELFTEST valid-receipt    observed=0 expected=0 pass
+SELFTEST tampered-vector  observed=1 expected=1 pass
+SELFTEST no-server-pid    observed=1 expected=1 pass
+SELFTEST port-not-free    observed=1 expected=1 pass
+SELFTEST no-k2-fragment   observed=1 expected=1 pass
+SELFTEST missing-receipt  observed=2 expected=2 pass
+SELFTEST note: synthesized receipts exercise text-field mechanics only; the live predicate's evidence is server_pid + server_log
+SELFTEST pass
+--- stderr ---
+(empty)
+
+## selftest-mutant [m2]
+cmd=/usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/ProbeMutate/mutants/m2/round64_c1_kvstore_probe.py --selftest --work /fast/scratch/hyaku/kengaku-r64/ProbeMutate/work/probe/st-mutant-m2
+cwd=/fast/scratch/hyaku/kengaku-r64/ProbeMutate
+rc=1 expect=0
+elapsed=0.03s
+--- stdout ---
+CHECK ok cases=5
+PREDICATE R64-C1 pass
+CHECK fail K2 vector P/P/F/F/F/F/F != F/P/F/F/F/F/F
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+CHECK fail K1 server_pid not recorded: none
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+CHECK fail port-free-at-battery-start not recorded
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+CHECK ok cases=5
+PREDICATE R64-C1 pass
+SETUP receipt-missing /fast/scratch/hyaku/kengaku-r64/ProbeMutate/work/probe/st-mutant-m2/selftest/absent-receipt.txt
+SELFTEST render-table     observed=0 expected=0 pass
+SELFTEST valid-receipt    observed=0 expected=0 pass
+SELFTEST tampered-vector  observed=1 expected=1 pass
+SELFTEST no-server-pid    observed=1 expected=1 pass
+SELFTEST port-not-free    observed=1 expected=1 pass
+SELFTEST no-k2-fragment   observed=0 expected=1 FAIL
+SELFTEST missing-receipt  observed=2 expected=2 pass
+SELFTEST note: synthesized receipts exercise text-field mechanics only; the live predicate's evidence is server_pid + server_log
+SELFTEST fail
+--- stderr ---
+(empty)
+
+--- mutation diff ---
+--- /fast/scratch/hyaku/kengaku-r64/ProbeMutate/pristine/round64_c1_kvstore_probe.py
++++ /fast/scratch/hyaku/kengaku-r64/ProbeMutate/mutants/m2/round64_c1_kvstore_probe.py
+@@ -848,9 +848,5 @@
+     fragment_line = next((line[len("K2-FRAGMENT "):] for line in lines
+                           if line.startswith("K2-FRAGMENT ")), "")
+-    if K2_LEG5_FRAGMENT not in fragment_line:
+-        failures.append("k2-fragment %s lacks %r"
+-                        % (fragment_line or "(missing)", K2_LEG5_FRAGMENT))
+-    if K2_LEG5_FRAGMENT not in leg_frags.get("K2", {}).get(5, ""):
+-        failures.append("k2 leg-5 fragment does not carry the frozen fragment")
++    # mutant m2: the frozen K2 leg-5 fragment is no longer checked
+ 
+     k1 = cases.get("K1", {})
+
+
+--- summary ---
+pristine_on_good_rc=0 (expect 0)
+pristine_on_corrupt_rc=1 (expect 1)
+mutant_on_corrupt_rc=0 (0 => survived)
+mutant_on_good_rc=0 (expect 0, gross-break guard)
+selftest_pristine_rc=0 (expect 0)
+selftest_mutant_rc=1 (0 => selftest blind)
+VERDICT m2=KILLED mechanism=--selftest

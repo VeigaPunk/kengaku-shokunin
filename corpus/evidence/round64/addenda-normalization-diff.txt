@@ -1,0 +1,233 @@
+== attrib-prior-art-r21.addendum.txt (source: SweepRepairA)
+0a1
+> 
+3,5c4,6
+< - verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+< - recheck: grep -c 'leg=1/zai OK status=200 stream=True 2.097s' corpus/evidence/probe-r19-P4-glm.log corpus/knowledge/probe-battery-r19.md && grep -cE '^\| (4d|5b|7b) \|' corpus/knowledge/probe-battery-r19.md
+< - result: exit 0; cited anchors re-derived from committed r19 bytes: shim-journal line x1 in corpus/evidence/probe-r19-P4-glm.log:139 and x1 in corpus/knowledge/probe-battery-r19.md:152; §2 rows 4d/5b/7b = 3; §7 arXiv fetch not re-run (no network in this sweep)
+---
+> verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+> recheck: grep -c 'leg=1/zai OK status=200 stream=True 2.097s' corpus/evidence/probe-r19-P4-glm.log corpus/knowledge/probe-battery-r19.md && grep -cE '^\| (4d|5b|7b) \|' corpus/knowledge/probe-battery-r19.md
+> result: exit 0; cited anchors re-derived from committed r19 bytes: shim-journal line x1 in corpus/evidence/probe-r19-P4-glm.log:139 and x1 in corpus/knowledge/probe-battery-r19.md:152; §2 rows 4d/5b/7b = 3; §7 arXiv fetch not re-run (no network in this sweep)
+== attrib-r21.addendum.txt (source: SweepRepairA)
+0a1
+> 
+3,5c4,6
+< - verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+< - recheck: sha256sum plans/attrib-r21-frozen.md && python3 plans/attrib_probe.py freeze-check --double-read
+< - result: exit 0; plans/attrib-r21-frozen.md sha256=43ac5132c88715586de6e94da6d41bb7e135eea4b4b3ce0db7766044dc7cb732 (= the pinned file sha in this entry); FREEZE-CHECK: reads=2 block_sha=9f0244bb0aa4463c pinned=9f0244bb0aa4463c stable=True -> OK
+---
+> verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+> recheck: sha256sum plans/attrib-r21-frozen.md && python3 plans/attrib_probe.py freeze-check --double-read
+> result: exit 0; plans/attrib-r21-frozen.md sha256=43ac5132c88715586de6e94da6d41bb7e135eea4b4b3ce0db7766044dc7cb732 (= the pinned file sha in this entry); FREEZE-CHECK: reads=2 block_sha=9f0244bb0aa4463c pinned=9f0244bb0aa4463c stable=True -> OK
+== bailian-cli-telemetry.addendum.txt (source: SweepRepairA)
+0a1
+> 
+3,5c4,6
+< - verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+< - recheck: sha256sum corpus/evidence/round13-coverage/surface-receipt.json && python3 -c "import json;d=json.load(open('corpus/evidence/round13-coverage/surface-receipt.json'));print([(p['path'],p['exists']) for p in d['paths'] if p['path']=='~/.bailian'],d['observed_at'])"
+< - result: exit 0; corpus/evidence/round13-coverage/surface-receipt.json sha256=c3372d805887842ffa66abea871ac5076f52d434d36e699f064f7c358edd680f; [('~/.bailian', False)] observed 2026-10-15T04:49:50Z - source absence re-derived from the committed capture
+---
+> verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+> recheck: sha256sum corpus/evidence/round13-coverage/surface-receipt.json && python3 -c "import json;d=json.load(open('corpus/evidence/round13-coverage/surface-receipt.json'));print([(p['path'],p['exists']) for p in d['paths'] if p['path']=='~/.bailian'],d['observed_at'])"
+> result: exit 0; corpus/evidence/round13-coverage/surface-receipt.json sha256=c3372d805887842ffa66abea871ac5076f52d434d36e699f064f7c358edd680f; [('~/.bailian', False)] observed 2026-10-15T04:49:50Z - source absence re-derived from the committed capture
+== bench-arena-fresh-run.addendum.txt (source: SweepRepairA)
+0a1
+> 
+3,5c4,6
+< - verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+< - recheck: sha256sum corpus/evidence/round13-coverage/surface-receipt.json corpus/evidence/round10-fleet/models-34113.json && python3 -c "import json;d=json.load(open('corpus/evidence/round13-coverage/surface-receipt.json'));m=json.load(open('corpus/evidence/round10-fleet/models-34113.json'));print([(p['path'],p['exists']) for p in d['paths'] if 'bench-arena' in p['path']],d['endpoint']['error'],'created',m['data'][0]['created'])"
+< - result: exit 0; surface-receipt.json sha256=c3372d805887842ffa66abea871ac5076f52d434d36e699f064f7c358edd680f; [('~/archive/bench-arena', False), ('~/bench-arena', False)]; endpoint <urlopen error [Errno 111] Connection refused>; retained capture models-34113.json sha256=5399f26f78c33f7d9565675ea125f54fc32c0616a5e3b2d764e02cb0bc21f8bf, data[0].created=1790633228 (reproduces corpus/evidence/round12-fleet/r12-review-citations.md:354)
+---
+> verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+> recheck: sha256sum corpus/evidence/round13-coverage/surface-receipt.json corpus/evidence/round10-fleet/models-34113.json && python3 -c "import json;d=json.load(open('corpus/evidence/round13-coverage/surface-receipt.json'));m=json.load(open('corpus/evidence/round10-fleet/models-34113.json'));print([(p['path'],p['exists']) for p in d['paths'] if 'bench-arena' in p['path']],d['endpoint']['error'],'created',m['data'][0]['created'])"
+> result: exit 0; surface-receipt.json sha256=c3372d805887842ffa66abea871ac5076f52d434d36e699f064f7c358edd680f; [('~/archive/bench-arena', False), ('~/bench-arena', False)]; endpoint <urlopen error [Errno 111] Connection refused>; retained capture models-34113.json sha256=5399f26f78c33f7d9565675ea125f54fc32c0616a5e3b2d764e02cb0bc21f8bf, data[0].created=1790633228 (reproduces corpus/evidence/round12-fleet/r12-review-citations.md:354)
+== bench-arena-round11-power.addendum.txt (source: SweepRepairA)
+0a1
+> 
+3,5c4,6
+< - verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+< - recheck: python3 grader.py && md5sum corpus/evidence/round11-power/results-r11.jsonl corpus/evidence/round11-power/run.log && python3 corpus/evidence/round11-power/recompute_r11.py --selftest
+< - result: exit 0; CHECKS n=733 mismatches=0 errata_pinned=1, VERDICT: PASS - stored evidence fully re-derives offline; results-r11.jsonl md5=c42fe3d10b6d7a1ed14c4485af03357b and run.log md5=281cb530702995854f162e807ee66ff3 (= the entry's pins); recompute_r11 selftest: 58 checks, 0 failures
+---
+> verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+> recheck: python3 grader.py && md5sum corpus/evidence/round11-power/results-r11.jsonl corpus/evidence/round11-power/run.log && python3 corpus/evidence/round11-power/recompute_r11.py --selftest
+> result: exit 0; CHECKS n=733 mismatches=0 errata_pinned=1, VERDICT: PASS - stored evidence fully re-derives offline; results-r11.jsonl md5=c42fe3d10b6d7a1ed14c4485af03357b and run.log md5=281cb530702995854f162e807ee66ff3 (= the entry's pins); recompute_r11 selftest: 58 checks, 0 failures
+== bench-arena-round12-ladder.addendum.txt (source: SweepRepairA)
+4,6c4,6
+< - verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+< - recheck: sha256sum -c corpus/evidence/round12-ladder/prereg-bundle.sha256 && sha256sum corpus/evidence/round12-ladder/results-r12.jsonl && python3 corpus/evidence/round12-ladder/recompute_r12.py --selftest
+< - result: exit 0; prereg bundle 9/9 OK; results-r12.jsonl sha256=ad9c88e79068fa2833c90f071ec6da4035ff37371ff95d84f581dd4e8db842f1 (= the entry's pin); recompute_r12 SELFTEST 165/165 PASS
+---
+> verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+> recheck: sha256sum -c corpus/evidence/round12-ladder/prereg-bundle.sha256 && sha256sum corpus/evidence/round12-ladder/results-r12.jsonl && python3 corpus/evidence/round12-ladder/recompute_r12.py --selftest
+> result: exit 0; prereg bundle 9/9 OK; results-r12.jsonl sha256=ad9c88e79068fa2833c90f071ec6da4035ff37371ff95d84f581dd4e8db842f1 (= the entry's pin); recompute_r12 SELFTEST 165/165 PASS
+== bench-arena-round5-battery.addendum.txt (source: SweepRepairA)
+0a1
+> 
+3,5c4,6
+< - verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+< - recheck: git show 859ac24f41061bffde588b9ed5d5adfea5ca8e27:corpus/knowledge/bench-arena-round5-battery.md | sha256sum
+< - result: exit 0; committed blob at 859ac24 sha256=90abe20fb0fea5e8567cfdacae0a1180a0d59795eda62cc779ee0aec49250dfc = the round-17 census pin in .ufo/round-17/initial-state.json (record bytes unchanged); the cited /tmp/bench-r5 artifacts are uncommitted, so only the committed record is re-verifiable from repo bytes
+---
+> verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+> recheck: git show 859ac24f41061bffde588b9ed5d5adfea5ca8e27:corpus/knowledge/bench-arena-round5-battery.md | sha256sum
+> result: exit 0; committed blob at 859ac24 sha256=90abe20fb0fea5e8567cfdacae0a1180a0d59795eda62cc779ee0aec49250dfc = the round-17 census pin in .ufo/round-17/initial-state.json (record bytes unchanged); the cited /tmp/bench-r5 artifacts are uncommitted, so only the committed record is re-verifiable from repo bytes
+== bench-arena-round6-stability.addendum.txt (source: SweepRepairA)
+0a1
+> 
+3,5c4,6
+< - verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+< - recheck: git show 859ac24f41061bffde588b9ed5d5adfea5ca8e27:corpus/knowledge/bench-arena-round6-stability.md | sha256sum
+< - result: exit 0; committed blob at 859ac24 sha256=906f22036aee94a237f3798147ec9f38b686a18f97d39b9c0f9084f07803715b = the round-17 census pin in .ufo/round-17/initial-state.json (record bytes unchanged); the cited /tmp/bench-r6 artifacts are uncommitted, so only the committed record is re-verifiable from repo bytes
+---
+> verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+> recheck: git show 859ac24f41061bffde588b9ed5d5adfea5ca8e27:corpus/knowledge/bench-arena-round6-stability.md | sha256sum
+> result: exit 0; committed blob at 859ac24 sha256=906f22036aee94a237f3798147ec9f38b686a18f97d39b9c0f9084f07803715b = the round-17 census pin in .ufo/round-17/initial-state.json (record bytes unchanged); the cited /tmp/bench-r6 artifacts are uncommitted, so only the committed record is re-verifiable from repo bytes
+== bench-arena-round7-noise-n25.addendum.txt (source: SweepRepairA)
+0a1
+> 
+3,5c4,6
+< - verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+< - recheck: git show 859ac24f41061bffde588b9ed5d5adfea5ca8e27:corpus/knowledge/bench-arena-round7-noise-n25.md | sha256sum
+< - result: exit 0; committed blob at 859ac24 sha256=52a78fae458730775d80a3d41abdc6d2699771ecf68e34f161d9690c419a38de = the round-17 census pin in .ufo/round-17/initial-state.json (record bytes unchanged); the cited /tmp/bench-r7-l2-executor artifacts are uncommitted, so only the committed record is re-verifiable from repo bytes
+---
+> verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+> recheck: git show 859ac24f41061bffde588b9ed5d5adfea5ca8e27:corpus/knowledge/bench-arena-round7-noise-n25.md | sha256sum
+> result: exit 0; committed blob at 859ac24 sha256=52a78fae458730775d80a3d41abdc6d2699771ecf68e34f161d9690c419a38de = the round-17 census pin in .ufo/round-17/initial-state.json (record bytes unchanged); the cited /tmp/bench-r7-l2-executor artifacts are uncommitted, so only the committed record is re-verifiable from repo bytes
+== bench-arena-round7-scaffold-ablation.addendum.txt (source: SweepRepairA)
+0a1
+> 
+3,5c4,6
+< - verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+< - recheck: git show 859ac24f41061bffde588b9ed5d5adfea5ca8e27:corpus/knowledge/bench-arena-round7-scaffold-ablation.md | sha256sum
+< - result: exit 0; committed blob at 859ac24 sha256=b1c9bd99a3a973c982021c84e27ffea0f12b4bc359dc5b17ee1096144dc815d0 = the round-17 census pin in .ufo/round-17/initial-state.json (record bytes unchanged); the cited /tmp/bench-r7 artifacts are uncommitted, so only the committed record is re-verifiable from repo bytes
+---
+> verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+> recheck: git show 859ac24f41061bffde588b9ed5d5adfea5ca8e27:corpus/knowledge/bench-arena-round7-scaffold-ablation.md | sha256sum
+> result: exit 0; committed blob at 859ac24 sha256=b1c9bd99a3a973c982021c84e27ffea0f12b4bc359dc5b17ee1096144dc815d0 = the round-17 census pin in .ufo/round-17/initial-state.json (record bytes unchanged); the cited /tmp/bench-r7 artifacts are uncommitted, so only the committed record is re-verifiable from repo bytes
+== bench-arena-round8-horizon.addendum.txt (source: SweepRepairA)
+0a1
+> 
+3,5c4,6
+< - verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+< - recheck: md5sum corpus/evidence/round8-horizon/horizon.py corpus/evidence/round8-horizon/results.jsonl corpus/evidence/round8-horizon/run.log corpus/evidence/round8-horizon/critic-defects.md && python3 -c "import json;rs=[json.loads(l) for l in open('corpus/evidence/round8-horizon/results.jsonl')];print('records',len(rs),'finish_stop',sum(1 for r in rs if r.get('finish')=='stop'),'finish_bearing',sum(1 for r in rs if r.get('finish')))" && grep -cE '^\[[0-9]+/78\]' corpus/evidence/round8-horizon/run.log
+< - result: exit 0; md5 horizon.py=1c157e2a5f5cd3b8516d30c3d4a9c01d, results.jsonl=df154cb524bf210782fb0f4a46fd1bdc, run.log=fc3b232ffc532717e50c1d06e0549acc, critic-defects.md=33864062dbd7314300577f38c87f97cf (= the entry's pins); records 268, finish_stop 258, finish_bearing 258; run.log job lines 78
+---
+> verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+> recheck: md5sum corpus/evidence/round8-horizon/horizon.py corpus/evidence/round8-horizon/results.jsonl corpus/evidence/round8-horizon/run.log corpus/evidence/round8-horizon/critic-defects.md && python3 -c "import json;rs=[json.loads(l) for l in open('corpus/evidence/round8-horizon/results.jsonl')];print('records',len(rs),'finish_stop',sum(1 for r in rs if r.get('finish')=='stop'),'finish_bearing',sum(1 for r in rs if r.get('finish')))" && grep -cE '^\[[0-9]+/78\]' corpus/evidence/round8-horizon/run.log
+> result: exit 0; md5 horizon.py=1c157e2a5f5cd3b8516d30c3d4a9c01d, results.jsonl=df154cb524bf210782fb0f4a46fd1bdc, run.log=fc3b232ffc532717e50c1d06e0549acc, critic-defects.md=33864062dbd7314300577f38c87f97cf (= the entry's pins); records 268, finish_stop 258, finish_bearing 258; run.log job lines 78
+== bench-arena-round9-replication.addendum.txt (source: SweepRepairA)
+0a1
+> 
+3,5c4,6
+< - verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+< - recheck: sha256sum corpus/evidence/round9-replication/predictions-r9.md && python3 -c "import json,collections;rs=[json.loads(l) for l in open('corpus/evidence/round9-replication/results-r9.jsonl')];c=collections.Counter(r.get('cell') for r in rs);print('records',len(rs),'meta',c['meta'],'filler',c['filler'],'scored',len(rs)-c['meta']-c['filler'])"
+< - result: exit 0; predictions-r9.md sha256=2a4f62ef20a65e7a7cb3b7414b54d0f995126209c3126ae674b7cc3af2bc1099 (= predictions-r9.sha256.repo pin); results-r9.jsonl records 284, meta 8, filler 28, scored 248
+---
+> verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+> recheck: sha256sum corpus/evidence/round9-replication/predictions-r9.md && python3 -c "import json,collections;rs=[json.loads(l) for l in open('corpus/evidence/round9-replication/results-r9.jsonl')];c=collections.Counter(r.get('cell') for r in rs);print('records',len(rs),'meta',c['meta'],'filler',c['filler'],'scored',len(rs)-c['meta']-c['filler'])"
+> result: exit 0; predictions-r9.md sha256=2a4f62ef20a65e7a7cb3b7414b54d0f995126209c3126ae674b7cc3af2bc1099 (= predictions-r9.sha256.repo pin); results-r9.jsonl records 284, meta 8, filler 28, scored 248
+== bench-arena-task27-timeout-anatomy.addendum.txt (source: SweepRepairA)
+0a1
+> 
+3,5c4,6
+< - verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+< - recheck: git show 859ac24f41061bffde588b9ed5d5adfea5ca8e27:corpus/knowledge/bench-arena-task27-timeout-anatomy.md | sha256sum
+< - result: exit 0; committed blob at 859ac24 sha256=e51c1e4692bf156b4fc0817f1ed45770416a1bcb02426e4c407c924df7dcb676 = the round-17 census pin in .ufo/round-17/initial-state.json (record bytes unchanged); the cited /tmp/bench-r6/t27 artifacts are uncommitted, so only the committed record is re-verifiable from repo bytes
+---
+> verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+> recheck: git show 859ac24f41061bffde588b9ed5d5adfea5ca8e27:corpus/knowledge/bench-arena-task27-timeout-anatomy.md | sha256sum
+> result: exit 0; committed blob at 859ac24 sha256=e51c1e4692bf156b4fc0817f1ed45770416a1bcb02426e4c407c924df7dcb676 = the round-17 census pin in .ufo/round-17/initial-state.json (record bytes unchanged); the cited /tmp/bench-r6/t27 artifacts are uncommitted, so only the committed record is re-verifiable from repo bytes
+== benchmark-selection.addendum.txt (source: SweepRepairA)
+0a1
+> 
+3,5c4,6
+< - verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+< - recheck: sha256sum corpus/evidence/round13-coverage/surface-receipt.json && python3 -c "import json;d=json.load(open('corpus/evidence/round13-coverage/surface-receipt.json'));print([(p['path'],p['exists']) for p in d['paths'] if p['path']=='~/Projects/webzites/repos/llm-wiki'],d['observed_at'])"
+< - result: exit 0; corpus/evidence/round13-coverage/surface-receipt.json sha256=c3372d805887842ffa66abea871ac5076f52d434d36e699f064f7c358edd680f; [('~/Projects/webzites/repos/llm-wiki', False)] observed 2026-10-15T04:49:50Z - wiki source absence re-derived from the committed capture
+---
+> verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+> recheck: sha256sum corpus/evidence/round13-coverage/surface-receipt.json && python3 -c "import json;d=json.load(open('corpus/evidence/round13-coverage/surface-receipt.json'));print([(p['path'],p['exists']) for p in d['paths'] if p['path']=='~/Projects/webzites/repos/llm-wiki'],d['observed_at'])"
+> result: exit 0; corpus/evidence/round13-coverage/surface-receipt.json sha256=c3372d805887842ffa66abea871ac5076f52d434d36e699f064f7c358edd680f; [('~/Projects/webzites/repos/llm-wiki', False)] observed 2026-10-15T04:49:50Z - wiki source absence re-derived from the committed capture
+== eval-design-digest-2.addendum.txt (source: SweepRepairA)
+0a1
+> 
+3,5c4,6
+< - verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+< - recheck: sha256sum corpus/evidence/round13-coverage/surface-receipt.json && python3 -c "import json;d=json.load(open('corpus/evidence/round13-coverage/surface-receipt.json'));print([(p['path'],p['exists']) for p in d['paths'] if p['path']=='~/Projects/webzites/repos/llm-wiki'],d['observed_at'])"
+< - result: exit 0; corpus/evidence/round13-coverage/surface-receipt.json sha256=c3372d805887842ffa66abea871ac5076f52d434d36e699f064f7c358edd680f; [('~/Projects/webzites/repos/llm-wiki', False)] observed 2026-10-15T04:49:50Z - wiki source absence re-derived from the committed capture
+---
+> verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+> recheck: sha256sum corpus/evidence/round13-coverage/surface-receipt.json && python3 -c "import json;d=json.load(open('corpus/evidence/round13-coverage/surface-receipt.json'));print([(p['path'],p['exists']) for p in d['paths'] if p['path']=='~/Projects/webzites/repos/llm-wiki'],d['observed_at'])"
+> result: exit 0; corpus/evidence/round13-coverage/surface-receipt.json sha256=c3372d805887842ffa66abea871ac5076f52d434d36e699f064f7c358edd680f; [('~/Projects/webzites/repos/llm-wiki', False)] observed 2026-10-15T04:49:50Z - wiki source absence re-derived from the committed capture
+== eval-design-digest-3.md.addendum.txt (source: SweepRepairB)
+3c3
+< verified-at: 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106)
+---
+> verified-at: 2026-11-03 (observed 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106))
+== eval-prior-art-calibration.md.addendum.txt (source: SweepRepairB)
+3c3
+< verified-at: 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106)
+---
+> verified-at: 2026-11-03 (observed 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106))
+== eval-theory-notes.md.addendum.txt (source: SweepRepairB)
+3c3
+< verified-at: 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106)
+---
+> verified-at: 2026-11-03 (observed 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106))
+== gemini-benchmark-suite.md.addendum.txt (source: SweepRepairB)
+3c3
+< verified-at: 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106)
+---
+> verified-at: 2026-11-03 (observed 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106))
+== godspeed-eval-findings.md.addendum.txt (source: SweepRepairB)
+3c3
+< verified-at: 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106)
+---
+> verified-at: 2026-11-03 (observed 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106))
+== kimi-model-routing-round18.md.addendum.txt (source: SweepRepairB)
+3c3
+< verified-at: 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106)
+---
+> verified-at: 2026-11-03 (observed 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106))
+== ledger-route-telemetry.md.addendum.txt (source: SweepRepairB)
+3c3
+< verified-at: 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106)
+---
+> verified-at: 2026-11-03 (observed 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106))
+== local-bench-arena.md.addendum.txt (source: SweepRepairB)
+3c3
+< verified-at: 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106)
+---
+> verified-at: 2026-11-03 (observed 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106))
+== local-model-index.md.addendum.txt (source: SweepRepairB)
+3c3
+< verified-at: 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106)
+---
+> verified-at: 2026-11-03 (observed 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106))
+== probe-battery-r19.md.addendum.txt (source: SweepRepairB)
+3c3
+< verified-at: 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106)
+---
+> verified-at: 2026-11-03 (observed 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106))
+== tb2-cancel-async-tasks-grader.md.addendum.txt (source: SweepRepairB)
+3c3
+< verified-at: 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106)
+---
+> verified-at: 2026-11-03 (observed 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106))
+== tb2-grader-class-census.md.addendum.txt (source: SweepRepairB)
+3c3
+< verified-at: 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106)
+---
+> verified-at: 2026-11-03 (observed 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106))
+== tb2-grader-vacuity-triage.md.addendum.txt (source: SweepRepairB)
+3c3
+< verified-at: 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106)
+---
+> verified-at: 2026-11-03 (observed 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106))
+== telemetry-run-design.md.addendum.txt (source: SweepRepairB)
+3c3
+< verified-at: 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106)
+---
+> verified-at: 2026-11-03 (observed 2026-11-03T19:13:08Z (round-64 freshness sweep; clean shared clone at 859ac24f4106))

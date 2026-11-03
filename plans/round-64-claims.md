@@ -241,3 +241,84 @@ C1 is the round's sourced claim (rests on S230, with S231 grounding the K5 leg-6
 Anything the wave exposes that this freeze did not anticipate lands as a dated amendment section
 here, never as an edit to the sentences above. A rule changed after any seat has scored is not
 the claim's rule.
+
+---
+
+## Amendment A1 — dated 2026-11-03, AFTER the wave's build and attack seats settled, BEFORE any after-receipt was scored
+
+The wave (`.ufo/waves/round-64/w1`, 15 seats, dispatched after freeze `859ac24f`) produced the findings
+below. Each is recorded here; no predicate sentence, kill rule, leg vector or control above is edited.
+Every change is an instrument or registration correction to the frozen sentence, or a named limit.
+
+1. **Round-start landcheck red (registration duty, not a predicate change).** `plans/round56_landcheck.py`
+   leg `L-reg` failed at round start: `plans/round52_c2_registry.py` reported `MISSING 2` —
+   `plans/round63_c1_pypi_probe.py` and `plans/round63_gate_checks.py` were advertised by the round-63
+   close without SKILL registry rows (`.ufo/waves/round-64/frontier/landcheck-start.txt`). Repaired by
+   registration: SKILL rows `round63-c1-pypi-probe` and `round63-gate-checks`, and entry-truth ledger rows
+   of the same names (`plans/round54-entrytruth.json`), with the frozen R63-C1 MISS of record unchanged
+   (`--check-receipt` on run 1 → `PREDICATE R63-C1 fail`, rc 1). Registry closure after: `MISSING 0`,
+   `PREDICATE R52-C2 pass` (`.ufo/waves/round-64/frontier/gates-at-start-v2.txt` is the red; the green after
+   is the registry run recorded in the round report).
+
+2. **R64-C3 counter corrected to the frozen sentence before any after-receipt (FreezeReview Major; security
+   M-2, L-1; mutation m5).** Before the fix, `measure()`'s pass path was `not red` alone: it did not require
+   the 29 entries to classify `TRIO-ADDENDUM`, so an opening-byte repair printed `PREDICATE R64-C3 pass`
+   (reproduced: `openedit-sim.txt`). Fixed: (a) the pass path requires every frozen entry to classify
+   `TRIO-ADDENDUM` (`DETAIL not-addendum=`); (b) the addendum must carry a non-empty `result:` line (the
+   frozen sentence's "observed result", FreezeReview Minor); (c) the absolute fallback
+   `FROZEN_LIST_ABS` is removed — no lane-local list is `SETUP frozen-list-unreadable`, rc 2 (M-2); (d) the
+   lane-local list is pinned by sha `fe0498fb…` — a substituted list is `SETUP frozen-list-substituted`,
+   rc 2 (L-1; an explicit `--frozen` override is a caller's choice and is not pinned); (e) the selftest gains
+   two legs (the round-63 heading must classify RED; the opening-edit form `sweep-openedit` must fail with
+   `not-addendum=<1>`), each shown able to fail. Receipts: `corpus/evidence/round64/sweep-selftest.txt`,
+   `sweep-fail-closed.txt`. The red-before (`sweep-red-before.txt`, clean clone at `859ac24f`) and the
+   after (`sweep-after.txt`, `SWEEP files=65 trio_open=36 addendum=29 red=0`, `PREDICATE R64-C3 pass`) are
+   measured on the corrected tool. The predicate is unchanged; the counter now prices it.
+
+3. **R64-C3 addendum shape (security H-1; L1 normalization, byte-logged).** The repair seats emitted two
+   shapes the frozen tool's line-anchored grammar does not accept: slice A used markdown bullets
+   (`- verified-at:`, `- recheck:`, `- result:`), slice B wrote `verified-at: 2026-11-03T19:…Z`. The L1
+   normalized the 29 blocks to the canonical form the tool already accepted: 45 bullet strips and 14
+   timestamp moves (`corpus/evidence/round64/addenda-normalization-diff.txt`; the seat originals stay in
+   `SweepRepairA/` and `SweepRepairB/`). The normalized blocks were appended to the 29 entries. Append-only
+   check: every entry's `HEAD` bytes are a byte-prefix of its working-tree bytes (29 of 29,
+   `corpus/evidence/round64/append-only-prefix-check.txt`). One entry, `corpus/knowledge/bench-arena-round12-ladder.md`,
+   had no final newline; the join adds the terminator to its last line — the prefix still holds, and the
+   change is named here, not hidden.
+
+4. **R64-C1 install environment hardened; receipt of record replaced (security M-1).** The probe's
+   `uv venv`, `uv pip install grpcio grpcio-tools` and version probe inherited the ambient environment
+   (host HOME, pip/uv config). Hardened: each runs under `_tool_env(work)` — HOME, caches and config all under
+   the scratch dir, `UV_NO_CONFIG=1`, `PIP_CONFIG_FILE=/dev/null`, `PATH` restricted. The two pre-hardening
+   batteries (run 1 = ProbeBuild's receipt of record, run 2 = its determinism rerun) are kept byte-for-byte
+   under `corpus/evidence/round64/prehardening/` with their server logs. The receipt of record at the frozen
+   counting path `corpus/evidence/round64/kvstore-probe.txt` is the hardened battery (vectors identical to the
+   frozen five; `PREDICATE R64-C1 pass`; `--check-receipt` rc 0). This replaces only the install step's
+   environment; the cases, legs, vectors and predicate are unchanged. The probe's own selftest on the landed
+   bytes: `corpus/evidence/round64/selftest.txt`, `SELFTEST pass`, rc 0.
+
+5. **Freeze-doc citation (FreezeReview Minor; no rule change).** The "Red-before" path named in the freeze as
+   `corpus/evidence/round64/escape-before.txt` did not exist at the freeze; the committed receipt is
+   `.ufo/waves/round-64/claims/escape-before.txt` (sha `9f335b5f…`, content as quoted). It is now also copied
+   to `corpus/evidence/round64/escape-red-before.txt` (identical bytes). The after receipts are
+   `corpus/evidence/round64/escape-after.txt` (rc 1, `DETAIL escape=`) and `gate-selftest-after.txt`
+   (4/4, `SELFTEST pass`) and `real-section-after.txt` (`PREDICATE R63-C2 pass`, rc 0).
+
+6. **Named limits carried, not repaired.** (a) Symlink escape: the R64-C2 rule is lexical (`normpath` +
+   `is_relative_to`), as frozen; a relative token traversing an in-root symlink to an out-of-root target is
+   not caught (security note 2, measured: `link/uv-receipt.json` → `escape=None`). Recorded as a limit of the
+   frozen rule, not a patch defect. (b) Mutation m4 (`ProbeMutate/mutate-report.md`): the probe's
+   `case-line-missing` guard is redundant with the VECTOR line, and removing it leaves the predicate's
+   verdict unchanged; the mutant survives and is reported, not claimed killed. (c) Security L-2 (the probe's
+   bwrap shares the host PID and network namespaces) is the carried r63 M-2 — required for the loopback
+   port, unchanged. (d) `--check-receipt` cannot prove a live run (carried r63 routed defect 4).
+
+7. **Frozen-sentence reading recorded.** C3's "dated round-64 freshness addendum naming its re-verification
+   command and observed result" is priced as: heading `## Freshness addendum (round 64)`, a line
+   `verified-at: 2026-11-03`, a `recheck:` line naming a command, a `result:` line with observed output.
+   The tool does not execute the `recheck:` command; re-running the named commands is the closure's duty
+   (the claims doc's kill rule). The 29 `reverify.txt` receipts (each command and its verbatim output) are in
+   the seat dirs `SweepRepairA/`, `SweepRepairB/`.
+
+No predicate, leg vector, control, kill rule or counting-command sentence above was changed. The round's
+verdicts are stated in the round report and in `SCORECARD.md` (round 64).

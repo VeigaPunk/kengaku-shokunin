@@ -1,0 +1,104 @@
+# R64-C3 sweep controls (scratch-only fixture lanes; no corpus file edited anywhere)
+# driver: /fast/scratch/hyaku/kengaku-r64/SweepBuild/controls.py
+cmd: cd /fast/scratch/hyaku/kengaku-r64/SweepBuild && TMPDIR=/fast/scratch/hyaku/kengaku-r64/SweepBuild python3 /fast/scratch/hyaku/kengaku-r64/SweepBuild/controls.py
+# --- stdout ---
+frozen entries n=29
+## CONTROL frozen-short (one entry removed)
+cmd: /usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/SweepBuild/clone/plans/round64_trio_sweep.py --sweep --lane /fast/scratch/hyaku/kengaku-r64/SweepBuild/clone --frozen-list /fast/scratch/hyaku/kengaku-r64/SweepBuild/frozen-short.txt
+stdout:
+SETUP frozen-list-mismatch
+stderr:
+INFO frozen-list=/fast/scratch/hyaku/kengaku-r64/SweepBuild/frozen-short.txt sha256=e1045f797f8a35e6080fb13c5599c93e8508a9376210c2c8c251c080e913cfaf entries=28
+DETAIL frozen=<28> observed=<29> extra=<corpus/knowledge/attrib-prior-art-r21.md> missing=<->
+exit=2
+
+## CONTROL frozen-long (one phantom entry added)
+cmd: /usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/SweepBuild/clone/plans/round64_trio_sweep.py --sweep --lane /fast/scratch/hyaku/kengaku-r64/SweepBuild/clone --frozen-list /fast/scratch/hyaku/kengaku-r64/SweepBuild/frozen-long.txt
+stdout:
+SETUP frozen-list-mismatch
+stderr:
+INFO frozen-list=/fast/scratch/hyaku/kengaku-r64/SweepBuild/frozen-long.txt sha256=06a062da38832892f716bf1faed631b8028db22a65eee8a5ac9f13c91fbbd1f7 entries=30
+DETAIL frozen=<30> observed=<29> extra=<-> missing=<corpus/knowledge/not-a-file.md>
+exit=2
+
+## CONTROL after-sim (all 29 frozen entries carry a round-64 addendum)
+cmd: /usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/SweepBuild/clone/plans/round64_trio_sweep.py --sweep --lane /fast/scratch/hyaku/kengaku-r64/SweepBuild/after-sim/lane
+stdout:
+SWEEP files=65 trio_open=36 addendum=29 red=0
+ADDENDUM corpus/knowledge/attrib-prior-art-r21.md
+ADDENDUM corpus/knowledge/attrib-r21.md
+ADDENDUM corpus/knowledge/bailian-cli-telemetry.md
+ADDENDUM corpus/knowledge/bench-arena-fresh-run.md
+ADDENDUM corpus/knowledge/bench-arena-round11-power.md
+ADDENDUM corpus/knowledge/bench-arena-round12-ladder.md
+ADDENDUM corpus/knowledge/bench-arena-round5-battery.md
+ADDENDUM corpus/knowledge/bench-arena-round6-stability.md
+ADDENDUM corpus/knowledge/bench-arena-round7-noise-n25.md
+ADDENDUM corpus/knowledge/bench-arena-round7-scaffold-ablation.md
+ADDENDUM corpus/knowledge/bench-arena-round8-horizon.md
+ADDENDUM corpus/knowledge/bench-arena-round9-replication.md
+ADDENDUM corpus/knowledge/bench-arena-task27-timeout-anatomy.md
+ADDENDUM corpus/knowledge/benchmark-selection.md
+ADDENDUM corpus/knowledge/eval-design-digest-2.md
+ADDENDUM corpus/knowledge/eval-design-digest-3.md
+ADDENDUM corpus/knowledge/eval-prior-art-calibration.md
+ADDENDUM corpus/knowledge/eval-theory-notes.md
+ADDENDUM corpus/knowledge/gemini-benchmark-suite.md
+ADDENDUM corpus/knowledge/godspeed-eval-findings.md
+ADDENDUM corpus/knowledge/kimi-model-routing-round18.md
+ADDENDUM corpus/knowledge/ledger-route-telemetry.md
+ADDENDUM corpus/knowledge/local-bench-arena.md
+ADDENDUM corpus/knowledge/local-model-index.md
+ADDENDUM corpus/knowledge/probe-battery-r19.md
+ADDENDUM corpus/knowledge/tb2-cancel-async-tasks-grader.md
+ADDENDUM corpus/knowledge/tb2-grader-class-census.md
+ADDENDUM corpus/knowledge/tb2-grader-vacuity-triage.md
+ADDENDUM corpus/knowledge/telemetry-run-design.md
+PREDICATE R64-C3 pass
+stderr:
+INFO frozen-list=/fast/scratch/hyaku/kengaku-r64/SweepBuild/after-sim/lane/corpus/evidence/round64/trio-red-at-base.txt sha256=fe0498fb20b5102b50d80a3eca1258784cdf9d66edf4d9654b10fa99653a080a entries=29
+exit=0
+
+## CONTROL partial-sim (1 of 29 repaired)
+cmd: /usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/SweepBuild/clone/plans/round64_trio_sweep.py --sweep --lane /fast/scratch/hyaku/kengaku-r64/SweepBuild/partial-sim/lane
+stdout:
+SETUP frozen-list-mismatch
+stderr:
+INFO frozen-list=/fast/scratch/hyaku/kengaku-r64/SweepBuild/partial-sim/lane/corpus/evidence/round64/trio-red-at-base.txt sha256=fe0498fb20b5102b50d80a3eca1258784cdf9d66edf4d9654b10fa99653a080a entries=29
+DETAIL frozen=<29> observed=<28> extra=<-> missing=<corpus/knowledge/attrib-prior-art-r21.md>
+exit=2
+
+## CONTROL empty-sim (knowledge dir emptied)
+cmd: /usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/SweepBuild/clone/plans/round64_trio_sweep.py --sweep --lane /fast/scratch/hyaku/kengaku-r64/SweepBuild/empty-sim/lane
+stdout:
+SETUP frozen-entry-missing
+stderr:
+INFO frozen-list=/fast/scratch/hyaku/kengaku-r64/SweepBuild/empty-sim/lane/corpus/evidence/round64/trio-red-at-base.txt sha256=fe0498fb20b5102b50d80a3eca1258784cdf9d66edf4d9654b10fa99653a080a entries=29
+DETAIL frozen-entries-absent=<29> first=<corpus/knowledge/attrib-prior-art-r21.md,corpus/knowledge/attrib-r21.md,corpus/knowledge/bailian-cli-telemetry.md,corpus/knowledge/bench-arena-fresh-run.md,corpus/knowledge/bench-arena-round11-power.md,corpus/knowledge/bench-arena-round12-ladder.md,corpus/knowledge/bench-arena-round5-battery.md,corpus/knowledge/bench-arena-round6-stability.md>
+exit=2
+
+## CONTROL deleted-sim (after-sim minus one frozen entry)
+cmd: /usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/SweepBuild/clone/plans/round64_trio_sweep.py --sweep --lane /fast/scratch/hyaku/kengaku-r64/SweepBuild/deleted-sim/lane
+stdout:
+SETUP frozen-entry-missing
+stderr:
+INFO frozen-list=/fast/scratch/hyaku/kengaku-r64/SweepBuild/deleted-sim/lane/corpus/evidence/round64/trio-red-at-base.txt sha256=fe0498fb20b5102b50d80a3eca1258784cdf9d66edf4d9654b10fa99653a080a entries=29
+DETAIL frozen-entries-absent=<1> first=<corpus/knowledge/attrib-prior-art-r21.md>
+exit=2
+
+## CONTROL parity (imported rule)
+trio_missing.__module__=round63_gate_checks same_object=True
+out-of-order: gate_trio_pass=False sweep_class=TRIO-RED note=-
+wrong-date-addendum: gate_trio_pass=False sweep_class=TRIO-RED note=addendum-incomplete missing=verified-at: 2026-11-03
+duplicate-source-ordered: gate_trio_pass=True sweep_class=TRIO-OPEN note=-
+
+SUMMARY
+frozen-short rc=2 expect=2
+frozen-long rc=2 expect=2
+after-sim rc=0 expect=0
+partial-sim rc=2 expect=2
+empty-sim rc=2 expect=2
+deleted-sim rc=2 expect=2
+CONTROLS pass
+# --- stderr ---
+# exit=0

@@ -1,0 +1,116 @@
+# m5..m6 mutation battery — R64-C3 trio sweep
+ts=2026-11-03T16:19:56
+pristine=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/pristine/round64_trio_sweep.py
+pristine_sha256=56638ea1dfc0ca47ee91dfc0afec9c9fcbbefa9b15d3e163ad423b7f8dbf8bb0
+sweep_source=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/SweepBuild/round64_trio_sweep.py
+sweep_source_sha256_at_battery=56638ea1dfc0ca47ee91dfc0afec9c9fcbbefa9b15d3e163ad423b7f8dbf8bb0
+gate_dependency=/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round63_gate_checks.py
+gate_dependency_sha256_at_battery=797085c242a63d0b38f875b6f67550848ddac34dd7f5dbd20861ad3849e7a18a
+fixture_lane_m5=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/sweep/lane-m5
+fixture_lane_m5_control=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/sweep/lane-m5-control
+fixture_lane_m6=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/sweep/lane-m6-vacuous
+fixture_lane_m6_mismatch=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/sweep/lane-m6-mismatch
+# mutation m5
+defect=accept '## Freshness addendum (round 63)' (wrong date) as a valid addendum
+mutant=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/mutants/m5/round64_trio_sweep.py
+mutant_sha256=fd5c3300be133d7c9b0e844389a96ee7808b9d65a8342a20c3f09588118ab00f
+
+## pristine-wrongdate [m5]
+cmd=/usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/ProbeMutate/pristine/round64_trio_sweep.py --sweep --lane /fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/sweep/lane-m5 --frozen-list /fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/sweep/lane-m5/frozen.txt
+cwd=/fast/scratch/hyaku/kengaku-r64/ProbeMutate
+rc=1 expect=1
+elapsed=0.03s
+--- stdout ---
+SWEEP files=1 trio_open=0 addendum=0 red=1
+RED corpus/knowledge/wrong-date.md
+PREDICATE R64-C3 fail
+--- stderr ---
+INFO frozen-list=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/sweep/lane-m5/frozen.txt sha256=a3bd8909a6a3581d5654bd3d6b989168840f176380b80d81aa2d029532ae8599 entries=1
+
+## pristine-control-rightdate [m5]
+cmd=/usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/ProbeMutate/pristine/round64_trio_sweep.py --sweep --lane /fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/sweep/lane-m5-control --frozen-list /fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/sweep/lane-m5-control/frozen.txt
+cwd=/fast/scratch/hyaku/kengaku-r64/ProbeMutate
+rc=0 expect=0
+elapsed=0.03s
+--- stdout ---
+SWEEP files=1 trio_open=0 addendum=1 red=0
+ADDENDUM corpus/knowledge/right-date.md
+PREDICATE R64-C3 pass
+--- stderr ---
+INFO frozen-list=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/sweep/lane-m5-control/frozen.txt sha256=8f37b383b8fdd14bf7e91c03a363f8bb6cf9f6ed51bea3432825eb6969951dbd entries=1
+
+## mutant-wrongdate [m5]
+cmd=/usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/ProbeMutate/mutants/m5/round64_trio_sweep.py --sweep --lane /fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/sweep/lane-m5 --frozen-list /fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/sweep/lane-m5/frozen.txt
+cwd=/fast/scratch/hyaku/kengaku-r64/ProbeMutate
+rc=0 expect=0 => SURVIVED
+elapsed=0.03s
+--- stdout ---
+SWEEP files=1 trio_open=0 addendum=1 red=0
+ADDENDUM corpus/knowledge/wrong-date.md
+PREDICATE R64-C3 pass
+--- stderr ---
+INFO frozen-list=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/sweep/lane-m5/frozen.txt sha256=a3bd8909a6a3581d5654bd3d6b989168840f176380b80d81aa2d029532ae8599 entries=1
+
+## mutant-control-rightdate [m5]
+cmd=/usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/ProbeMutate/mutants/m5/round64_trio_sweep.py --sweep --lane /fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/sweep/lane-m5-control --frozen-list /fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/sweep/lane-m5-control/frozen.txt
+cwd=/fast/scratch/hyaku/kengaku-r64/ProbeMutate
+rc=0 expect=0
+elapsed=0.03s
+--- stdout ---
+SWEEP files=1 trio_open=0 addendum=1 red=0
+ADDENDUM corpus/knowledge/right-date.md
+PREDICATE R64-C3 pass
+--- stderr ---
+INFO frozen-list=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/sweep/lane-m5-control/frozen.txt sha256=8f37b383b8fdd14bf7e91c03a363f8bb6cf9f6ed51bea3432825eb6969951dbd entries=1
+
+## selftest-pristine [m5]
+cmd=/usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/ProbeMutate/pristine/round64_trio_sweep.py --selftest --work /fast/scratch/hyaku/kengaku-r64/ProbeMutate/work/sweep/st-pristine-m5
+cwd=/fast/scratch/hyaku/kengaku-r64/ProbeMutate
+rc=0 expect=0
+elapsed=0.03s
+--- stdout ---
+SELFTEST classify case=RED got=TRIO-RED expect=TRIO-RED ok
+SELFTEST classify case=ADDENDUM got=TRIO-ADDENDUM expect=TRIO-ADDENDUM ok
+SELFTEST classify case=OPEN got=TRIO-OPEN expect=TRIO-OPEN ok
+SELFTEST sweep-base rc=1 expect=1 red=1 trio_open=1 addendum=1 ok
+SELFTEST sweep-repaired rc=0 expect=0 red=0 addendum=2 ok
+SELFTEST pass
+--- stderr ---
+(empty)
+
+## selftest-mutant [m5]
+cmd=/usr/bin/python3 /fast/scratch/hyaku/kengaku-r64/ProbeMutate/mutants/m5/round64_trio_sweep.py --selftest --work /fast/scratch/hyaku/kengaku-r64/ProbeMutate/work/sweep/st-mutant-m5
+cwd=/fast/scratch/hyaku/kengaku-r64/ProbeMutate
+rc=0 expect=0
+elapsed=0.03s
+--- stdout ---
+SELFTEST classify case=RED got=TRIO-RED expect=TRIO-RED ok
+SELFTEST classify case=ADDENDUM got=TRIO-ADDENDUM expect=TRIO-ADDENDUM ok
+SELFTEST classify case=OPEN got=TRIO-OPEN expect=TRIO-OPEN ok
+SELFTEST sweep-base rc=1 expect=1 red=1 trio_open=1 addendum=1 ok
+SELFTEST sweep-repaired rc=0 expect=0 red=0 addendum=2 ok
+SELFTEST pass
+--- stderr ---
+(empty)
+
+--- mutation diff ---
+--- /fast/scratch/hyaku/kengaku-r64/ProbeMutate/pristine/round64_trio_sweep.py
++++ /fast/scratch/hyaku/kengaku-r64/ProbeMutate/mutants/m5/round64_trio_sweep.py
+@@ -103,5 +103,6 @@
+     """(heading present, missing lines of the first block that lacks any)."""
+     lines = text.splitlines()
+-    headings = [i for i, line in enumerate(lines) if line.rstrip() == ADDENDUM_HEADING]
++    headings = [i for i, line in enumerate(lines) if line.rstrip() == ADDENDUM_HEADING
++                  or line.rstrip() == "## Freshness addendum (round 63)"]
+     if not headings:
+         return False, []
+
+
+--- summary ---
+pristine-wrongdate_rc=1 expect=1
+pristine-control-rightdate_rc=0 expect=0
+mutant-wrongdate_rc=0 expect=0 => SURVIVED
+mutant-control-rightdate_rc=0 expect=0
+selftest_pristine_rc=0 (expect 0)
+selftest_mutant_rc=0 (0 => selftest blind)
+VERDICT m5=SURVIVED mechanism=NONE

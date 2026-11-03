@@ -1,0 +1,24 @@
+CHECK ok cases=5
+PREDICATE R64-C1 pass
+CHECK fail K2 vector P/P/F/F/F/F/F != F/P/F/F/F/F/F
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+CHECK fail K1 server_pid not recorded: none
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+CHECK fail port-free-at-battery-start not recorded
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+CHECK fail k2-fragment unrelated message lacks 'Port 5328 is not listening'
+CHECK fail stored-predicate pass disagrees with derived fail
+PREDICATE R64-C1 fail
+SETUP receipt-missing /fast/scratch/hyaku/kengaku-r64/st-probe/selftest/absent-receipt.txt
+SELFTEST render-table     observed=0 expected=0 pass
+SELFTEST valid-receipt    observed=0 expected=0 pass
+SELFTEST tampered-vector  observed=1 expected=1 pass
+SELFTEST no-server-pid    observed=1 expected=1 pass
+SELFTEST port-not-free    observed=1 expected=1 pass
+SELFTEST no-k2-fragment   observed=1 expected=1 pass
+SELFTEST missing-receipt  observed=2 expected=2 pass
+SELFTEST note: synthesized receipts exercise text-field mechanics only; the live predicate's evidence is server_pid + server_log
+SELFTEST pass

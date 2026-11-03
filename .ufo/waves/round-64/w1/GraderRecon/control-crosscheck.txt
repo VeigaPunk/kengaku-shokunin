@@ -1,0 +1,36 @@
+# Control cross-check — committed K2/K4 captures vs the frozen vectors and the named fragment
+# UTC: 2026-11-03T19:12:25Z
+
+$ sha256sum corpus/evidence/round64/k2-empty-capture.txt corpus/evidence/round64/k4-protoonly-capture.txt corpus/evidence/round64/control-k4-kv-store.proto
+ae0a78ee657108a697fae965dc71e7d79f80cd9850d9ec00b2261ba2476f9887  /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round64/k2-empty-capture.txt
+b262cfe5791cfb93d115a021a8ed392b5a60c07c8f6426dfb8b5b1f9964e4bdb  /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round64/k4-protoonly-capture.txt
+c89bcb1c3b3da00b437a721d7f9d7b76bd778ca567ca1c077f21339fc8a50e0c  /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round64/control-k4-kv-store.proto
+
+$ grep -c -F "Port 5328 is not listening" corpus/evidence/round64/k2-empty-capture.txt
+1
+
+$ grep -o "\"F\"\|\"P\"" ... (vector extraction via python, positional)
+k2-empty-capture.txt: names=['test_proto_file_creation', 'test_grpc_tools_installation', 'test_protobuf_generation', 'test_server_file_creation', 'test_real_grpc_server_running', 'test_grpc_protocol_handshake', 'test_grpc_server_functionality']
+  observed=F P F F F F F  frozen=F P F F F F F  match=True
+  leg1 F msg: AssertionError: Proto file /app/kv-store.proto was not created by the agent
+  leg3 F msg: AssertionError: Generated protobuf file /app/kv_store_pb2.py does not exist
+  leg4 F msg: AssertionError: Server file /app/server.py was not created
+  leg5 F msg: AssertionError: Port 5328 is not listening - no real gRPC server is running
+  leg6 F msg: ModuleNotFoundError: No module named 'kv_store_pb2'
+  leg7 F msg: ModuleNotFoundError: No module named 'kv_store_pb2'
+k4-protoonly-capture.txt: names=['test_proto_file_creation', 'test_grpc_tools_installation', 'test_protobuf_generation', 'test_server_file_creation', 'test_real_grpc_server_running', 'test_grpc_protocol_handshake', 'test_grpc_server_functionality']
+  observed=P P F F F F F  frozen=P P F F F F F  match=True
+  leg3 F msg: AssertionError: Generated protobuf file /app/kv_store_pb2.py does not exist
+  leg4 F msg: AssertionError: Server file /app/server.py was not created
+  leg5 F msg: AssertionError: Port 5328 is not listening - no real gRPC server is running
+  leg6 F msg: ModuleNotFoundError: No module named 'kv_store_pb2'
+  leg7 F msg: ModuleNotFoundError: No module named 'kv_store_pb2'
+
+$ for tok in the five leg-1 literals; grep -c -- "$tok" corpus/evidence/round64/control-k4-kv-store.proto
+  service KVStore          1
+  rpc GetVal               1
+  rpc SetVal               1
+  message GetValRequest    1
+  message SetValResponse   1
+
+VERDICT controls: K2 = F P F F F F F and K4 = P P F F F F F exactly as frozen; K2 leg-5 message contains the predicate fragment verbatim; the K4 control proto carries all five leg-1 literals => frozen K4 leg-1 P is grounded in committed bytes.

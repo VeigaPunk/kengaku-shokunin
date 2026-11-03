@@ -1,0 +1,10 @@
+--- /fast/scratch/hyaku/kengaku-r64/ProbeMutate/pristine/round64_c1_kvstore_probe.py
++++ /fast/scratch/hyaku/kengaku-r64/ProbeMutate/mutants/m3/round64_c1_kvstore_probe.py
+@@ -783,6 +783,5 @@
+         failures.append("grader-pin %s != %s" % (pin or "(none)", TB2_PIN))
+ 
+-    if "PORTFREE before-battery True" not in lines:
+-        failures.append("port-free-at-battery-start not recorded")
++    # mutant m3: port-free-at-battery-start is no longer checked
+ 
+     declared = {}

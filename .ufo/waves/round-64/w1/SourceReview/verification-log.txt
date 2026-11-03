@@ -1,0 +1,42 @@
+# SourceReview-2 verification log — 2026-11-03
+# Live opens (each below with its observed output; header bytes saved beside this log):
+# CMD: curl -fsSL -D s230-headers.txt -o s230-test_outputs.py https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/kv-store-grpc/tests/test_outputs.py
+# OBS: rc=0; HTTP/2 200; content-length 6076; x-github-request-id 57F8:1EB85A:37262:4E6FD:6AEA31A3; date Tue, 03 Nov 2026 19:12:05 GMT
+# CMD: curl -fsSL -D s231-headers.txt -o s231-grpc-python-api.html https://grpc.github.io/grpc/python/grpc.html
+# OBS: rc=0; HTTP/2 200; content-length 250738; last-modified Mon, 26 Oct 2026 06:32:10 GMT; x-github-request-id 66E0:2807EF:3412E:3A207:6AEA31AA
+
+== CMD: sha256sum s230-test_outputs.py ==
+115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e  s230-test_outputs.py
+== CMD: wc -c s230-test_outputs.py ==
+6076 s230-test_outputs.py
+== CMD: git hash-object -- s230-test_outputs.py ==
+2bb04c15ea568ef2ac52cd778ca886a7f02ceff2
+== CMD: sha256sum <lane capture> ==
+115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e  /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round52/graders/kv-store-grpc/tests/test_outputs.py
+== CMD: cmp s230-test_outputs.py <lane capture>; echo rc ==
+cmp_rc=0
+== CMD: sha256sum s231-grpc-python-api.html ==
+d68676105b4bbf7f701eb3458e95db7efd5fe6129408eba4b574dff23ea083e4  s231-grpc-python-api.html
+== CMD: wc -c s231-grpc-python-api.html ==
+250738 s231-grpc-python-api.html
+
+== CMD: grep -n '^def test_' s230-test_outputs.py ==
+15:def test_proto_file_creation():
+35:def test_grpc_tools_installation():
+50:def test_protobuf_generation():
+67:def test_server_file_creation():
+83:def test_real_grpc_server_running():
+99:def test_grpc_protocol_handshake():
+138:def test_grpc_server_functionality():
+== CMD: grep -n '5328\|except grpc.RpcError\|not listening\|indicate real gRPC protocol' s230-test_outputs.py ==
+88:    port = 5328
+96:    assert result == 0, f"Port {port} is not listening - no real gRPC server is running"
+108:    port = "5328"
+128:    except grpc.RpcError:
+129:        # gRPC errors are expected and indicate real gRPC protocol
+147:    port = "5328"
+
+== anchor #grpc.RpcError (offset 97918) rendered text ==
+id="grpc.RpcError"> exception grpc. RpcError [source] # Raised by the gRPC library to indicate non-OK-status RPC termination. RPC Context # class <
+== anchor #grpc.StatusCode.UNAVAILABLE (offset 61563) rendered text ==
+id="grpc.StatusCode.UNAVAILABLE"> UNAVAILABLE # The service is currently unavailable. DATA_LOSS # Unrecoverable data loss or corruption. Channel Object<a class=

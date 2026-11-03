@@ -142,3 +142,9 @@ n=8, ESS≈4.3 at r7's ρ≈0.3).
   first-request `request_ts`) costs two commands and makes the
   predict→observe→score loop auditable; ack compliance must be measured per
   pid before any checkpoint cell is used as a latent-maintenance control.
+
+## Freshness addendum (round 64)
+
+verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+recheck: sha256sum corpus/evidence/round9-replication/predictions-r9.md && python3 -c "import json,collections;rs=[json.loads(l) for l in open('corpus/evidence/round9-replication/results-r9.jsonl')];c=collections.Counter(r.get('cell') for r in rs);print('records',len(rs),'meta',c['meta'],'filler',c['filler'],'scored',len(rs)-c['meta']-c['filler'])"
+result: exit 0; predictions-r9.md sha256=2a4f62ef20a65e7a7cb3b7414b54d0f995126209c3126ae674b7cc3af2bc1099 (= predictions-r9.sha256.repo pin); results-r9.jsonl records 284, meta 8, filler 28, scored 248

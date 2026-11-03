@@ -1176,6 +1176,68 @@
    "evidence": "cases=12 legs=72 mismatches=0 setup=0 predicted_u=0",
    "reason": "round-61 registration (wave A/M, honest red then green): the seventeenth-grader probe ran its first scored battery RED (mismatches=2, receipt .ufo/waves/round-61/recon/c1-first-run-FAIL.txt — four author defects named in plans/round-61-claims.md Amendment 1); the corrected re-freeze (the r59->r60 mechanism, both digests named) is the GREEN of record: the second scored run at 0e62b479 ran cases=12 legs=72 mismatches=0 setup=0 predicted_u=0, PREDICATE R61-C1 pass, exit 0 (receipt corpus/evidence/round61/cancel-async-probe.txt)."
   },
+  "round63-c1-pypi-probe": {
+   "chosen": "check-receipt",
+   "entry_argv": [
+    "python3",
+    "plans/round63_c1_pypi_probe.py",
+    "--check-receipt",
+    "corpus/evidence/round63/pypi-probe-run1-literal-detector-fail.txt"
+   ],
+   "entry_exit": 1,
+   "entry_state": "red",
+   "sec": 0.0,
+   "evidence": "PREDICATE R63-C1 fail (receipt of record: K2 stderr_mentions_8080=False; the frozen MISS, rc 1)",
+   "reason": "round-63 registration (round-64 round-start repair): the round-63 close advertised plans/round63_c1_pypi_probe.py in its SCORECARD and PROVINCE text without a SKILL registry row, so landcheck L-reg failed at round-64 start (MISSING 2, measured `.ufo/waves/round-64/frontier/landcheck-start.txt`). The row carries the frozen R63-C1 verdict of record: red as declared, not re-scored (run 1 stands; the amended detector is evidence only, routed to the operator)."
+  },
+  "round63-gate-checks": {
+   "chosen": "depth",
+   "entry_argv": [
+    "python3",
+    "plans/round63_gate_checks.py",
+    "depth",
+    "--skill",
+    "SKILL.md",
+    "--receipt",
+    "corpus/evidence/round62/class-survey.txt",
+    "--root",
+    "."
+   ],
+   "entry_exit": 0,
+   "entry_state": "green",
+   "sec": 0.0,
+   "evidence": "ROWS n=16 class_match=True count_mismatch=0 paths total=24 resolved=24 share=1.00; PREDICATE R63-C2 pass",
+   "reason": "round-63 registration (round-64 round-start repair): the round-63 close shipped plans/round63_gate_checks.py (depth + trio) without a SKILL registry row or a ledger row, so the registry closure leg failed at round-64 start (MISSING 2). Green as measured at round start (`.ufo/waves/round-64/frontier/gates-at-start.txt`); the gate is the lane instrument whose repair is R64-C2."
+  },
+  "round64-c1-kvstore-probe": {
+   "chosen": "check-receipt",
+   "entry_argv": [
+    "python3",
+    "plans/round64_c1_kvstore_probe.py",
+    "--check-receipt",
+    "corpus/evidence/round64/kvstore-probe.txt"
+   ],
+   "entry_exit": 0,
+   "entry_state": "green",
+   "sec": 0.03,
+   "evidence": "CHECK ok cases=5; PREDICATE R64-C1 pass",
+   "reason": "round-64 registration (wave w1, claim R64-C1): the offline kv-store-grpc grader probe's receipt of record (hardened install environment, the second battery of the round; pre-hardening runs kept under corpus/evidence/round64/prehardening/) re-derives the frozen five-case leg vectors; the counting command is the check-receipt form above."
+  },
+  "round64-trio-sweep": {
+   "chosen": "sweep",
+   "entry_argv": [
+    "python3",
+    "plans/round64_trio_sweep.py",
+    "--sweep",
+    "--lane",
+    "."
+   ],
+   "entry_exit": 0,
+   "entry_state": "green",
+   "sec": 0.03,
+   "evidence": "SWEEP files=65 trio_open=36 addendum=29 red=0; PREDICATE R64-C3 pass",
+   "reason": "round-64 registration (wave w1, claim R64-C3): the provenance-trio freshness sweep over the 29 frozen trio-red entries; green at the round tip with every frozen entry carrying its dated round-64 addendum (corpus/evidence/round64/sweep-after.txt); the red-before receipt sweep-red-before.txt records the same 29 at the freeze commit."
+  },
   "round62-c1-class-survey": {
    "chosen": "bare",
    "entry_argv": [

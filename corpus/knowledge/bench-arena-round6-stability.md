@@ -101,3 +101,9 @@ BENCH_ROOT=/tmp/bench-r6 bash ~/bench-arena/grade.sh kq-r6-rep{1,2,3}
 
 Artifacts (ephemeral): `/tmp/bench-r6/{run.py,run27_06.py,predictions.md,
 telemetry-kq-r6.csv,out/,graded/,report-kq-r6-rep*.v2.csv,t27/}`.
+
+## Freshness addendum (round 64)
+
+verified-at: 2026-11-03 (r64 freshness sweep; entry predates the provenance-trio rule, CORPUS.md)
+recheck: git show 859ac24f41061bffde588b9ed5d5adfea5ca8e27:corpus/knowledge/bench-arena-round6-stability.md | sha256sum
+result: exit 0; committed blob at 859ac24 sha256=906f22036aee94a237f3798147ec9f38b686a18f97d39b9c0f9084f07803715b = the round-17 census pin in .ufo/round-17/initial-state.json (record bytes unchanged); the cited /tmp/bench-r6 artifacts are uncommitted, so only the committed record is re-verifiable from repo bytes

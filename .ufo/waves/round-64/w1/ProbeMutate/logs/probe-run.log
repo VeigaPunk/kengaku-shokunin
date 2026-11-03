@@ -1,0 +1,36 @@
+# m1..m4 mutation battery — R64-C1 probe
+ts=2026-11-03T16:19:55
+pristine=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/pristine/round64_c1_kvstore_probe.py
+pristine_sha256=9f56d25ddb33e14474c6439c16f25dd5545da99e542a051d342113a88b306843
+probe_source=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/ProbeBuild/round64_c1_kvstore_probe.py
+probe_source_sha256_at_battery=9f56d25ddb33e14474c6439c16f25dd5545da99e542a051d342113a88b306843
+real_receipt_present=True
+
+anchor=/fast/scratch/hyaku/kengaku-r64/ProbeMutate/fixtures/probe/good-receipt.txt kind=receipt-of-record sha256=a87cd119784ed92c23ed6854e365b9a3d8e0b19954668b8579ceb4218c3b2842
+VERDICT m1=KILLED mechanism=--check-receipt on the contract anchor
+  pristine_on_good_rc=0 (expect 0)
+  mutant_on_good_rc=1 (drift detector)
+  pristine_on_vector-flip_rc=1 (control, expect 1)
+  selftest_pristine_rc=0 (expect 0)
+  selftest_mutant_rc=0 (0 => selftest blind)
+VERDICT m2=KILLED mechanism=--selftest
+  pristine_on_good_rc=0 (expect 0)
+  pristine_on_corrupt_rc=1 (expect 1)
+  mutant_on_corrupt_rc=0 (0 => survived)
+  mutant_on_good_rc=0 (expect 0, gross-break guard)
+  selftest_pristine_rc=0 (expect 0)
+  selftest_mutant_rc=1 (0 => selftest blind)
+VERDICT m3=KILLED mechanism=--selftest
+  pristine_on_good_rc=0 (expect 0)
+  pristine_on_corrupt_rc=1 (expect 1)
+  mutant_on_corrupt_rc=0 (0 => survived)
+  mutant_on_good_rc=0 (expect 0, gross-break guard)
+  selftest_pristine_rc=0 (expect 0)
+  selftest_mutant_rc=1 (0 => selftest blind)
+VERDICT m4=SURVIVED mechanism=NONE
+  pristine_on_good_rc=0 (expect 0)
+  pristine_on_corrupt_rc=1 (expect 1)
+  mutant_on_corrupt_rc=0 (0 => survived)
+  mutant_on_good_rc=0 (expect 0, gross-break guard)
+  selftest_pristine_rc=0 (expect 0)
+  selftest_mutant_rc=0 (0 => selftest blind)

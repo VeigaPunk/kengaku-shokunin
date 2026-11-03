@@ -1,0 +1,13 @@
+--- /fast/scratch/hyaku/kengaku-r64/ProbeMutate/pristine/round64_c1_kvstore_probe.py
++++ /fast/scratch/hyaku/kengaku-r64/ProbeMutate/mutants/m2/round64_c1_kvstore_probe.py
+@@ -848,9 +848,5 @@
+     fragment_line = next((line[len("K2-FRAGMENT "):] for line in lines
+                           if line.startswith("K2-FRAGMENT ")), "")
+-    if K2_LEG5_FRAGMENT not in fragment_line:
+-        failures.append("k2-fragment %s lacks %r"
+-                        % (fragment_line or "(missing)", K2_LEG5_FRAGMENT))
+-    if K2_LEG5_FRAGMENT not in leg_frags.get("K2", {}).get(5, ""):
+-        failures.append("k2 leg-5 fragment does not carry the frozen fragment")
++    # mutant m2: the frozen K2 leg-5 fragment is no longer checked
+ 
+     k1 = cases.get("K1", {})

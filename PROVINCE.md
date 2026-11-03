@@ -950,3 +950,22 @@ the gate with a live re-open (sha256 `2c5fa192…60795` byte-identical to the S2
 re-open capture committed at
 `corpus/evidence/round62/whatwg-windows1252-reopen/index-windows-1252.txt`); index :105 is
 pointer 98 (cp1252 byte 0xE2 = 0x80 + 98 → U+00E2).
+
+## Round64 partial frontier admission (2026-11-03)
+
+**Core addition:** offline execution of one more pinned Terminal-Bench 2.0 grader — `kv-store-grpc/tests/test_outputs.py`
+at `2fd12b88`, the second network-service-class grader — via `corpus/knowledge/tb2-kv-store-grpc-offline.md` (S230, S231),
+`plans/round64_c1_kvstore_probe.py` and the receipt `corpus/evidence/round64/kvstore-probe.txt` (`PREDICATE R64-C1 pass`):
+the grader's seven legs run in bwrap against a lane-built gRPC server (proto compiled by grpcio-tools in a probe venv) on
+127.0.0.1:5328, over five frozen cases. It records how that captured grader answers those synthetic candidates only: it does
+not run Terminal-Bench, the task image or a harness; it does not validate or certify the task, measure model or agent
+behaviour, or speak for the other TB2 graders. `pypi-server` stays unexecuted-as-counted (R63-C1). The round-63 paragraph
+above stays as written; this paragraph narrows only the network-service clause for this one task.
+
+**Operability addition:** the depth gate prices receipt-pointer paths inside the lane root only (`plans/round63_gate_checks.py`,
+R64-C2). **Freshness addition:** the 29 trio-red knowledge entries carry dated round-64 addenda whose re-verification commands
+and observed results are priced by `plans/round64_trio_sweep.py` (R64-C3); the openings stay as written.
+
+**Reported out:** `headless-terminal` and `nginx-request-logging` (the other network-service members) are blocked on this host by absent
+`vim` and `nginx`; tmux-based terminal harness work stays kengaku ground if the binaries land. The gRPC-inside-sandbox pattern does
+not overlap kama's serving plane (`.ufo/waves/round-64/w1/SiblingOverlap/sibling-overlap.md`).

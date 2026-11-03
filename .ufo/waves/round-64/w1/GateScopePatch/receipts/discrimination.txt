@@ -1,0 +1,21 @@
+# R64-C2 selftest discrimination — the BAD-ESCAPE fixture under both gates
+# The fixture is the selftest's own BAD-ESCAPE case (built by the patched module's
+# _write_fixture(..., escape_pointer_on=0): row 0's receipt pointer is `/usr/bin/`,
+# an existing absolute host path outside the fixture root, plus one `../` token).
+# cmd: /usr/bin/python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/GateScopePatch/red/discriminate_escape_fixture.py /fast/scratch/hyaku/kengaku-r64/GateScopePatch/clone/plans/round63_gate_checks.py /fast/scratch/hyaku/kengaku-r64/GateScopePatch/red/discriminate3
+# (the script materialises the freeze-tip gate with `git show 859ac24f...:plans/round63_gate_checks.py`)
+UNPATCHED-HEAD rc=1
+  ROWS n=16 class_match=True count_mismatch=0 paths total=19 resolved=18 share=0.95
+  DETAIL unresolved=../escapee.json
+  PREDICATE R63-C2 fail
+PATCHED rc=1
+  ROWS n=16 class_match=True count_mismatch=0 paths total=19 resolved=17 share=0.89
+  DETAIL escape=/usr/bin/,../escapee.json
+  DETAIL row-pointer=class-00:/usr/bin/
+  DETAIL unresolved=/usr/bin/,../escapee.json
+  PREDICATE R63-C2 fail
+# shell rc=0
+# reading: the UNPATCHED gate counts /usr/bin/ as resolved (resolved=18, no escape
+# finding, row-pointer passes) and fails only on the ../ token; the PATCHED gate
+# resolves neither and names both as DETAIL escape=. The selftest asserts
+# `DETAIL escape=/usr/bin/,../escapee.json`, a line the unpatched gate never prints.

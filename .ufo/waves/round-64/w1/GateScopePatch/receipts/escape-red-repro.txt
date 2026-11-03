@@ -1,0 +1,23 @@
+# R64-C2 step 1 — red-before: the committed escape fixture against the UNPATCHED gate
+# driver: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/claims/escape_red_before.py, copied verbatim except
+# the LANE constant retargeted at a pristine clone of the freeze tip (diff below).
+# diff committed driver vs repro driver:
+--- /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/claims/escape_red_before.py	2026-11-03 16:08:02.206889675 -0300
++++ /fast/scratch/hyaku/kengaku-r64/GateScopePatch/red/escape_red_repro_head.py	2026-11-03 16:14:32.117261921 -0300
+@@ -4,7 +4,7 @@
+ import pathlib
+ import sys
+ 
+-LANE = pathlib.Path("/home/vgpnk/Projects/shokunin/kengaku-shokunin")
++LANE = pathlib.Path("/fast/scratch/hyaku/kengaku-r64/GateScopePatch/clone-head")
+ spec = importlib.util.spec_from_file_location("gate", LANE / "plans/round63_gate_checks.py")
+ gate = importlib.util.module_from_spec(spec)
+ spec.loader.exec_module(gate)
+# cmd: TMPDIR=/fast/scratch/hyaku/kengaku-r64/GateScopePatch /usr/bin/python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-64/w1/GateScopePatch/red/escape_red_repro_head.py /fast/scratch/hyaku/kengaku-r64/GateScopePatch/red/work-head
+# gate under test: /fast/scratch/hyaku/kengaku-r64/GateScopePatch/clone-head/plans/round63_gate_checks.py @ HEAD 859ac24f41061bffde588b9ed5d5adfea5ca8e27
+# gate sha256 = 797085c242a63d0b38f875b6f67550848ddac34dd7f5dbd20861ad3849e7a18a
+ROWS n=16 class_match=True count_mismatch=0 paths total=2 resolved=2 share=1.00
+PREDICATE R63-C2 pass
+FIXTURE absolute-token=/home/vgpnk/.config/uv/uv-receipt.json inside_root=False
+RC 0
+# shell rc=0   (the frozen red-before: absolute out-of-root pointer counted resolved)
