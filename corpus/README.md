@@ -943,3 +943,19 @@ A row here indexes a file; it does not admit it — the held entries stay held.
 - `corpus/evidence/round54/` — 2 files, 1 subdirectory (anchor): round-54 anchor parser failure receipts: `c1-before.txt`, `c2-before-dry.txt` and the anchor note.
 - `corpus/evidence/round60/` — 1 file, 1 subdirectory (grep-manual): round-60 GNU grep manual capture and the openssl-probe re-freeze receipt.
 - `corpus/evidence/round75/` — 8 files, 1 subdirectory (sources): round-75 receipts: c1 before/selftest/rowshuffle-control, c2 audit/mutants, stamp red-before, attribution control, selftest, both census captures and the S251 source capture.
+
+## Round-75 supporting artifacts (2026-11-04)
+
+- Instruments: `plans/round75_c1_index_parity.py` (three-universe corpus index parity, rendered rows
+  only, R75-C1) and `plans/round75_c2_registry_audit.py` (attributed mutant kills, measured null arm,
+  derived tallies, git-validated `LANE_TIP` stamps, S250 declared-option leg, R75-C2); frozen
+  sentences and Amendments A1–A4 in `plans/round-75-claims.md`.
+- Registry: S251 — `corpus/SOURCES.md`; census `corpus/evidence/round75/census-before.txt` (242 rows)
+  and `census-after.txt` (243 rows), rc 0 both, 25 W04 duplicates both.
+- Evidence: `corpus/evidence/round75/` — 15 stamped receipts (c1 before/after, selftests, rowshuffle
+  controls; c2 stamp red-before, audit+mutants, attribution controls, selftests) and
+  `sources/git-rev-parse.html` + anchor note.
+- Lesson: `corpus/lessons/round-75.md` — Gate (S251 admit, two rejects with flips), M75-1…11, wave
+  integration and the counters' two A3 hardenings.
+- Wave: `.ufo/waves/round-75/w1/` (one v1 wave, 13 seats), dispatch/spec/results in
+  `.ufo/waves/round-75/`.

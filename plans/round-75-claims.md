@@ -37,9 +37,9 @@ prints
     PREDICATE R75-C1 pass
 
 and exits 0, with `LANE_TIP <40-hex>` naming the measured revision and `WORKTREE clean` on its
-first two lines; `--selftest --work DIR` prints `SELFTEST cases=7 red=6 failures=0 ok=True`
-(amended by A4: five arms at freeze, seven after the two seat counterexamples — a battery that grew,
-never a target that narrowed).
+first two lines; `--selftest --work DIR` prints `SELFTEST cases=8 red=7 failures=0 ok=True`
+(amended by A4 and A5: five arms at freeze, seven after the two seat counterexamples, eight after
+the mutation-tester's printed-verdict survivor — a battery that grew, never a target that narrowed).
 
 **Counting command (both states).**
 
@@ -80,8 +80,8 @@ prints `MISMATCH 0`, `DEFECTS n=0`, `FLAGS ok n=0`,
 `MUTANTS real=10 expected_matched=10 wrong_id=0 survived=0 null_arms=1 null_survived=1 total=11`
 (amended by A4: nine mutants at freeze, ten after the seat's help-text counterexample),
 `STAMPS files=K stamped=K unstamped=0 unresolved=0 not_ancestor=0` with `K > 0`, and
-`PREDICATE R75-C2 pass`; exit 0. `--selftest --work DIR` prints `SELFTEST arms=4 failures=0 ok=True` (the battery arms are
-unchanged; the tenth mutant is a matrix arm, not a selftest arm).
+`PREDICATE R75-C2 pass`; exit 0. `--selftest --work DIR` prints `SELFTEST arms=5 failures=0 ok=True` (amended by A5: a fifth arm
+reads the printed tally, after the mutation-tester survived a literal `wrong_id=0`).
 
 **Counting command (both states).**
 
@@ -186,3 +186,19 @@ battery grew by two C1 arms and one C2 mutant.
   `:entry:flag-not-declared:`). The selftest battery is unchanged at 4 arms.
 - Disclosed rather than folded away: the round report's "Before → after measurements" names both
   tallies as amended, and the lesson carries the two seats' counterexamples (M75-10, M75-11).
+
+## Amendment A5 — a printed-verdict arm and a printed-tally arm (appended 2026-11-04T06:05Z, after WAVE-DONE, before the report)
+
+Seat `MutantBatteryR75` mutation-tested both instruments: C1 `SURVIVORS n=4` of 9, C2 `SURVIVORS n=8`
+of 11, every survivor in the *reporting* surface (a mutant printing `PREDICATE R75-C1 pass` over 59
+defects, or `wrong_id=0` as a literal, was not killed because every arm read state, never the printed
+verdict). Two arms close the highest-value part of that gap and the sentences' tallies move with
+them:
+
+- R75-C1 battery: `cases=7 red=6` → `cases=8 red=7`; the `printed-verdict` arm asserts the printed
+  `PREDICATE R75-C1 fail` token on a red fixture (kills the token and exit-code mutants).
+- R75-C2 battery: `arms=4` → `arms=5`; the `tally` arm reads the printed
+  `expected_matched=/wrong_id=` numbers on the clean matrix (kills the literal-tally mutants).
+
+The remaining survivors are reported, not claimed away: see M75-12 and the round report's wave
+findings.

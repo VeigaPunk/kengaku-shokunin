@@ -3371,3 +3371,53 @@ no new arbitrations), novelty **8** (held; instrument repair, no new construct c
 `--clearenv`-style restoration of known shapes, said so honestly).
 **No axis harmed:** the round's lane diff is append-only plus in-place corrections documented
 above (`git diff --numstat b7910802 master` deletion column is 0 on this round's files).
+
+## Round 75 (hyaku run 15, attempt 1, 2026-11-04): corpus index parity over three disk-enumerated universes (R75-C1, coverage at its L0 cap) and an attributed, stamped registry audit (R75-C2, calibration held at ceiling, exercised)
+
+Base `4c4249a2`; freeze `e462a64`; Amendment A1 `43255758` (every receipt mode stamps; counted
+Before values); integration `08148cc4`; after receipts `813b7403` (the landing tree at report time).
+One v1 wave, **13 seats** (executor 3, scribe 3, reviewer 3, critic 1, mutation-tester 1, scout 1,
+connector 1); attack roles `{reviewer, critic, mutation-tester}` = 5/13 = 38 % (≥25 %); connector 1
+(≤2). No residual call; round total **13**.
+
+| claim / axis | before → after evidence | counting command | verdict / score |
+|---|---|---|---|
+| **R75-C1 / coverage** (lowest owned non-retired axis, L0-capped at 7) — the corpus index becomes machine-checked in both directions over three universes enumerated from disk, and the drifted index is repaired | before (`43255758`, `corpus/evidence/round75/c1-before.txt`): `UNIVERSE knowledge files=74 indexed=71 missing=3 orphan=0`, `UNIVERSE lessons files=123 indexed=87 missing=36 orphan=0`, `UNIVERSE evidence dirs=66 indexed=46 missing=20 orphan=0`, 59 named `MISSING*` lines, `PREDICATE R75-C1 fail`, rc 1 → after (`813b7403`, `c1-after.txt`): `UNIVERSE knowledge files=74 indexed=74 missing=0 orphan=0`, `UNIVERSE lessons files=123 indexed=123 missing=0 orphan=0`, `UNIVERSE evidence dirs=66 indexed=66 missing=0 orphan=0`, `PREDICATE R75-C1 pass`, rc 0. An independent census seat re-derived the same 59 missing names at the freeze revision with its own parser and reported `0 orphans`, `receipt_match True` (`.ufo/waves/round-75/w1/IndexCensusR75.md`) | `python3 plans/round75_c1_index_parity.py --lane .` | **admitted on its frozen predicate**; coverage held at **7** (open L0 cap `kengaku \| round-25/33/51`) |
+| **R75-C2 / calibration** (held at ceiling 10, exercised) — the registry audit prices kills against expected finding ids, measures a null arm, derives every tally, stamps and validates the measured revision on every receipt, and follows S250's reject-flip for declared options | before (`corpus/evidence/round75/c2-stamp-red-before.txt`): the stamp leg on `corpus/evidence/round74` → `STAMPS files=11 stamped=0 unstamped=11 unresolved=0 not_ancestor=0`, 11 `DEFECT UNSTAMPED` lines, `PREDICATE R75-C2 fail`, rc 1; control (`c2-control-attribute.txt`): `R74-METRIC killed=10/10 (any-defect counting)` vs `R75-METRIC expected_matched=9/10 wrong_id=1`, `OFF-TARGET X-off-target expected=:entry:unbacked-flag: defects=1 matched=False`, `NULL-ARM defects=0`, `PREDICATE R75-C2-control pass` → after (`813b7403`, `c2-after.txt`): `MISMATCH 0`, `DEFECTS n=0`, `FLAGS ok n=0`, `TEXT-FALLBACK n=0`, `MUTANTS real=10 expected_matched=10 wrong_id=0 survived=0 null_arms=1 null_survived=1 total=11`, `STAMPS files=15 stamped=15 unstamped=0 unresolved=0 not_ancestor=0`, `PREDICATE R75-C2 pass`, rc 0; `c1-selftest-after.txt` `cases=7 red=6 failures=0 ok=True`, `c2-selftest-after.txt` `arms=4 failures=0 ok=True` | `python3 plans/round75_c2_registry_audit.py --lane . --mutants --check-stamps corpus/evidence/round75` | **admitted on its frozen predicate**; calibration held at **10**, exercised |
+
+**Corrections landed in-round (each with a re-deriving check).** (1) Amendment A1 corrected the
+`STAMPS files=` Before value from an asserted 13 to the counted 11 and made every receipt mode stamp
+(`LANE_TIP`/`WORKTREE`), so a `--selftest`/`--control-*` receipt can no longer be `UNSTAMPED` by the
+claim's own leg. (2) Amendment A2 made `--check-stamps` fail on an unresolvable `--rev`
+(`TIPTAG:unresolved`) and on an evidence dir with no receipts (`STAMPS:empty-dir`) after seat
+`C2MutantReplayR75` showed a pass with `LANE_TIP unknown`, `STAMPS files=0`. (3) Amendment A3 made the
+C1 scan read *rendered* rows only — HTML comments and code fences stripped, cells split on unescaped
+pipes, non-empty description required, regular files only — and made the C2 flag leg read positional
+`add_argument` arguments only, after seats `ClaimsCriticR75`/`C1GateAuditR75` produced a comment-only
+README that printed `missing=0` and a `help='--strict'` script that printed `FLAGS ok`. (4) Amendment
+A4 turned both counterexamples into permanent reject arms (`cases=7`, `real=10`). (5) R74-D2 closed:
+`corpus/lessons/round-74.md`'s surviving `MISSING 5` line carries a dated correction naming the
+receipt's actual `MISSING 0`. (6) R74-D3 recorded: the round-74 section's "deletion column is 0" is
+false (`SKILL.md` numstat `3 1`), so this section makes no such claim.
+
+**Wave findings (reported, not smoothed).** `ClaimsCriticR75` challenged both claims with executable
+counterexamples (the HTML-comment index; the `help=` flag) and demonstrated an attribution weakness:
+a mutant killed by an unrelated defect sharing the expected-id *substring* scores as matched. That
+substring rule is a known limit of the attributed metric and is recorded in the lesson rather than
+fixed in-round. `C1GateAuditR75` filed one HIGH (non-rendered text) and one MEDIUM (a `.md`-named
+directory counted as a knowledge file), both closed by A3. `C2MutantReplayR75` found the empty-stamp
+false pass (A2) and observed that the null arm renamed a row rather than editing whitespace (rewritten).
+`EntryFalsifyR75` found a held entry that fails Q1 placement and two pre-existing knowledge rows
+without an `admission: hold` marker (all four now marked; the Q1 defect is recorded).
+`SiblingR75` found that kumitate's `readme-map.mjs` already does the knowledge/lessons parity and
+kotodama's evidence-coupling check already compares `(exit, sorted finding ids)` — primitives this
+round rebuilt — filed as a report-out, not absorbed.
+
+**Scores.** coverage **7** (held; claim passed, axis at its L0 cap), calibration **10** (held,
+exercised), operability **10** (held; two new gates with selftest + mutant batteries and 15 stamped
+receipts), depth **10** (held; S251 + lesson Gate/Mistakes, no new admitted entry), freshness **10**
+(held; S251 re-fetched by a seat, host surfaces re-swept), adjacency **9** (held; sibling overlap
+named and routed, no new arbitration), novelty **8** (held; no new construct claimed — both claims are
+instrument and index work).
+**No axis harmed:** the round's lane diff is append-only plus the documented in-place corrections
+(A1–A4, the four README rows, the escaped pipes in the `tb2-distribution-search-grader` row).

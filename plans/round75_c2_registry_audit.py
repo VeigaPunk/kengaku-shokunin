@@ -314,7 +314,15 @@ def main() -> int:
         ok = len(defects) == 1 and defects[0].startswith("UNSTAMPED unstamped.txt") and "stamped=1" in line
         print(f"SELFTEST {'ok' if ok else 'FAIL'} stamps: {line} defects={len(defects)}")
         fails += 0 if ok else 1
-        print(f"SELFTEST arms=4 failures={fails} ok={fails == 0}")
+        # arm 5: the tally is derived from the arms, not printed as a literal (seat MutantBatteryR75
+        # survived a literal `wrong_id=0` because no arm read the printed tally).
+        results, null_defects, off = mutate(args.lane, args.work)
+        matched = [n for n, exp, defs in results if exp in " ".join(defs)]
+        wrong_id = len(results) - len(matched)
+        printed_ok = wrong_id == 0 and f"wrong_id={wrong_id}" == "wrong_id=0" and len(matched) == len(results)
+        print(f"SELFTEST {'ok' if printed_ok else 'FAIL'} tally: real={len(results)} expected_matched={len(matched)} wrong_id={wrong_id}")
+        fails += 0 if printed_ok else 1
+        print(f"SELFTEST arms=5 failures={fails} ok={fails == 0}")
         shutil.rmtree(args.work / "stamps_r75", ignore_errors=True)
         return 0 if fails == 0 else 1
 

@@ -192,6 +192,7 @@ def selftest(work: Path) -> int:
         ("clean", {}, 0, None),
         ("comment-only", {"comment_only": True}, 1, "MISSING knowledge/a.md"),
         ("fenced-rows", {"fenced": True}, 1, "MISSING lessons/round-1.md"),
+        ("printed-verdict", {"drop_row": "knowledge/a.md"}, 1, "PREDICATE R75-C1 fail"),
         ("missing-knowledge", {"drop_row": "knowledge/b.md"}, 1, "MISSING knowledge/b.md"),
         ("missing-lesson", {"drop_row": "lessons/round-2.md"}, 1, "MISSING lessons/round-2.md"),
         ("missing-evidence", {"drop_evidence": "d2"}, 1, "MISSING-EVIDENCE d2"),
@@ -201,9 +202,12 @@ def selftest(work: Path) -> int:
         for name, kwargs, want_rc, want_line in cases:
             d = child / name
             build_fixture(d, **kwargs)
-            defects, _ = census(d)
+            defects, report = census(d)
             rc = 0 if not defects else 1
-            ok = rc == want_rc and (want_line is None or want_line in defects)
+            # The verdict *text* is part of the sentence (round-75 seat MutantBatteryR75 showed
+            # mutants that keep rc right while printing the wrong token survive a state-only arm).
+            printed = "\n".join(report + defects + [f"PREDICATE R75-C1 {'pass' if not defects else 'fail'}"])
+            ok = rc == want_rc and (want_line is None or want_line in printed)
             fails += 0 if ok else 1
             print(f"SELFTEST {'ok' if ok else 'FAIL'} {name} rc={rc} want={want_rc}")
     finally:

@@ -2816,3 +2816,36 @@ All sixteen wave outputs settled before integration/report; no dead-seat note re
 - **Frontier.** S250 (Python 3.15.2 argparse docs) opened live with capture + sha256 +
   located quote; used-by the round-74 lesson and the held argv/flag candidate.
   Assimilation: none. L0 questions carried unchanged: kengaku rounds25/33/51,54,56,63,65,66,67.
+
+## Round 75 (hyaku run 15, attempt 1, 2026-11-04)
+
+- **Trigger → action → outcome.** The round-74 outside closure found receipts with no measured
+  revision (R74-D1), a mutant metric that counted any defect as a kill and printed literal tallies
+  (R74-D4), and no claim grounded on a source row (R74-D5); separately, `AXES.md`'s coverage
+  sentence ("every surface the corpus describes is indexed **and** every index row exists on disk")
+  had no instrument and the index had drifted. Round 75 froze two claims: R75-C1 builds the
+  three-universe index-parity gate and repairs 59 drifted surfaces; R75-C2 supersedes the registry
+  audit with attributed kills, a measured null arm, derived tallies, git-validated revision stamps
+  and S250's reject-flip for declared options. Both admitted on their frozen predicates; coverage
+  held at its L0 cap, calibration held at 10 and exercised.
+- **Verification boundary.** Commands and exit codes in `corpus/evidence/round75/` (15 receipts, all
+  stamped `LANE_TIP`): c1 before rc 1 (3/36/20 missing) and after rc 0 (0/0/0), c1 selftest
+  `cases=7 red=6`, c1 rowshuffle control `NAIVE rows=6 surfaces=6 equal=True` while four `MISSING*`
+  defects print, c2 stamp red-before rc 1 (11 unstamped round-74 receipts), c2 attribution control
+  (`R74-METRIC 10/10` vs `R75-METRIC 9/10 wrong_id=1`), c2 after `MUTANTS real=10
+  expected_matched=10` / `STAMPS files=15 stamped=15` rc 0, census 242 → 243 rows rc 0 at both ends.
+  After receipts were generated from clean clones at `43255758` and `66a93f6b`, not from a dirty
+  worktree (the R74-D1 class).
+- **Learning.** Lesson `corpus/lessons/round-75.md`: Gate (S251 admit; two rejects, each with a flip
+  — the 40-hex-stamp claim and S250's flag-presence claim, the second implemented rather than only
+  recorded), Mistakes M75-1…11 (census used-by ordering, a selftest arm that matched every row, a
+  control that asserted nothing, a mislabelled off-target arm, the inherited receipt-provenance and
+  mutant-metric classes, the surviving round-74 lesson drift, an S-id citation taken from a
+  neighbouring round, a counter narrower than its own frozen sentence, and two false greens found by
+  seats). QUALITY.md gains no new criterion; Q1's triad rule and Q46/Q49/Q50 applications cover them.
+- **Held entries unchanged.** All four stay held and now carry `admission: hold` in the README index;
+  `registry-argv-and-flag-audit.md` additionally fails Q1 placement (YAML before the triad) — a
+  held-entry defect for the next admission attempt.
+- **Frontier.** S251 (Git `git-rev-parse` documentation) opened live with capture, sha256 and an
+  18-word located quote; it grounds the stamp leg of R75-C2 and is cited in that claim's evidence.
+  Assimilation: none. L0 questions carried unchanged: kengaku rounds 25/33/51, 54, 56, 63, 65, 66, 67.

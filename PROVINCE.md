@@ -106,6 +106,14 @@ classification; **mori** `tools/mori-retention-reconcile.py:169-177` binds resol
 plus input equality. Nothing was absorbed into this lane; a fleet-level index/registry standard
 belongs to protocol/integrator. Evidence: `.ufo/waves/round-75/w1/SiblingR75.md`.
 
+Surface correction (round 75, 2026-11-04, seat `SourcesHostR75`): `~/archive/bench-arena` is
+**ABSENT** (`test -d` rc 1) — the row above it still reads "relocated intact from `~/bench-arena/`
+during round 14", which was true at capture time (2026-09-29) and is not true now. Also re-measured
+in the same sweep: `:34113/health` → `000` (curl rc 7), `llama-server` alive on `127.0.0.1:1234`
+(the round-51 successor row), `~/Projects/bounties` absent, `~/Projects/webzites/repos/llm-wiki`
+absent, `~/Projects/ufo-fsd-alpha` present. Two of the four trees earlier rounds treated as surfaces
+are gone; the coverage cap for declared-but-unresolvable surfaces widens by one.
+
 ## Province map — round 24 (2026-10-19)
 
 *Correction note (appended, append-only): the header's "re-verified round 14,
