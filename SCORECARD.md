@@ -3441,3 +3441,45 @@ all seven is `plans/round76_c2_defect_discharge.py` (R76-C2), legs D1–D7.
   round-75 before state at `43255758` is 60 missing (4 knowledge + 36 lessons + 20 evidence dirs),
   derived by `plans/round76_c2_defect_discharge.py` leg D3 (rendered README rows + `git ls-tree`).
   `c1-before.txt`'s 59 counts the pre-A3 raw-prefix counter and is not comparable with the after.
+
+## Round 76 (hyaku run 15, attempt 1, 2026-11-04): the `## Surfaces` declaration becomes a live gate (R76-C1, coverage at its L0 cap) and the closure's routed defects become a burn-down (R76-C2, calibration held at ceiling, exercised)
+
+Base `fda63968`; freeze `42fad482`; corrections A `6977019b`, B `f0d52322`, C `d76db01c` (the after
+receipts stamp `d76db01c`); claims Amendments A1 (Before prose corrected to the receipt) and A2
+(`emit()` honours `--work`, a seat-found scratch defect). One v1 wave, 14 seats; role mix and dead
+seats are recorded in the round report.
+
+| claim / axis | before → after evidence | counting command | verdict / score |
+|---|---|---|---|
+| **R76-C1 / coverage** (lowest owned non-retired axis, L0-capped at 7) — every `PROVINCE.md` `## Surfaces` row is resolved live (path `test -e` semantics, localhost HTTP status, braces expanded) and the row's dated `ABSENT YYYY-MM-DD` declaration must agree with the verdict; present-tense prose on an absent row is refused | before (`corpus/evidence/round76/c1-before.txt`, `--rev fda63968`): `SURFACES total=11 present=4 absent=7 prose=0`, `AGREE agree=9 disagree=2`, `DEFECT STALE-TEXT 2 …~/archive/bench-arena/ asserts 'relocated intact' while absent`, `DEFECT UNDECLARED-ABSENT 4 …http://127.0.0.1:45669`, `PREDICATE R76-C1 fail`, rc 1 (the gate itself is absent at base: `git cat-file -e fda63968:plans/round76_c1_surface_resolver.py` → 128) → after (`c1-after.txt`, stamped `d76db01c`): `SURFACES total=11 present=4 absent=7 prose=0`, `AGREE agree=11 disagree=0`, no `DEFECT`, `PREDICATE R76-C1 pass`, rc 0; PROVINCE rows 2 and 4 repaired as dated supersessions and the gate declared in `PROVINCE.md` §Round 76 | `python3 plans/round76_c1_surface_resolver.py --lane .` | **admitted on its frozen predicate**; coverage held at **7** (L0 cap) |
+| **R76-C2 / calibration** (held at ceiling 10, exercised) — the newest closure's routed ids must be ledger rows; every close names a `close_commit` that passes S252's three-state ancestry test; legs D1–D7 re-derive their values (round-75 stamp, final-rule `60 = 4/36/20` at `43255758`, both round-75 selftest counts, both round-74 tip receipts) | before (`c2-before.txt`, `--rev fda63968`): `SCOPE ids=7 registered=0 closed=0 open=7 discharged=0 legs_passed=0 legs_pending=2 wrong=12`, seven `LEDGER … MISSING-ROW`, `PREDICATE R76-C2 fail`, rc 1 → after (`c2-after.txt`, stamped `d76db01c`): `SCOPE ids=7 registered=7 closed=7 open=0 discharged=7 legs_passed=7 legs_pending=0 wrong=0`, `PREDICATE R76-C2 pass`, rc 0; the two round-74 gates are green at `6977019b` with committed receipts (`r74-c1-tip.txt`, `r74-c2-tip.txt`) | `python3 plans/round76_c2_defect_discharge.py --lane .` | **admitted on its frozen predicate**; calibration held at **10**, exercised |
+
+**Controls (both must lose, and do).** R76-C1 `--control-declared` trusts the row's own text:
+`CONTROL-SKIP rows=11 disagreements=1 target_reached=False` (`declared=present live=absent` on row 4).
+R76-C2 `--control-status` registers all seven ids as closed with a trivial check and no discharge:
+`CONTROL rows_claimed_closed=7 trivial_checks=1 failed_legs=3`. Selftests: C1 `cases=7 red=6`, C2
+`cases=10 red=9` plus `--selftest-git` 3/3 (ancestor / not-ancestor / unresolved). Mutants: C1 `5/5`
+and C2 `8/8` expected-id kills, `wrong_id=0`, `survived=0`.
+
+**Corrections landed in-round (each with a re-deriving check).** (1) Amendment A1 corrected the R76-C2
+Before prose from an earlier run's `legs_pending=0 wrong=14` to the committed receipt's
+`legs_pending=2 wrong=12` (D4/D5 are PENDING at a revision where their inputs do not exist); predicate,
+target, control and kill rules unchanged — found independently by seats `ScribeLessonR76` and
+`C2ReplayR76`. (2) Amendment A2 made `emit()` honour `--work` after seats `ScribeCorrectionsR76` and
+`C2ReplayR76` showed it created a fixed scratch root regardless (the §7 rule); every receipt was
+regenerated from one gate revision. (3) The inherited index drift (one missing lesson row for
+`corpus/lessons/round-75-verifier-spotcheck.md`) was repaired and `round75_c1_index_parity.py` prints
+`PREDICATE R75-C1 pass` (74/74, 124/124, 67/67). (4) The round-74 C1 registry gate was red at base with
+`MISSING 2` (the two round-76 instruments unregistered); the new SKILL rows turned it green, which is
+what the D6 receipt measures. (5) S252 ground the ancestry leg; the reject "a commit id in `close`
+text proves ancestry" is recorded with its flip in the lesson.
+
+**Scores.** coverage **7** (held; claim passed, axis at its L0 cap), calibration **10** (held,
+exercised), operability **10** (held; two new gates with selftest, git-state and mutant batteries, ten
+stamped receipts), depth **10** (held; S252 + Q55 + five Mistakes rows), freshness **10** (held; every
+declared surface re-resolved live this round), adjacency **9** (held; the connector's sibling scan is
+recorded in the round report, no new arbitration), novelty **8** (held; two instruments, no new
+construct claimed).
+**No axis harmed:** the round's lane diff is append-only except the dated in-row supersessions in
+`PROVINCE.md` (rows 2 and 4), the stale `SKILL.md` round-75 registry rows, and Q55's addition; each is
+named above and in `LOG.md`.
