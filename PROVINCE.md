@@ -18,6 +18,7 @@
 | Model catalogs | `~/.bailian/skills/bailian-docs-llm-wiki/models/{index.md,models.jsonl}`, `https://huggingface.co/api/models`, `https://openrouter.ai/api/v1/models` | selection fields, open-weight twins **ABSENT 2026-10-20** (round 25: first local path fails `test -e`; superseded by §Province map) |
 | Own probe artifacts | `corpus/evidence/round8-horizon/`, `round9-replication/`, `round9-fleet/`, `round10-fleet/`, `round11-power/`, `round11-fleet/`, `round12-ladder/`, `round12-fleet/`, `round13-ack-state/`, `round14-fleet/` | durable run bytes + analyses + L2 fleet artifacts; nothing headline-bearing cited from `/tmp` or session-only storage |
 | In-repo gate | `grader.py` (repo root; `python3 grader.py` → exit 0/1/2; `--selftest` S0–S7) | hermetic offline replay of **four** probe trees (r8/r9/r11/r12); 733 checks after the round-14 analysis-byte pin, including three r12 md5 pins; round-14 mutation test killed 4/4 fresh corruptions |
+| Corpus index | `corpus/README.md` — `python3 plans/round75_c1_index_parity.py --lane .` (three universes enumerated from disk: `corpus/knowledge/*.md`, `corpus/lessons/*.md`, `corpus/evidence/*/`) | index parity in both directions: every described surface has a row and every row names a file on disk; the gate is the resolution check (round 75) |
 | Public literature | arXiv / ACL Anthology / ICLR proceedings / vLLM docs / GitHub issues (URLs in `corpus/knowledge/eval-prior-art-calibration.md`) | novelty pricing of local findings |
 
 ## Refusals and reported-out scope (round 9, `corpus/evidence/round9-fleet/sibling-overlap.md`)
@@ -92,6 +93,18 @@ Respawn as the cause is `[INFERENCE]`, not established. (3) **No new serving
 plane report-out** — endpoint id, pid 1299, 41-token argv, q4_0 KV,
 `--kv-unified`, and `--parallel 2` remain exact matches. Evidence:
 `corpus/evidence/round14-fleet/{r14-connector,r14-scout-surfaces}.md`.
+
+Round-75 report-out (evidence sent, not absorbed; seat `SiblingR75`): the fleet already
+carries primitives this round rebuilt. **kumitate** `scripts/readme-map.mjs:189-202` compares path
+identities in both directions (a *duplicate* of R75-C1's knowledge/lessons leg) and
+`scripts/receipt-evidence.mjs:185-194` replays recorded argv with output digests (a *new* mechanism
+relative to R75-C2). **kotodama** `tools/check-evidence-coupling.py:1559-1568` compares
+`(expected_exit, sorted(finding_ids))` (a *duplicate* of R75-C2's attribution primitive);
+**tabi** `scripts/check-measurement-binding.mjs:575-613` and **kama**
+`tools/round72-receipt-tip-binding.py:60-68` share the ancestor check and add intervening-drift
+classification; **mori** `tools/mori-retention-reconcile.py:169-177` binds resolved full revision
+plus input equality. Nothing was absorbed into this lane; a fleet-level index/registry standard
+belongs to protocol/integrator. Evidence: `.ufo/waves/round-75/w1/SiblingR75.md`.
 
 ## Province map — round 24 (2026-10-19)
 

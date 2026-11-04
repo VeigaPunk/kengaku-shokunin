@@ -73,7 +73,10 @@ def cli_declarations(script_text: str) -> tuple[bool, set[str], set[str]]:
         if isinstance(node, ast.Constant) and isinstance(node.value, str):
             literals.add(node.value)
         if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) and node.func.attr == "add_argument":
-            for arg in list(node.args) + [kw.value for kw in node.keywords]:
+            # Only positional string arguments register an option. Keyword values are metadata
+            # (`help=`, `metavar=`, `dest=`) and never make the flag accepted — a `help='--strict'`
+            # made a rejected option look declared (round-75 seat `ClaimsCriticR75`).
+            for arg in node.args:
                 if isinstance(arg, ast.Constant) and isinstance(arg.value, str):
                     declared.update(re.findall(r"--[a-z][a-z0-9-]*", arg.value))
     return bool(declared), declared, literals
@@ -135,6 +138,12 @@ def check_stamps(lane: Path, evidence: Path, rev: str) -> tuple[list[str], str]:
     defects: list[str] = []
     stamped = unresolved = not_ancestor = unstamped = 0
     tip, _ = lane_tip(lane, rev)
+    if tip == "unknown":
+        # The frozen sentence requires `LANE_TIP <40-hex>` naming the measured revision; an
+        # unresolvable tip cannot certify any stamp, so the leg must fail rather than pass empty.
+        defects.append(f"TIPTAG:unresolved --rev {rev} did not resolve to a commit")
+    if not files:
+        defects.append(f"STAMPS:empty-dir {evidence} holds no *.txt receipt")
     for path in files:
         m = STAMP.search(path.read_text(errors="replace"))
         if not m or m.group(1) == "unknown":
@@ -188,6 +197,7 @@ def mutate(lane: Path, work: Path) -> tuple[list[tuple[str, str, list[str]]], li
         ("M6-flag-absent", ":entry:unbacked-flag:", {"extra_row": R74.row_text("tool-m", "plans/tool_b.py --ghostflag")}),
         ("M7-errata-contradiction", "contradictory-revision", {"errata": "contradictory"}),
         ("M8-flag-literal-not-declared", ":entry:flag-not-declared:", {"extra_script": True}),
+        ("M10-flag-in-help-text", ":entry:flag-not-declared:", {"help_text_script": True}),
         ("M9-empty-owner-cell", ":owner:empty",
          {"extra_row": "| `tool-m` | gate | `python3 plans/tool_b.py` | `0` ok · `1` failed | `python3 plans/tool_b.py --selftest` | pinned | read-only | |\n"}),
     ]
@@ -195,7 +205,16 @@ def mutate(lane: Path, work: Path) -> tuple[list[tuple[str, str, list[str]]], li
     for name, expected, kwargs in specs:
         root = child / name
         script = kwargs.pop("extra_script", False)
+        help_text = kwargs.pop("help_text_script", False)
         R74.build_fixture(root, **kwargs)
+        if help_text:
+            (root / "plans" / "tool_help.py").write_text(
+                "import argparse\np = argparse.ArgumentParser()\n"
+                "p.add_argument('--lane', help='--strict')\np.parse_args()\n"
+            )
+            (root / R74.SKILL_REL).write_text(
+                (root / R74.SKILL_REL).read_text() + R74.row_text("tool-help", "plans/tool_help.py --strict")
+            )
         if script:
             # argparse script whose docstring names a flag it never registers: round 74 passes it
             # (substring present), round 75 must refuse it (S250 flip).
@@ -209,9 +228,14 @@ def mutate(lane: Path, work: Path) -> tuple[list[tuple[str, str, list[str]]], li
         results.append((name, expected, defects_of(root)))
 
     null_dir = child / "N-null-arm"
-    R74.build_fixture(null_dir, extra_row=R74.row_text("tool-n", "plans/tool_b.py", pinned="pinned bytes  "))
-    null_text = (null_dir / R74.SKILL_REL).read_text() + "\n"
-    (null_dir / R74.SKILL_REL).write_text(null_text)
+    R74.build_fixture(null_dir)
+    null_text = (null_dir / R74.SKILL_REL).read_text()
+    # whitespace-only delta on an existing row plus one blank line: no cell's content changes
+    null_text = null_text.replace(
+        "| `tool-b` | gate | `python3 plans/tool_b.py` | `0` clean · `1` failed | none declared | pinned bytes | read-only | kengaku |",
+        "|  `tool-b`  | gate | `python3 plans/tool_b.py` |  `0` clean · `1` failed  | none declared |  pinned bytes  | read-only  | kengaku |",
+    )
+    (null_dir / R74.SKILL_REL).write_text(null_text + "\n")
     null_defects = defects_of(null_dir)
 
     # Off-target arm (the R74-D4 control): the M3 fixture bytes are re-labelled as if the mutation

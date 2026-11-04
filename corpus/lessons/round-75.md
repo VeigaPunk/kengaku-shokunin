@@ -27,9 +27,15 @@ null arm, derived tallies and revision-stamped receipts — the R74-D1/D4 classe
   `plans/round75_c2_registry_audit.py` refuses a flag that appears as a string literal when the
   script declares its CLI through `add_argument` (`:entry:flag-not-declared:`), and reports
   `TEXT-FALLBACK n=` for scripts with no `add_argument` call where only text presence is available.
-- Knowledge entries: none admitted this round. The three held candidates stay held
-  (`instrument-registry-derivation.md`, `registry-argv-and-flag-audit.md`,
-  `tb2-hf-model-inference-provenance.md`); they now carry README index rows marked `admission: hold`.
+- Knowledge entries: none admitted this round. **Four** held candidates stay held —
+  `instrument-registry-derivation.md` (round 73), `registry-argv-and-flag-audit.md` (round 74),
+  `tb2-hf-model-inference-offline.md` and `tb2-hf-model-inference-provenance.md` (rounds 71–72) —
+  and every one now carries a README index row marked `admission: hold` (the two older rows lacked
+  the marker until this round, per seat `EntryFalsifyR75`).
+  `registry-argv-and-flag-audit.md` additionally **fails Q1 placement**: it opens with YAML, so
+  `source:` is at line 16, `verified-at:` at line 8 and `recheck: on-release` at line 9 — a triple
+  that names no re-check action. That is a held-entry defect for the next admission attempt, not
+  something an index row can repair.
 - Assimilation: none. No staged `merge/kengaku/` row was admitted; open L0 `kengaku | round-54`
   carried.
 
@@ -44,3 +50,7 @@ null arm, derived tallies and revision-stamped receipts — the R74-D1/D4 classe
 | M75-5 provenance — round 74's receipts carried no measured revision and one printed a tree that did not exist as a commit (R74-D1) | `corpus/lessons/round-74-verifier-spotcheck.md` §2 R74-D1 | the outside closure | Both round-75 instruments print `LANE_TIP`/`WORKTREE`; every round-75 receipt is produced from a clean clone at the freeze revision and `--check-stamps` refuses an unstamped, unresolvable or non-ancestor stamp. |
 | M75-6 metric — round 74's mutant matrix counted a kill on *any* defect and printed literal `invalid=0 null_detected=1` with no null arm (R74-D4) | `plans/round74_c2_registry_audit.py:377-411` (r74 code) | the outside closure | Attributed kills + a measured null arm + derived tallies; `--control-attribute` shows round 74 scoring 10/10 where the attributed metric scores 9/10 with `wrong_id=1` on the same bytes. |
 | M75-7 self-report — round 74's lesson still said the C1 Before receipt shows `MISSING 5` when it shows `MISSING 0` (R74-D2) | `corpus/lessons/round-74.md:51` vs `corpus/evidence/round74/c1-before.txt` | the outside closure | Correction appended in place as a dated line naming the receipt's actual value; the round-74 text is not rewritten. |
+| M75-8 citation — the first README row for `tb2-torch-tensor-parallel-offline.md` cited `S235–S237`, which are the round-65/66 SQLite and kv-store rows, not this entry's source | seat `KnowledgeRowsR75` report; entry's own `source:` line cites S183, and `corpus/SOURCES.md` S236/S237 are SQLite and kv-store-grpc | the scribe seat read the entry instead of the neighbouring round's block | Row corrected to `S183 (tests/test_outputs.py:18–25,43–211)`; the same seat's Q1 finding on `registry-argv-and-flag-audit.md` (YAML front matter puts the triad outside the first three lines, and `recheck: on-release` names no action) is recorded here as a held-entry defect for the next admission attempt. |
+| M75-9 counter-under-enforcement — `--check-stamps` printed `PREDICATE R75-C2 pass` with `LANE_TIP unknown` and `STAMPS files=0`, a counter narrower than its own frozen sentence | seat `C2MutantReplayR75` report (clone with `git clone --revision`, no `master` ref, evidence dir absent at A1) | the frozen sentence's `LANE_TIP <40-hex>` and `files=K stamped=K` (K>0) legs, which the counter did not implement | `check_stamps` now defects on `TIPTAG:unresolved` and `STAMPS:empty-dir`; Amendment A2 records it; the null arm was also rewritten to a whitespace-only delta after the same seat showed the old arm renamed a row. |
+| M75-10 false-green — R75-C1 matched raw README bytes, so an HTML comment (or a code fence) listing every filename satisfied all three universes while nothing rendered as an index; a `.md`-named directory also counted as a knowledge file | seat `ClaimsCriticR75` counterexample (rc 0 with `missing=0` on a comment-only README) and `C1GateAuditR75` HIGH/MEDIUM | the frozen sentence's word *indexed*, which the counter read as *mentioned* | Counter strips HTML comments and fences, splits cells on unescaped pipes, requires a non-empty description cell per row, and enumerates regular files only; both counterexamples now print `PREDICATE R75-C1 fail`. |
+| M75-11 false-green — R75-C2 treated `add_argument(..., help='--strict')` as declaring `--strict`, so a rejected option passed every counter | seat `ClaimsCriticR75`: `python3 tool_doc.py --strict` exits 2 (`unrecognized arguments`) while the audit printed `FLAGS ok n=0` and `PREDICATE R75-C2 pass` | S250's reject-flip, which the counter had implemented against *all* string constants instead of positional arguments | Only positional `add_argument` arguments register an option; the fixture now prints `DEFECT tool-doc:entry:flag-not-declared:--strict`. |

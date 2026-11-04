@@ -37,7 +37,9 @@ prints
     PREDICATE R75-C1 pass
 
 and exits 0, with `LANE_TIP <40-hex>` naming the measured revision and `WORKTREE clean` on its
-first two lines; `--selftest --work DIR` prints `SELFTEST cases=5 red=4 failures=0 ok=True`.
+first two lines; `--selftest --work DIR` prints `SELFTEST cases=7 red=6 failures=0 ok=True`
+(amended by A4: five arms at freeze, seven after the two seat counterexamples — a battery that grew,
+never a target that narrowed).
 
 **Counting command (both states).**
 
@@ -74,10 +76,12 @@ declares its CLI through `add_argument`, a flag counts only if `add_argument` de
 
     python3 plans/round75_c2_registry_audit.py --lane . --mutants --check-stamps corpus/evidence/round75
 
-prints `MISMATCH 0`, `DEFECTS n=0`,
-`MUTANTS real=9 expected_matched=9 wrong_id=0 survived=0 null_arms=1 null_survived=1 total=10`,
+prints `MISMATCH 0`, `DEFECTS n=0`, `FLAGS ok n=0`,
+`MUTANTS real=10 expected_matched=10 wrong_id=0 survived=0 null_arms=1 null_survived=1 total=11`
+(amended by A4: nine mutants at freeze, ten after the seat's help-text counterexample),
 `STAMPS files=K stamped=K unstamped=0 unresolved=0 not_ancestor=0` with `K > 0`, and
-`PREDICATE R75-C2 pass`; exit 0. `--selftest --work DIR` prints `SELFTEST arms=4 failures=0 ok=True`.
+`PREDICATE R75-C2 pass`; exit 0. `--selftest --work DIR` prints `SELFTEST arms=4 failures=0 ok=True` (the battery arms are
+unchanged; the tenth mutant is a matrix arm, not a selftest arm).
 
 **Counting command (both states).**
 
@@ -126,3 +130,59 @@ are unchanged.
    as R74-D1: a number asserted rather than counted.
 3. **R75-C1 Before lessons count 35 → 36 and total 58 → 59** — the freeze commit adds
    `corpus/lessons/round-75.md`, which is itself unindexed until the repair lands.
+
+## Amendment A2 — the stamp leg enforces its own sentence; the null arm is cosmetic (appended 2026-11-04T05:10Z, after seat `C2MutantReplayR75` scored but before integration)
+
+Seat `C2MutantReplayR75` found that `--check-stamps` printed `PREDICATE R75-C2 pass` with
+`LANE_TIP unknown` and `STAMPS files=0` on a clone whose `--rev` did not resolve and whose evidence
+dir held no receipts. The frozen sentence already requires `LANE_TIP <40-hex>` and `files=K
+stamped=K` with `K > 0`; the counter simply did not enforce its own words. This amendment makes the
+counter implement the existing sentence; the sentence, target, controls and kill rules are
+unchanged.
+
+1. `check_stamps` emits `DEFECT TIPTAG:unresolved` when `--rev` does not resolve to a commit, and
+   `DEFECT STAMPS:empty-dir` when the evidence dir holds no `*.txt`. Red-before:
+   `--check-stamps <empty dir>` → `STAMPS files=0 stamped=0 …`, `PREDICATE R75-C2 fail`, rc 1.
+2. The null arm is now a whitespace-only delta on the existing `tool-b` row (the first version
+   renamed `tool-b`→`tool-n`, which was a substantive edit and therefore not a null arm). The arm's
+   purpose — a benign edit must survive — is unchanged; the mutant count is unchanged.
+
+Recorded as M75-9 in `corpus/lessons/round-75.md`.
+
+## Amendment A3 — the counters recognise only rendered index rows and only declared options (appended 2026-11-04T05:35Z, after seats scored, before integration)
+
+Two seat counterexamples showed the counters under-enforcing the frozen sentences. Both fixes make
+the counter implement the sentence it already had; predicate, target, controls and kill rules are
+unchanged.
+
+1. **R75-C1** (seats `ClaimsCriticR75` and `C1GateAuditR75`): a README whose *only* match was an HTML
+   comment listing every filename token satisfied all three universes (rc 0), and a `.md`-named
+   directory counted as a knowledge file. `AXES.md`'s sentence is about an index, i.e. rendered rows.
+   The counter now strips HTML comments and fenced code blocks before scanning, splits rows on
+   unescaped pipes, requires the first cell to be exactly `` `kind/file` `` and every later cell to be
+   non-empty, and enumerates regular files only. Rejection proof: the comment-only and fenced-row
+   fixtures both print `PREDICATE R75-C1 fail`; the critic's counterexample is now a reject case.
+2. **R75-C2** (seat `ClaimsCriticR75`): `add_argument('--lane', help='--strict')` made a *rejected*
+   option look declared, because keyword values were collected as declarations. Only positional
+   string arguments register an option; `help=`/`metavar=`/`dest=` never do. Rejection proof: that
+   fixture now prints `DEFECT tool-doc:entry:flag-not-declared:--strict`, `PREDICATE R75-C2 fail`.
+3. **R75-C1 kill-rule omission** (seat `ClaimsCriticR75`): the kill rule's enumeration does not name
+   the `WORKTREE clean` line that the frozen sentence requires as one of the first two lines. The
+   sentence governs; the omission is recorded as a defect in the round report rather than repaired
+   by widening the rule after scoring.
+
+Recorded as M75-10 and M75-11 in `corpus/lessons/round-75.md`.
+
+## Amendment A4 — the batteries absorbed the seat counterexamples (appended 2026-11-04T05:48Z, before integration)
+
+Two seat counterexamples were not only fixed but turned into permanent reject arms, and the
+frozen sentences' printed tallies moved with them. Nothing the claim *targets* narrowed: the
+battery grew by two C1 arms and one C2 mutant.
+
+- R75-C1 battery: `cases=5 red=4` → `cases=7 red=6`; the added arms are `comment-only` (an HTML
+  comment listing every filename must fail) and `fenced-rows` (rows inside a code fence must fail).
+- R75-C2 matrix: `real=9 total=10` → `real=10 total=11`; the added mutant is
+  `M10-flag-in-help-text` (`add_argument('--lane', help='--strict')` must produce
+  `:entry:flag-not-declared:`). The selftest battery is unchanged at 4 arms.
+- Disclosed rather than folded away: the round report's "Before → after measurements" names both
+  tallies as amended, and the lesson carries the two seats' counterexamples (M75-10, M75-11).

@@ -42,8 +42,14 @@ import subprocess
 import sys
 from pathlib import Path
 
-ROW = re.compile(r"^\|\s*`(knowledge|lessons)/([^`]+)`")
+# A row is a *rendered* table row: | `kind/file` | description [| pointer] | — split on unescaped
+# pipes (a cell may carry an escaped \|), first cell must be exactly the backticked path, and every
+# remaining cell must be non-empty. Rows inside HTML comments or code fences never count.
+CELLSPLIT = re.compile(r"(?<!\\)\|")
+FIRST_CELL = re.compile(r"`(knowledge|lessons)/([^`]+)`")
 EVIDENCE = re.compile(r"corpus/evidence/([A-Za-z0-9_.-]+)/")
+COMMENT = re.compile(r"<!--.*?-->", re.S)
+FENCE = re.compile(r"^\s*```.*?^\s*```", re.S | re.M)
 UNIVERSES = (
     ("knowledge", "corpus/knowledge", "*.md"),
     ("lessons", "corpus/lessons", "*.md"),
@@ -54,6 +60,16 @@ EVIDENCE_ROOT = "corpus/evidence"
 
 def read(path: Path) -> str:
     return path.read_text(errors="replace") if path.exists() else ""
+
+
+def visible(text: str) -> str:
+    """Rendered bytes only: HTML comments and fenced code blocks cannot index anything.
+
+    Round 75 seat finding (`ClaimsCriticR75`, `C1GateAuditR75`): matching raw README bytes let an
+    HTML comment listing every filename satisfy all three universes while the rendered page showed
+    no index. `AXES.md`'s sentence is about an *index*, i.e. rendered rows.
+    """
+    return FENCE.sub("", COMMENT.sub("", text))
 
 
 def lane_tip(lane: Path, rev: str) -> tuple[str, bool]:
@@ -67,20 +83,33 @@ def lane_tip(lane: Path, rev: str) -> tuple[str, bool]:
     return resolved, dirty
 
 
+def index_rows(readme: str) -> dict[str, set[str]]:
+    """Visible index rows by universe: first cell exactly `kind/file`, every later cell non-empty."""
+    out: dict[str, set[str]] = {}
+    for line in readme.splitlines():
+        if not line.startswith("|"):
+            continue
+        cells = [c.strip() for c in CELLSPLIT.split(line.strip())[1:-1]]
+        if len(cells) < 2 or not all(cells):
+            continue
+        m = FIRST_CELL.fullmatch(cells[0])
+        if m:
+            out.setdefault(m.group(1), set()).add(m.group(2))
+    return out
+
+
 def census(lane: Path) -> tuple[list[str], list[str]]:
     """(defect lines, report lines). Order is frozen: report lines are the frozen sentence."""
-    readme = read(lane / README)
+    readme = visible(read(lane / README))
     defects: list[str] = []
     report: list[str] = []
-    indexed: dict[str, set[str]] = {}
+    rows = index_rows(readme)
     for kind, rel_dir, pattern in UNIVERSES:
         base = lane / rel_dir
-        files = sorted(p.name for p in base.glob(pattern)) if base.is_dir() else []
-        rows = {m.group(1) for m in (ROW.match(line) for line in readme.splitlines()) if m and m.group(1) == kind}
-        targets = {m.group(2) for m in (ROW.match(line) for line in readme.splitlines()) if m and m.group(1) == kind}
+        files = sorted(p.name for p in base.glob(pattern) if p.is_file()) if base.is_dir() else []
+        targets = rows.get(kind, set())
         missing = [f for f in files if f not in targets]
         orphan = sorted(t for t in targets if t not in files)
-        indexed[kind] = targets
         defects += [f"MISSING {kind}/{f}" for f in missing]
         defects += [f"ORPHAN {kind}/{f}" for f in orphan]
         report.append(
@@ -88,7 +117,7 @@ def census(lane: Path) -> tuple[list[str], list[str]]:
             f"missing={len(missing)} orphan={len(orphan)}"
         )
     ev_root = lane / EVIDENCE_ROOT
-    dirs = sorted(p.name for p in ev_root.iterdir() if p.is_dir()) if ev_root.is_dir() else []
+    dirs = sorted(p.name for p in ev_root.iterdir() if p.is_dir() and not p.is_symlink()) if ev_root.is_dir() else []
     mentioned = set(EVIDENCE.findall(readme))
     missing_ev = [d for d in dirs if d not in mentioned]
     orphan_ev = sorted(m for m in mentioned if not (ev_root / m).is_dir())
@@ -114,14 +143,15 @@ def emit(lane: Path, rev: str, out: Path | None) -> int:
     lines += defects
     lines.append(f"PREDICATE R75-C1 {'pass' if not defects else 'fail'}")
     text = "\n".join([f"LANE_TIP {tip}", f"WORKTREE {'dirty' if dirty else 'clean'}"] + lines) + "\n"
-    print(text, end="")
+    print("\n".join(lines) + "\n", end="")
     if out is not None:
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(text)
     return 0 if not defects else 1
 
 
-def build_fixture(root: Path, *, drop_row: str = "", orphan_row: str = "", drop_evidence: str = "") -> None:
+def build_fixture(root: Path, *, drop_row: str = "", orphan_row: str = "", drop_evidence: str = "",
+                  comment_only: bool = False, fenced: bool = False) -> None:
     if root.exists():
         shutil.rmtree(root)
     for kind, rel, names in (
@@ -143,6 +173,14 @@ def build_fixture(root: Path, *, drop_row: str = "", orphan_row: str = "", drop_
     if drop_evidence != "d2":
         body.append(f"- `corpus/evidence/d2/` fixture")
     body.append(f"- `corpus/evidence/d1/` fixture")
+    if comment_only:
+        rows = [f"| `knowledge/{n}` | fixture | src |" for n in ("a.md", "b.md")]
+        rows += [f"| `lessons/{n}` | fixture | ptr |" for n in ("round-1.md", "round-2.md")]
+        body = ["<!--", *rows, "- `corpus/evidence/d1/` x", "- `corpus/evidence/d2/` x", "-->"]
+    elif fenced:
+        rows = [f"| `knowledge/{n}` | fixture | src |" for n in ("a.md", "b.md")]
+        rows += [f"| `lessons/{n}` | fixture | ptr |" for n in ("round-1.md", "round-2.md")]
+        body = ["```", *rows, "- `corpus/evidence/d1/` x", "- `corpus/evidence/d2/` x", "```"]
     (root / README).parent.mkdir(parents=True, exist_ok=True)
     (root / README).write_text("\n".join(body) + "\n")
 
@@ -152,6 +190,8 @@ def selftest(work: Path) -> int:
     fails = 0
     cases = (
         ("clean", {}, 0, None),
+        ("comment-only", {"comment_only": True}, 1, "MISSING knowledge/a.md"),
+        ("fenced-rows", {"fenced": True}, 1, "MISSING lessons/round-1.md"),
         ("missing-knowledge", {"drop_row": "knowledge/b.md"}, 1, "MISSING knowledge/b.md"),
         ("missing-lesson", {"drop_row": "lessons/round-2.md"}, 1, "MISSING lessons/round-2.md"),
         ("missing-evidence", {"drop_evidence": "d2"}, 1, "MISSING-EVIDENCE d2"),
