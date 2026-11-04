@@ -246,6 +246,7 @@ def replay(lane: Path, work: Path) -> tuple[bytes, bytes, list[str], int]:
 def stamp(lane: Path, work: Path, capture: bytes, table_bytes: bytes, code: int) -> list[str]:
     command = shlex.join(["python3", tool_label(lane), "--lane", ".", "--work", str(work)])
     return [
+        HEADER,
         f"MEMBER {MEMBER}",
         f"SUBJECT_CAPTURE {CAP}",
         f"SUBJECT_SHA {sha256(capture)}",

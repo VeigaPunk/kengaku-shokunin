@@ -935,6 +935,7 @@ A row here indexes a file; it does not admit it — the held entries stay held.
 | `lessons/round-83.md` | Round 83 — first code-from-image replay and eight outside record-mismatch repairs; Gate S267–S270, sourced rejects and mined mistakes | LOG.md round 83; plans/round-83-claims.md |
 | `lessons/round-83-verifier-spotcheck.md` | Non-author closure of round 83 (reviewed base `614f0055` to delivered `ca1deea2`): both claims verified; admitted knowledge entry judged harmed on Q1/Q13/Q21; routed defects R83-V1 and R83-V2 | closure of round 83; lessons/round-84.md Corrections |
 | `lessons/round-84.md` | Round 84 — second offline replay of `gcode-to-text` (R84-C1, executed) and the round-83 entry's Q1/Q21 repair with its Q13 re-admission held open (R84-C2, unmet); Gate S271, corrections R83-V1/V2, mined mistakes | LOG.md round 84; plans/round-84-claims.md |
+| `lessons/round-84-verifier-spotcheck.md` | Non-author closure of round 84 (base `4087b2f8` → delivered `b8c10ad5`): R84-C1 met, R84-C2 unmet on Q13, `rejected-honest-stop`; routed defects R84-V1…V9 | closure of round 84; lessons/round-85.md Corrections |
 | `lessons/round-85.md` | Round 85 — third offline member replay (`sqlite-db-truncate`, first `serialization-schema` member, R85-C1) and the eight owner-routed round-84 defects discharged with a base-sensitive gate (R85-C2); Gate S272, corrections R84-V1…V9, mined mistakes, definition horizon, `expansion: unchanged` | LOG.md round 85; plans/round-85-claims.md; corpus/QUALITY.md Q61 |
 
 ### Knowledge index rows (3)
