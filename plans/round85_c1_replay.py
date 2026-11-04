@@ -127,6 +127,8 @@ def parse_receipt(text: str) -> tuple[dict, list[str], str]:
         return {}, [], "block out of order"
     stamp: dict[str, str] = {}
     for line in lines[:begin]:
+        if line == HEADER:          # the frozen subject line, exactly (population-gate shape)
+            continue
         match = STAMP_RE.match(line)
         if not match:
             return {}, [], f"unstamped line {line[:40]!r}"
