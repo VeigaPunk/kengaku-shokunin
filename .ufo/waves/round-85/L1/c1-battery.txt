@@ -1,0 +1,25 @@
+=== control do-nothing ===
+CONTROL do-nothing target_reached=False defects=8 codes=LEDGER-RECEIPT,LEDGER-ROUND,LEDGER-SUBJECT,LEDGER-UNEXECUTED,LEDGER-VERDICT,RECEIPT-MISSING,TABLE-MISSING,TOOL-MISSING
+rc=0
+=== control ledger-only ===
+CONTROL ledger-only target_reached=False defects=1 codes=RECEIPT-MISSING
+rc=0
+=== control fabricated-observations ===
+CONTROL fabricated-observations target_reached=False defects=2 codes=REPRODUCE-MISMATCH,VECTOR-MISMATCH
+rc=0
+=== control forged-receipt ===
+CONTROL forged-receipt target_reached=False defects=1 codes=REPRODUCE-MISMATCH
+rc=0
+=== selftest ===
+SELFTEST tip-table-parses pass
+SELFTEST tip-vectors-frozen pass
+SELFTEST receipt-shape pass
+SELFTEST absent-receipt-red pass
+SELFTEST ledger-only-red pass
+SELFTEST vector-mismatch-red pass
+SELFTEST tool-sha-red pass
+SELFTEST receipt-exit-red pass
+SELFTEST freeze-anchor-present pass
+SELFTEST freeze-anchor-fails-closed pass
+SELFTEST cases=10 red=10 failures=0
+rc=0

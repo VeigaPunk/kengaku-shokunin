@@ -1,0 +1,19 @@
+=== BASE ===
+DEFECT SETUP archive-failed 0de45354d7af
+TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects=0
+PREDICATE R85-C1 fail
+rc=2
+=== control do-nothing ===
+DEFECT SETUP archive-failed 0de45354d7af
+TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects=0
+PREDICATE R85-C1 fail
+rc=2
+=== control ledger-only ===
+CONTROL ledger-only target_reached=False defects=1 codes=RECEIPT-MISSING
+rc=0
+=== control fabricated-observations ===
+CONTROL fabricated-observations target_reached=False defects=2 codes=REPRODUCE-MISMATCH,VECTOR-MISMATCH
+rc=0
+=== control forged-receipt ===
+CONTROL forged-receipt target_reached=False defects=1 codes=REPRODUCE-MISMATCH
+rc=0
