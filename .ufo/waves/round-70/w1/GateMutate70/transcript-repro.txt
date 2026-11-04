@@ -1,0 +1,102 @@
+# argv: repro_hostile_mutants.py --lane /home/vgpnk/Projects/shokunin/kengaku-shokunin --scratch /fast/scratch/hyaku/kengaku-r70/GateMutate70-r2/repro
+# rc=0
+
+== snapshot (sha256 of every shadow input) ==
+   baf3c714a67d135847966a9307ab656c3ff88dd2a681c69cb311582383353cd0  SKILL.md
+   b4342d697ae4d3e251c559df566bc150332b976c8dfb52855ee140d1627f1c47  corpus/README.md
+   b1acdb73e3d2cfb10fc9cab59ed4ec8b6697a6ae556b1a95d95cc2571015e8f9  corpus/SOURCES.md
+   89e39c4a1f2dd1713e6ee995488bcd128cf2be6253d6a0196b5672dc19a28644  corpus/QUALITY.md
+   d02a5b3785d72263df88639bffb1e704a53a68ab307114ff0dde4b26f11269c7  corpus/knowledge/tb2-nginx-request-logging-offline.md
+   a98d9c0f75600ea4f99573d2ca291b1ffd97cffc18a53a3a65dce7b7941dfe17  plans/round63_gate_checks.py
+   ee30c6984c13985fe3efaa2d81c908b915da0f178ce5ca267bc0f0a37cd45613  corpus/evidence/round62/class-survey.txt
+   d65bbbdad6bf722961e27d8800a4ea92a75e5fafd06113a96781ca2d84a96e22  corpus/evidence/round69/gates/depth-gate.txt
+   f683297c35998f66187475daf2f68333f62294fab9356d436cba459c02efc9d9  .ufo/waves/round-69/w1/gates/depth-gate.txt
+   367ce58e41799a75b9fd3a9df5ad032c1fe30acc89b7fb4bba32ffb7c35a36fb  plans/round70_c2_routed_defects.py
+
+== hostile sources (asserted single-hit substitutions) ==
+   h1_always_true               bytes=18064 sha256=900ff11c3bf5fa22 parses=ok
+   h2_delete_two                bytes=17937 sha256=e1a0eda9b033c41a parses=ok
+   h3_printed_uncounted         bytes=18079 sha256=da9c6d8f03aa2575 parses=ok
+   h4b_delete_two_aliased       bytes=18034 sha256=25ab38c097852e8b parses=ok
+   h5_existence_shortcircuit    bytes=18104 sha256=e41de8f04092cba8 parses=ok
+   h6_control_constants_derived bytes=17973 sha256=4bc8fbfdeb4224d9 parses=ok
+
+== shipped control arms applied to each hostile gate ==
+   gate                         arm        rc  tally
+   h1_always_true               selftest    1  SELFTEST defects-in-fake=7 want=8 all-fail=False | SELFTEST e2-byte-flip-red=True | SELFTEST ok=False
+   h1_always_true               mutants     1  MUTANTS total=8 killed=1   per=1:6s 2:6s 3:7K 4:6s 5:6s 6:6s 7:6s 8:6s
+   h2_delete_two                selftest    1  SELFTEST defects-in-fake=6 want=8 all-fail=False | SELFTEST e2-byte-flip-red=True | SELFTEST ok=False
+   h2_delete_two                mutants     1  MUTANTS total=6 killed=0   per=1:5s 2:5s 3:5s 4:5s 6:5s 7:5s
+   h3_printed_uncounted         selftest    0  SELFTEST defects-in-fake=8 want=8 all-fail=True | SELFTEST e2-byte-flip-red=True | SELFTEST ok=True
+   h3_printed_uncounted         mutants     1  MUTANTS total=8 killed=1   per=1:6s 2:6s 3:6s 4:6s 5:7K 6:6s 7:6s 8:6s
+   h4b_delete_two_aliased       selftest    0  SELFTEST defects-in-fake=8 want=8 all-fail=True | SELFTEST e2-byte-flip-red=True | SELFTEST ok=True
+   h4b_delete_two_aliased       mutants     0  MUTANTS total=8 killed=8   per=1:7K 2:7K 3:7K 4:7K 6:7K 7:7K 5:7K 8:7K
+   h5_existence_shortcircuit    selftest    0  SELFTEST defects-in-fake=8 want=8 all-fail=True | SELFTEST e2-byte-flip-red=True | SELFTEST ok=True
+   h5_existence_shortcircuit    mutants     0  MUTANTS total=8 killed=8   per=1:7K 2:7K 3:7K 4:7K 5:7K 6:7K 7:7K 8:7K
+   h6_control_constants_derived selftest    0  SELFTEST defects-in-fake=6 want=6 all-fail=True | SELFTEST e2-byte-flip-red=True | SELFTEST ok=True
+   h6_control_constants_derived mutants     0  MUTANTS total=6 killed=6   per=1:5K 2:5K 3:5K 4:5K 6:5K 7:5K
+
+== lane matrix: honest gate vs hostile gate on the lane holding its hidden defect ==
+   BASE_green <honest>                     rc=0  DEFECTS n=0 pass
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E5/P corpus-index E6/P r69-landing-receipt E7/P gate-reject E8/P wave-validation
+   L_E3       <honest>                     rc=1  DEFECTS n=1 fail
+      E1/P depth-gate-identity E2/P trio-receipt E3/F instruction-row E4/P s241-correction E5/P corpus-index E6/P r69-landing-receipt E7/P gate-reject E8/P wave-validation
+   L_E3       h1_always_true               rc=0  DEFECTS n=0 pass
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E5/P corpus-index E6/P r69-landing-receipt E7/P gate-reject E8/P wave-validation
+   L_E3       h2_delete_two                rc=1  DEFECTS n=1 fail
+      E1/P depth-gate-identity E2/P trio-receipt E3/F instruction-row E4/P s241-correction E6/P r69-landing-receipt E7/P gate-reject
+   L_E3       h3_printed_uncounted         rc=1  DEFECTS n=1 fail
+      E1/P depth-gate-identity E2/P trio-receipt E3/F instruction-row E4/P s241-correction E5/P corpus-index E6/P r69-landing-receipt E7/P gate-reject E8/P wave-validation
+   L_E3       h4b_delete_two_aliased       rc=1  DEFECTS n=1 fail
+      E1/P depth-gate-identity E2/P trio-receipt E3/F instruction-row E4/P s241-correction E6/P r69-landing-receipt E7/P gate-reject E5/P corpus-index-v2 E8/P wave-validation-v2
+   L_E3       h5_existence_shortcircuit    rc=1  DEFECTS n=1 fail
+      E1/P depth-gate-identity E2/P trio-receipt E3/F instruction-row E4/P s241-correction E5/P corpus-index E6/P r69-landing-receipt E7/P gate-reject E8/P wave-validation
+   L_E3       h6_control_constants_derived rc=1  DEFECTS n=1 fail
+      E1/P depth-gate-identity E2/P trio-receipt E3/F instruction-row E4/P s241-correction E6/P r69-landing-receipt E7/P gate-reject
+   L_E5       <honest>                     rc=1  DEFECTS n=1 fail
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E5/F corpus-index E6/P r69-landing-receipt E7/P gate-reject E8/P wave-validation
+   L_E5       h1_always_true               rc=1  DEFECTS n=1 fail
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E5/F corpus-index E6/P r69-landing-receipt E7/P gate-reject E8/P wave-validation
+   L_E5       h2_delete_two                rc=0  DEFECTS n=0 pass
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E6/P r69-landing-receipt E7/P gate-reject
+   L_E5       h3_printed_uncounted         rc=0  DEFECTS n=0 pass
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E5/F corpus-index E6/P r69-landing-receipt E7/P gate-reject E8/P wave-validation
+   L_E5       h4b_delete_two_aliased       rc=0  DEFECTS n=0 pass
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E6/P r69-landing-receipt E7/P gate-reject E5/P corpus-index-v2 E8/P wave-validation-v2
+   L_E5       h5_existence_shortcircuit    rc=1  DEFECTS n=1 fail
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E5/F corpus-index E6/P r69-landing-receipt E7/P gate-reject E8/P wave-validation
+   L_E5       h6_control_constants_derived rc=0  DEFECTS n=0 pass
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E6/P r69-landing-receipt E7/P gate-reject
+   L_E7       <honest>                     rc=1  DEFECTS n=1 fail
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E5/P corpus-index E6/P r69-landing-receipt E7/F gate-reject E8/P wave-validation
+   L_E7       h1_always_true               rc=1  DEFECTS n=1 fail
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E5/P corpus-index E6/P r69-landing-receipt E7/F gate-reject E8/P wave-validation
+   L_E7       h2_delete_two                rc=1  DEFECTS n=1 fail
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E6/P r69-landing-receipt E7/F gate-reject
+   L_E7       h3_printed_uncounted         rc=1  DEFECTS n=1 fail
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E5/P corpus-index E6/P r69-landing-receipt E7/F gate-reject E8/P wave-validation
+   L_E7       h4b_delete_two_aliased       rc=1  DEFECTS n=3 fail
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E6/P r69-landing-receipt E7/F gate-reject E5/F corpus-index-v2 E8/F wave-validation-v2
+   L_E7       h5_existence_shortcircuit    rc=0  DEFECTS n=0 pass
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E5/P corpus-index E6/P r69-landing-receipt E7/P gate-reject E8/P wave-validation
+   L_E7       h6_control_constants_derived rc=1  DEFECTS n=1 fail
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E6/P r69-landing-receipt E7/F gate-reject
+   L_E5E8     <honest>                     rc=1  DEFECTS n=2 fail
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E5/F corpus-index E6/P r69-landing-receipt E7/P gate-reject E8/F wave-validation
+   L_E5E8     h1_always_true               rc=1  DEFECTS n=2 fail
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E5/F corpus-index E6/P r69-landing-receipt E7/P gate-reject E8/F wave-validation
+   L_E5E8     h2_delete_two                rc=0  DEFECTS n=0 pass
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E6/P r69-landing-receipt E7/P gate-reject
+   L_E5E8     h3_printed_uncounted         rc=1  DEFECTS n=1 fail
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E5/F corpus-index E6/P r69-landing-receipt E7/P gate-reject E8/F wave-validation
+   L_E5E8     h4b_delete_two_aliased       rc=0  DEFECTS n=0 pass
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E6/P r69-landing-receipt E7/P gate-reject E5/P corpus-index-v2 E8/P wave-validation-v2
+   L_E5E8     h5_existence_shortcircuit    rc=1  DEFECTS n=2 fail
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E5/F corpus-index E6/P r69-landing-receipt E7/P gate-reject E8/F wave-validation
+   L_E5E8     h6_control_constants_derived rc=0  DEFECTS n=0 pass
+      E1/P depth-gate-identity E2/P trio-receipt E3/P instruction-row E4/P s241-correction E6/P r69-landing-receipt E7/P gate-reject
+
+== reading ==
+   H1/H2/H3 are caught by --mutants arithmetic (killed<total); H3's printed line
+   count fools --selftest.  H4b and H5 keep DEFECTS n=8, 8 defect lines, and
+   killed=8/8 while hiding real frozen defects on the lanes named above.

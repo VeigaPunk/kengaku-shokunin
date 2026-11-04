@@ -1,0 +1,5 @@
+# R70-C2 A4 red arm: each row's used-by clause fires when the cell is blanked
+# (before A4 the clause was dead code: cells() returns 11 items and the guard read len(c) > 11)
+S242 used-by blanked: E3 ok=False problems=['S242-used-by'] | E4 ok=True problems=[]
+S243 used-by blanked: E3 ok=False problems=['S242-used-by'] | E4 ok=False problems=['used-by']
+rc=0

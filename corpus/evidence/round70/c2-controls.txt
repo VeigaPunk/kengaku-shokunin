@@ -1,0 +1,10 @@
+# R70-C2 controls (final)
+$ --selftest
+PREDICATE R70-C2 fail
+SELFTEST defects-in-fake=8 want=8 all-fail=True
+SELFTEST e2-byte-flip-red=True
+SELFTEST ok=True
+$ --mutants
+MUTANT 7 gate-reject defects=7 killed=True
+MUTANT 8 wave-validation defects=7 killed=True
+MUTANTS total=8 killed=8

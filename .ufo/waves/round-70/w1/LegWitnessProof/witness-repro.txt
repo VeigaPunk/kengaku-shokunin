@@ -1,0 +1,9 @@
+REPRO grader_sha256 045cc716c14efde3b0dcff5fc7c85ec5d18bfc6ce66f8b40a418fa2a3a4acda0
+REPRO no-service:test_nginx_running ASSERTION 4004ms 'Nginx is not running on port 8080'
+REPRO no-service:test_index_page_content EXC:ConnectionError 1ms 'HTTPConnectionPool(host=\'localhost\', port=8080): Max retries exceeded with url: / (Caused by NewConnectionError("HTTPCon'
+REPRO no-service:test_custom_404_page EXC:ConnectionError 1ms "HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /nonexistent-page (Caused by NewConnecti"
+REPRO K7-body:test_nginx_running PASS 1ms
+REPRO K7-body:test_index_page_content PASS 1ms
+REPRO K7-body:test_custom_404_page ASSERTION 1ms "Expected 'Page not found - Please check your URL',         but got 'Page not found - Please check your URL!'"
+REPRO K1-body:test_custom_404_page PASS 1ms
+REPRO K1-body:test_index_page_content PASS 1ms

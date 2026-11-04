@@ -1,0 +1,27 @@
+# staged-state delta witnesses (from S/witness-work, post-run)
+# grader bytes per case:
+K1 tests/test_outputs.py 045cc716c14efde3b0dcff5fc7c85ec5d18bfc6ce66f8b40a418fa2a3a4acda0
+K2 tests/test_outputs.py 045cc716c14efde3b0dcff5fc7c85ec5d18bfc6ce66f8b40a418fa2a3a4acda0
+K3 tests/test_outputs.py 045cc716c14efde3b0dcff5fc7c85ec5d18bfc6ce66f8b40a418fa2a3a4acda0
+K4 tests/test_outputs.py 045cc716c14efde3b0dcff5fc7c85ec5d18bfc6ce66f8b40a418fa2a3a4acda0
+K5 tests/test_outputs.py 045cc716c14efde3b0dcff5fc7c85ec5d18bfc6ce66f8b40a418fa2a3a4acda0
+K6 tests/test_outputs.py 045cc716c14efde3b0dcff5fc7c85ec5d18bfc6ce66f8b40a418fa2a3a4acda0
+K7 tests/test_outputs.py 045cc716c14efde3b0dcff5fc7c85ec5d18bfc6ce66f8b40a418fa2a3a4acda0
+
+# K1 vs K6 (excluding per-case run/server.json and the server-written *.log):
+diff -r /fast/scratch/hyaku/kengaku-r70/LegWitnessProof/witness-work/K1/run/bodies.json /fast/scratch/hyaku/kengaku-r70/LegWitnessProof/witness-work/K6/run/bodies.json
+1c1
+< {"index": "Welcome to the benchmark webserver", "log_enabled": true, "notfound": "Page not found - Please check your URL", "server_enabled": true}
+\ No newline at end of file
+---
+> {"index": "Welcome to the benchmark webserver", "log_enabled": true, "notfound": "Page not found - Please check your URL", "server_enabled": false}
+\ No newline at end of file
+
+# K1 vs K7 (same exclusions):
+diff -r /fast/scratch/hyaku/kengaku-r70/LegWitnessProof/witness-work/K1/run/bodies.json /fast/scratch/hyaku/kengaku-r70/LegWitnessProof/witness-work/K7/run/bodies.json
+1c1
+< {"index": "Welcome to the benchmark webserver", "log_enabled": true, "notfound": "Page not found - Please check your URL", "server_enabled": true}
+\ No newline at end of file
+---
+> {"index": "Welcome to the benchmark webserver", "log_enabled": true, "notfound": "Page not found - Please check your URL!", "server_enabled": true}
+\ No newline at end of file

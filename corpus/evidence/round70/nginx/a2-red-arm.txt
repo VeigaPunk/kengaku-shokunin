@@ -1,0 +1,17 @@
+# R70-C1 A2 red arm: duplicate CASE / VECTOR lines must be defects
+$ --check-receipt forge-dup-case.txt
+CHECK ok cases=7 legs=8 seen_p=8 seen_f=8
+DEFECT duplicate-case K1
+DEFECT case-sha K1 0000000000000000000000000000000000000000000000000000000000000000 != 0cf77ab849376a311f85b6cf47d1b2fd61fd21e0644720fb02e541e8ed074fb0
+CHECK stored-predicate=pass derived=fail
+PREDICATE R70-C1 fail
+rc=1
+$ --check-receipt forge-dup-vector.txt
+CHECK ok cases=7 legs=8 seen_p=8 seen_f=8
+DEFECT vector-expected-field VECTOR K1 FPPPPPPP expected PPPPPPPP agree=True
+DEFECT duplicate-vector K1
+DEFECT vector-mismatch K1 FPPPPPPP != PPPPPPPP
+DEFECT leg-vector K1 legs=PPPPPPPP vector=FPPPPPPP
+CHECK stored-predicate=pass derived=fail
+PREDICATE R70-C1 fail
+rc=1

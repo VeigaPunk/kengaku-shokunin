@@ -1,0 +1,23 @@
+== H1: probe-blob absent escape ==
+edited probe sha256 015d7432524952c05ce1128275b1594dd7162eb487ba195de1b0598100128f8f (frozen lane blob has 9aef6d33...)
+rc= 1
+CHECK ok cases=7 legs=8 seen_p=8 seen_f=8
+DEFECT probe-blob-line n=0
+CHECK stored-predicate=pass derived=fail
+PREDICATE R70-C1 fail
+H1 rc=1 accepted=False (edited instrument + forged PROBE_BLOB accepted)
+
+== H2: duplicate VECTOR line, last-wins ==
+rc= 0
+CHECK ok cases=7 legs=8 seen_p=8 seen_f=8
+CHECK stored-predicate=pass derived=pass
+PREDICATE R70-C1 pass
+H2 rc=0 accepted=True (contradictory K1 vector line present)
+
+== H3: duplicate CASE line, last-wins ==
+rc= 1
+CHECK ok cases=7 legs=8 seen_p=8 seen_f=8
+DEFECT case-line CASE K1 case_sha256=0000000000000000000000000000000000000000000000000000000000000000 x=0
+CHECK stored-predicate=pass derived=fail
+PREDICATE R70-C1 fail
+H3 rc=1 accepted=False

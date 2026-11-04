@@ -1,0 +1,24 @@
+== H1b: probe-blob `absent` escape, forged PROBE_BLOB ==
+rc= 0
+CHECK probe-blob=absent (uncommitted instrument)
+CHECK ok cases=7 legs=8 seen_p=8 seen_f=8
+CHECK stored-predicate=pass derived=pass
+PREDICATE R70-C1 pass
+H1b rc=0 accepted=True (edited probe 015d74…, forged blob zeros, uncommitted)
+
+== H3b: duplicate well-formed CASE K1 line, last-wins ==
+rc= 0
+CHECK ok cases=7 legs=8 seen_p=8 seen_f=8
+CHECK stored-predicate=pass derived=pass
+PREDICATE R70-C1 pass
+H3b rc=0 accepted=True (two CASE K1 lines, contradictory sha)
+
+== H4: leg-coverage loop is CLI-unreachable: drop one TEST line ==
+rc= 1
+CHECK ok cases=7 legs=8 seen_p=8 seen_f=8
+DEFECT leg-set K1 got=['test_custom_404_page', 'test_index_page_content', 'test_log_file_creation', 'test_log_file_format', 'test_nginx_config_settings', 'test_nginx_config_syntax', 'test_nginx_installed']
+DEFECT leg-vector K1 legs=PFPPPPPP vector=PPPPPPPP
+DEFECT leg-missing K1 test_nginx_running
+CHECK stored-predicate=pass derived=fail
+PREDICATE R70-C1 fail
+H4 rc=1 accepted=False

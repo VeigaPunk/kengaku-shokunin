@@ -1,0 +1,93 @@
+== leg-coverage ==
+--- lane-baseline/plans/round70_c1_nginx_probe.py	2026-11-03 21:50:17.002316939 -0300
++++ mut/leg-coverage/plans/round70_c1_nginx_probe.py	2026-11-03 21:49:22.737544807 -0300
+@@ -698,7 +698,7 @@
+             else:
+                 defect("leg-missing", f"{cid} {name}")
+     for name in LEGS:
+-        if seen_p[name] == 0 or seen_f[name] == 0:
++        if False:  # MUTANT leg-coverage neutralised
+             defect("leg-coverage", f"{name} p={seen_p[name]} f={seen_f[name]}")
+     summary = starts("SUMMARY cases=")
+     if len(summary) != 1 or "mismatches=0" not in summary[0] or "setup=0" not in summary[0]:
+== case-sha ==
+--- lane-baseline/plans/round70_c1_nginx_probe.py	2026-11-03 21:50:17.002316939 -0300
++++ mut/case-sha/plans/round70_c1_nginx_probe.py	2026-11-03 21:49:22.785629859 -0300
+@@ -670,8 +670,8 @@
+         got_sha = case_shas.get(cid)
+         if want_sha is None:
+             defect("case-sha-missing", cid)
+-        elif got_sha != want_sha:
+-            defect("case-sha", f"{cid} {got_sha} != {want_sha}")
++        elif False:  # MUTANT case-sha comparison neutralised
++            pass
+     seen_p = {name: 0 for name in LEGS}
+     seen_f = {name: 0 for name in LEGS}
+     for case in cases:
+== probe-blob ==
+--- lane-baseline/plans/round70_c1_nginx_probe.py	2026-11-03 21:50:17.002316939 -0300
++++ mut/probe-blob/plans/round70_c1_nginx_probe.py	2026-11-03 21:49:22.861876490 -0300
+@@ -609,9 +609,9 @@
+             # An uncommitted probe cannot bind a blob; the frozen run is post-freeze.
+             print("CHECK probe-blob=absent (uncommitted instrument)")
+         else:
+-            if got_blob != live_blob:
++            if False:  # MUTANT probe-blob binding neutralised
+                 defect("probe-blob", f"{got_blob} != {live_blob}")
+-            if got_blob != own_sha256():
++            if False:  # MUTANT probe-blob working-tree binding neutralised
+                 defect("probe-blob-working-tree", f"{got_blob} != {own_sha256()}")
+     grader = starts(f"GRADER {GRADER_REL} sha256 ")
+     if len(grader) != 1:
+== grader-file ==
+--- lane-baseline/plans/round70_c1_nginx_probe.py	2026-11-03 21:50:17.002316939 -0300
++++ mut/grader-file/plans/round70_c1_nginx_probe.py	2026-11-03 21:49:22.944026199 -0300
+@@ -623,13 +623,8 @@
+         if TB2_PIN not in grader[0]:
+             defect("grader-pin", grader[0])
+     # The constant above is not the evidence: re-hash the lane's own grader bytes.
+-    grader_file = lane_root() / GRADER_REL
+-    if not grader_file.is_file():
+-        defect("grader-file", f"{GRADER_REL} missing")
+-    else:
+-        live = sha256_file(grader_file)
+-        if live != GRADER_SHA256:
+-            defect("grader-file-sha", live)
++    if False:  # MUTANT grader-file rehash neutralised
++        pass
+ 
+     vectors = {}
+     legs = {}
+== vector-agreement ==
+--- lane-baseline/plans/round70_c1_nginx_probe.py	2026-11-03 21:50:17.002316939 -0300
++++ mut/vector-agreement/plans/round70_c1_nginx_probe.py	2026-11-03 21:49:23.025361069 -0300
+@@ -639,7 +639,7 @@
+             if len(parts) != 6 or parts[3] != "expected" or not parts[5].startswith("agree="):
+                 defect("vector-line", ln)
+                 continue
+-            if parts[4] != parts[2]:
++            if False:  # MUTANT vector/expected field agreement neutralised
+                 defect("vector-expected-field", ln)
+             vectors[parts[1]] = (parts[2], parts[5].split("=", 1)[1])
+         elif ln.startswith("TEST "):
+@@ -682,7 +682,7 @@
+         obs, stored_agree = got
+         if obs != case["expected"]:
+             defect("vector-mismatch", f"{cid} {obs} != {case['expected']}")
+-        if stored_agree != "True":
++        if False:  # MUTANT stored agree= flag neutralised
+             defect("vector-agree", f"{cid} agree={stored_agree}")
+         case_legs = legs.get(cid, {})
+         if sorted(case_legs) != sorted(LEGS):
+== case-set ==
+--- lane-baseline/plans/round70_c1_nginx_probe.py	2026-11-03 21:50:17.002316939 -0300
++++ mut/case-set/plans/round70_c1_nginx_probe.py	2026-11-03 21:49:23.111562566 -0300
+@@ -659,7 +659,7 @@
+             case_shas[parts[1]] = parts[2].split("=", 1)[1]
+ 
+     expected_ids = [c["id"] for c in cases]
+-    if sorted(vectors) != sorted(expected_ids):
++    if False:  # MUTANT case-set comparison neutralised
+         defect("case-set", f"got={sorted(vectors)} want={sorted(expected_ids)}")
+     frozen_sha = CASE_SHA if case_sha is None else case_sha
+     if not frozen_sha:

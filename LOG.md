@@ -2603,3 +2603,46 @@ Evidence: `corpus/evidence/round64/`, `.ufo/waves/round-64/` (wave seats in `w1/
   `round-65`, `round-66`, `round-67` (labrat role). Named limitations in the report: live-run
   provenance, the shimmed `nginx -t`, leg 8's whole-content regexes, `case_sha256` path
   dependence, C2's text-fact checks / E3 input set / E7 negative arm, and M-J/M-K.
+
+## Round 70 (hyaku run 15, 2026-11-03)
+
+- **Claims (frozen `384e9c76`, base `502893ad`).** R70-C1 coverage — the `nginx-request-logging`
+  TB2 grader replayed under a seven-case table re-frozen with the two red witnesses round 69
+  lacked (K6 no HTTP service, K7 mutated 404 body) and a staged-input `case_sha256`; R70-C2
+  calibration — the round-69 non-author closure's eight routed defects D1–D8 closed by a
+  re-deriving gate. Amendment A1 (dated, before data) repaired E1's pair ordering with no
+  predicate change.
+- **Landed (R70-C1).** `plans/round70_c1_nginx_probe.py` (new; staged-input digest, `PROBE_BLOB`
+  binding, grader-file re-hash, `--render-table --stage-sha`, `PATH-INDEPENDENT` and
+  `STAGED-STATE` selftest arms). Receipt of record `corpus/evidence/round70/nginx/receipt.txt`
+  (seven vectors `agree=True`, `LEG-COVERAGE legs=8 seen_p=8 seen_f=8`,
+  `PREDICATE R70-C1 pass`) + `check.txt` (rc 0) + `sandbox/` per-case captures; three
+  independent batteries agree. `SKILL.md:78` class row `executed 2 of 8` → `executed 3 of 8`;
+  `corpus/knowledge/tb2-nginx-request-logging-offline.md` round-70 addendum;
+  `corpus/README.md` knowledge row updated; `PROVINCE.md` stale "nginx blocked" clause corrected.
+- **Landed (R70-C2).** `plans/round70_c2_routed_defects.py` (E1–E8 over D1–D8, `--selftest`,
+  `--mutants`). Corrections: `corpus/evidence/round70/c2/depth-gate-provenance.txt` (D1 labels +
+  the single changed line), `corpus/evidence/round70/gates/trio-nginx.txt` (D2),
+  `corpus/SOURCES.md` S242 (D3) and S243 (D4), `corpus/README.md` round-69 lesson row + block
+  (D5), `corpus/evidence/round70/gates/r69-c2-landing.txt` (D6), `corpus/lessons/round-70.md`
+  Gate reject + S244 (D7), `.ufo/waves/round-70/w1-validate.{rc,out,stderr}` (D8). Green:
+  `corpus/evidence/round70/c2-green.txt` (`DEFECTS n=0`, rc 0); selftest
+  `defects-in-fake=8 want=8 all-fail=True`; mutants `8/8`.
+- **Sources.** S242 (the task instruction at pin `2fd12b88`, opened live this round: HTTP 200,
+  1882 B, sha256 `26a7ac98…9edf99`, anchor `instruction.md:6-11,15-18`) and S243 (the corrected
+  leg map, supersedes S241's summary cell) admitted tier A; S244 (`merge/kengaku`
+  `grader-fixture-coverage`) rejected with reason + flip. `Assimilation: none` (one entry
+  considered, refused).
+- **Verification run this round.** C1: `--check-receipt` rc 0, `PREDICATE R70-C1 pass`;
+  `--selftest` `red_refused=7/7 … accept_ok=1 ok=True`. C2: `DEFECTS n=8` → `n=0`,
+  `PREDICATE R70-C2 pass`; selftest 8/8; mutants 8/8; round-69 landing receipt re-run
+  byte-identical at `4038bb11`. Census exit 0 at start (233 rows) and end (236 rows, S242–S244).
+  Depth gate `PREDICATE R63-C2 pass` (`ROWS n=16 … paths total=34 resolved=34 share=1.00`);
+  provenance trio `TRIO pass`.
+- **Mistakes mined** (`corpus/lessons/round-70.md` `## Mistakes`, five rows): a staged-digest
+  blind spot (bodies excluded with the path-carrying payload), a recurrence of the
+  self-unreadable receipt (`CASE` token form), an argument-order red in the C2 gate, an
+  exception-red folded into the verdict, and a case-note isolation overstatement. Q52 records
+  the digest rule.
+- **Open.** L0 carried: `kengaku | round-25/33/51`, `round-54`, `round-56`, `round-63`,
+  `round-65`, `round-66`, `round-67` (labrat role).

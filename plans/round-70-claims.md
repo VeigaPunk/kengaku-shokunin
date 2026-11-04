@@ -24,7 +24,7 @@ sha256 `045cc716c14efde3b0dcff5fc7c85ec5d18bfc6ce66f8b40a418fa2a3a4acda0`
 4 `test_custom_404_page`, 5 `test_nginx_config_syntax`, 6 `test_nginx_config_settings`,
 7 `test_log_file_creation`, 8 `test_log_file_format`.
 
-**Case table (frozen; `--render-table` must byte-equal it).** K1–K5 are round 69's table
+**Case table (frozen; `--render-table` must print the same case ids, the same seven vectors and the same `FROZEN-VECTOR` line).** K1–K5 are round 69's table
 unchanged; K6 and K7 are the two red witnesses round 69 lacked (round-69 Amendment A1 item 3).
 
 | case | staged end state | legs 1..8 |
@@ -184,3 +184,29 @@ under the repaired instrument (`PROBE` sha changes) and the first receipt is pre
 
 Not repaired, named: the `PROBE_BLOB absent` escape applies only to an uncommitted instrument
 (ReceiptReview70 A-2); at the landing tip the probe is committed and the binding is live.
+
+## Amendment A3 (round 70, dated 2026-11-03; no predicate, vector, digest, kill rule or target changed)
+
+**Freeze-doc equality claim narrowed (Lesson70Draft finding).** The case-table paragraph said
+"`--render-table` must byte-equal it". The rendered table prints the instrument's own `note`
+wording, so the two blocks are not byte-equal; what the freeze actually binds is the case set,
+the seven vectors and the `FROZEN-VECTOR` line. The sentence is corrected to that narrower
+claim. The vectors, digests, kill rule and predicate are unchanged, and the battery of record
+was scored against the vectors, not against prose.
+
+## Amendment A4 (round 70, dated 2026-11-03; no predicate, vector, digest, kill rule or target changed)
+
+**Two landing defects found by ClaimFalsify70, fixed before the C2 green receipt was scored.**
+
+1. **E3/E4 `used-by` clauses were dead code.** `cells(row)` returns the row's 11 cells, so the
+   guard `len(c) > 11` never ran and a row whose `used-by` cell was `—` still passed. The guard
+   now reads `len(c) != 11 or NGINX_ENTRY not in c[10]`; both clauses are shown able to fail over
+   scratch copies with the cell blanked (`corpus/evidence/round70/c2/a4-usedby-arm.txt`:
+   `E3 ok=False problems=['S242-used-by']`, `E4 ok=False problems=['used-by']`).
+2. **S243's located quote cited the wrong line.** The statement
+   `result = subprocess.run(["nginx", "-t"], capture_output=True, text=True)` is at
+   `tests/test_outputs.py:61`; the row said `:59` (the `def` line). The row and the knowledge
+   entry's E-D4 errata now say `:61`; the grader bytes are unchanged.
+
+The C2 green receipt is re-run under the repaired gate after both fixes; no correction, check
+list or predicate changed.

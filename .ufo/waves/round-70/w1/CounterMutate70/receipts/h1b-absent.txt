@@ -1,0 +1,77 @@
+PROBE plans/round70_c1_nginx_probe.py sha256 015d7432524952c05ce1128275b1594dd7162eb487ba195de1b0598100128f8f
+PROBE_BLOB plans/round70_c1_nginx_probe.py sha256 0000000000000000000000000000000000000000000000000000000000000000
+PROBE_VERSION 1
+GRADER corpus/evidence/round52/graders/nginx-request-logging/tests/test_outputs.py sha256 045cc716c14efde3b0dcff5fc7c85ec5d18bfc6ce66f8b40a418fa2a3a4acda0 pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6
+PORT 8080 free-at-start=True
+CASE K1 case_sha256=0cf77ab849376a311f85b6cf47d1b2fd61fd21e0644720fb02e541e8ed074fb0 server_pid=4242 sandbox_rc=0
+TEST K1 test_nginx_installed P
+TEST K1 test_nginx_running P
+TEST K1 test_index_page_content P
+TEST K1 test_custom_404_page P
+TEST K1 test_nginx_config_syntax P
+TEST K1 test_nginx_config_settings P
+TEST K1 test_log_file_creation P
+TEST K1 test_log_file_format P
+VECTOR K1 PPPPPPPP expected PPPPPPPP agree=True
+CASE K2 case_sha256=c072ee5fa3f076d69a222ec173327a855f471029bf70bb78b13180b790012a0b server_pid=4242 sandbox_rc=0
+TEST K2 test_nginx_installed P
+TEST K2 test_nginx_running P
+TEST K2 test_index_page_content F
+TEST K2 test_custom_404_page P
+TEST K2 test_nginx_config_syntax P
+TEST K2 test_nginx_config_settings P
+TEST K2 test_log_file_creation P
+TEST K2 test_log_file_format P
+VECTOR K2 PPFPPPPP expected PPFPPPPP agree=True
+CASE K3 case_sha256=286db51eb5bab3aad7c3c3fb7ed6c4e2019940d6f3f1d6641269b33be946be34 server_pid=4242 sandbox_rc=0
+TEST K3 test_nginx_installed P
+TEST K3 test_nginx_running P
+TEST K3 test_index_page_content P
+TEST K3 test_custom_404_page P
+TEST K3 test_nginx_config_syntax P
+TEST K3 test_nginx_config_settings P
+TEST K3 test_log_file_creation F
+TEST K3 test_log_file_format F
+VECTOR K3 PPPPPPFF expected PPPPPPFF agree=True
+CASE K4 case_sha256=22ee1ff893a4acde45241c89fe55fc2c2f4bc23fd2ce452627605a436446c788 server_pid=4242 sandbox_rc=0
+TEST K4 test_nginx_installed P
+TEST K4 test_nginx_running P
+TEST K4 test_index_page_content P
+TEST K4 test_custom_404_page P
+TEST K4 test_nginx_config_syntax P
+TEST K4 test_nginx_config_settings F
+TEST K4 test_log_file_creation P
+TEST K4 test_log_file_format P
+VECTOR K4 PPPPPFPP expected PPPPPFPP agree=True
+CASE K5 case_sha256=5690e1e15975681496705203950f46436921a9e6e7911a7ab930a2e4199bb926 server_pid=4242 sandbox_rc=0
+TEST K5 test_nginx_installed F
+TEST K5 test_nginx_running P
+TEST K5 test_index_page_content P
+TEST K5 test_custom_404_page P
+TEST K5 test_nginx_config_syntax F
+TEST K5 test_nginx_config_settings P
+TEST K5 test_log_file_creation P
+TEST K5 test_log_file_format P
+VECTOR K5 FPPPFPPP expected FPPPFPPP agree=True
+CASE K6 case_sha256=d4035f6f30bb3f1a63b09ce268e57f7fb3eea788d8b28a4f393717d683452437 server_pid=4242 sandbox_rc=0
+TEST K6 test_nginx_installed P
+TEST K6 test_nginx_running F
+TEST K6 test_index_page_content F
+TEST K6 test_custom_404_page F
+TEST K6 test_nginx_config_syntax P
+TEST K6 test_nginx_config_settings P
+TEST K6 test_log_file_creation F
+TEST K6 test_log_file_format F
+VECTOR K6 PFFFPPFF expected PFFFPPFF agree=True
+CASE K7 case_sha256=07eb2fd3f850a1b4b34b3518bca7985fec839bec6dba97dc12e0e593e0a91855 server_pid=4242 sandbox_rc=0
+TEST K7 test_nginx_installed P
+TEST K7 test_nginx_running P
+TEST K7 test_index_page_content P
+TEST K7 test_custom_404_page F
+TEST K7 test_nginx_config_syntax P
+TEST K7 test_nginx_config_settings P
+TEST K7 test_log_file_creation P
+TEST K7 test_log_file_format P
+VECTOR K7 PPPFPPPP expected PPPFPPPP agree=True
+SUMMARY cases=7 legs=56 mismatches=0 setup=0
+PREDICATE R70-C1 pass

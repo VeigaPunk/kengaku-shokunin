@@ -1,0 +1,131 @@
+== R70-C1 check mutation probe (v2) ==
+pristine probe plans/round70_c1_nginx_probe.py sha256 9aef6d33abc965f52a965b2f9197b78d257dc76003ddc124ca0e692a4fdbbe90
+frozen CASES PPPPPPPP/PPFPPPPP/PPPPPPFF/PPPPPFPP/FPPPFPPP/PFFFPPFF/PPPFPPPP
+frozen CASE_SHA distinct 7 of 7
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/lane-baseline init -q -b master
+  rc=0
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/lane-baseline rev-parse --show-toplevel
+  rc=0
+  | /fast/scratch/hyaku/kengaku-r70/CounterMutate70/lane-baseline
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/lane-baseline -c user.name=R70-CounterMutate70 -c user.email=r70@countermutate.invalid -c commit.gpgsign=false add -A
+  rc=0
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/lane-baseline -c user.name=R70-CounterMutate70 -c user.email=r70@countermutate.invalid -c commit.gpgsign=false commit -q -m mutation probe fixture
+  rc=0
+baseline lane /fast/scratch/hyaku/kengaku-r70/CounterMutate70/lane-baseline probe sha 9aef6d33abc965f52a965b2f9197b78d257dc76003ddc124ca0e692a4fdbbe90 blob 9aef6d33abc965f52a965b2f9197b78d257dc76003ddc124ca0e692a4fdbbe90
+wrote /fast/scratch/hyaku/kengaku-r70/CounterMutate70/receipts/baseline.txt sha256 c87b165d31ff6328cf5605548ae1062ec0fd470599c79106f5ea113f1af2f21e
+$ /usr/bin/python3 /fast/scratch/hyaku/kengaku-r70/CounterMutate70/lane-baseline/plans/round70_c1_nginx_probe.py --check-receipt /fast/scratch/hyaku/kengaku-r70/CounterMutate70/receipts/baseline.txt
+  rc=0
+  | CHECK ok cases=7 legs=8 seen_p=8 seen_f=8
+  | CHECK stored-predicate=pass derived=pass
+  | PREDICATE R70-C1 pass
+BASELINE accept rc=0 accepted=True
+$ /usr/bin/python3 /fast/scratch/hyaku/kengaku-r70/CounterMutate70/lane-baseline/plans/round70_c1_nginx_probe.py --selftest --work /fast/scratch/hyaku/kengaku-r70/CounterMutate70/selftest-work
+  rc=0
+  | RED r1-all-p rc=1 refused=True
+  | RED r2-probe-sha rc=1 refused=True
+  | RED r3-leg-vector rc=1 refused=True
+  | RED r4-missing-leg rc=1 refused=True
+  | RED r5-grader-sha rc=1 refused=True
+  | RED r6-case-sha rc=1 refused=True
+  | RED r7-probe-blob rc=1 refused=True
+  | ACCEPT synthetic rc=0 accepted=True
+  | PATH-INDEPENDENT sha_equal=True
+  | STAGED-STATE changes_on_byte=True
+  | SELFTEST red_refused=7/7 green_ok=0 accept_ok=1 ok=True
+SELFTEST rc=0
+bad grader sha256 61a09105261940d0aec9f654a723b33d1625dd7ebe070391454e40061fd4e83a (frozen 045cc716c14efde3b0dcff5fc7c85ec5d18bfc6ce66f8b40a418fa2a3a4acda0)
+pristine grader restored: 045cc716c14efde3b0dcff5fc7c85ec5d18bfc6ce66f8b40a418fa2a3a4acda0
+PRISTINE-BAD case-sha rc=1 defects=1 [DEFECT case-sha K1 0000000000000000000000000000000000000000000000000000000000000000 != 0cf77ab849376a311f85b6cf47d1b2fd61fd21e0644720fb02e541e8ed074fb0]
+PRISTINE-BAD probe-blob rc=1 defects=2 [DEFECT probe-blob 0000000000000000000000000000000000000000000000000000000000000000 != 9aef6d33abc965f52a965b2f9197b78d257dc76003ddc124ca0e692a4fdbbe90] [DEFECT probe-blob-working-tree 0000000000000000000000000000000000000000000000000000000000000000 != 9aef6d33abc965f52a965b2f9197b78d257dc76003ddc124ca0e692a4fdbbe90]
+PRISTINE-BAD vector-agreement rc=1 defects=1 [DEFECT vector-agree K3 agree=False]
+PRISTINE-BAD case-set rc=1 defects=1 [DEFECT case-set got=['K1', 'K2', 'K3', 'K4', 'K5', 'K6', 'K7', 'K8'] want=['K1', 'K2', 'K3', 'K4', 'K5', 'K6', 'K7']]
+PRISTINE-BAD leg-coverage rc=1 defects=8 [DEFECT leg-coverage test_nginx_installed p=2 f=0] [DEFECT leg-coverage test_nginx_running p=2 f=0]
+PRISTINE-BAD grader-file rc=1 defects=1 [DEFECT grader-file-sha 61a09105261940d0aec9f654a723b33d1625dd7ebe070391454e40061fd4e83a]
+== mutant matrix ==
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/leg-coverage init -q -b master
+  rc=0
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/leg-coverage rev-parse --show-toplevel
+  rc=0
+  | /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/leg-coverage
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/leg-coverage -c user.name=R70-CounterMutate70 -c user.email=r70@countermutate.invalid -c commit.gpgsign=false add -A
+  rc=0
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/leg-coverage -c user.name=R70-CounterMutate70 -c user.email=r70@countermutate.invalid -c commit.gpgsign=false commit -q -m mutation probe fixture
+  rc=0
+-- mutant leg-coverage: probe sha d18f048ed8b56129dc32c37bfa94467c23c2880e3209fa69e3d132ac1f754f90 blob d18f048ed8b56129dc32c37bfa94467c23c2880e3209fa69e3d132ac1f754f90
+MUTANT leg-coverage good rc=0 defects=0
+MUTANT leg-coverage bad rc=0 defects=0
+MUTANT leg-coverage killed=True rc_good=0 rc_bad=0 pristine_bad_rc=1
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/case-sha init -q -b master
+  rc=0
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/case-sha rev-parse --show-toplevel
+  rc=0
+  | /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/case-sha
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/case-sha -c user.name=R70-CounterMutate70 -c user.email=r70@countermutate.invalid -c commit.gpgsign=false add -A
+  rc=0
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/case-sha -c user.name=R70-CounterMutate70 -c user.email=r70@countermutate.invalid -c commit.gpgsign=false commit -q -m mutation probe fixture
+  rc=0
+-- mutant case-sha: probe sha db53dc5ab97f1bb33ca9474eb262e53728dacfbe788f5b3ca714f55f2f1c74bb blob db53dc5ab97f1bb33ca9474eb262e53728dacfbe788f5b3ca714f55f2f1c74bb
+MUTANT case-sha good rc=0 defects=0
+MUTANT case-sha bad rc=0 defects=0
+MUTANT case-sha killed=True rc_good=0 rc_bad=0 pristine_bad_rc=1
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/probe-blob init -q -b master
+  rc=0
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/probe-blob rev-parse --show-toplevel
+  rc=0
+  | /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/probe-blob
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/probe-blob -c user.name=R70-CounterMutate70 -c user.email=r70@countermutate.invalid -c commit.gpgsign=false add -A
+  rc=0
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/probe-blob -c user.name=R70-CounterMutate70 -c user.email=r70@countermutate.invalid -c commit.gpgsign=false commit -q -m mutation probe fixture
+  rc=0
+-- mutant probe-blob: probe sha c22801f949c1ff10605598d6ff25bfff233776ec5f6f7322d94bba9d2873ae23 blob c22801f949c1ff10605598d6ff25bfff233776ec5f6f7322d94bba9d2873ae23
+MUTANT probe-blob good rc=0 defects=0
+MUTANT probe-blob bad rc=0 defects=0
+MUTANT probe-blob killed=True rc_good=0 rc_bad=0 pristine_bad_rc=1
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/grader-file init -q -b master
+  rc=0
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/grader-file rev-parse --show-toplevel
+  rc=0
+  | /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/grader-file
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/grader-file -c user.name=R70-CounterMutate70 -c user.email=r70@countermutate.invalid -c commit.gpgsign=false add -A
+  rc=0
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/grader-file -c user.name=R70-CounterMutate70 -c user.email=r70@countermutate.invalid -c commit.gpgsign=false commit -q -m mutation probe fixture
+  rc=0
+-- mutant grader-file: probe sha 21ee8d0c0093f7153122a7b3abce0f92031a5c6e50fb1b0e844ec599572552e6 blob 21ee8d0c0093f7153122a7b3abce0f92031a5c6e50fb1b0e844ec599572552e6
+MUTANT grader-file good rc=0 defects=0
+MUTANT grader-file bad rc=0 defects=0
+MUTANT grader-file killed=True rc_good=0 rc_bad=0 pristine_bad_rc=1
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/vector-agreement init -q -b master
+  rc=0
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/vector-agreement rev-parse --show-toplevel
+  rc=0
+  | /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/vector-agreement
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/vector-agreement -c user.name=R70-CounterMutate70 -c user.email=r70@countermutate.invalid -c commit.gpgsign=false add -A
+  rc=0
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/vector-agreement -c user.name=R70-CounterMutate70 -c user.email=r70@countermutate.invalid -c commit.gpgsign=false commit -q -m mutation probe fixture
+  rc=0
+-- mutant vector-agreement: probe sha b3cd6af1b9c4e6649981b435b68eccc61d9512c2fc3c22865d2ce17ab4aecfdb blob b3cd6af1b9c4e6649981b435b68eccc61d9512c2fc3c22865d2ce17ab4aecfdb
+MUTANT vector-agreement good rc=0 defects=0
+MUTANT vector-agreement bad rc=0 defects=0
+MUTANT vector-agreement killed=True rc_good=0 rc_bad=0 pristine_bad_rc=1
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/case-set init -q -b master
+  rc=0
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/case-set rev-parse --show-toplevel
+  rc=0
+  | /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/case-set
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/case-set -c user.name=R70-CounterMutate70 -c user.email=r70@countermutate.invalid -c commit.gpgsign=false add -A
+  rc=0
+$ git -C /fast/scratch/hyaku/kengaku-r70/CounterMutate70/mut/case-set -c user.name=R70-CounterMutate70 -c user.email=r70@countermutate.invalid -c commit.gpgsign=false commit -q -m mutation probe fixture
+  rc=0
+-- mutant case-set: probe sha b1bf7954b5a0960450a43136bce09550812b01f0604b9f7b15ca2056d020e022 blob b1bf7954b5a0960450a43136bce09550812b01f0604b9f7b15ca2056d020e022
+MUTANT case-set good rc=0 defects=0
+MUTANT case-set bad rc=0 defects=0
+MUTANT case-set killed=True rc_good=0 rc_bad=0 pristine_bad_rc=1
+== summary ==
+RESULT leg-coverage       killed=True  rc_good=0 rc_bad=0 pristine_bad_rc=1
+RESULT case-sha           killed=True  rc_good=0 rc_bad=0 pristine_bad_rc=1
+RESULT probe-blob         killed=True  rc_good=0 rc_bad=0 pristine_bad_rc=1
+RESULT grader-file        killed=True  rc_good=0 rc_bad=0 pristine_bad_rc=1
+RESULT vector-agreement   killed=True  rc_good=0 rc_bad=0 pristine_bad_rc=1
+RESULT case-set           killed=True  rc_good=0 rc_bad=0 pristine_bad_rc=1
+L probe sha256 after: 9aef6d33abc965f52a965b2f9197b78d257dc76003ddc124ca0e692a4fdbbe90 unchanged= True
+L probe git status: (clean)

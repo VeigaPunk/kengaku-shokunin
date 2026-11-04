@@ -1,0 +1,62 @@
+# R70-C1 three-receipt comparison
+## receipt sha256
+237d28a154a64b06173a04c2ac3932dfd5e7a45441462269da2bdf838e2dc26a  /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round70/nginx/receipt.txt
+8a75923ebd374a12034d08569878198b1351e319293ec75650f219861d7d74dd  /fast/scratch/hyaku/kengaku-r70/BatteryReplicate/receipt2.txt
+f105042d7024914113a06a4d6b3e5d74e9c996424be8d8428aec59dfb3099bdc  /fast/scratch/hyaku/kengaku-r70/BatteryReplicate/receipt3.txt
+
+## normalized CASE/VECTOR diff official vs r2
+IDENTICAL
+
+## normalized CASE/VECTOR diff official vs r3
+IDENTICAL
+
+## normalized CASE/VECTOR diff r2 vs r3
+IDENTICAL
+
+## live server pids (disjoint => independent runs)
+/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round70/nginx/receipt.txt: 2831758 2834960 2838300 2840297 2842033 None 2845742 
+/fast/scratch/hyaku/kengaku-r70/BatteryReplicate/receipt2.txt: 2888533 2891397 2894248 2896989 2899608 None 2914050 
+/fast/scratch/hyaku/kengaku-r70/BatteryReplicate/receipt3.txt: 2876509 2877938 2880255 2881161 2881681 None 2884535 
+
+## check-receipt
+CHECK ok cases=7 legs=8 seen_p=8 seen_f=8
+CHECK stored-predicate=pass derived=pass
+PREDICATE R70-C1 pass
+CHECK ok cases=7 legs=8 seen_p=8 seen_f=8
+CHECK stored-predicate=pass derived=pass
+PREDICATE R70-C1 pass
+CHECK ok cases=7 legs=8 seen_p=8 seen_f=8
+CHECK stored-predicate=pass derived=pass
+PREDICATE R70-C1 pass
+
+## selftest tally
+RED r1-all-p rc=1 refused=True
+RED r2-probe-sha rc=1 refused=True
+RED r3-leg-vector rc=1 refused=True
+RED r4-missing-leg rc=1 refused=True
+RED r5-grader-sha rc=1 refused=True
+RED r6-case-sha rc=1 refused=True
+RED r7-probe-blob rc=1 refused=True
+ACCEPT synthetic rc=0 accepted=True
+PATH-INDEPENDENT sha_equal=True
+STAGED-STATE changes_on_byte=True
+SELFTEST red_refused=7/7 green_ok=0 accept_ok=1 ok=True
+
+## render-table CASE-SHA (third work root)
+FROZEN-VECTOR PPPPPPPP/PPFPPPPP/PPPPPPFF/PPPPPFPP/FPPPFPPP/PFFFPPFF/PPPFPPPP
+LEG-COVERAGE-FROZEN legs=8 seen_p=8 seen_f=8
+LEG test_nginx_installed p=6 f=1
+LEG test_nginx_running p=6 f=1
+LEG test_index_page_content p=5 f=2
+LEG test_custom_404_page p=5 f=2
+LEG test_nginx_config_syntax p=6 f=1
+LEG test_nginx_config_settings p=6 f=1
+LEG test_log_file_creation p=5 f=2
+LEG test_log_file_format p=5 f=2
+CASE-SHA K1 0cf77ab849376a311f85b6cf47d1b2fd61fd21e0644720fb02e541e8ed074fb0
+CASE-SHA K2 c072ee5fa3f076d69a222ec173327a855f471029bf70bb78b13180b790012a0b
+CASE-SHA K3 286db51eb5bab3aad7c3c3fb7ed6c4e2019940d6f3f1d6641269b33be946be34
+CASE-SHA K4 22ee1ff893a4acde45241c89fe55fc2c2f4bc23fd2ce452627605a436446c788
+CASE-SHA K5 5690e1e15975681496705203950f46436921a9e6e7911a7ab930a2e4199bb926
+CASE-SHA K6 d4035f6f30bb3f1a63b09ce268e57f7fb3eea788d8b28a4f393717d683452437
+CASE-SHA K7 07eb2fd3f850a1b4b34b3518bca7985fec839bec6dba97dc12e0e593e0a91855

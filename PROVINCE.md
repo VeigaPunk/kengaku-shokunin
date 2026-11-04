@@ -966,6 +966,8 @@ above stays as written; this paragraph narrows only the network-service clause f
 R64-C2). **Freshness addition:** the 29 trio-red knowledge entries carry dated round-64 addenda whose re-verification commands
 and observed results are priced by `plans/round64_trio_sweep.py` (R64-C3); the openings stay as written.
 
-**Reported out:** `headless-terminal` and `nginx-request-logging` (the other network-service members) are blocked on this host by absent
-`vim` and `nginx`; tmux-based terminal harness work stays kengaku ground if the binaries land. The gRPC-inside-sandbox pattern does
-not overlap kama's serving plane (`.ufo/waves/round-64/w1/SiblingOverlap/sibling-overlap.md`).
+**Reported out:** `headless-terminal` (the other network-service member) is blocked on this host by absent `vim` and the
+tmux-based terminal harness; that work stays kengaku ground if the binaries land. `nginx-request-logging` is no longer blocked:
+round 69 replayed it under a lane-written nginx shim (R69-C1 MISS on leg coverage) and round 70's re-frozen table passed
+(R70-C1, `LEG-COVERAGE seen_p=8 seen_f=8`). The gRPC-inside-sandbox pattern does not overlap kama's serving plane
+(`.ufo/waves/round-64/w1/SiblingOverlap/sibling-overlap.md`).

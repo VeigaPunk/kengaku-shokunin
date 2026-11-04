@@ -149,7 +149,8 @@ def check_depth_identity(root):
         problems.append(f"line-count {len(la)} vs {len(lb)}")
         diff = []
     else:
-        diff = [(i, x, y) for i, (x, y) in enumerate(zip(la, lb)) if x != y]
+        # ordered wave copy (PRE-CLASS-ROW) -> corpus copy (LANDING)
+        diff = [(i, y, x) for i, (x, y) in enumerate(zip(la, lb)) if x != y]
     recorded_pair = [ln[len("LINE-DIFF "):] for ln in text.splitlines()
                      if ln.startswith("LINE-DIFF ")]
     if len(diff) != 1:
@@ -213,7 +214,7 @@ def check_instruction_row(root):
                 problems.append("S242-no-instruction")
             if "2fd12b88" not in row:
                 problems.append("S242-no-pin")
-            if len(c) > 11 and NGINX_ENTRY not in c[11]:
+            if len(c) != 11 or NGINX_ENTRY not in c[10]:
                 problems.append("S242-used-by")
     return not problems, f"problems={problems}"
 
@@ -236,7 +237,7 @@ def check_s241_correction(root):
     if "nginx -t" not in row:
         problems.append("no-nginx-t")
     c = cells(row)
-    if len(c) > 11 and NGINX_ENTRY not in c[11]:
+    if len(c) != 11 or NGINX_ENTRY not in c[10]:
         problems.append("used-by")
     return not problems, f"problems={problems}"
 

@@ -1213,3 +1213,19 @@ A report citation is re-hashed from the committed bytes before it is written.
 
 - **Q51 — a frozen case table's anti-vacuity claim is computed from the frozen vectors before the freeze, not asserted in prose.**
   Round 69's claims doc stated "each of the eight legs has one red witness and four green witnesses by construction"; the table's vectors carry reds for six legs, so legs 2 and 4 (`test_nginx_running`, `test_custom_404_page`) had no red witness and the frozen predicate was unreachable (`LEG-COVERAGE legs=8 seen_p=8 seen_f=6`, `PREDICATE R69-C1 fail`). The miss is honest and not re-scored. Admission: at freeze, count per leg the cases whose frozen vector is `P` and those whose vector is `F`; a leg with no `P` or no `F` witness is either given a case or the sentence drops the clause, before any receipt exists. Source: `corpus/lessons/round-69.md` `## Mistakes` row 1; `.ufo/waves/round-69/w1/NginxBattery.md` and `LegPricing.md` LEG 2/LEG 4.
+
+## Round70 criterion
+
+An identity digest prices the state it names, not the path it was staged from.
+
+- **Q52 — a staged-state digest hashes exactly the candidate bytes the claim identifies: it excludes
+  every work-path-dependent field and every runtime-written output, and it includes every byte the
+  case varies. A digest that omits a varying byte makes two distinct cases identical; one that
+  includes a path or a runtime write makes the same case differ run to run — both are shown red
+  before the criterion counts.** Round 70's first re-freeze still put the case bodies in the
+  path-carrying `run/server.json`, so K1/K2/K3/K6/K7 hashed to one value (`c6884ff0…`); the freeze
+  step's `--render-table --stage-sha` run caught it, the payload was split (`run/bodies.json` holds
+  the bodies plus the log/service flags), and `--selftest` now prices both directions
+  (`PATH-INDEPENDENT sha_equal=True`, `STAGED-STATE changes_on_byte=True`). Round 69's version of
+  the same defect hashed the server-written access log (`corpus/lessons/round-69.md` `## Mistakes`
+  row 5). Source: `corpus/lessons/round-70.md` `## Mistakes` row 1.

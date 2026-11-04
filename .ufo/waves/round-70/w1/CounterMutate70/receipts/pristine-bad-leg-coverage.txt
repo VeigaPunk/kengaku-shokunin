@@ -1,0 +1,27 @@
+PROBE plans/round70_c1_nginx_probe.py sha256 9aef6d33abc965f52a965b2f9197b78d257dc76003ddc124ca0e692a4fdbbe90
+PROBE_BLOB plans/round70_c1_nginx_probe.py sha256 9aef6d33abc965f52a965b2f9197b78d257dc76003ddc124ca0e692a4fdbbe90
+PROBE_VERSION 1
+GRADER corpus/evidence/round52/graders/nginx-request-logging/tests/test_outputs.py sha256 045cc716c14efde3b0dcff5fc7c85ec5d18bfc6ce66f8b40a418fa2a3a4acda0 pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6
+PORT 8080 free-at-start=True
+CASE S1 case_sha256=1111111111111111111111111111111111111111111111111111111111111111 server_pid=4242 sandbox_rc=0
+TEST S1 test_nginx_installed P
+TEST S1 test_nginx_running P
+TEST S1 test_index_page_content P
+TEST S1 test_custom_404_page P
+TEST S1 test_nginx_config_syntax P
+TEST S1 test_nginx_config_settings P
+TEST S1 test_log_file_creation P
+TEST S1 test_log_file_format P
+VECTOR S1 PPPPPPPP expected PPPPPPPP agree=True
+CASE S2 case_sha256=2222222222222222222222222222222222222222222222222222222222222222 server_pid=4242 sandbox_rc=0
+TEST S2 test_nginx_installed P
+TEST S2 test_nginx_running P
+TEST S2 test_index_page_content P
+TEST S2 test_custom_404_page P
+TEST S2 test_nginx_config_syntax P
+TEST S2 test_nginx_config_settings P
+TEST S2 test_log_file_creation P
+TEST S2 test_log_file_format P
+VECTOR S2 PPPPPPPP expected PPPPPPPP agree=True
+SUMMARY cases=2 legs=16 mismatches=0 setup=0
+PREDICATE R70-C1 pass
