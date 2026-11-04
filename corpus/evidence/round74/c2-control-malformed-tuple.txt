@@ -1,0 +1,25 @@
+# Round-73 audit on 9-cell malformed row (silent skip -> pass rc=0):
+INSTRUMENTS total=1 derived=registry rows=1
+PARSED scripts=1 failed=0
+D1 ok n=0
+D2 ok n=0
+D3 ok n=0
+D4 ok n=0
+MISMATCH 0
+DEFECTS n=0
+PREDICATE R73-C2 pass
+rc=0
+
+# Round-74 hardened audit on same fixture (MALFORMED caught -> fail rc=1):
+INSTRUMENTS total=1 derived=registry rows=1
+PARSED scripts=1 failed=0
+D1 ok n=0
+D2 ok n=0
+D3 ok n=0
+D4 ok n=0
+MALFORMED defect n=1
+  DEFECT MALFORMED-ROW columns=9 line=| `tool-b` | gate | `python3 plans/tool_
+MISMATCH 1
+DEFECTS n=1
+PREDICATE R74-C2 fail
+rc=1

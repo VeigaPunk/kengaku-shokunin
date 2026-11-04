@@ -1,0 +1,27 @@
+# Decoupled mode detects missing independently-advertised row:
+UNIVERSE mode=decoupled files=4 plans_seen=0 self_advertising_prevented=True
+ADVERTISED total=3
+REGISTERED total=2 rows=2
+MISSING 1
+  MISSING plans/tool_b.py
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 fail
+PREDICATE R74-C1 fail
+rc=1
+
+# Legacy universe mode:
+UNIVERSE mode=legacy files=4 plans_seen=0 plans_only=0
+ADVERTISED total=3
+REGISTERED total=2 rows=2
+MISSING 1
+  MISSING plans/tool_b.py
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 fail
+PREDICATE R74-C1 fail
+rc=1

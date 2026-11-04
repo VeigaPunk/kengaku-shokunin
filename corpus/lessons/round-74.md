@@ -1,0 +1,51 @@
+# Round 74 — kengaku (2026-11-04 UTC)
+
+Base `b7910802549978404218937d4be6a75acae0e020` (round-73 verifier spot-check).
+R74-C1 targets coverage: decoupled advertised instrument discovery without circular self-advertising.
+R74-C2 targets calibration: hardened registry audit pricing malformed rows, unbacked entry flags, self-test scripts, and errata revision consistency.
+
+## Gate
+
+- **S250 admitted for Python argparse command-line flag and argument specification contracts.**
+  URL opened live by L1 KengakuR74 this round: `https://docs.python.org/3/library/argparse.html#name-or-flags`.
+  Access date: 2026-11-04 UTC. Title: Python 3.15.2 argparse documentation.
+  Capture: `corpus/evidence/round74/sources/argparse-docs.html`, HTTP 200, 334994 bytes.
+  SHA256: `ad9095cdaa99c953046f510d6cd86cd6f7a1086c5aa35743c26e3fa41e4b5b8d`.
+  Located anchor quote, capture line 908:
+  **“The add_argument() method must know whether an optional argument, like -f or --foo, or a positional argument, like a list of filenames, is expected.”** (24 words).
+  Fetch details and anchor notes: `corpus/evidence/round74/sources/argparse-anchor.md`.
+  Kind docs, tier A for command-line argument and option string specification.
+  Registry change: absent → S250 mined, recheck on-release, used-by `corpus/lessons/round-74.md, corpus/knowledge/registry-argv-and-flag-audit.md`.
+- **Reject candidate:** “Presence of a flag string in a script body proves `argparse` acceptance.”
+  Same source explicitly distinguishes argument strings from positional arguments and parser actions; string matching does not verify option registration, parser configuration, or runtime execution.
+  Flip: controlled execution with `--help` / `--<flag>` or AST verification of `parser.add_argument()`.
+- **Held knowledge candidate:** `corpus/knowledge/registry-argv-and-flag-audit.md` (admission: hold).
+- **Earlier held candidates remain held:** `corpus/knowledge/instrument-registry-derivation.md` (round 73) and `corpus/knowledge/tb2-hf-model-inference-offline.md` (round 71/72).
+- **Assimilation: none.** No staged shokuknow rows appended. Open L0 `kengaku | round-54` carried.
+
+## Mistakes
+
+| id / class | evidence pointer | captured-by | fix / disposition |
+|---|---|---|---|
+| M74-1 survivor — malformed table lines silently dropped by parser | `corpus/evidence/round73/w1/c2-blindspots.md` C10, C11; `plans/round73_c2_registry_audit.py:85` | Q46, Q49 | In `round74_c2_registry_audit.py`, table lines starting with `\|` with columns != 8 are reported as named `MALFORMED-ROW` defect lines rather than skipped. |
+| M74-2 unbacked — entry command flags not verified against script body | `corpus/evidence/round73/w1/c2-blindspots.md` C14 | Q46 | `command_flags(entry)` is now evaluated in `price_row`, verifying all declared flags exist in script text (`entry:unbacked-flag:<flag>`). |
+| M74-3 erratum — contradictory revision ignored if first item matches | `corpus/evidence/round73/w1/c2-blindspots.md` C16 | Q50 | `check_errata` checks every item mentioning `label`, flagging `ERRATA:contradictory-revision` if any matching item carries a contradictory revision. |
+| M74-4 vacuous — registry table self-advertises in registry gate | `plans/round52_c2_registry.py:45` | Q46, Q54 | `self_assessment_files` in `round74_c1_registry.py` scans `SKILL.md` strictly outside the `## Gate/probe registry` block, decoupling discovery from registration. |
+| M74-5 reference-drift — regex failed to match hyphenated directories | `plans/round52_c2_registry.py:36` `[A-Za-z0-9_]+` | Q46 | Regex updated to `[A-Za-z0-9_.-]+` so that hyphenated directories (e.g. `round13-coverage/coverage_census.py`) are captured. |
+
+## Measurements and controls
+
+- C1 Before: `corpus/evidence/round74/c1-before.txt` (`plans/round74_c1_registry.py --universe legacy` exits 1, `MISSING 5`, `PREDICATE R74-C1 fail`).
+- C1 After: `corpus/evidence/round74/c1-after.txt` (`plans/round74_c1_registry.py --lane .` exits 0, `MISSING 0`, `PREDICATE R74-C1 pass`).
+- C1 Control: `corpus/evidence/round74/c1-control-decoupled.txt` (a dropped registry row in decoupled mode raises MISSING 1; legacy counter falsely remains green).
+- C2 Before: `corpus/evidence/round74/c2-red-before.txt` (round-73 audit exits 0 on 9-cell malformed row; round-74 audit exits 1 with `MALFORMED-ROW columns=9`).
+- C2 After: `corpus/evidence/round74/c2-after.txt` (`plans/round74_c2_registry_audit.py --lane .` exits 0, `MISMATCH 0`, `PREDICATE R74-C2 pass`).
+- C2 Control: `corpus/evidence/round74/c2-control-malformed-tuple.txt` (discriminating fixture).
+
+## Census
+
+Census validate command at both ends:
+`/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku`.
+Before: 241 rows, exit 0, 25 W04 warnings (`corpus/evidence/round74/census-before.txt`).
+After: 242 rows, exit 0, 25 W04 warnings (`corpus/evidence/round74/census-after.txt`).
+Row count verified: `grep -cE '^\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|' corpus/SOURCES.md` -> 242.
