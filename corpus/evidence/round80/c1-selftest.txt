@@ -1,0 +1,17 @@
+CASE clean expect=pass observed=- located=6 reproduced=6 ok
+CASE subject-absent expect=SUBJECT-ABSENT observed=SUBJECT-ABSENT located=5 reproduced=6 ok
+CASE stamp-missing expect=STAMP-MISSING observed=STAMP-MISSING,TOOL-SHA-MISMATCH located=5 reproduced=6 ok
+CASE source-sha-mismatch expect=SOURCE-SHA-MISMATCH observed=SOURCE-SHA-MISMATCH located=5 reproduced=6 ok
+CASE tool-sha-mismatch expect=TOOL-SHA-MISMATCH observed=TOOL-SHA-MISMATCH located=5 reproduced=6 ok
+CASE receipt-missing expect=RECEIPT-UNTRACKED observed=RECEIPT-UNTRACKED located=5 reproduced=5 ok
+CASE observations-empty expect=OBSERVATIONS-EMPTY observed=DIVERGENCE-UNNOTED,LEDGER-VERDICT,OBSERVATIONS-EMPTY,REPRODUCTION-MISMATCH located=5 reproduced=5 ok
+CASE observations-foreign expect=OBSERVATIONS-FOREIGN observed=DIVERGENCE-UNNOTED,OBSERVATIONS-FOREIGN,REPRODUCTION-MISMATCH located=5 reproduced=5 ok
+CASE second-member expect=RECEIPT-MEMBER-COUNT observed=DIVERGENCE-UNNOTED,OBSERVATIONS-FOREIGN,RECEIPT-MEMBER-COUNT,REPRODUCTION-MISMATCH located=5 reproduced=5 ok
+CASE ledger-unlocated expect=LEDGER-NOT-EXECUTED observed=LEDGER-NOT-EXECUTED located=6 reproduced=6 ok
+CASE ledger-wrong-receipt expect=LEDGER-RECEIPT observed=LEDGER-RECEIPT located=6 reproduced=6 ok
+CASE exit-nonzero expect=EXIT-NONZERO observed=EXIT-NONZERO located=5 reproduced=6 ok
+CASE lane-tip-invalid expect=LANE-TIP-INVALID observed=LANE-TIP-INVALID located=5 reproduced=6 ok
+CASE divergence-unnoted expect=DIVERGENCE-UNNOTED observed=DIVERGENCE-UNNOTED located=5 reproduced=6 ok
+CASE divergence-noted expect=pass observed=- located=6 reproduced=6 ok
+CASE copy-observations expect=REPRODUCTION-MISMATCH observed=DIVERGENCE-UNNOTED,REPRODUCTION-MISMATCH located=5 reproduced=5 ok
+SELFTEST cases=16 red=14 failures=0

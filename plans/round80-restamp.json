@@ -1,0 +1,17 @@
+{
+  "why": "R79-V6 repair: the two round-79 after receipts carried no revision stamp, so the report's measured commit was not re-derivable from the receipt itself. Re-mint both counters at the round-80 tip through plans/round78_restamp.py; each new receipt carries LANE_TIP, TOOL, TOOL_SHA, WORKTREE, COMMAND and EXIT.",
+  "rerun": [
+    {
+      "receipt": "corpus/evidence/round80/r79-c1-after.txt",
+      "tool": "plans/round79_c1_population_ledger.py",
+      "mode": "plain",
+      "argv": ["--lane", "."]
+    },
+    {
+      "receipt": "corpus/evidence/round80/r79-c2-after.txt",
+      "tool": "plans/round79_c2_closure_debt.py",
+      "mode": "plain",
+      "argv": ["--lane", "."]
+    }
+  ]
+}

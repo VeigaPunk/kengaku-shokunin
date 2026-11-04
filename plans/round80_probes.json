@@ -1,0 +1,43 @@
+{
+  "schema": "r80-probes/1",
+  "why": "Frozen probe table for R80-C1: the six members plans/grader-population-ledger.json prices executed-unlocated at the round-79 tip, each with its historical receipt, its instrument at the measured tip, and the argv that replays it. Shared by plans/round80_c1_located_replay.py (gate) and plans/round80_c1_remint.py (driver), so the replay a receipt claims is the replay the gate runs.",
+  "members": {
+    "cancel-async-tasks": {
+      "tool": "plans/round61_c1_cancel_probe.py",
+      "historical": "corpus/evidence/round61/cancel-async-probe.txt",
+      "argv": ["--lane", ".", "--work", "{work}", "--receipt", "{out}"],
+      "timeout": 420
+    },
+    "chess-best-move": {
+      "tool": "plans/round55_c3_chess_probe.py",
+      "historical": "corpus/evidence/round55/chess-best-move-probe.txt",
+      "argv": ["--lane", ".", "--work", "{work}", "--receipt", "{out}"],
+      "timeout": 240
+    },
+    "distribution-search": {
+      "tool": "plans/round58_c2_kl_probe.py",
+      "historical": "corpus/evidence/round58/kl-probe.txt",
+      "argv": ["--lane", ".", "--work", "{work}", "--receipt", "{out}"],
+      "timeout": 240
+    },
+    "largest-eigenval": {
+      "tool": "plans/round57_c2_eigen_probe.py",
+      "historical": "corpus/evidence/round57/eigen-probe.txt",
+      "argv": ["--lane", ".", "--work", "{work}", "--receipt", "{out}"],
+      "timeout": 240
+    },
+    "openssl-selfsigned-cert": {
+      "tool": "plans/round59_c1_openssl_probe.py",
+      "historical": "corpus/evidence/round59/openssl-probe.txt",
+      "argv": ["--lane", ".", "--work", "{work}", "--receipt", "{out}"],
+      "timeout": 300
+    },
+    "protein-assembly": {
+      "tool": "plans/tb2_grader_probe.py",
+      "historical": "corpus/evidence/round35/tb2-grader-probe.txt",
+      "argv": ["--lane", "."],
+      "prefix": ["uv", "run", "--no-project", "--with", "biopython", "python3"],
+      "timeout": 300
+    }
+  }
+}
