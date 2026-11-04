@@ -41,6 +41,8 @@ from __future__ import annotations
 
 import argparse
 import contextlib
+import datetime
+import hashlib
 import http.server
 import re
 import io
@@ -73,6 +75,9 @@ STALE_TEXT = (
     "re-probed each round",
 )
 TIMEOUT = 3
+MAX_BRACE_TARGETS = 64
+LOOPBACK_HOSTS = ("127.0.0.1", "localhost", "::1")
+ABSENT_DATE = re.compile(r"ABSENT (\d{4}-\d{2}-\d{2})")
 
 
 # ---------------------------------------------------------------- revision reads
@@ -153,22 +158,46 @@ def expand_braces(token: str) -> list[str]:
     return out
 
 
-def http_status(url: str) -> str:
+def endpoint_host(url: str) -> str:
+    m = re.match(r"https?://([^/:?#]+)", url)
+    return (m.group(1).lower() if m else "")
+
+
+def http_status(url: str) -> tuple[str, str]:
+    """(code, detail). Only loopback authorities are probed (SentinelR76 HIGH): a committed row may
+    not steer a GET at a remote or internal service, and a redirect may not leave loopback."""
+    host = endpoint_host(url)
+    if host not in LOOPBACK_HOSTS:
+        return "nonlocal", f"host={host or 'unparsed'}"
     try:
-        with urllib.request.urlopen(url, timeout=TIMEOUT) as resp:  # noqa: S310 - localhost probe
-            return str(resp.status)
+        with urllib.request.urlopen(url, timeout=TIMEOUT) as resp:  # noqa: S310 - loopback probe only
+            final = endpoint_host(resp.geturl())
+            if final not in LOOPBACK_HOSTS:
+                return "nonlocal", f"redirect={final}"
+            return str(resp.status), f"http={resp.status}"
     except urllib.error.HTTPError as exc:
-        return str(exc.code)
+        return str(exc.code), f"http={exc.code}"
     except (urllib.error.URLError, socket.timeout, ConnectionError, OSError):
-        return "000"
+        return "000", "http=000"
+    except (UnicodeEncodeError, ValueError) as exc:
+        return "malformed", f"url={type(exc).__name__}"
 
 
 def resolve(kind: str, token: str, lane: Path) -> tuple[str, str]:
     if kind == "endpoint":
-        code = http_status(token)
-        return ("absent" if code == "000" else "present"), f"http={code}"
+        code, detail = http_status(token)
+        if code in ("nonlocal", "malformed"):
+            return code, detail
+        return ("absent" if code == "000" else "present"), detail
     if kind == "path":
-        targets = expand_braces(token)
+        if ".." in Path(token).parts:
+            return "escape", f"path={token}"
+        try:
+            targets = expand_braces(token)
+        except RecursionError:
+            return "overflow", f"brace-depth={token[:40]}"
+        if len(targets) > MAX_BRACE_TARGETS:
+            return "overflow", f"brace-targets={len(targets)}"
         hits = [t for t in targets if (Path(t).expanduser() if t.startswith("~/") else lane / t).exists()]
         verdict = "present" if hits else "absent"
         detail = f"path={hits[0] if hits else targets[0]}"
@@ -185,6 +214,7 @@ def census(lane: Path, reader: Reader) -> tuple[list[str], list[str]]:
     if not rows:
         return [f"SETUP no `{SECTION}` table in {PROVINCE}"], []
     counts = {"present": 0, "absent": 0, "prose": 0}
+    identities: list[str] = []
     agree = disagree = 0
     for idx, (_lineno, cells) in enumerate(rows, start=1):
         name = cells[0][:48] if cells else "?"
@@ -201,9 +231,21 @@ def census(lane: Path, reader: Reader) -> tuple[list[str], list[str]]:
             report.append(f"SURFACE {idx} prose {name}")
             continue
         verdict, detail = resolve(kind, token, lane)
+        identities.append(f"{kind}:{token}")
+        if verdict in ("nonlocal", "malformed", "escape", "overflow"):
+            defects.append(f"DEFECT {verdict.upper()}-ANCHOR {idx} {name} {detail}")
+            disagree += 1
+            report.append(f"SURFACE {idx} {verdict} {token} ({detail})")
+            continue
         counts[verdict] += 1
         report.append(f"SURFACE {idx} {verdict} {token} ({detail})")
         marker = MARKER.search(row_text)
+        bad_date = ""
+        for m in ABSENT_DATE.finditer(row_text):
+            try:
+                datetime.date.fromisoformat(m.group(1))
+            except ValueError:
+                bad_date = m.group(1)
         # Whole-row scan (seat C1ReplayR76, Amendment A4): a row that says ABSENT in one cell and
         # "identity re-probed each round" in another contradicts itself; the present-tense claim is
         # the row's, not one cell's.
@@ -214,6 +256,9 @@ def census(lane: Path, reader: Reader) -> tuple[list[str], list[str]]:
         elif verdict == "present" and marker:
             defects.append(f"DEFECT STALE-ABSENT {idx} {name} {token} marked {marker.group(0)}")
             disagree += 1
+        elif bad_date:
+            defects.append(f"DEFECT MALFORMED-DATE {idx} {name} {bad_date}")
+            disagree += 1
         elif stale_text:
             defects.append(
                 f"DEFECT STALE-TEXT {idx} {name} {token} asserts {stale_text[0]!r} while absent"
@@ -221,6 +266,12 @@ def census(lane: Path, reader: Reader) -> tuple[list[str], list[str]]:
             disagree += 1
         else:
             agree += 1
+    dupes = sorted({i for i in identities if identities.count(i) > 1})
+    for d in dupes:
+        defects.append(f"DEFECT DUPLICATE-SURFACE {d.split(':', 1)[1]}")
+        disagree += 1
+    manifest = hashlib.sha256("\n".join(sorted(identities)).encode()).hexdigest()
+    report.append(f"IDENTITIES n={len(identities)} unique={len(set(identities))} sha256={manifest}")
     report.append(
         f"SURFACES total={len(rows)} present={counts['present']} "
         f"absent={counts['absent']} prose={counts['prose']}"
@@ -229,7 +280,7 @@ def census(lane: Path, reader: Reader) -> tuple[list[str], list[str]]:
     return defects, report
 
 
-def emit(lane: Path, rev: str, out: Path | None) -> int:
+def emit(lane: Path, rev: str, out: Path | None, expect_manifest: str = "") -> int:
     if not lane.is_dir():
         print(f"SETUP ERROR: lane {lane} is not a directory", file=sys.stderr)
         return 2
@@ -242,6 +293,10 @@ def emit(lane: Path, rev: str, out: Path | None) -> int:
     # A printed tally that does not equal the defect list length is itself a defect (R75-M12).
     if disagree != len(defects):
         defects.append(f"DEFECT TALLY-MISMATCH printed={disagree} defects={len(defects)}")
+    if expect_manifest:
+        got = next((l.split("sha256=")[1] for l in report if l.startswith("IDENTITIES")), "")
+        if got != expect_manifest:
+            defects.append(f"DEFECT MANIFEST-DRIFT got={got} want={expect_manifest}")
     lines = report + defects
     lines.append(f"PREDICATE R76-C1 {'pass' if not defects else 'fail'}")
     tip, dirty = reader.tip, worktree_dirty(lane)
@@ -283,7 +338,9 @@ class Listener:
 
 def build_fixture(root: Path, *, live_port: int | None = None, drop_marker: str = "",
                   add_marker: str = "", strip_anchor: str = "", stale_text: bool = False,
-                  malformed: bool = False, stale_third_cell: bool = False) -> None:
+                  malformed: bool = False, stale_third_cell: bool = False,
+                  nonlocal_endpoint: bool = False, escape_path: bool = False,
+                  bad_date: bool = False, duplicate_row: bool = False) -> None:
     """A minimal PROVINCE.md with one present path, one absent path, one endpoint, one extra row."""
     if root.exists():
         shutil.rmtree(root)
@@ -313,6 +370,14 @@ def build_fixture(root: Path, *, live_port: int | None = None, drop_marker: str 
             "| Absent, stale prose in the third cell | `~/r76-definitely-absent-path` — **ABSENT 2026-10-01** "
             "| identity re-probed each round |"
         )
+    if nonlocal_endpoint:
+        rows.append("| Remote endpoint | `https://example.invalid/probe` — **ABSENT 2026-10-01** | fixture |")
+    if escape_path:
+        rows.append("| Escape | `~/../../etc/hostname` — **ABSENT 2026-10-01** | fixture |")
+    if bad_date:
+        rows.append("| Bad date | `~/r76-definitely-absent-path` — **ABSENT 2030-99-99** | fixture |")
+    if duplicate_row:
+        rows.append(f"| Present path (copy) | {present_cell} | fixture |")
     if malformed:
         rows.append("| Malformed | only two cells |")
     body = ["# fixture PROVINCE", "", SECTION, "", *rows, "", "## Next", ""]
@@ -331,6 +396,10 @@ def selftest(work: Path) -> int:
             ("stale-text", {"stale_text": True}, 1, "DEFECT STALE-TEXT"),
             ("malformed", {"malformed": True}, 1, "DEFECT MALFORMED"),
             ("stale-text-third-cell", {"stale_third_cell": True}, 1, "DEFECT STALE-TEXT 4"),
+            ("nonlocal-endpoint", {"nonlocal_endpoint": True}, 1, "DEFECT NONLOCAL-ANCHOR"),
+            ("escape-path", {"escape_path": True}, 1, "DEFECT ESCAPE-ANCHOR"),
+            ("bad-date", {"bad_date": True}, 1, "DEFECT MALFORMED-DATE"),
+            ("duplicate-surface", {"duplicate_row": True}, 1, "DEFECT DUPLICATE-SURFACE"),
             ("printed-tally", {"drop_marker": "absent-path", "strip_anchor": "literature"}, 1,
              "AGREE agree=2 disagree=2"),
         ]
@@ -361,6 +430,9 @@ def mutants(work: Path) -> int:
             ("M4-stale-text", {"stale_text": True}, "STALE-TEXT"),
             ("M5-malformed", {"malformed": True}, "MALFORMED"),
             ("M6-stale-third-cell", {"stale_third_cell": True}, "STALE-TEXT"),
+            ("M7-nonlocal", {"nonlocal_endpoint": True}, "NONLOCAL-ANCHOR"),
+            ("M8-escape", {"escape_path": True}, "ESCAPE-ANCHOR"),
+            ("M9-duplicate", {"duplicate_row": True}, "DUPLICATE-SURFACE"),
         )
         for name, kwargs, expected in matrix:
             total += 1
@@ -443,6 +515,7 @@ def main() -> int:
     parser.add_argument("--lane", type=Path, default=Path("."), help="Lane root directory")
     parser.add_argument("--rev", default="worktree", help="Read declared bytes at this revision")
     parser.add_argument("--receipt", type=Path, default=None, help="Write the verdict bytes here")
+    parser.add_argument("--expect-manifest", default="", help="Fail when the identity manifest differs")
     parser.add_argument("--selftest", action="store_true", help="Run the fixture battery")
     parser.add_argument("--mutants", action="store_true", help="Run the attributed mutant matrix")
     parser.add_argument("--control-declared", action="store_true", help="Run the declaration-trusting control")
@@ -458,7 +531,7 @@ def main() -> int:
     if args.control_declared:
         args.work.mkdir(parents=True, exist_ok=True)
         return run_battery(args, args.lane, lambda: control_declared(args.work, args.lane, args.rev))
-    return emit(args.lane, args.rev, args.receipt)
+    return emit(args.lane, args.rev, args.receipt, args.expect_manifest)
 
 
 if __name__ == "__main__":

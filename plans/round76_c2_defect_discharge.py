@@ -117,6 +117,10 @@ class Reader:
             return "not-ancestor", full
         return "error", full
 
+    def at_rev(self, sha: str, rel: str) -> str:
+        """The blob of `rel` at commit `sha`; '' when the path is not in that tree."""
+        return git(self.probe, "show", f"{sha}:{rel}").stdout
+
     def resolved(self, sha: str) -> tuple[bool, str]:
         state, full = self.ancestry(sha)
         return state == "ancestor", full
@@ -339,6 +343,19 @@ def ledger_report(reader: Reader, ids: list[str]) -> tuple[list[str], list[str]]
                 problems.append("CLOSE-UNRESOLVED")
         if check_trivial(str(row.get("check", ""))):
             problems.append("CHECK-TRIVIAL")
+        # Evidence binding (seat ConnectorR76): an ancestor close_commit is not enough — the named
+        # evidence must exist *in that commit's tree* and carry the literal the discharge cites.
+        ev_path = str(row.get("evidence_path", ""))
+        ev_lit = str(row.get("evidence_literal", ""))
+        if not ev_path or not ev_lit:
+            problems.append("NO-EVIDENCE-FIELD")
+        elif SHA40.search(sha):
+            full = SHA40.search(sha).group(0)
+            blob = reader.at_rev(full, ev_path)
+            if not blob:
+                problems.append("EVIDENCE-ABSENT-AT-CLOSE")
+            elif ev_lit not in blob:
+                problems.append("EVIDENCE-LITERAL-MISSING")
         if problems:
             report.append(f"LEDGER {ident} DEFECT {' '.join(problems)}")
             defects += [f"DEFECT {p} {ident}" for p in problems]
@@ -394,7 +411,7 @@ def emit(lane: Path, rev: str, out: Path | None, probe: Path | None = None,
 def build_fixture(root: Path, lane_tip: str, *, drop_row: str = "", open_row: str = "",
                   no_commit: str = "", bad_commit: str = "", trivial: str = "",
                   drop_r74: bool = False, drop_d7: bool = False, prose_only: bool = False,
-                  drop_d2_stamp: bool = False) -> None:
+                  drop_d2_stamp: bool = False, bad_evidence: bool = False) -> None:
     if root.exists():
         shutil.rmtree(root)
     (root / "corpus/lessons").mkdir(parents=True)
@@ -413,6 +430,14 @@ def build_fixture(root: Path, lane_tip: str, *, drop_row: str = "", open_row: st
             "id": i, "status": "closed", "verified_at": "2026-11-04",
             "close_commit": lane_tip, "close": f"dated correction naming {i}",
             "check": f"grep -q '{i}' SCORECARD.md",
+            "evidence_path": {
+                "R75-D1": QUALITY, "R75-D2": SCORECARD, "R75-D3": SCORECARD, "R75-D4": SKILL,
+                "R75-D5": LOG, "R75-D6": R74C1, "R75-D7": ROUND74_LESSON,
+            }[i],
+            "evidence_literal": {
+                "R75-D1": "R75-D1", "R75-D2": "5d9a0ccc", "R75-D3": "R75-D3", "R75-D4": "round75-c1-index-parity",
+                "R75-D5": "R75-D5", "R75-D6": "PREDICATE R74-C1 pass", "R75-D7": "R75-D7",
+            }[i],
         }
         if i == drop_row:
             continue
@@ -424,6 +449,8 @@ def build_fixture(root: Path, lane_tip: str, *, drop_row: str = "", open_row: st
             row["close_commit"] = "0" * 40
         if i == trivial:
             row["check"] = "true"
+        if bad_evidence and i == "R75-D6":
+            row["evidence_path"] = "corpus/evidence/round76/not-there.txt"
         rows.append(json.dumps(row))
     (root / LEDGER).write_text("\n".join([] if prose_only else rows) + "\n")
     (root / QUALITY).write_text(
@@ -473,6 +500,7 @@ def selftest(work: Path, lane_tip: str) -> int:
         ("trivial-check", {"trivial": "R75-D5"}, 1),
         ("missing-r74-receipt", {"drop_r74": True}, 1),
         ("missing-d7", {"drop_d7": True}, 1),
+        ("evidence-absent-at-close", {"bad_evidence": True}, 1),
         ("prose-only", {"prose_only": True}, 1),
         ("wrong-stamp", {"drop_d2_stamp": True}, 1),
     ]
@@ -507,6 +535,7 @@ def mutants(work: Path, lane_tip: str) -> int:
         ("M6-missing-receipt", {"drop_r74": True}, "LEG-FAIL D6"),
         ("M7-missing-d7", {"drop_d7": True}, "LEG-FAIL D7"),
         ("M8-wrong-stamp", {"drop_d2_stamp": True}, "LEG-FAIL D2"),
+        ("M9-evidence-absent", {"bad_evidence": True}, "EVIDENCE-ABSENT-AT-CLOSE"),
     ]
     total = killed = matched = wrong = survived = 0
     for name, kwargs, expected in matrix:

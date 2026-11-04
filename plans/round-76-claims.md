@@ -165,3 +165,33 @@ now prints `SURFACES total=11 present=4 absent=7 prose=0`, `AGREE agree=8 disagr
 defects (`STALE-TEXT` rows 2 and 3, `UNDECLARED-ABSENT` row 4), superseding the `agree=9 disagree=2`
 line above, which was measured before the scan reached row 3. Predicate, target (`AGREE disagree=0`),
 control and kill rules are unchanged; the rule moved only in the direction that makes the claim harder.
+
+## Amendment A5 (2026-11-04, hardening from the wave, target unchanged) — the resolver confines its probes and the ledger binds evidence to the close commit
+
+The wave found two classes the frozen counters did not price; both are repairs that can only add
+defects, so the target (`AGREE disagree=0`, `discharged=7 legs_passed=7`) is untouched and the before
+state is re-measured under the final rule.
+
+**R76-C1 (`ReviewerC1R76`, `SentinelR76`, `LabratR76`).** (1) Endpoint probing is confined to
+loopback authorities (`127.0.0.1`, `localhost`, `::1`) and a redirect that leaves loopback is refused —
+a committed row could otherwise steer a GET at a remote or internal service (`NONLOCAL-ANCHOR`), which
+is what the Sentinel's intercepted `http://192.0.2.1/sentinel` and its real loopback→hostname redirect
+demonstrated. (2) A path token containing a `..` segment is refused (`ESCAPE-ANCHOR`). (3) Brace
+expansion is capped at 64 targets and a `RecursionError` becomes a defect (`OVERFLOW-ANCHOR`) — the
+Sentinel's 12-group token produced 4096 targets and a deep nesting raised uncaught. (4) A malformed URL
+(over-long IDNA label) becomes `MALFORMED-ANCHOR` rather than a traceback. (5) An impossible
+`ABSENT YYYY-MM-DD` date is `MALFORMED-DATE` (`date.fromisoformat`). (6) Duplicate identities are
+`DUPLICATE-SURFACE`. (7) The receipt now prints `IDENTITIES n= unique= sha256=`, and
+`--expect-manifest <sha>` fails on a changed declaration (`MANIFEST-DRIFT`) — the scope-shrink guard the
+Reviewer asked for: deleting the absent rows is visible to any caller that pins the manifest, while the
+frozen row-local predicate itself stays what it says. The selftest is `cases=12 red=11` and the mutant
+matrix `9/9`. The labrat's H1 (any non-000 status counts as present, including 404/500, and identity is
+never checked) is **confirmed and kept as a stated limit**: the frozen claim promises an HTTP status, not
+service identity; `SURFACE … present (http=404)` is the honest verdict under it.
+
+**R76-C2 (`ConnectorR76`).** An ancestor `close_commit` is not provenance: R75-D6's close named
+`6977019b`, an ancestor that does not contain the receipts (they landed in `f0d52322`). Each row now
+carries `evidence_path` + `evidence_literal`; the leg reads the file **at that commit** and requires the
+literal there (`NO-EVIDENCE-FIELD`, `EVIDENCE-ABSENT-AT-CLOSE`, `EVIDENCE-LITERAL-MISSING`), and the
+`close_commit` of D5/D6 is corrected to `f0d52322` where their evidence actually landed. The selftest is
+`cases=11 red=10` and the mutant matrix `9/9`.
