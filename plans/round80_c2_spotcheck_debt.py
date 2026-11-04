@@ -104,7 +104,9 @@ def rev_tree(lane: Path, rev: str, work: Path) -> Tree:
 
 
 def derive_ids(spotcheck_text: str) -> list[str]:
-    return [m.group(1) for m in ID_LINE.finditer(spotcheck_text)]
+    """The spot-check prints short ids (`V1`); the lane registry names them `R79-V1` (the round
+    that opened them). The id is the registry's; the short form is what the source line carries."""
+    return [f"R79-{m.group(1)}" for m in ID_LINE.finditer(spotcheck_text)]
 
 
 def load_rows(text: str) -> list[dict]:
@@ -165,7 +167,8 @@ def check(tree: Tree, run_checks: bool = True) -> tuple[list[tuple[str, str]], d
             defects.append(("SOURCE-MISMATCH", f"{rid} {src!r}"))
         else:
             n = int(m.group(2))
-            if not (1 <= n <= len(spot_lines)) or rid not in spot_lines[n - 1]:
+            short = rid.split("-", 1)[1] if "-" in rid else rid
+            if not (1 <= n <= len(spot_lines)) or short not in spot_lines[n - 1]:
                 defects.append(("SOURCE-LINE", f"{rid} line {n} does not carry it"))
         close = row.get("close")
         literal = str(row.get("evidence_literal") or "")
@@ -288,7 +291,7 @@ FIXTURE_SPOT = """# spot-check
 """
 
 FIXTURE_README = "# corpus\n\n| entry | covers |\n|---|---|\n| `lessons/round-79-verifier-spotcheck.md` | x |\n"
-FIXTURE_REPAIR = "# repair log\n\nV1 correction: counted.\nV2 correction: counted.\n"
+FIXTURE_REPAIR = "# repair log\n\nR79-V1 correction: counted.\nR79-V2 correction: counted.\n"
 
 
 def fixture(root: Path, rows: list[dict] | None = None, repair: str = FIXTURE_REPAIR,
@@ -307,12 +310,12 @@ def fixture(root: Path, rows: list[dict] | None = None, repair: str = FIXTURE_RE
 
 def good_rows() -> list[dict]:
     return [
-        {"id": "V1", "class": "x", "source": f"{SPOTCHECK}:5", "opened_round": 79,
-         "status": "closed", "close": "corpus/lessons/round-80.md:3 (V1 correction)",
-         "blocker": None, "check": "grep -q 'V1 correction' corpus/lessons/round-80.md"},
-        {"id": "V2", "class": "x", "source": f"{SPOTCHECK}:6", "opened_round": 79,
-         "status": "closed", "close": "corpus/lessons/round-80.md:4 (V2 correction)",
-         "blocker": None, "check": "grep -q 'V2 correction' corpus/lessons/round-80.md"},
+        {"id": "R79-V1", "class": "x", "source": f"{SPOTCHECK}:5", "opened_round": 79,
+         "status": "closed", "close": "corpus/lessons/round-80.md:3 (R79-V1 correction)",
+         "blocker": None, "check": "grep -q 'R79-V1 correction' corpus/lessons/round-80.md"},
+        {"id": "R79-V2", "class": "x", "source": f"{SPOTCHECK}:6", "opened_round": 79,
+         "status": "closed", "close": "corpus/lessons/round-80.md:4 (R79-V2 correction)",
+         "blocker": None, "check": "grep -q 'R79-V2 correction' corpus/lessons/round-80.md"},
     ]
 
 
@@ -346,8 +349,8 @@ def selftest(work: Path) -> int:
         elif name == "close-routing-file":
             rows[0]["close"] = SPOTCHECK
         elif name == "close-no-evidence":
-            rows[0]["close"] = "corpus/lessons/round-80.md:3 (V1 correction)"
-            repair = FIXTURE_REPAIR.replace("V1 correction: counted.", "nothing here.")
+            rows[0]["close"] = "corpus/lessons/round-80.md:3 (R79-V1 correction)"
+            repair = FIXTURE_REPAIR.replace("R79-V1 correction: counted.", "nothing here.")
         elif name == "source-line":
             rows[0]["source"] = f"{SPOTCHECK}:6"
         elif name == "index-missing":
