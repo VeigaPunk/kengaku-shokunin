@@ -912,6 +912,7 @@ A row here indexes a file; it does not admit it — the held entries stay held.
 | `lessons/round-74-verifier-spotcheck.md` | Non-author closure of round 74: both claims verified at `cbb8b8d8`; routed defects R74-D1–D5 (receipt provenance, lesson drift, mutant metric, sourced-claim gap) | closure of round 74 |
 | `lessons/round-74.md` | Round 74 — decoupled advertised-universe gate and hardened registry audit; Gate, M74-1…7, wave integration with 12 dead seats named | LOG.md round 74; plans/round-74-claims.md; `.ufo/waves/round-74/` |
 | `lessons/round-75.md` | Round 75 — the corpus index-parity gate and the index repair; attributed, stamped registry audit; Gate (S251), M75-1…7 | LOG.md round 75; plans/round-75-claims.md; `.ufo/waves/round-75/` |
+| `lessons/round-75-verifier-spotcheck.md` | Non-author closure of round 75: both claims re-derived at `5d9a0ccc`; seven routed defects R75-D1–D7 (report ordering, revision drift, cross-version counts, registry drift, LOG drift, unbacked assertion, in-place lesson edit) | closure of round 75 |
 
 ### Knowledge index rows (3)
 
@@ -943,6 +944,7 @@ A row here indexes a file; it does not admit it — the held entries stay held.
 - `corpus/evidence/round54/` — 2 files, 1 subdirectory (anchor): round-54 anchor parser failure receipts: `c1-before.txt`, `c2-before-dry.txt` and the anchor note.
 - `corpus/evidence/round60/` — 1 file, 1 subdirectory (grep-manual): round-60 GNU grep manual capture and the openssl-probe re-freeze receipt.
 - `corpus/evidence/round75/` — 8 files, 1 subdirectory (sources): round-75 receipts: c1 before/selftest/rowshuffle-control, c2 audit/mutants, stamp red-before, attribution control, selftest, both census captures and the S251 source capture.
+- `corpus/evidence/round76/` — receipts and the S252 capture: c1 before/selftest/mutants/control-declared, c2 before/selftest/selftest-git/mutants/control-status, both census captures, the round-74 tip receipts and `sources/git-merge-base.html`.
 
 ## Round-75 supporting artifacts (2026-11-04)
 
@@ -959,3 +961,17 @@ A row here indexes a file; it does not admit it — the held entries stay held.
   integration and the counters' two A3 hardenings.
 - Wave: `.ufo/waves/round-75/w1/` (one v1 wave, 13 seats), dispatch/spec/results in
   `.ufo/waves/round-75/`.
+
+## Round-76 supporting artifacts (2026-11-04)
+
+- Instruments: `plans/round76_c1_surface_resolver.py` (every `## Surfaces` row resolved live against the
+  host, dated-marker agreement, rendered-row class defects; R76-C1) and
+  `plans/round76_c2_defect_discharge.py` (routed-defect burn-down with seven re-deriving legs and S252's
+  three ancestry states; R76-C2); frozen sentences in `plans/round-76-claims.md`.
+- Registry: S252 — `corpus/SOURCES.md`; census `corpus/evidence/round76/census-before.txt` (243 rows) and
+  `census-after.txt` (244 rows), rc 0 both.
+- Evidence: `corpus/evidence/round76/` — both before receipts, both selftest/mutant/control batteries, the
+  git three-state arms, the two round-74 tip receipts, and `sources/git-merge-base.html`.
+- Lesson: `corpus/lessons/round-76.md` — Gate (S252 admit, two rejects with flips), M76-1…M76-5, the
+  `considerthese/2026-10-26.md` proposal-1 implementation.
+- Wave: `.ufo/waves/round-76/` (one v1 wave, 14 seats), spec/dispatch/validate/results beside it.

@@ -3429,3 +3429,15 @@ named and routed, no new arbitration), novelty **8** (held; no new construct cla
 instrument and index work).
 **No axis harmed:** the round's lane diff is append-only plus the documented in-place corrections
 (A1–A4, the four README rows, the escaped pipes in the `tb2-distribution-search-grader` row).
+
+## Round-75 routed defects — corrections appended in round 76
+
+Append-only: the round-75 section above stays as filed. Each line below discharges one defect the
+round-75 closure routed (`corpus/lessons/round-75-verifier-spotcheck.md` §6). The counter that prices
+all seven is `plans/round76_c2_defect_discharge.py` (R76-C2), legs D1–D7.
+
+- **R75-D2 (revision drift)** — the measured revision of the round-75 after state is `9f8f0f2180821d165f60e400277f192d92afbbce` (the `LANE_TIP` in `corpus/evidence/round75/c1-after.txt` and `c2-after.txt`); the report's re-derivation at `5d9a0ccc` has no committed receipt, and `5d9a0ccc` is the landing tip that contains `9f8f0f21`, not a second measurement.
+- **R75-D3 (cross-version before/after)** — R75-D3 60 4/36/20: under the final rendered-row rule the
+  round-75 before state at `43255758` is 60 missing (4 knowledge + 36 lessons + 20 evidence dirs),
+  derived by `plans/round76_c2_defect_discharge.py` leg D3 (rendered README rows + `git ls-tree`).
+  `c1-before.txt`'s 59 counts the pre-A3 raw-prefix counter and is not comparable with the after.

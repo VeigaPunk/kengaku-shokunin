@@ -1258,3 +1258,13 @@ A witness at one granularity does not price the finer one.
   Lesson: `corpus/lessons/round-73.md` Mistakes M73-1/M73-2. Failable repair witness:
   `corpus/evidence/round73/a1-red-green.txt` — identical registered tree, frozen counter exits 1 with
   `plans_only=0`, amended counter exits 0. This is not permission to re-score the frozen claim.
+
+## Round76 criterion
+
+- **Q55 — a round's report is committed only after the final lane commit, and filed bytes are never
+  rewritten.** R75-D1 (round-75 closure): the report landed before its last lane commit and was then
+  rewritten in place, so the filed bytes named a superseded state. The correction path is a new
+  erratum commit that names the superseded text; a later correction may never reflow a filed lesson or
+  report (R75-D7). Grounded in `corpus/lessons/round-75-verifier-spotcheck.md` §6 and
+  `corpus/lessons/round-76.md` M76-5. Exercised this round: the round-76 report is committed only
+  after the final lane commit and cites that hash.

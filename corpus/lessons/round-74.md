@@ -68,3 +68,10 @@ Census validate command at both ends:
 Before: 241 rows, exit 0, 25 W04 warnings (`corpus/evidence/round74/census-before.txt`).
 After: 242 rows, exit 0, 25 W04 warnings (`corpus/evidence/round74/census-after.txt`).
 Row count verified: `grep -cE '^\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|' corpus/SOURCES.md` -> 242.
+
+## Correction (round 76)
+
+R75-D7 — the round-75 closure records that this lesson was reflowed in place (the correction landed
+inside the bullet it corrected, `7 1` in the diff). The correction is appended here as its own entry
+instead: M75-7 stands, the reflow does not. Rounds 76+ append corrections as new dated sections and
+never reflow filed lesson bytes; the rule is Q55 in `corpus/QUALITY.md`.
