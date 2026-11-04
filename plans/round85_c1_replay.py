@@ -213,7 +213,7 @@ def check(tree: Tree, work: Path, reproduce: bool = True) -> tuple[list[tuple[st
                 defects.append(("LEDGER-RECEIPT", str(row.get("receipt"))))
             if row.get("subject") != LEDGER_SUBJECT:
                 defects.append(("LEDGER-SUBJECT", str(row.get("subject"))))
-            if row.get("verdict") != "predicate":
+            if row.get("verdict") != "cases":
                 defects.append(("LEDGER-VERDICT", str(row.get("verdict"))))
 
     receipt_bytes = tree.bytes(RECEIPT)
