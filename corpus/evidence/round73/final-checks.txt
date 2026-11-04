@@ -1,0 +1,122 @@
+RUN_AT: 2026-11-04T03:01:37.103609+00:00
+MEASURED_COMMIT: 208ed16a1ba28af8ddcac9011af77fcf98a1b063
+SOURCE: clean shared clone of master at this exact revision; all commands cwd clone; TMPDIR explicit; no model endpoint traffic.
+
+CHECK registry
+CMD: python3 plans/round52_c2_registry.py --lane .
+UNIVERSE mode=full files=134 plans_seen=82 plans_only=0
+ADVERTISED total=113
+REGISTERED total=113 rows=115
+MISSING 0
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 pass
+PREDICATE R73-C1 pass
+
+
+rc=0 expected=0
+
+CHECK legacy-control
+CMD: python3 plans/round52_c2_registry.py --lane . --universe legacy
+UNIVERSE mode=legacy files=77 plans_seen=0 plans_only=0
+ADVERTISED total=113
+REGISTERED total=113 rows=115
+MISSING 0
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 pass
+PREDICATE R73-C1 fail
+
+
+rc=1 expected=1
+
+CHECK registry-selftest
+CMD: python3 plans/round52_c2_registry.py --selftest
+SELFTEST ok clean-fixture
+SELFTEST ok missing-fixture
+SELFTEST ok incomplete-fixture
+SELFTEST ok plans-fixture
+SELFTEST cases=4 failures=0
+
+
+rc=0 expected=0
+
+CHECK audit
+CMD: python3 plans/round73_c2_registry_audit.py --lane .
+INSTRUMENTS total=114 derived=registry rows=114
+PARSED scripts=114 failed=0
+D1 ok n=0
+D2 ok n=0
+D3 ok n=0
+D4 ok n=0
+MISMATCH 0
+DEFECTS n=0
+PREDICATE R73-C2 pass
+
+
+rc=0 expected=0
+
+CHECK audit-selftest
+CMD: python3 plans/round73_c2_registry_audit.py --selftest --work /fast/scratch/hyaku/kengaku-r73/l1/final/selftest
+SELFTEST ok clean-fixture
+SELFTEST ok fifth-row-arm
+SELFTEST ok second-row-arm
+SELFTEST ok errata-arm
+SELFTEST arms=4 red=3 ok=True
+
+
+rc=0 expected=0
+CALLER-PRESERVED True
+
+CHECK audit-mutants
+CMD: python3 plans/round73_c2_registry_audit.py --mutants --work /fast/scratch/hyaku/kengaku-r73/l1/final/mutants
+MUTANT M0-null null_detected
+MUTANT M1-kind killed rc=1
+MUTANT M2-owner killed rc=1
+MUTANT M3-gate-verdict killed rc=1
+MUTANT M4-duplicate killed rc=1
+MUTANT M5-errata-revision killed rc=1
+MUTANT M6-script-parse killed rc=1
+MUTANT M7-selftest-unbacked killed rc=1
+MUTANTS total=7 killed=7 survived=0 invalid=0 null_detected=1
+
+
+rc=0 expected=0
+CALLER-PRESERVED True
+
+CHECK source-adopt-selftest
+CMD: python3 plans/sources_adopt.py --selftest
+CASE collision-zero-indent PASS
+CASE collision-one-space PASS
+CASE collision-three-space PASS
+CASE four-space-not-a-row PASS
+CASE escaped-pipe-refused PASS
+CASE prose-recheck-normalized PASS
+CASE usedby-projected PASS
+CASE duplicate-staged-id PASS
+CASE clean-package-passes PASS
+CASE missing-requested-id PASS
+CASE quote-overlong-refused PASS
+CASE quote-absent-refused PASS
+CASE quote-located-accepted PASS
+CASE quote-boundary-25-accepted PASS
+CASE quote-url-bound-accepted PASS
+CASE quote-url-mismatch-refused PASS
+CASE quote-url-unmapped-refused PASS
+SELFTEST cases=17 failed=0
+
+
+rc=0 expected=0
+
+CHECK staging-scan
+CMD: python3 plans/stage_scan.py corpus/evidence/round73 plans/round73_c2_registry_audit.py plans/round52_c2_registry.py plans/round-73-claims.md .ufo/waves/round-73
+SCAN files=55 skipped=0 hits=0
+
+
+rc=0 expected=0
+
+FINAL_CHECK_FAILURES: []

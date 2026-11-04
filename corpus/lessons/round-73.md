@@ -129,3 +129,12 @@ one connector. L1 holds planner; RoundStateScoutR73 supplies its bounded data-wa
   received falsifications retained, predicates miss); clarity4 (original/amended outcomes separate);
   actionability4 (counterexamples and cleanup repair run); conciseness3 (evidence large).
   Mean3.6, not a learning-trend score. Highest-impact improvement is Q54's projected-tree freeze.
+
+## Final measured revision
+
+`208ed16a1ba28af8ddcac9011af77fcf98a1b063` is the committed snapshot measured by
+`final-checks.txt` (clean shared clone). Amended registry113/missing0 rc0; legacy control rc1;
+audit114/mismatch0 rc0; both selftests and selected seven-mutant run rc0. Caller files survive
+both fixture modes; stage scan55 files hits0 rc0. Census end rows241 rc0 with25 W04 warnings,
+versus start240 rc0 with25 warnings; `census-after.txt` carries full output and measured hash.
+Original predicates still miss, and no held knowledge entry is admitted.

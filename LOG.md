@@ -2778,3 +2778,13 @@ Evidence: `corpus/evidence/round64/`, `.ufo/waves/round-64/` (wave seats in `w1/
 - **Verification boundary.** Final committed-tree commands, revision, stdout and exit codes
   land in `corpus/evidence/round73/final-checks.txt`. No endpoint/model task-certification claim.
   No capability entry, score increase, external admission, promotion or L0 answer inferred.
+
+### Round73 measured landing and security disposition
+
+Committed integration `208ed16a1ba28af8ddcac9011af77fcf98a1b063`; final checks executed on a clean
+shared clone at that revision. `final-checks.txt` records every command and expected/direct rc:
+amended registry0, legacy control1, audit0, both structural selftests0, selected mutants0,
+sources-adopt selftest0, staging scan0 (55 files, no hits). These are engineering checks, not
+original-claim admissions. Security repair preserves caller canaries in both fixture modes
+(`cleanup-after.txt` plus final checks). End census rc0, rows241, W04 warnings25.
+All sixteen wave outputs settled before integration/report; no dead-seat note reported.

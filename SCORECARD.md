@@ -3324,3 +3324,13 @@ bind a declared instrument universe independently of rows that advertise themsel
 seats' preserved false-green fixtures to price exact entry argv and erratum semantics, without
 re-scoring either round73 claim. Outside-observed HF provenance remains unimplemented and held.
 Open L0 questions unchanged: kengaku rounds25/33/51,54,56,63,65,66,67.
+
+### Round73 final committed-tree measurement
+
+Measured revision `208ed16a1ba28af8ddcac9011af77fcf98a1b063`, clean shared clone, commands
+and direct exit codes in `corpus/evidence/round73/final-checks.txt`:
+registry113 advertised / missing0, amended rc0; legacy113 / missing0, R73 fail rc1;
+audit114 retained scripts / mismatch0 rc0; selected mutants7 killed7 with null1.
+Both fixture modes preserve caller files after the security repair. Census240→241 rows,
+exit0 at both ends, warnings25 at both ends (`census-before.txt`, `census-after.txt`).
+Original verdicts remain not admitted; these measurements increment neither axis.
