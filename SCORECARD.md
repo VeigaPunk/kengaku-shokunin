@@ -3534,3 +3534,11 @@ the `NEGATED-DISCHARGE` leg and the table-scope correction — so `c1-after.txt`
 `dddc1712` six registered gates are green (`R76-C1`, `R76-C2`, `R51-C1`, `R75-C1`, `R74-C1`,
 `R74-C2`) and `routed_open.py` prints `ROWS total=86 open=31 blocked=1 closed=52 refused=2`,
 `--selftest 12/12`.
+
+**Round-76 addendum 5 (appended 2026-11-04, after Amendment A9).** Final after receipts were
+regenerated from a clean clone at `d31feec99f0398a7ef833ef1e5aa3822560f4917` — the revision carrying
+`EMPTY-SCOPE`, the rendered-text legs and `LEG-PENDING` — so `c1-after.txt`/`c2-after.txt` stamp
+`d31feec9`, superseding the earlier stamps. Under A9 the C2 selftest is `cases=14 red=13`, the git arms
+`3/3` and the C2 mutant matrix `12/12`; the C1 batteries stay `cases=12 red=11` and `9/9`. At
+`d31feec9` six registered gates are green (`R76-C1`, `R76-C2`, `R51-C1`, `R75-C1`, `R74-C1`, `R74-C2`)
+and `routed_open.py` prints `ROWS total=86 open=31 blocked=1 closed=52 refused=2`, `--selftest 12/12`.
