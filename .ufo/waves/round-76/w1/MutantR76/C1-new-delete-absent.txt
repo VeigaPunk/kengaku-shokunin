@@ -1,0 +1,25 @@
+{
+  "gate": "C1",
+  "name": "C1-new-delete-absent",
+  "expected": "Scope shrink must not reach fixed target total=11; census may still pass declared rows",
+  "changed_path": "PROVINCE.md",
+  "original": "# fixture PROVINCE\n\n## Surfaces\n\n| Surface | Path / endpoint | What |\n|---|---|---|\n| Present path | `present.md` (repo root; always on disk) | fixture |\n| Absent path | `~/r76-definitely-absent-path` \u2014 **ABSENT 2026-10-01**, never resolved | fixture |\n| Endpoint | `http://127.0.0.1:45963/x` \u2014 /x | fixture |\n\n## Next\n\n",
+  "mutated_bytes": "# fixture PROVINCE\n\n## Surfaces\n\n| Surface | Path / endpoint | What |\n|---|---|---|\n| Present path | `present.md` (repo root; always on disk) | fixture |\n| Endpoint | `http://127.0.0.1:45963/x` \u2014 /x | fixture |\n\n## Next\n\n",
+  "before": {
+    "rc": 0,
+    "stdout": "SURFACE 1 present present.md (path=present.md)\nSURFACE 2 absent ~/r76-definitely-absent-path (path=~/r76-definitely-absent-path)\nSURFACE 3 present http://127.0.0.1:45963/x (http=404)\nSURFACES total=3 present=2 absent=1 prose=0\nAGREE agree=3 disagree=0\nPREDICATE R76-C1 pass\n"
+  },
+  "mutated": {
+    "rc": 0,
+    "stdout": "SURFACE 1 present present.md (path=present.md)\nSURFACE 2 present http://127.0.0.1:45963/x (http=404)\nSURFACES total=2 present=2 absent=0 prose=0\nAGREE agree=2 disagree=0\nPREDICATE R76-C1 pass\n"
+  },
+  "restored": {
+    "rc": 0,
+    "stdout": "SURFACE 1 present present.md (path=present.md)\nSURFACE 2 absent ~/r76-definitely-absent-path (path=~/r76-definitely-absent-path)\nSURFACE 3 present http://127.0.0.1:45963/x (http=404)\nSURFACES total=3 present=2 absent=1 prose=0\nAGREE agree=3 disagree=0\nPREDICATE R76-C1 pass\n"
+  },
+  "verdict": "survived",
+  "before_hash": "3eb0f66caa8780895b8aadf06a95c590aea366c8b327f75982ccda5806ddb8d0",
+  "mutant_hash": "e4849178fbd9f88b76e703415c56aa6b687246108fc313a93681d23f9e7b71ed",
+  "restored_hash": "3eb0f66caa8780895b8aadf06a95c590aea366c8b327f75982ccda5806ddb8d0",
+  "exact_restoration": true
+}

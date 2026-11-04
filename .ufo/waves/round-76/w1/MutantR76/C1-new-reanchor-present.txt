@@ -1,0 +1,25 @@
+{
+  "gate": "C1",
+  "name": "C1-new-reanchor-present",
+  "expected": "STALE-ABSENT",
+  "changed_path": "PROVINCE.md",
+  "original": "# fixture PROVINCE\n\n## Surfaces\n\n| Surface | Path / endpoint | What |\n|---|---|---|\n| Present path | `present.md` (repo root; always on disk) | fixture |\n| Absent path | `~/r76-definitely-absent-path` \u2014 **ABSENT 2026-10-01**, never resolved | fixture |\n| Endpoint | `http://127.0.0.1:45963/x` \u2014 /x | fixture |\n\n## Next\n\n",
+  "mutated_bytes": "# fixture PROVINCE\n\n## Surfaces\n\n| Surface | Path / endpoint | What |\n|---|---|---|\n| Present path | `present.md` (repo root; always on disk) | fixture |\n| Absent path | `present.md` \u2014 **ABSENT 2026-10-01**, never resolved | fixture |\n| Endpoint | `http://127.0.0.1:45963/x` \u2014 /x | fixture |\n\n## Next\n\n",
+  "before": {
+    "rc": 0,
+    "stdout": "SURFACE 1 present present.md (path=present.md)\nSURFACE 2 absent ~/r76-definitely-absent-path (path=~/r76-definitely-absent-path)\nSURFACE 3 present http://127.0.0.1:45963/x (http=404)\nSURFACES total=3 present=2 absent=1 prose=0\nAGREE agree=3 disagree=0\nPREDICATE R76-C1 pass\n"
+  },
+  "mutated": {
+    "rc": 1,
+    "stdout": "SURFACE 1 present present.md (path=present.md)\nSURFACE 2 present present.md (path=present.md)\nSURFACE 3 present http://127.0.0.1:45963/x (http=404)\nSURFACES total=3 present=3 absent=0 prose=0\nAGREE agree=2 disagree=1\nDEFECT STALE-ABSENT 2 Absent path present.md marked **ABSENT 2026-10-01**\nPREDICATE R76-C1 fail\n"
+  },
+  "restored": {
+    "rc": 0,
+    "stdout": "SURFACE 1 present present.md (path=present.md)\nSURFACE 2 absent ~/r76-definitely-absent-path (path=~/r76-definitely-absent-path)\nSURFACE 3 present http://127.0.0.1:45963/x (http=404)\nSURFACES total=3 present=2 absent=1 prose=0\nAGREE agree=3 disagree=0\nPREDICATE R76-C1 pass\n"
+  },
+  "verdict": "killed",
+  "before_hash": "3eb0f66caa8780895b8aadf06a95c590aea366c8b327f75982ccda5806ddb8d0",
+  "mutant_hash": "9f6fc1a07505d3d19d26f9072e0484cf4a523faf1ac286ebfcbcd37742e5d188",
+  "restored_hash": "3eb0f66caa8780895b8aadf06a95c590aea366c8b327f75982ccda5806ddb8d0",
+  "exact_restoration": true
+}

@@ -1,0 +1,3 @@
+- R75-D2 correction: stamp 42fad4827797e540c60a00821d3f2f5c18539632 and report tip 5d9a0ccc.
+- R75-D3 correction: the final-rule before is 60 (4/36/20).
+- R75-D4 fixture line.

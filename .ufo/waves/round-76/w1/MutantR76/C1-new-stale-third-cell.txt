@@ -1,0 +1,25 @@
+{
+  "gate": "C1",
+  "name": "C1-new-stale-third-cell",
+  "expected": "STALE-TEXT on absent row with present-tense prose in trailing cell",
+  "changed_path": "PROVINCE.md",
+  "original": "# fixture PROVINCE\n\n## Surfaces\n\n| Surface | Path / endpoint | What |\n|---|---|---|\n| Present path | `present.md` (repo root; always on disk) | fixture |\n| Absent path | `~/r76-definitely-absent-path` \u2014 **ABSENT 2026-10-01**, never resolved | fixture |\n| Endpoint | `http://127.0.0.1:45963/x` \u2014 /x | fixture |\n\n## Next\n\n",
+  "mutated_bytes": "# fixture PROVINCE\n\n## Surfaces\n\n| Surface | Path / endpoint | What |\n|---|---|---|\n| Present path | `present.md` (repo root; always on disk) | fixture |\n| Absent path | `~/r76-definitely-absent-path` \u2014 **ABSENT 2026-10-01**, never resolved | is alive |\n| Endpoint | `http://127.0.0.1:45963/x` \u2014 /x | fixture |\n\n## Next\n\n",
+  "before": {
+    "rc": 0,
+    "stdout": "SURFACE 1 present present.md (path=present.md)\nSURFACE 2 absent ~/r76-definitely-absent-path (path=~/r76-definitely-absent-path)\nSURFACE 3 present http://127.0.0.1:45963/x (http=404)\nSURFACES total=3 present=2 absent=1 prose=0\nAGREE agree=3 disagree=0\nPREDICATE R76-C1 pass\n"
+  },
+  "mutated": {
+    "rc": 0,
+    "stdout": "SURFACE 1 present present.md (path=present.md)\nSURFACE 2 absent ~/r76-definitely-absent-path (path=~/r76-definitely-absent-path)\nSURFACE 3 present http://127.0.0.1:45963/x (http=404)\nSURFACES total=3 present=2 absent=1 prose=0\nAGREE agree=3 disagree=0\nPREDICATE R76-C1 pass\n"
+  },
+  "restored": {
+    "rc": 0,
+    "stdout": "SURFACE 1 present present.md (path=present.md)\nSURFACE 2 absent ~/r76-definitely-absent-path (path=~/r76-definitely-absent-path)\nSURFACE 3 present http://127.0.0.1:45963/x (http=404)\nSURFACES total=3 present=2 absent=1 prose=0\nAGREE agree=3 disagree=0\nPREDICATE R76-C1 pass\n"
+  },
+  "verdict": "survived",
+  "before_hash": "3eb0f66caa8780895b8aadf06a95c590aea366c8b327f75982ccda5806ddb8d0",
+  "mutant_hash": "378745e5dc4e79f126ac92a13f68b69d3325b55b8cad87c11b0e7f750748c6a3",
+  "restored_hash": "3eb0f66caa8780895b8aadf06a95c590aea366c8b327f75982ccda5806ddb8d0",
+  "exact_restoration": true
+}

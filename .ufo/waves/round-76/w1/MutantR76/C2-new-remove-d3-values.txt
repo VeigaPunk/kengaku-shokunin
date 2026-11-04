@@ -1,0 +1,25 @@
+{
+  "gate": "C2",
+  "name": "C2-new-remove-d3-values",
+  "expected": "LEG-FAIL D3",
+  "changed_path": "SCORECARD.md",
+  "original": "- R75-D2 correction: stamp 42fad4827797e540c60a00821d3f2f5c18539632 and report tip 5d9a0ccc.\n- R75-D3 correction: the final-rule before is 60 (4/36/20).\n- R75-D4 fixture line.\n",
+  "mutated_bytes": "- R75-D2 correction: stamp 42fad4827797e540c60a00821d3f2f5c18539632 and report tip 5d9a0ccc.\n- R75-D3 correction: the final-rule before is incorrect values.\n- R75-D4 fixture line.\n",
+  "before": {
+    "rc": 0,
+    "stdout": "SCOPE-SOURCE corpus/lessons/round-75-verifier-spotcheck.md\nLEG D1 ok QUALITY criterion cites R75-D1 + lesson\nLEG D2 ok SCORECARD line with R75-D2, stamp 42fad4827797, 5d9a0ccc\nLEG D3 ok SCORECARD line with R75-D3, total 60, split 4/36/20 at 43255758\nLEG D4 ok registry rows carry cases=8 red=7 / arms=5\nLEG D5 ok LOG block with R75-D5, cases=8 red=7, stamp 42fad4827797\nLEG D6 ok r74-c1-tip.txt=pass/ancestor r74-c2-tip.txt=pass/ancestor\nLEG D7 ok round-74 lesson appended correction naming R75-D7\nLEDGER R75-D1 ok closed close_commit=42fad4827797\nLEDGER R75-D2 ok closed close_commit=42fad4827797\nLEDGER R75-D3 ok closed close_commit=42fad4827797\nLEDGER R75-D4 ok closed close_commit=42fad4827797\nLEDGER R75-D5 ok closed close_commit=42fad4827797\nLEDGER R75-D6 ok closed close_commit=42fad4827797\nLEDGER R75-D7 ok closed close_commit=42fad4827797\nSCOPE ids=7 registered=7 closed=7 open=0 discharged=7 legs_passed=7 legs_pending=0 wrong=0\nPREDICATE R76-C2 pass\n"
+  },
+  "mutated": {
+    "rc": 1,
+    "stdout": "SCOPE-SOURCE corpus/lessons/round-75-verifier-spotcheck.md\nLEG D1 ok QUALITY criterion cites R75-D1 + lesson\nLEG D2 ok SCORECARD line with R75-D2, stamp 42fad4827797, 5d9a0ccc\nLEG D3 FAIL SCORECARD line with R75-D3, total 60, split 4/36/20 at 43255758\nLEG D4 ok registry rows carry cases=8 red=7 / arms=5\nLEG D5 ok LOG block with R75-D5, cases=8 red=7, stamp 42fad4827797\nLEG D6 ok r74-c1-tip.txt=pass/ancestor r74-c2-tip.txt=pass/ancestor\nLEG D7 ok round-74 lesson appended correction naming R75-D7\nLEDGER R75-D1 ok closed close_commit=42fad4827797\nLEDGER R75-D2 ok closed close_commit=42fad4827797\nLEDGER R75-D3 ok closed close_commit=42fad4827797\nLEDGER R75-D4 ok closed close_commit=42fad4827797\nLEDGER R75-D5 ok closed close_commit=42fad4827797\nLEDGER R75-D6 ok closed close_commit=42fad4827797\nLEDGER R75-D7 ok closed close_commit=42fad4827797\nSCOPE ids=7 registered=7 closed=7 open=0 discharged=7 legs_passed=6 legs_pending=0 wrong=1\nLEG-FAIL D3 SCORECARD line with R75-D3, total 60, split 4/36/20 at 43255758\nPREDICATE R76-C2 fail\n"
+  },
+  "restored": {
+    "rc": 0,
+    "stdout": "SCOPE-SOURCE corpus/lessons/round-75-verifier-spotcheck.md\nLEG D1 ok QUALITY criterion cites R75-D1 + lesson\nLEG D2 ok SCORECARD line with R75-D2, stamp 42fad4827797, 5d9a0ccc\nLEG D3 ok SCORECARD line with R75-D3, total 60, split 4/36/20 at 43255758\nLEG D4 ok registry rows carry cases=8 red=7 / arms=5\nLEG D5 ok LOG block with R75-D5, cases=8 red=7, stamp 42fad4827797\nLEG D6 ok r74-c1-tip.txt=pass/ancestor r74-c2-tip.txt=pass/ancestor\nLEG D7 ok round-74 lesson appended correction naming R75-D7\nLEDGER R75-D1 ok closed close_commit=42fad4827797\nLEDGER R75-D2 ok closed close_commit=42fad4827797\nLEDGER R75-D3 ok closed close_commit=42fad4827797\nLEDGER R75-D4 ok closed close_commit=42fad4827797\nLEDGER R75-D5 ok closed close_commit=42fad4827797\nLEDGER R75-D6 ok closed close_commit=42fad4827797\nLEDGER R75-D7 ok closed close_commit=42fad4827797\nSCOPE ids=7 registered=7 closed=7 open=0 discharged=7 legs_passed=7 legs_pending=0 wrong=0\nPREDICATE R76-C2 pass\n"
+  },
+  "verdict": "killed",
+  "before_hash": "84f04903faf4532917257f08b6f6fe9f0b19b10f199c01b85cc4f53553fe61da",
+  "mutant_hash": "21e9d264ab812305d547fe941fb1531964d7f0fab9746dc94fa3d7cb6506ffbf",
+  "restored_hash": "84f04903faf4532917257f08b6f6fe9f0b19b10f199c01b85cc4f53553fe61da",
+  "exact_restoration": true
+}
