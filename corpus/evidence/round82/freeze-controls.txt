@@ -1,0 +1,25 @@
+# kengaku round 82 — freeze-time do-nothing controls (plain measurement, no round counter)
+# base a3a03ac31451e58f1742b9bccb73b72c2d90a95c measured 2026-11-04T09:34:25Z
+# universe rule: plans/**/*.py excluding plans/fixtures/ (support code, not an instrument:
+#   the lane has excluded that tree since round 52, plans/round52_c2_registry.py:35)
+C1 do-nothing (nothing added at BASE) ->
+  instruments referenced by SCORECARD.md/LOG.md/corpus/README.md at BASE and absent from every registry entry: 6
+    plans/fixture_fence.py  cli=no  (row exclusion required)
+    plans/log_appendonly.py  cli=yes  (row required)
+    plans/policy_cases.py  cli=no  (row exclusion required)
+    plans/round37_c1_attribution.py  cli=yes  (row required)
+    plans/round66_registry_check.py  cli=yes  (row required)
+    plans/round80_c1_remint.py  cli=yes  (row required)
+  expected counter verdict at BASE: MISSING 4 UNCLASSIFIED 2 -> exit 1
+
+C2 do-nothing (no rows added) ->
+  round-81 spot-check routed ids: 7 -> V1, V2, V3, V4, V5, V6, V7
+  rows with id R81-V* at BASE: 0
+  rows total at BASE: 117
+  expected counter verdict at BASE: DEBT-UNREGISTERED x7 -> exit 1
+
+C3 do-nothing ->
+  plans/round82_c3_sweep.py at BASE: absent
+  plans/round82-sweep-map.json at BASE: absent
+  corpus/evidence/round82/sweep.txt at BASE: absent
+  expected: the census and its receipt are unreachable without the sweep running
