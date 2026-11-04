@@ -1,0 +1,23 @@
+UNIVERSE documents=3 instruments=313 referenced=133 registered=146 base_scripts=149
+EXCLUSION plans/fixture_fence.py class=support-module cli=no
+EXCLUSION plans/policy_cases.py class=support-module cli=no
+ROW log-appendonly kind=gate entry=plans/log_appendonly.py selftest=plans/log_appendonly.py defects=none
+ROW round37-c1-attribution kind=gate entry=plans/round37_c1_attribution.py selftest=none defects=none
+ROW round66-registry-check kind=gate entry=plans/round66_registry_check.py selftest=plans/round66_registry_check.py defects=none
+ROW round80-c1-remint kind=probe entry=plans/round80_c1_remint.py selftest=none defects=none
+ROW round81-log-summary-probe kind=probe entry=plans/round81_log_summary_probe.py selftest=plans/round81_log_summary_probe.py defects=none
+ROW round81-vulnerable-secret-probe kind=probe entry=plans/round81_vulnerable_secret_probe.py selftest=plans/round81_vulnerable_secret_probe.py defects=none
+ROW round82-c3-sweep kind=gate entry=plans/round82_c3_sweep.py selftest=plans/round82_c3_sweep.py defects=none
+ROW round82-c1-plans-registry kind=gate entry=plans/round82_c1_plans_registry.py selftest=plans/round82_c1_plans_registry.py defects=none
+ROW round82-c2-closure-debt kind=gate entry=plans/round82_c2_closure_debt.py selftest=plans/round82_c2_closure_debt.py defects=none
+ROW round82-c2-checks kind=gate entry=plans/round82_c2_checks.py selftest=none defects=none
+ROW round83-code-image-probe kind=probe entry=plans/round83_code_image_probe.py selftest=plans/round83_code_image_probe.py defects=none
+ROW round83-c1-replay kind=gate entry=plans/round83_c1_replay.py selftest=plans/round83_c1_replay.py defects=none
+ROW round83-c2-debt kind=gate entry=plans/round83_c2_debt.py selftest=plans/round83_c2_debt.py defects=SELFTEST-FLAG:--selftest
+ROW round83-c2-checks kind=gate entry=plans/round83_c2_checks.py selftest=plans/round83_c2_checks.py defects=none
+ROW round83-freeze-controls kind=probe entry=plans/round83_freeze_controls.py selftest=none defects=none
+ROWS registry=148 base=133 duplicates=0
+DEFECT ROW-SELFTEST-FLAG:--selftest round83-c2-debt
+DEFECTS n=1
+TARGET missing=0 unclassified=0 excluded=2 rows=148 entry_missing=0
+PREDICATE R82-C1 fail

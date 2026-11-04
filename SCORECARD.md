@@ -3970,3 +3970,32 @@ Base `614f00559c75155ec100e945b3e8257b14fb7496`; freeze `6f076679931367d540c3897
 
 1. Coverage: choose and freeze another genuinely unattempted member from the committed ledger, with downstream population-verdict vocabulary priced before minting, not a rerun of an already-held member.
 2. Calibration: incorporate the next outside spot-check and the still-open R82-F1 parsed-versus-advertised quote-shape mismatch through a separately frozen successor; never silently amend an old gate's claim.
+
+## Round 84 (hyaku run 15, attempt 1, 2026-11-04)
+
+Base `4087b2f8369fb0c317a8460725a607681ff2fd7f`; freeze `b12a9d46806cb8d69fe48fac0f4efff0b266e4c2`; instruments `767c907b`; receipt landing `8a61bce1bd7a24d7e17c942139091d7c9abcf347`; entry repair `d1dc1cd9805829a0ee09ad00726560320675733a`. Two causally separable claims on two distinct axes; no frozen sentence, case table, control set or kill rule changed.
+
+| claim / axis | before → after and measured commit | counting command | verdict / score |
+|---|---|---|---|
+| R84-C1 / coverage (lowest non-retired axis, L0-capped at 7): second located offline replay of `gcode-to-text` | BASE `4087b2f8`: `TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects=34`, `PREDICATE R84-C1 fail`, exit 1 (`.ufo/waves/round-84/w1/CounterR84/before-base.txt`). At `8a61bce1` and `d1dc1cd9`: `TARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=0`, `PREDICATE R84-C1 pass`, exit 0 (`.ufo/waves/round-84/w1/CounterR84/` green transcripts; L1 run `c1-tip.txt`). Ledger executed 27 → 28; unexecuted 61 → 60; file-artifact class 19 of 76 → 20 of 76. | `python3 plans/round84_c1_replay.py --lane . --rev REV --work DIR` (BASE: `--rev 4087b2f8369fb0c317a8460725a607681ff2fd7f`) | **met on its frozen predicate**; coverage score held at **7** (L0 cap `kengaku \| round-25/33/51`, unanswered). |
+| R84-C2 / calibration (held at 10): round-83 admission-bar debt in `corpus/knowledge/tb2-code-from-image-offline.md` | BASE `4087b2f8`: `TARGET entries=1 q1=1 q21=1 q13=1 defects=3`, `PREDICATE R84-C2 fail`, exit 1 (`c2-base.txt`). At `d1dc1cd9`: `CHECK q1 ok`, `CHECK q21 ok pin-covered`, `CHECK q13 DEFECT` (`gate_timing_check: FAIL: no admit rows`), `TARGET entries=1 q1=0 q21=0 q13=1 defects=1`, `PREDICATE R84-C2 fail`, exit 1 (`c2-tip.txt`). Q1 and Q21 repaired; Q13 unmet. | `python3 plans/round84_c2_admission.py --lane . --rev REV --work DIR` | **unmet on its frozen predicate** (3 → 1 defects; kill rule: any remaining defect). Calibration held at **10**; freshness restored to its held value, not raised. |
+
+Transcript mirror: the bare names `c1-tip.txt`, `c1-base.txt`, `c2-base.txt` and `c2-tip.txt` in the table refer to the L1 transcripts committed under `.ufo/waves/round-84/L1/`; `base-r75.txt`, `base-r79.txt`, `base-r82.txt`, `gate-plans_*.txt` and `census-*.txt` are the gate and census runs there too.
+
+**Controls and batteries.** C1: selftest `cases=30 red=29 failures=0`; mutants `real=16 killed=16`; do-nothing, ledger-only and fabricated-observation controls each `target_reached=False`; trust-pin-absent refusal exit 2 (transcripts under `.ufo/waves/round-84/w1/CounterR84/`). C2: selftest, mutants, `--control-filler` (BASE bytes red) and `--control-date-only` (Q21 and Q13 stay red) in `.ufo/waves/round-84/w1/AdmitR84/`. Probe: `cases=8 mismatches=0` on the run; `cases=8 mismatches=1`, `PREDICATE R84-PROBE fail`, exit 1 on a deliberately corrupted table row (`ProbeR84/probe-negative.txt`).
+
+**Routed gate-shape finding (not a claim verdict).** `plans/gate_timing_check.py` `is_second_wave` resolves second-seat reports only under `falsify/` or `wave2/`, and it needs a `candidate \| decision \| reason` admit table. A one-wave run-15 round therefore cannot satisfy Q13 for any knowledge admission. No fabricated `falsify/` directory was made. Routed as `.ufo/l0-questions.md` (kengaku \| round-84).
+
+**Other axis scores.** novelty 8, depth 10, operability 10, freshness 10 (restored, not raised), adjacency 9 — all held. No serving-plane, route or image-solving claim is made.
+
+**Sources.** S271 admitted (`corpus/SOURCES.md`, pinned `gcode-to-text/tests/test_outputs.py`, member replay only); rows 262 → 263; A/B/C 232/24/6 → 233/24/6; mined/rejected/queued 238/16/8 → 239/16/8; census exit 0 before and after; W04 warnings 30 → 30.
+
+### Round84 capabilities
+
+No new capability row: the round re-uses the round-83 replay method on a second member and does not add a method.
+
+### Planned (round 85; not a claim until frozen)
+
+1. Coverage: choose and freeze another unattempted member whose downstream verdict vocabulary is priced before minting (the M83-1 and M84-1 recurrence), and whose blocker is checked against the grader bytes, not the ledger note alone.
+2. Calibration: a single routed decision on the Q13 checker shape (L0), then either a successor claim that re-admits `tb2-code-from-image-offline` under a gate the owner ruled, or a recorded refusal.
+3. Backlog: the round-82 registry gate red at BASE (`ROW-SELFTEST-FLAG` on `round83-c2-debt`), R82-F1, and the `merge/kengaku/` package (175 staged rows) remain open.
