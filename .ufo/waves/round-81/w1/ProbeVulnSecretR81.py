@@ -151,7 +151,7 @@ def sandbox_argv(tests_dir: pathlib.Path, app_dir: pathlib.Path,
 def run_case(cap: pathlib.Path, work: pathlib.Path, case) -> tuple[str, int, str]:
     """Returns (observed P|F, harness rc, per-leg letters). Never fakes:
     a sandbox or harness failure raises SetupError."""
-    name, _tags, content = case
+    name, content, _tags = case
     cdir = pathlib.Path(tempfile.mkdtemp(prefix="r81vs-", dir=work))
     try:
         app = cdir / "app"
@@ -172,13 +172,13 @@ def run_case(cap: pathlib.Path, work: pathlib.Path, case) -> tuple[str, int, str
             raise SetupError(f"{name} timeout after 120s: {exc}") from exc
         except OSError as exc:
             raise SetupError(f"{name} failed to exec bwrap: {exc}") from exc
-        legs = [ln.split()[1] for ln in p.stdout.splitlines() if ln.startswith("LEG ")]
-        if len(legs) != len(TESTS):
+        letters = [ln.split()[2] for ln in p.stdout.splitlines() if ln.startswith("LEG ")]
+        if len(letters) != len(TESTS):
             raise SetupError(f"{name} harness rc={p.returncode} "
                              f"out={(p.stdout + p.stderr).strip()[-160:]}")
-        letters = "".join(leg[-1] for leg in legs)
-        ok = letters == "P" * len(TESTS)
-        return ("P" if ok else "F"), (0 if ok else 1), letters
+        marks = "".join(letters)
+        ok = marks == "P" * len(TESTS)
+        return ("P" if ok else "F"), (0 if ok else 1), marks
     finally:
         shutil.rmtree(cdir, ignore_errors=True)
 
