@@ -193,6 +193,14 @@ def leg_v1(reader: Reader, lane: Path) -> tuple[str, str]:
             return "fail", f"{rel} TOOL_SHA ≠ tool at {m_tip.group(1)[:8]}"
         if tool_now and at_tip != tool_now:
             return "fail", f"{rel} tool changed since receipt"
+        if "selftest" in rel and "cases=" not in text:
+            return "fail", f"{rel} carries no cases= battery tally"
+        if "mutants" in rel:
+            tally = [ln for ln in text.splitlines()
+                     if ln.startswith("MUTANTS ") and "survived=" in ln
+                     and ("real=" in ln or "total=" in ln)]
+            if not tally:
+                return "fail", f"{rel} carries no MUTANTS tally line"
         parts.append(f"{Path(rel).name}:tip={m_tip.group(1)[:8]}")
     return "ok", " ".join(parts)
 
@@ -285,7 +293,7 @@ def leg_v7(reader: Reader, lane: Path) -> tuple[str, str]:
             return "pending", f"{rel} absent"
         m_tip = LANE_TIP.search(text)
         m_sha = TOOL_SHA.search(text)
-        if not m_tip:
+        if not m_tip or not m_sha:
             return "fail", f"{rel} unstamped"
         if ancestry(lane, m_tip.group(1), reader.tip) != "ancestor":
             return "fail", f"{rel} LANE_TIP not an ancestor"
@@ -360,6 +368,8 @@ def ledger_report(reader: Reader, lane: Path, ids: list[str]) -> tuple[list[str]
             problems.append("NO-VERIFIED-AT")
         if check_trivial(str(row.get("check", ""))):
             problems.append("CHECK-TRIVIAL")
+        elif rid not in str(row.get("check", "")):
+            problems.append("ID-NOT-IN-CHECK")
         ev_path = str(row.get("evidence_path", ""))
         ev_lit = str(row.get("evidence_literal", ""))
         if not ev_path or not ev_lit:
@@ -463,6 +473,7 @@ def build_fixture(root: Path, tip: str, *, drop_row: str = "", open_row: str = "
         row["close_commit"] = tip
         if rid == open_row:
             row["status"] = "open"
+        row["check"] = f"# {rid}: " + str(row.get("check", ""))
         if trivial_check:
             row["check"] = "ok"
         if stale_evidence:

@@ -465,8 +465,13 @@ def census(lane: Path, reader: Reader) -> tuple[list[str], list[str], dict[str, 
             defects.append(f"DEFECT {d} {lineno} {name[:40]}")
             row_bad = True
         counts[verdict] = counts.get(verdict, 0) + 1
-        key = normalize_anchor(identity.split("=")[-1].split()[0]) if "=" in identity else identity
-        identities.add(f"{kind}:{key}")
+        anchors_here = anchor_tokens(anchor)
+        key = normalize_anchor(anchors_here[0]) if anchors_here else identity
+        ident_key = f"{kind}:{key}"
+        if ident_key in identities:
+            defects.append(f"DEFECT DUPLICATE-IDENTITY {lineno} {name[:40]} {ident_key}")
+            row_bad = True
+        identities.add(ident_key)
         if kind != "remote":
             live += 1
         joined = " ".join(cells)

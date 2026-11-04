@@ -1268,3 +1268,20 @@ A witness at one granularity does not price the finer one.
   report (R75-D7). Grounded in `corpus/lessons/round-75-verifier-spotcheck.md` §6 and
   `corpus/lessons/round-76.md` M76-5. Exercised this round: the round-76 report is committed only
   after the final lane commit and cites that hash.
+
+## Round77 criterion
+
+- **Q56 — a lane declares its surfaces in one machine-checked inventory, and an evidence receipt names
+  the tool that produced it at the revision it stamps.** Two halves, both priced by round 77.
+  (a) *Declaration.* Three tables (`## Surfaces`, `### Core`, `### Historical`) declared overlapping
+  sets of surfaces and no single command read them together; the round-76 closure routed exactly this
+  (`corpus/lessons/round-76.md`, the A8 correction). The rule: one canonical table carries every
+  declared surface with a typed anchor and a `Supersedes` cell, and any superseded row that no
+  canonical row carries is an `UNLISTED-SURFACE` defect (`plans/round77_c1_declared_surfaces.py`).
+  A declaration nothing resolves is prose, and prose does not price coverage.
+  (b) *Receipt.* Round 76's battery receipts stamped a `LANE_TIP` whose tree did not yet carry the
+  battery they measured (R76-V1). The rule: a receipt carries `TOOL_SHA` and `LANE_TIP`, and a reader
+  recomputes `git show <tip>:<tool> | sha256sum` and compares; `EXIT <n>` is part of the receipt, so a
+  report-only gate's silence cannot pass as success (`plans/round77_remint_r76_batteries.py`,
+  `plans/round77_c2_defect_discharge.py` legs V1/V7). Lesson: `corpus/lessons/round-77.md`
+  Gate and Mistakes M77-1..3.

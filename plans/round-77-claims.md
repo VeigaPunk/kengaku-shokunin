@@ -163,3 +163,33 @@ The R77-C2 control line above reads `failed_legs=3 defects=7`. The committed rec
 fixture's legs all pass, and the skip is caught where it should be — seven `CHECK-TRIVIAL`/
 `EVIDENCE-*` ledger defects, `discharged=0`, so the target's `discharged=7` is unreachable. Only the
 control's prose changes; its predicate, the eight target fields and both kill rules are unchanged.
+
+## Amendment A3 (2026-11-04, from the wave's critic, target unchanged) — duplicate identities and unfounded receipts stop passing
+
+`CriticR77` built two false green paths on the frozen counters; both are closed by rules that can only
+**add** defects, so the eight target fields and both controls are untouched and the before/after states
+are re-measured under the final rule.
+
+**C1 — `DUPLICATE-IDENTITY` and `REMOTE-ANCHOR-MISMATCH`.** The critic passed the target with 27
+`path` rows that all probed the same file (the identity set deduplicated while `live` counted rows) plus
+one `remote` catchall row carrying every older anchor token. Now (a) two canonical rows whose first
+anchor token normalizes to the same identity are a `DUPLICATE-IDENTITY` defect, and each row's identity
+key is its own anchor token rather than a printed substring (the previous key collapsed the two absent
+endpoints to `http:000` and the two exec rows to their receipt tip, which is why the manifest read
+`n=26` on 28 rows); (b) a `remote` row may carry only non-loopback `http(s)` URLs
+(`REMOTE-ANCHOR-MISMATCH`), and a non-remote row that resolves to a non-loopback host is
+`REMOTE-AS-<kind>`. The two duplicate rows the old key collapsed are exactly the pairs the critic
+exploited. Measured consequence: identities `n=28 unique=28`.
+
+**C2 — `ID-NOT-IN-CHECK`, battery tallies, mandatory `TOOL_SHA`.** The critic registered all seven ids
+as `closed` with fabricated receipts carrying only `LANE_TIP` + `EXIT 0` and `PROVINCE.md` as the
+evidence path, and the gate accepted it. Now (a) a row's `check` must name its own id
+(`ID-NOT-IN-CHECK`) and still carry a committed path plus a quoted literal (`CHECK-TRIVIAL`); (b) V1
+requires the battery receipts to carry a `cases=` tally and a `MUTANTS … survived=` tally line, so a
+receipt with no battery output cannot pass; (c) V7 requires `TOOL_SHA`, so the critic's stamp-less
+rerun receipts fail. The seven ledger rows' `check` fields were updated to name their ids — a data fix
+to this round's own rows, not a change to the predicate.
+
+Both before receipts were regenerated under the final rules (`c1-before.txt` prints the same
+`UNLISTED n=33`, `DEFECTS n=34`, rc 1; `c2-before.txt` the same `registered=0 wrong=12`, rc 1), and the
+after receipts were regenerated from a clean clone at the landing tip.
