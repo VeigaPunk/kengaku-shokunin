@@ -927,6 +927,7 @@ A row here indexes a file; it does not admit it — the held entries stay held.
 | `lessons/round-79-verifier-spotcheck.md` | Non-author closure of round 79: both claims re-derived at `f10a2678`; six routed defects V1–V6 (an unsupported re-verification claim, a wrong census W04 count, a 13-vs-12 off-by-one, an imprecise S254 anchor, an unstated duplicate-URL warning, unstamped after receipts) | closure of round 79 |
 | `lessons/round-80.md` | Round 80 — the six `executed-unlocated` members become located, reproducible replays (R80-C1) and the round-79 spot-check's V1–V6 are discharged (R80-C2); Gate (S258), M80-1/M80-2 (the README row's old `M80-1` was one of R80-U6's two slips) | LOG.md round 80; plans/round-80-claims.md; `.ufo/waves/round-80/` |
 | `lessons/round-80-verifier-spotcheck.md` | Non-author closure of round 80: both claims re-derived at `507d249b`; six routed defects U1–U6 (a stale S258 anchor, a dirty-worktree after receipt, census counts without a producing command, a fix asserted but never shown failing, two unregistered gates, two evidence-prose slips) | closure of round 80 |
+| `lessons/round-81.md` | Round 81 — two `unattempted` population members gain located, reproducible replays with a host-pinned receipt (R81-C1) and the round-80 spot-check's U1–U6 are discharged (R81-C2); Gate (S259, S260, S261), M81-1/M81-2 | LOG.md round 81; plans/round-81-claims.md; `.ufo/waves/round-81/` |
 ### Knowledge index rows (3)
 
 | Entry | Covers | Primary source |
@@ -934,6 +935,7 @@ A row here indexes a file; it does not admit it — the held entries stay held.
 | `knowledge/instrument-registry-derivation.md` | Registry-derivation rules for instrument rows (`ast.parse`-based); a held candidate, not an admitted entry | S249 (`ast.parse`); admission: hold (round 73) |
 | `knowledge/registry-argv-and-flag-audit.md` | Command-line flag and argument specification contracts (S250); a held candidate grounding the S250 reject-flip | admission: hold (round 74) |
 | `knowledge/tb2-torch-tensor-parallel-offline.md` | The torch-tensor-parallelism TB2 grader replayed offline (R66-C1); the case table, the gloo world and the grader's own legs | S183 (`tests/test_outputs.py:18–25,43–211`); `corpus/evidence/round66/tensor/` |
+| `knowledge/tb2-file-artifact-replay-classes.md` | Two stdlib-only TB2 file-artifact graders replayed offline (12 cases each, 4 pass / 8 fail), the pinned subject capture, and the host pin a receipt needs | S260 (own-work instrument set); S261 (pinned task documents); S256 |
 
 ### Evidence index rows (20)
 
