@@ -1,0 +1,128 @@
+{
+  "why": "R78-C2 repair: re-mint the round-77 receipts at the tip that carries the tool they name, and re-stamp the historical before receipts append-only.",
+  "rerun": [
+    {
+      "receipt": "corpus/evidence/round77/c1-selftest.txt",
+      "tool": "plans/round77_c1_declared_surfaces.py",
+      "mode": "receipt",
+      "argv": [
+        "--selftest"
+      ]
+    },
+    {
+      "receipt": "corpus/evidence/round77/c1-mutants.txt",
+      "tool": "plans/round77_c1_declared_surfaces.py",
+      "mode": "receipt",
+      "argv": [
+        "--mutants"
+      ]
+    },
+    {
+      "receipt": "corpus/evidence/round77/c1-control-declared.txt",
+      "tool": "plans/round77_c1_declared_surfaces.py",
+      "mode": "receipt",
+      "argv": [
+        "--control-declared"
+      ]
+    },
+    {
+      "receipt": "corpus/evidence/round77/c1-after.txt",
+      "tool": "plans/round77_c1_declared_surfaces.py",
+      "mode": "receipt",
+      "argv": []
+    },
+    {
+      "receipt": "corpus/evidence/round77/c2-selftest.txt",
+      "tool": "plans/round77_c2_defect_discharge.py",
+      "mode": "receipt",
+      "argv": [
+        "--selftest"
+      ]
+    },
+    {
+      "receipt": "corpus/evidence/round77/c2-selftest-git.txt",
+      "tool": "plans/round77_c2_defect_discharge.py",
+      "mode": "receipt",
+      "argv": [
+        "--selftest-git"
+      ]
+    },
+    {
+      "receipt": "corpus/evidence/round77/c2-mutants.txt",
+      "tool": "plans/round77_c2_defect_discharge.py",
+      "mode": "receipt",
+      "argv": [
+        "--mutants"
+      ]
+    },
+    {
+      "receipt": "corpus/evidence/round77/c2-control-status.txt",
+      "tool": "plans/round77_c2_defect_discharge.py",
+      "mode": "receipt",
+      "argv": [
+        "--control-status"
+      ]
+    },
+    {
+      "receipt": "corpus/evidence/round77/c2-after.txt",
+      "tool": "plans/round77_c2_defect_discharge.py",
+      "mode": "receipt",
+      "argv": []
+    },
+    {
+      "receipt": "corpus/evidence/round77/rerun-r51-c1.txt",
+      "tool": "plans/round51_surfaces.py",
+      "mode": "plain",
+      "argv": [
+        "--lane",
+        "."
+      ]
+    },
+    {
+      "receipt": "corpus/evidence/round77/rerun-r75-c1.txt",
+      "tool": "plans/round75_c1_index_parity.py",
+      "mode": "receipt",
+      "argv": [
+        "--lane",
+        "."
+      ]
+    },
+    {
+      "receipt": "corpus/evidence/round77/rerun-routed-open.txt",
+      "tool": "plans/routed_open.py",
+      "mode": "plain",
+      "argv": [
+        "--lane",
+        "."
+      ]
+    }
+  ],
+  "retag": [
+    {
+      "receipt": "corpus/evidence/round77/c1-before.txt",
+      "tip": "07c97fcd2fcca74f72df1d3c6b9dfe662fd75b59",
+      "tool": "plans/round77_c1_declared_surfaces.py",
+      "command": "python3 plans/round77_c1_declared_surfaces.py --lane . --rev 07c97fcd"
+    },
+    {
+      "receipt": "corpus/evidence/round77/c2-before.txt",
+      "tip": "07c97fcd2fcca74f72df1d3c6b9dfe662fd75b59",
+      "tool": "plans/round77_c2_defect_discharge.py",
+      "command": "python3 plans/round77_c2_defect_discharge.py --lane . --rev 07c97fcd"
+    },
+    {
+      "receipt": "corpus/evidence/round77/exec-attrib-calibration.txt",
+      "tip": "07c97fcd2fcca74f72df1d3c6b9dfe662fd75b59",
+      "tool": "plans/attrib_calibration.py",
+      "command": "python3 plans/attrib_calibration.py --summary; python3 plans/attrib_calibration.py --selftest",
+      "worktree": "dirty"
+    },
+    {
+      "receipt": "corpus/evidence/round77/exec-state-check.txt",
+      "tip": "07c97fcd2fcca74f72df1d3c6b9dfe662fd75b59",
+      "tool": "plans/state_check.py",
+      "command": "python3 plans/state_check.py --summary; python3 plans/state_check.py --selftest",
+      "worktree": "dirty"
+    }
+  ]
+}
