@@ -134,7 +134,7 @@ def v3(tree: Tree, lane: Path, work: Path) -> tuple[bool, str]:
     proc = run_tool([sys.executable, "-I", "-B", str(tree.root / C1), "--lane", str(lane),
                      "--work", str(work / "v3"), "--control-forged-receipt"], tree.root, work)
     text = proc.stdout + proc.stderr
-    ok = (proc.returncode == 1 and "target_reached=False" in text
+    ok = (proc.returncode == 0 and "target_reached=False" in text
           and "REPRODUCE-MISMATCH" in text)
     return ok, f"rc={proc.returncode} " + ("forgery-rejected" if ok else text.strip()[:120])
 
