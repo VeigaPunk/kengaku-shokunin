@@ -1,0 +1,108 @@
+SourceR84 — scoped report
+Round 84 (kengaku), wave w1, seat SourceR84 (scribe). Access date 2026-11-04.
+Lane root: /home/vgpnk/Projects/shokunin/kengaku-shokunin
+Frozen claims read in full: plans/round-84-claims.md (freeze b12a9d46806cb8d69fe48fac0f4efff0b266e4c2, base 4087b2f8369fb0c317a8460725a607681ff2fd7f). No frozen element edited.
+
+=====================================================================
+STEP 1 — fetch the pinned gcode-to-text grader, hash it, compare with the BASE capture
+=====================================================================
+URL (exactly as assigned):
+https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/gcode-to-text/tests/test_outputs.py
+
+RESULT: HTTP 200; 644 bytes; sha256
+  6b049dc626aa103b20d165552e5cb39ba02c6803b04ba06a43d79435b5f701a6
+Required pin: 6b049dc626aa103b20d165552e5cb39ba02c6803b04ba06a43d79435b5f701a6 — MATCH (full value equal, byte count equal).
+cmp against corpus/evidence/round52/graders/gcode-to-text/tests/test_outputs.py -> exit 0 (byte-identical, no difference to record).
+The BASE capture file itself hashes to the same sha256 and is 644 B / 19 lines.
+An independent second fetch of the same URL returned HTTP 200, 644 B, the same sha256, and cmp exit 0 against the first fetch.
+STATUS: PASS. The files differ nowhere, so no blocked stop applies and the row may be drafted.
+
+Full command transcript with statuses: .ufo/waves/round-84/w1/SourceR84/fetch.txt
+
+=====================================================================
+STEP 2 — located quote (exactly one, <=25 words) and the two test-function line numbers
+=====================================================================
+Located quote, line 17 (the candidate named by the assignment):
+    assert hello_path.read_text().strip() == "flag{gc0d3_iz_ch4LLenGiNg}", (
+Whitespace-split word count of that line: 5
+  tokens: ['assert', 'hello_path.read_text().strip()', '==', '"flag{gc0d3_iz_ch4LLenGiNg}",', '(']
+  (mechanically derived with len(line.split()) on the fetched bytes; 5 <= 25.)
+Quote verified as a substring of line 17 of the fetched bytes and of the BASE capture.
+
+Test-function line numbers (1-based, from the fetched bytes):
+  def test_hello_file_exists  -> line 6
+  def test_hello_file_content -> line 13
+Related body lines: presence assert at :10; Path("/app/out.txt") at :8 and :15; content assert at :17-19.
+File is 19 lines; the grader body therefore spans :6-19.
+
+=====================================================================
+STEP 3 — S271 row draft (11-column schema copied from the S267 row)
+=====================================================================
+Written to: .ufo/waves/round-84/w1/SourceR84/S271-row.md
+- Schema: 11 cells, verified by splitting the row on "|" -> 11 cells; no literal pipe character inside any cell (verified programmatically).
+- id S271; kind code; tier A; status mined; opened 2026-11-04; recheck 2027-01-18 (same cadence as the other rows opened 2026-11-04).
+- scope: "member replay only — pinned grader acceptance semantics; not a solved-task, model or image claim" (the assignment's scope wording, verbatim).
+- anchor: test_outputs.py:6-19; the :17 quote with the 5-word count; accessed 2026-11-04; live 644 B and the sha256 that equals the BASE capture.
+- teaches: the two function line numbers, the presence assert at :10, the read at :15, the exact stripped equality at :17-19, that strip() forgives only surrounding whitespace, and that matching output bytes are not a solved task.
+- used-by: corpus/lessons/round-84.md.
+- id S271 is the next unused id: the registry's highest id is S270 (S235 was never used).
+- The row is a draft only. corpus/SOURCES.md was not edited by this seat.
+
+=====================================================================
+STEP 4 — round-84 lesson Gate row draft
+=====================================================================
+Written to: .ufo/waves/round-84/w1/SourceR84/gate-row.md
+- Same 5-column table shape as corpus/lessons/round-83.md's Gate table (id and decision | URL or own-work location | access date | located quote | reason / flip), verified cell-count 5 on every row of the draft.
+- Row: S271 admit, A for pinned grader acceptance semantics (member replay only); full URL; access date 2026-11-04; :17 quote with the 5-word count; reason stating that the pinned grader supplies the acceptance rule for both legs and does not prove a solved task, plus an explicit flip condition.
+- corpus/lessons/round-84.md does not exist yet at this revision (ABSENT — path corpus/lessons/round-84.md); the L1 installs the lesson and this row.
+
+=====================================================================
+STEP 5 — fetch transcript
+=====================================================================
+Written to: .ufo/waves/round-84/w1/SourceR84/fetch.txt (command, HTTP status, byte count, sha256, cmp exit codes, pin check, quote/line derivation).
+The fetch wrote only into $TMPDIR (private scratch); no byte of it was written into the lane tree outside the transcript file.
+
+=====================================================================
+FINDINGS
+=====================================================================
+F1 (mine, in scope) — The pinned grader at 2fd12b88 is reachable, 644 B, and byte-identical to the round-52 capture the C1 claim pins. The candidate quote is at :17 with 5 whitespace-split words; the two test functions are at :6 and :13. Nothing about the source blocks the row.
+
+F2 (mine, in scope) — The grader's acceptance rule is exact stripped equality against a fixed flag string. strip() forgives only surrounding whitespace, so the frozen C1 case vector "padded" (leading/trailing whitespace around the exact flag) must be observed as P/P by any instrument that reproduces the grader's own semantics, while "uppercase", "suffix", "prefix-only" and "wrong-flag" must be P/F. The source supports the frozen case table; it does not independently prove it, and this seat did not run the C1 probe or counter.
+
+F3 (not mine to fix; flagged for the L1, calibration axis) — The R84-C2 Q13 leg names a specific checker: `plans/gate_timing_check.py --lesson corpus/lessons/round-84.md --commit REV`, exit 0. Read-only inspection of that checker plus two throwaway fixtures shows two structural conditions the round-84 tree must satisfy, neither of which the round-84 wave layout currently provides:
+   (a) The checker only parses Gate tables whose header cells contain candidate/decision/reason. The round-83 Gate shape (id and decision | URL or own-work location | access date | located quote | reason / flip) yields zero parsed admissions. Confirmed on the real lane: `python3 plans/gate_timing_check.py --lesson corpus/lessons/round-83.md --commit 5beac9c4` prints "FAIL: no admit rows in ## Gate" and exits 1. So the round-84 lesson needs a candidate/decision/reason table for its knowledge-entry re-admission, alongside (not instead of) the round-83-shaped source table.
+   (b) The checker only accepts a cited report that lives in a directory it recognises as a second wave: is_second_wave() matches exactly "falsify" or wave[-_ ]?0*2. The round-84 wave directory is "w1", which is not matched. Fixture result: a Gate cell citing .ufo/waves/round-84/w1/ReviewerR84.md gives FAIL / exit 1 with "no cited, existing, returned second-seat report for this round"; the same lesson with the report moved to .ufo/waves/round-84/falsify/ReviewerR84.md plus a falsify/swarm-registry.json gives PASS / exit 0. The registry loader also reads swarm-registry.json only from second-wave directories, so the round-84 w1/swarm-registry.json roles are invisible to this checker.
+   Two further conditions from the same checker, for whoever writes the lesson: the candidate knowledge entry must carry a committed `writer:` line (corpus/knowledge/tb2-code-from-image-offline.md currently has none, so writer-based self-review exclusion cannot be evaluated), and the cited report must name the candidate path and contain a line starting with "VERDICT:".
+   No frozen claim text was changed. This seat proposes nothing and edits nothing here; the C2 counter and lesson are the L1's and the C2 seats' surfaces.
+
+F4 (scope note) — This seat's own report cannot serve as the Q13 second-seat re-read: the checker rejects a seat whose committed role is not reviewer/scout/critic/sentinel/revenger (scribe is excluded), and its report would sit in the w1 directory described in F3(b).
+
+=====================================================================
+COMMANDS RUN (all read-only except writes into my own output dir and scratch)
+=====================================================================
+1. curl -sS -o $TMPDIR/fetched_test_outputs.py -w 'HTTP_STATUS=... BYTES=... URL=...' <pinned gcode-to-text URL>   -> HTTP 200, 644 B, exit 0
+2. sha256sum $TMPDIR/fetched_test_outputs.py   -> 6b049dc626aa103b20d165552e5cb39ba02c6803b04ba06a43d79435b5f701a6
+3. cmp $TMPDIR/fetched_test_outputs.py corpus/evidence/round52/graders/gcode-to-text/tests/test_outputs.py   -> exit 0
+4. sha256sum + wc -c -l on the BASE capture   -> same sha256, 644 B, 19 lines
+5. second independent curl of the same URL; sha256sum; cmp against the first fetch   -> HTTP 200, same sha256, cmp exit 0
+6. python3 (stdlib) over the fetched bytes: located the two `def test_` lines, the :17 quote, len(line.split()) = 5, line count
+7. curl -sS -o $TMPDIR/instr.md <pinned gcode-to-text instruction.md>   -> HTTP 200, 216 B (context only; not used as a row anchor)
+8. python3 plans/anchor_line_check.py --lane .   -> exit 0, live=0 (no new defect introduced by the drafted row shape; the drafted anchor uses S267's backtick-quote convention, which this checker does not parse, so it is reported uncited exactly like S265-S270)
+9. python3 plans/gate_timing_check.py --lesson corpus/lessons/round-83.md --commit 5beac9c4   -> exit 1, "no admit rows in ## Gate" (evidence for F3(a))
+10. python3 - (stdlib, imports plans/gate_timing_check.py and plans/anchor_line_check.py as modules) -> is_second_wave('w1')=False, is_second_wave('falsify')=True, is_second_wave('wave-2')=True; row_defects() on the drafted S271 anchor -> (False, None, []) i.e. no defect; parse_gate_admissions on the round-83 header shape -> 0 admissions
+11. two throwaway fixture repos (git init -q in a mktemp -d under scratch; `git rev-parse --show-toplevel` asserted equal to the fixture dir before the first commit; throwaway identity used only there) run against plans/gate_timing_check.py:
+    w1 layout  -> FAIL / exit 1 / second-seat-reports=0
+    falsify layout -> PASS / exit 0 / second-seat-reports=1
+12. git -C <lane> log/show/diff-style read-only queries (log --oneline -1 for the capture file, log for corpus/lessons/round-83.md, rev-parse HEAD)
+
+EXIT CODES: 1=0, 2=0, 3=0, 4=0, 5=0, 6=0, 7=0, 8=0, 9=1 (expected FAIL of the round-83 lesson under the Q13 checker — the point of F3(a)), 10=0, 11a=1 / 11b=0 (expected, both are the two fixture branches of F3(b)), 12=0.
+
+TOOLS: none installed or upgraded. Host versions observed: curl 8.23.0, Python 3.14.8, OpenSSL 3.6.5, git 2.56.0. No pacman transaction, no service restart, no config change, no ~/.omp or ~/.local/bin edit.
+
+TOUCHED SURFACES (all inside my own seat directory; nothing else in the tree was written):
+  .ufo/waves/round-84/w1/SourceR84/S271-row.md
+  .ufo/waves/round-84/w1/SourceR84/gate-row.md
+  .ufo/waves/round-84/w1/SourceR84/fetch.txt
+  .ufo/waves/round-84/w1/SourceR84/report.txt
+  .ufo/waves/round-84/w1/SourceR84.md
+Private scratch $HYAKU_SCRATCH/kengaku-r84/SourceR84 was created with mkdir -p, used as TMPDIR, and removed at shell exit (trap 'rm -rf -- "$S"' EXIT); nothing needed from it was left behind. No clone or worktree was created. No git mutation (no add/commit/stash/checkout/switch/reset/pull/push) and no mutating jj command was run in the lane or the fleet root; the only commits are in the throwaway scratch fixtures. No build, lint or general test suite was run; no production file, MANIFEST.json, .ufo/state, watchdog log, template, script, sibling lane or domain tree was modified. corpus/SOURCES.md, corpus/lessons/round-83.md, corpus/knowledge/*, plans/* and the frozen claims file are byte-unchanged by this seat.

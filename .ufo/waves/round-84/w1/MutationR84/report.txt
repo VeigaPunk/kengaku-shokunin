@@ -1,0 +1,117 @@
+role: mutation-tester
+seat: MutationR84
+wave: round-84, w1 (leaf; no subagents dispatched)
+base revision: 4087b2f8369fb0c317a8460725a607681ff2fd7f
+frozen claims: b12a9d46806cb8d69fe48fac0f4efff0b266e4c2 (plans/round-84-claims.md) — predicate, target, case table, control set and kill rule untouched
+lane: /home/vgpnk/Projects/shokunin/kengaku-shokunin
+seat dir: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84
+
+killed=8 of 8
+  entry mutants m1..m7: 7/7 killed
+  instrument mutant m8 (always-true detector): killed by the BASE-sensitivity gate
+survivors: none
+
+scope: the two admission-bar rules R84-C2 states for corpus/knowledge/tb2-code-from-image-offline.md, Q1 and Q21, on the
+frozen BASE bytes. Q13 is not in this seat: it needs the round-84 Gate and is measured by the L1's C2 counter.
+
+method (all in the seat dir; production files untouched)
+  entry bytes     entry-base.md = `git -C <lane> show 4087b2f8:corpus/knowledge/tb2-code-from-image-offline.md`
+                  sha256 fc42c76cb5a05c131a5fec4d2aa3e441d9627841d130a54d1b616f2042675271, 2854 bytes
+  instrument      rules.py        sha256 44df925a7894656a63827eb6e8e8aab953b60fb966415013ad3383c28aadf297
+                  (Q1/Q21 only; operationalisation decisions D1–D7 documented in its module docstring)
+  instrument m8   rules_m8_always_true.py sha256 1d3df511ee30888a21ed5bc47ea4fabf5d6e96972ababac76f88856a47542e82
+  fixtures        mkfixtures.py   sha256 ff007cbfe8d9342bd69dad77fb40d027b70c562c59d072491e24518d5b84ac24
+                  14 fixtures, manifest fixtures/fixtures.json pins every sha256 and expected failing rules
+  driver          battery.py      sha256 b0558baf713aae14af4f2fa5405b8178971b928da403653cead02a3170ed881d
+  transcripts     runs.txt        50 invocations, each with command, full output and exit code
+  kill table      mutants.md
+
+kill criterion, fixed before running
+  entry mutant KILLED  iff observed failing-rule set == expected set, exit code 1 (0 for green fixtures), and its bytes
+                       differ from the green fixture (a no-op mutation is not a kill)
+  SURVIVED             iff an expected rule did not fire (rule gap)
+  OVERFIRED            iff killed and an unexpected rule also fired
+  m8 KILLED            iff it reports BASE green (C2 kill rule: a base-insensitive check fails the claim)
+
+measured result
+  BASE bytes        q1=fail[timing] q21=fail  DEFECTS=2  exit 1   (frozen before-state q1=1 q21=1: reproduced exactly)
+  repaired fixture  q1=pass q21=pass          DEFECTS=0  exit 0   (date + command + the pin its source: line cites)
+  m1 date removed from recheck                     -> q1=fail[timing] q21=pass  exit 1  KILLED
+  m2 pin removed from recheck                      -> q1=pass q21=fail           exit 1  KILLED
+  m3 recheck = `monthly re-verify`                 -> q1=fail[action] q21=fail   exit 1  KILLED
+  m4 recheck moved to line 4                       -> q1=fail[order]  q21=pass   exit 1  KILLED
+  m5 recheck pin one hex digit off source pin      -> q1=pass q21=fail           exit 1  KILLED
+  m6 `recheck: 2027-05-01` (date only)             -> q1=fail[action] q21=fail   exit 1  KILLED
+  m7 recheck names the 7-char pin prefix           -> q1=pass q21=fail           exit 1  KILLED
+  m8 always-true instrument on BASE                -> q1=pass q21=pass           exit 0  KILLED (base-insensitive)
+  controls  N1 `re-pin when needed` -> q21 red; N2 source has only a 64-hex sha256 -> q21 red; N3 pin inside a 41-hex
+            run -> q21 red; N4 calendar-invalid 2027-02-31 -> q1 timing red; N5 source carries two 40-hex pins and
+            recheck names the second -> q21 red; P1 re-pin cadence with no pin named -> green. 6/6 as required.
+  body invariant  every fixture's lines after its header are byte-identical to BASE: ok
+  selftest        cases=25 failures=0 exit 0
+
+findings
+  F1 coverage — each frozen clause has an isolating mutant: Q1 timing (m1), Q1 action (m3), Q1 order (m4); Q21 pin
+     presence and boundary (N2, N3), Q21 naming (m2, m5, m7), Q21 re-pin branch (P1 positive, N1 negative). No rule
+     clause in Q1/Q21 is exercised only through a second clause's failure.
+  F2 calibration — the instrument reproduces the frozen before-state (q1=1 q21=1) on the frozen bytes and is green on a
+     fixture that satisfies both rules, so it is both base-sensitive and satisfiable. It is not stricter than the claim
+     on the entry it was built for.
+  F3 rule gap, under-specified — Q21 says "a 40-hex commit pin" (singular). When `source:` carries two 40-hex pins the
+     frozen text does not say which the recheck must name. D4 takes the first; N5 (recheck names the second) therefore
+     fires Q21. Minimal example: source cites `2fd12b88…66d6` and `aaaa…aaaa`, recheck names `aaaa…aaaa`. If the C2
+     counter reads "any pin on the source line", N5 flips to green. The counter should state its reading; the claim text
+     is not edited here.
+  F4 rule gap, undefined term — "the re-pin cadence" has no frozen vocabulary. N1 (`re-pin when needed`) fires under my
+     cadence list and would pass under a looser reading ("any re-pin mention"). Minimal example: `recheck: 2027-05-01 —
+     re-pin when needed; python3 plans/round83_c1_replay.py --lane . --work DIR`. The C2 counter should name its cadence
+     vocabulary, otherwise a green/red result here is a property of the counter, not of the entry.
+  F5 limit, not a defect — the frozen Q1 does not require the recheck date to post-date `verified-at:`. A past date
+     (e.g. 2026-01-01) passes. Nothing in this battery probes it because it is not a requirement; recorded so the green
+     repaired fixture is not read as freshness enforcement. Adding such a requirement would be a new rule, not Q1.
+  F6 boundary works — the entry's `verified-at` line carries a 64-hex subject sha256, so the 40-hex pin clause must not
+     read a digest. N2 (source reduced to the 64-hex sha, no pin) and N3 (the pin inside a 41-hex run) both fire Q21,
+     i.e. the hex-boundary requirement is load-bearing and the instrument is not satisfiable by a digest.
+  F7 counter design note — with `recheck:` at line 4 (m4), Q1 fires on order while Q21 still passes, because Q21 locates
+     the line by label, not by index. A C2 counter that reads line 3 for Q21 would count two defects for one edit and its
+     `q1=… q21=…` tallies would stop being comparable with the frozen `q1=1 q21=1 q13=1` before-state. Label lookup is
+     the safe reading of "its `recheck:` line".
+  F8 no claim — the mutant fixture bytes are probes, not a proposed production repair. The real repair of the entry is the
+     L1's dated paragraph; `fixtures/repaired.md` exists only to prove the rules can be satisfied.
+  F9 provenance note — the round-83 Gate row (S267, corpus/lessons/round-83.md) cites the same pin
+     2fd12b88aafdd04a52c298e3940bcb189f9766d6 that the entry's `source:` line carries, so the entry's pin is traceable to
+     an admitted Gate row at BASE. Q21 as frozen checks only that `recheck:` names that pin; Gate provenance is the
+     Gate/Q13 side and stays with the L1. No mutant probes provenance, because Q21 does not require it.
+
+no-claim / limits
+  One entry (BASE) and its 14 fixtures. These rules are not a general admission checker, and nothing here scores R84-C1,
+  the population ledger, or any other corpus member. No production file, manifest, state directory or domain tree was
+  written; no git/jj mutation; no pacman (host-wide pause); no tool installed.
+
+files
+  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/report.txt
+  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/mutants.md
+  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/mutants-preamble.md
+  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/runs.txt
+  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/rules.py
+  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/rules_m8_always_true.py
+  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/mkfixtures.py
+  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/battery.py
+  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/entry-base.md
+  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/*.md (14)
+  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/fixtures.json
+  /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84.md (scoped findings)
+
+commands_run and exit codes
+  git -C <lane> rev-parse HEAD                                   exit 0
+  git -C <lane> cat-file -t 4087b2f8…                            exit 0
+  git -C <lane> show 4087b2f8:corpus/knowledge/tb2-code-from-image-offline.md    exit 0
+  git -C <lane> show 4087b2f8:corpus/lessons/round-83.md         exit 0
+  git -C <lane> ls-tree --name-only HEAD plans/                  exit 0
+  python3 rules.py --selftest                                     exit 0  (25 cases, 0 failures)
+  python3 rules.py entry-base.md                                  exit 1  (BASE is red: q1, q21)
+  python3 battery.py                                              exit 0  (phases A–F, 50 invocations; every fixture run
+                                                                          and exit code recorded in runs.txt)
+  sha256sum rules.py rules_m8_always_true.py mkfixtures.py battery.py entry-base.md   exit 0
+
+tools installed or upgraded: none (host python3 3.14.8 used as installed)

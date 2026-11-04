@@ -1,0 +1,32 @@
+
+=== w1 citation (.md, w1 registry) === exit=1
+  FAIL line 7 Gate admit: candidate='corpus/knowledge/tb2-code-from-image-offline.md'
+    cell[reason]: re-read by `.ufo/waves/round-84/w1/ReviewerW1.md`
+    cited seat-report paths: '.ufo/waves/round-84/w1/ReviewerW1.md'
+    missing: no .ufo/waves/round-84/falsify/ report exists in commit 19eb9fae448ea4fcae1ae0cc6833522ad5eeeabc
+    reasons: no cited, existing, returned second-seat report for this round
+  gate_timing_check: commit=19eb9fae448ea4fcae1ae0cc6833522ad5eeeabc lesson=corpus/lessons/round-84.md admissions=1 passed=0 failed=1 second-seat-reports=0
+
+=== falsify citation + falsify registry === exit=0
+  PASS line 7 Gate admit: candidate='corpus/knowledge/tb2-code-from-image-offline.md'
+    cited seat-report paths: '.ufo/waves/round-84/falsify/ReviewerF.md'
+    existing returned second-seat report(s): .ufo/waves/round-84/falsify/ReviewerF.md
+  gate_timing_check: commit=99b1daf7a3c54d5ad3fdaffd8911831ac3a0e4f7 lesson=corpus/lessons/round-84.md admissions=1 passed=1 failed=0 second-seat-reports=1
+
+=== falsify citation, registry absent === exit=1
+  FAIL line 7 Gate admit: candidate='corpus/knowledge/tb2-code-from-image-offline.md'
+    cell[reason]: re-read by `.ufo/waves/round-84/falsify/ReviewerF.md`
+    cited seat-report paths: '.ufo/waves/round-84/falsify/ReviewerF.md'
+    invalid cited second-seat report: .ufo/waves/round-84/falsify/ReviewerF.md (seat is not in the committed wave registry)
+    missing: Gate does not name a valid second-seat report by path; the commit has 1 second-seat report(s)
+    reasons: no cited, existing, returned second-seat report for this round; one or more cited second-seat reports fail identity/return checks
+  gate_timing_check: commit=889015be4ae02d4faf6d21425ecd49c26f81e3f2 lesson=corpus/lessons/round-84.md admissions=1 passed=0 failed=1 second-seat-reports=1
+
+=== w1 report.txt citation === exit=1
+  FAIL line 7 Gate admit: candidate='corpus/knowledge/tb2-code-from-image-offline.md'
+    cell[reason]: re-read by `.ufo/waves/round-84/w1/ReviewerW1/report.txt`
+    cited seat-report paths: none
+    missing: Gate does not name a valid second-seat report by path; the commit has 1 second-seat report(s)
+    reasons: no cited, existing, returned second-seat report for this round
+  gate_timing_check: commit=a1b2856e132987281bd7bdcac1ee89f0de2995c2 lesson=corpus/lessons/round-84.md admissions=1 passed=0 failed=1 second-seat-reports=1
+exit=0

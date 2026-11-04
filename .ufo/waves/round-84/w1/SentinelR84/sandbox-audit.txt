@@ -1,0 +1,34 @@
+HOST netns=4026531833
+BASELINE module=/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round83_code_image_probe.py bwrap=/usr/bin/bwrap
+VARIANT baseline-vector rc=0 stderr=''
+VECTOR ["/usr/bin/bwrap", "--unshare-all", "--die-with-parent", "--new-session", "--ro-bind", "/usr", "/usr", "--ro-bind", "/etc", "/etc", "--symlink", "usr/bin", "/bin", "--symlink", "usr/bin", "/sbin", "--symlink", "usr/lib", "/lib", "--symlink", "usr/lib", "/lib64", "--proc", "/proc", "--dev", "/dev", "--bind", "/fast/scratch/hyaku/kengaku-r84/SentinelR84/audit/diag/app", "/app", "--dir", "/tests", "--ro-bind", "/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round52/graders/gcode-to-text/tests/test_outputs.py", "/tests/test_outputs.py", "--ro-bind", "/fast/scratch/hyaku/kengaku-r84/SentinelR84/audit/diag/harness.py", "/harness.py", "--clearenv", "--setenv", "PATH", "/usr/bin", "--setenv", "LANG", "C.UTF-8", "--setenv", "LC_ALL", "C.UTF-8", "--chdir", "/app", "/usr/bin/python3", "-I", "-B", "/harness.py"]
+OBS uid = 1000
+OBS env = {"PATH": "/usr/bin", "LANG": "C.UTF-8", "LC_ALL": "C.UTF-8", "PWD": "/app"}
+OBS ns = {"net": 4026533568, "pid": 4026533561, "user": 4026533752, "mnt": 4026533447}
+OBS host_visible = {"/home": false, "/tmp": false, "/root": false, "/sys": false, "/var": false, "/home/vgpnk/.ssh": false, "/home/vgpnk/.omp": false, "/home/vgpnk/.config": false}
+OBS root = ["app", "bin", "dev", "etc", "harness.py", "lib", "lib64", "proc", "sbin", "tests", "usr"]
+OBS app = []
+OBS write_app = "ok"
+OBS write_tests = "ok"
+OBS unlink_tests_file = "OSError:[Errno 16] Device or resource busy: '/tests/test_outputs.py'"
+OBS write_usr = "OSError:[Errno 30] Read-only file system: '/usr/planted'"
+OBS write_etc = "OSError:[Errno 30] Read-only file system: '/etc/planted'"
+OBS write_root = "ok"
+OBS write_tmp = "FileNotFoundError:[Errno 2] No such file or directory: '/tmp/planted'"
+OBS nested_userns = {"rc": 0, "err": ""}
+OBS nested_userns_mount = {"rc": 0, "err": ""}
+OBS net = "OSError:[Errno 101] Network is unreachable"
+OBS caps = ["CapEff:\t0000000000000000", "NoNewPrivs:\t1", "Seccomp:\t0"]
+OBS netns_unshared = True
+MOUNT 575 571 0:30 /@/usr /usr ro,nosuid,nodev,noatime master:1 - btrfs /dev/mapper/root rw,compress=zstd:3,ssd,discard=async,space_cache=v2,subvolid=256,subvol=/@
+MOUNT 576 571 0:30 /@/etc /etc ro,nosuid,nodev,noatime master:1 - btrfs /dev/mapper/root rw,compress=zstd:3,ssd,discard=async,space_cache=v2,subvolid=256,subvol=/@
+MOUNT 592 571 259:2 /scratch/hyaku/kengaku-r84/SentinelR84/audit/diag/app /app rw,nosuid,nodev,noatime master:213 - xfs /dev/nvme1n1p2 rw,inode64,logbufs=8,logbsize=256k,noquota
+MOUNT 593 571 0:30 /@home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round52/graders/gcode-to-text/tests/test_outputs.py /tests/test_outputs.py ro,nosuid,nodev,noatime master:183 - btrfs /dev/mapper/root rw,compress=zstd:3,ssd,disca
+SUBJECT baseline-vector rc=0 stderr='' legs=["P", "P"]
+FIX ro-tests rc=0 stderr=''
+FIX ro-tests write_tests = "OSError:[Errno 30] Read-only file system: '/tests/planted.py'"
+FIX ro-tests unlink_tests_file = "OSError:[Errno 30] Read-only file system: '/tests/test_outputs.py'"
+FIX ro-tests-subject rc=0 stderr='' legs=["P", "P"]
+FIX disable-userns rc=0 stderr=''
+FIX disable-userns nested_userns = {"rc": 1, "err": "unshare: unshare failed: No space left on device"}
+FIX disable-userns nested_userns_mount = {"rc": 1, "err": "unshare: unshare failed: No space left on device"}

@@ -1,0 +1,140 @@
+R84-C1 counter — seat CounterR84 (leaf)
+claim      R84-C1 coverage, second offline replay, member gcode-to-text
+base       4087b2f8369fb0c317a8460725a607681ff2fd7f (round-83 closure tip)
+freeze     b12a9d46806cb8d69fe48fac0f4efff0b266e4c2 (claims)
+contract   .ufo/waves/round-84/w1/CounterR84/round84_c1_replay.py
+derived    from plans/round83_c1_replay.py (same structure, method and verdict grammar)
+
+Deliverable (draft; the L1 installs it at plans/round84_c1_replay.py)
+  ea8cfdda495959b5ceeac52ca2e2a8581562c89c7edacfba9cc9ae0670bb61ee  round84_c1_replay.py
+
+Constants: MEMBER gcode-to-text; BASE_REV 4087b2f8…; FREEZE_REV b12a9d46…;
+LEDGER plans/grader-population-ledger.json; TABLE plans/round84-cases.json;
+TOOL plans/round84_gcode_probe.py; CAPTURE corpus/evidence/round52/graders/gcode-to-text/
+tests/test_outputs.py; RECEIPT corpus/evidence/round84/gcode-to-text-probe.txt;
+LEDGER_ROUND 84; LEDGER_SUBJECT tb2-header; HEADER "# tb2 gcode-to-text grader probe";
+SUBJECT_PREFIX 6b049dc626aa103b (a production tree whose BASE ledger evidence prefix
+differs from it is a SETUP refusal, never a fail);
+TRUSTED_TOOL_SHA read at run time from .ufo/waves/round-84/w1/ProbeR84/
+round84_gcode_probe.py (absent → exit 2, `DEFECT SETUP trusted tool draft absent: <path>`).
+
+Modes run in scratch ($S=/fast/scratch/hyaku/kengaku-r84/CounterR84; the lane copy is a
+`git clone --shared --no-checkout` of the lane, toplevel verified, BASE object present)
+  mode                          command                                                          exit  transcript
+  production BASE               --lane $S/lane --rev 4087b2f8… --work $S/work                       1  before-base.txt
+  selftest                      --selftest --work $S/work                                           0  selftest.txt
+  mutants                       --mutants --work $S/work                                            0  mutants.txt
+  control do-nothing            --control-do-nothing --work $S/work                                  0  control-do-nothing.txt
+  control ledger-only           --control-ledger-only --work $S/work                                 0  control-ledger-only.txt
+  control fabricated-observ.    --control-fabricated-observations --work $S/work                      0  control-fabricated-observations.txt
+  green fixture lane (worktree) --lane $S/green --work $S/work                                        0  green-fixture-lane.txt
+  green fixture lane (--rev)    --lane $S/green --rev 779f6fb7… --work $S/work                        0  rev-head-green.txt
+  trust pin absent              --lane $S/green --work $S/work  (draft removed)                      2  setup-missing-tool-draft.txt
+
+BASE verdict (before-base.txt; exit 1)
+  UNIVERSE ledger=plans/grader-population-ledger.json@4087b2f8369f members=1 gcode-to-text table=plans/round84-cases.json@claims tool=plans/round84_gcode_probe.py
+  DEFECTS n=34
+  TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects=34
+  PREDICATE R84-C1 fail
+  (the frozen before-state asks defects=>=1 and this shape; no receipt, no table, no tool,
+  no CASE observations, base ledger row unexecuted)
+
+After-state shape (green fixture lane, scratch-only; not production evidence)
+  REPRODUCE gcode-to-text tool=plans/round84_gcode_probe.py rc=0 matched=yes
+  RECEIPT gcode-to-text path=corpus/evidence/round84/gcode-to-text-probe.txt subject=tb2-header verdict=predicate located=1
+  LEDGER row=gcode-to-text status=executed round=84
+  DEFECTS n=0
+  TARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=0
+  PREDICATE R84-C1 pass            (exit 0; identical under worktree and --rev modes)
+
+Selftest: SELFTEST cases=30 red=29 failures=0 (exit 0). Required cases present: green,
+missing-receipt, wrong-subject, wrong-tool, wrong-table, wrong-vector, missing-case,
+ledger-row-not-executed, wrong-round; plus wrong-subject-capture/-bytes, wrong-tool-bytes,
+wrong-table-bytes/-vectors, wrong-ledger-{status,subject,verdict,receipt}, stamp-missing,
+exit-nonzero, worktree-dirty, command-mismatch, subject-header-wrong, tip-invalid,
+block-foreign, summary-lie, predicate-fail, foreign-member-name, base-evidence-prefix,
+fresh-run-divergence. The green case is the only pass; every red case carries its expected
+finding code.
+
+Mutants: MUTANTS real=16 killed=16 survived=0 (exit 0). Each mutant corrupts copies of the
+measured data and exits 1 with its finding-specific code: LEDGER-ROUND, MISMATCH-COUNT,
+SUBJECT-SHA-MISMATCH, STAMP-MISSING(+HOST-FORMAT), EXIT-NONZERO, COMMAND-MISMATCH,
+MISMATCH-COUNT+SUMMARY-MISMATCH (fabricated all-pass), CASE-COUNT+CASE-ORDER,
+TABLE-SHA-MISMATCH+TABLE-UNREADABLE, TABLE-CLAIMS-MISMATCH (retuned vector re-pinned to the
+corrupted table), TOOL-SHA-MISMATCH, LEDGER-RECEIPT, LANE-TIP-INVALID,
+RECEIPT-MEMBER-COUNT+BLOCK-FOREIGN, SUBJECT-HEADER, REPRODUCTION-MISMATCH.
+
+Controls (all exit 0 as "rejected", each prints target_reached=False)
+  do-nothing               no receipt at the revision, ledger row unexecuted
+                           codes RECEIPT-UNTRACKED, LEDGER-NOT-EXECUTED; reached False
+  ledger-only              executed flag, absent receipt; RECEIPT-UNTRACKED; reached False
+  fabricated-observations  complete stamp, wrong CASE vectors (all P/P); mismatches=6,
+                           MISMATCH-COUNT+SUMMARY-MISMATCH; reached False
+
+Files written under this directory (sha256)
+  253f154377d3fccf96f2ba1153716095f2042afe4165491490f7032544b8bb7c  round84_c1_replay.py
+  9344c48cc90041a5d7be65b866ace63bf23f642fee41f0227dc910250e7396a7  before-base.txt
+  20765ecd1a8916eb008e8bbd6dc3d22b43155d0b4ca9d0630d60943fedd2afe5  selftest.txt
+  414c47af89bfbb7b97aad91088b1fa3cecb54afc3457d7fef10ae8afbd0ac4bf  mutants.txt
+  322114bac899452d74af33f986e4b3bff0a36b3c3a1f00cd46362ad3224be49d  control-do-nothing.txt
+  bbd953232e10f72dff19ce0c782bd50f6b01367094a6b38da4247374540711cd  control-ledger-only.txt
+  b053614ecfca3948f847355e5ea942f0d3d0ee9805e07b155ea6979326679e7e  control-fabricated-observations.txt
+  31ab5dc3eafa74287b54e1bd5a8ad2bd6b2e85464bbc3b0aaf045512d2c32365  green-fixture-lane.txt
+  31ab5dc3eafa74287b54e1bd5a8ad2bd6b2e85464bbc3b0aaf045512d2c32365  rev-head-green.txt
+  a9d20bf10c7366127592f957fd83dddcd79f685bd192a8aac30bc01c7d387c5f  setup-missing-tool-draft.txt
+  4ff15b1872cd11c1ce74fbad8cc9b82708c67d7eef287d6e70f47be5822a1558  probe-compat.txt
+  76fef306b99450b737b16a732ef3c70d8e6c9ca65d9d45a1b76e8fce4b1872d0  probe-receipt-grammar.txt
+  87906c92ba856827f8c3781cf60a110ddb8faea3d0680387829fd521f8d738b6  green_lane_build.py (fixture-only harness)
+  ae8c414a4be018aba72c996a507874879bc24fc81350b201169f3cbebcb4ed61  green-lane-facts.txt
+  (report.txt and ..md cannot carry their own digests)
+
+Probe receipt-body compatibility (ProbeR84's pre-commit mint, checked with this counter's
+own grammar; probe-receipt-grammar.txt): structure ok, line 1 is HEADER, all 12 stamp fields
+in order, no foreign block lines, 8 CASE lines, summary `cases=8 mismatches=0`, predicate
+`PREDICATE R84-PROBE pass`, verdict `predicate`, COMMAND matches the 6-token argv,
+TOOL_SHA 82f359e6… equals the final draft bytes, SUBJECT_SHA matches the frozen prefix, and
+the receipt block equals a fresh run of the final instrument. That body is rejected only by
+WORKTREE dirty and its pre-integration LANE_TIP, as its producer states; the L1 re-mints
+after the integration commit.
+
+Findings
+  F1 freeze tree lacks the table and tool. `git ls-tree b12a9d46 -- plans/` has no
+     round84-cases.json and no round84_gcode_probe.py. The counter therefore treats the
+     claims' eight vectors as the frozen authority (order and vectors re-derived in
+     CLAIMS_CASES, never trusted from the file) and byte-compares against the freeze tree
+     only when that tree carries the table. Consequence for the L1: install
+     plans/round84-cases.json byte-identical to ProbeR84's 5b86f8d7… (the probe itself pins
+     FROZEN_TABLE_SHA 5b86f8d7…); any other serialization makes the probe refuse.
+  F2 probe staging defect observed and independently attributed. At draft sha
+     ff2a2a9e… (18:39Z) run_case wrote $case/app/output.txt while the capture reads
+     /app/out.txt; a real replay of the draft printed observed=F/F for all eight cases,
+     `cases=8 mismatches=7`, `PREDICATE R84-PROBE fail`, exit 1 (probe-compat.txt records
+     the later, fixed run). ProbeR84 reports fixing it; the fixed bytes re-run at
+     82f359e6… give all eight vectors observed==predicted, exit 0. The counter re-runs
+     whatever bytes are tracked, so a receipt minted from the buggy sha cannot pass:
+     its observation block would read F/F and REPRODUCTION would agree with a fail, and
+     the claims require observed==predicted. The L1 must mint only after the fix.
+  F3 receipt header. The reviewed draft prints `# tb2 gcode-to-text grader probe` as
+     stdout line 1 (main(), before emit); the counter requires exactly that first line
+     (HEADER constant, round-83 grammar). A mint from probe stdout satisfies it.
+  F4 trust pin is read at run time from the draft. Its sha moved during the wave
+     (ff2a2a9e → 845f6ed8 → 82f359e6); the final installed plans/round84_gcode_probe.py
+     must be byte-identical to the final draft or the counter emits TOOL-UNTRUSTED.
+  F5 dirty-tree mint. ProbeR84's stamp records WORKTREE from `git status --porcelain`;
+     the pre-integration lane is dirty (untracked .ufo/waves/round-84/), so the receipt
+     must be minted after the integration commit on a clean tree. Its own pre-commit mint
+     (`.ufo/waves/round-84/w1/ProbeR84/gcode-to-text-probe.txt`) says `WORKTREE dirty` and
+     `LANE_TIP b12a9d46806b…`, where the table and tool do not exist; replayed through this
+     counter that body is otherwise fully conformant but would fail with WORKTREE-DIRTY,
+     TABLE-TIP-MISMATCH and TOOL-TIP-MISMATCH. Worktree-mode counter runs likewise reject a
+     dirty measured tree (MEASURED-TREE-DIRTY).
+  F6 the frozen claim's "table byte-equal at freeze" shape is unavailable because the
+     file postdates the freeze commit; the counter's semantic pin is the faithful reading
+     of the frozen vectors. This is reported, not edited (claim untouched).
+
+Blockers: none. The real-lane after-state run belongs to the L1 after installing the table,
+tool, receipt and ledger row; this seat's authority stops at the draft, the fixture green
+proof and the BASE red proof. The probe draft is owned by ProbeR84 and was still changing
+when this report was written; the counter accepts whatever final bytes are present.
+
+Tool installs/upgrades: none (python3 3.14.8, git, bwrap already present).

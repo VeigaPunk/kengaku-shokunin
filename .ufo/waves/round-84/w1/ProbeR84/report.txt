@@ -1,0 +1,139 @@
+# seat ProbeR84 — R84-C1 instrument (gcode-to-text offline probe)
+
+Status: ok. Tool and frozen table written; acceptance runs 1–4 complete. Final
+committed-receipt mint is the L1's, post-commit (pre-commit stamp is recorded below).
+Lane: /home/vgpnk/Projects/shokunin/kengaku-shokunin
+Lane tip at capture (git rev-parse master): b12a9d46806cb8d69fe48fac0f4efff0b266e4c2
+Frozen claims commit: b12a9d46806cb8d69fe48fac0f4efff0b266e4c2; base 4087b2f8369fb0c317a8460725a607681ff2fd7f
+Subject: corpus/evidence/round52/graders/gcode-to-text/tests/test_outputs.py
+Subject sha256: 6b049dc626aa103b20d165552e5cb39ba02c6803b04ba06a43d79435b5f701a6 (ledger pin prefix 6b049dc626aa103b) — verified at load
+
+## Files (absolute paths, sha256)
+
+- /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/ProbeR84/round84_gcode_probe.py
+  82f359e67840ec5ed876dc1904c0f69b158d2f1bc33278df3dfd64c51d528e75  17205 bytes (final tool)
+- /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/ProbeR84/round84-cases.json
+  5b86f8d7efc24a529b4c53a23c6a4ccaed51866428535e6f0fcb4dbf13982cb5  862 bytes (frozen table)
+- /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/ProbeR84/probe-run.txt
+  8f94cf92032c71ff0bee21a729f32b66e0eef18a703778396eada0ebcf6df5c1  (acceptance 1 stdout, exit 0)
+- /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/ProbeR84/probe-run.exit
+  9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa  (content "0")
+- /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/ProbeR84/probe-negative.txt
+  41c881939740120e10950ac64db4533662cb0fb24e568cc4325e23be822e886b  (acceptance 2 stdout, exit 1)
+- /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/ProbeR84/probe-negative.exit
+  4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865  (content "1")
+- /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/ProbeR84/gcode-to-text-probe.txt
+  8224f12e53b456ccdfacd49cb2b60895497a19f7f42d5bca304ebccfcb71fbda  (acceptance 3 receipt body, exit 0)
+- /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/ProbeR84/probe-selftest.txt
+  c12148fd0a358c5a5919acbe722b7e8901d2194f819cffb75deedb05d44c6f36  (13 checks, 0 failures)
+- /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/ProbeR84/report.txt (this file)
+- /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/ProbeR84.md (scoped findings summary)
+
+## Host
+
+- python3 -V: Python 3.14.8 (/usr/bin/python3)
+- openssl version: OpenSSL 3.6.5 29 Sep 2026 (Library: OpenSSL 3.6.5 29 Sep 2026)
+- bubblewrap 0.13.1 (/usr/bin/bwrap)
+- Installs/upgrades: none. No pacman transaction, no uv/npx/release install was needed or run.
+
+## Instrument
+
+`round84_gcode_probe.py --lane DIR --work DIR`:
+
+1. Reads DIR/corpus/evidence/round52/graders/gcode-to-text/tests/test_outputs.py and requires
+   sha256 == 6b049dc6…701a6 (exit 2 `SETUP wrong-subject` otherwise), and requires the two
+   test functions, in definition order, to be exactly `test_hello_file_exists`,
+   `test_hello_file_content`.
+2. Reads the case table: DIR/plans/round84-cases.json when present, else the table shipped
+   beside the tool (which must then be byte-identical to the frozen sha 5b86f8d7…2cb5).
+   Member, case count, id order and every predicted vector are checked against the frozen
+   claim (exit 2 `SETUP wrong-table …` otherwise). Staged content is table data.
+3. Per case: fresh directory under --work, `/app/out.txt` written with the row's content
+   (file omitted when content is null), then the captured module is executed unmodified in
+   bubblewrap: `--unshare-all` (no network), `/usr` and `/etc` read-only, case dir bound as
+   `/app`, the checked capture bytes snapshotted and bound read-only at `/tests/test_outputs.py`,
+   `--clearenv` + C.UTF-8, `python3 -I -B`. A harness parses the module AST, runs each test
+   separately, and classifies AssertionError/FileNotFoundError = F, normal return = P, any
+   other exception = D.
+4. A D verdict is a setup defect: `SETUP case=<id> unexpected-exception=…`,
+   `PREDICATE R84-PROBE could-not-evaluate`, exit 2. Otherwise prints the 12-field stamp in
+   round-83 order (`MEMBER, SUBJECT_CAPTURE, SUBJECT_SHA, CASE_TABLE_SHA, TOOL, TOOL_SHA,
+   HOST_PYTHON, HOST_OPENSSL, LANE_TIP, WORKTREE, COMMAND, EXIT`) then
+   `OBSERVATIONS_BEGIN` / 8 `CASE <id> predicted=<v> observed=<v>` / `cases=8 mismatches=N` /
+   `PREDICATE R84-PROBE pass|fail` / `OBSERVATIONS_END`. Exit 0 pass, 1 mismatch, 2
+   could-not-evaluate. `COMMAND` is the reconstructed canonical argv
+   (`python3 <lane-relative tool> --lane . --work <work>`); it is not executed from the receipt.
+5. `--selftest` runs 13 checks: frozen table bytes/vectors, no host `/app` creation, invocation
+   exit+header, stamp order, stamp values (subject/table/tool shas, lane tip, worktree, command,
+   exit), observation block, wrong-subject → 2, wrong-predicted vector → 2, content drift → 1,
+   and the three classification/continuation fixtures (AssertionError, FileNotFoundError,
+   ValueError on the first test with the second still executed).
+
+Case table transcribed from the claims doc (8 rows, `exists/content` predicted vectors):
+missing F/F, empty P/F, exact P/P, padded P/P, uppercase P/F, suffix P/F, prefix-only P/F,
+wrong-flag P/F; flag string `flag{gc0d3_iz_ch4LLenGiNg}` byte-identical in exact/padded/suffix.
+
+## Acceptance evidence
+
+1. `python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/ProbeR84/round84_gcode_probe.py --lane /home/vgpnk/Projects/shokunin/kengaku-shokunin --work /fast/scratch/hyaku/kengaku-r84/ProbeR84/run`
+   → exit 0, `cases=8 mismatches=0`, `PREDICATE R84-PROBE pass`; all eight vectors observed as
+   predicted (16 legs). stdout: probe-run.txt, exit: probe-run.exit.
+2. Negative control: scratch lane copy /fast/scratch/hyaku/kengaku-r84/ProbeR84/neg with the
+   pinned capture copied unchanged (sha 6b049dc6…) and one case-table row's staging corrupted —
+   `exact` content `flag{gc0d3_iz_ch4LLenGiNg}x` (one byte too many), predicted left at P/P.
+   The run printed `CASE exact predicted=P/P observed=P/F`, `cases=8 mismatches=1`,
+   `PREDICATE R84-PROBE fail`, exit 1 (probe-negative.txt, probe-negative.exit), with
+   `CASE_TABLE_SHA b2324cc14b03cc82485d85165a1524a64f54dabb67eaf6c2b5b9fe2cc6cebd86`
+   recording the drifted table actually used.
+3. Receipt body: gcode-to-text-probe.txt. Captured by running the final tool installed at
+   `plans/round84_gcode_probe.py` inside a `git clone --shared` of the lane at master
+   b12a9d46 (clone toplevel verified), so `TOOL plans/round84_gcode_probe.py` and
+   `COMMAND python3 plans/round84_gcode_probe.py --lane . --work …` are observed values, not
+   relabelled. TOOL_SHA 82f359e6… equals the seat draft's sha.
+4. Tool sha256 82f359e67840ec5ed876dc1904c0f69b158d2f1bc33278df3dfd64c51d528e75;
+   table sha256 5b86f8d7efc24a529b4c53a23c6a4ccaed51866428535e6f0fcb4dbf13982cb5.
+
+## Deviations from the claims doc
+
+None in the predicate, target, case table, control set or kill rule. Frozen elements unchanged.
+
+Instrument-level notes (all disclosed, none changes a frozen byte):
+
+- Table resolution order: lane `plans/round84-cases.json` if present, else the copy beside the
+  tool, which is then required to be byte-identical to the frozen sha. Needed because the
+  acceptance command names the real lane in which the L1 has not yet installed the table; the
+  fallback keeps that run byte-pinned rather than unpinned.
+- Replay enforces ids/order/predicted vectors but treats staged content as data, so a drifted
+  staging row is reported as a mismatch (exit 1) instead of being silently re-frozen. Full
+  table-byte pinning is carried by `CASE_TABLE_SHA` in the stamp and by the counter's table pin
+  (round-83 counter semantics). The negative control relies on exactly this split.
+- `WORKTREE dirty` and `LANE_TIP b12a9d46…` in the delivered receipt are pre-commit reality: a
+  leaf seat cannot commit `plans/round84_gcode_probe.py`, `plans/round84-cases.json` or the
+  receipt. After the L1 installs and commits them, re-mint with
+  `cd /home/vgpnk/Projects/shokunin/kengaku-shokunin && python3 plans/round84_gcode_probe.py --lane . --work <abs work dir>`
+  and write stdout verbatim to corpus/evidence/round84/gcode-to-text-probe.txt; the stamp then
+  reads `WORKTREE clean` and the committing tip, and the counter's `--lane`-relative `COMMAND`
+  form already matches.
+- The tool's own first run caught a staging-path bug inherited from the round-83 instrument
+  (`app/output.txt` instead of `app/out.txt`); fixed before the recorded runs. All receipts above
+  are from the final bytes (sha 82f359e6…).
+
+## Observation on the frozen case table (no claim change requested)
+
+The eight frozen rows contain no non-UTF-8 and no non-regular-file case. `read_text()` raises
+UnicodeDecodeError on non-UTF-8 bytes and IsADirectoryError/PermissionError on a directory or
+unreadable file; under the frozen classification those are setup defects, not F. The table
+therefore proves the P/F partition on the text-decodable subset only. No frozen vector is
+affected (the F/defect margin is exercised by the selftest's `unexpected-exception` fixture),
+and this is recorded only as a table-strength note, not as a predicate change.
+
+## Commands run (literal)
+
+- python3 <tool> --lane <lane> --selftest --work <S>/selftest        (exit 0, 13/13)
+- python3 <tool> --lane <lane> --work <S>/run                      (exit 0)  [acceptance 1]
+- python3 <tool> --lane <S>/neg --work <S>/neg-run                 (exit 1)  [acceptance 2]
+- git clone --shared <lane> <S>/lane; cp tool/table to <S>/lane/plans/
+- cd <S>/lane && python3 plans/round84_gcode_probe.py --lane . --work <S>/mint  (exit 0) [acceptance 3]
+- read-only: git -C <lane> rev-parse master / status --porcelain / rev-parse --show-toplevel (clone)
+
+S = /fast/scratch/hyaku/kengaku-r84/ProbeR84; removed after receipt capture.

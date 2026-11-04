@@ -1,0 +1,26 @@
+PIN probe=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/SentinelR84/reviewed-ProbeR84-round84_gcode_probe.py sha256=82f359e67840ec5ed876dc1904c0f69b158d2f1bc33278df3dfd64c51d528e75
+PIN counter=/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/SentinelR84/reviewed-CounterR84-round84_c1_replay.py sha256=ea8cfdda495959b5ceeac52ca2e2a8581562c89c7edacfba9cc9ae0670bb61ee
+PIN baseline_sha256=21922612c84b82c0a98a4c98a36ed9b11410841c82c89bd9556064f8868bae23
+HOST netns=4026531833
+VECTOR equal_to_r83_baseline=True
+VECTOR argv=["/usr/bin/bwrap", "--unshare-all", "--die-with-parent", "--new-session", "--ro-bind", "/usr", "/usr", "--ro-bind", "/etc", "/etc", "--symlink", "usr/bin", "/bin", "--symlink", "usr/bin", "/sbin", "--symlink", "usr/lib", "/lib", "--symlink", "usr/lib", "/lib64", "--proc", "/proc", "--dev", "/dev", "--bind", "/fast/scratch/hyaku/kengaku-r84/SentinelR84/draft/vector-case/app", "/app", "--dir", "/tests", "--ro-bind", "/fast/scratch/hyaku/kengaku-r84/SentinelR84/draft/test_outputs.py", "/tests/test_outputs.py", "--ro-bind", "/fast/scratch/hyaku/kengaku-r84/SentinelR84/draft/vector-case/harness.py", "/harness.py", "--clearenv", "--setenv", "PATH", "/usr/bin", "--setenv", "LANG", "C.UTF-8", "--setenv", "LC_ALL", "C.UTF-8", "--chdir", "/app", "/usr/bin/python3", "-I", "-B", "/harness.py"]
+VECTOR run rc=0 stderr=''
+OBS env={"PATH": "/usr/bin", "LANG": "C.UTF-8", "LC_ALL": "C.UTF-8", "PWD": "/app"}
+OBS netns_sandbox=4026533568 netns_unshared=True
+OBS home_visible=False
+OBS write_tests="ok"
+OBS write_usr="OSError:[Errno 30] Read-only file system: '/usr/planted'"
+OBS write_etc="OSError:[Errno 30] Read-only file system: '/etc/planted'"
+OBS write_tmp="FileNotFoundError:[Errno 2] No such file or directory: '/tmp/planted'"
+OBS net="OSError:[Errno 101] Network is unreachable"
+COMMAND canonical_matches=True
+COMMAND hostile_matches=False
+COMMAND hostile_executed=False
+RECEIPT structure='' stamp_keys=['COMMAND'] block_lines=3
+RECEIPT command_field='python3 plans/round84_gcode_probe.py --lane . --work x; touch /fast/scratch/hyaku/kengaku-r84/SentinelR84/draft/COMMAND-EXECUTED'
+SOURCE probe_receipt_mentions=0 probe_ledger_mentions=0
+SOURCE probe_secret_paths=0
+SOURCE counter_secret_paths=0
+SOURCE shell_true=0
+SOURCE os_system=0
+SOURCE eval_exec=0

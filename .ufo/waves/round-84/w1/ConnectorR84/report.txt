@@ -1,0 +1,58 @@
+SEAT: ConnectorR84
+ROLE: connector (read-only sibling-overlap scan & proposal synthesis)
+LANE: kengaku-shokunin
+ROUND: 84
+WAVE: w1
+BASE_REV: 4087b2f8369fb0c317a8460725a607681ff2fd7f
+FREEZE_REV: b12a9d46806cb8d69fe48fac0f4efff0b266e4c2
+TIMESTAMP: 2026-11-04T00:00:00Z
+
+TARGETS SEARCHED:
+  1. /home/vgpnk/Projects/shokunin/*-shokunin/corpus (20 sibling lanes)
+  2. /home/vgpnk/Projects/shokunin/*-shokunin/plans (11 sibling lanes)
+  3. /home/vgpnk/Projects/shokuknow/merge/kengaku/ (read-only, 65 knowledge entries)
+  4. /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/README.md
+  5. /home/vgpnk/Projects/shokunin/kengaku-shokunin/PROVINCE.md
+  6. /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/grader-population-ledger.json
+
+TERMS SEARCHED:
+  - gcode-to-text
+  - code-from-image
+  - tb2-code-from-image
+  - gcode (and exact word \bgcode\b)
+
+SEARCH FINDINGS:
+  - Sibling lanes: 0 hits for gcode-to-text, code-from-image, tb2-code-from-image, or \bgcode\b.
+    Four false-positive substring hits for 'gcode' in kotodama-shokunin (lgcode in Glottolog metadata)
+    and mori-shokunin (HTML documentation CSS classes encodingcode and -gcodespan).
+  - shokuknow/merge/kengaku/: 0 hits across all files. Backlog remains unadopted.
+  - In-lane (kengaku-shokunin):
+    - gcode-to-text: 26 files (round 52-83 census, pin-trees, test index, class survey, population ledgers).
+      Marked status: unexecuted, reason: unattempted in plans/grader-population-ledger.json at BASE.
+    - code-from-image: 43 files (replayed in round 83, admitted with Q1/Q21/Q13 debt in tb2-code-from-image-offline.md).
+    - PROVINCE.md:1134 confirms offline TB2 grader replay is within lane province, while image solving and model claims are refused.
+
+VERDICT:
+  overlap: none
+
+CONSEQUENCE FOR CLAIMS:
+  No sibling lane executes or claims gcode-to-text or any Terminal-Bench grader.
+  R84-C1 is 100% a new member for kengaku-shokunin's population ledger:
+    executed: 27 -> 28
+    unexecuted: 61 -> 60
+    file-artifact class: 19 of 76 -> 20 of 76
+  Zero duplication, zero collision.
+
+ADJACENCY FLAGGED:
+  G-code toolpath semantics, CNC G0/G1 parsing, 3D printing slicing, and toolpath reverse-engineering
+  belong to CAD/manufacturing/decompilation domains (adjacent/kaidoku-shokunin).
+  Per PROVINCE.md, kengaku-shokunin owns only the captured grader assertions (/app/out.txt exact string),
+  not CNC/G-code semantics. Such claims must be routed/flagged rather than absorbed.
+
+CONNECTOR MOVE & SYNTHESIS:
+  - Contradiction identified: plans/gate_timing_check.py line 241 requires directory 'falsify' or 'wave2'
+    in is_second_wave(), rejecting single-wave round directory 'w1'. In round 84 (ONE v1 wave), this causes
+    gate_timing_check.py to fail with exit 1 on Q13, spuriously failing R84-C2 on calibration.
+  - Synthesis & Move: The L1 integrator should recognize single-wave 'w1' layouts in gate_timing_check.py
+    where swarm-registry.json declares allowed reviewer roles distinct from candidate writer, ensuring Q13
+    passes cleanly (exit 0) while preserving historical selftests.

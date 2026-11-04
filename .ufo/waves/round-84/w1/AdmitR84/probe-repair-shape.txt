@@ -1,0 +1,16 @@
+== part 1: recheck-line rule boundary ==
+VARIANT 'command only (BASE)'                        q1=1 (recheck-no-date-or-cadence) q21=1 (pins=1 uncovered=2fd12b88aafdd04a52c298e3940bcb189f9766d6)
+VARIANT 'date only'                                  q1=0 (ok) q21=1 (pins=1 uncovered=2fd12b88aafdd04a52c298e3940bcb189f9766d6)
+VARIANT 'pin + date, no cadence'                     q1=0 (ok) q21=0 (pin-covered)
+VARIANT 're-pin cadence, no literal pin'             q1=0 (ok) q21=0 (pin-covered)
+VARIANT 'recommended full line'                      q1=0 (ok) q21=0 (pin-covered)
+
+== part 2: compliant end state through evaluate/emit ==
+CHECK q1 ok ok
+CHECK q21 ok pin-covered
+CHECK q13 ok exit=0
+INFO writer=present
+TARGET entries=1 q1=0 q21=0 q13=0 defects=0
+PREDICATE R84-C2 pass
+exit_path=0
+exit=0

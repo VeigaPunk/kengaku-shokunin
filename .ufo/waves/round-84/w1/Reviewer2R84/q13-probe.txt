@@ -1,0 +1,23 @@
+PATH SHAPE TESTS
+  path=.ufo/waves/round-84/w1/Reviewer2R84.md               wave_directory='w1'     second_wave=False
+  path=.ufo/waves/round-84/w1/Reviewer2R84/report.md        wave_directory=None     second_wave=False
+  path=.ufo/waves/round-84/w1/Reviewer2R84/report.txt       wave_directory=None     second_wave=False
+  path=.ufo/waves/round-84/wave2/Reviewer2R84.md            wave_directory='wave2'  second_wave=True
+  path=.ufo/waves/round-84/falsify/Reviewer2R84.md          wave_directory='falsify' second_wave=True
+
+GATE SIMULATION dir=w1
+  gate_found=True admissions=1
+  load_members -> {}
+  resolve_citations -> reports=[] unresolved=[]
+  audit ok=False
+  reasons=['no cited, existing, returned second-seat report for this round']
+
+GATE SIMULATION dir=wave2
+  gate_found=True admissions=1
+  load_members -> {('wave2', 'Reviewer2R84'): SeatMember(role='reviewer', agent_id='Reviewer2R84')}
+  resolve_citations -> reports=['.ufo/waves/round-84/wave2/Reviewer2R84.md'] unresolved=[]
+  audit ok=True
+  reasons=[]
+
+GATE SIMULATION dir=w1 with member injected manually
+  load_members bypassed; audit ok=False reasons=['no cited, existing, returned second-seat report for this round']

@@ -1,0 +1,28 @@
+role: sentinel
+seat: SentinelR84
+status: ok
+scope: read-only security review of the R83 bubblewrap probe and the R84 probe/counter drafts
+findings: blocker=0 major=0 minor=3
+minor:
+  S1 /tests directory is writable in the sandbox; only /tests/test_outputs.py is read-only (probe:176-177, baseline:76-77)
+  S2 nested user and mount namespaces remain creatable; no --disable-userns (probe:170, baseline:70)
+  S3 sandbox tmpfs mounts are uncapped: / and /dev/shm accept 100 MiB writes (probe:170-181, baseline:70-81)
+informational:
+  S4 /proc/self/mountinfo discloses host bind source paths (probe:175, baseline:75)
+required_checks: 11 pass, 1 partial (/tests dir, S1)
+reviewed:
+  baseline plans/round83_code_image_probe.py sha256=21922612c84b82c0a98a4c98a36ed9b11410841c82c89bd9556064f8868bae23
+  ProbeR84 round84_gcode_probe.py sha256=82f359e67840ec5ed876dc1904c0f69b158d2f1bc33278df3dfd64c51d528e75
+  CounterR84 round84_c1_replay.py sha256=ea8cfdda495959b5ceeac52ca2e2a8581562c89c7edacfba9cc9ae0670bb61ee
+draft_availability: both R84 drafts ABSENT at 2026-11-04T15:39Z; present 15:46Z; reviewed snapshot hashes matched live at 18:53Z
+  (if either live file changes before integration, the diff needs re-review)
+receipts:
+  .ufo/waves/round-84/w1/SentinelR84/sandbox-audit.txt sha256=3923983fef1ff92533e8da3d84d44f5f5f0b144f1e7420d6c1e79dddcbfb65f3
+  .ufo/waves/round-84/w1/SentinelR84/draft-audit.txt sha256=74ad61d57759dfe51f1857dffe644f7418a11decc55e832ff46c4c88c048a470
+  .ufo/waves/round-84/w1/SentinelR84/review.md
+  .ufo/waves/round-84/w1/SentinelR84.md
+verification: bwrap 0.13.1; R84 sandbox vector byte-identical to R83 baseline; net unshared (ENETUNREACH); /usr,/etc EROFS;
+  /home absent; env cleared to PATH/LANG/LC_ALL; /tmp absent; hostile receipt COMMAND parsed, not executed; 0 shell=True;
+  0 secret-path references. Fixes S1-S3 validated green against the frozen capture.
+tool_installs: none
+production_edits: none

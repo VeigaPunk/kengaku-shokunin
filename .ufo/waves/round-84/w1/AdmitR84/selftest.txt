@@ -1,0 +1,18 @@
+INFO gate-script-sha256=51c18a9edfecba9cb6e15449b8063668f41225e98347c6221c6df7c2b0b80a2a
+FIXTURE a-base expect=q1=1 q21=1 q13=1 defects=3 observed=q1=1 q21=1 q13=1 defects=3 OK
+  detail q1=recheck-no-date-or-cadence | q21=pins=1 uncovered=2fd12b88aafdd04a52c298e3940bcb189f9766d6 | q13=lesson-absent
+FIXTURE date-only expect=q1=0 q21=1 q13=1 defects=2 observed=q1=0 q21=1 q13=1 defects=2 OK
+  detail q1=ok | q21=pins=1 uncovered=2fd12b88aafdd04a52c298e3940bcb189f9766d6 | q13=lesson-absent
+FIXTURE q21-only expect=q1=0 q21=1 q13=0 defects=1 observed=q1=0 q21=1 q13=0 defects=1 OK
+  detail q1=ok | q21=pins=1 uncovered=2fd12b88aafdd04a52c298e3940bcb189f9766d6 | q13=exit=0
+FIXTURE q13-only expect=q1=0 q21=0 q13=1 defects=1 observed=q1=0 q21=0 q13=1 defects=1 OK
+  detail q1=ok | q21=pin-covered | q13=exit=1 reason=no cited, existing, returned second-seat report for this round
+FIXTURE green expect=q1=0 q21=0 q13=0 defects=0 observed=q1=0 q21=0 q13=0 defects=0 OK
+  detail q1=ok | q21=pin-covered | q13=exit=0
+FIXTURE q1-only expect=q1=1 q21=0 q13=0 defects=1 observed=q1=1 q21=0 q13=0 defects=1 OK
+  detail q1=recheck-no-date-or-cadence | q21=pin-absent | q13=exit=0
+MUTANT q1 fixture=q1-only baseline_defects=1 mutated_defects=0 KILLED
+MUTANT q21 fixture=q21-only baseline_defects=1 mutated_defects=0 KILLED
+MUTANT q13 fixture=q13-only baseline_defects=1 mutated_defects=0 KILLED
+SELFTEST PASS fixtures=6 mutants=3
+exit=0

@@ -1,0 +1,1182 @@
+# R84 w1 seat MutationR84 — Q1/Q21 admission-rule mutation battery, raw transcripts
+# host: Linux-7.2.11-arch1-1-x86_64-with-glibc2.44
+# python: 3.14.8 (main, Oct  2 2026, 10:23:31) [GCC 16.2.1 20260810]
+# cwd for every run: /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84
+# input entry: entry-base.md sha256 fc42c76cb5a05c131a5fec4d2aa3e441d9627841d130a54d1b616f2042675271
+#   extracted from rev 4087b2f8369fb0c317a8460725a607681ff2fd7f corpus/knowledge/tb2-code-from-image-offline.md
+# instrument: rules.py sha256 44df925a7894656a63827eb6e8e8aab953b60fb966415013ad3383c28aadf297
+# instrument mutant: rules_m8_always_true.py sha256 1d3df511ee30888a21ed5bc47ea4fabf5d6e96972ababac76f88856a47542e82
+# fixture builder: mkfixtures.py sha256 ff007cbfe8d9342bd69dad77fb40d027b70c562c59d072491e24518d5b84ac24
+# exit-code convention: 0 no defect, 1 defect(s), 2 could-not-evaluate
+
+# Identities:
+#   BASE          entry-base.md (frozen BASE bytes)
+#   repaired      green baseline fixture (date + command + pin)
+#   m1..m7        entry mutants
+#   P1,N1..N5     controls (one positive branch probe, five negatives)
+#   m8            instrument mutant: rules_m8_always_true.py
+
+=== [A] build fixtures from BASE bytes
+$ /usr/bin/python3 mkfixtures.py
+repaired  3f4a38dc4dd0d7f8c1048dcee0301242e5c80938402f9bf08d7b806d886e5694  expect=['none']
+m1        b51a21b9bb59d62a27b5af7aa7f93dcdb28c5b75b9ca48b1736fc6907969a720  expect=['q1']
+m2        2635ddc77057e7e94210251b984cc91de47a687e0b09c938fdf5f3cff12b76a4  expect=['q21']
+m3        38caf6365833a5cad0ea5a60311c9df6905d73c34b17e89c7ee14c5114a521f5  expect=['q1', 'q21']
+m4        28ba1b3c4ba3f83130562d32f2a41a4ed354e41355e2a679f4663dd60d1a1613  expect=['q1']
+m5        51d10c99cb351509cd1317651843143fa029fbfbd0767c60d465b4908b7801a7  expect=['q21']
+m6        98a1e484c9b643f85a0debd95118ae32337d309e0f870c9ec34792a9030af288  expect=['q1', 'q21']
+m7        2aabda19ac689230ff94f6bf4b82947c17973182a2ad8fb9c244a012e7ae6de2  expect=['q21']
+P1        11c26e3bee6d43d2e6f02c1af35b50aae890397d49e1273fa3a0e625d400b30a  expect=['none']
+N1        852c3ac5f0e07ff0d3c8ef89b613dbe0e329b006b8e149eeccedb731a6882b84  expect=['q21']
+N2        8ee40c34f4cef4d54024bca5c22d78d08618b79db0784f38a1904b6b8de6a3ad  expect=['q21']
+N3        3b4e75d39eeca18da19df33b8b486804e0aaa4ffa785aa3f9a39666cdca1d9a9  expect=['q21']
+N4        cf0c2154e65c3cccc57f24e493199e2fdfb8e4901d5227f773536ed58a54e5bc  expect=['q1']
+N5        033329e40c6d35db09ca650e3dcc30973b7370133834defbf18ddf0ddd3347aa  expect=['q21']
+FIXTURES=14 manifest=fixtures/fixtures.json
+EXIT=0
+
+=== [B] instrument selftest
+$ /usr/bin/python3 rules.py --selftest
+SELFTEST cases=25 failures=0
+SELFTEST pass
+EXIT=0
+
+=== [C] BASE bytes (must be red on q1 and q21)
+$ /usr/bin/python3 rules.py entry-base.md
+Q1=fail order=ok timing=bad action=ok
+Q1.timing: recheck value names neither an ISO date nor a cadence
+Q21=fail pin=2fd12b88aafdd04a52c298e3940bcb189f9766d6 named=no repin_cadence=no
+Q21.why: recheck names neither pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6 nor a re-pin cadence
+Q1.why: recheck value names neither an ISO date nor a cadence
+SHA256=fc42c76cb5a05c131a5fec4d2aa3e441d9627841d130a54d1b616f2042675271 BYTES=2854
+DEFECTS=2
+RESULT=fail
+EXIT=1
+
+=== [C2] BASE bytes, machine view
+$ /usr/bin/python3 rules.py --json entry-base.md
+{
+  "bytes": 2854,
+  "defects": 2,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/entry-base.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "argv-shaped command 'python3'",
+      "order": "lines 1-3 are source:, verified-at:, recheck:",
+      "timing": "recheck value names neither an ISO date nor a cadence"
+    },
+    "order": true,
+    "pass": false,
+    "timing": false,
+    "why": "recheck value names neither an ISO date nor a cadence"
+  },
+  "q21": {
+    "named": false,
+    "pass": false,
+    "pin": "2fd12b88aafdd04a52c298e3940bcb189f9766d6",
+    "repin_cadence": false,
+    "why": "recheck names neither pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6 nor a re-pin cadence"
+  },
+  "result": "fail",
+  "sha256": "fc42c76cb5a05c131a5fec4d2aa3e441d9627841d130a54d1b616f2042675271"
+}
+EXIT=1
+
+=== [D01] fixture N1
+$ /usr/bin/python3 rules.py fixtures/N1.md
+Q1=pass order=ok timing=ok action=ok
+Q21=fail pin=2fd12b88aafdd04a52c298e3940bcb189f9766d6 named=no repin_cadence=no
+Q21.why: recheck names neither pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6 nor a re-pin cadence
+Q1.why: ok
+SHA256=852c3ac5f0e07ff0d3c8ef89b613dbe0e329b006b8e149eeccedb731a6882b84 BYTES=2889
+DEFECTS=1
+RESULT=fail
+EXIT=1
+
+=== [D01j] fixture N1, machine view
+$ /usr/bin/python3 rules.py --json fixtures/N1.md
+{
+  "bytes": 2889,
+  "defects": 1,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/N1.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "argv-shaped command 'python3'",
+      "order": "lines 1-3 are source:, verified-at:, recheck:",
+      "timing": "ISO date 2027-05-01"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "ok"
+  },
+  "q21": {
+    "named": false,
+    "pass": false,
+    "pin": "2fd12b88aafdd04a52c298e3940bcb189f9766d6",
+    "repin_cadence": false,
+    "why": "recheck names neither pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6 nor a re-pin cadence"
+  },
+  "result": "fail",
+  "sha256": "852c3ac5f0e07ff0d3c8ef89b613dbe0e329b006b8e149eeccedb731a6882b84"
+}
+EXIT=1
+
+=== [D02] fixture N2
+$ /usr/bin/python3 rules.py fixtures/N2.md
+Q1=pass order=ok timing=ok action=ok
+Q21=fail pin=none named=no repin_cadence=no
+Q21.why: source: line carries no standalone 40-hex commit pin
+Q1.why: ok
+SHA256=8ee40c34f4cef4d54024bca5c22d78d08618b79db0784f38a1904b6b8de6a3ad BYTES=2825
+DEFECTS=1
+RESULT=fail
+EXIT=1
+
+=== [D02j] fixture N2, machine view
+$ /usr/bin/python3 rules.py --json fixtures/N2.md
+{
+  "bytes": 2825,
+  "defects": 1,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/N2.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "argv-shaped command 'python3'",
+      "order": "lines 1-3 are source:, verified-at:, recheck:",
+      "timing": "ISO date 2027-05-01"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "ok"
+  },
+  "q21": {
+    "named": false,
+    "pass": false,
+    "pin": null,
+    "repin_cadence": false,
+    "why": "source: line carries no standalone 40-hex commit pin"
+  },
+  "result": "fail",
+  "sha256": "8ee40c34f4cef4d54024bca5c22d78d08618b79db0784f38a1904b6b8de6a3ad"
+}
+EXIT=1
+
+=== [D03] fixture N3
+$ /usr/bin/python3 rules.py fixtures/N3.md
+Q1=pass order=ok timing=ok action=ok
+Q21=fail pin=none named=no repin_cadence=no
+Q21.why: source: line carries no standalone 40-hex commit pin
+Q1.why: ok
+SHA256=3b4e75d39eeca18da19df33b8b486804e0aaa4ffa785aa3f9a39666cdca1d9a9 BYTES=2837
+DEFECTS=1
+RESULT=fail
+EXIT=1
+
+=== [D03j] fixture N3, machine view
+$ /usr/bin/python3 rules.py --json fixtures/N3.md
+{
+  "bytes": 2837,
+  "defects": 1,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/N3.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "argv-shaped command 'python3'",
+      "order": "lines 1-3 are source:, verified-at:, recheck:",
+      "timing": "ISO date 2027-05-01"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "ok"
+  },
+  "q21": {
+    "named": false,
+    "pass": false,
+    "pin": null,
+    "repin_cadence": false,
+    "why": "source: line carries no standalone 40-hex commit pin"
+  },
+  "result": "fail",
+  "sha256": "3b4e75d39eeca18da19df33b8b486804e0aaa4ffa785aa3f9a39666cdca1d9a9"
+}
+EXIT=1
+
+=== [D04] fixture N4
+$ /usr/bin/python3 rules.py fixtures/N4.md
+Q1=fail order=ok timing=bad action=ok
+Q1.timing: recheck value names neither an ISO date nor a cadence
+Q21=pass pin=2fd12b88aafdd04a52c298e3940bcb189f9766d6 named=yes repin_cadence=no
+Q1.why: recheck value names neither an ISO date nor a cadence
+SHA256=cf0c2154e65c3cccc57f24e493199e2fdfb8e4901d5227f773536ed58a54e5bc BYTES=2915
+DEFECTS=1
+RESULT=fail
+EXIT=1
+
+=== [D04j] fixture N4, machine view
+$ /usr/bin/python3 rules.py --json fixtures/N4.md
+{
+  "bytes": 2915,
+  "defects": 1,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/N4.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "argv-shaped command 'python3'",
+      "order": "lines 1-3 are source:, verified-at:, recheck:",
+      "timing": "recheck value names neither an ISO date nor a cadence"
+    },
+    "order": true,
+    "pass": false,
+    "timing": false,
+    "why": "recheck value names neither an ISO date nor a cadence"
+  },
+  "q21": {
+    "named": true,
+    "pass": true,
+    "pin": "2fd12b88aafdd04a52c298e3940bcb189f9766d6",
+    "repin_cadence": false,
+    "why": "recheck names pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6"
+  },
+  "result": "fail",
+  "sha256": "cf0c2154e65c3cccc57f24e493199e2fdfb8e4901d5227f773536ed58a54e5bc"
+}
+EXIT=1
+
+=== [D05] fixture N5
+$ /usr/bin/python3 rules.py fixtures/N5.md
+Q1=pass order=ok timing=ok action=ok
+Q21=fail pin=2fd12b88aafdd04a52c298e3940bcb189f9766d6 named=no repin_cadence=no
+Q21.why: recheck names neither pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6 nor a re-pin cadence
+Q1.why: ok
+SHA256=033329e40c6d35db09ca650e3dcc30973b7370133834defbf18ddf0ddd3347aa BYTES=2893
+DEFECTS=1
+RESULT=fail
+EXIT=1
+
+=== [D05j] fixture N5, machine view
+$ /usr/bin/python3 rules.py --json fixtures/N5.md
+{
+  "bytes": 2893,
+  "defects": 1,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/N5.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "argv-shaped command 'python3'",
+      "order": "lines 1-3 are source:, verified-at:, recheck:",
+      "timing": "ISO date 2027-05-01"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "ok"
+  },
+  "q21": {
+    "named": false,
+    "pass": false,
+    "pin": "2fd12b88aafdd04a52c298e3940bcb189f9766d6",
+    "repin_cadence": false,
+    "why": "recheck names neither pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6 nor a re-pin cadence"
+  },
+  "result": "fail",
+  "sha256": "033329e40c6d35db09ca650e3dcc30973b7370133834defbf18ddf0ddd3347aa"
+}
+EXIT=1
+
+=== [D06] fixture P1
+$ /usr/bin/python3 rules.py fixtures/P1.md
+Q1=pass order=ok timing=ok action=ok
+Q21=pass pin=2fd12b88aafdd04a52c298e3940bcb189f9766d6 named=no repin_cadence=yes
+Q1.why: ok
+SHA256=11c26e3bee6d43d2e6f02c1af35b50aae890397d49e1273fa3a0e625d400b30a BYTES=2912
+DEFECTS=0
+RESULT=pass
+EXIT=0
+
+=== [D06j] fixture P1, machine view
+$ /usr/bin/python3 rules.py --json fixtures/P1.md
+{
+  "bytes": 2912,
+  "defects": 0,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/P1.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "argv-shaped command 'python3'",
+      "order": "lines 1-3 are source:, verified-at:, recheck:",
+      "timing": "cadence 'quarterly'"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "ok"
+  },
+  "q21": {
+    "named": false,
+    "pass": true,
+    "pin": "2fd12b88aafdd04a52c298e3940bcb189f9766d6",
+    "repin_cadence": true,
+    "why": "recheck names a re-pin cadence"
+  },
+  "result": "pass",
+  "sha256": "11c26e3bee6d43d2e6f02c1af35b50aae890397d49e1273fa3a0e625d400b30a"
+}
+EXIT=0
+
+=== [D07] fixture m1
+$ /usr/bin/python3 rules.py fixtures/m1.md
+Q1=fail order=ok timing=bad action=ok
+Q1.timing: recheck value names neither an ISO date nor a cadence
+Q21=pass pin=2fd12b88aafdd04a52c298e3940bcb189f9766d6 named=yes repin_cadence=no
+Q1.why: recheck value names neither an ISO date nor a cadence
+SHA256=b51a21b9bb59d62a27b5af7aa7f93dcdb28c5b75b9ca48b1736fc6907969a720 BYTES=2900
+DEFECTS=1
+RESULT=fail
+EXIT=1
+
+=== [D07j] fixture m1, machine view
+$ /usr/bin/python3 rules.py --json fixtures/m1.md
+{
+  "bytes": 2900,
+  "defects": 1,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/m1.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "argv-shaped command 'python3'",
+      "order": "lines 1-3 are source:, verified-at:, recheck:",
+      "timing": "recheck value names neither an ISO date nor a cadence"
+    },
+    "order": true,
+    "pass": false,
+    "timing": false,
+    "why": "recheck value names neither an ISO date nor a cadence"
+  },
+  "q21": {
+    "named": true,
+    "pass": true,
+    "pin": "2fd12b88aafdd04a52c298e3940bcb189f9766d6",
+    "repin_cadence": false,
+    "why": "recheck names pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6"
+  },
+  "result": "fail",
+  "sha256": "b51a21b9bb59d62a27b5af7aa7f93dcdb28c5b75b9ca48b1736fc6907969a720"
+}
+EXIT=1
+
+=== [D08] fixture m2
+$ /usr/bin/python3 rules.py fixtures/m2.md
+Q1=pass order=ok timing=ok action=ok
+Q21=fail pin=2fd12b88aafdd04a52c298e3940bcb189f9766d6 named=no repin_cadence=no
+Q21.why: recheck names neither pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6 nor a re-pin cadence
+Q1.why: ok
+SHA256=2635ddc77057e7e94210251b984cc91de47a687e0b09c938fdf5f3cff12b76a4 BYTES=2869
+DEFECTS=1
+RESULT=fail
+EXIT=1
+
+=== [D08j] fixture m2, machine view
+$ /usr/bin/python3 rules.py --json fixtures/m2.md
+{
+  "bytes": 2869,
+  "defects": 1,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/m2.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "argv-shaped command 'python3'",
+      "order": "lines 1-3 are source:, verified-at:, recheck:",
+      "timing": "ISO date 2027-05-01"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "ok"
+  },
+  "q21": {
+    "named": false,
+    "pass": false,
+    "pin": "2fd12b88aafdd04a52c298e3940bcb189f9766d6",
+    "repin_cadence": false,
+    "why": "recheck names neither pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6 nor a re-pin cadence"
+  },
+  "result": "fail",
+  "sha256": "2635ddc77057e7e94210251b984cc91de47a687e0b09c938fdf5f3cff12b76a4"
+}
+EXIT=1
+
+=== [D09] fixture m3
+$ /usr/bin/python3 rules.py fixtures/m3.md
+Q1=fail order=ok timing=ok action=bad
+Q1.action: action verb 're-verify' carries no object: nothing observable is re-checked
+Q21=fail pin=2fd12b88aafdd04a52c298e3940bcb189f9766d6 named=no repin_cadence=no
+Q21.why: recheck names neither pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6 nor a re-pin cadence
+Q1.why: action verb 're-verify' carries no object: nothing observable is re-checked
+SHA256=38caf6365833a5cad0ea5a60311c9df6905d73c34b17e89c7ee14c5114a521f5 BYTES=2817
+DEFECTS=2
+RESULT=fail
+EXIT=1
+
+=== [D09j] fixture m3, machine view
+$ /usr/bin/python3 rules.py --json fixtures/m3.md
+{
+  "bytes": 2817,
+  "defects": 2,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/m3.md",
+  "q1": {
+    "action": false,
+    "detail": {
+      "action": "action verb 're-verify' carries no object: nothing observable is re-checked",
+      "order": "lines 1-3 are source:, verified-at:, recheck:",
+      "timing": "cadence 'monthly'"
+    },
+    "order": true,
+    "pass": false,
+    "timing": true,
+    "why": "action verb 're-verify' carries no object: nothing observable is re-checked"
+  },
+  "q21": {
+    "named": false,
+    "pass": false,
+    "pin": "2fd12b88aafdd04a52c298e3940bcb189f9766d6",
+    "repin_cadence": false,
+    "why": "recheck names neither pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6 nor a re-pin cadence"
+  },
+  "result": "fail",
+  "sha256": "38caf6365833a5cad0ea5a60311c9df6905d73c34b17e89c7ee14c5114a521f5"
+}
+EXIT=1
+
+=== [D10] fixture m4
+$ /usr/bin/python3 rules.py fixtures/m4.md
+Q1=fail order=bad timing=ok action=ok
+Q1.order: line 3 is not 'recheck:' (got '')
+Q21=pass pin=2fd12b88aafdd04a52c298e3940bcb189f9766d6 named=yes repin_cadence=no
+Q1.why: line 3 is not 'recheck:' (got '')
+SHA256=28ba1b3c4ba3f83130562d32f2a41a4ed354e41355e2a679f4663dd60d1a1613 BYTES=2916
+DEFECTS=1
+RESULT=fail
+EXIT=1
+
+=== [D10j] fixture m4, machine view
+$ /usr/bin/python3 rules.py --json fixtures/m4.md
+{
+  "bytes": 2916,
+  "defects": 1,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/m4.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "argv-shaped command 'python3'",
+      "order": "line 3 is not 'recheck:' (got '')",
+      "timing": "ISO date 2027-05-01"
+    },
+    "order": false,
+    "pass": false,
+    "timing": true,
+    "why": "line 3 is not 'recheck:' (got '')"
+  },
+  "q21": {
+    "named": true,
+    "pass": true,
+    "pin": "2fd12b88aafdd04a52c298e3940bcb189f9766d6",
+    "repin_cadence": false,
+    "why": "recheck names pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6"
+  },
+  "result": "fail",
+  "sha256": "28ba1b3c4ba3f83130562d32f2a41a4ed354e41355e2a679f4663dd60d1a1613"
+}
+EXIT=1
+
+=== [D11] fixture m5
+$ /usr/bin/python3 rules.py fixtures/m5.md
+Q1=pass order=ok timing=ok action=ok
+Q21=fail pin=2fd12b88aafdd04a52c298e3940bcb189f9766d6 named=no repin_cadence=no
+Q21.why: recheck names neither pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6 nor a re-pin cadence
+Q1.why: ok
+SHA256=51d10c99cb351509cd1317651843143fa029fbfbd0767c60d465b4908b7801a7 BYTES=2915
+DEFECTS=1
+RESULT=fail
+EXIT=1
+
+=== [D11j] fixture m5, machine view
+$ /usr/bin/python3 rules.py --json fixtures/m5.md
+{
+  "bytes": 2915,
+  "defects": 1,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/m5.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "argv-shaped command 'python3'",
+      "order": "lines 1-3 are source:, verified-at:, recheck:",
+      "timing": "ISO date 2027-05-01"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "ok"
+  },
+  "q21": {
+    "named": false,
+    "pass": false,
+    "pin": "2fd12b88aafdd04a52c298e3940bcb189f9766d6",
+    "repin_cadence": false,
+    "why": "recheck names neither pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6 nor a re-pin cadence"
+  },
+  "result": "fail",
+  "sha256": "51d10c99cb351509cd1317651843143fa029fbfbd0767c60d465b4908b7801a7"
+}
+EXIT=1
+
+=== [D12] fixture m6
+$ /usr/bin/python3 rules.py fixtures/m6.md
+Q1=fail order=ok timing=ok action=bad
+Q1.action: no re-check action: no argv-shaped command and no action verb
+Q21=fail pin=2fd12b88aafdd04a52c298e3940bcb189f9766d6 named=no repin_cadence=no
+Q21.why: recheck names neither pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6 nor a re-pin cadence
+Q1.why: no re-check action: no argv-shaped command and no action verb
+SHA256=98a1e484c9b643f85a0debd95118ae32337d309e0f870c9ec34792a9030af288 BYTES=2810
+DEFECTS=2
+RESULT=fail
+EXIT=1
+
+=== [D12j] fixture m6, machine view
+$ /usr/bin/python3 rules.py --json fixtures/m6.md
+{
+  "bytes": 2810,
+  "defects": 2,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/m6.md",
+  "q1": {
+    "action": false,
+    "detail": {
+      "action": "no re-check action: no argv-shaped command and no action verb",
+      "order": "lines 1-3 are source:, verified-at:, recheck:",
+      "timing": "ISO date 2027-05-01"
+    },
+    "order": true,
+    "pass": false,
+    "timing": true,
+    "why": "no re-check action: no argv-shaped command and no action verb"
+  },
+  "q21": {
+    "named": false,
+    "pass": false,
+    "pin": "2fd12b88aafdd04a52c298e3940bcb189f9766d6",
+    "repin_cadence": false,
+    "why": "recheck names neither pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6 nor a re-pin cadence"
+  },
+  "result": "fail",
+  "sha256": "98a1e484c9b643f85a0debd95118ae32337d309e0f870c9ec34792a9030af288"
+}
+EXIT=1
+
+=== [D13] fixture m7
+$ /usr/bin/python3 rules.py fixtures/m7.md
+Q1=pass order=ok timing=ok action=ok
+Q21=fail pin=2fd12b88aafdd04a52c298e3940bcb189f9766d6 named=no repin_cadence=no
+Q21.why: recheck names neither pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6 nor a re-pin cadence
+Q1.why: ok
+SHA256=2aabda19ac689230ff94f6bf4b82947c17973182a2ad8fb9c244a012e7ae6de2 BYTES=2882
+DEFECTS=1
+RESULT=fail
+EXIT=1
+
+=== [D13j] fixture m7, machine view
+$ /usr/bin/python3 rules.py --json fixtures/m7.md
+{
+  "bytes": 2882,
+  "defects": 1,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/m7.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "argv-shaped command 'python3'",
+      "order": "lines 1-3 are source:, verified-at:, recheck:",
+      "timing": "ISO date 2027-05-01"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "ok"
+  },
+  "q21": {
+    "named": false,
+    "pass": false,
+    "pin": "2fd12b88aafdd04a52c298e3940bcb189f9766d6",
+    "repin_cadence": false,
+    "why": "recheck names neither pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6 nor a re-pin cadence"
+  },
+  "result": "fail",
+  "sha256": "2aabda19ac689230ff94f6bf4b82947c17973182a2ad8fb9c244a012e7ae6de2"
+}
+EXIT=1
+
+=== [D14] fixture repaired
+$ /usr/bin/python3 rules.py fixtures/repaired.md
+Q1=pass order=ok timing=ok action=ok
+Q21=pass pin=2fd12b88aafdd04a52c298e3940bcb189f9766d6 named=yes repin_cadence=no
+Q1.why: ok
+SHA256=3f4a38dc4dd0d7f8c1048dcee0301242e5c80938402f9bf08d7b806d886e5694 BYTES=2915
+DEFECTS=0
+RESULT=pass
+EXIT=0
+
+=== [D14j] fixture repaired, machine view
+$ /usr/bin/python3 rules.py --json fixtures/repaired.md
+{
+  "bytes": 2915,
+  "defects": 0,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/repaired.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "argv-shaped command 'python3'",
+      "order": "lines 1-3 are source:, verified-at:, recheck:",
+      "timing": "ISO date 2027-05-01"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "ok"
+  },
+  "q21": {
+    "named": true,
+    "pass": true,
+    "pin": "2fd12b88aafdd04a52c298e3940bcb189f9766d6",
+    "repin_cadence": false,
+    "why": "recheck names pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6"
+  },
+  "result": "pass",
+  "sha256": "3f4a38dc4dd0d7f8c1048dcee0301242e5c80938402f9bf08d7b806d886e5694"
+}
+EXIT=0
+
+=== [E1] instrument mutant m8 (always-true) on BASE
+$ /usr/bin/python3 rules_m8_always_true.py entry-base.md
+Q1=pass order=ok timing=ok action=ok
+Q21=pass pin=mutant-m8 named=yes repin_cadence=yes
+Q1.why: mutant m8: always-true
+SHA256=fc42c76cb5a05c131a5fec4d2aa3e441d9627841d130a54d1b616f2042675271 BYTES=2854
+DEFECTS=0
+RESULT=pass
+EXIT=0
+
+=== [E2] instrument mutant m8 on BASE, machine view
+$ /usr/bin/python3 rules_m8_always_true.py --json entry-base.md
+{
+  "bytes": 2854,
+  "defects": 0,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/entry-base.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "mutant m8",
+      "order": "mutant m8",
+      "timing": "mutant m8"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "mutant m8: always-true"
+  },
+  "q21": {
+    "named": true,
+    "pass": true,
+    "pin": "mutant-m8",
+    "repin_cadence": true,
+    "why": "mutant m8: always-true"
+  },
+  "result": "pass",
+  "sha256": "fc42c76cb5a05c131a5fec4d2aa3e441d9627841d130a54d1b616f2042675271"
+}
+EXIT=0
+
+=== [E3-01] instrument mutant m8 on N1
+$ /usr/bin/python3 rules_m8_always_true.py --json fixtures/N1.md
+{
+  "bytes": 2889,
+  "defects": 0,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/N1.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "mutant m8",
+      "order": "mutant m8",
+      "timing": "mutant m8"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "mutant m8: always-true"
+  },
+  "q21": {
+    "named": true,
+    "pass": true,
+    "pin": "mutant-m8",
+    "repin_cadence": true,
+    "why": "mutant m8: always-true"
+  },
+  "result": "pass",
+  "sha256": "852c3ac5f0e07ff0d3c8ef89b613dbe0e329b006b8e149eeccedb731a6882b84"
+}
+EXIT=0
+
+=== [E3-02] instrument mutant m8 on N2
+$ /usr/bin/python3 rules_m8_always_true.py --json fixtures/N2.md
+{
+  "bytes": 2825,
+  "defects": 0,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/N2.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "mutant m8",
+      "order": "mutant m8",
+      "timing": "mutant m8"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "mutant m8: always-true"
+  },
+  "q21": {
+    "named": true,
+    "pass": true,
+    "pin": "mutant-m8",
+    "repin_cadence": true,
+    "why": "mutant m8: always-true"
+  },
+  "result": "pass",
+  "sha256": "8ee40c34f4cef4d54024bca5c22d78d08618b79db0784f38a1904b6b8de6a3ad"
+}
+EXIT=0
+
+=== [E3-03] instrument mutant m8 on N3
+$ /usr/bin/python3 rules_m8_always_true.py --json fixtures/N3.md
+{
+  "bytes": 2837,
+  "defects": 0,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/N3.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "mutant m8",
+      "order": "mutant m8",
+      "timing": "mutant m8"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "mutant m8: always-true"
+  },
+  "q21": {
+    "named": true,
+    "pass": true,
+    "pin": "mutant-m8",
+    "repin_cadence": true,
+    "why": "mutant m8: always-true"
+  },
+  "result": "pass",
+  "sha256": "3b4e75d39eeca18da19df33b8b486804e0aaa4ffa785aa3f9a39666cdca1d9a9"
+}
+EXIT=0
+
+=== [E3-04] instrument mutant m8 on N4
+$ /usr/bin/python3 rules_m8_always_true.py --json fixtures/N4.md
+{
+  "bytes": 2915,
+  "defects": 0,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/N4.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "mutant m8",
+      "order": "mutant m8",
+      "timing": "mutant m8"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "mutant m8: always-true"
+  },
+  "q21": {
+    "named": true,
+    "pass": true,
+    "pin": "mutant-m8",
+    "repin_cadence": true,
+    "why": "mutant m8: always-true"
+  },
+  "result": "pass",
+  "sha256": "cf0c2154e65c3cccc57f24e493199e2fdfb8e4901d5227f773536ed58a54e5bc"
+}
+EXIT=0
+
+=== [E3-05] instrument mutant m8 on N5
+$ /usr/bin/python3 rules_m8_always_true.py --json fixtures/N5.md
+{
+  "bytes": 2893,
+  "defects": 0,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/N5.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "mutant m8",
+      "order": "mutant m8",
+      "timing": "mutant m8"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "mutant m8: always-true"
+  },
+  "q21": {
+    "named": true,
+    "pass": true,
+    "pin": "mutant-m8",
+    "repin_cadence": true,
+    "why": "mutant m8: always-true"
+  },
+  "result": "pass",
+  "sha256": "033329e40c6d35db09ca650e3dcc30973b7370133834defbf18ddf0ddd3347aa"
+}
+EXIT=0
+
+=== [E3-06] instrument mutant m8 on P1
+$ /usr/bin/python3 rules_m8_always_true.py --json fixtures/P1.md
+{
+  "bytes": 2912,
+  "defects": 0,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/P1.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "mutant m8",
+      "order": "mutant m8",
+      "timing": "mutant m8"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "mutant m8: always-true"
+  },
+  "q21": {
+    "named": true,
+    "pass": true,
+    "pin": "mutant-m8",
+    "repin_cadence": true,
+    "why": "mutant m8: always-true"
+  },
+  "result": "pass",
+  "sha256": "11c26e3bee6d43d2e6f02c1af35b50aae890397d49e1273fa3a0e625d400b30a"
+}
+EXIT=0
+
+=== [E3-07] instrument mutant m8 on m1
+$ /usr/bin/python3 rules_m8_always_true.py --json fixtures/m1.md
+{
+  "bytes": 2900,
+  "defects": 0,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/m1.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "mutant m8",
+      "order": "mutant m8",
+      "timing": "mutant m8"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "mutant m8: always-true"
+  },
+  "q21": {
+    "named": true,
+    "pass": true,
+    "pin": "mutant-m8",
+    "repin_cadence": true,
+    "why": "mutant m8: always-true"
+  },
+  "result": "pass",
+  "sha256": "b51a21b9bb59d62a27b5af7aa7f93dcdb28c5b75b9ca48b1736fc6907969a720"
+}
+EXIT=0
+
+=== [E3-08] instrument mutant m8 on m2
+$ /usr/bin/python3 rules_m8_always_true.py --json fixtures/m2.md
+{
+  "bytes": 2869,
+  "defects": 0,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/m2.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "mutant m8",
+      "order": "mutant m8",
+      "timing": "mutant m8"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "mutant m8: always-true"
+  },
+  "q21": {
+    "named": true,
+    "pass": true,
+    "pin": "mutant-m8",
+    "repin_cadence": true,
+    "why": "mutant m8: always-true"
+  },
+  "result": "pass",
+  "sha256": "2635ddc77057e7e94210251b984cc91de47a687e0b09c938fdf5f3cff12b76a4"
+}
+EXIT=0
+
+=== [E3-09] instrument mutant m8 on m3
+$ /usr/bin/python3 rules_m8_always_true.py --json fixtures/m3.md
+{
+  "bytes": 2817,
+  "defects": 0,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/m3.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "mutant m8",
+      "order": "mutant m8",
+      "timing": "mutant m8"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "mutant m8: always-true"
+  },
+  "q21": {
+    "named": true,
+    "pass": true,
+    "pin": "mutant-m8",
+    "repin_cadence": true,
+    "why": "mutant m8: always-true"
+  },
+  "result": "pass",
+  "sha256": "38caf6365833a5cad0ea5a60311c9df6905d73c34b17e89c7ee14c5114a521f5"
+}
+EXIT=0
+
+=== [E3-10] instrument mutant m8 on m4
+$ /usr/bin/python3 rules_m8_always_true.py --json fixtures/m4.md
+{
+  "bytes": 2916,
+  "defects": 0,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/m4.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "mutant m8",
+      "order": "mutant m8",
+      "timing": "mutant m8"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "mutant m8: always-true"
+  },
+  "q21": {
+    "named": true,
+    "pass": true,
+    "pin": "mutant-m8",
+    "repin_cadence": true,
+    "why": "mutant m8: always-true"
+  },
+  "result": "pass",
+  "sha256": "28ba1b3c4ba3f83130562d32f2a41a4ed354e41355e2a679f4663dd60d1a1613"
+}
+EXIT=0
+
+=== [E3-11] instrument mutant m8 on m5
+$ /usr/bin/python3 rules_m8_always_true.py --json fixtures/m5.md
+{
+  "bytes": 2915,
+  "defects": 0,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/m5.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "mutant m8",
+      "order": "mutant m8",
+      "timing": "mutant m8"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "mutant m8: always-true"
+  },
+  "q21": {
+    "named": true,
+    "pass": true,
+    "pin": "mutant-m8",
+    "repin_cadence": true,
+    "why": "mutant m8: always-true"
+  },
+  "result": "pass",
+  "sha256": "51d10c99cb351509cd1317651843143fa029fbfbd0767c60d465b4908b7801a7"
+}
+EXIT=0
+
+=== [E3-12] instrument mutant m8 on m6
+$ /usr/bin/python3 rules_m8_always_true.py --json fixtures/m6.md
+{
+  "bytes": 2810,
+  "defects": 0,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/m6.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "mutant m8",
+      "order": "mutant m8",
+      "timing": "mutant m8"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "mutant m8: always-true"
+  },
+  "q21": {
+    "named": true,
+    "pass": true,
+    "pin": "mutant-m8",
+    "repin_cadence": true,
+    "why": "mutant m8: always-true"
+  },
+  "result": "pass",
+  "sha256": "98a1e484c9b643f85a0debd95118ae32337d309e0f870c9ec34792a9030af288"
+}
+EXIT=0
+
+=== [E3-13] instrument mutant m8 on m7
+$ /usr/bin/python3 rules_m8_always_true.py --json fixtures/m7.md
+{
+  "bytes": 2882,
+  "defects": 0,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/m7.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "mutant m8",
+      "order": "mutant m8",
+      "timing": "mutant m8"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "mutant m8: always-true"
+  },
+  "q21": {
+    "named": true,
+    "pass": true,
+    "pin": "mutant-m8",
+    "repin_cadence": true,
+    "why": "mutant m8: always-true"
+  },
+  "result": "pass",
+  "sha256": "2aabda19ac689230ff94f6bf4b82947c17973182a2ad8fb9c244a012e7ae6de2"
+}
+EXIT=0
+
+=== [E3-14] instrument mutant m8 on repaired
+$ /usr/bin/python3 rules_m8_always_true.py --json fixtures/repaired.md
+{
+  "bytes": 2915,
+  "defects": 0,
+  "path": "/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/MutationR84/fixtures/repaired.md",
+  "q1": {
+    "action": true,
+    "detail": {
+      "action": "mutant m8",
+      "order": "mutant m8",
+      "timing": "mutant m8"
+    },
+    "order": true,
+    "pass": true,
+    "timing": true,
+    "why": "mutant m8: always-true"
+  },
+  "q21": {
+    "named": true,
+    "pass": true,
+    "pin": "mutant-m8",
+    "repin_cadence": true,
+    "why": "mutant m8: always-true"
+  },
+  "result": "pass",
+  "sha256": "3f4a38dc4dd0d7f8c1048dcee0301242e5c80938402f9bf08d7b806d886e5694"
+}
+EXIT=0
+
+=== [E4] instrument mutant m8 summary: fixtures it fails to flag
+$ /usr/bin/python3 rules_m8_always_true.py --json fixtures/<id>.md (one run per fixture, above)
+N1        green (no defect detected)
+N2        green (no defect detected)
+N3        green (no defect detected)
+N4        green (no defect detected)
+N5        green (no defect detected)
+P1        green (no defect detected)
+m1        green (no defect detected)
+m2        green (no defect detected)
+m3        green (no defect detected)
+m4        green (no defect detected)
+m5        green (no defect detected)
+m6        green (no defect detected)
+m7        green (no defect detected)
+repaired  green (no defect detected)
+EXIT=0
+
+=== [F] body invariant: every fixture differs from BASE only in its header lines
+$ /usr/bin/python3 battery.py
+N1        body_lines_from=3 identical_to_BASE=True
+N2        body_lines_from=3 identical_to_BASE=True
+N3        body_lines_from=3 identical_to_BASE=True
+N4        body_lines_from=3 identical_to_BASE=True
+N5        body_lines_from=3 identical_to_BASE=True
+P1        body_lines_from=3 identical_to_BASE=True
+m1        body_lines_from=3 identical_to_BASE=True
+m2        body_lines_from=3 identical_to_BASE=True
+m3        body_lines_from=3 identical_to_BASE=True
+m4        body_lines_from=4 identical_to_BASE=True
+m5        body_lines_from=3 identical_to_BASE=True
+m6        body_lines_from=3 identical_to_BASE=True
+m7        body_lines_from=3 identical_to_BASE=True
+repaired  body_lines_from=3 identical_to_BASE=True
+EXIT=0
+
+# KILL SUMMARY (mechanically derived from the runs above)
+
+id         expected     observed               exit verdict
+repaired   []           []                     0    GREEN AS REQUIRED
+m1         ['q1']       ['q1']                 1    KILLED
+m2         ['q21']      ['q21']                1    KILLED
+m3         ['q1', 'q21'] ['q1', 'q21']          1    KILLED
+m4         ['q1']       ['q1']                 1    KILLED
+m5         ['q21']      ['q21']                1    KILLED
+m6         ['q1', 'q21'] ['q1', 'q21']          1    KILLED
+m7         ['q21']      ['q21']                1    KILLED
+N1         ['q21']      ['q21']                1    KILLED
+N2         ['q21']      ['q21']                1    KILLED
+N3         ['q21']      ['q21']                1    KILLED
+N4         ['q1']       ['q1']                 1    KILLED
+N5         ['q21']      ['q21']                1    KILLED
+P1         []           []                     0    GREEN AS REQUIRED
+m8         BASE green?  yes                    0    KILLED (base-insensitive instrument)
+
+killed=8 of 8
+body invariant (mutation confined to header lines): ok
+entry mutants killed: 7/7 ['m1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7']
+controls as required: 6/6
+m8 survivors (mutant fixtures it fails to flag): 7 ['m1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7']
+selftest: SELFTEST cases=25 failures=0, exit 0
+BASE: q1=fail[timing] q21=fail exit 1
+BASE signature vs frozen C2: q1=1 q21=1 (frozen target before-values: q1=1 q21=1; q13 is the L1 counter's third rule, out of this seat)

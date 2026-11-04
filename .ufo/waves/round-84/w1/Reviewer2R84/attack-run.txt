@@ -1,0 +1,50 @@
+HARNESS reviewer-independent bwrap re-execution
+grader_dir=/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round52/graders/gcode-to-text/tests
+driver=/fast/scratch/hyaku/kengaku-r84/Reviewer2R84/driver/two_leg.py
+python=3.14.8
+
+CASE missing     predicted=F/F observed=F/F match  [test_hello_file_exists=F(AssertionError); test_hello_file_content=F(FileNotFoundError)] rc=0
+CASE empty       predicted=P/F observed=P/F match  [test_hello_file_exists=P(ok); test_hello_file_content=F(AssertionError)] rc=0
+CASE exact       predicted=P/P observed=P/P match  [test_hello_file_exists=P(ok); test_hello_file_content=P(ok)] rc=0
+CASE padded      predicted=P/P observed=P/P match  [test_hello_file_exists=P(ok); test_hello_file_content=P(ok)] rc=0
+CASE uppercase   predicted=P/F observed=P/F match  [test_hello_file_exists=P(ok); test_hello_file_content=F(AssertionError)] rc=0
+CASE suffix      predicted=P/F observed=P/F match  [test_hello_file_exists=P(ok); test_hello_file_content=F(AssertionError)] rc=0
+CASE prefix-only predicted=P/F observed=P/F match  [test_hello_file_exists=P(ok); test_hello_file_content=F(AssertionError)] rc=0
+CASE wrong-flag  predicted=P/F observed=P/F match  [test_hello_file_exists=P(ok); test_hello_file_content=F(AssertionError)] rc=0
+
+EXTRA probes (not part of the frozen 8; attack evidence only)
+EXTRA x-empty-bytes   observed=P/F  [test_hello_file_exists=P(ok); test_hello_file_content=F(AssertionError)] rc=0
+EXTRA x-nonutf8       observed=P/SETUP  [test_hello_file_exists=P(ok); test_hello_file_content=SETUP(UnicodeDecodeError)] rc=0
+EXTRA x-dir           observed=P/SETUP  [test_hello_file_exists=P(ok); test_hello_file_content=SETUP(IsADirectoryError)] rc=0
+
+cases=8 mismatches=0 setup_defects=0
+observed_vectors={"empty": ["P", "F"], "exact": ["P", "P"], "missing": ["F", "F"], "padded": ["P", "P"], "prefix-only": ["P", "F"], "suffix": ["P", "F"], "uppercase": ["P", "F"], "wrong-flag": ["P", "F"]}
+PREDICATE R84-PROBE pass
+
+# PROVENANCE (appended by the seat after the run; the block above is verbatim harness output)
+seat=Reviewer2R84
+run=2026-11-04
+host_python=3.14.8 (UTF-8 filesystem encoding, preferred encoding UTF-8 inside the sandbox)
+bubblewrap=0.13.1
+subject=corpus/evidence/round52/graders/gcode-to-text/tests/test_outputs.py
+subject_sha256=6b049dc626aa103b20d165552e5cb39ba02c6803b04ba06a43d79435b5f701a6
+subject_sha256_at_base_4087b2f8=6b049dc626aa103b20d165552e5cb39ba02c6803b04ba06a43d79435b5f701a6
+bind_recipe=--unshare-all --ro-bind /usr /usr --ro-bind /etc /etc --symlink usr/lib /lib --symlink usr/lib /lib64 --proc /proc --dev /dev --bind CASE /app --ro-bind <grader>/tests /tests --ro-bind <driver> /driver --chdir / /usr/bin/python3 /driver/two_leg.py
+# The two --symlink entries are required on this host: /lib and /lib64 are symlinks into usr/lib
+# and a bare {/usr,/etc} root cannot exec /usr/bin/python3 (reproduced failure:
+# "bwrap: execvp /usr/bin/python3: No such file or directory").
+staged_bytes:
+  missing       (no /app/out.txt)
+  empty         <0 bytes>
+  exact         flag{gc0d3_iz_ch4LLenGiNg}
+  padded        " \n" + flag{gc0d3_iz_ch4LLenGiNg} + "\t\n"
+  uppercase     FLAG{GC0D3_IZ_CH4LLENGING}
+  suffix        flag{gc0d3_iz_ch4LLenGiNg}x
+  prefix-only   flag{gc0d3_iz_
+  wrong-flag    flag{gc0d3_iz_ch4LLenGiNx}
+  x-empty-bytes <0 bytes>              (extra probe, not a frozen case)
+  x-nonutf8     \xff\xfe               (extra probe, not a frozen case)
+  x-dir         /app/out.txt is a directory (extra probe, not a frozen case)
+driver_copies=two_leg.py, run_cases.py (same directory as this file)
+note=this is an independent attack re-execution, not the lane's gate and not the probe tool
+

@@ -1,0 +1,26 @@
+# gate_timing_check CLI fixture probe (read-only instrument, fixture repo only)
+
+## wave directory: w1
+commit=5fec6f3122d741a5db35abb0d35c4b3d7ff992f3
+exit=1
+stdout:
+FAIL line 7 Gate admit: candidate='corpus/knowledge/tb2-code-from-image-offline.md'
+  cell[reason]: second-seat re-read `.ufo/waves/round-84/w1/Reviewer2R84.md`
+  cited seat-report paths: '.ufo/waves/round-84/w1/Reviewer2R84.md'
+  missing: no .ufo/waves/round-84/falsify/ report exists in commit 5fec6f3122d741a5db35abb0d35c4b3d7ff992f3
+  reasons: no cited, existing, returned second-seat report for this round
+gate_timing_check: commit=5fec6f3122d741a5db35abb0d35c4b3d7ff992f3 lesson=corpus/lessons/round-84.md admissions=1 passed=0 failed=1 second-seat-reports=0
+stderr:
+
+
+## wave directory: wave2
+commit=1a32d45db3f222c5b843bac3cc50656ab0a49723
+exit=0
+stdout:
+PASS line 7 Gate admit: candidate='corpus/knowledge/tb2-code-from-image-offline.md'
+  cited seat-report paths: '.ufo/waves/round-84/wave2/Reviewer2R84.md'
+  existing returned second-seat report(s): .ufo/waves/round-84/wave2/Reviewer2R84.md
+gate_timing_check: commit=1a32d45db3f222c5b843bac3cc50656ab0a49723 lesson=corpus/lessons/round-84.md admissions=1 passed=1 failed=0 second-seat-reports=1
+stderr:
+
+

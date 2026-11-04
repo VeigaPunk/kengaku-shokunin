@@ -1,0 +1,50 @@
+SourceR84 fetch transcript — gcode-to-text pinned grader
+seat: SourceR84 (scribe)   access date: 2026-11-04   round: kengaku r84 w1
+scratch: $HYAKU_SCRATCH/kengaku-r84/SourceR84 (TMPDIR set to it; removed at exit)
+host: Linux 7.2.11-arch1-1 x86_64
+curl: curl 8.23.0 (x86_64-pc-linux-gnu) libcurl/8.23.0 OpenSSL/3.6.5 zlib/1.3.2 brotli/1.2.0 zstd/1.5.7 libidn2/2.3.8 libpsl/0.21.5 libssh2/1.11.1 nghttp2/1.70.0 ngtcp2/1.25.0 nghttp3/1.18.0 mit-krb5/1.22.2
+python3: Python 3.14.8
+openssl: OpenSSL 3.6.5 29 Sep 2026 (Library: OpenSSL 3.6.5 29 Sep 2026)
+
+COMMAND 1 (fetch, writes only to scratch):
+  curl -sS -o $TMPDIR/fetched_test_outputs.py -w 'HTTP_STATUS=%{http_code}\nBYTES=%{size_download}\nURL=%{url_effective}\n' \
+    'https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/gcode-to-text/tests/test_outputs.py'
+
+RESULT 1:
+HTTP_STATUS=200
+BYTES=644
+URL=https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/gcode-to-text/tests/test_outputs.py
+CURL_EXIT=0
+
+COMMAND 2 (sha256 of fetched bytes):
+  sha256sum $TMPDIR/fetched_test_outputs.py
+6b049dc626aa103b20d165552e5cb39ba02c6803b04ba06a43d79435b5f701a6  $TMPDIR/fetched_test_outputs.py
+
+COMMAND 3 (byte-compare against BASE capture):
+  cmp $TMPDIR/fetched_test_outputs.py /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round52/graders/gcode-to-text/tests/test_outputs.py
+CMP_EXIT=0
+
+COMMAND 4 (sha256 and size of the BASE capture file itself):
+  sha256sum /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round52/graders/gcode-to-text/tests/test_outputs.py ; wc -c -l /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round52/graders/gcode-to-text/tests/test_outputs.py
+6b049dc626aa103b20d165552e5cb39ba02c6803b04ba06a43d79435b5f701a6  /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round52/graders/gcode-to-text/tests/test_outputs.py
+BYTES=644  LINES=19
+
+COMMAND 5 (independent second fetch, same URL, cmp against the first fetch):
+HTTP_STATUS=200 BYTES=644
+CURL_EXIT=0
+6b049dc626aa103b20d165552e5cb39ba02c6803b04ba06a43d79435b5f701a6  $TMPDIR/second.py
+CMP_TWO_FETCH_EXIT=0
+
+COMMAND 6 (located quote and test-function line numbers, from the fetched bytes):
+  python3 (reads $TMPDIR/fetched_test_outputs.py, prints 1-indexed line numbers)
+def line 6: def test_hello_file_exists():
+def line 13: def test_hello_file_content():
+quote line 17: '    assert hello_path.read_text().strip() == "flag{gc0d3_iz_ch4LLenGiNg}", ('
+whitespace-split word count: 5
+tokens: ['assert', 'hello_path.read_text().strip()', '==', '"flag{gc0d3_iz_ch4LLenGiNg}",', '(']
+total lines in file: 19 (last line ends with a newline)
+
+PIN CHECK:
+required sha256: 6b049dc626aa103b20d165552e5cb39ba02c6803b04ba06a43d79435b5f701a6
+observed sha256: 6b049dc626aa103b20d165552e5cb39ba02c6803b04ba06a43d79435b5f701a6
+PIN MATCH: yes

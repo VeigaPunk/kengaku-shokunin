@@ -1,0 +1,215 @@
+{
+  "fixtures": {
+    "N1": {
+      "bytes": 2889,
+      "expected_failing_rules": [
+        "q21"
+      ],
+      "header": [
+        "source: S267 \u2014 https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/code-from-image/tests/test_outputs.py :10-31; capture corpus/evidence/round52/graders/code-from-image/tests/test_outputs.py",
+        "verified-at: 2026-11-04 (round 83; frozen subject b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a)",
+        "recheck: 2027-05-01 \u2014 re-pin when needed; python3 plans/round83_c1_replay.py --lane . --work DIR",
+        ""
+      ],
+      "path": "fixtures/N1.md",
+      "purpose": "`re-pin when needed`: re-pin token, no cadence term (date and command kept)",
+      "sha256": "852c3ac5f0e07ff0d3c8ef89b613dbe0e329b006b8e149eeccedb731a6882b84"
+    },
+    "N2": {
+      "bytes": 2825,
+      "expected_failing_rules": [
+        "q21"
+      ],
+      "header": [
+        "source: S267 \u2014 corpus/evidence/round52/graders/code-from-image/tests/test_outputs.py; sha256 b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a",
+        "verified-at: 2026-11-04 (round 83; frozen subject b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a)",
+        "recheck: 2027-05-01 \u2014 python3 plans/round83_c1_replay.py --lane . --work DIR; pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6",
+        ""
+      ],
+      "path": "fixtures/N2.md",
+      "purpose": "source carries a 64-hex sha256 and no 40-hex commit pin",
+      "sha256": "8ee40c34f4cef4d54024bca5c22d78d08618b79db0784f38a1904b6b8de6a3ad"
+    },
+    "N3": {
+      "bytes": 2837,
+      "expected_failing_rules": [
+        "q21"
+      ],
+      "header": [
+        "source: S267 \u2014 https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d60/code-from-image/tests/test_outputs.py :10-31",
+        "verified-at: 2026-11-04 (round 83; frozen subject b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a)",
+        "recheck: 2027-05-01 \u2014 python3 plans/round83_c1_replay.py --lane . --work DIR; pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6",
+        ""
+      ],
+      "path": "fixtures/N3.md",
+      "purpose": "source pin embedded in a 41-hex run (no standalone 40-hex)",
+      "sha256": "3b4e75d39eeca18da19df33b8b486804e0aaa4ffa785aa3f9a39666cdca1d9a9"
+    },
+    "N4": {
+      "bytes": 2915,
+      "expected_failing_rules": [
+        "q1"
+      ],
+      "header": [
+        "source: S267 \u2014 https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/code-from-image/tests/test_outputs.py :10-31; capture corpus/evidence/round52/graders/code-from-image/tests/test_outputs.py",
+        "verified-at: 2026-11-04 (round 83; frozen subject b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a)",
+        "recheck: 2027-02-31 \u2014 python3 plans/round83_c1_replay.py --lane . --work DIR; pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6",
+        ""
+      ],
+      "path": "fixtures/N4.md",
+      "purpose": "calendar-invalid ISO shape (Feb 31) with command and pin",
+      "sha256": "cf0c2154e65c3cccc57f24e493199e2fdfb8e4901d5227f773536ed58a54e5bc"
+    },
+    "N5": {
+      "bytes": 2893,
+      "expected_failing_rules": [
+        "q21"
+      ],
+      "header": [
+        "source: S267 \u2014 https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/code-from-image/tests/test_outputs.py :10-31; superseded pin aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "verified-at: 2026-11-04 (round 83; frozen subject b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a)",
+        "recheck: 2027-05-01 \u2014 python3 plans/round83_c1_replay.py --lane . --work DIR; pin aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        ""
+      ],
+      "path": "fixtures/N5.md",
+      "purpose": "source carries two 40-hex pins; recheck names the second",
+      "sha256": "033329e40c6d35db09ca650e3dcc30973b7370133834defbf18ddf0ddd3347aa"
+    },
+    "P1": {
+      "bytes": 2912,
+      "expected_failing_rules": [],
+      "header": [
+        "source: S267 \u2014 https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/code-from-image/tests/test_outputs.py :10-31; capture corpus/evidence/round52/graders/code-from-image/tests/test_outputs.py",
+        "verified-at: 2026-11-04 (round 83; frozen subject b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a)",
+        "recheck: quarterly \u2014 python3 plans/round83_c1_replay.py --lane . --work DIR; re-pin to the then-current upstream commit",
+        ""
+      ],
+      "path": "fixtures/P1.md",
+      "purpose": "Q21 re-pin-cadence branch, no pin named: must pass",
+      "sha256": "11c26e3bee6d43d2e6f02c1af35b50aae890397d49e1273fa3a0e625d400b30a"
+    },
+    "m1": {
+      "bytes": 2900,
+      "expected_failing_rules": [
+        "q1"
+      ],
+      "header": [
+        "source: S267 \u2014 https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/code-from-image/tests/test_outputs.py :10-31; capture corpus/evidence/round52/graders/code-from-image/tests/test_outputs.py",
+        "verified-at: 2026-11-04 (round 83; frozen subject b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a)",
+        "recheck: python3 plans/round83_c1_replay.py --lane . --work DIR; pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6",
+        ""
+      ],
+      "path": "fixtures/m1.md",
+      "purpose": "date removed from recheck (pin and command kept)",
+      "sha256": "b51a21b9bb59d62a27b5af7aa7f93dcdb28c5b75b9ca48b1736fc6907969a720"
+    },
+    "m2": {
+      "bytes": 2869,
+      "expected_failing_rules": [
+        "q21"
+      ],
+      "header": [
+        "source: S267 \u2014 https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/code-from-image/tests/test_outputs.py :10-31; capture corpus/evidence/round52/graders/code-from-image/tests/test_outputs.py",
+        "verified-at: 2026-11-04 (round 83; frozen subject b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a)",
+        "recheck: 2027-05-01 \u2014 python3 plans/round83_c1_replay.py --lane . --work DIR",
+        ""
+      ],
+      "path": "fixtures/m2.md",
+      "purpose": "pin removed from recheck (date and command kept)",
+      "sha256": "2635ddc77057e7e94210251b984cc91de47a687e0b09c938fdf5f3cff12b76a4"
+    },
+    "m3": {
+      "bytes": 2817,
+      "expected_failing_rules": [
+        "q1",
+        "q21"
+      ],
+      "header": [
+        "source: S267 \u2014 https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/code-from-image/tests/test_outputs.py :10-31; capture corpus/evidence/round52/graders/code-from-image/tests/test_outputs.py",
+        "verified-at: 2026-11-04 (round 83; frozen subject b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a)",
+        "recheck: monthly re-verify",
+        ""
+      ],
+      "path": "fixtures/m3.md",
+      "purpose": "recheck replaced by `monthly re-verify`: cadence, no object, no pin",
+      "sha256": "38caf6365833a5cad0ea5a60311c9df6905d73c34b17e89c7ee14c5114a521f5"
+    },
+    "m4": {
+      "bytes": 2916,
+      "expected_failing_rules": [
+        "q1"
+      ],
+      "header": [
+        "source: S267 \u2014 https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/code-from-image/tests/test_outputs.py :10-31; capture corpus/evidence/round52/graders/code-from-image/tests/test_outputs.py",
+        "verified-at: 2026-11-04 (round 83; frozen subject b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a)",
+        "",
+        "recheck: 2027-05-01 \u2014 python3 plans/round83_c1_replay.py --lane . --work DIR; pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6"
+      ],
+      "path": "fixtures/m4.md",
+      "purpose": "recheck moved to line 4 (blank line inserted at line 3)",
+      "sha256": "28ba1b3c4ba3f83130562d32f2a41a4ed354e41355e2a679f4663dd60d1a1613"
+    },
+    "m5": {
+      "bytes": 2915,
+      "expected_failing_rules": [
+        "q21"
+      ],
+      "header": [
+        "source: S267 \u2014 https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/code-from-image/tests/test_outputs.py :10-31; capture corpus/evidence/round52/graders/code-from-image/tests/test_outputs.py",
+        "verified-at: 2026-11-04 (round 83; frozen subject b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a)",
+        "recheck: 2027-05-01 \u2014 python3 plans/round83_c1_replay.py --lane . --work DIR; pin 2fd12b88aafdd04a52c298e3940bcb189f9766d7",
+        ""
+      ],
+      "path": "fixtures/m5.md",
+      "purpose": "recheck pin differs from the source pin by one hex digit",
+      "sha256": "51d10c99cb351509cd1317651843143fa029fbfbd0767c60d465b4908b7801a7"
+    },
+    "m6": {
+      "bytes": 2810,
+      "expected_failing_rules": [
+        "q1",
+        "q21"
+      ],
+      "header": [
+        "source: S267 \u2014 https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/code-from-image/tests/test_outputs.py :10-31; capture corpus/evidence/round52/graders/code-from-image/tests/test_outputs.py",
+        "verified-at: 2026-11-04 (round 83; frozen subject b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a)",
+        "recheck: 2027-05-01",
+        ""
+      ],
+      "path": "fixtures/m6.md",
+      "purpose": "date with no action and no pin",
+      "sha256": "98a1e484c9b643f85a0debd95118ae32337d309e0f870c9ec34792a9030af288"
+    },
+    "m7": {
+      "bytes": 2882,
+      "expected_failing_rules": [
+        "q21"
+      ],
+      "header": [
+        "source: S267 \u2014 https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/code-from-image/tests/test_outputs.py :10-31; capture corpus/evidence/round52/graders/code-from-image/tests/test_outputs.py",
+        "verified-at: 2026-11-04 (round 83; frozen subject b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a)",
+        "recheck: 2027-05-01 \u2014 python3 plans/round83_c1_replay.py --lane . --work DIR; pin 2fd12b8",
+        ""
+      ],
+      "path": "fixtures/m7.md",
+      "purpose": "recheck names only the 7-char pin prefix",
+      "sha256": "2aabda19ac689230ff94f6bf4b82947c17973182a2ad8fb9c244a012e7ae6de2"
+    },
+    "repaired": {
+      "bytes": 2915,
+      "expected_failing_rules": [],
+      "header": [
+        "source: S267 \u2014 https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/code-from-image/tests/test_outputs.py :10-31; capture corpus/evidence/round52/graders/code-from-image/tests/test_outputs.py",
+        "verified-at: 2026-11-04 (round 83; frozen subject b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a)",
+        "recheck: 2027-05-01 \u2014 python3 plans/round83_c1_replay.py --lane . --work DIR; pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6",
+        ""
+      ],
+      "path": "fixtures/repaired.md",
+      "purpose": "green baseline: ISO date + command + the commit pin named",
+      "sha256": "3f4a38dc4dd0d7f8c1048dcee0301242e5c80938402f9bf08d7b806d886e5694"
+    }
+  },
+  "source_entry": "entry-base.md",
+  "source_entry_sha256": "fc42c76cb5a05c131a5fec4d2aa3e441d9627841d130a54d1b616f2042675271",
+  "source_revision": "4087b2f8369fb0c317a8460725a607681ff2fd7f"
+}

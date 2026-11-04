@@ -1,0 +1,186 @@
+# R84-C2 counter — AdmitR84 report
+
+seat: AdmitR84 (leaf, kengaku round 84, wave w1)
+frozen input: /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round-84-claims.md read in full at
+commit b12a9d46806cb8d69fe48fac0f4efff0b266e4c2 (base 4087b2f8369fb0c317a8460725a607681ff2fd7f).
+No frozen predicate, target, case table, control set or kill rule was changed.
+
+## Deliverable
+
+`/home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/AdmitR84/round84_c2_admission.py`
+
+- sha256 `7558f3f4e10b849b0351cdd672ed66ba4f08c01a254704db6b4c2f6d67fa509e`
+- 26366 bytes, Python 3.14.8, stdlib only
+- CLI: `--lane DIR [--rev REV] [--work DIR]` and the modes `--selftest`,
+  `--mutant q1|q21|q13`, `--control-filler`, `--control-date-only`
+- Writes only under `--work` (clone, extracted checker, fixtures); the lane is read
+  through `git show` / `git rev-parse` / `git clone --shared --no-checkout` only.
+
+Probes kept beside it (each is evidence, not part of the counter):
+`probe_gate_layout.py` (sha256 39bf6e75…), `probe_gate_contract.py` (68d58dc4…),
+`probe_repair_shape.py` (b88dbb89…).
+
+## Rules as implemented
+
+Measured subject: one entry `corpus/knowledge/tb2-code-from-image-offline.md`; the
+successor admission is the `## Gate` of `corpus/lessons/round-84.md`. With `--rev`
+both are read by `git show REV:path`; without it the working tree bytes are read and
+Q13 still needs a commit (HEAD). Only an entry absent at the revision, an unreadable
+revision, a lane that is not a git repository, or an unclonable gate repository gives
+exit 2 (`COULD-NOT-EVALUATE`). `defects = q1 + q21 + q13` over `entries=1`.
+
+Q1 — header contract. Lines 1..3 must start at column 0 with `source:`,
+`verified-at:`, `recheck:`. The recheck body must contain both
+(a) a marker: an ISO date matching `(?<![0-9])(\d{4})-(\d{2})-(\d{2})(?![0-9])` that
+is a real calendar date, or a cadence matching
+`(?<![\w-])(?:daily|weekly|bi-?weekly|fortnightly|monthly|quarterly|semi-?annual(ly)?|annual(ly)?|yearly|per[- ]release|every\s+\d+\s*(?:days?|d|weeks?|w|months?|mo|hours?|h))(?![\w-])` (case-insensitive);
+and (b) a named action: a command matching
+`(?<![\w./-])(?:python3?|bash|sh|zsh|npx|uv|make|git|jq|rg|go|cargo|npm|node|perl|ruby|curl|wget|bwrap|bubblewrap)(?![\w-])` or `(?:plans|scripts)/…\.(py|sh)`,
+or `(?<![\w-])(?:re-?verify|re-?run)(?![\w-])` followed by a concrete action token
+(a backticked span, a token containing `/`, a file with a `.py|.sh|.json|.md|.txt|.yaml`
+extension, or a command name). Missing marker → `recheck-no-date-or-cadence`; missing
+action → `recheck-no-action`; wrong header line → `lineN-not-<prefix>`.
+
+Q21 — pin continuity. Pins are `(?<![0-9a-f])[0-9a-f]{40}(?![0-9a-f])` on line 1
+(boundaries stop a 64-hex digest from donating a 40-hex prefix). Every pin must appear
+literally on the recheck line, or the recheck line must contain `(?<![\w-])(?:re-?pin(ned|ning)?|pin(ned|ning)?)(?![\w-])` together with a cadence token (an ISO date
+is not a cadence here). No pin on the source line → q21=0 with detail `pin-absent`.
+
+Q13 — successor admission. `plans/gate_timing_check.py --lesson
+corpus/lessons/round-84.md --commit REV`, using the checker bytes at REV, run against
+a `git clone --shared --no-checkout` of the measured revision (never the lane worktree).
+Exit 0 → q13=0; any other exit, or an absent lesson → q13=1. The checker's own
+requirement of a line-start `writer:` field on the candidate is folded into q13 (a
+missing writer makes the checker exit 1); it is not a fourth defect class.
+
+INFO — `INFO writer=present|absent` reports whether the entry has a line matching
+`^writer:\s*\S` (multiline). Informational only; it never changes a count.
+
+In worktree mode a Gate that is not byte-identical to HEAD's is treated as
+`lesson-absent` (an uncommitted admission is not an admitting tree); this is deliberate.
+
+## Transcripts and exit codes
+
+All under `.ufo/waves/round-84/w1/AdmitR84/`; each file ends with its `exit=` line.
+
+| transcript | mode | exit | result |
+|---|---|---|---|
+| selftest.txt | `--selftest` | 0 | 6/6 fixtures, 3/3 mutants killed, `SELFTEST PASS` |
+| mutant-q1.txt | `--mutant q1` | 0 | KILLED on `q1-only` (1→0) and on `a-base` (3→2) |
+| mutant-q21.txt | `--mutant q21` | 0 | KILLED on `q21-only` (1→0) and `a-base` (3→2) |
+| mutant-q13.txt | `--mutant q13` | 0 | KILLED on `q13-only` (1→0) and `a-base` (3→2) |
+| control-filler.txt | `--control-filler` | 0 | BASE bytes: q1=1 q21=1 q13=1 defects=3, target_reached=False |
+| control-date-only.txt | `--control-date-only` | 0 | date-only: q1=0 q21=1 q13=1 defects=2, target_reached=False |
+| base.txt | `--rev 4087b2f8…` | 1 | q1=1 q21=1 q13=1 defects=3, `PREDICATE R84-C2 fail` |
+| worktree.txt | no `--rev` | 1 | same figures; round-84.md absent in the working tree |
+| lane-relative.txt | `--lane .` from the lane root | 1 | same figures; the documented `plans/` invocation shape |
+| could-not-evaluate.txt | `--rev deadbeef…` | 2 | `COULD-NOT-EVALUATE git revision … is not readable` |
+| could-not-evaluate-entry.txt | `--rev ddb903a8^` | 2 | `COULD-NOT-EVALUATE … is absent at ddb903a8…^` |
+| probe-gate-layout.txt | layout probe | 0 | w1 citations rejected; falsify accepted; registry required |
+| probe-gate-contract.txt | contract probe | 0 | 8 isolated cases; admissible shape exits 0 |
+| probe-repair-shape.txt | repair probe | 0 | recommended recheck line q1=0 q21=0; compliant end state defects=0, exit path 0 |
+
+Selftest fixtures (expectations frozen by the assignment; observed equal):
+`a-base` 1/1/1 defects=3; `date-only` 0/1/1 defects=2; `q21-only` 0/1/0 defects=1;
+`q13-only` 0/0/1 defects=1; `green` 0/0/0 defects=0; `q1-only` 1/0/0 defects=1.
+(a)-(d) are the assigned fixtures; `q1-only` is the isolation fixture that kills the
+Q1 mutant (BASE already kills it, but a rule-isolating fixture is the honest kill).
+
+## BASE measurement (frozen "before")
+
+`base.txt` at `--rev 4087b2f8369fb0c317a8460725a607681ff2fd7f`:
+
+```
+CHECK q1 DEFECT recheck-no-date-or-cadence
+CHECK q21 DEFECT pins=1 uncovered=2fd12b88aafdd04a52c298e3940bcb189f9766d6
+CHECK q13 DEFECT lesson-absent
+INFO writer=absent
+TARGET entries=1 q1=1 q21=1 q13=1 defects=3
+PREDICATE R84-C2 fail
+```
+
+This matches the frozen before-line exactly. q13 is red at BASE because round-84.md is
+absent there; independently, the BASE entry has no `writer:` line, so the checker
+would also exit 1 if the lesson existed.
+
+## Measured Q13 evidence contract (finding for the L1)
+
+`plans/gate_timing_check.py` (sha256
+`51c18a9edfecba9cb6e15449b8063668f41225e98347c6221c6df7c2b0b80a2`) accepts only
+second-wave directories: `is_second_wave()` matches `falsify` or `wave2`/`wave-2`/
+`wave_2`. Citation regexes require a `*.md` filename. Measured with the real checker:
+
+- `.ufo/waves/round-84/w1/ReviewerR84.md` + w1 registry → exit 1,
+  `second-seat-reports=0`, reason `no cited, existing, returned second-seat report`.
+- `.ufo/waves/round-84/w1/ReviewerR84/report.txt` → not parsed as a citation at all
+  (`cited seat-report paths: none`).
+- `.ufo/waves/round-84/falsify/ReviewerR84.md` without a registry → exit 1
+  (`seat is not in the committed wave registry`).
+- Registry present but report containing `writer: KengakuR84` → exit 1
+  (`report writer/author declaration equals candidate writer 'KengakuR84'`).
+- Report naming only `tb2-code-from-image-offline` → exit 1
+  (`report does not name the admitted candidate path`).
+- Report without a line-start `VERDICT:` → exit 1 (`no anchored VERDICT line`).
+- Entry without a line-start `writer:` → exit 1
+  (`candidate has no committed writer: field`).
+- `.ufo/waves/round-84/falsify/ReviewerR84.md` + falsify registry
+  (`role: reviewer`, `agentId: KengakuR84.ReviewerR84`) + entry with
+  `writer: KengakuR84` → exit 0, `passed=1`.
+
+Therefore q13 can reach 0 only if the successor Gate cites a `.md` report under
+`.ufo/waves/round-84/falsify/` (or a `wave2`-named directory) and that directory
+carries a registry entry for the seat. The cited report must name the full candidate
+path, carry an anchored `VERDICT:` line, and must not contain a `writer:`/`author:`
+line equal to `KengakuR84`. Recommended: publish this round's re-read as
+`.ufo/waves/round-84/falsify/ReviewerR84.md` with
+`.ufo/waves/round-84/falsify/swarm-registry.json`; that is still a round-84 wave
+artifact, not a backdated landing-time review. The alternative — editing the checker
+to accept `w1/` and `.txt` — is a production change outside this seat; the counter
+uses whichever checker bytes the measured revision holds.
+
+## Repair boundary measured for Q1/Q21 (`probe-repair-shape.txt`)
+
+| recheck line | q1 | q21 |
+|---|---|---|
+| `python3 plans/round83_c1_replay.py --lane . --work DIR` (BASE) | 1 | 1 |
+| same + `on 2026-12-04` | 0 | 1 |
+| `re-verify … --rev <40-hex> on 2026-12-04` | 0 | 0 |
+| `re-verify weekly and re-pin the source …` (cadence + pin verb, no literal pin) | 0 | 0 |
+| `re-verify weekly against pinned source 2fd12b88…; next review 2026-12-04` | 0 | 0 |
+
+A compliant end state (that line + `writer: KengakuR84` + a falsify Gate + registry +
+report) produces `TARGET entries=1 q1=0 q21=0 q13=0 defects=0`,
+`PREDICATE R84-C2 pass`.
+
+## Calibration notes
+
+Q1 and Q21 are implemented from the frozen R84-C2 sentences, not from the cheaper
+`corpus/QUALITY.md` one-liners. QUALITY's Q21 check accepts any 7-hex token or the word
+`pin`; the frozen sentence asks for the same 40-hex value or pin/re-pin with a cadence,
+so the counter is stricter there (a 7-hex prefix alone does not satisfy it). Q13 is
+exactly QUALITY Q13/Q14's CLI (`gate_timing_check.py` exit 0), including Q14's role
+set and its rejection of report author/registry identities equal to the candidate
+writer; the only added observation is the directory contract measured above
+(`falsify`/`wave2` only, `.md` only), which the frozen CLI inherits from the checker.
+
+## Determinism
+
+Verdicts are deterministic functions of the measured bytes and the checker at the
+measured revision. Q13 details keep only the checker's `reasons:` line (or the first
+diagnostic line) with whitespace collapsed and commit hashes never echoed. Fixture
+commit SHAs vary with the clock but are never printed. `git show` text decoding
+replaces invalid UTF-8; the measured files are UTF-8, and a replacement byte could
+only weaken, not fabricate, a header match. The two boundary choices that are mine,
+not the frozen text's, are documented above: the Q1 action must be concrete (a bare
+prose `re-verify` without a command/path/backtick is not an action), and the Q21
+escape reads "pin/re-pin with a cadence" as a cadence token, not an ISO date. No rule
+failed to be made deterministic; the only external dependency is the checker script
+itself, which is pinned to the measured revision by construction.
+
+## Tooling and scope
+
+No tool, package or config was installed, upgraded or changed. No build, lint or
+general test suite was run; only the assigned selftest, mutants, controls and probes
+were executed. No production file, MANIFEST, state file, sibling lane or domain tree
+was written. Scratch stayed under `/fast/scratch/hyaku/kengaku-r84/AdmitR84` and all
+receipts were copied into this directory.

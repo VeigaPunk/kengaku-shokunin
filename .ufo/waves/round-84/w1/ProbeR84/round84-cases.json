@@ -1,0 +1,45 @@
+{
+  "member": "gcode-to-text",
+  "cases": [
+    {
+      "id": "missing",
+      "content": null,
+      "predicted": "F/F"
+    },
+    {
+      "id": "empty",
+      "content": "",
+      "predicted": "P/F"
+    },
+    {
+      "id": "exact",
+      "content": "flag{gc0d3_iz_ch4LLenGiNg}",
+      "predicted": "P/P"
+    },
+    {
+      "id": "padded",
+      "content": " \nflag{gc0d3_iz_ch4LLenGiNg}\t\n",
+      "predicted": "P/P"
+    },
+    {
+      "id": "uppercase",
+      "content": "FLAG{GC0D3_IZ_CH4LLENGING}",
+      "predicted": "P/F"
+    },
+    {
+      "id": "suffix",
+      "content": "flag{gc0d3_iz_ch4LLenGiNg}x",
+      "predicted": "P/F"
+    },
+    {
+      "id": "prefix-only",
+      "content": "flag{gc0d3_iz_",
+      "predicted": "P/F"
+    },
+    {
+      "id": "wrong-flag",
+      "content": "flag{gc0d3_iz_ch4LLenGiNx}",
+      "predicted": "P/F"
+    }
+  ]
+}

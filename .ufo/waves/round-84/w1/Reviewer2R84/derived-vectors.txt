@@ -1,0 +1,114 @@
+# R84-C1 independent vector derivation — seat Reviewer2R84
+# Derived ONLY from the captured grader source at
+#   /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round52/graders/gcode-to-text/tests/test_outputs.py
+# sha256 6b049dc626aa103b20d165552e5cb39ba02c6803b04ba06a43d79435b5f701a6 (verified: pin prefix 6b049dc626aa103b)
+# Neither plans/round84_gcode_probe.py nor plans/round84-cases.json was read before this file was written.
+# Staged-content descriptions for the eight case ids are taken from the frozen table in
+# plans/round-84-claims.md (the claim's own source), not from the counter or the probe.
+
+## 0. Source of truth (verbatim, unmodified)
+
+    from pathlib import Path
+
+    def test_hello_file_exists():
+        """Test that out.txt file exists in the current directory."""
+        hello_path = Path("/app/out.txt")
+        assert hello_path.exists(), f"File {hello_path} does not exist"
+
+    def test_hello_file_content():
+        """Test that out.txt contains exactly the flag."""
+        hello_path = Path("/app/out.txt")
+        assert hello_path.read_text().strip() == "flag{gc0d3_iz_ch4LLenGiNg}", (
+            f"Expected the correct flag but got '{hello_path.read_text().strip()}'"
+        )
+
+Definition order = execution order for the vector: leg 1 = `exists`, leg 2 = `content`.
+
+## 1. Leg semantics derived from the AST, not from prose
+
+Leg `exists` (line 6-10):
+  P  iff `Path("/app/out.txt").exists()` is True, i.e. the path resolves to an existing
+     filesystem entry (symlinks followed). An empty regular file exists -> P.
+  F  iff exists() is False -> the assert raises AssertionError.
+  No other outcome is reachable in-process; the f-string message evaluates `hello_path`
+     only (no read), so it cannot raise.
+
+Leg `content` (line 13-19):
+  `read_text()` is `open(mode="r", encoding=None)` -> locale encoding from the interpreter
+  (this host: UTF-8) with universal newlines, then `.strip()` (str.strip: strips all
+  Unicode whitespace, i.e. space \t \n \r \v \f and Unicode space separators at both ends),
+  compared for exact equality (case-sensitive, byte-for-byte after decode) to
+  `flag{gc0d3_iz_ch4LLenGiNg}`.
+  P  iff stripped decoded text == "flag{gc0d3_iz_ch4LLenGiNg}".
+  F  via AssertionError iff the text differs.
+  F  via FileNotFoundError iff the file is absent (propagates out of read_text()).
+  SETUP iff any other exception escapes: UnicodeDecodeError on non-UTF-8 bytes (a
+     ValueError, NOT a subclass of AssertionError and NOT FileNotFoundError),
+     IsADirectoryError/PermissionError on an unusable /app/out.txt (OSError but not FNF).
+  Note: the assertion *message* calls read_text() a second time, but only after the
+  comparison already failed; it cannot change the verdict and cannot fire on the P path.
+
+## 2. Per-case derivation (8 frozen case ids x 2 legs)
+
+| id | staged /app/out.txt | leg 1 `exists` reasoning | leg 2 `content` reasoning | derived vector |
+|---|---|---|---|---|
+| missing | file absent | exists()=False -> AssertionError | read_text() -> FileNotFoundError | F/F |
+| empty | `""` (0 bytes) | file present -> True | "".strip()=="" != flag -> AssertionError | P/F |
+| exact | `flag{gc0d3_iz_ch4LLenGiNg}` | present -> True | strip()=exact -> equal | P/P |
+| padded | ` \n`+exact+`\t\n` | present -> True | strip() removes leading " \n" and trailing "\t\n" -> exact | P/P |
+| uppercase | `FLAG{GC0D3_IZ_CH4LLENGING}` | present -> True | uppercase != lowercase -> AssertionError | P/F |
+| suffix | exact+`x` | present -> True | strip() leaves trailing "x" -> exact+"x" != exact | P/F |
+| prefix-only | `flag{gc0d3_iz_` | present -> True | strict prefix != full string | P/F |
+| wrong-flag | `flag{gc0d3_iz_ch4LLenGiNx}` | present -> True | last char "x" vs "g" -> AssertionError | P/F |
+
+Derived vectors in table order (exists/content):
+  missing      F/F
+  empty        P/F
+  exact        P/P
+  padded       P/P
+  uppercase    P/F
+  suffix       P/F
+  prefix-only  P/F
+  wrong-flag   P/F
+
+Aggregate: 8 cases, 16 legs; P count = 1*2 + 4*1? -> exact:2, padded:2, empty:1, uppercase:1,
+suffix:1, prefix-only:1, wrong-flag:1, missing:0 = 9 P legs, 7 F legs.
+The only two P/P cases are `exact` and `padded` (padded survives because str.strip() is applied
+before the equality, and the staged pad is whitespace only).
+
+## 3. Derivation-side defects found (source of possible table disagreement)
+
+D1 (major, coverage gap in the frozen table, NOT a vector mismatch):
+  The frozen case table contains no non-UTF-8 case and no non-regular-file case. Because
+  `read_text()` raises UnicodeDecodeError (SETUP under the claim's own classification) on a
+  file such as b"\xff\xfe" and IsADirectoryError/PermissionError on a directory or a 0-mode
+  file, the table cannot, by construction, distinguish "leg F" from "leg SETUP" on those
+  inputs. The 8-case table therefore proves the two functions' P/F partition only on the
+  text-decodable subset of inputs. This is a table-strength observation; it does not falsify
+  any of the eight predicted vectors.
+D2 (minor): `exists` is True for a dangling target only if the symlink resolves; the table
+  says "file absent" for `missing`, which the harness must stage as a genuinely absent path
+  (not a dangling symlink). Any harness that staged a symlink would still derive F/F, so the
+  vector is insensitive, but the staging receipt must say "absent", not "symlink".
+D3 (informational): `empty` is P/F only because 0 bytes decode to ""; a 1-byte whitespace
+  file would also be P/F. `exact` and `padded` are the only P/P vectors, so the `content`
+  leg has exactly one P class modulo whitespace padding — consistent with the claim that the
+  content leg is a stripped exact-string comparison.
+
+## 4. Comparison against the frozen table (plans/round-84-claims.md)
+
+Frozen predicted column, table order: F/F, P/F, P/P, P/P, P/F, P/F, P/F, P/F.
+Derived:                              F/F, P/F, P/P, P/P, P/F, P/F, P/F, P/F.
+Disagreements: 0 of 8.
+
+## 5. Do-nothing prediction (derived, before running anything)
+
+With nothing staged, /app/out.txt does not exist:
+  exists -> AssertionError -> F; content -> FileNotFoundError -> F. Vector F/F.
+  A zero-case run (do-nothing = no receipt at the revision) must show
+  `TARGET members=1 cases=0 ... located=0 executed=0` and `PREDICATE R84-C1 fail`.
+  The frozen predicate requires `cases=8 legs=16 mismatches=0 located=1 executed=1 defects=0`
+  AND a located receipt file; staging nothing cannot satisfy any of those conjuncts because
+  they are counts over a receipt that does not exist and over 16 observed legs. Under the
+  frozen text, "does nothing" is therefore unrepresentable as a pass: located=0 is a hard
+  conjunct, and the counter cannot manufacture a located receipt without writing bytes.

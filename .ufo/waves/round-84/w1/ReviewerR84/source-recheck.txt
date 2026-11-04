@@ -1,0 +1,42 @@
+# ReviewerR84 source re-open receipt — S267 subject
+DATE: 2026-11-04
+URL: https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/code-from-image/tests/test_outputs.py
+PIN: 2fd12b88aafdd04a52c298e3940bcb189f9766d6
+SHA256_EXPECTED: b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a
+SHA256_OBSERVED: b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a
+BYTES: 935
+LINES: 31
+CAPTURE_SHA256: b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a
+INSTRUCTION_URL_SHA256: 8c3af6483e409defef9786da51f318ae2ca71afe2327b94471d2f0e2e367442c
+--- hunk :10-31 ---
+      1	def test_output_file_exists():
+      2	    """
+      3	    Verify the output file exists
+      4	    """
+      5	    output_path = Path("/app/output.txt")
+      6	    assert output_path.exists(), f"File {output_path} does not exist"
+      7	
+      8	
+      9	def test_output_is_correct():
+     10	    """
+     11	    Verify the output is correct
+     12	    """
+     13	    output_path = Path("/app/output.txt")
+     14	    with open(output_path, "r") as f:
+     15	        output = f.read()
+     16	    assert output.strip().startswith("bee26a"), (
+     17	        f"Output {output} does not start with bee26a"
+     18	    )
+     19	    assert (
+     20	        output.strip()
+     21	        == "bee26a133f103b9ecda444c70ec22cafef6e31a3de7af6d047974dc90ce3defe"
+     22	    ), f"Output {output} is not correct"
+--- checks ---
+line25_exact_quote_present: True
+line25_strip_equals_quote: True
+line25_whitespace_tokens: 3
+def_lines: [(10, 'def test_output_file_exists():'), (18, 'def test_output_is_correct():')]
+hint_bee26a_len: 6
+app_output_line14: True
+app_output_line22: True
+EXIT: 0

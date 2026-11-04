@@ -1,0 +1,25 @@
+# tb2 gcode-to-text grader probe
+MEMBER gcode-to-text
+SUBJECT_CAPTURE corpus/evidence/round52/graders/gcode-to-text/tests/test_outputs.py
+SUBJECT_SHA 6b049dc626aa103b20d165552e5cb39ba02c6803b04ba06a43d79435b5f701a6
+CASE_TABLE_SHA b2324cc14b03cc82485d85165a1524a64f54dabb67eaf6c2b5b9fe2cc6cebd86
+TOOL /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/ProbeR84/round84_gcode_probe.py
+TOOL_SHA 82f359e67840ec5ed876dc1904c0f69b158d2f1bc33278df3dfd64c51d528e75
+HOST_PYTHON Python 3.14.8
+HOST_OPENSSL OpenSSL 3.6.5 29 Sep 2026 (Library: OpenSSL 3.6.5 29 Sep 2026)
+LANE_TIP absent
+WORKTREE absent
+COMMAND python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-84/w1/ProbeR84/round84_gcode_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r84/ProbeR84/neg-run
+EXIT 1
+OBSERVATIONS_BEGIN
+CASE missing predicted=F/F observed=F/F
+CASE empty predicted=P/F observed=P/F
+CASE exact predicted=P/P observed=P/F
+CASE padded predicted=P/P observed=P/P
+CASE uppercase predicted=P/F observed=P/F
+CASE suffix predicted=P/F observed=P/F
+CASE prefix-only predicted=P/F observed=P/F
+CASE wrong-flag predicted=P/F observed=P/F
+cases=8 mismatches=1
+PREDICATE R84-PROBE fail
+OBSERVATIONS_END
