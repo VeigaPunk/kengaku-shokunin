@@ -1,10 +1,11 @@
-# R70-C2 controls (final)
-$ --selftest
+# R70-C2 controls on the landing tip
+REV 3fc7bd75dfb7ec7d89e66bc5d266cb2d938035c1
+$ python3 plans/round70_c2_routed_defects.py --selftest --work <scratch>
 PREDICATE R70-C2 fail
 SELFTEST defects-in-fake=8 want=8 all-fail=True
 SELFTEST e2-byte-flip-red=True
 SELFTEST ok=True
-$ --mutants
+$ python3 plans/round70_c2_routed_defects.py --mutants --work <scratch>
 MUTANT 7 gate-reject defects=7 killed=True
 MUTANT 8 wave-validation defects=7 killed=True
 MUTANTS total=8 killed=8
