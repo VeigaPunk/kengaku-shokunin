@@ -106,6 +106,9 @@ instrument has a registry row; the class remaining is the one this round repaire
   universe reads captures from the checked tree rather than `BASE_REV` (F3), the stdlib-import test
   is vacuously true for a zero-import capture (F4), the mint driver's post-probe guard is an OR and
   its writes are not all-or-nothing (S1/S2). None of them changes this round's data; all are
-  round-82 work.
+  round-82 work. The critic adds four more of the same class (tool provenance binds to the measured
+  tree, the environment pin is a version string, the C2 close resolver's commit branch checks
+  ancestry only, and the sensitivity leg reverts one file rather than a base checkout) — recorded in
+  the same file.
 - `container-image` stays at `executed 0 of 0` (no member exists in the census) and 62 members stay
   `unexecuted`; the population gate's `covered=15` of 16 classes is the honest state.
