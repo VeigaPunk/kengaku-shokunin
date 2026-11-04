@@ -80,7 +80,7 @@ before the three lose.
 **Batteries.** `--selftest` cases include a clean green fixture and one red case per check
 (subject absent, stamp missing, source-sha mismatch, tool-sha mismatch, receipt untracked,
 observations empty/foreign, two members named, ledger not executed, exit nonzero, lane-tip
-unreachable, unexplained divergence). `--mutants` applies six attributed data mutations to the green
+unreachable, unexplained divergence). `--mutants` applies ten attributed data mutations to the green
 fixture (flip row, strip stamp, wrong sha, foreign block, drop receipt, second member) and requires
 each to be killed.
 
@@ -105,6 +105,22 @@ reader sees exactly what the instrument printed. Selftest cases `u-case-varies` 
 pass) and `prediction-varies` (a predicted line differs → `REPRODUCTION-MISMATCH`) pin the rule.
 The target, universe, kill rule and ledger leg are unchanged; this amendment narrows only what
 "same replay" is compared on, and it was written before the claim's after receipt existed.
+
+## Freeze amendment A3 (2026-11-04, before any after receipt was committed)
+
+Triggered by the wave's `SentinelReceiptsR80` finding (mint provenance: the driver stamped the
+`master` tip, not the executed checkout, and checked cleanliness once before writing). Two changes:
+
+1. `plans/round80_c1_remint.py` runs every probe first, re-checks that the worktree is still clean
+   **before writing any receipt**, stamps `LANE_TIP` from `HEAD` (the executed checkout), and stamps
+   `MINTED_BY_SHA` — the driver's sha256 at that checkout.
+2. The gate requires `MINTED_BY_SHA` to equal the driver's bytes at the measured tree, so a receipt
+   produced by a different driver is `MINTED-BY-SHA-MISMATCH`.
+
+Selftest case `driver-sha-mismatch` and mutant `driver-sha-mismatch` pin it. The mutants battery
+grew 6 → 10 attributed data mutations after the wave's `MutantGateR80` found four checks only the
+selftest isolated (`source-sha-mismatch`, `lane-tip-invalid`, `second-member-stamp`,
+`observation-edit-noted`); `MUTANTS real=10 killed=10 survived=0` is the frozen reading.
 
 ## R80-C2 — calibration (held at ceiling 10, exercised)
 

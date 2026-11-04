@@ -84,16 +84,17 @@ def main(argv: list[str]) -> int:
     if status:
         print(f"SETUP worktree not clean ({len(status.splitlines())} paths); run in a fresh clone")
         return 2
-    tip = git(lane, "rev-parse", "master").stdout.strip()
-    if not tip:
-        print("SETUP unresolved branch master")
+    head = git(lane, "rev-parse", "HEAD").stdout.strip()
+    if not head:
+        print("SETUP unresolved HEAD")
         return 2
+    driver_sha = sha256((lane / MINTED_BY).read_bytes())
     table = json.loads((lane / TABLE).read_text())["members"]
     doc = json.loads((lane / LEDGER).read_text())
     rows = doc["members"]
     chosen = [m for m in table if not a.only or m in a.only]
-    minted = failed = 0
-    (lane / EVID).mkdir(parents=True, exist_ok=True)
+    staged: list[tuple[str, str]] = []
+    failed = 0
     for m in chosen:
         spec = table[m]
         tool_bytes = (lane / spec["tool"]).read_bytes()
@@ -116,7 +117,6 @@ def main(argv: list[str]) -> int:
             failed += 1
             continue
         hist = obs_lines(hist_bytes.decode("utf-8", "replace"))
-        note = ""
         def proj(lines):
             out = []
             for ln in lines:
@@ -124,19 +124,20 @@ def main(argv: list[str]) -> int:
                     continue
                 if ln.startswith("OBSERVED-U ") or ln.startswith("cases="):
                     continue
-                m = re.match(r"^(?:CASE |case=)(\S+) predicted=(\S+)", ln)
-                if m and "U" in m.group(2).split("/"):
+                mm = re.match(r"^(?:CASE |case=)(\S+) predicted=(\S+)", ln)
+                if mm and "U" in mm.group(2).split("/"):
                     continue
                 out.append(ln.rstrip())
             return out
         hproj, oproj = proj(hist), proj(proc.stdout.splitlines())
+        note = ""
         if hproj and hproj != oproj:
             from collections import Counter
             hc, nc = Counter(hproj), Counter(oproj)
             moved = sum(((hc - nc) + (nc - hc)).values())
             note = (f"HISTORICAL-DIVERGENCE {moved} "
-                    f"the tip's instrument produces {len(obs)} observation lines where the "
-                    f"historical receipt has {len(hist)}; historical receipt kept, sha stamped\n")
+                    f"the tip's instrument produces {len(oproj)} comparable lines where the "
+                    f"historical receipt has {len(hproj)}; historical receipt kept, sha stamped\n")
         text = (
             f"# tb2 {m} grader probe (round 80 re-mint)\n"
             f"MEMBER {m}\n"
@@ -144,19 +145,18 @@ def main(argv: list[str]) -> int:
             f"SOURCE_SHA {sha256(hist_bytes)}\n"
             f"TOOL {spec['tool']}\n"
             f"TOOL_SHA {sha256(tool_bytes)}\n"
-            f"LANE_TIP {tip}\n"
+            f"LANE_TIP {head}\n"
             f"WORKTREE clean\n"
             f"COMMAND {command}\n"
             f"EXIT 0\n"
             f"MINTED_BY {MINTED_BY}\n"
+            f"MINTED_BY_SHA {driver_sha}\n"
             f"{note}"
             f"OBSERVATIONS_BEGIN\n"
             + "\n".join(ln for ln in proc.stdout.rstrip("\n").splitlines()
                         if not re.match(r"^REV [0-9a-f]{7,40}\s*$", ln)) + "\n"
             + f"OBSERVATIONS_END\n"
         )
-        rel = f"{EVID}/{m}-probe.txt"
-        (lane / rel).write_text(text)
         row = rows.get(m)
         if not isinstance(row, dict):
             print(f"REMINT-FAIL {m} ledger row absent")
@@ -164,14 +164,23 @@ def main(argv: list[str]) -> int:
             continue
         for key in ("reason", "evidence", "instrument", "debt"):
             row.pop(key, None)
-        row.update({"status": "executed", "round": 80, "receipt": rel,
-                    "subject": "tb2-header", "verdict": verdict_form(proc.stdout)})
-        minted += 1
-        print(f"REMINT {m} rc=0 obs={len(obs)} historical={'differs' if note else 'same'}")
-        print(f"LEDGER-FLIP {m} verdict={verdict_form(proc.stdout)}")
+        row.update({"status": "executed", "round": 80,
+                    "receipt": f"{EVID}/{m}-probe.txt", "subject": "tb2-header",
+                    "verdict": verdict_form(proc.stdout)})
+        staged.append((m, text))
+        print(f"REMINT {m} rc=0 obs={len(obs)} historical={'differs' if note else 'same'} "
+              f"verdict={verdict_form(proc.stdout)}")
+    after = git(lane, "status", "--porcelain").stdout.strip()
+    if after:
+        print(f"SETUP worktree not clean after the probe runs ({len(after.splitlines())} paths); "
+              f"nothing written")
+        return 2
+    (lane / EVID).mkdir(parents=True, exist_ok=True)
+    for m, text in staged:
+        (lane / f"{EVID}/{m}-probe.txt").write_text(text)
     (lane / LEDGER).write_text(json.dumps(doc, indent=1) + "\n")
-    print(f"REMINT minted={minted} failed={failed}")
-    return 0 if failed == 0 and minted == len(chosen) else 3
+    print(f"REMINT minted={len(staged)} failed={failed}")
+    return 0 if failed == 0 and len(staged) == len(chosen) else 3
 
 
 if __name__ == "__main__":

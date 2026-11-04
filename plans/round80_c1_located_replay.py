@@ -69,7 +69,7 @@ STAMP_RE = re.compile(r"^([A-Z_]+) (.+)$")
 REV_RE = re.compile(r"^REV [0-9a-f]{7,40}\s*$")
 BEGIN, END = "OBSERVATIONS_BEGIN", "OBSERVATIONS_END"
 REQUIRED = ("MEMBER", "SOURCE_RECEIPT", "SOURCE_SHA", "TOOL", "TOOL_SHA", "LANE_TIP",
-            "WORKTREE", "COMMAND", "EXIT", "MINTED_BY")
+            "WORKTREE", "COMMAND", "EXIT", "MINTED_BY", "MINTED_BY_SHA")
 
 
 def git(lane: Path, *args: str) -> subprocess.CompletedProcess:
@@ -282,6 +282,8 @@ def check(tree: Tree, base_doc: dict, table: dict, reproduce: bool, python: str,
             add("COMMAND-TOOL", repr(stamp.get("COMMAND")))
         if stamp.get("MINTED_BY") != MINTED_BY:
             add("MINTED-BY", repr(stamp.get("MINTED_BY")))
+        elif sha256(tree.read_bytes(MINTED_BY)) != stamp.get("MINTED_BY_SHA"):
+            add("MINTED-BY-SHA-MISMATCH", MINTED_BY)
         block = [ln.rstrip() for ln in block if ln.strip()]
         if not obs_lines("\n".join(block)):
             add("OBSERVATIONS-EMPTY", rel)
@@ -419,6 +421,7 @@ def stamp_of(m: str, root: Path, tool: Path, hist: Path, extra: str = "") -> str
         f"COMMAND {cmd}\n"
         f"EXIT 0\n"
         f"MINTED_BY {MINTED_BY}\n"
+        f"MINTED_BY_SHA {sha256((root / MINTED_BY).read_bytes())}\n"
         f"{extra}"
     )
 
@@ -443,6 +446,8 @@ def build_fixture(root: Path, *, ledger_status: str = "executed",
     (root / "corpus/evidence/round90").mkdir(parents=True)
     tool = root / "plans/fixture_probe.py"
     tool.write_text(FIXTURE_TOOL)
+    driver = root / MINTED_BY
+    driver.write_text("# fixture driver\n")
     for m in FIXTURE_NAMES:
         hist = root / f"corpus/evidence/round90/{m}.txt"
         hist.write_text(hist_text(m))
@@ -470,9 +475,18 @@ def build_fixture(root: Path, *, ledger_status: str = "executed",
             elif mutate == "second-member":
                 receipt = receipt.replace("OBSERVATIONS_END",
                                           f"NOISE {FIXTURE_NAMES[1]}\nOBSERVATIONS_END")
+            elif mutate == "second-member-stamp":
+                receipt = receipt.replace("OBSERVATIONS_BEGIN",
+                                          f"NOTE {FIXTURE_NAMES[1]}\nOBSERVATIONS_BEGIN")
+            elif mutate == "observation-edit-noted":
+                receipt = receipt.replace("PREDICATE R80-C1 pass",
+                                          "VECTOR foreign 1\nPREDICATE R80-C1 pass")
+                receipt = receipt.replace("MINTED_BY_SHA ", "HISTORICAL-DIVERGENCE 1 hand edit\nMINTED_BY_SHA ", 1)
             elif mutate == "u-case-varies":
                 receipt = receipt.replace(f"CASE {m}-speed predicted=U observed=P",
                                           f"CASE {m}-speed predicted=U observed=F")
+            elif mutate == "driver-sha-mismatch":
+                receipt = re.sub(r"^MINTED_BY_SHA .*$", "MINTED_BY_SHA " + "0" * 64, receipt, flags=re.M)
             elif mutate == "prediction-varies":
                 receipt = receipt.replace(f"CASE {m}-one predicted=P observed=P",
                                           f"CASE {m}-one predicted=P observed=F")
@@ -536,6 +550,7 @@ CASES = [
     ("divergence-noted", None),
     ("u-case-varies", None),
     ("prediction-varies", "REPRODUCTION-MISMATCH"),
+    ("driver-sha-mismatch", "MINTED-BY-SHA-MISMATCH"),
     ("copy-observations", "REPRODUCTION-MISMATCH"),
 ]
 
@@ -553,7 +568,7 @@ def selftest(work: Path) -> int:
               f"located={stats['located']} reproduced={stats['reproduced']} "
               f"{'ok' if good else 'FAIL'}")
         shutil.rmtree(root, ignore_errors=True)
-    print(f"SELFTEST cases={len(CASES)} red={len(CASES) - 3} failures={failures}")
+    print(f"SELFTEST cases={len(CASES)} red={len(CASES) - 4} failures={failures}")
     return 0 if failures == 0 else 1
 
 
@@ -563,7 +578,11 @@ MUTANTS = [
     ("wrong-tool-sha", "tool-sha-mismatch"),
     ("foreign-block", "copy-observations"),
     ("drop-receipt", "receipt-missing"),
-    ("second-member", "second-member"),
+    ("second-member", "second-member-stamp"),
+    ("source-sha-mismatch", "source-sha-mismatch"),
+    ("lane-tip-invalid", "lane-tip-invalid"),
+    ("driver-sha-mismatch", "driver-sha-mismatch"),
+    ("observation-edit-noted", "observation-edit-noted"),
 ]
 
 
