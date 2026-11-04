@@ -12,7 +12,7 @@ A located member has exactly one tracked receipt `corpus/evidence/round80/<membe
             the measured tip), WORKTREE clean, COMMAND (names the tool), EXIT 0, MINTED_BY
   block     between OBSERVATIONS_BEGIN/OBSERVATIONS_END; every line is a frozen observation form
             (`CASE `, `case=`, `cases=`, `MISMATCH `, `OBSERVED-U `, `VECTOR `, `PREDICATE R<n>-C<m>`)
-  replay    the block equals a fresh run of the frozen instrument at the measured tree
+  replay    the block equals the frozen instrument's stdout at the measured tree (REV excluded)
   ledger    the member's row is `executed` with this receipt, `subject=tb2-header`, the receipt's own
             observation form as `verdict`, and `round=80`
 plus: the round-79 population gate exits 0 with `executed=24 unlocated=0` (worktree mode).
@@ -66,6 +66,7 @@ FORMS = (("predicate", r"^PREDICATE R\d+-C\d+ pass", re.M),
          ("vectors", r"^VECTOR ", re.M),
          ("cases", r"^(?:CASE |case=)", re.M))
 STAMP_RE = re.compile(r"^([A-Z_]+) (.+)$")
+REV_RE = re.compile(r"^REV [0-9a-f]{7,40}\s*$")
 BEGIN, END = "OBSERVATIONS_BEGIN", "OBSERVATIONS_END"
 REQUIRED = ("MEMBER", "SOURCE_RECEIPT", "SOURCE_SHA", "TOOL", "TOOL_SHA", "LANE_TIP",
             "WORKTREE", "COMMAND", "EXIT", "MINTED_BY")
@@ -262,12 +263,10 @@ def check(tree: Tree, base_doc: dict, table: dict, reproduce: bool, python: str,
             add("COMMAND-TOOL", repr(stamp.get("COMMAND")))
         if stamp.get("MINTED_BY") != MINTED_BY:
             add("MINTED-BY", repr(stamp.get("MINTED_BY")))
-        block = [ln for ln in block if ln.strip()]
-        if not block:
+        block = [ln.rstrip() for ln in block if ln.strip()]
+        if not obs_lines("\n".join(block)):
             add("OBSERVATIONS-EMPTY", rel)
-        foreign = [ln for ln in block if not any(re.match(p, ln) for p in OBS)]
-        if foreign:
-            add("OBSERVATIONS-FOREIGN", repr(foreign[0][:60]))
+        stable = [ln for ln in block if not REV_RE.match(ln)]
         hobs = obs_lines(tree.read(spec["historical"]))
         diverged = bool(hobs) and hobs != block
         if diverged:
@@ -298,11 +297,12 @@ def check(tree: Tree, base_doc: dict, table: dict, reproduce: bool, python: str,
             stats["ledger_flipped"] += 1
         if reproduce:
             rc, out = run_probe(tree, m, spec, python, work)
-            fresh = obs_lines(out)
+            fresh = [ln.rstrip() for ln in out.splitlines()
+                     if ln.strip() and not REV_RE.match(ln)]
             if rc != 0:
                 add("REPRODUCTION-EXIT", f"rc={rc}")
-            elif fresh != block:
-                add("REPRODUCTION-MISMATCH", f"fresh={len(fresh)} receipt={len(block)}")
+            elif fresh != stable:
+                add("REPRODUCTION-MISMATCH", f"fresh={len(fresh)} receipt={len(stable)}")
             else:
                 stats["reproduced"] += 1
         if verbose:
@@ -500,7 +500,7 @@ CASES = [
     ("tool-sha-mismatch", "TOOL-SHA-MISMATCH"),
     ("receipt-missing", "RECEIPT-UNTRACKED"),
     ("observations-empty", "OBSERVATIONS-EMPTY"),
-    ("observations-foreign", "OBSERVATIONS-FOREIGN"),
+    ("observations-foreign", "REPRODUCTION-MISMATCH"),
     ("second-member", "RECEIPT-MEMBER-COUNT"),
     ("ledger-unlocated", "LEDGER-NOT-EXECUTED"),
     ("ledger-wrong-receipt", "LEDGER-RECEIPT"),

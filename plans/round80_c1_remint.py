@@ -22,6 +22,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import shlex
 import subprocess
 import sys
@@ -117,7 +118,10 @@ def main(argv: list[str]) -> int:
         hist = obs_lines(hist_bytes.decode("utf-8", "replace"))
         note = ""
         if hist and hist != obs:
-            note = (f"HISTORICAL-DIVERGENCE {len(set(hist) ^ set(obs))} "
+            from collections import Counter
+            hc, nc = Counter(hist), Counter(obs)
+            moved = sum(((hc - nc) + (nc - hc)).values())
+            note = (f"HISTORICAL-DIVERGENCE {moved} "
                     f"the tip's instrument produces {len(obs)} observation lines where the "
                     f"historical receipt has {len(hist)}; historical receipt kept, sha stamped\n")
         text = (
@@ -134,8 +138,9 @@ def main(argv: list[str]) -> int:
             f"MINTED_BY {MINTED_BY}\n"
             f"{note}"
             f"OBSERVATIONS_BEGIN\n"
-            f"{proc.stdout.rstrip(chr(10))}\n"
-            f"OBSERVATIONS_END\n"
+            + "\n".join(ln for ln in proc.stdout.rstrip("\n").splitlines()
+                        if not re.match(r"^REV [0-9a-f]{7,40}\s*$", ln)) + "\n"
+            + f"OBSERVATIONS_END\n"
         )
         rel = f"{EVID}/{m}-probe.txt"
         (lane / rel).write_text(text)

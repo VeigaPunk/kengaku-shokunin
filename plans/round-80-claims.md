@@ -14,8 +14,9 @@ predicate sentence below is the same sentence in the counter's code and in the r
 tracked receipt under `corpus/evidence/round80/` whose first line is the frozen subject shape
 `# tb2 <member> grader probe`, whose stamp block names the historical receipt with its sha256, the
 instrument with its sha256 at the measured tip, a `LANE_TIP` reachable from the measured tip,
-`WORKTREE clean`, `EXIT 0` and the command that replays it, whose observation lines equal a fresh
-re-run of that frozen instrument at the measured tree, and whose ledger row is `executed` with
+`WORKTREE clean`, `EXIT 0` and the command that replays it, whose `OBSERVATIONS` block equals the
+instrument's stdout at the measured tree (`REV <commit>` lines excluded on both sides, because the
+block is committed bytes and the measured tip moves), and whose ledger row is `executed` with
 `subject=tb2-header`, the receipt's own observation form as `verdict`, and `round=80`; and the
 round-79 population gate still exits 0 with `executed=24 unlocated=0`.
 
@@ -42,9 +43,12 @@ Target (after): `TARGET members=6 located=6 reproduced=6 ledger_flipped=6 diverg
 ledger_flipped=0`, `DEFECTS n>=6`, exit 1.
 
 **Observation forms (frozen).** A receipt's observation block is every line between
-`OBSERVATIONS_BEGIN` and `OBSERVATIONS_END`; every such line must match one of
+`OBSERVATIONS_BEGIN` and `OBSERVATIONS_END`, written verbatim from the instrument's stdout with
+`REV <commit>` lines removed (the block is committed bytes, so a commit-dependent line would make
+every later replay mismatch). The *observation lines* are those matching one of
 `^CASE `, `^case=`, `^cases=`, `^MISMATCH `, `^OBSERVED-U `, `^VECTOR `,
-`^PREDICATE R<n>-C<m> (pass|fail)`. `REV` lines are excluded (commit-dependent). The ledger row's
+`^PREDICATE R<n>-C<m> (pass|fail)`; the tool's own other lines (e.g. `grader=`, `components_aa=`)
+stay in the block and are compared too. The ledger row's
 `verdict` is the round-79 observation precedence: `predicate` if any `^PREDICATE ... pass`,
 else `vectors` on `^VECTOR `, else `cases` on `^CASE `/`^case=`.
 
