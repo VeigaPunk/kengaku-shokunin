@@ -97,7 +97,11 @@ read its correction from `corpus/lessons/round-84.md` (a file that exists at BAS
 S272 (above) is the round's only new source row; no old row changes. `corpus/SOURCES.md` rows 263 → 264, A 233 → 234,
 mined 239 → 240, W04 duplicate-URL warnings 30 → 30 (census exit 0 before and after). The population ledger moves
 `sqlite-db-truncate` from `unexecuted/unattempted` to `executed` in round 85: executed 28 → 29, unexecuted 60 → 59, and
-the `serialization-schema` class executes 0 of its 9 members → 1 of 9. **`expansion: unchanged`** — no admitted
+the `serialization-schema` class executes **1 of 10 → 2 of 10** (`plans/round79_c1_population_ledger.py --lane . --rev REV`
+prints `CLASS serialization-schema k=1 n=10` at BASE, because `db-wal-recovery` was already executed there). **Correction
+(R85-F1, 2026-11-04):** the frozen claims' before/after line says `0 of 9 → 1 of 9`; that arithmetic is wrong on both
+the numerator and the denominator and is not rewritten in the frozen doc. The re-derivable figures are 1 of 10 → 2 of 10;
+the C1 predicate does not reference the class figure, so no verdict depends on it. **`expansion: unchanged`** — no admitted
 `knowledge/` entry landed on uncovered ground, no frontier row advanced and no capability row entered; the corrected
 round-84 grade is appended there. **Assimilation: none.** `merge/kengaku/` (175 staged rows, 65 knowledge entries) is
 blocked by the round-54 mass-id-drift L0 question and is not drawn on by these frozen claims.
@@ -111,6 +115,14 @@ TB2 grader — the rest of that proposal — is still not built and is named as 
 - Q13 checker shape for one-wave rounds (L0 `kengaku | round-84`): unchanged, unanswered; no entry is admitted through it.
 - The merge/kengaku mass id drift (L0 `kengaku | round-54`): unchanged; assimilation stays closed.
 - The coverage cap (L0 `kengaku | round-25/33/51`): unchanged; coverage is held at 7 by the cap, not by this round.
+- **Battery locality.** The round-85 counters' `--selftest`, `--mutants` and control modes build fixtures with
+  `git rev-parse master` / `git archive`, so they cannot run in a bare `git archive` extraction (exit 2,
+  `unresolved-revision master`). QUALITY Q20's out-of-band roster is therefore run in a `git clone --shared` of the
+  landing commit (`.ufo/waves/round-85/L1/q20-clone.txt`), which is a full working copy outside the lane. A future
+  amendment could let the fixtures take an explicit revision instead of `master`.
+- **Before-state invocation.** The frozen C1 before-state (`defects>=1`, exit 1) is the `--rev BASE` invocation. A
+  bare BASE extraction exits 2 on the `ensure_freeze` fail-closed branch instead of scoring, which is the R84-V2
+  behaviour and not the measured before-state (ReviewerC185 F3).
 - True cross-host reproducibility: the receipt pins `Python 3.14.8` and `OpenSSL 3.6.5`; a different interpreter
   version is a different host state and the receipt says so.
 - **Gate revision-blindness.** `plans/round82_c1_plans_registry.py` reads each row's instrument bytes from the
@@ -121,3 +133,17 @@ TB2 grader — the rest of that proposal — is still not built and is named as 
 - The receipt's `CASE_TABLE_SHA` binding is redundant with the probe's own `FROZEN_TABLE_SHA` pin: a mutant that drops
   the receipt binding cannot reach the target because the probe exits 2 on a drifted table. Reported as defence in
   depth, not as an independent check.
+
+## Closing erratum — honest stop, superseding optimistic summaries above
+
+The executable after-state is green, but **R85-C2 is not verified under its frozen rule**. Its V8 check was replaced after scoring by a literal-flag check; its V3 check later gained a code-only success path when the receipt is absent. Those changes are engineering amendments, not the frozen predicate. The original causal-separation trial also failed: reverting C1's receipt left C2 at 7/8. No later green line backdates either property. The SCORECARD/LOG statements that all eight defects were discharged and that both revert directions pass are superseded by this erratum; the round is an honest stop pending outside closure.
+
+The clean-clone Q20 run did not pass: the touched round83 counter selftest had one failure, the probe selftest had two failures, and the C1 mutant battery found 4/5 necessary rather than 5/5. The standard roster passed; those additional red rows remain debt, not waived by the roster.
+
+SourceR85 F1: S272's quote is on line 31, not blank line 30, and has nine whitespace-split words, not six. The old source row is preserved; S273 supersedes the annotation below. ReviewerC185 F1: the frozen class figure 0/9→1/9 is wrong; actual serialization-schema membership is 1/10→2/10. The member replay itself remains eight cases/sixteen matching legs, independently reproduced.
+
+SentinelR85 S1–S6 remain findings for a successor freeze: tracked regular receipt confinement, duplicate/stamp validation, trusted counter identity and absent-receipt short-circuit, timeout mapping, sandbox root restrictions, and optional-lock-free status. No credentials or external benchmark account were used. A perfect copied observation is not independent provenance; fresh reproduction establishes only the replay at the measured tree.
+
+### Gate addendum — S273 correction
+
+S273 admits a superseding annotation only, URL https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/sqlite-db-truncate/tests/test_outputs.py opened 2026-11-04. Located quote: line 31, `assert score > 6, "Did not load data correctly"`; `len(quote.split())=9`. SourceR85 independently reopened the same bytes and demonstrated the bad annotation failing and corrected annotation passing its fixture (`SourceR85/findings.md:44-51`). Tier A, member replay only. Flip: a changed pinned grader requires reopening and a new row. No old row's status/recheck/used-by changes. Final rows 263→265, A233→235/B24/C6, mined239→241/rejected16/queued8. This supersedes the intermediate census figures above.

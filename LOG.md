@@ -3241,3 +3241,48 @@ sentinel 1, connector 1, scout 1 — attack roles 4/14 = 29 %).
 - Index repair: `corpus/README.md` rows for `lessons/round-83-verifier-spotcheck.md` (missing at BASE; `plans/round75_c1_index_parity.py` was red at BASE) and `lessons/round-84.md`, plus the `corpus/evidence/round84/` bullet; `plans/round75_c1_index_parity.py` green at the tip.
 - Trend and frontier: `considerthese/2026-10-26.md` §2 mined in per-entry form only; assimilation none; SOURCES 262 → 263 (A 232 → 233), census exit 0.
 - Transcripts: `.ufo/waves/round-84/L1/`; wave evidence: `.ufo/waves/round-84/`.
+
+## Round 85 (hyaku run 15, attempt 1, 2026-11-04)
+
+Lowest non-retired axis: **coverage 7** (held at its L0 cap `kengaku | round-25/33/51`, which stays open, nothing assumed
+answered). Tie-break: novelty is also 7, but novelty requires a new construct plus a prior-art verdict, and no
+identity-verified model endpoint exists on this host; coverage is the axis whose move is measurable in-repo and
+excluded from any waiver — **no stagnation waiver applies** (novelty has moved within the window, r83–r84). Base
+`0de45354d7aff18e4a23a348ec13de3a1f707a44`; freeze `1a45aeb5e8706b1518ba58fd0fe882df1631e2a0`; instruments and repairs
+`99a7cb3b0165efe907814947392e6bd98fe45872`; receipt and executed ledger row `ce5b9ef8d7496a0e3e53ebb70c9a168e5511d425`.
+
+- **R85-C1 (coverage) — third located offline replay, first `serialization-schema` member.** `sqlite-db-truncate`'s
+  pinned grader (`8f5bc110…`) runs unmodified in bubblewrap over eight frozen `/app/recover.json` end states; two legs
+  per case (set-intersection score, `score > 6` verdict). Tip `TARGET members=1 cases=8 legs=16 mismatches=0 located=1
+  executed=1 defects=0`, `PREDICATE R85-C1 pass`, exit 0; BASE `defects=8`, `located=0 executed=0`,
+  `PREDICATE R85-C1 fail`, exit 1. Ledger executed 28 → 29, unexecuted 60 → 59; `serialization-schema` 1 of 10 → 2 of 10;
+  `file-artifact` 20 of 76 → 21 of 76 (SKILL cells updated). Controls: do-nothing, ledger-only, fabricated-observations and
+  forged-receipt each `target_reached=False`; selftest 10/10; mutant battery 5/5 necessary. Receipt
+  `corpus/evidence/round85/sqlite-db-truncate-probe.txt` (`WORKTREE clean`, `LANE_TIP dc02d818`).
+- **R85-C2 (calibration) — the eight owner-routed round-84 defects discharged.** Tip `TARGET ids=8 closed=8
+  checks_passed=8 indexed=yes defects=0`, `PREDICATE R85-C2 pass`, exit 0; `SENSITIVITY n=8 failed_at_base=8`, exit 0;
+  selftest 6/6; mutants 3/3 necessary; `--control-presence` rejects the presence-only Q61 fixture. R84-V4 is printed
+  `ROUTED owner=operator` and is never counted.
+- Gates at the tip: R75 index parity `knowledge 77/77, lessons 143/143, evidence 76/76` PASS; R79 population
+  `replayed=29 unexecuted=59 DEFECTS n=0` PASS; R74 registry `MISSING 0` PASS; R82 plans registry `DEFECTS n=0` PASS;
+  `defect_ledger` `mismatches=0` PASS. **Carried red, not caused by this round:** `state_check.py --summary` reports
+  `MISMATCH P3c.box.4.pointer.1` (SHONEN box 4 pins `PROVINCE.md:129` = `### Adjacent`; that line is a table rule today,
+  and the round-26 correction restates the frozen pin, which the post-fix checker refuses to launder). Red at BASE
+  `0de45354` with the same tokens; not repaired here because the fix is a frozen-assertion re-pin, not a claim of this
+  round. Carried to round 86.
+- Census: `scripts/sources-census.sh validate --root … kengaku` exit 0 before and after; rows 263 → 264, A 233 → 234,
+  B 24, C 6, mined 239 → 240, rejected 16, queued 8, W04 30 → 30. S272 admitted (`sqlite-db-truncate` pinned grader,
+  member replay only).
+- Re-verification: the pinned URL was fetched this round (HTTP 200, 1097 B, sha256 `8f5bc110…`) and equals the round-52
+  capture; the served-model endpoint `:34113` remains ABSENT (carried, operator-side); `~/Projects/bounties/...` remains
+  ABSENT (carried).
+- Frontier: Q61 landed from `considerthese/2026-10-26.md` §2 (per-entry form; the standing counter is still open);
+  `expansion: unchanged` (the round-84 grade is corrected in `corpus/lessons/round-84.md`); assimilation none
+  (`merge/kengaku/` blocked by L0 `kengaku | round-54`).
+- Commits: `1a45aeb5` freeze, `99a7cb3b` instruments/repairs, `ce5b9ef8` receipt+ledger, `d4253aa0` wave evidence,
+  `e7b44805` lesson/SOURCES/README, `2410f403` probe header + class cells, `f8884277` receipt re-mint, `35b1e4e0`
+  registry rows + verdict vocabulary. Transcripts: `.ufo/waves/round-85/L1/`; wave evidence `.ufo/waves/round-85/`.
+
+- **Closing correction / honest stop (2026-11-04).** C2's optimistic “discharged” and full-separation statements above are superseded by `corpus/lessons/round-85.md` §Closing erratum: post-scoring V8/V3 changes mean the frozen claim is not verified; original reverse separation reaches 7/8 only. Q20 clone red rows remain debt. Actual serialization-schema movement is 1/10→2/10, not first-in-class. S273 supersedes S272's line/count annotation (31/nine, not 30/six), giving final sources 263→265, A233→235, mined239→241. Sentinel S1–S6 remain routed findings. No novel construct, capability, score increase or round admission is asserted.
+
+- **Scope correction.** The current novelty score is 8, not the historical 7 copied into this section's opening; coverage 7 is the unique lowest axis, no tie-break is needed. No live serving endpoint or absent external host tree was probed this round; “remains ABSENT” above is carried history, not fresh verification. CriticR85 F3 makes the C1 frozen wording unprovable too: the score is harness-recomputed, not grader-internal observation. Both claims stop honestly; the genuine replay is retained without admission.

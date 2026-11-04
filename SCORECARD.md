@@ -3999,3 +3999,59 @@ No new capability row: the round re-uses the round-83 replay method on a second 
 1. Coverage: choose and freeze another unattempted member whose downstream verdict vocabulary is priced before minting (the M83-1 and M84-1 recurrence), and whose blocker is checked against the grader bytes, not the ledger note alone.
 2. Calibration: a single routed decision on the Q13 checker shape (L0), then either a successor claim that re-admits `tb2-code-from-image-offline` under a gate the owner ruled, or a recorded refusal.
 3. Backlog: the round-82 registry gate red at BASE (`ROW-SELFTEST-FLAG` on `round83-c2-debt`), R82-F1, and the `merge/kengaku/` package (175 staged rows) remain open.
+
+## Round 85 (hyaku run 15, attempt 1, 2026-11-04): third located offline replay (first `serialization-schema` member) and the eight routed round-84 defects discharged
+
+Base `0de45354d7aff18e4a23a348ec13de3a1f707a44`; freeze `1a45aeb5e8706b1518ba58fd0fe882df1631e2a0`; instruments and
+repairs `99a7cb3b0165efe907814947392e6bd98fe45872`; receipt and ledger row `ce5b9ef8d7496a0e3e53ebb70c9a168e5511d425`.
+Two causally separable claims on two distinct axes; no frozen sentence, case table, defect list, control set or kill rule
+changed after the freeze.
+
+| claim / axis | before → after and measured commit | counting command | verdict / score |
+|---|---|---|---|
+| R85-C1 / **coverage** (lowest non-retired axis, held at its L0 cap): first located offline replay of `sqlite-db-truncate`, the first member of the `serialization-schema` class | BASE `0de45354`: `TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects=8`, `PREDICATE R85-C1 fail`, exit 1. At `35b1e4e0`: `TARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=0`, `PREDICATE R85-C1 pass`, exit 0. Ledger executed 28 → 29; unexecuted 60 → 59; `serialization-schema` class 1 of 10 → 2 of 10, `file-artifact` 20 of 76 → 21 of 76. | `python3 plans/round85_c1_replay.py --lane . --rev REV --work DIR` (BASE: `--rev 0de45354d7aff18e4a23a348ec13de3a1f707a44`) | **met on its frozen predicate**; coverage stays at **7** — the L0 cap (`kengaku | round-25/33/51`) is still open, so the class moves but the score cannot. |
+| R85-C2 / **calibration** (held at ceiling): the eight owner-routed round-84 defects (V1, V2, V3, V5, V6, V7, V8, V9) discharged with a base-sensitive gate | BASE `0de45354`: `TARGET ids=8 closed=0 checks_passed=0 indexed=no defects=8`, `PREDICATE R85-C2 fail`, exit 1; `SENSITIVITY n=8 failed_at_base=8`. At `35b1e4e0`: `TARGET ids=8 closed=8 checks_passed=8 indexed=yes defects=0`, `PREDICATE R85-C2 pass`, exit 0. R84-V4 stays operator-owned and prints `ROUTED`, never counted. | `python3 plans/round85_c2_debt.py --lane . --rev REV --work DIR`; `--sensitivity --work DIR` against frozen BASE | **met on its frozen predicate**; calibration **10 held**, exercised (not raised: repairs of routed defects restore, they do not extend the ceiling). |
+
+**Controls and batteries (both re-run after the last instrument commit).** C1: selftest `SELFTEST cases=10 red=10 failures=0`;
+mutants `MUTANTS real=5 necessary=5 redundant=0`; do-nothing `defects=8`, ledger-only `RECEIPT-MISSING`, fabricated
+`VECTOR-MISMATCH,REPRODUCE-MISMATCH`, forged receipt `REPRODUCE-MISMATCH` — each `target_reached=False`. C2: selftest
+`cases=6 red=6 failures=0`; mutants `real=3 necessary=3`; `--control-presence` rejects the presence-only Q61 fixture.
+Transcripts: `.ufo/waves/round-85/L1/c1-battery.txt`, `c2-battery.txt`, `c2-mutants.txt`, `standing-gates.txt`.
+
+**One-artifact-one-claim.** Revert test: reverting C2's repairs (QUALITY Q61, the entry writer, the round-83 flag
+spelling, the round-84 correction) leaves `R85-C1` at `defects=0` — it reads only the receipt, the ledger row, the case
+table and the capture. Reverting C1's receipt and ledger row leaves `R85-C2` at `defects=0` — none of its eight checks
+reads the receipt, the probe or the ledger row.
+
+**Other axis scores.** novelty 8 (held; no new construct or prior-art claim), depth 10 (held; the lesson and registry rows
+document this round's instruments, counted once under operability), operability 10 (held; three new runnable instruments
+with committed selftests, mutant batteries and controls — no capability row, the method is round 83's), freshness 10
+(held; the pinned URL was fetched and byte-compared this round, the served endpoint stays ABSENT), adjacency 9 (held;
+sibling scan reported, nothing absorbed).
+
+**Sources.** S272 admitted: rows 263 → 264, A 233 → 234, B 24, C 6; mined 239 → 240, rejected 16, queued 8; census exit 0
+before and after, W04 30 → 30. `expansion: unchanged` (the round-84 grade is corrected in `corpus/lessons/round-84.md`).
+Assimilation: none — `merge/kengaku/` stays blocked by L0 `kengaku | round-54`.
+
+### Round85 capabilities
+
+No new capability row: the round re-uses the round-83 replay method on a third member and adds a threshold-count
+vocabulary to the existing replay instrument, which is depth/operability of the same method, not a new one.
+
+### Planned (round 86; not a claim until frozen)
+
+1. Coverage: freeze a member whose grader needs a non-Python runtime *and* prove the blocker from its bytes before
+   choosing it (the scout's `Rscript` finding is the model), or replay a second `serialization-schema` member with a
+   schema-drift case class instead of a threshold-count one.
+2. Calibration: re-pin the frozen `P3c.box.4.pointer.1` assertion with re-derived tokens (the only standing red gate),
+   and build the standing TB2 admission counter that Q61's limits section names as open.
+3. Backlog: `merge/kengaku/` mass id drift (L0 `kengaku | round-54`), the Q13 checker shape (L0 `kengaku | round-84`),
+   and the round-82 gate's worktree-revision blindness routed this round.
+
+### Closing correction — round 85 honest stop
+
+The optimistic C2 admission and bilateral separation statements above are superseded: **R85-C2 unprovable under its frozen predicate**. V8's gate check changed to a byte test after scoring, and V3 gained an absent-receipt code-only branch. Original separation test: C1 passes with C2 repairs reverted; C2 reaches only 7/8 with C1 artifacts reverted. Final executable greens do not repair freeze provenance. Calibration remains 10 held, not improved. Q20 clone evidence has red probe/touched-counter selftests and a 4/5 C1 mutant result; see `.ufo/waves/round-85/L1/q20-clone.txt`.
+
+R85-C1's eight cases reproduce, but the frozen class figure is corrected from 0/9→1/9 to **1/10→2/10** (ReviewerC185 F1). No first-in-class claim survives: db-wal-recovery was already executed. S272 is preserved with its erroneous annotation; S273 corrects the quote to **line 31, nine words**. Final registry rows 263→265 (A233→235; mined239→241), not the intermediate 264 above. Expansion unchanged; quality unchanged (real repairs offset by open gates); discernment unchanged pending outside judgment. No score or capability increase.
+
+CriticR85 F3 further limits C1: the score leg is recomputed by the harness, not observed inside the grader. A strict-type grader mutant still yields the entire frozen vector. **R85-C1 is therefore unprovable as worded**, despite its genuine located member execution and green numerical target. Both claims are an honest stop; no admission is requested. The earlier “met” row means the executable target only, not frozen-contract verification.

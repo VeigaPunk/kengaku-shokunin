@@ -23,3 +23,11 @@ SELFTEST freeze-anchor-present pass
 SELFTEST freeze-anchor-fails-closed pass
 SELFTEST cases=10 red=10 failures=0
 rc=0
+=== mutants ===
+MUTANT no-reproduce fixture=forged unmutated_defect=True mutant_reaches_target=True
+MUTANT no-vector-no-reproduce fixture=fabricated unmutated_defect=True mutant_reaches_target=True
+MUTANT no-ledger fixture=ledger-bad unmutated_defect=True mutant_reaches_target=True
+MUTANT no-tool-sha fixture=tool unmutated_defect=True mutant_reaches_target=True
+MUTANT no-exit fixture=exit-one unmutated_defect=True mutant_reaches_target=True
+MUTANTS real=5 necessary=5 redundant=0
+rc=0
