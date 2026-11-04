@@ -80,7 +80,8 @@ def apply_rerun(lane: Path, entry: dict, work: Path) -> tuple[bool, str]:
         body = proc.stdout
     if not body.strip():
         return False, f"no output for {entry['receipt']} (rc={proc.returncode})"
-    head = (f"LANE_TIP {tip}\nTOOL {tool}\nTOOL_SHA {digest}\nWORKTREE clean\n"
+    dirty = bool(git(lane, "status", "--porcelain", "--untracked-files=normal").stdout.strip())
+    head = (f"LANE_TIP {tip}\nTOOL {tool}\nTOOL_SHA {digest}\nWORKTREE {'dirty' if dirty else 'clean'}\n"
             f"COMMAND {' '.join(shlex.quote(a) for a in cmd)}\n"
             f"MINTED_BY plans/round78_restamp.py sha256={sha_at(lane, tip, 'plans/round78_restamp.py') or '-'}\n"
             f"EXIT {proc.returncode}\n")
