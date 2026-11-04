@@ -933,6 +933,8 @@ A row here indexes a file; it does not admit it — the held entries stay held.
 | `lessons/round-82.md` | Round 82 — registry completeness, seven closure-debt repairs and the historical sweep-at-one-tip capability | LOG.md round 82; plans/round-82-claims.md |
 | `lessons/round-82-verifier-spotcheck.md` | Non-author closure of round 82: three claims verified; eight record defects V1–V8 routed | closure of round 82; lessons/round-83.md Corrections |
 | `lessons/round-83.md` | Round 83 — first code-from-image replay and eight outside record-mismatch repairs; Gate S267–S270, sourced rejects and mined mistakes | LOG.md round 83; plans/round-83-claims.md |
+| `lessons/round-83-verifier-spotcheck.md` | Non-author closure of round 83 (reviewed base `614f0055` to delivered `ca1deea2`): both claims verified; admitted knowledge entry judged harmed on Q1/Q13/Q21; routed defects R83-V1 and R83-V2 | closure of round 83; lessons/round-84.md Corrections |
+| `lessons/round-84.md` | Round 84 — second offline replay of `gcode-to-text` (R84-C1, executed) and the round-83 entry's Q1/Q21 repair with its Q13 re-admission held open (R84-C2, unmet); Gate S271, corrections R83-V1/V2, mined mistakes | LOG.md round 84; plans/round-84-claims.md |
 
 ### Knowledge index rows (3)
 
@@ -971,6 +973,7 @@ A row here indexes a file; it does not admit it — the held entries stay held.
 - `corpus/evidence/round81/` — round-81 claim receipts: the C1 gate's before/battery/control/after runs, the two member probe receipts, the C2 check battery, the census row-count and U4 red-before receipts.
 - `corpus/evidence/round82/` — round-82 claim receipts: freeze controls, the census-before receipt, and the sweep census of record (`sweep.txt`: 26 members, 18 reproduced / 7 diverged / 1 unrunnable, `WORKTREE clean` at `c804dd41`); pinned grading-entry captures under `fetch/` (S262/S263) and rejected `pyproject.toml` locator (S264). The missing historical census-after capture is supplied by round83 at `corpus/evidence/round83/r82-census-after.txt` (R82-V2).
 - `corpus/evidence/round83/` — frozen controls and initial census; first code-from-image replay and counter receipts; eight correction checks and base sensitivity; historical round-82 census/results/report-preservation evidence.
+- `corpus/evidence/round84/` — round-84 claim receipt: the `gcode-to-text` member replay (`gcode-to-text-probe.txt`, `PREDICATE R84-PROBE pass`, eight vectors, `LANE_TIP 767c907b` with `WORKTREE clean`); the C1 and C2 counter transcripts live under `.ufo/waves/round-84/w1/`.
 
 ## Round-75 supporting artifacts (2026-11-04)
 
