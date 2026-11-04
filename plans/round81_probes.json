@@ -1,0 +1,16 @@
+{
+ "schema": "r81-probes/1",
+ "why": "Frozen probe table for R81-C1: the two members the frozen selection rule derives at the base revision (plans/round81-members.md), each with the instrument that replays its committed round-52 grader capture and the argv that replays it. Shared by plans/round81_c1_new_members.py (gate) and plans/round81_c1_remint.py (driver), so the replay a receipt claims is the replay the gate runs.",
+ "members": {
+  "log-summary-date-ranges": {
+   "tool": "plans/round81_log_summary_probe.py",
+   "argv": ["--lane", ".", "--work", "{work}", "--receipt", "{out}"],
+   "timeout": 300
+  },
+  "vulnerable-secret": {
+   "tool": "plans/round81_vulnerable_secret_probe.py",
+   "argv": ["--lane", ".", "--work", "{work}", "--receipt", "{out}"],
+   "timeout": 240
+  }
+ }
+}

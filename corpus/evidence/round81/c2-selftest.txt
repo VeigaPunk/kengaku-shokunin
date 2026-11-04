@@ -1,0 +1,11 @@
+CASE clean expect=pass observed=- ok
+CASE unregistered expect=DEBT-UNREGISTERED observed=DEBT-UNREGISTERED ok
+CASE trivial-check expect=CHECK-TRIVIAL observed=CHECK-TRIVIAL ok
+CASE check-fails expect=CHECK-FAIL observed=CHECK-FAIL ok
+CASE close-routing-file expect=CLOSE-NOT-REPAIR observed=CLOSE-NOT-REPAIR ok
+CASE close-no-evidence expect=CLOSE-NOT-EVIDENCE observed=CHECK-FAIL,CLOSE-NOT-EVIDENCE ok
+CASE source-line expect=SOURCE-LINE observed=SOURCE-LINE ok
+CASE index-missing expect=INDEX-MISSING observed=INDEX-MISSING ok
+CASE duplicate-row expect=DEBT-DUPLICATE observed=DEBT-DUPLICATE ok
+SELFTEST cases=9 red=8 failures=0
+EXIT 0
