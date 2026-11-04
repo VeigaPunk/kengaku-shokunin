@@ -85,9 +85,9 @@ prints `MISMATCH 0`, `DEFECTS n=0`,
 
 **Before** (measured at the freeze revision, two receipts):
 1. `corpus/evidence/round75/c2-stamp-red-before.txt` — the same stamp leg on
-   `corpus/evidence/round74`: `STAMPS files=13 stamped=0 unstamped=13 unresolved=0
-   not_ancestor=0`, `PREDICATE R75-C2 fail`, rc 1 (the R74-D1 class: receipts with no measured
-   revision).
+   `corpus/evidence/round74`: `STAMPS files=11 stamped=0 unstamped=11 unresolved=0
+   not_ancestor=0` (one `DEFECT UNSTAMPED` line per file), `PREDICATE R75-C2 fail`, rc 1 — the
+   R74-D1 class: receipts with no measured revision.
 2. `corpus/evidence/round75/c2-control-attribute.txt` — the off-target control:
    `R74-METRIC killed=10/10 (any-defect counting)`, `R75-METRIC expected_matched=9/10
    wrong_id=1`, `OFF-TARGET X-off-target expected=:entry:unbacked-flag: defects=1 matched=False`,
@@ -110,3 +110,19 @@ unresolvable or not an ancestor, or if any selftest arm fails.
 - Census before → after with
   `scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku`.
 - Assimilation: none (no staged row admitted this round; open L0 `kengaku | round-54` carried).
+
+## Amendment A1 — every receipt mode stamps; the stamp-count before value (appended 2026-11-04T04:52Z, before any seat returned)
+
+Two corrections landed before any seat scored anything; predicate, target, control and kill rule
+are unchanged.
+
+1. **Every receipt mode prints `LANE_TIP`/`WORKTREE`.** The first freeze printed the stamp only on
+   the verdict path, so `--selftest` and `--control-*` receipts would have been `UNSTAMPED` by the
+   claim's own `--check-stamps` leg. Both instruments now print the pair before dispatch and the
+   verdict path writes it into the `--receipt` bytes. All round-75 receipts are regenerated from a
+   clean clone at this amendment's revision.
+2. **`STAMPS files=` before value corrected 13 → 11** — `corpus/evidence/round74/*.txt` holds 11
+   receipts, not 13 (counted: `ls corpus/evidence/round74/*.txt | wc -l` → 11). Same defect class
+   as R74-D1: a number asserted rather than counted.
+3. **R75-C1 Before lessons count 35 → 36 and total 58 → 59** — the freeze commit adds
+   `corpus/lessons/round-75.md`, which is itself unindexed until the repair lands.

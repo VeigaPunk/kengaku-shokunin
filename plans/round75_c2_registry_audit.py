@@ -258,12 +258,12 @@ def main() -> int:
     parser.add_argument("--work", type=Path, default=Path("/fast/scratch/hyaku/kengaku-r75/c2"), help="Scratch directory")
     args = parser.parse_args()
     args.work.mkdir(parents=True, exist_ok=True)
+    tip, dirty = lane_tip(args.lane, args.rev)
+    print(f"LANE_TIP {tip}")
+    print(f"WORKTREE {'dirty' if dirty else 'clean'}")
 
     if args.selftest:
         fails = 0
-        tip, dirty = lane_tip(args.lane, args.rev)
-        print(f"LANE_TIP {tip}")
-        print(f"WORKTREE {'dirty' if dirty else 'clean'}")
         # arm 1: the off-target fixture must be a wrong-id kill, not a kill
         results, null_defects, off = mutate(args.lane, args.work)
         ok = off[1] not in " ".join(off[2]) and bool(off[2])
@@ -311,9 +311,6 @@ def main() -> int:
         print(f"SETUP ERROR: {R74.SKILL_REL} absent under {args.lane}", file=sys.stderr)
         return 2
 
-    tip, dirty = lane_tip(args.lane, args.rev)
-    print(f"LANE_TIP {tip}")
-    print(f"WORKTREE {'dirty' if dirty else 'clean'}")
     defects, rows, scripts, parsed = audit_verdict(args.lane)
     failures = len(defects)
     if args.mutants:

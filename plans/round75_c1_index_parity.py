@@ -102,19 +102,18 @@ def census(lane: Path) -> tuple[list[str], list[str]]:
 
 
 def emit(lane: Path, rev: str, out: Path | None) -> int:
+    tip, dirty = lane_tip(lane, rev)
     if not lane.is_dir():
         print(f"SETUP ERROR: lane {lane} is not a directory", file=sys.stderr)
         return 2
     if not (lane / README).exists():
         print(f"SETUP ERROR: {README} absent under {lane}", file=sys.stderr)
         return 2
-    tip, dirty = lane_tip(lane, rev)
     defects, report = census(lane)
-    lines = [f"LANE_TIP {tip}", f"WORKTREE {'dirty' if dirty else 'clean'}"]
-    lines += report
+    lines = list(report)
     lines += defects
     lines.append(f"PREDICATE R75-C1 {'pass' if not defects else 'fail'}")
-    text = "\n".join(lines) + "\n"
+    text = "\n".join([f"LANE_TIP {tip}", f"WORKTREE {'dirty' if dirty else 'clean'}"] + lines) + "\n"
     print(text, end="")
     if out is not None:
         out.parent.mkdir(parents=True, exist_ok=True)
@@ -207,6 +206,9 @@ def main() -> int:
     parser.add_argument("--work", type=Path, default=Path("/fast/scratch/hyaku/kengaku-r75/c1"), help="Scratch directory")
     args = parser.parse_args()
 
+    tip, dirty = lane_tip(args.lane, args.rev)
+    print(f"LANE_TIP {tip}")
+    print(f"WORKTREE {'dirty' if dirty else 'clean'}")
     if args.selftest:
         args.work.mkdir(parents=True, exist_ok=True)
         return selftest(args.work)
