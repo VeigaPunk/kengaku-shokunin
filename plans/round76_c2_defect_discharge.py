@@ -403,15 +403,15 @@ def emit(lane: Path, rev: str, out: Path | None, probe: Path | None = None,
     discharged = sum(1 for i in ids if f"LEDGER {i} ok" in "\n".join(ledger_lines))
     legs_passed = sum(1 for l in leg_lines if l.split()[2] == "ok")
     legs_pending = sum(1 for l in leg_lines if l.split()[2] == "PENDING")
+    if not ids:
+        defects.append("DEFECT EMPTY-SCOPE ids=0 (the newest closer names no routed id, or no closer exists)")
+    if legs_pending:
+        defects.append(f"DEFECT LEG-PENDING n={legs_pending} (execution-dependent legs cannot pass by default)")
     report += leg_lines + ledger_lines
     report.append(
         f"SCOPE ids={len(ids)} registered={registered} closed={closed} open={len(ids) - closed} "
         f"discharged={discharged} legs_passed={legs_passed} legs_pending={legs_pending} wrong={len(defects)}"
     )
-    if not ids:
-        defects.append("DEFECT EMPTY-SCOPE ids=0 (the newest closer names no routed id, or no closer exists)")
-    if legs_pending:
-        defects.append(f"DEFECT LEG-PENDING n={legs_pending} (execution-dependent legs cannot pass by default)")
     if discharged != len(ids) and not defects:
         defects.append(f"TALLY-MISMATCH discharged={discharged} ids={len(ids)}")
     lines = report + defects
