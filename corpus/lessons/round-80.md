@@ -113,9 +113,13 @@ One v1 wave, 14 seats.
 
 ## Wave findings (amended after w1)
 
-Fourteen seats, one v1 wave; twelve reports were on disk when this block was written and the two
-remaining (critic, scout) are named in the round report with their settlement state. The attack
-seats changed committed bytes:
+Fourteen seats, one v1 wave; all fourteen settled, thirteen wrote a report. `CriticC1R80` produced
+no report — it settled with a truncated progress note (its final output stops mid-sentence at the
+counter read), so its attacks are unrecorded except its last note: the gate ancestry-checks
+`LANE_TIP` and never verifies the literal `WORKTREE clean` against a historical state. That is
+accepted as a stated limit: the gate re-runs the instrument at the measured tree (the actual
+evidence), and the stamp fields are producer assertions. The other attack seats changed committed
+bytes:
 
 - **SentinelReceiptsR80** (Medium): the first driver stamped `master` rather than the executed
   checkout and checked cleanliness only at entry. Amendment A3 answers it: `LANE_TIP` comes from
@@ -148,3 +152,8 @@ seats changed committed bytes:
 - **SourcesScribeR80**: S258 already existed at its measurement; its stamp-line quote was adopted
   (the row anchor now names lines 1–10).
 - **LessonScribeR80**: M80-2 (`historical-observation-drift`) was adopted as a second mined mistake.
+- **ScoutHostR80**: the host baseline is OpenSSL 3.6.5, Python 3.14.8, uv 0.13.0, 32 CPUs; the
+  protein replay runs under a uv-managed Python 3.15 with biopython 1.88, so an environment pin is
+  round-81 work; the six replays' wall times are bounded well under the gate timeouts.
+- **CriticC1R80** settled without a report (truncated progress note); recorded as one undelivered
+  seat, not as a pass.
