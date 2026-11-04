@@ -18,3 +18,15 @@ SELFTEST ok second-row-arm
 SELFTEST ok errata-arm
 SELFTEST arms=4 red=3 ok=True
 rc=0
+
+CMD: python3 plans/round73_c2_registry_audit.py --mutants --work <scratch>
+MUTANT M0-null null_detected
+MUTANT M1-kind killed rc=1
+MUTANT M2-owner killed rc=1
+MUTANT M3-gate-verdict killed rc=1
+MUTANT M4-duplicate killed rc=1
+MUTANT M5-errata-revision killed rc=1
+MUTANT M6-script-parse killed rc=1
+MUTANT M7-selftest-unbacked killed rc=1
+MUTANTS total=7 killed=7 survived=0 invalid=0 null_detected=1
+rc=0

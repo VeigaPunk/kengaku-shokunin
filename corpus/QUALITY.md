@@ -1245,3 +1245,16 @@ A witness at one granularity does not price the finer one.
   on the 400 status — proposed as K9 `400-no-error-field` (`PPPF`). The table was frozen, so the
   gap is named as a limitation and carried to a successor table. Source: `corpus/lessons/round-71.md`
   `## Mistakes` and `.ufo/waves/round-71/w1/CaseTableAudit71.md` §Leg-coverage arithmetic.
+
+## Round73 criterion
+
+- **Q54 — a frozen registry predicate is exercised on the projected registered tree before freeze.**
+  A discovery-only statistic is not a landing predicate: adding a missing registry row also advertises
+  its script through SKILL.md, so `plans_only` becomes zero precisely when registration succeeds.
+  Likewise, an exact registry denominator cannot remain fixed while the round adds instrument rows.
+  Before freezing, apply the planned row additions to an isolated mirror, evaluate the complete
+  sentence and its counter there, and retain the red control. A mid-wave repair is reported separately
+  from the original verdict; absence of returned reports does not prove absence of scored data.
+  Lesson: `corpus/lessons/round-73.md` Mistakes M73-1/M73-2. Failable repair witness:
+  `corpus/evidence/round73/a1-red-green.txt` — identical registered tree, frozen counter exits 1 with
+  `plans_only=0`, amended counter exits 0. This is not permission to re-score the frozen claim.

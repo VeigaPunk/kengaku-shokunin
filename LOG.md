@@ -2742,3 +2742,39 @@ Evidence: `corpus/evidence/round64/`, `.ufo/waves/round-64/` (wave seats in `w1/
 - **Open.** L0 carried: `kengaku | round-25/33/51`, `round-54`, `round-56`, `round-63`,
   `round-65`, `round-66`, `round-67` (labrat role). Named limitations in the round report; the
   Q13/Q14 re-read of the provenance entry is outstanding.
+
+## Round 73 (hyaku run 15, attempt 1, 2026-11-03/04)
+
+- **Trigger → action → outcome.** Round72's verifier and own attack seats found missing registry
+  rows, a frozen-tuple counter, first-row retention and presence-only errata checks. Froze R73-C1
+  coverage and R73-C2 calibration at `255c261d` on `d96c3e62`; widened the advertisement sweep
+  to plans documents, registered seven exposed instruments plus the new audit, and compared
+  row declarations to script/schema observations. Initial integration `ea41880f`.
+- **Verdicts.** Both original claims not admitted: registration makes plans_only zero (frozen
+  C1 fail); adding rows makes the original C2 exact denominator106 become114. A1/A2 engineering
+  green does not authorize re-scoring. `plans/round-73-claims.md` E-R73-1 corrects the misleading
+  amendment times and timing inference. Measured commands: `python3 plans/round52_c2_registry.py
+  --lane .` and `python3 plans/round73_c2_registry_audit.py --lane .`; before/after receipts in
+  `corpus/evidence/round73/`, especially `a1-red-green.txt` over identical registered bytes.
+- **Controls.** Legacy universe and fifth-row frozen-tuple control committed at freeze.
+  C1 selftest cases4 failures0; C2 selftest arms4 red3 ok=True; selected mutants7 killed7,
+  null_detected1 (`c2-after.txt`). Distinct attack battery accepts thirteen of sixteen cases
+  (`.ufo/waves/round-73/w1/C2BlindSpotR73.md`); limitations recorded, not generalized away.
+- **Registry corrections.** Correct sources-adopt's invalid --lane invocation and failure-class
+  map, class-survey kind, missing r69 receipt path, omitted usage exits and host-write scopes.
+  Remove obsolete malformed tensor row only after its complete replacement exists.
+  C1RowAuditR73's independent source/entry evidence and C1RowDraftR73's JSON under
+  `corpus/evidence/round73/w1/` are integration witnesses, not conformance certificates.
+- **Sources/frontier.** S249 opened live, Python ast docs, narrowly tierA for AST construction;
+  capture plus quote at :2680 and executable-validity warning :2708-2715. Held candidate
+  `corpus/knowledge/instrument-registry-derivation.md`, indexed with its held coverage boundary.
+  Census before240 rows rc0; end evidence `corpus/evidence/round73/census-after.txt`.
+  Assimilation none; latest considerthese proposal2 considered but not implemented under the
+  frozen registry claims. No domain-source-repo writes.
+- **Learning.** Lesson `corpus/lessons/round-73.md`: Gate, Mistakes, controls, census and outside
+  spot-check pending. Q54 requires a projected registered-tree freeze and refuses retroactive
+  amendment admission. Prior report/hash/census/sweep/revision corrections are recorded in the
+  lesson and this round's report errata; historical reports remain untouched.
+- **Verification boundary.** Final committed-tree commands, revision, stdout and exit codes
+  land in `corpus/evidence/round73/final-checks.txt`. No endpoint/model task-certification claim.
+  No capability entry, score increase, external admission, promotion or L0 answer inferred.

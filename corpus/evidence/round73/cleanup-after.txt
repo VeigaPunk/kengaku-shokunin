@@ -1,0 +1,22 @@
+RUN_AT: 2026-11-04T02:59:30.638956+00:00
+CMD: python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round73_c2_registry_audit.py --selftest --work /fast/scratch/hyaku/kengaku-r73/l1/cleanup-proof/selftest
+SELFTEST ok clean-fixture
+SELFTEST ok fifth-row-arm
+SELFTEST ok second-row-arm
+SELFTEST ok errata-arm
+SELFTEST arms=4 red=3 ok=True
+rc=0
+CALLER-PRESERVED True remaining=['caller-canary']
+
+CMD: python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round73_c2_registry_audit.py --mutants --work /fast/scratch/hyaku/kengaku-r73/l1/cleanup-proof/mutants
+MUTANT M0-null null_detected
+MUTANT M1-kind killed rc=1
+MUTANT M2-owner killed rc=1
+MUTANT M3-gate-verdict killed rc=1
+MUTANT M4-duplicate killed rc=1
+MUTANT M5-errata-revision killed rc=1
+MUTANT M6-script-parse killed rc=1
+MUTANT M7-selftest-unbacked killed rc=1
+MUTANTS total=7 killed=7 survived=0 invalid=0 null_detected=1
+rc=0
+CALLER-PRESERVED True remaining=['caller-canary']

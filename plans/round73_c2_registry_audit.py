@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
-"""R73-C2 counter — the registry rows' own declarations re-derived from committed bytes.
+"""R73-C2 counter — registry declaration shape checks over supplied working-tree bytes.
 
 Frozen before data on 2026-11-04 (L1 KengakuR73); see plans/round-73-claims.md §C2 for the
-predicate this implements.  Reads committed bytes only; writes nothing outside `--work`.
+predicate this implements. Reads working-tree bytes, not a Git snapshot; final receipts name their measured revision.
 
     python3 plans/round73_c2_registry_audit.py --lane .                    # verdict
-    python3 plans/round73_c2_registry_audit.py --selftest --work DIR       # four red arms
+    python3 plans/round73_c2_registry_audit.py --selftest --work DIR       # one green + three red arms
     python3 plans/round73_c2_registry_audit.py --mutants --work DIR        # byte mutants
+
+Post-wave disclosure: parse_rows silently skips non-eight-cell lines; pins/scopes are nonempty
+checks, not truth checks, and erratum tokens do not establish semantic attribution. Both original
+round73 claims are not admitted (claims doc E-R73-1). Fixture modes use an owned child of --work;
+the post-wave security repair preserves caller-owned files without changing verdict predicates.
 
 Why this counter exists (round-72 wave findings F1/F2/F3, committed in the round-72 lesson):
 the round-72 counter E1a checked a FROZEN four-instrument tuple, kept the FIRST row of a
@@ -38,6 +43,7 @@ import ast
 import re
 import shutil
 import sys
+import tempfile
 from pathlib import Path
 
 SKILL_REL = "SKILL.md"
@@ -285,6 +291,8 @@ def selftest(work: Path) -> int:
     if not work.is_dir():
         print(f"SETUP --work must be an existing directory: {work}")
         return 2
+    # --work belongs to the caller; remove only the child this invocation allocates.
+    work = Path(tempfile.mkdtemp(prefix="r73-audit-", dir=work))
     fails = 0
     try:
         clean = build_fixture(work / "clean")
@@ -351,6 +359,8 @@ def mutants(work: Path) -> int:
     if not work.is_dir():
         print(f"SETUP --work must be an existing directory: {work}")
         return 2
+    # --work belongs to the caller; remove only the child this invocation allocates.
+    work = Path(tempfile.mkdtemp(prefix="r73-audit-", dir=work))
     source = Path(__file__).read_text()
     killed = survived = invalid = null_detected = 0
     extra = (row_text("tool-b", "plans/tool_b.py", owner="sibling")

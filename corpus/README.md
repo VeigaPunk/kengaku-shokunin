@@ -826,3 +826,22 @@ the round29 deferred index statement after the Gate's exact-byte admission.
 - Evidence: `corpus/evidence/round72/hf/` (receipt of record with nine vectors, replicate, checker, stub before/after/control, nine per-case sandbox captures + `sandbox-replicate/`), `corpus/evidence/round72/` (C1 selftest, C2 red-before/green/controls/gate-mutants/counter-mutants, registry-debt, sources captures, `gates/`), `.ufo/waves/round-72/c1-control.txt`, `.ufo/waves/round-72/c2-red-before.txt`.
 - Counters: `plans/round72_c1_hf_probe.py` (R72-C1), `plans/round72_c2_routed_defects.py` (R72-C2).
 - Wave: `.ufo/waves/round-72/w1/` (v1, 16 seats; per-seat reports and `w1-results.json`).
+
+## Round-73 supporting artifacts (2026-11-04)
+
+- Held knowledge candidate: `corpus/knowledge/instrument-registry-derivation.md` — structural
+  registry checks versus semantic/runtime truth, sourced by S249. Not an admitted expansion.
+- Coverage boundary: the owned eval-instrument registry gains the plans-document advertisement
+  surface; two real hyphenated evidence instruments remain outside the frozen completeness
+  regex. The audit sees only exactly-eight-cell parse survivors. No frontier-to-core admission.
+- Lesson: `corpus/lessons/round-73.md` — Gate, Mistakes M73-1…8, prior routed corrections,
+  original-claim misses, controls and census. Q54 in `corpus/QUALITY.md`.
+- Sources: S249 Python3.15.2 ast docs; capture `corpus/evidence/round73/sources/ast-docs.html`,
+  located quote/HTTP evidence in `ast-anchor.md`; AST syntax is not executable validity.
+- Instruments: amended `plans/round52_c2_registry.py` and new
+  `plans/round73_c2_registry_audit.py`; original predicates in `plans/round-73-claims.md`,
+  with amendments explicitly separated from original not-admitted verdicts.
+- Evidence: `corpus/evidence/round73/` — before, control, after, A1 red/green, final committed
+  reruns and census; `w1/` contains independent row drafts/audits and false-green fixtures.
+- Wave: `.ufo/waves/round-73/w1/`, one v1 wave with sixteen seats; dispatch/spec/results in
+  `.ufo/waves/round-73/`. Dispatched seats are not outside non-author closure.

@@ -3289,3 +3289,38 @@ parent and bind the library's digest, as kama's round-50 instrument does. (4) Ad
 `corpus/knowledge/tb2-hf-model-inference-offline.md` and the round-72 entry under Q13/Q14 with a
 2–4 seat `falsify` second wave. L0 carried: `kengaku | round-25/33/51`, `round-54`, `round-56`,
 `round-63`, `round-65`, `round-66`, `round-67`.
+
+## Round 73 (hyaku run 15, attempt 1): original predicates miss; engineering repairs retained
+
+Base `d96c3e62`; freeze `255c261d`; initial rows/amendments `ea41880f`.
+Declared axes: R73-C1 coverage (lowest non-retired axis, held at L0 cap7), R73-C2 calibration.
+Both original claims **not admitted**. The amendments are not retroactive scoring authority.
+
+| claim / axis | before → after | counting command / evidence | verdict / delta |
+|---|---|---|---|
+| R73-C1 / coverage | base ADVERTISED110 MISSING5 rc1; registered tree ADVERTISED113 MISSING0, but frozen plans_only0 predicate exits1; amended plans_seen predicate exits0 | `python3 plans/round52_c2_registry.py --lane .`; `corpus/evidence/round73/c1-before.txt`, `c1-after.txt`, `a1-red-green.txt` | original not admitted; coverage7→7 |
+| R73-C2 / calibration | base audit106 parsed instruments, MISMATCH2 rc1; initial landing114 instruments, MISMATCH0 rc0; exact frozen106 target missed | `python3 plans/round73_c2_registry_audit.py --lane .`; `corpus/evidence/round73/c2-red-before.txt`, `c2-after.txt` | original not admitted; calibration10→10, exercised |
+
+Measured base and repair trees are named in the receipts; the final committed-tree reruns are
+`corpus/evidence/round73/final-checks.txt` and `census-after.txt`. A command's zero exit is not
+the original frozen sentence: E-R73-1 in `plans/round-73-claims.md` records this explicitly.
+C1's planned row additions change C2's fixed denominator, violating causal separability as frozen.
+
+The new audit prices structural declarations only. Thirteen of sixteen adversarial cases pass
+(`.ufo/waves/round-73/w1/C2BlindSpotR73.md`; reproduction transcript `c2-blindspots.md`).
+Malformed table lines are skipped, pin/scope cells are nonempty-only checks, flags are substring
+checks, and revision-token co-occurrence is not semantic attribution. These are not new truthful
+capabilities. The `ast.parse` source S249 expressly denies executable-validity inference.
+`corpus/knowledge/instrument-registry-derivation.md` is held, not admitted.
+
+No new capability row. Remaining scores held: novelty8, depth10, operability10, freshness10,
+adjacency9. No global no-harm proof asserted; known limitations are marked rather than hidden.
+Q54 and `corpus/lessons/round-73.md` capture the failed projected-tree freeze.
+
+### Planned (round 74; not new round work here)
+
+Freeze against the projected registered tree; replace malformed-row skipping with a named defect;
+bind a declared instrument universe independently of rows that advertise themselves. Use the
+seats' preserved false-green fixtures to price exact entry argv and erratum semantics, without
+re-scoring either round73 claim. Outside-observed HF provenance remains unimplemented and held.
+Open L0 questions unchanged: kengaku rounds25/33/51,54,56,63,65,66,67.

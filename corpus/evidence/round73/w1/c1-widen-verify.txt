@@ -1,0 +1,281 @@
+C1GateWidenR73 — axes: coverage, calibration
+RUN_AT 2026-11-04T02:51:08.488339+00:00
+The lane changed during this seat. No landing hash is asserted here; L1 names it. Frozen gate is explicitly revision 255c261d (freeze, not landing).
+
+(a) refuted for the original frozen instrument: on the row-complete lane tree it prints MISSING 0 but PREDICATE R73-C1 fail, rc=1 (plans_only=0). The amended live instrument prints PREDICATE R73-C1 pass, rc=0. ADVERTISED total=113 differs from the original exact target 112, although it satisfies >=111.
+(b) refuted for the original legacy MISSING-5 expectation at the row-complete tree: ADVERTISED total=113 / MISSING 0, rc=1. The initial pre-landing run independently observed ADVERTISED total=110 / MISSING 5, rc=1. Selftest confirmed: SELFTEST cases=4 failures=0, rc=0 for both frozen and live gate bytes. TMPDIR was set to this seat's scratch for retained reruns.
+(c) confirmed: frozen full prints MISSING 1 and MISSING plans/tool_z.py, rc=1; frozen legacy prints ADVERTISED total=0 and MISSING 0, rc=1. Legacy rc=1 is the required full-mode R73 predicate condition, not discovery of tool_z.
+(d) confirmed: independently attributed 113 paths; plans_only=0 exactly matches the gate. Each source file is listed below. Registration itself advertises a path in SKILL.md, so the frozen plans_only>=1 clause conflicts with MISSING 0. No disagreement in the measured count.
+
+INITIAL PRE-LANDING OBSERVATIONS (retained from this seat tool outputs; no copied L1 receipt)
+CWD lane
+$ python3 plans/round52_c2_registry.py --lane .
+UNIVERSE mode=full files=133 plans_only=3
+ADVERTISED total=113
+REGISTERED total=105 rows=107
+MISSING 8
+  MISSING plans/round32_c1_verify.py
+  MISSING plans/round32_defects.py
+  MISSING plans/round66_c1_tensor_probe.py
+  MISSING plans/round69_c1_nginx_probe.py
+  MISSING plans/round69_c2_routed_defects.py
+  MISSING plans/round70_c1_nginx_probe.py
+  MISSING plans/round70_c2_routed_defects.py
+  MISSING plans/round73_c2_registry_audit.py
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 fail
+PREDICATE R73-C1 fail
+rc=1
+$ python3 plans/round52_c2_registry.py --lane . --universe legacy
+UNIVERSE mode=legacy files=76 plans_only=0
+ADVERTISED total=110
+REGISTERED total=105 rows=107
+MISSING 5
+  MISSING plans/round66_c1_tensor_probe.py
+  MISSING plans/round69_c1_nginx_probe.py
+  MISSING plans/round69_c2_routed_defects.py
+  MISSING plans/round70_c1_nginx_probe.py
+  MISSING plans/round70_c2_routed_defects.py
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 fail
+PREDICATE R73-C1 fail
+rc=1
+$ python3 plans/round52_c2_registry.py --selftest
+SELFTEST ok clean-fixture
+SELFTEST ok missing-fixture
+SELFTEST ok incomplete-fixture
+SELFTEST ok plans-fixture
+SELFTEST cases=4 failures=0
+rc=0
+
+RETAINED RERUN TRANSCRIPTS
+$ git show 255c261d:plans/round52_c2_registry.py
+rc=0
+retained as scratch/frozen_gate.py; sha256=bc96c3905e8cad36ee87443225d35c300db626bdff8cc37b8cfdb6e4d46f7678
+
+$ python3 plans/round52_c2_registry.py --lane .
+CWD /home/vgpnk/Projects/shokunin/kengaku-shokunin
+UNIVERSE mode=full files=133 plans_seen=82 plans_only=0
+ADVERTISED total=113
+REGISTERED total=113 rows=115
+MISSING 0
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 pass
+PREDICATE R73-C1 pass
+rc=0
+
+$ python3 /fast/scratch/hyaku/kengaku-r73/C1GateWidenR73/frozen_gate.py --lane /home/vgpnk/Projects/shokunin/kengaku-shokunin
+CWD /home/vgpnk/Projects/shokunin/kengaku-shokunin
+UNIVERSE mode=full files=133 plans_only=0
+ADVERTISED total=113
+REGISTERED total=113 rows=115
+MISSING 0
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 pass
+PREDICATE R73-C1 fail
+rc=1
+
+$ python3 plans/round52_c2_registry.py --lane . --universe legacy
+CWD /home/vgpnk/Projects/shokunin/kengaku-shokunin
+UNIVERSE mode=legacy files=76 plans_seen=0 plans_only=0
+ADVERTISED total=113
+REGISTERED total=113 rows=115
+MISSING 0
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 pass
+PREDICATE R73-C1 fail
+rc=1
+
+$ python3 /fast/scratch/hyaku/kengaku-r73/C1GateWidenR73/frozen_gate.py --lane /home/vgpnk/Projects/shokunin/kengaku-shokunin --universe legacy
+CWD /home/vgpnk/Projects/shokunin/kengaku-shokunin
+UNIVERSE mode=legacy files=76 plans_only=0
+ADVERTISED total=113
+REGISTERED total=113 rows=115
+MISSING 0
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 pass
+PREDICATE R73-C1 fail
+rc=1
+
+$ python3 plans/round52_c2_registry.py --selftest
+CWD /home/vgpnk/Projects/shokunin/kengaku-shokunin
+SELFTEST ok clean-fixture
+SELFTEST ok missing-fixture
+SELFTEST ok incomplete-fixture
+SELFTEST ok plans-fixture
+SELFTEST cases=4 failures=0
+rc=0
+
+$ python3 /fast/scratch/hyaku/kengaku-r73/C1GateWidenR73/frozen_gate.py --lane /home/vgpnk/Projects/shokunin/kengaku-shokunin --selftest
+CWD /home/vgpnk/Projects/shokunin/kengaku-shokunin
+SELFTEST ok clean-fixture
+SELFTEST ok missing-fixture
+SELFTEST ok incomplete-fixture
+SELFTEST ok plans-fixture
+SELFTEST cases=4 failures=0
+rc=0
+
+FIXTURE construction: only files SKILL.md (empty eight-column registry), plans/tool_z.py (# existing new instrument), plans/round-99-plan.md (Run `python3 plans/tool_z.py`.). No tool_z registry row.
+
+$ python3 /fast/scratch/hyaku/kengaku-r73/C1GateWidenR73/frozen_gate.py --lane /fast/scratch/hyaku/kengaku-r73/C1GateWidenR73/fixture --universe full
+CWD /home/vgpnk/Projects/shokunin/kengaku-shokunin
+UNIVERSE mode=full files=2 plans_only=1
+ADVERTISED total=1
+REGISTERED total=0 rows=1
+MISSING 1
+  MISSING plans/tool_z.py
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 fail
+PREDICATE R73-C1 fail
+rc=1
+
+$ python3 /fast/scratch/hyaku/kengaku-r73/C1GateWidenR73/frozen_gate.py --lane /fast/scratch/hyaku/kengaku-r73/C1GateWidenR73/fixture --universe legacy
+CWD /home/vgpnk/Projects/shokunin/kengaku-shokunin
+UNIVERSE mode=legacy files=1 plans_only=0
+ADVERTISED total=0
+REGISTERED total=0 rows=1
+MISSING 0
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 pass
+PREDICATE R73-C1 fail
+rc=1
+
+D METHOD: enumerate the four named self-assessment files, corpus/knowledge/*.md, plans/*.md; collect regex matches per file, retain existing script paths, group source filenames per script; no gate imports.
+INDEPENDENT files=133 advertised=113 plans_seen=82 plans_only=0
+grader.py <- LOG.md, SCORECARD.md, SKILL.md, corpus/README.md, corpus/knowledge/bench-arena-round11-power.md, corpus/knowledge/bench-arena-round12-ladder.md, plans/round-24-claims.md, plans/round-56-claims.md, plans/wwkd-round-17-coverage.md
+plans/adoption_check.py <- LOG.md, SCORECARD.md, SKILL.md, plans/round-29-attempt2-claims.md, plans/round-30-claims.md, plans/round-31-claims.md, plans/round-32-claims.md, plans/round-33-claims.md
+plans/anchor_digest_check.py <- SKILL.md
+plans/anchor_line_check.py <- SCORECARD.md, SKILL.md, plans/round-58-claims.md
+plans/attrib_calibration.py <- LOG.md, SCORECARD.md, SKILL.md, corpus/README.md, corpus/knowledge/attrib-r21.md, corpus/knowledge/attribution-interval-calibration.md, plans/round-25-claims.md
+plans/attrib_probe.py <- SCORECARD.md, SKILL.md, corpus/knowledge/attrib-r21.md, plans/attrib-r21-frozen.md, plans/attrib-r22-frozen.md
+plans/benchmark_spec_audit.py <- LOG.md, SCORECARD.md, SKILL.md, corpus/knowledge/webarena-task-spec-audit.md, plans/round-28-claims.md
+plans/build_pmars_probe.py <- SCORECARD.md, SKILL.md, corpus/knowledge/tb2-build-pmars-grader.md
+plans/catalog_probe.py <- SCORECARD.md, SKILL.md, corpus/knowledge/open-model-catalogs.md, plans/round-32-claims.md, plans/round-33-claims.md
+plans/config_projection.py <- LOG.md, SCORECARD.md, SKILL.md, corpus/knowledge/webarena-config-projection.md, plans/round-29-claims.md
+plans/constraints_probe.py <- SCORECARD.md, SKILL.md
+plans/correction_command_check.py <- SCORECARD.md, SKILL.md
+plans/db_wal_probe.py <- SCORECARD.md, SKILL.md
+plans/defect_ledger.py <- LOG.md, SCORECARD.md, SKILL.md, plans/round-35-claims.md
+plans/feal_linear_probe.py <- SKILL.md, corpus/knowledge/tb2-feal-linear-cryptanalysis-grader.md
+plans/feal_probe.py <- SCORECARD.md, SKILL.md, corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md
+plans/fibsqrt_probe.py <- SCORECARD.md, SKILL.md, corpus/knowledge/tb2-circuit-fibsqrt-grader.md
+plans/gate_flip_check.py <- SCORECARD.md, SKILL.md
+plans/gate_timing_check.py <- SCORECARD.md, SKILL.md, plans/round-26-claims.md
+plans/git_leak_probe.py <- SCORECARD.md, SKILL.md
+plans/git_webserver_probe.py <- SCORECARD.md, SKILL.md, corpus/knowledge/tb2-git-webserver-grader.md
+plans/grader_perturb.py <- LOG.md, SCORECARD.md, SKILL.md, corpus/knowledge/grader-perturbation-audit.md, plans/round-26-claims.md
+plans/ledger_tip.py <- SKILL.md
+plans/mutant_direction_check.py <- SCORECARD.md, SKILL.md
+plans/order_check.py <- SCORECARD.md, SKILL.md
+plans/parser_policy_compare.py <- LOG.md, SCORECARD.md, SKILL.md, corpus/knowledge/extraction-policy-comparison.md, plans/round-27-claims.md
+plans/password_recovery_probe.py <- SKILL.md, corpus/knowledge/tb2-password-recovery-grader.md
+plans/pkg_gate.py <- SKILL.md
+plans/polyglot_c_py_probe.py <- SKILL.md, corpus/knowledge/tb2-polyglot-c-py-grader.md
+plans/receipt_consistency_check.py <- SCORECARD.md, SKILL.md
+plans/regex_log_probe.py <- LOG.md, SCORECARD.md, SKILL.md, corpus/knowledge/tb2-regex-log-grader.md
+plans/registry_check.py <- SCORECARD.md, SKILL.md, plans/round-28-claims.md
+plans/round28_census.py <- LOG.md, SCORECARD.md, SKILL.md
+plans/round30_defects.py <- LOG.md, SCORECARD.md, SKILL.md, plans/round-30-claims.md
+plans/round31_c1_verify.py <- SCORECARD.md, SKILL.md
+plans/round31_defects.py <- SCORECARD.md, SKILL.md, plans/round-31-claims.md
+plans/round32_c1_verify.py <- SKILL.md, plans/round-32-claims.md
+plans/round32_defects.py <- SKILL.md, plans/round-32-claims.md
+plans/round33_c1_verify.py <- SCORECARD.md, SKILL.md, plans/round-33-claims.md
+plans/round33_defects.py <- SCORECARD.md, SKILL.md, plans/round-33-claims.md
+plans/round35_c1_verify.py <- LOG.md, SCORECARD.md, SKILL.md, plans/round-35-claims.md
+plans/round35_hardening.py <- SCORECARD.md, SKILL.md
+plans/round36_c1_verify.py <- SCORECARD.md, SKILL.md, plans/round-36-claims.md
+plans/round36_c2_verify.py <- SCORECARD.md, SKILL.md, plans/round-36-claims.md
+plans/round37_c1_verify.py <- SCORECARD.md, SKILL.md, plans/round-37-claims.md
+plans/round37_c2_verify.py <- SCORECARD.md, SKILL.md, plans/round-37-claims.md
+plans/round38_c1_verify.py <- SCORECARD.md, SKILL.md, plans/round-38-claims.md
+plans/round38_c2_verify.py <- SCORECARD.md, SKILL.md, plans/round-38-claims.md
+plans/round39_c1_audit.py <- SKILL.md
+plans/round39_c1_verify.py <- SCORECARD.md, SKILL.md, plans/round-39-claims.md
+plans/round39_c2_verify.py <- SCORECARD.md, SKILL.md, plans/round-39-claims.md
+plans/round40_c1_verify.py <- SCORECARD.md, SKILL.md, plans/round-40-claims.md
+plans/round40_c2_verify.py <- SCORECARD.md, SKILL.md, plans/round-40-claims.md
+plans/round41_c1_verify.py <- SCORECARD.md, SKILL.md, plans/round-41-claims.md
+plans/round41_c2_verify.py <- SCORECARD.md, SKILL.md, plans/round-41-claims.md
+plans/round42_c1_verify.py <- SCORECARD.md, SKILL.md, plans/round-42-claims.md
+plans/round42_c2_verify.py <- SCORECARD.md, SKILL.md, plans/round-42-claims.md
+plans/round43_c1_verify.py <- SCORECARD.md, SKILL.md, plans/round-43-claims.md
+plans/round43_c2_verify.py <- SCORECARD.md, SKILL.md, plans/round-43-claims.md
+plans/round44_c1_verify.py <- SCORECARD.md, SKILL.md, plans/round-44-claims.md
+plans/round44_c2_verify.py <- SCORECARD.md, SKILL.md, plans/round-44-claims.md
+plans/round45_c1_verify.py <- SCORECARD.md, SKILL.md, plans/round-45-claims.md
+plans/round45_c2_verify.py <- SCORECARD.md, SKILL.md, plans/round-45-claims.md
+plans/round46_c1_verify.py <- SCORECARD.md, SKILL.md, plans/round-46-claims.md
+plans/round46_c2_verify.py <- SCORECARD.md, SKILL.md, plans/round-46-claims.md, plans/round-58-claims.md
+plans/round46_c3_verify.py <- SCORECARD.md, SKILL.md, plans/round-46-claims.md
+plans/round50_c1_verify.py <- SCORECARD.md, SKILL.md, corpus/knowledge/fixture-honest-geometry.md, plans/round-50-claims.md, plans/round-58-claims.md
+plans/round50_c2_audit.py <- SCORECARD.md, SKILL.md, plans/round-50-claims.md
+plans/round51_routing.py <- SCORECARD.md, SKILL.md, plans/round-51-claims.md
+plans/round51_surfaces.py <- SCORECARD.md, SKILL.md, plans/round-51-claims.md
+plans/round52_c1_grader_audit.py <- SCORECARD.md, SKILL.md, corpus/knowledge/tb2-grader-vacuity-triage.md, plans/round-52-claims.md
+plans/round52_c2_registry.py <- LOG.md, SCORECARD.md, SKILL.md, plans/round-52-claims.md, plans/round-55-claims.md, plans/round-56-claims.md, plans/round-57-claims.md, plans/round-73-claims.md
+plans/round53_c1_triage.py <- LOG.md, SCORECARD.md, SKILL.md, corpus/knowledge/tb2-presence-only-triage.md, plans/round-53-claims.md
+plans/round53_c2_tipstate.py <- LOG.md, SCORECARD.md, SKILL.md, plans/round-53-claims.md
+plans/round54_c1_anchor.py <- SCORECARD.md, SKILL.md, plans/round-54-claims.md
+plans/round54_c2_entrytruth.py <- SCORECARD.md, SKILL.md, plans/round-54-claims.md
+plans/round55_c2_controls.py <- SKILL.md, plans/round-56-claims.md
+plans/round55_c2_entryargv.py <- SCORECARD.md, SKILL.md, plans/round-55-claims.md, plans/round-56-claims.md, plans/round-57-claims.md
+plans/round55_c3_chess_probe.py <- SKILL.md, corpus/knowledge/tb2-chess-best-move-grader.md, plans/round-56-claims.md
+plans/round56_landcheck.py <- LOG.md, SCORECARD.md, SKILL.md, plans/round-56-claims.md
+plans/round57_c2_eigen_probe.py <- SCORECARD.md, SKILL.md, corpus/knowledge/tb2-largest-eigenval-grader.md
+plans/round58_c2_kl_probe.py <- SCORECARD.md, SKILL.md, corpus/knowledge/tb2-distribution-search-grader.md, plans/round-58-claims.md
+plans/round59_c1_openssl_probe.py <- SCORECARD.md, SKILL.md, corpus/knowledge/tb2-openssl-selfsigned-cert-grader.md, plans/round-59-claims.md, plans/round-60-claims.md
+plans/round61_c1_cancel_probe.py <- SCORECARD.md, SKILL.md, corpus/knowledge/tb2-cancel-async-tasks-grader.md
+plans/round62_c1_class_survey.py <- SCORECARD.md, SKILL.md, corpus/knowledge/tb2-grader-class-census.md
+plans/round63_c1_pypi_probe.py <- SCORECARD.md, SKILL.md, corpus/knowledge/tb2-network-service-offline-grader.md, plans/round-63-claims.md
+plans/round63_gate_checks.py <- LOG.md, SCORECARD.md, SKILL.md, plans/round-63-claims.md, plans/round-64-claims.md
+plans/round64_c1_kvstore_probe.py <- SCORECARD.md, SKILL.md, corpus/knowledge/tb2-kv-store-grpc-offline.md, plans/round-64-claims.md
+plans/round64_trio_sweep.py <- LOG.md, SCORECARD.md, SKILL.md, plans/round-64-claims.md
+plans/round65_c1_sqlite_probe.py <- LOG.md, SCORECARD.md, SKILL.md, corpus/knowledge/tb2-sqlite-gcov-offline.md, plans/round-65-claims.md, plans/round-66-claims.md, plans/round-67-claims.md
+plans/round66_c1_tensor_probe.py <- SCORECARD.md, SKILL.md, corpus/knowledge/tb2-torch-tensor-parallel-offline.md, plans/round-66-claims.md
+plans/round67_c1_pipeline_probe.py <- SCORECARD.md, SKILL.md, corpus/knowledge/tb2-torch-pipeline-parallel-offline.md, plans/round-67-claims.md
+plans/round68_c1_pypi_finish.py <- SCORECARD.md, SKILL.md, plans/round-68-claims.md
+plans/round68_c2_correction_gate.py <- SCORECARD.md, SKILL.md, plans/round-68-claims.md
+plans/round68_capability_table.py <- SCORECARD.md, SKILL.md, plans/round-68-claims.md
+plans/round68_report_contract.py <- SCORECARD.md, SKILL.md, plans/round-68-claims.md
+plans/round69_c1_nginx_probe.py <- SCORECARD.md, SKILL.md, corpus/knowledge/tb2-nginx-request-logging-offline.md, plans/round-69-claims.md
+plans/round69_c2_routed_defects.py <- SCORECARD.md, SKILL.md, plans/round-69-claims.md
+plans/round70_c1_nginx_probe.py <- SCORECARD.md, SKILL.md, plans/round-70-claims.md
+plans/round70_c2_routed_defects.py <- SCORECARD.md, SKILL.md, plans/round-70-claims.md
+plans/round71_c1_hf_probe.py <- SCORECARD.md, SKILL.md, corpus/knowledge/tb2-hf-model-inference-offline.md, plans/round-71-claims.md
+plans/round71_c2_routed_defects.py <- SCORECARD.md, SKILL.md, plans/round-71-claims.md
+plans/round72_c1_hf_probe.py <- SCORECARD.md, SKILL.md, corpus/knowledge/tb2-hf-model-inference-provenance.md, plans/round-72-claims.md
+plans/round72_c2_routed_defects.py <- SCORECARD.md, SKILL.md, corpus/knowledge/tb2-hf-model-inference-provenance.md, plans/round-72-claims.md, plans/round-73-claims.md
+plans/round73_c2_registry_audit.py <- SKILL.md, plans/round-73-claims.md
+plans/round_close.py <- SCORECARD.md, SKILL.md
+plans/routed_open.py <- SCORECARD.md, SKILL.md
+plans/scratch_guard.py <- SCORECARD.md, SKILL.md
+plans/sources_adopt.py <- LOG.md, SCORECARD.md, SKILL.md, corpus/knowledge/contamination-transparency-card.md, plans/round-29-attempt2-claims.md, plans/round-30-claims.md, plans/round-31-claims.md
+plans/stage_scan.py <- SKILL.md
+plans/state_check.py <- LOG.md, SCORECARD.md, SKILL.md, plans/round-25-claims.md, plans/round-26-claims.md, plans/round-27-claims.md
+plans/tb2_grader_probe.py <- LOG.md, SCORECARD.md, SKILL.md, plans/round-56-claims.md
+plans/tip_receipts.py <- SCORECARD.md, SKILL.md

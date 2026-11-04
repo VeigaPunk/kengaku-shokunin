@@ -123,3 +123,19 @@ count would make the two claims contradict each other.  The claim's substance is
 denominator as `total>=106` and `total==rows`.  Before (`d96c3e62`): `total=106`, `MISMATCH 2`, rc 1.
 After: `total=114`, `MISMATCH 0`, `PREDICATE R73-C2 pass`, rc 0.  No other line changes; no seat had
 returned when A2 landed.
+
+## Erratum E-R73-1 — amendment times and original verdicts
+
+The A1/A2 heading times above were written incorrectly. Both amendments are contained in
+`ea41880fa755816d2c21a7ee53e14bf95d95e340`, whose committer timestamp is
+`2026-11-03T23:48:24-03:00` (`git show -s --format='%H %cI' ea41880f`), hence 02:48:24Z,
+not 02:54Z or 02:56Z. No returned seat report had been observed; this does not establish
+that no seat had scored, and cannot authorize a retroactive change of either rule.
+
+Original R73-C1 is **not admitted**: the frozen counter returns 1 on the registered tree
+(`corpus/evidence/round73/a1-red-green.txt`). A1's pass is engineering repair evidence only.
+Original R73-C2 is **not admitted**: the exact frozen denominator is 106, while the landed
+registry contains 114 priced instruments. A2's zero-mismatch run is repair evidence only.
+The two claims were not causally separable as written because C1 changes C2's fixed denominator.
+The new audit's structural checks also do not establish semantic truth of every field.
+These are honest misses, not re-scored passes; the original predicates remain above.

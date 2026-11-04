@@ -1,0 +1,302 @@
+C2LegsReplayR73 — frozen audit batteries and four-leg replay
+Axes: coverage; calibration. No predicates, counters, targets or registry rows edited.
+
+PROVENANCE
+S=/fast/scratch/hyaku/kengaku-r73/C2LegsReplayR73
+L=$S/lane
+Command: git clone --shared /home/vgpnk/Projects/shokunin/kengaku-shokunin "$L"
+rc=0; output: Cloning into 'lane'... done.
+Command: git -C "$L" rev-parse master
+rc=0
+255c261db2119906c70195291a2b6f9f46f82a72
+Command: git -C "$L" rev-parse --show-toplevel
+rc=0
+/fast/scratch/hyaku/kengaku-r73/C2LegsReplayR73/lane
+Command: git -C "$L" status --porcelain
+rc=0; stdout empty immediately after cloning.
+This is the observed freeze tip, not a claimed landing hash. Base is d96c3e62.
+Command: git -C "$L" diff --name-only d96c3e62..255c261d -- SKILL.md
+rc=0; stdout empty: registry unchanged in the freeze commit.
+Command (cwd $L): git rev-parse HEAD:plans/round73_c2_registry_audit.py HEAD:plans/round52_c2_registry.py HEAD:SKILL.md
+rc=0
+1e9e0223341c6b5bf19e507b00ac07d4e2b07468
+e5953ed3888e8f32d858d60dc1219ce43570bd46
+04e2598cccb7a4bc1c4f68caf1e915df249a99a8
+
+SELFTEST (cwd $L; work directory created first)
+Command: mkdir -p "$S/work-selftest"
+rc=0
+Command: python3 plans/round73_c2_registry_audit.py --selftest --work "$S/work-selftest"
+SELFTEST ok clean-fixture
+SELFTEST ok fifth-row-arm
+SELFTEST ok second-row-arm
+SELFTEST ok errata-arm
+SELFTEST arms=4 red=3 ok=True
+rc=0
+Expected lines and tally all match. The three red arms are fifth-row, second-row and errata.
+Command: ls -d "$S/work-selftest"
+rc=2; stderr:
+ls: cannot access '/fast/scratch/hyaku/kengaku-r73/C2LegsReplayR73/work-selftest': No such file or directory
+Operational observation: the frozen instrument removes the entire --work directory in finally; use an exclusive disposable child directory.
+
+MUTANTS (cwd $L; separate work directory created first)
+Command: mkdir -p "$S/work-mutants"
+rc=0
+Command: python3 plans/round73_c2_registry_audit.py --mutants --work "$S/work-mutants"
+MUTANT M0-null null_detected
+MUTANT M1-kind killed rc=1
+MUTANT M2-owner killed rc=1
+MUTANT M3-gate-verdict killed rc=1
+MUTANT M4-duplicate killed rc=1
+MUTANT M5-errata-revision killed rc=1
+MUTANT M6-script-parse killed rc=1
+MUTANT M7-selftest-unbacked killed rc=1
+MUTANTS total=7 killed=7 survived=0 invalid=0 null_detected=1
+rc=0
+Expected full tally matches exactly.
+
+AUDIT AT CLONE TIP (cwd $L)
+Command: python3 plans/round73_c2_registry_audit.py --lane "$L"
+INSTRUMENTS total=106 derived=registry rows=106
+PARSED scripts=106 failed=0
+D1 ok n=0
+D2 defect n=2
+  DEFECT `sources-adopt`:gate-verdict:0,2,3,4,5,6,7,8,9
+  DEFECT `round62-c1-class-survey`:kind:census gate
+D3 ok n=0
+D4 ok n=0
+MISMATCH 2
+DEFECTS n=2
+PREDICATE R73-C2 fail
+rc=1
+n equals 2, exactly the two pre-existing declarations named in the claims. SKILL.md was unchanged between base and freeze tip. This is not a green landing assertion.
+Frozen corpus/evidence/round73/c2-red-before.txt contains the same tally and DEFECT lines.
+
+FOUR-LEG FIXTURE REPLAY
+Driver command: python3 - "$S" <<'PY'
+import importlib.util, pathlib, subprocess, sys, shutil
+S = pathlib.Path(sys.argv[1]); lane = S/'lane'
+inst = lane/'plans/round73_c2_registry_audit.py'
+spec = importlib.util.spec_from_file_location('aud', inst)
+m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+root = S/'legs'
+shutil.rmtree(root, ignore_errors=True); root.mkdir(parents=True)
+cases = {
+ 'D1-broken-script': dict(broken=True),
+ 'D1b-missing-script': dict(extra_row=m.row_text('tool-x','plans/tool_x.py')),
+ 'D2-bad-owner': dict(extra_row=m.row_text('tool-b','plans/tool_b.py',owner='sibling')),
+ 'D3-second-row': dict(second_row=m.row_text('tool-a','plans/tool_b.py',kind='census gate')),
+ 'D4-swapped-errata': dict(errata='swapped'),
+ 'CLEAN-control': dict(),
+}
+for name, kw in cases.items():
+    fix = m.build_fixture(root/name, **kw)
+    p = subprocess.run([sys.executable,str(inst),'--lane',str(fix)],capture_output=True,text=True)
+    print(f'===== FIXTURE {name} =====')
+    print(p.stdout.rstrip()); print(f'rc={p.returncode}')
+PY
+Driver rc=0. Fixtures use the frozen builder; every result below is from the unmodified CLI subprocess, not a substituted checker. Captured stderr was empty for these six subprocesses.
+
+===== FIXTURE D1-broken-script =====
+Fixture: build_fixture(..., broken=True) writes plans/tool_bad.py containing "def (\n" and adds its valid gate row.
+INSTRUMENTS total=2 derived=registry rows=2
+PARSED scripts=2 failed=1
+D1 defect n=1
+  DEFECT SCRIPT-PARSE plans/tool_bad.py:1:invalid syntax
+D2 ok n=0
+D3 ok n=0
+D4 ok n=0
+MISMATCH 1
+DEFECTS n=1
+PREDICATE R73-C2 fail
+rc=1
+D1 has no red arm in --selftest; broken=True is used by --mutants. It was reached directly here through the frozen fixture builder and ordinary --lane CLI.
+
+===== FIXTURE D1b-missing-script =====
+Fixture: extra row tool-x names absent plans/tool_x.py.
+INSTRUMENTS total=2 derived=registry rows=2
+PARSED scripts=2 failed=1
+D1 defect n=1
+  DEFECT SCRIPT-MISSING plans/tool_x.py
+D2 defect n=1
+  DEFECT `tool-x`:entry:script-absent:plans/tool_x.py
+D3 ok n=0
+D4 ok n=0
+MISMATCH 2
+DEFECTS n=2
+PREDICATE R73-C2 fail
+rc=1
+
+===== FIXTURE D2-bad-owner =====
+Fixture: extra row tool-b has owner=sibling; script exists and parses.
+INSTRUMENTS total=2 derived=registry rows=2
+PARSED scripts=2 failed=0
+D1 ok n=0
+D2 defect n=1
+  DEFECT `tool-b`:owner:sibling
+D3 ok n=0
+D4 ok n=0
+MISMATCH 1
+DEFECTS n=1
+PREDICATE R73-C2 fail
+rc=1
+
+===== FIXTURE D3-second-row =====
+Fixture: second tool-a row names tool_b.py, kind=census gate.
+INSTRUMENTS total=2 derived=registry rows=2
+PARSED scripts=2 failed=0
+D1 ok n=0
+D2 defect n=1
+  DEFECT `tool-a`:kind:census gate
+D3 defect n=1
+  DEFECT DUPLICATE-ROW `tool-a`
+D4 ok n=0
+MISMATCH 2
+DEFECTS n=2
+PREDICATE R73-C2 fail
+rc=1
+Both the duplicate and defective SECOND row are priced.
+
+===== FIXTURE D4-swapped-errata =====
+Fixture: errata='swapped'; item 1 names d8a77d3f instead of c80fcdb3; item 2 names c80fcdb3 instead of d8a77d3f.
+INSTRUMENTS total=1 derived=registry rows=1
+PARSED scripts=1 failed=0
+D1 ok n=0
+D2 ok n=0
+D3 ok n=0
+D4 defect n=2
+  DEFECT ERRATA:item-names-other-revision:Do-nothing control (committed at freeze)->c80fcdb3
+  DEFECT ERRATA:item-names-other-revision:Red-before (committed at freeze)->d8a77d3f
+MISMATCH 2
+DEFECTS n=2
+PREDICATE R73-C2 fail
+rc=1
+
+===== FIXTURE CLEAN-control =====
+INSTRUMENTS total=1 derived=registry rows=1
+PARSED scripts=1 failed=0
+D1 ok n=0
+D2 ok n=0
+D3 ok n=0
+D4 ok n=0
+MISMATCH 0
+DEFECTS n=0
+PREDICATE R73-C2 pass
+rc=0
+
+MUTANT KILL MECHANISM SUPPLEMENT
+Command: Python subprocess driver imported the frozen module, constructed the exact mutants() battery (bad-owner + bad gate-verdict + unbacked selftest + duplicate bad-kind + swapped errata + broken=True), ran the unmodified CLI, then applied each frozen MUTANTS needle/replacement once to a scratch copy and ran it with --lane pointing to the same battery. Driver rc=0. It counted stdout occurrences of '  DEFECT ' and checked 'Traceback' in stderr.
+BASE rc=1 defects=8
+M1-kind: rc=1 defects=7 crash=False
+M2-owner: rc=1 defects=7 crash=False
+M3-gate-verdict: rc=1 defects=7 crash=False
+M4-duplicate: rc=1 defects=7 crash=False
+M5-errata-revision: rc=1 defects=6 crash=False
+M6-script-parse: rc=1 defects=0 crash=True stderr_last=SyntaxError: invalid syntax
+M7-selftest-unbacked: rc=1 defects=7 crash=False
+Calibration note: M6 is killed by an uncaught SyntaxError (except SyntaxError changed to except ZeroDivisionError), unlike the other non-null mutants, which remove priced defect lines. Do not describe M6 as a clean semantic verdict rejection. The frozen tally still matches.
+
+ADDITIONAL CROSS-CHECKS / FINDINGS (not changes to either frozen rule)
+Command (cwd $L): python3 plans/round52_c2_registry.py --selftest
+SELFTEST ok clean-fixture
+SELFTEST ok missing-fixture
+SELFTEST ok incomplete-fixture
+SELFTEST ok plans-fixture
+SELFTEST cases=4 failures=0
+rc=0
+
+Command (cwd $L): python3 plans/round52_c2_registry.py --lane .
+UNIVERSE mode=full files=133 plans_only=3
+ADVERTISED total=113
+REGISTERED total=105 rows=107
+MISSING 8
+  MISSING plans/round32_c1_verify.py
+  MISSING plans/round32_defects.py
+  MISSING plans/round66_c1_tensor_probe.py
+  MISSING plans/round69_c1_nginx_probe.py
+  MISSING plans/round69_c2_routed_defects.py
+  MISSING plans/round70_c1_nginx_probe.py
+  MISSING plans/round70_c2_routed_defects.py
+  MISSING plans/round73_c2_registry_audit.py
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 fail
+PREDICATE R73-C1 fail
+rc=1
+
+Command (cwd $L): python3 plans/round52_c2_registry.py --lane . --universe legacy
+UNIVERSE mode=legacy files=76 plans_only=0
+ADVERTISED total=110
+REGISTERED total=105 rows=107
+MISSING 5
+  MISSING plans/round66_c1_tensor_probe.py
+  MISSING plans/round69_c1_nginx_probe.py
+  MISSING plans/round69_c2_routed_defects.py
+  MISSING plans/round70_c1_nginx_probe.py
+  MISSING plans/round70_c2_routed_defects.py
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 fail
+PREDICATE R73-C1 fail
+rc=1
+
+Base reconstruction command (cwd $L):
+BASE=$S/base; rm -rf "$BASE"; mkdir -p "$BASE"
+git archive d96c3e62 | tar -x -C "$BASE"
+cp plans/round52_c2_registry.py "$BASE/plans/round52_c2_registry.py"
+Setup rc=0. No checkout/reset/commit; base is an extracted tree inside own scratch.
+Command: python3 "$BASE/plans/round52_c2_registry.py" --lane "$BASE" --universe full
+UNIVERSE mode=full files=132 plans_only=2
+ADVERTISED total=112
+REGISTERED total=105 rows=107
+MISSING 7
+  MISSING plans/round32_c1_verify.py
+  MISSING plans/round32_defects.py
+  MISSING plans/round66_c1_tensor_probe.py
+  MISSING plans/round69_c1_nginx_probe.py
+  MISSING plans/round69_c2_routed_defects.py
+  MISSING plans/round70_c1_nginx_probe.py
+  MISSING plans/round70_c2_routed_defects.py
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 fail
+PREDICATE R73-C1 fail
+rc=1
+Command: python3 "$BASE/plans/round52_c2_registry.py" --lane "$BASE" --universe legacy
+UNIVERSE mode=legacy files=76 plans_only=0
+ADVERTISED total=110
+REGISTERED total=105 rows=107
+MISSING 5
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 fail
+PREDICATE R73-C1 fail
+rc=1
+Excerpt omits the same five legacy MISSING paths already listed above.
+
+FINDING: the claims' prose after-target ADVERTISED total=112 differs from freeze-tip 113. Importing frozen gate.collect() and selecting instruments whose advertisers all start with plans/ produced (driver rc=0):
+plans/round32_c1_verify.py -> ['plans/round-32-claims.md']
+plans/round32_defects.py -> ['plans/round-32-claims.md']
+plans/round73_c2_registry_audit.py -> ['plans/round-73-claims.md']
+The new audit contributes the third plans-only instrument. The base amended full gate is 112/7; the freeze tip is 113/8. Registry additions alone cannot lower this advertised total. Frozen C1 predicate sentence uses >=111, so 113 satisfies that numeric bound; this observation does NOT assert landing pass/fail or authorize changing the target.
+
+PARSER DIFFERENCE (Python driver imported both frozen modules, parsed the same SKILL.md registry block, and compared entry_script() sets; driver rc=0):
+gate rows: 107 first row[0]: 'name'
+audit rows: 106 first row[0]: '`hermetic-grader`'
+gate header counted as row: True
+gate scripts: 105 audit scripts: 106
+in audit not gate: ['corpus/evidence/round13-coverage/coverage_census.py']
+Gate includes table header; audit skips it. Gate CMD disallows the hyphen in round13-coverage, while audit CMD accepts it. Thus do not equate gate REGISTERED/rows counters with audit INSTRUMENTS/rows counters. Audit correctly includes this script in its observed 106-script parse sweep.
+No row in freeze-tip SKILL.md names round73_c2_registry_audit.py (search returned no match); its absence is exposed by coverage gate, not the row-derived audit.
+
+LIMITS AND HYGIENE
+Only audit replay and related cross-checks were exercised; no landing verification, builds, formatters or installs. No instrument or predicate edits. No symbol refactor; LSP device unavailable in this seat's mounted tools, module helpers inspected via file tools/imports.
+Procedural deviations: initial mkdir/status and claims read were dispatched concurrently rather than awaiting the claims read; godspeed skill was read late; supplemental C1 checks exceeded the core C2 replay. Some initial shell searches/listings used shell rather than specialized file tools. No claimed compliance with those procedural requirements. Scratch was not initially trap-protected; explicit final cleanup is recorded in the report. No fixture commit/checkout/reset or external state remediation.
