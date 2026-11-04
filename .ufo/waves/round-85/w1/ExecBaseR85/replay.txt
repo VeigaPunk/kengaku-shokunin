@@ -1,0 +1,375 @@
+# ExecBaseR85 — independent replay of R85-C1 (BASE + tip) and R85-C2 (master, --sensitivity, check-only v5/v6/v8)
+
+Seat: ExecBaseR85 (leaf executor, kengaku round 85 wave 1). Date: 2026-11-04.
+Lane: /home/vgpnk/Projects/shokunin/kengaku-shokunin. Every command was executed from the lane root.
+Scratch: /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/ (deleted after this file was written). No network used. No tool installs. No production file edited.
+
+IMPORTANT — the lane moved while this seat was measuring (the L1 landed repairs mid-run):
+
+- Generation A (mid-wave): HEAD d4253aa0ebb8c3f17e3bd0711c2c588dcec9fd57 with a DIRTY worktree — uncommitted
+  edits to plans/round85_c1_replay.py (work-dir auto-create, tolerant per-path archive extraction, mutant table
+  rework), plans/round85_c2_debt.py (same plus v7 rewrite, dropped no-receipt-table-sha mutant),
+  corpus/lessons/round-84.md, corpus/README.md, plans/grader-population-ledger.json. In this generation
+  `PREDICATE R85-C2 fail` (closed=4, defects=4: v3, v7, v8, v9).
+- Generation B (final state measured by this seat): HEAD 217910c513a46b5ff607561136e4beaac056ace0 — repairs
+  committed in e7b44805 (lesson, SOURCES S272, README index rows, round-84 expansion correction, counter
+  work-dir and v7/v8 repairs) and 217910c5 (v3 control exit convention). Only plans/grader-population-ledger.json
+  remains dirty (working tree drops the sqlite-db-truncate row's legacy "evidence"/"reason" keys; the master row
+  keeps them; counters read the rev tree, so targets are unaffected).
+  In this generation both counters hit their exact frozen targets.
+
+Both generations are preserved verbatim below; Generation B is the state at seat completion.
+
+==========================================================================
+## Generation B — measured at HEAD 217910c513a46b5ff607561136e4beaac056ace0
+==========================================================================
+
+--- cap2_base ---
+
+# measured at HEAD 217910c513a46b5ff607561136e4beaac056ace0
+$ python3 plans/round85_c1_replay.py --lane . --rev 0de45354d7aff18e4a23a348ec13de3a1f707a44 --work /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/wk2_base
+DEFECT TABLE-MISSING plans/round85-cases.json@rev 0de45354d7af
+DEFECT TOOL-MISSING plans/round85_sqlite_truncate_probe.py
+DEFECT LEDGER-UNEXECUTED status=unexecuted
+DEFECT LEDGER-ROUND None
+DEFECT LEDGER-RECEIPT None
+DEFECT LEDGER-SUBJECT None
+DEFECT LEDGER-VERDICT None
+DEFECT RECEIPT-MISSING corpus/evidence/round85/sqlite-db-truncate-probe.txt
+TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects=8
+PREDICATE R85-C1 fail
+rc=1
+
+--- cap2_tip ---
+
+# measured at HEAD 217910c513a46b5ff607561136e4beaac056ace0
+$ python3 plans/round85_c1_replay.py --lane . --rev master --work /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/wk2_tip
+TARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=0
+PREDICATE R85-C1 pass
+rc=0
+
+--- cap2_c2 ---
+
+# measured at HEAD 217910c513a46b5ff607561136e4beaac056ace0
+$ python3 plans/round85_c2_debt.py --lane . --rev master --work /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/wk2_c2
+CHECK v1 ok tracked=4
+CHECK v2 ok freeze-inputs-bound
+CHECK v3 ok rc=0 forgery-rejected
+CHECK v5 ok Q61 landed
+CHECK v6 ok writer=kengaku-L1-round83-admission checker_rc=0
+CHECK v7 ok r84-dated-correction=True r85-verdict=True
+CHECK v8 ok literal_flags=4/4 gate=none
+CHECK v9 ok heading=True base=True future=True
+ROUTED R84-V4 owner=operator reason=Q13 checker shape for one-wave rounds; L0 kengaku | round-84
+TARGET ids=8 closed=8 checks_passed=8 indexed=yes defects=0
+PREDICATE R85-C2 pass
+rc=0
+
+--- cap2_sens ---
+
+# measured at HEAD 217910c513a46b5ff607561136e4beaac056ace0
+$ python3 plans/round85_c2_debt.py --lane . --sensitivity --work /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/wk2_sens
+BASE-CHECK v1 red missing=.ufo/waves/round-84/w1-results.json,.ufo/waves/round-84/w1/CriticR84.md,.ufo/waves/round-84/w1/CriticR84/critique.md,.ufo/waves/round-84/w1/CriticR84/report.txt
+BASE-CHECK v2 red drifted-since-freeze:plans/round85-cases.json drifted-since-freeze:plans/round85-defects.json drifted-since-freeze:plans/round-85-claims.md
+BASE-CHECK v3 red instrument-absent
+BASE-CHECK v5 red no Q61 row
+BASE-CHECK v6 red writer-is-seat-id:KengakuR84
+BASE-CHECK v7 red r84-dated-correction=False r85-verdict=False
+BASE-CHECK v8 red literal_flags=0/4 gate=none missing=--selftest,--mutants,--control-presence,--sensitivity
+BASE-CHECK v9 red lesson-absent
+SENSITIVITY n=8 failed_at_base=8
+rc=0
+
+--- cap2_checks ---
+
+# measured at HEAD 217910c513a46b5ff607561136e4beaac056ace0
+$ python3 plans/round85_c2_debt.py --lane . --check-only v5 --work /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/wk2_v5
+CHECK v5 ok Q61 landed
+rc=0
+$ python3 plans/round85_c2_debt.py --lane . --check-only v6 --work /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/wk2_v6
+CHECK v6 ok writer=kengaku-L1-round83-admission checker_rc=0
+rc=0
+$ python3 plans/round85_c2_debt.py --lane . --check-only v8 --work /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/wk2_v8
+CHECK v8 ok literal_flags=4/4 gate=none
+rc=0
+
+==========================================================================
+## Generation A — mid-wave, HEAD d4253aa0ebb8c3f17e3bd0711c2c588dcec9fd57 + DIRTY worktree (historical)
+==========================================================================
+
+--- cap_base ---
+
+$ python3 plans/round85_c1_replay.py --lane . --rev 0de45354d7aff18e4a23a348ec13de3a1f707a44 --work /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/wk_base
+DEFECT TABLE-MISSING plans/round85-cases.json@rev 0de45354d7af
+DEFECT TOOL-MISSING plans/round85_sqlite_truncate_probe.py
+DEFECT LEDGER-UNEXECUTED status=unexecuted
+DEFECT LEDGER-ROUND None
+DEFECT LEDGER-RECEIPT None
+DEFECT LEDGER-SUBJECT None
+DEFECT LEDGER-VERDICT None
+DEFECT RECEIPT-MISSING corpus/evidence/round85/sqlite-db-truncate-probe.txt
+TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects=8
+PREDICATE R85-C1 fail
+rc=1
+
+--- cap_tip ---
+
+$ python3 plans/round85_c1_replay.py --lane . --rev master --work /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/wk_tip
+TARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=0
+PREDICATE R85-C1 pass
+rc=0
+
+--- cap_c2 ---
+
+$ python3 plans/round85_c2_debt.py --lane . --rev master --work /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/wk_c2
+CHECK v1 ok tracked=4
+CHECK v2 ok freeze-inputs-bound
+CHECK v3 DEFECT rc=2 DEFECT SETUP work-not-a-directory /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/wk_c2/v3
+TARGET members=1 cases=0 legs=0 m
+CHECK v5 ok Q61 landed
+CHECK v6 ok writer=kengaku-L1-round83-admission checker_rc=0
+CHECK v7 DEFECT r84-dated-correction=False r85-verdict=False
+CHECK v8 DEFECT rc=1 DEFECT ROW-ENTRY hermetic-grader; DEFECT ROW-SELFTEST-UNBACKED hermetic-grader; DEFECT ROW-ENTRY coverage-census; DEFECT ROW-SELFTEST-UNBACKED round37-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round37-c2; DEFECT ROW-SELFTEST-UNBACKED anchor-digest-check; DEFECT ROW-SELFTEST-UNBACKED ledger-tip; DEFECT ROW-SELFTEST-UNBACKED build-pmars-probe; DEFECT ROW-SELFTEST-UNBACKED round38-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round38-c2; DEFECT ROW-SELFTEST-UNBACKED mutant-direction-check; DEFECT ROW-SELFTEST-UNBACKED tip-receipts; DEFECT ROW-SELFTEST-UNBACKED round39-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round39-c2; DEFECT ROW-SELFTEST-UNBACKED order-check; DEFECT ROW-SELFTEST-UNBACKED round39-c1-audit; DEFECT ROW-SELFTEST-UNBACKED round40-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round40-c2; DEFECT ROW-SELFTEST-UNBACKED round41-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round41-c2; DEFECT ROW-SELFTEST-UNBACKED constraints-probe; DEFECT ROW-SELFTEST-UNBACKED round-close-check; DEFECT ROW-SELFTEST-UNBACKED round42-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round42-c2; DEFECT ROW-SELFTEST-UNBACKED fibsqrt-probe; DEFECT ROW-SELFTEST-UNBACKED round43-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round43-c2; DEFECT ROW-SELFTEST-UNBACKED feal-probe; DEFECT ROW-SELFTEST-UNBACKED round44-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round44-c2; DEFECT ROW-SELFTEST-UNBACKED feal-linear-probe; DEFECT ROW-SELFTEST-UNBACKED password-recovery-probe; DEFECT ROW-SELFTEST-UNBACKED polyglot-c-py-probe; DEFECT ROW-SELFTEST-UNBACKED round28-census; DEFECT ROW-SELFTEST-UNBACKED round35-c1-coverage; DEFECT ROW-SELFTEST-UNBACKED round35-hardening; DEFECT ROW-SELFTEST-UNBACKED round36-c2; DEFECT ROW-SELFTEST-UNBACKED round45-c1; DEFECT ROW-SELFTEST-UNBACKED round45-c2; DEFECT ROW-SELFTEST-UNBACKED round46-c1; DEFECT ROW-SELFTEST-UNBACKED round46-c2; DEFECT ROW-SELFTEST-UNBACKED round46-c3; DEFECT ROW-SELFTEST-UNBACKED round50-c1; DEFECT ROW-SELFTEST-UNBACKED tb2-grader-probe; DEFECT ROW-SELFTEST-UNBACKED round58-c2; DEFECT ROW-SELFTEST-UNBACKED anchor-line-check; DEFECT ROW-SELFTEST-UNBACKED round59-c1-openssl-probe; DEFECT ROW-SELFTEST-UNBACKED receipt-consistency-check; DEFECT ROW-SELFTEST-UNBACKED correction-command-check; DEFECT ROW-SELFTEST-UNBACKED round61-c1-cancel-probe; DEFECT ROW-SELFTEST-UNBACKED round62-c1-class-survey; DEFECT ROW-SELFTEST-UNBACKED round63-c1-pypi-probe; DEFECT ROW-SELFTEST-UNBACKED round63-gate-checks; DEFECT ROW-SELFTEST-UNBACKED round64-c1-kvstore-probe; DEFECT ROW-SELFTEST-UNBACKED round65-c1-sqlite-probe; DEFECT ROW-SELFTEST-UNBACKED round67_c1_pipeline_probe; DEFECT ROW-SELFTEST-UNBACKED round64-trio-sweep; DEFECT ROW-SELFTEST-UNBACKED round68_c1_pypi_finish; DEFECT ROW-SELFTEST-UNBACKED round68_c2_correction_gate; DEFECT ROW-SELFTEST-UNBACKED round68_report_contract; DEFECT ROW-SELFTEST-UNBACKED round68_capability_table; DEFECT ROW-SELFTEST-UNBACKED round71-c1-hf-probe; DEFECT ROW-SELFTEST-UNBACKED round71-c2-routed-defects; DEFECT ROW-SELFTEST-UNBACKED round72-c1-hf-probe; DEFECT ROW-SELFTEST-UNBACKED round72-c2-routed-defects; DEFECT ROW-SELFTEST-UNBACKED round73-c2-registry-audit; DEFECT ROW-SELFTEST-UNBACKED round77-remint-r76-batteries; DEFECT ROW-SELFTEST-UNBACKED round78-c1-class-member-ledger; DEFECT ROW-SELFTEST-UNBACKED round78-c2-stamp-location; DEFECT ROW-SELFTEST-UNBACKED round78-restamp; DEFECT ROW-SELFTEST-UNBACKED round79-c1-population-ledger; DEFECT ROW-SELFTEST-UNBACKED round79-c2-closure-debt; DEFECT ROW-SELFTEST-UNBACKED round80-c1-located-replay; DEFECT ROW-SELFTEST-UNBACKED round80-c2-spotcheck-debt; DEFECT ROW-SELFTEST-UNBACKED round81-c1-new-members; DEFECT ROW-SELFTEST-UNBACKED round81-c2-spotcheck-debt; DEFECT ROW-SELFTEST-UNBACKED round81-c2-checks; DEFECTS n=77; PREDICATE R82-C1 fail
+CHECK v9 DEFECT lesson-absent
+ROUTED R84-V4 owner=operator reason=Q13 checker shape for one-wave rounds; L0 kengaku | round-84
+TARGET ids=8 closed=4 checks_passed=4 indexed=no defects=4
+PREDICATE R85-C2 fail
+rc=1
+
+--- cap_c2sens ---
+
+$ python3 plans/round85_c2_debt.py --lane . --sensitivity
+usage: round85_c2_debt.py [-h] [--lane LANE] [--rev REV] --work WORK
+                          [--selftest] [--mutants] [--sensitivity]
+                          [--control-presence]
+                          [--check-only {v1,v2,v3,v5,v6,v7,v8,v9}]
+round85_c2_debt.py: error: the following arguments are required: --work
+rc=2
+
+--- cap_c2sens2 ---
+
+$ python3 plans/round85_c2_debt.py --lane . --sensitivity --work /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/wk_c2sens
+BASE-CHECK v1 red missing=.ufo/waves/round-84/w1-results.json,.ufo/waves/round-84/w1/CriticR84.md,.ufo/waves/round-84/w1/CriticR84/critique.md,.ufo/waves/round-84/w1/CriticR84/report.txt
+BASE-CHECK v2 red drifted-since-freeze:plans/round85-cases.json drifted-since-freeze:plans/round85-defects.json drifted-since-freeze:plans/round-85-claims.md
+BASE-CHECK v3 red instrument-absent
+BASE-CHECK v5 red no Q61 row
+BASE-CHECK v6 red writer-is-seat-id:KengakuR84
+BASE-CHECK v7 red r84-dated-correction=False r85-verdict=False
+BASE-CHECK v8 red rc=1 DEFECT ROW-ENTRY hermetic-grader; DEFECT ROW-SELFTEST-UNBACKED hermetic-grader; DEFECT ROW-ENTRY coverage-census; DEFECT ROW-SELFTEST-UNBACKED round37-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round37-c2; DEFECT ROW-SELFTEST-UNBACKED anchor-digest-check; DEFECT ROW-SELFTEST-UNBACKED ledger-tip; DEFECT ROW-SELFTEST-UNBACKED build-pmars-probe; DEFECT ROW-SELFTEST-UNBACKED round38-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round38-c2; DEFECT ROW-SELFTEST-UNBACKED mutant-direction-check; DEFECT ROW-SELFTEST-UNBACKED tip-receipts; DEFECT ROW-SELFTEST-UNBACKED round39-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round39-c2; DEFECT ROW-SELFTEST-UNBACKED order-check; DEFECT ROW-SELFTEST-UNBACKED round39-c1-audit; DEFECT ROW-SELFTEST-UNBACKED round40-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round40-c2; DEFECT ROW-SELFTEST-UNBACKED round41-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round41-c2; DEFECT ROW-SELFTEST-UNBACKED constraints-probe; DEFECT ROW-SELFTEST-UNBACKED round-close-check; DEFECT ROW-SELFTEST-UNBACKED round42-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round42-c2; DEFECT ROW-SELFTEST-UNBACKED fibsqrt-probe; DEFECT ROW-SELFTEST-UNBACKED round43-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round43-c2; DEFECT ROW-SELFTEST-UNBACKED feal-probe; DEFECT ROW-SELFTEST-UNBACKED round44-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round44-c2; DEFECT ROW-SELFTEST-UNBACKED feal-linear-probe; DEFECT ROW-SELFTEST-UNBACKED password-recovery-probe; DEFECT ROW-SELFTEST-UNBACKED polyglot-c-py-probe; DEFECT ROW-SELFTEST-UNBACKED round28-census; DEFECT ROW-SELFTEST-UNBACKED round35-c1-coverage; DEFECT ROW-SELFTEST-UNBACKED round35-hardening; DEFECT ROW-SELFTEST-UNBACKED round36-c2; DEFECT ROW-SELFTEST-UNBACKED round45-c1; DEFECT ROW-SELFTEST-UNBACKED round45-c2; DEFECT ROW-SELFTEST-UNBACKED round46-c1; DEFECT ROW-SELFTEST-UNBACKED round46-c2; DEFECT ROW-SELFTEST-UNBACKED round46-c3; DEFECT ROW-SELFTEST-UNBACKED round50-c1; DEFECT ROW-SELFTEST-UNBACKED tb2-grader-probe; DEFECT ROW-SELFTEST-UNBACKED round58-c2; DEFECT ROW-SELFTEST-UNBACKED anchor-line-check; DEFECT ROW-SELFTEST-UNBACKED round59-c1-openssl-probe; DEFECT ROW-SELFTEST-UNBACKED receipt-consistency-check; DEFECT ROW-SELFTEST-UNBACKED correction-command-check; DEFECT ROW-SELFTEST-UNBACKED round61-c1-cancel-probe; DEFECT ROW-SELFTEST-UNBACKED round62-c1-class-survey; DEFECT ROW-SELFTEST-UNBACKED round63-c1-pypi-probe; DEFECT ROW-SELFTEST-UNBACKED round63-gate-checks; DEFECT ROW-SELFTEST-UNBACKED round64-c1-kvstore-probe; DEFECT ROW-SELFTEST-UNBACKED round65-c1-sqlite-probe; DEFECT ROW-SELFTEST-UNBACKED round67_c1_pipeline_probe; DEFECT ROW-SELFTEST-UNBACKED round64-trio-sweep; DEFECT ROW-SELFTEST-UNBACKED round68_c1_pypi_finish; DEFECT ROW-SELFTEST-UNBACKED round68_c2_correction_gate; DEFECT ROW-SELFTEST-UNBACKED round68_report_contract; DEFECT ROW-SELFTEST-UNBACKED round68_capability_table; DEFECT ROW-SELFTEST-UNBACKED round71-c1-hf-probe; DEFECT ROW-SELFTEST-UNBACKED round71-c2-routed-defects; DEFECT ROW-SELFTEST-UNBACKED round72-c1-hf-probe; DEFECT ROW-SELFTEST-UNBACKED round72-c2-routed-defects; DEFECT ROW-SELFTEST-UNBACKED round73-c2-registry-audit; DEFECT ROW-SELFTEST-UNBACKED round77-remint-r76-batteries; DEFECT ROW-SELFTEST-UNBACKED round78-c1-class-member-ledger; DEFECT ROW-SELFTEST-UNBACKED round78-c2-stamp-location; DEFECT ROW-SELFTEST-UNBACKED round78-restamp; DEFECT ROW-SELFTEST-UNBACKED round79-c1-population-ledger; DEFECT ROW-SELFTEST-UNBACKED round79-c2-closure-debt; DEFECT ROW-SELFTEST-UNBACKED round80-c1-located-replay; DEFECT ROW-SELFTEST-UNBACKED round80-c2-spotcheck-debt; DEFECT ROW-SELFTEST-UNBACKED round81-c1-new-members; DEFECT ROW-SELFTEST-UNBACKED round81-c2-spotcheck-debt; DEFECT ROW-SELFTEST-UNBACKED round81-c2-checks; DEFECT ROW-SELFTEST-FLAG:--selftest round83-c2-debt; DEFECTS n=78; PREDICATE R82-C1 fail
+BASE-CHECK v9 red lesson-absent
+SENSITIVITY n=8 failed_at_base=8
+rc=0
+
+--- cap_v5 ---
+
+$ python3 plans/round85_c2_debt.py --lane . --check-only v5
+usage: round85_c2_debt.py [-h] [--lane LANE] [--rev REV] --work WORK
+                          [--selftest] [--mutants] [--sensitivity]
+                          [--control-presence]
+                          [--check-only {v1,v2,v3,v5,v6,v7,v8,v9}]
+round85_c2_debt.py: error: the following arguments are required: --work
+rc=2
+
+--- cap_v6 ---
+
+$ python3 plans/round85_c2_debt.py --lane . --check-only v6
+usage: round85_c2_debt.py [-h] [--lane LANE] [--rev REV] --work WORK
+                          [--selftest] [--mutants] [--sensitivity]
+                          [--control-presence]
+                          [--check-only {v1,v2,v3,v5,v6,v7,v8,v9}]
+round85_c2_debt.py: error: the following arguments are required: --work
+rc=2
+
+--- cap_v8 ---
+
+$ python3 plans/round85_c2_debt.py --lane . --check-only v8
+usage: round85_c2_debt.py [-h] [--lane LANE] [--rev REV] --work WORK
+                          [--selftest] [--mutants] [--sensitivity]
+                          [--control-presence]
+                          [--check-only {v1,v2,v3,v5,v6,v7,v8,v9}]
+round85_c2_debt.py: error: the following arguments are required: --work
+rc=2
+
+--- cap_v5w ---
+
+$ python3 plans/round85_c2_debt.py --lane . --check-only v5 --work /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/wk_v5
+CHECK v5 ok Q61 landed
+rc=0
+
+--- cap_v6w ---
+
+$ python3 plans/round85_c2_debt.py --lane . --check-only v6 --work /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/wk_v6
+CHECK v6 ok writer=kengaku-L1-round83-admission checker_rc=0
+rc=0
+
+--- cap_v8w ---
+
+$ python3 plans/round85_c2_debt.py --lane . --check-only v8 --work /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/wk_v8
+CHECK v8 ok rc=0 DEFECTS n=0; PREDICATE R82-C1 pass
+rc=0
+
+--- cap_probe ---
+
+$ python3 plans/round85_sqlite_truncate_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/mint_probe (receipt COMMAND shape)
+MEMBER sqlite-db-truncate
+SUBJECT_CAPTURE corpus/evidence/round52/graders/sqlite-db-truncate/tests/test_outputs.py
+SUBJECT_SHA 8f5bc11018687d8c5894ebf1b4ec6fad004828e5ce442d3cc04d925ef53ef881
+CASE_TABLE_SHA bd98794b9d35168ccb296ad9176cf45b0b421cf961515935a814eadc40d49114
+TOOL plans/round85_sqlite_truncate_probe.py
+TOOL_SHA d00868acbfe8c398a4703860b39c101734799aeb8cc5de8f2f3d3e05ccb0582f
+HOST_PYTHON Python 3.14.8
+HOST_OPENSSL OpenSSL 3.6.5 29 Sep 2026 (Library: OpenSSL 3.6.5 29 Sep 2026)
+LANE_TIP d4253aa0ebb8c3f17e3bd0711c2c588dcec9fd57
+WORKTREE dirty
+COMMAND python3 plans/round85_sqlite_truncate_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/mint_probe
+EXIT 0
+OBSERVATIONS_BEGIN
+CASE exact8 predicted=8/P observed=8/P
+CASE seven predicted=7/P observed=7/P
+CASE six predicted=6/F observed=6/F
+CASE empty predicted=0/F observed=0/F
+CASE extras predicted=8/P observed=8/P
+CASE duplicates predicted=8/P observed=8/P
+CASE string-values predicted=0/F observed=0/F
+CASE int-values predicted=6/F observed=6/F
+cases=8 legs=16 mismatches=0
+PREDICATE R85-PROBE pass
+OBSERVATIONS_END
+rc=0
+
+--- cap_head_precreated ---
+
+$ [HEAD counter] python3 plans/round85_c1_replay.py --lane . --rev master --work (pre-created)
+TARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=0
+PREDICATE R85-C1 pass
+rc=0
+$ [HEAD counter] python3 plans/round85_c2_debt.py --lane . --rev master --work (pre-created)
+CHECK v1 ok tracked=4
+CHECK v2 ok freeze-inputs-bound
+CHECK v3 DEFECT rc=2 DEFECT SETUP work-not-a-directory /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/tmp.jTv8tKz94L/wk_c2head/v3
+TARGET members
+CHECK v5 ok Q61 landed
+CHECK v6 ok writer=kengaku-L1-round83-admission checker_rc=0
+CHECK v7 DEFECT lesson-absent
+CHECK v8 DEFECT rc=1 DEFECT ROW-ENTRY hermetic-grader; DEFECT ROW-SELFTEST-UNBACKED hermetic-grader; DEFECT ROW-ENTRY coverage-census; DEFECT ROW-SELFTEST-UNBACKED round37-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round37-c2; DEFECT ROW-SELFTEST-UNBACKED anchor-digest-check; DEFECT ROW-SELFTEST-UNBACKED ledger-tip; DEFECT ROW-SELFTEST-UNBACKED build-pmars-probe; DEFECT ROW-SELFTEST-UNBACKED round38-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round38-c2; DEFECT ROW-SELFTEST-UNBACKED mutant-direction-check; DEFECT ROW-SELFTEST-UNBACKED tip-receipts; DEFECT ROW-SELFTEST-UNBACKED round39-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round39-c2; DEFECT ROW-SELFTEST-UNBACKED order-check; DEFECT ROW-SELFTEST-UNBACKED round39-c1-audit; DEFECT ROW-SELFTEST-UNBACKED round40-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round40-c2; DEFECT ROW-SELFTEST-UNBACKED round41-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round41-c2; DEFECT ROW-SELFTEST-UNBACKED constraints-probe; DEFECT ROW-SELFTEST-UNBACKED round-close-check; DEFECT ROW-SELFTEST-UNBACKED round42-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round42-c2; DEFECT ROW-SELFTEST-UNBACKED fibsqrt-probe; DEFECT ROW-SELFTEST-UNBACKED round43-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round43-c2; DEFECT ROW-SELFTEST-UNBACKED feal-probe; DEFECT ROW-SELFTEST-UNBACKED round44-c1-mutants; DEFECT ROW-SELFTEST-UNBACKED round44-c2; DEFECT ROW-SELFTEST-UNBACKED feal-linear-probe; DEFECT ROW-SELFTEST-UNBACKED password-recovery-probe; DEFECT ROW-SELFTEST-UNBACKED polyglot-c-py-probe; DEFECT ROW-SELFTEST-UNBACKED round28-census; DEFECT ROW-SELFTEST-UNBACKED round35-c1-coverage; DEFECT ROW-SELFTEST-UNBACKED round35-hardening; DEFECT ROW-SELFTEST-UNBACKED round36-c2; DEFECT ROW-SELFTEST-UNBACKED round45-c1; DEFECT ROW-SELFTEST-UNBACKED round45-c2; DEFECT ROW-SELFTEST-UNBACKED round46-c1; DEFECT ROW-SELFTEST-UNBACKED round46-c2; DEFECT ROW-SELFTEST-UNBACKED round46-c3; DEFECT ROW-SELFTEST-UNBACKED round50-c1; DEFECT ROW-SELFTEST-UNBACKED tb2-grader-probe; DEFECT ROW-SELFTEST-UNBACKED round58-c2; DEFECT ROW-SELFTEST-UNBACKED anchor-line-check; DEFECT ROW-SELFTEST-UNBACKED round59-c1-openssl-probe; DEFECT ROW-SELFTEST-UNBACKED receipt-consistency-check; DEFECT ROW-SELFTEST-UNBACKED correction-command-check; DEFECT ROW-SELFTEST-UNBACKED round61-c1-cancel-probe; DEFECT ROW-SELFTEST-UNBACKED round62-c1-class-survey; DEFECT ROW-SELFTEST-UNBACKED round63-c1-pypi-probe; DEFECT ROW-SELFTEST-UNBACKED round63-gate-checks; DEFECT ROW-SELFTEST-UNBACKED round64-c1-kvstore-probe; DEFECT ROW-SELFTEST-UNBACKED round65-c1-sqlite-probe; DEFECT ROW-SELFTEST-UNBACKED round67_c1_pipeline_probe; DEFECT ROW-SELFTEST-UNBACKED round64-trio-sweep; DEFECT ROW-SELFTEST-UNBACKED round68_c1_pypi_finish; DEFECT ROW-SELFTEST-UNBACKED round68_c2_correction_gate; DEFECT ROW-SELFTEST-UNBACKED round68_report_contract; DEFECT ROW-SELFTEST-UNBACKED round68_capability_table; DEFECT ROW-SELFTEST-UNBACKED round71-c1-hf-probe; DEFECT ROW-SELFTEST-UNBACKED round71-c2-routed-defects; DEFECT ROW-SELFTEST-UNBACKED round72-c1-hf-probe; DEFECT ROW-SELFTEST-UNBACKED round72-c2-routed-defects; DEFECT ROW-SELFTEST-UNBACKED round73-c2-registry-audit; DEFECT ROW-SELFTEST-UNBACKED round77-remint-r76-batteries; DEFECT ROW-SELFTEST-UNBACKED round78-c1-class-member-ledger; DEFECT ROW-SELFTEST-UNBACKED round78-c2-stamp-location; DEFECT ROW-SELFTEST-UNBACKED round78-restamp; DEFECT ROW-SELFTEST-UNBACKED round79-c1-population-ledger; DEFECT ROW-SELFTEST-UNBACKED round79-c2-closure-debt; DEFECT ROW-SELFTEST-UNBACKED round80-c1-located-replay; DEFECT ROW-SELFTEST-UNBACKED round80-c2-spotcheck-debt; DEFECT ROW-SELFTEST-UNBACKED round81-c1-new-members; DEFECT ROW-SELFTEST-UNBACKED round81-c2-spotcheck-debt; DEFECT ROW-SELFTEST-UNBACKED round81-c2-checks; DEFECTS n=77; PREDICATE R82-C1 fail
+CHECK v9 DEFECT lesson-absent
+ROUTED R84-V4 owner=operator reason=Q13 checker shape for one-wave rounds; L0 kengaku | round-84
+TARGET ids=8 closed=4 checks_passed=4 indexed=no defects=4
+PREDICATE R85-C2 fail
+rc=1
+
+--- cap_c1_head ---
+
+$ [HEAD-committed counter] python3 plans/round85_c1_replay.py --lane . --rev master --work /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/tmp.jTv8tKz94L/wk_tiphead
+DEFECT SETUP work-not-a-directory /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/tmp.jTv8tKz94L/wk_tiphead
+TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects=0
+PREDICATE R85-C1 fail
+rc=2
+
+--- cap_c2_head ---
+
+$ [HEAD-committed counters] python3 plans/round85_c2_debt.py --lane . --rev master --work /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/tmp.jTv8tKz94L/wk_c2head
+DEFECT SETUP work-not-a-directory /fast/scratch/hyaku/kengaku-r85/ExecBaseR85/tmp.jTv8tKz94L/wk_c2head
+TARGET ids=0 closed=0 checks_passed=0 indexed=no defects=0
+PREDICATE R85-C2 fail
+rc=2
+
+==========================================================================
+## Cross-checks (not assigned; run for the L1)
+==========================================================================
+
+1. HEAD-committed counters in a read-only clone of the lane at d4253aa0 (scratch clone, pre-created work dirs):
+
+$ [HEAD-committed counter] python3 plans/round85_c1_replay.py --lane . --rev master --work <scratch>/wk_tiphead
+TARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=0
+PREDICATE R85-C1 pass
+rc=0
+
+$ [HEAD-committed counter] python3 plans/round85_c2_debt.py --lane . --rev master --work <scratch>/wk_c2head
+CHECK v1 ok tracked=4
+CHECK v2 ok freeze-inputs-bound
+CHECK v3 DEFECT rc=2 DEFECT SETUP work-not-a-directory <scratch>/wk_c2head/v3
+TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects=0   [truncated display; full line in cap_head_precreated.txt generation record below]
+CHECK v5 ok Q61 landed
+CHECK v6 ok writer=kengaku-L1-round83-admission checker_rc=0
+CHECK v7 DEFECT lesson-absent
+CHECK v8 DEFECT rc=1 DEFECT ROW-ENTRY hermetic-grader; DEFECT ROW-ENTRY coverage-census; DEFECT ROW-SELFTEST-UNBACKED <many rows>
+CHECK v9 DEFECT lesson-absent
+TARGET ids=8 closed=4 checks_passed=4 indexed=no defects=4
+PREDICATE R85-C2 fail
+rc=1
+
+Cause analysis at that generation (from the then-uncommitted diff, since committed in e7b44805/217910c5):
+- v3: the committed C1 counter required an existing --work directory and did not auto-create it; the v3 fixture
+  spawns the rev-tree copy of the counter with --work <work>/v3 (absent) -> rc=2 SETUP instead of the control.
+- v7/v9: round-85 lesson absent at master; round-84 expansion correction uncommitted.
+- v8: gate run with --tip d4253aa0 was red on ROW-ENTRY/ROW-SELFTEST-UNBACKED; with --tip worktree (check-only
+  without --rev) it was green — README index rows were still uncommitted.
+All four were closed by e7b44805 + 217910c5 (see Generation B).
+
+2. Independent probe rerun with the receipt's exact COMMAND shape
+   (python3 plans/round85_sqlite_truncate_probe.py --lane . --work <scratch>/mint_probe):
+   EXIT 0; stamp fields SUBJECT_SHA / CASE_TABLE_SHA / TOOL_SHA / HOST_PYTHON / HOST_OPENSSL identical to the
+   receipt; OBSERVATIONS block byte-identical to the receipt's (all eight CASE vectors, cases=8 legs=16
+   mismatches=0, PREDICATE R85-PROBE pass). LANE_TIP printed d4253aa0 (lane had advanced past the receipt's
+   99a7cb3b) and WORKTREE printed dirty (mid-wave) — expected, not a mismatch.
+
+3. Invalid first HEAD-clone attempts (kept for transparency): running the HEAD-committed counters with a
+   non-existent --work exits 2 SETUP work-not-a-directory — the committed counters of that generation required a
+   pre-created work dir; the auto-create repair is what e7b44805 committed. Full blocks are in the Generation A
+   section below (cap_c1_head / cap_c2_head records).
+
+==========================================================================
+## Receipt verification — corpus/evidence/round85/sqlite-db-truncate-probe.txt
+==========================================================================
+
+Field-by-field against the tree (git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin ...):
+
+- SUBJECT_SHA 8f5bc11018687d8c5894ebf1b4ec6fad004828e5ce442d3cc04d925ef53ef881 — MATCH.
+  sha256 of master:corpus/evidence/round52/graders/sqlite-db-truncate/tests/test_outputs.py,
+  of 0de45354:…same path, and of the working-tree file: all 8f5bc11018687d8c…f881.
+- CASE_TABLE_SHA bd98794b9d35168ccb296ad9176cf45b0b421cf961515935a814eadc40d49114 — MATCH.
+  sha256 of plans/round85-cases.json at freeze 1a45aeb5e8706b1518ba58fd0fe882df1631e2a0, at master, and in the
+  working tree: all bd98794b9d35…9114.
+- TOOL_SHA d00868acbfe8c398a4703860b39c101734799aeb8cc5de8f2f3d3e05ccb0582f — MATCH.
+  git cat-file -p 99a7cb3b0165efe907814947392e6bd98fe45872:plans/round85_sqlite_truncate_probe.py | sha256sum
+  = d00868acbfe8c398a4703860b39c101734799aeb8cc5de8f2f3d3e05ccb0582f (also identical at master and in the
+  working tree — the probe was never modified after mint).
+- LANE_TIP 99a7cb3b0165efe907814947392e6bd98fe45872 — MATCH as mint-time tip; merge-base --is-ancestor confirms
+  99a7cb3b is an ancestor of master (master has since advanced ce5b9ef8 → d4253aa0 → e7b44805 → 217910c5).
+- COMMAND "python3 plans/round85_sqlite_truncate_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r85/mint"
+  — reconstructs the probe invocation (never re-executed FROM the receipt; the counter's REPRODUCE leg and this
+  seat's independent rerun re-ran the tool fresh). Fresh run with identical argv shape: EXIT 0, byte-identical
+  OBSERVATIONS block.
+- HOST_PYTHON Python 3.14.8 — MATCH (host python3 --version). HOST_OPENSSL OpenSSL 3.6.5 29 Sep 2026 — MATCH
+  (ssl.OPENSSL_VERSION).
+- WORKTREE "clean" — true at mint; the lane is intentionally mid-wave dirty now (Generation B note). Not a
+  stamp mismatch.
+- EXIT 0 — MATCH (counter validated; probe rerun EXIT 0).
+- All required stamp fields present: MEMBER, SUBJECT_CAPTURE, SUBJECT_SHA, CASE_TABLE_SHA, TOOL, TOOL_SHA,
+  HOST_PYTHON, HOST_OPENSSL, LANE_TIP, WORKTREE, COMMAND, EXIT, OBSERVATIONS_BEGIN/END block. None missing.
+- Ledger (plans/grader-population-ledger.json at master, members["sqlite-db-truncate"]): status=executed,
+  round=85, verdict=predicate, receipt=corpus/evidence/round85/sqlite-db-truncate-probe.txt,
+  classes=[file-artifact, serialization-schema], evidence="no-blocker: tests/test_outputs.py
+  sha256=8f5bc11018687d8c", reason="unattempted", subject="tb2-header". Counter confirms executed=1.
+
+RESULT: no mismatch found in any stamped value.
+
+==========================================================================
+## Notes (recorded, none a receipt mismatch)
+==========================================================================
+
+1. The assigned argv for --sensitivity and --check-only v5/v6/v8 omits --work; the tool exits 2 with argparse
+   "the following arguments are required: --work". The frozen claims document the counter as
+   `python3 plans/round85_c2_debt.py --lane . [--rev REV] --work DIR` with --sensitivity as one of its modes, so
+   the tool matches its documented signature; the compliant invocations above add --work. Both forms recorded.
+2. Working tree (at 217910c5) still carries one uncommitted edit: plans/grader-population-ledger.json drops the
+   sqlite-db-truncate row's "evidence" and "reason" keys. Counter reads the rev tree; targets unaffected.
+3. Generation A check-only v8 (worktree mode, no --rev) printed the green `PREDICATE R82-C1 pass` while the same
+   check in the full --rev master run was red — the gate resolves through git with --tip <rev>; worktree mode
+   measured the then-uncommitted repairs. Repaired at Generation B (literal_flags=4/4 gate=none).
+4. Population gate figures (C1 BASE vs tip) reproduce the frozen counting outputs: executed 28 → 29 and
+   unexecuted 60 → 59 correspond to executed=1 at tip with members=1 in scope; serialization-schema class moves
+   0/9 → 1/9 per the frozen claim sentence (counter emits executed=1 located=1 for the single member).
+
+SEAT ExecBaseR85 VERDICT PASS findings=0

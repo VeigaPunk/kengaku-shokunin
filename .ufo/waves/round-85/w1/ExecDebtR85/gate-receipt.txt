@@ -1,0 +1,391 @@
+# gate-receipt.txt — QUALITY Q20 out-of-band gate roster — seat ExecDebtR85, kengaku round-85 w1
+# date_utc_start=2026-11-04T19:56:34Z
+# lane_master_tip=d4253aa0ebb8c3f17e3bd0711c2c588dcec9fd57
+#   (lineage: d4253aa0 wave-1 spec -> ce5b9ef8 R85-C1 receipt+ledger -> 99a7cb3b instruments/repairs
+#    -> 1a45aeb5 freeze -> 0de45354 BASE)
+# extraction: git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin archive --format=tar d4253aa0ebb8c3f17e3bd0711c2c588dcec9fd57 | tar -x -C <scratch>/landing
+# extracted_tree_has_.git=no (git archive carries no object store)
+# host_python=Python 3.14.8
+# every rc below was captured inside the runner scripts (r58 finding-(b) capture discipline);
+# "work" dirs live only under /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/ (deleted after this receipt)
+# no network was used; the lane checkout was never written to.
+
+===================================================================
+## 1. As-specified roster, pass 1 (seven item commands; counter rows first attempted
+##    with --work dirs NOT pre-created — seat runner artifact, remedied in pass 2)
+
+# Q20 out-of-band gate roster — seat ExecDebtR85, kengaku round-85 w1
+# date_utc=2026-11-04T19:56:34Z
+# lane_master_tip=d4253aa0ebb8c3f17e3bd0711c2c588dcec9fd57
+# extraction: git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin archive --format=tar d4253aa0ebb8c3f17e3bd0711c2c588dcec9fd57 | tar -x -C /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/landing
+# extracted_tree_has_.git=no
+# host_python=Python 3.14.8
+
+===== grader
+$ python3 grader.py | grep -E 'CHECKS n=|VERDICT:'
+--- pinned lines
+CHECKS n=733 mismatches=0 errata_pinned=1
+VERDICT: PASS — stored evidence fully re-derives offline
+--- stdout (tail -12)
+CHECKS n=733 mismatches=0 errata_pinned=1
+VERDICT: PASS — stored evidence fully re-derives offline
+--- stderr (tail -12)
+grader_python3_rc=0 (pipeline grep rc is 0 iff pinned lines matched)
+rc=0
+
+===== sources_adopt-selftest
+$ python3 plans/sources_adopt.py --selftest
+--- stdout (tail -30)
+CASE collision-zero-indent PASS
+CASE collision-one-space PASS
+CASE collision-three-space PASS
+CASE four-space-not-a-row PASS
+CASE escaped-pipe-refused PASS
+CASE prose-recheck-normalized PASS
+CASE usedby-projected PASS
+CASE duplicate-staged-id PASS
+CASE clean-package-passes PASS
+CASE missing-requested-id PASS
+CASE quote-overlong-refused PASS
+CASE quote-absent-refused PASS
+CASE quote-located-accepted PASS
+CASE quote-boundary-25-accepted PASS
+CASE quote-url-bound-accepted PASS
+CASE quote-url-mismatch-refused PASS
+CASE quote-url-unmapped-refused PASS
+SELFTEST cases=17 failed=0
+--- last_stdout_line: SELFTEST cases=17 failed=0
+--- stderr (tail -12)
+rc=0
+
+===== registry_check-selftest
+$ python3 plans/registry_check.py --selftest
+--- stdout (tail -30)
+SELFTEST clean cases=15 valid_literal_fence,queued_and_missing,missing_used_by,duplicate,source_missing,uncited_source_missing,unsafe_used_by,bad_enum,extra_queued_source,outside_duplicate_excluded,outside_malformed_excluded,new_file_excluded,missing_frozen_file,cli_population_tampered,cli_population_missing
+--- last_stdout_line: SELFTEST clean cases=15 valid_literal_fence,queued_and_missing,missing_used_by,duplicate,source_missing,uncited_source_missing,unsafe_used_by,bad_enum,extra_queued_source,outside_duplicate_excluded,outside_malformed_excluded,new_file_excluded,missing_frozen_file,cli_population_tampered,cli_population_missing
+--- stderr (tail -12)
+rc=0
+
+===== config_projection-selftest
+$ python3 plans/config_projection.py --selftest
+--- stdout (tail -30)
+SELFTEST clean cases=31 six_tokens_and_non_url_field,units_not_pooled,codepoint_offsets_and_key_token,escaped_token_not_replaced,quote_backslash_decode_failure_and_escape_semantics,profile_map_errors,hand_fixtures_authenticated,independent_nine_domain_error_cases,hand_cascade_order_R29_ORDER_CASCADE_01,hand_url_only_R29-URL-ONLY-UNREAD-METADATA-01,hand_index_r29_index_shuffled_ids_1_0,verbatim_slash_and_path_category,all_url_path_categories,duplicate_keys_list_tasks_key_order,source_order_swap,source_literal_rhs,source_extra_step,source_id_filename,source_data_mutated,source_write_dropped,source_text_truncated,exit_mapping,real_audit_finding_exit_one,cli_optimized_refused,cli_snapshot_tampered,cli_input_missing,cli_coherent_rebinding,post_read_replacement_test.raw.json,post_read_replacement_generate_test_data.py,post_read_replacement_profiles.json,cli_manifest_tampered
+--- last_stdout_line: SELFTEST clean cases=31 six_tokens_and_non_url_field,units_not_pooled,codepoint_offsets_and_key_token,escaped_token_not_replaced,quote_backslash_decode_failure_and_escape_semantics,profile_map_errors,hand_fixtures_authenticated,independent_nine_domain_error_cases,hand_cascade_order_R29_ORDER_CASCADE_01,hand_url_only_R29-URL-ONLY-UNREAD-METADATA-01,hand_index_r29_index_shuffled_ids_1_0,verbatim_slash_and_path_category,all_url_path_categories,duplicate_keys_list_tasks_key_order,source_order_swap,source_literal_rhs,source_extra_step,source_id_filename,source_data_mutated,source_write_dropped,source_text_truncated,exit_mapping,real_audit_finding_exit_one,cli_optimized_refused,cli_snapshot_tampered,cli_input_missing,cli_coherent_rebinding,post_read_replacement_test.raw.json,post_read_replacement_generate_test_data.py,post_read_replacement_profiles.json,cli_manifest_tampered
+--- stderr (tail -12)
+rc=0
+
+===== benchmark_spec_audit-selftest
+$ python3 plans/benchmark_spec_audit.py --selftest
+--- stdout (tail -30)
+SELFTEST clean cases=67 hand_expected_scorer_contract,scorer_product_mutation,hand_exact,unknown_evaluator,unknown_string_operator,na_requires_reason,na_reason_present,duplicate_and_missing_ids,hand_url,unknown_url_rule,empty_url_alternative,hand_html,hand_javascript_locator,hand_helper_locator,malformed_helper_url,unknown_locator,invalid_locator_keeps_target_count,typed_flag,non_list_population,empty_population,non_object_task_retained,boolean_id,negative_id,null_sites,empty_sites,blank_intent,numeric_intent,null_eval,duplicate_eval_type,scalar_eval_types,empty_eval_types,mixed_eval_types_preserved,null_refs,empty_refs_native_vacuity,exact_nonstring,include_not_list,include_nonstr_element,fuzzy_scalar,fuzzy_nonstr_element,include_empty_native_vacuity,fuzzy_empty_native_vacuity,blank_reference_native_vacuity,absent_refs_not_invented,required_contents_null,html_unknown_operator,html_exact_bad_type,html_include_bad_type,html_exact_shadows_include,html_bad_prep_actions,html_scalar_prep_actions,html_unread_prep_actions,html_nonobject_target,html_invalid_target_url,html_nonlist_targets,html_empty_native_vacuity,empty_cleaned_url_/,empty_cleaned_url_#fragment,empty_cleaned_url_?q=a,url_note_default_provenance,invalid_url_type_None,invalid_url_type_3,missing_router_stable_failure,cli_snapshot_pin,cli_missing_input,verified_bytes_retained_config_files/test.raw.json,verified_bytes_retained_evaluation_harness/evaluators.py,cli_manifest_pin
+--- last_stdout_line: SELFTEST clean cases=67 hand_expected_scorer_contract,scorer_product_mutation,hand_exact,unknown_evaluator,unknown_string_operator,na_requires_reason,na_reason_present,duplicate_and_missing_ids,hand_url,unknown_url_rule,empty_url_alternative,hand_html,hand_javascript_locator,hand_helper_locator,malformed_helper_url,unknown_locator,invalid_locator_keeps_target_count,typed_flag,non_list_population,empty_population,non_object_task_retained,boolean_id,negative_id,null_sites,empty_sites,blank_intent,numeric_intent,null_eval,duplicate_eval_type,scalar_eval_types,empty_eval_types,mixed_eval_types_preserved,null_refs,empty_refs_native_vacuity,exact_nonstring,include_not_list,include_nonstr_element,fuzzy_scalar,fuzzy_nonstr_element,include_empty_native_vacuity,fuzzy_empty_native_vacuity,blank_reference_native_vacuity,absent_refs_not_invented,required_contents_null,html_unknown_operator,html_exact_bad_type,html_include_bad_type,html_exact_shadows_include,html_bad_prep_actions,html_scalar_prep_actions,html_unread_prep_actions,html_nonobject_target,html_invalid_target_url,html_nonlist_targets,html_empty_native_vacuity,empty_cleaned_url_/,empty_cleaned_url_#fragment,empty_cleaned_url_?q=a,url_note_default_provenance,invalid_url_type_None,invalid_url_type_3,missing_router_stable_failure,cli_snapshot_pin,cli_missing_input,verified_bytes_retained_config_files/test.raw.json,verified_bytes_retained_evaluation_harness/evaluators.py,cli_manifest_pin
+--- stderr (tail -12)
+rc=0
+
+===== gate_timing_check-selftest
+$ python3 plans/gate_timing_check.py --selftest
+--- stdout (tail -30)
+  missing: no .ufo/waves/round-27/falsify/ report exists in commit f4c7da3b584d6717a17af113395f36b76a15c544
+  reasons: no cited, existing, returned second-seat report for this round; one or more cited second-seat reports fail identity/return checks
+gate_timing_check: commit=f4c7da3b584d6717a17af113395f36b76a15c544 lesson=corpus/lessons/round-27.md admissions=1 passed=0 failed=1 second-seat-reports=0
+exit=1
+[selftest] committed reports at later commit:
+PASS line 7 Gate admit: candidate='corpus/knowledge/extraction-policy-comparison.md'
+  cited seat-report paths: '.ufo/waves/round-27/falsify/TimingSeatA.md', '.ufo/waves/round-27/falsify/TimingSeatB.md'
+  existing returned second-seat report(s): .ufo/waves/round-27/falsify/TimingSeatA.md, .ufo/waves/round-27/falsify/TimingSeatB.md
+gate_timing_check: commit=c854f6f03924b98d5fac01a6b7b81f726fd108d9 lesson=corpus/lessons/round-27.md admissions=1 passed=1 failed=0 second-seat-reports=2
+exit=0
+[selftest] production run_git with caller GIT_DIR/GIT_OBJECT_DIRECTORY, early:
+FAIL line 7 Gate admit: candidate='corpus/knowledge/extraction-policy-comparison.md'
+  cell[reason]: Re-read `.ufo/waves/round-27/falsify/TimingSeatA.md` and `.ufo/waves/round-27/falsify/TimingSeatB.md`.
+  cited seat-report paths: '.ufo/waves/round-27/falsify/TimingSeatA.md', '.ufo/waves/round-27/falsify/TimingSeatB.md'
+  invalid cited second-seat report: .ufo/waves/round-27/falsify/TimingSeatA.md (absent from commit tree)
+  invalid cited second-seat report: .ufo/waves/round-27/falsify/TimingSeatB.md (absent from commit tree)
+  missing: no .ufo/waves/round-27/falsify/ report exists in commit f4c7da3b584d6717a17af113395f36b76a15c544
+  reasons: no cited, existing, returned second-seat report for this round; one or more cited second-seat reports fail identity/return checks
+gate_timing_check: commit=f4c7da3b584d6717a17af113395f36b76a15c544 lesson=corpus/lessons/round-27.md admissions=1 passed=0 failed=1 second-seat-reports=0
+exit=1
+[selftest] production run_git with caller GIT_DIR/GIT_OBJECT_DIRECTORY, late:
+PASS line 7 Gate admit: candidate='corpus/knowledge/extraction-policy-comparison.md'
+  cited seat-report paths: '.ufo/waves/round-27/falsify/TimingSeatA.md', '.ufo/waves/round-27/falsify/TimingSeatB.md'
+  existing returned second-seat report(s): .ufo/waves/round-27/falsify/TimingSeatA.md, .ufo/waves/round-27/falsify/TimingSeatB.md
+gate_timing_check: commit=c854f6f03924b98d5fac01a6b7b81f726fd108d9 lesson=corpus/lessons/round-27.md admissions=1 passed=1 failed=0 second-seat-reports=2
+exit=0
+[selftest] tree inventory matches requested commit (early=0, later=2; lesson unchanged)
+[selftest] isolated sandbox Git leaves caller index untouched and hostile GIT_DIR/WORK_TREE/config/template/hooks do not escape
+[selftest] production run_git ignores caller GIT_DIR/object directory; fresh bare victim and object sentinel unchanged
+[selftest] ALL PASS (five allowed roles; connector/mutation-tester/simplifier and unknown roles rejected; declared writer/author/agentId conflicts red; worktree/parser/run_git mutants red; caller index and fresh bare victim unchanged)
+--- last_stdout_line: [selftest] ALL PASS (five allowed roles; connector/mutation-tester/simplifier and unknown roles rejected; declared writer/author/agentId conflicts red; worktree/parser/run_git mutants red; caller index and fresh bare victim unchanged)
+--- stderr (tail -12)
+rc=0
+
+===== state_check-selftest
+$ python3 plans/state_check.py --selftest
+--- stdout (tail -30)
+selftest ok   P2/P3 supersession range: R27 and R29 accepted
+selftest ok   P3a: duplicate metric, R1–R6, base mismatch and correction-parser reds
+selftest ok   P3b: unique-samples, scored-trials and frozen-id-set reds
+selftest ok   P3b: strict source-first/fallback corrections and exact id set
+selftest ok   P3c: all Box-1 headings red on missing and duplicate
+selftest ok   P3c: red mutation (P3c.box.3.pointer.1)
+selftest ok   P3d: red mutation (P3d.axis.novelty.anchor.1.pin)
+selftest ok   P3e: outside-spotcheck row, row/file mutations (P3e.row-to-file.lessons/round-25.md; P3e.file-to-row.lessons/round-25.md)
+selftest ok P4a: mutation red (P4a.scorecard.claim.c1)
+selftest ok P4a later-round score scope: offline disclosure preserved
+selftest ok P4a final C2: mutation red (P4a.scorecard.final.c2)
+selftest ok P4b: production aggregation retains P4b ids and inventory
+selftest ok P4b: mutation red (P4b.readme.artifact-row.evidence/round26-calibration/)
+selftest ok P4c: mutation red (P4c.falsify.dead-seats)
+selftest ok P4c dead agent identity: mutation red (P4c.falsify.dead-seats)
+selftest ok P4c build role mix: mutation red (P4c.build.role-mix)
+selftest ok P4c duplicate assignment ids: mutation red (P4c.build.seats)
+selftest ok P4c cross-wave assignment ids: mutation red (P4c.falsify.seats)
+selftest ok P4d: mutation red (P4d.family.F1)
+selftest ok P4d denominator: mutation red (P4d.family.F1)
+selftest ok P4d supersession: full R27-E accepted; partial/wrong/R29 refused
+selftest ok P4e: mutation red (P4e.sources.S044.used-by)
+selftest ok P4 supersession: exact base anchor and R27-E full tokens
+selftest ok OUT_OF_POPULATION: P2e new-file disclosure retained
+selftest ok OUT_OF_POPULATION: P3c pointer disclosure retained
+selftest ok OUT_OF_POPULATION: summary renders disclosed entries
+[selftest] ALL PASS (canonical seed, pointers, out-of-population box, pointer-only, R25–R29-E exact-token supersession, P2/P3 R27/R29 corrections, P4 R27-only supersession, P2e/P3c OUT_OF_POPULATION retention, P3a–P3e and P4a–P4e red mutations)
+--- last_stdout_line: [selftest] ALL PASS (canonical seed, pointers, out-of-population box, pointer-only, R25–R29-E exact-token supersession, P2/P3 R27/R29 corrections, P4 R27-only supersession, P2e/P3c OUT_OF_POPULATION retention, P3a–P3e and P4a–P4e red mutations)
+--- stderr (tail -12)
+rc=0
+
+===== round83_c2_debt-selftest
+$ python3 plans/round83_c2_debt.py --lane . --work /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/w-r83-fix --selftest
+--- stdout (tail -30)
+SETUP git failed: archive 614f00559c75155ec100e945b3e8257b14fb7496
+--- last_stdout_line: SETUP git failed: archive 614f00559c75155ec100e945b3e8257b14fb7496
+--- stderr (tail -12)
+rc=2
+
+===== round85_c1_replay-selftest
+$ python3 plans/round85_c1_replay.py --lane . --work /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/w-c1st-fix --selftest
+--- stdout (tail -30)
+DEFECT SETUP work-not-a-directory /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/w-c1st-fix
+TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects=0
+PREDICATE R85-C1 fail
+--- last_stdout_line: PREDICATE R85-C1 fail
+--- stderr (tail -12)
+rc=2
+
+===== round85_c1_replay-mutants
+$ python3 plans/round85_c1_replay.py --lane . --work /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/w-c1mu-fix --mutants
+--- stdout (tail -30)
+DEFECT SETUP work-not-a-directory /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/w-c1mu-fix
+TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects=0
+PREDICATE R85-C1 fail
+--- last_stdout_line: PREDICATE R85-C1 fail
+--- stderr (tail -12)
+rc=2
+
+===== round85_c2_debt-selftest
+$ python3 plans/round85_c2_debt.py --lane . --work /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/w-c2st-fix --selftest
+--- stdout (tail -30)
+DEFECT SETUP work-not-a-directory /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/w-c2st-fix
+TARGET ids=0 closed=0 checks_passed=0 indexed=no defects=0
+PREDICATE R85-C2 fail
+--- last_stdout_line: PREDICATE R85-C2 fail
+--- stderr (tail -12)
+rc=2
+
+===================================================================
+## 2. Counter rows, pass 2 (item commands with work dirs pre-created; plus SEAT-ADDED
+##    diagnostics: same extracted-tree cwd, --lane=<real lane checkout>, read-only)
+
+
+===== round83_c2_debt-selftest
+$ (cd /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/landing &&) python3 plans/round83_c2_debt.py --lane . --work /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/w-r83-fix --selftest
+--- stdout (tail -30)
+SETUP git failed: archive 614f00559c75155ec100e945b3e8257b14fb7496
+--- last_stdout_line: SETUP git failed: archive 614f00559c75155ec100e945b3e8257b14fb7496
+--- stderr (tail -12)
+rc=2
+
+===== round85_c1_replay-selftest
+$ (cd /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/landing &&) python3 plans/round85_c1_replay.py --lane . --work /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/w-c1st-fix --selftest
+--- stdout (tail -30)
+DEFECT SETUP unresolved-revision master
+TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects=0
+PREDICATE R85-C1 fail
+--- last_stdout_line: PREDICATE R85-C1 fail
+--- stderr (tail -12)
+rc=2
+
+===== round85_c1_replay-mutants
+$ (cd /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/landing &&) python3 plans/round85_c1_replay.py --lane . --work /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/w-c1mu-fix --mutants
+--- stdout (tail -30)
+DEFECT SETUP unresolved-revision master
+TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects=0
+PREDICATE R85-C1 fail
+--- last_stdout_line: PREDICATE R85-C1 fail
+--- stderr (tail -12)
+rc=2
+
+===== round85_c2_debt-selftest
+$ (cd /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/landing &&) python3 plans/round85_c2_debt.py --lane . --work /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/w-c2st-fix --selftest
+--- stdout (tail -30)
+DEFECT SETUP unresolved-revision 0de45354d7aff18e4a23a348ec13de3a1f707a44
+TARGET ids=0 closed=0 checks_passed=0 indexed=no defects=0
+PREDICATE R85-C2 fail
+--- last_stdout_line: PREDICATE R85-C2 fail
+--- stderr (tail -12)
+rc=2
+
+===== DIAG-round83_c2_debt-selftest
+$ (cd /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/landing &&) python3 plans/round83_c2_debt.py --lane /home/vgpnk/Projects/shokunin/kengaku-shokunin --work /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/v-r83-fix --selftest
+--- stdout (tail -30)
+DEFECT CHECK-FAIL R82-V7 rc=1
+DEFECTS n=1
+TARGET ids=8 closed=8 checks_passed=7 indexed=yes defects=1
+PREDICATE R83-C2 fail
+CASE repair-v7 ok
+UNIVERSE spotcheck=corpus/lessons/round-82-verifier-spotcheck.md ids=8 R82-V1,R82-V2,R82-V3,R82-V4,R82-V5,R82-V6,R82-V7,R82-V8
+DEBT R82-V1 status=closed close=corpus/lessons/round-83.md
+CHECK v1 ok
+DEBT R82-V2 status=closed close=corpus/lessons/round-83.md
+CHECK v2 ok
+DEBT R82-V3 status=closed close=corpus/lessons/round-83.md
+CHECK v3 ok
+DEBT R82-V4 status=closed close=corpus/lessons/round-83.md
+CHECK v4 ok
+DEBT R82-V5 status=closed close=corpus/lessons/round-83.md
+CHECK v5 ok
+DEBT R82-V6 status=closed close=corpus/lessons/round-83.md
+CHECK v6 ok
+DEBT R82-V7 status=closed close=corpus/lessons/round-83.md
+CHECK v7 ok
+DEBT R82-V8 status=closed close=corpus/lessons/round-83.md
+CHECK v8 fail
+DEFECT CLOSE-NO-ID R82-V8
+DEFECT CLOSE-NO-EVIDENCE R82-V8
+DEFECT CHECK-FAIL R82-V8 rc=1
+DEFECTS n=3
+TARGET ids=8 closed=8 checks_passed=7 indexed=yes defects=3
+PREDICATE R83-C2 fail
+CASE repair-v8 ok
+SELFTEST cases=20 red=19 failures=0
+--- last_stdout_line: SELFTEST cases=20 red=19 failures=0
+--- stderr (tail -12)
+rc=0
+
+===== DIAG-round85_c1_replay-selftest
+$ (cd /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/landing &&) python3 plans/round85_c1_replay.py --lane /home/vgpnk/Projects/shokunin/kengaku-shokunin --work /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/v-c1st-fix --selftest
+--- stdout (tail -30)
+SELFTEST tip-table-parses pass
+SELFTEST tip-vectors-frozen pass
+SELFTEST receipt-shape pass
+SELFTEST absent-receipt-red pass
+SELFTEST ledger-only-red pass
+SELFTEST vector-mismatch-red pass
+SELFTEST tool-sha-red pass
+SELFTEST receipt-exit-red pass
+SELFTEST freeze-anchor-present FAIL
+SELFTEST cases=9 red=8 failures=1
+--- last_stdout_line: SELFTEST cases=9 red=8 failures=1
+--- stderr (tail -12)
+rc=1
+
+===== DIAG-round85_c1_replay-mutants
+$ (cd /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/landing &&) python3 plans/round85_c1_replay.py --lane /home/vgpnk/Projects/shokunin/kengaku-shokunin --work /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/v-c1mu-fix --mutants
+--- stdout (tail -30)
+MUTANT no-reproduce fixture=forged unmutated_defect=False mutant_reaches_target=False
+MUTANT no-vector-no-reproduce fixture=fabricated unmutated_defect=False mutant_reaches_target=False
+MUTANT no-ledger fixture=ledger-bad unmutated_defect=False mutant_reaches_target=False
+MUTANT no-tool-sha fixture=tool unmutated_defect=False mutant_reaches_target=False
+MUTANT no-receipt-table-sha fixture=table unmutated_defect=False mutant_reaches_target=False
+MUTANT no-exit fixture=exit-one unmutated_defect=False mutant_reaches_target=False
+MUTANTS real=6 necessary=0 redundant=6
+--- last_stdout_line: MUTANTS real=6 necessary=0 redundant=6
+--- stderr (tail -12)
+rc=1
+
+===== DIAG-round85_c2_debt-selftest
+$ (cd /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/landing &&) python3 plans/round85_c2_debt.py --lane /home/vgpnk/Projects/shokunin/kengaku-shokunin --work /fast/scratch/hyaku/kengaku-r85/ExecDebtR85/v-c2st-fix --selftest
+--- stdout (tail -30)
+DEFECT SETUP archive-failed 0de45354d7af
+TARGET ids=0 closed=0 checks_passed=0 indexed=no defects=0
+PREDICATE R85-C2 fail
+--- last_stdout_line: PREDICATE R85-C2 fail
+--- stderr (tail -12)
+rc=2
+
+===================================================================
+## 3. Grounding probes (read-only git on the lane checkout; run at receipt time)
+
+$ git -C <lane> rev-parse --verify 0de45354d7aff18e4a23a348ec13de3a1f707a44^{commit}
+0de45354d7aff18e4a23a348ec13de3a1f707a44
+rc=0
+
+$ git -C <lane> ls-tree --name-only 1a45aeb5e8706b1518ba58fd0fe882df1631e2a0 corpus/evidence/round85   (empty output = absent at freeze)
+rc=0
+
+$ git -C <lane> ls-tree --name-only 0de45354d7aff18e4a23a348ec13de3a1f707a44 plans/round85-cases.json   (empty output = absent at BASE)
+rc=0
+
+$ git -C <lane> archive --format=tar 1a45aeb5e8706b1518ba58fd0fe882df1631e2a0 plans corpus/evidence/round52/graders/sqlite-db-truncate corpus/evidence/round85 SKILL.md   (c1 rev_tree pathspec set)
+rc=128
+
+$ git -C <lane> archive --format=tar 0de45354d7aff18e4a23a348ec13de3a1f707a44 plans corpus/evidence/round52/graders/sqlite-db-truncate corpus/evidence/round85 SKILL.md   (c2 rev_tree(BASE) uses the same ARCHIVE_PATHS member corpus/evidence/round85)
+rc=128
+
+$ git -C <lane> archive --format=tar 1a45aeb5e8706b1518ba58fd0fe882df1631e2a0 plans corpus/evidence/round52/graders/sqlite-db-truncate SKILL.md   (same set minus corpus/evidence/round85)
+rc=0
+
+===================================================================
+## 4. Findings and count comparison
+
+# Findings (defects observed by this seat; transcribed, not judged)
+
+F1 (roster method) — The four item-specified counter rows cannot execute from the Q20 archive
+extraction at all; each exits 2 SETUP because the tools resolve git revisions via `git -C <lane>`
+and `git archive` extractions carry no object store:
+  - plans/round83_c2_debt.py  -> `SETUP git failed: archive 614f0055…` (git() raises on rc!=0,
+    round83_c2_debt.py:29-32; fixture materialise archives a pinned revision, :48-52)
+  - plans/round85_c1_replay.py --selftest/--mutants -> `DEFECT SETUP unresolved-revision master`
+    (rev_tree rev-parse, round85_c1_replay.py:91-94; selftest's first act is rev_tree(lane,"master"), :481)
+  - plans/round85_c2_debt.py --selftest -> `DEFECT SETUP unresolved-revision 0de45354d7af…`
+    (round85_c2_debt.py:81-84)
+The six standing roster selftests and grader.py do run green from the extraction. A Q20 receipt for
+round 85 therefore cannot contain green counter rows by the specified method; the counter rows need
+a lane with git history (see section 2 diagnostics).
+
+F2 (landing defect, structural) — plans/round85_c1_replay.py --selftest is RED at the landing tip
+(rc=1, `SELFTEST cases=9 red=8 failures=1`): the `freeze-anchor-present` case calls
+rev_tree(lane, FREEZE_REV=1a45aeb5…) (:517-525), whose `git archive 1a45aeb5 plans
+corpus/evidence/round52/graders/sqlite-db-truncate corpus/evidence/round85 SKILL.md` exits 128 with
+`fatal: pathspec 'corpus/evidence/round85' did not match any files` (reproduced read-only, section 3)
+because the freeze commit predates corpus/evidence/round85 (created at ce5b9ef8 with the receipt).
+SetupDefect -> check_case("freeze-anchor-present", False). Red at any revision of this lane.
+
+F3 (landing defect, structural) — plans/round85_c1_replay.py --mutants is RED at the landing tip
+(rc=1, `MUTANTS real=6 necessary=0 redundant=6`): the battery invokes the counter as a subprocess
+with `--work <work>/pw-<name>` / `mw-<name>` (:450-457) and `sel-freeze-w` (:528-531) — directories
+it never creates (the only mkdir in the file is copy_tree's, :323) — and the counter SETUP-fails any
+nonexistent work dir (`work-not-a-directory`, :552-553; observed directly in section 1). Every
+plain/mutant subprocess therefore exits 2, so ok_plain=False and ok_mutant=False for all six mutants.
+Red at any lane state.
+
+F4 (landing defect, structural) — plans/round85_c2_debt.py --selftest is RED even against the real
+lane (rc=2, `DEFECT SETUP archive-failed 0de45354d7af`): rev_tree(lane, BASE) runs
+`git archive 0de45354… plans … corpus/evidence/round85 …` (round85_c2_debt.py:86-89; ARCHIVE_PATHS
+include corpus/evidence/round85), which exits 128 for the same unmatched pathspec (section 3) —
+BASE predates the round-85 evidence dir. rev-parse itself succeeds (message names the resolved tip).
+The same failure applies at FREEZE_REV. Red at any revision of this lane.
+
+ Greens of record: grader `CHECKS n=733 mismatches=0 errata_pinned=1` / `VERDICT: PASS` rc=0; the six
+standing roster selftests rc=0 (raw counts in section 1); plans/round83_c2_debt.py --selftest rc=0
+(`SELFTEST cases=20 red=19 failures=0`) when given a lane with git history (its embedded
+`PREDICATE R83-C2 fail` lines are fixture-case expectations, each marked `CASE repair-v7 ok` /
+`CASE repair-v8 ok`).
+
+Count comparison vs LOG.md: the round-84 section (LOG.md:3233-3243) records no roster/selftest count
+lines at all (only counter outputs: `TARGET … defects=34/0`, ledger 27→28, SOURCES 262→263), so no
+recorded round-84 line contradicts the outputs above. Against the latest figures LOG.md records
+anywhere: grader `CHECKS n=733 mismatches=0 errata_pinned=1` MATCH (recurring, latest LOG.md:3050);
+sources_adopt `SELFTEST cases=17 failed=0` MATCH — LOG.md:903 records the battery growing 14→17;
+benchmark_spec_audit `SELFTEST clean cases=67` MATCH (LOG.md:519 `selftest21→67`). No numeric
+selftest count is recorded in LOG.md for registry_check, config_projection, gate_timing_check or
+state_check; all four are rc=0 here.

@@ -1,0 +1,19 @@
+### control: forged receipt (unpatched counter)
+CONTROL forged-receipt target_reached=False defects=1 codes=REPRODUCE-MISMATCH
+
+### same control with the REPRODUCE leg disabled
+CONTROL forged-receipt target_reached=True defects=0 codes=none
+
+### timeout path (patched copy: harness sleep(10), sandbox timeout=2)
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r85/SentinelR85/tmp.F1NUTcCrol/plans/round85_sqlite_truncate_probe.py", line 358, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/fast/scratch/hyaku/kengaku-r85/SentinelR85/tmp.F1NUTcCrol/plans/round85_sqlite_truncate_probe.py", line 343, in main
+    capture, table_bytes, observations, code = replay(lane, work)
+                                               ~~~~~~^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r85/SentinelR85/tmp.F1NUTcCrol/plans/round85_sqlite_truncate_probe.py", line 232, in replay
+    payload = run_case(staged, work, case["data"])
+  File "/fast/scratch/hyaku/kengaku-r85/SentinelR85/tmp.F1NUTcCrol/plans/round85_sqlite_truncate_probe.py", line 206, in run_case
+    proc = subprocess.run(sandbox_argv(capture, case_dir), capture_output=True,
+                          text=True, timeout=2,

@@ -1,0 +1,37 @@
+### [a] worktree-only receipt: --lane (worktree mode)
+TARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=0
+PREDICATE R85-C1 pass
+
+### [a] same tree: --rev HEAD
+DEFECT RECEIPT-MISSING corpus/evidence/round85/sqlite-db-truncate-probe.txt
+TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=1 defects=1
+PREDICATE R85-C1 fail
+
+### [b] receipt committed as symlink to /tmp (mode 120000), --rev HEAD
+TARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=0
+PREDICATE R85-C1 pass
+
+### [c] forged WORKTREE clean on a dirty tree
+LANE_TIP def5d0ea5fbf49389400663d30c5a2c8820e56a5
+WORKTREE dirty
+TARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=0
+PREDICATE R85-C1 pass
+
+### /tmp symlink form in a non-git fixture
+TARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=0
+PREDICATE R85-C1 pass
+DEFECT RECEIPT-MISSING corpus/evidence/round85/sqlite-db-truncate-probe.txt
+TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=1 defects=1
+PREDICATE R85-C1 fail
+
+### self-authored verdict (patched in-tree counter, receipt absent, ledger unattempted)
+TARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=0
+PREDICATE R85-C1 pass
+
+### duplicate EXIT key (EXIT 1 then EXIT 0)
+
+### duplicate EXIT key: receipt carries EXIT 1 then EXIT 0 (dict is last-wins)
+13:EXIT 1
+14:EXIT 0
+TARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=0
+PREDICATE R85-C1 pass

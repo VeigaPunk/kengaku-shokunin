@@ -1,0 +1,205 @@
+{
+  "pin": "def5d0ea5fbf49389400663d30c5a2c8820e56a5",
+  "pristine": {
+    "c1.py": "3f4945ba5b7774489f215623644ee28f6ce60ab6aa0bc6e233797db1d5748e2d",
+    "c2.py": "7622c250327cc5eaaa4bbbee6fde18034874fb914f5817acb43d5af9dc83ae5d",
+    "probe.py": "04d5fc1a78e6bab178005c44bd722bcce1bb5d234b8178aad3b7aed9933d3538",
+    "round85_c1_replay.py": "3f4945ba5b7774489f215623644ee28f6ce60ab6aa0bc6e233797db1d5748e2d",
+    "round85_c2_debt.py": "7622c250327cc5eaaa4bbbee6fde18034874fb914f5817acb43d5af9dc83ae5d",
+    "round85_sqlite_truncate_probe.py": "04d5fc1a78e6bab178005c44bd722bcce1bb5d234b8178aad3b7aed9933d3538"
+  },
+  "results": [
+    {
+      "mutant": "v8-ignores-exit",
+      "fixture": "registry-nonzero",
+      "expected_unmutated": "v8",
+      "verdict": "not-applicable",
+      "unmutated_rejected": null,
+      "mutant_accepted": null,
+      "mutations": {
+        "counter": "c2.py",
+        "fixture": "registry-nonzero",
+        "expected_unmutated_defect": "v8",
+        "not_applicable": true,
+        "needle_count": 0,
+        "pristine_sha": "7622c250327cc5eaaa4bbbee6fde18034874fb914f5817acb43d5af9dc83ae5d"
+      }
+    },
+    {
+      "mutant": "worktree-dirty",
+      "fixture": "receipt-worktree",
+      "expected_unmutated": "RECEIPT-WORKTREE",
+      "unmutated_rc": 1,
+      "mutated_rc": 0,
+      "unmutated_rejected": true,
+      "mutant_accepted": true,
+      "verdict": "necessary",
+      "unmutated_stdout": "DEFECT RECEIPT-WORKTREE dirty\nTARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=1\nPREDICATE R85-C1 fail",
+      "mutated_stdout": "TARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=0\nPREDICATE R85-C1 pass",
+      "fixture_root": "/fast/scratch/hyaku/kengaku-r85/MutTesterR85/fixtures-head2/c1-receipt-worktree-ocxky2cx",
+      "mutations": {
+        "counter": "c1.py",
+        "fixture": "receipt-worktree",
+        "expected_unmutated_defect": "RECEIPT-WORKTREE",
+        "needle_count": 1,
+        "diff": "--- pristine/c1.py\n+++ mutants/worktree-dirty.py\n@@ -242,7 +242,7 @@\n             defects.append((\"RECEIPT-TOOL-SHA\", str(stamp.get(\"TOOL_SHA\"))[:16]))\n         if stamp.get(\"EXIT\") != \"0\":\n             defects.append((\"RECEIPT-EXIT\", str(stamp.get(\"EXIT\"))))\n-        if stamp.get(\"WORKTREE\") != \"clean\":\n+        if False:\n             defects.append((\"RECEIPT-WORKTREE\", str(stamp.get(\"WORKTREE\"))))\n         tokens = stamp.get(\"COMMAND\", \"\").split()\n         if (len(tokens) < 6 or not tokens[0].startswith(\"python3\")\n",
+        "pristine_sha": "3f4945ba5b7774489f215623644ee28f6ce60ab6aa0bc6e233797db1d5748e2d",
+        "mutant_sha": "0d6d1360041aa898bb50075f5a00c9a33749276f0e4296e976fc0a9fb91a32f2"
+      }
+    },
+    {
+      "mutant": "exit-weak",
+      "fixture": "receipt-exit3",
+      "expected_unmutated": "RECEIPT-EXIT",
+      "unmutated_rc": 1,
+      "mutated_rc": 0,
+      "unmutated_rejected": true,
+      "mutant_accepted": true,
+      "verdict": "necessary",
+      "unmutated_stdout": "DEFECT RECEIPT-EXIT 3\nTARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=1\nPREDICATE R85-C1 fail",
+      "mutated_stdout": "TARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=0\nPREDICATE R85-C1 pass",
+      "fixture_root": "/fast/scratch/hyaku/kengaku-r85/MutTesterR85/fixtures-head2/c1-receipt-exit3-7n3q70ax",
+      "mutations": {
+        "counter": "c1.py",
+        "fixture": "receipt-exit3",
+        "expected_unmutated_defect": "RECEIPT-EXIT",
+        "needle_count": 1,
+        "diff": "--- pristine/c1.py\n+++ mutants/exit-weak.py\n@@ -240,7 +240,7 @@\n             defects.append((\"RECEIPT-TOOL\", str(stamp.get(\"TOOL\"))))\n         if stamp.get(\"TOOL_SHA\") != TRUSTED_TOOL_SHA:\n             defects.append((\"RECEIPT-TOOL-SHA\", str(stamp.get(\"TOOL_SHA\"))[:16]))\n-        if stamp.get(\"EXIT\") != \"0\":\n+        if stamp.get(\"EXIT\") not in {\"0\", \"1\", \"3\"}:\n             defects.append((\"RECEIPT-EXIT\", str(stamp.get(\"EXIT\"))))\n         if stamp.get(\"WORKTREE\") != \"clean\":\n             defects.append((\"RECEIPT-WORKTREE\", str(stamp.get(\"WORKTREE\"))))\n",
+        "pristine_sha": "3f4945ba5b7774489f215623644ee28f6ce60ab6aa0bc6e233797db1d5748e2d",
+        "mutant_sha": "dcaccd47562d962daa981117ff0fec93305cc5e730618a2942273d4a37ad0bab"
+      }
+    },
+    {
+      "mutant": "table-member",
+      "fixture": "table-member",
+      "expected_unmutated": "TABLE-MEMBER",
+      "unmutated_rc": 1,
+      "mutated_rc": 1,
+      "unmutated_rejected": true,
+      "mutant_accepted": false,
+      "verdict": "redundant",
+      "unmutated_stdout": "DEFECT TABLE-MEMBER 'sqlite-db-truncate-legacy'\nDEFECT REPRODUCE-MISMATCH rc=2 no observation block\nTARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=2\nPREDICATE R85-C1 fail",
+      "mutated_stdout": "DEFECT REPRODUCE-MISMATCH rc=2 no observation block\nTARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=1\nPREDICATE R85-C1 fail",
+      "fixture_root": "/fast/scratch/hyaku/kengaku-r85/MutTesterR85/fixtures-head2/c1-table-member-l2qf9mhh",
+      "mutations": {
+        "counter": "c1.py",
+        "fixture": "table-member",
+        "expected_unmutated_defect": "TABLE-MEMBER",
+        "needle_count": 1,
+        "diff": "--- pristine/c1.py\n+++ mutants/table-member.py\n@@ -172,7 +172,7 @@\n         except json.JSONDecodeError:\n             defects.append((\"TABLE-MALFORMED\", \"not JSON\"))\n             doc = {}\n-        if doc.get(\"member\") != MEMBER:\n+        if False:\n             defects.append((\"TABLE-MEMBER\", f\"{doc.get('member')!r}\"))\n         frozen = tuple((c.get(\"id\"), f\"{c.get('predicted_score')}/{c.get('predicted_verdict')}\")\n                        for c in doc.get(\"cases\") or [] if isinstance(c, dict))\n",
+        "pristine_sha": "3f4945ba5b7774489f215623644ee28f6ce60ab6aa0bc6e233797db1d5748e2d",
+        "mutant_sha": "3f2b7527fd7dec132727f57e37698a5304b3cc7ac5d5611c85d4962cf1f3f64a"
+      }
+    },
+    {
+      "mutant": "freeze-anchor",
+      "fixture": "freeze-unanchored",
+      "expected_unmutated": "SETUP",
+      "unmutated_rc": 2,
+      "mutated_rc": 0,
+      "unmutated_rejected": true,
+      "mutant_accepted": true,
+      "verdict": "necessary",
+      "unmutated_stdout": "DEFECT SETUP frozen-input-missing plans/round85-cases.json@1a45aeb5e870\nTARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects=0\nPREDICATE R85-C1 fail",
+      "mutated_stdout": "TARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=0\nPREDICATE R85-C1 pass",
+      "fixture_root": "/fast/scratch/hyaku/kengaku-r85/MutTesterR85/fixtures-head2/c1-freeze-unanchored-n_dafpga",
+      "mutations": {
+        "counter": "c1.py",
+        "fixture": "freeze-unanchored",
+        "expected_unmutated_defect": "SETUP",
+        "needle_count": 1,
+        "diff": "--- pristine/c1.py\n+++ mutants/freeze-anchor.py\n@@ -311,7 +311,7 @@\n     is_git = git(lane, \"rev-parse\", \"--git-dir\").returncode == 0\n     for rel in (TABLE, DEFECTS):\n         if is_git:\n-            if git(lane, \"cat-file\", \"-e\", f\"{FREEZE_REV}:{rel}\").returncode != 0:\n+            if False:\n                 raise SetupDefect(f\"frozen-input-missing {rel}@{FREEZE_REV[:12]}\")\n         elif not (lane / rel).is_file():\n             raise SetupDefect(f\"frozen-input-missing {rel} (no git at {lane})\")\n",
+        "pristine_sha": "3f4945ba5b7774489f215623644ee28f6ce60ab6aa0bc6e233797db1d5748e2d",
+        "mutant_sha": "624bd77c3e2c3969911ceffb94c1534ed9ee2bae617e71d86e357b4d3c76d51a"
+      }
+    },
+    {
+      "mutant": "predicate-absent",
+      "fixture": "receipt-no-predicate",
+      "expected_unmutated": "PREDICATE-LINE",
+      "unmutated_rc": 1,
+      "mutated_rc": 1,
+      "unmutated_rejected": true,
+      "mutant_accepted": false,
+      "verdict": "redundant",
+      "unmutated_stdout": "DEFECT PREDICATE-LINE absent\nDEFECT REPRODUCE-MISMATCH rc=0 block differs\nTARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=2\nPREDICATE R85-C1 fail",
+      "mutated_stdout": "DEFECT REPRODUCE-MISMATCH rc=0 block differs\nTARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=1\nPREDICATE R85-C1 fail",
+      "fixture_root": "/fast/scratch/hyaku/kengaku-r85/MutTesterR85/fixtures-head2/c1-receipt-no-predicate-v2je53m5",
+      "mutations": {
+        "counter": "c1.py",
+        "fixture": "receipt-no-predicate",
+        "expected_unmutated_defect": "PREDICATE-LINE",
+        "needle_count": 1,
+        "diff": "--- pristine/c1.py\n+++ mutants/predicate-absent.py\n@@ -259,7 +259,7 @@\n             if observed != predicted:\n                 # VECTOR-MISMATCH: the receipt's observed leg is not its predicted leg\n                 defects.append((\"VECTOR-MISMATCH\", f\"{case_id} {predicted}!={observed}\"))\n-        if predicate != \"pass\":\n+        if predicate == \"fail\":\n             defects.append((\"PREDICATE-LINE\", predicate or \"absent\"))\n         if (ncases, nlegs, nmis) != (8, 16, 0):\n             defects.append((\"SUMMARY\", f\"cases={ncases} legs={nlegs} mismatches={nmis}\"))\n",
+        "pristine_sha": "3f4945ba5b7774489f215623644ee28f6ce60ab6aa0bc6e233797db1d5748e2d",
+        "mutant_sha": "c3f819adb1dea8ec03e5f07798dcdf3797864d579e2b1e092468f13f6cbe35a0"
+      }
+    },
+    {
+      "mutant": "table-subject",
+      "fixture": "table-subject",
+      "expected_unmutated": "TABLE-SUBJECT",
+      "unmutated_rc": 1,
+      "mutated_rc": 1,
+      "unmutated_rejected": true,
+      "mutant_accepted": false,
+      "verdict": "redundant",
+      "unmutated_stdout": "DEFECT TABLE-SUBJECT 8f5bc11018687d8c\nDEFECT REPRODUCE-MISMATCH rc=2 no observation block\nTARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=2\nPREDICATE R85-C1 fail",
+      "mutated_stdout": "DEFECT REPRODUCE-MISMATCH rc=2 no observation block\nTARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=1\nPREDICATE R85-C1 fail",
+      "fixture_root": "/fast/scratch/hyaku/kengaku-r85/MutTesterR85/fixtures-head2/c1-table-subject-bqthlp5v",
+      "mutations": {
+        "counter": "c1.py",
+        "fixture": "table-subject",
+        "expected_unmutated_defect": "TABLE-SUBJECT",
+        "needle_count": 1,
+        "diff": "--- pristine/c1.py\n+++ mutants/table-subject.py\n@@ -178,7 +178,7 @@\n                        for c in doc.get(\"cases\") or [] if isinstance(c, dict))\n         if frozen != FROZEN:\n             defects.append((\"TABLE-VECTORS\", \"frozen case table differs\"))\n-        if doc.get(\"subject_sha\") != SUBJECT_SHA:\n+        if False:\n             defects.append((\"TABLE-SUBJECT\", str(doc.get(\"subject_sha\"))[:16]))\n \n     capture = tree.bytes(CAPTURE)\n",
+        "pristine_sha": "3f4945ba5b7774489f215623644ee28f6ce60ab6aa0bc6e233797db1d5748e2d",
+        "mutant_sha": "3f6011bfb9ac511a951a0d75a32c0670176c9593211f2105b269610c90f786a2"
+      }
+    },
+    {
+      "mutant": "indexed-always",
+      "fixture": "readme-unindexed@27c10d60b825",
+      "expected_unmutated": "TARGET indexed",
+      "unmutated_rc": 1,
+      "mutated_rc": 0,
+      "unmutated_rejected": true,
+      "mutant_accepted": true,
+      "verdict": "necessary",
+      "unmutated_stdout": "CHECK v1 ok tracked=4\nCHECK v2 ok freeze-inputs-bound\nCHECK v3 ok code-leg=True behavioural=True rc=0\nCHECK v5 ok Q61 landed\nCHECK v6 ok writer=kengaku-L1-round83-admission checker_rc=0\nCHECK v7 ok r84-dated-correction=True r85-verdict=True\nCHECK v8 ok literal_flags=4/4 gate=none\nCHECK v9 ok heading=True base=True future=True\nROUTED R84-V4 owner=operator reason=Q13 checker shape for one-wave rounds; L0 kengaku | round-84\nTARGET ids=8 closed=8 checks_passed=8 indexed=no defects=0\nPREDICATE R85-C2 fail",
+      "mutated_stdout": "CHECK v1 ok tracked=4\nCHECK v2 ok freeze-inputs-bound\nCHECK v3 ok code-leg=True behavioural=True rc=0\nCHECK v5 ok Q61 landed\nCHECK v6 ok writer=kengaku-L1-round83-admission checker_rc=0\nCHECK v7 ok r84-dated-correction=True r85-verdict=True\nCHECK v8 ok literal_flags=4/4 gate=none\nCHECK v9 ok heading=True base=True future=True\nROUTED R84-V4 owner=operator reason=Q13 checker shape for one-wave rounds; L0 kengaku | round-84\nTARGET ids=8 closed=8 checks_passed=8 indexed=yes defects=0\nPREDICATE R85-C2 pass",
+      "fixture_root": "/fast/scratch/hyaku/kengaku-r85/MutTesterR85/fixtures-head2/c2-readme-unindexed-ett35nk2",
+      "mutations": {
+        "counter": "c2.py",
+        "fixture": "readme-unindexed",
+        "expected_unmutated_defect": null,
+        "needle_count": 1,
+        "diff": "--- pristine/c2.py\n+++ mutants/indexed-always.py\n@@ -223,7 +223,7 @@\n \n def indexed(tree: Tree) -> bool:\n     text = tree.text(README)\n-    return EVIDENCE_ROW in text and \"lessons/round-85.md\" in text\n+    return True\n \n \n def evaluate(tree: Tree, lane: Path, work: Path, quiet: bool = False) -> tuple[dict, bool]:\n",
+        "pristine_sha": "7622c250327cc5eaaa4bbbee6fde18034874fb914f5817acb43d5af9dc83ae5d",
+        "mutant_sha": "b734ef739d59f6afdf1e25f5b4e747f9df8b4d2dfd7bff10b9237c0460a23300"
+      },
+      "plain_argv": [
+        "-I",
+        "-B",
+        "/fast/scratch/hyaku/kengaku-r85/MutTesterR85/pristine-head2/c2.py",
+        "--lane",
+        "/fast/scratch/hyaku/kengaku-r85/MutTesterR85/fixtures-head2/c2-readme-unindexed-ett35nk2",
+        "--rev",
+        "27c10d60b8257246bab714527ec9b19aa5ce70dc",
+        "--work",
+        "/fast/scratch/hyaku/kengaku-r85/MutTesterR85/work-head2/indexed-always-plain"
+      ],
+      "mutant_argv": [
+        "-I",
+        "-B",
+        "/fast/scratch/hyaku/kengaku-r85/MutTesterR85/mutants-head2/indexed-always.py",
+        "--lane",
+        "/fast/scratch/hyaku/kengaku-r85/MutTesterR85/fixtures-head2/c2-readme-unindexed-ett35nk2",
+        "--rev",
+        "27c10d60b8257246bab714527ec9b19aa5ce70dc",
+        "--work",
+        "/fast/scratch/hyaku/kengaku-r85/MutTesterR85/work-head2/indexed-always-mutant"
+      ]
+    }
+  ]
+}

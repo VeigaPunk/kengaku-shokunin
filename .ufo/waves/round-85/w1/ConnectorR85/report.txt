@@ -1,0 +1,72 @@
+SEAT: ConnectorR85
+ROLE: connector (read-only sibling-overlap scan & UFO-FSD cross-proposal synthesis)
+LANE: kengaku-shokunin
+ROUND: 85
+WAVE: w1
+BASE_REV: 0de45354d7aff18e4a23a348ec13de3a1f707a44
+FREEZE_REV: 1a45aeb5e8706b1518ba58fd0fe882df1631e2a0
+LANE_TIP: 35b1e4e09d7666889e561ede274485aba1e2ad11
+TIMESTAMP: 2026-11-04T20:10:00Z
+
+TARGETS SEARCHED:
+  1. /home/vgpnk/Projects/shokunin/*-shokunin (20 sibling lanes, corpus/plans/tools/whole repo)
+  2. /home/vgpnk/Projects/shokuknow/merge/kengaku/ (read-only, 65 knowledge entries)
+  3. /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/grader-population-ledger.json
+  4. /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/QUALITY.md
+  5. /home/vgpnk/Projects/shokunin/kengaku-shokunin/PROVINCE.md
+
+TERMS SEARCHED:
+  - sqlite-db-truncate
+  - recover.json
+  - set intersection
+  - threshold grader / threshold-count grader
+  - duplicates=8
+  - Q61 / filler package / junk package
+  - declared flag in instrument bytes (R84-V8 class)
+  - merge/kengaku/ backlog staging
+
+SEARCH FINDINGS:
+  - Sibling lanes:
+    - sqlite-db-truncate: 0 hits across all 20 sibling repos.
+    - recover.json: 0 exact matches. 2 false-positive substring hits in mado-shokunin round-56 browser test paths.
+    - set intersection: 0 matches for benchmark graders. Hits are administrative metadata/provenance checks (SOURCES S-id comm -12, git log path checks, URL deduplication).
+    - threshold grader: 0 matches for TB2/agentic benchmark graders. Adjacent DSP signal thresholds in audio-shokunin and Claude Code plugin eval doc in kotoba-shokunin.
+    - duplicates=8: 0 matches across all sibling lanes.
+    - Q61 idea: 0 hits. No sibling holds a criterion or gate requiring an admission counter to ship a committed filler/junk package.
+    - R84-V8 class: mori-shokunin owns an adjacent in-lane gate (tools/mori-gate-registry.py, landed round 45) auditing mori's own tools for self-test flags in parser keys/case branches. No sibling owns or duplicates kengaku's plans/round82_c1_plans_registry.py.
+  - shokuknow/merge/kengaku/: 0 hits for sqlite-db-truncate, recover.json, or threshold-count graders. Discusses TB 2.0 release identity and Harbor harness in general, but stages NO member grader code, test captures, or offline replay tools. Backlog remains unadopted.
+  - In-lane (kengaku-shokunin):
+    - sqlite-db-truncate replayed offline with 8 frozen cases, advancing population ledger:
+      executed 28 -> 29, unexecuted 60 -> 59, serialization-schema 0/9 -> 1/9 (1/10 in ledger).
+    - Q61 landed in corpus/QUALITY.md:1320 with executable verification in plans/round85_c2_debt.py.
+    - R84-V8 literal flag spelling repaired in plans/round83_c2_debt.py, verified by plans/round82_c1_plans_registry.py.
+
+VERDICT:
+  overlap: none
+
+CONSEQUENCE FOR CLAIMS:
+  No sibling lane executes or claims sqlite-db-truncate, TB2 threshold graders, Q61, or R84-V8.
+  R85-C1 is a 100% clean population advance for kengaku-shokunin.
+  R85-C2 is a clean in-lane debt discharge of routed outside verifier defects.
+  Zero duplication, zero collision, zero contest.
+
+ADJACENCY FLAGGED:
+  SQLite 3 file header corruption, page structure, B-tree parsing, and file carving belong to
+  database internals and reverse-engineering domains (adjacent/kaidoku-shokunin).
+  Per PROVINCE.md, kengaku-shokunin owns only the captured grader assertion
+  (len(soln_tuples & data_tuples) > 6), not forensic file carvers.
+  Such claims must be routed/flagged rather than absorbed.
+
+CONNECTOR MOVE & SYNTHESIS:
+  - Contradiction identified: QUALITY.md Q20 requires gate rosters to run out-of-band from archive
+    extractions (git archive | tar -x), without ambient .git. The 7 standing repo gates run cleanly,
+    but round85_c1_replay.py and round85_c2_debt.py hardcode git rev_tree invocations and exit 2 SETUP
+    when .git is absent. In addition, check v8 runs round82_c1_plans_registry.py against the host worktree.
+  - Synthesis & Move: Adapt rev_tree() in round-85 counters to detect archive extractions (when .git is
+    absent) and fall back to static Tree(lane, "worktree", "archive") for master evaluations, while
+    passing the extracted tree root to check v8. This preserves git base-sensitivity in repo checkouts
+    while enabling clean Q20 out-of-band verification.
+  - Risks & Verification: Fallback triggers only when .git is absent. Verified via archive test and master run.
+
+FINDINGS: 0
+VERDICT: PASS

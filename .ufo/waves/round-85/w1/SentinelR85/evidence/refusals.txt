@@ -1,0 +1,17 @@
+### probe: changed subject sha
+DEFECT SETUP wrong-subject sha=787a653b625c74d2
+PREDICATE R85-PROBE fail
+
+### probe: missing case table
+DEFECT SETUP no-table /fast/scratch/hyaku/kengaku-r85/SentinelR85/tmp.8BGk72kIXM/plans/round85-cases.json
+PREDICATE R85-PROBE fail
+
+### counter: freeze input absent, non-git lane
+DEFECT SETUP frozen-input-missing plans/round85-cases.json (no git at /fast/scratch/hyaku/kengaku-r85/SentinelR85/tmp.8BGk72kIXM)
+TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects=0
+PREDICATE R85-C1 fail
+
+### counter: freeze revision absent from a git lane
+DEFECT SETUP frozen-input-missing plans/round85-cases.json@1a45aeb5e870
+TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects=0
+PREDICATE R85-C1 fail

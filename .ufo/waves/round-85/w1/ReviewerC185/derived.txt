@@ -1,0 +1,116 @@
+INDEPENDENT DERIVATION — R85-C1 / sqlite-db-truncate
+ReviewerC185, 2026-11-04
+Input: corpus/evidence/round52/graders/sqlite-db-truncate/tests/test_outputs.py ONLY.
+The frozen case table (plans/round85-cases.json) and the probe
+(plans/round85_sqlite_truncate_probe.py) were NOT read before this file was written.
+
+Source under derivation (verbatim semantics, 12 relevant lines):
+
+    soln = [
+        {"word": "testword02", "value": 10.0},
+        {"word": "testword03", "value": 25.0},
+        {"word": "testword04", "value": 42.0},
+        {"word": "testword05", "value": 50.0},
+        {"word": "testword06", "value": 75.0},
+        {"word": "testword07", "value": 99.0},
+        {"word": "testword08", "value": 99.99},
+        {"word": "testword09", "value": 0.5},
+    ]
+
+    def test_json_data():
+        data = json.load(open("/app/recover.json"))
+        soln_tuples = {(item["word"], item["value"]) for item in soln}
+        data_tuples = {(item["word"], item["value"]) for item in data}
+        matches = soln_tuples & data_tuples
+        score = len(matches)
+        assert score > 6, "Did not load data correctly"
+
+GRADER's OWN FACTS (no reimplementation assumed; these are the semantics
+the harness must respect):
+  soln_tuples has exactly 8 members:
+    (testword02,10.0) (testword03,25.0) (testword04,42.0) (testword05,50.0)
+    (testword06,75.0) (testword07,99.0) (testword08,99.99) (testword09,0.5)
+  Verdict leg = normal return of test_json_data() = P; AssertionError = F;
+  FileNotFoundError = F. Any other exception = setup defect (not a witness).
+  score leg = len(soln_tuples & data_tuples) evaluated in the same sandbox.
+
+PYTHON SEMANTICS RELIED ON
+  S1. Set intersection `&` selects elements x of soln_tuples for which an
+      element y of data_tuples exists with `x == y` and (as the fast path)
+      hash(x) == hash(y). Cardinality is a count of DISTINCT soln tuples
+      matched; it is not a row comparison and it cannot exceed |soln_tuples|
+      = 8.
+  S2. json.load maps a JSON number with a fractional part or exponent to
+      `float`, and a bare integer literal to `int`.
+  S3. int/float equality: `10 == 10.0` is True and `hash(10) == hash(10.0)`
+      in CPython, so the tuple `("testword02", 10)` is equal to
+      `("testword02", 10.0)` and set intersection COUNTS it. Integral
+      solution values (10.0, 25.0, 42.0, 50.0, 75.0, 99.0) accept JSON ints;
+      non-integral ones (99.99, 0.5) only accept the exact float.
+  S4. str vs float: `"10.0" == 10.0` is False and their hashes differ, so a
+      tuple carrying a JSON string value never matches a float solution
+      tuple. All eight string-valued rows therefore score 0.
+  S5. Set construction deduplicates: repeated identical rows collapse to one
+      element before the intersection, so 16 duplicated rows can only
+      contribute the distinct matches.
+  S6. Extras: data tuples absent from soln_tuples contribute nothing; the
+      intersection is asymmetric in that direction. Extra non-solution rows
+      cannot raise or lower a score built only from solution tuples.
+  S7. Judgement boundary: `assert score > 6` is STRICT. score 7 passes,
+      score 6 fails (AssertionError, message "Did not load data correctly").
+
+CASE-BY-CASE PREDICTION (score / verdict)
+
+  exact8        data = the eight solution pairs (float values)
+                data_tuples == soln_tuples -> |intersection| = 8
+                -> 8 / P
+
+  seven         seven pairs, missing (testword09, 0.5)
+                7 of the 8 soln tuples present -> 7
+                -> 7 / P        (S7: 7 > 6, the boundary's passing side)
+
+  six           six pairs, missing (testword08,99.99) and (testword09,0.5)
+                6 matches -> 6 > 6 is False -> AssertionError
+                -> 6 / F        (S7: the boundary's failing side)
+
+  empty         data = []  -> data_tuples = set() -> |intersection| = 0
+                -> 0 / F
+
+  extras        eight solution pairs + four non-solution pairs
+                the four extras are not soln members (S6) -> 8
+                -> 8 / P
+
+  duplicates    each of the eight pairs twice = 16 rows
+                dedupe (S5) -> the same 8 distinct tuples -> 8
+                -> 8 / P
+
+  string-values eight words, values as JSON strings ("10.0" ... )
+                every candidate fails equality against its float soln (S4)
+                -> 0 / F
+
+  int-values    six words with integer values 10,25,42,50,75,99
+                = soln members testword02..testword07 under S3 -> 6 matches
+                testword08 (99.99) and testword09 (0.5) are absent
+                -> 6 / F
+
+DISCRIMINATION SUMMARY (what each case is built to catch)
+  duplicates 8 != 16        -> distinguishes set semantics from row counting
+  extras 8                  -> distinguishes intersection from a data-size or
+                               precision/recall ratio
+  seven P / six F           -> pins the strict `> 6` boundary on both sides
+  string-values 0           -> type sensitivity (no str/float coercion)
+  int-values 6              -> int/float equality under S3 (a naive
+                               type-strict comparison would score 0)
+  exact8 vs seven vs six    -> exhaustive-vs-partial soln coverage
+  empty 0                   -> the floor
+
+PREDICTED VECTOR (derived, before seeing the frozen table)
+  exact8 8/P | seven 7/P | six 6/F | empty 0/F | extras 8/P | duplicates 8/P |
+  string-values 0/F | int-values 6/F
+  => cases=8 legs=16.
+
+Note on the verdict leg for failing cases: the AssertionError is raised only
+after `score` is computed, so a counter that imports the module with runpy and
+calls test_json_data() observes score in the same evaluation. A failing case
+therefore still yields a well-defined score observation (6 or 0), never a
+setup defect.

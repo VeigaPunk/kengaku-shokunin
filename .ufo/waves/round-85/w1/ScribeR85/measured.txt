@@ -1,0 +1,184 @@
+# ScribeR85 — measured evidence
+
+Seat: ScribeR85 (scribe), kengaku round 85 wave 1. Lane tip measured: `20eb9ba796324070440c95855e70755f61d059e1`.
+Every command below was run from the lane root with a scratch work dir under `/fast/scratch/hyaku/kengaku-r85/ScribeR85/` (removed at yield).
+No production file was edited; no network use beyond the single pinned raw.githubusercontent.com fetch of the grader bytes.
+
+## 1. C1 counter at master
+TARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=0
+PREDICATE R85-C1 pass
+rc=0
+
+## 2. C1 counter at BASE
+DEFECT TABLE-MISSING plans/round85-cases.json@rev 0de45354d7af
+DEFECT TOOL-MISSING plans/round85_sqlite_truncate_probe.py
+DEFECT LEDGER-UNEXECUTED status=unexecuted
+DEFECT LEDGER-ROUND None
+DEFECT LEDGER-RECEIPT None
+DEFECT LEDGER-SUBJECT None
+DEFECT LEDGER-VERDICT None
+DEFECT RECEIPT-MISSING corpus/evidence/round85/sqlite-db-truncate-probe.txt
+TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects=8
+PREDICATE R85-C1 fail
+rc=1
+
+## 3. C1 mutants at master
+MUTANT no-reproduce fixture=forged unmutated_defect=True mutant_reaches_target=True
+MUTANT no-vector-no-reproduce fixture=fabricated unmutated_defect=True mutant_reaches_target=True
+MUTANT no-ledger fixture=ledger-bad unmutated_defect=True mutant_reaches_target=False
+MUTANT no-tool-sha fixture=tool unmutated_defect=True mutant_reaches_target=True
+MUTANT no-exit fixture=exit-one unmutated_defect=True mutant_reaches_target=True
+MUTANTS real=5 necessary=4 redundant=1
+rc=1
+
+## 4. C1 controls at master
+--- do-nothing ---
+CONTROL do-nothing target_reached=False defects=8 codes=LEDGER-RECEIPT,LEDGER-ROUND,LEDGER-SUBJECT,LEDGER-UNEXECUTED,LEDGER-VERDICT,RECEIPT-MISSING,TABLE-MISSING,TOOL-MISSING
+rc=0
+--- ledger-only ---
+CONTROL ledger-only target_reached=False defects=2 codes=LEDGER-VERDICT,RECEIPT-MISSING
+rc=0
+--- fabricated-observations ---
+CONTROL fabricated-observations target_reached=False defects=2 codes=REPRODUCE-MISMATCH,VECTOR-MISMATCH
+rc=0
+--- forged-receipt ---
+CONTROL forged-receipt target_reached=False defects=1 codes=REPRODUCE-MISMATCH
+rc=0
+
+## 5. C2 counter at master
+CHECK v1 ok tracked=4
+CHECK v2 ok freeze-inputs-bound
+CHECK v3 ok code-leg=True behavioural=True rc=0
+CHECK v5 ok Q61 landed
+CHECK v6 ok writer=kengaku-L1-round83-admission checker_rc=0
+CHECK v7 ok r84-dated-correction=True r85-verdict=True
+CHECK v8 ok literal_flags=4/4 gate=none
+CHECK v9 ok heading=True base=True future=True
+ROUTED R84-V4 owner=operator reason=Q13 checker shape for one-wave rounds; L0 kengaku | round-84
+TARGET ids=8 closed=8 checks_passed=8 indexed=yes defects=0
+PREDICATE R85-C2 pass
+rc=0
+
+## 6. C2 counter at BASE
+CHECK v1 DEFECT missing=.ufo/waves/round-84/w1-results.json,.ufo/waves/round-84/w1/CriticR84.md,.ufo/waves/round-84/w1/CriticR84/critique.md,.ufo/waves/round-84/w1/CriticR84/report.txt
+CHECK v2 DEFECT drifted-since-freeze:plans/round85-cases.json drifted-since-freeze:plans/round85-defects.json drifted-since-freeze:plans/round-85-claims.md
+CHECK v3 DEFECT instrument-absent
+CHECK v5 DEFECT no Q61 row
+CHECK v6 DEFECT writer-is-seat-id:KengakuR84
+CHECK v7 DEFECT r84-dated-correction=False r85-verdict=False
+CHECK v8 DEFECT literal_flags=0/4 gate=none missing=--selftest,--mutants,--control-presence,--sensitivity
+CHECK v9 DEFECT lesson-absent
+ROUTED R84-V4 owner=operator reason=Q13 checker shape for one-wave rounds; L0 kengaku | round-84
+TARGET ids=8 closed=0 checks_passed=0 indexed=no defects=8
+PREDICATE R85-C2 fail
+rc=1
+
+## 7. C2 sensitivity
+BASE-CHECK v1 red missing=.ufo/waves/round-84/w1-results.json,.ufo/waves/round-84/w1/CriticR84.md,.ufo/waves/round-84/w1/CriticR84/critique.md,.ufo/waves/round-84/w1/CriticR84/report.txt
+BASE-CHECK v2 red drifted-since-freeze:plans/round85-cases.json drifted-since-freeze:plans/round85-defects.json drifted-since-freeze:plans/round-85-claims.md
+BASE-CHECK v3 red instrument-absent
+BASE-CHECK v5 red no Q61 row
+BASE-CHECK v6 red writer-is-seat-id:KengakuR84
+BASE-CHECK v7 red r84-dated-correction=False r85-verdict=False
+BASE-CHECK v8 red literal_flags=0/4 gate=none missing=--selftest,--mutants,--control-presence,--sensitivity
+BASE-CHECK v9 red lesson-absent
+SENSITIVITY n=8 failed_at_base=8
+rc=0
+
+## 8. C2 selftest / mutants / control-presence / check-only v5
+SELFTEST base-all-eight-red pass
+SELFTEST base-index-red pass
+SELFTEST fixture-q61-no-citation-red pass
+SELFTEST fixture-seat-writer-red pass
+SELFTEST fixture-freeze-drift-red pass
+SELFTEST unknown-check-name pass
+SELFTEST cases=6 red=6 failures=0
+rc=0
+MUTANT q61-any-row fixture=q61-no-citation unmutated_defect=True mutant_passes=True
+MUTANT writer-unchecked fixture=seat-writer unmutated_defect=True mutant_passes=True
+MUTANT freeze-bytes-unchecked fixture=freeze-drift unmutated_defect=True mutant_passes=True
+MUTANTS real=3 necessary=3 redundant=0
+rc=0
+CONTROL presence-only-q61 check=v5 target_reached=False detail=Q61 missing=considerthese/2026-10-26.md,round85_c2_debt.py,filler
+rc=0
+CHECK v5 ok Q61 landed
+rc=0
+
+## 9. C1 selftest
+SELFTEST tip-table-parses pass
+SELFTEST tip-vectors-frozen pass
+SELFTEST receipt-shape pass
+SELFTEST absent-receipt-red pass
+SELFTEST ledger-only-red pass
+SELFTEST vector-mismatch-red pass
+SELFTEST tool-sha-red pass
+SELFTEST receipt-exit-red pass
+SELFTEST freeze-anchor-present pass
+SELFTEST freeze-anchor-fails-closed pass
+SELFTEST cases=10 red=10 failures=0
+rc=0
+
+## 10. Standing gates at master
+--- R79 population ---
+CLASS file-artifact k=21 n=76 cell=executed 21 of 76 (round 85 adds `sqlite-db-truncate`; round 84 adds `gcode-to-t
+CLASS serialization-schema k=2 n=10 cell=executed 2 of 10 (round 85 adds `sqlite-db-truncate` to round 40's `db-wal-recov
+DEFECTS n=0
+TARGET classes=16 members=88 pairs=230 replayed=29 located=29 unlocated=0 unexecuted=59 unaccounted=0 unbacked=0 understated=0 covered=15
+PREDICATE R79-C1 pass
+rc=0
+--- R75 index parity ---
+WORKTREE clean
+UNIVERSE knowledge files=77 indexed=77 missing=0 orphan=0
+UNIVERSE lessons files=143 indexed=143 missing=0 orphan=0
+UNIVERSE evidence dirs=76 indexed=76 missing=0 orphan=0
+PREDICATE R75-C1 pass
+--- R82 plans registry ---
+DEFECTS n=0
+TARGET missing=0 unclassified=0 excluded=2 rows=154 entry_missing=0
+PREDICATE R82-C1 pass
+--- R74 registry ---
+DUPLICATE 0
+PREDICATE R52-C2 pass
+PREDICATE R74-C1 pass
+--- defect ledger ---
+rows=5 closed=5 observed_pass=5 mismatches=0
+PREDICATE C2 pass
+--- state_check ---
+SUPERSEDED: P4b.readme.covers.round26-sources:478 — {"SOURCES_ids": [43, 44, 45, 46, 47, 48], "base_erratum_exact": true, "base_erratum_line": 493, "claimed_range": ["043", "047"], "derived_range": "S043–S048", "derived_tokens": ["sources=S043–S048", "source_count=6", "source_ids=S043,S044,S045,S046,S047,S048"], "expanded": [43, 44, 45, 46, 47]}
+VERDICT: FAIL — at least one frozen assertion mismatches
+--- gate_timing_check selftest ---
+rc=0
+--- gate_timing_check on the round-85 lesson ---
+gate_timing_check: FAIL: no admit rows in ## Gate of corpus/lessons/round-85.md at master
+gate_timing_check: admissions=0 passed=0 failed=1
+
+## 11. Class and ledger figures at BASE and master
+0de45354d7af members=88 executed=28 unexecuted=60 serialization-schema=1 of 10 file-artifact=20 of 76
+master members=88 executed=29 unexecuted=59 serialization-schema=2 of 10 file-artifact=21 of 76
+
+census: sh /home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku  -> exit 0, W04 count:
+30
+SOURCES rows at BASE / master:
+263
+265
+
+## 12. Pinned source fetch (the single network fetch of this seat)
+GET https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/sqlite-db-truncate/tests/test_outputs.py
+HTTP 200, 1097 bytes, sha256 8f5bc11018687d8c5894ebf1b4ec6fad004828e5ce442d3cc04d925ef53ef881
+equals the round-52 capture: corpus/evidence/round52/graders/sqlite-db-truncate/tests/test_outputs.py
+
+Located quote (line 31, 9 whitespace-split words by len(quote.split())):
+  assert score > 6, "Did not load data correctly"
+
+Line 30 of the pinned file is blank; the assertion is on line 31.
+S272's landed anchor cell cites :30 and (6 whitespace-split words); S273 supersedes it.
+
+## 13. Correct-vector forgery, two shapes (scratch fixtures)
+(i) all eight vectors correct, one summary digit changed so the block was not produced by the run:
+DEFECT SUMMARY cases=8 legs=16 mismatches=1
+DEFECT REPRODUCE-MISMATCH rc=0 block differs
+TARGET members=1 cases=8 legs=16 mismatches=1 located=1 executed=1 defects=2
+PREDICATE R85-C1 fail
+(ii) all eight vectors correct and the block a genuine run's block, but HOST_PYTHON / HOST_OPENSSL / LANE_TIP rewritten:
+TARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=0
+PREDICATE R85-C1 pass

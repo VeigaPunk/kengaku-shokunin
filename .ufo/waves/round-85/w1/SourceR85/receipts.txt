@@ -1,0 +1,81 @@
+SOURCE SEAT RECEIPT — SourceR85 — kengaku round 85
+Host: Linux 7.2.11-arch1-1 x86_64  |  Python: Python 3.14.8  |  curl: curl 8.23.0 (x86_64-pc-linux-gnu) libcurl/8.23.0 OpenSSL/3.6.5 zlib/1.3.2 brotli/1.2.0 zstd/1.5.7 libidn2/2.3.8 libpsl/0.21.5 libssh2/1.11.1 nghttp2/1.70.0 ngtcp2/1.25.0 nghttp3/1.18.0 mit-krb5/1.22.2
+
+== R1: pinned fetch (single network fetch; output written to scratch) ==
+$ curl -sS -w '\nHTTP_STATUS=%{http_code}\n' -o test_outputs.py 'https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/sqlite-db-truncate/tests/test_outputs.py'
+HTTP_STATUS=200
+BYTES=1097
+SHA256=8f5bc11018687d8c5894ebf1b4ec6fad004828e5ce442d3cc04d925ef53ef881  test_outputs.py
+
+== R2: comparison with the committed round-52 capture ==
+$ cmp corpus/evidence/round52/graders/sqlite-db-truncate/tests/test_outputs.py <fetched>
+IDENTICAL=yes  (cmp exit 0)
+capture bytes: 1097   capture sha256: 8f5bc11018687d8c5894ebf1b4ec6fad004828e5ce442d3cc04d925ef53ef881
+capture is git-tracked: corpus/evidence/round52/graders/sqlite-db-truncate/tests/test_outputs.py
+capture listed in corpus/evidence/round52/graders/SHA256SUMS: 1 entry
+
+== R3: byte-level line map of the capture (the cited quote sits on :31) ==
+  8|soln = [
+ 17|]
+ 20|def test_json_data():
+ 22|    data = json.load(open("/app/recover.json"))
+ 24|    soln_tuples = {(item["word"], item["value"]) for item in soln}
+ 25|    data_tuples = {(item["word"], item["value"]) for item in data}
+ 28|    matches = soln_tuples & data_tuples
+ 29|    score = len(matches)
+ 30|
+ 31|    assert score > 6, "Did not load data correctly"
+quote        = 'assert score > 6, "Did not load data correctly"'
+len(quote.split()) = 9
+tokens      = ['assert', 'score', '>', '6,', '"Did', 'not', 'load', 'data', 'correctly"']
+
+== R4: proposed-row gates (scratch; lane read-only) ==
+$ python3 plans/sources_adopt.py --quote-file proposed-s272.txt --artifact <round-52 capture> --url-map url-map.json
+QUOTE rows=1 spans=1 located=1 found=1 overlong=0 absent=0 malformed=0 cap=25 artifacts=test_outputs.py mismatch=0 unmapped=0 urlmap=url-map.json entries=1
+  ok S272 words=5 at test_outputs.py quote="Did not load data correctly" bound=test_outputs.py->https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/sqlite-db-truncate/tests/test_outputs.py
+EXIT=0
+
+$ python3 plans/sources_adopt.py --registry registry-base.md --package proposed-s272.txt --admit-ids S272 --access-date 2026-11-04 --recheck 2027-01-18 --entries corpus/lessons/round-85.md
+registry=263 staged=1 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+| S272 | Terminal-Bench 2.0 sqlite-db-truncate pinned grader — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/sqlite-db-truncate/tests/test_outputs.py | code | A | member replay only: this pinned grader's acceptance predicate; not a solved-task or model claim | test_outputs.py:8-31; :31 quote `assert score > 6, "Did not load data correctly"` (9 whitespace-split words); accessed 2026-11-04; live 1097 B sha256 8f5bc11018687d8c5894ebf1b4ec6fad004828e5ce442d3cc04d925ef53ef881 equals the round-52 capture | the grader loads /app/recover.json at :22, builds (word, value) sets from the hardcoded eight-row soln list at :8-17 and from the data at :24-25, and asserts the intersection exceeds six at :31, so scores 7 and 8 pass while 6 fails | mined | 2026-11-04 | 2027-01-18 | corpus/lessons/round-85.md |
+EXIT=0
+
+== R5: anchor_line_check on a fixture lane carrying the PROPOSED row (parseable shape) ==
+$ python3 plans/anchor_line_check.py --lane <fixture> --verbose
+ANCHORLINE rows=1 cited=1 captured=1 uncaptured=0 defective=0 repaired=0 live=0 cells=0
+EXIT=0
+
+== R6: the LANDED row's stated numbers, rendered in the same parseable shape ==
+  cite :30  + claimed 6 words  -> line-30 holds the quote: False | len(split)= 9
+$ python3 plans/anchor_line_check.py --lane <fixture with landed numbers> --verbose
+ROW S272 state=live defects=line:1,words:1 capture=corpus/evidence/round52/graders/sqlite-db-truncate/tests/test_outputs.py
+ANCHORLINE rows=1 cited=1 captured=1 uncaptured=0 defective=1 repaired=0 live=1 cells=2
+
+== R4: proposed-row gates (scratch; lane read-only) ==
+$ python3 plans/sources_adopt.py --quote-file proposed-s272.txt --artifact <round-52 capture> --url-map url-map.json
+QUOTE rows=1 spans=1 located=1 found=1 overlong=0 absent=0 malformed=0 cap=25 artifacts=test_outputs.py mismatch=0 unmapped=0 urlmap=url-map.json entries=1
+  ok S272 words=5 at test_outputs.py quote="Did not load data correctly" bound=test_outputs.py->https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/sqlite-db-truncate/tests/test_outputs.py
+EXIT=0
+
+$ python3 plans/sources_adopt.py --registry registry-base.md --package proposed-s272.txt --admit-ids S272 --access-date 2026-11-04 --recheck 2027-01-18 --entries corpus/lessons/round-85.md
+registry=263 staged=1 collisions=0 malformed=0 duplicates=0 defects=0 prose=0
+| S272 | Terminal-Bench 2.0 sqlite-db-truncate pinned grader — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/sqlite-db-truncate/tests/test_outputs.py | code | A | member replay only: this pinned grader's acceptance predicate; not a solved-task or model claim | test_outputs.py:8-31; :31 quote `assert score > 6, "Did not load data correctly"` (9 whitespace-split words); accessed 2026-11-04; live 1097 B sha256 8f5bc11018687d8c5894ebf1b4ec6fad004828e5ce442d3cc04d925ef53ef881 equals the round-52 capture | the grader loads /app/recover.json at :22, builds (word, value) sets from the hardcoded eight-row soln list at :8-17 and from the data at :24-25, and asserts the intersection exceeds six at :31, so scores 7 and 8 pass while 6 fails | mined | 2026-11-04 | 2027-01-18 | corpus/lessons/round-85.md |
+EXIT=0
+
+== R7: fleet census validate — registry WITH the proposed row vs the registry AS LANDED ==
+  (same lane-shaped scratch tree, only corpus/SOURCES.md differs; the tree carries symlinks to
+   the lane's corpus/knowledge, corpus/lessons, corpus/evidence, plans/ and SCORECARD.md so the
+   used-by paths resolve exactly as they do in the lane)
+  landed codes:    0
+  proposed codes:  0
+  diff: IDENTICAL — the proposed row introduces no new census code
+  census row count with the proposed row: 264 (landed registry: 264)
+
+== R8: byte-level comparison of the landed row's numbers against the capture ==
+  landed row states cite = :30   -> capture line 30 is '' (blank) -> quote_on_line = False
+  landed row states words = 6    -> len(quote.split()) = 9 -> match = False
+  correct cite = :31  correct words = 9
+
+== R9: tool installs ==
+  none. curl 8.23.0, Python 3.14.8, git and bash were already present; this seat installed and
+  upgraded nothing, and ran no pacman transaction (the host-wide pacman guard is respected).
