@@ -3483,3 +3483,12 @@ construct claimed).
 **No axis harmed:** the round's lane diff is append-only except the dated in-row supersessions in
 `PROVINCE.md` (rows 2 and 4), the stale `SKILL.md` round-75 registry rows, and Q55's addition; each is
 named above and in `LOG.md`.
+
+**Round-76 addendum (appended 2026-11-04, after Amendment A4).** The after receipts were regenerated
+from a clean clone at `26c6dfa6b4d045db6753787db7d98bef1bc72497` — the revision that carries the
+whole-row stale-prose rule — so `corpus/evidence/round76/c1-after.txt` and `c2-after.txt` stamp
+`26c6dfa6`, superseding the `d76db01c` stamp named above. The before receipt was re-measured under the
+same rule (`AGREE agree=8 disagree=3`), so the before/after pair is measured by one rule; no number in
+this section narrows a target. At `26c6dfa6` the other four gates are also green:
+`PREDICATE R75-C1 pass` (74/74, 125/125, 67/67), `PREDICATE R74-C1 pass`, `PREDICATE R74-C2 pass`,
+`PREDICATE R76-C1 pass`, `PREDICATE R76-C2 pass`.
