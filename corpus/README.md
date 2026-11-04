@@ -913,6 +913,7 @@ A row here indexes a file; it does not admit it — the held entries stay held.
 | `lessons/round-74.md` | Round 74 — decoupled advertised-universe gate and hardened registry audit; Gate, M74-1…7, wave integration with 12 dead seats named | LOG.md round 74; plans/round-74-claims.md; `.ufo/waves/round-74/` |
 | `lessons/round-75.md` | Round 75 — the corpus index-parity gate and the index repair; attributed, stamped registry audit; Gate (S251), M75-1…7 | LOG.md round 75; plans/round-75-claims.md; `.ufo/waves/round-75/` |
 | `lessons/round-75-verifier-spotcheck.md` | Non-author closure of round 75: both claims re-derived at `5d9a0ccc`; seven routed defects R75-D1–D7 (report ordering, revision drift, cross-version counts, registry drift, LOG drift, unbacked assertion, in-place lesson edit) | closure of round 75 |
+| `lessons/round-76.md` | Round 76 — the `## Surfaces` declaration becomes a live resolver gate (R76-C1) and the closure's seven routed defects become a burn-down (R76-C2); Gate (S252), M76-1…5, Amendments A1–A4 | LOG.md round 76; plans/round-76-claims.md; `.ufo/waves/round-76/` |
 
 ### Knowledge index rows (3)
 

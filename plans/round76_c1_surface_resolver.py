@@ -69,6 +69,8 @@ STALE_TEXT = (
     "is alive",
     "LISTEN on",
     "still resolves",
+    "identity re-probed",
+    "re-probed each round",
 )
 TIMEOUT = 3
 
@@ -202,7 +204,10 @@ def census(lane: Path, reader: Reader) -> tuple[list[str], list[str]]:
         counts[verdict] += 1
         report.append(f"SURFACE {idx} {verdict} {token} ({detail})")
         marker = MARKER.search(row_text)
-        stale_text = [t for t in STALE_TEXT if t in cells[1] and verdict == "absent"]
+        # Whole-row scan (seat C1ReplayR76, Amendment A4): a row that says ABSENT in one cell and
+        # "identity re-probed each round" in another contradicts itself; the present-tense claim is
+        # the row's, not one cell's.
+        stale_text = [t for t in STALE_TEXT if t in row_text and verdict == "absent"]
         if verdict == "absent" and not marker:
             defects.append(f"DEFECT UNDECLARED-ABSENT {idx} {name} {token}")
             disagree += 1
@@ -278,7 +283,7 @@ class Listener:
 
 def build_fixture(root: Path, *, live_port: int | None = None, drop_marker: str = "",
                   add_marker: str = "", strip_anchor: str = "", stale_text: bool = False,
-                  malformed: bool = False) -> None:
+                  malformed: bool = False, stale_third_cell: bool = False) -> None:
     """A minimal PROVINCE.md with one present path, one absent path, one endpoint, one extra row."""
     if root.exists():
         shutil.rmtree(root)
@@ -303,6 +308,11 @@ def build_fixture(root: Path, *, live_port: int | None = None, drop_marker: str 
     ]
     if strip_anchor == "literature":
         rows.append("| Literature | arXiv / ACL Anthology (URLs in prose) | fixture |")
+    if stale_third_cell:
+        rows.append(
+            "| Absent, stale prose in the third cell | `~/r76-definitely-absent-path` — **ABSENT 2026-10-01** "
+            "| identity re-probed each round |"
+        )
     if malformed:
         rows.append("| Malformed | only two cells |")
     body = ["# fixture PROVINCE", "", SECTION, "", *rows, "", "## Next", ""]
@@ -320,6 +330,7 @@ def selftest(work: Path) -> int:
             ("no-anchor", {"strip_anchor": "literature"}, 1, "DEFECT NOANCHOR"),
             ("stale-text", {"stale_text": True}, 1, "DEFECT STALE-TEXT"),
             ("malformed", {"malformed": True}, 1, "DEFECT MALFORMED"),
+            ("stale-text-third-cell", {"stale_third_cell": True}, 1, "DEFECT STALE-TEXT 4"),
             ("printed-tally", {"drop_marker": "absent-path", "strip_anchor": "literature"}, 1,
              "AGREE agree=2 disagree=2"),
         ]
@@ -349,6 +360,7 @@ def mutants(work: Path) -> int:
             ("M3-strip-anchor", {"strip_anchor": "literature"}, "NOANCHOR"),
             ("M4-stale-text", {"stale_text": True}, "STALE-TEXT"),
             ("M5-malformed", {"malformed": True}, "MALFORMED"),
+            ("M6-stale-third-cell", {"stale_third_cell": True}, "STALE-TEXT"),
         )
         for name, kwargs, expected in matrix:
             total += 1

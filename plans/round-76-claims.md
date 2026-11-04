@@ -148,3 +148,20 @@ regenerated receipt at `--rev fda63968` prints `PROVINCE_REV fda63968`,
 `PREDICATE R76-C1-control pass`, rc 0. The control's discriminating power is a property of the state it
 reads; the repaired table has nothing left to catch, which is the claim passing, not the control failing.
 Predicate, target, kill rules and both claim counters are unchanged.
+
+## Amendment A4 (2026-11-04, rule strengthened before the after-state, target unchanged) — the stale-prose scan reads the whole row
+
+Seat `C1ReplayR76` found a present-tense claim the frozen rule missed: row 3 (`:34113`) carries
+`identity re-probed via /v1/models + /health 200 each round` and `identity re-probed each round` in two
+cells while its own live probe answers 000 — and the scan read `cells[1]` with a fixed vocabulary that
+did not contain the phrase. The rule now scans the **whole row** for present-tense tokens and the
+vocabulary gained `identity re-probed` and `re-probed each round`; a row cannot say ABSENT in one cell
+and "re-probed each round" in another. The self-test gained the third-cell arm (`cases=8 red=7`) and the
+mutant matrix a sixth (`6/6`).
+
+Consequence, stated as the R75-D3 rule requires: the before state was **re-measured under the final
+rule** at `fda63968`, so no cross-version comparison is hidden. `corpus/evidence/round76/c1-before.txt`
+now prints `SURFACES total=11 present=4 absent=7 prose=0`, `AGREE agree=8 disagree=3` with three
+defects (`STALE-TEXT` rows 2 and 3, `UNDECLARED-ABSENT` row 4), superseding the `agree=9 disagree=2`
+line above, which was measured before the scan reached row 3. Predicate, target (`AGREE disagree=0`),
+control and kill rules are unchanged; the rule moved only in the direction that makes the claim harder.
