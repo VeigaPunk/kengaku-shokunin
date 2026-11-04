@@ -3561,8 +3561,8 @@ Base `07c97fcd`; freeze `9ebb8ed1`; corrections `8da90eb7` (discharge + re-minte
 
 | claim / axis | before → after evidence | counting command | verdict / score |
 |---|---|---|---|
-| **R77-C1 / coverage** (lowest non-retired axis, L0-capped at 7) — one canonical inventory carries every surface the three older tables declare, each resolved live under one typed rule, each dated declaration agreeing, with `UNLISTED-SURFACE` for any superseded row no canonical row carries | before (`corpus/evidence/round77/c1-before.txt`, `--rev 07c97fcd`): `CANONICAL source=none rows=0`, `SURFACES total=0 present=0 absent=0 remote=0`, `UNLISTED n=33`, `RESOLVED live=0`, `AGREE agree=0 disagree=0`, `DEFECTS n=34`, `PREDICATE R77-C1 fail`, rc 1 → after (`c1-after.txt`, stamped `d181e16b`, clean): `CANONICAL source=## Declared surfaces rows=28`, `SURFACES total=28 present=14 absent=13 remote=1`, `UNLISTED n=0`, `RESOLVED live=27`, `AGREE agree=28 disagree=0`, `IDENTITIES n=28 unique=28`, `DEFECTS n=0`, `PREDICATE R77-C1 pass`, rc 0 | `python3 plans/round77_c1_declared_surfaces.py --lane .` | **pass** — coverage **7** (held; the axis is at its open-L0 cap) |
-| **R77-C2 / calibration** (held at ceiling 10, exercised) — the round-76 closure's seven routed ids become ledger rows whose discharges re-derive at the commit that carries their evidence, plus seven legs that re-read the registry, the corrections, the LOG block, the considerthese sweep, the capability name and three stamped reruns | before (`c2-before.txt`, `--rev 07c97fcd`): `SCOPE ids=7 registered=0 closed=0 open=0 discharged=0 legs_passed=0 legs_pending=2 wrong=12`, `DEFECTS n=12`, rc 1 → after (`c2-after.txt`, stamped `d181e16b`, clean): `SCOPE ids=7 registered=7 closed=7 open=0 discharged=7 legs_passed=7 legs_pending=0 wrong=0`, `DEFECTS n=0`, `PREDICATE R77-C2 pass`, rc 0 | `python3 plans/round77_c2_defect_discharge.py --lane .` | **pass** — calibration **10** (held, exercised) |
+| **R77-C1 / coverage** (lowest non-retired axis, L0-capped at 7) — one canonical inventory carries every surface the three older tables declare, each resolved live under one typed rule, each dated declaration agreeing, with `UNLISTED-SURFACE` for any superseded row no canonical row carries | before (`corpus/evidence/round77/c1-before.txt`, `--rev 07c97fcd`): `CANONICAL source=none rows=0`, `SURFACES total=0 present=0 absent=0 remote=0`, `UNLISTED n=33`, `RESOLVED live=0`, `AGREE agree=0 disagree=0`, `DEFECTS n=34`, `PREDICATE R77-C1 fail`, rc 1 → after (`c1-after.txt`, stamped `cd2e25bb`, clean): `CANONICAL source=## Declared surfaces rows=28`, `SURFACES total=28 present=14 absent=13 remote=1`, `UNLISTED n=0`, `RESOLVED live=27`, `AGREE agree=28 disagree=0`, `IDENTITIES n=28 unique=28`, `DEFECTS n=0`, `PREDICATE R77-C1 pass`, rc 0 | `python3 plans/round77_c1_declared_surfaces.py --lane .` | **pass** — coverage **7** (held; the axis is at its open-L0 cap) |
+| **R77-C2 / calibration** (held at ceiling 10, exercised) — the round-76 closure's seven routed ids become ledger rows whose discharges re-derive at the commit that carries their evidence, plus seven legs that re-read the registry, the corrections, the LOG block, the considerthese sweep, the capability name and three stamped reruns | before (`c2-before.txt`, `--rev 07c97fcd`): `SCOPE ids=7 registered=0 closed=0 open=0 discharged=0 legs_passed=0 legs_pending=2 wrong=12`, `DEFECTS n=12`, rc 1 → after (`c2-after.txt`, stamped `cd2e25bb`, clean): `SCOPE ids=7 registered=7 closed=7 open=0 discharged=7 legs_passed=7 legs_pending=0 wrong=0`, `DEFECTS n=0`, `PREDICATE R77-C2 pass`, rc 0 | `python3 plans/round77_c2_defect_discharge.py --lane .` | **pass** — calibration **10** (held, exercised) |
 
 **Controls (both must lose, and do).** C1 `--control-declared` (fixture with a lying declaration):
 `CONTROL rows=7 declared_verdicts=7 agree=7 live=0 target_reached=False` — a declaration-trusting counter
@@ -3665,3 +3665,68 @@ population** (93 graders): the same `executed`/`unexecuted` + detector disciplin
 snapshot. Replay one more `network-service` member only if a surface exists (browser, qemu, ssh+nginx
 and a candidate library are the four named blockers). Keep the stamp gate green as new receipts land:
 every new receipt goes through `plans/round78_restamp.py` from a clean tree.
+
+## Round 79 (hyaku run 15, attempt 1, 2026-11-04): the whole 16-class population becomes an 88-member ledger (R79-C1, coverage at its L0 cap) and the round-78 closure's seven routed defects are discharged, not restated (R79-C2, calibration held at ceiling, exercised)
+
+Base `660ec0b9`; freeze `5d684313` (claims, both counters, the 88-member ledger, the 16 derived class
+rows, the before receipts and the three losing controls). One v1 wave, 14 seats (executor 5, scribe 3,
+critic 1, reviewer 1, mutation-tester 1, sentinel 1, connector 1, scout 1 — attack roles 4/14 = 29 %,
+connector 1).
+
+| claim / axis | before → after evidence | counting command | verdict / score |
+|---|---|---|---|
+| **R79-C1 / coverage** (lowest non-retired axis, L0-capped at 7) — every member of the 16-class Terminal-Bench 2.0 population (88 members, 230 member-class pairs) is priced exactly once: `executed` rows resolve a tracked receipt that locates the member in a frozen subject shape and carries execution observations, `executed-unlocated` rows name the round's probe instrument + a receipt under that round + the `no-subject-stamp` debt, `unexecuted` rows name a blocker whose frozen detector fires over the task's stored grader bytes or the honest default `unattempted`; all 16 `SKILL.md` class rows carry a derived `executed k of n` | before (`corpus/evidence/round79/c1-before.txt`, `--rev 660ec0b9`): `UNIVERSE classes=16 members=88 pairs=230`, `LEDGER rows=0`, 88 `MEMBER-UNACCOUNTED`, 13 `CLASS-ROW-UNQUANTIFIED`, `LINK-ABSENT`, `DEFECTS n=105`, `TARGET … unaccounted=88 covered=0`, rc 1 → after (`c1-after.txt`): `LEDGER rows=88 executed=18 unlocated=6 unexecuted=64`, `COVERAGE replayed=24 covered=15 uncovered=container-image census_covered=12`, `DEFECTS n=0`, `TARGET classes=16 members=88 pairs=230 replayed=24 located=18 unlocated=6 unexecuted=64 unaccounted=0 unbacked=0 understated=0 covered=15`, rc 0 | `python3 plans/round79_c1_population_ledger.py --lane .` | **pass** — coverage **7** (held; axis at its open-L0 cap, the population map is the move) |
+| **R79-C2 / calibration** (held at ceiling 10, exercised) — the round-78 closure's seven routed defects become discharged ledger rows: one `corpus/routed-findings.jsonl` row each with `status=closed`, a `source` resolving to the spot-check line, a `close` naming a tracked repair artifact (never the spot-check) whose bytes carry the id, and a `check` that exits 0 only when the repair holds; `corpus/README.md` indexes the spot-check | before (`c2-before.txt`, `--rev 660ec0b9`): `ids=7 registered=0 closed=0 checks_passed=0 indexed=no`, 7 `DEBT-UNREGISTERED` + `INDEX-MISSING`, `DEFECTS n=8`, rc 1 → after (`c2-after.txt`): `DEBT-TOTAL ids=7 registered=7 closed=7 checks_passed=7`, `INDEX … indexed=yes`, `DEFECTS n=0`, `TARGET ids=7 closed=7 checks_passed=7 indexed=yes`, rc 0 | `python3 plans/round79_c2_closure_debt.py --lane .` | **pass** — calibration **10** (held, exercised) |
+
+**Controls (all must lose, and do).** C1 `--control-namegrep` (call a member executed when any
+verdict-bearing receipt mentions it): `CONTROL namegrep executed=88 unexecuted=0 defects=102
+codes=CLASS-K-MISMATCH,RECEIPT-POPULATION target_reached=False` — the census receipt mentions all 88
+members and the frozen population rule kills every row. C1 `--control-default-reason` (skip the
+detector sweep): `executed=18 unexecuted=64 defects=7 codes=REASON-UNDERSTATED
+target_reached=False`. C1 `--control-all-blocked` (mark every unexecuted member
+`browser-required`): `defects=62 codes=REASON-UNBACKED target_reached=False`. C2 `--control-presence`
+(register all seven ids as closed, `close` = the spot-check, `check` = `true`): dies on
+`CLOSE-NOT-REPAIR` ×7 + `CHECK-TRIVIAL` ×7, `target_reached=False`. Batteries: C1
+`SELFTEST cases=13 red=12 failures=0`, `MUTANTS real=6 killed=6 survived=0`; C2
+`SELFTEST cases=9 red=8 failures=0`, `MUTANTS real=4 killed=4 survived=0`.
+
+**Corrections landed in-round (each with a re-deriving check; ids registered in
+`corpus/routed-findings.jsonl`).** R78-D1 — the round-78 per-class split is superseded:
+`corpus/evidence/round78/c2-before.txt` re-derives the split `11 TOOL-UNNAMED, 11 COMMAND-ABSENT, 5 PASS-UNLOCATED, 2 WORKTREE-ABSENT` and `DEFECT TOOL-UNPINNED` count 0. R78-D2 — the two round-77
+rows above now read `stamped cd2e25bb, clean`, which is what `c1-after.txt` and `c2-after.txt` stamp.
+R78-D3 — a `routed_open.py` receipt landed at this round's tip and the round-79 LOG block quotes it.
+R78-D4 — the S254/S255 citation metadata is corrected in `corpus/lessons/round-79.md` (quote length
+and anchor lines). R78-D5 — the round-78 quality paragraph's "eight gates that were red or unmeasured
+at base" is superseded: two of the six named gates were green at base (`R51-C1` prints `PREDICATE
+R51-C1 pass`; the round-77 `c1-after.txt` prints `DEFECTS n=0` / `PREDICATE R77-C1 pass`), so the
+genuinely red gates were R75-C1 and R76-C2 and R79-C1/R79-C2 were unmeasured then; the 245 → 247 pin
+move was maintenance, not a repair. R78-D6 — the gate block is re-run in a clean clone at this
+round's tip (`corpus/evidence/round79/gates-clean.txt`, `WORKTREE clean`). R78-D7 — the spot-check is
+indexed in `corpus/README.md` and its seven ids are ledger rows.
+
+**Scores.** coverage **7** (held; claim passed, axis at its L0 cap — the population map is the move,
+not the number), calibration **10** (held, exercised), operability **10** (held; two new gates with
+selftest/mutant/control batteries and a `--rev` mode that runs every check against an extracted
+tree), depth **10** (held; S256 + S257 + the Mistakes rows), freshness **10** (held; the harness
+README re-fetched live with capture and digest, all declared surfaces untouched), adjacency **9**
+(held; the connector's sibling matrix is in the round report), novelty **8** (held; two instruments,
+no new construct claimed).
+**No axis harmed:** the round's lane diff is append-only except the 16 `SKILL.md` class cells, the
+ledger-pointer paragraph, the two round-77 stamp corrections named above, and the index/registry
+rows this round lands.
+
+### Round-79 capabilities (demonstrated this round)
+
+| Capability | What it can now do | Evidence / command | First-working round |
+|---|---|---|---|
+| `grader-population-member-ledger` | Price every member of the 16-class population exactly once — executed with a subject-locating receipt, executed-unlocated with the instrument that names it, unexecuted with a blocker detector that fires or the honest `unattempted` default — and derive each class row's `executed k of n` from it | `python3 plans/round79_c1_population_ledger.py --lane .` → `LEDGER rows=88 executed=18 unlocated=6 unexecuted=64`, `DEFECTS n=0`, exit 0 (`corpus/evidence/round79/c1-after.txt`) | 79 |
+| `closure-debt-discharge` | Turn a closure's routed ids into discharged ledger rows whose `check` commands fail at the base revision and pass at the tip, with the `close` naming a tracked repair artifact that carries the id | `python3 plans/round79_c2_closure_debt.py --lane .` → `TARGET ids=7 closed=7 checks_passed=7 indexed=yes`, exit 0 (`corpus/evidence/round79/c2-after.txt`) | 79 |
+
+### Planned (round 80)
+
+Replay one more unexecuted member only where a surface exists: the ledger prices 7 blocker-backed
+members (2 browser, 1 vm, 1 external-db, 3 candidate-library) and 57 `unattempted` — pick from the
+`unattempted` set by class coverage gap, not by blocker. Discharge the six `executed-unlocated`
+replay receipts by re-minting them with a subject stamp (`plans/round78_restamp.py` + the probe's own
+writer), which would turn 6 debt rows into `executed` without a new replay. Keep both gates green as
+new receipts land.
