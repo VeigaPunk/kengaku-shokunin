@@ -1,6 +1,7 @@
 source: S267 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/code-from-image/tests/test_outputs.py :10-31; capture corpus/evidence/round52/graders/code-from-image/tests/test_outputs.py
 verified-at: 2026-11-04 (round 83; frozen subject b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a)
-recheck: python3 plans/round83_c1_replay.py --lane . --work DIR
+recheck: 2026-11-04 (admitted round 83; re-checked round 84), cadence monthly and at every change of the pin 2fd12b88aafdd04a52c298e3940bcb189f9766d6: re-open the pinned grader, confirm sha256 b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a, then run python3 plans/round83_c1_replay.py --lane . --work DIR; re-pin source S267 if the upstream tree moves.
+writer: KengakuR84
 
 # code-from-image: exact-file grader replay, not image understanding
 
