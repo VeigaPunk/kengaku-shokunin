@@ -93,3 +93,16 @@ fails, or if any mutant survives.
   fetch, capture and located quote; grounds `corpus/knowledge/registry-argv-and-flag-audit.md` (held).
 - `corpus/lessons/round-74.md` carries `## Gate` and `## Mistakes`.
 - Census before → after with `scripts/sources-census.sh validate --root … kengaku`.
+
+## Amendment A1 — the R74-C1 Before description (appended 2026-11-04T00:55Z, before any seat returned)
+
+The R73-C1 **Before** bullet above describes the legacy control with "ADVERTISED total=110,
+MISSING 5" — that was the round-73-era legacy state, before round 73's own amendments
+registered the five missing rows.  Measured against the committed receipt
+`corpus/evidence/round74/c1-before.txt` at the freeze base, the legacy run actually prints
+`UNIVERSE mode=legacy files=78 plans_seen=0 plans_only=0`, `ADVERTISED total=115`,
+`REGISTERED total=115 rows=116`, `MISSING 0`, `PREDICATE R52-C2 pass`, `PREDICATE R74-C1 fail`,
+rc 1.  The substantive before-state is unchanged: legacy cannot detect dropped unreferenced
+rows (self-advertising masks incompleteness) and never sees `plans/*.md` instruments, so it
+can never satisfy `PREDICATE R74-C1`.  The frozen predicate, counting command, after-target,
+control and kill rule are unchanged.  No seat had returned when this amendment landed.
