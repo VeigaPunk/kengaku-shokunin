@@ -48,7 +48,13 @@ The 12 dead seats leave the C2 blind-spot battery, sentinel scan and sibling sca
 
 ## Measurements and controls
 
-- C1 Before: `corpus/evidence/round74/c1-before.txt` (`plans/round74_c1_registry.py --universe legacy` exits 1, `MISSING 5`, `PREDICATE R74-C1 fail`).
+- C1 Before: `corpus/evidence/round74/c1-before.txt` (`plans/round74_c1_registry.py --universe legacy` exits 1,
+  `MISSING 5`, `PREDICATE R74-C1 fail`).
+  **Correction (round 75, 2026-11-04, R74-D2):** the committed receipt prints `ADVERTISED total=115`,
+  `REGISTERED total=115 rows=116`, `MISSING 0`, `PREDICATE R52-C2 pass`, `PREDICATE R74-C1 fail`, rc 1 — not
+  `MISSING 5`. The `MISSING 5` figure was the round-73-era legacy state, and Amendment A1 already corrected
+  the claims doc; this line is the surviving copy. The substantive before-state (legacy cannot see dropped
+  unreferenced rows and never scans `plans/*.md`) is unchanged; see `corpus/lessons/round-75.md` M75-7.
 - C1 After: `corpus/evidence/round74/c1-after.txt` (`plans/round74_c1_registry.py --lane .` exits 0, `MISSING 0`, `PREDICATE R74-C1 pass`).
 - C1 Control: `corpus/evidence/round74/c1-control-decoupled.txt` (a dropped registry row in decoupled mode raises MISSING 1; legacy counter falsely remains green).
 - C2 Before: `corpus/evidence/round74/c2-red-before.txt` (round-73 audit exits 0 on 9-cell malformed row; round-74 audit exits 1 with `MALFORMED-ROW columns=9`).
