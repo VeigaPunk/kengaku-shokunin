@@ -370,15 +370,15 @@ def mutants(work: Path) -> int:
     return 0 if killed == total and matched == total else 1
 
 
-def control_declared(work: Path) -> int:
+def control_declared(work: Path, lane: Path, rev: str) -> int:
     """The cheapest skip: trust the row's own text instead of resolving the surface.
 
     A counter that reads the declaration scores the table as externally verified; this gate must
     still show the disagreement between what the rows claim and what the host answers.
     """
     root = work / "c1_control_declared"
-    lane = Path(__file__).resolve().parent.parent
-    rows = table_rows((lane / PROVINCE).read_text(errors="replace"))
+    rows = table_rows(Reader(lane, rev).get(PROVINCE))
+    print(f"PROVINCE_REV {rev}")
     declared_disagree = 0
     for idx, (_lineno, cells) in enumerate(rows, start=1):
         if len(cells) < 3:
@@ -418,7 +418,7 @@ def run_battery(args: argparse.Namespace, lane: Path, fn) -> int:
     with contextlib.redirect_stdout(_Tee(sys.stdout, buf)):
         rc = fn()
     if args.receipt is not None:
-        tip, dirty = Reader(lane, "worktree").tip, worktree_dirty(lane)
+        tip, dirty = Reader(lane, args.rev).tip, worktree_dirty(lane)
         args.receipt.parent.mkdir(parents=True, exist_ok=True)
         args.receipt.write_text(
             f"LANE_TIP {tip}\nWORKTREE {'dirty' if dirty else 'clean'}\n" + buf.getvalue()
@@ -445,7 +445,7 @@ def main() -> int:
         return run_battery(args, args.lane, lambda: mutants(args.work))
     if args.control_declared:
         args.work.mkdir(parents=True, exist_ok=True)
-        return run_battery(args, args.lane, lambda: control_declared(args.work))
+        return run_battery(args, args.lane, lambda: control_declared(args.work, args.lane, args.rev))
     return emit(args.lane, args.rev, args.receipt)
 
 

@@ -136,3 +136,15 @@ Seats `ScribeCorrectionsR76` and `C2ReplayR76` independently found that `emit()`
 gate now takes `args.work` and creates only that path. Predicate, target, control, kill rules and every
 leg are unchanged; the before/control receipts' bytes are unaffected (the scratch path is not printed)
 and were regenerated after the fix so every committed receipt comes from the same gate revision.
+
+## Amendment A3 (2026-11-04, control plumbing, predicate unchanged) — the C1 control reads the revision it claims
+
+Seat `C1ReplayR76` showed `--control-declared` resolved PROVINCE from the module path and ignored
+`--lane`/`--rev`: on repaired bytes it printed `disagreements=0 target_reached=True`, so the committed
+control receipt could not be re-derived after the repair (the R74-D1 replayability class). The control
+now takes `--lane`/`--rev`, prints `PROVINCE_REV`, and its receipt stamps the revision it read. The
+regenerated receipt at `--rev fda63968` prints `PROVINCE_REV fda63968`,
+`declared=present live=absent 4 http://127.0.0.1:45669`, `disagreements=1 target_reached=False`,
+`PREDICATE R76-C1-control pass`, rc 0. The control's discriminating power is a property of the state it
+reads; the repaired table has nothing left to catch, which is the claim passing, not the control failing.
+Predicate, target, kill rules and both claim counters are unchanged.
