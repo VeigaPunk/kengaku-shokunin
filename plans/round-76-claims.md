@@ -257,3 +257,21 @@ SCORECARD row say "every row of the `## Surfaces` table", and the `### Core` dec
 a **routed item for a future claim** (an all-declarations inventory needs an authoritative supersession
 of the older tables, not another row in this one). Nothing measured changes: the counter's universe was
 the table at freeze.
+
+## Amendment A9 (2026-11-04, from the wave's second reviewer, before the report) — an empty universe and a comment cannot pass
+
+`ReviewerC2R76` found three false greens, all closed here; the target is unchanged.
+
+1. **Empty scope.** A closer lesson naming zero ids (a future draft, or the only closer deleted) made
+   `SCOPE ids=0 … wrong=0` print `PREDICATE R76-C2 pass`, rc 0. `ids=0` is now `DEFECT EMPTY-SCOPE`.
+2. **Raw bytes in the correction legs.** The legs grepped QUALITY/SCORECARD/LOG/SKILL/round-74 lesson
+   without stripping HTML comments and fences, so a correction wrapped in `<!-- … -->` satisfied D2 —
+   the same class round 75 closed in its own C1 gate. Every markdown leg now reads `visible()` bytes;
+   an arm and a twelfth mutant pin it (`cases=14 red=13`, `12/12`).
+3. **PENDING legs could pass.** A revision whose execution-dependent legs print `PENDING` could print a
+   full predicate pass; pending now emits `DEFECT LEG-PENDING n=` so a historical declaration-only read
+   can never pass.
+
+Stated limit kept: `CHECK-TRIVIAL` is syntactic (a path-shaped token plus a quoted literal), not
+execution — running row-provided commands would add a command-execution surface this lane refuses. The
+reviewer's `grep -q 'the' SCORECARD.md` survives that leg by design and is recorded as a limit.

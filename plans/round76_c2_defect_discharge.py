@@ -274,21 +274,21 @@ def legs(reader: Reader, deriv: dict[str, str], rev_mode: bool) -> tuple[list[st
     stamp = c1_after_stamp(reader)
 
     # D1 — QUALITY criterion grounded in the lesson
-    d1 = block_after(reader.get(QUALITY), "R75-D1", span=4)
+    d1 = block_after(visible(reader.get(QUALITY)), "R75-D1", span=4)
     leg("D1", bool(d1) and "round-75-verifier-spotcheck" in d1, "QUALITY criterion cites R75-D1 + lesson")
 
     # D2 — SCORECARD correction naming the real stamp and the report tip
-    d2 = "\n".join(l for l in reader.get(SCORECARD).splitlines() if "R75-D2" in l)
+    d2 = "\n".join(l for l in visible(reader.get(SCORECARD)).splitlines() if "R75-D2" in l)
     leg("D2", bool(d2) and bool(stamp) and stamp in d2 and "5d9a0ccc" in d2,
         f"SCORECARD line with R75-D2, stamp {stamp[:12]}, 5d9a0ccc")
 
     # D3 — SCORECARD correction naming the native final-rule before counts
-    d3 = "\n".join(l for l in reader.get(SCORECARD).splitlines() if "R75-D3" in l)
+    d3 = "\n".join(l for l in visible(reader.get(SCORECARD)).splitlines() if "R75-D3" in l)
     leg("D3", bool(d3) and deriv["total"] in d3 and deriv["split"] in d3,
         f"SCORECARD line with R75-D3, total {deriv['total']}, split {deriv['split']} at {BASE75}")
 
     # D4 — registry rows carry the printed selftest counts
-    row75 = "\n".join(l for l in reader.get(SKILL).splitlines()
+    row75 = "\n".join(l for l in visible(reader.get(SKILL)).splitlines()
                        if "round75-c1-index-parity" in l or "round75-c2-registry-audit" in l)
     if rev_mode or not deriv["c1c"]:
         leg("D4", None, "needs the two round-75 selftests (rev mode)")
@@ -297,7 +297,7 @@ def legs(reader: Reader, deriv: dict[str, str], rev_mode: bool) -> tuple[list[st
             f"registry rows carry {deriv['c1c']} / {deriv['c2c']}")
 
     # D5 — LOG correction block within six lines of the id
-    d5 = block_after(reader.get(LOG), "R75-D5", span=6)
+    d5 = block_after(visible(reader.get(LOG)), "R75-D5", span=6)
     if rev_mode or not deriv["c1c"]:
         leg("D5", None, "needs the selftest counts (rev mode)")
     else:
@@ -319,7 +319,7 @@ def legs(reader: Reader, deriv: dict[str, str], rev_mode: bool) -> tuple[list[st
     leg("D6", ok6, " ".join(detail6))
 
     # D7 — appended correction on the round-74 lesson
-    d7 = reader.get(ROUND74_LESSON)
+    d7 = visible(reader.get(ROUND74_LESSON))
     leg("D7", "R75-D7" in d7 and "## Correction" in d7, "round-74 lesson appended correction naming R75-D7")
     return report, defects
 
@@ -408,6 +408,10 @@ def emit(lane: Path, rev: str, out: Path | None, probe: Path | None = None,
         f"SCOPE ids={len(ids)} registered={registered} closed={closed} open={len(ids) - closed} "
         f"discharged={discharged} legs_passed={legs_passed} legs_pending={legs_pending} wrong={len(defects)}"
     )
+    if not ids:
+        defects.append("DEFECT EMPTY-SCOPE ids=0 (the newest closer names no routed id, or no closer exists)")
+    if legs_pending:
+        defects.append(f"DEFECT LEG-PENDING n={legs_pending} (execution-dependent legs cannot pass by default)")
     if discharged != len(ids) and not defects:
         defects.append(f"TALLY-MISMATCH discharged={discharged} ids={len(ids)}")
     lines = report + defects
@@ -426,7 +430,8 @@ def build_fixture(root: Path, lane_tip: str, *, drop_row: str = "", open_row: st
                   no_commit: str = "", bad_commit: str = "", trivial: str = "",
                   drop_r74: bool = False, drop_d7: bool = False, prose_only: bool = False,
                   drop_d2_stamp: bool = False, bad_evidence: bool = False,
-                  negate_d3: bool = False) -> None:
+                  negate_d3: bool = False, empty_scope: bool = False,
+                  comment_leg: bool = False) -> None:
     if root.exists():
         shutil.rmtree(root)
     (root / "corpus/lessons").mkdir(parents=True)
@@ -434,7 +439,8 @@ def build_fixture(root: Path, lane_tip: str, *, drop_row: str = "", open_row: st
     (root / "corpus/evidence/round76").mkdir(parents=True)
     ids = [f"R75-D{n}" for n in range(1, 8)]
     (root / "corpus/lessons/round-75-verifier-spotcheck.md").write_text(
-        "# fixture closure\n\n## 6. Routed defects\n\n" + "\n".join(f"- **{i}** routed." for i in ids) + "\n"
+        "# fixture closure\n\n## 6. Routed defects\n\n"
+        + ("" if empty_scope else "\n".join(f"- **{i}** routed." for i in ids)) + "\n"
     )
     (root / "corpus/evidence/round75/c1-after.txt").write_text(
         f"LANE_TIP {lane_tip}\nWORKTREE clean\nPREDICATE R75-C1 pass\n"
@@ -473,6 +479,8 @@ def build_fixture(root: Path, lane_tip: str, *, drop_row: str = "", open_row: st
         "| Q98 | fixture criterion | R75-D1 grounded in corpus/lessons/round-75-verifier-spotcheck.md |\n"
     )
     d2 = f"- R75-D2 correction: stamp {lane_tip} and report tip 5d9a0ccc." if not drop_d2_stamp else "- R75-D2 correction: no values."
+    if comment_leg:
+        d2 = "<!-- " + d2 + " -->"
     (root / SCORECARD).write_text(
         "\n".join([
             d2,
@@ -518,6 +526,8 @@ def selftest(work: Path, lane_tip: str) -> int:
         ("missing-d7", {"drop_d7": True}, 1),
         ("evidence-absent-at-close", {"bad_evidence": True}, 1),
         ("negated-discharge", {"negate_d3": True}, 1),
+        ("empty-scope", {"empty_scope": True}, 1),
+        ("comment-leg", {"comment_leg": True}, 1),
         ("prose-only", {"prose_only": True}, 1),
         ("wrong-stamp", {"drop_d2_stamp": True}, 1),
     ]
@@ -529,6 +539,8 @@ def selftest(work: Path, lane_tip: str) -> int:
         leg_lines, leg_defects = fixture_legs(d)
         ledger_lines, ledger_defects = ledger_report(Reader(d, "worktree", probe=lane_tip_probe(lane_tip)), ids)
         defects = leg_defects + ledger_defects
+        if not ids:
+            defects.append("DEFECT EMPTY-SCOPE ids=0")
         rc = 0 if not defects else 1
         ok = rc == want_rc
         fails += 0 if ok else 1
@@ -554,6 +566,8 @@ def mutants(work: Path, lane_tip: str) -> int:
         ("M8-wrong-stamp", {"drop_d2_stamp": True}, "LEG-FAIL D2"),
         ("M9-evidence-absent", {"bad_evidence": True}, "EVIDENCE-ABSENT-AT-CLOSE"),
         ("M10-negated-discharge", {"negate_d3": True}, "NEGATED-DISCHARGE"),
+        ("M11-empty-scope", {"empty_scope": True}, "EMPTY-SCOPE"),
+        ("M12-comment-leg", {"comment_leg": True}, "LEG-FAIL D2"),
     ]
     total = killed = matched = wrong = survived = 0
     for name, kwargs, expected in matrix:
@@ -564,6 +578,8 @@ def mutants(work: Path, lane_tip: str) -> int:
         leg_lines, leg_defects = fixture_legs(d)
         ledger_lines, ledger_defects = ledger_report(Reader(d, "worktree", probe=lane_tip_probe(lane_tip)), ids)
         defects = leg_defects + ledger_defects
+        if not ids:
+            defects.append("DEFECT EMPTY-SCOPE ids=0")
         printed = "\n".join(leg_lines + ledger_lines + defects)
         if defects:
             killed += 1

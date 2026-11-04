@@ -116,3 +116,8 @@ The wave's attacks are recorded here as limits, not smoothed. Severity and the s
 - **Round-74 C1 red at the freeze (`ReceiptMintR76`, HIGH, correct).** `42fad48` prints `MISSING 2`
   because the round's two instruments were unregistered; the D6 receipt is therefore minted at
   `6977019b` after their SKILL rows, and the finding is the interlock working, not a failed claim.
+
+**Second-reviewer classes (appended, `ReviewerC2R76`).** Closed by A9: an empty scope (`ids=0`) passed,
+the markdown legs read raw bytes so an HTML comment satisfied D2, and a PENDING leg could print a full
+pass. Kept as stated limits: `CHECK-TRIVIAL` is syntactic (no row-provided command is executed), and
+code fences are stripped only from the index-gate derivation, not from the receipt files.
