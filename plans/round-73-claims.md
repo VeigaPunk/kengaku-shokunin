@@ -99,3 +99,27 @@ fixture. A rule changed after a seat scores is not this claim's rule.
    run-15 one-wave shape; the hold is re-recorded, not silently lifted.
 4. The round-72 spot-check's three conformance defects (39-char hash, census-tip label, lesson sweep)
    are recorded in the round-73 lesson's `## Mistakes` with the criterion each one exposes.
+
+## Amendment A1 — the R73-C1 universe arm (appended 2026-11-04T02:54Z, before any seat result)
+
+The frozen sentence above requires `UNIVERSE mode=full` and `PREDICATE R73-C1 pass`; the gate's
+first implementation gated the extra arm on `plans_only` (instruments advertised ONLY by
+`plans/*.md`).  Measured at the landing tree: `plans_only=0`, because a registered instrument is
+also advertised by `SKILL.md` — the arm is 0 in every tree where the rows exist, so it could never
+hold after the claimed work.  The observable the widening actually adds is `plans_seen` (paths the
+plans/ leg advertises, whether or not another file does): 0 under `--universe legacy`, 82 at the
+landing tree.  A1 changes only which printed number the arm reads; the frozen sentence, the
+counting command, the before value, the target (`ADVERTISED total=113>=111`, `MISSING 0`,
+`PREDICATE R73-C1 pass`, rc 0), the control and the kill rule are unchanged.  No seat had returned
+when A1 landed; seat receipts that quote the pre-A1 `UNIVERSE` line are marked in the report.
+
+## Amendment A2 — the R73-C2 denominator (appended 2026-11-04T02:56Z, before any seat result)
+
+The frozen sentence above names `INSTRUMENTS total=106 derived=registry rows=106`.  That number is a
+property of the tree, and R73-C1's own work adds eight registry rows naming eight new instruments, so
+the same audit prints `INSTRUMENTS total=114 derived=registry rows=114` at the landing tree — a frozen
+count would make the two claims contradict each other.  The claim's substance is the derivation
+(`derived=registry`, `rows == total`, every script parsed) plus `MISMATCH 0`; A2 therefore states the
+denominator as `total>=106` and `total==rows`.  Before (`d96c3e62`): `total=106`, `MISMATCH 2`, rc 1.
+After: `total=114`, `MISMATCH 0`, `PREDICATE R73-C2 pass`, rc 0.  No other line changes; no seat had
+returned when A2 landed.

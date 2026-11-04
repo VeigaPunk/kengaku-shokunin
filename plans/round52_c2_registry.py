@@ -130,10 +130,12 @@ def collect(lane: Path, universe: str = PLANS_UNIVERSE):
 
 def verdict(lane: Path, universe: str = PLANS_UNIVERSE) -> int:
     adv, rows, reg, missing, incomplete, entry_missing, unbacked, duplicate = collect(lane, universe)
+    plans_seen = sorted(p for p, files in adv.items()
+                        if any(x.startswith("plans/") for x in files))
     plans_only = sorted(p for p, files in adv.items()
                         if files and all(x.startswith("plans/") for x in files))
     print(f"UNIVERSE mode={universe} files={len(self_assessment_files(lane, universe))} "
-          f"plans_only={len(plans_only)}")
+          f"plans_seen={len(plans_seen)} plans_only={len(plans_only)}")
     print(f"ADVERTISED total={len(adv)}")
     print(f"REGISTERED total={len(reg)} rows={len(rows)}")
     print(f"MISSING {len(missing)}")
@@ -153,7 +155,10 @@ def verdict(lane: Path, universe: str = PLANS_UNIVERSE) -> int:
         print(f"  DUPLICATE-ROW {r}")
     ok = not (missing or incomplete or entry_missing or unbacked or duplicate)
     print(f"PREDICATE R52-C2 {'pass' if ok else 'fail'}")
-    r73 = ok and universe == "full" and len(plans_only) >= 1
+    # Amendment A1 (round 73): the arm is `plans_seen`, not `plans_only` — a registered
+    # instrument is advertised by SKILL.md too, so `plans_only` is 0 in every tree where the
+    # rows exist.  The observable the widening adds is "the plans/ leg sees instruments".
+    r73 = ok and universe == "full" and len(plans_seen) >= 1
     print(f"PREDICATE R73-C1 {'pass' if r73 else 'fail'}")
     return 0 if r73 else 1
 
