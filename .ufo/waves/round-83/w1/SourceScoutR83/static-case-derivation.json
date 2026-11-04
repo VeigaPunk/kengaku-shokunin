@@ -1,0 +1,94 @@
+{
+  "method": "Static independent source walk, not execution or scoring",
+  "case_table_sha256": "e64dac129dcb8fea5f7068c67f6c81482e4a0755f1509ae9f358348e6f3e9aec",
+  "case_table_matches_worktree": true,
+  "grader_functions": [
+    {
+      "name": "test_output_file_exists",
+      "line": 10,
+      "assert_lines": [
+        15
+      ]
+    },
+    {
+      "name": "test_output_is_correct",
+      "line": 18,
+      "assert_lines": [
+        25,
+        28
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "id": "missing",
+      "predicted_from_source": "F/F",
+      "frozen_predicted": "F/F",
+      "matches_frozen_prediction": true,
+      "witness": "absence assert L15; open L23 raises FileNotFoundError"
+    },
+    {
+      "id": "empty",
+      "predicted_from_source": "P/F",
+      "frozen_predicted": "P/F",
+      "matches_frozen_prediction": true,
+      "witness": "presence L15 returns; prefix assert L25 fails"
+    },
+    {
+      "id": "correct",
+      "predicted_from_source": "P/P",
+      "frozen_predicted": "P/P",
+      "matches_frozen_prediction": true,
+      "witness": "presence L15, prefix L25 and equality L28-31 pass"
+    },
+    {
+      "id": "whitespace",
+      "predicted_from_source": "P/P",
+      "frozen_predicted": "P/P",
+      "matches_frozen_prediction": true,
+      "witness": "strip removes surrounding whitespace at prefix L25 and equality L29"
+    },
+    {
+      "id": "prefix-only",
+      "predicted_from_source": "P/F",
+      "frozen_predicted": "P/F",
+      "matches_frozen_prediction": true,
+      "witness": "prefix L25 passes; equality L28-31 fails"
+    },
+    {
+      "id": "wrong-prefix",
+      "predicted_from_source": "P/F",
+      "frozen_predicted": "P/F",
+      "matches_frozen_prediction": true,
+      "witness": "prefix L25 fails before equality"
+    },
+    {
+      "id": "suffix",
+      "predicted_from_source": "P/F",
+      "frozen_predicted": "P/F",
+      "matches_frozen_prediction": true,
+      "witness": "prefix L25 passes; equality L28-31 fails"
+    },
+    {
+      "id": "uppercase",
+      "predicted_from_source": "P/F",
+      "frozen_predicted": "P/F",
+      "matches_frozen_prediction": true,
+      "witness": "case-sensitive prefix L25 fails before equality"
+    }
+  ],
+  "independent_assert_site_witnesses": {
+    "prefix_red": "wrong-prefix fails L25; equality not reached",
+    "equality_red": "prefix-only passes L25 then fails L28-31"
+  },
+  "leg_witnesses": {
+    "test_output_file_exists": {
+      "P": "empty",
+      "F": "missing"
+    },
+    "test_output_is_correct": {
+      "P": "correct",
+      "F": "empty"
+    }
+  }
+}

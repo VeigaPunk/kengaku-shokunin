@@ -1,0 +1,44 @@
+CounterR83 — R83-C1 scoped implementation
+Axes: coverage and calibration. No predicate, target, case-table or kill-rule changes.
+
+DELIVERABLE
+Install proposed full-file bytes from .ufo/waves/round-83/w1/CounterR83/round83_c1_replay.py as plans/round83_c1_replay.py. Draft SHA256: 2f28ffdecca4ad6415e42546f8f269a6b72a250cf328f988e5e1dd2a37e4cca5.
+Production/domain files were not edited. One private shared clone was used under the assigned scratch root, solely for fixture git writes and isolated empirical runs. All fixture git mutations verified the absolute clone root first; retained commands include absolute -C arguments. Scratch was removed after retaining evidence. No tools installed or updated; no pacman transactions, configuration changes, restarts, commits to the domain checkout, pushes or fleet-file edits.
+
+BEHAVIOR
+Stdlib counter with --lane, --rev, --work, --selftest, --mutants and --control-do-nothing / --control-ledger-only / --control-fabricated-observations. Production CLI has no fixture-runner or interpreter injection switch.
+Checks tracked receipt, exact header, required/unique stamp keys, MEMBER identity, frozen SUBJECT_CAPTURE, subject digest against BASE bytes and BASE ledger evidence prefix, frozen table bytes/digest, reviewed instrument bytes, pinned LANE_TIP reachability and subject/table/tool hashes, clean measured checkout, WORKTREE/EXIT/host stamp forms, reconstructed COMMAND tokens, eight ordered unique case vectors, summary/predicate and fresh observation projection. Ledger requires executed, round=83, subject=tb2-header, verdict=predicate and the exact receipt path. Does not depend on C2 artifacts.
+COMMAND is compared, never executed. Exact form: python3 plans/round83_code_image_probe.py --lane . --work <one arbitrary work-path token>. All other tokens/order are exact; quote paths when needed. Fresh argv is independently constructed.
+--rev obtains measured bytes through git archive under a fresh owned --work child, retains the original repository separately for git-object queries, and runs the real tool with cwd set to the materialized revision. It ignores current mutable receipt/tool/ledger files. Archive extraction rejects absolute/parent path spellings and links before containment-filtered extraction. File reads refuse symlink redirection. Cleanup removes only freshly owned children; never the supplied --work root. Receipt/digest defects prevent reproduction.
+Subject binding: b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a at BASE 614f00559c75155ec100e945b3e8257b14fb7496; BASE evidence prefix b9b7cb0033116df8.
+Case table binding: freeze 6f076679931367d540c3897a4eafa0eca752e1d4; SHA256 e64dac129dcb8fea5f7068c67f6c81482e4a0755f1509ae9f358348e6f3e9aec.
+Instrument trust pin: ReplayR83 delivered bytes SHA256 21922612c84b82c0a98a4c98a36ed9b11410841c82c89bd9556064f8868bae23. A self-consistent historical TOOL_SHA alone does not authorize arbitrary tool execution. Instrument bytes changed after this pin must be reviewed and re-pinned deliberately, not accepted by a receipt stamp.
+The BASE ledger has 62 unexecuted members, not one. Universe is the specific member frozen by R83-C1, independently required to be base-unexecuted; it is not all base-unexecuted members and not a moving current-ledger selection. Same-id wrong subject is refused.
+
+RETAINED EVIDENCE
+Directory: .ufo/waves/round-83/w1/CounterR83/receipts/. Each text run receipt includes COMMAND, EXIT, full stdout and stderr.
+- selftest.txt: exit 0; SELFTEST cases=29 red=28 failures=0. Includes every required red case, wrong ledger variants, wrong subject bytes/path, malformed stamps/command, missing case, vector corruption and fresh-run divergence.
+- mutants.txt: exit 0; MUTANTS real=15 killed=15 survived=0. Each data mutation requires its attributed defect and the same candidate result function's nonzero exit, printed per mutant.
+- control-do-nothing.txt, control-ledger-only.txt, control-fabricated-observations.txt: exit 0 means the negative control was correctly rejected; all target_reached=False and rejected=True. Fabricated vectors report MISMATCH-COUNT and SUMMARY-MISMATCH before any execution.
+- worktree-green.txt and revision-green.txt: each exit 0, real bubblewrap runner, exact TARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=0 and PREDICATE R83-C1 pass.
+- base-before.txt: isolated clone --rev BASE, exit 1, PREDICATE R83-C1 fail.
+- unresolved-revision.txt: exit 2, DEFECT SETUP and failing predicate, never a fabricated pass.
+- revision-ignores-mutable.txt: exit 0 despite corrupt current receipt and current tool raising if executed. The measured committed revision alone was replayed.
+- dirty-measured-tree.txt: exit 1, rejects dirty checkout and changed untrusted current tool before execution.
+- real-tree-wrong-vector.txt: exit 1 for edited current fixture receipt.
+- real-probe.txt: real instrument mint run in the private clone, exit 0, all eight captured grader vectors reproduced.
+- real-probe-selftest.txt: exit 0; SELFTEST cases=6 failures=0, including changed subject/table rejection, failure classification and independent ordered calls.
+- fixture-git.json: exact fixture git commands, outputs and exits; fixture-minted-receipt.txt: clearly fixture-only stamp, not the production receipt. Its minting cwd was /fast/scratch/hyaku/kengaku-r83/CounterR83/fixture-clone.
+Environment observed: Python 3.14.8; OpenSSL 3.6.5; bubblewrap 0.13.1. No general build, lint, formatting or repository test suite was run. LSP tooling is not mounted in this seat's exposed tool inventory; no LSP availability or symbol query result is fabricated.
+
+L1 INTEGRATION
+Land reviewed instrument and counter first. On the clean landed tree, run the instrument using the exact COMMAND form above and record the landed clean HEAD as LANE_TIP. First receipt line must be '# tb2 code-from-image grader probe'. Then required stamps MEMBER, SUBJECT_CAPTURE, SUBJECT_SHA, CASE_TABLE_SHA, TOOL, TOOL_SHA, HOST_PYTHON ('Python ...'), HOST_OPENSSL ('OpenSSL ...'), LANE_TIP, WORKTREE clean, COMMAND, EXIT 0. Put the instrument CASE lines, cases=8 mismatches=0 and PREDICATE R83-PROBE pass inside OBSERVATIONS_BEGIN/END (omit its redundant header from the block). Set ledger status=executed, round=83, receipt=corpus/evidence/round83/code-from-image-probe.txt, subject=tb2-header, verdict=predicate. Commit receipt plus ledger; then run the gate in both clean worktree and --rev modes with independent work paths. Fixture receipts are not production evidence and must not be installed.
+Risks/blockers: no implementation blocker. Actual integrated production receipt/verdict remains L1's responsibility, not claimed by these private fixture results. Revision materialization rejects symlinks rather than following them; tested frozen/fixture revisions materialized successfully. Host version stamps are historical recorded forms, not independently provable host attestations.
+
+SELF-EVALUATION (output only)
+Accuracy 4/5: exact real-runner target retained twice; production integration not yet exercised.
+Completeness 4/5: all requested CLI, controls, stamps and batteries implemented; production mint belongs to L1.
+Clarity 4/5: report separates fixture proof from production evidence; counter has substantial battery code.
+Actionability 4/5: byte-final file, hash and exact mint recipe supplied; L1 still must install and mint.
+Conciseness 4/5: evidence paths replace raw stdout repetition; report is necessarily longer than final handoff.
+Overall 4.0/5. Improvement priority: retain L1's real clean-clone mint/gate receipts after integration. User-agreement check: fixture success is explicitly not presented as a production pass.

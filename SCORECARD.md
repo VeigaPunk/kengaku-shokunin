@@ -3940,3 +3940,33 @@ because its `QUOTE_RE` cannot see those rows' quote shape; extend it (or land a 
 `S155`, `S178`, `S201`, `S207`, `S208`) are unfixed: land them as supersede rows in one batch.
 (4) `--verify-at-tip` is declared and battery-tested but has not been exercised against a live clone
 in a receipt; run it once in round 83.
+
+## Round 83 (hyaku run 15, attempt 1, 2026-11-04)
+
+Base `614f00559c75155ec100e945b3e8257b14fb7496`; freeze `6f076679931367d540c3897a4eafa0eca752e1d4`; instruments/repairs `ddb903a876648d4f2471345cb20c61959502c3c1`; first receipt/ledger `0c56b4eb44536a468473b1b5ffb45444ea2a6288`; final measured compatibility tree `5beac9c43fe6bbe3b29652dabc888dfabeeb8b6c`. Two causally separable claims; no frozen sentence, case table or kill rule changed.
+
+| claim / axis | before → after and measured commit | counting command | verdict / score |
+|---|---|---|---|
+| R83-C1 / coverage (lowest non-retired axis, held at L0 cap): first located offline replay of base-unattempted code-from-image; eight fixed case vectors, two actual captured test functions, zero mismatches, executed round83 row | BASE: located=0 executed=0 defects=34, exit 1 (`corpus/evidence/round83/c1-before.txt`, current instrument ddb903a8 grading BASE). After 5beac9c4: `TARGET members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=0`, pass, exit 0 (`c1-final.txt`). Live source bytes equal the pinned capture; S267 cites the new knowledge entry and coverage-map ground. | `python3 plans/round83_c1_replay.py --lane . --rev 5beac9c43fe6bbe3b29652dabc888dfabeeb8b6c --work DIR` (replace revision with BASE for before) | verified on frozen counter; **7 → 7 held**, member coverage improves, no new class/method/image-solving claim |
+| R83-C2 / calibration: eight outside round82 self-assessment/record mismatches receive substantive, bound repairs and base-sensitive checks | BASE: closed=0 checks_passed=0 indexed=no defects=9, exit 1 (`c2-before.txt`). After 5beac9c4: `TARGET ids=8 closed=8 checks_passed=8 indexed=yes defects=0`, pass, exit 0 (`c2-final-tip.txt`). `SENSITIVITY n=8 failed_at_base=8` (`c2-sensitivity.txt`); sourced annotation repairs S268/S269 and rejection-shape S270. | `R83_FLEET_REPO=/home/vgpnk/Projects/shokunin python3 plans/round83_c2_debt.py --lane . --rev 5beac9c43fe6bbe3b29652dabc888dfabeeb8b6c --work DIR`; `--sensitivity` against frozen BASE | verified on frozen counter; **10 → 10 held**, eight measured mismatches discharged, no score inflation |
+
+**Controls and batteries, exercised at ddb903a8.** C1 29 selftest cases / 28 red / 0 failures; 15/15 attributed mutants; actual do-nothing, ledger-only and fabricated-observation controls all `target_reached=False`. C2 20/19/0, mutants 19/19, presence-only loses; checks' own self-invocation 20/19/0; probe selftest 6/0. Actual controls precede the L1's production mint; `freeze-controls.txt` is only the earlier absence/anti-vacuity preview, not gate rejection evidence. The targeted Q60 count/Gate corruptions each fail, then restore green (`q60-red-green.txt`).
+
+**M83-1, not a hidden relabel.** The standing population gate initially failed at 0c56b4eb (`population-after.txt`): it recognizes Rn-Cm admission predicates, not the frozen R83-PROBE label, so it saw cases while the frozen new ledger row required predicate. The receipt now appends the **actual** observed C1 admission counter stdout, command, revision and exit as a distinct admission trailer; the raw probe observation block, frozen verdict value, case table and every historical gate stay unchanged. At 5beac9c4 the standing population gate passes: replayed=27 located=27 unlocated=0 unexecuted=61, defects=0 (`population-final.txt`). This compatibility boundary is disclosed, not used to manufacture a probe observation.
+
+**Bounded no-harm evidence.** Both frozen claims pass at 5beac9c4; population accounting passes with file-artifact **19/76**; index parity passes knowledge **77/77**, lessons **139/139**, evidence dirs **74/74** (`index-final.txt`); source census exits 0, rows **258 → 262**, W04 **27 → 30**, A/B/C **228/24/6 → 232/24/6**, mined/rejected/queued **235/15/8 → 238/16/8** (`census-before.txt`, `census-after.txt`). The three added warnings are same-URL/different-scope supersede rows S268–S270, not suppressed errors. Old immutable source rows, raw captured grader and historical round82 records are preserved. The 26-member round82 sweep is historical and is not claimed current after this population grows.
+
+**Other axis scores:** novelty 8 (canonical coverage/construct mapping retained; no new method), depth 10, operability 10, freshness 10 and adjacency 9, all held. No serving-plane, route or host-surface claim changes. Source scope excludes image/model performance. C1 does not consume the C2 correction files; C2 already passed at ddb903a8 before C1's receipt/ledger landed, demonstrating the reverse separation.
+
+**Sources and learning.** S267–S270 were opened in-round: one new grader source admit, two correcting supersede admits, one retained locator rejection. No old row's status/recheck/used-by changes. Q60 comes from outside round82 V1/V6 and has actual failable witnesses. Assimilation: none; proposal2 is not closed by a per-member instrument. R82-F1 and the old sweep's divergence work remain named backlog. Current admits/rejects await the separate outside closure; dispatched seats do not self-award independent verification.
+
+### Round83 capability (demonstrated)
+
+| Capability | What it can now do | Evidence / command | First-working round |
+|---|---|---|---|
+| `tb2-code-from-image-replay` | Replay this previously unattempted member's captured two-function grader over eight frozen real-file end states in bubblewrap, with source/table/tool/host/tip receipt pins and fresh observation reproduction | `python3 plans/round83_c1_replay.py --lane . --rev 5beac9c43fe6bbe3b29652dabc888dfabeeb8b6c --work DIR` → members=1 cases=8 legs=16 mismatches=0 located=1 executed=1 defects=0, exit 0; `corpus/evidence/round83/c1-final.txt` | 83 |
+
+### Planned (next steered round, subject to outside closure)
+
+1. Coverage: choose and freeze another genuinely unattempted member from the committed ledger, with downstream population-verdict vocabulary priced before minting, not a rerun of an already-held member.
+2. Calibration: incorporate the next outside spot-check and the still-open R82-F1 parsed-versus-advertised quote-shape mismatch through a separately frozen successor; never silently amend an old gate's claim.

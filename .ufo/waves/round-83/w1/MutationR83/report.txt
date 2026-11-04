@@ -1,0 +1,34 @@
+MutationR83 — R83 frozen-contract mutation evidence
+Axes: coverage and calibration. Frozen planning commit 6f076679931367d540c3897a4eafa0eca752e1d4; BASE 614f00559c75155ec100e945b3e8257b14fb7496.
+
+EXECUTED: actual DebtR83 draft detector, not a replacement predicate.
+Pinned full instrument bytes are in instruments/; source paths and SHA256 are receipts/instrument-pins.json. The driver invokes the draft's fixture() and evaluate(), including all real subprocess repair checks and the frozen BASE universe. No runner injection, no production edits, no integration judgment. Origin git reads only; materialized fixtures private scratch. No clone/commit/index writes.
+
+13 probes total: 10 attributed kills; two in-scope survivors; one surviving out-of-universe negative control. Pristine and restored detectors returned 0 for EVERY probe. Every modified file was restored byte-for-byte. Full stdout, exit codes, expected finding, before/after SHA256, restored equality are retained per probe in receipts/mutations.json and receipts/additional/mutations.json. Aggregate summaries retain the raw run counts: first batch 9 killed / 1 survived; second batch 1 killed / 2 survived. These are fixture detector findings, not production C2 scoring receipts.
+
+Attributed kills (mutated exit 1, matching DEFECT token, pristine/restored exit 0):
+- wrong source line V1: source locator 161 -> 162; SOURCE-LINE.
+- unchanged lesson correction but new source row missing: S268 identifier -> X268; CHECK-FAIL. This tests substantive source bytes, not merely a false count string.
+- six-vs-five receipt: affected array loses one identity; CHECK-FAIL.
+- bad historical W04 capture: REV changed to 40 zeros; CHECK-FAIL.
+- W04 capture shortened to 26 warnings; CHECK-FAIL.
+- malformed index: round81 spotcheck row loses its third cell; CHECK-FAIL.
+- evidence binding claims 5/2/3 while paragraph remains 6/2/4; CLOSE-NO-EVIDENCE.
+- duplicate V2 ledger row; DUPLICATE-ROW.
+- trivial row check replaced with true; CHECK-TRIVIAL.
+- selected round37-c1-attribution selftest cell changed from none declared; CHECK-FAIL.
+
+SURVIVORS / coverage findings (not contract changes):
+1. V3 contradictory substantive correction. Actual lesson bytes replace 'R82-V3 affected=6' with 'R82-V3 The corrected affected count is five, not six. Historical claim affected=6'. Original 6/2/4 literal and all six names remain later in the paragraph; the current check treats historical literal presence as enough. Detector still prints TARGET ids=8 closed=8 checks_passed=8 indexed=yes defects=0 and PREDICATE R83-C2 pass (exit 0). Lesson SHA before 912166969a4e98468855b85eb5f5edd0c5e0b0d9c6e37b1907b953dca245e50f; mutant 16fc49957c039549ddbe9863d100b6da03bc1d28066380d792e9b3689f14d20e. Restored exact; detector 0 again.
+2. V7 contradictory substantive correction. Replace 'R82-V7 seven of ten' with 'R82-V7 All ten now declare selftests. Historical claim: seven of ten'. All exception names and historical literal remain. Detector reaches the same clean target, exit 0. Lesson SHA before as above; mutant 5a84e618bc8da909a72133be786814acb9901370219d36159fa7c80649701025. Restored exact; detector 0 again.
+Recommendation to L1: distinguish the asserted correction from historical quotations; present counts and exceptions must be the actual correction, not merely substrings somewhere in its paragraph. Do not change the frozen predicate.
+
+NEGATIVE CONTROL calibration: the first batch case named C2-selftest-exceptions changes the FIRST 'none declared' in SKILL.md, which is outside the fixed ten-row universe. It survives correctly; do NOT call this an in-scope coverage hole. Reusable driver names it C2-unselected-selftest-control. The additional targeted row mutation proves the real selected exception detector is killed.
+
+C1: PROPOSED, NOT EXECUTED against the actual counter. At reads the CounterR83 output held only receipts/ and no round83_c1_replay.py. No real located receipt was supplied to this seat. Therefore no invented baseline or C1 kill count. c1_receipt_mutations.py is a reusable actual-data driver for an already-green private fixture; it modifies stamped SUBJECT_SHA / TOOL_SHA / CASE_TABLE_SHA, omits whitespace CASE, rewrites prefix-only observed P/F -> P/P, removes receipt while ledger stays executed (ledger-only), sets unreachable 40-zero LANE_TIP, and reverts ledger executed status. It records pristine/mutated/restored outputs and exact byte hashes, and never upgrades generic rejection to attributed kill. Expected detectors respectively: subject/tool/table digest findings; missing-case; wrong-vector/fresh-observation mismatch; receipt-absent/ledger-only; unresolved LANE_TIP; wrong-ledger. Require finding-specific nonzero and green pristine/restored before calling any kill. No replacement grader, toy gate, fake receipt or predicate alteration is included.
+
+Reproduce C2 fixtures: TMPDIR=<private-scratch>/tmp PYTHONDONTWRITEBYTECODE=1 python3 <this-dir>/mutation_battery.py --origin /home/vgpnk/Projects/shokunin/kengaku-shokunin --scratch /fast/scratch/hyaku/kengaku-r83/MutationR83/probes --out <this-dir>/receipts/new-run . R83_NEW_PROBES_ONLY=1 selects the last three probes. Output instrument bytes stay pinned so sibling changes cannot invalidate attribution.
+
+Environment observed: Python 3.14.8, git 2.56.0, bubblewrap 0.13.1. No tools installed/updated, no pacman, no host config/service changes. No builds/lints/general tests. Only explicitly assigned empirical mutation probes executed. Scratch removed before handoff; receipts and reusable code preserved here. Domain/production files unmodified by this seat.
+
+Self-evaluation: accuracy 4 (C2 actual outputs and hashes; C1 only proposed); completeness 4 (all named mutation designs covered, actual C1 counter unavailable); clarity 4 (negative control separated from two real survivors); actionability 4 (pinned reproducible driver and full receipts); conciseness 4 (report necessarily distinguishes execution from design). Overall 4.0. Main action: retain two survivor findings; do not report C1 proposed attacks as executed kills.

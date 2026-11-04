@@ -1,0 +1,37 @@
+ReviewerR83 — frozen R83-C1 attack review
+Axes: coverage and calibration. Scope frozen at 6f076679931367d540c3897a4eafa0eca752e1d4; BASE 614f00559c75155ec100e945b3e8257b14fb7496. Recommendation only; no admission or score change.
+
+FINDINGS BY SEVERITY
+Medium / mandatory evidence fix: plans/round83_freeze_controls.py:12-14 prints target_reached=False as literal text for do-nothing, ledger-only and fabricated observations. It does not invoke the C1 counter, construct an executed ledger fixture, or submit fabricated stamped observations. The fabricated control computes prediction differences from P/P; it is not an executed gate rejection. Lines 22-24 establish only initial absence/ledger status and table anti-vacuity. Thus FREEZE-CONTROLS pass cannot discharge the frozen requirement that controls lose through the actual counter before scoring. Keep this pre-data measurement if useful, but L1 must retain actual counter stdout/exit for the three real fixture controls. This is an evidence gap, not proof the as-yet-unavailable counter accepts controls. Do not change the frozen target or cases.
+
+No frozen-vector defect found. No claim of reviewing or validating absent replay/counter implementations.
+
+EMPIRICAL RECEIPTS
+Executed independent scratch falsifier against the BASE subject bytes, not a reimplementation. Actual unmodified functions loaded with runpy inside bubblewrap 0.13.1, separate sandbox/process per function, source order. /usr was read-only; scratch app directory mounted read-only at /app; network/user/etc namespaces unshared; python3 -I; no Path/open patching. Python 3.14.8. Host /app absent before and after.
+Subject SHA256 b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a
+Frozen table SHA256 e64dac129dcb8fea5f7068c67f6c81482e4a0755f1509ae9f358348e6f3e9aec
+Read subject from BASE with read-only git show; table from freeze with read-only git show. Exact argv, per-leg exit, exception types and line numbers retained in independent-falsifiers.json. Probe driver retained as falsifier.py. Driver exit 0.
+CASE missing predicted=F/F observed=F/F
+CASE empty predicted=P/F observed=P/F
+CASE correct predicted=P/P observed=P/P
+CASE whitespace predicted=P/P observed=P/P
+CASE prefix-only predicted=P/F observed=P/F
+CASE wrong-prefix predicted=P/F observed=P/F
+CASE suffix predicted=P/F observed=P/F
+CASE uppercase predicted=P/F observed=P/F
+SUMMARY mismatches=0 host_app_before=False host_app_after=False
+All 16 frozen legs returned runner exit 0. Missing first leg: AssertionError at subject line 15; missing second: FileNotFoundError at line 23. Prefix failures: empty/wrong-prefix/uppercase at line 25. Independent equality failures: prefix-only/suffix at line 29. Thus both assert sites have actual red witnesses, both legs P and F witnesses (leg1 P=7 F=1; leg2 P=2 F=6).
+
+Additional bounded adversarial fixtures (not changes to frozen vectors):
+1. output.txt directory: existence P, correctness raises IsADirectoryError, classified D with exit 2. A runner catching generic Exception as F would misclassify an actual defect.
+2. Scratch-only replacement subject containing exactly raise FileNotFoundError('import/setup sentinel') plus LF: import/setup FileNotFoundError, exit 2, not graded F. Catch only around actual test invocation; broad catch around loader and invocation can counterfeit missing-case F/F without running the subject.
+These are independently exercised reference classifications, NOT observed defects in unavailable ReplayR83 code. Original eight-case subject was never modified.
+
+MANDATORY IMPLEMENTATION CHECKS / EXACT ATTACKS
+attack-spec.json supplies exact line/field/byte mutations and expected failure classes: ledger-only, fabricated P/P, wrong vector, omitted/duplicate case, command prefix and extra runner arg, each missing stamp, contradictory duplicate stamps, unresolvable LANE_TIP, subject/table/tool digest corruption, BASE-vs-green-worktree leakage and revision tool leakage. Those gate attacks were NOT run: no counter draft available. Stamps must bind exact MEMBER/path/digests/host values, clean state, resolvable LANE_TIP subject/table/tool bytes, full argv with only work-path normalization, EXIT 0 and exact fresh ordered CASE lines/predicate. Frozen table/subject need hard digest pinning independent of mutable receipt stamps. Real run must not expose fixture runner injection. --rev must select ledger, receipt AND replay dependencies from measured bytes rather than mutable files. These are contract-derived acceptance requirements, not fabricated implementation findings.
+
+LIMITATIONS / VERIFICATION GAPS
+ReplayR83/round83_code_image_probe.py and CounterR83/round83_c1_replay.py absent on initial directory discovery and subsequent direct reads; no waiting or polling. No production counter run, selftest, mutant battery, real stamped receipt or revision replay reviewed. Current ledger code-from-image entry remains unexecuted (plans/grader-population-ledger.json:121-127). No claim C1 passes, no saturation claim, no canonical runtime change, no resume path in this scoped item.
+LSP unavailable: read xd://lsp returned No such tool; references/definition/diagnostics unavailable. Literal read/grep fallback is not semantic proof. No tool installations, service/config changes, clone, git mutations, host /app writes, build/lint/general tests. No production edits. Scratch deleted after preserving receipts.
+
+Self-evaluation (not verdict): accuracy 4/5 (no unavailable implementation claims); completeness 3/5 (actual gate unavailable; exact attack fixtures supplied instead); clarity 4/5 (findings separated from proposed checks); actionability 4/5 (machine-readable mutations supplied); conciseness 4/5 (detailed receipt needed for reproducibility). Overall 3.8/5. Highest-impact remaining validation: L1 runs listed attacks against landed gate and retains stdout/exit, then audits measured-tree replay dependencies. Would user agree: likely, with explicit implementation-availability limitation.

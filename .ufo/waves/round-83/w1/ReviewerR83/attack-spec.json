@@ -1,0 +1,24 @@
+{
+  "status": "proposed counter falsifiers; not executed against unavailable CounterR83 draft",
+  "frozen_subject_sha": "b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a",
+  "frozen_table_sha": "e64dac129dcb8fea5f7068c67f6c81482e4a0755f1509ae9f358348e6f3e9aec",
+  "fixtures": [
+    {"id":"ledger-only","operation":"In a private fixture, set members['code-from-image'].status='executed', round=83 and receipt='corpus/evidence/round83/code-from-image-probe.txt'; remove that receipt.","required":"nonzero, located=0; executed flag cannot discharge receipt requirement"},
+    {"id":"fabricated-all-pass","operation":"Starting with a syntactically complete green receipt, replace every CASE line observed vector with P/P; preserve every stamp and prediction.","required":"nonzero with observation/vector defect; six cases disagree"},
+    {"id":"wrong-single-vector","replace":"CASE missing predicted=F/F observed=F/F","with":"CASE missing predicted=F/F observed=P/F","required":"nonzero attributed wrong-vector finding"},
+    {"id":"missing-case","operation":"Delete the full CASE uppercase predicted=P/F observed=P/F line and its newline only.","required":"nonzero missing-case/cardinality finding"},
+    {"id":"duplicate-case","operation":"Replace the uppercase CASE line by an exact duplicate of suffix CASE line, preserving eight total CASE lines.","required":"nonzero case identity/order finding"},
+    {"id":"command-prefix","operation":"Replace COMMAND value with 'python3 plans/round83_code_image_probe.py.evil --lane . --work /scratch'; leave correct TOOL stamp.","required":"nonzero exact argv binding finding, not substring acceptance"},
+    {"id":"command-extra-arg","operation":"Append ' --runner /scratch/fake.py' to the COMMAND value.","required":"nonzero; work-path normalization must not erase unknown args or accept injected real runner"},
+    {"id":"stamp-missing","operation":"For each required key independently delete its entire stamp line: MEMBER SUBJECT_CAPTURE SUBJECT_SHA CASE_TABLE_SHA TOOL TOOL_SHA HOST_PYTHON HOST_OPENSSL LANE_TIP WORKTREE COMMAND EXIT.","required":"each corruption nonzero with missing-field finding"},
+    {"id":"stamp-duplicate","operation":"Insert a second SUBJECT_SHA line with 64 zero digits, before and then after the genuine line in separate fixtures.","required":"nonzero ambiguous-stamp finding in both orderings"},
+    {"id":"tip-unresolvable","operation":"Replace LANE_TIP value with 0000000000000000000000000000000000000000.","required":"nonzero unresolved revision finding"},
+    {"id":"wrong-subject","operation":"Append one LF byte to the subject fixture; leave SUBJECT_SHA stamped as frozen digest.","required":"nonzero subject digest finding before replay; changed subject cannot be restamped into acceptance"},
+    {"id":"wrong-table","operation":"Replace JSON string content 'bee26a' in the prefix-only case with 'bee26b'; leave CASE_TABLE_SHA stamped as frozen digest.","required":"nonzero frozen-table digest finding even if mutant also restamps table digest and prediction"},
+    {"id":"wrong-tool","operation":"Append one LF byte to the replay tool fixture; leave TOOL_SHA unchanged.","required":"nonzero tool digest finding"},
+    {"id":"measured-base","operation":"Run gate with --rev 614f00559c75155ec100e945b3e8257b14fb7496 while working tree contains a green receipt and executed ledger.","required":"nonzero, located=0 executed=0; no current worktree receipt/ledger leakage"},
+    {"id":"revision-tool-leak","operation":"For a private committed green fixture, mutate current working tool to print perfect CASE lines but raise if the original body runs; evaluate --rev at that green commit.","required":"revision result unaffected by mutable worktree tool; immutable measured tool must be executed"},
+    {"id":"setup-file-not-found","operation":"Independent empirical fixture replaced the scratch-only subject bytes with: raise FileNotFoundError('import/setup sentinel') followed by LF.","required":"setup exit 2, never graded F; empirical result retained in independent-falsifiers.json"},
+    {"id":"directory-output","operation":"Independent empirical fixture created directory output.txt instead of regular file, outside the frozen eight scoring vectors.","required":"P/D with IsADirectoryError setup defect, not P/F; empirical result retained"}
+  ]
+}

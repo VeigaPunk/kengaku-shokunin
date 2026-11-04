@@ -1,0 +1,15 @@
+COMMAND python3 plans/round83_code_image_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r83/CounterR83/mint-work
+EXIT 0
+# tb2 code-from-image grader probe
+CASE missing predicted=F/F observed=F/F
+CASE empty predicted=P/F observed=P/F
+CASE correct predicted=P/P observed=P/P
+CASE whitespace predicted=P/P observed=P/P
+CASE prefix-only predicted=P/F observed=P/F
+CASE wrong-prefix predicted=P/F observed=P/F
+CASE suffix predicted=P/F observed=P/F
+CASE uppercase predicted=P/F observed=P/F
+cases=8 mismatches=0
+PREDICATE R83-PROBE pass
+
+STDERR

@@ -1,0 +1,35 @@
+SourceScoutR83 — bounded source opening (2026-11-04; times UTC)
+Axes: coverage (one member, eight vectors, sixteen independent legs); calibration (source identity and no task-solving overclaim).
+
+Observed source facts — confidence high
+- Opened both pinned raw URLs via read and independent HTTP byte capture; both HTTP 200 on 2026-11-04. URLs, response headers, access date, sizes and SHA256s are retained in source-receipts.json.
+- Grader live bytes: 935 B, SHA256 b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a. Exact byte equality to captured subject at BASE 614f00559c75155ec100e945b3e8257b14fb7496 and freeze 6f076679931367d540c3897a4eafa0eca752e1d4, established by read-only git show plus byte comparison. The SHA256 also matches corpus/evidence/round52/graders/SHA256SUMS:25.
+- Instruction live bytes: 321 B, SHA256 8c3af6483e409defef9786da51f318ae2ca71afe2327b94471d2f0e2e367442c. No historical instruction capture comparison is claimed.
+- Grader test_output_file_exists defined :10 uses Path('/app/output.txt') at :14 and asserts exists at :15. test_output_is_correct defined :18 opens the same path at :23, strips whitespace and checks case-sensitive prefix at :25, then stripped exact equality at :28-31. Only pathlib is imported (:7). No function calls the other function.
+- Existing source-row domain provenance: corpus/SOURCES.md:120-128 (S105–S113) names raw.githubusercontent.com/harbor-framework/terminal-bench-2 at this exact pin. Existing definitions inventory: corpus/evidence/round53/tests-index.json:508-522 lists these two functions; population source paths appear in plans/round52-tasks.json:59-61. These are literal source observations, not semantic-server evidence.
+
+Static derivation, not observed execution — confidence high
+Frozen plans/round83-cases.json SHA256 e64dac129dcb8fea5f7068c67f6c81482e4a0755f1509ae9f358348e6f3e9aec was read at freeze via git show, preserved as frozen-round83-cases.json and matched to the working file. Vectors were independently derived from the opened source; frozen predictions were not changed:
+missing F/F — :15 absence assertion, independently :23 FileNotFoundError.
+empty P/F — :15 succeeds; :25 prefix fails.
+correct P/P — :15, :25, :28-31 succeed.
+whitespace P/P — both content comparisons strip surrounding whitespace.
+prefix-only P/F — :25 succeeds, :28-31 equality fails.
+wrong-prefix P/F — :25 fails before equality.
+suffix P/F — :25 succeeds, :28-31 equality fails.
+uppercase P/F — case-sensitive :25 fails before equality.
+Every leg has P/F witnesses: presence empty/missing; correctness correct/empty. Independent assert-site red witnesses: wrong-prefix for prefix; prefix-only for equality after prefix passes. The equality predicate logically implies the prefix, so there is no output that passes exact equality while failing prefix; independence here means separately reaching and failing each assert, not logical independence. static-case-derivation.json records AST definition/assert locations and each prediction; no grader functions were executed.
+
+Drafts and admission
+source-draft.md supplies complete append-row bytes for S267, Gate admission with URL/access date/line-25 exact three-word quote, and a rejected candidate with instruction line-1 five-word quote, reason and flip. It rejects instruction-as-proof-of-solving, not the instruction's authority as task specification. Captures: live-test_outputs.py and live-instruction.md. No production row was edited. Only L1 may install the drafts.
+
+Scope and remaining unknowns
+- This proves source identity and predicts offline grader behavior, not image understanding, implementing pseudocode, executing a model, or full task success. No image or solution source was fetched. No score or R83-C1/R83-C2 pass is claimed.
+- The four named shared draft paths were absent at the single glob observation: ReplayR83/round83_code_image_probe.py, CounterR83/round83_c1_replay.py, DebtR83/round83_c2_debt.py, DebtR83/round83_c2_checks.py. No shared implementation validation is fabricated and no waiting/polling occurred. Later sibling arrival is not excluded.
+- lsp unavailable: read xd://lsp returned 'No such tool'; no semantic server route exists in this session. Source and Python AST inspection are the recorded fallback, not grep semantic proof. No exported runtime contract was changed.
+- Bounded planner walk retains offline member replay and rejects task-solving overclaim. Existing claims line42 leaves proposal2, sweep divergence and anchor blindspot outside this wave. No broad source survey, novelty increase or assimilation was inferred.
+
+Execution discipline
+Read RULES.md first, claims in full (raw final read), and godspeed skill. TMPDIR explicitly set to /fast/scratch/hyaku/kengaku-r83/SourceScoutR83 for shell/eval; no clone, git mutation, production edits, host /app writes, build/lint/general tests or scoring. No tool installs or updates. Scratch removed after preserving captures/receipts. Main should run the frozen actual replay/counter/controls; this scout did not.
+
+Report: .ufo/waves/round-83/w1/SourceScoutR83.md

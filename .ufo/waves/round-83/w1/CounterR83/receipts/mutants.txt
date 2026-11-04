@@ -1,0 +1,20 @@
+COMMAND python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-83/w1/CounterR83/round83_c1_replay.py --mutants --work /fast/scratch/hyaku/kengaku-r83/CounterR83/mutants
+EXIT 0
+MUTANT flip-ledger-round exit=1 codes=LEDGER-ROUND killed
+MUTANT edit-observed-vector exit=1 codes=MISMATCH-COUNT,SUMMARY-MISMATCH killed
+MUTANT swap-subject-file exit=1 codes=SUBJECT-SHA-MISMATCH killed
+MUTANT strip-host-openssl exit=1 codes=HOST-FORMAT,STAMP-MISSING killed
+MUTANT stamp-false-exit exit=1 codes=EXIT-NONZERO killed
+MUTANT wrong-command-args exit=1 codes=COMMAND-MISMATCH killed
+MUTANT fabricate-all-pass exit=1 codes=MISMATCH-COUNT,SUMMARY-MISMATCH killed
+MUTANT drop-case-line exit=1 codes=CASE-COUNT,CASE-ORDER killed
+MUTANT tamper-table-file exit=1 codes=TABLE-FROZEN-MISMATCH,TABLE-SHA-MISMATCH killed
+MUTANT tamper-tool-file exit=1 codes=TOOL-SHA-MISMATCH killed
+MUTANT ledger-receipt-swap exit=1 codes=LEDGER-RECEIPT killed
+MUTANT tip-not-a-sha exit=1 codes=LANE-TIP-INVALID killed
+MUTANT foreign-member-note exit=1 codes=BLOCK-FOREIGN,RECEIPT-MEMBER-COUNT killed
+MUTANT header-swap exit=1 codes=SUBJECT-HEADER killed
+MUTANT divergent-runner exit=1 codes=REPRODUCTION-MISMATCH killed
+MUTANTS real=15 killed=15 survived=0
+
+STDERR

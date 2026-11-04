@@ -1,0 +1,30 @@
+# tb2 log-summary-date-ranges grader probe (round 81)
+MEMBER log-summary-date-ranges
+SUBJECT_CAPTURE corpus/evidence/round52/graders/log-summary-date-ranges/tests/test_outputs.py
+SUBJECT_SHA 2fc06a6ce1944ad82f84fb437395fa75ed8c0eadd385b92e375c27e5bc9cb2b4
+TOOL plans/round81_log_summary_probe.py
+TOOL_SHA a983909ac505374643f15ca8cca807a6799a71a70e72b8bda517268cbde9a046
+HOST_PYTHON Python 3.14.8
+HOST_OPENSSL OpenSSL 3.6.5 29 Sep 2026 (Library: OpenSSL 3.6.5 29 Sep 2026)
+LANE_TIP 4ac8471b15a40cddc16e1c5cccbde2a087f12117
+WORKTREE clean
+COMMAND /usr/bin/python3 plans/round81_log_summary_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r81/mintwork/log-summary-date-ranges.work --receipt /fast/scratch/hyaku/kengaku-r81/mintwork/log-summary-date-ranges.stdout.txt
+EXIT 0
+MINTED_BY plans/round81_c1_remint.py
+MINTED_BY_SHA eb6297f6b661fe54d4ca07d61bc89f07af379d7dac529da84d05d6fa84b5715d
+OBSERVATIONS_BEGIN
+CASE exact-15-rows predicted=P observed=P rc=0 legs=PP violates=-
+CASE exact-no-trailing-newline predicted=P observed=P rc=0 legs=PP violates=-
+CASE exact-crlf predicted=P observed=P rc=0 legs=PP violates=-
+CASE exact-quoted-fields predicted=P observed=P rc=0 legs=PP violates=-
+CASE missing-file predicted=F observed=F rc=1 legs=FF violates=file-missing
+CASE empty-file predicted=F observed=F rc=1 legs=PF violates=header,row-count
+CASE wrong-header predicted=F observed=F rc=1 legs=PF violates=header
+CASE fourteen-rows predicted=F observed=F rc=1 legs=PF violates=row-count
+CASE sixteen-rows predicted=F observed=F rc=1 legs=PF violates=row-count
+CASE one-count-changed predicted=F observed=F rc=1 legs=PF violates=content
+CASE two-rows-swapped predicted=F observed=F rc=1 legs=PF violates=content
+CASE extra-blank-row predicted=F observed=F rc=1 legs=PF violates=row-count
+cases=12 observed_pass=4 observed_fail=8 mismatches=0
+PREDICATE R81-C1 pass
+OBSERVATIONS_END
