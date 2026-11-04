@@ -69,6 +69,17 @@ One v1 wave, 14 seats.
   use it; the fix can fail — remove the `prefix` from the table and the protein leg dies with the
   same `ModuleNotFoundError`, which the gate reports as `REPRODUCTION-EXIT`.
 
+- **M80-2 · class `historical-observation-drift` · evidence `corpus/evidence/round59/openssl-probe.txt`
+  versus `corpus/evidence/round80/openssl-selfsigned-cert-probe.txt` · captured-by the R80-C1
+  historical-divergence leg (`plans/round80_c1_located_replay.py` `DIVERGENCE-UNNOTED`) · fix: keep
+  the historical receipt and its sha, mint the instrument's actual stdout, and state
+  `HISTORICAL-DIVERGENCE <n>`.** The round-59 receipt records two prediction mismatches
+  (`perm-loose`, `key-1024`) and `PREDICATE R59-C1 fail`; the tip's instrument predicts and observes
+  `P/F/P/P/P/P` for both (its derivation was corrected after round 59), so the fresh block has
+  `mismatches=0` and `PREDICATE R59-C1 pass`. The fix can fail: delete the divergence line and the
+  gate prints `DEFECT DIVERGENCE-UNNOTED` (`corpus/evidence/round80/c1-selftest.txt` case
+  `divergence-unnoted`).
+
 ## Corrections (round-79 spot-check routed ids, discharged here)
 
 - **R79-V1** — the round-79 report claimed the retired `round78-c1` gate's verdict was re-verified in
@@ -80,12 +91,15 @@ One v1 wave, 14 seats.
 - **R79-V2** — round-79's Sources & frontier said "25 `W04` … unchanged in both". Wrong: the census
   receipts report **25 before, 26 after** (the `diff` adds S256's duplicate-URL line); rc 0 in both.
   W04 is a warning class, not a failure.
-- **R79-V3** — round-79's "13 rows said a bare `executed`" is off by one. The base `SKILL.md` table
-  has 12 bare `executed` cells plus one `recipe-unexecuted` (`container-image`) — i.e. **13
-  unquantified** rows, not 13 bare-executed rows.
-- **R79-V4** — R78-D4's S254 anchor is re-stated: the quoted 15-word sentence spans **capture lines
-  2322–2326** ("Show untracked files. … The mode parameter is used to specify the handling of
-  untracked files."), not one sentence at line 2322.
+- **R79-V3** — round-79's "13 rows said a bare `executed`" is off by one. At the round-79 base
+  `660ec0b9`, the `SKILL.md` grader table has 12 bare `executed` cells plus one `recipe-unexecuted`
+  (`container-image`) — i.e. **13 unquantified** rows, not 13 bare-executed rows. (At this round's
+  base `dce7c275` all 16 cells are already quantified: round 79 landed them.)
+- **R79-V4** — R78-D4's S254 anchor is re-stated: the 15-word quote spans **capture lines 2322–2326**
+  of the tracked capture `corpus/evidence/round78/sources/git-status.html` — two sentences
+  ("Show untracked files." at 2322; "The mode parameter is used to specify the handling of untracked
+  files." at 2326) — not one sentence at line 2322. (The round-79 lesson named a
+  `corpus/evidence/round79/sources/git-status.txt` path; that file is absent.)
 - **R79-V5** — **S256 duplicate-URL kept**: S256 repeats S180's URL for a distinct scope (the
   harness's own execution model, which grounds the R79 blocker taxonomy and this round's
   replay-surface limit). Scoping it out would leave that taxonomy unsourced; the new `W04` is stated
