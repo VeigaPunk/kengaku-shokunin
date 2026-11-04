@@ -294,6 +294,7 @@ recomputed 24/32).
 
 ## Coverage map
 
+- **code-from-image member replay (round83)**: newly held offline member ground, previously `unattempted` at 614f0055; `knowledge/tb2-code-from-image-offline.md` cites mined S267. Two captured grader functions run over eight frozen end states with sixteen matching legs. This is accepted-file semantics, not image understanding or a new grader class; `corpus/evidence/round83/code-from-image-probe.txt`.
 - **Benchmark selection**: covered (knowledge/benchmark-selection.md).
 - **Search-shape mechanism evidence**: covered at iteration-2 depth (knowledge/godspeed-eval-findings.md).
 - **Run harness / telemetry spec**: covered at alpha depth (knowledge/telemetry-run-design.md).

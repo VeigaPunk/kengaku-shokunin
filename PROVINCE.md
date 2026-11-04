@@ -1128,3 +1128,9 @@ coverage stays at its L0 cap. Nothing here re-declares a surface as resolving.
 
 **Not this lane's scope (unchanged):** the serving plane, benchmark runtime services and route
 resolution stay with kama / the benchmark images / kumitate.
+
+## Round83 — one file-artifact member enters held offline replay ground
+
+`code-from-image` was unattempted at `614f0055`; its captured grader now has a located replay in `corpus/evidence/round83/code-from-image-probe.txt`, gated by `plans/round83_c1_replay.py`. This is one member of the existing file-artifact class, not a new external surface or grader class. Source S267 and `corpus/knowledge/tb2-code-from-image-offline.md` price the two actual test functions and eight frozen end states. The task's image, a solution implementation and model ability remain outside the performed work; staging an accepted final file proves none of them.
+
+The historical round82 sweep remains a 26-member census at its cited tree, not a current sweep of the expanded executed set. Anchor-parser blind spot R82-F1 and the sweep divergences are retained backlog. Coverage's L0 cap, absent host surfaces and sibling serving/route authority remain unchanged.
