@@ -3746,3 +3746,66 @@ members (2 browser, 1 vm, 1 external-db, 3 candidate-library) and 57 `unattempte
 replay receipts by re-minting them with a subject stamp (`plans/round78_restamp.py` + the probe's own
 writer), which would turn 6 debt rows into `executed` without a new replay. Keep both gates green as
 new receipts land.
+
+## Round 80 (hyaku run 15, attempt 1, 2026-11-04): the six `executed-unlocated` members become located, reproducible replays (R80-C1, coverage at its L0 cap) and the round-79 closure's V1–V6 are discharged (R80-C2, calibration held at ceiling, exercised)
+
+Base `dce7c275`; freeze `af51132d`; freeze amendments A1 `6250e94b`, A2 `5b11bc5f`, A3 `bb3d6555`;
+receipts `446b157f` and `84a89e4e`; C2 after minted at `0cb34bf2`. One v1 wave, 14 seats
+(executor 6, scribe 2, reviewer 1, critic 1, mutation-tester 1, sentinel 1, connector 1, scout 1 —
+attack roles 4/14 = 29 %, connector 1).
+
+| claim / axis | before → after evidence | counting command | verdict / score |
+|---|---|---|---|
+| **R80-C1 / coverage** (lowest non-retired axis, held at its L0 cap) — the six members the round-79 ledger priced `executed-unlocated` (`cancel-async-tasks`, `chess-best-move`, `distribution-search`, `largest-eigenval`, `openssl-selfsigned-cert`, `protein-assembly`) are `executed` at the measured revision: each names a tracked receipt under `corpus/evidence/round80/` whose first line is the frozen subject shape, whose stamp block pins the historical receipt's sha256, the instrument's sha256 at the tip, `HEAD`, a clean worktree, the command, the exit code and the driver's sha256, whose observation block equals the instrument's stdout at the measured tree (prediction-bearing projection, amendments A1–A2), and whose ledger row is `executed` with `subject=tb2-header`, the receipt's own verdict form and `round=80`; the round-79 population gate still exits 0 with `executed=24 unlocated=0` | before (`corpus/evidence/round80/c1-before.txt`, `--rev dce7c275`): `TARGET members=6 located=0 reproduced=0 ledger_flipped=0 diverged=0 defects=6`, rc 1 → after (`corpus/evidence/round80/c1-after.txt`, measured at `446b157f`): `TARGET members=6 located=6 reproduced=6 ledger_flipped=6 diverged=2 defects=0`, `LEDGER-GATE rc=0 executed=24 unlocated=0 defects=0`, `PREDICATE R80-C1 pass`, rc 0 | `python3 plans/round80_c1_located_replay.py --lane .` | pass / **7** (held; axis at its L0 cap — the move is the located population, not the number) |
+| **R80-C2 / calibration** (held at ceiling 10, exercised) — the round-79 spot-check's six routed defects (`V1`…`V6`, `corpus/lessons/round-79-verifier-spotcheck.md` §6) are `corpus/routed-findings.jsonl` rows `R79-V1`…`R79-V6`: each closed with a tracked repair artifact that carries the id and the row's literal, a `check` that exits 0 at the tip and fails when the evidence is reverted to `dce7c275` (or deleted, for files new this round), and the round-79 spot-check indexed in `corpus/README.md` | before (`corpus/evidence/round80/c2-before.txt`, `--rev dce7c275`): six `DEBT-UNREGISTERED`, `INDEX … indexed=no`, `DEFECTS n=7`, rc 1 → after (`corpus/evidence/round80/c2-after.txt`, measured at `0cb34bf2`): `TARGET ids=6 closed=6 checks_passed=6 indexed=yes`, `DEFECTS n=0`, `PREDICATE R80-C2 pass`, rc 0 | `python3 plans/round80_c2_spotcheck_debt.py --lane .` | pass / **10** (held) |
+
+**Controls (all must lose, and do).** C1 `--control-flip-ledger-only` (six ledger rows flipped to
+`executed` pointing at the historical receipts, nothing minted): `located=0`, 138 defects,
+`target_reached=False`. C1 `--control-header-only` (subject line + historical bytes, no stamp): 126
+defects, `target_reached=False`. C1 `--control-copy-observations` (valid stamps, another member's
+block): `REPRODUCTION-MISMATCH`, `target_reached=False`. C2 `--control-presence` (all six ids closed
+with the spot-check as `close` and `check=true`): `CLOSE-NOT-REPAIR` ×6 + `CHECK-TRIVIAL` ×6,
+`target_reached=False`. Batteries: C1 `SELFTEST cases=19 red=15 failures=0`,
+`MUTANTS real=10 killed=10 survived=0`; C2 `SELFTEST cases=9 red=8 failures=0`,
+`MUTANTS real=4 killed=4 survived=0`.
+
+**Amendments that are part of the evidence, not footnotes.** A1: the receipt block is the
+instrument's verbatim stdout with `REV` lines stripped, compared whole. A2: the comparison uses the
+prediction-bearing projection (probe-declared `U` cases, `cases=` and `OBSERVED-U` excluded), forced
+by six `round57_c2_eigen_probe.py` runs whose full-block hashes alternated while the projection hash
+was identical. A3: the driver stamps `HEAD` and `MINTED_BY_SHA`, runs every probe before writing any
+receipt and re-checks cleanliness first (the wave's sentinel finding), and the mutants battery grew
+6 → 10 after the wave's mutation-tester found four checks only the selftest isolated.
+
+**Divergence is reported, not laundered.** Two of the six do not reproduce their historical numbers:
+`largest-eigenval`'s `predicted=U` speed case now observes `F` where round 57 recorded `P`;
+`openssl-selfsigned-cert`'s corrected derivation predicts and observes `P/F/P/P/P/P` for
+`perm-loose`/`key-1024` where round 59 recorded mismatches (`HISTORICAL-DIVERGENCE 8`), and
+`protein-assembly`'s environment line records biopython 1.88 against the historical 1.85
+(`HISTORICAL-DIVERGENCE 2`). Historical receipts and their sha256s are untouched; each receipt states
+its own divergence count.
+
+**Scores.** coverage **7** (held; claim passed, axis at its L0 cap), calibration **10** (held,
+exercised), operability **10** (held; two new gates with selftest/mutant/control batteries and a
+`--rev` mode), depth **10** (held; S258 + M80-1/M80-2), freshness **10** (held; census rc 0 and the
+six re-runs at the tip), adjacency **9** (held; the connector's sibling matrix is in the wave
+report), novelty **8** (held; two instruments, no new construct claimed).
+**No axis harmed:** the round's lane diff is append-only except the six ledger rows, the six new
+receipts, the C2 counter's id mapping, and the S258/README/lesson additions named above.
+
+### Round-80 capabilities (demonstrated this round)
+
+| Capability | What it can now do | Evidence / command | First-working round |
+|---|---|---|---|
+| `located-replay-mint` | Re-mint a historical offline replay as a subject-locating receipt whose block is the instrument's own stdout, stamp the historical source and tool hashes plus the driver hash, and have the gate re-run the instrument at the measured tree to compare | `python3 plans/round80_c1_located_replay.py --lane .` → `TARGET members=6 located=6 reproduced=6 ledger_flipped=6 diverged=2 defects=0`, exit 0 (`corpus/evidence/round80/c1-after.txt`) | 80 |
+| `closure-debt-discharge` (reused) | Turn a spot-check's short `V<n>` ids into `R79-V<n>` ledger rows whose checks fail at the base revision and pass at the tip | `python3 plans/round80_c2_spotcheck_debt.py --lane .` → `TARGET ids=6 closed=6 checks_passed=6 indexed=yes`, exit 0 (`corpus/evidence/round80/c2-after.txt`) | 79 |
+
+### Planned (round 81)
+
+(1) Harden the replay environment pin: stamp the host state a probe depends on (`openssl version`,
+`python3 -V`, the uv/biopython version line is already in the block) and make the eigen probe's two
+`predicted=U` speed cases deterministic or explicitly out of the replay population. (2) A closure
+reviewer flagged A1–A3 as contract edits; land the successor rule as a frozen predicate in round 81
+rather than amending round 80's. (3) `considerthese` proposal 3 (batch sweep + class histogram) is
+now unblocked: 24 members are `executed`. (4) The `located-replay-mint` gate should also verify the
+driver's own selftest battery at the measured tree, not only a receipt stamp.

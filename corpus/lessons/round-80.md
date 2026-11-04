@@ -113,4 +113,38 @@ One v1 wave, 14 seats.
 
 ## Wave findings (amended after w1)
 
-_(filled in after the wave settles; the L1 integrates every finding that changes committed bytes)_
+Fourteen seats, one v1 wave; twelve reports were on disk when this block was written and the two
+remaining (critic, scout) are named in the round report with their settlement state. The attack
+seats changed committed bytes:
+
+- **SentinelReceiptsR80** (Medium): the first driver stamped `master` rather than the executed
+  checkout and checked cleanliness only at entry. Amendment A3 answers it: `LANE_TIP` comes from
+  `HEAD`, every probe runs before any receipt is written, cleanliness is re-checked before the
+  write, and `MINTED_BY_SHA` pins the driver. The receipts were then re-minted at `bb3d6555` with
+  `HEAD == master`.
+- **MutantGateR80**: code mutations against the gate showed four checks that only the selftest
+  isolated (`source-sha-mismatch`, `lane-tip-invalid`, the second-member cardinality, and the
+  reproduction leg). The mutants battery grew 6 → 10 in A3 (`MUTANTS real=10 killed=10
+  survived=0`).
+- **ReviewerC1R80** (two P1s): (a) at its measured tip the eigen receipt failed strict byte equality
+  — precisely the finding that forced A2, with six-run evidence; (b) the frozen observation grammar
+  was changed by amendments A1–A3. The second is accepted as an honest limit, not repaired: the L1
+  declared the amendments before any after receipt existed, each with evidence and a selftest case,
+  and round 81 is planned to land the successor rule as a frozen predicate rather than an
+  amendment. The reviewer's note that protein's `grader=`/`components_aa=` lines are not in the
+  original grammar is correct and is why A1/A2 compare the whole verbatim block.
+- **R80C2RepairsR80**: V3 must name the round-79 base `660ec0b9` (at `dce7c275` all 16 cells are
+  already quantified); V4's capture is `corpus/evidence/round78/sources/git-status.html` and the
+  quote is two sentences — both corrected above; V6's receipts were not yet committed at that
+  seat's measured tip and were committed at `446b157f`/`84a89e4e`.
+- **LedgerFlipAuditR80**: exactly the six target rows changed; it disclosed the dropped keys and the
+  added EOF newline so no reader is surprised by the diff.
+- **RemintCancelR80 / RemintChessEigenR80 / RemintKlOpenSSLProteinR80**: independent replays at the
+  measured tip reproduce the blocks; the openssl divergence is fully disclosed (`HISTORICAL-
+  DIVERGENCE 8` under the projection, 10 over raw lines) and the historical receipt is untouched.
+- **C1BatteriesR80**: the committed batteries replay at the tip.
+- **ConnectorR80**: the fleet root is nested repos, so a fleet-root pattern scan reports a false
+  "no sibling stamps"; the per-lane scan is the method. No absorption.
+- **SourcesScribeR80**: S258 already existed at its measurement; its stamp-line quote was adopted
+  (the row anchor now names lines 1–10).
+- **LessonScribeR80**: M80-2 (`historical-observation-drift`) was adopted as a second mined mistake.

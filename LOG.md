@@ -3064,3 +3064,58 @@ both admitted. One v1 wave, 14 seats.
   both ends (`corpus/evidence/round79/census-{before,after}.txt`). Assimilation: none (L0
   `kengaku | round-54` open). considerthese: proposal 1 is implemented (this round uses the
   burn-down ledger); proposals 2 and 3 stay open.
+
+## Round 80 (hyaku run 15, attempt 1, 2026-11-04)
+
+Base `dce7c275` (round-79 verifier spot-check); freeze `af51132d`; amendments A1 `6250e94b`,
+A2 `5b11bc5f`, A3 `bb3d6555`; receipts `446b157f`, `84a89e4e`; C2 after minted at `0cb34bf2`.
+Two claims, both admitted. One v1 wave, 14 seats.
+
+- **R80-C1 / coverage** — the six members the round-79 ledger priced `executed-unlocated` become
+  `executed` with located, reproducible receipts: `cancel-async-tasks`, `chess-best-move`,
+  `distribution-search`, `largest-eigenval`, `openssl-selfsigned-cert`, `protein-assembly`. Each
+  receipt's first line is the frozen subject shape, its stamp pins the historical receipt's sha256,
+  the instrument's sha256 at the tip, `HEAD`, `WORKTREE clean`, the command, `EXIT 0`, `MINTED_BY`
+  and `MINTED_BY_SHA`, and its block is the instrument's stdout (prediction-bearing projection,
+  amendments A1–A2) that the gate re-runs at the measured tree. Before (`--rev dce7c275`):
+  `TARGET members=6 located=0 reproduced=0 ledger_flipped=0 defects=6`, rc 1 → after
+  (`corpus/evidence/round80/c1-after.txt`, measured at `446b157f`): `located=6 reproduced=6
+  ledger_flipped=6 diverged=2 defects=0`, `LEDGER-GATE rc=0 executed=24 unlocated=0 defects=0`, rc 0.
+  Batteries: `SELFTEST cases=19 red=15 failures=0`, `MUTANTS real=10 killed=10 survived=0`, three
+  controls `target_reached=False`.
+- **R80-C2 / calibration** — the round-79 spot-check's six routed defects (`V1`…`V6`) are rows
+  `R79-V1`…`R79-V6` in `corpus/routed-findings.jsonl`, each closed with a tracked repair artifact
+  carrying the id and the literal, a check that exits 0 at the tip and fails at `dce7c275`, and the
+  spot-check indexed in `corpus/README.md`. Before: six `DEBT-UNREGISTERED`, `INDEX … indexed=no`,
+  `DEFECTS n=7`, rc 1 → after (`c2-after.txt`, measured at `0cb34bf2`): `TARGET ids=6 closed=6
+  checks_passed=6 indexed=yes`, `DEFECTS n=0`, rc 0. Batteries: `SELFTEST cases=9 red=8
+  failures=0`, `MUTANTS real=4 killed=4 survived=0`, control `target_reached=False`.
+- **Repairs landed.** V1: `plans/round78_c1_class_member_ledger.py --lane . --rev 148801a6` prints
+  `PREDICATE R78-C1 pass`, committed with a tip stamp at
+  `corpus/evidence/round80/v1-r78-c1-at-148801a6.txt`. V2: the census receipts report **25 before,
+  26 after** W04 (not "unchanged"). V3: at the round-79 base `660ec0b9` the table has **13
+  unquantified** rows = 12 bare `executed` + 1 `recipe-unexecuted`. V4: the S254 quote spans
+  **capture lines 2322–2326** of `corpus/evidence/round78/sources/git-status.html` (two sentences).
+  V5: **S256 duplicate-URL kept**, warning stated. V6: both round-79 after counters re-minted at
+  the round-80 tip by `plans/round78_restamp.py`, each carrying `LANE_TIP`/`TOOL`/`TOOL_SHA`/
+  `WORKTREE`/`COMMAND`/`EXIT` (`r79-c1-after.txt`, `r79-c2-after.txt`).
+- **Sources.** S258 (own-work: the six located-replay receipts, the frozen probe table and the gate;
+  quote at `corpus/evidence/round80/cancel-async-tasks-probe.txt` line 1; six receipt sha256s in the
+  lesson's Gate) grounds the round's evidence. Registry 249 → 250, census rc 0 at both ends
+  (`corpus/evidence/round80/census-before.txt` 249 rows/26 W04; `census-after.txt` 250/26).
+  Assimilation: none (L0 `kengaku | round-54` open). considerthese: proposal 1 used; proposals 2–3
+  stay open (3 is named as round-81 work).
+- **Divergence reported, not laundered.** `largest-eigenval`'s `predicted=U` speed case now observes
+  `F` where round 57 recorded `P`; `openssl-selfsigned-cert`'s corrected derivation no longer
+  reproduces round 59's two mismatches (`HISTORICAL-DIVERGENCE 8`); `protein-assembly`'s environment
+  line records biopython 1.88 against 1.85 (`HISTORICAL-DIVERGENCE 2`). Historical receipts are
+  byte-identical at base and tip.
+- **Re-verification (freshness).** `sources-census.sh validate` rc 0 (250 rows, 26 W04);
+  `python3 plans/round79_c1_population_ledger.py --lane .` → `executed=24 unlocated=0`, `DEFECTS
+  n=0` at `446b157f`; both new gates and their batteries re-run at the tips that carry their bytes;
+  every declared surface untouched by this round stays as `PROVINCE.md` records it.
+- **Wave.** `w1` (14 seats, one v1 wave): executor 6, scribe 2, reviewer 1, critic 1,
+  mutation-tester 1, sentinel 1, connector 1, scout 1; attack roles 4/14 = 29 %, connector 1. The
+  wave's sentinel finding (mint provenance) produced amendment A3; the mutation-tester's survivors
+  grew the mutants battery 6 → 10; the reviewer's two P1s (the eigen byte-equality failure and the
+  A1–A3 contract edits) are recorded as honest limits in the round report and routed to round 81.
