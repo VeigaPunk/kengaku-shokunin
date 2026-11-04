@@ -49,9 +49,10 @@ closure's D1/D2/D3/D5 are repaired through it.
   members=12 pairs=13`, `LEDGER rows=0`, `DEFECTS n=21`, `TARGET … unaccounted=12 unbacked=0`,
   rc 1. After (`c1-after.txt`): `LEDGER rows=12 executed=7 unexecuted=5`, `DEFECTS n=0`,
   `TARGET classes=3 members=12 executed=7 unexecuted=5 unaccounted=0 unbacked=0`, rc 0.
-- R78-C2 before (`--rev 3ae0ab54`, `c2-before.txt`): `UNIVERSE dirs=2 receipts=16`, `DEFECTS n=27`,
-  `TARGET receipts=16 located=3 unlocated=13`, rc 1 — 11 `TOOL-UNNAMED`, 10 `COMMAND-ABSENT`,
-  4 `PASS-UNLOCATED`, 2 `WORKTREE-ABSENT`. After the repair (`c2-after.txt`): `DEFECTS n=0`,
+- R78-C2 before (`--rev 3ae0ab54`, `c2-before.txt`): `UNIVERSE dirs=2 receipts=16`, `DEFECTS n=29`,
+  `TARGET receipts=16 located=2 unlocated=14`, rc 1 — 11 `TOOL-UNNAMED`, 10 `COMMAND-ABSENT`,
+  4 `PASS-UNLOCATED`, 2 `WORKTREE-ABSENT`, 2 `TOOL-UNPINNED` (the final block model; the first
+  reading, 27/3/13, was taken before the parser read the last stamp block). After the repair (`c2-after.txt`): `DEFECTS n=0`,
   `TARGET receipts=<R> located=<R> unlocated=0`, rc 0.
 - Batteries: C1 `SELFTEST cases=8 red=7`, `MUTANTS real=6 killed=6 survived=0`, control
   `target_reached=False`. C2 `SELFTEST cases=7 red=6`, `MUTANTS real=6 killed=6 survived=0`, control

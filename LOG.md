@@ -2987,8 +2987,8 @@ Two claims, both admitted. One v1 wave, 11 seats.
   (`corpus/evidence/round78/c1-before.txt`, `c1-after.txt`). Batteries: selftest `cases=8 red=7`,
   mutants `6/6`, control `target_reached=False`.
 - **R78-C2 / calibration** — every verdict-bearing receipt under `corpus/evidence/round77|78/`
-  carries a stamp that recomputes at its own revision. Before: `receipts=16 located=3 unlocated=13`,
-  `DEFECTS n=27`, rc 1 → after: `unlocated=0`, `DEFECTS n=0`, rc 0 (`c2-before.txt`, `c2-after.txt`).
+  carries a stamp that recomputes at its own revision. Before: `receipts=16 located=2 unlocated=14`,
+  `DEFECTS n=29`, rc 1 → after: `unlocated=0`, `DEFECTS n=0`, rc 0 (`c2-before.txt`, `c2-after.txt`).
   Batteries: selftest `cases=7 red=6`, mutants `6/6`, control `target_reached=False`.
 - **Repairs landed.** 12 round-77 receipts re-minted at `cd2e25bb` through
   `plans/round78_restamp.py` (`c1-after`, `c2-after`, both selftest/mutants/control pairs and the
