@@ -513,7 +513,7 @@ def build_fixture(root: Path, tip: str, *, drop_row: str = "", open_row: str = "
     for name, (rel, tool) in RERUNS.items():
         (lane / tool).parent.mkdir(parents=True, exist_ok=True)
         (lane / tool).write_text("# tool\n")
-        (lane / rel).write_text(f"LANE_TIP @TIP@\nTOOL_SHA {'a' * 64}\nPREDICATE {name} pass\n")
+        (lane / rel).write_text(f"LANE_TIP @TIP@\nTOOL_SHA {'a' * 64}\nPREDICATE {name} pass\nEXIT 0\n")
     if fix_leg == "V7":
         (lane / RERUNS["V7-r51-c1"][0]).unlink()
     subprocess.run(["git", "-C", str(lane), "init", "-q"], check=True)

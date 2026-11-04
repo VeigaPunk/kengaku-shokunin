@@ -144,3 +144,22 @@ target is independent of every C2 byte.
 `/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku`
 → rc 0 at round start, 244 rows, 25 `W04` duplicate-URL warnings (`corpus/evidence/round77/census-before.txt`);
 rc 0 at round end, 245 rows (S253), the same 25 warnings (`census-after.txt`).
+
+## Amendment A1 (2026-11-04, leg strengthened before the after-state, target unchanged) — V7 accepts a report-only tool's own verdict form
+
+The frozen R77-C2 leg V7 read "a `PREDICATE … pass` line". `plans/routed_open.py` is a report-only
+gate: it prints `ROWS total=… open=… closed=…` and exits 0, and it has no `PREDICATE` line to print.
+The leg now requires, for every one of the three receipts, `EXIT 0` **and** — when the receipt carries
+a `PREDICATE` line — that the line says `pass`; a receipt whose tool printed a failing predicate is
+still a failure. The predicate, the eight `TARGET` fields and both controls are unchanged; the leg can
+only add defects, never remove one. The minting driver
+(`plans/round77_remint_r76_batteries.py`) now appends `EXIT <rc>` to every receipt, so the clause is
+re-derivable from the receipt bytes alone.
+
+## Amendment A2 (2026-11-04, control reported to its receipt, target unchanged) — the status-only control loses on the ledger legs
+
+The R77-C2 control line above reads `failed_legs=3 defects=7`. The committed receipt prints
+`CONTROL rows_claimed_closed=7 trivial_checks=7 failed_legs=0 defects=7 target_reached=False`: the
+fixture's legs all pass, and the skip is caught where it should be — seven `CHECK-TRIVIAL`/
+`EVIDENCE-*` ledger defects, `discharged=0`, so the target's `discharged=7` is unreachable. Only the
+control's prose changes; its predicate, the eight target fields and both kill rules are unchanged.
