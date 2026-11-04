@@ -3601,3 +3601,65 @@ re-minted round-76 receipts (the R76-V1 repair) and (f) `plans/round51-surfaces.
 | `canonical-declared-surface-inventory` | Carry every surface three legacy tables declared in one canonical inventory, resolve each row live by kind (path, loopback http, tcp, sha256 pin, row count, in-repo run receipt, dated remote), refuse a superseded declaration no canonical row carries, refuse duplicate identities and a remote row carrying local anchors | `python3 plans/round77_c1_declared_surfaces.py --lane .` → `SURFACES total=28 … UNLISTED n=0 … agree=28 disagree=0`, exit 0 (`corpus/evidence/round77/c1-after.txt`) | 77 |
 | `receipt-tool-binding-discharge` | Close the newest closure's routed ids in the ledger with evidence re-read at the close commit, and refuse a receipt whose `TOOL_SHA` does not match the tool at its own stamp, a check that does not name its id, or a battery receipt with no tally line | `python3 plans/round77_c2_defect_discharge.py --lane .` → `SCOPE ids=7 registered=7 closed=7 discharged=7 legs_passed=7`, exit 0 (`c2-after.txt`) | 77 |
 | `receipt-remint-with-tool-sha` | Re-mint a historical battery receipt without editing the frozen instrument: a committed driver runs the tool's own writer and prepends `LANE_TIP`/`TOOL_SHA`/`WORKTREE`/`MINTED_BY`/`COMMAND` plus `EXIT n` | `python3 plans/round77_remint_r76_batteries.py --lane . --receipt corpus/evidence/round76/c1-selftest.txt --tool plans/round76_c1_surface_resolver.py -- --selftest` | 77 |
+
+## Round 78 (hyaku run 15, attempt 1, 2026-11-04): the three partially-executed grader classes become a machine-checked 12-member ledger (R78-C1, coverage at its L0 cap) and every round-77/78 receipt becomes self-locating at its own stamp (R78-C2, calibration held at ceiling, exercised)
+
+Base `3ae0ab54`; freeze `2f9eeafb` (claims, both counters, the member ledger, the three class-row
+pointers); repair `cd2e25bb` (re-stamp driver + spec) and `f20a2f6f` (the 16 round-77 receipts
+located). One v1 wave, 11 seats (executor 3, scribe 2, scout 1, critic 1, reviewer 1,
+mutation-tester 1, sentinel 1, connector 1 — attack roles 3/11 = 27 %, connector 1).
+
+| claim / axis | before → after evidence | counting command | verdict / score |
+|---|---|---|---|
+| **R78-C1 / coverage** (lowest non-retired axis, L0-capped at 7) — every member of the three classes `SKILL.md` declares partially executed (12 distinct members over 13 member-class pairs) is accounted exactly once, each `executed` row resolves a tracked receipt whose own bytes carry the passing verdict, each `unexecuted` row names a typed reason whose frozen detector fires on that task's stored grader bytes, and the three class rows carry `executed k of n` + the ledger pointer | before (`corpus/evidence/round78/c1-before.txt`, `--rev 3ae0ab54`): `UNIVERSE classes=3 members=12 pairs=13`, `LEDGER rows=0`, `DEFECTS n=21` (12 `MEMBER-UNACCOUNTED`, 3 `CLASS-ROW-UNLINKED`, 3 `COUNT-DRIFT`, 3 `COVERAGE-REGRESSION`), `TARGET … unaccounted=12 unbacked=0`, rc 1 → after (`c1-after.txt`): `LEDGER rows=12 executed=7 unexecuted=5`, `DEFECTS n=0`, `TARGET classes=3 members=12 executed=7 unexecuted=5 unaccounted=0 unbacked=0`, rc 0; `COVERAGE recomputed_covered=15 census_covered=12 promoted=network-service,process-environment,db-state` | `python3 plans/round78_c1_class_member_ledger.py --lane .` | **admitted on its frozen predicate**; coverage held at **7** (L0 cap) |
+| **R78-C2 / calibration** (held at ceiling 10, exercised) — every verdict-bearing receipt under `corpus/evidence/round77|78/` stamps `LANE_TIP` (ancestor), `WORKTREE`, `TOOL` + `TOOL_SHA` recomputable **at its own stamp** (or `TOOL-SUPPLIED` + `WORKTREE dirty`), and `COMMAND`; the round-77 closure's D1/D2/D3/D5 are repaired through it | before (`c2-before.txt`, `--rev 3ae0ab54`): `UNIVERSE dirs=2 receipts=16`, `DEFECTS n=27` (11 `TOOL-UNNAMED`, 10 `COMMAND-ABSENT`, 4 `PASS-UNLOCATED`, 2 `WORKTREE-ABSENT`), `TARGET receipts=16 located=3 unlocated=13`, rc 1 → after (`c2-after.txt`): `DEFECTS n=0`, `unlocated=0`, rc 0; 12 receipts re-minted at `cd2e25bb` and 4 re-stamped append-only (`plans/round78-restamp.json`, `corpus/evidence/round77/*`) | `python3 plans/round78_c2_stamp_location.py --lane .` | **admitted on its frozen predicate**; calibration held at **10**, exercised |
+
+**Controls (both must lose, and do).** C1 `--control-prose`: build the ledger from the class rows'
+prose alone — `CONTROL prose_rows=2 prose_claimed_executed=3 members_named=0 receipts_resolved=0
+reasons_backed=0 defects=9 target_reached=False`. C2 `--control-stamp-only`: accept any `LANE_TIP`
+line as located — `CONTROL receipts=6 stamped=6 located=6 real_defects=4 target_reached=False`.
+Selftests: C1 `cases=8 red=7`, C2 `cases=7 red=6`. Mutants: both `6/6`, `survived=0`.
+
+**Corrections landed in-round (each with a re-deriving check).** (1) The C1 `COVERAGE` leg's first
+form was vacuous (`covered + promoted >= covered` always) — its own mutant matrix reported
+`SURVIVED`; the leg is now a per-class `k>0 ⇒ ledger-backed executed member` check and the mutant
+kills on `COVERAGE-REGRESSION`. (2) The C2 stamp parser reads the **last** `LANE_TIP` block, so an
+appended re-stamp supersedes what it corrects without rewriting a historical receipt (four receipts
+use exactly that form). (3) `TOOL-SUPPLIED` blocks must still recompute `TOOL_SHA` when they carry
+one (`SUPPLIED-DIGEST-MISMATCH`), so the exemption is not a free pass. (4) The 16 round-77 receipts
+were re-minted through `plans/round78_restamp.py`; each now stamps its own tool digest and worktree
+state, closing R77-D1/D2 and D5, with D3 (this file's stamp prose) and D4 (the at-tip rerun block in
+`LOG.md`) corrected below. (5) `plans/round51-surfaces.json` `SF14` re-pinned 245 → 247 after the two
+source appends.
+
+**Round-77 closure items against this round.** D1/D2/D5 are repaired by the re-mints and the gate
+that prices them; D3 is corrected here (`corpus/evidence/round77/c1-after.txt` is stamped
+`cd2e25bb`, not `d181e16b` — the round-77 text named the tip its bytes came from, the re-mint names
+the tip that carries the tool); D4's at-tip rerun block is in `LOG.md` §"Rerun block at the tip".
+
+**Scores.** coverage **7** (held; claim passed, axis at its L0 cap), calibration **10** (held,
+exercised), operability **10** (held; two new gates with selftest/mutant/control batteries and a
+committed repair driver), depth **10** (held; S254 + S255 + five Mistakes rows, no new knowledge
+entry), freshness **10** (held; source re-fetched live with capture and digest, all declared surfaces
+untouched this round), adjacency **9** (held; the connector's sibling matrix is in the round report),
+novelty **8** (held; two instruments, no new construct claimed).
+**No axis harmed:** the round's lane diff is append-only except the in-place corrections named above
+(the class-row pointers, the registry rows, the re-minted receipts, the SF14 pin, and the README/LOG/
+SCORECARD rows for this round).
+
+### Round-78 capabilities (demonstrated this round)
+
+| Capability | What it can now do | Evidence / command | First-working round |
+|---|---|---|---|
+| `grader-class-member-ledger` | Name every member of the partially-executed grader classes, prove each execution with a tracked receipt whose bytes carry the verdict, and falsify each `unexecuted` reason with a frozen detector over the stored grader bytes | `python3 plans/round78_c1_class_member_ledger.py --lane .` → `LEDGER rows=12 executed=7 unexecuted=5`, `DEFECTS n=0`, exit 0 (`corpus/evidence/round78/c1-after.txt`) | 78 |
+| `receipt-stamp-location-gate` | Locate a receipt at its own stamp: ancestor tip, worktree state, tool path and recomputed digest at that revision, supplied-tool honesty, and the command a reader re-runs | `python3 plans/round78_c2_stamp_location.py --lane .` → `TARGET receipts=26 located=26 unlocated=0`, `DEFECTS n=0`, exit 0 (`c2-after.txt`) | 78 |
+| `receipt-restamp-append-only` | Re-mint or re-stamp a historical receipt without editing the frozen instrument: `rerun` runs the tool's own writer at a clean tip, `retag` appends a last-wins stamp block whose digest is computed in the receipt's own tree | `python3 plans/round78_restamp.py --lane . --spec plans/round78-restamp.json` → 12 `rerun` + 4 `retag` entries applied | 78 |
+
+### Planned (round 79)
+
+Extend the member ledger from the three partially-executed classes to the **whole 16-class census
+population** (93 graders): the same `executed`/`unexecuted` + detector discipline per class, so
+`classes-covered` is derived for the population rather than quoted from the 2026-10-30 census
+snapshot. Replay one more `network-service` member only if a surface exists (browser, qemu, ssh+nginx
+and a candidate library are the four named blockers). Keep the stamp gate green as new receipts land:
+every new receipt goes through `plans/round78_restamp.py` from a clean tree.

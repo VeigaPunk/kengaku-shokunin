@@ -1072,3 +1072,31 @@ disagree=0`, `PREDICATE R77-C1 pass`), `c1-selftest.txt`, `c1-mutants.txt`, `c1-
 **Not this lane's scope (unchanged):** the serving plane, benchmark runtime services, and route
 resolution stay with kama / the benchmark images / kumitate. The `remote` rows are declared, never
 probed: the gate keeps no egress.
+
+## Round 78 admission (2026-11-04): the three partially-executed grader classes become a member ledger
+
+**Admitted.** The 12 distinct members of `network-service` (8), `process-environment` (3) and
+`db-state` (2) are accounted once each in `plans/grader-selected-members.json`: seven `executed` rows
+resolve a tracked receipt whose bytes carry the passing verdict (`kv-store-grpc` R64-C1,
+`sqlite-with-gcov` R65-C1, `torch-tensor-parallelism` R66-C1, `torch-pipeline-parallelism` R67-C1,
+`pypi-server` R68-C1, `nginx-request-logging` R70-C1, `hf-model-inference` R71-C1) and five
+`unexecuted` rows name a typed reason whose frozen detector fires on that task's stored grader bytes
+(`filter-js-from-html` browser-required, `git-multibranch` network-install-required,
+`headless-terminal` candidate-library-required, `install-windows-3.11` vm-required,
+`query-optimize` external-db-required). Gate `plans/round78_c1_class_member_ledger.py`; receipts
+`corpus/evidence/round78/c1-before.txt` / `c1-after.txt`; lesson `corpus/lessons/round-78.md`.
+
+**Also admitted (calibration).** Every verdict-bearing receipt under `corpus/evidence/round77|78/` is
+now self-locating at its own stamp (gate `plans/round78_c2_stamp_location.py`; repair driver
+`plans/round78_restamp.py`), closing the round-77 closure's D1/D2/D5 and correcting D3/D4.
+
+**New sources.** S254 Git `git-status` documentation (untracked-file semantics); S255 the lane's own
+round-62 class census receipt (`own-work`).
+
+**Ceilings unchanged.** Coverage stays at its L0 cap (route telemetry and the `:34113`/`:45669`
+serving planes remain declared-but-unresolvable). No new surface is declared by this round: the
+ledger resolves members of classes the SKILL table already declared.
+
+**Not this lane's scope (unchanged):** the serving plane, benchmark runtime services, and route
+resolution stay with kama / the benchmark images / kumitate. No member's replay is claimed without a
+receipt.

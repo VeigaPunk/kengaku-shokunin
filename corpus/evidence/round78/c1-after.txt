@@ -1,0 +1,28 @@
+LANE_TIP f20a2f6fcceb6769b48109d57904f52376190e44
+TOOL plans/round78_c1_class_member_ledger.py
+TOOL_SHA 9c4fc23174d65256e3cf6dcc7014e8c79fcac1d3c6d93e229f85dbffae6b212f
+WORKTREE clean
+COMMAND /usr/bin/python3 /fast/scratch/hyaku/kengaku-r78/c-c1-after/plans/round78_c1_class_member_ledger.py --lane /fast/scratch/hyaku/kengaku-r78/c-c1-after --work /fast/scratch/hyaku/kengaku-r78/ev --receipt /fast/scratch/hyaku/kengaku-r78/ev/c1-after.txt.tool
+MINTED_BY plans/round78_restamp.py sha256=15157a4c3a1283dfbcbe14d56406fe5a5e309070a59070600785d5bad796c16b
+EXIT 0
+UNIVERSE classes=3 members=12 pairs=13
+MEMBER filter-js-from-html unexecuted classes=network-service receipt=- verdict=reason:browser-required
+MEMBER git-multibranch unexecuted classes=network-service receipt=- verdict=reason:network-install-required
+MEMBER headless-terminal unexecuted classes=network-service receipt=- verdict=reason:candidate-library-required
+MEMBER hf-model-inference executed classes=network-service receipt=corpus/evidence/round71/hf/receipt.txt verdict=R71-C1 token=predicate
+MEMBER install-windows-3.11 unexecuted classes=network-service,process-environment receipt=- verdict=reason:vm-required
+MEMBER kv-store-grpc executed classes=network-service receipt=corpus/evidence/round64/kvstore-probe.txt verdict=R64-C1 token=predicate
+MEMBER nginx-request-logging executed classes=network-service receipt=corpus/evidence/round70/nginx/receipt.txt verdict=R70-C1 token=predicate
+MEMBER pypi-server executed classes=network-service receipt=corpus/evidence/round68/pypi/receipt.txt verdict=R68-C1 token=predicate
+MEMBER query-optimize unexecuted classes=db-state receipt=- verdict=reason:external-db-required
+MEMBER sqlite-with-gcov executed classes=db-state receipt=corpus/evidence/round65/sqlite-gcov-probe.txt verdict=R65-C1 token=predicate
+MEMBER torch-pipeline-parallelism executed classes=process-environment receipt=corpus/evidence/round67/pipe/receipt.txt verdict=R67-C1 token=vectors
+MEMBER torch-tensor-parallelism executed classes=process-environment receipt=corpus/evidence/round66/tensor/receipt.txt verdict=R66-C1 token=predicate
+CLASS network-service k=4 n=8 census=8 ledger_k=4
+CLASS process-environment k=2 n=3 census=3 ledger_k=2
+CLASS db-state k=1 n=2 census=2 ledger_k=1
+LEDGER rows=12 executed=7 unexecuted=5
+COVERAGE recomputed_covered=15 census_covered=12 promoted=network-service,process-environment,db-state recomputed_uncovered=container-image
+DEFECTS n=0
+TARGET classes=3 members=12 executed=7 unexecuted=5 unaccounted=0 unbacked=0
+PREDICATE R78-C1 pass

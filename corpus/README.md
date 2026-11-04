@@ -607,6 +607,7 @@ the round29 deferred index statement after the Gate's exact-byte admission.
 |---|---|
 | `evidence/round34/` | Round-34 SOURCES census before/after receipts; no corpus rows were admitted. |
 | `evidence/round72/` | Round-72 receipts: the nine-case C1 receipt with its replicate, checker, stub before/after/control, nine per-case sandbox captures plus `sandbox-replicate/`; the C1 selftest; C2 red-before/green/controls/gate-mutants; the round-52 registry-debt receipt; the two source captures (S247/S248); and `gates/` (depth, trio) |
+| `evidence/round78/` (`corpus/evidence/round78/`) | Round-78 receipts: both gates' before (`c1-before.txt` at `--rev 3ae0ab54`, `c2-before.txt`) and after, the four batteries and both controls, the census pair, and the S254 capture under `sources/` |
 | `evidence/round77/` (`corpus/evidence/round77/`) | Round-77 receipts: the canonical-inventory gate's before (`c1-before.txt`) and its batteries, the burn-down gate's before (`c2-before.txt`), the two exec receipts (`exec-attrib-calibration.txt`, `exec-state-check.txt`), the three stamped reruns (`rerun-routed-open.txt`, `rerun-r51-c1.txt`, `rerun-r75-c1.txt`), both censuses and the S253 capture under `sources/` |
 
 ### Round-63 evidence (2026-11-03)
@@ -916,6 +917,8 @@ A row here indexes a file; it does not admit it — the held entries stay held.
 | `lessons/round-75-verifier-spotcheck.md` | Non-author closure of round 75: both claims re-derived at `5d9a0ccc`; seven routed defects R75-D1–D7 (report ordering, revision drift, cross-version counts, registry drift, LOG drift, unbacked assertion, in-place lesson edit) | closure of round 75 |
 | `lessons/round-76.md` | Round 76 — the `## Surfaces` declaration becomes a live resolver gate (R76-C1) and the closure's seven routed defects become a burn-down (R76-C2); Gate (S252), M76-1…5, Amendments A1–A4 | LOG.md round 76; plans/round-76-claims.md; `.ufo/waves/round-76/` |
 | `lessons/round-76-verifier-spotcheck.md` | Non-author closure of round 76: both claims re-derived at `a6a2a7b8`; seven routed defects R76-V1–V7 (battery receipts at a pre-battery revision, registry drift, unswept corrections, a LOG pointer to a nonexistent entry, a prior-art contradiction, capability-name drift, unrereceipted reruns) | closure of round 76 |
+| `lessons/round-77-verifier-spotcheck.md` | Non-author closure of round 77: both claims re-derived at `5eb74eed`; five routed defects D1–D5 (rerun receipts mis-stamped, battery receipts at pre-fix tips, a stale SCORECARD stamp, at-tip claims without at-tip receipts, `WORKTREE clean` narrower than it reads) | closure of round 77 |
+| `lessons/round-78.md` | Round 78 — the three partially-executed grader classes become a machine-checked 12-member ledger (R78-C1) and every verdict-bearing round-77/78 receipt becomes self-locating at its own stamp (R78-C2); Gate (S254, S255), M78-1…5, Limits | LOG.md round 78; plans/round-78-claims.md; `.ufo/waves/round-78/` |
 | `lessons/round-77.md` | Round 77 — one canonical declared-surface inventory resolved live (R77-C1) and the round-76 closure's seven routed defects burnt down (R77-C2); Gate (S253), M77-1…3 | LOG.md round 77; plans/round-77-claims.md; `.ufo/waves/round-77/` |
 
 ### Knowledge index rows (3)

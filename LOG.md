@@ -2973,3 +2973,53 @@ A5), `a5c81b76` (remint-driver registry row). Two claims, both admitted:
   at-revision reads both counters use; registry 244 → 245, census rc 0 both ends. Assimilation: none
   (L0 `kengaku | round-54` still open). considerthese: proposal 2 stays open, no proposal mined.
 - **L0 carried unchanged:** kengaku rounds 25/33/51/54/56/63/65/66/67/72/74/76.
+
+## Round 78 (hyaku run 15, attempt 1, 2026-11-04)
+
+Base `3ae0ab54` (round-77 verifier spot-check). Freeze `2f9eeafb`; repair `cd2e25bb`, `f20a2f6f`.
+Two claims, both admitted. One v1 wave, 11 seats.
+
+- **R78-C1 / coverage** — the three classes `SKILL.md` declares partially executed become a
+  machine-checked member ledger (`plans/grader-selected-members.json`, 12 distinct members over 13
+  member-class pairs; `SKILL.md` rows carry `executed k of n` + `ledger=plans/grader-selected-members.json`).
+  Before `--rev 3ae0ab54`: `LEDGER rows=0`, `DEFECTS n=21`, `unaccounted=12`, rc 1 → after:
+  `LEDGER rows=12 executed=7 unexecuted=5`, `DEFECTS n=0`, `unaccounted=0 unbacked=0`, rc 0
+  (`corpus/evidence/round78/c1-before.txt`, `c1-after.txt`). Batteries: selftest `cases=8 red=7`,
+  mutants `6/6`, control `target_reached=False`.
+- **R78-C2 / calibration** — every verdict-bearing receipt under `corpus/evidence/round77|78/`
+  carries a stamp that recomputes at its own revision. Before: `receipts=16 located=3 unlocated=13`,
+  `DEFECTS n=27`, rc 1 → after: `unlocated=0`, `DEFECTS n=0`, rc 0 (`c2-before.txt`, `c2-after.txt`).
+  Batteries: selftest `cases=7 red=6`, mutants `6/6`, control `target_reached=False`.
+- **Repairs landed.** 12 round-77 receipts re-minted at `cd2e25bb` through
+  `plans/round78_restamp.py` (`c1-after`, `c2-after`, both selftest/mutants/control pairs and the
+  three reruns) and 4 re-stamped append-only (`c1-before`, `c2-before`, `exec-attrib-calibration`,
+  `exec-state-check`). The rerun receipts now name the tip that carries their tools and print
+  `EXIT 0` (R51-C1, R75-C1, routed_open `ROWS total=93 open=31 blocked=1 closed=59 refused=2`).
+- **Sources.** S254 (Git `git-status`, live fetch, capture + sha256 `22ff28ff…`, quote at capture
+  2322–2324) grounds the untracked-file semantics behind `WORKTREE clean`; S255 is the `own-work`
+  row for the census receipt the ledger expands (`sha256 ee30c698…`). Registry 245 → 247, census
+  rc 0 at both ends (`corpus/evidence/round78/census-{before,after}.txt`). Assimilation: none
+  (L0 `kengaku | round-54` open). considerthese: proposal 2 (`tb2_grader_admit`) stays open.
+- **Re-verification (freshness).** `sources-census.sh validate` rc 0 (247 rows, 25 `W04`);
+  `python3 grader.py` re-run this round on committed bytes; `R51-C1`, `R74-C1`, `R74-C2`, `R75-C1`,
+  `R77-C1`, `R77-C2` and `routed_open.py` re-run at the round tip; every declared surface untouched
+  by this round stays as `PROVINCE.md` records it.
+
+### Rerun block at the tip (R77-D4)
+
+Every gate the round touched was re-run at the tip that carries its final bytes; each line names the
+receipt that holds the observed output:
+
+- `python3 plans/round51_surfaces.py --lane .` → `PREDICATE R51-C1 pass`, `UNCOVERED 0`,
+  `RESOLVE observed_present=15 floor=13 verdict=met` — `corpus/evidence/round77/rerun-r51-c1.txt`.
+- `python3 plans/round75_c1_index_parity.py --lane .` → `PREDICATE R75-C1 pass`, three universes
+  indexed — `corpus/evidence/round77/rerun-r75-c1.txt`.
+- `python3 plans/routed_open.py --lane .` → `ROWS total=93 open=31 blocked=1 closed=59 refused=2` —
+  `corpus/evidence/round77/rerun-routed-open.txt`.
+- `python3 plans/round74_c1_registry.py --lane .` → `MISSING 0`, `REGISTERED total=126`,
+  `PREDICATE R74-C1 pass` (this round registers its three new instruments).
+- `python3 plans/round77_c1_declared_surfaces.py --lane .` → `TARGET total=28 unlisted=0 live=27
+  agree=28 disagree=0`, `EXIT 0` — `corpus/evidence/round77/c1-after.txt` (re-minted).
+- `python3 plans/round77_c2_defect_discharge.py --lane .` → `discharged=7 legs_passed=7 wrong=0`,
+  `EXIT 0` — `corpus/evidence/round77/c2-after.txt` (re-minted).
+- **L0 carried unchanged:** kengaku rounds 25/33/51/54/56/63/65/66/67/72/74/76.

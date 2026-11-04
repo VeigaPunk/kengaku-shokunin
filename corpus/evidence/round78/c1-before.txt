@@ -1,0 +1,37 @@
+LANE_TIP f20a2f6fcceb6769b48109d57904f52376190e44
+TOOL plans/round78_c1_class_member_ledger.py
+TOOL_SHA 9c4fc23174d65256e3cf6dcc7014e8c79fcac1d3c6d93e229f85dbffae6b212f
+WORKTREE clean
+COMMAND /usr/bin/python3 /fast/scratch/hyaku/kengaku-r78/c-c1-before/plans/round78_c1_class_member_ledger.py --lane /fast/scratch/hyaku/kengaku-r78/c-c1-before --work /fast/scratch/hyaku/kengaku-r78/ev --receipt /fast/scratch/hyaku/kengaku-r78/ev/c1-before.txt.tool --rev 3ae0ab54
+MINTED_BY plans/round78_restamp.py sha256=15157a4c3a1283dfbcbe14d56406fe5a5e309070a59070600785d5bad796c16b
+EXIT 1
+UNIVERSE classes=3 members=12 pairs=13
+CLASS network-service k=4 n=8 census=8 ledger_k=0
+CLASS process-environment k=2 n=3 census=3 ledger_k=0
+CLASS db-state k=1 n=2 census=2 ledger_k=0
+LEDGER rows=0 executed=0 unexecuted=0
+COVERAGE recomputed_covered=12 census_covered=12 promoted=- recomputed_uncovered=network-service,process-environment,db-state,container-image
+DEFECT CLASS-ROW-UNLINKED network-service executed cell carries no `ledger=plans/grader-selected-members.json`
+DEFECT CLASS-ROW-UNLINKED process-environment executed cell carries no `ledger=plans/grader-selected-members.json`
+DEFECT CLASS-ROW-UNLINKED db-state executed cell carries no `ledger=plans/grader-selected-members.json`
+DEFECT MEMBER-UNACCOUNTED filter-js-from-html in classes network-service
+DEFECT MEMBER-UNACCOUNTED git-multibranch in classes network-service
+DEFECT MEMBER-UNACCOUNTED headless-terminal in classes network-service
+DEFECT MEMBER-UNACCOUNTED hf-model-inference in classes network-service
+DEFECT MEMBER-UNACCOUNTED install-windows-3.11 in classes network-service,process-environment
+DEFECT MEMBER-UNACCOUNTED kv-store-grpc in classes network-service
+DEFECT MEMBER-UNACCOUNTED nginx-request-logging in classes network-service
+DEFECT MEMBER-UNACCOUNTED pypi-server in classes network-service
+DEFECT MEMBER-UNACCOUNTED query-optimize in classes db-state
+DEFECT MEMBER-UNACCOUNTED sqlite-with-gcov in classes db-state
+DEFECT MEMBER-UNACCOUNTED torch-pipeline-parallelism in classes process-environment
+DEFECT MEMBER-UNACCOUNTED torch-tensor-parallelism in classes process-environment
+DEFECT COUNT-DRIFT network-service class row k=4 ledger executed=0
+DEFECT COUNT-DRIFT process-environment class row k=2 ledger executed=0
+DEFECT COUNT-DRIFT db-state class row k=1 ledger executed=0
+DEFECT COVERAGE-REGRESSION network-service row claims k=4 > 0 but no ledger executed member backs it
+DEFECT COVERAGE-REGRESSION process-environment row claims k=2 > 0 but no ledger executed member backs it
+DEFECT COVERAGE-REGRESSION db-state row claims k=1 > 0 but no ledger executed member backs it
+DEFECTS n=21
+TARGET classes=3 members=12 executed=0 unexecuted=0 unaccounted=12 unbacked=0
+PREDICATE R78-C1 fail
