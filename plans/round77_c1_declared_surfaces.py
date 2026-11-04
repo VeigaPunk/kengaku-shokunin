@@ -331,13 +331,18 @@ def resolve_hash(lane: Path, token: str, pin: str, reader: Reader) -> tuple[str,
     if blob is None:
         return "absent", f"path={token}"
     digest = hashlib.sha256(blob).hexdigest()
-    ok = digest.startswith(head[:8]) and (not tail or digest.endswith(tail))
+    if len(head) == 64:
+        ok = digest == head
+    else:
+        ok = digest.startswith(head) and (not tail or digest.endswith(tail))
     return ("present" if ok else "hashdrift"), f"sha256={digest[:8]}…{digest[-6:]} pin={head[:8]}…{tail or ''}"
 
 
 def resolve_count(lane: Path, token: str, want: str, reader: Reader) -> tuple[str, str]:
     proc = git(lane, "show", f"{reader.rev}:{token}") if reader.rev not in ("worktree", "", None) else None
-    if proc is not None and proc.returncode == 0:
+    if proc is not None:
+        if proc.returncode != 0:
+            return "absent", f"path={token} absent at {reader.rev}"
         text = proc.stdout
     else:
         p = lane / token
@@ -346,6 +351,16 @@ def resolve_count(lane: Path, token: str, want: str, reader: Reader) -> tuple[st
         text = p.read_text(errors="replace")
     n = sum(1 for line in text.splitlines() if CENSUS_ROW.match(line))
     return ("present" if n == int(want) else "countdrift"), f"rows={n} pin={want} path={token}"
+
+
+def tracked(lane: Path, rel: str, rev: str) -> bool:
+    if rev in ("worktree", "", None):
+        proc = subprocess.run(["git", "-C", str(lane), "ls-files", "--error-unmatch", rel],
+                              capture_output=True)
+        return proc.returncode == 0
+    proc = subprocess.run(["git", "-C", str(lane), "ls-tree", "-r", "--name-only", rev, "--", rel],
+                          capture_output=True, text=True)
+    return rel in proc.stdout.splitlines()
 
 
 def resolve_exec(lane: Path, token: str, cell: str, reader: Reader) -> tuple[str, str]:
@@ -361,6 +376,10 @@ def resolve_exec(lane: Path, token: str, cell: str, reader: Reader) -> tuple[str
     if not path.exists():
         return "execunverified", f"receipt={rel} absent"
     text = path.read_text(errors="replace")
+    if not tracked(lane, rel, reader.rev):
+        return "execunverified", f"receipt={rel} untracked"
+    if "COMMAND " not in text:
+        return "execunverified", f"receipt={rel} no COMMAND line"
     if f"exit {want.group(1)}" not in text and f"rc={want.group(1)}" not in text:
         return "execunverified", f"receipt={rel} exit={want.group(1)} missing"
     m = LANE_TIP.search(text)
@@ -498,6 +517,9 @@ def census(lane: Path, reader: Reader) -> tuple[list[str], list[str], dict[str, 
             live += 1
         joined = " ".join(cells)
         dated_absent = DATED_ABSENT.search(joined)
+        if dated_absent and DECL_PRESENT.search(verdict_cell) and not declared_absent(verdict_cell):
+            defects.append(f"DEFECT CONTRADICTORY-VERDICT {lineno} {name[:40]}")
+            row_bad = True
         dated_remote = DATED_REMOTE.search(joined)
         stale = [w for w in STALE_TEXT if w in joined.lower()]
         if verdict == "present":
@@ -540,7 +562,12 @@ def census(lane: Path, reader: Reader) -> tuple[list[str], list[str], dict[str, 
     canon_anchors: list[str] = []
     for _lineno, cells in rows:
         if len(cells) >= 3:
-            canon_anchors.extend(anchor_tokens(cells[2]))
+            kind_here = cells[1].strip().strip("*`").lower()
+            toks_here = anchor_tokens(cells[2])
+            if kind_here in ("hash", "count", "exec") and toks_here:
+                canon_anchors.append(toks_here[0])   # only the anchor the kind resolves
+            else:
+                canon_anchors.extend(toks_here)
     unlisted = 0
     for heading, lineno, cells in superseded_rows(reader):
         anchor = ""
@@ -700,8 +727,8 @@ def mutants(work: Path) -> int:
                                 "        elif verdict == \"absent\":\n            if False:", 1),
             "UNDECLARED-ABSENT", {"drop_marker": "1"}),
         "skip-hash": (
-            lambda s: s.replace("    ok = digest.startswith(head[:8])", "    ok = True  #", 1),
-            "HASH-DRIFT", {"hash_pin": "deadbeef…abcdef"}),
+            lambda s: s.replace("        ok = digest == head", "        ok = True  #", 1),
+            "HASH-DRIFT", {"hash_pin": "deadbeef" * 8}),
         "skip-count": (
             lambda s: s.replace('    return ("present" if n == int(want) else "countdrift")',
                                 '    return ("present" if True else "countdrift")', 1),

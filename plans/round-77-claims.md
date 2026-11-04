@@ -214,3 +214,33 @@ fields, both controls and both kill rules are unchanged; the rules can only add 
 (V7 accepting a stamp-less or non-passing receipt) is already closed by Amendment A3. Kept as a stated
 limit: `--receipt` truncates any writable path the caller names (a wrapper-trust boundary, not a
 markdown-row one).
+
+## Amendment A5 (2026-11-04, from the wave's first reviewer, target unchanged) — five false greens closed; the TARGET line's prose corrected
+
+`ReviewerC1R77` reported eight items on the frozen counter; five were false greens and are closed here.
+Every change can only add defects, so the eight target fields, both controls and both kill rules are
+unchanged.
+
+1. **Supersession laundering (high).** `hash`/`count`/`exec` rows resolved only their first anchor while
+   the supersession scan credited *every* anchor in a row's anchor cell. Credit now follows the anchors
+   the kind actually resolves: those three kinds contribute only their first token; `path`/`http`/`tcp`/
+   `cmd`/`remote` contribute all of theirs.
+2. **Fabricated execution evidence (high).** An `exec` row now requires its receipt to be **tracked at
+   the measured revision** (`RECEIPT-UNTRACKED`) and to carry a `COMMAND ` line naming what ran
+   (`EXEC-UNVERIFIED` otherwise), besides the `exit=`/`LANE_TIP` legs. Both round-77 exec receipts were
+   re-minted with their `COMMAND` line. Stated limit kept: a receipt is a committed lane declaration,
+   not proof that a process ran — the reader re-derives the receipt's own claims.
+3. **Contradictory verdict cell (medium).** `present ABSENT 2026-11-04` on an absent path passed because
+   `declared_absent()` treated the word *present* as overriding the marker. A dated `ABSENT` marker in a
+   row whose verdict cell also asserts `present` is now `CONTRADICTORY-VERDICT`, independent of the live
+   verdict.
+4. **Full-digest pins (medium).** A 64-hex pin compared only its first eight characters. A full digest is
+   now compared whole; abbreviated `first8…last6` pins keep the prefix/suffix rule.
+5. **`--rev` count mix (medium).** `resolve_count` fell back to worktree bytes when the file was absent
+   at the requested revision. It now answers `absent at <rev>`, so a revision read never mixes trees.
+
+The reviewer's item 4 (deletions visible only through cardinality) stays the M76-5 class and the
+`IDENTITIES`/`--expect-manifest` guard; **item 8 (the frozen `TARGET` prose) is corrected here**: the
+counter prints `TARGET total=28 unlisted=0 live=27 agree=28 disagree=0` and a separate `DEFECTS n=0`
+line; the claims text above that spells `… defects=0` inside the TARGET line was prose drift, not a
+field. The target's meaning (no defect line, all six printed fields equal) is unchanged.
