@@ -925,7 +925,8 @@ A row here indexes a file; it does not admit it — the held entries stay held.
 | `lessons/round-77.md` | Round 77 — one canonical declared-surface inventory resolved live (R77-C1) and the round-76 closure's seven routed defects burnt down (R77-C2); Gate (S253), M77-1…3 | LOG.md round 77; plans/round-77-claims.md; `.ufo/waves/round-77/` |
 
 | `lessons/round-79-verifier-spotcheck.md` | Non-author closure of round 79: both claims re-derived at `f10a2678`; six routed defects V1–V6 (an unsupported re-verification claim, a wrong census W04 count, a 13-vs-12 off-by-one, an imprecise S254 anchor, an unstated duplicate-URL warning, unstamped after receipts) | closure of round 79 |
-| `lessons/round-80.md` | Round 80 — the six `executed-unlocated` members become located, reproducible replays (R80-C1) and the round-79 spot-check's V1–V6 are discharged (R80-C2); Gate (S258), M80-1 | LOG.md round 80; plans/round-80-claims.md; `.ufo/waves/round-80/` |
+| `lessons/round-80.md` | Round 80 — the six `executed-unlocated` members become located, reproducible replays (R80-C1) and the round-79 spot-check's V1–V6 are discharged (R80-C2); Gate (S258), M80-1/M80-2 (the README row's old `M80-1` was one of R80-U6's two slips) | LOG.md round 80; plans/round-80-claims.md; `.ufo/waves/round-80/` |
+| `lessons/round-80-verifier-spotcheck.md` | Non-author closure of round 80: both claims re-derived at `507d249b`; six routed defects U1–U6 (a stale S258 anchor, a dirty-worktree after receipt, census counts without a producing command, a fix asserted but never shown failing, two unregistered gates, two evidence-prose slips) | closure of round 80 |
 ### Knowledge index rows (3)
 
 | Entry | Covers | Primary source |
@@ -957,6 +958,7 @@ A row here indexes a file; it does not admit it — the held entries stay held.
 - `corpus/evidence/round60/` — 1 file, 1 subdirectory (grep-manual): round-60 GNU grep manual capture and the openssl-probe re-freeze receipt.
 - `corpus/evidence/round75/` — 8 files, 1 subdirectory (sources): round-75 receipts: c1 before/selftest/rowshuffle-control, c2 audit/mutants, stamp red-before, attribution control, selftest, both census captures and the S251 source capture.
 - `corpus/evidence/round76/` — receipts and the S252 capture: c1 before/selftest/mutants/control-declared, c2 before/selftest/selftest-git/mutants/control-status, both census captures, the round-74 tip receipts and `sources/git-merge-base.html`.
+- `corpus/evidence/round81/` — round-81 claim receipts: the C1 gate's before/battery/control/after runs, the two member probe receipts, the C2 check battery, the census row-count and U4 red-before receipts.
 
 ## Round-75 supporting artifacts (2026-11-04)
 

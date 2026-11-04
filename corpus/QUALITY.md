@@ -1285,3 +1285,21 @@ A witness at one granularity does not price the finer one.
   report-only gate's silence cannot pass as success (`plans/round77_remint_r76_batteries.py`,
   `plans/round77_c2_defect_discharge.py` legs V1/V7). Lesson: `corpus/lessons/round-77.md`
   Gate and Mistakes M77-1..3.
+
+## Round81 criterion
+
+- **Q57 — a replay receipt pins the environment its numbers depend on.** A replay's output is a
+  function of the interpreter and the userland it calls, so a receipt that records only the tool, the
+  subject and the commit does not say what measurement it is. The rule: a located replay receipt
+  carries `HOST_PYTHON` (the probe interpreter's `python3 -V` first line) and `HOST_OPENSSL`
+  (`openssl version`, or `absent`), and the gate rejects a receipt minted under a different pair
+  (`HOST-PYTHON-MISMATCH` / `HOST-OPENSSL-MISMATCH`, `plans/round81_c1_new_members.py`). Round 81
+  lands the successor predicate; round 80's receipts stay as they were, never edited.
+- **Q58 — a fix is committed with the run that shows it failing, not with a description of the
+  failure.** R80-U4: M80-1 claimed that removing the probe table's `prefix` makes the protein leg die
+  with `ModuleNotFoundError: No module named 'Bio'`, but no committed byte carried that failure and
+  `corpus/QUALITY.md` had no criterion naming it. The rule: a lesson's fix carries a red-before
+  receipt (command, exit code, verbatim failure) in `corpus/evidence/`, and this criterion cites it —
+  `corpus/evidence/round81/r80-u4-red-before.txt` (exit 1, the module error verbatim) is that witness,
+  and `plans/round81_c2_checks.py u4` fails when the receipt or this criterion is absent. Lesson:
+  `corpus/lessons/round-81.md`.

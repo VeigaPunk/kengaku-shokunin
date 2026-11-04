@@ -3793,6 +3793,14 @@ report), novelty **8** (held; two instruments, no new construct claimed).
 **No axis harmed:** the round's lane diff is append-only except the six ledger rows, the six new
 receipts, the C2 counter's id mapping, and the S258/README/lesson additions named above.
 
+**Errata appended in round 81 (R80-U2).** The R80-C1 *after* receipt `corpus/evidence/round80/c1-after.txt`
+prints `WORKTREE dirty` and `MINTED_BY plans/round78_restamp.py`: it is a HEAD assertion from a moving
+worktree, not a measurement of a tree, so it is **not** the comparable artifact. The comparable measurement
+of R80-C1 at the tip is `corpus/evidence/round80/gates-clean.txt`, measured at `e985e56a` (`WORKTREE clean`,
+four `EXIT 0` verdicts including `PREDICATE R80-C1 pass`); that block is what the R80-C1 score row rests on.
+`c1-after.txt` stays in place as the historical run it is, and round 81's mint driver refuses to write a
+receipt unless the worktree is clean before and after the probes.
+
 ### Round-80 capabilities (demonstrated this round)
 
 | Capability | What it can now do | Evidence / command | First-working round |

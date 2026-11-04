@@ -1,0 +1,16 @@
+R80-U4 red-before — M80-1's fix shown able to fail
+claim under test (corpus/lessons/round-80.md M80-1): removing the probe table's `prefix` makes the
+protein leg die with `ModuleNotFoundError: No module named 'Bio'` and the gate report `REPRODUCTION-EXIT`.
+frozen table entry (plans/round80_probes.json, protein-assembly): prefix = `uv run --no-project --with biopython`
+command run here (prefix removed, system interpreter):
+  cd /home/vgpnk/Projects/shokunin/kengaku-shokunin && /usr/bin/python3 plans/tb2_grader_probe.py --lane .
+exit code: 1
+--- verbatim output (stdout then stderr) ---
+Traceback (most recent call last):
+  File "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/tb2_grader_probe.py", line 168, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/tb2_grader_probe.py", line 145, in main
+    import Bio  # noqa: F401  (fail loudly if Biopython is absent)
+    ^^^^^^^^^^
+ModuleNotFoundError: No module named 'Bio'
