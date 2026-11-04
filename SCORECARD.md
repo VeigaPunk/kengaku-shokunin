@@ -3501,3 +3501,18 @@ the C1 mutant matrix `9/9`, the C2 selftest `cases=11 red=10`, the git arms `3/3
 matrix `9/9`; the before receipts were re-measured under the same rules (`agree=8 disagree=3`;
 `registered=0 open=7`). At `4b884412` all five gates are green: `R76-C1`, `R76-C2`, `R75-C1`
 (74/74, 125/125, 67/67), `R74-C1`, `R74-C2`.
+
+### Round-76 capabilities (demonstrated this round)
+
+| Capability | What it can now do | Evidence / command | First-working round |
+|---|---|---|---|
+| `province-surface-resolver-table-anchored` | Resolve every declared `PROVINCE.md` `## Surfaces` row live from the table's own bytes (first backticked path or loopback endpoint, brace alternatives expanded), refuse present-tense prose on an absent row, confine probes to loopback and refuse `..`/unbounded braces, and pin the identity manifest so a deleted row is visible — an **increment of round 51's manifest-based resolver** (`plans/round51_surfaces.py`), not a first acquisition | `python3 plans/round76_c1_surface_resolver.py --lane .` → `SURFACES total=11 present=4 absent=7 prose=0`, `AGREE agree=11 disagree=0`, `IDENTITIES n=11 unique=11 sha256=7f41f588…`, exit 0 (`corpus/evidence/round76/c1-after.txt`) | 76 |
+| `routed-defect-discharge-binding` | Register the newest closer's routed ids in the ledger and re-derive each discharge at the commit that carries its evidence: three-state `merge-base --is-ancestor`, `evidence_path`/`evidence_literal` read from that tree, seven value-bearing legs | `python3 plans/round76_c2_defect_discharge.py --lane .` → `SCOPE ids=7 registered=7 closed=7 open=0 discharged=7 legs_passed=7`, exit 0 (`corpus/evidence/round76/c2-after.txt`) | 76 |
+
+**Round-76 addendum 3 (appended 2026-11-04, after Amendment A7).** Final after receipts were
+regenerated from a clean clone at `e551cec208bc994525377e3c5d1cfac885ce9c6a` — the revision carrying
+the round-51 repair and the A7 prior-art correction — so `c1-after.txt`/`c2-after.txt` stamp
+`e551cec2`, superseding the `4b884412` and `7f2cd3b9` stamps named above. At `e551cec2` six registered
+gates are green: `R76-C1`, `R76-C2`, `R51-C1` (`UNCOVERED 0`, `observed_present=15 floor=13`),
+`R75-C1` (74/74, 125/125, 67/67), `R74-C1`, `R74-C2`; `routed_open.py` prints
+`ROWS total=86 open=31 blocked=1 closed=52 refused=2`, `--selftest 12/12`.
