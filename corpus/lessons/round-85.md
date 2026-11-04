@@ -113,6 +113,11 @@ TB2 grader — the rest of that proposal — is still not built and is named as 
 - The coverage cap (L0 `kengaku | round-25/33/51`): unchanged; coverage is held at 7 by the cap, not by this round.
 - True cross-host reproducibility: the receipt pins `Python 3.14.8` and `OpenSSL 3.6.5`; a different interpreter
   version is a different host state and the receipt says so.
+- **Gate revision-blindness.** `plans/round82_c1_plans_registry.py` reads each row's instrument bytes from the
+  working copy, so `--tip` does not make its flag check revision-sensitive: at BASE `0de45354` it reported
+  `defects=none` for `round83-c2-debt` while the commit's bytes still contained `'--' + mode`. V8's base
+  sensitivity is therefore established at the byte level (literal flag presence in the measured revision), and
+  the gate's green verdict is recorded as the after-state only. Routed to the round-82 gate owner; not fixed here.
 - The receipt's `CASE_TABLE_SHA` binding is redundant with the probe's own `FROZEN_TABLE_SHA` pin: a mutant that drops
   the receipt binding cannot reach the target because the probe exits 2 on a drifted table. Reported as defence in
   depth, not as an independent check.

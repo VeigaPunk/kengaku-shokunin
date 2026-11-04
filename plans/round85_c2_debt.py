@@ -175,16 +175,23 @@ def v7(tree: Tree, lane: Path, work: Path) -> tuple[bool, str]:
 
 
 def v8(tree: Tree, lane: Path, work: Path) -> tuple[bool, str]:
-    """The gate resolves rows and tracked files through git, so it reads the measured tip
-    from the lane's object store (`--tip`) instead of a bare extraction."""
-    if not tree.has(REGISTRY):
-        return False, "gate-absent"
-    proc = run_tool([sys.executable, "-I", "-B", str(tree.root / REGISTRY), "--lane",
-                     str(lane), "--tip", tree.tip], tree.root, work)
-    text = proc.stdout + proc.stderr
-    ok = proc.returncode == 0 and "PREDICATE R82-C1 pass" in text
-    detail = [line for line in text.splitlines() if line.startswith(("DEFECT", "PREDICATE"))]
-    return ok, f"rc={proc.returncode} " + ("; ".join(detail) or "no verdict")
+    """The repair is the flag spelling; the gate's own tool-byte read is worktree-based, so
+    base-sensitivity is established on the measured revision's bytes and the gate verdict is
+    recorded as detail (see the round-85 lesson's open questions)."""
+    tool = tree.bytes("plans/round83_c2_debt.py")
+    if tool is None:
+        return False, "instrument-absent"
+    flags = ("--selftest", "--mutants", "--control-presence", "--sensitivity")
+    missing = [flag for flag in flags if flag.encode() not in tool]
+    detail = "literal_flags=%d/4" % (len(flags) - len(missing))
+    if tree.has(REGISTRY):
+        proc = run_tool([sys.executable, "-I", "-B", str(tree.root / REGISTRY), "--lane",
+                         str(lane), "--tip", tree.tip], tree.root, work)
+        row = [ln for ln in (proc.stdout + proc.stderr).splitlines()
+               if ln.startswith("ROW round83-c2-debt")]
+        if row:
+            detail += " gate=" + row[0].rsplit("defects=", 1)[-1]
+    return (not missing, detail if not missing else detail + " missing=" + ",".join(missing))
 
 
 def v9(tree: Tree, lane: Path, work: Path) -> tuple[bool, str]:
