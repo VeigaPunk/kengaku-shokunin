@@ -1007,3 +1007,50 @@ Two rows were repaired from the gate's own output this round, as dated supersess
 (the table stays the historical record): row 2 (`~/archive/bench-arena`) dropped its present-tense
 "relocated intact" claim, and row 4 (`:45669`) gained the dated `ABSENT 2026-11-04` marker its live
 000 required. The gate's count is 11 surfaces; a row added to the table raises that count by design.
+
+## Declared surfaces — canonical, machine-checked (round 77, 2026-11-04)
+
+*This is the lane's authoritative surface inventory. Every row is resolved live by
+`python3 plans/round77_c1_declared_surfaces.py --lane .`; the `Supersedes` cell names the older
+declaration the row replaces, and any row of the three superseded tables below that no canonical
+row carries is an `UNLISTED-SURFACE` defect. Kinds: `path` (`test -e`), `http` (loopback status),
+`tcp` (connect), `hash` (recomputed sha256 pin), `count` (recomputed row count), `exec` (committed
+run receipt), `cmd` (every path in the declared check), `remote` (no egress: dated marker only).
+An absent row must carry `ABSENT YYYY-MM-DD`; a remote row `REMOTE YYYY-MM-DD`; no other row may.*
+
+| Surface | Kind | Anchor | Verdict | Supersedes |
+|---|---|---|---|---|
+| Research notes (SSOT for eval craft) | path | `~/Projects/webzites/repos/llm-wiki` | absent **ABSENT 2026-11-04** — round-51 probe found it gone; no relocation under `~/Projects` or `~/archive` | Surfaces:Research notes (SSOT for eval craft); Historical row 174 |
+| Research notes (former wikillm path) | path | `~/wikillm/llm-wiki` | absent **ABSENT 2026-11-04** — never existed on this host | Historical row 175 |
+| Local benchmark battery | path | `~/archive/bench-arena` | absent **ABSENT 2026-11-04** — round-14 relocation itself gone; frozen digests remain in `corpus/` | Surfaces:Local benchmark battery; Historical row 176 |
+| Local benchmark battery (former path) | path | `~/bench-arena` | absent **ABSENT 2026-11-04** — superseded by the archive path, itself absent | Historical row 177 |
+| Served local model (:34113) | http | `http://127.0.0.1:34113` | absent **ABSENT 2026-11-04** — process-level pins from rounds 10-14 stay historical capture-time facts | Surfaces:Served local model; Historical row 178 |
+| Served local model (:45669) | http | `http://127.0.0.1:45669` | absent **ABSENT 2026-11-04** — round-76 resolver answered 000 | Surfaces:Served local model (round 51 successor) |
+| Served local router (:1234) | http | `http://127.0.0.1:1234` | present — llama.cpp router, `lfm3-server.service` | Surfaces:Served local model (round 51 successor) |
+| Route telemetry | path | `~/Projects/bounties/ledger/telemetry.jsonl` | absent **ABSENT 2026-11-04** — whole `~/Projects/bounties` tree gone since round 11 | Surfaces:Route telemetry; Historical row 180 |
+| Bounty-hunter tree | path | `~/Projects/the-bounty-hunter` | absent **ABSENT 2026-11-04** — tree gone | Historical row 181 |
+| Client CLI telemetry | path | `~/.bailian/telemetry.jsonl` | absent **ABSENT 2026-11-04** — whole `~/.bailian` gone | Surfaces:Client CLI telemetry; Historical row 182 |
+| Client CLI sync state | path | `~/.bailian/wiki-sync-state.json` | absent **ABSENT 2026-11-04** — whole `~/.bailian` gone | Surfaces:Client CLI telemetry; Historical row 183 |
+| Model catalogs (local index) | path | `~/.bailian/skills/bailian-docs-llm-wiki/models/` | absent **ABSENT 2026-11-04** — whole `~/.bailian` gone | Surfaces:Model catalogs; Historical row 182 |
+| Model catalogs (remote APIs) | remote | `https://huggingface.co/api/models` `https://openrouter.ai/api/v1/models` | remote **REMOTE 2026-11-04** — both answered 200 on 2026-11-04, but the gate keeps no egress: the dated marker is the declaration | Surfaces:Model catalogs; Historical row 185 |
+| Own probe artifacts | path | `corpus/evidence/` | present — durable run bytes, analyses and fleet artifacts, indexed in `corpus/README.md` | Surfaces:Own probe artifacts; Core:Own probe artifacts |
+| In-repo verdict gate | hash | `grader.py` | present sha256=90c87c88…ae941f — hermetic offline replay of four probe trees, 733 checks | Surfaces:In-repo gate; Core:In-repo verdict gate |
+| Attribution instrument | hash | `plans/attrib_probe.py` | present sha256=489f938a…16e06b — floating probe code; frozen anchors live in the `-frozen.md` tables | Core:Attribution instrument + frozen tables |
+| Attribution frozen tables | path | `plans/attrib-r21-frozen.md` | present — plus the r22 and r23 frozen tables beside it | Core:Attribution instrument + frozen tables |
+| Corpus gate docs | path | `corpus/QUALITY.md` | present — admission bar plus the round-closure criteria | Core:Corpus gate docs |
+| Public-literature registry | count | `corpus/SOURCES.md` | present rows=245 — contract-v1 census clean | Core:Public-literature registry |
+| ds-flash-shim source (read-only) | hash | `~/.local/share/ds-flash-shim/shim.py` | present sha256=42d86d99…15a386 — identical to the disclosed pin in the attribution logs | Core:ds-flash-shim source (read-only) |
+| Live probe endpoint | tcp | `127.0.0.1:8791` | present — ds-flash-shim listener, read-only shim | Core:Live probe endpoint |
+| Public literature (cite anchor) | path | `corpus/knowledge/eval-prior-art-calibration.md` | present — the novelty-pricing anchor; the URLs it cites are not probed by the gate | Surfaces:Public literature; Core:Public literature |
+| Open-model catalog digest | path | `corpus/knowledge/open-model-catalogs.md` | present — the round-33 re-probe record behind the remote rows | Historical row 185 |
+| Interval re-verdict instrument | exec | `plans/attrib_calibration.py` | exec exit=0 receipt=corpus/evidence/round77/exec-attrib-calibration.txt — `--summary` and `--selftest` both exit 0 on the landed tree | Core:Interval re-verdict instrument (round 25) |
+| State-assertion check | exec | `plans/state_check.py` | exec exit=0 receipt=corpus/evidence/round77/exec-state-check.txt — `--summary` and `--selftest` both exit 0 on the landed tree | Core:State-assertion check (round 25) |
+| Serving-stack process pin (rounds 10-14) | cmd | `test -e /proc/1299/cmdline ~/.config/systemd/user/qwen-coder.service ~/.config/llama/qwen-coder-godspeed.jinja` | absent **ABSENT 2026-11-04** — pid 1299, the unit and the chat template are all gone with the serving plane | Historical row 179 |
+| Ephemeral probe trees (rounds 4-7) | path | `/tmp/bench-r{4,5,6,7,7-l2-executor}` | absent **ABSENT 2026-11-04** — ephemeral by design; durable numbers are pasted in-entry | Historical row 184 |
+| Corpus index | path | `corpus/README.md` | present — parity gate `plans/round75_c1_index_parity.py` | Surfaces:Corpus index; Core:Corpus index |
+
+The three tables below are **superseded** by this inventory as of round 77: they are retained
+verbatim as the historical record (append-only), and any row they declare that no canonical row
+carries is a gate defect. `## Surfaces` keeps its own gate (`plans/round76_c1_surface_resolver.py`,
+registered); the canonical inventory is the wider universe.
+
