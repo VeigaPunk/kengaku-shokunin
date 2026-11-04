@@ -133,3 +133,23 @@ the base tip: `DEFECTS n=6`, `PREDICATE R71-C2 fail`.
 - **Out of scope, named before data.** No model behaviour is measured; no live endpoint is
   contacted; no sibling lane is touched; `merge/kengaku` adoption is `Assimilation: none` (one
   entry considered, verdict in the lesson `## Gate`).
+
+## Errata — round 72 (2026-11-03)
+
+**E-R72-1 — the two freeze-commit labels are corrected (R71-R7).** Two headings in this file name
+the freeze commit as the holder of artifacts it does not hold. Both superseded sentences are kept
+above, unedited, per the append-only norm; nothing in either claim's predicate, counter, kill rule
+or verdict changes.
+
+1. The label `Do-nothing control (committed at freeze)` is false of `d8a77d3f`: the control
+   receipt `.ufo/waves/round-71/c1-control.txt` is absent from that commit
+   (`git cat-file -e d8a77d3f:.ufo/waves/round-71/c1-control.txt` → rc 128) and landed with
+   `c80fcdb3`. Correct reading: produced before the scored battery and committed with the landing.
+2. The label `Red-before (committed at freeze)` is half right:
+   `.ufo/waves/round-71/c2-red-before.txt` is committed at `d8a77d3f`, but the run that produced
+   it used the freeze instrument reading base data, because the gate did not exist at the base tip
+   `1cb49cac`. Correct reading: red-data with the freeze instrument, not a base-instrument run.
+
+Both classes are already recorded in `corpus/lessons/round-71.md` `## Mistakes`; this erratum
+corrects the frozen document itself so a later reader of the claims file alone cannot repeat the
+overclaim. The receipts keep their revisions.

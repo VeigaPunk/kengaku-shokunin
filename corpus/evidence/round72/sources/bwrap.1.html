@@ -1,0 +1,524 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>bwrap(1) — Arch manual pages</title>
+        <link rel="stylesheet" type="text/css" href="/static/archlinux_common_style/navbar.css">
+        <link rel="stylesheet" type="text/css" href="/static/archmanweb/base.css">
+        <link rel="icon" type="image/x-icon" href="/static/archlinux_common_style/favicon.ico" />
+        <link rel="shortcut icon" type="image/x-icon" href="/static/archlinux_common_style/favicon.ico" />
+        
+    <link rel="stylesheet" type="text/css" href="/static/archmanweb/man_page.css">
+    
+
+    </head>
+    <body>
+        <header>
+            <div id="archnavbar">
+	<div id="logo"><a href="https://archlinux.org" title="Return to the main page">Arch Linux</a></div>
+	<div id="archnavbarmenu">
+		<ul id="archnavbarlist">
+			<li id="anb-home"><a href="https://archlinux.org" title="Arch news, packages, projects and more">Home</a></li>
+			<li id="anb-packages"><a href="https://archlinux.org/packages/" title="Arch Package Database">Packages</a></li>
+			<li id="anb-forums"><a href="https://bbs.archlinux.org/" title="Community forums">Forums</a></li>
+			<li id="anb-wiki"><a href="https://wiki.archlinux.org/" title="Community documentation">Wiki</a></li>
+			<li id="anb-gitlab"><a href="https://gitlab.archlinux.org/archlinux" title="GitLab">GitLab</a></li>
+			<li id="anb-security"><a href="https://security.archlinux.org/" title="Arch Linux Security Tracker">Security</a></li>
+			<li id="anb-aur"><a href="https://aur.archlinux.org/" title="Arch Linux User Repository">AUR</a></li>
+			<li id="anb-download"><a href="https://archlinux.org/download/" title="Get Arch Linux">Download</a></li>
+		</ul>
+	</div>
+</div>
+
+        </header>
+        <main id="content">
+            
+            <article id="content-left">
+                
+<section class="man-page-content">
+    <table class="head">
+  <tr>
+    <td class="head-ltitle">BWRAP(1)</td>
+    <td class="head-vol">User Commands</td>
+    <td class="head-rtitle">BWRAP(1)</td>
+  </tr>
+</table>
+<div class="manual-text">
+<section class="Sh">
+<h1 class="Sh" id='NAME'><a class='permalink' href='#NAME'>NAME</a></h1>
+<p class="Pp">bwrap - container setup utility</p>
+</section>
+<section class="Sh">
+<h1 class="Sh" id='SYNOPSIS'><a class='permalink' href='#SYNOPSIS'>SYNOPSIS</a></h1>
+<p class="Pp HP"><b>bwrap</b> [<i>OPTION</i>...] [<i>COMMAND</i>]</p>
+</section>
+<section class="Sh">
+<h1 class="Sh" id='DESCRIPTION'><a class='permalink' href='#DESCRIPTION'>DESCRIPTION</a></h1>
+<p class="Pp"><b>bwrap</b> is an unprivileged low-level sandboxing tool. You are
+    unlikely to use it directly from the commandline, although that is
+  possible.</p>
+<p class="Pp">It works by creating a new, completely empty, filesystem namespace
+    where the root is on a tmpfs that is invisible from the host, and which will
+    be automatically cleaned up when the last process exits. You can then use
+    commandline options to construct the root filesystem and process environment
+    for the command to run in the namespace.</p>
+<p class="Pp">By default, <b>bwrap</b> creates a new mount namespace for the
+    sandbox. Optionally it also sets up new user, ipc, pid, network and uts
+    namespaces (but note the user namespace is required if bwrap is not run as
+    root). The application in the sandbox can be made to run with a different
+    UID and GID.</p>
+<p class="Pp">If needed (e.g. when using a PID namespace) <b>bwrap</b> is
+    running a minimal pid 1 process in the sandbox that is responsible for
+    reaping zombies. It also detects when the initial application process (pid
+    2) dies and reports its exit status back to the original spawner. The pid 1
+    process exits to clean up the sandbox when there are no other processes in
+    the sandbox left.</p>
+</section>
+<section class="Sh">
+<h1 class="Sh" id='OPTIONS'><a class='permalink' href='#OPTIONS'>OPTIONS</a></h1>
+<p class="Pp">When options are used multiple times, the last option wins, unless
+    otherwise specified.</p>
+<p class="Pp">An empty string is not a valid path, so options that take a path
+    reject it with an error.</p>
+<p class="Pp">General options:</p>
+<p class="Pp"><b>--help</b></p>
+<div class="Bd-indent">Print help and exit</div>
+<p class="Pp"><b>--version</b></p>
+<div class="Bd-indent">Print version</div>
+<p class="Pp"><b>--args </b><b>FD</b></p>
+<div class="Bd-indent">Parse nul-separated arguments from the given file
+  descriptor. This option can be used multiple times to parse options from
+  multiple sources.</div>
+<p class="Pp"><b>--argv0 </b><b>VALUE</b></p>
+<div class="Bd-indent">Set argv[0] to the value VALUE before running the
+  program</div>
+<p class="Pp"><b>--level-prefix</b></p>
+<div class="Bd-indent">Prefix each line of diagnostic output with a numeric
+  severity level enclosed in angle brackets. The severity levels used are based
+  on the constants used by <a href='/man/syslog.3.en'>syslog(3)</a>: for example, &lt;4&gt; indicates a
+  warning, because LOG_WARNING has numeric value 4. Numbers smaller than 4
+  indicate fatal errors, and numbers larger than 4 indicate informational
+  messages. These prefixes can be parsed by tools compatible with logger
+  --prio-prefix (see <a href='/man/logger.1.en'>logger(1)</a>) or systemd-cat --level-prefix=1 (see
+  <a href='/man/systemd-cat.1.en'>systemd-cat(1)</a>).</div>
+<p class="Pp">Options related to kernel namespaces:</p>
+<p class="Pp"><b>--unshare-user</b></p>
+<div class="Bd-indent">Create a new user namespace</div>
+<p class="Pp"><b>--unshare-user-try</b></p>
+<div class="Bd-indent">Create a new user namespace if possible else skip
+  it</div>
+<p class="Pp"><b>--unshare-ipc</b></p>
+<div class="Bd-indent">Create a new ipc namespace</div>
+<p class="Pp"><b>--unshare-pid</b></p>
+<div class="Bd-indent">Create a new pid namespace</div>
+<p class="Pp"><b>--unshare-net</b></p>
+<div class="Bd-indent">Create a new network namespace</div>
+<p class="Pp"><b>--unshare-uts</b></p>
+<div class="Bd-indent">Create a new uts namespace</div>
+<p class="Pp"><b>--unshare-cgroup</b></p>
+<div class="Bd-indent">Create a new cgroup namespace</div>
+<p class="Pp"><b>--unshare-cgroup-try</b></p>
+<div class="Bd-indent">Create a new cgroup namespace if possible else skip
+  it</div>
+<p class="Pp"><b>--unshare-all</b></p>
+<div class="Bd-indent">Unshare all possible namespaces. Currently equivalent
+  with: <b>--unshare-user-try</b> <b>--unshare-ipc</b> <b>--unshare-pid</b>
+  <b>--unshare-net</b> <b>--unshare-uts</b> <b>--unshare-cgroup-try</b></div>
+<p class="Pp"><b>--share-net</b></p>
+<div class="Bd-indent">Retain the network namespace, overriding an earlier
+  <b>--unshare-all</b> or <b>--unshare-net</b></div>
+<p class="Pp"><b>--userns </b><b>FD</b></p>
+<div class="Bd-indent">Use an existing user namespace instead of creating a new
+  one. The namespace must fulfil the permission requirements for setns(), which
+  generally means that it must be a descendant of the currently active user
+  namespace, owned by the same user.</div>
+<p class="Pp"><b>--userns2 </b><b>FD</b></p>
+<div class="Bd-indent">After setting up the new namespace, switch into the
+  specified namespace. For this to work the specified namespace must be a
+  descendant of the user namespace used for the setup, so this is only useful in
+  combination with --userns.
+<p class="Pp">This is useful because sometimes bubblewrap itself creates nested
+    user namespaces (to work around some kernel issues) and --userns2 can be
+    used to enter these.</p>
+</div>
+<p class="Pp"><b>--disable-userns</b></p>
+<div class="Bd-indent">Prevent the process in the sandbox from creating further
+  user namespaces, so that it cannot rearrange the filesystem namespace or do
+  other more complex namespace modification. This is currently implemented by
+  setting the user.max_user_namespaces sysctl to 1, and then entering a nested
+  user namespace which is unable to raise that limit in the outer namespace.
+  This option requires <b>--unshare-user</b>.</div>
+<p class="Pp"><b>--assert-userns-disabled</b></p>
+<div class="Bd-indent">Confirm that the process in the sandbox has been
+  prevented from creating further user namespaces, but without taking any
+  particular action to prevent that. For example, this can be combined with
+  <b>--userns</b> to check that the given user namespace has already been set up
+  to prevent the creation of further user namespaces.</div>
+<p class="Pp"><b>--pidns </b><b>FD</b></p>
+<div class="Bd-indent">Use an existing pid namespace instead of creating one.
+  This is often used with --userns, because the pid namespace must be owned by
+  the same user namespace that bwrap uses.
+<p class="Pp">Note that this can be combined with --unshare-pid, and in that
+    case it means that the sandbox will be in its own pid namespace, which is a
+    child of the passed in one.</p>
+</div>
+<p class="Pp"><b>--uid </b><b>UID</b></p>
+<div class="Bd-indent">Use a custom user id in the sandbox (requires
+  <b>--unshare-user</b>)</div>
+<p class="Pp"><b>--gid </b><b>GID</b></p>
+<div class="Bd-indent">Use a custom group id in the sandbox (requires
+  <b>--unshare-user</b>)</div>
+<p class="Pp"><b>--hostname </b><b>HOSTNAME</b></p>
+<div class="Bd-indent">Use a custom hostname in the sandbox (requires
+  <b>--unshare-uts</b>)</div>
+<p class="Pp">Options about environment setup:</p>
+<p class="Pp"><b>--chdir </b><b>DIR</b></p>
+<div class="Bd-indent">Change directory to DIR</div>
+<p class="Pp"><b>--setenv </b><b>VAR</b><b> </b><b>VALUE</b></p>
+<div class="Bd-indent">Set an environment variable</div>
+<p class="Pp"><b>--unsetenv </b><b>VAR</b></p>
+<div class="Bd-indent">Unset an environment variable</div>
+<p class="Pp"><b>--clearenv</b></p>
+<div class="Bd-indent">Unset all environment variables, except for <b>PWD</b>
+  and any that are subsequently set by <b>--setenv</b></div>
+<p class="Pp">Options for monitoring the sandbox from the outside:</p>
+<p class="Pp"><b>--lock-file </b><b>DEST</b></p>
+<div class="Bd-indent">Take a lock on DEST while the sandbox is running. This
+  option can be used multiple times to take locks on multiple files.</div>
+<p class="Pp"><b>--sync-fd </b><b>FD</b></p>
+<div class="Bd-indent">Keep this file descriptor open while the sandbox is
+  running</div>
+<p class="Pp">Filesystem related options. These are all operations that modify
+    the filesystem directly, or mounts stuff in the filesystem. These are
+    applied in the order they are given as arguments.</p>
+<p class="Pp">Any missing parent directories that are required to create a
+    specified destination are automatically created as needed. Their permissions
+    are normally set to 0755 (rwxr-xr-x). However, if a <b>--perms</b> option is
+    in effect, and it sets the permissions for group or other to zero, then
+    newly-created parent directories will also have their corresponding
+    permission set to zero. <b>--size</b> modifies the size of the created mount
+    when preceding a <b>--tmpfs</b> action; <b>--perms</b> and <b>--size</b> can
+    be combined.</p>
+<p class="Pp"><b>--perms </b><b>OCTAL</b></p>
+<div class="Bd-indent">This option does nothing on its own, and must be followed
+  by one of the options that it affects. It sets the permissions for the next
+  operation to OCTAL. Subsequent operations are not affected: for example,
+  --perms 0700 --tmpfs /a --tmpfs /b will mount /a with permissions 0700, then
+  return to the default permissions for /b. Note that <b>--perms</b> and
+  <b>--size</b> can be combined: --perms 0700 --size 10485760 --tmpfs /s will
+  apply permissions as well as a maximum size to the created tmpfs.</div>
+<p class="Pp"><b>--size </b><b>BYTES</b></p>
+<div class="Bd-indent">This option does nothing on its own, and must be followed
+  by --tmpfs. It sets the size in bytes for the next tmpfs. For example, --size
+  10485760 --tmpfs /tmp will create a tmpfs at /tmp of size 10MiB. Subsequent
+  operations are not affected: for example, --size 10485760 --tmpfs /a --tmpfs
+  /b will mount /a with size 10MiB, then return to the default size for /b. Note
+  that <b>--perms</b> and <b>--size</b> can be combined: --size 10485760 --perms
+  0700 --tmpfs /s will apply permissions as well as a maximum size to the
+  created tmpfs.</div>
+<p class="Pp"><b>--bind </b><b>SRC</b><b> </b><b>DEST</b></p>
+<div class="Bd-indent">Bind mount the host path SRC on DEST</div>
+<p class="Pp"><b>--bind-try </b><b>SRC</b><b> </b><b>DEST</b></p>
+<div class="Bd-indent">Equal to <b>--bind</b> but ignores non-existent SRC</div>
+<p class="Pp"><b>--dev-bind </b><b>SRC</b><b> </b><b>DEST</b></p>
+<div class="Bd-indent">Bind mount the host path SRC on DEST, allowing device
+  access</div>
+<p class="Pp"><b>--dev-bind-try </b><b>SRC</b><b> </b><b>DEST</b></p>
+<div class="Bd-indent">Equal to <b>--dev-bind</b> but ignores non-existent
+  SRC</div>
+<p class="Pp"><b>--ro-bind </b><b>SRC</b><b> </b><b>DEST</b></p>
+<div class="Bd-indent">Bind mount the host path SRC readonly on DEST</div>
+<p class="Pp"><b>--ro-bind-try </b><b>SRC</b><b> </b><b>DEST</b></p>
+<div class="Bd-indent">Equal to <b>--ro-bind</b> but ignores non-existent
+  SRC</div>
+<p class="Pp"><b>--remount-ro </b><b>DEST</b></p>
+<div class="Bd-indent">Remount the path DEST as readonly. It works only on the
+  specified mount point, without changing any other mount point under the
+  specified path</div>
+<p class="Pp"><b>--overlay-src </b><b>SRC</b></p>
+<div class="Bd-indent">This option does nothing on its own, and must be followed
+  by one of the other overlay options. It specifies a host path from which files
+  should be read if they aren't present in a higher layer.
+<p class="Pp">This option can be used multiple times to provide multiple
+    sources. The sources are overlaid in the order given, with the first source
+    on the command line at the bottom of the stack: if a given path to be read
+    exists in more than one source, the file is read from the last such source
+    specified.</p>
+<p class="Pp">(For readers familiar with overlayfs, note that this is the
+    reverse of the order used by the kernel's lowerdir mount option.)</p>
+</div>
+<p class="Pp"><b>--overlay </b><b>RWSRC</b><b> </b><b>WORKDIR</b><b>
+    </b><b>DEST</b></p>
+<p class="Pp"><b>--tmp-overlay </b><b>DEST</b></p>
+<p class="Pp"><b>--ro-overlay </b><b>DEST</b></p>
+<div class="Bd-indent">Use overlayfs to mount the host paths specified by RWSRC
+  and all immediately preceding <b>--overlay-src</b> on DEST. DEST will contain
+  the union of all the files in all the layers.
+<p class="Pp">With --overlay all writes will go to RWSRC. Reads will come
+    preferentially from RWSRC, and then from any <b>--overlay-src</b> paths.
+    WORKDIR must be an empty directory on the same filesystem as RWSRC, and is
+    used internally by the kernel.</p>
+<p class="Pp">With --tmp-overlay all writes will go to the tmpfs that hosts the
+    sandbox root, in a location not accessible from either the host or the child
+    process. Writes will therefore not be persisted across multiple runs.</p>
+<p class="Pp">With --ro-overlay the filesystem will be mounted read-only. This
+    option requires at least two <b>--overlay-src</b> to precede it.</p>
+<p class="Pp">Using --ro-overlay or providing more than one <b>--overlay-src</b>
+    requires a Linux kernel version of 4.0 or later.</p>
+<p class="Pp">Due to limitations of overlayfs, no host directory given via
+    --overlay-src or --overlay may be an ancestor of another, after resolving
+    symlinks. Depending on version, the Linux kernel may or may not enforce
+    this, but if not then overlayfs's behavior is undefined.</p>
+<p class="Pp">For more information see the Overlay Filesystem documentation in
+    the Linux kernel at
+    <a href='https://www.kernel.org/doc/Documentation/filesystems/overlayfs.txt'>https://www.kernel.org/doc/Documentation/filesystems/overlayfs.txt</a></p>
+</div>
+<p class="Pp"><b>--proc </b><b>DEST</b></p>
+<div class="Bd-indent">Mount procfs on DEST</div>
+<p class="Pp"><b>--dev </b><b>DEST</b></p>
+<div class="Bd-indent">Mount new devtmpfs on DEST</div>
+<p class="Pp"><b>--tmpfs </b><b>DEST</b></p>
+<div class="Bd-indent">Mount new tmpfs on DEST. If the previous option was
+  <b>--perms</b>, it sets the mode of the tmpfs. Otherwise, the tmpfs has mode
+  0755. If the previous option was <b>--size</b>, it sets the size in bytes of
+  the tmpfs. Otherwise, the tmpfs has the default size.</div>
+<p class="Pp"><b>--mqueue </b><b>DEST</b></p>
+<div class="Bd-indent">Mount new mqueue on DEST</div>
+<p class="Pp"><b>--dir </b><b>DEST</b></p>
+<div class="Bd-indent">Create a directory at DEST. If the directory already
+  exists, its permissions are unmodified, ignoring <b>--perms</b> (use
+  <b>--chmod</b> if the permissions of an existing directory need to be
+  changed). If the directory is newly created and the previous option was
+  <b>--perms</b>, it sets the mode of the directory. Otherwise, newly-created
+  directories have mode 0755.</div>
+<p class="Pp"><b>--file </b><b>FD</b><b> </b><b>DEST</b></p>
+<div class="Bd-indent">Copy from the file descriptor FD to DEST. If the previous
+  option was <b>--perms</b>, it sets the mode of the new file. Otherwise, the
+  file has mode 0666 (note that this is not the same as
+  <b>--bind-data</b>).</div>
+<p class="Pp"><b>--bind-data </b><b>FD</b><b> </b><b>DEST</b></p>
+<div class="Bd-indent">Copy from the file descriptor FD to a file which is
+  bind-mounted on DEST. If the previous option was <b>--perms</b>, it sets the
+  mode of the new file. Otherwise, the file has mode 0600 (note that this is not
+  the same as <b>--file</b>).</div>
+<p class="Pp"><b>--ro-bind-data </b><b>FD</b><b> </b><b>DEST</b></p>
+<div class="Bd-indent">Copy from the file descriptor FD to a file which is
+  bind-mounted read-only on DEST. If the previous option was <b>--perms</b>, it
+  sets the mode of the new file. Otherwise, the file has mode 0600 (note that
+  this is not the same as <b>--file</b>).</div>
+<p class="Pp"><b>--symlink </b><b>SRC</b><b> </b><b>DEST</b></p>
+<div class="Bd-indent">Create a symlink at DEST with target SRC.
+<p class="Pp">Since version 0.9.0, it is not considered to be an error if DEST
+    already exists as a symbolic link and its target is exactly SRC.</p>
+<p class="Pp">Before version 0.9.0, if DEST already existed, this would be
+    treated as an error (even if its target was identical to SRC).</p>
+</div>
+<p class="Pp"><b>--chmod </b><b>OCTAL</b><b> </b><b>PATH</b></p>
+<div class="Bd-indent">Set the permissions of PATH, which must already exist, to
+  OCTAL.</div>
+<p class="Pp">Lockdown options:</p>
+<p class="Pp"><b>--seccomp </b><b>FD</b></p>
+<div class="Bd-indent">Load and use seccomp rules from FD. The rules need to be
+  in the form of a compiled cBPF program, as generated by seccomp_export_bpf. If
+  this option is given more than once, only the last one is used. Use
+  <b>--add-seccomp-fd</b> if multiple seccomp programs are needed.</div>
+<p class="Pp"><b>--add-seccomp-fd </b><b>FD</b></p>
+<div class="Bd-indent">Load and use seccomp rules from FD. The rules need to be
+  in the form of a compiled cBPF program, as generated by seccomp_export_bpf.
+  This option can be repeated, in which case all the seccomp programs will be
+  loaded in the order given (note that the kernel will evaluate them in reverse
+  order, so the last program on the bwrap command-line is evaluated first). All
+  of them, except possibly the last, must allow use of the PR_SET_SECCOMP prctl.
+  This option cannot be combined with <b>--seccomp</b>.</div>
+<p class="Pp"><b>--exec-label </b><b>LABEL</b></p>
+<div class="Bd-indent">Exec Label from the sandbox. On an SELinux system you can
+  specify the SELinux context for the sandbox process(s).</div>
+<p class="Pp"><b>--file-label </b><b>LABEL</b></p>
+<div class="Bd-indent">File label for temporary sandbox content. On an SELinux
+  system you can specify the SELinux context for the sandbox content.</div>
+<p class="Pp"><b>--block-fd </b><b>FD</b></p>
+<div class="Bd-indent">Block the sandbox on reading from FD until some data is
+  available.</div>
+<p class="Pp"><b>--userns-block-fd </b><b>FD</b></p>
+<div class="Bd-indent">Do not initialize the user namespace but wait on FD until
+  it is ready. This allow external processes (like newuidmap/newgidmap) to setup
+  the user namespace before it is used by the sandbox process.</div>
+<p class="Pp"><b>--info-fd </b><b>FD</b></p>
+<div class="Bd-indent">Write information in JSON format about the sandbox to
+  FD.</div>
+<p class="Pp"><b>--json-status-fd </b><b>FD</b></p>
+<div class="Bd-indent">Multiple JSON documents are written to FD, one per line
+  (<b>&quot;JSON lines&quot; format</b>[1]). Each line is a single JSON object.
+  After <b>bwrap</b> has started the child process inside the sandbox, it writes
+  an object with a child-pid member to the <b>--json-status-fd</b> (this
+  duplicates the older <b>--info-fd</b>). The corresponding value is the process
+  ID of the child process in the pid namespace from which <b>bwrap</b> was run.
+  If available, the namespace IDs are also included in the object with the
+  child-pid; again, this duplicates the older <b>--info-fd</b>. When the child
+  process inside the sandbox exits, <b>bwrap</b> writes an object with an
+  exit-code member, and then closes the <b>--json-status-fd</b>. The value
+  corresponding to exit-code is the exit status of the child, in the usual shell
+  encoding (n if it exited normally with status n, or 128+n if it was killed by
+  signal n). Other members may be added to those objects in future versions of
+  <b>bwrap</b>, and other JSON objects may be added before or after the current
+  objects, so readers must ignore members and objects that they do not
+  understand.</div>
+<p class="Pp"><b>--new-session</b></p>
+<div class="Bd-indent">Create a new terminal session for the sandbox (calls
+  setsid()). This disconnects the sandbox from the controlling terminal which
+  means the sandbox can't for instance inject input into the terminal.
+<p class="Pp">Note: In a general sandbox, if you don't use --new-session, it is
+    recommended to use seccomp to disallow the TIOCSTI ioctl, otherwise the
+    application can feed keyboard input to the terminal which can e.g. lead to
+    out-of-sandbox command execution (see CVE-2017-5226).</p>
+</div>
+<p class="Pp"><b>--die-with-parent</b></p>
+<div class="Bd-indent">Ensures child process (COMMAND) dies when bwrap's parent
+  dies. Kills (SIGKILL) all bwrap sandbox processes in sequence from parent to
+  child including COMMAND process when bwrap or bwrap's parent dies. See prctl,
+  PR_SET_PDEATHSIG.</div>
+<p class="Pp"><b>--as-pid-1</b></p>
+<div class="Bd-indent">Do not create a process with PID=1 in the sandbox to reap
+  child processes.</div>
+<p class="Pp"><b>--cap-add </b><b>CAP</b></p>
+<div class="Bd-indent">Add the specified capability CAP, e.g.
+  CAP_DAC_READ_SEARCH, when running as privileged user. It accepts the special
+  value ALL to add all the permitted caps.</div>
+<p class="Pp"><b>--cap-drop </b><b>CAP</b></p>
+<div class="Bd-indent">Drop the specified capability when running as privileged
+  user. It accepts the special value ALL to drop all the caps. By default no
+  caps are left in the sandboxed process. The <b>--cap-add</b> and
+  <b>--cap-drop</b> options are processed in the order they are specified on the
+  command line. Please be careful to the order they are specified.</div>
+<p class="Pp"><b>--not-a-security-boundary</b></p>
+<div class="Bd-indent">Declare that this invocation of <b>bwrap</b> is not
+  intended to create a security boundary between the sandbox and the host
+  system. When this option is given, certain non-fatal sandbox setup failures
+  (such as a subdirectory remount failing because an automounter did not respond
+  in time) will produce a warning and will be skipped, rather than causing
+  <b>bwrap</b> to exit with an error. In future releases of bubblewrap the
+  effect of this option might be extended to make other sandbox setup operations
+  non-fatal
+<p class="Pp">This option is intended for callers such as xdg-dbus-proxy or
+    Steam that use <b>bwrap</b> to adjust the filesystem layout for a process,
+    but do not rely on it to create a security boundary.</p>
+<p class="Pp">Other operations that are fundamental to establishing the sandbox
+    (creating namespaces, <b>pivot_root</b>, dropping capabilities) will still
+    cause a hard failure regardless of this option.</p>
+</div>
+</section>
+<section class="Sh">
+<h1 class="Sh" id='ENVIRONMENT'><a class='permalink' href='#ENVIRONMENT'>ENVIRONMENT</a></h1>
+<p class="Pp"><b>HOME</b></p>
+<div class="Bd-indent">Used as the cwd in the sandbox if <b>--chdir</b> has not
+  been explicitly specified and the current cwd is not present inside the
+  sandbox. The <b>--setenv</b> option can be used to override the value that is
+  used here.</div>
+</section>
+<section class="Sh">
+<h1 class="Sh" id='EXIT_STATUS'><a class='permalink' href='#EXIT_STATUS'>EXIT   STATUS</a></h1>
+<p class="Pp">The <b>bwrap</b> command returns the exit status of the initial
+    application process (pid 2 in the sandbox).</p>
+</section>
+<section class="Sh">
+<h1 class="Sh" id='NOTES'><a class='permalink' href='#NOTES'>NOTES</a></h1>
+<dl class="Bl-tag">
+  <dt> 1.</dt>
+  <dd>&quot;JSON lines&quot; format</dd>
+</dl>
+<div class="Bd-indent"><a href='https://jsonlines.org/'>https://jsonlines.org/</a></div>
+</section>
+</div>
+<table class="foot">
+  <tr>
+    <td class="foot-date"></td>
+    <td class="foot-os">Containers</td>
+  </tr>
+</table>
+
+</section>
+
+            </article>
+            <aside id="sidebar">
+                
+<section class="search">
+    <form action="/search" class="search direct-search" role="search">
+    <input type="search" placeholder="Search manual page" name="q" value=""
+         />
+    <input type="submit" name="go" value="Go" />
+</form>
+
+</section>
+
+<section class="package-info">
+    <p>Package information:</p>
+    <dl>
+        <dt>Package name:</dt>
+        <dd><a href="https://www.archlinux.org/packages/extra/x86_64/bubblewrap/">extra/bubblewrap</a></dd>
+        <dt>Version:</dt>
+        <dd>0.13.1-1</dd>
+        <dt>Upstream:</dt>
+        <dd><a href="https://github.com/containers/bubblewrap">https://github.com/containers/bubblewrap</a></dd>
+        <dt>Licenses:</dt>
+        <dd>LGPL-2.1-or-later</dd>
+        <dt>Manuals:</dt>
+        <dd><a href="/listing/extra/bubblewrap/">/listing/extra/bubblewrap/</a></dd>
+    </dl>
+</section>
+
+<details>
+    <summary>Table of contents</summary>
+    <nav class="toc">
+        <ul>
+        
+            <li><a href="#NAME">NAME</a></li>
+        
+            <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+        
+            <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+        
+            <li><a href="#OPTIONS">OPTIONS</a></li>
+        
+            <li><a href="#ENVIRONMENT">ENVIRONMENT</a></li>
+        
+            <li><a href="#EXIT_STATUS">EXIT STATUS</a></li>
+        
+            <li><a href="#NOTES">NOTES</a></li>
+        
+        </ul>
+    </nav>
+</details>
+
+
+
+
+
+
+
+<nav class="other-formats">
+    <p>Other formats:
+        
+            <a href="/man/bwrap.1.en.txt">txt</a>, 
+        
+            <a href="/man/bwrap.1.en.raw">raw</a>
+        
+    </p>
+</nav>
+
+            </aside>
+            
+        </main>
+        <footer>
+            <p>Powered by <a href="https://gitlab.archlinux.org/archlinux/archmanweb">archmanweb</a>,
+               using <a href="https://mandoc.bsd.lv/">mandoc</a> for the conversion of manual pages.
+            </p>
+            <p>The website is available under the terms of the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL-3.0</a>
+               license, except for the contents of the manual pages, which have their own license
+               specified in the corresponding Arch Linux package.
+            </p>
+        </footer>
+    </body>
+</html>
