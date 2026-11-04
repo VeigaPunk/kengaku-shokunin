@@ -1,0 +1,28 @@
+# tb2 openssl-selfsigned-cert grader probe (round 80 re-mint)
+MEMBER openssl-selfsigned-cert
+SOURCE_RECEIPT corpus/evidence/round59/openssl-probe.txt
+SOURCE_SHA ae89476cde80dfeb09106af53c8eab43a89afcde696d800ec0d0c60aa309b094
+TOOL plans/round59_c1_openssl_probe.py
+TOOL_SHA 6faf217c723efaf8d24bd15a9e8aeb873328af4a7f8e9c4ab4ca94b2465d4646
+LANE_TIP 6250e94b2adaff8cd22d32f7ab45024f092e3235
+WORKTREE clean
+COMMAND /usr/bin/python3 plans/round59_c1_openssl_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r80/remint-work/openssl-selfsigned-cert.work --receipt /fast/scratch/hyaku/kengaku-r80/remint-work/openssl-selfsigned-cert.out.txt
+EXIT 0
+MINTED_BY plans/round80_c1_remint.py
+HISTORICAL-DIVERGENCE 10 the tip's instrument produces 14 observation lines where the historical receipt has 16; historical receipt kept, sha stamped
+OBSERVATIONS_BEGIN
+CASE sol predicted=P/P/P/P/P/P observed=P/P/P/P/P/P ok
+CASE perm-loose predicted=P/F/P/P/P/P observed=P/F/P/P/P/P ok
+CASE key-1024 predicted=P/F/P/P/P/P observed=P/F/P/P/P/P ok
+CASE days-30 predicted=P/P/F/P/P/P observed=P/P/F/P/P/P ok
+CASE cn-wrong predicted=P/P/F/P/F/F observed=P/P/F/P/F/F ok
+CASE pem-keyonly predicted=P/P/P/F/P/P observed=P/P/P/F/P/P ok
+CASE pem-garbage predicted=P/P/P/F/P/P observed=P/P/P/F/P/P ok
+CASE fp-absent predicted=P/P/P/P/F/P observed=P/P/P/P/F/P ok
+CASE script-silent predicted=P/P/P/P/P/F observed=P/P/P/P/P/F ok
+CASE dir-absent predicted=F/F/F/F/F/F observed=F/F/F/F/F/F ok
+CASE org-upper predicted=P/P/P/P/P/P observed=P/P/P/P/P/P ok
+CASE script-missing predicted=P/P/P/P/P/F observed=P/P/P/P/P/F ok
+cases=12 legs=72 mismatches=0 setup=0 predicted_u=0
+PREDICATE R59-C1 pass
+OBSERVATIONS_END

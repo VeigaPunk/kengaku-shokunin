@@ -924,6 +924,8 @@ A row here indexes a file; it does not admit it — the held entries stay held.
 | `lessons/round-78.md` | Round 78 — the three partially-executed grader classes become a machine-checked 12-member ledger (R78-C1) and every verdict-bearing round-77/78 receipt becomes self-locating at its own stamp (R78-C2); Gate (S254, S255), M78-1…5, Limits | LOG.md round 78; plans/round-78-claims.md; `.ufo/waves/round-78/` |
 | `lessons/round-77.md` | Round 77 — one canonical declared-surface inventory resolved live (R77-C1) and the round-76 closure's seven routed defects burnt down (R77-C2); Gate (S253), M77-1…3 | LOG.md round 77; plans/round-77-claims.md; `.ufo/waves/round-77/` |
 
+| `lessons/round-79-verifier-spotcheck.md` | Non-author closure of round 79: both claims re-derived at `f10a2678`; six routed defects V1–V6 (an unsupported re-verification claim, a wrong census W04 count, a 13-vs-12 off-by-one, an imprecise S254 anchor, an unstated duplicate-URL warning, unstamped after receipts) | closure of round 79 |
+| `lessons/round-80.md` | Round 80 — the six `executed-unlocated` members become located, reproducible replays (R80-C1) and the round-79 spot-check's V1–V6 are discharged (R80-C2); Gate (S258), M80-1 | LOG.md round 80; plans/round-80-claims.md; `.ufo/waves/round-80/` |
 ### Knowledge index rows (3)
 
 | Entry | Covers | Primary source |
@@ -985,3 +987,20 @@ A row here indexes a file; it does not admit it — the held entries stay held.
 - Lesson: `corpus/lessons/round-76.md` — Gate (S252 admit, two rejects with flips), M76-1…M76-5, the
   `considerthese/2026-10-26.md` proposal-1 implementation.
 - Wave: `.ufo/waves/round-76/` (one v1 wave, 14 seats), spec/dispatch/validate/results beside it.
+
+## Round-80 supporting artifacts (2026-11-04)
+
+- Instruments: `plans/round80_c1_located_replay.py` (six located replays: frozen subject shape,
+  stamp block with historical/source and tool sha256, verbatim stdout block re-run at the measured
+  tree, ledger flip; R80-C1) and `plans/round80_c2_spotcheck_debt.py` (the round-79 spot-check's
+  V1–V6 burn-down with re-deriving checks and base-sensitivity; R80-C2); the re-mint driver
+  `plans/round80_c1_remint.py` and the frozen table `plans/round80_probes.json`.
+- Receipts: `corpus/evidence/round80/` — `c1-before.txt`, `c2-before.txt`, both selftest/mutant
+  batteries, the three C1 controls, the C2 presence control, the S258 receipts
+  (`<member>-probe.txt`, six), the V1 re-run (`v1-r78-c1-at-148801a6.txt`), the V6 re-stamps
+  (`r79-c1-after.txt`, `r79-c2-after.txt`) and the census before/after.
+- Registry: S258 — `corpus/SOURCES.md`; census `corpus/evidence/round80/census-before.txt` (249
+  rows, 26 W04) and `census-after.txt` (250 rows, 26 W04), rc 0 both.
+- Lesson: `corpus/lessons/round-80.md` — Gate (S258 admit, two rejects with flips), M80-1, the
+  V1–V6 corrections.
+- Wave: `.ufo/waves/round-80/` (one v1 wave, 14 seats), spec/dispatch/results beside it.

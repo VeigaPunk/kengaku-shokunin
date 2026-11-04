@@ -268,7 +268,7 @@ def check(tree: Tree, base_doc: dict, table: dict, reproduce: bool, python: str,
             add("OBSERVATIONS-EMPTY", rel)
         stable = [ln for ln in block if not REV_RE.match(ln)]
         hobs = obs_lines(tree.read(spec["historical"]))
-        diverged = bool(hobs) and hobs != block
+        diverged = bool(hobs) and hobs != obs_lines("\n".join(block))
         if diverged:
             stats["diverged"] += 1
             if not re.search(r"^HISTORICAL-DIVERGENCE \d+", text, re.M):

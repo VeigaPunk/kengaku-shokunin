@@ -1,0 +1,27 @@
+# tb2 chess-best-move grader probe (round 80 re-mint)
+MEMBER chess-best-move
+SOURCE_RECEIPT corpus/evidence/round55/chess-best-move-probe.txt
+SOURCE_SHA de0826692f8b81c832b8d0633cfe8fa080f2d6142ee9d71b597eba6be9d8aaca
+TOOL plans/round55_c3_chess_probe.py
+TOOL_SHA 7bd2863ca745f1656a23617d66a1926b12e2656b17fdc903b69d3eb28ce72d60
+LANE_TIP 6250e94b2adaff8cd22d32f7ab45024f092e3235
+WORKTREE clean
+COMMAND /usr/bin/python3 plans/round55_c3_chess_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r80/remint-work/chess-best-move.work --receipt /fast/scratch/hyaku/kengaku-r80/remint-work/chess-best-move.out.txt
+EXIT 0
+MINTED_BY plans/round80_c1_remint.py
+OBSERVATIONS_BEGIN
+CASE both-lowercase-two-lines predicted=P observed=P rc=0
+CASE both-space-separated predicted=P observed=P rc=0
+CASE reversed-order predicted=P observed=P rc=0
+CASE single-move-only predicted=F observed=F rc=1
+CASE uppercase-white predicted=F observed=F rc=1
+CASE extra-decoy-move predicted=F observed=F rc=1
+CASE duplicate-move predicted=F observed=F rc=1
+CASE whitespace-padded predicted=P observed=P rc=0
+CASE empty-file predicted=F observed=F rc=1
+CASE crlf-line-endings predicted=P observed=P rc=0
+CASE instruction-example-h1h8 predicted=F observed=F rc=1
+CASE fullwidth-unicode-digit predicted=F observed=F rc=1
+cases=12 observed_pass=5 observed_fail=7 mismatches=0
+PREDICATE R55-C3 pass
+OBSERVATIONS_END

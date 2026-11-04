@@ -1,0 +1,27 @@
+# tb2 cancel-async-tasks grader probe (round 80 re-mint)
+MEMBER cancel-async-tasks
+SOURCE_RECEIPT corpus/evidence/round61/cancel-async-probe.txt
+SOURCE_SHA 3a69fddb8ab817bf78dad57b4d28e1c964b288c433901560fa98f59ff306922a
+TOOL plans/round61_c1_cancel_probe.py
+TOOL_SHA 92facdc762bdb29c581eb92b5951f0855bec0de7dc56c8d2308136c889fe7f87
+LANE_TIP 6250e94b2adaff8cd22d32f7ab45024f092e3235
+WORKTREE clean
+COMMAND /usr/bin/python3 plans/round61_c1_cancel_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r80/remint-work/cancel-async-tasks.work --receipt /fast/scratch/hyaku/kengaku-r80/remint-work/cancel-async-tasks.out.txt
+EXIT 0
+MINTED_BY plans/round80_c1_remint.py
+OBSERVATIONS_BEGIN
+CASE compliant-signal-handler predicted=P/P/P/P/P/P observed=P/P/P/P/P/P ok
+CASE threadpool-uncancelled predicted=P/P/P/P/P/F observed=P/P/P/P/P/F ok
+CASE kbdint-no-handler predicted=P/P/P/F/F/F observed=P/P/P/F/F/F ok
+CASE sequential-sync predicted=P/F/P/F/F/F observed=P/F/P/F/F/F ok
+CASE cleanup-missing predicted=P/F/F/F/F/F observed=P/F/F/F/F/F ok
+CASE cleanup-double predicted=P/F/F/F/F/F observed=P/F/F/F/F/F ok
+CASE started-premature predicted=P/P/P/P/P/F observed=P/P/P/P/P/F ok
+CASE partial-cancel predicted=P/P/P/F/F/F observed=P/P/P/F/F/F ok
+CASE ignore-sigint predicted=P/P/P/P/P/F observed=P/P/P/P/P/F ok
+CASE late-cancel-cleanup predicted=P/P/P/F/F/F observed=P/P/P/F/F/F ok
+CASE no-max-enforcement predicted=P/P/F/P/P/F observed=P/P/F/P/P/F ok
+CASE no-run-py predicted=F/P/P/P/P/P observed=F/P/P/P/P/P ok
+cases=12 legs=72 mismatches=0 setup=0 predicted_u=0
+PREDICATE R61-C1 pass
+OBSERVATIONS_END

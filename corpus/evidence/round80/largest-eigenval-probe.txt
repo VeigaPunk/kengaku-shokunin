@@ -1,0 +1,41 @@
+# tb2 largest-eigenval grader probe (round 80 re-mint)
+MEMBER largest-eigenval
+SOURCE_RECEIPT corpus/evidence/round57/eigen-probe.txt
+SOURCE_SHA 463877700639fcf7a522b207cbf88a3a6eebd2aa40d6afd5e1c258087ce8c784
+TOOL plans/round57_c2_eigen_probe.py
+TOOL_SHA 4f2b8bebb451c5f67d26dc06c76dbd99f3a459f41d9e8a8d555af12d15e0f105
+LANE_TIP 6250e94b2adaff8cd22d32f7ab45024f092e3235
+WORKTREE clean
+COMMAND /usr/bin/python3 plans/round57_c2_eigen_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r80/remint-work/largest-eigenval.work --receipt /fast/scratch/hyaku/kengaku-r80/remint-work/largest-eigenval.out.txt
+EXIT 0
+MINTED_BY plans/round80_c1_remint.py
+HISTORICAL-DIVERGENCE 6 the tip's instrument produces 27 observation lines where the historical receipt has 27; historical receipt kept, sha stamped
+OBSERVATIONS_BEGIN
+CASE eig-sleep-pair-s2 predicted=P observed=P rc=0
+CASE eig-bare-pair-s2 predicted=P observed=P rc=0
+CASE zero-e1-pair-s2 predicted=F observed=F rc=1
+CASE eig-sleep-pair-s5 predicted=P observed=P rc=0
+CASE eig-bare-pair-s5 predicted=P observed=P rc=0
+CASE zero-e1-pair-s5 predicted=F observed=F rc=1
+CASE eig-sleep-pair-s10 predicted=P observed=P rc=0
+CASE eig-bare-pair-s10 predicted=P observed=P rc=0
+CASE zero-e1-pair-s10 predicted=F observed=F rc=1
+CASE eig-sleep-dom-s2 predicted=P observed=P rc=0
+CASE eig-bare-dom-s2 predicted=P observed=P rc=0
+CASE zero-e1-dom-s2 predicted=F observed=F rc=1
+CASE eig-sleep-dom-s5 predicted=P observed=P rc=0
+CASE eig-bare-dom-s5 predicted=P observed=P rc=0
+CASE zero-e1-dom-s5 predicted=F observed=F rc=1
+CASE eig-sleep-dom-s10 predicted=P observed=P rc=0
+CASE eig-bare-dom-s10 predicted=P observed=P rc=0
+CASE zero-e1-dom-s10 predicted=F observed=F rc=1
+CASE eig-sleep-speed-s2 predicted=F observed=F rc=1
+CASE eig-bare-speed-s2 predicted=U observed=F rc=1 (observed-only)
+CASE zero-e1-speed-s2 predicted=P observed=P rc=0
+CASE eig-sleep-speed-s10 predicted=F observed=F rc=1
+CASE eig-bare-speed-s10 predicted=U observed=F rc=1 (observed-only)
+CASE zero-e1-speed-s10 predicted=P observed=P rc=0
+cases=24 observed_pass=14 observed_fail=10 mismatches=0 setup=0
+OBSERVED-U eig-bare-speed-s2=F eig-bare-speed-s10=F
+PREDICATE R57-C2 pass
+OBSERVATIONS_END
