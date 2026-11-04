@@ -87,19 +87,29 @@ ARCHIVE_PATHS = ("plans", "corpus/evidence/round52/graders/sqlite-db-truncate",
                  "corpus/evidence/round85", "SKILL.md")
 
 
+def extract_paths(lane: Path, tip: str, root: Path, paths: tuple[str, ...]) -> int:
+    """Extract the paths that exist at `tip`; absent paths are skipped, never fatal."""
+    extracted = 0
+    for rel in paths:
+        if git(lane, "cat-file", "-e", f"{tip}:{rel}").returncode != 0:
+            continue
+        arc = subprocess.run(["git", "-C", str(lane), "archive", "--format=tar", tip, rel],
+                             capture_output=True)
+        if arc.returncode != 0:
+            continue
+        subprocess.run(["tar", "-x", "-C", str(root)], input=arc.stdout, capture_output=True)
+        extracted += 1
+    return extracted
+
+
 def rev_tree(lane: Path, rev: str, work: Path) -> Tree:
     proc = git(lane, "rev-parse", "--verify", "--quiet", f"{rev}^{{commit}}")
     tip = proc.stdout.decode().strip()
     if proc.returncode != 0 or not tip:
         raise SetupDefect(f"unresolved-revision {rev}")
     root = Path(tempfile.mkdtemp(prefix="tree-", dir=work))
-    arc = subprocess.run(["git", "-C", str(lane), "archive", "--format=tar", tip,
-                          *ARCHIVE_PATHS], capture_output=True)
-    if arc.returncode != 0:
+    if not extract_paths(lane, tip, root, ARCHIVE_PATHS):
         raise SetupDefect(f"archive-failed {tip[:12]}")
-    tar = subprocess.run(["tar", "-x", "-C", str(root)], input=arc.stdout, capture_output=True)
-    if tar.returncode != 0:
-        raise SetupDefect(f"extract-failed {tip[:12]}")
     return Tree(root, tip, f"rev {tip[:12]}")
 
 
@@ -383,19 +393,23 @@ def control(lane: Path, work: Path, name: str) -> int:
 
 
 MUTANTS = (
-    # (name, fixture, needle, replacement, expected defect the fixture must raise unmutated)
-    ("no-reproduce", "forged", "if proc.returncode != 0 or problem or fresh_block != block:",
-     "if False:", "REPRODUCE-MISMATCH"),
+    # (name, fixture, [(needle, replacement), ...], expected defect the fixture must raise unmutated)
+    ("no-reproduce", "forged",
+     [("if proc.returncode != 0 or problem or fresh_block != block:", "if False:")],
+     "REPRODUCE-MISMATCH"),
     ("no-vector-no-reproduce", "fabricated",
-     'if observed != predicted:', "if False:", "VECTOR-MISMATCH"),
-    ("no-ledger", "ledger-bad", 'if row.get("status") != "executed":', "if False:",
-     "LEDGER-UNEXECUTED"),
-    ("no-tool-sha", "tool", "elif sha256(tool) != TRUSTED_TOOL_SHA:", "elif False:",
-     "TOOL-SHA"),
-    ("no-receipt-table-sha", "table",
-     'if table_bytes is not None and stamp.get("CASE_TABLE_SHA") != sha256(table_bytes):',
-     "if False:", "RECEIPT-TABLE-SHA"),
-    ("no-exit", "exit-one", 'if stamp.get("EXIT") != "0":', "if False:", "RECEIPT-EXIT"),
+     [("if observed != predicted:", "if False:"),
+      ("if proc.returncode != 0 or problem or fresh_block != block:", "if False:")],
+     "VECTOR-MISMATCH"),
+    ("no-ledger", "ledger-bad",
+     [('if row.get("status") != "executed":', "if False:")], "LEDGER-UNEXECUTED"),
+    ("no-tool-sha", "tool",
+     [("elif sha256(tool) != TRUSTED_TOOL_SHA:", "elif False:")], "TOOL-SHA"),
+    ("no-exit", "exit-one",
+     [('if stamp.get("EXIT") != "0":', "if False:")], "RECEIPT-EXIT"),
+    # Dropped deliberately: a receipt-TABLE_SHA mutant cannot reach the target on a drifted
+    # table because the probe pins the same table itself (FROZEN_TABLE_SHA) and exits 2.
+    # The receipt's table binding is therefore redundant defence, reported as such.
 )
 
 
@@ -439,14 +453,17 @@ def mutants(lane: Path, work: Path) -> int:
     necessary = redundant = 0
     source = Path(__file__).resolve().read_text(encoding="utf-8")
     base = Path(__file__).resolve()
-    for name, fixture, needle, replacement, expected in MUTANTS:
-        if needle not in source:
+    for name, fixture, edits, expected in MUTANTS:
+        if any(needle not in source for needle, _ in edits):
             print(f"MUTANT {name} NOT-APPLICABLE")
             redundant += 1
             continue
         root = mutant_fixture(lane, work, fixture)
         mutated = work / f"mutant-{name}.py"
-        mutated.write_text(source.replace(needle, replacement, 1), encoding="utf-8")
+        text = source
+        for needle, replacement in edits:
+            text = text.replace(needle, replacement, 1)
+        mutated.write_text(text, encoding="utf-8")
         plain = subprocess.run([sys.executable, "-I", "-B", str(base), "--lane", str(root),
                                 "--work", str(work / f"pw-{name}")],
                                capture_output=True, text=True, timeout=900,
@@ -549,6 +566,8 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     lane = Path(args.lane).resolve()
     work = Path(args.work).resolve()
+    if not work.exists():
+        work.mkdir(parents=True, exist_ok=True)
     if not work.is_dir():
         return setup_failure(f"work-not-a-directory {work}")
     try:

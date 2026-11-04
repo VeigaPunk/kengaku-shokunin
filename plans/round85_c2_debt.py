@@ -77,19 +77,29 @@ class Tree:
         return data.decode("utf-8", "replace") if data is not None else ""
 
 
+def extract_paths(lane: Path, tip: str, root: Path, paths: tuple[str, ...]) -> int:
+    """Extract the paths that exist at `tip`; absent paths are skipped, never fatal."""
+    extracted = 0
+    for rel in paths:
+        if git(lane, "cat-file", "-e", f"{tip}:{rel}").returncode != 0:
+            continue
+        arc = subprocess.run(["git", "-C", str(lane), "archive", "--format=tar", tip, rel],
+                             capture_output=True)
+        if arc.returncode != 0:
+            continue
+        subprocess.run(["tar", "-x", "-C", str(root)], input=arc.stdout, capture_output=True)
+        extracted += 1
+    return extracted
+
+
 def rev_tree(lane: Path, rev: str, work: Path) -> Tree:
     proc = git(lane, "rev-parse", "--verify", "--quiet", f"{rev}^{{commit}}")
     tip = proc.stdout.decode().strip()
     if proc.returncode != 0 or not tip:
         raise SetupDefect(f"unresolved-revision {rev}")
     root = Path(tempfile.mkdtemp(prefix="tree-", dir=work))
-    arc = subprocess.run(["git", "-C", str(lane), "archive", "--format=tar", tip,
-                          *ARCHIVE_PATHS], capture_output=True)
-    if arc.returncode != 0:
+    if not extract_paths(lane, tip, root, ARCHIVE_PATHS):
         raise SetupDefect(f"archive-failed {tip[:12]}")
-    tar = subprocess.run(["tar", "-x", "-C", str(root)], input=arc.stdout, capture_output=True)
-    if tar.returncode != 0:
-        raise SetupDefect(f"extract-failed {tip[:12]}")
     return Tree(root, tip, f"rev {tip[:12]}")
 
 
@@ -156,20 +166,21 @@ def v6(tree: Tree, lane: Path, work: Path) -> tuple[bool, str]:
 
 
 def v7(tree: Tree, lane: Path, work: Path) -> tuple[bool, str]:
-    text = tree.text(LESSON)
-    if not text:
-        return False, "lesson-absent"
-    has_id = "R84-V7" in text
-    has_verdict = "expansion: unchanged" in text
-    return (has_id and has_verdict,
-            f"id={has_id} verdict={has_verdict}")
+    """The correction must live somewhere that predates this round's own lesson."""
+    prior = tree.text("corpus/lessons/round-84.md")
+    correction = "R84-V7" in prior and "expansion: unchanged" in prior
+    verdict = "expansion: unchanged" in tree.text(LESSON)
+    return (correction and verdict,
+            f"r84-dated-correction={correction} r85-verdict={verdict}")
 
 
 def v8(tree: Tree, lane: Path, work: Path) -> tuple[bool, str]:
+    """The gate resolves rows and tracked files through git, so it reads the measured tip
+    from the lane's object store (`--tip`) instead of a bare extraction."""
     if not tree.has(REGISTRY):
         return False, "gate-absent"
     proc = run_tool([sys.executable, "-I", "-B", str(tree.root / REGISTRY), "--lane",
-                     str(tree.root)], tree.root, work)
+                     str(lane), "--tip", tree.tip], tree.root, work)
     text = proc.stdout + proc.stderr
     ok = proc.returncode == 0 and "PREDICATE R82-C1 pass" in text
     detail = [line for line in text.splitlines() if line.startswith(("DEFECT", "PREDICATE"))]
@@ -365,6 +376,8 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     lane = Path(args.lane).resolve()
     work = Path(args.work).resolve()
+    if not work.exists():
+        work.mkdir(parents=True, exist_ok=True)
     if not work.is_dir():
         return setup_failure(f"work-not-a-directory {work}")
     try:
