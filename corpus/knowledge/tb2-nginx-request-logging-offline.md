@@ -86,3 +86,10 @@ The instruction-file anchor behind the two body literals is `instruction.md:15-1
 S242; the corrected leg map (leg 5 is the `nginx -t` subprocess, not a file read) is S243.
 
 verified-at: 2026-11-03 (round-70 receipt re-derived at the freeze tip; checker rc 0)
+
+## Errata
+
+- **E-D2 (round 71, 2026-11-03; R70-D2).** The round-69 sentence above that cites
+  `instruction.md:6-11` for the two HTTP bodies is superseded: the instruction `states the same
+  bodies` at `instruction.md:15-18`, and the full range is `instruction.md:6-11,15-18` (the
+  `source:` anchor already carries that range). Original sentence kept as written (append-only).

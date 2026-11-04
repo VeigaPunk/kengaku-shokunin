@@ -59,3 +59,11 @@ SOURCES contract v1 — rows opened this round, each with its access date and a 
 - **R70-C1**: admitted on the frozen sentence; coverage held at its L0 cap (7).
 - **R70-C2**: admitted on the frozen sentence; calibration held at ceiling (10), exercised.
 - No owned axis harmed (see the SCORECARD section).
+
+## Errata (round 71, 2026-11-03)
+
+- **E-R71-1 (R70-D1).** The last `## Mistakes` row above says the README corrections landed "in
+  the same commit"; the sweep did not reach `LOG.md` (which recorded "five rows") or the two
+  `corpus/README.md` mentions (one said six; the other said eight while naming six). Round 71
+  appends the `LOG.md` correction, corrects both README mentions to eight with all eight class
+  names, and records the gap here; the rows above stay as written.

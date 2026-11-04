@@ -2646,3 +2646,11 @@ Evidence: `corpus/evidence/round64/`, `.ufo/waves/round-64/` (wave seats in `w1/
   the digest rule.
 - **Open.** L0 carried: `kengaku | round-25/33/51`, `round-54`, `round-56`, `round-63`,
   `round-65`, `round-66`, `round-67` (labrat role).
+
+- **Round-70 correction (R70-D1, round 71, 2026-11-03; append-only).** The round-70 entry above
+  records "five rows" of mistakes; that text is superseded and kept as written. The count is
+  corrected here: `corpus/lessons/round-70.md` carries **eight** `## Mistakes` data rows
+  (`sed -n '/^## Mistakes/,$p' corpus/lessons/round-70.md | grep -cE '^\|'` → 10 lines = header +
+  separator + 8 rows). Both `corpus/README.md` mentions now say eight and name all eight classes
+  (staged-digest blind spot, self-unreadable receipt, argument-order, exception-red, speedy claim
+  about isolation, freeze-doc overclaim, dead check clause, unre-derived landing prose).
