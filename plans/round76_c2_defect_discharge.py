@@ -73,6 +73,8 @@ EVIDENCE = re.compile(r"corpus/evidence/([A-Za-z0-9_.-]+)/")
 COMMENT = re.compile(r"<!--.*?-->", re.S)
 FENCE = re.compile(r"^\s*```.*?^\s*```", re.S | re.M)
 SHA40 = re.compile(r"\b[0-9a-f]{40}\b")
+# A discharge line that also says the defect is not discharged is not a discharge (CriticR76).
+NEGATION = re.compile(r"(not\s+discharged|remains?\s+open|still\s+open|undischarged|not\s+closed)", re.I)
 
 
 def git(repo: Path, *args: str) -> subprocess.CompletedProcess:
@@ -118,7 +120,13 @@ class Reader:
         return "error", full
 
     def at_rev(self, sha: str, rel: str) -> str:
-        """The blob of `rel` at commit `sha`; '' when the path is not in that tree."""
+        """The blob of `rel` at commit `sha`; '' when the path is not in that tree.
+
+        Fixture mode (probe != lane) falls back to the fixture's own file so a battery can test the
+        evidence leg without inventing a git history; production reads the commit only."""
+        if self.probe != self.lane:  # fixture mode reads its own bytes
+            p = self.lane / rel
+            return p.read_text(errors="replace") if p.exists() else ""
         return git(self.probe, "show", f"{sha}:{rel}").stdout
 
     def resolved(self, sha: str) -> tuple[bool, str]:
@@ -343,6 +351,8 @@ def ledger_report(reader: Reader, ids: list[str]) -> tuple[list[str], list[str]]
                 problems.append("CLOSE-UNRESOLVED")
         if check_trivial(str(row.get("check", ""))):
             problems.append("CHECK-TRIVIAL")
+        if NEGATION.search(str(row.get("close", ""))):
+            problems.append("NEGATED-DISCHARGE")
         # Evidence binding (seat ConnectorR76): an ancestor close_commit is not enough — the named
         # evidence must exist *in that commit's tree* and carry the literal the discharge cites.
         ev_path = str(row.get("evidence_path", ""))
@@ -356,6 +366,10 @@ def ledger_report(reader: Reader, ids: list[str]) -> tuple[list[str], list[str]]
                 problems.append("EVIDENCE-ABSENT-AT-CLOSE")
             elif ev_lit not in blob:
                 problems.append("EVIDENCE-LITERAL-MISSING")
+            else:
+                hit_lines = [l for l in blob.splitlines() if ident in l or ev_lit in l]
+                if any(NEGATION.search(l) for l in hit_lines):
+                    problems.append("NEGATED-DISCHARGE")
         if problems:
             report.append(f"LEDGER {ident} DEFECT {' '.join(problems)}")
             defects += [f"DEFECT {p} {ident}" for p in problems]
@@ -411,7 +425,8 @@ def emit(lane: Path, rev: str, out: Path | None, probe: Path | None = None,
 def build_fixture(root: Path, lane_tip: str, *, drop_row: str = "", open_row: str = "",
                   no_commit: str = "", bad_commit: str = "", trivial: str = "",
                   drop_r74: bool = False, drop_d7: bool = False, prose_only: bool = False,
-                  drop_d2_stamp: bool = False, bad_evidence: bool = False) -> None:
+                  drop_d2_stamp: bool = False, bad_evidence: bool = False,
+                  negate_d3: bool = False) -> None:
     if root.exists():
         shutil.rmtree(root)
     (root / "corpus/lessons").mkdir(parents=True)
@@ -461,7 +476,8 @@ def build_fixture(root: Path, lane_tip: str, *, drop_row: str = "", open_row: st
     (root / SCORECARD).write_text(
         "\n".join([
             d2,
-            "- R75-D3 correction: the final-rule before is 60 (4/36/20).",
+            ("- R75-D3 NOT discharged; defect remains OPEN; quoted values: the final-rule before is 60 (4/36/20)."
+             if negate_d3 else "- R75-D3 correction: the final-rule before is 60 (4/36/20)."),
             "- R75-D4 fixture line.",
         ]) + "\n"
     )
@@ -501,6 +517,7 @@ def selftest(work: Path, lane_tip: str) -> int:
         ("missing-r74-receipt", {"drop_r74": True}, 1),
         ("missing-d7", {"drop_d7": True}, 1),
         ("evidence-absent-at-close", {"bad_evidence": True}, 1),
+        ("negated-discharge", {"negate_d3": True}, 1),
         ("prose-only", {"prose_only": True}, 1),
         ("wrong-stamp", {"drop_d2_stamp": True}, 1),
     ]
@@ -536,6 +553,7 @@ def mutants(work: Path, lane_tip: str) -> int:
         ("M7-missing-d7", {"drop_d7": True}, "LEG-FAIL D7"),
         ("M8-wrong-stamp", {"drop_d2_stamp": True}, "LEG-FAIL D2"),
         ("M9-evidence-absent", {"bad_evidence": True}, "EVIDENCE-ABSENT-AT-CLOSE"),
+        ("M10-negated-discharge", {"negate_d3": True}, "NEGATED-DISCHARGE"),
     ]
     total = killed = matched = wrong = survived = 0
     for name, kwargs, expected in matrix:

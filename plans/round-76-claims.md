@@ -235,3 +235,25 @@ stated limit, not a discharge.
    (244) with a dated supersession in the PROVINCE row text. `plans/round51_surfaces.py --lane .` now
    prints `UNCOVERED 0`, `RESOLVE observed_present=15 floor=13 verdict=met`, `PREDICATE R51-C1 pass`.
    This is an inherited-defect repair, not a third claim.
+
+## Amendment A8 (2026-11-04, from the wave's critic, before the report) — a negation is not a discharge, and the claim's scope is the table
+
+**C2 negation.** `CriticR76` built the cheapest false discharge: a line carrying every re-derived literal
+and then saying so — `- R75-D3 NOT discharged; defect remains OPEN; quoted values: … 60 (4/36/20)` — with
+`close: "NOT discharged: defect still open"`. The gate accepted all seven. The ledger leg now refuses a
+`close` or an evidence line that carries a negation
+(`not discharged|remains open|still open|undischarged|not closed`) as `NEGATED-DISCHARGE`; the selftest
+grew that arm (`cases=12 red=11`) and the mutant matrix a tenth (`10/10`). This is a **syntactic** guard:
+a discharge worded to hide its negation could still pass, and that limit is stated in the lesson rather
+than claimed away.
+
+**C1 scope.** `CriticR76` also showed the heading's phrase "every surface `PROVINCE.md` declares" is
+broader than the counter: `## Province map` → `### Core` declares its own table ("Surfaces that resolve
+today, each with the check actually run and its result"), naming e.g. `plans/attrib_probe.py` and
+`~/.local/share/ds-flash-shim/shim.py`, which the census never reads. The frozen body has always scoped
+the counter to the `## Surfaces` table ("the `## Surfaces` table stops being prose…"; kill rule (b)
+speaks of a declared row of that table). The claim is therefore **table-scoped**; the report and the
+SCORECARD row say "every row of the `## Surfaces` table", and the `### Core` declarations are recorded as
+a **routed item for a future claim** (an all-declarations inventory needs an authoritative supersession
+of the older tables, not another row in this one). Nothing measured changes: the counter's universe was
+the table at freeze.

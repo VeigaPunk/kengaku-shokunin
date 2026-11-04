@@ -3516,3 +3516,12 @@ the round-51 repair and the A7 prior-art correction — so `c1-after.txt`/`c2-af
 gates are green: `R76-C1`, `R76-C2`, `R51-C1` (`UNCOVERED 0`, `observed_present=15 floor=13`),
 `R75-C1` (74/74, 125/125, 67/67), `R74-C1`, `R74-C2`; `routed_open.py` prints
 `ROWS total=86 open=31 blocked=1 closed=52 refused=2`, `--selftest 12/12`.
+
+**Round-76 correction (appended 2026-11-04, from the wave's critic).** The R76-C1 row above says "every
+`PROVINCE.md` `## Surfaces` row"; the claim is scoped to that table and not to every surface PROVINCE
+mentions — `## Province map` → `### Core` declares its own dated table (`plans/attrib_probe.py`,
+`~/.local/share/ds-flash-shim/shim.py`, …) that the census does not read. That broader inventory is a
+routed item for a future claim (it needs a supersession of the older tables, not another row). The
+counter's universe was the `## Surfaces` table at freeze; no measured value changes. The R76-C2 row's
+"discharged by re-derived values" now also refuses a negated discharge (`NEGATED-DISCHARGE`, Amendment
+A8), with the syntactic limit stated in the lesson.
