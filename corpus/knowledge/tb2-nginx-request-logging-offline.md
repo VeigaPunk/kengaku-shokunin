@@ -93,3 +93,7 @@ verified-at: 2026-11-03 (round-70 receipt re-derived at the freeze tip; checker 
   `instruction.md:6-11` for the two HTTP bodies is superseded: the instruction `states the same
   bodies` at `instruction.md:15-18`, and the full range is `instruction.md:6-11,15-18` (the
   `source:` anchor already carries that range). Original sentence kept as written (append-only).
+- **E-D2a (round 71, 2026-11-03; amendment to E-D2).** E-D2 quoted the superseded sentence
+  only by fragment. Full superseded sentence, quoted verbatim: "The instruction at the same pin
+  states the same bodies, the rate-limit zone location and the log path
+  (`instruction.md:6-11`)." The corrected range remains `instruction.md:6-11,15-18`.

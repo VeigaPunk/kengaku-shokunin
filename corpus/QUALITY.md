@@ -1229,3 +1229,19 @@ An identity digest prices the state it names, not the path it was staged from.
   (`PATH-INDEPENDENT sha_equal=True`, `STAGED-STATE changes_on_byte=True`). Round 69's version of
   the same defect hashed the server-written access log (`corpus/lessons/round-69.md` `## Mistakes`
   row 5). Source: `corpus/lessons/round-70.md` `## Mistakes` row 1.
+
+## Round71 criterion
+
+A witness at one granularity does not price the finer one.
+
+- **Q53 — a leg-coverage witness prices the leg, not each assertion the leg runs.** A claim that
+  an assertion is priced names the assert line and the case whose vector reds on that line; a
+  `LEG-COVERAGE` line counting `P`/`F` per leg never implies it, and the freeze-time arithmetic
+  (Q51) must count at the granularity the claim states. Round 71's eight-case table witnessed all
+  four legs both ways, yet only 6 of the grader's 19 assert sites carry a negative witness
+  (`LegPricing.md` §4b); five assert groups are red-unreachable under the frozen modes (`:19-20`,
+  `:50`, `:56-62`, `:67-73`, `:107`), and exactly one of them was reachable by a staged mode —
+  `test_api_error_handling`'s `"error" in error_data` (`:107`), because K4 reds one line earlier
+  on the 400 status — proposed as K9 `400-no-error-field` (`PPPF`). The table was frozen, so the
+  gap is named as a limitation and carried to a successor table. Source: `corpus/lessons/round-71.md`
+  `## Mistakes` and `.ufo/waves/round-71/w1/CaseTableAudit71.md` §Leg-coverage arithmetic.

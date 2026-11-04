@@ -1,0 +1,16 @@
+# receipt: rows appended to a scratch clone of lane master at d8a77d3f2b4c8747dbc3a5bcf458b23160a459e0
+-- awk arity (must be 0) --
+malformed=0
+-- row count --
+238
+-- anchor_digest_check --lane <clone> --verbose (S245/S246 and summary) --
+BIND S245 capture=corpus/evidence/round71/hf/instruction.md by=row-path
+BIND S246 capture=corpus/evidence/round52/graders/hf-model-inference/tests/test_outputs.py by=row-path
+RESOLVED S245 digest=29151c5b2306f522f38fa905de3d34566865829355e5ca0895f4fca04d51dcc1 via=corpus/evidence/round71/hf/instruction.md bind=row-path listed=corpus/evidence/round71/hf/instruction.md
+RESOLVED S246 digest=61a686d6caf833ac3c240f2a8ceddacfed82b9f392c51b48ed8359d3e0f87857 via=corpus/evidence/round52/graders/hf-model-inference/tests/test_outputs.py bind=row-path listed=corpus/evidence/round52/graders/hf-model-inference/tests/test_outputs.py
+rows=238 tokens=129 defects=44
+exit=0
+-- baseline (lane master, rows before) --
+rows=238 tokens=129 defects=44
+-- lane-wide defect count (pre-existing, untouched) --
+44

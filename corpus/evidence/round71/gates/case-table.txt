@@ -1,0 +1,17 @@
+CASE-TABLE cases=8 legs=4 pin=2fd12b88aafdd04a52c298e3940bcb189f9766d6
+CASE K1 model=good server=good expected=PPPP note=all four legs green
+FROZEN-VECTOR K1 PPPP
+CASE K2 model=good server=wrong-label expected=PPFP note=L3 red: the 'not bad' text answered negative
+FROZEN-VECTOR K2 PPFP
+CASE K3 model=good server=int-confidence expected=PPFP note=L3 red: confidence scores are ints, not floats
+FROZEN-VECTOR K3 PPFP
+CASE K4 model=good server=no-400 expected=PPPF note=L4 red: a body without text answered 200
+FROZEN-VECTOR K4 PPPF
+CASE K5 model=good server=root-drops expected=PFPP note=L2 red: '/' closes the connection, /sentiment works
+FROZEN-VECTOR K5 PFPP
+CASE K6 model=good server=none expected=PFFF note=L2/L3/L4 red: no service listens
+FROZEN-VECTOR K6 PFFF
+CASE K7 model=absent server=good expected=FPPP note=L1 red: no model directory
+FROZEN-VECTOR K7 FPPP
+CASE K8 model=corrupt server=good expected=FPPP note=L1 red: from_pretrained raises on the staged bytes
+FROZEN-VECTOR K8 FPPP

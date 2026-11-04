@@ -2654,3 +2654,44 @@ Evidence: `corpus/evidence/round64/`, `.ufo/waves/round-64/` (wave seats in `w1/
   separator + 8 rows). Both `corpus/README.md` mentions now say eight and name all eight classes
   (staged-digest blind spot, self-unreadable receipt, argument-order, exception-red, speedy claim
   about isolation, freeze-doc overclaim, dead check clause, unre-derived landing prose).
+
+## Round 71 (hyaku run 15, attempt 1, 2026-11-03)
+
+- **Claims (frozen `d8a77d3f`, base `1cb49cac`).** R71-C1 coverage — the `hf-model-inference`
+  TB2 grader replayed offline under an eight-case frozen table in which every one of its four
+  legs is witnessed `P` and `F`; R71-C2 calibration — the round-70 non-author closure's two
+  routed defects R70-D1 (`Mistakes`-row count drift) and R70-D2 (the nginx entry's residual
+  `instruction.md:6-11` citation) closed by a re-deriving gate.
+- **Landed (R71-C1).** `plans/round71_c1_hf_probe.py` (bwrap per case, the pinned grader
+  imported inside the sandbox, port-5000 lock for concurrent batteries, staged-input
+  `case_sha256`, `--check-receipt`, `--selftest`, `--control`). Receipt of record
+  `corpus/evidence/round71/hf/receipt.txt` — eight `VECTOR … agree=True`,
+  `LEG-COVERAGE legs=4 seen_p=4 seen_f=4`, `SUMMARY cases=8 legs=32 mismatches=0 setup=0 exc=2`,
+  `PREDICATE R71-C1 pass`; checker `DEFECTS n=0`, rc 0; replicate byte-identical;
+  do-nothing control derives `FFFF` and fails the predicate (`.ufo/waves/round-71/c1-control.txt`).
+  `SKILL.md` class row `executed 3 of 8` → `executed 4 of 8`; entry
+  `corpus/knowledge/tb2-hf-model-inference-offline.md` (landed, `admission: hold` pending Q13/Q14).
+- **Landed (R71-C2).** `plans/round71_c2_routed_defects.py` (E1a/E1b/E1c/E2a, `--selftest`,
+  `--mutants`). Corrections: the append-only `LOG.md` round-70 correction entry, both
+  `corpus/README.md` mentions (eight Mistakes rows, all eight named), `corpus/lessons/round-70.md`
+  `E-R71-1`, and the nginx entry's `E-D2` + `E-D2a` (verbatim superseded sentence). Green
+  `corpus/evidence/round71/c2-green.txt` (`DEFECTS n=6` → `n=0`), controls
+  `corpus/evidence/round71/c2-controls.txt` (selftest 4/4, mutants 4/4).
+- **Sources.** S245 (the task instruction at pin `2fd12b88`, tier A) and S246 (the grader at the
+  same pin, tier A), both live-fetched, `cmp` byte-identical to the committed captures;
+  `merge/kengaku` entry `grader-predicate-input-types` rejected with reason + flip.
+  `Assimilation: none`.
+- **Verification run this round.** C1 checker rc 0 at the integration tree; C2 `DEFECTS n=0`, rc 0;
+  census 236 → 238 rows, rc 0, 25 `W04` both ends; depth gate `PREDICATE R63-C2 pass`
+  (`ROWS n=16 class_match=True count_mismatch=0 paths total=36 resolved=36 share=1.00`); trio
+  `TRIO pass` on both the hf and nginx entries.
+- **Mistakes mined** (`corpus/lessons/round-71.md` `## Mistakes`, eight rows): the repeated-syntax
+  counter in the dispatched item; the fragment-vs-verbatim quote condition; the red-before run
+  with an instrument absent at base; the control receipt named "committed at freeze" but committed
+  later; the leg-vs-assert granularity; the inherited sandbox environment (a designed
+  `transformers` stub reproduces the table); the word-only count parser; and `--mutants`
+  invariance read as arm-level necessity. Q53 records the granularity rule.
+- **Open.** L0 carried: `kengaku | round-25/33/51`, `round-54`, `round-56`, `round-63`,
+  `round-65`, `round-66`, `round-67` (labrat role). Named limitations (i)–(ix) in the round
+  report; Q13/Q14 re-read outstanding; the `--selftest` arms and the `bwrap` environment
+  inheritance route to round 72.

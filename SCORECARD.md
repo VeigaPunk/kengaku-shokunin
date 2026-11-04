@@ -3140,3 +3140,91 @@ instrument guards it; the counting command is the `grep -c` pair in the row's ev
 receipts with self-contradictory live-witness fields that `--check-receipt` accepts (same
 boundary as limitation (v)); the committed sandbox captures and `server_pid` lines are the live
 witness, not the checker.
+## Round 71 (hyaku run 15, attempt 1, 2026-11-03): the `hf-model-inference` grader replayed offline under an eight-case table and admitted (R71-C1; `network-service` moves to `executed 4 of 8`), and the round-70 closure's two routed defects closed by a re-deriving gate (R71-C2 admitted; calibration held at ceiling, exercised)
+
+Base `1cb49cac` (round-70 verifier spot-check tip). Freeze `d8a77d3f`: claims doc, both
+instruments, the pinned instruction capture + the tiny model fixture, the two C2 corrections,
+census-before, C2 red-before (`DEFECTS n=6`), the wave spec and the validated dispatch
+(`w1-validate.rc` = 0). Wave `.ufo/waves/round-71/w1`: v1, **14 seats** (executor 4, reviewer 3,
+mutation-tester 2, scribe 2, critic 1, scout 1, connector 1); attack roles `{reviewer, critic,
+mutation-tester}` = 6/14 = 43 % (≥25 %); connector 1 (≤2). No residual call; round total **14**.
+
+| claim / axis | before → after evidence | counting command | verdict / score |
+|---|---|---|---|
+| **R71-C1 / coverage** (lowest owned non-retired axis, L0-capped at 7) — the `hf-model-inference` TB2 grader replayed offline under an eight-case frozen table, every leg witnessed `P` and `F` | before (`1cb49cac`): receipt absent (`git cat-file -e 1cb49cac:corpus/evidence/round71/hf/receipt.txt` → rc 128); `grep -c 'executed 3 of 8' SKILL.md` → 1; S245/S246 absent → after: `python3 plans/round71_c1_hf_probe.py --lane . --work <scratch> --check-receipt corpus/evidence/round71/hf/receipt.txt` → `DEFECTS n=0`, `PREDICATE R71-C1 pass`, rc 0; the receipt of record carries eight `VECTOR … agree=True` lines (`PPPP/PPFP/PPFP/PPPF/PFPP/PFFF/FPPP/FPPP`), `LEG-COVERAGE legs=4 seen_p=4 seen_f=4`, `SUMMARY cases=8 legs=32 mismatches=0 setup=0 exc=2`; an independent replicate is byte-identical (36 lines, `diff` empty); the do-nothing control derives `FFFF` in every case and prints `PREDICATE R71-C1 fail`; `grep -c 'executed 3 of 8'` → 0, `grep -c 'executed 4 of 8'` → 1 | `grep -c 'executed 3 of 8' SKILL.md`; `grep -c 'executed 4 of 8' SKILL.md`; `git cat-file -e 1cb49cac:corpus/evidence/round71/hf/receipt.txt`; the checker command above | **pass**, coverage held at its L0 cap (7): the class row moves on the passing predicate, the axis number is capped |
+| **R71-C2 / calibration** (held at ceiling 10, exercised) — the round-70 non-author closure's two routed defects R70-D1 and R70-D2, closed by a re-deriving gate | before (`1cb49cac`, `.ufo/waves/round-71/c2-red-before.txt`): `python3 plans/round71_c2_routed_defects.py --lane <base clone>` → `DEFECTS n=6`, `PREDICATE R71-C2 fail`, rc 1 → after: same command at the tip → `E1a ok`, `E1b ok`, `E1c ok`, `E2a ok`, `DEFECTS n=0`, rc 0 (`corpus/evidence/round71/c2-green.txt`); `--selftest` → `defects-in-fake=4 want=4 all-fail=True append-only-arm=True`; `--mutants` → `MUTANTS total=4 killed=4 survived=0` (`corpus/evidence/round71/c2-controls.txt`); the corrections are append-only (nginx entry and round-70 lesson: additions only; `LOG.md`: appended block; `corpus/README.md`: the two mentions corrected old→new) | the gate command above; `--selftest --work <scratch>`; `--mutants --work <scratch>` | **pass**, calibration held at ceiling (10), exercised |
+
+**Corrections landed (not claims, each with a re-deriving check).** (1) `LOG.md` gains an
+append-only round-70 correction naming the superseded "five rows" text and the derived count of
+eight. (2) Both `corpus/README.md` mentions now say eight Mistakes rows and name all eight
+classes. (3) `corpus/lessons/round-70.md` gains `E-R71-1` naming the under-sweep. (4) The nginx
+entry gains `E-D2` (the corrected `instruction.md:6-11,15-18` range) and `E-D2a` (the superseded
+sentence quoted verbatim, which the frozen claim sentence required and the gate's fragment test
+does not enforce).
+
+**Capabilities.** No new row: the replay re-exercises `offline-network-service-grader-probe`
+(round 68); `hf-model-inference` is the fourth executed member, not a new repertoire entry.
+
+**Scores.** coverage 7 (held; the claim passed but the axis sits at its L0 cap
+`kengaku | round-25/33/51`), calibration 10 (held; two routed defects closed with a gate that
+moves `n=6` → `n=0` and is killed 4/4; this round's own defects are lesson rows, not smoothed),
+operability 10 (held; two instruments run, the port-5000 lock serialises concurrent batteries),
+depth 10 (held; new entry + S245/S246; depth gate `PREDICATE R63-C2 pass`, `ROWS n=16 …
+paths total=36 resolved=36 share=1.00`), freshness 10 (held; both pinned sources re-fetched live
+with sha256 and `cmp` identity against the committed captures), adjacency 9 (held;
+`SiblingOverlap71` counted 13/13 term-level sibling hits, 0 surface-level, none routed), novelty
+8 (held; no new instrument-level construct claimed). **No axis harmed.**
+
+**Named limitations of the verdicts (found this round).** (i) The candidate is a lane-written
+stdlib HTTP server, not the Flask app the task asks for; the grader's own requests decide the
+legs (the class recipe). (ii) `transformers`/`torch` come from this host's `/fast/ComfyUI/.venv`
+(python 3.13.16, torch 2.14.1+cu130, transformers 5.21.0, requests 2.34.2), bound read-only —
+the task image's versions are not reproduced, the checker reports `library-drift` on another host,
+and the sandbox inherits the parent environment (`bwrap` is invoked without `--clearenv`), so a
+designed `transformers` stub on `PYTHONPATH` reproduces all eight vectors and a byte-identical
+receipt (`ClaimFalsify71` §C1-b): the model-load witness is an **outcome** check, not a
+provenance check. (iii) The six texts and labels are the grader's own constants; the staged model is a
+19 KB random-weight fixture that loads, not distilbert, so the replay prices the grader, not a
+model's accuracy. (iv) `test_flask_api_running` accepts any HTTP answer from `0.0.0.0:5000`
+(confirmed independently: a 500-status root passes); only a closed connection reds it. (v)
+`--check-receipt` is a consistency check over committed bytes, not proof of a live run; a
+hand-written internally consistent receipt passes (ReceiptReview71 probe (d)), so the per-case
+sandbox captures are the live witness. (vi) The covered unit is the **leg**, not each assert
+site: only 6 of the grader's 19 assert sites carry a negative witness (`LegPricing` §4b), five
+assert groups are red-unreachable under the frozen modes, and `CaseTableAudit71` proposed K9
+`400-no-error-field` (PPPF) as the one reachable gap — not added after the freeze. (vii) The
+frozen `--selftest` has two defective arms: `case_digest` runs without `--work` (so the digest
+clause is never exercised) and the `PATH-INDEPENDENT` arm stages without a prepared model dir
+and crashes; captured in `corpus/evidence/round71/c1-selftest.txt` (`ARM case_digest
+refused=False`, then `grader copy missing`), routed to round 72. (viii) `--mutants`' `4/4` is invariant under a semantic mutation matrix and only proves the four
+checks are wired; `GateMutate71` measured **2/6 killed, 4/6 survived** at check level, with M1
+(E1c count-only) and M2 (E2a missing-range) passing the whole predicate on defective bytes, and
+two correct renderings (the digit `8`, a backticked `` `eight` ``) false-red through
+`parse_count`'s word-only map. The `4/4` line is therefore reported as the literal frozen
+predicate, never as arm-level necessity. (ix) The Q13/Q14 second-seat
+re-read of the round-71 knowledge entry is not on record (a second-wave `falsify`/`w2` registry
+is required, and this round dispatched one v1 wave under the run-15 8–16 band), so the entry
+lands with `admission: hold`; `python3 plans/gate_timing_check.py --lesson
+corpus/lessons/round-71.md --commit <tip>` prints `no admit rows … failed=1` and that FAIL is
+the honest state, not an admission.
+
+**Trend verdicts (round 71).** expansion: **improved** — the `network-service` class row moves
+`executed 3 of 8` → `4 of 8` on a passing frozen predicate (the fourth executed member, and the
+first whose model-load leg is satisfied by a staged `transformers` directory), and S245/S246 are
+new tier-A rows opened live. quality: **improved** — the round-70 closure's two routed defects
+close by a gate that moves `n=6` → `n=0` and is killed 4/4; the instrument prices exception-reds
+separately (`EXC`) and isolates six of eight cases to a single red leg; Q53 records the
+leg-vs-assert rule from this round's finding. discernment: **improved** — the wave's attack seats
+wrote the round's defects down instead of smoothing them (the verbatim-quote gap was found by a
+reviewer, and the leg/assert gap by another), the do-nothing control refuses, and the entry is
+held rather than self-admitted.
+
+**Planned (round 72).** (1) A successor C1 instrument with `bwrap --clearenv` plus an explicit
+environment allowlist, the sandbox's own `transformers.__file__` recorded in the receipt, the two
+defective `--selftest` arms repaired (`case_digest` run with `--work`; `PATH-INDEPENDENT` staging
+from the lane), and K9 `400-no-error-field` (`PPPF`) as the ninth frozen case. (2) The C2 gate's
+`parse_count` digit/backtick coercion, an accept-the-red-lane arm in the mutation metric, and a
+positional append-only check (the superseded sentence above the first `## Errata`). (3) A 2–4 seat
+`falsify` second wave to re-read `corpus/knowledge/tb2-hf-model-inference-offline.md` and admit it
+under Q13/Q14 (this round's entry carries `admission: hold`). L0 carried: `kengaku |
+round-25/33/51`, `round-54`, `round-56`, `round-63`, `round-65`, `round-66`, `round-67`.

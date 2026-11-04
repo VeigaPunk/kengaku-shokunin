@@ -1,0 +1,20 @@
+=== selftest ===
+E1a ok
+E1a ok
+E1b ok
+E1c ok
+E2a ok
+E1a ok
+E1a ok
+E1b ok
+E1c ok
+DEFECTS-RED n=14 codes=E1a,E1b,E1c,E2a want=E1a,E1b,E1c,E2a
+SELFTEST defects-in-fake=4 want=4 all-fail=True append-only-arm=True ok=True
+SELFTEST_RC=0
+=== mutants ===
+MUTANT E1a defect_absent=True killed=True rc=1
+MUTANT E1b defect_absent=True killed=True rc=1
+MUTANT E1c defect_absent=True killed=True rc=1
+MUTANT E2a defect_absent=True killed=True rc=1
+MUTANTS total=4 killed=4 survived=0
+MUTANTS_RC=0
