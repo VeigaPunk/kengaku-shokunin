@@ -212,3 +212,26 @@ the lesson's actual `## 6` lines (185/189/193/198/202/206/209) and the gate now 
 `ROWS total=86 open=31 blocked=1 closed=52 refused=2`, `--selftest 12/12`. Its remaining 31 open rows
 are outside R76-C2's scope by design (the frozen predicate scopes the newest closer), which is a
 stated limit, not a discharge.
+
+## Amendment A7 (2026-11-04, prior-art and inherited-gate repair from the wave) — R76-C1 is an increment, and the round-51 resolver is green again
+
+`ConnectorR76` (finding 2) and `ScoutFrontierR76` showed two corrections the report must carry:
+
+1. **R76-C1 is not the fleet's first live surface resolver.** `plans/round51_surfaces.py` +
+   `plans/round51-surfaces.json` already probe declared PROVINCE rows live (paths, HTTP, TCP, count
+   claims), require a dated `ABSENT` marker per absent row, and enforce a resolve floor; sibling lanes
+   carry overlapping primitives (kagi `surface-census.sh`, kumitate `surface-probe.mjs`, kama's host-drift
+   tools, kotoba `verify_surfaces.py`, kake `freshness-sweep.mjs`). R76-C1's increment is narrow and is
+   what the capability row and the report must say: it extracts the anchor and the present-tense prose
+   **from the table bytes** instead of a separately authored `manifest` field, scans the whole row, and
+   adds anchor confinement (loopback-only endpoints, no `..`, bounded braces), impossible-date,
+   duplicate-identity and identity-manifest legs. The `SCORECARD` capability row reads
+   "PROVINCE-surface resolver, table-byte anchored (increment of round 51)" — not a first acquisition.
+2. **The round-51 gate was red at base and my own row-2 repair widened it.** At `fda63968` it printed
+   `UNCOVERED 1` (the corpus-index row, unanchored since the round-75 gate line changed). Replacing
+   "relocated intact" broke SF02's anchor as well, and that gate is registered (`SKILL.md`), so the row
+   edit would have left a registered gate red. Repaired in-round: SF02's anchor follows the corrected
+   row, a new SF21 covers the corpus-index row, SF14's `count_claim` is re-pinned to the round-76 census
+   (244) with a dated supersession in the PROVINCE row text. `plans/round51_surfaces.py --lane .` now
+   prints `UNCOVERED 0`, `RESOLVE observed_present=15 floor=13 verdict=met`, `PREDICATE R51-C1 pass`.
+   This is an inherited-defect repair, not a third claim.
