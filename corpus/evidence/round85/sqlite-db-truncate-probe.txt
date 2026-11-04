@@ -1,0 +1,24 @@
+MEMBER sqlite-db-truncate
+SUBJECT_CAPTURE corpus/evidence/round52/graders/sqlite-db-truncate/tests/test_outputs.py
+SUBJECT_SHA 8f5bc11018687d8c5894ebf1b4ec6fad004828e5ce442d3cc04d925ef53ef881
+CASE_TABLE_SHA bd98794b9d35168ccb296ad9176cf45b0b421cf961515935a814eadc40d49114
+TOOL plans/round85_sqlite_truncate_probe.py
+TOOL_SHA d00868acbfe8c398a4703860b39c101734799aeb8cc5de8f2f3d3e05ccb0582f
+HOST_PYTHON Python 3.14.8
+HOST_OPENSSL OpenSSL 3.6.5 29 Sep 2026 (Library: OpenSSL 3.6.5 29 Sep 2026)
+LANE_TIP 99a7cb3b0165efe907814947392e6bd98fe45872
+WORKTREE clean
+COMMAND python3 plans/round85_sqlite_truncate_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r85/mint
+EXIT 0
+OBSERVATIONS_BEGIN
+CASE exact8 predicted=8/P observed=8/P
+CASE seven predicted=7/P observed=7/P
+CASE six predicted=6/F observed=6/F
+CASE empty predicted=0/F observed=0/F
+CASE extras predicted=8/P observed=8/P
+CASE duplicates predicted=8/P observed=8/P
+CASE string-values predicted=0/F observed=0/F
+CASE int-values predicted=6/F observed=6/F
+cases=8 legs=16 mismatches=0
+PREDICATE R85-PROBE pass
+OBSERVATIONS_END
