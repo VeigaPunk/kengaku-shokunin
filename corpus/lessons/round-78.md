@@ -68,6 +68,23 @@ closure's D1/D2/D3/D5 are repaired through it.
 | M78-4 reference-drift | `corpus/evidence/round77/exec-attrib-calibration.txt` and `exec-state-check.txt` both pinned `TOOL_SHA 78f12c7e…`, which matches neither tool at their stamp (`attrib_calibration.py` `6656c0b5…`, `state_check.py` `4aa47a63…` at `07c97fcd`) | `none` — the round-77 receipts were not audited for digest identity | re-stamped append-only with the digest computed at `07c97fcd`; recorded as a named limit of the old receipts |
 | M78-5 landing | producing the round-78 receipts from one clone made every receipt after the first stamp `WORKTREE dirty` (the driver writes into the tree it measures) | the driver's own `WORKTREE` line on the first batch | one fresh `git clone --shared` per receipt; every round-78 receipt stamps `WORKTREE clean` |
 
+## Amendment A1 (from the wave)
+
+Nine legs were added to the two counters after the wave's critic, reviewer and sentinel
+demonstrated false greens; every one can only add defects, and neither target, control nor kill rule
+moved. C1: fenced-table exclusion, `CLASS-NOT-PARTIAL`, duplicate-JSON-key detection,
+`TASK-MISMATCH` (the receipt must name its task), a ≥2-line vector table, `RECEIPT-ESCAPE`/
+`RECEIPT-SYMLINK`, `MEMBER-NAME-ESCAPE`. C2: tool bytes resolved at each receipt's own stamp (the
+first form read the audit tip), full 64-hex `TOOL_SHA` only (`TOOL-PIN-SHORT`),
+`SUPPLIED-UNRECOVERABLE`, and `STAMP-CONFLICT` restored for an unlabelled second stamp block. Two
+executed receipts (`round68/pypi`, `round71/hf`) gained a dated `TASK-UNDER-TEST` annotation because
+their bytes never named the task. See `plans/round-78-claims.md` §Amendment A1.
+
+**Stated limits kept.** The reason detectors are syntax-backed: `network-install-required` fires on
+`pypi-server` (an executed member) as well as on `git-multibranch`, so a reason names a mechanism the
+task's grader *contains*, not a proof of non-replayability. A `TOOL-SUPPLIED` block still cannot
+prove who produced the numbers; it proves the bytes are recoverable and unmodified.
+
 ## Limits
 
 - R78-C1 accounts for the five unexecuted members; it does not replay them. A replay is the next

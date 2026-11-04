@@ -46,7 +46,7 @@ SIGNATURES = re.compile(r"^(LANE_TIP|PREDICATE|SELFTEST|MUTANTS|CONTROL|VERDICT:
 TIP = re.compile(r"^LANE_TIP ([0-9a-f]{7,40})$", re.M)
 WORKTREE = re.compile(r"^WORKTREE (clean|dirty)$", re.M)
 TOOL = re.compile(r"^TOOL (\S+)", re.M)
-TOOL_SHA = re.compile(r"^TOOL_SHA ([0-9a-f]{8,64})$", re.M)
+TOOL_SHA = re.compile(r"^TOOL_SHA ([0-9a-f]+)$", re.M)
 SUPPLIED = re.compile(r"^TOOL-SUPPLIED (\S+)", re.M)
 COMMAND = re.compile(r"^COMMAND \S", re.M)
 PASS = re.compile(r"^PREDICATE (\S+) pass$", re.M)
@@ -88,20 +88,28 @@ class Ctx:
     def ancestor(self, commit: str) -> bool:
         return git(self.root, "merge-base", "--is-ancestor", commit, "master").returncode == 0
 
-    def exists_at(self, rel: str) -> bool:
-        """Presence in the receipt's own stamped tree (the only tree a receipt can speak for)."""
-        return git(self.root, "cat-file", "-e", f"{self.tip}:{rel}").returncode == 0
+    def resolve(self, rev: str) -> str:
+        return git(self.root, "rev-parse", "--verify", "--quiet", f"{rev}^{{commit}}").stdout.strip()
 
-    def tool_digest(self, rel: str) -> str | None:
+    def exists_at(self, rel: str, tip: str) -> bool:
+        """Presence in the receipt's own stamped tree (the only tree a receipt can speak for)."""
+        return git(self.root, "cat-file", "-e", f"{tip}:{rel}").returncode == 0
+
+    def tool_digest(self, rel: str, tip: str) -> str | None:
         """Digest of the tool bytes in the receipt's own stamped tree, never the caller's worktree."""
-        proc = git(self.root, "cat-file", "-p", f"{self.tip}:{rel}")
+        proc = git(self.root, "cat-file", "-p", f"{tip}:{rel}")
         if proc.returncode != 0:
             return None
         return hashlib.sha256(proc.stdout.encode("utf-8", "surrogateescape")).hexdigest()
 
 
+FULL_SHA = re.compile(r"^[0-9a-f]{64}$")
+MARKER = re.compile(r"^(RE-STAMPED|CORRECTION)\b", re.M)
+
+
 def digest_matches(pin: str, actual: str) -> bool:
-    return actual.startswith(pin) if len(pin) < 64 else pin == actual
+    """A pin is compared whole. A truncated pin is not a pin (frozen kill rule)."""
+    return pin == actual
 
 
 def stamp_block(text: str) -> tuple[str, str]:
@@ -114,6 +122,11 @@ def stamp_block(text: str) -> tuple[str, str]:
     if not hits:
         return "-", text
     return hits[-1].group(1), text[hits[-1].start():]
+
+
+def tip_conflict(tips: list[str], block: str) -> bool:
+    """Two different tips need a labelled re-stamp; an unlabelled append stays STAMP-CONFLICT."""
+    return len(set(tips)) > 1 and not MARKER.search(block)
 
 
 def last(pattern: re.Pattern, text: str):
@@ -147,17 +160,22 @@ def audit(ctx: Ctx) -> tuple[list[str], list[str], dict]:
     for rel in receipts:
         text = ctx.get(rel) or ""
         bad: list[str] = []
+        tips = TIP.findall(text)
         tip, block = stamp_block(text)
         state = "-"
+        short = "-"
+        stamp_commit = ""
         if tip == "-":
             bad.append("TIP-ABSENT")
-            short = "-"
         else:
             short = tip[:8]
-            if not git(ctx.root, "rev-parse", "--verify", "--quiet", f"{tip}^{{commit}}").returncode == 0:
+            stamp_commit = ctx.resolve(tip)
+            if not stamp_commit:
                 bad.append("TIP-UNRESOLVED")
             elif not ctx.ancestor(tip):
                 bad.append("TIP-NOT-ANCESTOR")
+            if tip_conflict(tips, block):
+                bad.append("STAMP-CONFLICT")
         state = last(WORKTREE, block) or "-"
         if state == "-":
             bad.append("WORKTREE-ABSENT")
@@ -167,26 +185,31 @@ def audit(ctx: Ctx) -> tuple[list[str], list[str], dict]:
         tool_rel = tool or supplied
         if sha and not tool:
             bad.append("TOOL-UNNAMED")
-        if tool_rel:
-            present = ctx.exists_at(tool_rel)
+        if sha and not FULL_SHA.match(sha):
+            bad.append("TOOL-PIN-SHORT")
+        if tool_rel and stamp_commit:
+            present = ctx.exists_at(tool_rel, stamp_commit)
             if not present:
                 if not supplied:
                     bad.append("TOOL-ABSENT-AT-TIP")
                 elif state == "clean":
                     bad.append("SUPPLIED-BUT-CLEAN")
-            if sha:
-                actual = ctx.tool_digest(tool_rel)
+                if supplied and not sha and not ctx.exists(tool_rel):
+                    bad.append("SUPPLIED-UNRECOVERABLE")
+            if sha and FULL_SHA.match(sha):
+                actual = ctx.tool_digest(tool_rel, stamp_commit)
                 if actual is None:
                     if not supplied:
                         bad.append("TOOL-ABSENT-AT-TIP")
                 elif not digest_matches(sha, actual):
                     bad.append("SUPPLIED-DIGEST-MISMATCH" if supplied else "TOOL-DRIFT")
-            elif present and not supplied:
+            elif present and not supplied and not sha:
                 bad.append("TOOL-UNPINNED")
         if VERDICTISH.search(text) and not last(COMMAND, block):
             bad.append("COMMAND-ABSENT")
         if PASS.search(text):
-            located_ok = bool(tool and sha and not any(x.startswith(("TOOL-", "SUPPLIED-")) for x in bad)) \
+            located_ok = bool(tool and sha and FULL_SHA.match(sha)
+                              and not any(x.startswith(("TOOL-", "SUPPLIED-")) for x in bad)) \
                 or bool(supplied and not any(x.startswith("SUPPLIED-") for x in bad))
             if not located_ok:
                 bad.append("PASS-UNLOCATED")

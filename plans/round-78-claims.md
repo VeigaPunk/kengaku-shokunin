@@ -121,3 +121,26 @@ located at its own stamp over-claims what the lane can prove about itself).
 - Re-minting receipts outside `round77`/`round78`: older receipts predate the stamping discipline and
   are recorded as stated limits, not repaired here.
 - Assimilation: `merge/kengaku` stays unadopted (L0 `kengaku | round-54`).
+
+## Amendment A1 (round 78, 2026-11-04, from the wave's critic/reviewer/sentinel) — only adds defects
+
+Both frozen predicates, both targets, both controls and both kill rules are unchanged; each leg
+below can only add a defect to a receipt or a ledger row that the frozen form let through.
+
+**R78-C1.** (a) `SKILL.md` fenced blocks are skipped when the class table is parsed — a fenced
+shadow table can no longer replace the real one (`...` rows inside ```). (b) A row whose `k == n`
+is `CLASS-NOT-PARTIAL`. (c) The ledger is decoded with a duplicate-key hook, so a repeated member
+key is `MEMBER-DUPLICATE` instead of being silently collapsed by `json.loads`. (d) An `executed`
+receipt must name its task (`TASK-UNDER-TEST <member>` or the member string) — `TASK-MISMATCH`
+otherwise, which is what stops a same-class receipt swap and a foreign-round census pass.
+(e) A `vectors` verdict needs at least two `VECTOR … frozen=match` lines and no mismatch; one
+arbitrary line is no longer a table. (f) A receipt path that is absolute, contains `..`, or is a
+symlink is `RECEIPT-ESCAPE` / `RECEIPT-SYMLINK`; a census member name outside `[A-Za-z0-9._-]+` is
+`MEMBER-NAME-ESCAPE` and its grader bytes are not read.
+
+**R78-C2.** (a) Tool bytes are resolved **at each receipt's own stamped revision** (the frozen
+sentence; the first form read them from the audit tip). (b) `TOOL_SHA` must be a full 64-hex
+digest — a shorter pin is `TOOL-PIN-SHORT`, so the truncated-pin bypass is closed. (c) A
+`TOOL-SUPPLIED` block with no digest requires the named path to exist in the audit tree, else
+`SUPPLIED-UNRECOVERABLE`. (d) Two different `LANE_TIP` values with no `RE-STAMPED`/`CORRECTION`
+marker in the last block are `STAMP-CONFLICT` again; a labelled re-stamp still supersedes.

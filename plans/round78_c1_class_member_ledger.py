@@ -84,12 +84,13 @@ def git(lane: Path, *args: str) -> subprocess.CompletedProcess:
 class Tree:
     """Uniform read interface over the worktree, a git revision, or a fixture directory."""
 
-    def __init__(self, label: str, tip: str, getter, tracked, exists):
+    def __init__(self, label: str, tip: str, getter, tracked, exists, symlink=None):
         self.label = label
         self.tip = tip
         self._get = getter
         self._tracked = tracked
         self._exists = exists
+        self._symlink = symlink or (lambda rel: False)
 
     def get(self, rel: str) -> str | None:
         return self._get(rel)
@@ -99,6 +100,9 @@ class Tree:
 
     def exists(self, rel: str) -> bool:
         return self._exists(rel)
+
+    def symlink(self, rel: str) -> bool:
+        return self._symlink(rel)
 
 
 def rev_tree(lane: Path, rev: str) -> Tree:
@@ -111,18 +115,22 @@ def rev_tree(lane: Path, rev: str) -> Tree:
         return Tree("worktree", tip,
                     lambda rel: _read_file(lane / rel),
                     lambda rel: git(lane, "ls-files", "--error-unmatch", "--", rel).returncode == 0,
-                    lambda rel: (lane / rel).exists())
+                    lambda rel: (lane / rel).exists(),
+                    lambda rel: (lane / rel).is_symlink())
     return Tree(rev, tip,
                 lambda rel: _git_show(lane, tip, rel),
                 lambda rel: git(lane, "cat-file", "-e", f"{tip}:{rel}").returncode == 0,
-                lambda rel: git(lane, "cat-file", "-e", f"{tip}:{rel}").returncode == 0)
+                lambda rel: git(lane, "cat-file", "-e", f"{tip}:{rel}").returncode == 0,
+                lambda rel: git(lane, "cat-file", "-e", f"{tip}:{rel}").returncode == 0
+                and git(lane, "ls-tree", f"{tip}", "--", rel).stdout.startswith("120000"))
 
 
 def fx_tree(root: Path) -> Tree:
     return Tree("fixture", "fixture",
                 lambda rel: _read_file(root / rel),
                 lambda rel: (root / rel).is_file(),
-                lambda rel: (root / rel).exists())
+                lambda rel: (root / rel).exists(),
+                lambda rel: (root / rel).is_symlink())
 
 
 def _read_file(path: Path) -> str | None:
@@ -154,7 +162,13 @@ def skill_partial_rows(tree: Tree) -> tuple[list[tuple[str, int, int, str]], lis
     block = text.split(TABLE_HEADING, 1)[1]
     block = block.split("\n## ", 1)[0]
     rows, defects = [], []
+    fenced = False
     for line in block.splitlines():
+        if line.lstrip().startswith("```"):
+            fenced = not fenced
+            continue
+        if fenced:
+            continue
         if not line.lstrip().startswith("|"):
             continue
         cells = cells_of(line)
@@ -163,7 +177,10 @@ def skill_partial_rows(tree: Tree) -> tuple[list[tuple[str, int, int, str]], lis
         m = PARTIAL.search(cells[2])
         if not m:
             continue
-        rows.append((cells[0], int(m.group(1)), int(m.group(2)), cells[2]))
+        k, n = int(m.group(1)), int(m.group(2))
+        if k >= n:
+            defects.append(f"DEFECT CLASS-NOT-PARTIAL {cells[0]} row claims executed {k} of {n}")
+        rows.append((cells[0], k, n, cells[2]))
         if LINK not in cells[2]:
             defects.append(f"DEFECT CLASS-ROW-UNLINKED {cells[0]} executed cell carries no `{LINK}`")
     return rows, defects
@@ -195,12 +212,24 @@ def census_coverage(tree: Tree) -> tuple[int, list[str]]:
     return 0, []
 
 
+def _no_dup_keys(pairs):
+    seen = {}
+    for key, value in pairs:
+        if key in seen:
+            raise ValueError(f"duplicate member key {key!r}")
+        seen[key] = value
+    return seen
+
+
 def load_ledger(tree: Tree) -> tuple[dict, list[str]]:
     text = tree.get(LEDGER)
     if text is None:
         return {}, []
     try:
-        data = json.loads(text)
+        data = json.loads(text, object_pairs_hook=_no_dup_keys)
+    except ValueError as exc:
+        code = "MEMBER-DUPLICATE" if "duplicate" in str(exc) else "SETUP"
+        return {}, [f"DEFECT {code} 0 ledger rejected: {exc}"]
     except json.JSONDecodeError as exc:
         return {}, [f"DEFECT SETUP 0 ledger unparsable: {exc}"]
     members = data.get("members")
@@ -219,7 +248,7 @@ def verdict_token(receipt: str, predicate: str) -> tuple[str, bool]:
     """Executed evidence: the instrument's own passing verdict, printed in the receipt's bytes."""
     if f"PREDICATE {predicate} pass" in receipt:
         return "predicate", True
-    if VECTOR.search(receipt) and not VECTOR_BAD.search(receipt):
+    if len(VECTOR.findall(receipt)) >= 2 and not VECTOR_BAD.search(receipt):
         return "vectors", True
     return "-", False
 
@@ -278,6 +307,14 @@ def audit(tree: Tree) -> tuple[list[str], list[str], dict]:
             receipt_rel = str(row.get("receipt") or "")
             predicate = str(row.get("predicate") or "")
             token = "-"
+            if receipt_rel.startswith("/") or ".." in Path(receipt_rel).parts:
+                defects.append(f"DEFECT RECEIPT-ESCAPE {member} receipt {receipt_rel!r} leaves the lane")
+                receipt_rel = ""
+            elif tree.symlink(receipt_rel):
+                defects.append(f"DEFECT RECEIPT-SYMLINK {member} receipt {receipt_rel} is a symlink")
+            elif receipt_rel and member.lower() not in (tree.get(receipt_rel) or "").lower() \
+                    and f"TASK-UNDER-TEST {member}" not in (tree.get(receipt_rel) or ""):
+                defects.append(f"DEFECT TASK-MISMATCH {member} receipt {receipt_rel} does not name the task")
             if not receipt_rel or not tree.exists(receipt_rel):
                 defects.append(f"DEFECT RECEIPT-MISSING {member} {receipt_rel or '<none>'}")
             elif not tree.tracked(receipt_rel):
@@ -299,6 +336,8 @@ def audit(tree: Tree) -> tuple[list[str], list[str], dict]:
             reason = row.get("reason")
             if reason not in REASON_ENUM:
                 defects.append(f"DEFECT REASON-UNKNOWN {member} reason={reason!r}")
+            elif not re.fullmatch(r"[A-Za-z0-9._-]+", member) or ".." in member:
+                defects.append(f"DEFECT MEMBER-NAME-ESCAPE {member} not a census-shaped task name")
             else:
                 blob = grader_bytes(tree, member)
                 if not blob.strip():
@@ -409,7 +448,7 @@ def build_fixture(root: Path, *, ledger_extra: str = "", drop_member: str = "",
     (root / LEDGER).write_text(json.dumps(ledger, indent=2), encoding="utf-8")
     (root / "corpus/evidence/r").mkdir(parents=True)
     for name, pred in (("a1", "R70-C1"), ("b1", "R71-C1"), ("b2", "R72-C1")):
-        body = f"PREDICATE {pred} pass\n"
+        body = f"TASK-UNDER-TEST {name}\nPREDICATE {pred} pass\n"
         if name == break_receipt:
             body = "PROBE ran\n"
         (root / f"corpus/evidence/r/{name}.txt").write_text(body, encoding="utf-8")
