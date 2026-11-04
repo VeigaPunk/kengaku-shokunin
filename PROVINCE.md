@@ -1038,7 +1038,7 @@ An absent row must carry `ABSENT YYYY-MM-DD`; a remote row `REMOTE YYYY-MM-DD`; 
 | Attribution instrument | hash | `plans/attrib_probe.py` | present sha256=489f938a…16e06b — floating probe code; frozen anchors live in the `-frozen.md` tables | Core:Attribution instrument + frozen tables |
 | Attribution frozen tables | path | `plans/attrib-r21-frozen.md` | present — plus the r22 and r23 frozen tables beside it | Core:Attribution instrument + frozen tables |
 | Corpus gate docs | path | `corpus/QUALITY.md` | present — admission bar plus the round-closure criteria | Core:Corpus gate docs |
-| Public-literature registry | count | `corpus/SOURCES.md` | present rows=245 — contract-v1 census clean | Core:Public-literature registry |
+| Public-literature registry | count | `corpus/SOURCES.md` | present rows=247 — contract-v1 census clean (245 superseded 2026-11-04 by round 78's S254/S255 appends) | Core:Public-literature registry |
 | ds-flash-shim source (read-only) | hash | `~/.local/share/ds-flash-shim/shim.py` | present sha256=42d86d99…15a386 — identical to the disclosed pin in the attribution logs | Core:ds-flash-shim source (read-only) |
 | Live probe endpoint | tcp | `127.0.0.1:8791` | present — ds-flash-shim listener, read-only shim | Core:Live probe endpoint |
 | Public literature (cite anchor) | path | `corpus/knowledge/eval-prior-art-calibration.md` | present — the novelty-pricing anchor; the URLs it cites are not probed by the gate | Surfaces:Public literature; Core:Public literature |

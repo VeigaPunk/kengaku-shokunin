@@ -64,6 +64,7 @@ ROUND74_LESSON = "corpus/lessons/round-74.md"
 # disk has the round-75 lesson/evidence and the README does not yet index them: 60 = 4/36/20.
 BASE75 = "43255758"
 ID = re.compile(r"\bR(\d+)-D(\d+)\b")
+BARE_D = re.compile(r"\bD(\d+)\b")
 ISO = re.compile(r"\d{4}-\d{2}-\d{2}")
 PATHISH = re.compile(r"(corpus/|plans/|SKILL\.md|LOG\.md|SCORECARD\.md|PROVINCE\.md|README\.md)")
 QUOTED = re.compile(r"'[^']{3,}'|\"[^\"]{3,}\"")
@@ -158,6 +159,13 @@ def scope_ids(reader: Reader) -> tuple[list[str], str]:
     seen: list[tuple[int, int, str]] = []
     for m in ID.finditer(text):
         seen.append((int(m.group(1)), int(m.group(2)), f"R{m.group(1)}-D{m.group(2)}"))
+    # Amendment A1 (round 78, 2026-11-04): the round-77 closure labels its routed items bare
+    # (`D1` … `D5`), so the qualified form above sees none and the scope emptied at the round-78
+    # tip (`EMPTY-SCOPE ids=0`). A bare `D<n>` in the newest spot-check is qualified with that
+    # closure's round number. This can only ADD ids to the scope (hence only ADD MISSING-ROW/OPEN
+    # defects); target, legs, constants and controls are unchanged.
+    for m in BARE_D.finditer(text):
+        seen.append((best[0], int(m.group(1)), f"R{best[0]}-D{m.group(1)}"))
     ids = sorted({ident for *_, ident in seen}, key=lambda s: (int(s[1:].split("-")[0]), int(s.split("-D")[1])))
     return ids, best[1]
 
