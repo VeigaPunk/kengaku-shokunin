@@ -3542,3 +3542,11 @@ regenerated from a clean clone at `d31feec99f0398a7ef833ef1e5aa3822560f4917` —
 `3/3` and the C2 mutant matrix `12/12`; the C1 batteries stay `cases=12 red=11` and `9/9`. At
 `d31feec9` six registered gates are green (`R76-C1`, `R76-C2`, `R51-C1`, `R75-C1`, `R74-C1`, `R74-C2`)
 and `routed_open.py` prints `ROWS total=86 open=31 blocked=1 closed=52 refused=2`, `--selftest 12/12`.
+
+**Round-76 addendum 6 (appended 2026-11-04, final).** After receipts regenerated from a clean clone at
+`a47a55300a343a0b74fde7f12fe8c0a959163b5d` (the revision whose `SCOPE` tally counts the
+`EMPTY-SCOPE`/`LEG-PENDING` defects), so `c1-after.txt`/`c2-after.txt` stamp `a47a5530`, superseding
+`d31feec9`. The C2 before receipt now reads `wrong=13` (7 `MISSING-ROW`, 5 `LEG-FAIL`, 1
+`LEG-PENDING`); the after receipt is unchanged (`discharged=7 legs_passed=7 wrong=0`). At `a47a5530` all
+six registered gates are green and `routed_open.py` is clean (`ROWS total=86 open=31 blocked=1 closed=52
+refused=2`, `--selftest 12/12`).
