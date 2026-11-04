@@ -607,6 +607,7 @@ the round29 deferred index statement after the Gate's exact-byte admission.
 |---|---|
 | `evidence/round34/` | Round-34 SOURCES census before/after receipts; no corpus rows were admitted. |
 | `evidence/round72/` | Round-72 receipts: the nine-case C1 receipt with its replicate, checker, stub before/after/control, nine per-case sandbox captures plus `sandbox-replicate/`; the C1 selftest; C2 red-before/green/controls/gate-mutants; the round-52 registry-debt receipt; the two source captures (S247/S248); and `gates/` (depth, trio) |
+| `evidence/round79/` (`corpus/evidence/round79/`) | Round-79 receipts: both gates' before (`c1-before.txt` at `--rev 660ec0b9`, `c2-before.txt`), the C1 after/batteries/three controls, the C2 after/batteries/control, the clean-tree gate block (`gates-clean.txt`), the at-tip routed-open receipt, both censuses and the S256 capture under `sources/` |
 | `evidence/round78/` (`corpus/evidence/round78/`) | Round-78 receipts: both gates' before (`c1-before.txt` at `--rev 3ae0ab54`, `c2-before.txt`) and after, the four batteries and both controls, the census pair, and the S254 capture under `sources/` |
 | `evidence/round77/` (`corpus/evidence/round77/`) | Round-77 receipts: the canonical-inventory gate's before (`c1-before.txt`) and its batteries, the burn-down gate's before (`c2-before.txt`), the two exec receipts (`exec-attrib-calibration.txt`, `exec-state-check.txt`), the three stamped reruns (`rerun-routed-open.txt`, `rerun-r51-c1.txt`, `rerun-r75-c1.txt`), both censuses and the S253 capture under `sources/` |
 

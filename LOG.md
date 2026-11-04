@@ -3023,3 +3023,44 @@ receipt that holds the observed output:
 - `python3 plans/round77_c2_defect_discharge.py --lane .` → `discharged=7 legs_passed=7 wrong=0`,
   `EXIT 0` — `corpus/evidence/round77/c2-after.txt` (re-minted).
 - **L0 carried unchanged:** kengaku rounds 25/33/51/54/56/63/65/66/67/72/74/76.
+
+## Round 79 (hyaku run 15, attempt 1, 2026-11-04)
+
+Base `660ec0b9` (round-78 closure spot-check). Freeze `5d684313`; integration `42d9d60a`. Two claims,
+both admitted. One v1 wave, 14 seats.
+
+- **R79-C1 / coverage** — the whole 16-class Terminal-Bench 2.0 population becomes an 88-member
+  ledger (`plans/grader-population-ledger.json`): 18 `executed` (subject-locating receipt + execution
+  observations), 6 `executed-unlocated` (the probe instrument names the member, a receipt under that
+  round carries observations, and the `no-subject-stamp` debt is named), 64 `unexecuted` (7
+  detector-backed blockers: 2 browser, 1 vm, 1 external-db, 3 candidate-library; 57 the honest
+  `unattempted` default). All 16 `SKILL.md` class rows carry a derived `executed k of n`; the
+  coverage number is derived, not quoted. Before `--rev 660ec0b9`: `LEDGER rows=0`, 88
+  `MEMBER-UNACCOUNTED`, `DEFECTS n=105`, rc 1 → after: `DEFECTS n=0`, `COVERAGE replayed=24
+  covered=15 uncovered=container-image census_covered=12`, rc 0
+  (`corpus/evidence/round79/c1-before.txt`, `c1-after.txt`). Batteries: selftest `cases=13 red=12`,
+  mutants `6/6`, three controls `target_reached=False`.
+- **R79-C2 / calibration** — the round-78 closure's seven routed defects are discharged as
+  `corpus/routed-findings.jsonl` rows `R78-D1`…`R78-D7`, each with a `check` that fails at
+  `660ec0b9`. Before: 7 `DEBT-UNREGISTERED` + `INDEX-MISSING`, `DEFECTS n=8`, rc 1 → after:
+  `TARGET ids=7 closed=7 checks_passed=7 indexed=yes`, `DEFECTS n=0`, rc 0 (`c2-before.txt`,
+  `c2-after.txt`). Batteries: selftest `cases=9 red=8`, mutants `4/4`, control `target_reached=False`.
+- **R78-D6 / clean-tree gate block.** The whole gate block was re-run from a clean clone of this
+  round's tip and committed (`corpus/evidence/round79/gates-clean.txt`): every live gate prints
+  `EXIT 0`, including `grader.py` (`CHECKS n=733 mismatches=0`), R51-C1, R52-C2/R74-C1, R74-C2,
+  R75-C1, R76-C1, R76-C2, R77-C1, R77-C2, R79-C1 and R79-C2. `round78-c1-class-member-ledger` is
+  retired in the registry (superseded by the population ledger; its universe rule now selects the
+  88-member population) and its round-78 verdict stands at `148801a6`.
+- **R78-D3 / at-tip rerun.** `python3 plans/routed_open.py --lane .` at this round's tip →
+  `ROWS total=105 open=31 blocked=1 closed=71 refused=2`, `routed_open=32 oldest_round=39`
+  (`corpus/evidence/round79/routed-open.txt`), superseding the round-78 block's `ROWS total=93`.
+- **R78-D1 / R78-D2 / R78-D5 corrections** live in the round-79 SCORECARD section: the per-class
+  split re-derives as `11 TOOL-UNNAMED, 11 COMMAND-ABSENT, 5 PASS-UNLOCATED, 2 WORKTREE-ABSENT`
+  (no `TOOL-UNPINNED`), the two round-77 rows now read `stamped cd2e25bb, clean`, and the
+  base-redness paragraph is restated with R75-C1/R76-C2 as the red gates.
+- **Sources.** S256 (Terminal-Bench 2.0 harness README, live fetch, capture + sha256 `7dfa9992…`,
+  quote at capture line 24) grounds the containerized-run premise of the blocker taxonomy; S257 is
+  the `own-work` row for the population ledger + census receipt. Registry 247 → 249, census rc 0 at
+  both ends (`corpus/evidence/round79/census-{before,after}.txt`). Assimilation: none (L0
+  `kengaku | round-54` open). considerthese: proposal 1 is implemented (this round uses the
+  burn-down ledger); proposals 2 and 3 stay open.

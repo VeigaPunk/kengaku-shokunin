@@ -3266,6 +3266,8 @@ instrument reads `/proc/<pid>/environ` from outside — a stronger shape the lan
 injection passes the text-only arm of `--check-receipt` (`StubBeforeAfterR72` F7,
 `ReceiptReviewR72` §2b): the `--work` arm is the discriminating one.
 
+**Gate retired this round.** `round78-c1-class-member-ledger` (R78-C1) is retired in the `SKILL.md` registry: its universe rule (every `SKILL.md` row whose cell carries `executed k of n`) now selects the 88-member population, so it reports the 76 members its 12-row ledger never priced. The round-78 verdict stands at its own tip (`148801a6`, `PREDICATE R78-C1 pass`), and the 12 rows it priced are a consistent subset of the population ledger (12/12 same status, checked with `plans/grader-selected-members.json` × `plans/grader-population-ledger.json`).
+
 **Scores.** coverage **7** (held; claim passed, axis at its L0 cap), calibration **10** (held,
 exercised), operability **10** (held; two instruments run, four registry rows now accurate under the
 audit), depth **10** (held; new entry + S247/S248; depth gate `PREDICATE R63-C2 pass`,
