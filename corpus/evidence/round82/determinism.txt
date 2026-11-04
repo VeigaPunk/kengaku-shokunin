@@ -1,0 +1,12 @@
+# R82-C3 determinism — two runs of plans/round82_c3_sweep.py at one tip, same code
+# tip c804dd416c3df760a09dfd5804ee53d15efb1bcf (clean git clone --shared), 2026-11-04
+COMMAND python3 plans/round82_c3_sweep.py --lane . --run --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork --receipt corpus/evidence/round82/sweep.txt
+COMMAND python3 plans/round82_c3_sweep.py --lane . --run --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork2 --receipt /fast/scratch/hyaku/kengaku-r82/l1/sweep-receipt-final2.txt
+REV c804dd416c3df760a09dfd5804ee53d15efb1bcf
+# comparison: MEMBER name, status and exit code, run 1 vs run 2
+DETERMINISM members=26 statuses_identical=yes divergence_counts_identical=yes exit_codes_identical=yes disagreements=0
+# independent check (seat SweepHarvestR82, its own implementation, two passes, same tip 12f1029a):
+#   reproduced=18 diverged=5 unrunnable=3 in BOTH passes, 0 disagreeing members
+#   (its stdout-only projection classifies nginx-request-logging and torch-pipeline-parallelism
+#    unrunnable:no-observations; the gate's fallback to the instrument's own --receipt sees their
+#    observations. Same instruments, different observation source, both stated.)

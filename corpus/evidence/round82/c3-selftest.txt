@@ -1,0 +1,98 @@
+MEMBERS ledger=2 map=2 status_lines=2
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=0 total=2
+DEFECTS n=0
+TARGET members=2 located=2 status_lines=2 histogram_total=2 mismatches=0
+PREDICATE R82-C3 pass
+CASE green ok want_rc=0 got_rc=0
+MEMBERS ledger=2 map=2 status_lines=1
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=0 total=2
+DEFECT STATUS-LINE-MISSING m2
+DEFECT HISTOGRAM-COUNT declared=(1, 1, 0) counted=(1, 0, 0)
+DEFECT HISTOGRAM-SUM total=2 members=1 ledger=2
+DEFECT TARGET-INCONSISTENT target=(2, 2, 2, 2, 0) measured=(2,1,1,2)
+DEFECTS n=4
+TARGET members=2 located=1 status_lines=1 histogram_total=2 mismatches=4
+PREDICATE R82-C3 fail
+CASE missing-status-line ok want_rc=1 got_rc=1
+MEMBERS ledger=2 map=2 status_lines=3
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=0 total=2
+DEFECT MEMBER-EXTRA m9
+DEFECT HISTOGRAM-COUNT declared=(1, 1, 0) counted=(2, 1, 0)
+DEFECT HISTOGRAM-SUM total=2 members=3 ledger=2
+DEFECT TARGET-INCONSISTENT target=(2, 2, 2, 2, 0) measured=(2,2,3,2)
+DEFECTS n=4
+TARGET members=2 located=2 status_lines=3 histogram_total=2 mismatches=4
+PREDICATE R82-C3 fail
+CASE extra-member ok want_rc=1 got_rc=1
+MEMBERS ledger=2 map=2 status_lines=2
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=1 total=3
+DEFECT HISTOGRAM-COUNT declared=(1, 1, 1) counted=(1, 1, 0)
+DEFECT HISTOGRAM-SUM total=3 members=2 ledger=2
+DEFECT TARGET-INCONSISTENT target=(2, 2, 2, 2, 0) measured=(2,2,2,3)
+DEFECTS n=3
+TARGET members=2 located=2 status_lines=2 histogram_total=3 mismatches=3
+PREDICATE R82-C3 fail
+CASE histogram-sum ok want_rc=1 got_rc=1
+MEMBERS ledger=2 map=2 status_lines=2
+HISTOGRAM status reproduced=2 diverged=0 unrunnable=0 total=2
+DEFECT HISTOGRAM-COUNT declared=(2, 0, 0) counted=(1, 1, 0)
+DEFECTS n=1
+TARGET members=2 located=2 status_lines=2 histogram_total=2 mismatches=1
+PREDICATE R82-C3 fail
+CASE histogram-count ok want_rc=1 got_rc=1
+MEMBERS ledger=2 map=2 status_lines=2
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=0 total=2
+DEFECT COMMAND-MISMATCH m1 receipt='python3 plans/p1.py --lane . --work /other/m1' map='python3 plans/p1.py --lane . --work /w/m1'
+DEFECTS n=1
+TARGET members=2 located=2 status_lines=2 histogram_total=2 mismatches=1
+PREDICATE R82-C3 fail
+CASE command-mismatch ok want_rc=1 got_rc=1
+MEMBERS ledger=2 map=2 status_lines=2
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=0 total=2
+DEFECT PROJECTION-UNCHECKED m1
+DEFECT PROJECTION-UNCHECKED m2
+DEFECT NO-RUN no PROJECTION lines — the census was not measured
+DEFECTS n=3
+TARGET members=2 located=2 status_lines=2 histogram_total=2 mismatches=3
+PREDICATE R82-C3 fail
+CASE projection-unchecked ok want_rc=1 got_rc=1
+MEMBERS ledger=2 map=2 status_lines=2
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=0 total=2
+DEFECT DIFF-COUNT m2 declared=1 lines=0
+DEFECTS n=1
+TARGET members=2 located=2 status_lines=2 histogram_total=2 mismatches=1
+PREDICATE R82-C3 fail
+CASE diff-count ok want_rc=1 got_rc=1
+MEMBERS ledger=2 map=2 status_lines=2
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=0 total=2
+DEFECT DIFF-COUNT m2 declared=1 lines=2
+DEFECTS n=1
+TARGET members=2 located=2 status_lines=2 histogram_total=2 mismatches=1
+PREDICATE R82-C3 fail
+CASE diff-overflow ok want_rc=1 got_rc=1
+MEMBERS ledger=2 map=2 status_lines=2
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=0 total=2
+DEFECT PROJECTION-UNCHECKED m1
+DEFECT PROJECTION-UNCHECKED m2
+DEFECT DIFF-COUNT m2 declared=1 lines=0
+DEFECT NO-RUN no PROJECTION lines — the census was not measured
+DEFECTS n=4
+TARGET members=2 located=2 status_lines=2 histogram_total=2 mismatches=4
+PREDICATE R82-C3 fail
+CASE no-run ok want_rc=1 got_rc=1
+MEMBERS ledger=2 map=2 status_lines=2
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=0 total=2
+DEFECT PREDICATE fail
+DEFECTS n=1
+TARGET members=2 located=2 status_lines=2 histogram_total=2 mismatches=1
+PREDICATE R82-C3 fail
+CASE predicate-fail ok want_rc=1 got_rc=1
+MEMBERS ledger=2 map=2 status_lines=2
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=0 total=2
+DEFECT TARGET-INCONSISTENT target=(3, 3, 2, 2, 0) measured=(2,2,2,2)
+DEFECTS n=1
+TARGET members=2 located=2 status_lines=2 histogram_total=2 mismatches=1
+PREDICATE R82-C3 fail
+CASE target-inconsistent ok want_rc=1 got_rc=1
+SELFTEST cases=12 red=11 failures=0
+rc=0

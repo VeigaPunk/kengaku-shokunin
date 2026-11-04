@@ -1100,3 +1100,31 @@ ledger resolves members of classes the SKILL table already declared.
 **Not this lane's scope (unchanged):** the serving plane, benchmark runtime services, and route
 resolution stay with kama / the benchmark images / kumitate. No member's replay is claimed without a
 receipt.
+
+## Round 82 (2026-11-04) — the registry's unmeasured direction, and a sweep over the executed population
+
+**Coverage surfaces touched (held at the L0 cap).** The lane's instrument index is now audited in the
+direction no gate had priced: every `plans/**/*.py` that exists at `4e833e9f`'s successor
+`a3a03ac3`, outside `plans/fixtures/`, and referenced as a literal path by `SCORECARD.md`, `LOG.md`
+or `corpus/README.md` at that revision either carries a row in `SKILL.md`'s
+`## Gate/probe registry` or is declared in `plans/round82-exclusions.json` with a reason the counter
+verifies from the file's own bytes. Six such scripts existed; four are CLI instruments (rows landed)
+and two are support modules (exclusions landed). Gate `plans/round82_c1_plans_registry.py`; base
+receipt `missing=4 unclassified=2`, tip receipt `missing=0 unclassified=0 excluded=2 rows=143
+entry_missing=0`.
+
+**New capability (freshness instrument, no score move).** `plans/round82_c3_sweep.py` re-runs every
+`executed` member's own replay instrument at one measured tip and classifies it against the receipt
+that instrument once produced: 18 `reproduced`, 7 `diverged`, 1 `unrunnable` over the 26-member
+population, from a clean clone at `c804dd41` (`corpus/evidence/round82/sweep.txt`). The seven
+divergences are named per member, not smoothed; the projection is round 80's A2 rule, unchanged.
+
+**New sources.** S262/S263 the pinned Terminal-Bench 2.0 per-task grading entries (`tests/test.sh`);
+S264 a rejected locator (`pyproject.toml`, HTTP 404 at the pin); S265/S266 supersede rows correcting
+the round-81 receipt anchors and quote counts, because Q34 forbids an in-place fix of a registry cell.
+
+**Ceilings unchanged.** Route telemetry and the serving planes remain declared-but-unresolvable, so
+coverage stays at its L0 cap. Nothing here re-declares a surface as resolving.
+
+**Not this lane's scope (unchanged):** the serving plane, benchmark runtime services and route
+resolution stay with kama / the benchmark images / kumitate.

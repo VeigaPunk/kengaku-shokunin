@@ -3172,3 +3172,45 @@ sentinel 1, connector 1, scout 1 — attack roles 4/14 = 29 %).
   reads 250 with the producing command; the registry itself is 253 after this round's three rows.
   Host pin recorded: `Python 3.14.8`, `OpenSSL 3.6.5 29 Sep 2026`.
 - **Tooling.** No installs or upgrades this round (pacman paused host-wide; nothing needed).
+
+## Round 82 (hyaku run 15, attempt 1, 2026-11-04)
+
+- 2026-11-04 — round 82 freeze (`12f1029a`): three claims frozen in `plans/round-82-claims.md` with
+  the 26-member `plans/round82-sweep-map.json` and the do-nothing controls
+  (`corpus/evidence/round82/freeze-controls.txt`). R82-C1 coverage (registry completeness in the
+  direction no counter had priced), R82-C2 calibration (the round-81 spot-check's V1…V7), R82-C3
+  capability (sweep-at-one-tip). Frozen before any receipt; no predicate was re-opened.
+- 2026-11-04 — round 82 instruments and repairs (`c804dd41`): `plans/round82_c1_plans_registry.py`
+  (+ `plans/round82-exclusions.json`), `plans/round82_c3_sweep.py`, `plans/round82_c2_closure_debt.py`
+  and `plans/round82_c2_checks.py` land; the round-81 debt counter gains its sixth and seventh
+  mutants (`MUTANTS real=6 killed=6`), `corpus/evidence/round81/c2-after.txt` is re-minted at a clean
+  clone (`WORKTREE clean`), `corpus/evidence/round81/determinism.txt` gains its `COMMAND`/`REV`
+  provenance (legacy pair reproduces at `f6d5b864`), and the stray `--lane/` directory is removed.
+  Ten registry rows land in `SKILL.md` (four claim-referenced instruments, two support-module
+  exclusions, the two round-81 probes, and this round's four counters), and `plans/round52_c2_registry.py`
+  returns `MISSING 0` again after a row containing literal `|` characters was found to vanish from
+  the eight-cell parse.
+- 2026-11-04 — round 82 sources and citations: S262/S263 admit the pinned Terminal-Bench 2.0 per-task
+  grading entries (`tests/test.sh`: uvx-pinned pytest over the task's own `test_outputs.py`; `reward.txt`
+  from that exit status), S264 rejects `pyproject.toml` at the pin (HTTP 404, no locator), and the
+  round-81 miscounts land as S265/S266 — supersede rows, because Q34 and the fleet contract forbid an
+  in-place fix of an anchor cell even in the round that wrote it. Registry 253 → 258 rows; census
+  rc 0 before and after.
+- 2026-11-04 — round 82 measurements: C1 `DEFECTS n=6` (`missing=4 unclassified=2 rows=133`) at the
+  base → `DEFECTS n=0` (`missing=0 unclassified=0 excluded=2 rows=143 entry_missing=0`) at the tip;
+  C2 `DEBT-UNREGISTERED` ×7 → `ids=7 closed=7 checks_passed=7 indexed=yes` with
+  `SENSITIVITY n=7 failed_at_base=7`; C3 `TARGET members=26 located=26 status_lines=26
+  histogram_total=26 mismatches=0`, `HISTOGRAM status reproduced=18 diverged=7 unrunnable=1`, from a
+  clean clone at `c804dd41` with `WORKTREE clean` in the receipt.
+- 2026-11-04 — round 82 wave: one v1 wave, 12 seats (executor 5, scribe 2, scout 1, connector 1,
+  reviewer 1, critic 1, mutation-tester 1; attack share 25.0 %). Five seats died on provider 429
+  (zai/glm-5.3-flashx retry budget exhausted): `SweepGateR82`, `SweepHarvestR82`, `ReviewerR82`
+  (revived, completed after the backoff), `CriticR82` (revived), `MutationR82` (revived) and
+  `RegistryCounterR82` (never recovered). The L1 carried the sweep gate, the C1 counter and the C2
+  counter; the seats' reports and repaired bytes are committed under `.ufo/waves/round-82/`.
+- 2026-11-04 — round 82 mistakes: M82-1 (a probe's sidecar writes dirtied tracked evidence —
+  `round68_c1_pypi_finish.py` writes `corpus/evidence/round68/pypi/` unless `--evidence-dir` is
+  passed, so the sweep now runs against a disposable clone and stamps `WORKTREE`), M82-2 (a registry
+  row with literal `|` characters disappears from the eight-cell parse while the row is visibly in
+  the file), M82-3 (mined: a receipt minted over a moving worktree is not a measurement of a tree —
+  round 81's `c2-after.txt`).

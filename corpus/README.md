@@ -963,6 +963,7 @@ A row here indexes a file; it does not admit it — the held entries stay held.
 - `corpus/evidence/round75/` — 8 files, 1 subdirectory (sources): round-75 receipts: c1 before/selftest/rowshuffle-control, c2 audit/mutants, stamp red-before, attribution control, selftest, both census captures and the S251 source capture.
 - `corpus/evidence/round76/` — receipts and the S252 capture: c1 before/selftest/mutants/control-declared, c2 before/selftest/selftest-git/mutants/control-status, both census captures, the round-74 tip receipts and `sources/git-merge-base.html`.
 - `corpus/evidence/round81/` — round-81 claim receipts: the C1 gate's before/battery/control/after runs, the two member probe receipts, the C2 check battery, the census row-count and U4 red-before receipts.
+- `corpus/evidence/round82/` — round-82 claim receipts: the freeze do-nothing controls (`freeze-controls.txt`), the census before/after, the sweep census of record (`sweep.txt`: 26 members, 18 reproduced / 7 diverged / 1 unrunnable, `WORKTREE clean` at `c804dd41`), and the three pinned TB2 grading-entry captures under `fetch/` (S262/S263), with the rejected `pyproject.toml` locator (S264).
 
 ## Round-75 supporting artifacts (2026-11-04)
 

@@ -1,0 +1,84 @@
+# kengaku round 82 — sweep at one tip (R82-C3)
+SWEEP_MAP plans/round82-sweep-map.json sha256=7afc34baa7387caec0381698fe4ebb3b58be722037770cb8f4b1f7721ce0fbaf
+LEDGER plans/grader-population-ledger.json sha256=15fb159dab8e3dbff36985f2a4ad7c6341a540eedb67dd1c1f820ac7387e1f44
+LANE_TIP c804dd416c3df760a09dfd5804ee53d15efb1bcf
+WORKTREE clean
+WORKDIR /fast/scratch/hyaku/kengaku-r82/l1/finalwork
+ENV python=Python 3.14.8 openssl=OpenSSL 3.6.5 29 Sep 2026 (Library: OpenSSL 3.6.5 29 Sep 2026) bwrap=bubblewrap 0.13.1
+MEMBER build-pmars status=reproduced exit=0 secs=0.9 argv=python3 plans/build_pmars_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/build-pmars
+PROJECTION build-pmars lines=22 sha256=d0910eea29b62d874cecb81781c5d873e02f749148f082ffbe4e28de05be306b
+MEMBER cancel-async-tasks status=reproduced exit=0 secs=161.7 argv=python3 plans/round61_c1_cancel_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/cancel-async-tasks --receipt /fast/scratch/hyaku/kengaku-r82/l1/finalwork/cancel-async-tasks/cancel-async-tasks.receipt.txt
+PROJECTION cancel-async-tasks lines=12 sha256=7c4eb74cbc833e928699319df9e6914680dbb8b56c75c51d574534be0511fb79
+MEMBER chess-best-move status=reproduced exit=0 secs=0.3 argv=python3 plans/round55_c3_chess_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/chess-best-move --receipt /fast/scratch/hyaku/kengaku-r82/l1/finalwork/chess-best-move/chess-best-move.receipt.txt
+PROJECTION chess-best-move lines=12 sha256=44146a59ae2c09e21e387ff9b44541ce26e74a6eab4469c85f4b7dfd373f2865
+MEMBER circuit-fibsqrt status=reproduced exit=0 secs=54.9 argv=python3 plans/fibsqrt_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/circuit-fibsqrt
+PROJECTION circuit-fibsqrt lines=17 sha256=f8b7f314b77c80f967e29d13ceb5d0fc7b2bf3908dc16b89cc619cdf112f2ac4
+MEMBER configure-git-webserver status=reproduced exit=0 secs=52.8 argv=python3 plans/git_webserver_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/configure-git-webserver
+PROJECTION configure-git-webserver lines=22 sha256=3083a9b4b6b48d77565cdea200c044acc178a9b68bae6ffa5046f2448e3e528d
+MEMBER constraints-scheduling status=reproduced exit=0 secs=11.3 argv=python3 plans/constraints_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/constraints-scheduling
+PROJECTION constraints-scheduling lines=26 sha256=e89c801c26cbf3f4bebcec0e9c83bcdf0aff6ab795aed33e37175cee3ef5d4ae
+MEMBER db-wal-recovery status=reproduced exit=0 secs=0.9 argv=python3 plans/db_wal_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/db-wal-recovery
+PROJECTION db-wal-recovery lines=29 sha256=313298c54ceba96a36aa34f503577cd471296a34572c7154cfeb82e539700100
+MEMBER distribution-search status=reproduced exit=0 secs=0.6 argv=python3 plans/round58_c2_kl_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/distribution-search --receipt /fast/scratch/hyaku/kengaku-r82/l1/finalwork/distribution-search/distribution-search.receipt.txt
+PROJECTION distribution-search lines=12 sha256=8164fda47d836b16bed02de3beaed20ab30034f90254d4f452038a4821d26ae3
+MEMBER feal-differential-cryptanalysis status=reproduced exit=0 secs=95.5 argv=python3 plans/feal_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/feal-differential-cryptanalysis
+PROJECTION feal-differential-cryptanalysis lines=13 sha256=b7d0297cc6ccb29231a25cfa50aa8b4e38bd5d7b7e2a066a176ea5e6da59ddba
+MEMBER feal-linear-cryptanalysis status=reproduced exit=0 secs=3.2 argv=python3 plans/feal_linear_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/feal-linear-cryptanalysis
+PROJECTION feal-linear-cryptanalysis lines=15 sha256=112c8edcb4e3731f554e7dbfaae996045c2489e72d283dbfce04b4129ce32c35
+MEMBER git-leak-recovery status=reproduced exit=0 secs=1.2 argv=python3 plans/git_leak_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/git-leak-recovery
+PROJECTION git-leak-recovery lines=25 sha256=ba32528fb7752fe7f83bad588b881779486e308eec1499ae7a6ddc370e58abba
+DIFF hf-model-inference CASE K1 case_sha256=e96b30e19244973e29bca6f64f4ec7d72045a8eb92fdffd00b1180e3af2ebd9e server_pid=3 sandbox_rc=0
+DIFF hf-model-inference VECTOR K1 expected=PPPP derived=PPPP agree=True
+DIFF hf-model-inference CASE K2 case_sha256=f030032303fd367d5aa0dc6c1517f8ef5d9c4b77eac517b6d79ceecd6032617b server_pid=3 sandbox_rc=0
+MEMBER hf-model-inference status=diverged:25 exit=0 secs=39.8 argv=python3 plans/round72_c1_hf_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/hf-model-inference --receipt /fast/scratch/hyaku/kengaku-r82/l1/finalwork/hf-model-inference/hf-model-inference.receipt.txt
+PROJECTION hf-model-inference lines=9 sha256=d776bd53be320d57293bbed4c9ce290c2b5554bd98d659276cef98e1fb5ad5c7
+DIFF kv-store-grpc CASE K1 observed=P/P/P/P/P/P/P expected=P/P/P/P/P/P/P server_pid=3721648 pid_before_legs=True server_ready=True server_log=SERVER_UP_5328
+DIFF kv-store-grpc LEG K1 1 test_proto_file_creation P exc=- frag=-
+DIFF kv-store-grpc LEG K1 2 test_grpc_tools_installation P exc=- frag=-
+MEMBER kv-store-grpc status=diverged:50 exit=0 secs=1.8 argv=python3 plans/round64_c1_kvstore_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/kv-store-grpc --receipt /fast/scratch/hyaku/kengaku-r82/l1/finalwork/kv-store-grpc/kv-store-grpc.receipt.txt
+PROJECTION kv-store-grpc lines=5 sha256=17eaebe5193c5c33114d5860854767acdaa54d42c90b5c88f9f142e6f5867f12
+MEMBER largest-eigenval status=reproduced exit=0 secs=2.2 argv=python3 plans/round57_c2_eigen_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/largest-eigenval --receipt /fast/scratch/hyaku/kengaku-r82/l1/finalwork/largest-eigenval/largest-eigenval.receipt.txt
+PROJECTION largest-eigenval lines=22 sha256=ce95fe82aea7ba6973b2a7d5a0172019e456cc2086c6becb936eb0fb92b14abb
+MEMBER log-summary-date-ranges status=reproduced exit=0 secs=0.2 argv=python3 plans/round81_log_summary_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/log-summary-date-ranges --receipt /fast/scratch/hyaku/kengaku-r82/l1/finalwork/log-summary-date-ranges/log-summary-date-ranges.receipt.txt
+PROJECTION log-summary-date-ranges lines=12 sha256=32e735de9107b25853e06041ef5c3d754f7a7b3d48e5710aa6daea3dc3b6234e
+DIFF nginx-request-logging CASE K1 case_sha256=0cf77ab849376a311f85b6cf47d1b2fd61fd21e0644720fb02e541e8ed074fb0 server_pid=3693159 sandbox_rc=0
+DIFF nginx-request-logging CASE K2 case_sha256=c072ee5fa3f076d69a222ec173327a855f471029bf70bb78b13180b790012a0b server_pid=3700841 sandbox_rc=0
+DIFF nginx-request-logging CASE K3 case_sha256=286db51eb5bab3aad7c3c3fb7ed6c4e2019940d6f3f1d6641269b33be946be34 server_pid=3705599 sandbox_rc=0
+MEMBER nginx-request-logging status=diverged:12 exit=0 secs=17.0 argv=python3 plans/round70_c1_nginx_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/nginx-request-logging --receipt /fast/scratch/hyaku/kengaku-r82/l1/finalwork/nginx-request-logging/nginx-request-logging.receipt.txt
+PROJECTION nginx-request-logging lines=70 sha256=e094590f0adbceaa1389814928850553f7de39a10e0a6e67bb95e5bc6d2d0b62
+MEMBER openssl-selfsigned-cert status=reproduced exit=0 secs=1.0 argv=python3 plans/round59_c1_openssl_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/openssl-selfsigned-cert --receipt /fast/scratch/hyaku/kengaku-r82/l1/finalwork/openssl-selfsigned-cert/openssl-selfsigned-cert.receipt.txt
+PROJECTION openssl-selfsigned-cert lines=12 sha256=262232b60e35742bba4da31a085db1a5a5671315ad12ead4701d657056aceb8b
+MEMBER password-recovery status=reproduced exit=0 secs=1.1 argv=python3 plans/password_recovery_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/password-recovery
+PROJECTION password-recovery lines=17 sha256=21d702c5ff50efd080b8985427b16e5fd6e1ca768b43332a081303827b3c9707
+MEMBER polyglot-c-py status=reproduced exit=0 secs=1.4 argv=python3 plans/polyglot_c_py_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/polyglot-c-py
+PROJECTION polyglot-c-py lines=19 sha256=be7f5a190e40c7e3cc365263a3ab42c1d4b7dfe1cf4d72380e40780c7512482d
+MEMBER protein-assembly status=unrunnable:exit-1 exit=1 secs=0.0 argv=python3 plans/tb2_grader_probe.py --lane .
+PROJECTION protein-assembly lines=0 sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+DIFF pypi-server CASE K1 leg=test_api observed=P expected=P exception=none index_pid=1323016 wheel_sha256=6fad8ea86492def2ce9bb48ba80c11e2b35ce88d8d2ea3757c276754c9d0ced6 stderr_sha256=268c02efc4bcdefb1d142a0f3e218eccf6429eaefea2f767a6dd664a90ffecb3
+DIFF pypi-server CASE K3 leg=test_api observed=F expected=F exception=AssertionError index_pid=1367817 wheel_sha256=df8d66ab40465261894ca5f17b354a3b079061303e12e97f9fc7d1d1393c07aa stderr_sha256=9c7014b3b55bad773f6b5ac8bf950338e191a40f1ea7e002a25f7a9e1f2b4a58
+DIFF pypi-server CASE K4 leg=test_api observed=F expected=F exception=CalledProcessError index_pid=1369862 wheel_sha256=b97edcfcd8870426abed8d8100aab73ad26f022ed4a32d6756b7d6b1c4f9fe92 stderr_sha256=6a0ccd86a8b5606aa190add39cd8095eb5346b71d2a39eb08200b77e58e777ef
+MEMBER pypi-server status=diverged:6 exit=0 secs=18.5 argv=python3 plans/round68_c1_pypi_finish.py --lane . --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/pypi-server --receipt /fast/scratch/hyaku/kengaku-r82/l1/finalwork/pypi-server/pypi-server.receipt.txt
+PROJECTION pypi-server lines=4 sha256=7a4b610f261740b07de54c06cb92572f23411fd3d2f0f225d71fea9175f2760a
+MEMBER regex-log status=reproduced exit=0 secs=0.0 argv=python3 plans/regex_log_probe.py --lane .
+PROJECTION regex-log lines=24 sha256=9986e0cc85a4801ba27e4c03af5555401081d3323ed06f2797d4cc38e5a3ea1c
+DIFF sqlite-with-gcov CASE G1 observed=P/P/P expected=P/P/P build=coverage masked=yes gcda=2 gcno=2
+DIFF sqlite-with-gcov LEG G1 1 test_sqlite_compiled P exc=- frag=-
+DIFF sqlite-with-gcov LEG G1 2 test_sqlite_in_path P exc=- frag=-
+MEMBER sqlite-with-gcov status=diverged:30 exit=0 secs=10.4 argv=python3 plans/round65_c1_sqlite_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/sqlite-with-gcov --receipt /fast/scratch/hyaku/kengaku-r82/l1/finalwork/sqlite-with-gcov/sqlite-with-gcov.receipt.txt
+PROJECTION sqlite-with-gcov lines=5 sha256=13c7b4718fa387283a09cb85ce59c50ec997c3a0968b911c696595e86b83bcec
+DIFF torch-pipeline-parallelism CASE q1-ref case_sha256=5aab7e05c846d0fe7ca364a910018cf6b29fdb607724cd3303dbf6137abb3452 junit_sha256=766c86c24dbb501910831f6e437b5a9d8146329adfaa7234321f496908317b39 rc=0
+DIFF torch-pipeline-parallelism CASE q2-none case_sha256=none junit_sha256=872ded5086a3befca80c9d90cedfaa157f72909f9b771755705bd0e42142786d rc=1
+DIFF torch-pipeline-parallelism CASE q3-stub case_sha256=324da1b5e3f32419cfd5d2bdfcb698277c75841d86e3b5fd5c76b37955851e69 junit_sha256=5aedd8325abaf878e495ff7c38131ad0ca30ec2fdc1537794c999ca7009c0657 rc=1
+MEMBER torch-pipeline-parallelism status=diverged:12 exit=0 secs=41.2 argv=python3 plans/round67_c1_pipeline_probe.py --run --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/torch-pipeline-parallelism --receipt /fast/scratch/hyaku/kengaku-r82/l1/finalwork/torch-pipeline-parallelism/torch-pipeline-parallelism.receipt.txt
+PROJECTION torch-pipeline-parallelism lines=12 sha256=c689e0450e01496d504406bf92be4bef8d9847e219c9deebe27c9a20dbacad49
+DIFF torch-tensor-parallelism CASE k1-ref case_sha=1537da2a2ea07293ec757641a0d2faee5e507518da9f96de45bebfd788193fc1 junit_sha=f05521d65e3f3415d541eccbd7041134a08c0d19b613bcf0b430e8438688946d rc=0 port_free=True
+DIFF torch-tensor-parallelism CASE k2-none case_sha=none junit_sha=8514dcb447735d7f158de5b2e71a3305b0cc3490c097223342e85cab42473caf rc=1 port_free=True
+DIFF torch-tensor-parallelism CASE k3-stub case_sha=316630cd45f0a3e2332bd38f98f4147977eba3d84aa54c5203edc5923986eadf junit_sha=eb9718c70be5d0b2c659e954f0046c6d49e7c5436467191a97bd21ee2e546303 rc=1 port_free=True
+MEMBER torch-tensor-parallelism status=diverged:10 exit=0 secs=65.7 argv=python3 plans/round66_c1_tensor_probe.py --run --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/torch-tensor-parallelism --receipt /fast/scratch/hyaku/kengaku-r82/l1/finalwork/torch-tensor-parallelism/torch-tensor-parallelism.receipt.txt
+PROJECTION torch-tensor-parallelism lines=10 sha256=64197b8273e656b7cfedd61faf7b40adb916f093544108d208a8a61ef50f86e1
+MEMBER vulnerable-secret status=reproduced exit=0 secs=0.2 argv=python3 plans/round81_vulnerable_secret_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r82/l1/finalwork/vulnerable-secret --receipt /fast/scratch/hyaku/kengaku-r82/l1/finalwork/vulnerable-secret/vulnerable-secret.receipt.txt
+PROJECTION vulnerable-secret lines=12 sha256=37e86aa4d72285d19262782ca1de8fe843e1113d6ec7c421991b1fab9dffb3e9
+HISTOGRAM status reproduced=18 diverged=7 unrunnable=1 total=26
+HISTOGRAM-CLASS candidate-import=3 crypto-credential=2 db-state=1 file-artifact=18 filesystem-metadata=2 git-plumbing=1 network-service=4 numeric-band=2 process-environment=2 serialization-schema=1 shell-exec=1 signal-delivery=1 stdout-inspection=8 subprocess-exec=10 timing-wall=3 sum=59
+TARGET members=26 located=26 status_lines=26 histogram_total=26 mismatches=0
+PREDICATE R82-C3 pass

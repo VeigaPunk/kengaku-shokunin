@@ -263,7 +263,15 @@ def evaluate(lane: Path, tip: str | None, collect=None, base_rev: str = BASE_REV
                 ",".join(ds) if ds else "none"))
             for d in ds:
                 defects.append(("ROW-" + d, name))
-    print("ROWS registry=%d base=%d" % (len(rows), len(base_rows)))
+    names = [r[0].strip("`") for r in rows]
+    for n in sorted({x for x in names if names.count(x) > 1}):
+        defects.append(("DUPLICATE", n))
+    for p in sorted(EXCLUSIONS):
+        if p in registered:
+            defects.append(("EXCLUDED-BUT-REGISTERED", p))
+        elif not (lane / p).is_file() and p not in base_files and p not in tip_files:
+            defects.append(("PHANTOM-EXCLUSION", p))
+    print("ROWS registry=%d base=%d duplicates=%d" % (len(rows), len(base_rows), len(names) - len(set(names))))
     for code, detail in defects:
         print("DEFECT %s %s" % (code, detail))
     print("DEFECTS n=%d" % len(defects))

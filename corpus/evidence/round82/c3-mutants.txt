@@ -1,0 +1,87 @@
+MEMBERS ledger=2 map=2 status_lines=1
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=0 total=2
+DEFECT STATUS-LINE-MISSING m1
+DEFECT HISTOGRAM-COUNT declared=(1, 1, 0) counted=(0, 1, 0)
+DEFECT HISTOGRAM-SUM total=2 members=1 ledger=2
+DEFECT TARGET-INCONSISTENT target=(2, 2, 2, 2, 0) measured=(2,1,1,2)
+DEFECTS n=4
+TARGET members=2 located=1 status_lines=1 histogram_total=2 mismatches=4
+PREDICATE R82-C3 fail
+MUTANT drop-status-line killed
+MEMBERS ledger=2 map=2 status_lines=2
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=0 total=2
+DEFECT MEMBER-DUPLICATE m1
+DEFECT COMMAND-MISMATCH m1 receipt='x' map='python3 plans/p1.py --lane . --work /w/m1'
+DEFECTS n=2
+TARGET members=2 located=2 status_lines=2 histogram_total=2 mismatches=2
+PREDICATE R82-C3 fail
+MUTANT duplicate-member killed
+MEMBERS ledger=2 map=2 status_lines=2
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=0 total=2
+DEFECT DIFF-COUNT m2 declared=0 lines=1
+DEFECTS n=1
+TARGET members=2 located=2 status_lines=2 histogram_total=2 mismatches=1
+PREDICATE R82-C3 fail
+MUTANT zero-divergence killed
+MEMBERS ledger=2 map=2 status_lines=2
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=0 total=2
+DEFECT DIFF-COUNT m2 declared=1 lines=4
+DEFECTS n=1
+TARGET members=2 located=2 status_lines=2 histogram_total=2 mismatches=1
+PREDICATE R82-C3 fail
+MUTANT overflow-diffs killed
+MEMBERS ledger=2 map=2 status_lines=2
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=0 total=2
+DEFECT DIFF-COUNT m2 declared=1 lines=0
+DEFECTS n=1
+TARGET members=2 located=2 status_lines=2 histogram_total=2 mismatches=1
+PREDICATE R82-C3 fail
+MUTANT zero-out-diff killed
+MEMBERS ledger=2 map=2 status_lines=2
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=0 total=2
+DEFECT COMMAND-MISMATCH m2 receipt='python3 plans/p2.py --lane . --work /w/m3' map='python3 plans/p2.py --lane . --work /w/m2'
+DEFECTS n=1
+TARGET members=2 located=2 status_lines=2 histogram_total=2 mismatches=1
+PREDICATE R82-C3 fail
+MUTANT swap-argv killed
+MEMBERS ledger=2 map=2 status_lines=2
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=0 total=2
+DEFECT PROJECTION-UNCHECKED m1
+DEFECT PROJECTION-UNCHECKED m2
+DEFECT NO-RUN no PROJECTION lines — the census was not measured
+DEFECTS n=3
+TARGET members=2 located=2 status_lines=2 histogram_total=2 mismatches=3
+PREDICATE R82-C3 fail
+MUTANT strip-projection killed
+MEMBERS ledger=2 map=2 status_lines=2
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=0 total=2
+DEFECT HISTOGRAM-CLASS-SUM declared=3 recomputed=2
+DEFECTS n=1
+TARGET members=2 located=2 status_lines=2 histogram_total=2 mismatches=1
+PREDICATE R82-C3 fail
+MUTANT bad-histogram killed
+MEMBERS ledger=2 map=2 status_lines=2
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=0 total=2
+DEFECT TARGET-MISMATCH 1
+DEFECT PREDICATE fail
+DEFECTS n=2
+TARGET members=2 located=2 status_lines=2 histogram_total=2 mismatches=2
+PREDICATE R82-C3 fail
+MUTANT pass-on-fail killed
+MEMBERS ledger=2 map=2 status_lines=2
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=0 total=2
+DEFECT TARGET-MISMATCH 4
+DEFECTS n=1
+TARGET members=2 located=2 status_lines=2 histogram_total=2 mismatches=1
+PREDICATE R82-C3 fail
+MUTANT target-zero killed
+MEMBERS ledger=2 map=2 status_lines=2
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=0 total=2
+DEFECT STATUS-SHAPE m1 ok
+DEFECT HISTOGRAM-COUNT declared=(1, 1, 0) counted=(0, 1, 0)
+DEFECTS n=2
+TARGET members=2 located=2 status_lines=2 histogram_total=2 mismatches=2
+PREDICATE R82-C3 fail
+MUTANT status-shape killed
+MUTANTS real=11 killed=11 survived=0
+rc=0

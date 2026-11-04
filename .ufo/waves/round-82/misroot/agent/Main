@@ -1,0 +1,18 @@
+STATE / DECISION — R82-C2 V2 shape (scribe C2ProseR82; I cannot edit SOURCES.md, it is on my never-edit list).
+
+Measured at hand-off (`git status --porcelain`, `git diff -U0`):
+- `M corpus/SOURCES.md` 2/2 lines = the in-place patch (Horn A): S260 anchor `:1-17 (stamp 2-16, observations from 17, 9 words)` -> `:1-15 (stamp 2-14, OBSERVATIONS_BEGIN 15, observations from 16, 7 words)`; S261 `(14 words)`->`(12 words)`, `(17 words)`->`(13 words)`.
+- `M corpus/lessons/round-81.md` 2/2 = the two count edits (correct, keep).
+- `M corpus/knowledge/tb2-file-artifact-replay-classes.md` 4 lines = the V3 trio (correct, keep).
+- `M SKILL.md` 4 lines = C1 registry (not mine).
+
+Problem: Horn A is a rule-2 defect under the lane's own criteria — `corpus/QUALITY.md:761` Q34 ("an in-place change is a rule-2 defect even when the round wrote the row itself and the cell it corrects is its own anchor") and fleet-frozen `.ufo/waves/kaika/SOURCES-CONTRACT-v1.md:47-51` rule 2. The landed `plans/anchor_line_check.py:27-29` defines the only contract-clean repair: a new row whose `teaches` opens `supersedes S0NN —`. You must pick ONE; A+B together is the only forbidden state.
+
+My recommendation: **Horn B** — it costs one `git checkout -- corpus/SOURCES.md`, and it buys a check that fails on revert (u2 asserts S262/S263 presence + the `supersedes` prefix), instead of committing the very bookkeeping defect this claim exists to repair. Under B, `u2` must resolve each id through its supersede chain and print that reading; the frozen sentence read row-dominantly is then false and that is your ruling to record, not a counter's.
+
+If B: (1) `git checkout -- corpus/SOURCES.md`; (2) append the two rows S262/S263 from my report §2.4 (11 cells each, teaches opening exactly `supersedes S260 —` / `supersedes S261 —`; paste block is byte-ready); (3) add the round-82 Gate bullets in §2.4; (4) update `PROVINCE.md:1041` rows=253 -> 255.
+If A: keep the cells, do NOT add S262/S263, and record the Q34 exception in the round-82 lesson and the report.
+
+Independent gap regardless of A/B: `grep -rln 'R81-V2' --include=*.md --include=*.py .` returns only my report. C2 requires `R81-V2`'s `close` to carry the id, and round-81.md currently has no correction block (`git diff --numstat` = `2 2`). Append the §2.3 companion block to `corpus/lessons/round-81.md` §Corrections — it carries the id and the literals (`12 whitespace-split tokens`, `stamp runs 2-14`, `observations from 16`, `7 tokens`).
+
+Also still true: the worktree carries `M corpus/evidence/round68/pypi/{server-log.txt,stderr/K1.txt,stderr/K3.txt}` from a pre-freeze run (timestamps 04/Nov 06:33:45, before the 06:34:49 freeze) — no receipt minted here can honestly stamp `WORKTREE clean`. Full detail: `.ufo/waves/round-82/w1/C2ProseR82.md` §7.

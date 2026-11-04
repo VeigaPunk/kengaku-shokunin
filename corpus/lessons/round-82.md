@@ -88,3 +88,33 @@ re-mint fails mechanically.
 
 (see the report's round-shape section for the seat tally; the wave's `.ufo/waves/round-82/w1-results.json`
 is the authority and the `R81-V6` check reads it.)
+
+**M82-4 — a seat's `agent://` write landed as a literal directory at the fleet root.** Three seat
+messages appeared as `agent:/C2CounterR82`, `agent:/ConnectorR82`, `agent:/Main` at
+`/home/vgpnk/Projects/shokunin/` (mtimes 06:48–06:54Z, content naming this lane and round). The
+misroot rule was applied: each file was copied byte-exact into
+`kengaku-shokunin/.ufo/waves/round-82/misroot/agent/<name>` (`cmp` clean), the fleet copies were
+deleted, and the message bodies are cited in this round's record. Captured by: the pre-report
+`git status --porcelain` sweep at the fleet root. Fix: seats get absolute report paths and are told
+to message by exact peer id; a path beginning `agent:` is never a directory.
+
+## Mutation results (seat `MutationR82`, 32m31s, provider-429 survivor)
+
+The mutation seat tested the three counters against their own batteries **and** against its own
+fresh mutants (C1 +5, C2 +6, C3 +5). Its survivors are the most useful evidence the round produced:
+a battery that kills only its own fixtures is a fixture test.
+
+- **C1** — survivors `dup-name-diff-entry`, `dup-name-identical` (the counter never priced a
+  duplicate row name), `exclusion-lie-registered` (a path both registered and excluded — registration
+  silently won), `exclusion-phantom` (an exclusion entry for a path outside the universe).
+  All four are now legs: `DUPLICATE`, `EXCLUDED-BUT-REGISTERED`, `PHANTOM-EXCLUSION`.
+- **C2** — survivors `evidence-literal-empty` (an empty literal skipped the close check) and
+  `duplicate-row-id` (last row won). Both are now legs: `EVIDENCE-LITERAL-EMPTY`, `DUPLICATE-ROW`.
+  Its `check-true-on-empty-tree` survivor is killed only by the separate `--sensitivity` mode, which
+  is why that mode exists as a receipt rather than as a comment.
+- **C3** — survivors `projection-compares-nothing` (a `PROJECTION … lines=0` line satisfied the shape)
+  and `map-extra-member` (a map member absent from the ledger). Now `PROJECTION-EMPTY` (except on
+  `unrunnable` members, whose zero-line projection is the finding) and `MAP-EXTRA`.
+- Not fixed, named: `entry-not-claimed-file` (C1) and `source-prose-line` (C2) are contract gaps —
+  the frozen sentences do not pin those shapes, so the legs wait for a successor round's predicate
+  rather than being added after the fact.

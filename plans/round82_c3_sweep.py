@@ -281,6 +281,12 @@ def check(lane: Path, receipt: Path | None = None, quiet: bool = False) -> int:
         defects.append(("NO-RUN", "no PROJECTION lines — the census was not measured"))
     if workdir is None:
         defects.append(("NO-RUN", "no WORKDIR line"))
+    for name, (nlines, _h) in sorted(proj.items()):
+        rec = members.get(name) or {}
+        if nlines < 1 and not str(rec.get("status", "")).startswith("unrunnable:"):
+            defects.append(("PROJECTION-EMPTY", name))
+    for name in sorted(set(mmap) - want):
+        defects.append(("MAP-EXTRA", name))
 
     print("MEMBERS ledger=%d map=%d status_lines=%d" % (len(want), len(mmap), len(members)))
     if hist:

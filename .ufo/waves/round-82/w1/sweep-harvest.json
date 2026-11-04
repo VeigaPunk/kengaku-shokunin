@@ -1,0 +1,1450 @@
+{
+ "seat": "SweepHarvestR82",
+ "role": "executor",
+ "item": "Empirical harvest for R82-C3",
+ "partial": false,
+ "passes": 2,
+ "lane_tip": "12f1029a45cf0097a3afd030d757bf93b87f8018",
+ "base_rev": "a3a03ac31451e58f1742b9bccb73b72c2d90a95c",
+ "measured": "2026-11-04",
+ "method": "each member's frozen map argv run sequentially (never parallel), 300 s timeout, process-group kill on timeout, cwd=lane-tip clone, TMPDIR=<work>; classification mirrors plans/round82_c3_sweep.py: projection ^(CASE |case=|TEST |VECTOR |LEG |regrade ), drop ^cases=, OBSERVED-U, predicted=U lines; run side = stdout; unrunnable precedence receipt-absent > no-observations > exit!=0; reproduced iff ndiff==0 and exit==stamped EXIT",
+ "env": {
+  "tip": "12f1029a45cf0097a3afd030d757bf93b87f8018",
+  "python3": "Python 3.14.8",
+  "python3_path": "/usr/bin/python3",
+  "openssl": "OpenSSL 3.6.5 29 Sep 2026 (Library: OpenSSL 3.6.5 29 Sep 2026)",
+  "bwrap": "bubblewrap 0.13.1"
+ },
+ "members": {
+  "build-pmars": {
+   "argv": [
+    "python3",
+    "plans/build_pmars_probe.py",
+    "--lane",
+    ".",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/build-pmars"
+   ],
+   "ledger_classes": [
+    "file-artifact",
+    "subprocess-exec"
+   ],
+   "instrument": "plans/build_pmars_probe.py",
+   "committed_receipt": "corpus/evidence/round38/build-pmars-probe.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 1.09,
+    "stdout_sha256": "2408b477b0299e1339064b4b3df968a00174b3a5999016073b5fe4fd8cbb4ef9",
+    "obs_lines": 22,
+    "run_receipt": false,
+    "committed_receipt": true,
+    "status": "reproduced",
+    "ndiff": 0,
+    "first_diffs": [],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 0.92,
+    "status": "reproduced",
+    "ndiff": 0,
+    "stdout_sha256": "2408b477b0299e1339064b4b3df968a00174b3a5999016073b5fe4fd8cbb4ef9"
+   },
+   "aux_receipt_file_projection": null
+  },
+  "cancel-async-tasks": {
+   "argv": [
+    "python3",
+    "plans/round61_c1_cancel_probe.py",
+    "--lane",
+    ".",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/cancel-async-tasks",
+    "--receipt",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/cancel-async-tasks/cancel-async-tasks.receipt.txt"
+   ],
+   "ledger_classes": [
+    "file-artifact",
+    "signal-delivery",
+    "stdout-inspection",
+    "subprocess-exec",
+    "timing-wall"
+   ],
+   "instrument": "plans/round61_c1_cancel_probe.py",
+   "committed_receipt": "corpus/evidence/round80/cancel-async-tasks-probe.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 161.65,
+    "stdout_sha256": "94c240f8c286b21b22088e12bc75372db6208f76cf88ad769640f8750944e9a7",
+    "obs_lines": 12,
+    "run_receipt": true,
+    "committed_receipt": true,
+    "status": "reproduced",
+    "ndiff": 0,
+    "first_diffs": [],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 161.63,
+    "status": "reproduced",
+    "ndiff": 0,
+    "stdout_sha256": "94c240f8c286b21b22088e12bc75372db6208f76cf88ad769640f8750944e9a7"
+   },
+   "aux_receipt_file_projection": {
+    "ndiff": 0,
+    "first_diffs": [],
+    "receipt_proj_lines": 12
+   }
+  },
+  "chess-best-move": {
+   "argv": [
+    "python3",
+    "plans/round55_c3_chess_probe.py",
+    "--lane",
+    ".",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/chess-best-move",
+    "--receipt",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/chess-best-move/chess-best-move.receipt.txt"
+   ],
+   "ledger_classes": [
+    "file-artifact"
+   ],
+   "instrument": "plans/round55_c3_chess_probe.py",
+   "committed_receipt": "corpus/evidence/round80/chess-best-move-probe.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 0.25,
+    "stdout_sha256": "de0826692f8b81c832b8d0633cfe8fa080f2d6142ee9d71b597eba6be9d8aaca",
+    "obs_lines": 12,
+    "run_receipt": true,
+    "committed_receipt": true,
+    "status": "reproduced",
+    "ndiff": 0,
+    "first_diffs": [],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 0.25,
+    "status": "reproduced",
+    "ndiff": 0,
+    "stdout_sha256": "de0826692f8b81c832b8d0633cfe8fa080f2d6142ee9d71b597eba6be9d8aaca"
+   },
+   "aux_receipt_file_projection": {
+    "ndiff": 0,
+    "first_diffs": [],
+    "receipt_proj_lines": 12
+   }
+  },
+  "circuit-fibsqrt": {
+   "argv": [
+    "python3",
+    "plans/fibsqrt_probe.py",
+    "--lane",
+    ".",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/circuit-fibsqrt"
+   ],
+   "ledger_classes": [
+    "file-artifact",
+    "stdout-inspection",
+    "subprocess-exec"
+   ],
+   "instrument": "plans/fibsqrt_probe.py",
+   "committed_receipt": "corpus/evidence/round42/fibsqrt-probe.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 53.21,
+    "stdout_sha256": "2a54ca8a76619a173280727938441fcf129ddcd482cc0a4d55f65b38d41ad92a",
+    "obs_lines": 17,
+    "run_receipt": false,
+    "committed_receipt": true,
+    "status": "reproduced",
+    "ndiff": 0,
+    "first_diffs": [],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 53.2,
+    "status": "reproduced",
+    "ndiff": 0,
+    "stdout_sha256": "2a54ca8a76619a173280727938441fcf129ddcd482cc0a4d55f65b38d41ad92a"
+   },
+   "aux_receipt_file_projection": null
+  },
+  "configure-git-webserver": {
+   "argv": [
+    "python3",
+    "plans/git_webserver_probe.py",
+    "--lane",
+    ".",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/configure-git-webserver"
+   ],
+   "ledger_classes": [
+    "stdout-inspection",
+    "subprocess-exec"
+   ],
+   "instrument": "plans/git_webserver_probe.py",
+   "committed_receipt": "corpus/evidence/round37/git-webserver-probe.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 52.71,
+    "stdout_sha256": "835507129cb536ff6c927b5b05650dd4712891bd3ec218948659655597ec29f8",
+    "obs_lines": 22,
+    "run_receipt": false,
+    "committed_receipt": true,
+    "status": "reproduced",
+    "ndiff": 0,
+    "first_diffs": [],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 52.74,
+    "status": "reproduced",
+    "ndiff": 0,
+    "stdout_sha256": "835507129cb536ff6c927b5b05650dd4712891bd3ec218948659655597ec29f8"
+   },
+   "aux_receipt_file_projection": null
+  },
+  "constraints-scheduling": {
+   "argv": [
+    "python3",
+    "plans/constraints_probe.py",
+    "--lane",
+    ".",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/constraints-scheduling"
+   ],
+   "ledger_classes": [
+    "crypto-credential",
+    "file-artifact"
+   ],
+   "instrument": "plans/constraints_probe.py",
+   "committed_receipt": "corpus/evidence/round41/constraints-probe.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 11.38,
+    "stdout_sha256": "c5aa674277f9b9473de4c0884629c577f2b6467d8b73c3a90eec33b24b7701da",
+    "obs_lines": 26,
+    "run_receipt": false,
+    "committed_receipt": true,
+    "status": "reproduced",
+    "ndiff": 0,
+    "first_diffs": [],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 11.83,
+    "status": "reproduced",
+    "ndiff": 0,
+    "stdout_sha256": "c5aa674277f9b9473de4c0884629c577f2b6467d8b73c3a90eec33b24b7701da"
+   },
+   "aux_receipt_file_projection": null
+  },
+  "db-wal-recovery": {
+   "argv": [
+    "python3",
+    "plans/db_wal_probe.py",
+    "--lane",
+    ".",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/db-wal-recovery"
+   ],
+   "ledger_classes": [
+    "file-artifact",
+    "serialization-schema"
+   ],
+   "instrument": "plans/db_wal_probe.py",
+   "committed_receipt": "corpus/evidence/round40/db-wal-probe.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 0.87,
+    "stdout_sha256": "c74c6b91c8c49b1788f2dd7aa0d66edce0db0b52b549baf89ce69cfa8e2a730e",
+    "obs_lines": 29,
+    "run_receipt": false,
+    "committed_receipt": true,
+    "status": "reproduced",
+    "ndiff": 0,
+    "first_diffs": [],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 1.22,
+    "status": "reproduced",
+    "ndiff": 0,
+    "stdout_sha256": "c74c6b91c8c49b1788f2dd7aa0d66edce0db0b52b549baf89ce69cfa8e2a730e"
+   },
+   "aux_receipt_file_projection": null
+  },
+  "distribution-search": {
+   "argv": [
+    "python3",
+    "plans/round58_c2_kl_probe.py",
+    "--lane",
+    ".",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/distribution-search",
+    "--receipt",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/distribution-search/distribution-search.receipt.txt"
+   ],
+   "ledger_classes": [
+    "numeric-band"
+   ],
+   "instrument": "plans/round58_c2_kl_probe.py",
+   "committed_receipt": "corpus/evidence/round80/distribution-search-probe.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 0.57,
+    "stdout_sha256": "ae3f23b01f0a2450b313a7accb0d076f50272ea8795b55d8ff264c1086ef79bb",
+    "obs_lines": 12,
+    "run_receipt": true,
+    "committed_receipt": true,
+    "status": "reproduced",
+    "ndiff": 0,
+    "first_diffs": [],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 0.59,
+    "status": "reproduced",
+    "ndiff": 0,
+    "stdout_sha256": "ae3f23b01f0a2450b313a7accb0d076f50272ea8795b55d8ff264c1086ef79bb"
+   },
+   "aux_receipt_file_projection": {
+    "ndiff": 0,
+    "first_diffs": [],
+    "receipt_proj_lines": 12
+   }
+  },
+  "feal-differential-cryptanalysis": {
+   "argv": [
+    "python3",
+    "plans/feal_probe.py",
+    "--lane",
+    ".",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/feal-differential-cryptanalysis"
+   ],
+   "ledger_classes": [
+    "candidate-import",
+    "shell-exec"
+   ],
+   "instrument": "plans/feal_probe.py",
+   "committed_receipt": "corpus/evidence/round43/feal-probe.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 95.43,
+    "stdout_sha256": "8c987463d6c9b4dd7c7478beedbefef20e6a7996ec59d1620167d66ae4e637b4",
+    "obs_lines": 13,
+    "run_receipt": false,
+    "committed_receipt": true,
+    "status": "reproduced",
+    "ndiff": 0,
+    "first_diffs": [],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 95.8,
+    "status": "reproduced",
+    "ndiff": 0,
+    "stdout_sha256": "8c987463d6c9b4dd7c7478beedbefef20e6a7996ec59d1620167d66ae4e637b4"
+   },
+   "aux_receipt_file_projection": null
+  },
+  "feal-linear-cryptanalysis": {
+   "argv": [
+    "python3",
+    "plans/feal_linear_probe.py",
+    "--lane",
+    ".",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/feal-linear-cryptanalysis"
+   ],
+   "ledger_classes": [
+    "file-artifact"
+   ],
+   "instrument": "plans/feal_linear_probe.py",
+   "committed_receipt": "corpus/evidence/round44/feal-linear-probe.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 3.21,
+    "stdout_sha256": "40308211216be063084eb9a1f22faded5a8550d392a83f6e13545e2ddae205a0",
+    "obs_lines": 15,
+    "run_receipt": false,
+    "committed_receipt": true,
+    "status": "reproduced",
+    "ndiff": 0,
+    "first_diffs": [],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 3.16,
+    "status": "reproduced",
+    "ndiff": 0,
+    "stdout_sha256": "40308211216be063084eb9a1f22faded5a8550d392a83f6e13545e2ddae205a0"
+   },
+   "aux_receipt_file_projection": null
+  },
+  "git-leak-recovery": {
+   "argv": [
+    "python3",
+    "plans/git_leak_probe.py",
+    "--lane",
+    ".",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/git-leak-recovery"
+   ],
+   "ledger_classes": [
+    "file-artifact",
+    "git-plumbing",
+    "stdout-inspection",
+    "subprocess-exec"
+   ],
+   "instrument": "plans/git_leak_probe.py",
+   "committed_receipt": "corpus/evidence/round39/git-leak-probe.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 1.15,
+    "stdout_sha256": "d7f3a465ccc411572c96fc039235854093d1eb52ccd685b618a28a10de609b5f",
+    "obs_lines": 25,
+    "run_receipt": false,
+    "committed_receipt": true,
+    "status": "reproduced",
+    "ndiff": 0,
+    "first_diffs": [],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 1.13,
+    "status": "reproduced",
+    "ndiff": 0,
+    "stdout_sha256": "d7f3a465ccc411572c96fc039235854093d1eb52ccd685b618a28a10de609b5f"
+   },
+   "aux_receipt_file_projection": null
+  },
+  "hf-model-inference": {
+   "argv": [
+    "python3",
+    "plans/round72_c1_hf_probe.py",
+    "--lane",
+    ".",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/hf-model-inference",
+    "--receipt",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/hf-model-inference/hf-model-inference.receipt.txt"
+   ],
+   "ledger_classes": [
+    "filesystem-metadata",
+    "network-service"
+   ],
+   "instrument": "plans/round72_c1_hf_probe.py",
+   "committed_receipt": "corpus/evidence/round71/hf/receipt.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 39.21,
+    "stdout_sha256": "2b29ec231242dc776aaf7b9c89d5ff20250acbf83ac28bbf865bd250382bb2b7",
+    "obs_lines": 9,
+    "run_receipt": true,
+    "committed_receipt": true,
+    "status": "diverged:25",
+    "ndiff": 25,
+    "first_diffs": [
+     "CASE K1 case_sha256=e96b30e19244973e29bca6f64f4ec7d72045a8eb92fdffd00b1180e3af2ebd9e server_pid=3 sandbox_rc=0",
+     "VECTOR K1 expected=PPPP derived=PPPP agree=True",
+     "CASE K2 case_sha256=f030032303fd367d5aa0dc6c1517f8ef5d9c4b77eac517b6d79ceecd6032617b server_pid=3 sandbox_rc=0"
+    ],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 39.09,
+    "status": "diverged:25",
+    "ndiff": 25,
+    "stdout_sha256": "2b29ec231242dc776aaf7b9c89d5ff20250acbf83ac28bbf865bd250382bb2b7"
+   },
+   "aux_receipt_file_projection": {
+    "ndiff": 16,
+    "first_diffs": [
+     "CASE K1 case_sha256=e96b30e19244973e29bca6f64f4ec7d72045a8eb92fdffd00b1180e3af2ebd9e server_pid=3 sandbox_rc=0",
+     "CASE K2 case_sha256=f030032303fd367d5aa0dc6c1517f8ef5d9c4b77eac517b6d79ceecd6032617b server_pid=3 sandbox_rc=0",
+     "CASE K3 case_sha256=6d6d14ce59b33ed13d2907025f390e344d30629666cbfabb7418d481e7e041e5 server_pid=3 sandbox_rc=0"
+    ],
+    "receipt_proj_lines": 18
+   }
+  },
+  "kv-store-grpc": {
+   "argv": [
+    "python3",
+    "plans/round64_c1_kvstore_probe.py",
+    "--lane",
+    ".",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/kv-store-grpc",
+    "--receipt",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/kv-store-grpc/kv-store-grpc.receipt.txt"
+   ],
+   "ledger_classes": [
+    "file-artifact",
+    "network-service"
+   ],
+   "instrument": "plans/round64_c1_kvstore_probe.py",
+   "committed_receipt": "corpus/evidence/round64/kvstore-probe.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 1.31,
+    "stdout_sha256": "b4f8c923e3aef21465f7d8495c05df84b3720636b016f1a6ff753df9149c0b54",
+    "obs_lines": 5,
+    "run_receipt": true,
+    "committed_receipt": true,
+    "status": "diverged:50",
+    "ndiff": 50,
+    "first_diffs": [
+     "CASE K1 observed=P/P/P/P/P/P/P expected=P/P/P/P/P/P/P server_pid=3721648 pid_before_legs=True server_ready=True server_log=SERVER_UP_5328",
+     "LEG K1 1 test_proto_file_creation P exc=- frag=-",
+     "LEG K1 2 test_grpc_tools_installation P exc=- frag=-"
+    ],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 1.38,
+    "status": "diverged:50",
+    "ndiff": 50,
+    "stdout_sha256": "b4f8c923e3aef21465f7d8495c05df84b3720636b016f1a6ff753df9149c0b54"
+   },
+   "aux_receipt_file_projection": {
+    "ndiff": 4,
+    "first_diffs": [
+     "CASE K1 observed=P/P/P/P/P/P/P expected=P/P/P/P/P/P/P server_pid=3721648 pid_before_legs=True server_ready=True server_log=SERVER_UP_5328",
+     "CASE K3 observed=P/P/P/P/P/F/F expected=P/P/P/P/P/F/F server_pid=3722817 pid_before_legs=True server_ready=True server_log=SERVER_UP_5328",
+     "CASE K1 observed=P/P/P/P/P/P/P expected=P/P/P/P/P/P/P server_pid=1709099 pid_before_legs=True server_ready=True server_log=SERVER_UP_5328"
+    ],
+    "receipt_proj_lines": 45
+   }
+  },
+  "largest-eigenval": {
+   "argv": [
+    "python3",
+    "plans/round57_c2_eigen_probe.py",
+    "--lane",
+    ".",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/largest-eigenval",
+    "--receipt",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/largest-eigenval/largest-eigenval.receipt.txt"
+   ],
+   "ledger_classes": [
+    "numeric-band",
+    "timing-wall"
+   ],
+   "instrument": "plans/round57_c2_eigen_probe.py",
+   "committed_receipt": "corpus/evidence/round80/largest-eigenval-probe.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 2.31,
+    "stdout_sha256": "463877700639fcf7a522b207cbf88a3a6eebd2aa40d6afd5e1c258087ce8c784",
+    "obs_lines": 22,
+    "run_receipt": true,
+    "committed_receipt": true,
+    "status": "reproduced",
+    "ndiff": 0,
+    "first_diffs": [],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 2.41,
+    "status": "reproduced",
+    "ndiff": 0,
+    "stdout_sha256": "d44ecaed4ca81ca14344fe04aeb95f485e5c1ebe10e0a0a218d899138b839bb6"
+   },
+   "aux_receipt_file_projection": {
+    "ndiff": 0,
+    "first_diffs": [],
+    "receipt_proj_lines": 22
+   }
+  },
+  "log-summary-date-ranges": {
+   "argv": [
+    "python3",
+    "plans/round81_log_summary_probe.py",
+    "--lane",
+    ".",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/log-summary-date-ranges",
+    "--receipt",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/log-summary-date-ranges/log-summary-date-ranges.receipt.txt"
+   ],
+   "ledger_classes": [
+    "file-artifact"
+   ],
+   "instrument": "plans/round81_log_summary_probe.py",
+   "committed_receipt": "corpus/evidence/round81/log-summary-date-ranges-probe.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 0.21,
+    "stdout_sha256": "46c7acf5df80dc8a515a8a23b5052bc5496ab6e057191075429a92a1cf018ad2",
+    "obs_lines": 12,
+    "run_receipt": true,
+    "committed_receipt": true,
+    "status": "reproduced",
+    "ndiff": 0,
+    "first_diffs": [],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 0.22,
+    "status": "reproduced",
+    "ndiff": 0,
+    "stdout_sha256": "46c7acf5df80dc8a515a8a23b5052bc5496ab6e057191075429a92a1cf018ad2"
+   },
+   "aux_receipt_file_projection": {
+    "ndiff": 0,
+    "first_diffs": [],
+    "receipt_proj_lines": 12
+   }
+  },
+  "nginx-request-logging": {
+   "argv": [
+    "python3",
+    "plans/round70_c1_nginx_probe.py",
+    "--lane",
+    ".",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/nginx-request-logging",
+    "--receipt",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/nginx-request-logging/nginx-request-logging.receipt.txt"
+   ],
+   "ledger_classes": [
+    "file-artifact",
+    "network-service",
+    "subprocess-exec",
+    "timing-wall"
+   ],
+   "instrument": "plans/round70_c1_nginx_probe.py",
+   "committed_receipt": "corpus/evidence/round70/nginx/receipt.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 16.97,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "obs_lines": 0,
+    "run_receipt": true,
+    "committed_receipt": true,
+    "status": "unrunnable:no-observations",
+    "ndiff": 0,
+    "first_diffs": [],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 16.97,
+    "status": "unrunnable:no-observations",
+    "ndiff": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   "aux_receipt_file_projection": {
+    "ndiff": 12,
+    "first_diffs": [
+     "CASE K1 case_sha256=0cf77ab849376a311f85b6cf47d1b2fd61fd21e0644720fb02e541e8ed074fb0 server_pid=3693159 sandbox_rc=0",
+     "CASE K2 case_sha256=c072ee5fa3f076d69a222ec173327a855f471029bf70bb78b13180b790012a0b server_pid=3700841 sandbox_rc=0",
+     "CASE K3 case_sha256=286db51eb5bab3aad7c3c3fb7ed6c4e2019940d6f3f1d6641269b33be946be34 server_pid=3705599 sandbox_rc=0"
+    ],
+    "receipt_proj_lines": 70
+   }
+  },
+  "openssl-selfsigned-cert": {
+   "argv": [
+    "python3",
+    "plans/round59_c1_openssl_probe.py",
+    "--lane",
+    ".",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/openssl-selfsigned-cert",
+    "--receipt",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/openssl-selfsigned-cert/openssl-selfsigned-cert.receipt.txt"
+   ],
+   "ledger_classes": [
+    "crypto-credential",
+    "file-artifact",
+    "filesystem-metadata",
+    "stdout-inspection",
+    "subprocess-exec"
+   ],
+   "instrument": "plans/round59_c1_openssl_probe.py",
+   "committed_receipt": "corpus/evidence/round80/openssl-selfsigned-cert-probe.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 1.18,
+    "stdout_sha256": "9666e3a7d3b26fd45f98a91eb1d3a93c852c8585110fdb68e9490c31089a60bb",
+    "obs_lines": 12,
+    "run_receipt": true,
+    "committed_receipt": true,
+    "status": "reproduced",
+    "ndiff": 0,
+    "first_diffs": [],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 1.09,
+    "status": "reproduced",
+    "ndiff": 0,
+    "stdout_sha256": "9666e3a7d3b26fd45f98a91eb1d3a93c852c8585110fdb68e9490c31089a60bb"
+   },
+   "aux_receipt_file_projection": {
+    "ndiff": 0,
+    "first_diffs": [],
+    "receipt_proj_lines": 12
+   }
+  },
+  "password-recovery": {
+   "argv": [
+    "python3",
+    "plans/password_recovery_probe.py",
+    "--lane",
+    ".",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/password-recovery"
+   ],
+   "ledger_classes": [
+    "file-artifact"
+   ],
+   "instrument": "plans/password_recovery_probe.py",
+   "committed_receipt": "corpus/evidence/round45/probe-run-envelope.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 1.2,
+    "stdout_sha256": "cf74f451df90aa4adfcc45dc6d9023ba288bf456de939377c97e24ca3c6c924e",
+    "obs_lines": 17,
+    "run_receipt": false,
+    "committed_receipt": true,
+    "status": "reproduced",
+    "ndiff": 0,
+    "first_diffs": [],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 1.16,
+    "status": "reproduced",
+    "ndiff": 0,
+    "stdout_sha256": "cf74f451df90aa4adfcc45dc6d9023ba288bf456de939377c97e24ca3c6c924e"
+   },
+   "aux_receipt_file_projection": null
+  },
+  "polyglot-c-py": {
+   "argv": [
+    "python3",
+    "plans/polyglot_c_py_probe.py",
+    "--lane",
+    ".",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/polyglot-c-py"
+   ],
+   "ledger_classes": [
+    "stdout-inspection",
+    "subprocess-exec"
+   ],
+   "instrument": "plans/polyglot_c_py_probe.py",
+   "committed_receipt": "corpus/evidence/round46/polyglot-c-py-probe.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 1.36,
+    "stdout_sha256": "dd0e35464bc1b19c692d45a419a33c7bcf2d8fd2753783dd13a54f059531c277",
+    "obs_lines": 19,
+    "run_receipt": false,
+    "committed_receipt": true,
+    "status": "reproduced",
+    "ndiff": 0,
+    "first_diffs": [],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 1.33,
+    "status": "reproduced",
+    "ndiff": 0,
+    "stdout_sha256": "dd0e35464bc1b19c692d45a419a33c7bcf2d8fd2753783dd13a54f059531c277"
+   },
+   "aux_receipt_file_projection": null
+  },
+  "protein-assembly": {
+   "argv": [
+    "python3",
+    "plans/tb2_grader_probe.py",
+    "--lane",
+    "."
+   ],
+   "ledger_classes": [
+    "file-artifact"
+   ],
+   "instrument": "plans/tb2_grader_probe.py",
+   "committed_receipt": "corpus/evidence/round80/protein-assembly-probe.txt",
+   "run1": {
+    "exit": 1,
+    "secs": 0.03,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "obs_lines": 0,
+    "run_receipt": false,
+    "committed_receipt": true,
+    "status": "unrunnable:no-observations",
+    "ndiff": 0,
+    "first_diffs": [],
+    "exit_matches_stamped": false,
+    "timed_out": false,
+    "stderr_tail": "             ~~~~^^\n  File \"/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/clone/plans/tb2_grader_probe.py\", line 145, in main\n    import Bio  # noqa: F401  (fail loudly if Biopython is absent)\n    ^^^^^^^^^^\nModuleNotFoundError: No module named 'Bio'\n"
+   },
+   "run2": {
+    "exit": 1,
+    "secs": 0.03,
+    "status": "unrunnable:no-observations",
+    "ndiff": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   "aux_receipt_file_projection": null
+  },
+  "pypi-server": {
+   "argv": [
+    "python3",
+    "plans/round68_c1_pypi_finish.py",
+    "--lane",
+    ".",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/pypi-server",
+    "--receipt",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/pypi-server/pypi-server.receipt.txt"
+   ],
+   "ledger_classes": [
+    "network-service",
+    "stdout-inspection",
+    "subprocess-exec"
+   ],
+   "instrument": "plans/round68_c1_pypi_finish.py",
+   "committed_receipt": "corpus/evidence/round68/pypi/receipt.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 18.54,
+    "stdout_sha256": "81e39cae109f4efd5cb5afa779a9badc6b3b24244e1995f894fb954f45d8be45",
+    "obs_lines": 4,
+    "run_receipt": true,
+    "committed_receipt": true,
+    "status": "diverged:6",
+    "ndiff": 6,
+    "first_diffs": [
+     "CASE K1 leg=test_api observed=P expected=P exception=none index_pid=1323016 wheel_sha256=6fad8ea86492def2ce9bb48ba80c11e2b35ce88d8d2ea3757c276754c9d0ced6 stderr_sha256=268c02efc4bcdefb1d142a0f3e218eccf6429eaefea2f767a6dd664a90ffecb3",
+     "CASE K3 leg=test_api observed=F expected=F exception=AssertionError index_pid=1367817 wheel_sha256=df8d66ab40465261894ca5f17b354a3b079061303e12e97f9fc7d1d1393c07aa stderr_sha256=9c7014b3b55bad773f6b5ac8bf950338e191a40f1ea7e002a25f7a9e1f2b4a58",
+     "CASE K4 leg=test_api observed=F expected=F exception=CalledProcessError index_pid=1369862 wheel_sha256=b97edcfcd8870426abed8d8100aab73ad26f022ed4a32d6756b7d6b1c4f9fe92 stderr_sha256=6a0ccd86a8b5606aa190add39cd8095eb5346b71d2a39eb08200b77e58e777ef"
+    ],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 18.49,
+    "status": "diverged:6",
+    "ndiff": 6,
+    "stdout_sha256": "584132d06e0e60c8bfed2ea4dabc655d75519c0a8f2c00459148a9fc07588f16"
+   },
+   "aux_receipt_file_projection": {
+    "ndiff": 6,
+    "first_diffs": [
+     "CASE K1 leg=test_api observed=P expected=P exception=none index_pid=1323016 wheel_sha256=6fad8ea86492def2ce9bb48ba80c11e2b35ce88d8d2ea3757c276754c9d0ced6 stderr_sha256=268c02efc4bcdefb1d142a0f3e218eccf6429eaefea2f767a6dd664a90ffecb3",
+     "CASE K3 leg=test_api observed=F expected=F exception=AssertionError index_pid=1367817 wheel_sha256=df8d66ab40465261894ca5f17b354a3b079061303e12e97f9fc7d1d1393c07aa stderr_sha256=9c7014b3b55bad773f6b5ac8bf950338e191a40f1ea7e002a25f7a9e1f2b4a58",
+     "CASE K4 leg=test_api observed=F expected=F exception=CalledProcessError index_pid=1369862 wheel_sha256=b97edcfcd8870426abed8d8100aab73ad26f022ed4a32d6756b7d6b1c4f9fe92 stderr_sha256=6a0ccd86a8b5606aa190add39cd8095eb5346b71d2a39eb08200b77e58e777ef"
+    ],
+    "receipt_proj_lines": 4
+   }
+  },
+  "regex-log": {
+   "argv": [
+    "python3",
+    "plans/regex_log_probe.py",
+    "--lane",
+    "."
+   ],
+   "ledger_classes": [
+    "file-artifact"
+   ],
+   "instrument": "plans/regex_log_probe.py",
+   "committed_receipt": "corpus/evidence/round36/regex-log-probe.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 0.04,
+    "stdout_sha256": "439101fa2eac0e79ebec088ab47d9fc4481df0ec12d0ebc6c3475319d426a2be",
+    "obs_lines": 24,
+    "run_receipt": false,
+    "committed_receipt": true,
+    "status": "reproduced",
+    "ndiff": 0,
+    "first_diffs": [],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 0.03,
+    "status": "reproduced",
+    "ndiff": 0,
+    "stdout_sha256": "439101fa2eac0e79ebec088ab47d9fc4481df0ec12d0ebc6c3475319d426a2be"
+   },
+   "aux_receipt_file_projection": null
+  },
+  "sqlite-with-gcov": {
+   "argv": [
+    "python3",
+    "plans/round65_c1_sqlite_probe.py",
+    "--lane",
+    ".",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/sqlite-with-gcov",
+    "--receipt",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/sqlite-with-gcov/sqlite-with-gcov.receipt.txt"
+   ],
+   "ledger_classes": [
+    "db-state",
+    "stdout-inspection",
+    "subprocess-exec"
+   ],
+   "instrument": "plans/round65_c1_sqlite_probe.py",
+   "committed_receipt": "corpus/evidence/round65/sqlite-gcov-probe.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 10.51,
+    "stdout_sha256": "28744fba7ebea8e7672e454abf2cc695b4cee28c955528b3735ee3a36abc364e",
+    "obs_lines": 5,
+    "run_receipt": true,
+    "committed_receipt": true,
+    "status": "diverged:30",
+    "ndiff": 30,
+    "first_diffs": [
+     "CASE G1 observed=P/P/P expected=P/P/P build=coverage masked=yes gcda=2 gcno=2",
+     "LEG G1 1 test_sqlite_compiled P exc=- frag=-",
+     "LEG G1 2 test_sqlite_in_path P exc=- frag=-"
+    ],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 10.57,
+    "status": "diverged:30",
+    "ndiff": 30,
+    "stdout_sha256": "28744fba7ebea8e7672e454abf2cc695b4cee28c955528b3735ee3a36abc364e"
+   },
+   "aux_receipt_file_projection": {
+    "ndiff": 0,
+    "first_diffs": [],
+    "receipt_proj_lines": 25
+   }
+  },
+  "torch-pipeline-parallelism": {
+   "argv": [
+    "python3",
+    "plans/round67_c1_pipeline_probe.py",
+    "--run",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/torch-pipeline-parallelism",
+    "--receipt",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/torch-pipeline-parallelism/torch-pipeline-parallelism.receipt.txt"
+   ],
+   "ledger_classes": [
+    "candidate-import",
+    "file-artifact",
+    "process-environment"
+   ],
+   "instrument": "plans/round67_c1_pipeline_probe.py",
+   "committed_receipt": "corpus/evidence/round67/pipe/receipt.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 41.64,
+    "stdout_sha256": "734af0e09eb987833c247dca0c141f3e4e6fd0153e49f1279deceb6624272e4e",
+    "obs_lines": 0,
+    "run_receipt": true,
+    "committed_receipt": true,
+    "status": "unrunnable:no-observations",
+    "ndiff": 0,
+    "first_diffs": [],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 42.3,
+    "status": "unrunnable:no-observations",
+    "ndiff": 0,
+    "stdout_sha256": "734af0e09eb987833c247dca0c141f3e4e6fd0153e49f1279deceb6624272e4e"
+   },
+   "aux_receipt_file_projection": {
+    "ndiff": 12,
+    "first_diffs": [
+     "CASE q1-ref case_sha256=5aab7e05c846d0fe7ca364a910018cf6b29fdb607724cd3303dbf6137abb3452 junit_sha256=766c86c24dbb501910831f6e437b5a9d8146329adfaa7234321f496908317b39 rc=0",
+     "CASE q2-none case_sha256=none junit_sha256=872ded5086a3befca80c9d90cedfaa157f72909f9b771755705bd0e42142786d rc=1",
+     "CASE q3-stub case_sha256=324da1b5e3f32419cfd5d2bdfcb698277c75841d86e3b5fd5c76b37955851e69 junit_sha256=5aedd8325abaf878e495ff7c38131ad0ca30ec2fdc1537794c999ca7009c0657 rc=1"
+    ],
+    "receipt_proj_lines": 12
+   }
+  },
+  "torch-tensor-parallelism": {
+   "argv": [
+    "python3",
+    "plans/round66_c1_tensor_probe.py",
+    "--run",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/torch-tensor-parallelism",
+    "--receipt",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/torch-tensor-parallelism/torch-tensor-parallelism.receipt.txt"
+   ],
+   "ledger_classes": [
+    "candidate-import",
+    "file-artifact",
+    "process-environment"
+   ],
+   "instrument": "plans/round66_c1_tensor_probe.py",
+   "committed_receipt": "corpus/evidence/round66/tensor/receipt.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 67.84,
+    "stdout_sha256": "34fc90cb557b04f370712b16e2398e27df98f390a9b3bc3f35b529f62b5e44b7",
+    "obs_lines": 10,
+    "run_receipt": true,
+    "committed_receipt": true,
+    "status": "diverged:10",
+    "ndiff": 10,
+    "first_diffs": [
+     "CASE k1-ref case_sha=1537da2a2ea07293ec757641a0d2faee5e507518da9f96de45bebfd788193fc1 junit_sha=f05521d65e3f3415d541eccbd7041134a08c0d19b613bcf0b430e8438688946d rc=0 port_free=True",
+     "CASE k2-none case_sha=none junit_sha=8514dcb447735d7f158de5b2e71a3305b0cc3490c097223342e85cab42473caf rc=1 port_free=True",
+     "CASE k3-stub case_sha=316630cd45f0a3e2332bd38f98f4147977eba3d84aa54c5203edc5923986eadf junit_sha=eb9718c70be5d0b2c659e954f0046c6d49e7c5436467191a97bd21ee2e546303 rc=1 port_free=True"
+    ],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 64.63,
+    "status": "diverged:10",
+    "ndiff": 10,
+    "stdout_sha256": "8ec768bb57f52121fe4510bf8f26a4ccd1e652b60c3371f7ccc80b1265f3e898"
+   },
+   "aux_receipt_file_projection": {
+    "ndiff": 10,
+    "first_diffs": [
+     "CASE k1-ref case_sha=1537da2a2ea07293ec757641a0d2faee5e507518da9f96de45bebfd788193fc1 junit_sha=f05521d65e3f3415d541eccbd7041134a08c0d19b613bcf0b430e8438688946d rc=0 port_free=True",
+     "CASE k2-none case_sha=none junit_sha=8514dcb447735d7f158de5b2e71a3305b0cc3490c097223342e85cab42473caf rc=1 port_free=True",
+     "CASE k3-stub case_sha=316630cd45f0a3e2332bd38f98f4147977eba3d84aa54c5203edc5923986eadf junit_sha=eb9718c70be5d0b2c659e954f0046c6d49e7c5436467191a97bd21ee2e546303 rc=1 port_free=True"
+    ],
+    "receipt_proj_lines": 10
+   }
+  },
+  "vulnerable-secret": {
+   "argv": [
+    "python3",
+    "plans/round81_vulnerable_secret_probe.py",
+    "--lane",
+    ".",
+    "--work",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/vulnerable-secret",
+    "--receipt",
+    "/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/work1/vulnerable-secret/vulnerable-secret.receipt.txt"
+   ],
+   "ledger_classes": [
+    "file-artifact"
+   ],
+   "instrument": "plans/round81_vulnerable_secret_probe.py",
+   "committed_receipt": "corpus/evidence/round81/vulnerable-secret-probe.txt",
+   "run1": {
+    "exit": 0,
+    "secs": 0.2,
+    "stdout_sha256": "fbf05e246592558cb17c62ccf851d9ec28733c10b2c14f992c28f6e3690d82b3",
+    "obs_lines": 12,
+    "run_receipt": true,
+    "committed_receipt": true,
+    "status": "reproduced",
+    "ndiff": 0,
+    "first_diffs": [],
+    "exit_matches_stamped": true,
+    "timed_out": false,
+    "stderr_tail": ""
+   },
+   "run2": {
+    "exit": 0,
+    "secs": 0.2,
+    "status": "reproduced",
+    "ndiff": 0,
+    "stdout_sha256": "fbf05e246592558cb17c62ccf851d9ec28733c10b2c14f992c28f6e3690d82b3"
+   },
+   "aux_receipt_file_projection": {
+    "ndiff": 0,
+    "first_diffs": [],
+    "receipt_proj_lines": 12
+   }
+  }
+ },
+ "histogram": {
+  "reproduced": 18,
+  "diverged": 5,
+  "unrunnable": 3
+ },
+ "class_histogram": {
+  "file-artifact": 18,
+  "subprocess-exec": 10,
+  "signal-delivery": 1,
+  "stdout-inspection": 8,
+  "timing-wall": 3,
+  "crypto-credential": 2,
+  "serialization-schema": 1,
+  "numeric-band": 2,
+  "candidate-import": 3,
+  "shell-exec": 1,
+  "git-plumbing": 1,
+  "filesystem-metadata": 2,
+  "network-service": 4,
+  "db-state": 1,
+  "process-environment": 2
+ },
+ "class_histogram_sum": 59,
+ "determinism": {
+  "statuses_and_ndiff_agree_all_26": true,
+  "stdout_sha256_agrees": 23,
+  "per_member": {
+   "build-pmars": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "reproduced",
+    "status2": "reproduced",
+    "ndiff1": 0,
+    "ndiff2": 0,
+    "stdout_sha_agrees": true
+   },
+   "cancel-async-tasks": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "reproduced",
+    "status2": "reproduced",
+    "ndiff1": 0,
+    "ndiff2": 0,
+    "stdout_sha_agrees": true
+   },
+   "chess-best-move": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "reproduced",
+    "status2": "reproduced",
+    "ndiff1": 0,
+    "ndiff2": 0,
+    "stdout_sha_agrees": true
+   },
+   "circuit-fibsqrt": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "reproduced",
+    "status2": "reproduced",
+    "ndiff1": 0,
+    "ndiff2": 0,
+    "stdout_sha_agrees": true
+   },
+   "configure-git-webserver": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "reproduced",
+    "status2": "reproduced",
+    "ndiff1": 0,
+    "ndiff2": 0,
+    "stdout_sha_agrees": true
+   },
+   "constraints-scheduling": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "reproduced",
+    "status2": "reproduced",
+    "ndiff1": 0,
+    "ndiff2": 0,
+    "stdout_sha_agrees": true
+   },
+   "db-wal-recovery": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "reproduced",
+    "status2": "reproduced",
+    "ndiff1": 0,
+    "ndiff2": 0,
+    "stdout_sha_agrees": true
+   },
+   "distribution-search": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "reproduced",
+    "status2": "reproduced",
+    "ndiff1": 0,
+    "ndiff2": 0,
+    "stdout_sha_agrees": true
+   },
+   "feal-differential-cryptanalysis": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "reproduced",
+    "status2": "reproduced",
+    "ndiff1": 0,
+    "ndiff2": 0,
+    "stdout_sha_agrees": true
+   },
+   "feal-linear-cryptanalysis": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "reproduced",
+    "status2": "reproduced",
+    "ndiff1": 0,
+    "ndiff2": 0,
+    "stdout_sha_agrees": true
+   },
+   "git-leak-recovery": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "reproduced",
+    "status2": "reproduced",
+    "ndiff1": 0,
+    "ndiff2": 0,
+    "stdout_sha_agrees": true
+   },
+   "hf-model-inference": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "diverged:25",
+    "status2": "diverged:25",
+    "ndiff1": 25,
+    "ndiff2": 25,
+    "stdout_sha_agrees": true
+   },
+   "kv-store-grpc": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "diverged:50",
+    "status2": "diverged:50",
+    "ndiff1": 50,
+    "ndiff2": 50,
+    "stdout_sha_agrees": true
+   },
+   "largest-eigenval": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "reproduced",
+    "status2": "reproduced",
+    "ndiff1": 0,
+    "ndiff2": 0,
+    "stdout_sha_agrees": false
+   },
+   "log-summary-date-ranges": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "reproduced",
+    "status2": "reproduced",
+    "ndiff1": 0,
+    "ndiff2": 0,
+    "stdout_sha_agrees": true
+   },
+   "nginx-request-logging": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "unrunnable:no-observations",
+    "status2": "unrunnable:no-observations",
+    "ndiff1": 0,
+    "ndiff2": 0,
+    "stdout_sha_agrees": true
+   },
+   "openssl-selfsigned-cert": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "reproduced",
+    "status2": "reproduced",
+    "ndiff1": 0,
+    "ndiff2": 0,
+    "stdout_sha_agrees": true
+   },
+   "password-recovery": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "reproduced",
+    "status2": "reproduced",
+    "ndiff1": 0,
+    "ndiff2": 0,
+    "stdout_sha_agrees": true
+   },
+   "polyglot-c-py": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "reproduced",
+    "status2": "reproduced",
+    "ndiff1": 0,
+    "ndiff2": 0,
+    "stdout_sha_agrees": true
+   },
+   "protein-assembly": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "unrunnable:no-observations",
+    "status2": "unrunnable:no-observations",
+    "ndiff1": 0,
+    "ndiff2": 0,
+    "stdout_sha_agrees": true
+   },
+   "pypi-server": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "diverged:6",
+    "status2": "diverged:6",
+    "ndiff1": 6,
+    "ndiff2": 6,
+    "stdout_sha_agrees": false
+   },
+   "regex-log": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "reproduced",
+    "status2": "reproduced",
+    "ndiff1": 0,
+    "ndiff2": 0,
+    "stdout_sha_agrees": true
+   },
+   "sqlite-with-gcov": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "diverged:30",
+    "status2": "diverged:30",
+    "ndiff1": 30,
+    "ndiff2": 30,
+    "stdout_sha_agrees": true
+   },
+   "torch-pipeline-parallelism": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "unrunnable:no-observations",
+    "status2": "unrunnable:no-observations",
+    "ndiff1": 0,
+    "ndiff2": 0,
+    "stdout_sha_agrees": true
+   },
+   "torch-tensor-parallelism": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "diverged:10",
+    "status2": "diverged:10",
+    "ndiff1": 10,
+    "ndiff2": 10,
+    "stdout_sha_agrees": false
+   },
+   "vulnerable-secret": {
+    "status_agrees": true,
+    "ndiff_agrees": true,
+    "status1": "reproduced",
+    "status2": "reproduced",
+    "ndiff1": 0,
+    "ndiff2": 0,
+    "stdout_sha_agrees": true
+   }
+  }
+ },
+ "unrunnable": [
+  {
+   "member": "hf-model-inference",
+   "status": "diverged:25",
+   "exit": 0,
+   "stderr_tail": ""
+  },
+  {
+   "member": "kv-store-grpc",
+   "status": "diverged:50",
+   "exit": 0,
+   "stderr_tail": ""
+  },
+  {
+   "member": "nginx-request-logging",
+   "status": "unrunnable:no-observations",
+   "exit": 0,
+   "stderr_tail": ""
+  },
+  {
+   "member": "protein-assembly",
+   "status": "unrunnable:no-observations",
+   "exit": 1,
+   "stderr_tail": "             ~~~~^^\n  File \"/fast/scratch/hyaku/kengaku-r82/SweepHarvestR82/clone/plans/tb2_grader_probe.py\", line 145, in main\n    import Bio  # noqa: F401  (fail loudly if Biopython is absent)\n    ^^^^^^^^^^\nModuleNotFoundError: No module named 'Bio'\n"
+  },
+  {
+   "member": "pypi-server",
+   "status": "diverged:6",
+   "exit": 0,
+   "stderr_tail": ""
+  },
+  {
+   "member": "sqlite-with-gcov",
+   "status": "diverged:30",
+   "exit": 0,
+   "stderr_tail": ""
+  },
+  {
+   "member": "torch-pipeline-parallelism",
+   "status": "unrunnable:no-observations",
+   "exit": 0,
+   "stderr_tail": ""
+  },
+  {
+   "member": "torch-tensor-parallelism",
+   "status": "diverged:10",
+   "exit": 0,
+   "stderr_tail": ""
+  }
+ ]
+}

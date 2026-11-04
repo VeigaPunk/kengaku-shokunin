@@ -1,0 +1,35 @@
+UNIVERSE documents=3 instruments=4 referenced=3 registered=2 base_scripts=4
+EXCLUSION plans/support_mod.py class=support-module cli=no
+MISSING plans/tool_b.py
+ROW tool-a kind=gate entry=plans/tool_a.py selftest=- defects=VERDICT-MAP,SELFTEST-UNBACKED,PINS-EMPTY,SCOPE-EMPTY
+ROWS registry=2 base=1 duplicates=0
+DEFECT MISSING plans/tool_b.py
+DEFECT ROW-VERDICT-MAP tool-a
+DEFECT ROW-SELFTEST-UNBACKED tool-a
+DEFECT ROW-PINS-EMPTY tool-a
+DEFECT ROW-SCOPE-EMPTY tool-a
+DEFECTS n=5
+TARGET missing=1 unclassified=0 excluded=1 rows=2 entry_missing=0
+PREDICATE R82-C1 fail
+CONTROL empty-rows caught=True target_reached=False
+UNIVERSE documents=3 instruments=4 referenced=3 registered=2 base_scripts=4
+EXCLUSION plans/support_mod.py class=support-module cli=no
+ROW tool-b kind=probe entry=plans/tool_b.py selftest=none defects=none
+ROWS registry=2 base=1 duplicates=0
+DEFECT EXCLUSION-CLI plans/tool_a.py
+DEFECTS n=1
+TARGET missing=0 unclassified=0 excluded=1 rows=2 entry_missing=0
+PREDICATE R82-C1 fail
+CONTROL exclude-cli caught=True target_reached=False
+UNIVERSE documents=3 instruments=4 referenced=3 registered=1 base_scripts=4
+EXCLUSION plans/support_mod.py class=support-module cli=no
+MISSING plans/tool_a.py
+MISSING plans/tool_b.py
+ROWS registry=1 base=1 duplicates=0
+DEFECT MISSING plans/tool_a.py
+DEFECT MISSING plans/tool_b.py
+DEFECTS n=2
+TARGET missing=2 unclassified=0 excluded=1 rows=1 entry_missing=0
+PREDICATE R82-C1 fail
+CONTROL name-only caught=True target_reached=False
+rc=0

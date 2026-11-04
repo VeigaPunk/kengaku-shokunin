@@ -1,0 +1,22 @@
+MEMBERS ledger=2 map=2 status_lines=2
+HISTOGRAM status reproduced=2 diverged=0 unrunnable=0 total=2
+DEFECT COMMAND-MISMATCH m1 receipt='x' map='python3 plans/p1.py --lane . --work /w/m1'
+DEFECT PROJECTION-UNCHECKED m1
+DEFECT COMMAND-MISMATCH m2 receipt='y' map='python3 plans/p2.py --lane . --work /w/m2'
+DEFECT PROJECTION-UNCHECKED m2
+DEFECT NO-RUN no PROJECTION lines — the census was not measured
+DEFECTS n=5
+TARGET members=2 located=2 status_lines=2 histogram_total=2 mismatches=5
+PREDICATE R82-C3 fail
+CONTROL ledger-copy caught=True target_reached=False
+MEMBERS ledger=2 map=2 status_lines=2
+HISTOGRAM status reproduced=1 diverged=1 unrunnable=0 total=2
+DEFECT PROJECTION-UNCHECKED m1
+DEFECT PROJECTION-UNCHECKED m2
+DEFECT NO-RUN no PROJECTION lines — the census was not measured
+DEFECTS n=3
+TARGET members=2 located=2 status_lines=2 histogram_total=2 mismatches=3
+PREDICATE R82-C3 fail
+CONTROL exit-only caught=True target_reached=False
+CONTROL fabricated-line caught=True target_reached=False
+rc=0

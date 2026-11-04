@@ -3876,3 +3876,67 @@ driver's own selftest battery at the measured tree, not only a receipt stamp. (4
 wave's two medium findings: require a receipt's `COMMAND` to equal the counter's reconstructed argv
 (reviewer F2) and make the mint driver require `mismatches=0` **and** a pass predicate and stage all
 writes until `failed == 0` (sentinel S1/S2); pin the universe's capture bytes to `BASE_REV` (F3).
+
+## Round 82 (hyaku run 15, attempt 1, 2026-11-04): the registry's unmeasured direction (R82-C1, coverage at its L0 cap), the round-81 bill discharged (R82-C2, calibration held at ceiling, exercised), and `sweep-at-one-tip` enters as a capability (R82-C3, freshness instrument)
+
+Base `a3a03ac3`; freeze `12f1029a`; instruments and repairs `c804dd41`; receipts and records named per row.
+One v1 wave, 12 seats (executor 5, scribe 2, scout 1, connector 1, reviewer 1, critic 1,
+mutation-tester 1 — attack roles 3/12 = **25.0 %** over the campaign list). Five seats died on a
+provider 429 (`Retry budget exhausted after 5 retries`, zai/glm-5.3-flashx) and are named in the
+report; their work was carried by the L1 and is marked as such.
+
+| claim / axis | before → after evidence | counting command | verdict / score |
+|---|---|---|---|
+| **R82-C1 / coverage** (lowest non-retired axis, held at its L0 cap) — every `plans/**/*.py` that exists at `BASE_REV`, sits outside `plans/fixtures/`, and is referenced as a literal path by `SCORECARD.md`, `LOG.md` or `corpus/README.md` at that revision either carries a row in `SKILL.md`'s `## Gate/probe registry` or sits in the frozen `plans/round82-exclusions.json` with a reason the counter verifies from the file's own bytes (no `argparse`, no `__main__`); every registry entry cell names a script that exists at `BASE_REV`; and every row added at the tip is well formed | before (base clone `a3a03ac3`): `DEFECTS n=6`, `TARGET missing=4 unclassified=2 excluded=0 rows=133 entry_missing=0`, exit 1 → after (`--tip WORKTREE`): `DEFECTS n=0`, `TARGET missing=0 unclassified=0 excluded=2 rows=143 entry_missing=0`, `PREDICATE R82-C1 pass`, exit 0 | `python3 plans/round82_c1_plans_registry.py --lane .` | **7 → 7 held** (L0 cap); the counter's row-quality leg also caught the two rows this round *added* for its own instruments |
+| **R82-C2 / calibration** (held at ceiling 10, exercised) — the round-81 verifier spot-check's `V1`…`V7` (`corpus/lessons/round-81-verifier-spotcheck.md` §5) are discharged as `R81-V1`…`R81-V7`: closed, a `source` resolving to the spot-check line that carries the id, a `close` naming the round's lesson (which carries both the id and the row's literal), a `check` that exits 0 at the tip and **fails** on the base tree, and `corpus/README.md` indexing the spot-check | before (base tree): `DEBT-UNREGISTERED` ×7 + `INDEX-MISSING`, `DEFECTS n=8`, exit 1 → after: `TARGET ids=7 closed=7 checks_passed=7 indexed=yes`, `DEFECTS n=0`, `PREDICATE R82-C2 pass`; sensitivity `SENSITIVITY n=7 failed_at_base=7` | `python3 plans/round82_c2_closure_debt.py --lane .` | **10 → 10 held**, exercised; V2's fix lands as supersede rows (Q34 immutability), not as an in-place cell edit — see the deviation note |
+| **R82-C3 / capability acquisition** (freshness instrument; no axis score move) — `sweep-at-one-tip` maps every `executed` ledger member through `plans/round82-sweep-map.json`, runs each instrument once at one measured tip, classifies it `reproduced`/`diverged:<n>`/`unrunnable:<code>` under the round-80 A2 projection, and prints a per-class histogram; the receipt stamps map/ledger sha256, `LANE_TIP`, `WORKTREE clean`, `WORKDIR` and the host triple; two runs at one tip agree on statuses and divergence counts; `COMMAND` must equal the map-reconstructed argv; writes are staged; `--verify-at-tip` re-runs the gate's own `--selftest` at the tip | before: no gate, no map, no receipt (three absences in `corpus/evidence/round82/freeze-controls.txt`) → after: `TARGET members=26 located=26 status_lines=26 histogram_total=26 mismatches=0`, `HISTOGRAM status reproduced=18 diverged=7 unrunnable=1 total=26`, `PREDICATE R82-C3 pass`, exit 0 (`corpus/evidence/round82/sweep.txt`, `WORKTREE clean`, tip `c804dd41`) | `python3 plans/round82_c3_sweep.py --lane . --check` | capability enters (row below); freshness **10 held** |
+
+**Controls (all must lose, and do).** C1 `--control-empty-rows` (four rows with `n/a` cells):
+`INCOMPLETE`/`SELFTEST-UNBACKED`, `target_reached=False`. C1 `--control-exclude-cli` (a CLI script
+in the exclusion table): `EXCLUSION-CLI`, `target_reached=False`. C1 `--control-name-only` (the rows
+declared in prose): `MISSING`, `target_reached=False`. C2 `--control-presence` (all ids closed
+against the spot-check with `check=true`): `CLOSE-NOT-REPAIR` + `CHECK-TRIVIAL` + `SOURCE-SHAPE`,
+`target_reached=False`. C3 `--control-ledger-copy` (`NO-RUN`), `--control-exit-only`
+(`PROJECTION-UNCHECKED`), `--control-fabricated-line` (`VERIFY-MISMATCH`) — all
+`target_reached=False`. Batteries: C1 `SELFTEST cases=8 red=7 failures=0`, `MUTANTS real=7 killed=7
+survived=0`; C2 `SELFTEST cases=7 red=6 failures=0`, `MUTANTS real=6 killed=6 survived=0`,
+`SENSITIVITY n=7 failed_at_base=7`; C3 `SELFTEST cases=12 red=11 failures=0`, `MUTANTS real=11
+killed=11 survived=0`.
+
+**The V2 deviation, stated not smoothed.** The frozen sentence named S260/S261 as the locus of the
+count fix, but `corpus/QUALITY.md` Q34 and the fleet contract make every S-row cell except
+status/recheck/used-by immutable under its id — “even when the round wrote the row itself”. The
+round therefore leaves S260/S261 byte-identical to `BASE_REV` and lands S265/S266, whose `teaches`
+cells open `supersedes S260`/`supersedes S261` and whose anchors carry the recomputed counts
+(7/12/13 words; stamp 2-14, observations from 16). The check re-derives both halves: the supersede
+rows recompute and the frozen rows are unchanged.
+
+**Scores.** coverage **7** (held; claim passed, axis at its L0 cap), calibration **10** (held,
+exercised; seven discharges + a sensitivity leg), operability **10** (held; three new gates with
+selftest/mutant/control batteries, `--sensitivity` and `--verify-at-tip`), freshness **10** (held;
+the sweep is a freshness instrument and the census ran rc 0 before and after), depth **10** (held;
+S262–S266, two knowledge entries, the lesson's M82-1…3 and Gate), adjacency **9** (held; the
+connector's sibling scan found no duplicate and one contradiction the round honours), novelty **8**
+(held; three instruments, no new construct claimed).
+**No axis harmed:** the lane diff is additive except the six repaired round-81 evidence bytes,
+`SKILL.md`'s ten new rows, the SOURCES supersede pair and the corrected lesson counts.
+
+### Round-82 capabilities (demonstrated this round)
+
+| Capability | What it can now do | Evidence / command | First-working round |
+|---|---|---|---|
+| `sweep-at-one-tip` | Re-run every `executed` population member's own replay instrument at one measured tip, classify each `reproduced`/`diverged:<n>`/`unrunnable:<code>` under the frozen A2 projection, and print a status + class histogram — the lane's first answer to “which of my replays still reproduce?” | `python3 plans/round82_c3_sweep.py --lane . --check` → `TARGET members=26 located=26 status_lines=26 histogram_total=26 mismatches=0`, `PREDICATE R82-C3 pass` (receipt `corpus/evidence/round82/sweep.txt`) | 82 |
+| `registry-completeness-audit` | List the instrument scripts a lane's claims reference but its registry never indexes, classify the CLI-less ones by their own bytes, and price every row added at a tip for the eight-cell shape | `python3 plans/round82_c1_plans_registry.py --lane .` → `TARGET missing=0 unclassified=0 excluded=2 rows=143 entry_missing=0` | 82 |
+| `closure-debt-discharge` (reused, generalised) | Derive the closure debt from the newest spot-check by round number (no hardcoded id list) and prove each repair's sensitivity on the base tree | `python3 plans/round82_c2_closure_debt.py --lane . --sensitivity --work DIR` → `SENSITIVITY n=7 failed_at_base=7` | 79 |
+
+### Planned (round 83)
+
+(1) Mine the sweep's seven `diverged` members: separate the ones whose divergence is a pid/port in a
+graded line (a receipt-shape defect) from the ones whose verdict actually moved — the first is a
+receipt normalisation decision for an amendment-free successor, the second is a finding.
+(2) Close the gate blind spot the connector found: `plans/anchor_line_check.py` is green on S260/S261
+because its `QUOTE_RE` cannot see those rows' quote shape; extend it (or land a routed finding).
+(3) The 11 further SOURCES count mismatches the prose seat measured (`S108`, `S140`, `S150`–`S153`,
+`S155`, `S178`, `S201`, `S207`, `S208`) are unfixed: land them as supersede rows in one batch.
+(4) `--verify-at-tip` is declared and battery-tested but has not been exercised against a live clone
+in a receipt; run it once in round 83.

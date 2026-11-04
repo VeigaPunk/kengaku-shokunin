@@ -1,0 +1,15 @@
+CORRECTION to my earlier V2 message — do not build u2 against an in-place SOURCES edit.
+
+`corpus/SOURCES.md` is append-only: `corpus/QUALITY.md:761` Q34 (immutable cells except status/recheck/used-by; "even when the round wrote the row itself and the cell it corrects is its own anchor"), `.ufo/waves/kaika/SOURCES-CONTRACT-v1.md:47-51` rule 2, and — decisive — the landed `plans/anchor_line_check.py:27-29`: a defective row is "repaired iff some row whose `teaches` cell opens `supersedes` naming its id is itself captured, carries at least one line-cited quote, and has zero defects" (SUPERSEDES_RE :71; same in round46_c3_verify.py:147).
+
+So the V2 repair shape is:
+- NEW row **S262** (11 cells) with `teaches` opening exactly `supersedes S260 — ...`; anchor `corpus/evidence/round81/log-summary-date-ranges-probe.txt:1-15 (subject at 1, stamp 2-14, OBSERVATIONS_BEGIN 15, observations from 16)` and the quote at 7 words.
+- NEW row **S263** with `teaches` opening exactly `supersedes S261 — ...`; counts 12 and 13.
+- S260/S261 cells are NOT edited. Only `corpus/lessons/round-81.md` is edited in place: the two counts in the Gate block (14→12, 17→13) plus a dated `R81-V2` correction appended to its `## Corrections` (bytes carry the id + literals `12 whitespace-split tokens`, `stamp runs 2-14`, `observations from 16`, `7 tokens`) — that makes the lesson the legitimate `close` artifact for the R81-V2 row.
+- Round-82 Gate bullets for S262/S263 (contract rule 1) are in my report §2.4.
+
+u2 consequence you must decide explicitly (report it, do not hide it): with S260/S261 untouched, the frozen sentence read row-dominantly stays FALSE. It is true only under the registry's current-statement-per-id reading — resolve each id through its supersedes chain, which is exactly what anchor_line_check does for defect state. Print which reading you implement (`DEBT` or a target line naming it); the L1 rules, the counter does not.
+
+Values are unchanged and re-derived from committed bytes: quote counts 7 / 12 / 13 (task.toml 19 stays correct); receipt layout MEMBER=2, MINTED_BY_SHA=14, OBSERVATIONS_BEGIN=15, first CASE=16, 30 lines.
+
+Side effect to coordinate with the integrator: two new rows move the registry count 253 → 255 (`PROVINCE.md:1041` states rows=253 with the frozen grep). Also note the worktree is dirty at the tip: `M corpus/evidence/round68/pypi/{server-log.txt,stderr/K1.txt,stderr/K3.txt}` (embedded timestamps 04/Nov 06:33:45, before the 06:34:49 freeze) — a receipt minted from this tree cannot honestly stamp `WORKTREE clean`.
