@@ -121,3 +121,9 @@ The wave's attacks are recorded here as limits, not smoothed. Severity and the s
 the markdown legs read raw bytes so an HTML comment satisfied D2, and a PENDING leg could print a full
 pass. Kept as stated limits: `CHECK-TRIVIAL` is syntactic (no row-provided command is executed), and
 code fences are stripped only from the index-gate derivation, not from the receipt files.
+
+## Correction (appended 2026-11-04 by round 77; R76-V3)
+
+The "Census and instrument readings" section above keeps the A4-era numbers: `agree=9 disagree=2` is superseded 2026-11-04 by `agree=8 disagree=3` (re-measured under the whole-row stale-prose rule), and `wrong=14`
+is superseded by `wrong=13` (the final `SCOPE` tally after `EMPTY-SCOPE`/`LEG-PENDING` joined the
+defect count). The filed lines stay as written; this appended correction names both sides.

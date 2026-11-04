@@ -3550,3 +3550,6 @@ and `routed_open.py` prints `ROWS total=86 open=31 blocked=1 closed=52 refused=2
 `LEG-PENDING`); the after receipt is unchanged (`discharged=7 legs_passed=7 wrong=0`). At `a47a5530` all
 six registered gates are green and `routed_open.py` is clean (`ROWS total=86 open=31 blocked=1 closed=52
 refused=2`, `--selftest 12/12`).
+
+**Round-76 correction (appended 2026-11-04, round 77; R76-V3).** The round-76 section's main row
+carries `wrong=12`; the final receipt at the closing revision prints `wrong=13` (the `SCOPE` tally now counts `EMPTY-SCOPE`/`LEG-PENDING` defects) — superseded 2026-11-04. The row's `agree=9 disagree=2` is likewise superseded by `agree=8 disagree=3`. Filed lines stay as written; this appended line names both sides.

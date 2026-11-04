@@ -291,8 +291,11 @@ def leg_v7(reader: Reader, lane: Path) -> tuple[str, str]:
             return "fail", f"{rel} LANE_TIP not an ancestor"
         if m_sha and reader.blob_sha(m_tip.group(1), tool) != m_sha.group(1):
             return "fail", f"{rel} TOOL_SHA ≠ tool at tip"
-        if "PREDICATE" not in text or "pass" not in text:
-            return "fail", f"{rel} carries no passing predicate line"
+        if "EXIT 0" not in text:
+            return "fail", f"{rel} carries no EXIT 0 line"
+        for line in text.splitlines():
+            if line.startswith("PREDICATE") and "pass" not in line:
+                return "fail", f"{rel} predicate not pass: {line.strip()}"
         detail.append(name)
     return "ok", " ".join(detail)
 

@@ -996,7 +996,7 @@ round 69 replayed it under a lane-written nginx shim (R69-C1 MISS on leg coverag
 ## Round 76: the `## Surfaces` declaration becomes a gate (2026-11-04)
 
 The table above is no longer re-checked by hand. `plans/round76_c1_surface_resolver.py` (round 76,
-capability `declared-surface-resolver`) parses every row, resolves the row's first declared `~/…`
+capability `province-surface-resolver-table-anchored`) parses every row, resolves the row's first declared `~/…`
 path or localhost endpoint live, and requires the row's dated `ABSENT YYYY-MM-DD` marker to agree
 with the live verdict — no marker on an absent row, no marker on a present one, and no present-tense
 prose on an absent row. One line per row: `python3 plans/round76_c1_surface_resolver.py --lane .`

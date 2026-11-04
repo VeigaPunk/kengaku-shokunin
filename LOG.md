@@ -2906,3 +2906,22 @@ All sixteen wave outputs settled before integration/report; no dead-seat note re
   replayable (A3), whole-row stale prose (A4), `emit --work` (A2), mis-frozen Before (A1), round-51
   gate red and further broken by the row-2 repair (A7). The round-74 C1 gate was red at the freeze
   (`MISSING 2`) — the reason the D6 receipt is minted after registration.
+
+### Second-reviewer classes (round 76, appended 2026-11-04 by round 77)
+
+The round-76 report's Landed-changes table tied commit R (`d31feec9`) to a LOG entry by this name that
+did not exist at filing time (R76-V4). The A9 content it meant, recorded here so the pointer resolves:
+
+- **Empty scope passed.** A closer lesson naming zero ids made `SCOPE ids=0 … wrong=0` print
+  `PREDICATE R76-C2 pass`; `ids=0` is now `DEFECT EMPTY-SCOPE`.
+- **Raw bytes in the markdown legs.** QUALITY/SCORECARD/LOG/SKILL/round-74 lesson were grepped without
+  stripping HTML comments and fences, so a correction wrapped in `<!-- … -->` satisfied a leg; every
+  markdown leg now reads `visible()` bytes.
+- **PENDING could pass.** A revision whose execution-dependent legs printed `PENDING` could print a
+  full predicate pass; pending now emits `DEFECT LEG-PENDING n=` so a declaration-only read cannot pass.
+
+- **Round-76 correction (appended 2026-11-04, round 77; R76-V3).** The round-76 "Verification
+  boundary" block above keeps the A4-era tallies: `agree=9 disagree=2` was superseded 2026-11-04 by `agree=8 disagree=3` (the before receipt re-measured under the whole-row stale-prose rule), C1
+  `cases=7 red=6`/`5/5` by `cases=12 red=11`/`9/9`, and C2 `cases=10 red=9`/`8/8` by
+  `cases=14 red=13`/`12/12`. The filed lines stay as written (append-only); this line names both
+  sides so a reader can price the drift.
