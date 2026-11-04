@@ -1,0 +1,37 @@
+R80-U4 red-before — M80-1's prefix-removed protein leg fails on this host (seat U4RedBeforeR81, round-81 w1)
+claim under test (corpus/lessons/round-80.md M80-1): removing the probe table's `prefix` makes the
+protein leg die with `ModuleNotFoundError: No module named 'Bio'` and the gate report `REPRODUCTION-EXIT`.
+frozen table entry (plans/round80_probes.json, protein-assembly): prefix = `uv run --no-project --with biopython python3`
+measured tree: `git clone --shared` of the lane at 805a65c836f745703e5c1652d10ce8e55043265b (clone clean);
+  plans/tb2_grader_probe.py sha256 acd7d38dca3a982d22900ca034c50aa3d22817395273bbc62b5665b1913040d0 and
+  plans/round80_probes.json sha256 caa4333f2d3a12cc9d5755828937b24aa5ca22fa4f22798031aa7ce6b1520f22 are
+  byte-identical at lane master 60123c7f7bb8abd06c7d273a3f09c70889b81e25 (re-checked after the run).
+host: python3 = /usr/bin/python3, `python3 -V` = Python 3.14.8; `python3 -c "import Bio"` exits 1 with the
+  same ModuleNotFoundError; openssl = OpenSSL 3.6.5 29 Sep 2026 (Library: OpenSSL 3.6.5 29 Sep 2026).
+subject: corpus/evidence/round35/tb2-eval/test_outputs.py sha256
+  44a05a2482aa7a8e70de95478de6560b6188e630336fca9d02b62dc69a096582, equal to the probe's pinned digest,
+  so the run passed the digest gate and reached the Bio import.
+command (prefix removed, system interpreter; cwd = the measured clone):
+  python3 plans/tb2_grader_probe.py --lane .
+exit code: 1
+--- verbatim output (stdout empty; stderr) ---
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r81/U4RedBeforeR81/clone/plans/tb2_grader_probe.py", line 168, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/fast/scratch/hyaku/kengaku-r81/U4RedBeforeR81/clone/plans/tb2_grader_probe.py", line 145, in main
+    import Bio  # noqa: F401  (fail loudly if Biopython is absent)
+    ^^^^^^^^^^
+ModuleNotFoundError: No module named 'Bio'
+--- control (same tree, prefix restored) ---
+command: uv run --no-project --with biopython python3 plans/tb2_grader_probe.py --lane .
+exit code: 0; stdout: 18 cases, observed_pass=5 observed_fail=13 mismatches=0 (biopython=1.88); stderr empty.
+--- gate report (same clone; `prefix` deleted from plans/round80_probes.json, then
+    `python3 plans/round80_c1_located_replay.py --lane . --work <scratch>`) ---
+DEFECT REPRODUCTION-EXIT protein-assembly rc=1
+DEFECTS n=2
+TARGET members=6 located=6 reproduced=5 ledger_flipped=6 diverged=2 defects=2
+PREDICATE R80-C1 fail
+exit code: 1
+(the second defect is `LEDGER-GATE-COUNTS executed=26 unlocated=0`: the clone is a round-81 tree whose
+population ledger already holds 26 executed while round-80's gate hardcodes 24 — unrelated to the prefix.)
