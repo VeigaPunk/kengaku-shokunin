@@ -193,3 +193,24 @@ to this round's own rows, not a change to the predicate.
 Both before receipts were regenerated under the final rules (`c1-before.txt` prints the same
 `UNLISTED n=33`, `DEFECTS n=34`, rc 1; `c2-before.txt` the same `registered=0 wrong=12`, rc 1), and the
 after receipts were regenerated from a clean clone at the landing tip.
+
+## Amendment A4 (2026-11-04, from the wave's sentinel, target unchanged) — the no-egress boundary is enforced before contact
+
+`SentinelR77` (M1, high) showed the frozen resolver checked a redirect's destination *after* urllib had
+already followed it, and that a `tcp` row could name a non-loopback host and connect. Both would have
+let a committed declaration cause off-host contact despite C1's stated no-egress rule. Closed now:
+
+- **Redirects are refused before they are followed.** The resolver opens URLs with a private opener
+  that installs `_NoRedirect` (a `redirect_request` hook raising `HTTPError`) and an empty
+  `ProxyHandler`, so no ambient proxy can carry a probe off-host; a 3xx becomes the `redirect` verdict
+  and a `REDIRECT-REFUSED` defect.
+- **TCP is loopback-only.** A `tcp` row whose host is not `127.0.0.1`/`localhost`/`::1` returns
+  `nonlocal` and a `NONLOCAL-ANCHOR` defect without opening a socket; `path`/`cmd` rows that embed an
+  endpoint-shaped token inherit the same checks.
+
+Witnessed: a local 302-to-`example.com` server answers `('redirect', 'http=302')`; a
+`192.0.2.1:80` row answers `('nonlocal', 'tcp=192.0.2.1:80', ['NONLOCAL-ANCHOR'])`. The target's eight
+fields, both controls and both kill rules are unchanged; the rules can only add defects. Sentinel M2
+(V7 accepting a stamp-less or non-passing receipt) is already closed by Amendment A3. Kept as a stated
+limit: `--receipt` truncates any writable path the caller names (a wrapper-trust boundary, not a
+markdown-row one).

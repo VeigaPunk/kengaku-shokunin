@@ -243,17 +243,29 @@ def endpoint_host(url: str) -> str:
     return (m.group(1).lower() if m else "")
 
 
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    """Refuse every redirect before it is followed: a committed row may not steer contact off-host."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):  # noqa: D401 - urllib hook
+        raise urllib.error.HTTPError(newurl, code, "redirect refused (R77-C1 confinement)", headers, fp)
+
+
+_OPENER = urllib.request.build_opener(urllib.request.ProxyHandler({}), _NoRedirect())
+
+
 def http_status(url: str) -> tuple[str, str]:
     host = endpoint_host(url)
     if host not in LOOPBACK_HOSTS:
         return "remote", f"host={host or 'unparsed'}"
     try:
-        with urllib.request.urlopen(url, timeout=TIMEOUT) as resp:  # noqa: S310 - loopback only
+        with _OPENER.open(url, timeout=TIMEOUT) as resp:  # noqa: S310 - loopback only, no redirects
             final = endpoint_host(resp.geturl())
             if final not in LOOPBACK_HOSTS:
                 return "remote", f"redirect={final}"
             return "present", f"http={resp.status}"
     except urllib.error.HTTPError as exc:
+        if 300 <= int(exc.code) < 400:
+            return "redirect", f"http={exc.code}"
         return "present", f"http={exc.code}"
     except (urllib.error.URLError, socket.timeout, ConnectionError, OSError):
         return "absent", "http=000"
@@ -266,6 +278,8 @@ def tcp_status(token: str) -> tuple[str, str]:
     if not m:
         return "malformed", f"token={token}"
     host, port = m.group(1).strip("[]"), int(m.group(2))
+    if host not in LOOPBACK_HOSTS:
+        return "nonlocal", f"tcp={host}:{port}"
     try:
         with socket.create_connection((host, port), timeout=TIMEOUT):
             return "present", f"tcp={host}:{port}"
@@ -377,6 +391,9 @@ def resolve_row(lane: Path, kind: str, anchor_cell: str, verdict_cell: str,
             details.append(d)
         if not verdicts:
             return "malformed", "no-endpoint", kind, defects or ["MALFORMED"]
+        if any(v == "redirect" for v in verdicts):
+            defects.append("REDIRECT-REFUSED")
+            return "redirect", details[0], kind, defects
         if all(v == "remote" for v in verdicts):
             return "remote", details[0], kind, defects
         verdict = "present" if all(v == "present" for v in verdicts) else (
@@ -386,8 +403,12 @@ def resolve_row(lane: Path, kind: str, anchor_cell: str, verdict_cell: str,
         verdicts, details = [], []
         for tok in toks:
             v, d = tcp_status(tok)
+            if v == "nonlocal":
+                defects.append("NONLOCAL-ANCHOR")
             verdicts.append(v)
             details.append(d)
+        if defects:
+            return "nonlocal", details[0], kind, defects
         verdict = "present" if all(v == "present" for v in verdicts) else (
             "absent" if all(v in ("present", "absent") for v in verdicts) else "malformed")
         return verdict, details[0], kind, defects
@@ -415,12 +436,13 @@ def resolve_row(lane: Path, kind: str, anchor_cell: str, verdict_cell: str,
                 v, d = tcp_status(tok)
             else:
                 v, d = resolve_path(lane, tok)
-            if v in ("escape", "overflow", "malformed"):
+            if v in ("escape", "overflow", "malformed", "nonlocal", "redirect"):
                 defects.append({"escape": "ESCAPE-ANCHOR", "overflow": "OVERFLOW-ANCHOR",
-                                "malformed": "MALFORMED"}[v])
+                                "malformed": "MALFORMED", "nonlocal": "NONLOCAL-ANCHOR",
+                                "redirect": "REDIRECT-REFUSED"}[v])
             verdicts.append(v)
             details.append(d)
-        bad = [v for v in verdicts if v in ("escape", "overflow", "malformed")]
+        bad = [v for v in verdicts if v in ("escape", "overflow", "malformed", "nonlocal", "redirect")]
         if bad:
             return bad[0], details[0], kind, defects
         verdict = "present" if all(v == "present" for v in verdicts) else "absent"

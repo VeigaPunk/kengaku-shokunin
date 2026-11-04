@@ -3553,3 +3553,51 @@ refused=2`, `--selftest 12/12`).
 
 **Round-76 correction (appended 2026-11-04, round 77; R76-V3).** The round-76 section's main row
 carries `wrong=12`; the final receipt at the closing revision prints `wrong=13` (the `SCOPE` tally now counts `EMPTY-SCOPE`/`LEG-PENDING` defects) — superseded 2026-11-04. The row's `agree=9 disagree=2` is likewise superseded by `agree=8 disagree=3`. Filed lines stay as written; this appended line names both sides.
+
+## Round 77 (hyaku run 15, attempt 1, 2026-11-04): one canonical declared-surface inventory (R77-C1, coverage at its L0 cap) and the round-76 closure's seven routed defects burnt down (R77-C2, calibration held at ceiling, exercised)
+
+Base `07c97fcd`; freeze `9ebb8ed1`; corrections `8da90eb7` (discharge + re-minted receipts) and `d181e16b`
+(the wave's critic hardening). One v1 wave, 12 seats; role mix and dead seats are in the round report.
+
+| claim / axis | before → after evidence | counting command | verdict / score |
+|---|---|---|---|
+| **R77-C1 / coverage** (lowest non-retired axis, L0-capped at 7) — one canonical inventory carries every surface the three older tables declare, each resolved live under one typed rule, each dated declaration agreeing, with `UNLISTED-SURFACE` for any superseded row no canonical row carries | before (`corpus/evidence/round77/c1-before.txt`, `--rev 07c97fcd`): `CANONICAL source=none rows=0`, `SURFACES total=0 present=0 absent=0 remote=0`, `UNLISTED n=33`, `RESOLVED live=0`, `AGREE agree=0 disagree=0`, `DEFECTS n=34`, `PREDICATE R77-C1 fail`, rc 1 → after (`c1-after.txt`, stamped `d181e16b`, clean): `CANONICAL source=## Declared surfaces rows=28`, `SURFACES total=28 present=14 absent=13 remote=1`, `UNLISTED n=0`, `RESOLVED live=27`, `AGREE agree=28 disagree=0`, `IDENTITIES n=28 unique=28`, `DEFECTS n=0`, `PREDICATE R77-C1 pass`, rc 0 | `python3 plans/round77_c1_declared_surfaces.py --lane .` | **pass** — coverage **7** (held; the axis is at its open-L0 cap) |
+| **R77-C2 / calibration** (held at ceiling 10, exercised) — the round-76 closure's seven routed ids become ledger rows whose discharges re-derive at the commit that carries their evidence, plus seven legs that re-read the registry, the corrections, the LOG block, the considerthese sweep, the capability name and three stamped reruns | before (`c2-before.txt`, `--rev 07c97fcd`): `SCOPE ids=7 registered=0 closed=0 open=0 discharged=0 legs_passed=0 legs_pending=2 wrong=12`, `DEFECTS n=12`, rc 1 → after (`c2-after.txt`, stamped `d181e16b`, clean): `SCOPE ids=7 registered=7 closed=7 open=0 discharged=7 legs_passed=7 legs_pending=0 wrong=0`, `DEFECTS n=0`, `PREDICATE R77-C2 pass`, rc 0 | `python3 plans/round77_c2_defect_discharge.py --lane .` | **pass** — calibration **10** (held, exercised) |
+
+**Controls (both must lose, and do).** C1 `--control-declared` (fixture with a lying declaration):
+`CONTROL rows=7 declared_verdicts=7 agree=7 live=0 target_reached=False` — a declaration-trusting counter
+can reach `agree=` but never `live=27`, and cannot see `STALE-ABSENT`. C2 `--control-status`:
+`CONTROL rows_claimed_closed=7 trivial_checks=7 failed_legs=0 defects=7 target_reached=False` — the
+status-only skip is caught by seven ledger defects, so `discharged=7` stays unreachable. Selftests: C1
+`cases=6 red=5`, C2 `cases=10 red=9` plus `--selftest-git` 3/3. Mutants: C1 `6/6` and C2 `6/6`
+expected-class kills, `wrong_id=0`, `survived=0`.
+
+**Corrections landed in-round (each with a re-deriving check).** (1) Amendment A1: V7 accepts a
+report-only tool's own verdict line (`EXIT 0` + a `PREDICATE … pass` when one is printed) — the leg can
+only add defects. (2) Amendment A2: the C2 control's prose corrected to its receipt. (3) Amendment A3
+(from the wave's critic): `DUPLICATE-IDENTITY`, `REMOTE-ANCHOR-MISMATCH`, `REMOTE-AS-<kind>`,
+`ID-NOT-IN-CHECK`, mandatory battery tallies in V1 and mandatory `TOOL_SHA` in V7 — the two false-green
+paths the critic demonstrated now fail, the before/after receipts were re-measured under the final rule
+and no target field moved. (4) Inherited drift repaired: the README index was missing two lesson rows and
+the `corpus/evidence/round77/` row (`R75-C1` red at base), and the R51 `SF14` registry count pin was
+re-pinned 244 → 245 after the S253 append (`R51-C1` red at base); both gates are green at the tip.
+(5) The round-76 battery receipts were re-minted with `TOOL_SHA` at the revision that carries the final
+battery (R76-V1), and the three rerun receipts were stamped (R76-V7).
+
+**Scores.** coverage **7** (held; claim passed, axis at its L0 cap), calibration **10** (held, exercised),
+operability **10** (held; two new gates with selftest/mutant/control batteries and stamped receipts),
+depth **10** (held; S253 + Q56), freshness **10** (held; every declared surface re-resolved this round),
+adjacency **9** (held; the connector's sibling scan is recorded in the round report), novelty **8** (held;
+two instruments, no new construct claimed).
+**No axis harmed:** the round's lane diff is append-only except (a) the dated corrections named above,
+(b) the canonical inventory section appended to `PROVINCE.md`, (c) the one-name correction in
+`PROVINCE.md` §Round 76, (d) the two `SKILL.md` registry rows re-pinned to their final tallies, (e) the
+re-minted round-76 receipts (the R76-V1 repair) and (f) `plans/round51-surfaces.json` `SF14`'s count pin.
+
+### Round-77 capabilities (demonstrated this round)
+
+| Capability | What it can now do | Evidence / command | First-working round |
+|---|---|---|---|
+| `canonical-declared-surface-inventory` | Carry every surface three legacy tables declared in one canonical inventory, resolve each row live by kind (path, loopback http, tcp, sha256 pin, row count, in-repo run receipt, dated remote), refuse a superseded declaration no canonical row carries, refuse duplicate identities and a remote row carrying local anchors | `python3 plans/round77_c1_declared_surfaces.py --lane .` → `SURFACES total=28 … UNLISTED n=0 … agree=28 disagree=0`, exit 0 (`corpus/evidence/round77/c1-after.txt`) | 77 |
+| `receipt-tool-binding-discharge` | Close the newest closure's routed ids in the ledger with evidence re-read at the close commit, and refuse a receipt whose `TOOL_SHA` does not match the tool at its own stamp, a check that does not name its id, or a battery receipt with no tally line | `python3 plans/round77_c2_defect_discharge.py --lane .` → `SCOPE ids=7 registered=7 closed=7 discharged=7 legs_passed=7`, exit 0 (`c2-after.txt`) | 77 |
+| `receipt-remint-with-tool-sha` | Re-mint a historical battery receipt without editing the frozen instrument: a committed driver runs the tool's own writer and prepends `LANE_TIP`/`TOOL_SHA`/`WORKTREE`/`MINTED_BY`/`COMMAND` plus `EXIT n` | `python3 plans/round77_remint_r76_batteries.py --lane . --receipt corpus/evidence/round76/c1-selftest.txt --tool plans/round76_c1_surface_resolver.py -- --selftest` | 77 |

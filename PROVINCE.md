@@ -1054,3 +1054,21 @@ verbatim as the historical record (append-only), and any row they declare that n
 carries is a gate defect. `## Surfaces` keeps its own gate (`plans/round76_c1_surface_resolver.py`,
 registered); the canonical inventory is the wider universe.
 
+
+## Round 77 admission (2026-11-04): the declaration inventory becomes one machine-checked table
+
+**Core addition:** `## Declared surfaces — canonical, machine-checked` (28 rows) is the lane's
+authoritative surface inventory: every row is resolved live by `plans/round77_c1_declared_surfaces.py`
+under one typed rule, its `Supersedes` cell names the older declaration it replaces, and any row of the
+three superseded tables (`## Surfaces`, `### Core`, `### Historical`) that no canonical row carries is an
+`UNLISTED-SURFACE` defect. The three older tables stay verbatim as history; their gates
+(`plans/round76_c1_surface_resolver.py`, `plans/round51_surfaces.py`) keep their own universes and are
+green at this tip. Capability: `canonical-declared-surface-inventory`.
+
+**Evidence:** `corpus/evidence/round77/c1-after.txt` (`SURFACES total=28 … UNLISTED n=0 … agree=28
+disagree=0`, `PREDICATE R77-C1 pass`), `c1-selftest.txt`, `c1-mutants.txt`, `c1-control-declared.txt`;
+`corpus/lessons/round-77.md`; `corpus/QUALITY.md` Q56.
+
+**Not this lane's scope (unchanged):** the serving plane, benchmark runtime services, and route
+resolution stay with kama / the benchmark images / kumitate. The `remote` rows are declared, never
+probed: the gate keeps no egress.
