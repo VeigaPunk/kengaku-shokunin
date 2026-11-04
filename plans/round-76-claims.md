@@ -127,3 +127,12 @@ rule, and `wrong=12` counts the twelve printed defects (seven `MISSING-ROW`, fiv
 Predicate, target, control and kill rules are unchanged; only the Before prose is corrected to the
 receipt. Found by seat `ScribeLessonR76` reading the receipt against this file — the R75-D2 class,
 caught before it could ship.
+
+## Amendment A2 (2026-11-04, implementation defect, predicate unchanged) — `emit()` honours `--work`
+
+Seats `ScribeCorrectionsR76` and `C2ReplayR76` independently found that `emit()` in
+`plans/round76_c2_defect_discharge.py` created `/fast/scratch/hyaku/kengaku-r76/c2` regardless of
+`--work` — the §7 scratch rule ("no hardcoded `/tmp` or fixed scratch root in a committed tool"). The
+gate now takes `args.work` and creates only that path. Predicate, target, control, kill rules and every
+leg are unchanged; the before/control receipts' bytes are unaffected (the scratch path is not printed)
+and were regenerated after the fix so every committed receipt comes from the same gate revision.

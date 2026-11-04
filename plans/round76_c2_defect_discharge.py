@@ -348,7 +348,8 @@ def ledger_report(reader: Reader, ids: list[str]) -> tuple[list[str], list[str]]
 
 
 # ---------------------------------------------------------------- emit
-def emit(lane: Path, rev: str, out: Path | None, probe: Path | None = None) -> int:
+def emit(lane: Path, rev: str, out: Path | None, probe: Path | None = None,
+         work: Path | None = None) -> int:
     if not lane.is_dir():
         print(f"SETUP ERROR: lane {lane} is not a directory", file=sys.stderr)
         return 2
@@ -357,7 +358,7 @@ def emit(lane: Path, rev: str, out: Path | None, probe: Path | None = None) -> i
     if not reader.get(LEDGER).strip() and not (lane / LEDGER).exists():
         print(f"SETUP ERROR: {LEDGER} absent", file=sys.stderr)
         return 2
-    work = Path("/fast/scratch/hyaku/kengaku-r76/c2")
+    work = work or Path("/fast/scratch/hyaku/kengaku-r76/c2")
     work.mkdir(parents=True, exist_ok=True)
     rev_mode = rev not in ("worktree", "", None)
     ids, closure = scope_ids(reader)
@@ -650,7 +651,7 @@ def main() -> int:
     if args.control_status:
         args.work.mkdir(parents=True, exist_ok=True)
         return run_battery(args, probe, lambda: control_status(args.work, tip))
-    return emit(args.lane, args.rev, args.receipt, probe=probe)
+    return emit(args.lane, args.rev, args.receipt, probe=probe, work=args.work)
 
 
 if __name__ == "__main__":
