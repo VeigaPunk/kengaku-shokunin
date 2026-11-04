@@ -2891,3 +2891,11 @@ All sixteen wave outputs settled before integration/report; no dead-seat note re
 - **Frontier.** S252 (Git `git-merge-base`) opened live with capture, sha256 and a 25-word located
   quote; it grounds R76-C2's ancestry leg and its three-state split. Assimilation: none. L0 questions
   carried unchanged: kengaku rounds 25/33/51, 54, 56, 63, 65, 66, 67.
+
+- **Round-76 correction (appended).** The entry above calls the `considerthese/2026-10-26.md`
+  proposal-1 burn-down "implemented"; it was implemented in round 41 (`plans/routed_open.py`,
+  `routed-findings-burndown` at `SCORECARD.md:1571`) and R76-C2 extends it (seven rows with
+  `close_commit`/`verified_at`/`evidence_path`, legs re-reading the evidence at that commit). No
+  proposal was mined this round. The seven rows first broke `plans/routed_open.py`'s `source`-line
+  check; pointers fixed to the closer lesson's `## 6` lines, gate now `ROWS total=86 open=31
+  blocked=1 closed=52 refused=2` and `--selftest 12/12`.

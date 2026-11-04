@@ -64,3 +64,15 @@ re-derive their values at check time.
   `PREDICATE R75-C1 pass` (74/74, 124/124, 67/67). The round-74 C1 registry gate was red at base
   (`MISSING 2` — the two round-76 instruments unregistered); registering them turned it green, which
   is what makes the D6 receipt a measurement rather than an assertion.
+
+## Correction (appended, round 76)
+
+**The burn-down was not new.** This lesson's Gate entry says
+`considerthese/2026-10-26.md` proposal 1 "is implemented by R76-C2"; seat `ScoutFrontierR76` showed the
+proposal was implemented ~35 rounds ago (`plans/routed_open.py`, the `routed-findings-burndown` row at
+`SCORECARD.md:1571`, `corpus/QUALITY.md:1129`), and the round-65 lesson already recorded that no
+still-unimplemented proposal remained. R76-C2 **extends** it (seven rows with `close_commit`,
+`verified_at`, `evidence_path`/`evidence_literal`, and legs that re-read the evidence at the commit
+that carries it). No proposal was mined this round. The same scout found the seven rows initially broke
+`plans/routed_open.py`'s `source`-line check; the pointers were corrected to the lesson's `## 6` lines
+and that gate prints `ROWS total=86 open=31 blocked=1 closed=52 refused=2`, `--selftest 12/12`.

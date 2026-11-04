@@ -195,3 +195,20 @@ carries `evidence_path` + `evidence_literal`; the leg reads the file **at that c
 literal there (`NO-EVIDENCE-FIELD`, `EVIDENCE-ABSENT-AT-CLOSE`, `EVIDENCE-LITERAL-MISSING`), and the
 `close_commit` of D5/D6 is corrected to `f0d52322` where their evidence actually landed. The selftest is
 `cases=11 red=10` and the mutant matrix `9/9`.
+
+## Amendment A6 (2026-11-04, provenance correction from the wave) — the burn-down was already implemented; R76-C2 extends it
+
+Seat `ScoutFrontierR76` showed the §Sources sentence above ("`considerthese/2026-10-26.md` proposal 1
+… is implemented by R76-C2") overclaims: `plans/routed_open.py` (registered gate, `SKILL.md:664`), the
+`routed-findings-burndown` capability row (`SCORECARD.md:1571`, first round 41) and the criterion in
+`corpus/QUALITY.md` already implement the proposal, and its own round-65 lesson says no
+still-unimplemented proposal remained in that file. R76-C2 **extends** the burn-down: seven rows with
+`close_commit`/`verified_at`/`evidence_path`/`evidence_literal`, and legs that re-derive each discharge
+at the commit that carries it. No `considerthese` proposal was mined this round (none is
+still-unimplemented in the latest file), and the report must not present the burn-down as new work.
+The scout also found that my seven rows initially broke `plans/routed_open.py`
+(`DEFECT line=81 … past the end of` the closer lesson); the `source` line pointers were corrected to
+the lesson's actual `## 6` lines (185/189/193/198/202/206/209) and the gate now prints
+`ROWS total=86 open=31 blocked=1 closed=52 refused=2`, `--selftest 12/12`. Its remaining 31 open rows
+are outside R76-C2's scope by design (the frozen predicate scopes the newest closer), which is a
+stated limit, not a discharge.
