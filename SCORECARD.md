@@ -3266,6 +3266,20 @@ instrument reads `/proc/<pid>/environ` from outside — a stronger shape the lan
 injection passes the text-only arm of `--check-receipt` (`StubBeforeAfterR72` F7,
 `ReceiptReviewR72` §2b): the `--work` arm is the discriminating one.
 
+**Amendment A1 (attack-driven, same round).** The wave's critic (`CriticC1R79` §1), mutation-tester
+(`MutantC1R79` M02/M06) and sentinel (`SentinelC1R79` §1) proved the first C1 counter accepted evidence it
+had not established; five defect classes were added before the after-receipt was re-measured (predicate,
+target, controls and kill rules unchanged — `plans/round-79-claims.md` §Amendment A1):
+`RECEIPT-POPULATION` in the `executed-unlocated` branch, `UNLOCATED-FOREIGN-MEMBER`, `GRADER-ABSENT`,
+`EVIDENCE-SHA-MISMATCH`, `EVIDENCE-NOT-VERBATIM`, `LEDGER-DUPLICATE-KEY`. Each kills the attack that
+motivated it (`×64`, `×64`, `×57`, `×2`, `1` defects respectively; the critic's 88-docstring-instrument
+ledger now prints `RECEIPT-POPULATION` ×64 instead of `replayed=88`). The same review produced
+`covered_located=13` beside `covered=15`: `signal-delivery` (1 of 1) and `numeric-band` (2 of 10) rest on
+unlocated attribution alone, so the claim is a population map, never 15 execution-backed classes.
+`plans/round79_c2_closure_debt.py` gained `CHECK-NOT-REPAIR-SENSITIVE` (each check is re-run in a copy of
+the tree with the row's evidence file reverted to its `660ec0b9` bytes and must fail there) and
+`EVIDENCE-LITERAL-ABSENT`, after `ReviewerC2R79` showed a recap file plus `test -f` reached the target.
+
 **Gate retired this round.** `round78-c1-class-member-ledger` (R78-C1) is retired in the `SKILL.md` registry: its universe rule (every `SKILL.md` row whose cell carries `executed k of n`) now selects the 88-member population, so it reports the 76 members its 12-row ledger never priced. The round-78 verdict stands at its own tip (`148801a6`, `PREDICATE R78-C1 pass`), and the 12 rows it priced are a consistent subset of the population ledger (12/12 same status, checked with `plans/grader-selected-members.json` × `plans/grader-population-ledger.json`).
 
 **Scores.** coverage **7** (held; claim passed, axis at its L0 cap), calibration **10** (held,

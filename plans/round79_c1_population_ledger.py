@@ -63,6 +63,7 @@ Exit 0 pass, 1 fail, 2 setup.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import shutil
@@ -269,7 +270,16 @@ def check(lane: Tree, ledger_doc: dict, universe: dict[str, list[str]], all_memb
                 defects.append(("ROUND-MISMATCH", f"{m} instrument=r{named.group(2)} ledger=r{row.get('round')}"))
             if not receipt.startswith(f"corpus/evidence/round{row.get('round')}/"):
                 defects.append(("UNLOCATED-RECEIPT-OUTSIDE-ROUND", f"{m} {receipt}"))
-            if observations(lane.read(receipt)) is None:
+            rtext = lane.read(receipt)
+            named_here = [x for x in all_members
+                          if re.search(r"(?<![\w.-])" + re.escape(x) + r"(?![\w.-])", rtext)]
+            if len(named_here) > REPLAY_RECEIPT_MAX_MEMBERS:
+                defects.append(("RECEIPT-POPULATION", f"{m} {receipt} names {len(named_here)} members"))
+                continue
+            if named_here and named_here != [m]:
+                defects.append(("UNLOCATED-FOREIGN-MEMBER", f"{m} {receipt} names {named_here}"))
+                continue
+            if observations(rtext) is None:
                 defects.append(("RECEIPT-NO-OBS", f"{m} {receipt}"))
             if subject_shape(lane.read(receipt), m) is not None:
                 defects.append(("UNLOCATED-SUBJECT-PRESENT", f"{m} {receipt}"))
@@ -279,6 +289,9 @@ def check(lane: Tree, ledger_doc: dict, universe: dict[str, list[str]], all_memb
             stats["unexecuted"] += 1
             reason = row.get("reason")
             body = lane.read(f"{GRADERS}/{m}/tests/test_outputs.py")
+            if not body:
+                defects.append(("GRADER-ABSENT", f"{m} {GRADERS}/{m}/tests/test_outputs.py"))
+                continue
             fired = None
             for code, pattern in BLOCKERS.items():
                 hit = re.search(pattern, body)
@@ -292,6 +305,10 @@ def check(lane: Tree, ledger_doc: dict, universe: dict[str, list[str]], all_memb
                 evidence = row.get("evidence")
                 if not isinstance(evidence, str) or not evidence.startswith("no-blocker:"):
                     defects.append(("EVIDENCE-SHAPE", f"{m} {evidence!r}"))
+                    continue
+                want = hashlib.sha256(body.encode()).hexdigest()[:16]
+                if want not in evidence:
+                    defects.append(("EVIDENCE-SHA-MISMATCH", f"{m} body={want} evidence={evidence!r}"))
                 continue
             if reason not in BLOCKERS:
                 defects.append(("REASON-UNKNOWN", f"{m} {reason!r}"))
@@ -303,8 +320,9 @@ def check(lane: Tree, ledger_doc: dict, universe: dict[str, list[str]], all_memb
                 stats["unbacked"] += 1
                 continue
             evidence = row.get("evidence")
-            if not isinstance(evidence, str) or re.sub(r"\s+", " ", hit.group(0)) not in evidence:
-                defects.append(("EVIDENCE-MISMATCH", f"{m} {reason} {evidence!r}"))
+            flat = re.sub(r"\s+", " ", body)
+            if not isinstance(evidence, str) or evidence not in flat:
+                defects.append(("EVIDENCE-NOT-VERBATIM", f"{m} {reason} {evidence!r}"))
     return defects, stats
 
 
@@ -380,7 +398,9 @@ def run(lane: Tree, universe: dict[str, list[str]], all_members: list[str],
     replayed = {m for m, v in rows.items() if isinstance(v, dict) and v.get("status") in ("executed", "executed-unlocated")}
     covered = [c for c, ms in universe.items() if any(m in replayed for m in ms)]
     uncovered = [c for c, ms in universe.items() if c not in covered]
-    print(f"COVERAGE replayed={len(replayed)} covered={len(covered)} "
+    located_set = {m for m, v in rows.items() if isinstance(v, dict) and v.get("status") == "executed"}
+    covered_located = [c for c, ms in universe.items() if any(m in located_set for m in ms)]
+    print(f"COVERAGE replayed={len(replayed)} covered={len(covered)} covered_located={len(covered_located)} "
           f"uncovered={','.join(uncovered) or '-'} census_covered={census_covered}")
     for code, detail in defects:
         print(f"DEFECT {code} {detail}")
@@ -394,6 +414,15 @@ def run(lane: Tree, universe: dict[str, list[str]], all_members: list[str],
     return 0 if ok else 1
 
 
+def _no_dupe_keys(pairs):
+    seen = {}
+    for k, v in pairs:
+        if k in seen:
+            raise ValueError(f"duplicate key {k!r}")
+        seen[k] = v
+    return seen
+
+
 def load_lane(lane: Path, rev: str) -> tuple[Tree, dict, list[str], int, int]:
     tree = rev_tree(lane, rev)
     census = tree.read(CENSUS)
@@ -402,7 +431,16 @@ def load_lane(lane: Path, rev: str) -> tuple[Tree, dict, list[str], int, int]:
     universe, census_executed, census_covered = parse_census(census)
     all_members = sorted({m for ms in universe.values() for m in ms})
     doc_text = tree.read(LEDGER)
-    doc = json.loads(doc_text) if doc_text else {"members": {}}
+    if not doc_text:
+        doc = {"members": {}}
+    else:
+        try:
+            doc = json.loads(doc_text, object_pairs_hook=_no_dupe_keys)
+        except ValueError as exc:
+            print(f"DEFECT LEDGER-DUPLICATE-KEY {exc}")
+            print("DEFECTS n=1")
+            print("PREDICATE R79-C1 fail")
+            raise SystemExit(1)
     return tree, universe, all_members, census_executed, census_covered, doc
 
 
@@ -493,6 +531,9 @@ CASES = [
     ("class-k-mismatch", "CLASS-K-MISMATCH"),
     ("class-row-unquantified", "CLASS-ROW-UNQUANTIFIED"),
     ("pair-mismatch", "PAIR-MISMATCH"),
+    ("unlocated-population-receipt", "RECEIPT-POPULATION"),
+    ("evidence-not-verbatim", "EVIDENCE-NOT-VERBATIM"),
+    ("grader-absent", "GRADER-ABSENT"),
 ]
 
 
@@ -536,6 +577,13 @@ def selftest(work: Path) -> int:
             (root / SKILL).write_text(FIXTURE_SKILL.replace("executed 1 of 1", "recipe-unexecuted"))
         elif name == "pair-mismatch":
             mem["m-two"]["classes"] = ["beta"]
+        elif name == "unlocated-population-receipt":
+            body = FIXTURE_UNLOCATED + "".join(f"mentions {x}\n" for x in ("m-one", "m-two", "m-three"))
+            (root / "corpus/evidence/round91/probe.txt").write_text(body)
+        elif name == "evidence-not-verbatim":
+            mem["m-two"]["evidence"] = "selenium borrowed from another task"
+        elif name == "grader-absent":
+            (root / f"{GRADERS}/m-two/tests/test_outputs.py").unlink()
         (root / LEDGER).write_text(json.dumps(doc, indent=1) + "\n")
         tree = fixture_tree(root)
         universe, census_executed, census_covered = parse_census(tree.read(CENSUS))
@@ -715,6 +763,7 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--control-default-reason", action="store_true")
     ap.add_argument("--control-all-blocked", action="store_true")
     ap.add_argument("--quiet", action="store_true")
+    ap.add_argument("--fixture", action="store_true", help="treat --lane as a fixture tree (no git)")
     a = ap.parse_args(argv)
     lane = Path(a.lane).resolve()
     work = Path(a.work).resolve() if a.work else Path("/fast/scratch/hyaku/kengaku-r79/counter")
@@ -729,6 +778,21 @@ def main(argv: list[str]) -> int:
         return control(lane, work, "default-reason")
     if a.control_all_blocked:
         return control(lane, work, "all-blocked")
+    if a.fixture:
+        tree = fixture_tree(lane)
+        census = tree.read(CENSUS)
+        if not census:
+            raise SystemExit("SETUP census absent in fixture")
+        universe, ce, cc = parse_census(census)
+        all_members = sorted({m for ms in universe.values() for m in ms})
+        try:
+            doc = json.loads(tree.read(LEDGER), object_pairs_hook=_no_dupe_keys)
+        except ValueError as exc:
+            print(f"DEFECT LEDGER-DUPLICATE-KEY {exc}")
+            print("DEFECTS n=1")
+            print("PREDICATE R79-C1 fail")
+            return 1
+        return run(tree, universe, all_members, ce, cc, doc, verbose=not a.quiet)
     tree, universe, all_members, ce, cc, doc = load_lane(lane, a.rev)
     return run(tree, universe, all_members, ce, cc, doc, verbose=not a.quiet)
 

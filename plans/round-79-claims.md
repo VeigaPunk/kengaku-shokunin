@@ -144,3 +144,34 @@ check that passes at base is not a check and is `CHECK-TRIVIAL`'s sibling defect
   harness's own container/network model) and one `own-work` row for the population ledger; the
   reason taxonomy's overclaim is the round's mined mistake.
 - Census: `scripts/sources-census.sh validate --root … kengaku` at round start and round end.
+
+## Amendment A1 — added defect classes (2026-11-04, after the wave's attack reports)
+
+The frozen predicate, target tuple, three controls and kill rules are unchanged. Five attack findings
+from the wave (critic `CriticC1R79` §1, mutation-tester `MutantC1R79` M02/M06, sentinel `SentinelC1R79`
+§1, replay `C1ReplayR79`) proved the counter's `executed-unlocated` and `unexecuted` branches accepted
+evidence they had not established. Each fix below **adds a defect class**; none moves a target, a
+control or a kill rule, and each was verified against the attack that motivated it:
+
+- `RECEIPT-POPULATION` now also fires in the `executed-unlocated` branch (a receipt naming more than one
+  population member cannot be a per-member replay receipt). Kills the critic's strongest false positive
+  (88 docstring-only instruments + the census receipt → `replayed=88`): now `RECEIPT-POPULATION` ×64.
+- `UNLOCATED-FOREIGN-MEMBER` — an unlocated receipt naming exactly one member that is not the row's
+  member. Kills receipt substitution across members.
+- `GRADER-ABSENT` — an `unexecuted` row whose stored `tests/test_outputs.py` is missing: detector
+  silence over an absent file is not evidence. Kills the critic's "remove the bodies" attack (`×64`).
+- `EVIDENCE-SHA-MISMATCH` — the `no-blocker:` line must carry the stored body's real sha256 prefix.
+  Kills the "replace every hash with zeros" attack (`×57`).
+- `EVIDENCE-NOT-VERBATIM` — a blocker row's `evidence` must be a verbatim (whitespace-normalised)
+  substring of that member's own grader body, replacing the weaker token-presence check. Kills the
+  mutant `M02 foreign-blocker-evidence` (`×2`).
+- `LEDGER-DUPLICATE-KEY` — a duplicate JSON member key is a defect, not last-wins. Kills the mutant
+  `M06 duplicate-json-member`.
+- Reported, not predicated: `COVERAGE` now prints `covered_located=` beside `covered=`. The critic's
+  independent derivation is confirmed — 15 classes carry a located-or-unlocated replay claim, **13**
+  carry a located one; `signal-delivery` (1 of 1) and `numeric-band` (2 of 10) rest on unlocated
+  attribution alone. The claim is a population map, not new execution provenance; the report says so.
+
+Batteries after the amendment: `SELFTEST cases=16 red=15 failures=0`, `MUTANTS real=6 killed=6
+survived=0`, three controls `target_reached=False`; the after receipt is re-measured under the
+amended counter (`corpus/evidence/round79/c1-after.txt`).

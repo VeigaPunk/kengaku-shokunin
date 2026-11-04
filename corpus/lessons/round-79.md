@@ -97,6 +97,25 @@ fail at the base revision.
   whose detector is silent is `REASON-UNBACKED`, and an `unattempted` row whose detector fires is
   `REASON-UNDERSTATED`.
 
+## Wave findings that changed the instruments (Amendment A1)
+
+- The C1 counter's `executed-unlocated` branch accepted any receipt under the round with observations and
+  no subject stamp: the census receipt (which mentions all 88 members) plus 88 docstring-only instruments
+  reached `replayed=88, DEFECTS n=0`. The `unexecuted` branch accepted an absent grader body and any
+  `no-blocker:` text. Amendment A1 adds six defect classes and re-measures the after receipt
+  (`plans/round-79-claims.md` §Amendment A1). Two survivor mutations (`M02 foreign-blocker-evidence`,
+  `M06 duplicate-json-member`) and the "zero-hash" and "drop the bodies" attacks are now killed.
+- The C2 gate accepted a tracked recap file plus `test -f` as a repair (`ReviewerC2R79`). It now re-runs
+  every check in a tree where the row's evidence file is reverted to `660ec0b9` and requires the check to
+  fail there (`CHECK-NOT-REPAIR-SENSITIVE`), and requires the evidence file to carry the row's literal.
+  Residual limit, stated: a presence gate cannot prove a semantic repair; the non-author closure is the
+  authority for that.
+- Host surfaces for the reason codes (`RosterScoutR79`): a browser and matching chromedriver are present
+  (so `browser-required` prices a *lane-scope refusal*, not an absent surface), qemu and nginx are absent,
+  and `query-optimize`'s `golden.sql`/`oewn.sqlite` are in neither the capture nor the repo. All six
+  `executed-unlocated` probes are re-runnable today, but five write only a `REV` header and
+  `protein-assembly`'s writer has no `--receipt` option — a subject-stamped re-mint is round 80's work.
+
 ## Corrections (round-78 closure routed ids, discharged here)
 
 - **R78-D4** (citation metadata): the S254 quote is **15 words** (not 17) and sits at capture line

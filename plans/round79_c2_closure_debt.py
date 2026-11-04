@@ -51,6 +51,7 @@ ID_LINE = re.compile(r"^- \*\*(R\d+-D\d+) \(([a-z]+)\)", re.M)
 TRIVIAL = re.compile(r"^\s*(true|:|exit 0|echo .*|/bin/true)\s*$")
 STATUSES = ("open", "closed", "refused", "blocked")
 TIMEOUT = 180
+BASE_REV = "660ec0b905957100b4122f655dda08f56c5b8b21"  # round-79 base; the repair must fail here
 
 
 def git(lane: Path, *args: str) -> subprocess.CompletedProcess:
@@ -167,6 +168,7 @@ def check(tree: Tree, run_checks: bool = True) -> tuple[list[tuple[str, str]], d
             if not (1 <= n <= len(spot_lines)) or rid not in spot_lines[n - 1]:
                 defects.append(("SOURCE-LINE", f"{rid} line {n} does not carry it"))
         close = row.get("close")
+        literal = str(row.get("evidence_literal") or "")
         if status == "closed":
             stats["closed"] += 1
             if not isinstance(close, str) or not close.strip():
@@ -177,8 +179,11 @@ def check(tree: Tree, run_checks: bool = True) -> tuple[list[tuple[str, str]], d
                 named = re.search(r"([\w./-]+\.(?:md|py|txt|json|jsonl|sh))", close)
                 commit = re.search(r"\b([0-9a-f]{7,40})\b", close)
                 if named and tree.tracked(named.group(1)):
-                    if rid not in (tree.read(named.group(1)) or ""):
+                    ev_text = tree.read(named.group(1)) or ""
+                    if rid not in ev_text:
                         defects.append(("CLOSE-NOT-EVIDENCE", f"{rid} {named.group(1)} does not carry it"))
+                    elif literal and literal not in ev_text:
+                        defects.append(("EVIDENCE-LITERAL-ABSENT", f"{rid} {named.group(1)} lacks {literal!r}"))
                 elif commit:
                     proc = git(Path(tree.root), "merge-base", "--is-ancestor", commit.group(1), tree.tip)
                     if proc.returncode != 0:
@@ -206,8 +211,53 @@ def check(tree: Tree, run_checks: bool = True) -> tuple[list[tuple[str, str]], d
     return defects, stats, {"ids": ids, "detail": detail, "indexed": indexed}
 
 
-def run(tree: Tree, verbose: bool = True, run_checks: bool = True) -> int:
+def sensitivity(tree: Tree, rows: list[dict], ids: list[str], work: Path) -> list[tuple[str, str]]:
+    """Revert each row's evidence file to its BASE_REV content (or delete it when new) in a copy of
+    the tree and require the row's check to FAIL there. A check that still passes is not sensitive to
+    the repair it claims to test."""
+    defects: list[tuple[str, str]] = []
+    if tree.label == "fixture":
+        return defects
+    lane = Path(subprocess.run(["git", "-C", str(tree.root), "rev-parse", "--show-toplevel"],
+                               capture_output=True, text=True).stdout.strip() or ".")
+    cur = work / "sens-cur"
+    if cur.exists():
+        shutil.rmtree(cur)
+    shutil.copytree(tree.root, cur)
+    for row in rows:
+        rid = row.get("id")
+        if rid not in ids or row.get("status") != "closed":
+            continue
+        ev = str(row.get("evidence_path") or "")
+        cmd = str(row.get("check") or "")
+        if not ev or not cmd:
+            continue
+        target = cur / ev
+        saved = target.read_bytes() if target.is_file() else None
+        base = subprocess.run(["git", "-C", str(lane), "show", f"{BASE_REV}:{ev}"],
+                              capture_output=True, text=True)
+        if base.returncode == 0:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(base.stdout)
+        elif target.exists():
+            target.unlink()
+        ok, _tail = run_check(Tree(cur, "sens", tree.tip, None), cmd)
+        if ok:
+            defects.append(("CHECK-NOT-REPAIR-SENSITIVE", f"{rid} passes with {ev} at its base bytes"))
+        if saved is None:
+            if target.exists():
+                target.unlink()
+        else:
+            target.write_bytes(saved)
+    shutil.rmtree(cur)
+    return defects
+
+
+def run(tree: Tree, verbose: bool = True, run_checks: bool = True, work: Path | None = None,
+        rows: list[dict] | None = None, ids: list[str] | None = None) -> int:
     defects, stats, extra = check(tree, run_checks)
+    if run_checks and work is not None and rows is not None and ids is not None:
+        defects += sensitivity(tree, rows, ids, work)
     print(f"UNIVERSE spotcheck={SPOTCHECK} ids={stats['ids']} {','.join(extra['ids'])}")
     if verbose:
         for rid in extra["ids"]:
@@ -415,7 +465,9 @@ def main(argv: list[str]) -> int:
     if a.control_presence:
         return control(lane, work)
     tree = worktree_tree(lane) if a.rev in ("worktree", "", None) else rev_tree(lane, a.rev, work)
-    return run(tree, verbose=not a.quiet)
+    rows = load_rows(tree.read(ROUTED) or "")
+    ids = derive_ids(tree.read(SPOTCHECK) or "")
+    return run(tree, verbose=not a.quiet, work=work, rows=rows, ids=ids)
 
 
 if __name__ == "__main__":
