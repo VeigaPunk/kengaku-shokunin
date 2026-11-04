@@ -14,8 +14,8 @@ counter re-run at the new tip prints the same `SURFACES total=28 … DEFECTS n=0
 `TARGET total=28 unlisted=0 live=27 agree=28 disagree=0` / `PREDICATE R77-C1 pass`, rc 0.
 
 Method: every anchor below was probed by this seat with stdlib commands/scripts under the scratch root; the
-counter `plans/round77_c1_declared_surfaces.py` was **run** once for cross-check but **not imported** and its
-receipts were not trusted. `python3 plans/round77_c1_declared_surfaces.py --lane .` writes nothing without
+counter `plans/round77_c1_declared_surfaces.py` was **run** for cross-check (at the freeze and at the new tip) but
+**not imported**, and its receipts were not trusted. `python3 plans/round77_c1_declared_surfaces.py --lane .` writes nothing without
 `--receipt` (verified in `main()`), so the run left the lane unchanged.
 
 ---
@@ -147,20 +147,22 @@ the independent probe.
 TOOL_SHA 78f12c7ee63df6e81703f691fc8b1f2d7d60e03b76b67735507d1956ed90e44d
 ```
 
-and both carry `LANE_TIP 07c97fcd2fcca74f72df1d3c6b9dfe662fd75b59`. Observed:
-- the counter's sha256 at `HEAD` (`9ebb8ed1`) and in the worktree is
+and both carry `LANE_TIP 07c97fcd2fcca74f72df1d3c6b9dfe662fd75b59`. At tip `4f2ff9be` each receipt gained a
+`COMMAND` line naming the tool it runs; the `TOOL_SHA` line was not changed. Observed:
+- the counter's sha256 at the freeze (`9ebb8ed1`), at tip `4f2ff9be`, and in the worktree is
   `229b1713373ce28b68e1f77d668e7d8edb9da80b6a2ab2e904c39219574485b2` — not `78f12c7e…`;
 - `plans/round77_c1_declared_surfaces.py` does not exist at the receipts' own `LANE_TIP`
   (`git cat-file -e 07c97fcd:plans/round77_c1_declared_surfaces.py` → rc 128, "exists on disk, but not in
   '07c97fcd'"), so no committed tool bytes at that tip can carry that digest;
 - no file under `plans/`, `corpus/evidence/round77/`, `.ufo/waves/round-77/` has sha256 `78f12c7e…`
-  (bounded `find | sha256sum` scan, zero matches).
+  (bounded `find | sha256sum` scan, zero matches); both receipts carry the *same* stamp for *two different* tools,
+  which rules out "the executed tool's own digest".
 
 C1's frozen exec rule (`script exists` + receipt `exit 0` + `LANE_TIP` ancestor) never reads `TOOL_SHA`, so the
 C1 target is unaffected and this is **not** a C1 kill. But it is the R76-V1 failure shape sitting in round 77's
 own new evidence: a receipt stamp that names no reproducible tool. [INFERENCE] it is the digest of a pre-freeze
 draft of the counter that minted the receipts before the final commit. Worth the L1's decision: either re-mint
-with the landed counter (then `TOOL_SHA` re-derives at `9ebb8ed1`) or state in the receipt/lesson that the stamp
+with the landed counter (then `TOOL_SHA` re-derives at `4f2ff9be`) or state in the receipt/lesson that the stamp
 is a draft digest.
 
 ---
@@ -298,9 +300,9 @@ replace it with the measured 167. This is prose in the claims' Stated limits, no
 4. **Assimilation id sets**: registry 245, staged 175, collisions **167**; bare and 0–3-space patterns coincide
    (no indented id rows); adopt nothing.
 5. **Calibration flag (new evidence, outside C1's predicate)**: both round-77 exec receipts stamp
-   `TOOL_SHA 78f12c7e…`, which matches no tool at any revision (counter at HEAD = `229b1713…`; counter absent at
-   the receipts' `LANE_TIP 07c97fcd`). The C1 exec leg passes without reading it — the R76-V1 class recurs in
-   round 77's own receipts.
+   `TOOL_SHA 78f12c7e…`, which matches no tool at any revision (counter at `9ebb8ed1`/`4f2ff9be` = `229b1713…`;
+   counter absent at the receipts' `LANE_TIP 07c97fcd`). The C1 exec leg passes without reading it — the R76-V1
+   class recurs in round 77's own receipts.
 6. **Calibration flag (prose)**: round-66's implementing check for proposal 2 has flipped from 0 hits to
    non-zero purely because round 77 names the proposal; the claims' "~120-row renumber map" is not the measured
    167.
