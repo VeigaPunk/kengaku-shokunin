@@ -928,7 +928,11 @@ A row here indexes a file; it does not admit it — the held entries stay held.
 | `lessons/round-80.md` | Round 80 — the six `executed-unlocated` members become located, reproducible replays (R80-C1) and the round-79 spot-check's V1–V6 are discharged (R80-C2); Gate (S258), M80-1/M80-2 (the README row's old `M80-1` was one of R80-U6's two slips) | LOG.md round 80; plans/round-80-claims.md; `.ufo/waves/round-80/` |
 | `lessons/round-80-verifier-spotcheck.md` | Non-author closure of round 80: both claims re-derived at `507d249b`; six routed defects U1–U6 (a stale S258 anchor, a dirty-worktree after receipt, census counts without a producing command, a fix asserted but never shown failing, two unregistered gates, two evidence-prose slips) | closure of round 80 |
 | `lessons/round-81.md` | Round 81 — two `unattempted` population members gain located, reproducible replays with a host-pinned receipt (R81-C1) and the round-80 spot-check's U1–U6 are discharged (R81-C2); Gate (S259, S260, S261), M81-1/M81-2 | LOG.md round 81; plans/round-81-claims.md; `.ufo/waves/round-81/` |
-| `lessons/round-81-verifier-spotcheck.md` | Non-author closure of round 81: both claims re-derived at `ae03c4f6`; seven routed defects V1–V7 (a dirty-worktree C2 receipt, annotation miscounts, a knowledge entry without the provenance trio, a docstring/battery disagreement, a stray `--lane/` directory, a wave without a planner seat and with a dead mutation seat, a `determinism.txt` without a command) |
+| `lessons/round-81-verifier-spotcheck.md` | Non-author closure of round 81: both claims re-derived at `ae03c4f6`; seven routed defects V1–V7 (dirty-worktree receipt, annotation miscounts, provenance, battery disagreement, stray directory, wave mix, unstamped determinism) | closure of round 81; correction R82-V5 in lessons/round-83.md |
+| `lessons/round-82.md` | Round 82 — registry completeness, seven closure-debt repairs and the historical sweep-at-one-tip capability | LOG.md round 82; plans/round-82-claims.md |
+| `lessons/round-82-verifier-spotcheck.md` | Non-author closure of round 82: three claims verified; eight record defects V1–V8 routed | closure of round 82; lessons/round-83.md Corrections |
+| `lessons/round-83.md` | Round 83 — first code-from-image replay and eight outside record-mismatch repairs; Gate S267–S270, sourced rejects and mined mistakes | LOG.md round 83; plans/round-83-claims.md |
+
 ### Knowledge index rows (3)
 
 | Entry | Covers | Primary source |
@@ -938,6 +942,7 @@ A row here indexes a file; it does not admit it — the held entries stay held.
 | `knowledge/tb2-torch-tensor-parallel-offline.md` | The torch-tensor-parallelism TB2 grader replayed offline (R66-C1); the case table, the gloo world and the grader's own legs | S183 (`tests/test_outputs.py:18–25,43–211`); `corpus/evidence/round66/tensor/` |
 | `knowledge/tb2-file-artifact-replay-classes.md` | Two stdlib-only TB2 file-artifact graders replayed offline (12 cases each, 4 pass / 8 fail), the pinned subject capture, and the host pin a receipt needs | S260 (own-work instrument set); S261 (pinned task documents); S256 |
 | `knowledge/tb2-replay-sweep-at-one-tip.md` | The sweep-at-one-tip instrument (R82-C3): the frozen 26-member member→instrument map, the round-80 A2 projection reused unchanged, the three status classes, and what the gate refuses (`COMMAND-MISMATCH`, `NO-RUN`, `PROJECTION-UNCHECKED`, `VERIFY-MISMATCH`, `STAGED-WRITE`) | S262 (`tests/test.sh:18-27`), S263 (`nginx…/tests/test.sh:17-22`), S264 (rejected locator, 404) |
+| `knowledge/tb2-code-from-image-offline.md` | The two captured grader functions' exact-file acceptance surface, eight frozen end-state witnesses and the boundary between offline replay and solving an image task | S267; plans/round83-cases.json; corpus/evidence/round83/code-from-image-probe.txt |
 
 ### Evidence index rows (20)
 
@@ -963,7 +968,8 @@ A row here indexes a file; it does not admit it — the held entries stay held.
 - `corpus/evidence/round75/` — 8 files, 1 subdirectory (sources): round-75 receipts: c1 before/selftest/rowshuffle-control, c2 audit/mutants, stamp red-before, attribution control, selftest, both census captures and the S251 source capture.
 - `corpus/evidence/round76/` — receipts and the S252 capture: c1 before/selftest/mutants/control-declared, c2 before/selftest/selftest-git/mutants/control-status, both census captures, the round-74 tip receipts and `sources/git-merge-base.html`.
 - `corpus/evidence/round81/` — round-81 claim receipts: the C1 gate's before/battery/control/after runs, the two member probe receipts, the C2 check battery, the census row-count and U4 red-before receipts.
-- `corpus/evidence/round82/` — round-82 claim receipts: the freeze do-nothing controls (`freeze-controls.txt`), the census before/after, the sweep census of record (`sweep.txt`: 26 members, 18 reproduced / 7 diverged / 1 unrunnable, `WORKTREE clean` at `c804dd41`), and the three pinned TB2 grading-entry captures under `fetch/` (S262/S263), with the rejected `pyproject.toml` locator (S264).
+- `corpus/evidence/round82/` — round-82 claim receipts: freeze controls, the census-before receipt, and the sweep census of record (`sweep.txt`: 26 members, 18 reproduced / 7 diverged / 1 unrunnable, `WORKTREE clean` at `c804dd41`); pinned grading-entry captures under `fetch/` (S262/S263) and rejected `pyproject.toml` locator (S264). The missing historical census-after capture is supplied by round83 at `corpus/evidence/round83/r82-census-after.txt` (R82-V2).
+- `corpus/evidence/round83/` — frozen controls and initial census; first code-from-image replay and counter receipts; eight correction checks and base sensitivity; historical round-82 census/results/report-preservation evidence.
 
 ## Round-75 supporting artifacts (2026-11-04)
 

@@ -1310,3 +1310,7 @@ A witness at one granularity does not price the finer one.
   (AXES §Claim sizing: "re-scoring a rule the lane already holds on new inputs … is quality work, never
   coverage"). The sweep also carries the rider the proposal priced and never filed: per-task re-run
   stability, recorded as a measured flake rate. Round 81 states the rule and leaves the sweep to round 82.
+
+## Round83 criterion
+
+- **Q60 — correcting source annotations receive the same byte-derived count and per-row Gate check as original rows.** Round82 corrected S260/S261, then repeated the error in S262/S263 (6 instead of 4; 1 instead of 2) and omitted S265/S266 from its Gate. Grounding: `corpus/lessons/round-83.md` Mistakes and R82-V1/R82-V6; the outside `round-82-verifier-spotcheck.md` §6. Derive `len(quote.split())` from retained quoted bytes, state normalization explicitly, and enumerate the correcting rows' opened source/date/located quote. Preserve old immutable cells and correct through new supersede rows (Q34); never rewrite the filed lesson to make a historical annotation true. `plans/round83_c2_checks.py v1` extracts S268/S269's quote/count pairs; `v6` binds S265/S266 Gate entries individually. Their red-before and targeted-corruption evidence belongs in `corpus/evidence/round83/`, not a prose assurance that these checks could fail.
