@@ -9,4 +9,4 @@ Promotion to shokunin requires all of:
 - [~] Instructions executable by an agent without oral context
   corpus/lessons/round-8-aggregator-box3-coldrun.md:48
 - [~] No cross-domain bleed (PROVINCE.md still accurate)
-  PROVINCE.md:129
+  PROVINCE.md:151

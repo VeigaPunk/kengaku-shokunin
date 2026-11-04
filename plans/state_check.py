@@ -232,7 +232,7 @@ P3C_PINS = (
     (2, "LOG.md:7", 7, "round 4: executed first authored eval", None),
     (3, "corpus/lessons/round-8-aggregator-box3-coldrun.md:48",
      48, "## Box-3 verdict", None),
-    (4, "PROVINCE.md:129", 129, "### Adjacent", None),
+    (4, "PROVINCE.md:151", 151, "### Adjacent", None),   # re-pinned round 86: derived from PROVINCE.md bytes
 )
 P3D_TABLES = (
     ("round24", "Re-derived axis state, round 24", "| Axis | Round-24 value | Basis |"),
@@ -3654,9 +3654,10 @@ def write_p3_fixture(root: Path) -> None:
         "| State-assertion check (round 25) | `python3 plans/state_check.py` | "
         "exit 0 / exit 0 on landed tree (base `6180e4f`: exit 1, 10 mismatches) |",
     ]
-    while len(province_lines) < 128:
+    box4 = next(pin for pin in P3C_PINS if pin[0] == 4)
+    while len(province_lines) < box4[2] - 1:
         province_lines.append("")
-    province_lines.append("### Adjacent")
+    province_lines.append(box4[3])
     while len(province_lines) < P3_CORRECTION_FLOORS["PROVINCE.md"]:
         province_lines.append("")
     (root / "PROVINCE.md").write_text("\n".join(province_lines) + "\n", encoding="utf-8")
@@ -3693,7 +3694,7 @@ def write_p3_fixture(root: Path) -> None:
         "- [~] skill\n  SKILL.md\n"
         "- [~] log\n  LOG.md:7\n"
         "- [~] cold run\n  corpus/lessons/round-8-aggregator-box3-coldrun.md:48\n"
-        "- [~] province\n  PROVINCE.md:129\n"
+        f"- [~] province\n  PROVINCE.md:{box4[2]}\n"
     )
     (root / "SHONEN.md").write_text(shonen_text, encoding="utf-8")
 

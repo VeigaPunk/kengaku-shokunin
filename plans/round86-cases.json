@@ -1,0 +1,85 @@
+{
+  "member": "raman-fitting",
+  "class": "serialization-schema",
+  "case_class": "schema-drift",
+  "subject_capture": "corpus/evidence/round52/graders/raman-fitting/tests/test_outputs.py",
+  "subject_sha": "171fae772ccf262aec8ddac5bd2c6c731eed842421f5d8439a330b158c9f8c13",
+  "legs": ["test_result_file_exists", "test_G_Peak", "test_2D_Peak"],
+  "verdict_vocabulary": {
+    "P": "the captured test function returned without raising",
+    "F": "AssertionError or FileNotFoundError raised by the captured function",
+    "E": "any other exception raised by the captured function (schema violation surfaces as an uncaught error, not a graded assertion)"
+  },
+  "prediction_note": "Predicted vectors are derived by reading the captured grader source before the first execution; they are frozen with this table and never re-derived after observation.",
+  "cases": [
+    {
+      "id": "exact",
+      "why": "control: every value inside its band and every key present",
+      "predicted": "P/P/P",
+      "results": {
+        "G": {"x0": 1580.3, "gamma": 9.06, "amplitude": 8382.69, "offset": 5561.03},
+        "2D": {"x0": 2670.08, "gamma": 17.52, "amplitude": 12314.42, "offset": 1239.09}
+      }
+    },
+    {
+      "id": "missing-2D-key",
+      "why": "schema drift: the second top-level peak object is absent; data[\"2D\"] raises KeyError",
+      "predicted": "P/P/E",
+      "results": {
+        "G": {"x0": 1580.3, "gamma": 9.06, "amplitude": 8382.69, "offset": 5561.03}
+      }
+    },
+    {
+      "id": "g-amplitude-string",
+      "why": "schema drift: a numeric field arrives string-typed; 1 - A/A_expected raises TypeError",
+      "predicted": "P/E/P",
+      "results": {
+        "G": {"x0": 1580.3, "gamma": 9.06, "amplitude": "8382.69", "offset": 5561.03},
+        "2D": {"x0": 2670.08, "gamma": 17.52, "amplitude": 12314.42, "offset": 1239.09}
+      }
+    },
+    {
+      "id": "extra-schema-keys",
+      "why": "schema drift tolerated: extra nested and top-level keys are never read",
+      "predicted": "P/P/P",
+      "results": {
+        "G": {"x0": 1580.3, "gamma": 9.06, "amplitude": 8382.69, "offset": 5561.03, "unit": "cm-1"},
+        "2D": {"x0": 2670.08, "gamma": 17.52, "amplitude": 12314.42, "offset": 1239.09, "unit": "cm-1"},
+        "meta": {"tool": "lane-fixture", "schema": "raman/2"}
+      }
+    },
+    {
+      "id": "absent-file",
+      "why": "schema drift at the file boundary: no /app/results.json at all",
+      "predicted": "F/F/F",
+      "results": null
+    },
+    {
+      "id": "g-key-renamed",
+      "why": "schema drift: a required key is renamed inside the peak object; G[\"amplitude\"] raises KeyError",
+      "predicted": "P/E/P",
+      "results": {
+        "G": {"x0": 1580.3, "gamma": 9.06, "amp": 8382.69, "offset": 5561.03},
+        "2D": {"x0": 2670.08, "gamma": 17.52, "amplitude": 12314.42, "offset": 1239.09}
+      }
+    },
+    {
+      "id": "2D-null-value",
+      "why": "schema drift: a present key carries null; abs(1 - None/2670.08) raises TypeError",
+      "predicted": "P/P/E",
+      "results": {
+        "G": {"x0": 1580.3, "gamma": 9.06, "amplitude": 8382.69, "offset": 5561.03},
+        "2D": {"x0": null, "gamma": 17.52, "amplitude": 12314.42, "offset": 1239.09}
+      }
+    },
+    {
+      "id": "g-amplitude-just-outside",
+      "why": "numeric-band control, not schema: the 5% relative band is strict, amplitude 1.0501x fails",
+      "predicted": "P/F/P",
+      "results": {
+        "G": {"x0": 1580.3, "gamma": 9.06, "amplitude": 8802.662769, "offset": 5561.03},
+        "2D": {"x0": 2670.08, "gamma": 17.52, "amplitude": 12314.42, "offset": 1239.09}
+      }
+    }
+  ]
+}
