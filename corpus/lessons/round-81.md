@@ -97,5 +97,9 @@ instrument has a registry row; the class remaining is the one this round repaire
   instruments (they import the capture from `/cap/test_outputs.py` and call its test functions) and
   by the `TOOL_SHA` pin, not by the counter — named here so no later reader mistakes the counter for
   a proof of execution.
+- One scratch clone under `/fast/scratch/hyaku/kengaku-r81/ctl` was committed with a throwaway
+  identity to freeze the control state before measuring it; the commit never left the scratch tree
+  and touched neither the lane nor the fleet. Named because the round's own rules forbid throwaway
+  identities outside fixture repos.
 - `container-image` stays at `executed 0 of 0` (no member exists in the census) and 62 members stay
   `unexecuted`; the population gate's `covered=15` of 16 classes is the honest state.

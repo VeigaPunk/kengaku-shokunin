@@ -1,0 +1,17 @@
+# R81-C1 control: both ledger rows reverted to `unexecuted` in a scratch clone of the tip
+SOURCE_TIP f70fe5faa7dab4a73a83d38a49e06d423070558e (the clone was made from this master tip; the two ledger rows were reverted in the clone only, and this receipt measures the clone)
+WORKTREE clean
+COMMAND python3 plans/round81_c1_new_members.py --lane .
+EXIT 1
+--- stdout ---
+CANDIDATES n=11 rule=stdlib-only-unattempted-max-asserts asserts=5 code-from-image,count-dataset-tokens,crack-7z-hash,extract-moves-from-video,fix-ocaml-gc,gcode-to-text,log-summary-date-ranges,mteb-leaderboard,mteb-retrieve,sqlite-db-truncate,vulnerable-secret
+UNIVERSE members=2 log-summary-date-ranges,vulnerable-secret
+LOCATED log-summary-date-ranges receipt=corpus/evidence/round81/log-summary-date-ranges-probe.txt subject=tb2-header verdict=predicate
+LOCATED vulnerable-secret receipt=corpus/evidence/round81/vulnerable-secret-probe.txt subject=tb2-header verdict=predicate
+LEDGER-GATE rc=1 LEDGER rows=88 executed=24 unlocated=0 unexecuted=64
+DEFECT LEDGER-NOT-EXECUTED log-summary-date-ranges 'unexecuted'
+DEFECT LEDGER-NOT-EXECUTED vulnerable-secret 'unexecuted'
+DEFECT LEDGER-GATE-FAIL rc=1 LEDGER rows=88 executed=24 unlocated=0 unexecuted=64
+DEFECTS n=3
+TARGET members=2 located=2 reproduced=2 ledger_flipped=0 defects=3
+PREDICATE R81-C1 fail
