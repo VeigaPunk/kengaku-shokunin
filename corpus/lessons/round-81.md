@@ -89,5 +89,8 @@ instrument has a registry row; the class remaining is the one this round repaire
   pulled and no network is used inside the sandbox.
 - The `HOST_PYTHON`/`HOST_OPENSSL` pin is a capture-time fact: a later replay on a different
   interpreter is a different measurement and the gate says so rather than silently comparing.
+- `considerthese/2026-10-26.md` proposal 3 (batch sweep + class histogram) is mined as QUALITY Q59:
+  the sweep is a freshness instrument with a mandatory flake-rate rider, never a coverage claim; the
+  sweep itself is round-82 work.
 - `container-image` stays at `executed 0 of 0` (no member exists in the census) and 62 members stay
   `unexecuted`; the population gate's `covered=15` of 16 classes is the honest state.

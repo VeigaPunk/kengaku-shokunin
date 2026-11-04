@@ -1303,3 +1303,10 @@ A witness at one granularity does not price the finer one.
   `corpus/evidence/round81/r80-u4-red-before.txt` (exit 1, the module error verbatim) is that witness,
   and `plans/round81_c2_checks.py u4` fails when the receipt or this criterion is absent. Lesson:
   `corpus/lessons/round-81.md`.
+- **Q59 — a batch sweep of already-admitted graders is a freshness instrument, never coverage.** Mined
+  from `considerthese/2026-10-26.md` (2026-10-26) proposal 3: the cheap screen (oracle passes, nop fails,
+  byte-equal reruns) run across the admitted set in one sweep buys a *flake rate* and a class histogram,
+  not new ground — the members are already `executed`, so a sweep may not be declared as a coverage claim
+  (AXES §Claim sizing: "re-scoring a rule the lane already holds on new inputs … is quality work, never
+  coverage"). The sweep also carries the rider the proposal priced and never filed: per-task re-run
+  stability, recorded as a measured flake rate. Round 81 states the rule and leaves the sweep to round 82.
