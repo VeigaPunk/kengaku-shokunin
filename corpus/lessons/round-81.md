@@ -101,5 +101,11 @@ instrument has a registry row; the class remaining is the one this round repaire
   identity to freeze the control state before measuring it; the commit never left the scratch tree
   and touched neither the lane nor the fleet. Named because the round's own rules forbid throwaway
   identities outside fixture repos.
+- Wave findings that stay open, each with its disposition in
+  `corpus/evidence/round81/w1-findings.txt`: the `COMMAND` stamp is substring-validated (F2), the
+  universe reads captures from the checked tree rather than `BASE_REV` (F3), the stdlib-import test
+  is vacuously true for a zero-import capture (F4), the mint driver's post-probe guard is an OR and
+  its writes are not all-or-nothing (S1/S2). None of them changes this round's data; all are
+  round-82 work.
 - `container-image` stays at `executed 0 of 0` (no member exists in the census) and 62 members stay
   `unexecuted`; the population gate's `covered=15` of 16 classes is the honest state.

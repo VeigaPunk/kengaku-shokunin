@@ -1,0 +1,21 @@
+# Round-81 wave findings and their disposition
+
+Source reports (committed at the wave dir): `ReviewerC1R81.md`, `SentinelReceiptsR81.md`,
+`ConnectorR81.md`, `EnvPinR81.md`, `ScoutHostR81.md`. Every item below names the reviewer's own
+pointer and what the lane did with it. Nothing here changes a frozen predicate; a finding that
+would require a rule change is routed to round 82.
+
+| id | severity | finding | disposition |
+|---|---|---|---|
+| F1 | major | At tip `2fe3d8e6` the round-79 population gate exited 1 (`CLASS-K-MISMATCH file-artifact cell=16 of 76 ledger=18 of 76`) because the ledger flipped before the `SKILL.md` census cell was re-derived, so R81-C1's "population gate still exits 0" clause was false at that tip | **discharged in-round at `ad37cf36`** (cell re-derived to `18 of 76`); `corpus/evidence/round81/c1-after.txt` at `LANE_TIP 604be350` prints `LEDGER-GATE rc=0 … executed=26 unlocated=0`, and `gates-clean.txt` at `e7bc380f` prints `PREDICATE R79-C1 pass`, exit 0. The reviewer's snapshot predates the repair; the order of commits is the evidence |
+| F2 | medium | The receipt's `COMMAND` stamp is validated only by substring (`tool in COMMAND`); a receipt whose instruments genuinely re-ran can narrate any command and pass every member-level check | **limit, routed to round 82.** Fixing the gate after data would change the claim's rule post-freeze (§9). Next round: require the `COMMAND` to equal the counter's own reconstructed argv, or drop the free-text stamp from the predicate |
+| F3 | low | The universe derivation reads the round-52 captures from the checked tree, not from `BASE_REV`, so a future capture edit could silently move the universe | **limit, routed to round 82** (pin capture bytes at `BASE_REV`). Equivalent today: `git diff 4e833e9f..2fe3d8e6 -- corpus/evidence/round52/graders` is empty |
+| F4 | info | `imports_stdlib_only` is vacuously true for a zero-import capture | **limit**; no candidate is affected (the reviewer's independent set equals the counter's) |
+| S1 | medium | The mint driver's post-probe guard is an OR: a probe printing `mismatches=12` with a `PREDICATE … pass` line would still mint | **limit, routed to round 82** (require `mismatches=0` AND a pass predicate). Does not affect this round's data: both receipts print `cases=12 … mismatches=0` and contain no `MISMATCH ` line (`grep -c 'mismatches=0' corpus/evidence/round81/*-probe.txt` → 2) |
+| S2 | medium | The driver is not all-or-nothing: one member's success is written even when the other fails (exit 3) | **limit, routed to round 82** (stage all writes until `failed == 0`). This round minted 2/2 |
+| S3 | process | The wave's declared executor deliverable paths under `.ufo/waves/round-81/w1/` are empty: the L1 wrote the instruments at the frozen table's `plans/` paths first, so the executor seats were verification seats in practice | **named, not hidden.** The instruments are the frozen predicate's tools; writing them before the wave was the L1's call and the seats' independent replays are the check the wave still bought |
+| S4 | process | Several L1 scratch dirs under `$HYAKU_SCRATCH/kengaku-r81/` are not seat-named (`st`, `mu`, `ct`, `det`, …), against the round's own scratch rule | **named**; the dirs are deleted at round close (they hold nothing citable) |
+
+What the reviewer and sentinel could not break: the two stamps (every digest recomputed from three
+tips), the observations (both instruments replayed independently, 14/14 lines equal), the dirty-worktree
+refusal (two `git status` gates), and the ledger/receipt binding (`jq` count equals the gate's).

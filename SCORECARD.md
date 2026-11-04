@@ -3872,4 +3872,7 @@ member's instrument at one tip and emit a per-class histogram — as a *freshnes
 held ground), never as a coverage claim. (2) Audit the registry the other way: list `plans/*.py`
 instruments that are referenced by a claim and have no registry row, and land the rows (the R80-U5
 class, widened). (3) The round-80 plan item 4 is still open: the located-replay gate should verify the
-driver's own selftest battery at the measured tree, not only a receipt stamp.
+driver's own selftest battery at the measured tree, not only a receipt stamp. (4) The round-81
+wave's two medium findings: require a receipt's `COMMAND` to equal the counter's reconstructed argv
+(reviewer F2) and make the mint driver require `mismatches=0` **and** a pass predicate and stage all
+writes until `failed == 0` (sentinel S1/S2); pin the universe's capture bytes to `BASE_REV` (F3).
