@@ -1,5 +1,5 @@
-LANE_TIP 42d9d60a32d4fee74297c16ba6b5dc1b8ade9f4a
-WORKTREE dirty
+LANE_TIP e560695c9fdd3e19605e44c527dd1f635fe6ec9c
+WORKTREE clean
 DEFECT-IDS R78-D6
 ## python3 grader.py
 CHECKS n=733 mismatches=0 errata_pinned=1
@@ -27,7 +27,7 @@ DEFECTS n=0
 PREDICATE R74-C2 pass
 EXIT 0
 ## python3 plans/round75_c1_index_parity.py --lane .
-WORKTREE dirty
+WORKTREE clean
 UNIVERSE knowledge files=74 indexed=74 missing=0 orphan=0
 UNIVERSE lessons files=131 indexed=131 missing=0 orphan=0
 UNIVERSE evidence dirs=70 indexed=70 missing=0 orphan=0
@@ -41,12 +41,12 @@ AGREE agree=11 disagree=0
 PREDICATE R76-C1 pass
 EXIT 0
 ## python3 plans/round76_c2_defect_discharge.py --lane .
-DEFECT NO-EVIDENCE-FIELD R78-D6
-DEFECT NO-VERIFIED-AT R78-D7
-DEFECT NO-CLOSE-COMMIT R78-D7
-DEFECT NO-EVIDENCE-FIELD R78-D7
-PREDICATE R76-C2 fail
-EXIT 1
+LEDGER R78-D5 ok closed close_commit=42d9d60a32d4
+LEDGER R78-D6 ok closed close_commit=e2d418ca9e95
+LEDGER R78-D7 ok closed close_commit=42d9d60a32d4
+SCOPE ids=7 registered=7 closed=7 open=0 discharged=7 legs_passed=7 legs_pending=0 wrong=0
+PREDICATE R76-C2 pass
+EXIT 0
 ## python3 plans/round77_c1_declared_surfaces.py --lane .
 AGREE agree=28 disagree=0
 DEFECTS n=0
@@ -63,23 +63,23 @@ PREDICATE R77-C2 pass
 EXIT 0
 ## python3 plans/round79_c1_population_ledger.py --lane . --quiet
 LEDGER rows=88 executed=18 unlocated=6 unexecuted=64
-COVERAGE replayed=24 covered=15 uncovered=container-image census_covered=12
+COVERAGE replayed=24 covered=15 covered_located=13 uncovered=container-image census_covered=12
 DEFECTS n=0
 TARGET classes=16 members=88 pairs=230 replayed=24 located=18 unlocated=6 unexecuted=64 unaccounted=0 unbacked=0 understated=0 covered=15
 PREDICATE R79-C1 pass
 EXIT 0
 ## python3 plans/round79_c2_closure_debt.py --lane . --quiet
-DEFECT CLOSE-UNRESOLVED R78-D6 'corpus/evidence/round79/gates-clean.txt (gate block re-run in a clean clone at the round-79 tip)'
-DEFECT CHECK-FAIL R78-D6 rc=1
-DEFECTS n=4
-TARGET ids=7 closed=7 checks_passed=5 indexed=yes
-PREDICATE R79-C2 fail
-EXIT 1
+DEBT-TOTAL ids=7 registered=7 closed=7 checks_passed=7
+INDEX corpus/lessons/round-78-verifier-spotcheck.md indexed=yes
+DEFECTS n=0
+TARGET ids=7 closed=7 checks_passed=7 indexed=yes
+PREDICATE R79-C2 pass
+EXIT 0
 ## python3 plans/routed_open.py --lane .
 ROWS total=105 open=31 blocked=1 closed=71 refused=2
 routed_open=32 oldest_round=39
 EXIT 0
-## RETIRED python3 plans/round78_c1_class_member_ledger.py --lane . (superseded by round79-c1-population-ledger; universe rule now selects the 88-member population)
-## at its own tip:
+## RETIRED python3 plans/round78_c1_class_member_ledger.py --lane . (superseded by round79-c1-population-ledger)
+## the retired gate at its own tip 148801a6:
 SETUP unresolved revision 'worktree'
 EXIT 1
