@@ -2788,3 +2788,31 @@ sources-adopt selftest0, staging scan0 (55 files, no hits). These are engineerin
 original-claim admissions. Security repair preserves caller canaries in both fixture modes
 (`cleanup-after.txt` plus final checks). End census rc0, rows241, W04 warnings25.
 All sixteen wave outputs settled before integration/report; no dead-seat note reported.
+
+## Round 74 (hyaku run 15, attempt 1, 2026-11-04)
+
+- **Trigger → action → outcome.** Round 73's audit survived 13 of 16 adversarial fixtures
+  (malformed rows silently dropped, unbacked entry flags, contradictory errata revisions)
+  and its gate self-advertised every registry row through `SKILL.md` whole-file scanning.
+  Round 74 froze two claims against the projected registered tree (Q54): R74-C1 decouples
+  advertised-universe discovery from the registry block and fixes hyphenated-path regex
+  matching; R74-C2 hardens the declaration audit with named MALFORMED-ROW defects, entry
+  flag verification, self-test runner existence checks and all-items errata consistency.
+  Both admitted on their frozen predicates; scores held (coverage 7 L0-capped, calibration 10).
+- **Verification boundary.** Commands and direct exit codes in
+  `corpus/evidence/round74/`: c1 before (legacy rc1), c1 after (decoupled rc0, 116/116),
+  c1 selftest (cases=4 failures=0), c1 control decoupled (MISSING 1 rc1) vs legacy
+  (MISSING 0 false green), c2 red-before (r73 rc0 vs r74 rc1 on the same 9-cell fixture),
+  c2 after (MISMATCH 0 rc0), c2 selftest arms=4 red=3, c2 mutants 7/7 killed,
+  c2 discriminating rerun, census 241→242 rc0 both ends (W04 warnings 25 both ends).
+  Amendment A1 (74e2e15) corrects the claims-doc Before prose to the committed receipt;
+  control receipt regenerated from the plans/*.md-only advertisement fixture.
+- **Learning.** Lesson `corpus/lessons/round-74.md`: Gate (S250 admit + reject/flip),
+  Mistakes M74-1…7, wave integration (4 returned seats, 12 dead seats named), controls,
+  census. QUALITY.md gains no new criterion this round (M74-6/M74-7 are Q50/Q46 applications).
+- **Held entries unchanged.** `registry-argv-and-flag-audit.md` (new, admission: hold),
+  `instrument-registry-derivation.md`, `tb2-hf-model-inference-offline.md`,
+  `tb2-hf-model-inference-provenance.md` — all four confirmed held by EntryFalsifyR74.
+- **Frontier.** S250 (Python 3.15.2 argparse docs) opened live with capture + sha256 +
+  located quote; used-by the round-74 lesson and the held argv/flag candidate.
+  Assimilation: none. L0 questions carried unchanged: kengaku rounds25/33/51,54,56,63,65,66,67.

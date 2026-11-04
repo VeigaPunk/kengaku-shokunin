@@ -1,6 +1,7 @@
 source: S249 (corpus/SOURCES.md) — Python ast documentation — https://docs.python.org/3/library/ast.html#ast.parse; supporting anchors #ast.PyCF_ONLY_AST and #ast.walk; captured passages and live-fetch provenance: corpus/evidence/round73/sources/ast-anchor.md, sections “Grounding” and “ast.walk anchor”.
 verified-at: 2026-11-04 UTC, round-73 freeze/base d96c3e62fd01771718368688c2685dceeef5b83e; freeze declaration: plans/round-73-claims.md opening. This identifies the declared base, not an independently verified landing tip.
 recheck: on-release — From the lane root: python3 plans/round52_c2_registry.py --lane . ; python3 plans/round73_c2_registry_audit.py --lane . ; compare complete output and exit codes with plans/round-73-claims.md, not merely the final predicate token; source recheck: corpus/evidence/round73/sources/ast-anchor.md §Reproduction.
+writer: KnowledgeEntryR73 (seat draft; L1 KengakuR73 integration) — named per corpus/lessons/round-73.md §Gate.
 
 admission: hold — requires a qualifying second-seat reread satisfying corpus/QUALITY.md Q10/Q13/Q14; no admission is inferred from structural audit output.
 

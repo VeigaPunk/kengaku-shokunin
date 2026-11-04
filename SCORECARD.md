@@ -3334,3 +3334,40 @@ audit114 retained scripts / mismatch0 rc0; selected mutants7 killed7 with null1.
 Both fixture modes preserve caller files after the security repair. Census240→241 rows,
 exit0 at both ends, warnings25 at both ends (`census-before.txt`, `census-after.txt`).
 Original verdicts remain not admitted; these measurements increment neither axis.
+
+## Round 74 (hyaku run 15, attempt 1, 2026-11-04): decoupled advertised-universe gate (R74-C1) and hardened registry declaration audit (R74-C2)
+
+Base `b7910802549978404218937d4be6a75acae0e020`; freeze `f4d651c5162d96f0d8d3b57a7b78818ad8e6f8e8`;
+Amendment A1 `74e2e15abab4095f7b94f171a837f8b913d58a1f`; integration lands this section.
+
+| claim / axis | before → after | counting command / evidence | verdict / delta |
+|---|---|---|---|
+| R74-C1 / coverage (lowest owned non-retired axis, L0-capped at 7) | before (legacy control, `c1-before.txt`): `UNIVERSE mode=legacy`, `ADVERTISED 115`, `MISSING 0`, `PREDICATE R74-C1 fail`, rc 1 — legacy self-advertises every registry row, masking incompleteness; the five round-73-missing rows are now registered, so legacy cannot fail on them (A1) → after: `UNIVERSE mode=decoupled files=136 plans_seen=90`, `ADVERTISED 116`, `REGISTERED 116 rows=116`, `MISSING 0`, `INCOMPLETE 0`, `ENTRY-MISSING 0`, `SELFTEST-UNBACKED 0`, `DUPLICATE 0`, `PREDICATE R74-C1 pass`, rc 0 (`c1-after.txt`) | `python3 plans/round74_c1_registry.py --lane .` | **admitted on its frozen predicate**; coverage held at **7** (L0 cap) |
+| R74-C2 / calibration (held at ceiling 10, exercised) | before (discriminating fixture, `c2-red-before.txt`): round-73 audit prints `MISMATCH 0`, rc 0 on a 9-cell malformed row (silent skip); round-74 audit prints `MALFORMED defect n=1`, `MISMATCH 1`, `PREDICATE R74-C2 fail`, rc 1 on identical bytes → after: `INSTRUMENTS total=116`, `PARSED 116 failed=0`, `D1–D4 ok n=0`, `MALFORMED ok n=0`, `MISMATCH 0`, `DEFECTS n=0`, `PREDICATE R74-C2 pass`, rc 0 (`c2-after.txt`); `--selftest` arms=4 red=3 ok=True; `--mutants` total=7 killed=7 survived=0 (`c2-controls.txt`) | `python3 plans/round74_c2_registry_audit.py --lane .` | **admitted on its frozen predicate**; calibration held at **10**, exercised |
+
+**Corrections landed in-round (each with a re-deriving check).** (1) Amendment A1 (74e2e15)
+corrects the R74-C1 Before prose from round-73-era numbers (110/5) to the committed receipt's
+actual legacy state (115/0); predicate, target, control and kill rule unchanged — verified
+byte-identical by C1GateReplayR74. (2) `c1-control-decoupled.txt` regenerated from a
+plans/*.md-only advertisement fixture after C1DecoupledAuditR74's MEDIUM finding: decoupled
+`MISSING 1` rc 1 vs legacy `MISSING 0` `PREDICATE R52-C2 pass` (the frozen false green).
+(3) Q1 triad (`verified-at`/`recheck`/`writer`) added to the round-74 held candidate; writer line
+added to the round-73 held candidate; both EntryFalsifyR74 LOW findings closed in-tree.
+(4) Round-74 lesson earlier-held line now names the provenance entry (EntryFalsifyR74 INFO).
+
+**Wave findings (reported, not smoothed).** 12 of 16 seats settled with empty output (dead
+seats, named in the lesson); the 4 returned seats independently confirmed both frozen
+predicates, the 8-field conformance of both new registry rows, the discriminating red at the
+pre-landing tip, and the held-admission state of all four candidate entries. Residual LOW
+notes recorded in the lesson: the lone hyphenated evidence path is a regex literal; the
+registry-block boundary anchors on the next `\n## ` heading (no fenced `## ` line exists in
+the block today); both new rows are advertised only via `plans/round-74-claims.md`.
+
+**Scores.** coverage **7** (held; claim passed, axis at its L0 cap), calibration **10** (held,
+exercised), operability **10** (held; two new in-repo gates run green with selftest+mutant
+batteries), depth **10** (held; S250 + held entry + 5 Mistakes rows), freshness **10** (held;
+S250 fetched live with capture + sha256), adjacency **9** (held; sibling scan seat died —
+no new arbitrations), novelty **8** (held; instrument repair, no new construct claimed —
+`--clearenv`-style restoration of known shapes, said so honestly).
+**No axis harmed:** the round's lane diff is append-only plus in-place corrections documented
+above (`git diff --numstat b7910802 master` deletion column is 0 on this round's files).

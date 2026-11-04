@@ -5,6 +5,9 @@ category: craft
 source_ids:
   - S250
 last_compiled: 2026-11-04
+verified-at: 2026-11-04 (L1 live fetch, HTTP 200; capture sha256 ad9095cdaa99c953046f510d6cd86cd6f7a1086c5aa35743c26e3fa41e4b5b8d)
+recheck: on-release
+writer: KengakuR74 (L1)
 admission: hold
 ---
 

@@ -1,0 +1,104 @@
+{
+ "lane": "kengaku",
+ "round": 74,
+ "wave": "w1",
+ "seats": 16,
+ "results": [
+  {
+   "name": "C1GateReplayR74",
+   "agent": "executor",
+   "output": "{\n  \"files_changed\": [\n    \".ufo/waves/round-74/w1/C1GateReplayR74.md\"\n  ],\n  \"verdict\": \"R74-C1 frozen predicate independently confirmed at lane tip 74e2e15a\",\n  \"evidence\": {\n    \"decoupled_gate\": \"UNIVERSE mode=decoupled files=136 plans_seen=90 self_advertising_prevented=True; ADVERTISED total=116; REGISTERED total=116 rows=116; MISSING 0; INCOMPLETE 0; ENTRY-MISSING 0; SELFTEST-UNBACKED 0; DUPLICATE 0; PREDICATE R52-C2 pass; PREDICATE R74-C1 pass; rc=0 \u2014 byte-identical to corpus/evidence/round74/c1-after.txt\",\n    \"selftest\": \"clean-decoupled, decoupled-missing, anti-circular, legacy-control all ok; SELFTEST cases=4 failures=0; rc=0 \u2014 byte-identical to c1-selftest.txt\",\n    \"legacy_control\": \"UNIVERSE mode=legacy files=78 plans_seen=0; ADVERTISED total=115; REGISTERED total=115 rows=116; MISSING 0; PREDICATE R74-C1 fail; rc=1 \u2014 byte-identical to c1-before.txt and to Amendment A1's stated numbers\"\n  },\n  \"discrepancy\": \"Seat-item prose 'MISSING 5' matched neither live runs nor any committed tree state (b7910802: 113/0; f4d651c5: 113/0); resolved by Amendment A1 (74e2e15a) which supersedes the round-73-era 110/5 prose with receipt-backed 115/0 \u2014 this seat's measurement confirms A1 exactly\",\n  \"risks\": [\n    \"Live tree carries an uncommitted in-flight SKILL.md amendment (+3/-1: round74-c1/round74-c2 registry rows + coverage_census.py advertisement) authored by a sibling seat; it is exactly what makes the working tree reproduce the committed c1-after receipt\"\n  ],\n  \"blockers\": [],\n  \"checks_for_main\": [\n    \"Optional: re-run the three commands after the wave lands to confirm the SKILL.md amendment commits without drift (tip was 74e2e15a + dirty SKILL.md at measurement time)\"\n  ]\n}",
+   "note": null
+  },
+  {
+   "name": "C1DecoupledAuditR74",
+   "agent": "reviewer",
+   "output": "{\n  \"seat\": \"C1DecoupledAuditR74\",\n  \"round\": \"74 w1\",\n  \"scope\": \"audit of decoupled discovery in plans/round74_c1_registry.py (R74-C1)\",\n  \"verdict\": \"All four audit items PASS; no counter defect found. One MEDIUM receipt-fidelity finding.\",\n  \"items\": {\n    \"1_registry_block_excluded\": \"PASS \u2014 decoupled scan = SCORECARD.md, LOG.md, corpus/README.md, SKILL.md (outside registry), corpus/knowledge/*.md (79), plans/*.md (36) = 136 sources; outside text byte-equals full SKILL.md minus block span (heading at line 587, block ends line 805); none of 116 data rows leaks verbatim into scanned texts; heading and in-block prose note absent from outside text; legacy scans SKILL.md whole (control asymmetry confirmed).\",\n    \"2_phantom_no_self_advertising\": \"PASS \u2014 block-final fixture: phantom row parsed (rows=5), registered, NOT advertised, MISSING 0, ENTRY-MISSING 0; ghost row (absent file) registered, not advertised, ENTRY-MISSING 1; row inside block before a trailing heading = registered/not advertised; same line after a trailing section = prose/advertised (consistent heading-anchored semantics).\",\n    \"3_row_removal_missing_1\": \"PASS \u2014 fixture leg (tool_b advertised only via plans/*.md): decoupled MISSING 1 rc 1; legacy drops it from adv AND reg (MISSING 0, PREDICATE R52-C2 pass = the frozen false green). Real-lane leg on byte-identical scratch cp -a copy: dropping the single `round74-c2` row (SKILL.md line 707, only mention of round74_c2_registry_audit.py in SKILL.md) makes the frozen command print MISSING 1 + '  MISSING plans/round74_c2_registry_audit.py', REGISTERED total=115 rows=115, rc 1; legacy on same copy prints MISSING 0 (false green).\",\n    \"4_hyphenated_paths\": \"PASS \u2014 CMD matches corpus/evidence/round13-coverage/coverage_census.py (CMD_LEGACY does not) and hyphenated file names under plans/; live decoupled adv contains census (sources: SKILL.md outside registry + plans/round-74-claims.md), legacy does not.\"\n  },\n  \"predicate_spotcheck\": \"Live tip 74e2e15: frozen command prints UNIVERSE mode=decoupled files=136 plans_seen=90, ADVERTISED total=116, REGISTERED total=116 rows=116, MISSING 0, INCOMPLETE 0, ENTRY-MISSING 0, SELFTEST-UNBACKED 0, DUPLICATE 0, PREDICATE R74-C1 pass, rc 0; --selftest prints SELFTEST cases=4 failures=0 rc 0. --universe legacy live: files=78, ADVERTISED total=115, REGISTERED total=115 rows=116, MISSING 0, R52-C2 pass, R74-C1 fail, rc 1 \u2014 matches Amendment A1 and receipt corpus/evidence/round74/c1-before.txt exactly (legacy 115/116 gap = hyphenated census row invisible to legacy regex).\",\n  \"findings\": [\n    {\n      \"severity\": \"MEDIUM\",\n      \"finding\": \"Committed control receipt corpus/evidence/round74/c1-control-decoupled.txt does NOT demonstrate the frozen control's legacy false-green leg: its legacy arm prints ADVERTISED total=3, REGISTERED total=2 rows=2, MISSING 1, PREDICATE R52-C2 fail, rc 1 (legacy DETECTS the drop) because that fixture advertises plans/tool_b.py from a legacy-scanned file (decoupled arm shows files=4 plans_seen=0, so no plans/*.md advertisement). The false green is real and I reproduced it with a plans/*.md-only-advertisement fixture, but the receipt evidences a weaker case and contradicts the control sentence on its face. Kill rule does not reference the control receipt, so the claim is not failed; recommend L1 regenerate or annotate the receipt.\"\n    },\n    {\n      \"severity\": \"LOW residual\",\n      \"finding\": \"CMD hardcodes the lone hyphenated evidence path; [A-Za-z0-9_.-]+ is general only under plans/. A future corpus/evidence/<other-hyphen-dir>/x.py instrument is invisible in BOTH universes (probe returned None). Satisfied for the frozen grounding set.\"\n    },\n    {\n      \"severity\": \"LOW residual latent\",\n      \"finding\": \"Registry block boundary = next '\\\\n## ' heading; a '## '-prefixed line inside a fenced code block within the section would truncate the block (tail rows unparsed, tail prose scannable = potential circular-leak path). Not present live (no fences between SKILL.md lines 587-804; 116 rows parsed).\"\n    },\n    {\n      \"severity\": \"NOTE\",\n      \"finding\": \"round74_c1/c2 commands appear in SKILL.md only inside their registry rows (lines 706/707); their entire decoupled advertisement comes from plans/round-74-claims.md. If that grounding string is reworded away, dropping the corresponding row becomes undetectable by MISSING (adv and reg both lose it). Inherent to anti-circular design.\"\n    },\n    {\n      \"severity\": \"NOTE\",\n      \"finding\": \"verdict() rc is always 1 under legacy (R74-C1 leg requires decoupled+plans_seen>=1); the control's 'falsely remaining green' = MISSING 0 + PREDICATE R52-C2 pass, matching Amendment A1 and c1-before.txt (rc=1).\"\n    },\n    {\n      \"severity\": \"NOTE\",\n      \"finding\": \"parse_rows silently drops non-8-column lines in C1; malformed rows are R74-C2's MALFORMED-ROW class (no gap in the C1+C2 pair), and a malformed row for an advertised instrument still yields C1 MISSING 1.\"\n    }\n  ],\n  \"residual_risk_and_gaps\": \"R74-C2 script internals out of scope beyond the C1 side of its registry row. c1-before.txt verified against live legacy run; c1-control-decoupled.txt mismatch documented (MEDIUM); other receipts not re-executed. Clone at cea7ebf3 went stale when A1 (74e2e15) landed; real-lane leg used a refreshed byte-identical cp -a working-tree copy instead of rule-4's git clone (lane never mutated; deviation documented in report).\",\n  \"report\": \".ufo/waves/round-74/w1/C1DecoupledAuditR74.md\",\n  \"cleanup\": \"Scratch /fast/scratch/hyaku/kengaku-r74/C1DecoupledAuditR74/ removed; no lane files modified by this seat.\"\n}",
+   "note": null
+  },
+  {
+   "name": "C1CriticR74",
+   "agent": "critic",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "C2AuditReplayR74",
+   "agent": "executor",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "C2BlindSpotR74",
+   "agent": "mutation-tester",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "C2CriticR74",
+   "agent": "critic",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "RegistryReviewerR74",
+   "agent": "reviewer",
+   "output": "{\n  \"seat\": \"RegistryReviewerR74\",\n  \"item\": \"8-field review of round74-c1/round74-c2 SKILL.md rows\",\n  \"report\": \".ufo/waves/round-74/w1/RegistryReviewerR74.md\",\n  \"matrix\": {\n    \"round74-c1\": {\n      \"columns_8\": \"pass\",\n      \"kind_gate\": \"pass\",\n      \"entry_resolves_parses\": \"pass (plans/round74_c1_registry.py exists, ast.parse clean, committed at tip cea7ebf3)\",\n      \"verdict_map_0_1\": \"pass (0 pass / 1 fail / 2 setup; rc 0/1 from verdict(), rc 2 SETUP ERROR)\",\n      \"selftest_works\": \"pass (SELFTEST cases=4 failures=0, rc 0)\",\n      \"pinned_and_scope_accurate\": \"pass (pinned universe = decoupled doc set per :51,:72-99; read-only verified: no writes, selftest uses tempfile.TemporaryDirectory)\",\n      \"owner_kengaku\": \"pass\"\n    },\n    \"round74-c2\": {\n      \"columns_8\": \"pass\",\n      \"kind_gate\": \"pass\",\n      \"entry_resolves_parses\": \"pass (plans/round74_c2_registry_audit.py exists, ast.parse clean, committed)\",\n      \"verdict_map_0_1\": \"pass (0 pass / 1 fail / 2 setup; rc 0/1 from verdict(), rc 2 SETUP ERROR)\",\n      \"selftest_works\": \"pass (SELFTEST arms=4 red=3 ok=True, rc 0; --mutants: total=7 killed=7 survived=0 null_detected=1, rc 0)\",\n      \"pinned_and_scope_accurate\": \"pass (pinned fields match COLUMNS/KINDS/OWNER_PREFIX/ERRATUM_ITEMS=2 at :52-58; read-only in lane + owned --work child with rmtree finally verified)\",\n      \"owner_kengaku\": \"pass\"\n    }\n  },\n  \"executed\": [\n    \"c1+ c2 --selftest pass, outputs byte-match frozen sentences\",\n    \"c2 --mutants 7/7 killed rc 0\",\n    \"working-tree entry runs: c1 116/116 MISSING 0 PREDICATE R74-C1 pass rc 0; c2 rows=116 PARSED 116 MISMATCH 0 DEFECTS n=0 PREDICATE R74-C2 pass rc 0 \u2014 equal to frozen after-targets\",\n    \"shared clone at tip cea7ebf3: c1 red MISSING 2 (round74 scripts advertised, rows uncommitted), c2 rows=114 rc 0\"\n  ],\n  \"findings\": {\n    \"blocking\": [],\n    \"low\": [\n      \"Rows exist only in working tree (lane has ' M SKILL.md'); landing-tip 116/116 predicate requires the rows land in the integration commit\",\n      \"verdict-map labels pass/fail/setup vs standard's clean/failed/could-not-evaluate \u2014 codes 0/1/2 all declared, 2 factually maps to could-not-evaluate; cosmetic\",\n      \"c2 row self-test pins --work to shared scratch root /fast/scratch/hyaku/kengaku-r74 (no seat subdir); safe (owned child + rmtree, default .../c2-audit) but seats should substitute their subdir\"\n    ]\n  },\n  \"gaps\": [\n    \"rc-2 setup path source-verified, not executed\",\n    \"c2 selftest run with seat subdir under pinned root, not literal shared-root path\",\n    \"--universe legacy control not re-run (covered by committed receipt corpus/evidence/round74/c1-before.txt)\",\n    \"landing-tip 116/116 measured on working tree; re-derive at tip post-integration\"\n  ],\n  \"cleanup\": \"scratch /fast/scratch/hyaku/kengaku-r74/RegistryReviewerR74 removed; no lane mutations; no installs\"\n}",
+   "note": null
+  },
+  {
+   "name": "SourcesArgparseR74",
+   "agent": "scout",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "KnowledgeEntryR74",
+   "agent": "scribe",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "LessonR74",
+   "agent": "scribe",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "SiblingConnectorR74",
+   "agent": "connector",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "CredentialSentinelR74",
+   "agent": "sentinel",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "RoundStateScoutR74",
+   "agent": "scout",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "EntryFalsifyR74",
+   "agent": "reviewer",
+   "output": "{\n  \"seat\": \"EntryFalsifyR74\",\n  \"role\": \"reviewer\",\n  \"lane_tip_audited\": \"cea7ebf37df3e3e7ecf3d9e375f4e35d35c0cd30\",\n  \"report\": \".ufo/waves/round-74/w1/EntryFalsifyR74.md\",\n  \"primary_finding\": \"All four audited entries carry admission: hold and no later round admits any of them\",\n  \"entries\": [\n    {\n      \"file\": \"corpus/knowledge/tb2-hf-model-inference-offline.md\",\n      \"admission_line\": \":6 admission: hold \u2014 QUALITY Q13/Q14 second-seat re-read not on record\",\n      \"corroboration\": [\n        \"corpus/lessons/round-71.md:63-67 Admission status HOLD\",\n        \"corpus/lessons/round-71-verifier-spotcheck.md:159-161\",\n        \"corpus/lessons/round-73.md:33-36\",\n        \"corpus/lessons/round-74.md:23\",\n        \"LOG.md:2673\"\n      ]\n    },\n    {\n      \"file\": \"corpus/knowledge/tb2-hf-model-inference-provenance.md\",\n      \"admission_line\": \":6 admission: hold \u2014 not on record from a w2/falsify registry\",\n      \"corroboration\": [\n        \"corpus/lessons/round-72.md:11-12 and :102-107 HOLD\",\n        \"corpus/lessons/round-72-verifier-spotcheck.md:166-169\",\n        \"corpus/lessons/round-73.md:33-36\"\n      ]\n    },\n    {\n      \"file\": \"corpus/knowledge/instrument-registry-derivation.md\",\n      \"admission_line\": \":5 admission: hold \u2014 qualifying second-seat reread per Q10/Q13/Q14 required\",\n      \"corroboration\": [\n        \"corpus/lessons/round-73.md:29-32\",\n        \"corpus/lessons/round-74.md:23\"\n      ]\n    },\n    {\n      \"file\": \"corpus/knowledge/registry-argv-and-flag-audit.md\",\n      \"admission_line\": \":8 frontmatter admission: hold; body \u00a73 names outside non-author spot-check per Q13/Q14\",\n      \"corroboration\": [\n        \"corpus/lessons/round-74.md:22\",\n        \"corpus/SOURCES.md:266 S250 tier A used-by this entry\"\n      ]\n    }\n  ],\n  \"additional_findings\": [\n    {\n      \"severity\": \"LOW\",\n      \"finding\": \"registry-argv-and-flag-audit.md lacks the Q1 triad lines verified-at:/recheck: and a writer: line (0 grep hits), unlike its three held peers; [INFERENCE] blocks Q1/Q13 at any future admission motion, nothing now\"\n    },\n    {\n      \"severity\": \"LOW\",\n      \"finding\": \"instrument-registry-derivation.md has Q1 triad but no writer: line (writer named only in round-73 lesson prose)\"\n    },\n    {\n      \"severity\": \"INFO\",\n      \"finding\": \"corpus/README.md has zero occurrences of registry-argv-and-flag-audit and derivation appears only in the Round-73 artifacts section (:832-833), while r71/r72 entries are indexed in What's here (:95-96) \u2014 precedent divergence, not a Q7 break at hold time\"\n    },\n    {\n      \"severity\": \"INFO\",\n      \"finding\": \"round-74.md:23 earlier-held line omits tb2-hf-model-inference-provenance.md; its hold is still on record at round-72.md:102-107 and round-73.md:33-36\"\n    }\n  ],\n  \"rules_confirmed\": \"corpus/QUALITY.md:97 Q13 and :111 Q14 read in full\",\n  \"method\": \"direct file/line reads at a clean tip (git ls-files tracked; porcelain and diff empty over corpus/knowledge/); read-only, no clones, no scratch created; LSP not applicable to markdown prose\",\n  \"residual_risk\": \"status binds tip cea7ebf3 only; gate_timing_check.py not re-executed (outside read-only audit scope), lesson-recorded checker outcomes cited as records\"\n}",
+   "note": null
+  },
+  {
+   "name": "C1FixtureControlR74",
+   "agent": "executor",
+   "output": "",
+   "note": null
+  },
+  {
+   "name": "C2FixtureControlR74",
+   "agent": "executor",
+   "output": "",
+   "note": null
+  }
+ ]
+}

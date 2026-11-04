@@ -845,3 +845,20 @@ the round29 deferred index statement after the Gate's exact-byte admission.
   reruns and census; `w1/` contains independent row drafts/audits and false-green fixtures.
 - Wave: `.ufo/waves/round-73/w1/`, one v1 wave with sixteen seats; dispatch/spec/results in
   `.ufo/waves/round-73/`. Dispatched seats are not outside non-author closure.
+
+## Round-74 supporting artifacts (2026-11-04)
+
+- Held knowledge candidate: `corpus/knowledge/registry-argv-and-flag-audit.md` — command-line flag
+  and argument specification contracts grounded in S250 (Python argparse docs); structural string
+  checks distinguished from runtime certification. Not an admitted expansion.
+- Lesson: `corpus/lessons/round-74.md` — Gate (S250 admit, reject with flip, held candidates), Mistakes
+  M74-1…7, wave integration (4 returned seats, 12 dead), measurements/controls, census 241 → 242.
+- Registry: S250 — `corpus/SOURCES.md`; census `.ufo/waves/round-74/census-before.txt` and
+  `corpus/evidence/round74/census-after.txt` (rc 0 both, 25 W04 warnings).
+- Instruments: `plans/round74_c1_registry.py` (decoupled advertised-universe gate, R74-C1) and
+  `plans/round74_c2_registry_audit.py` (hardened registry declaration audit, R74-C2); frozen
+  sentences in `plans/round-74-claims.md` with Amendment A1 (Before-description correction).
+- Evidence: `corpus/evidence/round74/` — c1 before/selftest/control/after, c2 red-before/controls/after,
+  discriminating rerun, both census captures, sources capture + anchor.
+- Wave: `.ufo/waves/round-74/w1/`, one v1 wave with 16 seats (4 returned reports, 12 dead seats);
+  dispatch/spec/results in `.ufo/waves/round-74/`.

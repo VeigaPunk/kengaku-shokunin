@@ -1,0 +1,28 @@
+# Discriminating control: instrument advertised ONLY via plans/*.md, row dropped from registry.
+# Decoupled mode: detects the drop (MISSING 1, PREDICATE fail, rc 1).
+UNIVERSE mode=decoupled files=5 plans_seen=1 self_advertising_prevented=True
+ADVERTISED total=3
+REGISTERED total=2 rows=2
+MISSING 1
+  MISSING plans/tool_b.py
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 fail
+PREDICATE R74-C1 fail
+rc=1
+
+# Legacy mode: instrument invisible to legacy universe (no plans/*.md scan),
+# dropped from both adv and reg -> MISSING 0, PREDICATE R52-C2 pass (false green).
+UNIVERSE mode=legacy files=4 plans_seen=0 plans_only=0
+ADVERTISED total=2
+REGISTERED total=2 rows=2
+MISSING 0
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 pass
+PREDICATE R74-C1 fail
+rc=1

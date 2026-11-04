@@ -20,7 +20,7 @@ R74-C2 targets calibration: hardened registry audit pricing malformed rows, unba
   Same source explicitly distinguishes argument strings from positional arguments and parser actions; string matching does not verify option registration, parser configuration, or runtime execution.
   Flip: controlled execution with `--help` / `--<flag>` or AST verification of `parser.add_argument()`.
 - **Held knowledge candidate:** `corpus/knowledge/registry-argv-and-flag-audit.md` (admission: hold).
-- **Earlier held candidates remain held:** `corpus/knowledge/instrument-registry-derivation.md` (round 73) and `corpus/knowledge/tb2-hf-model-inference-offline.md` (round 71/72).
+- **Earlier held candidates remain held:** `corpus/knowledge/instrument-registry-derivation.md` (round 73), `corpus/knowledge/tb2-hf-model-inference-offline.md` and `corpus/knowledge/tb2-hf-model-inference-provenance.md` (rounds 71/72).
 - **Assimilation: none.** No staged shokuknow rows appended. Open L0 `kengaku | round-54` carried.
 
 ## Mistakes
@@ -32,6 +32,19 @@ R74-C2 targets calibration: hardened registry audit pricing malformed rows, unba
 | M74-3 erratum — contradictory revision ignored if first item matches | `corpus/evidence/round73/w1/c2-blindspots.md` C16 | Q50 | `check_errata` checks every item mentioning `label`, flagging `ERRATA:contradictory-revision` if any matching item carries a contradictory revision. |
 | M74-4 vacuous — registry table self-advertises in registry gate | `plans/round52_c2_registry.py:45` | Q46, Q54 | `self_assessment_files` in `round74_c1_registry.py` scans `SKILL.md` strictly outside the `## Gate/probe registry` block, decoupling discovery from registration. |
 | M74-5 reference-drift — regex failed to match hyphenated directories | `plans/round52_c2_registry.py:36` `[A-Za-z0-9_]+` | Q46 | Regex updated to `[A-Za-z0-9_.-]+` so that hyphenated directories (e.g. `round13-coverage/coverage_census.py`) are captured. |
+| M74-6 reference-drift — claims-doc Before prose contradicted committed receipt | `plans/round-74-claims.md` Before bullet vs `corpus/evidence/round74/c1-before.txt` | Q50 | Amendment A1 (74e2e15) corrects the Before description to the receipt's actual legacy numbers; predicate unchanged. |
+| M74-7 fidelity — control receipt evidenced weaker case than frozen sentence | `.ufo/waves/round-74/w1/C1DecoupledAuditR74.md` MEDIUM finding | Q46/Q49 | Regenerated `c1-control-decoupled.txt` from a plans/*.md-only advertisement fixture: decoupled MISSING 1 rc 1 vs legacy MISSING 0 PREDICATE R52-C2 pass (false green). |
+
+## Wave integration (w1, 16 seats)
+
+WAVE-DONE received; `w1-results.json` carries 16 results, of which 4 seats returned full reports and 12 settled with empty output (dead seats, recorded honestly): C1CriticR74, C2AuditReplayR74, C2BlindSpotR74, C2CriticR74, SourcesArgparseR74, KnowledgeEntryR74, LessonR74, SiblingConnectorR74, CredentialSentinelR74, RoundStateScoutR74, C1FixtureControlR74, C2FixtureControlR74.
+
+- **C1GateReplayR74** (executor): independently re-ran all three frozen C1 commands at tip 74e2e15 — byte-identical to `c1-after.txt`, `c1-selftest.txt` and `c1-before.txt`; confirmed A1 resolves the prose/receipt drift.
+- **C1DecoupledAuditR74** (reviewer): 4/4 audit items PASS (block exclusion byte-equality, phantom no-self-advertise, row-removal MISSING 1, hyphenated paths); MEDIUM receipt-fidelity finding (M74-7, fixed above); LOW residual notes (hardcoded lone hyphenated evidence path; `\n## ` block-boundary fence hazard; rows advertised only via plans/round-74-claims.md).
+- **RegistryReviewerR74** (reviewer): 8-field matrix PASS for both new rows; executed both selftests and the 7-mutant matrix; confirmed landing-tip predicates on the working tree and the discriminating red at committed tip cea7ebf3 (rows not yet landed).
+- **EntryFalsifyR74** (reviewer): all four held entries confirmed `admission: hold`; LOW findings fixed in-tree (Q1 triad added to the round-74 candidate and the writer line added to the round-73 candidate; round-74 lesson earlier-held line now names the provenance entry).
+
+The 12 dead seats leave the C2 blind-spot battery, sentinel scan and sibling scan un-re-run by seats; the L1 re-ran the C2 discriminating fixture and both selftests/mutants directly as integration evidence (`c2-controls.txt`, `c2-red-before.txt`), and the freeze-time receipts cover the rest.
 
 ## Measurements and controls
 
