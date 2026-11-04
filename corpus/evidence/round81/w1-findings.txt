@@ -16,6 +16,13 @@ would require a rule change is routed to round 82.
 | S3 | process | The wave's declared executor deliverable paths under `.ufo/waves/round-81/w1/` are empty: the L1 wrote the instruments at the frozen table's `plans/` paths first, so the executor seats were verification seats in practice | **named, not hidden.** The instruments are the frozen predicate's tools; writing them before the wave was the L1's call and the seats' independent replays are the check the wave still bought |
 | S4 | process | Several L1 scratch dirs under `$HYAKU_SCRATCH/kengaku-r81/` are not seat-named (`st`, `mu`, `ct`, `det`, …), against the round's own scratch rule | **named**; the dirs are deleted at round close (they hold nothing citable) |
 
+Corroboration from the build seats (not findings): `U4RedBeforeR81.md:51` reproduces the round-80 gate
+itself printing `DEFECT REPRODUCTION-EXIT protein-assembly rc=1` when the protein probe is run
+without its interpreter prefix — the failure M80-1 asserted and never showed; `EnvPinR81.md:144-145`
+confirms the eigen probe's two `predicted=U` speed cases are still the only varying lines across six
+runs; `ConnectorR81.md` finds `HOST_PYTHON|HOST_OPENSSL` nowhere in the twenty sibling repos (the pin
+is new fleet-wide) and no sibling owning a TB2 grader replay.
+
 What the reviewer and sentinel could not break: the two stamps (every digest recomputed from three
 tips), the observations (both instruments replayed independently, 14/14 lines equal), the dirty-worktree
 refusal (two `git status` gates), and the ledger/receipt binding (`jq` count equals the gate's).
