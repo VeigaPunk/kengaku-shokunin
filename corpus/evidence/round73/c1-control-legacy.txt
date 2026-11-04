@@ -1,0 +1,26 @@
+RUN_AT: 2026-11-04T02:43:46Z
+CMD: python3 plans/round52_c2_registry.py --lane . --universe legacy
+UNIVERSE mode=legacy files=76 plans_only=0
+ADVERTISED total=110
+REGISTERED total=105 rows=107
+MISSING 5
+  MISSING plans/round66_c1_tensor_probe.py
+  MISSING plans/round69_c1_nginx_probe.py
+  MISSING plans/round69_c2_routed_defects.py
+  MISSING plans/round70_c1_nginx_probe.py
+  MISSING plans/round70_c2_routed_defects.py
+INCOMPLETE 0
+ENTRY-MISSING 0
+SELFTEST-UNBACKED 0
+DUPLICATE 0
+PREDICATE R52-C2 fail
+PREDICATE R73-C1 fail
+rc=1
+
+CMD: python3 plans/round52_c2_registry.py --selftest
+SELFTEST ok clean-fixture
+SELFTEST ok missing-fixture
+SELFTEST ok incomplete-fixture
+SELFTEST ok plans-fixture
+SELFTEST cases=4 failures=0
+rc=0

@@ -4,8 +4,17 @@
 Frozen before data on 2026-10-28 (L1 KengakuR52a3); see plans/round-52-claims.md §C2 for
 the predicate this implements.  Reads committed bytes only; writes nothing.
 
-    python3 plans/round52_c2_registry.py --lane .          # verdict
+    python3 plans/round52_c2_registry.py --lane .          # verdict, R73-C1 universe
+    python3 plans/round52_c2_registry.py --universe legacy  # the pre-R73 advertised universe
     python3 plans/round52_c2_registry.py --selftest         # fixture battery
+
+R73-C1 amendment (2026-11-04, L1 KengakuR73; frozen in plans/round-73-claims.md §C1): the
+advertised universe gains `plans/*.md`, because a claims document that names a runnable
+`python3 plans/<instrument>.py` command advertises that instrument to every later round even
+when no self-assessment file names it.  The five R52-C2 legs are unchanged; the extra arm is
+the UNIVERSE line and `PREDICATE R73-C1`, which holds only when those legs hold *and* at least
+one instrument came from the plans/ leg.  `--universe legacy` reproduces the pre-amendment
+universe (the round-73 control).
 
 Predicate (all four legs must hold):
   MISSING            = advertised instruments with no registry row          -> 0
@@ -28,13 +37,21 @@ CMD = re.compile(r"python3 ((?:plans/[A-Za-z0-9_]+\.py|corpus/evidence/[A-Za-z0-
 FLAG = re.compile(r"(--[a-z][a-z0-9-]*)")
 SELF_FILES = ("SCORECARD.md", "SKILL.md", "LOG.md", "corpus/README.md")
 REGISTRY_HEADING = "## Gate/probe registry"
+PLANS_UNIVERSE = "full"      # R73-C1: claims documents advertise instruments too
+UNIVERSES = ("full", "legacy")
 
 
-def self_assessment_files(lane: Path) -> list[Path]:
+def self_assessment_files(lane: Path, universe: str = PLANS_UNIVERSE) -> list[Path]:
     files = [lane / f for f in SELF_FILES]
     kdir = lane / "corpus" / "knowledge"
     if kdir.is_dir():
         files += sorted(kdir.glob("*.md"))
+    if universe == "full":
+        pdir = lane / "plans"
+        if pdir.is_dir():
+            files += sorted(pdir.glob("*.md"))
+    elif universe != "legacy":
+        raise ValueError(f"unknown universe {universe!r}")
     return [f for f in files if f.exists()]
 
 
@@ -84,9 +101,9 @@ def selftest_unbacked(cell: str, lane: Path) -> bool:
     return all(f not in body for f in flags)
 
 
-def collect(lane: Path):
+def collect(lane: Path, universe: str = PLANS_UNIVERSE):
     adv: dict[str, set[str]] = {}
-    for f in self_assessment_files(lane):
+    for f in self_assessment_files(lane, universe):
         text = f.read_text(errors="replace")
         rel = str(f.relative_to(lane))
         for m in CMD.finditer(text):
@@ -111,8 +128,12 @@ def collect(lane: Path):
     return adv, rows, reg, missing, incomplete, entry_missing, unbacked, duplicate
 
 
-def verdict(lane: Path) -> int:
-    adv, rows, reg, missing, incomplete, entry_missing, unbacked, duplicate = collect(lane)
+def verdict(lane: Path, universe: str = PLANS_UNIVERSE) -> int:
+    adv, rows, reg, missing, incomplete, entry_missing, unbacked, duplicate = collect(lane, universe)
+    plans_only = sorted(p for p, files in adv.items()
+                        if files and all(x.startswith("plans/") for x in files))
+    print(f"UNIVERSE mode={universe} files={len(self_assessment_files(lane, universe))} "
+          f"plans_only={len(plans_only)}")
     print(f"ADVERTISED total={len(adv)}")
     print(f"REGISTERED total={len(reg)} rows={len(rows)}")
     print(f"MISSING {len(missing)}")
@@ -132,12 +153,16 @@ def verdict(lane: Path) -> int:
         print(f"  DUPLICATE-ROW {r}")
     ok = not (missing or incomplete or entry_missing or unbacked or duplicate)
     print(f"PREDICATE R52-C2 {'pass' if ok else 'fail'}")
-    return 0 if ok else 1
+    r73 = ok and universe == "full" and len(plans_only) >= 1
+    print(f"PREDICATE R73-C1 {'pass' if r73 else 'fail'}")
+    return 0 if r73 else 1
 
 
 def selftest(lane: Path) -> int:
-    """Three fixtures on temp trees: a clean lane passes; a lane whose registry omits an
-    advertised instrument fails on MISSING; a lane with a blank cell fails on INCOMPLETE."""
+    """Four fixtures on temp trees: a clean lane passes; a lane whose registry omits an
+    advertised instrument fails on MISSING; a lane with a blank cell fails on INCOMPLETE; an
+    instrument advertised only in a plans/ document is MISSING under `full` and invisible to
+    the `legacy` control."""
     import shutil
     import tempfile
 
@@ -183,8 +208,22 @@ def selftest(lane: Path) -> int:
             fails += 1
         else:
             print("SELFTEST ok incomplete-fixture")
+        # R73-C1 arm: an instrument advertised ONLY in a plans/ document must be advertised
+        # under the full universe and invisible under the legacy control.
+        (t / "plans" / "tool_c.py").write_text("# tool\n")
+        (t / "plans" / "round-99-claims.md").write_text("counter: `python3 plans/tool_c.py --lane .`\n")
+        _a, _r, _g, missing_full, *_rest = collect(t, "full")
+        _a, _r, _g, missing_legacy, *_rest2 = collect(t, "legacy")
+        if "plans/tool_c.py" not in missing_full:
+            print("SELFTEST FAIL plans-fixture: a plans-doc-only instrument did not raise MISSING")
+            fails += 1
+        elif "plans/tool_c.py" in missing_legacy:
+            print("SELFTEST FAIL plans-fixture: the legacy universe saw a plans-doc-only instrument")
+            fails += 1
+        else:
+            print("SELFTEST ok plans-fixture")
         shutil.rmtree(t, ignore_errors=True)
-    print(f"SELFTEST cases=3 failures={fails}")
+    print(f"SELFTEST cases=4 failures={fails}")
     return 0 if fails == 0 else 1
 
 
@@ -192,12 +231,13 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--lane", default=".")
     ap.add_argument("--selftest", action="store_true")
+    ap.add_argument("--universe", choices=UNIVERSES, default=PLANS_UNIVERSE)
     a = ap.parse_args()
     lane = Path(a.lane).resolve()
     if not (lane / "SKILL.md").exists():
         print(f"SETUP no SKILL.md under {lane}")
         return 2
-    return selftest(lane) if a.selftest else verdict(lane)
+    return selftest(lane) if a.selftest else verdict(lane, a.universe)
 
 
 if __name__ == "__main__":
