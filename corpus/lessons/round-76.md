@@ -76,3 +76,43 @@ still-unimplemented proposal remained. R76-C2 **extends** it (seven rows with `c
 that carries it). No proposal was mined this round. The same scout found the seven rows initially broke
 `plans/routed_open.py`'s `source`-line check; the pointers were corrected to the lesson's `## 6` lines
 and that gate prints `ROWS total=86 open=31 blocked=1 closed=52 refused=2`, `--selftest 12/12`.
+
+## Wave findings and stated limits (appended 2026-11-04)
+
+The wave's attacks are recorded here as limits, not smoothed. Severity and the seat's own bytes are in
+`.ufo/waves/round-76/w1/<seat>.md`.
+
+- **Scope shrink (`ReviewerC1R76`, HIGH, ACCEPT).** The counter is quantified over the rows the table
+  declares, so deleting the absent rows yields `total=4`, `disagree=0`, pass. The frozen predicate has
+  no minimum population; the counter now prints `IDENTITIES n= unique= sha256=` and `--expect-manifest`
+  fails on `MANIFEST-DRIFT`, so any caller that pins the manifest sees a deletion. A minimum-row or
+  frozen-identity rule would be a *new* claim, not this one.
+- **Anchor and endpoint substitution (`ReviewerC1R76`, MEDIUM, ACCEPT).** The gate binds the first
+  declared token, not the surface's name to a canonical anchor: replacing an absent row's anchor with
+  an existing path, or a dead endpoint with the live `:1234`, passes. Pinning name→anchor would be a
+  manifest (round 51's design); stated as the price of the table-byte anchoring the claim chose.
+- **Marker dates are opaque bytes (`ReviewerC1R76`, LOW).** A future date passes; impossible dates are
+  now `MALFORMED-DATE`, but "≤ today" is not in the frozen sentence.
+- **Any non-000 status is `present`; identity is never checked (`LabratR76`, H1 CONFIRMED).** A 404/500
+  counts as a resolved surface and a `:1234` router serving a different model passes. The frozen claim
+  promises an HTTP status, not service identity; `SURFACE … present (http=404)` is the honest verdict.
+- **Probe confinement and blast radius (`SentinelR76`).** Fixed in A5: non-loopback authorities and
+  redirects leaving loopback are `NONLOCAL-ANCHOR`; `..` segments `ESCAPE-ANCHOR`; >64 brace targets
+  `OVERFLOW-ANCHOR`; malformed hosts `MALFORMED-ANCHOR`. Remaining: `--receipt` can truncate any
+  writable path the caller names (a wrapper-trust boundary, not a markdown-row one), and C2 executes
+  two in-repo scripts from the probe worktree (documented trust assumption).
+- **Ancestry is not evidence-at-commit (`ConnectorR76`, MEDIUM).** Fixed in A5: `evidence_path` +
+  `evidence_literal` are read from the `close_commit` tree; D5/D6 were re-pointed to `f0d52322` where
+  their receipts actually landed.
+- **Prior art (`ConnectorR76`, INFO).** Six lanes already carry overlapping primitives; round 51's
+  `plans/round51_surfaces.py` is this lane's direct prior and was red at base — repaired in A7. The
+  report says "increment", not "first".
+- **Sibling collisions and assimilation (`ScoutFrontierR76`, MEDIUM).** 167 of 175 staged `merge/kengaku`
+  rows collide with the lane registry (244 rows, S001–S252); adoption needs re-iding. Assimilation
+  stays `none`, and the burn-down predates the round by ~35 rounds (see the correction above).
+- **Receipts inside a moving wave (`ScoutFrontierR76`, HIGH).** No gate receipt is meaningful without
+  its `LANE_TIP`/`WORKTREE` line; the round's five-tip window is why every receipt this round carries
+  one.
+- **Round-74 C1 red at the freeze (`ReceiptMintR76`, HIGH, correct).** `42fad48` prints `MISSING 2`
+  because the round's two instruments were unregistered; the D6 receipt is therefore minted at
+  `6977019b` after their SKILL rows, and the finding is the interlock working, not a failed claim.

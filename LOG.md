@@ -2899,3 +2899,10 @@ All sixteen wave outputs settled before integration/report; no dead-seat note re
   proposal was mined this round. The seven rows first broke `plans/routed_open.py`'s `source`-line
   check; pointers fixed to the closer lesson's `## 6` lines, gate now `ROWS total=86 open=31
   blocked=1 closed=52 refused=2` and `--selftest 12/12`.
+
+- **Round-76 wave (appended).** 14 seats settled; findings that changed committed bytes: scope shrink,
+  anchor/endpoint substitution (stated limits in the lesson), destination/redirect/brace/traversal
+  confinement (A5), close-commit-without-evidence (A5), burn-down prior art (A6), control not
+  replayable (A3), whole-row stale prose (A4), `emit --work` (A2), mis-frozen Before (A1), round-51
+  gate red and further broken by the row-2 repair (A7). The round-74 C1 gate was red at the freeze
+  (`MISSING 2`) — the reason the D6 receipt is minted after registration.
