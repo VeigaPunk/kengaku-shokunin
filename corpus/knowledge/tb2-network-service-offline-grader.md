@@ -1,6 +1,7 @@
 source: S228 — TB2 pypi-server grader at pin 2fd12b88 (https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/pypi-server/tests/test_outputs.py), tier A code
 verified-at: 2026-11-03 (base c78749a5; the freeze commit is named in the round report)
 recheck: python3 plans/round63_c1_pypi_probe.py --check-receipt corpus/evidence/round63/pypi-probe.txt
+verified-at: 2026-11-03 (round 69: the round-68 amendment tip is 1ec2e60a; the round-63 base line above stays as written; this line is an append, not a rewrite)
 
 # TB2 `pypi-server` — a network-service grader replayed offline against a lane-built PEP 503 index
 

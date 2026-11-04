@@ -1,0 +1,57 @@
+=== A: genuine receipt2.txt
+rc=1
+CHECK ok cases=5 legs=8 seen_p=0 seen_f=0
+DEFECT vector-line VECTOR K1 PPPPPPPP expected PPPPPPPP agree=True
+DEFECT vector-line VECTOR K2 PPFPPPPP expected PPFPPPPP agree=True
+DEFECT vector-line VECTOR K3 PPPPPPFF expected PPPPPPFF agree=True
+DEFECT vector-line VECTOR K4 PPPPPFPP expected PPPPPFPP agree=True
+DEFECT vector-line VECTOR K5 FPPPFPPP expected FPPPFPPP agree=True
+DEFECT case-set got=[] want=['K1', 'K2', 'K3', 'K4', 'K5']
+DEFECT leg-coverage test_nginx_installed p=0 f=0
+DEFECT leg-coverage test_nginx_running p=0 f=0
+DEFECT leg-coverage test_index_page_content p=0 f=0
+DEFECT leg-coverage test_custom_404_page p=0 f=0
+DEFECT leg-coverage test_nginx_config_syntax p=0 f=0
+DEFECT leg-coverage test_nginx_config_settings p=0 f=0
+DEFECT leg-coverage test_log_file_creation p=0 f=0
+DEFECT leg-coverage test_log_file_format p=0 f=0
+DEFECT stored-predicate PREDICATE R69-C1 fail
+CHECK stored-predicate=fail derived=fail
+PREDICATE R69-C1 fail
+
+=== B: same bytes, VECTOR lines rewritten to the 5-field form the checker parses
+rc=1
+CHECK ok cases=5 legs=8 seen_p=8 seen_f=6
+DEFECT leg-coverage test_nginx_running p=5 f=0
+DEFECT leg-coverage test_custom_404_page p=5 f=0
+DEFECT stored-predicate PREDICATE R69-C1 fail
+CHECK stored-predicate=fail derived=fail
+PREDICATE R69-C1 fail
+
+=== C: B + PREDICATE line forged to pass
+rc=1
+CHECK ok cases=5 legs=8 seen_p=8 seen_f=6
+DEFECT leg-coverage test_nginx_running p=5 f=0
+DEFECT leg-coverage test_custom_404_page p=5 f=0
+CHECK stored-predicate=pass derived=fail
+PREDICATE R69-C1 fail
+
+=== D: B + F witnesses injected for K1 legs 2 and 4 (TEST lines and stored vector kept consistent)
+rc=1
+CHECK ok cases=5 legs=8 seen_p=8 seen_f=8
+DEFECT vector-mismatch K1 PFPFPPPP != PPPPPPPP
+CHECK stored-predicate=pass derived=fail
+PREDICATE R69-C1 fail
+
+=== UNSATISFIABILITY (run_battery ok) ===
+ok = (mismatches==0) and (setup==0) and full_p==8 and full_f==8
+mismatches==0 forces observed == frozen expected for every case
+leg1 test_nginx_installed         P=4 F=1
+leg2 test_nginx_running           P=5 F=0
+leg3 test_index_page_content      P=4 F=1
+leg4 test_custom_404_page         P=5 F=0
+leg5 test_nginx_config_syntax     P=4 F=1
+leg6 test_nginx_config_settings   P=4 F=1
+leg7 test_log_file_creation       P=4 F=1
+leg8 test_log_file_format         P=4 F=1
+full_f with observed==expected: 6

@@ -1,0 +1,20 @@
+$ python3 plans/round69_c1_nginx_probe.py --check-receipt .ufo/waves/round-69/w1/nginx/receipt.txt
+CHECK ok cases=5 legs=8 seen_p=0 seen_f=0
+DEFECT vector-line VECTOR K1 PPPPPPPP expected PPPPPPPP agree=True
+DEFECT vector-line VECTOR K2 PPFPPPPP expected PPFPPPPP agree=True
+DEFECT vector-line VECTOR K3 PPPPPPFF expected PPPPPPFF agree=True
+DEFECT vector-line VECTOR K4 PPPPPFPP expected PPPPPFPP agree=True
+DEFECT vector-line VECTOR K5 FPPPFPPP expected FPPPFPPP agree=True
+DEFECT case-set got=[] want=['K1', 'K2', 'K3', 'K4', 'K5']
+DEFECT leg-coverage test_nginx_installed p=0 f=0
+DEFECT leg-coverage test_nginx_running p=0 f=0
+DEFECT leg-coverage test_index_page_content p=0 f=0
+DEFECT leg-coverage test_custom_404_page p=0 f=0
+DEFECT leg-coverage test_nginx_config_syntax p=0 f=0
+DEFECT leg-coverage test_nginx_config_settings p=0 f=0
+DEFECT leg-coverage test_log_file_creation p=0 f=0
+DEFECT leg-coverage test_log_file_format p=0 f=0
+DEFECT stored-predicate PREDICATE R69-C1 fail
+CHECK stored-predicate=fail derived=fail
+PREDICATE R69-C1 fail
+rc=1

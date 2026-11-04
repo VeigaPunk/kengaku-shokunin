@@ -1,0 +1,30 @@
+# R69-C1 battery — seat ReceiptReverify, three attempts (exact argv, stdout+stderr, rc)
+# Lane cwd: /home/vgpnk/Projects/shokunin/kengaku-shokunin
+# Attempt 1's capture file was overwritten by attempt 2's shell redirect; its two output
+# lines below are transcribed from the live tool output (identical to attempt 2's).
+# Attempts 2 and 3 are raw appends.
+
+# ---- attempt 1, 2026-11-03T21:07-03:00
+$ python3 plans/round69_c1_nginx_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r69/ReceiptReverify/work --receipt /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-69/w1/ReceiptReverify/receipt2.txt
+SETUP port-8080-occupied
+rc=2
+
+# ---- attempt 2 (retry-1), same argv
+$ python3 plans/round69_c1_nginx_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r69/ReceiptReverify/work --receipt /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-69/w1/ReceiptReverify/receipt2.txt
+SETUP port-8080-occupied
+rc=2
+
+# Diagnosis between attempts 2 and 3:
+#   ss -ltnp '( sport = :8080 )'            -> header only (no listener)
+#   ss -tanp '( sport = :8080 )'            -> 5 TIME-WAIT entries 127.0.0.1:8080 <-> 127.0.0.1:565xx
+#   direct bind() 127.0.0.1:8080            -> reuse=False ERR 98 EADDRINUSE ; reuse=True OK
+#   cause: port_free() binds without SO_REUSEADDR; TIME-WAIT from the previous battery blocks it.
+
+# ---- attempt 3, 2026-11-03T21:08:50-03:00, after ss -H -tan '( sport = :8080 )' showed 0 sockets
+$ python3 plans/round69_c1_nginx_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r69/ReceiptReverify/work --receipt /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-69/w1/ReceiptReverify/receipt2.txt
+# (stdout empty: --receipt mode writes the body to the receipt file)
+rc=1
+# receipt2.txt written; its verdict lines:
+#   LEG-COVERAGE legs=8 seen_p=8 seen_f=6
+#   SUMMARY cases=5 legs=40 mismatches=0 setup=0
+#   PREDICATE R69-C1 fail

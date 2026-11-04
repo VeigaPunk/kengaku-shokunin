@@ -129,3 +129,37 @@ miss or a dated amendment before any after-receipt is scored.
 At close, re-derive both predicates from the committed bytes and record: the C1 receipt, the
 C1 selftest tally, the C2 green run, the C2 selftest tally, the census exit, the depth and
 trio receipts (E7), and the class-row count.
+
+## Amendment A1 (round 69, dated 2026-11-03; no frozen element changed)
+
+1. **R69-C1's verdict is a MISS.** The battery ran at the frozen instrument (`b288e8e0`) and
+   produced `LEG-COVERAGE legs=8 seen_p=8 seen_f=6` → `PREDICATE R69-C1 fail` (rc 1), because
+   `test_nginx_running` and `test_custom_404_page` are `P` in all five frozen cases. The sentence
+   above — "Each of the eight legs has one red witness and four green witnesses by construction"
+   — is arithmetically false: the five vectors carry six reds, not eight. The kill rule names
+   exactly this, so the miss is reported, not re-scored: the case table, the vectors, the kill
+   rule and the target are **not** changed after data. The member is **not** counted in the SKILL
+   class row (it stays `executed 2 of 8`, with the replay and the MISS named).
+
+2. **Instrument repair (mechanical, not a rule change).** Three defects the wave's seats found are
+   repaired in `plans/round69_c1_nginx_probe.py` (v1 sha `66b5128d…0100ea` → v2 sha
+   `0f491333…d6d7`):
+   - `check_receipt` required exactly 5 `VECTOR` tokens; the writer emits 6
+     (`VECTOR K1 PPPPPPPP expected PPPPPPPP agree=True`), so every genuine receipt was refused
+     (ReceiptReview M-A; NginxBattery run 2). It now parses the 6-token form and verifies the
+     `expected` field equals the observed vector.
+   - `port_free` bound without `SO_REUSEADDR`, so a TIME_WAIT socket from the preceding battery
+     refused a free port (`SETUP port-8080-occupied` with no listener; ReceiptReverify result 6).
+   - `--selftest` gains an acceptance arm on a synthetic full-coverage table: the five red
+     fixtures had all been refused through the parser defect, so `red_refused=5/5` proved nothing
+     (ReceiptReview §2).
+   No predicate, case table, vector, kill rule or target changes. The v2 battery re-ran the same
+   five frozen cases (third independent run) and reproduced every vector; its receipt
+   (`corpus/evidence/round69/nginx/receipt-v2.txt`) still prints `PREDICATE R69-C1 fail` on the
+   two leg-coverage defects. The v1 receipt is preserved at
+   `corpus/evidence/round69/nginx/receipt-v1-checker-broken.txt`.
+
+3. **Frozen-table defects carried to round 70.** The re-freeze needs a `server: False` case field
+   (leg 2 red; `run_case` currently aborts at the READY-wait) and a case that mutates the
+   `notfound` body (leg 4 red; the field exists). `case_sha256` must digest only the staged inputs,
+   not the server-written access log, before it can serve as a staged-state identity.

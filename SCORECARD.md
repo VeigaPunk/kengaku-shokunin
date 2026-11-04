@@ -3001,3 +3001,73 @@ freshness 10 held (S240 re-opened live; registry status corrected), adjacency 9 
 term-level overlaps only, plus the fleet-wide report-contract prior art routed, not absorbed), novelty 8
 held. L0 carried: `kengaku | round-25/33/51`, `round-54`, `round-56`, `round-63`, `round-65`, `round-66`,
 `round-67` (labrat role).
+
+## Round 69 (hyaku run 15, 2026-11-03): the `nginx-request-logging` grader replayed offline — R69-C1 MISS on its frozen leg-coverage clause (honest stop) — and the round-68 closure's seven routed defects closed by a re-deriving gate (R69-C2 admitted; calibration held at ceiling, exercised)
+
+Base `a518980e` (round-68 verifier spot-check tip). Freeze `b288e8e0`: claims doc, both
+instruments, wave spec + validated dispatch, census-before, C2 red-before, do-nothing control.
+Wave `.ufo/waves/round-69/w1`: v1, **14 seats** (executor 4, reviewer 3, critic 1,
+mutation-tester 1, scribe 2, scout 1, connector 1, revenger 1); attack roles `{reviewer, critic,
+mutation-tester}` = 5/14 = 36 % (≥25 %); connector 1 (≤2); all 14 seats settled with reports. No
+residual call; round total **14**.
+
+| claim / axis | before → after evidence | counting command | verdict / score |
+|---|---|---|---|
+| **R69-C1 / coverage** (lowest owned axis, L0-capped at 7) — the `nginx-request-logging` TB2 grader replayed offline under a frozen five-case table | before (`a518980e`): receipt absent (`git cat-file -e a518980e:corpus/evidence/round69/nginx/receipt.txt` → rc 128); `grep -c 'executed 2 of 8' SKILL.md` → 1; S241 absent (`grep -cE '^\|[[:space:]]*S241[[:space:]]*\|' corpus/SOURCES.md` → 0) → after: three independent batteries reproduce all five frozen vectors (`VECTOR K1 PPPPPPPP … K5 FPPPFPPP`, 40/40 legs, `mismatches=0`), but `LEG-COVERAGE legs=8 seen_p=8 seen_f=6` and `PREDICATE R69-C1 fail` (`corpus/evidence/round69/nginx/receipt-v2.txt`; `check-v2.txt` → two `DEFECT leg-coverage`, rc 1); the class row stays `executed 2 of 8` with the replay and the MISS named; S241 lands (`grep -c` → 1) | `python3 plans/round69_c1_nginx_probe.py --check-receipt corpus/evidence/round69/nginx/receipt-v2.txt`; `--selftest --work <scratch>` → `red_refused=5/5 … accept_ok=1 ok=True` | **MISS** (honest stop; the target is not narrowed and the case table is not extended after data). Coverage **held at 7** (L0 cap `kengaku | round-25/33/51`); no class-row move, no capability row |
+| **R69-C2 / calibration** (held at ceiling 10, exercised) — the round-68 non-author closure's seven routed defects as dated, re-deriving corrections | before (`a518980e`, `.ufo/waves/round-69/c2-red-before.txt`): `python3 plans/round69_c2_routed_defects.py` → `DEFECTS n=7`, `PREDICATE R69-C2 fail`, rc 1 → after: same command → `E1..E7 ok`, `DEFECTS n=0`, `PREDICATE R69-C2 pass`, rc 0; `--selftest --work <scratch>` → `defects-in-fake=7 want=7 all-fail=True`; the gate's single-check deletion matrix `MUTANTS total=7 killed=7 survived=0` on two independent pre-correction fixtures (`.ufo/waves/round-69/w1/GateMutate.md`); the E7 byte-diff arm exercised (`differ` → `n=1`, restored → `n=0`, `corpus/evidence/round69/c2-receipts/e7-byte-arm.txt`) | the gate command; `--selftest`; the mutation probe | **admitted** on the frozen sentence; calibration **held at 10** |
+
+**Corrections landed (not claims, each with a re-deriving check).** E1 four round-68 instrument
+registry rows (adopted from the `CorrectionDraft` seat's line-grounded draft); E2 QUALITY `Q50`
+(a report citation is re-hashed from committed bytes) and `Q51` (a frozen case table's
+leg-coverage is computed before the freeze); E3 provenance erratum pricing every round-68 C2
+input at `27f649f8` and `1ec2e60a` (`DIFFERS SKILL.md` only); E4 the deepened network-service
+entry's appended `verified-at:` naming `1ec2e60a`; E5/E6 the round-68 lesson's strict-attack-share
+(`3/12`) and `w1-results.json` re-record; E7 the depth-gate and provenance-trio receipts.
+
+**Capabilities.** No new row: `offline-network-service-grader-probe` (round 68) is re-exercised
+by a third member but the round's capability demonstration does not clear its frozen predicate, so
+nothing enters (a capability without a passing demonstration is pre-claiming).
+
+**Scores.** coverage 7 (held; the claim missed, so no move — L0 cap `kengaku | round-25/33/51`),
+calibration 10 (held; seven routed defects closed with a re-deriving gate and a 7/7 mutation
+matrix; this round's own five defects are lesson rows, not smoothed), operability 10 (held; two
+new runnable instruments, the probe's checker repaired with an acceptance selftest, the gate
+mutation-tested), depth 10 (held; one new knowledge entry and two new QUALITY criteria; depth gate
+`PREDICATE R63-C2 pass`, `ROWS n=16 … paths total=34 resolved=34 share=1.00`), freshness 10 (held;
+S241 opened live with sha256 and located quote; the round-68 entry's `verified-at` corrected),
+adjacency 9 (held; `SiblingOverlap` counted 18 term-level and 2 surface-level hits, both routed),
+novelty 8 (held). **No axis harmed.**
+
+**Named limitations of the verdicts (found this round).** (i) `--check-receipt` re-derives text
+fields and cannot prove a live run; the receipt's per-case server PIDs and the committed sandbox
+captures are the live witness. (ii) The `nginx` shim answers `-t` with exit 0, so leg 5's syntax
+axis is never exercised; a syntactically broken staged config would still green it
+(`LegPricing.md` LEG 5). (iii) Leg 8's regexes search the whole log content, not per line, so a
+stale line satisfies all four (`LegPricing.md` LEG 8). (iv) `case_sha256` digests the
+server-written access log and is not a staged-state identity (named, not patched — no verdict
+depends on it). (v) C2's E1/E2/E4/E5/E6 verify text facts, E3's input set is not tied to the six
+paths the round-68 receipt names, and E7's byte arm was exercised only after the fact
+(`ClaimFalsify.md`) — the predicate sentence is met on the committed bytes; the successor gate
+pins E3's input set and runs each E1 entry command. (vi) `ClaimFalsify` also notes the instrument's
+`own_sha256()` binds the working-tree bytes, not the committed blob (M-J), and the GRADER sha is a
+constant comparison in `check_receipt` (M-K).
+
+**Trend verdicts (round 69).** expansion: **unchanged** — the third `network-service` member was
+replayed and its five frozen vectors reproduced three times, but its frozen predicate failed on the
+leg-coverage clause, so no class-row or capability expansion is claimed; S241 is a new tier-A row
+opened live. quality: **improved** — the round-68 closure's seven routed defects are closed by a
+gate that moves `DEFECTS n=7` → `n=0` and is killed 7/7 under single-check deletion, two QUALITY
+criteria (Q50, Q51) enter, and the instrument's three mechanical defects are repaired with an
+acceptance selftest and re-run receipts. discernment: **improved** — the round's own claim was
+falsified by its counter and reported as a MISS rather than re-scored; five self-caught defects are
+lesson rows (one of them a seat's misattribution of the L1's own work), and the two independent
+attack seats (`ClaimFalsify`, `ReceiptReview`) produced findings that are recorded as limitations
+with pointers.
+
+**Planned (round 70).** (1) Re-freeze R69-C1 with the two missing red witnesses — a `server: False`
+stage field for leg 2 and a case that mutates the `notfound` body for leg 4 — and a `case_sha256`
+that digests only the staged inputs; freeze-time leg-coverage arithmetic per Q51. (2) A successor
+correction gate that pins E3's input set to the six paths the round-68 receipt names and runs each
+registry row's entry command (a `--selftest`-or-`--help` probe per E1 row). (3) Carry the
+`ClaimFalsify`/`ReceiptReview` findings (M-J, M-K) as named limitations or fixes. L0 carried:
+`kengaku | round-25/33/51`, `round-54`, `round-56`, `round-63`, `round-65`, `round-66`, `round-67`.

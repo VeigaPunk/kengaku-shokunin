@@ -2560,3 +2560,46 @@ Evidence: `corpus/evidence/round64/`, `.ufo/waves/round-64/` (wave seats in `w1/
 - **Wave w2.** v1, 12 seats (executor 4, reviewer 2, critic 1, mutation-tester 1, scout 1, scribe 1, connector 1, sentinel 1; attack roles 4/12 = 33 %; connector 1); results `.ufo/waves/round-68/w2-results.json`. Round total: w1 12 + w2 12 = 24 seats; no residual call.
 - **Verification.** Census exit 0 at attempt-2 start and end (232 rows; 24 pre-existing W04 warnings both ends); depth gate `PREDICATE R63-C2 pass` (`ROWS n=16 class_match=True count_mismatch=0 paths total=33 resolved=33 share=1.00`); provenance trio `TRIO pass`; the report itself is gated by `plans/round68_report_contract.py` before filing.
 - **Open.** L0 carried: `kengaku | round-25/33/51`, `round-54`, `round-56`, `round-63`, `round-65`, `round-66`, `round-67` (labrat role).
+
+## Round 69 (hyaku run 15, 2026-11-03)
+
+- **Claims (2, frozen at `b288e8e0`; Amendment A1 after the wave).** R69-C1 coverage: replay the
+  `nginx-request-logging` TB2 grader offline under a frozen five-case × eight-leg table — **MISS**
+  (`LEG-COVERAGE legs=8 seen_p=8 seen_f=6`; legs 2 and 4 have no red witness; `PREDICATE R69-C1
+  fail`). R69-C2 calibration: close the round-68 non-author closure's seven routed defects with a
+  re-deriving gate — **admitted** (`DEFECTS n=7` → `n=0`, `PREDICATE R69-C2 pass`).
+- **Wave.** `.ufo/waves/round-69/w1`: v1, 14 seats (executor 4, reviewer 3, critic 1,
+  mutation-tester 1, scribe 2, scout 1, connector 1, revenger 1); attack 5/14 = 36 %; connector 1;
+  all 14 settled with reports. No residual call. Round total 14 seats.
+- **C1 work.** `plans/round69_c1_nginx_probe.py` stages a lane-built HTTP server on
+  127.0.0.1:8080, lane-written `/etc/nginx` bytes, `/etc/hosts` and an `nginx` shim in bwrap; five
+  frozen cases reproduce all five vectors in three independent runs (`mismatches=0`, 40/40 legs);
+  `seen_f=6` fails the frozen coverage clause. The instrument's three mechanical defects (VECTOR
+  token count, missing SO_REUSEADDR, absent acceptance selftest arm) are repaired in Amendment A1
+  with re-run receipts (`corpus/evidence/round69/nginx/receipt-v2.txt`, `check-v2.txt`,
+  `selftest-v2.txt`); the v1 receipt is preserved
+  (`corpus/evidence/round69/nginx/receipt-v1-checker-broken.txt`).
+- **C2 work.** `plans/round69_c2_routed_defects.py` re-derives E1–E7; the pre-correction fixture is
+  `DEFECTS n=7`, the landing tip `n=0`; the selftest refuses seven constructed pre-correction
+  states; single-check deletion kills 7/7 mutants on two independent fixtures. Corrections landed:
+  four round-68 registry rows, QUALITY Q50/Q51, the `27f649f8`/`1ec2e60a` provenance erratum, the
+  network-service entry's appended `verified-at:`, the round-68 lesson's strict-attack-share and
+  `w1-results.json` lines, and the depth/trio receipts (E7).
+- **Sources.** S241 (the TB2 `nginx-request-logging` grader at pin `2fd12b88`) opened live
+  2026-11-03 (HTTP 200, 5947 B, sha256 `045cc716…4acda0` = `SHA256SUMS:111`, `cmp` identical);
+  new entry `corpus/knowledge/tb2-nginx-request-logging-offline.md` (trio gate green). **No
+  rejects** (no assimilation set; `Assimilation: none`).
+- **Verification run this round.** C1: `--check-receipt` on the v2 receipt → two `DEFECT
+  leg-coverage`, `PREDICATE R69-C1 fail`, rc 1; selftest `red_refused=5/5 accept_ok=1 ok=True`.
+  C2: `DEFECTS n=0`, `PREDICATE R69-C2 pass`, rc 0; selftest `defects-in-fake=7 want=7
+  all-fail=True`; E7 byte-diff arm `differ` → `n=1`, restored → `n=0`. Census exit 0 at start
+  (232 rows) and end (233 rows, S241). Depth gate `PREDICATE R63-C2 pass` (`ROWS n=16 …
+  paths total=34 resolved=34 share=1.00`); provenance trio `TRIO pass`.
+- **Mistakes mined** (`corpus/lessons/round-69.md` `## Mistakes`, six rows): asserted-coverage, a
+  self-unreadable receipt, a spurious selftest, a port-gate false refusal, a path-dependent case
+  digest, and a seat's misattribution of the L1's in-flight integration. Q50 and Q51 record the
+  rules that should catch the first and the citation class.
+- **Open.** L0 carried: `kengaku | round-25/33/51`, `round-54`, `round-56`, `round-63`,
+  `round-65`, `round-66`, `round-67` (labrat role). Named limitations in the report: live-run
+  provenance, the shimmed `nginx -t`, leg 8's whole-content regexes, `case_sha256` path
+  dependence, C2's text-fact checks / E3 input set / E7 negative arm, and M-J/M-K.

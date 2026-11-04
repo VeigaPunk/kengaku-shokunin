@@ -14,7 +14,16 @@ leg in the grader's place: an AssertionError is F, any other exception is E (sco
 return is P.
 
 The five cases and their eight-leg vectors are FROZEN in plans/round-69-claims.md before
-the battery below runs.  `--check-receipt` re-derives every leg, vector, leg-coverage count
+the battery below runs.
+Repair (round 69, dated 2026-11-03, Amendment A1 of plans/round-69-claims.md): three
+mechanical defects found by the wave's seats are fixed without touching any frozen element
+— `check_receipt` now accepts the 6-token `VECTOR` line this file's writer emits (it
+required 5, so every genuine receipt was refused), `port_free` sets SO_REUSEADDR (a
+TIME_WAIT socket from the preceding battery refused a free port), and `--selftest` gains an
+acceptance arm on a synthetic full-coverage table (the five red fixtures had all been refused
+through the parser defect). The case table, vectors, kill rule and target are unchanged;
+R69-C1 remains an honest MISS.
+  `--check-receipt` re-derives every leg, vector, leg-coverage count
 and the two shas from committed bytes; it cannot prove a live run (the receipt's per-case
 PORT/SERVER lines are the live witness).  `--selftest` shows the checker refusing five
 forged receipts.
@@ -273,6 +282,7 @@ def acquire_port_lock(timeout=900):
 
 def port_free(port):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     try:
         s.bind(("127.0.0.1", port))
         return True
@@ -474,7 +484,7 @@ def run_battery(lane, work, receipt, evidence_dir):
     return 0 if ok else 1
 
 
-def check_receipt(path):
+def check_receipt(path, cases=CASES):
     path = pathlib.Path(path)
     if not path.is_file():
         print(f"SETUP receipt-missing {path}")
@@ -510,10 +520,12 @@ def check_receipt(path):
     for ln in lines:
         if ln.startswith("VECTOR "):
             parts = ln.split()
-            if len(parts) != 5:
+            if len(parts) != 6 or parts[3] != "expected" or not parts[5].startswith("agree="):
                 defect("vector-line", ln)
                 continue
-            vectors[parts[1]] = (parts[2], parts[4].split("=")[-1])
+            if parts[4] != parts[2]:
+                defect("vector-expected-field", ln)
+            vectors[parts[1]] = (parts[2], parts[5].split("=", 1)[1])
         elif ln.startswith("TEST "):
             parts = ln.split()
             if len(parts) != 4:
@@ -521,12 +533,12 @@ def check_receipt(path):
                 continue
             legs.setdefault(parts[1], {})[parts[2]] = parts[3]
 
-    expected_ids = [c["id"] for c in CASES]
+    expected_ids = [c["id"] for c in cases]
     if sorted(vectors) != sorted(expected_ids):
         defect("case-set", f"got={sorted(vectors)} want={sorted(expected_ids)}")
     seen_p = {name: 0 for name in LEGS}
     seen_f = {name: 0 for name in LEGS}
-    for case in CASES:
+    for case in cases:
         cid = case["id"]
         got = vectors.get(cid)
         if not got:
@@ -561,7 +573,7 @@ def check_receipt(path):
     elif not stored[0].endswith(" pass"):
         defect("stored-predicate", stored[0])
     derived_ok = not defects
-    print(f"CHECK ok cases={len(CASES)} legs={len(LEGS)} "
+    print(f"CHECK ok cases={len(cases)} legs={len(LEGS)} "
           f"seen_p={sum(1 for n in LEGS if seen_p[n])} "
           f"seen_f={sum(1 for n in LEGS if seen_f[n])}")
     for d in defects:
@@ -624,6 +636,35 @@ def run_selftest(work, green_receipt):
         tally.append(f"RED {name} rc={rc} refused={refused}")
         if not refused:
             ok = False
+    # Acceptance arm: a table that prices every leg twice must be accepted.  The
+    # frozen table itself has seen_f=6, so no receipt from it can pass; the accept path
+    # is demonstrated on a synthetic full-coverage table (case table unchanged).
+    synth = (
+        {"id": "S1", "note": "all-green", "expected": "PPPPPPPP"},
+        {"id": "S2", "note": "every-leg-red", "expected": "FFFFFFFF"},
+    )
+    lines = [f"PROBE plans/round69_c1_nginx_probe.py sha256 {real}",
+             f"PROBE_VERSION {PROBE_VERSION}",
+             f"GRADER {GRADER_REL} sha256 {GRADER_SHA256} pin {TB2_PIN}",
+             f"PORT {PORT} free-at-start=True"]
+    for case in synth:
+        lines.append(f"CASE {case['id']} case_sha256={zero} server_pid=1 sandbox_rc=0")
+        for i, name in enumerate(LEGS):
+            lines.append(f"TEST {case['id']} {name} {case['expected'][i]}")
+        lines.append(f"VECTOR {case['id']} {case['expected']} expected "
+                     f"{case['expected']} agree=True")
+    lines.append(f"SUMMARY cases={len(synth)} legs={len(synth) * len(LEGS)} "
+                 f"mismatches=0 setup=0")
+    lines.append("PREDICATE R69-C1 pass")
+    sp = red / "synthetic-accept.txt"
+    sp.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    buf = io.StringIO()
+    with redirect_stdout(buf):
+        rc = check_receipt(sp, cases=synth)
+    tally.append(f"ACCEPT synthetic rc={rc} accepted={rc == 0}")
+    if rc != 0:
+        ok = False
+
     if green_receipt:
         buf = io.StringIO()
         with redirect_stdout(buf):
@@ -635,7 +676,9 @@ def run_selftest(work, green_receipt):
         print(t)
     red_n = sum(1 for t in tally if t.startswith("RED") and "refused=True" in t)
     green_n = sum(1 for t in tally if t.startswith("GREEN") and "accepted=True" in t)
-    print(f"SELFTEST red_refused={red_n}/{len(fixtures)} green_ok={green_n} ok={ok}")
+    acc_n = sum(1 for t in tally if t.startswith("ACCEPT") and "accepted=True" in t)
+    print(f"SELFTEST red_refused={red_n}/{len(fixtures)} green_ok={green_n} "
+          f"accept_ok={acc_n} ok={ok}")
     return 0 if ok else 1
 
 
