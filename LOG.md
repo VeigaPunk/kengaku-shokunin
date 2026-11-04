@@ -2925,3 +2925,51 @@ did not exist at filing time (R76-V4). The A9 content it meant, recorded here so
   `cases=7 red=6`/`5/5` by `cases=12 red=11`/`9/9`, and C2 `cases=10 red=9`/`8/8` by
   `cases=14 red=13`/`12/12`. The filed lines stay as written (append-only); this line names both
   sides so a reader can price the drift.
+
+## Round 77 (hyaku run 15, attempt 1, 2026-11-04)
+
+Base `07c97fcd` (round-76 verifier spot-check). Freeze `9ebb8ed1` (claims + both counters + the canonical
+inventory + S253); corrections `8da90eb7` (the R76-V1..V7 discharge, re-minted receipts, index repair),
+`d181e16b` (critic hardening, A3), `08309a5a` (sentinel confinement, A4), `4f2ff9be` (reviewer-C1 fixes,
+A5), `a5c81b76` (remint-driver registry row). Two claims, both admitted:
+
+- **R77-C1 / coverage** — one canonical declared-surface inventory (`PROVINCE.md` →
+  `## Declared surfaces — canonical, machine-checked`, 28 rows) carries every surface the three older
+  tables declare, resolved live by kind (path, loopback http, tcp, sha256 pin, `rows=` count pin, in-repo
+  run receipt, dated `REMOTE`), with `UNLISTED-SURFACE` for any superseded row no canonical row carries.
+  Before `UNLISTED n=33`, `DEFECTS n=34`, rc 1 → after `SURFACES total=28 present=14 absent=13 remote=1`,
+  `UNLISTED n=0`, `RESOLVED live=27`, `AGREE agree=28 disagree=0`, `IDENTITIES n=28 unique=28`,
+  `DEFECTS n=0`, rc 0 (`corpus/evidence/round77/c1-before.txt` / `c1-after.txt`, both from a clean clone;
+  after stamped `4f2ff9be`). Batteries: selftest `cases=6 red=5`, mutants `6/6`, control
+  `live=0 target_reached=False`.
+- **R77-C2 / calibration** — the round-76 closure's seven routed ids (`R76-V1`…`R76-V7`) are ledger rows
+  whose discharges re-derive at the commit that carries the evidence, plus legs V1–V7. Before
+  `registered=0 wrong=12` rc 1 → after `ids=7 registered=7 closed=7 open=0 discharged=7 legs_passed=7
+  legs_pending=0 wrong=0`, rc 0 (`c2-before.txt` / `c2-after.txt`). Batteries: selftest `cases=10 red=9`,
+  `--selftest-git` 3/3, mutants `6/6`, control `defects=7 target_reached=False`.
+
+- **What the discharges changed (R76-V1..V7).** V1: the two round-76 battery receipts re-minted by a
+  committed driver with `TOOL_SHA` at their own `LANE_TIP`. V2: both round-76 `SKILL.md` registry rows
+  re-pinned to the final tallies and the A5/A8/A9 classes. V3: three dated, appended correction lines
+  (LOG, round-76 lesson, SCORECARD) naming both the superseded and the corrected value. V4: the missing
+  `### Second-reviewer classes` LOG block. V5: the considerthese re-adjudication (proposal 2
+  `tb2_grader_admit` open). V6: one capability name (`province-surface-resolver-table-anchored`) in
+  PROVINCE and SCORECARD. V7: three stamped rerun receipts (`routed_open` ROWS total=86, R51-C1 pass,
+  R75-C1 pass).
+- **Inherited drift repaired.** The README index was missing `lessons/round-76-verifier-spotcheck.md`,
+  `lessons/round-77.md` and the `corpus/evidence/round77/` row (R75-C1 red at base); `plans/round51-surfaces.json`
+  `SF14`'s count pin was re-pinned 244 → 245 after the S253 append (R51-C1 red at base); the new remint
+  driver needed a registry row (R74-C1 red). All eight registered gates are green at the tip, and
+  `routed_open.py` prints `ROWS total=93 open=31 blocked=1 closed=59 refused=2`.
+- **Wave (12 seats, one v1 wave, 0 dead).** executor 3 (C1Replay, C2Replay, ReceiptMint), scribe 2
+  (Corrections, Registry), scout 1, connector 1, reviewer 2, critic 1, mutation-tester 1, sentinel 1 —
+  attack share 4/12 = 33 %. The wave changed committed bytes through amendments A3 (duplicate
+  identities, remote-anchor mismatch, id-bound checks), A4 (redirect refusal + loopback-only TCP) and A5
+  (supersession credit, tracked/`COMMAND`-bearing exec receipts, contradictory verdicts, full-digest
+  pins, `--rev` count isolation). Survivors kept as stated limits: deletion of rows is visible only via
+  `IDENTITIES`/`--expect-manifest` (M76-5 class); `CHECK-TRIVIAL` and `--receipt` truncation are
+  syntactic/wrapper-trust boundaries.
+- **Sources.** S253 (Git `git-cat-file`, captured under `corpus/evidence/round77/sources/`) grounds the
+  at-revision reads both counters use; registry 244 → 245, census rc 0 both ends. Assimilation: none
+  (L0 `kengaku | round-54` still open). considerthese: proposal 2 stays open, no proposal mined.
+- **L0 carried unchanged:** kengaku rounds 25/33/51/54/56/63/65/66/67/72/74/76.
