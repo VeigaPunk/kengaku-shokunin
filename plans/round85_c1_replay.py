@@ -348,6 +348,8 @@ def flip_ledger(root: Path, status: str = "executed") -> None:
 
 def forge_receipt(root: Path, work: Path) -> None:
     """Mint a claims-only receipt: the plausible source-read error on the `six` case."""
+    if not (root / RECEIPT).is_file():
+        return                       # nothing to forge; the control reports the absent receipt
     text = (root / RECEIPT).read_text(encoding="utf-8")
     text = text.replace("CASE six predicted=6/F observed=6/F",
                         "CASE six predicted=6/P observed=6/P")

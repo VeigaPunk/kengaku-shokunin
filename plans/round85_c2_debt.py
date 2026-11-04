@@ -33,6 +33,7 @@ LESSON = "corpus/lessons/round-85.md"
 README = "corpus/README.md"
 REGISTRY = "plans/round82_c1_plans_registry.py"
 GATE_TIMING = "plans/gate_timing_check.py"
+RECEIPT = "corpus/evidence/round85/sqlite-db-truncate-probe.txt"
 C1 = "plans/round85_c1_replay.py"
 PROBE = "plans/round85_sqlite_truncate_probe.py"
 CHECKER = "plans/round85_c2_debt.py"
@@ -129,14 +130,26 @@ def v2(tree: Tree, lane: Path, work: Path) -> tuple[bool, str]:
 
 
 def v3(tree: Tree, lane: Path, work: Path) -> tuple[bool, str]:
+    """Code leg: REPRODUCE is unconditional (one guard, no skip flag). Behavioural leg:
+    the forged-receipt control rejects a forged receipt when one exists to forge."""
     if not tree.has(C1):
         return False, "instrument-absent"
+    source = tree.text(C1)
+    guard = source.count("if proc.returncode != 0 or problem or fresh_block != block:")
+    # the production path runs it (run() -> check(tree, work) with the default reproduce=True),
+    # there is exactly one guard, and no CLI flag can skip it
+    code_leg = (guard >= 1 and "reproduce: bool = True" in source
+                and "defects, stats = check(tree, work)" in source
+                and "--skip-reproduce" not in source and "--no-reproduce" not in source)
+    if not tree.has(RECEIPT):
+        return code_leg, f"code-leg={code_leg} receipt-absent(no behavioural leg)"
     proc = run_tool([sys.executable, "-I", "-B", str(tree.root / C1), "--lane", str(lane),
                      "--work", str(work / "v3"), "--control-forged-receipt"], tree.root, work)
     text = proc.stdout + proc.stderr
-    ok = (proc.returncode == 0 and "target_reached=False" in text
-          and "REPRODUCE-MISMATCH" in text)
-    return ok, f"rc={proc.returncode} " + ("forgery-rejected" if ok else text.strip()[:120])
+    behavioural = (proc.returncode == 0 and "target_reached=False" in text
+                   and "REPRODUCE-MISMATCH" in text)
+    return (code_leg and behavioural,
+            f"code-leg={code_leg} behavioural={behavioural} rc={proc.returncode}")
 
 
 def v5(tree: Tree, lane: Path, work: Path) -> tuple[bool, str]:
