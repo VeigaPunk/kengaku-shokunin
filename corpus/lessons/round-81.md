@@ -46,8 +46,8 @@ Every row below was opened in this round; the anchors are the located text the r
   (`log-summary-date-ranges/instruction.md`, `log-summary-date-ranges/task.toml`,
   `vulnerable-secret/instruction.md`, `vulnerable-secret/task.toml`), fetched 2026-11-04T08:26:13Z,
   HTTP 200 each. Quotes: `log-summary-date-ranges/instruction.md:9` — "Write a CSV file /app/summary.csv
-  with the following structure (including the header):" (14 words); `vulnerable-secret/instruction.md:1`
-  — "The goal is to extract this secret key and save it to `/app/results.txt`." (17 words);
+  with the following structure (including the header):" (12 words); `vulnerable-secret/instruction.md:1`
+  — "The goal is to extract this secret key and save it to `/app/results.txt`." (13 words);
   `log-summary-date-ranges/task.toml:6` — "Evaluates the ability to analyze date-stamped log files,
   calculate counts across multiple date ranges, and generate structured CSV output." (19 words).
   The premise of each replay is what these documents ask the agent to produce; the replay stages it.

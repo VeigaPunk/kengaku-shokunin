@@ -1,3 +1,7 @@
+source: S260 — own-work, `corpus/evidence/round81/log-summary-date-ranges-probe.txt:1-15` and `corpus/evidence/round81/vulnerable-secret-probe.txt:1-15` (subject at 1, stamp 2-14, `OBSERVATIONS_BEGIN` 15, observations from 16); S261 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/ — `log-summary-date-ranges/instruction.md:9`, `log-summary-date-ranges/task.toml:6`, `vulnerable-secret/instruction.md:1`; S256 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/README.md — `corpus/evidence/round79/sources/tb2-readme.md:24`
+verified-at: 2026-11-04 (round-82 tip 12f1029a45cf0097a3afd030d757bf93b87f8018)
+recheck: 2026-12-04 (30d) — re-run `python3 plans/round81_log_summary_probe.py --lane . --work "$(mktemp -d)"` and `python3 plans/round81_vulnerable_secret_probe.py --lane . --work "$(mktemp -d)"`: each must print `cases=12 observed_pass=4 observed_fail=8 mismatches=0` and `PREDICATE R81-C1 pass` and exit 0, with `SUBJECT_SHA`/`TOOL_SHA`/`HOST_PYTHON`/`HOST_OPENSSL` matching the receipts; then `python3 plans/round81_c1_new_members.py --lane .`; re-open S261 if either tally moves
+
 # TB2 file-artifact graders: two stdlib-only replays and the host pin
 
 Thesis: two `file-artifact` members of the Terminal-Bench 2.0 population whose graders import only

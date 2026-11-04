@@ -377,6 +377,8 @@ MUTANTS = [
     ("close-names-spotcheck", "CLOSE-NOT-REPAIR"),
     ("check-made-trivial", "CHECK-TRIVIAL"),
     ("status-reopened", "TARGET"),
+    ("check-made-failing", "CHECK-FAIL"),
+    ("close-sans-evidence", "CLOSE-NOT-EVIDENCE"),
 ]
 
 
@@ -398,6 +400,10 @@ def mutants(lane: Path, work: Path) -> int:
             rows[0]["check"] = ":"
         elif name == "status-reopened":
             rows[0]["status"] = "open"
+        elif name == "check-made-failing":
+            rows[0]["check"] = "grep -q 'absent marker' corpus/lessons/round-81.md"
+        elif name == "close-sans-evidence":
+            repair = FIXTURE_REPAIR.replace("R80-U1 correction: counted.", "nothing here.")
         fixture(root, rows, repair, readme)
         tree = Tree(root, "fixture", "fixture", None)
         defects, stats, extra = check(tree)

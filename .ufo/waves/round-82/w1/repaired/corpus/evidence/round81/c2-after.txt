@@ -1,0 +1,18 @@
+# R81-C2 after
+LANE_TIP 12f1029a45cf0097a3afd030d757bf93b87f8018
+WORKTREE clean
+COMMAND python3 plans/round81_c2_spotcheck_debt.py --lane .
+EXIT 0
+--- stdout ---
+UNIVERSE spotcheck=corpus/lessons/round-80-verifier-spotcheck.md ids=6 R80-U1,R80-U2,R80-U3,R80-U4,R80-U5,R80-U6
+DEBT R80-U1 status=closed close=corpus/SOURCES.md S259 (a superseding row opening `supersedes S258 —` with the six current receipt sha256s and the corrected lines 2-12 stamp range; S258's bytes untouched) check=present
+DEBT R80-U2 status=closed close=SCORECARD.md round-80 errata block (R80-U2: c1-after.txt is a WORKTREE dirty run; gates-clean.txt at e985e56a is the comparable measurement) check=present
+DEBT R80-U3 status=closed close=corpus/evidence/round81/census-rows.txt (the frozen grep count reproduced at dce7c275, 507d249b and the round-81 base) check=present
+DEBT R80-U4 status=closed close=corpus/evidence/round81/r80-u4-red-before.txt (the prefix-removed run: exit 1, ModuleNotFoundError: No module named 'Bio') plus QUALITY.md Q58 citing it check=present
+DEBT R80-U5 status=closed close=SKILL.md gate/probe registry (rows for round80-c1-located-replay, round80-c2-spotcheck-debt, round81-c1-new-members, round81-c2-spotcheck-debt and round81-c2-checks, plus the R80-U5 note) check=present
+DEBT R80-U6 status=closed close=corpus/lessons/round-81.md ## Corrections (R80-U6: the six receipts are the evidence, not the quoted driver line) plus the corpus/README.md lesson row naming M80-1/M80-2 check=present
+DEBT-TOTAL ids=6 registered=6 closed=6 checks_passed=6
+INDEX corpus/lessons/round-80-verifier-spotcheck.md indexed=yes
+DEFECTS n=0
+TARGET ids=6 closed=6 checks_passed=6 indexed=yes
+PREDICATE R81-C2 pass

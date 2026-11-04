@@ -1,0 +1,15 @@
+{
+ "schema": "r82-exclusions/1",
+ "why": "Frozen exclusion table for R82-C1. A path listed here must prove from its own bytes at BASE_REV that it cannot be a CLI instrument (no argparse import, no __main__ block); the counter refuses a CLI script in this table (EXCLUSION-CLI). Absent at BASE_REV, so the base state is MISSING 4 + UNCLASSIFIED 2.",
+ "base": "a3a03ac31451e58f1742b9bccb73b72c2d90a95c",
+ "exclusions": {
+  "plans/fixture_fence.py": {
+   "class": "support-module",
+   "reason": "a library: one public entry `breach(d, argv, tool)` returning a refusal sentence to its driver; imported by path from plans/round45_c1_verify.py, round46_c1_verify.py, round50_c1_verify.py, honest50/build_honest_population.py"
+  },
+  "plans/policy_cases.py": {
+   "class": "support-module",
+   "reason": "a data table: 59 hand-expected extraction cases, single top-level name CASES, no imports, executed only through plans/parser_policy_compare.py --selftest"
+  }
+ }
+}

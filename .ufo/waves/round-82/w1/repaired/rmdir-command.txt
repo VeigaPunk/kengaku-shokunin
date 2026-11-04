@@ -1,0 +1,25 @@
+V5 repair — remove the stray empty `--lane/` directory in the lane repo root.
+The L1 runs this EXACT command (absolute path; cwd-independent):
+
+rmdir -- '/home/vgpnk/Projects/shokunin/kengaku-shokunin/--lane'
+
+BEFORE — measured 2026-11-04 by C2RepairR82 at lane master
+12f1029a45cf0097a3afd030d757bf93b87f8018:
+
+$ ls -ld -- '/home/vgpnk/Projects/shokunin/kengaku-shokunin/--lane'
+drwxr-xr-x 1 vgpnk vgpnk 0 Nov  4 01:58 /home/vgpnk/Projects/shokunin/kengaku-shokunin/--lane
+$ find '/home/vgpnk/Projects/shokunin/kengaku-shokunin/--lane' -mindepth 1 | wc -l
+0
+$ git -C '/home/vgpnk/Projects/shokunin/kengaku-shokunin' ls-files -- '--lane'
+(no output — the directory is untracked; `git status --porcelain` does not list it because it is
+empty)
+
+The directory is confirmed EMPTY (find prints nothing), so `rmdir` cannot fail on content.
+
+AFTER — expected output once the command above has run (not yet executed by this seat; the L1
+performs the removal):
+
+$ ls -ld -- '/home/vgpnk/Projects/shokunin/kengaku-shokunin/--lane'
+ls: cannot access '/home/vgpnk/Projects/shokunin/kengaku-shokunin/--lane': No such file or directory
+$ test ! -e '/home/vgpnk/Projects/shokunin/kengaku-shokunin/--lane' && echo gone
+gone

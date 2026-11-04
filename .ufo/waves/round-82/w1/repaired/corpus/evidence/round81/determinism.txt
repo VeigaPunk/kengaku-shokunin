@@ -1,0 +1,15 @@
+R81-C1 determinism — two consecutive runs of each frozen instrument at the tip
+plans/round81_log_summary_probe.py run1 rc=0 sha256=43a8c27622db358d run2 rc=0 sha256=43a8c27622db358d identical
+plans/round81_vulnerable_secret_probe.py run1 rc=0 sha256=8d3471f9f6238c63 run2 rc=0 sha256=8d3471f9f6238c63 identical
+COMMAND python3 plans/round81_log_summary_probe.py --lane . --work work/ls
+COMMAND python3 plans/round81_vulnerable_secret_probe.py --lane . --work work/vs
+REV f6d5b8649bbc5ecd71d52f463d52eb1b103a183d
+The two sha256 values above are the first 16 hex of sha256(stdout) of one run. They were minted at
+the REV above (round-81 tip when this receipt was written, 2026-11-04 05:39) with exactly the two
+COMMAND lines above, run from the lane root; `--work` does not affect stdout. Re-derived
+2026-11-04 by C2RepairR82 at that REV in a clean `git clone --shared` checkout: both hashes
+reproduce (rc=0 both probes).
+R82 re-run 2026-11-04 at master 12f1029a45cf0097a3afd030d757bf93b87f8018 (clean `git clone
+--shared` checkout, same COMMANDs, sha256 = first 16 hex of the run's stdout):
+plans/round81_log_summary_probe.py run1 rc=0 sha256=46c7acf5df80dc8a run2 rc=0 sha256=46c7acf5df80dc8a identical
+plans/round81_vulnerable_secret_probe.py run1 rc=0 sha256=fbf05e246592558c run2 rc=0 sha256=fbf05e246592558c identical
