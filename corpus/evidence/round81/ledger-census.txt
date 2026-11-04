@@ -1,0 +1,6 @@
+R81-C1 ledger census at the tip — independent of the gate
+command: jq '[.members[]|select(.status=="executed")]|length' plans/grader-population-ledger.json
+executed=26 of 88 total
+command: jq '[.members|to_entries[]|select(.value.classes|index("file-artifact"))]|length' plans/grader-population-ledger.json
+file-artifact members=76 executed=18
+executed file-artifact members: build-pmars, cancel-async-tasks, chess-best-move, circuit-fibsqrt, constraints-scheduling, db-wal-recovery, feal-linear-cryptanalysis, git-leak-recovery, kv-store-grpc, log-summary-date-ranges, nginx-request-logging, openssl-selfsigned-cert, password-recovery, protein-assembly, regex-log, torch-pipeline-parallelism, torch-tensor-parallelism, vulnerable-secret
