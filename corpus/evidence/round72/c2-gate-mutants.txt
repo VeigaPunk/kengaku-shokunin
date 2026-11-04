@@ -1,0 +1,354 @@
+R72-C2 gate-mutant attack — GateMutateR72 (round 72, wave w1)
+RUN_AT: 2026-11-04T02:14:35Z
+LANE_TIP: b6336136e0e891522b113a94d8e0bd65e0eae8de
+PYTHON: Python 3.14.8
+SHIPPED: plans/round72_c2_routed_defects.py sha256 2d81ad806cb3177463f013d5a5390cf7c4162fc99bd19dd86a1ceec437c78758
+SKILL.md sha256 a1440637f10d8fc5e45e2338805eedfd4e01a9c90e7f47b588d0496ef71d1e34
+plans/round-71-claims.md sha256 20a83829c619ce308fa2f3f942cf23712715c205c87085654dad3f9ebce907b0
+SCRATCH: /fast/scratch/hyaku/kengaku-r72/GateMutateR72  (deleted after this file was written)
+
+## 0. shipped metric is not invariant — seven MUTANT lines + summary
+$ python3 plans/round72_c2_routed_defects.py --mutants --work S/shipped-work
+[rc=0]
+MUTANT M1-registry-columns target=E1a accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M2-registry-owner target=E1a accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M3-errata-labels target=E1b accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M4-errata-revisions target=E1b accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M5-errata-positional target=E2 accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M6-errata-last-section target=E2 accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M7-null-comment target=E1a accept_green=True escapes=0 attribution_ok=True null=True verdict=null
+ARM accept-green=ok refuse-red=ok attribution=ok
+MUTANTS total=7 killed=6 survived=0 invalid=0 null_detected=1
+
+## 1. seat table (8 rows) — gate_mine.py, shipped run_mutants unchanged
+$ /fast/scratch/hyaku/kengaku-r72/GateMutateR72/gate_mine.py --mutants --work /fast/scratch/hyaku/kengaku-r72/GateMutateR72/mut
+[rc=1]
+--- stdout ---
+MUTANT G0-control-accept-6-columns target=E1a accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT G1-e2-one-label-positional target=E2 accept_green=True escapes=0 attribution_ok=True null=True verdict=null
+MUTANT G2-e1a-any-kind target=E1a accept_green=True escapes=0 attribution_ok=True null=True verdict=null
+MUTANT G3-e1b-no-supersedes-wording target=E1b accept_green=True escapes=0 attribution_ok=True null=True verdict=null
+MUTANT G4-fixture-green-six-columns target=E1a accept_green=True escapes=0 attribution_ok=True null=True verdict=null
+MUTANT G5-e1c-sixteen target=E1c accept_green=False escapes=0 attribution_ok=True null=False verdict=invalid
+MUTANT G6-e2-no-length-floor target=E2 accept_green=True escapes=0 attribution_ok=True null=True verdict=null
+MUTANT G7-e1a-no-row-absent target=E1a accept_green=True escapes=0 attribution_ok=True null=True verdict=null
+ARM accept-green=ok refuse-red=ok attribution=ok
+MUTANTS total=8 killed=1 survived=0 invalid=1 null_detected=6
+--- stderr ---
+
+## 2. meta-probe P1 — shipped M5 edit declared target=E1a
+$ /fast/scratch/hyaku/kengaku-r72/GateMutateR72/gate_p1.py --mutants --work /fast/scratch/hyaku/kengaku-r72/GateMutateR72/mut-p1
+[rc=1]
+--- stdout ---
+MUTANT P1-relabelled-M5 target=E1a accept_green=True escapes=0 attribution_ok=True null=False verdict=survived
+ARM accept-green=ok refuse-red=none attribution=ok
+MUTANTS total=1 killed=0 survived=1 invalid=0 null_detected=0
+--- stderr ---
+
+## 3. shipped fixture matrix: rc per fixture x column (green + 7 REDS + one off-set red)
+fixture	pristine	copy	G0-control-accept-6-columns	G1-e2-one-label-positional	G2-e1a-any-kind	G3-e1b-no-supersedes-wording	G4-fixture-green-six-columns	G5-e1c-sixteen	G6-e2-no-length-floor	G7-e1a-no-row-absent	P1-relabelled-M5
+green	0	0	0	0	0	0	0	1	0	0	0
+red-E1a-cols	1	1	0	1	1	1	1	1	1	1	1
+red-E1a-owner	1	1	1	1	1	1	1	1	1	1	1
+red-E1b-paraphrase	1	1	1	1	1	1	1	1	1	1	1
+red-E1b-norev	1	1	1	1	1	1	1	1	1	1	1
+red-E2-top	1	1	1	1	1	1	1	1	1	1	1
+red-E2-trailing	1	1	1	1	1	1	1	1	1	1	1
+red-E2-moved	1	1	1	1	1	1	1	1	1	1	0
+offred-base-missing	1	1	1	1	1	1	1	1	1	1	1
+
+## 4. isolation fixtures: rc per fixture x column
+fixture	pristine	G0-control-accept-6-columns	G1-e2-one-label-positional	G2-e1a-any-kind	G3-e1b-no-supersedes-wording	G4-fixture-green-six-columns	G5-e1c-sixteen	G6-e2-no-length-floor	G7-e1a-no-row-absent	P1-relabelled-M5
+iso-G1-one-label	1	1	0	1	1	1	1	1	1	0
+iso-G2-kind-note	1	1	1	0	1	1	1	1	1	1
+iso-G3-no-wording	1	1	1	1	0	1	1	1	1	1
+iso-G6-short-erratum	1	1	1	1	1	1	1	0	1	1
+iso-G7-row-dropped	1	1	1	1	1	1	1	1	0	1
+
+## 5. decisive pristine/mutant pairs on the isolation fixtures
+{
+  "iso-G1-one-label": {
+    "mutant": [
+      "E1a ok",
+      "E1b ok",
+      "E1c ok",
+      "E2 ok",
+      "DEFECTS n=0",
+      "PREDICATE R72-C2 pass"
+    ],
+    "pristine_rc": 1,
+    "pristine": [
+      "E1a ok",
+      "E1b ok",
+      "E1c ok",
+      "DEFECT E2 superseded-below-erratum:Red-before (committed at freeze)",
+      "DEFECTS n=1",
+      "PREDICATE R72-C2 fail"
+    ],
+    "mutant_rc": 0
+  },
+  "iso-G2-kind-note": {
+    "mutant": [
+      "E1a ok",
+      "E1b ok",
+      "E1c ok",
+      "E2 ok",
+      "DEFECTS n=0",
+      "PREDICATE R72-C2 pass"
+    ],
+    "pristine_rc": 1,
+    "pristine": [
+      "E1b ok",
+      "E1c ok",
+      "E2 ok",
+      "DEFECT E1a row-kind:round71-c1-hf-probe=note",
+      "DEFECTS n=1",
+      "PREDICATE R72-C2 fail"
+    ],
+    "mutant_rc": 0
+  },
+  "iso-G3-no-wording": {
+    "mutant": [
+      "E1a ok",
+      "E1b ok",
+      "E1c ok",
+      "E2 ok",
+      "DEFECTS n=0",
+      "PREDICATE R72-C2 pass"
+    ],
+    "pristine_rc": 1,
+    "pristine": [
+      "E1a ok",
+      "E1c ok",
+      "E2 ok",
+      "DEFECT E1b no-supersedes-wording",
+      "DEFECTS n=1",
+      "PREDICATE R72-C2 fail"
+    ],
+    "mutant_rc": 0
+  },
+  "iso-G6-short-erratum": {
+    "mutant": [
+      "E1a ok",
+      "E1b ok",
+      "E1c ok",
+      "E2 ok",
+      "DEFECTS n=0",
+      "PREDICATE R72-C2 pass"
+    ],
+    "pristine_rc": 1,
+    "pristine": [
+      "E1a ok",
+      "E1b ok",
+      "E1c ok",
+      "DEFECT E2 erratum-too-short",
+      "DEFECTS n=1",
+      "PREDICATE R72-C2 fail"
+    ],
+    "mutant_rc": 0
+  },
+  "iso-G7-row-dropped": {
+    "mutant": [
+      "E1a ok",
+      "E1b ok",
+      "E1c ok",
+      "E2 ok",
+      "DEFECTS n=0",
+      "PREDICATE R72-C2 pass"
+    ],
+    "pristine_rc": 1,
+    "pristine": [
+      "E1b ok",
+      "E1c ok",
+      "E2 ok",
+      "DEFECT E1a row-absent:round72-c2-routed-defects",
+      "DEFECTS n=1",
+      "PREDICATE R72-C2 fail"
+    ],
+    "mutant_rc": 0
+  }
+}
+
+## 6. G4: the metric never calls the mutant's fixture builder
+{
+  "g4_builder_row_cells": [
+    6,
+    6,
+    6,
+    6
+  ],
+  "metric_green_row_cells": [
+    8,
+    8,
+    8,
+    8
+  ],
+  "g4_gate_rc_on_metric_green": 0,
+  "g4_gate_rc_on_own_green": 1
+}
+
+## 7. G5: green-fixture stdout of the E1c mutant
+E1a ok
+E1b ok
+E2 ok
+DEFECT E1c parse:'sixteen Mistakes rows'=16 want=None
+DEFECTS n=1
+PREDICATE R72-C2 fail
+
+## 8. swap probe: shipped M7 (comment no-op) replaced by G1 (semantic one-label)
+$ python3 /fast/scratch/hyaku/kengaku-r72/GateMutateR72/gate_swap.py --mutants --work /fast/scratch/hyaku/kengaku-r72/GateMutateR72/mut-swap
+[rc=0]
+--- stdout ---
+MUTANT M1-registry-columns target=E1a accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M2-registry-owner target=E1a accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M3-errata-labels target=E1b accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M4-errata-revisions target=E1b accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M5-errata-positional target=E2 accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M6-errata-last-section target=E2 accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M7-semantic-null-one-label target=E2 accept_green=True escapes=0 attribution_ok=True null=True verdict=null
+ARM accept-green=ok refuse-red=ok attribution=ok
+MUTANTS total=7 killed=6 survived=0 invalid=0 null_detected=1
+--- stderr ---
+--- generated mutant file diff (first hunk) ---
+--- /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round72_c2_routed_defects.py	2026-11-03 22:59:29.908740179 -0300
++++ mut-swap/M7-semantic-null-one-label.py	2026-11-03 23:13:55.319983072 -0300
+@@ -160,7 +160,7 @@
+         return ["no-errata-section"]
+     problems = []
+     head_at = text.index(ERRATA_HEADING)
+-    for label in SUPERSEDED:
++    for label in SUPERSEDED[:1]:
+         at = text.find(label)
+         if at < 0:
+             problems.append(f"superseded-sentence-missing:{label}")
+@@ -380,24 +380,13 @@
+ 
+ # (mutant name, target check, [(old, new)]). Each rewrites exactly one clause of this source.
+ MUTANTS = (
+-    ("M1-registry-columns", "E1a",
+-     [("if len(cells) != REGISTRY_COLUMNS:", "if len(cells) < 2:")]),
+-    ("M2-registry-owner", "E1a",
+--- generated mutant on iso-G1-one-label ---
+$ python3 mut-swap/M7-semantic-null-one-label.py --lane iso/iso-G1-one-label
+[rc=0]
+E1a ok
+E1b ok
+E1c ok
+E2 ok
+DEFECTS n=0
+PREDICATE R72-C2 pass
+--- generated mutant --selftest ---
+E1c ok
+E1a ok
+E1b ok
+E1c ok
+E2 ok
+E1c ok
+E1a ok
+E1b ok
+E1c ok
+E1a ok
+E1c ok
+E1a ok
+E1b ok
+E2 ok
+DEFECTS-RED n=3 codes=E1a,E1b,E2 want=E1a,E1b,E2
+SELFTEST defects-in-fake=3 want=3 all-fail=True append-only-arm=True positional-arm=True parser-arm=True ok=True
+
+## 9. every mutant's own --selftest
+SELFTEST-MUTANT G0-control-accept-6-columns rc=0 SELFTEST defects-in-fake=3 want=3 all-fail=True append-only-arm=True positional-arm=True parser-arm=True ok=True
+SELFTEST-MUTANT G1-e2-one-label-positional rc=0 SELFTEST defects-in-fake=3 want=3 all-fail=True append-only-arm=True positional-arm=True parser-arm=True ok=True
+SELFTEST-MUTANT G2-e1a-any-kind rc=0 SELFTEST defects-in-fake=3 want=3 all-fail=True append-only-arm=True positional-arm=True parser-arm=True ok=True
+SELFTEST-MUTANT G3-e1b-no-supersedes-wording rc=0 SELFTEST defects-in-fake=3 want=3 all-fail=True append-only-arm=True positional-arm=True parser-arm=True ok=True
+SELFTEST-MUTANT G4-fixture-green-six-columns rc=1 SELFTEST defects-in-fake=3 want=3 all-fail=False append-only-arm=True positional-arm=True parser-arm=True ok=False
+SELFTEST-MUTANT G5-e1c-sixteen rc=1 SELFTEST defects-in-fake=4 want=3 all-fail=False append-only-arm=True positional-arm=True parser-arm=True ok=False
+SELFTEST-MUTANT G6-e2-no-length-floor rc=0 SELFTEST defects-in-fake=3 want=3 all-fail=True append-only-arm=True positional-arm=True parser-arm=True ok=True
+SELFTEST-MUTANT G7-e1a-no-row-absent rc=1 SELFTEST defects-in-fake=2 want=3 all-fail=False append-only-arm=True positional-arm=True parser-arm=True ok=False
+SELFTEST-MUTANT P1-relabelled-M5 rc=0 SELFTEST defects-in-fake=3 want=3 all-fail=True append-only-arm=True positional-arm=True parser-arm=True ok=True
+
+## 10. copy hashes and lane re-read
+d42967cb373232499b08d94fa51563f6974b7ae798972a5d5da24331caad787a  gate_mine.py
+16c8c58b5dad1b9ce40ed3f466537276f5159e512055bc180a2f41c2a7667342  gate_p1.py
+3872a7116c16049a8f2b2914f0c828e0d844034bd801254e579092c41b965f2f  gate_swap.py
+fb3ef9f75a418956336b8de1157afe8aaf2934ad7be68a4add7955eb7294a0fb  mut-swap/M7-semantic-null-one-label.py
+lane planned files after battery:
+(empty above = unmodified)
+2d81ad806cb3177463f013d5a5390cf7c4162fc99bd19dd86a1ceec437c78758  plans/round72_c2_routed_defects.py
+a1440637f10d8fc5e45e2338805eedfd4e01a9c90e7f47b588d0496ef71d1e34  SKILL.md
+20a83829c619ce308fa2f3f942cf23712715c205c87085654dad3f9ebce907b0  plans/round-71-claims.md
+
+## 11. metric self-consistency probes S1/S2 — stale red fixture (pristine accepts it)
+S1: comment-only no-op + one 'red' fixture that is green under pristine.
+$ python3 /fast/scratch/hyaku/kengaku-r72/GateMutateR72/gate_stale.py --mutants --work /fast/scratch/hyaku/kengaku-r72/GateMutateR72/mut-stale
+[rc=0]
+--- stdout ---
+MUTANT S1-null-comment target=E1a accept_green=True escapes=1 attribution_ok=True null=True verdict=null
+ARM accept-green=ok refuse-red=none attribution=ok
+MUTANTS total=1 killed=0 survived=0 invalid=0 null_detected=1
+--- stderr ---
+
+$ python3 /fast/scratch/hyaku/kengaku-r72/GateMutateR72/gate_stale.py --selftest --work /fast/scratch/hyaku/kengaku-r72/GateMutateR72/selftest-stale
+[rc=0]
+--- stdout ---
+RED-NOT-RED E1a stale-green
+E1c ok
+E1a ok
+E1b ok
+E1c ok
+E2 ok
+E1c ok
+E1a ok
+E1b ok
+E1c ok
+E1a ok
+E1c ok
+E1a ok
+E1b ok
+E2 ok
+DEFECTS-RED n=3 codes=E1a,E1b,E2 want=E1a,E1b,E2
+SELFTEST defects-in-fake=3 want=3 all-fail=True append-only-arm=True positional-arm=True parser-arm=True ok=True
+--- stderr ---
+
+S2: the shipped M5 edit relabelled target=E1a + the same stale fixture plus one real E2 red.
+$ python3 /fast/scratch/hyaku/kengaku-r72/GateMutateR72/gate_stale2.py --mutants --work /fast/scratch/hyaku/kengaku-r72/GateMutateR72/mut-stale2
+[rc=1]
+--- stdout ---
+MUTANT S2-relabelled-M5 target=E1a accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+ARM accept-green=ok refuse-red=ok attribution=ok
+MUTANTS total=1 killed=1 survived=0 invalid=0 null_detected=0
+--- stderr ---
+
+--- end of GateMutateR72 evidence ---
+
+## 12. DRIFT NOTE — sibling SKILL.md rewrite after the battery
+Battery-time SKILL.md sha256: a1440637f10d8fc5e45e2338805eedfd4e01a9c90e7f47b588d0496ef71d1e34
+Final-read SKILL.md sha256: ed12760b456ac418eba14ebc4f62fb30d2840115592d08c9d87c371ce6eef892 (git status: M SKILL.md)
+$ sha256sum SKILL.md
+ed12760b456ac418eba14ebc4f62fb30d2840115592d08c9d87c371ce6eef892  SKILL.md
+$ python3 plans/round72_c2_routed_defects.py --lane .
+E1a ok
+E1b ok
+E1c ok
+E2 ok
+DEFECTS n=0
+PREDICATE R72-C2 pass
+[rc=0]
+$ python3 plans/round72_c2_routed_defects.py --mutants --work <scratch>/mut
+MUTANT M1-registry-columns target=E1a accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M2-registry-owner target=E1a accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M3-errata-labels target=E1b accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M4-errata-revisions target=E1b accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M5-errata-positional target=E2 accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M6-errata-last-section target=E2 accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M7-null-comment target=E1a accept_green=True escapes=0 attribution_ok=True null=True verdict=null
+ARM accept-green=ok refuse-red=ok attribution=ok
+MUTANTS total=7 killed=6 survived=0 invalid=0 null_detected=1
+[rc=0]
+$ registry row shape at the drifted bytes
+round71-c1-hf-probe cells= 8 kind= gate entry_has_script= True owner= kengaku
+round71-c2-routed-defects cells= 8 kind= gate entry_has_script= True owner= kengaku
+round72-c1-hf-probe cells= 8 kind= gate entry_has_script= True owner= kengaku
+round72-c2-routed-defects cells= 8 kind= gate entry_has_script= True owner= kengaku
+$ sha256sum SKILL.md
+ed12760b456ac418eba14ebc4f62fb30d2840115592d08c9d87c371ce6eef892  SKILL.md
+Note: run_mutants builds its own fixtures under --work and never reads SKILL.md; the seven MUTANT lines above are the same verdicts as section 0.

@@ -2695,3 +2695,50 @@ Evidence: `corpus/evidence/round64/`, `.ufo/waves/round-64/` (wave seats in `w1/
   `round-65`, `round-66`, `round-67` (labrat role). Named limitations (i)–(ix) in the round
   report; Q13/Q14 re-read outstanding; the `--selftest` arms and the `bwrap` environment
   inheritance route to round 72.
+
+## Round 72 (hyaku run 15, attempt 1, 2026-11-04)
+
+- **Claims (frozen `b6336136`, base `c6322972`).** R72-C1 coverage (held at its L0 cap) — the
+  `hf-model-inference` TB2 grader replayed offline under a **nine-case** table with a provenance
+  witness (`bwrap --clearenv` + a nine-variable allowlist + the sandbox's own
+  `transformers.__file__` + a plantable canary) and a stub-injection control, K9
+  `400-no-error-field` pricing `tests/test_outputs.py:107`; R72-C2 calibration — the round-71
+  closure's routed defects R71-R1 (registry rows) and R71-R7 (freeze-doc overclaim) closed by a
+  re-deriving gate whose mutation metric is a fixture matrix, with the R71-R5 count-parser class
+  repaired.
+- **Landed (R72-C1).** `plans/round72_c1_hf_probe.py` (successor to the round-71 probe: `--clearenv`
+  + `ENV_ALLOW`, the canary `R72_CANARY`, in-sandbox provenance, `--stub-control`, repaired
+  `--selftest` arms). Receipt of record `corpus/evidence/round72/hf/receipt.txt` — nine
+  `VECTOR … agree=True` (K9 `PPPF`), `LEG-COVERAGE legs=4 seen_p=4 seen_f=4`,
+  `SUMMARY cases=9 legs=36 mismatches=0 setup=0 exc=2`, `PROVENANCE env_cleared=True
+  allowlist_seen=9/9 distinct=1 canary_seen=0 transformers_file=/venv/…`,
+  `PREDICATE R72-C1 pass`; checker `DEFECTS n=0`, rc 0 (`…/hf/check.txt`); replicate 3494 B
+  byte-identical; do-nothing control derives `FFFF` and fails
+  (`.ufo/waves/round-72/c1-control.txt`). The stub injection that changed the round-71 table
+  (`mismatches=6`, `PREDICATE R71-C1 fail` under `PYTHONPATH=/app/stub`) leaves the round-72 table
+  unchanged (`STUB-CONTROL exposed=False vectors_unchanged=True`).
+- **Landed (R72-C2).** `plans/round72_c2_routed_defects.py` (E1a registry rows, E1b erratum content,
+  E1c digit/backtick-aware `parse_count`, E2 positional append-only; `--selftest` with append-only,
+  positional and parser arms; `--mutants` scored on a green/red fixture matrix with an attribution
+  arm and a deliberate null). Corrections: four eight-column `SKILL.md` registry rows and the
+  appended `## Errata — round 72` block in `plans/round-71-claims.md`. Green
+  `corpus/evidence/round72/c2-green.txt` (`DEFECTS n=6` → `n=0`), controls
+  `corpus/evidence/round72/c2-controls.txt`.
+- **Sources.** S247 (the `bwrap(1)` manual's `--clearenv` entry, tier A) and S248 (the model card of
+  `distilbert-base-uncased-finetuned-sst-2-english`, tier A), both live-fetched 2026-11-03 with
+  captures under `corpus/evidence/round72/sources/`; S245/S246 re-derived. New entry
+  `corpus/knowledge/tb2-hf-model-inference-provenance.md` (indexed; `admission: hold` pending the
+  Q13/Q14 second-seat re-read). `merge/kengaku`: one entry considered, refused with reason + flip
+  (`corpus/lessons/round-72.md` `## Gate`); `Assimilation: none`.
+- **Verification run this round.** C1 checker `DEFECTS n=0` / rc 0 at the integration tree; C2
+  `DEFECTS n=0` / rc 0; census 238 → 240 rows, rc 0, 25 `W04` at both ends; depth gate
+  `PREDICATE R63-C2 pass` (`ROWS n=16 class_match=True count_mismatch=0 paths total=36
+  resolved=36 share=1.00`); trio `PREDICATE R64-C3 pass` (`SWEEP files=72 trio_open=43
+  addendum=29 red=0`); class row `executed 4 of 8` = 1, `executed 3 of 8` = 0.
+- **Mistakes mined** (`corpus/lessons/round-72.md` `## Mistakes`). Two are the L1's own: a control
+  run invoked without `--control` produced a passing battery in the control's place, and a
+  pre-freeze receipt's `PROBE_BLOB` reads `unknown`. Wave-seat findings are appended to the same
+  table with their pointers.
+- **Open.** L0 carried: `kengaku | round-25/33/51`, `round-54`, `round-56`, `round-63`,
+  `round-65`, `round-66`, `round-67` (labrat role). Named limitations in the round report; the
+  Q13/Q14 re-read of the provenance entry is outstanding.

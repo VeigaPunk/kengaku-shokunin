@@ -1,0 +1,25 @@
+E1c ok
+E1a ok
+E1b ok
+E1c ok
+E2 ok
+E1c ok
+E1a ok
+E1b ok
+E1c ok
+E1a ok
+E1c ok
+E1a ok
+E1b ok
+E2 ok
+DEFECTS-RED n=3 codes=E1a,E1b,E2 want=E1a,E1b,E2
+SELFTEST defects-in-fake=3 want=3 all-fail=True append-only-arm=True positional-arm=True parser-arm=True ok=True
+MUTANT M1-registry-columns target=E1a accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M2-registry-owner target=E1a accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M3-errata-labels target=E1b accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M4-errata-revisions target=E1b accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M5-errata-positional target=E2 accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M6-errata-last-section target=E2 accept_green=True escapes=1 attribution_ok=True null=False verdict=killed
+MUTANT M7-null-comment target=E1a accept_green=True escapes=0 attribution_ok=True null=True verdict=null
+ARM accept-green=ok refuse-red=ok attribution=ok
+MUTANTS total=7 killed=6 survived=0 invalid=0 null_detected=1

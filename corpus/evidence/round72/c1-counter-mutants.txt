@@ -1,0 +1,157 @@
+# R72-C1 counter-mutation matrix — seat CounterMutateR72 (round 72, wave w1)
+# target instrument : plans/round72_c1_hf_probe.py  check_receipt
+# target sha256     : 99867c7f080179b44f30e7887c2f0a6c434217a1ec49cd2fbc1b23981faa637e
+# lane tip          : b6336136e0e891522b113a94d8e0bd65e0eae8de (master)
+# baseline receipt  : corpus/evidence/round72/hf/receipt.txt
+#                     sha256 fa060b7fa2e4adbf8f0d4de180bea2d66bc7598ed5f13dbcfcf6093b7c224087
+#                     == this seat's own nine-case battery run (`cmp` rc=0): the genuine
+#                     baseline IS the receipt of record, not a hand-written stand-in.
+# protocol          : KILLED   = mutant accepts the genuine receipt (rc 0) and ACCEPTS a
+#                                  receipt the pristine checker REFUSES (rc 1)
+#                     SURVIVED = mutant accepts the genuine receipt and still REFUSES every
+#                                  pristine-refused receipt aimed at its clause
+#                     INVALID  = mutant refuses the genuine receipt (not counted as a kill)
+# each check ran as : python3 <mutant|instrument> --lane <lane> --check-receipt <receipt>
+#                     [--work <scratch>/w/<mutant>/<receipt>]   (claim counting command 2 shape)
+# mutants           : one hunk each in a scratch copy of the instrument; lane never written
+
+## baseline — pristine check_receipt on every receipt (--work active)
+BASE GENUINE                            rc=0 DEFECTS n=0 codes=-
+BASE T1_drop_provenance                 rc=1 DEFECTS n=2 codes=provenance-absent,predicate
+BASE T2_env_false                       rc=1 DEFECTS n=2 codes=provenance-env,predicate
+BASE T3a_distinct2                      rc=1 DEFECTS n=2 codes=provenance-distinct,predicate
+BASE T3b_path_outside_venv              rc=1 DEFECTS n=2 codes=provenance-path,predicate
+BASE T4_canary3                         rc=1 DEFECTS n=2 codes=provenance-canary,predicate
+BASE T5_allowlist_seen_8of9             rc=1 DEFECTS n=2 codes=provenance-allowlist-seen,predicate
+BASE T6_case_k9_dropped                 rc=1 DEFECTS n=4 codes=case-set,case-digest,case-digest-unique,predicate
+BASE T6b_case_legs_vector_k9_dropped    rc=1 DEFECTS n=6 codes=case-set,case-digest,case-digest-unique,legs-line,summary,predicate
+BASE T7_library_drift                   rc=1 DEFECTS n=1 codes=library-drift
+BASE T8_probe_pair_equal_but_wrong      rc=1 DEFECTS n=2 codes=probe-blob,probe-working-tree
+BASE T8b_probe_line_absent              rc=1 DEFECTS n=2 codes=probe-working-tree,predicate
+
+## assigned clauses (M1-M8) + attribution mutants
+MUT  clause                                                      genuine  target(s)                      verdict
+M1   PROVENANCE line absent (provenance-absent)                 rc=0 T1_drop_provenance:rc=0         KILLED
+M2   env_cleared ignored (provenance-env)                       rc=0 T2_env_false:rc=0               KILLED
+M3   distinct + transformers_file path ignored (provenance-distinct/path) rc=0 T3a_distinct2:rc=0 T3b_path_outside_venv:rc=0 KILLED
+M3a  distinct only ignored                                      rc=0 T3a_distinct2:rc=0 T3b_path_outside_venv:rc=1 KILLED
+M3b  transformers_file /venv/ prefix only ignored               rc=0 T3a_distinct2:rc=1 T3b_path_outside_venv:rc=0 KILLED
+M4   canary_seen ignored (provenance-canary)                    rc=0 T4_canary3:rc=0                 KILLED
+M5   allowlist_seen ignored (provenance-allowlist-seen)         rc=0 T5_allowlist_seen_8of9:rc=0     KILLED
+M6   K9 dropped from the case-set check                         rc=0 T6_case_k9_dropped:rc=1 T6b_case_legs_vector_k9_dropped:rc=1 SURVIVED
+M6b  K9 dropped from case-set AND cases_ok (attribution probe)  rc=0 T6_case_k9_dropped:rc=1 T6b_case_legs_vector_k9_dropped:rc=1 SURVIVED
+M7   LIBRARIES drift ignored (library-drift)                    rc=0 T7_library_drift:rc=0           KILLED
+M8   PROBE_BLOB/PROBE equality ignored (blob_ok)                rc=0 T8_probe_pair_equal_but_wrong:rc=1 T8b_probe_line_absent:rc=1 SURVIVED
+
+## per-mutant detail (mutant stdout on the target receipts)
+MUT M1 verdict=killed accept=DEFECTS n=0 accept_rc=0 mutant_sha256=820eb7c968c511297c0b12bc073f5c475c4fb8c69704d8d43f38fc2286ec6994
+    vs T1_drop_provenance: pristine_rc=1 (provenance-absent,predicate) mutant_rc=0 (mutant codes: -)
+MUT M2 verdict=killed accept=DEFECTS n=0 accept_rc=0 mutant_sha256=9a708ca10dd8ec5471b972106c47f83c31085157c10d35dbb682fe6184d3d5f1
+    vs T2_env_false: pristine_rc=1 (provenance-env,predicate) mutant_rc=0 (mutant codes: -)
+MUT M3 verdict=killed accept=DEFECTS n=0 accept_rc=0 mutant_sha256=f64432044f5273d35d8e367fa385c61e087edb5084d6ed87c6ca35513505954a
+    vs T3a_distinct2: pristine_rc=1 (provenance-distinct,predicate) mutant_rc=0 (mutant codes: -)
+    vs T3b_path_outside_venv: pristine_rc=1 (provenance-path,predicate) mutant_rc=0 (mutant codes: -)
+MUT M3a verdict=killed accept=DEFECTS n=0 accept_rc=0 mutant_sha256=6d27a92b1b7a7a3437fb9e4fc533a130099e282c07408ef6e41b1c43fac8b76c
+    vs T3a_distinct2: pristine_rc=1 (provenance-distinct,predicate) mutant_rc=0 (mutant codes: -)
+    vs T3b_path_outside_venv: pristine_rc=1 (provenance-path,predicate) mutant_rc=1 (mutant codes: provenance-path,predicate)
+MUT M3b verdict=killed accept=DEFECTS n=0 accept_rc=0 mutant_sha256=f4f4d115bf479bcb75f03697bd32ff8aaaceab2677d43b20a8a50e322b6c4fbd
+    vs T3a_distinct2: pristine_rc=1 (provenance-distinct,predicate) mutant_rc=1 (mutant codes: provenance-distinct,predicate)
+    vs T3b_path_outside_venv: pristine_rc=1 (provenance-path,predicate) mutant_rc=0 (mutant codes: -)
+MUT M4 verdict=killed accept=DEFECTS n=0 accept_rc=0 mutant_sha256=3f5b57bb2e5d093e4e9adf60f68c8f7e13a52a0dfa484ec8d28b2f85639d16f8
+    vs T4_canary3: pristine_rc=1 (provenance-canary,predicate) mutant_rc=0 (mutant codes: -)
+MUT M5 verdict=killed accept=DEFECTS n=0 accept_rc=0 mutant_sha256=54e8dd9dbf6cf040ab950b76bf9f31d44f5c37a84ca4d318440e2b1f0d2e4914
+    vs T5_allowlist_seen_8of9: pristine_rc=1 (provenance-allowlist-seen,predicate) mutant_rc=0 (mutant codes: -)
+MUT M6 verdict=survived accept=DEFECTS n=0 accept_rc=0 mutant_sha256=81026c1a1a93a7895a3b4b1930d5f6b1c058eb27d34c297542b983c9e5186b57
+    vs T6_case_k9_dropped: pristine_rc=1 (case-set,case-digest,case-digest-unique,predicate) mutant_rc=1 (mutant codes: case-digest,case-digest-unique,predicate)
+    vs T6b_case_legs_vector_k9_dropped: pristine_rc=1 (case-set,case-digest,case-digest-unique,legs-line,summary,predicate) mutant_rc=1 (mutant codes: case-digest,case-digest-unique,legs-line,summary,predicate)
+MUT M6b verdict=survived accept=DEFECTS n=0 accept_rc=0 mutant_sha256=b352bd26b3a9588d492a2c092710240d6fa2c84f0eda9178e1f339760be38b2f
+    vs T6_case_k9_dropped: pristine_rc=1 (case-set,case-digest,case-digest-unique,predicate) mutant_rc=1 (mutant codes: case-digest,case-digest-unique)
+    vs T6b_case_legs_vector_k9_dropped: pristine_rc=1 (case-set,case-digest,case-digest-unique,legs-line,summary,predicate) mutant_rc=1 (mutant codes: case-digest,case-digest-unique,legs-line,summary,predicate)
+MUT M7 verdict=killed accept=DEFECTS n=0 accept_rc=0 mutant_sha256=5a05f6b51e8e466c5617d1db10374fcb745743be3aae5d30863a494c0933b3f0
+    vs T7_library_drift: pristine_rc=1 (library-drift) mutant_rc=0 (mutant codes: -)
+MUT M8 verdict=survived accept=DEFECTS n=0 accept_rc=0 mutant_sha256=be17d8a8e4ce0067ca420450e01bf6edfa07144653eb2168c619ed0d1ebdec72
+    vs T8_probe_pair_equal_but_wrong: pristine_rc=1 (probe-blob,probe-working-tree) mutant_rc=1 (mutant codes: probe-blob,probe-working-tree)
+    vs T8b_probe_line_absent: pristine_rc=1 (probe-working-tree,predicate) mutant_rc=1 (mutant codes: probe-working-tree)
+
+## M8 observability enumeration: PROBE / PROBE_BLOB sha in {committed blob, wrong, absent}
+EQUIV-M8 probe=blob   blob=blob   pristine_rc=0 mutant_rc=0 same=True pristine_codes=-
+EQUIV-M8 probe=blob   blob=zero   pristine_rc=1 mutant_rc=1 same=True pristine_codes=probe-blob,predicate
+EQUIV-M8 probe=blob   blob=absent pristine_rc=1 mutant_rc=1 same=True pristine_codes=probe-blob,probe-blob-rev,predicate
+EQUIV-M8 probe=zero   blob=blob   pristine_rc=1 mutant_rc=1 same=True pristine_codes=probe-working-tree,predicate
+EQUIV-M8 probe=zero   blob=zero   pristine_rc=1 mutant_rc=1 same=True pristine_codes=probe-blob,probe-working-tree
+EQUIV-M8 probe=zero   blob=absent pristine_rc=1 mutant_rc=1 same=True pristine_codes=probe-blob,probe-blob-rev,probe-working-tree,predicate
+EQUIV-M8 probe=absent blob=blob   pristine_rc=1 mutant_rc=1 same=True pristine_codes=probe-working-tree,predicate
+EQUIV-M8 probe=absent blob=zero   pristine_rc=1 mutant_rc=1 same=True pristine_codes=probe-blob,probe-working-tree,predicate
+EQUIV-M8 probe=absent blob=absent pristine_rc=1 mutant_rc=1 same=True pristine_codes=probe-blob,probe-blob-rev,probe-working-tree,predicate
+
+## cross matrix: which receipts each script accepts (--work omitted, text-only clauses)
+CROSS M1       accepts=GENUINE,T1_drop_provenance same_as_pristine=False
+CROSS M2       accepts=GENUINE,T2_env_false same_as_pristine=False
+CROSS M3       accepts=GENUINE,T3a_distinct2,T3b_path_outside_venv same_as_pristine=False
+CROSS M3a      accepts=GENUINE,T3a_distinct2 same_as_pristine=False
+CROSS M3b      accepts=GENUINE,T3b_path_outside_venv same_as_pristine=False
+CROSS M4       accepts=GENUINE,T4_canary3 same_as_pristine=False
+CROSS M5       accepts=GENUINE,T5_allowlist_seen_8of9 same_as_pristine=False
+CROSS M6       accepts=GENUINE same_as_pristine=True
+CROSS M6b      accepts=GENUINE same_as_pristine=True
+CROSS M7       accepts=GENUINE,T7_library_drift same_as_pristine=False
+CROSS M8       accepts=GENUINE same_as_pristine=True
+CROSS PRISTINE accepts=GENUINE same_as_pristine=True
+
+## residual probes on the pristine checker (receipts the claim does not forbid)
+PROBE P1_header_digests_forged               rc_no_work=0 rc_work=0 codes=- accepted=True
+PROBE P2_provenance_duplicated_identical     rc_no_work=0 rc_work=0 codes=- accepted=True
+PROBE P3_provenance_duplicated_second_bad    rc_no_work=0 rc_work=0 codes=- accepted=True
+PROBE P4_predicate_flipped_fail              rc_no_work=1 rc_work=1 codes=predicate accepted=False
+PROBE P5_env_cleared_absent_token            rc_no_work=1 rc_work=1 codes=provenance-env,predicate accepted=False
+
+## rows built but NOT run in this wave (cancelled at wave wrap-up; listed as unrun)
+M6c  case-set clause deleted outright (attribution)          UNRUN
+M9   allowlist names ignored (provenance-allowlist)          UNRUN
+M10  LEG-COVERAGE line ignored (leg-coverage)                UNRUN
+M11  SUMMARY line ignored (summary)                          UNRUN
+M12  staged case digest ignored (case-digest, --work only)   UNRUN
+
+## clause verdicts for the eight assigned clauses
+M1 provenance-absent           KILLED
+M2 env_cleared                 KILLED  (see F3: the generator writes the literal True)
+M3 distinct + /venv/ path      KILLED  (both sites independently load-bearing: M3a, M3b)
+M4 canary_seen                 KILLED
+M5 allowlist_seen              KILLED
+M6 K9 in the case-set check    SURVIVED -> F1, clause is not load-bearing
+M7 LIBRARIES drift             KILLED
+M8 PROBE_BLOB/PROBE equality   SURVIVED -> F2, conjunct is not load-bearing
+
+## findings (detail in .ufo/waves/round-72/w1/CounterMutateR72.md)
+F1 case-set (and its K9 membership) is a duplicate detector: cases_ok has the same
+   sorted(CASE)==sorted(ids) conjunct and feeds the PREDICATE line, so any receipt that
+   trips case-set is refused anyway. A K9-less receipt is refused by case-digest-unique
+   (8 distinct digests != len(CASES)=9), by case-digest under --work (K9 re-stage absent),
+   and by the per-case vector loop. M6 and M6b both accept the genuine receipt and both
+   still refuse every K9-less receipt measured here.
+F2 blob_ok is implied by the two independent bindings (probe-blob, probe-working-tree):
+   if both pass, PROBE_BLOB.sha == blob == PROBE.sha, so blob_ok can never be the
+   deciding conjunct. Enumeration above: 9/9 identical rc, identical defect codes.
+F3 battery_lines writes 'PROVENANCE env_cleared=True' as a literal; no field of the
+   sandbox payload feeds it. The clause is enforceable against a forged receipt but
+   cannot ever record a leak; canary_seen (M4) and allowlist_seen (M5) are the real
+   environment witnesses.
+F4 a duplicated PROVENANCE line is ACCEPTED (first line wins), although the frozen kill
+   rule names 'absent/duplicated/outside /venv/' as failures; a second, canary_seen=7
+   copy is also accepted (P2, P3).
+F5 the receipt's GRADER/INSTRUCTION/MODEL sha lines and the SANDBOX line are never
+   compared to lane-derived values; forging all four still exits 0 (P1). The lane files
+   themselves are checked against the constants, so the predicate stays true of the
+   artifact, but 3 of the 5 digests the receipt prints are unbound (carried from R71).
+F6 allowlist_seen counts the 9 names present, not extra keys: an environment that
+   inherited the allowlist plus anything else would still print 9/9.
+
+## restoration / scratch
+lane files: never written (instrument read-only); pristine sha256 re-read at run time =
+  99867c7f080179b44f30e7887c2f0a6c434217a1ec49cd2fbc1b23981faa637e; no restore was required.
+scratch: /fast/scratch/hyaku/kengaku-r72/CounterMutateR72 removed after this file was
+  written (receipts, mutants and matrix.json are not retained; this file carries the
+  matrix, the shas and the equivalence enumeration).
+port 5000: battery run took /fast/scratch/hyaku/kengaku-r72/port5000.lock; the checker
+  runs bind nothing.
+tools installed: none (host python3 3.13.16, git, bubblewrap 0.13.1, /fast/ComfyUI/.venv).

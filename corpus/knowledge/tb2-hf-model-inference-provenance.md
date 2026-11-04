@@ -24,18 +24,19 @@ This entry records the round-72 repair, because the pattern generalises to every
 
 > Unset all environment variables, except for PWD and any that are subsequently set by --setenv
 
-So the sandbox's environment is exactly the `--setenv` list, and the probe's list is nine
-variables: `PATH`, `HOME`, `LANG`, `PYTHONPATH=/venv/lib/python3.13/site-packages`,
-`PYTHONNOUSERSITE`, `PYTHONWARNINGS`, `TMPDIR`, `HF_HUB_OFFLINE`, `TRANSFORMERS_OFFLINE`. Nothing
-the caller exports can reach an import. `PWD` is the one surviving variable and is bwrap's own
-exception, not an inherited value.
+So what the caller exports cannot reach an import: the probe's `--setenv` list is nine variables —
+`PATH`, `HOME`, `LANG`, `PYTHONPATH=/venv/lib/python3.13/site-packages`, `PYTHONNOUSERSITE`,
+`PYTHONWARNINGS`, `TMPDIR`, `HF_HUB_OFFLINE`, `TRANSFORMERS_OFFLINE` — and the observed environment
+is those nine **plus** two born inside: `PWD` (bwrap's own exception) and `TORCHINDUCTOR_CACHE_DIR`,
+which torch creates on the first `from_pretrained`. Eleven keys, not nine: `allowlist_seen=9/9` is a
+superset test, and the inheritance witness is `canary_seen=0`, not the count.
 
 **Two witnesses, both on the receipt.** A provenance clause that can be satisfied by a claim is
 worthlessness; the receipt carries evidence computed inside the sandbox:
 
-| line | clause | why it is not self-report |
+| line | clause | what backs it |
 |---|---|---|
-| `PROVENANCE … env_cleared=True` | the probe's own flag | pairs with the canary: a value planted in the caller's environment must never appear |
+| `PROVENANCE … env_cleared=True` | the probe's own assertion — the emitter prints the literal, and `--check-receipt` only matches it | a declaration a reader checks against `bwrap_argv` (`--clearenv` present, nine `--setenv`); it is not evidence on its own |
 | `PROVENANCE … canary_seen=0` | `R72_CANARY` is exported for every case and the harness records whether it sees it | a single leaked case turns the count above 0 |
 | `PROVENANCE … distinct=1 transformers_file=/venv/…` | the harness's own `transformers.__file__` | one path, and it must lie under the read-only venv bind — a stub on any writable path cannot satisfy it |
 | `PROVENANCE … allowlist_seen=9/9` | every declared variable was actually present | catches a silently dropped `--setenv` |
@@ -64,7 +65,7 @@ this; the assert-site count does. Round 71 named 6 of 19 assert sites priced; K9
 
 The task names `distilbert-base-uncased-finetuned-sst-2-english` and the card (S248) loads it with
 `DistilBertForSequenceClassification.from_pretrained(...)` — so the leg's condition is *class +
-files*, not weights. The probe stages a five-file 19 KB fixture that the same class loads. The
+files*, not weights. The probe stages a five-file 13,944-byte fixture that the same class loads. The
 replay therefore prices the grader's logic and the sandbox's provenance; it says nothing about
 distilbert's accuracy. Recording that boundary is what keeps the class-row move honest.
 

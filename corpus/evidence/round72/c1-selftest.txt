@@ -1,0 +1,62 @@
+CASE K1 derived=PPPP rc=0 exc=[]
+CASE K2 derived=PPFP rc=0 exc=[]
+CASE K3 derived=PPFP rc=0 exc=[]
+CASE K4 derived=PPPF rc=0 exc=[]
+CASE K5 derived=PFPP rc=0 exc=[]
+CASE K6 derived=PFFF rc=0 exc=['test_api_error_handling', 'test_sentiment_endpoint']
+CASE K7 derived=FPPP rc=0 exc=[]
+CASE K8 derived=FPPP rc=0 exc=[]
+CASE K9 derived=PPPF rc=0 exc=[]
+LEG-COVERAGE legs=4 seen_p=4 seen_f=4
+SUMMARY cases=9 legs=36 mismatches=0 setup=0 exc=2
+PREDICATE R72-C1 pass
+DEFECT vector-derived K2 vector=PPPP legs=PPFP
+DEFECT vector-mismatch K2 derived=PPPP frozen=PPFP
+DEFECT summary want 'SUMMARY cases=9 legs=36 mismatches=1 setup=0 exc=2'
+DEFECT predicate want 'PREDICATE R72-C1 fail'
+DEFECTS n=4
+PREDICATE R72-C1 fail
+ARM vector_flip refused=True
+DEFECT vector-derived K6 vector=PFFF legs=PPFF
+DEFECTS n=1
+PREDICATE R72-C1 fail
+ARM legs_flip refused=True
+DEFECT leg-coverage want 'LEG-COVERAGE legs=4 seen_p=4 seen_f=4'
+DEFECTS n=1
+PREDICATE R72-C1 fail
+ARM coverage_flip refused=True
+DEFECT case-set receipt=['K1', 'K2', 'K3', 'K4', 'K5', 'K6', 'K7', 'K9'] want=['K1', 'K2', 'K3', 'K4', 'K5', 'K6', 'K7', 'K8', 'K9']
+DEFECT case-digest-unique staged digests are not distinct
+DEFECT legs-line K8
+DEFECT summary want 'SUMMARY cases=9 legs=36 mismatches=1 setup=0 exc=2'
+DEFECT predicate want 'PREDICATE R72-C1 fail'
+DEFECTS n=5
+PREDICATE R72-C1 fail
+ARM drop_case refused=True
+DEFECT case-digest K1 receipt=04512bfa2140124948903dc7b0f80941656f2b8bf18da8a6ef60d442f89e533f1 derived=4512bfa2140124948903dc7b0f80941656f2b8bf18da8a6ef60d442f89e533f1
+DEFECTS n=1
+PREDICATE R72-C1 fail
+ARM case_digest refused=True
+DEFECT case-set receipt=['K1', 'K2', 'K3', 'K4', 'K5', 'K6', 'K7', 'K8'] want=['K1', 'K2', 'K3', 'K4', 'K5', 'K6', 'K7', 'K8', 'K9']
+DEFECT case-digest-unique staged digests are not distinct
+DEFECT legs-line K9
+DEFECT summary want 'SUMMARY cases=9 legs=36 mismatches=1 setup=0 exc=2'
+DEFECT predicate want 'PREDICATE R72-C1 fail'
+DEFECTS n=5
+PREDICATE R72-C1 fail
+ARM drop_k9 refused=True
+DEFECT provenance-env PROVENANCE env_cleared=False allowlist=PATH,HOME,LANG,PYTHONPATH,PYTHONNOUSERSITE,PYTHONWARNINGS,TMPDIR,HF_HUB_OFFLINE,TRANSFORMERS_OFFLINE allowlist_seen=9/9 cases=9 distinct=1 canary_seen=0 transformers_file=/venv/lib/python3.13/site-packages/transformers/__init__.py
+DEFECT predicate want 'PREDICATE R72-C1 fail'
+DEFECTS n=2
+PREDICATE R72-C1 fail
+ARM provenance_env refused=True
+DEFECT provenance-path /work/lib/python3.13/site-packages/transformers/__init__.py
+DEFECT predicate want 'PREDICATE R72-C1 fail'
+DEFECTS n=2
+PREDICATE R72-C1 fail
+ARM provenance_path refused=True
+DEFECTS n=0
+PREDICATE R72-C1 pass
+ARM accept genuine rc=0 accepted=True
+ARM STAGED-STATE changes_on_byte=True PATH-INDEPENDENT sha_equal=True
+SELFTEST red_refused=8/8 accept_ok=1 state_sensitive=1 path_independent=1 ok=True

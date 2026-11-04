@@ -1,0 +1,48 @@
+REV b6336136e0e891522b113a94d8e0bd65e0eae8de
+GRADER sha256=61a686d6caf833ac3c240f2a8ceddacfed82b9f392c51b48ed8359d3e0f87857
+INSTRUCTION sha256=29151c5b2306f522f38fa905de3d34566865829355e5ca0895f4fca04d51dcc1
+MODEL tree_sha256=c5c257677d7143af56903fe5f139b1acd90eae17c337eb966fd2fe087b858944 files=5
+PROBE sha256=99867c7f080179b44f30e7887c2f0a6c434217a1ec49cd2fbc1b23981faa637e
+PROBE_BLOB sha256=99867c7f080179b44f30e7887c2f0a6c434217a1ec49cd2fbc1b23981faa637e rev=b6336136e0e891522b113a94d8e0bd65e0eae8de
+LIBRARIES python=3.13.16 torch=2.14.1+cu130 transformers=5.21.0 requests=2.34.2
+SANDBOX bwrap=bwrap port=5000 net=shared cleared_env=True
+PROVENANCE env_cleared=True allowlist=PATH,HOME,LANG,PYTHONPATH,PYTHONNOUSERSITE,PYTHONWARNINGS,TMPDIR,HF_HUB_OFFLINE,TRANSFORMERS_OFFLINE allowlist_seen=9/9 cases=9 distinct=1 canary_seen=0 transformers_file=/venv/lib/python3.13/site-packages/transformers/__init__.py
+CASE K1 case_sha256=01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b server_pid=- sandbox_rc=0
+LEGS K1 test_model_downloaded=F test_flask_api_running=F test_sentiment_endpoint=F test_api_error_handling=F
+EXC K1 test_api_error_handling=E test_sentiment_endpoint=E
+VECTOR K1 expected=PPPP derived=FFFF agree=False
+CASE K2 case_sha256=01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b server_pid=- sandbox_rc=0
+LEGS K2 test_model_downloaded=F test_flask_api_running=F test_sentiment_endpoint=F test_api_error_handling=F
+EXC K2 test_api_error_handling=E test_sentiment_endpoint=E
+VECTOR K2 expected=PPFP derived=FFFF agree=False
+CASE K3 case_sha256=01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b server_pid=- sandbox_rc=0
+LEGS K3 test_model_downloaded=F test_flask_api_running=F test_sentiment_endpoint=F test_api_error_handling=F
+EXC K3 test_api_error_handling=E test_sentiment_endpoint=E
+VECTOR K3 expected=PPFP derived=FFFF agree=False
+CASE K4 case_sha256=01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b server_pid=- sandbox_rc=0
+LEGS K4 test_model_downloaded=F test_flask_api_running=F test_sentiment_endpoint=F test_api_error_handling=F
+EXC K4 test_api_error_handling=E test_sentiment_endpoint=E
+VECTOR K4 expected=PPPF derived=FFFF agree=False
+CASE K5 case_sha256=01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b server_pid=- sandbox_rc=0
+LEGS K5 test_model_downloaded=F test_flask_api_running=F test_sentiment_endpoint=F test_api_error_handling=F
+EXC K5 test_api_error_handling=E test_sentiment_endpoint=E
+VECTOR K5 expected=PFPP derived=FFFF agree=False
+CASE K6 case_sha256=01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b server_pid=- sandbox_rc=0
+LEGS K6 test_model_downloaded=F test_flask_api_running=F test_sentiment_endpoint=F test_api_error_handling=F
+EXC K6 test_api_error_handling=E test_sentiment_endpoint=E
+VECTOR K6 expected=PFFF derived=FFFF agree=False
+CASE K7 case_sha256=01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b server_pid=- sandbox_rc=0
+LEGS K7 test_model_downloaded=F test_flask_api_running=F test_sentiment_endpoint=F test_api_error_handling=F
+EXC K7 test_api_error_handling=E test_sentiment_endpoint=E
+VECTOR K7 expected=FPPP derived=FFFF agree=False
+CASE K8 case_sha256=01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b server_pid=- sandbox_rc=0
+LEGS K8 test_model_downloaded=F test_flask_api_running=F test_sentiment_endpoint=F test_api_error_handling=F
+EXC K8 test_api_error_handling=E test_sentiment_endpoint=E
+VECTOR K8 expected=FPPP derived=FFFF agree=False
+CASE K9 case_sha256=01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b server_pid=- sandbox_rc=0
+LEGS K9 test_model_downloaded=F test_flask_api_running=F test_sentiment_endpoint=F test_api_error_handling=F
+EXC K9 test_api_error_handling=E test_sentiment_endpoint=E
+VECTOR K9 expected=PPPF derived=FFFF agree=False
+LEG-COVERAGE legs=4 seen_p=0 seen_f=4
+SUMMARY cases=9 legs=36 mismatches=9 setup=0 exc=18
+PREDICATE R72-C1 fail

@@ -265,6 +265,8 @@ identity-verified endpoint and a newly filed design before traffic.
 
 Superseded (round 24): this round-13 plan is historical text; the active plan is §Planned (round 25).
 
+Superseded (round 72): the active plan is the round-72 section's §Planned (round 73).
+
 ## Retired
 
 None. No cell scores 10 and no axis is a wrong fit.
@@ -3228,3 +3230,62 @@ positional append-only check (the superseded sentence above the first `## Errata
 `falsify` second wave to re-read `corpus/knowledge/tb2-hf-model-inference-offline.md` and admit it
 under Q13/Q14 (this round's entry carries `admission: hold`). L0 carried: `kengaku |
 round-25/33/51`, `round-54`, `round-56`, `round-63`, `round-65`, `round-66`, `round-67`.
+
+## Round 72 (hyaku run 15, attempt 1, 2026-11-03/04): a provenance-witnessed nine-case replay (R72-C1, coverage held at its L0 cap) and the round-71 routed defects closed by a gate whose mutant metric is a fixture matrix (R72-C2, calibration held at ceiling)
+
+Base `c6322972` (round-71 verifier spot-check tip). Freeze `b6336136`: claims doc, both instruments,
+the four registry rows, the round-71 claims-doc erratum, S247/S248, the entry, census-before, C2
+red-before, the C1 do-nothing control, the wave spec and the validated dispatch (`w1-validate.rc` =
+0). Wave `.ufo/waves/round-72/w1`: v1, **16 seats** (executor 6, scribe 3, reviewer 2,
+mutation-tester 2, critic 1, scout 1, connector 1); attack roles `{reviewer, critic,
+mutation-tester}` = 5/16 = 31 % (≥25 %); connector 1 (≤2). No residual call; round total **16**.
+
+| claim / axis | before → after evidence | counting command | verdict / score |
+|---|---|---|---|
+| **R72-C1 / coverage** (lowest owned non-retired axis, L0-capped at 7) — the `hf-model-inference` grader replayed offline under a nine-case table with a provenance witness | before (`c6322972`): instrument absent (`git cat-file -e c6322972:plans/round72_c1_hf_probe.py` → rc 128), and the class's previous instrument fails the same injection — v1 + `PYTHONPATH=/app/stub` → `SUMMARY cases=8 … mismatches=6`, `PREDICATE R71-C1 fail` (`corpus/evidence/round72/hf/stub-before-v1.txt`) → after: same injection, v2 → `PROVENANCE env_cleared=True allowlist_seen=9/9 distinct=1 canary_seen=0 transformers_file=/venv/…`, `PREDICATE R72-C1 pass` (`stub-after-v2.txt`); the check prints `DEFECTS n=0`, rc 0 (`hf/check.txt`); `STUB-CONTROL exposed=False vectors_unchanged=True` | `python3 plans/round72_c1_hf_probe.py --lane . --check-receipt corpus/evidence/round72/hf/receipt.txt --work <scratch>` | **admitted on its frozen sentence**; coverage held at **7** (the L0 cap `kengaku \| round-25/33/51` is unchanged) |
+| **R72-C2 / calibration** (held at ceiling 10, exercised) — the round-71 closure's routed defects R71-R1 and R71-R7 closed, the R71-R5 parser class repaired, the invariant mutant metric replaced | before (`c6322972`, freeze instrument): `DEFECTS n=6`, `PREDICATE R72-C2 fail`, rc 1 (`corpus/evidence/round72/c2-red-before.txt`) → after: `E1a ok`, `E1b ok`, `E1c ok`, `E2 ok`, `DEFECTS n=0`, rc 0 (`c2-green.txt`); `--selftest` → `defects-in-fake=3 want=3 all-fail=True append-only-arm=True positional-arm=True parser-arm=True`; `--mutants` → `MUTANTS total=7 killed=6 survived=0 invalid=0 null_detected=1` (`c2-controls.txt`) | `python3 plans/round72_c2_routed_defects.py --lane .` | **admitted on its frozen predicate**; calibration held at **10**, exercised |
+
+**Corrections landed (not claims, each with a re-deriving check).** (1) The four registry rows were
+rewritten after `RegistryAuditR72` found 9 defective cells in their first version: the `2` usage code
+was not implemented (`SystemExit(msg)` exits 1), the two c1 rows' `0` cell contradicted the script's
+own `0 if PREDICATE … pass else 1` return, `kind=probe` contradicted failability, and the write scope
+omitted `--receipt`/`--evidence-dir` and the host-shared network namespace — all four corrected in
+place before landing, gate re-run green, and the audit's 32-cell matrix is the witness. (2) The
+`SKILL.md` rows' first version is preserved only in the freeze commit and in `RegistryAuditR72.md`.
+(3) The lesson records the two L1 process mistakes (control run without `--control`; pre-freeze
+receipt's `PROBE_BLOB unknown`).
+
+**Wave findings (reported, not smoothed).** The round's own instruments are weaker than their
+sentence in four measured places: `E1a` iterates a frozen four-instrument constant, so a fifth
+unregistered instrument still passes (`SiblingOverlapR72` F1); `E1b` is presence-only, so an erratum
+with the two revisions swapped still passes (`C2RedBeforeR72` F1); `E1a` is first-row-wins and
+prices three of a row's six content fields (F2/F3); the mutant matrix prices 6 of ~13 refusal sites
+(F4). The C1 provenance witness is self-reported from inside the sandbox, and kama's round-50
+instrument reads `/proc/<pid>/environ` from outside — a stronger shape the lane has not adopted
+(`SiblingOverlapR72` F2; `StubBeforeAfterR72` F4/F7). A receipt produced under an active stub
+injection passes the text-only arm of `--check-receipt` (`StubBeforeAfterR72` F7,
+`ReceiptReviewR72` §2b): the `--work` arm is the discriminating one.
+
+**Scores.** coverage **7** (held; claim passed, axis at its L0 cap), calibration **10** (held,
+exercised), operability **10** (held; two instruments run, four registry rows now accurate under the
+audit), depth **10** (held; new entry + S247/S248; depth gate `PREDICATE R63-C2 pass`,
+`paths total=36 resolved=36 share=1.00`), freshness **10** (held; both new sources fetched live with
+sha256 and captures; host facts re-verified by `SurfaceScoutR72`), adjacency **9** (held;
+`SiblingOverlapR72` found 12 surface-level sibling sites — tabi's gate-registry, kama's environment
+provenance instrument, three mutation-metric lanes — named and routed, not absorbed; the round built
+without citing them, recorded as a lesson row), novelty **8** (held; no new instrument-level
+construct claimed — `--clearenv` is a restoration of rounds 64–67, and the report says so).
+**No axis harmed:** the round's whole lane diff carries 0 deletions
+(`git diff --numstat c6322972 master | awk '{d+=$2} END {print d}'` → 0).
+
+**Planned (round 73).** (1) Add the five pre-existing missing registry rows
+(`round66_c1_tensor_probe`, `round69_c1_nginx_probe`, `round69_c2_routed_defects`,
+`round70_c1_nginx_probe`, `round70_c2_routed_defects`) so `plans/round52_c2_registry.py` can go
+green, and widen that gate's `ADVERTISED` universe to `plans/` so a claims-doc-only instrument cannot
+stay invisible. (2) Make `E1a` derive its instrument set from the tree (tabi's
+`check-gate-registry.mjs` shape) instead of a frozen tuple, and add the duplicate-row leg. (3) Make
+the provenance witness outside-observed: read the sandbox process's `/proc/<pid>/environ` from the
+parent and bind the library's digest, as kama's round-50 instrument does. (4) Admit or re-hold
+`corpus/knowledge/tb2-hf-model-inference-offline.md` and the round-72 entry under Q13/Q14 with a
+2–4 seat `falsify` second wave. L0 carried: `kengaku | round-25/33/51`, `round-54`, `round-56`,
+`round-63`, `round-65`, `round-66`, `round-67`.
