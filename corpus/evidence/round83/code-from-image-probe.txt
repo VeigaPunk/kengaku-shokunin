@@ -1,0 +1,25 @@
+# tb2 code-from-image grader probe
+MEMBER code-from-image
+SUBJECT_CAPTURE corpus/evidence/round52/graders/code-from-image/tests/test_outputs.py
+SUBJECT_SHA b9b7cb0033116df88a4807404bf309190f92d62a89df2ce64cdcbf732efe084a
+CASE_TABLE_SHA e64dac129dcb8fea5f7068c67f6c81482e4a0755f1509ae9f358348e6f3e9aec
+TOOL plans/round83_code_image_probe.py
+TOOL_SHA 21922612c84b82c0a98a4c98a36ed9b11410841c82c89bd9556064f8868bae23
+HOST_PYTHON Python 3.14.8
+HOST_OPENSSL OpenSSL 3.6.5 29 Sep 2026 (Library: OpenSSL 3.6.5 29 Sep 2026)
+LANE_TIP ddb903a876648d4f2471345cb20c61959502c3c1
+WORKTREE clean
+COMMAND python3 plans/round83_code_image_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r83/L1/mint-probe
+EXIT 0
+OBSERVATIONS_BEGIN
+CASE missing predicted=F/F observed=F/F
+CASE empty predicted=P/F observed=P/F
+CASE correct predicted=P/P observed=P/P
+CASE whitespace predicted=P/P observed=P/P
+CASE prefix-only predicted=P/F observed=P/F
+CASE wrong-prefix predicted=P/F observed=P/F
+CASE suffix predicted=P/F observed=P/F
+CASE uppercase predicted=P/F observed=P/F
+cases=8 mismatches=0
+PREDICATE R83-PROBE pass
+OBSERVATIONS_END

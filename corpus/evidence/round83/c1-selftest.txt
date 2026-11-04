@@ -1,0 +1,34 @@
+COMMAND R83_FLEET_REPO=/home/vgpnk/Projects/shokunin python3 plans/round83_c1_replay.py --selftest --work /fast/scratch/hyaku/kengaku-r83/L1/c1-selftest
+REV ddb903a876648d4f2471345cb20c61959502c3c1
+WORKTREE clean
+SELFTEST-CASE green expect=pass observed=- located=1 executed=1 reproduced=1 ok
+SELFTEST-CASE missing-receipt expect=RECEIPT-UNTRACKED observed=CASE-COUNT,CASE-ORDER,EXIT-NONZERO,HOST-FORMAT,LANE-TIP-INVALID,LEDGER-VERDICT,OBSERVATIONS-EMPTY,PREDICATE-LINE,RECEIPT-MEMBER-COUNT,RECEIPT-STRUCTURE,RECEIPT-UNTRACKED,STAMP-MEMBER,STAMP-MISSING,SUBJECT-CAPTURE,SUBJECT-HEADER,SUBJECT-SHA-MISMATCH,SUMMARY-MISMATCH,TABLE-SHA-MISMATCH,TOOL-MISMATCH,TOOL-SHA-MISMATCH,WORKTREE-DIRTY located=0 executed=0 reproduced=0 ok
+SELFTEST-CASE wrong-subject expect=SUBJECT-SHA-MISMATCH observed=SUBJECT-BASE-EVIDENCE,SUBJECT-SHA-MISMATCH located=0 executed=1 reproduced=0 ok
+SELFTEST-CASE wrong-subject-capture expect=SUBJECT-CAPTURE observed=SUBJECT-CAPTURE located=0 executed=1 reproduced=0 ok
+SELFTEST-CASE wrong-subject-bytes expect=SUBJECT-SHA-MISMATCH observed=SUBJECT-SHA-MISMATCH located=0 executed=1 reproduced=0 ok
+SELFTEST-CASE wrong-tool expect=TOOL-SHA-MISMATCH observed=TOOL-SHA-MISMATCH located=0 executed=1 reproduced=0 ok
+SELFTEST-CASE wrong-tool-bytes expect=TOOL-SHA-MISMATCH observed=TOOL-SHA-MISMATCH located=0 executed=1 reproduced=0 ok
+SELFTEST-CASE wrong-table expect=TABLE-SHA-MISMATCH observed=TABLE-SHA-MISMATCH located=0 executed=1 reproduced=0 ok
+SELFTEST-CASE wrong-table-bytes expect=TABLE-SHA-MISMATCH observed=TABLE-FROZEN-MISMATCH,TABLE-SHA-MISMATCH located=0 executed=1 reproduced=0 ok
+SELFTEST-CASE wrong-vector expect=MISMATCH-COUNT observed=MISMATCH-COUNT,SUMMARY-MISMATCH located=0 executed=1 reproduced=0 ok
+SELFTEST-CASE missing-case expect=CASE-COUNT observed=CASE-COUNT,CASE-ORDER located=0 executed=1 reproduced=0 ok
+SELFTEST-CASE wrong-ledger expect=LEDGER-ROUND observed=LEDGER-ROUND located=1 executed=0 reproduced=1 ok
+SELFTEST-CASE wrong-ledger-status expect=LEDGER-NOT-EXECUTED observed=LEDGER-NOT-EXECUTED located=1 executed=0 reproduced=1 ok
+SELFTEST-CASE wrong-ledger-subject expect=LEDGER-SUBJECT observed=LEDGER-SUBJECT located=1 executed=0 reproduced=1 ok
+SELFTEST-CASE wrong-ledger-verdict expect=LEDGER-VERDICT observed=LEDGER-VERDICT located=1 executed=0 reproduced=1 ok
+SELFTEST-CASE wrong-ledger-receipt expect=LEDGER-RECEIPT observed=LEDGER-RECEIPT located=1 executed=0 reproduced=1 ok
+SELFTEST-CASE stamp-missing expect=STAMP-MISSING observed=HOST-FORMAT,STAMP-MISSING located=0 executed=1 reproduced=0 ok
+SELFTEST-CASE exit-nonzero expect=EXIT-NONZERO observed=EXIT-NONZERO located=0 executed=1 reproduced=0 ok
+SELFTEST-CASE worktree-dirty expect=WORKTREE-DIRTY observed=WORKTREE-DIRTY located=0 executed=1 reproduced=0 ok
+SELFTEST-CASE command-mismatch expect=COMMAND-MISMATCH observed=COMMAND-MISMATCH located=0 executed=1 reproduced=0 ok
+SELFTEST-CASE subject-header-wrong expect=SUBJECT-HEADER observed=SUBJECT-HEADER located=0 executed=1 reproduced=0 ok
+SELFTEST-CASE tip-invalid expect=LANE-TIP-INVALID observed=LANE-TIP-INVALID located=0 executed=1 reproduced=0 ok
+SELFTEST-CASE block-foreign expect=BLOCK-FOREIGN observed=BLOCK-FOREIGN located=0 executed=1 reproduced=0 ok
+SELFTEST-CASE summary-lie expect=SUMMARY-MISMATCH observed=SUMMARY-MISMATCH located=0 executed=1 reproduced=0 ok
+SELFTEST-CASE predicate-fail expect=PREDICATE-LINE observed=LEDGER-VERDICT,PREDICATE-LINE located=0 executed=0 reproduced=0 ok
+SELFTEST-CASE foreign-member-name expect=RECEIPT-MEMBER-COUNT observed=BLOCK-FOREIGN,RECEIPT-MEMBER-COUNT located=0 executed=1 reproduced=0 ok
+SELFTEST-CASE base-evidence-prefix expect=SUBJECT-BASE-EVIDENCE observed=SUBJECT-BASE-EVIDENCE located=0 executed=1 reproduced=0 ok
+SELFTEST-CASE unexecuted-ledger expect=LEDGER-NOT-EXECUTED observed=LEDGER-NOT-EXECUTED located=1 executed=0 reproduced=1 ok
+SELFTEST-CASE fresh-run-divergence expect=REPRODUCTION-MISMATCH observed=REPRODUCTION-MISMATCH located=0 executed=1 reproduced=0 ok
+SELFTEST cases=29 red=28 failures=0
+EXIT 0
