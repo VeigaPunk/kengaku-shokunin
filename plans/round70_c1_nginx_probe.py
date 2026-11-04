@@ -641,13 +641,18 @@ def check_receipt(path, cases=CASES, case_sha=None, live_blob=None):
                 continue
             if parts[4] != parts[2]:
                 defect("vector-expected-field", ln)
+            if parts[1] in vectors:
+                defect("duplicate-vector", parts[1])
             vectors[parts[1]] = (parts[2], parts[5].split("=", 1)[1])
         elif ln.startswith("TEST "):
             parts = ln.split()
             if len(parts) != 4:
                 defect("test-line", ln)
                 continue
-            legs.setdefault(parts[1], {})[parts[2]] = parts[3]
+            case_legs = legs.setdefault(parts[1], {})
+            if parts[2] in case_legs:
+                defect("duplicate-test", f"{parts[1]} {parts[2]}")
+            case_legs[parts[2]] = parts[3]
 
     case_shas = {}
     for ln in lines:
@@ -656,6 +661,8 @@ def check_receipt(path, cases=CASES, case_sha=None, live_blob=None):
             if len(parts) != 5 or not parts[2].startswith("case_sha256="):
                 defect("case-line", ln)
                 continue
+            if parts[1] in case_shas:
+                defect("duplicate-case", parts[1])
             case_shas[parts[1]] = parts[2].split("=", 1)[1]
 
     expected_ids = [c["id"] for c in cases]

@@ -155,3 +155,32 @@ miss or a dated amendment before any after-receipt is scored.
 At close, re-derive both predicates from the committed bytes and record: the C1 receipt, the
 C1 selftest tally, the C2 green run, the C2 selftest and mutation tallies, the census exit,
 the depth and trio receipts, and the class-row count.
+
+## Amendment A1 (round 70, dated 2026-11-03; no frozen element changed)
+
+1. **E1 argument order (mechanical repair, before any receipt was scored).** The first
+   version of `check_depth_identity` compared the landing copy's line to the wave copy's line
+   after normalising the wrong direction and recorded the pair in the order (corpus → wave)
+   while the provenance file records (wave → corpus). The repair orders the observed pair
+   `wave -> corpus` before comparing it to `LINE-DIFF`; the check's predicate, the recorded
+   pair and the frozen sentence are unchanged. Observed red-before/after:
+   `E1 defect … problems=['change-wider-than-counts','recorded-pair']` →
+   `E1 ok depth-gate-identity line-changes=1 problems=[]`. No C1 or C2 receipt had been
+   scored when the repair landed (the wave had not dispatched).
+
+## Amendment A2 (round 70, dated 2026-11-03; no predicate, table, vector, digest, kill rule or target changed)
+
+**Duplicate-line strictness (ReceiptReview70 A-1, found after the first receipt).** The frozen
+sentence says *"each case line's `case_sha256` equals its frozen staged-input digest"*. The first
+checker parsed `CASE`/`VECTOR`/`TEST` lines last-write-wins: a receipt carrying a second,
+conflicting `CASE K1 case_sha256=000…` line before the correct one was accepted
+(`ReceiptReview70` forgery f3, rc 0), and the same held for a conflicting `VECTOR` line (f2b).
+The repair adds `duplicate-case`, `duplicate-vector` and `duplicate-test` defects, so any repeated
+key is a defect whatever its value. The committed writer emits exactly one `CASE`, eight `TEST`
+and one `VECTOR` per case, so the receipt of record is unaffected in form; the battery is re-run
+under the repaired instrument (`PROBE` sha changes) and the first receipt is preserved as
+`corpus/evidence/round70/nginx/receipt-v1-pre-a2.txt`. The earlier receipt's verdict
+(`PREDICATE R70-C1 pass`, 56/56 legs) is unchanged and re-derived by the v2 run.
+
+Not repaired, named: the `PROBE_BLOB absent` escape applies only to an uncommitted instrument
+(ReceiptReview70 A-2); at the landing tip the probe is committed and the binding is live.
