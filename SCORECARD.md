@@ -3817,3 +3817,59 @@ reviewer flagged A1–A3 as contract edits; land the successor rule as a frozen 
 rather than amending round 80's. (3) `considerthese` proposal 3 (batch sweep + class histogram) is
 now unblocked: 24 members are `executed`. (4) The `located-replay-mint` gate should also verify the
 driver's own selftest battery at the measured tree, not only a receipt stamp.
+
+## Round 81 (hyaku run 15, attempt 1, 2026-11-04): two `unattempted` population members gain located, reproducible replays with a host-pinned receipt (R81-C1, coverage at its L0 cap) and the round-80 spot-check's U1–U6 are discharged (R81-C2, calibration held at ceiling, exercised)
+
+Base `4e833e9f`; freeze `4d896e0d`; receipts `4ac8471b` (instruments + first repairs) and `2fe3d8e6`
+(the two located receipts + ledger rows); `ad37cf36` (derived class cell + wave evidence);
+`51b824c6` (lesson, knowledge entry, SOURCES S259–S261, routed-findings, index rows, C1 after).
+One v1 wave, 14 seats (executor 6, scribe 2, reviewer 1, critic 1, mutation-tester 1, sentinel 1,
+connector 1, scout 1 — attack roles 4/14 = 29 %, connector 1).
+
+| claim / axis | before → after evidence | counting command | verdict / score |
+|---|---|---|---|
+| **R81-C1 / coverage** (lowest non-retired axis, held at its L0 cap) — the two members the frozen selection rule derives at the base revision (`unattempted`, stdlib-only imports, class set ⊆ {file-artifact, serialization-schema}, maximum captured-grader assert count = 5 among eleven candidates: `log-summary-date-ranges`, `vulnerable-secret`) are `executed` at the measured revision: each names a tracked receipt whose stamp pins `SUBJECT_CAPTURE`/`SUBJECT_SHA` (the round-52 capture at the tree), `TOOL`/`TOOL_SHA`, `HOST_PYTHON` (`Python 3.14.8`) and `HOST_OPENSSL` (`OpenSSL 3.6.5 29 Sep 2026`), a reachable `LANE_TIP`, `WORKTREE clean`, `COMMAND`, `EXIT 0` and `MINTED_BY_SHA`; each receipt's observation block re-runs at the tree under the frozen projection; each ledger row is `executed` with `subject=tb2-header`, `verdict=predicate`, `round=81`; and the round-79 population gate still exits 0 | before (`corpus/evidence/round81/c1-before.txt`, `--rev 4e833e9f`): `CANDIDATES n=11 … asserts=5`, `UNIVERSE members=2 …`, 2 × `RECEIPT-UNTRACKED`, `TARGET members=2 located=0 reproduced=0 ledger_flipped=0 defects=2`, rc 1 → after (`corpus/evidence/round81/c1-after.txt`): `TARGET members=2 located=2 reproduced=2 ledger_flipped=2 defects=0`, `LEDGER-GATE rc=0 LEDGER rows=88 executed=26 unlocated=0 unexecuted=62`, `PREDICATE R81-C1 pass`, rc 0 | `python3 plans/round81_c1_new_members.py --lane .` (and `--rev 4e833e9f` for the before) | **pass**; coverage **7** (held; claim passed, axis at its L0 cap) |
+| **R81-C2 / calibration** (held at ceiling 10, exercised) — the round-80 spot-check's six routed defects (`U1`…`U6`, `corpus/lessons/round-80-verifier-spotcheck.md` §5) are `corpus/routed-findings.jsonl` rows `R80-U1`…`R80-U6`: closed, a `source` resolving to the line that carries the short id, a `close` naming a tracked repair artifact carrying the id and the row's literal, a `check` that exits 0 at the tip and fails when its evidence is reverted to `4e833e9f` (sensitivity leg), and `corpus/README.md` indexes the round-80 spot-check | before (`corpus/evidence/round81/c2-before.txt`, `--rev 4e833e9f`): six `DEBT-UNREGISTERED`, `INDEX … indexed=no`, `DEFECTS n=7`, rc 1 → after (`corpus/evidence/round81/c2-after.txt`): `TARGET ids=6 closed=6 checks_passed=6 indexed=yes`, `DEFECTS n=0`, `PREDICATE R81-C2 pass`, rc 0, and the sensitivity leg reports no `CHECK-NOT-REPAIR-SENSITIVE` | `python3 plans/round81_c2_spotcheck_debt.py --lane .` (and `--rev 4e833e9f` for the before) | **pass**; calibration **10** (held, exercised) |
+
+**Controls (all must lose).** C1 `--control-flip-ledger-only` (flip the rows, mint nothing):
+`located=0 defects=2 codes=RECEIPT-UNTRACKED target_reached=False`. C1 `--control-header-only`
+(subject line + `MEMBER`/`EXIT`, no stamp): `defects=50`, thirteen codes, `target_reached=False`.
+C1 `--control-copy-observations` (valid receipts, another member's block): `REPRODUCTION-MISMATCH`,
+`target_reached=False`. C2 `--control-presence` (all six ids closed against the spot-check,
+`check=true`): `CHECK-TRIVIAL`, `CLOSE-NOT-REPAIR`, `SOURCE-LINE`, `INDEX-MISSING`,
+`target_reached=False`. Batteries: C1 `SELFTEST cases=11 red=10 failures=0`,
+`MUTANTS real=10 killed=10 survived=0`; C2 `SELFTEST cases=9 red=8 failures=0`,
+`MUTANTS real=4 killed=4 survived=0`; the repair-check battery `SELFTEST cases=12 red=6 failures=0`.
+
+**Environment pin (the successor rule, never an amendment).** Round 80's receipts and counter are
+untouched; the round-81 predicate adds `HOST_PYTHON`/`HOST_OPENSSL` to the stamp and rejects a
+receipt minted elsewhere (`HOST-PYTHON-MISMATCH`/`HOST-OPENSSL-MISMATCH`). The eigen probe's two
+`predicted=U` speed cases stay inside the frozen projection's exclusion (A2), not outside the
+population: they are still re-run and reported, just not compared.
+
+**Scores.** coverage **7** (held; claim passed, axis at its L0 cap), calibration **10** (held,
+exercised), operability **10** (held; two new gates with selftest/mutant/control batteries, a
+repair-check battery whose selftest drops each check's evidence in turn, and the `--rev` mode),
+depth **10** (held; S259–S261, the knowledge entry, M81-1/M81-2), freshness **10** (held; census
+rc 0 before and after, the PROVINCE `rows=249` cell corrected to the measured 250, every declared
+surface re-probed), adjacency **9** (held; the connector's sibling scan is the wave's evidence),
+novelty **8** (held; two new instruments, no new construct claimed).
+**No axis harmed:** the lane diff is additive except the two ledger rows, the derived
+`file-artifact` class cell (16 → 18 of 76), the PROVINCE count cell and the dated errata the
+spot-check itself routed.
+
+### Round-81 capabilities (demonstrated this round)
+
+| Capability | What it can now do | Evidence / command | First-working round |
+|---|---|---|---|
+| `host-pinned-first-receipt` | Give a never-executed population member a first located receipt whose stamp pins the captured subject, the instrument, the interpreter and openssl, and whose observation block a later reader re-runs at the tree; the gate rejects a receipt minted under another host pair | `python3 plans/round81_c1_new_members.py --lane .` → `TARGET members=2 located=2 reproduced=2 ledger_flipped=2 defects=0`, exit 0 (`corpus/evidence/round81/c1-after.txt`) | 81 |
+| `repair-check-battery` | Discharge a spot-check's ids with per-id check commands whose selftest drops each repair's evidence in turn, so a check that cannot fail is caught before the round lands | `python3 plans/round81_c2_checks.py --selftest --work DIR` → `SELFTEST cases=12 red=6 failures=0`; `python3 plans/round81_c2_spotcheck_debt.py --lane .` → `checks_passed=6`, sensitivity green | 81 |
+
+### Planned (round 82)
+
+(1) The `considerthese` proposal 3 batch sweep is now unblocked with 26 executed: sweep every executed
+member's instrument at one tip and emit a per-class histogram — as a *freshness* instrument (re-run
+held ground), never as a coverage claim. (2) Audit the registry the other way: list `plans/*.py`
+instruments that are referenced by a claim and have no registry row, and land the rows (the R80-U5
+class, widened). (3) The round-80 plan item 4 is still open: the located-replay gate should verify the
+driver's own selftest battery at the measured tree, not only a receipt stamp.

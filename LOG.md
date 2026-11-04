@@ -3119,3 +3119,56 @@ Two claims, both admitted. One v1 wave, 14 seats.
   wave's sentinel finding (mint provenance) produced amendment A3; the mutation-tester's survivors
   grew the mutants battery 6 → 10; the reviewer's two P1s (the eigen byte-equality failure and the
   A1–A3 contract edits) are recorded as honest limits in the round report and routed to round 81.
+
+## Round 81 (hyaku run 15, attempt 1, 2026-11-04)
+
+Base `4e833e9f` (round-80 verifier spot-check); freeze `4d896e0d`; instruments + first repairs
+`4ac8471b`; the two located receipts + ledger rows `2fe3d8e6`; derived class cell + wave evidence
+`ad37cf36`; lesson/knowledge/SOURCES/routed-findings/index + C1 after `51b824c6`. Two claims, both
+admitted. One v1 wave, 14 seats (executor 6, scribe 2, reviewer 1, critic 1, mutation-tester 1,
+sentinel 1, connector 1, scout 1 — attack roles 4/14 = 29 %).
+
+- **R81-C1 / coverage** — the two members the frozen selection rule derives at the base revision
+  (`unattempted`, stdlib-only imports, class set ⊆ {file-artifact, serialization-schema}, maximum
+  captured-grader assert count = 5 among eleven candidates) are `log-summary-date-ranges` and
+  `vulnerable-secret`. Each receipt pins `SUBJECT_CAPTURE`/`SUBJECT_SHA` (round-52 capture at the
+  tree), `TOOL`/`TOOL_SHA`, `HOST_PYTHON Python 3.14.8`, `HOST_OPENSSL OpenSSL 3.6.5 29 Sep 2026`,
+  `LANE_TIP 4ac8471b`, `WORKTREE clean`, `COMMAND`, `EXIT 0` and `MINTED_BY_SHA`; the instrument is
+  re-run at the measured tree and its projection compared. Before (`--rev 4e833e9f`):
+  `TARGET members=2 located=0 reproduced=0 ledger_flipped=0 defects=2`, rc 1 → after
+  (`corpus/evidence/round81/c1-after.txt`): `located=2 reproduced=2 ledger_flipped=2 defects=0`,
+  `LEDGER-GATE rc=0 executed=26 unlocated=0 unexecuted=62`, rc 0. Batteries:
+  `SELFTEST cases=11 red=10 failures=0`, `MUTANTS real=10 killed=10 survived=0`, three controls
+  `target_reached=False`.
+- **R81-C2 / calibration** — the round-80 spot-check's six routed defects (`U1`…`U6`) are rows
+  `R80-U1`…`R80-U6`, each closed against a tracked repair artifact carrying the id and the literal,
+  with a check that exits 0 at the tip and fails when its evidence is reverted to `4e833e9f`
+  (sensitivity leg), and the spot-check indexed in `corpus/README.md`. Before: six
+  `DEBT-UNREGISTERED`, `INDEX … indexed=no`, `DEFECTS n=7`, rc 1 → after (`c2-after.txt`):
+  `TARGET ids=6 closed=6 checks_passed=6 indexed=yes`, `DEFECTS n=0`, rc 0. Batteries:
+  `SELFTEST cases=9 red=8 failures=0`, `MUTANTS real=4 killed=4 survived=0`, control
+  `target_reached=False`; the repair-check battery `SELFTEST cases=12 red=6 failures=0`.
+- **Repairs landed.** U1: S259 supersedes S258 with the six current receipt sha256s
+  (`11a53bf3…`…`778565cd…`) and the corrected `lines 2-12` stamp range (the superseded text names
+  `7923b6dc…` and `lines 1-10`). U2: the round-80 errata row names `gates-clean.txt` at `e985e56a`
+  as R80-C1's comparable measurement and `c1-after.txt` as the `WORKTREE dirty` run. U3:
+  `corpus/evidence/round81/census-rows.txt` records the frozen `grep -cE` count, 249 at `dce7c275`
+  and 250 at `507d249b`. U4: `corpus/evidence/round81/r80-u4-red-before.txt` is the prefix-removed
+  run — `exit code: 1`, `ModuleNotFoundError: No module named 'Bio'` at `tb2_grader_probe.py:145` —
+  and `QUALITY.md` Q58 requires such a witness. U5: registry rows for the two round-80 gates and the
+  three round-81 instruments. U6: the lesson cites the six committed receipts; the README lesson row
+  names `M80-1/M80-2`.
+- **Sources.** S259 (own-work, supersedes S258), S260 (own-work: the round-81 instrument set and the
+  two receipts; quote `# tb2 log-summary-date-ranges grader probe (round 81)`), S261 (docs: the
+  pinned TB2 task documents at `2fd12b88`, fetched 2026-11-04T08:26:13Z, HTTP 200, grader bytes
+  byte-identical to the round-52 capture). Registry 250 → 253; census rc 0 at both ends
+  (`corpus/evidence/round81/census-before.txt` 27 lines/26 W04; `census-after.txt` same).
+  Assimilation: none (L0 `kengaku | round-54` open). considerthese: proposal 3 (batch sweep) named
+  as round-82 work, not executed this round.
+- **Re-verification (freshness).** Every declared surface re-probed by the scout seat: `llm-wiki`,
+  `~/archive/bench-arena`, `~/Projects/bounties/ledger/telemetry.jsonl` and `:34113` still ABSENT;
+  `:1234` (llama.cpp router) and `:8791` (ds-flash-shim) still LISTEN; `~/Projects/ufo-fsd-alpha`
+  present. The PROVINCE canonical map's `Public-literature registry` cell was stale at 249 and now
+  reads 250 with the producing command; the registry itself is 253 after this round's three rows.
+  Host pin recorded: `Python 3.14.8`, `OpenSSL 3.6.5 29 Sep 2026`.
+- **Tooling.** No installs or upgrades this round (pacman paused host-wide; nothing needed).
