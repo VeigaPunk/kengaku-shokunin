@@ -3525,3 +3525,12 @@ routed item for a future claim (it needs a supersession of the older tables, not
 counter's universe was the `## Surfaces` table at freeze; no measured value changes. The R76-C2 row's
 "discharged by re-derived values" now also refuses a negated discharge (`NEGATED-DISCHARGE`, Amendment
 A8), with the syntactic limit stated in the lesson.
+
+**Round-76 addendum 4 (appended 2026-11-04, after Amendment A8).** Final after receipts were
+regenerated from a clean clone at `dddc1712c9b162bc6f8685d7362e2e91038aaed0` — the revision carrying
+the `NEGATED-DISCHARGE` leg and the table-scope correction — so `c1-after.txt`/`c2-after.txt` stamp
+`dddc1712`, superseding the earlier stamps. Under A8 the C2 selftest is `cases=12 red=11`, the git arms
+`3/3` and the C2 mutant matrix `10/10`; the C1 batteries stay `cases=12 red=11` and `9/9`. At
+`dddc1712` six registered gates are green (`R76-C1`, `R76-C2`, `R51-C1`, `R75-C1`, `R74-C1`,
+`R74-C2`) and `routed_open.py` prints `ROWS total=86 open=31 blocked=1 closed=52 refused=2`,
+`--selftest 12/12`.
