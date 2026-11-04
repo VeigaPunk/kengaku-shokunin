@@ -2849,3 +2849,45 @@ All sixteen wave outputs settled before integration/report; no dead-seat note re
 - **Frontier.** S251 (Git `git-rev-parse` documentation) opened live with capture, sha256 and an
   18-word located quote; it grounds the stamp leg of R75-C2 and is cited in that claim's evidence.
   Assimilation: none. L0 questions carried unchanged: kengaku rounds 25/33/51, 54, 56, 63, 65, 66, 67.
+
+## Round 76 (hyaku run 15, attempt 1, 2026-11-04)
+
+- **R75-D5 correction (dated, append-only; the round-75 entry above stays as filed).** Two lines in it
+  are wrong: the C1 selftest prints `cases=8 red=7` (not `cases=7 red=6`), and the after receipts were
+  generated from a clean clone at `9f8f0f2180821d165f60e400277f192d92afbbce` — the stamp the receipts
+  carry — not at `43255758`/`66a93f6b` (only `census-after.txt` stamps `66a93f6b`). The cause was a
+  report written from the A4-era text after A5 grew the battery; the fix is Q55's rule.
+- **Trigger → action → outcome.** Two lane-level defects motivated the round: `PROVINCE.md`'s
+  `## Surfaces` table had no instrument (a seat, not a command, found `~/archive/bench-arena` absent
+  while its row still said "relocated intact"), and the round-75 closure's seven routed defects never
+  entered `corpus/routed-findings.jsonl`, so nothing could price their discharge. Round 76 froze two
+  claims. R76-C1 builds `plans/round76_c1_surface_resolver.py`: every declared surface resolved live
+  (path `test -e` semantics, localhost HTTP status, brace alternatives expanded), the row's dated
+  `ABSENT` marker required to agree with the verdict, and present-tense prose on an absent row refused
+  (`STALE-TEXT`). R76-C2 builds `plans/round76_c2_defect_discharge.py`: the newest closer's ids must be
+  ledger rows, every close names a `close_commit` that passes S252's three-state ancestry test, and
+  legs D1–D7 re-derive their values (the round-75 stamp, the final-rule `60 = 4/36/20` at `43255758`,
+  the two printed selftests, the two round-74 tip receipts). Both admitted on their frozen predicates;
+  coverage held at its L0 cap, calibration held at 10 and exercised.
+- **Verification boundary.** Commands and exit codes in `corpus/evidence/round76/` (stamped
+  `LANE_TIP`): c1 before rc 1 (`agree=9 disagree=2`, `STALE-TEXT` row 2, `UNDECLARED-ABSENT` row 4) and
+  after rc 0 (`agree=11 disagree=0`); c1 selftest `cases=7 red=6`, mutants `5/5` expected-id kills,
+  declaration-trust control `disagreements=1`; c2 before rc 1 (`registered=0 open=7`), c2 selftest
+  `cases=10 red=9`, git three-state arms 3/3, mutants `8/8`, status-skip control
+  `rows_claimed_closed=7 trivial_checks=1 failed_legs=3`; c2 after rc 0 (`discharged=7 legs_passed=7`);
+  the two round-74 tip receipts (both `PREDICATE … pass`) and census 243 → 244 rows rc 0 at both ends.
+  After receipts come from a clean clone at the landing tip, not the worktree (the R74-D1 class).
+- **Learning.** Lesson `corpus/lessons/round-76.md`: Gate (S252 admit; two rejects with flips — the
+  close-text-proves-ancestry reject and the declaration-is-evidence reject), Mistakes M76-1…M76-5 (a
+  skip-control that iterated tuples and asserted nothing, an arm masked by fixture ordering, rev-mode
+  ancestry collapsing to `unknown`, `--receipt` ignored in battery modes, and a frozen `total=` that the
+  round's own declaration would have broken). QUALITY gains Q55; the
+  `considerthese/2026-10-26.md` proposal-1 burn-down is implemented.
+- **Inherited drift repaired.** The round-75 index gate was red at base (one missing lesson row,
+  `corpus/lessons/round-75-verifier-spotcheck.md`); the README row was added, gate green
+  (74/74, 124/124, 67/67). The round-74 C1 registry gate was red at base with `MISSING 2` — the two new
+  instruments unregistered; their SKILL rows turned it green, which is what the D6 receipt measures.
+- **Held entries unchanged.** All four stay held and indexed with `admission: hold`.
+- **Frontier.** S252 (Git `git-merge-base`) opened live with capture, sha256 and a 25-word located
+  quote; it grounds R76-C2's ancestry leg and its three-state split. Assimilation: none. L0 questions
+  carried unchanged: kengaku rounds 25/33/51, 54, 56, 63, 65, 66, 67.

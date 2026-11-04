@@ -116,3 +116,14 @@ neither: `registered=0` at base, `disagree=2` at base.
 `/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku`
 → rc 0 at round start (`corpus/evidence/round76/census-before.txt`), 243 rows, 25 `W04`
 duplicate-URL warnings (unchanged from round 75). After state must be rc 0 with 244 rows.
+
+## Amendment A1 (2026-11-04, before any after-state data) — the C2 Before line names the receipt's actual tallies
+
+The R76-C2 **Before** line above reads `legs_pending=0 wrong=14`. The committed receipt
+`corpus/evidence/round76/c2-before.txt` prints `SCOPE ids=7 registered=0 closed=0 open=7 discharged=0
+legs_passed=0 legs_pending=2 wrong=12`: legs D4 and D5 print `PENDING` at a revision before their
+inputs exist (the two round-75 selftests and the correction block), by the counter's frozen PENDING
+rule, and `wrong=12` counts the twelve printed defects (seven `MISSING-ROW`, five `LEG-FAIL`).
+Predicate, target, control and kill rules are unchanged; only the Before prose is corrected to the
+receipt. Found by seat `ScribeLessonR76` reading the receipt against this file — the R75-D2 class,
+caught before it could ship.
