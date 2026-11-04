@@ -117,9 +117,22 @@ def main(argv: list[str]) -> int:
             continue
         hist = obs_lines(hist_bytes.decode("utf-8", "replace"))
         note = ""
-        if hist and hist != obs:
+        def proj(lines):
+            out = []
+            for ln in lines:
+                if not ln.strip() or re.match(r"^REV [0-9a-f]{7,40}\s*$", ln):
+                    continue
+                if ln.startswith("OBSERVED-U ") or ln.startswith("cases="):
+                    continue
+                m = re.match(r"^(?:CASE |case=)(\S+) predicted=(\S+)", ln)
+                if m and "U" in m.group(2).split("/"):
+                    continue
+                out.append(ln.rstrip())
+            return out
+        hproj, oproj = proj(hist), proj(proc.stdout.splitlines())
+        if hproj and hproj != oproj:
             from collections import Counter
-            hc, nc = Counter(hist), Counter(obs)
+            hc, nc = Counter(hproj), Counter(oproj)
             moved = sum(((hc - nc) + (nc - hc)).values())
             note = (f"HISTORICAL-DIVERGENCE {moved} "
                     f"the tip's instrument produces {len(obs)} observation lines where the "

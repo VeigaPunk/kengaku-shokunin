@@ -87,6 +87,25 @@ each to be killed.
 **Kill rule.** Any `DEFECT` line fails the claim. A row left `executed-unlocated` is not a partial
 pass; the target is six or the claim is an honest stop.
 
+## Freeze amendment A2 (2026-11-04, before any after receipt was committed)
+
+The reproduction leg compares a **projection**, not the raw block: prediction-bearing lines only.
+Excluded on both sides are `REV <commit>` (commit-dependent), `cases=` summaries and `OBSERVED-U`
+lines (they derive from the probe's declared unpredictable cases), and any `CASE`/`case=` line whose
+predicted field contains `U` — the probe itself marks those cases `observed-only`.
+
+Evidence that forced it: `plans/round57_c2_eigen_probe.py` emits two `predicted=U` speed cases.
+Six consecutive runs on 2026-11-04 produced two alternating full-block hashes
+(`463877700639fcf7…` / `d44ecaed4ca81ca1…`) while the projection hash was identical in all six
+(`c5006e8e6d1e1ce8…`); the historical round-57 receipt itself recorded
+`eig-bare-speed-s10 observed=P` where today's runs record `F`. A gate that compared the raw block
+would fail on a probe-declared unpredictable case, which is not what "reproducible" means here.
+The receipts still carry the block **verbatim** (the `cases=` and `OBSERVED-U` lines included), so a
+reader sees exactly what the instrument printed. Selftest cases `u-case-varies` (U-line differs →
+pass) and `prediction-varies` (a predicted line differs → `REPRODUCTION-MISMATCH`) pin the rule.
+The target, universe, kill rule and ledger leg are unchanged; this amendment narrows only what
+"same replay" is compared on, and it was written before the claim's after receipt existed.
+
 ## R80-C2 — calibration (held at ceiling 10, exercised)
 
 **Claim.** The round-79 verifier spot-check's six routed defects (`V1`…`V6`,

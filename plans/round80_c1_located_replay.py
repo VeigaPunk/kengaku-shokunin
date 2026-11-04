@@ -91,6 +91,25 @@ def verdict_form(text: str) -> str | None:
     return None
 
 
+def projection(lines) -> list[str]:
+    """The compared projection: prediction-bearing observation lines only. Excluded are `REV`
+    (commit-dependent), `cases=` summaries and `OBSERVED-U` lines (they derive from the probe's
+    declared unpredictable cases), and any `CASE`/`case=` line whose predicted field contains `U`
+    (the probe itself marks it observed-only). Freeze amendment A2, 2026-11-04."""
+    out = []
+    for ln in lines:
+        ln = ln.rstrip()
+        if not ln.strip() or REV_RE.match(ln):
+            continue
+        if ln.startswith("OBSERVED-U ") or ln.startswith("cases="):
+            continue
+        m = re.match(r"^(?:CASE |case=)(\S+) predicted=(\S+)", ln)
+        if m and "U" in m.group(2).split("/"):
+            continue
+        out.append(ln)
+    return out
+
+
 def named_members(text: str, members: list[str]) -> list[str]:
     return [m for m in members
             if re.search(r"(?<![\w.-])" + re.escape(m) + r"(?![\w.-])", text)]
@@ -266,9 +285,9 @@ def check(tree: Tree, base_doc: dict, table: dict, reproduce: bool, python: str,
         block = [ln.rstrip() for ln in block if ln.strip()]
         if not obs_lines("\n".join(block)):
             add("OBSERVATIONS-EMPTY", rel)
-        stable = [ln for ln in block if not REV_RE.match(ln)]
-        hobs = obs_lines(tree.read(spec["historical"]))
-        diverged = bool(hobs) and hobs != obs_lines("\n".join(block))
+        stable = projection(block)
+        hproj = projection(tree.read(spec["historical"]).splitlines())
+        diverged = bool(hproj) and hproj != projection(block)
         if diverged:
             stats["diverged"] += 1
             if not re.search(r"^HISTORICAL-DIVERGENCE \d+", text, re.M):
@@ -297,8 +316,7 @@ def check(tree: Tree, base_doc: dict, table: dict, reproduce: bool, python: str,
             stats["ledger_flipped"] += 1
         if reproduce:
             rc, out = run_probe(tree, m, spec, python, work)
-            fresh = [ln.rstrip() for ln in out.splitlines()
-                     if ln.strip() and not REV_RE.match(ln)]
+            fresh = projection(out.splitlines())
             if rc != 0:
                 add("REPRODUCTION-EXIT", f"rc={rc}")
             elif fresh != stable:
@@ -363,10 +381,11 @@ def run(tree: Tree, base_doc: dict, base_label: str, table: dict, reproduce: boo
 # ------------------------------------------------------------------ fixtures
 
 
-FIXTURE_TOOL = '''import sys
+FIXTURE_TOOL = '''import os, sys
 m = sys.argv[sys.argv.index("--member") + 1]
 print(f"CASE {m}-one predicted=P observed=P rc=0")
-print("cases=1 observed_pass=1 observed_fail=0 mismatches=0")
+print(f"CASE {m}-speed predicted=U observed={os.environ.get('FIXTURE_U', 'P')} rc=0 (observed-only)")
+print("cases=2 observed_pass=2 observed_fail=0 mismatches=0")
 print("PREDICATE R80-C1 pass")
 '''
 
@@ -376,7 +395,8 @@ FIXTURE_NAMES = ("cancel-async-tasks", "chess-best-move", "distribution-search",
 
 def hist_text(m: str) -> str:
     return (f"CASE {m}-one predicted=P observed=P rc=0\n"
-            "cases=1 observed_pass=1 observed_fail=0 mismatches=0\n"
+            f"CASE {m}-speed predicted=U observed=P rc=0 (observed-only)\n"
+            "cases=2 observed_pass=2 observed_fail=0 mismatches=0\n"
             "PREDICATE R80-C1 pass\n")
 
 
@@ -450,6 +470,12 @@ def build_fixture(root: Path, *, ledger_status: str = "executed",
             elif mutate == "second-member":
                 receipt = receipt.replace("OBSERVATIONS_END",
                                           f"NOISE {FIXTURE_NAMES[1]}\nOBSERVATIONS_END")
+            elif mutate == "u-case-varies":
+                receipt = receipt.replace(f"CASE {m}-speed predicted=U observed=P",
+                                          f"CASE {m}-speed predicted=U observed=F")
+            elif mutate == "prediction-varies":
+                receipt = receipt.replace(f"CASE {m}-one predicted=P observed=P",
+                                          f"CASE {m}-one predicted=P observed=F")
             elif mutate == "copy-observations":
                 other = hist_text(FIXTURE_NAMES[1])
                 head = receipt.split("OBSERVATIONS_BEGIN")[0]
@@ -508,6 +534,8 @@ CASES = [
     ("lane-tip-invalid", "LANE-TIP-INVALID"),
     ("divergence-unnoted", "DIVERGENCE-UNNOTED"),
     ("divergence-noted", None),
+    ("u-case-varies", None),
+    ("prediction-varies", "REPRODUCTION-MISMATCH"),
     ("copy-observations", "REPRODUCTION-MISMATCH"),
 ]
 
@@ -525,7 +553,7 @@ def selftest(work: Path) -> int:
               f"located={stats['located']} reproduced={stats['reproduced']} "
               f"{'ok' if good else 'FAIL'}")
         shutil.rmtree(root, ignore_errors=True)
-    print(f"SELFTEST cases={len(CASES)} red={len(CASES) - 2} failures={failures}")
+    print(f"SELFTEST cases={len(CASES)} red={len(CASES) - 3} failures={failures}")
     return 0 if failures == 0 else 1
 
 
