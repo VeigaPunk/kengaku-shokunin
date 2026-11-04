@@ -226,7 +226,10 @@ def main():
     ap.add_argument('--rev')
     ap.add_argument('--work',required=True)
     modes=ap.add_mutually_exclusive_group()
-    for mode in ['selftest','mutants','control-presence','sensitivity']: modes.add_argument('--'+mode,action='store_true')
+    modes.add_argument('--selftest',action='store_true')
+    modes.add_argument('--mutants',action='store_true')
+    modes.add_argument('--control-presence',action='store_true')
+    modes.add_argument('--sensitivity',action='store_true')
     a=ap.parse_args(); origin=Path(a.lane).resolve(); work=Path(a.work).resolve(); work.mkdir(parents=True,exist_ok=True)
     os.environ['TMPDIR']=str(work); tempfile.tempdir=str(work)
     try:
