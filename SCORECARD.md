@@ -3492,3 +3492,12 @@ same rule (`AGREE agree=8 disagree=3`), so the before/after pair is measured by 
 this section narrows a target. At `26c6dfa6` the other four gates are also green:
 `PREDICATE R75-C1 pass` (74/74, 125/125, 67/67), `PREDICATE R74-C1 pass`, `PREDICATE R74-C2 pass`,
 `PREDICATE R76-C1 pass`, `PREDICATE R76-C2 pass`.
+
+**Round-76 addendum 2 (appended 2026-11-04, after Amendment A5).** The after receipts were regenerated
+from a clean clone at `4b8844129b4c66b57d74a2c8cf51c9e31aca684c` — the revision carrying the A5
+confinement/manifest legs and the evidence-at-close binding — so `c1-after.txt` and `c2-after.txt` stamp
+`4b884412`, superseding the `26c6dfa6` stamps named above. Under A5 the C1 selftest is `cases=12 red=11`,
+the C1 mutant matrix `9/9`, the C2 selftest `cases=11 red=10`, the git arms `3/3` and the C2 mutant
+matrix `9/9`; the before receipts were re-measured under the same rules (`agree=8 disagree=3`;
+`registered=0 open=7`). At `4b884412` all five gates are green: `R76-C1`, `R76-C2`, `R75-C1`
+(74/74, 125/125, 67/67), `R74-C1`, `R74-C2`.
