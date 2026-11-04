@@ -1,0 +1,328 @@
+{
+  "schema": "r85-case-table/1",
+  "member": "sqlite-db-truncate",
+  "subject": "corpus/evidence/round52/graders/sqlite-db-truncate/tests/test_outputs.py",
+  "subject_sha": "8f5bc11018687d8c5894ebf1b4ec6fad004828e5ce442d3cc04d925ef53ef881",
+  "threshold": "len(soln_tuples & data_tuples) > 6",
+  "legs": [
+    "score",
+    "verdict"
+  ],
+  "cases": [
+    {
+      "id": "exact8",
+      "data": [
+        {
+          "word": "testword02",
+          "value": 10.0
+        },
+        {
+          "word": "testword03",
+          "value": 25.0
+        },
+        {
+          "word": "testword04",
+          "value": 42.0
+        },
+        {
+          "word": "testword05",
+          "value": 50.0
+        },
+        {
+          "word": "testword06",
+          "value": 75.0
+        },
+        {
+          "word": "testword07",
+          "value": 99.0
+        },
+        {
+          "word": "testword08",
+          "value": 99.99
+        },
+        {
+          "word": "testword09",
+          "value": 0.5
+        }
+      ],
+      "predicted_score": 8,
+      "predicted_verdict": "P",
+      "why": "all eight solution pairs"
+    },
+    {
+      "id": "seven",
+      "data": [
+        {
+          "word": "testword02",
+          "value": 10.0
+        },
+        {
+          "word": "testword03",
+          "value": 25.0
+        },
+        {
+          "word": "testword04",
+          "value": 42.0
+        },
+        {
+          "word": "testword05",
+          "value": 50.0
+        },
+        {
+          "word": "testword06",
+          "value": 75.0
+        },
+        {
+          "word": "testword07",
+          "value": 99.0
+        },
+        {
+          "word": "testword08",
+          "value": 99.99
+        }
+      ],
+      "predicted_score": 7,
+      "predicted_verdict": "P",
+      "why": "seven pairs; strict > 6 boundary satisfied"
+    },
+    {
+      "id": "six",
+      "data": [
+        {
+          "word": "testword02",
+          "value": 10.0
+        },
+        {
+          "word": "testword03",
+          "value": 25.0
+        },
+        {
+          "word": "testword04",
+          "value": 42.0
+        },
+        {
+          "word": "testword05",
+          "value": 50.0
+        },
+        {
+          "word": "testword06",
+          "value": 75.0
+        },
+        {
+          "word": "testword07",
+          "value": 99.0
+        }
+      ],
+      "predicted_score": 6,
+      "predicted_verdict": "F",
+      "why": "six pairs; strict > 6 boundary not satisfied"
+    },
+    {
+      "id": "empty",
+      "data": [],
+      "predicted_score": 0,
+      "predicted_verdict": "F",
+      "why": "empty JSON array"
+    },
+    {
+      "id": "extras",
+      "data": [
+        {
+          "word": "testword02",
+          "value": 10.0
+        },
+        {
+          "word": "testword03",
+          "value": 25.0
+        },
+        {
+          "word": "testword04",
+          "value": 42.0
+        },
+        {
+          "word": "testword05",
+          "value": 50.0
+        },
+        {
+          "word": "testword06",
+          "value": 75.0
+        },
+        {
+          "word": "testword07",
+          "value": 99.0
+        },
+        {
+          "word": "testword08",
+          "value": 99.99
+        },
+        {
+          "word": "testword09",
+          "value": 0.5
+        },
+        {
+          "word": "noise01",
+          "value": 1.0
+        },
+        {
+          "word": "noise02",
+          "value": 2.0
+        },
+        {
+          "word": "noise03",
+          "value": 3.0
+        },
+        {
+          "word": "noise04",
+          "value": 4.0
+        }
+      ],
+      "predicted_score": 8,
+      "predicted_verdict": "P",
+      "why": "extras do not reduce the intersection"
+    },
+    {
+      "id": "duplicates",
+      "data": [
+        {
+          "word": "testword02",
+          "value": 10.0
+        },
+        {
+          "word": "testword03",
+          "value": 25.0
+        },
+        {
+          "word": "testword04",
+          "value": 42.0
+        },
+        {
+          "word": "testword05",
+          "value": 50.0
+        },
+        {
+          "word": "testword06",
+          "value": 75.0
+        },
+        {
+          "word": "testword07",
+          "value": 99.0
+        },
+        {
+          "word": "testword08",
+          "value": 99.99
+        },
+        {
+          "word": "testword09",
+          "value": 0.5
+        },
+        {
+          "word": "testword02",
+          "value": 10.0
+        },
+        {
+          "word": "testword03",
+          "value": 25.0
+        },
+        {
+          "word": "testword04",
+          "value": 42.0
+        },
+        {
+          "word": "testword05",
+          "value": 50.0
+        },
+        {
+          "word": "testword06",
+          "value": 75.0
+        },
+        {
+          "word": "testword07",
+          "value": 99.0
+        },
+        {
+          "word": "testword08",
+          "value": 99.99
+        },
+        {
+          "word": "testword09",
+          "value": 0.5
+        }
+      ],
+      "predicted_score": 8,
+      "predicted_verdict": "P",
+      "why": "set semantics: 16 rows, 8 distinct pairs"
+    },
+    {
+      "id": "string-values",
+      "data": [
+        {
+          "word": "testword02",
+          "value": "10.0"
+        },
+        {
+          "word": "testword03",
+          "value": "25.0"
+        },
+        {
+          "word": "testword04",
+          "value": "42.0"
+        },
+        {
+          "word": "testword05",
+          "value": "50.0"
+        },
+        {
+          "word": "testword06",
+          "value": "75.0"
+        },
+        {
+          "word": "testword07",
+          "value": "99.0"
+        },
+        {
+          "word": "testword08",
+          "value": "99.99"
+        },
+        {
+          "word": "testword09",
+          "value": "0.5"
+        }
+      ],
+      "predicted_score": 0,
+      "predicted_verdict": "F",
+      "why": "string values never equal float values"
+    },
+    {
+      "id": "int-values",
+      "data": [
+        {
+          "word": "testword02",
+          "value": 10
+        },
+        {
+          "word": "testword03",
+          "value": 25
+        },
+        {
+          "word": "testword04",
+          "value": 42
+        },
+        {
+          "word": "testword05",
+          "value": 50
+        },
+        {
+          "word": "testword06",
+          "value": 75
+        },
+        {
+          "word": "testword07",
+          "value": 99
+        }
+      ],
+      "predicted_score": 6,
+      "predicted_verdict": "F",
+      "why": "int values match float pairs; six matches still fail the strict bound"
+    }
+  ]
+}
