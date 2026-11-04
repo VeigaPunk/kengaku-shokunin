@@ -104,8 +104,19 @@ def digest_matches(pin: str, actual: str) -> bool:
     return actual.startswith(pin) if len(pin) < 64 else pin == actual
 
 
+def stamp_block(text: str) -> tuple[str, str]:
+    """The last stamp block wins: an appended re-stamp supersedes what it corrects (append-only).
+
+    A block starts at a `LANE_TIP` line and runs to the end of the receipt, so an appended block
+    cannot inherit a stale `TOOL_SHA`/`WORKTREE` line from the block it corrects.
+    """
+    hits = list(TIP.finditer(text))
+    if not hits:
+        return "-", text
+    return hits[-1].group(1), text[hits[-1].start():]
+
+
 def last(pattern: re.Pattern, text: str):
-    """The last stamp block wins: an appended re-stamp supersedes what it corrects (append-only)."""
     found = pattern.findall(text)
     return found[-1] if found else None
 
@@ -136,23 +147,23 @@ def audit(ctx: Ctx) -> tuple[list[str], list[str], dict]:
     for rel in receipts:
         text = ctx.get(rel) or ""
         bad: list[str] = []
-        tips = TIP.findall(text)
-        if not tips:
+        tip, block = stamp_block(text)
+        state = "-"
+        if tip == "-":
             bad.append("TIP-ABSENT")
-            short, state = "-", "-"
+            short = "-"
         else:
-            tip = tips[-1]
             short = tip[:8]
             if not git(ctx.root, "rev-parse", "--verify", "--quiet", f"{tip}^{{commit}}").returncode == 0:
                 bad.append("TIP-UNRESOLVED")
             elif not ctx.ancestor(tip):
                 bad.append("TIP-NOT-ANCESTOR")
-        state = last(WORKTREE, text) or "-"
+        state = last(WORKTREE, block) or "-"
         if state == "-":
             bad.append("WORKTREE-ABSENT")
-        tool = last(TOOL, text)
-        sha = last(TOOL_SHA, text)
-        supplied = last(SUPPLIED, text)
+        tool = last(TOOL, block)
+        sha = last(TOOL_SHA, block)
+        supplied = last(SUPPLIED, block)
         tool_rel = tool or supplied
         if sha and not tool:
             bad.append("TOOL-UNNAMED")
@@ -170,7 +181,9 @@ def audit(ctx: Ctx) -> tuple[list[str], list[str], dict]:
                         bad.append("TOOL-ABSENT-AT-TIP")
                 elif not digest_matches(sha, actual):
                     bad.append("SUPPLIED-DIGEST-MISMATCH" if supplied else "TOOL-DRIFT")
-        if VERDICTISH.search(text) and not last(COMMAND, text):
+            elif present and not supplied:
+                bad.append("TOOL-UNPINNED")
+        if VERDICTISH.search(text) and not last(COMMAND, block):
             bad.append("COMMAND-ABSENT")
         if PASS.search(text):
             located_ok = bool(tool and sha and not any(x.startswith(("TOOL-", "SUPPLIED-")) for x in bad)) \
