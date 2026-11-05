@@ -1,0 +1,14 @@
+$ python3 plans/round87_c1_replay.py --lane . --rev b9be687774e6b559470f5b0d9b936315b51ff311 --work <scratch>
+DEFECT L4-table plans/round87-cases.json absent at measured
+DEFECT L1-receipt corpus/evidence/round87/mteb-retrieve-probe.txt absent at b9be687774e6
+DEFECT L7-ledger row {"classes": ["file-artifact"], "evidence": "no-blocker: tests/test_outputs.py sha256=e4e6b21fed6662ad", "reason": "unattempted", "status": "unexecuted"}
+TARGET executed_rows=30 member=mteb-retrieve located=0 executed=0 cases=0 legs=0 mismatches=0 defects=3
+PREDICATE R87-C1 fail
+rc=1
+
+$ python3 plans/round87_c2_wording.py --lane . --rev b9be687774e6b559470f5b0d9b936315b51ff311 --work <scratch>
+DEFECT MISMATCH corpus/README.md:941 asserts 'eight' schema-drift cases; derived 6
+DEFECT CANON corpus/README.md lessons/round-86.md row lacks 'eight case shapes, six schema-drift and two controls'
+TARGET mismatches=1 defects=2 total=8 schema=6 control=2
+PREDICATE R87-C2 fail
+rc=1

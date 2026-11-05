@@ -1350,3 +1350,11 @@ not rewritten.
   redundant mutant is not a failure; an undeclared one is. Executable half:
   `plans/round86_c2_repin.py --mutants` prints `declared=` and `caught_by=` per mutant and returns 0
   only when every declared expectation holds.
+
+## Round87 freeze-hygiene lesson
+
+- **Q66 — a before-count written into a frozen claim is copied from its counter's own BASE output, measured before the freeze commit.** Grounding:
+  `corpus/lessons/round-87.md` Mistakes 2. Round 87's claim text stated `defects=7` at BASE for a member whose
+  counter measures `defects=3` at that revision; the 7 was a figure carried from a sibling claim. Executable half: not
+  yet. Routed to round 88 as a counter-side check that re-runs the frozen counter at BASE and compares the figure
+  in the claim text. Until that check exists, a claim's before-figure is a prediction, not evidence.

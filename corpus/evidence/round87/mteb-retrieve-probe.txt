@@ -1,0 +1,25 @@
+# tb2 mteb-retrieve grader probe
+MEMBER mteb-retrieve
+SUBJECT_CAPTURE corpus/evidence/round52/graders/mteb-retrieve/tests/test_outputs.py
+SUBJECT_SHA e4e6b21fed6662adb4a42aba23d35609450392839a2282f3ba77c70c8d907c0b
+CASE_TABLE_SHA 848eac3828e209f44aa5d39a7ee5ff48043e661ecf4d14d7a0b42ef96c8be86b
+TOOL plans/round87_mteb_probe.py
+TOOL_SHA 0838dc80ae0641be1262fd725724afbff295cde90a248c52d73bb05db026ce20
+HOST_PYTHON Python 3.14.8
+HOST_OPENSSL OpenSSL 3.6.5 29 Sep 2026 (Library: OpenSSL 3.6.5 29 Sep 2026)
+LANE_TIP 21da383b44a399f40faf346eed89210c9114848d
+WORKTREE clean
+COMMAND python3 plans/round87_mteb_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r87/L1/mint
+EXIT 0
+OBSERVATIONS_BEGIN
+CASE exact predicted=P/P observed=P/P
+CASE absent-file predicted=F/F observed=F/F
+CASE two-lines predicted=P/F observed=P/F
+CASE sibling-value predicted=P/F observed=P/F
+CASE trailing-space predicted=P/P observed=P/P
+CASE empty-file predicted=P/F observed=P/F
+CASE result-is-directory predicted=P/E observed=P/E
+CASE non-utf8-bytes predicted=P/E observed=P/E
+cases=8 legs=16 mismatches=0
+PREDICATE R87-PROBE pass
+OBSERVATIONS_END
