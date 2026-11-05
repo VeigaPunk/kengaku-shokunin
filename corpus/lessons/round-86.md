@@ -83,7 +83,20 @@ ground lands as S274 + the executed population-ledger row + the receipt + this G
 | **A known red gate was carried across a round under its own "not caused by this round" label.** Round 85 measured `P3c.box.4.pointer.1` red at BASE and at its own tip and deferred it; nobody re-derived the pointer. | `LOG.md` round-85 gate block (the carried-red bullet); `SCORECARD.md` round-85 *Planned* item 2; round-85 spotcheck's carried-state line | round-85's own outside closure, which named the state red and did not route it | round 86 derives the line and repairs the pointer (R86-V1); BASE `state_check --summary` prints `MISMATCH P3c.box.4.pointer.1`, `mismatch=1` (`.ufo/waves/round-86/L1/base-runs.txt`) |
 | **A round's own draft can outrun its bytes.** The report draft's Corrections clause said the inherited receipt had been superseded by a re-mint; at `ab9da0d4` the committed receipt still read `LANE_TIP bfda0472` and `WORKTREE dirty`, because the re-mint must wait for a clean tip and the wave seats keep the tree dirty until they settle. | `corpus/evidence/round86/raman-fitting-probe.txt` stamp lines at `ab9da0d4`; seat `ScribeR86`'s read-only check | the seat's read-only re-read of the delivered bytes — the one check the L1 could not do on itself | the receipt is re-minted **after** the wave settles and the tree is clean, and the tip measurement is the commit that carries it |
 | **A quote count can be right and its quote wrong.** S274 was first written with the line-36 text including the trailing ` (` while the cell said "8 words"; `len(quote.split())` on that text is 9. | `corpus/SOURCES.md` S274 (pre-`981d6f19`) against `awk 'NR==36'` of the capture | seat `SourceR86`'s independent count, and `ScribeR86`'s re-count | the committed row quotes the trimmed substring (`…offset_correct,`) and states the counting method; the same class as round 85's S272/S273 correction |
+| **A claim sentence can mislabel its own case set.** The frozen sentence said "eight frozen schema-drift case shapes" while the frozen table labels two of the eight as controls. | `plans/round86-cases.json` `why` cells for `exact` and `g-amplitude-just-outside`; seat `ScoutR86`'s finding 2 | the scout's read of the table's own prose — a check no attack seat ran, because all of them read the counter rather than the table's labels | R86-V3: the lesson, the report and *Planned* carry the corrected wording; the frozen file is not edited |
 | **A receipt is not admitted on its numbers alone.** The inherited receipt's eight vectors were correct and its `TOOL_SHA` true, yet it named a dirty worktree and a tip that predated the ledger row. | the inherited `raman-fitting-probe.txt` (superseded) and `L3-tip` in `plans/round86_c1_replay.py` | the round-85 outside closure, which rejected a claim whose controls did not bind the frozen bytes | re-mint at a clean committed tip after the ledger row lands, and let `L3` refuse any tip that is not an ancestor of the measured revision |
+
+- **R86-V3 — the case set is six schema-drift shapes and two controls (2026-11-05).** Seat
+  `ScoutR86` (finding 2) read the frozen table's own `why` cells: `exact` is "control: every value
+  inside its band and every key present" and `g-amplitude-just-outside` is "numeric-band control,
+  **not schema**". So the round's phrase "eight frozen schema-drift case shapes" is wrong by two. The
+  numeral the claim is judged on (eight cases, 24 legs) is unaffected, and no file is edited to hide
+  it: the correct wording is "eight frozen case shapes, six of them schema-drift and two controls".
+- **R86-V4 — `members=1` is a literal, not a count (2026-11-05).** Found independently by seats
+  `ReviewerC186` (F2), `CriticR86` (C1-F2) and `ScoutR86` (finding 1): `stats["members"]` is
+  initialised to 1 and never recomputed, so the frozen clause `members == 1` is vacuous. The growth
+  the claim names (executed 29 → 30, one changed row) is measured by hand and by the R79 gate, not by
+  this counter. Routed to the successor instrument; the frozen predicate is not rewritten.
 
 ## Definition horizon
 
