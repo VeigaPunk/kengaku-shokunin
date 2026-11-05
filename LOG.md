@@ -3353,3 +3353,25 @@ measured tip `10de494d` (receipt `LANE_TIP 21da383b`, `WORKTREE clean`). Two cla
   rejected 16 → 17; queued 8. S276 (mteb-leaderboard) rejected with a flip condition.
 - **Commits**: `b0f07651` freeze; `21da383b` instruments; `10de494d` receipt, ledger row, README, registry, lesson, Q66, BASE transcripts.
   Transcripts and controls: `.ufo/waves/round-87/L1/`; wave evidence `.ufo/waves/round-87/`.
+
+## Round 88 — sixth located offline member replay (`fix-git`) and the Q66 counter-side check made executable (hyaku run 15, attempt 1, 2026-11-05)
+
+Base `801b903a`; freeze `0220c2f9` (claims and case table, before any instrument); instruments `1f267d4b`; frontier `da16ec39`
+(S277, lesson); receipt and measured tip `7fcc680b` (receipt `LANE_TIP da16ec39`, `WORKTREE clean`). Two claims on distinct surfaces;
+frozen text unchanged after the freeze.
+
+- **R88-C1 (coverage) — `fix-git`, eight frozen cases, sixteen legs.** The pinned capture is byte-identical to the round-52
+  capture (`sha256 a8a6f51e…43f3`, fetched 2026-11-05, HTTP 200, 1194 B; row S277). BASE `TARGET executed_rows=31 … defects=3`,
+  exit 1; tip `executed_rows=32 … defects=0`, `PREDICATE R88-C1 pass`, exit 0. Ledger executed 31 → 32;
+  `crypto-credential` 2 of 12 → 3 of 12 (first movement since round 41/80); `file-artifact` 23 of 76 → 24 of 76.
+- **R88-C2 (capability acquisition, no axis-score move) — Q66 executable half.** `plans/round88_claim_figures.py` extracts
+  every before-figure record from the eight frozen claims files (rounds 80–87, 56 records), re-runs each claim's counter at
+  its own BASE, and requires the mismatch set to equal the frozen KNOWN set exactly. Tip: `records=56 checked=56 matched=55
+  mismatches=1`, one `MISMATCH KNOWN R87-C1 kv:defects claimed==7 measured 3`, `PREDICATE R88-C2 pass`, exit 0;
+  `--selftest` four fixtures pass. The round-87 mispredict stays wrong on the record — reported, not repaired.
+- **Mistake mined**: `figure-not-measured` — the round-87 `defects=7` BASE figure was carried from a sibling claim, never
+  measured (`corpus/lessons/round-88.md` Mistakes 1; routed defects R87-V2/V4 discharged).
+- **Census**: `sources-census.sh validate --root … kengaku` exit 0 before (268 rows) and after (269 rows); A 238 → 239;
+  mined 243 → 244; rejected 17; queued 8.
+- **Commits**: `0220c2f9` freeze; `1f267d4b` instruments; `da16ec39` S277 + lesson; receipt/ledger/SKILL/README/Q66 `7fcc680b`; transcripts `HEAD`.
+  Transcripts and controls: `.ufo/waves/round-88/L1/`; wave evidence `.ufo/waves/round-88/`.

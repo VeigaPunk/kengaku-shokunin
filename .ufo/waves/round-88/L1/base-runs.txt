@@ -1,0 +1,21 @@
+=== R88-C1 counter at BASE 801b903af6412cb424209a60b3a52e56c3532866 (do-nothing) ===
+DEFECT L4-table plans/round88-cases.json absent at measured
+DEFECT L1-receipt corpus/evidence/round88/fix-git-probe.txt absent at 801b903af641
+DEFECT L7-ledger row {"classes": ["crypto-credential", "file-artifact"], "evidence": "no-blocker: tests/test_outputs.py sha256=a8a6f51eb0d7c4eb", "reason": "unattempted", "status": "unexecuted"}
+TARGET executed_rows=31 member=fix-git located=0 executed=0 cases=0 legs=0 mismatches=0 defects=3
+PREDICATE R88-C1 fail
+rc=1
+
+=== R88-C2 instrument at BASE (do-nothing: instrument absent) ===
+fatal: path 'plans/round88_claim_figures.py' exists on disk, but not in '801b903af6412cb424209a60b3a52e56c3532866'
+absent at BASE — predicate unreachable, rc=128
+
+=== R88-C2 --selftest (able-to-fail battery) ===
+SELFTEST T1-doctored-extract pass records=[('defects', 9)]
+SELFTEST T1-doctored-mismatch pass verdict=mismatch (doctored figure must not match BASE output)
+SELFTEST T2-marker-negatives pass spans=0
+SELFTEST T3-atbase-backward pass spans=[('R99-C9', 'atbase', '**Target.** `defects=7`, `located=0`, `PREDICATE R99-C9 fail`, exit 1 at BASE')]
+SELFTEST T4-dedupe pass defects=7 records=1
+DEFECTS n=0
+PREDICATE R88-C2-SELFTEST pass
+rc=0
