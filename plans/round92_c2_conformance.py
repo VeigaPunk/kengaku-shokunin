@@ -203,7 +203,7 @@ def main(argv: list[str]) -> int:
                               "--rev", tip, "--work", str(work / "m9" / "run")],
                              capture_output=True, text=True, timeout=900, cwd=str(work))
         import re as _re
-        pins_all_matched = bool(_re.search(r"PINS checked=(\\d+) matched=\\1 mismatched=0", run.stdout))
+        pins_all_matched = bool(_re.search(r"PINS checked=(\d+) matched=\1 mismatched=0", run.stdout))
         # the ledger size is not the predicate: it grew 17 -> 18 when the C1 counter's
         # own L8 leg caught the missing probe pin (commit D) — all-matched is the claim
         green = (run.returncode == 0 and pins_all_matched
