@@ -1,0 +1,84 @@
+ENVELOPE seat=ExecC2Battery-3 item=R92-C2 conformance battery (scratch clones only)
+ENVELOPE scratch=/fast/scratch/hyaku/kengaku-r92/ExecC2Battery (removed before yield)
+ENVELOPE lane=/home/vgpnk/Projects/shokunin/kengaku-shokunin (read-only git; no lane mutation)
+TIP f0018773f507f363854123856990f8ff8a87eb8c (B2 pin-ledger refresh; clone detached)
+BASE 4ba56182307ccda1ec436bfe3d61cb3d92e56608
+FREEZE_A 96f249e05a88c8a81a49a380c72e0c6bfec82480
+INSTRUMENTS_B 4f6b3c5294d7ba9f05be08162536d94e3f91c6d6
+TOOL_INSTALLS none
+SUBAGENTS none
+
+CONTROL 1 base-all-red [expect rc=1, all three FAIL]
+CMD python3 plans/round92_c2_conformance.py --lane . --rev 4ba56182307ccda1ec436bfe3d61cb3d92e56608 --work <scratch>/w/c1
+OUT M7-CASE-PARSER FAIL base-rc=1 base-L5=10 tip-rc=1 tip-pass=False
+OUT M12-HOST-PROBE-GUARD FAIL base-rc=1 base-predicate-line=False tip-rc=1 tip-closed=False
+OUT M9-SELFTEST-ESCAPE FAIL base-flag-present=True base-table-absent=True tip-flag-absent=False tip-table-present=False tip-table-pinned-match=False default-run-rc=0
+OUT PREDICATE R92-C2 fail
+control1_exit=1
+control1_verdict=MATCH (note: --rev was BASE, so the "tip-*" fields are BASE-valued by construction)
+
+CONTROL 2 tip-all-green [expect rc=0, all three pass]
+CMD python3 plans/round92_c2_conformance.py --lane . --rev f0018773f507f363854123856990f8ff8a87eb8c --work <scratch>/w/c2
+OUT M7-CASE-PARSER pass base-rc=1 base-L5=10 tip-rc=0 tip-pass=True
+OUT M12-HOST-PROBE-GUARD pass base-rc=1 base-predicate-line=False tip-rc=2 tip-closed=True
+OUT M9-SELFTEST-ESCAPE FAIL base-flag-present=True base-table-absent=True tip-flag-absent=False tip-table-present=True tip-table-pinned-match=True default-run-rc=0
+OUT PREDICATE R92-C2 fail
+control2_exit=1
+control2_verdict=FINDING F1 (expected rc=0; M9 tip-flag-absent is False)
+control2_evidence_F1 git grep -c 'skip-selftest' f0018773 -- plans/round91_counter_pin.py -> plans/round91_counter_pin.py:2 (checker lines 16 and 211, docstring/comment text)
+control2_evidence_F1 python3 -I -B plans/round91_counter_pin.py --rev f0018773 --work <scratch> --skip-selftest -> rc=2 "unrecognized arguments: --skip-selftest" (flag is functionally gone)
+control2_evidence_F1 default run of round91_counter_pin.py at f0018773 -> rc=0; PINS checked=17 matched=17 mismatched=0; SELFTEST cases=9 red-green-ok=9; PREDICATE R91-C2 pass
+control2_evidence_F1 sha256 of plans/round92-selftest-expectations.json at f0018773 = 4453495ace081c25aa23899e5334c2de5f640e419b03238b9c97ad1fa73c4086 (equals ledger pin)
+
+CONTROL 3 tip-openssl-masked [expect rc=2, DEFECT SETUP host probe absent, PREDICATE could-not-evaluate]
+ENV PATH=<scratch>/w/fake (symlinks to absolute git sh env ls cat grep sed awk tar python3; NO openssl; verified `command -v openssl` empty on that PATH)
+CMD PATH=<fake> python3 plans/round91_c1_replay.py --lane . --rev f0018773f507f363854123856990f8ff8a87eb8c --work <scratch>/w/c3
+OUT DEFECT SETUP host probe absent (python=Python 3.14.8 openssl=absent userns=122865)
+OUT PREDICATE R91-C1 could-not-evaluate
+control3_exit=2
+control3_verdict=MATCH (a first attempt used symlinks with relative targets for cat/env/grep/ls/sed, which loop; re-run with absolute targets gave the same rc=2 output)
+
+CONTROL 4 base-openssl-masked-unguarded [expect rc=1, traceback, NO PREDICATE R91-C1 line]
+CMD git show 4ba56182:plans/round91_c1_replay.py > <scratch>/w/c4/round91_c1_replay_base.py (sha256 19600cabc97259169431ab51e81091fbbefed7dd227fcc194beb15d048681a07)
+ENV same masked PATH as control 3
+CMD PATH=<fake> python3 <scratch>/w/c4/round91_c1_replay_base.py --lane . --rev 4ba56182307ccda1ec436bfe3d61cb3d92e56608 --work <scratch>/w/c4
+ERR Traceback (most recent call last) ... line 243 in main: oss = subprocess.run(["openssl", "version"], ...)
+ERR FileNotFoundError: [Errno 2] No such file or directory: 'openssl'
+OUT (stdout empty; PREDICATE R91-C1 lines counted = 0)
+control4_exit=1
+control4_verdict=MATCH
+
+CONTROL 5 flag-gone [expect git grep prints nothing exit 1; CHILD_ENV >= 1]
+CMD git grep -c 'skip-selftest' f0018773f507f363854123856990f8ff8a87eb8c -- plans/round91_counter_pin.py
+OUT f0018773f507f363854123856990f8ff8a87eb8c:plans/round91_counter_pin.py:2  (grep_exit=0)
+CMD git show f0018773f507f363854123856990f8ff8a87eb8c:plans/round91_counter_pin.py | grep -c CHILD_ENV
+OUT 3
+control5_exit=0
+control5_verdict=FINDING F2 (first half red: literal text survives at lines 16 and 211; second half green). The argparse flag itself is gone (see control 2 evidence).
+
+CONTROL 6 table-pin-rewrite [leg1 expect rc=2 DEFECT SETUP expectations-pin mismatch; leg2 expect rc=0 per prediction]
+SCRATCH COMMITS (clone only, never in lane): 153903a7 tamper; 8fbd68e1 ledger re-pin; a2c1cd1f weakened table (extra leg); dfcf4f0e ledger re-pin (extra leg)
+LEG1 tamper 153903a7: plans/round92-selftest-expectations.json clean-green rc 0 -> 1
+LEG1 CMD python3 -I -B plans/round91_counter_pin.py --lane . --rev 153903a7 --work <scratch>/w/c6a
+LEG1 OUT DEFECT SETUP expectations-pin mismatch plans/round92-selftest-expectations.json
+LEG1 OUT DEFECT PIN-MISMATCH bytes plans/round92-selftest-expectations.json
+LEG1 OUT PINS checked=17 matched=16 mismatched=1
+LEG1 OUT PREDICATE R91-C2 could-not-evaluate
+control6_leg1_exit=2
+control6_leg1_verdict=MATCH
+LEG2 re-pin 8fbd68e1: ledger sha for the table set to fc8b5cc4883d86317a13b480f2f86987524f1702efd1a2642438ceb48a77f37b; CMD same checker at --rev 8fbd68e1
+LEG2 OUT PINS checked=17 matched=17 mismatched=0
+LEG2 OUT SELFTEST clean-green rc=0 want=1 defect-ok=True ok=False
+LEG2 OUT SELFTEST-DETAIL cases=9 red-green-ok=8
+LEG2 OUT PREDICATE R91-C2 fail
+control6_leg2_exit=1
+control6_leg2_verdict=FINDING F3 (predicted rc=0 not reproduced: the re-pin passes every pin, but the rewritten clean-green row is red against the honest child run, so the selftest itself catches this rewrite)
+LEG3 (extra, disclosed residual) table a2c1cd1f: clean-green rc restored to 0; counter-byte-mutated defect text weakened to "PIN-MISMATCH"; ledger re-pinned in dfcf4f0e to sha e116e1562447d73d84e0d0f0798982376858f78e322a94301bfd072ca218df7d
+LEG3 CMD python3 -I -B plans/round91_counter_pin.py --lane . --rev dfcf4f0e --work <scratch>/w/c6c
+LEG3 OUT PINS checked=17 matched=17 mismatched=0
+LEG3 OUT SELFTEST-DETAIL cases=9 red-green-ok=9
+LEG3 OUT PREDICATE R91-C2 pass
+control6_leg3_exit=0
+control6_residual=DISCLOSED, NOT A PASS OF CONTROL 6: checker bytes unchanged, table weakened and its ledger pin regenerated in one scratch commit, default run passes rc 0. The L0 round-91 in-tree-pin question owns this; this battery does not close it.
+
+BATTERY controls=6 expected-match=3 findings=3 (F1 M9 literal flag text at tip; F2 flag-gone control red on literal grep; F3 control-6 re-pin predicted pass not reproduced)

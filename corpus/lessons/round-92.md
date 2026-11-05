@@ -56,3 +56,16 @@ Class · evidence pointer · captured-by · fix.
 - The gate v3's `shokunin.conf` lane-id rule reads the fleet conf live (it is not in the lane
   repo at any revision); a conf edit mid-run would change the verdict, which the gate reports
   as `CouldNotEvaluate` only if the file is unreadable, not if its content changes.
+
+## Mistakes (attempt 2 addendum; non-author wave w1)
+
+Class · evidence pointer · captured-by · fix. Fixes are routed, not yet shown able to fail, unless stated.
+
+| # | class | evidence | captured-by | fix |
+|---|---|---|---|---|
+| M8 | post-freeze predicate and instrument edits (frozen-rule breach) | `git log --oneline f0018773..288511d8 -- plans/` lists E..E7; `git diff --stat 96f249e0 288511d8 -- plans/round92_c2_conformance.py plans/round92_burndown.py plans/round91_counter_pin.py`; critic P1 MAJOR | none: no gate compares the counter bytes to the freeze commit's table | verdicts corrected to not admitted (SCORECARD erratum); freeze-hash check routed to round 93 with a red-before witness (not yet shown able to fail) |
+| M9 | override branch skips vacuity (M10(b) not implemented) | `plans/round92_burndown.py:306-329` at HEAD; critic G4 receipts `tipcode-fixture-override-*.out` admitted; sentinel H1 | the selftest battery has no override-vacuity case | routed; C3 not admitted |
+| M10 | gate battery skip by planted marker file | `plans/round92_burndown.py:445` and `:558` at HEAD; mutation-tester operability finding; sentinel H3 | none | routed to round 93 with a fixture that must go red |
+| M11 | round-92 counters absent from the pin ledger | `git show HEAD:plans/counter-pins-r91.json` names only `plans/round92_bs_probe.py` among round-92 files (sentinel H4) | L8 pins the probe only | routed (pins for the three counters under a new frozen predicate) |
+| M12 | misroot and stale ready-file routing | `cases_A.json` at fleet root (12:05), byte-identical to `plans/round92-cases.json`; `w1.ready` names attempt-1 L1 `KengakuR92` | fleet-root misroot sweep | moved byte-exact (`cmp` OK), fleet copy deleted; WAVE-DONE forwarded by `KengakuR92` to `KengakuR92a2`; L0 line appended |
+| M13 | a frozen control written so the host cannot reproduce it | C1 `sandbox-red` expected rc 2, observed rc 0 (absolute `/usr/bin/bwrap` path; host mutation forbidden) | none | reported as unmet; a future control must inject the bwrap path through the counter |

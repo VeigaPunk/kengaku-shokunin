@@ -1,0 +1,13 @@
+SELFTEST chain-two-level rc=1 want=0 text-ok=False ok=False
+SELFTEST-CHILD chain-two-level stdout='ROWS total=9 valid=9 invalid=0 superseded=2\nfreeze=refused oldest_pending_round=39 pending=1 parked=0 unowned_blocked=0 malformed_unresolved=0 seeds_83_91=6 resolutions=2 checks_run=0 overrides=0\nSEEDS window=83-91 count=6 min=6 ok=True\nPREDICATE R92-C3 fail\nPREDICATE R92-C3-BATTERY pass\n'
+SELFTEST chain-open-tail rc=1 want=1 text-ok=True ok=True
+SELFTEST vacuous-check rc=1 want=1 text-ok=True ok=True
+SELFTEST override-unanchored rc=1 want=1 text-ok=True ok=True
+SELFTEST override-anchored rc=0 want=0 text-ok=True ok=True
+SELFTEST blocked-unowned rc=1 want=1 text-ok=True ok=True
+SELFTEST blocked-owned-lane rc=0 want=0 text-ok=True ok=True
+SELFTEST owner-not-a-lane rc=1 want=1 text-ok=True ok=True
+SELFTEST malformed rc=1 want=1 text-ok=True ok=True
+SELFTEST stale-open rc=1 want=1 text-ok=True ok=True
+SELFTEST-DETAIL cases=10 red-green-ok=9
+rc=1

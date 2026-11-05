@@ -4281,3 +4281,17 @@ S286 rejected (network wrapper; flip stated). Registry 274 → 281; census exit 
 3. The next offline member from the ledger's class arithmetic (`timing-wall` 3 of 9 and
    `crypto-credential` 4 of 12 are now the thinnest executed classes).
 
+
+## Round 92 — attempt 2 verdict correction (non-author wave w1, measured at HEAD `288511d8`): C2 and C3 NOT ADMITTED under the frozen rule
+
+The section above says C2 and C3 are "met as frozen". That verdict is withdrawn. The C2 and C3 instruments were edited after freeze A `96f249e0` and after their first scored run (critic P1 MAJOR; `git log --oneline f0018773..288511d8 -- plans/` lists E..E7; `git diff --stat 96f249e0 288511d8 -- plans/round92_c2_conformance.py plans/round92_burndown.py plans/round91_counter_pin.py`). Attempt 2 re-measured each claim at HEAD (receipts `.ufo/waves/round-92/L1a2/`):
+
+| claim / axis | attempt-1 verdict | attempt-2 verdict at HEAD `288511d8` | evidence |
+|---|---|---|---|
+| R92-C1 / coverage (held at cap 7) | met | **met on its frozen predicate**; score held 7 | `c1-head.txt`: `TARGET executed_rows=36 member=llm-inference-batching-scheduler located=1 executed=1 cases=10 legs=60 mismatches=0 defects=0`, `PREDICATE R92-C1 pass`, rc 0. The C1 counter is unchanged after B2. Frozen control `sandbox-red` (expected rc 2) not reproduced: observed rc 0, `/usr/bin/bwrap` present, no host mutation allowed (ExecB1Battery). |
+| R92-C2 / calibration (held at 10) | met as frozen | **not admitted under the frozen rule**; the amended instrument passes (`c2-head.txt`: `PREDICATE R92-C2 pass`, rc 0) | At B2 the M9 flag literal was live (`tip-flag-absent=False`) and the M7 green leg was red (`tip-rc=1`). The M9 green condition was reworded (`1d5634e3`, `5b6c00b8`) and the M7 green leg was re-targeted to a rewound-ledger scratch clone (`6a51ff0e`, `801b8157`) after the first scored run (critic P1; reviewer F-1 and F-5). The round-92 counters are not in `plans/counter-pins-r91.json` (sentinel H4). |
+| R92-C3 / operability (held at 10) | met (freeze=admitted) | **not admitted under the frozen rule**; the repaired gate admits at HEAD (`c3-head.txt`: `freeze=admitted oldest_pending_round=- pending=0`, `PREDICATE R92-C3 pass`, rc 0) | Three gate repairs landed after the first red tip run: child proof, chain walk and `SHOKUNIN_ROOT` export (`a0c7438a`, `b72c83e9`, `dd48027f`; critic G1–G3). Still open at HEAD: the frozen M10(b) override vacuity rule (critic G4; sentinel H1; `plans/round92_burndown.py:306-329`, where the override branch never calls `vacuous_check`) and the battery skip by a planted marker (sentinel H3; mutation-tester; `:445`, `:558`). |
+| R92-F2 companion (no slot) | met | met at HEAD (`CAPTURE-PINNED S287=1,S288=1,S289=1`, `live=0`, rc 0; `.ufo/waves/round-92/L1/`) | critic F-1: the claim text's "71 + 3 = 74" is arithmetically wrong; the tip captured count is 78 and the threshold is met. |
+
+**Round verdict: C1 verifies; C2 and C3 do not verify under the frozen rule. The round is not admitted.** Scores are held at their attempt-1 values. Operator ruling requested (L0 `kengaku | round-92`).
+

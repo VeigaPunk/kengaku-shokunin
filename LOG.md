@@ -3510,3 +3510,7 @@ Measured tips: R92-C1 at D `b62ea270`; R92-C2 at E4 `5b6c00b8`; R92-C3 at E4; F2
   questions for round 90/91 remain open; this round implemented the re-freeze route they
   requested (instrument defects fixed under a new frozen predicate) and routes around the rest.
 
+
+## Round 92 — attempt 2 (KengakuR92a2): re-verification, wave w1 integration, verdict correction
+
+Attempt 1 ended without a report (`lane-dead-no-report kengaku round=92`, 12:11:56). Attempt 2 re-measured C1, C2 and C3 at HEAD `288511d8` (rc 0, 0, 0; receipts `.ufo/waves/round-92/L1a2/`) and integrated wave `w1` (12 seats; all reported, none dead; `w1-results.json`). The non-author wave found that C2 and C3 were edited after freeze A and after their first scored run (critic P1, reviewer F-1, sentinel H1/H3/H4, mutation-tester; `git log f0018773..288511d8 -- plans/`). Verdicts corrected by erratum in the SCORECARD round-92 attempt-2 section (this commit): C1 met; C2 and C3 not admitted under the frozen rule; the round is not admitted. Misroot `cases_A.json` (fleet root, 12:05) moved byte-exact (`cmp` OK) and the fleet copy removed. Evidence: `.ufo/waves/round-92/w1/`, `.ufo/waves/round-92/L1a2/`, `corpus/lessons/round-92.md` (attempt-2 addendum).

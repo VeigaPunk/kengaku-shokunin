@@ -1,0 +1,29 @@
+CHECK R42-R2 base-rc=1 base='cd "$LANE" && python3 plans/routed_open.py --lane . --list | grep -qE \'^ROW R42-R2\\.[12] status=closed\' && test -f plans/scratch_guard.py' override-rc=0 override="test -f plans/scratch_guard.py && python3 plans/scratch_guard.py --selftest >/dev/null 2>&1 && grep -qs 'scratch-root-guard' SKILL.md" reason='Base check exits 1 at the tip because routed_open.py --list prints no ROW R42-R2.x lines (DEFECT line=125 in its output); the R90 check pins the landed scratch_guard.py selftest and the SKILL.md scratch-root-guard row instead, and exits 0 at the tip.' base_out=''
+CHECK R42-R3-33 base-rc=0 base='grep -qF \'9 witnessed of 20\' "$LANE/plans/round-43-claims.md"' override-rc=0 override="grep -qF '9 witnessed of 20' plans/round-43-claims.md" reason='Base check and R90 check both exit 0 at the tip with LANE set to the lane root; the R90 check writes the same grep with a lane-relative path, so the override changes spelling, not predicate.' base_out=''
+CHECK R42-R3-37 base-rc=0 base='cd "${LANE:?}" && grep -q \'host="libc-rand"\' plans/feal_probe.py && grep -q "libc.srand" plans/feal_probe.py && grep -q "host=libc-rand" corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md' override-rc=0 override='grep -q \'host="libc-rand"\' plans/feal_probe.py && grep -q \'libc.srand\' plans/feal_probe.py && grep -q \'host=libc-rand\' corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md' reason='Base check and R90 check both exit 0 at the tip with LANE set to the lane root; ${LANE:?} and $LANE expand to the same root, and the R91 check uses lane-relative paths, so the override changes spelling, not predicate.' base_out=''
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r92/ExecC3GateBattery/clone/plans/round92_burndown.py", line 605, in <module>
+    sys.exit(main(sys.argv[1:]))
+             ~~~~^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r92/ExecC3GateBattery/clone/plans/round92_burndown.py", line 594, in main
+    self_rc = selftest(work / "predicate-selftest")
+  File "/fast/scratch/hyaku/kengaku-r92/ExecC3GateBattery/clone/plans/round92_burndown.py", line 533, in selftest
+    proc = gate(d)
+  File "/fast/scratch/hyaku/kengaku-r92/ExecC3GateBattery/clone/plans/round92_burndown.py", line 451, in gate
+    proc = subprocess.run(cmd, capture_output=True, text=True, timeout=600,
+                          env={**os.environ, "SHOKUNIN_ROOT": str(lane_dir.parent)})
+  File "/usr/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 2154, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 1268, in _check_timeout
+    raise TimeoutExpired(
+    ...<2 lines>...
+            stderr=b''.join(stderr_seq) if stderr_seq else None)
+subprocess.TimeoutExpired: Command '['/usr/bin/python3', '-I', '-B', '/fast/scratch/hyaku/kengaku-r92/ExecC3GateBattery/clone/plans/round92_burndown.py', '--lane', '/fast/scratch/hyaku/kengaku-r92/ExecC3GateBattery/r2/w2/predicate-selftest/chain-two-level', '--rev', 'HEAD', '--work', '/fast/scratch/hyaku/kengaku-r92/ExecC3GateBattery/r2/w2/predicate-selftest/chain-two-level-run', '--freeze-round', '92']' timed out after 600 seconds
+rc=1

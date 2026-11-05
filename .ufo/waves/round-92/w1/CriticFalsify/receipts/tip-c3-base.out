@@ -1,0 +1,21 @@
+CHECK R42-R2 base-rc=1 base='cd "$LANE" && python3 plans/routed_open.py --lane . --list | grep -qE \'^ROW R42-R2\\.[12] status=closed\' && test -f plans/scratch_guard.py' override-rc=0 override="test -f plans/scratch_guard.py && python3 plans/scratch_guard.py --selftest >/dev/null 2>&1 && grep -qs 'scratch-root-guard' SKILL.md" reason='Base check exits 1 at the tip because routed_open.py --list prints no ROW R42-R2.x lines (DEFECT line=125 in its output); the R90 check pins the landed scratch_guard.py selftest and the SKILL.md scratch-root-guard row instead, and exits 0 at the tip.' base_out=''
+CHECK R42-R3-33 base-rc=0 base='grep -qF \'9 witnessed of 20\' "$LANE/plans/round-43-claims.md"' override-rc=0 override="grep -qF '9 witnessed of 20' plans/round-43-claims.md" reason='Base check and R90 check both exit 0 at the tip with LANE set to the lane root; the R90 check writes the same grep with a lane-relative path, so the override changes spelling, not predicate.' base_out=''
+CHECK R42-R3-37 base-rc=0 base='cd "${LANE:?}" && grep -q \'host="libc-rand"\' plans/feal_probe.py && grep -q "libc.srand" plans/feal_probe.py && grep -q "host=libc-rand" corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md' override-rc=0 override='grep -q \'host="libc-rand"\' plans/feal_probe.py && grep -q \'libc.srand\' plans/feal_probe.py && grep -q \'host=libc-rand\' corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md' reason='Base check and R90 check both exit 0 at the tip with LANE set to the lane root; ${LANE:?} and $LANE expand to the same root, and the R91 check uses lane-relative paths, so the override changes spelling, not predicate.' base_out=''
+SELFTEST chain-two-level rc=0 want=0 text-ok=True ok=True
+SELFTEST chain-open-tail rc=1 want=1 text-ok=True ok=True
+SELFTEST vacuous-check rc=1 want=1 text-ok=True ok=True
+SELFTEST override-unanchored rc=1 want=1 text-ok=True ok=True
+SELFTEST override-anchored rc=0 want=0 text-ok=True ok=True
+SELFTEST blocked-unowned rc=1 want=1 text-ok=True ok=True
+SELFTEST blocked-owned-lane rc=0 want=0 text-ok=True ok=True
+SELFTEST owner-not-a-lane rc=1 want=1 text-ok=True ok=True
+SELFTEST malformed rc=1 want=1 text-ok=True ok=True
+SELFTEST stale-open rc=1 want=1 text-ok=True ok=True
+SELFTEST-DETAIL cases=10 red-green-ok=10
+ROWS total=253 valid=252 invalid=1 superseded=74
+DEFECT check-failed R82-V8 rc=1 'CHECK v8 fail'
+freeze=refused oldest_pending_round=- pending=0 parked=24 unowned_blocked=0 malformed_unresolved=0 seeds_83_91=46 resolutions=74 checks_run=124 overrides=3
+SEEDS window=83-91 count=46 min=6 ok=True
+PREDICATE R92-C3 fail
+PREDICATE R92-C3-BATTERY pass
+rc=1

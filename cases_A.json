@@ -1,0 +1,27 @@
+{
+  "member": "llm-inference-batching-scheduler",
+  "revision": "2fd12b88aafdd04a52c298e3940bcb189f9766d6",
+  "legs_per_case": 6,
+  "leg_order": [
+    "test_output_files_exist",
+    "test_input_data_integrity",
+    "test_generate_and_schema",
+    "test_solution_shape_feasibility_and_batch_consistency",
+    "test_solution_coverage_no_duplicates",
+    "test_performance_thresholds"
+  ],
+  "leg_semantics": "P returned, F AssertionError, E any other exception",
+  "packer": {"algorithm": "pack6", "shapes_b1": [64, 128, 512, 1088, 2048], "shapes_b2": [192, 320, 704], "w": 1000000.0, "v": 1.0, "slot_budget": 36},
+  "cases": [
+    {"id": "full-pass", "predicted": "PPPPPP", "ops": []},
+    {"id": "missing-plan-b1", "predicted": "FPEEEE", "ops": [["rm", "output_data/plan_b1.jsonl"]]},
+    {"id": "tampered-input-b1", "predicted": "PFPPPP", "ops": [["inline-append-line1", "input_data/requests_bucket_1.jsonl", "  "]]},
+    {"id": "duplicate-record-b1", "predicted": "PPPPFP", "ops": [["dup-first-line", "output_data/plan_b1.jsonl"]]},
+    {"id": "nine-shapes-b2", "predicted": "PPPFPF", "ops": [["set-field-first-line", "output_data/plan_b2.jsonl", "shape.seq_align", 768]]},
+    {"id": "misaligned-shape-b2", "predicted": "PPFFPF", "ops": [["set-field-first-line", "output_data/plan_b2.jsonl", "shape.seq_align", 70]]},
+    {"id": "missing-input-b2", "predicted": "PEEEEE", "ops": [["rm", "input_data/requests_bucket_2.jsonl"]]},
+    {"id": "bad-hidden-b2", "predicted": "PPFFPF", "ops": [["set-field-first-line", "output_data/plan_b2.jsonl", "shape.hidden_align", 2048]]},
+    {"id": "batch-mismatch-b2", "predicted": "PPPFPF", "ops": [["shift-field-line2", "output_data/plan_b2.jsonl", "shape.seq_align", 64]]},
+    {"id": "empty-plan-b2", "predicted": "PPFPFP", "ops": [["truncate", "output_data/plan_b2.jsonl"]]}
+  ]
+}

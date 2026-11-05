@@ -1,0 +1,92 @@
+R92-C3 gate battery — seat ExecC3GateBattery, wave round-92/w1
+Scratch clone only (detached), removed at yield. Official measured-tip run belongs to the L1.
+
+Revisions
+  B2    f0018773f507f363854123856990f8ff8a87eb8c  (measured under test)
+  BASE  4ba56182307ccda1ec436bfe3d61cb3d92e56608
+  A     96f249e05a88c8a81a49a380c72e0c6bfec82480  (freeze; referenced only)
+
+Environment for controls 1-3 (receipts: receipts/c*.log)
+  SHOKUNIN_ROOT=/home/vgpnk/Projects/shokunin  (read-only use: shokunin.conf and the fleet
+  report that R82-V8 compares; nothing written to the fleet). The clone sits at
+  /fast/scratch/.../ExecC3GateBattery/clone, whose parent has no shokunin.conf; without the
+  variable the gate fails closed (see control 0).
+  Python 3.14.8, git 2.56.0 (host, unchanged).
+
+Control 0 (first pass, exact command, no SHOKUNIN_ROOT) — receipts/as-specified-no-SHOKUNIN_ROOT/
+  controls 1 and 2 both: "DEFECT SETUP shokunin.conf unreadable at <scratch>/shokunin.conf",
+  "PREDICATE R92-C3 could-not-evaluate", rc=2.  Layout artifact: the gate reads the conf from
+  SHOKUNIN_ROOT or lane.root.parent (round92_burndown.py:277). Fail-closed, as designed.
+  Control 3 in the same pass ran (v2 does not read the conf) and is reproduced in control 3 below.
+
+Control 1 — gate-at-B2  [expected rc 1 or 0; NO override-unjustified, NO pending from the R82-F1
+  chain, pending=0; enumerate remaining DEFECTs]
+  command: python3 plans/round92_burndown.py --lane . --rev f0018773 --work <dir> --freeze-round 92
+  literal run (receipts/c1-gate-at-B2.log): rc=1. Printed three CHECK trace lines (R42-R2,
+    R42-R3-33, R42-R3-37; the R42 override checks pass at the tip), then a Python traceback:
+    TimeoutExpired after 600 s inside selftest() -> gate() child. The predicate path re-ran the
+    battery in nested child gates. NO DEFECT summary, NO freeze= line, NO PREDICATE line printed.
+    -> FINDING F-1 (blocking).
+  full evaluation (receipts/c1b-evaluate-B2-lines.log; receipts/driver/eval_driver.py calls the
+    same evaluate(lane, rev, 92, work) main() calls, skipping only the in-path selftest step):
+      ROWS total=253 valid=252 invalid=1 superseded=74
+      DEFECT line 125: R82-F1: source must read <path>:<line>
+      DEFECT check-failed R82-V8 rc=1 'CHECK v8 fail'
+      freeze=refused oldest_pending_round=10000 pending=1 parked=24 unowned_blocked=0
+        malformed_unresolved=1 seeds_83_91=46 resolutions=74 checks_run=123 overrides=3
+      SEEDS window=83-91 count=46 min=6 ok=True
+      EVALUATE-RC 1
+  verdict: DOES NOT MEET expectation (expected pending=0, no DEFECT).
+  DEFECT triage (row ids):
+    - line 125 / R82-F1  (malformed root). Its chain on the ledger is line 213 R82-F1-R90 (open,
+      supersedes R82-F1) -> line 214 R82-F1-R91 (closed, supersedes R82-F1-R90). The chain
+      exists and is well-formed; the resolver does not walk it from the invalid root.
+      -> FINDING F-2 (blocking). Gate defect, not a ledger-row defect.
+    - check-failed R82-V8 (check of the round-82 lesson paragraph; compares fleet REPORT bytes).
+      Fails inside the gate because run_check scrubs the environment (no SHOKUNIN_ROOT).
+      -> FINDING F-3 (blocking). Reproduced: see report.md section "R82-V8 reproduction".
+    - Not present at B2: override-unjustified (R42-*), owner-not-a-lane, closed-check-vacuous,
+      override-unanchored, stale-open. Nothing else to triage.
+
+Control 2 — gate-at-BASE  [expected rc 1, freeze=refused, three override-unjustified DEFECTs
+  (R42-R2, R42-R3-33, R42-R3-37), pending=1 oldest_pending_round=82]
+  command: python3 plans/round92_burndown.py --lane . --rev 4ba56182 --work <dir> --freeze-round 92
+  The ledger corpus/routed-findings.jsonl is byte-identical between 4ba56182 and f0018773
+  (git diff --stat over that path empty). plans/round92_burndown.py is absent at BASE; the
+  command therefore runs the B2 gate over BASE bytes, as the control specifies.
+  literal run (receipts/c2-gate-at-BASE.log): same traceback as control 1, rc=1, no freeze line.
+  full evaluation (receipts/c2b-evaluate-BASE-lines.log): byte-for-byte the control 1 lines
+    (DEFECT line 125 R82-F1; DEFECT check-failed R82-V8; freeze=refused oldest_pending_round=10000
+    pending=1 malformed_unresolved=1).
+  verdict: MISMATCH. refused and pending=1 match; the three override-unjustified DEFECTs do NOT
+    appear (they belong to the one-level v2 resolver, control 3), oldest round is 10000 not 82.
+    The B2 gate does not reproduce the claim's BASE expectation. -> FINDING F-2/F-1.
+
+Control 3 — gate-v2-at-B2  [expected rc 1, three override-unjustified DEFECTs, pending=1]
+  command: python3 plans/round91_burndown.py --lane . --rev f0018773 --work <dir> --freeze-round 92
+  receipts/c3-gate-v2-at-B2.log, rc=1:
+      DEFECT override-unjustified R42-R2
+      DEFECT override-unjustified R42-R3-33
+      DEFECT override-unjustified R42-R3-37
+      DEFECT check-failed R82-V8 rc=1 'CHECK v8 fail'            <- extra, see F-3
+      freeze=refused oldest_pending_round=82 pending=1 parked=26 unowned_blocked=0
+        malformed_unresolved=0 seeds_83_91=46 resolutions=74 checks_run=123 overrides=3
+      SEEDS window=83-91 count=46 min=6 ok=True
+      PREDICATE R91-C3 fail
+  verdict: MATCHES the do-nothing expectation (refuses; the three override-unjustified DEFECTs;
+    pending=1 oldest 82), with ONE extra DEFECT line (R82-V8 check). The extra line is the same
+    environment cause as F-3; round91_burndown.py never passes SHOKUNIN_ROOT to checks.
+
+Control 4 — selftest  [expected rc 0; SELFTEST-DETAIL cases=10 red-green-ok=10]
+  command: python3 plans/round92_burndown.py --selftest --work <dir2>
+  receipts/c4-selftest.log: all ten SELFTEST lines ok=True, "SELFTEST-DETAIL cases=10
+  red-green-ok=10", rc=0.   verdict: MEETS expectation (standalone only).
+  Coverage note F-4: this run exercises selftest() as a top-level invocation only; the
+  predicate-path invocation (controls 1-2) never completes, and no case exercises a resolved
+  invalid root.
+
+Summary
+  controls 0-4 run. Controls 1 and 2 fail their expectations; control 3 matches with one extra
+  line; control 4 passes. No ledger row, no override, and no gate file was modified. Killed only
+  my own orphaned gate processes (8, scratch-path match) after the recursion in control 1/2;
+  sibling-seat processes were not touched.

@@ -1,0 +1,12 @@
+CHECK R42-R2 base-rc=1 base='cd "$LANE" && python3 plans/routed_open.py --lane . --list | grep -qE \'^ROW R42-R2\\.[12] status=closed\' && test -f plans/scratch_guard.py' override-rc=0 override='cd "$LANE" && test -f plans/scratch_guard.py && python3 plans/scratch_guard.py --selftest >/dev/null 2>&1 && grep -qs \'scratch-root-guard\' SKILL.md' reason=None base_out=''
+CHECK R42-R3-33 base-rc=0 base='grep -qF \'9 witnessed of 20\' "$LANE/plans/round-43-claims.md"' override-rc=0 override='cd "$LANE" && grep -qF \'9 witnessed of 20\' plans/round-43-claims.md' reason=None base_out=''
+CHECK R42-R3-37 base-rc=0 base='cd "${LANE:?}" && grep -q \'host="libc-rand"\' plans/feal_probe.py && grep -q "libc.srand" plans/feal_probe.py && grep -q "host=libc-rand" corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md' override-rc=0 override='cd "$LANE" && grep -q \'host="libc-rand"\' plans/feal_probe.py && grep -q "libc.srand" plans/feal_probe.py && grep -q "host=libc-rand" corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md' reason=None base_out=''
+ROWS total=253 valid=252 invalid=1 superseded=74
+DEFECT override-unjustified R42-R2
+DEFECT override-unjustified R42-R3-33
+DEFECT override-unjustified R42-R3-37
+DEFECT check-failed R82-V8 rc=1 'CHECK v8 fail'
+freeze=refused oldest_pending_round=82 pending=1 parked=26 unowned_blocked=0 malformed_unresolved=0 seeds_83_91=46 resolutions=74 checks_run=123 overrides=3
+SEEDS window=83-91 count=46 min=6 ok=True
+PREDICATE R91-C3 fail
+rc=1
