@@ -1,0 +1,36 @@
+### DEMO A: claims table repaired after freeze (lying table at freeze, correct table at rev); c.py untouched
+-- tool=round93_freeze_integrity.py freeze=42ab1a5e61e7 rev=a8f755d21919
+INSTRUMENT c.py table=ffffffffffff freeze=96257f257362 rev=96257f257362 touched=0 verdict=broken:freeze-bytes-differ-from-table+rev-bytes-differ
+FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+PREDICATE freeze-integrity fail
+rc=1
+-- tool=m13-table-read-at-rev.py freeze=42ab1a5e61e7 rev=a8f755d21919
+INSTRUMENT c.py table=96257f257362 freeze=96257f257362 rev=96257f257362 touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=1 intact=1 broken=0
+PREDICATE freeze-integrity pass
+rc=0
+### DEMO B: claims file absent at freeze (could-not-evaluate) -> real gate vs m06
+-- tool=round93_freeze_integrity.py
+DEFECT SETUP claims file absent.md absent at freeze d4cdaf14b24f
+PREDICATE freeze-integrity could-not-evaluate
+rc=2
+-- tool=m06-cne-exit0-pass.py
+DEFECT SETUP claims file absent.md absent at freeze d4cdaf14b24f
+PREDICATE freeze-integrity pass
+rc=0
+### DEMO C: side-branch edit discarded by a merge (-s ours); touched check vs. history simplification
+-- freeze=1909beef55d9 side-edit=26339cbed91b merge=b053472f22c3
+-- c.py at merge: A
+-- rev-list F..M -- c.py (default):
+   count=0
+-- rev-list --full-history F..M -- c.py:
+   b053472f22c35b428aed4a314d01a96a24962094
+   26339cbed91b260ac8301d9500cdb8779c107bbd
+-- gate at merge:
+INSTRUMENT c.py table=06f961b802bc freeze=06f961b802bc rev=06f961b802bc touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=1 intact=1 broken=0
+PREDICATE freeze-integrity pass
+rc=0
+### merges in lane windows (verdict relevance check)
+-- W1 f0018773..1df76536 merges: 0
+-- W4 d8d0a4b8..T merges: 2

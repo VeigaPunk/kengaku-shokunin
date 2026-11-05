@@ -1,0 +1,99 @@
+# ScribeQuality — raw receipts
+seat: ScribeQuality, round 93 wave w1. lane: kengaku-shokunin @ 22972a317185216596b3dfe1c189e98d1eb86787
+scratch: /fast/scratch/hyaku/kengaku-r93/ScribeQuality (clone --shared, detached at 22972a31; removed after these copies)
+
+Every command below was run against the scratch clone, never against the lane tree, and wrote nothing
+into the lane except the files this seat names.
+
+## capture-verification.txt — lane capture hashes and sizes
+
+tests/test_outputs.py  fbb84e3c0c2f72ed7de90f54380f860052c16155e7d0c9076cd57c966e9be7ed  bytes=6823
+tests/interp.py  efb8b5cdcf78b73afcf39d59600a1f355ca89b7bac9854bb01f110cc77bea2c1  bytes=17578
+solution/solve.sh  e2c5b0ac2bef4801a1891e13c108813381877426c1a7f01bab86b4fc1f712510  bytes=11910
+tests/test.sh  4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334  bytes=608
+--- program counts ---
+32
+31
+--- manifest digest ---
+a4a2892d797fa1f837f309c05a9fc9ffaf4b185cbd7c32618dd67a9ff8c3681e  -
+
+## gate-at-tip.txt — the freeze-integrity gate at the measured tip
+
+$ cd $S/lane && python3 plans/round93_freeze_integrity.py --lane . --freeze d8d0a4b849f3d031a6ad5525e18611a097e08bfe \
+    --rev 22972a317185216596b3dfe1c189e98d1eb86787 --claims plans/round-93-claims.md --work $S/work
+
+BATTERY B01 ok got=['intact']
+BATTERY B02 ok got=['broken:rev-bytes-differ+touched-after-freeze=1']
+BATTERY B03 ok got=['broken:touched-after-freeze=2']
+BATTERY B04 ok got=['broken:freeze-bytes-differ-from-table+rev-bytes-differ']
+BATTERY B05 ok got=['broken:absent-at-rev+touched-after-freeze=1']
+BATTERY B06 ok got=['intact']
+BATTERY B07 ok got=could-not-evaluate
+BATTERY B08 ok got=could-not-evaluate
+BATTERY B09 ok got=['broken:rev-bytes-differ+touched-after-freeze=1', 'intact']
+BATTERY B10 ok got=could-not-evaluate
+SELFTEST cases=10 ok=10
+FREEZE d8d0a4b849f3d031a6ad5525e18611a097e08bfe REV 22972a317185216596b3dfe1c189e98d1eb86787
+INSTRUMENT plans/round93_scheme_probe.py table=6fad5d526217 freeze=6fad5d526217 rev=6fad5d526217 touched=0 verdict=intact
+INSTRUMENT plans/round93-cases.json table=078b04d2b0cd freeze=078b04d2b0cd rev=078b04d2b0cd touched=0 verdict=intact
+INSTRUMENT plans/round93_c1_replay.py table=89153db6e525 freeze=89153db6e525 rev=89153db6e525 touched=0 verdict=intact
+INSTRUMENT plans/round93_freeze_integrity.py table=18b01b42fb54 freeze=18b01b42fb54 rev=18b01b42fb54 touched=0 verdict=intact
+INSTRUMENT plans/round93_c2_counter.py table=ac0e26a57b75 freeze=ac0e26a57b75 rev=ac0e26a57b75 touched=0 verdict=intact
+INSTRUMENT plans/round93_c2_forgeries/always_broken.py table=993ed3cf5cff freeze=993ed3cf5cff rev=993ed3cf5cff touched=0 verdict=intact
+INSTRUMENT plans/round93_c2_forgeries/always_intact.py table=5138d3546eee freeze=5138d3546eee rev=5138d3546eee touched=0 verdict=intact
+INSTRUMENT plans/round93_c2_forgeries/bytes_only.py table=67d0b7576f2b freeze=67d0b7576f2b rev=67d0b7576f2b touched=0 verdict=intact
+INSTRUMENT plans/round93_c2_forgeries/log_only.py table=54bf34a29426 freeze=54bf34a29426 rev=54bf34a29426 touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=9 intact=9 broken=0
+PREDICATE freeze-integrity pass
+
+## gate-r92-history.txt — the same gate on the lane's real round-92 history (the red witness)
+
+$ cd $S/lane && python3 plans/round93_freeze_integrity.py --lane . \
+    --freeze f0018773f507f363854123856990f8ff8a87eb8c --rev 1df7653633bd4c5a5f373d139f9f1ed02e0f9c07 \
+    --paths plans/round92_c1_replay.py plans/round92_c2_conformance.py plans/round92_burndown.py plans/round91_counter_pin.py \
+    --work $S/work/w1
+
+BATTERY B01 ok got=['intact']
+BATTERY B02 ok got=['broken:rev-bytes-differ+touched-after-freeze=1']
+BATTERY B03 ok got=['broken:touched-after-freeze=2']
+BATTERY B04 ok got=['broken:freeze-bytes-differ-from-table+rev-bytes-differ']
+BATTERY B05 ok got=['broken:absent-at-rev+touched-after-freeze=1']
+BATTERY B06 ok got=['intact']
+BATTERY B07 ok got=could-not-evaluate
+BATTERY B08 ok got=could-not-evaluate
+BATTERY B09 ok got=['broken:rev-bytes-differ+touched-after-freeze=1', 'intact']
+BATTERY B10 ok got=could-not-evaluate
+SELFTEST cases=10 ok=10
+FREEZE f0018773f507f363854123856990f8ff8a87eb8c REV 1df7653633bd4c5a5f373d139f9f1ed02e0f9c07
+INSTRUMENT plans/round92_c1_replay.py table=ebce593eb2ec freeze=ebce593eb2ec rev=ebce593eb2ec touched=0 verdict=intact
+INSTRUMENT plans/round92_c2_conformance.py table=4aa6e31a1d4a freeze=4aa6e31a1d4a rev=e5bf35f1fd73 touched=4 verdict=broken:rev-bytes-differ+touched-after-freeze=4
+INSTRUMENT plans/round92_burndown.py table=c8a2c5420464 freeze=c8a2c5420464 rev=c99f0ff4a648 touched=3 verdict=broken:rev-bytes-differ+touched-after-freeze=3
+INSTRUMENT plans/round91_counter_pin.py table=4c8d4aa4c69f freeze=4c8d4aa4c69f rev=1e6274f0816e touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+FREEZE-INTEGRITY instruments=4 intact=1 broken=3
+PREDICATE freeze-integrity fail
+
+## c2-counter-at-tip.txt — the C2 counter at the measured tip
+
+$ cd $S/lane && python3 plans/round93_c2_counter.py --lane . --rev 22972a317185216596b3dfe1c189e98d1eb86787 --work $S/work/c2
+
+TOOL plans/round93_freeze_integrity.py@22972a317185
+W1 pass rc=1 summary=(4, 1, 3) intact=['plans/round92_c1_replay.py']
+W2 w2-intact ok rc=0 want_rc=0 summary=(1, 1, 0) want=(1, 1, 0)
+W2 w2-edited ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1)
+W2 w2-edit-revert ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1)
+W2 w2-lying-table ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1)
+W2 w2-unrelated ok rc=0 want_rc=0 summary=(1, 1, 0) want=(1, 1, 0)
+W2 pass
+W3 pass
+W4 pass freeze=d8d0a4b849f3 rc=0 summary=(9, 9, 0)
+W4 INSTRUMENT plans/round93_scheme_probe.py table=6fad5d526217 freeze=6fad5d526217 rev=6fad5d526217 touched=0 verdict=intact
+W4 INSTRUMENT plans/round93-cases.json table=078b04d2b0cd freeze=078b04d2b0cd rev=078b04d2b0cd touched=0 verdict=intact
+W4 INSTRUMENT plans/round93_c1_replay.py table=89153db6e525 freeze=89153db6e525 rev=89153db6e525 touched=0 verdict=intact
+W4 INSTRUMENT plans/round93_freeze_integrity.py table=18b01b42fb54 freeze=18b01b42fb54 rev=18b01b42fb54 touched=0 verdict=intact
+W4 INSTRUMENT plans/round93_c2_counter.py table=ac0e26a57b75 freeze=ac0e26a57b75 rev=ac0e26a57b75 touched=0 verdict=intact
+W4 INSTRUMENT plans/round93_c2_forgeries/always_broken.py table=993ed3cf5cff freeze=993ed3cf5cff rev=993ed3cf5cff touched=0 verdict=intact
+W4 INSTRUMENT plans/round93_c2_forgeries/always_intact.py table=5138d3546eee freeze=5138d3546eee rev=5138d3546eee touched=0 verdict=intact
+W4 INSTRUMENT plans/round93_c2_forgeries/bytes_only.py table=67d0b7576f2b freeze=67d0b7576f2b rev=67d0b7576f2b touched=0 verdict=intact
+W4 INSTRUMENT plans/round93_c2_forgeries/log_only.py table=54bf34a29426 freeze=54bf34a29426 rev=54bf34a29426 touched=0 verdict=intact
+TARGET legs_passed=4 of 4
+PREDICATE R93-C2 pass

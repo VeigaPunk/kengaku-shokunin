@@ -1,0 +1,34 @@
+# Sibling-overlap receipts (seat ConnectorOverlap, round 93 w1, 2026-11-05)
+
+## A. Upstream identity of the TB2 member (C1 source verification)
+- `harbor-framework/terminal-bench-2` is a live GitHub repo: `api.github.com/repos/harbor-framework/terminal-bench-2` -> 200, default_branch=main. The member `schemelike-metacircular-eval` lives at rev `2fd12b88aafd…` there (lane SOURCES S290-S293).
+- Deceptive mirror found: the once-canonical `laude-institute/terminal-bench` now redirects (repo id 918420677) to `harbor-framework/terminal-bench-1`, whose `tasks/` has NO `schemelike-metacircular-eval` (404 under refs main/master/harbor/tb2/terminal-bench-2). Anyone re-opening the old raw URL gets the wrong repo silently unless the lane pins by sha256 — which S290 does.
+- Live re-verification this seat: sha256 of `.../terminal-bench-2/2fd12b88aafd…/schemelike-metacircular-eval/tests/test_outputs.py` fetched 2026-11-05 = `fbb84e3c0c2f72ed7de90f54380f860052c16155e7d0c9076cd57c966e9be7ed`, identical to the lane capture and the probe's SUBJECT_SHA. S290 citation verified byte-exact.
+
+## B. Does any sibling lane own a freeze-integrity gate? (grep receipts)
+Whole-fleet grep for `frozen.?instruments|instrument.?sha|gate.?sha|pin.?ledger|sha256sum` over all 21 sibling lanes' .py/.sh/.md — byte-vs-revision freeze logic exists only as one-off wave helpers, never as a claims-table gate:
+1. `souji-shokunin/tools/souji-freeze-check.py` (r41 waves, `+FROZEN-EDITED` selftest cases at :498/:527/:529): a pre-dispatch prereg gate. Its `check_path_sha` (:196-218) fails a freeze when a declared `Counter`/`Population` `<path> sha256=` disagrees with the blob AT THE FREEZE, and `FROZEN-EDITED` when that path's blob at the measured rev differs from at-freeze (:215-217, :400, :446). Adjacency: HIGHEST — same mechanism shape (bytes at freeze vs bytes at rev vs否认 a stated sha256) on a per-claim prereg grammar, NOT a claims-file `frozen-instruments` table and not multi-instrument awareness. Complements kengaku's gate.
+2. `kasegi-shokunin/corpus/instruments/freeze-check.py` (r45): replays each claim's counter_cmd at the base tree ('red-before') and detects base mutation via mtime snapshot. Verifies the freeze semantics of a counter, never the bytes of the instrument at tip. Complements.
+3. `chousa-shokunin/tools/freeze-check.py` (r60/59): quantifies claims/dispatch/spec/ready identity (CLAIMS_NONEMPTY via reference digest) before a wave readies. DATA-FLOW only, no history comparison. Complements.
+4. `chousa-shokunin/tools/research-gate.sh` `--pin/--drift` (:220-260): pins a behavioral baseline w/ `gate_sha256` header, byte-compares a re-run output. Confounds instrument identity with run output; no freeze-commit ancestor range. Complements.
+5. `mado-shokunin/tools/mado-tripwire.py` (r18, `--frozen DIR` / digest-pinned replay per manifest entry at :130-131): a tamper tripwire over expected.json of ITS OWN gate, not a lane claims table. Complements.
+6. `tabi-shokunin/.ufo/waves/round-22/run-checks.py` (:68-107 `preservation-baseline.json`): permuted-tree diff gate for a single round's manifest, not reusable and not claims-aware. Complements.
+7. `kaidoku-shokunin` r36-r50 wave receipts (`w2-gen.py`, `C2Atoms/receipts.sh`, `w2/W2Chronology/receipts.sh`): every gate pays a one-off `git show F:<tool> | sha256sum` inside an ad-hoc script — the manual chore kengaku's gate mechanises. No standing instrument was ever extracted. Complements wa; no owner of the chore exists.
+8. `mori-shokunin/tools/mori-freeze-order.py` (r18 admission, repo-near tools/name is misleading): checks whether frozen claim inputs PREDATE their implementation commits (a chronology gate); does not compare bytes at tip. Complements.
+9. `mori-shokunin/tools/mori-pin-check.py` (r47-v4): re-measures registry self-test pins against real argv/paths (K8 pass-form, K5 family join). Digest-instrument matching shares the same adversary (silent pin rewrite), but binds to SKILL.md register rows, not a claims freeze. Complements.
+10. `kengaku-shokunin/plans/round90_counter_pin.py` + `round91_counter_pin.py`: the lane's own prior generations — an external pins JSON, then a self-pin, both widened in r91. The r93 gate supersedes them for this round's freeze (r93 uses a claims-table 9-row sha256 list rather than a separate pins JSON), including a claims-table reader that prior pins lacked. Superseded-in-purpose, retained by the frozen rule (no in-round repair; round94 may absorb the ledger-jump if it wants a standing tool).
+
+## C. Does any sibling replay TB2 graders?
+- Cross-lane Literal grep (`test_interp|schemelike|metacircular`, all file types excluding .git/) hit ONLY 2 lines of CPython-changelog noise (`test_interprocess_signal`) in `kagi-shokunin/.ufo/waves/round-26/build/ClockS027-artifacts/chlog.body:18364` and its copy inside a kagi round-27 sandbox clone. No sibling replays any TB2 grader.
+- `https?://github.com/.*terminal[-_ ]?bench` over all lanes .py/.sh/.md/.json: hits only in kengaku (plus one prose mention in kagi r30/kake r71 connector notes). Zero sibling replay machinery.
+- Third-party dataset `few-sh/terminal-wrench` (tasks/ -> 331 dirs; receipt wrench-tasks.json + members-in-wrench.txt) publishes 14 of kengaku's ~88 captured grader members incl. this round's `schemelike-metacircular-eval` — but as agent-trajectory transcripts and hack postmortems, not runnable grader/ test code. Located replay capability remains kengaku-only among the lanes surveyed.
+
+## D. Fleet-root scripts
+- `scripts/` (hyaku + fleet plumbing): no freeze-integrity or frozen-instruments gate (zero hits for `frozen-instruments|freeze.?integrity|instrument.?sha|pin.?ledger`).
+- `counters/` fleet dir exists and is EMPTY; `reports/round-92/` likewise. No orphaned shared gate.
+
+## E. Protocol-scale note (route, do not absorb)
+`PROTOCOL.md:411-416` (Integrators do not execute sibling gates; a gate is verified via its committed evidence — self-test tally, frozen-run verdict, measured revision, if and when it has a registry row) freezes cross-lane *reuse* out of scope. A sibling that wanted kengaku's gate can only import its MECHANISM (with its own lane-scoped adaption), never its bytes. That boundary is exactly what the r93 C2 claim stays inside: lane-scoped.
+
+## F. No tool installs
+Zero tool installs or upgrades performed this seat (uv/cargo/npm/pacman channels all untouched).

@@ -1,0 +1,11 @@
+E2 — FORGED MINI-LANE reaches the full C1 predicate. Fixture: fresh repo containing the complete
+T tree, with (a) plans/round93_scheme_probe.py replaced by an echo-stub that never invokes bwrap
+or the grader, (b) the frozen-instruments table row for the probe rewritten to the stub's sha,
+(c) the receipt's TOOL_SHA rewritten to the stub's sha, (d) receipt LANE_TIP set to the fixture's
+own first commit. Two commits (freeze, tip). The counter is the real, unmodified
+plans/round93_c1_replay.py; only the --lane argument points at the forgery.
+$ python3 plans/round93_c1_replay.py --lane $S/forge --rev 5566fc8a57a9a540cd3a18b746b782560810dcad --work $S/work/c1-forge
+LEGS L1=pass L2=pass L3=pass L4=pass L5=pass L6=pass L7=pass L8=pass L9=pass
+TARGET executed_rows=37 member=schemelike-metacircular-eval located=1 executed=1 cases=8 legs=40 mismatches=0 defects=0
+PREDICATE R93-C1 pass
+rc=0

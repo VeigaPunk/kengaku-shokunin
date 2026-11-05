@@ -1,0 +1,84 @@
+##### T1 second frozen-instruments block (valid rows, after a closed first block)
+b.py (second block) edited after freeze; expect broken on b.py:
+INSTRUMENT a.py table=87428fc52280 freeze=87428fc52280 rev=87428fc52280 touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=1 intact=1 broken=0
+PREDICATE freeze-integrity pass
+rc=0
+##### T2 duplicate rows of one intact path (count inflation vs MIN_SELF_INSTRUMENTS=6)
+eight duplicate rows, one file, no edits; expect instruments=8 intact=8 (W4 needs >=6):
+INSTRUMENT a.py table=87428fc52280 freeze=87428fc52280 rev=87428fc52280 touched=0 verdict=intact
+INSTRUMENT a.py table=87428fc52280 freeze=87428fc52280 rev=87428fc52280 touched=0 verdict=intact
+INSTRUMENT a.py table=87428fc52280 freeze=87428fc52280 rev=87428fc52280 touched=0 verdict=intact
+INSTRUMENT a.py table=87428fc52280 freeze=87428fc52280 rev=87428fc52280 touched=0 verdict=intact
+INSTRUMENT a.py table=87428fc52280 freeze=87428fc52280 rev=87428fc52280 touched=0 verdict=intact
+INSTRUMENT a.py table=87428fc52280 freeze=87428fc52280 rev=87428fc52280 touched=0 verdict=intact
+INSTRUMENT a.py table=87428fc52280 freeze=87428fc52280 rev=87428fc52280 touched=0 verdict=intact
+INSTRUMENT a.py table=87428fc52280 freeze=87428fc52280 rev=87428fc52280 touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=8 intact=8 broken=0
+PREDICATE freeze-integrity pass
+rc=0
+##### T3 glob-metacharacter path edited then reverted (pathspec magic in rev-list -- PATH)
+probe[1].py edited then reverted; a true edit-then-revert must be broken+touched>=2:
+INSTRUMENT probe[1].py table=dd0aec17a1d2 freeze=dd0aec17a1d2 rev=dd0aec17a1d2 touched=2 verdict=broken:touched-after-freeze=2
+FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+PREDICATE freeze-integrity fail
+rc=1
+raw touched count via rev-list (default pathspec) vs literal:
+usage: git rev-list [<options>] <commit>... [--] [<path>...]
+
+  limiting output:
+    --max-count=<n>
+    --max-age=<epoch>
+    --min-age=<epoch>
+    --sparse
+    --no-merges
+    --min-parents=<n>
+    --no-min-parents
+    --max-parents=<n>
+    --no-max-parents
+    --remove-empty
+    --all
+    --branches
+    --tags
+    --remotes
+    --stdin
+    --exclude-hidden=[fetch|receive|uploadpack]
+    --quiet
+  ordering output:
+    --topo-order
+    --date-order
+    --reverse
+  formatting output:
+    --parents
+    --children
+    --objects | --objects-edge
+    --disk-usage[=human]
+    --unpacked
+    --header | --pretty
+    --[no-]object-names
+    --abbrev=<n> | --no-abbrev
+    --abbrev-commit
+    --left-right
+    --count
+    -z
+  special purpose:
+    --bisect
+    --bisect-vars
+    --bisect-all
+  default: 2   literal: 0
+##### T4 merge topology: feature edits instrument, merge resolves back to parent-1 bytes
+merge commits in f..t: 1
+default rev-list -- c.py: 2   --full-history: 3   feature commit present in f..t: 4 total commits
+INSTRUMENT c.py table=dd0aec17a1d2 freeze=dd0aec17a1d2 rev=dd0aec17a1d2 touched=2 verdict=broken:touched-after-freeze=2
+FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+PREDICATE freeze-integrity fail
+rc=1
+##### T5 path containing spaces (regex \S+ rejects)
+DEFECT SETUP malformed table row '73cb3858a687a8494ca3323053016282f3dad39d42cf62ca4e79dda2aac7'
+PREDICATE freeze-integrity could-not-evaluate
+rc=2
+##### T6 mode-only change (chmod +x), bytes identical
+INSTRUMENT c.py table=73cb3858a687 freeze=73cb3858a687 rev=73cb3858a687 touched=1 verdict=broken:touched-after-freeze=1
+FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+PREDICATE freeze-integrity fail
+rc=1

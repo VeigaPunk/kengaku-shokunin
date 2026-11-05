@@ -1,0 +1,140 @@
+# strace write audit (run A: probe at T 22972a317185216596b3dfe1c189e98d1eb86787,
+# strace -f -e trace=file,network, log 15,447,400 bytes, receipts/strace-main.log)
+#
+# Successful write-flag file ops under --work by host probe pid 795723: 416, all under
+#   /fast/scratch/hyaku/kengaku-r93/SentinelProbe/work (harness.py + 8 case stagings;
+#   work/cases removed by the probe at exit; work left holding harness.py only).
+# Successful write-flag ops with sandbox-visible paths (/app,/tmp,/harness.py, inner pids):
+#   2156 to /tmp (sandbox tmpfs). Sandbox /app == bind of work/cases/<id>/app.
+# Successful write-flag ops outside --work and sandbox-visible paths: 117, all benign:
+#   {'UNCLASSIFIED': 1, 'bwrap-userns-procfs': 40, 'dev-null-open-by-git-subprocess': 0, 'dirfd-cwd-relative-sandbox': 76}
+#   host-probe-pid (795723) writes outside --work: 0
+#   UNCLASSIFIED: 1
+# Host /app find-hash before == after run: b7c9eed87cf92048283fcf1dddbcec2a635e5c5a94267332e37027600d5f9704
+# Host /tests: absent before and after.
+
+# --- uid_map/gid_map/setgroups (bwrap userns procfs of the NEW namespace) ---
+795771 openat(5, "uid_map", O_RDWR|O_CLOEXEC) = 6
+795771 openat(5, "setgroups", O_RDWR|O_CLOEXEC) = 6
+795771 openat(5, "gid_map", O_RDWR|O_CLOEXEC) = 6
+795771 openat(5, "uid_map", O_RDWR|O_CLOEXEC) = 6
+795771 openat(5, "gid_map", O_RDWR|O_CLOEXEC) = 6
+856613 openat(5, "uid_map", O_RDWR|O_CLOEXEC) = 6
+856613 openat(5, "setgroups", O_RDWR|O_CLOEXEC) = 6
+856613 openat(5, "gid_map", O_RDWR|O_CLOEXEC) = 6
+856613 openat(5, "uid_map", O_RDWR|O_CLOEXEC) = 6
+856613 openat(5, "gid_map", O_RDWR|O_CLOEXEC) = 6
+861826 openat(5, "uid_map", O_RDWR|O_CLOEXEC) = 6
+861826 openat(5, "setgroups", O_RDWR|O_CLOEXEC) = 6
+861826 openat(5, "gid_map", O_RDWR|O_CLOEXEC) = 6
+861826 openat(5, "uid_map", O_RDWR|O_CLOEXEC) = 6
+861826 openat(5, "gid_map", O_RDWR|O_CLOEXEC) = 6
+863017 openat(5, "uid_map", O_RDWR|O_CLOEXEC) = 6
+863017 openat(5, "setgroups", O_RDWR|O_CLOEXEC) = 6
+863017 openat(5, "gid_map", O_RDWR|O_CLOEXEC) = 6
+863017 openat(5, "uid_map", O_RDWR|O_CLOEXEC) = 6
+863017 openat(5, "gid_map", O_RDWR|O_CLOEXEC) = 6
+884365 openat(5, "uid_map", O_RDWR|O_CLOEXEC) = 6
+884365 openat(5, "setgroups", O_RDWR|O_CLOEXEC) = 6
+884365 openat(5, "gid_map", O_RDWR|O_CLOEXEC) = 6
+884365 openat(5, "uid_map", O_RDWR|O_CLOEXEC) = 6
+884365 openat(5, "gid_map", O_RDWR|O_CLOEXEC) = 6
+906162 openat(5, "uid_map", O_RDWR|O_CLOEXEC) = 6
+906162 openat(5, "setgroups", O_RDWR|O_CLOEXEC) = 6
+906162 openat(5, "gid_map", O_RDWR|O_CLOEXEC) = 6
+906162 openat(5, "uid_map", O_RDWR|O_CLOEXEC) = 6
+906162 openat(5, "gid_map", O_RDWR|O_CLOEXEC) = 6
+962186 openat(5, "uid_map", O_RDWR|O_CLOEXEC) = 6
+962186 openat(5, "setgroups", O_RDWR|O_CLOEXEC) = 6
+962186 openat(5, "gid_map", O_RDWR|O_CLOEXEC) = 6
+962186 openat(5, "uid_map", O_RDWR|O_CLOEXEC) = 6
+962186 openat(5, "gid_map", O_RDWR|O_CLOEXEC) = 6
+962216 openat(5, "uid_map", O_RDWR|O_CLOEXEC) = 6
+962216 openat(5, "setgroups", O_RDWR|O_CLOEXEC) = 6
+962216 openat(5, "gid_map", O_RDWR|O_CLOEXEC) = 6
+962216 openat(5, "uid_map", O_RDWR|O_CLOEXEC) = 6
+962216 openat(5, "gid_map", O_RDWR|O_CLOEXEC) = 6
+
+# --- dirfd/cwd-relative (bwrap populating sandbox tmpfs /dev etc., or inner cwd=/app) ---
+795771 openat(7, "null", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+795771 openat(7, "zero", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+795771 openat(7, "full", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+795771 openat(7, "random", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+795771 openat(7, "urandom", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+795771 openat(7, "tty", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+795771 openat(7, "harness.py", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+829543 openat(AT_FDCWD, "handler-test.txt", O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, 0666) = 3
+829610 openat(AT_FDCWD, "handler-test.txt", O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, 0666) = 4
+846494 openat(AT_FDCWD, "callback-test.txt", O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, 0666) = 3
+846496 openat(AT_FDCWD, "callback-test.txt", O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, 0666) = 4
+856613 openat(7, "null", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+856613 openat(7, "zero", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+856613 openat(7, "full", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+856613 openat(7, "random", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+856613 openat(7, "urandom", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+856613 openat(7, "tty", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+856613 openat(7, "harness.py", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+857224 openat(AT_FDCWD, "handler-test.txt", O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, 0666) = 3
+859858 openat(AT_FDCWD, "callback-test.txt", O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, 0666) = 3
+861826 openat(7, "null", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+861826 openat(7, "zero", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+861826 openat(7, "full", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+861826 openat(7, "random", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+861826 openat(7, "urandom", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+861826 openat(7, "tty", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+861826 openat(7, "harness.py", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+862059 openat(AT_FDCWD, "handler-test.txt", O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, 0666) = 3
+862345 openat(AT_FDCWD, "callback-test.txt", O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, 0666) = 3
+863017 openat(7, "null", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+863017 openat(7, "zero", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+863017 openat(7, "full", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+863017 openat(7, "random", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+863017 openat(7, "urandom", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+863017 openat(7, "tty", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+863017 openat(7, "harness.py", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+864660 openat(AT_FDCWD, "handler-test.txt", O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, 0666) = 3
+864662 openat(AT_FDCWD, "handler-test.txt", O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, 0666) = 4
+870009 openat(AT_FDCWD, "callback-test.txt", O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, 0666) = 3
+870011 openat(AT_FDCWD, "callback-test.txt", O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, 0666) = 4
+884365 openat(7, "null", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+884365 openat(7, "zero", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+884365 openat(7, "full", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+884365 openat(7, "random", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+884365 openat(7, "urandom", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+884365 openat(7, "tty", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+884365 openat(7, "harness.py", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+887086 openat(AT_FDCWD, "handler-test.txt", O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, 0666) = 3
+887090 openat(AT_FDCWD, "handler-test.txt", O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, 0666) = 4
+899339 openat(AT_FDCWD, "callback-test.txt", O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, 0666) = 3
+899364 openat(AT_FDCWD, "callback-test.txt", O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, 0666) = 4
+906162 openat(7, "null", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+906162 openat(7, "zero", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+906162 openat(7, "full", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+906162 openat(7, "random", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+906162 openat(7, "urandom", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+906162 openat(7, "tty", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+906162 openat(7, "harness.py", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+962186 openat(7, "null", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+962186 openat(7, "zero", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+962186 openat(7, "full", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+962186 openat(7, "random", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+962186 openat(7, "urandom", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+962186 openat(7, "tty", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+962186 openat(7, "harness.py", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+962216 openat(7, "null", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+962216 openat(7, "zero", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+962216 openat(7, "full", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+962216 openat(7, "random", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+962216 openat(7, "urandom", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+962216 openat(7, "tty", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+962216 openat(7, "harness.py", O_WRONLY|O_CREAT|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_CLOEXEC, 0444) = 5
+964429 openat(AT_FDCWD, "handler-test.txt", O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, 0666) = 3
+964432 openat(AT_FDCWD, "handler-test.txt", O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, 0666) = 4
+978341 openat(AT_FDCWD, "callback-test.txt", O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, 0666) = 3
+978346 openat(AT_FDCWD, "callback-test.txt", O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, 0666) = 4
+
+# --- /dev/null open by the probe's git subprocess pid 795755 (null device, no fs effect) ---
+
+
+# --- UNCLASSIFIED ---
+795755 openat(AT_FDCWD, "/dev/null", O_RDWR) = 3

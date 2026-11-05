@@ -1,0 +1,29 @@
+# C1 counter git-archive extraction safety (plans/round93_c1_replay.py at T)
+#
+# Code under audit (L6 block):
+#   archive = git(lane, "archive", rev)
+#   with tarfile.open(fileobj=BytesIO(archive.stdout)) as tar:
+#       tar.extractall(extract, filter="data")
+# -> explicit stdlib 'data' filter: rejects absolute paths, '..', links escaping the
+#    destination, device/fifo/special files, and strips setuid/setgid/sticky bits.
+#
+# Empirical reproduction on `git -C <clone> archive --output=archive-T.tar 22972a31...`:
+#   archive bytes: 673187840; members: 29472 (25870 file + 3602 dir; 0 symlink; 0 special)
+#   pre-extract member audit: 0 unsafe (no absolute names, no '..', no non-regular types,
+#     no setuid/setgid/sticky mode bits)
+#   extractall(filter="data") succeeded; extracted files 25870 == git ls-tree -r blobs 25870;
+#     the only ls-list delta is core.quotePath octal-escaping of one CJK filename (same file)
+#   extracted plans/round93_scheme_probe.py  6fad5d526217e088... (== frozen table)
+#   extracted plans/round93_c1_replay.py     89153db6e5254f3e... (== frozen table)
+#   extracted plans/round93-cases.json       078b04d2b0cdf5d1... (== frozen table)
+#   hostile control: synthetic tar with member '../../escape.sh' ->
+#     OutsideDestinationError: '../../escape.sh' would be extracted to
+#     '/fast/scratch/hyaku/kengaku-r93/escape.sh'; no file created outside.
+#
+# Notes (not defects of the filter):
+#   N1 successful counter runs leave work/extract (full lane tree) + work/rerun in --work;
+#      no cleanup code exists in the counter (hygiene; scratch reaper is the backstop).
+#   N2 archive.stdout is buffered fully in memory (BytesIO ~673 MB on this lane).
+#   N3 the counter executes the extracted probe (L6 rerun) BEFORE the L8 check that its
+#      bytes match the frozen-instruments sha (defense-in-depth ordering only; the rev is
+#      the lane's own frozen history, and L1's receipt was produced by the same bytes).

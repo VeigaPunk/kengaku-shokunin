@@ -1,0 +1,15 @@
+# Host baseline and post-run identity (2026-11-05, SentinelProbe)
+id: uid=1000 vgpnk (probe and bwrap ran as this uid; host /app is root-owned drwxr-xr-x)
+bwrap: /usr/bin/bwrap, bubblewrap 0.13.1-1 (pacman -Qo)
+strace: /usr/bin/strace, strace 7.2-1 (pacman -Qo)
+/proc/sys/user/max_user_namespaces: 122865 (read-only observation; never modified)
+python: /usr/bin/python3 -> Python 3.14.8
+host /app: empty dir, root:root, mtime 1793866656; find-hash (files+dirs, sorted):
+  before run A: b7c9eed87cf92048283fcf1dddbcec2a635e5c5a94267332e37027600d5f9704
+  after  run A: b7c9eed87cf92048283fcf1dddbcec2a635e5c5a94267332e37027600d5f9704  (identical)
+host /tests: does not exist before or after any run
+lane clone after run A: git status --porcelain empty (probe dirtied nothing)
+probe --work after run A: harness.py only (work/cases self-cleaned by the probe)
+LANE_TIP stamp note: committed official receipt stamps LANE_TIP d8d0a4b8 (freeze commit F);
+  this seat's clone run stamps 22972a31 (tip T) - F is an ancestor of T; ordering is the
+  round's designed P1->P2->F->official-run->T sequence, not a tamper signal.

@@ -1,0 +1,31 @@
+Freeze-integrity audit of the lane history (scratch clone of master, detached at T).
+--- F..T commits (post-freeze) ---
+22972a31 round-93: C — official probe receipt at F (8/8 cases, mismatches 0), ledger flips schemelike-metacircular-eval to executed (36 -> 37), SOURCES S290-S296 (4 admitted, 3 rejected)
+--- F..T commits touching plans/ (instruments live here) ---
+22972a31 (same commit; the plans/ file it touches is plans/grader-population-ledger.json only)
+--- F..T diffstat (all) ---
+ corpus/SOURCES.md                        |  7 +++++++
+ corpus/evidence/round93/scheme-probe.txt | 22 ++++++++++++++++++++++
+ plans/grader-population-ledger.json      |  7 ++++---
+ 3 files changed, 33 insertions(+), 3 deletions(-)
+--- commits F..T touching claims file, cases table, any tabled instrument, or controls: 0 ---
+git log --oneline F..T -- plans/round-93-claims.md plans/round93-cases.json plans/round93_scheme_probe.py plans/round93_c1_replay.py plans/round93_freeze_integrity.py plans/round93_c2_counter.py plans/round93_c2_forgeries/  -> empty
+git log --oneline F..T -- .ufo/waves/round-93/  -> empty
+--- staging order (BASE..F) ---
+d8d0a4b8 round-93: F — frozen claims R93-C1 and R93-C2 with the frozen-instruments table
+0e77e98f round-93: P2 — pre-freeze controls executed against P1 (13 files under .ufo/waves/round-93/L1/)
+17cb9337 round-93: instruments P1 — capture + probe + case table, C1 counter, gate, C2 counter + 4 forgeries
+--- ledger diff F..T (exact; single-member flip) ---
+@@ -804,9 +804,10 @@
+     "subprocess-exec",
+     "timing-wall"
+    ],
+-   "evidence": "no-blocker: tests/test_outputs.py sha256=fbb84e3c0c2f72ed",
+-   "reason": "unattempted",
+-   "status": "unexecuted"
++   "evidence": "no-blocker: tests/test_outputs.py sha256=fbb84e3c0c2f72ed; receipt corpus/evidence/round93/scheme-probe.txt",
++   "reason": "replayed",
++   "status": "executed",
++   "round": 93
+   },
+   "sparql-university": {

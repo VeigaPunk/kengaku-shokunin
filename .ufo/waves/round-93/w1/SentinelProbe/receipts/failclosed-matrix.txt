@@ -1,0 +1,21 @@
+# Fail-closed matrix, probe plans/round93_scheme_probe.py + counter plans/round93_c1_replay.py at T
+# rc contract (docstrings): probe 0 match / 1 mismatch / 2 setup defect; counter 0 pass / 1 leg failed / 2 could-not-evaluate.
+#
+# probe --bwrap /nonexistent/bwrap                  rc 2  DEFECT SETUP sandbox-unavailable      receipts/probe-nobwrap.stdout.txt
+# probe --bwrap /bin/false (present, broken)        rc 1  8x NOPAYLOAD(rc=1), mismatches 8      receipts/probe-false.stdout.txt   [SP-2: not rc 2; fail-closed]
+# probe userns sysctl unreadable (nested bwrap,     rc 2  DEFECT SETUP user namespaces
+#   tmpfs and ro-bind emptydir over /proc/sys/user;       unavailable (absent)                 receipts/probe-sysctl-absent*.stdout.txt
+#   host sysctl never touched)
+# probe userns sysctl <=0 / non-numeric             rc 2  code line: `if not userns.isdigit() or
+#                                                         int(userns) <= 0: return 2`          (code reading; not host-tested)
+# probe capture sha mismatch (doctored fixture)     rc 2  DEFECT SETUP capture sha mismatch     receipts/probe-shamismatch.stdout.txt
+# probe with git absent from PATH                   rc 0  LANE_TIP absent, mismatches 0, PASS-  receipts/probe-nogit.stdout.txt   [SP-1: not rc 2]
+#                                                         shaped receipt, 244 s
+# counter with git absent from PATH                 rc 1  uncaught FileNotFoundError traceback  receipts/counter-nogit.stdout.txt [SP-3: not rc 2]
+# probe unknown eval kind / tests selector          rc 1  SystemExit(str) prints SETUP msg      (code reading)                    [SP-6]
+# probe case timeout (CASE_TIMEOUT=1200 exceeded)   rc 1  uncaught TimeoutExpired traceback     (code reading)                    [SP-8]
+#
+# Verdict-flip analysis: none of SP-1/2/3/6/8 can turn a fail into a pass at the claimed
+# predicate. SP-1/SP-2 produce probe-side rc 0/1 artifacts, but the C1 counter's L3 (LANE_TIP
+# ancestor) and L6 (rerun observation equality) legs fail on them, and the kill rule fails the
+# claim on any failing leg; SP-3/SP-8 are crash-exits (rc != 0), never rc 0.

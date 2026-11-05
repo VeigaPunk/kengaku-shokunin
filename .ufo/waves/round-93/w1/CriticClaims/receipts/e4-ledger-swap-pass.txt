@@ -1,0 +1,11 @@
+E4 — LEDGER SWAP forgery passes the full C1 counter. On top of T, the ledger entries of two
+non-claimed members were swapped wholesale (executed build-pmars <-> unexecuted
+adaptive-rejection-sampler; the claimed member's entry untouched). This preserves every aggregate
+L7 checks: executed_total stays 37 and the four class cells are unchanged because the swapped-in
+member inherits the swapped-out member's classes. rev TL = 167f500e0488e63a4819b3f870a7b084c13d844a.
+$ python3 plans/round93_c1_replay.py --lane $S/lane --rev 167f500e0488e63a4819b3f870a7b084c13d844a --work $S/work/c1-ledgerswap
+LEGS L1=pass L2=pass L3=pass L4=pass L5=pass L6=pass L7=pass L8=pass L9=pass
+TARGET executed_rows=37 member=schemelike-metacircular-eval located=1 executed=1 cases=8 legs=40 mismatches=0 defects=0
+PREDICATE R93-C1 pass
+rc=0
+(wall time 4m6s; full real probe re-run from the archive of TL)

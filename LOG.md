@@ -3552,3 +3552,12 @@ changed after F (C2 W4: `summary=(9, 9, 0)`).
 - **Wave w1.** 11 seats, one v1 wave: 3 executor, scout, connector, scribe, 2 reviewer, critic,
   mutation-tester, sentinel; attack share 4/11 = 36 %. Dispatched after the measurement; findings
   are routed, never repaired in round. Outcome: see the round-93 wave paragraph below.
+
+- **Wave w1 outcome (after WAVE-DONE).** 11 seats; 10 reported; ReviewerC1 dead (empty output).
+  Critic: both claims verify at T. Routed (round 94): three seat-built forgeries the C2 counter
+  accepts; surviving mutants m06/m13; latent TREESAME-merge and second-block gate defects; C1 L7
+  aggregate-only ledger check. Corrected in round: lesson S292 digest typo, S295 size, S295/S296
+  round-52 capture cells, S293 recipe (same-round rows, disclosed). Freeze census rounds 85–91
+  (report-only): broken rows in 85/86/89/91, intact 87/88/90. QUALITY Q73 (freeze-integrity
+  precondition for "met as frozen") and Q74 (mechanism predictions are hypotheses until a scratch
+  run) landed.

@@ -1,0 +1,19 @@
+BATTERY B01 ok got=['intact']
+BATTERY B02 ok got=['broken:rev-bytes-differ+touched-after-freeze=1']
+BATTERY B03 ok got=['broken:touched-after-freeze=2']
+BATTERY B04 ok got=['broken:freeze-bytes-differ-from-table+rev-bytes-differ']
+BATTERY B05 ok got=['broken:absent-at-rev+touched-after-freeze=1']
+BATTERY B06 ok got=['intact']
+BATTERY B07 ok got=could-not-evaluate
+BATTERY B08 ok got=could-not-evaluate
+BATTERY B09 ok got=['broken:rev-bytes-differ+touched-after-freeze=1', 'intact']
+BATTERY B10 ok got=could-not-evaluate
+SELFTEST cases=10 ok=10
+FREEZE 664435cfcb9419c4e8ac7828a55aec11a1f36ec4 REV 9cf98d905e811da91aeddc3963c84c667cc75fdd
+INSTRUMENT plans/round90_burndown.py table=bacaf2521c5a freeze=bacaf2521c5a rev=bacaf2521c5a touched=0 verdict=intact
+INSTRUMENT plans/round90_c1_replay.py table=611226af23d5 freeze=611226af23d5 rev=611226af23d5 touched=0 verdict=intact
+INSTRUMENT plans/round90_counter_pin.py table=fa841f590660 freeze=fa841f590660 rev=fa841f590660 touched=0 verdict=intact
+INSTRUMENT plans/round90_polydiff_probe.py table=2c4f0ab1e0d4 freeze=2c4f0ab1e0d4 rev=2c4f0ab1e0d4 touched=0 verdict=intact
+INSTRUMENT plans/round90-cases.json table=7e198cd18756 freeze=7e198cd18756 rev=7e198cd18756 touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=5 intact=5 broken=0
+PREDICATE freeze-integrity pass

@@ -1,0 +1,16 @@
+E7 — committed always_intact forgery re-run through the counter path (discrimination confirmed:
+W1 and W2 both fail it; matches the P2 control receipt c2-forgery-always_intact.txt).
+$ python3 plans/round93_c2_counter.py --lane $S/lane --rev 22972a317185216596b3dfe1c189e98d1eb86787 --work $S/work/c2-ai --tool-file plans/round93_c2_forgeries/always_intact.py
+TOOL from-file .../lane/plans/round93_c2_forgeries/always_intact.py
+W1 fail rc=0 summary=(4, 4, 0) intact=['plans/round91_counter_pin.py', 'plans/round92_burndown.py', 'plans/round92_c1_replay.py', 'plans/round92_c2_conformance.py']
+W2 w2-intact ok rc=0 want_rc=0 summary=(1, 1, 0) want=(1, 1, 0)
+W2 w2-edited RED rc=0 want_rc=1 summary=(1, 1, 0) want=(1, 0, 1)
+W2 w2-edit-revert RED rc=0 want_rc=1 summary=(1, 1, 0) want=(1, 0, 1)
+W2 w2-lying-table RED rc=0 want_rc=1 summary=(1, 1, 0) want=(1, 0, 1)
+W2 w2-unrelated ok rc=0 want_rc=0 summary=(1, 1, 0) want=(1, 1, 0)
+W2 fail
+W3 pass
+W4 pass freeze=d8d0a4b849f3 rc=0 summary=(9, 9, 0)
+TARGET legs_passed=2 of 4
+PREDICATE R93-C2 fail
+rc=1

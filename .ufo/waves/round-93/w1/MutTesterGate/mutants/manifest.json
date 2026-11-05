@@ -1,0 +1,184 @@
+[
+  {
+    "id": "m01-null",
+    "desc": "unchanged copy (must pass)",
+    "subs": 0,
+    "sha256": "18b01b42fb54ce658dbb98ff3afd12d06600960fae46700fec9218e73bcefcb6",
+    "identical_to_source": true
+  },
+  {
+    "id": "m02-drop-touched",
+    "desc": "drop the touched-after-freeze check",
+    "subs": 1,
+    "sha256": "763f544c50b28c9f85d26a26f327085edfb5ac50b4b8afab472cc4c04c5bc681",
+    "identical_to_source": false
+  },
+  {
+    "id": "m03-rev-compared-to-freeze",
+    "desc": "compare freeze bytes instead of rev bytes",
+    "subs": 1,
+    "sha256": "a4dd96aa6d19b2711311db7a13b68bd871be1b68f6afccf6923dfb459f01d2eb",
+    "identical_to_source": false
+  },
+  {
+    "id": "m04-drop-touched-and-rev",
+    "desc": "drop touched check AND rev-bytes comparison",
+    "subs": 2,
+    "sha256": "2a46736abe35e4aadc6a2ed3c7e74d7bb8d272165bd97ad053ddc30b2c109f63",
+    "identical_to_source": false
+  },
+  {
+    "id": "m05-absent-at-rev-intact",
+    "desc": "treat absent-at-rev as intact (reason suppressed)",
+    "subs": 1,
+    "sha256": "af61cd22c5831ec38e6577f0497a751829ecfd0bc93e84b6e3473c06aa75711d",
+    "identical_to_source": false
+  },
+  {
+    "id": "m06-cne-exit0-pass",
+    "desc": "could-not-evaluate printed as PREDICATE pass, rc 0",
+    "subs": 1,
+    "sha256": "1d964ebea43e3aa76bca5f76dcdebc6d800c620b4b85729617e2c1c0461749fb",
+    "identical_to_source": false
+  },
+  {
+    "id": "m07-battery-skipped",
+    "desc": "battery list emptied (no in-path battery)",
+    "subs": 1,
+    "sha256": "e41c76e45796a8bed884bc7795066e25d185fcbfcde6d6877c5950be708b31f2",
+    "identical_to_source": false
+  },
+  {
+    "id": "m08-battery-nonfatal",
+    "desc": "battery red no longer fails the PREDICATE",
+    "subs": 1,
+    "sha256": "3a87923056d84e75b47b1a8bc6132c734bb9117324622fd9a3a372e4b9a9b5af",
+    "identical_to_source": false
+  },
+  {
+    "id": "m09-battery-b02-weakened",
+    "desc": "battery case B02 expectation made always-true",
+    "subs": 1,
+    "sha256": "93025e37b354064a9606394e58108de762082c599df0cb357a194ab9724b5f63",
+    "identical_to_source": false
+  },
+  {
+    "id": "m10-range-freeze-included",
+    "desc": "rev-list range off by one: f^..t includes the freeze commit",
+    "subs": 1,
+    "sha256": "4ebc5409f7c7a6d484cdd77fb3c003ffecc90d1a367a7d52338956dc17c83122",
+    "identical_to_source": false
+  },
+  {
+    "id": "m11-range-reversed",
+    "desc": "rev-list range reversed (t..f): touched always 0",
+    "subs": 1,
+    "sha256": "d80e49fb3149d654c64a0a7e7161b4e3c4828f9847aa521660071ca4069798f6",
+    "identical_to_source": false
+  },
+  {
+    "id": "m12-range-three-dot-equivalent",
+    "desc": "rev-list symmetric range f...t (equivalent: f is ancestor of t)",
+    "subs": 1,
+    "sha256": "fc7a2fe21a2bd89edc222c4b410bf1c636569fd025205fe3987297803d37003a",
+    "identical_to_source": false
+  },
+  {
+    "id": "m13-table-read-at-rev",
+    "desc": "parse the frozen table at --rev instead of --freeze",
+    "subs": 1,
+    "sha256": "5bdf75eabfd12eda71b6c774a1d32d3188b13e286a209e2bb89875640a5c6db2",
+    "identical_to_source": false
+  },
+  {
+    "id": "m14-table-row-prefix",
+    "desc": "drop the last table row from evaluation",
+    "subs": 1,
+    "sha256": "a82f9f7017d4465fecbc8819543fcd319db589e68ee9627f1cf828c842d6c277",
+    "identical_to_source": false
+  },
+  {
+    "id": "m15-freeze-bytes-unchecked",
+    "desc": "freeze-bytes-vs-table comparison removed",
+    "subs": 1,
+    "sha256": "67bdbd9f39c94e7e0bc6bb5096541713e35e1b3508e59a5b6a7f3a096719010b",
+    "identical_to_source": false
+  },
+  {
+    "id": "m16-touched-pathspec-dropped",
+    "desc": "touched counts every commit in range (pathspec dropped)",
+    "subs": 1,
+    "sha256": "65f7432f5df78b67bf00e7898292ce021ba51d50f1b5a5f797deb8c9706b99c5",
+    "identical_to_source": false
+  },
+  {
+    "id": "m17-verdict-always-intact",
+    "desc": "verdict forced to intact",
+    "subs": 1,
+    "sha256": "5aa675198062013163998469f8b20176b083a5ae330c08f69bba9358cb28ee38",
+    "identical_to_source": false
+  },
+  {
+    "id": "m18-verdict-always-broken",
+    "desc": "verdict forced to broken",
+    "subs": 1,
+    "sha256": "30bb95a555c81f1204a01b376b13314c5eced532dcd59aca348080426d35115e",
+    "identical_to_source": false
+  },
+  {
+    "id": "m19-ancestry-check-removed",
+    "desc": "freeze-is-ancestor check disabled",
+    "subs": 1,
+    "sha256": "c1e6d3b58416924164b90d6d3aa729bd933358945cc80af6fb2fa3cbe1c7d5a6",
+    "identical_to_source": false
+  },
+  {
+    "id": "m20-reason-text-only",
+    "desc": "absent-at-rev reason renamed (text only, verdict still broken)",
+    "subs": 2,
+    "sha256": "8e46894126b5fe8d0086123f0dd6b11a42c013e65fc99b4ea84dc07de84ec1a0",
+    "identical_to_source": false
+  },
+  {
+    "id": "m21-comment-only-equivalent",
+    "desc": "trailing comment appended (equivalent)",
+    "subs": 1,
+    "sha256": "1196784561ee346e008dbe537f7b9a34022409b473e7e789ca0499b0db9b0961",
+    "identical_to_source": false
+  },
+  {
+    "id": "m22-ancestry-args-swapped",
+    "desc": "is-ancestor arguments swapped",
+    "subs": 1,
+    "sha256": "8bc085e8b38ba1af1d5ae0fa820c89e7fc9d4c2ea5f983948bd953406df16064",
+    "identical_to_source": false
+  },
+  {
+    "id": "m23-broken-filter-inverted",
+    "desc": "broken list counts intact rows instead",
+    "subs": 1,
+    "sha256": "4246a1c4059e33346f4025aea300f795de050c30bc48a047c7bfe2d374c6cea5",
+    "identical_to_source": false
+  },
+  {
+    "id": "m25-battery-b02-forced-red",
+    "desc": "battery case B02 forced red (fatal): kill control",
+    "subs": 1,
+    "sha256": "63ecfbcaff0d25596b2e071c9e7f9ea9f76d3f76b4310116a4dbaff7985c23d2",
+    "identical_to_source": false
+  },
+  {
+    "id": "m26-battery-b02-red-nonfatal",
+    "desc": "battery case B02 forced red AND battery non-fatal",
+    "subs": 2,
+    "sha256": "03f577156c1ed80a26cb8799798f8d67dda8d970d116839d8ed1b597d3186d42",
+    "identical_to_source": false
+  },
+  {
+    "id": "m24-empty-table-accepted",
+    "desc": "empty frozen-instruments table accepted (no CNE)",
+    "subs": 1,
+    "sha256": "6d37971f6a2137fdae7fa26f34873bf3f6ec504cc19e0c2ae346f16314ca0c30",
+    "identical_to_source": false
+  }
+]

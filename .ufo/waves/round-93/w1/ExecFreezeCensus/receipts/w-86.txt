@@ -1,0 +1,18 @@
+BATTERY B01 ok got=['intact']
+BATTERY B02 ok got=['broken:rev-bytes-differ+touched-after-freeze=1']
+BATTERY B03 ok got=['broken:touched-after-freeze=2']
+BATTERY B04 ok got=['broken:freeze-bytes-differ-from-table+rev-bytes-differ']
+BATTERY B05 ok got=['broken:absent-at-rev+touched-after-freeze=1']
+BATTERY B06 ok got=['intact']
+BATTERY B07 ok got=could-not-evaluate
+BATTERY B08 ok got=could-not-evaluate
+BATTERY B09 ok got=['broken:rev-bytes-differ+touched-after-freeze=1', 'intact']
+BATTERY B10 ok got=could-not-evaluate
+SELFTEST cases=10 ok=10
+FREEZE 61b0e074a44259c8c022aa2fda257182a0708346 REV 276abd46123974f31365866b173b329c641873cf
+INSTRUMENT plans/round86_c1_replay.py table=edf48fddff31 freeze=edf48fddff31 rev=9ca65db34c59 touched=3 verdict=broken:rev-bytes-differ+touched-after-freeze=3
+INSTRUMENT plans/round86_c2_repin.py table=a61402049c06 freeze=a61402049c06 rev=9f03e5dc77ff touched=2 verdict=broken:rev-bytes-differ+touched-after-freeze=2
+INSTRUMENT plans/round86_raman_probe.py table=09731b3ebcf4 freeze=09731b3ebcf4 rev=09731b3ebcf4 touched=0 verdict=intact
+INSTRUMENT plans/round86-cases.json table=f8aa21f3b3f6 freeze=f8aa21f3b3f6 rev=f8aa21f3b3f6 touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=4 intact=2 broken=2
+PREDICATE freeze-integrity fail

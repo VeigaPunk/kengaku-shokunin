@@ -4327,3 +4327,15 @@ with flips; registry 281 → 288 rows.
    marker skip `:445`/`:558`) under a new frozen predicate, with this round's freeze-integrity
    gate run on that round's own table before any verdict.
 3. The wave's surviving round-93 findings, each with its own frozen predicate.
+
+### Round 93 — wave w1 outcome (appended after WAVE-DONE; the rows above stay as filed)
+
+11 seats, 10 reported, 1 dead (ReviewerC1: empty output, no file). CriticClaims re-ran both frozen
+predicates at T and rules **both verify**; no instrument changed after F (three seats). The wave
+also found the C2 counter's forgery discrimination narrower than its controls showed — three new
+forged gates pass it 4/4 (ExecC2Rerun F1–F3), mutants m06/m13 survive (MutTesterGate: 18 of 25
+killed) — and two latent gate defects that cannot affect T (TREESAME-merge false intact; a second
+table block ignored). Lesson `corpus/lessons/round-93.md` W-1…W-9 and M4; all routed to round 94.
+**Self-verdicts unchanged and stated with that scope:** R93-C1 met; R93-C2 met on its frozen
+predicate, the capability row scoped to linear history with a single table block (the latent
+defects above are its stated limits). The non-author closure rules.

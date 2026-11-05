@@ -1,0 +1,17 @@
+### W1 independent recomputation (sha256 of git cat-file blob, no gate code)
+same plans/round92_c1_replay.py
+differ plans/round92_c2_conformance.py
+differ plans/round92_burndown.py
+differ plans/round91_counter_pin.py
+### parse probes (python, gate parse_table at T)
+normal: rows=[('96257f25', 'c.py')]
+crlf: rows=[('96257f25', 'c.py')]
+trailing-spaces: rows=[('96257f25', 'c.py')]
+path-with-space: CouldNotEvaluate malformed table row '96257f2573626799caf2d307bde36ca45ffb1c39037f5361a6eb4e55d023'
+uppercase-sha: CouldNotEvaluate malformed table row '96257F2573626799CAF2D307BDE36CA45FFB1C39037F5361A6EB4E55D023'
+duplicate-path-wrong-sha: rows=[('96257f25', 'c.py'), ('00000000', 'c.py')]
+second-block-malformed: rows=[('96257f25', 'c.py')]
+### rename probe: instrument renamed a.py->b.py after freeze (expect broken absent-at-rev)
+INSTRUMENT a.py table=87428fc52280 freeze=87428fc52280 rev=absent touched=1 verdict=broken:absent-at-rev+touched-after-freeze=1
+PREDICATE freeze-integrity fail
+rc=1

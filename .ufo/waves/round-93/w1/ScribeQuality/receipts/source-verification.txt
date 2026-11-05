@@ -1,0 +1,125 @@
+# ScribeQuality — SOURCES S290-S296 value verification receipts
+seat: ScribeQuality (round 93, wave w1); lane: kengaku-shokunin @ 22972a317185216596b3dfe1c189e98d1eb86787
+scratch: /fast/scratch/hyaku/kengaku-r93/ScribeQuality (removed after receipts copied)
+
+## R1 — lane capture hashes and sizes (sha256sum + stat) vs the SOURCES anchor cells
+
+```
+$ cd kengaku-shokunin/corpus/evidence/round93/graders/schemelike-metacircular-eval
+tests/test_outputs.py sha256=fbb84e3c0c2f72ed7de90f54380f860052c16155e7d0c9076cd57c966e9be7ed  bytes=6823
+tests/interp.py         sha256=efb8b5cdcf78b73afcf39d59600a1f355ca89b7bac9854bb01f110cc77bea2c1  bytes=17578
+solution/solve.sh       sha256=e2c5b0ac2bef4801a1891e13c108813381877426c1a7f01bab86b4fc1f712510  bytes=11910
+tests/test.sh           sha256=4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334  bytes=608
+tests/test/01-factorial.scm sha256=2623000a742c63d50ae1851854826247caee129c7d1613be6c7131d21f26a6ad
+```
+
+All five values equal the SOURCES anchor cells for S290/S291/S292/S294/S293. `tests/test.sh` size 608 B is
+not stated in the SOURCES row (it states only the sha256); the sha256 matches.
+
+## R2 — located quotes at the cited lines (sed -n) and their word counts
+
+```
+tests/test_outputs.py:121  -> def test_interp():                       (2 words)  S290
+tests/test_outputs.py:220  ->     assert failed == 0                   (S290 second anchor)
+tests/interp.py:381        -> env.define("newline", lambda: print())  (3 words)  S291
+solution/solve.sh:4        -> cat <<'EOF' > eval.scm                   (4 words)  S292
+tests/test/01-factorial.scm:1 -> ;; Test 1: Factorial - Classic recursive function  (8 words)  S293
+tests/test.sh:3            -> # Install curl                          (3 words)  S294
+```
+
+Word counts computed by `len(quote.split())` on the quoted bytes: 2, 3, 4, 8, 3 — each equals the count in its row.
+
+## R3 — re-fetch of every pinned URL (2026-11-05, HTTP status + bytes + sha256)
+
+```
+S290 .../schemelike-metacircular-eval/tests/test_outputs.py      http 200 bytes 6823  sha256 fbb84e3c0c2f72ed7de90f54380f860052c16155e7d0c9076cd57c966e9be7ed  match
+S291 .../schemelike-metacircular-eval/tests/interp.py           http 200 bytes 17578 sha256 efb8b5cdcf78b73afcf39d59600a1f355ca89b7bac9854bb01f110cc77bea2c1  match
+S292 .../schemelike-metacircular-eval/solution/solve.sh        http 200 bytes 11910 sha256 e2c5b0ac2bef4801a1891e13c108813381877426c1a7f01bab86b4fc1f712510  match
+S294 .../schemelike-metacircular-eval/tests/test.sh            http 200 bytes 608   sha256 4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334  match
+S295 .../financial-document-processor/tests/test_outputs.py     http 200 bytes 10336 sha256 978f506ad5c1bfaf28f9bc774dfe4347d33d046ca009b8496eb513956b7f5a9a  match
+S296 .../large-scale-text-editing/tests/test_outputs.py         http 200 bytes 8935  sha256 f5e69f4fedeefa23197745888a5847161529f454e6b5c32a4057363d9ae4cd43  match
+S293 .../schemelike-metacircular-eval/tests/{test,shadow_test}/*.scm   63/63 http 200
+```
+
+Every SOURCES cell that states a byte count and a sha256 for S290-S296 re-derives exactly.
+
+## R4 — S293 sorted-manifest digest (227d7bd1…) re-derived from the re-fetched bytes
+
+```
+$ cd <refetch>/tests && ls test/*.scm shadow_test/*.scm | sort | xargs sha256sum | sha256sum
+227d7bd1e874ec941371a24bfe16290fa8ae99e3c68977df8675452e21e1be8f  -
+want (S293 anchor)  227d7bd1e874ec941371a24bfe16290fa8ae99e3c68977df8675452e21e1be8f
+```
+
+The digest is over the `sha256sum` listing (paths included, sorted by path), not over the bare hashes:
+the bare-hash variant hashes to c6f397ff…746 and a path-prefixed variant to a4a2892d…681e. The row value is
+reproduced only by the sha256sum-listing form, so the row is self-consistent but the recipe is unstated in the row.
+
+## R5 — program counts and the shadow_test / calculator.scm claims
+
+```
+$ ls tests/test/*.scm | wc -l        -> 32
+$ ls tests/shadow_test/*.scm | wc -l  -> 31
+$ ls tests/shadow_test/ | grep -c calculator -> 0   (calculator.scm is in test/ only)
+diff tests/test/01-factorial.scm tests/shadow_test/01-factorial.scm  -> constants differ (5 vs 6, 10 vs 8, 20 vs 15)
+```
+
+S293's "63 programs (32 in test/, 31 in shadow_test/)", "shadow_test/ repeats test/ programs with changed
+constants" and "calculator.scm exists only in test/" all hold.
+
+## R6 — S295 / S296 rejection reasons re-measured
+
+```
+$ python3 -c "import pandas"   -> ModuleNotFoundError: No module named 'pandas'   (grader line 8: import pandas as pd)
+$ which vim                    -> (no output, rc 1)                                   (S296)
+$ grep -c "^def test_" corpus/evidence/round52/graders/large-scale-text-editing/tests/test_outputs.py -> 5
+   of which the two that shell out to vim: test_apply_macros_runs (:164-170), test_macros_nonempty_and_efficient (:194-202)
+$ grep -oE '"[0-9a-f]{128}"' corpus/evidence/round52/graders/financial-document-processor/tests/test_outputs.py | sort -u | wc -l -> 17
+   (17 unique sha512 digests pinned in three sets: expected_original_documents, expected_original_others, expected_data)
+```
+
+## R7 — the 17 environment documents of S295 (pinned tree capture, corpus/evidence/round53/pin-tree-2fd12b88.json)
+
+```
+financial-document-processor/environment/documents/*  -> 17 files (11 .jpg + 6 .pdf), 4,002,650 B = 3.82 MiB
+```
+
+The S295 anchor cell says "the 17 environment documents (about 4.2 MB of jpg/pdf)". The file count (17) is exact;
+the size is 3.82 MiB / 4.00 MB, so "about 4.2 MB" overstates the byte total by about 5 % (it would fit 4,406,142 B).
+The count and the jpg/pdf mix are right; the size figure is not confirmed as stated.
+
+## R8 — S291 "byte-identical to ... environment/tests/interp.py"
+
+```
+$ python3 -c "… pin-tree-2fd12b88.json …"   # both paths present, one blob id
+schemelike-metacircular-eval/environment/tests/interp.py  5bbc7664f6abdc16a39f4c10bea32679e0975186  17578
+schemelike-metacircular-eval/tests/interp.py            5bbc7664f6abdc16a39f4c10bea32679e0975186  17578
+```
+
+Same git blob id at the pin, so the two paths are the same bytes. The lane capture at
+corpus/evidence/round93/.../tests/interp.py matches that blob (sha256 efb8b5cd…). Confirmed.
+
+## R9 — S294 rejection reason read from the captured wrapper
+
+```
+#! /bin/bash ; # Install curl ; apt-get update ; apt-get install -y curl
+curl -LsSf https://astral.sh/uv/0.9.5/install.sh | sh ; uvx -p 3.13 -w pytest==8.4.1 … pytest --ctrf … /tests/test_outputs.py -rA
+```
+
+Network installs (apt-get, uv) and pytest under uvx on Python 3.13: exactly what the offline replay forbids.
+
+## R10 — C07 "passes with no evaluator": what pytest 8.4.1 (the wrapper's pinned version) does with a non-None return
+
+```
+$ uv venv --python 3.13 ptvenv && uv pip install pytest==8.4.1   -> pytest 8.4.1, pluggy 1.7.0, Python 3.13.16
+$ printf 'def test_ret():\n    return 1\n' > ptest/test_ret.py
+$ ./ptvenv/bin/python -m pytest ptest/test_ret.py -rA
+  .                                                                  [100%]
+  PytestReturnNotNoneWarning: Test functions should return None, but ptest/test_ret.py::test_ret returned <class 'int'>.
+  PASSED ptest/test_ret.py::test_ret
+  ========================= 1 passed, 1 warning in 0.02s =========================
+```
+
+The grader's C07 path returns 1 (tests/test_outputs.py:133-135, "No test files found!" -> return 1) before any
+assert. Under pytest 8.4.1 that is a warning, not a failure, so the C07 "P" is what the wrapper would also report.
+This is a python-3.13/pytest-8.4.1 measurement on this host, not a byte-identity claim about the pinned image.

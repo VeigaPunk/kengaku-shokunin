@@ -1,0 +1,23 @@
+BATTERY B01 RED got=[]
+BATTERY B02 RED got=[]
+BATTERY B03 RED got=[]
+BATTERY B04 RED got=[]
+BATTERY B05 RED got=[]
+BATTERY B06 RED got=[]
+BATTERY B07 ok got=could-not-evaluate
+BATTERY B08 ok got=could-not-evaluate
+BATTERY B09 RED got=['broken:rev-bytes-differ+touched-after-freeze=1']
+BATTERY B10 ok got=could-not-evaluate
+SELFTEST cases=10 ok=3
+FREEZE d8d0a4b849f3d031a6ad5525e18611a097e08bfe REV 22972a317185216596b3dfe1c189e98d1eb86787
+INSTRUMENT plans/round93_scheme_probe.py table=6fad5d526217 freeze=6fad5d526217 rev=6fad5d526217 touched=0 verdict=intact
+INSTRUMENT plans/round93-cases.json table=078b04d2b0cd freeze=078b04d2b0cd rev=078b04d2b0cd touched=0 verdict=intact
+INSTRUMENT plans/round93_c1_replay.py table=89153db6e525 freeze=89153db6e525 rev=89153db6e525 touched=0 verdict=intact
+INSTRUMENT plans/round93_freeze_integrity.py table=18b01b42fb54 freeze=18b01b42fb54 rev=18b01b42fb54 touched=0 verdict=intact
+INSTRUMENT plans/round93_c2_counter.py table=ac0e26a57b75 freeze=ac0e26a57b75 rev=ac0e26a57b75 touched=0 verdict=intact
+INSTRUMENT plans/round93_c2_forgeries/always_broken.py table=993ed3cf5cff freeze=993ed3cf5cff rev=993ed3cf5cff touched=0 verdict=intact
+INSTRUMENT plans/round93_c2_forgeries/always_intact.py table=5138d3546eee freeze=5138d3546eee rev=5138d3546eee touched=0 verdict=intact
+INSTRUMENT plans/round93_c2_forgeries/bytes_only.py table=67d0b7576f2b freeze=67d0b7576f2b rev=67d0b7576f2b touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=8 intact=8 broken=0
+PREDICATE freeze-integrity fail
+rc=1
