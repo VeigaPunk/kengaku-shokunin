@@ -1,0 +1,11 @@
+--- plans/round86_c2_repin.py	2026-11-04 23:58:51.817581348 -0300
++++ /fast/scratch/hyaku/kengaku-r86/MutTesterR86/work-c2/mutant-derive-returns-stale-line.py	2026-11-05 00:13:10.211074245 -0300
+@@ -79,7 +79,7 @@
+     hits = [index + 1 for index, line in enumerate(lines) if line.strip() == TOKEN]
+     if len(hits) != 1:
+         raise SetupDefect(f"token-count {TOKEN!r}={len(hits)}")
+-    return hits[0]
++    return STALE_LINE
+ 
+ 
+ def shonen_pointer(root: Path) -> tuple[str | None, int | None]:

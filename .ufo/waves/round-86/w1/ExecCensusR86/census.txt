@@ -1,4 +1,6 @@
 [Unit]
+files in this wave dir = census.txt, step1-census-validate.raw (copy of step1.out), SOURCES-at-88651a72.snapshot.md (copy of the git-show extraction)
+receipt hashes = step1.out sha256 3cc0f5a24f2dd97ddb89af5f8bd5a36b76569c04686deaa8ccd18421e8a8345e; SOURCES_master.md sha256 2998d93b340ca9184339e54acf4818d26f5d59db2d12b520c6810284faa973c1
 executed = 5/5 target checks
 parent dir = /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-86/w1/ExecCensusR86/
 scratch dir = /fast/scratch/hyaku/kengaku-r86/ExecCensusR86 (removed before yield)
@@ -35,11 +37,13 @@ status column histogram (8th data column, 11 cells: id,source,kind,tier,scope,an
   rejected 16
   other    0  (no extirpated/watch/other cell present)
 highest S id = S273
-next free id = S275 (S274 opened this round at tip with raman-fitting; S001-S273 contiguous as of master bytes at 88651a72, S274 the first free id after it, leaving S275 next)
-note: S136 is the one contiguity hole in S001-S273 (see count bottleneck below)
-note: row shape is 13-field (pipe-delimited, NF=13 in awk), all 3 kind cells present
-integrity check on histogram = yes, done (not assumed) at [Vb]
-note: S136 is the one contiguity hole in S001-S273 - see [Vb] for derivation
+next free id = S275 (NOTE NOT SEQUENTIAL: S-id space IS NOT contiguous in master bytes at 88651a72; gaps S87-S89, S95-S96, S98-S99, S235 already exist with no re-use (S236 present), so "next free" is purely max-existing+1, NOT first-hole-backfill; S274 opened THIS round at tip with raman-fitting, so S275 is the next free id)
+row shape = pipe-delimited NF=13 for all 265 rows (exact)
+
+[positional-id arithmetic (independent recomputation, not fault finding)]
+265 rows vs highest id 273 => implied used ids 265, free id-holes 8: {S87, S88, S89, S95, S96, S98, S99, S235}, all consumed without replacement (S236 IS present, gap is only S235)
+no contiguous block beyond these five before S274; S274 is genuinely the first free id after S273, and S275 the next
+tip-side row count = 266 (S274 added this round)
 
 [step3-index-parity]
 tool = python3 plans/round75_c1_index_parity.py --lane .   (cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin)
@@ -96,8 +100,8 @@ defects = none across all 313 instruments
  - no DEFECT/defects>0 line anywhere - all five targets green
 
 [gate-red-flags-now]
-none. No DEFECT line, no PREDICATE fail, no rc!=0, no agree=NO, no missing/orphan, no unaccounted, no unbacked, no understated, no unverbalized liters.
-Row gap S136 is not a gate failure - sources-census.sh validate has no contiguous-id predicate; it checks id format/no duplicate/no url collision (E codes); S136 gap passes the gate (step1 rc=0).
+none. No DEFECT line, no PREDICATE fail, no rc!=0, no agree=NO, no missing/orphan, no unaccounted, no unbacked, no understated.
+Row gaps {S87,S88,S89,S95,S96,S98,S99,S235} are not gate failures - sources-census.sh validate has no contiguous-id predicate; it checks id format/duplicates/url collisions (E01-E12 codes); the gaps pass the gate (step1 rc=0).
 
 [Vcrift] - frozen artifact hash cross-checks (recorded for anti-instrument-drift audit)
 claims file:
@@ -124,3 +128,13 @@ Reproduced here only because the ticket told me to flag this NOW if red; it is N
   indexed, fully self-contained growth), not shrinkage
   - missing still 0 in all three => the gate's own defect conditions not tripped
   - seat pass, not a defect
+
+[frozen-notes (baked from instrument header, recorded because they shape every warn count)]
+- statuses queued|mined|rejected; "watch" is NOT a status; recheck carries cadence
+- community is never tier A
+- 11 columns => NF=13 with leading/trailing pipes
+- W01 tier-C mined with non-"-" used-by; W02 rejected row, thin teaches; W03 mined row with used-by = "-"
+- W04 same URL across scopes (warnings do not affect clean lanes)
+- exit codes: 0 clean-or-warnings, 1 E/overdue findings, 2 usage/env/missing registry, 3 selftest failure
+3cc0f5a24f2dd97ddb89af5f8bd5a36b76569c04686deaa8ccd18421e8a8345e  /fast/scratch/hyaku/kengaku-r86/ExecCensusR86/step1.out
+2998d93b340ca9184339e54acf4818d26f5d59db2d12b520c6810284faa973c1  /fast/scratch/hyaku/kengaku-r86/ExecCensusR86/SOURCES_master.md

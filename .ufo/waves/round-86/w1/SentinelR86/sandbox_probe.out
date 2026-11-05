@@ -1,0 +1,67 @@
+ARGV: ["/usr/bin/bwrap", "--unshare-all", "--die-with-parent", "--new-session", "--ro-bind", "/usr", "/usr", "--ro-bind", "/etc", "/etc", "--symlink", "usr/bin", "/bin", "--symlink", "usr/bin", "/sbin", "--symlink", "usr/lib", "/lib", "--symlink", "usr/lib", "/lib64", "--proc", "/proc", "--dev", "/dev", "--bind", "/fast/scratch/hyaku/kengaku-r86/SentinelR86/sandbox-demo/case/app", "/app", "--dir", "/tests", "--ro-bind", "/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round52/graders/raman-fitting/tests/test_outputs.py", "/tests/test_outputs.py", "--ro-bind", "/fast/scratch/hyaku/kengaku-r86/SentinelR86/sandbox-demo/case/harness.py", "/harness.py", "--clearenv", "--setenv", "PATH", "/usr/bin", "--setenv", "LANG", "C.UTF-8", "--setenv", "LC_ALL", "C.UTF-8", "--chdir", "/app", "/usr/bin/python3", "-I", "-B", "/harness.py"]
+shell rc: 0
+uid: uid=1000(vgpnk) gid=1000(vgpnk) groups=1000(vgpnk),65534(nobody)
+--- env:
+LANG=C.UTF-8
+LC_ALL=C.UTF-8
+PATH=/usr/bin
+PWD=/app
+SHLVL=1
+_=/usr/bin/env
+--- root listing:
+app
+bin
+dev
+etc
+harness.py
+lib
+lib64
+proc
+sbin
+tests
+usr
+--- app:
+--- tests:
+test_outputs.py
+--- home?
+ls: cannot access '/home': No such file or directory
+--- lane path?
+ls: cannot access '/home/vgpnk': No such file or directory
+--- tmp?
+ls: cannot access '/tmp': No such file or directory
+--- shadow:
+head: cannot open '/etc/shadow' for reading: Permission denied
+--- machine-id:
+432d02b544a5--- proc netdev:
+Inter-|   Receive                                                |  Transmit
+ face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
+    lo:       0       0    0    0    0     0          0         0        0       0    0    0    0     0       0          0
+--- status:
+CapInh:	0000000000000000
+CapPrm:	0000000000000000
+CapEff:	0000000000000000
+CapBnd:	0000000000000000
+CapAmb:	0000000000000000
+NoNewPrivs:	1
+Seccomp:	0
+Seccomp_filters:	0
+--- write /app:
+wrote-app
+--- write /usr:
+/bin/sh: line 16: /usr/from-sandbox.txt: Read-only file system
+--- write /etc:
+/bin/sh: line 17: /etc/from-sandbox.txt: Read-only file system
+--- write /:
+wrote-root
+--- parent pid:
+4
+
+STDERR: 
+net rc: 0
+ifaces [(1, 'lo')]
+routes Iface	Destination	Gateway 	Flags	RefCnt	Use	Metric	Mask		MTU	Window	IRTT
+
+net stderr: 
+host /app/from-sandbox.txt exists: False
+case app after: ['from-sandbox.txt']
+rootfs.txt in work: False

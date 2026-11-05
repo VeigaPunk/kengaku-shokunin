@@ -1,0 +1,26 @@
+### C1 rev master (a571044c)
+TARGET members=1 cases=8 legs=24 mismatches=0 located=1 executed=1 defects=0
+PREDICATE R86-C1 pass
+rc=0
+### C1 BASE
+DEFECT L1-receipt missing corpus/evidence/round86/raman-fitting-probe.txt
+DEFECT L2-stamp
+DEFECT L3-tip
+DEFECT L4-table missing plans/round86-cases.json@rev 88651a72ef11
+DEFECT L5-vectors
+DEFECT L6-reproduce no tool plans/round86_raman_probe.py@rev 88651a72ef11
+DEFECT L7-ledger status=unexecuted,round=None,receipt=None,subject=None,verdict=None
+TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects=7
+PREDICATE R86-C1 fail
+rc=1
+### C2 rev master
+TARGET derived_line=151 shonen_pointer=PROVINCE.md:151 pin_line=151 state_mismatches=0 selftest=pass defects=0
+PREDICATE R86-C2 pass
+rc=0
+### C2 BASE
+DEFECT P2-shonen pointer=PROVINCE.md:129 derived=PROVINCE.md:151
+DEFECT P3-pin line=129 derived=151
+DEFECT P4-state mismatches=1
+TARGET derived_line=151 shonen_pointer=PROVINCE.md:129 pin_line=129 state_mismatches=1 selftest=pass defects=3
+PREDICATE R86-C2 fail
+rc=1

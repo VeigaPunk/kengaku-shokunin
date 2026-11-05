@@ -1,0 +1,36 @@
+# measured tip a571044c1ea7c243791330607c5b90b6afce9a15; instrument freeze 316811fa604eeef1d157bdbf62b5595891dc015a
+## 1. instrument bytes at freeze vs measured tip (empty diff = frozen)
+plans/round86_c1_replay.py freeze=04f6ec2ae8d2e4e51a5937c3e4c0a71c8db5ec4640c65c3498cdd659f95940cf tip=04f6ec2ae8d2e4e51a5937c3e4c0a71c8db5ec4640c65c3498cdd659f95940cf
+plans/round86_c2_repin.py freeze=a3fbf5064c1c84707dac711550df29087c3be8cefa3e4c44c0d53aa3566bd036 tip=a3fbf5064c1c84707dac711550df29087c3be8cefa3e4c44c0d53aa3566bd036
+plans/round86_raman_probe.py freeze=09731b3ebcf4448546184b39d21d9a28016693af935a20f7efddec5cff209cde tip=09731b3ebcf4448546184b39d21d9a28016693af935a20f7efddec5cff209cde
+plans/round86-cases.json freeze=f8aa21f3b3f6ccf9616f9d54e9b6aa2c8482de1f32fadbb33166713c6b2210a4 tip=f8aa21f3b3f6ccf9616f9d54e9b6aa2c8482de1f32fadbb33166713c6b2210a4
+plans/state_check.py freeze=ae87f5834831bdafc180199f8e6984475605c62c5331301bb3dcd39c3769b152 tip=ae87f5834831bdafc180199f8e6984475605c62c5331301bb3dcd39c3769b152
+## 2. executed population (BASE vs tip) and the one changed row
+88651a72ef112ed9f5361e1c8c197babec691f96 executed=29 total=88
+a571044c1ea7c243791330607c5b90b6afce9a15 executed=30 total=88
+diff --git a/plans/grader-population-ledger.json b/plans/grader-population-ledger.json
+index 8e7208f5..4e523cb5 100644
+--- a/plans/grader-population-ledger.json
++++ b/plans/grader-population-ledger.json
+@@ -725,9 +725,11 @@
+         "numeric-band",
+         "serialization-schema"
+       ],
+-      "evidence": "no-blocker: tests/test_outputs.py sha256=171fae772ccf262a",
+-      "reason": "unattempted",
+-      "status": "unexecuted"
++      "status": "executed",
++      "receipt": "corpus/evidence/round86/raman-fitting-probe.txt",
++      "round": 86,
++      "subject": "tb2-header",
++      "verdict": "cases"
+     },
+     "regex-chess": {
+       "classes": [
+## 3. membership diff: which rows changed status
+rows whose status changed: ['raman-fitting']
+## 4. pinned capture: fetched copy, committed copy, frozen SUBJECT_SHA
+171fae772ccf262aec8ddac5bd2c6c731eed842421f5d8439a330b158c9f8c13  .ufo/waves/round-86/w1/SourceR86/raman-fitting-test_outputs.py.fetched
+171fae772ccf262aec8ddac5bd2c6c731eed842421f5d8439a330b158c9f8c13  -
+## 5. receipt first committed at
+9972c87c kengaku r86: preserve in-flight work at hyaku run-15 wrap-up (L1 died on provider failure; not a landed round)

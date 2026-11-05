@@ -1,0 +1,145 @@
+# ScribeR86 read-only receipts for the round-86 lesson drafts.
+# No instrument, counter, fetch or mutating git command was run. Each block: command, then output.
+# lane=/home/vgpnk/Projects/shokunin/kengaku-shokunin
+
+$ git rev-parse HEAD
+ab9da0d47ad9b2cce58438282a0606fd547b99b6
+[rc=0]
+
+$ git merge-base --is-ancestor <BASE 88651a72> HEAD && echo ancestor
+ancestor
+[rc=0]
+
+$ git merge-base --is-ancestor <freeze 61b0e074> HEAD && echo ancestor
+ancestor
+[rc=0]
+
+$ git merge-base --is-ancestor <instrument 316811fa> HEAD && echo ancestor
+ancestor
+[rc=0]
+
+$ git diff --name-only 316811fa HEAD -- plans/ PROVINCE.md SHONEN.md (instrument bytes changed after freeze?)
+plans/grader-population-ledger.json
+[rc=0]
+
+$ git rev-parse 316811fa:plans/round86_c1_replay.py ; HEAD:plans/round86_c1_replay.py
+51d64da9b596d82c71999e9cc6dba398ef68723e
+51d64da9b596d82c71999e9cc6dba398ef68723e
+[rc=0]
+
+$ git rev-parse 316811fa:plans/round86_c2_repin.py ; HEAD:plans/round86_c2_repin.py
+588cba05d6bf0fc17e92696010a953b4b37d6b94
+588cba05d6bf0fc17e92696010a953b4b37d6b94
+[rc=0]
+
+$ git rev-parse 316811fa:plans/state_check.py ; HEAD:plans/state_check.py
+6aae61492305b1b9bd7dc00414665b0624ddf44d
+6aae61492305b1b9bd7dc00414665b0624ddf44d
+[rc=0]
+
+$ git rev-parse 316811fa:plans/round86_raman_probe.py ; HEAD:plans/round86_raman_probe.py
+9206a4a2a8a955cd46e6dcf210b06e2d578c8b58
+9206a4a2a8a955cd46e6dcf210b06e2d578c8b58
+[rc=0]
+
+$ git rev-parse 316811fa:plans/round86-cases.json ; HEAD:plans/round86-cases.json
+7637a445aa955ef60765e369caaa0e2c57d79108
+7637a445aa955ef60765e369caaa0e2c57d79108
+[rc=0]
+
+$ claims file and case table identical at freeze 61b0e074 and HEAD
+identical
+[rc=0]
+
+$ receipt stamps vs HEAD bytes (TOOL_SHA, CASE_TABLE_SHA, SUBJECT_SHA)
+SUBJECT_SHA 171fae772ccf262aec8ddac5bd2c6c731eed842421f5d8439a330b158c9f8c13
+CASE_TABLE_SHA f8aa21f3b3f6ccf9616f9d54e9b6aa2c8482de1f32fadbb33166713c6b2210a4
+TOOL_SHA 09731b3ebcf4448546184b39d21d9a28016693af935a20f7efddec5cff209cde
+LANE_TIP bfda0472d5c163b2b5d2bbf22557f60a940de180
+WORKTREE dirty
+09731b3ebcf4448546184b39d21d9a28016693af935a20f7efddec5cff209cde  -
+f8aa21f3b3f6ccf9616f9d54e9b6aa2c8482de1f32fadbb33166713c6b2210a4  -
+171fae772ccf262aec8ddac5bd2c6c731eed842421f5d8439a330b158c9f8c13  /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round52/graders/raman-fitting/tests/test_outputs.py
+[rc=0]
+
+$ S274 quote at capture line 36, whitespace tokens with and without trailing ' ('
+    assert x0_correct and gamma_correct and A_correct and offset_correct, ($
+9 8
+[rc=0]
+
+$ PROVINCE.md line 129 and 151 at BASE, and '### Adjacent' count at HEAD
+BASE129=|---|---|---|
+BASE151=### Adjacent
+HEAD_adjacent_lines=151:### Adjacent
+count=1
+[rc=0]
+
+$ SHONEN.md box-4 pointer and state_check.py pin at BASE and HEAD
+BASE: 12: PROVINCE.md:129
+HEAD: 12: PROVINCE.md:151
+BASE_pin: 235: (4, "PROVINCE.md:129", 129, "### Adjacent", None),
+HEAD_pin: 235: (4, "PROVINCE.md:151", 151, "### Adjacent", None), # re-pinned round 86: derived from PROVINCE.md bytes
+[rc=0]
+
+$ population ledger at BASE and HEAD (jq)
+BASE {"members":88,"executed":29,"unexecuted":59,"ser_k":2,"ser_n":10,"nb_k":2,"fa_k":21}
+HEAD {"members":88,"executed":30,"unexecuted":58,"ser_k":3,"ser_n":10,"nb_k":3,"fa_k":22}
+[rc=0]
+
+$ SOURCES.md S-row count and tiers at BASE, HEAD and working copy
+88651a72ef112ed9f5361e1c8c197babec691f96 rows=265 S274=0
+HEAD rows=266 S274=1
+working rows=266 S274=1
+HEAD tiers: A=236 B=24 C=6
+working tiers: A=236 B=24 C=6
+[rc=0]
+
+$ state_check.py SOURCES population bounds at HEAD
+199:SOURCES_BASE_MAX_ID = 26
+223:P3B_SOURCES_MAX_ID = 42
+[rc=0]
+
+$ separation artifact and lane status (porcelain)
+separation.sh
+---
+ M .ufo/waves/round-86/w1/ExecCensusR86/census.txt
+ M corpus/lessons/round-86.md
+?? .ufo/waves/round-86/w1/ExecCensusR86/SOURCES-at-88651a72.snapshot.md
+?? .ufo/waves/round-86/w1/ExecCensusR86/step1-census-validate.raw
+[rc=0]
+
+$ L1 freeze-battery.txt: C1 and C2 controls and selftests (committed at 48a1ffbd)
+$ python3 plans/round86_c1_replay.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b1 --selftest
+SELFTEST cases=10 red=10 failures=0
+$ python3 plans/round86_c1_replay.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b2 --mutants
+MUTANTS real=6 necessary=5 redundant=1 declared_redundant=1
+$ python3 plans/round86_c1_replay.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b3 --control-do-nothing
+CONTROL do-nothing target_reached=False defects=7 legs=L1-receipt,L2-stamp,L3-tip,L4-table,L5-vectors,L6-reproduce,L7-ledger
+$ python3 plans/round86_c1_replay.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b4 --control-ledger-only
+CONTROL ledger-only target_reached=False defects=5 legs=L1-receipt,L2-stamp,L3-tip,L5-vectors,L6-reproduce
+$ python3 plans/round86_c1_replay.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b5 --control-fabricated-observations
+CONTROL fabricated-observations target_reached=False defects=2 legs=L5-vectors,L6-reproduce
+$ python3 plans/round86_c1_replay.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b6 --control-forged-receipt
+CONTROL forged-receipt target_reached=False defects=1 legs=L3-tip
+$ python3 plans/round86_c2_repin.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b7 --selftest
+SELFTEST cases=4 red=4 failures=0
+$ python3 plans/round86_c2_repin.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b8 --mutants
+MUTANTS real=3 necessary=1 redundant=2 declared_redundant=2
+$ python3 plans/round86_c2_repin.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b9 --control-do-nothing
+CONTROL do-nothing target_reached=False defects=3 legs=P2-shonen,P3-pin,P4-state
+$ python3 plans/round86_c2_repin.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b10 --control-stale-pin
+CONTROL stale-pin target_reached=False defects=3 legs=P2-shonen,P3-pin,P4-state
+$ python3 plans/round86_c2_repin.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b11 --control-pointer-only
+CONTROL pointer-only target_reached=False defects=1 legs=P3-pin
+$ python3 plans/round86_c2_repin.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b12 --control-pin-only
+CONTROL pin-only target_reached=False defects=2 legs=P2-shonen,P4-state
+[rc=0]
+
+$ L1 base-runs.txt: TARGET and PREDICATE lines (committed at 48a1ffbd)
+TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects=7
+PREDICATE R86-C1 fail
+TARGET derived_line=151 shonen_pointer=PROVINCE.md:129 pin_line=129 state_mismatches=1 selftest=pass defects=3
+PREDICATE R86-C2 fail
+MISMATCH: P3c.box.4.pointer.1:12 — {"assertion_document": "SHONEN.md", "correction_line": null, "correction_tokens": null, "derived_tokens": null, "observed": {"pointer": "PROVINCE.md:129", "pointer_count": 0, "target_line": 151, "target_text": "### Adjacent", "token": "### Adjacent", "token_hits": 1}}
+[rc=0]
+

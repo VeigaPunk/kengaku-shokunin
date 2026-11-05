@@ -1,0 +1,30 @@
+# ancestor-tip receipt: only LANE_TIP changed to 88651a72ef112ed9f5361e1c8c197babec691f96 (a resolvable ancestor of a571044c1ea7c243791330607c5b90b6afce9a15)
+TARGET members=1 cases=8 legs=24 mismatches=0 located=1 executed=1 defects=0
+PREDICATE R86-C1 pass
+rc=0
+# malformed ledger (list)
+Traceback (most recent call last):
+  File "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round86_c1_replay.py", line 710, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round86_c1_replay.py", line 696, in main
+    defects, stats = check(tree, lane, work)
+                     ~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round86_c1_replay.py", line 245, in check
+    row = json.loads(ledger_bytes)["members"][MEMBER]
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+rc=1
+# malformed ledger (strrow)
+Traceback (most recent call last):
+  File "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round86_c1_replay.py", line 710, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round86_c1_replay.py", line 696, in main
+    defects, stats = check(tree, lane, work)
+                     ~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round86_c1_replay.py", line 253, in check
+    if row.get("status") != "executed":
+       ^^^^^^^
+AttributeError: 'str' object has no attribute 'get'
+rc=1

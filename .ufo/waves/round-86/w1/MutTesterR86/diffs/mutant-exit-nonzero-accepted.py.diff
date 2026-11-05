@@ -1,0 +1,11 @@
+--- plans/round86_c1_replay.py	2026-11-04 23:57:09.510567529 -0300
++++ /fast/scratch/hyaku/kengaku-r86/MutTesterR86/work-c1/mutant-exit-nonzero-accepted.py	2026-11-05 00:12:35.529459307 -0300
+@@ -305,7 +305,7 @@
+                 problems.append(f"tool_sha={str(stamp.get('TOOL_SHA'))[:16]}")
+             elif stamp.get("TOOL_SHA") != TRUSTED_TOOL_SHA:
+                 problems.append("tool_sha-not-trusted")
+-            if stamp.get("EXIT") != "0":
++            if stamp.get("EXIT") not in ("0", "1"):
+                 problems.append(f"exit={stamp.get('EXIT')}")
+             if problems:
+                 defects.append("L2-stamp " + ",".join(problems))

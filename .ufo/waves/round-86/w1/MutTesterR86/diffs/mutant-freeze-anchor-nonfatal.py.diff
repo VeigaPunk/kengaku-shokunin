@@ -1,0 +1,13 @@
+--- plans/round86_c1_replay.py	2026-11-04 23:57:09.510567529 -0300
++++ /fast/scratch/hyaku/kengaku-r86/MutTesterR86/work-c1/mutant-freeze-anchor-nonfatal.py	2026-11-05 00:12:38.329528207 -0300
+@@ -696,7 +696,9 @@
+         defects, stats = check(tree, lane, work)
+         return emit(defects, stats, args.quiet)
+     except SetupDefect as error:
+-        return setup_failure(str(error))
++        print(f"SETUP-IGNORED {error}")
++        return emit([], {"members": 1, "cases": 8, "legs": 24, "mismatches": 0,
++                         "located": 1, "executed": 1})
+     except subprocess.TimeoutExpired as error:
+         return setup_failure(f"timeout {error}")
+ 

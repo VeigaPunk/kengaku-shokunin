@@ -1,0 +1,68 @@
+# instrument bytes at battery start (lane worktree)
+  04f6ec2ae8d2e4e51a5937c3e4c0a71c8db5ec4640c65c3498cdd659f95940cf  plans/round86_c1_replay.py
+  a3fbf5064c1c84707dac711550df29087c3be8cefa3e4c44c0d53aa3566bd036  plans/round86_c2_repin.py
+  09731b3ebcf4448546184b39d21d9a28016693af935a20f7efddec5cff209cde  plans/round86_raman_probe.py
+  f8aa21f3b3f6ccf9616f9d54e9b6aa2c8482de1f32fadbb33166713c6b2210a4  plans/round86-cases.json
+  192932b28a24efda94744f2ceb0d62accd268f7e6842f230a3e66e4c8d773411  corpus/evidence/round86/raman-fitting-probe.txt
+  b2e87381b2f3d8c3303389b89233aa627b73db68e273d19f333d7ab79aa76ff4  plans/grader-population-ledger.json
+# C1 source /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round86_c1_replay.py sha256=04f6ec2ae8d2e4e51a5937c3e4c0a71c8db5ec4640c65c3498cdd659f95940cf rev(master)=a571044c1ea7
+[baseline C1 @ a571044c1ea7] rc=0 PREDICATE R86-C1 pass 0.86s
+  plain rc=1 defects=1 mutant_sha=415d1a95b0015e5f
+[exit-nonzero-accepted] unmutated rc=1 legs=L2-stamp | mutated rc=0 legs=none -> necessary
+  plain: DEFECT L2-stamp exit=1
+  mutant: <none>
+  plain rc=1 defects=2 mutant_sha=650bbbf9f6d7affe
+[table-member-accepted] unmutated rc=1 legs=L4-table,L6-reproduce | mutated rc=1 legs=L4-table,L6-reproduce -> redundant (catcher L4-table,L6-reproduce)
+  plain: DEFECT L4-table drift 3975605f708673e3 != f8aa21f3b3f6ccf9; DEFECT L6-reproduce rc=2 no observation block
+  mutant: DEFECT L4-table drift 3975605f708673e3 != f8aa21f3b3f6ccf9; DEFECT L6-reproduce rc=2 no observation block
+  plain rc=1 defects=3 mutant_sha=9c15f3e93b5b88ee
+[table-member-accepted-deep] unmutated rc=1 legs=L2-stamp,L4-table,L6-reproduce | mutated rc=1 legs=L6-reproduce -> redundant (catcher L6-reproduce)
+  plain: DEFECT L2-stamp table_sha=3975605f708673e3; DEFECT L4-table drift 3975605f708673e3 != f8aa21f3b3f6ccf9; DEFECT L6-reproduce rc=2 no observation block
+  mutant: DEFECT L6-reproduce rc=2 no observation block
+  plain rc=2 defects=1 mutant_sha=511992561bf8d1b1
+[freeze-anchor-nonfatal] unmutated rc=2 legs=SETUP | mutated rc=0 legs=none -> necessary
+  plain: DEFECT SETUP frozen-input-missing plans/round86-cases.json@88651a72ef11
+  mutant: <none>
+  plain rc=1 defects=1 mutant_sha=e04b096e2fed86e9
+[executed-always-1] unmutated rc=1 legs=L7-ledger | mutated rc=1 legs=L7-ledger -> redundant (catcher L7-ledger)
+  plain: DEFECT L7-ledger status=unexecuted
+  mutant: DEFECT L7-ledger status=unexecuted
+  plain rc=1 defects=2 mutant_sha=64f3ba5484430653
+[predicate-absent-accepted] unmutated rc=1 legs=L5-vectors,L6-reproduce | mutated rc=1 legs=L6-reproduce -> redundant (catcher L6-reproduce)
+  plain: DEFECT L5-vectors predicate=absent; DEFECT L6-reproduce rc=0 block differs
+  mutant: DEFECT L6-reproduce rc=0 block differs
+  plain rc=1 defects=1 mutant_sha=b29e5572b563b2df
+[missing-stamp-field-accepted] unmutated rc=1 legs=L2-stamp | mutated rc=0 legs=none -> necessary
+  plain: DEFECT L2-stamp missing=WORKTREE
+  mutant: <none>
+[worktree:delivered-receipt-dirty] WORKTREE=dirty (committed bytes) rc=0 PREDICATE R86-C1 pass
+[worktree-dirty-accepted::delivered-receipt-dirty] unmutated rc=0 legs=none | mutated rc=n/a legs=n/a -> no-check
+[worktree:worktree-junk] WORKTREE=exploded // n/a rc=0 PREDICATE R86-C1 pass
+[worktree-dirty-accepted::worktree-junk] unmutated rc=0 legs=none | mutated rc=n/a legs=n/a -> no-check
+# C2 source /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round86_c2_repin.py sha256=a3fbf5064c1c84707dac711550df29087c3be8cefa3e4c44c0d53aa3566bd036
+[baseline C2 @ clean master copy] rc=0 PREDICATE R86-C2 pass 3.5s
+  <none>
+[skip-p5-selftest] unmutated rc=1 legs=P5-selftest | mutated rc=0 legs=none -> necessary
+  plain: DEFECT P5-selftest exit!=0
+  mutant: <none>
+[derive-returns-stale-line] unmutated rc=1 legs=P2-shonen,P3-pin,P4-state | mutated rc=1 legs=P4-state -> redundant (catcher P4-state)
+  plain: DEFECT P2-shonen pointer=PROVINCE.md:129 derived=PROVINCE.md:151; DEFECT P3-pin line=129 derived=151; DEFECT P4-state mismatches=1
+  mutant: DEFECT P4-state mismatches=1
+[pin-line-lax] unmutated rc=1 legs=P3-pin,P4-state | mutated rc=1 legs=P4-state -> redundant (catcher P4-state)
+  plain: DEFECT P3-pin line=129 derived=151; DEFECT P4-state mismatches=1
+  mutant: DEFECT P4-state mismatches=1
+[shonen-compares-to-stale] unmutated rc=1 legs=P2-shonen,P4-state | mutated rc=1 legs=P4-state -> redundant (catcher P4-state)
+  plain: DEFECT P2-shonen pointer=PROVINCE.md:129 derived=PROVINCE.md:151; DEFECT P4-state mismatches=1
+  mutant: DEFECT P4-state mismatches=1
+[derive-returns-stale-line::clean-tip] unmutated rc=0 legs=none | mutated rc=1 legs=P2-shonen,P3-pin -> falsely-red (catcher P2-shonen,P3-pin)
+[derive-returns-stale-line on clean tip] mutant rc=1 PREDICATE R86-C2 fail defects=DEFECT P2-shonen pointer=PROVINCE.md:151 derived=PROVINCE.md:129; DEFECT P3-pin line=151 derived=129
+# instrument bytes at battery end
+  SAME 04f6ec2ae8d2e4e51a5937c3e4c0a71c8db5ec4640c65c3498cdd659f95940cf  plans/round86_c1_replay.py
+  SAME a3fbf5064c1c84707dac711550df29087c3be8cefa3e4c44c0d53aa3566bd036  plans/round86_c2_repin.py
+  SAME 09731b3ebcf4448546184b39d21d9a28016693af935a20f7efddec5cff209cde  plans/round86_raman_probe.py
+  SAME f8aa21f3b3f6ccf9616f9d54e9b6aa2c8482de1f32fadbb33166713c6b2210a4  plans/round86-cases.json
+  SAME 192932b28a24efda94744f2ceb0d62accd268f7e6842f230a3e66e4c8d773411  corpus/evidence/round86/raman-fitting-probe.txt
+  SAME b2e87381b2f3d8c3303389b89233aa627b73db68e273d19f333d7ab79aa76ff4  plans/grader-population-ledger.json
+# lane tracked-file status during the battery: unchanged (tracked lines before=1 after=1)
+# tracked lines after:  M .ufo/waves/round-86/w1/ExecCensusR86/census.txt
+# full status delta (includes sibling seats' wave files): changed; untracked/modified lines before=7 after=8

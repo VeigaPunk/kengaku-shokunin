@@ -1,0 +1,12 @@
+--- plans/round86_c1_replay.py	2026-11-04 23:57:09.510567529 -0300
++++ /fast/scratch/hyaku/kengaku-r86/MutTesterR86/work-c1/mutant-executed-always-1.py	2026-11-05 00:12:38.562504832 -0300
+@@ -252,8 +252,7 @@
+             problems = []
+             if row.get("status") != "executed":
+                 problems.append(f"status={row.get('status')}")
+-            else:
+-                stats["executed"] = 1
++            stats["executed"] = 1
+             if row.get("round") != LEDGER_ROUND:
+                 problems.append(f"round={row.get('round')}")
+             if row.get("receipt") != RECEIPT:

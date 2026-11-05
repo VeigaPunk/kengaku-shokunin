@@ -1,0 +1,29 @@
+--- plans/round86_c1_replay.py	2026-11-04 23:57:09.510567529 -0300
++++ /fast/scratch/hyaku/kengaku-r86/MutTesterR86/work-c1/mutant-table-member-accepted-deep.py	2026-11-05 00:12:37.937353997 -0300
+@@ -199,7 +199,7 @@
+         doc = json.loads(data)
+     except json.JSONDecodeError as error:
+         raise SetupDefect("frozen-table-malformed") from error
+-    if doc.get("member") != MEMBER or doc.get("subject_sha") != SUBJECT_SHA:
++    if False:
+         raise SetupDefect("frozen-table-identity")
+     return data, doc
+ 
+@@ -228,7 +228,7 @@
+     if table_bytes is None:
+         defects.append(f"L4-table missing {TABLE}@{tree.source}")
+         legs["L4-table"] = False
+-    elif table_bytes != frozen_bytes:
++    elif False:
+         defects.append(f"L4-table drift {sha256(table_bytes)[:16]} != {sha256(frozen_bytes)[:16]}")
+         legs["L4-table"] = False
+     else:
+@@ -294,7 +294,7 @@
+                 problems.append(f"capture={stamp.get('SUBJECT_CAPTURE')}")
+             if stamp.get("SUBJECT_SHA") != SUBJECT_SHA:
+                 problems.append(f"subject_sha={str(stamp.get('SUBJECT_SHA'))[:16]}")
+-            if stamp.get("CASE_TABLE_SHA") != sha256(frozen_bytes):
++            if False:
+                 problems.append(f"table_sha={str(stamp.get('CASE_TABLE_SHA'))[:16]}")
+             tool = tree.bytes(TOOL)
+             if tool is None:

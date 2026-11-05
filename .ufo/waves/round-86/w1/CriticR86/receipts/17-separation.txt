@@ -1,0 +1,16 @@
+# separation.sh rerun at tip a571044c1ea7c243791330607c5b90b6afce9a15
+# R86 separation test — tip a571044c1ea7c243791330607c5b90b6afce9a15, 2026-11-05T03:18:36Z
+# A: revert C1 (ledger row back to unexecuted, receipt removed); run C2.
+reverted C1 artefacts in the fixture
+$ python3 plans/round86_c2_repin.py --lane /fast/scratch/hyaku/kengaku-r86/CriticR86/sep-final/a --root /fast/scratch/hyaku/kengaku-r86/CriticR86/sep-final/a --work /fast/scratch/hyaku/kengaku-r86/CriticR86/sep-final/a-w --no-selftest
+TARGET derived_line=151 shonen_pointer=PROVINCE.md:151 pin_line=151 state_mismatches=0 selftest=skipped defects=0
+PREDICATE R86-C2 pass
+rc=0
+
+# B: revert C2 (box-4 pointer and pin back to the stale 129); run C1.
+reverted C2 repair in the fixture
+$ python3 plans/round86_c1_replay.py --lane /fast/scratch/hyaku/kengaku-r86/CriticR86/sep-final/b --repo /home/vgpnk/Projects/shokunin/kengaku-shokunin --work /fast/scratch/hyaku/kengaku-r86/CriticR86/sep-final/b-w
+TARGET members=1 cases=8 legs=24 mismatches=0 located=1 executed=1 defects=0
+PREDICATE R86-C1 pass
+rc=0
+rc=0

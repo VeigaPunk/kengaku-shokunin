@@ -1,0 +1,11 @@
+--- plans/round86_c2_repin.py	2026-11-04 23:58:51.817581348 -0300
++++ /fast/scratch/hyaku/kengaku-r86/MutTesterR86/work-c2/mutant-shonen-compares-to-stale.py	2026-11-05 00:13:32.766882718 -0300
+@@ -140,7 +140,7 @@
+     line, pin_ok = pin_line(root)
+     stats["pin_line"] = line
+ 
+-    if shonen_pointer(root)[1] != derived:
++    if shonen_pointer(root)[1] != STALE_LINE:
+         defects.append(f"P2-shonen pointer={stats['shonen_pointer']} derived={PROVINCE}:{derived}")
+     if not pin_ok or line != derived:
+         defects.append(f"P3-pin line={line} derived={derived}")

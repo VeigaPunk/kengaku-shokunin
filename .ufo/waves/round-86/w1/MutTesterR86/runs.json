@@ -1,0 +1,483 @@
+{
+  "master": "a571044c1ea7c243791330607c5b90b6afce9a15",
+  "instrument_hashes_before": {
+    "plans/round86_c1_replay.py": "04f6ec2ae8d2e4e51a5937c3e4c0a71c8db5ec4640c65c3498cdd659f95940cf",
+    "plans/round86_c2_repin.py": "a3fbf5064c1c84707dac711550df29087c3be8cefa3e4c44c0d53aa3566bd036",
+    "plans/round86_raman_probe.py": "09731b3ebcf4448546184b39d21d9a28016693af935a20f7efddec5cff209cde",
+    "plans/round86-cases.json": "f8aa21f3b3f6ccf9616f9d54e9b6aa2c8482de1f32fadbb33166713c6b2210a4",
+    "corpus/evidence/round86/raman-fitting-probe.txt": "192932b28a24efda94744f2ceb0d62accd268f7e6842f230a3e66e4c8d773411",
+    "plans/grader-population-ledger.json": "b2e87381b2f3d8c3303389b89233aa627b73db68e273d19f333d7ab79aa76ff4"
+  },
+  "instrument_hashes_after": {
+    "plans/round86_c1_replay.py": "04f6ec2ae8d2e4e51a5937c3e4c0a71c8db5ec4640c65c3498cdd659f95940cf",
+    "plans/round86_c2_repin.py": "a3fbf5064c1c84707dac711550df29087c3be8cefa3e4c44c0d53aa3566bd036",
+    "plans/round86_raman_probe.py": "09731b3ebcf4448546184b39d21d9a28016693af935a20f7efddec5cff209cde",
+    "plans/round86-cases.json": "f8aa21f3b3f6ccf9616f9d54e9b6aa2c8482de1f32fadbb33166713c6b2210a4",
+    "corpus/evidence/round86/raman-fitting-probe.txt": "192932b28a24efda94744f2ceb0d62accd268f7e6842f230a3e66e4c8d773411",
+    "plans/grader-population-ledger.json": "b2e87381b2f3d8c3303389b89233aa627b73db68e273d19f333d7ab79aa76ff4"
+  },
+  "tracked_status_before": " M .ufo/waves/round-86/w1/ExecCensusR86/census.txt\n",
+  "tracked_status_after": " M .ufo/waves/round-86/w1/ExecCensusR86/census.txt\n",
+  "runs": [
+    {
+      "mutant": "exit-nonzero-accepted",
+      "counter": "round86_c1_replay.py",
+      "fixture": "receipt EXIT 0 -> EXIT 1",
+      "edits": [
+        {
+          "needle": "            if stamp.get(\"EXIT\") != \"0\":",
+          "replacement": "            if stamp.get(\"EXIT\") not in (\"0\", \"1\"):"
+        }
+      ],
+      "unmutated": {
+        "rc": 1,
+        "defects": [
+          "DEFECT L2-stamp exit=1"
+        ],
+        "legs": [
+          "L2-stamp"
+        ],
+        "predicate": "PREDICATE R86-C1 fail",
+        "target_line": "TARGET members=1 cases=8 legs=24 mismatches=0 located=1 executed=1 defects=1"
+      },
+      "mutated": {
+        "rc": 0,
+        "defects": [],
+        "legs": [],
+        "predicate": "PREDICATE R86-C1 pass",
+        "target_line": "TARGET members=1 cases=8 legs=24 mismatches=0 located=1 executed=1 defects=0"
+      },
+      "verdict": "necessary",
+      "catcher": ""
+    },
+    {
+      "mutant": "table-member-accepted",
+      "counter": "round86_c1_replay.py",
+      "fixture": "case table member raman-fitting -> other-member",
+      "edits": [
+        {
+          "needle": "    if doc.get(\"member\") != MEMBER or doc.get(\"subject_sha\") != SUBJECT_SHA:",
+          "replacement": "    if False:"
+        }
+      ],
+      "unmutated": {
+        "rc": 1,
+        "defects": [
+          "DEFECT L4-table drift 3975605f708673e3 != f8aa21f3b3f6ccf9",
+          "DEFECT L6-reproduce rc=2 no observation block"
+        ],
+        "legs": [
+          "L4-table",
+          "L6-reproduce"
+        ],
+        "predicate": "PREDICATE R86-C1 fail",
+        "target_line": "TARGET members=1 cases=8 legs=24 mismatches=0 located=1 executed=1 defects=2"
+      },
+      "mutated": {
+        "rc": 1,
+        "defects": [
+          "DEFECT L4-table drift 3975605f708673e3 != f8aa21f3b3f6ccf9",
+          "DEFECT L6-reproduce rc=2 no observation block"
+        ],
+        "legs": [
+          "L4-table",
+          "L6-reproduce"
+        ],
+        "predicate": "PREDICATE R86-C1 fail",
+        "target_line": "TARGET members=1 cases=8 legs=24 mismatches=0 located=1 executed=1 defects=2"
+      },
+      "verdict": "redundant",
+      "catcher": "L4-table,L6-reproduce"
+    },
+    {
+      "mutant": "table-member-accepted-deep",
+      "counter": "round86_c1_replay.py",
+      "fixture": "case table member -> other-member, receipt CASE_TABLE_SHA re-minted to it",
+      "edits": [
+        {
+          "needle": "    if doc.get(\"member\") != MEMBER or doc.get(\"subject_sha\") != SUBJECT_SHA:",
+          "replacement": "    if False:"
+        },
+        {
+          "needle": "    elif table_bytes != frozen_bytes:",
+          "replacement": "    elif False:"
+        },
+        {
+          "needle": "            if stamp.get(\"CASE_TABLE_SHA\") != sha256(frozen_bytes):",
+          "replacement": "            if False:"
+        }
+      ],
+      "unmutated": {
+        "rc": 1,
+        "defects": [
+          "DEFECT L2-stamp table_sha=3975605f708673e3",
+          "DEFECT L4-table drift 3975605f708673e3 != f8aa21f3b3f6ccf9",
+          "DEFECT L6-reproduce rc=2 no observation block"
+        ],
+        "legs": [
+          "L2-stamp",
+          "L4-table",
+          "L6-reproduce"
+        ],
+        "predicate": "PREDICATE R86-C1 fail",
+        "target_line": "TARGET members=1 cases=8 legs=24 mismatches=0 located=1 executed=1 defects=3"
+      },
+      "mutated": {
+        "rc": 1,
+        "defects": [
+          "DEFECT L6-reproduce rc=2 no observation block"
+        ],
+        "legs": [
+          "L6-reproduce"
+        ],
+        "predicate": "PREDICATE R86-C1 fail",
+        "target_line": "TARGET members=1 cases=8 legs=24 mismatches=0 located=1 executed=1 defects=1"
+      },
+      "verdict": "redundant",
+      "catcher": "L6-reproduce"
+    },
+    {
+      "mutant": "freeze-anchor-nonfatal",
+      "counter": "round86_c1_replay.py",
+      "fixture": "measured tree intact, --freeze BASE (table absent)",
+      "edits": [
+        {
+          "needle": "    except SetupDefect as error:\n        return setup_failure(str(error))",
+          "replacement": "    except SetupDefect as error:\n        print(f\"SETUP-IGNORED {error}\")\n        return emit([], {\"members\": 1, \"cases\": 8, \"legs\": 24, \"mismatches\": 0,\n                         \"located\": 1, \"executed\": 1})"
+        }
+      ],
+      "unmutated": {
+        "rc": 2,
+        "defects": [
+          "DEFECT SETUP frozen-input-missing plans/round86-cases.json@88651a72ef11"
+        ],
+        "legs": [
+          "SETUP"
+        ],
+        "predicate": "PREDICATE R86-C1 fail",
+        "target_line": "TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects=0"
+      },
+      "mutated": {
+        "rc": 0,
+        "defects": [],
+        "legs": [],
+        "predicate": "PREDICATE R86-C1 pass",
+        "target_line": "TARGET members=1 cases=8 legs=24 mismatches=0 located=1 executed=1 defects=0"
+      },
+      "verdict": "necessary",
+      "catcher": ""
+    },
+    {
+      "mutant": "executed-always-1",
+      "counter": "round86_c1_replay.py",
+      "fixture": "ledger row status executed -> unexecuted",
+      "edits": [
+        {
+          "needle": "            if row.get(\"status\") != \"executed\":\n                problems.append(f\"status={row.get('status')}\")\n            else:\n                stats[\"executed\"] = 1",
+          "replacement": "            if row.get(\"status\") != \"executed\":\n                problems.append(f\"status={row.get('status')}\")\n            stats[\"executed\"] = 1"
+        }
+      ],
+      "unmutated": {
+        "rc": 1,
+        "defects": [
+          "DEFECT L7-ledger status=unexecuted"
+        ],
+        "legs": [
+          "L7-ledger"
+        ],
+        "predicate": "PREDICATE R86-C1 fail",
+        "target_line": "TARGET members=1 cases=8 legs=24 mismatches=0 located=1 executed=0 defects=1"
+      },
+      "mutated": {
+        "rc": 1,
+        "defects": [
+          "DEFECT L7-ledger status=unexecuted"
+        ],
+        "legs": [
+          "L7-ledger"
+        ],
+        "predicate": "PREDICATE R86-C1 fail",
+        "target_line": "TARGET members=1 cases=8 legs=24 mismatches=0 located=1 executed=1 defects=1"
+      },
+      "verdict": "redundant",
+      "catcher": "L7-ledger"
+    },
+    {
+      "mutant": "predicate-absent-accepted",
+      "counter": "round86_c1_replay.py",
+      "fixture": "receipt observation block loses its PREDICATE line",
+      "edits": [
+        {
+          "needle": "        if predicate != \"pass\":",
+          "replacement": "        if False:"
+        }
+      ],
+      "unmutated": {
+        "rc": 1,
+        "defects": [
+          "DEFECT L5-vectors predicate=absent",
+          "DEFECT L6-reproduce rc=0 block differs"
+        ],
+        "legs": [
+          "L5-vectors",
+          "L6-reproduce"
+        ],
+        "predicate": "PREDICATE R86-C1 fail",
+        "target_line": "TARGET members=1 cases=8 legs=24 mismatches=0 located=1 executed=1 defects=2"
+      },
+      "mutated": {
+        "rc": 1,
+        "defects": [
+          "DEFECT L6-reproduce rc=0 block differs"
+        ],
+        "legs": [
+          "L6-reproduce"
+        ],
+        "predicate": "PREDICATE R86-C1 fail",
+        "target_line": "TARGET members=1 cases=8 legs=24 mismatches=0 located=1 executed=1 defects=1"
+      },
+      "verdict": "redundant",
+      "catcher": "L6-reproduce"
+    },
+    {
+      "mutant": "missing-stamp-field-accepted",
+      "counter": "round86_c1_replay.py",
+      "fixture": "receipt loses its WORKTREE stamp line",
+      "edits": [
+        {
+          "needle": "            missing = [field for field in REQUIRED if field not in stamp]",
+          "replacement": "            missing = []"
+        }
+      ],
+      "unmutated": {
+        "rc": 1,
+        "defects": [
+          "DEFECT L2-stamp missing=WORKTREE"
+        ],
+        "legs": [
+          "L2-stamp"
+        ],
+        "predicate": "PREDICATE R86-C1 fail",
+        "target_line": "TARGET members=1 cases=8 legs=24 mismatches=0 located=1 executed=1 defects=1"
+      },
+      "mutated": {
+        "rc": 0,
+        "defects": [],
+        "legs": [],
+        "predicate": "PREDICATE R86-C1 pass",
+        "target_line": "TARGET members=1 cases=8 legs=24 mismatches=0 located=1 executed=1 defects=0"
+      },
+      "verdict": "necessary",
+      "catcher": ""
+    },
+    {
+      "mutant": "worktree-dirty-accepted::delivered-receipt-dirty",
+      "counter": "round86_c1_replay.py",
+      "fixture": "receipt WORKTREE -> unchanged (already dirty)",
+      "edits": [],
+      "unmutated": {
+        "rc": 0,
+        "defects": [],
+        "legs": [],
+        "predicate": "PREDICATE R86-C1 pass",
+        "target_line": "TARGET members=1 cases=8 legs=24 mismatches=0 located=1 executed=1 defects=0"
+      },
+      "mutated": null,
+      "verdict": "no-check",
+      "catcher": ""
+    },
+    {
+      "mutant": "worktree-dirty-accepted::worktree-junk",
+      "counter": "round86_c1_replay.py",
+      "fixture": "receipt WORKTREE -> exploded // n/a",
+      "edits": [],
+      "unmutated": {
+        "rc": 0,
+        "defects": [],
+        "legs": [],
+        "predicate": "PREDICATE R86-C1 pass",
+        "target_line": "TARGET members=1 cases=8 legs=24 mismatches=0 located=1 executed=1 defects=0"
+      },
+      "mutated": null,
+      "verdict": "no-check",
+      "catcher": ""
+    },
+    {
+      "mutant": "skip-p5-selftest",
+      "counter": "round86_c2_repin.py",
+      "fixture": "fixture instrument: state_check --selftest returns 1",
+      "edits": [
+        {
+          "needle": "    if selftest:",
+          "replacement": "    if False:"
+        }
+      ],
+      "unmutated": {
+        "rc": 1,
+        "defects": [
+          "DEFECT P5-selftest exit!=0"
+        ],
+        "legs": [
+          "P5-selftest"
+        ],
+        "predicate": "PREDICATE R86-C2 fail",
+        "target_line": "TARGET derived_line=151 shonen_pointer=PROVINCE.md:151 pin_line=151 state_mismatches=0 selftest=fail defects=1"
+      },
+      "mutated": {
+        "rc": 0,
+        "defects": [],
+        "legs": [],
+        "predicate": "PREDICATE R86-C2 pass",
+        "target_line": "TARGET derived_line=151 shonen_pointer=PROVINCE.md:151 pin_line=151 state_mismatches=0 selftest=skipped defects=0"
+      },
+      "verdict": "necessary",
+      "catcher": ""
+    },
+    {
+      "mutant": "derive-returns-stale-line",
+      "counter": "round86_c2_repin.py",
+      "fixture": "stale-pin fixture (SHONEN + pin at 129)",
+      "edits": [
+        {
+          "needle": "    return hits[0]",
+          "replacement": "    return STALE_LINE"
+        }
+      ],
+      "unmutated": {
+        "rc": 1,
+        "defects": [
+          "DEFECT P2-shonen pointer=PROVINCE.md:129 derived=PROVINCE.md:151",
+          "DEFECT P3-pin line=129 derived=151",
+          "DEFECT P4-state mismatches=1"
+        ],
+        "legs": [
+          "P2-shonen",
+          "P3-pin",
+          "P4-state"
+        ],
+        "predicate": "PREDICATE R86-C2 fail",
+        "target_line": "TARGET derived_line=151 shonen_pointer=PROVINCE.md:129 pin_line=129 state_mismatches=1 selftest=skipped defects=3"
+      },
+      "mutated": {
+        "rc": 1,
+        "defects": [
+          "DEFECT P4-state mismatches=1"
+        ],
+        "legs": [
+          "P4-state"
+        ],
+        "predicate": "PREDICATE R86-C2 fail",
+        "target_line": "TARGET derived_line=129 shonen_pointer=PROVINCE.md:129 pin_line=129 state_mismatches=1 selftest=skipped defects=1"
+      },
+      "verdict": "redundant",
+      "catcher": "P4-state"
+    },
+    {
+      "mutant": "pin-line-lax",
+      "counter": "round86_c2_repin.py",
+      "fixture": "pin line 129, SHONEN pointer 151, bytes 151",
+      "edits": [
+        {
+          "needle": "    if not pin_ok or line != derived:",
+          "replacement": "    if not pin_ok:"
+        }
+      ],
+      "unmutated": {
+        "rc": 1,
+        "defects": [
+          "DEFECT P3-pin line=129 derived=151",
+          "DEFECT P4-state mismatches=1"
+        ],
+        "legs": [
+          "P3-pin",
+          "P4-state"
+        ],
+        "predicate": "PREDICATE R86-C2 fail",
+        "target_line": "TARGET derived_line=151 shonen_pointer=PROVINCE.md:151 pin_line=129 state_mismatches=1 selftest=skipped defects=2"
+      },
+      "mutated": {
+        "rc": 1,
+        "defects": [
+          "DEFECT P4-state mismatches=1"
+        ],
+        "legs": [
+          "P4-state"
+        ],
+        "predicate": "PREDICATE R86-C2 fail",
+        "target_line": "TARGET derived_line=151 shonen_pointer=PROVINCE.md:151 pin_line=129 state_mismatches=1 selftest=skipped defects=1"
+      },
+      "verdict": "redundant",
+      "catcher": "P4-state"
+    },
+    {
+      "mutant": "shonen-compares-to-stale",
+      "counter": "round86_c2_repin.py",
+      "fixture": "SHONEN pointer 129, pin 151, bytes 151",
+      "edits": [
+        {
+          "needle": "    if shonen_pointer(root)[1] != derived:",
+          "replacement": "    if shonen_pointer(root)[1] != STALE_LINE:"
+        }
+      ],
+      "unmutated": {
+        "rc": 1,
+        "defects": [
+          "DEFECT P2-shonen pointer=PROVINCE.md:129 derived=PROVINCE.md:151",
+          "DEFECT P4-state mismatches=1"
+        ],
+        "legs": [
+          "P2-shonen",
+          "P4-state"
+        ],
+        "predicate": "PREDICATE R86-C2 fail",
+        "target_line": "TARGET derived_line=151 shonen_pointer=PROVINCE.md:129 pin_line=151 state_mismatches=1 selftest=skipped defects=2"
+      },
+      "mutated": {
+        "rc": 1,
+        "defects": [
+          "DEFECT P4-state mismatches=1"
+        ],
+        "legs": [
+          "P4-state"
+        ],
+        "predicate": "PREDICATE R86-C2 fail",
+        "target_line": "TARGET derived_line=151 shonen_pointer=PROVINCE.md:129 pin_line=151 state_mismatches=1 selftest=skipped defects=1"
+      },
+      "verdict": "redundant",
+      "catcher": "P4-state"
+    },
+    {
+      "mutant": "derive-returns-stale-line::clean-tip",
+      "counter": "round86_c2_repin.py",
+      "fixture": "delivered clean tree (the target tree itself)",
+      "edits": [
+        {
+          "needle": "    return hits[0]",
+          "replacement": "    return STALE_LINE"
+        }
+      ],
+      "unmutated": {
+        "rc": 0,
+        "defects": [],
+        "legs": [],
+        "predicate": "PREDICATE R86-C2 pass",
+        "target_line": "TARGET derived_line=151 shonen_pointer=PROVINCE.md:151 pin_line=151 state_mismatches=0 selftest=pass defects=0"
+      },
+      "mutated": {
+        "rc": 1,
+        "defects": [
+          "DEFECT P2-shonen pointer=PROVINCE.md:151 derived=PROVINCE.md:129",
+          "DEFECT P3-pin line=151 derived=129"
+        ],
+        "legs": [
+          "P2-shonen",
+          "P3-pin"
+        ],
+        "predicate": "PREDICATE R86-C2 fail",
+        "target_line": "TARGET derived_line=129 shonen_pointer=PROVINCE.md:151 pin_line=151 state_mismatches=0 selftest=pass defects=2"
+      },
+      "verdict": "falsely-red",
+      "catcher": "P2-shonen,P3-pin"
+    }
+  ]
+}
