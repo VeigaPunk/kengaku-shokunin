@@ -362,10 +362,13 @@ def check(tree: Tree, lane: Path, work: Path, reproduce: bool = True) -> tuple[l
             legs["L6-reproduce"] = True
         shutil.rmtree(out, ignore_errors=True)
 
-    missing_legs = [leg for leg in LEGS if not legs.get(leg)]
-    if missing_legs != [d.split()[0] for d in defects]:
-        # keep the printed defect list exactly one line per failed leg, in leg order
-        defects = [d for d in defects if d.split()[0] in missing_legs]
+    # exactly one defect line per failed leg, in leg order
+    details: dict[str, list[str]] = {}
+    for line in defects:
+        leg, _, detail = line.partition(" ")
+        details.setdefault(leg, []).append(detail)
+    defects = [f"{leg} {'; '.join(details[leg])}" if leg in details else leg
+               for leg in LEGS if not legs.get(leg)]
     return defects, stats
 
 
