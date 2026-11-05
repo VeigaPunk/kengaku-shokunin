@@ -38,7 +38,7 @@ import tempfile
 from pathlib import Path
 
 BASE_REV = "88651a72ef112ed9f5361e1c8c197babec691f96"   # round-85 closure tip
-FREEZE_REV = "__FREEZE_REV__"                            # round-86 claims commit
+FREEZE_REV = "61b0e074a44259c8c022aa2fda257182a0708346"  # round-86 claims commit
 MEMBER = "raman-fitting"
 LEDGER = "plans/grader-population-ledger.json"
 TABLE = "plans/round86-cases.json"
