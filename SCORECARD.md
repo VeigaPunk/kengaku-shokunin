@@ -4295,3 +4295,35 @@ The section above says C2 and C3 are "met as frozen". That verdict is withdrawn.
 
 **Round verdict: C1 verifies; C2 and C3 do not verify under the frozen rule. The round is not admitted.** Scores are held at their attempt-1 values. Operator ruling requested (L0 `kengaku | round-92`).
 
+
+## Round 93 (hyaku run 15, attempt 1, 2026-11-05; fresh start): an eleventh executed member (C1), and the freeze-integrity gate (C2)
+
+Base `28e9f8bf`; instruments P1 `17cb9337`; pre-freeze controls P2 `0e77e98f`; frozen claims F
+`d8d0a4b8` (`plans/round-93-claims.md`, `frozen-instruments` table of 9 sha256 rows); receipt,
+ledger flip and SOURCES C `22972a31` = measured tip T. Lesson: `corpus/lessons/round-93.md`
+(M1–M3). Receipts: `.ufo/waves/round-93/L1/` (controls in `controls/`). Fresh start after the
+rejected rounds 90–92: no tabled instrument changed after F (W4 below measures exactly that).
+
+| claim / axis | before → after at the measured tip | counting command | verdict / score |
+|---|---|---|---|
+| R93-C1 / **coverage** (lowest non-retired axis; held at its L0 cap 7): eleventh located offline replay, `schemelike-metacircular-eval` | BASE `28e9f8bf`: `LEGS L1..L9=fail`, `TARGET executed_rows=36 … executed=0 …`, `PREDICATE R93-C1 fail`, rc 1 (`controls/c1-base.txt`). T `22972a31`: `LEGS L1..L9=pass`, `TARGET executed_rows=37 member=schemelike-metacircular-eval located=1 executed=1 cases=8 legs=40 mismatches=0 defects=0`, `PREDICATE R93-C1 pass`, rc 0 (`c1-tip.txt`). Ledger executed 36 → 37 of 88; `timing-wall` 3 → 4 of 9; `subprocess-exec` 13 → 14 of 45; `stdout-inspection` 11 → 12 of 29; `file-artifact` 27 → 28 of 76. Forgery (ledger flip, no receipt) rc 1; sandbox outage rc 2. | `python3 plans/round93_c1_replay.py --lane . --rev 22972a317185216596b3dfe1c189e98d1eb86787 --work DIR` | **met on its frozen predicate** (self, pending the non-author closure). Coverage held at 7 (L0 cap); the count moved. |
+| R93-C2 / **calibration** (held at ceiling 10) + capability `freeze-integrity gate` | BASE: tool absent, W1–W4 fail, `PREDICATE R93-C2 fail`, rc 1 (`controls/c2-base.txt`). T: `W1 pass` (r92 history broken=3 intact=1), `W2 pass` (5/5 fixtures), `W3 pass` (`SELFTEST cases=10 ok=10`), `W4 pass freeze=d8d0a4b849f3 rc=0 summary=(9, 9, 0)`, `TARGET legs_passed=4 of 4`, `PREDICATE R93-C2 pass`, rc 0 (`c2-tip.txt`). Four forgeries rc 1 at P1 (always-intact/always-broken W1+W2; bytes-only W2 edit-revert; log-only W2 lying table). | `python3 plans/round93_c2_counter.py --lane . --rev 22972a317185216596b3dfe1c189e98d1eb86787 --work DIR` | **met on its frozen predicate** (self, pending the non-author closure). Calibration content: W1 counts 3 past self-assessment mismatches (round-92 "met as frozen"), W4 counts 0 for this round. Score held at ceiling 10. |
+
+**Other axis scores.** novelty 8, depth 10, operability 10, freshness 10, adjacency 9 — all held;
+no claim on them. **Sources.** S290–S293 admitted (tier A, member replay only), S294–S296 rejected
+with flips; registry 281 → 288 rows.
+
+**Capabilities (demonstrated this round; enters the table only if the closure admits C2).**
+
+| name | what it can now do | evidence pointer | first-working round |
+|---|---|---|---|
+| freeze-integrity gate | counts, per instrument, whether the bytes a claims file froze are the bytes at the measured revision and that no commit touched them in between (edit-then-revert included); claims mode reads the `frozen-instruments` table at the freeze commit, paths mode freezes a legacy round's paths; ten-case battery in-process on every run | `python3 plans/round93_c2_counter.py --lane . --rev 22972a31… --work DIR` → `PREDICATE R93-C2 pass`; on round-92 history → `FREEZE-INTEGRITY instruments=4 intact=1 broken=3` | 93 |
+
+### Planned (round 94; not a claim until frozen)
+
+1. Coverage: a twelfth offline member from the ledger's class arithmetic (`crypto-credential`
+   4 of 12 is now the thinnest class with several stdlib-only candidates; S295/S296 carry flips).
+2. The round-92 gate v3 defects still open (override vacuity `plans/round92_burndown.py:306-329`,
+   marker skip `:445`/`:558`) under a new frozen predicate, with this round's freeze-integrity
+   gate run on that round's own table before any verdict.
+3. The wave's surviving round-93 findings, each with its own frozen predicate.

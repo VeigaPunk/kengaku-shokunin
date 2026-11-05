@@ -3514,3 +3514,41 @@ Measured tips: R92-C1 at D `b62ea270`; R92-C2 at E4 `5b6c00b8`; R92-C3 at E4; F2
 ## Round 92 — attempt 2 (KengakuR92a2): re-verification, wave w1 integration, verdict correction
 
 Attempt 1 ended without a report (`lane-dead-no-report kengaku round=92`, 12:11:56). Attempt 2 re-measured C1, C2 and C3 at HEAD `288511d8` (rc 0, 0, 0; receipts `.ufo/waves/round-92/L1a2/`) and integrated wave `w1` (12 seats; all reported, none dead; `w1-results.json`). The non-author wave found that C2 and C3 were edited after freeze A and after their first scored run (critic P1, reviewer F-1, sentinel H1/H3/H4, mutation-tester; `git log f0018773..288511d8 -- plans/`). Verdicts corrected by erratum in the SCORECARD round-92 attempt-2 section (this commit): C1 met; C2 and C3 not admitted under the frozen rule; the round is not admitted. Misroot `cases_A.json` (fleet root, 12:05) moved byte-exact (`cmp` OK) and the fleet copy removed. Evidence: `.ufo/waves/round-92/w1/`, `.ufo/waves/round-92/L1a2/`, `corpus/lessons/round-92.md` (attempt-2 addendum).
+
+## Round 93 — fresh start: eleventh executed member, freeze-integrity gate (KengakuR93)
+
+Fresh start after rounds 90–92 closed `rejected-honest-stop` (MANIFEST 1333/1342/1361; root
+failure: instruments edited after freeze; host-irreproducible control). Order this round:
+instruments P1 `17cb9337` → controls executed against P1 and committed at P2 `0e77e98f` → frozen
+claims F `d8d0a4b8` with a `frozen-instruments` sha256 table (9 rows) → official probe receipt,
+ledger flip and SOURCES at C `22972a31` (= measured tip T for both counters). No tabled instrument
+changed after F (C2 W4: `summary=(9, 9, 0)`).
+
+- **R93-C1 (coverage, held at L0 cap 7): met on its frozen predicate.** `schemelike-metacircular-eval`
+  @ `2fd12b88` replayed offline through `plans/round93_scheme_probe.py` (bwrap: tmpfs root, host
+  /usr and /etc read-only, no network; the captured grader's own `test_interp()` and its own
+  `python3 interp.py` subprocesses unpatched). Receipt `corpus/evidence/round93/scheme-probe.txt`:
+  8/8 cases `ok=True`, mismatches 0. At T the counter prints `LEGS L1..L9=pass`, `TARGET
+  executed_rows=37 … cases=8 legs=40 mismatches=0 defects=0`, `PREDICATE R93-C1 pass`, rc 0
+  (`.ufo/waves/round-93/L1/c1-tip.txt`); BASE rc 1 all legs red; forged ledger flip rc 1; sandbox
+  outage rc 2. Grader findings the cases fix: C07 — with no test programs `test_interp()` returns 1
+  before any assert, so the grader passes with no evaluator; C05/C08 — the one-line True strip is
+  brittle (a blank line before it defeats it; a bare suffix still fails 7 of 63); C06 — the 60 s
+  through-eval timeout is a host-speed-dependent wall.
+- **R93-C2 (calibration, held at 10) + capability freeze-integrity gate: met on its frozen
+  predicate.** `plans/round93_freeze_integrity.py`; at T `python3 plans/round93_c2_counter.py` →
+  W1 (r92 history: broken=3 intact=1) W2 (5/5 counter-owned fixtures) W3 (battery 10/10) W4
+  (this round's table, 9/9 intact) all pass, `PREDICATE R93-C2 pass`, rc 0
+  (`.ufo/waves/round-93/L1/c2-tip.txt`); BASE rc 1; four forgeries rc 1 at P1.
+- **Re-verification (freshness).** All 139 task files of `schemelike-metacircular-eval` and the
+  two rejected candidates' graders fetched live 2026-11-05 (HTTP 200); capture shas recorded in
+  S290–S296; census exit 0 at round start (281 rows) and after the append (288 rows).
+- **Sources & frontier.** S290–S293 admitted, S294–S296 rejected (flips stated). Assimilation:
+  none (`merge/kengaku/` held by L0 `kengaku | round-54`). considerthese: none taken (2026-11-05
+  proposal 2, root of trust, named as the gate's residual in the lesson).
+- **Mistakes mined.** Lesson M1 (mechanism-derived predictions wrong twice, caught by the
+  pre-freeze dry runs), M2 (round-92 post-freeze edits, now measured: W1), M3 (exit-code
+  collision in the first C1 counter draft, caught by the BASE control before P1).
+- **Wave w1.** 11 seats, one v1 wave: 3 executor, scout, connector, scribe, 2 reviewer, critic,
+  mutation-tester, sentinel; attack share 4/11 = 36 %. Dispatched after the measurement; findings
+  are routed, never repaired in round. Outcome: see the round-93 wave paragraph below.
