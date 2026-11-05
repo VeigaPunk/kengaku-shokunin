@@ -150,8 +150,7 @@ def vacuous_check(cmd: str) -> bool:
     return False
 
 
-def run_check(command: str, cwd: Path) -> tuple[int, str]:
-    fleet_root = os.environ.get("SHOKUNIN_ROOT") or str(cwd.parent)
+def run_check(command: str, cwd: Path, fleet_root: str) -> tuple[int, str]:
     try:
         proc = subprocess.run(["sh", "-c", command], cwd=cwd, capture_output=True,
                               text=True, timeout=300,
@@ -285,6 +284,7 @@ def evaluate(lane: Lane, rev: str, freeze_round: int | None, work: Path) -> tupl
         raise CouldNotEvaluate("shokunin.conf names no lanes")
 
     # M11: checks run in a fresh worktree at the measured revision
+    fleet_root = os.environ.get("SHOKUNIN_ROOT") or str(lane.root.parent)
     wt = work / "rev-worktree"
     if wt.exists():
         shutil.rmtree(wt)
@@ -313,8 +313,8 @@ def evaluate(lane: Lane, rev: str, freeze_round: int | None, work: Path) -> tupl
                                      base_cmd or ""])
                 if ovr_tokens and not any(tok in evidence for tok in ovr_tokens):
                     defects.append(f"override-unanchored {sid}")
-                base_rc, base_out = run_check(base_cmd, wt)
-                ovr_rc, ovr_out = run_check(override_cmd, wt)
+                base_rc, base_out = run_check(base_cmd, wt, fleet_root)
+                ovr_rc, ovr_out = run_check(override_cmd, wt, fleet_root)
                 checks_run += 2
                 print(f"CHECK {sid} base-rc={base_rc} base={base_cmd!r} "
                       f"override-rc={ovr_rc} override={override_cmd!r} "
@@ -330,7 +330,7 @@ def evaluate(lane: Lane, rev: str, freeze_round: int | None, work: Path) -> tupl
                     defects.append(f"closed-check-vacuous {sid} {command[:60]!r}")
                     check_failed = True
                     continue
-                rc, output = run_check(command, wt)
+                rc, output = run_check(command, wt, fleet_root)
                 checks_run += 1
                 if rc != 0:
                     defects.append(f"check-failed {sid} rc={rc} {output!r}")
