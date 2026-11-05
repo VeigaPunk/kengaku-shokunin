@@ -137,6 +137,9 @@ def main(argv: list[str]) -> int:
                 raise CouldNotEvaluate("fixture git failed: %s" % " ".join(a))
         gitr("add", "-A")
         gitr("commit", "-q", "--allow-empty", "-m", "ledger rewound to the r91 population")
+        red = subprocess.run([sys.executable, "-I", "-B", str(base_c1), "--lane", str(lane.root),
+                              "--rev", base, "--work", str(work / "m7" / "red")],
+                             capture_output=True, text=True, timeout=600, cwd=str(work))
         green = subprocess.run([sys.executable, "-I", "-B", str(tip_c1), "--lane", str(green_lane),
                                 "--rev", "HEAD", "--work", str(work / "m7" / "green")],
                                capture_output=True, text=True, timeout=900, cwd=str(work))
